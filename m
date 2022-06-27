@@ -2,152 +2,158 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB8B255CA32
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 14:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0183655D4A2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:14:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237387AbiF0O35 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jun 2022 10:29:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47626 "EHLO
+        id S238138AbiF0Pb1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jun 2022 11:31:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237312AbiF0O34 (ORCPT
+        with ESMTP id S237421AbiF0Pb0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jun 2022 10:29:56 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BFE1B53;
-        Mon, 27 Jun 2022 07:29:55 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id u12so19536183eja.8;
-        Mon, 27 Jun 2022 07:29:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0RQuo68FMs3Ewydqyi9IiONXYW4rMeUPNWTwYPpOosc=;
-        b=MzdoIB26iFVkILG/Mt1s4LYfQHztPMX/C175dvEV/uVJscpVucKtWQ97vnpCaAWfSU
-         CpwChSeVLUhGL2n/eTsAriuJAwzs7oBqz24JQCXnw2p/Bnbr7ZZCpxnPM2GrK+74+NSN
-         KewxQkzDoIgCIVL85Wk9C2SjShc6hPsL5iCNBCxgua3NId6txqObxC8rq1qWhRiOIFl8
-         N0hnSamEe3u5/VIoR6JKFFEj8+xjXYdRw9Zsn2+M+jipeb7NlFK2V8HV+swBFEwdRkUs
-         ftWitiLffThm52kMhgYnxog0xp2seWLjSpwIQ7bxCftk7UMtiId2MMuHS/1LYDgsNUqD
-         Uxag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0RQuo68FMs3Ewydqyi9IiONXYW4rMeUPNWTwYPpOosc=;
-        b=ZkyWkZQ9gP9ulm30pkQHnC2k1MRK+4Rc+gNKfrxR2sGGfqx9rlGdZ72pl3VSI+68WQ
-         0rsOF0QNld/kd77wRXQjg1kUZR5rd49is0oeQmhZHfnjNwUPcoE645B7ZPY6KA+ElGpk
-         d2Kw303QNOflweasg2CjtCFX+s1ru3xoO03E5yZuhzOEpwnqeLnFY4+zOmFvbj8+to61
-         UzOdqDSf/5Dbn5VLZV7vaoJeh5pufpDvp0zjlcCzXRN18VJsK68xlOC51eE/0EoV49SJ
-         kwY348ncD8W9VcdI8fBFvU3PNZZmw8b1lHGcRBdQt0MWOj+CW3poxox9L+36QJGIXYRm
-         Ns7w==
-X-Gm-Message-State: AJIora+6cjd4oBhGIsngjnqGadiWpZ/1V/q4/jPY0ZAF2OEpKmozU3/E
-        LxJCL4DN4lLNApxYw4fR8ajVxkLeycWSt5LnlkM=
-X-Google-Smtp-Source: AGRyM1v6HvBJpI2zjqwnkNHhBqV1cK4hlM/aYv8C+uEiiVwmn1Os3FAYlv54APEOIV/+t60608gsPU0byrK9p/yBglY=
-X-Received: by 2002:a17:907:72c4:b0:726:9406:f760 with SMTP id
- du4-20020a17090772c400b007269406f760mr9624040ejc.247.1656340193621; Mon, 27
- Jun 2022 07:29:53 -0700 (PDT)
+        Mon, 27 Jun 2022 11:31:26 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D8AE19C31
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jun 2022 08:31:24 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by andre.telenet-ops.be with bizsmtp
+        id oFXH2700K4C55Sk01FXHYh; Mon, 27 Jun 2022 17:31:21 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1o5qho-0014yX-Ve; Mon, 27 Jun 2022 17:31:16 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1o5qho-004jEG-Dr; Mon, 27 Jun 2022 17:31:16 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Vignesh Raghavendra <vigneshr@ti.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>
+Cc:     Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/7] memory: renesas-rpc-if: Rebind and s2ram fixes
+Date:   Mon, 27 Jun 2022 17:31:07 +0200
+Message-Id: <cover.1656341824.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220626004326.8548-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220626004326.8548-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <87tu87eh5h.wl-maz@kernel.org> <CA+V-a8sihw9=Ychakh6tV+1+MpRayr=1VSnhSYZNp0F+f4Hdnw@mail.gmail.com>
- <1eb7b6525a98b330894b6ce2f9167dc2@kernel.org>
-In-Reply-To: <1eb7b6525a98b330894b6ce2f9167dc2@kernel.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 27 Jun 2022 15:29:27 +0100
-Message-ID: <CA+V-a8upv16o86RFCcPVRjucM3WJUOwOejF_TzPwLibjq1_SXg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: interrupt-controller: sifive,plic:
- Document Renesas RZ/Five SoC
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sagar Kadam <sagar.kadam@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marc,
+	Hi all,
 
-On Mon, Jun 27, 2022 at 3:22 PM Marc Zyngier <maz@kernel.org> wrote:
->
-> On 2022-06-27 13:27, Lad, Prabhakar wrote:
-> > Hi Marc,
-> >
-> > Thank you for the review.
-> >
-> > On Sun, Jun 26, 2022 at 1:35 PM Marc Zyngier <maz@kernel.org> wrote:
-> >>
-> >> On Sun, 26 Jun 2022 01:43:25 +0100,
-> >> Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> >> >
-> >> > Document Renesas RZ/Five (R9A07G043) SoC.
-> >> >
-> >> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >> > ---
-> >> > v1->v2:
-> >> > * Fixed binding doc
-> >> > * Fixed review comments pointed by Krzysztof.
-> >> >
-> >> > RFC->v1:
-> >> > * Fixed Review comments pointed by Geert and Rob
-> >> > ---
-> >> >  .../sifive,plic-1.0.0.yaml                    | 44 +++++++++++++++++--
-> >> >  1 file changed, 41 insertions(+), 3 deletions(-)
-> >> >
-> >> > diff --git a/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml b/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
-> >> > index 27092c6a86c4..59df367d1e44 100644
-> >> > --- a/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
-> >> > +++ b/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
-> >> > @@ -28,7 +28,10 @@ description:
-> >> >
-> >> >    While the PLIC supports both edge-triggered and level-triggered interrupts,
-> >> >    interrupt handlers are oblivious to this distinction and therefore it is not
-> >> > -  specified in the PLIC device-tree binding.
-> >> > +  specified in the PLIC device-tree binding for SiFive PLIC (and similar PLIC's),
-> >> > +  but for the Renesas RZ/Five Soc (AX45MP AndesCore) which has NCEPLIC100 we need
-> >> > +  to specify the interrupt type as the flow for EDGE interrupts is different
-> >> > +  compared to LEVEL interrupts.
-> >> >
-> >> >    While the RISC-V ISA doesn't specify a memory layout for the PLIC, the
-> >> >    "sifive,plic-1.0.0" device is a concrete implementation of the PLIC that
-> >> > @@ -57,6 +60,7 @@ properties:
-> >> >            - enum:
-> >> >                - allwinner,sun20i-d1-plic
-> >> >            - const: thead,c900-plic
-> >> > +      - const: renesas,r9a07g043-plic
-> >>
-> >> Since it is the NCEPLIC100 that is broken, shouldn't the compatible
-> >> string actually reflect that? I'd rather see 'andes,nceplic100' once
-> >> and for all instead of starting with Renesas, quickly followed by all
-> >> the other licensees that will inevitably integrate the same IP (which
-> >> isn't even specific to the AX45MP).
-> >>
-> >> This IP also comes with all sort of added (mis-)features, which may or
-> >> may not be used in the future, and it would make sense to identify it
-> >> specifically.
-> >>
-> > Agreed, I'll update it as above.
->
-> Please synchronise with Samuel to have a common series that fixes
-> both the Renesas and Thead platforms.
->
-Yes Ive dropped an email to Samuel.
+The Renesas RPC-IF provides either HyperFlash or SPI host access.
+To handle this, three drivers are used:
+  1. The RPC-IF core diver,
+  2. An HyperFlash child driver,
+  3. An SPI child driver.
 
-Cheers,
-Prabhakar
+Currently this driver collection has the following issues:
+  1. After manually unbinding the child driver, rebinding the child
+     driver fails with -EBUSY,
+  2. During PSCI system suspend, the SoC may be powered down, losing
+     RPC-IF register state, and causing data corruption after resume.
+
+This patch series aims to fix this:
+  - Patches 1-4 contain preparatory cleanups and improvements,
+  - Patch 5 fixes unbind/rebind,
+  - Patch 6 cleans up the internal API between the RPC-IF core diver,
+    and the HF and SPI child drivers, and thus touches the MTD/HYPERBUS
+    and SPI subsystems, too,
+  - Patch 7 adds system suspend/resume support to the RPC-IF core
+    driver.
+
+This has been tested on the Salvator-XS (HyperFlash) and Falcon (QSPI
+FLASH) development boards.
+
+At least with HyperFlash, successful RPC-IF operation after s2ram is
+still not guaranteed (more details below).
+I do not have physical access to a board that uses the RPC-IF in SPI
+mode, so I could not test s2ram with RPC-SPI.  I am wondering if it
+suffers from similar problems, or if these are purely related to
+HyperFlash?
+
+Findings:
+
+  - Sometimes RPC-HF still works after resume from s2ram
+
+  - Sometimes RPC-HF read data is corrupted after resume from s2ram:
+
+      - Data read looks like (for each block of 16 bytes at offset i):
+          - 8 bytes of data stored at offset (i % 262144) * 256,
+	  - 8 bytes duplicate of the above.
+
+      - After that, unbind/rebind fails:
+
+          # echo rpc-if-hyperflash > /sys/bus/platform/drivers/rpc-if-hyperflash/unbind
+	  # echo rpc-if-hyperflash > /sys/bus/platform/drivers/rpc-if-hyperflash/bind
+	  rpc-if-hyperflash rpc-if-hyperflash: probing of hyperbus device failed
+
+      - After doing s2ram again, rebind (usually) succeeds again, and
+	reading from HF returns the expected data again:
+
+	  # echo rpc-if-hyperflash > /sys/bus/platform/drivers/rpc-if-hyperflash/bind
+	  rpc-if-hyperflash: Found 1 x16 devices at 0x0 in 16-bit bank. Manufacturer ID 0x000001 Chip ID 0x007000
+
+      - When doing unbind before s2ram, rebind after resume usually
+	works (better success rate than without unbind), but not always.
+
+Things I have tried:
+
+  - Always resetting the device in rpcif_hw_init(), like is done on
+    RZ/G2L, does not make a difference.
+
+  - Dumping the full RPC register space before/after s2ram, but there
+    does not seem to be any relation between register contents (which
+    vary) and successful operation.
+
+  - Adding HF calibration like hbmc-am654 (and never setting the
+    controller's calibrated flag) does not help: either calibration
+    succeeds with 5 passes on 5 tries, or fails with 0 passes on 25
+    tries.
+
+  - Browsing the TF/A and U-Boot sources also didn't help.
+
+Thanks for your comments!
+
+Geert Uytterhoeven (7):
+  memory: renesas-rpc-if: Always use dev in rpcif_sw_init()
+  memory: renesas-rpc-if: Add dev helper to rpcif_probe()
+  memory: renesas-rpc-if: Improve Runtime PM handling
+  memory: renesas-rpc-if: Split-off private data from struct rpcif
+  memory: renesas-rpc-if: Move resource acquisition to .probe()
+  memory: renesas-rpc-if: Pass device instead of rpcif to rpcif_*()
+  memory: renesas-rpc-if: Reinitialize registers during system resume
+
+ drivers/memory/renesas-rpc-if.c | 167 +++++++++++++++++++++-----------
+ drivers/mtd/hyperbus/rpc-if.c   |  18 ++--
+ drivers/spi/spi-rpc-if.c        |  14 +--
+ include/memory/renesas-rpc-if.h |  32 ++----
+ 4 files changed, 137 insertions(+), 94 deletions(-)
+
+-- 
+2.25.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
