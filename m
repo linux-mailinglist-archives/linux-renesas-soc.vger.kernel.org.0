@@ -2,240 +2,260 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A66855D952
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D393F55DFA2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:30:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232858AbiF0HRl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jun 2022 03:17:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60316 "EHLO
+        id S232822AbiF0H1R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jun 2022 03:27:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232708AbiF0HRk (ORCPT
+        with ESMTP id S232645AbiF0H1P (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jun 2022 03:17:40 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2117.outbound.protection.outlook.com [40.107.114.117])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0C095FF9;
-        Mon, 27 Jun 2022 00:17:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kkYqkhvfQu5/tXGWUz5qudZviRBN62HjRYxy+LMvIHuCj3NfYcPEmV5/kxpT1sq0C6Y/fsYDuaAYUbaKi4ovpbCcGpLXcORnSoR9pLjjXUDFdXciRwEuF+i2Op4fRborZR/07z5ReClbgfqhgDyKNxijkEiRWgOjcGmz/uwwLCxKqE0vxY6GNhu+i+YcAmKSoJBuBNx/lKM4dGrELDIM/y1z6LsM9YtlWe28XnhhBfsf5VFLGsFuUsbo3n+hT71778536ZTqx9Q/sLxx3yMwZOdqRyZdGtXKOacZu9RAZBas65Xp9glBb8YNuB7a6s8kRNFS7tpXjwqHi/8IjzDy4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cgMpbxg3B2AnYiq8dybw2rJ43XUVeMOOFp8IExuqx6c=;
- b=KBw2czCylj+yixy/RWoJpyGAO8DNNS6/gTUjZhhwB8L9P7ambaAA8v7sxuWRfBkunXpkTEabI08EwhIXQ1rflas3jlqTw795O8c6Ec2qbEj4V/ohe2BYJmx/dXAYH9CWyMxAJ5/hS1rcuM754MGRvAOj8zoXfHot1UY8tJL1v8FFih3S/EnnsJmEzM5yChxp9cWm9DFJ1x60zP/MWAP1tAdMELYlfCUes8Wosue3hiL2aXjhNDKETGrZyn8YXLpQQZp2s/Y97HB5NEDr+3bC93hRHjSgtllv4/MaYZ7OrsZtEjvc7VOdDSUsE/+sF/x7vm0QgkOfK515kTh6oi4cyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cgMpbxg3B2AnYiq8dybw2rJ43XUVeMOOFp8IExuqx6c=;
- b=PCjZUNl/C56ydFq36pAqUiQUG15Mjc8j3kcPyFuekoY7VEdqenFFmdTCem1ZqnkRFemXtsJZPagbwoj5jI+JviR20pSOnX3O0YNmDkYH9inx3GGu2WwYhaq6nPUwrMPysPGpMYEfyp0icibzUwOGZCOcAb7Atl+YVyi043ZiWtA=
-Received: from TYYPR01MB7086.jpnprd01.prod.outlook.com (2603:1096:400:de::11)
- by TY1PR01MB1611.jpnprd01.prod.outlook.com (2603:1096:403:8::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.16; Mon, 27 Jun
- 2022 07:17:35 +0000
-Received: from TYYPR01MB7086.jpnprd01.prod.outlook.com
- ([fe80::3c36:680f:3292:4a79]) by TYYPR01MB7086.jpnprd01.prod.outlook.com
- ([fe80::3c36:680f:3292:4a79%7]) with mapi id 15.20.5373.018; Mon, 27 Jun 2022
- 07:17:35 +0000
-From:   Phil Edworthy <phil.edworthy@renesas.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-CC:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Mon, 27 Jun 2022 03:27:15 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C9015FC9;
+        Mon, 27 Jun 2022 00:27:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id EF1A5B80F52;
+        Mon, 27 Jun 2022 07:27:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DE15C341C8;
+        Mon, 27 Jun 2022 07:27:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656314831;
+        bh=vFTJr/Grkt0LPk+fK8N93Ca4STI3uSOJVk5tMqMebJc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=d7v0PEBOh17WjF9MSisjH3YTaAM1Evn76Ekut3ReYQxI+GPCwE/Hga60X9d2+brFG
+         vPSq95wvhLbs4xInjjAxWgx8wf7OGh95Y+Kb1CVQeDFE9fqWAcvts95HaGREO9ltTa
+         tJqRoUtNOWQMekg0IOCOdLzMf92yfbzgOW+G17SyOMK+4ah+4fNTI1+l1jmsawNL7M
+         mCqgD8SrjVYlUxEDK+0oqen/Sl+TXfpBlu4i+4SfctduI8UE4WN+nhJgEGAQYR7uo0
+         gOMokqyUPERCoKe3Q66wH5c5lGpn3KyQc3vb2EhlvRTcHyWohHgIZDFau7yEwr0oZg
+         TKwsW/Sp9HkYQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1o5j9J-003LCY-82;
+        Mon, 27 Jun 2022 08:27:09 +0100
+Date:   Mon, 27 Jun 2022 08:27:08 +0100
+Message-ID: <87edza36sz.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Sagar Kadam <sagar.kadam@sifive.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-renesas-soc@vger.kernel.org, Guo Ren <guoren@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 1/2] dt-bindings: i2c: Document RZ/V2M I2C controller
-Thread-Topic: [PATCH 1/2] dt-bindings: i2c: Document RZ/V2M I2C controller
-Thread-Index: AQHYh7Owjshmty8Zc0GLIOdniftsbq1gmPiAgAJBnpA=
-Date:   Mon, 27 Jun 2022 07:17:35 +0000
-Message-ID: <TYYPR01MB70869F902F8367DDFC4A9EDFF5B99@TYYPR01MB7086.jpnprd01.prod.outlook.com>
-References: <20220624101736.27217-1-phil.edworthy@renesas.com>
- <20220624101736.27217-2-phil.edworthy@renesas.com>
- <2f2b2544-9c53-3a6a-d9c9-375e75b112f3@linaro.org>
-In-Reply-To: <2f2b2544-9c53-3a6a-d9c9-375e75b112f3@linaro.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d119515c-20b2-4691-6766-08da580d1bd3
-x-ms-traffictypediagnostic: TY1PR01MB1611:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: S2YjtzjiHZX3Rph5OkhsLvvXa8U6tK4D1WzqsB3T98cyQLs15m9KgeASjq7sAtrlJoJsB5b8x5tknI82rcjMKtGtQv6BOGwBbBYLB5KYclx0HGaOa/ockOOprF1IjGWPlAZHLUKc+5DrUlh32PNk4MONruHTCKeaD0wpo4RgckEuAb64KDCBEW5J3A32a1wKlEXGrkJqWhnJ11tHtfxQAZ+acks8sDi1B3yVFW68KSR8UpyaTERQMumzR9ccoWLgYtn/eZlucaM7yJgfPw2XaQRO8zH1H6onmCvAMxw6dO37yK38mjGw8niU863kFOWGmV0E83B3il0lF4NLVkqXtp7h1+Ic034O8iBhLG8DSHRECMYq+QxbLEk54oEwqBeWaEQGgeRiaaVedMUtnLYYC+k541/EpxiVtE5re+6ZH/EgJoB55AMWlViunHoZuQMYK5eR9R77Hqh4eNmoKZKTYL5T3w4bssW5r/hht3Al/vcebR/wiHufzclLV4cfPj2mow3XNZMy3ph76H9VcxRp7bSmx1OaAjjh+hNaW3HSN+vCmMYavi0KTrj1XhVG1vL8j9XydG+WPn3JFfAv+zhz8AZU037eDfQatpYye3Vod6QHkl8R+saBRUft8tWesx8NplX5AG5DjFFiBSCRa5RTPI6yznVSR4PUiH48YTKb6ePZuL7THAAO6eg5817HWOKo9uvJ3DHjTFJtBDO/YPryAjD0AxDpCsMzxTJeD4/TYVGscvG7Q6pdREedm73ybVtOOLRsCNFRWQyZvvT7+Gk068i6wln8re1gViyOYjUXR5u+DjUbWduW29qJMVFK7yU85F+qXfV2xMLqTXW4glkxDTcrJaIGBG2NYg1tCl/YKxUbLLRqUrAQBngZwVf7PxIQ
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB7086.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(366004)(376002)(39860400002)(396003)(346002)(38070700005)(66946007)(66556008)(316002)(54906003)(110136005)(76116006)(4326008)(83380400001)(66446008)(66476007)(64756008)(55016003)(8676002)(2906002)(41300700001)(38100700002)(186003)(71200400001)(7696005)(86362001)(6506007)(122000001)(53546011)(44832011)(52536014)(478600001)(8936002)(5660300002)(26005)(966005)(9686003)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?4OIeIhYZ9ihttc8vmPXAupGRFKhOLh406MwM4rTVQCdQErCLViswg/jJdhVA?=
- =?us-ascii?Q?8saXpefsnmDkl+btEAw44kTDqi21GTIZn35QolddaNVgdqsDBuRD+OKg9o2K?=
- =?us-ascii?Q?rt10yZL7u9eIrn/FCVf9t+K4j/DDd/ShMPMC6LjEUh1EXdDowgtUaNT0ZqSd?=
- =?us-ascii?Q?9atkefL9wadGp+zsj42ToOm58tu6cmteyzu69LVT4pjGjloQcF8OySISKDLV?=
- =?us-ascii?Q?7jPjLv37OSsu4raqyBtpGgpwx6CvC2+sk+li82ldiIHLuSvhX7QCA/qFGUVv?=
- =?us-ascii?Q?yqtzDPyKZeEN9N3vjPPBoMs6M4h2kLVpnRKMM9CrNyq7h2Z6bUEBPHILafSj?=
- =?us-ascii?Q?ipOgbav0vTMEwjaTXTTnFuglR3OsNk1Wi5704VXbyIuiim+SPuiglMkrvtzM?=
- =?us-ascii?Q?ZTnMGiawsUnjEr5boarwAqRoSLB9H2FGQK5BcJLp6AN/4zFaV450fOhmul0e?=
- =?us-ascii?Q?61klelXl/oT7U4sA8eH2l42XSFpGRhhCMdkf9CS6urhsKK0bs7UmclaX/0P9?=
- =?us-ascii?Q?jgMUnvxtmCWVtAkh5iRnDNiYzKPwWyDIYje4k5xlUCnIf0lUlO5ptHIWrPTg?=
- =?us-ascii?Q?khwsrc3lhkaHNI+tVhyHrPpZyvkatF9fS7RTg6MbCR5q0yFl+05cTcWFJICU?=
- =?us-ascii?Q?jaiSbTGPOvgTCCTDFK5ix39iS1EjkmorlCnwrNZOADw5C6FOd6ZvRbJPu7SS?=
- =?us-ascii?Q?O8T4VDdlYhRzNaSmnCBnRHGfk033V0oLOi9IQxIg0OgJyDH0t9An6ro6Wo5i?=
- =?us-ascii?Q?0bYdgDylwMphXw99JPx5C8fi6wJ1/L8BpkgRA5ec0yqYc8WW+NlYnaYxMjE7?=
- =?us-ascii?Q?NuCaHlBohsTFdkjheU8jUIhivHngDFeXE0BOhvGIySIrJwByfghTGNem+BXI?=
- =?us-ascii?Q?FCkpF/PPjLtPGFl88C4Z+PjBE8RbB16QGh29f778agA3Lt1WVuvZOvWEsog6?=
- =?us-ascii?Q?AO2qi6/54Vr83OBoElM7hk9aIO7B/eOBwHWL7nPSKnHYnz/6nI6S2zMd9Xla?=
- =?us-ascii?Q?L1fKA3fcOyDUelIhhizCesuf71CBfH0H1YmWKd0Ieyjb1kQvnM0KbyBGfcfj?=
- =?us-ascii?Q?b2xeqVeD1fMcSZbzSU0BJP/pfF/ENfIm2mEG78LO2Oy5/DCGhsBwf1ixD7vD?=
- =?us-ascii?Q?8Pndnv+Vw5jayyCoclYEBxgjaL1LauLr6GJwImy6YLU3twBiNJ/Qpd553tHD?=
- =?us-ascii?Q?u6mA1WNoVwnCmZBJblY6y/SFm5gLZ3XYagK2FzbBsrRcnFBRqhtyDKqEIpso?=
- =?us-ascii?Q?I6NvbHxdfiI+4WYzOs9LQZYvSNg/CFcgXztwSMGfS+C8ROx8EZQ/JCGVfAG/?=
- =?us-ascii?Q?3b17TWiWjiuZZ8Y2rTtdV3bSKsNK23luizfuLRt3tqRqetSt2OPSscOHqHeF?=
- =?us-ascii?Q?cAHEzNdGoMFycotp5z7Jisewfs30ABEVOs1qEkmaGtReLBWIsm8EG9Wh7dg4?=
- =?us-ascii?Q?ls1G9kaJKz7OkAl3b7tmSHNdoSixuZBleCQCMl5VKkfy1mRiHoLhC0An2cVP?=
- =?us-ascii?Q?SiEosw2AXFa4LnsLQburlsYUVihx3VqtkQhxGWapX3JbVTwPeib1p3bP1WQP?=
- =?us-ascii?Q?n/rkG+jb0F1M4jt6GZvnary9x35JNMrn/vEaFJcI?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB7086.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d119515c-20b2-4691-6766-08da580d1bd3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jun 2022 07:17:35.0536
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AHN32JWlNUOUJSipNxbs/epD72r1ReZSe9QSJ/RvV7xa7R5O5tp25NgRpNe5clAyNDlzHb8EfBDuNj1Lnz6QcQeqbRytMFmtZNJLK++q9+Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1611
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Thomas Gleixner <tglx@linutronix.de>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v1 3/3] irqchip/sifive-plic: Fix T-HEAD PLIC edge trigger handling
+In-Reply-To: <20220627051257.38543-4-samuel@sholland.org>
+References: <20220627051257.38543-1-samuel@sholland.org>
+        <20220627051257.38543-4-samuel@sholland.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: samuel@sholland.org, prabhakar.mahadev-lad.rj@bp.renesas.com, prabhakar.csengg@gmail.com, sagar.kadam@sifive.com, paul.walmsley@sifive.com, palmer@dabbelt.com, linux-renesas-soc@vger.kernel.org, guoren@kernel.org, geert+renesas@glider.be, tglx@linutronix.de, biju.das.jz@bp.renesas.com, aou@eecs.berkeley.edu, krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+On Mon, 27 Jun 2022 06:12:57 +0100,
+Samuel Holland <samuel@sholland.org> wrote:
+> 
+> The T-HEAD PLIC ignores additional edges seen while an edge-triggered
+> interrupt is being handled. Because of this behavior, the driver needs
+> to complete edge-triggered interrupts in the .irq_ack callback before
+> handling them, instead of in the .irq_eoi callback afterward. Otherwise,
+> it could miss some interrupts.
+> 
+> Co-developed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+> Changes in v1:
+>  - Use a flag for enabling the changes instead of a variant ID
+>  - Use handle_edge_irq instead of handle_fasteoi_ack_irq
+>  - Do not set the handler name, as RISC-V selects GENERIC_IRQ_SHOW_LEVEL
 
-Thanks for you review.
+Where is the Renesas handling gone? Can you, at the very least work,
+with Lad instead of proposing an alternative series that ignores the
+goal of the first one, however good it is (and it is admittedly
+better)?
 
-On 25 June 2022 21:43 Krzysztof Kozlowski wrote:
-> On 24/06/2022 12:17, Phil Edworthy wrote:
-> > Document Renesas RZ/V2M (r9a09g011) I2C controller bindings.
-> >
-> > Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> >  .../bindings/i2c/renesas,rzv2m.yaml           | 76 +++++++++++++++++++
-> >  1 file changed, 76 insertions(+)
-> >  create mode 100644
-> Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
-> b/Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
-> > new file mode 100644
-> > index 000000000000..9049461ad2f4
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
-> > @@ -0,0 +1,76 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/i2c/renesas,rzv2m.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas RZ/V2M I2C Bus Interface
-> > +
-> > +maintainers:
-> > +  - Phil Edworthy <phil.edworthy@renesas.com>
-> > +
-> > +allOf:
-> > +  - $ref: /schemas/i2c/i2c-controller.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +          - renesas,i2c-r9a09g011  # RZ/V2M
-> > +      - const: renesas,rzv2m-i2c
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    items:
-> > +      - description: Data transmission/reception interrupt
-> > +      - description: Status interrupt
-> > +
-> > +  interrupt-names:
-> > +    items:
-> > +      - const: tia
-> > +      - const: tis
-> > +
-> > +  clock-frequency:
-> > +    description:
-> > +      Desired I2C bus clock frequency in Hz. The absence of this
-> property
-> > +      indicates the default frequency 100 kHz.
->=20
-> Instead of last sentence, just add "default: 100000".
-Right, I'll also and an enum for this as the HW can only support 100
-or 400kHz.
+>
+>  drivers/irqchip/irq-sifive-plic.c | 76 +++++++++++++++++++++++++++++--
+>  1 file changed, 71 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/irqchip/irq-sifive-plic.c b/drivers/irqchip/irq-sifive-plic.c
+> index 90515865af08..462a93b4b088 100644
+> --- a/drivers/irqchip/irq-sifive-plic.c
+> +++ b/drivers/irqchip/irq-sifive-plic.c
+> @@ -69,6 +69,7 @@ struct plic_priv {
+>  	struct cpumask lmask;
+>  	struct irq_domain *irqdomain;
+>  	void __iomem *regs;
+> +	bool needs_edge_handling;
+>  };
+>  
+>  struct plic_handler {
+> @@ -86,6 +87,9 @@ static int plic_parent_irq __ro_after_init;
+>  static bool plic_cpuhp_setup_done __ro_after_init;
+>  static DEFINE_PER_CPU(struct plic_handler, plic_handlers);
+>  
+> +static struct irq_chip plic_edge_chip;
+> +static struct irq_chip plic_chip;
+> +
+>  static void __plic_toggle(void __iomem *enable_base, int hwirq, int enable)
+>  {
+>  	u32 __iomem *reg = enable_base + (hwirq / 32) * sizeof(u32);
+> @@ -181,6 +185,40 @@ static void plic_irq_eoi(struct irq_data *d)
+>  	}
+>  }
+>  
+> +static int plic_irq_set_type(struct irq_data *d, unsigned int flow_type)
+> +{
+> +	struct plic_priv *priv = irq_data_get_irq_chip_data(d);
+> +
+> +	if (!priv->needs_edge_handling)
+> +		return IRQ_SET_MASK_OK_NOCOPY;
+> +
+> +	switch (flow_type) {
+> +	case IRQ_TYPE_EDGE_RISING:
+> +		irq_set_chip_handler_name_locked(d, &plic_edge_chip,
+> +						 handle_edge_irq, NULL);
+> +		break;
+> +	case IRQ_TYPE_LEVEL_HIGH:
+> +		irq_set_chip_handler_name_locked(d, &plic_chip,
+> +						 handle_fasteoi_irq, NULL);
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return IRQ_SET_MASK_OK;
+> +}
+> +
+> +static struct irq_chip plic_edge_chip = {
+> +	.name			= "PLIC",
+> +	.irq_ack		= plic_irq_eoi,
+> +	.irq_mask		= plic_irq_mask,
+> +	.irq_unmask		= plic_irq_unmask,
+> +#ifdef CONFIG_SMP
+> +	.irq_set_affinity	= plic_set_affinity,
+> +#endif
+> +	.irq_set_type		= plic_irq_set_type,
+> +};
+> +
+>  static struct irq_chip plic_chip = {
+>  	.name			= "PLIC",
+>  	.irq_mask		= plic_irq_mask,
+> @@ -189,8 +227,22 @@ static struct irq_chip plic_chip = {
+>  #ifdef CONFIG_SMP
+>  	.irq_set_affinity	= plic_set_affinity,
+>  #endif
+> +	.irq_set_type		= plic_irq_set_type,
+>  };
+>  
+> +static int plic_irq_domain_translate(struct irq_domain *d,
+> +				     struct irq_fwspec *fwspec,
+> +				     unsigned long *hwirq,
+> +				     unsigned int *type)
+> +{
+> +	struct plic_priv *priv = d->host_data;
+> +
+> +	if (priv->needs_edge_handling)
+> +		return irq_domain_translate_twocell(d, fwspec, hwirq, type);
+> +	else
+> +		return irq_domain_translate_onecell(d, fwspec, hwirq, type);
+> +}
+> +
+>  static int plic_irqdomain_map(struct irq_domain *d, unsigned int irq,
+>  			      irq_hw_number_t hwirq)
+>  {
+> @@ -211,7 +263,7 @@ static int plic_irq_domain_alloc(struct irq_domain *domain, unsigned int virq,
+>  	unsigned int type;
+>  	struct irq_fwspec *fwspec = arg;
+>  
+> -	ret = irq_domain_translate_onecell(domain, fwspec, &hwirq, &type);
+> +	ret = plic_irq_domain_translate(domain, fwspec, &hwirq, &type);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -225,7 +277,7 @@ static int plic_irq_domain_alloc(struct irq_domain *domain, unsigned int virq,
+>  }
+>  
+>  static const struct irq_domain_ops plic_irqdomain_ops = {
+> -	.translate	= irq_domain_translate_onecell,
+> +	.translate	= plic_irq_domain_translate,
+>  	.alloc		= plic_irq_domain_alloc,
+>  	.free		= irq_domain_free_irqs_top,
+>  };
+> @@ -286,8 +338,9 @@ static int plic_starting_cpu(unsigned int cpu)
+>  	return 0;
+>  }
+>  
+> -static int __init plic_init(struct device_node *node,
+> -		struct device_node *parent)
+> +static int __init __plic_init(struct device_node *node,
+> +			      struct device_node *parent,
+> +			      bool needs_edge_handling)
+>  {
+>  	int error = 0, nr_contexts, nr_handlers = 0, i;
+>  	u32 nr_irqs;
+> @@ -298,6 +351,8 @@ static int __init plic_init(struct device_node *node,
+>  	if (!priv)
+>  		return -ENOMEM;
+>  
+> +	priv->needs_edge_handling = needs_edge_handling;
+> +
+>  	priv->regs = of_iomap(node, 0);
+>  	if (WARN_ON(!priv->regs)) {
+>  		error = -EIO;
+> @@ -415,6 +470,17 @@ static int __init plic_init(struct device_node *node,
+>  	return error;
+>  }
+>  
+> +static int __init plic_init(struct device_node *node,
+> +			    struct device_node *parent)
+> +{
+> +	return __plic_init(node, parent, false);
+> +}
+>  IRQCHIP_DECLARE(sifive_plic, "sifive,plic-1.0.0", plic_init);
+>  IRQCHIP_DECLARE(riscv_plic0, "riscv,plic0", plic_init); /* for legacy systems */
+> -IRQCHIP_DECLARE(thead_c900_plic, "thead,c900-plic", plic_init); /* for firmware driver */
+> +
+> +static int __init plic_edge_init(struct device_node *node,
+> +				     struct device_node *parent)
+> +{
+> +	return __plic_init(node, parent, true);
+> +}
+> +IRQCHIP_DECLARE(thead_c900_plic, "thead,c900-plic", plic_edge_init);
 
+No. You are breaking existing platforms with established DTs. You must
+at least be able to run a new kernel with an old DT. Ideally the
+opposite too, but it is hard to retrofit this.
 
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - interrupt-names
-> > +  - clocks
-> > +  - power-domains
-> > +  - resets
->=20
-> This was not mentioned in properties. Why?
-Oops, I'll add it.
+	M.
 
-
-> > +  - '#address-cells'
-> > +  - '#size-cells'
-> > +
-> > +unevaluatedProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/r9a09g011-cpg.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +
-> > +    i2c0: i2c@a4030000 {
-> > +            compatible =3D "renesas,i2c-r9a09g011", "renesas,rzv2m-i2c=
-";
-> > +            reg =3D <0xa4030000 0x80>;
-> > +            interrupts =3D <GIC_SPI 232 IRQ_TYPE_EDGE_RISING>,
-> > +                         <GIC_SPI 236 IRQ_TYPE_EDGE_RISING>;
-> > +            interrupt-names =3D "tia", "tis";
-> > +            clocks =3D <&cpg CPG_MOD R9A09G011_IIC_PCLK0>;
-> > +            resets =3D <&cpg R9A09G011_IIC_GPA_PRESETN>;
-> > +            power-domains =3D <&cpg>;
-> > +            clock-frequency =3D <100000>;
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +    };
-
-Thanks
-Phil
+-- 
+Without deviation from the norm, progress is not possible.
