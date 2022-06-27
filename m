@@ -2,127 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F62355DE61
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:29:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB83355DFBD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:31:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234280AbiF0KuU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jun 2022 06:50:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49418 "EHLO
+        id S234439AbiF0LL5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jun 2022 07:11:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233298AbiF0KuT (ORCPT
+        with ESMTP id S234463AbiF0LLz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jun 2022 06:50:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B45FC62E0;
-        Mon, 27 Jun 2022 03:50:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5B57761359;
-        Mon, 27 Jun 2022 10:50:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B72C0C341C7;
-        Mon, 27 Jun 2022 10:50:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656327017;
-        bh=8LxALkYX99QM0o3OZgiKgB0ILjh8O2RMDXaPQIHDGUI=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=mcSm99tpafBJecQ/I28UXwi0I5xqsZKQLuRriUF/iDPwE/EgWmjNAtNJakzD9w9gt
-         EVhCwLH/ujOiWejPqgmTGSQWqt+t4Hs6ydYu2eySUQjAC/fZ/PEhe+gReMco8Kh9I3
-         xcA2dWf+XIuItslFOzZaAgO1I3MtkiT/7if+F0beNz10j0M0Ph05IH7fbB7sHi/WwB
-         ObNhdNvX1mjgd9I37Scd1YvXo6I0hjxSA65z0cQtsxvz83yTV4zGVcr9MSZfxki8t0
-         AzcsI1YE39xOGwNaCnGR5P7eNSiy4tXH88tKdBxdQJhaJW/q2czsmSGIm8AkzeJ9p7
-         mV7xKm3AxW0yA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 99722E49BBB;
-        Mon, 27 Jun 2022 10:50:17 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 27 Jun 2022 07:11:55 -0400
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A08A64FF;
+        Mon, 27 Jun 2022 04:11:51 -0700 (PDT)
+Received: by mail-qk1-f173.google.com with SMTP id z16so1716949qkj.7;
+        Mon, 27 Jun 2022 04:11:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=S+ZRxW1YKi5NLQExbgi/2LRM6yY1JhReqBKCutrudz4=;
+        b=N2CIcCqgLL+kTpT9cr9LaIN/eKcnK5VPw1Y02fzweKIFvg83Isjg93jRzZGixrMqfB
+         p7BhCznTVUZ7xkuhVsXkHHiEiMYjOafkFYE94FYyaVenGxAM2QWC+u8C3/hMvbtNFjJV
+         sU5AdhoSoF38LyJvXeH3bOrsAd3UYFgNxGB6p9It/z1vwqMiq/cQp0qULPF86ITHF5C0
+         yUCQioycWkdmCX0AQDfJp3G88W2PZKKMwzGdga6SbT/6DlSbzc22/ZtyIOV6MJFTI9pg
+         hZ4L8oFvbinHLslhNKMZTzw51tBf3224gZ66PPdPcRj3pHNMFmThfomsMjR1iFkcceE3
+         pQKg==
+X-Gm-Message-State: AJIora+TxZtDPkac0Nd64K+HEC9oE0n+u8XlIaZVzkfJLaVsdBbjZ5gA
+        L76LfeLwQmJRAo6O2OZ5tgZAahI/zol+TQ==
+X-Google-Smtp-Source: AGRyM1shltW4EfDw4YxXU9L5mZQQZHwGgRm/IrH5LsU85eThjMH2RvwWgysYkoiQDK+jNfoRzYoqtw==
+X-Received: by 2002:a37:2756:0:b0:6ae:f7c2:ae4a with SMTP id n83-20020a372756000000b006aef7c2ae4amr7694171qkn.504.1656328310185;
+        Mon, 27 Jun 2022 04:11:50 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id k12-20020a05620a414c00b006aefe22d75bsm7139684qko.80.2022.06.27.04.11.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jun 2022 04:11:50 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-3137316bb69so81467997b3.10;
+        Mon, 27 Jun 2022 04:11:49 -0700 (PDT)
+X-Received: by 2002:a81:74c5:0:b0:31b:ca4b:4bc4 with SMTP id
+ p188-20020a8174c5000000b0031bca4b4bc4mr3924783ywc.358.1656328309540; Mon, 27
+ Jun 2022 04:11:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220624144001.95518-1-clement.leger@bootlin.com> <165632701762.8538.13185906941735942250.git-patchwork-notify@kernel.org>
+In-Reply-To: <165632701762.8538.13185906941735942250.git-patchwork-notify@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 27 Jun 2022 13:11:37 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUvSLFU56gsp1a9isOiP9otdCJ2-BqhbrffcoHuA6JNig@mail.gmail.com>
+Message-ID: <CAMuHMdUvSLFU56gsp1a9isOiP9otdCJ2-BqhbrffcoHuA6JNig@mail.gmail.com>
 Subject: Re: [PATCH net-next v9 00/16] add support for Renesas RZ/N1 ethernet
  subsystem devices
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165632701762.8538.13185906941735942250.git-patchwork-notify@kernel.org>
-Date:   Mon, 27 Jun 2022 10:50:17 +0000
-References: <20220624144001.95518-1-clement.leger@bootlin.com>
-In-Reply-To: <20220624144001.95518-1-clement.leger@bootlin.com>
-To:     =?utf-8?b?Q2zDqW1lbnQgTMOpZ2VyIDxjbGVtZW50LmxlZ2VyQGJvb3RsaW4uY29tPg==?=@ci.codeaurora.org
-Cc:     andrew@lunn.ch, vivien.didelot@gmail.com, f.fainelli@gmail.com,
-        olteanv@gmail.com, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
-        krzk+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
-        hkallweit1@gmail.com, linux@armlinux.org.uk,
-        alexandre.torgue@foss.st.com, peppe.cavallaro@st.com,
-        joabreu@synopsys.com, thomas.petazzoni@bootlin.com,
-        herve.codina@bootlin.com, miquel.raynal@bootlin.com,
-        milan.stevanovic@se.com, jimmy.lalande@se.com,
-        pascal.eberhard@se.com, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        netdev@vger.kernel.org
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+To:     "David S. Miller" <davem@davemloft.net>
+Cc:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hi David,
 
-This series was applied to netdev/net-next.git (master)
-by David S. Miller <davem@davemloft.net>:
+On Mon, Jun 27, 2022 at 12:50 PM <patchwork-bot+netdevbpf@kernel.org> wrote:
+> This series was applied to netdev/net-next.git (master)
+> by David S. Miller <davem@davemloft.net>:
+>
+> On Fri, 24 Jun 2022 16:39:45 +0200 you wrote:
+> > The Renesas RZ/N1 SoCs features an ethernet subsystem which contains
+> > (most notably) a switch, two GMACs, and a MII converter [1]. This
+> > series adds support for the switch and the MII converter.
+> >
+> > The MII converter present on this SoC has been represented as a PCS
+> > which sit between the MACs and the PHY. This PCS driver is probed from
+> > the device-tree since it requires to be configured. Indeed the MII
+> > converter also contains the registers that are handling the muxing of
+> > ports (Switch, MAC, HSR, RTOS, etc) internally to the SoC.
+> >
+> > [...]
+>
+> Here is the summary with links:
 
-On Fri, 24 Jun 2022 16:39:45 +0200 you wrote:
-> The Renesas RZ/N1 SoCs features an ethernet subsystem which contains
-> (most notably) a switch, two GMACs, and a MII converter [1]. This
-> series adds support for the switch and the MII converter.
-> 
-> The MII converter present on this SoC has been represented as a PCS
-> which sit between the MACs and the PHY. This PCS driver is probed from
-> the device-tree since it requires to be configured. Indeed the MII
-> converter also contains the registers that are handling the muxing of
-> ports (Switch, MAC, HSR, RTOS, etc) internally to the SoC.
-> 
-> [...]
+>   - [net-next,v9,12/16] ARM: dts: r9a06g032: describe MII converter
+>     https://git.kernel.org/netdev/net-next/c/066c3bd35835
+>   - [net-next,v9,13/16] ARM: dts: r9a06g032: describe GMAC2
+>     https://git.kernel.org/netdev/net-next/c/3f5261f1c2a8
+>   - [net-next,v9,14/16] ARM: dts: r9a06g032: describe switch
+>     https://git.kernel.org/netdev/net-next/c/cf9695d8a7e9
+>   - [net-next,v9,15/16] ARM: dts: r9a06g032-rzn1d400-db: add switch description
+>     https://git.kernel.org/netdev/net-next/c/9aab31d66ec9
 
-Here is the summary with links:
-  - [net-next,v9,01/16] net: dsa: allow port_bridge_join() to override extack message
-    https://git.kernel.org/netdev/net-next/c/1c6e8088d9a7
-  - [net-next,v9,02/16] net: dsa: add support for ethtool get_rmon_stats()
-    https://git.kernel.org/netdev/net-next/c/67f38b1c7324
-  - [net-next,v9,03/16] net: dsa: add Renesas RZ/N1 switch tag driver
-    https://git.kernel.org/netdev/net-next/c/a08d6a6dc820
-  - [net-next,v9,04/16] dt-bindings: net: pcs: add bindings for Renesas RZ/N1 MII converter
-    https://git.kernel.org/netdev/net-next/c/c823c2bf9156
-  - [net-next,v9,05/16] net: pcs: add Renesas MII converter driver
-    https://git.kernel.org/netdev/net-next/c/7dc54d3b8d91
-  - [net-next,v9,06/16] dt-bindings: net: dsa: add bindings for Renesas RZ/N1 Advanced 5 port switch
-    https://git.kernel.org/netdev/net-next/c/8956e96c1d4d
-  - [net-next,v9,07/16] net: dsa: rzn1-a5psw: add Renesas RZ/N1 advanced 5 port switch driver
-    https://git.kernel.org/netdev/net-next/c/888cdb892b61
-  - [net-next,v9,08/16] net: dsa: rzn1-a5psw: add statistics support
-    https://git.kernel.org/netdev/net-next/c/c7243fd4a62f
-  - [net-next,v9,09/16] net: dsa: rzn1-a5psw: add FDB support
-    https://git.kernel.org/netdev/net-next/c/5edf246c6869
-  - [net-next,v9,10/16] dt-bindings: net: snps,dwmac: add "power-domains" property
-    https://git.kernel.org/netdev/net-next/c/955fe312a9d2
-  - [net-next,v9,11/16] dt-bindings: net: snps,dwmac: add "renesas,rzn1" compatible
-    https://git.kernel.org/netdev/net-next/c/d7cc14bc9802
-  - [net-next,v9,12/16] ARM: dts: r9a06g032: describe MII converter
-    https://git.kernel.org/netdev/net-next/c/066c3bd35835
-  - [net-next,v9,13/16] ARM: dts: r9a06g032: describe GMAC2
-    https://git.kernel.org/netdev/net-next/c/3f5261f1c2a8
-  - [net-next,v9,14/16] ARM: dts: r9a06g032: describe switch
-    https://git.kernel.org/netdev/net-next/c/cf9695d8a7e9
-  - [net-next,v9,15/16] ARM: dts: r9a06g032-rzn1d400-db: add switch description
-    https://git.kernel.org/netdev/net-next/c/9aab31d66ec9
-  - [net-next,v9,16/16] MAINTAINERS: add Renesas RZ/N1 switch related driver entry
-    https://git.kernel.org/netdev/net-next/c/717a5c56deec
+Please do not apply DTS patches to the netdev tree.
+These should go in through the platform and soc trees instead.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Thanks for reverting!
 
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
