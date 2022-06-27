@@ -2,85 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45E2C55CC93
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:01:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0459255D4C2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:14:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236306AbiF0Nxw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jun 2022 09:53:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56566 "EHLO
+        id S234530AbiF0N6k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jun 2022 09:58:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236405AbiF0Nxt (ORCPT
+        with ESMTP id S235041AbiF0N6i (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jun 2022 09:53:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25B9EAE5E;
-        Mon, 27 Jun 2022 06:53:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BA1DE60B6E;
-        Mon, 27 Jun 2022 13:53:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11AEEC341C8;
-        Mon, 27 Jun 2022 13:53:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656338027;
-        bh=KeUxoXRLceyNLJDPGAHbexKOJPPtikzWE+zHw3i3VjM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=avxQG4M8qF5ml29v3+eje3QmUgCzNhGzWWSRnydlzb6+CjZKoXLNdeoUvvgN7aNZO
-         pGD2mRVrE4e3Mnz8ABA9dgoovNNVzd5pWt+lYSgJpe05Jh0DEml+4M0Aof0xmrdmHi
-         RJzMTZNJ/uWeoe/oyMLufSPhapZr3tAah24JLhbnnjpG2Ey77ze+QK2LfFNJ6dsJfr
-         i+qXctvjGs+HjRHu+pMfffpHFnTBm+L7iz3qp7ar2tgN6CTq+nrWomVh+HCgfu6Ml7
-         QwiAUKl9Z/jF05+9KNbdnjLk0ker5SFqYNyjgZh+da92dDW/0yv5PrYR+IBe/S1z1B
-         qxoh9s+Y1J6Qg==
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <maz@kernel.org>)
-        id 1o5pBQ-003SiH-Na;
-        Mon, 27 Jun 2022 14:53:44 +0100
-MIME-Version: 1.0
-Date:   Mon, 27 Jun 2022 14:53:44 +0100
-From:   Marc Zyngier <maz@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mon, 27 Jun 2022 09:58:38 -0400
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63A80F4E;
+        Mon, 27 Jun 2022 06:58:32 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id A63C15C0109;
+        Mon, 27 Jun 2022 09:58:31 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Mon, 27 Jun 2022 09:58:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm3; t=1656338311; x=
+        1656424711; bh=hKk81T7RobklmmovRS3N+SbKo48ebDOgEA3PM2L02Aw=; b=G
+        /5nqwB+rCu/vZiFvDOZG82q61JNCGumjdQD0c6es9nilPHqsMCvzlLDrd9C2+TZ0
+        N02eOh6MB024t+jkV7A5EIOwxUakkdrECCzo4uPYtKA5hZftZnTIkT/9hYs6LW4V
+        hqEPrjFVd9r85ZrwQyZ5Wp/OVDcMlCT6tbQiFdTTIez74FSRS8Xbxh7XWaj98EUM
+        fbrwqe00JdabyL8tK+PXfzkoZcMgkHG9C74Ih0a/qmxWqGuLXts4ROBfFH/uCsLh
+        IN2Lp1yKxdBQ/wtcn3lY/cgyxbe5b0bx51pU2zW20i38lcJnC2kljuyw5IBcvbZ8
+        0o9QHrcC0UbW4n33CD7ow==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656338311; x=
+        1656424711; bh=hKk81T7RobklmmovRS3N+SbKo48ebDOgEA3PM2L02Aw=; b=T
+        EX9yNIM2Qg7Q4BkuhSpMaW0hspqe6QSx/QFnY/Y03ljI2WiljSAJ7Q+hw+f614x3
+        5I+mbTsPBKR0rKGjeJwD4NhE0fBwLEByZIWOxww/oIY+qEhDSespVcZap8g/GlmN
+        gYEwDuqknCtozEyfVQDeS+9dQRhE3Px5FzScJiOc7Bci/QY8fqzCf7mmmls1tooX
+        nngFup9d13dZHn2BJPikiqPRSLUJTp/TkXfAdpWUXMjA/JtSYXCfvmZv/fSRqhAE
+        eP+RTCXWSAMfeMVCgFhc1X30dDhlGJm8y03MpY0RHfX50x2BdqsJQzXZLMc0aigI
+        V3cfHKRiHhDP8tabJeKog==
+X-ME-Sender: <xms:h7e5YpFcBbYb_pGsbhLNW1Z4SDZYYsCaNNg-AUe4i74dZGN_McUNww>
+    <xme:h7e5YuXLFK27G7F6GRwxPxmQCH4Nvc7ouVybAONJeNbH1k-Be6LJfctKD0lwMrV9R
+    nlxzpkSDAMDU5h5iQ>
+X-ME-Received: <xmr:h7e5YrLmhuWMNWR22ClP7xjYPbLqi5c8pdnWOo8rHUxIZ07CFrpgdZKzbNWt_UabUwt4OhuCPHSHjZ1Mx4n7Bx-Wpi9qRCZ5nF6gwSErW6lFQ4zIdGPvTrIrug>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeghedgjedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeefhfdvffegudefueeggfeutefgfefgleegleffuedvtdejkedu
+    leeukeeftefggfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhthhhusgdrtg
+    homhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehs
+    rghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:h7e5YvGRrzr_Fc7Yjg94w42X6pZWGeq8EAgGI2Gv7vHGOLbue7h8WQ>
+    <xmx:h7e5YvVtT34jSscKPG1k_WcD8jfGS6GBNvJTuHeyjTRWXMx7Mmr4IA>
+    <xmx:h7e5YqOLXnk-r1Z_2NIYpkiRHdoQcbAeW-81bYYBmphU0s8mGJ9G_Q>
+    <xmx:h7e5YoWQVqjzl0Ag7oQh5FJO7ijNSg5pGbqsuPd0gBZtR5CdNVCI8A>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Jun 2022 09:58:30 -0400 (EDT)
+Subject: Re: [PATCH v1 3/3] irqchip/sifive-plic: Fix T-HEAD PLIC edge trigger
+ handling
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         Sagar Kadam <sagar.kadam@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-renesas-soc@vger.kernel.org, Guo Ren <guoren@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 2/2] irqchip/sifive-plic: Add support for Renesas
- RZ/Five SoC
-In-Reply-To: <CAMuHMdUWC_7MPnP6LcOqi96FAhrAENC4iwtv2ksZVnvR8BC4ww@mail.gmail.com>
-References: <20220626004326.8548-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220626004326.8548-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <87wnd3erab.wl-maz@kernel.org>
- <CA+V-a8tcxj_N0sBHhgAZAN8WSJ12JnDzAvUUnCXto3wHLqNVwg@mail.gmail.com>
- <87v8snehwi.wl-maz@kernel.org>
- <CAMuHMdVt9FjCtvMgJcCh=g2b+8b-fgabGbOLDcXNrrPMpC+3jQ@mail.gmail.com>
- <CA+V-a8uLzLJ=wB6oUu0b2oZO=FPSCTSrqb=3m9=BJxATFKmjMw@mail.gmail.com>
- <CAMuHMdUWC_7MPnP6LcOqi96FAhrAENC4iwtv2ksZVnvR8BC4ww@mail.gmail.com>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <0fdbfdd0ee1c7ca39f8d3e2f86af1194@kernel.org>
-X-Sender: maz@kernel.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+        Thomas Gleixner <tglx@linutronix.de>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+References: <20220627051257.38543-1-samuel@sholland.org>
+ <20220627051257.38543-4-samuel@sholland.org> <87edza36sz.wl-maz@kernel.org>
+From:   Samuel Holland <samuel@sholland.org>
+Message-ID: <bfeab4a3-11c4-b463-0bfc-a537fc133c24@sholland.org>
+Date:   Mon, 27 Jun 2022 08:58:29 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <87edza36sz.wl-maz@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: geert@linux-m68k.org, prabhakar.csengg@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, tglx@linutronix.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, sagar.kadam@sifive.com, palmer@dabbelt.com, paul.walmsley@sifive.com, linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, biju.das.jz@bp.renesas.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,100 +102,201 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2022-06-27 14:12, Geert Uytterhoeven wrote:
-> Hi Prabhakar,
+On 6/27/22 2:27 AM, Marc Zyngier wrote:
+> On Mon, 27 Jun 2022 06:12:57 +0100,
+> Samuel Holland <samuel@sholland.org> wrote:
+>>
+>> The T-HEAD PLIC ignores additional edges seen while an edge-triggered
+>> interrupt is being handled. Because of this behavior, the driver needs
+>> to complete edge-triggered interrupts in the .irq_ack callback before
+>> handling them, instead of in the .irq_eoi callback afterward. Otherwise,
+>> it could miss some interrupts.
+>>
+>> Co-developed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> ---
+>>
+>> Changes in v1:
+>>  - Use a flag for enabling the changes instead of a variant ID
+>>  - Use handle_edge_irq instead of handle_fasteoi_ack_irq
+>>  - Do not set the handler name, as RISC-V selects GENERIC_IRQ_SHOW_LEVEL
 > 
-> On Mon, Jun 27, 2022 at 3:06 PM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
->> On Mon, Jun 27, 2022 at 9:53 AM Geert Uytterhoeven 
->> <geert@linux-m68k.org> wrote:
->> > On Sun, Jun 26, 2022 at 2:19 PM Marc Zyngier <maz@kernel.org> wrote:
->> > > On Sun, 26 Jun 2022 10:38:18 +0100,
->> > > "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
->> > > > On Sun, Jun 26, 2022 at 9:56 AM Marc Zyngier <maz@kernel.org> wrote:
->> > > > > On Sun, 26 Jun 2022 01:43:26 +0100,
->> > > > > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
->> > > > > > The Renesas RZ/Five SoC has a RISC-V AX45MP AndesCore with NCEPLIC100. The
->> > > > > > NCEPLIC100 supports both edge-triggered and level-triggered interrupts. In
->> > > > > > case of edge-triggered interrupts NCEPLIC100 ignores the next interrupt
->> > > > > > edge until the previous completion message has been received and
->> > > > > > NCEPLIC100 doesn't support pending interrupt counter, hence losing the
->> > > > > > interrupts if not acknowledged in time.
->> > > > > >
->> > > > > > So the workaround for edge-triggered interrupts to be handled correctly
->> > > > > > and without losing is that it needs to be acknowledged first and then
->> > > > > > handler must be run so that we don't miss on the next edge-triggered
->> > > > > > interrupt.
->> > > > > >
->> > > > > > This patch adds a new compatible string for Renesas RZ/Five SoC and adds
->> > > > > > support to change interrupt flow based on the interrupt type. It also
->> > > > > > implements irq_ack and irq_set_type callbacks.
->> > > > > >
->> > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->> >
->> > > > > > +     if (of_device_is_compatible(node, "renesas,r9a07g043-plic")) {
->> > > > > > +             priv->of_data = RENESAS_R9A07G043_PLIC;
->> > > > > > +             plic_chip.name = "Renesas RZ/Five PLIC";
->> > > > >
->> > > > > NAK. The irq_chip structure isn't the place for platform marketing.
->> > > > > This is way too long anyway (and same for the edge version), and you
->> > > > > even sent me a patch to make that structure const...
->> > > > >
->> > > > My bad will drop this.
->> > >
->> > > And why you're at it, please turn this rather random 'of_data' into
->> > > something like:
->> > >
->> > > diff --git a/drivers/irqchip/irq-sifive-plic.c b/drivers/irqchip/irq-sifive-plic.c
->> > > index bb87e4c3b88e..cd1683b77caf 100644
->> > > --- a/drivers/irqchip/irq-sifive-plic.c
->> > > +++ b/drivers/irqchip/irq-sifive-plic.c
->> > > @@ -64,6 +64,10 @@ struct plic_priv {
->> > >         struct cpumask lmask;
->> > >         struct irq_domain *irqdomain;
->> > >         void __iomem *regs;
->> > > +       enum {
->> > > +               VANILLA_PLIC,
->> > > +               RENESAS_R9A07G043_PLIC,
->> > > +       } flavour;
->> > >  };
->> > >
->> > >  struct plic_handler {
->> > >
->> > > to give some structure to the whole thing, because I'm pretty sure
->> > > we'll see more braindead implementations as time goes by.
->> >
->> > What about using a feature flag (e.g. had_edge_irqs) instead?
->> 
->> diff --git a/drivers/irqchip/irq-sifive-plic.c
->> b/drivers/irqchip/irq-sifive-plic.c
->> index 9f16833dcb41..247c3c98b655 100644
+> Where is the Renesas handling gone? Can you, at the very least work,
+> with Lad instead of proposing an alternative series that ignores the
+> goal of the first one, however good it is (and it is admittedly
+> better)?
+
+Sorry, I have reached out to them, and will not send anything more until I hear
+back. I thought it was clear that RZ/Five support becomes a trivial patch on top
+of this, but I did not include it because there was some unresolved discussion
+over what the compatible string should be.
+
+>>
+>>  drivers/irqchip/irq-sifive-plic.c | 76 +++++++++++++++++++++++++++++--
+>>  1 file changed, 71 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/irqchip/irq-sifive-plic.c b/drivers/irqchip/irq-sifive-plic.c
+>> index 90515865af08..462a93b4b088 100644
 >> --- a/drivers/irqchip/irq-sifive-plic.c
 >> +++ b/drivers/irqchip/irq-sifive-plic.c
->> @@ -60,13 +60,13 @@
->>  #define        PLIC_DISABLE_THRESHOLD          0x7
->>  #define        PLIC_ENABLE_THRESHOLD           0
->> 
->> +#define PLIC_QUIRK_EDGE_INTERRUPT      BIT(0)
->> 
->>  struct plic_priv {
->>         struct cpumask lmask;
->>         struct irq_domain *irqdomain;
->>         void __iomem *regs;
->> +       u32 plic_quirks;
+>> @@ -69,6 +69,7 @@ struct plic_priv {
+>>  	struct cpumask lmask;
+>>  	struct irq_domain *irqdomain;
+>>  	void __iomem *regs;
+>> +	bool needs_edge_handling;
 >>  };
->> 
->> What about something like above?
+>>  
+>>  struct plic_handler {
+>> @@ -86,6 +87,9 @@ static int plic_parent_irq __ro_after_init;
+>>  static bool plic_cpuhp_setup_done __ro_after_init;
+>>  static DEFINE_PER_CPU(struct plic_handler, plic_handlers);
+>>  
+>> +static struct irq_chip plic_edge_chip;
+>> +static struct irq_chip plic_chip;
+>> +
+>>  static void __plic_toggle(void __iomem *enable_base, int hwirq, int enable)
+>>  {
+>>  	u32 __iomem *reg = enable_base + (hwirq / 32) * sizeof(u32);
+>> @@ -181,6 +185,40 @@ static void plic_irq_eoi(struct irq_data *d)
+>>  	}
+>>  }
+>>  
+>> +static int plic_irq_set_type(struct irq_data *d, unsigned int flow_type)
+>> +{
+>> +	struct plic_priv *priv = irq_data_get_irq_chip_data(d);
+>> +
+>> +	if (!priv->needs_edge_handling)
+>> +		return IRQ_SET_MASK_OK_NOCOPY;
+>> +
+>> +	switch (flow_type) {
+>> +	case IRQ_TYPE_EDGE_RISING:
+>> +		irq_set_chip_handler_name_locked(d, &plic_edge_chip,
+>> +						 handle_edge_irq, NULL);
+>> +		break;
+>> +	case IRQ_TYPE_LEVEL_HIGH:
+>> +		irq_set_chip_handler_name_locked(d, &plic_chip,
+>> +						 handle_fasteoi_irq, NULL);
+>> +		break;
+>> +	default:
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	return IRQ_SET_MASK_OK;
+>> +}
+>> +
+>> +static struct irq_chip plic_edge_chip = {
+>> +	.name			= "PLIC",
+>> +	.irq_ack		= plic_irq_eoi,
+>> +	.irq_mask		= plic_irq_mask,
+>> +	.irq_unmask		= plic_irq_unmask,
+>> +#ifdef CONFIG_SMP
+>> +	.irq_set_affinity	= plic_set_affinity,
+>> +#endif
+>> +	.irq_set_type		= plic_irq_set_type,
+>> +};
+>> +
+>>  static struct irq_chip plic_chip = {
+>>  	.name			= "PLIC",
+>>  	.irq_mask		= plic_irq_mask,
+>> @@ -189,8 +227,22 @@ static struct irq_chip plic_chip = {
+>>  #ifdef CONFIG_SMP
+>>  	.irq_set_affinity	= plic_set_affinity,
+>>  #endif
+>> +	.irq_set_type		= plic_irq_set_type,
+>>  };
+>>  
+>> +static int plic_irq_domain_translate(struct irq_domain *d,
+>> +				     struct irq_fwspec *fwspec,
+>> +				     unsigned long *hwirq,
+>> +				     unsigned int *type)
+>> +{
+>> +	struct plic_priv *priv = d->host_data;
+>> +
+>> +	if (priv->needs_edge_handling)
+>> +		return irq_domain_translate_twocell(d, fwspec, hwirq, type);
+>> +	else
+>> +		return irq_domain_translate_onecell(d, fwspec, hwirq, type);
+>> +}
+>> +
+>>  static int plic_irqdomain_map(struct irq_domain *d, unsigned int irq,
+>>  			      irq_hw_number_t hwirq)
+>>  {
+>> @@ -211,7 +263,7 @@ static int plic_irq_domain_alloc(struct irq_domain *domain, unsigned int virq,
+>>  	unsigned int type;
+>>  	struct irq_fwspec *fwspec = arg;
+>>  
+>> -	ret = irq_domain_translate_onecell(domain, fwspec, &hwirq, &type);
+>> +	ret = plic_irq_domain_translate(domain, fwspec, &hwirq, &type);
+>>  	if (ret)
+>>  		return ret;
+>>  
+>> @@ -225,7 +277,7 @@ static int plic_irq_domain_alloc(struct irq_domain *domain, unsigned int virq,
+>>  }
+>>  
+>>  static const struct irq_domain_ops plic_irqdomain_ops = {
+>> -	.translate	= irq_domain_translate_onecell,
+>> +	.translate	= plic_irq_domain_translate,
+>>  	.alloc		= plic_irq_domain_alloc,
+>>  	.free		= irq_domain_free_irqs_top,
+>>  };
+>> @@ -286,8 +338,9 @@ static int plic_starting_cpu(unsigned int cpu)
+>>  	return 0;
+>>  }
+>>  
+>> -static int __init plic_init(struct device_node *node,
+>> -		struct device_node *parent)
+>> +static int __init __plic_init(struct device_node *node,
+>> +			      struct device_node *parent,
+>> +			      bool needs_edge_handling)
+>>  {
+>>  	int error = 0, nr_contexts, nr_handlers = 0, i;
+>>  	u32 nr_irqs;
+>> @@ -298,6 +351,8 @@ static int __init plic_init(struct device_node *node,
+>>  	if (!priv)
+>>  		return -ENOMEM;
+>>  
+>> +	priv->needs_edge_handling = needs_edge_handling;
+>> +
+>>  	priv->regs = of_iomap(node, 0);
+>>  	if (WARN_ON(!priv->regs)) {
+>>  		error = -EIO;
+>> @@ -415,6 +470,17 @@ static int __init plic_init(struct device_node *node,
+>>  	return error;
+>>  }
+>>  
+>> +static int __init plic_init(struct device_node *node,
+>> +			    struct device_node *parent)
+>> +{
+>> +	return __plic_init(node, parent, false);
+>> +}
+>>  IRQCHIP_DECLARE(sifive_plic, "sifive,plic-1.0.0", plic_init);
+>>  IRQCHIP_DECLARE(riscv_plic0, "riscv,plic0", plic_init); /* for legacy systems */
+>> -IRQCHIP_DECLARE(thead_c900_plic, "thead,c900-plic", plic_init); /* for firmware driver */
+>> +
+>> +static int __init plic_edge_init(struct device_node *node,
+>> +				     struct device_node *parent)
+>> +{
+>> +	return __plic_init(node, parent, true);
+>> +}
+>> +IRQCHIP_DECLARE(thead_c900_plic, "thead,c900-plic", plic_edge_init);
 > 
-> LGTM.
-> 
-> Marc suggested to make this unsigned long, but TBH, that won't make
-> much of a difference.  PLICs are present on RV32 SoCs, too, so you
-> cannot rely on having more than 32 bits anyway.
+> No. You are breaking existing platforms with established DTs. You must
+> at least be able to run a new kernel with an old DT. Ideally the
+> opposite too, but it is hard to retrofit this.
 
-But it will make a difference on a 64bit platform, as we want to
-use test_bit() and co to check for features.
+Thankfully, there are no established DTs for this platform. Upstreaming for
+Allwinner D1 (the only documented user of this compatible) has been blocked by
+its non-coherent DMA, which is just now getting resolved, including with other
+major binding changes[1].
 
-         M.
--- 
-Jazz is not dead. It just smells funny...
+If you are referring more generally to DTs "in the wild", those all use
+#interrupt-cells = <2> already, albeit with a stacked interrupt controller on
+top that turned out not to be necessary[2].
+
+Regards,
+Samuel
+
+[1]: https://lore.kernel.org/linux-riscv/20220619203212.3604485-2-heiko@sntech.de/
+[2]:
+https://github.com/smaeul/linux/blob/riscv/d1-wip/arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi
