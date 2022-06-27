@@ -2,130 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 846C555D4FD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:14:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6619D55C880
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 14:55:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240713AbiF0MYj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jun 2022 08:24:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58684 "EHLO
+        id S235806AbiF0M2T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jun 2022 08:28:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240685AbiF0MYe (ORCPT
+        with ESMTP id S235822AbiF0M2O (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jun 2022 08:24:34 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9D36A2AF6;
-        Mon, 27 Jun 2022 05:24:33 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.92,226,1650898800"; 
-   d="scan'208";a="125807850"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 27 Jun 2022 21:24:30 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2A5474290412;
-        Mon, 27 Jun 2022 21:24:30 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
-        bhelgaas@google.com, krzk+dt@kernel.org, geert+renesas@glider.be,
-        magnus.damm@gmail.com
-Cc:     marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2 13/13] arm64: dts: renesas: r8a779f0: spider: Enable PCIe Host ch0
-Date:   Mon, 27 Jun 2022 21:24:17 +0900
-Message-Id: <20220627122417.809615-14-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220627122417.809615-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20220627122417.809615-1-yoshihiro.shimoda.uh@renesas.com>
+        Mon, 27 Jun 2022 08:28:14 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 976E363F4;
+        Mon, 27 Jun 2022 05:28:13 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id ay16so18822773ejb.6;
+        Mon, 27 Jun 2022 05:28:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Elsn1kdcp1T0aFss4s1Yn5n0Fewq2VGTa3vav17sj6c=;
+        b=T++L9c9Wrp7TLX3Coa2qMb2pFJ7wXTapRDHRv6uk6BV75+qlhlNOoLuXpRecpu4W4v
+         y6AUq2ckXD8LCT52aOCtqHxHtjwSGNIgpUr+S6cbXtL5gxkxOtxwlUMrRxvw8MQ5ZgCm
+         onofVTt+wbq4XQ58cUuY1hq520R6YjogzN+E6pzeS2uipAb1LxfCWhJf5g4Xx5frrrwj
+         jC0PrEkBRYG8d528lrEHQIwhV0XOgFVjYJoHnNGKsGTaJoiQ/LoDcClnXLG6bPNfPxie
+         oSaikNWNcscK4cjfAAphFn9wqbZkEMmNC5Y0ngxLXZBZp2H95SKOvvaWskvvQ4BlDyRe
+         vvrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Elsn1kdcp1T0aFss4s1Yn5n0Fewq2VGTa3vav17sj6c=;
+        b=uocuFIiZR8Mj9tBz5g2ejmolunwy/EUY/fGp+Wa5QowGVrJrF5OK1nKf0BiBMvR7IM
+         onQRdAnkQ0VzYmBgtExNonZFYNBS4SdrZSVXuzeXrhVsE+ocBPFJm5oGFa1DYJznAmSE
+         M+XyihObXODXKI30u7StUgnGvyVBb1VqoxWlZzP2NaDB+CDd9KtmMvhMvESZweTZTDy7
+         qXUk4WDi0INoashYY0Sgl4FiLQXB05zqAOuF+Ij12Y4JETNlp0AOPaEcauqMkjZfKtle
+         o8yzHD1ZvxsnzjG0+grpn9VakJUPeM9BnJ8CQegaMkL4LsqCgPKZ59c8Ky2UzH26IGM4
+         ZwzA==
+X-Gm-Message-State: AJIora/rbZsJgBt52pytzziqWiO+KJ/dx4IV+82D3A/NirXsgJ6o7rC7
+        3UtoFHtcMSCqZsp8ahx/i2B0jrCA07EN3ccw4QpaX3tqAME=
+X-Google-Smtp-Source: AGRyM1sVp1iVWM23LPMLvWA8ATPnDg1VhspCYWfwAdDmgWn2gEDaIH/aDkyrg7GJPh57jqsKQn+pRxKUCbei30tyBbY=
+X-Received: by 2002:a17:907:72c4:b0:726:9406:f760 with SMTP id
+ du4-20020a17090772c400b007269406f760mr9104598ejc.247.1656332892065; Mon, 27
+ Jun 2022 05:28:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
-        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220626004326.8548-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220626004326.8548-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <87tu87eh5h.wl-maz@kernel.org>
+In-Reply-To: <87tu87eh5h.wl-maz@kernel.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 27 Jun 2022 13:27:45 +0100
+Message-ID: <CA+V-a8sihw9=Ychakh6tV+1+MpRayr=1VSnhSYZNp0F+f4Hdnw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: interrupt-controller: sifive,plic:
+ Document Renesas RZ/Five SoC
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sagar Kadam <sagar.kadam@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable PCIe Host controller channel 0 on R-Car S4-8 Spider board.
+Hi Marc,
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- .../boot/dts/renesas/r8a779f0-spider-cpu.dtsi | 39 +++++++++++++++++++
- 1 file changed, 39 insertions(+)
+Thank you for the review.
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-index 81d178e69527..34db1b902af8 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-@@ -5,6 +5,7 @@
-  * Copyright (C) 2021 Renesas Electronics Corp.
-  */
- 
-+#include <dt-bindings/gpio/gpio.h>
- #include "r8a779f0.dtsi"
- 
- / {
-@@ -31,6 +32,28 @@ &extalr_clk {
- 	clock-frequency = <32768>;
- };
- 
-+&i2c0 {
-+	pinctrl-0 = <&i2c0_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+	clock-frequency = <400000>;
-+
-+	gpio_exp_20: gpio@20 {
-+		compatible = "ti,tca9554";
-+		reg = <0x20>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		pcie-perst-hog {
-+			gpio-hog;
-+			gpios = <0 GPIO_ACTIVE_HIGH>;
-+			output-high;
-+			line-name = "PCIE_PERSTn";
-+		};
-+	};
-+};
-+
- &i2c4 {
- 	pinctrl-0 = <&i2c4_pins>;
- 	pinctrl-names = "default";
-@@ -46,15 +69,31 @@ eeprom@50 {
- 	};
- };
- 
-+&pciec0 {
-+	pinctrl-0 = <&pcie0_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
- &pfc {
- 	pinctrl-0 = <&scif_clk_pins>;
- 	pinctrl-names = "default";
- 
-+	i2c0_pins: i2c0 {
-+		groups = "i2c0";
-+		function = "i2c0";
-+	};
-+
- 	i2c4_pins: i2c4 {
- 		groups = "i2c4";
- 		function = "i2c4";
- 	};
- 
-+	pcie0_pins: pcie0 {
-+		groups = "pcie0_clkreq_n";
-+		function = "pcie";
-+	};
-+
- 	scif3_pins: scif3 {
- 		groups = "scif3_data", "scif3_ctrl";
- 		function = "scif3";
--- 
-2.25.1
+On Sun, Jun 26, 2022 at 1:35 PM Marc Zyngier <maz@kernel.org> wrote:
+>
+> On Sun, 26 Jun 2022 01:43:25 +0100,
+> Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> >
+> > Document Renesas RZ/Five (R9A07G043) SoC.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v1->v2:
+> > * Fixed binding doc
+> > * Fixed review comments pointed by Krzysztof.
+> >
+> > RFC->v1:
+> > * Fixed Review comments pointed by Geert and Rob
+> > ---
+> >  .../sifive,plic-1.0.0.yaml                    | 44 +++++++++++++++++--
+> >  1 file changed, 41 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml b/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
+> > index 27092c6a86c4..59df367d1e44 100644
+> > --- a/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
+> > +++ b/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
+> > @@ -28,7 +28,10 @@ description:
+> >
+> >    While the PLIC supports both edge-triggered and level-triggered interrupts,
+> >    interrupt handlers are oblivious to this distinction and therefore it is not
+> > -  specified in the PLIC device-tree binding.
+> > +  specified in the PLIC device-tree binding for SiFive PLIC (and similar PLIC's),
+> > +  but for the Renesas RZ/Five Soc (AX45MP AndesCore) which has NCEPLIC100 we need
+> > +  to specify the interrupt type as the flow for EDGE interrupts is different
+> > +  compared to LEVEL interrupts.
+> >
+> >    While the RISC-V ISA doesn't specify a memory layout for the PLIC, the
+> >    "sifive,plic-1.0.0" device is a concrete implementation of the PLIC that
+> > @@ -57,6 +60,7 @@ properties:
+> >            - enum:
+> >                - allwinner,sun20i-d1-plic
+> >            - const: thead,c900-plic
+> > +      - const: renesas,r9a07g043-plic
+>
+> Since it is the NCEPLIC100 that is broken, shouldn't the compatible
+> string actually reflect that? I'd rather see 'andes,nceplic100' once
+> and for all instead of starting with Renesas, quickly followed by all
+> the other licensees that will inevitably integrate the same IP (which
+> isn't even specific to the AX45MP).
+>
+> This IP also comes with all sort of added (mis-)features, which may or
+> may not be used in the future, and it would make sense to identify it
+> specifically.
+>
+Agreed, I'll update it as above.
 
+Cheers,
+Prabhakar
