@@ -2,158 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 963D355CD02
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BA9E55D00A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:07:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232946AbiF0Ix3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jun 2022 04:53:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47194 "EHLO
+        id S233955AbiF0JRz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jun 2022 05:17:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232059AbiF0Ix3 (ORCPT
+        with ESMTP id S233936AbiF0JRu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jun 2022 04:53:29 -0400
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7741862DE;
-        Mon, 27 Jun 2022 01:53:28 -0700 (PDT)
-Received: by mail-qk1-f175.google.com with SMTP id z16so1537021qkj.7;
-        Mon, 27 Jun 2022 01:53:28 -0700 (PDT)
+        Mon, 27 Jun 2022 05:17:50 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22EB36399
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jun 2022 02:17:40 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id c65so12044370edf.4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jun 2022 02:17:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=j45LSOHH3JiD4etOLa648Qq9hJpooPqyedr7q+VjXHU=;
+        b=ufwbGIdKNbXPH8Wz04so0lL3KGsbit4ttintNEHvPRPe+Kt4AdOJOOMOUYmCFo1tnu
+         eR14C9G92k19LoxmXRkN/ZJrgPVtIqoxjy5S5Cv41g9b+nRCSuZbV/E1IONtlHLgPxuX
+         lCdNMnCg9xD6MK5wLh3M4U38b3SCxZ2x8++tKsWkfhoBWgfjhLrAAtjC2RAiusWs7vws
+         /i2JY1CLzP7ma+mvGp/Lo66H8GP8SoVFsLo4fNQzttC2xq+bgfYojxKZVXf9ZxQe7Tp2
+         ZKFJ5Eyuwviit4SZjs4aD5R3T6bKWBgI1JIvBqDHCwlRwx5Eigju0gXmhOV4BgBTnt8Y
+         x6fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8ruOoryFdJTYSwm98bFwmI1FC+X3Sx2AY+/obbwRbEE=;
-        b=s/jqXpK4Y0Lcnk3vSoatioIlX5IcfkDXjW9ogrsyob1BWuigmzgFhEENh+X2vDXxEC
-         uy6GPUd7yNRrWoDprwo1u4pyaR0Lj/Wc9yC0msf4cn5ENAIuBVs6xjVf1xnYUqw1vyMK
-         rEgkbsgTvMXO5zg3kt5RPcOlti0cgYQFDMWJj9jUXld7Z/P5cRLLB3xzDsSEDUhO20BY
-         /i4zFx/rM3EannwmMvA4dv+UUgXuuLkCOc2zofN4fcbQMGKZr3TBkli416Xh7MIls0j5
-         lEYGgZWlGV8tBC+KXhwQPQqjxJWa43ufUkOy4ZALUBYTvD6TEt9u0K3AZNvVUF4yFCr5
-         Qs2Q==
-X-Gm-Message-State: AJIora+ZB0Vc05K2NqtNTj+jouuxYAMFjlE2jbdkgH9KoG5kIoMQo4X2
-        xlxqSmI4sz7ssriJm6Fu7722VdNgrJiFfQ==
-X-Google-Smtp-Source: AGRyM1u6Zm/B/Gpqh1OPf5d94BINJWBUKILk/zcoslIHOeJOezFF6QkMq5t/rxHHBi68CXNei+lPSw==
-X-Received: by 2002:a37:9605:0:b0:6ae:e9c8:181c with SMTP id y5-20020a379605000000b006aee9c8181cmr7085583qkd.585.1656320007404;
-        Mon, 27 Jun 2022 01:53:27 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id l2-20020a05620a28c200b006a6cadd89efsm8918986qkp.82.2022.06.27.01.53.26
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=j45LSOHH3JiD4etOLa648Qq9hJpooPqyedr7q+VjXHU=;
+        b=ZqCQ4xKuovDiYZ9397JZ88kAoigTsqZfw9ujv9+uWiV+OJe0/lsvXzHazxX7aKKto2
+         POEXMkbWuqkBMnwDBLoHuDlu/aAdgyf5rDGGHd2szgAKr2cKRj7lmO/dsPYmt31pLQ6R
+         qau7IPr0VQxVqlJx6JV4EmZRhgq9gPwlgJCi7kDzdDOFLmlRiGC/UsaspCECTwe+qD1b
+         c54CwHiKVjDrNyobsH8pbLn1QC1/JC+iowp2+j7LYZQdfbJ2uieOxAzljaWMMPmDtVDV
+         UuR9T2tQ2bw6iJTMPKQcp3DWWfuNEEbIaWhYcBONTKhnfz4dWvyR6suboupy6v3LDcrn
+         ++CQ==
+X-Gm-Message-State: AJIora91rVbkhu2CkXNM5bAcXrbkwZjsfwuMmOp0kJSJUbQGKxnI3qpL
+        khYQwINiymIDxjfUS2R5TmrOPA==
+X-Google-Smtp-Source: AGRyM1sywnG4AoJoUKNejA/e+NFvcRiA0U6+mWnexBl80A39LsB4bnm6VB95gY/41HlbVTxa8ZqdRw==
+X-Received: by 2002:aa7:d484:0:b0:435:65b0:e2d8 with SMTP id b4-20020aa7d484000000b0043565b0e2d8mr15314344edr.373.1656321458755;
+        Mon, 27 Jun 2022 02:17:38 -0700 (PDT)
+Received: from [192.168.0.247] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id l2-20020a170906078200b006fe89cafc42sm4840141ejc.172.2022.06.27.02.17.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jun 2022 01:53:26 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-318889e6a2cso78336577b3.1;
-        Mon, 27 Jun 2022 01:53:26 -0700 (PDT)
-X-Received: by 2002:a81:574c:0:b0:317:7c3a:45be with SMTP id
- l73-20020a81574c000000b003177c3a45bemr13161209ywb.316.1656320006319; Mon, 27
- Jun 2022 01:53:26 -0700 (PDT)
+        Mon, 27 Jun 2022 02:17:38 -0700 (PDT)
+Message-ID: <227af263-e52e-d2bb-2467-77c6439bad79@linaro.org>
+Date:   Mon, 27 Jun 2022 11:17:37 +0200
 MIME-Version: 1.0
-References: <20220626004326.8548-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220626004326.8548-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <87wnd3erab.wl-maz@kernel.org> <CA+V-a8tcxj_N0sBHhgAZAN8WSJ12JnDzAvUUnCXto3wHLqNVwg@mail.gmail.com>
- <87v8snehwi.wl-maz@kernel.org>
-In-Reply-To: <87v8snehwi.wl-maz@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 27 Jun 2022 10:53:13 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVt9FjCtvMgJcCh=g2b+8b-fgabGbOLDcXNrrPMpC+3jQ@mail.gmail.com>
-Message-ID: <CAMuHMdVt9FjCtvMgJcCh=g2b+8b-fgabGbOLDcXNrrPMpC+3jQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] irqchip/sifive-plic: Add support for Renesas
- RZ/Five SoC
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/2] dt-bindings: i2c: Document RZ/V2M I2C controller
+Content-Language: en-US
+To:     Phil Edworthy <phil.edworthy@renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sagar Kadam <sagar.kadam@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+References: <20220624101736.27217-1-phil.edworthy@renesas.com>
+ <20220624101736.27217-2-phil.edworthy@renesas.com>
+ <2f2b2544-9c53-3a6a-d9c9-375e75b112f3@linaro.org>
+ <TYYPR01MB70869F902F8367DDFC4A9EDFF5B99@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <TYYPR01MB70869F902F8367DDFC4A9EDFF5B99@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marc,
+On 27/06/2022 09:17, Phil Edworthy wrote:
+> Hi Krzysztof,
+> 
+> Thanks for you review.
+> 
+> On 25 June 2022 21:43 Krzysztof Kozlowski wrote:
+>> On 24/06/2022 12:17, Phil Edworthy wrote:
+>>> Document Renesas RZ/V2M (r9a09g011) I2C controller bindings.
+>>>
+>>> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+>>> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>> ---
+>>>  .../bindings/i2c/renesas,rzv2m.yaml           | 76 +++++++++++++++++++
+>>>  1 file changed, 76 insertions(+)
+>>>  create mode 100644
+>> Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
+>> b/Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
+>>> new file mode 100644
+>>> index 000000000000..9049461ad2f4
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
+>>> @@ -0,0 +1,76 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/i2c/renesas,rzv2m.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Renesas RZ/V2M I2C Bus Interface
+>>> +
+>>> +maintainers:
+>>> +  - Phil Edworthy <phil.edworthy@renesas.com>
+>>> +
+>>> +allOf:
+>>> +  - $ref: /schemas/i2c/i2c-controller.yaml#
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    items:
+>>> +      - enum:
+>>> +          - renesas,i2c-r9a09g011  # RZ/V2M
+>>> +      - const: renesas,rzv2m-i2c
+>>> +
+>>> +  reg:
+>>> +    maxItems: 1
+>>> +
+>>> +  interrupts:
+>>> +    items:
+>>> +      - description: Data transmission/reception interrupt
+>>> +      - description: Status interrupt
+>>> +
+>>> +  interrupt-names:
+>>> +    items:
+>>> +      - const: tia
+>>> +      - const: tis
+>>> +
+>>> +  clock-frequency:
+>>> +    description:
+>>> +      Desired I2C bus clock frequency in Hz. The absence of this
+>> property
+>>> +      indicates the default frequency 100 kHz.
+>>
+>> Instead of last sentence, just add "default: 100000".
+> Right, I'll also and an enum for this as the HW can only support 100
+> or 400kHz.
 
-On Sun, Jun 26, 2022 at 2:19 PM Marc Zyngier <maz@kernel.org> wrote:
-> On Sun, 26 Jun 2022 10:38:18 +0100,
-> "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
-> > On Sun, Jun 26, 2022 at 9:56 AM Marc Zyngier <maz@kernel.org> wrote:
-> > > On Sun, 26 Jun 2022 01:43:26 +0100,
-> > > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > > The Renesas RZ/Five SoC has a RISC-V AX45MP AndesCore with NCEPLIC100. The
-> > > > NCEPLIC100 supports both edge-triggered and level-triggered interrupts. In
-> > > > case of edge-triggered interrupts NCEPLIC100 ignores the next interrupt
-> > > > edge until the previous completion message has been received and
-> > > > NCEPLIC100 doesn't support pending interrupt counter, hence losing the
-> > > > interrupts if not acknowledged in time.
-> > > >
-> > > > So the workaround for edge-triggered interrupts to be handled correctly
-> > > > and without losing is that it needs to be acknowledged first and then
-> > > > handler must be run so that we don't miss on the next edge-triggered
-> > > > interrupt.
-> > > >
-> > > > This patch adds a new compatible string for Renesas RZ/Five SoC and adds
-> > > > support to change interrupt flow based on the interrupt type. It also
-> > > > implements irq_ack and irq_set_type callbacks.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Sure, sounds good. Thank you.
 
-> > > > +     if (of_device_is_compatible(node, "renesas,r9a07g043-plic")) {
-> > > > +             priv->of_data = RENESAS_R9A07G043_PLIC;
-> > > > +             plic_chip.name = "Renesas RZ/Five PLIC";
-> > >
-> > > NAK. The irq_chip structure isn't the place for platform marketing.
-> > > This is way too long anyway (and same for the edge version), and you
-> > > even sent me a patch to make that structure const...
-> > >
-> > My bad will drop this.
->
-> And why you're at it, please turn this rather random 'of_data' into
-> something like:
->
-> diff --git a/drivers/irqchip/irq-sifive-plic.c b/drivers/irqchip/irq-sifive-plic.c
-> index bb87e4c3b88e..cd1683b77caf 100644
-> --- a/drivers/irqchip/irq-sifive-plic.c
-> +++ b/drivers/irqchip/irq-sifive-plic.c
-> @@ -64,6 +64,10 @@ struct plic_priv {
->         struct cpumask lmask;
->         struct irq_domain *irqdomain;
->         void __iomem *regs;
-> +       enum {
-> +               VANILLA_PLIC,
-> +               RENESAS_R9A07G043_PLIC,
-> +       } flavour;
->  };
->
->  struct plic_handler {
->
-> to give some structure to the whole thing, because I'm pretty sure
-> we'll see more braindead implementations as time goes by.
-
-What about using a feature flag (e.g. had_edge_irqs) instead?
-
-> It almost feels like I've written this whole patch. Oh wait...
-
-> Without deviation from the norm, progress is not possible.
-
-How applicable ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
