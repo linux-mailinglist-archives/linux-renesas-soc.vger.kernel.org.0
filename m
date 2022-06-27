@@ -2,135 +2,195 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80E2255CAD6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 14:59:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 672BC55CB4E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 14:59:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232262AbiF0HjL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jun 2022 03:39:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47304 "EHLO
+        id S233051AbiF0Hkm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jun 2022 03:40:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233006AbiF0HjK (ORCPT
+        with ESMTP id S233033AbiF0Hkk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jun 2022 03:39:10 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29B6160D0;
-        Mon, 27 Jun 2022 00:39:08 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id A957BC000A;
-        Mon, 27 Jun 2022 07:39:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1656315546;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=94jgi0v3jE6kcn4QQ7XA0jsCaD9LuswNs/AWgam6hBA=;
-        b=pBItYIhbsdoCD6jIUc/s7NThU9NCYx2XtFvX6jt2kJxoRV0ICzOD79n31UT/jX0t+Yl4XM
-        7MSw5Qfrn2vgnroEcaTHr/SaM42NJ+7HjxGhfG+IfkYWz4ApJZO88HUXs5kFOvtlrYIzel
-        M3PEdEhtrz1dk+qHMaAFO9wTEIvKbHPlh/WeSNAcBM9l1dghmEpfJ/razHP/95ffILZDhv
-        Kp8a26wg2VUY9iH8k2pIUB6smmuE1ohfxT24H/0bupl9RsslH4OudFHUBjsyjSJrM2uTTa
-        fJEqYNz3VN14mO4uVNV5cLxHBGgbgEkusdf82a4ZPIXUKGdbgte+qR/2haxuIQ==
-Date:   Mon, 27 Jun 2022 09:38:15 +0200
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v9 00/16] add support for Renesas RZ/N1
- ethernet subsystem devices
-Message-ID: <20220627093815.25ba1bb6@fixe.home>
-In-Reply-To: <20220624214330.aezwdsirjvvoha45@skbuf>
-References: <20220624144001.95518-1-clement.leger@bootlin.com>
-        <20220624214330.aezwdsirjvvoha45@skbuf>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+        Mon, 27 Jun 2022 03:40:40 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2B1D60E0;
+        Mon, 27 Jun 2022 00:40:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 61E8CB80F9D;
+        Mon, 27 Jun 2022 07:40:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3166FC341CB;
+        Mon, 27 Jun 2022 07:40:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656315637;
+        bh=MzjeRwNuJsz8lcgalKEQ4uPa0idcPi8oD5nNWGIpJfE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=VaX5mrEEdE2Z9agLkU0695/N0Do+K7kF7EzotBofAEeAZi3H81+ru7iELCi7+CXud
+         I7sc6MspU0l3UFZ6WiWU8Owcp0WOSW2xzI9iypARvXToBYm/vVtpIyJWtiYf2Mru+y
+         FwkAxPjXWB1ui6WY2lNeo7CZ3yli2jfGTjOVhR2fZOuqt0nFgyNGNIJSQN3GQRxw1I
+         ieVGf6EXs6UgX1ltdxJsmBhvXeUoNUVbQoBIRCsTBqIpxYBI8cmysEiTKfFkrUqkmi
+         pVJXRRGBX2OAvkj97g2ROqu5HI59sS5ykPbmuohM1fFANHeS6HmQGfzQuqDm8gZvVu
+         A6I7kl8DIplEQ==
+Received: by mail-vs1-f44.google.com with SMTP id e7so8125888vsp.13;
+        Mon, 27 Jun 2022 00:40:37 -0700 (PDT)
+X-Gm-Message-State: AJIora8VZG/2DetFAtOv3Z8Cy95+A9cudWuxyApNewGlJi+PlBUeexk1
+        9fVOUXz7bQM3T7S9bvJCsOSZARvMeyhITUi6dq0=
+X-Google-Smtp-Source: AGRyM1u9UMEKzaQ6qY0F+LTaZrCPsaY5ETieZQ4tBTTwNl2TC5aylcJ0FKqZSQCmSwgkYlER6Qj74Jpb2RbFugMABwo=
+X-Received: by 2002:a05:6102:366f:b0:356:352f:9de2 with SMTP id
+ bg15-20020a056102366f00b00356352f9de2mr2343073vsb.2.1656315636148; Mon, 27
+ Jun 2022 00:40:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20220627051257.38543-1-samuel@sholland.org> <20220627051257.38543-2-samuel@sholland.org>
+In-Reply-To: <20220627051257.38543-2-samuel@sholland.org>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Mon, 27 Jun 2022 15:40:25 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTSq1NsBWRCg+kpTbJRwSeE30P9NVB5di6vzi7m2CFRzHw@mail.gmail.com>
+Message-ID: <CAJF2gTSq1NsBWRCg+kpTbJRwSeE30P9NVB5di6vzi7m2CFRzHw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] dt-bindings: interrupt-controller: Require trigger
+ type for T-HEAD PLIC
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Sagar Kadam <sagar.kadam@sifive.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Sat, 25 Jun 2022 00:43:30 +0300,
-Vladimir Oltean <olteanv@gmail.com> a =C3=A9crit :
+On Mon, Jun 27, 2022 at 1:13 PM Samuel Holland <samuel@sholland.org> wrote:
+>
+> The RISC-V PLIC specification unfortunately allows PLIC implementations
+> to ignore edges seen while an edge-triggered interrupt is being handled:
+>
+>   Depending on the design of the device and the interrupt handler,
+>   in between sending an interrupt request and receiving notice of its
+>   handler=E2=80=99s completion, the gateway might either ignore additiona=
+l
+>   matching edges or increment a counter of pending interrupts.
+>
+> For PLICs with that misfeature, software needs to know the trigger type
+> of each interrupt. This allows it to work around the issue by completing
+> edge-triggered interrupts before handling them. Such a workaround is
+> required to avoid missing any edges.
+>
+> The T-HEAD C9xx PLIC is an example of a PLIC with this behavior.
+Actually, C9xx support pulse signals which configed by
+pad_plic_int_cfg_x for SoC vendor:
 
-> On Fri, Jun 24, 2022 at 04:39:45PM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
-> > The Renesas RZ/N1 SoCs features an ethernet subsystem which contains
-> > (most notably) a switch, two GMACs, and a MII converter [1]. This
-> > series adds support for the switch and the MII converter.
-> >=20
-> > The MII converter present on this SoC has been represented as a PCS
-> > which sit between the MACs and the PHY. This PCS driver is probed from
-> > the device-tree since it requires to be configured. Indeed the MII
-> > converter also contains the registers that are handling the muxing of
-> > ports (Switch, MAC, HSR, RTOS, etc) internally to the SoC.
-> >=20
-> > The switch driver is based on DSA and exposes 4 ports + 1 CPU
-> > management port. It include basic bridging support as well as FDB and
-> > statistics support.
-> >=20
-> > Link: [1] https://www.renesas.com/us/en/document/mah/rzn1d-group-rzn1s-=
-group-rzn1l-group-users-manual-r-engine-and-ethernet-peripherals
-> >=20
-> > -----
-> > Changes in V9:
-> > - Cover letter:
-> >   - Remove comment about RZN1 patches that are now in the master branch.
-> > - Commits:
-> >   - Add Vladimir Oltean Reviewed-by
-> > - PCS:
-> >   - Add "Depends on OF" for PCS_RZN1_MIIC due to error found by intel
-> >     kernel test robot <lkp@intel.com>.
-> >   - Check return value of of_property_read_u32() for
-> >     "renesas,miic-switch-portin" property before setting conf.
-> >   - Return miic_parse_dt() return value in miic_probe() on error
-> > - Switch:
-> >   - Add "Depends on OF" for NET_DSA_RZN1_A5PSW due to errors found by
-> >     intel kernel test robot <lkp@intel.com>.
-> > - DT:
-> >   - Add spaces between switch port and '{' =20
->=20
-> I took one more look through the series and this looks good, thanks.
+https://github.com/T-head-Semi/openc906/blob/main/C906_RTL_FACTORY/gen_rtl/=
+plic/rtl/plic_int_kid.v
+104: assign int_new_pending =3D pad_plic_int_cfg_x ? int_pulse
+105:
+        : level_int_pending;
 
-Hi Vladimir,
+They could put pad_plic_int_cfg_x into the SoC software config
+registers region or bind them to constant values.
 
-Thanks for the review.
-
-Cl=C3=A9ment
-
->=20
-> Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
-
+>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>
+>  .../sifive,plic-1.0.0.yaml                    | 31 ++++++++++++++++---
+>  1 file changed, 27 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/sifiv=
+e,plic-1.0.0.yaml b/Documentation/devicetree/bindings/interrupt-controller/=
+sifive,plic-1.0.0.yaml
+> index 27092c6a86c4..3c589cbca851 100644
+> --- a/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-=
+1.0.0.yaml
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-=
+1.0.0.yaml
+> @@ -26,9 +26,13 @@ description:
+>    with priority below this threshold will not cause the PLIC to raise it=
+s
+>    interrupt line leading to the context.
+>
+> -  While the PLIC supports both edge-triggered and level-triggered interr=
+upts,
+> -  interrupt handlers are oblivious to this distinction and therefore it =
+is not
+> -  specified in the PLIC device-tree binding.
+> +  The PLIC supports both edge-triggered and level-triggered interrupts. =
+For
+> +  edge-triggered interrupts, the RISC-V PLIC spec allows two responses t=
+o edges
+> +  seen while an interrupt handler is active; the PLIC may either queue t=
+hem or
+> +  ignore them. In the first case, handlers are oblivious to the trigger =
+type, so
+> +  it is not included in the interrupt specifier. In the second case, sof=
+tware
+> +  needs to know the trigger type, so it can reorder the interrupt flow t=
+o avoid
+> +  missing interrupts.
+>
+>    While the RISC-V ISA doesn't specify a memory layout for the PLIC, the
+>    "sifive,plic-1.0.0" device is a concrete implementation of the PLIC th=
+at
+> @@ -65,7 +69,8 @@ properties:
+>      const: 0
+>
+>    '#interrupt-cells':
+> -    const: 1
+> +    minimum: 1
+> +    maximum: 2
+>
+>    interrupt-controller: true
+>
+> @@ -91,6 +96,24 @@ required:
+>    - interrupts-extended
+>    - riscv,ndev
+>
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - thead,c900-plic
+> +
+> +    then:
+> +      properties:
+> +        '#interrupt-cells':
+> +          const: 2
+> +
+> +    else:
+> +      properties:
+> +        '#interrupt-cells':
+> +          const: 1
+> +
+>  additionalProperties: false
+>
+>  examples:
+> --
+> 2.35.1
+>
 
 
 --=20
-Cl=C3=A9ment L=C3=A9ger,
-Embedded Linux and Kernel engineer at Bootlin
-https://bootlin.com
+Best Regards
+ Guo Ren
+
+ML: https://lore.kernel.org/linux-csky/
