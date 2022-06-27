@@ -2,93 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CE5555CED0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91D5655D8EA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:20:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232665AbiF0Je0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jun 2022 05:34:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54018 "EHLO
+        id S232105AbiF0KLa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jun 2022 06:11:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233591AbiF0JeX (ORCPT
+        with ESMTP id S231776AbiF0KL2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jun 2022 05:34:23 -0400
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DF0163D9;
-        Mon, 27 Jun 2022 02:34:21 -0700 (PDT)
-Received: by mail-qv1-f50.google.com with SMTP id y14so13877081qvs.10;
-        Mon, 27 Jun 2022 02:34:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=R5th0qpP/J1ycxyypwJPUwSeLA3QY+9VgG/84MEtg00=;
-        b=LKmvaQuvjMNtr2jA3MZX5X+OVC62FMHIl/huLurFrECWr2caDZ4gw/8A+gNgbe6cfI
-         I1pLeabPlqAwpIyiIxX/97CM6MSQqPssYFz8EMl8RpoVoQSj2/yeHGuMoh7ZwWf4TJWc
-         ywyZreVkO4VQGuTSHX8P1aPrrGKe/D/f/AVroalK2FzHwNOBY2/ofwerz+E9NiGy9mM8
-         l02nSjj/Wwx9wknMAfWsdUauQ2hdAIqjIdhJiC+ekaIRJzIhvjoqiGqofYpr7Hb8VcYU
-         7QIWirmvEqhEqWnDy7SsTQU8pEhTdD+IfnTFbct123BeXt+8hMbAj2NWYPx7VDmyvFrG
-         U/IA==
-X-Gm-Message-State: AJIora803xRn0luYV7G7mQCuuUSiOefHJgUq+J1D1+AoAgbb8bAq7BAE
-        ccCjbPEjqZtHrAjuq5XZ+E6uyT9YUaGG8A==
-X-Google-Smtp-Source: AGRyM1utvzLdA+PTPQs9Kw/g22g0rpxqI/GgMV2tm1q04ZDXA/G7m7E5sr2HvGffP6r6mhKyo/q4Qg==
-X-Received: by 2002:a05:6214:21ce:b0:470:f4e:951b with SMTP id d14-20020a05621421ce00b004700f4e951bmr7793594qvh.14.1656322460566;
-        Mon, 27 Jun 2022 02:34:20 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id p24-20020ac84098000000b00317ccf991a3sm5954243qtl.19.2022.06.27.02.34.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jun 2022 02:34:20 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-3177f4ce3e2so79475447b3.5;
-        Mon, 27 Jun 2022 02:34:20 -0700 (PDT)
-X-Received: by 2002:a0d:c787:0:b0:31b:a963:e1de with SMTP id
- j129-20020a0dc787000000b0031ba963e1demr6407552ywd.283.1656322459903; Mon, 27
- Jun 2022 02:34:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220623103024.24222-1-chris.paterson2@renesas.com>
-In-Reply-To: <20220623103024.24222-1-chris.paterson2@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 27 Jun 2022 11:34:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXeR_7gJb0PJVheUjyR68=a9yCD5ixtskKB0EZT3-HVrw@mail.gmail.com>
-Message-ID: <CAMuHMdXeR_7gJb0PJVheUjyR68=a9yCD5ixtskKB0EZT3-HVrw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r9a07g054l2-smarc: Correct SoC name
- in comment
-To:     Chris Paterson <chris.paterson2@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Mon, 27 Jun 2022 06:11:28 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FDDF6401;
+        Mon, 27 Jun 2022 03:11:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BF161B8106E;
+        Mon, 27 Jun 2022 10:11:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66AF1C3411D;
+        Mon, 27 Jun 2022 10:11:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656324684;
+        bh=uM9Jg0xWGjqPi0Q4iaOPjmzP/20updvm1fUGxrOmNGM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=G0lRwuQ5A6e7SuAtuHgJhvkJ9nOwh4bP0BSZ2uoYhzGNN347xKLZ79PT5l8WJS9Fg
+         la8tZGg6YkAYUreLjih3n5IgGhpBnNyTBCaHlHkyky1F9M1t/CdfpKqVv+3KwCOd4O
+         0isOnQEIG3vwdUGH2JP26UKlfCyGJ/xeslFDLpXBYKGA/pYeQIr5EhKXL9T04l+ZgW
+         h+RMJ/Q+2e5qD3xI62wre8v3GzN9Vp3jf54EfdTxKeTP32Ee2H5dM1MdnxscqM1V9w
+         dSb54w2w8hFtwfi5NfH+n7NuVkQXK2gH0Fj8kV2HpzRF5QIkmslMz/+vNhbsm542aw
+         DCCoNxhorI2fw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1o5liE-003OOJ-5W;
+        Mon, 27 Jun 2022 11:11:22 +0100
+Date:   Mon, 27 Jun 2022 11:11:21 +0100
+Message-ID: <87a69y2z7a.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Sagar Kadam <sagar.kadam@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2 2/2] irqchip/sifive-plic: Add support for Renesas RZ/Five SoC
+In-Reply-To: <CAMuHMdVt9FjCtvMgJcCh=g2b+8b-fgabGbOLDcXNrrPMpC+3jQ@mail.gmail.com>
+References: <20220626004326.8548-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <20220626004326.8548-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <87wnd3erab.wl-maz@kernel.org>
+        <CA+V-a8tcxj_N0sBHhgAZAN8WSJ12JnDzAvUUnCXto3wHLqNVwg@mail.gmail.com>
+        <87v8snehwi.wl-maz@kernel.org>
+        <CAMuHMdVt9FjCtvMgJcCh=g2b+8b-fgabGbOLDcXNrrPMpC+3jQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: geert@linux-m68k.org, prabhakar.csengg@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, tglx@linutronix.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, sagar.kadam@sifive.com, palmer@dabbelt.com, paul.walmsley@sifive.com, linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, biju.das.jz@bp.renesas.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jun 23, 2022 at 12:30 PM Chris Paterson
-<chris.paterson2@renesas.com> wrote:
-> This dts is for the RZ/V2L SMARC EVK, not RZ/G2L.
+On Mon, 27 Jun 2022 09:53:13 +0100,
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> 
+> Hi Marc,
+> 
+> On Sun, Jun 26, 2022 at 2:19 PM Marc Zyngier <maz@kernel.org> wrote:
+> > On Sun, 26 Jun 2022 10:38:18 +0100,
+> > "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
+> > > On Sun, Jun 26, 2022 at 9:56 AM Marc Zyngier <maz@kernel.org> wrote:
+> > > > On Sun, 26 Jun 2022 01:43:26 +0100,
+> > > > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > > > > The Renesas RZ/Five SoC has a RISC-V AX45MP AndesCore with NCEPLIC100. The
+> > > > > NCEPLIC100 supports both edge-triggered and level-triggered interrupts. In
+> > > > > case of edge-triggered interrupts NCEPLIC100 ignores the next interrupt
+> > > > > edge until the previous completion message has been received and
+> > > > > NCEPLIC100 doesn't support pending interrupt counter, hence losing the
+> > > > > interrupts if not acknowledged in time.
+> > > > >
+> > > > > So the workaround for edge-triggered interrupts to be handled correctly
+> > > > > and without losing is that it needs to be acknowledged first and then
+> > > > > handler must be run so that we don't miss on the next edge-triggered
+> > > > > interrupt.
+> > > > >
+> > > > > This patch adds a new compatible string for Renesas RZ/Five SoC and adds
+> > > > > support to change interrupt flow based on the interrupt type. It also
+> > > > > implements irq_ack and irq_set_type callbacks.
+> > > > >
+> > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> > > > > +     if (of_device_is_compatible(node, "renesas,r9a07g043-plic")) {
+> > > > > +             priv->of_data = RENESAS_R9A07G043_PLIC;
+> > > > > +             plic_chip.name = "Renesas RZ/Five PLIC";
+> > > >
+> > > > NAK. The irq_chip structure isn't the place for platform marketing.
+> > > > This is way too long anyway (and same for the edge version), and you
+> > > > even sent me a patch to make that structure const...
+> > > >
+> > > My bad will drop this.
+> >
+> > And why you're at it, please turn this rather random 'of_data' into
+> > something like:
+> >
+> > diff --git a/drivers/irqchip/irq-sifive-plic.c b/drivers/irqchip/irq-sifive-plic.c
+> > index bb87e4c3b88e..cd1683b77caf 100644
+> > --- a/drivers/irqchip/irq-sifive-plic.c
+> > +++ b/drivers/irqchip/irq-sifive-plic.c
+> > @@ -64,6 +64,10 @@ struct plic_priv {
+> >         struct cpumask lmask;
+> >         struct irq_domain *irqdomain;
+> >         void __iomem *regs;
+> > +       enum {
+> > +               VANILLA_PLIC,
+> > +               RENESAS_R9A07G043_PLIC,
+> > +       } flavour;
+> >  };
+> >
+> >  struct plic_handler {
+> >
+> > to give some structure to the whole thing, because I'm pretty sure
+> > we'll see more braindead implementations as time goes by.
+> 
+> What about using a feature flag (e.g. had_edge_irqs) instead?
+
+Sure. Then make this an unsigned long, and have a set of quirk bits,
+because I expect this to grow quickly.
+
 >
-> Fixes: f91c4c74796a ("arm64: dts: renesas: Add initial device tree for RZ/V2L SMARC EVK")
-> Signed-off-by: Chris Paterson <chris.paterson2@renesas.com>
+> > It almost feels like I've written this whole patch. Oh wait...
+> 
+> > Without deviation from the norm, progress is not possible.
+> 
+> How applicable ;-)
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.20.
+I'm not sure there is any sign of progress here, and evolution
+through random mutation has a pretty massive failure rate.
 
-Gr{oetje,eeting}s,
+Thanks,
 
-                        Geert
+	M.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Without deviation from the norm, progress is not possible.
