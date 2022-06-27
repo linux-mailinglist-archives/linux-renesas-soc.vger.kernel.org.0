@@ -2,156 +2,188 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1015F55C393
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 14:48:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AACC755DCBA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:26:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234352AbiF0OOg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jun 2022 10:14:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58952 "EHLO
+        id S234736AbiF0ORF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jun 2022 10:17:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235979AbiF0OOe (ORCPT
+        with ESMTP id S234732AbiF0ORD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jun 2022 10:14:34 -0400
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DB2E13EAF;
-        Mon, 27 Jun 2022 07:14:29 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 4AFD65C012B;
-        Mon, 27 Jun 2022 10:14:25 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Mon, 27 Jun 2022 10:14:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-        cc:cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm3; t=1656339265; x=
-        1656425665; bh=MHflSRrcauCzkIXmYSgam5C/L3iBtC50UPlW/v0FWYA=; b=V
-        B/PQQmw9gCv0XiwlL9s/nRC7zRmYVsSdf8Mwod/Z/HFN4J9oTwIV+rHh9YEzEKS2
-        mN5z3/vWFWIJbiRhCjSn/8Dr0m0YSN6DgxErkkgF0cv1kdvLPJNgIYYZ2vTupK9+
-        Ot+SkVEVkB5wJ/LrfKdQD8r8eh8t70GN0Cggd+P6c+Fl7kxEzXG46bj8msyNhIQb
-        F4Dmu7DKjXyi1gdRFi8095w5WKMb0zY5zc3TZEMQbVO9uqWpDtgYjPhvdpkLkgrI
-        EGD9wHDskSrmuyBya1MqJIuvPVc3Nbg7DJbI1AZ0M/YdVlYVeS7fEXAuQCvji/Fa
-        r3LahnJHOJPz/bAqSzXFw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656339265; x=
-        1656425665; bh=MHflSRrcauCzkIXmYSgam5C/L3iBtC50UPlW/v0FWYA=; b=b
-        OI4teyjgv/oKaHSoDbClKUY4+NnYAHlPcejUWzYt416mdhtZvB0blJwo82JCfzNC
-        7Pigjfn2MeAf0EuSCa5V2udjJ77eADv537wGSI8CcfJe1hoKMBmxaiZo7fmH256f
-        riqEWQ0Q1vxzfrU1CsC++aUAQ1GYMdvpob5lzVfj+aaO1JMMuWcDSHGv0sHKczA2
-        v23xIpbQQRd7YWHwq8SZMXjct1rnCy44/EhDO32nChq2OvPDvPndCKQLYyQ37eIh
-        paBRnbSMdr0JPM/UsSyMiZ0jQ/JZX6UCoDP47CwIpQTXkQjI3EijZ+yy25pP7HV6
-        ZN8w++8xkieCNRM+yyhwQ==
-X-ME-Sender: <xms:QLu5YmFFSHpJA4_LkECTb54itB94i4sR0xVm9fmxODUddMRKr7NqEg>
-    <xme:QLu5YnXMfFoaZPkjxhSDIWLzLpUc-_aEJars6StFadJBBFmbf5yiOAu6sc2GyjanC
-    BcO117bpooo2OjnRA>
-X-ME-Received: <xmr:QLu5YgKEEJBy4rVNmDJfRJCWwSL6ZfGXHzeLl4Jg3G6D07hI578rRREFhwuyjs21Rtp6aBp2Dt_04bWci5jMIvPytWcRGElLydw-ELJ7v9U0Q_WCKSHCO6AWgA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeghedgjeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpedtvddvudelveeuleegveduiefggeegheffgefhjeduhfeigfei
-    vedthfduleegueenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhl
-    rghnugdrohhrgh
-X-ME-Proxy: <xmx:QLu5YgFtXeAj4IDlNxTMHiYFI7Cn_lfILYHYgJdnZHCp-pcr6wJm-A>
-    <xmx:QLu5YsUT5g6PP6hQ6PV4czzMO3Hu1IseTIYIBafGHdc44zQryH6Vrw>
-    <xmx:QLu5YjMFPJ7kxa5b-e1qbnuol9Kb2QEqVBU7QvNTk7sYsaR2xNAeQA>
-    <xmx:Qbu5YhXXjVAXOL0m94D1DrZvqDq7wjNOF4deCYi8ckWf2tSYjUG4Mg>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Jun 2022 10:14:24 -0400 (EDT)
-Subject: Re: [PATCH v1 1/3] dt-bindings: interrupt-controller: Require trigger
- type for T-HEAD PLIC
-To:     Guo Ren <guoren@kernel.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Sagar Kadam <sagar.kadam@sifive.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>
-References: <20220627051257.38543-1-samuel@sholland.org>
- <20220627051257.38543-2-samuel@sholland.org>
- <CAJF2gTSq1NsBWRCg+kpTbJRwSeE30P9NVB5di6vzi7m2CFRzHw@mail.gmail.com>
-From:   Samuel Holland <samuel@sholland.org>
-Message-ID: <ab5b4722-8219-ab1c-e9d8-2c00e52040da@sholland.org>
-Date:   Mon, 27 Jun 2022 09:14:23 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        Mon, 27 Jun 2022 10:17:03 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B976513EBC;
+        Mon, 27 Jun 2022 07:16:59 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id o9so13215636edt.12;
+        Mon, 27 Jun 2022 07:16:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mxDYyaY89H5EEfQVpEFxonV022j7M6z20MFWKjTlNFg=;
+        b=Qk0/EglqTX5KDRowJv35NcK7NDq76PkEU72HzKvwT77kpEL65fNlFFuC8njT9TUmVv
+         oprUM/cV0SpRVAwIqHxCIfR3jTxTN2rheZ75ZX4i1Fbt6sylkGae3VDGg6zLxLRYVDOQ
+         UIoHYKzRCM3jY1kUFzsWyiGkveLVr2u43nyoEhxTV00D1aKwPyzyjSdpIadRfqtowDqd
+         HcYTrrbNUK+JGJrcYh2KzAOf/iKYc2oCPrPZJUK36KBQiPZe9CoAJiP4q1z+eEqOFyWw
+         T1bgSkFTgCUqLunj0XMMO0gvldNMl09Ib9pKcPhbi6Tz0UU8DhLKBym8dJEOWlcQkKnZ
+         73Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mxDYyaY89H5EEfQVpEFxonV022j7M6z20MFWKjTlNFg=;
+        b=d/m+91Z3QY6BwFACV2+NMKT2Y1rmNFjAWpvoXc9/hcYlScRRHkQr6BJiUXs8tWMzLC
+         ZFHFge7OL2aSA6wrIUqy9dG+HIwxmwryLn8yrhKRFpM5Jy8yowcgDrxmgoKAF3pbjlk/
+         Wo43ymwZXITsVk2LGmo0NKb5mJbviCoztx5W9fTFDJ1OqDNsByEsaLhmQdEhmOzSQNVd
+         2GdD+Z4eKOkFPGor7Pnn+t8g6yqSPVNm2TePav+18r1/HvwgxJ+QVv1T53MJwfMY9Cqz
+         Rv2+GvYRHxYITTcum211nhMgRM68tnuxuj7A4APvGXa9+1pUgkl8az8bymMRG7C0Zidu
+         LgkA==
+X-Gm-Message-State: AJIora+GgkpNcZTEwB0EN51LSAudeaJBLzAN7jHnpnEjF1ErL9Qm/8e2
+        +9YzznrhBwioo8P02DrHplq7QFJqstNYYP/wYCE=
+X-Google-Smtp-Source: AGRyM1smieOYkbwkdYTJgUqEsMZQclsTD1DaOkAuXXPHKDskOVgnam8GfZY8mVRNQRLOv4PDHfacH1xT6lu8DV40k4s=
+X-Received: by 2002:a05:6402:42d3:b0:435:2c49:313d with SMTP id
+ i19-20020a05640242d300b004352c49313dmr16224916edc.86.1656339418100; Mon, 27
+ Jun 2022 07:16:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJF2gTSq1NsBWRCg+kpTbJRwSeE30P9NVB5di6vzi7m2CFRzHw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220626004326.8548-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220626004326.8548-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <87wnd3erab.wl-maz@kernel.org> <CA+V-a8tcxj_N0sBHhgAZAN8WSJ12JnDzAvUUnCXto3wHLqNVwg@mail.gmail.com>
+ <87v8snehwi.wl-maz@kernel.org> <CAMuHMdVt9FjCtvMgJcCh=g2b+8b-fgabGbOLDcXNrrPMpC+3jQ@mail.gmail.com>
+ <CA+V-a8uLzLJ=wB6oUu0b2oZO=FPSCTSrqb=3m9=BJxATFKmjMw@mail.gmail.com>
+ <CAMuHMdUWC_7MPnP6LcOqi96FAhrAENC4iwtv2ksZVnvR8BC4ww@mail.gmail.com> <0fdbfdd0ee1c7ca39f8d3e2f86af1194@kernel.org>
+In-Reply-To: <0fdbfdd0ee1c7ca39f8d3e2f86af1194@kernel.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 27 Jun 2022 15:16:31 +0100
+Message-ID: <CA+V-a8u8X+bne_a3LY13zGTKr-hOWhm=R9gGX1JyE8PzWRNXpQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] irqchip/sifive-plic: Add support for Renesas
+ RZ/Five SoC
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sagar Kadam <sagar.kadam@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 6/27/22 2:40 AM, Guo Ren wrote:
-> On Mon, Jun 27, 2022 at 1:13 PM Samuel Holland <samuel@sholland.org> wrote:
->>
->> The RISC-V PLIC specification unfortunately allows PLIC implementations
->> to ignore edges seen while an edge-triggered interrupt is being handled:
->>
->>   Depending on the design of the device and the interrupt handler,
->>   in between sending an interrupt request and receiving notice of its
->>   handler’s completion, the gateway might either ignore additional
->>   matching edges or increment a counter of pending interrupts.
->>
->> For PLICs with that misfeature, software needs to know the trigger type
->> of each interrupt. This allows it to work around the issue by completing
->> edge-triggered interrupts before handling them. Such a workaround is
->> required to avoid missing any edges.
->>
->> The T-HEAD C9xx PLIC is an example of a PLIC with this behavior.
-> Actually, C9xx support pulse signals which configed by
-> pad_plic_int_cfg_x for SoC vendor:
-> 
-> https://github.com/T-head-Semi/openc906/blob/main/C906_RTL_FACTORY/gen_rtl/plic/rtl/plic_int_kid.v
-> 104: assign int_new_pending = pad_plic_int_cfg_x ? int_pulse
-> 105:
->         : level_int_pending;
-> 
-> They could put pad_plic_int_cfg_x into the SoC software config
-> registers region or bind them to constant values.
+Hi Marc,
 
-The issue here is the "!int_active" condition for int_new_set_pending,
-regardless of that configuration input.
+On Mon, Jun 27, 2022 at 2:53 PM Marc Zyngier <maz@kernel.org> wrote:
+>
+> On 2022-06-27 14:12, Geert Uytterhoeven wrote:
+> > Hi Prabhakar,
+> >
+> > On Mon, Jun 27, 2022 at 3:06 PM Lad, Prabhakar
+> > <prabhakar.csengg@gmail.com> wrote:
+> >> On Mon, Jun 27, 2022 at 9:53 AM Geert Uytterhoeven
+> >> <geert@linux-m68k.org> wrote:
+> >> > On Sun, Jun 26, 2022 at 2:19 PM Marc Zyngier <maz@kernel.org> wrote:
+> >> > > On Sun, 26 Jun 2022 10:38:18 +0100,
+> >> > > "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
+> >> > > > On Sun, Jun 26, 2022 at 9:56 AM Marc Zyngier <maz@kernel.org> wrote:
+> >> > > > > On Sun, 26 Jun 2022 01:43:26 +0100,
+> >> > > > > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> >> > > > > > The Renesas RZ/Five SoC has a RISC-V AX45MP AndesCore with NCEPLIC100. The
+> >> > > > > > NCEPLIC100 supports both edge-triggered and level-triggered interrupts. In
+> >> > > > > > case of edge-triggered interrupts NCEPLIC100 ignores the next interrupt
+> >> > > > > > edge until the previous completion message has been received and
+> >> > > > > > NCEPLIC100 doesn't support pending interrupt counter, hence losing the
+> >> > > > > > interrupts if not acknowledged in time.
+> >> > > > > >
+> >> > > > > > So the workaround for edge-triggered interrupts to be handled correctly
+> >> > > > > > and without losing is that it needs to be acknowledged first and then
+> >> > > > > > handler must be run so that we don't miss on the next edge-triggered
+> >> > > > > > interrupt.
+> >> > > > > >
+> >> > > > > > This patch adds a new compatible string for Renesas RZ/Five SoC and adds
+> >> > > > > > support to change interrupt flow based on the interrupt type. It also
+> >> > > > > > implements irq_ack and irq_set_type callbacks.
+> >> > > > > >
+> >> > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >> >
+> >> > > > > > +     if (of_device_is_compatible(node, "renesas,r9a07g043-plic")) {
+> >> > > > > > +             priv->of_data = RENESAS_R9A07G043_PLIC;
+> >> > > > > > +             plic_chip.name = "Renesas RZ/Five PLIC";
+> >> > > > >
+> >> > > > > NAK. The irq_chip structure isn't the place for platform marketing.
+> >> > > > > This is way too long anyway (and same for the edge version), and you
+> >> > > > > even sent me a patch to make that structure const...
+> >> > > > >
+> >> > > > My bad will drop this.
+> >> > >
+> >> > > And why you're at it, please turn this rather random 'of_data' into
+> >> > > something like:
+> >> > >
+> >> > > diff --git a/drivers/irqchip/irq-sifive-plic.c b/drivers/irqchip/irq-sifive-plic.c
+> >> > > index bb87e4c3b88e..cd1683b77caf 100644
+> >> > > --- a/drivers/irqchip/irq-sifive-plic.c
+> >> > > +++ b/drivers/irqchip/irq-sifive-plic.c
+> >> > > @@ -64,6 +64,10 @@ struct plic_priv {
+> >> > >         struct cpumask lmask;
+> >> > >         struct irq_domain *irqdomain;
+> >> > >         void __iomem *regs;
+> >> > > +       enum {
+> >> > > +               VANILLA_PLIC,
+> >> > > +               RENESAS_R9A07G043_PLIC,
+> >> > > +       } flavour;
+> >> > >  };
+> >> > >
+> >> > >  struct plic_handler {
+> >> > >
+> >> > > to give some structure to the whole thing, because I'm pretty sure
+> >> > > we'll see more braindead implementations as time goes by.
+> >> >
+> >> > What about using a feature flag (e.g. had_edge_irqs) instead?
+> >>
+> >> diff --git a/drivers/irqchip/irq-sifive-plic.c
+> >> b/drivers/irqchip/irq-sifive-plic.c
+> >> index 9f16833dcb41..247c3c98b655 100644
+> >> --- a/drivers/irqchip/irq-sifive-plic.c
+> >> +++ b/drivers/irqchip/irq-sifive-plic.c
+> >> @@ -60,13 +60,13 @@
+> >>  #define        PLIC_DISABLE_THRESHOLD          0x7
+> >>  #define        PLIC_ENABLE_THRESHOLD           0
+> >>
+> >> +#define PLIC_QUIRK_EDGE_INTERRUPT      BIT(0)
+> >>
+> >>  struct plic_priv {
+> >>         struct cpumask lmask;
+> >>         struct irq_domain *irqdomain;
+> >>         void __iomem *regs;
+> >> +       u32 plic_quirks;
+> >>  };
+> >>
+> >> What about something like above?
+> >
+> > LGTM.
+> >
+> > Marc suggested to make this unsigned long, but TBH, that won't make
+> > much of a difference.  PLICs are present on RV32 SoCs, too, so you
+> > cannot rely on having more than 32 bits anyway.
+>
+> But it will make a difference on a 64bit platform, as we want to
+> use test_bit() and co to check for features.
+>
+Ok will change that to unsigned long and use the test_bit/set_bit instead.
 
-For interrupt sources that send pulses, those pulses will be lost if they are
-received while int_active is true. So the driver has to make sure int_active is
-false _before_ servicing an interrupt, or it may miss the next one. This means
-the driver needs to know which interrupt _sources_ send pulses and which ones
-assert levels.
-
-For level interrupts, pad_plic_int_cfg_x had better be 0, but that is a
-hardware/firmware configuration concern. The driver should not have to care
-about that.
-
-(On the Allwinner D1, those inputs are memory mapped, which was the reason for
-the stacked interrupt controller mentioned in my other reply. But while
-pad_plic_int_cfg_x == 1 only works with edge interrupts, the pad_plic_int_cfg_x
-== 0 choice works with either kind of interrupt source, so the stacked driver is
-not really needed.)
-
-Regards,
-Samuel
+Cheers,
+Prabhakar
