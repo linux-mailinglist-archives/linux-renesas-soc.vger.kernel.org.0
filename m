@@ -2,185 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 593F755C337
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 14:48:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1094455E4DC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:39:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343653AbiF1Hzh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Jun 2022 03:55:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51148 "EHLO
+        id S1346643AbiF1NfI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Jun 2022 09:35:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343659AbiF1Hzf (ORCPT
+        with ESMTP id S1345541AbiF1NfF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Jun 2022 03:55:35 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08E441581C;
-        Tue, 28 Jun 2022 00:55:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9FE5560EC8;
-        Tue, 28 Jun 2022 07:55:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F06D4C341C6;
-        Tue, 28 Jun 2022 07:55:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656402933;
-        bh=IupijrcDgqt6dfkeSK5H+pNqJwXwR4adqvvRmmKP5sc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=paGx7XfbzxmoD6s8mMOY4mzGbS2u9WekunAOEYaz+9lezGJxV4BJ3ivCKJIMv12s2
-         sIG7TOcSHwTl/IhgC090IGhxSjQX/HvKsRipbz7GIQ9GSjYB4sn8dxAHNTr51LTY+I
-         6XUA2Mz0i/z4ZacC46QQM/aXopEgvL4qxGXimz5dD3/fcJe5BEpV04BkCr66vmARPG
-         KAnfMCt2Q0STLg6k6gG90Wp/xabYeF2/+odjNEUzZ+sE6wJivs4ej5VS8iU77M58dI
-         CXOTtjtKp9GtqzE/x+vzWb0PkcjWiiJEljuvb6/rVFvUVHrzi/upwI/dbFXHN7AfTv
-         rS+hYZCmVVUhg==
-Received: by mail-vs1-f45.google.com with SMTP id w187so11268297vsb.1;
-        Tue, 28 Jun 2022 00:55:32 -0700 (PDT)
-X-Gm-Message-State: AJIora/pljw6rbFqvhFH6AIcQ5gKmT4dbn+O/AzGl/gmwbit73ItCBt5
-        USi1ZVCjw7K7I9zEEd93smNFxVupDhUbM+Cvots=
-X-Google-Smtp-Source: AGRyM1sZHbrnSo9VFN7K3myYkXRhM98Iy11cmoI8nqJ+4ldlVk/ZiXXwVXgC4FMCw2mOFBDVLbXR+0jMWfuApvm2ZAg=
-X-Received: by 2002:a05:6102:f8b:b0:354:57e8:4c1b with SMTP id
- e11-20020a0561020f8b00b0035457e84c1bmr1315164vsv.8.1656402931955; Tue, 28 Jun
- 2022 00:55:31 -0700 (PDT)
+        Tue, 28 Jun 2022 09:35:05 -0400
+X-Greylist: delayed 3567 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 28 Jun 2022 06:35:01 PDT
+Received: from www2055.sakura.ne.jp (www2055.sakura.ne.jp [59.106.171.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FBD27661;
+        Tue, 28 Jun 2022 06:35:00 -0700 (PDT)
+Received: from fsav315.sakura.ne.jp (fsav315.sakura.ne.jp [153.120.85.146])
+        by www2055.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 25S97Gau026635;
+        Tue, 28 Jun 2022 18:07:16 +0900 (JST)
+        (envelope-from 1955@kkden.co.jp)
+Received: from www2055.sakura.ne.jp (59.106.171.65)
+ by fsav315.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav315.sakura.ne.jp);
+ Tue, 28 Jun 2022 18:07:16 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav315.sakura.ne.jp)
+Received: from www2055.sakura.ne.jp (localhost [127.0.0.1])
+        by www2055.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 25S97Dsm026581;
+        Tue, 28 Jun 2022 18:07:16 +0900 (JST)
+        (envelope-from 1955@kkden.co.jp)
+Received: (from kkden@localhost)
+        by www2055.sakura.ne.jp (8.15.2/8.15.2/Submit) id 25S97DN6026577;
+        Tue, 28 Jun 2022 18:07:13 +0900 (JST)
+        (envelope-from 1955@kkden.co.jp)
+Message-Id: <202206280907.25S97DN6026577@www2055.sakura.ne.jp>
+X-Authentication-Warning: www2055.sakura.ne.jp: kkden set sender to 1955@kkden.co.jp using -f
+Subject: THIS IS VERY CONFIDENTIAL
+From:   Steve Dibenedetto <1955@kkden.co.jp>
+To:     stevedibenedetto17@gmail.com
 MIME-Version: 1.0
-References: <20220627051257.38543-1-samuel@sholland.org> <20220627051257.38543-2-samuel@sholland.org>
-In-Reply-To: <20220627051257.38543-2-samuel@sholland.org>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Tue, 28 Jun 2022 15:55:20 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTTuBagHb0SHZqFjUP9bryVs=AnOTF8z2pxqEfmX4g14zQ@mail.gmail.com>
-Message-ID: <CAJF2gTTuBagHb0SHZqFjUP9bryVs=AnOTF8z2pxqEfmX4g14zQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] dt-bindings: interrupt-controller: Require trigger
- type for T-HEAD PLIC
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Sagar Kadam <sagar.kadam@sifive.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Date:   Tue, 28 Jun 2022 18:07:13 +0900
+Content-Type: text/plain; charset="ISO-2022-JP"
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=1.3 required=5.0 tests=BAYES_50,SPF_HELO_NONE,
+        SPF_NONE,SUBJ_ALL_CAPS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Reviewed-by: Guo Ren <guoren@kernel.org>
 
-On Mon, Jun 27, 2022 at 1:13 PM Samuel Holland <samuel@sholland.org> wrote:
->
-> The RISC-V PLIC specification unfortunately allows PLIC implementations
-> to ignore edges seen while an edge-triggered interrupt is being handled:
->
->   Depending on the design of the device and the interrupt handler,
->   in between sending an interrupt request and receiving notice of its
->   handler=E2=80=99s completion, the gateway might either ignore additiona=
-l
->   matching edges or increment a counter of pending interrupts.
->
-> For PLICs with that misfeature, software needs to know the trigger type
-> of each interrupt. This allows it to work around the issue by completing
-> edge-triggered interrupts before handling them. Such a workaround is
-> required to avoid missing any edges.
->
-> The T-HEAD C9xx PLIC is an example of a PLIC with this behavior.
->
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
->
->  .../sifive,plic-1.0.0.yaml                    | 31 ++++++++++++++++---
->  1 file changed, 27 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/sifiv=
-e,plic-1.0.0.yaml b/Documentation/devicetree/bindings/interrupt-controller/=
-sifive,plic-1.0.0.yaml
-> index 27092c6a86c4..3c589cbca851 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-=
-1.0.0.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-=
-1.0.0.yaml
-> @@ -26,9 +26,13 @@ description:
->    with priority below this threshold will not cause the PLIC to raise it=
-s
->    interrupt line leading to the context.
->
-> -  While the PLIC supports both edge-triggered and level-triggered interr=
-upts,
-> -  interrupt handlers are oblivious to this distinction and therefore it =
-is not
-> -  specified in the PLIC device-tree binding.
-> +  The PLIC supports both edge-triggered and level-triggered interrupts. =
-For
-> +  edge-triggered interrupts, the RISC-V PLIC spec allows two responses t=
-o edges
-> +  seen while an interrupt handler is active; the PLIC may either queue t=
-hem or
-> +  ignore them. In the first case, handlers are oblivious to the trigger =
-type, so
-> +  it is not included in the interrupt specifier. In the second case, sof=
-tware
-> +  needs to know the trigger type, so it can reorder the interrupt flow t=
-o avoid
-> +  missing interrupts.
->
->    While the RISC-V ISA doesn't specify a memory layout for the PLIC, the
->    "sifive,plic-1.0.0" device is a concrete implementation of the PLIC th=
-at
-> @@ -65,7 +69,8 @@ properties:
->      const: 0
->
->    '#interrupt-cells':
-> -    const: 1
-> +    minimum: 1
-> +    maximum: 2
->
->    interrupt-controller: true
->
-> @@ -91,6 +96,24 @@ required:
->    - interrupts-extended
->    - riscv,ndev
->
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - thead,c900-plic
-> +
-> +    then:
-> +      properties:
-> +        '#interrupt-cells':
-> +          const: 2
-> +
-> +    else:
-> +      properties:
-> +        '#interrupt-cells':
-> +          const: 1
-> +
->  additionalProperties: false
->
->  examples:
-> --
-> 2.35.1
->
+Hello,
 
+My name is Steve Dibenedetto.
+I apologize to have contacted you this way without a direct relationship. There is an opportunity to collaborate with me in the sourcing of some materials needed by our company for production of the different medicines we are researching.
 
---=20
-Best Regards
- Guo Ren
+I'm aware that this might be totally outside your professional specialization, but it will be a great source for generating extra revenue. I  discovered a manufacturer who can supply us at a lower rate than our company's previous purchases.
+I will give you more specific details when/if I receive feedback from you showing interest.
 
-ML: https://lore.kernel.org/linux-csky/
+Warm Regards  
+Steve Dibenedetto
+Production & Control Manager,
+Green Field Laboratories
+Gothic House, Barker Gate,
+Nottingham, NG1 1JU,
+United Kingdom.
