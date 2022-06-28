@@ -2,43 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34A0555E42E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEF6655E3FA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:38:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346054AbiF1NPa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Jun 2022 09:15:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39176 "EHLO
+        id S236306AbiF1NDk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Jun 2022 09:03:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344517AbiF1NP3 (ORCPT
+        with ESMTP id S1346375AbiF1NDM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Jun 2022 09:15:29 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58ECF31236;
-        Tue, 28 Jun 2022 06:15:27 -0700 (PDT)
-Received: from kwepemi500023.china.huawei.com (unknown [172.30.72.53])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LXQ5V2PZCzkWg9;
-        Tue, 28 Jun 2022 21:13:34 +0800 (CST)
-Received: from huawei.com (10.175.112.208) by kwepemi500023.china.huawei.com
- (7.221.188.76) with Microsoft SMTP Server (version=TLS1_2,
+        Tue, 28 Jun 2022 09:03:12 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B74C21EECA;
+        Tue, 28 Jun 2022 06:03:11 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.53])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4LXPrj4yQWz9snC;
+        Tue, 28 Jun 2022 21:02:29 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 28 Jun 2022 21:03:09 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 28 Jun
- 2022 21:15:23 +0800
-From:   Peng Wu <wupeng58@huawei.com>
-To:     <clement.leger@bootlin.com>, <andrew@lunn.ch>,
-        <vivien.didelot@gmail.com>, <f.fainelli@gmail.com>,
-        <olteanv@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
-        <kuba@kernel.org>, <pabeni@redhat.com>
-CC:     <linux-renesas-soc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <liwei391@huawei.com>,
-        <wupeng58@huawei.com>
-Subject: [PATCH] net: dsa: rzn1-a5psw: fix a NULL vs IS_ERR() check in a5psw_probe()
-Date:   Tue, 28 Jun 2022 13:09:20 +0000
-Message-ID: <20220628130920.49493-1-wupeng58@huawei.com>
-X-Mailer: git-send-email 2.17.1
+ 2022 21:03:08 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>
+CC:     <clement.leger@bootlin.com>, <olteanv@gmail.com>,
+        <f.fainelli@gmail.com>, <davem@davemloft.net>
+Subject: [PATCH -next v2] net: pcs-rzn1-miic: fix return value check in miic_probe()
+Date:   Tue, 28 Jun 2022 21:12:59 +0800
+Message-ID: <20220628131259.3109124-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.112.208]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemi500023.china.huawei.com (7.221.188.76)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
 X-CFilter-Loop: Reflected
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -49,30 +51,35 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The devm_platform_ioremap_resource() function never returns NULL.
-It returns error pointers.
+On failure, devm_platform_ioremap_resource() returns a ERR_PTR() value
+and not NULL. Fix return value checking by using IS_ERR() and return
+PTR_ERR() as error value.
 
-Signed-off-by: Peng Wu <wupeng58@huawei.com>
+Fixes: 7dc54d3b8d91 ("net: pcs: add Renesas MII converter driver")
 Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 ---
- drivers/net/dsa/rzn1_a5psw.c | 4 ++--
+v2:
+  change commit message as Clément suggested.
+---
+ drivers/net/pcs/pcs-rzn1-miic.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/dsa/rzn1_a5psw.c b/drivers/net/dsa/rzn1_a5psw.c
-index 3e910da98ae2..5b14e2ba9b79 100644
---- a/drivers/net/dsa/rzn1_a5psw.c
-+++ b/drivers/net/dsa/rzn1_a5psw.c
-@@ -946,8 +946,8 @@ static int a5psw_probe(struct platform_device *pdev)
- 	mutex_init(&a5psw->lk_lock);
- 	spin_lock_init(&a5psw->reg_lock);
- 	a5psw->base = devm_platform_ioremap_resource(pdev, 0);
--	if (!a5psw->base)
+diff --git a/drivers/net/pcs/pcs-rzn1-miic.c b/drivers/net/pcs/pcs-rzn1-miic.c
+index 8f5e910f443d..d896961e48cc 100644
+--- a/drivers/net/pcs/pcs-rzn1-miic.c
++++ b/drivers/net/pcs/pcs-rzn1-miic.c
+@@ -461,8 +461,8 @@ static int miic_probe(struct platform_device *pdev)
+ 	spin_lock_init(&miic->lock);
+ 	miic->dev = dev;
+ 	miic->base = devm_platform_ioremap_resource(pdev, 0);
+-	if (!miic->base)
 -		return -EINVAL;
-+	if (IS_ERR(a5psw->base))
-+		return PTR_ERR(a5psw->base);
++	if (IS_ERR(miic->base))
++		return PTR_ERR(miic->base);
  
- 	ret = a5psw_pcs_get(a5psw);
- 	if (ret)
+ 	ret = devm_pm_runtime_enable(dev);
+ 	if (ret < 0)
 -- 
-2.17.1
+2.25.1
 
