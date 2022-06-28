@@ -2,55 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8800955E7F8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 18:34:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80C2555E835
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 18:35:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347493AbiF1PbO convert rfc822-to-8bit (ORCPT
+        id S1347827AbiF1Pbw convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Jun 2022 11:31:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33920 "EHLO
+        Tue, 28 Jun 2022 11:31:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347536AbiF1PbM (ORCPT
+        with ESMTP id S1347722AbiF1Pbs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Jun 2022 11:31:12 -0400
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11CC8114;
-        Tue, 28 Jun 2022 08:31:12 -0700 (PDT)
-Received: by mail-qk1-f177.google.com with SMTP id z7so9947381qko.8;
-        Tue, 28 Jun 2022 08:31:12 -0700 (PDT)
+        Tue, 28 Jun 2022 11:31:48 -0400
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BB78237E3;
+        Tue, 28 Jun 2022 08:31:47 -0700 (PDT)
+Received: by mail-qv1-f53.google.com with SMTP id 59so20569770qvb.3;
+        Tue, 28 Jun 2022 08:31:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=GTEcnfVpaXRtDZ3sKdJuR57NXUAIRBOjbbKldIE7oQI=;
-        b=VlLODzr7bvLaHmO9EAq4fZ6Pq0R57fdaQeAmQQk8VMC2ORgmZYssVhAiyhTq6OgmAI
-         2L4Eew3FjmEtrjWoNynz+wtFwiL0yasrxiawSfy/71Rg5Js6NkmisE/JTTbmRkpaUsON
-         MfpupgbXmRZKTlQtNJQeJds8+XVUs/ThWiJe7ZlwL4kH/2TBubl7IP7U9hcssBTSqb8T
-         CAJPLVszf154d0tljB0z4pqusR42BX/f4KQK4Ugnpyw9R0tZXUfBRba5gdDi4gEf6GeX
-         vfcXYSOG96q5TadgBgIiaBIOIDVT9Jtzxlyr2AZX/Gj0Pvo3q9zt6A0BUvZ2ov+mfBfL
-         vzhw==
-X-Gm-Message-State: AJIora/5I8ejvGgJPkb518zgAAJkgKHHt/rsSFhZG/IH7tREWdIshk0U
-        UOg5quEPcrb6LEalHutl+txVVqnCcvNfoQ==
-X-Google-Smtp-Source: AGRyM1ukYmhMukrW6cwz6/kCUmaKDypWU+YfY1+ade2atCLk1MMwzE/vdd6Bd8Ejonj1zmJ44fLWyg==
-X-Received: by 2002:a05:620a:480e:b0:6ae:ed43:474e with SMTP id eb14-20020a05620a480e00b006aeed43474emr11905283qkb.218.1656430270783;
-        Tue, 28 Jun 2022 08:31:10 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id l28-20020ac84cdc000000b00304f98ad3c1sm8921327qtv.29.2022.06.28.08.31.09
+        bh=USPqLsPLtBkWtBd33iOftOG5ByagAW/lzRHAmHmeMrI=;
+        b=QBGYznAcmWHhSoYA7oQca1cgBf+cpKsnxYeA4CkOJefcXKtRKNb0FjIyAID3NFtcnZ
+         hQoYlqfvs+w12gtukgOHu28doKfP3mH4hxaA2Jl9fHcmc/57y6+NSogjMjzcdSLCRs8h
+         nHQ6EbL4azXgWCTv+586+loihwPT8vqKCwBC1jAv/XZAULHN4wGytgabvX8x5Ty5ms8t
+         8/nahl72WwPz3bhTC+e/h0UGLymNb/qn+Zb9XwyCo6uXb7oC8mUYObmRRQ2tj4t4meb3
+         xjhZULTMJxfKRFreQQvf0a/w3HU7s1TDg71p4J1+aJMZnKvKj4YKsANbQrrYHpu19CWF
+         9gmw==
+X-Gm-Message-State: AJIora8H2+bOzUsCFOY4Cv6TbON412RKD3ycai5DBFxLprc4LVu7bzfK
+        39nUEZly2H8zJq5Y+koCvOQIBt7xEDrOMA==
+X-Google-Smtp-Source: AGRyM1ujxH5w7gF/IrCDQNigAvtzC2SKm21x2daTEHvW2oAF43DBu6myXGEHgi4BP8tt2V7LXYiCJQ==
+X-Received: by 2002:a05:622a:58c:b0:319:9323:4ac7 with SMTP id c12-20020a05622a058c00b0031993234ac7mr9784785qtb.240.1656430306587;
+        Tue, 28 Jun 2022 08:31:46 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id ea2-20020a05620a488200b006a79d8c8198sm872494qkb.135.2022.06.28.08.31.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jun 2022 08:31:10 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id l11so22779886ybu.13;
-        Tue, 28 Jun 2022 08:31:09 -0700 (PDT)
-X-Received: by 2002:a5b:6c1:0:b0:669:a7c3:4c33 with SMTP id
- r1-20020a5b06c1000000b00669a7c34c33mr20267530ybq.543.1656430268998; Tue, 28
- Jun 2022 08:31:08 -0700 (PDT)
+        Tue, 28 Jun 2022 08:31:46 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-3176d94c236so121230557b3.3;
+        Tue, 28 Jun 2022 08:31:45 -0700 (PDT)
+X-Received: by 2002:a81:74c5:0:b0:31b:ca4b:4bc4 with SMTP id
+ p188-20020a8174c5000000b0031bca4b4bc4mr11868921ywc.358.1656430305609; Tue, 28
+ Jun 2022 08:31:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220624144001.95518-1-clement.leger@bootlin.com> <20220624144001.95518-14-clement.leger@bootlin.com>
-In-Reply-To: <20220624144001.95518-14-clement.leger@bootlin.com>
+References: <20220624144001.95518-1-clement.leger@bootlin.com> <20220624144001.95518-15-clement.leger@bootlin.com>
+In-Reply-To: <20220624144001.95518-15-clement.leger@bootlin.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 28 Jun 2022 17:30:57 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVQnjq=fn0AHrhQNjW+ZgsW-HrsYbf8gWP1iVSUOA00DQ@mail.gmail.com>
-Message-ID: <CAMuHMdVQnjq=fn0AHrhQNjW+ZgsW-HrsYbf8gWP1iVSUOA00DQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v9 13/16] ARM: dts: r9a06g032: describe GMAC2
+Date:   Tue, 28 Jun 2022 17:31:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUfu8BEKMO956n0nP7mHL7xFNFEf8UiBYv0turxktOhgQ@mail.gmail.com>
+Message-ID: <CAMuHMdUfu8BEKMO956n0nP7mHL7xFNFEf8UiBYv0turxktOhgQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v9 14/16] ARM: dts: r9a06g032: describe switch
 To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
 Cc:     Andrew Lunn <andrew@lunn.ch>,
         Vivien Didelot <vivien.didelot@gmail.com>,
@@ -93,14 +93,13 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Fri, Jun 24, 2022 at 4:42 PM Clément Léger <clement.leger@bootlin.com> wrote:
-> RZ/N1 SoC includes two MAC named GMACx that are compatible with the
-> "snps,dwmac" driver. GMAC1 is connected directly to the MII converter
-> port 1. GMAC2 however can be used as the MAC for the switch CPU
-> management port or can be muxed to be connected directly to the MII
-> converter port 2. This commit add description for the GMAC2 which will
-> be used by the switch description.
+> Add description of the switch that is present on the RZ/N1 SoC. This
+> description includes ethernet-ports description for all the ports that
+> are present on the switch along with their connection to the MII
+> converter ports and to the GMAC for the CPU port.
 >
 > Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+> Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v5.20.
