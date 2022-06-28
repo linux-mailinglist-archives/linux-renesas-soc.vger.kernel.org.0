@@ -2,100 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44F3455C9AD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 14:57:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D3BB55DE4C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:28:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344704AbiF1KDt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Jun 2022 06:03:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34142 "EHLO
+        id S1344824AbiF1KRx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Jun 2022 06:17:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344633AbiF1KDX (ORCPT
+        with ESMTP id S1344822AbiF1KRa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Jun 2022 06:03:23 -0400
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE42E2E9DF;
-        Tue, 28 Jun 2022 03:03:21 -0700 (PDT)
-Received: by mail-qv1-f54.google.com with SMTP id 59so19241599qvb.3;
-        Tue, 28 Jun 2022 03:03:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Y6DnWbrDioxwLTi6qSUpdk3hXp2GMF5P/uW1uFfY/eg=;
-        b=hquJL540O1wD1sC/T6E/YgagOwLs7bsYWyNTE1Rr4q5QY+ilwA9uow09mR0lNXvpj+
-         RvVwQKHX8hSDlNynXwNFY+dN4MBZOcYO5grAZhGP+TS/1EiIwZfscC7Jt0pd8FyzPuAM
-         aWFskvRofV6U3t5Pm9tR7gdF7sy8/ZTyxNfW4QTlcWQSJ+tM2fc1bNu49HZGTMrYfNPp
-         rzK1j3h9oaQVJG0CR4O3lbxGNRdTrtUAHBiICJUknP490QFZJIb2uhESKRvBQ3qbzLxR
-         4fCnyhQtoP7AcvKZz0IZhJc+89Deu/ssi1de9ramQIVN9kWduVkon/GPZGLQsoPvXaNy
-         rguA==
-X-Gm-Message-State: AJIora+623Je+7Yl/mqbehDSgEgGxtPyZi9nSK5PHDj4s/U0UWin4e3i
-        rCzt2eCuIL7neg0dfTg6BUIFv+Dw9Sw54A==
-X-Google-Smtp-Source: AGRyM1tjAeE56/NICnzJHpX+vYgoPokIMvFK9bogMQE3wvPwIqTY12ICt13Dyw1IzVeUDKs65HbwXw==
-X-Received: by 2002:a05:622a:1648:b0:305:d833:3aba with SMTP id y8-20020a05622a164800b00305d8333abamr12229650qtj.205.1656410600722;
-        Tue, 28 Jun 2022 03:03:20 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id c190-20020ae9edc7000000b006a743b360bcsm10096444qkg.136.2022.06.28.03.03.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jun 2022 03:03:20 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-3176d94c236so111558937b3.3;
-        Tue, 28 Jun 2022 03:03:19 -0700 (PDT)
-X-Received: by 2002:a81:9bcc:0:b0:317:9ff1:5a39 with SMTP id
- s195-20020a819bcc000000b003179ff15a39mr21179091ywg.384.1656410599473; Tue, 28
- Jun 2022 03:03:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220623083217.26433-1-jslaby@suse.cz> <20220623083217.26433-2-jslaby@suse.cz>
-In-Reply-To: <20220623083217.26433-2-jslaby@suse.cz>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 28 Jun 2022 12:03:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUTizh1pC14Uw+gpT3PQHPTTZP+hhRA_vo1Co5ZnNHMBg@mail.gmail.com>
-Message-ID: <CAMuHMdUTizh1pC14Uw+gpT3PQHPTTZP+hhRA_vo1Co5ZnNHMBg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] clk: renesas: rcar-gen4: Fix initconst confusion for cpg_pll_config
-To:     Jiri Slaby <jslaby@suse.cz>
-Cc:     Michael Turquette <mturquette@baylibre.com>, mliska@suse.cz,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
+        Tue, 28 Jun 2022 06:17:30 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECF5C2FFC7;
+        Tue, 28 Jun 2022 03:17:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656411449; x=1687947449;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=da97cSpZGfX3JUwsbOhO0Vk5xN7SBSQ3IWBi6VYnl+8=;
+  b=M5iF+B5byz5UnOlu4ENOtHdb6xY4LvjMZQ/4676/FAfoXoMx3rkfDN5S
+   1x/SoJxkqUJS3tojpmd/IXLjbcSquHZiLDfq3f+OcDrdnsvCn0eeUuffR
+   vjzlwvJioVt3UPnLKoaKJ5ehP5IeMC01gW39WJKUgHHp/ngE79HIT3u1I
+   I1fbzH0DaW4Lz4XreqY+KwrLEN3iEh7TfGUxUnimdStCnlJikIvkgJLVp
+   iNqjlTYVzAyRXghJJYLk+eWWOxwJzc5F9iU+z/1EFN63eSEBXrzG1C8fm
+   ro38mzFKOTjo+l786wKmsO04YTQqR4fSkY1EDkjDPN/0GqnvGuT22xU5y
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10391"; a="345697975"
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; 
+   d="scan'208";a="345697975"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2022 03:17:29 -0700
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; 
+   d="scan'208";a="693052346"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2022 03:17:25 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1o68HY-000wha-T8;
+        Tue, 28 Jun 2022 13:17:20 +0300
+Date:   Tue, 28 Jun 2022 13:17:20 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Wolfram Sang <wsa@kernel.org>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+        Jie Deng <jie.deng@intel.com>, Jan Dabros <jsd@semihalf.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Tyrone Ting <kfting@nuvoton.com>,
+        Olof Johansson <olof@lixom.net>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 2/2] i2c: Add Renesas RZ/V2M controller
+Message-ID: <YrrVMAdZn9IyQA3b@smile.fi.intel.com>
+References: <20220624101736.27217-1-phil.edworthy@renesas.com>
+ <20220624101736.27217-3-phil.edworthy@renesas.com>
+ <CAK8P3a085ZuyTXAWupo56wwfKdkM9EFnkPHXzxTxwTUUR5ee9Q@mail.gmail.com>
+ <CAMuHMdWNvFARZgM1QX_t9aq1Kh84i2aCxcG5k9LqDM=wQu15pw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWNvFARZgM1QX_t9aq1Kh84i2aCxcG5k9LqDM=wQu15pw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jun 23, 2022 at 10:32 AM Jiri Slaby <jslaby@suse.cz> wrote:
-> From: Andi Kleen <ak@linux.intel.com>
->
-> A variable pointing to const isn't const itself. It'd have to contain
-> "const" keyword after "*" too. Therefore, cpg_pll_config cannot be put
-> to "rodata".  Hence use __initdata instead of __initconst to fix this.
->
-> [js] more explanatory commit message.
->
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Michael Turquette <mturquette@baylibre.com>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: linux-renesas-soc@vger.kernel.org
-> Cc: linux-clk@vger.kernel.org
-> Signed-off-by: Andi Kleen <ak@linux.intel.com>
-> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+On Fri, Jun 24, 2022 at 01:48:58PM +0200, Geert Uytterhoeven wrote:
+> On Fri, Jun 24, 2022 at 1:27 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > On Fri, Jun 24, 2022 at 12:17 PM Phil Edworthy
+> > <phil.edworthy@renesas.com> wrote:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.20.
+...
 
-Gr{oetje,eeting}s,
+> > Remove the #ifdef here, and use the new NOIRQ_SYSTEM_SLEEP_PM_OPS()
+> > in place of SET_NOIRQ_SYSTEM_SLEEP_PM_OPS().
+> 
+> Cool, TIL!
 
-                        Geert
+There are also pm_ptr() and pm_sleep_ptr() macros (need to be used when assign
+dev_pm_ops).
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+-- 
+With Best Regards,
+Andy Shevchenko
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
