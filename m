@@ -2,168 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B64055D36E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:12:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4036455C553
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 14:51:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243497AbiF1DEl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jun 2022 23:04:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52200 "EHLO
+        id S232145AbiF1DZo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jun 2022 23:25:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243334AbiF1DEk (ORCPT
+        with ESMTP id S232078AbiF1DZ3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jun 2022 23:04:40 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CAA212D1D;
-        Mon, 27 Jun 2022 20:04:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id F2ED6B81C0C;
-        Tue, 28 Jun 2022 03:04:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B71DCC341CE;
-        Tue, 28 Jun 2022 03:04:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656385474;
-        bh=Dr3/Y/ZEFbz5YUD1O4lFuoAblnOIw2GNM9YjX37GVH8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=R0ErmPALbkmJwBeVFyS4uRUSDdonftuKGiu/OsMcHbWNRZtqKfZ9pK7eRL8ew+ih9
-         nfc0yHRKBRZdGGxXs8V3gfI7Qjt0wvSahFOx+O0msj5o5L+N+1m/hLOzIlRh+AjRtB
-         nP2Rkx9roqAvNn6R13svRPBDYcSKA2FzvKiHGg99GRehV2MhiZeCjJTIR0cG3nXD4U
-         tgki4uId0RC74c201aGQOQD8diLMtA+XggQVwAttyqEfCsW3OS4R1VIWRNDgysC8DU
-         YlXRbC8Sw5dnMVZ8jxhGVzUmp/75Nsb2dWJ4yBzp0YcAn40RjEZ22wLcCMYlo1HQhy
-         6qVEQIKZKbTKQ==
-Received: by mail-vs1-f46.google.com with SMTP id j1so10743441vsj.12;
-        Mon, 27 Jun 2022 20:04:34 -0700 (PDT)
-X-Gm-Message-State: AJIora97pSiN518gmVzc9550m4iRrnoHIzDNCeq1wLm31MLFyr8CPxdO
-        0qe5ApA4Hr9d9le3/ykrC7pE89IFFEbAmN5ICto=
-X-Google-Smtp-Source: AGRyM1sASgqSd1n8b23qRP+ZhK+QUT6xztdltgnao0HzRVoKiGz7MfrQ2B57jUIY44E4lHuWRgyB3F8u57cQJWE342A=
-X-Received: by 2002:a05:6102:366f:b0:356:352f:9de2 with SMTP id
- bg15-20020a056102366f00b00356352f9de2mr959975vsb.2.1656385473552; Mon, 27 Jun
- 2022 20:04:33 -0700 (PDT)
+        Mon, 27 Jun 2022 23:25:29 -0400
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5055025293;
+        Mon, 27 Jun 2022 20:25:13 -0700 (PDT)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25S2XGe4031609;
+        Tue, 28 Jun 2022 03:25:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2021-07-09;
+ bh=kSJT+QJx8jMx5c3S7XSloN29PWCmb4Z849RHrYsM+3w=;
+ b=quAkqHUKUN5GvRDvvARL65jHBoxgUFAGtXW5bAZ1fR/TYgfF9QxbZxxHZ7QrIiP0PcqK
+ auZUhMfOUTx1ucFj9+E6C+JHvloL3Hl8chlymqjDUJ8f61CB6F9dOd066QFUcye6Nf3p
+ LEHjYODcwjWCQRKOBL0/LN5ZDOZiI4fm6DQ2GxfBNQZFFyFM4k88my4zZA7/futChkkc
+ IulDKfDOh6iapXd/avvVTEIQd6yPryXxZcq7LmcsGk1dvF/Eq4yYKRhS/blTwfd57bCG
+ p/QltXkTjqpxctHfVIQQa3FQK3JAtl5+m9WXX1UbDPLQkAauG2gRzaRX4ix4c/Na8Uri WA== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gwrscctns-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 28 Jun 2022 03:25:04 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25S3F1tk002522;
+        Tue, 28 Jun 2022 03:25:04 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gwrt7jjp9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 28 Jun 2022 03:25:04 +0000
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25S3NvqS016584;
+        Tue, 28 Jun 2022 03:25:03 GMT
+Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gwrt7jjkg-16;
+        Tue, 28 Jun 2022 03:25:03 +0000
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+To:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Avri Altman <avri.altman@wdc.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org
+Subject: Re: [PATCH] ufs: core: fix typos in error messages
+Date:   Mon, 27 Jun 2022 23:24:54 -0400
+Message-Id: <165638665786.7726.10382926053807106409.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220621144653.62630-1-wsa+renesas@sang-engineering.com>
+References: <20220621144653.62630-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-References: <20220627051257.38543-1-samuel@sholland.org> <20220627051257.38543-2-samuel@sholland.org>
- <CAJF2gTSq1NsBWRCg+kpTbJRwSeE30P9NVB5di6vzi7m2CFRzHw@mail.gmail.com> <ab5b4722-8219-ab1c-e9d8-2c00e52040da@sholland.org>
-In-Reply-To: <ab5b4722-8219-ab1c-e9d8-2c00e52040da@sholland.org>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Tue, 28 Jun 2022 11:04:22 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTR5Zb4TZbomVLbJdHG=JYrM9UkS4hxGeShXu0eu+SqpjQ@mail.gmail.com>
-Message-ID: <CAJF2gTR5Zb4TZbomVLbJdHG=JYrM9UkS4hxGeShXu0eu+SqpjQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] dt-bindings: interrupt-controller: Require trigger
- type for T-HEAD PLIC
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Sagar Kadam <sagar.kadam@sifive.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: WTChrtkN_PrVrEZCWp3n0ciDfqm3IKQr
+X-Proofpoint-GUID: WTChrtkN_PrVrEZCWp3n0ciDfqm3IKQr
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 27, 2022 at 10:14 PM Samuel Holland <samuel@sholland.org> wrote=
-:
->
-> On 6/27/22 2:40 AM, Guo Ren wrote:
-> > On Mon, Jun 27, 2022 at 1:13 PM Samuel Holland <samuel@sholland.org> wr=
-ote:
-> >>
-> >> The RISC-V PLIC specification unfortunately allows PLIC implementation=
-s
-> >> to ignore edges seen while an edge-triggered interrupt is being handle=
-d:
-> >>
-> >>   Depending on the design of the device and the interrupt handler,
-> >>   in between sending an interrupt request and receiving notice of its
-> >>   handler=E2=80=99s completion, the gateway might either ignore additi=
-onal
-> >>   matching edges or increment a counter of pending interrupts.
-> >>
-> >> For PLICs with that misfeature, software needs to know the trigger typ=
-e
-> >> of each interrupt. This allows it to work around the issue by completi=
-ng
-> >> edge-triggered interrupts before handling them. Such a workaround is
-> >> required to avoid missing any edges.
-> >>
-> >> The T-HEAD C9xx PLIC is an example of a PLIC with this behavior.
-> > Actually, C9xx support pulse signals which configed by
-> > pad_plic_int_cfg_x for SoC vendor:
-> >
-> > https://github.com/T-head-Semi/openc906/blob/main/C906_RTL_FACTORY/gen_=
-rtl/plic/rtl/plic_int_kid.v
-> > 104: assign int_new_pending =3D pad_plic_int_cfg_x ? int_pulse
-> > 105:
-> >         : level_int_pending;
-> >
-> > They could put pad_plic_int_cfg_x into the SoC software config
-> > registers region or bind them to constant values.
->
-> The issue here is the "!int_active" condition for int_new_set_pending,
-> regardless of that configuration input.
->
-> For interrupt sources that send pulses, those pulses will be lost if they=
- are
-> received while int_active is true. So the driver has to make sure int_act=
-ive is
-> false _before_ servicing an interrupt, or it may miss the next one. This =
-means
-> the driver needs to know which interrupt _sources_ send pulses and which =
-ones
-> assert levels.
-You are right, in plus mode, we can't receive any interrupt between
-claim & complete, then the irq could be lost.
+On Tue, 21 Jun 2022 16:46:53 +0200, Wolfram Sang wrote:
 
-I think the design follows the sentence written by PLIC spec:
-https://github.com/riscv/riscv-plic-spec/blob/master/riscv-plic.adoc
+> Should be "retries" instead of "retires".
+> 
+> 
 
-If the global interrupt source was edge-triggered, the gateway will
-convert the =EF=AC=81rst matching signal edge into an interrupt request.
-Depending on the design of the device and the interrupt handler, in
-between sending an interrupt request and receiving notice of its
-handler=E2=80=99s completion, the gateway might either **ignore additional
-matching edges** or increment a counter of pending interrupts.
+Applied to 5.20/scsi-queue, thanks!
 
-Also, the hardware could easily support the feature, but the engineer
-follows the first choice and disable the useful function. -_*!
+[1/1] ufs: core: fix typos in error messages
+      https://git.kernel.org/mkp/scsi/c/82ede9c19839
 
->
-> For level interrupts, pad_plic_int_cfg_x had better be 0, but that is a
-> hardware/firmware configuration concern. The driver should not have to ca=
-re
-> about that.
->
-> (On the Allwinner D1, those inputs are memory mapped, which was the reaso=
-n for
-> the stacked interrupt controller mentioned in my other reply. But while
-> pad_plic_int_cfg_x =3D=3D 1 only works with edge interrupts, the pad_plic=
-_int_cfg_x
-> =3D=3D 0 choice works with either kind of interrupt source, so the stacke=
-d driver is
-> not really needed.)
->
-> Regards,
-> Samuel
---
-Best Regards
- Guo Ren
-
-ML: https://lore.kernel.org/linux-csky/
+-- 
+Martin K. Petersen	Oracle Linux Engineering
