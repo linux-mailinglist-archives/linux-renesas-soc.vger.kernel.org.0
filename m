@@ -2,644 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FF9455EE1D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 21:50:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A6AC55EE5C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 21:59:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231921AbiF1TuC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Jun 2022 15:50:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45704 "EHLO
+        id S230178AbiF1Tx1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Jun 2022 15:53:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232191AbiF1Tts (ORCPT
+        with ESMTP id S232953AbiF1Tvf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Jun 2022 15:49:48 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 476E1396BC;
-        Tue, 28 Jun 2022 12:46:22 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.92,229,1650898800"; 
-   d="scan'208";a="124410371"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 29 Jun 2022 04:46:21 +0900
-Received: from localhost.localdomain (unknown [10.226.92.14])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 258E1400D4E5;
-        Wed, 29 Jun 2022 04:46:15 +0900 (JST)
-From:   Phil Edworthy <phil.edworthy@renesas.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Sam Protsenko <semen.protsenko@linaro.org>,
-        Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>,
-        Jan Dabros <jsd@semihalf.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Tyrone Ting <kfting@nuvoton.com>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 2/2] i2c: Add Renesas RZ/V2M controller
-Date:   Tue, 28 Jun 2022 20:45:26 +0100
-Message-Id: <20220628194526.111501-3-phil.edworthy@renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220628194526.111501-1-phil.edworthy@renesas.com>
-References: <20220628194526.111501-1-phil.edworthy@renesas.com>
+        Tue, 28 Jun 2022 15:51:35 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3619C117;
+        Tue, 28 Jun 2022 12:50:47 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E46B94A8;
+        Tue, 28 Jun 2022 21:50:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656445845;
+        bh=OlpiP+HgWNzhiZpgyOTlk/YNDcsXgQdSvp4L6NqFtWc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=W9B0Kph5wpuQDsJy5iwKU53ZWL1A0t9S0s1Jebo/o2yBoes+vORwkZgV+lf7r018C
+         YQIvsJhfsRVltSMAPthun+KR/qGTTQtswF1aMPR2gHUEbqm6+JpKPeNKsd/jvgi5ix
+         T8YJuJtvrvQUchbeHpJwGLrRz1iMzXGa6dW8zFyA=
+Date:   Tue, 28 Jun 2022 22:50:25 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+        Eugen Friedrich <efriedrich@de.adit-jv.com>,
+        Eugeniu Rosca <rosca.eugeniu@gmail.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [RFC PATCH v2] media: renesas: vsp1: Add VSPD underrun detection
+ & tracing
+Message-ID: <YrtbgUhNS8Z1pgVA@pendragon.ideasonboard.com>
+References: <1651584010-10156-1-git-send-email-erosca@de.adit-jv.com>
+ <YripkuWiMOcOl8Qu@pendragon.ideasonboard.com>
+ <20220628190534.GA22969@lxhi-065>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220628190534.GA22969@lxhi-065>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Yet another i2c controller from Renesas that is found on the RZ/V2M
-(r9a09g011) SoC. It can support only 100kHz and 400KHz operation.
+Hi Eugeniu,
 
-Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2:
- - Use the new NOIRQ_SYSTEM_SLEEP_PM_OPS() as suggested by Arnd
- - Lots of small fixes based on Geert's review
----
- drivers/i2c/busses/Kconfig     |  10 +
- drivers/i2c/busses/Makefile    |   1 +
- drivers/i2c/busses/i2c-rzv2m.c | 530 +++++++++++++++++++++++++++++++++
- 3 files changed, 541 insertions(+)
- create mode 100644 drivers/i2c/busses/i2c-rzv2m.c
+On Tue, Jun 28, 2022 at 09:05:34PM +0200, Eugeniu Rosca wrote:
+> On So, Jun 26, 2022 at 09:46:42 +0300, Laurent Pinchart wrote:
+> > On Tue, May 03, 2022 at 03:20:10PM +0200, Eugeniu Rosca wrote:
+> > > 
+> > > Troubleshooting the above without the right tools becomes a nightmare.
+> > 
+> > Having spent lots of time working in userspace recently, I can't agree
+> > more.
+> 
+> Thanks for the feedback and for endorsing the utility of this patch.
+> 
+> > > +static int vspd_underrun[VSPD_MAX_NUM];
+> > > +module_param_array(vspd_underrun, int, NULL, 0444);
+> > > +MODULE_PARM_DESC(vspd_underrun, "VSPD underrun counter");
+> > 
+> > Module parameters are not meant to convey information back to userspace.
+> > This should be done through either a debugfs file or a sysfs file. Given
+> > the debugging nature of this feature, I'd recommend the former.
+> 
+> It is a bit unfortunate that we have to go the debugFS route, since I
+> recall at least one Customer in the past, who disabled the debugFS in
+> the end product, since it was the only available means to meet the
+> stringent automotive requirements (w.r.t. KNL binary size). Anybody
+> who has no choice but to disable debugFS will consequently not be able
+> to take advantage of this patch in the production/release software.
 
-diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-index b1d7069dd377..9e3f9eb1ea3c 100644
---- a/drivers/i2c/busses/Kconfig
-+++ b/drivers/i2c/busses/Kconfig
-@@ -984,6 +984,16 @@ config I2C_RK3X
- 	  This driver can also be built as a module. If so, the module will
- 	  be called i2c-rk3x.
- 
-+config I2C_RZV2M
-+	tristate "Renesas RZ/V2M adapter"
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	help
-+	  If you say yes to this option, support will be included for the
-+	  Renesas RZ/V2M  I2C interface.
-+
-+	  This driver can also be built as a module.  If so, the module
-+	  will be called i2c-rzv2m.
-+
- config I2C_S3C2410
- 	tristate "S3C/Exynos I2C Driver"
- 	depends on ARCH_EXYNOS || ARCH_S3C24XX || ARCH_S3C64XX || \
-diff --git a/drivers/i2c/busses/Makefile b/drivers/i2c/busses/Makefile
-index b0a10e5d9ee9..7792ffc591f0 100644
---- a/drivers/i2c/busses/Makefile
-+++ b/drivers/i2c/busses/Makefile
-@@ -101,6 +101,7 @@ obj-$(CONFIG_I2C_QCOM_GENI)	+= i2c-qcom-geni.o
- obj-$(CONFIG_I2C_QUP)		+= i2c-qup.o
- obj-$(CONFIG_I2C_RIIC)		+= i2c-riic.o
- obj-$(CONFIG_I2C_RK3X)		+= i2c-rk3x.o
-+obj-$(CONFIG_I2C_RZV2M)		+= i2c-rzv2m.o
- obj-$(CONFIG_I2C_S3C2410)	+= i2c-s3c2410.o
- obj-$(CONFIG_I2C_SH7760)	+= i2c-sh7760.o
- obj-$(CONFIG_I2C_SH_MOBILE)	+= i2c-sh_mobile.o
-diff --git a/drivers/i2c/busses/i2c-rzv2m.c b/drivers/i2c/busses/i2c-rzv2m.c
-new file mode 100644
-index 000000000000..ab326d557dc5
---- /dev/null
-+++ b/drivers/i2c/busses/i2c-rzv2m.c
-@@ -0,0 +1,530 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Driver for the Renesas RZ/V2M I2C unit
-+ *
-+ * Copyright (C) 2016-2022 Renesas Electronics Corporation
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/err.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/iopoll.h>
-+#include <linux/i2c.h>
-+#include <linux/jiffies.h>
-+#include <linux/kernel.h>
-+#include <linux/math64.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/reset.h>
-+
-+/* Register offsets */
-+#define IICB0DAT	0x00		/* Data Register */
-+#define IICB0CTL0	0x08		/* Control Register 0 */
-+#define IICB0TRG	0x0C		/* Trigger Register */
-+#define IICB0STR0	0x10		/* Status Register 0 */
-+#define IICB0CTL1	0x20		/* Control Register 1 */
-+#define IICB0WL		0x24		/* Low Level Width Setting Reg */
-+#define IICB0WH		0x28		/* How Level Width Setting Reg */
-+
-+/* IICB0CTL0 */
-+#define IICB0IICE	BIT(7)		/* I2C Enable */
-+#define IICB0SLWT	BIT(1)		/* Interrupt Request Timing */
-+#define IICB0SLAC	BIT(0)		/* Acknowledge */
-+
-+/* IICB0TRG */
-+#define IICB0WRET	BIT(2)		/* Quit Wait Trigger */
-+#define IICB0STT	BIT(1)		/* Create Start Condition Trigger */
-+#define IICB0SPT	BIT(0)		/* Create Stop Condition Trigger */
-+
-+/* IICB0STR0 */
-+#define IICB0SSAC	BIT(8)		/* Ack Flag */
-+#define IICB0SSBS	BIT(6)		/* Bus Flag */
-+#define IICB0SSSP	BIT(4)		/* Stop Condition Flag */
-+
-+/* IICB0CTL1 */
-+#define IICB0MDSC	BIT(7)		/* Bus Mode */
-+#define IICB0SLSE	BIT(1)		/* Start condition output */
-+
-+#define rzv2m_i2c_priv_to_dev(p)	((p)->adap.dev.parent)
-+
-+#define bit_setl(addr, val)		writel(readl(addr) | (val), (addr))
-+#define bit_clrl(addr, val)		writel(readl(addr) & ~(val), (addr))
-+
-+struct rzv2m_i2c_priv {
-+	void __iomem *base;
-+	struct i2c_adapter adap;
-+	struct clk *clk;
-+	int bus_mode;
-+	struct completion msg_tia_done;
-+	u32 iicb0wl;
-+	u32 iicb0wh;
-+};
-+
-+enum bcr_index {
-+	RZV2M_I2C_100K = 0,
-+	RZV2M_I2C_400K,
-+};
-+
-+struct bitrate_config {
-+	unsigned int percent_low;
-+	unsigned int min_hold_time_ns;
-+};
-+
-+static const struct bitrate_config bitrate_configs[] = {
-+	[RZV2M_I2C_100K] = { 47, 3450 },
-+	[RZV2M_I2C_400K] = { 52, 900},
-+};
-+
-+static irqreturn_t rzv2m_i2c_tia_irq_handler(int this_irq, void *dev_id)
-+{
-+	struct rzv2m_i2c_priv *priv = dev_id;
-+
-+	complete(&priv->msg_tia_done);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+/* Calculate IICB0WL and IICB0WH */
-+static int rzv2m_i2c_clock_calculate(struct device *dev,
-+				     struct rzv2m_i2c_priv *priv)
-+{
-+	const struct bitrate_config *config;
-+	unsigned int hold_time_ns;
-+	unsigned int total_pclks;
-+	unsigned int trf_pclks;
-+	unsigned long pclk_hz;
-+	struct i2c_timings t;
-+	u32 trf_ns;
-+
-+	i2c_parse_fw_timings(dev, &t, true);
-+
-+	pclk_hz = clk_get_rate(priv->clk);
-+	total_pclks = pclk_hz / t.bus_freq_hz;
-+
-+	trf_ns = t.scl_rise_ns + t.scl_fall_ns;
-+	trf_pclks = mul_u64_u32_div(pclk_hz, trf_ns, NSEC_PER_SEC);
-+
-+	/* Config setting */
-+	switch (t.bus_freq_hz) {
-+	case I2C_MAX_FAST_MODE_FREQ:
-+		priv->bus_mode = RZV2M_I2C_400K;
-+		break;
-+	case I2C_MAX_STANDARD_MODE_FREQ:
-+		priv->bus_mode = RZV2M_I2C_100K;
-+		break;
-+	default:
-+		dev_err(dev, "transfer speed is invalid\n");
-+		return -EINVAL;
-+	}
-+	config = &bitrate_configs[priv->bus_mode];
-+
-+	/* IICB0WL = (percent_low / Transfer clock) x PCLK */
-+	priv->iicb0wl = total_pclks * config->percent_low / 100;
-+	if (priv->iicb0wl > 0x3ff)
-+		return -EINVAL;
-+
-+	/* IICB0WH = ((percent_high / Transfer clock) x PCLK) - (tR + tF) */
-+	priv->iicb0wh = total_pclks - priv->iicb0wl - trf_pclks;
-+	if (priv->iicb0wh > 0x3ff)
-+		return -EINVAL;
-+
-+	/*
-+	 * Data hold time must be less than 0.9us in fast mode and
-+	 * 3.45us in standard mode.
-+	 * Data hold time = IICB0WL[9:2] / PCLK
-+	 */
-+	hold_time_ns = div64_ul((u64)(priv->iicb0wl >> 2) * NSEC_PER_SEC, pclk_hz);
-+	if (hold_time_ns > config->min_hold_time_ns) {
-+		dev_err(dev, "data hold time %dns is over %dns\n",
-+			hold_time_ns, config->min_hold_time_ns);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static void rzv2m_i2c_init(struct rzv2m_i2c_priv *priv)
-+{
-+	u32 i2c_ctl0;
-+	u32 i2c_ctl1;
-+
-+	/* i2c disable */
-+	writel(0, priv->base + IICB0CTL0);
-+
-+	/* IICB0CTL1 setting */
-+	i2c_ctl1 = IICB0SLSE;
-+	if (priv->bus_mode == RZV2M_I2C_400K)
-+		i2c_ctl1 |= IICB0MDSC;
-+	writel(i2c_ctl1, priv->base + IICB0CTL1);
-+
-+	/* IICB0WL IICB0WH setting */
-+	writel(priv->iicb0wl, priv->base + IICB0WL);
-+	writel(priv->iicb0wh, priv->base + IICB0WH);
-+
-+	/* i2c enable after setting */
-+	i2c_ctl0 = IICB0SLWT | IICB0SLAC | IICB0IICE;
-+	writel(i2c_ctl0, priv->base + IICB0CTL0);
-+}
-+
-+static int rzv2m_i2c_write_with_ack(struct rzv2m_i2c_priv *priv, u32 data)
-+{
-+	unsigned long time_left;
-+
-+	reinit_completion(&priv->msg_tia_done);
-+
-+	writel(data, priv->base + IICB0DAT);
-+
-+	time_left = wait_for_completion_timeout(&priv->msg_tia_done,
-+						priv->adap.timeout);
-+	if (!time_left)
-+		return -ETIMEDOUT;
-+
-+	/* Confirm ACK */
-+	if ((readl(priv->base + IICB0STR0) & IICB0SSAC) != IICB0SSAC)
-+		return -ENXIO;
-+
-+	return 0;
-+}
-+
-+static int rzv2m_i2c_read_with_ACK(struct rzv2m_i2c_priv *priv, u8 *data,
-+				   bool last)
-+{
-+	unsigned long time_left;
-+	u32 data_tmp;
-+
-+	reinit_completion(&priv->msg_tia_done);
-+
-+	/* Interrupt request timing : 8th clock */
-+	bit_clrl(priv->base + IICB0CTL0, IICB0SLWT);
-+
-+	/* Exit the wait state */
-+	writel(IICB0WRET, priv->base + IICB0TRG);
-+
-+	/* Wait for transaction */
-+	time_left = wait_for_completion_timeout(&priv->msg_tia_done,
-+						priv->adap.timeout);
-+	if (!time_left)
-+		return -ETIMEDOUT;
-+
-+	if (!last) {
-+		/* Read data */
-+		data_tmp = readl(priv->base + IICB0DAT);
-+	} else {
-+		/* Disable ACK */
-+		bit_clrl(priv->base + IICB0CTL0, IICB0SLAC);
-+
-+		/* Read data*/
-+		data_tmp = readl(priv->base + IICB0DAT);
-+
-+		/* Interrupt request timing : 9th clock */
-+		bit_setl(priv->base + IICB0CTL0, IICB0SLWT);
-+
-+		/* Exit the wait state */
-+		writel(IICB0WRET, priv->base + IICB0TRG);
-+
-+		/* Wait for transaction */
-+		time_left = wait_for_completion_timeout(&priv->msg_tia_done,
-+							priv->adap.timeout);
-+		if (!time_left)
-+			return -ETIMEDOUT;
-+
-+		/* Enable ACK */
-+		bit_setl(priv->base + IICB0CTL0, IICB0SLAC);
-+	}
-+
-+	*data = data_tmp;
-+
-+	return 0;
-+}
-+
-+static int rzv2m_i2c_send(struct rzv2m_i2c_priv *priv, struct i2c_msg *msg,
-+			  unsigned int *count)
-+{
-+	unsigned int i;
-+	int ret = 0;
-+
-+	for (i = 0; i < msg->len; i++) {
-+		ret = rzv2m_i2c_write_with_ack(priv, msg->buf[i]);
-+		if (ret < 0)
-+			return ret;
-+	}
-+	*count = i;
-+
-+	return ret;
-+}
-+
-+static int rzv2m_i2c_receive(struct rzv2m_i2c_priv *priv, struct i2c_msg *msg,
-+			     unsigned int *count)
-+{
-+	unsigned int i;
-+	int ret = 0;
-+
-+	for (i = 0; i < msg->len; i++) {
-+		ret = rzv2m_i2c_read_with_ACK(priv, &msg->buf[i],
-+					      ((msg->len - 1) == i));
-+		if (ret < 0)
-+			return ret;
-+	}
-+	*count = i;
-+
-+	return ret;
-+}
-+
-+static int rzv2m_i2c_send_address(struct rzv2m_i2c_priv *priv,
-+				  struct i2c_msg *msg)
-+{
-+	u32 addr;
-+	int ret;
-+
-+	if (msg->flags & I2C_M_TEN) {
-+		/* 10-bit address
-+		 *   addr_1: 5'b11110 | addr[9:8] | (R/nW)
-+		 *   addr_2: addr[7:0]
-+		 */
-+		addr = 0xf0 | ((msg->addr >> 7) & 0x06);
-+		addr |= !!(msg->flags & I2C_M_RD);
-+		/* Send 1st address(extend code) */
-+		ret = rzv2m_i2c_write_with_ack(priv, addr);
-+		if (ret == 0) {
-+			/* Send 2nd address */
-+			ret = rzv2m_i2c_write_with_ack(priv, msg->addr & 0xff);
-+		}
-+	} else {
-+		/* 7-bit address */
-+		addr = i2c_8bit_addr_from_msg(msg);
-+		ret = rzv2m_i2c_write_with_ack(priv, addr);
-+	}
-+
-+	return ret;
-+}
-+
-+static int rzv2m_i2c_stop_condition(struct rzv2m_i2c_priv *priv)
-+{
-+	u32 value;
-+
-+	/* Send stop condition */
-+	writel(IICB0SPT, priv->base + IICB0TRG);
-+	return readl_poll_timeout(priv->base + IICB0STR0,
-+				  value, value & IICB0SSSP,
-+				  100, jiffies_to_usecs(priv->adap.timeout));
-+}
-+
-+static int rzv2m_i2c_master_xfer1(struct rzv2m_i2c_priv *priv,
-+				  struct i2c_msg *msg, int stop)
-+{
-+	unsigned int count = 0;
-+	int ret, read = !!(msg->flags & I2C_M_RD);
-+
-+	/* Send start condition */
-+	writel(IICB0STT, priv->base + IICB0TRG);
-+
-+	ret = rzv2m_i2c_send_address(priv, msg);
-+	if (ret == 0) {
-+		if (read)
-+			ret = rzv2m_i2c_receive(priv, msg, &count);
-+		else
-+			ret = rzv2m_i2c_send(priv, msg, &count);
-+
-+		if ((ret == 0) && stop)
-+			ret = rzv2m_i2c_stop_condition(priv);
-+	}
-+
-+	if (ret == -ENXIO)
-+		rzv2m_i2c_stop_condition(priv);
-+	else if (ret < 0)
-+		rzv2m_i2c_init(priv);
-+	else
-+		ret = count;
-+
-+	return ret;
-+}
-+
-+static int rzv2m_i2c_master_xfer(struct i2c_adapter *adap,
-+				 struct i2c_msg *msgs, int num)
-+{
-+	struct rzv2m_i2c_priv *priv = i2c_get_adapdata(adap);
-+	struct device *dev = rzv2m_i2c_priv_to_dev(priv);
-+	unsigned int i;
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (readl(priv->base + IICB0STR0) & IICB0SSBS) {
-+		ret = -EAGAIN;
-+		goto out;
-+	}
-+
-+	/* I2C main transfer */
-+	for (i = 0; i < num; i++) {
-+		ret = rzv2m_i2c_master_xfer1(priv, &msgs[i], (i == (num - 1)));
-+		if (ret < 0)
-+			goto out;
-+	}
-+	ret = num;
-+
-+out:
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+
-+	return ret;
-+}
-+
-+static u32 rzv2m_i2c_func(struct i2c_adapter *adap)
-+{
-+	return I2C_FUNC_I2C | (I2C_FUNC_SMBUS_EMUL & ~I2C_FUNC_SMBUS_QUICK) |
-+	       I2C_FUNC_10BIT_ADDR;
-+}
-+
-+static const struct i2c_adapter_quirks rzv2m_i2c_quirks = {
-+	.flags = I2C_AQ_NO_ZERO_LEN,
-+};
-+
-+static struct i2c_algorithm rzv2m_i2c_algo = {
-+	.master_xfer = rzv2m_i2c_master_xfer,
-+	.functionality = rzv2m_i2c_func,
-+};
-+
-+static const struct of_device_id rzv2m_i2c_ids[] = {
-+	{ .compatible = "renesas,rzv2m-i2c", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, rzv2m_i2c_ids);
-+
-+static int rzv2m_i2c_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct rzv2m_i2c_priv *priv;
-+	struct reset_control *rstc;
-+	struct i2c_adapter *adap;
-+	struct resource *res;
-+	int irq, ret;
-+
-+	priv = devm_kzalloc(dev, sizeof(struct rzv2m_i2c_priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-+	if (IS_ERR(priv->base))
-+		return PTR_ERR(priv->base);
-+
-+	priv->clk = devm_clk_get(dev, NULL);
-+	if (IS_ERR(priv->clk)) {
-+		dev_err_probe(dev, PTR_ERR(priv->clk), "Can't get clock\n");
-+		return PTR_ERR(priv->clk);
-+	}
-+
-+	rstc = devm_reset_control_get(dev, NULL);
-+	if (IS_ERR(rstc)) {
-+		dev_err_probe(dev, PTR_ERR(rstc), "Missing reset ctrl\n");
-+		return PTR_ERR(rstc);
-+	}
-+	/*
-+	 * The reset also affects other HW that is not under the control
-+	 * of Linux. Therefore, all we can do is deassert the reset.
-+	 */
-+	reset_control_deassert(rstc);
-+
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return irq;
-+
-+	ret = devm_request_irq(dev, irq, rzv2m_i2c_tia_irq_handler, 0,
-+			       dev_name(dev), priv);
-+	if (ret < 0) {
-+		dev_err_probe(dev, ret, "Unable to request irq %d\n", irq);
-+		return ret;
-+	}
-+
-+	adap = &priv->adap;
-+	adap->nr = pdev->id;
-+	adap->algo = &rzv2m_i2c_algo;
-+	adap->quirks = &rzv2m_i2c_quirks;
-+	adap->class = I2C_CLASS_DEPRECATED;
-+	adap->dev.parent = dev;
-+	adap->dev.of_node = dev->of_node;
-+	adap->owner = THIS_MODULE;
-+	i2c_set_adapdata(adap, priv);
-+	strscpy(adap->name, pdev->name, sizeof(adap->name));
-+	init_completion(&priv->msg_tia_done);
-+
-+	ret = rzv2m_i2c_clock_calculate(dev, priv);
-+	if (ret < 0)
-+		return ret;
-+
-+	pm_runtime_enable(dev);
-+
-+	pm_runtime_get_sync(dev);
-+	rzv2m_i2c_init(priv);
-+	pm_runtime_put(dev);
-+
-+	platform_set_drvdata(pdev, priv);
-+
-+	ret = i2c_add_numbered_adapter(adap);
-+	if (ret < 0)
-+		pm_runtime_disable(dev);
-+
-+	return ret;
-+}
-+
-+static int rzv2m_i2c_remove(struct platform_device *pdev)
-+{
-+	struct rzv2m_i2c_priv *priv = platform_get_drvdata(pdev);
-+	struct device *dev = rzv2m_i2c_priv_to_dev(priv);
-+
-+	i2c_del_adapter(&priv->adap);
-+	bit_clrl(priv->base + IICB0CTL0, IICB0IICE);
-+	pm_runtime_disable(dev);
-+
-+	return 0;
-+}
-+
-+static int rzv2m_i2c_suspend(struct device *dev)
-+{
-+	struct rzv2m_i2c_priv *priv = dev_get_drvdata(dev);
-+
-+	pm_runtime_get_sync(dev);
-+	bit_clrl(priv->base + IICB0CTL0, IICB0IICE);
-+	pm_runtime_put(dev);
-+
-+	return 0;
-+}
-+
-+static int rzv2m_i2c_resume(struct device *dev)
-+{
-+	struct rzv2m_i2c_priv *priv = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = rzv2m_i2c_clock_calculate(dev, priv);
-+	if (ret < 0)
-+		return ret;
-+
-+	pm_runtime_get_sync(dev);
-+	rzv2m_i2c_init(priv);
-+	pm_runtime_put(dev);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops rzv2m_i2c_pm_ops = {
-+	NOIRQ_SYSTEM_SLEEP_PM_OPS(rzv2m_i2c_suspend, rzv2m_i2c_resume)
-+};
-+
-+static struct platform_driver rzv2m_i2c_driver = {
-+	.driver = {
-+		.name = "rzv2m-i2c",
-+		.of_match_table = rzv2m_i2c_ids,
-+		.pm = pm_sleep_ptr(&rzv2m_i2c_pm_ops),
-+	},
-+	.probe	= rzv2m_i2c_probe,
-+	.remove	= rzv2m_i2c_remove,
-+};
-+module_platform_driver(rzv2m_i2c_driver);
-+
-+MODULE_DESCRIPTION("RZ/V2M I2C bus driver");
-+MODULE_AUTHOR("Renesas Electronics Corporation");
-+MODULE_LICENSE("GPL");
+debugfs isn't meant to be enabled in production, so if you need a
+solution for production environment, it's not an option indeed.
+
+> If there is no alternative, then for sure I can go this way.
+> 
+> However, before submitting PATCH v3, would you consider SYSFS viable
+> too, if keeping the module param is totally unacceptable?
+> 
+> I was hoping to keep the number of external dependencies to the bare
+> minimum, hence the initial choice of module param. Looking forward to
+> your final suggestion/preference.
+
+sysfs would be my next recommendation. I don't think a Linux system can
+meaningfully run without sysfs, so it shouldn't be an issue
+dependency-wise.
+
+> > > +	if (strstr(of_node_full_name(vsp1->dev->of_node), "vsp@fea20000")) {
+> > > +		vsp1->vspd_id = 0;
+> > > +	} else if (strstr(of_node_full_name(vsp1->dev->of_node), "vsp@fea28000")) {
+> > > +		vsp1->vspd_id = 1;
+> > > +	} else if (strstr(of_node_full_name(vsp1->dev->of_node), "vsp@fea30000")) {
+> > > +		vsp1->vspd_id = 2;
+> > > +	} else if (strstr(of_node_full_name(vsp1->dev->of_node), "vsp@fea38000")) {
+> > > +		vsp1->vspd_id = 3;
+> > > +	} else {
+> > > +		vsp1->vspd_id = -1;
+> > > +	}
+> > 
+> > You can drop the curly braces.
+> 
+> Fine.
+> 
+> > Usage of addresses will make this very SoC-specific. With debugfs you
+> > can create one directory per VSP instance, which will scale better.
+> 
+> Since VSP underruns are only relevant to the VSP devices with an
+> interface to DU, we originally skipped any mem2mem VSP devices when
+> exposing the underrun info to the user.
+> 
+> Do I understand your feedback correctly that you would prefer to expose
+> the mem2mem VSP devices along with the VSPD devices (even if the former
+> will never experience a display underrun/flicker), for the sake of
+> 1) skipping the address filtering in the C code and for the sake of
+> 2) making the list of VSP instances in sysfs/debugFS less HW specific?
+
+You don't have to expose this in every VSP device, but the addresses
+above are specific to the VSPD integration in particular R-Car SoCs.
+There could be other R-Car SoCs that have their VSPD at different
+addresses, either existing devices, or future devices.
+
+The whole point of describing the SoC integration in the device tree is
+to free drivers from having to hardcode addresses, which makes them more
+portable across different SoCs. I'd like to preserve that. Using sysfs
+will solve the issue.
+
+> > -- 
+> > Regards,
+> > 
+> > Laurent Pinchart
+> 
+> Thanks again for the feedback and bear with me if the PATCH v3 is coming
+> a bit late due to the long-awaited vacation looming on the horizon.
+
+I'm the one who should apologize for delays, I'm trully ashamed by how
+long it took me to reply to your v2. Please rest assured that your work
+is truly appreciated.
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
