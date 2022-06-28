@@ -2,75 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2D1255EA4A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 18:53:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD01055EB24
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 19:39:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbiF1QxM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Jun 2022 12:53:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36216 "EHLO
+        id S230459AbiF1Rj5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Jun 2022 13:39:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233947AbiF1QvJ (ORCPT
+        with ESMTP id S229463AbiF1Rj4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Jun 2022 12:51:09 -0400
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E5A21A4;
-        Tue, 28 Jun 2022 09:50:47 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 01377240007;
-        Tue, 28 Jun 2022 16:50:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1656435046;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=dz/PyMsuJCPlzxV0NdNxQF4B1f3xTrWyRIxj17TyzNE=;
-        b=VvSS27cpBdvgCLlVD9xXQyXFssPJf6KbUMFiYUU4391snY7ZSfiOBLTosXOIdnFkn7AWcC
-        aC3TGHr2tEWK+TqR4H6k15+Oy/YYtxGYkq5CTgIpRu/lU9LUBVOmr1AGxqDI1keeFvHZXi
-        Dvb71vdSVct1kNBF+U/xZKVI1ZeobWnNCzstTdlqIha1a6Z1dPcfs2dKhDA08H82xoaYqw
-        3grtBuceIP1rdakS2TqZNIHgpgzzWChSGoUSdaDeGMZUqUBLX43NCoX2mjCVYVQDx/4DnW
-        CoPvIbVqRju5u/9cX8+p914tpqEadfBZs33HAjjZFsySjB1gyyGwieDAmDI6sQ==
-Date:   Tue, 28 Jun 2022 18:49:54 +0200
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v9 05/16] net: pcs: add Renesas MII converter
- driver
-Message-ID: <20220628184954.6757ffe4@fixe.home>
-In-Reply-To: <YrsvkqBbzUvTYOeI@shell.armlinux.org.uk>
-References: <20220624144001.95518-1-clement.leger@bootlin.com>
-        <20220624144001.95518-6-clement.leger@bootlin.com>
-        <YrsvkqBbzUvTYOeI@shell.armlinux.org.uk>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+        Tue, 28 Jun 2022 13:39:56 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 32A7033E15
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Jun 2022 10:39:55 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.92,229,1650898800"; 
+   d="scan'208";a="124404098"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 29 Jun 2022 02:39:54 +0900
+Received: from localhost.localdomain (unknown [10.226.92.14])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7A4B640CCE2D;
+        Wed, 29 Jun 2022 02:39:53 +0900 (JST)
+From:   Phil Edworthy <phil.edworthy@renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [RFC] soc: renesas: Add RZ/V2M SYS driver
+Date:   Tue, 28 Jun 2022 18:39:47 +0100
+Message-Id: <20220628173947.91519-1-phil.edworthy@renesas.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -79,38 +41,130 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Tue, 28 Jun 2022 17:42:58 +0100,
-"Russell King (Oracle)" <linux@armlinux.org.uk> a =C3=A9crit :
+The System Configuration (SYS) module on the Renesas RZ/V2M (r9a09g011)
+contains registers for many different aspects of the SoC.
 
-> > +		break;
-> > +	default:
-> > +		return -EOPNOTSUPP;
-> > +	}
-> > +
-> > +	val =3D FIELD_PREP(MIIC_CONVCTRL_CONV_MODE, conv_mode) |
-> > +	      FIELD_PREP(MIIC_CONVCTRL_CONV_SPEED, speed);
-> > +
-> > +	miic_reg_rmw(miic, MIIC_CONVCTRL(port),
-> > +		     MIIC_CONVCTRL_CONV_MODE | MIIC_CONVCTRL_CONV_SPEED, val);
-> > +	miic_converter_enable(miic_port->miic, miic_port->port, 1);
-> > +
-> > +	return 0;
-> > +} =20
->=20
-> the stting of the speed here. As this function can be called as a result
-> of ethtool setting the configuration while the link is up, this could
-> have disasterous effects on the link. This will only happen if there is
-> no PHY present and we aren't using fixed-link mode.
->=20
-> Therefore, I'm willing to get this pass, but I think it would be better
-> if the speed was only updated if the interface setting is actually
-> being changed. So:
+Some of the peripherals on the SoC are only 32-bit address capable bus
+masters. To select the lower 4GiB or upper 4GiB of memory, the
+SYS PERI0_BANK and SYS_PERI1_BANK registers can be programmed to set
+the 33rd address bit.
+Due to the use of firmware with the SoC, uboot is often set up such that
+these peripherals can only access the upper 4GiB. In order to allow
+Linux to use bounce buffers for drivers, we set aside some memory in the
+lower 4GiB for Linux.
+Thus this requires the SYS PERIx_BANK registers to be reprogrammed.
+---
+ drivers/soc/renesas/Kconfig         |  4 ++
+ drivers/soc/renesas/Makefile        |  1 +
+ drivers/soc/renesas/r9a09g011-sys.c | 67 +++++++++++++++++++++++++++++
+ 3 files changed, 72 insertions(+)
+ create mode 100644 drivers/soc/renesas/r9a09g011-sys.c
 
-Hi Russell,
+diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
+index c50a6ce1b99d..b9e3dc879ddc 100644
+--- a/drivers/soc/renesas/Kconfig
++++ b/drivers/soc/renesas/Kconfig
+@@ -327,6 +327,7 @@ config ARCH_R9A09G011
+ 	bool "ARM64 Platform support for RZ/V2M"
+ 	select PM
+ 	select PM_GENERIC_DOMAINS
++	select SYS_R9A09G011
+ 	help
+ 	  This enables support for the Renesas RZ/V2M SoC.
+ 
+@@ -440,4 +441,7 @@ config SYSC_R8A774B1
+ 	bool "System Controller support for RZ/G2N" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
++config SYS_R9A09G011
++	bool "System Controller support for RZ/V2M" if COMPILE_TEST
++
+ endif # SOC_RENESAS
+diff --git a/drivers/soc/renesas/Makefile b/drivers/soc/renesas/Makefile
+index 535868c9c7e4..7e269ab6343e 100644
+--- a/drivers/soc/renesas/Makefile
++++ b/drivers/soc/renesas/Makefile
+@@ -30,6 +30,7 @@ obj-$(CONFIG_SYSC_R8A779G0)	+= r8a779g0-sysc.o
+ ifdef CONFIG_SMP
+ obj-$(CONFIG_ARCH_R9A06G032)	+= r9a06g032-smp.o
+ endif
++obj-$(CONFIG_SYS_R9A09G011)	+= r9a09g011-sys.o
+ 
+ # Family
+ obj-$(CONFIG_RST_RCAR)		+= rcar-rst.o
+diff --git a/drivers/soc/renesas/r9a09g011-sys.c b/drivers/soc/renesas/r9a09g011-sys.c
+new file mode 100644
+index 000000000000..6a72ab15cc89
+--- /dev/null
++++ b/drivers/soc/renesas/r9a09g011-sys.c
+@@ -0,0 +1,67 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Renesas RZ/V2M SYS driver
++ *
++ * Copyright (C) 2022  Renesas Electronics Corporation
++ */
++
++#include <linux/io.h>
++#include <linux/of_address.h>
++
++#define SYS_PERI0_BANK		0x30
++#define SDI0_SHIFT		0
++#define SDI1_SHIFT		2
++#define EMMC_SHIFT		4
++#define USB_HOST_SHIFT		8
++#define USB_PERI_SHIFT		10
++#define PCIE_SHIFT		12
++
++#define SYS_PERI1_BANK		0x34
++#define ETH_SHIFT		0
++
++#define BANK_LOWER_4GB		0
++#define BANK_UPPER_4GB		1
++
++static const struct of_device_id renesas_socs[] __initconst = {
++	{ .compatible = "renesas,r9a09g011-sys" },
++	{ /* sentinel */ }
++};
++
++static void write_peri_bank(void __iomem *addr, uint32_t val, int shift)
++{
++	/* Set the write enable bits */
++	writel(((3 << 16) | val) << shift, addr);
++}
++
++static int __init r9a09g011_init(void)
++{
++	const struct of_device_id *match;
++	struct device_node *np;
++	void __iomem *base;
++	int error = 0;
++
++	np = of_find_matching_node_and_match(NULL, renesas_socs, &match);
++	if (!np)
++		return -ENODEV;
++
++	base = of_iomap(np, 0);
++	if (!base) {
++		pr_warn("%pOF: Cannot map regs\n", np);
++		error = -ENOMEM;
++		goto out_put;
++	}
++
++	write_peri_bank(base + SYS_PERI0_BANK, BANK_LOWER_4GB, SDI0_SHIFT);
++	write_peri_bank(base + SYS_PERI0_BANK, BANK_LOWER_4GB, SDI1_SHIFT);
++	write_peri_bank(base + SYS_PERI0_BANK, BANK_LOWER_4GB, EMMC_SHIFT);
++	write_peri_bank(base + SYS_PERI0_BANK, BANK_LOWER_4GB, USB_HOST_SHIFT);
++	write_peri_bank(base + SYS_PERI0_BANK, BANK_LOWER_4GB, USB_PERI_SHIFT);
++	write_peri_bank(base + SYS_PERI0_BANK, BANK_LOWER_4GB, PCIE_SHIFT);
++	write_peri_bank(base + SYS_PERI1_BANK, BANK_LOWER_4GB, ETH_SHIFT);
++
++out_put:
++	of_node_put(np);
++	return error;
++}
++
++core_initcall(r9a09g011_init);
+-- 
+2.34.1
 
-Ok, I'll make a follow-up patch to handle that properly.
-
---=20
-Cl=C3=A9ment L=C3=A9ger,
-Embedded Linux and Kernel engineer at Bootlin
-https://bootlin.com
