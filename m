@@ -2,120 +2,185 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B818F55CE51
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:04:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 593F755C337
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 14:48:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245563AbiF1HuW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Jun 2022 03:50:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45330 "EHLO
+        id S1343653AbiF1Hzh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Jun 2022 03:55:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245504AbiF1HuV (ORCPT
+        with ESMTP id S1343659AbiF1Hzf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Jun 2022 03:50:21 -0400
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01E4010EC;
-        Tue, 28 Jun 2022 00:50:21 -0700 (PDT)
-Received: by mail-qv1-f45.google.com with SMTP id n15so18809527qvh.12;
-        Tue, 28 Jun 2022 00:50:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vXC8ZZByExp1UKOmIRpJ2BaYGiGLXHy6ZiWwn5gk6hw=;
-        b=XXLJAunFf3MBC9TXVUl4Qgc1PePe6ADKX2YFCItjSInZCXUDGIMwoi3ZQXSw2I8912
-         xSZpHhGnnXycP+1ano5qXU3u2K/uxZz1NJ3IMh6tusgRkbIzjnZ6Jrtm7+x6LXbdfkwI
-         xuXueZtTa7Ab5cOA/v67Rxv6oXCPG+kQ/hZoO6wTd46GYCdxbivYc94gieN5WfSkjPYY
-         uW0C/9+xnGu7NRBfCBSmgj0po9aJqHjnJaqNS5pllpF2K+foJaxhjcjLo87mMb9FYNR6
-         LRu9lk/Uc1P7LaofS6mBOIBfxnDzqSb5ATlkmsVR5auwIVJkrhPOX6EP/yh3DuY9fLPr
-         g6kA==
-X-Gm-Message-State: AJIora/EMaqgSiO/SOekY8MPa5TSsplUfJ8Imcb12YGEdRJeAIqs8l30
-        nkq+D6vjKnRt/cMWWyoRKmLaP7ZigcUxPA==
-X-Google-Smtp-Source: AGRyM1sN2gYuAW6VtkgXYQKQn5+0oE4QwaN3HqKjJnIFND88OuU6zshDdKmloB77/j2yKuFaAN9c1A==
-X-Received: by 2002:ad4:5944:0:b0:470:4083:3962 with SMTP id eo4-20020ad45944000000b0047040833962mr1421246qvb.107.1656402620078;
-        Tue, 28 Jun 2022 00:50:20 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id bk32-20020a05620a1a2000b006af1d3e8080sm6328367qkb.85.2022.06.28.00.50.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jun 2022 00:50:18 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-317710edb9dso108651157b3.0;
-        Tue, 28 Jun 2022 00:50:18 -0700 (PDT)
-X-Received: by 2002:a81:74c5:0:b0:31b:ca4b:4bc4 with SMTP id
- p188-20020a8174c5000000b0031bca4b4bc4mr9505996ywc.358.1656402618122; Tue, 28
- Jun 2022 00:50:18 -0700 (PDT)
+        Tue, 28 Jun 2022 03:55:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08E441581C;
+        Tue, 28 Jun 2022 00:55:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9FE5560EC8;
+        Tue, 28 Jun 2022 07:55:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F06D4C341C6;
+        Tue, 28 Jun 2022 07:55:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656402933;
+        bh=IupijrcDgqt6dfkeSK5H+pNqJwXwR4adqvvRmmKP5sc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=paGx7XfbzxmoD6s8mMOY4mzGbS2u9WekunAOEYaz+9lezGJxV4BJ3ivCKJIMv12s2
+         sIG7TOcSHwTl/IhgC090IGhxSjQX/HvKsRipbz7GIQ9GSjYB4sn8dxAHNTr51LTY+I
+         6XUA2Mz0i/z4ZacC46QQM/aXopEgvL4qxGXimz5dD3/fcJe5BEpV04BkCr66vmARPG
+         KAnfMCt2Q0STLg6k6gG90Wp/xabYeF2/+odjNEUzZ+sE6wJivs4ej5VS8iU77M58dI
+         CXOTtjtKp9GtqzE/x+vzWb0PkcjWiiJEljuvb6/rVFvUVHrzi/upwI/dbFXHN7AfTv
+         rS+hYZCmVVUhg==
+Received: by mail-vs1-f45.google.com with SMTP id w187so11268297vsb.1;
+        Tue, 28 Jun 2022 00:55:32 -0700 (PDT)
+X-Gm-Message-State: AJIora/pljw6rbFqvhFH6AIcQ5gKmT4dbn+O/AzGl/gmwbit73ItCBt5
+        USi1ZVCjw7K7I9zEEd93smNFxVupDhUbM+Cvots=
+X-Google-Smtp-Source: AGRyM1sZHbrnSo9VFN7K3myYkXRhM98Iy11cmoI8nqJ+4ldlVk/ZiXXwVXgC4FMCw2mOFBDVLbXR+0jMWfuApvm2ZAg=
+X-Received: by 2002:a05:6102:f8b:b0:354:57e8:4c1b with SMTP id
+ e11-20020a0561020f8b00b0035457e84c1bmr1315164vsv.8.1656402931955; Tue, 28 Jun
+ 2022 00:55:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220627122417.809615-1-yoshihiro.shimoda.uh@renesas.com> <20220627122417.809615-11-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20220627122417.809615-11-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 28 Jun 2022 09:50:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW5M7tLaCg_=+mxybEyRVL=1T6FM-M6xshPM7yvXjjqMA@mail.gmail.com>
-Message-ID: <CAMuHMdW5M7tLaCg_=+mxybEyRVL=1T6FM-M6xshPM7yvXjjqMA@mail.gmail.com>
-Subject: Re: [PATCH v2 10/13] PCI: renesas: Add R-Car Gen4 PCIe Endpoint support
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+References: <20220627051257.38543-1-samuel@sholland.org> <20220627051257.38543-2-samuel@sholland.org>
+In-Reply-To: <20220627051257.38543-2-samuel@sholland.org>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Tue, 28 Jun 2022 15:55:20 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTTuBagHb0SHZqFjUP9bryVs=AnOTF8z2pxqEfmX4g14zQ@mail.gmail.com>
+Message-ID: <CAJF2gTTuBagHb0SHZqFjUP9bryVs=AnOTF8z2pxqEfmX4g14zQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] dt-bindings: interrupt-controller: Require trigger
+ type for T-HEAD PLIC
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Sagar Kadam <sagar.kadam@sifive.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Reviewed-by: Guo Ren <guoren@kernel.org>
 
-On Mon, Jun 27, 2022 at 2:24 PM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add R-Car Gen4 PCIe Endpoint support. This controller is based on
-> Synopsys DesignWare PCIe.
+On Mon, Jun 27, 2022 at 1:13 PM Samuel Holland <samuel@sholland.org> wrote:
 >
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-
-Thanks for your patch!
-
-> --- /dev/null
-> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4-ep.c
-
-> +static int rcar_gen4_pcie_ep_probe(struct platform_device *pdev)
-> +{
-> +       struct device *dev = &pdev->dev;
-> +       struct rcar_gen4_pcie *rcar;
-> +       int err;
+> The RISC-V PLIC specification unfortunately allows PLIC implementations
+> to ignore edges seen while an edge-triggered interrupt is being handled:
+>
+>   Depending on the design of the device and the interrupt handler,
+>   in between sending an interrupt request and receiving notice of its
+>   handler=E2=80=99s completion, the gateway might either ignore additiona=
+l
+>   matching edges or increment a counter of pending interrupts.
+>
+> For PLICs with that misfeature, software needs to know the trigger type
+> of each interrupt. This allows it to work around the issue by completing
+> edge-triggered interrupts before handling them. Such a workaround is
+> required to avoid missing any edges.
+>
+> The T-HEAD C9xx PLIC is an example of a PLIC with this behavior.
+>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>
+>  .../sifive,plic-1.0.0.yaml                    | 31 ++++++++++++++++---
+>  1 file changed, 27 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/sifiv=
+e,plic-1.0.0.yaml b/Documentation/devicetree/bindings/interrupt-controller/=
+sifive,plic-1.0.0.yaml
+> index 27092c6a86c4..3c589cbca851 100644
+> --- a/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-=
+1.0.0.yaml
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-=
+1.0.0.yaml
+> @@ -26,9 +26,13 @@ description:
+>    with priority below this threshold will not cause the PLIC to raise it=
+s
+>    interrupt line leading to the context.
+>
+> -  While the PLIC supports both edge-triggered and level-triggered interr=
+upts,
+> -  interrupt handlers are oblivious to this distinction and therefore it =
+is not
+> -  specified in the PLIC device-tree binding.
+> +  The PLIC supports both edge-triggered and level-triggered interrupts. =
+For
+> +  edge-triggered interrupts, the RISC-V PLIC spec allows two responses t=
+o edges
+> +  seen while an interrupt handler is active; the PLIC may either queue t=
+hem or
+> +  ignore them. In the first case, handlers are oblivious to the trigger =
+type, so
+> +  it is not included in the interrupt specifier. In the second case, sof=
+tware
+> +  needs to know the trigger type, so it can reorder the interrupt flow t=
+o avoid
+> +  missing interrupts.
+>
+>    While the RISC-V ISA doesn't specify a memory layout for the PLIC, the
+>    "sifive,plic-1.0.0" device is a concrete implementation of the PLIC th=
+at
+> @@ -65,7 +69,8 @@ properties:
+>      const: 0
+>
+>    '#interrupt-cells':
+> -    const: 1
+> +    minimum: 1
+> +    maximum: 2
+>
+>    interrupt-controller: true
+>
+> @@ -91,6 +96,24 @@ required:
+>    - interrupts-extended
+>    - riscv,ndev
+>
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - thead,c900-plic
 > +
-> +       rcar = rcar_gen4_pcie_devm_alloc(dev);
-> +       if (!rcar)
-> +               return -ENOMEM;
+> +    then:
+> +      properties:
+> +        '#interrupt-cells':
+> +          const: 2
 > +
-> +       err = rcar_gen4_pcie_pm_runtime_enable(dev);
-> +       if (err < 0) {
-> +               dev_err(dev, "pm_runtime_get_sync failed\n");
+> +    else:
+> +      properties:
+> +        '#interrupt-cells':
+> +          const: 1
+> +
+>  additionalProperties: false
+>
+>  examples:
+> --
+> 2.35.1
+>
 
-The error message doesn't match the function called
-(same for patch 9/13).
-As this is abstracted, perhaps "failed to enable Runtime PM"?
 
-> +               return err;
-> +       }
+--=20
+Best Regards
+ Guo Ren
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+ML: https://lore.kernel.org/linux-csky/
