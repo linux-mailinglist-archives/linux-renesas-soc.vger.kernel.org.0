@@ -2,194 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 565DE5604EE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 17:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE08B560510
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 18:00:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232032AbiF2PwQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 11:52:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33792 "EHLO
+        id S230240AbiF2P64 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jun 2022 11:58:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234120AbiF2PwP (ORCPT
+        with ESMTP id S229982AbiF2P6z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 11:52:15 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60C2623BCE
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 08:52:14 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F24AC3D7;
-        Wed, 29 Jun 2022 17:52:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656517933;
-        bh=mp2v77uPy+m1GPYYl1D/DbSNfP05c84u/xgC1xMjd2U=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=jQjEg5c5q0Zr0VxT370Ucg8g/WOFwpkiSvkh7Uad9Ga/Welcu5n5LfwZbzV0JcU0U
-         QIBsjUse8u6ALEVYE8KbfcMCAcMcqtKBI/10etR79EAqjpdIGzxaEKKBF1/uZ1BxG6
-         r6xD6ACWZEfnPg8U4BxIxD9qAMX++xZvn1820Q3M=
-Content-Type: text/plain; charset="utf-8"
+        Wed, 29 Jun 2022 11:58:55 -0400
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3223D13E01;
+        Wed, 29 Jun 2022 08:58:54 -0700 (PDT)
+Received: by mail-qv1-f49.google.com with SMTP id 2so10509574qvc.0;
+        Wed, 29 Jun 2022 08:58:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=W+Vt1r6+rqMwrvTJTCgMSy2TvA9kq6OheeKnGSI5F6o=;
+        b=1XCJ0Zy7QJ5xwAkgLj8DWiP0Gx3ODtXIAEZieH/yDIx52cpPO9sunVbv3hLb3zs5G2
+         4pklHhzA2CFlFZNQ0XH+qvfaz8dcq+fI8k8IrznN32RyPWeDdlmgt4xb9M91UjKnPzM2
+         qngpB+0TsrpjULT67PeFqJHb9YMI/QnVtejZSSfLrEoOdXHjOME1pdNd3D8rZ+9UnQLJ
+         fZhpEDmbZOb3+j92YqC7VCVEGFFk7GDhdKf4aEGCnf+ADfOLF5CB5Da9bXTppEnjhYwY
+         Oy40wNC1Rs5pKVOtyC+4m0lSlBs38AjGdaMA/DJpCVwHCPgmhBHMZHuyteTY5wtzj9C/
+         0qjA==
+X-Gm-Message-State: AJIora+m1TYMOWutDxyjgdghIm29NsyDi3s0+PxWDAKkUjDtWTYduRKt
+        awzePQ9nfSqZD4OEyftINnHuNCoAoiiARQ==
+X-Google-Smtp-Source: AGRyM1v5THFlfsXNdGLQS76T87hG2RaCW66U7e+DSphbdojkZW5nsnwYoXi/sMeRSOqpCW7aW+sVrQ==
+X-Received: by 2002:ac8:578d:0:b0:31a:e1d7:952a with SMTP id v13-20020ac8578d000000b0031ae1d7952amr3106270qta.103.1656518333078;
+        Wed, 29 Jun 2022 08:58:53 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id k201-20020a37a1d2000000b006a716fed4d6sm12785687qke.50.2022.06.29.08.58.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jun 2022 08:58:52 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-31bf327d4b5so63144557b3.13;
+        Wed, 29 Jun 2022 08:58:52 -0700 (PDT)
+X-Received: by 2002:a81:a092:0:b0:318:5c89:a935 with SMTP id
+ x140-20020a81a092000000b003185c89a935mr4829130ywg.383.1656518332261; Wed, 29
+ Jun 2022 08:58:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220609234031.14803-10-laurent.pinchart@ideasonboard.com>
-References: <20220609234031.14803-1-laurent.pinchart@ideasonboard.com> <20220609234031.14803-10-laurent.pinchart@ideasonboard.com>
-Subject: Re: [kms-test] [PATCH 09/10] tests: Add plane zpos test
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-Date:   Wed, 29 Jun 2022 16:52:10 +0100
-Message-ID: <165651793098.2049236.2538448937224001374@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220628194526.111501-1-phil.edworthy@renesas.com>
+ <20220628194526.111501-3-phil.edworthy@renesas.com> <YrttwplV9zEgCFji@smile.fi.intel.com>
+ <CAMuHMdV1xkCvico_f359xBzkwU5pG3VVJV7O3dHRyy5a9QvyGw@mail.gmail.com> <Yrws5eTtdDZ2szhX@smile.fi.intel.com>
+In-Reply-To: <Yrws5eTtdDZ2szhX@smile.fi.intel.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 29 Jun 2022 17:58:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUTux2TFMAZL0yV8xJVN4K+gHJpKHJjuOOFXJ+9VCCfQA@mail.gmail.com>
+Message-ID: <CAMuHMdUTux2TFMAZL0yV8xJVN4K+gHJpKHJjuOOFXJ+9VCCfQA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] i2c: Add Renesas RZ/V2M controller
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Wolfram Sang <wsa@kernel.org>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+        Jan Dabros <jsd@semihalf.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Tyrone Ting <kfting@nuvoton.com>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Laurent Pinchart (2022-06-10 00:40:30)
-> Add a test that enables multiple planes with different zpos values.
->=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  tests/kms-test-plane-zpos.py | 102 +++++++++++++++++++++++++++++++++++
->  1 file changed, 102 insertions(+)
->  create mode 100755 tests/kms-test-plane-zpos.py
->=20
-> diff --git a/tests/kms-test-plane-zpos.py b/tests/kms-test-plane-zpos.py
-> new file mode 100755
-> index 000000000000..052eea542ec0
-> --- /dev/null
-> +++ b/tests/kms-test-plane-zpos.py
-> @@ -0,0 +1,102 @@
-> +#!/usr/bin/python3
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +# SPDX-FileCopyrightText: 2022 Renesas Electronics Corporation
-> +
-> +import kmstest
-> +import pykms
-> +
-> +class PlaneZPosTest(kmstest.KMSTest):
-> +    """Test composition with multiple planes and custom z-pos."""
-> +
-> +    def handle_page_flip(self, frame, time):
-> +        self.logger.log('Page flip complete')
-> +
-> +    def find_pipeline(self):
-> +        # Find a CRTC that has multiple planes with a connected connector
-> +        for connector in self.output_connectors():
-> +            # Skip disconnected connectors
-> +            if not connector.connected():
-> +                continue
-> +
-> +            # Add the connector to the map
-> +            for crtc in connector.get_possible_crtcs():
-> +                planes =3D []
-> +                for plane in self.card.planes:
-> +                    if plane.supports_crtc(crtc) and plane !=3D crtc.pri=
-mary_plane:
-> +                        planes.append(plane)
-> +
-> +                if len(planes):
-> +                    return crtc, connector, planes
-> +
-> +        return None, None, None
-> +
-> +    def main(self):
-> +        self.start('composition with z-pos control')
-> +
-> +        crtc, connector, planes =3D self.find_pipeline()
-> +        if crtc is None:
-> +            self.skip('no suitable pipeline')
-> +            return
-> +
-> +        # Get the default mode
-> +        try:
-> +            mode =3D connector.get_default_mode()
-> +        except KeyError:
-> +            self.skip('no mode available')
-> +            return
-> +
-> +        self.logger.log(f'Testing connector {connector.fullname}, CRTC {=
-crtc.id}, '
-> +                        f'mode {mode.name} with {len(planes)} planes '
-> +                        f'(P: {crtc.primary_plane.id}, O: {[plane.id for=
- plane in planes]})')
-> +
-> +        # Create a frame buffer
-> +        fb =3D pykms.DumbFramebuffer(self.card, mode.hdisplay, mode.vdis=
-play, 'XR24')
-> +        pykms.draw_test_pattern(fb)
-> +
-> +        # Set the mode with a primary plane, and position it on top of t=
-he
-> +        # stack. Make it transparent to visualize the overlay planes tha=
-t will
+Hi Andy,
 
-How handy that there's now transparency ;-)
-
-> +        # be positioned underneath.
-> +        zpos =3D len(planes)
-> +        ret =3D self.atomic_crtc_mode_set(crtc, connector, mode, fb)
-> +        if ret < 0:
-> +            self.fail(f'atomic mode set failed with {ret}')
-> +            return
-> +
-> +        req =3D kmstest.AtomicRequest(self)
-> +        req.add(crtc.primary_plane, 'alpha', '50%')
-> +        req.add(crtc.primary_plane, 'zpos', zpos)
-
-Not that it matters, but those could both be added in a single statement
-right?
-
-(not needed, just understanding the API of .add() )
-
-
-> +        ret =3D req.commit_sync(True)
-> +        if ret < 0:
-> +            self.fail(f'failed to set properties for primary plane: {ret=
-}')
-> +            return
-> +
-> +        self.run(3)
-> +
-> +        # Add all other planes one by one
-> +        offset =3D 100 + 50 * (len(planes) - 1)
-> +
-> +        for plane in planes:
-> +            zpos -=3D 1
-> +
-> +            source =3D kmstest.Rect(0, 0, fb.width, fb.height)
-> +            destination =3D kmstest.Rect(offset, offset, fb.width, fb.he=
-ight)
-> +            ret =3D self.atomic_plane_set(plane, crtc, source, destinati=
-on, fb, alpha=3D'100%', zpos=3Dzpos)
-
-Seems pretty good to me.
-
-
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-
-> +            if ret < 0:
-> +                self.fail(f'atomic plane set failed with {ret}')
-> +                break
-> +
-> +            self.logger.log(f'Adding plane {plane.id}')
-> +            self.run(1)
-> +
-> +            if self.flips =3D=3D 0:
-> +                self.fail('No page flip registered')
-> +                break
-> +
-> +            offset -=3D 50
-> +
-> +        else:
-> +            self.success()
-> +
-> +        self.atomic_crtc_disable(crtc)
-> +
-> +PlaneZPosTest().execute()
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
+On Wed, Jun 29, 2022 at 12:46 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> On Wed, Jun 29, 2022 at 08:52:27AM +0200, Geert Uytterhoeven wrote:
+> > On Tue, Jun 28, 2022 at 11:08 PM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> > > On Tue, Jun 28, 2022 at 08:45:26PM +0100, Phil Edworthy wrote:
 >
+> ...
+>
+> > > > +static int rzv2m_i2c_send(struct rzv2m_i2c_priv *priv, struct i2c_msg *msg,
+> > > > +                       unsigned int *count)
+> > > > +{
+> > > > +     unsigned int i;
+> > > > +     int ret = 0;
+> > >
+> > > Redundant assignment, you may return 0 directly.
+> >
+> > Can you prove msg->len is never zero, and the loop below is always
+> > executed at least once?
+>
+> I don't see how this is related. The ret is used only in the loop body,
+>
+>         return 0;
+>
+> outside will suffice. No?
+
+Right, with the "return ret" in the end replaced.
+
+> > The driver does set I2C_AQ_NO_ZERO_LEN, but I don't think the static
+> > checkers know ;-)
+> >
+> > >
+> > > > +     for (i = 0; i < msg->len; i++) {
+> > > > +             ret = rzv2m_i2c_write_with_ack(priv, msg->buf[i]);
+> > > > +             if (ret < 0)
+> > > > +                     return ret;
+> > > > +     }
+> > > > +     *count = i;
+> > > > +
+> > > > +     return ret;
+> > > > +}
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
