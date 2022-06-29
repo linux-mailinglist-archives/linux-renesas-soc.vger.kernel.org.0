@@ -2,81 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 391F256090B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 20:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC4B7560946
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 20:38:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229989AbiF2S0p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 14:26:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39998 "EHLO
+        id S230173AbiF2SiB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jun 2022 14:38:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229798AbiF2S0o (ORCPT
+        with ESMTP id S229975AbiF2SiA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 14:26:44 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46F2729C94
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 11:26:43 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id ay16so34291827ejb.6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 11:26:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=/64xgRiUt1vtjHTJICjZN/EEDL0sMvHlhgMluGbsqx0=;
-        b=x2E4mYSLVh6dmMDXYftVhxRZrFhJRMJtLQeY1usKMwvluClkcCiiBN78Btu0KYl+rr
-         VqWzaJIx/9upJFb2YZwy2jC8OCOL9QOTVaJSIzlL+u4LQpZWztNzn9d0IQ54v6HfxaWq
-         qyE/rL2wCv/psLNSupk4hQ9d7ZW/Me2UtTq4zvMeeH7VN//7gc6tgOjR1pdLeciw92Zo
-         O+4h8WNcFHiPaVci9RmHOwUDCcea+CuacUCBKxWlBhWAd+uSEtUg6X0gjaTgmc8XTcvb
-         QpnEK0VgVlk53yf6eruRdTQIGKlco3P2ajT3gMWz6OIyLupkmxCBVAKvdH3abrmJhJnQ
-         s0Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=/64xgRiUt1vtjHTJICjZN/EEDL0sMvHlhgMluGbsqx0=;
-        b=hCD6qfPqQKTGqTSzI+NZ/qI7sOOicNzLrkoqNvUT67Xl3Jd+dYIkNK/MvUldodwEk4
-         +zmSyki35AfZxnPLTalHRZXu1Zo+4SVd4x8hHkFbmLE3c8NLyWY33VNdSuP9eZMic5Xo
-         uvaArPVCGbIjrmqDAj3tx37lcnb80bxxFklXptN1f0hYp01SzHfrg73f+6Vkt1vy4FDQ
-         vS/NS0jqyKLVFUdQeKNhXspHEHsop30H0p/gA28CsXkqELENNDbL7AGKQnSMqUqdQ0w3
-         cn+BCOaNdH7Z34vFYgxi2SY2eim1+LjHWhYrsYWNxXNr3PbxtHMncroGaLCPN1qih0M9
-         lF8g==
-X-Gm-Message-State: AJIora94hKO6ptm6/FJWLOhViK5gJXtqYnal3sa8fBZxTCLM+/5eX8ua
-        ShGochVuiehM8Cc6vRPOkYYunA==
-X-Google-Smtp-Source: AGRyM1sfeOEPxArayPtvXtsr5u5/zqpD7B812IZXeSbupwIKB9chVw1sBePnM8Kf/X3wTBnJz4Lgag==
-X-Received: by 2002:a17:906:58c7:b0:722:f4bf:cb75 with SMTP id e7-20020a17090658c700b00722f4bfcb75mr4766353ejs.450.1656527201890;
-        Wed, 29 Jun 2022 11:26:41 -0700 (PDT)
-Received: from [192.168.0.187] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id le23-20020a170906ae1700b006f3ef214dbesm7981432ejb.36.2022.06.29.11.26.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jun 2022 11:26:41 -0700 (PDT)
-Message-ID: <1d26b762-a2af-e717-c0c2-0a991bde5617@linaro.org>
-Date:   Wed, 29 Jun 2022 20:26:40 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 6/7] memory: renesas-rpc-if: Pass device instead of rpcif
- to rpcif_*()
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Mark Brown <broonie@kernel.org>
-Cc:     linux-mtd@lists.infradead.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Richard Weinberger <richard@nod.at>,
-        linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        Wed, 29 Jun 2022 14:38:00 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FB393B299
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 11:38:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656527880; x=1688063880;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=14hbY9OMpN9d0ymUv5g9z85CBjmDlSqODoJNvWfpq2U=;
+  b=eKFkNNJFx8MxUSdqvFDbQQkGgPJcnyLD7NTukSpjZ3wb+PjnY95pOZsF
+   ox+RV37uhIpE1dHgvLhICL1aMXGWTyurzCfppoW3ZSROU3iWiE8MrKkQZ
+   UXZ73wGH0yZ6j3V0Y6jcO9vP13yGmof7piun6c/yFT0WcSSQQrRD3DEQs
+   MfBYjc3oJtne9o/zsBDDgCQkqEime+CcbNeYAn3CPVYX/30z6oqvXyZac
+   8optuF0XIhFVNIiQ8qDs7jWG9CpXK/T9C2NrJkzgj3nu8M98ldsyK4xIE
+   m0Uvd8z83geMlDrnKAd97k7ExR08M3KHdCT6k1rjiSWB8GYjMKVm7lSmH
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="346106899"
+X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; 
+   d="scan'208";a="346106899"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 11:37:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; 
+   d="scan'208";a="595352807"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 29 Jun 2022 11:37:58 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o6cZZ-000BQA-LJ;
+        Wed, 29 Jun 2022 18:37:57 +0000
+Date:   Thu, 30 Jun 2022 02:37:00 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Phil Edworthy <phil.edworthy@renesas.com>
+Cc:     kbuild-all@lists.01.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <cover.1656341824.git.geert+renesas@glider.be>
- <e313b7f9a856fd8546aabb20d44d10e3af6676c6.1656341824.git.geert+renesas@glider.be>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <e313b7f9a856fd8546aabb20d44d10e3af6676c6.1656341824.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Subject: [geert-renesas-drivers:renesas-pinctrl-for-v5.20 5/5]
+ drivers/pinctrl/renesas/pinctrl-rzv2m.c:37:33: error: implicit declaration
+ of function 'FIELD_GET'
+Message-ID: <202206300252.mQeUSfuW-lkp@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,21 +64,49 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 27/06/2022 17:31, Geert Uytterhoeven wrote:
-> Most rpcif_*() API functions do not need access to any other fields in
-> the rpcif structure than the device pointer.  Simplify dependencies by
-> passing the device pointer instead.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/memory/renesas-rpc-if.c | 32 ++++++++++++++++----------------
->  drivers/mtd/hyperbus/rpc-if.c   | 18 +++++++++---------
->  drivers/spi/spi-rpc-if.c        | 14 +++++++-------
->  include/memory/renesas-rpc-if.h | 16 ++++++++--------
->  4 files changed, 40 insertions(+), 40 deletions(-)
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v5.20
+head:   1e18476c392f4491a93c29937c4d6a49c27661c8
+commit: 1e18476c392f4491a93c29937c4d6a49c27661c8 [5/5] pinctrl: renesas: Add RZ/V2M pin and gpio controller driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20220630/202206300252.mQeUSfuW-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?id=1e18476c392f4491a93c29937c4d6a49c27661c8
+        git remote add geert-renesas-drivers https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+        git fetch --no-tags geert-renesas-drivers renesas-pinctrl-for-v5.20
+        git checkout 1e18476c392f4491a93c29937c4d6a49c27661c8
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash
 
-I need some acks here.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Best regards,
-Krzysztof
+All errors (new ones prefixed by >>):
+
+   drivers/pinctrl/renesas/pinctrl-rzv2m.c: In function 'rzv2m_dt_subnode_to_map':
+>> drivers/pinctrl/renesas/pinctrl-rzv2m.c:37:33: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+      37 | #define MUX_FUNC(pinconf)       FIELD_GET(MUX_FUNC_MASK, (pinconf))
+         |                                 ^~~~~~~~~
+   drivers/pinctrl/renesas/pinctrl-rzv2m.c:306:31: note: in expansion of macro 'MUX_FUNC'
+     306 |                 psel_val[i] = MUX_FUNC(value);
+         |                               ^~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/FIELD_GET +37 drivers/pinctrl/renesas/pinctrl-rzv2m.c
+
+    30	
+    31	/*
+    32	 * Use 16 lower bits [15:0] for pin identifier
+    33	 * Use 16 higher bits [31:16] for pin mux function
+    34	 */
+    35	#define MUX_PIN_ID_MASK		GENMASK(15, 0)
+    36	#define MUX_FUNC_MASK		GENMASK(31, 16)
+  > 37	#define MUX_FUNC(pinconf)	FIELD_GET(MUX_FUNC_MASK, (pinconf))
+    38	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
