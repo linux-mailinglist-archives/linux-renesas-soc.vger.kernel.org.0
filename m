@@ -2,53 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B862F5605CB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 18:27:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E745F5605D9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 18:31:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231531AbiF2Q04 convert rfc822-to-8bit (ORCPT
+        id S231205AbiF2Q3J convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 12:26:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39634 "EHLO
+        Wed, 29 Jun 2022 12:29:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231512AbiF2Q0z (ORCPT
+        with ESMTP id S231534AbiF2Q3H (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 12:26:55 -0400
+        Wed, 29 Jun 2022 12:29:07 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 447B33617A
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 09:26:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F0F0338A0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 09:29:05 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1o6aWR-0006oI-Ij; Wed, 29 Jun 2022 18:26:35 +0200
+        id 1o6aYg-00071l-0G; Wed, 29 Jun 2022 18:28:54 +0200
 Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1o6aWK-003Qov-VO; Wed, 29 Jun 2022 18:26:32 +0200
+        id 1o6aYb-003QpM-5u; Wed, 29 Jun 2022 18:28:52 +0200
 Received: from pza by lupine with local (Exim 4.94.2)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1o6aWN-000Dce-Hf; Wed, 29 Jun 2022 18:26:31 +0200
-Message-ID: <a088652dbf603579ed5ba663df31d26ef2b2eb56.camel@pengutronix.de>
-Subject: Re: [PATCH v2 2/2] i2c: Add Renesas RZ/V2M controller
+        id 1o6aYe-000Dhz-4j; Wed, 29 Jun 2022 18:28:52 +0200
+Message-ID: <f51a6ccda0f7b4596406789fa73e1bdad85186bc.camel@pengutronix.de>
+Subject: Re: [PATCH v6 2/5] irqchip: Add RZ/G2L IA55 Interrupt Controller
+ driver
 From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Phil Edworthy <phil.edworthy@renesas.com>
-Cc:     Wolfram Sang <wsa@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Sam Protsenko <semen.protsenko@linaro.org>,
-        Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>,
-        Jan Dabros <jsd@semihalf.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Tyrone Ting <kfting@nuvoton.com>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Date:   Wed, 29 Jun 2022 18:26:31 +0200
-In-Reply-To: <20220628194526.111501-3-phil.edworthy@renesas.com>
-References: <20220628194526.111501-1-phil.edworthy@renesas.com>
-         <20220628194526.111501-3-phil.edworthy@renesas.com>
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Date:   Wed, 29 Jun 2022 18:28:52 +0200
+In-Reply-To: <20220625200600.7582-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220625200600.7582-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+         <20220625200600.7582-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 User-Agent: Evolution 3.38.3-1 
@@ -66,58 +65,68 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Di, 2022-06-28 at 20:45 +0100, Phil Edworthy wrote:
-> Yet another i2c controller from Renesas that is found on the RZ/V2M
-> (r9a09g011) SoC. It can support only 100kHz and 400KHz operation.
+On Sa, 2022-06-25 at 21:05 +0100, Lad Prabhakar wrote:
+> Add a driver for the Renesas RZ/G2L Interrupt Controller.
 > 
-> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> This supports external pins being used as interrupts. It supports
+> one line for NMI, 8 external pins and 32 GPIO pins (out of 123)
+> to be used as IRQ lines.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
-> v2:
->  - Use the new NOIRQ_SYSTEM_SLEEP_PM_OPS() as suggested by Arnd
->  - Lots of small fixes based on Geert's review
-> ---
->  drivers/i2c/busses/Kconfig     |  10 +
->  drivers/i2c/busses/Makefile    |   1 +
->  drivers/i2c/busses/i2c-rzv2m.c | 530 +++++++++++++++++++++++++++++++++
->  3 files changed, 541 insertions(+)
->  create mode 100644 drivers/i2c/busses/i2c-rzv2m.c
+>  drivers/irqchip/Kconfig             |   8 +
+>  drivers/irqchip/Makefile            |   1 +
+>  drivers/irqchip/irq-renesas-rzg2l.c | 393 ++++++++++++++++++++++++++++
+>  3 files changed, 402 insertions(+)
+>  create mode 100644 drivers/irqchip/irq-renesas-rzg2l.c
 > 
 [...]
-> diff --git a/drivers/i2c/busses/i2c-rzv2m.c b/drivers/i2c/busses/i2c-rzv2m.c
+> diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
 > new file mode 100644
-> index 000000000000..ab326d557dc5
+> index 000000000000..cc16fcf2bbc6
 > --- /dev/null
-> +++ b/drivers/i2c/busses/i2c-rzv2m.c
-> @@ -0,0 +1,530 @@
+> +++ b/drivers/irqchip/irq-renesas-rzg2l.c
+> @@ -0,0 +1,393 @@
 [...]
-> +static int rzv2m_i2c_probe(struct platform_device *pdev)
+> +static int rzg2l_irqc_init(struct device_node *node, struct device_node *parent)
 > +{
-> +	struct device *dev = &pdev->dev;
-> +	struct rzv2m_i2c_priv *priv;
-> +	struct reset_control *rstc;
-> +	struct i2c_adapter *adap;
-> +	struct resource *res;
-> +	int irq, ret;
+> +	struct irq_domain *irq_domain, *parent_domain;
+> +	struct platform_device *pdev;
+> +	struct reset_control *resetn;
+> +	struct rzg2l_irqc_priv *priv;
+> +	int ret;
 > +
-> +	priv = devm_kzalloc(dev, sizeof(struct rzv2m_i2c_priv), GFP_KERNEL);
+> +	pdev = of_find_device_by_node(node);
+> +	if (!pdev)
+> +		return -ENODEV;
+> +
+> +	parent_domain = irq_find_host(parent);
+> +	if (!parent_domain) {
+> +		dev_err(&pdev->dev, "cannot find parent domain\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
 > +	if (!priv)
 > +		return -ENOMEM;
 > +
-> +	priv->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+> +	priv->base = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 0, NULL);
 > +	if (IS_ERR(priv->base))
 > +		return PTR_ERR(priv->base);
 > +
-> +	priv->clk = devm_clk_get(dev, NULL);
-> +	if (IS_ERR(priv->clk)) {
-> +		dev_err_probe(dev, PTR_ERR(priv->clk), "Can't get clock\n");
-> +		return PTR_ERR(priv->clk);
+> +	ret = rzg2l_irqc_parse_interrupts(priv, node);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "cannot parse interrupts: %d\n", ret);
+> +		return ret;
 > +	}
 > +
-> +	rstc = devm_reset_control_get(dev, NULL);
+> +	resetn = devm_reset_control_get_exclusive_by_index(&pdev->dev, 0);
 
-Please don't use devm_reset_control_get. This should probably be
-devm_reset_control_get_shared().
+Why is this by index? I'd expect
+
+	resetn = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+
+should work just as well?
 
 regards
 Philipp
