@@ -2,124 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90473560394
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 16:48:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50C2F56035B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 16:42:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232618AbiF2OrC convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 10:47:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52986 "EHLO
+        id S231579AbiF2OkV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jun 2022 10:40:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232039AbiF2OrA (ORCPT
+        with ESMTP id S231898AbiF2OkV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 10:47:00 -0400
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1D18393FF;
-        Wed, 29 Jun 2022 07:46:56 -0700 (PDT)
-Received: by mail-qv1-f51.google.com with SMTP id cu16so25103772qvb.7;
-        Wed, 29 Jun 2022 07:46:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=lKCBOPrNloihbU1g4ZnMBHTpej5sTMCTVYThSbP4lGw=;
-        b=PC9JlThrQbhHwBPk3Jk/H01Pd55bdgWM9LeD1fOerfZnQjy8QGLmxt0VG2gnXssOQ3
-         UqFCnukA0M8DopB7/TCiEut1cY9iP8RHv3Xdsauem8gxdYYayr4JUQc5FFJHCvcd9FGz
-         MtWHU5O7cjdzcCLKSqKpfumoVfjMFfN/iIiyrcMTWulhp6kTsLEm+dSRRVDoOfLUpSYo
-         ngpPWV6D2F6xR2meZNth82sH5GZVJ4KN0T6B0sbIgnWeomzAtqQXqoJEJ6wEv1aAPWLm
-         KZoTpLmuR1QGL0KY+Wk0EW//U85ETRlJjDTAPyqBkX9Ox5U/1+/o2PAITNSxPmb08DEu
-         nekA==
-X-Gm-Message-State: AJIora94A2cMyQHNkyhkFqzoQ2OLVIKbhf4LShp09pQOHbBh4Y+RLakQ
-        Wx/YHM4akISLrtWMA0drCOSfIJV+Aa8VZA==
-X-Google-Smtp-Source: AGRyM1s43fyMd0KroXgg5HnVsInZDjNj+GDeg4cPT5ArtF4/b6kiLgOBt5DArEfzUzFfIT2YhLze0g==
-X-Received: by 2002:a05:622a:54b:b0:305:31e4:51fa with SMTP id m11-20020a05622a054b00b0030531e451famr2792548qtx.165.1656514015770;
-        Wed, 29 Jun 2022 07:46:55 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id b20-20020ae9eb14000000b006aee8580a37sm12975109qkg.10.2022.06.29.07.46.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jun 2022 07:46:55 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id x184so25629142ybg.12;
-        Wed, 29 Jun 2022 07:46:55 -0700 (PDT)
-X-Received: by 2002:a81:3a81:0:b0:317:7dcf:81d4 with SMTP id
- h123-20020a813a81000000b003177dcf81d4mr4187413ywa.47.1656513525966; Wed, 29
- Jun 2022 07:38:45 -0700 (PDT)
+        Wed, 29 Jun 2022 10:40:21 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A6ED369D5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 07:40:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 381DBB824BC
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 14:40:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CC2DBC34114
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 14:40:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656513616;
+        bh=EzaynbBWdxNoUBucVr65jASxz0BFGXQHvKDEvaVFcBM=;
+        h=Subject:From:Date:To:From;
+        b=DHsdsdVYySyCrRwnZNB7tOEhvq26uz556sFj44o50zpRgBgJSFY2JySdwkkLxiKYk
+         kh6LKPHfkgC7NZV4/UpTEngLrk6tCoCwJxIZ/+g8g1ItsfsaYEVReMcdrXzCZldms3
+         QkyRwHT9HeYwYbW8NdFqJfT0j9hVAC/niL165ohSe5TNarhwFNNx0LMoKyTYbUUy3i
+         6PRG5Y7OTn7pIfdaEj/+AH/aLKQ5n5ekUX5bu+IOhdV0gbj7DREwCH0LTVtX/Bh8QW
+         fLA93+WU2Cl/QZxWWqx1VcYOfi4ZnhlMvxnWsA5d9/zjFtVBWdF5rcKoHzFwZo/7xl
+         PU38YqnXc4KSw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A54EEE49BBA
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 14:40:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220624144001.95518-1-clement.leger@bootlin.com> <20220624144001.95518-5-clement.leger@bootlin.com>
-In-Reply-To: <20220624144001.95518-5-clement.leger@bootlin.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 29 Jun 2022 16:38:33 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXw2zuu-Q30VDF16_sLFO8eU1u8HrbxkYnKyCHK6d41hw@mail.gmail.com>
-Message-ID: <CAMuHMdXw2zuu-Q30VDF16_sLFO8eU1u8HrbxkYnKyCHK6d41hw@mail.gmail.com>
-Subject: Re: [PATCH net-next v9 04/16] dt-bindings: net: pcs: add bindings for
- Renesas RZ/N1 MII converter
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>, Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <165651361660.3962.12523807540292298757.git-patchwork-summary@kernel.org>
+Date:   Wed, 29 Jun 2022 14:40:16 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jun 24, 2022 at 4:41 PM Clément Léger <clement.leger@bootlin.com> wrote:
-> This MII converter can be found on the RZ/N1 processor family. The MII
-> converter ports are declared as subnodes which are then referenced by
-> users of the PCS driver such as the switch.
->
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../bindings/net/pcs/renesas,rzn1-miic.yaml   | 171 ++++++++++++++++++
->  include/dt-bindings/net/pcs-rzn1-miic.h       |  33 ++++
->  2 files changed, 204 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/net/pcs/renesas,rzn1-miic.yaml
->  create mode 100644 include/dt-bindings/net/pcs-rzn1-miic.h
+Hello:
 
-As the DT binding definitions are shared by driver and DT sources,
-I have queued this patch in renesas-devel for v5.20, too.
-Ideally, it should have been applied to a shared immutable branch.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Gr{oetje,eeting}s,
+Patch: MAINTAINERS: Add Renesas SoC DT bindings to Renesas Architecture sections
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=651338
+  Lore link: https://lore.kernel.org/r/f99c03a95a103517418f0b23d3da45e0dd0ffb3b.1655456310.git.geert+renesas@glider.be
 
-                        Geert
+Patch: ARM: dts: renesas: Fix DA9063 watchdog sub node names
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=652380
+  Lore link: https://lore.kernel.org/r/1dafdce285f7d14bec9e2033ac87fb30135895db.1655818230.git.geert+renesas@glider.be
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Patch: arm64: dts: renesas: r9a07g054l2-smarc: Correct SoC name in comment
+  Submitter: Chris Paterson <chris.paterson2@renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=653144
+  Lore link: https://lore.kernel.org/r/20220623103024.24222-1-chris.paterson2@renesas.com
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Series: add support for Renesas RZ/N1 ethernet subsystem devices
+  Submitter: Clément Léger <clement.leger@bootlin.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=653622
+  Lore link: https://lore.kernel.org/r/20220624144001.95518-1-clement.leger@bootlin.com
+    Patches: [net-next,v9,01/16] net: dsa: allow port_bridge_join() to override extack message
+             [net-next,v9,12/16] ARM: dts: r9a06g032: describe MII converter
+             [net-next,v9,13/16] ARM: dts: r9a06g032: describe GMAC2
+             [net-next,v9,14/16] ARM: dts: r9a06g032: describe switch
+             [net-next,v9,15/16] ARM: dts: r9a06g032-rzn1d400-db: add switch description
+
+Patch: arm64: dts: renesas: r8a779m8: Drop operating points above 1.5 GHz
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=651350
+  Lore link: https://lore.kernel.org/r/aeb4530f7fbac8329b334dcb169382c836a5f32d.1655458564.git.geert+renesas@glider.be
+
+
+Total patches: 9
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
