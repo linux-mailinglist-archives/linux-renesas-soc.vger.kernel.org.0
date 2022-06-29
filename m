@@ -2,131 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E745F5605D9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 18:31:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE785560730
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 19:18:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231205AbiF2Q3J convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 12:29:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42092 "EHLO
+        id S231177AbiF2RSf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jun 2022 13:18:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231534AbiF2Q3H (ORCPT
+        with ESMTP id S229546AbiF2RSf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 12:29:07 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F0F0338A0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 09:29:05 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1o6aYg-00071l-0G; Wed, 29 Jun 2022 18:28:54 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1o6aYb-003QpM-5u; Wed, 29 Jun 2022 18:28:52 +0200
-Received: from pza by lupine with local (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1o6aYe-000Dhz-4j; Wed, 29 Jun 2022 18:28:52 +0200
-Message-ID: <f51a6ccda0f7b4596406789fa73e1bdad85186bc.camel@pengutronix.de>
-Subject: Re: [PATCH v6 2/5] irqchip: Add RZ/G2L IA55 Interrupt Controller
- driver
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Date:   Wed, 29 Jun 2022 18:28:52 +0200
-In-Reply-To: <20220625200600.7582-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220625200600.7582-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-         <20220625200600.7582-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.38.3-1 
+        Wed, 29 Jun 2022 13:18:35 -0400
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 780831A81A;
+        Wed, 29 Jun 2022 10:18:34 -0700 (PDT)
+Received: by mail-qv1-f53.google.com with SMTP id i17so25724680qvo.13;
+        Wed, 29 Jun 2022 10:18:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wXWhdEBTbV2up4EX48hH9r3b+lA3Y6CLLpslrOxD3K0=;
+        b=N2cqZYRJFjkmwRvQ0cQ/VNu2IotSnz9jByD9KcYko7LlpewY62XwgRd8wfB9LunCNl
+         pRZtTMAf7MP8Z+7vVZS2LOo3tcCn3BYAPaNIx46E5JP7ZiHnYlncRxyFRwKuSIWXRGp6
+         w7bTNjNVn9Hk5dTq+3IzjQJxSbbHMklH71Gml7XDKTivCr0l9wFoRHhMmdxyxUlMSB/p
+         p2ATqBWVZd6yAaDGs3NjFGaD0kqL9imluMQQpBfQeGG2slQjDT5ahV/+3mqzSV2gtG/l
+         lzcjhKGSC8s1wzbQjMNSWLsQtkiNwrZK+iBhGhjZu1xxJ08vA8gOsFxx2TdrrJvEnXbv
+         mbqA==
+X-Gm-Message-State: AJIora9H+C0VNLF1Y9sMlNyiTR5XzXhycmNCWCjdY8CqZ2U7cTFJpdmd
+        mS70Pvz2QjGdoVXXnF+AQeBoV41t9CsEIw==
+X-Google-Smtp-Source: AGRyM1sarY6A/Bs9v3pw+inXLsGQAJqOW2U+DrbYzSuNSv2rbd1DQ6m8rnp4YHMrOtMiy7i9+ubYHQ==
+X-Received: by 2002:a0c:b258:0:b0:470:5709:4007 with SMTP id k24-20020a0cb258000000b0047057094007mr8576008qve.83.1656523113040;
+        Wed, 29 Jun 2022 10:18:33 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id d8-20020ac85ac8000000b00304e70585f9sm11967887qtd.72.2022.06.29.10.18.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jun 2022 10:18:32 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id p7so27716969ybm.7;
+        Wed, 29 Jun 2022 10:18:31 -0700 (PDT)
+X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
+ s14-20020a056902120e00b006346f296b84mr4496162ybu.604.1656523111456; Wed, 29
+ Jun 2022 10:18:31 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20220628194526.111501-1-phil.edworthy@renesas.com> <c168df990e1187bf44a5c46be53aa6b20d30d14d.camel@pengutronix.de>
+In-Reply-To: <c168df990e1187bf44a5c46be53aa6b20d30d14d.camel@pengutronix.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 29 Jun 2022 19:18:18 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXV72_BWOpU=O13Fa3-t001YSRdsFePSHBS=Xvh1jY1EQ@mail.gmail.com>
+Message-ID: <CAMuHMdXV72_BWOpU=O13Fa3-t001YSRdsFePSHBS=Xvh1jY1EQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] i2c: Add new driver for Renesas RZ/V2M controller
+To:     Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Sven Peter <sven@svenpeter.dev>, Jan Dabros <jsd@semihalf.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Tyrone Ting <kfting@nuvoton.com>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sa, 2022-06-25 at 21:05 +0100, Lad Prabhakar wrote:
-> Add a driver for the Renesas RZ/G2L Interrupt Controller.
-> 
-> This supports external pins being used as interrupts. It supports
-> one line for NMI, 8 external pins and 32 GPIO pins (out of 123)
-> to be used as IRQ lines.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  drivers/irqchip/Kconfig             |   8 +
->  drivers/irqchip/Makefile            |   1 +
->  drivers/irqchip/irq-renesas-rzg2l.c | 393 ++++++++++++++++++++++++++++
->  3 files changed, 402 insertions(+)
->  create mode 100644 drivers/irqchip/irq-renesas-rzg2l.c
-> 
-[...]
-> diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
-> new file mode 100644
-> index 000000000000..cc16fcf2bbc6
-> --- /dev/null
-> +++ b/drivers/irqchip/irq-renesas-rzg2l.c
-> @@ -0,0 +1,393 @@
-[...]
-> +static int rzg2l_irqc_init(struct device_node *node, struct device_node *parent)
-> +{
-> +	struct irq_domain *irq_domain, *parent_domain;
-> +	struct platform_device *pdev;
-> +	struct reset_control *resetn;
-> +	struct rzg2l_irqc_priv *priv;
-> +	int ret;
-> +
-> +	pdev = of_find_device_by_node(node);
-> +	if (!pdev)
-> +		return -ENODEV;
-> +
-> +	parent_domain = irq_find_host(parent);
-> +	if (!parent_domain) {
-> +		dev_err(&pdev->dev, "cannot find parent domain\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->base = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 0, NULL);
-> +	if (IS_ERR(priv->base))
-> +		return PTR_ERR(priv->base);
-> +
-> +	ret = rzg2l_irqc_parse_interrupts(priv, node);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "cannot parse interrupts: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	resetn = devm_reset_control_get_exclusive_by_index(&pdev->dev, 0);
+Hi Philipp,
 
-Why is this by index? I'd expect
+On Wed, Jun 29, 2022 at 6:21 PM Philipp Zabel <p.zabel@pengutronix.de> wrote:
+> On Di, 2022-06-28 at 20:45 +0100, Phil Edworthy wrote:
+> > The Renesas RZ/V2M SoC (r9a09g011) has a new i2c controller. This series
+> > add the driver. One annoying problem is that the SoC uses a single reset
+> > line for two i2c controllers, and unfortunately one of the controllers
+> > is managed by some firmware, not by Linux. Therefore, the driver just
+> > deasserts the reset.
+>
+> This sounds scary. If the driver is never loaded, and the reset is
+> never deasserted, what happens to the firmware trying to access the
+> other i2c controller? Does it hang? Or write to the reset controller
+> registers to deassert the reset? If so, is there any protection against
+> concurrent access from firmware and reset controller driver?
 
-	resetn = devm_reset_control_get_exclusive(&pdev->dev, NULL);
 
-should work just as well?
+In response to v1, I wrote
 
-regards
-Philipp
+| That is actually an integration issue, not an i2c controller issue.
+|
+| Perhaps we need a RESET_IS_CRITICAL flag, cfr. CLK_IS_CRITICAL,
+| to be set by the reset provider?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
