@@ -2,256 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 910D155F031
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 23:08:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0830D55F250
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 02:19:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230183AbiF1VI2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Jun 2022 17:08:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54194 "EHLO
+        id S229492AbiF2ATR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Jun 2022 20:19:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229872AbiF1VI1 (ORCPT
+        with ESMTP id S229490AbiF2ATQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Jun 2022 17:08:27 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C620E22B12;
-        Tue, 28 Jun 2022 14:08:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656450506; x=1687986506;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hbAuSvqmvICPt1eUjjwOf8UfFYjtvV+WwRG6YwRZ9+0=;
-  b=gSYo3aLZbmhmd6ujfvrCY68VF5GGfubdoU8+TgzJqvpAaS6gJzdP+Oa2
-   r8NaPLCGTIH8C22jHxu7gsFH7Y8fpI9raYkmzYUCGeNUXn6dg0/WCcmQf
-   k0NlUfIIGRQ/VlLPj5XWg5p5aj7GV0MVQEfcCnsLXHIgZF/Ol4Zndk7LV
-   dVep5wcS9z6kayyuC7fedLQFDd/6gLpMKQhH5PCGXBAN7DfuPKhb0pht/
-   k8TLtWCK46fPYJbljeonsenWwAhV7N2lU4bV/r8fZdfCMlZKl+DMaz81n
-   IcofJf302aqKp2/epL9mb1oUfaBo/Qi6h7mTmzJYF+q+aE09I/YbHtg/h
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="264888331"
-X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; 
-   d="scan'208";a="264888331"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2022 14:08:26 -0700
-X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; 
-   d="scan'208";a="732904960"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2022 14:08:22 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1o6IRW-000x9d-Fc;
-        Wed, 29 Jun 2022 00:08:18 +0300
-Date:   Wed, 29 Jun 2022 00:08:18 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Phil Edworthy <phil.edworthy@renesas.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Wolfram Sang <wsa@kernel.org>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Sam Protsenko <semen.protsenko@linaro.org>,
-        Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>,
-        Jan Dabros <jsd@semihalf.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Tyrone Ting <kfting@nuvoton.com>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] i2c: Add Renesas RZ/V2M controller
-Message-ID: <YrttwplV9zEgCFji@smile.fi.intel.com>
-References: <20220628194526.111501-1-phil.edworthy@renesas.com>
- <20220628194526.111501-3-phil.edworthy@renesas.com>
+        Tue, 28 Jun 2022 20:19:16 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2123.outbound.protection.outlook.com [40.107.113.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AAE12A97C
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Jun 2022 17:19:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lm1TQSt4VUAlts0vA3kKorhiys4cwu/sVig1oYfRtJpOUK+7ODeqx//kxfl4S49i4t+fjuMKbC1CDMPjZUjGizM+g3Krm6MPhyncdi0NVvyWmHe9IafnSLpY8h3QlAMqhqx2JYzMN4AM5vUUsCSYABS4hHqc8GrrimH2itsb60PheQrr++yjSVnj1D7vddqphEzp0PTgCX/TAX9CPN1cq9Bs+t/yrdZs1ppj5tQhfM2RBTRlexLJGB6t/+OqeC3trN/GtEBICQP86JH/0hbB2bFuJHQxQulFqJKImYombXdPdtsAGzmcWx4D1xeHG+8bYtoQ2+f29eIruIWl6nJBUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dV56bZuuELZ3vF7Oj+oVtGayJKUt2jqcEUJBlJLBJrs=;
+ b=Rmtbk9GKYvfw6zoE17XRkId0zqDe4Z6ndzw4TMILTVOuVWWASXpCx3Rs2gd/9BvxcWudoF8/t5UQHVCQ4AzICjC4FQ1ZZU/q3wgCcydeB9ZV3cYELU1IO48ay8+5Aimr2xKyrPb3GwAWOZuWTLSLjK7jRng6VSURGmduVw7RJaFkcYeN1aR44wW7d2oGTz/vphUeywLhjNVI14FXmu5jgPaH420O+hivqXrM1wCHpyWxhGsh109u/jgH38jqzk5rtyXZe+Lh8CmzzItzDxNDpBAa0m3k4mGvgMnwDG2YDt+R6cL0xnISYxHjSqkpfGhYyU3Al5yM90xq/axdx60zOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dV56bZuuELZ3vF7Oj+oVtGayJKUt2jqcEUJBlJLBJrs=;
+ b=ZsJNgSpDUvvFVstKCWi0OgA7tPejZ/GtFt2n5ZvPOTmbZ0IgGG2N5KiUN8sVuZZ1MW6shWba+G/WrE4nmLj3YbYC2eb+i8KINYeM9Ndqmri4O0PdoCxCYWTdGipXBSzg3H6yIQb30VgDjoSeSokt5wYaf7NpGmQ5d2+wwrlv6CI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
+ by TYAPR01MB3566.jpnprd01.prod.outlook.com (2603:1096:404:ca::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.14; Wed, 29 Jun
+ 2022 00:19:13 +0000
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::3838:1a73:ae46:bab2]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::3838:1a73:ae46:bab2%5]) with mapi id 15.20.5395.014; Wed, 29 Jun 2022
+ 00:19:13 +0000
+Message-ID: <87v8skjp8f.wl-kuninori.morimoto.gx@renesas.com>
+From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: Re: [RFC PATCH] arm64: dts: renesas: ebisu: add port node to ak4613
+In-Reply-To: <20220628122330.28323-1-wsa+renesas@sang-engineering.com>
+References: <20220628122330.28323-1-wsa+renesas@sang-engineering.com>
+User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date:   Wed, 29 Jun 2022 00:19:12 +0000
+X-ClientProxiedBy: TYCPR01CA0192.jpnprd01.prod.outlook.com
+ (2603:1096:400:2b0::15) To OS3PR01MB8426.jpnprd01.prod.outlook.com
+ (2603:1096:604:194::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220628194526.111501-3-phil.edworthy@renesas.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7650bf4a-c6da-4148-1a46-08da5964fea0
+X-MS-TrafficTypeDiagnostic: TYAPR01MB3566:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: epnYsQXjstnBm9bZgzRqSKveG77CjMNLYqGlLyjjFMsGyLCDtzLcvdWo4HRCkmqKRtbZMvngeipflS6u3loWHAJCauvnFt/8TTwmJ8RafGJiRrmMdzlXv7ARQcw42EIXen/OULW5INLBZBXFKDlQ5WRZBfHCC0LlENDpjjkQq7wyhpKEgbeLYtmsZzY5H+Q+/ypQvZM5exWNbzgOaG/PkdN7rJ4RwKBD0mf62Pn571lHSfWqJJLhK8JI+zH36sgRukgVZnCO85Vbq47NrBimefpEviBjzm9OTsOPfqp0mfwI2JGis5KNL0roFJ2G2ox1+PqLyh5NAPYfebXp41xSYeRbqxWwiURnHdCHFe6t8VPEBxDIxo0Cet9WORptmiD72YruPyf0to6THBKUhV2gPqdAIBTgh3/ux8sJT60AgZ9wE4DrciR4TmLR04O0xvmV7/eL8NO1eTBNJEEDi32oUqWPTSYzCrhw5TL+UZe/mIpt/kcBunCcJ7/T94eUXOjklQf6Y8+O/ysC8f4QLO8+BD7gWmIm66nCtKWzZzjdPr7eLNfF3eIIzgzeEU6lYNz4lnUSinIUbqNyQ6JqcRoIlsGLFUnJb0zGa03kRRdU1pEhvjSfNejuoIRD8cU6duauJJjaj/JptqW5P9IVUpbrjSkvsQmgFexkhPmOgJzNlj7PWYAQWgehL93yFV31AShFIZJXp7T3zbvH/SXL4RQlbbbTpszrHkMusV8OrZHROc7RAc06FajADOEuB90OpXsYWPbcYQQ2ibcnmNarGbw6OU9CVyb0tcE4nRctWd7Wed2UnNPY5S9AscFgViY0QBkTbT6+54dkeYXgBfKYGpJHZg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(376002)(136003)(39860400002)(366004)(346002)(4744005)(4326008)(66556008)(66476007)(66946007)(5660300002)(8936002)(8676002)(2906002)(86362001)(83380400001)(6506007)(38100700002)(38350700002)(36756003)(966005)(478600001)(316002)(41300700001)(186003)(52116002)(6512007)(26005)(6486002)(2616005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2EigSq9unlXfku99T5Nu2bFv0uqlS0K4flXIy95oUN+8s69OEdzqtABtF59E?=
+ =?us-ascii?Q?zSvfnHwHyNqAgwOdix2MXDRGKU+odjE7yJ95HFfQRgDZ/aFcTVVLd0u3nCzE?=
+ =?us-ascii?Q?b1rc74y32fD+3u0YQX+eYl3U8570tvSNNpPjRjRN5JNftTbOwrb/uHcuhnWy?=
+ =?us-ascii?Q?uLjACihMorlCUw3H4rfpH0fSE7oT6VX91ySap4xQcOGYw6XiQEIaaaVwUEw7?=
+ =?us-ascii?Q?JrMpyDwOAQ7zVklm1CZjVm0xRIIY05yJlErH82FZtj4w9RFaAGFzpKprCUyu?=
+ =?us-ascii?Q?oUKABRBl5zBkSotu2Op6KxCtIZXSjqjbJ8aEYnpi4HgOeKVIVVntCJccdJyb?=
+ =?us-ascii?Q?abV5UEj6ONKpC6qiydWESehMYoCw4pk5zZQe3e1Ee7f6SG6aS4mgPDTTinJm?=
+ =?us-ascii?Q?cUSyN3/cXFWZ8am8+22iTz2JxbsCDDLMPeLZgkh6VUNK1WNuHTjMWgn3WW/v?=
+ =?us-ascii?Q?SaRvI1prnawTyvMdHxgta/RdnVdJs+quGYO0FJr4cbg04mHTdbVFNHBwySGf?=
+ =?us-ascii?Q?oi3ck96unLsDIOvIgnNM2WOZUl5ly0aRNBMayAryOFRtfjIAfTSkRbiUeCo/?=
+ =?us-ascii?Q?vnJOsPoeoGtQHLtnzNh37vWRI+pm8xaur+5q10o1dhks7Qe125k2KSYMXW1v?=
+ =?us-ascii?Q?g1PNMtawZX2eDja57nmpQX/fzcvu3fyPC+PkcCWbXtXrzLMJuXTHHASQ7Ge4?=
+ =?us-ascii?Q?OGKNuqrsbPtBZcRHLDMMRUVCOFfOWRViiLtHmbH0eqo39S7DVB508JYTeDAw?=
+ =?us-ascii?Q?Chnc2S8bwAhBagvxoRdUt6uEcCSYg5pHV2cj6MegghW/EuspmZPXCB6Fj5i8?=
+ =?us-ascii?Q?X5jBYemf1DbL2eBPm8M8uE0NZi46MW8UzFIBOkb23avj0IJU598mhvmUaF1N?=
+ =?us-ascii?Q?prS0cCMORfVaDhFXF91F3ak0jvOfev78DIKmqoYDrfe4DKulI3DRhyI7/PNC?=
+ =?us-ascii?Q?T47v1D7TWv2vJ08SBB2Omkt5bw1RVqnksjZAwJf5WzB6OVSMsRaTnIV8+T+S?=
+ =?us-ascii?Q?A6gKATN33r0ku3FFNRtK3a0H/qkmpxZL7VxKtsKbZrFFefsjvUcTsPdQEv2B?=
+ =?us-ascii?Q?vxezwiZSHFd4ZJBiuv3Jo4MPy9j8XPA8UO6e2j1lpXY+B1ujCkKyE+qGPZFd?=
+ =?us-ascii?Q?1FoWW245lcty0YODgY3rlbkiaZrMT+XT8bmtLGT2a/a+GpkcMpkNcOLy6WKh?=
+ =?us-ascii?Q?SimRYz/TT388gDzj6/9TG3R+X5HOrI+Twi/7dmZvFlmqivbHnf/7yOtKJ1zX?=
+ =?us-ascii?Q?k4h5R+WGXc2L6qf+8hKs2Q7N6YXpmbdpto8pTKdx6GIXawu1KEW88MVSusg8?=
+ =?us-ascii?Q?sFjsURnUl0zJWS0AVBQlZWmcOxGl/hOEI96KtybTMdcq9/bxUgCRftojDkK+?=
+ =?us-ascii?Q?3yV1natvpwBw4XvbjwrA1ng4AzkhcTvy5xu+v2pt4dDHGHbW1AprnZP/eM5x?=
+ =?us-ascii?Q?dZ3nYD0cW/wyRTY40kYwvW4qNTHmivr+SEZpNUnTs/79moI5thqEt211izVa?=
+ =?us-ascii?Q?TtWF+nkHxCCD+yCnEEL9cmSiwn6m1FtOa/1FCr5xKxqixuZlmQqeZfZZIsNv?=
+ =?us-ascii?Q?7itiQXtYUnucOSNfPZICX6LVjc8J4ZOfNDQ80S8TBWHUhqMwWnn5FC6fQAvI?=
+ =?us-ascii?Q?DDubc9xdZvWMdI+AsKzMbBs=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7650bf4a-c6da-4148-1a46-08da5964fea0
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2022 00:19:13.0947
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xZOO/QWy5NdTJRSWonQ+mSedjiRbvr1UCCIF3Z5m3ikH35Dne63AvAmmbJ7Vyq8mfsxXzw2vENL9zLLCF1B4o578UMqOsIy4C5VO23umFZY/EhUTo1uDAlG7/OEYtGwr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3566
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jun 28, 2022 at 08:45:26PM +0100, Phil Edworthy wrote:
-> Yet another i2c controller from Renesas that is found on the RZ/V2M
-> (r9a09g011) SoC. It can support only 100kHz and 400KHz operation.
 
-...
+Hi Wolfram
 
-> +#include <linux/of_device.h>
+Thank you for contacting me,
+and sorry for my bug.
 
-No user of this header.
+> My Ebisu complains about the missing node when booting:
+> 
+>  OF: graph: no port node found in /soc/i2c@e66d0000/codec@10
+>  ------------[ cut here ]------------
+>  WARNING: CPU: 1 PID: 37 at sound/soc/codecs/ak4613.c:873 ak4613_i2c_probe+0x274/0x2a0
+>  CPU: 1 PID: 37 Comm: kworker/u4:2 Not tainted 5.19.0-rc3-arm64-renesas-00003-g57c83727d651 #50
+>  Hardware name: Renesas Ebisu board based on r8a77990 (DT)
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+> 
+> Hi Morimoto-san, I have never done any sound stuff with R-Car. Is this
+> the correct approach which I copied over from Salvator boards?
 
-But missed mod_devicetable.h (Okay, for I2C drivers we usually rely on i2c.h to
-include it for us, but it's cleaner to include directly).
+Could you try this patch ?
+It should goto linus tree, but it seems not yet ??
 
-...
+	https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=ec3ad554b956d5dbefa1962c419f164ba223e6b3
 
-> +#define rzv2m_i2c_priv_to_dev(p)	((p)->adap.dev.parent)
+Thank you for your help !!
 
-It's longer than the actual expression. Why do you need this?!
-
-...
-
-> +static const struct bitrate_config bitrate_configs[] = {
-> +	[RZV2M_I2C_100K] = { 47, 3450 },
-> +	[RZV2M_I2C_400K] = { 52, 900},
-
-Missed space.
-
-> +};
-
-...
-
-> +	if (priv->iicb0wl > 0x3ff)
-
-GENMASK() ?
-Or (BIT(x) - 1) in case to tell that there is an HW limitation of x bits?
-
-> +		return -EINVAL;
-
-...
-
-> +	if (priv->iicb0wh > 0x3ff)
-
-Ditto.
-
-> +		return -EINVAL;
-
-...
-
-> +	if (!last) {
-
-Why not positive conditional?
-
-> +	} else {
-
-> +	}
-
-...
-
-> +static int rzv2m_i2c_send(struct rzv2m_i2c_priv *priv, struct i2c_msg *msg,
-> +			  unsigned int *count)
-> +{
-> +	unsigned int i;
-> +	int ret = 0;
-
-Redundant assignment, you may return 0 directly.
-Ditto for other similar cases in other functions.
-
-> +	for (i = 0; i < msg->len; i++) {
-> +		ret = rzv2m_i2c_write_with_ack(priv, msg->buf[i]);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +	*count = i;
-> +
-> +	return ret;
-> +}
-
-...
-
-> +		ret = rzv2m_i2c_read_with_ACK(priv, &msg->buf[i],
-> +					      ((msg->len - 1) == i));
-
-Too many parentheses.
-
-> +		if (ret < 0)
-> +			return ret;
-
-...
-
-> +static int rzv2m_i2c_send_address(struct rzv2m_i2c_priv *priv,
-> +				  struct i2c_msg *msg)
-> +{
-> +	u32 addr;
-> +	int ret;
-> +
-> +	if (msg->flags & I2C_M_TEN) {
-> +		/* 10-bit address
-> +		 *   addr_1: 5'b11110 | addr[9:8] | (R/nW)
-> +		 *   addr_2: addr[7:0]
-> +		 */
-> +		addr = 0xf0 | ((msg->addr >> 7) & 0x06);
-> +		addr |= !!(msg->flags & I2C_M_RD);
-> +		/* Send 1st address(extend code) */
-> +		ret = rzv2m_i2c_write_with_ack(priv, addr);
-
-	if (ret)
-		return ret;
-
-> +		if (ret == 0) {
-> +			/* Send 2nd address */
-> +			ret = rzv2m_i2c_write_with_ack(priv, msg->addr & 0xff);
-> +		}
-> +	} else {
-> +		/* 7-bit address */
-> +		addr = i2c_8bit_addr_from_msg(msg);
-> +		ret = rzv2m_i2c_write_with_ack(priv, addr);
-> +	}
-> +
-> +	return ret;
-> +}
-
-...
-
-> +	ret = rzv2m_i2c_send_address(priv, msg);
-> +	if (ret == 0) {
-
-This is a bit confusing if it's only comparison with "no error code" condition.
-Use if (!ret) if there is no meaning of positive value. Same applies to other
-cases in the code.
-
-> +		if (read)
-> +			ret = rzv2m_i2c_receive(priv, msg, &count);
-> +		else
-> +			ret = rzv2m_i2c_send(priv, msg, &count);
-> +
-> +		if ((ret == 0) && stop)
-
-Like here.
-
-> +			ret = rzv2m_i2c_stop_condition(priv);
-> +	}
-
-...
-
-> +static const struct of_device_id rzv2m_i2c_ids[] = {
-> +	{ .compatible = "renesas,rzv2m-i2c", },
-
-Inner comma is not needed.
-
-> +	{ }
-> +};
-
-...
-
-> +	priv->clk = devm_clk_get(dev, NULL);
-> +	if (IS_ERR(priv->clk)) {
-> +		dev_err_probe(dev, PTR_ERR(priv->clk), "Can't get clock\n");
-> +		return PTR_ERR(priv->clk);
-> +	}
-
-Why not
-
-	return dev_err_probe(...);
-
-?
-
-Ditto for the rest cases like this.
-
-...
-
-> +	adap->dev.of_node = dev->of_node;
-
-device_set_node()
-
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Best regards
+---
+Kuninori Morimoto
