@@ -2,86 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9888255F586
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 07:10:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81DE155F699
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 08:32:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230130AbiF2FKP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 01:10:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39634 "EHLO
+        id S231477AbiF2Gb5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jun 2022 02:31:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbiF2FKP (ORCPT
+        with ESMTP id S230261AbiF2Gb4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 01:10:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 701112E086;
-        Tue, 28 Jun 2022 22:10:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0A74761629;
-        Wed, 29 Jun 2022 05:10:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 62457C3411E;
-        Wed, 29 Jun 2022 05:10:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656479413;
-        bh=fH3KHSSPf/f1Sz+0BB9KsOfbCTRq1jMyu37S09YyXIo=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=bGpHiYwPHhEmiSgprJfcxktSY55yfG020yZtSnhmEP1vmvF+eio7enY0xaLp7vuG6
-         k/33HOzkFH7g2DIWHSz4jYwUrAypLyIob+Duh66f2QwAGLZHvPGEi7oPiLJC0ng9r+
-         /zndPUshYw+NSp3NWic67y0zhy7crTPwjdacmT6uXlPQrPF7vpaO0TMPJzJzoyNBEi
-         bGvGFXrqI8y+wrPrm6OvlQf5eicB1rXPDvIw+4DG6QVjb2z5+fGtY8W3axiOXs9vzt
-         1ba72ZvypwxcVlrsj10Rdc3ovbl9bAxhSTQhGsOVOasAr7zPm6JTgjL6OxhfQsFazj
-         hjAp/6iRIttOQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 43CA2E49F61;
-        Wed, 29 Jun 2022 05:10:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 29 Jun 2022 02:31:56 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBB0F2AC78
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Jun 2022 23:31:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=hvu4JV+IzrFFn6nlVRyMO/j1qSaQ
+        zB2n/0C935jNYcw=; b=SoURPRK1UcfLh4UVFwliAh+idUXCsRev/3djMVnIkIaL
+        EKmUsV2YqFHbGhEFwyYHH4NdnKVhBC9QzdlaffZn1z1PL7DcN/woLZUAba5WyUFy
+        O2wmKSX7uNOzh2Uj1z4qsQGvItFiCo6NEe3xcMO4E836RtXH5hD/MEhEJPabf1Q=
+Received: (qmail 3149332 invoked from network); 29 Jun 2022 08:31:51 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jun 2022 08:31:51 +0200
+X-UD-Smtp-Session: l3s3148p1@RYuqTpDifzhZD+57
+Date:   Wed, 29 Jun 2022 08:31:46 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: Re: [RFC PATCH] arm64: dts: renesas: ebisu: add port node to ak4613
+Message-ID: <Yrvx0qRDf5V4C7jj@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <20220628122330.28323-1-wsa+renesas@sang-engineering.com>
+ <87v8skjp8f.wl-kuninori.morimoto.gx@renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] Revert the ARM/dts changes for Renesas RZ/N1
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165647941327.13568.9977362848658590724.git-patchwork-notify@kernel.org>
-Date:   Wed, 29 Jun 2022 05:10:13 +0000
-References: <20220627173900.3136386-1-kuba@kernel.org>
-In-Reply-To: <20220627173900.3136386-1-kuba@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, geert+renesas@glider.be, magnus.damm@gmail.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="JTsY6+Egc3r1lQX4"
+Content-Disposition: inline
+In-Reply-To: <87v8skjp8f.wl-kuninori.morimoto.gx@renesas.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
 
-This patch was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
+--JTsY6+Egc3r1lQX4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 27 Jun 2022 10:39:00 -0700 you wrote:
-> Based on a request from Geert:
-> 
-> Revert "ARM: dts: r9a06g032-rzn1d400-db: add switch description"
-> This reverts commit 9aab31d66ec97d7047e42feacc356bc9c21a5bf5.
-> 
-> Revert "ARM: dts: r9a06g032: describe switch"
-> This reverts commit cf9695d8a7e927f7563ce6ea0a4e54b8214a12f1.
-> 
-> [...]
+Hi Morimoto-san,
 
-Here is the summary with links:
-  - [net-next] Revert the ARM/dts changes for Renesas RZ/N1
-    https://git.kernel.org/netdev/net-next/c/eba3a9816ad1
+> Thank you for contacting me,
+> and sorry for my bug.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+No worries, bugs happen all the time to all of us.
 
+> Could you try this patch ?
 
+Thank you! It works \o/
+
+> It should goto linus tree, but it seems not yet ??
+
+It is also not in renesas-drivers, this is why I am still seeing this
+issue. Now I know.
+
+> Thank you for your help !!
+
+Thank YOU! :D
+
+All the best,
+
+   Wolfram
+
+--JTsY6+Egc3r1lQX4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmK78c0ACgkQFA3kzBSg
+KbYe4Q/9FjYqV+xMoqWi2oUSNu+ZdT2hNKq60ISt6LHv7e20vPjA1acW4B3N7hLN
+SmXOGw2sN94+0VyXnFEQ69dn5ww6xomyNc6Rynb2G1xyl+Ryg3gsiTLekVFr2Frn
+dO37Mri3H4yL0zpEiY0iKS2vB8qzXPg/p6Of4yNmIRZcEVTFoqmbMRuQj0u2zjTR
+/jMbuDcSTuO0WwY8+IoK1YuWetUVlVKNak9ISPlHitlJdWFsfPWYrYYnYujtRWmv
+K8Uy8OZr3iHSpa0JQ7wmn2WmFsyu+VVKm1TqMKqTHq7yC7gCXu66oDx2RTm8+uGS
+FUlnHmpz9GvxqLRZZ1sFREN5NPKcpYtsFa/sfozzIfx6C7NtLaN900iJeAK1UwWi
+94gAowxMOnZP6vZ8IiZmGXVSMmrojcFGF+1Hk43diVjcFdx96pkEeL0Utx9iUG+X
+RBk43EbSQBd/cKKLDQ8rSis7Nj9IXDabA3FIRCYvpz46aYqD8xOBU+7NCfgpGtYB
+1ksZkIcZ2xbwMXR3n4qvjMqlofikmS41qStsM1ZuuN2xfm69JFogd4GYum761Nyd
+wUTo6US1LR4iFr2HvAkzMJ0aKf2zMrmXgBq/Hvi8JIWOkJEtyZFtTxisNiUvliHk
+wHJnYJZYbgME1b6buvHkfMmMRnZLrn6l9g9cUk6l46bRb3jX18I=
+=S3J/
+-----END PGP SIGNATURE-----
+
+--JTsY6+Egc3r1lQX4--
