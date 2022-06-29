@@ -2,574 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FBD9560BDE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 23:38:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80120560D9E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jun 2022 01:37:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231397AbiF2VhM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 17:37:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42482 "EHLO
+        id S231614AbiF2XhG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jun 2022 19:37:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231205AbiF2Vg5 (ORCPT
+        with ESMTP id S231426AbiF2XhF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 17:36:57 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44F5240912
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 14:36:54 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id r1so15268183plo.10
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 14:36:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=NWtauHDuaD9pDqSo0aKia/8baB7DCwj9SVP3ydoPqGw=;
-        b=wePQ8DlHNZNmPyov6Xibmq6uz3hiHxTivjrtfJdVYZgXOxdQ0mF93HxVLW+K0oGLOL
-         ZsUO/XK1iSAdw48/0obcdqxzwni7lgMkkaMARQjdTz/yHXOcq++l0qA8cjy3h7YkZTb1
-         /4Wuv+nB5dPnbTtgilO+hOvULR1JUGmT38TWSm2u+1aInS38LxBicVBgoNIORnwm5mCR
-         gMBjg8yPzkCJ69xtqJciiQl5cJvsTdwd0o/KOQyxnnUQFrKV/ZifwMNiRtluK6MOXNV/
-         w0RJ4vkvtSKZT99uwYQRaysrXi8UKxLAWeqXDR+CtZb5Xsbhe6U2RptD70fXRYrAqs5a
-         u7Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=NWtauHDuaD9pDqSo0aKia/8baB7DCwj9SVP3ydoPqGw=;
-        b=HUEkEVnYXbhIvOD7rQEfNmO4mXx87Zc3flZ3rkhsKbwnI1PfQbDUEottQDHqIh8PoT
-         35oXMbzks9k2DW4hUXYu2zDYqbLVO2oHBXsKIsvOlbl/bhqMKpKtqCmdghQAes1Tk/eR
-         iCV0vEb4B9Ty0CeQ/F5oJZGRmXpPz7f77CAiJdbyg6dBg0epQfvV2Td7oHQyUU9jFyAA
-         0VPobRz7TiLrl6GQdvy50ob5LkORrSZYER71KDU9AtGF2vrbSxK38Kbu27N/ALRLRiHp
-         1z15rRuvH5eu1+klKU2HCh0ZM3jHaHbH774If3k0iRP9/Ria4GHP3cmwXZchUm+StxTi
-         nLTw==
-X-Gm-Message-State: AJIora/T9VamXHaiFgk6PO67KSA7tedWZgInMq63/AsRR/m1tzrm3JcI
-        DIxpIwms5cZKj9zxNJvG2s/wgi1aHgWbM9VCOsU=
-X-Google-Smtp-Source: AGRyM1uk0vahjb2Aw5GVTK+xw8cUdfgv4I7GB9ncZvnOY/VmvT/GFwfOBiLUtU7MNtdv2XRTi7LiTg==
-X-Received: by 2002:a17:903:41d0:b0:16a:55e0:6c3d with SMTP id u16-20020a17090341d000b0016a55e06c3dmr12338868ple.21.1656538613061;
-        Wed, 29 Jun 2022 14:36:53 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id cp12-20020a170902e78c00b0016a0db8c5b4sm11819088plb.156.2022.06.29.14.36.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 14:36:52 -0700 (PDT)
-Message-ID: <62bcc5f4.1c69fb81.2ce4b.09f0@mx.google.com>
-Date:   Wed, 29 Jun 2022 14:36:52 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 29 Jun 2022 19:37:05 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2111.outbound.protection.outlook.com [40.107.114.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8310DB10;
+        Wed, 29 Jun 2022 16:37:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YU8bKxbs+AmdP7sEBr+RrbhqdlI+NFUS7Op3iooWqO4krHCVNniA76ylX2QBLWuYMV2isU3L5P6zQo2JNiJlyso1G8cb899xDzGy6z0621Q9ybHfPKlZnx6FSKHNSMHL8IJY4axRdCYO0DPsMs3WhBbzzaQ+liK4edIvzvCLZnvm0BtRaPpzgjQmp91q8AZTQZwob0eUHG66qWBWLODbHu5eRkyyO/09liewzQbabKzIzFdHnEqb9yEYohNpe2wbNzeq9taQCN4ldPLY1TiyK7er/660v/HQqpJu/aSHvElGnzrPaZO70ka8K3tvg3YC/x+NMGba99zKe4vuZM6x1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BaEThjyNPOLrNoxTb9Dq/ISjxljSNlfEIe3s9YRTpio=;
+ b=M6q5AzXq21c5v9ruya7C5c+jo4qr3pHGzSKwT19KBcpJZsiAsszT8ysxA5mzQ8yRv11Ut2WOrnq/gBEyroUnIOSLWw+SFOAdPOk00OcnXV/lquys+8pKejdrYz2gbOOIZkuAvurQH7+BTcdzwGPPvWYGMCfAe1WQ8/DpMQ8FICeYerDcPXSh7GytNhBQLj4xzulKzYaDjFmuDGDzwHLyYeWJj6wrZnvy3cG+MOADM1Omk5K3QwhJ6iomM1qnQu8Xk1z4tNRwDcFd096qaeOcpDPEl9cz9AmiRcYk2Ky5AyViPKvQ5hcbLs2e93ilnMz5KL6UL6v1KTBtIiYmMmWzFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BaEThjyNPOLrNoxTb9Dq/ISjxljSNlfEIe3s9YRTpio=;
+ b=nq/ttg1EFGVLI8nFoE/IRZ8YSqZZ6hiLd42J+v2s+9FxnxRErOAoAPkk9LeLLjpQTfRvTxUv/XRxztv/KdsBEyoTQjaieIhDIQLwaN0jLN9MJbcLEpPRJSL7DuVL3yN7YDV2aTi1lhcPS3BaM1E0E2w3AQ+tHSh7hZyu4FxalfY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
+ by TYAPR01MB5674.jpnprd01.prod.outlook.com (2603:1096:404:8054::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.14; Wed, 29 Jun
+ 2022 23:37:01 +0000
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::3838:1a73:ae46:bab2]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::3838:1a73:ae46:bab2%5]) with mapi id 15.20.5395.014; Wed, 29 Jun 2022
+ 23:37:01 +0000
+Message-ID: <87y1xf59eq.wl-kuninori.morimoto.gx@renesas.com>
+From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH v3 09/21] pinctrl: renesas: r8a779g0: add missing TCLKx_A/TCLK_B/TCLKx_X
+In-Reply-To: <CAMuHMdWPWzhBoDeTR-ueS9Y9sBVWx_zUAM+6b168Tb8LYcGxcg@mail.gmail.com>
+References: <874k0nlrbw.wl-kuninori.morimoto.gx@renesas.com>
+        <87r13rkcos.wl-kuninori.morimoto.gx@renesas.com>
+        <CAMuHMdVVPN-dhnjw1y7WqQJjZNO-YG8PjaFjmCvawMAhZJJLsA@mail.gmail.com>
+        <87r138jm3r.wl-kuninori.morimoto.gx@renesas.com>
+        <87k090ji9t.wl-kuninori.morimoto.gx@renesas.com>
+        <CAMuHMdWPWzhBoDeTR-ueS9Y9sBVWx_zUAM+6b168Tb8LYcGxcg@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date:   Wed, 29 Jun 2022 23:37:01 +0000
+X-ClientProxiedBy: TY2PR02CA0028.apcprd02.prod.outlook.com
+ (2603:1096:404:a6::16) To OS3PR01MB8426.jpnprd01.prod.outlook.com
+ (2603:1096:604:194::10)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: renesas-devel-2022-06-29-v5.19-rc4
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-Subject: renesas/master baseline: 437 runs,
- 15 regressions (renesas-devel-2022-06-29-v5.19-rc4)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4e1a6dcd-a3c1-42c2-8691-08da5a28441d
+X-MS-TrafficTypeDiagnostic: TYAPR01MB5674:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 95Ro4pa5gij+AqGoN6Pt/Z9sJ2LhC5i3NQ0KRpsQqgft3tgLS5btDYye3WPdzK6+v+IutBPiulkvTT2HuawXe4p7D+6MaPQEwcAumgxbsgDgvy9i7CpzsSAtsq/I/D6FBZ+yRatMMPVEAp46cvanoM02ebgswIHS37/VuIXi4EXSpdY7chMVT22PyxslkCq5u82eHq00Y7UCDAdZCUwvIdFqEgORLD1SRNldCMcPWqXaMRPNrkGEZLm4COab3uFGqKPJ5yV7O6P+mK7SCNonLY6c5yDCE8Iglv4GT+vEOdVviMClFC5wuCvf8JGettCSNivQ1RIApo94sGVVvZQLEKNEfSPOP8/HrTkwgu5q+3+y53o9PWZrXHPnDOcDDyNHiesPnXREAbf7o4P9BD0pbIgalQDUHmWvUpcvNSbGtTjDlGQ5OPF2ggNUPh05PBx+fSXnDGo49DAWmxmnXLiKBtqtJ2VCpk+4aZ05VgT4DHKOoIiDPamh41M+AuX9kgMo3JZX6rZNAsl0I8cM2P+5G6xSK3uJVCFWhJECPY3zuLcUuEu35vK1jrX9P9xS6M1/EDfGP4IYUqYC1Bm/mrpswxdWTjtwSJ+sc0oMXZMZsusoBPMUHcR4jtEYjshX43iYDlQt6jbEcBdBaQ8sJ90mAAfkUxIoVNKOosmpFKp9d5MNRcucCFVmiwMW6JCOFTaMNHhsz/iPWAN80VSGfaT+pjx11nQraGZeF69PfvvNY26Rv/1vRjWEErZbbq1Sij8vZvUQqHtQ3DU1TJZuX3dt0GuRtdf/l10qZc079Yi46ME=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(396003)(366004)(346002)(39860400002)(136003)(6506007)(41300700001)(2616005)(478600001)(186003)(26005)(6512007)(52116002)(83380400001)(38100700002)(38350700002)(36756003)(2906002)(86362001)(5660300002)(316002)(54906003)(6486002)(6916009)(66946007)(8676002)(4326008)(66556008)(66476007)(8936002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0DZG2DLC+MkXHLRwkvIy98yXRTKN3803TmMlLV0CjbFAn4NpXWQJl+gzZSEz?=
+ =?us-ascii?Q?qbTKmnFF1S+bdS25XpLCZvLpDhyjySyv/ZOnTYrRKVJGvMay8KHRCJV9jNyb?=
+ =?us-ascii?Q?5fK0Q3kHfJCpXlMjyEvjKuoq/j/BOY9T091MvntRSwJ9gPfWIzvepmEQQiTD?=
+ =?us-ascii?Q?wPhmt1inKlg7wZW8v8s7ji/DXFPvptByPL16W1BiwPRodzTKM0f1Q1lgt58N?=
+ =?us-ascii?Q?fz4lu6Ggf89pqm1Ml7lU4UAbDFoCJjoMhFRtfg6kMaXupQ2ysmYS83sOJuXy?=
+ =?us-ascii?Q?v3Py2yqc2+6PQxhl9Z0XwvDtY1vWSRvxJaHhyPCbtCNqPui2ofK8iHH5etQH?=
+ =?us-ascii?Q?RcIqepqv9yCrd8ljwTFRbwvwcR2BgSTahbxpCi/to2ps+v59QfTbCYvPFTFa?=
+ =?us-ascii?Q?aui7hHRyU4IpRzxvM0396ZwOAHAOgEQyMp9Z+cFDNNHmxwOMHE4xp8NyEZfP?=
+ =?us-ascii?Q?HI5Q9jCQsYSThr7FW7TZVZhPEzqz5RL+jBIFoOwJVqRPrQKegVQrjDOh6BBs?=
+ =?us-ascii?Q?IbCYlw35dC/IM+bWflbG1vLEDT3NqDJtey/9JyrXi7MZRHumRRlve1tSHWIY?=
+ =?us-ascii?Q?2jpIS9/fMtVViPCLvY7Qzq8GqmDL8eW8CSAVY79hxnaoO/RPVaVMhbZswmhH?=
+ =?us-ascii?Q?JHoIH9dXZwW7T8Ws0l4yhJIXEvZGMO98Uz7p5zD81EN4bqUFNbBv6frSfKj8?=
+ =?us-ascii?Q?ycGKwAc/c4ltaPDzEv/onQWt7buzpYfk291wbIcEvEX0H4HUbpsm+JFXBCRY?=
+ =?us-ascii?Q?oPyIP5efq1GuhyaUU/07y5S2gXW0yILEmGUH0Mlx0blTa3HQGA8PgALsMgJ7?=
+ =?us-ascii?Q?4fDu1sANLihcysU+KgPKKuVXDgbPbZNh4DZvir8nxce2SJfxulMQ6H7YQ4va?=
+ =?us-ascii?Q?oKItR+3rNleD7EcMy7ZBDXX4ubjI2BDQ+Li4jGNd2xFfjnM/Gdb3khFiKpJo?=
+ =?us-ascii?Q?VBgCqy4E9gxQuSnqA/WjBY9DRR0sKm38g676qgmM44GttOTb3apYoRUKyuEp?=
+ =?us-ascii?Q?0ECK0bNItPNO+BnZ0iI26QXUQYB/n1zffHugSRrQf6Q1upHBLrM2DwYjWLwL?=
+ =?us-ascii?Q?iqzqSftqMW8+kfhzHOJhjcxSpK0Ew2KYJF+88LXJ29tDTh77sf1vOrBljlNV?=
+ =?us-ascii?Q?EIHx02NIDzhM64ilA0lWIge97dyhE6oIDZPLp+FR87gPmLoH9BE1EaUuleoR?=
+ =?us-ascii?Q?HAgINaHpmr0YrM6gFoheIwGFFlyVj+5Is79+GxMBvh5A1u1DRn8URUQEppcj?=
+ =?us-ascii?Q?OZea49yTeHPmAfLgWGhu9Iq9of01ErZOgpe+cP2FqoKuXfMeYxGbSwm/YoRh?=
+ =?us-ascii?Q?GdXZ+2SHgIpNuiBIzQj8v3IzGCarxnFuF81cMgclUqqOHZjdOZh5FLIRZX1n?=
+ =?us-ascii?Q?mV/RC8L9XecwzMBLe/rUi5T19ADPvHrBoRY9Y0PhvNLsY/Zq26ajffNHgna2?=
+ =?us-ascii?Q?S3LgJHp2sr2SftFyEFfKP0kNhWqY0JWX4idaAnOKDtcEprW//blFYO6PAcbu?=
+ =?us-ascii?Q?Tiyf7TdObc+YLQJjTFU4EsGsJGKdfshIGVziBqjJBi3/MzGyG8zscC2gzWvv?=
+ =?us-ascii?Q?HOGVr0J0pPHS4JGmpc3+HVbakyNy/ONjrIODnIR10xxNmK2SK8qpagpLmHNl?=
+ =?us-ascii?Q?HMDdOze2eHAmkoi5HurDpHU=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e1a6dcd-a3c1-42c2-8691-08da5a28441d
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2022 23:37:01.6667
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TPaXZb55UR7jPRXwMrr+b7yEaZtIqaekEOOOQeaKB5GSfMC/OuG/lTD6l8gspKSOUBzdhcV2BoBHm6DhA/UDlOlOlSunDD3OhPpB5IOl3XaaLL5OZQoQgByg4NMbglbg
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5674
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline: 437 runs, 15 regressions (renesas-devel-2022-06-29=
--v5.19-rc4)
 
-Regressions Summary
--------------------
+Hi Geert
 
-platform           | arch  | lab             | compiler | defconfig        =
-            | regressions
--------------------+-------+-----------------+----------+------------------=
-------------+------------
-imx6ul-pico-hobbit | arm   | lab-pengutronix | gcc-10   | imx_v6_v7_defconf=
-ig          | 1          =
+Thank you for your feedback
 
-imx6ul-pico-hobbit | arm   | lab-pengutronix | gcc-10   | multi_v7_defconfi=
-g           | 1          =
+> My worry is not about the group of pins marked _X, but about its
+> siblings without _X.  E.g. your patches have SCIF1 and SCIF1_X,
+> but we do not know yet if SCIF1 should be renamed, too.
 
-imx6ul-pico-hobbit | arm   | lab-pengutronix | gcc-10   | multi_v7_defconfi=
-g+crypto    | 1          =
+Yes.
 
-imx6ul-pico-hobbit | arm   | lab-pengutronix | gcc-10   | multi_v7_defc...M=
-B2_KERNEL=3Dy | 1          =
+> I agree it is unlikely to become an issue with TCLK soon, but (H)SCIF1
+> are more likely to become enabled, also on real products.
 
-imx6ul-pico-hobbit | arm   | lab-pengutronix | gcc-10   | multi_v7_defc...C=
-ONFIG_SMP=3Dn | 1          =
+Yeah.
 
-jetson-tk1         | arm   | lab-baylibre    | gcc-10   | multi_v7_defconfi=
-g+crypto    | 1          =
+But *current* product (White Hawk) is using (H)SCIF0 which doesn't
+have rename issue. I think we don't need to super care about not
+used SCIF for now (?), at least it is following *current* latest datasheet.
 
-jetson-tk1         | arm   | lab-baylibre    | gcc-10   | multi_v7_defc...G=
-_ARM_LPAE=3Dy | 1          =
+If you can accept about it, I will post v4 patch-set soon,
+and will post naming update patch when new datasheet coming.
 
-jetson-tk1         | arm   | lab-baylibre    | gcc-10   | tegra_defconfig  =
-            | 1          =
+If you can't, I will wait new datasheet, and post v4 patch-set
+which is including naming update.
 
-rk3399-gru-kevin   | arm64 | lab-collabora   | gcc-10   | defconfig+arm64-c=
-hromebook   | 4          =
+But one note here is that we don't know when the new datasheet will comming,
+and we don't know it solves all naming issue and/or there will be no more naming issue.
 
-tegra124-nyan-big  | arm   | lab-collabora   | gcc-10   | multi_v7_defconfi=
-g+crypto    | 1          =
+Thank you for your help !!
 
-tegra124-nyan-big  | arm   | lab-collabora   | gcc-10   | multi_v7_defc...M=
-B2_KERNEL=3Dy | 1          =
-
-tegra124-nyan-big  | arm   | lab-collabora   | gcc-10   | multi_v7_defc...G=
-_ARM_LPAE=3Dy | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2022-06-29-v5.19-rc4/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2022-06-29-v5.19-rc4
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      33401641a5eb2a82fb3eeeb71752594b1d8016bc =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform           | arch  | lab             | compiler | defconfig        =
-            | regressions
--------------------+-------+-----------------+----------+------------------=
-------------+------------
-imx6ul-pico-hobbit | arm   | lab-pengutronix | gcc-10   | imx_v6_v7_defconf=
-ig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62bc91a0c83e3e758ea39bfd
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: imx_v6_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/imx_v6_v7_defconfig/gcc-10/lab-pengutronix/baseline=
--imx6ul-pico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/imx_v6_v7_defconfig/gcc-10/lab-pengutronix/baseline=
--imx6ul-pico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220624.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62bc91a0c83e3e758ea39=
-bfe
-        failing since 50 days (last pass: renesas-devel-2021-12-06-v5.16-rc=
-4-15-g9f95ae4ce1f1, first fail: renesas-devel-2022-05-09-v5.18-rc6) =
-
- =
-
-
-
-platform           | arch  | lab             | compiler | defconfig        =
-            | regressions
--------------------+-------+-----------------+----------+------------------=
-------------+------------
-imx6ul-pico-hobbit | arm   | lab-pengutronix | gcc-10   | multi_v7_defconfi=
-g           | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62bc8fac6796439b2da39bde
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-=
-imx6ul-pico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-=
-imx6ul-pico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220624.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62bc8fac6796439b2da39=
-bdf
-        failing since 50 days (last pass: renesas-devel-2021-12-06-v5.16-rc=
-4-15-g9f95ae4ce1f1, first fail: renesas-devel-2022-05-09-v5.18-rc6) =
-
- =
-
-
-
-platform           | arch  | lab             | compiler | defconfig        =
-            | regressions
--------------------+-------+-----------------+----------+------------------=
-------------+------------
-imx6ul-pico-hobbit | arm   | lab-pengutronix | gcc-10   | multi_v7_defconfi=
-g+crypto    | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62bc922c5cf870cc2aa39bd3
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+crypto
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+crypto/gcc-10/lab-pengutronix/ba=
-seline-imx6ul-pico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+crypto/gcc-10/lab-pengutronix/ba=
-seline-imx6ul-pico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220624.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62bc922c5cf870cc2aa39=
-bd4
-        failing since 22 days (last pass: renesas-devel-2021-12-06-v5.16-rc=
-4-15-g9f95ae4ce1f1, first fail: renesas-devel-2022-06-06-v5.19-rc1) =
-
- =
-
-
-
-platform           | arch  | lab             | compiler | defconfig        =
-            | regressions
--------------------+-------+-----------------+----------+------------------=
-------------+------------
-imx6ul-pico-hobbit | arm   | lab-pengutronix | gcc-10   | multi_v7_defc...M=
-B2_KERNEL=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62bc9420291e140f84a39bfa
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
-lab-pengutronix/baseline-imx6ul-pico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
-lab-pengutronix/baseline-imx6ul-pico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220624.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62bc9420291e140f84a39=
-bfb
-        failing since 22 days (last pass: renesas-devel-2021-12-06-v5.16-rc=
-4-15-g9f95ae4ce1f1, first fail: renesas-devel-2022-06-06-v5.19-rc1) =
-
- =
-
-
-
-platform           | arch  | lab             | compiler | defconfig        =
-            | regressions
--------------------+-------+-----------------+----------+------------------=
-------------+------------
-imx6ul-pico-hobbit | arm   | lab-pengutronix | gcc-10   | multi_v7_defc...C=
-ONFIG_SMP=3Dn | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62bc98f809902a2d57a39bdc
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-pengut=
-ronix/baseline-imx6ul-pico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-pengut=
-ronix/baseline-imx6ul-pico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220624.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62bc98f809902a2d57a39=
-bdd
-        failing since 50 days (last pass: renesas-devel-2021-12-06-v5.16-rc=
-4-15-g9f95ae4ce1f1, first fail: renesas-devel-2022-05-09-v5.18-rc6) =
-
- =
-
-
-
-platform           | arch  | lab             | compiler | defconfig        =
-            | regressions
--------------------+-------+-----------------+----------+------------------=
-------------+------------
-jetson-tk1         | arm   | lab-baylibre    | gcc-10   | multi_v7_defconfi=
-g+crypto    | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62bc916107515d1a85a39c78
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+crypto
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+crypto/gcc-10/lab-baylibre/basel=
-ine-jetson-tk1.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+crypto/gcc-10/lab-baylibre/basel=
-ine-jetson-tk1.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220624.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62bc916107515d1a85a39=
-c79
-        failing since 37 days (last pass: renesas-devel-2022-05-16-v5.18-rc=
-7, first fail: renesas-devel-2022-05-23-v5.18) =
-
- =
-
-
-
-platform           | arch  | lab             | compiler | defconfig        =
-            | regressions
--------------------+-------+-----------------+----------+------------------=
-------------+------------
-jetson-tk1         | arm   | lab-baylibre    | gcc-10   | multi_v7_defc...G=
-_ARM_LPAE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62bc98284619c481dfa39bd6
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=
-=3Dy/gcc-10/lab-baylibre/baseline-jetson-tk1.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=
-=3Dy/gcc-10/lab-baylibre/baseline-jetson-tk1.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220624.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62bc98284619c481dfa39=
-bd7
-        failing since 60 days (last pass: renesas-devel-2022-04-13-v5.18-rc=
-2, first fail: renesas-devel-2022-04-29-v5.18-rc4) =
-
- =
-
-
-
-platform           | arch  | lab             | compiler | defconfig        =
-            | regressions
--------------------+-------+-----------------+----------+------------------=
-------------+------------
-jetson-tk1         | arm   | lab-baylibre    | gcc-10   | tegra_defconfig  =
-            | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62bc8c5bcbd168262fa39bdb
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: tegra_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/tegra_defconfig/gcc-10/lab-baylibre/baseline-jetson=
--tk1.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/tegra_defconfig/gcc-10/lab-baylibre/baseline-jetson=
--tk1.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220624.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62bc8c5bcbd168262fa39=
-bdc
-        new failure (last pass: renesas-devel-2022-06-20-v5.19-rc3) =
-
- =
-
-
-
-platform           | arch  | lab             | compiler | defconfig        =
-            | regressions
--------------------+-------+-----------------+----------+------------------=
-------------+------------
-rk3399-gru-kevin   | arm64 | lab-collabora   | gcc-10   | defconfig+arm64-c=
-hromebook   | 4          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62bc8ff7d1135cb531a39c01
-
-  Results:     85 PASS, 7 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
-aseline-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
-aseline-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220624.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/case/id=
-/62bc8ff7d1135cb531a39c27
-        failing since 113 days (last pass: renesas-devel-2022-02-28-v5.17-r=
-c6, first fail: renesas-devel-2022-03-08-v5.17-rc7)
-
-    2022-06-29T17:46:22.384210  <8>[   54.928790] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s0-probed RESULT=3Dpass>
-    2022-06-29T17:46:23.416785  /lava-6709725/1/../bin/lava-test-case   =
-
-
-  * baseline.bootrr.cros-ec-sensors-gyro0-probed: https://kernelci.org/test=
-/case/id/62bc8ff7d1135cb531a39c4a
-        failing since 22 days (last pass: renesas-devel-2022-05-23-v5.18, f=
-irst fail: renesas-devel-2022-06-06-v5.19-rc1)
-
-    2022-06-29T17:46:20.177269  <8>[   52.720753] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dcros-ec-sensors-accel1-probed RESULT=3Dfail>
-    2022-06-29T17:46:21.207882  /lava-6709725/1/../bin/lava-test-case   =
-
-
-  * baseline.bootrr.cros-ec-sensors-accel1-probed: https://kernelci.org/tes=
-t/case/id/62bc8ff7d1135cb531a39c4b
-        failing since 22 days (last pass: renesas-devel-2022-05-23-v5.18, f=
-irst fail: renesas-devel-2022-06-06-v5.19-rc1)
-
-    2022-06-29T17:46:20.165373  /lava-6709725/1/../bin/lava-test-case   =
-
-
-  * baseline.bootrr.cros-ec-sensors-accel0-probed: https://kernelci.org/tes=
-t/case/id/62bc8ff7d1135cb531a39c4c
-        failing since 22 days (last pass: renesas-devel-2022-05-23-v5.18, f=
-irst fail: renesas-devel-2022-06-06-v5.19-rc1)
-
-    2022-06-29T17:46:18.085880  <8>[   50.629175] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dcros-ec-sensors-driver-present RESULT=3Dpass>
-    2022-06-29T17:46:19.123587  /lava-6709725/1/../bin/lava-test-case
-    2022-06-29T17:46:19.135079  <8>[   51.678654] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dcros-ec-sensors-accel0-probed RESULT=3Dfail>   =
-
- =
-
-
-
-platform           | arch  | lab             | compiler | defconfig        =
-            | regressions
--------------------+-------+-----------------+----------+------------------=
-------------+------------
-tegra124-nyan-big  | arm   | lab-collabora   | gcc-10   | multi_v7_defconfi=
-g+crypto    | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62bc9ec3ca8a8b7fc8a39c07
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+crypto
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+crypto/gcc-10/lab-collabora/base=
-line-tegra124-nyan-big.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+crypto/gcc-10/lab-collabora/base=
-line-tegra124-nyan-big.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220624.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62bc9ec3ca8a8b7fc8a39=
-c08
-        failing since 22 days (last pass: renesas-devel-2022-05-23-v5.18, f=
-irst fail: renesas-devel-2022-06-06-v5.19-rc1) =
-
- =
-
-
-
-platform           | arch  | lab             | compiler | defconfig        =
-            | regressions
--------------------+-------+-----------------+----------+------------------=
-------------+------------
-tegra124-nyan-big  | arm   | lab-collabora   | gcc-10   | multi_v7_defc...M=
-B2_KERNEL=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62bc9fb086c47e4dc2a39bee
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
-lab-collabora/baseline-tegra124-nyan-big.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
-lab-collabora/baseline-tegra124-nyan-big.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220624.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62bc9fb086c47e4dc2a39=
-bef
-        failing since 37 days (last pass: renesas-devel-2022-05-17-v5.18-rc=
-7, first fail: renesas-devel-2022-05-23-v5.18) =
-
- =
-
-
-
-platform           | arch  | lab             | compiler | defconfig        =
-            | regressions
--------------------+-------+-----------------+----------+------------------=
-------------+------------
-tegra124-nyan-big  | arm   | lab-collabora   | gcc-10   | multi_v7_defc...G=
-_ARM_LPAE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62bca26b1a8194c01aa39bd3
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=
-=3Dy/gcc-10/lab-collabora/baseline-tegra124-nyan-big.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=
-=3Dy/gcc-10/lab-collabora/baseline-tegra124-nyan-big.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220624.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/62bca26b1a8194c01aa39=
-bd4
-        failing since 37 days (last pass: renesas-devel-2022-05-17-v5.18-rc=
-7, first fail: renesas-devel-2022-05-23-v5.18) =
-
- =20
+Best regards
+---
+Kuninori Morimoto
