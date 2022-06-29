@@ -2,114 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE785560730
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 19:18:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3660956078B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 19:44:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231177AbiF2RSf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 13:18:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60934 "EHLO
+        id S229838AbiF2RoQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jun 2022 13:44:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbiF2RSf (ORCPT
+        with ESMTP id S229525AbiF2RoP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 13:18:35 -0400
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 780831A81A;
-        Wed, 29 Jun 2022 10:18:34 -0700 (PDT)
-Received: by mail-qv1-f53.google.com with SMTP id i17so25724680qvo.13;
-        Wed, 29 Jun 2022 10:18:34 -0700 (PDT)
+        Wed, 29 Jun 2022 13:44:15 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A3A41DA78
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 10:44:14 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id n8so9273578eda.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 10:44:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=tVekIMrtplwlYMH10GYN3NLEVF7rPzw2Ll0nVajDUj0=;
+        b=w9vxn/UmjXGR/AxVPDa1AWAET4ZJSi/d7RKxJWbXb7NdzNnJmBooZ3j04DTGg2aRmv
+         tLPrXK0sXmcc+VPM9SnLizG97ehS7Wgm5m2GgA5Y/E4F+mSUJXnfqgUkhNW1qbd9Vbuk
+         3Ku48VOLtWJW7RyymLVXW+QViJ949T9Cpv5uNHg8Ii5/eClbUPoeb/EK4c4PddVjOiOc
+         lmCz+tWzOphiK7etLDCgy2KJd1B0za2hnkJ1Uis67labgAnMFEuqxFukByyYRGGnZeI/
+         EZx8HDGnCJdPxUiYOf3z4h9gyfvL/maNLCyHKmpGAIbAO0fCEmF0pKDKQjKy6BtB7Hlb
+         aNZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wXWhdEBTbV2up4EX48hH9r3b+lA3Y6CLLpslrOxD3K0=;
-        b=N2cqZYRJFjkmwRvQ0cQ/VNu2IotSnz9jByD9KcYko7LlpewY62XwgRd8wfB9LunCNl
-         pRZtTMAf7MP8Z+7vVZS2LOo3tcCn3BYAPaNIx46E5JP7ZiHnYlncRxyFRwKuSIWXRGp6
-         w7bTNjNVn9Hk5dTq+3IzjQJxSbbHMklH71Gml7XDKTivCr0l9wFoRHhMmdxyxUlMSB/p
-         p2ATqBWVZd6yAaDGs3NjFGaD0kqL9imluMQQpBfQeGG2slQjDT5ahV/+3mqzSV2gtG/l
-         lzcjhKGSC8s1wzbQjMNSWLsQtkiNwrZK+iBhGhjZu1xxJ08vA8gOsFxx2TdrrJvEnXbv
-         mbqA==
-X-Gm-Message-State: AJIora9H+C0VNLF1Y9sMlNyiTR5XzXhycmNCWCjdY8CqZ2U7cTFJpdmd
-        mS70Pvz2QjGdoVXXnF+AQeBoV41t9CsEIw==
-X-Google-Smtp-Source: AGRyM1sarY6A/Bs9v3pw+inXLsGQAJqOW2U+DrbYzSuNSv2rbd1DQ6m8rnp4YHMrOtMiy7i9+ubYHQ==
-X-Received: by 2002:a0c:b258:0:b0:470:5709:4007 with SMTP id k24-20020a0cb258000000b0047057094007mr8576008qve.83.1656523113040;
-        Wed, 29 Jun 2022 10:18:33 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id d8-20020ac85ac8000000b00304e70585f9sm11967887qtd.72.2022.06.29.10.18.31
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=tVekIMrtplwlYMH10GYN3NLEVF7rPzw2Ll0nVajDUj0=;
+        b=wVgGOqEWfXAWxET/2+RL5QHrnTdGTijq1irBuw1bGwUrACeaFLCwFOETrEmHi6xbJN
+         srMKKdb4UVh7Atdmt9GS8kE58SrJKw8+ERZKOH3ZosNn1U+wefGgcGJfZwtZ/rjiS+cX
+         9PBq6VVoC9q9aydEWRu0RKykRKVup7x9ZeItVWtb8eXAAKPfHrGD0q6ar/YvvSrPMXta
+         UjGIiMyVFkL40qwE7EhxPhjDoJBQY2Khjm+mIBBvz3b6ttG+UIzIG9fzdLF9+79SwQqT
+         ZMjaIPvaeEPnvArEbMgmxsLIC3/8LURZIXfWpry2W2xbPm1MSXUNnNTbjmmBNBTF9i9L
+         WTig==
+X-Gm-Message-State: AJIora9urOtwUP80NKCd8ECuyI0Syfd0SyKlC2We8xh+pyZNkzMrIL8/
+        wKM8NuA8bTqJp15Jeyp6ZO/Juw==
+X-Google-Smtp-Source: AGRyM1ua6BwpBragxQEeeAoYqEOJa4FdY4s48iFIdywyOYpjX3jiRhNVEbP0A5P0HdINP+n6ybuMGw==
+X-Received: by 2002:a05:6402:847:b0:437:62bd:bbc0 with SMTP id b7-20020a056402084700b0043762bdbbc0mr5713257edz.285.1656524653206;
+        Wed, 29 Jun 2022 10:44:13 -0700 (PDT)
+Received: from [192.168.0.187] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id j12-20020a1709062a0c00b00722e1bca239sm8074199eje.204.2022.06.29.10.44.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jun 2022 10:18:32 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id p7so27716969ybm.7;
-        Wed, 29 Jun 2022 10:18:31 -0700 (PDT)
-X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
- s14-20020a056902120e00b006346f296b84mr4496162ybu.604.1656523111456; Wed, 29
- Jun 2022 10:18:31 -0700 (PDT)
+        Wed, 29 Jun 2022 10:44:12 -0700 (PDT)
+Message-ID: <c65d6a94-b5c2-e2e4-6fdb-b7982d291e01@linaro.org>
+Date:   Wed, 29 Jun 2022 19:44:11 +0200
 MIME-Version: 1.0
-References: <20220628194526.111501-1-phil.edworthy@renesas.com> <c168df990e1187bf44a5c46be53aa6b20d30d14d.camel@pengutronix.de>
-In-Reply-To: <c168df990e1187bf44a5c46be53aa6b20d30d14d.camel@pengutronix.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 29 Jun 2022 19:18:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXV72_BWOpU=O13Fa3-t001YSRdsFePSHBS=Xvh1jY1EQ@mail.gmail.com>
-Message-ID: <CAMuHMdXV72_BWOpU=O13Fa3-t001YSRdsFePSHBS=Xvh1jY1EQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] i2c: Add new driver for Renesas RZ/V2M controller
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Sam Protsenko <semen.protsenko@linaro.org>,
-        Sven Peter <sven@svenpeter.dev>, Jan Dabros <jsd@semihalf.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Tyrone Ting <kfting@nuvoton.com>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 5/7] memory: renesas-rpc-if: Move resource acquisition to
+ .probe()
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>
+Cc:     Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1656341824.git.geert+renesas@glider.be>
+ <2fd9b9e3f60fe555d9dcad499c90e3ec869aa96e.1656341824.git.geert+renesas@glider.be>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <2fd9b9e3f60fe555d9dcad499c90e3ec869aa96e.1656341824.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Philipp,
+On 27/06/2022 17:31, Geert Uytterhoeven wrote:
+> While the acquired resources are tied to the lifetime of the RPC-IF core
+> device (through the use of managed resource functions), the actual
+> resource acquisition is triggered from the HyperBus and SPI child
+> drivers.  Due to this mismatch, unbinding and rebinding the child
+> drivers manually fails with -EBUSY:
+> 
+>     # echo rpc-if-hyperflash > /sys/bus/platform/drivers/rpc-if-hyperflash/unbind
+>     # echo rpc-if-hyperflash > /sys/bus/platform/drivers/rpc-if-hyperflash/bind
+>     rpc-if ee200000.spi: can't request region for resource [mem 0xee200000-0xee2001ff]
+>     rpc-if-hyperflash: probe of rpc-if-hyperflash failed with error -16
+> 
+> Fix this by moving all resource acquisition to the core driver's probe
+> routine.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Wed, Jun 29, 2022 at 6:21 PM Philipp Zabel <p.zabel@pengutronix.de> wrote:
-> On Di, 2022-06-28 at 20:45 +0100, Phil Edworthy wrote:
-> > The Renesas RZ/V2M SoC (r9a09g011) has a new i2c controller. This series
-> > add the driver. One annoying problem is that the SoC uses a single reset
-> > line for two i2c controllers, and unfortunately one of the controllers
-> > is managed by some firmware, not by Linux. Therefore, the driver just
-> > deasserts the reset.
->
-> This sounds scary. If the driver is never loaded, and the reset is
-> never deasserted, what happens to the firmware trying to access the
-> other i2c controller? Does it hang? Or write to the reset controller
-> registers to deassert the reset? If so, is there any protection against
-> concurrent access from firmware and reset controller driver?
+This looks like a fix, so how about putting it as first in the series,
+so backporting is easy/automatic? Plus a fixes tag?
 
-
-In response to v1, I wrote
-
-| That is actually an integration issue, not an i2c controller issue.
-|
-| Perhaps we need a RESET_IS_CRITICAL flag, cfr. CLK_IS_CRITICAL,
-| to be set by the reset provider?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
