@@ -2,104 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21DA755F8A4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 09:20:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AEE055FA2D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 10:15:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbiF2HQt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 03:16:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60442 "EHLO
+        id S231217AbiF2IP3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jun 2022 04:15:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231381AbiF2HQq (ORCPT
+        with ESMTP id S229772AbiF2IP2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 03:16:46 -0400
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DF96338A4;
-        Wed, 29 Jun 2022 00:16:45 -0700 (PDT)
-Received: by mail-qk1-f171.google.com with SMTP id b133so11398103qkc.6;
-        Wed, 29 Jun 2022 00:16:45 -0700 (PDT)
+        Wed, 29 Jun 2022 04:15:28 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC58E3B547
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 01:15:27 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id z19so21041912edb.11
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 01:15:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=8tY4XO7tgRZzchD7LlRB/fCh4Gvcc6mOPpWaFNCvH1A=;
+        b=kr3zKYErJvsttiafT0lPeJcMpA+0l2OqkCYg+jmgCxobSD7QLh+Ob6f6sJ2vehWNWs
+         14CPVoH7gnUM7f/EgOBZrkFAKs0zK2NP9q/+8wWvV4r2q6nnhQy0mitzKKhyJIi9+ZBf
+         BwbUJ+01/igmtNYgrxp5yyUFpH7KQAR3FN6fgMNOqGh6sMna9P3iN2X7A4eXTGYAOGJu
+         RF0e+N0/6PY4j9mztiUZOAyxqPG96rDKweCjlYt8lRSmOOmFEEBBZlyuAZp0OsUCMh2J
+         R2+MnRVcDL0bB4cYTMy8usaJX6mOM2GV99NstvpeAK1uiOilzVby41wiee81YD7Yhrwa
+         lE5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QHnTw+1dh39iLHqR9tM/upSF9rPKTfu4pJ0mDQbSipM=;
-        b=bJBiHgnxN3gFCdJ0nMSn0I8Gbgmzz/I65rE6Ss1RW2tgA6wwcZb65OXBRYzMvYH8in
-         Xf5d7oEazg+Y6lTPhsT8V6aSOaMZhpi3bdLAd5xi9p1GOGulPVAqSngKfB+HH0jWINnw
-         BLyrtplFe9BeZdLvpAL1HTDKGUBfMP6oZDrcL0VPiHB2EmAtvL62hBjltlhvYXmnSGpo
-         At0xqdHqIeLtq/1d4KW3AKFqZmuQpNQAxtc3NFtgKjDVuHxZ7Lx8z4zruSEOKrXnV3nx
-         CO37PC6FV1hUFm/dyUQTGkZ2ZUNqd01V30bYY1GT+DX0OQq+hN47IGhpmq87KntNAvO7
-         wl6w==
-X-Gm-Message-State: AJIora+CvGDkEOflQ9eN6JmvwGjg2l8TeViatHLthh4fOm7ReN6sIkKN
-        80nzc5nsyBZsFfNiRtsQQRen93s6IY0wZA==
-X-Google-Smtp-Source: AGRyM1sn/xFg4j+kAILXah5nPATN/CoZ7OOZ9YSfbXZHkAmUj2K+WErd2Xc1mIwBrDG5FJ9jdCIo/Q==
-X-Received: by 2002:a05:620a:294a:b0:6ae:fb7f:831 with SMTP id n10-20020a05620a294a00b006aefb7f0831mr1004462qkp.130.1656487004135;
-        Wed, 29 Jun 2022 00:16:44 -0700 (PDT)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id s12-20020a05620a29cc00b006a36b0d7f27sm13510541qkp.76.2022.06.29.00.16.43
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=8tY4XO7tgRZzchD7LlRB/fCh4Gvcc6mOPpWaFNCvH1A=;
+        b=TlJQ4p5cVTd/x8168S6+bOtkaPIPAj4egV9+wto65/xfcy3nK1Ih4T66MUbHG8WwM3
+         5fzuRUDME2Nhw5vfldMlHoCNrHMfPztccyxiAoGxbFky8KUm0rbKM2C6njI857HklUsi
+         UvXARQxNqDLnUszWHvQ1U2Nr3Z3a3aYL1WLs5ie5kEOGkI85Y+/M0BD/8fzs2DbkQRCY
+         WalphjrmhyCAAA/o+0HLS5IpdC52rR3I7Yz2VRcOX0PQx/CFxsVCc+WsIagnseKSs5Cv
+         NtfkXA2jSyOYCACPflWznxeT/QgHBPRtJrAiZdK6YpBuuODTTJ5yiNNVPgI68FuLKkx5
+         1l7A==
+X-Gm-Message-State: AJIora8p26ftmFpBFWSxVKC0p4wyPfiqG5LBd/qzvdjhLdmkLKFKw/XM
+        Ruabh2QNKEtIxaZAggK1HyZKnQ==
+X-Google-Smtp-Source: AGRyM1sFY7NCYQCfMxGe9czVB/WSOqGUlaOPE/PgqmHtHSMn/s2OMIPw2M/OJ5sI/ISRcELIcijPoA==
+X-Received: by 2002:a05:6402:104a:b0:435:c7cd:11dc with SMTP id e10-20020a056402104a00b00435c7cd11dcmr2542628edu.335.1656490526235;
+        Wed, 29 Jun 2022 01:15:26 -0700 (PDT)
+Received: from [192.168.0.183] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id ci3-20020a170906c34300b00722ea7a7aeesm7387868ejb.51.2022.06.29.01.15.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jun 2022 00:16:43 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id q132so26304148ybg.10;
-        Wed, 29 Jun 2022 00:16:43 -0700 (PDT)
-X-Received: by 2002:a5b:6c1:0:b0:669:a7c3:4c33 with SMTP id
- r1-20020a5b06c1000000b00669a7c34c33mr1776911ybq.543.1656487003120; Wed, 29
- Jun 2022 00:16:43 -0700 (PDT)
+        Wed, 29 Jun 2022 01:15:24 -0700 (PDT)
+Message-ID: <43a19f7f-016a-0820-adf1-41419fe82d28@linaro.org>
+Date:   Wed, 29 Jun 2022 10:15:23 +0200
 MIME-Version: 1.0
-References: <874k0nlrbw.wl-kuninori.morimoto.gx@renesas.com>
- <87r13rkcos.wl-kuninori.morimoto.gx@renesas.com> <CAMuHMdVVPN-dhnjw1y7WqQJjZNO-YG8PjaFjmCvawMAhZJJLsA@mail.gmail.com>
- <87r138jm3r.wl-kuninori.morimoto.gx@renesas.com> <87k090ji9t.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87k090ji9t.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 29 Jun 2022 09:16:30 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWPWzhBoDeTR-ueS9Y9sBVWx_zUAM+6b168Tb8LYcGxcg@mail.gmail.com>
-Message-ID: <CAMuHMdWPWzhBoDeTR-ueS9Y9sBVWx_zUAM+6b168Tb8LYcGxcg@mail.gmail.com>
-Subject: Re: [PATCH v3 09/21] pinctrl: renesas: r8a779g0: add missing TCLKx_A/TCLK_B/TCLKx_X
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 1/2] dt-bindings: i2c: Document RZ/V2M I2C controller
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rob Herring <robh@kernel.org>
+Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20220628194526.111501-1-phil.edworthy@renesas.com>
+ <20220628194526.111501-2-phil.edworthy@renesas.com>
+ <1656468579.925440.1403681.nullmailer@robh.at.kernel.org>
+ <CAMuHMdVsdh1YpVtq7570_kNOWUm5sMb=Fm=Dv_8qOS=hg3iuKA@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAMuHMdVsdh1YpVtq7570_kNOWUm5sMb=Fm=Dv_8qOS=hg3iuKA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+On 29/06/2022 08:53, Geert Uytterhoeven wrote:
+> Hi Rob,
+> 
+> On Wed, Jun 29, 2022 at 4:09 AM Rob Herring <robh@kernel.org> wrote:
+>> On Tue, 28 Jun 2022 20:45:25 +0100, Phil Edworthy wrote:
+>>> Document Renesas RZ/V2M (r9a09g011) I2C controller bindings.
+>>>
+>>> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+>>> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>> ---
+>>> v2:
+>>>  - Use an enum and set the default for clock-frequency
+>>>  - Add resets property
+>>> ---
+>>>  .../bindings/i2c/renesas,rzv2m.yaml           | 80 +++++++++++++++++++
+>>>  1 file changed, 80 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
+>>>
+>>
+>> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+>> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+>>
+>> yamllint warnings/errors:
+>>
+>> dtschema/dtc warnings/errors:
+>> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml: patternProperties:^thermistor@:properties:adi,excitation-current-nanoamp: '$ref' should not be valid under {'const': '$ref'}
+>>         hint: Standard unit suffix properties don't need a type $ref
+>>         from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+>> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml: ignoring, error in schema: patternProperties: ^thermistor@: properties: adi,excitation-current-nanoamp
+>> Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.example.dtb:0:0: /example-0/spi/ltc2983@0: failed to match any schema with compatible: ['adi,ltc2983']
+> 
+> All of these look like false-positives, i.e. not related to this patch?
 
-On Wed, Jun 29, 2022 at 4:49 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> > > LGTM, but as the suffixes become part of the DT ABI when defining
-> > > pin groups, we should get the conflicts resolved, and this cannot
-> > > be applied as-is.
-> >
-> > It seems HW team / Doc team are now fixuping suffixes.
-> > I think I need to use new Doc for v4.
->
-> We don't know when new Doc comming,
-> and I don't think there is someone who will get DT naming exchange issue for now
-> (Because no uses).
->
-> So, I'm happy if you can accept my next v4 patch-set (suffix is still using _X).
-> and I'm happy to post new incremental patch which is for
-> "update PFC to adjust to latest Datasheet" in such case.
+Few other patches also got it, I think the bot got some problem.
 
-My worry is not about the group of pins marked _X, but about its
-siblings without _X.  E.g. your patches have SCIF1 and SCIF1_X,
-but we do not know yet if SCIF1 should be renamed, too.
 
-I agree it is unlikely to become an issue with TCLK soon, but (H)SCIF1
-are more likely to become enabled, also on real products.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
