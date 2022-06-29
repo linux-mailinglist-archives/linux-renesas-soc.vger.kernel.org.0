@@ -2,124 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A62D55FDB6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 12:46:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5F1F55FDEA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 12:54:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230449AbiF2KqM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 06:46:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53458 "EHLO
+        id S229575AbiF2Kvo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jun 2022 06:51:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231276AbiF2KqL (ORCPT
+        with ESMTP id S231818AbiF2Kvm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 06:46:11 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE6993E0FA;
-        Wed, 29 Jun 2022 03:46:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656499568; x=1688035568;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cjkwsHtE440LjbtD94TN0J5KYn4ACRbSIN99ZvYhneQ=;
-  b=bOd/mx+AFDYQy3ibH0OWItvgMYqXziIuV1e5owV0MLjE4zM5Kq9jnOpG
-   ofpB7psxcotdvoVajIeCjE80HhQcobJc1VFQRYvEE7qSTy+3tQlK5tDlF
-   MQes3OMpgxqtT5YVd5L7DzB4Q8zCYmam/6V0HtbsLxwVtt7quN5vkKbZZ
-   NeemSpxI+3CF4ozUXhuoZtaLiLNHrGZLFXl2mduHiISFAATP1198awCFj
-   my0WRhQq+Ar/SSa6PQ/loxYp416CyVs1b8v2IPPw6ceG0xwLiSX7k0t82
-   8kFhmz26K6B8oylhIyzfyj15Xvldvile0xEcsEvRXBYSow2TyY69JQR0H
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="345990538"
-X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; 
-   d="scan'208";a="345990538"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 03:46:08 -0700
-X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; 
-   d="scan'208";a="658510336"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 03:46:04 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1o6VAj-000xd5-RM;
-        Wed, 29 Jun 2022 13:43:49 +0300
-Date:   Wed, 29 Jun 2022 13:43:49 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Wolfram Sang <wsa@kernel.org>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Sam Protsenko <semen.protsenko@linaro.org>,
-        Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>,
-        Jan Dabros <jsd@semihalf.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Tyrone Ting <kfting@nuvoton.com>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] i2c: Add Renesas RZ/V2M controller
-Message-ID: <Yrws5eTtdDZ2szhX@smile.fi.intel.com>
-References: <20220628194526.111501-1-phil.edworthy@renesas.com>
- <20220628194526.111501-3-phil.edworthy@renesas.com>
- <YrttwplV9zEgCFji@smile.fi.intel.com>
- <CAMuHMdV1xkCvico_f359xBzkwU5pG3VVJV7O3dHRyy5a9QvyGw@mail.gmail.com>
+        Wed, 29 Jun 2022 06:51:42 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77C1A2654D;
+        Wed, 29 Jun 2022 03:51:41 -0700 (PDT)
+Received: from Monstersaurus.ksquared.org.uk.beta.tailscale.net (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCB484A8;
+        Wed, 29 Jun 2022 12:51:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1656499899;
+        bh=rIMHRAnsuIdW+0lB4HOABKpMr04hBn/R/wyk9Ph+t9I=;
+        h=From:To:Cc:Subject:Date:From;
+        b=S6/v9kxastdsk4+E9UA1GNEbuoxpE5l2KQajmnmhCGELmPuMSo2nlfakMKjaY9jk1
+         sdmy40KdJ8SkbcQ8obmCzflQKlm7u4DtJxP9jWM0/E/2X7BkugjJE4EzBpxUq1Ci9g
+         ju3A1WXq5cXOTU0xeVnb7pXXPLdHk3rurfXJUpYU=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH 0/7] renesas: vsp1: debugfs facility
+Date:   Wed, 29 Jun 2022 11:51:28 +0100
+Message-Id: <20220629105135.2652773-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdV1xkCvico_f359xBzkwU5pG3VVJV7O3dHRyy5a9QvyGw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jun 29, 2022 at 08:52:27AM +0200, Geert Uytterhoeven wrote:
-> On Tue, Jun 28, 2022 at 11:08 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Tue, Jun 28, 2022 at 08:45:26PM +0100, Phil Edworthy wrote:
+As discussed during the thread on [0] here are my out of tree debug
+patches.
 
-...
+These are only really for reference not expected for merge, and I'm not
+even sure it's worthy of an RFC tag. That said, if there are parts here
+that should perhaps be extracted for integration let me know and I'll
+split things out if relevant.
 
-> > > +static int rzv2m_i2c_send(struct rzv2m_i2c_priv *priv, struct i2c_msg *msg,
-> > > +                       unsigned int *count)
-> > > +{
-> > > +     unsigned int i;
-> > > +     int ret = 0;
-> >
-> > Redundant assignment, you may return 0 directly.
-> 
-> Can you prove msg->len is never zero, and the loop below is always
-> executed at least once?
+The register extraction and decode is probably something that could be
+handled in userspace now anyway with something like Tomi's rwmem debug
+tool [1]. I've used that for other devices, but not used it on vsp1 yet.
 
-I don't see how this is related. The ret is used only in the loop body,
 
-	return 0;
+[0] https://lore.kernel.org/linux-media/20220629090912.GA27332@lxhi-065/T/#t
+[1] https://github.com/tomba/rwmem
 
-outside will suffice. No?
 
-> The driver does set I2C_AQ_NO_ZERO_LEN, but I don't think the static
-> checkers know ;-)
-> 
-> >
-> > > +     for (i = 0; i < msg->len; i++) {
-> > > +             ret = rzv2m_i2c_write_with_ack(priv, msg->buf[i]);
-> > > +             if (ret < 0)
-> > > +                     return ret;
-> > > +     }
-> > > +     *count = i;
-> > > +
-> > > +     return ret;
-> > > +}
+
+Kieran Bingham (7):
+  debugfs: Extend debugfs regset to support register decoding
+  v4l: vsp1: Provide WPF underflow error detection and reporting
+  v4l: vsp1: Add debugfs system v1.8
+  v4l: vsp1: Add CLK_CTRL and MRESET register definitions
+  v4l: vsp1: Add safety mechanism registers
+  v4l: vsp1: Provide video node debugfs entries
+  v4l: vsp1: debugfs: Add DLM directory
+
+ drivers/media/platform/renesas/vsp1/Makefile  |   1 +
+ drivers/media/platform/renesas/vsp1/vsp1.h    |   5 +
+ .../platform/renesas/vsp1/vsp1_debugfs.c      | 563 ++++++++++++++++++
+ .../platform/renesas/vsp1/vsp1_debugfs.h      |  57 ++
+ drivers/media/platform/renesas/vsp1/vsp1_dl.c | 107 ++++
+ .../media/platform/renesas/vsp1/vsp1_drv.c    |  13 +-
+ .../media/platform/renesas/vsp1/vsp1_regs.h   |  36 ++
+ .../media/platform/renesas/vsp1/vsp1_video.c  |  14 +-
+ .../media/platform/renesas/vsp1/vsp1_video.h  |   9 +
+ .../media/platform/renesas/vsp1/vsp1_wpf.c    |   2 +-
+ fs/debugfs/file.c                             |  11 +-
+ include/linux/debugfs.h                       |   1 +
+ 12 files changed, 814 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/media/platform/renesas/vsp1/vsp1_debugfs.c
+ create mode 100644 drivers/media/platform/renesas/vsp1/vsp1_debugfs.h
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
