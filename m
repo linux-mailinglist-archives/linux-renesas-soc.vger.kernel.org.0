@@ -2,47 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8E8C55FC03
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 11:28:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C212755FC87
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 11:54:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231839AbiF2J2N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 05:28:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40736 "EHLO
+        id S233163AbiF2Juh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jun 2022 05:50:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231277AbiF2J2N (ORCPT
+        with ESMTP id S233183AbiF2JuE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 05:28:13 -0400
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A48002BF;
-        Wed, 29 Jun 2022 02:28:11 -0700 (PDT)
+        Wed, 29 Jun 2022 05:50:04 -0400
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1809E3D4A9;
+        Wed, 29 Jun 2022 02:50:02 -0700 (PDT)
 Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 03FBB240012;
-        Wed, 29 Jun 2022 09:28:06 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id ABBE4E0019;
+        Wed, 29 Jun 2022 09:50:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1656494890;
+        t=1656496201;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=6n3CIs9RxVSb+aOC/z04UOZ6/DtdTS73o2Frum+oK/A=;
-        b=aH1yGbnUXRqJ8259krN+JCkO6nhY0K7zbLcsxwc/NXGHrS++ob3xejpYmp9KuzZsCqvcYX
-        VVjZbIxbKdSnVurEXvqmWAwll9mFDBn4qsYL48PwuGPv/3wV7NVJisWL5KAIOoaUkqr+XD
-        y9RmiRfc20rJzRfW4FGXaFNRQyV3kaGaog3xzfZsGFV6IcjxXBzxOU30G5BgbI8eWdqMlL
-        ttTWrXxIWyFCbI0HLr2newo7M5UMuUGylJI1Hnzll7lSqGB7Ai3PdFxdnZc+QS+ZF6ffTP
-        y1jMlv1e6Q+6JjPXA1gSfblorwq9e/QpCV7SJMpoRijHouUauJ9R36rIT7zvGQ==
-Date:   Wed, 29 Jun 2022 11:27:20 +0200
+        bh=X4w6NTPvpwoeqhGxtMHGo8FEWQOfamO3Z8w4JG8EcO0=;
+        b=LLuIwFIAdy0eTduyVd9Kj8/0KMEl9Zn4dOeRpRuTD8YZliwMzpCHdc6UwLjYh2r88ZQG5z
+        GwdIjyrfJQX/tcHnD2sedm15wCFFDAOnd52xtrb/Hcx4AKVRpyxrIj9CztPBXK1Qj9W9Sj
+        NPudFQQ0K5WAh0yabsnwgUUHH/9jzjCRCN5AqB0Icwe9kEJMvncpipW2EXrpQosuBw+Lu5
+        TRuP4e6R74bs4KvKmkybgDhLUcXXnXgT16EYtys+7bxj4Xaq+og12RzFtBp24COd9X7oxj
+        O9+NfnPG5N/QfLCpxhglP0niKGXTYh5H3hQyU0yJMbKLOVYiWyIvk8iVre7Qpg==
+Date:   Wed, 29 Jun 2022 11:49:13 +0200
 From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     Peng Wu <wupeng58@huawei.com>
-Cc:     <andrew@lunn.ch>, <vivien.didelot@gmail.com>,
-        <f.fainelli@gmail.com>, <olteanv@gmail.com>, <davem@davemloft.net>,
-        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <linux-renesas-soc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <liwei391@huawei.com>
-Subject: Re: [PATCH] net: dsa: rzn1-a5psw: fix a NULL vs IS_ERR() check in
- a5psw_probe()
-Message-ID: <20220629112720.648619a8@fixe.home>
-In-Reply-To: <20220628130920.49493-1-wupeng58@huawei.com>
-References: <20220628130920.49493-1-wupeng58@huawei.com>
+To:     Yang Yingliang <yangyingliang@huawei.com>
+Cc:     <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <olteanv@gmail.com>,
+        <f.fainelli@gmail.com>, <davem@davemloft.net>
+Subject: Re: [PATCH -next] net: dsa: rzn1-a5psw: add missing of_node_put()
+ in a5psw_pcs_get()
+Message-ID: <20220629114913.41670052@fixe.home>
+In-Reply-To: <20220629092435.496051-1-yangyingliang@huawei.com>
+References: <20220629092435.496051-1-yangyingliang@huawei.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -58,37 +56,39 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Tue, 28 Jun 2022 13:09:20 +0000,
-Peng Wu <wupeng58@huawei.com> a =C3=A9crit :
+Le Wed, 29 Jun 2022 17:24:35 +0800,
+Yang Yingliang <yangyingliang@huawei.com> a =C3=A9crit :
 
-> The devm_platform_ioremap_resource() function never returns NULL.
-> It returns error pointers.
+> of_parse_phandle() will increase the refcount of 'pcs_node', so add
+> of_node_put() before return from a5psw_pcs_get().
 >=20
-> Signed-off-by: Peng Wu <wupeng58@huawei.com>
+> Fixes: 888cdb892b61 ("net: dsa: rzn1-a5psw: add Renesas RZ/N1 advanced 5 =
+port switch driver")
 > Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 > ---
->  drivers/net/dsa/rzn1_a5psw.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/net/dsa/rzn1_a5psw.c | 1 +
+>  1 file changed, 1 insertion(+)
 >=20
 > diff --git a/drivers/net/dsa/rzn1_a5psw.c b/drivers/net/dsa/rzn1_a5psw.c
-> index 3e910da98ae2..5b14e2ba9b79 100644
+> index 3e910da98ae2..301171ee1061 100644
 > --- a/drivers/net/dsa/rzn1_a5psw.c
 > +++ b/drivers/net/dsa/rzn1_a5psw.c
-> @@ -946,8 +946,8 @@ static int a5psw_probe(struct platform_device *pdev)
->  	mutex_init(&a5psw->lk_lock);
->  	spin_lock_init(&a5psw->reg_lock);
->  	a5psw->base =3D devm_platform_ioremap_resource(pdev, 0);
-> -	if (!a5psw->base)
-> -		return -EINVAL;
-> +	if (IS_ERR(a5psw->base))
-> +		return PTR_ERR(a5psw->base);
+> @@ -923,6 +923,7 @@ static int a5psw_pcs_get(struct a5psw *a5psw)
+>  	return 0;
 > =20
->  	ret =3D a5psw_pcs_get(a5psw);
->  	if (ret)
+>  free_pcs:
+> +	of_node_put(pcs_node);
 
-Thanks,
+of_node_put(pcs_node) should probably also be called after
+miic_create(a5psw->dev, pcs_node); since it is not needed anymore.
 
-Reviewed-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
+Cl=C3=A9ment
+
+>  	of_node_put(port);
+>  	of_node_put(ports);
+>  	a5psw_pcs_free(a5psw);
+
 
 --=20
 Cl=C3=A9ment L=C3=A9ger,
