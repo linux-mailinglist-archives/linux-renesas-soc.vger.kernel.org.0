@@ -2,42 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C0C355FDEE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 12:54:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AE3B55FEB9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 13:36:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233159AbiF2Kvv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 06:51:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58826 "EHLO
+        id S230071AbiF2Lgv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jun 2022 07:36:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233055AbiF2Kvu (ORCPT
+        with ESMTP id S229892AbiF2Lgu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 06:51:50 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF852AE29;
-        Wed, 29 Jun 2022 03:51:49 -0700 (PDT)
-Received: from Monstersaurus.ksquared.org.uk.beta.tailscale.net (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 248B3B90;
-        Wed, 29 Jun 2022 12:51:42 +0200 (CEST)
+        Wed, 29 Jun 2022 07:36:50 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAA29B7F1;
+        Wed, 29 Jun 2022 04:36:49 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 358323D7;
+        Wed, 29 Jun 2022 13:36:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1656499902;
-        bh=9xtAjflwfRsZm3JtLlvi7xOgYHlks19nXesRmLhGUqQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UvrQqfd4utrKt9Lh3k7deYtNnsaUexVWHdNWlvKbb08Ac68VbQ8tmyMCzjShv3abr
-         KcYxdi9DwcoELY+SYhudkQ4yMn70jzW7Hh6+oMdw+26O7LHbEh1afwdKw342ZlmQni
-         NIebWh8clAz1F29SgoIEql7hA0Fme1ckFv1f9te0=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH 7/7] v4l: vsp1: debugfs: Add DLM directory
-Date:   Wed, 29 Jun 2022 11:51:35 +0100
-Message-Id: <20220629105135.2652773-8-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220629105135.2652773-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20220629105135.2652773-1-kieran.bingham+renesas@ideasonboard.com>
+        s=mail; t=1656502607;
+        bh=X4fRMZUU5xp6YrMk9MRYXqtztsdFlRd5Rh3c6T+3ZHY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PxFDLKSLz1I3RbEF5XjDLVxqb905sLnxIxsPeseTwOVNfanumXUFMwsfcLRPmnBSE
+         rbzW98vwR9ZjVN3CBSOXz7jAg7hp5VEGVLFRjx9C9LtyjR7LbauqD5GDjj4g2MW3f/
+         XUSrKIH7QhSmCCOeNkk7w4uO8Fnmw/E8vIaSsvZI=
+Date:   Wed, 29 Jun 2022 14:36:27 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+        Eugen Friedrich <efriedrich@de.adit-jv.com>,
+        Eugeniu Rosca <rosca.eugeniu@gmail.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [RFC PATCH v2] media: renesas: vsp1: Add VSPD underrun detection
+ & tracing
+Message-ID: <Yrw5O3FwLaDbl13/@pendragon.ideasonboard.com>
+References: <1651584010-10156-1-git-send-email-erosca@de.adit-jv.com>
+ <YripkuWiMOcOl8Qu@pendragon.ideasonboard.com>
+ <20220628190534.GA22969@lxhi-065>
+ <YrtbgUhNS8Z1pgVA@pendragon.ideasonboard.com>
+ <CAMuHMdX7HzbUime4EOhtzcRV2YSA44qJRFXvu0LNtmpzgBJzRA@mail.gmail.com>
+ <YrtghyHkWZyj8hxL@pendragon.ideasonboard.com>
+ <165649892469.1516045.14695489097805483568@Monstersaurus>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <165649892469.1516045.14695489097805483568@Monstersaurus>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -47,171 +60,102 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Provide the ability to output a display list in use over debugfs.
+Hi Kieran,
 
-In the event that the hardware has hung, it should be possible to
-identify the current/most recent display list written to hardware by
-viewing the DLM->active file:
+On Wed, Jun 29, 2022 at 11:35:24AM +0100, Kieran Bingham wrote:
+> Quoting Laurent Pinchart (2022-06-28 21:11:51)
+> > On Tue, Jun 28, 2022 at 10:08:28PM +0200, Geert Uytterhoeven wrote:
+> > > On Tue, Jun 28, 2022 at 9:53 PM Laurent Pinchart wrote:
+> > > > On Tue, Jun 28, 2022 at 09:05:34PM +0200, Eugeniu Rosca wrote:
+> > > > > On So, Jun 26, 2022 at 09:46:42 +0300, Laurent Pinchart wrote:
+> > > > > > On Tue, May 03, 2022 at 03:20:10PM +0200, Eugeniu Rosca wrote:
+> > > > > > >
+> > > > > > > Troubleshooting the above without the right tools becomes a nightmare.
+> > > > > >
+> > > > > > Having spent lots of time working in userspace recently, I can't agree
+> > > > > > more.
+> > > > >
+> > > > > Thanks for the feedback and for endorsing the utility of this patch.
+> > > > >
+> > > > > > > +static int vspd_underrun[VSPD_MAX_NUM];
+> > > > > > > +module_param_array(vspd_underrun, int, NULL, 0444);
+> > > > > > > +MODULE_PARM_DESC(vspd_underrun, "VSPD underrun counter");
+> > > > > >
+> > > > > > Module parameters are not meant to convey information back to userspace.
+> > > > > > This should be done through either a debugfs file or a sysfs file. Given
+> > > > > > the debugging nature of this feature, I'd recommend the former.
+> > > > >
+> > > > > It is a bit unfortunate that we have to go the debugFS route, since I
+> > > > > recall at least one Customer in the past, who disabled the debugFS in
+> > > > > the end product, since it was the only available means to meet the
+> > > > > stringent automotive requirements (w.r.t. KNL binary size). Anybody
+> > > > > who has no choice but to disable debugFS will consequently not be able
+> > > > > to take advantage of this patch in the production/release software.
+> > > >
+> > > > debugfs isn't meant to be enabled in production, so if you need a
+> > > > solution for production environment, it's not an option indeed.
+> 
+> I have an out of tree patch set that I've kept around since I started
+> working on VSP1 that adds a debugfs entry for VSPd so that I can extract
+> information/stats when debugging.
+> 
+> Seems like I should probably have shared that in the past, so I'll do so
+> now.
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git/
+> Branch: kbingham/vsp1/debugfs
+> 
+> 
+> I'll post to the linux-media mailing list too separately.
+> 
+> Certainly for the patches I have, shouldn't be in sysfs they provide
+> debug of registers and decoding and aren't expected to be an ABI.
+> 
+> I also added an underrun interrupt warning, but I think your
+> implementation keeping a count is valid too, though anytime I've seen an
+> underrun - that's been the 'end' - and the whole device has stalled.
+> 
+> Have you actually seen it occur, and continue?
+> 
+> 
+> > > > > If there is no alternative, then for sure I can go this way.
+> > > > >
+> > > > > However, before submitting PATCH v3, would you consider SYSFS viable
+> > > > > too, if keeping the module param is totally unacceptable?
+> > > > >
+> > > > > I was hoping to keep the number of external dependencies to the bare
+> > > > > minimum, hence the initial choice of module param. Looking forward to
+> > > > > your final suggestion/preference.
+> > > >
+> > > > sysfs would be my next recommendation. I don't think a Linux system can
+> > > > meaningfully run without sysfs, so it shouldn't be an issue
+> > > > dependency-wise.
+> > > 
+> > > Indeed, you can add a device attribute.
+> > > But as that is not a debug feature, the attribute must be documented,
+> > > and becomes ABI.
+> > 
+> > Thanks for the comment, that's correct
+> 
+> If we end up with a sysfs interface, I might like to see other frame
+> counters added too I think. And that's my only worry about using sysfs
+> for this ... it would become the defacto place to add debug info, rather
+> than 'debugfs'.
+> 
+> Not a direct objection, but a worry. But perhaps exposing frame counters
+> and basic device stats through sysfs is a win anyway.
 
- cat /debugfs/fe9a0000.vsp/DLM/active
+I've been thinking some more about this. We should separate debugging
+features, which should be exposed through debugfs, from production
+monitoring features, which need a different API (and have a stable ABI).
+sysfs is an interesting option, but I'm wondering in this case if
+userspace would also need the ability to receive notifications in case
+of errors. This isn't something the sysfs provides, polling would be
+required in that case, which isn't ideal.
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Are there other standard device monitoring APIs that we could use ?
 
---
-2021-05-05:
- - Don't store dentry pointers which are not used
-
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
- drivers/media/platform/renesas/vsp1/vsp1_dl.c | 107 ++++++++++++++++++
- 1 file changed, 107 insertions(+)
-
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-index ad3fa1c9cc73..f75ecc5b485e 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-@@ -17,6 +17,8 @@
- #include "vsp1.h"
- #include "vsp1_dl.h"
- 
-+#include "vsp1_debugfs.h"
-+
- #define VSP1_DL_NUM_ENTRIES		256
- 
- #define VSP1_DLH_INT_ENABLE		(1 << 1)
-@@ -226,6 +228,8 @@ struct vsp1_dl_manager {
- 
- 	struct vsp1_dl_body_pool *pool;
- 	struct vsp1_dl_cmd_pool *cmdpool;
-+
-+	struct dentry *dbgroot;
- };
- 
- /* -----------------------------------------------------------------------------
-@@ -1086,6 +1090,105 @@ struct vsp1_dl_body *vsp1_dlm_dl_body_get(struct vsp1_dl_manager *dlm)
- 	return vsp1_dl_body_get(dlm->pool);
- }
- 
-+/* -----------------------------------------------------------------------------
-+ * Debugfs internal views
-+ */
-+
-+static void seq_print_list_body(struct seq_file *s, struct vsp1_dl_body *dlb)
-+{
-+	int i;
-+
-+	for (i = 0; i < dlb->num_entries; i++) {
-+		struct vsp1_dl_entry *e = &dlb->entries[i];
-+
-+		seq_printf(s, "0x%08x -> %s\n", e->data,
-+			   vsp1_reg_to_name(e->addr));
-+	}
-+}
-+
-+static void seq_printf_dl(struct seq_file *s, struct vsp1_dl_list *dl)
-+{
-+	struct vsp1_dl_body *dlb;
-+	struct vsp1_dl_list *child;
-+
-+	if (!dl)
-+		return;
-+
-+	seq_print_list_body(s, dl->body0);
-+
-+	list_for_each_entry(dlb, &dl->bodies, list)
-+		seq_print_list_body(s, dlb);
-+
-+	if (dl->has_chain)
-+		list_for_each_entry(child, &dl->chain, chain)
-+			seq_print_list_body(s, child->body0);
-+}
-+
-+static int vsp1_debugfs_dlm_active(struct seq_file *s, void *p)
-+{
-+	struct vsp1_dl_manager *dlm = s->private;
-+
-+	seq_printf_dl(s, dlm->active);
-+
-+	return 0;
-+}
-+
-+DEBUGFS_RO_ATTR(vsp1_debugfs_dlm_active);
-+
-+static int vsp1_debugfs_dlm_pending(struct seq_file *s, void *p)
-+{
-+	struct vsp1_dl_manager *dlm = s->private;
-+
-+	seq_printf_dl(s, dlm->pending);
-+
-+	return 0;
-+}
-+
-+DEBUGFS_RO_ATTR(vsp1_debugfs_dlm_pending);
-+
-+static int vsp1_debugfs_dlm_queued(struct seq_file *s, void *p)
-+{
-+	struct vsp1_dl_manager *dlm = s->private;
-+
-+	seq_printf_dl(s, dlm->queued);
-+
-+	return 0;
-+}
-+
-+DEBUGFS_RO_ATTR(vsp1_debugfs_dlm_queued);
-+
-+/* Debugfs initialised after entities are created */
-+static int vsp1_debugfs_init_dlm(struct vsp1_dl_manager *dlm)
-+{
-+	struct vsp1_device *vsp1 = dlm->vsp1;
-+
-+	dlm->dbgroot = debugfs_create_dir("DLM", vsp1->dbgroot);
-+	if (!dlm->dbgroot)
-+		return -ENOMEM;
-+
-+	/* dentry pointers discarded */
-+	debugfs_create_file("active", 0444, dlm->dbgroot, dlm,
-+			    &vsp1_debugfs_dlm_active_fops);
-+
-+	debugfs_create_file("pending", 0444, dlm->dbgroot, dlm,
-+			    &vsp1_debugfs_dlm_pending_fops);
-+
-+	debugfs_create_file("queued", 0444, dlm->dbgroot, dlm,
-+			    &vsp1_debugfs_dlm_queued_fops);
-+
-+	return 0;
-+}
-+
-+static void vsp1_debugfs_destroy_dlm(struct vsp1_dl_manager *dlm)
-+{
-+	debugfs_remove(dlm->dbgroot);
-+	dlm->dbgroot = NULL;
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * Object creation and destruction
-+ */
-+
- struct vsp1_dl_manager *vsp1_dlm_create(struct vsp1_device *vsp1,
- 					unsigned int index,
- 					unsigned int prealloc)
-@@ -1149,6 +1252,8 @@ struct vsp1_dl_manager *vsp1_dlm_create(struct vsp1_device *vsp1,
- 		}
- 	}
- 
-+	vsp1_debugfs_init_dlm(dlm);
-+
- 	return dlm;
- }
- 
-@@ -1159,6 +1264,8 @@ void vsp1_dlm_destroy(struct vsp1_dl_manager *dlm)
- 	if (!dlm)
- 		return;
- 
-+	vsp1_debugfs_destroy_dlm(dlm);
-+
- 	list_for_each_entry_safe(dl, next, &dlm->free, list) {
- 		list_del(&dl->list);
- 		vsp1_dl_list_free(dl);
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
