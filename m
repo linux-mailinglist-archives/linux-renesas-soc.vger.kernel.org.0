@@ -2,63 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A19605609F7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 21:06:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6964C560AD2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 22:02:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230294AbiF2TG5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 15:06:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50150 "EHLO
+        id S231394AbiF2UCa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jun 2022 16:02:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230292AbiF2TG4 (ORCPT
+        with ESMTP id S230022AbiF2UCa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 15:06:56 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C1E201A7
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 12:06:54 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id x8so11584247pgj.13
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 12:06:54 -0700 (PDT)
+        Wed, 29 Jun 2022 16:02:30 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BB333ED11
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 13:02:29 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id g20-20020a17090a579400b001ed52939d72so530868pji.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 13:02:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20210112.gappssmtp.com; s=20210112;
         h=message-id:date:mime-version:content-transfer-encoding:subject:to
          :from;
-        bh=Olo+9ECRWwSqPBjY7gstfhSpsFRqJpDBk/MII3RJPOg=;
-        b=1h5htSwJeSFhkxixCKz9Y/+nKoH0BqWv5s4qlYaIrpi0rzZnox0IlsN6EFRlev8PLh
-         fxQV9aCzbuDiuqBXWa0EGVgsKCXKMTC22mLwTKGg8kismeLRetJFZeAB4ZnNj8AXUrLG
-         581hOphq5HW9Etoq13cEyU2iVFysr0PnGm/0diwDyx5wTyBXxfhjGJjM7kPD/DJ2J17G
-         7URtsWCyp2HNevFmLXHcVDk+Zidk52Z1oGfmg5oBBhj5s6JL96jQ0mcaMzKoJW9ktk/h
-         cTCa3adMGWCQEuh/4g3dyw9ZC6jTzHFeS5zaqOSmetKTLcrOQtzIZeo8RpO9vhMD1OOt
-         Yahw==
+        bh=bAKNhE1HqcfA+Wr6ohr2LZJgJkg3CdIpZnqilvqzNn8=;
+        b=Q28ICiHz3E2apMdUdNwHkJYUoIrblpR0SSuGI8VUcbQnDUoomOnWfrySP4npMWzuiN
+         Wz5nqxPLP4nf+u39+b6Br9+Bj+OCtTdBaoM833eNtN4AKrZCfOpoVvJJkKvDrprWgaOg
+         +wDqXXSiYqL0GXrpY6zfBHmLj3EIb6jsBkaTzgilZu7iMc1PcOqWtZCJ1yf/ZQqlCx2S
+         aW9ARah3rDbPS6K3zqXm1macTe19JraXMP4mr5G9uiUsn1kwNzjYDhpIei27HZZX+OU6
+         igS9lf87JpLz2JpF1qi1BJiKae5Y71hWa7g+TJTUnxQHkxXG9mMW9QM5NarT8+rkX6XK
+         nQ+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version
          :content-transfer-encoding:subject:to:from;
-        bh=Olo+9ECRWwSqPBjY7gstfhSpsFRqJpDBk/MII3RJPOg=;
-        b=GZHEjEh9Q7bXVLNkfqB6aVI5hW/Dxlp024O2XiAe7DT8UoIryXhZQSkkFxEzRdbXge
-         E3SZu4WcPvLwXH6/zQnVfJymq/hSAYCibx9YMFa65tWM33nNa4XqFEkea4Pr91pIxgLz
-         8shdMxDUUgqPuIoaG4WWPoKGeFntvuJ9goZ4eVdXkluR56ThJ6jeXLum86gyp6VUtg22
-         bxyWTByWSzYc0UGZNES4JQBSZCjzAUGCKz/sctS+syl2wUx6TxkJracphoGSMbu1BfEw
-         3X2tf78T7mG/fESPy9EAFm1Io9Pw2VBAygj81nKjpF0asqlkxh+eV+ew1lxqwv+49oj5
-         eqIw==
-X-Gm-Message-State: AJIora9veVqgnPpIQTgqTxybtgchsyekg2XE+cMeJ/pathwIo5CQHH/o
-        LGxlEjNfWVBsDZP5m2zifojOKWowdR3vC3G2VYM=
-X-Google-Smtp-Source: AGRyM1v4BoOo+Zf5ir6tH9b+/Y0pF54r8xg0jhdxNF3nJH6OG37sh1lJh4ThDl6aCBdwh0c1XwaEdw==
-X-Received: by 2002:a63:8142:0:b0:40d:314c:57bd with SMTP id t63-20020a638142000000b0040d314c57bdmr3967810pgd.427.1656529614218;
-        Wed, 29 Jun 2022 12:06:54 -0700 (PDT)
+        bh=bAKNhE1HqcfA+Wr6ohr2LZJgJkg3CdIpZnqilvqzNn8=;
+        b=MNg+O2gPRSojnwxjMZFVpO3tmMHElpf5LyN802cVBM/OqXMxD5ZIEU5gKitPF8npwX
+         Pzj7Qd8h/pF1pr24puhJ4ckZIT4GmWRQAG7uIGb/1TA5qr4cF6PuSsy57Dfd/tyY3oze
+         uePsGLaNP5volXywVJRQDIcvjezbYCleRFlQClFEw7+bJTnqG8Z8kyaOyMEycaMNbpN0
+         cwHzNoNaUQV75oPQCNgS9TvspfjGSGMDj3dgYu7rSuZzs+UuC0QhXC1m8jX4brs34XWb
+         AW9+fMMgySbWo1hgFwkB0+/xhuuKg7MSy0LLVsaU6tSZGTvOKv7b91U7oKw1SRR94i57
+         WOQQ==
+X-Gm-Message-State: AJIora8Ep+wSIcWEw/qp1iTl0anZWimzT7+bTsxEJKWrl+9fgbMluPWq
+        kK1syD/CXv0Osl8M5PgVeDrYZqjL228Aw9aDI6I=
+X-Google-Smtp-Source: AGRyM1srreY7DbSRWVU7/T5zu7vS9Wf1EBiOcRp0s3mwN5ULRi4M+NewVdSpZTSBPzXKkXgrEwCN+g==
+X-Received: by 2002:a17:90b:35c7:b0:1ee:f8a7:2b03 with SMTP id nb7-20020a17090b35c700b001eef8a72b03mr7726007pjb.50.1656532948635;
+        Wed, 29 Jun 2022 13:02:28 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id j6-20020a170902da8600b00169c54f6d01sm12047642plx.221.2022.06.29.12.06.50
+        by smtp.gmail.com with ESMTPSA id im15-20020a170902bb0f00b0016797c33b6csm11760314plb.116.2022.06.29.13.02.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 12:06:51 -0700 (PDT)
-Message-ID: <62bca2cb.1c69fb81.141f.1102@mx.google.com>
-Date:   Wed, 29 Jun 2022 12:06:51 -0700 (PDT)
+        Wed, 29 Jun 2022 13:02:27 -0700 (PDT)
+Message-ID: <62bcafd3.1c69fb81.d3322.0e62@mx.google.com>
+Date:   Wed, 29 Jun 2022 13:02:27 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: renesas-devel-2022-06-29-v5.19-rc4
-X-Kernelci-Branch: master
+X-Kernelci-Kernel: renesas-next-2022-06-29-v5.19-rc1
+X-Kernelci-Branch: next
 X-Kernelci-Tree: renesas
-Subject: renesas/master usb: 4 runs,
- 2 regressions (renesas-devel-2022-06-29-v5.19-rc4)
+Subject: renesas/next baseline-nfs: 52 runs,
+ 2 regressions (renesas-next-2022-06-29-v5.19-rc1)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -70,33 +70,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master usb: 4 runs, 2 regressions (renesas-devel-2022-06-29-v5.19-r=
-c4)
+renesas/next baseline-nfs: 52 runs, 2 regressions (renesas-next-2022-06-29-=
+v5.19-rc1)
 
 Regressions Summary
 -------------------
 
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-rk3288-veyron-jaq | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
+platform   | arch | lab          | compiler | defconfig                    =
+| regressions
+-----------+------+--------------+----------+------------------------------=
++------------
+jetson-tk1 | arm  | lab-baylibre | gcc-10   | multi_v7_defc...MB2_KERNEL=3D=
+y | 1          =
 
-tegra124-nyan-big | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
+jetson-tk1 | arm  | lab-baylibre | gcc-10   | tegra_defconfig              =
+| 1          =
 
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2022-06-29-v5.19-rc4/plan/usb/
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2022-06-29-v5.19-rc1/plan/baseline-nfs/
 
-  Test:     usb
+  Test:     baseline-nfs
   Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2022-06-29-v5.19-rc4
+  Branch:   next
+  Describe: renesas-next-2022-06-29-v5.19-rc1
   URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
 evel.git
-  SHA:      33401641a5eb2a82fb3eeeb71752594b1d8016bc =
+  SHA:      5695289da1bfec5108a882840cf064600cb4ff0c =
 
 
 
@@ -105,66 +105,68 @@ Test Regressions
 
 
 
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-rk3288-veyron-jaq | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
+platform   | arch | lab          | compiler | defconfig                    =
+| regressions
+-----------+------+--------------+----------+------------------------------=
++------------
+jetson-tk1 | arm  | lab-baylibre | gcc-10   | multi_v7_defc...MB2_KERNEL=3D=
+y | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/62bc9ac4f964a76037a39bdf
+  Details:     https://kernelci.org/test/plan/id/62bc7d8d53ae2528b6a39c70
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
+  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
   Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
 10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig/gcc-10/lab-collabora/usb-rk3288-=
-veyron-jaq.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig/gcc-10/lab-collabora/usb-rk3288-=
-veyron-jaq.html
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-06-29-v5.19-rc1/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/lab=
+-baylibre/baseline-nfs-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-06-29-v5.19-rc1/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/lab=
+-baylibre/baseline-nfs-jetson-tk1.html
   Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-220624.0/armhf/rootfs.cpio.gz =
+220624.0/armhf/initrd.cpio.gz =
 
 
 
-  * usb.login: https://kernelci.org/test/case/id/62bc9ac4f964a76037a39be0
-        failing since 22 days (last pass: renesas-devel-2022-05-23-v5.18, f=
-irst fail: renesas-devel-2022-06-06-v5.19-rc1) =
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62bc7d8d53ae2528b=
+6a39c71
+        failing since 22 days (last pass: renesas-next-2022-05-05-v5.18-rc1=
+, first fail: renesas-next-2022-06-07-v5.19-rc1) =
 
  =
 
 
 
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-tegra124-nyan-big | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
+platform   | arch | lab          | compiler | defconfig                    =
+| regressions
+-----------+------+--------------+----------+------------------------------=
++------------
+jetson-tk1 | arm  | lab-baylibre | gcc-10   | tegra_defconfig              =
+| 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/62bc9aa50082c2c360a39c20
+  Details:     https://kernelci.org/test/plan/id/62bc78c1e079dcdcd8a39be2
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
+  Full config: tegra_defconfig
   Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
 10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig/gcc-10/lab-collabora/usb-tegra12=
-4-nyan-big.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-06-29-v5.19-rc4/arm/multi_v7_defconfig/gcc-10/lab-collabora/usb-tegra12=
-4-nyan-big.html
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-06-29-v5.19-rc1/arm/tegra_defconfig/gcc-10/lab-baylibre/baseline-nfs-jetso=
+n-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-06-29-v5.19-rc1/arm/tegra_defconfig/gcc-10/lab-baylibre/baseline-nfs-jetso=
+n-tk1.html
   Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-220624.0/armhf/rootfs.cpio.gz =
+220624.0/armhf/initrd.cpio.gz =
 
 
 
-  * usb.login: https://kernelci.org/test/case/id/62bc9aa50082c2c360a39c21
-        failing since 37 days (last pass: renesas-devel-2022-05-17-v5.18-rc=
-7, first fail: renesas-devel-2022-05-23-v5.18) =
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62bc78c1e079dcdcd=
+8a39be3
+        failing since 11 days (last pass: renesas-next-2022-05-05-v5.18-rc1=
+, first fail: renesas-next-2022-06-17-v5.19-rc1) =
 
  =20
