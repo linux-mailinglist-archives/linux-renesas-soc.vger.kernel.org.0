@@ -2,76 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3FED55FA4C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 10:23:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 317B455FB64
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jun 2022 11:11:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231184AbiF2IXB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 04:23:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36472 "EHLO
+        id S229772AbiF2JJW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jun 2022 05:09:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229609AbiF2IXA (ORCPT
+        with ESMTP id S229534AbiF2JJV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 04:23:00 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB4323BF89
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 01:22:59 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id mf9so31109911ejb.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 01:22:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=9FxvTXAyDoEN34ru1FkPgexZCj2uCfwrJpo+6ZTo0A4=;
-        b=n/Rw+Jcn+siC9rHD66Q/a/Epxq2eyLv1bnipKrH7St50QwolhBFNC5OvHqYgS08cVM
-         44jVB/YmKBprD90NMtCEUcI3r7rxWA9edsn7cMFspPviKzEcXMYUNfdi/qNUdOZGfguQ
-         SCw2ywbQ3RxV5BZVkOaUsWzz6KXF3o9zPurPpszTUZR65B0AnCAK5rWjjK+ODozaWxbc
-         Ccoxi37IMKLiSWWRIxPQIaYjRRQVuJ2of6MlcCfOkSVFATNWz2OrvQQsaeQwu+3PzSDZ
-         quLvYvP9vUPR521I25iXJY6gD6pdt1xUrltn/VOgfcLsxLK0EdY5omSh6/33SezquzAA
-         cWhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=9FxvTXAyDoEN34ru1FkPgexZCj2uCfwrJpo+6ZTo0A4=;
-        b=JMr1urI92A/RqcunAvlBCJztbNZrZRyGY7h0WjbeZKi24lLUywo2QpALczXg7dXTsY
-         RMnl7a0Jn1ztJi+W4r/8vU3nXGcF2KZqJHWv/ffZbDrzMR2fvqgfr2jdedpop3Z0G/Y1
-         VMVYy1eFQxhaCwRGP2ehAsVmMO2LF+FyPvyOGx+CdRxflpxBZJ76EUysu6mrgk/clQjC
-         eWb9880bgflBJEs3cKSZEEbF1Yz355DK91jJfgMHpSpwSD0PdusxPBx9AvvmWK8OQvIb
-         1b1aAyQtT7OUKwpOc5Pj+qEUzUa3kxdYL10pKl3RYWlxJkvfTwgR7cId0zBtMSLrNZnt
-         kpdQ==
-X-Gm-Message-State: AJIora/UnxhJZKsehYrqffjAP9XSCHOAnlwKOvxv304R+8butFgOcJjJ
-        r/QGc3QAFDruPuwWn9PI2t0qIg==
-X-Google-Smtp-Source: AGRyM1vBRN/0zJCCRrvFtMg3YT78GpkmpcLfz7O2iiWHYpoCUJQvH3PfgvAAcwtKOUT0zyul+rUioQ==
-X-Received: by 2002:a17:906:9c82:b0:6df:c5f0:d456 with SMTP id fj2-20020a1709069c8200b006dfc5f0d456mr2089497ejc.287.1656490978259;
-        Wed, 29 Jun 2022 01:22:58 -0700 (PDT)
-Received: from [192.168.0.183] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id ia10-20020a170907a06a00b0070b7875aa6asm7286383ejc.166.2022.06.29.01.22.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jun 2022 01:22:57 -0700 (PDT)
-Message-ID: <caba6daf-768b-d10a-7b1b-667f793a9f5c@linaro.org>
-Date:   Wed, 29 Jun 2022 10:22:56 +0200
+        Wed, 29 Jun 2022 05:09:21 -0400
+Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD0F7B3F;
+        Wed, 29 Jun 2022 02:09:19 -0700 (PDT)
+Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by hi1smtp01.de.adit-jv.com (Postfix) with ESMTPS id 12C075206A5;
+        Wed, 29 Jun 2022 11:09:18 +0200 (CEST)
+Received: from lxhi-065 (10.72.94.12) by hi2exch02.adit-jv.com (10.72.92.28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Wed, 29 Jun
+ 2022 11:09:17 +0200
+Date:   Wed, 29 Jun 2022 11:09:12 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+        Eugen Friedrich <efriedrich@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [RFC PATCH v2] media: renesas: vsp1: Add VSPD underrun detection
+ & tracing
+Message-ID: <20220629090912.GA27332@lxhi-065>
+References: <1651584010-10156-1-git-send-email-erosca@de.adit-jv.com>
+ <YripkuWiMOcOl8Qu@pendragon.ideasonboard.com>
+ <20220628190534.GA22969@lxhi-065>
+ <YrtbgUhNS8Z1pgVA@pendragon.ideasonboard.com>
+ <CAMuHMdX7HzbUime4EOhtzcRV2YSA44qJRFXvu0LNtmpzgBJzRA@mail.gmail.com>
+ <YrtghyHkWZyj8hxL@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 1/2] dt-bindings: i2c: Document RZ/V2M I2C controller
-Content-Language: en-US
-To:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-i2c@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org
-References: <20220628194526.111501-1-phil.edworthy@renesas.com>
- <20220628194526.111501-2-phil.edworthy@renesas.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220628194526.111501-2-phil.edworthy@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <YrtghyHkWZyj8hxL@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.94.12]
+X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
+ hi2exch02.adit-jv.com (10.72.92.28)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,98 +62,60 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 28/06/2022 21:45, Phil Edworthy wrote:
-> Document Renesas RZ/V2M (r9a09g011) I2C controller bindings.
-> 
-> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v2:
->  - Use an enum and set the default for clock-frequency
->  - Add resets property
-> ---
->  .../bindings/i2c/renesas,rzv2m.yaml           | 80 +++++++++++++++++++
->  1 file changed, 80 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml b/Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
-> new file mode 100644
-> index 000000000000..7f6d2bb4ecb3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
-> @@ -0,0 +1,80 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/i2c/renesas,rzv2m.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/V2M I2C Bus Interface
-> +
-> +maintainers:
-> +  - Phil Edworthy <phil.edworthy@renesas.com>
-> +
-> +allOf:
-> +  - $ref: /schemas/i2c/i2c-controller.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,i2c-r9a09g011  # RZ/V2M
-> +      - const: renesas,rzv2m-i2c
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: Data transmission/reception interrupt
-> +      - description: Status interrupt
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: tia
-> +      - const: tis
-> +
-> +  clock-frequency:
-> +    default: 100000
-> +    enum: [ 100000, 400000 ]
-> +    description:
-> +      Desired I2C bus clock frequency in Hz.
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - interrupt-names
-> +  - clocks
-> +  - power-domains
-> +  - resets
-> +  - '#address-cells'
-> +  - '#size-cells'
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r9a09g011-cpg.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    i2c0: i2c@a4030000 {
-> +            compatible = "renesas,i2c-r9a09g011", "renesas,rzv2m-i2c";
+Dear Laurent, dear Geert,
 
-I missed that part in last version - you have some weird indentation
-here. Use 4 spaces for DTS example.
+On Di, Jun 28, 2022 at 11:11:51 +0300, Laurent Pinchart wrote:
+> On Tue, Jun 28, 2022 at 10:08:28PM +0200, Geert Uytterhoeven wrote:
+> > On Tue, Jun 28, 2022 at 9:53 PM Laurent Pinchart wrote:
+> > > On Tue, Jun 28, 2022 at 09:05:34PM +0200, Eugeniu Rosca wrote:
+> > > > On So, Jun 26, 2022 at 09:46:42 +0300, Laurent Pinchart wrote:
+> > > > > On Tue, May 03, 2022 at 03:20:10PM +0200, Eugeniu Rosca wrote:
+> > > > > >
+> > > > > > Troubleshooting the above without the right tools becomes a nightmare.
+> > > > >
+> > > > > Having spent lots of time working in userspace recently, I can't agree
+> > > > > more.
+> > > >
+> > > > Thanks for the feedback and for endorsing the utility of this patch.
+> > > >
+> > > > > > +static int vspd_underrun[VSPD_MAX_NUM];
+> > > > > > +module_param_array(vspd_underrun, int, NULL, 0444);
+> > > > > > +MODULE_PARM_DESC(vspd_underrun, "VSPD underrun counter");
+> > > > >
+> > > > > Module parameters are not meant to convey information back to userspace.
+> > > > > This should be done through either a debugfs file or a sysfs file. Given
+> > > > > the debugging nature of this feature, I'd recommend the former.
+> > > >
+> > > > It is a bit unfortunate that we have to go the debugFS route, since I
+> > > > recall at least one Customer in the past, who disabled the debugFS in
+> > > > the end product, since it was the only available means to meet the
+> > > > stringent automotive requirements (w.r.t. KNL binary size). Anybody
+> > > > who has no choice but to disable debugFS will consequently not be able
+> > > > to take advantage of this patch in the production/release software.
+> > >
+> > > debugfs isn't meant to be enabled in production, so if you need a
+> > > solution for production environment, it's not an option indeed.
+> > >
+> > > > If there is no alternative, then for sure I can go this way.
+> > > >
+> > > > However, before submitting PATCH v3, would you consider SYSFS viable
+> > > > too, if keeping the module param is totally unacceptable?
+> > > >
+> > > > I was hoping to keep the number of external dependencies to the bare
+> > > > minimum, hence the initial choice of module param. Looking forward to
+> > > > your final suggestion/preference.
+> > >
+> > > sysfs would be my next recommendation. I don't think a Linux system can
+> > > meaningfully run without sysfs, so it shouldn't be an issue
+> > > dependency-wise.
+> > 
+> > Indeed, you can add a device attribute.
+> > But as that is not a debug feature, the attribute must be documented,
+> > and becomes ABI.
+> 
+> Thanks for the comment, that's correct
 
-Best regards,
-Krzysztof
+Thanks for the precious and insightful comments.
+I will try to get them resolved in PATCH v3, to the best of my ability.
+
+BR, Eugeniu
