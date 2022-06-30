@@ -2,60 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A45C6560FAF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jun 2022 05:35:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39E7E560FE4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jun 2022 06:10:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229512AbiF3Df3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jun 2022 23:35:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37340 "EHLO
+        id S230280AbiF3EKQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Jun 2022 00:10:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiF3Df2 (ORCPT
+        with ESMTP id S229449AbiF3EKP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jun 2022 23:35:28 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FDCD122
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 20:35:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656560127; x=1688096127;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pMBxpYZdlAnUamw+JS0vYK3H7AR4uu/wV7KqF28EOJg=;
-  b=JCt+5+LoXJIVjgenkLHOE00SAyrn3VJ7SdpKF1fEEgTRBOLtjfOK8h5s
-   r08K/PAMN5YKhS1aS6Dh6qSW8jMKljf4Kj0A6jkLpbiKMcY4yWwecr8id
-   89/s4lQp9ySbt0wTBfGwwrU1TR0l+8ydwjjSI2xT7uVXq/Yti7zWWXPnK
-   6BnTY2esVpyLwYfLndHSeHZSyHthQ887k04wzeqwkTejzSmadUyU/cc+7
-   EYhECx1MwP2KJ2cvjic98dmmeAcisRrq9Zs0NtULTYKVXa7K6Gp8kb1x7
-   sU1OiAjBn9EI2HJuwMAXEuUrOcGYVUZSWWThAJ1zyMx76UmasbCnSwfD7
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="346220423"
-X-IronPort-AV: E=Sophos;i="5.92,232,1650956400"; 
-   d="scan'208";a="346220423"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 20:35:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,232,1650956400"; 
-   d="scan'208";a="658827849"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 29 Jun 2022 20:35:25 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o6kxh-000CAE-7U;
-        Thu, 30 Jun 2022 03:35:25 +0000
-Date:   Thu, 30 Jun 2022 11:34:38 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 33401641a5eb2a82fb3eeeb71752594b1d8016bc
-Message-ID: <62bd19ce.VxQdgmESu1Ue4HFA%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 30 Jun 2022 00:10:15 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F94F2FE5D;
+        Wed, 29 Jun 2022 21:10:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AE5B8620B1;
+        Thu, 30 Jun 2022 04:10:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 05526C3411E;
+        Thu, 30 Jun 2022 04:10:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656562213;
+        bh=fXYvZPfyns1J5WvNPNDAvFk8usO3hW6ZIh7KRpxP3ro=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=qcnZad6CmCgeVY9+V/qJuNgnEnb3/obn7yaUc1I1HwrHUnVqdKBCBxvCFB6atDEv1
+         sET2pkhlETjsCc3Knp2CT7IpTZd6e3YaIG1q5uAc3gKpas9diB91B8kXD6uqQoxzj4
+         yKrA3fO5VQvdW/KsvJbtpeCz58I4ZFvXK0C6GyybOmCizBE101s7oyVtwtfEApGo+f
+         U0lcU84TvcUmYBhMcjBRNPHrqm31BVCCHnIvGdyeM8CQMy3aLqszVk/dli7hiFWEt3
+         QrD1u4hg3RJkdNyI1a2MPjAdDssjYMAOMa43FLZCfBJiQese6gK2SMx6kVpUqhvqb7
+         HhPUPW/bWRz8g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id DAEEEE49BBF;
+        Thu, 30 Jun 2022 04:10:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] net: dsa: rzn1-a5psw: fix a NULL vs IS_ERR() check in
+ a5psw_probe()
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <165656221289.5522.9931632695235942870.git-patchwork-notify@kernel.org>
+Date:   Thu, 30 Jun 2022 04:10:12 +0000
+References: <20220628130920.49493-1-wupeng58@huawei.com>
+In-Reply-To: <20220628130920.49493-1-wupeng58@huawei.com>
+To:     Peng Wu <wupeng58@huawei.com>
+Cc:     clement.leger@bootlin.com, andrew@lunn.ch,
+        vivien.didelot@gmail.com, f.fainelli@gmail.com, olteanv@gmail.com,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, linux-renesas-soc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        liwei391@huawei.com
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,73 +62,28 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 33401641a5eb2a82fb3eeeb71752594b1d8016bc  Merge branch 'renesas-next' into renesas-devel
+Hello:
 
-elapsed time: 727m
+This patch was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-configs tested: 52
-configs skipped: 2
+On Tue, 28 Jun 2022 13:09:20 +0000 you wrote:
+> The devm_platform_ioremap_resource() function never returns NULL.
+> It returns error pointers.
+> 
+> Signed-off-by: Peng Wu <wupeng58@huawei.com>
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> ---
+>  drivers/net/dsa/rzn1_a5psw.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Here is the summary with links:
+  - net: dsa: rzn1-a5psw: fix a NULL vs IS_ERR() check in a5psw_probe()
+    https://git.kernel.org/netdev/net-next/c/626af58bad58
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-ia64                             allmodconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-i386                                defconfig
-i386                             allyesconfig
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a015
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-i386                          randconfig-a014
-i386                          randconfig-a012
-i386                          randconfig-a016
-arc                  randconfig-r043-20220629
-s390                 randconfig-r044-20220629
-riscv                randconfig-r042-20220629
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-syz
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-
-clang tested configs:
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-hexagon              randconfig-r041-20220629
-hexagon              randconfig-r045-20220629
-
+You are awesome, thank you!
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
