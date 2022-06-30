@@ -2,171 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B04D56132E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jun 2022 09:26:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C761E56154C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jun 2022 10:39:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230482AbiF3H0K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Jun 2022 03:26:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50454 "EHLO
+        id S233428AbiF3IjU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Jun 2022 04:39:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230160AbiF3H0K (ORCPT
+        with ESMTP id S233110AbiF3IjT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Jun 2022 03:26:10 -0400
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FBAA3879C;
-        Thu, 30 Jun 2022 00:26:08 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 5C3B810000C;
-        Thu, 30 Jun 2022 07:25:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1656573966;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=RbHADpDXYr/X5U7Qq4I3DXnnwEmjtF/efxJQ5ykP7Io=;
-        b=VherGTDEfCbIuQysIFuAAJsl6Ygh2UoZMdw+yIdXK2X5fZ8d11J5vIhR/7MQtz3xKOt73Y
-        K9iEIF+mDDrNpg3TX0aMXuLLE/O/nfzayqXQ/mBvf5ITXEE7cCyzKOguOiTyhaHVoZ8RNq
-        yjI3bEpAgxb0qxcHG7QwnMDWdGB9eEqB1NtvIRevfN1BSKWnSHhFvPBgoFt/TYPePBlYAc
-        BygPdlDjczkRo9yZCNecazZuGo+pE1TSxp/532OeL3UjaZ7izxi2jFf4lgjHIg7JfBlBc2
-        e21eQOgI9zwOz8TA+mBYNx/5PRKQDgGfhKq/Dr1p3oa2cs7pVD9FnHIKbdA/Mg==
-Date:   Thu, 30 Jun 2022 09:25:52 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Vignesh Raghavendra <vigneshr@ti.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/7] memory: renesas-rpc-if: Pass device instead of
- rpcif to rpcif_*()
-Message-ID: <20220630092552.68a8b3ff@xps-13>
-In-Reply-To: <e313b7f9a856fd8546aabb20d44d10e3af6676c6.1656341824.git.geert+renesas@glider.be>
-References: <cover.1656341824.git.geert+renesas@glider.be>
-        <e313b7f9a856fd8546aabb20d44d10e3af6676c6.1656341824.git.geert+renesas@glider.be>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Thu, 30 Jun 2022 04:39:19 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E9067419A7;
+        Thu, 30 Jun 2022 01:39:16 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.92,233,1650898800"; 
+   d="scan'208";a="126192432"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 30 Jun 2022 17:39:15 +0900
+Received: from localhost.localdomain (unknown [10.226.93.21])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CDEB443165D0;
+        Thu, 30 Jun 2022 17:39:11 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Johan Hovold <johan@kernel.org>, linux-serial@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] serial: 8250: dw: Fix the macro RZN1_UART_xDMACR_8_WORD_BURST
+Date:   Thu, 30 Jun 2022 09:39:09 +0100
+Message-Id: <20220630083909.4294-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+As per RZ/N1 peripheral user manual(r01uh0752ej0100-rzn1-peripheral.pdf)
+rev 1.0.0 Mar,2019, the value for 8_WORD_BURST is 4(b2,b1=2’b10).
 
-geert+renesas@glider.be wrote on Mon, 27 Jun 2022 17:31:13 +0200:
+This patch fixes the macro as per the user manual.
 
-> Most rpcif_*() API functions do not need access to any other fields in
-> the rpcif structure than the device pointer.  Simplify dependencies by
-> passing the device pointer instead.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/memory/renesas-rpc-if.c | 32 ++++++++++++++++----------------
->  drivers/mtd/hyperbus/rpc-if.c   | 18 +++++++++---------
+Fixes: aa63d786cea2 ("serial: 8250: dw: Add support for DMA flow controlling devices")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/tty/serial/8250/8250_dw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[...]
+diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
+index f57bbd32ef11..931490b27d6b 100644
+--- a/drivers/tty/serial/8250/8250_dw.c
++++ b/drivers/tty/serial/8250/8250_dw.c
+@@ -47,7 +47,7 @@
+ #define RZN1_UART_xDMACR_DMA_EN		BIT(0)
+ #define RZN1_UART_xDMACR_1_WORD_BURST	(0 << 1)
+ #define RZN1_UART_xDMACR_4_WORD_BURST	(1 << 1)
+-#define RZN1_UART_xDMACR_8_WORD_BURST	(3 << 1)
++#define RZN1_UART_xDMACR_8_WORD_BURST	(2 << 1)
+ #define RZN1_UART_xDMACR_BLK_SZ(x)	((x) << 3)
+ 
+ /* Quirks */
+-- 
+2.25.1
 
-> diff --git a/drivers/mtd/hyperbus/rpc-if.c b/drivers/mtd/hyperbus/rpc-if.c
-> index d00d302434030b20..41734e337ac00e40 100644
-> --- a/drivers/mtd/hyperbus/rpc-if.c
-> +++ b/drivers/mtd/hyperbus/rpc-if.c
-> @@ -56,7 +56,7 @@ static void rpcif_hb_prepare_read(struct rpcif *rpc, vo=
-id *to,
->  	op.data.nbytes =3D len;
->  	op.data.buf.in =3D to;
-> =20
-> -	rpcif_prepare(rpc, &op, NULL, NULL);
-> +	rpcif_prepare(rpc->dev, &op, NULL, NULL);
->  }
-> =20
->  static void rpcif_hb_prepare_write(struct rpcif *rpc, unsigned long to,
-> @@ -70,7 +70,7 @@ static void rpcif_hb_prepare_write(struct rpcif *rpc, u=
-nsigned long to,
->  	op.data.nbytes =3D len;
->  	op.data.buf.out =3D from;
-> =20
-> -	rpcif_prepare(rpc, &op, NULL, NULL);
-> +	rpcif_prepare(rpc->dev, &op, NULL, NULL);
->  }
-> =20
->  static u16 rpcif_hb_read16(struct hyperbus_device *hbdev, unsigned long =
-addr)
-> @@ -81,7 +81,7 @@ static u16 rpcif_hb_read16(struct hyperbus_device *hbde=
-v, unsigned long addr)
-> =20
->  	rpcif_hb_prepare_read(&hyperbus->rpc, &data, addr, 2);
-> =20
-> -	rpcif_manual_xfer(&hyperbus->rpc);
-> +	rpcif_manual_xfer(hyperbus->rpc.dev);
-> =20
->  	return data.x[0];
->  }
-> @@ -94,7 +94,7 @@ static void rpcif_hb_write16(struct hyperbus_device *hb=
-dev, unsigned long addr,
-> =20
->  	rpcif_hb_prepare_write(&hyperbus->rpc, addr, &data, 2);
-> =20
-> -	rpcif_manual_xfer(&hyperbus->rpc);
-> +	rpcif_manual_xfer(hyperbus->rpc.dev);
->  }
-> =20
->  static void rpcif_hb_copy_from(struct hyperbus_device *hbdev, void *to,
-> @@ -105,7 +105,7 @@ static void rpcif_hb_copy_from(struct hyperbus_device=
- *hbdev, void *to,
-> =20
->  	rpcif_hb_prepare_read(&hyperbus->rpc, to, from, len);
-> =20
-> -	rpcif_dirmap_read(&hyperbus->rpc, from, len, to);
-> +	rpcif_dirmap_read(hyperbus->rpc.dev, from, len, to);
->  }
-> =20
->  static const struct hyperbus_ops rpcif_hb_ops =3D {
-> @@ -130,9 +130,9 @@ static int rpcif_hb_probe(struct platform_device *pde=
-v)
-> =20
->  	platform_set_drvdata(pdev, hyperbus);
-> =20
-> -	rpcif_enable_rpm(&hyperbus->rpc);
-> +	rpcif_enable_rpm(hyperbus->rpc.dev);
-> =20
-> -	error =3D rpcif_hw_init(&hyperbus->rpc, true);
-> +	error =3D rpcif_hw_init(hyperbus->rpc.dev, true);
->  	if (error)
->  		goto out_disable_rpm;
-> =20
-> @@ -150,7 +150,7 @@ static int rpcif_hb_probe(struct platform_device *pde=
-v)
->  	return 0;
-> =20
->  out_disable_rpm:
-> -	rpcif_disable_rpm(&hyperbus->rpc);
-> +	rpcif_disable_rpm(hyperbus->rpc.dev);
->  	return error;
->  }
-
-This will only apply on top of mtd/next, because that
-rpcif_disable_rpm() balance call was very recently contributed by Geert:
-https://lore.kernel.org/linux-mtd/f3070e1af480cb252ae183d479a593dbbf947685.=
-1655457790.git.geert+renesas@glider.be/
-
-So we need to first share an immutable tag on the current mtd/next
-branch. Richard, that is my vacation gift for you :)
-
-Otherwise,
-
-Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
-
-Thanks,
-Miqu=C3=A8l
