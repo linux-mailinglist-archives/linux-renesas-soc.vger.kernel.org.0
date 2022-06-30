@@ -2,130 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09B6256203E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jun 2022 18:26:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75DA656260A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Jul 2022 00:25:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235270AbiF3Q0Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Jun 2022 12:26:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34392 "EHLO
+        id S229672AbiF3WZM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Jun 2022 18:25:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230023AbiF3Q0X (ORCPT
+        with ESMTP id S229531AbiF3WZM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Jun 2022 12:26:23 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AC7831DDB;
-        Thu, 30 Jun 2022 09:26:21 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 5FD75240006;
-        Thu, 30 Jun 2022 16:26:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1656606380;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=Ub7MTUUE2hv+8hYKHLTeAm9AB3Acs240cVnO+TTjyMI=;
-        b=GNQD12DMHY+Txmr6rW+F7vIEB9gkB3V5cSer0MzO7bvlfj8FUd1QlCmi5f79He1E7YNi4o
-        YkBLZAZ8b9NDzZdJqBhe4ImpmAvH0nMYBg3J06mk2403U8Tmd9INinPQP8wV3zrBj4wxKK
-        DiXQl5btYFpho1In9qfhI92O0b2wLAa8i0Elnq+luKCLCa/sAa7x2KXk//ByFfJdMk8b3a
-        pTc4frVAMKGW3ZbqnkGTfzza0x9IBtgKGxUjnT0XY3UNMr8nEkLkogrnQEWu9HDEZxUT0D
-        xYSM04sPUNf7aaEc3d5yZMQ/wppjfhT0/Jh7W4Lxwi3+QilwY+6o+EP9cnBlXg==
-From:   =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        Thu, 30 Jun 2022 18:25:12 -0400
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54D652A406;
+        Thu, 30 Jun 2022 15:25:11 -0700 (PDT)
+Received: by mail-il1-f172.google.com with SMTP id f15so288979ilj.11;
+        Thu, 30 Jun 2022 15:25:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=RekG2tzkZ8TJ0hR3Sg/OCS8Mf9fHdZVYkRJgiazqIKI=;
+        b=B921yx+Or+CXlpquPAHUgLT8ove6ioHIIboVXiMglBdSyWz7W5Rzr3QNiUbW69Da+4
+         yRVvJ9xtzRq7UpRP/O9lFFU0FBsJa6gjV5KhtUHS6DKcO9deBRgC1TGL17cngeVkr084
+         X6b4lD1m6PtxwS1yFBpn0WdfAlUKugkB7lTowgpb+njSDB4wTDllzkBBvh9GWKMF3KoW
+         8UpHSwaKDzeLxwmLMZgJn+hRy29KCZoYkv50MEnmzqeqwiqbMybrZ/JO4z+vudxV9unn
+         N2gT77VTD46N5Kq+ljIDeR6Kl/sIEhlMjRZO8cUwCiVsGViaIOG5lW8EkRR1by9D9a4C
+         B2lA==
+X-Gm-Message-State: AJIora+XQH0ltZDZxjxgofKpUQVMqpYBPNuTGXIxqmy4K1e9Er4Sa9Kq
+        1g25Eu7eKeIRcTB+T/NuVFQg9fY77g==
+X-Google-Smtp-Source: AGRyM1uWyWFrVjg/TpmfwgXwsCHPQyhcSjeLDUyhDCbl5dRRSHij3/u/aWy2T2xwUXZRTBnRZ4rLMg==
+X-Received: by 2002:a92:c54a:0:b0:2d9:5495:5caa with SMTP id a10-20020a92c54a000000b002d954955caamr6849334ilj.270.1656627910561;
+        Thu, 30 Jun 2022 15:25:10 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id j23-20020a056e02219700b002d10dc367a1sm8397736ila.49.2022.06.30.15.25.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jun 2022 15:25:10 -0700 (PDT)
+Received: (nullmailer pid 3433399 invoked by uid 1000);
+        Thu, 30 Jun 2022 22:25:08 -0000
+Date:   Thu, 30 Jun 2022 16:25:08 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Phil Edworthy <phil.edworthy@renesas.com>
+Cc:     devicetree@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?q?Miqu=C3=A8l=20Raynal?= <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>
-Subject: [PATCH net-next v2] dt-bindings: net: dsa: renesas,rzn1-a5psw: add interrupts description
-Date:   Thu, 30 Jun 2022 18:25:15 +0200
-Message-Id: <20220630162515.37302-1-clement.leger@bootlin.com>
-X-Mailer: git-send-email 2.36.1
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: pinctrl: renesas: Add DT bindings
+ for RZ/V2M pinctrl
+Message-ID: <20220630222508.GA3433338-robh@kernel.org>
+References: <20220624084833.22605-1-phil.edworthy@renesas.com>
+ <20220624084833.22605-2-phil.edworthy@renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220624084833.22605-2-phil.edworthy@renesas.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Describe the switch interrupts (dlr, switch, prp, hub, pattern) which
-are connected to the GIC.
+On Fri, 24 Jun 2022 09:48:32 +0100, Phil Edworthy wrote:
+> Add device tree binding documentation and header file for Renesas
+> RZ/V2M pinctrl.
+> 
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2:
+>  - Remove power-source as it is not supported
+>  - Add enum and description for slew-rate
+>  - Remove 'oneOf' and 'items' for compatible string
+>  - Add description for the interrupts
+>  - Remove input-enable property as it is not appropriate
+> ---
+>  .../pinctrl/renesas,rzv2m-pinctrl.yaml        | 170 ++++++++++++++++++
+>  include/dt-bindings/pinctrl/rzv2m-pinctrl.h   |  23 +++
+>  2 files changed, 193 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml
+>  create mode 100644 include/dt-bindings/pinctrl/rzv2m-pinctrl.h
+> 
 
-Signed-off-by: Clément Léger <clement.leger@bootlin.com>
----
-Changes in V2:
- - Fix typo in interrupt-names property.
-
- .../bindings/net/dsa/renesas,rzn1-a5psw.yaml  | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml b/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-index 103b1ef5af1b..e68c7e353100 100644
---- a/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-+++ b/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-@@ -26,6 +26,22 @@ properties:
-   reg:
-     maxItems: 1
- 
-+  interrupts:
-+    items:
-+      - description: DLR interrupt
-+      - description: Switch interrupt
-+      - description: PRP interrupt
-+      - description: Integrated HUB module interrupt
-+      - description: RX Pattern interrupt
-+
-+  interrupt-names:
-+    items:
-+      - const: dlr
-+      - const: switch
-+      - const: prp
-+      - const: hub
-+      - const: ptrn
-+
-   power-domains:
-     maxItems: 1
- 
-@@ -76,6 +92,7 @@ examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
-     #include <dt-bindings/clock/r9a06g032-sysctrl.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
- 
-     switch@44050000 {
-         compatible = "renesas,r9a06g032-a5psw", "renesas,rzn1-a5psw";
-@@ -83,6 +100,12 @@ examples:
-         clocks = <&sysctrl R9A06G032_HCLK_SWITCH>, <&sysctrl R9A06G032_CLK_SWITCH>;
-         clock-names = "hclk", "clk";
-         power-domains = <&sysctrl>;
-+        interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "dlr", "switch", "prp", "hub", "ptrn";
- 
-         dsa,member = <0 0>;
- 
--- 
-2.36.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
