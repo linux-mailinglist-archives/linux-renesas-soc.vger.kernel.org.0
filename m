@@ -2,131 +2,171 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28E545611E1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jun 2022 07:43:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B04D56132E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jun 2022 09:26:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230308AbiF3Fnd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Jun 2022 01:43:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60456 "EHLO
+        id S230482AbiF3H0K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Jun 2022 03:26:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231500AbiF3Fnc (ORCPT
+        with ESMTP id S230160AbiF3H0K (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Jun 2022 01:43:32 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42A6B1EECD
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Jun 2022 22:43:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656567812; x=1688103812;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=38dyZtCDxtLP6W0DyQmgY+jsKxZDRjSPtVsCMNHbVFE=;
-  b=S6GQECSF7piF0FavephryhwIuB6PgoTx4Sm61nh8EOdh73UEPaCQcA+d
-   0pkaYAkLxsTFhkvVI1z5wWGqIBD6AW0QXyh82wNqN6JT5IMbZs/nYX+Ec
-   M2OWtXXiZ8W/+rcpr5VWUPB2irlwh0UJCY+L9HzQVZnDpjS89T1nf9/vs
-   ORVsumrimODZkgk2hEQZyawGVpj50rRG+MBzS342DOlP30w5WCZskxyE2
-   28Su13bFDn9jQlkdFDLBY8eh/zwONdOzd8TTwX9leFcaJo4sC+d68rpCi
-   FR12jRnoagDYpScxbwh+2PvaD1dmEbxu3JhbBDE+EA1sITKKagNEgj+JK
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="282985678"
-X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; 
-   d="scan'208";a="282985678"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 22:43:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; 
-   d="scan'208";a="658859860"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 29 Jun 2022 22:43:30 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o6mxd-000CIE-Qy;
-        Thu, 30 Jun 2022 05:43:29 +0000
-Date:   Thu, 30 Jun 2022 13:43:04 +0800
-From:   kernel test robot <lkp@intel.com>
+        Thu, 30 Jun 2022 03:26:10 -0400
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FBAA3879C;
+        Thu, 30 Jun 2022 00:26:08 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5C3B810000C;
+        Thu, 30 Jun 2022 07:25:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1656573966;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RbHADpDXYr/X5U7Qq4I3DXnnwEmjtF/efxJQ5ykP7Io=;
+        b=VherGTDEfCbIuQysIFuAAJsl6Ygh2UoZMdw+yIdXK2X5fZ8d11J5vIhR/7MQtz3xKOt73Y
+        K9iEIF+mDDrNpg3TX0aMXuLLE/O/nfzayqXQ/mBvf5ITXEE7cCyzKOguOiTyhaHVoZ8RNq
+        yjI3bEpAgxb0qxcHG7QwnMDWdGB9eEqB1NtvIRevfN1BSKWnSHhFvPBgoFt/TYPePBlYAc
+        BygPdlDjczkRo9yZCNecazZuGo+pE1TSxp/532OeL3UjaZ7izxi2jFf4lgjHIg7JfBlBc2
+        e21eQOgI9zwOz8TA+mBYNx/5PRKQDgGfhKq/Dr1p3oa2cs7pVD9FnHIKbdA/Mg==
+Date:   Thu, 30 Jun 2022 09:25:52 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:next] BUILD SUCCESS
- 5695289da1bfec5108a882840cf064600cb4ff0c
-Message-ID: <62bd37e8.gINwO7uiPW92Ltul%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Cc:     Vignesh Raghavendra <vigneshr@ti.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Richard Weinberger <richard@nod.at>,
+        Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/7] memory: renesas-rpc-if: Pass device instead of
+ rpcif to rpcif_*()
+Message-ID: <20220630092552.68a8b3ff@xps-13>
+In-Reply-To: <e313b7f9a856fd8546aabb20d44d10e3af6676c6.1656341824.git.geert+renesas@glider.be>
+References: <cover.1656341824.git.geert+renesas@glider.be>
+        <e313b7f9a856fd8546aabb20d44d10e3af6676c6.1656341824.git.geert+renesas@glider.be>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: 5695289da1bfec5108a882840cf064600cb4ff0c  Merge branches 'renesas-arm-dt-for-v5.20' and 'renesas-dt-bindings-for-v5.20' into renesas-next
+Hi Krzysztof,
 
-elapsed time: 855m
+geert+renesas@glider.be wrote on Mon, 27 Jun 2022 17:31:13 +0200:
 
-configs tested: 49
-configs skipped: 2
+> Most rpcif_*() API functions do not need access to any other fields in
+> the rpcif structure than the device pointer.  Simplify dependencies by
+> passing the device pointer instead.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/memory/renesas-rpc-if.c | 32 ++++++++++++++++----------------
+>  drivers/mtd/hyperbus/rpc-if.c   | 18 +++++++++---------
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+[...]
 
-gcc tested configs:
-arm                              allyesconfig
-ia64                             allmodconfig
-alpha                            allyesconfig
-arc                              allyesconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-sh                               allmodconfig
-mips                             allyesconfig
-i386                                defconfig
-i386                             allyesconfig
-x86_64                        randconfig-a004
-x86_64                        randconfig-a006
-x86_64                        randconfig-a002
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-x86_64                        randconfig-a011
-i386                          randconfig-a014
-i386                          randconfig-a012
-i386                          randconfig-a016
-arc                  randconfig-r043-20220629
-s390                 randconfig-r044-20220629
-riscv                randconfig-r042-20220629
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-syz
+> diff --git a/drivers/mtd/hyperbus/rpc-if.c b/drivers/mtd/hyperbus/rpc-if.c
+> index d00d302434030b20..41734e337ac00e40 100644
+> --- a/drivers/mtd/hyperbus/rpc-if.c
+> +++ b/drivers/mtd/hyperbus/rpc-if.c
+> @@ -56,7 +56,7 @@ static void rpcif_hb_prepare_read(struct rpcif *rpc, vo=
+id *to,
+>  	op.data.nbytes =3D len;
+>  	op.data.buf.in =3D to;
+> =20
+> -	rpcif_prepare(rpc, &op, NULL, NULL);
+> +	rpcif_prepare(rpc->dev, &op, NULL, NULL);
+>  }
+> =20
+>  static void rpcif_hb_prepare_write(struct rpcif *rpc, unsigned long to,
+> @@ -70,7 +70,7 @@ static void rpcif_hb_prepare_write(struct rpcif *rpc, u=
+nsigned long to,
+>  	op.data.nbytes =3D len;
+>  	op.data.buf.out =3D from;
+> =20
+> -	rpcif_prepare(rpc, &op, NULL, NULL);
+> +	rpcif_prepare(rpc->dev, &op, NULL, NULL);
+>  }
+> =20
+>  static u16 rpcif_hb_read16(struct hyperbus_device *hbdev, unsigned long =
+addr)
+> @@ -81,7 +81,7 @@ static u16 rpcif_hb_read16(struct hyperbus_device *hbde=
+v, unsigned long addr)
+> =20
+>  	rpcif_hb_prepare_read(&hyperbus->rpc, &data, addr, 2);
+> =20
+> -	rpcif_manual_xfer(&hyperbus->rpc);
+> +	rpcif_manual_xfer(hyperbus->rpc.dev);
+> =20
+>  	return data.x[0];
+>  }
+> @@ -94,7 +94,7 @@ static void rpcif_hb_write16(struct hyperbus_device *hb=
+dev, unsigned long addr,
+> =20
+>  	rpcif_hb_prepare_write(&hyperbus->rpc, addr, &data, 2);
+> =20
+> -	rpcif_manual_xfer(&hyperbus->rpc);
+> +	rpcif_manual_xfer(hyperbus->rpc.dev);
+>  }
+> =20
+>  static void rpcif_hb_copy_from(struct hyperbus_device *hbdev, void *to,
+> @@ -105,7 +105,7 @@ static void rpcif_hb_copy_from(struct hyperbus_device=
+ *hbdev, void *to,
+> =20
+>  	rpcif_hb_prepare_read(&hyperbus->rpc, to, from, len);
+> =20
+> -	rpcif_dirmap_read(&hyperbus->rpc, from, len, to);
+> +	rpcif_dirmap_read(hyperbus->rpc.dev, from, len, to);
+>  }
+> =20
+>  static const struct hyperbus_ops rpcif_hb_ops =3D {
+> @@ -130,9 +130,9 @@ static int rpcif_hb_probe(struct platform_device *pde=
+v)
+> =20
+>  	platform_set_drvdata(pdev, hyperbus);
+> =20
+> -	rpcif_enable_rpm(&hyperbus->rpc);
+> +	rpcif_enable_rpm(hyperbus->rpc.dev);
+> =20
+> -	error =3D rpcif_hw_init(&hyperbus->rpc, true);
+> +	error =3D rpcif_hw_init(hyperbus->rpc.dev, true);
+>  	if (error)
+>  		goto out_disable_rpm;
+> =20
+> @@ -150,7 +150,7 @@ static int rpcif_hb_probe(struct platform_device *pde=
+v)
+>  	return 0;
+> =20
+>  out_disable_rpm:
+> -	rpcif_disable_rpm(&hyperbus->rpc);
+> +	rpcif_disable_rpm(hyperbus->rpc.dev);
+>  	return error;
+>  }
 
-clang tested configs:
-x86_64                        randconfig-a005
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a006
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-hexagon              randconfig-r045-20220629
-hexagon              randconfig-r041-20220629
+This will only apply on top of mtd/next, because that
+rpcif_disable_rpm() balance call was very recently contributed by Geert:
+https://lore.kernel.org/linux-mtd/f3070e1af480cb252ae183d479a593dbbf947685.=
+1655457790.git.geert+renesas@glider.be/
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+So we need to first share an immutable tag on the current mtd/next
+branch. Richard, that is my vacation gift for you :)
+
+Otherwise,
+
+Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
+
+Thanks,
+Miqu=C3=A8l
