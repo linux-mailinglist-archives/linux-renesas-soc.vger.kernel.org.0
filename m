@@ -2,132 +2,187 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21733561551
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jun 2022 10:41:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F662561564
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jun 2022 10:47:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232240AbiF3Ilt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Jun 2022 04:41:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44138 "EHLO
+        id S232986AbiF3Iq4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Jun 2022 04:46:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230044AbiF3Ilq (ORCPT
+        with ESMTP id S230044AbiF3Iqz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Jun 2022 04:41:46 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8886419A7;
-        Thu, 30 Jun 2022 01:41:44 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id fw3so9913552ejc.10;
-        Thu, 30 Jun 2022 01:41:44 -0700 (PDT)
+        Thu, 30 Jun 2022 04:46:55 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C61440E69
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jun 2022 01:46:54 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id d2so25860059ejy.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jun 2022 01:46:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=n8PWp7CT+a4Cdbu7pbxuMN1p1lItuhAgjjkTwNl1V/A=;
-        b=YvD7Wbe7P2DhCWvCmK8nvteCR9/W7mB+DWuDJv3xntXJR4A+I//2Nt5cI+n2TNXbCt
-         jdUwkGe0nQqHaljCPo9wuuhWgLQXTon0Qycm7TVjVPvB7tlImbpokyvYw3osVYKfxTkt
-         V88H+s3vOsSc5340uZ9shAyjF8VnZwwQrQOelcSQ5pxsdXyY3qdBOYh13/hkDzoRlapU
-         GfF8gN3KDO8u9k4+HYzNZciJqCimUK8W1ZvzgOduqBhhVb2dF67CLtXlHJ9gDThiEkgh
-         74zGWx0W7FxZpnGNNhhFEhA3WgKd2nJYmyEzInGF+R4M3XoPaS1IF/NE/7WIjs4M7ca7
-         W8Kg==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=ijUWiZS99qlF/8rRWRrspTyoZo9W1oBwhdsM2NPK7es=;
+        b=LSQDYNqaVAhiuyHrnxLSnNa4KYDv5v3ZdaOXu5gMU1DNOz4x+YfG+VbjZ3A2gl6eCZ
+         L11gg0aPuodv4gHEIQZvv3w7UoafvFp6QSMCORZOtk7LrTMXRgd4SVEOEyhEZGy/K+N5
+         UZl3y/Q5imBi7T/+mmSKMxsAc6rGkfi9cr/GMX0htQFoC3J+GglHPNgqtaHaKYDlR0Jd
+         /wphyRmcQdqDgvehLCcuADzaIjxjTvPL6CA6lxIli1waynFegdrl7RFXasXziwn+ObtA
+         pa6ahDmX1+PUTGkwA1bOn8GKu6RQZ8ySt3LcCn80K5U/jGZqsgQShDYkkfrrF++6AwhR
+         JVCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=n8PWp7CT+a4Cdbu7pbxuMN1p1lItuhAgjjkTwNl1V/A=;
-        b=ZEzI2PyciCKvNI0d+qmx2NNvgIW8bu2fpu1FTkHCzqvdJFTBSpUXUqM+2YXAQY9CqZ
-         e/VmrFuG1uFLrGQpWygSQ8BgLPdR9ySP9RxGeBdHKpU3+MOzod0grz4GaBL8hvrr+wnf
-         TJP4ANMmUsxZDhuu16N9/YW0Bjr5YVIQ7BJZFV7+ny+ZX21b8jm7J4H09SGpGCTIsMUC
-         RUbaZ0rJhrsWNn2c4WcFt726bwDDb711AZfRGa4BvRhZaR7Lh4/4gIRjzDvcQM3AFi4L
-         bYQYAs9F0HwhkpfZQi1ZOmM5E2EsmpMkC1nfu60Voa5SeeasS9RjmtLT8yhYujGwGEDD
-         8Vmw==
-X-Gm-Message-State: AJIora+EbEBpbju51E0a0f4h1FE7atCgX23O4aawvgPTOa5T5dO2KTKD
-        O/hE0jZj9n82dGn0Z0ihVAiDr3VcnQreDfutB7w=
-X-Google-Smtp-Source: AGRyM1v0aolLCGsxqvRLvU7XtUB4FDymZT6hhut66ARDGzTHXmFOSBOyNhiRbWqef/qPCoEMvSSgEqZ88TinxZa0ovM=
-X-Received: by 2002:a17:907:763a:b0:72a:5128:b34f with SMTP id
- jy26-20020a170907763a00b0072a5128b34fmr3664193ejc.372.1656578503461; Thu, 30
- Jun 2022 01:41:43 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=ijUWiZS99qlF/8rRWRrspTyoZo9W1oBwhdsM2NPK7es=;
+        b=ATzAji1ei8ofMdyKfjpJsGGgbcDn7njaXgoOWGIzh2GVr8ZvNsBMYFcSvoS6XAlEOx
+         LPxSZtDKALN1tNoMutSzoHYDydJVzgtXYNTCzx1iGeAj4VDmsHOh0TQKXBI7R5mQV7tU
+         KEqKmBDj6ESBEaSGrppL9gmjyVrrWaL2eJxJSddjuFA5Vt+rP0k5k5oIzvLo8xm3OkFp
+         Rg4/wfxy7Fu1lDOH/rOH7y5sMNNdpj6Jn4ZvC2UDvM5f6Qb0sNIASO3W+YHfk6tQDNlH
+         D7z5A9FpRacBANYWtXiH+13fsnQAa8a3lUm9OhVEyayXvZwp0TQmQD1K5w85U166o8mE
+         Wniw==
+X-Gm-Message-State: AJIora8V1iJ+NFyiMtafikbD960VfA46MYrFpvZGOJf+qb13vIcjk+rF
+        ItzHCh6mOPckrPvgwPCvTh8bqA==
+X-Google-Smtp-Source: AGRyM1snFeJioxa+M3t6BLa7YLUALZZi9c8Py51mZRv9MEGq2s62WIPMl6nK5TS4PB5kSwACpnzQew==
+X-Received: by 2002:a17:907:6e1e:b0:726:be5e:7130 with SMTP id sd30-20020a1709076e1e00b00726be5e7130mr7902698ejc.381.1656578812745;
+        Thu, 30 Jun 2022 01:46:52 -0700 (PDT)
+Received: from [192.168.0.188] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id hx23-20020a170906847700b00722e84c3d44sm8711679ejc.118.2022.06.30.01.46.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jun 2022 01:46:52 -0700 (PDT)
+Message-ID: <2df6673b-6f8d-19c2-90ca-342e3ba72040@linaro.org>
+Date:   Thu, 30 Jun 2022 10:46:51 +0200
 MIME-Version: 1.0
-References: <20220625200600.7582-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220625200600.7582-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <87pmir1ln2.wl-maz@kernel.org>
-In-Reply-To: <87pmir1ln2.wl-maz@kernel.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 30 Jun 2022 09:41:16 +0100
-Message-ID: <CA+V-a8vYaoP3V4XgY+7nWkJx2OL-Ju1yq6Sjr7n_PCw8tt14dA@mail.gmail.com>
-Subject: Re: [PATCH v6 5/5] pinctrl: renesas: pinctrl-rzg2l: Add IRQ domain to
- handle GPIO interrupt
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 6/7] memory: renesas-rpc-if: Pass device instead of rpcif
+ to rpcif_*()
+Content-Language: en-US
+To:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Vignesh Raghavendra <vigneshr@ti.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Richard Weinberger <richard@nod.at>,
+        Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1656341824.git.geert+renesas@glider.be>
+ <e313b7f9a856fd8546aabb20d44d10e3af6676c6.1656341824.git.geert+renesas@glider.be>
+ <20220630092552.68a8b3ff@xps-13>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220630092552.68a8b3ff@xps-13>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marc,
-
-Thank you for the review.
-
-On Wed, Jun 29, 2022 at 5:26 PM Marc Zyngier <maz@kernel.org> wrote:
->
-> On Sat, 25 Jun 2022 21:06:00 +0100,
-> Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> >
-> > Add IRQ domain to RZ/G2L pinctrl driver to handle GPIO interrupt.
-> >
-> > GPIO0-GPIO122 pins can be used as IRQ lines but only 32 pins can be
-> > used as IRQ lines at a given time. Selection of pins as IRQ lines
-> > is handled by IA55 (which is the IRQC block) which sits in between the
-> > GPIO and GIC.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 236 ++++++++++++++++++++++++
-> >  1 file changed, 236 insertions(+)
-> >
->
+On 30/06/2022 09:25, Miquel Raynal wrote:
+> Hi Krzysztof,
+> 
+> geert+renesas@glider.be wrote on Mon, 27 Jun 2022 17:31:13 +0200:
+> 
+>> Most rpcif_*() API functions do not need access to any other fields in
+>> the rpcif structure than the device pointer.  Simplify dependencies by
+>> passing the device pointer instead.
+>>
+>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> ---
+>>  drivers/memory/renesas-rpc-if.c | 32 ++++++++++++++++----------------
+>>  drivers/mtd/hyperbus/rpc-if.c   | 18 +++++++++---------
+> 
 > [...]
->
-> > +static void *rzg2l_gpio_populate_parent_fwspec(struct gpio_chip *chip,
-> > +                                            unsigned int parent_hwirq,
-> > +                                            unsigned int parent_type)
-> > +{
-> > +     struct irq_fwspec *fwspec;
-> > +
-> > +     fwspec = kzalloc(sizeof(*fwspec), GFP_KERNEL);
-> > +     if (!fwspec)
-> > +             return NULL;
-> > +
-> > +     fwspec->fwnode = chip->irq.parent_domain->fwnode;
-> > +     fwspec->param_count = 2;
-> > +     fwspec->param[0] = parent_hwirq;
-> > +     fwspec->param[1] = parent_type;
-> > +
-> > +     return fwspec;
-> > +}
->
-> I jumped at this one again.
->
-> Can you please pick [1] as part of your series and write this in a way
-> that doesn't require extra memory allocation? It has already been
-> ack'ed by Linus anyway, and we'd put an end to this thing for good.
->
-Sure will update and post a v7.
+> 
+>> diff --git a/drivers/mtd/hyperbus/rpc-if.c b/drivers/mtd/hyperbus/rpc-if.c
+>> index d00d302434030b20..41734e337ac00e40 100644
+>> --- a/drivers/mtd/hyperbus/rpc-if.c
+>> +++ b/drivers/mtd/hyperbus/rpc-if.c
+>> @@ -56,7 +56,7 @@ static void rpcif_hb_prepare_read(struct rpcif *rpc, void *to,
+>>  	op.data.nbytes = len;
+>>  	op.data.buf.in = to;
+>>  
+>> -	rpcif_prepare(rpc, &op, NULL, NULL);
+>> +	rpcif_prepare(rpc->dev, &op, NULL, NULL);
+>>  }
+>>  
+>>  static void rpcif_hb_prepare_write(struct rpcif *rpc, unsigned long to,
+>> @@ -70,7 +70,7 @@ static void rpcif_hb_prepare_write(struct rpcif *rpc, unsigned long to,
+>>  	op.data.nbytes = len;
+>>  	op.data.buf.out = from;
+>>  
+>> -	rpcif_prepare(rpc, &op, NULL, NULL);
+>> +	rpcif_prepare(rpc->dev, &op, NULL, NULL);
+>>  }
+>>  
+>>  static u16 rpcif_hb_read16(struct hyperbus_device *hbdev, unsigned long addr)
+>> @@ -81,7 +81,7 @@ static u16 rpcif_hb_read16(struct hyperbus_device *hbdev, unsigned long addr)
+>>  
+>>  	rpcif_hb_prepare_read(&hyperbus->rpc, &data, addr, 2);
+>>  
+>> -	rpcif_manual_xfer(&hyperbus->rpc);
+>> +	rpcif_manual_xfer(hyperbus->rpc.dev);
+>>  
+>>  	return data.x[0];
+>>  }
+>> @@ -94,7 +94,7 @@ static void rpcif_hb_write16(struct hyperbus_device *hbdev, unsigned long addr,
+>>  
+>>  	rpcif_hb_prepare_write(&hyperbus->rpc, addr, &data, 2);
+>>  
+>> -	rpcif_manual_xfer(&hyperbus->rpc);
+>> +	rpcif_manual_xfer(hyperbus->rpc.dev);
+>>  }
+>>  
+>>  static void rpcif_hb_copy_from(struct hyperbus_device *hbdev, void *to,
+>> @@ -105,7 +105,7 @@ static void rpcif_hb_copy_from(struct hyperbus_device *hbdev, void *to,
+>>  
+>>  	rpcif_hb_prepare_read(&hyperbus->rpc, to, from, len);
+>>  
+>> -	rpcif_dirmap_read(&hyperbus->rpc, from, len, to);
+>> +	rpcif_dirmap_read(hyperbus->rpc.dev, from, len, to);
+>>  }
+>>  
+>>  static const struct hyperbus_ops rpcif_hb_ops = {
+>> @@ -130,9 +130,9 @@ static int rpcif_hb_probe(struct platform_device *pdev)
+>>  
+>>  	platform_set_drvdata(pdev, hyperbus);
+>>  
+>> -	rpcif_enable_rpm(&hyperbus->rpc);
+>> +	rpcif_enable_rpm(hyperbus->rpc.dev);
+>>  
+>> -	error = rpcif_hw_init(&hyperbus->rpc, true);
+>> +	error = rpcif_hw_init(hyperbus->rpc.dev, true);
+>>  	if (error)
+>>  		goto out_disable_rpm;
+>>  
+>> @@ -150,7 +150,7 @@ static int rpcif_hb_probe(struct platform_device *pdev)
+>>  	return 0;
+>>  
+>>  out_disable_rpm:
+>> -	rpcif_disable_rpm(&hyperbus->rpc);
+>> +	rpcif_disable_rpm(hyperbus->rpc.dev);
+>>  	return error;
+>>  }
+> 
+> This will only apply on top of mtd/next, because that
+> rpcif_disable_rpm() balance call was very recently contributed by Geert:
+> https://lore.kernel.org/linux-mtd/f3070e1af480cb252ae183d479a593dbbf947685.1655457790.git.geert+renesas@glider.be/
+> 
+> So we need to first share an immutable tag on the current mtd/next
+> branch. Richard, that is my vacation gift for you :)
 
-Cheers,
-Prabhakar
+I don't want entire mtd/next. I could take Renesas hyperbus specific
+commits. Another solution is me to rebase on some rcX, if that commit
+was sent as fix for current cycle.
+The third option is to simply resolve a conflict - which should looks
+pretty easy and compile-testable. In that case the commit should be
+rebased on my v5.19-rc1.
+
+Best regards,
+Krzysztof
