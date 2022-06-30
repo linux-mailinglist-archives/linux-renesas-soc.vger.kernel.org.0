@@ -2,81 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F662561564
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jun 2022 10:47:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68C6A56156B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jun 2022 10:48:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232986AbiF3Iq4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Jun 2022 04:46:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47742 "EHLO
+        id S229964AbiF3Isw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Jun 2022 04:48:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230044AbiF3Iqz (ORCPT
+        with ESMTP id S233514AbiF3Isv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Jun 2022 04:46:55 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C61440E69
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jun 2022 01:46:54 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id d2so25860059ejy.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jun 2022 01:46:54 -0700 (PDT)
+        Thu, 30 Jun 2022 04:48:51 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBC8941993
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jun 2022 01:48:49 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id o9so25560813edt.12
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jun 2022 01:48:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=ijUWiZS99qlF/8rRWRrspTyoZo9W1oBwhdsM2NPK7es=;
-        b=LSQDYNqaVAhiuyHrnxLSnNa4KYDv5v3ZdaOXu5gMU1DNOz4x+YfG+VbjZ3A2gl6eCZ
-         L11gg0aPuodv4gHEIQZvv3w7UoafvFp6QSMCORZOtk7LrTMXRgd4SVEOEyhEZGy/K+N5
-         UZl3y/Q5imBi7T/+mmSKMxsAc6rGkfi9cr/GMX0htQFoC3J+GglHPNgqtaHaKYDlR0Jd
-         /wphyRmcQdqDgvehLCcuADzaIjxjTvPL6CA6lxIli1waynFegdrl7RFXasXziwn+ObtA
-         pa6ahDmX1+PUTGkwA1bOn8GKu6RQZ8ySt3LcCn80K5U/jGZqsgQShDYkkfrrF++6AwhR
-         JVCw==
+        bh=KJ6oqzacpWT0tfg5DNbwZFGWq7BtF7yMtkVN7HxcDnk=;
+        b=tNO+oZo9shQdh1rhNWDOTosr5geu8ztqOhGSN7j0kUgWKRvrTDNpKMMQTxwugbtmoO
+         eTQkFwTN5/tFn8QUJ9KoVI+ocrRCGUBL00/1JEOeHcl8PW0KwQv/rvIJe4EgJ9vbbNDq
+         3YCN25Rm7P4ptDfHHe/qjx2zazpEJbfRq1r/Ud0YyjKBppd4eBph+AtNEGkqt20bU3pB
+         AHiJoIOTXky5f8d6vG5gO6foGmgLQTNzQ9HB77R0gNExx6L3GKaebwFGQY3ZatD3hVYa
+         BSfnovPSQAsQ+vn+kI8/vwt0vdt/brsr8BuVk27z4bOXYjlhTu+e82O16agQGYg7qd0N
+         nrtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=ijUWiZS99qlF/8rRWRrspTyoZo9W1oBwhdsM2NPK7es=;
-        b=ATzAji1ei8ofMdyKfjpJsGGgbcDn7njaXgoOWGIzh2GVr8ZvNsBMYFcSvoS6XAlEOx
-         LPxSZtDKALN1tNoMutSzoHYDydJVzgtXYNTCzx1iGeAj4VDmsHOh0TQKXBI7R5mQV7tU
-         KEqKmBDj6ESBEaSGrppL9gmjyVrrWaL2eJxJSddjuFA5Vt+rP0k5k5oIzvLo8xm3OkFp
-         Rg4/wfxy7Fu1lDOH/rOH7y5sMNNdpj6Jn4ZvC2UDvM5f6Qb0sNIASO3W+YHfk6tQDNlH
-         D7z5A9FpRacBANYWtXiH+13fsnQAa8a3lUm9OhVEyayXvZwp0TQmQD1K5w85U166o8mE
-         Wniw==
-X-Gm-Message-State: AJIora8V1iJ+NFyiMtafikbD960VfA46MYrFpvZGOJf+qb13vIcjk+rF
-        ItzHCh6mOPckrPvgwPCvTh8bqA==
-X-Google-Smtp-Source: AGRyM1snFeJioxa+M3t6BLa7YLUALZZi9c8Py51mZRv9MEGq2s62WIPMl6nK5TS4PB5kSwACpnzQew==
-X-Received: by 2002:a17:907:6e1e:b0:726:be5e:7130 with SMTP id sd30-20020a1709076e1e00b00726be5e7130mr7902698ejc.381.1656578812745;
-        Thu, 30 Jun 2022 01:46:52 -0700 (PDT)
+        bh=KJ6oqzacpWT0tfg5DNbwZFGWq7BtF7yMtkVN7HxcDnk=;
+        b=FmLSxLjBmHszUn9f0mLrh3I7epvrIJp7lgZiq6lg7Eyhj+4E09fXEhlPWtFiDHlT76
+         kwojgt0Cyot6SvaiI0un2c6thOWMhNx5C4RMi1KPrQbY+umsy/UT/HALUWC4KrAPLcj+
+         bZucF8a9oDlhFEfFl4WDLn7J2jo0XMAKkQT6deYWBai7ABtebW6M0kdZ4RJGhx6LIECP
+         z2fYdaCR6/vR4eYdPuXbTpxazWHdu2JWcHQXPGRvyOdGnt1GVy+UgWvW8KYr2GXsh3qn
+         FLIQzmg/1QeQnpbeMqxmHcuYL+h5VN8PLue/ThYjbT1q+t17B8VId4GSVCEiwxkULjKB
+         d2sQ==
+X-Gm-Message-State: AJIora9czSks8+gXfFmmmkokPrWDwKZJm06tM5nGpQhc2+jh1S2RKejZ
+        DTBwp4M2AZvzAGyXjdjeVWiDDg==
+X-Google-Smtp-Source: AGRyM1sYlD7GgYsvG4haXeZ+OfvqtO8Fd9dImoUw0WI2NrSxwKr0gKtRg+uGeYRy9i0ZqtRk4XeXtQ==
+X-Received: by 2002:a05:6402:11d1:b0:435:d76d:f985 with SMTP id j17-20020a05640211d100b00435d76df985mr9900795edw.8.1656578928360;
+        Thu, 30 Jun 2022 01:48:48 -0700 (PDT)
 Received: from [192.168.0.188] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id hx23-20020a170906847700b00722e84c3d44sm8711679ejc.118.2022.06.30.01.46.51
+        by smtp.gmail.com with ESMTPSA id z4-20020a1709060f0400b00722f069fd40sm8714366eji.159.2022.06.30.01.48.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jun 2022 01:46:52 -0700 (PDT)
-Message-ID: <2df6673b-6f8d-19c2-90ca-342e3ba72040@linaro.org>
-Date:   Thu, 30 Jun 2022 10:46:51 +0200
+        Thu, 30 Jun 2022 01:48:47 -0700 (PDT)
+Message-ID: <c04c3691-7be3-afc5-4f95-2b06ee402c0d@linaro.org>
+Date:   Thu, 30 Jun 2022 10:48:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 6/7] memory: renesas-rpc-if: Pass device instead of rpcif
- to rpcif_*()
+Subject: Re: [PATCH 5/7] memory: renesas-rpc-if: Move resource acquisition to
+ .probe()
 Content-Language: en-US
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Vignesh Raghavendra <vigneshr@ti.com>,
         Sergey Shtylyov <s.shtylyov@omp.ru>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
         Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        Mark Brown <broonie@kernel.org>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 References: <cover.1656341824.git.geert+renesas@glider.be>
- <e313b7f9a856fd8546aabb20d44d10e3af6676c6.1656341824.git.geert+renesas@glider.be>
- <20220630092552.68a8b3ff@xps-13>
+ <2fd9b9e3f60fe555d9dcad499c90e3ec869aa96e.1656341824.git.geert+renesas@glider.be>
+ <c65d6a94-b5c2-e2e4-6fdb-b7982d291e01@linaro.org>
+ <CAMuHMdW=s42sfFwimizTsNjyKue+W9NasTOG0jgjkgkoKv3wfw@mail.gmail.com>
+ <bab4d845-330e-c7f0-5dac-a96caa93a39e@linaro.org>
+ <CAMuHMdUuU4qtfYh=hpY9bWMLKAnz83Oj8f=M9_iUxmR+Zetsow@mail.gmail.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220630092552.68a8b3ff@xps-13>
+In-Reply-To: <CAMuHMdUuU4qtfYh=hpY9bWMLKAnz83Oj8f=M9_iUxmR+Zetsow@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,105 +89,29 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 30/06/2022 09:25, Miquel Raynal wrote:
-> Hi Krzysztof,
-> 
-> geert+renesas@glider.be wrote on Mon, 27 Jun 2022 17:31:13 +0200:
-> 
->> Most rpcif_*() API functions do not need access to any other fields in
->> the rpcif structure than the device pointer.  Simplify dependencies by
->> passing the device pointer instead.
+On 29/06/2022 20:48, Geert Uytterhoeven wrote:
 >>
->> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> ---
->>  drivers/memory/renesas-rpc-if.c | 32 ++++++++++++++++----------------
->>  drivers/mtd/hyperbus/rpc-if.c   | 18 +++++++++---------
+>> You sure? Except rebasing I don't see that. rpcif_sw_init() received the
+>> rpcif so it had access to all fields.
 > 
-> [...]
+> Yes I am, don't be misguided by the name of the local variable.
+> The rpcif structure is allocated by the HF or SPI child driver,
+> and thus not available in the RPC core driver's .probe() function.
+> The rpc_priv structure (as of patch 4) is allocated by the RPC core driver.
 > 
->> diff --git a/drivers/mtd/hyperbus/rpc-if.c b/drivers/mtd/hyperbus/rpc-if.c
->> index d00d302434030b20..41734e337ac00e40 100644
->> --- a/drivers/mtd/hyperbus/rpc-if.c
->> +++ b/drivers/mtd/hyperbus/rpc-if.c
->> @@ -56,7 +56,7 @@ static void rpcif_hb_prepare_read(struct rpcif *rpc, void *to,
->>  	op.data.nbytes = len;
->>  	op.data.buf.in = to;
->>  
->> -	rpcif_prepare(rpc, &op, NULL, NULL);
->> +	rpcif_prepare(rpc->dev, &op, NULL, NULL);
->>  }
->>  
->>  static void rpcif_hb_prepare_write(struct rpcif *rpc, unsigned long to,
->> @@ -70,7 +70,7 @@ static void rpcif_hb_prepare_write(struct rpcif *rpc, unsigned long to,
->>  	op.data.nbytes = len;
->>  	op.data.buf.out = from;
->>  
->> -	rpcif_prepare(rpc, &op, NULL, NULL);
->> +	rpcif_prepare(rpc->dev, &op, NULL, NULL);
->>  }
->>  
->>  static u16 rpcif_hb_read16(struct hyperbus_device *hbdev, unsigned long addr)
->> @@ -81,7 +81,7 @@ static u16 rpcif_hb_read16(struct hyperbus_device *hbdev, unsigned long addr)
->>  
->>  	rpcif_hb_prepare_read(&hyperbus->rpc, &data, addr, 2);
->>  
->> -	rpcif_manual_xfer(&hyperbus->rpc);
->> +	rpcif_manual_xfer(hyperbus->rpc.dev);
->>  
->>  	return data.x[0];
->>  }
->> @@ -94,7 +94,7 @@ static void rpcif_hb_write16(struct hyperbus_device *hbdev, unsigned long addr,
->>  
->>  	rpcif_hb_prepare_write(&hyperbus->rpc, addr, &data, 2);
->>  
->> -	rpcif_manual_xfer(&hyperbus->rpc);
->> +	rpcif_manual_xfer(hyperbus->rpc.dev);
->>  }
->>  
->>  static void rpcif_hb_copy_from(struct hyperbus_device *hbdev, void *to,
->> @@ -105,7 +105,7 @@ static void rpcif_hb_copy_from(struct hyperbus_device *hbdev, void *to,
->>  
->>  	rpcif_hb_prepare_read(&hyperbus->rpc, to, from, len);
->>  
->> -	rpcif_dirmap_read(&hyperbus->rpc, from, len, to);
->> +	rpcif_dirmap_read(hyperbus->rpc.dev, from, len, to);
->>  }
->>  
->>  static const struct hyperbus_ops rpcif_hb_ops = {
->> @@ -130,9 +130,9 @@ static int rpcif_hb_probe(struct platform_device *pdev)
->>  
->>  	platform_set_drvdata(pdev, hyperbus);
->>  
->> -	rpcif_enable_rpm(&hyperbus->rpc);
->> +	rpcif_enable_rpm(hyperbus->rpc.dev);
->>  
->> -	error = rpcif_hw_init(&hyperbus->rpc, true);
->> +	error = rpcif_hw_init(hyperbus->rpc.dev, true);
->>  	if (error)
->>  		goto out_disable_rpm;
->>  
->> @@ -150,7 +150,7 @@ static int rpcif_hb_probe(struct platform_device *pdev)
->>  	return 0;
->>  
->>  out_disable_rpm:
->> -	rpcif_disable_rpm(&hyperbus->rpc);
->> +	rpcif_disable_rpm(hyperbus->rpc.dev);
->>  	return error;
->>  }
+>>> I agree patches 1-3 could be moved later, if you think it is worthwhile.
+>>
+>> This would not be enough, it has to be first patch to be backportable.
 > 
-> This will only apply on top of mtd/next, because that
-> rpcif_disable_rpm() balance call was very recently contributed by Geert:
-> https://lore.kernel.org/linux-mtd/f3070e1af480cb252ae183d479a593dbbf947685.1655457790.git.geert+renesas@glider.be/
-> 
-> So we need to first share an immutable tag on the current mtd/next
-> branch. Richard, that is my vacation gift for you :)
+> I can make it second? ;-)
 
-I don't want entire mtd/next. I could take Renesas hyperbus specific
-commits. Another solution is me to rebase on some rcX, if that commit
-was sent as fix for current cycle.
-The third option is to simply resolve a conflict - which should looks
-pretty easy and compile-testable. In that case the commit should be
-rebased on my v5.19-rc1.
+Why? The point is that this commit should have Fixes or Cc-stable tag.
+If you make it depending on other non-backportable commit, stable folks
+cannot pull it automatically.
+
+> Note that that still precludes (easily) backporting s2ram support.
+
+But S2R is a feature so it won't be backported...
 
 Best regards,
 Krzysztof
