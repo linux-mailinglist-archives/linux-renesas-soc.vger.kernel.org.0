@@ -2,80 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56707562CEA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Jul 2022 09:46:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94519562D63
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Jul 2022 10:06:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235312AbiGAHqG convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Jul 2022 03:46:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42248 "EHLO
+        id S236228AbiGAIGa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Jul 2022 04:06:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229689AbiGAHqG (ORCPT
+        with ESMTP id S236210AbiGAIG1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Jul 2022 03:46:06 -0400
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC6D948837;
-        Fri,  1 Jul 2022 00:46:04 -0700 (PDT)
-Received: by mail-qv1-f42.google.com with SMTP id n15so3339835qvh.12;
-        Fri, 01 Jul 2022 00:46:04 -0700 (PDT)
+        Fri, 1 Jul 2022 04:06:27 -0400
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C37C56F364
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Jul 2022 01:06:24 -0700 (PDT)
+Received: by mail-qv1-f51.google.com with SMTP id u7so3463512qvm.4
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Jul 2022 01:06:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=wE4bFtTL36vFmikZ1ytwvzCWwTBgGc5pXW0bXvIIsbc=;
-        b=MTKEDwujyQaxHEO0aCHEmM7pJvCzOCWCffrlGAoY9GeArM+S5SFKuA3D2bVzcrsfJc
-         jbdUc03pMHz87gFbv5L+xf27FcCJgKDFjw/tkgKvsHkiRsyVhxyAEn1bySGIyiWYpQVg
-         1q9L9wZcFZjaeo7yeSbgzJYzwirjmjIPgiUgHsIlGXSibyR6XlVTvHj+cynIoHnhwsmP
-         ySqKayh3cy/wQlPoyme2h+9S1rtJiiGBvxccdhwK7ANhtGJ+k7464V230wG9StzaOqWk
-         wUg7UCgkiPu4m2fDVT2Xw5GvwBn/wcjZS4wECKlbtiWaCL9xsyNF6/McuaSrgj8Uh2wC
-         v0ZA==
-X-Gm-Message-State: AJIora8rfUEk22h8NSvIpdvHGW8ihjStHdJdJ02vhb+i6HEp5hR1HBhT
-        eMAQloR8BWDnok0HlzOG3Z819t29mjFNPw==
-X-Google-Smtp-Source: AGRyM1vhfhp+91QYY3y9wnv6FH7LV7i9o2/+15bpimdDz+wTZB3Maiv4UfamJnQJMw0znb85v3v1uQ==
-X-Received: by 2002:a05:622a:1aa8:b0:31b:f4b9:650c with SMTP id s40-20020a05622a1aa800b0031bf4b9650cmr11266535qtc.1.1656661563921;
-        Fri, 01 Jul 2022 00:46:03 -0700 (PDT)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id m5-20020ac84445000000b00307beda5c6esm13975709qtn.26.2022.07.01.00.46.03
+         :message-id:subject:to;
+        bh=/COiBeSOj7s3O6lpVZOO2P12uW0pun0Wtvshxu82JUs=;
+        b=BgVhhDDTtaO6JtLRu9sZ3GtH0DKy5pkHdb2DTwO57LplNIOtD77tDT0nrLj3gZNsac
+         dYNNj3HuYm7JQswZfuBjQDbfAVUg1QNZCZFfwe3ljZlENxlFndfuqx5xXZI6LweduaNZ
+         /lZ55vjd+68l876xQ1S1Q1jNpn/KgKO1GIepAKCZL7l2N4NdFYeGgRaGrBRO5KN4HCzL
+         cY5Z2U3Uo6Ed+wIiwZxVXE0o5fbJgBKZ/y+VXfD4nueDMWCCsrmru20GyuiLt+CrShrg
+         68nhk7dIv7RSG6fSTBvO+fjMweH5GXxQtqHFy8MyOdSqtSsts23DnpTGLCy2SFkn0pGd
+         GlXw==
+X-Gm-Message-State: AJIora8nkD3+Emv9ZGvRb4QbNjaXLaKi0tdyBQDB5uLIDDjNiiEZ9T0n
+        cjbWYTymN1ePEmBAr3uvgTGjBBxPPYN2vA==
+X-Google-Smtp-Source: AGRyM1tN2lb98pP4Ak6dgx/vXLAKiPTIZhFPyvo1115MsEXcwxSE8vRg3BceBiOVom17GVHyt2trig==
+X-Received: by 2002:a05:6214:5195:b0:470:5190:b12 with SMTP id kl21-20020a056214519500b0047051900b12mr16227421qvb.59.1656662783715;
+        Fri, 01 Jul 2022 01:06:23 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id c24-20020ac853d8000000b003171a5dc474sm14183943qtq.23.2022.07.01.01.06.23
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Jul 2022 00:46:03 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id r3so2649874ybr.6;
-        Fri, 01 Jul 2022 00:46:03 -0700 (PDT)
-X-Received: by 2002:a05:6902:1246:b0:66d:5b0b:19b0 with SMTP id
- t6-20020a056902124600b0066d5b0b19b0mr13181284ybu.365.1656661562781; Fri, 01
- Jul 2022 00:46:02 -0700 (PDT)
+        Fri, 01 Jul 2022 01:06:23 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-31780ad7535so15952027b3.8
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Jul 2022 01:06:23 -0700 (PDT)
+X-Received: by 2002:a0d:ead0:0:b0:31c:63c3:e615 with SMTP id
+ t199-20020a0dead0000000b0031c63c3e615mr903031ywe.384.1656662782820; Fri, 01
+ Jul 2022 01:06:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220630162515.37302-1-clement.leger@bootlin.com>
-In-Reply-To: <20220630162515.37302-1-clement.leger@bootlin.com>
+References: <20220628122330.28323-1-wsa+renesas@sang-engineering.com>
+ <87v8skjp8f.wl-kuninori.morimoto.gx@renesas.com> <Yrvx0qRDf5V4C7jj@shikoro>
+In-Reply-To: <Yrvx0qRDf5V4C7jj@shikoro>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 1 Jul 2022 09:45:51 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX135BkyDnedizD-9u1htwjbOa2=ko1Vm+mk0Jh3R+KPw@mail.gmail.com>
-Message-ID: <CAMuHMdX135BkyDnedizD-9u1htwjbOa2=ko1Vm+mk0Jh3R+KPw@mail.gmail.com>
-Subject: Re: [PATCH net-next v2] dt-bindings: net: dsa: renesas,rzn1-a5psw:
- add interrupts description
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>
+Date:   Fri, 1 Jul 2022 10:06:11 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXt099FGvhYeYs+bZ6cpCTd-AqJ7SW91BWMtyTnT4LTJQ@mail.gmail.com>
+Message-ID: <CAMuHMdXt099FGvhYeYs+bZ6cpCTd-AqJ7SW91BWMtyTnT4LTJQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] arm64: dts: renesas: ebisu: add port node to ak4613
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
@@ -86,43 +66,29 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Clément,
+Hi Wolfram,
 
-On Thu, Jun 30, 2022 at 6:26 PM Clément Léger <clement.leger@bootlin.com> wrote:
-> Describe the switch interrupts (dlr, switch, prp, hub, pattern) which
-> are connected to the GIC.
+On Wed, Jun 29, 2022 at 8:34 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > Thank you for contacting me,
+> > and sorry for my bug.
 >
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-> ---
-> Changes in V2:
->  - Fix typo in interrupt-names property.
-
-Thanks for the update!
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-but some suggestions below.
-
-> --- a/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-> @@ -26,6 +26,22 @@ properties:
->    reg:
->      maxItems: 1
+> No worries, bugs happen all the time to all of us.
 >
-> +  interrupts:
-> +    items:
-> +      - description: DLR interrupt
+> > Could you try this patch ?
+>
+> Thank you! It works \o/
+>
+> > It should goto linus tree, but it seems not yet ??
+>
+> It is also not in renesas-drivers, this is why I am still seeing this
+> issue. Now I know.
 
-Device Level Ring (DLR) interrupt?
-
-> +      - description: Switch interrupt
-> +      - description: PRP interrupt
-
-Parallel Redundancy Protocol (PRP) interrupt?
-
-> +      - description: Integrated HUB module interrupt
-> +      - description: RX Pattern interrupt
-
-Receive Pattern Match interrupt?
+Strange, I thought it was included.
+"git show --pretty=fuller" shows it was committed by Mark Bown on
+June 8.  Looks like the branch with the commit was not included in
+sound-asoc/for-next, only in sound-asoc/fixes, when I made last
+renesas-drivers.
 
 Gr{oetje,eeting}s,
 
