@@ -2,100 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E3E8563361
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Jul 2022 14:18:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 416715635A2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Jul 2022 16:33:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233564AbiGAMSb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Jul 2022 08:18:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51426 "EHLO
+        id S232493AbiGAOdu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Jul 2022 10:33:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237218AbiGAMSZ (ORCPT
+        with ESMTP id S231575AbiGAOdc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Jul 2022 08:18:25 -0400
-Received: from m15111.mail.126.com (m15111.mail.126.com [220.181.15.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E1C4912D29
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Jul 2022 05:18:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=ajsQZ
-        9OBK9jkwtgRmEH2GiLzDbwezfQlqaiX2vBbTSM=; b=CptgcZ/jctSn/muArlozv
-        iqOxBHPyKKZ0l3pVUesTb0rhD2BXex9zzsq48/Gvh0RSWvMezmIGsQji3RErpy5w
-        yFKPCuetv+Yq8a2y43+CX+TUidtj4nnB9ltzHrzNOJR402Ld9EWJ9pP0CXvCry4S
-        sd8xBhazX4raYE4NnHrRZ4=
-Received: from localhost.localdomain (unknown [124.16.139.61])
-        by smtp1 (Coremail) with SMTP id C8mowABXNd785b5i0M4bFw--.43113S2;
-        Fri, 01 Jul 2022 20:18:05 +0800 (CST)
-From:   Liang He <windhl@126.com>
-To:     geert+renesas@glider.be, magnus.damm@gmail.com,
-        linux@armlinux.org.uk, linux-renesas-soc@vger.kernel.org,
-        windhl@126.com
-Subject: [PATCH] arm: shmobile: Increase refcount for new reference
-Date:   Fri,  1 Jul 2022 20:18:04 +0800
-Message-Id: <20220701121804.234223-1-windhl@126.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 1 Jul 2022 10:33:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A02273F89C;
+        Fri,  1 Jul 2022 07:28:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3CC076227C;
+        Fri,  1 Jul 2022 14:28:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CC2DC341C7;
+        Fri,  1 Jul 2022 14:28:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656685730;
+        bh=eb0RVw4u/anxVBhBeK6RNGoBor+v7IkGnAADFe79wz8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=N4dveUvYzzWyC8fMV0v0hedmOK1ZAMnFbdqhysk4WaSM0nBJ5UGNNFqdZwQ6rvMIn
+         CP7ClyXkRLM/63cRf55J9y6B7IMxWTTHcdoGVsMy4uSFk7LGQjzFjqRc6omPUcwwRn
+         B9kqf9pRrlu6yoi8KFGJ7VRs49YYxJ/d2sia7XcvSGprDsbgyvadOiPqbzPAT1XDvJ
+         9lUkAzGaYu2A49lfHm5lhFMTyzyBYx8+fliV5Kgwv/5AtG9NtVvmMuvIb5P+3JK/48
+         moPFmDTxjnYJm7qHwhnkR8pKAXK4Y2HtDwBqgBMGVmYIOksPHsfjZwJ/VArWBElV2u
+         fj3qZ04BLthLw==
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1o7HdY-004bu7-EO;
+        Fri, 01 Jul 2022 15:28:48 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: C8mowABXNd785b5i0M4bFw--.43113S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ArWkWw4kCw1rCw43Zr4UCFg_yoW8Wr4Dpr
-        W5Ca97Cry8Ary8CrW0vw4xurWYqFWkJ3ya9rySkry5WFy5Za40qr15Wry5AF15WrW8u34F
-        vw1rtF18X3Wqg3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zixpnJUUUUU=
-X-Originating-IP: [124.16.139.61]
-X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbi2h4xF1uwMUtj-gAAsu
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Date:   Fri, 01 Jul 2022 15:28:48 +0100
+From:   Marc Zyngier <maz@kernel.org>
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Sagar Kadam <sagar.kadam@sifive.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Guo Ren <guoren@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v3 0/4] Add PLIC support for Renesas RZ/Five SoC / Fix
+ T-HEAD PLIC edge flow
+In-Reply-To: <20220630100241.35233-1-samuel@sholland.org>
+References: <20220630100241.35233-1-samuel@sholland.org>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <92a45bf04cfe140c7605559fa3d8f4eb@kernel.org>
+X-Sender: maz@kernel.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: samuel@sholland.org, prabhakar.mahadev-lad.rj@bp.renesas.com, prabhakar.csengg@gmail.com, sagar.kadam@sifive.com, paul.walmsley@sifive.com, palmer@dabbelt.com, guoren@kernel.org, tglx@linutronix.de, geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-In rcar_gen2_regulator_quirk(), for_each_matching_node_and_match()
-will automatically increase and decrease the refcount. However, we
-should call of_node_get() for the new refernece created in 'quirk->np'.
-Besides, we also should call of_node_put() before the 'quirk' being
-freed.
+On 2022-06-30 11:02, Samuel Holland wrote:
+> This patch series adds PLIC support for Renesas RZ/Five SoC.
+> 
+> Since the T-HEAD C900 PLIC has the same behavior, it also applies the
+> fix for that variant.
+> 
+> This series is an update of v2 of the RZ/Five series[0], and replaces
+> the separate T-HEAD series[1].
+> 
+> [0]:
+> https://lore.kernel.org/linux-riscv/20220626004326.8548-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> [1]:
+> https://lore.kernel.org/linux-riscv/20220627051257.38543-1-samuel@sholland.org/
+> 
+> Changes in v3:
+>  - Add a more detailed explanation for why #interrupt-cells differs
+>  - Add andestech,nceplic100 as a fallback compatible
+>  - Separate the conditional part of the binding into two blocks (one 
+> for
+>    the PLIC implementation and the other for the SoC integration)
+>  - Use a quirk bit for selecting the flow instead of a variant ID
+>  - Use the andestech,nceplic100 compatible to select the new behavior
+>  - Use handle_edge_irq instead of handle_fasteoi_ack_irq so .irq_ack
+>    always gets called
+>  - Do not set the handler name, as RISC-V selects 
+> GENERIC_IRQ_SHOW_LEVEL
+>  - Use the same name for plic_edge_chip as plic_chip
+> 
+> Changes in v2:
+>  - Fixed review comments pointed by Marc and Krzysztof.
+> 
+> Changes in v1:
+>  - Fixed review comments pointed by Rob and Geert.
+>  - Changed implementation for EDGE interrupt handling on Renesas 
+> RZ/Five
+>    SoC.
+> 
+> Lad Prabhakar (2):
+>   dt-bindings: interrupt-controller: sifive,plic: Document Renesas
+>     RZ/Five SoC
+>   irqchip/sifive-plic: Add support for Renesas RZ/Five SoC
+> 
+> Samuel Holland (2):
+>   dt-bindings: interrupt-controller: Require trigger type for T-HEAD
+>     PLIC
+>   irqchip/sifive-plic: Fix T-HEAD PLIC edge trigger handling
+> 
+>  .../sifive,plic-1.0.0.yaml                    | 65 +++++++++++++--
+>  drivers/irqchip/irq-sifive-plic.c             | 80 +++++++++++++++++--
+>  2 files changed, 135 insertions(+), 10 deletions(-)
 
-Signed-off-by: Liang He <windhl@126.com>
----
- arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+I'm going to provisionally queue this into -next so that it
+can get some testing. I'd still want the DT changes to be
+Ack'ed before the next merge window though.
 
-diff --git a/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c b/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
-index abea41f7782e..117e7b07995b 100644
---- a/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
-+++ b/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
-@@ -125,6 +125,7 @@ static int regulator_quirk_notify(struct notifier_block *nb,
- 
- 	list_for_each_entry_safe(pos, tmp, &quirk_list, list) {
- 		list_del(&pos->list);
-+		of_node_put(pos->np);
- 		kfree(pos);
- 	}
- 
-@@ -174,11 +175,12 @@ static int __init rcar_gen2_regulator_quirk(void)
- 		memcpy(&quirk->i2c_msg, id->data, sizeof(quirk->i2c_msg));
- 
- 		quirk->id = id;
--		quirk->np = np;
-+		quirk->np = of_node_get(np);
- 		quirk->i2c_msg.addr = addr;
- 
- 		ret = of_irq_parse_one(np, 0, argsa);
- 		if (ret) {	/* Skip invalid entry and continue */
-+			of_node_put(np);
- 			kfree(quirk);
- 			continue;
- 		}
-@@ -225,6 +227,7 @@ static int __init rcar_gen2_regulator_quirk(void)
- err_mem:
- 	list_for_each_entry_safe(pos, tmp, &quirk_list, list) {
- 		list_del(&pos->list);
-+		of_node_put(pos->np);
- 		kfree(pos);
- 	}
- 
+Thanks,
+
+         M.
 -- 
-2.25.1
-
+Jazz is not dead. It just smells funny...
