@@ -2,149 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C998562E71
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Jul 2022 10:37:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A56F562F11
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Jul 2022 10:55:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232319AbiGAIhE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Jul 2022 04:37:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43690 "EHLO
+        id S235460AbiGAIzF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Jul 2022 04:55:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232635AbiGAIhD (ORCPT
+        with ESMTP id S234901AbiGAIzB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Jul 2022 04:37:03 -0400
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8810970E59
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Jul 2022 01:37:02 -0700 (PDT)
-Received: by mail-qv1-f49.google.com with SMTP id cs6so3524401qvb.6
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Jul 2022 01:37:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=y6xbP5PTiQoZS7m826Yo17/fn7Y0x0N2lgWgGZeXXEs=;
-        b=tl/QDedkDjqZzuWyZMz3d+eMer5eHlrfmdA0E4/t7+BnJ4duhMRA7b+emppVTacpoG
-         y5N9+J6Te0sMupuLWdqF5jyT8o2v+xQ9wXPxqfe5gxxGN7UJFjBRTGIr/iU2VsW81I0k
-         2PX1uSkVlu0IUySV571rzoHrl6bz7MNQls6dS/UtenD1AhDC48tjVl7wXb1H4lkZznG7
-         vw+e+fdnOOAJ4nKwlLLIiQpogbvwXc2i64jVvcWGMX6EAaGk5kIWu7Cm+tDS83ZPjNw8
-         HmK49+oOam02vnlq/6FlAyeh3j4MLf2zvKuuXP5V/QdGr0WOf2MAVPTjWSQMoupvLjAN
-         Sx6A==
-X-Gm-Message-State: AJIora+eOFGFYLODHWvCfZtsBGLcEv44y9BELZG3ASFnDfgywhMpsYt9
-        hxjbSwXA6quVzTnDkyA43VtZ/l3OS2wy4g==
-X-Google-Smtp-Source: AGRyM1tzN+6UrkBg958nP7Ast+kYsDYW29iRcENDyR3TC2aRdNSBJYqRcDy4rEKAq//j8LkqkzlERQ==
-X-Received: by 2002:ac8:4e56:0:b0:31d:38c0:b749 with SMTP id e22-20020ac84e56000000b0031d38c0b749mr1019933qtw.682.1656664621513;
-        Fri, 01 Jul 2022 01:37:01 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id o4-20020ac87c44000000b003164efd0a5fsm2441551qtv.41.2022.07.01.01.37.01
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Jul 2022 01:37:01 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id r3so2834918ybr.6
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Jul 2022 01:37:01 -0700 (PDT)
-X-Received: by 2002:a05:6902:905:b0:64a:2089:f487 with SMTP id
- bu5-20020a056902090500b0064a2089f487mr14315948ybb.202.1656664620824; Fri, 01
- Jul 2022 01:37:00 -0700 (PDT)
+        Fri, 1 Jul 2022 04:55:01 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D5D841929A;
+        Fri,  1 Jul 2022 01:54:59 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.92,236,1650898800"; 
+   d="scan'208";a="124761343"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 01 Jul 2022 17:54:58 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B4CD543E0092;
+        Fri,  1 Jul 2022 17:54:58 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
+        bhelgaas@google.com, krzk+dt@kernel.org, geert+renesas@glider.be,
+        magnus.damm@gmail.com
+Cc:     marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v3 00/13] treewide: PCI: renesas: Add R-Car Gen4 PCIe support
+Date:   Fri,  1 Jul 2022 17:54:07 +0900
+Message-Id: <20220701085420.870306-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220628173947.91519-1-phil.edworthy@renesas.com>
-In-Reply-To: <20220628173947.91519-1-phil.edworthy@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 1 Jul 2022 10:36:49 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV=f5OxQQdYYusfSVfW71+USqw3bEQ3BMOtxac6=GRCvw@mail.gmail.com>
-Message-ID: <CAMuHMdV=f5OxQQdYYusfSVfW71+USqw3bEQ3BMOtxac6=GRCvw@mail.gmail.com>
-Subject: Re: [RFC] soc: renesas: Add RZ/V2M SYS driver
-To:     Phil Edworthy <phil.edworthy@renesas.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        KHOP_HELO_FCRDNS,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Phil,
+Add R-Car S4-8 (R-Car Gen4) PCIe Host and Endpoint support.
+To support them, modify PCIe DesignWare common codes.
 
-Thanks for your patch!
+Changes from v2:
+ - Remove some unneeded functions in patch [09/13].
+ - Fix error messages in patch [09/13].
+ - Rebase implementation of patch [10/13] on patch [09/13].
+ https://lore.kernel.org/all/20220627122417.809615-1-yoshihiro.shimoda.uh@renesas.com/
 
-On Tue, Jun 28, 2022 at 7:40 PM Phil Edworthy <phil.edworthy@renesas.com> wrote:
-> The System Configuration (SYS) module on the Renesas RZ/V2M (r9a09g011)
-> contains registers for many different aspects of the SoC.
->
-> Some of the peripherals on the SoC are only 32-bit address capable bus
-> masters. To select the lower 4GiB or upper 4GiB of memory, the
-> SYS PERI0_BANK and SYS_PERI1_BANK registers can be programmed to set
-> the 33rd address bit.
-> Due to the use of firmware with the SoC, uboot is often set up such that
-> these peripherals can only access the upper 4GiB. In order to allow
-> Linux to use bounce buffers for drivers, we set aside some memory in the
-> lower 4GiB for Linux.
-> Thus this requires the SYS PERIx_BANK registers to be reprogrammed.
+Changes from v1:
+ - Fix a lot of warning/errors by 'make DT_CHECKER_FLAGS=-m dt_binding_check'.
+ - Add PCI_EXP_LNKCAP_MLW macros into pci_regs.h
+ - Remove "extern" in pcie-rcar-gen4.h.
+ - Add ep_pre_init() into dw_pcie_ep_ops for this controller.
+ - Add a new flag "reset_all_bars" into dw_pcie_ep. If this way is acceptable,
+   I'll make patches for other endpoint controllers to simplify.
+ - Move timing of getting num-lanes property for {ep_pre,host}_init().
+ - Remove some platform_get_resource().
+ - Remove "struct rcar_gen4_pcie_ep".
+ - Allow a kernel module for both host and ep of this controller.
+ - Minor fixes for checkpatch.pl.
+ https://lore.kernel.org/all/20220613115712.2831386-1-yoshihiro.shimoda.uh@renesas.com/
 
-Does this interfere with the firmware?
-If yes, why is this not bad?
-If not, why can't U-Boot set this up correctly for Linux?
+Yoshihiro Shimoda (13):
+  PCI: Add PCI_EXP_LNKCAP_MLW macros
+  PCI: controller: dwc: Expose dw_pcie_ep_exit() to module
+  PCI: dwc: Add ep_pre_init() callback to dw_pcie_ep_ops
+  PCI: dwc: Add reset_all_bars flag
+  PCI: dwc: endpoint: Read num-lanes property before ep_pre_init()
+  PCI: dwc: host: Read num-lanes property before host_init()
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Host
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Endpoint
+  PCI: renesas: Add R-Car Gen4 PCIe Host support
+  PCI: renesas: Add R-Car Gen4 PCIe Endpoint support
+  MAINTAINERS: Update PCI DRIVER FOR RENESAS R-CAR for R-Car Gen4
+  arm64: dts: renesas: r8a779f0: Add PCIe Host and Endpoint nodes
+  arm64: dts: renesas: r8a779f0: spider: Enable PCIe Host ch0
 
-As most RAM available to Linux is in the upper 4 GiB, wouldn't it be
-better to use the upper 4 GiB, so bounce buffer can be avoided for most
-transfers? Or is it impossible to set up bounce buffers in the upper 4 GiB?
+ .../bindings/pci/rcar-gen4-pci-ep.yaml        |  99 +++++++++
+ .../bindings/pci/rcar-gen4-pci-host.yaml      |  97 +++++++++
+ MAINTAINERS                                   |   1 +
+ .../boot/dts/renesas/r8a779f0-spider-cpu.dtsi |  39 ++++
+ arch/arm64/boot/dts/renesas/r8a779f0.dtsi     | 118 +++++++++++
+ drivers/pci/controller/dwc/Kconfig            |  18 ++
+ drivers/pci/controller/dwc/Makefile           |   4 +
+ .../pci/controller/dwc/pcie-designware-ep.c   |  16 ++
+ .../pci/controller/dwc/pcie-designware-host.c |   2 +
+ drivers/pci/controller/dwc/pcie-designware.c  |   1 -
+ drivers/pci/controller/dwc/pcie-designware.h  |   2 +
+ .../pci/controller/dwc/pcie-rcar-gen4-ep.c    | 182 ++++++++++++++++
+ .../pci/controller/dwc/pcie-rcar-gen4-host.c  | 195 ++++++++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 178 ++++++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.h   |  61 ++++++
+ include/uapi/linux/pci_regs.h                 |   7 +
+ 16 files changed, 1019 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-ep.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-host.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.h
 
-> --- /dev/null
-> +++ b/drivers/soc/renesas/r9a09g011-sys.c
-> @@ -0,0 +1,67 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Renesas RZ/V2M SYS driver
-> + *
-> + * Copyright (C) 2022  Renesas Electronics Corporation
-> + */
-> +
-> +#include <linux/io.h>
-> +#include <linux/of_address.h>
-> +
-> +#define SYS_PERI0_BANK         0x30
-> +#define SDI0_SHIFT             0
-> +#define SDI1_SHIFT             2
-> +#define EMMC_SHIFT             4
-> +#define USB_HOST_SHIFT         8
-> +#define USB_PERI_SHIFT         10
-> +#define PCIE_SHIFT             12
-> +
-> +#define SYS_PERI1_BANK         0x34
-> +#define ETH_SHIFT              0
+-- 
+2.25.1
 
-These fields look like perfect users of GENMASK() and FIELD_PREP().
-
-#define PERI0_SDI0    GENMASK(1, 0)
-
-> +
-> +#define BANK_LOWER_4GB         0
-> +#define BANK_UPPER_4GB         1
-
-I'm not sure these are useful.  The values are just the high
-address bits.
-
-> +
-> +static const struct of_device_id renesas_socs[] __initconst = {
-> +       { .compatible = "renesas,r9a09g011-sys" },
-> +       { /* sentinel */ }
-> +};
-> +
-> +static void write_peri_bank(void __iomem *addr, uint32_t val, int shift)
-> +{
-> +       /* Set the write enable bits */
-> +       writel(((3 << 16) | val) << shift, addr);
-
-writel((field << 16) | FIELD_PREP(field, addr_high), addr)?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
