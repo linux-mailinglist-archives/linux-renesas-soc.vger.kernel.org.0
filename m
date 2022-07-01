@@ -2,41 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 661035637C3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Jul 2022 18:23:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B48B0563817
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Jul 2022 18:39:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231829AbiGAQXf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Jul 2022 12:23:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46198 "EHLO
+        id S231349AbiGAQj1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Jul 2022 12:39:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231359AbiGAQXf (ORCPT
+        with ESMTP id S230133AbiGAQj1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Jul 2022 12:23:35 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 09E8626DC;
-        Fri,  1 Jul 2022 09:23:32 -0700 (PDT)
+        Fri, 1 Jul 2022 12:39:27 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DE40527FF5;
+        Fri,  1 Jul 2022 09:39:25 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.92,237,1650898800"; 
-   d="scan'208";a="126374384"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 02 Jul 2022 01:23:32 +0900
-Received: from localhost.localdomain (unknown [10.226.92.73])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id AC167409F593;
-        Sat,  2 Jul 2022 01:23:29 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+   d="scan'208";a="124796647"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 02 Jul 2022 01:39:25 +0900
+Received: from localhost.localdomain (unknown [10.226.92.33])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 9FF39400967D;
+        Sat,  2 Jul 2022 01:39:19 +0900 (JST)
+From:   Phil Edworthy <phil.edworthy@renesas.com>
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Sven Peter <sven@svenpeter.dev>, Jan Dabros <jsd@semihalf.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Tyrone Ting <kfting@nuvoton.com>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Subject: [PATCH 2/2] ARM: dts: r9a06g032-rzn1d400-db: Enable CAN{0,1}
-Date:   Fri,  1 Jul 2022 17:23:20 +0100
-Message-Id: <20220701162320.102165-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220701162320.102165-1-biju.das.jz@bp.renesas.com>
-References: <20220701162320.102165-1-biju.das.jz@bp.renesas.com>
+        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 0/2] i2c: Add new driver for Renesas RZ/V2M controller
+Date:   Fri,  1 Jul 2022 17:39:14 +0100
+Message-Id: <20220701163916.111435-1-phil.edworthy@renesas.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
@@ -48,57 +54,40 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable CAN{0,1} on RZ/N1D-DB board.
+Hi,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts | 26 +++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+The Renesas RZ/V2M SoC (r9a09g011) has a new i2c controller. This series
+add the driver. One annoying problem is that the SoC uses a single reset
+line for two i2c controllers, and unfortunately one of the controllers
+is managed by some firmware, not by Linux. Therefore, the driver just
+deasserts the reset.
 
-diff --git a/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts b/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
-index 4bf813335e21..49104c73eca3 100644
---- a/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
-+++ b/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
-@@ -26,6 +26,20 @@ aliases {
- 	};
- };
- 
-+&can0 {
-+	pinctrl-0 = <&pins_can0>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
-+&can1 {
-+	pinctrl-0 = <&pins_can1>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
- &eth_miic {
- 	status = "okay";
- 	renesas,miic-switch-portin = <MIIC_GMAC2_PORT>;
-@@ -52,6 +66,18 @@ &mii_conv5 {
- };
- 
- &pinctrl{
-+	pins_can0: pins_can0 {
-+		pinmux = <RZN1_PINMUX(162, RZN1_FUNC_CAN)>,	/* CAN0_TXD */
-+			 <RZN1_PINMUX(163, RZN1_FUNC_CAN)>;	/* CAN0_RXD */
-+		drive-strength = <6>;
-+	};
-+
-+	pins_can1: pins_can1 {
-+		pinmux = <RZN1_PINMUX(109, RZN1_FUNC_CAN)>,	/* CAN1_TXD */
-+			 <RZN1_PINMUX(110, RZN1_FUNC_CAN)>;	/* CAN1_RXD */
-+		drive-strength = <6>;
-+	};
-+
- 	pins_eth3: pins_eth3 {
- 		pinmux = <RZN1_PINMUX(36, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
- 			 <RZN1_PINMUX(37, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+v3:
+  - dt-binding: Fix example indentation
+  driver:
+  - Lots of small fixes based on Andy Shevchenko's review
+  - Use devm_reset_control_get_shared() instead of devm_reset_control_get() 
+
+v2:
+  dt-binding:
+  - Use an enum and set the default for clock-frequency
+  - Add resets property
+  driver:
+  - Use the new NOIRQ_SYSTEM_SLEEP_PM_OPS() as suggested by Arnd
+  - Lots of small fixes based on Geert's review
+
+Phil Edworthy (2):
+  dt-bindings: i2c: Document RZ/V2M I2C controller
+  i2c: Add Renesas RZ/V2M controller
+
+ .../bindings/i2c/renesas,rzv2m.yaml           |  80 +++
+ drivers/i2c/busses/Kconfig                    |  10 +
+ drivers/i2c/busses/Makefile                   |   1 +
+ drivers/i2c/busses/i2c-rzv2m.c                | 524 ++++++++++++++++++
+ 4 files changed, 615 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
+ create mode 100644 drivers/i2c/busses/i2c-rzv2m.c
+
 -- 
-2.25.1
+2.34.1
 
