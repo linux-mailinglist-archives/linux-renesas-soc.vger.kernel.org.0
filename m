@@ -2,137 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 013AC5638D0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Jul 2022 19:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57AFC563918
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Jul 2022 20:21:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231345AbiGARxt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Jul 2022 13:53:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57172 "EHLO
+        id S230436AbiGASQL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Jul 2022 14:16:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230238AbiGARxs (ORCPT
+        with ESMTP id S229926AbiGASQK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Jul 2022 13:53:48 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 786B73AA5B;
-        Fri,  1 Jul 2022 10:53:46 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id A9EF71BF205;
-        Fri,  1 Jul 2022 17:53:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1656698024;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=ANua7sLiiWlgviVfQqW0rs1+s39N6me9FtrJ3TzFU+Q=;
-        b=b91HGovyZaZ4+ncVRPP+QBF+8oGYi1ZQXtxudn2Sxr+1uN/wRFdlErQV2LmWXw+JT+NnMz
-        AU0fLIUo73TQGKqfhNGBeCr22YHmsaEbOYewSVRmDAHEs3rd+PVT0kNunpNdRJ087nPEQ+
-        RJBfZRetpREigqqFglaoxL+HCdMvqHZ7SqSdPLt6UKbzQpQpzULCTDIbp6ZN0ltuZAIBba
-        A7v6TeCRjyPyo+ddytUjkqyQZTWM5tBQLGcE4PqX2xW/mAQSkKUGkL2Ul1U4XKd6t7qx0p
-        8KdW56jAKDAkIlHBSRXHAlXG7f6yk6AQqH13FUZr6bAAFoEhXkxhaAtNfa7uwg==
-From:   =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+        Fri, 1 Jul 2022 14:16:10 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C183014082;
+        Fri,  1 Jul 2022 11:16:09 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id o25so5470724ejm.3;
+        Fri, 01 Jul 2022 11:16:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qbwtZuVdzUuegUJwivo+X5ay7SFIYm4IMz9LKh/3woM=;
+        b=AMlsqsBHk4nxUvPONMyHzCmL25MRrhk9QEGd4hXXdILut6LfXa0RsQr5iRLqoUwPEL
+         YNYZ6L9lEdLFxVtoS2i76qeG7rpebQZX35VN8GcwP3oQXHEP29qr+qk8n6mEuAGH9Rvr
+         7lQ38uTKMJl9NA64ZMUldmLooBznu/FYMI8ur/o0a7K2zLgAT5FbxU6d0pTfIWQwqwyy
+         tFptTRPypDKIyKEWgVZHuG6a3PeXwVorLqXPEGBeo3+I9TpJMijLQNnxky9cuYhk5YE9
+         3FmNkIHFbQRc58awMoEKjkoG/LL1qoKwHsFnSrBpKouV3ullLvvxyu5U/Nz1MA5VgFTd
+         RWKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qbwtZuVdzUuegUJwivo+X5ay7SFIYm4IMz9LKh/3woM=;
+        b=d9q/ZqoZqYOjxKHtxIZOQlMEujwnszsBBWmtuLSQYkgbdXTjSINlAULb1qhVLE1t32
+         6WD6FHwrmqWieyKj+Aji1QxEdVDYEKeKdOcdGNOE91A3HSj03rgsuE9OA+kG8CmYWKpK
+         G8avpslQ0f1iugcNz8NqRwK9jyC8StWdI+nkUM5Vuri4BNW5fIGY2QyaAiiVt6slg820
+         JB9349jZjfVkhOQCESb5a1c2ewFhdsQQsrlyN1WrfecHE26SQ+H6SNjA3o9bfPh+XnBT
+         g6koTMEfk6mztivjhLquBfVsin9FksW1AY/bjgDEIAmKS1sBOWii3Nc9cCyzjYJza/vC
+         qrOg==
+X-Gm-Message-State: AJIora9swKj+OwAQ/ONvDhNajONqvSw6v4DSNeAOIi9IGkLDlBbV46Yv
+        j7lJSQn5q8GMYGzLbEmbF11e8TfV9RWWJGhhsD8=
+X-Google-Smtp-Source: AGRyM1tsDbqWuNy2XI0Iv4BQc4pW5R8UeM8nXn1rpenTQ9q64t9OHwQc+nTR67aZ9LvlfBKV9INcKf9gqNe+nJ3gBBg=
+X-Received: by 2002:a17:907:72c4:b0:726:9406:f760 with SMTP id
+ du4-20020a17090772c400b007269406f760mr15281003ejc.247.1656699368356; Fri, 01
+ Jul 2022 11:16:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220625200600.7582-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220625200600.7582-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <87pmir1ln2.wl-maz@kernel.org>
+In-Reply-To: <87pmir1ln2.wl-maz@kernel.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 1 Jul 2022 19:15:41 +0100
+Message-ID: <CA+V-a8v_US0aa1q4gEXGHrLMicr3Oa6FUGB-4nTegzmv+8oCHA@mail.gmail.com>
+Subject: Re: [PATCH v6 5/5] pinctrl: renesas: pinctrl-rzg2l: Add IRQ domain to
+ handle GPIO interrupt
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?q?Miqu=C3=A8l=20Raynal?= <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Rob Herring <robh@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH net-next v3] dt-bindings: net: dsa: renesas,rzn1-a5psw: add interrupts description
-Date:   Fri,  1 Jul 2022 19:52:31 +0200
-Message-Id: <20220701175231.6889-1-clement.leger@bootlin.com>
-X-Mailer: git-send-email 2.36.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Describe the switch interrupts (dlr, switch, prp, hub, pattern) which
-are connected to the GIC.
+Hi Marc,
 
-Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Changes in V3:
- - Renamed a few interrupt description with Geert suggestions.
+On Wed, Jun 29, 2022 at 5:26 PM Marc Zyngier <maz@kernel.org> wrote:
+>
+> On Sat, 25 Jun 2022 21:06:00 +0100,
+> Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> >
+> > Add IRQ domain to RZ/G2L pinctrl driver to handle GPIO interrupt.
+> >
+> > GPIO0-GPIO122 pins can be used as IRQ lines but only 32 pins can be
+> > used as IRQ lines at a given time. Selection of pins as IRQ lines
+> > is handled by IA55 (which is the IRQC block) which sits in between the
+> > GPIO and GIC.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 236 ++++++++++++++++++++++++
+> >  1 file changed, 236 insertions(+)
+> >
+>
+> [...]
+>
+> > +static void *rzg2l_gpio_populate_parent_fwspec(struct gpio_chip *chip,
+> > +                                            unsigned int parent_hwirq,
+> > +                                            unsigned int parent_type)
+> > +{
+> > +     struct irq_fwspec *fwspec;
+> > +
+> > +     fwspec = kzalloc(sizeof(*fwspec), GFP_KERNEL);
+> > +     if (!fwspec)
+> > +             return NULL;
+> > +
+> > +     fwspec->fwnode = chip->irq.parent_domain->fwnode;
+> > +     fwspec->param_count = 2;
+> > +     fwspec->param[0] = parent_hwirq;
+> > +     fwspec->param[1] = parent_type;
+> > +
+> > +     return fwspec;
+> > +}
+>
+> I jumped at this one again.
+>
+> Can you please pick [1] as part of your series and write this in a way
+> that doesn't require extra memory allocation? It has already been
+> ack'ed by Linus anyway, and we'd put an end to this thing for good.
+>
+> Thanks,
+>
+>         M.
+>
+> [1] https://lore.kernel.org/r/20220512162320.2213488-1-maz@kernel.org
+>
+I tried applying [1] on linux-next  (c4185b16aba7) and 5.19-rc4
+(03c765b0e3b4) but this patch does not apply cleanly. Can you please
+point me to the repo where this patch exists (or repo where the patch
+applies cleanly)?
 
-Changes in V2:
- - Fix typo in interrupt-names property.
-
- .../bindings/net/dsa/renesas,rzn1-a5psw.yaml  | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml b/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-index 103b1ef5af1b..4d428f5ad044 100644
---- a/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-+++ b/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-@@ -26,6 +26,22 @@ properties:
-   reg:
-     maxItems: 1
- 
-+  interrupts:
-+    items:
-+      - description: Device Level Ring (DLR) interrupt
-+      - description: Switch interrupt
-+      - description: Parallel Redundancy Protocol (PRP) interrupt
-+      - description: Integrated HUB module interrupt
-+      - description: Receive Pattern Match interrupt
-+
-+  interrupt-names:
-+    items:
-+      - const: dlr
-+      - const: switch
-+      - const: prp
-+      - const: hub
-+      - const: ptrn
-+
-   power-domains:
-     maxItems: 1
- 
-@@ -76,6 +92,7 @@ examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
-     #include <dt-bindings/clock/r9a06g032-sysctrl.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
- 
-     switch@44050000 {
-         compatible = "renesas,r9a06g032-a5psw", "renesas,rzn1-a5psw";
-@@ -83,6 +100,12 @@ examples:
-         clocks = <&sysctrl R9A06G032_HCLK_SWITCH>, <&sysctrl R9A06G032_CLK_SWITCH>;
-         clock-names = "hclk", "clk";
-         power-domains = <&sysctrl>;
-+        interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "dlr", "switch", "prp", "hub", "ptrn";
- 
-         dsa,member = <0 0>;
- 
--- 
-2.36.1
-
+Cheers,
+Prabhakar
