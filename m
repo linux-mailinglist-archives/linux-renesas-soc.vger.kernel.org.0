@@ -2,126 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9346956392F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Jul 2022 20:33:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07671563AA7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Jul 2022 22:12:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229535AbiGASdz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Jul 2022 14:33:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57190 "EHLO
+        id S231455AbiGAUBQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Jul 2022 16:01:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbiGASdz (ORCPT
+        with ESMTP id S231489AbiGAUBP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Jul 2022 14:33:55 -0400
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79DAE32EFF;
-        Fri,  1 Jul 2022 11:33:54 -0700 (PDT)
-Received: by mail-qk1-f174.google.com with SMTP id b24so2453428qkn.4;
-        Fri, 01 Jul 2022 11:33:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5CPgSxlxvAD6mxf8VRHupyPppcZp6QH5VnwOoF3PTjo=;
-        b=oM136O7pbMkKZWjM/Bks7ER8Ydfcj+Qyts3FT/hgHCYdNP3r6t1Zyiis5zFUhNTb8r
-         n+jIUZqv1F5UH2rL2WYzwKMsr+qp8TsdAaWG8ryddFsM3uCR5WiwasU5fp6nxdgJOxFy
-         4kUyhFA2bAXsEfWPyldUHf3nwTWptYevVZ9JUwl+QqJ/8cnlB2dWMdodLKFt+ZUbJJCS
-         McTknanMI+y7nL3Bj+TF+SrGI5sqWY4ZuX8eToQ6Amc9OBujIFhWbSj5roZsmbCHxdDL
-         XgxnT3QzQZCsMM7HKOD/pqWPSynW/I/wfTkapiXMtzt2kX9O/Ly/OdMVTg1lONQF6YI/
-         CmEg==
-X-Gm-Message-State: AJIora+RcqgsmKSHg7FIOjqW+4c9fTFdLGMIJSrplUaDMfmLyZfkvD+l
-        nHO5pNJ+E1lixyDQ7tLX4zJwu+dXG0ocCQ==
-X-Google-Smtp-Source: AGRyM1vPUaCgX1d2BNK70OXZKI8ltkJGTA9v07Gx86YPl5UhFhAAZUyHZPydugVx9WQxmjATXzefwQ==
-X-Received: by 2002:a05:620a:9de:b0:6af:20a:586f with SMTP id y30-20020a05620a09de00b006af020a586fmr11884385qky.432.1656700433428;
-        Fri, 01 Jul 2022 11:33:53 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id bq9-20020a05620a468900b006af6f0893c6sm7425194qkb.91.2022.07.01.11.33.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Jul 2022 11:33:53 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 194so460731ybc.4;
-        Fri, 01 Jul 2022 11:33:53 -0700 (PDT)
-X-Received: by 2002:a05:6902:1246:b0:66d:5b0b:19b0 with SMTP id
- t6-20020a056902124600b0066d5b0b19b0mr16010441ybu.365.1656700432819; Fri, 01
- Jul 2022 11:33:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220701162320.102165-1-biju.das.jz@bp.renesas.com> <20220701162320.102165-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220701162320.102165-2-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 1 Jul 2022 20:33:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUNm+HubG_JWwGWcSu4rJc=0-YUf1+1BpQQ6QX-5LOYrw@mail.gmail.com>
-Message-ID: <CAMuHMdUNm+HubG_JWwGWcSu4rJc=0-YUf1+1BpQQ6QX-5LOYrw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ARM: dts: r9a06g032: Add CAN{0,1} nodes
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        Fri, 1 Jul 2022 16:01:15 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C97A4D173;
+        Fri,  1 Jul 2022 13:01:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 7A0D7CE34FF;
+        Fri,  1 Jul 2022 20:01:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58350C3411E;
+        Fri,  1 Jul 2022 20:01:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656705667;
+        bh=Cx39TKDx06zEIo+2/ffVq627izh+6z2Iy9I9BSiLrCk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=KAvE/oVKbLXJvyvcATd66TBI/KpGdyz+TtyjNirZ939ZqNyF/HgCunZgGrMyMhdul
+         ajR37NRnzWvIjN3BWkJ3sz/ENU1KTdhuFAmheJdjnrnmPa77Mo2Gk1cOa4WdUPClRE
+         tfad86p4ct+koOlhmWVx8Y4DwnPxOtK7/b0rI2sFiqnX3698ye0h9Zv4ZBwixuc+W+
+         SJLxkIsl3zJA8ZgDBsfh/aetGuewOthojRAzyV9WKXOK00Iv9OWyT+u+4I9QXlOIZx
+         d+fwqTR6MzX+M2UHcs3q92oerXxgfTIix7faORVQFgpqkOTPFoIpQEKUie95hrXG2q
+         ozoYJZZVAG+Ng==
+Received: from 82-132-245-195.dab.02.net ([82.132.245.195] helo=wait-a-minute.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1o7Mp6-004fIl-Ry;
+        Fri, 01 Jul 2022 21:01:05 +0100
+Date:   Fri, 01 Jul 2022 21:00:57 +0100
+Message-ID: <87mtdseh6u.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v6 5/5] pinctrl: renesas: pinctrl-rzg2l: Add IRQ domain to handle GPIO interrupt
+In-Reply-To: <CA+V-a8v_US0aa1q4gEXGHrLMicr3Oa6FUGB-4nTegzmv+8oCHA@mail.gmail.com>
+References: <20220625200600.7582-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <20220625200600.7582-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <87pmir1ln2.wl-maz@kernel.org>
+        <CA+V-a8v_US0aa1q4gEXGHrLMicr3Oa6FUGB-4nTegzmv+8oCHA@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 82.132.245.195
+X-SA-Exim-Rcpt-To: prabhakar.csengg@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, tglx@linutronix.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, geert+renesas@glider.be, linus.walleij@linaro.org, brgl@bgdev.pl, p.zabel@pengutronix.de, linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, biju.das.jz@bp.renesas.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On Fri, 01 Jul 2022 19:15:41 +0100,
+"Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
+> 
+> Hi Marc,
+> 
+> On Wed, Jun 29, 2022 at 5:26 PM Marc Zyngier <maz@kernel.org> wrote:
+> >
+> > On Sat, 25 Jun 2022 21:06:00 +0100,
+> > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > >
+> > > Add IRQ domain to RZ/G2L pinctrl driver to handle GPIO interrupt.
+> > >
+> > > GPIO0-GPIO122 pins can be used as IRQ lines but only 32 pins can be
+> > > used as IRQ lines at a given time. Selection of pins as IRQ lines
+> > > is handled by IA55 (which is the IRQC block) which sits in between the
+> > > GPIO and GIC.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > >  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 236 ++++++++++++++++++++++++
+> > >  1 file changed, 236 insertions(+)
+> > >
+> >
+> > [...]
+> >
+> > > +static void *rzg2l_gpio_populate_parent_fwspec(struct gpio_chip *chip,
+> > > +                                            unsigned int parent_hwirq,
+> > > +                                            unsigned int parent_type)
+> > > +{
+> > > +     struct irq_fwspec *fwspec;
+> > > +
+> > > +     fwspec = kzalloc(sizeof(*fwspec), GFP_KERNEL);
+> > > +     if (!fwspec)
+> > > +             return NULL;
+> > > +
+> > > +     fwspec->fwnode = chip->irq.parent_domain->fwnode;
+> > > +     fwspec->param_count = 2;
+> > > +     fwspec->param[0] = parent_hwirq;
+> > > +     fwspec->param[1] = parent_type;
+> > > +
+> > > +     return fwspec;
+> > > +}
+> >
+> > I jumped at this one again.
+> >
+> > Can you please pick [1] as part of your series and write this in a way
+> > that doesn't require extra memory allocation? It has already been
+> > ack'ed by Linus anyway, and we'd put an end to this thing for good.
+> >
+> > Thanks,
+> >
+> >         M.
+> >
+> > [1] https://lore.kernel.org/r/20220512162320.2213488-1-maz@kernel.org
+> >
+> I tried applying [1] on linux-next  (c4185b16aba7) and 5.19-rc4
+> (03c765b0e3b4) but this patch does not apply cleanly. Can you please
+> point me to the repo where this patch exists (or repo where the patch
+> applies cleanly)?
 
-On Fri, Jul 1, 2022 at 6:23 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add CAN{0,1} nodes to R9A06G032 (RZ/N1) SoC DTSI.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Odd, it applies cleanly here to -rc4. Anyway, I've now pushed it out
+to [1] with Linus' RB and a typo fix in the commit message.
 
-Thanks for your patch!
+Thanks,
 
-> --- a/arch/arm/boot/dts/r9a06g032.dtsi
-> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
-> @@ -423,6 +423,24 @@ gic: interrupt-controller@44101000 {
->                         interrupts =
->                                 <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)>;
->                 };
-> +
-> +               can0: can@52104000 {
-> +                       compatible = "nxp,sja1000";
+	M.
 
-Is this block 100% compatible to the nxp,sja1000 block, or do we
-need an SoC-specific compatible value?
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git/log/?h=irq/gpio-fwspec-stack
 
-> +                       reg = <0x52104000 0x800>;
-> +                       reg-io-width = <4>;
-> +                       interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&sysctrl R9A06G032_HCLK_CAN0>;
-
-According to the (old) bindings, the clock rate is specified using the
-non-standard "nxp,external-clock-frequency property" (seems like both
-bindings and driver can use some overhaul), and defaults to 16 MHz.
-According to the RZ/N1S documentation, the CAN clock is 48 MHz?
-
-> +                       status = "disabled";
-> +               };
-> +
-> +               can1: can@52105000 {
-> +                       compatible = "nxp,sja1000";
-> +                       reg = <0x52105000 0x800>;
-> +                       reg-io-width = <4>;
-> +                       interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&sysctrl R9A06G032_HCLK_CAN1>;
-> +                       status = "disabled";
-> +               };
->         };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Without deviation from the norm, progress is not possible.
