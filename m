@@ -2,62 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAACD56414E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Jul 2022 18:12:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 662F2564152
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Jul 2022 18:13:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232117AbiGBQMM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 2 Jul 2022 12:12:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59424 "EHLO
+        id S232272AbiGBQNG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 2 Jul 2022 12:13:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231282AbiGBQMK (ORCPT
+        with ESMTP id S231243AbiGBQNG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 2 Jul 2022 12:12:10 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9B2FE0C6
-        for <linux-renesas-soc@vger.kernel.org>; Sat,  2 Jul 2022 09:12:09 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1o7fik-0002zG-SK; Sat, 02 Jul 2022 18:11:46 +0200
-Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id 138CBA5964;
-        Sat,  2 Jul 2022 16:11:41 +0000 (UTC)
-Date:   Sat, 2 Jul 2022 18:11:41 +0200
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
+        Sat, 2 Jul 2022 12:13:06 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16C04EE0A;
+        Sat,  2 Jul 2022 09:13:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656778385; x=1688314385;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oLFv5d9cpgU3oUv0ZYDAaDF+gUv+7iXr9g5H3SS0Y7o=;
+  b=TWFdxaFPL0CrywNFO7fnngdl8LzxMkffxlGC6zr3ynZBK9Meb8uQV+lK
+   h5yyFBv2ljcdtq+EAGcg7H3jwCxoOPyws/DefDvgrsGUVAAfbHZWZQsBi
+   ++FmxRI5HepUr9IH4ed75vPV5iKE+QHBPRiOLaHKkxqBUOGGJpRqSd876
+   jGYni1E55W92F/FtH/yER+cfOjjtbirbO/7c0plWW2Gd/0EnwV3F5mv0f
+   5fPMAG28v/PaMmV+FiGuZis5lSuhPnMZJC2j269AZSZhB6FevtFD5+DbF
+   soHst6Hl6VDIUWsuh2GBgTux7cNFMBSTJh8PAQySvY6LmKGNXfifPpBNG
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10396"; a="344530083"
+X-IronPort-AV: E=Sophos;i="5.92,240,1650956400"; 
+   d="scan'208";a="344530083"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2022 09:13:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,240,1650956400"; 
+   d="scan'208";a="624596293"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 02 Jul 2022 09:13:00 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o7fjv-000FOZ-Qi;
+        Sat, 02 Jul 2022 16:12:59 +0000
+Date:   Sun, 3 Jul 2022 00:12:43 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Wolfram Sang <wsa-dev@sang-engineering.com>,
+        Michael Walle <michael@walle.cc>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/6] dt-bindings: can: sja1000: Convert to json-schema
-Message-ID: <20220702161141.cfeemj2hobei2z4k@pengutronix.de>
-References: <20220702140130.218409-1-biju.das.jz@bp.renesas.com>
- <20220702140130.218409-2-biju.das.jz@bp.renesas.com>
+Cc:     kbuild-all@lists.01.org,
+        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Till Harbaum <till@harbaum.org>
+Subject: Re: [PATCH v1 2/2] i2c: Introduce i2c_str_read_write() and make use
+ of it
+Message-ID: <202207030039.I3q472GJ-lkp@intel.com>
+References: <20220702135925.73406-2-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="kg7mrcpo3dm2jeux"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220702140130.218409-2-biju.das.jz@bp.renesas.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+In-Reply-To: <20220702135925.73406-2-andriy.shevchenko@linux.intel.com>
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,71 +79,80 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Andy,
 
---kg7mrcpo3dm2jeux
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I love your patch! Yet something to improve:
 
-On 02.07.2022 15:01:25, Biju Das wrote:
-> Convert the NXP SJA1000 CAN Controller Device Tree binding
-> documentation to json-schema.
->=20
-> Update the example to match reality.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  .../bindings/net/can/nxp,sja1000.yaml         | 106 ++++++++++++++++++
->  .../devicetree/bindings/net/can/sja1000.txt   |  58 ----------
->  2 files changed, 106 insertions(+), 58 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/net/can/nxp,sja1000=
-=2Eyaml
->  delete mode 100644 Documentation/devicetree/bindings/net/can/sja1000.txt
->=20
-> diff --git a/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml b=
-/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
-> new file mode 100644
-> index 000000000000..91d0f1b25d10
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
-> @@ -0,0 +1,106 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/can/nxp,sja1000.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Memory mapped SJA1000 CAN controller from NXP (formerly Philips)
-> +
-> +maintainers:
-> +  - Wolfgang Grandegger <wg@grandegger.com>
+[auto build test ERROR on wsa/i2c/for-next]
+[also build test ERROR on linus/master v5.19-rc4 next-20220701]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Please add:
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/lib-string_helpers-Add-str_read_write-helper/20220702-215944
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
+config: arc-randconfig-r043-20220702 (https://download.01.org/0day-ci/archive/20220703/202207030039.I3q472GJ-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/c9ef15ef6b2b2b51d33d68a8b92beb05771cc8c2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andy-Shevchenko/lib-string_helpers-Add-str_read_write-helper/20220702-215944
+        git checkout c9ef15ef6b2b2b51d33d68a8b92beb05771cc8c2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/i2c/busses/
 
-allOf:
-  - $ref: can-controller.yaml#
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Marc
+All errors (new ones prefixed by >>):
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+   drivers/i2c/busses/i2c-exynos5.c: In function 'exynos5_i2c_xfer_msg':
+>> drivers/i2c/busses/i2c-exynos5.c:960:26: error: unterminated argument list invoking macro "dev_warn"
+     960 | MODULE_LICENSE("GPL v2");
+         |                          ^
+>> drivers/i2c/busses/i2c-exynos5.c:747:25: error: 'dev_warn' undeclared (first use in this function); did you mean '_dev_warn'?
+     747 |                         dev_warn(i2c->dev, "%s timeout\n", i2c_str_read_write(msgs);
+         |                         ^~~~~~~~
+         |                         _dev_warn
+   drivers/i2c/busses/i2c-exynos5.c:747:25: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/i2c/busses/i2c-exynos5.c:747:33: error: expected ';' at end of input
+     747 |                         dev_warn(i2c->dev, "%s timeout\n", i2c_str_read_write(msgs);
+         |                                 ^
+         |                                 ;
+   ......
+   drivers/i2c/busses/i2c-exynos5.c:746:17: note: '-Wmisleading-indentation' is disabled from this point onwards, since column-tracking was disabled due to the size of the code/headers
+     746 |                 if (ret == -ETIMEDOUT)
+         |                 ^~
+   drivers/i2c/busses/i2c-exynos5.c:746:17: note: adding '-flarge-source-files' will allow for more column-tracking support, at the expense of compilation time and memory
+>> drivers/i2c/busses/i2c-exynos5.c:747:25: error: expected declaration or statement at end of input
+     747 |                         dev_warn(i2c->dev, "%s timeout\n", i2c_str_read_write(msgs);
+         |                         ^~~~~~~~
+>> drivers/i2c/busses/i2c-exynos5.c:747:25: error: expected declaration or statement at end of input
+   drivers/i2c/busses/i2c-exynos5.c:747:25: error: no return statement in function returning non-void [-Werror=return-type]
+   At top level:
+   drivers/i2c/busses/i2c-exynos5.c:716:12: warning: 'exynos5_i2c_xfer_msg' defined but not used [-Wunused-function]
+     716 | static int exynos5_i2c_xfer_msg(struct exynos5_i2c *i2c,
+         |            ^~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/busses/i2c-exynos5.c:445:20: warning: 'exynos5_i2c_irq' defined but not used [-Wunused-function]
+     445 | static irqreturn_t exynos5_i2c_irq(int irqno, void *dev_id)
+         |                    ^~~~~~~~~~~~~~~
+   drivers/i2c/busses/i2c-exynos5.c:240:34: warning: 'exynos5_i2c_match' defined but not used [-Wunused-const-variable=]
+     240 | static const struct of_device_id exynos5_i2c_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
---kg7mrcpo3dm2jeux
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+vim +/dev_warn +960 drivers/i2c/busses/i2c-exynos5.c
 
-iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmLAbjoACgkQrX5LkNig
-010c0wf/TU+eiTGp7fNfKgBWIZhVVz+u0Pouz0Dz8z8hN5QZn0x3lnTDlt6Nx3IK
-55uSlIJxSkdGX87XpoZ1KdGHJiN/r3GCm6eQGPBz1BmPmjXE2/Oy7EQwy5dyaKpt
-f8eJC2nbAe6U/7DixxA6XlOvoh6qyRpkS7qXlc4CnxRHlEFYYcFBVH7pdrZCFMBy
-RLeuKhyepu/QD5bCZetfjHrfHYQy2CB7nh5/EUVeR2hV3Kpww5kRnNeA0zRdUktz
-n5NZ8+QWIniJEXu+YChdCOnztqZ6ljHbJctO3a7L2gf/uh7j8etY+vY4CpQQs9On
-RSvNn4wxuRxtCncrDRO4/Op+E0QQuQ==
-=YVj9
------END PGP SIGNATURE-----
+8a73cd4cfa1599 Naveen Krishna Ch 2013-10-16  956  
+8a73cd4cfa1599 Naveen Krishna Ch 2013-10-16  957  MODULE_DESCRIPTION("Exynos5 HS-I2C Bus driver");
+d790eeb3db6aef Jean Delvare      2020-06-11  958  MODULE_AUTHOR("Naveen Krishna Chatradhi <ch.naveen@samsung.com>");
+d790eeb3db6aef Jean Delvare      2020-06-11  959  MODULE_AUTHOR("Taekgyun Ko <taeggyun.ko@samsung.com>");
+8a73cd4cfa1599 Naveen Krishna Ch 2013-10-16 @960  MODULE_LICENSE("GPL v2");
 
---kg7mrcpo3dm2jeux--
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
