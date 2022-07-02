@@ -2,92 +2,188 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8AE0563DF0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Jul 2022 05:20:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8E95563FE8
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Jul 2022 13:52:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231881AbiGBDUV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Jul 2022 23:20:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50382 "EHLO
+        id S232240AbiGBLvs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 2 Jul 2022 07:51:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231794AbiGBDUT (ORCPT
+        with ESMTP id S229592AbiGBLvr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Jul 2022 23:20:19 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54E01326C4;
-        Fri,  1 Jul 2022 20:20:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D1720B832C2;
-        Sat,  2 Jul 2022 03:20:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9043FC341DB;
-        Sat,  2 Jul 2022 03:20:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656732015;
-        bh=FrVW95x2SQ8FV/XOJFEuHWJd0qX9legd8nZ8qX/udBw=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=IybdRVYpV5DhjZAdnWsjjMsWODQ1k4XqW/D7SHO81iTN8JqgHPbYwk1e46eEGFVZQ
-         cHu29ziu23r0VelujmLJF3T8WCXwwgdgPQjrYE9mNfzeli0EXWNJrG/M+8QewZbZrC
-         OONVoeWirAwmIWiDs4qStEu33pvUCAxgbDKvlUFPl1gBV5pyf3nTtBk8KDQA3q3NmE
-         /tWPxvt4hjN7RRRCKR79q3rKlBxJzwy/5Db2XDZBOJQ4GclqIInPyUcRMan7t0uIBo
-         +PfXFjU4Z7gsx6fvFdWIf67uO9WS1wfflATzLG/IfcVCGEA7VNZKXqiSln9fKFsbFD
-         xdBUGNIC/wqyQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7118CE49FA3;
-        Sat,  2 Jul 2022 03:20:15 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Sat, 2 Jul 2022 07:51:47 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EB7612747;
+        Sat,  2 Jul 2022 04:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656762707; x=1688298707;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DUWQkgDXSBjXInTNrTsnLHeuwATTU2HaurRnr7VRUTo=;
+  b=IHrU393rk+acoa/CEbEdni6xE83Ws/lWyT/9X0n4a/6GfpQkAlXtrPP3
+   2xFtvtiaGCdyBHhuZdrrkESTfWZzHkcrKW+rZI8rDKN9gA5iaXImUerli
+   e7ZADf32B483k/HOA8+DeA7EAajA1vCuucDrKW9ZfiBKT7kcRGNydhrYo
+   EggvcqWLTm7W/P4So25Qd4xjQGu/bURYKrvxhdOYAEcgiHkdBBsiBO+jC
+   RIMwMOXC0lKp8dKjPZtHI30RjSAbnWst4geHbcSsaUljVp7L4kc7QvWHK
+   V3LQ8tdRifV/6Uzgo0D0p9wg8EETdv4QUf+vNPrL7t536atz6M0VP/ryD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10395"; a="265854144"
+X-IronPort-AV: E=Sophos;i="5.92,239,1650956400"; 
+   d="scan'208";a="265854144"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2022 04:51:46 -0700
+X-IronPort-AV: E=Sophos;i="5.92,239,1650956400"; 
+   d="scan'208";a="734337677"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2022 04:51:42 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1o7bf1-0013aN-06;
+        Sat, 02 Jul 2022 14:51:39 +0300
+Date:   Sat, 2 Jul 2022 14:51:38 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Phil Edworthy <phil.edworthy@renesas.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Wolfram Sang <wsa@kernel.org>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+        Jan Dabros <jsd@semihalf.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Tyrone Ting <kfting@nuvoton.com>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] i2c: Add Renesas RZ/V2M controller
+Message-ID: <YsAxSrcAk4jtRYx4@smile.fi.intel.com>
+References: <20220701163916.111435-1-phil.edworthy@renesas.com>
+ <20220701163916.111435-3-phil.edworthy@renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] net: pcs: rzn1-miic: update speed only if interface
- is changed
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165673201545.6297.13593698889727547584.git-patchwork-notify@kernel.org>
-Date:   Sat, 02 Jul 2022 03:20:15 +0000
-References: <20220629122003.189397-1-clement.leger@bootlin.com>
-In-Reply-To: <20220629122003.189397-1-clement.leger@bootlin.com>
-To:     =?utf-8?b?Q2zDqW1lbnQgTMOpZ2VyIDxjbGVtZW50LmxlZ2VyQGJvb3RsaW4uY29tPg==?=@ci.codeaurora.org
-Cc:     andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, linux-renesas-soc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        thomas.petazzoni@bootlin.com, herve.codina@bootlin.com,
-        miquel.raynal@bootlin.com, milan.stevanovic@se.com,
-        jimmy.lalande@se.com, pascal.eberhard@se.com
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220701163916.111435-3-phil.edworthy@renesas.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+On Fri, Jul 01, 2022 at 05:39:16PM +0100, Phil Edworthy wrote:
+> Yet another i2c controller from Renesas that is found on the RZ/V2M
+> (r9a09g011) SoC. It can support only 100kHz and 400KHz operation.
 
-This patch was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
+...
 
-On Wed, 29 Jun 2022 14:20:03 +0200 you wrote:
-> As stated by Russel King, miic_config() can be called as a result of
-> ethtool setting the configuration while the link is already up. Since
-> the speed is also set in this function, it could potentially modify
-> the current speed that is set. This will only happen if there is
-> no PHY present and we aren't using fixed-link mode.
-> 
-> Handle that by storing the current interface mode in the miic_port
-> structure and update the speed only if the interface mode is going to
-> be changed.
-> 
-> [...]
+> +		/* 10-bit address
+> +		 *   addr_1: 5'b11110 | addr[9:8] | (R/nW)
+> +		 *   addr_2: addr[7:0]
+> +		 */
 
-Here is the summary with links:
-  - [net-next] net: pcs: rzn1-miic: update speed only if interface is changed
-    https://git.kernel.org/netdev/net-next/c/90c74f4d90ad
+/*
+ * Multi-line comments should be
+ * formatted like in this example.
+ * (Of course use as much space up
+ * to 80 as possible.)
+ */
 
-You are awesome, thank you!
+Ditto for other done in similar way, if any.
+
+...
+
+> +		addr = 0xf0 | ((msg->addr >> 7) & 0x06);
+
+GENMASK() ?
+
+...
+
+> +	if (!ret) {
+> +		if (read)
+> +			ret = rzv2m_i2c_receive(priv, msg, &count);
+> +		else
+> +			ret = rzv2m_i2c_send(priv, msg, &count);
+
+> +		if ((!ret) && stop)
+
+Too many parentheses.
+
+> +			ret = rzv2m_i2c_stop_condition(priv);
+> +	}
+
+...
+
+> +		ret = rzv2m_i2c_master_xfer1(priv, &msgs[i], (i == (num - 1)));
+
+Too many parentheses.
+
+> +		if (ret < 0)
+> +			goto out;
+
+...
+
+> +static const struct of_device_id rzv2m_i2c_ids[] = {
+> +	{ .compatible = "renesas,rzv2m-i2c" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, rzv2m_i2c_ids);
+
+This can be moved after the ->probe() closer to the actual user of the table.
+
+...
+
+> +	priv = devm_kzalloc(dev, sizeof(struct rzv2m_i2c_priv), GFP_KERNEL);
+
+sizeof(*priv)
+
+> +	if (!priv)
+> +		return -ENOMEM;
+
+...
+
+> +static int rzv2m_i2c_suspend(struct device *dev)
+> +{
+> +	struct rzv2m_i2c_priv *priv = dev_get_drvdata(dev);
+
+> +	pm_runtime_get_sync(dev);
+
+Isn't guaranteed by the runtime PM that device is runtime powered on the system
+suspend?
+
+> +	bit_clrl(priv->base + IICB0CTL0, IICB0IICE);
+> +	pm_runtime_put(dev);
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static int rzv2m_i2c_resume(struct device *dev)
+> +{
+> +	struct rzv2m_i2c_priv *priv = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = rzv2m_i2c_clock_calculate(dev, priv);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	pm_runtime_get_sync(dev);
+
+I'm not sure how it's suppose to work. Isn't it a no-op here?
+
+> +	rzv2m_i2c_init(priv);
+> +	pm_runtime_put(dev);
+> +
+> +	return 0;
+> +}
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+With Best Regards,
+Andy Shevchenko
 
 
