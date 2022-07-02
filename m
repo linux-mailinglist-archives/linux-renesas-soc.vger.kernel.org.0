@@ -2,134 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE8EB564098
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Jul 2022 16:04:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 375795640A5
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Jul 2022 16:10:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbiGBOD7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 2 Jul 2022 10:03:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50842 "EHLO
+        id S229753AbiGBOKe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 2 Jul 2022 10:10:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbiGBOD7 (ORCPT
+        with ESMTP id S229468AbiGBOKd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 2 Jul 2022 10:03:59 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 691C7E088
-        for <linux-renesas-soc@vger.kernel.org>; Sat,  2 Jul 2022 07:03:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656770638; x=1688306638;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=BDZleUSwLI1VOH06lCo/bSWHH4fF3RVWqeFewOGYZdM=;
-  b=k6Kd/Gu85W2sqnLABqfxopT+0gQwzQQGzJpQYgTr+ncevPe1xJQOlLLY
-   Sq/A1mfLQrQOYydPdvsMyckx/CXPuWCvY7w1X0YfxTPqgfcTpcetEWpml
-   aQAZOOn7arUlWBhNY4pkQxDEt31wbsJjhle3GbuwrF2O79HU/mNHo6YEE
-   Nkp3TVFUg5rWscayQ5b5qHjOd7JdCnJuVvbrSIAOBVKtYXF7hEF0Ucw2u
-   YN/AJOlNtOY6rAWSMQ3dUEvrowApxzvVLR4gHya4N+7WwdR7OQ+ZWzU4T
-   NTmNi5aFQVV6L6mD6RAu5ySgnUWPi/yuZ1+ErgrZxvaeA4u7bE15JmAnb
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10395"; a="344518540"
-X-IronPort-AV: E=Sophos;i="5.92,240,1650956400"; 
-   d="scan'208";a="344518540"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2022 07:03:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,240,1650956400"; 
-   d="scan'208";a="918793966"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 02 Jul 2022 07:03:56 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o7dj2-000FJR-6f;
-        Sat, 02 Jul 2022 14:03:56 +0000
-Date:   Sat, 02 Jul 2022 22:03:11 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pinctrl-for-v5.20] BUILD SUCCESS
- 29a99eb2215a2bf56c9e8ffa6fbeddc41f8bbf2e
-Message-ID: <62c0501f.a/bZqASvxl30nhDW%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 2 Jul 2022 10:10:33 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0D8F810542;
+        Sat,  2 Jul 2022 07:10:31 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.92,240,1650898800"; 
+   d="scan'208";a="124846823"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 02 Jul 2022 23:10:31 +0900
+Received: from localhost.localdomain (unknown [10.226.92.2])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id B945A4005E36;
+        Sat,  2 Jul 2022 23:10:28 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Subject: [PATCH V2 0/2] Add RZ/N1 CAN support
+Date:   Sat,  2 Jul 2022 15:10:24 +0100
+Message-Id: <20220702141026.219450-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v5.20
-branch HEAD: 29a99eb2215a2bf56c9e8ffa6fbeddc41f8bbf2e  pinctrl: renesas: Add RZ/V2M pin and gpio controller driver
+This patch series supports CAN{0,1} populated on RZ/N1D-DB board.
 
-elapsed time: 1834m
+v1->v2:
+ * Added RZ/N1 specific compatible string.
+ * Added clock-names property.
 
-configs tested: 52
-configs skipped: 2
+This patch series depend upon [1]
+[1] https://lore.kernel.org/linux-renesas-soc/20220702140130.218409-1-biju.das.jz@bp.renesas.com/T/#t
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Biju Das (2):
+  ARM: dts: r9a06g032: Add CAN nodes
+  ARM: dts: r9a06g032-rzn1d400-db: Enable CAN{0,1}
 
-gcc tested configs:
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-ia64                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-powerpc                          allmodconfig
-mips                             allyesconfig
-powerpc                           allnoconfig
-sh                               allmodconfig
-i386                                defconfig
-i386                             allyesconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a002
-x86_64                        randconfig-a004
-i386                          randconfig-a005
-i386                          randconfig-a001
-i386                          randconfig-a003
-x86_64                        randconfig-a015
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-arc                  randconfig-r043-20220629
-riscv                randconfig-r042-20220629
-s390                 randconfig-r044-20220629
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
-x86_64                               rhel-8.3
-
-clang tested configs:
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-i386                          randconfig-a004
-i386                          randconfig-a002
-i386                          randconfig-a006
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-x86_64                        randconfig-a005
-hexagon              randconfig-r041-20220629
-hexagon              randconfig-r045-20220629
+ arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts | 26 +++++++++++++++++++++
+ arch/arm/boot/dts/r9a06g032.dtsi            | 20 ++++++++++++++++
+ 2 files changed, 46 insertions(+)
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
