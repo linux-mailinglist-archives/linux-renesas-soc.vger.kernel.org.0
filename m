@@ -2,166 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 662CE5646E6
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Jul 2022 12:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B995556484E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Jul 2022 17:16:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232679AbiGCKsK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 3 Jul 2022 06:48:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52478 "EHLO
+        id S232366AbiGCPQx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 3 Jul 2022 11:16:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232373AbiGCKrq (ORCPT
+        with ESMTP id S231145AbiGCPQw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 3 Jul 2022 06:47:46 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B2E66A447;
-        Sun,  3 Jul 2022 03:47:44 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.92,241,1650898800"; 
-   d="scan'208";a="124888170"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 03 Jul 2022 19:47:44 +0900
-Received: from localhost.localdomain (unknown [10.226.92.2])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 35B93427AD01;
-        Sun,  3 Jul 2022 19:47:39 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
+        Sun, 3 Jul 2022 11:16:52 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F05695F51;
+        Sun,  3 Jul 2022 08:16:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656861411; x=1688397411;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tbDnTkzGU2d76A5O5FJ0xojYbhaXleGjZ0EcoMcriFs=;
+  b=hd0T+BtbnMKUfy0kBpTN2cgveOPuHWdWt2dAuhH/RggJeQnK3u9RzcLG
+   sw/qQ3B55tKV7ZO7qgytyDCw/0qyRRTgqZ6RRyMk9NaXeXWDVvC0j9QMJ
+   c5O7Qw3TSS8a694ZbdrvR1iXiq7ooKraYs9F6zq+mz5ddkIGFFvo9iB0I
+   8M+BWxz0y7YufJeCw5BzaJifRHomBqsGiYGUf/HWXP7kV6mee+FzGG45h
+   tTaZRd+smcZ3bifXSxQvcyvTMFH+FVcpsDUiO/lN19Sh/zr2yPq4hZe1q
+   5ND+2vMDB7PgQvmhAKQefGPV0ia4lEOgYZKkiYSDnCgqCeBRdT39fy2gD
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10397"; a="308489241"
+X-IronPort-AV: E=Sophos;i="5.92,241,1650956400"; 
+   d="scan'208";a="308489241"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2022 08:16:51 -0700
+X-IronPort-AV: E=Sophos;i="5.92,241,1650956400"; 
+   d="scan'208";a="592209448"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2022 08:16:47 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1o81L1-0014Pm-0T;
+        Sun, 03 Jul 2022 18:16:43 +0300
+Date:   Sun, 3 Jul 2022 18:16:42 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Wolfram Sang <wsa@kernel.org>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+        Jan Dabros <jsd@semihalf.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Tyrone Ting <kfting@nuvoton.com>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 6/6] can: sja1000: Add support for RZ/N1 SJA1000 CAN Controller
-Date:   Sun,  3 Jul 2022 11:47:05 +0100
-Message-Id: <20220703104705.341070-7-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220703104705.341070-1-biju.das.jz@bp.renesas.com>
-References: <20220703104705.341070-1-biju.das.jz@bp.renesas.com>
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v3 2/2] i2c: Add Renesas RZ/V2M controller
+Message-ID: <YsGy2rqk1tKQJJ/b@smile.fi.intel.com>
+References: <20220701163916.111435-1-phil.edworthy@renesas.com>
+ <20220701163916.111435-3-phil.edworthy@renesas.com>
+ <YsAxSrcAk4jtRYx4@smile.fi.intel.com>
+ <CAMuHMdU1-LQJUCsDAfaC4OhRW7ijcpAG9VEUHu_Gu1qE7LdweA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdU1-LQJUCsDAfaC4OhRW7ijcpAG9VEUHu_Gu1qE7LdweA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The SJA1000 CAN controller on RZ/N1 SoC has no clock divider register
-(CDR) support compared to others.
+On Sun, Jul 03, 2022 at 10:41:45AM +0200, Geert Uytterhoeven wrote:
+> On Sat, Jul 2, 2022 at 1:51 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Fri, Jul 01, 2022 at 05:39:16PM +0100, Phil Edworthy wrote:
+> > > Yet another i2c controller from Renesas that is found on the RZ/V2M
+> > > (r9a09g011) SoC. It can support only 100kHz and 400KHz operation.
 
-This patch adds support for RZ/N1 SJA1000 CAN Controller.
+...
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Updated commit description as SJA1000_NO_HW_LOOPBACK_QUIRK is removed
- * Added error handling on clk error path
- * Started using "devm_clk_get_optional_enabled" for clk get,prepare and enable.
----
- drivers/net/can/sja1000/sja1000_platform.c | 38 +++++++++++++++++++---
- 1 file changed, 33 insertions(+), 5 deletions(-)
+> > > +     pm_runtime_get_sync(dev);
+> 
+> pm_runtime_resume_and_get() ;-)
 
-diff --git a/drivers/net/can/sja1000/sja1000_platform.c b/drivers/net/can/sja1000/sja1000_platform.c
-index 81bc741905fd..757fdb5da191 100644
---- a/drivers/net/can/sja1000/sja1000_platform.c
-+++ b/drivers/net/can/sja1000/sja1000_platform.c
-@@ -14,6 +14,7 @@
- #include <linux/irq.h>
- #include <linux/can/dev.h>
- #include <linux/can/platform/sja1000.h>
-+#include <linux/clk.h>
- #include <linux/io.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-@@ -103,6 +104,11 @@ static void sp_technologic_init(struct sja1000_priv *priv, struct device_node *o
- 	spin_lock_init(&tp->io_lock);
- }
- 
-+static void sp_rzn1_init(struct sja1000_priv *priv, struct device_node *of)
-+{
-+	priv->flags = SJA1000_QUIRK_NO_CDR_REG;
-+}
-+
- static void sp_populate(struct sja1000_priv *priv,
- 			struct sja1000_platform_data *pdata,
- 			unsigned long resource_mem_flags)
-@@ -153,11 +159,13 @@ static void sp_populate_of(struct sja1000_priv *priv, struct device_node *of)
- 		priv->write_reg = sp_write_reg8;
- 	}
- 
--	err = of_property_read_u32(of, "nxp,external-clock-frequency", &prop);
--	if (!err)
--		priv->can.clock.freq = prop / 2;
--	else
--		priv->can.clock.freq = SP_CAN_CLOCK; /* default */
-+	if (!priv->can.clock.freq) {
-+		err = of_property_read_u32(of, "nxp,external-clock-frequency", &prop);
-+		if (!err)
-+			priv->can.clock.freq = prop / 2;
-+		else
-+			priv->can.clock.freq = SP_CAN_CLOCK; /* default */
-+	}
- 
- 	err = of_property_read_u32(of, "nxp,tx-output-mode", &prop);
- 	if (!err)
-@@ -192,8 +200,13 @@ static struct sja1000_of_data technologic_data = {
- 	.init = sp_technologic_init,
- };
- 
-+static struct sja1000_of_data renesas_data = {
-+	.init = sp_rzn1_init,
-+};
-+
- static const struct of_device_id sp_of_table[] = {
- 	{ .compatible = "nxp,sja1000", .data = NULL, },
-+	{ .compatible = "renesas,rzn1-sja1000", .data = &renesas_data, },
- 	{ .compatible = "technologic,sja1000", .data = &technologic_data, },
- 	{ /* sentinel */ },
- };
-@@ -210,6 +223,7 @@ static int sp_probe(struct platform_device *pdev)
- 	struct device_node *of = pdev->dev.of_node;
- 	const struct sja1000_of_data *of_data = NULL;
- 	size_t priv_sz = 0;
-+	struct clk *clk;
- 
- 	pdata = dev_get_platdata(&pdev->dev);
- 	if (!pdata && !of) {
-@@ -234,6 +248,11 @@ static int sp_probe(struct platform_device *pdev)
- 		irq = platform_get_irq(pdev, 0);
- 		if (irq < 0)
- 			return irq;
-+
-+		clk = devm_clk_get_optional_enabled(&pdev->dev, "can_clk");
-+		if (IS_ERR(clk))
-+			return dev_err_probe(&pdev->dev, PTR_ERR(clk),
-+					     "CAN clk operation failed");
- 	} else {
- 		res_irq = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
- 		if (!res_irq)
-@@ -262,6 +281,15 @@ static int sp_probe(struct platform_device *pdev)
- 	priv->reg_base = addr;
- 
- 	if (of) {
-+		if (clk) {
-+			priv->can.clock.freq  = clk_get_rate(clk) / 2;
-+			if (!priv->can.clock.freq) {
-+				err = -EINVAL;
-+				dev_err(&pdev->dev, "Zero CAN clk rate");
-+				goto exit_free;
-+			}
-+		}
-+
- 		sp_populate_of(priv, of);
- 
- 		if (of_data && of_data->init)
+This makes sense only if we test for error. Otherwise the put might imbalance
+counter.
+
+...
+
+> > Isn't guaranteed by the runtime PM that device is runtime powered on the system
+> > suspend?
+> 
+> No, as this is a system sleep callback.
+
+Hmm... Indeed. Code also suggested what you told. Thanks!
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
