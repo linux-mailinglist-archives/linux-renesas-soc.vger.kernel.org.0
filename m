@@ -2,52 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9644D56493F
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Jul 2022 20:35:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71C11564941
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Jul 2022 20:35:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232807AbiGCSfY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 3 Jul 2022 14:35:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53690 "EHLO
+        id S232805AbiGCSf0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 3 Jul 2022 14:35:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232726AbiGCSfX (ORCPT
+        with ESMTP id S232823AbiGCSfZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 3 Jul 2022 14:35:23 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A7A1E71
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Jul 2022 11:35:21 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id v9so8546649ljk.10
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 03 Jul 2022 11:35:21 -0700 (PDT)
+        Sun, 3 Jul 2022 14:35:25 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D85624A
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Jul 2022 11:35:23 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id b19so8559004ljf.6
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 03 Jul 2022 11:35:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Y8IkkEF4egC3rkEgWtJPxJ8ArxvMQw5ju4scGShbuOI=;
-        b=dcZO+XEXqVI6lBTu1pbWv4FzDBL+GzNuPVE4zcv1kWfoO8AuGesGwm38bSzC39E6B2
-         gChT2X6Vjp/HsDyqgQDd842auAnF+dgaZz4sFrZCebNk2DZilyb4hxuLrch4+Ehw5EdW
-         VkZnRc8btqBREk3FcUGWvoAtRoe7+Xdt2da8WuL/o4isrJZaz1wfuQGbDfi0S1wwK+Yw
-         oKAud5LdkYuQQXuTTFIOOZ5HrFaz02NA4m+wWX1eM31yd6U5QVeUUDSH2jqBQa/YIM5s
-         pNbUsf5BEhOhLhqF6huE5yTuG+5mz4XodimkWcxMCSrrdB5ghjWjpYPipkZUZS2ftFOy
-         y5nw==
+        bh=AP2/efFfUDebdlE0yNTe8GyV2AogZFZgk7dz0GR3fBc=;
+        b=zQUHevyZzzdk/XKbU9YZcSPXgVbNKQSP/3VAfGvhTDoY4imJX+B7kJRx8tjWAQDV28
+         VSqBbjaqGF/AQmbdqOl7hQGtt1x/KDpxUmJ41WbB070fwvbYZC9Dg+VmvT/9j6GQUJfC
+         wDCpuySBT0Q4JL4h/krdHq6ZrwSw/VG90hPzl/xk6y46rKv1WjmFEXhrD4jgbrPyj1f+
+         xlEBo8xCFAW3AT8NaCQ4CpSCHSoIA9cHDsS9NrOcXFAVU9jsnWrHKT0JuXrB7iIUXES6
+         gHad3sBsv6uUeyBodAMO97pUHyWClr7Zs5xcs6SCbPWYxxXvN7gC+vWO+TBvCvhgJz57
+         8mLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Y8IkkEF4egC3rkEgWtJPxJ8ArxvMQw5ju4scGShbuOI=;
-        b=sIFCtZsUiT+30DhDYs9TRTJNE1a3snswng/3vccqvxtrLE8B+9/5ew5HM9S2f8bQAp
-         6kRYitTViXKOmUKFUcE2ClnjK/Iey/Y4b1tIp5eQA1vT7VQcZB1jZv8GtsAsDd3oLIVU
-         kvLr+rawoEuMkIqVHiNXCkMIaTH/BW//ZHpfFJFbk5LOZ69+bRFdaLuQsv+d8X/A9Zm7
-         6qJ8JURkyQkefCKduh7UsgzbKO8WCvXIXRM3ocwRK0SYfTPZ7YvSAKqWhXbFcqLaeJpK
-         zppXBc9d95BAjXitJdMPM1aRx0+on5T3LzUHguf/TgpugUP3dCcPsNjw9waTS1aaRowb
-         O25Q==
-X-Gm-Message-State: AJIora83xuKenQAo2YhkbKiDrGgL8kv4DfSG1fehdFoYXF2jkh78IsrL
-        c90OzxqMauKPF7lXA6eSpxQDZw==
-X-Google-Smtp-Source: AGRyM1uFo1i/MRFrFZEDssmgTQ+njlO8c/6dj0jLYFkx9vj29tUzIRFbNBhZgB16vqbK0g6NJ8l0dA==
-X-Received: by 2002:a2e:9d8e:0:b0:25b:e468:6629 with SMTP id c14-20020a2e9d8e000000b0025be4686629mr13799339ljj.335.1656873319751;
-        Sun, 03 Jul 2022 11:35:19 -0700 (PDT)
+        bh=AP2/efFfUDebdlE0yNTe8GyV2AogZFZgk7dz0GR3fBc=;
+        b=uU/6Bru/n4m1kvMyAvrVfLFppc+oazYmPaC14yvB3xmGmrB4CTu6hjtLfbdd4G3kvZ
+         S0STj2za6ExBNFt5hrkZ0g5EZ6rm6zpk5ynx1hBbobBSHQ0ufldJOfhwPgH4Dw9lxN1b
+         0s0uoUI7OCdPsD42cnBno3MwD+5H99ZkKvzF07int7WAGd56weo2FZraF7m+Z74uoneb
+         j7T6wdgXn2RWvHymF2lIl6Dpv+/pynqNtqNrIG/Yba3HZBd6ICjModLB95k2AufE/4GV
+         kI5Dt5pBzouJq8BKuqXxka2FZF3ybKnO51I0H9dv1hpouwJArQIDph/CSuPZUynhovw/
+         NEIg==
+X-Gm-Message-State: AJIora9/3/keKho111qdyCGYlCK0yGxZMHXL7CM3HsY2v163gaQcdNk4
+        hRDBRME6VdFVZ2Py/RbdzrMwzQ==
+X-Google-Smtp-Source: AGRyM1tzj6MYo9YvTk8sXWmAU4N52ZC5v/l8ZBIasempFqYnY03ZDamXfM5aDNHtpjpaLrPs0M77bQ==
+X-Received: by 2002:a2e:8558:0:b0:25a:742f:d7 with SMTP id u24-20020a2e8558000000b0025a742f00d7mr14118804ljj.178.1656873321335;
+        Sun, 03 Jul 2022 11:35:21 -0700 (PDT)
 Received: from krzk-bin.home ([84.20.121.239])
-        by smtp.gmail.com with ESMTPSA id n3-20020a056512310300b0047960b68eb5sm2020412lfb.40.2022.07.03.11.35.18
+        by smtp.gmail.com with ESMTPSA id n3-20020a056512310300b0047960b68eb5sm2020412lfb.40.2022.07.03.11.35.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jul 2022 11:35:19 -0700 (PDT)
+        Sun, 03 Jul 2022 11:35:20 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -61,9 +61,9 @@ To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 1/2] dt-bindings: hwinfo: group Chip ID-like devices
-Date:   Sun,  3 Jul 2022 20:34:48 +0200
-Message-Id: <20220703183449.12917-2-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2 2/2] dt-bindings: hwinfo: samsung,s5pv210-chipid: add S5PV210 ChipID
+Date:   Sun,  3 Jul 2022 20:34:49 +0200
+Message-Id: <20220703183449.12917-3-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220703183449.12917-1-krzysztof.kozlowski@linaro.org>
 References: <20220703183449.12917-1-krzysztof.kozlowski@linaro.org>
@@ -71,7 +71,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,100 +79,56 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Group devices like Chip ID or SoC information under "hwinfo" directory.
+Document already used S5PV210 ChipID block.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 ---
 
 Changes since v1:
-1. New patch
+1. Move to hwinfo and rename.
+2. Mention that device is already used.
 ---
- .../bindings/{soc/renesas => hwinfo}/renesas,prr.yaml          | 2 +-
- .../exynos-chipid.yaml => hwinfo/samsung,exynos-chipid.yaml}   | 2 +-
- .../{soc/ti/k3-socinfo.yaml => hwinfo/ti,k3-socinfo.yaml}      | 2 +-
- MAINTAINERS                                                    | 3 +++
- 4 files changed, 6 insertions(+), 3 deletions(-)
- rename Documentation/devicetree/bindings/{soc/renesas => hwinfo}/renesas,prr.yaml (92%)
- rename Documentation/devicetree/bindings/{soc/samsung/exynos-chipid.yaml => hwinfo/samsung,exynos-chipid.yaml} (92%)
- rename Documentation/devicetree/bindings/{soc/ti/k3-socinfo.yaml => hwinfo/ti,k3-socinfo.yaml} (92%)
+ .../hwinfo/samsung,s5pv210-chipid.yaml        | 30 +++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwinfo/samsung,s5pv210-chipid.yaml
 
-diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,prr.yaml b/Documentation/devicetree/bindings/hwinfo/renesas,prr.yaml
-similarity index 92%
-rename from Documentation/devicetree/bindings/soc/renesas/renesas,prr.yaml
-rename to Documentation/devicetree/bindings/hwinfo/renesas,prr.yaml
-index 654c96638e75..792f371cec03 100644
---- a/Documentation/devicetree/bindings/soc/renesas/renesas,prr.yaml
-+++ b/Documentation/devicetree/bindings/hwinfo/renesas,prr.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/soc/renesas/renesas,prr.yaml#
-+$id: http://devicetree.org/schemas/hwinfo/renesas,prr.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Renesas Product Register
-diff --git a/Documentation/devicetree/bindings/soc/samsung/exynos-chipid.yaml b/Documentation/devicetree/bindings/hwinfo/samsung,exynos-chipid.yaml
-similarity index 92%
-rename from Documentation/devicetree/bindings/soc/samsung/exynos-chipid.yaml
-rename to Documentation/devicetree/bindings/hwinfo/samsung,exynos-chipid.yaml
-index 4bb8efb83ac1..95cbdcb56efe 100644
---- a/Documentation/devicetree/bindings/soc/samsung/exynos-chipid.yaml
-+++ b/Documentation/devicetree/bindings/hwinfo/samsung,exynos-chipid.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/soc/samsung/exynos-chipid.yaml#
-+$id: http://devicetree.org/schemas/hwinfo/samsung,exynos-chipid.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Samsung Exynos SoC series Chipid driver
-diff --git a/Documentation/devicetree/bindings/soc/ti/k3-socinfo.yaml b/Documentation/devicetree/bindings/hwinfo/ti,k3-socinfo.yaml
-similarity index 92%
-rename from Documentation/devicetree/bindings/soc/ti/k3-socinfo.yaml
-rename to Documentation/devicetree/bindings/hwinfo/ti,k3-socinfo.yaml
-index a1a8423b2e2e..dada28b47ea0 100644
---- a/Documentation/devicetree/bindings/soc/ti/k3-socinfo.yaml
-+++ b/Documentation/devicetree/bindings/hwinfo/ti,k3-socinfo.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/soc/ti/k3-socinfo.yaml#
-+$id: http://devicetree.org/schemas/hwinfo/ti,k3-socinfo.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Texas Instruments K3 Multicore SoC platforms chipid module
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7c9187635801..cd7a6598436d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2629,6 +2629,7 @@ Q:	http://patchwork.kernel.org/project/linux-renesas-soc/list/
- C:	irc://irc.libera.chat/renesas-soc
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
- F:	Documentation/devicetree/bindings/arm/renesas.yaml
-+F:	Documentation/devicetree/bindings/hwinfo/renesas,prr.yaml
- F:	arch/arm64/boot/dts/renesas/
- F:	drivers/soc/renesas/
- F:	include/linux/soc/renesas/
-@@ -2679,6 +2680,7 @@ B:	mailto:linux-samsung-soc@vger.kernel.org
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git
- F:	Documentation/arm/samsung/
- F:	Documentation/devicetree/bindings/arm/samsung/
-+F:	Documentation/devicetree/bindings/hwinfo/samsung,*
- F:	Documentation/devicetree/bindings/power/pd-samsung.yaml
- F:	Documentation/devicetree/bindings/soc/samsung/
- F:	arch/arm/boot/dts/exynos*
-@@ -2912,6 +2914,7 @@ M:	Tero Kristo <kristo@kernel.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Supported
- F:	Documentation/devicetree/bindings/arm/ti/k3.yaml
-+F:	Documentation/devicetree/bindings/hwinfo/ti,k3-socinfo.yaml
- F:	arch/arm64/boot/dts/ti/Makefile
- F:	arch/arm64/boot/dts/ti/k3-*
- F:	include/dt-bindings/pinctrl/k3.h
+diff --git a/Documentation/devicetree/bindings/hwinfo/samsung,s5pv210-chipid.yaml b/Documentation/devicetree/bindings/hwinfo/samsung,s5pv210-chipid.yaml
+new file mode 100644
+index 000000000000..563ded4fca83
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwinfo/samsung,s5pv210-chipid.yaml
+@@ -0,0 +1,30 @@
++# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwinfo/samsung,s5pv210-chipid.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung S5PV210 SoC ChipID
++
++maintainers:
++  - Krzysztof Kozlowski <krzk@kernel.org>
++
++properties:
++  compatible:
++    const: samsung,s5pv210-chipid
++
++  reg:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    chipid@e0000000 {
++        compatible = "samsung,s5pv210-chipid";
++        reg = <0xe0000000 0x1000>;
++    };
 -- 
 2.34.1
 
