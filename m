@@ -2,158 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 328245645BC
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Jul 2022 10:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA7105645DE
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Jul 2022 10:42:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231520AbiGCIOj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 3 Jul 2022 04:14:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36908 "EHLO
+        id S231252AbiGCImB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 3 Jul 2022 04:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231358AbiGCIOi (ORCPT
+        with ESMTP id S229942AbiGCImA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 3 Jul 2022 04:14:38 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D930D632A
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Jul 2022 01:14:37 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o7ukG-0000kC-99; Sun, 03 Jul 2022 10:14:20 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o7uk9-0048UC-IY; Sun, 03 Jul 2022 10:14:17 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o7ukC-002h2n-7I; Sun, 03 Jul 2022 10:14:16 +0200
-Date:   Sun, 3 Jul 2022 10:14:12 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Marc Kleine-Budde <mkl@pengutronix.de>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 6/6] can: sja1000: Add support for RZ/N1 SJA1000 CAN
- Controller
-Message-ID: <20220703081412.75t6w5lgt4n3tup2@pengutronix.de>
-References: <20220702140130.218409-1-biju.das.jz@bp.renesas.com>
- <20220702140130.218409-7-biju.das.jz@bp.renesas.com>
- <20220702164018.ztizq3ftto4lsabr@pengutronix.de>
- <OS0PR01MB592277E660F0DAC3A614A7C286BF9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Sun, 3 Jul 2022 04:42:00 -0400
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D3D1AE41;
+        Sun,  3 Jul 2022 01:41:59 -0700 (PDT)
+Received: by mail-qt1-f175.google.com with SMTP id c13so5839877qtq.10;
+        Sun, 03 Jul 2022 01:41:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yvorIwcrFiiLPdtmHyBlDuVBktLBtWZmiJ053uS1/Og=;
+        b=ql460vhTGtv4f4974UZugoYrvGoQ/P26iBR+zZARnAaKGRaTnxlMfnkqeFMgUwSO7c
+         Ao76ql6fr4ibrz5f8tovxl/7ghtTmehgWGtOLgGxKpynKdxSCwFBr2BLjjvNBsqnERtK
+         gwyTb3Lvih8K014wYsXMt67NmqDwNSYOElljxC2Dz22kJhIjQP24TJQuByX1l50itbqZ
+         ma8VJYBNuR5b0orjSGROTqIzuPj0ypX2ZlziAk2YV93vUTdd5hjQ2FG0BuYog5U3m/BJ
+         DRISTmVun0YTlT35axGp6aT0+v8MLF8oNlqrccgwoH5pqFa87AOWiUo5kgmjlG+WLOrk
+         p4ig==
+X-Gm-Message-State: AJIora+ODmI1UBCQ0kvkA8biyfYqRoQe2myphBYEYfMTxO/jN7HKe8Pe
+        rzLefBhFXdDZAz9g/wSCeBuXQWk1MUa7mg==
+X-Google-Smtp-Source: AGRyM1tfx7bCw4z86QFqFNfVOL0YX6u3BzYGrSZnNJEFqfS8ZjiVsmtBw+BlwbeCyCzL5dDERWE2Vg==
+X-Received: by 2002:ac8:7dd4:0:b0:31b:f083:1ef2 with SMTP id c20-20020ac87dd4000000b0031bf0831ef2mr20165056qte.270.1656837718448;
+        Sun, 03 Jul 2022 01:41:58 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id ea23-20020a05620a489700b006af33e58b42sm14689844qkb.43.2022.07.03.01.41.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 Jul 2022 01:41:57 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-31bf3656517so57417127b3.12;
+        Sun, 03 Jul 2022 01:41:56 -0700 (PDT)
+X-Received: by 2002:a0d:ead0:0:b0:31c:63c3:e615 with SMTP id
+ t199-20020a0dead0000000b0031c63c3e615mr12540850ywe.384.1656837716530; Sun, 03
+ Jul 2022 01:41:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="fx47dwq5sofzh2mk"
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB592277E660F0DAC3A614A7C286BF9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20220701163916.111435-1-phil.edworthy@renesas.com>
+ <20220701163916.111435-3-phil.edworthy@renesas.com> <YsAxSrcAk4jtRYx4@smile.fi.intel.com>
+In-Reply-To: <YsAxSrcAk4jtRYx4@smile.fi.intel.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sun, 3 Jul 2022 10:41:45 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU1-LQJUCsDAfaC4OhRW7ijcpAG9VEUHu_Gu1qE7LdweA@mail.gmail.com>
+Message-ID: <CAMuHMdU1-LQJUCsDAfaC4OhRW7ijcpAG9VEUHu_Gu1qE7LdweA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] i2c: Add Renesas RZ/V2M controller
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Wolfram Sang <wsa@kernel.org>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+        Jan Dabros <jsd@semihalf.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Tyrone Ting <kfting@nuvoton.com>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Andy,
 
---fx47dwq5sofzh2mk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sat, Jul 2, 2022 at 1:51 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> On Fri, Jul 01, 2022 at 05:39:16PM +0100, Phil Edworthy wrote:
+> > Yet another i2c controller from Renesas that is found on the RZ/V2M
+> > (r9a09g011) SoC. It can support only 100kHz and 400KHz operation.
 
-On Sun, Jul 03, 2022 at 07:15:16AM +0000, Biju Das wrote:
-> Hi Marc and Uwe,
->=20
-> > Subject: Re: [PATCH 6/6] can: sja1000: Add support for RZ/N1 SJA1000 CAN
-> > Controller
-> >=20
-> > On 02.07.2022 15:01:30, Biju Das wrote:
-> > > The SJA1000 CAN controller on RZ/N1 SoC has some differences compared
-> > > to others like it has no clock divider register (CDR) support and it
-> > > has no HW loopback(HW doesn't see tx messages on rx).
-> > >
-> > > This patch adds support for RZ/N1 SJA1000 CAN Controller.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > >  drivers/net/can/sja1000/sja1000_platform.c | 34
-> > > ++++++++++++++++++----
-> > >  1 file changed, 29 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/drivers/net/can/sja1000/sja1000_platform.c
-> > > b/drivers/net/can/sja1000/sja1000_platform.c
-> > > index 5f3d362e0da5..8e63af76a013 100644
-> > > --- a/drivers/net/can/sja1000/sja1000_platform.c
-> > > +++ b/drivers/net/can/sja1000/sja1000_platform.c
-> > [...]
-> > > @@ -262,6 +276,16 @@ static int sp_probe(struct platform_device *pdev)
-> > >  	priv->reg_base =3D addr;
-> > >
-> > >  	if (of) {
-> > > +		clk =3D devm_clk_get_optional(&pdev->dev, "can_clk");
-> > > +		if (IS_ERR(clk))
-> > > +			return dev_err_probe(&pdev->dev, PTR_ERR(clk), "no CAN
-> > clk");
-> > > +
-> > > +		if (clk) {
-> > > +			priv->can.clock.freq  =3D clk_get_rate(clk) / 2;
-> > > +			if (!priv->can.clock.freq)
-> > > +				return dev_err_probe(&pdev->dev, -EINVAL, "Zero
-> > CAN clk rate");
-> > > +		}
-> >=20
-> > There's no clk_prepare_enable in the driver. You might go the quick and
-> > dirty way an enable the clock right here. IIRC there's a new convenience
-> > function to get and enable a clock, managed bei devm. Uwe (Cc'ed) can
-> > point you in the right direction.
->=20
->  + clk
->=20
-> As per the patch history devm version for clk_prepare_enable is rejected[=
-1], so the individual drivers implemented the same using devm_add_action_or=
-_reset [2].
-> So shall I implement devm version here as well?
+>
+> > +static int rzv2m_i2c_suspend(struct device *dev)
+> > +{
+> > +     struct rzv2m_i2c_priv *priv = dev_get_drvdata(dev);
+>
+> > +     pm_runtime_get_sync(dev);
 
-You want to make use of 7ef9651e9792b08eb310c6beb202cbc947f43cab (which
-is currently in next). If you cherry-pick this to an older kernel
-version, make sure to also pick
-8b3d743fc9e2542822826890b482afabf0e7522a.
+pm_runtime_resume_and_get() ;-)
 
-Best regards
-Uwe
+>
+> Isn't guaranteed by the runtime PM that device is runtime powered on the system
+> suspend?
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+No, as this is a system sleep callback.
 
---fx47dwq5sofzh2mk
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> > +     bit_clrl(priv->base + IICB0CTL0, IICB0IICE);
+> > +     pm_runtime_put(dev);
+> > +
+> > +     return 0;
+> > +}
+>
+> ...
+>
+> > +static int rzv2m_i2c_resume(struct device *dev)
+> > +{
+> > +     struct rzv2m_i2c_priv *priv = dev_get_drvdata(dev);
+> > +     int ret;
+> > +
+> > +     ret = rzv2m_i2c_clock_calculate(dev, priv);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     pm_runtime_get_sync(dev);
 
------BEGIN PGP SIGNATURE-----
+pm_runtime_resume_and_get() ;-)
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmLBT9IACgkQwfwUeK3K
-7Alptgf/SWE8eashOILFfLmPuRKFKypJmOjW7PCEqdYeTQ/d2XK0WtqvmzgYDTjm
-Vjvna6c/6jmEE0bVCVQ90n+0KIHQ4n8D3IGXBvrEjF809xp5BPeO82qChKwjZ7lk
-vm9fDLj3Wy2PS7sNn7D0nIjQKt/HafqAAclKSIQU3xWWeZjuiL+zBCbn2ttYOoJ2
-jPUSwFQ9NYR9uoRnvWdTrlPXLuD0o/h7Czf9bNeuEclZ+KoDulqh4Pll11ipYZ1q
-C/yvoJa8B9UDVyzflKPkdwZBqaF89DXMh2NtUnCy+XgGQDSwdvBDLg4S94iCzIe6
-zVS779Af/9w5w/PB0SO17B0dcjqs9A==
-=UInt
------END PGP SIGNATURE-----
+>
+> I'm not sure how it's suppose to work. Isn't it a no-op here?
 
---fx47dwq5sofzh2mk--
+No, as this is a system sleep callback.
+
+>
+> > +     rzv2m_i2c_init(priv);
+> > +     pm_runtime_put(dev);
+> > +
+> > +     return 0;
+> > +}
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
