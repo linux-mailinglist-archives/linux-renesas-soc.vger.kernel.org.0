@@ -2,172 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECE52565071
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jul 2022 11:09:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FB52565085
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jul 2022 11:14:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233014AbiGDJIt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Jul 2022 05:08:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39662 "EHLO
+        id S233609AbiGDJOB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Jul 2022 05:14:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233624AbiGDJIk (ORCPT
+        with ESMTP id S233590AbiGDJN6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Jul 2022 05:08:40 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B68FFE22
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Jul 2022 02:08:38 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id z21so14624040lfb.12
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Jul 2022 02:08:38 -0700 (PDT)
+        Mon, 4 Jul 2022 05:13:58 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B097B5599
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Jul 2022 02:13:57 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id fz10so2628640pjb.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Jul 2022 02:13:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=oGNDCl3xbz89yHsXLL6sBYHqZXI1K+BhWsAL0ZkEsFc=;
-        b=TupbwQza+6J6iVerLVWmqv8E3wm0w8p/FrXy3tIb8knjaqECQNOPplV4tLxQSlo9hR
-         AHFDcBiLOQs7Od1rSazaVaF0y2I0HZpY+qZfttcF4+tXTaINAvCUVNfv9AOitgsD/0U6
-         5+Iqt5eX1bpygi5Wl7RcRgTiQcsX4mOyNar0lOwEfX6vW89WZZfiBCQDWrPKxuVNvsvK
-         z1Ha2V0xuJRuQdkmVLNDZOKyAO8YxXFQ0sGAUa8CWqps0xTh+XQ/og8JElMK42VG/4eD
-         ro9CHuFL0dutYc2o2VJPiQTGqDQRBU8Bf19vd8BVebJe5egyXwCSSdWri8zsI+DFSeSd
-         PCug==
+        d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=+nqGS16NT0NTN0mRgxUN6PGiGsf6iWMD2wun7NgoXhE=;
+        b=lNJlWWTgSmiLQxTSLFfLyXaVuLj+wTO0fVhHN8YGwfHyZrGxehOO4wr6NcUxpfCXrp
+         c3P3pLWVhYkTs2r2W8IDY+GuAWGooL38/RBbgl0bYBGlxz+CTe5ydK2YejOecIE/YR5B
+         eWTjUsif8jQHFK0A+3xCmTBFvVG349I8ZVMc3TYmcFJ7NdhEMI5twHwgJbvVyUuPx2aM
+         5dDpcEGuDYbZrGFytREO2XJ+iNdnmJnebYdwp1EkQ05eW75tuEABHZdDqBD1JTRD6lBh
+         zzxpT8Yxf29DQY+w6+xk+xCHX+J+zMaaM3wvJhFr8xV58vCmwMG4zIRbKYOy+3W7mR2r
+         H1CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=oGNDCl3xbz89yHsXLL6sBYHqZXI1K+BhWsAL0ZkEsFc=;
-        b=UBf60bLQf0tXgVJOIlxYFKLjfKZu+q2cW8CyoTTRC0svcJxrKjowIgCMEi9UL4G19O
-         9Q3dKXfYGOraVoda9r+aX4QyvVDaHYwp9+BruqZCP7GEkDiHSpoctdUYatLyYvRPXvTX
-         HkOPPXc4CIjJz1xsk03EGrUf3iueGifLw6Au49aqJWO6HCDZ7vIEY9IwnNlL/BVqzfTM
-         Aftw2Wwm1+AWA0+5hI5cMOOMHmOTYIGl1ztMEuelySRhomgdMtayKCMfkVKXZdLFzZ56
-         8vTluICVrdoD6ffMt8fkCU9HWW+qTbfXwxOhjhTUimz4nSEIRbiiCKbciZsc5R4+cNKA
-         ynXw==
-X-Gm-Message-State: AJIora/nmKxGMahd5Gml+H41qSjr+i1wAdgf51yrAJJtns/BfBben936
-        r2jZpmK3dUx4gQquZG3d+6hTIg==
-X-Google-Smtp-Source: AGRyM1tdqvHET1AdQnkMAFZqNA8EbWbSwsyPfxDvNoMg5dC9JD2C0sq7gBZUQPSOybW9JConCzkEBw==
-X-Received: by 2002:a05:6512:3d86:b0:47f:9adc:cc27 with SMTP id k6-20020a0565123d8600b0047f9adccc27mr17770690lfv.608.1656925716970;
-        Mon, 04 Jul 2022 02:08:36 -0700 (PDT)
-Received: from [192.168.1.52] ([84.20.121.239])
-        by smtp.gmail.com with ESMTPSA id v8-20020ac258e8000000b0047f6d20e424sm5032577lfo.55.2022.07.04.02.08.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Jul 2022 02:08:36 -0700 (PDT)
-Message-ID: <404a0146-5e74-b0df-6e1a-c6a689e2c858@linaro.org>
-Date:   Mon, 4 Jul 2022 11:08:35 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3 1/6] dt-bindings: can: sja1000: Convert to json-schema
-Content-Language: en-US
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-References: <20220704075032.383700-1-biju.das.jz@bp.renesas.com>
- <20220704075032.383700-2-biju.das.jz@bp.renesas.com>
- <ed032ae8-6a2b-b79f-d42a-6e96fe53a0d7@linaro.org>
- <OS0PR01MB5922ECBBEFF973867CC23B2786BE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <OS0PR01MB5922ECBBEFF973867CC23B2786BE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=+nqGS16NT0NTN0mRgxUN6PGiGsf6iWMD2wun7NgoXhE=;
+        b=ZrfwRbesZWOmTschLJjCVYVlc/6IwOkjfeKcPYki/wTy7xWdUf6WcqCAlu9yo1/V60
+         0IEHvpbY38IXbQQeT67FE/lrzkmDmBHQDwi+oQHwCzjN3EPTDnlgHP7lKfMN4Pv+WHFE
+         Zkgw0zEC8ZYkO8dNO5VkHX1M8dsyTR+jwegpxGqhQ28fBG34PYhnDgXxMduQ05u/y5ks
+         bKr8DMeiCA4sBLt+wY5hO9vVlr20Hkzwq7/ZdKkNc/lNhVQj78o8nqcRgxRZySc/49we
+         nUZdqs4b2mzL2AKLBYiB+kY2A/bQyiQtqwH9V3LDIjLrLwtorN1k1s2DE9bAni9TUoBn
+         ZvzQ==
+X-Gm-Message-State: AJIora/YebMB3P8vnxGbJn5RdCVjm5tsTGme7lrN1EjCI4xTatyy8ijx
+        +xHJNfIWSWHz0trBL6dZqKFK6Q==
+X-Google-Smtp-Source: AGRyM1shNkLiSal64fXQ76P3AQStM4IjG6FF42wEnK3QCtSKWQQgADgQusUNcBMhP665AZC9xIfrkA==
+X-Received: by 2002:a17:90a:e008:b0:1ef:831a:1fff with SMTP id u8-20020a17090ae00800b001ef831a1fffmr7445938pjy.221.1656926037095;
+        Mon, 04 Jul 2022 02:13:57 -0700 (PDT)
+Received: from smtpclient.apple (napt.igel.co.jp. [219.106.231.132])
+        by smtp.gmail.com with ESMTPSA id k22-20020a170902761600b00167942e0ee9sm20611131pll.61.2022.07.04.02.13.55
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 04 Jul 2022 02:13:56 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
+Subject: Re: [PATCH 1/3] tests: Support enum property type
+From:   Takanari Hayama <taki@igel.co.jp>
+In-Reply-To: <743e8135-391b-e00c-2493-4b4052a66ea3@gmail.com>
+Date:   Mon, 4 Jul 2022 18:13:51 +0900
+Cc:     linux-renesas-soc@vger.kernel.org,
+        laurent.pinchart@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <D9A43BB2-B039-4F5A-AC2E-A68E439C6A92@igel.co.jp>
+References: <20220704025632.3911253-1-taki@igel.co.jp>
+ <20220704025632.3911253-2-taki@igel.co.jp>
+ <c49456df-7f49-acf8-9bfa-cecf9b85f45f@gmail.com>
+ <546B54F4-5931-4CAE-A910-A6ED2F3C311A@igel.co.jp>
+ <743e8135-391b-e00c-2493-4b4052a66ea3@gmail.com>
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
+X-Mailer: Apple Mail (2.3696.80.82.1.1)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 04/07/2022 11:03, Biju Das wrote:
-> Hi Krystof,
-> 
-> Thanks for the feedback.
-> 
->> Subject: Re: [PATCH v3 1/6] dt-bindings: can: sja1000: Convert to json-
->> schema
->>
->> On 04/07/2022 09:50, Biju Das wrote:
->>> Convert the NXP SJA1000 CAN Controller Device Tree binding
->>> documentation to json-schema.
->>>
->>> Update the example to match reality.
->>>
->>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->>> ---
->>> v2->v3:
->>>  * Added reg-io-width is a required property for technologic,sja1000
->>>  * Removed enum type from nxp,tx-output-config and updated the
->> description
->>>    for combination of TX0 and TX1.
->>>  * Updated the example
->>> v1->v2:
->>>  * Moved $ref: can-controller.yaml# to top along with if conditional
->>> to
->>>    avoid multiple mapping issues with the if conditional in the
->> subsequent
->>>    patch.
->>> ---
->>>  .../bindings/net/can/nxp,sja1000.yaml         | 103 ++++++++++++++++++
->>>  .../devicetree/bindings/net/can/sja1000.txt   |  58 ----------
->>>  2 files changed, 103 insertions(+), 58 deletions(-)  create mode
->>> 100644 Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
->>>  delete mode 100644
->>> Documentation/devicetree/bindings/net/can/sja1000.txt
->>>
->>> diff --git
->>> a/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
->>> b/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
->>> new file mode 100644
->>> index 000000000000..d34060226e4e
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
->>> @@ -0,0 +1,103 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
->>> +---
->>> +$id:
->>> +
->>> +title: Memory mapped SJA1000 CAN controller from NXP (formerly
->>> +Philips)
->>> +
->>> +maintainers:
->>> +  - Wolfgang Grandegger <wg@grandegger.com>
->>> +
->>> +allOf:
->>> +  - $ref: can-controller.yaml#
->>> +  - if:
->>
->> The advice of moving it up was not correct. The allOf containing ref and
->> if:then goes to place like in example-schema, so before
->> additional/unevaluatedProperties at the bottom.
->>
->> Please do not introduce some inconsistent style.
-> 
-> There are some examples like[1], where allOf is at the top.
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml?h=next-20220704
+Hi,
 
-And they are wrong. There is always some incorrect code in the kernel,
-but that's not argument to do it in incorrect way. The coding style is
-here expressed in example-schema, so use this as an argument.
+> 2022/07/04 18:00=E3=80=81Sergei Shtylyov =
+<sergei.shtylyov@gmail.com>=E3=81=AE=E3=83=A1=E3=83=BC=E3=83=AB:
+>=20
+> On 7/4/22 11:53 AM, Takanari Hayama wrote:
+> [...]
+>>>> Add a support for enum property type to AtomicRequest.
+>>>>=20
+>>>> Signed-off-by: Takanari Hayama <taki@igel.co.jp>
+>>>> ---
+>>>> tests/kmstest.py | 12 +++++++++++-
+>>>> 1 file changed, 11 insertions(+), 1 deletion(-)
+>>>>=20
+>>>> diff --git a/tests/kmstest.py b/tests/kmstest.py
+>>>> index 11cc328b5b32..224c160e32fa 100755
+>>>> --- a/tests/kmstest.py
+>>>> +++ b/tests/kmstest.py
+>>>> @@ -269,8 +269,18 @@ class AtomicRequest(pykms.AtomicReq):
+>>>>=20
+>>>>                    min, max =3D prop.values
+>>>>                    v =3D min + int((max - min) * int(v[:-1]) / 100)
+>>>> -                else:
+>>>> +                elif v.isnumeric():
+>>>>                    v =3D int(v)
+>>>> +                else:
+>>>> +                    prop =3D obj.get_prop(k)
+>>>> +                    if prop.type !=3D pykms.PropertyType.Enum:
+>>>> +                        raise RuntimeError(f'Unsupported property =
+type {prop.type} for value {v}')
+>>>> +                    for value, mode in prop.enums.items():
+>>>> +                        if mode =3D=3D v:
+>>>> +                            v =3D value
+>>>> +                            break
+>>>> +                    else:
+>>>=20
+>>>  Hm, doesn't seem to be correctly aligned?
+>>=20
+>> That =E2=80=98else=E2=80=99 is for =E2=80=98for=E2=80=99-loop. Am I =
+missing something here?
+>=20
+>   Hm, I don't really know Python, can it actually have else for
+> a loop?
 
-> 
-> Marc, please let us know, if you still prefer allOf at the top.
-> 
->>
+Yes. :)
 
+> When the items are exhausted (which is immediately when the sequence =
+is empty or an iterator raises a StopIteration exception), the suite in =
+the else clause, if present, is executed, and the loop terminates.
 
-Best regards,
-Krzysztof
+=46rom =
+https://docs.python.org/3/reference/compound_stmts.html#the-for-statement
+
+>=20
+>>>> +                        raise RuntimeError(f'Enum value with name =
+"{v}" not found in property {k}')
+>>>>=20
+>>>>            if not isinstance(v, int):
+>>>>                raise RuntimeError(f'Unsupported value type =
+{type(v)} for property {k}')
+>=20
+> MBR, Sergey
+
+Many Thanks,
+Takanari Hayama, Ph.D. <taki@igel.co.jp>
+IGEL Co., Ltd.
+https://www.igel.co.jp/
