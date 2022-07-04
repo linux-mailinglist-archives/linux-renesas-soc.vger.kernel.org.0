@@ -2,171 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85669565A88
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jul 2022 18:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64526565AD8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jul 2022 18:16:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233565AbiGDQAD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Jul 2022 12:00:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43120 "EHLO
+        id S234717AbiGDQQ2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Jul 2022 12:16:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233240AbiGDQAC (ORCPT
+        with ESMTP id S234640AbiGDQQ0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Jul 2022 12:00:02 -0400
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A5322D
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Jul 2022 09:00:01 -0700 (PDT)
-Received: by mail-qt1-x832.google.com with SMTP id z13so10376435qts.12
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Jul 2022 09:00:01 -0700 (PDT)
+        Mon, 4 Jul 2022 12:16:26 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B0BCBE2C;
+        Mon,  4 Jul 2022 09:16:25 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id c143so9116328ybf.3;
+        Mon, 04 Jul 2022 09:16:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=NF2ZMZsGp1VtNummOog/xQmlja5rA+lmeIJuDNn7Rxg=;
-        b=NYc0pAvHKp8mDQc2Kctg9B47elEH2gzrV/uNBz6M6SRSzCCFakjj+mes4AwHIlyYM5
-         ZKAtvekUYzEWJAjsyh1j846wh8mSeXcKkZl/JfS71tIfWSbC9IDzLE3Vfibwwfj9bEkT
-         7hPz5hSKHkn5KNhMT4+WbAOFQDIjx+vPmmoYRNN5cicMYmsynhCzwE0KIYlPPK94srSn
-         oeMfMw4RdpJxCHcH+mbv0TeLxWucZoke80uzDhwX67CyP1GuB4C9Nj8oZcAkfndsxJMI
-         xrDwdPK9M31kvmiWR6u0WpTojS/KxkX7EDvFsRXNWLBKv2Mnrs5q70i/r1D9EioZVSLk
-         W36A==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6xFkniXGF5vICWa6x302C3+4JBqKaRAScVn9xWniJRE=;
+        b=gxM92HZ4njr9Z5mLNP8JumPapHbUNh/LCwY7+45zu6hLWxStNHbG7qoYgqsObHDptE
+         cIiUKMUPuDj2R1QkYyDx3fPNCY0H2bYYmOgGuhl1ei1AxyoNYkWq7Mv4E+bQVN70TEsb
+         0H78JCHH0CgWIUvxIs/BJ3UnxswETE2ilblVF6epl+HKPnpq2wCODFQ0q4islKKrZaEV
+         LHSEi2QBY6xxnqjx81EMZom5sCyh95/gStDlKbahOUfnSsjTDCOVPkGTbHtTPFquCfBj
+         YYatziYtGuC4EhL+/6HdCilollpTXwhTmf8uwq6vOMNO5hNjpiBQ4EqeX6a+rFQjxLp7
+         BLsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=NF2ZMZsGp1VtNummOog/xQmlja5rA+lmeIJuDNn7Rxg=;
-        b=6t/R4snk88Eywrvp1Sjwc2jYn8abNFHAidyaQbV0SMldAvqstnUrR1Nu6bXGFfkQzk
-         dlsMUKIWAqXmZtSiFFmyfdCYPuX7bniVmWaf6Mgt1vmgyz4xDtvYztjuaGlKJngAf51y
-         /0DQgr+BEzbozFgPrQuNAhiADndwduGyF2/6Xqg7VY62065WhF1zOebW8nJ/gWyPtKAy
-         FCHmyuU+qv6HFNMtbiW5MJ/yjvfmU79vAE50Ts1BBeic/WRGb+6xLuDMznv9gpIbSvqR
-         YY7zsjUEmDWALQt2yJPcfV+BTfdFAtgu0lBGyjIBSxXR+V551rvWUeIZZhRcHDDjS0It
-         08hQ==
-X-Gm-Message-State: AJIora/7Hia+UUGzwxof2ODKdc3unnwgbzt8WOsl7h4QJ30TkMQSoIk0
-        dAcDPR1iiVO/eQdkrxGkAfqO9w==
-X-Google-Smtp-Source: AGRyM1uk54xq+s3dnTxnkewvytBp3W/dthtaMHU7SdvPHQkJr7TQwMN7p1mx/ETr8/ifi0Zxw8S3mg==
-X-Received: by 2002:a05:6214:27cb:b0:472:efee:1719 with SMTP id ge11-20020a05621427cb00b00472efee1719mr7561770qvb.57.1656950400652;
-        Mon, 04 Jul 2022 09:00:00 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id bs11-20020a05620a470b00b006b1eb3a8364sm11317407qkb.5.2022.07.04.08.59.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jul 2022 08:59:59 -0700 (PDT)
-Message-ID: <5e8c50cdc031bffd96b19929508f034d1263c8b7.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/3] media: videobuf2: Add a transfer error event
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Michael Rodin <mrodin@de.adit-jv.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc:     michael@rodin.online, erosca@de.adit-jv.com,
-        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Date:   Mon, 04 Jul 2022 11:59:58 -0400
-In-Reply-To: <20220628180024.451258-2-mrodin@de.adit-jv.com>
-References: <YqEO3/KekkZhVjW+@oden.dyn.berto.se>
-         <20220628180024.451258-1-mrodin@de.adit-jv.com>
-         <20220628180024.451258-2-mrodin@de.adit-jv.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6xFkniXGF5vICWa6x302C3+4JBqKaRAScVn9xWniJRE=;
+        b=RtO/HlViLDN0zIK2keB0h1cxnkfo+J3Ebdndl/cycOUKswGt9lCj25bqyRwhbL615t
+         cu7+YOOr5eqQDG3GbwJOG3ExAGVpKXv/jAEEWL6YwD6MnNiIJY0oYnp3QeIdyYras8j+
+         dm2Yt2+9J2CJQRWqb0qiX4mcNNAew8+tJMI2tLFJbpfs/QExp/o4UawOSZpvvQAZVJxG
+         mPPKExicMYOCHCykxCnoVfGLDq71ZICGP86r1D8fU+rEtV5BR2Cs8kSbyL7m4nxKYcR7
+         ogTtP4fGPkscv1wlGev5tUVipEhBDpmtJiGxxRiA1kDcQ1fhbGL8Gt7CMNAQ3rxuu3tX
+         7/6Q==
+X-Gm-Message-State: AJIora84x3VmqGQWq0dKv1K4V77pYwuWfT+ovS2yzUY9k2N402ZQVpfq
+        AQldwvBC2l6tRinSdrnp/wPhXLHYti8KE48nNP9DuCUL9oQyC9en
+X-Google-Smtp-Source: AGRyM1vg69LqUqPq1YlKWrUAomNKokyEW1mjXxhrblqClb6chH1lObTFk0hleFx62rwA0zgJ28hlB/Dih1kVBDmwCb0=
+X-Received: by 2002:a25:858e:0:b0:66e:4898:63e2 with SMTP id
+ x14-20020a25858e000000b0066e489863e2mr7181616ybk.296.1656951384394; Mon, 04
+ Jul 2022 09:16:24 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20220703194020.78701-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220703194020.78701-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220703194020.78701-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 4 Jul 2022 18:15:47 +0200
+Message-ID: <CAHp75VfFZ146p1sZ2=Ec-F-9zYJZHPWyvgYQeVsG=2TzssaPmA@mail.gmail.com>
+Subject: Re: [PATCH v7 3/5] gpio: gpiolib: Allow free() callback to be overridden
+To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Micheal,
+On Sun, Jul 3, 2022 at 9:43 PM Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
+>
+> Allow free() callback to be overridden from irq_domain_ops for
+> hierarchical chips.
+>
+> This allows drivers to free up resources which are allocated during
+> child_to_parent_hwirq()/populate_parent_alloc_arg() callbacks.
+>
+> On Renesas RZ/G2L platform a bitmap is maintained for TINT slots, a slot
+> is allocated in child_to_parent_hwirq() callback which is freed up in free
+> callback hence this override.
 
-thanks for your work, I have some questions below ...
+Hmm... To me this sounds asymmetrical. We alloc something in another
+callback, which is not what this free is for. Perhaps it should be an
+optional
 
-Le mardi 28 juin 2022 =C3=A0 20:00 +0200, Michael Rodin a =C3=A9crit=C2=A0:
-> From: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se>
->=20
-> Add a new V4L2_EVENT_XFER_ERROR event to signal if an error happens durin=
-g
-> video transfer.
->=20
-> The use-case that sparked this new event is to signal to the video
-> device driver that an error has happen on the CSI-2 bus from the CSI-2
-> receiver subdevice.
->=20
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
-> [mrodin@de.adit-jv.com: adapted information what to do if this new event =
-is received]
-> Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> ---
->  .../userspace-api/media/v4l/vidioc-dqevent.rst         | 10 ++++++++++
->  .../userspace-api/media/videodev2.h.rst.exceptions     |  1 +
->  include/uapi/linux/videodev2.h                         |  1 +
->  3 files changed, 12 insertions(+)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/D=
-ocumentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> index 6eb40073c906..3cf0b4859784 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> @@ -182,6 +182,16 @@ call.
->  	the regions changes. This event has a struct
->  	:c:type:`v4l2_event_motion_det`
->  	associated with it.
-> +    * - ``V4L2_EVENT_XFER_ERROR``
+free_populated_parent_arg() or alike?
 
-I'm not sure why this event is specific to XFER. Is there uses cases were a
-future implementation would have both XFER and RECEIVER error ?
-
-> +      - 7
-> +      - This event is triggered when an transfer error is detected while
-> +	streaming. For example if an error is detected on a video bus in
-> +	the pipeline. If a driver receives this event from an upstream
-> +	subdevice, it has to forward the event to userspace. The streaming
-> +	application has to check if the transfer error is unrecoverable,
-> +	i.e. no new buffers can be dequeued from the kernel after the
-> +	expected time. If the error is unrecoverable, the streaming
-> +	application should restart streaming if it wants to continue.
-
-The process to determine if an error is recoverable or not isn't clear to m=
-e. As
-an application developer, I would not know what to do here. Recoverable err=
-or
-already have a designed mechanism, it consist of marking done a buffer with=
- the
-flag V4L2_BUF_FLAG_ERROR. I would like to understand what the existing mech=
-anism
-needed to be replaced, and the placement should be documented.
-
-Nicolas
-
->      * - ``V4L2_EVENT_PRIVATE_START``
->        - 0x08000000
->        - Base event number for driver-private events.
-> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions=
- b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> index 9cbb7a0c354a..25bde61a1519 100644
-> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> @@ -500,6 +500,7 @@ replace define V4L2_EVENT_CTRL event-type
->  replace define V4L2_EVENT_FRAME_SYNC event-type
->  replace define V4L2_EVENT_SOURCE_CHANGE event-type
->  replace define V4L2_EVENT_MOTION_DET event-type
-> +replace define V4L2_EVENT_XFER_ERROR event-type
->  replace define V4L2_EVENT_PRIVATE_START event-type
-> =20
->  replace define V4L2_EVENT_CTRL_CH_VALUE ctrl-changes-flags
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
-> index 5311ac4fde35..44db724d4541 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -2385,6 +2385,7 @@ struct v4l2_streamparm {
->  #define V4L2_EVENT_FRAME_SYNC			4
->  #define V4L2_EVENT_SOURCE_CHANGE		5
->  #define V4L2_EVENT_MOTION_DET			6
-> +#define V4L2_EVENT_XFER_ERROR			7
->  #define V4L2_EVENT_PRIVATE_START		0x08000000
-> =20
->  /* Payload for V4L2_EVENT_VSYNC */
-
+-- 
+With Best Regards,
+Andy Shevchenko
