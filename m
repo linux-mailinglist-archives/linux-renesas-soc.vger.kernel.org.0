@@ -2,60 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 194C7564BE2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jul 2022 04:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36F54564BE3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jul 2022 04:52:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230492AbiGDCwj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 3 Jul 2022 22:52:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37710 "EHLO
+        id S231270AbiGDCwl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 3 Jul 2022 22:52:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbiGDCwj (ORCPT
+        with ESMTP id S229473AbiGDCwk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 3 Jul 2022 22:52:39 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 836E12ADA
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Jul 2022 19:52:38 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id bh13so1788769pgb.4
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 03 Jul 2022 19:52:38 -0700 (PDT)
+        Sun, 3 Jul 2022 22:52:40 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D08B2ADA
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Jul 2022 19:52:40 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id d5so7369652plo.12
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 03 Jul 2022 19:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BbPSpMez8xnrmoHOdUaXU+ajKB+3TOpV+ohNDV+XsDk=;
-        b=BYmceRCcQvSn82mFF/HsQve/AffveQZCTUbJWICcFji0Fx3bbdZ6cdKI5MO2yfUULj
-         fJxFMWNyH0/rSQToQnVlFtQFiTQ2t7sjkfEvqg8ap7UzJPgkea/Jv7+Px5ItxGHEAYDv
-         j4z+eODnElEWhn7kJHO5kDnkDcB1xFMrtYCRA2i0huJkpKN33wVLw5jOcjxDP17Gabus
-         AbBkX0kOdJI5xt4rcW0S9FIDYuDvoI4YWQh3mbGG33TkQRu5o3ch0WNCwnDg8ck5MWnW
-         S2k1sxCvskT4kysOf+j5tuFYjZbreYmagPOWxw5bcNwAt3c2VS+e9h3bsMeEy0qOX6z4
-         dAWw==
+        bh=KoE/Nl7CA68voHNLmRyXiLiHPFnMwUitmY6p2+8OjAM=;
+        b=ME6L4Ur68fTru7929aD2k6RPdLKaJEFrAcHqqjHocKoH9iJobzUocCY8YxK64z5jid
+         xxinLsGajnw1g+D0HaIisFuOACzPvfoUUoDmvllUJUjHijA+drCHJu0qCOxXvmPo7Eaz
+         wWTy9Y9qTXdeSZkMrCuaK3vU/0ZJg1AuuT8X8sXXymi52N65BEfQSJay/x4BXtKu0L0c
+         efPGx/kWQ1zFjL7KgPFZzf8e+JJIdm0Q71u0rFiOWDskIagBoXpatQlAHHZWx0rIubEr
+         QSVB6yryAmSTeR1uVVMNNvA/RlKGbx50ZoqJFyhaDXG4gb6jNI5y4929G5TpbENavZdb
+         K8Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BbPSpMez8xnrmoHOdUaXU+ajKB+3TOpV+ohNDV+XsDk=;
-        b=J//qpYQFaVRSw+YnWAnqrkwRDW/ZLxkB9tC3xuAo1zA96kGb5gHKJcOrK7XE9dEtbI
-         FKLloNUlu/1PQHG9Ihcgqg8Ih6L5/PyLCoWyZcry5wPMAhM30O/dGOuel4ghqGetsxGZ
-         BUq0WdHJa9Fy++IkkMu+R278nRfhuh3kkXQ41pxGgAAaJa/2fcWTU9pV+mpq/8L+GSY9
-         SgEJ/NJBujyDUgHqsKHF5DEve/5Uv2jaWNtdux7l6gR2W9XgoQvZf4lgfGGNRn1ba29e
-         I88A0wh6qhycn2jdxS5yDTsG++XADUEpGIuyPM6Iq+IIievu8NKDqjs0czIgToGHhiIR
-         R6qQ==
-X-Gm-Message-State: AJIora8U6v4CHQq0iozKRccny2NNaFfzz3Fj6FulJXsf94SdCp7moSG+
-        bB4+J74WG20ByBs18CaP3IytVh+Ajfi55MYK
-X-Google-Smtp-Source: AGRyM1sqISqDaGGk3Vu/CgGdgUCMHgaePoGFbge3anE6UdgKtisdVwiuAdyE6DVU2fixJ4Lv5bcHrw==
-X-Received: by 2002:a63:fd54:0:b0:40d:dfde:857c with SMTP id m20-20020a63fd54000000b0040ddfde857cmr23899918pgj.19.1656903157942;
-        Sun, 03 Jul 2022 19:52:37 -0700 (PDT)
+        bh=KoE/Nl7CA68voHNLmRyXiLiHPFnMwUitmY6p2+8OjAM=;
+        b=auDBZ6f9Q6IYbATDiHFwhvudghHbk+AIMzxDkGYMHGu68P5nBXnNf9Fohjewvi2Fx9
+         5I0sskzh2qZ73Ito7Qo9RYjwDd0jtkY/jT1aotV77cSuOOg90ppE0ZA87y+dBpDI9s1f
+         gAU5eVQzGyI3E2U4FCpbYfJP5OlBHGAhpvB38MjT1atge3HxqCT01pPXM0PAL4WerAEn
+         eRuQfn5d4viheAsV+Pq6PKGg02JV6gkqSE/IS3N85BZb4tRl7ykYxKsl3eoc9HLuHt0T
+         KtHPeApHl6oInUWrQJ/EqB9mFcOF+SOOWXGm2WKsOrZo6jrTwxG75xGPphl/9mpygKgm
+         Q9sw==
+X-Gm-Message-State: AJIora/TAGSopDhsGwgMvavgXnvq5Ax7zDLoetkTqECM6IiO9gyrvHat
+        XZZUA43cLYwS7D5ytiEkiryg2Q==
+X-Google-Smtp-Source: AGRyM1teqaW2blXchXZwLy8aBx9cHEM0uu5yx9xOZVRKxK+PDV0HQ+8fi6KboYsUL02Yg2h3b7Re+w==
+X-Received: by 2002:a17:90b:4ac7:b0:1ed:20a2:f547 with SMTP id mh7-20020a17090b4ac700b001ed20a2f547mr33629569pjb.19.1656903159678;
+        Sun, 03 Jul 2022 19:52:39 -0700 (PDT)
 Received: from taki-u2.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
-        by smtp.gmail.com with ESMTPSA id o11-20020a634e4b000000b004118fd18476sm8730813pgl.60.2022.07.03.19.52.36
+        by smtp.gmail.com with ESMTPSA id o11-20020a634e4b000000b004118fd18476sm8730813pgl.60.2022.07.03.19.52.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jul 2022 19:52:37 -0700 (PDT)
+        Sun, 03 Jul 2022 19:52:39 -0700 (PDT)
 From:   Takanari Hayama <taki@igel.co.jp>
 To:     dri-devel@lists.freedesktop.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         laurent.pinchart@ideasonboard.com,
         kieran.bingham+renesas@ideasonboard.com
-Subject: [PATCH 1/3] media: vsp1: save pixel alpha info in vsp1_rwpf
-Date:   Mon,  4 Jul 2022 11:52:29 +0900
-Message-Id: <20220704025231.3911138-2-taki@igel.co.jp>
+Subject: [PATCH 2/3] media: vsp1: add blend mode support
+Date:   Mon,  4 Jul 2022 11:52:30 +0900
+Message-Id: <20220704025231.3911138-3-taki@igel.co.jp>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220704025231.3911138-1-taki@igel.co.jp>
 References: <20220704025231.3911138-1-taki@igel.co.jp>
@@ -70,63 +70,81 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-In order to support DRM blend mode, we need to able to override pixel
-alpha flag. When DRM_MODE_BLEND_PIXEL_NONE is desired, we'd like to let
-VSP1 to ignore the pixel alpha by overriding the flag.
+To support DRM blend mode in R-Car DU driver, we must add blend mode
+support in VSP1. Although VSP1 hardware is capable to support all blend
+mode defined in DRM, the current R-Car DU driver implicitly supports
+DRM_MODE_BLEND_COVERAGE only.
+
+We add a new property to vsp1_du_atomic_config, so that R-Car DU driver
+can pass the desired blend mode.
 
 Signed-off-by: Takanari Hayama <taki@igel.co.jp>
 ---
- drivers/media/platform/renesas/vsp1/vsp1_drm.c  | 1 +
- drivers/media/platform/renesas/vsp1/vsp1_rpf.c  | 6 +++---
- drivers/media/platform/renesas/vsp1/vsp1_rwpf.h | 2 ++
- 3 files changed, 6 insertions(+), 3 deletions(-)
+ drivers/media/platform/renesas/vsp1/vsp1_drm.c | 11 +++++++++++
+ include/media/vsp1.h                           | 14 ++++++++++++++
+ 2 files changed, 25 insertions(+)
 
 diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-index 0c2507dc03d6..9ec3ac835987 100644
+index 9ec3ac835987..ed0cf552fce2 100644
 --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
 +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-@@ -600,6 +600,7 @@ static int vsp1_du_pipeline_set_rwpf_format(struct vsp1_device *vsp1,
- 	rwpf->format.num_planes = fmtinfo->planes;
- 	rwpf->format.plane_fmt[0].bytesperline = pitch;
- 	rwpf->format.plane_fmt[1].bytesperline = pitch / chroma_hsub;
-+	rwpf->pixel_alpha = fmtinfo->alpha;
+@@ -861,6 +861,17 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
+ 	vsp1->drm->inputs[rpf_index].compose = cfg->dst;
+ 	vsp1->drm->inputs[rpf_index].zpos = cfg->zpos;
+ 
++	switch (cfg->blend_mode) {
++	case VSP1_DU_BLEND_MODE_PREMULTI:
++		rpf->format.flags = V4L2_PIX_FMT_FLAG_PREMUL_ALPHA;
++		break;
++	case VSP1_DU_BLEND_MODE_PIXEL_NONE:
++		rpf->pixel_alpha = false;
++		fallthrough;
++	case VSP1_DU_BLEND_MODE_COVERAGE:
++		rpf->format.flags = 0;
++	}
++
+ 	drm_pipe->pipe.inputs[rpf_index] = rpf;
  
  	return 0;
- }
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-index 75083cb234fe..e6bd813dc68c 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-@@ -152,13 +152,13 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
- 	 * In all cases, disable color keying.
- 	 */
- 	vsp1_rpf_write(rpf, dlb, VI6_RPF_ALPH_SEL, VI6_RPF_ALPH_SEL_AEXT_EXT |
--		       (fmtinfo->alpha ? VI6_RPF_ALPH_SEL_ASEL_PACKED
--				       : VI6_RPF_ALPH_SEL_ASEL_FIXED));
-+		       (rpf->pixel_alpha ? VI6_RPF_ALPH_SEL_ASEL_PACKED
-+					 : VI6_RPF_ALPH_SEL_ASEL_FIXED));
+diff --git a/include/media/vsp1.h b/include/media/vsp1.h
+index cc1b0d42ce95..1ba7459b7a06 100644
+--- a/include/media/vsp1.h
++++ b/include/media/vsp1.h
+@@ -42,6 +42,18 @@ struct vsp1_du_lif_config {
+ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+ 		      const struct vsp1_du_lif_config *cfg);
  
- 	if (entity->vsp1->info->gen == 3) {
- 		u32 mult;
- 
--		if (fmtinfo->alpha) {
-+		if (rpf->pixel_alpha) {
- 			/*
- 			 * When the input contains an alpha channel enable the
- 			 * alpha multiplier. If the input is premultiplied we
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
-index eac5c04c2239..07ddebb78dfa 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
-@@ -43,6 +43,8 @@ struct vsp1_rwpf {
- 	const struct vsp1_format_info *fmtinfo;
- 	unsigned int brx_input;
- 
-+	bool pixel_alpha;
++/**
++ * enum vsp1_du_blend_mode - Pixel blend mode
++ * @VSP1_DU_BLEND_MODE_PREMULTI: Pixel alpha is pre-mutiplied
++ * @VSP1_DU_BLEND_MODE_COVERAGE: Pixel alpha is not pre-mutiplied
++ * @VSP1_DU_BLEND_MODE_PIXEL_NONE: Ignores the pixel alpha
++ */
++enum vsp1_du_blend_mode {
++	VSP1_DU_BLEND_MODE_PREMULTI,
++	VSP1_DU_BLEND_MODE_COVERAGE,
++	VSP1_DU_BLEND_MODE_PIXEL_NONE,
++};
 +
+ /**
+  * struct vsp1_du_atomic_config - VSP atomic configuration parameters
+  * @pixelformat: plane pixel format (V4L2 4CC)
+@@ -51,6 +63,7 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+  * @dst: destination rectangle on the display (integer coordinates)
+  * @alpha: alpha value (0: fully transparent, 255: fully opaque)
+  * @zpos: Z position of the plane (from 0 to number of planes minus 1)
++ * @blend_mode: Pixel blend mode of the plane
+  */
+ struct vsp1_du_atomic_config {
+ 	u32 pixelformat;
+@@ -60,6 +73,7 @@ struct vsp1_du_atomic_config {
+ 	struct v4l2_rect dst;
  	unsigned int alpha;
+ 	unsigned int zpos;
++	enum vsp1_du_blend_mode blend_mode;
+ };
  
- 	u32 mult_alpha;
+ /**
 -- 
 2.25.1
 
