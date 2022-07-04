@@ -2,102 +2,307 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A383564FEE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jul 2022 10:44:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB8A3564FF5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jul 2022 10:47:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232649AbiGDIoy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Jul 2022 04:44:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47512 "EHLO
+        id S231186AbiGDIqO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Jul 2022 04:46:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233020AbiGDIow (ORCPT
+        with ESMTP id S229710AbiGDIqN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Jul 2022 04:44:52 -0400
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5208EB87C;
-        Mon,  4 Jul 2022 01:44:51 -0700 (PDT)
-Received: by mail-lf1-f41.google.com with SMTP id j21so14629223lfe.1;
-        Mon, 04 Jul 2022 01:44:51 -0700 (PDT)
+        Mon, 4 Jul 2022 04:46:13 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED750B845
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Jul 2022 01:46:11 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id b19so10203977ljf.6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Jul 2022 01:46:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=xJucMBBVgLFaDWx/IxVDD7JFEiYSXfSNtLyo4IJhtmw=;
+        b=Jly84Hez17nHBBCyIwtgxEzZmasK3vuTBTvn17TPq/mEtvjIQVAfXkHZzNlUtB8CD6
+         tO3v0QANG6qxyXhGc30vPx2Vptn8h1KDS2t+FKSEmdSG9FBpIw93KEOusq2Z01w5r+Q7
+         iQB8dhdn/iqtqtq/AzyuGLAOyPagwed7qKXmZZDNuO6XPX0gq43iOVg75xW/T1Sbzm0D
+         ii05EkckmpW9G3zYbnSSbMcturY1ccDz8oqRUZnzM0ieLXcEcsyaOKIMH8t3VlyGmE9K
+         RlaJQ1O5djj1dmgfcGgVnhcGFJYgPL9zF12x3nTMEHspdvaQ3NLilNcIXznmYy0GNNeq
+         kkAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1wvvDrPdMiWD2bKHNoXzQT9rzvWbrQJdRittsndPYoM=;
-        b=xcWyEnjRX4la4FJyp6L3L1HKjN/zzxvfDc88zuDX1vWws3bAEMKEKpYV/gT/idNgzy
-         oT9t0fnyYLClVHG5c+sDDYfzUlgARvAKxq3d9Qv5p9u2H9KvDKBU/sCiTfqCv/lCyem1
-         2ut5yI7+Alc1geF26vKj6+/VEGLxXOVLndPWlO67FG62WX3AOZwFawHGJI+8tlVkCUfl
-         CRI8vrFy+MaJJMRVA5LcDOe8snBmjGPcPkYAhe2WTDVvm3Q4czAwuMIhHD8/Yc/fD43V
-         RQ7PwejH5y1RfOD3wFHY7oe41/lmdAck4Bm0hoSIFfWXovOFmjPbfwLKxFs5bkqztqRk
-         x57g==
-X-Gm-Message-State: AJIora9EuRVxWcluZYOFrV1Ey0i1k9+khd9RYyMBZgo6UsLvwT46+0GB
-        6quM0IcaUcyLydNYcimiC+jEr92xqkbzxf1Y
-X-Google-Smtp-Source: AGRyM1tIAD2gDbVwR0taNgi/mVkd3JFXcD4fx4aHkSlpTAnl3gJJeuLCPJhXGnmq7euqgdViuEDv3w==
-X-Received: by 2002:a05:6512:1691:b0:47f:ae89:906f with SMTP id bu17-20020a056512169100b0047fae89906fmr17885871lfb.229.1656924288889;
-        Mon, 04 Jul 2022 01:44:48 -0700 (PDT)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
-        by smtp.gmail.com with ESMTPSA id x2-20020a0565123f8200b0047f8132d10bsm5018352lfa.281.2022.07.04.01.44.46
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=xJucMBBVgLFaDWx/IxVDD7JFEiYSXfSNtLyo4IJhtmw=;
+        b=WUlQMNFdeS18H0rB6LTUYRi7TZjwoxgT14R4uO78EJis73HeKdCTK50T6GFHvB+OG0
+         9d6NbMYNxOh5Mb/K33pFN01scy2UQYXhGNB9jJ31FhW+dYZatA+L42FANemv3U9W6YpE
+         oyhTHQtEF1eXpbQz4h21m4UqAN31e1zSAOlbdu9XdsMYlKGWUEyDA6lDkRkFZmkGeqUx
+         sU57bH+zqKzCVBcCPktiYyOp9oyrYH34LpNyRnVMhBXppPprb/W7BG6gzt7OHQogojZd
+         ykUveOLK4JqQaCYLzwiUKyn6uTespOoK3utWA8zBYXN6SMGCw2LdLLUX8DhZFK2AMHhr
+         h0Zw==
+X-Gm-Message-State: AJIora/l97q6Sgv5dNWExKYhtGXa9dB4k6yHAaf7kImsngaeWnK/4CPc
+        rx8H1314iCRKT3kbDSBBjcBYUw==
+X-Google-Smtp-Source: AGRyM1vMhMoNUqEc1UYrBjtEnTzvDBBi8UxHplKkyyv+BsID5o7X0JEB8oxggGxlwGfsDSBE47wD5Q==
+X-Received: by 2002:a05:651c:4d0:b0:25b:b6f4:ae2d with SMTP id e16-20020a05651c04d000b0025bb6f4ae2dmr15906578lji.472.1656924370247;
+        Mon, 04 Jul 2022 01:46:10 -0700 (PDT)
+Received: from [192.168.1.52] ([84.20.121.239])
+        by smtp.gmail.com with ESMTPSA id be37-20020a05651c172500b0025d19a2677asm970416ljb.76.2022.07.04.01.46.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Jul 2022 01:44:47 -0700 (PDT)
-Received: by mail-lj1-f171.google.com with SMTP id v9so10187121ljk.10;
-        Mon, 04 Jul 2022 01:44:46 -0700 (PDT)
-X-Received: by 2002:a2e:9203:0:b0:25c:785:8c7c with SMTP id
- k3-20020a2e9203000000b0025c07858c7cmr8066041ljg.383.1656924286419; Mon, 04
- Jul 2022 01:44:46 -0700 (PDT)
+        Mon, 04 Jul 2022 01:46:09 -0700 (PDT)
+Message-ID: <ed032ae8-6a2b-b79f-d42a-6e96fe53a0d7@linaro.org>
+Date:   Mon, 4 Jul 2022 10:46:08 +0200
 MIME-Version: 1.0
-References: <20220703194020.78701-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220703194020.78701-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220703194020.78701-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 4 Jul 2022 10:44:31 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWDQYp+ub+GW8mBb=fFz9KJH5ZwxKe28cDj_0O6E0FN+w@mail.gmail.com>
-Message-ID: <CAMuHMdWDQYp+ub+GW8mBb=fFz9KJH5ZwxKe28cDj_0O6E0FN+w@mail.gmail.com>
-Subject: Re: [PATCH v7 1/5] dt-bindings: interrupt-controller: Add Renesas
- RZ/G2L Interrupt Controller
-To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3 1/6] dt-bindings: can: sja1000: Convert to json-schema
+Content-Language: en-US
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-can@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <20220704075032.383700-1-biju.das.jz@bp.renesas.com>
+ <20220704075032.383700-2-biju.das.jz@bp.renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220704075032.383700-2-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+On 04/07/2022 09:50, Biju Das wrote:
+> Convert the NXP SJA1000 CAN Controller Device Tree binding
+> documentation to json-schema.
+> 
+> Update the example to match reality.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Added reg-io-width is a required property for technologic,sja1000
+>  * Removed enum type from nxp,tx-output-config and updated the description
+>    for combination of TX0 and TX1.
+>  * Updated the example
+> v1->v2:
+>  * Moved $ref: can-controller.yaml# to top along with if conditional to
+>    avoid multiple mapping issues with the if conditional in the subsequent
+>    patch.
+> ---
+>  .../bindings/net/can/nxp,sja1000.yaml         | 103 ++++++++++++++++++
+>  .../devicetree/bindings/net/can/sja1000.txt   |  58 ----------
+>  2 files changed, 103 insertions(+), 58 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/net/can/sja1000.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml b/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
+> new file mode 100644
+> index 000000000000..d34060226e4e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
+> @@ -0,0 +1,103 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/can/nxp,sja1000.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Memory mapped SJA1000 CAN controller from NXP (formerly Philips)
+> +
+> +maintainers:
+> +  - Wolfgang Grandegger <wg@grandegger.com>
+> +
+> +allOf:
+> +  - $ref: can-controller.yaml#
+> +  - if:
 
-On Sun, Jul 3, 2022 at 9:41 PM Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> Add DT bindings for the Renesas RZ/G2L Interrupt Controller.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+The advice of moving it up was not correct. The allOf containing ref and
+if:then goes to place like in example-schema, so before
+additional/unevaluatedProperties at the bottom.
 
-checkpatch.pl:
-WARNING: From:/Signed-off-by: email address mismatch: 'From: Lad
-Prabhakar <prabhakar.csengg@gmail.com>' != 'Signed-off-by: Lad
-Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>'
+Please do not introduce some inconsistent style.
 
-Gr{oetje,eeting}s,
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: technologic,sja1000
+> +    then:
+> +      required:
+> +        - reg-io-width
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - description: NXP SJA1000 CAN Controller
+> +        const: nxp,sja1000
+> +      - description: Technologic Systems SJA1000 CAN Controller
+> +        const: technologic,sja1000
 
-                        Geert
+Entire entry should be just enum. Descriptions do not bring any
+information - they copy compatible.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reg-io-width:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: I/O register width (in bytes) implemented by this device
+> +    default: 1
+> +    enum: [ 1, 2, 4 ]
+> +
+> +  nxp,external-clock-frequency:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    default: 16000000
+> +    description: |
+> +      Frequency of the external oscillator clock in Hz.
+> +      The internal clock frequency used by the SJA1000 is half of that value.
+> +
+> +  nxp,tx-output-mode:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [ 0, 1, 2, 3 ]
+> +    default: 1
+> +    description: |
+> +      operation mode of the TX output control logic. Valid values are:
+> +        <0x0> : bi-phase output mode
+> +        <0x1> : normal output mode (default)
+> +        <0x2> : test output mode
+> +        <0x3> : clock output mode
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Use decimal values, just like in enum.
+
+> +
+> +  nxp,tx-output-config:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    default: 0x02
+> +    description: |
+> +      TX output pin configuration. Valid values are any one of the below
+> +      or combination of TX0 and TX1:
+> +        <0x01> : TX0 invert
+> +        <0x02> : TX0 pull-down (default)
+> +        <0x04> : TX0 pull-up
+> +        <0x06> : TX0 push-pull
+> +        <0x08> : TX1 invert
+> +        <0x10> : TX1 pull-down
+> +        <0x20> : TX1 pull-up
+> +        <0x30> : TX1 push-pull
+> +
+> +  nxp,clock-out-frequency:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      clock frequency in Hz on the CLKOUT pin.
+> +      If not specified or if the specified value is 0, the CLKOUT pin
+> +      will be disabled.
+> +
+> +  nxp,no-comparator-bypass:
+> +    type: boolean
+> +    description: Allows to disable the CAN input comparator.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    can@1a000 {
+> +            compatible = "technologic,sja1000";
+
+Unusual indentation. Use 4 spaces for the DTS example.
+
+> +            reg = <0x1a000 0x100>;
+> +            interrupts = <1>;
+> +            reg-io-width = <2>;
+> +            nxp,tx-output-config = <0x06>;
+> +            nxp,external-clock-frequency = <24000000>;
+> +    };
+> diff --git a/Documentation/devicetree/bindings/net/can/sja1000.txt b/Documentation/devicetree/bindings/net/can/sja1000.txt
+> deleted file mode 100644
+> index ac3160eca96a..000000000000
+> --- a/Documentation/devicetree/bindings/net/can/sja1000.txt
+> +++ /dev/null
+> @@ -1,58 +0,0 @@
+> -Memory mapped SJA1000 CAN controller from NXP (formerly Philips)
+> -
+> -Required properties:
+> -
+> -- compatible : should be one of "nxp,sja1000", "technologic,sja1000".
+> -
+> -- reg : should specify the chip select, address offset and size required
+> -	to map the registers of the SJA1000. The size is usually 0x80.
+> -
+> -- interrupts: property with a value describing the interrupt source
+> -	(number and sensitivity) required for the SJA1000.
+> -
+> -Optional properties:
+> -
+> -- reg-io-width : Specify the size (in bytes) of the IO accesses that
+> -	should be performed on the device.  Valid value is 1, 2 or 4.
+> -	This property is ignored for technologic version.
+> -	Default to 1 (8 bits).
+> -
+> -- nxp,external-clock-frequency : Frequency of the external oscillator
+> -	clock in Hz. Note that the internal clock frequency used by the
+> -	SJA1000 is half of that value. If not specified, a default value
+> -	of 16000000 (16 MHz) is used.
+> -
+> -- nxp,tx-output-mode : operation mode of the TX output control logic:
+> -	<0x0> : bi-phase output mode
+> -	<0x1> : normal output mode (default)
+> -	<0x2> : test output mode
+> -	<0x3> : clock output mode
+> -
+> -- nxp,tx-output-config : TX output pin configuration:
+> -	<0x01> : TX0 invert
+> -	<0x02> : TX0 pull-down (default)
+> -	<0x04> : TX0 pull-up
+> -	<0x06> : TX0 push-pull
+> -	<0x08> : TX1 invert
+> -	<0x10> : TX1 pull-down
+> -	<0x20> : TX1 pull-up
+> -	<0x30> : TX1 push-pull
+> -
+> -- nxp,clock-out-frequency : clock frequency in Hz on the CLKOUT pin.
+> -	If not specified or if the specified value is 0, the CLKOUT pin
+> -	will be disabled.
+> -
+> -- nxp,no-comparator-bypass : Allows to disable the CAN input comparator.
+> -
+> -For further information, please have a look to the SJA1000 data sheet.
+> -
+> -Examples:
+> -
+> -can@3,100 {
+> -	compatible = "nxp,sja1000";
+> -	reg = <3 0x100 0x80>;
+> -	interrupts = <2 0>;
+> -	interrupt-parent = <&mpic>;
+> -	nxp,external-clock-frequency = <16000000>;
+> -};
+> -
+
+
+Best regards,
+Krzysztof
