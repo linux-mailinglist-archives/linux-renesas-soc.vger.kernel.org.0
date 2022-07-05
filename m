@@ -2,406 +2,817 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C293D566FF9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jul 2022 15:54:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C24AB567078
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jul 2022 16:11:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230264AbiGENxs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Jul 2022 09:53:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46142 "EHLO
+        id S233190AbiGEOLH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Jul 2022 10:11:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230136AbiGENxf (ORCPT
+        with ESMTP id S231313AbiGEOKs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Jul 2022 09:53:35 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2090.outbound.protection.outlook.com [40.107.113.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81F7224F32;
-        Tue,  5 Jul 2022 06:30:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E7q2OHMCwPPuGrHzHIZSz97Skzo/eUe0XBC5h+Y1Gtt+lJ/fxvMZ1j8qhD73gRqT6Cp0g48ug7t3gBeH4B2sKYjoQph3ercDntIBxB7KY6Qudg+56Z9cISvNghRRCvLobDiVPWh6zlNdmff7T2UFKFfTtrXPixosbkPAnZ/5gRXkKKQlUBJonhqdvZ+VxRIygid9spDzyoWB8bERzjx6/9aa+VVSL27IPtkW53NwK6nHfem2XY5bJQ4ROQ9dV+fR5IgxE2djusr65WcPHevFiKd4h0PsIzezbXBziHMG2cf51leHdIIDovcAtWWFTd6UNfIU7cHgdm8/8JWQIJhMkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GQzkxUDegxGgDJXnmWzbpyMeGlUe/4UGMONEmkwoQqA=;
- b=Z3YBEZFSDkJVthISijU5XGj69oE4CjF5mvSR7BNVambYEYVm6P40tPC/eMxQ6ysd58mISgTHencYj4pNefGI2loUvZdiqTYde5iReNbJ4BukCf+bnd/g+cdFQIUHrnL75HCT4XkmzGM0OkTNUGgd8K530dPA2jspzJ3y/vlFC//+vlk0PxkoUY1Rq9gqm68gJ7eV/A4ACkVdvOyt3WLLjR9ZxcYuzoJWb4YI3J4GcYkRVHFnX0+nmz5NCwvgdGTI9nY4zA0xST1qhywQcYDrXUNpsn1LSQ6P4hSs8era+03NrDJ96WOEAKhv0Mr6+UePAV6vTGEI2LfKyOrri5TDig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GQzkxUDegxGgDJXnmWzbpyMeGlUe/4UGMONEmkwoQqA=;
- b=kwycVZw6uKe9ZB9kthMTHYFipisOEvNsj5XFVN+y/fohscVhhEVtTbWZaJiYFLyKlPI2IMvZFOFvJ1+J1H5Nqm2+FXT6pMTf2ttwlJR884RzIrrqCvVjAmeeDAx8Wk5v8OIM6LvGpJ/U+an7bfDSgkrXBOe1HVHIoF+6gmlOz+o=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OSAPR01MB7648.jpnprd01.prod.outlook.com (2603:1096:604:140::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15; Tue, 5 Jul
- 2022 13:30:28 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::dc06:eb07:874:ecce]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::dc06:eb07:874:ecce%9]) with mapi id 15.20.5395.022; Tue, 5 Jul 2022
- 13:30:28 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        =?iso-8859-1?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Serge Semin <fancer.lancer@gmail.com>
-CC:     Jiri Slaby <jirislaby@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Johan Hovold <johan@kernel.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] serial: 8250: dw: Fix the macro
- RZN1_UART_xDMACR_8_WORD_BURST
-Thread-Topic: [PATCH] serial: 8250: dw: Fix the macro
- RZN1_UART_xDMACR_8_WORD_BURST
-Thread-Index: AQHYjFzicLJAOXueakmTUlp0Tbrj9q1tx+UAgAAIuvCAAYRegIAANeKAgAA+4gA=
-Date:   Tue, 5 Jul 2022 13:30:28 +0000
-Message-ID: <OS0PR01MB59224C802BFF8C61D616662286819@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220630083909.4294-1-biju.das.jz@bp.renesas.com>
- <7431817a-ed5e-1de6-9f69-fda2c1907861@kernel.org>
- <OS0PR01MB5922F80CCAF4DFA9C2970FB686BE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB5922189B75A4C3A93BFE273B86819@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAHp75VfBPou1TLk4ygsqF3VSJV84_UQLpwSojELsOt9F42Z_4w@mail.gmail.com>
-In-Reply-To: <CAHp75VfBPou1TLk4ygsqF3VSJV84_UQLpwSojELsOt9F42Z_4w@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ee3b65fe-8985-4395-83a8-08da5e8a86b7
-x-ms-traffictypediagnostic: OSAPR01MB7648:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: cE96o892Y3Bz4vbbS4tGMiToDokSJMsBMvZuo6GMJOwFlESt2XjvUcei0Gj/3M2bjnnc/ez/bjgIGYbNqJVYZ8OlmRl+kvzdoZwV72Zhxz9MGGzL5n2XRV0y1SiH/8EMosfZ0E6/1qVbZPbwj9ophgR7U/cWf7zhzPV/AIVfTVReJTlH05lhHEfASpQAwoBmlavSoStFf1+SuzeIQVwlmJVsf0F/wZ86J47jwmbyWGdnndIVCkjzgVceUy7wHcCMPXHCOgKzmkMZbnupE0O5HNfyw5KY3bg0dhVt3KTkUECuuEYczSiFvev7GYNgJj6YU1z+FBTM2Trsx9GmL+Sx6kCgLuXyJNoQ+m6lHSUB7HZ3FOXm2C64Sm/9z8kuhmkYCm7EV9xFMhsPBBtFWIhh09RMUD7tpknz3D6jpx0bWr2tcjFQHXwgIeYHjytkJy7BSGVSfMXr/uKctAx5uVUOStN5gjbQkUyo0ATXCWtBU+Q2h5PDax7NJbKDdTGMPDWqAjA2gD2u6KLT/s6ObF8o0cq6FoeWs3zFAhiZjAO91J+pZtoTclZ0P2tQ77a7ScEnfD3fJ+8XnllZ6XOZ+6iK+YLNPB29kDP5Sg7Bm8ZL/RvNLLfwG8vkXUH2dHq8oTDohjKWxEWv1mVNMlQ1vbEvrWQD/hX9H2FPnB6rHkxfcUqNrCdieusInrw51pnVF/qu2fgx3FPbDKh/Y2PVviJCHldkgk5BZccfsYIU9GHgOZAl8Qc9tGBYxriXAVrAs932DTo0tGTSvePnLK5/UKoyhe/UIKGkq7vwSctiuSMurD0vJzMAkiLPLdsSvx7qSjSinTxulsqTzv23Bmmu9Uw2AWOXMms460RPj0lQRwjAkpg=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(366004)(396003)(376002)(346002)(39860400002)(83380400001)(186003)(66574015)(71200400001)(33656002)(76116006)(66946007)(66556008)(66476007)(64756008)(8676002)(4326008)(66446008)(478600001)(52536014)(86362001)(966005)(7416002)(8936002)(5660300002)(26005)(38070700005)(122000001)(9686003)(38100700002)(41300700001)(55016003)(53546011)(2906002)(7696005)(6506007)(110136005)(54906003)(316002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?BrqDO6qtoUbLD2jRmBZeIOfXIGV8GDo+lGh7dY4AbOwBzwuTRrSEfOlWLM?=
- =?iso-8859-1?Q?5BSb7ueE5uWedJrtwDwQSPyQ3U3hwNhOSmqTeLOIRA/Z6hsfmwC0HVmnBy?=
- =?iso-8859-1?Q?Me+cQuxlAJBzNvRPXRrpOMVrzz86MXray0xeWKPIPBSVEnl7ljGgN1oDQj?=
- =?iso-8859-1?Q?b0C9xQVlnarR62V0Hgyk3NSB+vJVkLNr/xdXms9/mRSYUki7RtxBnid/my?=
- =?iso-8859-1?Q?qz1AJ/SivAWt4Dp5oGKpaIKfKnAoe4ydssQH+HwME1rYgJUl7FgQlYn4Jf?=
- =?iso-8859-1?Q?iQW30ar/d/HHcJ5XLmb7BIOe9+Xuk4nnBGpBRDBx/oOrZAHLvKTs54qx2H?=
- =?iso-8859-1?Q?EfOYpXY3XYUsABBwwtuV0/+rBsaBIaC1bCzIKN+wganNUE5U4QkLLRFbhn?=
- =?iso-8859-1?Q?TyfB9na5R6mKcK3ca3M3ESe9g8xZqEPesDMqfL8d9gzgn/6EO0xdBB42P5?=
- =?iso-8859-1?Q?fWcFqlw+GryLKwy84VIPpyLy9CO2lSW7I9uxFIDojhXZE60W8uOyhIgM5j?=
- =?iso-8859-1?Q?R6RJOP2VPljw/BLsbjMmGB8ytuFhytGSje+sHdtfsDLTNHIVMuYwNNPbRz?=
- =?iso-8859-1?Q?v2tHOuNKi9qnabtn58wPcK4jdIUtS3Qa5k67JUQc7of5nNqZQOymuDNdsA?=
- =?iso-8859-1?Q?BulEcuqyT/dWFFYeNE6qMtFT9cNVBi8D2tQZHrJGwGoqcFfVH/jjvKt0dS?=
- =?iso-8859-1?Q?EIWASpHHa2TbzKrVKKUNeE51TCq095KSPjnSGsXF3CfjPArXGjrnMlKQX8?=
- =?iso-8859-1?Q?gUB+E0TPggyqhyfboMdHCWo2SGDfZJZyTSMcaBLijx9r31Tio5l44i0O49?=
- =?iso-8859-1?Q?5PmiEkmoQ/1VltCTEiPXwMiMzDF6LY8mB1HRKE9/VLcW6sPsprnrafZx3u?=
- =?iso-8859-1?Q?o6y7Ythzhq0NyuJIUiBPuxtksRp6r/jXFVnda8qfpRZhxLHJsxnZpHLvM5?=
- =?iso-8859-1?Q?jUT3Fcqma3F/r+aaNuPTOJ1Qm2c0Jok8Glp8/sVU6Bke5l3HkKV1dgXEX1?=
- =?iso-8859-1?Q?0lyWt0WvHPuigMzQnIQDu0NGNrMJ1Ch1PbDtwGRK8rqrEToSU4KkZMIDV3?=
- =?iso-8859-1?Q?vsT+mFI32hJDN5Wye90sLw1uodZRYb1jTQQIJuOba3IdXnRH71L5CBoVsj?=
- =?iso-8859-1?Q?ckI3SS3yLhZbp8ySgZP0/WFDHaaEjzdT6vIAdvLl5giVjziAUgNYqdheIH?=
- =?iso-8859-1?Q?NNPzvgOR0OQeAfm0AvwmyK8CvF0VW957YYkt262WwDgeBuJzNBBGWtISQ4?=
- =?iso-8859-1?Q?AtUquZrI5GAh0hMU+RxCQldrVwI3Z4AWSKFLR8/NX3jdbn2lQKRS2PVeG3?=
- =?iso-8859-1?Q?eU+vdN8Y3FqHQfWgFti1gnxblrxHwJcUYl1/gIG3fZMMbeKq2Q5oOhXnV4?=
- =?iso-8859-1?Q?qAxZyzwEQJ7OWwxpM6qhvN/OqrA7GQrRvAuLE0JqRBFwfTna4Wct9nnrPO?=
- =?iso-8859-1?Q?Gy1hTuRhGILH5yh8l/vQHMcmECb0WIrMSsjdnaJoIPXqV9tlCOEzl+zCwC?=
- =?iso-8859-1?Q?VIPuwO0JvZRgZEBgokKBC945jie0nkWTjnikjRpjny1tJ3fXqgXqmcRV7z?=
- =?iso-8859-1?Q?HmdDa6t3afmx1H7jk+O+3H0blBGdnL+Mpl9iK2RGvENZhP9jvV7pRwetHw?=
- =?iso-8859-1?Q?C8XlL4MgVn9M7l+JHt5+eJ5qJ7JfA/qD/Ja+yCkBFeqe7smbe+TKtgIg?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Tue, 5 Jul 2022 10:10:48 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB8BA33B
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Jul 2022 07:02:43 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id t5-20020a17090a6a0500b001ef965b262eso2382375pjj.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Jul 2022 07:02:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=VDb5n4TDH6ry9zfb+TZuru9gPLfrJnnA8Dm7lJNAI8w=;
+        b=5pjkPcJftXCdGMHW8TmsVjXhCQZQIavFqUtW2+VvyAY/y6fd7Wci9eLJgp/Za3gqwF
+         E5WHZ8qdvjypq9Wre1xFcCABsnMGTykHJdCtSrQpE4O4HxbJuyqO1BEULvpnLeudVJSI
+         V5Pi1xzPMnau6Mig1BWF7wilzNzAf0Ml1VsM6Hlo66nQfRFRU6mYxSXGqw6gTe3f1DfP
+         M0wHcdQPHyX42OSP51l0FhHjhHOdIwXIc975zZibxr1keGX5RC0R/N3YIBA43Rc+b7Gk
+         FsneHm7kqiWPkN2Bnr10+/C8xIzFd1h39Pu3xRMDtwqjiUIBKxdaFqno/MFucNhzTZ/m
+         bGLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=VDb5n4TDH6ry9zfb+TZuru9gPLfrJnnA8Dm7lJNAI8w=;
+        b=2l6ca2vuXG8GWk3XZG5wOfuoFlqp0z75e7w6GpKjC7hZ8ArgWrIMO+zturPAQz06l7
+         4FSLnaDKXx5E2XxnTcmkbHQf3Q5A2tzjjFtk4dGLAXSojdCqWAinEMtv+sA/nAjmCdIh
+         ZUZh64QCbKhaYkjvJnCIkpqcsRNJCrjKdlE2tB/qq6wINFFe64YXgn/9tUOwqCQcE2sX
+         GkM59mOYKJQX2jEHyJbBnbgqVFElenCfwkp/wQbv1lmz5L3eR4g6dVeZiYGu8QP8+dlR
+         YR8GS8s+6Sji2OHublUWHrC4UzGkA1bso5MhDkqxdMVqrVEJqse1O9blbu9wR1Sx5K9P
+         oLZg==
+X-Gm-Message-State: AJIora/sDmnNX2hCNTe8YNwl2xFIc847eBmEQ8NSuyXSNRYsSrjnZQdW
+        lqM6RC6MV9aPkyBwYuHIxB9AKVoIORjbsIFT
+X-Google-Smtp-Source: AGRyM1uoiKwYBTDBGMkQA6sLoHG6LdTZ7JHuS41ohb56YUdEL2LUYtOp034a+QuQWTCXEGaaV9qJBw==
+X-Received: by 2002:a17:90a:f692:b0:1ef:9ad9:7e94 with SMTP id cl18-20020a17090af69200b001ef9ad97e94mr4064388pjb.148.1657029762822;
+        Tue, 05 Jul 2022 07:02:42 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id s7-20020a170902988700b0015e8d4eb1b6sm23629125plp.0.2022.07.05.07.02.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 07:02:42 -0700 (PDT)
+Message-ID: <62c44482.1c69fb81.7fe37.1e78@mx.google.com>
+Date:   Tue, 05 Jul 2022 07:02:42 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee3b65fe-8985-4395-83a8-08da5e8a86b7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jul 2022 13:30:28.4705
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +/xkcILckK8iK9cCV3MncRDu4HckXSOcTIIxWtcHA73dlrwgz0nxxEgPrqOoPUzmsp3SrZP8hC2pCMwpD9KwoX5KnPbmIkX0JxVZrof0R3s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB7648
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2022-07-05-v5.19-rc5
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+Subject: renesas/master baseline-nfs: 129 runs,
+ 18 regressions (renesas-devel-2022-07-05-v5.19-rc5)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Thanks Andy.
+renesas/master baseline-nfs: 129 runs, 18 regressions (renesas-devel-2022-0=
+7-05-v5.19-rc5)
 
-Please find the Test transfer size and baud rates in which this issue can b=
-e=20
-seen on RZ/N1 Platform.=20
+Regressions Summary
+-------------------
 
-One thing I noticed is, because of that wrong calculation, the PLL baudrate=
- divisor is set to higher value(128) instead of smaller one(13).
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig           | 1          =
 
-test_one () {
-	local LENGTH=3D$1
-	#echo "Length $1"
-	${DIR}/uart-loopback -o ${TXUART} -i ${RXUART} -s ${LENGTH} -r
-	if [ "$?" -ne "0" ]; then ERRORS=3D$((ERRORS+1)); fi
-}
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...G_ARM_LPAE=3Dy | 1          =
 
-# Test transfers of lengths that typically throw problems
-test_one_cfg () {
-	local SPEED=3D$1
-	./uart-baud/uart-baud ${TXUART} $SPEED
-	./uart-baud/uart-baud ${RXUART} $SPEED
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...MB2_KERNEL=3Dy | 1          =
 
-	for length in `seq 1 33`; do
-		test_one ${length}
-	done
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+ima       | 1          =
 
-	for length in `seq 2043 2053`; do
-		test_one ${length}
-	done
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | tegra_def=
+config              | 1          =
 
-	for length in `seq 4091 4101`; do
-		test_one ${length}
-	done
+meson-gxl-s905x-libretech-cc | arm64 | lab-baylibre  | gcc-10   | defconfig=
++debug              | 1          =
 
-	for length in `seq 8187 8297`; do
-		test_one ${length}
-	done
+odroid-xu3                   | arm   | lab-collabora | gcc-10   | exynos_de=
+fconfig             | 1          =
 
-	for length in `seq 16379 16389`; do
-		test_one ${length}
-	done
-}
+odroid-xu3                   | arm   | lab-collabora | gcc-10   | multi_v7_=
+defc...CONFIG_SMP=3Dn | 2          =
 
-# You need hardware flow control at this speed, otherwise you get overflow =
-errors
-echo "Parity: none Stop: 1 bit, 8 data bits, 'raw' mode, with RTS/CTS hardw=
-are flow control"
-STTY_SETTING=3D"raw -parenb -cstopb crtscts cs8 -echo -echonl -iexten"
-stty -F ${TXUART} 9600 $STTY_SETTING
-stty -F ${RXUART} 9600 $STTY_SETTING
+odroid-xu3                   | arm   | lab-collabora | gcc-10   | multi_v7_=
+defconfig           | 2          =
 
-for div in `seq 12 20`; do
-	clk=3D$((1000000000 / $div))
-	# Round up as the clk driver ensures the clock rate is below the requested=
- value
-	clk=3D$(( $clk + 1))
+odroid-xu3                   | arm   | lab-collabora | gcc-10   | multi_v7_=
+defc...G_ARM_LPAE=3Dy | 1          =
 
-	# Max bitrate
-	bitrate=3D$(( $clk / 16))
-	echo "Bitrate: $bitrate"
-	test_one_cfg $bitrate
+odroid-xu3                   | arm   | lab-collabora | gcc-10   | multi_v7_=
+defc...MB2_KERNEL=3Dy | 2          =
 
-	# Max bitrate / 2
-	bitrate=3D$(( $bitrate / 2))
-	echo ""
-	echo "Bitrate: $bitrate"
-	test_one_cfg $bitrate
-done
+odroid-xu3                   | arm   | lab-collabora | gcc-10   | multi_v7_=
+defconfig+ima       | 2          =
 
-Cheers,
-Biju
+sun4i-a10-olinuxino-lime     | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...CONFIG_SMP=3Dn | 1          =
 
-> -----Original Message-----
-> From: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Sent: 05 July 2022 10:30
-> To: Biju Das <biju.das.jz@bp.renesas.com>; Ilpo J=E4rvinen
-> <ilpo.jarvinen@linux.intel.com>; Serge Semin <fancer.lancer@gmail.com>
-> Cc: Jiri Slaby <jirislaby@kernel.org>; Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org>; Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com>; Miquel Raynal
-> <miquel.raynal@bootlin.com>; Emil Renner Berthing <kernel@esmil.dk>; Phil
-> Edworthy <phil.edworthy@renesas.com>; Johan Hovold <johan@kernel.org>;
-> linux-serial@vger.kernel.org; Geert Uytterhoeven
-> <geert+renesas@glider.be>; Chris Paterson <Chris.Paterson2@renesas.com>;
-> Biju Das <biju.das@bp.renesas.com>; linux-renesas-soc@vger.kernel.org
-> Subject: Re: [PATCH] serial: 8250: dw: Fix the macro
-> RZN1_UART_xDMACR_8_WORD_BURST
->=20
-> +Cc: Ilpo, the 8250_dw maintainer
-> +Cc: Serge, who I believe is the author of the lines in 8250_port you
-> cited, sorry if I'm mistaken.
->=20
-> On Tue, Jul 5, 2022 at 8:25 AM Biju Das <biju.das.jz@bp.renesas.com>
-> wrote:
-> >
-> > Hi Jiri and Miquel,
-> >
-> > While testing serial driver with RZ/N1 on 5.15 kernel, which is the
-> > backport of mainline kernel, I seen performance issue with serial DMA
-> for higher baud rates.
-> >
-> > The test app is taking 25 minutes finish, whereas with the below
-> patch[1] it takes only 3 minutes to finish.
-> >
-> > Not sure has anyone seen this performance issue?
-> >
-> > [1]
-> > diff --git a/drivers/tty/serial/8250/8250_port.c
-> > b/drivers/tty/serial/8250/8250_port.c
-> > index 468d1aca5968..321430176698 100644
-> > --- a/drivers/tty/serial/8250/8250_port.c
-> > +++ b/drivers/tty/serial/8250/8250_port.c
-> > @@ -2680,7 +2680,7 @@ static unsigned int
-> serial8250_get_baud_rate(struct uart_port *port,
-> >                 max =3D (port->uartclk + tolerance) / 4;
-> >         } else {
-> >                 min =3D port->uartclk / 16 / UART_DIV_MAX;
-> > -               max =3D (port->uartclk + tolerance) / 16;
-> > +               max =3D port->uartclk;
-> >         }
-> >
-> > Note:-
-> > I have added below change on 5.15 kernel to test on all possible use
-> cases.
-> >
-> > diff --git a/drivers/tty/serial/8250/8250_dw.c
-> > b/drivers/tty/serial/8250/8250_dw.c
-> > index 7884fcd66d39..6d352981fb3e 100644
-> > --- a/drivers/tty/serial/8250/8250_dw.c
-> > +++ b/drivers/tty/serial/8250/8250_dw.c
-> > @@ -643,6 +643,26 @@ static int dw8250_probe(struct platform_device
-> *pdev)
-> >                 up->dma =3D &data->data.dma;
-> >         }
-> >
-> > +       if (data->pdata->quirks & DW_UART_QUIRK_IS_DMA_FC) {
-> > +               /*
-> > +                * When the 'char timeout' irq fires because no more
-> data has
-> > +                * been received in some time, the 8250 driver stops
-> the DMA.
-> > +                * However, if the DMAC has been setup to write more
-> data to mem
-> > +                * than is read from the UART FIFO, the data will *not*
-> be
-> > +                * written to memory.
-> > +                * Therefore, we limit the width of writes to mem so
-> that it is
-> > +                * the same amount of data as read from the FIFO. You
-> can use
-> > +                * anything less than or equal, but same size is
-> optimal
-> > +                */
-> > +               data->data.dma.rxconf.dst_addr_width =3D p->fifosize /
-> > + 4;
-> > +
-> > +               /*
-> > +                * Unless you set the maxburst to 1, if you send only 1
-> char, it
-> > +                * doesn't get transmitted
-> > +                */
-> > +               data->data.dma.txconf.dst_maxburst =3D 1;
-> > +       }
-> > +
-> >
-> > Cheers,
-> > Biju
-> >
-> > > -----Original Message-----
-> > > From: Biju Das
-> > > Sent: 04 July 2022 08:12
-> > > To: Jiri Slaby <jirislaby@kernel.org>; Greg Kroah-Hartman
-> > > <gregkh@linuxfoundation.org>
-> > > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>; Miquel
-> > > Raynal <miquel.raynal@bootlin.com>; Emil Renner Berthing
-> > > <kernel@esmil.dk>; Phil Edworthy <phil.edworthy@renesas.com>; Johan
-> > > Hovold <johan@kernel.org>; linux-serial@vger.kernel.org; Geert
-> > > Uytterhoeven <geert+renesas@glider.be>; Chris Paterson
-> > > <Chris.Paterson2@renesas.com>; Biju Das <biju.das@bp.renesas.com>;
-> > > linux-renesas-soc@vger.kernel.org
-> > > Subject: RE: [PATCH] serial: 8250: dw: Fix the macro
-> > > RZN1_UART_xDMACR_8_WORD_BURST
-> > >
-> > > Hi Jiri,
-> > >
-> > > Thanks for the feedback.
-> > >
-> > > > Subject: Re: [PATCH] serial: 8250: dw: Fix the macro
-> > > > RZN1_UART_xDMACR_8_WORD_BURST
-> > > >
-> > > > On 30. 06. 22, 10:39, Biju Das wrote:
-> > > > > As per RZ/N1 peripheral user
-> > > > > manual(r01uh0752ej0100-rzn1-peripheral.pdf)
-> > > > > rev 1.0.0 Mar,2019,
-> > > >
-> > > > Is this public anywhere?
-> > >
-> > > Yes, It is available here[1] see page 72 and 73.
-> > >
-> > > [1]
-> > > https://www.renesas.com/us/en/document/mah/rzn1d-group-rzn1s-group-
-> > > rzn1l-group-users-manual-peripherals?language=3Den&r=3D1054561
-> > >
-> > >
-> > > >
-> > > > > the value for 8_WORD_BURST is 4(b2,b1=3D2'b10).
-> > > > >
-> > > > > This patch fixes the macro as per the user manual.
-> > > >
-> > > > I'm curious, is the bottom bit from "3" ignored by the HW or does
-> > > > this fix a real problem in behavior? Stating that might help
-> > > > backporters to decide if to take the patch or not.
-> > >
-> > > See page 72 and 73.
-> > >
-> > > Yes, it fixes a real problem as by using a value of 8 , you are
-> > > wrongly configuring DMA_BURST_SIZE of 1 instead of DMA_BURST_SIZE of
-> 8.
-> > >
-> > > b2, b1 bUart_DEST_BURST
-> > > _SIZE
-> > > DEST_BURST_SIZE
-> > > Destination Burst Transaction Size in Transmit FIFO.
-> > > UART is the flow controller. Thus, the user must write this field
-> > > before or at the same time the DMA mode is enabled. Number of data
-> > > byte, to be written to the Transmit FIFO every time a transmit burst
-> > > transaction request are made on DMA request.
-> > > 2'b00 =3D 1 byte
-> > > 2'b01 =3D 4 bytes
-> > > 2'b10 =3D 8 bytes
-> > > 2'b11 =3D Reserved, not used
-> > >
-> > > Cheers,
-> > > Biju
-> > >
-> > >
-> > > >
-> > > > > Fixes: aa63d786cea2 ("serial: 8250: dw: Add support for DMA flow
-> > > > > controlling devices")
-> > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > ---
-> > > > >   drivers/tty/serial/8250/8250_dw.c | 2 +-
-> > > > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/drivers/tty/serial/8250/8250_dw.c
-> > > > > b/drivers/tty/serial/8250/8250_dw.c
-> > > > > index f57bbd32ef11..931490b27d6b 100644
-> > > > > --- a/drivers/tty/serial/8250/8250_dw.c
-> > > > > +++ b/drivers/tty/serial/8250/8250_dw.c
-> > > > > @@ -47,7 +47,7 @@
-> > > > >   #define RZN1_UART_xDMACR_DMA_EN         BIT(0)
-> > > > >   #define RZN1_UART_xDMACR_1_WORD_BURST   (0 << 1)
-> > > > >   #define RZN1_UART_xDMACR_4_WORD_BURST   (1 << 1)
-> > > > > -#define RZN1_UART_xDMACR_8_WORD_BURST    (3 << 1)
-> > > > > +#define RZN1_UART_xDMACR_8_WORD_BURST    (2 << 1)
-> > > > >   #define RZN1_UART_xDMACR_BLK_SZ(x)      ((x) << 3)
-> > > > >
-> > > > >   /* Quirks */
-> > > >
-> > > > thanks,
-> > > > --
-> > > > js
->=20
->=20
->=20
-> --
-> With Best Regards,
-> Andy Shevchenko
+sun4i-a10-olinuxino-lime     | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig           | 1          =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-07-05-v5.19-rc5/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-07-05-v5.19-rc5
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      b83d3c70c208b5154097ddfcf4be9a802b12966e =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig           | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62c40e2a908b7f5606a39bf0
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baseline-nfs=
+-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baseline-nfs=
+-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220624.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62c40e2a908b7f560=
+6a39bf1
+        failing since 42 days (last pass: renesas-devel-2022-05-09-v5.18-rc=
+6, first fail: renesas-devel-2022-05-23-v5.18) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...G_ARM_LPAE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62c40f67e2adf11c37a39bef
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=
+=3Dy/gcc-10/lab-baylibre/baseline-nfs-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=
+=3Dy/gcc-10/lab-baylibre/baseline-nfs-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220624.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62c40f67e2adf11c3=
+7a39bf0
+        failing since 42 days (last pass: renesas-devel-2022-05-16-v5.18-rc=
+7, first fail: renesas-devel-2022-05-23-v5.18) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...MB2_KERNEL=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62c4156908846f0c2ea39beb
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
+lab-baylibre/baseline-nfs-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
+lab-baylibre/baseline-nfs-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220624.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62c4156908846f0c2=
+ea39bec
+        failing since 42 days (last pass: renesas-devel-2022-05-16-v5.18-rc=
+7, first fail: renesas-devel-2022-05-23-v5.18) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+ima       | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62c41631b78ccc67dfa39bcd
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+ima
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+ima/gcc-10/lab-baylibre/baseline=
+-nfs-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+ima/gcc-10/lab-baylibre/baseline=
+-nfs-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220624.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62c41631b78ccc67d=
+fa39bce
+        failing since 28 days (last pass: renesas-devel-2022-05-05-v5.18-rc=
+5, first fail: renesas-devel-2022-06-06-v5.19-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | tegra_def=
+config              | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62c40b1632ba98ce59a39c09
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: tegra_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/tegra_defconfig/gcc-10/lab-baylibre/baseline-nfs-je=
+tson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/tegra_defconfig/gcc-10/lab-baylibre/baseline-nfs-je=
+tson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220624.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62c40b1632ba98ce5=
+9a39c0a
+        failing since 15 days (last pass: renesas-devel-2022-06-17-v5.19-rc=
+2, first fail: renesas-devel-2022-06-20-v5.19-rc3) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+meson-gxl-s905x-libretech-cc | arm64 | lab-baylibre  | gcc-10   | defconfig=
++debug              | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62c410be610f65416ea39bcf
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+debug
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm64/defconfig+debug/gcc-10/lab-baylibre/baseline-nfs-=
+meson-gxl-s905x-libretech-cc.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm64/defconfig+debug/gcc-10/lab-baylibre/baseline-nfs-=
+meson-gxl-s905x-libretech-cc.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220624.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62c410be610f65416=
+ea39bd0
+        failing since 0 day (last pass: renesas-devel-2022-05-17-v5.18-rc7,=
+ first fail: renesas-devel-2022-07-04-v5.19-rc5) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+odroid-xu3                   | arm   | lab-collabora | gcc-10   | exynos_de=
+fconfig             | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62c40ac6bf3dd4cf0ca39be1
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: exynos_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/exynos_defconfig/gcc-10/lab-collabora/baseline-nfs-=
+odroid-xu3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/exynos_defconfig/gcc-10/lab-collabora/baseline-nfs-=
+odroid-xu3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220624.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62c40ac6bf3dd4cf0=
+ca39be2
+        failing since 0 day (last pass: renesas-devel-2022-06-29-v5.19-rc4,=
+ first fail: renesas-devel-2022-07-04-v5.19-rc5) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+odroid-xu3                   | arm   | lab-collabora | gcc-10   | multi_v7_=
+defc...CONFIG_SMP=3Dn | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62c40e555a839ae822a39c09
+
+  Results:     3 PASS, 2 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-collab=
+ora/baseline-nfs-odroid-xu3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-collab=
+ora/baseline-nfs-odroid-xu3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220624.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.dmesg.emerg: https://kernelci.org/test/case/id/62c40e555a8=
+39ae822a39c0e
+        failing since 0 day (last pass: renesas-devel-2022-06-29-v5.19-rc4,=
+ first fail: renesas-devel-2022-07-04-v5.19-rc5)
+        43 lines
+
+    2022-07-05T10:11:07.081834  kern  :emerg : Internal error: Oops: 5 [#1]=
+ ARM
+    2022-07-05T10:11:07.082143  kern  :emerg : Process systemd-udevd (pid: =
+78, stack limit =3D 0x(ptrval))
+    2022-07-05T10:11:07.082310  kern  :emerg : Stack: (0xf0cfdd20 to 0xf0cf=
+e000)
+    2022-07-05T10:11:07.102620  kern  :emerg : dd20: 00000000 f0cfdd74 0000=
+0000 c309de00 ef1e4128 c20ef000 1fb5ad00 ef1e4128
+    2022-07-05T10:11:07.102894  kern  :emerg : dd40: bf148014 c20ef010 0000=
+003a c0826230 c1b8aba0 c04f4828 00000a20 00000000
+    2022-07-05T10:11:07.103066  kern  :emerg : dd60: c14794b4 c0dd3c28 c147=
+94b4 c20ef010 c20ef010 c1493954 c309de00 0000003a
+    2022-07-05T10:11:07.124641  kern  :emerg : dd80: c309de00 0000017b 004e=
+7360 c0dd4460 ffffffff c04f57d0 00000000 00000000
+    2022-07-05T10:11:07.124845  kern  :emerg : dda0: 00000000 00000000 0000=
+0000 00000000 00000000 00000000 00000000 1c3d6dc4
+    2022-07-05T10:11:07.125023  kern  :emerg : ddc0: c20ef010 00000000 c20e=
+f010 bf148014 c20ef010 0000003a c309de00 0000017b
+    2022-07-05T10:11:07.147542  kern  :emerg : dde0: 004e7360 c09f51a4 0000=
+0000 c20ef010 bf148014 c09f2bdc c20ef010 00000000 =
+
+    ... (4 line(s) more)  =
+
+
+  * baseline-nfs.dmesg.alert: https://kernelci.org/test/case/id/62c40e555a8=
+39ae822a39c0f
+        failing since 0 day (last pass: renesas-devel-2022-06-29-v5.19-rc4,=
+ first fail: renesas-devel-2022-07-04-v5.19-rc5)
+        16 lines
+
+    2022-07-05T10:11:06.822887  kern  :alert : 8<--- cut here ---
+    2022-07-05T10:11:06.823226  kern  :alert : Unable to handle kernel NULL=
+ pointer dereference at virtual address 00000000
+    2022-07-05T10:11:06.823430  kern  :alert : [00000000] *pgd=3D00000000
+    2022-07-05T10:11:06.823596  kern  :alert : Register r0 information: NUL=
+L pointer
+    2022-07-05T10:11:06.844322  kern  :alert : Register r1 information: NUL=
+L pointer
+    2022-07-05T10:11:06.844536  kern  :alert : Register r2 information: non=
+-paged memory
+    2022-07-05T10:11:06.844709  kern  :alert : Register r3 information: non=
+-paged memory
+    2022-07-05T10:11:06.844888  kern  :alert : Register r4 information: NUL=
+L pointer
+    2022-07-05T10:11:06.865792  kern  :alert : Register r5 information: sla=
+b kmalloc-128 start c4048700 pointer offset 64 size 128
+    2022-07-05T10:11:06.866006  kern  :alert : Register r6 information: non=
+-paged memory =
+
+    ... (7 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+odroid-xu3                   | arm   | lab-collabora | gcc-10   | multi_v7_=
+defconfig           | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62c40fb11a27e121b0a39c15
+
+  Results:     3 PASS, 2 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig/gcc-10/lab-collabora/baseline-nf=
+s-odroid-xu3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig/gcc-10/lab-collabora/baseline-nf=
+s-odroid-xu3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220624.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.dmesg.emerg: https://kernelci.org/test/case/id/62c40fb11a2=
+7e121b0a39c1a
+        failing since 0 day (last pass: renesas-devel-2022-06-29-v5.19-rc4,=
+ first fail: renesas-devel-2022-07-04-v5.19-rc5)
+        43 lines
+
+    2022-07-05T10:17:03.798487  kern  :alert : Register r7 information: sla=
+b kmalloc-1k start c27ef800 pointer offset 0 size 1024
+    2022-07-05T10:17:03.798722  kern  :alert : Register r8 information: sla=
+b kmalloc-1k start c27ef800 pointer offset 16 size 1024
+    2022-07-05T10:17:03.798940  kern  :alert : Register r9 information: NUL=
+L pointer
+    2022-07-05T10:17:03.813474  kern  :alert : Register r10 information: sl=
+ab kmalloc-1k start c27ef800 pointer offset 16 size 1024
+    2022-07-05T10:17:03.813698  kern  :alert : Register r11 information: sl=
+ab kmalloc-128 start c45d1c80 pointer offset 64 size 128
+    2022-07-05T10:17:03.813917  kern  :alert : Register r12 information: NU=
+LL pointer
+    2022-07-05T10:17:03.878941  kern  :emerg : Internal error: Oops: 5 [#1]=
+ SMP ARM
+    2022-07-05T10:17:03.879197  kern  :emerg : Process systemd-udevd (pid: =
+136, stack limit =3D 0x(ptrval))
+    2022-07-05T10:17:03.879433  kern  :emerg : Stack: (0xf0e89d20 to 0xf0e8=
+a000)
+    2022-07-05T10:17:03.901213  kern  :emerg : 9d20: 00000000 f0e89d74 0000=
+0000 c3645780 ef1e4128 c27ef800 1fb5ad00 ef1e4128 =
+
+    ... (5 line(s) more)  =
+
+
+  * baseline-nfs.dmesg.alert: https://kernelci.org/test/case/id/62c40fb11a2=
+7e121b0a39c1b
+        failing since 0 day (last pass: renesas-devel-2022-06-29-v5.19-rc4,=
+ first fail: renesas-devel-2022-07-04-v5.19-rc5)
+        16 lines
+
+    2022-07-05T10:17:03.731074  kern  :alert : 8<--- cut here ---
+    2022-07-05T10:17:03.731320  kern  :alert : Unable to handle kernel NULL=
+ pointer dereference at virtual address 00000000
+    2022-07-05T10:17:03.731551  kern  :alert : [00000000] *pgd=3D00000000
+    2022-07-05T10:17:03.731776  kern  :alert : Register r0 information: NUL=
+L pointer
+    2022-07-05T10:17:03.753538  kern  :alert : Register r1 information: NUL=
+L pointer
+    2022-07-05T10:17:03.753764  kern  :alert : Register r2 information: non=
+-paged memory
+    2022-07-05T10:17:03.753983  kern  :alert : Register r3 information: non=
+-paged memory
+    2022-07-05T10:17:03.754214  kern  :alert : Register r4 information: NUL=
+L pointer
+    2022-07-05T10:17:03.774880  kern  :alert : Register r5 information: sla=
+b kmalloc-128 start c45d1c00 pointer offset 64 size 128
+    2022-07-05T10:17:03.775123  kern  :alert : Register r6[  180.214040] <L=
+AVA_SIGNAL_TESTCASE TEST_CASE_ID=3Dalert RESULT=3Dfail UNITS=3Dlines MEASUR=
+EMENT=3D16> =
+
+    ... (1 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+odroid-xu3                   | arm   | lab-collabora | gcc-10   | multi_v7_=
+defc...G_ARM_LPAE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62c4150a2812f1fd8ca39c64
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=
+=3Dy/gcc-10/lab-collabora/baseline-nfs-odroid-xu3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=
+=3Dy/gcc-10/lab-collabora/baseline-nfs-odroid-xu3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220624.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62c4150a2812f1fd8=
+ca39c65
+        failing since 0 day (last pass: renesas-devel-2022-06-29-v5.19-rc4,=
+ first fail: renesas-devel-2022-07-04-v5.19-rc5) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+odroid-xu3                   | arm   | lab-collabora | gcc-10   | multi_v7_=
+defc...MB2_KERNEL=3Dy | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62c419260ecf46fd21a39bfc
+
+  Results:     3 PASS, 2 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
+lab-collabora/baseline-nfs-odroid-xu3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
+lab-collabora/baseline-nfs-odroid-xu3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220624.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.dmesg.emerg: https://kernelci.org/test/case/id/62c419260ec=
+f46fd21a39c01
+        new failure (last pass: renesas-devel-2022-06-29-v5.19-rc4)
+        43 lines
+
+    2022-07-05T10:57:17.761919  kern  :alert : Register r7 information: sla=
+b kmalloc-1k start c27ef800 pointer offset 0 size 1024
+    2022-07-05T10:57:17.762131  kern  :alert : Register r8 information: sla=
+b kmalloc-1k start c27ef800 pointer offset 16 size 1024
+    2022-07-05T10:57:17.762315  kern  :alert : Register r9 information: NUL=
+L pointer
+    2022-07-05T10:57:17.778742  kern  :alert : Register r10 information: sl=
+ab kmalloc-1k start c27ef800 pointer offset 16 size 1024
+    2022-07-05T10:57:17.779006  kern  :alert : Register r11 information: sl=
+ab kmalloc-128 start cfe0af80 pointer offset 64 size 128
+    2022-07-05T10:57:17.779190  kern  :alert : Register r12 information: NU=
+LL pointer
+    2022-07-05T10:57:17.828746  kern  :emerg : Internal error: Oops: 5 [#1]=
+ SMP THUMB2
+    2022-07-05T10:57:17.828958  kern  :emerg : Process systemd-udevd (pid: =
+129, stack limit =3D 0x(ptrval))
+    2022-07-05T10:57:17.829159  kern  :emerg : Stack: (0xf0e65d20 to 0xf0e6=
+6000)
+    2022-07-05T10:57:17.850887  kern  :emerg : 5d20: 00000000 f0e65d74 0000=
+0000 c3361a40 ef1e4128 c27ef800 1fb5ad00 c27ef810 =
+
+    ... (5 line(s) more)  =
+
+
+  * baseline-nfs.dmesg.alert: https://kernelci.org/test/case/id/62c419260ec=
+f46fd21a39c02
+        new failure (last pass: renesas-devel-2022-06-29-v5.19-rc4)
+        16 lines
+
+    2022-07-05T10:57:17.695918  kern  :alert : 8<--- cut here ---
+    2022-07-05T10:57:17.696129  kern  :alert : Unable to handle kernel NULL=
+ pointer dereference at virtual address 00000000
+    2022-07-05T10:57:17.696348  kern  :alert : [00000000] *pgd=3D00000000
+    2022-07-05T10:57:17.696539  kern  :alert : Register r0 information: NUL=
+L pointer
+    2022-07-05T10:57:17.718025  kern  :alert : Register r1 information: NUL=
+L pointer
+    2022-07-05T10:57:17.718236  kern  :alert : Register r2 information: non=
+-paged memory
+    2022-07-05T10:57:17.718418  kern  :alert : Register r3 information: non=
+-paged memory
+    2022-07-05T10:57:17.718616  kern  :alert : Register r4 information: NUL=
+L pointer
+    2022-07-05T10:57:17.739824  kern  :alert : Register r5 information: sla=
+b kmalloc-128 start cfe0af00 pointer offset 64 size 128
+    2022-07-05T10:57:17.740036  kern  :alert[  182.626394] <LAVA_SIGNAL_TES=
+TCASE TEST_CASE_ID=3Dalert RESULT=3Dfail UNITS=3Dlines MEASUREMENT=3D16> =
+
+    ... (1 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+odroid-xu3                   | arm   | lab-collabora | gcc-10   | multi_v7_=
+defconfig+ima       | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62c41a6de40935e0fea39c5a
+
+  Results:     3 PASS, 2 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+ima
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+ima/gcc-10/lab-collabora/baselin=
+e-nfs-odroid-xu3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+ima/gcc-10/lab-collabora/baselin=
+e-nfs-odroid-xu3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220624.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.dmesg.emerg: https://kernelci.org/test/case/id/62c41a6de40=
+935e0fea39c5f
+        new failure (last pass: renesas-devel-2022-06-20-v5.19-rc3)
+        43 lines
+
+    2022-07-05T11:02:50.491135  start c27ef800 pointer offset 0 size 1024
+    2022-07-05T11:02:50.491365  kern  :alert : Register r8 information: sla=
+b kmalloc-1k start c27ef800 pointer offset 16 size 1024
+    2022-07-05T11:02:50.491556  kern  :alert : Register r9 information: NUL=
+L pointer
+    2022-07-05T11:02:50.506111  kern  :alert : Register r10 information: sl=
+ab kmalloc-1k start c27ef800 pointer offset 16 size 1024
+    2022-07-05T11:02:50.506339  kern  :alert : Register r11 information: sl=
+ab kmalloc-128 start c2218480 pointer offset 64 size 128
+    2022-07-05T11:02:50.506530  kern  :alert : Register r12 information: NU=
+LL pointer
+    2022-07-05T11:02:50.565431  kern  :emerg : Internal error: Oops: 5 [#1]=
+ SMP ARM
+    2022-07-05T11:02:50.565664  kern  :emerg : Process systemd-udevd (pid: =
+130, stack limit =3D 0x(ptrval))
+    2022-07-05T11:02:50.565853  kern  :emerg : Stack: (0xf0e35d20 to 0xf0e3=
+6000)
+    2022-07-05T11:02:50.587216  kern  :emerg : 5d20: 00000000 f0e35d74 0000=
+0000 c43108c0 ef1e4128 c27ef800 1fb5ad00 ef1e4128 =
+
+    ... (5 line(s) more)  =
+
+
+  * baseline-nfs.dmesg.alert: https://kernelci.org/test/case/id/62c41a6de40=
+935e0fea39c60
+        new failure (last pass: renesas-devel-2022-06-20-v5.19-rc3)
+        16 lines
+
+    2022-07-05T11:02:50.423375  kern  :alert : 8<--- cut here ---
+    2022-07-05T11:02:50.423603  kern  :alert : Unable to handle kernel NULL=
+ pointer dereference at virtual address 00000000
+    2022-07-05T11:02:50.423793  kern  :alert : [00000000] *pgd=3D00000000
+    2022-07-05T11:02:50.423974  kern  :alert : Register r0 information: NUL=
+L pointer
+    2022-07-05T11:02:50.445483  kern  :alert : Register r1 information: NUL=
+L pointer
+    2022-07-05T11:02:50.445711  kern  :alert : Register r2 information: non=
+-paged memory
+    2022-07-05T11:02:50.445901  kern  :alert : Register r3 information: non=
+-paged memory
+    2022-07-05T11:02:50.446083  kern  :alert : Register r4 information: NUL=
+L pointer
+    2022-07-05T11:02:50.467353  kern  :alert : Register r5 information: sla=
+b kmalloc-128 start c2218400 pointer offset 64 size 128
+    2022-07-05T11:02:50.467581  kern  :alert : Register r6 information: non=
+-paged memory =
+
+    ... (1 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+sun4i-a10-olinuxino-lime     | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...CONFIG_SMP=3Dn | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62c40daf16c599fa6ca39c56
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-baylib=
+re/baseline-nfs-sun4i-a10-olinuxino-lime.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-baylib=
+re/baseline-nfs-sun4i-a10-olinuxino-lime.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220624.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62c40daf16c599fa6=
+ca39c57
+        new failure (last pass: renesas-devel-2022-07-04-v5.19-rc5) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+sun4i-a10-olinuxino-lime     | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig           | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62c41184ae28646ee6a39be1
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baseline-nfs=
+-sun4i-a10-olinuxino-lime.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-07-05-v5.19-rc5/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baseline-nfs=
+-sun4i-a10-olinuxino-lime.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220624.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62c41184ae28646ee=
+6a39be2
+        new failure (last pass: renesas-devel-2022-06-29-v5.19-rc4) =
+
+ =20
