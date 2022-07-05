@@ -2,103 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C449567185
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jul 2022 16:51:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AF735672D6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jul 2022 17:40:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229599AbiGEOvM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Jul 2022 10:51:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44684 "EHLO
+        id S230427AbiGEPk4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Jul 2022 11:40:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbiGEOvL (ORCPT
+        with ESMTP id S230248AbiGEPkz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Jul 2022 10:51:11 -0400
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FEA413E10;
-        Tue,  5 Jul 2022 07:51:11 -0700 (PDT)
-Received: by mail-io1-f44.google.com with SMTP id l24so11288089ion.13;
-        Tue, 05 Jul 2022 07:51:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=4pr9idqRA1hITkupO1aLjT1dL1RQ3YrTUVMjd+qhvbk=;
-        b=n+nzCT8v6lUIkuTShVwTvgoItpDBz9PHXlN1JzvvCwlZapw9ZVknukX8bC6jVsTp4H
-         JZvkmHzsSUxQT5ehQDIQMn/RsSIAAk5NvoS4YnAo092zzbMcoYuxVUQ/+Ak3oHzxKu3N
-         UIuftk+rP90yPYWVO49reDqqIPktdJLZfNqhqRZ8bFzHVVvU0QB2siMAJ8wl349ZAulH
-         LH0SZu7BUZpVSq68RTCAgDaqvpMvTuUCwA7iMYJ/4lIivG2OjroACwaksg5yEHVatSAG
-         Q/NLgSjeItkMv/wVU7JAav4Gp7GLPuZciKXBUYClB8XyD+SQwFWW12s8DuVJGppJOZtC
-         Ai6g==
-X-Gm-Message-State: AJIora/i61bmDgFLWovC39plUbpSyWdybD4Q7o6f5SjUV+NnfAxpPwhP
-        u2/WJWC2lvFb7eut1n3x+g==
-X-Google-Smtp-Source: AGRyM1usxj6oworCSQ3my3IZbWYltLVQEQI3Tbb80lTn0GWANP6QD16VjKVUHzGUJq5sHQwNSOmlmQ==
-X-Received: by 2002:a5d:914b:0:b0:672:6629:bfa2 with SMTP id y11-20020a5d914b000000b006726629bfa2mr18823204ioq.159.1657032670453;
-        Tue, 05 Jul 2022 07:51:10 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id o62-20020a022241000000b00339de279a5bsm14776485jao.126.2022.07.05.07.51.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 07:51:10 -0700 (PDT)
-Received: (nullmailer pid 2089291 invoked by uid 1000);
-        Tue, 05 Jul 2022 14:51:08 -0000
-Date:   Tue, 5 Jul 2022 08:51:08 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tero Kristo <kristo@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 0/2] dt-bindings: hwinfo: group devices and add
- s5pv210-chipid
-Message-ID: <20220705145108.GA2083998-robh@kernel.org>
-References: <20220703183449.12917-1-krzysztof.kozlowski@linaro.org>
- <CAMuHMdUnH0oRQg3i1VorZOmNSKKXRP91BiQEgBaV5W5ig+YH2A@mail.gmail.com>
+        Tue, 5 Jul 2022 11:40:55 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E2DA1706E
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Jul 2022 08:40:52 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by andre.telenet-ops.be with bizsmtp
+        id rTgp2700D4C55Sk01Tgp8L; Tue, 05 Jul 2022 17:40:49 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1o8kfR-002CrK-CB
+        for linux-renesas-soc@vger.kernel.org; Tue, 05 Jul 2022 17:40:49 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1o8kfQ-008Qgj-To
+        for linux-renesas-soc@vger.kernel.org; Tue, 05 Jul 2022 17:40:48 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2022-07-05-v5.19-rc5
+Date:   Tue,  5 Jul 2022 17:40:48 +0200
+Message-Id: <20220705154048.2009170-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUnH0oRQg3i1VorZOmNSKKXRP91BiQEgBaV5W5ig+YH2A@mail.gmail.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jul 04, 2022 at 09:18:31AM +0200, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> On Sun, Jul 3, 2022 at 8:35 PM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
-> > As suggested by Rob [1], I organized a bit bindings for SoC devices having
-> > similar purpose - chip identification.
+I have pushed renesas-drivers-2022-07-05-v5.19-rc5 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-What's the base? It didn't apply for me.
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-> >
-> > These sometimes are put under nvmem directory, although in that case the
-> > purpose is usually broader than just chipid.
-> 
-> Thanks for your series!
-> 
-> >   dt-bindings: hwinfo: group Chip ID-like devices
-> >   dt-bindings: hwinfo: samsung,s5pv210-chipid: add S5PV210 ChipID
-> 
-> So why not call it "chipid"?
-> "hwinfo" sounds too generic to me; aren't all DT bindings hardware
-> information?
+Today's version is based on renesas-devel-2022-07-05-v5.19-rc5.
 
-I'm fine with hwinfo as the color of the shed. I don't think we should 
-encode where the information comes from.
+Included branches with driver code:
+  - renesas-clk-for-v5.20
+  - renesas-pinctrl-for-v5.20
+  - topic/rcar-v3u-is-gen4-v2
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/gpio-logic-analyzer-v8~1
 
-Rob
+Included fixes:
+  - Revert "driver core: Delete driver_deferred_probe_check_state()"
+  - Revert "net: mdio: Delete usage of driver_deferred_probe_check_state()"
+  - [LOCAL] soc: renesas: rcar-rst: Allow WDT reset on R-Car Gen4
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.libc.org/linux-sh#for-next
+  - https://git.pengutronix.de/git/pza/linux#reset/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
