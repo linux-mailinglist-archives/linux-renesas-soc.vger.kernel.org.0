@@ -2,85 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 589645672E8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jul 2022 17:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F45D567384
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jul 2022 17:53:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232220AbiGEPnd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Jul 2022 11:43:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39432 "EHLO
+        id S229922AbiGEPwo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Jul 2022 11:52:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230422AbiGEPn3 (ORCPT
+        with ESMTP id S231875AbiGEPwK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Jul 2022 11:43:29 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D09826D3
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Jul 2022 08:43:27 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id s14so15042235ljs.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Jul 2022 08:43:27 -0700 (PDT)
+        Tue, 5 Jul 2022 11:52:10 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A57A21F2C0
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Jul 2022 08:50:53 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id i18so21254099lfu.8
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Jul 2022 08:50:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=OuB7MAKhSmIm/m8EdDuaNR26xSu28x25kqPsH5I+hYc=;
-        b=FowVvSFkDQgEiH92td3TKZ1rmVAqpNuFv3/zwst9W7djOLp0+zPsMDxEsGe6KnaTx9
-         6EIHypwF+Z7L+RlbZQvXSmuidbKz580rcMt02c9ZewoTKjjHKlJ9DDTV+6ZWY9pRKC9w
-         OXdC4g70ec1NqsYCyvBZ7YE0N/y5lfICdQJjETtsRRX6twA2zsn74t7apF1MSdF2Vgt8
-         qCzDPmeL6l31WUpFIiRnZ0BDKtwhtDXr+smsCKI+cWh0LXnrLRgI6/SCTGJg7VzQXBN+
-         YK+VFrk/Y95XQ6wpPQwfYweQUu607jZjvP39g6gZjzYVNEeEMwUgJAqcLgycnlT99qBL
-         gT4A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CcjULYMpr+QHdI3JsNhjzwImTiYpQuBvwJ8lHs69eYs=;
+        b=IpCNknScKIJXSEUwWGsF+SrFTJNmtDNa372+AiVdo/2fZ5eA1uMADg419eOcaIk4SE
+         C37tZ2Oz9Gesq1pYOAzUQjBu3a3mUFNE9BlufU/QaiUcOlZCCw8WPBpUW44PDJaSqcx6
+         cL3XI/vWE8FeIWUneTrmuZ0YBs9w8P87e7hcx30SInjkkCCGZBpyZE6ho0Q0YX44M+rc
+         EvUH6kIlydrPhHlj15TIAUKgekCxn2GV+BTl+tanDK8fXAzSN+B4p8bY8OukaXZNnITn
+         OKeTK9f8En+YmG5P4Xoa14yL0fskYwg2cvuYTlrBSBLFlGDt5QVI073k5EkRlii3TzK5
+         V38w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=OuB7MAKhSmIm/m8EdDuaNR26xSu28x25kqPsH5I+hYc=;
-        b=NTkLL0XwL2Y79uDUHcQTAZj8h47JMWK6kS7Fu+OSpdMVvZqEkGiZydtXlRsvbrd4fI
-         h9F6Rxg//jPvKpFuOpQVS3u8QA+yczRZ2C3loYiLj7Ygz779I643ZPCg2wK11zhCSpp/
-         0KpOWK4PD8/Ak2gKaupTVolaKIrKctKJmwIrJr+9EX94Tr2A+Fytqg5mxaGOvcYeyGQB
-         zC02ZB+CQuG7/obubIA+RADLPcnl26jq3rBH83W9FicYLYEC5mwZ/z5oV6On7NX6XDpl
-         vjTtTbyNPwq1j4D1FYATwv9w8HuSpr68HjEXPFFvfIY8ZMWX1nUrBTSnDr9iD86+Xykl
-         xHSw==
-X-Gm-Message-State: AJIora8wQ9qI0AG6cKNIBZDpPpvWPhSPpbx1VKN9qo9IPXdP19c/kZkD
-        k1maPqHGSISvujVXrmBNkYSN8w==
-X-Google-Smtp-Source: AGRyM1vQQ5FSkKjbRJkOJeIKnxuG8GcyJkRO7uJHtCcAUMEyDW+cq168TZcMvQiSGXaBHhMvEoPIhw==
-X-Received: by 2002:a05:651c:508:b0:25b:b0e4:8a0f with SMTP id o8-20020a05651c050800b0025bb0e48a0fmr20639827ljp.72.1657035805680;
-        Tue, 05 Jul 2022 08:43:25 -0700 (PDT)
-Received: from [192.168.1.52] ([84.20.121.239])
-        by smtp.gmail.com with ESMTPSA id u12-20020a2eb80c000000b0025d38d13eeesm275060ljo.98.2022.07.05.08.43.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Jul 2022 08:43:25 -0700 (PDT)
-Message-ID: <49c46093-e43c-59cb-6df3-f3456e413e3b@linaro.org>
-Date:   Tue, 5 Jul 2022 17:43:24 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 0/2] dt-bindings: hwinfo: group devices and add
- s5pv210-chipid
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tero Kristo <kristo@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>
-References: <20220703183449.12917-1-krzysztof.kozlowski@linaro.org>
- <CAMuHMdUnH0oRQg3i1VorZOmNSKKXRP91BiQEgBaV5W5ig+YH2A@mail.gmail.com>
- <20220705145108.GA2083998-robh@kernel.org>
+        bh=CcjULYMpr+QHdI3JsNhjzwImTiYpQuBvwJ8lHs69eYs=;
+        b=EiBZzZmA5IOGX7JeBgZsoTtphQsUiHb9xWdstCoqgYjPIqGg56wnrwrwU+dv+W+PkQ
+         QSUI+VUOVQkOkDXtTSSguNQiLteRhJV0Sj7sF8vhK+1WAp0fJdXFJ+/UpsQnYRJclMXr
+         u53jFzuaWsW1vfBtjd/MrMiBom3git9HMQZ/Hw3uPDz+z/EJtAI2Bi/gnxhtftcjIWct
+         Vbl7VnycSHhk6VOynCke1cbnuBf0ZyKuhD54vEaA/S0BdwYGE/cxmus7oUp/QPkXaiqV
+         3uYfkAXvVmcODPwoZ0OxLWaKWKVKPY7vcQvv2jk/iXM6GM7F+gm1vApTHLFbLWGcSKfG
+         fFXg==
+X-Gm-Message-State: AJIora8T6ICc7l6e4qoA0hk/issv33q53il75zee6ei57FmPUlB7rKcx
+        6Xnq4f3DmLaBgqLx68stE4o1eA==
+X-Google-Smtp-Source: AGRyM1veCggYbDR4uBoTxkp4gmYxE1f/2yXS96puPSrWecpOdrcqmdtbS/t46m6wVikXX5MKd1DN8w==
+X-Received: by 2002:a05:6512:2a91:b0:47f:6e1d:d22c with SMTP id dt17-20020a0565122a9100b0047f6e1dd22cmr24346725lfb.550.1657036252021;
+        Tue, 05 Jul 2022 08:50:52 -0700 (PDT)
+Received: from krzk-bin.home ([84.20.121.239])
+        by smtp.gmail.com with ESMTPSA id b6-20020a056512070600b0047f6b4f82d1sm2347341lfs.250.2022.07.05.08.50.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 08:50:51 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220705145108.GA2083998-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] dt-bindings: hwinfo: renesas,prr: move from soc directory
+Date:   Tue,  5 Jul 2022 17:50:38 +0200
+Message-Id: <20220705155038.454251-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,19 +72,50 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 05/07/2022 16:51, Rob Herring wrote:
-> On Mon, Jul 04, 2022 at 09:18:31AM +0200, Geert Uytterhoeven wrote:
->> Hi Krzysztof,
->>
->> On Sun, Jul 3, 2022 at 8:35 PM Krzysztof Kozlowski
->> <krzysztof.kozlowski@linaro.org> wrote:
->>> As suggested by Rob [1], I organized a bit bindings for SoC devices having
->>> similar purpose - chip identification.
-> 
-> What's the base? It didn't apply for me.
+Group devices like Chip ID or SoC information under "hwinfo" directory.
 
-The Renesas bits should go via Renesas tree. I'll split the series.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
+---
 
-Best regards,
-Krzysztof
+This should go via Renesas tree because of changes around soc/renesas/renesas,prr.yaml.
+
+Changes since v1:
+1. Split from https://lore.kernel.org/all/20220705154613.453096-1-krzysztof.kozlowski@linaro.org/
+---
+ .../bindings/{soc/renesas => hwinfo}/renesas,prr.yaml           | 2 +-
+ MAINTAINERS                                                     | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+ rename Documentation/devicetree/bindings/{soc/renesas => hwinfo}/renesas,prr.yaml (92%)
+
+diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,prr.yaml b/Documentation/devicetree/bindings/hwinfo/renesas,prr.yaml
+similarity index 92%
+rename from Documentation/devicetree/bindings/soc/renesas/renesas,prr.yaml
+rename to Documentation/devicetree/bindings/hwinfo/renesas,prr.yaml
+index 654c96638e75..792f371cec03 100644
+--- a/Documentation/devicetree/bindings/soc/renesas/renesas,prr.yaml
++++ b/Documentation/devicetree/bindings/hwinfo/renesas,prr.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/soc/renesas/renesas,prr.yaml#
++$id: http://devicetree.org/schemas/hwinfo/renesas,prr.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Renesas Product Register
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 392e59e9a03e..d32d724d33da 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2630,6 +2630,7 @@ Q:	http://patchwork.kernel.org/project/linux-renesas-soc/list/
+ C:	irc://irc.libera.chat/renesas-soc
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+ F:	Documentation/devicetree/bindings/arm/renesas.yaml
++F:	Documentation/devicetree/bindings/hwinfo/renesas,prr.yaml
+ F:	Documentation/devicetree/bindings/soc/renesas/
+ F:	arch/arm64/boot/dts/renesas/
+ F:	drivers/soc/renesas/
+-- 
+2.34.1
+
