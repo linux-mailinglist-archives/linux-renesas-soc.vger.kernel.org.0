@@ -2,92 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C646566356
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jul 2022 08:44:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE9DB566455
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jul 2022 09:43:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229959AbiGEGoW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Jul 2022 02:44:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53746 "EHLO
+        id S229778AbiGEHkR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Jul 2022 03:40:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229945AbiGEGoV (ORCPT
+        with ESMTP id S229658AbiGEHkR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Jul 2022 02:44:21 -0400
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D534E5F54;
-        Mon,  4 Jul 2022 23:44:20 -0700 (PDT)
-Received: by mail-qt1-f179.google.com with SMTP id he28so12447752qtb.13;
-        Mon, 04 Jul 2022 23:44:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s8sxu7/OBs27vuUuqX70lIqFEE2fpcrCtPxgFzDgyeY=;
-        b=FrvGVHiJhj4Ec9J0nfPHHYyWkOs8bRyaCQJHWC7ful08n9UykKyGyzXc00TZJkyWEb
-         l2ADDD9wAXdHLiznM8HjKHrh+qgVlblJp3f4xuvjUN3AW0NApRBzezcA6Ts/ynxXiZE1
-         //WG9OaINdn2qlhAg2hJWfUm/MnFEbsXla2abCf8Ai8FJEje1rTfa2EnshxbFV8Xa3Bj
-         OyjtaOChUn3Xn9WDa6NYSTOchzrTo/i9SxU+o4KLpRNN2R4gCB/OOXB7Ph/Z6SH101gh
-         AKhOPS1Jl/zaFGn+1NEIW4KHMJ1MKXx8KImOqGTkvMXWW8uOz78OQ/KT84FfYF+6M2gf
-         +p8Q==
-X-Gm-Message-State: AJIora+pFx7zrZaVR5lJkTbg750Qhrh0q0UNvaz7YGz0Ae8CAgSPwVUp
-        k5WwFbIHc/6PoHBQJhx96dwZ0JU4yJ8EOl25
-X-Google-Smtp-Source: AGRyM1ta3qwRmHO8uhIWaUDbSrPfFMyCLvxQx1BuvtZtmmbT/zp2Iar3cmpAPfH+Up4eEcXUboHqyg==
-X-Received: by 2002:a05:6214:27cc:b0:470:9aaa:94b5 with SMTP id ge12-20020a05621427cc00b004709aaa94b5mr29976541qvb.129.1657003459926;
-        Mon, 04 Jul 2022 23:44:19 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id k11-20020a05620a0b8b00b006b25570d1c2sm10347686qkh.12.2022.07.04.23.44.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Jul 2022 23:44:19 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id i14so471533yba.1;
-        Mon, 04 Jul 2022 23:44:19 -0700 (PDT)
-X-Received: by 2002:a25:2b48:0:b0:668:3b7d:326c with SMTP id
- r69-20020a252b48000000b006683b7d326cmr34817718ybr.380.1657003459192; Mon, 04
- Jul 2022 23:44:19 -0700 (PDT)
+        Tue, 5 Jul 2022 03:40:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDC2913CD7
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Jul 2022 00:40:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 58E8B6104A
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Jul 2022 07:40:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B9324C341C7
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Jul 2022 07:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657006814;
+        bh=S7gsecVhsN27SPCa5oOcgbLt7V5zYDtNyhb2p/4vyHI=;
+        h=Subject:From:Date:To:From;
+        b=JAh3DX4ezotooirFvA7RHS2oZToltmo4TUmFFx4zmnwqRIQp37uPILHWCvyP9UZKh
+         BjFNIdqqhGikkiRZ5lSKaImos+ey2nn+9pV+8Lll7bhg3lrUDoTz8sX5atUVAcj+MJ
+         jlFDLCwmiIuzxSReNm433X/LbZilPCO8c8anAXZcjD3bQgwFncloJV8Gc9l8vhJk9J
+         ICzj2HsDKJrztZ4mb8H6ZwN59jUXai9uvp/s06w94AdHW2DZ7352BFYzhigGmTngPO
+         cCZrNAAi4IcB5RLJOB5rLd3m77PaviT8sIwBznViLlvO/OnYlwTgxhuuRn7LH3v2NZ
+         CLJ19vPWdoh6Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9E7A1E45BD8
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Jul 2022 07:40:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220705015036.106937-1-yang.lee@linux.alibaba.com>
-In-Reply-To: <20220705015036.106937-1-yang.lee@linux.alibaba.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 5 Jul 2022 08:44:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUvmRdQcJwYKu+c8aav89KQNcXAaTYLvwx-jreeQXW7-g@mail.gmail.com>
-Message-ID: <CAMuHMdUvmRdQcJwYKu+c8aav89KQNcXAaTYLvwx-jreeQXW7-g@mail.gmail.com>
-Subject: Re: [PATCH -next] pinctrl: renesas: remove unneeded semicolon
-To:     Yang Li <yang.lee@linux.alibaba.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <165700681459.8312.14067529427917714276.git-patchwork-summary@kernel.org>
+Date:   Tue, 05 Jul 2022 07:40:14 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 5, 2022 at 3:50 AM Yang Li <yang.lee@linux.alibaba.com> wrote:
-> Eliminate the following coccicheck warnings:
-> ./drivers/pinctrl/renesas/pinctrl-rzv2m.c:487:3-4: Unneeded semicolon
-> ./drivers/pinctrl/renesas/pinctrl-rzv2m.c:519:3-4: Unneeded semicolon
-> ./drivers/pinctrl/renesas/pinctrl-rzv2m.c:591:4-5: Unneeded semicolon
-> ./drivers/pinctrl/renesas/pinctrl-rzv2m.c:620:4-5: Unneeded semicolon
->
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Hello:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-As the original commit has not been pulled into the pinctrl tree
-yet, I will amend the original commit in renesas-pinctrl-for-v5.20.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Gr{oetje,eeting}s,
+Patch: arm: shmobile: Increase refcount for new reference
+  Submitter: Liang He <windhl@126.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=655815
+  Lore link: https://lore.kernel.org/r/20220701121804.234223-1-windhl@126.com
 
-                        Geert
+Patch: arm64: dts: renesas: spider-cpu: Fix scif0/scif3 sort order
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=656412
+  Lore link: https://lore.kernel.org/r/2fe0e782351c202ed009dcd658f4bceec8f3a56d.1656951240.git.geert+renesas@glider.be
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Total patches: 2
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
