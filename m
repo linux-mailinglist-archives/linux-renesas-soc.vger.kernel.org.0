@@ -2,75 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B51F56867D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Jul 2022 13:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E47D95686FE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Jul 2022 13:44:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231578AbiGFLNt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 Jul 2022 07:13:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51754 "EHLO
+        id S231689AbiGFLoD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Jul 2022 07:44:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231270AbiGFLNs (ORCPT
+        with ESMTP id S232778AbiGFLoD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 Jul 2022 07:13:48 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF0DB27CFC
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Jul 2022 04:13:47 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id b26so21593017wrc.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Jul 2022 04:13:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=hxajPjZjIIJo4Uw5JtvbzfkD5YwE8zFfsd2Za5sspF8=;
-        b=wGRsgClpjHUfBd208DANmZuE+CScB4xVvQpKhG7Ci7o0PR663OotMa16WuZiMgVyq/
-         hwSBDr1Y5tNEg86svtzs7tvCXHk+izl8tIC72tTdkjOCK55UpzaZLr6RUX9rHVkBgNQx
-         N3Oyf9iVVOYhuyCCRREKOcnnYie+ff1jB/GqFvPFufknFTZjiLjFQTo/jYkD1HtIa17K
-         s6s7gMCs4btjAgsj9pvIYw2H841SPADZsoqT17UK1lhedQ7v2/GSPtnH6kqjzZobydpp
-         Zzx0rC6GC7DGai1lKSMHx8ZyLiA87w7CDC3ET036cnbFVl/DdcMmPxeQUgoYKcoQtGHe
-         t88g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=hxajPjZjIIJo4Uw5JtvbzfkD5YwE8zFfsd2Za5sspF8=;
-        b=0CQvtzYDuj8spgFCw8S/zY+3qXMpI1b5613UNVOYbV4ynn1qPsHZ3ypgoELdr252Dn
-         XPoBwTxbISSzVB7N+0Z63PzDncjknObTzS5ps/7lYnMremdC+CwIKXOY+jJf913pHU5l
-         iorg1k5hFQuz9CPRFYm1RMyaP2kb7q4EClUMqqw5Ooe1/212B1XriqhZfBMUJjnj/Asy
-         HnBhmQIMGw7L1NJe+EJyNgHyNFb9ckAHOTME0/wNwIg+8PWGbJ1hcOzQzuK39lLyz+Sh
-         XYmSBNCKzpS5ChnMZNlt3ih+S0c2ektZPmHFeQGJ2FzqFWj4K6qwDRSHhQdUPhuOyoEz
-         oopw==
-X-Gm-Message-State: AJIora9P3hDRpIJzveHllmxDLZ7tKTAtRBo/PTMLjQL6+S8+Y5BoT4Pz
-        ST6DENA5ZLXSsyb5VMV/PwqOJRPMeokjmw==
-X-Google-Smtp-Source: AGRyM1tRfASnXiQBIRBnvAskiX+ntjbs9MqsDP8H55AKWzrB2UaraDmSlvlqsfRcqUrl5S073OOUfg==
-X-Received: by 2002:a05:6000:10a:b0:21d:6c43:d2b with SMTP id o10-20020a056000010a00b0021d6c430d2bmr13889813wrx.46.1657106026292;
-        Wed, 06 Jul 2022 04:13:46 -0700 (PDT)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id g34-20020a05600c4ca200b0039c7dbafa7asm19848465wmp.19.2022.07.06.04.13.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Jul 2022 04:13:45 -0700 (PDT)
-Message-ID: <40b2b8d1-f86c-4788-767c-22e60283e458@linaro.org>
-Date:   Wed, 6 Jul 2022 13:13:44 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 1/2] thermal: rcar_gen3_thermal: Add support for
- hardware trip points
-Content-Language: en-US
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-pm@vger.kernel.org
+        Wed, 6 Jul 2022 07:44:03 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5674927CE0
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Jul 2022 04:44:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657107842; x=1688643842;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=aNSXzWSahi/XdG0p4JZBdG4K4WJkbVi5yIv06BzKHjY=;
+  b=U5oDHjNjbRhox1rReuBlnMiPm15/c/Mi6Wzog5GzeP1ujtuQK+Bhha67
+   CnKJM5FC18jdJedVXH6K1lZvvJ8VVIiCPo91PqIcWY6JTsIq/y+O8Gp3F
+   HUEelrzn2lMSAbXG3qPAMA0OcSYlJIclZ67S8cECajg+/LE60j4BZrLRp
+   uU/i5IQlfKn6VPPB6iVdejyYGaN/il8T0iIYcjH0Xzt/ZJupPEidCyMyK
+   9I+ZPi+0t9M28ArI8rSSBAnxEiSzlSVjvOIxTGXf9T+phBM2bYEB78CTO
+   +WKUeq2vW+SiOSmn/ktZZEEXfrbfpYu9nBXfRscdukpl7Fpmx75icJIrv
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10399"; a="264141203"
+X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; 
+   d="scan'208";a="264141203"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2022 04:44:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; 
+   d="scan'208";a="620277871"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 06 Jul 2022 04:44:00 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o93Ro-000KX5-6P;
+        Wed, 06 Jul 2022 11:44:00 +0000
+Date:   Wed, 06 Jul 2022 19:43:39 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-References: <20210804091818.2196806-1-niklas.soderlund+renesas@ragnatech.se>
- <20210804091818.2196806-2-niklas.soderlund+renesas@ragnatech.se>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20210804091818.2196806-2-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Subject: [geert-renesas-drivers:renesas-clk] BUILD SUCCESS
+ 0e704f6c42dc64f081d0b1738d06b2dee9524f27
+Message-ID: <62c5756b.p2c3eLpe9LYVHxd7%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,75 +63,168 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
+branch HEAD: 0e704f6c42dc64f081d0b1738d06b2dee9524f27  clk: renesas: rcar-gen4: Fix initconst confusion for cpg_pll_config
 
-Hi Niklas,
+elapsed time: 1623m
 
+configs tested: 147
+configs skipped: 3
 
-On 04/08/2021 11:18, Niklas Söderlund wrote:
-> All supported hardware except V3U is capable of generating interrupts
-> to the CPU when the temperature go below or above a set value. Use this
-> to implement support for the set_trip() feature of the thermal core on
-> supported hardware.
-> 
-> The V3U have its interrupts routed to the ECM module and therefore can
-> not be used to implement set_trip() as the driver can't be made aware of
-> when the interrupt triggers.
-> 
-> Each TSC is capable of tracking up-to three different temperatures while
-> only two are needed to implement the tracking of the thermal window.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
-> * Changes since v1
-> - Remove the 'have_irq' flag from the OF match data and auto-detect if
->    interrupts are available using platform_get_irq_optional().
-> - Have a non-static thermal_zone_of_device_ops and clear the .set_trips
->    if interrupts are unavailable.
-> ---
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-[ ... ]
+gcc tested configs:
+arm64                            allyesconfig
+arm                                 defconfig
+arm                              allyesconfig
+i386                          randconfig-c001
+i386                 randconfig-c001-20220704
+xtensa                  audio_kc705_defconfig
+sh                            shmin_defconfig
+sh                            migor_defconfig
+arc                         haps_hs_defconfig
+arm                        keystone_defconfig
+s390                          debug_defconfig
+powerpc                         wii_defconfig
+powerpc                      tqm8xx_defconfig
+powerpc                       maple_defconfig
+sh                               j2_defconfig
+arm                         lubbock_defconfig
+m68k                          multi_defconfig
+arc                     haps_hs_smp_defconfig
+powerpc                        warp_defconfig
+sh                                  defconfig
+nios2                            allyesconfig
+nios2                               defconfig
+mips                         bigsur_defconfig
+sh                            titan_defconfig
+powerpc                 mpc8540_ads_defconfig
+powerpc                     pq2fads_defconfig
+sh                         ecovec24_defconfig
+sparc64                             defconfig
+sh                          rsk7264_defconfig
+mips                     loongson1b_defconfig
+sh                           se7206_defconfig
+x86_64                           alldefconfig
+openrisc                            defconfig
+sh                        sh7785lcr_defconfig
+sh                        dreamcast_defconfig
+powerpc                 mpc834x_mds_defconfig
+arm                           h3600_defconfig
+m68k                        stmark2_defconfig
+mips                       bmips_be_defconfig
+alpha                            allyesconfig
+m68k                        m5407c3_defconfig
+sparc                       sparc64_defconfig
+m68k                        mvme147_defconfig
+sh                          polaris_defconfig
+arm                         assabet_defconfig
+arm                       multi_v4t_defconfig
+sh                ecovec24-romimage_defconfig
+arc                              allyesconfig
+arm                         cm_x300_defconfig
+arm                           sunxi_defconfig
+parisc                              defconfig
+m68k                        mvme16x_defconfig
+xtensa                    xip_kc705_defconfig
+xtensa                         virt_defconfig
+sh                              ul2_defconfig
+sh                          r7785rp_defconfig
+m68k                       m5475evb_defconfig
+m68k                          amiga_defconfig
+sh                        sh7757lcr_defconfig
+mips                        bcm47xx_defconfig
+arc                 nsimosci_hs_smp_defconfig
+i386                                defconfig
+riscv                               defconfig
+arc                          axs101_defconfig
+arm                          gemini_defconfig
+openrisc                    or1ksim_defconfig
+sparc                               defconfig
+xtensa                           allyesconfig
+csky                                defconfig
+sparc                            allyesconfig
+x86_64                                  kexec
+s390                                defconfig
+s390                             allmodconfig
+arc                                 defconfig
+alpha                               defconfig
+s390                             allyesconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+x86_64                        randconfig-c001
+arm                  randconfig-c002-20220703
+ia64                             allmodconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+powerpc                           allnoconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+sh                               allmodconfig
+i386                             allyesconfig
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+i386                          randconfig-a005
+x86_64                        randconfig-a011
+x86_64                        randconfig-a013
+x86_64                        randconfig-a015
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+riscv                randconfig-r042-20220703
+s390                 randconfig-r044-20220703
+arc                  randconfig-r043-20220703
+x86_64                    rhel-8.3-kselftests
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
 
-> @@ -401,8 +492,12 @@ static int __maybe_unused rcar_gen3_thermal_resume(struct device *dev)
->   
->   	for (i = 0; i < priv->num_tscs; i++) {
->   		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
-> +		struct thermal_zone_device *zone = tsc->zone;
->   
->   		priv->thermal_init(tsc);
-> +		if (zone->ops->set_trips)
-> +			rcar_gen3_thermal_set_trips(tsc, zone->prev_low_trip,
-> +						    zone->prev_high_trip);
->   	}
-
-While doing a cleanup I lately noticed this change and I've concerns 
-about it:
-
-  - it uses the thermal zone internals
-
-  - is it really needed ?
-
-At resume time we have:
-
-thermal_pm_notify()
-   --> PM_POST_RESTORE
-     --> thermal_zone_device_update()
-       --> thermal_zone_set_trips()
-
-In addition, I believe this later call is consistent as it sets the trip 
-point based on the last temperature update, while the 
-rcar_gen3_thermal_resume() does not.
-
-Was this function added on purpose because some there is an issue when 
-resuming the board or just put there assuming it is doing the right thing ?
-
-I would be happy if we can remove this portion of code because it is the 
-only users of prev_*_trip I would like to replace by prev_trip id.
-
-
+clang tested configs:
+powerpc                      ppc64e_defconfig
+arm                       versatile_defconfig
+mips                          ath79_defconfig
+powerpc                     ksi8560_defconfig
+powerpc                     kilauea_defconfig
+arm                           sama7_defconfig
+arm                         orion5x_defconfig
+mips                          ath25_defconfig
+powerpc                     powernv_defconfig
+mips                     cu1000-neo_defconfig
+x86_64                        randconfig-k001
+x86_64                        randconfig-a005
+x86_64                        randconfig-a003
+x86_64                        randconfig-a001
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+x86_64               randconfig-a013-20220704
+x86_64               randconfig-a015-20220704
+x86_64               randconfig-a011-20220704
+x86_64               randconfig-a014-20220704
+x86_64               randconfig-a016-20220704
+x86_64               randconfig-a012-20220704
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+hexagon              randconfig-r045-20220703
+hexagon              randconfig-r041-20220703
 
 -- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+0-DAY CI Kernel Test Service
+https://01.org/lkp
