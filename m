@@ -2,128 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04B325688FB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Jul 2022 15:07:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26F85568EB6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Jul 2022 18:11:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233112AbiGFNGy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 Jul 2022 09:06:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37390 "EHLO
+        id S234251AbiGFQLi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Jul 2022 12:11:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232441AbiGFNGx (ORCPT
+        with ESMTP id S234172AbiGFQLh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 Jul 2022 09:06:53 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80D02193CC
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Jul 2022 06:06:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=D0hNbSBzGzNXDpHde8BsfsD5hfBQ
-        bb4aorNSvpTgVrU=; b=E6cdQmWOgXODAMsv1qYtftsUDkq8yB2rzDN7nbBj49dC
-        OTU5rWih/KddxbSWUIuqbYyZA1DH1debq9NIp/cByt22mxrn5n/ONLBreV56cIbi
-        Lq0NaxHrB7CM921l7oThMnvySzFR0PaRyaVsm+XjBJmkMxL8giq3frwg2nVAZ1E=
-Received: (qmail 1712726 invoked from network); 6 Jul 2022 15:06:46 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Jul 2022 15:06:46 +0200
-X-UD-Smtp-Session: l3s3148p1@ZX/5oyLjKmlZzIq1
-Date:   Wed, 6 Jul 2022 15:06:42 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Michael Walle <michael@walle.cc>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Sam Protsenko <semen.protsenko@linaro.org>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Till Harbaum <till@harbaum.org>
-Subject: Re: [PATCH v2 2/2] i2c: Introduce i2c_str_read_write() and make use
- of it
-Message-ID: <YsWI4nzQa9gmqKdw@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Michael Walle <michael@walle.cc>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Sam Protsenko <semen.protsenko@linaro.org>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Till Harbaum <till@harbaum.org>
-References: <20220703154232.55549-1-andriy.shevchenko@linux.intel.com>
- <20220703154232.55549-2-andriy.shevchenko@linux.intel.com>
+        Wed, 6 Jul 2022 12:11:37 -0400
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4197826AE8;
+        Wed,  6 Jul 2022 09:11:36 -0700 (PDT)
+Received: by mail-io1-f49.google.com with SMTP id p128so14455408iof.1;
+        Wed, 06 Jul 2022 09:11:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=yn8tR4/75agkFJENZOIVD2SZjKFyA+a7PHsFMtDwO+Y=;
+        b=t9EcJXTL8xgt+krH71KFPcfQeQBs6vQjesu+nYe4QmxlWVhSHFQEip2ZGiWbD6uW6o
+         Cr3IG4BcKrDE+/YwaCB7/588c+af25G84SF3uUmtHP3Y8YQp5FK3GpCZFyu7TMDNRyJR
+         grEf4HCyCo6K/hIqdMNPrr2qaMRHRRfHLE3ric3iJPReGAQLChL/JMDesmPg/CqQlMmV
+         yH7ZlnViWB/safbl7V2/71dXDM56XeBAi31AftvwbgP8YVKn7rPy6K6xASln6MVVtaMo
+         rjQh8kbuaWnJk/oTZpKpt0YsYBdOteCk7XZReg8+7lr/VOws0WxmhjNdIqhsHBsf4fSs
+         +b6Q==
+X-Gm-Message-State: AJIora8PqllGTf+fIuxG6e+isMjVhv86QOVehEmwYqqSXdW9bxRnAVDD
+        j/hOmOeZqh7ob8mA8wh8s5nhpa0jRQ==
+X-Google-Smtp-Source: AGRyM1uwBDjxglmKGpZwt97wz+OegWG99R+2nYnYk0T8Ikwk585QkGnuzVr7ZeezMJ7kaTmArLk7DQ==
+X-Received: by 2002:a05:6638:40a4:b0:33e:2862:4ecf with SMTP id m36-20020a05663840a400b0033e28624ecfmr21115909jam.107.1657123895503;
+        Wed, 06 Jul 2022 09:11:35 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id n3-20020a056638120300b003317fc4aa87sm16010355jas.150.2022.07.06.09.11.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Jul 2022 09:11:35 -0700 (PDT)
+Received: (nullmailer pid 137394 invoked by uid 1000);
+        Wed, 06 Jul 2022 16:11:33 -0000
+Date:   Wed, 6 Jul 2022 10:11:33 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH] dt-bindings: hwinfo: renesas,prr: move from soc directory
+Message-ID: <20220706161133.GA137360-robh@kernel.org>
+References: <20220705155038.454251-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="CdaVGdeblKJUV2jY"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220703154232.55549-2-andriy.shevchenko@linux.intel.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20220705155038.454251-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, 05 Jul 2022 17:50:38 +0200, Krzysztof Kozlowski wrote:
+> Group devices like Chip ID or SoC information under "hwinfo" directory.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> This should go via Renesas tree because of changes around soc/renesas/renesas,prr.yaml.
+> 
+> Changes since v1:
+> 1. Split from https://lore.kernel.org/all/20220705154613.453096-1-krzysztof.kozlowski@linaro.org/
+> ---
+>  .../bindings/{soc/renesas => hwinfo}/renesas,prr.yaml           | 2 +-
+>  MAINTAINERS                                                     | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+>  rename Documentation/devicetree/bindings/{soc/renesas => hwinfo}/renesas,prr.yaml (92%)
+> 
 
---CdaVGdeblKJUV2jY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Andy,
-
-On Sun, Jul 03, 2022 at 06:42:32PM +0300, Andy Shevchenko wrote:
-> str_read_write() returns a string literal "read" or "write" based
-> on the value. It also allows to unify usage of a such in the kernel.
->=20
-> For i2c case introduce a wrapper that takes struct i2c_msg as parameter.
->=20
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-To be honest, I don't think this series is very useful. Most of the
-converted strings here are debug printouts which could rather be removed
-because we have a tracepoint for i2c_transfer (which is the preferred
-unification). The warnings printed on timeouts are plain wrong, because
-timeouts can happen and need to be handled by the client driver. And the
-change in the I2C core is not worth the hazzle IMHO.
-
-Happy hacking,
-
-   Wolfram
-
---CdaVGdeblKJUV2jY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmLFiN4ACgkQFA3kzBSg
-KbaOnRAAlv7WrOzngujipBR3pVf3yo6uKVwFX+PykjBTa0wBHwetMP0pYuObpjH9
-MPI+xi3IOPO8nnwQgPbg8ke0Yq4akFTTkLG8QOXU1ddT1UWRq1TJXNB9hME3tXGD
-WkO7L/wslhrvwy48f+0nOJotVJ3q34bifTQ78CTnFyYY6Tfg6BgF/opp70w7XNgW
-5blntGsxPCRsh1VBlDilYsgh3TXzmD934y8v1hFpM2BXFgnHKsID9FOeHVDsuB8O
-RL08dyCz/yt2r4M0f7DDOF56PS/35JsJhZ5v2F9er0fkPgEdS392WEeJrQhiQ920
-ugWPpY6MhwTuTFZQqaeiv9moB+j1BBcKoEyG3c4quq35KKIYsaaC0fj40+1u9Gel
-wlZ5qxgE29BYSWZocpQbdFF8jG/iEhnEy9pIRfGfQagUypOLsqqcsk5Qq9aavWHK
-Vu4pI5SRlsMcRWzWO4592D8KYF5Tc/0NQ+qfCj6AO+OwBIBR+S7lBsLiNpIETLil
-EMa1kLVlr/ElAFyqXIa8yX7vvK9xHDcHEPWsW3Q30g5QEGT40iXSGkM21l3KebVz
-Lw7qzoMkINICUNGP2ULiYOCgafWdlVlev4RmQCDFDljj2ZKH1ph91kJeM7YscDj5
-ZGh3HI5USzLFt/C6uFVIwSpz2aM2IMOWcasNvtXlR7RZNu/qwdI=
-=srXy
------END PGP SIGNATURE-----
-
---CdaVGdeblKJUV2jY--
+Acked-by: Rob Herring <robh@kernel.org>
