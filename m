@@ -2,60 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 494BF567D5C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Jul 2022 06:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F058E567DD9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Jul 2022 07:34:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229521AbiGFEc1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 Jul 2022 00:32:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49934 "EHLO
+        id S230507AbiGFFem (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Jul 2022 01:34:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbiGFEcZ (ORCPT
+        with ESMTP id S230348AbiGFFel (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 Jul 2022 00:32:25 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C0B2140E7
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Jul 2022 21:32:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657081945; x=1688617945;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=7cmQRqXmWvhS4nuSJuDiGkGcRCezMYhv75HbtY/Z6O4=;
-  b=IoNU5ym9WieZjQsuwfFR/O0ctLFkapAtp4bdNjLaib5OWaahTMRGb/gT
-   lNQEHaisYLkDfSNHt47K5UB9lVb3EkbIWuVYwgtXyjOrZ0kvWa9cwL6UU
-   w2aLiw9mvTI0dB2Z1M0ScJO8SwFBORLUKr09aMKtGo8TSj+UgDcmbM/kx
-   +e5ZSbfKNBa4FJMwmG6PwEuvksSYTZfrT688PXqVaNB3HaOViZVnsTjv3
-   79RzGT0iLCh93g5sdlAz8zrWDHc6riW8znAJrkYBwF/+YTLlTN/5supy5
-   MzzlKA2wdWJkbJ28PVf/qEbQZrYu60HfmIRF9SnD24wSsab5YlhcPfX9d
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10399"; a="282391359"
-X-IronPort-AV: E=Sophos;i="5.92,248,1650956400"; 
-   d="scan'208";a="282391359"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2022 21:32:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,248,1650956400"; 
-   d="scan'208";a="660808813"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 05 Jul 2022 21:32:23 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o8wi7-000K0a-5C;
-        Wed, 06 Jul 2022 04:32:23 +0000
-Date:   Wed, 06 Jul 2022 12:31:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD SUCCESS
- e3fa3b4c04d13d042e259755e2d48d2170e667ca
-Message-ID: <62c5101c.WEfMAsCqGyX/Yr7o%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 6 Jul 2022 01:34:41 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E8C2181C
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Jul 2022 22:34:40 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id o15so9735630pjh.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Jul 2022 22:34:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oKugON8W2AXb8/foS49g/nmwaLHb/Gu5gZSfrbOn1gs=;
+        b=BhcDUrgos44tc5w9+4nYzaQpIu+yVMRhCn7z6foDxGJ7jris2BjKXCDcYIKZA4S4Hs
+         iPh9xAnhqek9qKQkZdcc3c2ztREMC1ci8YawvVJsLU8mZVHMuHG4y9MBeTxeJ6tC+UrA
+         0JS+nHQkEUUUhCubKINsJ9OG9kduWatz2yJdA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oKugON8W2AXb8/foS49g/nmwaLHb/Gu5gZSfrbOn1gs=;
+        b=CMVMc5niT1l7DVlcLiX46q/0qQoB1Orn7l9WSKntog4qj6vgxKUuEC5J/pIj8yvfF0
+         2xJj+ozuqaSFc9gSPeCRbEIKtNujKegIo9zCu91Ff56PKxSY9EHLAhPQXzW40IjB3NRr
+         ucmN9MDoBIbDXECsLIf3qE+SGZNPEmqn0VtXsflpEWp4BmzqEmmS2c1Y52EKozfR2J0p
+         vvQDHlVJ8kips0TXF0+2YD/+ozp6xyyv32FqVFSZg7u134FX6KxjGIBQ3ZU7POlP3QjQ
+         oNtxz/tCFtP9gcaBeau6DuPCZPsW3LhFqwpkDv+NGsY8qqcKm37NqatCLiXoZdow5GbX
+         l26A==
+X-Gm-Message-State: AJIora+LgD/t/OIa8IVteKcNfFtlBB5iSBC+spQHQYD+FZ24QLjNQn34
+        mY3XDUB1gT78/H+iU9b7ozGHnA==
+X-Google-Smtp-Source: AGRyM1vm/XCRleXBhsGxZBZicviHxMlEw6R9qk+Imp4+WCV2azoZhkwEz6cNM9794WrkoaxRl0L08w==
+X-Received: by 2002:a17:90b:1e02:b0:1ec:d979:4a8e with SMTP id pg2-20020a17090b1e0200b001ecd9794a8emr45449771pjb.181.1657085680475;
+        Tue, 05 Jul 2022 22:34:40 -0700 (PDT)
+Received: from chromium.org ([2401:fa00:8f:203:ebe3:37b4:669a:d932])
+        by smtp.gmail.com with ESMTPSA id m7-20020a1709026bc700b0016b8b5ef703sm17430212plt.55.2022.07.05.22.34.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 22:34:39 -0700 (PDT)
+Date:   Wed, 6 Jul 2022 14:34:36 +0900
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH 3/3] media: vsp1: Use vb2_queue_is_busy()
+Message-ID: <YsUe7J0XDS979KBM@chromium.org>
+References: <20220318211446.11543-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220318211446.11543-4-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Disposition: inline
+In-Reply-To: <20220318211446.11543-4-laurent.pinchart+renesas@ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,73 +70,40 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: e3fa3b4c04d13d042e259755e2d48d2170e667ca  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+Hi Laurent,
 
-elapsed time: 725m
+On Fri, Mar 18, 2022 at 11:14:46PM +0200, Laurent Pinchart wrote:
+> Use the new vb2_queue_is_busy() helper to replace the open-coded
+> version.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_video.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> index 8f53abc71db2..4da70b2b0869 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> @@ -1032,7 +1032,7 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+>  	struct vsp1_pipeline *pipe;
+>  	int ret;
+>  
+> -	if (video->queue.owner && video->queue.owner != file->private_data)
+> +	if (vb2_queue_is_busy(&video->queue, file))
+>  		return -EBUSY;
+>  
+>  	/*
 
-configs tested: 52
-configs skipped: 2
+Thanks for the patch and really sorry for the long delay. Finally
+catching up with my backlog.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+An alternative would be to have all the stream start code placed under
+the vb2 start_streaming callback, symmetrically to
+what the driver already does with streamoff/stop_streaming. That would
+eliminate the need to export the symbol from the vb2 framework.
 
-gcc tested configs:
-arm                                 defconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-ia64                             allmodconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-m68k                             allyesconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-sh                               allmodconfig
-i386                                defconfig
-i386                             allyesconfig
-x86_64                        randconfig-a002
-x86_64                        randconfig-a004
-x86_64                        randconfig-a006
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a014
-i386                          randconfig-a012
-i386                          randconfig-a016
-riscv                randconfig-r042-20220703
-arc                  randconfig-r043-20220703
-s390                 randconfig-r044-20220703
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                    rhel-8.3-kselftests
-x86_64                           rhel-8.3-syz
+Have you considered that option?
 
-clang tested configs:
-x86_64                        randconfig-a005
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-i386                          randconfig-a004
-i386                          randconfig-a002
-i386                          randconfig-a006
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-hexagon              randconfig-r041-20220703
-hexagon              randconfig-r045-20220703
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Best regards,
+Tomasz
