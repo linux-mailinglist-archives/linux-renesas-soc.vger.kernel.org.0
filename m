@@ -2,79 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD9B656AA78
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Jul 2022 20:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12D3456AAFB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Jul 2022 20:47:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236280AbiGGSZQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Jul 2022 14:25:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50832 "EHLO
+        id S236341AbiGGSrJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Jul 2022 14:47:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236267AbiGGSZL (ORCPT
+        with ESMTP id S235452AbiGGSrH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Jul 2022 14:25:11 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 336CD31360;
-        Thu,  7 Jul 2022 11:25:10 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id y141so21036924pfb.7;
-        Thu, 07 Jul 2022 11:25:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EOi6ye8INiqN8HnncVv3ZVs2L4XvBCNLdv4z2vZ3/Bg=;
-        b=RbSxVCncU5/g6BnOLenM4/4krgK6UUCJru8ihZSKdiNlnCHsbx82/tvGryrUY1X9rp
-         WrytpsnJRFi+eBR/eTvfFubVXjQh5UuWmrJq5wZR5TmtOoXCl+kXsXAE5ISmRQkJ+IQO
-         6tY6ZbtbdNUedhoawdOz8azsN+8HnzzhDSQDpxUDINwBh5TjLqBTvp3OALcA/tCQqiJU
-         RneUaU7PlVzmBG9wwxSTzMA07DHWat0qVfluJ1ZUmO4DpJpxegGlLGr+CiJYSHQDrIRE
-         pG9lteRbrpvrI0uQ8wjBBtz97oVYrGYfh7w8PUTsVnd5W7h5hLh4G0cFugmssTHXaBg7
-         pMjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EOi6ye8INiqN8HnncVv3ZVs2L4XvBCNLdv4z2vZ3/Bg=;
-        b=iWAqFOWnq4eltna+/fn0SRiUqRS4r78MsK5d0CsUKXibyXBrs3EERpP11zZLMDzN9t
-         qXSESdYEatCltPNDptcCrgNqKwrmiAfzWjyqdq6Bb3SDjbNJGeQ1piES2l1pIPRc03U+
-         DLScBGEBGBT2z5PHVYvpxcE2bad4yfMm7f61BSdZHyeDd2QYXjX/NtCkGVl1BpAKD7MI
-         cUAOSH2wnKUIQNPk6sONFTFzOUNTo4EfXdahX83h+tsxn87+2rF8t5o/U8JX3ou6QuqW
-         rHs/iTyQ2HpwmbVbeu1E89wLVhlrBtjj0W6F0IDzSgIZeTXLfvg2NMUMAA/C64/7Qg18
-         JQaw==
-X-Gm-Message-State: AJIora/AgyX/C+4VIzc60sB0/SzJNOq84TuzpnaeJmqOatV09YaW4a8M
-        SU8VaY6/ZDMuFTmRRfbJeX0=
-X-Google-Smtp-Source: AGRyM1sbUq7SSiSBTjb5BtCtgVvuhcz9ba7W4FYTZutXMp1JzJfXn29u+jzNp5ZQIf+r8vHGcIdkzw==
-X-Received: by 2002:a62:b419:0:b0:529:f06a:973e with SMTP id h25-20020a62b419000000b00529f06a973emr789259pfn.5.1657218309619;
-        Thu, 07 Jul 2022 11:25:09 -0700 (PDT)
-Received: from prasmi.domain.name ([103.219.60.85])
-        by smtp.gmail.com with ESMTPSA id o12-20020a170902d4cc00b0016a3f9e4865sm28589279plg.148.2022.07.07.11.25.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 11:25:09 -0700 (PDT)
-From:   prabhakar.csengg@gmail.com
-X-Google-Original-From: prabhakar.mahadev-lad.rj@bp.renesas.com
-To:     Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thu, 7 Jul 2022 14:47:07 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2138.outbound.protection.outlook.com [40.107.114.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 953FA4F66B;
+        Thu,  7 Jul 2022 11:47:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I+0EC6AxMojJmDIajtn3HUPtxr+Um463YTEOWxnr8wsnna+OD4Iyaw3APyCpEUPHqMkzm9u5sUm8WGTO47YIJgQf5mRfdPS0Kkltrm1tP2vZVSeMo0ncKcWcFQFHzcvip74mlA1V0wuf8CBuu4Ig1G9JDC+NhkngfDAaWXvPC2/xRPi+LgB2bIiSTNEwN9+Lmqpfvy+uT4b5iMmGtxh8pdeswdDEtYPOjx7uWf1qwNOPWyuGB5H6ex5JtTQIx+BA9+rxcJyqgFdQVYbhOmsIHfARw1NiGJ4gDntDG6B0Tj63AlIN1oIprm+ltvzr/W6hIou5Qnc8AWh78T69riJl+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D3ruTZ6Zsj747YNIrWOCZV9GEVwNlfrmgeFG1c8/VbM=;
+ b=ZKr+aFnY1VQV5gQEzwNVDy9L5/RbOThPEcM5x/aVKEj0fmKQAFc5YP95ybzciAp1y1jm6ovg6b1Il4COJnaCP/Fg+bBCpCaClZ/DYqx1fPnVvEwmmmWSAztTzq2S9eVU04sXCTPg8OYV/sZ4r6n/pBFpLgL/38ad3Q1mXeTCk00G+CkunxK2akgg1IsfHZTi6T3rexh5H/pAJE7oTjazPLE0QBwRFdQqLVm5u3MCEBC0aSFIIcUG8WPT2/X8Vx4kAy0o1praxOp0yHLN9nR77eO+6TwWn1u483P8IXlrggsknPZ0pF6Xe2HhEv1EQZjBV8b9BLe4KAhUmO9agMVlgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D3ruTZ6Zsj747YNIrWOCZV9GEVwNlfrmgeFG1c8/VbM=;
+ b=UI/3HTxLH6/AjzGACouK0L6x1djjpEdXqjdQEx7aR1//1ufqq/7gSZsYHU0L448x7XxPadtqEfcmz/t3VQgE9vTSaqevY3IaKIlVNCRDhYAWmGkL8T8TM8WxhC5h2+NbZRJlEevTkhYMyIxtMAMOobj2IHxM39u8rzV36xobQt8=
+Received: from TYYPR01MB7086.jpnprd01.prod.outlook.com (2603:1096:400:de::11)
+ by TYCPR01MB8679.jpnprd01.prod.outlook.com (2603:1096:400:15e::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.15; Thu, 7 Jul
+ 2022 18:47:04 +0000
+Received: from TYYPR01MB7086.jpnprd01.prod.outlook.com
+ ([fe80::3c36:680f:3292:4a79]) by TYYPR01MB7086.jpnprd01.prod.outlook.com
+ ([fe80::3c36:680f:3292:4a79%9]) with mapi id 15.20.5417.017; Thu, 7 Jul 2022
+ 18:47:04 +0000
+From:   Phil Edworthy <phil.edworthy@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-gpio@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+        Jan Dabros <jsd@semihalf.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Tyrone Ting <kfting@nuvoton.com>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v8 6/6] pinctrl: renesas: pinctrl-rzg2l: Add IRQ domain to handle GPIO interrupt
-Date:   Thu,  7 Jul 2022 19:23:14 +0100
-Message-Id: <20220707182314.66610-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220707182314.66610-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220707182314.66610-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v3 2/2] i2c: Add Renesas RZ/V2M controller
+Thread-Topic: [PATCH v3 2/2] i2c: Add Renesas RZ/V2M controller
+Thread-Index: AQHYjWkxMg1ZnbISoEmC77vxSwmcoq1q+VkAgAFdSICAAG5ZAIABgxGwgASWB2CAAFnZgIAADfFg
+Date:   Thu, 7 Jul 2022 18:47:04 +0000
+Message-ID: <TYYPR01MB7086B6281BCBA67BB6626333F5839@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+References: <20220701163916.111435-1-phil.edworthy@renesas.com>
+ <20220701163916.111435-3-phil.edworthy@renesas.com>
+ <YsAxSrcAk4jtRYx4@smile.fi.intel.com>
+ <CAMuHMdU1-LQJUCsDAfaC4OhRW7ijcpAG9VEUHu_Gu1qE7LdweA@mail.gmail.com>
+ <YsGy2rqk1tKQJJ/b@smile.fi.intel.com>
+ <TYYPR01MB7086921244A6D1B764368A54F5839@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+ <TYYPR01MB70869DD9107B4A3B2319AF4DF5839@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+ <CAMuHMdUnR819KRVke=ob21cvsMnOcQHFq3ym-oAg0dKcpWCGtw@mail.gmail.com>
+In-Reply-To: <CAMuHMdUnR819KRVke=ob21cvsMnOcQHFq3ym-oAg0dKcpWCGtw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c50d2a03-ef83-44b4-a10e-08da6049161f
+x-ms-traffictypediagnostic: TYCPR01MB8679:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 4Oq+ho0Vd4GRFITsxp1qQz8/MeB1daaGW97jdekul7US3ZItyuQ65IrdaMzygB8S40MRDJVz0RnYbQH+EgLVMxIaxkwb+Ar1jH2F1CVPua4lfbfrAmgE+TpIcjMaZk4M4WO5LxwGZxu2RYwhf1/4BjjDk6zzkLlRkRpJ08adbMTLrJ6kXQxRGPLil1Xd78sz1xboy2mlJ8KmFJ9Pw3/5G6MTgMtsKNoOsthAs9sa7Wd+d+Xs9NWB4oS4fogCP4lCunwdT997pOozrv2KV4l7nDuPXYPbuSNqiTJ/vDhfRiodcRV53hdtOTiw/U4O0BpzTZZLN7kWMeiH2v9JdMyfBlrm7RGhAHYeRt660ev6eubWFX3tR6kHlo0yEIuyubFB1hv12yoosRK76Tq439/u+utfaBrYlBYLHZPt70bhoNVvteedsE7WI5l439rPozIYnz/qmPa/ixgb+0wIno7dMjCmShRS9oC08IHmVXeE6ps2bOzEPGLBIERmgPWk9B/a917IunILNGAxDjbSKEyIFcqz+2R91yRBYvbHe3H6vYXqGiKFDSVUgJop/pcdq2i4MrxTk6iyGoRXhq/fh/Ttc6oA5U5Pjqt1HbKkDf61RSiCp3gvQP03ooZnHGbkt+gu900iUESvZSpQjPBMmSyXDR4pbocPLGGpLYMf+IeFWBBrmY9bZuramC96DAnYcMgCcBm1rIT4mJOl9/155YYuRiQiw+1ItRy/FodreZtBtk1z35dfShwS1jw0AZwAyX/n9C8CcHHcff0yHjYocAaXLv5fqcAGXjNscXIdWflcFAz3KJSKvIml5WeIweh4/D4K
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB7086.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(136003)(376002)(346002)(366004)(39860400002)(33656002)(38070700005)(86362001)(478600001)(8936002)(38100700002)(5660300002)(122000001)(52536014)(2906002)(41300700001)(44832011)(7416002)(6506007)(6916009)(4326008)(8676002)(66446008)(64756008)(66476007)(316002)(76116006)(9686003)(54906003)(186003)(53546011)(26005)(83380400001)(71200400001)(66556008)(66946007)(7696005)(55016003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Y3ArRllQaHpzOGpLNWVvTllUejNicncyTFJvWkJkVFJ4RGhBWFlJelE2Qlg3?=
+ =?utf-8?B?ZXNTUy81cUZwajIyYzRSNFYwMzFlRFk3NXQxR0JkMWR2WFVtaTVBQ2RoYmdC?=
+ =?utf-8?B?NjNWWXhGWXp2OUhQN0lQVHYrK2VSMnE1SWdFZnphYXd4VGhQM3RacW9STlJa?=
+ =?utf-8?B?bFJMYmJ0ZWZZUHVUdnRucVc0QS8yY1pUOENqaVA0cGwzL0FsRU9jWnA4WFAz?=
+ =?utf-8?B?OEZlN01mK281YXVFNEVNMkxYRlZOdGFSalJHZnlDSks4Y0xDckdkMlhoMm5n?=
+ =?utf-8?B?eVNSb2NKdERUWG9YZWRLREw0NDl5U3JKaXZ4NkMxYitseElGWkRWUXFXU053?=
+ =?utf-8?B?enM5VGkvYk5ESXpRbzh2Z01Fek9zRmlBQk5pSWVCYnJ6NXEycHkvcmlrYkta?=
+ =?utf-8?B?YnY3UEp5QzRDOU1LcG5xQzRJZlZLb1BkM2ZVVzZBdFM1d1B6U2R5TmZ3cW9I?=
+ =?utf-8?B?c1l4anQ5dHhmMmgxd3lUZWZvREd5dEZRL2xSZFFKVHBpNXM0clE3N0doMUZ3?=
+ =?utf-8?B?Q2VJdXVaWGVDbGtxV2RRNDhzY1hEMkdkaUJLSnpsYjN5MjNGb20yejFlbzlM?=
+ =?utf-8?B?ZkpjVlhOK0tXNzdkdElXQXNFY2VBbHhtZUJyZSthbCtQUFJ2RXQvVWJoUXlx?=
+ =?utf-8?B?M2pZTVNxeEVTbUo4T0dPZ2dxZnU3WDBFSSs4V1laNkh6QnN0VjhUcklRQzJO?=
+ =?utf-8?B?WkprYnNFSVNZeUdpYlVjMCsvWFZBWENZbENRTzdKa3dGcFF0WmZZZFo5b3Zz?=
+ =?utf-8?B?aHBkWGN5aE1Ha2kzamRTWUhqaEhidTlVdWxUZ2E4cFZ0S2lqMUZuaVpJbVNL?=
+ =?utf-8?B?Y1NZMFhWdDhiR2pGdHd5bGFvZU9QQktGT09kRnRXbjJLRDNyWVgxYXhRWjA4?=
+ =?utf-8?B?Q01lM28wK0t6dTRpT255TlB5UXIwVVpMMkowejlzamNENVA1VE5tdzIzOHph?=
+ =?utf-8?B?OUpVbGoyUVpkeHVwMTBsMC8yWHhKdzRsN09UYnlBSkVrTVJiU2ZiQ2R4SERq?=
+ =?utf-8?B?Y3NLZmRmOFhEeVE1a2FpekpZN3lCWXVxUnZ1QmY4cVJVSlR1UDBHckFrTFRh?=
+ =?utf-8?B?TDh2VDMvUVN6eXRwUDVySXZnMldobzZGM1EzZjRaMjdSRmpRMlAwVGNHMXNn?=
+ =?utf-8?B?eUJGMklwWWlraGt6ZFgzRlRHbzRhbHMvSVJMcjUxMllRSTk1U291SjZFZ0Nn?=
+ =?utf-8?B?OU9WdGFLUTgxZ3c5WFpSRHpkVzFxN0lJanRSUk9mS2xSUmVhbFBnWnlQbUdU?=
+ =?utf-8?B?c2M5ZHJodFJIYmVvb3FrTWY4dWZqOFVRbDE5d0JzNUEwU1VBRWtQRzAraVlv?=
+ =?utf-8?B?QVFRVTlSMnI1SlJ2aHpxZkt6NHA3REFRRFlLbTNmb3ZrR282ZUxZQWJUNlZq?=
+ =?utf-8?B?Q3Q3c21BcjEvYUdKNTV2NVJVWFBYcnZ4cmZtZXVRaGtaNkJRWFVXamhObFdk?=
+ =?utf-8?B?a21LY1hhR2JxZUNnSlhRUTQwYXZzWVp6Tng5SmZYN1J0bHNmeitMZ2NEUy9n?=
+ =?utf-8?B?NXRCQjkrYmRTMGZYRk96QWhRSURxSGtTSnJGRkxRREtBVWlIS2V2UmFUaXBk?=
+ =?utf-8?B?UFBhVGVhbGNkVjNLbzhpZVBWQmlUbGs2VVZ0dE9tbkpTTDY0aUdmcjJDY1ZB?=
+ =?utf-8?B?dlZTaGJwL2tKTWVIR1F6SEp6cUUwRnByYnRPOEVkQnI3Y05kUGc0ZUNNVDJy?=
+ =?utf-8?B?TzRqQkZCeHhZTGZYVW56bGVhRk1hUWt5aC8zV2JWYWM4T2FWVlViY1pvNktt?=
+ =?utf-8?B?S29laWNHVjV6cW4zTnY1UHZRT29PNWl2dVNJOVRnVnNyMmNrOGdwOVNOd24z?=
+ =?utf-8?B?MWhVRjNrS3Frb1NBNHIyVlBqL3ZRUTdFM0kyTGZFZ3k4QnVRM1NoNDRJM0RV?=
+ =?utf-8?B?b1dESm96Q2NQK2M0NXRlM280cW9ZNlZUblFjeEMybDkvdUVObUhESTdCSHhM?=
+ =?utf-8?B?Zys5UVN4c1owUE9ZcGVMeUl4dGdDR1FDajd1SVhQOEpoZXI4V3BMci9GTzF5?=
+ =?utf-8?B?d2YzbkF2ajhWQmpJQmR6WUI5L3p3QXFGQ3VYV3ZlTkloaGI4MkpCdDFzbDdE?=
+ =?utf-8?B?bEpxbmpId1g3VU1PendVM2ZheHFTVXNRY21ESXhoYVNhZlhDQml5Nm0vSElV?=
+ =?utf-8?B?UVViZTZaeWROeHpXRWJPRkE2TWttNHpFV3Qzei9WSmZ5ekpQODFwYXM1WE1z?=
+ =?utf-8?B?WHc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB7086.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c50d2a03-ef83-44b4-a10e-08da6049161f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2022 18:47:04.5772
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: dSFW2gX4FVkRmN2Oz5TpH6soEj86ELIScHzWEsDDo5tNtuIHcwGfrH4pW+u3ZerL4HOt/59v5ySugg73TOSST3MfqZhz/aEiIeIADCknILI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8679
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,326 +146,60 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Add IRQ domain to RZ/G2L pinctrl driver to handle GPIO interrupt.
-
-GPIO0-GPIO122 pins can be used as IRQ lines but only 32 pins can be
-used as IRQ lines at a given time. Selection of pins as IRQ lines
-is handled by IA55 (which is the IRQC block) which sits in between the
-GPIO and GIC.
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 233 ++++++++++++++++++++++++
- 1 file changed, 233 insertions(+)
-
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index c3cdf52b7294..a43824fd9505 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -9,8 +9,10 @@
- #include <linux/clk.h>
- #include <linux/gpio/driver.h>
- #include <linux/io.h>
-+#include <linux/interrupt.h>
- #include <linux/module.h>
- #include <linux/of_device.h>
-+#include <linux/of_irq.h>
- #include <linux/pinctrl/pinconf-generic.h>
- #include <linux/pinctrl/pinconf.h>
- #include <linux/pinctrl/pinctrl.h>
-@@ -89,6 +91,7 @@
- #define PIN(n)			(0x0800 + 0x10 + (n))
- #define IOLH(n)			(0x1000 + (n) * 8)
- #define IEN(n)			(0x1800 + (n) * 8)
-+#define ISEL(n)			(0x2c80 + (n) * 8)
- #define PWPR			(0x3014)
- #define SD_CH(n)		(0x3000 + (n) * 4)
- #define QSPI			(0x3008)
-@@ -112,6 +115,10 @@
- #define RZG2L_PIN_ID_TO_PORT_OFFSET(id)	(RZG2L_PIN_ID_TO_PORT(id) + 0x10)
- #define RZG2L_PIN_ID_TO_PIN(id)		((id) % RZG2L_PINS_PER_PORT)
- 
-+#define RZG2L_TINT_MAX_INTERRUPT	32
-+#define RZG2L_TINT_IRQ_START_INDEX	9
-+#define RZG2L_PACK_HWIRQ(t, i)		(((t) << 16) | (i))
-+
- struct rzg2l_dedicated_configs {
- 	const char *name;
- 	u32 config;
-@@ -137,6 +144,9 @@ struct rzg2l_pinctrl {
- 
- 	struct gpio_chip		gpio_chip;
- 	struct pinctrl_gpio_range	gpio_range;
-+	DECLARE_BITMAP(tint_slot, RZG2L_TINT_MAX_INTERRUPT);
-+	spinlock_t			bitmap_lock;
-+	unsigned int			hwirq[RZG2L_TINT_MAX_INTERRUPT];
- 
- 	spinlock_t			lock;
- };
-@@ -885,8 +895,14 @@ static int rzg2l_gpio_get(struct gpio_chip *chip, unsigned int offset)
- 
- static void rzg2l_gpio_free(struct gpio_chip *chip, unsigned int offset)
- {
-+	unsigned int virq;
-+
- 	pinctrl_gpio_free(chip->base + offset);
- 
-+	virq = irq_find_mapping(chip->irq.domain, offset);
-+	if (virq)
-+		irq_dispose_mapping(virq);
-+
- 	/*
- 	 * Set the GPIO as an input to ensure that the next GPIO request won't
- 	 * drive the GPIO pin as an output.
-@@ -1106,14 +1122,221 @@ static struct {
- 	}
- };
- 
-+static int rzg2l_gpio_get_gpioint(unsigned int virq)
-+{
-+	unsigned int gpioint;
-+	unsigned int i;
-+	u32 port, bit;
-+
-+	port = virq / 8;
-+	bit = virq % 8;
-+
-+	if (port >= ARRAY_SIZE(rzg2l_gpio_configs) ||
-+	    bit >= RZG2L_GPIO_PORT_GET_PINCNT(rzg2l_gpio_configs[port]))
-+		return -EINVAL;
-+
-+	gpioint = bit;
-+	for (i = 0; i < port; i++)
-+		gpioint += RZG2L_GPIO_PORT_GET_PINCNT(rzg2l_gpio_configs[i]);
-+
-+	return gpioint;
-+}
-+
-+static void rzg2l_gpio_irq_disable(struct irq_data *d)
-+{
-+	struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-+	struct rzg2l_pinctrl *pctrl = container_of(gc, struct rzg2l_pinctrl, gpio_chip);
-+	unsigned int hwirq = irqd_to_hwirq(d);
-+	unsigned long flags;
-+	void __iomem *addr;
-+	u32 port;
-+	u8 bit;
-+
-+	port = RZG2L_PIN_ID_TO_PORT(hwirq);
-+	bit = RZG2L_PIN_ID_TO_PIN(hwirq);
-+
-+	addr = pctrl->base + ISEL(port);
-+	if (bit >= 4) {
-+		bit -= 4;
-+		addr += 4;
-+	}
-+
-+	spin_lock_irqsave(&pctrl->lock, flags);
-+	writel(readl(addr) & ~BIT(bit * 8), addr);
-+	spin_unlock_irqrestore(&pctrl->lock, flags);
-+
-+	gpiochip_disable_irq(gc, hwirq);
-+	irq_chip_disable_parent(d);
-+}
-+
-+static void rzg2l_gpio_irq_enable(struct irq_data *d)
-+{
-+	struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-+	struct rzg2l_pinctrl *pctrl = container_of(gc, struct rzg2l_pinctrl, gpio_chip);
-+	unsigned int hwirq = irqd_to_hwirq(d);
-+	unsigned long flags;
-+	void __iomem *addr;
-+	u32 port;
-+	u8 bit;
-+
-+	gpiochip_enable_irq(gc, hwirq);
-+
-+	port = RZG2L_PIN_ID_TO_PORT(hwirq);
-+	bit = RZG2L_PIN_ID_TO_PIN(hwirq);
-+
-+	addr = pctrl->base + ISEL(port);
-+	if (bit >= 4) {
-+		bit -= 4;
-+		addr += 4;
-+	}
-+
-+	spin_lock_irqsave(&pctrl->lock, flags);
-+	writel(readl(addr) | BIT(bit * 8), addr);
-+	spin_unlock_irqrestore(&pctrl->lock, flags);
-+
-+	irq_chip_enable_parent(d);
-+}
-+
-+static int rzg2l_gpio_irq_set_type(struct irq_data *d, unsigned int type)
-+{
-+	return irq_chip_set_type_parent(d, type);
-+}
-+
-+static void rzg2l_gpio_irqc_eoi(struct irq_data *d)
-+{
-+	irq_chip_eoi_parent(d);
-+}
-+
-+static void rzg2l_gpio_irq_print_chip(struct irq_data *data, struct seq_file *p)
-+{
-+	struct gpio_chip *gc = irq_data_get_irq_chip_data(data);
-+
-+	seq_printf(p, dev_name(gc->parent));
-+}
-+
-+static const struct irq_chip rzg2l_gpio_irqchip = {
-+	.name = "rzg2l-gpio",
-+	.irq_disable = rzg2l_gpio_irq_disable,
-+	.irq_enable = rzg2l_gpio_irq_enable,
-+	.irq_mask = irq_chip_mask_parent,
-+	.irq_unmask = irq_chip_unmask_parent,
-+	.irq_set_type = rzg2l_gpio_irq_set_type,
-+	.irq_eoi = rzg2l_gpio_irqc_eoi,
-+	.irq_print_chip = rzg2l_gpio_irq_print_chip,
-+	.flags = IRQCHIP_IMMUTABLE,
-+	GPIOCHIP_IRQ_RESOURCE_HELPERS,
-+};
-+
-+static int rzg2l_gpio_child_to_parent_hwirq(struct gpio_chip *gc,
-+					    unsigned int child,
-+					    unsigned int child_type,
-+					    unsigned int *parent,
-+					    unsigned int *parent_type)
-+{
-+	struct rzg2l_pinctrl *pctrl = gpiochip_get_data(gc);
-+	unsigned long flags;
-+	int gpioint, irq;
-+
-+	gpioint = rzg2l_gpio_get_gpioint(child);
-+	if (gpioint < 0)
-+		return gpioint;
-+
-+	spin_lock_irqsave(&pctrl->bitmap_lock, flags);
-+	irq = bitmap_find_free_region(pctrl->tint_slot, RZG2L_TINT_MAX_INTERRUPT, get_order(1));
-+	spin_unlock_irqrestore(&pctrl->bitmap_lock, flags);
-+	if (irq < 0)
-+		return -ENOSPC;
-+	pctrl->hwirq[irq] = child;
-+	irq += RZG2L_TINT_IRQ_START_INDEX;
-+
-+	/* All these interrupts are level high in the CPU */
-+	*parent_type = IRQ_TYPE_LEVEL_HIGH;
-+	*parent = RZG2L_PACK_HWIRQ(gpioint, irq);
-+	return 0;
-+}
-+
-+static int rzg2l_gpio_populate_parent_fwspec(struct gpio_chip *chip,
-+					     union gpio_irq_fwspec *gfwspec,
-+					     unsigned int parent_hwirq,
-+					     unsigned int parent_type)
-+{
-+	struct irq_fwspec *fwspec = &gfwspec->fwspec;
-+
-+	fwspec->fwnode = chip->irq.parent_domain->fwnode;
-+	fwspec->param_count = 2;
-+	fwspec->param[0] = parent_hwirq;
-+	fwspec->param[1] = parent_type;
-+
-+	return 0;
-+}
-+
-+static void rzg2l_gpio_irq_domain_free(struct irq_domain *domain, unsigned int virq,
-+				       unsigned int nr_irqs)
-+{
-+	struct irq_data *d;
-+
-+	d = irq_domain_get_irq_data(domain, virq);
-+	if (d) {
-+		struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-+		struct rzg2l_pinctrl *pctrl = container_of(gc, struct rzg2l_pinctrl, gpio_chip);
-+		irq_hw_number_t hwirq = irqd_to_hwirq(d);
-+		unsigned long flags;
-+		unsigned int i;
-+
-+		for (i = 0; i < RZG2L_TINT_MAX_INTERRUPT; i++) {
-+			if (pctrl->hwirq[i] == hwirq) {
-+				spin_lock_irqsave(&pctrl->bitmap_lock, flags);
-+				bitmap_release_region(pctrl->tint_slot, i, get_order(1));
-+				spin_unlock_irqrestore(&pctrl->bitmap_lock, flags);
-+				pctrl->hwirq[i] = 0;
-+				break;
-+			}
-+		}
-+	}
-+	irq_domain_free_irqs_common(domain, virq, nr_irqs);
-+}
-+
-+static void rzg2l_init_irq_valid_mask(struct gpio_chip *gc,
-+				      unsigned long *valid_mask,
-+				      unsigned int ngpios)
-+{
-+	struct rzg2l_pinctrl *pctrl = gpiochip_get_data(gc);
-+	struct gpio_chip *chip = &pctrl->gpio_chip;
-+	unsigned int offset;
-+
-+	/* Forbid unused lines to be mapped as IRQs */
-+	for (offset = 0; offset < chip->ngpio; offset++) {
-+		u32 port, bit;
-+
-+		port = offset / 8;
-+		bit = offset % 8;
-+
-+		if (port >= ARRAY_SIZE(rzg2l_gpio_configs) ||
-+		    bit >= RZG2L_GPIO_PORT_GET_PINCNT(rzg2l_gpio_configs[port]))
-+			clear_bit(offset, valid_mask);
-+	}
-+}
-+
- static int rzg2l_gpio_register(struct rzg2l_pinctrl *pctrl)
- {
- 	struct device_node *np = pctrl->dev->of_node;
- 	struct gpio_chip *chip = &pctrl->gpio_chip;
- 	const char *name = dev_name(pctrl->dev);
-+	struct irq_domain *parent_domain;
- 	struct of_phandle_args of_args;
-+	struct device_node *parent_np;
-+	struct gpio_irq_chip *girq;
- 	int ret;
- 
-+	parent_np = of_irq_find_parent(np);
-+	if (!parent_np)
-+		return -ENXIO;
-+
-+	parent_domain = irq_find_host(parent_np);
-+	of_node_put(parent_np);
-+	if (!parent_domain)
-+		return -EPROBE_DEFER;
-+
- 	ret = of_parse_phandle_with_fixed_args(np, "gpio-ranges", 3, 0, &of_args);
- 	if (ret) {
- 		dev_err(pctrl->dev, "Unable to parse gpio-ranges\n");
-@@ -1140,6 +1363,15 @@ static int rzg2l_gpio_register(struct rzg2l_pinctrl *pctrl)
- 	chip->base = -1;
- 	chip->ngpio = of_args.args[2];
- 
-+	girq = &chip->irq;
-+	gpio_irq_chip_set_chip(girq, &rzg2l_gpio_irqchip);
-+	girq->fwnode = of_node_to_fwnode(np);
-+	girq->parent_domain = parent_domain;
-+	girq->child_to_parent_hwirq = rzg2l_gpio_child_to_parent_hwirq;
-+	girq->populate_parent_alloc_arg = rzg2l_gpio_populate_parent_fwspec;
-+	girq->child_irq_domain_ops.free = rzg2l_gpio_irq_domain_free;
-+	girq->init_valid_mask = rzg2l_init_irq_valid_mask;
-+
- 	pctrl->gpio_range.id = 0;
- 	pctrl->gpio_range.pin_base = 0;
- 	pctrl->gpio_range.base = 0;
-@@ -1255,6 +1487,7 @@ static int rzg2l_pinctrl_probe(struct platform_device *pdev)
- 	}
- 
- 	spin_lock_init(&pctrl->lock);
-+	spin_lock_init(&pctrl->bitmap_lock);
- 
- 	platform_set_drvdata(pdev, pctrl);
- 
--- 
-2.25.1
-
+SGkgR2VlcnQsDQoNCk9uIDA3IEp1bHkgMjAyMiAxODo0NiBHZWVydCBVeXR0ZXJob2V2ZW4gd3Jv
+dGU6DQo+IE9uIFRodSwgSnVsIDcsIDIwMjIgYXQgNjozNyBQTSBQaGlsIEVkd29ydGh5IHdyb3Rl
+Og0KPiA+IE9uIDA3IEp1bHkgMjAyMiAwODoyMSBQaGlsIEVkd29ydGh5IHdyb3RlOg0KPiA+ID4g
+T24gMDMgSnVseSAyMDIyIDE2OjE3IEFuZHkgU2hldmNoZW5rbyB3cm90ZToNCj4gPiA+ID4gT24g
+U3VuLCBKdWwgMDMsIDIwMjIgYXQgMTA6NDE6NDVBTSArMDIwMCwgR2VlcnQgVXl0dGVyaG9ldmVu
+IHdyb3RlOg0KPiA+ID4gPiA+IE9uIFNhdCwgSnVsIDIsIDIwMjIgYXQgMTo1MSBQTSBBbmR5IFNo
+ZXZjaGVua28NCj4gPiA+ID4gPiA8YW5kcml5LnNoZXZjaGVua29AbGludXguaW50ZWwuY29tPiB3
+cm90ZToNCj4gPiA+ID4gPiA+IE9uIEZyaSwgSnVsIDAxLCAyMDIyIGF0IDA1OjM5OjE2UE0gKzAx
+MDAsIFBoaWwgRWR3b3J0aHkgd3JvdGU6DQo+ID4gPiA+ID4gPiA+IFlldCBhbm90aGVyIGkyYyBj
+b250cm9sbGVyIGZyb20gUmVuZXNhcyB0aGF0IGlzIGZvdW5kIG9uIHRoZQ0KPiA+ID4gUlovVjJN
+DQo+ID4gPiA+ID4gPiA+IChyOWEwOWcwMTEpIFNvQy4gSXQgY2FuIHN1cHBvcnQgb25seSAxMDBr
+SHogYW5kIDQwMEtIeg0KPiBvcGVyYXRpb24uDQo+ID4gPiA+DQo+ID4gPiA+IC4uLg0KPiA+ID4g
+QWxsIG90aGVyIHN1Z2dlc3RlZCBjaGFuZ2VzIGFyZSBvay4NCj4gPiA+DQo+ID4gPg0KPiA+ID4g
+PiA+ID4gPiArICAgICBwbV9ydW50aW1lX2dldF9zeW5jKGRldik7DQo+ID4gPiA+ID4NCj4gPiA+
+ID4gPiBwbV9ydW50aW1lX3Jlc3VtZV9hbmRfZ2V0KCkgOy0pDQo+ID4gPiA+DQo+ID4gPiA+IFRo
+aXMgbWFrZXMgc2Vuc2Ugb25seSBpZiB3ZSB0ZXN0IGZvciBlcnJvci4gT3RoZXJ3aXNlIHRoZSBw
+dXQgbWlnaHQNCj4gPiA+ID4gaW1iYWxhbmNlDQo+ID4gPiA+IGNvdW50ZXIuDQo+ID4gPiBJIGFk
+ZGVkIGNvZGUgdG8gY2hlY2sgdGhlIHJldHVybiB2YWx1ZSBhbmQgdG8gbXkgc3VycHJpc2UgaXQg
+cmV0dXJuZWQNCj4gPiA+IC1FQUNDRVMuDQo+ID4gPiBTb21lIGRpZ2dpbmcgbGF0ZXIsIHRoaXMg
+b25seSBoYXBwZW5zIHdoZW4gSSBoYXZlIGFuIGkyYyBjb250cm9sbGVyDQo+ID4gPiBlbmFibGVk
+IHRoYXQgZG9lc24ndCBoYXZlIGFueSBjaGlsZHJlbi4NCj4gPiA+DQo+ID4gPiBycG1fcmVzdW1l
+KCkgcmV0dXJucyAtRUFDQ0VTIFsxXSBiZWNhdXNlIHJ1bnRpbWVfc3RhdHVzIGFuZA0KPiBsYXN0
+X3N0YXR1cw0KPiA+ID4gYXJlIHNldCB0byBSUE1fU1VTUEVOREVELg0KPiA+ID4NCj4gPiA+IFRo
+ZSBpMmMgY29udHJvbGxlciB0aGF0IGRvZXMgaGF2ZSBhIGNoaWxkIGhhcyBydW50aW1lX3N0YXR1
+cyA9DQo+IFJQTV9BQ1RJVkUNCj4gPiA+IGFzIHRoZXJlIGlzIGEgY2FsbCB0byBwbV9ydW50aW1l
+X3Jlc3VtZV9hbmRfZ2V0KCkgb24gaXQgZHVlIHRvIHRoZSBpMmMNCj4gPiA+IGNvbnRyb2xsZXIg
+cGVyZm9ybWluZyBhbiBpMmMgdHJhbnNmZXIgZm9yIHRoZSBzbGF2ZSBkZXZpY2UuDQo+ID4gPg0K
+PiA+ID4gSSBhbSBjdXJyZW50bHkgc3RydWdnbGluZyB0byB3b3JrIG91dCB3aHkgdGhpcyBpcyBo
+YXBwZW5pbmcuLi4NCj4gPg0KPiA+IEZpcnN0IHBtX3N1c3BlbmQoKSB3b3JrcyBpdCdzIHdheSBk
+b3duIHRvIF9fcG1fcnVudGltZV9kaXNhYmxlKCk6DQo+ID4gICBfX3BtX3J1bnRpbWVfZGlzYWJs
+ZSsweDEzNC8weDFlMA0KPiA+ICAgX19kZXZpY2Vfc3VzcGVuZF9sYXRlKzB4MjgvMHgxYzQNCj4g
+PiAgIGRwbV9zdXNwZW5kX2xhdGUrMHgxNTgvMHgyMzANCj4gPiAgIHN1c3BlbmRfZGV2aWNlc19h
+bmRfZW50ZXIrMHgxYzgvMHg0YjQNCj4gPiAgIHBtX3N1c3BlbmQrMHgyMTAvMHgyOGMNCj4gPiBB
+dCB0aGUgZW5kIG9mIHdoaWNoLCBydW50aW1lX3N0YXR1cyBhbmQgbGFzdF9zdGF0dXMgYXJlIGJv
+dGgNCj4gUlBNX1NVU1BFTkRFRCwNCj4gPiBhbmQgZGlzYWJsZV9kZXB0aCA9IDEgWzFdDQo+ID4N
+Cj4gPiBBZnRlciB0aGF0IHJ6djJtX2kyY19zdXNwZW5kKCkgaXMgY2FsbGVkIHRyaWdnZXJpbmcg
+dGhlIEVBQ0NFUyBlcnJvcg0KPiA+IGNvbmRpdGlvbiBbMl06DQo+ID4gICBycG1fcmVzdW1lKzB4
+MzM4LzB4NjMwDQo+ID4gICBfX3BtX3J1bnRpbWVfcmVzdW1lKzB4NGMvMHg4MA0KPiA+ICAgcnp2
+Mm1faTJjX3N1c3BlbmQrMHgyNC8weGIwDQo+ID4gICBwbV9nZW5lcmljX3N1c3BlbmRfbm9pcnEr
+MHgzMC8weDUwDQo+ID4gICBnZW5wZF9maW5pc2hfc3VzcGVuZCsweGIwLzB4MTMwDQo+ID4gICBn
+ZW5wZF9zdXNwZW5kX25vaXJxKzB4MTQvMHgyMA0KPiA+ICAgX19kZXZpY2Vfc3VzcGVuZF9ub2ly
+cSsweDY4LzB4MWQwDQo+ID4gICBkcG1fbm9pcnFfc3VzcGVuZF9kZXZpY2VzKzB4MTEwLzB4MWRj
+DQo+ID4gICBkcG1fc3VzcGVuZF9ub2lycSsweDI0LzB4YTANCj4gPiAgIHN1c3BlbmRfZGV2aWNl
+c19hbmRfZW50ZXIrMHgyZjAvMHg0YjQNCj4gPiAgIHBtX3N1c3BlbmQrMHgyMTAvMHgyOGMNCj4g
+Pg0KPiA+IEkgdGhpbmsgdXNpbmcgcnVudGltZSBQTSBmcm9tIHdpdGhpbiBkcml2ZXIgc3VzcGVu
+ZC9yZXN1bWUgaXMgc2ltcGx5IG5vdA0KPiA+IHN1cHBvcnRlZC4gSG93ZXZlciBJIGhhZCBzb21l
+IGRpZmZpY3VsdHkgZm9sbG93aW5nIHRoZSBydW50aW1lIFBNIGNvZGUsDQo+ID4gc28gSSBjb3Vs
+ZCBiZSB3cm9uZy4NCj4gDQo+IE9oLCBpdCdzIGEgTk9JUlEgc3lzdGVtIHNsZWVwIG9wLiBZb3Ug
+aW5kZWVkIGNhbm5vdCB1c2UgcnVudGltZSByZXN1bWUNCj4gZnJvbSBzdWNoIGEgY2FsbGJhY2ss
+IGFzIHRoZSBsYXR0ZXIgbWF5IHNsZWVwLg0KVGhhbmtzIGZvciBjb25maXJtaW5nIHRoaXMuDQoN
+CkkgYmVsaWV2ZSBpMmMgY29udHJvbGxlciBkcml2ZXIgc2hvdWxkIHVzZSBOT0lSUSBzeXN0ZW0g
+c2xlZXAgb3BzIGFzIGkyYw0KY2hpbGRyZW4gbWF5IG5lZWQgdG8gc2VuZCBJMkMgbWVzc2FnZXMg
+ZHVyaW5nIHN1c3BlbmQsIGFuZCB0aGUgbm9pcnENCnNsZWVwIG9wcyBhcmUgY2FsbGVkIGFmdGVy
+IHRoZSBsYXRlIHNsZWVwIG9wcyAodXNlZCBieSBzb21lIGkyYyBjaGlsZHJlbg0KZHJpdmVycyku
+DQoNClNvIHNob3VsZCBJIGp1c3QgdXNlIGNsa19wcmVwYXJlX2VuYWJsZSgpIGFuZCBjbGtfcHJl
+cGFyZV9lbmFibGUoKQ0Kd2l0aGluIHRoZSBpMmMgY29udHJvbGxlcidzIHN1c3BlbmQgYW5kIHJl
+c3VtZT8NCg0KQlINClBoaWwNCg==
