@@ -2,96 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9238E569E17
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Jul 2022 10:52:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85F99569E77
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Jul 2022 11:20:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235103AbiGGIvr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Jul 2022 04:51:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38914 "EHLO
+        id S235162AbiGGJUT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Jul 2022 05:20:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233783AbiGGIvr (ORCPT
+        with ESMTP id S231770AbiGGJUQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Jul 2022 04:51:47 -0400
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FB554F186;
-        Thu,  7 Jul 2022 01:51:46 -0700 (PDT)
-Received: by mail-qk1-f176.google.com with SMTP id b24so12869671qkn.4;
-        Thu, 07 Jul 2022 01:51:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8TTCMhm7I/OLPKvXGM7JXMEkeorr37t0n/MgDLHxknI=;
-        b=oSjiSE/XijE+I5lzEu0e/Pz/X22yrLJP+wcQwNcyl1205BZHuUo9eiL21O2fLubnjg
-         MwWgo1HBvckHST1XKQ5ea5Uq7pBlGJ/b4wcxLfJs00duoLCXwxc670diq8H0ZY0EQ1on
-         RS3OV2ZgemS6cweeR7uVT94lE5pqrPAvwyoO578AoMWb+oplzWj6sn1iBzBMUOTarHck
-         O/xq4Caw6S4M/2MDrBnYGahEFqUkNUEz0hjjFVqEL3GqYGAjx5zOjLyfQSy4Zx/vm6nn
-         8+6seX4WVcmygiew5pwcnmXRhqOBdC3RsqvG8AbOxbLjk83Iuefo14PrV0o+Lpr0b2OE
-         4mKw==
-X-Gm-Message-State: AJIora+SxjZc3XF1MuAEXWnJU0HMX6EdcImGYyW/I8KABOPErjUOguuI
-        tKkO+/xwVELJuKkS3anH5nrVv19Lj5a4NFhB
-X-Google-Smtp-Source: AGRyM1viU2Kndlp+zQmvPbLpSpVwCKDMVFkme2eTbE257Mjq1O8Kgz9dJqnfvSXPVH4ho1HFhN7vOw==
-X-Received: by 2002:a37:a488:0:b0:6af:4bb:fea9 with SMTP id n130-20020a37a488000000b006af04bbfea9mr30242026qke.380.1657183905222;
-        Thu, 07 Jul 2022 01:51:45 -0700 (PDT)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id i13-20020a05622a08cd00b00317ccf991a3sm5958085qte.19.2022.07.07.01.51.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Jul 2022 01:51:44 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-31cf1adbf92so36642197b3.4;
-        Thu, 07 Jul 2022 01:51:44 -0700 (PDT)
-X-Received: by 2002:a81:1090:0:b0:31c:9be5:6c95 with SMTP id
- 138-20020a811090000000b0031c9be56c95mr22889103ywq.384.1657183904507; Thu, 07
- Jul 2022 01:51:44 -0700 (PDT)
+        Thu, 7 Jul 2022 05:20:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B43232EC1
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Jul 2022 02:20:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D2E3662200
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Jul 2022 09:20:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3D9ACC341C8
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Jul 2022 09:20:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657185614;
+        bh=VntvXG7f8uA1Sv4A9UFHedJvzglt0jPX38E1tWwCv3s=;
+        h=Subject:From:Date:To:From;
+        b=Q1Bi6H5erOR1UfV89muswMCq8jeCONYQZ8NC8snbCgIYRM4XQcC02eCkP4INr6UxH
+         +8Z02N36nlTiUwCwctJ3Lm2cQcJCcWVpNDXM+aNB8OK4two0R0z9+wTUj/XfodN66T
+         f9TAdIfcU9265lQuvtlgn2q4leaegKv94kjoTVWq44oP+h0nv7uWKzg8xFgBMcXMgz
+         VtgpIOQELboN33UazeO1thYJAv1bjSMSUHSWmlIMrokMhyXgIUS2O1OLuKYqIgf+bW
+         yXwPKeXiOhi8K9KVW+Tylrr4yNJpFpu+W8bDMQd51/8J7tvH+jhDHMg5aWbQ86hPlP
+         7dEheOPHg6IoA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 21007E45BDA
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Jul 2022 09:20:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220705155038.454251-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220705155038.454251-1-krzysztof.kozlowski@linaro.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 7 Jul 2022 10:51:33 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVw4Vcq8VCQBVFkuuA5cKGkZodgkqirh6Mohu-FmQFUvA@mail.gmail.com>
-Message-ID: <CAMuHMdVw4Vcq8VCQBVFkuuA5cKGkZodgkqirh6Mohu-FmQFUvA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: hwinfo: renesas,prr: move from soc directory
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <165718561408.12354.12280207990971716543.git-patchwork-summary@kernel.org>
+Date:   Thu, 07 Jul 2022 09:20:14 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 5, 2022 at 5:50 PM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> Group devices like Chip ID or SoC information under "hwinfo" directory.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> ---
->
-> This should go via Renesas tree because of changes around soc/renesas/renesas,prr.yaml.
->
-> Changes since v1:
-> 1. Split from https://lore.kernel.org/all/20220705154613.453096-1-krzysztof.kozlowski@linaro.org/
+Hello:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.20.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Gr{oetje,eeting}s,
+Series: arm64: dts: renesas: Prepare AA1024XD12 panel .dtsi for overlay support
+  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=601910
+  Lore link: https://lore.kernel.org/r/20211229193135.28767-1-laurent.pinchart+renesas@ideasonboard.com
+    Patches: [v2,1/3] arm64: dts: renesas: Prepare AA1024XD12 panel .dtsi for overlay support
+             [v2,2/3] arm64: dts: renesas: Add panel overlay for Salvator-X(S) boards
+             [v2,3/3] arm64: dts: renesas: Add panel overlay for Draak and Ebisu boards
 
-                        Geert
+Patch: dt-bindings: hwinfo: renesas,prr: move from soc directory
+  Submitter: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=656724
+  Lore link: https://lore.kernel.org/r/20220705155038.454251-1-krzysztof.kozlowski@linaro.org
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Total patches: 4
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
