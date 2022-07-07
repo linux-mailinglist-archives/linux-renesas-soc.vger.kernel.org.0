@@ -2,178 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37533569EED
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Jul 2022 11:56:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCF36569FC7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Jul 2022 12:26:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232086AbiGGJ4B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Jul 2022 05:56:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55122 "EHLO
+        id S232625AbiGGK0p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Jul 2022 06:26:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230120AbiGGJz7 (ORCPT
+        with ESMTP id S231710AbiGGK0n (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Jul 2022 05:55:59 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68BDD17590
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Jul 2022 02:55:58 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id o4so25547571wrh.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Jul 2022 02:55:58 -0700 (PDT)
+        Thu, 7 Jul 2022 06:26:43 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A99E2A260
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Jul 2022 03:26:42 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id c15so21718644ljr.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Jul 2022 03:26:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=PdHmBoaTnbvwszukklgM1rwSJtbJC9ovrHsF6ELtpy0=;
-        b=Qz3JtbQET6tdYqy6ZiCQpSPCH3h3AhGpRojbmf1ehmUKyyDf4z1VuEQxPpy0ChXRDZ
-         8sRvOwZjQ1gl/WlWfKIEN3AHKcaCUCd+jJ821w44HSq9rxNvpX7wBAZ4+XqzNOil52KX
-         RAP7miEwSayclz/BfS6qMXE4+cPKUD+oI/WNQCdth+h51jMBw9X4hntpMgd39xd3Fyil
-         6IqNNYH7GFG4dYtVBuSyZUr+4Ee3nuJwYEXaXShpQIH/+fzMRg4wEgoH/KP8VrDosEUo
-         vtErsinKBGMdg6b4xPYPwvm6q4AIrqVjnXHebf+1PiTxSPGxGP+ceXWMlFHb/0/I0qEe
-         XaKw==
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=sxYKdjuuJfWkKg6gn2cOyQPrvRyBOSj9iNHpzQMkc8k=;
+        b=5izSL4NqriSQe8gSvdTdr0gafrwUbYBO47Iz/mNgUnGPgiWpcmPdR+TQ6aMeG+XIsm
+         sIu+56lvK3fY3yur2tjIIxTMVW3o90r4KDLinhb5OZnDLRrXyK2dbUqx1NghB9HHYwkH
+         zsaXGnvPbMzqtJt+P7MabGOHqfUX5goe74kMNY0NjaYOwwetz3JoIfXQa5mC+xLsgZwT
+         1mG3JvpFWiaQNvH6zEnFlJSBEoshde3I35ZX0YR+isolrIUBEs1P5kGhnxn04iqjgQC2
+         2c8WsqvYoUpqCfrw5veJrtBksqpahlz3AHl/Nso5/EZv4EfRsmb2Rqc98Vljqnkmpaz4
+         Td6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=PdHmBoaTnbvwszukklgM1rwSJtbJC9ovrHsF6ELtpy0=;
-        b=uMSDOaRwQDT+0gqadEqQUF0e2h4WWQRtk4JlzhOLdlA90rj9ymUOv6v5g4s+HX2Pe1
-         8dTUl40u8S67vEzeIKUfbVEbKnJ/S9CZWTl7xgtddphWoptRm6ROcBU6yG6JKmPmjCOt
-         uA10Vi9IrBCXkwL9SpdHn2e7cp//ZILytvd7KzB1t97OXKT+WhaTZ3UT8DMRit50e9M2
-         iTVDfW3jxInhH0+9MW7m5HUyza5N26bo9ZQk3QU3FnzvfZToHisr83V9KaDTEiirYsSw
-         XpSbw9VccBxk4eblctkznJH/Y/MwXrHhoRmI17RoHM44xn9n1fw33yk9ByTlfNYujGdU
-         8Ivw==
-X-Gm-Message-State: AJIora96kcaHNqPWdRa7qhJjZBLYxDEqpmY/UpkB8Ut9Y4LsaoNxevPU
-        NdKHPRS5YjfC+J2xp6ID/LTQ0Q==
-X-Google-Smtp-Source: AGRyM1thXqvUYudCwo6be1Kb6zddnDHVOcmUm5cxc5X0jWe28PKuqHXQgArbNLi3D8IH+/63B+kkmA==
-X-Received: by 2002:a5d:47a4:0:b0:21d:859c:4bd9 with SMTP id 4-20020a5d47a4000000b0021d859c4bd9mr2561459wrb.681.1657187756879;
-        Thu, 07 Jul 2022 02:55:56 -0700 (PDT)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id l34-20020a05600c1d2200b003a03e63e428sm31917786wms.36.2022.07.07.02.55.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Jul 2022 02:55:56 -0700 (PDT)
-Message-ID: <2605a591-abf9-01ca-015c-efc3978803b8@linaro.org>
-Date:   Thu, 7 Jul 2022 11:55:55 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 1/2] thermal: rcar_gen3_thermal: Add support for
- hardware trip points
-Content-Language: en-US
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=sxYKdjuuJfWkKg6gn2cOyQPrvRyBOSj9iNHpzQMkc8k=;
+        b=igiQmRx+UFw12Vlah+wjTwWchy0ZeGTMG2HG8smf0xoi051R4z3/JISElZVzwieqWl
+         n9OLxnfdRlVWwwEvTjuOAiipRvQYQhC/uuzpOgCozY+gqDKojS0MYv6ei1A6djRZVVxp
+         /FEFUWwRaaxm0ndGOqj4h7kprvdK0aTd88Nhge8EQuiemUOInGCR95NzLWA3Vn7JQ90V
+         UejskoYyhnRNCLvf4YLMb0i4S+Gh5MfMPXiWbe9Q6QEy3Lt0oJBKV/j875JJJuLp+F9g
+         a3c91HtsDx4ckbYWsUxzSA056qWHAV+IrFsMZU3Gj8IjkM3U++QxVZB99F7/trRDtuwo
+         OHeg==
+X-Gm-Message-State: AJIora8GS/NQE2rOJUG1wMpefMk0XgHDUuLWEhMGyxcBoe46jyGFKDcl
+        7lkudnenD8FUIHLnkKKHhmuV6g==
+X-Google-Smtp-Source: AGRyM1vI5QtVdBgnERqDxsSE47RlgYECbgJxb3cFPyrA5RvBc3U8hUKiHuqShan/ZOfIzc667Lg9WQ==
+X-Received: by 2002:a2e:bd89:0:b0:25a:86c8:93ca with SMTP id o9-20020a2ebd89000000b0025a86c893camr24990848ljq.419.1657189600793;
+        Thu, 07 Jul 2022 03:26:40 -0700 (PDT)
+Received: from localhost (h-46-59-88-103.A463.priv.bahnhof.se. [46.59.88.103])
+        by smtp.gmail.com with ESMTPSA id c17-20020a056512075100b004795d64f37dsm6764924lfs.105.2022.07.07.03.26.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jul 2022 03:26:40 -0700 (PDT)
+Date:   Thu, 7 Jul 2022 12:26:39 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>
 Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] thermal: rcar_gen3_thermal: Add support for
+ hardware trip points
+Message-ID: <Ysa033e3BnH+wVBM@oden.dyn.berto.se>
 References: <20210804091818.2196806-1-niklas.soderlund+renesas@ragnatech.se>
  <20210804091818.2196806-2-niklas.soderlund+renesas@ragnatech.se>
  <40b2b8d1-f86c-4788-767c-22e60283e458@linaro.org>
  <YsasmbJotSd/aIu/@oden.dyn.berto.se>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <YsasmbJotSd/aIu/@oden.dyn.berto.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <2605a591-abf9-01ca-015c-efc3978803b8@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <2605a591-abf9-01ca-015c-efc3978803b8@linaro.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Daniel,
 
-Hi Niklas,
+On 2022-07-07 11:55:55 +0200, Daniel Lezcano wrote:
 
+> Thanks for double checking and confirming. I've a patch removing this code,
+> no need to send one. I'll submit it along with other changes around this.
+> Perhaps, I'll try a revert before, it would make more sense.
 
-On 07/07/2022 11:51, Niklas Söderlund wrote:
-> Hi Daniel,
+Thanks.
+
+To be clear I don't think we should revert commit 47cf09e0f4fc5120 
+("thermal/drivers/rcar_gen3_thermal: Add support for hardware trip 
+points"). Only remove the 4 lines it adds to rcar_gen3_thermal_resume() 
+as they are redundant. Does this match your view of the revert?
+
 > 
-> On 2022-07-06 13:13:44 +0200, Daniel Lezcano wrote:
->>
->> Hi Niklas,
->>
->>
->> On 04/08/2021 11:18, Niklas Söderlund wrote:
->>> All supported hardware except V3U is capable of generating interrupts
->>> to the CPU when the temperature go below or above a set value. Use this
->>> to implement support for the set_trip() feature of the thermal core on
->>> supported hardware.
->>>
->>> The V3U have its interrupts routed to the ECM module and therefore can
->>> not be used to implement set_trip() as the driver can't be made aware of
->>> when the interrupt triggers.
->>>
->>> Each TSC is capable of tracking up-to three different temperatures while
->>> only two are needed to implement the tracking of the thermal window.
->>>
->>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
->>> ---
->>> * Changes since v1
->>> - Remove the 'have_irq' flag from the OF match data and auto-detect if
->>>     interrupts are available using platform_get_irq_optional().
->>> - Have a non-static thermal_zone_of_device_ops and clear the .set_trips
->>>     if interrupts are unavailable.
->>> ---
->>
->> [ ... ]
->>
->>> @@ -401,8 +492,12 @@ static int __maybe_unused rcar_gen3_thermal_resume(struct device *dev)
->>>    	for (i = 0; i < priv->num_tscs; i++) {
->>>    		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
->>> +		struct thermal_zone_device *zone = tsc->zone;
->>>    		priv->thermal_init(tsc);
->>> +		if (zone->ops->set_trips)
->>> +			rcar_gen3_thermal_set_trips(tsc, zone->prev_low_trip,
->>> +						    zone->prev_high_trip);
->>>    	}
->>
->> While doing a cleanup I lately noticed this change and I've concerns about
->> it:
->>
->>   - it uses the thermal zone internals
->>
->>   - is it really needed ?
->>
->> At resume time we have:
->>
->> thermal_pm_notify()
->>    --> PM_POST_RESTORE
->>      --> thermal_zone_device_update()
->>        --> thermal_zone_set_trips()
->>
->> In addition, I believe this later call is consistent as it sets the trip
->> point based on the last temperature update, while the
->> rcar_gen3_thermal_resume() does not.
->>
->> Was this function added on purpose because some there is an issue when
->> resuming the board or just put there assuming it is doing the right thing ?
->>
->> I would be happy if we can remove this portion of code because it is the
->> only users of prev_*_trip I would like to replace by prev_trip id.
-> 
-> 
-> This looks like something that should never have been submitted
-> upstream. The usage for this was to restore the trip points in the
-> hardware registers *after* the hardware have been initialized. However
-> as far as I can tell from the code this is already done by the thermal
-> core so no need for the driver to deal with this.
-> 
-> I did a test on a Gen3 board (M3-N) with this code removed and the core
-> appears to do the right thing so this code in the driver can be removed.
-> Will you write up a patch as part of your cleanup work or would you
-> prefer I do it?
+> Do you think the 'revert' should be backported ?
 
-Thanks for double checking and confirming. I've a patch removing this 
-code, no need to send one. I'll submit it along with other changes 
-around this. Perhaps, I'll try a revert before, it would make more sense.
+I have no strong opinion, I think it's a matter of risk :-)
 
-Do you think the 'revert' should be backported ?
-
-   -- Daniel
-
-
+There is no real harm in writing the trip points to hardware twice 
+during resume. On the other hand if we *know* the thermal core in the 
+backported kernel will always call set_trips() after the device is 
+resumed, then there is no harm in removing it.
 
 -- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Kind Regards,
+Niklas S�derlund
