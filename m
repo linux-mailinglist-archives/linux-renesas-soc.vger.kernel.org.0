@@ -2,60 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF82856ADFD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Jul 2022 23:55:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AAE156B32F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jul 2022 09:14:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236468AbiGGVzJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Jul 2022 17:55:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58358 "EHLO
+        id S237462AbiGHHNT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Jul 2022 03:13:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236180AbiGGVzI (ORCPT
+        with ESMTP id S237458AbiGHHNO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Jul 2022 17:55:08 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1972237C8
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Jul 2022 14:55:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657230907; x=1688766907;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=WAhe37tcX8HzNJfsrvyOqpm+hOsBdLLcqYIH1DSydfk=;
-  b=eO4o3WOjQK76gmPB8X50vUodLFg0YkcgrQtuSwB6C089DRJWw3OvkCpa
-   /hqwdtZ1QriiI5Y8gBwx8BAFAaJNMd56MIqpz89Djve8n4J6YuVdSdatQ
-   BUvrYaAh4gSuRx34v27aEgUvcILoT3s3t4ZEw36GqDvmiBJj8+7/eq/5Z
-   1gvfBCChI/cTzWcszIz+lsbk4fOvIUe05v3V/UK84ipbB2mtnroHDrGUs
-   QeQPtmoLKhfpB5yIO1FVWS4HlWI9nJzafc09kR0MLlOJykfH18UIqUF/n
-   O8OAmVTnVjUhhJwl72yFHY65swUeoP9Sj8RqNBD5c0VJUW2UUeRtwfh1G
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10401"; a="267161030"
-X-IronPort-AV: E=Sophos;i="5.92,253,1650956400"; 
-   d="scan'208";a="267161030"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2022 14:55:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,253,1650956400"; 
-   d="scan'208";a="620962556"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 07 Jul 2022 14:55:06 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o9ZSj-000MVy-N7;
-        Thu, 07 Jul 2022 21:55:05 +0000
-Date:   Fri, 08 Jul 2022 05:54:53 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 78a104bac212aeef6780789c313085a63a8bccd0
-Message-ID: <62c7562d.vPUrb2CIIbTpXv8D%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Fri, 8 Jul 2022 03:13:14 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F7E76E8A;
+        Fri,  8 Jul 2022 00:13:11 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 116FB1FE78;
+        Fri,  8 Jul 2022 07:13:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1657264389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=uMhC18ky2++3tPvUW/SF4keQKVbRQIhWZHoumy+pnZ4=;
+        b=EnE3HRHmf01bQyQvM+RsqW4+SpnIZVxprw3naq4D1xDWg6GkfEIbcSDoenUSXfDKKCau32
+        59R6hLHSzw+uRzOaTWkiZ+ddugvcPKTeKlXWVByv3K5oyGoQhVk2CL+h2TUGW91Dcxsegm
+        Wxb3yXvQc8Z9eyKuovhVkBEjjXQh9b0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1657264389;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=uMhC18ky2++3tPvUW/SF4keQKVbRQIhWZHoumy+pnZ4=;
+        b=od6cZmruIjKNxTEWN3+lnw0ZtqoPMjNcgM8do+GOsVrPfhv4GyoGlzmeiFpFfs+NNEF9I0
+        ACLGjkqtqOHajSAw==
+Received: from localhost.localdomain (unknown [10.100.201.122])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id AB2652C142;
+        Fri,  8 Jul 2022 07:13:08 +0000 (UTC)
+From:   Jiri Slaby <jslaby@suse.cz>
+To:     mturquette@baylibre.com
+Cc:     linux-kernel@vger.kernel.org, Andi Kleen <ak@linux.intel.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Martin Liska <mliska@suse.cz>, Stephen Boyd <sboyd@kernel.org>,
+        Jiri Slaby <jslaby@suse.cz>
+Subject: [PATCH v2 2/2] clk: renesas: rcar-gen4: Fix initconst confusion for cpg_pll_config
+Date:   Fri,  8 Jul 2022 09:13:06 +0200
+Message-Id: <20220708071306.4354-2-jslaby@suse.cz>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220708071306.4354-1-jslaby@suse.cz>
+References: <20220708071306.4354-1-jslaby@suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,70 +66,39 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 78a104bac212aeef6780789c313085a63a8bccd0  Merge branch 'renesas-next' into renesas-devel
+From: Andi Kleen <ak@linux.intel.com>
 
-elapsed time: 724m
+A variable pointing to const isn't const itself. It'd have to contain
+"const" keyword after "*" too. Therefore, cpg_pll_config cannot be put
+to "rodata".  Hence use __initdata instead of __initconst to fix this.
 
-configs tested: 49
-configs skipped: 2
+[js] more explanatory commit message.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Michael Turquette <mturquette@baylibre.com>
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-clk@vger.kernel.org
+Cc: Martin Liska <mliska@suse.cz>
+Acked-by: Stephen Boyd <sboyd@kernel.org>
+Signed-off-by: Andi Kleen <ak@linux.intel.com>
+Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+---
+ drivers/clk/renesas/rcar-gen4-cpg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-gcc tested configs:
-arm                                 defconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-ia64                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-i386                                defconfig
-i386                             allyesconfig
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-i386                          randconfig-a005
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a016
-i386                          randconfig-a014
-riscv                randconfig-r042-20220707
-arc                  randconfig-r043-20220707
-s390                 randconfig-r044-20220707
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-x86_64                           rhel-8.3-syz
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                    rhel-8.3-kselftests
-
-clang tested configs:
-x86_64                        randconfig-a005
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-i386                          randconfig-a004
-i386                          randconfig-a006
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-hexagon              randconfig-r041-20220707
-hexagon              randconfig-r045-20220707
-
+diff --git a/drivers/clk/renesas/rcar-gen4-cpg.c b/drivers/clk/renesas/rcar-gen4-cpg.c
+index c7ed43d6aa67..e27832e5114f 100644
+--- a/drivers/clk/renesas/rcar-gen4-cpg.c
++++ b/drivers/clk/renesas/rcar-gen4-cpg.c
+@@ -23,7 +23,7 @@
+ #include "rcar-gen4-cpg.h"
+ #include "rcar-cpg-lib.h"
+ 
+-static const struct rcar_gen4_cpg_pll_config *cpg_pll_config __initconst;
++static const struct rcar_gen4_cpg_pll_config *cpg_pll_config __initdata;
+ static unsigned int cpg_clk_extalr __initdata;
+ static u32 cpg_mode __initdata;
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.36.1
+
