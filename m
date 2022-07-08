@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC63B56BDAE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jul 2022 18:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 391DA56BDD2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jul 2022 18:08:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230335AbiGHPvz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Jul 2022 11:51:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36690 "EHLO
+        id S237623AbiGHPwi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Jul 2022 11:52:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237753AbiGHPvy (ORCPT
+        with ESMTP id S238346AbiGHPwe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Jul 2022 11:51:54 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C065B71BD6
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  8 Jul 2022 08:51:51 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id j22so12134537ejs.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 Jul 2022 08:51:51 -0700 (PDT)
+        Fri, 8 Jul 2022 11:52:34 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00E5973922
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  8 Jul 2022 08:52:32 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id fd6so27356113edb.5
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 Jul 2022 08:52:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=y6xprDpcoZOGJDj+kaMmTTKPyjy0F33A9f2Olt1+Xws=;
-        b=v9hyV+haJfHpcHdA8b+dErnqxVGVjmEgLJE/af5R8VMDAXP8sPp5Yp3p8IU4Jo+7Rt
-         nHR5lgvsPZ1nT+wkRwW7EojB+UukkdYqKqq54JELDI3vgTB/XKQF2ELOYcWWq8DBcqzl
-         OpizpvkE+T159NNENJqqYY4LGqn2if7Pt9S99IDEjJLgU8RPbijnPJBgiwZSIakZvNfW
-         /nPfwi+XNCCAsThBbL/NemE2egw5L7mJkdZ9HPuHqczDoZfFFLnDfgYGCEin73g2K/BC
-         wU1UgqieyoWYiV5GD7WN/5M+Q3wIJcUwTOIFzWZjhvtPUvZ9XmSTwUaY8Yj/Y3x09NaG
-         /KBg==
+        bh=bdWdYayU9uTcudfFu7FvdwJK73I7yqzxqoweVLabB2o=;
+        b=YhIaZu3Np+DVQsSUF8kAuNaGeDulKvHg3AZWW1+FFISYVVpZPZAmfv+tXxGQGAjOQ5
+         Fn4H7ArIZQB/iZkY6bybgL5iUVI4y1r4LO4X8SzbnibhArbFd93A3/EKywtcTUd7EL1n
+         44V+TljmedTs4jlAQyJ7E2lt7kkxcpVPfWVtlo64E6VPEgzTXpIeXRtp19CMS9HOMVNg
+         kba6H4hpG/rk1c3OAjeknTm39M+rCmXbr4of1XHWSggtkyfNCJQrBZ80IHIbBJ/8yUOT
+         3KNO/HlDswsvNkg6BB2sBNtO7VkFlZS6KhPYZnXO/oFvvXIv1JiRCVzka+aVFJyj3rdG
+         Xtsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=y6xprDpcoZOGJDj+kaMmTTKPyjy0F33A9f2Olt1+Xws=;
-        b=TzBI+falEfZU7H02Gnl75SxwMXDTi6QECrSNKzwNy0uqU0S67D0nz8NYXcsgJ/IrXx
-         3ElgEZYDbeq8yjucIpVYntJLQ2uqNcU3uUfXJPIZGNow/1HfZudUYuh1gEF3iMExSPGQ
-         +J/8OXCpSN6wd2jjcupbeeISAgnqp7tPmhNYIZ6pqruBAnw1C4Uigus/F4ObHQQL3GGs
-         mIECvnWJw/q3eO+VySOpGjPO9HonFfdjFElMBy1etzBL6IOtS/yv+17Ztk59E4haF9MK
-         q7R+N21hqcD/+wPNPShI29rKTIOwUkVmVW00uNTDhvaS2EYRi39QArZgyhZaok/uEe7S
-         nrEg==
-X-Gm-Message-State: AJIora+wVyPMCSQAz9sCUX03UdUZKM3k6CKCkAwd4X/XDEfpwYJX0n1P
-        8ssnElNajr6E0es7XxccjZ3YaztX+Qba6oKHWJPHRQ==
-X-Google-Smtp-Source: AGRyM1su54Ku1qAjLu703d2IlpS702M7iuveg+SxBer7m6gSk7OkVFUZS1QfaeXnF5yXi0HSRKfz2jppaC02eDxApTw=
-X-Received: by 2002:a17:907:60cc:b0:722:e564:eb11 with SMTP id
- hv12-20020a17090760cc00b00722e564eb11mr4152727ejc.736.1657295510287; Fri, 08
- Jul 2022 08:51:50 -0700 (PDT)
+        bh=bdWdYayU9uTcudfFu7FvdwJK73I7yqzxqoweVLabB2o=;
+        b=2nW/m60912BUKpHBACf4eWmHLLbv9NC3UDdUPAn7MaQIKQVmkMwHwAlo+7+DBhazbu
+         4iQzS/CGZLtQu0rzkKcYXhG9XWHuuRtNa/eWvTAUefKn5uxxwglJhCMHN2St5KDRuEJx
+         VkKdzsGx0FhzIUE9/XbHOkaucqj/BUqMzEyx+EtoUOHyqEi1ODJNoWT7+J0HMXqJPN14
+         kAH8Pjh6spMiR/aYptG4+DnaFymQV3oFL6cqq2NjPEP7oA2CSRO8/70K8PpeH0H85r2I
+         QmqSja8r7WIkjHLxyzlHxR479tKCjFFHqFBNwArk2fxWyZojTBy/UbqFlSxdm31Buel8
+         HjHQ==
+X-Gm-Message-State: AJIora9VLGDegpRqMxioexnTKV4EQCU/vg3aRZeCY+aopfUI8UEcijao
+        0HqQNmKEXMOHG0YOaIInT91jF2F+VL0NsBvY9iV2rVhXZJZG1A==
+X-Google-Smtp-Source: AGRyM1uLMvjXfvEpGYBaMFejjQenN3mbzGVcUcaILvjndi/dBVYImV0w2OETrCJO2TR8Si/5kOjqOyLisgy1w7YJa/Y=
+X-Received: by 2002:a05:6402:2786:b0:435:da07:14cb with SMTP id
+ b6-20020a056402278600b00435da0714cbmr5751720ede.408.1657295551537; Fri, 08
+ Jul 2022 08:52:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220707182314.66610-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220707182314.66610-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220707182314.66610-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220707182314.66610-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220707182314.66610-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220707182314.66610-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Fri, 8 Jul 2022 17:51:39 +0200
-Message-ID: <CAMRc=McXyNk8r0bhAVKWY71+zXjDB-5wD4sx7pXjiBkLutsb8Q@mail.gmail.com>
-Subject: Re: [PATCH v8 1/6] gpio: Remove dynamic allocation from populate_parent_alloc_arg()
+Date:   Fri, 8 Jul 2022 17:52:21 +0200
+Message-ID: <CAMRc=MdJDwMSHjWd1dUjVp72fRU+_MGKcr=F-HCOzr8KaUoWDw@mail.gmail.com>
+Subject: Re: [PATCH v8 4/6] gpio: gpiolib: Allow free() callback to be overridden
 To:     Prabhakar <prabhakar.csengg@gmail.com>
 Cc:     Marc Zyngier <maz@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -65,19 +65,11 @@ Cc:     Marc Zyngier <maz@kernel.org>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Daniel Palmer <daniel@thingy.jp>,
-        Romain Perier <romain.perier@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Robert Richter <rric@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -86,39 +78,54 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Thu, Jul 7, 2022 at 8:24 PM <prabhakar.csengg@gmail.com> wrote:
 >
-> From: Marc Zyngier <maz@kernel.org>
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> The gpiolib is unique in the way it uses intermediate fwspecs
-> when feeding an interrupt specifier to the parent domain, as it
-> relies on the populate_parent_alloc_arg() callback to perform
-> a dynamic allocation.
+> Allow free() callback to be overridden from irq_domain_ops for
+> hierarchical chips.
 >
-> This is pretty inefficient (we free the structure almost immediately),
-> and the only reason this isn't a stack allocation is that our
-> ThunderX friend uses MSIs rather than a FW-constructed structure.
+> This allows drivers to free up resources which are allocated during
+> child_to_parent_hwirq()/populate_parent_alloc_arg() callbacks.
 >
-> Let's solve it by providing a new type composed of the union
-> of a struct irq_fwspec and a msi_info_t, which satisfies both
-> requirements. This allows us to use a stack allocation, and we
-> can move the handful of users to this new scheme.
+> On Renesas RZ/G2L platform a bitmap is maintained for TINT slots, a slot
+> is allocated in child_to_parent_hwirq() callback which is freed up in free
+> callback hence this override.
 >
-> Also perform some additional cleanup, such as getting rid of the
-> stub versions of the irq_domain_translate_*cell helpers, which
-> are never used when CONFIG_IRQ_DOMAIN_HIERARCHY isn't selected.
->
-> Tested on a Tegra186.
->
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Marc Zyngier <maz@kernel.org>
-> Cc: Daniel Palmer <daniel@thingy.jp>
-> Cc: Romain Perier <romain.perier@gmail.com>
-> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: Robert Richter <rric@kernel.org>
-> Cc: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> Cc: Andy Gross <agross@kernel.org>
-> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
+>  drivers/gpio/gpiolib.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+> index bfde94243752..68d9f95d7799 100644
+> --- a/drivers/gpio/gpiolib.c
+> +++ b/drivers/gpio/gpiolib.c
+> @@ -1181,15 +1181,18 @@ static void gpiochip_hierarchy_setup_domain_ops(struct irq_domain_ops *ops)
+>         ops->activate = gpiochip_irq_domain_activate;
+>         ops->deactivate = gpiochip_irq_domain_deactivate;
+>         ops->alloc = gpiochip_hierarchy_irq_domain_alloc;
+> -       ops->free = irq_domain_free_irqs_common;
+>
+>         /*
+> -        * We only allow overriding the translate() function for
+> +        * We only allow overriding the translate() and free() functions for
+>          * hierarchical chips, and this should only be done if the user
+> -        * really need something other than 1:1 translation.
+> +        * really need something other than 1:1 translation for translate()
+> +        * callback and free if user wants to free up any resources which
+> +        * were allocated during callbacks, for example populate_parent_alloc_arg.
+>          */
+>         if (!ops->translate)
+>                 ops->translate = gpiochip_hierarchy_irq_domain_translate;
+> +       if (!ops->free)
+> +               ops->free = irq_domain_free_irqs_common;
+>  }
+>
+>  static int gpiochip_hierarchy_add_domain(struct gpio_chip *gc)
+> --
+> 2.25.1
+>
 
 Acked-by: Bartosz Golaszewski <brgl@bgdev.pl>
+
+Which tree is this targetting?
