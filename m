@@ -2,257 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7D5956C585
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Jul 2022 02:42:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6A9D56CA80
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Jul 2022 18:06:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbiGIAmR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Jul 2022 20:42:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42654 "EHLO
+        id S229497AbiGIQG2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 9 Jul 2022 12:06:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbiGIAmQ (ORCPT
+        with ESMTP id S229450AbiGIQG1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Jul 2022 20:42:16 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DA3AA3D44
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  8 Jul 2022 17:42:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657327336; x=1688863336;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OZBiT11fjlNvChiMR+vOxInEQqZPujIGsiByUK1LG40=;
-  b=G4oifBcS0xDXTfd2gc2LrQfuE45jYLSnANy3BDHBYKHqMAHMw0qVn1LW
-   XSYP/EEsU9uL84VBszat9fsZQ0idgP06NaEAuRriYmGWvM7/MeMn3wzRa
-   pdWoeOoffmeb7C6uJhXMXDs6yLOQkcTsVHAurkpUgdZdXXYB3tvCRFx6c
-   FQElRBqIL2MWL15oFrCD3I8ju+rXEnzI04xCwANjfgD9x68ueaOS8uXVA
-   ZSI4lWHRqysCNvpFuUCwMFQArlGrXHyEJa3jRR1Ap9t4tYK83GgB+ISC5
-   sbT1YvOrKrjPN8nOfrxe23ambEGLzvuih7MzYOVMq9abSVA5/7iJ2kH42
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10402"; a="285136653"
-X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; 
-   d="scan'208";a="285136653"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2022 17:42:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; 
-   d="scan'208";a="621426858"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 08 Jul 2022 17:42:14 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o9yY1-000O6k-Td;
-        Sat, 09 Jul 2022 00:42:13 +0000
-Date:   Sat, 09 Jul 2022 08:41:51 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:next] BUILD SUCCESS
- b5468cb7909f0068dd977e1f63ea39132098dbb7
-Message-ID: <62c8cecf.gEdUaeGj79dzTopA%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 9 Jul 2022 12:06:27 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 430BF13E18
+        for <linux-renesas-soc@vger.kernel.org>; Sat,  9 Jul 2022 09:06:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=ZlPlNDk/FmGLbnfej0pJ166q9k37
+        AQWgI23YOHarBQA=; b=X5Mi2WhSYS3ssU4FsbaksAQh0rgRXfmD5uQx0ub0NDEG
+        fAjVxPN3rvuXQKUfQXG4XvEQNGhG2AZedqVZIDIKCrjJc2ERKolCnlt2VsB9lN9S
+        FRCKR2XypfJgZC6yWnT/a5hIRYXSpyyBctBBy6Gl7zdebmV7BKrmH/WUGNkVn0U=
+Received: (qmail 2909422 invoked from network); 9 Jul 2022 18:06:20 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Jul 2022 18:06:20 +0200
+X-UD-Smtp-Session: l3s3148p1@d4uyf2HjmQdZD+wL
+Date:   Sat, 9 Jul 2022 18:06:17 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Michael Walle <michael@walle.cc>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Till Harbaum <till@harbaum.org>
+Subject: Re: [PATCH v2 2/2] i2c: Introduce i2c_str_read_write() and make use
+ of it
+Message-ID: <YsmneQ1VAKXMU7eP@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Michael Walle <michael@walle.cc>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Till Harbaum <till@harbaum.org>
+References: <20220703154232.55549-1-andriy.shevchenko@linux.intel.com>
+ <20220703154232.55549-2-andriy.shevchenko@linux.intel.com>
+ <YsWI4nzQa9gmqKdw@shikoro>
+ <YsgBkDeq/KeQ15HU@smile.fi.intel.com>
+ <YsgcZHzjzqyJjKqQ@shikoro>
+ <CAHp75VdJ2AT30md_nR3a_hY6L511w+4oqsAJ-CoE2gXitXCrNw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="zHbyfqMzo6/Cti3A"
+Content-Disposition: inline
+In-Reply-To: <CAHp75VdJ2AT30md_nR3a_hY6L511w+4oqsAJ-CoE2gXitXCrNw@mail.gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: b5468cb7909f0068dd977e1f63ea39132098dbb7  Merge branches 'renesas-arm-dt-for-v5.20' and 'renesas-dt-bindings-for-v5.20' into renesas-next
 
-elapsed time: 2330m
+--zHbyfqMzo6/Cti3A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-configs tested: 175
-configs skipped: 4
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> Okay, let me find another subsystem where this will be more useful. Do
 
-gcc tested configs:
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-m68k                        mvme147_defconfig
-m68k                             alldefconfig
-xtensa                       common_defconfig
-sh                               j2_defconfig
-powerpc                     sequoia_defconfig
-arm                           h3600_defconfig
-mips                         rt305x_defconfig
-sh                                  defconfig
-sh                          rsk7269_defconfig
-alpha                            alldefconfig
-openrisc                            defconfig
-arm                          badge4_defconfig
-powerpc                  storcenter_defconfig
-arc                         haps_hs_defconfig
-mips                             allmodconfig
-arc                            hsdk_defconfig
-arm                        cerfcube_defconfig
-powerpc                     asp8347_defconfig
-arm                          pxa910_defconfig
-arc                      axs103_smp_defconfig
-powerpc                      mgcoge_defconfig
-sh                             shx3_defconfig
-mips                           xway_defconfig
-powerpc                 mpc8540_ads_defconfig
-nios2                            allyesconfig
-sh                           se7705_defconfig
-powerpc                     tqm8548_defconfig
-ia64                          tiger_defconfig
-sh                          rsk7264_defconfig
-sh                        edosk7705_defconfig
-m68k                       m5249evb_defconfig
-arc                        nsimosci_defconfig
-powerpc                mpc7448_hpc2_defconfig
-arm                           stm32_defconfig
-sh                   sh7770_generic_defconfig
-mips                         tb0226_defconfig
-powerpc                     ep8248e_defconfig
-powerpc                 linkstation_defconfig
-arm                         vf610m4_defconfig
-sh                           se7619_defconfig
-sh                           se7712_defconfig
-arm                        mvebu_v7_defconfig
-sh                         ap325rxa_defconfig
-arm                        spear6xx_defconfig
-sh                      rts7751r2d1_defconfig
-sh                           se7721_defconfig
-sh                           se7750_defconfig
-riscv                               defconfig
-sh                           se7722_defconfig
-xtensa                              defconfig
-powerpc                     tqm8555_defconfig
-arm                             ezx_defconfig
-mips                 decstation_r4k_defconfig
-powerpc                    adder875_defconfig
-sh                              ul2_defconfig
-arm                        keystone_defconfig
-sh                   secureedge5410_defconfig
-arm                           u8500_defconfig
-arc                     nsimosci_hs_defconfig
-m68k                            q40_defconfig
-powerpc                      ppc6xx_defconfig
-arm                      jornada720_defconfig
-arm                        clps711x_defconfig
-arm                        oxnas_v6_defconfig
-powerpc                        warp_defconfig
-m68k                           sun3_defconfig
-sh                          r7780mp_defconfig
-x86_64                           alldefconfig
-xtensa                generic_kc705_defconfig
-sh                   sh7724_generic_defconfig
-sh                           se7724_defconfig
-sh                     magicpanelr2_defconfig
-xtensa                    xip_kc705_defconfig
-arm                            qcom_defconfig
-microblaze                      mmu_defconfig
-s390                          debug_defconfig
-m68k                       m5475evb_defconfig
-sh                         microdev_defconfig
-sh                           sh2007_defconfig
-sh                         ecovec24_defconfig
-arm                            hisi_defconfig
-powerpc                     taishan_defconfig
-parisc64                            defconfig
-nios2                            alldefconfig
-mips                      maltasmvp_defconfig
-sparc                               defconfig
-xtensa                           allyesconfig
-csky                                defconfig
-sparc                            allyesconfig
-x86_64                                  kexec
-s390                                defconfig
-s390                             allmodconfig
-arc                                 defconfig
-alpha                               defconfig
-s390                             allyesconfig
-powerpc                          allyesconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-nios2                               defconfig
-parisc                              defconfig
-parisc                           allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220707
-ia64                             allmodconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-i386                             allyesconfig
-i386                                defconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-riscv                randconfig-r042-20220707
-arc                  randconfig-r043-20220707
-s390                 randconfig-r044-20220707
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
+Yes :)
 
-clang tested configs:
-powerpc                  mpc885_ads_defconfig
-powerpc                    mvme5100_defconfig
-mips                     loongson1c_defconfig
-mips                   sb1250_swarm_defconfig
-arm                      pxa255-idp_defconfig
-powerpc                     tqm8540_defconfig
-mips                         tb0287_defconfig
-powerpc                 xes_mpc85xx_defconfig
-powerpc                    gamecube_defconfig
-arm                            dove_defconfig
-arm                        multi_v5_defconfig
-powerpc                 mpc8315_rdb_defconfig
-x86_64                        randconfig-k001
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a011
-i386                          randconfig-a013
-i386                          randconfig-a015
-hexagon              randconfig-r045-20220707
-hexagon              randconfig-r041-20220707
+> yuo have any wiki page about TODO in i2c subsys for kernel newbies (it
+> would be good task to add)?
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+There is https://i2c.wiki.kernel.org/index.php/Main_Page but it is not
+kept up to date. Do you mean "cleaning drivers from dbg messages"?
+
+
+--zHbyfqMzo6/Cti3A
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmLJp3UACgkQFA3kzBSg
+KbZbDA/9FIe+AyjmEg9ON3TYLjMcM21C05cj4cxDDSX5aoeBkpRSkfXkuhj1U/A7
+u5wRPnB6miHwtwEQXhic9osorCz4/jY7nq0klnoZQUBHVaHkWUsAq2e2qxZcgSR3
+eDtSFwThH0gHhanBXzL/gOT8I7eahqT6RwCCLK3S82nJQvw5Y9onoavSFNyd0/2g
+8FqF+lb6qnDsseaYy4PTzP443/2Dwzc9TY3Q9T/ndm3kR8L9M0pQIsr/TiwlevQl
+917dl0A7BXUqnispE/kswzyDUvneB00aWjGPd9QQ1pEpsheqKo+tgbfdzMFfeEyP
+Z4RO1eNjJHU8cqIoR3NXH32bdTSQyxSCHKQK2KE1G7ZRPbMJ68tsa52MXf1iTYGH
+U7DTmWTsOtBU0eQzcX0vSEcIpjfn7dP3IGwvlMExx40mP+9RcP6zrt+u3b74wpeK
+gCIghaZ906PH6W9OetFH6H9EXju1M37b3jCdCWednDcWEnwvNIxPdmcPGrl7D/K+
+tD+pKE1bVMZBIYnj+QG+ULSzIb2HCIseWXxiMgdklPs7q9J+AZD2ayIumKuDeQn2
+E++oGGmww0s+bjhYTG1WkVUN0Es5h9AwXFEcJfkaXBkiSi8KQixfnotFrSOpNVmm
+XsE9AdyrN3AFFQ5qWmGiAMbDhQ29gQz1+pHY6221Bqe6YMSMrYI=
+=AtXT
+-----END PGP SIGNATURE-----
+
+--zHbyfqMzo6/Cti3A--
