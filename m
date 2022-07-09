@@ -2,106 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 636CE56CAFE
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Jul 2022 20:04:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 079BE56CBE8
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Jul 2022 01:10:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229463AbiGISE2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 9 Jul 2022 14:04:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40628 "EHLO
+        id S229540AbiGIXK5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 9 Jul 2022 19:10:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbiGISE1 (ORCPT
+        with ESMTP id S229471AbiGIXK4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 9 Jul 2022 14:04:27 -0400
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A8EC15801;
-        Sat,  9 Jul 2022 11:04:26 -0700 (PDT)
-Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-3137316bb69so14648027b3.10;
-        Sat, 09 Jul 2022 11:04:26 -0700 (PDT)
+        Sat, 9 Jul 2022 19:10:56 -0400
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 419211706D
+        for <linux-renesas-soc@vger.kernel.org>; Sat,  9 Jul 2022 16:10:55 -0700 (PDT)
+Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-2ef5380669cso18116037b3.9
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 09 Jul 2022 16:10:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=dZb0z9oQGjeGeVmJPdpy5L//+nMPYZT6cUKj4IQueRw=;
-        b=EeKIKeabZt2DEwx/zEOB1h23sJtPXlCNiPhSK0haoxJcQgKHysEpGqfO6EMyRzE1QS
-         7sjgvBoe6Xbvfw3qfcGuUAgEIMUEVWLtQPWlBEzFrFPbGa43OdwWpVEExgCg2B5fHTTa
-         OXznYfDSZBHVkEQi1mH84pAp2DHu62QgMp7Lwou5Tn9VUa6gLw6h+z5FjJv8D3W2awzO
-         2uVdzI/AFE4bQlo5T0dTvtOpr5Yyp9G37IX/eA3i2BmbaLJFC8jorXNxAMNjTiZLKX3E
-         8EXpsGMt2pLI2uzZQyLmPsv2/XcfeRj8IDTlq7LUl9/zm3w783cRg/3lO5B2CPcxmS/T
-         eViQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5ZGD3Nxzak+m+QGnrxzoo2gB9U5G9VM4dOnEf9Bmy7U=;
+        b=WzGK59rAd0kGgOWQGU99VbIINl4q/V6sJL3XUNXDeK9/BB/dUnyDq1yPOI9iTA+RiO
+         Z2+w1K0jDq9lAG/HMgEuucw2yGq2nEfTg16Gelpbjxo2RFH56foVZa+HTNhTUbnDZ9tL
+         A91kxP0e/6tU5r3tEXazJnqXcW2nHDVDXSMnA7LLZy81z1bPqt3M8hAAW9J0PuKfpU4Q
+         HUQCmpLn2lAwsN0rq+wWgx5rLQ6ibKD0uZRxVsZefzUFpvJM0fKqr12Jr5PZcMYqjuSK
+         G5PIIcuhF343OYi3IwbK3Cbw3GFhhRaQ3WwoPcwAdyVb708fAZX3iZ7HJr5Ie03j5eEY
+         ttwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=dZb0z9oQGjeGeVmJPdpy5L//+nMPYZT6cUKj4IQueRw=;
-        b=caGLqVFc2B1hSRmDLtq0nVYnouv/6VySxttGxdG0ybH/Qs2Way0TVqq/gYrGsA4Y8L
-         rU/VaQf3bY7u0WpdlRV4LhHhzFre5QzGLlKmE7LAlny3sOGClrKq5p+f5P8yZxaz47Ax
-         OGHnNHHIjG3tvd4LJWZeHZN9l9w+FyVyjkfQr8KULJlbq74s+sGIAHZ3JCeo1fQvOB28
-         f82i51X14a+f2kiPapay+4WQo7rrmxROyOd6T130Gqw13qiggHjJ6r19Zc5qQwAHLVw3
-         EHFXANZxSYcvzjUuSikhIK09s7uWD/a4J2e1S3El128AD/m1syQlRf6q5qrN7hkwqHWT
-         uPag==
-X-Gm-Message-State: AJIora9Hu8EcD0CxvJ6QScfPNNMP2370h8aXPkPhX/+EYLWGJqp7D+pv
-        /jr7m556aYf1rBd+s0JEDZhVmTwe+zCcStMvsGGec4m9J2uS7g==
-X-Google-Smtp-Source: AGRyM1tpt9b06DebOPL+shjB/ySoyuMlM8pCnKlYf6dzx4Vkl46SEo1fYMDg5lGPMsPyqTIZDJ/rA3jMROq3HQPbEpA=
-X-Received: by 2002:a81:108f:0:b0:31c:d7ae:9ff1 with SMTP id
- 137-20020a81108f000000b0031cd7ae9ff1mr10604838ywq.18.1657389865584; Sat, 09
- Jul 2022 11:04:25 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=5ZGD3Nxzak+m+QGnrxzoo2gB9U5G9VM4dOnEf9Bmy7U=;
+        b=ozG1OKmLi1nK6XHoYBKbiLSte0SSQm/JvGSGzxJ7bnFYveeeBGuRI3zHnWtqE/oXTp
+         zMu+CUCpDgaDivhnP5I7mTNlhY0o1cGMsGZ68WInQjusVwRS/WhNe8MVhuysOyjl74YP
+         mn7uw0OVGtWYaQQWwqGoW4P25R8QM5FpEnJ+v/YfXyZUCQJh53pCbf2K10Pr7gvdWbeG
+         hQvMNrs8fE9DDNEpWJETsaR71GHgLnQBZqYiZb3P0K9LnJz2eqkbS2L0RY6KN8uUGZ7G
+         OkOMPsQx2578gpeFjWV1h2FQraXAzkpZCwqTK3a/rwedv2Rs7loen7lNauNIRHUarveA
+         +6VA==
+X-Gm-Message-State: AJIora9AIhNeI0mhTFU/uLgaturFw3OAOrjPKmn0LNT4cR6Xwdd61JZO
+        NxFxTDIZ+X0FChT69/Bw3cfXd3AwJtaSlSeRjMCzUA==
+X-Google-Smtp-Source: AGRyM1u2bZTCoaP7e+ruJbFGwjKxwCPNaV/c/pTS8xG4isrq0lKHAPvjOotgkvgXtKXtETaUYjlTg1vAx5GliDkEoio=
+X-Received: by 2002:a81:34c:0:b0:31c:8b37:6595 with SMTP id
+ 73-20020a81034c000000b0031c8b376595mr12357507ywd.126.1657408254533; Sat, 09
+ Jul 2022 16:10:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220703154232.55549-1-andriy.shevchenko@linux.intel.com>
- <20220703154232.55549-2-andriy.shevchenko@linux.intel.com>
- <YsWI4nzQa9gmqKdw@shikoro> <YsgBkDeq/KeQ15HU@smile.fi.intel.com>
- <YsgcZHzjzqyJjKqQ@shikoro> <CAHp75VdJ2AT30md_nR3a_hY6L511w+4oqsAJ-CoE2gXitXCrNw@mail.gmail.com>
- <YsmneQ1VAKXMU7eP@shikoro>
-In-Reply-To: <YsmneQ1VAKXMU7eP@shikoro>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 9 Jul 2022 20:03:46 +0200
-Message-ID: <CAHp75VdkJP+5Lbr=E5s1-cX5ALVAXaVeatr_0KqiCU88h3wHTQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] i2c: Introduce i2c_str_read_write() and make use
- of it
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Michael Walle <michael@walle.cc>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Sam Protsenko <semen.protsenko@linaro.org>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Till Harbaum <till@harbaum.org>
+References: <cover.1657279527.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1657279527.git.geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 10 Jul 2022 01:10:43 +0200
+Message-ID: <CACRpkdY2caHo6J9GwuX9R1JrCLQYLuO7YTWT5MMU6RD+NuaRXA@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v5.20 (take two)
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Jul 9, 2022 at 6:06 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> > Okay, let me find another subsystem where this will be more useful. Do
->
-> Yes :)
->
-> > yuo have any wiki page about TODO in i2c subsys for kernel newbies (it
-> > would be good task to add)?
->
-> There is https://i2c.wiki.kernel.org/index.php/Main_Page but it is not
-> kept up to date. Do you mean "cleaning drivers from dbg messages"?
+On Fri, Jul 8, 2022 at 1:27 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-Yes.
+> The following changes since commit 5223c511eb4f919e6b423b2f66e02674e97e77e3:
+>
+>   pinctrl: renesas: rzg2l: Return -EINVAL for pins which have input disabled (2022-06-06 11:12:22 +0200)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.20-tag2
+>
+> for you to fetch changes up to 36611d28f5130d8bb9aa36ec64d4ebcd736e8dba:
+>
+>   pinctrl: renesas: r8a779g0: Add missing MODSELx for AVBx (2022-07-05 09:12:37 +0200)
 
+Pulled in, thanks!
 
--- 
-With Best Regards,
-Andy Shevchenko
+Yours,
+Linus Walleij
