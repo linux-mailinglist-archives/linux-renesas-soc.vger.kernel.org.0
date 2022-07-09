@@ -2,72 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DE0E56C1EE
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Jul 2022 01:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7D5956C585
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Jul 2022 02:42:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238853AbiGHTjM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Jul 2022 15:39:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47126 "EHLO
+        id S229456AbiGIAmR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Jul 2022 20:42:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239860AbiGHTjJ (ORCPT
+        with ESMTP id S229441AbiGIAmQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Jul 2022 15:39:09 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 336DC25A
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  8 Jul 2022 12:39:06 -0700 (PDT)
+        Fri, 8 Jul 2022 20:42:16 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DA3AA3D44
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  8 Jul 2022 17:42:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657309146; x=1688845146;
+  t=1657327336; x=1688863336;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=28vFcixEJVgqq1Bk6RU3C9VZ/iiOnx6O1vMzibRvdmc=;
-  b=CAwbMWAPklkZ9nG946xuiQ8elyMpg3SN8bBL7vHmhg1/2YJmq+vb8n6d
-   i0OWR/amsgPzcGfXPNW8bQIDW3mgCs3D13yE/QBGGfbfBLSlHCy7hDfYU
-   OHvLjJ6yYD2OykP606ZUtpX8/fUCE87vBSRWNd0AjRajV4qdeuBpfln2I
-   9qu9adn7oDrrC5fA7AEImqAF40OBqraMO35n1Ckvacr3dnq78gMzjcvNu
-   dQscZJfnJIDE+k270Lkz0yFfRz3zVbEo+VaKYbmpd+blpZZTo59sSs1Tz
-   qnvwmVfhJJKZ0amvPUS7ghq9QsZJkHoS1ZqR8jyWeMuuIzp6yd1eVCDdu
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10402"; a="285479646"
+  bh=OZBiT11fjlNvChiMR+vOxInEQqZPujIGsiByUK1LG40=;
+  b=G4oifBcS0xDXTfd2gc2LrQfuE45jYLSnANy3BDHBYKHqMAHMw0qVn1LW
+   XSYP/EEsU9uL84VBszat9fsZQ0idgP06NaEAuRriYmGWvM7/MeMn3wzRa
+   pdWoeOoffmeb7C6uJhXMXDs6yLOQkcTsVHAurkpUgdZdXXYB3tvCRFx6c
+   FQElRBqIL2MWL15oFrCD3I8ju+rXEnzI04xCwANjfgD9x68ueaOS8uXVA
+   ZSI4lWHRqysCNvpFuUCwMFQArlGrXHyEJa3jRR1Ap9t4tYK83GgB+ISC5
+   sbT1YvOrKrjPN8nOfrxe23ambEGLzvuih7MzYOVMq9abSVA5/7iJ2kH42
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10402"; a="285136653"
 X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; 
-   d="scan'208";a="285479646"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2022 12:39:05 -0700
+   d="scan'208";a="285136653"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2022 17:42:15 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; 
-   d="scan'208";a="770881285"
+   d="scan'208";a="621426858"
 Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 08 Jul 2022 12:39:04 -0700
+  by orsmga008.jf.intel.com with ESMTP; 08 Jul 2022 17:42:14 -0700
 Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1o9toe-000Nqi-0x;
-        Fri, 08 Jul 2022 19:39:04 +0000
-Date:   Sat, 09 Jul 2022 03:38:43 +0800
+        id 1o9yY1-000O6k-Td;
+        Sat, 09 Jul 2022 00:42:13 +0000
+Date:   Sat, 09 Jul 2022 08:41:51 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-dt-bindings-for-v5.20] BUILD SUCCESS d955cf3df3c26097aeab5712bc76f1c62a4ce86f
-Message-ID: <62c887c3.jXDPzZrYg3OcEFAd%lkp@intel.com>
+Subject: [geert-renesas-devel:next] BUILD SUCCESS
+ b5468cb7909f0068dd977e1f63ea39132098dbb7
+Message-ID: <62c8cecf.gEdUaeGj79dzTopA%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dt-bindings-for-v5.20
-branch HEAD: d955cf3df3c26097aeab5712bc76f1c62a4ce86f  dt-bindings: hwinfo: renesas,prr: move from soc directory
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: b5468cb7909f0068dd977e1f63ea39132098dbb7  Merge branches 'renesas-arm-dt-for-v5.20' and 'renesas-dt-bindings-for-v5.20' into renesas-next
 
-elapsed time: 2025m
+elapsed time: 2330m
 
-configs tested: 162
+configs tested: 175
 configs skipped: 4
 
 The following configs have been built successfully.
@@ -114,6 +115,11 @@ powerpc                mpc7448_hpc2_defconfig
 arm                           stm32_defconfig
 sh                   sh7770_generic_defconfig
 mips                         tb0226_defconfig
+powerpc                     ep8248e_defconfig
+powerpc                 linkstation_defconfig
+arm                         vf610m4_defconfig
+sh                           se7619_defconfig
+sh                           se7712_defconfig
 arm                        mvebu_v7_defconfig
 sh                         ap325rxa_defconfig
 arm                        spear6xx_defconfig
@@ -132,11 +138,12 @@ arm                        keystone_defconfig
 sh                   secureedge5410_defconfig
 arm                           u8500_defconfig
 arc                     nsimosci_hs_defconfig
-sh                           se7712_defconfig
 m68k                            q40_defconfig
 powerpc                      ppc6xx_defconfig
 arm                      jornada720_defconfig
-powerpc                     ep8248e_defconfig
+arm                        clps711x_defconfig
+arm                        oxnas_v6_defconfig
+powerpc                        warp_defconfig
 m68k                           sun3_defconfig
 sh                          r7780mp_defconfig
 x86_64                           alldefconfig
@@ -152,6 +159,11 @@ m68k                       m5475evb_defconfig
 sh                         microdev_defconfig
 sh                           sh2007_defconfig
 sh                         ecovec24_defconfig
+arm                            hisi_defconfig
+powerpc                     taishan_defconfig
+parisc64                            defconfig
+nios2                            alldefconfig
+mips                      maltasmvp_defconfig
 sparc                               defconfig
 xtensa                           allyesconfig
 csky                                defconfig
@@ -167,7 +179,6 @@ riscv                            allmodconfig
 riscv                            allyesconfig
 nios2                               defconfig
 parisc                              defconfig
-parisc64                            defconfig
 parisc                           allyesconfig
 riscv                    nommu_virt_defconfig
 riscv                          rv32_defconfig
@@ -186,8 +197,8 @@ powerpc                           allnoconfig
 mips                             allyesconfig
 powerpc                          allmodconfig
 sh                               allmodconfig
-i386                                defconfig
 i386                             allyesconfig
+i386                                defconfig
 x86_64                        randconfig-a006
 x86_64                        randconfig-a004
 x86_64                        randconfig-a002
@@ -217,10 +228,13 @@ clang tested configs:
 powerpc                  mpc885_ads_defconfig
 powerpc                    mvme5100_defconfig
 mips                     loongson1c_defconfig
+mips                   sb1250_swarm_defconfig
 arm                      pxa255-idp_defconfig
 powerpc                     tqm8540_defconfig
 mips                         tb0287_defconfig
 powerpc                 xes_mpc85xx_defconfig
+powerpc                    gamecube_defconfig
+arm                            dove_defconfig
 arm                        multi_v5_defconfig
 powerpc                 mpc8315_rdb_defconfig
 x86_64                        randconfig-k001
@@ -233,9 +247,9 @@ i386                          randconfig-a004
 x86_64                        randconfig-a012
 x86_64                        randconfig-a014
 x86_64                        randconfig-a016
+i386                          randconfig-a011
 i386                          randconfig-a013
 i386                          randconfig-a015
-i386                          randconfig-a011
 hexagon              randconfig-r045-20220707
 hexagon              randconfig-r041-20220707
 
