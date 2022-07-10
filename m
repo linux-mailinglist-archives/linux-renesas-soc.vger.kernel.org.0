@@ -2,76 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA91056CE0C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Jul 2022 10:52:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E36356CEC9
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Jul 2022 13:53:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229589AbiGJIwo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 10 Jul 2022 04:52:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58676 "EHLO
+        id S229607AbiGJLxA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 10 Jul 2022 07:53:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiGJIwn (ORCPT
+        with ESMTP id S229469AbiGJLw7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 10 Jul 2022 04:52:43 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40A7913E33;
-        Sun, 10 Jul 2022 01:52:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DCDACB8068F;
-        Sun, 10 Jul 2022 08:52:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 676E7C3411E;
-        Sun, 10 Jul 2022 08:52:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657443159;
-        bh=1EGLFs5068J3AvAww5yO3QnC+XHUfwkOCvD6Fp6aLrk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=jyhNIKUsHwDrtkxy8zObw3u1fDFPvNx56sEuGC2qvhYXGzhMsV/uG8CRtRSxdEpC+
-         F7eyGOu9sSkklxjnBi42t6J+aet3bUKC37hZpSb8oymnofyBD1WqBP58GNIMnZxtcW
-         2td8i/+mOWwjyGPYl9yXdos8/1CqzN0nChWLkYeG/2rJmo7Ptt796cTBoximyUHCgu
-         CueZzblhXPKn7Q3ijymjDfoz8N8SP2FfHzIsnPLnK7HD191Bmq4o2HE2PbAngRXvp2
-         LGnCEtAdhOLfQJL6AAIaRxd23UmoOI/foOVaDCX2e3dv9X+kn5QUDTqFXtIRJ+ZaGd
-         u7fL1kCcnjpXw==
-Received: from [213.208.244.172] (helo=wait-a-minute.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <maz@kernel.org>)
-        id 1oASg9-006SB8-8o;
-        Sun, 10 Jul 2022 09:52:37 +0100
-Date:   Sun, 10 Jul 2022 09:52:36 +0100
-Message-ID: <87pmidl57v.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Sun, 10 Jul 2022 07:52:59 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 670D965A1;
+        Sun, 10 Jul 2022 04:52:57 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.92,260,1650898800"; 
+   d="scan'208";a="125674833"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 10 Jul 2022 20:52:56 +0900
+Received: from localhost.localdomain (unknown [10.226.92.4])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5CEF940071F4;
+        Sun, 10 Jul 2022 20:52:51 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v8 4/6] gpio: gpiolib: Allow free() callback to be overridden
-In-Reply-To: <CAMRc=MdJDwMSHjWd1dUjVp72fRU+_MGKcr=F-HCOzr8KaUoWDw@mail.gmail.com>
-References: <20220707182314.66610-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <20220707182314.66610-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <CAMRc=MdJDwMSHjWd1dUjVp72fRU+_MGKcr=F-HCOzr8KaUoWDw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 213.208.244.172
-X-SA-Exim-Rcpt-To: brgl@bgdev.pl, prabhakar.csengg@gmail.com, tglx@linutronix.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, geert+renesas@glider.be, linus.walleij@linaro.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v4 0/6] Add support for RZ/N1 SJA1000 CAN controller
+Date:   Sun, 10 Jul 2022 12:52:42 +0100
+Message-Id: <20220710115248.190280-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,74 +55,59 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 08 Jul 2022 16:52:21 +0100,
-Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> 
-> On Thu, Jul 7, 2022 at 8:24 PM <prabhakar.csengg@gmail.com> wrote:
-> >
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Allow free() callback to be overridden from irq_domain_ops for
-> > hierarchical chips.
-> >
-> > This allows drivers to free up resources which are allocated during
-> > child_to_parent_hwirq()/populate_parent_alloc_arg() callbacks.
-> >
-> > On Renesas RZ/G2L platform a bitmap is maintained for TINT slots, a slot
-> > is allocated in child_to_parent_hwirq() callback which is freed up in free
-> > callback hence this override.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  drivers/gpio/gpiolib.c | 9 ++++++---
-> >  1 file changed, 6 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> > index bfde94243752..68d9f95d7799 100644
-> > --- a/drivers/gpio/gpiolib.c
-> > +++ b/drivers/gpio/gpiolib.c
-> > @@ -1181,15 +1181,18 @@ static void gpiochip_hierarchy_setup_domain_ops(struct irq_domain_ops *ops)
-> >         ops->activate = gpiochip_irq_domain_activate;
-> >         ops->deactivate = gpiochip_irq_domain_deactivate;
-> >         ops->alloc = gpiochip_hierarchy_irq_domain_alloc;
-> > -       ops->free = irq_domain_free_irqs_common;
-> >
-> >         /*
-> > -        * We only allow overriding the translate() function for
-> > +        * We only allow overriding the translate() and free() functions for
-> >          * hierarchical chips, and this should only be done if the user
-> > -        * really need something other than 1:1 translation.
-> > +        * really need something other than 1:1 translation for translate()
-> > +        * callback and free if user wants to free up any resources which
-> > +        * were allocated during callbacks, for example populate_parent_alloc_arg.
-> >          */
-> >         if (!ops->translate)
-> >                 ops->translate = gpiochip_hierarchy_irq_domain_translate;
-> > +       if (!ops->free)
-> > +               ops->free = irq_domain_free_irqs_common;
-> >  }
-> >
-> >  static int gpiochip_hierarchy_add_domain(struct gpio_chip *gc)
-> > --
-> > 2.25.1
-> >
-> 
-> Acked-by: Bartosz Golaszewski <brgl@bgdev.pl>
-> 
-> Which tree is this targetting?
-> 
+This patch series aims to add support for RZ/N1 SJA1000 CAN controller.
 
-Given the various dependencies, I've created a stable branch[1] on top
-of -rc3, and merged the whole thing into irq/irqchip-next.
+The SJA1000 CAN controller on RZ/N1 SoC has some differences compared
+to others like it has no clock divider register (CDR) support and it has
+no HW loopback (HW doesn't see tx messages on rx), so introduced a new
+compatible 'renesas,rzn1-sja1000' to handle these differences.
 
-Feel free to pull the branch in the GPIO tree as well.
+v3->v4:
+ * Updated bindings as per coding style used in example-schema.
+ * Entire entry in properties compatible declared as enum. Also Descriptions
+   do not bring any information,so removed it from compatible description.
+ * Used decimal values in nxp,tx-output-mode enums.
+ * Fixed indentaions in binding examples.
+ * Removed clock-names from bindings, as it is single clock.
+ * Optimized the code as per Vincent's suggestion.
+ * Updated clock handling as per bindings.
+v2->v3:
+ * Added reg-io-width is a required property for technologic,sja1000 & renesas,rzn1-sja1000
+ * Removed enum type from nxp,tx-output-config and updated the description
+   for combination of TX0 and TX1.
+ * Updated the example for technologic,sja1000
+v1->v2:
+ * Moved $ref: can-controller.yaml# to top along with if conditional to
+   avoid multiple mapping issues with the if conditional in the subsequent
+   patch.
+ * Added an example for RZ/N1D SJA1000 usage.
+ * Updated commit description for patch#2,#3 and #6
+ * Removed the quirk macro SJA1000_NO_HW_LOOPBACK_QUIRK
+ * Added prefix SJA1000_QUIRK_* for quirk macro.
+ * Replaced of_device_get_match_data->device_get_match_data.
+ * Added error handling on clk error path
+ * Started using "devm_clk_get_optional_enabled" for clk get,prepare and enable.
 
-Thanks,
+Ref:
+ [1] https://lore.kernel.org/linux-renesas-soc/20220701162320.102165-1-biju.das.jz@bp.renesas.com/T/#t
 
-	M.
+Biju Das (6):
+  dt-bindings: can: sja1000: Convert to json-schema
+  dt-bindings: can: nxp,sja1000: Document RZ/N1{D,S} support
+  can: sja1000: Add Quirk for RZ/N1 SJA1000 CAN controller
+  can: sja1000: Use device_get_match_data to get device data
+  can: sja1000: Change the return type as void for SoC specific init
+  can: sja1000: Add support for RZ/N1 SJA1000 CAN Controller
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git/log/?h=irq/renesas-irqc
+ .../bindings/net/can/nxp,sja1000.yaml         | 132 ++++++++++++++++++
+ .../devicetree/bindings/net/can/sja1000.txt   |  58 --------
+ drivers/net/can/sja1000/sja1000.c             |   8 +-
+ drivers/net/can/sja1000/sja1000.h             |   3 +-
+ drivers/net/can/sja1000/sja1000_platform.c    |  56 +++++---
+ 5 files changed, 177 insertions(+), 80 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
+ delete mode 100644 Documentation/devicetree/bindings/net/can/sja1000.txt
 
 -- 
-Without deviation from the norm, progress is not possible.
+2.25.1
+
