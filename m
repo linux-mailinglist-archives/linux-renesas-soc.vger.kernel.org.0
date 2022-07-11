@@ -2,140 +2,348 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D783257001A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Jul 2022 13:20:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98FC1570072
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Jul 2022 13:27:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231221AbiGKLUX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 Jul 2022 07:20:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33174 "EHLO
+        id S229725AbiGKL1O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 Jul 2022 07:27:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231224AbiGKLUD (ORCPT
+        with ESMTP id S229942AbiGKL0z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Jul 2022 07:20:03 -0400
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC1A074E29
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Jul 2022 03:43:56 -0700 (PDT)
-Received: by mail-vk1-xa41.google.com with SMTP id c185so1888927vkh.12
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Jul 2022 03:43:56 -0700 (PDT)
+        Mon, 11 Jul 2022 07:26:55 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92EA36C13A;
+        Mon, 11 Jul 2022 04:03:05 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id bp17so204985lfb.3;
+        Mon, 11 Jul 2022 04:03:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=x9pVpRaMVny8R6QTA504xbzPNTkTz++Ynq4CmiUHkow=;
-        b=LRkVLJETbW2imGjM/T56Yr9g1vSJhZkHgs66+ffKOpsw0h4Bf/hMe/PySOzzJNT/uy
-         0Q/q+pt+QBwZkbFyx/skwb4+keXbyNLioc/SDar9AN8clfXe6cI+18qwWrsaXgH6fuiK
-         d/zw4+Rzhp22RgXFzfHz5UuXH2bFodo9UUuGPPQRNTzQD9oPvKYuaEnRIoVmnbdyoSMu
-         r+l/4jCsTrfSNTaPOSLIfgz9ahNWjy2Puv5KXw33dvEAMI5iOg0aaj1BJiuM2w44iIkh
-         3SZt3gLwsqjAL4UQimbZA0ZUwQmJsC7HKqcRM/Z+kzrSY1d2eIQHYbfz5/pJKmii8itR
-         SUxw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=/biTmow2vD5S8l/beJ7QanR8t1BNsf9ojRn7igZJ4Hc=;
+        b=fROqCJFGCtCh2xeJMCd4oheXIunawrv4Dfcydcoc4XvVCS0aHNW7JvDAImJWZsiXE1
+         uodoDAO9gMxd05ZGjog1euOdRJvQu+uoAgMzZhy/+TEUI/Hk41ajNsPy99qkLLzSCHbd
+         bH0/D9SkLh7PHyqC/YI6ujxqkJtLwXWNy1nqTolyUxd5xFVjNzl+lc0r56O0i05rFWF+
+         K5J5rIUdp0lovLd/9RYjoMPnqk2cvunnlSGDe/nFaGK0qU5ILF47O2+Q6N57j0mvYZCy
+         i79ScOKJYZOSAC9Xs93kCZ7g7LyentpcFtiaOB+Nd14vDZ6QZ8uuBM3htZz7aKUrnPKO
+         LjMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to:content-transfer-encoding;
-        bh=x9pVpRaMVny8R6QTA504xbzPNTkTz++Ynq4CmiUHkow=;
-        b=4NClV9bUyK7iGeGMTgaifVtA2b1N/lM7UwdMYBcGbo0fcguPs0uMCzSXDnL7SVJNpD
-         xSyr46bktm5NZSCwzuWFzeLdApx+9udPrSUCbYeR8OAwxwXvl6pIf3h1+ADlSjx0OeHh
-         yRw0e3lxRfFrzqRqSg7JREOsgwT2ANN7iOdMfJTkZQMOWI3tX8nXc5GgSiZg66MxFLMX
-         YOEXBkDI4kh0ZOHtIEVSE3R3Toe8uNmC1GaixnXNip2jbwXI8+Oh++Alu0K8RPl4EbYs
-         wQqJGJ1Zn+oJTIQQccDTJDp9LZM6kvDloRX+kG0XNy6zNBTGSciVspA2MNuOltIeOERs
-         cuCQ==
-X-Gm-Message-State: AJIora+ah24xrbZODUqjBgmCPNgUB6RtI6JcmpBMhxKqCFFJk/cEtPW3
-        trsE65JoyqWxfbHw6NzJqor4vviRXHZdP2WtK50=
-X-Google-Smtp-Source: AGRyM1vrHItzrbHRlDdt9m+0cvR2a4wFyJVyGuuw1+9TdAFeQM//V9d9hexr6JnVSvBClW2RTgHKjSdc0yxW3p04eqs=
-X-Received: by 2002:a05:6122:c4b:b0:374:bd55:6a24 with SMTP id
- i11-20020a0561220c4b00b00374bd556a24mr966813vkr.9.1657536235625; Mon, 11 Jul
- 2022 03:43:55 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/biTmow2vD5S8l/beJ7QanR8t1BNsf9ojRn7igZJ4Hc=;
+        b=jFkDPXrQzuYv3h2vNqB2qHPLqXoju8geOV+Si9VrusRPok27vnMneu5PfkPPc7D2Zs
+         zf3LDSKQtEfmIKWE100Bd2z8eUvDn7TIcKCzFygaRhfdaZEk/6IuOI8qsvRgOcd3C388
+         DFNCfwM8uJPdMHf2t2Hy3+F024Y5me1P2rYqLt2v/vgFv/VeHFKmA2KyOTkCffDefh22
+         Srt6T1yENwb39YfD+uRV2Rkoue5OoIE5yPlU2eml+bw4WUvtrPTwEbYFT8+w8HTZRCRZ
+         aN7GbuvoHM9B+q2R8oyDrTNiLdQpglr3Qx9OqN+PQVAoiR1/i+rVt18K3MRviG1TsEVw
+         0SRQ==
+X-Gm-Message-State: AJIora+DJ4y3KVm5viGiZ/2K+5HFd8lMvbwu0DRb0axjzQA1HTwtXcK7
+        Z9XoLgIasc+sqodrFH1RnR72+KrOSkwoTQ==
+X-Google-Smtp-Source: AGRyM1v4EcW0eoRJbdCaRcELfjOLa0zEtxeSYP+h8LegnSzpOBqI2nfOy54Ilx0EZoX2Q567Yzusdw==
+X-Received: by 2002:a05:6512:1590:b0:47f:6e14:a782 with SMTP id bp16-20020a056512159000b0047f6e14a782mr11386032lfb.131.1657537382367;
+        Mon, 11 Jul 2022 04:03:02 -0700 (PDT)
+Received: from mobilestation ([95.79.140.178])
+        by smtp.gmail.com with ESMTPSA id s9-20020a056512214900b0047fb0d5e049sm1483835lfr.273.2022.07.11.04.03.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jul 2022 04:03:01 -0700 (PDT)
+Date:   Mon, 11 Jul 2022 14:02:59 +0300
+From:   Serge Semin <fancer.lancer@gmail.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Johan Hovold <johan@kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] serial: 8250: dw: Fix the macro
+ RZN1_UART_xDMACR_8_WORD_BURST
+Message-ID: <20220711110259.cbmc6c5liu7xmudx@mobilestation>
+References: <20220630083909.4294-1-biju.das.jz@bp.renesas.com>
+ <7431817a-ed5e-1de6-9f69-fda2c1907861@kernel.org>
+ <OS0PR01MB5922F80CCAF4DFA9C2970FB686BE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922189B75A4C3A93BFE273B86819@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAHp75VfBPou1TLk4ygsqF3VSJV84_UQLpwSojELsOt9F42Z_4w@mail.gmail.com>
+ <20220705163156.56ybg35w3ytdmhgl@mobilestation>
+ <OS0PR01MB5922893187635B2F128CA93B86849@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Sender: ekpemdelivering20@gmail.com
-Received: by 2002:ab0:70c6:0:0:0:0:0 with HTTP; Mon, 11 Jul 2022 03:43:55
- -0700 (PDT)
-From:   "Mrs,Jackie Grayson" <jackiegrayson08@gmail.com>
-Date:   Sun, 10 Jul 2022 22:43:55 -1200
-X-Google-Sender-Auth: 4HWBH4UBT6n9eoqcMTwkIM6kOKo
-Message-ID: <CALFaq80cEOoHYJeDdrvefPECCC=DCcqQBuwd++CSkRAZD-k49A@mail.gmail.com>
-Subject: Gooday my beloved,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.8 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,LOTS_OF_MONEY,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:a41 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5482]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [ekpemdelivering20[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [ekpemdelivering20[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
-        *  2.9 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: ******
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB5922893187635B2F128CA93B86849@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello my dear friend,
+On Sun, Jul 10, 2022 at 08:46:46AM +0000, Biju Das wrote:
+> Hi Serge Semin,
+> 
+> Thanks for the feedback.
+> 
+> > Subject: Re: [PATCH] serial: 8250: dw: Fix the macro
+> > RZN1_UART_xDMACR_8_WORD_BURST
+> > 
+> > Hi Andy,
+> > 
+> > On Tue, Jul 05, 2022 at 11:30:01AM +0200, Andy Shevchenko wrote:
+> > > +Cc: Ilpo, the 8250_dw maintainer
+> > 
+> > > +Cc: Serge, who I believe is the author of the lines in 8250_port you
+> > > cited, sorry if I'm mistaken.
+> > 
+> > Right, I was the one who got back the line with the proper max baud rate
+> > calculation procedure in commit 7b668c064ec3 ("serial: 8250: Fix max baud
+> > limit in generic 8250 port"). In accordance with [1, 2] the interface
+> > baud rate is (DIV*16)-th of the reference clock frequency. So the patch
+> > suggested by Biju will work only until he gets to the zero divisor value.
+> > Without my fix the baud-rate search algorithm may end up with getting
+> > unsupported baud-rates causing to have zero-divisor, which will lead to
+> > the serial interface freeze/disable [2].
+> > 
+> > [1] DesignWare DW_apb_uart Databook 4.03a, December 2020, p. 24 [2]
+> > DesignWare DW_apb_uart Databook 4.03a, December 2020, p. 125
+> 
+> Thanks for sharing the details.
+> 
+> > 
+> > >
+> > > On Tue, Jul 5, 2022 at 8:25 AM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > >
+> > > > Hi Jiri and Miquel,
+> > > >
+> > > > While testing serial driver with RZ/N1 on 5.15 kernel, which is the
+> > > > backport of mainline kernel, I seen performance issue with serial DMA
+> > for higher baud rates.
+> > > >
+> > > > The test app is taking 25 minutes finish, whereas with the below
+> > patch[1] it takes only 3 minutes to finish.
+> > > >
+> > > > Not sure has anyone seen this performance issue?
+> > > >
+> > > > [1]
+> > > > diff --git a/drivers/tty/serial/8250/8250_port.c
+> > > > b/drivers/tty/serial/8250/8250_port.c
+> > > > index 468d1aca5968..321430176698 100644
+> > > > --- a/drivers/tty/serial/8250/8250_port.c
+> > > > +++ b/drivers/tty/serial/8250/8250_port.c
+> > > > @@ -2680,7 +2680,7 @@ static unsigned int
+> > serial8250_get_baud_rate(struct uart_port *port,
+> > > >                 max = (port->uartclk + tolerance) / 4;
+> > > >         } else {
+> > > >                 min = port->uartclk / 16 / UART_DIV_MAX;
+> > 
+> > > > -               max = (port->uartclk + tolerance) / 16;
+> > > > +               max = port->uartclk;
+> > 
+> > Are you sure uartclk is initialized with a real reference clock value?
+> 
+> Looks like your code is correct.
+> 
+> The reason for performance issue is because of the out of range and it defaults to 9600 instead of the nearest possible max baud value. The requested baud rate(for eg:-5M), is higher than max possible baud rate(4.9M), because of the rounding of the clocks and uart baud calculation defaults to 9600.
+> 
+> We have PLL(1 GHz)->PLL Divider(12to 128)-> UARTCLK
+> Currently clk driver uses default divider value of 21 which set by the
+> Bootloader and it doesn't allow to change this as it has other users.
+> 
+> With this max possible baud rate is (1G/21)/16=2.97M
+> 
 
-   I sent this mail praying it will get to you in a good condition of
-health, since I my self are in a very critical health condition in
-which I sleep every night without knowing if I may be alive to see the
-next day I am Mrs, Grayson Jackie, I have decided to donate what I
-have to you, I plead that you will not expose or betray this trust and
-confidence that I am about to propose to you for the mutual benefit of
-the orphans and the less privilege onces, I am dying and diagnosed for
-cancer for about 2 years ago and I am suffering from a long time brain
-tumor. I have been touched by God Almighty to donate from what I have
-inherited from my late husband to you for good work of GodAlmighty. I
-have asked Almighty God to forgive me and I believe he has because he
-is a Merciful God, I will be going in for an operation soon and i dont
-know if i will survive from this very operation according to my doctor
-and some  medical check up.I decided to donate the sum of ($11.5
-million Dollars) to you for the good work of God Almighty, and also to
-help the motherless and lessprivilege and also forth assistance of the
-widows. At the moment I cannot take any telephone calls right now due
-to the fact that my relatives (that have squandered the funds i gave
-them for this purpose before) are around me and my health status also.
-I have adjusted my will and my lawyer is aware.
+> If we want to test baudrate in the order of 5M(1G/12)/16= 83MHz/16 = 5.2M , we need to remove the hack from Clk driver[1]
+> [1] https://elixir.bootlin.com/linux/v5.19-rc5/source/drivers/clk/renesas/r9a06g032-clocks.c#L658
+> 
+> But the clk driver finds best divider as 13 instead of 12 and reduces the 
+> Rate from 83MHz to 76.9MHz.
 
-  I wish you all the best and May the good God bless you abundantly,
-and please. use this funds judiciously and always extend the good work
-to others. As soon you get back to me, I shall give you information on
-what I need from you then you will contact the bank and tell them I
-have willed those properties to you by quoting my personal file
-routing and account information. And I have also notified the bank
-that I am willing to sent out my late husband inherited fund to you
-for a good and effective work for in the sight of God for eternal life
-and in the sight of man, for witness of God=E2=80=99s mercy and glory upon =
-our
-lives. I know i don't know you or meet each other before, I know that
-everything is controlled by God as there is nothing impossible to him
-to do.
-If you are interested in carrying out this task, get back to me for
-more details on this noble project of mine.
-May god bless you and your family and those that you care for,
-Best Regards,
-Mrs, Grayson Jackie.
-Writting From the hospital.
-May God Bless you,
+Hmm, the same approach has been implemented on our SoC too. There
+are two DW APB UARTs with common reference clock attached. That's why
+I've introduced the commit cc816969d7b5 ("serial: 8250_dw: Fix common
+clocks usage race condition"). It provides a way to update the clock
+divider of the uart interface in case if the reference clock rate has
+changed. The implemented approach has some drawbacks though:
+1. If the divider gets out of range, then the affected interfaces will
+fallback to 9600.
+2. For some time between the clock rate change and until the divider is
+updated the affected UART interfaces will work with the undetermined baud
+rate.
+
+So to speak, if you don't mind about the drawbacks above you can at
+least give it a try. Fixing the clock rate is a good alternative though.
+
+-Sergey
+
+> 
+> With 76.9Mhz, max possible baud rate is ~4.8M as per your calculation. The original requested baud rate 5.2M is now out of bound and baud rate is defaulted to Very low value say 9600, this results in the performance issue.
+> 
+> Cheers,
+> Biju
+> 
+> 
+> > 
+> > -Sergey
+> > 
+> > > >         }
+> > > >
+> > > > Note:-
+> > > > I have added below change on 5.15 kernel to test on all possible use
+> > cases.
+> > > >
+> > > > diff --git a/drivers/tty/serial/8250/8250_dw.c
+> > > > b/drivers/tty/serial/8250/8250_dw.c
+> > > > index 7884fcd66d39..6d352981fb3e 100644
+> > > > --- a/drivers/tty/serial/8250/8250_dw.c
+> > > > +++ b/drivers/tty/serial/8250/8250_dw.c
+> > > > @@ -643,6 +643,26 @@ static int dw8250_probe(struct platform_device
+> > *pdev)
+> > > >                 up->dma = &data->data.dma;
+> > > >         }
+> > > >
+> > > > +       if (data->pdata->quirks & DW_UART_QUIRK_IS_DMA_FC) {
+> > > > +               /*
+> > > > +                * When the 'char timeout' irq fires because no more
+> > data has
+> > > > +                * been received in some time, the 8250 driver stops
+> > the DMA.
+> > > > +                * However, if the DMAC has been setup to write more
+> > data to mem
+> > > > +                * than is read from the UART FIFO, the data will
+> > *not* be
+> > > > +                * written to memory.
+> > > > +                * Therefore, we limit the width of writes to mem so
+> > that it is
+> > > > +                * the same amount of data as read from the FIFO. You
+> > can use
+> > > > +                * anything less than or equal, but same size is
+> > optimal
+> > > > +                */
+> > > > +               data->data.dma.rxconf.dst_addr_width = p->fifosize /
+> > > > + 4;
+> > > > +
+> > > > +               /*
+> > > > +                * Unless you set the maxburst to 1, if you send only
+> > 1 char, it
+> > > > +                * doesn't get transmitted
+> > > > +                */
+> > > > +               data->data.dma.txconf.dst_maxburst = 1;
+> > > > +       }
+> > > > +
+> > > >
+> > > > Cheers,
+> > > > Biju
+> > > >
+> > > > > -----Original Message-----
+> > > > > From: Biju Das
+> > > > > Sent: 04 July 2022 08:12
+> > > > > To: Jiri Slaby <jirislaby@kernel.org>; Greg Kroah-Hartman
+> > > > > <gregkh@linuxfoundation.org>
+> > > > > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>; Miquel
+> > > > > Raynal <miquel.raynal@bootlin.com>; Emil Renner Berthing
+> > > > > <kernel@esmil.dk>; Phil Edworthy <phil.edworthy@renesas.com>;
+> > > > > Johan Hovold <johan@kernel.org>; linux-serial@vger.kernel.org;
+> > > > > Geert Uytterhoeven <geert+renesas@glider.be>; Chris Paterson
+> > > > > <Chris.Paterson2@renesas.com>; Biju Das <biju.das@bp.renesas.com>;
+> > > > > linux-renesas-soc@vger.kernel.org
+> > > > > Subject: RE: [PATCH] serial: 8250: dw: Fix the macro
+> > > > > RZN1_UART_xDMACR_8_WORD_BURST
+> > > > >
+> > > > > Hi Jiri,
+> > > > >
+> > > > > Thanks for the feedback.
+> > > > >
+> > > > > > Subject: Re: [PATCH] serial: 8250: dw: Fix the macro
+> > > > > > RZN1_UART_xDMACR_8_WORD_BURST
+> > > > > >
+> > > > > > On 30. 06. 22, 10:39, Biju Das wrote:
+> > > > > > > As per RZ/N1 peripheral user
+> > > > > > > manual(r01uh0752ej0100-rzn1-peripheral.pdf)
+> > > > > > > rev 1.0.0 Mar,2019,
+> > > > > >
+> > > > > > Is this public anywhere?
+> > > > >
+> > > > > Yes, It is available here[1] see page 72 and 73.
+> > > > >
+> > > > > [1]
+> > > > > https://www.renesas.com/us/en/document/mah/rzn1d-group-rzn1s-group
+> > > > > -
+> > > > > rzn1l-group-users-manual-peripherals?language=en&r=1054561
+> > > > >
+> > > > >
+> > > > > >
+> > > > > > > the value for 8_WORD_BURST is 4(b2,b1=2'b10).
+> > > > > > >
+> > > > > > > This patch fixes the macro as per the user manual.
+> > > > > >
+> > > > > > I'm curious, is the bottom bit from "3" ignored by the HW or
+> > > > > > does this fix a real problem in behavior? Stating that might
+> > > > > > help backporters to decide if to take the patch or not.
+> > > > >
+> > > > > See page 72 and 73.
+> > > > >
+> > > > > Yes, it fixes a real problem as by using a value of 8 , you are
+> > > > > wrongly configuring DMA_BURST_SIZE of 1 instead of DMA_BURST_SIZE
+> > of 8.
+> > > > >
+> > > > > b2, b1 bUart_DEST_BURST
+> > > > > _SIZE
+> > > > > DEST_BURST_SIZE
+> > > > > Destination Burst Transaction Size in Transmit FIFO.
+> > > > > UART is the flow controller. Thus, the user must write this field
+> > > > > before or at the same time the DMA mode is enabled. Number of data
+> > > > > byte, to be written to the Transmit FIFO every time a transmit
+> > > > > burst transaction request are made on DMA request.
+> > > > > 2'b00 = 1 byte
+> > > > > 2'b01 = 4 bytes
+> > > > > 2'b10 = 8 bytes
+> > > > > 2'b11 = Reserved, not used
+> > > > >
+> > > > > Cheers,
+> > > > > Biju
+> > > > >
+> > > > >
+> > > > > >
+> > > > > > > Fixes: aa63d786cea2 ("serial: 8250: dw: Add support for DMA
+> > > > > > > flow controlling devices")
+> > > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > > > ---
+> > > > > > >   drivers/tty/serial/8250/8250_dw.c | 2 +-
+> > > > > > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > > >
+> > > > > > > diff --git a/drivers/tty/serial/8250/8250_dw.c
+> > > > > > > b/drivers/tty/serial/8250/8250_dw.c
+> > > > > > > index f57bbd32ef11..931490b27d6b 100644
+> > > > > > > --- a/drivers/tty/serial/8250/8250_dw.c
+> > > > > > > +++ b/drivers/tty/serial/8250/8250_dw.c
+> > > > > > > @@ -47,7 +47,7 @@
+> > > > > > >   #define RZN1_UART_xDMACR_DMA_EN         BIT(0)
+> > > > > > >   #define RZN1_UART_xDMACR_1_WORD_BURST   (0 << 1)
+> > > > > > >   #define RZN1_UART_xDMACR_4_WORD_BURST   (1 << 1)
+> > > > > > > -#define RZN1_UART_xDMACR_8_WORD_BURST    (3 << 1)
+> > > > > > > +#define RZN1_UART_xDMACR_8_WORD_BURST    (2 << 1)
+> > > > > > >   #define RZN1_UART_xDMACR_BLK_SZ(x)      ((x) << 3)
+> > > > > > >
+> > > > > > >   /* Quirks */
+> > > > > >
+> > > > > > thanks,
+> > > > > > --
+> > > > > > js
+> > >
+> > >
+> > >
+> > > --
+> > > With Best Regards,
+> > > Andy Shevchenko
