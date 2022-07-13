@@ -2,70 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E75855734BC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jul 2022 12:56:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1100B5735BB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jul 2022 13:45:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235543AbiGMK4K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Jul 2022 06:56:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48928 "EHLO
+        id S235540AbiGMLpt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Jul 2022 07:45:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235498AbiGMK4K (ORCPT
+        with ESMTP id S229777AbiGMLpt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Jul 2022 06:56:10 -0400
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6639BFF5A2;
-        Wed, 13 Jul 2022 03:56:09 -0700 (PDT)
-Received: by mail-qt1-f172.google.com with SMTP id y3so11495827qtv.5;
-        Wed, 13 Jul 2022 03:56:09 -0700 (PDT)
+        Wed, 13 Jul 2022 07:45:49 -0400
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07992FC980;
+        Wed, 13 Jul 2022 04:45:48 -0700 (PDT)
+Received: by mail-oi1-f180.google.com with SMTP id w184so7770374oie.3;
+        Wed, 13 Jul 2022 04:45:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nOiTLY7H3mOgy3upz5I1zJ8BCOeea4/fz964UtSygqo=;
-        b=uB1JsbaWZOpbw1z5J18IihkKEswaznWVoKj9J+paKjgO8gqITtOEylM8gWcwavnPpM
-         NU6/nCm8H621jyzpAPRivzNrjRGnSzmR7YUrmMAI+YpXhM/WVvu7pPpr6spQSHAXeYTX
-         gpjLohMGiiadqOJl/sGH+2ob7Na9WrzDrk+EmWc7saULqcJ39wqCizgnEXDIKx8R1cge
-         vWhz6Qz+ynGO0f0zvvpFsSaCG5Kc1Cr4fq9lgf7nH0m9PdJvqmK+UfF9cANog5wT6KZ9
-         edr8slRn8wsQ+jzeOI+ZW7Afj7tB9WwkUVyMc21PDsT0SpyzQCbcLeA2VvR+9JNmaULj
-         FVNA==
-X-Gm-Message-State: AJIora/a8ocu1OQzHc+uFQmseVLeFJKaNp7ec87Tmc9MTXdNJR7c5Jua
-        0L9SKh7YPR0At+pZIelEabN+BqbVh3cbDQ==
-X-Google-Smtp-Source: AGRyM1v/H6aiD+uJPLbQc9H97/xaWhCuG8+CdOLtY43iIbO1JNxwmRXvm816xCLjBfMSRp7YmLazvw==
-X-Received: by 2002:ac8:5c96:0:b0:31e:c39f:3d63 with SMTP id r22-20020ac85c96000000b0031ec39f3d63mr2269298qta.552.1657709768391;
-        Wed, 13 Jul 2022 03:56:08 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id x21-20020a05620a0b5500b006af147d4876sm7411056qkg.30.2022.07.13.03.56.07
+        bh=QW3oqiCBvV/mmmfK9tpRDVl5ot7G1y1i5VioSZJ8QMk=;
+        b=mDPjbAC7RvvYsCf+WvNNqRFO//Ex0CvUezMgNWizoodlxe5aQALnE2V/W5IhaWPqSb
+         2Jt25mE4jJap+7ns1/eeRkbZrmrxEP6Sq2jy8WG43orYlb3NGBWKFF1stLj/+qQwWRpc
+         oxb7g70HNUjTn9hPgFRh+y5TeuxBTgyJLKB3NCTM4905fbS9P2G8BHO9LZOc/yDqQEhv
+         oFRYxbPYHjT8bm/nUL6LLyQKAyRgMupyOndKyKI4yn4ojMHqEMLMBCKtv1f7jgys5cLd
+         /53lMT3Qxq+zbjeepLaxgtmEiEBLn9EDzIiC5NZ7l6EgTePhWxrV2Q79O/pSwyGci3Mq
+         kZMQ==
+X-Gm-Message-State: AJIora8HSC50kD7YDeXXjlXv42+XsjEHf5AManBGirt+WRkye6a7X4At
+        hs9oxLFpV3OjLj8jicjiSMc5sDuLZYgn+A==
+X-Google-Smtp-Source: AGRyM1sHlMlHvD5RCxq842CtnAuvkBsVaNQJbrsSaLwKs4hFJfzoJDpzLOXnnFtEuOts0BRfa4ZNOQ==
+X-Received: by 2002:a05:6808:d48:b0:339:b862:3abb with SMTP id w8-20020a0568080d4800b00339b8623abbmr1594893oik.22.1657712747044;
+        Wed, 13 Jul 2022 04:45:47 -0700 (PDT)
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com. [209.85.161.52])
+        by smtp.gmail.com with ESMTPSA id d8-20020a056870e24800b0010490c6b552sm5993344oac.35.2022.07.13.04.45.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Jul 2022 03:56:08 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id f73so18575766yba.10;
-        Wed, 13 Jul 2022 03:56:07 -0700 (PDT)
-X-Received: by 2002:a25:bc8e:0:b0:66e:fe43:645c with SMTP id
- e14-20020a25bc8e000000b0066efe43645cmr3149289ybk.202.1657709767646; Wed, 13
- Jul 2022 03:56:07 -0700 (PDT)
+        Wed, 13 Jul 2022 04:45:46 -0700 (PDT)
+Received: by mail-oo1-f52.google.com with SMTP id x128-20020a4a4186000000b0043558a8e208so731928ooa.4;
+        Wed, 13 Jul 2022 04:45:46 -0700 (PDT)
+X-Received: by 2002:a05:6902:154f:b0:66e:e2d3:ce1 with SMTP id
+ r15-20020a056902154f00b0066ee2d30ce1mr2997263ybu.365.1657712357596; Wed, 13
+ Jul 2022 04:39:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220531141958.575616-1-biju.das.jz@bp.renesas.com>
- <20220531141958.575616-3-biju.das.jz@bp.renesas.com> <20220713081856.GA14683@pengutronix.de>
- <OS0PR01MB59225D5ACA3BC7BAB2F47D1D86899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdXe6P+qg07wFCryqQt7EhTpKw8ZgSN6UjqxYy16eghXdw@mail.gmail.com> <20220713103216.GA10829@pengutronix.de>
-In-Reply-To: <20220713103216.GA10829@pengutronix.de>
+References: <20220601070707.3946847-1-saravanak@google.com>
+ <20220601070707.3946847-4-saravanak@google.com> <CAMuHMdWo_wRwV-i_iyTxVnEsf3Th9GBAG+wxUQMQGnw1t2ijTg@mail.gmail.com>
+ <CAGETcx-jU5+Tc0Qkt1e4QY0YprYSp-4A+MoaSRjpdPp_8tZm5g@mail.gmail.com>
+In-Reply-To: <CAGETcx-jU5+Tc0Qkt1e4QY0YprYSp-4A+MoaSRjpdPp_8tZm5g@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 13 Jul 2022 12:55:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX9ULJVzxsBqkZvg2_XoxJPGqmduhjM9j_PCJDk-PdmqQ@mail.gmail.com>
-Message-ID: <CAMuHMdX9ULJVzxsBqkZvg2_XoxJPGqmduhjM9j_PCJDk-PdmqQ@mail.gmail.com>
-Subject: Re: [PATCH v11 2/5] media: renesas: vsp1: Add support to
- deassert/assert reset line
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date:   Wed, 13 Jul 2022 13:39:05 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUrpnsvc_G33FQA6GtqNowidMrjjYBEZW-_biBMYvqjgQ@mail.gmail.com>
+Message-ID: <CAMuHMdUrpnsvc_G33FQA6GtqNowidMrjjYBEZW-_biBMYvqjgQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/9] net: mdio: Delete usage of driver_deferred_probe_check_state()
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        David Ahern <dsahern@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        netdev <netdev@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -77,36 +87,205 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Philipp,
+Hi Saravana,
 
-On Wed, Jul 13, 2022 at 12:32 PM Philipp Zabel <p.zabel@pengutronix.de> wrote:
-> On Wed, Jul 13, 2022 at 11:27:56AM +0200, Geert Uytterhoeven wrote:
-> [...]
-> > Actually I suggested handling this in the VSP driver, as VSP seems
-> > to be "special".
-> >
+On Wed, Jul 13, 2022 at 3:40 AM Saravana Kannan <saravanak@google.com> wrote:
+> On Tue, Jul 5, 2022 at 2:11 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Wed, Jun 1, 2022 at 2:44 PM Saravana Kannan <saravanak@google.com> wrote:
+> > > Now that fw_devlink=on by default and fw_devlink supports interrupt
+> > > properties, the execution will never get to the point where
+> > > driver_deferred_probe_check_state() is called before the supplier has
+> > > probed successfully or before deferred probe timeout has expired.
 > > >
-> > > [1]
-> > > https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220504184406.93788-1-biju.das.jz@bp.renesas.com/
+> > > So, delete the call and replace it with -ENODEV.
+> > >
+> > > Signed-off-by: Saravana Kannan <saravanak@google.com>
+> >
+> > Thanks for your patch, which is now commit f8217275b57aa48d ("net:
+> > mdio: Delete usage of driver_deferred_probe_check_state()") in
+> > driver-core/driver-core-next.
+> >
+> > Seems like I missed something when providing my T-b for this series,
+> > sorry for that.
 >
-> So reset_control_status never actually returns 1 and the polling loop is
-> not necessary at all?
+> > arch/arm/boot/dts/r8a7791-koelsch.dts has:
+> >
+> >     &ether {
+> >             pinctrl-0 = <&ether_pins>, <&phy1_pins>;
+> >             pinctrl-names = "default";
+> >
+> >             phy-handle = <&phy1>;
+> >             renesas,ether-link-active-low;
+> >             status = "okay";
+> >
+> >             phy1: ethernet-phy@1 {
+> >                     compatible = "ethernet-phy-id0022.1537",
+> >                                  "ethernet-phy-ieee802.3-c22";
+> >                     reg = <1>;
+> >                     interrupt-parent = <&irqc0>;
+> >                     interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+> >                     micrel,led-mode = <1>;
+> >                     reset-gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
+> >             };
+> >     };
+> >
+> > Despite the interrupts property, &ether is now probed before irqc0
+> > (interrupt-controller@e61c0000 in arch/arm/boot/dts/r8a7791.dtsi),
+> > causing the PHY not finding its interrupt, and resorting to polling:
 >
-> If it's just the status register read that fixes things for VSP, could
-> it be that the deasserting register write to the reset controller
-> and the following register writes to VSP are not ordered somewhere at
-> the interconnect and the read issued to the reset controller just
-> guarantees that order?
+> I'd still expect the device link to have been created properly for
+> this phy device. Could you enable the logging in device_link_add() to
+> check the link is created between the phy and the IRQ?
+>
+> My guess is that this probably has something to do with phys being
+> attached to drivers differently.
 
-The udelay() also works.
+Comparison of dmesg before/after enabling debugging, for
+related nodes:
 
-While the reset may be deasserted immediately (at the reset controller
-level), the VSP may need some additional time to settle/initialize
-(at the VSP level).
+    +interrupt-controller@e61c0000 Linked as a fwnode consumer to
+clock-controller@e6150000
 
-Reset is known to work on other blocks on the same SoC, so that's
-why I suggested handling this in the VSP driver instead, like we
-already do for i2c.
+    +pmic@58 Linked as a fwnode consumer to interrupt-controller@e61c0000
+    +regulator@68 Linked as a fwnode consumer to interrupt-controller@e61c0000
+
+Other user of irqc
+
+    +ethernet@ee700000 Linked as a fwnode consumer to clock-controller@e6150000
+    +ethernet@ee700000 Linked as a fwnode consumer to pinctrl@e6060000
+    +ethernet-phy@1 Linked as a fwnode consumer to interrupt-controller@e61c0000
+    +ethernet-phy@1 Linked as a fwnode consumer to gpio@e6055000
+
+PHY linked correctly to consumers
+
+    +device: 'e61c0000.interrupt-controller': device_add
+    +device: 'platform:e6150000.clock-controller--platform:e61c0000.interrupt-controller':
+device_add
+    +devices_kset: Moving e61c0000.interrupt-controller to end of list
+    +platform e61c0000.interrupt-controller: Linked as a consumer to
+e6150000.clock-controller
+    +interrupt-controller@e61c0000 Dropping the fwnode link to
+clock-controller@e6150000
+    +platform e61c0000.interrupt-controller: error -EPROBE_DEFER:
+supplier e6150000.clock-controller not ready
+
+Tried to probe irqc (why? consumer not ready), deferred.
+
+    +device: 'platform:e61c0000.interrupt-controller--platform:e60b0000.i2c':
+device_add
+    +platform e60b0000.i2c: Linked as a sync state only consumer to
+e61c0000.interrupt-controller
+
+I guess sync state means through other (child) consumers (pmic,
+regulator) above?
+
+    +device: 'ee700000.ethernet': device_add
+    +device: 'platform:e6060000.pinctrl--platform:ee700000.ethernet': device_add
+    +devices_kset: Moving ee700000.ethernet to end of list
+    +platform ee700000.ethernet: Linked as a consumer to e6060000.pinctrl
+    +ethernet@ee700000 Dropping the fwnode link to pinctrl@e6060000
+    +device: 'platform:e6150000.clock-controller--platform:ee700000.ethernet':
+device_add
+    +devices_kset: Moving ee700000.ethernet to end of list
+    +platform ee700000.ethernet: Linked as a consumer to
+e6150000.clock-controller
+    +ethernet@ee700000 Dropping the fwnode link to clock-controller@e6150000
+    +device: 'platform:e6055000.gpio--platform:ee700000.ethernet': device_add
+    +platform ee700000.ethernet: Linked as a sync state only consumer
+to e6055000.gpio
+    +device: 'platform:e61c0000.interrupt-controller--platform:ee700000.ethernet':
+device_add
+    +platform ee700000.ethernet: Linked as a sync state only consumer
+to e61c0000.interrupt-controller
+
+Hence linking ethernet to child (phy) consumers.
+
+    +device: 'ee700000.ethernet-ffffffff': device_add
+
+Probing ethernet...
+
+     libphy: fwnode_get_phy_id: fwnode
+/soc/ethernet@ee700000/ethernet-phy@1 phy_id = 0x00221537
+     libphy: fwnode_get_phy_id: fwnode
+/soc/ethernet@ee700000/ethernet-phy@1 phy_id = 0x00221537
+    +fwnode_mdiobus_phy_device_register: fwnode_irq_get() returned -517
+    +fwnode_mdiobus_phy_device_register: ignoring -EPROBE_DEFER
+
+This is the part that got changed by this patch.
+
+    +device: 'ee700000.ethernet-ffffffff:01': device_add
+    +device: 'platform:e6055000.gpio--mdio_bus:ee700000.ethernet-ffffffff:01':
+device_add
+    +devices_kset: Moving ee700000.ethernet-ffffffff:01 to end of list
+    +mdio_bus ee700000.ethernet-ffffffff:01: Linked as a consumer to
+e6055000.gpio
+    +ethernet-phy@1 Dropping the fwnode link to gpio@e6055000
+    +device: 'platform:e61c0000.interrupt-controller--mdio_bus:ee700000.ethernet-ffffffff:01':
+device_add
+    +devices_kset: Moving ee700000.ethernet-ffffffff:01 to end of list
+    +mdio_bus ee700000.ethernet-ffffffff:01: Linked as a consumer to
+e61c0000.interrupt-controller
+    +ethernet-phy@1 Dropping the fwnode link to interrupt-controller@e61c0000
+    +mdio_bus ee700000.ethernet-ffffffff:01: error -EPROBE_DEFER:
+supplier e61c0000.interrupt-controller not ready
+
+Why was ethernet probed this early?
+We knew the supplier of the phy was still missing?
+
+    +device: 'eth1': device_add
+     sh-eth ee700000.ethernet eth1: Base address at 0xee700000,
+2e:09:0a:00:6d:85, IRQ 104.
+    +sh-eth ee700000.ethernet: Dropping the link to e6055000.gpio
+    +device: 'platform:e6055000.gpio--platform:ee700000.ethernet':
+device_unregister
+    +sh-eth ee700000.ethernet: Dropping the link to
+e61c0000.interrupt-controller
+    +device: 'platform:e61c0000.interrupt-controller--platform:ee700000.ethernet':
+device_unregister
+
+    +devices_kset: Moving e61c0000.interrupt-controller to end of list
+    +devices_kset: Moving ee700000.ethernet-ffffffff:01 to end of list
+     renesas_irqc e61c0000.interrupt-controller: driving 10 irqs
+
+Finally, irqc is probed.
+
+    +device: '6-0058': device_add
+    +device: 'platform:e61c0000.interrupt-controller--i2c:6-0058': device_add
+    +devices_kset: Moving 6-0058 to end of list
+    +i2c 6-0058: Linked as a consumer to e61c0000.interrupt-controller
+    +pmic@58 Dropping the fwnode link to interrupt-controller@e61c0000
+
+    +device: '6-0068': device_add
+    +device: 'platform:e61c0000.interrupt-controller--i2c:6-0068': device_add
+    +devices_kset: Moving 6-0068 to end of list
+    +i2c 6-0068: Linked as a consumer to e61c0000.interrupt-controller
+    +regulator@68 Dropping the fwnode link to interrupt-controller@e61c0000
+
+Propagating other irqc suppliers to the parent of their consumers
+
+    +i2c-sh_mobile e60b0000.i2c: Dropping the link to
+e61c0000.interrupt-controller
+    +device: 'platform:e61c0000.interrupt-controller--platform:e60b0000.i2c':
+device_unregister
+
+    +devices_kset: Moving ee700000.ethernet-ffffffff:01 to end of list
+
+     Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: attached PHY
+driver (mii_bus:phy_addr=ee700000.ethernet-ffffffff:01, irq=POLL)
+     sh-eth ee700000.ethernet eth1: Link is Up - 100Mbps/Full - flow control off
+     Sending DHCP requests ., OK
+
+> >     -Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: attached PHY
+> > driver (mii_bus:phy_addr=ee700000.ethernet-ffffffff:01, irq=185)
+> >     +Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: attached PHY
+> > driver (mii_bus:phy_addr=ee700000.ethernet-ffffffff:01, irq=POLL)
+>
+> Can you drop a WARN() where this is printed to get the stack trace to
+> check my hypothesis?
+
+That didn't help much, as this is the messenger, not the cause.
+
+Thanks!
 
 Gr{oetje,eeting}s,
 
