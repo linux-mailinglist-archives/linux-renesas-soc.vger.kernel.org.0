@@ -2,182 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9550257326C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jul 2022 11:28:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 074605732EB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jul 2022 11:36:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231680AbiGMJ2M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Jul 2022 05:28:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41284 "EHLO
+        id S236090AbiGMJgX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Jul 2022 05:36:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230442AbiGMJ2L (ORCPT
+        with ESMTP id S236157AbiGMJgB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Jul 2022 05:28:11 -0400
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E77F1E0C;
-        Wed, 13 Jul 2022 02:28:09 -0700 (PDT)
-Received: by mail-qv1-f52.google.com with SMTP id mi10so4418347qvb.1;
-        Wed, 13 Jul 2022 02:28:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RuFFYxmqMjCJ8pz73zGncdvFFI6WJ0UAqWokCvCbxfc=;
-        b=KVKhZaBIqFGBmpI8gsC+TAU9mC0vjMozW3XLpxunqQUeSwL+Uznz2VQmwpULFU5BjG
-         XyX5TSBwVgiH41I6DJp1B7Qn+Tr3KqtsXAQ3G9+06YnUA6MuDovcthI0G2WHEa743f0N
-         jdFYn/yWRHnEWAb7PUJse7KU8sSChDp+W7hFEg7NXp7m/CjYMfuR6EcOtfHVI4oxRrAQ
-         zZSacgjZDV91uGC/MRCatdw1aku0jKJgVAkAzFnHU95NwpE5yC+DVLV/3H+z/ONBRUFI
-         +dA63JJFZq44x3pf27+Va4nV5dviSN9Q0RUJHRUoQjFA5bX9JJnvaJEe68oZf2mu8vRI
-         SGYg==
-X-Gm-Message-State: AJIora9FafFSLPJhmjGc9HLNJRVcd1GT3izW31wlleufnDt4SbCUx+y6
-        lCcsSg+mMXnlj/fEVW1XJL7TMOiPH7ZTMQ==
-X-Google-Smtp-Source: AGRyM1vXo0w+MMlwHADe/UQ5Mxg3mUsjpdx1hiccs4hFDcwGbC1BQr/zKka3731cDB2jHmQXOekjTg==
-X-Received: by 2002:a05:6214:20a7:b0:473:4571:3721 with SMTP id 7-20020a05621420a700b0047345713721mr1964941qvd.60.1657704488624;
-        Wed, 13 Jul 2022 02:28:08 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id t16-20020ac85310000000b003177969a48fsm9274131qtn.21.2022.07.13.02.28.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Jul 2022 02:28:08 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-31c89653790so106045077b3.13;
-        Wed, 13 Jul 2022 02:28:08 -0700 (PDT)
-X-Received: by 2002:a0d:c787:0:b0:31b:a963:e1de with SMTP id
- j129-20020a0dc787000000b0031ba963e1demr2947064ywd.283.1657704487775; Wed, 13
- Jul 2022 02:28:07 -0700 (PDT)
+        Wed, 13 Jul 2022 05:36:01 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D58D222504
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Jul 2022 02:35:56 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by xavier.telenet-ops.be with bizsmtp
+        id uZbt2700R4C55Sk01Zbtd4; Wed, 13 Jul 2022 11:35:54 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1oBYmf-003LRy-7N; Wed, 13 Jul 2022 11:35:53 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1oBYme-00B78G-Ol; Wed, 13 Jul 2022 11:35:52 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     Johannes Berg <johannes@sipsolutions.net>,
+        Rob Herring <robh@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] PCI: Fix dropping valid root bus resources with .end = zero
+Date:   Wed, 13 Jul 2022 11:35:50 +0200
+Message-Id: <9c41a4372b27420c732ff5599d823e363de00c6d.1657704829.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220531141958.575616-1-biju.das.jz@bp.renesas.com>
- <20220531141958.575616-3-biju.das.jz@bp.renesas.com> <20220713081856.GA14683@pengutronix.de>
- <OS0PR01MB59225D5ACA3BC7BAB2F47D1D86899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB59225D5ACA3BC7BAB2F47D1D86899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 13 Jul 2022 11:27:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXe6P+qg07wFCryqQt7EhTpKw8ZgSN6UjqxYy16eghXdw@mail.gmail.com>
-Message-ID: <CAMuHMdXe6P+qg07wFCryqQt7EhTpKw8ZgSN6UjqxYy16eghXdw@mail.gmail.com>
-Subject: Re: [PATCH v11 2/5] media: renesas: vsp1: Add support to
- deassert/assert reset line
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On r8a7791/koelsch:
 
-On Wed, Jul 13, 2022 at 11:18 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH v11 2/5] media: renesas: vsp1: Add support to
-> > deassert/assert reset line
-> >
-> > On Tue, May 31, 2022 at 03:19:55PM +0100, Biju Das wrote:
-> > > As the resets DT property is mandatory, and is present in all .dtsi in
-> > > mainline, add support to perform deassert/assert using reference
-> > > counted reset handle.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > > v10->v11:
-> > >  * To avoid lock-up on R-Car Gen2, added poll for reset status after
-> > deassert.
-> >
-> > I didn't look at this earlier because of my preexisting R-b.
-> > It looks to me like this should be moved into the reset driver.
->
-> OK, sorry, I should have removed Rb tag while sending this patch.
->
-> > [...]
-> > > @@ -631,13 +634,33 @@ static int __maybe_unused
-> > vsp1_pm_runtime_resume(struct device *dev)
-> > >     struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > >     int ret;
-> > >
-> > > +   ret = reset_control_deassert(vsp1->rstc);
-> > > +   if (ret < 0)
-> > > +           return ret;
-> > > +
-> > > +   /*
-> > > +    * On R-Car Gen2, vsp1 register access after deassert can cause
-> > > +    * lock-up. Therefore, we need to poll the status of the reset to
-> > > +    * avoid lock-up.
-> > > +    */
-> > > +   ret = read_poll_timeout_atomic(reset_control_status, ret, ret == 0,
-> > 1,
-> > > +                                  100, false, vsp1->rstc);
-> >
-> > So the reset driver does not follow the reset API documentation ("After
-> > calling this function, the reset is guaranteed to be deasserted." [1])?
-> > If so, this status polling should be moved into the reset driver.
-> >
->
-> Sure, will move it to reset driver. Geert also suggested same thing[1]
+    kmemleak: 1 new suspected memory leaks (see /sys/kernel/debug/kmemleak)
+    # cat /sys/kernel/debug/kmemleak
+    unreferenced object 0xc3a34e00 (size 64):
+      comm "swapper/0", pid 1, jiffies 4294937460 (age 199.080s)
+      hex dump (first 32 bytes):
+	b4 5d 81 f0 b4 5d 81 f0 c0 b0 a2 c3 00 00 00 00  .]...]..........
+	00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+      backtrace:
+	[<fe3aa979>] __kmalloc+0xf0/0x140
+	[<34bd6bc0>] resource_list_create_entry+0x18/0x38
+	[<767046bc>] pci_add_resource_offset+0x20/0x68
+	[<b3f3edf2>] devm_of_pci_get_host_bridge_resources.constprop.0+0xb0/0x390
 
-Actually I suggested handling this in the VSP driver, as VSP seems
-to be "special".
+When coalescing two resources for a contiguous aperture, the first
+resource is enlarged to cover the full contiguous range, while the
+second resource is marked invalid.  This invalidation is done by
+clearing the flags, start, and end members.
 
->
-> [1]
-> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220504184406.93788-1-biju.das.jz@bp.renesas.com/
->
->
-> > Also, why use the atomic poll variant here? As far as I can tell, this
-> > driver doesn't call pm_runtime_irq_safe. The reset_control_deassert() API
-> > does not guarantee that the driver implementation doesn't sleep, either.
->
-> As per [1], I2C driver uses atomic one, so just used the same here.
->
-> OK, will use non atomic variant in deassert().
->
-> Do you recommend to fix the reset as well as per [1]?
->
-> >
-> > [...]
-> > > @@ -825,6 +848,11 @@ static int vsp1_probe(struct platform_device
-> > *pdev)
-> > >     if (irq < 0)
-> > >             return irq;
-> > >
-> > > +   vsp1->rstc = devm_reset_control_get_shared(&pdev->dev, NULL);
-> > > +   if (IS_ERR(vsp1->rstc))
-> > > +           return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
-> > > +                                "failed to get reset control\n");
-> > > +
-> >
-> > What about the other consumers of this shared reset? Don't they need the
-> > status poll you added here as well?
->
-> This lockup issue happens only on Gen2 SoC's. Gen3 SoC's are not affected.
+When adding the initial resources to the bus later, invalid resources
+are skipped.  Unfortunately, the check for an invalid resource considers
+only the end member, causing false positives.
 
-We are not sure about that.  On R-Car Gen3, accesses to registers
-while a device is not clocked/ready usually do not cause an imprecise
-external abort in Linux, unlike on R-Car Gen2.  But perhaps the
-abort is caught by the firmware, and nullified?
+E.g. on r8a7791/koelsch, root bus resource 0 ("bus 00") is skipped, and
+no longer registered with pci_bus_insert_busn_res() (causing the memory
+leak), nor printed:
 
-> RZ/G2L SoC is Gen3 variant, and it is the only consumer for shared reset as reset lines are shared between DU and VSPD. Other SoC's have explicit reset for VSP.
+     pci-rcar-gen2 ee090000.pci: host bridge /soc/pci@ee090000 ranges:
+     pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080000..0x00ee08ffff -> 0x00ee080000
+     pci-rcar-gen2 ee090000.pci: PCI: revision 11
+     pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
+    -pci_bus 0000:00: root bus resource [bus 00]
+     pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08ffff]
 
-Gr{oetje,eeting}s,
+Fix this by only skipping resources where all of the flags, start, and
+end members are zero.
 
-                        Geert
+Fixes: 7c3855c423b17f6c ("PCI: Coalesce host bridge contiguous apertures")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Is there any side effect of not registering the root bus resource with
+pci_bus_insert_busn_res()?  This is the resource created by
+of_pci_parse_bus_range(), and thus affects any DT platforms using
+"bus-range = <0 0>".
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Perhaps checking for "!res->flags" would be sufficient?
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+I assume this still causes memory leaks on systems where resources are
+coalesced, as the second resource of a contiguous aperture is no longer
+referenced? Perhaps instead of clearing the resource, it should be
+removed from the list (and freed? is it actually safe to do that?)?
+
+Apparently Johannes had identified the bug before, but didn't realize
+the full impact...
+https://lore.kernel.org/r/5331e942ff28bb191d62bb403b03ceb7d750856c.camel@sipsolutions.net/
+---
+ drivers/pci/probe.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 17a969942d37033a..be628798d279ada0 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -994,7 +994,7 @@ static int pci_register_host_bridge(struct pci_host_bridge *bridge)
+ 	resource_list_for_each_entry_safe(window, n, &resources) {
+ 		offset = window->offset;
+ 		res = window->res;
+-		if (!res->end)
++		if (!res->flags && !res->start && !res->end)
+ 			continue;
+ 
+ 		list_move_tail(&window->node, &bridge->windows);
+-- 
+2.25.1
+
