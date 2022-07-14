@@ -2,102 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96B6457557F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jul 2022 20:58:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F254C57568D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jul 2022 22:47:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230310AbiGNS54 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Jul 2022 14:57:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41916 "EHLO
+        id S231858AbiGNUrW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Jul 2022 16:47:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240895AbiGNS5e (ORCPT
+        with ESMTP id S232549AbiGNUrV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Jul 2022 14:57:34 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0391D6872E
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Jul 2022 11:57:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=O6B474X8P2gxKKp7qXnpFakS0XL
-        VtX/7FNJL6iki3kU=; b=XNplPfaLVlLVZl1NYESMAVjWqAyxa/XruwrOTvEXaA7
-        HEnTSzeuh9HeTt2Yf+VmVbcD45hC2BfR1/ouh8pVtVgLfxAi2rsqgm2pwJoys1Lt
-        OH42mL9E8+AMJvrIICLq0vJv4y170xd57sJmPXKMimDhAd7aY8MFg8H6FmMJ0a8w
-        =
-Received: (qmail 704724 invoked from network); 14 Jul 2022 20:57:30 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Jul 2022 20:57:30 +0200
-X-UD-Smtp-Session: l3s3148p1@4dM8ecjjRsIgAwDtxwdRAEXXn+yo/Rze
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Thu, 14 Jul 2022 16:47:21 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95E006D548
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Jul 2022 13:47:20 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id p81so2441125iod.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Jul 2022 13:47:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=5yRvOTGRnegCHVbLMlYfoPtqBZjcDcdjxcIFgXJXUCY=;
+        b=iJPwVMEVmlDdOGjIdwfPb3QcpmckWwU5zfZ+LxI/bNEFOG6/9CW3Jx6lK9kNMJWD7G
+         80Lmohh26UHNK9omBR0hZuW0wp5QNpk5BqZio+4xjDDfneepPC5T2xVYg8jg5Cy5sPC6
+         +rtTRlBCuYe/Bvx0Ff2Im9iXajwrm2vS9vkhw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=5yRvOTGRnegCHVbLMlYfoPtqBZjcDcdjxcIFgXJXUCY=;
+        b=Rlt5IQJMdEWf6mGqTk3W0wKipJzENOgsJeyEra/ktB6IjoGYfOv3lUV9nMGiSJugM7
+         jHp9LGUnShBP5YS3QPHzGOEbO48TfEQN3SyH7dTxwWFqD455xVBOn70/05t/Bqh29il0
+         hZO/b5iq3Zt14P8rWhHpLtvRUQT7OEkMc8O/T/RRc4lWSBKDOvBZunPTg9x/zwmSdV3O
+         vFWs71KqFTUwo729rfJS3QGaN52OPd2w1o9aVk/ifUh5iuffxk/i0IO6xw9Wyb91tc6V
+         AoaPZVFKXMQYo6JGvICtnlmhfcIe5Msu6mTfZHBiCT+HbzUzWPN7m73L5b8QjcSz/vKs
+         oUXA==
+X-Gm-Message-State: AJIora8gonP4MwymEqc2lTwafSu1RDLRtp0Rh3+xWIplEWnlj/bgMxcA
+        Xoj8yYw7dS9BECDplbeWpNOXYA==
+X-Google-Smtp-Source: AGRyM1vjWGII0bZhPhJVaJRGo6OHgsPZnk4TMLd+wqVlwkc8jmrMUpSfm+11hdWAmeCQuRJvu1qklw==
+X-Received: by 2002:a05:6638:164b:b0:33c:9b6f:457d with SMTP id a11-20020a056638164b00b0033c9b6f457dmr5928163jat.224.1657831639911;
+        Thu, 14 Jul 2022 13:47:19 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id e10-20020a921e0a000000b002d79f619517sm972694ile.26.2022.07.14.13.47.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Jul 2022 13:47:19 -0700 (PDT)
+Subject: Re: [PATCH 0/9] selftests: timers: fixes and improvements
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         John Stultz <jstultz@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: [PATCH v2] selftests: timers: clocksource-switch: add 'runtime' command line parameter
-Date:   Thu, 14 Jul 2022 20:57:21 +0200
-Message-Id: <20220714185721.48125-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
+        linux-renesas-soc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20220713204623.5443-1-wsa+renesas@sang-engineering.com>
+ <CANDhNCp3KhGjXSrS4xmqrdPJfxStZOOn+FQxJEEoiXZ39CxDpg@mail.gmail.com>
+ <dbe428f6-37fd-cba7-2947-e042585d3a42@linuxfoundation.org>
+ <YtBj5NPGi5MUKuvP@shikoro>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <01cd5e24-7732-3a67-8171-3c99b620d617@linuxfoundation.org>
+Date:   Thu, 14 Jul 2022 14:47:18 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <YtBj5NPGi5MUKuvP@shikoro>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-So the user can decide how long the test should run.
+On 7/14/22 12:43 PM, Wolfram Sang wrote:
+> 
+>> Wolfram, are you going to send v2 to address John's comment on
+>> 8/9?
+> 
+> Yes, will do!
+> 
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Acked-by: John Stultz <jstultz@google.com>
----
+All patches now applied to linux-kselftest next for 5.20-rc1
 
-Change since V1:
-* added the new parameter to the help printout
+Picked up v1 1-7 and 9 and v2 8
 
- tools/testing/selftests/timers/clocksource-switch.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/tools/testing/selftests/timers/clocksource-switch.c b/tools/testing/selftests/timers/clocksource-switch.c
-index 5256e6215980..577e4b74211a 100644
---- a/tools/testing/selftests/timers/clocksource-switch.c
-+++ b/tools/testing/selftests/timers/clocksource-switch.c
-@@ -124,17 +124,22 @@ int main(int argc, char **argv)
- 	char orig_clk[512];
- 	int count, i, status, opt;
- 	int do_sanity_check = 1;
-+	int runtime = 60;
- 	pid_t pid;
- 
- 	/* Process arguments */
--	while ((opt = getopt(argc, argv, "s")) != -1) {
-+	while ((opt = getopt(argc, argv, "st:")) != -1) {
- 		switch (opt) {
- 		case 's':
- 			do_sanity_check = 0;
- 			break;
-+		case 't':
-+			runtime = atoi(optarg);
-+			break;
- 		default:
--			printf("Usage: %s [-s]\n", argv[0]);
-+			printf("Usage: %s [-s] [-t <secs>]\n", argv[0]);
- 			printf("	-s: skip sanity checks\n");
-+			printf("	-t: Number of seconds to run\n");
- 			exit(-1);
- 		}
- 	}
-@@ -167,7 +172,7 @@ int main(int argc, char **argv)
- 	printf("Running Asynchronous Switching Tests...\n");
- 	pid = fork();
- 	if (!pid)
--		return run_tests(60);
-+		return run_tests(runtime);
- 
- 	while (pid != waitpid(pid, &status, WNOHANG))
- 		for (i = 0; i < count; i++)
--- 
-2.35.1
-
+thanks,
+-- Shuah
