@@ -2,70 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A01D57658E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Jul 2022 19:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46948576911
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Jul 2022 23:40:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235104AbiGOQ6p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Jul 2022 12:58:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41856 "EHLO
+        id S231772AbiGOVkV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Jul 2022 17:40:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235098AbiGOQ6n (ORCPT
+        with ESMTP id S231735AbiGOVkT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Jul 2022 12:58:43 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A232DE0;
-        Fri, 15 Jul 2022 09:58:41 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id r3so9407735ybr.6;
-        Fri, 15 Jul 2022 09:58:41 -0700 (PDT)
+        Fri, 15 Jul 2022 17:40:19 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F36187233
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Jul 2022 14:40:17 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id r2so7410868wrs.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Jul 2022 14:40:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=6TdTlfwy3VaOHhzh3w0gNaUggIvchfGZQp8YCLWV7oY=;
-        b=BeFoKvyI8i2XygR6nvzh7zbxCtLGryeU7dNvVGH7jDZ1PJIBE83e3+PSNvY6ICgEUU
-         q58JAMYx/pm5PMQl4T8enDXIFWvqkymuoPwDcRRpW+OKwyxDlvr3n55AMW3xIbVHVKoC
-         8NanGry13JZTTag8itRIZr767/KfR//ctoGU3qzM7oTXayebuoVcPUn7s3Sp577DPiz6
-         qi48Fa7d6TVSPC8kxFPnxxN8uP5eK/jzPHexK8fxuMloHOSpedJqLcFd2agQd1WYL7Ik
-         DK0FLWqVYDZZb4lwlzcpy9kPNGX7EqvUn99mW8HHZv4YREmATxb/iaO1SXUUPYKdtszu
-         Pghg==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=J6BSJtpNWZ2Z1cUANVaPa8k/01zDYr+V4xutkYf54NQ=;
+        b=EiZ/Jmkz5DdkNRwJGtK9gVoZ3BcJ8ejMk3yeeSneUGJiCM2csICY8AdW61vGapRVcY
+         UVEs2lvDUtUmSWhTy5Riy+DiODr1rNBvvUK4wbrRLT25XjOXefr0/051txgAy4PBorpi
+         GKNcSgswr6pLYwYHFSVzvB34JMrg+jT1ikpzno4L0ZOP0gQXJvWnMhCAGwkPbk+zk4T6
+         NHUHFy/WsEuLp1Gd3GTwIoolQEUdfvT1tqqUGbfp80W8fFmVfSTmouc1u2k89r7uyeR9
+         nYK4zK2wqlmEsLRHEwqRtcub6mC9oo2ROYXHqnHla+d+LumXFIkgFPThdJfozfzXSQFb
+         VGhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=6TdTlfwy3VaOHhzh3w0gNaUggIvchfGZQp8YCLWV7oY=;
-        b=xrqQKWR6v9L07VP6ohjBsuLvIJsu8XGc/U9S4Avq0DG9ICYdp2XCD37D+A4iVio1bF
-         cU8GdBn85zH/UNysCC1MGi7ssWw63iBGwfmE7taqGUi9ggQFweMX7tM7+AV6zhOry++N
-         3vBz7lPX/QQLQV1eOemWMkH6SmWow4wWxs6rYyKhCh2JtJRZhxClp/3vpIpTj5+qoz8K
-         T34ow275YP8H59C1IV2KLwb4Elqa6W3nFmBn/Qk8/AArwIgFClZ0hae/fBoQVvUpB5Ij
-         gCm5Vn/xvgjY2r1qFdWwA4Qg2bn4wCiApNbrFVQ+PQTt+uvkejFaTB1ebf6swCgDGhp9
-         E6aQ==
-X-Gm-Message-State: AJIora/AMjaT7HLRfbXg5FYXgcZdFc58UvNbDFBzbViyBhvyM1OaGe5I
-        IGpf5oUnSpc+LMMkNmAMTaYVdZXlVJmfXww2sxI=
-X-Google-Smtp-Source: AGRyM1vz/6TKfh7SokVQwLtVlkAQ04xf3jyr6vlrHNLFud++94euqeWrbXjYuq+FWKtOVT/MHqSlYgTvyTdVSt/zQ4w=
-X-Received: by 2002:a5b:44d:0:b0:66f:ad5a:9d0b with SMTP id
- s13-20020a5b044d000000b0066fad5a9d0bmr13586144ybp.79.1657904320602; Fri, 15
- Jul 2022 09:58:40 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=J6BSJtpNWZ2Z1cUANVaPa8k/01zDYr+V4xutkYf54NQ=;
+        b=NqL9cgrTU+6ed9lWMV5AO1cNdpF7XhxWbLXoNpJdQFzEBG8rWNI8hRR4NctJ0Rza1Q
+         fCYdpboUMDfkr6dDdseG5Jb2USRi2/Xdm618Zld7ae3++ipGvGAWhhxLgPyDsfbvzx9B
+         ylFAt4SPO1CKjp644qWXdU4njgXauYmDZFeJ2RG6B/LrcjlWAUn6Uwaa9FYxVNN8+9cR
+         fwSaZ+n+xuxUGgMIYNq/PXx7L5TpaMDVxkOEA/jw5WCq67YMw1ZzhwYPAwhHaF+wNWRd
+         +D9Gu/E2Pg1otyrNcMpVQgM2nlJkodVh+R924AvVEXaL2filg8kq5Ot/4xlGGRWy1Y0y
+         /LUg==
+X-Gm-Message-State: AJIora8KD3vT4osuK386zGmRffA5Blj9Nc0TDzAW/n0aAynBXSnu82Tx
+        4uh6uqXs1UBB0zABLuU1DtbSeA==
+X-Google-Smtp-Source: AGRyM1vl55wMLC6v4FE7361A1EgLL5IjuxGDiU+pOGyn8ZoWrdHGmzM+ZMQkW7lv66vojAGIB7e/MQ==
+X-Received: by 2002:a5d:4e04:0:b0:21d:6ec3:38a2 with SMTP id p4-20020a5d4e04000000b0021d6ec338a2mr14182586wrt.362.1657921215858;
+        Fri, 15 Jul 2022 14:40:15 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:a223:f4b3:40c9:43fa? ([2a05:6e02:1041:c10:a223:f4b3:40c9:43fa])
+        by smtp.googlemail.com with ESMTPSA id j27-20020a05600c1c1b00b0039c4ba160absm17678280wms.2.2022.07.15.14.40.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Jul 2022 14:40:15 -0700 (PDT)
+Message-ID: <563e92de-68aa-7382-2564-c1ccc270c571@linaro.org>
+Date:   Fri, 15 Jul 2022 23:40:11 +0200
 MIME-Version: 1.0
-References: <20220715122903.332535-1-nuno.sa@analog.com> <20220715122903.332535-16-nuno.sa@analog.com>
-In-Reply-To: <20220715122903.332535-16-nuno.sa@analog.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 15 Jul 2022 18:58:04 +0200
-Message-ID: <CAHp75Vdxa1MvzQ07abNL1LHB8e88tpBW0qmGx7_gY=CxvVxqkA@mail.gmail.com>
-Subject: Re: [PATCH v3 15/15] iio: inkern: fix coding style warnings
-To:     =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
-Cc:     OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        dl-linux-imx <linux-imx@nxp.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 06/15] thermal: qcom: qcom-spmi-adc-tm5: convert to IIO
+ fwnode API
+Content-Language: en-US
+To:     =?UTF-8?Q?Nuno_S=c3=a1?= <nuno.sa@analog.com>,
+        openbmc@lists.ozlabs.org, linux-imx@nxp.com,
         linux-stm32@st-md-mailman.stormreply.com,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
+        linux-iio@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
         chrome-platform@lists.linux.dev,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-kernel@lists.infradead.org,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Gwendal Grignou <gwendal@chromium.org>,
+        linux-arm-msm@vger.kernel.org
+Cc:     Gwendal Grignou <gwendal@chromium.org>,
         Jonathan Cameron <jic23@kernel.org>,
         Saravanan Sekar <sravanhome@gmail.com>,
         Tomer Maimon <tmaimon77@gmail.com>,
@@ -85,7 +87,6 @@ Cc:     OpenBMC Maillist <openbmc@lists.ozlabs.org>,
         Patrick Venture <venture@google.com>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
         Benson Leung <bleung@chromium.org>,
         Nancy Yuen <yuenn@google.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>,
@@ -99,6 +100,7 @@ Cc:     OpenBMC Maillist <openbmc@lists.ozlabs.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Sascha Hauer <s.hauer@pengutronix.de>,
         Lars-Peter Clausen <lars@metafoo.de>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
         Guenter Roeck <groeck@chromium.org>,
         Paul Cercueil <paul@crapouillou.net>,
         Claudiu Beznea <claudiu.beznea@microchip.com>,
@@ -107,329 +109,54 @@ Cc:     OpenBMC Maillist <openbmc@lists.ozlabs.org>,
         Michael Hennerich <Michael.Hennerich@analog.com>,
         Haibo Chen <haibo.chen@nxp.com>,
         Jishnu Prakash <quic_jprakash@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20220715122903.332535-1-nuno.sa@analog.com>
+ <20220715122903.332535-7-nuno.sa@analog.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20220715122903.332535-7-nuno.sa@analog.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 15, 2022 at 2:30 PM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
->
-> Just cosmetics. No functional change intended...
+On 15/07/2022 14:28, Nuno Sá wrote:
+> Make usage of the new firmware agnostic API
+> 'devm_of_iio_channel_get_by_name()' to get the IIO channel.
+> 
+> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 
-> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
 > ---
->  drivers/iio/inkern.c | 64 ++++++++++++++++++++++----------------------
->  1 file changed, 32 insertions(+), 32 deletions(-)
->
-> diff --git a/drivers/iio/inkern.c b/drivers/iio/inkern.c
-> index fab951546086..0c9b1561af31 100644
-> --- a/drivers/iio/inkern.c
-> +++ b/drivers/iio/inkern.c
-> @@ -45,13 +45,13 @@ int iio_map_array_register(struct iio_dev *indio_dev,=
- struct iio_map *maps)
->         int i =3D 0, ret =3D 0;
->         struct iio_map_internal *mapi;
->
-> -       if (maps =3D=3D NULL)
-> +       if (!maps)
->                 return 0;
->
->         mutex_lock(&iio_map_list_lock);
-> -       while (maps[i].consumer_dev_name !=3D NULL) {
-> +       while (maps[i].consumer_dev_name) {
->                 mapi =3D kzalloc(sizeof(*mapi), GFP_KERNEL);
-> -               if (mapi =3D=3D NULL) {
-> +               if (!mapi) {
->                         ret =3D -ENOMEM;
->                         goto error_ret;
->                 }
-> @@ -69,7 +69,6 @@ int iio_map_array_register(struct iio_dev *indio_dev, s=
-truct iio_map *maps)
->  }
->  EXPORT_SYMBOL_GPL(iio_map_array_register);
->
-> -
->  /*
->   * Remove all map entries associated with the given iio device
->   */
-> @@ -157,7 +156,7 @@ static int __fwnode_iio_channel_get(struct iio_channe=
-l *channel,
->                 return err;
->
->         idev =3D bus_find_device_by_fwnode(&iio_bus_type, iiospec.fwnode)=
-;
-> -       if (idev =3D=3D NULL) {
-> +       if (!idev) {
->                 fwnode_handle_put(iiospec.fwnode);
->                 return -EPROBE_DEFER;
->         }
-> @@ -190,7 +189,7 @@ static struct iio_channel *fwnode_iio_channel_get(str=
-uct fwnode_handle *fwnode,
->                 return ERR_PTR(-EINVAL);
->
->         channel =3D kzalloc(sizeof(*channel), GFP_KERNEL);
-> -       if (channel =3D=3D NULL)
-> +       if (!channel)
->                 return ERR_PTR(-ENOMEM);
->
->         err =3D __fwnode_iio_channel_get(channel, fwnode, index);
-> @@ -307,7 +306,7 @@ static struct iio_channel *fwnode_iio_channel_get_all=
-(struct device *dev)
->
->         /* NULL terminated array to save passing size */
->         chans =3D kcalloc(nummaps + 1, sizeof(*chans), GFP_KERNEL);
-> -       if (chans =3D=3D NULL)
-> +       if (!chans)
->                 return ERR_PTR(-ENOMEM);
->
->         /* Search for FW matches */
-> @@ -332,7 +331,7 @@ static struct iio_channel *iio_channel_get_sys(const =
-char *name,
->         struct iio_channel *channel;
->         int err;
->
-> -       if (name =3D=3D NULL && channel_name =3D=3D NULL)
-> +       if (!(name || channel_name))
->                 return ERR_PTR(-ENODEV);
->
->         /* first find matching entry the channel map */
-> @@ -347,11 +346,11 @@ static struct iio_channel *iio_channel_get_sys(cons=
-t char *name,
->                 break;
->         }
->         mutex_unlock(&iio_map_list_lock);
-> -       if (c =3D=3D NULL)
-> +       if (!c)
->                 return ERR_PTR(-ENODEV);
->
->         channel =3D kzalloc(sizeof(*channel), GFP_KERNEL);
-> -       if (channel =3D=3D NULL) {
-> +       if (!channel) {
->                 err =3D -ENOMEM;
->                 goto error_no_mem;
->         }
-> @@ -363,7 +362,7 @@ static struct iio_channel *iio_channel_get_sys(const =
-char *name,
->                         iio_chan_spec_from_name(channel->indio_dev,
->                                                 c->map->adc_channel_label=
-);
->
-> -               if (channel->channel =3D=3D NULL) {
-> +               if (!channel->channel) {
->                         err =3D -EINVAL;
->                         goto error_no_chan;
->                 }
-> @@ -455,7 +454,7 @@ struct iio_channel *iio_channel_get_all(struct device=
- *dev)
->         int mapind =3D 0;
->         int i, ret;
->
-> -       if (dev =3D=3D NULL)
-> +       if (!dev)
->                 return ERR_PTR(-EINVAL);
->
->         chans =3D fwnode_iio_channel_get_all(dev);
-> @@ -483,7 +482,7 @@ struct iio_channel *iio_channel_get_all(struct device=
- *dev)
->
->         /* NULL terminated array to save passing size */
->         chans =3D kcalloc(nummaps + 1, sizeof(*chans), GFP_KERNEL);
-> -       if (chans =3D=3D NULL) {
-> +       if (!chans) {
->                 ret =3D -ENOMEM;
->                 goto error_ret;
->         }
-> @@ -497,7 +496,7 @@ struct iio_channel *iio_channel_get_all(struct device=
- *dev)
->                 chans[mapind].channel =3D
->                         iio_chan_spec_from_name(chans[mapind].indio_dev,
->                                                 c->map->adc_channel_label=
-);
-> -               if (chans[mapind].channel =3D=3D NULL) {
-> +               if (!chans[mapind].channel) {
->                         ret =3D -EINVAL;
->                         goto error_free_chans;
->                 }
-> @@ -559,14 +558,14 @@ struct iio_channel *devm_iio_channel_get_all(struct=
- device *dev)
->  EXPORT_SYMBOL_GPL(devm_iio_channel_get_all);
->
->  static int iio_channel_read(struct iio_channel *chan, int *val, int *val=
-2,
-> -       enum iio_chan_info_enum info)
-> +                           enum iio_chan_info_enum info)
->  {
->         int unused;
->         int vals[INDIO_MAX_RAW_ELEMENTS];
->         int ret;
->         int val_len =3D 2;
->
-> -       if (val2 =3D=3D NULL)
-> +       if (!val2)
->                 val2 =3D &unused;
->
->         if (!iio_channel_has_info(chan->channel, info))
-> @@ -578,9 +577,10 @@ static int iio_channel_read(struct iio_channel *chan=
-, int *val, int *val2,
->                                         vals, &val_len, info);
->                 *val =3D vals[0];
->                 *val2 =3D vals[1];
-> -       } else
-> +       } else {
->                 ret =3D chan->indio_dev->info->read_raw(chan->indio_dev,
->                                         chan->channel, val, val2, info);
-> +       }
->
->         return ret;
->  }
-> @@ -591,7 +591,7 @@ int iio_read_channel_raw(struct iio_channel *chan, in=
-t *val)
->         int ret;
->
->         mutex_lock(&iio_dev_opaque->info_exist_lock);
-> -       if (chan->indio_dev->info =3D=3D NULL) {
-> +       if (!chan->indio_dev->info) {
->                 ret =3D -ENODEV;
->                 goto err_unlock;
->         }
-> @@ -610,7 +610,7 @@ int iio_read_channel_average_raw(struct iio_channel *=
-chan, int *val)
->         int ret;
->
->         mutex_lock(&iio_dev_opaque->info_exist_lock);
-> -       if (chan->indio_dev->info =3D=3D NULL) {
-> +       if (!chan->indio_dev->info) {
->                 ret =3D -ENODEV;
->                 goto err_unlock;
->         }
-> @@ -624,7 +624,8 @@ int iio_read_channel_average_raw(struct iio_channel *=
-chan, int *val)
->  EXPORT_SYMBOL_GPL(iio_read_channel_average_raw);
->
->  static int iio_convert_raw_to_processed_unlocked(struct iio_channel *cha=
-n,
-> -       int raw, int *processed, unsigned int scale)
-> +                                                int raw, int *processed,
-> +                                                unsigned int scale)
->  {
->         int scale_type, scale_val, scale_val2;
->         int offset_type, offset_val, offset_val2;
-> @@ -657,7 +658,7 @@ static int iio_convert_raw_to_processed_unlocked(stru=
-ct iio_channel *chan,
->         }
->
->         scale_type =3D iio_channel_read(chan, &scale_val, &scale_val2,
-> -                                       IIO_CHAN_INFO_SCALE);
-> +                                     IIO_CHAN_INFO_SCALE);
->         if (scale_type < 0) {
->                 /*
->                  * If no channel scaling is available apply consumer scal=
-e to
-> @@ -702,19 +703,19 @@ static int iio_convert_raw_to_processed_unlocked(st=
-ruct iio_channel *chan,
->  }
->
->  int iio_convert_raw_to_processed(struct iio_channel *chan, int raw,
-> -       int *processed, unsigned int scale)
-> +                                int *processed, unsigned int scale)
->  {
->         struct iio_dev_opaque *iio_dev_opaque =3D to_iio_dev_opaque(chan-=
->indio_dev);
->         int ret;
->
->         mutex_lock(&iio_dev_opaque->info_exist_lock);
-> -       if (chan->indio_dev->info =3D=3D NULL) {
-> +       if (!chan->indio_dev->info) {
->                 ret =3D -ENODEV;
->                 goto err_unlock;
->         }
->
->         ret =3D iio_convert_raw_to_processed_unlocked(chan, raw, processe=
-d,
-> -                                                       scale);
-> +                                                   scale);
->  err_unlock:
->         mutex_unlock(&iio_dev_opaque->info_exist_lock);
->
-> @@ -729,7 +730,7 @@ int iio_read_channel_attribute(struct iio_channel *ch=
-an, int *val, int *val2,
->         int ret;
->
->         mutex_lock(&iio_dev_opaque->info_exist_lock);
-> -       if (chan->indio_dev->info =3D=3D NULL) {
-> +       if (!chan->indio_dev->info) {
->                 ret =3D -ENODEV;
->                 goto err_unlock;
->         }
-> @@ -755,7 +756,7 @@ int iio_read_channel_processed_scale(struct iio_chann=
-el *chan, int *val,
->         int ret;
->
->         mutex_lock(&iio_dev_opaque->info_exist_lock);
-> -       if (chan->indio_dev->info =3D=3D NULL) {
-> +       if (!chan->indio_dev->info) {
->                 ret =3D -ENODEV;
->                 goto err_unlock;
->         }
-> @@ -833,7 +834,7 @@ int iio_read_avail_channel_raw(struct iio_channel *ch=
-an,
->         int type;
->
->         ret =3D iio_read_avail_channel_attribute(chan, vals, &type, lengt=
-h,
-> -                                        IIO_CHAN_INFO_RAW);
-> +                                              IIO_CHAN_INFO_RAW);
->
->         if (ret >=3D 0 && type !=3D IIO_VAL_INT)
->                 /* raw values are assumed to be IIO_VAL_INT */
-> @@ -917,7 +918,7 @@ int iio_get_channel_type(struct iio_channel *chan, en=
-um iio_chan_type *type)
->         /* Need to verify underlying driver has not gone away */
->
->         mutex_lock(&iio_dev_opaque->info_exist_lock);
-> -       if (chan->indio_dev->info =3D=3D NULL) {
-> +       if (!chan->indio_dev->info) {
->                 ret =3D -ENODEV;
->                 goto err_unlock;
->         }
-> @@ -944,7 +945,7 @@ int iio_write_channel_attribute(struct iio_channel *c=
-han, int val, int val2,
->         int ret;
->
->         mutex_lock(&iio_dev_opaque->info_exist_lock);
-> -       if (chan->indio_dev->info =3D=3D NULL) {
-> +       if (!chan->indio_dev->info) {
->                 ret =3D -ENODEV;
->                 goto err_unlock;
->         }
-> @@ -978,9 +979,8 @@ unsigned int iio_get_channel_ext_info_count(struct ii=
-o_channel *chan)
->  }
->  EXPORT_SYMBOL_GPL(iio_get_channel_ext_info_count);
->
-> -static const struct iio_chan_spec_ext_info *iio_lookup_ext_info(
-> -                                               const struct iio_channel =
-*chan,
-> -                                               const char *attr)
-> +static const struct iio_chan_spec_ext_info *
-> +iio_lookup_ext_info(const struct iio_channel *chan, const char *attr)
->  {
->         const struct iio_chan_spec_ext_info *ext_info;
->
-> --
-> 2.37.1
->
+>   drivers/thermal/qcom/qcom-spmi-adc-tm5.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/thermal/qcom/qcom-spmi-adc-tm5.c b/drivers/thermal/qcom/qcom-spmi-adc-tm5.c
+> index d9c9c975f931..0b8543c627f0 100644
+> --- a/drivers/thermal/qcom/qcom-spmi-adc-tm5.c
+> +++ b/drivers/thermal/qcom/qcom-spmi-adc-tm5.c
+> @@ -825,7 +825,8 @@ static int adc_tm5_get_dt_channel_data(struct adc_tm5_chip *adc_tm,
+>   	}
+>   	channel->adc_channel = args.args[0];
+>   
+> -	channel->iio = devm_of_iio_channel_get_by_name(adc_tm->dev, node, NULL);
+> +	channel->iio = devm_fwnode_iio_channel_get_by_name(adc_tm->dev,
+> +							   of_fwnode_handle(node), NULL);
+>   	if (IS_ERR(channel->iio)) {
+>   		ret = PTR_ERR(channel->iio);
+>   		if (ret != -EPROBE_DEFER)
 
 
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
