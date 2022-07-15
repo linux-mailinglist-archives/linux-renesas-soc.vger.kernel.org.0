@@ -2,122 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC2EA5769F4
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Jul 2022 00:36:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCA43576A1D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Jul 2022 00:46:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232706AbiGOWgG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Jul 2022 18:36:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39618 "EHLO
+        id S229619AbiGOWqQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Jul 2022 18:46:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232533AbiGOWf5 (ORCPT
+        with ESMTP id S229594AbiGOWqQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Jul 2022 18:35:57 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 570488BA9A
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Jul 2022 15:35:49 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id l68so3592521wml.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Jul 2022 15:35:49 -0700 (PDT)
+        Fri, 15 Jul 2022 18:46:16 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED0A2194
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Jul 2022 15:46:14 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id be14-20020a05600c1e8e00b003a04a458c54so3879855wmb.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Jul 2022 15:46:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=HBF1B79IIedCwHvdJGS8cmm6JrlM62/nduTPrlZmdLw=;
-        b=bjN5fNMS6fCYWu85LBfhtS4Sjd/k1/GGBAs8w2uHuDTycThBQx0r9wYTWJWT6aBEqq
-         uyT5wlQZNCJENpaMiYiuTv/nq1SFssqkn3q7xz8Qqn8URzApz5iUOMYRzX9lW8zrhhTh
-         xG9v/66bqHZ06qr53dRDqtJZYX3u6ALibf9X0eHvywsTGelo27cpSyQnmWHGhadAA33a
-         JNqXXg0otU3s8/Vs6EWKYSGayCK75OXfP8taE7f+xVKLItIAUskp1a6E3FKOHtMiYzkM
-         dOCwEVUwf8eC567/UxTaXpdHigdq12fDJ44C4KhhR45eez2GZfkKx6zdbmFNpUYuxIGs
-         eWYw==
+        bh=O6YPhUIsYt5zf8i0l2JyQAe9jcHRbVM0oIcZOZ33z6U=;
+        b=ckw2HGIS6manAr2IHB8ErYSVb5zaE8+bpeNaLyKODzDo9GmmxSUpDLRrymGYbYNKbl
+         OpMJ+27oHDi4aPJ5k7gEDZoLT0MePyO/MoTujSfFMwYi5qtnXFGM02uvqXh1e04Cxb6z
+         Af1cCNsHQ0DuywDxMYWt+8o4CDelDbDDbJ9uYHHSBg0KNZm6HxWxTBVqb2+9I5VfhEsd
+         BF1LNughZVNeIoyip/bEdesQ3l6bxX8VA5VlDzhq2eFPfzuXnb4bGduElwWULwSXNRt5
+         FFtptbKAANMtVOb31/0CtaXNY7SaRAg1F7Lm5kO4xKss7eoKibZrSN8f6gINI0OlM1yi
+         0eNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=HBF1B79IIedCwHvdJGS8cmm6JrlM62/nduTPrlZmdLw=;
-        b=gPGVMXtkgTuxHoAHsPftfxWDhNsq1eF42Ea50JtrdLQq0wCs6CaupRun4236nHwo4m
-         k5EYqtQm7jRpUTNY9J8om2/+JU0048MdI0BWOBigS3UeqLaKnzijdu5qer+tHcA3s59D
-         W5V7lRQQkx/QOI8PTyM6pRgpPpyekLBjop/3LrxmOWAsr76Teml54+irxel6xi4lERpU
-         F+GWFkozQvBOIDa2XablpWcgSi0rPj8hEzOAa+DfsUaKQNRVtikDKlJW4T9LoV62VCu0
-         xXh3OvDOkbGmGl1hb5PqTJVNtejgcGHt1OgJFrx900oXWnuzOu2sWle5Dx+zofj9/zmw
-         MESg==
-X-Gm-Message-State: AJIora8UMw0AZ8xTj24lkcWm2iVCsb3WjyM+xMTzP4TznE9E8sbMkQnX
-        XR+NNaIeHiY/Uvq/cF/8qmjxUg==
-X-Google-Smtp-Source: AGRyM1sEXVpXQpUbjt1Vmt9jF2dZkzMOh7zuOjiy2TAojBvfakWnhxBJBIzW4HlnZcGpWrZYXl4RFw==
-X-Received: by 2002:a05:600c:1992:b0:3a1:9252:c373 with SMTP id t18-20020a05600c199200b003a19252c373mr21652210wmq.140.1657924547835;
-        Fri, 15 Jul 2022 15:35:47 -0700 (PDT)
+        bh=O6YPhUIsYt5zf8i0l2JyQAe9jcHRbVM0oIcZOZ33z6U=;
+        b=tKwXIXoXVCb3/Sel8Yt3Y+TSplifM2dNTN8pWAoJ36z9OcEFoeNax7Pf64ekMcfnHh
+         0AI3xNCLZbzeZfFsGR2Hle0SYJIXVmcNGIbDbT/QnVo/iIZnpmunGkdG4YPjUQ3TWy87
+         MaSLKt/9oijimB3r7RHy7glzMnJdhmNW3vxUnAMYO0IvxM2bI1NlkghVyHJnAQo9xnV7
+         6U504iGR8x+S3OOzWQkV6YAaQF6LfE/Fcq6SLyk8je/yDwRKtH26nnWXzyKUqdT4mSdT
+         9jMlzfTMfRwn8CotnHLXdDgBUXbyii5v1lT3TJAwGGp+0Tsm8F4MlDjx7zzu4R/jM+sL
+         emEQ==
+X-Gm-Message-State: AJIora9IAK3gLlovqWmsKh6DPDWD42nKpnfj/zCgwDu/j+XS9dvoLFcB
+        perxuuNGw5lucA3RVnjPng9U6w==
+X-Google-Smtp-Source: AGRyM1vG1ddo3/gBI/TFeHyXh4sWLdA+O8E0G9ff6jmxVXmcwUUk9h30Grs/AMIZy96GvueRtpM0tg==
+X-Received: by 2002:a05:600c:600b:b0:3a3:1176:222d with SMTP id az11-20020a05600c600b00b003a31176222dmr1324990wmb.42.1657925173426;
+        Fri, 15 Jul 2022 15:46:13 -0700 (PDT)
 Received: from ?IPV6:2a05:6e02:1041:c10:a223:f4b3:40c9:43fa? ([2a05:6e02:1041:c10:a223:f4b3:40c9:43fa])
-        by smtp.googlemail.com with ESMTPSA id y18-20020a05600c365200b003a2c67aa6c0sm7755297wmq.23.2022.07.15.15.35.46
+        by smtp.googlemail.com with ESMTPSA id j27-20020a05600c1c1b00b0039c4ba160absm17815546wms.2.2022.07.15.15.46.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Jul 2022 15:35:47 -0700 (PDT)
-Message-ID: <62b1f1bd-c15d-662c-027e-1cdeff5eb580@linaro.org>
-Date:   Sat, 16 Jul 2022 00:35:45 +0200
+        Fri, 15 Jul 2022 15:46:12 -0700 (PDT)
+Message-ID: <ff463957-e85b-27d3-7e10-1cae55404fc8@linaro.org>
+Date:   Sat, 16 Jul 2022 00:46:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 1/3] dt-bindings: timer: renesas,cmt: Add r8a779f0 and
- generic Gen4 CMT support
+Subject: Re: [PATCH v2] thermal: rcar_gen3_thermal: Add r8a779f0 support
 Content-Language: en-US
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         linux-renesas-soc@vger.kernel.org
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20220713100603.3391-1-wsa+renesas@sang-engineering.com>
- <20220713100603.3391-2-wsa+renesas@sang-engineering.com>
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220705195520.2581-1-wsa+renesas@sang-engineering.com>
 From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20220713100603.3391-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220705195520.2581-1-wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 13/07/2022 12:06, Wolfram Sang wrote:
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-Krzysztof ?
-
-> ---
->   .../devicetree/bindings/timer/renesas,cmt.yaml         | 10 ++++++++++
->   1 file changed, 10 insertions(+)
+On 05/07/2022 21:55, Wolfram Sang wrote:
+> Add support for R-Car S4.
 > 
-> diff --git a/Documentation/devicetree/bindings/timer/renesas,cmt.yaml b/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
-> index 53dd6d9f518f..7cc1ec4b4e38 100644
-> --- a/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
-> +++ b/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
-> @@ -83,6 +83,11 @@ properties:
->                 - renesas,r8a779a0-cmt0     # 32-bit CMT0 on R-Car V3U
->             - const: renesas,rcar-gen3-cmt0 # 32-bit CMT0 on R-Car Gen3 and RZ/G2
->   
-> +      - items:
-> +          - enum:
-> +              - renesas,r8a779f0-cmt0     # 32-bit CMT0 on R-Car S4-8
-> +          - const: renesas,rcar-gen4-cmt0 # 32-bit CMT0 on R-Car Gen4
-> +
->         - items:
->             - enum:
->                 - renesas,r8a774a1-cmt1     # 48-bit CMT on RZ/G2M
-> @@ -100,6 +105,11 @@ properties:
->                 - renesas,r8a779a0-cmt1     # 48-bit CMT on R-Car V3U
->             - const: renesas,rcar-gen3-cmt1 # 48-bit CMT on R-Car Gen3 and RZ/G2
->   
-> +      - items:
-> +          - enum:
-> +              - renesas,r8a779f0-cmt1     # 48-bit CMT on R-Car S4-8
-> +          - const: renesas,rcar-gen4-cmt1 # 48-bit CMT on R-Car Gen4
-> +
->     reg:
->       maxItems: 1
->   
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Applied, thanks
+
+
 
 
 -- 
