@@ -2,117 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46948576911
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Jul 2022 23:40:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC2EA5769F4
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Jul 2022 00:36:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231772AbiGOVkV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Jul 2022 17:40:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44852 "EHLO
+        id S232706AbiGOWgG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Jul 2022 18:36:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231735AbiGOVkT (ORCPT
+        with ESMTP id S232533AbiGOWf5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Jul 2022 17:40:19 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F36187233
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Jul 2022 14:40:17 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id r2so7410868wrs.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Jul 2022 14:40:17 -0700 (PDT)
+        Fri, 15 Jul 2022 18:35:57 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 570488BA9A
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Jul 2022 15:35:49 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id l68so3592521wml.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Jul 2022 15:35:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=J6BSJtpNWZ2Z1cUANVaPa8k/01zDYr+V4xutkYf54NQ=;
-        b=EiZ/Jmkz5DdkNRwJGtK9gVoZ3BcJ8ejMk3yeeSneUGJiCM2csICY8AdW61vGapRVcY
-         UVEs2lvDUtUmSWhTy5Riy+DiODr1rNBvvUK4wbrRLT25XjOXefr0/051txgAy4PBorpi
-         GKNcSgswr6pLYwYHFSVzvB34JMrg+jT1ikpzno4L0ZOP0gQXJvWnMhCAGwkPbk+zk4T6
-         NHUHFy/WsEuLp1Gd3GTwIoolQEUdfvT1tqqUGbfp80W8fFmVfSTmouc1u2k89r7uyeR9
-         nYK4zK2wqlmEsLRHEwqRtcub6mC9oo2ROYXHqnHla+d+LumXFIkgFPThdJfozfzXSQFb
-         VGhA==
+        bh=HBF1B79IIedCwHvdJGS8cmm6JrlM62/nduTPrlZmdLw=;
+        b=bjN5fNMS6fCYWu85LBfhtS4Sjd/k1/GGBAs8w2uHuDTycThBQx0r9wYTWJWT6aBEqq
+         uyT5wlQZNCJENpaMiYiuTv/nq1SFssqkn3q7xz8Qqn8URzApz5iUOMYRzX9lW8zrhhTh
+         xG9v/66bqHZ06qr53dRDqtJZYX3u6ALibf9X0eHvywsTGelo27cpSyQnmWHGhadAA33a
+         JNqXXg0otU3s8/Vs6EWKYSGayCK75OXfP8taE7f+xVKLItIAUskp1a6E3FKOHtMiYzkM
+         dOCwEVUwf8eC567/UxTaXpdHigdq12fDJ44C4KhhR45eez2GZfkKx6zdbmFNpUYuxIGs
+         eWYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=J6BSJtpNWZ2Z1cUANVaPa8k/01zDYr+V4xutkYf54NQ=;
-        b=NqL9cgrTU+6ed9lWMV5AO1cNdpF7XhxWbLXoNpJdQFzEBG8rWNI8hRR4NctJ0Rza1Q
-         fCYdpboUMDfkr6dDdseG5Jb2USRi2/Xdm618Zld7ae3++ipGvGAWhhxLgPyDsfbvzx9B
-         ylFAt4SPO1CKjp644qWXdU4njgXauYmDZFeJ2RG6B/LrcjlWAUn6Uwaa9FYxVNN8+9cR
-         fwSaZ+n+xuxUGgMIYNq/PXx7L5TpaMDVxkOEA/jw5WCq67YMw1ZzhwYPAwhHaF+wNWRd
-         +D9Gu/E2Pg1otyrNcMpVQgM2nlJkodVh+R924AvVEXaL2filg8kq5Ot/4xlGGRWy1Y0y
-         /LUg==
-X-Gm-Message-State: AJIora8KD3vT4osuK386zGmRffA5Blj9Nc0TDzAW/n0aAynBXSnu82Tx
-        4uh6uqXs1UBB0zABLuU1DtbSeA==
-X-Google-Smtp-Source: AGRyM1vl55wMLC6v4FE7361A1EgLL5IjuxGDiU+pOGyn8ZoWrdHGmzM+ZMQkW7lv66vojAGIB7e/MQ==
-X-Received: by 2002:a5d:4e04:0:b0:21d:6ec3:38a2 with SMTP id p4-20020a5d4e04000000b0021d6ec338a2mr14182586wrt.362.1657921215858;
-        Fri, 15 Jul 2022 14:40:15 -0700 (PDT)
+        bh=HBF1B79IIedCwHvdJGS8cmm6JrlM62/nduTPrlZmdLw=;
+        b=gPGVMXtkgTuxHoAHsPftfxWDhNsq1eF42Ea50JtrdLQq0wCs6CaupRun4236nHwo4m
+         k5EYqtQm7jRpUTNY9J8om2/+JU0048MdI0BWOBigS3UeqLaKnzijdu5qer+tHcA3s59D
+         W5V7lRQQkx/QOI8PTyM6pRgpPpyekLBjop/3LrxmOWAsr76Teml54+irxel6xi4lERpU
+         F+GWFkozQvBOIDa2XablpWcgSi0rPj8hEzOAa+DfsUaKQNRVtikDKlJW4T9LoV62VCu0
+         xXh3OvDOkbGmGl1hb5PqTJVNtejgcGHt1OgJFrx900oXWnuzOu2sWle5Dx+zofj9/zmw
+         MESg==
+X-Gm-Message-State: AJIora8UMw0AZ8xTj24lkcWm2iVCsb3WjyM+xMTzP4TznE9E8sbMkQnX
+        XR+NNaIeHiY/Uvq/cF/8qmjxUg==
+X-Google-Smtp-Source: AGRyM1sEXVpXQpUbjt1Vmt9jF2dZkzMOh7zuOjiy2TAojBvfakWnhxBJBIzW4HlnZcGpWrZYXl4RFw==
+X-Received: by 2002:a05:600c:1992:b0:3a1:9252:c373 with SMTP id t18-20020a05600c199200b003a19252c373mr21652210wmq.140.1657924547835;
+        Fri, 15 Jul 2022 15:35:47 -0700 (PDT)
 Received: from ?IPV6:2a05:6e02:1041:c10:a223:f4b3:40c9:43fa? ([2a05:6e02:1041:c10:a223:f4b3:40c9:43fa])
-        by smtp.googlemail.com with ESMTPSA id j27-20020a05600c1c1b00b0039c4ba160absm17678280wms.2.2022.07.15.14.40.12
+        by smtp.googlemail.com with ESMTPSA id y18-20020a05600c365200b003a2c67aa6c0sm7755297wmq.23.2022.07.15.15.35.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Jul 2022 14:40:15 -0700 (PDT)
-Message-ID: <563e92de-68aa-7382-2564-c1ccc270c571@linaro.org>
-Date:   Fri, 15 Jul 2022 23:40:11 +0200
+        Fri, 15 Jul 2022 15:35:47 -0700 (PDT)
+Message-ID: <62b1f1bd-c15d-662c-027e-1cdeff5eb580@linaro.org>
+Date:   Sat, 16 Jul 2022 00:35:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v3 06/15] thermal: qcom: qcom-spmi-adc-tm5: convert to IIO
- fwnode API
+Subject: Re: [PATCH 1/3] dt-bindings: timer: renesas,cmt: Add r8a779f0 and
+ generic Gen4 CMT support
 Content-Language: en-US
-To:     =?UTF-8?Q?Nuno_S=c3=a1?= <nuno.sa@analog.com>,
-        openbmc@lists.ozlabs.org, linux-imx@nxp.com,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-iio@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        chrome-platform@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-arm-msm@vger.kernel.org
-Cc:     Gwendal Grignou <gwendal@chromium.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Saravanan Sekar <sravanhome@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Olivier Moysan <olivier.moysan@foss.st.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Thara Gopinath <thara.gopinath@linaro.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Patrick Venture <venture@google.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Benson Leung <bleung@chromium.org>,
-        Nancy Yuen <yuenn@google.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Christophe Branchereau <cbranchereau@gmail.com>,
-        Cai Huoqing <cai.huoqing@linux.dev>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Andy Gross <agross@kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Haibo Chen <haibo.chen@nxp.com>,
-        Jishnu Prakash <quic_jprakash@quicinc.com>
-References: <20220715122903.332535-1-nuno.sa@analog.com>
- <20220715122903.332535-7-nuno.sa@analog.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20220713100603.3391-1-wsa+renesas@sang-engineering.com>
+ <20220713100603.3391-2-wsa+renesas@sang-engineering.com>
 From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20220715122903.332535-7-nuno.sa@analog.com>
+In-Reply-To: <20220713100603.3391-2-wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -125,33 +81,43 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 15/07/2022 14:28, Nuno Sá wrote:
-> Make usage of the new firmware agnostic API
-> 'devm_of_iio_channel_get_by_name()' to get the IIO channel.
-> 
-> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+On 13/07/2022 12:06, Wolfram Sang wrote:
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+Krzysztof ?
 
 > ---
->   drivers/thermal/qcom/qcom-spmi-adc-tm5.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   .../devicetree/bindings/timer/renesas,cmt.yaml         | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
 > 
-> diff --git a/drivers/thermal/qcom/qcom-spmi-adc-tm5.c b/drivers/thermal/qcom/qcom-spmi-adc-tm5.c
-> index d9c9c975f931..0b8543c627f0 100644
-> --- a/drivers/thermal/qcom/qcom-spmi-adc-tm5.c
-> +++ b/drivers/thermal/qcom/qcom-spmi-adc-tm5.c
-> @@ -825,7 +825,8 @@ static int adc_tm5_get_dt_channel_data(struct adc_tm5_chip *adc_tm,
->   	}
->   	channel->adc_channel = args.args[0];
+> diff --git a/Documentation/devicetree/bindings/timer/renesas,cmt.yaml b/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
+> index 53dd6d9f518f..7cc1ec4b4e38 100644
+> --- a/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
+> +++ b/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
+> @@ -83,6 +83,11 @@ properties:
+>                 - renesas,r8a779a0-cmt0     # 32-bit CMT0 on R-Car V3U
+>             - const: renesas,rcar-gen3-cmt0 # 32-bit CMT0 on R-Car Gen3 and RZ/G2
 >   
-> -	channel->iio = devm_of_iio_channel_get_by_name(adc_tm->dev, node, NULL);
-> +	channel->iio = devm_fwnode_iio_channel_get_by_name(adc_tm->dev,
-> +							   of_fwnode_handle(node), NULL);
->   	if (IS_ERR(channel->iio)) {
->   		ret = PTR_ERR(channel->iio);
->   		if (ret != -EPROBE_DEFER)
+> +      - items:
+> +          - enum:
+> +              - renesas,r8a779f0-cmt0     # 32-bit CMT0 on R-Car S4-8
+> +          - const: renesas,rcar-gen4-cmt0 # 32-bit CMT0 on R-Car Gen4
+> +
+>         - items:
+>             - enum:
+>                 - renesas,r8a774a1-cmt1     # 48-bit CMT on RZ/G2M
+> @@ -100,6 +105,11 @@ properties:
+>                 - renesas,r8a779a0-cmt1     # 48-bit CMT on R-Car V3U
+>             - const: renesas,rcar-gen3-cmt1 # 48-bit CMT on R-Car Gen3 and RZ/G2
+>   
+> +      - items:
+> +          - enum:
+> +              - renesas,r8a779f0-cmt1     # 48-bit CMT on R-Car S4-8
+> +          - const: renesas,rcar-gen4-cmt1 # 48-bit CMT on R-Car Gen4
+> +
+>     reg:
+>       maxItems: 1
+>   
 
 
 -- 
