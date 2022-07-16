@@ -2,211 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D963A576DBC
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Jul 2022 14:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3E4A576FEE
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Jul 2022 17:39:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbiGPMNL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 16 Jul 2022 08:13:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53882 "EHLO
+        id S232278AbiGPPjm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 16 Jul 2022 11:39:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiGPMNK (ORCPT
+        with ESMTP id S229501AbiGPPjl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 16 Jul 2022 08:13:10 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24CF91C10A
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Jul 2022 05:13:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657973590; x=1689509590;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=K5zXCZieqtDKgPaxigW1nVbQ3ueOfS4HlbHCfTeWObU=;
-  b=nqWFx4Okt/A06lN8/Hih0Zec0nFHFzU6ItreTsgFn747/MOQ8CPmAq62
-   2xUOX46tnEWPa4eDIre1QsmZOCubAG5umOQGfQOhmZ459FAhG+Zo+RfS4
-   xJreN4ydrxFUnGGYqxVd7naV+dtTbofRTSF7L0oWKrAHo4Y2MuVX9JTQc
-   3WqHuSeJEh0Ir3ZUMFI4U0AB/lwj4NtHRpHb/ce9RbzPauK4OcMHD1F67
-   Jsu30epl5OPsHsvv/bz5AuCjp7e7kPYqxQaPXPC30/G65L+tDhZ1mensg
-   RBpI7OtT1HBIzng/3ehYrohoRkV/0kLA6puKTur3uFZ0Zneck+xW1r4me
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10409"; a="349934772"
-X-IronPort-AV: E=Sophos;i="5.92,276,1650956400"; 
-   d="scan'208";a="349934772"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2022 05:13:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,276,1650956400"; 
-   d="scan'208";a="923814557"
-Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 16 Jul 2022 05:13:08 -0700
-Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oCgfT-0001Qu-Rs;
-        Sat, 16 Jul 2022 12:13:07 +0000
-Date:   Sat, 16 Jul 2022 20:12:58 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/overlays-v5.19-rc1] BUILD SUCCESS
- 53b1be6c0578393cf1057c15368019aba2e91839
-Message-ID: <62d2ab4a.TxIARamafZXgiaqI%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 16 Jul 2022 11:39:41 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9B23F11479;
+        Sat, 16 Jul 2022 08:39:40 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.92,277,1650898800"; 
+   d="scan'208";a="126373289"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 17 Jul 2022 00:39:39 +0900
+Received: from localhost.localdomain (unknown [10.226.92.11])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 30CF340083F7;
+        Sun, 17 Jul 2022 00:39:36 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-spi@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] spi: spi-rspi: Add force_dma variable to spi_ops
+Date:   Sat, 16 Jul 2022 16:39:34 +0100
+Message-Id: <20220716153934.292311-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/overlays-v5.19-rc1
-branch HEAD: 53b1be6c0578393cf1057c15368019aba2e91839  kbuild: Allow .dtso format for overlay source files
+On RZ/G2L SoCs switching from DMA to interrupt mode, causes timeout
+issue as we are not getting Rx interrupt even though SPRF bit is set in
+the status register.
 
-elapsed time: 1290m
+But there is no issue if we don't switch between interrupt to DMA mode
+or vice versa.
 
-configs tested: 128
-configs skipped: 4
+Performance comparison between interrupt and DMA mode on RZ/Five SMARC
+platform connected to a display module shows that performance and
+CPU utilization is much better with DMA mode compared to interrupt mode
+(1->65 fps) and (98->8%).
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+This patch introduces a variable force_dma to avoid switching between
+DMA to interrupt mode for RZ platforms.
 
-gcc tested configs:
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-arm                      footbridge_defconfig
-xtensa                              defconfig
-openrisc                    or1ksim_defconfig
-arm                        mvebu_v7_defconfig
-powerpc                 mpc85xx_cds_defconfig
-parisc                generic-32bit_defconfig
-s390                       zfcpdump_defconfig
-m68k                             alldefconfig
-arm                            lart_defconfig
-sh                         ecovec24_defconfig
-arm                     eseries_pxa_defconfig
-sh                         ap325rxa_defconfig
-arm                          gemini_defconfig
-arm                           sama5_defconfig
-xtensa                generic_kc705_defconfig
-mips                           jazz_defconfig
-arm                          simpad_defconfig
-arm                       multi_v4t_defconfig
-powerpc                     ep8248e_defconfig
-sh                        sh7763rdp_defconfig
-mips                    maltaup_xpa_defconfig
-xtensa                    xip_kc705_defconfig
-powerpc                     tqm8555_defconfig
-sh                        sh7785lcr_defconfig
-mips                             allyesconfig
-sh                           se7721_defconfig
-m68k                        mvme147_defconfig
-sh                          polaris_defconfig
-powerpc                  storcenter_defconfig
-arc                            hsdk_defconfig
-i386                                defconfig
-s390                                defconfig
-s390                             allmodconfig
-arc                                 defconfig
-alpha                               defconfig
-s390                             allyesconfig
-nios2                            allyesconfig
-nios2                               defconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-csky                              allnoconfig
-alpha                             allnoconfig
-arc                               allnoconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-i386                             allyesconfig
-i386                          randconfig-a005
-i386                          randconfig-a001
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-arc                  randconfig-r043-20220716
-arc                  randconfig-r043-20220715
-s390                 randconfig-r044-20220716
-riscv                randconfig-r042-20220716
-x86_64                    rhel-8.3-kselftests
-x86_64                           allyesconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/spi/spi-rspi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-clang tested configs:
-i386                             allyesconfig
-arm                    vt8500_v6_v7_defconfig
-mips                      pic32mzda_defconfig
-mips                           mtx1_defconfig
-powerpc                      ppc64e_defconfig
-arm                       aspeed_g4_defconfig
-arm                          moxart_defconfig
-powerpc                     ppa8548_defconfig
-mips                      maltaaprp_defconfig
-arm                        mvebu_v5_defconfig
-arm                         bcm2835_defconfig
-powerpc                    socrates_defconfig
-powerpc               mpc834x_itxgp_defconfig
-riscv                          rv32_defconfig
-mips                  cavium_octeon_defconfig
-arm                       netwinder_defconfig
-mips                       lemote2f_defconfig
-arm                   milbeaut_m10v_defconfig
-powerpc                    ge_imp3a_defconfig
-arm                          collie_defconfig
-mips                     loongson1c_defconfig
-arm                         orion5x_defconfig
-mips                     cu1830-neo_defconfig
-powerpc                      obs600_defconfig
-arm                            dove_defconfig
-x86_64                        randconfig-k001
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a015
-i386                          randconfig-a011
-i386                          randconfig-a013
-x86_64                        randconfig-a005
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-hexagon              randconfig-r045-20220715
-s390                 randconfig-r044-20220715
-hexagon              randconfig-r041-20220715
-riscv                randconfig-r042-20220715
-hexagon              randconfig-r041-20220716
-hexagon              randconfig-r045-20220716
-
+diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
+index 7a014eeec2d0..f86b7b53288f 100644
+--- a/drivers/spi/spi-rspi.c
++++ b/drivers/spi/spi-rspi.c
+@@ -249,6 +249,7 @@ struct spi_ops {
+ 	u16 flags;
+ 	u16 fifo_size;
+ 	u8 num_hw_ss;
++	bool force_dma;
+ };
+ 
+ static void rspi_set_rate(struct rspi_data *rspi)
+@@ -677,7 +678,7 @@ static void qspi_receive_init(const struct rspi_data *rspi)
+ static bool __rspi_can_dma(const struct rspi_data *rspi,
+ 			   const struct spi_transfer *xfer)
+ {
+-	return xfer->len > rspi->ops->fifo_size;
++	return  rspi->ops->force_dma || (xfer->len > rspi->ops->fifo_size);
+ }
+ 
+ static bool rspi_can_dma(struct spi_controller *ctlr, struct spi_device *spi,
+@@ -1196,6 +1197,7 @@ static const struct spi_ops rspi_rz_ops = {
+ 	.flags =		SPI_CONTROLLER_MUST_RX | SPI_CONTROLLER_MUST_TX,
+ 	.fifo_size =		8,	/* 8 for TX, 32 for RX */
+ 	.num_hw_ss =		1,
++	.force_dma =		true,
+ };
+ 
+ static const struct spi_ops qspi_ops = {
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
