@@ -2,53 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9A59576DB5
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Jul 2022 14:07:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D963A576DBC
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Jul 2022 14:13:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231392AbiGPMHL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 16 Jul 2022 08:07:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51098 "EHLO
+        id S229562AbiGPMNL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 16 Jul 2022 08:13:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230273AbiGPMHK (ORCPT
+        with ESMTP id S229479AbiGPMNK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 16 Jul 2022 08:07:10 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCB71248EC
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Jul 2022 05:07:09 -0700 (PDT)
+        Sat, 16 Jul 2022 08:13:10 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24CF91C10A
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Jul 2022 05:13:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657973229; x=1689509229;
+  t=1657973590; x=1689509590;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=84CWk7JAywdcYa5Jy4rqhyvR32ytUJ08hTnBWbwD80E=;
-  b=Wn/rUkAmFPntLrsq0xZXYGxiEUymKdKfokOGxAQAvfkR6iuQ2RWF4QMA
-   l9uJjA88h5RapyKnobKwsWyUUy+1ZaBFz48l6lSmVY6dslaVwFwtZgHT3
-   3XQvTnPx37wrQ+r5jdI3+/Y+rhg/vWPuuUWU+kzQDfgkMFzpIfmvcOIQe
-   G9NABkahARwK+K4upRmd3yYAkXFp/yyeK/D4Ac0wX1s9YLvK87kwe4rQx
-   GnkHHRsCHc/00j1Eki4UJSNSu76Swi7E3GvgFwfv5ZxPAZhWGDHzTCN/9
-   PSdlF3nqb9mH5nyxh3GlueOS9NbyMR/7Pp51ysqqv/KTeOvuOBkgZFvQW
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10409"; a="372284085"
+  bh=K5zXCZieqtDKgPaxigW1nVbQ3ueOfS4HlbHCfTeWObU=;
+  b=nqWFx4Okt/A06lN8/Hih0Zec0nFHFzU6ItreTsgFn747/MOQ8CPmAq62
+   2xUOX46tnEWPa4eDIre1QsmZOCubAG5umOQGfQOhmZ459FAhG+Zo+RfS4
+   xJreN4ydrxFUnGGYqxVd7naV+dtTbofRTSF7L0oWKrAHo4Y2MuVX9JTQc
+   3WqHuSeJEh0Ir3ZUMFI4U0AB/lwj4NtHRpHb/ce9RbzPauK4OcMHD1F67
+   Jsu30epl5OPsHsvv/bz5AuCjp7e7kPYqxQaPXPC30/G65L+tDhZ1mensg
+   RBpI7OtT1HBIzng/3ehYrohoRkV/0kLA6puKTur3uFZ0Zneck+xW1r4me
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10409"; a="349934772"
 X-IronPort-AV: E=Sophos;i="5.92,276,1650956400"; 
-   d="scan'208";a="372284085"
+   d="scan'208";a="349934772"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2022 05:07:09 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2022 05:13:09 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.92,276,1650956400"; 
-   d="scan'208";a="923813787"
+   d="scan'208";a="923814557"
 Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 16 Jul 2022 05:07:08 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 16 Jul 2022 05:13:08 -0700
 Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1oCgZf-0001QU-NI;
-        Sat, 16 Jul 2022 12:07:07 +0000
-Date:   Sat, 16 Jul 2022 20:06:36 +0800
+        id 1oCgfT-0001Qu-Rs;
+        Sat, 16 Jul 2022 12:13:07 +0000
+Date:   Sat, 16 Jul 2022 20:12:58 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/renesas-overlays-v5.19-rc1] BUILD
- SUCCESS e1dcab908bdac1d00ef843f12122e6c055722e47
-Message-ID: <62d2a9cc.oS28GXkqGcbRiWrc%lkp@intel.com>
+Subject: [geert-renesas-drivers:topic/overlays-v5.19-rc1] BUILD SUCCESS
+ 53b1be6c0578393cf1057c15368019aba2e91839
+Message-ID: <62d2ab4a.TxIARamafZXgiaqI%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -62,10 +62,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-overlays-v5.19-rc1
-branch HEAD: e1dcab908bdac1d00ef843f12122e6c055722e47  ARM: dts: koelsch: Add overlay for keyboard-controlled LED
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/overlays-v5.19-rc1
+branch HEAD: 53b1be6c0578393cf1057c15368019aba2e91839  kbuild: Allow .dtso format for overlay source files
 
-elapsed time: 1282m
+elapsed time: 1290m
 
 configs tested: 128
 configs skipped: 4
@@ -96,10 +96,6 @@ xtensa                generic_kc705_defconfig
 mips                           jazz_defconfig
 arm                          simpad_defconfig
 arm                       multi_v4t_defconfig
-m68k                       m5475evb_defconfig
-sh                           sh2007_defconfig
-arm                            qcom_defconfig
-sh                   secureedge5410_defconfig
 powerpc                     ep8248e_defconfig
 sh                        sh7763rdp_defconfig
 mips                    maltaup_xpa_defconfig
@@ -129,7 +125,6 @@ riscv                    nommu_k210_defconfig
 riscv                             allnoconfig
 i386                   debian-10.3-kselftests
 i386                              debian-10.3
-ia64                             allmodconfig
 csky                              allnoconfig
 alpha                             allnoconfig
 arc                               allnoconfig
@@ -141,18 +136,21 @@ powerpc                           allnoconfig
 powerpc                          allmodconfig
 sh                               allmodconfig
 i386                             allyesconfig
-x86_64                        randconfig-a002
-x86_64                        randconfig-a004
-i386                          randconfig-a001
-i386                          randconfig-a003
 i386                          randconfig-a005
-x86_64                        randconfig-a015
+i386                          randconfig-a001
+x86_64                        randconfig-a013
 x86_64                        randconfig-a011
-x86_64                        randconfig-a006
-i386                          randconfig-a014
+x86_64                        randconfig-a015
 i386                          randconfig-a012
+i386                          randconfig-a014
 i386                          randconfig-a016
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+arc                  randconfig-r043-20220716
 arc                  randconfig-r043-20220715
+s390                 randconfig-r044-20220716
+riscv                randconfig-r042-20220716
 x86_64                    rhel-8.3-kselftests
 x86_64                           allyesconfig
 um                             i386_defconfig
@@ -173,8 +171,8 @@ arm                       aspeed_g4_defconfig
 arm                          moxart_defconfig
 powerpc                     ppa8548_defconfig
 mips                      maltaaprp_defconfig
-arm                         bcm2835_defconfig
 arm                        mvebu_v5_defconfig
+arm                         bcm2835_defconfig
 powerpc                    socrates_defconfig
 powerpc               mpc834x_itxgp_defconfig
 riscv                          rv32_defconfig
@@ -190,22 +188,24 @@ mips                     cu1830-neo_defconfig
 powerpc                      obs600_defconfig
 arm                            dove_defconfig
 x86_64                        randconfig-k001
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
 i386                          randconfig-a002
 i386                          randconfig-a006
 i386                          randconfig-a004
 x86_64                        randconfig-a012
 x86_64                        randconfig-a014
 x86_64                        randconfig-a016
-x86_64                        randconfig-a005
-i386                          randconfig-a013
 i386                          randconfig-a015
 i386                          randconfig-a011
+i386                          randconfig-a013
+x86_64                        randconfig-a005
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
 hexagon              randconfig-r045-20220715
 s390                 randconfig-r044-20220715
 hexagon              randconfig-r041-20220715
 riscv                randconfig-r042-20220715
+hexagon              randconfig-r041-20220716
+hexagon              randconfig-r045-20220716
 
 -- 
 0-DAY CI Kernel Test Service
