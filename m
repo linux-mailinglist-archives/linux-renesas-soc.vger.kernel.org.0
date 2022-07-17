@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4068E57779C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Jul 2022 19:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 135AD57779E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Jul 2022 19:58:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229825AbiGQR6Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 17 Jul 2022 13:58:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56548 "EHLO
+        id S230264AbiGQR6U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 17 Jul 2022 13:58:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbiGQR6P (ORCPT
+        with ESMTP id S229873AbiGQR6S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 17 Jul 2022 13:58:15 -0400
+        Sun, 17 Jul 2022 13:58:18 -0400
 Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 093C613D5D
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 17 Jul 2022 10:58:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 599D713D61
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 17 Jul 2022 10:58:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ravnborg.org; s=rsa1;
         h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
          subject:cc:to:from:from;
-        bh=Ie8mdCntK7qyM1ThoHTn0tAb6FNFfAz8fYfoPn1nKpM=;
-        b=Owd4TR+EIAcR/w4IS9ir8ZcJOxNC7zfMKnLLOvEYaWyNhBD6xHyXdMeyWVSlHv8yuBoUu6GTdlV0M
-         +N5PjTde+3Ugkzo3EnTrBclAEoZabbMu5LbWyaFQ2Xqq1dsx+GvCku2SfiQseFlvC9y1szOx/UjCz7
-         sVDLt2A+KV6QCO4bTytrBcXafvcny+Bw9DonGSumNPJmvm9J4HlydnWkQO0E87ZmJfQsSsjO69Tpe4
-         X3QqfpcIY1s30KdBaNVnCsaxv1IxTL7VGjS9nDe3aC9eTCv8FRR3uMzBT3QSRCcVccCY4NtCo1BXuQ
-         0nJuEkYd8XyKOt8aZfKhOB6lxCuNSgg==
+        bh=8xMDkuUfPGn0o735pjsKmzPk0fBw5yBNOtUUSLza8y8=;
+        b=aoi4B6bMH3Cqlb15Pt+qz0yBgpA74ySyu5WsJzQLwhx5nXceezPGoNu2Dqm1PJmOVmPfMNmxT8+8h
+         0Z8/JDQXKMg5v/f8+33EPObPtz1JjmoIBjNYH9+G06LdnT2ou2XsjpoEZ4OfqrlHYKAU1oX/v5+Luz
+         7SzvdZPdevTuMpVnkjvrPHOkAfai+pByhDs9StAky2XNzasryvXV076zl6t+g/jFbpF2S2pwUmZAH3
+         PkK/hbcyi9sLuRsnXX8sX9tBeK09kP/oW35yL5r/9rOuLbWdtgL8BG03YWgXvHVz/i+PkmDkViwUFv
+         a+pBpQwd7vsayyeD4gKIwygIJU1cvUQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
         d=ravnborg.org; s=ed1;
         h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
          subject:cc:to:from:from;
-        bh=Ie8mdCntK7qyM1ThoHTn0tAb6FNFfAz8fYfoPn1nKpM=;
-        b=SJAzZOPeRrw1zNoIoWtZEdkJbmL6Ihhfv4xQ6otdBCl2YYmEUOZQyubn0ANmkK9oD5aYtc7xczVbI
-         J81A1uACg==
-X-HalOne-Cookie: 1e041dfdbe31dc4e91bc574cc7fddbd785b1642b
-X-HalOne-ID: 05046757-05fa-11ed-be7f-d0431ea8bb03
+        bh=8xMDkuUfPGn0o735pjsKmzPk0fBw5yBNOtUUSLza8y8=;
+        b=wNVu+OQTZtFBwr05sqKFwWIn3xsPomNIVKtIlMY7HEFSLGeaKUoEF2OW6IeHdYoYe+yv3O5YQE2zM
+         tjk/AzvAA==
+X-HalOne-Cookie: cb254aee6c7ec574bf0b0b704723fae5f8c7f5e7
+X-HalOne-ID: 0789e88e-05fa-11ed-be7f-d0431ea8bb03
 Received: from mailproxy1.cst.dirpod4-cph3.one.com (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
         by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-        id 05046757-05fa-11ed-be7f-d0431ea8bb03;
-        Sun, 17 Jul 2022 17:58:11 +0000 (UTC)
+        id 0789e88e-05fa-11ed-be7f-d0431ea8bb03;
+        Sun, 17 Jul 2022 17:58:15 +0000 (UTC)
 From:   Sam Ravnborg <sam@ravnborg.org>
 To:     dri-devel@lists.freedesktop.org,
         Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -68,12 +68,13 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Benson Leung <bleung@chromium.org>,
         Sam Ravnborg <sam@ravnborg.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v1 08/12] drm/mediatek: Drop mtk_hdmi_bridge_mode_fixup
-Date:   Sun, 17 Jul 2022 19:57:57 +0200
-Message-Id: <20220717175801.78668-1-sam@ravnborg.org>
+Subject: [PATCH v1 09/12] drm/rcar-du: lvds: Use drm_bridge_funcs.atomic_check
+Date:   Sun, 17 Jul 2022 19:57:58 +0200
+Message-Id: <20220717175801.78668-2-sam@ravnborg.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220717174454.46616-1-sam@ravnborg.org>
+In-Reply-To: <20220717175801.78668-1-sam@ravnborg.org>
 References: <20220717174454.46616-1-sam@ravnborg.org>
+ <20220717175801.78668-1-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -86,47 +87,57 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The implementation of drm_bridge_funcs.mode_fixup is optional
-so there is no need to provide an empty implementation.
-Drop mtk_hdmi_bridge_mode_fixup() so the driver no longer uses the
-deprecated drm_bridge_funcs.mode_fixup() operation.
+Replace the deprecated drm_bridge_funcs.mode_fixup() with
+drm_bridge_funcs.atomic_check().
+The driver implements the state operations, so no other changes
+are required for the replacement.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: linux-mediatek@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: linux-renesas-soc@vger.kernel.org
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_lvds.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index a63b76055f81..7321aa1ee6f0 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1293,13 +1293,6 @@ static int mtk_hdmi_bridge_attach(struct drm_bridge *bridge,
- 	return 0;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+index 830aac0a2cb4..c4adbcede090 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
++++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+@@ -554,10 +554,12 @@ static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
+ 	clk_disable_unprepare(lvds->clocks.mod);
  }
  
--static bool mtk_hdmi_bridge_mode_fixup(struct drm_bridge *bridge,
--				       const struct drm_display_mode *mode,
--				       struct drm_display_mode *adjusted_mode)
--{
--	return true;
--}
--
- static void mtk_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
- 					   struct drm_bridge_state *old_bridge_state)
+-static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
+-				 const struct drm_display_mode *mode,
+-				 struct drm_display_mode *adjusted_mode)
++static int rcar_lvds_atomic_check(struct drm_bridge *bridge,
++				  struct drm_bridge_state *bridge_state,
++				  struct drm_crtc_state *crtc_state,
++				  struct drm_connector_state *conn_state)
  {
-@@ -1399,7 +1392,6 @@ static const struct drm_bridge_funcs mtk_hdmi_bridge_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
++	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
+ 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+ 	int min_freq;
+ 
+@@ -569,7 +571,7 @@ static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
+ 	min_freq = lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL ? 5000 : 31000;
+ 	adjusted_mode->clock = clamp(adjusted_mode->clock, min_freq, 148500);
+ 
+-	return true;
++	return 0;
+ }
+ 
+ static int rcar_lvds_attach(struct drm_bridge *bridge,
+@@ -591,7 +593,7 @@ static const struct drm_bridge_funcs rcar_lvds_bridge_ops = {
  	.atomic_reset = drm_atomic_helper_bridge_reset,
- 	.attach = mtk_hdmi_bridge_attach,
--	.mode_fixup = mtk_hdmi_bridge_mode_fixup,
- 	.atomic_disable = mtk_hdmi_bridge_atomic_disable,
- 	.atomic_post_disable = mtk_hdmi_bridge_atomic_post_disable,
- 	.mode_set = mtk_hdmi_bridge_mode_set,
+ 	.atomic_enable = rcar_lvds_atomic_enable,
+ 	.atomic_disable = rcar_lvds_atomic_disable,
+-	.mode_fixup = rcar_lvds_mode_fixup,
++	.atomic_check = rcar_lvds_atomic_check,
+ };
+ 
+ bool rcar_lvds_dual_link(struct drm_bridge *bridge)
 -- 
 2.34.1
 
