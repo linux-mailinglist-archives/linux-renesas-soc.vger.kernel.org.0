@@ -2,97 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3E4A576FEE
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Jul 2022 17:39:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 461885774F6
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Jul 2022 09:30:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232278AbiGPPjm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 16 Jul 2022 11:39:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49218 "EHLO
+        id S229731AbiGQHaf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 17 Jul 2022 03:30:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbiGPPjl (ORCPT
+        with ESMTP id S229476AbiGQHae (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 16 Jul 2022 11:39:41 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9B23F11479;
-        Sat, 16 Jul 2022 08:39:40 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.92,277,1650898800"; 
-   d="scan'208";a="126373289"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 17 Jul 2022 00:39:39 +0900
-Received: from localhost.localdomain (unknown [10.226.92.11])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 30CF340083F7;
-        Sun, 17 Jul 2022 00:39:36 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-spi@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] spi: spi-rspi: Add force_dma variable to spi_ops
-Date:   Sat, 16 Jul 2022 16:39:34 +0100
-Message-Id: <20220716153934.292311-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Sun, 17 Jul 2022 03:30:34 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20BF11902B;
+        Sun, 17 Jul 2022 00:30:30 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id D78A9202B9;
+        Sun, 17 Jul 2022 10:30:25 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1658043026;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=k73vNUkXnGYNFTqzGk4yq4li/VMRqMmY+7V/Z/FCAaU=;
+        b=GnxP6m0tw/XU5TMJVxXQXYfEmLwmtKZIEPOSRqw0cXecliJMx+bLRKdpivwVxpP7CllDml
+        4L0S0tRf3YHopqBfzCnmw8NswjfOXbkrgIpPiG5zAI7OVsoYe0LRKTQGniqf/4qvf1eWLD
+        u+8VWbKF6wI5UaHwIOea4QyWl/fmR38=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 27975634CEA;
+        Sun, 17 Jul 2022 10:30:24 +0300 (EEST)
+Date:   Sun, 17 Jul 2022 10:30:24 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     dave.stevenson@raspberrypi.com, david.plowman@raspberrypi.com,
+        laurent.pinchart@ideasonboard.com,
+        Valentine Barshak <valentine.barshak@cogentembedded.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/5] media: ov5647: Support HFLIP and VFLIP
+Message-ID: <YtO6kMoJ0GbDrJqU@valkosipuli.retiisi.eu>
+References: <20220615151457.415038-1-jacopo@jmondi.org>
+ <20220615151457.415038-3-jacopo@jmondi.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220615151457.415038-3-jacopo@jmondi.org>
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1658043026;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=k73vNUkXnGYNFTqzGk4yq4li/VMRqMmY+7V/Z/FCAaU=;
+        b=OAjoszw26K+4M+hIUc9ptyU/xOB7CdugCE1VhZIumSdmZtO6itGeRfOtT4wlNBF5c1Febs
+        1F9qLDyE5mEUick9fjyJOqavNqRGRJN3peXfFCR3tflI7sLPJZOwWsEy+nwffR4BHPmVjy
+        oilkvvRHAJ0HmtEEUSaH6n9uCskYekA=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1658043026; a=rsa-sha256; cv=none;
+        b=NbQKrUlQZHFQ5uTp2ud+4RciK7x0Z03gOJi+MRBnoXmgDk15JWYg0qmP8w6CnlTDpiKT0I
+        54IDPe4Yl9uzvkV5n3wSuAqhFZMej2DPIoPAMGgcdpQG7ShqvBoaWi1qgJo2+zYoZhFUiG
+        ccH5ZGliWdxjUcIrbBIKaWTpJn7NASg=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On RZ/G2L SoCs switching from DMA to interrupt mode, causes timeout
-issue as we are not getting Rx interrupt even though SPRF bit is set in
-the status register.
+Hi Jacopo,
 
-But there is no issue if we don't switch between interrupt to DMA mode
-or vice versa.
+Thanks for the set.
 
-Performance comparison between interrupt and DMA mode on RZ/Five SMARC
-platform connected to a display module shows that performance and
-CPU utilization is much better with DMA mode compared to interrupt mode
-(1->65 fps) and (98->8%).
+On Wed, Jun 15, 2022 at 05:14:54PM +0200, Jacopo Mondi wrote:
+> From: David Plowman <david.plowman@raspberrypi.com>
+> 
+> Add these missing V4L2 controls. Tested binned and full resolution
+> modes in all four orientations using Raspberry Pi running libcamera.
+> 
+> Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  drivers/media/i2c/ov5647.c | 72 ++++++++++++++++++++++++++++++++++----
+>  1 file changed, 66 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index 98b72094ef68..c292e5d09eab 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -136,7 +140,7 @@ static struct regval_list ov5647_2592x1944_10bpp[] = {
+>  	{0x3036, 0x69},
+>  	{0x303c, 0x11},
+>  	{0x3106, 0xf5},
+> -	{0x3821, 0x06},
+> +	{0x3821, 0x00},
+>  	{0x3820, 0x00},
 
-This patch introduces a variable force_dma to avoid switching between
-DMA to interrupt mode for RZ platforms.
+As you're setting the values through the control handler, the registers
+should be removed from register lists.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/spi/spi-rspi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+>  	{0x3827, 0xec},
+>  	{0x370c, 0x03},
 
-diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
-index 7a014eeec2d0..f86b7b53288f 100644
---- a/drivers/spi/spi-rspi.c
-+++ b/drivers/spi/spi-rspi.c
-@@ -249,6 +249,7 @@ struct spi_ops {
- 	u16 flags;
- 	u16 fifo_size;
- 	u8 num_hw_ss;
-+	bool force_dma;
- };
- 
- static void rspi_set_rate(struct rspi_data *rspi)
-@@ -677,7 +678,7 @@ static void qspi_receive_init(const struct rspi_data *rspi)
- static bool __rspi_can_dma(const struct rspi_data *rspi,
- 			   const struct spi_transfer *xfer)
- {
--	return xfer->len > rspi->ops->fifo_size;
-+	return  rspi->ops->force_dma || (xfer->len > rspi->ops->fifo_size);
- }
- 
- static bool rspi_can_dma(struct spi_controller *ctlr, struct spi_device *spi,
-@@ -1196,6 +1197,7 @@ static const struct spi_ops rspi_rz_ops = {
- 	.flags =		SPI_CONTROLLER_MUST_RX | SPI_CONTROLLER_MUST_TX,
- 	.fifo_size =		8,	/* 8 for TX, 32 for RX */
- 	.num_hw_ss =		1,
-+	.force_dma =		true,
- };
- 
- static const struct spi_ops qspi_ops = {
 -- 
-2.25.1
+Regards,
 
+Sakari Ailus
