@@ -2,114 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39906578262
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jul 2022 14:33:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3294F578307
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jul 2022 15:03:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230249AbiGRMd5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Jul 2022 08:33:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54534 "EHLO
+        id S234940AbiGRNDl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Jul 2022 09:03:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231629AbiGRMd5 (ORCPT
+        with ESMTP id S235170AbiGRNDk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Jul 2022 08:33:57 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C5EA5FF7;
-        Mon, 18 Jul 2022 05:33:55 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 331F3B80F79;
-        Mon, 18 Jul 2022 12:33:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4792DC341C0;
-        Mon, 18 Jul 2022 12:33:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658147632;
-        bh=pBFI2m2eAaRkulcEqTijxnzeyD+kWLx1e1S2e2czNuU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sH7KNQASv8ORAY5dJA7waLOkPXM5+1GWn1U8qpFYmDk3AHB/wUsFK2H6eU9JQMfif
-         rCixFcPidnwVcCPPiF51Vpfo2Pq1RgwY5b/Em97h3wHYtKVs/OLi/DY0IPDsYbb9Do
-         I7VUd7rb5ELyNm1QaybSIn8ecHOrKFQrGQGQUqxpl0UPvh/CH+Ijp1MI/DtWykTvUk
-         j+EZXyBOaiyzUpb8cScH6ttJgoKTBJZ+UaWlrQ4wKzLEIpb+SsxNaJCOQXnc1dCIZF
-         kVcLQTMpGdfwoe/9jMCONP6tbZ7wdisGLZXoiJa6GveNFtAnSyOS1a14GY26BI3xFs
-         KC+v8VA4GrH6Q==
-Date:   Mon, 18 Jul 2022 13:33:47 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     linux-spi@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mon, 18 Jul 2022 09:03:40 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85DABBF7C
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Jul 2022 06:03:37 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id e28so19165383lfj.4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Jul 2022 06:03:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=80XUMnISBGpN/g+0WtMKW/2KdDo4w9aenz6MZvdkjys=;
+        b=nhUIUkMzZLJekrgJbmvSAAiaS3lBg4K6kT/9o/IIMPBh1Iplb9MjatPZ61rYldru1q
+         TKKlWqE/dnRB2farHBR5nLxILFdnM820hx5P7lc0727qL7Buq9IFV0IlwO3CboHP+ggJ
+         IlfIbLgo2xyGH49yiiiZYdeMVoMaRkg+kZXOdXqvJs3gnQa9VPZMuGcgCzOdnZDZlkhX
+         l4IAtfp5Qa9up+9YyT1FA3EYkVL+SN4XvC+v7H52t4988ylhxwFdN5hfwKpgY6e5HD7t
+         rjNnHhZ6wB8o4E+OCNPxja4TxjQHJjnDnpWYU4ON8r/5W7JHcurcV5y2DTcQiQtqoSQ+
+         bkaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=80XUMnISBGpN/g+0WtMKW/2KdDo4w9aenz6MZvdkjys=;
+        b=C/Y+DLIrb9zUe9bpjzCyQhtZCyyF4zYVG4GF0IYTYAqIAOleBsEzTuj7pyMcpCTZZq
+         E8HxF4TAHSUiydR5d7rJNXusXdH1bUepKytG9Vyv2BpgVxYKTUPUsOuiR+bLTLgF2bey
+         6iao4+U/bqHUx6awIDg0GCU3pAorK2HL9F3nTCeQIdbY/22xNnan9TmenORcxmFIerue
+         k+s2eQIwraxI1Pc8wvbUitddulgnavv+7SiMT+fZzKFO0MD7pOvD60y3gsPx103ygR9O
+         VAn/i7HOoENC5JGgddNdhmq6lBfAl9YatgBVaJfhGK49reUsaLMlW/nq0Q5RMKyjzFbU
+         rxaA==
+X-Gm-Message-State: AJIora/i3XEFu/GaaCYLiwtpi7RqAsne3XT7K6ARXlu5oN+S2PNLHYS+
+        SdW/jtN7TCDlxdCvfwxWgeSmYQ==
+X-Google-Smtp-Source: AGRyM1uWLpAKU6M48TF9Aap6DE7t0O0xppczTxzCbjd/1Rc2HdNP52LCXQYg9yPTRoM1zz+bQZyboQ==
+X-Received: by 2002:a05:6512:13a4:b0:477:a28a:2280 with SMTP id p36-20020a05651213a400b00477a28a2280mr14491105lfa.689.1658149415742;
+        Mon, 18 Jul 2022 06:03:35 -0700 (PDT)
+Received: from [192.168.115.193] (89-162-31-138.fiber.signal.no. [89.162.31.138])
+        by smtp.gmail.com with ESMTPSA id j10-20020a056512028a00b00481010eb312sm2584965lfp.295.2022.07.18.06.03.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Jul 2022 06:03:35 -0700 (PDT)
+Message-ID: <1c96a873-81f7-02c4-56cc-f33a283329eb@linaro.org>
+Date:   Mon, 18 Jul 2022 15:03:33 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 1/2] dt-bindings: pinctrl: renesas: Add RZ/G2L POEG
+ binding
+Content-Language: en-US
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] spi: spi-rspi: Add force_dma variable to spi_ops
-Message-ID: <YtVTK6Y9QRBuJPr9@sirena.org.uk>
-References: <20220716153934.292311-1-biju.das.jz@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="fKNm85Acx/utvWsU"
-Content-Disposition: inline
-In-Reply-To: <20220716153934.292311-1-biju.das.jz@bp.renesas.com>
-X-Cookie: The greatest remedy for anger is delay.
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220713135528.1386594-1-biju.das.jz@bp.renesas.com>
+ <20220713135528.1386594-2-biju.das.jz@bp.renesas.com>
+ <24903621-358d-d380-76f4-6515c6313bbd@linaro.org>
+ <OS0PR01MB5922CE20E15959AEF89C36D4868B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <OS0PR01MB5922CE20E15959AEF89C36D4868B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 15/07/2022 12:17, Biju Das wrote:
+> Hi Krzysztof Kozlowski,
+> 
+> Thanks for the feedback.
+> 
+>> Subject: Re: [PATCH 1/2] dt-bindings: pinctrl: renesas: Add RZ/G2L POEG
+>> binding
+>>
+>> On 13/07/2022 15:55, Biju Das wrote:
+>>> Add device tree bindings for the RZ/G2L Port Output Enable for GPT
+>> (POEG).
+>>>
+>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>> ---
+>>> REF->v1:
+>>>  * Modelled as pincontrol as most of its configuration is intended to
+>> be
+>>>    static.
+>>>  * Updated reg size in example.
+>>> ---
+>>>  .../bindings/pinctrl/renesas,rzg2l-poeg.yaml  | 65
+>>> +++++++++++++++++++
+>>>  1 file changed, 65 insertions(+)
+>>>  create mode 100644
+>>> Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-poeg.yaml
+>>>
+>>> diff --git
+>>> a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-poeg.yaml
+>>> b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-poeg.yaml
+>>> new file mode 100644
+>>> index 000000000000..7607dd87fa68
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-poeg.yam
+>>> +++ l
+>>> @@ -0,0 +1,65 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+>>> +---
+>>> +$id:
+>>> +
+>>> +title: Renesas RZ/G2L Port Output Enable for GPT (POEG)
+>>> +
+>>> +maintainers:
+>>> +  - Biju Das <biju.das.jz@bp.renesas.com>
+>>> +
+>>> +description: |
+>>> +  The output pins of the general PWM timer (GPT) can be disabled by
+>>> +using
+>>> +  the port output enabling function for the GPT (POEG). Specifically,
+>>> +  either of the following ways can be used.
+>>> +  * Input level detection of the GTETRGA to GTETRGD pins.
+>>> +  * Output-disable request from the GPT.
+>>
+>> Shouldn't this all be part of GPT? Is this a real separate device in the
+>> SoC?
+> 
+> No, It is separate IP block, having its own register block, interrupts and resets.
+> 
+> Please see RFC discussion here[1]
+> 
+> [1] https://lore.kernel.org/linux-renesas-soc/20220517210407.GA1635524-robh@kernel.org/
+> 
+>>
+>>> +  * Register settings.
+>>
+>> This is confusing... so you can use POEG to mess up registers of GPT
+>> independently, so GPT does not know it?
+> 
+> POEG does not mess up registers of GPT. It is basically for protection.
+> 
+> Using POEG register, it is possible to disable GPT output without the knowledge of GPT, after configuring the Output disable source select in the GTINTAD (General PWM Timer Interrupt Output Setting Register) register present in GPT.
 
---fKNm85Acx/utvWsU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Then what does it mean:
+"...following ways can be used. Register settings."
+I cannot parse it.
 
-On Sat, Jul 16, 2022 at 04:39:34PM +0100, Biju Das wrote:
-> On RZ/G2L SoCs switching from DMA to interrupt mode, causes timeout
-> issue as we are not getting Rx interrupt even though SPRF bit is set in
-> the status register.
->=20
-> But there is no issue if we don't switch between interrupt to DMA mode
-> or vice versa.
 
-So we need this for correctness until someone can figure out what goes
-wrong :/
-
-> Performance comparison between interrupt and DMA mode on RZ/Five SMARC
-> platform connected to a display module shows that performance and
-> CPU utilization is much better with DMA mode compared to interrupt mode
-> (1->65 fps) and (98->8%).
-
-How does that look for something doing lots of short transfers (like
-register I/O for example), and what's the throughput like?  DMA probably
-is the most sensible default even so since the impact of doing PIO for
-large transfers tends to be so bad, you have to be doing a *lot* of
-small I/O before it gets to be a problem whereas basically any large
-transfer will notice PIO.
-
-> This patch introduces a variable force_dma to avoid switching between
-> DMA to interrupt mode for RZ platforms.
-
-Not that it really matters but it's not a variable, it's a flag in the
-device configuration.  I'm wondering if we might want a way to override
-this at runtime in case someone does have an application that suffers
-badly from being forced into DMA (eg, some IIO thing), that could be
-done incrementally though.
-
---fKNm85Acx/utvWsU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmLVUysACgkQJNaLcl1U
-h9BC2wf9EeVH48TIA2zDA+JSZPmzmPVpozBTPwJ+ku7Gcpc5jwIVTj+uTxC9vjix
-OoQVbdWk4mBfAlsS1YnYFx8Mr3SXP2YM2k8YTVmkddcCHoXbqmoPt+XakhtIg0it
-4wZXAYl/N01b83QMnozgdcg0vPt3Jh7tFURgbgToYX0IuqHNfQ5Tnh2SS6JAURoC
-C3f/NubwlSGqKYnHqiM87H9pjxRKVM0dhoq4CeS4VKDz1ITw71lHe4WD1+N6sG/6
-uurZX+/3YCVbN47PYJdvcnLRLXa5WV1LHN67xYQyG0jxCP4wUzLIKDEpc1Dp3cVx
-ARBOnsUswaMkB3gv7ZoF5sj3S9CF8Q==
-=2TS2
------END PGP SIGNATURE-----
-
---fKNm85Acx/utvWsU--
+Best regards,
+Krzysztof
