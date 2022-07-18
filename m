@@ -2,163 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44DF2577FA0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jul 2022 12:27:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D30F5781F1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jul 2022 14:15:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234107AbiGRK14 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Jul 2022 06:27:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39780 "EHLO
+        id S234970AbiGRMPE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Jul 2022 08:15:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234139AbiGRK1z (ORCPT
+        with ESMTP id S235031AbiGRMO6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Jul 2022 06:27:55 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04C1E1ADA9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Jul 2022 03:27:54 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id ss3so20312337ejc.11
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Jul 2022 03:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aGrUsGmEyzfhhFC6yht8UK4tIhUB5L2Yyj7VtUSkBjg=;
-        b=O1fWCAkBCBjaVHiCup0ZmH/N0dZjjnk8aMiNo1KKm0RxB6jzXedELhA6uI/knC6r9L
-         0MKPBFWRTYiA27OzzbGTrKW+tNpF/1xlJz1QmqJyJrDjwKgNxl8GGghjaa/y8/vj8LfV
-         MQhg462eUZuNrg68b5LDq+awrYHNUF70ZvgFSJL23xr+/54PP0W/0CfAKWPm/vBaDm5P
-         N3/+gCpP8BDS4q9hT3D/nnz+aOW20DH+MJ/qUK1BoSPXricdeu0/a8nlDMAw/8t5nHBq
-         b2RuCbmDv19ABez4bnNHBHaPetb4YrpuhtTXsu8pFGwuStJngTetANyB+kLSO+C6FjBa
-         hhkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aGrUsGmEyzfhhFC6yht8UK4tIhUB5L2Yyj7VtUSkBjg=;
-        b=c5B7J5+/QSd+yWP1bOQOu4Fzd5CH4s2dZJiQEFebRBEE98Qfvlvh5bK9xSfICQAQXB
-         u+UOiHAjgIrNqkXGO47SA4cOdFLPylWfk5HHXy5q8aaAHWLf6Pn0QiyDJ4/a5XbRpmKb
-         EJmcqTbh82OyBIc3sfBEgPqtQPuy+H5SQ5twBnVbamDGtsBNVc2SYPzBmYNY0bp6Mtie
-         K5eArsqPUPHEsImKGNzeIXEyRlIKwU23TkFOK34TlpMrQyBFgjm4WJGXjYNWUpNdjnvA
-         pD1XUwsCZRolllUtqn+Q8O7UlRfXRte84SpPy8R9SJ8aO7b3nRhMeDK7DO4SvlNSzrkb
-         MSUA==
-X-Gm-Message-State: AJIora+KCpHbHZHp9S/UgDy6zalrz7h/LEIWLEbWFV7xmfreySVR5LTK
-        GwxckEYLihlmiE97ij2QlRuTlMrUpOSvsX0AxMrFgQ==
-X-Google-Smtp-Source: AGRyM1u8XN9HbZjR0yF63PO6LoPm+22MOk00Hd+2NOztBbWpmbYZ5KNQImOwAhfM8IGdUgjC9z/6Om+NlLM6ztosZFU=
-X-Received: by 2002:a17:907:96a4:b0:72b:647e:30fd with SMTP id
- hd36-20020a17090796a400b0072b647e30fdmr24418029ejc.723.1658140072536; Mon, 18
- Jul 2022 03:27:52 -0700 (PDT)
+        Mon, 18 Jul 2022 08:14:58 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 585B425C59;
+        Mon, 18 Jul 2022 05:14:47 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.92,281,1650898800"; 
+   d="scan'208";a="126508832"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 18 Jul 2022 21:14:45 +0900
+Received: from biju-VirtualBox.ree.adwin.renesas.com (unknown [10.226.36.116])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 552CF40062DF;
+        Mon, 18 Jul 2022 21:14:42 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, Pavel Machek <pavel@denx.de>
+Subject: [PATCH] thermal/drivers/rzg2l: Fix comments
+Date:   Mon, 18 Jul 2022 13:14:40 +0100
+Message-Id: <20220718121440.556408-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220717174454.46616-1-sam@ravnborg.org> <20220717175801.78668-1-sam@ravnborg.org>
- <20220717175801.78668-5-sam@ravnborg.org>
-In-Reply-To: <20220717175801.78668-5-sam@ravnborg.org>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 18 Jul 2022 11:27:37 +0100
-Message-ID: <CAPY8ntB2gXoUbUJhDLWVX3szaEKKKhnOO-qsKRZkMp1jDOt0Qg@mail.gmail.com>
-Subject: Re: [PATCH v1 12/12] drm/todo: Add bridge related todo items
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        David Airlie <airlied@linux.ie>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        chrome-platform@lists.linux.dev,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Jitao Shi <jitao.shi@mediatek.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        linux-mediatek@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Philip Chen <philipchen@chromium.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Cai Huoqing <cai.huoqing@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sam
+This patch replaces 'Capture times'->'Total number of ADC data samples' as
+the former does not really explain much.
 
-On Sun, 17 Jul 2022 at 18:58, Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Add todo in the hope someone will help updating the bridge drivers.
->
-> v2:
->   - Updated descriptions in todo.rst
->
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Acked-by: Maxime Ripard <mripard@kernel.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> ---
->  Documentation/gpu/todo.rst | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
->
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 10bfb50908d1..fbcc232e0bc1 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -480,6 +480,26 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
->
->  Level: Starter
->
-> +Drop use of deprecated operations in bridge drivers
-> +--------------------------------------------------
-> +
-> +&struct drm_bridge_funcs contains a number of deprecated operations
-> +which can be replaced by the atomic variants.
-> +
-> +The following is more or less 1:1 replacements with the arguments
-> +and names adjusted:
-> +* pre_enable => atomic_pre_enable
-> +* enable => atomic_enable
-> +* disable => atomic_disable
-> +* post_disable => atomic_post_disable
-> +
-> +* mode_set is no longer required and the implementation shall be merged
-> +  with atomic_enable.
+It also fixes the typo
+ * caliberation->calibration
 
-The dw-mipi-dsi and msm DSI host controller bridge drivers are
-currently relying on mode_set as a convenient hook to power up the DSI
-host prior to pre_enable of the bridge chain. Removing it is therefore
-going to break those.
+Lastly, as per the coding style /* should be on a separate line.
+This patch fixes this issue.
 
-There is a proposed mechanism to allow for the removal of this hack
-[1], but it's still waiting on R-B tags and/or discussion from bridge
-maintainers (gentle nudge as you are one of those maintainers).
+Reported-by: Pavel Machek <pavel@denx.de>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/thermal/rzg2l_thermal.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-And do you mean merge with atomic_enable, or merge with
-atomic_pre_enable? atomic_pre_enable would be more applicable for
-almost all the bridges I'm aware of as they want to be configured
-before video starts.
+diff --git a/drivers/thermal/rzg2l_thermal.c b/drivers/thermal/rzg2l_thermal.c
+index be07e04c6926..51ae80eda6af 100644
+--- a/drivers/thermal/rzg2l_thermal.c
++++ b/drivers/thermal/rzg2l_thermal.c
+@@ -47,7 +47,7 @@
+ 
+ #define TS_CODE_AVE_SCALE(x)	((x) * 1000000)
+ #define MCELSIUS(temp)		((temp) * MILLIDEGREE_PER_DEGREE)
+-#define TS_CODE_CAP_TIMES	8	/* Capture  times */
++#define TS_CODE_CAP_TIMES	8	/* Total number of ADC data samples */
+ 
+ #define RZG2L_THERMAL_GRAN	500	/* milli Celsius */
+ #define RZG2L_TSU_SS_TIMEOUT_US	1000
+@@ -80,7 +80,8 @@ static int rzg2l_thermal_get_temp(void *devdata, int *temp)
+ 	int val, i;
+ 
+ 	for (i = 0; i < TS_CODE_CAP_TIMES ; i++) {
+-		/* TSU repeats measurement at 20 microseconds intervals and
++		/*
++		 * TSU repeats measurement at 20 microseconds intervals and
+ 		 * automatically updates the results of measurement. As per
+ 		 * the HW manual for measuring temperature we need to read 8
+ 		 * values consecutively and then take the average.
+@@ -92,16 +93,18 @@ static int rzg2l_thermal_get_temp(void *devdata, int *temp)
+ 
+ 	ts_code_ave = result / TS_CODE_CAP_TIMES;
+ 
+-	/* Calculate actual sensor value by applying curvature correction formula
++	/*
++	 * Calculate actual sensor value by applying curvature correction formula
+ 	 * dsensor = ts_code_ave / (1 + ts_code_ave * 0.000013). Here we are doing
+ 	 * integer calculation by scaling all the values by 1000000.
+ 	 */
+ 	dsensor = TS_CODE_AVE_SCALE(ts_code_ave) /
+ 		(TS_CODE_AVE_SCALE(1) + (ts_code_ave * CURVATURE_CORRECTION_CONST));
+ 
+-	/* The temperature Tj is calculated by the formula
++	/*
++	 * The temperature Tj is calculated by the formula
+ 	 * Tj = (dsensor − calib1) * 165/ (calib0 − calib1) − 40
+-	 * where calib0 and calib1 are the caliberation values.
++	 * where calib0 and calib1 are the calibration values.
+ 	 */
+ 	val = ((dsensor - priv->calib1) * (MCELSIUS(165) /
+ 		(priv->calib0 - priv->calib1))) - MCELSIUS(40);
+@@ -122,7 +125,8 @@ static int rzg2l_thermal_init(struct rzg2l_thermal_priv *priv)
+ 	rzg2l_thermal_write(priv, TSU_SM, TSU_SM_NORMAL_MODE);
+ 	rzg2l_thermal_write(priv, TSU_ST, 0);
+ 
+-	/* Before setting the START bit, TSU should be in normal operating
++	/*
++	 * Before setting the START bit, TSU should be in normal operating
+ 	 * mode. As per the HW manual, it will take 60 µs to place the TSU
+ 	 * into normal operating mode.
+ 	 */
+@@ -217,7 +221,7 @@ static int rzg2l_thermal_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err;
+ 
+-	dev_dbg(dev, "TSU probed with %s caliberation values",
++	dev_dbg(dev, "TSU probed with %s calibration values",
+ 		rzg2l_thermal_read(priv, OTPTSUTRIM_REG(0)) ?  "hw" : "sw");
+ 
+ 	return 0;
+-- 
+2.25.1
 
-Cheers,
-  Dave
-
-[1] https://lists.freedesktop.org/archives/dri-devel/2022-March/345466.html
-
-> +Contact: bridge maintainers, Sam Ravnborg <sam@ravnborg.org>,
-> +         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +
-> +Level: Beginner or intermediate (depending on the driver)
->
->  Core refactorings
->  =================
-> --
-> 2.34.1
->
