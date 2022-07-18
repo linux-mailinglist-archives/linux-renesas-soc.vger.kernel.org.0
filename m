@@ -2,157 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3644857891B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jul 2022 20:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63969578A2C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jul 2022 21:01:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234870AbiGRSA2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Jul 2022 14:00:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44170 "EHLO
+        id S235203AbiGRTBr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Jul 2022 15:01:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234546AbiGRSA1 (ORCPT
+        with ESMTP id S234465AbiGRTB3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Jul 2022 14:00:27 -0400
-Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CAFD1AD95
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Jul 2022 11:00:25 -0700 (PDT)
+        Mon, 18 Jul 2022 15:01:29 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 768FA2FFC9
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Jul 2022 12:01:18 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id n74so22574240yba.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Jul 2022 12:01:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ravnborg.org; s=rsa1;
-        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-         from:date:from;
-        bh=1k7ygd7TjVU/0OeLc8vN7pGFtYh4D8DdF58kU5beJu0=;
-        b=VxuZdz71LN8l4OHMA30tuoiK0Nr/nISJyIbR4puSlqXqtLNJ3R9E8Ki5Y/fB//0ToLWnFzY6Ksx2v
-         q15Tp+N3bjxKD5yb8cNSHhlL3Fn5bRvCp2wA20B/b8kotzJ8eyHD3W0jwgxlwEAS7y8yp9aYUCPRij
-         D6w4iTRCC6nKQbdz1oAl9YkjdJBz4iHoVhli1MdsAc3QdBqKAH5OIBdeojkex0vvXW5oFokXNW+08W
-         aIVUQfOp1MMmHhJ2Eo8oeIrL8vAjG4XGjO59HSG5vDKD2i9lhICvJrNx36s5unvTPFFMNLi1SgQk//
-         otsKVYz1SQ0DcHOoKxmADC+NiOX02UA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-        d=ravnborg.org; s=ed1;
-        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-         from:date:from;
-        bh=1k7ygd7TjVU/0OeLc8vN7pGFtYh4D8DdF58kU5beJu0=;
-        b=jL/3JsawqxR14ggldJXwk5X9UoFKRKl4/PCzdAI+J8QjN2tXmDPVlJnoASEn5F/EpOlFEotQOERIw
-         yI/yZMXCA==
-X-HalOne-Cookie: fb423e04bf4d0af1a45399369f4e4409c2acada4
-X-HalOne-ID: 7dbadd68-06c3-11ed-a6c8-d0431ea8a283
-Received: from mailproxy1.cst.dirpod4-cph3.one.com (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-        by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-        id 7dbadd68-06c3-11ed-a6c8-d0431ea8a283;
-        Mon, 18 Jul 2022 18:00:22 +0000 (UTC)
-Date:   Mon, 18 Jul 2022 20:00:20 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        David Airlie <airlied@linux.ie>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        chrome-platform@lists.linux.dev,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Jitao Shi <jitao.shi@mediatek.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jonas Karlman <jonas@kwiboo.se>,
-        linux-mediatek@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Philip Chen <philipchen@chromium.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Cai Huoqing <cai.huoqing@linux.dev>
-Subject: Re: [PATCH v1 12/12] drm/todo: Add bridge related todo items
-Message-ID: <YtWftDRPYcP5p+i1@ravnborg.org>
-References: <20220717174454.46616-1-sam@ravnborg.org>
- <20220717175801.78668-1-sam@ravnborg.org>
- <20220717175801.78668-5-sam@ravnborg.org>
- <CAPY8ntB2gXoUbUJhDLWVX3szaEKKKhnOO-qsKRZkMp1jDOt0Qg@mail.gmail.com>
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=h0ZslgqQ94UM3iGDYCZGEx8ZwvbYHY5ZrQARiO/Kpbc=;
+        b=IQXHlBQ3jHSYUTt89EYBBYMpS/rXYtHBaNUJ6e2ZzB07/ETpvOJM0/ZijryokIEfDh
+         oJG0jiachEiIldTcksV5XzU+dy3csOVeMrzVRYAIpdf4PUrGYfI/KNNvcLIWjvmc8oHa
+         yWKlPWKnOFkuEw2Mq2CzZYpqcRK9kJ+LygeUXE0izxh4s3I+nauj1w40rP+480vJCi+X
+         rAPSoEvo8wXV23cydMjOZnuzBivYToT/OwjRuq1iqX/8Isb8Rqougy46FnOdoQuh9Z/u
+         z7xKihQATs9EIIDqpmGAQl/2n//vpMk3ZDpLHQioaLk/1hVBrL4som/CgeyT77yPFwbn
+         VU6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=h0ZslgqQ94UM3iGDYCZGEx8ZwvbYHY5ZrQARiO/Kpbc=;
+        b=Ai5i2gCPLBef0Ndh+hP1OVXOWPkjWo+tqv4Vvm5LDNNy32IaAtpjM/ipY/hzZMdfLf
+         JmVzhv5wejorvKZru9UKSa9WpR94Cyz+QO8kxJCe/IgYRcIIv42Ij0lZRfHqdgCMLmbC
+         W1i436cyKZWLY2EPMGpsNPw6GIscJ5CGVHfF31hXnTjNQlxU1W50Ci+YudFh8v/5PsDS
+         GSFPTIVP7Ug1vHbP8Ww29pr8vaRN542cXQb+hPU2526zQY6O3NC7+0Kl8Y7KsZ0TUspq
+         XnHi9wTiGo6Uj73UUUxK6m2b/bO43DFx4YiD9Jo9hSYRm44TwZ092+Q6pFTHD+7sX8TN
+         FIpw==
+X-Gm-Message-State: AJIora9hAoBX3xNqAu3TW7l21AAX8RDOZl2JI4uOaraLmHYVmMNU82Pq
+        53Rsn1d0OzV9zFppx8TbSZq35uBKrkShQuNQ7pX1ANak077lFA==
+X-Google-Smtp-Source: AGRyM1sOF4caZ/Mzb7i1HwUB8dyXYAmjf9y+Pd1nVHRKiUHeMR6opOrMc10oZNu5DLkN2HS0cpkKNGEh0T+MU99Jmes=
+X-Received: by 2002:a81:5747:0:b0:31d:1bb8:65b7 with SMTP id
+ l68-20020a815747000000b0031d1bb865b7mr30830046ywb.168.1658170865217; Mon, 18
+ Jul 2022 12:01:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntB2gXoUbUJhDLWVX3szaEKKKhnOO-qsKRZkMp1jDOt0Qg@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6919:4004:b0:cc:50ff:b3d8 with HTTP; Mon, 18 Jul 2022
+ 12:01:04 -0700 (PDT)
+Reply-To: lilywilliam989@gmail.com
+From:   Lily William <sgtalberts@gmail.com>
+Date:   Mon, 18 Jul 2022 11:01:04 -0800
+Message-ID: <CALPTejMFgL0Bg7jCKa7j+5KxVv_jnSM4ZPq-QhHCiUpG_ZswsQ@mail.gmail.com>
+Subject: Hi Dear,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Dave,
+Hi Dear,
 
-On Mon, Jul 18, 2022 at 11:27:37AM +0100, Dave Stevenson wrote:
-> Hi Sam
-> 
-> On Sun, 17 Jul 2022 at 18:58, Sam Ravnborg <sam@ravnborg.org> wrote:
-> >
-> > Add todo in the hope someone will help updating the bridge drivers.
-> >
-> > v2:
-> >   - Updated descriptions in todo.rst
-> >
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Acked-by: Maxime Ripard <mripard@kernel.org>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > ---
-> >  Documentation/gpu/todo.rst | 20 ++++++++++++++++++++
-> >  1 file changed, 20 insertions(+)
-> >
-> > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> > index 10bfb50908d1..fbcc232e0bc1 100644
-> > --- a/Documentation/gpu/todo.rst
-> > +++ b/Documentation/gpu/todo.rst
-> > @@ -480,6 +480,26 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
-> >
-> >  Level: Starter
-> >
-> > +Drop use of deprecated operations in bridge drivers
-> > +--------------------------------------------------
-> > +
-> > +&struct drm_bridge_funcs contains a number of deprecated operations
-> > +which can be replaced by the atomic variants.
-> > +
-> > +The following is more or less 1:1 replacements with the arguments
-> > +and names adjusted:
-> > +* pre_enable => atomic_pre_enable
-> > +* enable => atomic_enable
-> > +* disable => atomic_disable
-> > +* post_disable => atomic_post_disable
-> > +
-> > +* mode_set is no longer required and the implementation shall be merged
-> > +  with atomic_enable.
-> 
-> The dw-mipi-dsi and msm DSI host controller bridge drivers are
-> currently relying on mode_set as a convenient hook to power up the DSI
-> host prior to pre_enable of the bridge chain. Removing it is therefore
-> going to break those.
-> 
-> There is a proposed mechanism to allow for the removal of this hack
-> [1], but it's still waiting on R-B tags and/or discussion from bridge
-> maintainers (gentle nudge as you are one of those maintainers).
-I have over time gained some knowledge of how bridges works and have
-applied a few patches - but the maintainer role belongs to others.
-I just try to help a bit.
+My name is Dr Lily William from the United States.I am a French and
+American nationality (dual) living in the U.S and sometimes in France
+for Work Purpose.
 
-I will review the referenced series - could you then in return
-review this series?
-> 
-> And do you mean merge with atomic_enable, or merge with
-> atomic_pre_enable? atomic_pre_enable would be more applicable for
-> almost all the bridges I'm aware of as they want to be configured
-> before video starts.
-Thanks, yes you are right. I will update the text to refer to
-pre_enable as this is often the right choice. Looking at how many
-bridges who implements mode_set, or are not yet atomic, this will
-take a while before we can drop it.
+I hope you consider my friend request. I will share some of my pics
+and more details about myself when I get your response.
 
-	Sam
+Thanks
+
+With love
+Lily
