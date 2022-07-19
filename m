@@ -2,91 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E5B857A5A3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jul 2022 19:43:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2580757A645
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jul 2022 20:14:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230229AbiGSRn5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Jul 2022 13:43:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42128 "EHLO
+        id S240011AbiGSSO0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Jul 2022 14:14:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230146AbiGSRn5 (ORCPT
+        with ESMTP id S239844AbiGSSOZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Jul 2022 13:43:57 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3849255089;
-        Tue, 19 Jul 2022 10:43:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C1212616D1;
-        Tue, 19 Jul 2022 17:43:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CFD4C341CB;
-        Tue, 19 Jul 2022 17:43:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658252634;
-        bh=faiqk4f3iA99RZ119mlmfTi2lShRvfggSjO/MYwB1rE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aAeKH0tpjWqxNTzuvPNBKUj1bPiKSdSEMkdJG3gKBaG1UXB0hUAEj+A1xiTSxcSKY
-         PTl07AFE8Bp0+1OyP0hAjkNP64jlNqJ4EvYKlwJumjwIYkQVih6YjE20Yx11nlPI/u
-         blILq1P59x1BO6l3gR4k6HOfy5tGI6g8Kc5lQJ8kSbO2JCW7lZrH9EyEWAlfAcDoKo
-         AXT+Fj9km1BeXnlldzGLfkywdl2q/eMclUSB7K3+ivXzqJP8jCpvlikcM5XK/Jx3bR
-         cFPge9CM9hbOyOVXYxUpw1Q7Nf9QUUUodVeq4q5+xLiyi+gZ8uDW9AgvavZYdXYpPo
-         vE66kme4VOGmQ==
-Date:   Tue, 19 Jul 2022 18:43:49 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     linux-spi@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] spi: spi-rspi: Add need_dmar_clr to spi_ops
-Message-ID: <YtbtVdoantbZd7lg@sirena.org.uk>
-References: <20220719150000.383722-1-biju.das.jz@bp.renesas.com>
- <20220719150000.383722-2-biju.das.jz@bp.renesas.com>
+        Tue, 19 Jul 2022 14:14:25 -0400
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B99E5C979;
+        Tue, 19 Jul 2022 11:14:25 -0700 (PDT)
+Received: by mail-pf1-f174.google.com with SMTP id l124so14295601pfl.8;
+        Tue, 19 Jul 2022 11:14:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=dBr9REex/+6G3QPBUfRPrB9+jJoVwDOy1dYS7GNaZ2k=;
+        b=2+/LobL8aWzIbe0njkE633kPyDuCymOvfkzGo2tIVUuXP9Zwaj3NOET8+6moUw9Q+J
+         jD8qk3+nzDfk8J54PihSNnRspPYX5nNTsvs3w02zj7JsN/KL4qCgCX+/+fHpC4vHS8J7
+         4QzQk+yHgjfNfkVXUDz+wk5KBVIR8xzEPXYcvfOF5P0EnzQQ7uueqK5OLXIsJZ0tqLe1
+         3WEMUrzA75g0787neci/LS+xo02N5zWbPJLYhsi9Fz4SjDDkXXRGoLbQhP68J7jEnmA8
+         2n0O5Vk8PkyvwDFnWfNCGM1aUBQWhhctOI9oqh+954c1QkbZKLfmMjtjvGpmmeyWZc/Q
+         zNWQ==
+X-Gm-Message-State: AJIora/8V+CWnYdTnAZRBD8NKMBnLDcGx8unxTl3ih/6W0mDRLBlBkA/
+        PaxUUWQb+jqKIx3gvWXgVPM=
+X-Google-Smtp-Source: AGRyM1vnyLrr8eeKVZN8VzTx0RHYA8N/h8LzBPbJO83+rL4o9JTcra1eB4OWZclONC0Ou4JrzVWEpw==
+X-Received: by 2002:a05:6a00:1504:b0:52a:e3ae:a603 with SMTP id q4-20020a056a00150400b0052ae3aea603mr35153601pfu.48.1658254464396;
+        Tue, 19 Jul 2022 11:14:24 -0700 (PDT)
+Received: from ?IPV6:2600:1010:b002:e126:5611:6026:69c2:37bc? ([2600:1010:b002:e126:5611:6026:69c2:37bc])
+        by smtp.gmail.com with ESMTPSA id o186-20020a62cdc3000000b0050dc7628171sm11866177pfg.75.2022.07.19.11.14.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Jul 2022 11:14:23 -0700 (PDT)
+Message-ID: <db19ed29-e7f9-e5b0-3a6c-f2812078a07d@acm.org>
+Date:   Tue, 19 Jul 2022 11:14:21 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="YSrTx8XuycLBiJKv"
-Content-Disposition: inline
-In-Reply-To: <20220719150000.383722-2-biju.das.jz@bp.renesas.com>
-X-Cookie: We have ears, earther...FOUR OF THEM!
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 2/2] scsi: sd: Rework asynchronous resume support
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, linux-scsi@vger.kernel.org,
+        Ming Lei <ming.lei@redhat.com>, Hannes Reinecke <hare@suse.de>,
+        John Garry <john.garry@huawei.com>, ericspero@icloud.com,
+        jason600.groome@gmail.com, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220630195703.10155-1-bvanassche@acm.org>
+ <20220630195703.10155-3-bvanassche@acm.org>
+ <alpine.DEB.2.22.394.2207191125130.1006766@ramsan.of.borg>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <alpine.DEB.2.22.394.2207191125130.1006766@ramsan.of.borg>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 7/19/22 02:26, Geert Uytterhoeven wrote:
+> Thanks for your patch, which is now commit 88f1669019bd62b3 ("scsi: sd:
+> Rework asynchronous resume support") in scsi/for-next.
+> 
+> On the Salvator-XS development board[1] with a SATA hard drive
+> connected, accessing the hard drive after resume from s2idle hangs.
+> I have bisected this to the aformentioned commit, and reverting this
+> commit fixes the issue.
+> 
+> [1] arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dts
 
---YSrTx8XuycLBiJKv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hi Geert,
 
-On Tue, Jul 19, 2022 at 04:00:00PM +0100, Biju Das wrote:
-> RSPI IP on RZ/{A, G2L} SoC's has the same signal for both interrupt and
-> DMA transfer request. Setting DMARS register for DMA transfer
-> makes the signal to work as a DMA transfer request signal and
-> subsequent interrupt requests to the interrupt controller
-> are masked.
+Thank you for having reported this. How about creating a bug report on 
+https://bugzilla.kernel.org/ and attaching the kernel logs with and 
+without this patch? It's probably better to upload the kernel logs 
+somewhere rather than to post these on the linux-scsi mailing list.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Thanks,
 
---YSrTx8XuycLBiJKv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmLW7VQACgkQJNaLcl1U
-h9DvRAf/U1Dg40BIiv4vxtI2dbP/00dHEiwvD653YhJzTlYcqqCHcOim0tgEIhn2
-5zgsmGhYkbNAPZlTJ9lZ1sWeNmYuCE1ozbi0XqDrUD9MpJBwB+Ru21BuDP3kBosT
-YjBYKO9MdANpsnw6RxFUXOwfjqB+3pMoEQNJBTG71Cpc1GbxjlsNaZ2S+LTGV0qE
-fBI7t90m5wmFS6MJTRA8z4hjdI+G9hiI8OSQqK8aqsIta2M8iUG72Azo+gq6amjg
-AVnJe1sJ7I+w9Matu+wMn19XhYRFaCiMw+RWi08ltHUtNqaXGi46otTfQlwK/l5w
-WuFa6rmkLuQ3bjvWT41jvfXa8C/TMw==
-=P1qQ
------END PGP SIGNATURE-----
-
---YSrTx8XuycLBiJKv--
+Bart.
