@@ -2,240 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 020E2579642
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jul 2022 11:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4838F5797DB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jul 2022 12:48:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236984AbiGSJ0Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Jul 2022 05:26:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57134 "EHLO
+        id S235457AbiGSKsU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Jul 2022 06:48:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236047AbiGSJ0X (ORCPT
+        with ESMTP id S236922AbiGSKsS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Jul 2022 05:26:23 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78D6C1FCD4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Jul 2022 02:26:21 -0700 (PDT)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by albert.telenet-ops.be with bizsmtp
-        id wxSG2700S4C55Sk06xSGow; Tue, 19 Jul 2022 11:26:18 +0200
-Received: from geert (helo=localhost)
-        by ramsan.of.borg with local-esmtp (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1oDjUZ-004Dzd-3y; Tue, 19 Jul 2022 11:26:11 +0200
-Date:   Tue, 19 Jul 2022 11:26:06 +0200 (CEST)
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-X-X-Sender: geert@ramsan.of.borg
-To:     Bart Van Assche <bvanassche@acm.org>
-cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, linux-scsi@vger.kernel.org,
-        Ming Lei <ming.lei@redhat.com>, Hannes Reinecke <hare@suse.de>,
-        John Garry <john.garry@huawei.com>, ericspero@icloud.com,
-        jason600.groome@gmail.com, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] scsi: sd: Rework asynchronous resume support
-In-Reply-To: <20220630195703.10155-3-bvanassche@acm.org>
-Message-ID: <alpine.DEB.2.22.394.2207191125130.1006766@ramsan.of.borg>
-References: <20220630195703.10155-1-bvanassche@acm.org> <20220630195703.10155-3-bvanassche@acm.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        Tue, 19 Jul 2022 06:48:18 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 819D3371B9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Jul 2022 03:48:16 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id e15so19031885edj.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Jul 2022 03:48:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jAJckkD4UuuHl70O8qDgCKBp28ZgCMKEQEQG2B3UfE0=;
+        b=Q/Szb78YeaaPFs6XH9/IQHBVYt7poFICWO1a+McjynpiY6pG9I1QRhvcjCyZW6vxnT
+         PxrDVy8fqimCTQDCY5vw60fGcwvARB/d+GrfnEURIYrjlYUAu+g4KEelBSEVAkLTon1i
+         BraWKs6Eih7MiBHZXskxv4ylpEKf9Zme+IDLlu/1kv4oyrljN1MqwRfNIWViVXUNrct2
+         u7AiHcXjfoR3SpMsm7PwS6mcOZXhMToPiIVophvCrx4VBf1kYpn4hXZYAEWApydD4tre
+         eQIVXISQIy7ixmTDgFI3pw5O25NGhwF2bp3seoOr71PWiE9pToJ9D/iKflX4V3b20TqG
+         hV0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jAJckkD4UuuHl70O8qDgCKBp28ZgCMKEQEQG2B3UfE0=;
+        b=Crf2tFpQdv36OLcJ3xIbr25BRn71B8yzdHfm/g+fg33mqcVe2YrFTvtFN+6cvvBzAO
+         3cfdMclnR8QW0IjB57xddx+64QXT71hxRAUXxga9s4G90SXwJT3fzkmvcZ6dnhUuLhHU
+         zVjQvBHRC5VEdq+3hEK3PMNTaZRerbq24NEZdFcEbcDgYzh+yEHW80XyO03NFuK/mwKJ
+         kTyyyj06t5lRd6b56RpV2rDryFe/CARDoRhFbgdJAzKPlAjrUNwHc5XeTnf0PkPQ8T40
+         cUtAFHpSmn8tJ455rNZJvaDUDR8LjcGYPUNd81PVYzOs9wdBjhjWidjmfesReT2CJd2I
+         nGsw==
+X-Gm-Message-State: AJIora/hKkCJaOXLLmQqwJpbq+rnF9JautItwJ2C+RKeBWxMOmrz9zyK
+        Sb4mJYmU5s/I9XZZM0S02Ujj5Jl6kIsOf/UGOHCj6A==
+X-Google-Smtp-Source: AGRyM1ua9YfZzMzY+4okMS9alFUwqOoJ7z9AWWeCobrYmvatBAnyqrolqInpc2mJusYtBC/LbNwM0xE6plFTLrpI0iA=
+X-Received: by 2002:a05:6402:4490:b0:43a:8f5a:d273 with SMTP id
+ er16-20020a056402449000b0043a8f5ad273mr42301746edb.6.1658227695061; Tue, 19
+ Jul 2022 03:48:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220717174454.46616-1-sam@ravnborg.org> <20220717175801.78668-1-sam@ravnborg.org>
+ <20220717175801.78668-5-sam@ravnborg.org> <CAPY8ntB2gXoUbUJhDLWVX3szaEKKKhnOO-qsKRZkMp1jDOt0Qg@mail.gmail.com>
+ <YtWftDRPYcP5p+i1@ravnborg.org>
+In-Reply-To: <YtWftDRPYcP5p+i1@ravnborg.org>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Tue, 19 Jul 2022 11:47:58 +0100
+Message-ID: <CAPY8ntCGVoNt9AsWb=3ou6x3XUDQ=S-=5-Yrd4HzAOLc+2XvKw@mail.gmail.com>
+Subject: Re: [PATCH v1 12/12] drm/todo: Add bridge related todo items
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        David Airlie <airlied@linux.ie>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        chrome-platform@lists.linux.dev,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Jitao Shi <jitao.shi@mediatek.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jonas Karlman <jonas@kwiboo.se>,
+        linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Philip Chen <philipchen@chromium.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Cai Huoqing <cai.huoqing@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
- 	Hoi Bart,
+Hi Sam
 
-On Thu, 30 Jun 2022, Bart Van Assche wrote:
-> For some technologies, e.g. an ATA bus, resuming can take multiple
-> seconds. Waiting for resume to finish can cause a very noticeable delay.
-> Hence this patch that restores the behavior from before patch "scsi:
-> core: pm: Rely on the device driver core for async power management" for
-> most SCSI devices.
+On Mon, 18 Jul 2022 at 19:00, Sam Ravnborg <sam@ravnborg.org> wrote:
 >
-> This patch introduces a behavior change: if the START command fails, do
-> not consider this as a SCSI disk resume failure.
+> Hi Dave,
 >
-> Cc: Ming Lei <ming.lei@redhat.com>
-> Cc: Hannes Reinecke <hare@suse.de>
-> Cc: John Garry <john.garry@huawei.com>
-> Cc: ericspero@icloud.com
-> Cc: jason600.groome@gmail.com
-> Tested-by: jason600.groome@gmail.com
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=215880
-> Fixes: a19a93e4c6a9 ("scsi: core: pm: Rely on the device driver core for async power management")
-> Signed-off-by: Bart Van Assche <bvanassche@acm.org>
+> On Mon, Jul 18, 2022 at 11:27:37AM +0100, Dave Stevenson wrote:
+> > Hi Sam
+> >
+> > On Sun, 17 Jul 2022 at 18:58, Sam Ravnborg <sam@ravnborg.org> wrote:
+> > >
+> > > Add todo in the hope someone will help updating the bridge drivers.
+> > >
+> > > v2:
+> > >   - Updated descriptions in todo.rst
+> > >
+> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > > Acked-by: Maxime Ripard <mripard@kernel.org>
+> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Cc: David Airlie <airlied@linux.ie>
+> > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > ---
+> > >  Documentation/gpu/todo.rst | 20 ++++++++++++++++++++
+> > >  1 file changed, 20 insertions(+)
+> > >
+> > > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> > > index 10bfb50908d1..fbcc232e0bc1 100644
+> > > --- a/Documentation/gpu/todo.rst
+> > > +++ b/Documentation/gpu/todo.rst
+> > > @@ -480,6 +480,26 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
+> > >
+> > >  Level: Starter
+> > >
+> > > +Drop use of deprecated operations in bridge drivers
+> > > +--------------------------------------------------
+> > > +
+> > > +&struct drm_bridge_funcs contains a number of deprecated operations
+> > > +which can be replaced by the atomic variants.
+> > > +
+> > > +The following is more or less 1:1 replacements with the arguments
+> > > +and names adjusted:
+> > > +* pre_enable => atomic_pre_enable
+> > > +* enable => atomic_enable
+> > > +* disable => atomic_disable
+> > > +* post_disable => atomic_post_disable
+> > > +
+> > > +* mode_set is no longer required and the implementation shall be merged
+> > > +  with atomic_enable.
+> >
+> > The dw-mipi-dsi and msm DSI host controller bridge drivers are
+> > currently relying on mode_set as a convenient hook to power up the DSI
+> > host prior to pre_enable of the bridge chain. Removing it is therefore
+> > going to break those.
+> >
+> > There is a proposed mechanism to allow for the removal of this hack
+> > [1], but it's still waiting on R-B tags and/or discussion from bridge
+> > maintainers (gentle nudge as you are one of those maintainers).
+>
+> I have over time gained some knowledge of how bridges works and have
+> applied a few patches - but the maintainer role belongs to others.
+> I just try to help a bit.
 
-Thanks for your patch, which is now commit 88f1669019bd62b3 ("scsi: sd:
-Rework asynchronous resume support") in scsi/for-next.
+Apologies, I'd misread the text in this patch
++Contact: bridge maintainers, Sam Ravnborg <sam@ravnborg.org>,
++         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+as being that you and Laurent were the bridge maintainers. Colon
+instead of comma :-/
 
-On the Salvator-XS development board[1] with a SATA hard drive
-connected, accessing the hard drive after resume from s2idle hangs.
-I have bisected this to the aformentioned commit, and reverting this
-commit fixes the issue.
+> I will review the referenced series - could you then in return
+> review this series?
 
-[1] arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dts
+Sure, these look to be within my levels of knowledge.
 
-> ---
-> drivers/scsi/sd.c | 84 +++++++++++++++++++++++++++++++++++++----------
-> drivers/scsi/sd.h |  5 +++
-> 2 files changed, 71 insertions(+), 18 deletions(-)
->
-> diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-> index 895b56c8f25e..84696b3652ee 100644
-> --- a/drivers/scsi/sd.c
-> +++ b/drivers/scsi/sd.c
-> @@ -103,6 +103,7 @@ static void sd_config_discard(struct scsi_disk *, unsigned int);
-> static void sd_config_write_same(struct scsi_disk *);
-> static int  sd_revalidate_disk(struct gendisk *);
-> static void sd_unlock_native_capacity(struct gendisk *disk);
-> +static void sd_start_done_work(struct work_struct *work);
-> static int  sd_probe(struct device *);
-> static int  sd_remove(struct device *);
-> static void sd_shutdown(struct device *);
-> @@ -3463,6 +3464,7 @@ static int sd_probe(struct device *dev)
-> 	sdkp->max_retries = SD_MAX_RETRIES;
-> 	atomic_set(&sdkp->openers, 0);
-> 	atomic_set(&sdkp->device->ioerr_cnt, 0);
-> +	INIT_WORK(&sdkp->start_done_work, sd_start_done_work);
->
-> 	if (!sdp->request_queue->rq_timeout) {
-> 		if (sdp->type != TYPE_MOD)
-> @@ -3585,12 +3587,69 @@ static void scsi_disk_release(struct device *dev)
-> 	kfree(sdkp);
-> }
->
-> +/* Process sense data after a START command finished. */
-> +static void sd_start_done_work(struct work_struct *work)
-> +{
-> +	struct scsi_disk *sdkp = container_of(work, typeof(*sdkp),
-> +					      start_done_work);
-> +	struct scsi_sense_hdr sshdr;
-> +	int res = sdkp->start_result;
-> +
-> +	if (res == 0)
-> +		return;
-> +
-> +	sd_print_result(sdkp, "Start/Stop Unit failed", res);
-> +
-> +	if (res < 0)
-> +		return;
-> +
-> +	if (scsi_normalize_sense(sdkp->start_sense_buffer,
-> +				 sdkp->start_sense_len, &sshdr))
-> +		sd_print_sense_hdr(sdkp, &sshdr);
-> +}
-> +
-> +/* A START command finished. May be called from interrupt context. */
-> +static void sd_start_done(struct request *req, blk_status_t status)
-> +{
-> +	const struct scsi_cmnd *scmd = blk_mq_rq_to_pdu(req);
-> +	struct scsi_disk *sdkp = scsi_disk(req->q->disk);
-> +
-> +	sdkp->start_result = scmd->result;
-> +	WARN_ON_ONCE(scmd->sense_len > SCSI_SENSE_BUFFERSIZE);
-> +	sdkp->start_sense_len = scmd->sense_len;
-> +	memcpy(sdkp->start_sense_buffer, scmd->sense_buffer,
-> +	       ARRAY_SIZE(sdkp->start_sense_buffer));
-> +	WARN_ON_ONCE(!schedule_work(&sdkp->start_done_work));
-> +}
-> +
-> +/* Submit a START command asynchronously. */
-> +static int sd_submit_start(struct scsi_disk *sdkp, u8 cmd[], u8 cmd_len)
-> +{
-> +	struct scsi_device *sdev = sdkp->device;
-> +	struct request_queue *q = sdev->request_queue;
-> +	struct request *req;
-> +	struct scsi_cmnd *scmd;
-> +
-> +	req = scsi_alloc_request(q, REQ_OP_DRV_IN, BLK_MQ_REQ_PM);
-> +	if (IS_ERR(req))
-> +		return PTR_ERR(req);
-> +
-> +	scmd = blk_mq_rq_to_pdu(req);
-> +	scmd->cmd_len = cmd_len;
-> +	memcpy(scmd->cmnd, cmd, cmd_len);
-> +	scmd->allowed = sdkp->max_retries;
-> +	req->timeout = SD_TIMEOUT;
-> +	req->rq_flags |= RQF_PM | RQF_QUIET;
-> +	req->end_io = sd_start_done;
-> +	blk_execute_rq_nowait(req, /*at_head=*/true);
-> +
-> +	return 0;
-> +}
-> +
-> static int sd_start_stop_device(struct scsi_disk *sdkp, int start)
-> {
-> 	unsigned char cmd[6] = { START_STOP };	/* START_VALID */
-> -	struct scsi_sense_hdr sshdr;
-> 	struct scsi_device *sdp = sdkp->device;
-> -	int res;
->
-> 	if (start)
-> 		cmd[4] |= 1;	/* START */
-> @@ -3601,23 +3660,10 @@ static int sd_start_stop_device(struct scsi_disk *sdkp, int start)
-> 	if (!scsi_device_online(sdp))
-> 		return -ENODEV;
->
-> -	res = scsi_execute(sdp, cmd, DMA_NONE, NULL, 0, NULL, &sshdr,
-> -			SD_TIMEOUT, sdkp->max_retries, 0, RQF_PM, NULL);
-> -	if (res) {
-> -		sd_print_result(sdkp, "Start/Stop Unit failed", res);
-> -		if (res > 0 && scsi_sense_valid(&sshdr)) {
-> -			sd_print_sense_hdr(sdkp, &sshdr);
-> -			/* 0x3a is medium not present */
-> -			if (sshdr.asc == 0x3a)
-> -				res = 0;
-> -		}
-> -	}
-> +	/* Wait until processing of sense data has finished. */
-> +	flush_work(&sdkp->start_done_work);
->
-> -	/* SCSI error codes must not go to the generic layer */
-> -	if (res)
-> -		return -EIO;
-> -
-> -	return 0;
-> +	return sd_submit_start(sdkp, cmd, sizeof(cmd));
-> }
->
-> /*
-> @@ -3644,6 +3690,8 @@ static void sd_shutdown(struct device *dev)
-> 		sd_printk(KERN_NOTICE, sdkp, "Stopping disk\n");
-> 		sd_start_stop_device(sdkp, 0);
-> 	}
-> +
-> +	flush_work(&sdkp->start_done_work);
-> }
->
-> static int sd_suspend_common(struct device *dev, bool ignore_stop_errors)
-> diff --git a/drivers/scsi/sd.h b/drivers/scsi/sd.h
-> index 5eea762f84d1..b89187761d61 100644
-> --- a/drivers/scsi/sd.h
-> +++ b/drivers/scsi/sd.h
-> @@ -150,6 +150,11 @@ struct scsi_disk {
-> 	unsigned	urswrz : 1;
-> 	unsigned	security : 1;
-> 	unsigned	ignore_medium_access_errors : 1;
-> +
-> +	int		start_result;
-> +	u32		start_sense_len;
-> +	u8		start_sense_buffer[SCSI_SENSE_BUFFERSIZE];
-> +	struct work_struct start_done_work;
-> };
-> #define to_scsi_disk(obj) container_of(obj, struct scsi_disk, disk_dev)
->
+> >
+> > And do you mean merge with atomic_enable, or merge with
+> > atomic_pre_enable? atomic_pre_enable would be more applicable for
+> > almost all the bridges I'm aware of as they want to be configured
+> > before video starts.
+> Thanks, yes you are right. I will update the text to refer to
+> pre_enable as this is often the right choice. Looking at how many
+> bridges who implements mode_set, or are not yet atomic, this will
+> take a while before we can drop it.
 
-Gr{oetje,eeting}s,
+Thanks. That makes more logical sense to me for the majority of cases.
+As to timescales, it always takes longer than ideal to migrate older drivers.
 
- 						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
+Thanks
+  Dave
