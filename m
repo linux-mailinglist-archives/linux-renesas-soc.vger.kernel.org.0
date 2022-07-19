@@ -2,55 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C50A5794B5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jul 2022 09:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E163A5794B9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jul 2022 09:59:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237076AbiGSH6P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Jul 2022 03:58:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47176 "EHLO
+        id S232245AbiGSH7L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Jul 2022 03:59:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232969AbiGSH6J (ORCPT
+        with ESMTP id S229647AbiGSH7K (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Jul 2022 03:58:09 -0400
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35D4D3AE51;
-        Tue, 19 Jul 2022 00:58:02 -0700 (PDT)
-Received: by mail-qv1-f44.google.com with SMTP id r12so10558226qvm.3;
-        Tue, 19 Jul 2022 00:58:02 -0700 (PDT)
+        Tue, 19 Jul 2022 03:59:10 -0400
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDCB13718B;
+        Tue, 19 Jul 2022 00:59:09 -0700 (PDT)
+Received: by mail-qk1-f169.google.com with SMTP id e16so6669693qka.5;
+        Tue, 19 Jul 2022 00:59:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=S3taTuKeIgki22WvuFHicrfEHw/ak0WDquxxXe2fRN4=;
-        b=FJ8VkHWDPAwq/MOLk+zP2NXp5Xza9O82T1hsE8Bdy8Zx50RxLdaCfksfy813oHBAn0
-         /YNBCio+EdyB5IuQ9mL5e7NNj5WcV+3X7UZ3OK/phw+cfBkTS55QN0SeTTGevfO5IErN
-         AzVZ+Pu043u3k0UpOH7D/w4WLN4J264eCgyDWV2uHrn3PgsQ87Iuh+8mM0858xpzdIto
-         s0nBOUYKv9zDd8lRZZm8k/YA4W8EURLg1PsnZQMkXmW69Hu0TKv20XIu32Jpp13P2WJL
-         Vgjigr33D2EL4quddTZJhyHlcRsVs4mOUtlpNdJRCtCo86iTk4ljnzx/wcFuVe6taW9R
-         VHUg==
-X-Gm-Message-State: AJIora/xVNeHuRMd408Rr+bPdS59tnndm4x9bz0PPUcxzBGubVsJMqu0
-        yYhCh4A6aZDcOPF5FlhTpj0jm15Gs+Vxdg==
-X-Google-Smtp-Source: AGRyM1tmtObvppyc/eAiJUCimmR9liReQzyR5ecdQdT+CQC6xD95cE5iTxiXxVj2kwt1HhAJyxDteg==
-X-Received: by 2002:a05:6214:1ccd:b0:46e:7427:2626 with SMTP id g13-20020a0562141ccd00b0046e74272626mr24405509qvd.101.1658217480953;
-        Tue, 19 Jul 2022 00:58:00 -0700 (PDT)
+        bh=SinWpubHQ2i2HLeUGrf7mRkcL390c6uJOjds3tWCIu8=;
+        b=RwM9+NOQRQhaHO1MtO40MGQ4PHsUrxhDbAz3BI/1/9AxCrGON84ODiWnW+daA/YeBb
+         Sm9X1ALJ4dwhP+Kb45Uc7CL7vIAZDf+kofMB9rLi/vLHggQTW6/w8RplpFH2o9VLWMNb
+         2Ag35AWt5j6lAEo+9Nf7tJGUee+2zIsw3WRuIvKTpo42pZ5GYfsb701tQM1KKwcK6stW
+         nu6fDnDZozELzIkm2RAH00bgRbJmzMwwY4uCR+OFblHA9mMbaEf5Q8VZEG6pISnjKR3f
+         ntCjCqUsjV7OnHs49PkjbesOE1/qsLcUhow1QXC7H0Fo9oYcMckDPJcawbhs187jolBh
+         8uZw==
+X-Gm-Message-State: AJIora8CNKo03n+nl5ost38M7pcqCPjuOU7aN5qlgX+gRWVJ3f6sR27G
+        +MTbI564l/m95xZ9cD2lTeffS8uocw1rwg==
+X-Google-Smtp-Source: AGRyM1t1St5mlw8s9IWuhFxKjJ8/hFb+wGiAT+OlshRqO2V1slilyx/3fns9G3BBFpESc51b1eCz0g==
+X-Received: by 2002:a05:620a:808a:b0:6b5:4d1b:c0f5 with SMTP id ef10-20020a05620a808a00b006b54d1bc0f5mr19826362qkb.713.1658217548661;
+        Tue, 19 Jul 2022 00:59:08 -0700 (PDT)
 Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id f13-20020a05620a408d00b006b5df4d2c81sm8583259qko.94.2022.07.19.00.58.00
+        by smtp.gmail.com with ESMTPSA id y17-20020a05620a25d100b006b46a78bc0fsm13024719qko.118.2022.07.19.00.59.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Jul 2022 00:58:00 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-31e560aa854so20316467b3.6;
-        Tue, 19 Jul 2022 00:58:00 -0700 (PDT)
-X-Received: by 2002:a81:168f:0:b0:31e:6128:247d with SMTP id
- 137-20020a81168f000000b0031e6128247dmr264411yww.383.1658217480387; Tue, 19
- Jul 2022 00:58:00 -0700 (PDT)
+        Tue, 19 Jul 2022 00:59:08 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-31e560aa854so20340437b3.6;
+        Tue, 19 Jul 2022 00:59:08 -0700 (PDT)
+X-Received: by 2002:a0d:dd09:0:b0:31c:e3b9:7442 with SMTP id
+ g9-20020a0ddd09000000b0031ce3b97442mr35319389ywe.47.1658217547996; Tue, 19
+ Jul 2022 00:59:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220713100603.3391-1-wsa+renesas@sang-engineering.com> <20220713100603.3391-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220713100603.3391-2-wsa+renesas@sang-engineering.com>
+References: <20220713100603.3391-1-wsa+renesas@sang-engineering.com> <20220713100603.3391-3-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220713100603.3391-3-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 19 Jul 2022 09:57:49 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUYwTLehX8Q-Qk8rar7K2Ag4oN369+9X7pzvreGdRoZag@mail.gmail.com>
-Message-ID: <CAMuHMdUYwTLehX8Q-Qk8rar7K2Ag4oN369+9X7pzvreGdRoZag@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: timer: renesas,cmt: Add r8a779f0 and
- generic Gen4 CMT support
+Date:   Tue, 19 Jul 2022 09:58:56 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVio5-ap_=igQXChyZgd3g-78srd3WbBRj=GJuw=yS3xg@mail.gmail.com>
+Message-ID: <CAMuHMdVio5-ap_=igQXChyZgd3g-78srd3WbBRj=GJuw=yS3xg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] dt-bindings: timer: renesas,cmt: R-Car V3U is R-Car Gen4
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
@@ -73,42 +72,14 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
-
 On Wed, Jul 13, 2022 at 12:06 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
+> Despite the name, R-Car V3U is the first member of the R-Car Gen4
+> family. Hence move its compatible value to the R-Car Gen4 section.
+>
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Thanks for your patch!
-
-> --- a/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
-> +++ b/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
-> @@ -83,6 +83,11 @@ properties:
->                - renesas,r8a779a0-cmt0     # 32-bit CMT0 on R-Car V3U
->            - const: renesas,rcar-gen3-cmt0 # 32-bit CMT0 on R-Car Gen3 and RZ/G2
->
-> +      - items:
-> +          - enum:
-> +              - renesas,r8a779f0-cmt0     # 32-bit CMT0 on R-Car S4-8
-> +          - const: renesas,rcar-gen4-cmt0 # 32-bit CMT0 on R-Car Gen4
-> +
->        - items:
->            - enum:
->                - renesas,r8a774a1-cmt1     # 48-bit CMT on RZ/G2M
-> @@ -100,6 +105,11 @@ properties:
->                - renesas,r8a779a0-cmt1     # 48-bit CMT on R-Car V3U
->            - const: renesas,rcar-gen3-cmt1 # 48-bit CMT on R-Car Gen3 and RZ/G2
->
-> +      - items:
-> +          - enum:
-> +              - renesas,r8a779f0-cmt1     # 48-bit CMT on R-Car S4-8
-> +          - const: renesas,rcar-gen4-cmt1 # 48-bit CMT on R-Car Gen4
-> +
->    reg:
->      maxItems: 1
-
-The above is correct, but you forgot to update the conditional sections
-specifying the number of interrupts.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
