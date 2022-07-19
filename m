@@ -2,95 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B068579595
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jul 2022 10:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 882A557959C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jul 2022 10:53:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234102AbiGSIvw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Jul 2022 04:51:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57426 "EHLO
+        id S236994AbiGSIxr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Jul 2022 04:53:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237117AbiGSIvu (ORCPT
+        with ESMTP id S234102AbiGSIxq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Jul 2022 04:51:50 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2101E6327
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Jul 2022 01:51:47 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id x10so16118143ljj.11
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Jul 2022 01:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=uqcRTuP1/PnGezTwWXCroNTFnUr7WJ9h67m5Xsh5Hxw=;
-        b=l/faQxKkdi5hUB6G5DNbfbqIGHVvSpAbQT9Rg4zT/ryIJkTpV+jOApo+PlhpBTrx0n
-         X3z3CSyQSLW7SY8amqf6ovDcc6CJdVVnQTUCv1PN/YktasNAQHCUma6JukHuNUhxH3gt
-         ATfDpo/rwF/oKlBFqwuIzQT3r9liX9JlNKA77Auu+69QErkJ2IYigq62nyW1qUHvLN8u
-         l8DgN1akuPl3IwRiMwKJTP/DwSPe43D+IEtQGFdXWg5iLbd7zbHy88qmeuslKS+yjaND
-         jSWM5/oW9BBPyT/dMLV4DWtwEXKD5ox1dRB6G5gXq7b1qRRLPRQJ+XKdakR6isD6owOj
-         Kb+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=uqcRTuP1/PnGezTwWXCroNTFnUr7WJ9h67m5Xsh5Hxw=;
-        b=HnjGP1KTShdMDxi7Jmtd+kbwp2GZArsxGbFKKoLxqClM8QXsWSQwVcVIOV1i8IQYQW
-         RLyud+oAaD887d+vmLqLE5+4VDCm+uaJkXLDC4NGTt4DxzGBApRaySytV8jucmyNbDxT
-         LBCQZPihQNOM3l9TZjqbx6VfbB29t0vtp6W07pL8icnC9yaCMzIVX0ZdEp+xIGNF/U4S
-         gziWzGqUQmJGy0qmw3h33Wm1trvv7nqInf510F/qQFbXvWJYRoNAeUWktecv73SACsq5
-         gf2pq5xYfbS2NcsWGz7apTv1R6PwNza9r7LhSp501WMsfl9DzZYJf2oJehJNTU9noGFE
-         WkUg==
-X-Gm-Message-State: AJIora/tAdCJJZw1Z1CikISAy+vI8r/sdiWxqGBRn9dlITl0inqSNBAF
-        6LKaynZyy59j0jySAaFkmsz7NA==
-X-Google-Smtp-Source: AGRyM1svSYUmExybb+FbIdf157mpyQkfESF1g+5aJMvkWEtloGT+FhH9OSX0U3lMBgz2JcWCf01LkA==
-X-Received: by 2002:a2e:b015:0:b0:25d:8fc7:9ed9 with SMTP id y21-20020a2eb015000000b0025d8fc79ed9mr13990159ljk.483.1658220705485;
-        Tue, 19 Jul 2022 01:51:45 -0700 (PDT)
-Received: from [192.168.115.193] (89-162-31-138.fiber.signal.no. [89.162.31.138])
-        by smtp.gmail.com with ESMTPSA id a1-20020ac25e61000000b0048a2995772asm2238006lfr.73.2022.07.19.01.51.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Jul 2022 01:51:44 -0700 (PDT)
-Message-ID: <87da11a0-65e3-4b89-8209-fa470b09c67a@linaro.org>
-Date:   Tue, 19 Jul 2022 10:51:43 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/3] dt-bindings: timer: renesas,cmt: Add r8a779f0 and
- generic Gen4 CMT support
-Content-Language: en-US
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Tue, 19 Jul 2022 04:53:46 -0400
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F2C3FD20
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Jul 2022 01:53:45 -0700 (PDT)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 26J8rKuU061520;
+        Tue, 19 Jul 2022 03:53:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1658220800;
+        bh=QW/UxzdGUCCglOm1zn3HugndNhiwjnUklPDBq6bESTU=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=Yqlvw47bwRrAGqp7XgWNU4JNYCo7tsrkQcT2tp4SXhFQeHm9HFRDS5v0i9ffQU8jn
+         V59AfPX0QPBnE3PtDm5zmxp9RBEi3ZH3y+ZAyNfqE9rJ5YlJkNLF7/an4A58ya9Q5q
+         CWNwvD0aSL26ms9Zaxxwefx1qvdaIAVwuiyXJLW0=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 26J8rKEN118547
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 19 Jul 2022 03:53:20 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Tue, 19
+ Jul 2022 03:53:20 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Tue, 19 Jul 2022 03:53:20 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 26J8rJJu056807;
+        Tue, 19 Jul 2022 03:53:19 -0500
+Date:   Tue, 19 Jul 2022 14:23:18 +0530
+From:   Pratyush Yadav <p.yadav@ti.com>
+To:     Michael Walle <michael@walle.cc>
+CC:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        <linux-mtd@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20220713100603.3391-1-wsa+renesas@sang-engineering.com>
- <20220713100603.3391-2-wsa+renesas@sang-engineering.com>
- <62b1f1bd-c15d-662c-027e-1cdeff5eb580@linaro.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <62b1f1bd-c15d-662c-027e-1cdeff5eb580@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] mtd: spi-nor: Add Renesas AT25QL128A serial nor
+ flash
+Message-ID: <20220719085318.4y4262vnoszgnjz5@ti.com>
+References: <20220715105716.2415068-1-biju.das.jz@bp.renesas.com>
+ <20220715105716.2415068-3-biju.das.jz@bp.renesas.com>
+ <fed53ac13bea15d9d9dbeca40983c823@walle.cc>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <fed53ac13bea15d9d9dbeca40983c823@walle.cc>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 16/07/2022 00:35, Daniel Lezcano wrote:
-> On 13/07/2022 12:06, Wolfram Sang wrote:
->> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On 15/07/22 01:55PM, Michael Walle wrote:
+> Am 2022-07-15 12:57, schrieb Biju Das:
+> > Add support for Renesas AT25QL128A serial nor flash.
+> > Details of flash chip can be found here [1]
+> > 
+> > [1] https://www.dialog-semiconductor.com/sites/default/files/2022-04/DS-AT25QL128A-129F-022022.pdf
+> > 
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > 
-> Krzysztof ?
+> Thanks!
+> 
+> Reviewed-by: Michael Walle <michael@walle.cc>
 
-You got now Rob's. :)
+Our purely SFDP based parser seems to be working well.
 
+Acked-by: Pratyush Yadav <p.yadav@ti.com>
 
-Best regards,
-Krzysztof
+-- 
+Regards,
+Pratyush Yadav
+Texas Instruments Inc.
