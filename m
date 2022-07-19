@@ -2,132 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F89D579560
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jul 2022 10:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B068579595
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jul 2022 10:51:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230274AbiGSIlS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Jul 2022 04:41:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48936 "EHLO
+        id S234102AbiGSIvw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Jul 2022 04:51:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237012AbiGSIlP (ORCPT
+        with ESMTP id S237117AbiGSIvu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Jul 2022 04:41:15 -0400
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BECB186F2;
-        Tue, 19 Jul 2022 01:41:13 -0700 (PDT)
-Received: by mail-qt1-f178.google.com with SMTP id l14so8143590qtv.4;
-        Tue, 19 Jul 2022 01:41:13 -0700 (PDT)
+        Tue, 19 Jul 2022 04:51:50 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2101E6327
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Jul 2022 01:51:47 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id x10so16118143ljj.11
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Jul 2022 01:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=uqcRTuP1/PnGezTwWXCroNTFnUr7WJ9h67m5Xsh5Hxw=;
+        b=l/faQxKkdi5hUB6G5DNbfbqIGHVvSpAbQT9Rg4zT/ryIJkTpV+jOApo+PlhpBTrx0n
+         X3z3CSyQSLW7SY8amqf6ovDcc6CJdVVnQTUCv1PN/YktasNAQHCUma6JukHuNUhxH3gt
+         ATfDpo/rwF/oKlBFqwuIzQT3r9liX9JlNKA77Auu+69QErkJ2IYigq62nyW1qUHvLN8u
+         l8DgN1akuPl3IwRiMwKJTP/DwSPe43D+IEtQGFdXWg5iLbd7zbHy88qmeuslKS+yjaND
+         jSWM5/oW9BBPyT/dMLV4DWtwEXKD5ox1dRB6G5gXq7b1qRRLPRQJ+XKdakR6isD6owOj
+         Kb+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uRglt7LLCb5iPE9bUTK9HQlv9670D6Bkng4M1cGxQRU=;
-        b=iw7UnHQCai1X5O1DCngE0QNPGJjg0m0bfwTW/zs7rEviZXpM+yluLSR8aIjI1SNEgz
-         SSWc5doMtAiW/T1JC8yi9m1EEuNv5FCd0t1ETUJj2Q+83BZaMywb8swe8W339fW1t4XG
-         oIIcm5xX3Sa51SIjXDTq+8Avm6lYwmybTrTv+K5BYd4dD+X5+LqEuV5Xkv0pVgAcGejZ
-         YVFZbFQqB2C5/PNQOdB/aEtCEmpsIIlIFSU6NEga5ZpYtyTMGNFMUI3EpS0vuH1Fyo0n
-         7Uil7ckZHZisq7AO++b31Ef/ZRV/f1mNEimofA8fL5vKUQF19cgbJlRGe7iC3CJgd28z
-         b4hQ==
-X-Gm-Message-State: AJIora/oQwPD1XOfzEyb/fnsYguRaT/Tk//pmAFNxGPMyyHakwXAPIit
-        gtpcWSR3d9EY1T+KzFvYmv1VZfrm5Wl1SQ==
-X-Google-Smtp-Source: AGRyM1tIheOnT8mbEzIdPoeKAfuZZ+Iz5/eXQKkeCXI9kQ8cHT485m7PPSLHJQv9H1REMP+LWEFp1Q==
-X-Received: by 2002:a05:622a:1886:b0:31e:c183:136e with SMTP id v6-20020a05622a188600b0031ec183136emr23688141qtc.508.1658220072518;
-        Tue, 19 Jul 2022 01:41:12 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id cc12-20020a05622a410c00b00316a384447fsm7882412qtb.16.2022.07.19.01.41.12
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=uqcRTuP1/PnGezTwWXCroNTFnUr7WJ9h67m5Xsh5Hxw=;
+        b=HnjGP1KTShdMDxi7Jmtd+kbwp2GZArsxGbFKKoLxqClM8QXsWSQwVcVIOV1i8IQYQW
+         RLyud+oAaD887d+vmLqLE5+4VDCm+uaJkXLDC4NGTt4DxzGBApRaySytV8jucmyNbDxT
+         LBCQZPihQNOM3l9TZjqbx6VfbB29t0vtp6W07pL8icnC9yaCMzIVX0ZdEp+xIGNF/U4S
+         gziWzGqUQmJGy0qmw3h33Wm1trvv7nqInf510F/qQFbXvWJYRoNAeUWktecv73SACsq5
+         gf2pq5xYfbS2NcsWGz7apTv1R6PwNza9r7LhSp501WMsfl9DzZYJf2oJehJNTU9noGFE
+         WkUg==
+X-Gm-Message-State: AJIora/tAdCJJZw1Z1CikISAy+vI8r/sdiWxqGBRn9dlITl0inqSNBAF
+        6LKaynZyy59j0jySAaFkmsz7NA==
+X-Google-Smtp-Source: AGRyM1svSYUmExybb+FbIdf157mpyQkfESF1g+5aJMvkWEtloGT+FhH9OSX0U3lMBgz2JcWCf01LkA==
+X-Received: by 2002:a2e:b015:0:b0:25d:8fc7:9ed9 with SMTP id y21-20020a2eb015000000b0025d8fc79ed9mr13990159ljk.483.1658220705485;
+        Tue, 19 Jul 2022 01:51:45 -0700 (PDT)
+Received: from [192.168.115.193] (89-162-31-138.fiber.signal.no. [89.162.31.138])
+        by smtp.gmail.com with ESMTPSA id a1-20020ac25e61000000b0048a2995772asm2238006lfr.73.2022.07.19.01.51.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Jul 2022 01:41:12 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-31e0d4ad6caso72792637b3.10;
-        Tue, 19 Jul 2022 01:41:12 -0700 (PDT)
-X-Received: by 2002:a81:98d:0:b0:31c:921c:9783 with SMTP id
- 135-20020a81098d000000b0031c921c9783mr34511911ywj.316.1658220071932; Tue, 19
- Jul 2022 01:41:11 -0700 (PDT)
+        Tue, 19 Jul 2022 01:51:44 -0700 (PDT)
+Message-ID: <87da11a0-65e3-4b89-8209-fa470b09c67a@linaro.org>
+Date:   Tue, 19 Jul 2022 10:51:43 +0200
 MIME-Version: 1.0
-References: <20220716153934.292311-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdWqfnpN_FWyLVb+KGmgR+VY4GJ67Sk2xSAb18HK_B7WZw@mail.gmail.com> <OS0PR01MB5922FC0E3C336E727084C96B868F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922FC0E3C336E727084C96B868F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 19 Jul 2022 10:41:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUJzNkf+n5VLzEZTzUpChz9T4Yn-Hpq01sVBRMk3-c2CQ@mail.gmail.com>
-Message-ID: <CAMuHMdUJzNkf+n5VLzEZTzUpChz9T4Yn-Hpq01sVBRMk3-c2CQ@mail.gmail.com>
-Subject: Re: [PATCH] spi: spi-rspi: Add force_dma variable to spi_ops
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <Chris.Brandt@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 1/3] dt-bindings: timer: renesas,cmt: Add r8a779f0 and
+ generic Gen4 CMT support
+Content-Language: en-US
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20220713100603.3391-1-wsa+renesas@sang-engineering.com>
+ <20220713100603.3391-2-wsa+renesas@sang-engineering.com>
+ <62b1f1bd-c15d-662c-027e-1cdeff5eb580@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <62b1f1bd-c15d-662c-027e-1cdeff5eb580@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On 16/07/2022 00:35, Daniel Lezcano wrote:
+> On 13/07/2022 12:06, Wolfram Sang wrote:
+>> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> 
+> Krzysztof ?
 
-On Tue, Jul 19, 2022 at 10:29 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH] spi: spi-rspi: Add force_dma variable to spi_ops
-> > On Sat, Jul 16, 2022 at 5:39 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > On RZ/G2L SoCs switching from DMA to interrupt mode, causes timeout
-> > > issue as we are not getting Rx interrupt even though SPRF bit is set
-> > > in the status register.
-> > >
-> > > But there is no issue if we don't switch between interrupt to DMA mode
-> > > or vice versa.
-> > >
-> > > Performance comparison between interrupt and DMA mode on RZ/Five SMARC
-> > > platform connected to a display module shows that performance and CPU
-> > > utilization is much better with DMA mode compared to interrupt mode
-> > > (1->65 fps) and (98->8%).
-> > >
-> > > This patch introduces a variable force_dma to avoid switching between
-> > > DMA to interrupt mode for RZ platforms.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > > @@ -1196,6 +1197,7 @@ static const struct spi_ops rspi_rz_ops = {
-> > >         .flags =                SPI_CONTROLLER_MUST_RX |
-> > SPI_CONTROLLER_MUST_TX,
-> > >         .fifo_size =            8,      /* 8 for TX, 32 for RX */
-> > >         .num_hw_ss =            1,
-> > > +       .force_dma =            true,
-> > >  };
-> >
-> > Do you know if this is needed on RZ/A series, too?
->
-> I guess it is needed?? I may be wrong. I got a link from Chris [1]. As per this still
-> We haven't found a solution. May be the priority is changed for this activity and
-> no one looked after this.
->
-> [1] https://lore.kernel.org/linux-renesas-soc/?q=spi-rspi+mixes+DMA+and+PIO+transfers+causing+PIO+transfer+to+fail
+You got now Rob's. :)
 
-Daniel said he found the issue, i.e. the dmac driver never resetting
-DMARS?
 
-> > I knowupstream does not have DMA support for RZ/A yet, but the BSP has?
->
-> RZ/G2L DMA driver is derived from RZ/A, with small changes it can support RZ/A.
-> I am not sure is there any plan to upstream DMA support for RZ/A?
-> I do not have RZ/A board.
-
-I have, so it might happen, one day...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
