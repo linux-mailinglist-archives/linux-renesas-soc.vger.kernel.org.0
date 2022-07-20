@@ -2,121 +2,204 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE9DF57BD58
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Jul 2022 20:04:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50AB657BE34
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Jul 2022 21:02:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234553AbiGTSEj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Jul 2022 14:04:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56026 "EHLO
+        id S232137AbiGTTCN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Jul 2022 15:02:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230292AbiGTSEi (ORCPT
+        with ESMTP id S232356AbiGTTCJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Jul 2022 14:04:38 -0400
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F1355C94E;
-        Wed, 20 Jul 2022 11:04:37 -0700 (PDT)
-Received: by mail-pj1-f46.google.com with SMTP id b10so7515634pjq.5;
-        Wed, 20 Jul 2022 11:04:37 -0700 (PDT)
+        Wed, 20 Jul 2022 15:02:09 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9797973930
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Jul 2022 12:02:07 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id e69so33709871ybh.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Jul 2022 12:02:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZrLA67cwNZVETS1ZHuCD/RT+6Ux5ZfCBf4rowrb0zk0=;
+        b=YT3DmTiyfkNmNptMHmutH4aCptYOfYRcFG5iGz+vPj1xh91hftwgRZVbF/wRHhgFCW
+         1yP86FQRWdyvxo3CPjgvnAYFhKYsg4xRdhZAvb8fEmhoefgT03SVJLFYubN1htgW4In8
+         t6tNVr6ozTt06SPfaEt4t0hjTV1L36J3WR01kFU5ZNbxj6GCZ743km1XpjzuQHn+RR1i
+         jytsYhkdsZViX0r1R/6noErQEJfi5bpHwxr3gD8SgyAPCv7vWZfI56uCK7HWM7r7/PFy
+         SmvPNalQP0Ie215MNTJOK1vcSRgDWta0erJ4se7iwmpkVwf7aKNEFOMppZgPMGsnyAwV
+         GblA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=2DLDLzdBIlj0E3CffW9I9SY+0ccLj39YX6IMsm99lYc=;
-        b=aktSf1liK7of1YwjvV9Y/NSr3TtEtRPNaKxtQSq4pp2JID/Pt9zhicE7jlgMmigwkA
-         gd/KLTj/krDm/GCEk3tPoQZ9Hv6xLnGPnLukLPiPHuuzZfdsGf2rCY2d+TSpp4KMN6UQ
-         anipZDoabQ9XbeclH2Pg0xyjBVjmQiu5rPJlfgJfvnKDbj1DRs1NowN8r7Uo/JSfis3T
-         t/jplDRnBFcU1qWAxEdZhoOI8KeC832dyQPyiruU9/8fdUawEPtcMmp255VVaDxKE0zU
-         qJQUfYjx0zHhzmRLIL6j9SoX3OfQE5EC/L1iQva15W3kc9mlJO3W2g8TldwXINfithAU
-         wUNQ==
-X-Gm-Message-State: AJIora8tjeqmSjYE+wr3IR2LrAwijAA4CZv2pX1yjDT6IqUZihGd1Oy3
-        W/clhg0Al80hZ9Y1sPmAVHg=
-X-Google-Smtp-Source: AGRyM1t+npjVzNapGvdQOe6XU0uS9zS90ajnTnj2KhB8ABZvLighBBWMxjla7Skn/TpMUn71XUu7Vw==
-X-Received: by 2002:a17:90a:9406:b0:1f1:a0c0:75d4 with SMTP id r6-20020a17090a940600b001f1a0c075d4mr6846032pjo.198.1658340276699;
-        Wed, 20 Jul 2022 11:04:36 -0700 (PDT)
-Received: from ?IPV6:2620:15c:211:201:a7e0:78fc:9269:215b? ([2620:15c:211:201:a7e0:78fc:9269:215b])
-        by smtp.gmail.com with ESMTPSA id g1-20020a632001000000b004119deff40dsm12176331pgg.23.2022.07.20.11.04.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Jul 2022 11:04:35 -0700 (PDT)
-Message-ID: <6f70e742-9d8a-f389-0482-0ba9696bf445@acm.org>
-Date:   Wed, 20 Jul 2022 11:04:33 -0700
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZrLA67cwNZVETS1ZHuCD/RT+6Ux5ZfCBf4rowrb0zk0=;
+        b=np9jRFnPMBZmO+Obe0whkCv0iiOX08trHURyDnj0oYHRQyQGyL6hvXMfwnicTSqrcZ
+         fU64qUlHuSpMtCVQFUHRnbC0XeO2KXVoTwJNjwEb1PewjJOnO5AVdaMAgTpwIwHGNhAS
+         pBgDUqZUMYZsGumxdLXmRE7GCh35Jb7CURjL3Isqgo/TOeq4UtNRR0iFnyRxBd3aBXZG
+         ENmgCBQo7eXOtivSwhyW/dC1JuX+P14Uoll5f1frwXCjN9gYiuoRDvt0c9DP0YXg6ew6
+         6UdzMepjkxgvXliRLRLlQUsjuep0r7vvDFhVJlR1eJVgElpzg35PoicL4zeILoWbm9wB
+         mU0Q==
+X-Gm-Message-State: AJIora+BdvT9Tis5zW/yGEYkq5eTR9HYym1nuGoNtS07qr8TF6o+fpTE
+        ntrhTWI5lWgJL7L9ot1qieIq1a1K2S3XJbppKgOWtw==
+X-Google-Smtp-Source: AGRyM1uk+awIxg+8Ie0mI4x1EeK/QSvobPmBqLZR8RQ7K+Gyc23VhWoJ9xFtopJENev37KrbfMD18GZF9BwnX6/O8DQ=
+X-Received: by 2002:a25:aaa9:0:b0:66e:c6ba:15dd with SMTP id
+ t38-20020a25aaa9000000b0066ec6ba15ddmr37815606ybi.242.1658343726294; Wed, 20
+ Jul 2022 12:02:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 2/2] scsi: sd: Rework asynchronous resume support
-Content-Language: en-US
+References: <20220601070707.3946847-1-saravanak@google.com>
+ <20220601070707.3946847-7-saravanak@google.com> <CAMuHMdVVgB7KZq7-u-pAC-cZvVLWkv5wM4HC_jW7WK_tz52+cg@mail.gmail.com>
+In-Reply-To: <CAMuHMdVVgB7KZq7-u-pAC-cZvVLWkv5wM4HC_jW7WK_tz52+cg@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Wed, 20 Jul 2022 12:01:30 -0700
+Message-ID: <CAGETcx-5-241=CxaPsGTTHhCSAZuGb742J9Xrhbj56+2yG6OhQ@mail.gmail.com>
+Subject: Re: [PATCH v2 6/9] Revert "driver core: Set default
+ deferred_probe_timeout back to 0."
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        scsi <linux-scsi@vger.kernel.org>,
-        Ming Lei <ming.lei@redhat.com>, Hannes Reinecke <hare@suse.de>,
-        John Garry <john.garry@huawei.com>, ericspero@icloud.com,
-        jason600.groome@gmail.com,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20220630195703.10155-1-bvanassche@acm.org>
- <20220630195703.10155-3-bvanassche@acm.org>
- <alpine.DEB.2.22.394.2207191125130.1006766@ramsan.of.borg>
- <db19ed29-e7f9-e5b0-3a6c-f2812078a07d@acm.org>
- <CAMuHMdVzsgSYtbJQnaigNax_JbxPsQfU+gHcteS-ojWbxUdMfw@mail.gmail.com>
- <CAMuHMdWtxBj8ug7AHTqentF8UD4jpO2sgoWWcQCOvEKLJtdq8A@mail.gmail.com>
- <506ca1a6-1122-5755-fc74-60f7c7bfbd0d@acm.org>
- <CAMuHMdVQ2K2v8jpsFfOMk99DG_sBB4_ioiQRroC7K_Ov1wvp9w@mail.gmail.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <CAMuHMdVQ2K2v8jpsFfOMk99DG_sBB4_ioiQRroC7K_Ov1wvp9w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        David Ahern <dsahern@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        netdev <netdev@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 7/20/22 10:44, Geert Uytterhoeven wrote:
-> On Wed, Jul 20, 2022 at 6:51 PM Bart Van Assche <bvanassche@acm.org> wrote:
->> I'm not familiar with the SATA code but from a quick look it seems like
->> the above code is only triggered from inside the ATA error handler
->> (ata_do_eh() -> ata_eh_recover() -> ata_eh_revalidate_and_attach() ->
->> schedule_work(&(ap->scsi_rescan_task) -> ata_scsi_dev_rescan()). It
->> doesn't seem normal to me that the ATA error handler gets invoked during
->> a resume. How about testing the following two code changes?
-> 
-> Thanks for your suggestions!
-> 
->> * In sd_start_stop_device(), change "return sd_submit_start(sdkp, cmd,
->> sizeof(cmd))" into "sd_submit_start(sdkp, cmd, sizeof(cmd))" and below
->> that call add "flush_work(&sdkp->start_done_work)". This makes
->> sd_start_stop_device() again synchronous. This will learn us whether the
->> behavior change is caused by submitting the START command from another
->> context or by not waiting until the START command has finished.
-> 
-> Unfortunately this doesn't have any impact.
-> 
->> * Back out the above change, change "return sd_submit_start(sdkp, cmd,
->> sizeof(cmd))" again into "sd_submit_start(sdkp, cmd, sizeof(cmd))" and
->> below that statement add a call to
->> scsi_run_queue(sdkp->device->request_queue). If this change helps it
-> 
-> (that's the static scsi_run_queue() in drivers/scsi/scsi_lib.c?)
-> 
->> means that the scsi_run_queue() call is necessary to prevent reordering
->> of the START command with other SCSI commands.
-> 
-> Unfortunately this doesn't have any impact either.
+On Wed, Jul 20, 2022 at 10:31 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Saravana,
+>
+> On Wed, Jun 1, 2022 at 9:45 AM Saravana Kannan <saravanak@google.com> wrote:
+> > This reverts commit 11f7e7ef553b6b93ac1aa74a3c2011b9cc8aeb61.
+> >
+> > Let's take another shot at getting deferred_probe_timeout=10 to work.
+> >
+> > Signed-off-by: Saravana Kannan <saravanak@google.com>
+>
+> Thanks for your patch, which is now commit f516d01b9df2782b
+> ("Revert "driver core: Set default deferred_probe_timeout
+> back to 0."") in driver-core/driver-core-next.
+>
+> Wolfram found an issue on a Renesas board where disabling the IOMMU
+> driver (CONFIG_IPMMU_VMSA=n) causes the system to fail to boot,
+> and bisected this to a merge of driver-core/driver-core-next.
+> After some trials, I managed to reproduce the issue, and bisected it
+> further to commit f516d01b9df2782b.
+>
+> The affected config has:
+>     CONFIG_MODULES=y
+>     CONFIG_RCAR_DMAC=y
+>     CONFIG_IPMMU_VMSA=n
+>
+> In arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dtb,
+> e6e88000.serial links to a dmac, and the dmac links to an iommu,
+> for which no driver is available.
 
-That's surprising. Is there anything unusual about the test setup that I 
-should know, e.g. very small number of CPU cores or a very small queue 
-depth of the SATA device? How about adding pr_info() statements at the 
-start and end of the following functions and also before the return 
-statements in these functions to determine where execution of the START 
-command hangs?
-* sd_start_done().
-* sd_start_done_work().
+Thanks for digging into this and giving more details.
 
-Thanks,
+Is e6e88000.serial being blocked the reason for the boot failure?
 
-Bart.
+If so, can you give this a shot?
+https://lore.kernel.org/lkml/20220701012647.2007122-1-saravanak@google.com/
+
+> Playing with deferred_probe_timeout values doesn't help.
+
+This part is strange though. If you set deferred_probe_timeout=1,
+fw_devlink will stop blocking all probes 1 second after
+late_initcall()s finish. So, similar to the ip autoconfig issue, is
+the issue caused by something that needs to be finished before we hit
+late_initcall() but is getting blocked?
+
+> However, the above options do not seem to be sufficient to trigger
+> the issue, as I had other configs with those three options that do
+> boot fine.
+>
+> After bisecting configs, I found the culprit: CONFIG_IP_PNP.
+> As Wolfram was using an initramfs, CONFIG_IP_PNP was not needed.
+> If CONFIG_IP_PNP=n, booting fails.
+> If CONFIG_IP_PNP=y, booting succeeds.
+> In fact, just disabling late_initcall(ip_auto_config) makes it fail,
+> too.
+> Reducing ip_auto_config(), it turns out the call to
+> wait_for_init_devices_probe() is what is needed to unblock booting.
+>
+> So I guess wait_for_init_devices_probe() needs to be called (where?)
+> if CONFIG_IP_PNP=n, too?
+
+That function just unblocks all devices and allows them to try and
+probe and then waits for all possible probes to finish before
+returning. They problem with call it randomly/every time is that it
+breaks functionality where an optional supplier will probe after a few
+modules are loaded in the future.
+
+I guess one possible issue with the timeout not helping is that once
+the timeout expires, things are still being probed and nothing is
+being blocked till they finish probing.
+
+I'm trying to have the default config (in terms of fw_devlink,
+deferred probe behavior, timeouts, etc) be the same between a fully
+static kernel (but CONFIG_MODULES still enabled) and a fully modular
+kernel (like GKI). But it might end up being an untenable problem.
+
+I'll wait to see what specifically is the issue in this case and then
+I'll go from there.
+
+-Saravana
+
+> > --- a/drivers/base/dd.c
+> > +++ b/drivers/base/dd.c
+> > @@ -256,7 +256,12 @@ static int deferred_devs_show(struct seq_file *s, void *data)
+> >  }
+> >  DEFINE_SHOW_ATTRIBUTE(deferred_devs);
+> >
+> > +#ifdef CONFIG_MODULES
+> > +int driver_deferred_probe_timeout = 10;
+> > +#else
+> >  int driver_deferred_probe_timeout;
+> > +#endif
+> > +
+> >  EXPORT_SYMBOL_GPL(driver_deferred_probe_timeout);
+> >
+> >  static int __init deferred_probe_timeout_setup(char *str)
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+>
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+>
