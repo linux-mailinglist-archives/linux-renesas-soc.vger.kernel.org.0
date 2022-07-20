@@ -2,75 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC4FB57B391
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Jul 2022 11:15:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D667557B498
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Jul 2022 12:37:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236324AbiGTJP1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Jul 2022 05:15:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46336 "EHLO
+        id S231364AbiGTKh1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Jul 2022 06:37:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235182AbiGTJPY (ORCPT
+        with ESMTP id S230405AbiGTKh0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Jul 2022 05:15:24 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E94F5DEC0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Jul 2022 02:15:21 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id b26so25233044wrc.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Jul 2022 02:15:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=69k0bS0AXcsV41mygWfTWHqylWYDOrfHX8GGMjumsQE=;
-        b=Mn7jyk3PDkWgUahKuy6O0B7STw5mvEybnWzbMnZGqFVcov54oQDdkyaB1D7/MFZVtP
-         kURzfHfT1Qjf2yAbkkmpewUks0jxspk9eYQeq78Ep+Gt3mjn8O84VhXm8vACveHP6RGL
-         joFY97OX+S3apEys8eaF2tmRJdcx8FagEm5+oE5B0VZeoIYcT+AqTik/9pAn0S7sES26
-         LubjqalIQssos402ct1znsCjQWox4cK2Us2F9auK+fa/bP6K4mVk9DAFSgnI7fwKOfYe
-         jy+FRbXQxHFARO3hb+iLDvUqSV3IcGItT/WLygAv5kMe77zubEL4MYY0r3W3QsE/M+Tz
-         y8HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=69k0bS0AXcsV41mygWfTWHqylWYDOrfHX8GGMjumsQE=;
-        b=23k+J2R8/gko9THs6duCMgzSdmevIJCmoFHidlYp9/65FyaNxQn2b++ZOnPKfkxjYb
-         p+hDh7SaKS7yw/Rgt9BOXyWx4ITPRBAwQHxaa+hHbEcJBaLoAI2rbwfdK1G9OYWxbmWt
-         2HXcTEvZeuFQvE4KpXbH7s5ByQN2cX88Mhkt1ff+iLY6nD3D7hTKfcj+k9E1V6bFJ/6Y
-         XwjdT/R05+sfkp5m1iO79CgKJdYR8pDNWeJ/REjQoW8wh4/PIgrFgGs4GgJQpkVWBj77
-         24RNRj/+j9eaqMfy5h4Lm2oec/yvldZGvs02syr9hd4SVhJ3Mvhd0fe226Uo/TPFnNXs
-         hWsA==
-X-Gm-Message-State: AJIora9oA8OvOVrhxXRF2FAFMntk9fd63/D2SmFxO2Ghphx0yHT7NA3Q
-        dMufTeHPsSem1sTGsY60eGjLgQ==
-X-Google-Smtp-Source: AGRyM1tU8Y3qak2dHYd8hBXrhca7LBSP0EiHKtSLWfnpl1z349q8bKUtXyZ1r91cXQfuwsKBPgZylg==
-X-Received: by 2002:a5d:4592:0:b0:21e:4794:e6a7 with SMTP id p18-20020a5d4592000000b0021e4794e6a7mr2643187wrq.321.1658308520233;
-        Wed, 20 Jul 2022 02:15:20 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:b579:e7b5:219d:267c? ([2a05:6e02:1041:c10:b579:e7b5:219d:267c])
-        by smtp.googlemail.com with ESMTPSA id e14-20020a5d65ce000000b0021e084d9133sm1103891wrw.27.2022.07.20.02.15.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Jul 2022 02:15:19 -0700 (PDT)
-Message-ID: <9b6b609a-9f53-2ad9-f475-7471a05e79f3@linaro.org>
-Date:   Wed, 20 Jul 2022 11:15:18 +0200
+        Wed, 20 Jul 2022 06:37:26 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D3A5508D;
+        Wed, 20 Jul 2022 03:37:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 08B7F61BF0;
+        Wed, 20 Jul 2022 10:37:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C99AC3411E;
+        Wed, 20 Jul 2022 10:37:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658313444;
+        bh=AjL3dM6yBgYaym8wm8A74HA4sP8fhVSoeHkzmkF7ig4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sJ72/lzK1it0k/N4rGOtMLbZBS0bPD4ntQS1s8JYmZTrfkFgb+JNlXULWENH/7R1m
+         C5b2gQ72qXDGspTKk84K6bPEVdr4AgbhonYZWSw0yVsE+BKnJr10XdQgFGyYRBkaDm
+         UXyzSR7wxUDfoaXnti3bxvQIt6heU34AzDQo9hDbfO3UAk4543q34zcjIGsZhU3lTh
+         +Fe+iNQzQS6l3Y8vPdcX6/sph6AMldCDghLoKMZs7w6EbRikx4yfo+cyeKvNub2y64
+         pNp8ln84zglSes0z84gsaTRHpvhg87+7etz+wrjwB1vs8yFpO9hlUvrqheDv0tBAT3
+         bCIGIzEUBap5w==
+Date:   Wed, 20 Jul 2022 16:07:20 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mark Brown <broonie@kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <Chris.Brandt@renesas.com>
+Subject: Re: [PATCH] spi: spi-rspi: Add force_dma variable to spi_ops
+Message-ID: <Ytfa4NYhLGASHxk7@matsya>
+References: <20220716153934.292311-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdWqfnpN_FWyLVb+KGmgR+VY4GJ67Sk2xSAb18HK_B7WZw@mail.gmail.com>
+ <OS0PR01MB5922FC0E3C336E727084C96B868F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdUJzNkf+n5VLzEZTzUpChz9T4Yn-Hpq01sVBRMk3-c2CQ@mail.gmail.com>
+ <OS0PR01MB59220A67C039CCBF7D4D4AFE868F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <YteNFrNSsEfLDHR/@matsya>
+ <OS0PR01MB592241E22FCEA9084FAAD24C868E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] dt-bindings: timer: renesas,cmt: Fix R-Car Gen4 fall-out
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <2e3863ae32e17d49f41111580f195dd34e2b769d.1658303544.git.geert+renesas@glider.be>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <2e3863ae32e17d49f41111580f195dd34e2b769d.1658303544.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB592241E22FCEA9084FAAD24C868E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,20 +65,104 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 20/07/2022 09:53, Geert Uytterhoeven wrote:
-> Restore sort order (by family, followed by type).
-> Update the conditional sections specifying the number of interrupts.
+On 20-07-22, 05:13, Biju Das wrote:
+> Hi Vinod,
 > 
-> Fixes: 525b296185b4b0ab ("dt-bindings: timer: renesas,cmt: Add r8a779f0 and generic Gen4 CMT support")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
+> > Subject: Re: [PATCH] spi: spi-rspi: Add force_dma variable to spi_ops
+> > 
+> > On 19-07-22, 11:28, Biju Das wrote:
+> > > Hi Geert,
+> > >
+> > > +Vinod
+> > >
+> > > > Subject: Re: [PATCH] spi: spi-rspi: Add force_dma variable to
+> > > > spi_ops
+> > > >
+> > > > Hi Biju,
+> > > >
+> > > > On Tue, Jul 19, 2022 at 10:29 AM Biju Das
+> > > > <biju.das.jz@bp.renesas.com>
+> > > > wrote:
+> > > > > > Subject: Re: [PATCH] spi: spi-rspi: Add force_dma variable to
+> > > > > > spi_ops On Sat, Jul 16, 2022 at 5:39 PM Biju Das
+> > > > <biju.das.jz@bp.renesas.com> wrote:
+> > > > > > > On RZ/G2L SoCs switching from DMA to interrupt mode, causes
+> > > > > > > timeout issue as we are not getting Rx interrupt even though
+> > > > > > > SPRF bit is set in the status register.
+> > > > > > >
+> > > > > > > But there is no issue if we don't switch between interrupt to
+> > > > > > > DMA mode or vice versa.
+> > > > > > >
+> > > > > > > Performance comparison between interrupt and DMA mode on
+> > > > > > > RZ/Five SMARC platform connected to a display module shows
+> > > > > > > that performance and CPU utilization is much better with DMA
+> > > > > > > mode compared to interrupt mode
+> > > > > > > (1->65 fps) and (98->8%).
+> > > > > > >
+> > > > > > > This patch introduces a variable force_dma to avoid switching
+> > > > > > > between DMA to interrupt mode for RZ platforms.
+> > 
+> > Why do you need a variable for that, if DMA is availble (you were able to
+> > allocate channels) then use DMA, otherwise fall back to PIO..
+> 
+> I was using DMA. We are not getting rspi interrupts after the DMA to PIO switch
+> because of [1]. ie, we are not clearing DMAR in DMA driver
+> and interrupt requests to the interrupt controller are masked.
+> 
+> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220719150000.383722-2-biju.das.jz@bp.renesas.com/
+> 
+> > 
+> > Or anything missing from context which I am not aware of?
+> 
+> After this discussion, I have posted [1] and [2] to fix this issue.
+> 
+> [2] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220719150000.383722-1-biju.das.jz@bp.renesas.com/
 
-Applied, thanks
+Thanks for the explanation Biju. But why do we need .force_dma flag? 
 
+> 
+> Cheers,
+> Biju
+> 
+> 
+> > 
+> > > > > > >
+> > > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > >
+> > > > > > Thanks for your patch!
+> > > > > >
+> > > > > > > @@ -1196,6 +1197,7 @@ static const struct spi_ops rspi_rz_ops = {
+> > > > > > >         .flags =                SPI_CONTROLLER_MUST_RX |
+> > > > > > SPI_CONTROLLER_MUST_TX,
+> > > > > > >         .fifo_size =            8,      /* 8 for TX, 32 for RX */
+> > > > > > >         .num_hw_ss =            1,
+> > > > > > > +       .force_dma =            true,
+> > > > > > >  };
+> > > > > >
+> > > > > > Do you know if this is needed on RZ/A series, too?
+> > > > >
+> > > > > I guess it is needed?? I may be wrong. I got a link from Chris
+> > > > > [1]. As per this still We haven't found a solution. May be the
+> > > > > priority is changed for this activity and no one looked after this.
+> > > > >
+> > > > > [1]
+> > > >
+> > > > Daniel said he found the issue, i.e. the dmac driver never resetting
+> > DMARS?
+> > >
+> > > Currently DMARS set during prepare and it never cleared. So I added
+> > > device_synchronize callback in DMA driver to clear the DMARS. RSPI
+> > > client driver after synchronizing DMA callback, calls
+> > dmaengine_synchronize which clears DMARS.
+> > >
+> > > With this DMA to interrupt mode switching is working fine.
+> > >
+> > > Cheers,
+> > > Biju
+> > >
+> > 
+> > --
+> > ~Vinod
 
 -- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+~Vinod
