@@ -2,44 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 188A657B1C6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Jul 2022 09:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E713C57B20A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Jul 2022 09:47:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230354AbiGTH3f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Jul 2022 03:29:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48740 "EHLO
+        id S240206AbiGTHrk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Jul 2022 03:47:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239968AbiGTH3Z (ORCPT
+        with ESMTP id S240212AbiGTHrh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Jul 2022 03:29:25 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FE9368735
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Jul 2022 00:29:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=oaJHvdbw8M5yoJc+zmPgn3MtoGz
-        b8mj7nFiSf6IEwGs=; b=wR6KNpWkhLZMsmOAlDJARjZZK2KsS3t/RynZ2Gjivko
-        q7guRVMdcUm+rZZf0lXm+ALAkf6Agd4cPzLj4jNGjm7xIBQWutET+7KWGZkhSaeJ
-        cdg9wg8MY4USVs2fh+LlfM0nq1sTi5ybivPqPMT0AUkKPZZkZpVFfw22C+lMA4bg
-        =
-Received: (qmail 535688 invoked from network); 20 Jul 2022 09:29:18 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Jul 2022 09:29:18 +0200
-X-UD-Smtp-Session: l3s3148p1@4w3GjjfkH1dZzIq6
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Takeshi Saito <takeshi.saito.xv@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH] mmc: renesas_sdhi: newer SoCs don't need manual tap correction
-Date:   Wed, 20 Jul 2022 09:29:01 +0200
-Message-Id: <20220720072901.1266-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
+        Wed, 20 Jul 2022 03:47:37 -0400
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55DAE68DD0;
+        Wed, 20 Jul 2022 00:47:35 -0700 (PDT)
+Received: by mail-qk1-f177.google.com with SMTP id v28so11519693qkg.13;
+        Wed, 20 Jul 2022 00:47:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g6OFt7NDDXTwc0PWSj7z7x7MOLnXeXvAiNcc7ZqxbqU=;
+        b=cQReM7C+ScPTHHSF+yEmeMQ2CU1PZr4SrF8nr1TFSwjlUsCAaI5lmGAFHxGAPBrjEC
+         n3yNPVOkZ7kUYJPK54PnczYnxjgflgBbq452T4NxU2V1ovGehsaT0wb3pXsvpSAK7KeP
+         Flc3Aic1VNI/UY2IVWUb9ruuXQYQnjYsjJ1o3VH7CTGoAj7oBI2tQ8l0c+bGCEQxVKXs
+         7RroQIkKT7ZKCP3tfJuYfb/jHY50e/5tph8uVGx41RZr1WHNTyzMz5UGg3s9UBpVb59S
+         uFEteJdSYQsP82YNZd3KA09gNfIbFH4RbQyhOG8JbjjSZO80W7nkFgfYssw8s6irGKkE
+         uVfg==
+X-Gm-Message-State: AJIora/nzcM//Pn+5KtyNJTpzlZurCdD7anXt8nMVFABAYsoMkI6GtK6
+        HEMvJOeke3AzFXawCn6P3jGqE//nsMpUQsVb
+X-Google-Smtp-Source: AGRyM1vXPndfBHXf4z/PWgBIQNOrZDM/KFrNJlNkPcQSacUXKtkEaUUglsGGANnWOyIlGuzkAUDw7w==
+X-Received: by 2002:a37:ccb:0:b0:6b5:e1ad:75b9 with SMTP id 194-20020a370ccb000000b006b5e1ad75b9mr11321220qkm.601.1658303254259;
+        Wed, 20 Jul 2022 00:47:34 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id y13-20020a05620a25cd00b006af20edff0csm16590008qko.58.2022.07.20.00.47.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Jul 2022 00:47:33 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-31c89653790so164715217b3.13;
+        Wed, 20 Jul 2022 00:47:33 -0700 (PDT)
+X-Received: by 2002:a0d:dd15:0:b0:31e:6ce3:e67f with SMTP id
+ g21-20020a0ddd15000000b0031e6ce3e67fmr1231174ywe.316.1658303252881; Wed, 20
+ Jul 2022 00:47:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+References: <20220630195703.10155-1-bvanassche@acm.org> <20220630195703.10155-3-bvanassche@acm.org>
+ <alpine.DEB.2.22.394.2207191125130.1006766@ramsan.of.borg>
+ <db19ed29-e7f9-e5b0-3a6c-f2812078a07d@acm.org> <CAMuHMdVzsgSYtbJQnaigNax_JbxPsQfU+gHcteS-ojWbxUdMfw@mail.gmail.com>
+In-Reply-To: <CAMuHMdVzsgSYtbJQnaigNax_JbxPsQfU+gHcteS-ojWbxUdMfw@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 20 Jul 2022 09:47:21 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWtxBj8ug7AHTqentF8UD4jpO2sgoWWcQCOvEKLJtdq8A@mail.gmail.com>
+Message-ID: <CAMuHMdWtxBj8ug7AHTqentF8UD4jpO2sgoWWcQCOvEKLJtdq8A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] scsi: sd: Rework asynchronous resume support
+To:     Bart Van Assche <bvanassche@acm.org>
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        scsi <linux-scsi@vger.kernel.org>,
+        Ming Lei <ming.lei@redhat.com>, Hannes Reinecke <hare@suse.de>,
+        John Garry <john.garry@huawei.com>, ericspero@icloud.com,
+        jason600.groome@gmail.com,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
         autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,99 +72,67 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Takeshi Saito <takeshi.saito.xv@renesas.com>
+On Wed, Jul 20, 2022 at 9:26 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Tue, Jul 19, 2022 at 8:14 PM Bart Van Assche <bvanassche@acm.org> wrote:
+> > On 7/19/22 02:26, Geert Uytterhoeven wrote:
+> > > Thanks for your patch, which is now commit 88f1669019bd62b3 ("scsi: sd:
+> > > Rework asynchronous resume support") in scsi/for-next.
+> > >
+> > > On the Salvator-XS development board[1] with a SATA hard drive
+> > > connected, accessing the hard drive after resume from s2idle hangs.
+> > > I have bisected this to the aformentioned commit, and reverting this
+> > > commit fixes the issue.
+> > >
+> > > [1] arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dts
+> >
+> > Thank you for having reported this. How about creating a bug report on
+> > https://bugzilla.kernel.org/ and attaching the kernel logs with and
+>
+> I never created a bug report on bko before...
+>
+> > without this patch? It's probably better to upload the kernel logs
+>
+> Unfortunately the logs do not indicate anything went wrong.
+> I.e. no difference before/after.
 
-The newest Gen3 SoCs and Gen4 SoCs do not need manual tap correction
-with HS400 anymore. So, instead of checking the SDHI version, add a
-quirk flag and set manual tap correction only for affected SoCs.
+With more debug options enabled, it prints:
 
-Signed-off-by: Takeshi Saito <takeshi.saito.xv@renesas.com>
-[wsa: rebased, renamed the quirk variable, removed stale comment]
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/mmc/host/renesas_sdhi.h               | 1 +
- drivers/mmc/host/renesas_sdhi_core.c          | 5 ++---
- drivers/mmc/host/renesas_sdhi_internal_dmac.c | 6 ++++++
- 3 files changed, 9 insertions(+), 3 deletions(-)
+INFO: task kworker/0:7:283 blocked for more than 120 seconds.
+      Not tainted 5.19.0-rc7-salvator-x-00794-g6780eb02b605 #1287
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/0:7     state:D stack:    0 pid:  283 ppid:     2 flags:0x00000008
+Workqueue: events ata_scsi_dev_rescan
+Call trace:
+ __switch_to+0xbc/0x124
+ __schedule+0x540/0x71c
+ schedule+0x58/0xa0
+ io_schedule+0x18/0x34
+ blk_mq_get_tag+0x138/0x244
+ __blk_mq_alloc_requests+0x130/0x2f0
+ blk_mq_alloc_request+0x74/0xa8
+ scsi_alloc_request+0x10/0x30
+ __scsi_execute+0x5c/0x18c
+ scsi_vpd_inquiry+0x7c/0xdc
+ scsi_get_vpd_size+0x34/0xa8
+ scsi_get_vpd_buf+0x28/0xf4
+ scsi_attach_vpd+0x44/0x170
+ scsi_rescan_device+0x30/0x98
+ ata_scsi_dev_rescan+0xc8/0xfc
+ process_one_work+0x2e0/0x474
+ worker_thread+0x1cc/0x270
+ kthread+0xd8/0xe8
+ ret_from_fork+0x10/0x20
 
-diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
-index 1a1e3e020a8c..c4abfee1ebae 100644
---- a/drivers/mmc/host/renesas_sdhi.h
-+++ b/drivers/mmc/host/renesas_sdhi.h
-@@ -43,6 +43,7 @@ struct renesas_sdhi_quirks {
- 	bool hs400_4taps;
- 	bool fixed_addr_mode;
- 	bool dma_one_rx_only;
-+	bool manual_tap_correction;
- 	u32 hs400_bad_taps;
- 	const u8 (*hs400_calib_table)[SDHI_CALIB_TABLE_MAX];
- };
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 55f7b27c3de7..6edbf5c161ab 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -380,8 +380,7 @@ static void renesas_sdhi_hs400_complete(struct mmc_host *mmc)
- 	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_DT2FF,
- 		       priv->scc_tappos_hs400);
- 
--	/* Gen3 can't do automatic tap correction with HS400, so disable it */
--	if (sd_ctrl_read16(host, CTL_VERSION) == SDHI_VER_GEN3_SDMMC)
-+	if (priv->quirks && priv->quirks->manual_tap_correction)
- 		sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_RVSCNTL,
- 			       ~SH_MOBILE_SDHI_SCC_RVSCNTL_RVSEN &
- 			       sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_RVSCNTL));
-@@ -718,7 +717,7 @@ static bool renesas_sdhi_manual_correction(struct tmio_mmc_host *host, bool use_
- 	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_RVSREQ, 0);
- 
- 	/* Change TAP position according to correction status */
--	if (sd_ctrl_read16(host, CTL_VERSION) == SDHI_VER_GEN3_SDMMC &&
-+	if (priv->quirks && priv->quirks->manual_tap_correction &&
- 	    host->mmc->ios.timing == MMC_TIMING_MMC_HS400) {
- 		u32 bad_taps = priv->quirks ? priv->quirks->hs400_bad_taps : 0;
- 		/*
-diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-index 0ccdbe3010ee..42937596c4c4 100644
---- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-@@ -170,6 +170,7 @@ static const struct renesas_sdhi_quirks sdhi_quirks_4tap_nohs400_one_rx = {
- static const struct renesas_sdhi_quirks sdhi_quirks_4tap = {
- 	.hs400_4taps = true,
- 	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
-+	.manual_tap_correction = true,
- };
- 
- static const struct renesas_sdhi_quirks sdhi_quirks_nohs400 = {
-@@ -182,25 +183,30 @@ static const struct renesas_sdhi_quirks sdhi_quirks_fixed_addr = {
- 
- static const struct renesas_sdhi_quirks sdhi_quirks_bad_taps1357 = {
- 	.hs400_bad_taps = BIT(1) | BIT(3) | BIT(5) | BIT(7),
-+	.manual_tap_correction = true,
- };
- 
- static const struct renesas_sdhi_quirks sdhi_quirks_bad_taps2367 = {
- 	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
-+	.manual_tap_correction = true,
- };
- 
- static const struct renesas_sdhi_quirks sdhi_quirks_r8a7796_es13 = {
- 	.hs400_4taps = true,
- 	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
- 	.hs400_calib_table = r8a7796_es13_calib_table,
-+	.manual_tap_correction = true,
- };
- 
- static const struct renesas_sdhi_quirks sdhi_quirks_r8a77965 = {
- 	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
- 	.hs400_calib_table = r8a77965_calib_table,
-+	.manual_tap_correction = true,
- };
- 
- static const struct renesas_sdhi_quirks sdhi_quirks_r8a77990 = {
- 	.hs400_calib_table = r8a77990_calib_table,
-+	.manual_tap_correction = true,
- };
- 
- /*
--- 
-2.35.1
+This doesn't look like it's blocked in the R-Car SATA driver, but on
+some I/O scheduling event in the block core?
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
