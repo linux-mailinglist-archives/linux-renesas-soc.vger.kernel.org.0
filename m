@@ -2,132 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44D5D57AE21
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Jul 2022 04:47:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0C5357B02C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Jul 2022 07:05:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232561AbiGTCrQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Jul 2022 22:47:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49802 "EHLO
+        id S229470AbiGTFFe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Jul 2022 01:05:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233843AbiGTCrQ (ORCPT
+        with ESMTP id S229453AbiGTFFd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Jul 2022 22:47:16 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB1B96FA00
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Jul 2022 19:47:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658285235; x=1689821235;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6PiZseWpCsVbsEu66H19kJeGh5+8/Zasr7iBWVJoEd4=;
-  b=TcyCDm4lhGvzrVl2vGOeFJT2JdXOb4LZv+uqTUhInGdcxG4pWXy7oy8W
-   P5jO/iMRjBerY3UvhqYUwxNvwGkuwTVB6nmEGnwwNJFAt5Rq12q/tD66i
-   iO5lGbg91fE4JJWuWRudJ8LcoaiSO5XsPSKUa6nK1DS32SPoQZ7X9beQc
-   zl1FsGvrMJsnqHta4Y4ZVI+QvvzuKsLlvWbg0wjHgATaDJlCuh9Ln3+dk
-   IlASVos7mDanEcWPwMRGb3/pYqvsiQI1E4CdjmLZf4jrxKFQV2w+Z6C6J
-   MHTMrWqy2yEJohQML8qY7QgrFsGdGZmnkQk7oSdzj3e3hriL76ix+qFEm
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10413"; a="269689742"
-X-IronPort-AV: E=Sophos;i="5.92,285,1650956400"; 
-   d="scan'208";a="269689742"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2022 19:46:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,285,1650956400"; 
-   d="scan'208";a="656063612"
-Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 19 Jul 2022 19:46:43 -0700
-Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oDzjX-0006Ne-6i;
-        Wed, 20 Jul 2022 02:46:43 +0000
-Date:   Wed, 20 Jul 2022 10:45:52 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD SUCCESS
- 0fa31daeb976a5969ea4be78a9462d26f7c3b8f1
-Message-ID: <62d76c60.ChpJlBMSLqhJrUwl%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 20 Jul 2022 01:05:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D523E33400;
+        Tue, 19 Jul 2022 22:05:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 67F7D61614;
+        Wed, 20 Jul 2022 05:05:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E785BC3411E;
+        Wed, 20 Jul 2022 05:05:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658293530;
+        bh=17XkHo6H6lqpq5RNQh2k7nQmgrnZb8oPGj2d+i+omxQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uIXx7+ZCl2yuHGPxaH4LK6uhluRzyTgVq7Xj2krymq5M3KAyzzVAfIIeYua70vq8N
+         +Mhqv/VVPTorB7vGis5pf9xey2dggMq3ej7/MhrPTDeidBX9tk7yIrERHHxETkKFAJ
+         phOoIBNpOH5mMqYrTC2tFqg8nfHkPNv+Bdkt0X2TiSE45A4ozziIckUaoC4RQc4zR8
+         BPg99uq6Ovk6hBM73PgEEzVdBNQ8fXV98/2tjvXhR4cT6V2WNwVKyXJIcdZfvtzH9I
+         /4jwrZARSAEwlS5R1xRUK1Egvluh+FY/TvubFzf39JtIS7MS2JIj6uJxmS4axTj+A8
+         4JERVXeyxxLrA==
+Date:   Wed, 20 Jul 2022 10:35:26 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mark Brown <broonie@kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <Chris.Brandt@renesas.com>
+Subject: Re: [PATCH] spi: spi-rspi: Add force_dma variable to spi_ops
+Message-ID: <YteNFrNSsEfLDHR/@matsya>
+References: <20220716153934.292311-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdWqfnpN_FWyLVb+KGmgR+VY4GJ67Sk2xSAb18HK_B7WZw@mail.gmail.com>
+ <OS0PR01MB5922FC0E3C336E727084C96B868F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdUJzNkf+n5VLzEZTzUpChz9T4Yn-Hpq01sVBRMk3-c2CQ@mail.gmail.com>
+ <OS0PR01MB59220A67C039CCBF7D4D4AFE868F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB59220A67C039CCBF7D4D4AFE868F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: 0fa31daeb976a5969ea4be78a9462d26f7c3b8f1  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+On 19-07-22, 11:28, Biju Das wrote:
+> Hi Geert,
+> 
+> +Vinod
+> 
+> > Subject: Re: [PATCH] spi: spi-rspi: Add force_dma variable to spi_ops
+> > 
+> > Hi Biju,
+> > 
+> > On Tue, Jul 19, 2022 at 10:29 AM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > > Subject: Re: [PATCH] spi: spi-rspi: Add force_dma variable to
+> > > > spi_ops On Sat, Jul 16, 2022 at 5:39 PM Biju Das
+> > <biju.das.jz@bp.renesas.com> wrote:
+> > > > > On RZ/G2L SoCs switching from DMA to interrupt mode, causes
+> > > > > timeout issue as we are not getting Rx interrupt even though SPRF
+> > > > > bit is set in the status register.
+> > > > >
+> > > > > But there is no issue if we don't switch between interrupt to DMA
+> > > > > mode or vice versa.
+> > > > >
+> > > > > Performance comparison between interrupt and DMA mode on RZ/Five
+> > > > > SMARC platform connected to a display module shows that
+> > > > > performance and CPU utilization is much better with DMA mode
+> > > > > compared to interrupt mode
+> > > > > (1->65 fps) and (98->8%).
+> > > > >
+> > > > > This patch introduces a variable force_dma to avoid switching
+> > > > > between DMA to interrupt mode for RZ platforms.
 
-elapsed time: 729m
+Why do you need a variable for that, if DMA is availble (you were able
+to allocate channels) then use DMA, otherwise fall back to PIO..
 
-configs tested: 51
-configs skipped: 2
+Or anything missing from context which I am not aware of?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-m68k                             allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-mips                             allyesconfig
-sh                               allmodconfig
-i386                                defconfig
-i386                             allyesconfig
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-x86_64               randconfig-a013-20220718
-x86_64               randconfig-a012-20220718
-x86_64               randconfig-a014-20220718
-x86_64               randconfig-a011-20220718
-x86_64               randconfig-a015-20220718
-x86_64               randconfig-a016-20220718
-i386                 randconfig-a011-20220718
-i386                 randconfig-a013-20220718
-i386                 randconfig-a016-20220718
-i386                 randconfig-a012-20220718
-i386                 randconfig-a015-20220718
-i386                 randconfig-a014-20220718
-arc                  randconfig-r043-20220718
-riscv                randconfig-r042-20220718
-s390                 randconfig-r044-20220718
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                    rhel-8.3-kselftests
-x86_64                           rhel-8.3-syz
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-
-clang tested configs:
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a006
-x86_64                        randconfig-a005
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-hexagon              randconfig-r041-20220718
-hexagon              randconfig-r045-20220718
+> > > > >
+> > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > >
+> > > > Thanks for your patch!
+> > > >
+> > > > > @@ -1196,6 +1197,7 @@ static const struct spi_ops rspi_rz_ops = {
+> > > > >         .flags =                SPI_CONTROLLER_MUST_RX |
+> > > > SPI_CONTROLLER_MUST_TX,
+> > > > >         .fifo_size =            8,      /* 8 for TX, 32 for RX */
+> > > > >         .num_hw_ss =            1,
+> > > > > +       .force_dma =            true,
+> > > > >  };
+> > > >
+> > > > Do you know if this is needed on RZ/A series, too?
+> > >
+> > > I guess it is needed?? I may be wrong. I got a link from Chris [1]. As
+> > > per this still We haven't found a solution. May be the priority is
+> > > changed for this activity and no one looked after this.
+> > >
+> > > [1]
+> > 
+> > Daniel said he found the issue, i.e. the dmac driver never resetting DMARS?
+> 
+> Currently DMARS set during prepare and it never cleared. So I added device_synchronize
+> callback in DMA driver to clear the DMARS. RSPI client driver after synchronizing
+> DMA callback, calls dmaengine_synchronize which clears DMARS.
+> 
+> With this DMA to interrupt mode switching is working fine.
+> 
+> Cheers,
+> Biju
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+~Vinod
