@@ -2,59 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 833A457C98B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jul 2022 13:07:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BED957C9DC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jul 2022 13:43:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233013AbiGULH0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Jul 2022 07:07:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60710 "EHLO
+        id S232666AbiGULnf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Jul 2022 07:43:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232411AbiGULHZ (ORCPT
+        with ESMTP id S230284AbiGULne (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Jul 2022 07:07:25 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92C5F82F97;
-        Thu, 21 Jul 2022 04:07:24 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id 7so2234733ybw.0;
-        Thu, 21 Jul 2022 04:07:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5mro53eIOes0RXW0prFbxemaCXmpb/aOLLa0hQCmy08=;
-        b=TGQ+2X7BFMGJRNO80GY1luuDbJo5ce+mctyZY04Tn+bn0eBWPnSRow0Dla5/Esak3N
-         yRVED71u8otXRdDI1RreBFKJJMqVsVHPgJnBO1N6O+iPsW0s8y9kyF1s2qnevhYxJQjj
-         8JfiqSWG6SfnNkkIBS8sa+u0KtHIgvBw2vPdOnQCe7rpCjA2MgvJ5YsPUyCOzudzmrzN
-         bEZmj0s9AZxIZLZ5VeL0VhMyx1NqrcgYddQ8M9Xk143zXwRYbg/m13Tsn22X8SABb/vt
-         kWVP9FhRvHj1vzGLH/6EaMoy8spdPYLABqTIvlN4jCcfcy1GSKCcrsHBcR0DRPPoHq1F
-         epxQ==
+        Thu, 21 Jul 2022 07:43:34 -0400
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 011C577481;
+        Thu, 21 Jul 2022 04:43:32 -0700 (PDT)
+Received: by mail-qt1-f171.google.com with SMTP id r21so1001581qtn.11;
+        Thu, 21 Jul 2022 04:43:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5mro53eIOes0RXW0prFbxemaCXmpb/aOLLa0hQCmy08=;
-        b=Ae652mE2O4m9Zg4PeJOkXUaSJ4N7++A6TF5e0PwRFMYcc1JQ3EMRZxAzpNJLHZovd2
-         DXIDY428x2L5k49xF70lNESTmtho/QDcSKg7Vw7Ad2RLkcTcxJl+t7FH9+p3Sj9E4IDk
-         VcT+1aefX+wwe1KVwu+9wlTyaTvX+ZBAjOxdIVkCw1cbLuYwsUoE35EieTGWidvDEdVJ
-         JN/OcCokIDp+YLrZEocGB+zZUF1hGTGxjOAEeDVltmvE4Xo6n5y/bhQC0wGrx2KZ6AWx
-         YDTNpceszine+eH9xpmytI6y+hcQcjpj69NXZgLx0QXxCl3C0mAr5dHdij3qaNBBrVOm
-         BxJg==
-X-Gm-Message-State: AJIora82ssVbY8T3ZQkmrDyBdxUpRxHQqE0H1w5+9+dBTmPTTDUy6hXR
-        HsGgBr+2a/36ayF0MxPGZ+yxAXvVHVvIO/TbuU0=
-X-Google-Smtp-Source: AGRyM1uNhi6JqOtUV7rz5Sib7uydLDy+F4oP4tJI5TWWwnh3/+PPPbgApVrOHmfik36wx39uyP1FRckNTbDUFiOqfvs=
-X-Received: by 2002:a25:830f:0:b0:66f:cc60:c740 with SMTP id
- s15-20020a25830f000000b0066fcc60c740mr35450510ybk.117.1658401643785; Thu, 21
- Jul 2022 04:07:23 -0700 (PDT)
+        bh=OqoFgQwvU/6C15HIQr7DoIxTrhMVcDk8Haf+TDoehBc=;
+        b=a81SRD6qI2klRNlqaA6Oguy4OUeK4kE57srZp7ELFeb3wHrvb26XlRWlGUDAdf56fy
+         JB9Wd7wf7ip/D/eLT5GIqFR11gXYaQO+wOkIDsI9RaBGM+6fGCcBaYYtDUJeinoZUvB7
+         iYxpDH/8LYND9ZdYJDgEju5vFRXRBHLgGdBTD3yAd28hQSUWK+tv4ed5td26nuRzz2pX
+         3XxUnZE+9DE+oZ/xHL4C0Y4cQgaNR1mjKfaE5gsDb8JRRpop3XOauQiuDZNPypf4Kj2E
+         b+W71Avchonchpk0oHrH767Q49DSSZbYOz3wsHTl/JK7JkKKSm9i/YUvGL9EDsIhaXyW
+         QQzA==
+X-Gm-Message-State: AJIora81uajuO6bLIlIr66wWj0yQCJ8O6l9T5EilRmKiMxHLQxF+Nlcd
+        VFRH18DiQEV6s0Bv+kOFIGXmUZKq6Ere+A==
+X-Google-Smtp-Source: AGRyM1sB5gCthoSpdzG2LhjQo8gI7vh3c1enkAeLzKt15PKtSXP39bWW2YcNZIXP+SVeSSkoeU340Q==
+X-Received: by 2002:a05:622a:102:b0:31d:34f2:2170 with SMTP id u2-20020a05622a010200b0031d34f22170mr32338702qtw.373.1658403811408;
+        Thu, 21 Jul 2022 04:43:31 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id l9-20020a37f909000000b006b59eacba61sm1264221qkj.75.2022.07.21.04.43.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Jul 2022 04:43:31 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id c131so2291420ybf.9;
+        Thu, 21 Jul 2022 04:43:30 -0700 (PDT)
+X-Received: by 2002:a5b:6c1:0:b0:669:a7c3:4c33 with SMTP id
+ r1-20020a5b06c1000000b00669a7c34c33mr38974765ybq.543.1658403810731; Thu, 21
+ Jul 2022 04:43:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220718195651.7711-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220718195651.7711-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdV5s-q13pWXs-ki6o5h8=ZMPL11o08YQx1pawe9EUySBA@mail.gmail.com>
-In-Reply-To: <CAMuHMdV5s-q13pWXs-ki6o5h8=ZMPL11o08YQx1pawe9EUySBA@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 21 Jul 2022 12:06:56 +0100
-Message-ID: <CA+V-a8tqhiO+WBOzAD40A10K+qtVQ4HE87C9PKVpoFgWkkS54w@mail.gmail.com>
+ <20220718195651.7711-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdV5s-q13pWXs-ki6o5h8=ZMPL11o08YQx1pawe9EUySBA@mail.gmail.com> <CA+V-a8tqhiO+WBOzAD40A10K+qtVQ4HE87C9PKVpoFgWkkS54w@mail.gmail.com>
+In-Reply-To: <CA+V-a8tqhiO+WBOzAD40A10K+qtVQ4HE87C9PKVpoFgWkkS54w@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 21 Jul 2022 13:43:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWcj2xv8FrCiTLCVQfWzejONCAv_o-VzAkicLAFNd5gPg@mail.gmail.com>
+Message-ID: <CAMuHMdWcj2xv8FrCiTLCVQfWzejONCAv_o-VzAkicLAFNd5gPg@mail.gmail.com>
 Subject: Re: [PATCH 5/5] arm64: dts: renesas: rzg2l-smarc-som: Add PHY
  interrupt support for ETH{0/1}
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -65,108 +64,73 @@ Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Prabhakar,
 
-Thank you for the review.
-
-On Thu, Jul 21, 2022 at 11:47 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, Jul 18, 2022 at 9:57 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > The PHY interrupt (INT_N) pin is connected to IRQ2 and IRQ3 for ETH0
-> > and ETH1 respectively.
+On Thu, Jul 21, 2022 at 1:07 PM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Thu, Jul 21, 2022 at 11:47 AM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+> > On Mon, Jul 18, 2022 at 9:57 PM Lad Prabhakar
+> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > > The PHY interrupt (INT_N) pin is connected to IRQ2 and IRQ3 for ETH0
+> > > and ETH1 respectively.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-> > @@ -94,6 +94,8 @@ phy0: ethernet-phy@7 {
-> >                 compatible = "ethernet-phy-id0022.1640",
-> >                              "ethernet-phy-ieee802.3-c22";
-> >                 reg = <7>;
-> > +               interrupt-parent = <&irqc>;
-> > +               interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
->
-> 2?
->
-IRQ2 = SPI 3, the driver expects the SPI number and is used as index
-[0] to map the interrupt in the GIC.
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/irqchip/irq-renesas-rzg2l.c?h=next-20220720#n291
-
-> "The first cell should contain external interrupt number (IRQ0-7)"
->
-Probably I need to reword this to "The first cell should contain the
-SPI number for IRQ0-7/NMI interrupt lines" ?
-
-
-> >                 rxc-skew-psec = <2400>;
-> >                 txc-skew-psec = <2400>;
-> >                 rxdv-skew-psec = <0>;
-> > @@ -120,6 +122,8 @@ phy1: ethernet-phy@7 {
-> >                 compatible = "ethernet-phy-id0022.1640",
-> >                              "ethernet-phy-ieee802.3-c22";
-> >                 reg = <7>;
-> > +               interrupt-parent = <&irqc>;
-> > +               interrupts = <4 IRQ_TYPE_LEVEL_LOW>;
->
-> 3?
->
-IRQ3 = SPI 4
-
-Cheers,
-Prabhakar
-> >                 rxc-skew-psec = <2400>;
-> >                 txc-skew-psec = <2400>;
-> >                 rxdv-skew-psec = <0>;
-> > @@ -171,7 +175,8 @@ eth0_pins: eth0 {
-> >                          <RZG2L_PORT_PINMUX(25, 0, 1)>, /* ET0_RXD0 */
-> >                          <RZG2L_PORT_PINMUX(25, 1, 1)>, /* ET0_RXD1 */
-> >                          <RZG2L_PORT_PINMUX(26, 0, 1)>, /* ET0_RXD2 */
-> > -                        <RZG2L_PORT_PINMUX(26, 1, 1)>; /* ET0_RXD3 */
-> > +                        <RZG2L_PORT_PINMUX(26, 1, 1)>, /* ET0_RXD3 */
-> > +                        <RZG2L_PORT_PINMUX(1, 0, 1)>;  /* IRQ2 */
-> >         };
+> > Thanks for your patch!
 > >
-> >         eth1_pins: eth1 {
-> > @@ -189,7 +194,8 @@ eth1_pins: eth1 {
-> >                          <RZG2L_PORT_PINMUX(34, 1, 1)>, /* ET1_RXD0 */
-> >                          <RZG2L_PORT_PINMUX(35, 0, 1)>, /* ET1_RXD1 */
-> >                          <RZG2L_PORT_PINMUX(35, 1, 1)>, /* ET1_RXD2 */
-> > -                        <RZG2L_PORT_PINMUX(36, 0, 1)>; /* ET1_RXD3 */
-> > +                        <RZG2L_PORT_PINMUX(36, 0, 1)>, /* ET1_RXD3 */
-> > +                        <RZG2L_PORT_PINMUX(1, 1, 1)>;  /* IRQ3 */
-> >         };
+> > > --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
+> > > +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
+> > > @@ -94,6 +94,8 @@ phy0: ethernet-phy@7 {
+> > >                 compatible = "ethernet-phy-id0022.1640",
+> > >                              "ethernet-phy-ieee802.3-c22";
+> > >                 reg = <7>;
+> > > +               interrupt-parent = <&irqc>;
+> > > +               interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
 > >
-> >         gpio-sd0-pwr-en-hog {
-> > --
-> > 2.25.1
+> > 2?
 > >
+> IRQ2 = SPI 3, the driver expects the SPI number and is used as index
+> [0] to map the interrupt in the GIC.
 >
->
-> --
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+> [0] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/irqchip/irq-renesas-rzg2l.c?h=next-20220720#n291
+
+Using the SPI number sounds strange to me, as the consumer
+(Ethernet PHY) is linked to the IRQC, not to the GIC directly.
+
+> > "The first cell should contain external interrupt number (IRQ0-7)"
+> >
+> Probably I need to reword this to "The first cell should contain the
+> SPI number for IRQ0-7/NMI interrupt lines" ?
+
+Oh, so zero is the NMI?
+And 1-8 are IRQ0-7.
+
+All of this should be documented in the bindings.
+
+Probably you want to document the parent interrupts:
+  - First entry is NMI,
+  - Next 8 entries are IRQ0-7,
+  - Next 32 entries are TINT0-31.
+Currently it's a flat list.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
