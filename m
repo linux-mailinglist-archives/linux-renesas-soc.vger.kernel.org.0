@@ -2,91 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DDF857C8F2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jul 2022 12:27:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5837557C92F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jul 2022 12:39:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233220AbiGUK1l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Jul 2022 06:27:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54870 "EHLO
+        id S232640AbiGUKjI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Jul 2022 06:39:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233244AbiGUK1h (ORCPT
+        with ESMTP id S231874AbiGUKjC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Jul 2022 06:27:37 -0400
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 001AA820F2;
-        Thu, 21 Jul 2022 03:27:36 -0700 (PDT)
-Received: by mail-qv1-f46.google.com with SMTP id t7so822219qvz.6;
-        Thu, 21 Jul 2022 03:27:36 -0700 (PDT)
+        Thu, 21 Jul 2022 06:39:02 -0400
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4A3582453;
+        Thu, 21 Jul 2022 03:39:01 -0700 (PDT)
+Received: by mail-qt1-f181.google.com with SMTP id u12so954590qtk.0;
+        Thu, 21 Jul 2022 03:39:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=rCvMc/vUOC3tOb2eOH0GWgA9WCBLLNYDitbf9JR/hfU=;
-        b=fpp3noq4BzFCBH2th9e/zGIsV53MuyqNuT12Un9ao837FhsO2L2FUcbdsJDr/xKKPj
-         8MtRSzk+bxi4ZRCJhrufOHENuISLoNuNKsDVrT0X+7eciD6KcYB25NOAbQWuNjGGG1Mb
-         0NX79K0t+1lzGSv2I+ODZSx6la1aTAZvv+iOMa04hcB9zZplgHKGi8TneEaj8J4uJ76w
-         IaY89IkEvDABeKU+wj78pThyniTIzrXE8bgwiw2OOAJyXhJvEIugL8zGW9AOWjLt2Ess
-         WyMhWHSwkLhfoSHCYUcMIIv/R6wBMVdjpa30rJblNTdbbMPM+Lp5fWH/VRkkU1Kd1Nwi
-         Kd5Q==
-X-Gm-Message-State: AJIora9zP1TKGH7RiRgTZioy8iR58Az8WA0AnN9z0O0Jmnq0uneJU/m4
-        CZmMa5dt/vkyDYZ1xYt/NfPKv+6y1cdg0Q==
-X-Google-Smtp-Source: AGRyM1ttXVWS4N5jakkrb6NlMVajJfSsT5gVwKWLLaKJebOcJpFIjzzP0LhDfFRXQYMgJGFSO13zvQ==
-X-Received: by 2002:a05:6214:21ad:b0:473:8d7d:5456 with SMTP id t13-20020a05621421ad00b004738d7d5456mr32809100qvc.88.1658399255984;
-        Thu, 21 Jul 2022 03:27:35 -0700 (PDT)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id c23-20020a05620a269700b006a6ebde4799sm1101730qkp.90.2022.07.21.03.27.35
+        bh=kUFSxEp/zU8vtHCTbm9y30wQpyHZOsNNXDWnLwp6e58=;
+        b=RKHtVgOXxGTLJkXZC1chrpRRiZ6VeX7yIyqJxO/74CeJTI3U2HGNUglI6kICiG53R1
+         JOTAS6EOLcgW32WuO4q+hXILE1FuMVwdv7+79tcLMvRezq2kePh1F+lZ7UKLNw2zb8Uc
+         XJYuOqEolMSyc5+jsiD2SDbC6KIre+pjPtMO1PcxsyMQVGb5giiKFKG17z/AJg/em9tk
+         A7HF8GGBhtfb8vUyATH+Oh6dgNBBinz++6ebg4VlRQExgMzU2ggybXYH2AWiXwEkBm//
+         /OwmdZne8a4l9oc6zgMTQkdq2auY4OWddTvULQxeapWn7urJJqia00768FJH97i5d+lm
+         chpw==
+X-Gm-Message-State: AJIora+Ypc3eKbB3I63mv9V8AB0+Xneb2OzjSVBFNBND8dZWbNnnQnNm
+        WeFNmIvz2Rdcx7wIAuDuBL4GEGnws87WZA==
+X-Google-Smtp-Source: AGRyM1sxyP6EjNoXjuoTIWrWU1Z2Bb9M6Jm0pBk7Bxggwj77ML/sX3djUPc0UWGJDyL8bwFMaTIsmA==
+X-Received: by 2002:ac8:59c8:0:b0:31a:576f:13f9 with SMTP id f8-20020ac859c8000000b0031a576f13f9mr33146270qtf.596.1658399940668;
+        Thu, 21 Jul 2022 03:39:00 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id de39-20020a05620a372700b006b568bdd7d5sm1149211qkb.71.2022.07.21.03.38.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Jul 2022 03:27:35 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-31d85f82f0bso12205897b3.7;
-        Thu, 21 Jul 2022 03:27:35 -0700 (PDT)
-X-Received: by 2002:a81:84c1:0:b0:31e:4e05:e4f4 with SMTP id
- u184-20020a8184c1000000b0031e4e05e4f4mr16234850ywf.384.1658399255079; Thu, 21
- Jul 2022 03:27:35 -0700 (PDT)
+        Thu, 21 Jul 2022 03:39:00 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-31e560aa854so12506157b3.6;
+        Thu, 21 Jul 2022 03:38:59 -0700 (PDT)
+X-Received: by 2002:a0d:c787:0:b0:31b:a963:e1de with SMTP id
+ j129-20020a0dc787000000b0031ba963e1demr44517762ywd.283.1658399939434; Thu, 21
+ Jul 2022 03:38:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220718193745.7472-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220718193745.7472-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220718195651.7711-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220718195651.7711-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220718195651.7711-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 21 Jul 2022 12:27:23 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUmfAPv0NHOm5J_D=f7ayu+tb1dDqrxLy7FFU8PLDs==w@mail.gmail.com>
-Message-ID: <CAMuHMdUmfAPv0NHOm5J_D=f7ayu+tb1dDqrxLy7FFU8PLDs==w@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: interrupt-controller: renesas,rzg2l-irqc:
- Document RZ/V2L SoC
+Date:   Thu, 21 Jul 2022 12:38:48 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdURjqyoJY=k4KhUAqfQ-n9JRYevAcZ2DVSnxS0Lt5-3rg@mail.gmail.com>
+Message-ID: <CAMuHMdURjqyoJY=k4KhUAqfQ-n9JRYevAcZ2DVSnxS0Lt5-3rg@mail.gmail.com>
+Subject: Re: [PATCH 1/5] arm64: dts: renesas: r9a07g044: Add IRQC node to SoC DTSI
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jul 18, 2022 at 9:38 PM Lad Prabhakar
+On Mon, Jul 18, 2022 at 9:57 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Document RZ/V2L (R9A07G054) IRQC bindings. The RZ/V2L IRQC block is
-> identical to one found on the RZ/G2L SoC. No driver changes are
-> required as generic compatible string "renesas,rzg2l-irqc" will be
-> used as a fallback.
->
-> While at it, update the comment "# RZ/G2L" to "# RZ/G2{L,LC}" for
-> "renesas,r9a07g044-irqc" compatible string as both RZ/G2L and
-> RZ/G2LC SoC's use the common SoC DTSI and have the same IRQC block.
+> Add IRQC node to R9A07G044 (RZ/G2L) SoC DTSI.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.21.
 
 Gr{oetje,eeting}s,
 
