@@ -2,140 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 266CC57C3C9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jul 2022 07:40:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D814C57C5D1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jul 2022 10:07:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229692AbiGUFk3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Jul 2022 01:40:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37902 "EHLO
+        id S229664AbiGUIHu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Jul 2022 04:07:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229569AbiGUFk2 (ORCPT
+        with ESMTP id S229517AbiGUIHt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Jul 2022 01:40:28 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0D2C2CC95;
-        Wed, 20 Jul 2022 22:40:27 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 2D87E209D2;
-        Thu, 21 Jul 2022 05:40:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1658382025; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=AfVQON7xknHl8TJztdxmdrLLY/PURiJN0ES1Nfd6CUI=;
-        b=Hi8uXc5bJMCrpd4CfWMoAAjovSJ9T02dqd1xtj29juhpfFnEANdkiTdyMhiSYSJwc4I3AB
-        pPNKsLv5HKY1ylk7Cb5/2N70ZzqxmoCAAJb6D66fltsRfsGL5WGJI092YSUhD5bptQIQmE
-        WmqG0prcN4GwGpezJAk2L+pk7vFkWCs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1658382025;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=AfVQON7xknHl8TJztdxmdrLLY/PURiJN0ES1Nfd6CUI=;
-        b=4TqtpuVqhzEYjt12/Qu0xXKiARsEpll5uU4bwAZDwjjHdPZNc6Bpj/feGBoHkuO83MO6GB
-        QJTTAC+WlZ2IqcCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D4330134CF;
-        Thu, 21 Jul 2022 05:40:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id IB76Msjm2GJSZgAAMHmgww
-        (envelope-from <hare@suse.de>); Thu, 21 Jul 2022 05:40:24 +0000
-Message-ID: <d0a3007a-930f-4ae3-2830-ee35585e01d7@suse.de>
-Date:   Thu, 21 Jul 2022 07:40:24 +0200
+        Thu, 21 Jul 2022 04:07:49 -0400
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DC037D1CA;
+        Thu, 21 Jul 2022 01:07:48 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id r24so729054qtx.6;
+        Thu, 21 Jul 2022 01:07:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OeXUgWfSBwMA0/mnxBHkh+G2d6QD85lH1tvWPe7kfmU=;
+        b=G8jYurc4SOoMRJRYTacFTd5Tpd+r/IknAy6t2pGlrwrBRj1qteES0bNDfFTdbw7EKX
+         5dXSHkSgzkQujYqGo+9q65qnRuHJj4ta8MGnvictj1TpCXlgjOaVtCQ6tbL8zRVy2nRz
+         eFQ9PJRWMTJiGnu59wiTOzdnwIdLkaUOC9p+J+cyPS0nuYtBqSIfqouY/T9pbr7jm2FH
+         f42NcRZDaX61vy/Mf+u58Kz2E8dLDvIYjgLnSGDh3e5mapX5j5jmwFWriJMLa0INIvH7
+         YopX+qvnnkWZpQbTcPAQHuFKDpUxEgARIYlwGSnmBEIsfEGie8AXj0QStfoE5Uo6az2F
+         Yegg==
+X-Gm-Message-State: AJIora9e82AMSb9/E41bNHwOLAKFyZMgnxH/nNvJZFcLDI6R8vtzZ7EH
+        qXG823Y/Icrl+RmUUqyCuut83AMeijec9Q==
+X-Google-Smtp-Source: AGRyM1uTzlTutYxDz89ACPZo4iqWinNStblbjjURUTlEfKPYJkdQjorAR4BJ98NZVCL1OLE3uk5j2Q==
+X-Received: by 2002:ac8:5b44:0:b0:31f:775:c2a2 with SMTP id n4-20020ac85b44000000b0031f0775c2a2mr5175880qtw.122.1658390867025;
+        Thu, 21 Jul 2022 01:07:47 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id h15-20020a05620a244f00b006af3bc9c6bbsm1127499qkn.52.2022.07.21.01.07.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Jul 2022 01:07:46 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id c131so1520302ybf.9;
+        Thu, 21 Jul 2022 01:07:46 -0700 (PDT)
+X-Received: by 2002:a25:bc8e:0:b0:66e:fe43:645c with SMTP id
+ e14-20020a25bc8e000000b0066efe43645cmr40553747ybk.202.1658390865825; Thu, 21
+ Jul 2022 01:07:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
+References: <20220630195703.10155-1-bvanassche@acm.org> <20220630195703.10155-3-bvanassche@acm.org>
+ <alpine.DEB.2.22.394.2207191125130.1006766@ramsan.of.borg>
+ <db19ed29-e7f9-e5b0-3a6c-f2812078a07d@acm.org> <CAMuHMdVzsgSYtbJQnaigNax_JbxPsQfU+gHcteS-ojWbxUdMfw@mail.gmail.com>
+ <CAMuHMdWtxBj8ug7AHTqentF8UD4jpO2sgoWWcQCOvEKLJtdq8A@mail.gmail.com>
+ <506ca1a6-1122-5755-fc74-60f7c7bfbd0d@acm.org> <CAMuHMdVQ2K2v8jpsFfOMk99DG_sBB4_ioiQRroC7K_Ov1wvp9w@mail.gmail.com>
+ <6f70e742-9d8a-f389-0482-0ba9696bf445@acm.org>
+In-Reply-To: <6f70e742-9d8a-f389-0482-0ba9696bf445@acm.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 21 Jul 2022 10:07:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVc+ATGV-=R3uV6RyF0-mZiuKv7HpmogRBgqGVyO-MKWg@mail.gmail.com>
+Message-ID: <CAMuHMdVc+ATGV-=R3uV6RyF0-mZiuKv7HpmogRBgqGVyO-MKWg@mail.gmail.com>
 Subject: Re: [PATCH v2 2/2] scsi: sd: Rework asynchronous resume support
-Content-Language: en-US
-To:     Bart Van Assche <bvanassche@acm.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
+To:     Bart Van Assche <bvanassche@acm.org>
 Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
         Jaegeuk Kim <jaegeuk@kernel.org>,
         scsi <linux-scsi@vger.kernel.org>,
-        Ming Lei <ming.lei@redhat.com>,
+        Ming Lei <ming.lei@redhat.com>, Hannes Reinecke <hare@suse.de>,
         John Garry <john.garry@huawei.com>, ericspero@icloud.com,
         jason600.groome@gmail.com,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20220630195703.10155-1-bvanassche@acm.org>
- <20220630195703.10155-3-bvanassche@acm.org>
- <alpine.DEB.2.22.394.2207191125130.1006766@ramsan.of.borg>
- <db19ed29-e7f9-e5b0-3a6c-f2812078a07d@acm.org>
- <CAMuHMdVzsgSYtbJQnaigNax_JbxPsQfU+gHcteS-ojWbxUdMfw@mail.gmail.com>
- <CAMuHMdWtxBj8ug7AHTqentF8UD4jpO2sgoWWcQCOvEKLJtdq8A@mail.gmail.com>
- <506ca1a6-1122-5755-fc74-60f7c7bfbd0d@acm.org>
-From:   Hannes Reinecke <hare@suse.de>
-In-Reply-To: <506ca1a6-1122-5755-fc74-60f7c7bfbd0d@acm.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 7/20/22 18:51, Bart Van Assche wrote:
-> On 7/20/22 00:47, Geert Uytterhoeven wrote:
->> With more debug options enabled, it prints:
->>
->> INFO: task kworker/0:7:283 blocked for more than 120 seconds.
->>        Not tainted 5.19.0-rc7-salvator-x-00794-g6780eb02b605 #1287
->> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->> task:kworker/0:7     state:D stack:    0 pid:  283 ppid:     2 
->> flags:0x00000008
->> Workqueue: events ata_scsi_dev_rescan
->> Call trace:
->>   __switch_to+0xbc/0x124
->>   __schedule+0x540/0x71c
->>   schedule+0x58/0xa0
->>   io_schedule+0x18/0x34
->>   blk_mq_get_tag+0x138/0x244
->>   __blk_mq_alloc_requests+0x130/0x2f0
->>   blk_mq_alloc_request+0x74/0xa8
->>   scsi_alloc_request+0x10/0x30
->>   __scsi_execute+0x5c/0x18c
->>   scsi_vpd_inquiry+0x7c/0xdc
->>   scsi_get_vpd_size+0x34/0xa8
->>   scsi_get_vpd_buf+0x28/0xf4
->>   scsi_attach_vpd+0x44/0x170
->>   scsi_rescan_device+0x30/0x98
->>   ata_scsi_dev_rescan+0xc8/0xfc
->>   process_one_work+0x2e0/0x474
->>   worker_thread+0x1cc/0x270
->>   kthread+0xd8/0xe8
->>   ret_from_fork+0x10/0x20
->>
->> This doesn't look like it's blocked in the R-Car SATA driver, but on
->> some I/O scheduling event in the block core?
-> 
-> I'm not familiar with the SATA code but from a quick look it seems like 
-> the above code is only triggered from inside the ATA error handler 
-> (ata_do_eh() -> ata_eh_recover() -> ata_eh_revalidate_and_attach() -> 
-> schedule_work(&(ap->scsi_rescan_task) -> ata_scsi_dev_rescan()). It 
-> doesn't seem normal to me that the ATA error handler gets invoked during 
-> a resume. How about testing the following two code changes?
+Hoi Bart,
 
-Sadly, that _is_ the normal workflow. SATA EH gets invoked regularly, 
-and is handling the device resets after resume.
+On Wed, Jul 20, 2022 at 8:04 PM Bart Van Assche <bvanassche@acm.org> wrote:
+> On 7/20/22 10:44, Geert Uytterhoeven wrote:
+> > On Wed, Jul 20, 2022 at 6:51 PM Bart Van Assche <bvanassche@acm.org> wrote:
+> >> I'm not familiar with the SATA code but from a quick look it seems like
+> >> the above code is only triggered from inside the ATA error handler
+> >> (ata_do_eh() -> ata_eh_recover() -> ata_eh_revalidate_and_attach() ->
+> >> schedule_work(&(ap->scsi_rescan_task) -> ata_scsi_dev_rescan()). It
+> >> doesn't seem normal to me that the ATA error handler gets invoked during
+> >> a resume. How about testing the following two code changes?
+> >
+> > Thanks for your suggestions!
+> >
+> >> * In sd_start_stop_device(), change "return sd_submit_start(sdkp, cmd,
+> >> sizeof(cmd))" into "sd_submit_start(sdkp, cmd, sizeof(cmd))" and below
+> >> that call add "flush_work(&sdkp->start_done_work)". This makes
+> >> sd_start_stop_device() again synchronous. This will learn us whether the
+> >> behavior change is caused by submitting the START command from another
+> >> context or by not waiting until the START command has finished.
+> >
+> > Unfortunately this doesn't have any impact.
+> >
+> >> * Back out the above change, change "return sd_submit_start(sdkp, cmd,
+> >> sizeof(cmd))" again into "sd_submit_start(sdkp, cmd, sizeof(cmd))" and
+> >> below that statement add a call to
+> >> scsi_run_queue(sdkp->device->request_queue). If this change helps it
+> >
+> > (that's the static scsi_run_queue() in drivers/scsi/scsi_lib.c?)
+> >
+> >> means that the scsi_run_queue() call is necessary to prevent reordering
+> >> of the START command with other SCSI commands.
+> >
+> > Unfortunately this doesn't have any impact either.
+>
+> That's surprising. Is there anything unusual about the test setup that I
+> should know, e.g. very small number of CPU cores or a very small queue
+> depth of the SATA device? How about adding pr_info() statements at the
+> start and end of the following functions and also before the return
+> statements in these functions to determine where execution of the START
+> command hangs?
+> * sd_start_done().
+> * sd_start_done_work().
 
-Cheers,
+None of these functions seem to be called at all?
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
