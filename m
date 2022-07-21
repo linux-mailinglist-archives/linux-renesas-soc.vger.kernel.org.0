@@ -2,60 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78A8A57CA25
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jul 2022 13:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7ED757CA40
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jul 2022 14:07:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233251AbiGUL7i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Jul 2022 07:59:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41260 "EHLO
+        id S233342AbiGUMHe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Jul 2022 08:07:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232158AbiGUL7h (ORCPT
+        with ESMTP id S233326AbiGUMHc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Jul 2022 07:59:37 -0400
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0312F65D61;
-        Thu, 21 Jul 2022 04:59:34 -0700 (PDT)
-Received: by mail-qk1-f171.google.com with SMTP id b25so1052394qka.11;
-        Thu, 21 Jul 2022 04:59:33 -0700 (PDT)
+        Thu, 21 Jul 2022 08:07:32 -0400
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EE2685FA3;
+        Thu, 21 Jul 2022 05:07:20 -0700 (PDT)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-31e7055a61dso14527467b3.11;
+        Thu, 21 Jul 2022 05:07:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8xWt72opS7dnmJ8mHP3+9HW2y9iSQk9b7ZoobcDm4Fo=;
+        b=F/nzId5pJLfPNxsZ4LdxZvKxK5e8m1FDP9PRCbCRzd8CGgTvdP0/0nIpkXYjFxChs7
+         m2rZxLMrP0RFLCbb0qcgilmOMtD0j65k4Qaazcin0/LM67OKMFrvWpU1XOLpoQzvQkS1
+         3wAaGlIY5+2e0V+DhCZwdyWUJSclveQCO8zoxmvBr4YgfiEtsoZKsI4naTK0oDHLBdQI
+         kGb0d+CePT+jWvA4LhWDSJwK+xHuDKMebgAW/yp8/E7LafQvivo9aNAoIDUE5/wpf80c
+         U/rqXsmVHJ3N25tY0ixQ33mJDm53jC384UEWgZ9x3QHFBtv7Guz5QnMspqe57+vzm4K6
+         e3mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lRz/hxcrvKaBBIf3i1cgs6tUJRVDE9Sapae6r7E79pw=;
-        b=66SNt/WmtKLXhmxDXTDVgulQYqbOxFF0tMq5ItusPVw8lNq0ECGDEuILGu1giYRcsb
-         6DFJHmWvFtYc53ew3b30BBUzvqzmOQCbiOumKKCdo3SiRXILXpT6kPcJoNWUj711E3CF
-         kigWhTxI8C758XtHaRdmwGCDYzaRiVZL9tJNGirhJcNbot4FGMWPJR7dYVyPxcB7wB2J
-         TH+Kf3n33IhLHJMMt3saYKffTzjw+BftJXdr0OKYw3p6u1oDIdR0hZzBK3OJ9Wm06ha1
-         SGQO3eNVGEwUrUp6Xq/1d71TSod7WF1Wbgu6osuYxLZmwO3XspIldq3hst/NP5jc9cKM
-         ebEw==
-X-Gm-Message-State: AJIora+Cm1BA78I7pFsdsVNdslELYly6OPwc921xpDsFpYLYkwctLoWq
-        auphys0BW5RHKCDSbUkF/LO/jjJpAI5u1A==
-X-Google-Smtp-Source: AGRyM1tmoehH1ovNz56iTGd4o9Fa2qWfFERqV5Fo8MD0TQRz2/QQuYQnpuvT9fJueixfo2fLaofsBw==
-X-Received: by 2002:a37:d281:0:b0:6af:24c7:a981 with SMTP id f123-20020a37d281000000b006af24c7a981mr28334921qkj.736.1658404772977;
-        Thu, 21 Jul 2022 04:59:32 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id r6-20020a05620a298600b006a75a0ffc97sm1335467qkp.3.2022.07.21.04.59.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Jul 2022 04:59:32 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-31bf3656517so14269367b3.12;
-        Thu, 21 Jul 2022 04:59:32 -0700 (PDT)
-X-Received: by 2002:a81:6088:0:b0:31e:79fd:3dfa with SMTP id
- u130-20020a816088000000b0031e79fd3dfamr3834563ywb.47.1658404772353; Thu, 21
- Jul 2022 04:59:32 -0700 (PDT)
+        bh=8xWt72opS7dnmJ8mHP3+9HW2y9iSQk9b7ZoobcDm4Fo=;
+        b=feVEKWWACYrcGcGb/3D6uLbTHdPE7YAZuW9X8S9kcMUoojA0lGhDWrp+rmw0FLw0l1
+         D1Q0zaKLwIpgUGbhktvHaIct/MKay6X8CjhJQoSmaxf6tHKtg3Yf0uCEO7Dyiy5zWIgh
+         UGcD5SsVYUNh2DL41ME77xYc9ggKUgs7R1ZDorXIu7yXH5yMFNCyIgMOWARuF9LRg8d4
+         DyoZ5gMBkIuzT5/8RzPqskEtKV6Jvvboz105e5Xre0cXI6lEPyYl/LHY5aTnmwkcMbOJ
+         SropgNAyja83kgJRYBOioXlfiVNul7W2PgdYek3AojRfW+cA8AZZSjSid7MD8Nyu2d4D
+         bQJg==
+X-Gm-Message-State: AJIora8l2WvVNLUVjEMG5LWfhiC7fmcTqAvVZwbQZynFH47HKdsRTh0I
+        Iv/kxVR/MUVqyOGZ85YgLAE+Pfs1FnJg3dhsjRg=
+X-Google-Smtp-Source: AGRyM1vlgVps0LNN1GoPgqOu0USAvL2m80D72J/oPB4gS6U8rbDWP+W4ytNC1/aVqR2pjECq/0ibj9o3dnOvdFMKuiA=
+X-Received: by 2002:a0d:e9c2:0:b0:31d:cb10:62c with SMTP id
+ s185-20020a0de9c2000000b0031dcb10062cmr41945953ywe.24.1658405239265; Thu, 21
+ Jul 2022 05:07:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220718195651.7711-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <20220718195651.7711-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <CAMuHMdV5s-q13pWXs-ki6o5h8=ZMPL11o08YQx1pawe9EUySBA@mail.gmail.com>
  <CA+V-a8tqhiO+WBOzAD40A10K+qtVQ4HE87C9PKVpoFgWkkS54w@mail.gmail.com>
- <CAMuHMdWcj2xv8FrCiTLCVQfWzejONCAv_o-VzAkicLAFNd5gPg@mail.gmail.com> <CA+V-a8uNZ8T6m+nav=UXTFcwtW8o_2dGE2QFMvkhwcUU=Ka42Q@mail.gmail.com>
-In-Reply-To: <CA+V-a8uNZ8T6m+nav=UXTFcwtW8o_2dGE2QFMvkhwcUU=Ka42Q@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 21 Jul 2022 13:59:21 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXRPpr9othmv9xAOx2a8r=pdP0uZw1xFN9Q0noq1zuw8w@mail.gmail.com>
-Message-ID: <CAMuHMdXRPpr9othmv9xAOx2a8r=pdP0uZw1xFN9Q0noq1zuw8w@mail.gmail.com>
+ <CAMuHMdWcj2xv8FrCiTLCVQfWzejONCAv_o-VzAkicLAFNd5gPg@mail.gmail.com>
+ <CA+V-a8uNZ8T6m+nav=UXTFcwtW8o_2dGE2QFMvkhwcUU=Ka42Q@mail.gmail.com> <CAMuHMdXRPpr9othmv9xAOx2a8r=pdP0uZw1xFN9Q0noq1zuw8w@mail.gmail.com>
+In-Reply-To: <CAMuHMdXRPpr9othmv9xAOx2a8r=pdP0uZw1xFN9Q0noq1zuw8w@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 21 Jul 2022 13:06:51 +0100
+Message-ID: <CA+V-a8v_Ap404DdXXkA1SU-02s2Y6i+r6psb--MzXOPWOss9nA@mail.gmail.com>
 Subject: Re: [PATCH 5/5] arm64: dts: renesas: rzg2l-smarc-som: Add PHY
  interrupt support for ETH{0/1}
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -66,79 +69,92 @@ Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Geert,
 
-On Thu, Jul 21, 2022 at 1:55 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Thu, Jul 21, 2022 at 12:43 PM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
-> > On Thu, Jul 21, 2022 at 1:07 PM Lad, Prabhakar
-> > <prabhakar.csengg@gmail.com> wrote:
-> > > On Thu, Jul 21, 2022 at 11:47 AM Geert Uytterhoeven
-> > > <geert@linux-m68k.org> wrote:
-> > > > On Mon, Jul 18, 2022 at 9:57 PM Lad Prabhakar
-> > > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > > > The PHY interrupt (INT_N) pin is connected to IRQ2 and IRQ3 for ETH0
-> > > > > and ETH1 respectively.
-> > > > >
-> > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > Thanks for your patch!
-> > > >
-> > > > > --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-> > > > > +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-> > > > > @@ -94,6 +94,8 @@ phy0: ethernet-phy@7 {
-> > > > >                 compatible = "ethernet-phy-id0022.1640",
-> > > > >                              "ethernet-phy-ieee802.3-c22";
-> > > > >                 reg = <7>;
-> > > > > +               interrupt-parent = <&irqc>;
-> > > > > +               interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
-> > > >
-> > > > 2?
-> > > >
-> > > IRQ2 = SPI 3, the driver expects the SPI number and is used as index
-> > > [0] to map the interrupt in the GIC.
-> > >
-> > > [0] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/irqchip/irq-renesas-rzg2l.c?h=next-20220720#n291
-> >
-> > Using the SPI number sounds strange to me, as the consumer
-> > (Ethernet PHY) is linked to the IRQC, not to the GIC directly.
-> >
-> Right, are you suggesting that I tweak the driver? The other problem
-> is how do we differentiate NMI and IRQ0? How about we add macros for
-> IRQ0-7 and use them in the DTS?
+On Thu, Jul 21, 2022 at 12:59 PM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
 >
-> > > > "The first cell should contain external interrupt number (IRQ0-7)"
+> Hi Prabhakar,
+>
+> On Thu, Jul 21, 2022 at 1:55 PM Lad, Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+> > On Thu, Jul 21, 2022 at 12:43 PM Geert Uytterhoeven
+> > <geert@linux-m68k.org> wrote:
+> > > On Thu, Jul 21, 2022 at 1:07 PM Lad, Prabhakar
+> > > <prabhakar.csengg@gmail.com> wrote:
+> > > > On Thu, Jul 21, 2022 at 11:47 AM Geert Uytterhoeven
+> > > > <geert@linux-m68k.org> wrote:
+> > > > > On Mon, Jul 18, 2022 at 9:57 PM Lad Prabhakar
+> > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > > > > > The PHY interrupt (INT_N) pin is connected to IRQ2 and IRQ3 for ETH0
+> > > > > > and ETH1 respectively.
+> > > > > >
+> > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > >
+> > > > > Thanks for your patch!
+> > > > >
+> > > > > > --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
+> > > > > > +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
+> > > > > > @@ -94,6 +94,8 @@ phy0: ethernet-phy@7 {
+> > > > > >                 compatible = "ethernet-phy-id0022.1640",
+> > > > > >                              "ethernet-phy-ieee802.3-c22";
+> > > > > >                 reg = <7>;
+> > > > > > +               interrupt-parent = <&irqc>;
+> > > > > > +               interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
+> > > > >
+> > > > > 2?
+> > > > >
+> > > > IRQ2 = SPI 3, the driver expects the SPI number and is used as index
+> > > > [0] to map the interrupt in the GIC.
 > > > >
-> > > Probably I need to reword this to "The first cell should contain the
-> > > SPI number for IRQ0-7/NMI interrupt lines" ?
+> > > > [0] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/irqchip/irq-renesas-rzg2l.c?h=next-20220720#n291
+> > >
+> > > Using the SPI number sounds strange to me, as the consumer
+> > > (Ethernet PHY) is linked to the IRQC, not to the GIC directly.
+> > >
+> > Right, are you suggesting that I tweak the driver? The other problem
+> > is how do we differentiate NMI and IRQ0? How about we add macros for
+> > IRQ0-7 and use them in the DTS?
 > >
-> > Oh, so zero is the NMI?
-> > And 1-8 are IRQ0-7.
-> >
-> Yes that's right.
+> > > > > "The first cell should contain external interrupt number (IRQ0-7)"
+> > > > >
+> > > > Probably I need to reword this to "The first cell should contain the
+> > > > SPI number for IRQ0-7/NMI interrupt lines" ?
+> > >
+> > > Oh, so zero is the NMI?
+> > > And 1-8 are IRQ0-7.
+> > >
+> > Yes that's right.
+>
+> I don't think it was ever mentioned that the NMI was exposed, too.
+>
+Sorry for not making this clearer.
 
-I don't think it was ever mentioned that the NMI was exposed, too.
+> Using macros sounds fine to me.
+>
+Ok, I will send a v2 (just this patch alone) with the macros added as
+a separate patch in rzg2l-pinctrl.h?
 
-Using macros sounds fine to me.
+Cheers,
+Prabhakar
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
