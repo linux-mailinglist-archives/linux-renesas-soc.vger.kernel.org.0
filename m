@@ -2,62 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49DEF57C804
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jul 2022 11:48:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 675F057C82F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jul 2022 11:55:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229643AbiGUJsY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Jul 2022 05:48:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47782 "EHLO
+        id S229663AbiGUJzN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Jul 2022 05:55:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232723AbiGUJsX (ORCPT
+        with ESMTP id S232698AbiGUJzM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Jul 2022 05:48:23 -0400
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69EF4814BB;
-        Thu, 21 Jul 2022 02:48:22 -0700 (PDT)
-Received: by mail-qt1-f174.google.com with SMTP id bz13so850090qtb.7;
-        Thu, 21 Jul 2022 02:48:22 -0700 (PDT)
+        Thu, 21 Jul 2022 05:55:12 -0400
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB63B2ACB;
+        Thu, 21 Jul 2022 02:55:09 -0700 (PDT)
+Received: by mail-qt1-f177.google.com with SMTP id l14so869397qtv.4;
+        Thu, 21 Jul 2022 02:55:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wchHtA49Te9pgMLTq242fYyxarLoAUJKA1I+eK8RJzE=;
-        b=pS3EknnTQImKqPeY+Zs9rw0nNbrKq+D1bpW/Q+KaxdPUZfFYP7xcPOx/UWfiJQbcSX
-         Kqs5g8hJdkHtq9Qq088gg9iVvtZDuo0/caxkLdCpyt7yyi+vqUjCtzXKGfJtuKEc4Y+r
-         AEaFVI5EyzhBE3qV1ka1zLcHtZwNV8hJUF4t4g+qPy6fupShwvr3jZM/iSS962tjXP8G
-         uKCjoCfPjfkwX1at6OrY1haikcK6ISiIxQi4f3rkU9lM8OIjd3XUe+gztYpiWdiUDZiv
-         zToqhcUcIDDMMG4LJzOSrG+3hKNY55jNJ7x+bjXvxhEymaiTcm6+TqnFNZiYDd0o4sOe
-         EpBA==
-X-Gm-Message-State: AJIora/CEe2bAOCqtDLGOYZ3jloBPunrmRCB0gIASDC25VLkvdMUjXJm
-        Q+R2jtfboH5bgcyUtfLfHxC4+v6WNtXsEA==
-X-Google-Smtp-Source: AGRyM1sB/VBJ1qfsYVdfAFXObw7CbM9HAl9UUSg3QI2u4bfQtR85b9EIt1K7sKF64ZGRNdTHNt/JfA==
-X-Received: by 2002:a05:622a:1207:b0:318:e9f0:fc64 with SMTP id y7-20020a05622a120700b00318e9f0fc64mr32843510qtx.218.1658396901363;
-        Thu, 21 Jul 2022 02:48:21 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id t28-20020a37ea1c000000b006b58d8f6181sm1152790qkj.72.2022.07.21.02.48.20
+        bh=qWg5wy/YCcBAB7ojxq/3p5ugY5Ap/K3ukl7WCYLvhLM=;
+        b=OUtbFfQpYGOiG6iEpyh27XG78RdQ45HKtHrCR0OtHfd03hcaxv3vnM8B+fMiJ1vB+4
+         6+61opjOkiLdMyspnkweNKeIzv5HC41DJ/jCzZBT+HwT90JbN2lxOlYwNgtD6hJuiQZt
+         7fUOKWT58S0QSmBdyapzT01kWwmj3o9VIxIhnWK9jV8B1DfUK2gCoT6SoMsjhEEseTEM
+         GAUBiQ2ulns6kZfLD8PAsvxFFEbDB/8ZI0DoYdNQjWRYPhfg3jEFoqoMsrIDcaeZnCFU
+         zF/jrQmQl7JHhB7tZs2i7X7f8zd8d3boV7hfM/aK6NIZcNnZwnhmVlksFQ56hBr1ijzK
+         bfNA==
+X-Gm-Message-State: AJIora/moltXXED2DZmMfPIMb688dUqKZ575Lxvw2nwg9IsIDRhxSSKn
+        k5ye9KxnuAlQPSmeVBlmw3h5dT9kg5zwdg==
+X-Google-Smtp-Source: AGRyM1vLNCeU4dCts9JNa6sOAFjF3R+OLEolpp41ArRGBe/eYj0EzBjtM1fFmD61epP6vBmQfN2CHw==
+X-Received: by 2002:a05:622a:5d4:b0:31e:e357:f843 with SMTP id d20-20020a05622a05d400b0031ee357f843mr20018467qtb.588.1658397308782;
+        Thu, 21 Jul 2022 02:55:08 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id w38-20020a05622a192600b0031bba2e05aesm1012733qtc.58.2022.07.21.02.55.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Jul 2022 02:48:21 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-31e67c46ba2so11482127b3.2;
-        Thu, 21 Jul 2022 02:48:20 -0700 (PDT)
-X-Received: by 2002:a81:84c1:0:b0:31e:4e05:e4f4 with SMTP id
- u184-20020a8184c1000000b0031e4e05e4f4mr16096615ywf.384.1658396900544; Thu, 21
- Jul 2022 02:48:20 -0700 (PDT)
+        Thu, 21 Jul 2022 02:55:08 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 64so1870576ybt.12;
+        Thu, 21 Jul 2022 02:55:07 -0700 (PDT)
+X-Received: by 2002:a25:f06:0:b0:670:1685:d31d with SMTP id
+ 6-20020a250f06000000b006701685d31dmr22243872ybp.380.1658397307407; Thu, 21
+ Jul 2022 02:55:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220719150000.383722-1-biju.das.jz@bp.renesas.com> <20220719150000.383722-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220719150000.383722-2-biju.das.jz@bp.renesas.com>
+References: <20220719150000.383722-1-biju.das.jz@bp.renesas.com> <CAMuHMdVoU4LHiZmxM_DsGz5kMFAbRzvwJwtkcgCKp3SBtYW6ww@mail.gmail.com>
+In-Reply-To: <CAMuHMdVoU4LHiZmxM_DsGz5kMFAbRzvwJwtkcgCKp3SBtYW6ww@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 21 Jul 2022 11:48:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWvyF3L=V+C9k_XqnyZyyUdCZ8nZD90d4uWPx8vh3MWHA@mail.gmail.com>
-Message-ID: <CAMuHMdWvyF3L=V+C9k_XqnyZyyUdCZ8nZD90d4uWPx8vh3MWHA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] spi: spi-rspi: Add need_dmar_clr to spi_ops
+Date:   Thu, 21 Jul 2022 11:54:56 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXE36V9dB9C4UmoYnfiYLp-u2XM0fdSwmQpB1DgGoBthA@mail.gmail.com>
+Message-ID: <CAMuHMdXE36V9dB9C4UmoYnfiYLp-u2XM0fdSwmQpB1DgGoBthA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dmaengine: sh: rz-dmac: Add device_synchronize callback
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
+Cc:     Vinod Koul <vkoul@kernel.org>,
+        Colin Ian King <colin.king@intel.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -72,61 +74,46 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-On Tue, Jul 19, 2022 at 5:00 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> RSPI IP on RZ/{A, G2L} SoC's has the same signal for both interrupt and
-> DMA transfer request. Setting DMARS register for DMA transfer
-> makes the signal to work as a DMA transfer request signal and
-> subsequent interrupt requests to the interrupt controller
-> are masked.
+On Thu, Jul 21, 2022 at 11:47 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+> On Tue, Jul 19, 2022 at 5:00 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Some on-chip peripheral modules(for eg:- rspi) on RZ/G2L SoC
+> > use the same signal for both interrupt and DMA transfer requests.
+> > The signal works as a DMA transfer request signal by setting
+> > DMARS, and subsequent interrupt requests to the interrupt controller
+> > are masked.
+> >
+> > We can enable the interrupt by clearing the DMARS.
 >
-> Currently, DMA to interrupt mode switching does not work because of this
-> masking.
+> re-enable?
 >
-> This patch adds need_dmar_clr device configuration flag to spi_ops
-> and it makes the signal to work as an interrupt request by clearing
-> DMARS after DMA callback.
+> >
+> > This patch adds device_synchronize callback for clearing
+> > DMARS and thereby allowing DMA consumers to switch to
+> > DMA mode.
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * Fixed the typo need_dmar_clr->rspi->ops->need_dmar_clr.
-
-Thanks for your patch!
-
-> --- a/drivers/spi/spi-rspi.c
-> +++ b/drivers/spi/spi-rspi.c
-> @@ -249,6 +249,7 @@ struct spi_ops {
->         u16 flags;
->         u16 fifo_size;
->         u8 num_hw_ss;
-> +       bool need_dmar_clr;
-
-Do you need this flag? See below.
-
->  };
+> interrupt mode
 >
->  static void rspi_set_rate(struct rspi_data *rspi)
-> @@ -613,6 +614,12 @@ static int rspi_dma_transfer(struct rspi_data *rspi, struct sg_table *tx,
->                                                rspi->dma_callbacked, HZ);
->         if (ret > 0 && rspi->dma_callbacked) {
->                 ret = 0;
-> +               if (rspi->ops->need_dmar_clr) {
-> +                       if (tx)
-> +                               dmaengine_synchronize(rspi->ctlr->dma_tx);
-> +                       if (rx)
-> +                               dmaengine_synchronize(rspi->ctlr->dma_rx);
-> +               }
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> > v1->v2:
+> >  * No change
+>
+> With the above fixed:
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Why not call it unconditionally?
-If the DMAC driver does not provide a .device_synchronize(), it is
-a no-op anyway.
+> > +static void rz_dmac_device_synchronize(struct dma_chan *chan)
+> > +{
+> > +       struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
+> > +       struct rz_dmac *dmac = to_rz_dmac(chan->device);
+> > +
 
-BTW, I don't think there is a hard dependency on patch 1/2, so
-I think this patch can go in through the SPI tree.
+Actually this should check if the DMA operation has been completed
+or terminated, and wait (sleep) if needed.
 
->         } else {
->                 if (!ret) {
->                         dev_err(&rspi->ctlr->dev, "DMA timeout\n");
+> > +       rz_dmac_set_dmars_register(dmac, channel->index, 0);
+> > +}
 
 Gr{oetje,eeting}s,
 
