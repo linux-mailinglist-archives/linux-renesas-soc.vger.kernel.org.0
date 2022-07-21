@@ -2,149 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CBF657D0BE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jul 2022 18:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34D1F57D12F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jul 2022 18:14:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230061AbiGUQJs convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Jul 2022 12:09:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37828 "EHLO
+        id S233774AbiGUQOv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Jul 2022 12:14:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbiGUQJr (ORCPT
+        with ESMTP id S230169AbiGUQOc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Jul 2022 12:09:47 -0400
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F34C71CB35;
-        Thu, 21 Jul 2022 09:09:46 -0700 (PDT)
-Received: by mail-qv1-f54.google.com with SMTP id y18so1499539qvo.11;
-        Thu, 21 Jul 2022 09:09:46 -0700 (PDT)
+        Thu, 21 Jul 2022 12:14:32 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C788689AA0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Jul 2022 09:14:17 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id u19so3616100lfs.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Jul 2022 09:14:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rJQDQj7m+tyNPXHcfFnOBMZFI7j1KvI1pewW3EgoUmk=;
+        b=C0TNNg4/JdD41kHfZTuWDjQI6Bgbb9ZQVuf25P9O06dyd0kmUHcJ3RTR66cPyuik37
+         49836HRT6CVYi62Nxph6W2ovBTgPZ6yyMGfoqbNbyDE9OQvPofHzwNwiMAS+Rq0DrTq1
+         Ad48MUJ1H8nD6FkXuW16/PLmAjA4GKv/eM3sAwduiky1b2pHUn4KDxD0gE4+FiveY2Br
+         FCTPXuni2tZKwq8PTUSQ03tR+V47FvcDx2DjXEtuEbOyfphL+aHxzCQEWMHS8zyN/yD5
+         fIj4TblrOlpvRvsMmtNGs/3zKURQRXnMwa9rZRAnEZSWjnzlahS7cP1uolHRgKMt307s
+         WNKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=iZhX9BXmhapBYhh7KlsStxCLgDjnJhYWOhB5MjqD2i0=;
-        b=vX473uiXeTw4Q8ErgQ3mFJytOjo6wt8vZMLUxVRyUUAiHO4zNT0zkjgwtI9SxN9IVa
-         yAkFFm6GWQbsT8K8YLwAEJWFrQGch2kuf2fiILaZADmiUj46hAb8uqwgP/cFmgVfna8Y
-         Ir+VBnT2oNqDbBtJu2TeoTuBjc9KyNx2BMmrrCacXEknOz6ZBx+9H3YoKh5kJo4TYWmU
-         QFvKJqyDGuTfvUucDefI84YwHWp5BQ2ZHCWBQSspnN8OG2IdscEH1iOVRLpfJG3nf8Tj
-         stJ07PHVFKGXDsdl33PrEMivA7XaIG8d/IagIG2RHOABwBK3Eco4iVa/K3q+4X8EzePx
-         /lXw==
-X-Gm-Message-State: AJIora8lbAfmAwstedlTSYghNTTssPgV8KZtY+u0B6MV/Cp/jIwVU+89
-        9l95ybA/XD5D9PYJdfy9QZTfYsh8eazJng==
-X-Google-Smtp-Source: AGRyM1sWJk7jmGkHsWMW6D32D799xpurxZ3QJXXd2hlXQdpcfPtF5f2vrATLYdjN0ToUnGkw+2JMvA==
-X-Received: by 2002:a05:6214:21a7:b0:473:1671:9fba with SMTP id t7-20020a05621421a700b0047316719fbamr34359515qvc.62.1658419785859;
-        Thu, 21 Jul 2022 09:09:45 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id bq20-20020a05622a1c1400b00304efba3d84sm1416538qtb.25.2022.07.21.09.09.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Jul 2022 09:09:44 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-31bf3656517so22150067b3.12;
-        Thu, 21 Jul 2022 09:09:44 -0700 (PDT)
-X-Received: by 2002:a0d:c787:0:b0:31b:a963:e1de with SMTP id
- j129-20020a0dc787000000b0031ba963e1demr46025549ywd.283.1658419784329; Thu, 21
- Jul 2022 09:09:44 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=rJQDQj7m+tyNPXHcfFnOBMZFI7j1KvI1pewW3EgoUmk=;
+        b=umCG920jbSfG9kUrtddTk+2d2vFdCMcCSQqB+onqe+shRxBm5YfvCD6V6QW8RdxKK5
+         OwTx6Cn7QFOW075zLsUZ/9pWIs49JbvIb7Cy0vtdOjehnrxy0isTQeoWvoY49vi71F1Y
+         EQZzSahuctkBWSIANLzhWOgUVMAauNKHqBNl3pmcqAd2zhJbr4OQXTCZ6ID8raIhnL8t
+         z+KqWvAP+FtY+Fi/AcYw8uzjgLhILzzaUtcyJhEV+zZ/gIQwi00g0e4RlFUAIYZH7TFm
+         uNHSu/kCv9/SsT1pCJhGb+o1IBzpW1w3SIdGo3b2l8ZzPWavoCJ93iQcYkRoZY/fVYIb
+         XHVg==
+X-Gm-Message-State: AJIora+pPZQu1Uh6dBy1f4tIW/LUfgZGy1w8nJcQuZ4gRMkizvnhNBOb
+        jTcJruuwj8KRL17e61oUgwU+JpcBFPezaHjo5O0SUw==
+X-Google-Smtp-Source: AGRyM1seh2sk5juA2taeKbmqAwBN/7F97Mr1KwGGyCxEJxMFOW5MVAXbbRpvUkGD4Eow4JJyeH+8OItn/H+udjp6Jt0=
+X-Received: by 2002:a05:6512:15a8:b0:489:ed48:24 with SMTP id
+ bp40-20020a05651215a800b00489ed480024mr21603488lfb.184.1658420038432; Thu, 21
+ Jul 2022 09:13:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220721144708.880293-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdVgXA2T0bcxuVUaDW2jeh7tmjEaXroqf8hkeSVmNc2ZcA@mail.gmail.com> <OS0PR01MB5922D9885E8C485DF4FB9D8286919@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922D9885E8C485DF4FB9D8286919@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 21 Jul 2022 18:09:33 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVXdm6e6HveWfYA65_gnLg7f3cUaOpramsFL_wCudMM+Q@mail.gmail.com>
-Message-ID: <CAMuHMdVXdm6e6HveWfYA65_gnLg7f3cUaOpramsFL_wCudMM+Q@mail.gmail.com>
-Subject: Re: [PATCH v3] dmaengine: sh: rz-dmac: Add device_synchronize callback
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Colin Ian King <colin.king@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20220720072901.1266-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220720072901.1266-1-wsa+renesas@sang-engineering.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 21 Jul 2022 18:13:21 +0200
+Message-ID: <CAPDyKFqy07jd5VozRN_H6ANnEjoykKpQk2j6iESKLK8enEOKtA@mail.gmail.com>
+Subject: Re: [PATCH] mmc: renesas_sdhi: newer SoCs don't need manual tap correction
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Takeshi Saito <takeshi.saito.xv@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
-
-On Thu, Jul 21, 2022 at 6:06 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH v3] dmaengine: sh: rz-dmac: Add device_synchronize
-> > callback
-> >
-> > On Thu, Jul 21, 2022 at 4:49 PM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > > Some on-chip peripheral modules(for eg:- rspi) on RZ/G2L SoC use the
-> > > same signal for both interrupt and DMA transfer requests.
-> > > The signal works as a DMA transfer request signal by setting DMARS,
-> > > and subsequent interrupt requests to the interrupt controller are
-> > > masked.
-> > >
-> > > We can re-enable the interrupt by clearing the DMARS.
-> > >
-> > > This patch adds device_synchronize callback for clearing DMARS and
-> > > thereby allowing DMA consumers to switch to interrupt mode.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > v2->v3:
-> > >  * Fixed commit description
-> > >  * Added check if the DMA operation has been completed or terminated,
-> > >    and wait (sleep) if needed.
-> >
-> > Thanks for the uodate!
-> >
-> > > --- a/drivers/dma/sh/rz-dmac.c
-> > > +++ b/drivers/dma/sh/rz-dmac.c
-> > > @@ -12,6 +12,7 @@
-> > >  #include <linux/dma-mapping.h>
-> > >  #include <linux/dmaengine.h>
-> > >  #include <linux/interrupt.h>
-> > > +#include <linux/iopoll.h>
-> > >  #include <linux/list.h>
-> > >  #include <linux/module.h>
-> > >  #include <linux/of.h>
-> > > @@ -630,6 +631,21 @@ static void rz_dmac_virt_desc_free(struct
-> > virt_dma_desc *vd)
-> > >          */
-> > >  }
-> > >
-> > > +static void rz_dmac_device_synchronize(struct dma_chan *chan) {
-> > > +       struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
-> > > +       struct rz_dmac *dmac = to_rz_dmac(chan->device);
-> > > +       u32 chstat;
-> > > +       int ret;
-> > > +
-> > > +       ret = read_poll_timeout(rz_dmac_ch_readl, chstat, !(chstat &
-> > CHSTAT_EN),
-> > > +                               10, 1000, false, channel, CHSTAT, 1);
-> >
-> > Isn't 1000 µs = 1 ms a bit short?
-> > IIUIC, I can submit a DMA operation for transfering a 64 KiB (or larger)
-> > block, and call dmaengine_synchronize() immediately after that?
+On Wed, 20 Jul 2022 at 09:29, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
 >
-> Will increase to 100 msec?? is it ok?
+> From: Takeshi Saito <takeshi.saito.xv@renesas.com>
+>
+> The newest Gen3 SoCs and Gen4 SoCs do not need manual tap correction
+> with HS400 anymore. So, instead of checking the SDHI version, add a
+> quirk flag and set manual tap correction only for affected SoCs.
+>
+> Signed-off-by: Takeshi Saito <takeshi.saito.xv@renesas.com>
+> [wsa: rebased, renamed the quirk variable, removed stale comment]
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Probably.  As this is a sleeping wait, it doesn't hurt to be conservative.
-Do you know what's the maximum transfer size/maximum time a DMA
-transfer could take?
+Applied for next, thanks!
 
-Gr{oetje,eeting}s,
+Kind regards
+Uffe
 
-                        Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+>  drivers/mmc/host/renesas_sdhi.h               | 1 +
+>  drivers/mmc/host/renesas_sdhi_core.c          | 5 ++---
+>  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 6 ++++++
+>  3 files changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
+> index 1a1e3e020a8c..c4abfee1ebae 100644
+> --- a/drivers/mmc/host/renesas_sdhi.h
+> +++ b/drivers/mmc/host/renesas_sdhi.h
+> @@ -43,6 +43,7 @@ struct renesas_sdhi_quirks {
+>         bool hs400_4taps;
+>         bool fixed_addr_mode;
+>         bool dma_one_rx_only;
+> +       bool manual_tap_correction;
+>         u32 hs400_bad_taps;
+>         const u8 (*hs400_calib_table)[SDHI_CALIB_TABLE_MAX];
+>  };
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+> index 55f7b27c3de7..6edbf5c161ab 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -380,8 +380,7 @@ static void renesas_sdhi_hs400_complete(struct mmc_host *mmc)
+>         sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_DT2FF,
+>                        priv->scc_tappos_hs400);
+>
+> -       /* Gen3 can't do automatic tap correction with HS400, so disable it */
+> -       if (sd_ctrl_read16(host, CTL_VERSION) == SDHI_VER_GEN3_SDMMC)
+> +       if (priv->quirks && priv->quirks->manual_tap_correction)
+>                 sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_RVSCNTL,
+>                                ~SH_MOBILE_SDHI_SCC_RVSCNTL_RVSEN &
+>                                sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_RVSCNTL));
+> @@ -718,7 +717,7 @@ static bool renesas_sdhi_manual_correction(struct tmio_mmc_host *host, bool use_
+>         sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_RVSREQ, 0);
+>
+>         /* Change TAP position according to correction status */
+> -       if (sd_ctrl_read16(host, CTL_VERSION) == SDHI_VER_GEN3_SDMMC &&
+> +       if (priv->quirks && priv->quirks->manual_tap_correction &&
+>             host->mmc->ios.timing == MMC_TIMING_MMC_HS400) {
+>                 u32 bad_taps = priv->quirks ? priv->quirks->hs400_bad_taps : 0;
+>                 /*
+> diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> index 0ccdbe3010ee..42937596c4c4 100644
+> --- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> +++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> @@ -170,6 +170,7 @@ static const struct renesas_sdhi_quirks sdhi_quirks_4tap_nohs400_one_rx = {
+>  static const struct renesas_sdhi_quirks sdhi_quirks_4tap = {
+>         .hs400_4taps = true,
+>         .hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
+> +       .manual_tap_correction = true,
+>  };
+>
+>  static const struct renesas_sdhi_quirks sdhi_quirks_nohs400 = {
+> @@ -182,25 +183,30 @@ static const struct renesas_sdhi_quirks sdhi_quirks_fixed_addr = {
+>
+>  static const struct renesas_sdhi_quirks sdhi_quirks_bad_taps1357 = {
+>         .hs400_bad_taps = BIT(1) | BIT(3) | BIT(5) | BIT(7),
+> +       .manual_tap_correction = true,
+>  };
+>
+>  static const struct renesas_sdhi_quirks sdhi_quirks_bad_taps2367 = {
+>         .hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
+> +       .manual_tap_correction = true,
+>  };
+>
+>  static const struct renesas_sdhi_quirks sdhi_quirks_r8a7796_es13 = {
+>         .hs400_4taps = true,
+>         .hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
+>         .hs400_calib_table = r8a7796_es13_calib_table,
+> +       .manual_tap_correction = true,
+>  };
+>
+>  static const struct renesas_sdhi_quirks sdhi_quirks_r8a77965 = {
+>         .hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
+>         .hs400_calib_table = r8a77965_calib_table,
+> +       .manual_tap_correction = true,
+>  };
+>
+>  static const struct renesas_sdhi_quirks sdhi_quirks_r8a77990 = {
+>         .hs400_calib_table = r8a77990_calib_table,
+> +       .manual_tap_correction = true,
+>  };
+>
+>  /*
+> --
+> 2.35.1
+>
