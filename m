@@ -2,126 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 675F057C82F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jul 2022 11:55:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 009C157C86E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jul 2022 12:01:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbiGUJzN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Jul 2022 05:55:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53348 "EHLO
+        id S233005AbiGUKA7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Jul 2022 06:00:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232698AbiGUJzM (ORCPT
+        with ESMTP id S233029AbiGUKA3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Jul 2022 05:55:12 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB63B2ACB;
-        Thu, 21 Jul 2022 02:55:09 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id l14so869397qtv.4;
-        Thu, 21 Jul 2022 02:55:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qWg5wy/YCcBAB7ojxq/3p5ugY5Ap/K3ukl7WCYLvhLM=;
-        b=OUtbFfQpYGOiG6iEpyh27XG78RdQ45HKtHrCR0OtHfd03hcaxv3vnM8B+fMiJ1vB+4
-         6+61opjOkiLdMyspnkweNKeIzv5HC41DJ/jCzZBT+HwT90JbN2lxOlYwNgtD6hJuiQZt
-         7fUOKWT58S0QSmBdyapzT01kWwmj3o9VIxIhnWK9jV8B1DfUK2gCoT6SoMsjhEEseTEM
-         GAUBiQ2ulns6kZfLD8PAsvxFFEbDB/8ZI0DoYdNQjWRYPhfg3jEFoqoMsrIDcaeZnCFU
-         zF/jrQmQl7JHhB7tZs2i7X7f8zd8d3boV7hfM/aK6NIZcNnZwnhmVlksFQ56hBr1ijzK
-         bfNA==
-X-Gm-Message-State: AJIora/moltXXED2DZmMfPIMb688dUqKZ575Lxvw2nwg9IsIDRhxSSKn
-        k5ye9KxnuAlQPSmeVBlmw3h5dT9kg5zwdg==
-X-Google-Smtp-Source: AGRyM1vLNCeU4dCts9JNa6sOAFjF3R+OLEolpp41ArRGBe/eYj0EzBjtM1fFmD61epP6vBmQfN2CHw==
-X-Received: by 2002:a05:622a:5d4:b0:31e:e357:f843 with SMTP id d20-20020a05622a05d400b0031ee357f843mr20018467qtb.588.1658397308782;
-        Thu, 21 Jul 2022 02:55:08 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id w38-20020a05622a192600b0031bba2e05aesm1012733qtc.58.2022.07.21.02.55.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Jul 2022 02:55:08 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 64so1870576ybt.12;
-        Thu, 21 Jul 2022 02:55:07 -0700 (PDT)
-X-Received: by 2002:a25:f06:0:b0:670:1685:d31d with SMTP id
- 6-20020a250f06000000b006701685d31dmr22243872ybp.380.1658397307407; Thu, 21
- Jul 2022 02:55:07 -0700 (PDT)
+        Thu, 21 Jul 2022 06:00:29 -0400
+Received: from ssl.serverraum.org (ssl.serverraum.org [IPv6:2a01:4f8:151:8464::1:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 355D395A8
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Jul 2022 03:00:28 -0700 (PDT)
+Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ssl.serverraum.org (Postfix) with ESMTPSA id 900CE22248;
+        Thu, 21 Jul 2022 12:00:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
+        t=1658397626;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=v2W2nucsH56c4FQn1IU47owA/fk5A66k5whSo+WIdAY=;
+        b=slgCREFYcphjLyvOjX8eVrfmuGLiN6G7rE0oz0OJbd7Zw2JikGjiahDnH5964u1QhMU3TQ
+        EzeMVKc9GUmdv57TREX8SLj14bVxKJ+WC87V8jROkZqr6j9YYX8bPy/ZWaJJwMX02ovf4u
+        ntd31h3jagxxEpTWqtrw83khUKb3hQA=
 MIME-Version: 1.0
-References: <20220719150000.383722-1-biju.das.jz@bp.renesas.com> <CAMuHMdVoU4LHiZmxM_DsGz5kMFAbRzvwJwtkcgCKp3SBtYW6ww@mail.gmail.com>
-In-Reply-To: <CAMuHMdVoU4LHiZmxM_DsGz5kMFAbRzvwJwtkcgCKp3SBtYW6ww@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 21 Jul 2022 11:54:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXE36V9dB9C4UmoYnfiYLp-u2XM0fdSwmQpB1DgGoBthA@mail.gmail.com>
-Message-ID: <CAMuHMdXE36V9dB9C4UmoYnfiYLp-u2XM0fdSwmQpB1DgGoBthA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dmaengine: sh: rz-dmac: Add device_synchronize callback
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Thu, 21 Jul 2022 12:00:25 +0200
+From:   Michael Walle <michael@walle.cc>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Colin Ian King <colin.king@intel.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Tudor.Ambarus@microchip.com, p.yadav@ti.com,
+        miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+        Nicolas.Ferre@microchip.com, alexandre.belloni@bootlin.com,
+        Claudiu.Beznea@microchip.com, linux-mtd@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, geert+renesas@glider.be,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        biju.das@bp.renesas.com,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] mtd: spi-nor: Add Renesas AT25QL128A serial nor
+ flash
+In-Reply-To: <OS0PR01MB59221FE257A0E06F225AB6B686919@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20220715105716.2415068-1-biju.das.jz@bp.renesas.com>
+ <20220715105716.2415068-3-biju.das.jz@bp.renesas.com>
+ <7aa7de93-23f0-c94a-bfc3-e79321cdc1f9@microchip.com>
+ <OS0PR01MB5922F0D52EACD4686768117686919@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <785e50c4-3c8c-a1a6-de60-4587aef820a8@microchip.com>
+ <OS0PR01MB59221FE257A0E06F225AB6B686919@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <dbf2931656904b9b5e18702f27a11b1a@walle.cc>
+X-Sender: michael@walle.cc
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Am 2022-07-21 11:46, schrieb Biju Das:
 
-On Thu, Jul 21, 2022 at 11:47 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Tue, Jul 19, 2022 at 5:00 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Some on-chip peripheral modules(for eg:- rspi) on RZ/G2L SoC
-> > use the same signal for both interrupt and DMA transfer requests.
-> > The signal works as a DMA transfer request signal by setting
-> > DMARS, and subsequent interrupt requests to the interrupt controller
-> > are masked.
-> >
-> > We can enable the interrupt by clearing the DMARS.
->
-> re-enable?
->
-> >
-> > This patch adds device_synchronize callback for clearing
-> > DMARS and thereby allowing DMA consumers to switch to
-> > DMA mode.
->
-> interrupt mode
->
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> > v1->v2:
-> >  * No change
->
-> With the above fixed:
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> > root@smarc-rzg2ul:~#
 
-> > +static void rz_dmac_device_synchronize(struct dma_chan *chan)
-> > +{
-> > +       struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
-> > +       struct rz_dmac *dmac = to_rz_dmac(chan->device);
-> > +
+nice a smarc board :)
 
-Actually this should check if the DMA operation has been completed
-or terminated, and wait (sleep) if needed.
 
-> > +       rz_dmac_set_dmars_register(dmac, channel->index, 0);
-> > +}
+>> >
+>> > root@smarc-rzg2ul:~# cat
+>> > /sys/devices/platform/soc/10060000.spi/rpc-if-spi/spi_master/spi1/spi1
+>> > .0/spi-nor/manufacturer
+>> > cat:
+>> > /sys/devices/platform/soc/10060000.spi/rpc-if-spi/spi_master/spi1/spi1
+>> > .0/spi-nor/manufacturer: No such file or directory
+>> >
+>> > This result is not matching atmel-> cat:
+>> > /sys/devices/platform/soc/10060000.spi/rpc-if-spi/spi_master/spi1/spi1
+>> > .0/spi-nor/manufacturer: No such file or directory
+>> 
+>> here we could introduce a generic name as well.
+> 
+> OK.
+> 
+> Michael: Do you have any plan to add generic name for manufacturer
+> as completeness?
 
-Gr{oetje,eeting}s,
+Why would we need that one? There is no manufacturer. So I don't
+see why we should add a fake one. The partname is debatable, too.
+IMHO if we really want to get rid of the "dummy" tables in the kernel,
+the userspace (mtdutils for example) could parse the jedec id and
+sfdp and find the manufacturer and partnumer. But TBH, I don't know
+if that is really an important information.
 
-                        Geert
+Implementation wise, right now, it's quite a hack how the
+manufacturer is set. It gets already set early in
+spi_nor_match_name(), while the actual flash info will get set
+later in the call chain.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-michael
