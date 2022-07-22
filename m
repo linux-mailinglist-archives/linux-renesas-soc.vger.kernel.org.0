@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F78C57E2DF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 16:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 084FF57E378
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 17:12:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235368AbiGVOP0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jul 2022 10:15:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47244 "EHLO
+        id S235556AbiGVPMH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jul 2022 11:12:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235302AbiGVOPZ (ORCPT
+        with ESMTP id S229936AbiGVPMG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jul 2022 10:15:25 -0400
+        Fri, 22 Jul 2022 11:12:06 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8F5DC29827;
-        Fri, 22 Jul 2022 07:15:23 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.93,185,1654527600"; 
-   d="scan'208";a="127042277"
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C0EE6951C3;
+        Fri, 22 Jul 2022 08:12:05 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.93,186,1654527600"; 
+   d="scan'208";a="127045513"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 22 Jul 2022 23:15:23 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 23 Jul 2022 00:12:04 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0AD4C43279E4;
-        Fri, 22 Jul 2022 23:15:19 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7B297432D9F0;
+        Sat, 23 Jul 2022 00:12:01 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 2/2] soc: renesas: Identify RZ/Five SoC
-Date:   Fri, 22 Jul 2022 15:15:06 +0100
-Message-Id: <20220722141506.20171-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 0/3] Add PHY interrupt support for ETH{0,1} on RZ/G2L and RZ/V2L SMARC EVK
+Date:   Fri, 22 Jul 2022 16:11:52 +0100
+Message-Id: <20220722151155.21100-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220722141506.20171-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220722141506.20171-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -46,79 +46,44 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for identifying the (R9A07G043) RZ/Five SoC.
+Hi All,
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2
-* Replaced RISCV -> RISCV
-* Reused "renesas,r9a07g043-sysc" string for RZ/Five detection
----
- drivers/soc/renesas/Kconfig       | 10 ++++++++++
- drivers/soc/renesas/renesas-soc.c | 13 +++++++++++++
- 2 files changed, 23 insertions(+)
+This patch series is a subset of [0] as patches 1-4 have been already
+picked up by Geert for v5.21. Patch 1 introduces macros for NMI/IRQ0-7,
+second patch updates the binding doc and the third patch adds PHY
+interrupt support for ETH{0,1}.
 
-diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index 390f52109cb7..f95a1337450d 100644
---- a/drivers/soc/renesas/Kconfig
-+++ b/drivers/soc/renesas/Kconfig
-@@ -333,6 +333,16 @@ config ARCH_R9A09G011
- 
- endif # ARM64
- 
-+if RISCV
-+
-+config ARCH_R9A07G043
-+	bool "RISC-V Platform support for RZ/Five"
-+	select ARCH_RZG2L
-+	help
-+	  This enables support for the Renesas RZ/Five SoC.
-+
-+endif # RISCV
-+
- config RST_RCAR
- 	bool "Reset Controller support for R-Car" if COMPILE_TEST
- 
-diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
-index d171f1b635c7..c0e2c62c76c9 100644
---- a/drivers/soc/renesas/renesas-soc.c
-+++ b/drivers/soc/renesas/renesas-soc.c
-@@ -50,6 +50,10 @@ static const struct renesas_family fam_rza2 __initconst __maybe_unused = {
- 	.name	= "RZ/A2",
- };
- 
-+static const struct renesas_family fam_rzfive __initconst __maybe_unused = {
-+	.name	= "RZ/Five",
-+};
-+
- static const struct renesas_family fam_rzg1 __initconst __maybe_unused = {
- 	.name	= "RZ/G1",
- 	.reg	= 0xff000044,		/* PRR (Product Register) */
-@@ -102,6 +106,11 @@ static const struct renesas_soc soc_rmobile_a1 __initconst __maybe_unused = {
- 	.id	= 0x40,
- };
- 
-+static const struct renesas_soc soc_rz_five __initconst __maybe_unused = {
-+	.family = &fam_rzfive,
-+	.id     = 0x847c447,
-+};
-+
- static const struct renesas_soc soc_rz_g1h __initconst __maybe_unused = {
- 	.family	= &fam_rzg1,
- 	.id	= 0x45,
-@@ -358,8 +367,12 @@ static const struct of_device_id renesas_socs[] __initconst = {
- 	{ .compatible = "renesas,r8a779g0",	.data = &soc_rcar_v4h },
- #endif
- #if defined(CONFIG_ARCH_R9A07G043)
-+#ifdef CONFIG_RISCV
-+	{ .compatible = "renesas,r9a07g043",	.data = &soc_rz_five },
-+#else
- 	{ .compatible = "renesas,r9a07g043",	.data = &soc_rz_g2ul },
- #endif
-+#endif
- #if defined(CONFIG_ARCH_R9A07G044)
- 	{ .compatible = "renesas,r9a07g044",	.data = &soc_rz_g2l },
- #endif
+v2->v3:
+* Added a new file irqc-rzg2l.h to include macros as suggested by
+  Biju and Geert.
+* Updated binding doc
+* Updated rzg2l-smarc-som.dtsi to include the header
+
+v1->v2:
+* Fixed review comments pointed by Geert
+
+v1: [0]
+
+[0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/
+20220718195651.7711-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (3):
+  dt-bindings: interrupt-controller: Add macros for NMI and IRQ0-7
+    interrupts present on RZ/G2L SoC
+  dt-bindings: interrupt-controller: renesas,rzg2l-irqc: Update
+    description for '#interrupt-cells' property
+  arm64: dts: renesas: rzg2l-smarc-som: Add PHY interrupt support for
+    ETH{0/1}
+
+ .../renesas,rzg2l-irqc.yaml                   |  5 ++--
+ .../boot/dts/renesas/rzg2l-smarc-som.dtsi     | 11 ++++++--
+ .../interrupt-controller/irqc-rzg2l.h         | 25 +++++++++++++++++++
+ 3 files changed, 37 insertions(+), 4 deletions(-)
+ create mode 100644 include/dt-bindings/interrupt-controller/irqc-rzg2l.h
+
 -- 
 2.25.1
 
