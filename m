@@ -2,58 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CBD557DFA2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 12:25:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F87457E006
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 12:33:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235281AbiGVKZW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jul 2022 06:25:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57716 "EHLO
+        id S234984AbiGVKb2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jul 2022 06:31:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235125AbiGVKZE (ORCPT
+        with ESMTP id S229538AbiGVKb2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jul 2022 06:25:04 -0400
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2C549C275;
-        Fri, 22 Jul 2022 03:24:58 -0700 (PDT)
-Received: by mail-qk1-f180.google.com with SMTP id g1so3252361qki.7;
-        Fri, 22 Jul 2022 03:24:58 -0700 (PDT)
+        Fri, 22 Jul 2022 06:31:28 -0400
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FAD7B5041;
+        Fri, 22 Jul 2022 03:31:27 -0700 (PDT)
+Received: by mail-yb1-xb32.google.com with SMTP id i14so7343096yba.1;
+        Fri, 22 Jul 2022 03:31:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=3lhb42uZBI4TkrNrzYCwheilBu8AsVpQh5Q/c+JEO0E=;
+        b=qtHokHQGmqaO6Xq3ZREy2um0Z1aLQprQxEK3pIiup0QckVHGrUwkYy3t2Tsqs+lgrP
+         TJVa2xn4V3AdVyJ7GJ7ydMXVZtd8f5QK7IjuzG5tbGuIh1J9e9QBVTKgZrU+TIYgfqbZ
+         XvWHpD3zFJdVMsCY9z/t2WV61AG6VavJzP78p7mY5mWrI8QAXCmfEGk8DI57fPMdQNJv
+         a//9zBPnWesxxoqthE8mczZS2OL6EgU0GukHfhgJcyXv3zhz4OWaaGDV99jCVoGFSXK4
+         R5kxw5g/4dTqtyz0N484VvDEOx0MDpt4MEzfrQqkFldCtTbbY0M13kdt8FUfPZQHBhks
+         ZMQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nZH509W1fDdZf+E9OLY1sYyTxMMIeDobeLQYLua0VlU=;
-        b=EjuLf1eyQxaQ0md9WksvrtKUS7xMoobZKbQD0kVSg+HEofejarDTuBXKng67SQfeS8
-         t0xdz3oZlgQ30iXKSzqroqvgInn+mEeWwtI7DmUYgGo7dy07seJT8/t586O6nEVDOGNg
-         LLR6i2E8KcaZjgWdBfmu+oONXYvSS+Rz37JvtvvPkqg6e3GVe6CzIoFr9PHL5hK7BjIS
-         K7OEBWApzZcNYBTd5MtnZP7dO/TIiHs2t/IJs1OO3QXhffwODb/ozqZeUSHMZkmjmSqs
-         5UyKJR/+F15liyzNmHWQglAlbfOENbCiIMmRaTA67Lqefjxf73QDINSJ4ZodIdi4ZbGO
-         tQ4g==
-X-Gm-Message-State: AJIora+Ao3wJbKRr/ToaDDPFXn+Ra0UCu9xI7hVZir4+GcpcfPHnXeot
-        JvOHb8M81z+57I4QPpVukV89Ld0oJ/q0Cg==
-X-Google-Smtp-Source: AGRyM1vQKiumGVsdfSBHnzBICNwjDOGKujpwtDpME55MRZxZ3K3g0GpCzHL/hbPCVYEVQXx/plLFUw==
-X-Received: by 2002:a05:620a:29ce:b0:6a7:1379:62d4 with SMTP id s14-20020a05620a29ce00b006a7137962d4mr1958995qkp.604.1658485497113;
-        Fri, 22 Jul 2022 03:24:57 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id j18-20020a05620a411200b006af10bd3635sm3131220qko.57.2022.07.22.03.24.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jul 2022 03:24:56 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-31e67c46ba2so43013207b3.2;
-        Fri, 22 Jul 2022 03:24:56 -0700 (PDT)
-X-Received: by 2002:a81:4f87:0:b0:31e:7122:16fb with SMTP id
- d129-20020a814f87000000b0031e712216fbmr2473121ywb.358.1658485496374; Fri, 22
- Jul 2022 03:24:56 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=3lhb42uZBI4TkrNrzYCwheilBu8AsVpQh5Q/c+JEO0E=;
+        b=meoLa/zW2OpqolpZT63ledLvZQk50JvoByFv2faiZa4JxEdIrV37LSdvSuBTzIFmQv
+         eDebHVi91gaubSYxF6tN0z1zr/1qQze2k0xh7F7HhfupsJGpEMKn3XhXo/Xis71XbNhR
+         4eLijnbdYxe2KOLnz4htQoiOX7FbOMHtntzbKctzWOql60fnpnM83txlQJl1npFw+XxY
+         b4o71Hzn/YIGYaRjXEnXnurBNkETadjE98aeZvwwWtKrGnBMkgtAhb7U39OW5KNy+Rgp
+         jiOnTXtdsvhf1jfljp23kiGr5EwlytMkioHGai87YCelnQ1SD/aSQoekPT744+12BxWC
+         yuNg==
+X-Gm-Message-State: AJIora8DDJE4t333+r6/mYoPdgGjx+Y6dmY+aAfJKdKro7yjbk1tGGoL
+        UDyX1qT++zZJZgeL25c6tLgRxm6WD6NiVWc9sns=
+X-Google-Smtp-Source: AGRyM1t86Ef2OkpcCNfQcn6wapSKkyxLA9etJGNbszm3Cynf6R9BXTPXXmGUjUhEfs1JLyMr3Wa+4fWeZz1rc6LrXIw=
+X-Received: by 2002:a25:d406:0:b0:66e:c6b3:f11e with SMTP id
+ m6-20020a25d406000000b0066ec6b3f11emr2440559ybf.354.1658485886284; Fri, 22
+ Jul 2022 03:31:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220721221212.18491-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220721221212.18491-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVy0w8Y-+MegHnjdFkQ7vB1Y=jPY-9atTFT_WTVYOiGLg@mail.gmail.com> <CA+V-a8tddFVQnJjKSg9MTKB-Hh3X=2OwsU+THis+KFEfz7KB=g@mail.gmail.com>
-In-Reply-To: <CA+V-a8tddFVQnJjKSg9MTKB-Hh3X=2OwsU+THis+KFEfz7KB=g@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 22 Jul 2022 12:24:45 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWzakUT4vEV=MSw+tCReXn0mng1XPKf6iE-5S8q-XQjnw@mail.gmail.com>
-Message-ID: <CAMuHMdWzakUT4vEV=MSw+tCReXn0mng1XPKf6iE-5S8q-XQjnw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: soc: renesas: renesas,rzg2l-sysc:
- Document RZ/Five SoC
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+ <20220721221212.18491-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWDZVoxW5RUb0HjR7ZABo2Hj0waX+soqTDsxtxQa2N1MA@mail.gmail.com>
+In-Reply-To: <CAMuHMdWDZVoxW5RUb0HjR7ZABo2Hj0waX+soqTDsxtxQa2N1MA@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 22 Jul 2022 11:30:59 +0100
+Message-ID: <CA+V-a8vE5PBhsmEcKYFrwV4wdF73rpqR3j8kQyKvRGbOA+Dahg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] soc: renesas: Identify RZ/Five SoC
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -64,160 +64,116 @@ Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Geert,
 
-On Fri, Jul 22, 2022 at 12:21 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Fri, Jul 22, 2022 at 10:31 AM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
-> > On Fri, Jul 22, 2022 at 12:15 AM Lad Prabhakar
-> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > Document RZ/Five (R9A07G043) SYSC bindings. SYSC block found on the
-> > > RZ/Five SoC is almost identical to one found on the RZ/G2L (and alike)
-> > > SoC's. To differentiate RZ/G2UL from RZ/Five, "-rzfive" is included in
-> > > the compatible string for the RZ/Five SoC as there are no interrupts
-> > > from the SYSC block to the core.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > > ---
-> > >  .../soc/renesas/renesas,rzg2l-sysc.yaml       | 56 +++++++++++++------
-> > >  1 file changed, 39 insertions(+), 17 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
-> > > index ce2875c89329..bdaf05f8b29b 100644
-> > > --- a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
-> > > +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
-> > > @@ -20,35 +20,57 @@ description:
-> > >  properties:
-> > >    compatible:
-> > >      enum:
-> > > -      - renesas,r9a07g043-sysc # RZ/G2UL
-> > > -      - renesas,r9a07g044-sysc # RZ/G2{L,LC}
-> > > -      - renesas,r9a07g054-sysc # RZ/V2L
-> > > +      - renesas,r9a07g043-rzfive-sysc # RZ/Five
-> >
-> > renesas,r9a07g043f-sysc?
-> >
-> Agreed.
+Thank you for the review.
+
+On Fri, Jul 22, 2022 at 10:37 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
 >
-> > But I'm wondering if we really need a different compatible value?
-> > It looks like both blocks differ only in external wiring, so if
-> > anything needs to be handled differently (the removed/added registers
-> > are related to CPU topology), that can be inferred from the system
-> > topology (or even #ifdef CONFIG_{ARM64,RISCV} ;-)
-> >
-> Good point, but I wonder if we would end up in too many #ifdef
-> CONFIG_{ARM64,RISCV} checks. If thats OK I will stick with
-> "renesas,r9a07g043-sysc"
+> Hi Prabhakar,
 >
-> > > +      - renesas,r9a07g043-sysc        # RZ/G2UL
-> > > +      - renesas,r9a07g044-sysc        # RZ/G2{L,LC}
-> > > +      - renesas,r9a07g054-sysc        # RZ/V2L
-> > >
-> > >    reg:
-> > >      maxItems: 1
-> > >
-> > > -  interrupts:
-> > > -    items:
-> > > -      - description: CA55/CM33 Sleep/Software Standby Mode request interrupt
-> > > -      - description: CA55 Software Standby Mode release request interrupt
-> > > -      - description: CM33 Software Standby Mode release request interrupt
-> > > -      - description: CA55 ACE Asynchronous Bridge Master/Slave interface deny request interrupt
-> > > +  interrupts: true
-> > >
-> > > -  interrupt-names:
-> > > -    items:
-> > > -      - const: lpm_int
-> > > -      - const: ca55stbydone_int
-> > > -      - const: cm33stbyr_int
-> > > -      - const: ca55_deny
-> > > +  interrupt-names: true
-> > >
-> > >  required:
-> > >    - compatible
-> > >    - reg
-> > > -  - interrupts
-> > > -  - interrupt-names
-> > >
-> > >  additionalProperties: false
-> > >
-> > > +allOf:
-> > > +  - if:
-> > > +      not:
-> > > +        properties:
-> > > +          compatible:
-> > > +            contains:
-> > > +              enum:
-> > > +                - renesas,r9a07g043-rzfive-sysc
-> > > +    then:
-> > > +      properties:
-> > > +        interrupts:
-> > > +          items:
-> > > +            - description: CA55/CM33 Sleep/Software Standby Mode request interrupt
-> > > +            - description: CA55 Software Standby Mode release request interrupt
-> > > +            - description: CM33 Software Standby Mode release request interrupt
-> > > +            - description: CA55 ACE Asynchronous Bridge Master/Slave interface deny request interrupt
-> > > +
-> > > +        interrupt-names:
-> > > +          items:
-> > > +            - const: lpm_int
-> > > +            - const: ca55stbydone_int
-> > > +            - const: cm33stbyr_int
-> > > +            - const: ca55_deny
-> > > +
-> > > +      required:
-> > > +        - interrupts
-> > > +        - interrupt-names
-> > > +
-> > > +    else:
-> > > +      properties:
-> > > +        interrupts: false
-> > > +        interrupt-names: false
+> On Fri, Jul 22, 2022 at 12:12 AM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Add support for identifying the (R9A07G043) RZ/Five SoC.
 > >
-> > Do all interrupts{,-names} have to be moved?
-> > Wouldn't it be sufficient to just have
-> >
-> Agreed.
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> >     if [...]
-> >     then:
-> >         required:
-> >           - interrupts
-> >           - interrupt-names
-> >     else:
-> >         properties:
-> >             interrupts: false
-> >             interrupt-names: false
+> Thanks for your patch!
+>
+> > --- a/drivers/soc/renesas/Kconfig
+> > +++ b/drivers/soc/renesas/Kconfig
+> > @@ -333,6 +333,16 @@ config ARCH_R9A09G011
 > >
-> > ?
+> >  endif # ARM64
 > >
-> > But again, without a new compatible value, you could just make
-> > interrupts{,-names} not required?
+> > +if RISCV
+> > +
+> > +config ARCH_R9A07G043
+> > +       bool "RISCV Platform support for RZ/Five"
+>
+> RISC-V
+>
+Agreed.
+
+> > +       select ARCH_RZG2L
+> > +       help
+> > +         This enables support for the Renesas RZ/Five SoC.
+> > +
+> > +endif # RISCV
+> > +
+> >  config RST_RCAR
+> >         bool "Reset Controller support for R-Car" if COMPILE_TEST
 > >
-> You mean we just make it optional for all the SoC's?
+>
+> > @@ -102,6 +106,11 @@ static const struct renesas_soc soc_rmobile_a1 __i=
+nitconst __maybe_unused =3D {
+> >         .id     =3D 0x40,
+> >  };
+> >
+> > +static const struct renesas_soc soc_rz_five __initconst __maybe_unused=
+ =3D {
+> > +       .family =3D &fam_rzfive,
+> > +       .id     =3D 0x847c447,
+>
+> The Hardware User's Manual Rev.1.00 says H=E2=80=99x841_C447?
+>
+You caught a typo in theHW manual, H=E2=80=99x841_C447 is the value for
+RZ/G2L, for RZ/Five the value is H=E2=80=99x847_C447 (and can be verified o=
+n
+page 146 SYS_DEVID register).
 
-Indeed.
+Below is the log from RZ/Five SMARC EVK:
+U-Boot SPL 2020.10-ge84e786a34-dirty (Feb 25 2022 - 17:10:04 +0000)
+Trying to boot from NOR
 
-Gr{oetje,eeting}s,
 
-                        Geert
+U-Boot 2020.10-ge84e786a34-dirty (Feb 25 2022 - 17:10:04 +0000)
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+CPU:   rv64imafdc
+Model: smarc-rzf
+DRAM:  896 MiB
+MMC:   sh-sdhi: 0, sh-sdhi: 1
+Loading Environment from MMC... OK
+In:    serial@1004b800
+Out:   serial@1004b800
+Err:   serial@1004b800
+Net:   eth0: ethernet@11c30000
+Hit any key to stop autoboot:  0
+=3D> md 0x11020a04 1
+11020a04: 0847c447                               G.G.
+=3D>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+> > @@ -398,6 +411,7 @@ static const struct renesas_id id_prr __initconst =
+=3D {
+> >
+> >  static const struct of_device_id renesas_ids[] __initconst =3D {
+> >         { .compatible =3D "renesas,bsid",                 .data =3D &id=
+_bsid },
+> > +       { .compatible =3D "renesas,r9a07g043-rzfive-sysc", .data =3D &i=
+d_rzg2l },
+> >         { .compatible =3D "renesas,r9a07g043-sysc",       .data =3D &id=
+_rzg2l },
+> >         { .compatible =3D "renesas,r9a07g044-sysc",       .data =3D &id=
+_rzg2l },
+> >         { .compatible =3D "renesas,r9a07g054-sysc",       .data =3D &id=
+_rzg2l },
+>
+> This change might not be needed (cfr. my comments on patch 1/2).
+>
+Ok.
+
+Cheers,
+Prabhakar
