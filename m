@@ -2,71 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8907B57DFB4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 12:25:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3235F57DF95
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 12:25:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233944AbiGVKNJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jul 2022 06:13:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48592 "EHLO
+        id S234144AbiGVKVm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jul 2022 06:21:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229992AbiGVKNI (ORCPT
+        with ESMTP id S229980AbiGVKVl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jul 2022 06:13:08 -0400
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4401674784;
-        Fri, 22 Jul 2022 03:13:08 -0700 (PDT)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-31e7055a61dso42347997b3.11;
-        Fri, 22 Jul 2022 03:13:08 -0700 (PDT)
+        Fri, 22 Jul 2022 06:21:41 -0400
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DBF688E00;
+        Fri, 22 Jul 2022 03:21:40 -0700 (PDT)
+Received: by mail-yb1-xb31.google.com with SMTP id i206so7287278ybc.5;
+        Fri, 22 Jul 2022 03:21:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=UF9LLNXxHjO50dQ1kLL/0ALZSieprElxvM0avSId9VE=;
-        b=bbfST+yyd4mUoCCjb1HZRc79+4hnU1velaSMVQZXVPKuVvkUoyjf/xnssHvIdHBrPQ
-         /vGP7uAMpE6nzhsqZK9YgnQvgRa/kbw44WsWhyIeclTxCEIpZMu8hthpaFs3Nwlng40B
-         qn75snDacBp/Jgt2be5wl3enTdzN0jEF9/2CNygYOJIoEOGdqrlpKRsKvYGKaOHKBvr0
-         g6JSNZWCfcPglPR37O/HcNQ3hsU5Ti5TId7LcpxjFu5u5w0LhUnyzppIaBlvaQYMY1dG
-         omJmwPlAHYWFtuJguMFv1A6NMZmI1wCTMlfjszCybIaubBb4c0w8nEiCLDj2jHJGd2SX
-         5dGw==
+        bh=oUOmZaaWZdL4aHrPnrxvArp44HB6G38b625uNkKyttY=;
+        b=cvAX/C3FinUOHgPxFegdanpzYVu5UcB2TLSYzGaEHJMgUpT6TzBiwDMUbuJzHuOfyr
+         BauYQxokp4b9lCGQApaY8Mx3cggaMLuTI64e6+ilSrywRDMQMRn0jhNbQopYxUXEYvI7
+         H+sq/yGMAVnBsxm/D4G8U7oO61kLSS1AtNP5iiWqG6djF76er68DOmPsqvktM/fSuB9g
+         xtCJB8+k/jK3j/r3oVeCzALNlSnqDUkEbv8CkLiH9389rC8tAleJuKfhGFJq5HG7gB8e
+         sDzFYvyO5OPQvFGIUPZ5uuu2ZzKfjn04nkKL3BxSjLqq13OVvVe/gdZBqgHTXzXYtC0y
+         46Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=UF9LLNXxHjO50dQ1kLL/0ALZSieprElxvM0avSId9VE=;
-        b=JWbmdP5FLS8kSj1HXywdca2yTcoohdRK6JIjh6Vdb2f53BEk7Z6VdVJLDBDTONwvJ2
-         njZ25wlJsI5jcbry/wo67nXnnDjAwrdSutBeMBiFbAszyjHmKB2ZNvHt9dnyCYDUgkCv
-         tt7DHT9YAUB+93TwMl4tLTgfNjrZpoqYFkh+pm6cogwVEs6TbxOqD9eWH1babfogoSuM
-         RBrbcYlWcMbexTrEzJ0ddYCF8IyKIeOcrDYLZGiFucLUxVJEjCae3os0+WEk4oImFYyQ
-         5E+Jha+MWP3GoIuVAjC2ftJSpAue3gTE+cjkRlqNp/r2UIJzwFsDaJrl4XHlV+8QFshe
-         v0fQ==
-X-Gm-Message-State: AJIora9rbAk6wHjVhfM+r+wt+kiTp1uYvc2joc0mZNURgaO0ZMQHqgIp
-        TjvAglh2eW/0DviC5orlyiBF0T/wvwXD00AtYJx2axsYX2g=
-X-Google-Smtp-Source: AGRyM1sN+U64clWGsFoYQzVrnNEbSPXBFNxfr7YdxOyf28vEspCeUsve3sVFFlZ4LDVWDxgDN6VwYjWiqS5DQsMfBsU=
-X-Received: by 2002:a81:5d55:0:b0:31c:dce7:96c9 with SMTP id
- r82-20020a815d55000000b0031cdce796c9mr2355897ywb.519.1658484787468; Fri, 22
- Jul 2022 03:13:07 -0700 (PDT)
+        bh=oUOmZaaWZdL4aHrPnrxvArp44HB6G38b625uNkKyttY=;
+        b=QhRofE5k6rZWbAW24pUJRUMZiEyd2eu7pJc2ODWfrlv2HMIoXJ8ajq8bZ8BiJJSsbI
+         5Tp6ExxVaTY8rUF8P8fXPy6x2e/m3t52WYebcDGTzuB3gFTd1iG+td6iGDM0NKFWQBPR
+         g0Io+rhKH5SOMlZpzWPReSUJ8bw9QLiXOjkPsVknAbH9NTgnEli1RNwW6si6WwHLw1Qy
+         sMR+uUUkDkbVQh16Q6RAww80WTJRWHeAHBpJVVvuWP2WHEnPEOlK0YKSHpY4dYZuG1hv
+         VAg5uHeEuWt5my0z0lN+jRF6Ca6bKd01CBA1UduhVOH85bNsaX1+ReKApKtI9rtfgOwx
+         KSeg==
+X-Gm-Message-State: AJIora8yeKayu5nqYwKlXBi8b2l/RZUAIIROsQSOynj3FWfxdCwKPftz
+        3dxB4NENh+Ee3gj0GXicY5h6ziLyITbIhmNiGqAKXVIQd3JsqA==
+X-Google-Smtp-Source: AGRyM1veOXbJyzBK5syagjCutWL1b5Kz2CIv95zfFti52FbUDh1LGzmd7krIAEzczpn/ldlFKn7aZl//rca/b9WXHA8=
+X-Received: by 2002:a5b:508:0:b0:66e:db78:cc3f with SMTP id
+ o8-20020a5b0508000000b0066edb78cc3fmr2397728ybp.299.1658485299630; Fri, 22
+ Jul 2022 03:21:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220721165701.17888-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220721165701.17888-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <OS0PR01MB5922D6EC478AE231A06E94B586909@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdUrmseZEBpsh22U52vivA=wXYo2C8Ke6CvgWSKjwgYByQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdUrmseZEBpsh22U52vivA=wXYo2C8Ke6CvgWSKjwgYByQ@mail.gmail.com>
+References: <20220721221212.18491-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220721221212.18491-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVy0w8Y-+MegHnjdFkQ7vB1Y=jPY-9atTFT_WTVYOiGLg@mail.gmail.com>
+In-Reply-To: <CAMuHMdVy0w8Y-+MegHnjdFkQ7vB1Y=jPY-9atTFT_WTVYOiGLg@mail.gmail.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 22 Jul 2022 11:12:40 +0100
-Message-ID: <CA+V-a8s8UGhC7hNzfhbDL817Bup6PXM+_UhEJfsEZH0GZB2BYw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: pinctrl: rzg2l-pinctrl: Add macros
- for IRQ0-7
+Date:   Fri, 22 Jul 2022 11:21:12 +0100
+Message-ID: <CA+V-a8tddFVQnJjKSg9MTKB-Hh3X=2OwsU+THis+KFEfz7KB=g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: soc: renesas: renesas,rzg2l-sysc:
+ Document RZ/Five SoC
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Marc Zyngier <maz@kernel.org>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -82,49 +79,139 @@ Hi Geert,
 
 Thank you for the review.
 
-On Fri, Jul 22, 2022 at 10:01 AM Geert Uytterhoeven
+On Fri, Jul 22, 2022 at 10:31 AM Geert Uytterhoeven
 <geert@linux-m68k.org> wrote:
 >
-> CC maz
+> Hi Prabhakar,
 >
-> On Fri, Jul 22, 2022 at 6:34 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > Subject: [PATCH v2 1/2] dt-bindings: pinctrl: rzg2l-pinctrl: Add macros
-> > > for IRQ0-7
-> > >
-> > > Add macros for IRQ0-7 which map to SPI1-8 so that it can be used in
-> > > dts/i.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > > v1->v2
-> > > * New patch
-> > > ---
-> > >  include/dt-bindings/pinctrl/rzg2l-pinctrl.h | 10 ++++++++++
-> > >  1 file changed, 10 insertions(+)
-> > >
-> > > diff --git a/include/dt-bindings/pinctrl/rzg2l-pinctrl.h b/include/dt-
-> > > bindings/pinctrl/rzg2l-pinctrl.h
-> > > index c78ed5e5efb7..6aae2ac206d6 100644
-> > > --- a/include/dt-bindings/pinctrl/rzg2l-pinctrl.h
-> > > +++ b/include/dt-bindings/pinctrl/rzg2l-pinctrl.h
-> > > @@ -20,4 +20,14 @@
-> > >  /* Convert a port and pin label to its global pin index */
-> > >  #define RZG2L_GPIO(port, pin)        ((port) * RZG2L_PINS_PER_PORT +
-> > > (pin))
-> > >
-> > > +/* IRQ0-7 map to SPI1-8 */
-> > > +#define RZG2L_IRQ0   1
-> > > +#define RZG2L_IRQ1   2
-> > > +#define RZG2L_IRQ2   3
-> > > +#define RZG2L_IRQ3   4
-> > > +#define RZG2L_IRQ4   5
-> > > +#define RZG2L_IRQ5   6
-> > > +#define RZG2L_IRQ6   7
-> > > +#define RZG2L_IRQ7   8
+> On Fri, Jul 22, 2022 at 12:15 AM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Document RZ/Five (R9A07G043) SYSC bindings. SYSC block found on the
+> > RZ/Five SoC is almost identical to one found on the RZ/G2L (and alike)
+> > SoC's. To differentiate RZ/G2UL from RZ/Five, "-rzfive" is included in
+> > the compatible string for the RZ/Five SoC as there are no interrupts
+> > from the SYSC block to the core.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> No definition for NMI?
+> Thanks for your patch!
 >
-Ok, I will add a macro for NMI.
+> > ---
+> >  .../soc/renesas/renesas,rzg2l-sysc.yaml       | 56 +++++++++++++------
+> >  1 file changed, 39 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
+> > index ce2875c89329..bdaf05f8b29b 100644
+> > --- a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
+> > +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
+> > @@ -20,35 +20,57 @@ description:
+> >  properties:
+> >    compatible:
+> >      enum:
+> > -      - renesas,r9a07g043-sysc # RZ/G2UL
+> > -      - renesas,r9a07g044-sysc # RZ/G2{L,LC}
+> > -      - renesas,r9a07g054-sysc # RZ/V2L
+> > +      - renesas,r9a07g043-rzfive-sysc # RZ/Five
+>
+> renesas,r9a07g043f-sysc?
+>
+Agreed.
+
+> But I'm wondering if we really need a different compatible value?
+> It looks like both blocks differ only in external wiring, so if
+> anything needs to be handled differently (the removed/added registers
+> are related to CPU topology), that can be inferred from the system
+> topology (or even #ifdef CONFIG_{ARM64,RISCV} ;-)
+>
+Good point, but I wonder if we would end up in too many #ifdef
+CONFIG_{ARM64,RISCV} checks. If thats OK I will stick with
+"renesas,r9a07g043-sysc"
+
+> > +      - renesas,r9a07g043-sysc        # RZ/G2UL
+> > +      - renesas,r9a07g044-sysc        # RZ/G2{L,LC}
+> > +      - renesas,r9a07g054-sysc        # RZ/V2L
+> >
+> >    reg:
+> >      maxItems: 1
+> >
+> > -  interrupts:
+> > -    items:
+> > -      - description: CA55/CM33 Sleep/Software Standby Mode request interrupt
+> > -      - description: CA55 Software Standby Mode release request interrupt
+> > -      - description: CM33 Software Standby Mode release request interrupt
+> > -      - description: CA55 ACE Asynchronous Bridge Master/Slave interface deny request interrupt
+> > +  interrupts: true
+> >
+> > -  interrupt-names:
+> > -    items:
+> > -      - const: lpm_int
+> > -      - const: ca55stbydone_int
+> > -      - const: cm33stbyr_int
+> > -      - const: ca55_deny
+> > +  interrupt-names: true
+> >
+> >  required:
+> >    - compatible
+> >    - reg
+> > -  - interrupts
+> > -  - interrupt-names
+> >
+> >  additionalProperties: false
+> >
+> > +allOf:
+> > +  - if:
+> > +      not:
+> > +        properties:
+> > +          compatible:
+> > +            contains:
+> > +              enum:
+> > +                - renesas,r9a07g043-rzfive-sysc
+> > +    then:
+> > +      properties:
+> > +        interrupts:
+> > +          items:
+> > +            - description: CA55/CM33 Sleep/Software Standby Mode request interrupt
+> > +            - description: CA55 Software Standby Mode release request interrupt
+> > +            - description: CM33 Software Standby Mode release request interrupt
+> > +            - description: CA55 ACE Asynchronous Bridge Master/Slave interface deny request interrupt
+> > +
+> > +        interrupt-names:
+> > +          items:
+> > +            - const: lpm_int
+> > +            - const: ca55stbydone_int
+> > +            - const: cm33stbyr_int
+> > +            - const: ca55_deny
+> > +
+> > +      required:
+> > +        - interrupts
+> > +        - interrupt-names
+> > +
+> > +    else:
+> > +      properties:
+> > +        interrupts: false
+> > +        interrupt-names: false
+>
+> Do all interrupts{,-names} have to be moved?
+> Wouldn't it be sufficient to just have
+>
+Agreed.
+
+>     if [...]
+>     then:
+>         required:
+>           - interrupts
+>           - interrupt-names
+>     else:
+>         properties:
+>             interrupts: false
+>             interrupt-names: false
+>
+> ?
+>
+> But again, without a new compatible value, you could just make
+> interrupts{,-names} not required?
+>
+You mean we just make it optional for all the SoC's?
 
 Cheers,
 Prabhakar
