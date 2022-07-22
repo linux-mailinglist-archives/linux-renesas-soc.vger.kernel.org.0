@@ -2,102 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B9C457DC4A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 10:24:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64B8457DC9F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 10:45:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234826AbiGVIYP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jul 2022 04:24:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50746 "EHLO
+        id S234597AbiGVIow (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jul 2022 04:44:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234001AbiGVIYO (ORCPT
+        with ESMTP id S234470AbiGVIor (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jul 2022 04:24:14 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3AE39E2B5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jul 2022 01:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=G7DpDeN+J+UKLSZ3ZAUmo1+Q13ja
-        LhczmLdzIypc5iw=; b=dx9scorbcb3LAJsGOtXnijWvyPNZJos6oAAPbljl4hif
-        LOvhy6QU5/+2cjU1PejQi6Zq2vNpHmS4CK5snERMumvh0yFRYdVP9ElUcyfLmIXP
-        eTQh3GWBFQhaKWGQ+1/hXAnFXyJ8XFxMi6hogYJ/DAhR7OInIBrjuin8hBjuRfU=
-Received: (qmail 1290898 invoked from network); 22 Jul 2022 10:24:04 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Jul 2022 10:24:04 +0200
-X-UD-Smtp-Session: l3s3148p1@t5ZNjmDk7DtZzJki
-Date:   Fri, 22 Jul 2022 10:23:58 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: timer: renesas,cmt: Fix R-Car Gen4 fall-out
-Message-ID: <YtpedafKl9xJhi61@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Fri, 22 Jul 2022 04:44:47 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F3D239F07F;
+        Fri, 22 Jul 2022 01:44:37 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.93,185,1654527600"; 
+   d="scan'208";a="128768950"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 22 Jul 2022 17:44:37 +0900
+Received: from localhost.localdomain (unknown [10.226.92.254])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id A27CA4228715;
+        Fri, 22 Jul 2022 17:44:33 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Vinod Koul <vkoul@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Colin Ian King <colin.king@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        dmaengine@vger.kernel.org, Mark Brown <broonie@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-References: <2e3863ae32e17d49f41111580f195dd34e2b769d.1658303544.git.geert+renesas@glider.be>
+Subject: [PATCH v4] dmaengine: sh: rz-dmac: Add device_synchronize callback
+Date:   Fri, 22 Jul 2022 09:44:30 +0100
+Message-Id: <20220722084430.969333-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="XJU1ImY/AXCixQxc"
-Content-Disposition: inline
-In-Reply-To: <2e3863ae32e17d49f41111580f195dd34e2b769d.1658303544.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Some on-chip peripheral modules(for eg:- rspi) on RZ/G2L SoC
+use the same signal for both interrupt and DMA transfer requests.
+The signal works as a DMA transfer request signal by setting
+DMARS, and subsequent interrupt requests to the interrupt controller
+are masked.
 
---XJU1ImY/AXCixQxc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We can re-enable the interrupt by clearing the DMARS.
 
-On Wed, Jul 20, 2022 at 09:53:34AM +0200, Geert Uytterhoeven wrote:
-> Restore sort order (by family, followed by type).
-> Update the conditional sections specifying the number of interrupts.
->=20
-> Fixes: 525b296185b4b0ab ("dt-bindings: timer: renesas,cmt: Add r8a779f0 a=
-nd generic Gen4 CMT support")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This patch adds device_synchronize callback for clearing
+DMARS and thereby allowing DMA consumers to switch to
+interrupt mode.
 
-Thank you, Geert, looks good to me!
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+v3->v4:
+ * Increased delay_us 10->100us and timeout_us 1ms->100ms.
+v2->v3:
+ * Fixed commit description
+ * Added check if the DMA operation has been completed or terminated,
+   and wait (sleep) if needed.
+v1->v2:
+ * No change
+---
+ drivers/dma/sh/rz-dmac.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
+index ee2872e7d64c..476847a4916b 100644
+--- a/drivers/dma/sh/rz-dmac.c
++++ b/drivers/dma/sh/rz-dmac.c
+@@ -12,6 +12,7 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/dmaengine.h>
+ #include <linux/interrupt.h>
++#include <linux/iopoll.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+@@ -630,6 +631,21 @@ static void rz_dmac_virt_desc_free(struct virt_dma_desc *vd)
+ 	 */
+ }
+ 
++static void rz_dmac_device_synchronize(struct dma_chan *chan)
++{
++	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
++	struct rz_dmac *dmac = to_rz_dmac(chan->device);
++	u32 chstat;
++	int ret;
++
++	ret = read_poll_timeout(rz_dmac_ch_readl, chstat, !(chstat & CHSTAT_EN),
++				100, 100000, false, channel, CHSTAT, 1);
++	if (ret < 0)
++		dev_warn(dmac->dev, "DMA Timeout");
++
++	rz_dmac_set_dmars_register(dmac, channel->index, 0);
++}
++
+ /*
+  * -----------------------------------------------------------------------------
+  * IRQ handling
+@@ -909,6 +925,7 @@ static int rz_dmac_probe(struct platform_device *pdev)
+ 	engine->device_config = rz_dmac_config;
+ 	engine->device_terminate_all = rz_dmac_terminate_all;
+ 	engine->device_issue_pending = rz_dmac_issue_pending;
++	engine->device_synchronize = rz_dmac_device_synchronize;
+ 
+ 	engine->copy_align = DMAENGINE_ALIGN_1_BYTE;
+ 	dma_set_max_seg_size(engine->dev, U32_MAX);
+-- 
+2.25.1
 
-
---XJU1ImY/AXCixQxc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmLaXp0ACgkQFA3kzBSg
-KbY7ng/9EftoPPaWNzC3yanwkmpjMRigJf4LJb9cBxoBnhDrerfG8zog8a+VrOgZ
-210XXsohukbHFJdaqA5tQX4XU5OXTlnzD2H0sC4hIRql5NI4t6xNDH1vl9mf1ucq
-OorY7d6T98TnzU6XMGIfpfvUgVu4iL9GxTCcYPOMJn6gSpce0ciEDsR/mmrPiPkH
-HaPgBTKAWMCDAR3BDu3a82F8qw8lCEFKZxAbbAnemGDuKao7XRE+eTw20sMhKHR+
-nRcui3z5EimpP22h/6Fz51waZftkAVtcAxAMHhVYm8qlkDvYqCmOYr957802mY5w
-Uo1IBProk4xw8z8sdnbfHSF56daIXaKVS51UZkzMFpWoRN1mbHTU5H1gkNsfyg9o
-w2i6qQgwkrUVM0naY6N5XZ5M/66QrMjE5jwjEExjn5gyrP5jYR7Zg/nPsDiOcbUv
-APssbGzGgnO6fH5cqqS5Tb36B//iuCBiY8MJgjOKayZZuijIh6NMNqChSNnCaq9l
-24UyIk4SityUHTdKjpv2EdIVykyJin1493tfMBpGyIXctw2BpaPffCnudyyHO5mg
-kpH76wz6RYVoFMYEUo2agfWqZTZsaCe5+CENJcgjcXnyRC4aaqpbXKVAyYwIDXHU
-/uJoPqqQmXFY6lcOziRyvpjehM7T5v04rN8Gsx38Lf1vaXhspJI=
-=fh/7
------END PGP SIGNATURE-----
-
---XJU1ImY/AXCixQxc--
