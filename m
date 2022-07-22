@@ -2,129 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 362CF57E613
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 19:56:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D777357E644
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 20:10:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236194AbiGVR4Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jul 2022 13:56:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48480 "EHLO
+        id S235478AbiGVSJ7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jul 2022 14:09:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236158AbiGVR4N (ORCPT
+        with ESMTP id S234146AbiGVSJ7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jul 2022 13:56:13 -0400
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A179D4C619;
-        Fri, 22 Jul 2022 10:56:12 -0700 (PDT)
-Received: by mail-pl1-f176.google.com with SMTP id d7so5151906plr.9;
-        Fri, 22 Jul 2022 10:56:12 -0700 (PDT)
+        Fri, 22 Jul 2022 14:09:59 -0400
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524EA61105;
+        Fri, 22 Jul 2022 11:09:58 -0700 (PDT)
+Received: by mail-il1-f169.google.com with SMTP id i5so2676026ila.6;
+        Fri, 22 Jul 2022 11:09:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=K6H8ybl2+ag7idCYOoYVw/oCxdPB2Pr7niRGvSl53OA=;
-        b=NA6Va0F0RIvgen9z1fpVvPHFI0qhOk/O9Pfdmq2MlZ80VgZk3D4Ppaer3AijwbYvQU
-         PYsM34iG2GzdWqYHYB8p8xMoT9bX2kGfWyLS3HVT2LKAY7fAtkHM3bbtL720LW5BMWiI
-         hDzy/UvI5nYcz7CMokFkqicX7cfncbi7mdD2sXRl/sA7XMy5Vfg2ymv9qJk3+VjOiat0
-         Hxc1h1tFXpVtBsRmYe8oe6IrHBf5shpuva2Ft7d4A+fYz6veYQdVUZYYVNM1fWWo4YFD
-         5471sE8189nZw091jvpMua+ogZLtIhwMXb6gCIy75JdwIvdpGAUTBc1UBRk8KFpT3B6g
-         LUAw==
-X-Gm-Message-State: AJIora+DEw3eAKjfbOxpOCKbrXQgyULBf0hUqVMFQgWm9p8CW1/V37DV
-        Kpac/8jM97Vpu2x56Bp9LkE=
-X-Google-Smtp-Source: AGRyM1vCHU8qGyA8pLRAYfvadi7jDT5J7KiHVcv7GaY3IC+IUt3kg/RktDKh1wIJu/8+y40eAeoQfQ==
-X-Received: by 2002:a17:90b:33d2:b0:1f0:3a40:982d with SMTP id lk18-20020a17090b33d200b001f03a40982dmr840647pjb.60.1658512572066;
-        Fri, 22 Jul 2022 10:56:12 -0700 (PDT)
-Received: from ?IPV6:2620:15c:211:201:9cf6:7e29:d977:6fc7? ([2620:15c:211:201:9cf6:7e29:d977:6fc7])
-        by smtp.gmail.com with ESMTPSA id q3-20020a170902a3c300b0016c6a6d8967sm4065003plb.83.2022.07.22.10.56.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jul 2022 10:56:11 -0700 (PDT)
-Message-ID: <084e7c5a-f98d-d61e-de81-83525851ecf9@acm.org>
-Date:   Fri, 22 Jul 2022 10:56:09 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 2/2] scsi: sd: Rework asynchronous resume support
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        scsi <linux-scsi@vger.kernel.org>,
-        Ming Lei <ming.lei@redhat.com>, Hannes Reinecke <hare@suse.de>,
-        John Garry <john.garry@huawei.com>, ericspero@icloud.com,
-        jason600.groome@gmail.com,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PIQt+5ITwOzmhuISQoyrlkf2sasQzT8bLBRP5gAJJHI=;
+        b=WfP5agFa5phzj/XhVYj7Qbvf5JDUAyf9kvM21A/wjwhcg0WSwYLc+QoU1cLLT5nA6R
+         lgc9lgsCkKHTlJCgfyH0BGbjZ+mM9lWptNqYscUCgW/j+VN1UQuDcOox8nwao8mOfZOv
+         8TKSB9oDj6GiAfcisqIQ3thcjiFp02Llf8IH0sZ9Qu4FOrexBSRN4HIqTmvE1B95/ma+
+         X7oF245h2OLJQbU9SMrJ9o7nswkcCwAtSpw+6OsUn/2JCcVkFA7Mis3IGW1En1gXPLq8
+         cspPVXvQG/b+5qDsS1Oyo/uDTWyQGQ5qKoaw3fBsyK5DLgGtbwCFxQHHWsJ0SHGBgboP
+         LktA==
+X-Gm-Message-State: AJIora8V8S2q5DDqfjskmnG62ifW6iblpDxtevc94RN8dZPr2ynR5w7k
+        qmKVEhKh7bifhYHTrLgWIw==
+X-Google-Smtp-Source: AGRyM1viYesRRMCE+hE3852h7f+4YHNmRnNBlfzb2xqh4FaCp1/QljiBpc+/NB38QuvSIp2ETH6ijg==
+X-Received: by 2002:a05:6e02:b21:b0:2dc:6d2d:5a61 with SMTP id e1-20020a056e020b2100b002dc6d2d5a61mr495214ilu.273.1658513397529;
+        Fri, 22 Jul 2022 11:09:57 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id x15-20020a92cc8f000000b002dd12857a13sm1950282ilo.80.2022.07.22.11.09.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Jul 2022 11:09:57 -0700 (PDT)
+Received: (nullmailer pid 3797638 invoked by uid 1000);
+        Fri, 22 Jul 2022 18:09:55 -0000
+Date:   Fri, 22 Jul 2022 12:09:55 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Sagar Kadam <sagar.kadam@sifive.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        LKML <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20220630195703.10155-1-bvanassche@acm.org>
- <20220630195703.10155-3-bvanassche@acm.org>
- <alpine.DEB.2.22.394.2207191125130.1006766@ramsan.of.borg>
- <db19ed29-e7f9-e5b0-3a6c-f2812078a07d@acm.org>
- <CAMuHMdVzsgSYtbJQnaigNax_JbxPsQfU+gHcteS-ojWbxUdMfw@mail.gmail.com>
- <CAMuHMdWtxBj8ug7AHTqentF8UD4jpO2sgoWWcQCOvEKLJtdq8A@mail.gmail.com>
- <506ca1a6-1122-5755-fc74-60f7c7bfbd0d@acm.org>
- <CAMuHMdVQ2K2v8jpsFfOMk99DG_sBB4_ioiQRroC7K_Ov1wvp9w@mail.gmail.com>
- <6f70e742-9d8a-f389-0482-0ba9696bf445@acm.org>
- <CAMuHMdVc+ATGV-=R3uV6RyF0-mZiuKv7HpmogRBgqGVyO-MKWg@mail.gmail.com>
- <54e20a27-a10b-b77a-e950-1d3398e2e907@acm.org>
- <CAMuHMdURQpAEGgv4cY7v0rqzs12v2TT=Amt26Y0OoBSW7YAoaw@mail.gmail.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <CAMuHMdURQpAEGgv4cY7v0rqzs12v2TT=Amt26Y0OoBSW7YAoaw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH RFC 1/2] dt-bindings: interrupt-controller: sifive,plic:
+ Document Renesas RZ/Five SoC
+Message-ID: <20220722180955.GA3770737-robh@kernel.org>
+References: <20220524172214.5104-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220524172214.5104-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220605142333.GA3439339-robh@kernel.org>
+ <CA+V-a8smk8TqyWpm1KXo-3dKnCAodKsiYsaqnK_3ubfXE9YauQ@mail.gmail.com>
+ <20220706215827.GA572635-robh@kernel.org>
+ <87a69lmesa.wl-maz@kernel.org>
+ <20220712181916.GI1823936-robh@kernel.org>
+ <878roy16iw.wl-maz@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <878roy16iw.wl-maz@kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 7/22/22 01:53, Geert Uytterhoeven wrote:
-> During s2idle, the following trace data is generated:
+On Tue, Jul 12, 2022 at 08:21:27PM +0100, Marc Zyngier wrote:
+> On Tue, 12 Jul 2022 19:19:16 +0100,
+> Rob Herring <robh@kernel.org> wrote:
+> > 
+> > On Thu, Jul 07, 2022 at 10:51:33AM +0100, Marc Zyngier wrote:
+> >
+> > > Can you please have a look at the latest instance[1][2] of this
+> > > series, as posted by Samuel? I've provisionally queued it, but only on
+> > > the provision that you would eventually ack these patches.
+> > 
+> > I did already[1]. They passed checks, were already in linux-next, and I 
+> > didn't see anything major needing comments, so I marked it N/A (meaning 
+> > someone else applies it) without comment.
+> > 
+> > Rob
+> > 
+> > [1] https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20220630100241.35233-2-samuel@sholland.org/
 > 
->     kworker/u16:9-325     [000] ...2.   230.478731: block_rq_issue: 8,0
-> N 0 () 0 + 0 [kworker/u16:9]
->     kworker/u16:9-325     [000] ...2.   230.478745:
-> scsi_dispatch_cmd_start: host_no=0 channel=0 id=0 lun=0 data_sgl=0
-> prot_sgl=0 prot_op=SCSI_PROT_NORMAL driver_tag=0 scheduler_tag=0
-> cmnd=(SYNCHRONIZE_CACHE - raw=35 00 00 00 00 00 00 00 00 00)
->            <idle>-0       [007] d.h3.   230.478832:
-> scsi_dispatch_cmd_done: host_no=0 channel=0 id=0 lun=0 data_sgl=0
-> prot_sgl=0 prot_op=SCSI_PROT_NORMAL driver_tag=0 scheduler_tag=0
-> cmnd=(SYNCHRONIZE_CACHE - raw=35 00 00 00 00 00 00 00 00 00)
-> result=(driver=DRIVER_OK host=DID_OK message=COMMAND_COMPLETE
-> status=SAM_STAT_GOOD)
->            <idle>-0       [000] ..s2.   230.478851: block_rq_complete:
-> 8,0 N () 18446744073709551615 + 0 [0]
->     kworker/u16:9-325     [000] ...2.   230.483134: block_rq_issue: 8,0
-> N 0 () 0 + 0 [kworker/u16:9]
->     kworker/u16:9-325     [000] ...2.   230.483136:
-> scsi_dispatch_cmd_start: host_no=0 channel=0 id=0 lun=0 data_sgl=0
-> prot_sgl=0 prot_op=SCSI_PROT_NORMAL driver_tag=0 scheduler_tag=1
-> cmnd=(START_STOP - raw=1b 00 00 00 00 00)
->            <idle>-0       [007] d.h3.   230.624530:
-> scsi_dispatch_cmd_done: host_no=0 channel=0 id=0 lun=0 data_sgl=0
-> prot_sgl=0 prot_op=SCSI_PROT_NORMAL driver_tag=0 scheduler_tag=1
-> cmnd=(START_STOP - raw=1b 00 00 00 00 00) result=(driver=DRIVER_OK
-> host=DID_OK message=COMMAND_COMPLETE status=SAM_STAT_GOOD)
->            <idle>-0       [000] d.s4.   230.624634: scsi_eh_wakeup: host_no=0
->            <idle>-0       [000] ..s2.   230.624642: block_rq_complete:
-> 8,0 N () 18446744073709551615 + 0 [0]
->    kworker/u16:14-1027    [007] d..3.   231.393642: scsi_eh_wakeup: host_no=0
-> 
-> When reading from hard drive after s2idle, no more trace data
-> is generated.
+> How are people supposed to track this if it doesn't appear on the ML?
 
-I think the above commands come from the suspend sequence. '1b 00 00 00 
-00 00' stops a block device. The lowest bit in byte 4 needs to be set to 
-start a block device.
+Look at patchwork?
 
-Something that is not yet clear is whether or not sd_submit_start() 
-hangs during the resume process. How about verifying whether or not 
-sd_submit_start() hangs by either issuing SysRq-t or by adding pr_info() 
-statements in that function?
+How am I supposed to track maintainers that will rebase what they have 
+in next to add acks and those that won't?
 
-Thanks,
+> That's not really an ack, AFAICT. That's a "I don't care".
 
-Bart.
+I still look at it, so really it's an implicit ack. In this case, I 
+probably just saw the irqchip-bot mail and missed your reply to the 
+cover.
+
+> Does it mean I'm free to take any random DT patch unless you or a bot
+> shouts? I'd rather know.
+
+Wait for acked/reviewed-by to apply? Isn't that the process?
+
+Rob
