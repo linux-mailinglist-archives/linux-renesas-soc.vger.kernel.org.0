@@ -2,178 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F87457E006
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 12:33:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C23557E03E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 12:50:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234984AbiGVKb2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jul 2022 06:31:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40562 "EHLO
+        id S233858AbiGVKuR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jul 2022 06:50:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229538AbiGVKb2 (ORCPT
+        with ESMTP id S233716AbiGVKuQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jul 2022 06:31:28 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FAD7B5041;
-        Fri, 22 Jul 2022 03:31:27 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id i14so7343096yba.1;
-        Fri, 22 Jul 2022 03:31:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=3lhb42uZBI4TkrNrzYCwheilBu8AsVpQh5Q/c+JEO0E=;
-        b=qtHokHQGmqaO6Xq3ZREy2um0Z1aLQprQxEK3pIiup0QckVHGrUwkYy3t2Tsqs+lgrP
-         TJVa2xn4V3AdVyJ7GJ7ydMXVZtd8f5QK7IjuzG5tbGuIh1J9e9QBVTKgZrU+TIYgfqbZ
-         XvWHpD3zFJdVMsCY9z/t2WV61AG6VavJzP78p7mY5mWrI8QAXCmfEGk8DI57fPMdQNJv
-         a//9zBPnWesxxoqthE8mczZS2OL6EgU0GukHfhgJcyXv3zhz4OWaaGDV99jCVoGFSXK4
-         R5kxw5g/4dTqtyz0N484VvDEOx0MDpt4MEzfrQqkFldCtTbbY0M13kdt8FUfPZQHBhks
-         ZMQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3lhb42uZBI4TkrNrzYCwheilBu8AsVpQh5Q/c+JEO0E=;
-        b=meoLa/zW2OpqolpZT63ledLvZQk50JvoByFv2faiZa4JxEdIrV37LSdvSuBTzIFmQv
-         eDebHVi91gaubSYxF6tN0z1zr/1qQze2k0xh7F7HhfupsJGpEMKn3XhXo/Xis71XbNhR
-         4eLijnbdYxe2KOLnz4htQoiOX7FbOMHtntzbKctzWOql60fnpnM83txlQJl1npFw+XxY
-         b4o71Hzn/YIGYaRjXEnXnurBNkETadjE98aeZvwwWtKrGnBMkgtAhb7U39OW5KNy+Rgp
-         jiOnTXtdsvhf1jfljp23kiGr5EwlytMkioHGai87YCelnQ1SD/aSQoekPT744+12BxWC
-         yuNg==
-X-Gm-Message-State: AJIora8DDJE4t333+r6/mYoPdgGjx+Y6dmY+aAfJKdKro7yjbk1tGGoL
-        UDyX1qT++zZJZgeL25c6tLgRxm6WD6NiVWc9sns=
-X-Google-Smtp-Source: AGRyM1t86Ef2OkpcCNfQcn6wapSKkyxLA9etJGNbszm3Cynf6R9BXTPXXmGUjUhEfs1JLyMr3Wa+4fWeZz1rc6LrXIw=
-X-Received: by 2002:a25:d406:0:b0:66e:c6b3:f11e with SMTP id
- m6-20020a25d406000000b0066ec6b3f11emr2440559ybf.354.1658485886284; Fri, 22
- Jul 2022 03:31:26 -0700 (PDT)
+        Fri, 22 Jul 2022 06:50:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C91B1F0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jul 2022 03:50:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D1B6F615B1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jul 2022 10:50:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2CABAC341C6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jul 2022 10:50:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658487014;
+        bh=rzSdLwsl68nAn5T0YgYTBelgw2CbkVyJAxfWkZuZNaw=;
+        h=Subject:From:Date:To:From;
+        b=TyzRwYhhazfgzt65rF2jVB1IN4SrWen3BKxrYTtQdwa89OgPDGHDKpE7Ok9k/R82z
+         sWihBS9b4o18c2S/tv/R/RM2wp/thsU94QStnFNyway6D5pXnwqk3KyZqVyil3PLUC
+         PbqkQ5U0ck1aEKDIIdI8D5pToo2Xcp5S4nzFfG/SxsF/V1XWGdpFWcvCjzF0S8D5DE
+         dfc4DOwON2r/KMKqRwWhlNSp9l257CE58fR5nTgb4n6NRMljDdFKfbJS7xohz0La2x
+         crKpLwl975vcC+xQ7wtvCOfjWGU/bFwUAf68Gt1FBL1c5PvVU3gROEru8qSN6a4Whx
+         gIcNSopqjFqfg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0D640D9DDDD
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jul 2022 10:50:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220721221212.18491-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220721221212.18491-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWDZVoxW5RUb0HjR7ZABo2Hj0waX+soqTDsxtxQa2N1MA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWDZVoxW5RUb0HjR7ZABo2Hj0waX+soqTDsxtxQa2N1MA@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 22 Jul 2022 11:30:59 +0100
-Message-ID: <CA+V-a8vE5PBhsmEcKYFrwV4wdF73rpqR3j8kQyKvRGbOA+Dahg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] soc: renesas: Identify RZ/Five SoC
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <165848701399.8565.15916373487980938338.git-patchwork-summary@kernel.org>
+Date:   Fri, 22 Jul 2022 10:50:13 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hello:
 
-Thank you for the review.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-On Fri, Jul 22, 2022 at 10:37 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Fri, Jul 22, 2022 at 12:12 AM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Add support for identifying the (R9A07G043) RZ/Five SoC.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/soc/renesas/Kconfig
-> > +++ b/drivers/soc/renesas/Kconfig
-> > @@ -333,6 +333,16 @@ config ARCH_R9A09G011
-> >
-> >  endif # ARM64
-> >
-> > +if RISCV
-> > +
-> > +config ARCH_R9A07G043
-> > +       bool "RISCV Platform support for RZ/Five"
->
-> RISC-V
->
-Agreed.
+Series: Add IRQC support to Renesas RZ/G2L and RZ/V2L SoC
+  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=660810
+  Lore link: https://lore.kernel.org/r/20220718195651.7711-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [1/5] arm64: dts: renesas: r9a07g044: Add IRQC node to SoC DTSI
+             [2/5] arm64: dts: renesas: r9a07g044: Update pinctrl node to handle GPIO interrupts
+             [3/5] arm64: dts: renesas: r9a07g054: Add IRQC node to SoC DTSI
+             [4/5] arm64: dts: renesas: r9a07g054: Update pinctrl node to handle GPIO interrupts
 
-> > +       select ARCH_RZG2L
-> > +       help
-> > +         This enables support for the Renesas RZ/Five SoC.
-> > +
-> > +endif # RISCV
-> > +
-> >  config RST_RCAR
-> >         bool "Reset Controller support for R-Car" if COMPILE_TEST
-> >
->
-> > @@ -102,6 +106,11 @@ static const struct renesas_soc soc_rmobile_a1 __i=
-nitconst __maybe_unused =3D {
-> >         .id     =3D 0x40,
-> >  };
-> >
-> > +static const struct renesas_soc soc_rz_five __initconst __maybe_unused=
- =3D {
-> > +       .family =3D &fam_rzfive,
-> > +       .id     =3D 0x847c447,
->
-> The Hardware User's Manual Rev.1.00 says H=E2=80=99x841_C447?
->
-You caught a typo in theHW manual, H=E2=80=99x841_C447 is the value for
-RZ/G2L, for RZ/Five the value is H=E2=80=99x847_C447 (and can be verified o=
-n
-page 146 SYS_DEVID register).
+Series: r8a779f0: enable CMT timers
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=659263
+  Lore link: https://lore.kernel.org/r/20220713101447.3804-1-wsa+renesas@sang-engineering.com
+    Patches: [1/3] clk: renesas: r8a779f0: Add CMT clocks
+             [2/3] arm64: dts: renesas: r8a779f0: Add CMT support
 
-Below is the log from RZ/Five SMARC EVK:
-U-Boot SPL 2020.10-ge84e786a34-dirty (Feb 25 2022 - 17:10:04 +0000)
-Trying to boot from NOR
+Patch: soc: renesas: Kconfig: Enable IRQC driver for RZ/G2L SoC
+  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=660801
+  Lore link: https://lore.kernel.org/r/20220718192824.7246-1-prabhakar.mahadev-lad.rj@bp.renesas.com
 
 
-U-Boot 2020.10-ge84e786a34-dirty (Feb 25 2022 - 17:10:04 +0000)
+Total patches: 7
 
-CPU:   rv64imafdc
-Model: smarc-rzf
-DRAM:  896 MiB
-MMC:   sh-sdhi: 0, sh-sdhi: 1
-Loading Environment from MMC... OK
-In:    serial@1004b800
-Out:   serial@1004b800
-Err:   serial@1004b800
-Net:   eth0: ethernet@11c30000
-Hit any key to stop autoboot:  0
-=3D> md 0x11020a04 1
-11020a04: 0847c447                               G.G.
-=3D>
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-> > @@ -398,6 +411,7 @@ static const struct renesas_id id_prr __initconst =
-=3D {
-> >
-> >  static const struct of_device_id renesas_ids[] __initconst =3D {
-> >         { .compatible =3D "renesas,bsid",                 .data =3D &id=
-_bsid },
-> > +       { .compatible =3D "renesas,r9a07g043-rzfive-sysc", .data =3D &i=
-d_rzg2l },
-> >         { .compatible =3D "renesas,r9a07g043-sysc",       .data =3D &id=
-_rzg2l },
-> >         { .compatible =3D "renesas,r9a07g044-sysc",       .data =3D &id=
-_rzg2l },
-> >         { .compatible =3D "renesas,r9a07g054-sysc",       .data =3D &id=
-_rzg2l },
->
-> This change might not be needed (cfr. my comments on patch 1/2).
->
-Ok.
-
-Cheers,
-Prabhakar
