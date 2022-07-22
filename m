@@ -2,115 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 754B157E775
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 21:34:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF13D57E7D3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 22:02:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236366AbiGVTen (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jul 2022 15:34:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35726 "EHLO
+        id S236747AbiGVUCg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jul 2022 16:02:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236335AbiGVTem (ORCPT
+        with ESMTP id S236761AbiGVUCY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jul 2022 15:34:42 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDF6A82F86
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jul 2022 12:34:40 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id h9so7845900wrm.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jul 2022 12:34:40 -0700 (PDT)
+        Fri, 22 Jul 2022 16:02:24 -0400
+Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 381A189A41
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jul 2022 13:01:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linexp-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=hH95XjXDX7HfOaSlIRmgwv/BqeTgRb6XTDE5kgrObnw=;
-        b=Y8kB1Cm6Ke5WUBLa2g5aeGLuqzWiz6e83CNVVFUNCaPFbl+6aviz0oAIgpcLgWeOhy
-         8AU1egNqYttU1lL2dKfSgzutc0j+z3ioqjaDVks7OJS2alo52xnMwjeS+IpIWdVdcIhC
-         Dw9RKhkBZBQZA+PF7D1CxXNC03o3HSsx8+ROsSlrH54kmv27qMC/+CofeRS3IoFNMgfP
-         /nKdIoelZyposoh9WDt1Z3E5Fh6GcMo7bTiBnL3U6jSpaln49HOvCnq9isFeYc60Zkr4
-         Npa5rEUcKkDb89O8uxo3m4HyaiYSKVIFs/p64TC1MHDan7molZifCYIep1kJu1FWSvmw
-         h1/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=hH95XjXDX7HfOaSlIRmgwv/BqeTgRb6XTDE5kgrObnw=;
-        b=32mJh1p/J3Ub2u+wG4zSg+jpXz7iLPNvA9vZ7JcL8PwQrFdOQ2KXfvnyf5BS2pM20w
-         GhFbOcNnlf0N2aAlY74B+0DxFbQD4wvd72AS778vcqtuePki7qE8d6mhNqoY344NBbhe
-         qc0NrSaINSS5cmC8Ac2fBxsYwhtBAXNCyAD23T2Z775d8d35MN1vv4cJXaB8ng/ANB8J
-         DxhFoqcrF9YyXfOPTGwYh1cgOkSFc/wgugRrGXLqor8atHdJdHnJDjpBVL2snJ6qKz9y
-         rSwjcQ2vUk5ICgqglpsKHyAYYKVhc/EaEhe0N+UD9ivemDv+gg+MXt7ORmtyI4wGoXFi
-         rRjg==
-X-Gm-Message-State: AJIora+2OSjTHJDqoYZRj706jeNdIfroes9SQ7oECrBl5XF6QI7u+REt
-        NSmE3UIH3ApLi+UxLs9V2TlbGQ==
-X-Google-Smtp-Source: AGRyM1sqYvtOfD5ZxusSG6eF2G7NJ/wP0OsL7fzH4mLrjxzusTUieovR6ixH239LoIGCoCpWBeA7+g==
-X-Received: by 2002:a05:6000:100d:b0:21e:69b3:1901 with SMTP id a13-20020a056000100d00b0021e69b31901mr892749wrx.622.1658518479213;
-        Fri, 22 Jul 2022 12:34:39 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:957f:d36d:87f9:5c17? ([2a05:6e02:1041:c10:957f:d36d:87f9:5c17])
-        by smtp.gmail.com with ESMTPSA id k23-20020a05600c1c9700b003a31b00c216sm6380839wms.0.2022.07.22.12.34.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jul 2022 12:34:38 -0700 (PDT)
-Message-ID: <f5bd819d-2292-c247-5141-1dec8bd657f8@linexp.org>
-Date:   Fri, 22 Jul 2022 21:34:37 +0200
+        d=ravnborg.org; s=rsa1;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=xRZ4/z785EVlZdg7+WQthXzuMmkFNeanc7s/O0nKQN8=;
+        b=qHRnf0cWUkHUo+oOjjmqY2CD+N2Xd/aTesvn+UussxpUPFdXjCF9fOgGj3mwQjSWplF0zc7ThQ4QS
+         q+CDUxWRgL01r5cw6a/e2AWnojcA9dA9TSMWqDI2ctJkRhv3ft6rUvUOwgVQH6fg4MhLsiwyFnKJtL
+         y5ACwnTDvnN++7H51uojOwg/RnnfWv0fEy1vOHA8r4xT7+dCRRW2jUREY9U9R2W5gsqywDo6gOd34G
+         t5AXsX5P+PuhEY1/570GeAJ0tJPLk5BzbDHshyHrfroDvCyhZBsOItg0QYYunoWb8MfMQ/F4S7cTfA
+         npUKmwvyA7cE3Gi2RUCzoRIyn7M9lMA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+        d=ravnborg.org; s=ed1;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=xRZ4/z785EVlZdg7+WQthXzuMmkFNeanc7s/O0nKQN8=;
+        b=ukD19qP7MQupFGaMbV2BqB6YugANbp+p5md4cXvFsmYwtH8Ehi/f/slFQ9ODoUIyBkP6vBSUA66US
+         KyIh1MxBw==
+X-HalOne-Cookie: 0e5c75ced090ed261a75055ef99751c50559f04c
+X-HalOne-ID: 1760f781-09f9-11ed-a918-d0431ea8a290
+Received: from mailproxy2.cst.dirpod4-cph3.one.com (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+        by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+        id 1760f781-09f9-11ed-a918-d0431ea8a290;
+        Fri, 22 Jul 2022 20:01:36 +0000 (UTC)
+Date:   Fri, 22 Jul 2022 22:01:34 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        dri-devel@lists.freedesktop.org,
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v4 2/2] drm: rcar-du: Add RZ/G2L DSI driver
+Message-ID: <YtsCHnJKfGvkJXpD@ravnborg.org>
+References: <20220722191924.544869-1-biju.das.jz@bp.renesas.com>
+ <20220722191924.544869-3-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v1 17/33] thermal/drivers/rcar: Switch to new of API
-Content-Language: en-US
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     daniel.lezcano@linaro.org, rafael@kernel.org, rui.zhang@intel.com,
-        khilman@baylibre.com, abailon@baylibre.com, amitk@kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        "open list:RENESAS R-CAR THERMAL DRIVERS" 
-        <linux-renesas-soc@vger.kernel.org>
-References: <20220710212423.681301-1-daniel.lezcano@linexp.org>
- <20220710212423.681301-18-daniel.lezcano@linexp.org>
- <YtZ1IExNlsYaJkC9@oden.dyn.berto.se>
-From:   Daniel Lezcano <daniel.lezcano@linexp.org>
-In-Reply-To: <YtZ1IExNlsYaJkC9@oden.dyn.berto.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220722191924.544869-3-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Biju,
 
-Hi Niklas,
+driver looks good - you can add my:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-On 19/07/2022 11:10, Niklas Söderlund wrote:
-> Hi Daniel,
-> 
-> Thanks for your work.
-> 
-> On 2022-07-10 23:24:07 +0200, Daniel Lezcano wrote:
->> The thermal OF code has a new API allowing to migrate the OF
->> initialization to a simpler approach.
->>
->> Use this new API.
-> 
-> I tested this together with the series it depends on and while
-> temperature monitoring seems to work fine it breaks the emul_temp
-> interface (/sys/class/thermal/thermal_zone2/emul_temp).
-> 
-> Before this change I can write a temperature to this file and have it
-> trigger actions, in my test-case changing the cooling state, which I
-> observe in /sys/class/thermal/cooling_device0/cur_state.
-> 
-> Likewise before this change I could trip the critical trip-point that
-> would power off the board using the emul_temp interface, this too no
-> longer works,
-> 
->      echo 120000 > /sys/class/thermal/thermal_zone2/emul_temp
-> 
-> Is this an intention change of the new API?
 
-Absolutely not :)
+I have one general question - that is not related to this driver, but is
+directed to the bridge people on this mail.
 
-Thanks for taking the time to test and report back the issue. I'll 
-investigate that.
+> +static void rzg2l_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
+> +					 struct drm_bridge_state *old_bridge_state)
+> +{
+> +	struct drm_atomic_state *state = old_bridge_state->base.state;
+> +	struct rzg2l_mipi_dsi *dsi = bridge_to_rzg2l_mipi_dsi(bridge);
+> +	const struct drm_display_mode *mode;
+> +	struct drm_connector *connector;
+> +	struct drm_crtc *crtc;
+> +	int ret;
+> +
+> +	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
+> +	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
+> +	mode = &drm_atomic_get_new_crtc_state(state, crtc)->adjusted_mode;
 
-   -- D.
+It is relative often we see the need to access the new crtc_state in
+the atomic_enable() operation. Could we add it as a parameter to
+atomic_enable() and fish it out in the caller?
+That would save some boilerplate code.
+
+I once had a helper cooked up for the above and could dig it up
+again - but the parameter idea seems better?!?
+
+	Sam
