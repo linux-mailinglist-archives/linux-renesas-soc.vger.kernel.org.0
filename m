@@ -2,116 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EBB3B57E382
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 17:12:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EF5E57E427
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 18:08:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235689AbiGVPM1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jul 2022 11:12:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59570 "EHLO
+        id S235284AbiGVQHr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jul 2022 12:07:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235655AbiGVPMU (ORCPT
+        with ESMTP id S235645AbiGVQHd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jul 2022 11:12:20 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E2BDE9748E;
-        Fri, 22 Jul 2022 08:12:18 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.93,186,1654527600"; 
-   d="scan'208";a="128798713"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 23 Jul 2022 00:12:17 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C3D1E432D9F7;
-        Sat, 23 Jul 2022 00:12:13 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
+        Fri, 22 Jul 2022 12:07:33 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB03E2C11A;
+        Fri, 22 Jul 2022 09:07:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7BCAFB82965;
+        Fri, 22 Jul 2022 16:07:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 028A5C341C6;
+        Fri, 22 Jul 2022 16:07:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658506048;
+        bh=5yJocOcL05K+d32MD68eU+SES1IoxYGjQASgo+upaTE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cCJThHET412NCDTUriBUl6zNGXCxuoWBYvJdB+zQBM+Uz6TLiGskh3DQdzjmSQxVO
+         4CA+JXCAY7zb/RQLnhMaiQVKVnLYV+xfUKx/62Fveyrpt7K2w4dut36LMtHi/0ZR3W
+         87sIh9E8Zp1ymJZAS5WyCZiwR7u3jfu8T823qV8I8pHeApC/Fy6mXE4/cjM5sj+Hch
+         dcpZQSx93ZAr01IlHQyil/qbtBgva/3rZQYefcgVtKit0zXlcqWskIQ92zG4lmqdL+
+         OC6YwoHYmoEDcocR+tTD+jwgEKHPq5SgEirRs7yy94G1TGt0WA5x/TxsHL3ZUf2Aij
+         NCeZax9dYNoEA==
+Date:   Fri, 22 Jul 2022 18:07:14 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Phil Edworthy <phil.edworthy@renesas.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+        Jan Dabros <jsd@semihalf.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Tyrone Ting <kfting@nuvoton.com>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 3/3] arm64: dts: renesas: rzg2l-smarc-som: Add PHY interrupt support for ETH{0/1}
-Date:   Fri, 22 Jul 2022 16:11:55 +0100
-Message-Id: <20220722151155.21100-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220722151155.21100-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220722151155.21100-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] i2c: Add Renesas RZ/V2M controller
+Message-ID: <YtrLMr0UeSSKxTFP@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+        Jan Dabros <jsd@semihalf.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Tyrone Ting <kfting@nuvoton.com>, Arnd Bergmann <arnd@arndb.de>,
+        Olof Johansson <olof@lixom.net>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20220708100350.12523-1-phil.edworthy@renesas.com>
+ <20220708100350.12523-3-phil.edworthy@renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220708100350.12523-3-phil.edworthy@renesas.com>
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The PHY interrupt (INT_N) pin is connected to IRQ2 and IRQ3 for ETH0
-and ETH1 respectively.
+Hi Phil,
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v2->v3
-* Included irqc-rzg2l.h header
+> Yet another i2c controller from Renesas that is found on the RZ/V2M
+> (r9a09g011) SoC. It can support only 100kHz and 400KHz operation.
 
-v1->v2
-* Used macros of IRQ numbers
----
- arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+Geez, you are right with "yet another". One wonders why the 5 others are
+not enough?
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-index 9410796c8ad6..c4faff092380 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-@@ -6,6 +6,7 @@
-  */
- 
- #include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/irqc-rzg2l.h>
- #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
- 
- /* SW1[2] should be at position 2/OFF to enable 64 GB eMMC */
-@@ -94,6 +95,8 @@ phy0: ethernet-phy@7 {
- 		compatible = "ethernet-phy-id0022.1640",
- 			     "ethernet-phy-ieee802.3-c22";
- 		reg = <7>;
-+		interrupt-parent = <&irqc>;
-+		interrupts = <RZG2L_IRQ2 IRQ_TYPE_LEVEL_LOW>;
- 		rxc-skew-psec = <2400>;
- 		txc-skew-psec = <2400>;
- 		rxdv-skew-psec = <0>;
-@@ -120,6 +123,8 @@ phy1: ethernet-phy@7 {
- 		compatible = "ethernet-phy-id0022.1640",
- 			     "ethernet-phy-ieee802.3-c22";
- 		reg = <7>;
-+		interrupt-parent = <&irqc>;
-+		interrupts = <RZG2L_IRQ3 IRQ_TYPE_LEVEL_LOW>;
- 		rxc-skew-psec = <2400>;
- 		txc-skew-psec = <2400>;
- 		rxdv-skew-psec = <0>;
-@@ -171,7 +176,8 @@ eth0_pins: eth0 {
- 			 <RZG2L_PORT_PINMUX(25, 0, 1)>, /* ET0_RXD0 */
- 			 <RZG2L_PORT_PINMUX(25, 1, 1)>, /* ET0_RXD1 */
- 			 <RZG2L_PORT_PINMUX(26, 0, 1)>, /* ET0_RXD2 */
--			 <RZG2L_PORT_PINMUX(26, 1, 1)>; /* ET0_RXD3 */
-+			 <RZG2L_PORT_PINMUX(26, 1, 1)>, /* ET0_RXD3 */
-+			 <RZG2L_PORT_PINMUX(1, 0, 1)>;  /* IRQ2 */
- 	};
- 
- 	eth1_pins: eth1 {
-@@ -189,7 +195,8 @@ eth1_pins: eth1 {
- 			 <RZG2L_PORT_PINMUX(34, 1, 1)>, /* ET1_RXD0 */
- 			 <RZG2L_PORT_PINMUX(35, 0, 1)>, /* ET1_RXD1 */
- 			 <RZG2L_PORT_PINMUX(35, 1, 1)>, /* ET1_RXD2 */
--			 <RZG2L_PORT_PINMUX(36, 0, 1)>; /* ET1_RXD3 */
-+			 <RZG2L_PORT_PINMUX(36, 0, 1)>, /* ET1_RXD3 */
-+			 <RZG2L_PORT_PINMUX(1, 1, 1)>;  /* IRQ3 */
- 	};
- 
- 	gpio-sd0-pwr-en-hog {
--- 
-2.25.1
+> +static int rzv2m_i2c_master_xfer1(struct rzv2m_i2c_priv *priv,
+> +				  struct i2c_msg *msg, int stop)
+
+I'd prefer "rzv2m_i2c_master_xfer_msg" for this function.s
+
+> +	adap->class = I2C_CLASS_DEPRECATED;
+
+You don't need to set the class to deprecated because there can't be a
+previous version which now loses this functionality and needs to inform
+userspace about it. .class can be 0 here.
+
+Reset looks looks, good thanks!
+
+I can fix up these minor things when applying if you don't mind.
+
+Happy hacking,
+
+   Wolfram
 
