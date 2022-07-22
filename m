@@ -2,64 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 699B857DD02
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 10:58:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8A9557DD07
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 11:02:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234531AbiGVI51 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jul 2022 04:57:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57272 "EHLO
+        id S232572AbiGVJB7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jul 2022 05:01:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233937AbiGVI50 (ORCPT
+        with ESMTP id S230409AbiGVJB6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jul 2022 04:57:26 -0400
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AFC19FE39;
-        Fri, 22 Jul 2022 01:57:26 -0700 (PDT)
-Received: by mail-qv1-f41.google.com with SMTP id y18so3020639qvo.11;
-        Fri, 22 Jul 2022 01:57:26 -0700 (PDT)
+        Fri, 22 Jul 2022 05:01:58 -0400
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5FCA183B7;
+        Fri, 22 Jul 2022 02:01:57 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id o1so3141668qkg.9;
+        Fri, 22 Jul 2022 02:01:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=I5JWR9fHVimN8Zv1r2sla8cY+tZDC78z+3g8TQgGYJY=;
-        b=4/teMxLUSrYEwaMlZAibjrLEyVL6HrovZd5NRFnhBKb34mJy7VAsxSsuDaIaaVG/w9
-         pkVNkCLACoiJhZMfVuMjSxAOXGsrWX2X0ThbsPQp7SiPTeCHBsbnyq9elVWZrUfN+C8T
-         Q4MKM1vT4yWNPDI2Hx+DTpSoiSUKNUIV7y3bOEPxrYIysLoP+iST3xNjnj3HkBoWmqa5
-         ra6JREDOZsAlJz+ZWo04BST9UTYeoe/HfHzR0lHZk1oUOLijuRS1JHraF6tTv+031bCR
-         D3Z6SzSRGLzo5vKKPG6hfr8shKYaN3fEzPKaj2e+X/6Qn+e0hEvHIGoieDh+RihVDGrD
-         bIQA==
-X-Gm-Message-State: AJIora83/xgDfwhGJCmoxcFxt2oachpBX1z8q8M6vxhLPcGmGXyIq//w
-        3uVvkt9aHOG7BQYiG3KsMFowyz+r3NHGiA==
-X-Google-Smtp-Source: AGRyM1vzEqiZL3/3y49RVeDLM+CrmfgDg5jsLmCR8pztzfsVAZ4cRsfpNGn+XVRlIjcGRndCPosA1Q==
-X-Received: by 2002:a05:6214:21e1:b0:473:8a50:349e with SMTP id p1-20020a05621421e100b004738a50349emr1956712qvj.3.1658480245253;
-        Fri, 22 Jul 2022 01:57:25 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id u6-20020a05620a0c4600b006b5d2f6f372sm3236612qki.132.2022.07.22.01.57.24
+        bh=1DaHwUZ1RE1PYQHo6ho0JHLd5AyS1nGZAw53JopZtuc=;
+        b=gHA/DliFBweURmf9WxF/3yy3xRmX+qMxuXci9T2veXS6XL0DUMI9tWE1mnhX4/hXXJ
+         Hb1Clt6iam/PfK1M8VW9fllklNXOHmxycIUwcXBnnfq1wnC5FCWLuUNgm9UgS4mu7CPf
+         7FPs6icf5y7XJoqGS7iWvZ1mM135NJHjy6lNBQRNbv+Zu9pZkUFby69O3y3MfKvu6Rwt
+         6Zl0pJnnd7+3eKpaYxMGcyc0oUi0rWM8MtOA9GSy2is/m1yW1SE4EPp5DrwVipGb45qu
+         HLcxCigPBQYss48dNiwJ40TmLRgZIA6gmm9IHSD9waQ3F+n/slae1OK0XIT5q9VB9N7u
+         071g==
+X-Gm-Message-State: AJIora+0cnkVKxpMVFowjaSBlbtpI/ErVNYzZWOdkZgGLpLqJ9AZbGhG
+        LeGsxfbetuy6w4fPrLOQPNKVCMxZ7dEeQw==
+X-Google-Smtp-Source: AGRyM1vIPmi34jnrTC5KHNV4WLLQN9Y5oIVAthkOvkY0eQWfeys9E0ccahs5qzsO+RtZ+Dg3cMxhtA==
+X-Received: by 2002:a05:620a:bd4:b0:6ab:8874:4cdc with SMTP id s20-20020a05620a0bd400b006ab88744cdcmr1742339qki.415.1658480516738;
+        Fri, 22 Jul 2022 02:01:56 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id bs16-20020a05620a471000b006b618e006ffsm2989239qkb.2.2022.07.22.02.01.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jul 2022 01:57:24 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id i206so6991798ybc.5;
-        Fri, 22 Jul 2022 01:57:24 -0700 (PDT)
-X-Received: by 2002:a25:aacc:0:b0:66f:f1ca:409c with SMTP id
- t70-20020a25aacc000000b0066ff1ca409cmr2204295ybi.36.1658480243986; Fri, 22
- Jul 2022 01:57:23 -0700 (PDT)
+        Fri, 22 Jul 2022 02:01:56 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-31e560aa854so41036027b3.6;
+        Fri, 22 Jul 2022 02:01:56 -0700 (PDT)
+X-Received: by 2002:a81:4f87:0:b0:31e:7122:16fb with SMTP id
+ d129-20020a814f87000000b0031e712216fbmr2224273ywb.358.1658480516055; Fri, 22
+ Jul 2022 02:01:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220722084430.969333-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220722084430.969333-1-biju.das.jz@bp.renesas.com>
+References: <20220721165701.17888-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220721165701.17888-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <OS0PR01MB5922D6EC478AE231A06E94B586909@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922D6EC478AE231A06E94B586909@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 22 Jul 2022 10:57:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVsDxPpx7jqcBwYLiv-d9EB=tP4mXaLmzG5Ein1FATjkQ@mail.gmail.com>
-Message-ID: <CAMuHMdVsDxPpx7jqcBwYLiv-d9EB=tP4mXaLmzG5Ein1FATjkQ@mail.gmail.com>
-Subject: Re: [PATCH v4] dmaengine: sh: rz-dmac: Add device_synchronize callback
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Colin Ian King <colin.king@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Fri, 22 Jul 2022 11:01:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUrmseZEBpsh22U52vivA=wXYo2C8Ke6CvgWSKjwgYByQ@mail.gmail.com>
+Message-ID: <CAMuHMdUrmseZEBpsh22U52vivA=wXYo2C8Ke6CvgWSKjwgYByQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: pinctrl: rzg2l-pinctrl: Add macros
+ for IRQ0-7
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Marc Zyngier <maz@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -71,25 +74,56 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 22, 2022 at 10:44 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Some on-chip peripheral modules(for eg:- rspi) on RZ/G2L SoC
-> use the same signal for both interrupt and DMA transfer requests.
-> The signal works as a DMA transfer request signal by setting
-> DMARS, and subsequent interrupt requests to the interrupt controller
-> are masked.
->
-> We can re-enable the interrupt by clearing the DMARS.
->
-> This patch adds device_synchronize callback for clearing
-> DMARS and thereby allowing DMA consumers to switch to
-> interrupt mode.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v3->v4:
->  * Increased delay_us 10->100us and timeout_us 1ms->100ms.
+CC maz
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Fri, Jul 22, 2022 at 6:34 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: [PATCH v2 1/2] dt-bindings: pinctrl: rzg2l-pinctrl: Add macros
+> > for IRQ0-7
+> >
+> > Add macros for IRQ0-7 which map to SPI1-8 so that it can be used in
+> > dts/i.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v1->v2
+> > * New patch
+> > ---
+> >  include/dt-bindings/pinctrl/rzg2l-pinctrl.h | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >
+> > diff --git a/include/dt-bindings/pinctrl/rzg2l-pinctrl.h b/include/dt-
+> > bindings/pinctrl/rzg2l-pinctrl.h
+> > index c78ed5e5efb7..6aae2ac206d6 100644
+> > --- a/include/dt-bindings/pinctrl/rzg2l-pinctrl.h
+> > +++ b/include/dt-bindings/pinctrl/rzg2l-pinctrl.h
+> > @@ -20,4 +20,14 @@
+> >  /* Convert a port and pin label to its global pin index */
+> >  #define RZG2L_GPIO(port, pin)        ((port) * RZG2L_PINS_PER_PORT +
+> > (pin))
+> >
+> > +/* IRQ0-7 map to SPI1-8 */
+> > +#define RZG2L_IRQ0   1
+> > +#define RZG2L_IRQ1   2
+> > +#define RZG2L_IRQ2   3
+> > +#define RZG2L_IRQ3   4
+> > +#define RZG2L_IRQ4   5
+> > +#define RZG2L_IRQ5   6
+> > +#define RZG2L_IRQ6   7
+> > +#define RZG2L_IRQ7   8
+
+No definition for NMI?
+
+> > +
+>
+> Not sure, may be these macros to be moved to [1]?? as it is nothing to do
+> with rzg2l-pinctrl.
+>
+> [1]
+> include/dt-bindings/interrupt-controller/irqc-rzg2l.h
+>
+> and binding update to use these macros.
+
+Indeed.
 
 Gr{oetje,eeting}s,
 
