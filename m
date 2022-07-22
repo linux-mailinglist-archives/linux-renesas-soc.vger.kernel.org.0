@@ -2,196 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5840857E4DC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 18:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 362CF57E613
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 19:56:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235284AbiGVQwm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jul 2022 12:52:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50212 "EHLO
+        id S236194AbiGVR4Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jul 2022 13:56:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231700AbiGVQwm (ORCPT
+        with ESMTP id S236158AbiGVR4N (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jul 2022 12:52:42 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 882A463FC;
-        Fri, 22 Jul 2022 09:52:40 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.93,186,1654527600"; 
-   d="scan'208";a="127050546"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 23 Jul 2022 01:52:39 +0900
-Received: from localhost.localdomain (unknown [10.226.92.254])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C46C340A33F3;
-        Sat, 23 Jul 2022 01:52:36 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v12 5/5] media: renesas: vsp1: Add support for RZ/G2L VSPD
-Date:   Fri, 22 Jul 2022 17:52:34 +0100
-Message-Id: <20220722165234.16806-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 22 Jul 2022 13:56:13 -0400
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A179D4C619;
+        Fri, 22 Jul 2022 10:56:12 -0700 (PDT)
+Received: by mail-pl1-f176.google.com with SMTP id d7so5151906plr.9;
+        Fri, 22 Jul 2022 10:56:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=K6H8ybl2+ag7idCYOoYVw/oCxdPB2Pr7niRGvSl53OA=;
+        b=NA6Va0F0RIvgen9z1fpVvPHFI0qhOk/O9Pfdmq2MlZ80VgZk3D4Ppaer3AijwbYvQU
+         PYsM34iG2GzdWqYHYB8p8xMoT9bX2kGfWyLS3HVT2LKAY7fAtkHM3bbtL720LW5BMWiI
+         hDzy/UvI5nYcz7CMokFkqicX7cfncbi7mdD2sXRl/sA7XMy5Vfg2ymv9qJk3+VjOiat0
+         Hxc1h1tFXpVtBsRmYe8oe6IrHBf5shpuva2Ft7d4A+fYz6veYQdVUZYYVNM1fWWo4YFD
+         5471sE8189nZw091jvpMua+ogZLtIhwMXb6gCIy75JdwIvdpGAUTBc1UBRk8KFpT3B6g
+         LUAw==
+X-Gm-Message-State: AJIora+DEw3eAKjfbOxpOCKbrXQgyULBf0hUqVMFQgWm9p8CW1/V37DV
+        Kpac/8jM97Vpu2x56Bp9LkE=
+X-Google-Smtp-Source: AGRyM1vCHU8qGyA8pLRAYfvadi7jDT5J7KiHVcv7GaY3IC+IUt3kg/RktDKh1wIJu/8+y40eAeoQfQ==
+X-Received: by 2002:a17:90b:33d2:b0:1f0:3a40:982d with SMTP id lk18-20020a17090b33d200b001f03a40982dmr840647pjb.60.1658512572066;
+        Fri, 22 Jul 2022 10:56:12 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:9cf6:7e29:d977:6fc7? ([2620:15c:211:201:9cf6:7e29:d977:6fc7])
+        by smtp.gmail.com with ESMTPSA id q3-20020a170902a3c300b0016c6a6d8967sm4065003plb.83.2022.07.22.10.56.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Jul 2022 10:56:11 -0700 (PDT)
+Message-ID: <084e7c5a-f98d-d61e-de81-83525851ecf9@acm.org>
+Date:   Fri, 22 Jul 2022 10:56:09 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 2/2] scsi: sd: Rework asynchronous resume support
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        scsi <linux-scsi@vger.kernel.org>,
+        Ming Lei <ming.lei@redhat.com>, Hannes Reinecke <hare@suse.de>,
+        John Garry <john.garry@huawei.com>, ericspero@icloud.com,
+        jason600.groome@gmail.com,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20220630195703.10155-1-bvanassche@acm.org>
+ <20220630195703.10155-3-bvanassche@acm.org>
+ <alpine.DEB.2.22.394.2207191125130.1006766@ramsan.of.borg>
+ <db19ed29-e7f9-e5b0-3a6c-f2812078a07d@acm.org>
+ <CAMuHMdVzsgSYtbJQnaigNax_JbxPsQfU+gHcteS-ojWbxUdMfw@mail.gmail.com>
+ <CAMuHMdWtxBj8ug7AHTqentF8UD4jpO2sgoWWcQCOvEKLJtdq8A@mail.gmail.com>
+ <506ca1a6-1122-5755-fc74-60f7c7bfbd0d@acm.org>
+ <CAMuHMdVQ2K2v8jpsFfOMk99DG_sBB4_ioiQRroC7K_Ov1wvp9w@mail.gmail.com>
+ <6f70e742-9d8a-f389-0482-0ba9696bf445@acm.org>
+ <CAMuHMdVc+ATGV-=R3uV6RyF0-mZiuKv7HpmogRBgqGVyO-MKWg@mail.gmail.com>
+ <54e20a27-a10b-b77a-e950-1d3398e2e907@acm.org>
+ <CAMuHMdURQpAEGgv4cY7v0rqzs12v2TT=Amt26Y0OoBSW7YAoaw@mail.gmail.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <CAMuHMdURQpAEGgv4cY7v0rqzs12v2TT=Amt26Y0OoBSW7YAoaw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The RZ/G2L VSPD provides a single VSPD instance. It has the following
-sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+On 7/22/22 01:53, Geert Uytterhoeven wrote:
+> During s2idle, the following trace data is generated:
+> 
+>     kworker/u16:9-325     [000] ...2.   230.478731: block_rq_issue: 8,0
+> N 0 () 0 + 0 [kworker/u16:9]
+>     kworker/u16:9-325     [000] ...2.   230.478745:
+> scsi_dispatch_cmd_start: host_no=0 channel=0 id=0 lun=0 data_sgl=0
+> prot_sgl=0 prot_op=SCSI_PROT_NORMAL driver_tag=0 scheduler_tag=0
+> cmnd=(SYNCHRONIZE_CACHE - raw=35 00 00 00 00 00 00 00 00 00)
+>            <idle>-0       [007] d.h3.   230.478832:
+> scsi_dispatch_cmd_done: host_no=0 channel=0 id=0 lun=0 data_sgl=0
+> prot_sgl=0 prot_op=SCSI_PROT_NORMAL driver_tag=0 scheduler_tag=0
+> cmnd=(SYNCHRONIZE_CACHE - raw=35 00 00 00 00 00 00 00 00 00)
+> result=(driver=DRIVER_OK host=DID_OK message=COMMAND_COMPLETE
+> status=SAM_STAT_GOOD)
+>            <idle>-0       [000] ..s2.   230.478851: block_rq_complete:
+> 8,0 N () 18446744073709551615 + 0 [0]
+>     kworker/u16:9-325     [000] ...2.   230.483134: block_rq_issue: 8,0
+> N 0 () 0 + 0 [kworker/u16:9]
+>     kworker/u16:9-325     [000] ...2.   230.483136:
+> scsi_dispatch_cmd_start: host_no=0 channel=0 id=0 lun=0 data_sgl=0
+> prot_sgl=0 prot_op=SCSI_PROT_NORMAL driver_tag=0 scheduler_tag=1
+> cmnd=(START_STOP - raw=1b 00 00 00 00 00)
+>            <idle>-0       [007] d.h3.   230.624530:
+> scsi_dispatch_cmd_done: host_no=0 channel=0 id=0 lun=0 data_sgl=0
+> prot_sgl=0 prot_op=SCSI_PROT_NORMAL driver_tag=0 scheduler_tag=1
+> cmnd=(START_STOP - raw=1b 00 00 00 00 00) result=(driver=DRIVER_OK
+> host=DID_OK message=COMMAND_COMPLETE status=SAM_STAT_GOOD)
+>            <idle>-0       [000] d.s4.   230.624634: scsi_eh_wakeup: host_no=0
+>            <idle>-0       [000] ..s2.   230.624642: block_rq_complete:
+> 8,0 N () 18446744073709551615 + 0 [0]
+>    kworker/u16:14-1027    [007] d..3.   231.393642: scsi_eh_wakeup: host_no=0
+> 
+> When reading from hard drive after s2idle, no more trace data
+> is generated.
 
-The VSPD block on RZ/G2L SoCs does not have a version register, so
-added a new compatible string "renesas,r9a07g044-vsp2" with a data
-pointer containing the info structure. Also the reset line is shared
-with the DU module.
+I think the above commands come from the suspend sequence. '1b 00 00 00 
+00 00' stops a block device. The lowest bit in byte 4 needs to be set to 
+start a block device.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-v11->v12:
- * No change
-v10->v11:
- * No change.
-v9->v10:
- * No change.
-v8->v9:
- * Replaced the code comments RZ/G2L {SoC's,SoC} with RZ/G2L SoCs.
-v7->v8:
- * Split the patch for adding s/w version, feature bit and RZ/G2L support
- * Added feature bit VSP1_HAS_NON_ZERO_LBA to device_info
- * Added .soc for RZ/G2L
- * Replaced the compatible "renesas,rzg2l-vsp2" -> "renesas,r9a07g044-vsp2"
-v6->v7:
- * Added Rb tag from Kieran
- * Added a quirk to handle LIF0 buffer attribute related
-   changes for V3M and G2L.
- * Removed the macro for VSP HW version
-v5->v6:
- * Rebased to media_staging and updated commit header
- * Removed the extra tab from rzg2l_vsp2_device_info
- * Changed the function vsp1_lookup->vsp1_lookup_info and
-   all info match related code moved here.
- * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
-   distinguish HW & SW IP_VSP_Version.
- * Used 0x80 for RZG2L VSPD model and SoC identification
- * Updated Switch() for LIF0 buffer attribute handling.
-v4->v5:
- * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
- * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
-   for RZ/G2L SoC's.
-v3->v4:
- * Added Rb tag from Geert
- * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M
-v2->v3:
- * Fixed version comparison in vsp1_lookup()
-v1->v2:
- * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
- * Added standalone device info for rzg2l-vsp2.
- * Added vsp1_lookup helper function.
- * Updated comments for LIF0 buffer attribute register
- * Used last ID for rzg2l-vsp2.
-RFC->v1:
- * Used data pointer containing info structure to retrieve version information
-RFC:
- * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
----
- drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 13 +++++++++++++
- drivers/media/platform/renesas/vsp1/vsp1_lif.c  |  9 +++++----
- drivers/media/platform/renesas/vsp1/vsp1_regs.h |  4 ++++
- 3 files changed, 22 insertions(+), 4 deletions(-)
+Something that is not yet clear is whether or not sd_submit_start() 
+hangs during the resume process. How about verifying whether or not 
+sd_submit_start() hangs by either issuing SysRq-t or by adding pr_info() 
+statements in that function?
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-index bc0ce5614841..a63fc44f2283 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-@@ -830,6 +830,18 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
- 	},
- };
- 
-+static const struct vsp1_device_info rzg2l_vsp2_device_info = {
-+	.version = VI6_IP_VERSION_MODEL_VSPD_RZG2L,
-+	.model = "VSP2-D",
-+	.soc = VI6_IP_VERSION_SOC_RZG2L,
-+	.gen = 3,
-+	.features = VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HAS_EXT_DL
-+		  | VSP1_HAS_NON_ZERO_LBA,
-+	.lif_count = 1,
-+	.rpf_count = 2,
-+	.wpf_count = 1,
-+};
-+
- static const struct vsp1_device_info *vsp1_lookup_info(struct vsp1_device *vsp1)
- {
- 	const struct vsp1_device_info *info;
-@@ -980,6 +992,7 @@ static int vsp1_remove(struct platform_device *pdev)
- static const struct of_device_id vsp1_of_match[] = {
- 	{ .compatible = "renesas,vsp1" },
- 	{ .compatible = "renesas,vsp2" },
-+	{ .compatible = "renesas,r9a07g044-vsp2", .data = &rzg2l_vsp2_device_info },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, vsp1_of_match);
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-index 9adb892edcdc..186a5730e1e3 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-@@ -107,6 +107,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 
- 	case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
- 	case VI6_IP_VERSION_MODEL_VSPD_V3:
-+	case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
- 		hbth = 0;
- 		obth = 1500;
- 		lbth = 0;
-@@ -130,10 +131,10 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 			VI6_LIF_CTRL_REQSEL | VI6_LIF_CTRL_LIF_EN);
- 
- 	/*
--	 * On R-Car V3M the LIF0 buffer attribute register has to be set to a
--	 * non-default value to guarantee proper operation (otherwise artifacts
--	 * may appear on the output). The value required by the manual is not
--	 * explained but is likely a buffer size or threshold.
-+	 * On R-Car V3M and RZ/G2L the LIF0 buffer attribute register has to be
-+	 * set to a non-default value to guarantee proper operation (otherwise
-+	 * artifacts may appear on the output). The value required by the
-+	 * manual is not explained but is likely a buffer size or threshold.
- 	 */
- 	if (vsp1_feature(entity->vsp1, VSP1_HAS_NON_ZERO_LBA))
- 		vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-index 4286d13eca32..8928f4c6bb55 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-@@ -767,6 +767,8 @@
- #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
- #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
- #define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-+/* RZ/G2L SoCs have no version register, So use 0x80 as the model version */
-+#define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
- 
- #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
- #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
-@@ -780,6 +782,8 @@
- #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
-+/* RZ/G2L SoCs have no version register, So use 0x80 for SoC Identification */
-+#define VI6_IP_VERSION_SOC_RZG2L	(0x80 << 0)
- 
- #define VI6_IP_VERSION_VSP_SW		(0xfffe << 16) /* SW VSP version */
- 
--- 
-2.25.1
+Thanks,
 
+Bart.
