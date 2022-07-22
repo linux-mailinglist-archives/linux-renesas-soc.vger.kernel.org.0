@@ -2,55 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D093E57DF2D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 12:10:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D6A457DF00
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jul 2022 12:10:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236713AbiGVJmS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jul 2022 05:42:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44904 "EHLO
+        id S235472AbiGVJnt convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jul 2022 05:43:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235393AbiGVJmB (ORCPT
+        with ESMTP id S235321AbiGVJne (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jul 2022 05:42:01 -0400
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ADD6CC6;
-        Fri, 22 Jul 2022 02:31:40 -0700 (PDT)
-Received: by mail-qt1-f174.google.com with SMTP id bz13so3099329qtb.7;
-        Fri, 22 Jul 2022 02:31:40 -0700 (PDT)
+        Fri, 22 Jul 2022 05:43:34 -0400
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97D532B1AA;
+        Fri, 22 Jul 2022 02:37:21 -0700 (PDT)
+Received: by mail-qt1-f169.google.com with SMTP id r21so3097634qtn.11;
+        Fri, 22 Jul 2022 02:37:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/eKtb1gRHrco8cantWWpSRLNBaxxulEKH0F25Dqd8nk=;
-        b=eLtx8SxvSjynZPSDhTIbmnKIXrYffNIICknXUpmLVWPLilFir4eklz65BCfeqdUtI/
-         2OfEefsNyLWzmXHQ9qGnLrVvnLz8b0AVaOL3rH3Q+imUf2BlAY1QtUQgZCRWHB76wOvg
-         HoOsotx9y4Q24H9lYXwh1i3QXndsEw/Xk/nNx6mnr8boyhLk2pntiuTRKEi9rWdW8XOg
-         x7jXdWOP6ebDa5t/PBA6x6sXubIwcG0uSe5bSTCFxIEoVNZkhXUtKJrwtoB0WdOynDSQ
-         6Zjk6h7Vvm8bt/fTi4lIkXa/NMJ7v3z2eg837E9IIQcxmMXAkKqAAKiiMEgvZ8yfMcjP
-         g/Dg==
-X-Gm-Message-State: AJIora82l+B2ekU0kilrAsyNNEHeyRjcEzaylJtSBTQRN9ZvxcBHpL/n
-        HC8J8J/vIWnRQ7Dfu/8aoPRP6oB20PPc+g==
-X-Google-Smtp-Source: AGRyM1sIWrdIdsDIAWqQgpIrcaCr9h2OtFlh44rPh4GfA1rrnP44h9Z+1dmaA27gB7mymKJ/Wcwhxw==
-X-Received: by 2002:a05:622a:5d2:b0:31f:229d:441d with SMTP id d18-20020a05622a05d200b0031f229d441dmr911312qtb.277.1658482298812;
-        Fri, 22 Jul 2022 02:31:38 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id t28-20020a37ea1c000000b006b58d8f6181sm3195045qkj.72.2022.07.22.02.31.38
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Ipd0OV9VFSCgqhes77c1Z/Sacso48JrJfoSgIwk6SdY=;
+        b=4ts5okaMyNaZOgI3VCIuo1fWr+MlyYEw2rPkzRYG4XwpLXo1TesfIF3Kvz00VnOG7w
+         jeZJm7NkGtOQ50yiMqY8FbBuqt+vqDQhR7JTMhOVFo3oIcY6iaMOi2SlLqZ8HHrQO7iy
+         smctAElwR4aE6EPVJ4e1+Ri7Xv9JRCFD6nDB/zUS/V2gwXe7TXtA558T2GLojFQdWmpr
+         ehoAFfkhfYfmckmebkTzelua7x1A6LgtrP6w5sHTj/O6OLIfO1U0eMhd1Fu/bxP7pBBR
+         +MtmR4WwpQhClGXso3e3ajsyuttVi99PcMIl5y9/oHcfH3cgVBB6/KbcbofVcYAem3Ko
+         ocXQ==
+X-Gm-Message-State: AJIora+aISgwz9CWYhMLvcoouo24wYzbG9y19mlrgUcR+CxbJQam5p3O
+        Gixip2wr9XKzWXHbP7CsOq3GORy+Y6Lm5A==
+X-Google-Smtp-Source: AGRyM1u2J7dQOfIR4xqmiMZg8u8xlZdDUqGppv2e5bsCuGNrHdmxOZkfC3a+ZY5anm5e/7ytLESu/g==
+X-Received: by 2002:ac8:5a50:0:b0:31e:f587:f891 with SMTP id o16-20020ac85a50000000b0031ef587f891mr2231097qta.10.1658482640229;
+        Fri, 22 Jul 2022 02:37:20 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id do23-20020a05620a2b1700b006a758ce2ae1sm3351616qkb.104.2022.07.22.02.37.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jul 2022 02:31:38 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id r3so7102300ybr.6;
-        Fri, 22 Jul 2022 02:31:38 -0700 (PDT)
-X-Received: by 2002:a25:aacc:0:b0:66f:f1ca:409c with SMTP id
- t70-20020a25aacc000000b0066ff1ca409cmr2301873ybi.36.1658482297883; Fri, 22
- Jul 2022 02:31:37 -0700 (PDT)
+        Fri, 22 Jul 2022 02:37:20 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-31e7ca45091so41862617b3.3;
+        Fri, 22 Jul 2022 02:37:19 -0700 (PDT)
+X-Received: by 2002:a81:84c1:0:b0:31e:4e05:e4f4 with SMTP id
+ u184-20020a8184c1000000b0031e4e05e4f4mr2273395ywf.384.1658482639502; Fri, 22
+ Jul 2022 02:37:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220721221212.18491-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220721221212.18491-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220721221212.18491-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220721221212.18491-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220721221212.18491-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220721221212.18491-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 22 Jul 2022 11:31:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVy0w8Y-+MegHnjdFkQ7vB1Y=jPY-9atTFT_WTVYOiGLg@mail.gmail.com>
-Message-ID: <CAMuHMdVy0w8Y-+MegHnjdFkQ7vB1Y=jPY-9atTFT_WTVYOiGLg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: soc: renesas: renesas,rzg2l-sysc:
- Document RZ/Five SoC
+Date:   Fri, 22 Jul 2022 11:37:08 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWDZVoxW5RUb0HjR7ZABo2Hj0waX+soqTDsxtxQa2N1MA@mail.gmail.com>
+Message-ID: <CAMuHMdWDZVoxW5RUb0HjR7ZABo2Hj0waX+soqTDsxtxQa2N1MA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] soc: renesas: Identify RZ/Five SoC
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -62,6 +62,7 @@ Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
@@ -74,129 +75,59 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Prabhakar,
 
-On Fri, Jul 22, 2022 at 12:15 AM Lad Prabhakar
+On Fri, Jul 22, 2022 at 12:12 AM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Document RZ/Five (R9A07G043) SYSC bindings. SYSC block found on the
-> RZ/Five SoC is almost identical to one found on the RZ/G2L (and alike)
-> SoC's. To differentiate RZ/G2UL from RZ/Five, "-rzfive" is included in
-> the compatible string for the RZ/Five SoC as there are no interrupts
-> from the SYSC block to the core.
+> Add support for identifying the (R9A07G043) RZ/Five SoC.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Thanks for your patch!
 
-> ---
->  .../soc/renesas/renesas,rzg2l-sysc.yaml       | 56 +++++++++++++------
->  1 file changed, 39 insertions(+), 17 deletions(-)
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -333,6 +333,16 @@ config ARCH_R9A09G011
 >
-> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
-> index ce2875c89329..bdaf05f8b29b 100644
-> --- a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
-> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
-> @@ -20,35 +20,57 @@ description:
->  properties:
->    compatible:
->      enum:
-> -      - renesas,r9a07g043-sysc # RZ/G2UL
-> -      - renesas,r9a07g044-sysc # RZ/G2{L,LC}
-> -      - renesas,r9a07g054-sysc # RZ/V2L
-> +      - renesas,r9a07g043-rzfive-sysc # RZ/Five
-
-renesas,r9a07g043f-sysc?
-
-But I'm wondering if we really need a different compatible value?
-It looks like both blocks differ only in external wiring, so if
-anything needs to be handled differently (the removed/added registers
-are related to CPU topology), that can be inferred from the system
-topology (or even #ifdef CONFIG_{ARM64,RISCV} ;-)
-
-> +      - renesas,r9a07g043-sysc        # RZ/G2UL
-> +      - renesas,r9a07g044-sysc        # RZ/G2{L,LC}
-> +      - renesas,r9a07g054-sysc        # RZ/V2L
+>  endif # ARM64
 >
->    reg:
->      maxItems: 1
->
-> -  interrupts:
-> -    items:
-> -      - description: CA55/CM33 Sleep/Software Standby Mode request interrupt
-> -      - description: CA55 Software Standby Mode release request interrupt
-> -      - description: CM33 Software Standby Mode release request interrupt
-> -      - description: CA55 ACE Asynchronous Bridge Master/Slave interface deny request interrupt
-> +  interrupts: true
->
-> -  interrupt-names:
-> -    items:
-> -      - const: lpm_int
-> -      - const: ca55stbydone_int
-> -      - const: cm33stbyr_int
-> -      - const: ca55_deny
-> +  interrupt-names: true
->
->  required:
->    - compatible
->    - reg
-> -  - interrupts
-> -  - interrupt-names
->
->  additionalProperties: false
->
-> +allOf:
-> +  - if:
-> +      not:
-> +        properties:
-> +          compatible:
-> +            contains:
-> +              enum:
-> +                - renesas,r9a07g043-rzfive-sysc
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          items:
-> +            - description: CA55/CM33 Sleep/Software Standby Mode request interrupt
-> +            - description: CA55 Software Standby Mode release request interrupt
-> +            - description: CM33 Software Standby Mode release request interrupt
-> +            - description: CA55 ACE Asynchronous Bridge Master/Slave interface deny request interrupt
+> +if RISCV
 > +
-> +        interrupt-names:
-> +          items:
-> +            - const: lpm_int
-> +            - const: ca55stbydone_int
-> +            - const: cm33stbyr_int
-> +            - const: ca55_deny
+> +config ARCH_R9A07G043
+> +       bool "RISCV Platform support for RZ/Five"
+
+RISC-V
+
+> +       select ARCH_RZG2L
+> +       help
+> +         This enables support for the Renesas RZ/Five SoC.
 > +
-> +      required:
-> +        - interrupts
-> +        - interrupt-names
+> +endif # RISCV
 > +
-> +    else:
-> +      properties:
-> +        interrupts: false
-> +        interrupt-names: false
+>  config RST_RCAR
+>         bool "Reset Controller support for R-Car" if COMPILE_TEST
+>
 
-Do all interrupts{,-names} have to be moved?
-Wouldn't it be sufficient to just have
+> @@ -102,6 +106,11 @@ static const struct renesas_soc soc_rmobile_a1 __initconst __maybe_unused = {
+>         .id     = 0x40,
+>  };
+>
+> +static const struct renesas_soc soc_rz_five __initconst __maybe_unused = {
+> +       .family = &fam_rzfive,
+> +       .id     = 0x847c447,
 
-    if [...]
-    then:
-        required:
-          - interrupts
-          - interrupt-names
-    else:
-        properties:
-            interrupts: false
-            interrupt-names: false
+The Hardware User's Manual Rev.1.00 says H’x841_C447?
 
-?
+> @@ -398,6 +411,7 @@ static const struct renesas_id id_prr __initconst = {
+>
+>  static const struct of_device_id renesas_ids[] __initconst = {
+>         { .compatible = "renesas,bsid",                 .data = &id_bsid },
+> +       { .compatible = "renesas,r9a07g043-rzfive-sysc", .data = &id_rzg2l },
+>         { .compatible = "renesas,r9a07g043-sysc",       .data = &id_rzg2l },
+>         { .compatible = "renesas,r9a07g044-sysc",       .data = &id_rzg2l },
+>         { .compatible = "renesas,r9a07g054-sysc",       .data = &id_rzg2l },
 
-But again, without a new compatible value, you could just make
-interrupts{,-names} not required?
+This change might not be needed (cfr. my comments on patch 1/2).
 
-> +
->  examples:
->    - |
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
