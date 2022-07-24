@@ -2,133 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E75C557F6A1
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 24 Jul 2022 21:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42FE757F721
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 24 Jul 2022 23:11:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229469AbiGXTBA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 24 Jul 2022 15:01:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39772 "EHLO
+        id S229618AbiGXVLy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 24 Jul 2022 17:11:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230499AbiGXTBA (ORCPT
+        with ESMTP id S229456AbiGXVLx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 24 Jul 2022 15:01:00 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 317B21117A
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 24 Jul 2022 12:00:57 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id m9so10831816ljp.9
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 24 Jul 2022 12:00:57 -0700 (PDT)
+        Sun, 24 Jul 2022 17:11:53 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AA53FD01
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 24 Jul 2022 14:11:51 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id h9so13516636wrm.0
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 24 Jul 2022 14:11:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=IHMS+b3mDvwpMK/cDzCHPu0P8GmbIu/+yms/GdH73sw=;
-        b=bGoaywtkZGEkQcPy7njuO4/w2RIeQ8rTyMvn/sPnQGQHf7HI2fFosOMJHoe8O/EFZD
-         ATJh/+apUsVSQGCZLO76zcRQo3QGvEu7/h8P/ks09vxKIEOwIrK2R5fpR0HjfpJoDLzG
-         3mZ30+8eBEup5Qw2rfgqy7o2P3bm52UgwxB3Gy+bDwuEldlGxTrft5rZdkrrFr9kRgjz
-         Cx/nKlpK/s8rYsZJPncxqe2DnEw3oUNwl559lLrlA6lVrHMC2ps0Dso+sFCZ/bQ3vXEj
-         e/bQ/yG00YkdiGL9PfMzo12zRc4QGeRJfovBfO0t6UoXHE0NbvHNnRK1d93KDZ+hRTYy
-         hqxQ==
+        d=linexp-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=I82qCTQ+1+1kumTVL2f6gNoXqjsEJx9FUsiKSkcu270=;
+        b=wuSz/1wPl7gCzKBGTUPtom3BFEKJpiqNqxZ4FD9KL0Hvv6Sr3t2FKAN6uNF78WR34c
+         VkXBGmwAfh92UQJL5hi0v+DoS1thFimQqc299PmWJ4eRwqmQlS0fhWpMYIGoj7M4n0tY
+         BZ9w4bnvFFOngJLuF4NlBh72ajZ/URu435ZULEaG6U6Qp9wm0weonKI9Noe0+t9IGt9m
+         z/iQfVQR8b5yuO0GICC+0cOtEYhAX2rtcZJU7WTt6Ala/9jf8ZdmTDM0KZ2uhQ0AnUPt
+         nV9qT2SSpKm08WMIO08mf+cnXbJnEapJwhTkJFqRDBAYZlsnEpB2g5pXr6PyOBSDuzNZ
+         SOFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=IHMS+b3mDvwpMK/cDzCHPu0P8GmbIu/+yms/GdH73sw=;
-        b=76BPfg1TproFbJJxkUmcMf3gCeWPbZqenSPQN4mpGKxlN1ZXSjobBqAsP7cuGMQHId
-         pPvkaC25H4/kV3VCwkJxwNQXAtd3J8thxro94X37//LrEYisWI0gI7gad0RZ37WBBQV4
-         YM7Df6JHrbmOExMGeScnp7f/BMoEg1xRNUewsKYl0MtIOQZ5D4ZrHmGZrd04Nr90eN1S
-         oNy9teFiIj5yFidS2xddZCqL/DBexYSNfS8k0fcD6wy7YTz+ql6nUYxPi/Rol2W8aW4p
-         8ZFreeI5ShjD3u1klgp9IdzmEtP/2xb/i29A4HE8jciE7Ebk9ahzjhkDLujRK0jwwJQQ
-         +ZKg==
-X-Gm-Message-State: AJIora9dDmlg+ZGlt9lgDuXEf83JD3x63rbrT5ZdtyDToXUWOnsP6Kev
-        3OKu84jj0Yx5oPU8bQ1ebjk+oA==
-X-Google-Smtp-Source: AGRyM1s3nkMSDXcI+L/mB7ooKMNuJV1ByJdw0mt62IXB8zpkiu3HoHqH2vGvbsiChaGMnLUzrpw2vw==
-X-Received: by 2002:a05:651c:1241:b0:25d:5484:75d3 with SMTP id h1-20020a05651c124100b0025d548475d3mr3233113ljh.45.1658689255220;
-        Sun, 24 Jul 2022 12:00:55 -0700 (PDT)
-Received: from localhost (h-46-59-88-103.A463.priv.bahnhof.se. [46.59.88.103])
-        by smtp.gmail.com with ESMTPSA id p13-20020a2ea4cd000000b0025e0396786dsm404345ljm.93.2022.07.24.12.00.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Jul 2022 12:00:54 -0700 (PDT)
-Date:   Sun, 24 Jul 2022 21:00:53 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Daniel Lezcano <daniel.lezcano@linexp.org>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=I82qCTQ+1+1kumTVL2f6gNoXqjsEJx9FUsiKSkcu270=;
+        b=N83H4YEOJLtRlGeKsbnTPzB1pd6JdKHiz5iVfScI64YkSWqe+ktvC2x/nt5LnnDDb2
+         lLzHbLirY8jtDHpgyibIIK9Ko8qk9bfF1SU0q09OFTjjkOaASWIFyhe3rGE2C9qPy6LI
+         VjFDwded3V2Y0gs/IUj+SkXV5fPiDrffgpQwB0nuaYNuhGbf2L0gA65E/Zk4NZedX4/j
+         rTeqbqeRPzdm/5vxVmR0gAxY7Rqnlrq4FSvpQ9AElDwkESSMxCvX70a/PfCSXv11f4M+
+         VknhMQOosn4s0/uoEydtS1E4OJzGgguJ6//LeDeCM1P94oPSkE9sTGU8mIwORPXmsdey
+         Rn8w==
+X-Gm-Message-State: AJIora/AFTZhdu+cpn+vizVNa3VaiuSlFAdVO50aC/Dr7ljqJyzjUEJ/
+        W5jmL8MCd3reX86zMIdewF2WaA==
+X-Google-Smtp-Source: AGRyM1sR5s1/uJ/Qo8R7OPhstjMROxTZaEI8GaJ88n/sbN81zRM4xCZiuy2eLE0fYDeQQk6WBMflUw==
+X-Received: by 2002:a5d:64e8:0:b0:21d:b277:d4a7 with SMTP id g8-20020a5d64e8000000b0021db277d4a7mr6030105wri.621.1658697109443;
+        Sun, 24 Jul 2022 14:11:49 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:feb7:6a58:3e0f:a58f? ([2a05:6e02:1041:c10:feb7:6a58:3e0f:a58f])
+        by smtp.gmail.com with ESMTPSA id r16-20020adfdc90000000b0021cf31e1f7csm10382968wrj.102.2022.07.24.14.11.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 24 Jul 2022 14:11:48 -0700 (PDT)
+Message-ID: <e2a56ac3-057c-2b17-7bde-7e860a86807d@linexp.org>
+Date:   Sun, 24 Jul 2022 23:11:47 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v1 17/33] thermal/drivers/rcar: Switch to new of API
+Content-Language: en-US
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
 Cc:     daniel.lezcano@linaro.org, rafael@kernel.org, rui.zhang@intel.com,
         khilman@baylibre.com, abailon@baylibre.com, amitk@kernel.org,
         linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
         "open list:RENESAS R-CAR THERMAL DRIVERS" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v1 17/33] thermal/drivers/rcar: Switch to new of API
-Message-ID: <Yt2W5UCXaB3Memzg@oden.dyn.berto.se>
 References: <20220710212423.681301-1-daniel.lezcano@linexp.org>
  <20220710212423.681301-18-daniel.lezcano@linexp.org>
  <YtZ1IExNlsYaJkC9@oden.dyn.berto.se>
  <18ade2d0-ebda-0526-71f3-65a0b2685068@linexp.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+ <Yt2W5UCXaB3Memzg@oden.dyn.berto.se>
+From:   Daniel Lezcano <daniel.lezcano@linexp.org>
+In-Reply-To: <Yt2W5UCXaB3Memzg@oden.dyn.berto.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <18ade2d0-ebda-0526-71f3-65a0b2685068@linexp.org>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Daniel,
 
-On 2022-07-24 20:27:54 +0200, Daniel Lezcano wrote:
-> 
-> Hi Niklas,
-> 
-> I tried to reproduce the issue but without success.
-> 
-> What sensor are you using ?
+Hi Niklas,
 
-I was using rcar_gen3_thermal.
+I give another try but failed to reproduce the issue. Perhaps my board 
+has a path different from yours.
 
-I did my tests starting on v5.19-rc7 and then picked '[PATCH v5 00/12] 
-thermal OF rework' from [1] and finally applied this full series on-top 
-of that. If you have a branch or some specific test you wish me to try 
-I'm happy to so.
+Thanks for proposing to test the series. I've uploaded the branch here:
 
-1. https://lore.kernel.org/lkml/20220710123512.1714714-1-daniel.lezcano@linexp.org/
+https://github.com/dlezcano/linux-thermal
 
-> 
-> 
-> On 19/07/2022 11:10, Niklas Söderlund wrote:
-> > Hi Daniel,
-> > 
-> > Thanks for your work.
-> > 
-> > On 2022-07-10 23:24:07 +0200, Daniel Lezcano wrote:
-> > > The thermal OF code has a new API allowing to migrate the OF
-> > > initialization to a simpler approach.
-> > > 
-> > > Use this new API.
-> > I tested this together with the series it depends on and while
-> > temperature monitoring seems to work fine it breaks the emul_temp
-> > interface (/sys/class/thermal/thermal_zone2/emul_temp).
-> > 
-> > Before this change I can write a temperature to this file and have it
-> > trigger actions, in my test-case changing the cooling state, which I
-> > observe in /sys/class/thermal/cooling_device0/cur_state.
-> > 
-> > Likewise before this change I could trip the critical trip-point that
-> > would power off the board using the emul_temp interface, this too no
-> > longer works,
-> > 
-> >      echo 120000 > /sys/class/thermal/thermal_zone2/emul_temp
-> > 
-> > Is this an intention change of the new API?
-> 
-> 
-> 
-> 
 
--- 
-Kind Regards,
-Niklas Söderlund
+On 24/07/2022 21:00, Niklas SÃ¶derlund wrote:
+> Hi Daniel,
+>
+> On 2022-07-24 20:27:54 +0200, Daniel Lezcano wrote:
+>> Hi Niklas,
+>>
+>> I tried to reproduce the issue but without success.
+>>
+>> What sensor are you using ?
+> I was using rcar_gen3_thermal.
+>
+> I did my tests starting on v5.19-rc7 and then picked '[PATCH v5 00/12]
+> thermal OF rework' from [1] and finally applied this full series on-top
+> of that. If you have a branch or some specific test you wish me to try
+> I'm happy to so.
+>
+> 1. https://lore.kernel.org/lkml/20220710123512.1714714-1-daniel.lezcano@linexp.org/
+>
+>>
+>> On 19/07/2022 11:10, Niklas SÃ¶derlund wrote:
+>>> Hi Daniel,
+>>>
+>>> Thanks for your work.
+>>>
+>>> On 2022-07-10 23:24:07 +0200, Daniel Lezcano wrote:
+>>>> The thermal OF code has a new API allowing to migrate the OF
+>>>> initialization to a simpler approach.
+>>>>
+>>>> Use this new API.
+>>> I tested this together with the series it depends on and while
+>>> temperature monitoring seems to work fine it breaks the emul_temp
+>>> interface (/sys/class/thermal/thermal_zone2/emul_temp).
+>>>
+>>> Before this change I can write a temperature to this file and have it
+>>> trigger actions, in my test-case changing the cooling state, which I
+>>> observe in /sys/class/thermal/cooling_device0/cur_state.
+>>>
+>>> Likewise before this change I could trip the critical trip-point that
+>>> would power off the board using the emul_temp interface, this too no
+>>> longer works,
+>>>
+>>>       echo 120000 > /sys/class/thermal/thermal_zone2/emul_temp
+>>>
+>>> Is this an intention change of the new API?
+>>
+>>
+>>
+
