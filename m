@@ -2,194 +2,211 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 840B75806A2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Jul 2022 23:28:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46B115807E0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jul 2022 00:59:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237372AbiGYV2w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Jul 2022 17:28:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48418 "EHLO
+        id S231181AbiGYW7r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Jul 2022 18:59:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237332AbiGYV2R (ORCPT
+        with ESMTP id S229764AbiGYW7q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Jul 2022 17:28:17 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD8A724F0A
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jul 2022 14:27:41 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id k11so17261538wrx.5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jul 2022 14:27:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linexp-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=eVR4CSPKsg/9FjgYXPjuWPfFNd2Yr4TVj6UpwGUj8uE=;
-        b=lSGPGFMkmPAlpwMQja5l9hBjP3O81WxKw62XODPcgnj8vjPYpPP90o/4ior5lPAeVi
-         U45U1jdgD0+KoWva6cyR9xKmjWg3jwi8opCLROL9ffzB9cfXfnKEy4iRR6y4P8NmeBkd
-         SbHNPFOp3f8Sbgfuy6meLRPhhX4nTQQ+uWv+6r8jtEYLofFpotNTjl6z52hWvZ9bC9w6
-         MNvJazEAtXxcvkyCQgJLwuPbde3M9uWkhDyusd9XsOGw+RkpLI+NckkkD1bZj95RGFjx
-         KUvIgnJ7LKcg2aWOBD8N+KxiAsfk0cnUZ4scJqcFtVTwn7Phu2aT/AFmsf4t84kvH0a9
-         NrCg==
+        Mon, 25 Jul 2022 18:59:46 -0400
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EECD1F2D5;
+        Mon, 25 Jul 2022 15:59:45 -0700 (PDT)
+Received: by mail-oi1-f175.google.com with SMTP id p132so15228774oif.9;
+        Mon, 25 Jul 2022 15:59:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=eVR4CSPKsg/9FjgYXPjuWPfFNd2Yr4TVj6UpwGUj8uE=;
-        b=ojicRdZwGzhu57xSV+s6BnSYO8+v6zL092U44WzzgqxvL4S0SMNrTegOoprn/CoEhl
-         7QMULWmzv2P/sgZDxVniAoYIIWJlzOFJAnNnhgVAgs9OqynYmOTUjZqQNvSZNG55eL0n
-         bT8vJfdeN2mciutb0Q75ieU5nS01SABabJpwNxwPB+ERfKP5DZ9f/XDnaa3gkO5RKNBa
-         rPALgTj6fH3zFN6uaGqqrLtV2+2Nj26Wg+5OyAwgaUlhUZG226fV1y+TZ9nw6MS25NBc
-         lW6g9VbKVgjLbCNUsm7afQFFpMZrt1OsN0SYXKlXOlhvP1JxhGs0wvZrDKDPJcacFzcc
-         dBGw==
-X-Gm-Message-State: AJIora8UnWZv5fsfP9OqvDcj1JRQiq27Lm+0Kb7IeURZiSgbdoYvcbiH
-        coVhPSxJfCR8CHa4povQ0uU3VA==
-X-Google-Smtp-Source: AGRyM1toJIpS6B2vwFnLOmbxdgOlSmoXmAesaTeSUvZwvhTc9mjbi4Hm8bc6bah53VhNaD0bNzAdPA==
-X-Received: by 2002:adf:e405:0:b0:21d:86b6:a286 with SMTP id g5-20020adfe405000000b0021d86b6a286mr8723875wrm.29.1658784458040;
-        Mon, 25 Jul 2022 14:27:38 -0700 (PDT)
-Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:1780:8e54:dd38:6668])
-        by smtp.gmail.com with ESMTPSA id r17-20020a5d52d1000000b0021d68a504cbsm12668772wrv.94.2022.07.25.14.27.36
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eQye6nMifcFI6l5sNG6/+UqjksBPtUeGdHzPhsRcWME=;
+        b=KQjiSYug/vGHtHb90Wk8o7L0infEhpx97AvYLGGdP630WDA0576cEttz7wyLXMk5zI
+         Aa6kD3G/TGzJhHjwxEpQqzCyeREyWQJoCyQaeXh/Egsr54g0b+F7nht42W9bc/r7km7h
+         nM+UI8n/vpueZwp30YU90oAIek79vQuPeUb2UlNYkAFvH4VXqkX7CfEbEBN7ehqRNF/b
+         qMHd9tHzgNDrJaeQizLdXV5ejQ6K7MuGgztRV6hpyUNNVoGAhm3iS/UILX8EiuVEgN5z
+         81YWMmZnm4nadC3ppERt9lDc5f4bKt2iO8g9XU9M5XpxNdrDJRkuBHIH7jjnkZbwi4aa
+         Jf6w==
+X-Gm-Message-State: AJIora/u5IAebJiRU2EHdQOAY9/5rzqunPRy5riqxwWAbxYF7n6q5Cvg
+        HVbe5MiKW/3tWtqAWYrG6A==
+X-Google-Smtp-Source: AGRyM1sOcviGyD2gIuK2p0c+uQ6+5qTpFqgE2Yzw8FlCovXBIQLSsdbF7CuA/OUYyKT2cui56djPUw==
+X-Received: by 2002:a05:6808:170b:b0:335:1807:e4a2 with SMTP id bc11-20020a056808170b00b003351807e4a2mr6346991oib.89.1658789984465;
+        Mon, 25 Jul 2022 15:59:44 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id r20-20020a05687080d400b0010d677cb630sm6791935oab.6.2022.07.25.15.59.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jul 2022 14:27:37 -0700 (PDT)
-From:   Daniel Lezcano <daniel.lezcano@linexp.org>
-To:     daniel.lezcano@linaro.org, rafael@kernel.org
-Cc:     rui.zhang@intel.com, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, khilman@baylibre.com,
-        abailon@baylibre.com, lukasz.luba@arm.com, broonie@kernel.org,
-        damien.lemoal@opensource.wdc.com, heiko@sntech.de,
-        hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
-        talel@amazon.com, thierry.reding@gmail.com, digetx@gmail.com,
-        jonathanh@nvidia.com, anarsoul@gmail.com, tiny.windzz@gmail.com,
-        baolin.wang7@gmail.com, f.fainelli@gmail.com,
-        bjorn.andersson@linaro.org, mcoquelin.stm32@gmail.com,
-        glaroque@baylibre.com, miquel.raynal@bootlin.com,
-        shawnguo@kernel.org, niklas.soderlund@ragnatech.se,
-        matthias.bgg@gmail.com, j-keerthy@ti.com,
-        Amit Kucheria <amitk@kernel.org>,
-        linux-renesas-soc@vger.kernel.org (open list:RENESAS R-CAR THERMAL
-        DRIVERS)
-Subject: [PATCH v2 17/32] thermal/drivers/rcar: Switch to new of API
-Date:   Mon, 25 Jul 2022 23:26:22 +0200
-Message-Id: <20220725212637.2818207-18-daniel.lezcano@linexp.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220725212637.2818207-1-daniel.lezcano@linexp.org>
-References: <20220725212637.2818207-1-daniel.lezcano@linexp.org>
+        Mon, 25 Jul 2022 15:59:44 -0700 (PDT)
+Received: (nullmailer pid 2909288 invoked by uid 1000);
+        Mon, 25 Jul 2022 22:59:42 -0000
+Date:   Mon, 25 Jul 2022 16:59:42 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Phil Edworthy <phil.edworthy@renesas.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: usb: renesas, usb3-peri: Document
+ RZ/V2M r9a09g011 support
+Message-ID: <20220725225942.GA2905299-robh@kernel.org>
+References: <20220722123107.34122-1-phil.edworthy@renesas.com>
+ <20220722123107.34122-2-phil.edworthy@renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220722123107.34122-2-phil.edworthy@renesas.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The thermal OF code has a new API allowing to migrate the OF
-initialization to a simpler approach. The ops are no longer device
-tree specific and are the generic ones provided by the core code.
+On Fri, Jul 22, 2022 at 01:31:06PM +0100, Phil Edworthy wrote:
+> Document the RZ/V2M SoC bindings.
+> The RZ/V2M SoC is a little different to the R-Car implementations.
+> A few DRD related registers and bits have moved, there is a separate
+> interrupt for DRD, an additional clock for register access and reset
+> lines for DRD and USBP.
+> 
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v2:
+>  - SoCs other than rz/v2m must limit the number of clock/interrupt names
+>  - Add "Battery Charging" and "Global Purpose Input" interrupts
+> ---
+>  .../bindings/usb/renesas,usb3-peri.yaml       | 91 ++++++++++++++++---
+>  1 file changed, 76 insertions(+), 15 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml b/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
+> index 9fcf54b10b07..b1a3b32139c5 100644
+> --- a/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
+> +++ b/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
+> @@ -11,27 +11,55 @@ maintainers:
+>  
+>  properties:
+>    compatible:
+> -    items:
+> -      - enum:
+> -          - renesas,r8a774a1-usb3-peri # RZ/G2M
+> -          - renesas,r8a774b1-usb3-peri # RZ/G2N
+> -          - renesas,r8a774c0-usb3-peri # RZ/G2E
+> -          - renesas,r8a774e1-usb3-peri # RZ/G2H
+> -          - renesas,r8a7795-usb3-peri  # R-Car H3
+> -          - renesas,r8a7796-usb3-peri  # R-Car M3-W
+> -          - renesas,r8a77961-usb3-peri # R-Car M3-W+
+> -          - renesas,r8a77965-usb3-peri # R-Car M3-N
+> -          - renesas,r8a77990-usb3-peri # R-Car E3
+> -      - const: renesas,rcar-gen3-usb3-peri
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - renesas,r8a774a1-usb3-peri # RZ/G2M
+> +              - renesas,r8a774b1-usb3-peri # RZ/G2N
+> +              - renesas,r8a774c0-usb3-peri # RZ/G2E
+> +              - renesas,r8a774e1-usb3-peri # RZ/G2H
+> +              - renesas,r8a7795-usb3-peri  # R-Car H3
+> +              - renesas,r8a7796-usb3-peri  # R-Car M3-W
+> +              - renesas,r8a77961-usb3-peri # R-Car M3-W+
+> +              - renesas,r8a77965-usb3-peri # R-Car M3-N
+> +              - renesas,r8a77990-usb3-peri # R-Car E3
+> +          - const: renesas,rcar-gen3-usb3-peri
+> +
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a09g011-usb3-peri # RZ/V2M
+> +          - const: renesas,rzv2m-usb3-peri
+>  
+>    reg:
+>      maxItems: 1
+>  
+>    interrupts:
+> -    maxItems: 1
+> +    minItems: 1
+> +    items:
+> +      - description: Combined interrupt for DMA, SYS and ERR
+> +      - description: Dual Role Device (DRD)
+> +      - description: Battery Charging
+> +      - description: Global Purpose Input
+> +
+> +  interrupt-names:
+> +    minItems: 1
+> +    items:
+> +      - const: all_p
+> +      - const: drd
+> +      - const: bc
+> +      - const: gpi
+>  
+>    clocks:
+> -    maxItems: 1
+> +    minItems: 1
+> +    items:
+> +      - description: Main clock
+> +      - description: Register access clock
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    items:
+> +      - const: aclk
+> +      - const: reg
+>  
+>    phys:
+>      maxItems: 1
+> @@ -43,7 +71,15 @@ properties:
+>      maxItems: 1
+>  
+>    resets:
+> -    maxItems: 1
+> +    minItems: 1
+> +    items:
+> +      - description: Peripheral reset
+> +      - description: DRD reset
+> +
+> +  reset-names:
+> +    items:
+> +      - const: aresetn_p
+> +      - const: drd_reset
+>  
+>    usb-role-switch:
+>      $ref: /schemas/types.yaml#/definitions/flag
+> @@ -78,6 +114,31 @@ required:
+>    - interrupts
+>    - clocks
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,rzv2m-usb3-peri
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 2
+> +        clock-names:
+> +          minItems: 2
+> +        interrupts:
+> +          minItems: 4
+> +        interrupt-names:
+> +          minItems: 4
+> +        resets:
+> +          minItems: 2
+> +      required:
+> +        - clock-names
+> +        - interrupt-names
+> +        - resets
+> +        - reset-names
+> +
 
-Convert the ops to the thermal_zone_device_ops format and use the new
-API to register the thermal zone with these generic ops.
+Needs an 'else' clause with 'maxItems: 1' on various properties to keep 
+the existing constraints.
 
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
----
- drivers/thermal/rcar_gen3_thermal.c | 16 ++++++++--------
- drivers/thermal/rcar_thermal.c      | 13 +++----------
- 2 files changed, 11 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-index 43eb25b167bc..29946114a8f9 100644
---- a/drivers/thermal/rcar_gen3_thermal.c
-+++ b/drivers/thermal/rcar_gen3_thermal.c
-@@ -164,9 +164,9 @@ static int rcar_gen3_thermal_round(int temp)
- 	return result * RCAR3_THERMAL_GRAN;
- }
- 
--static int rcar_gen3_thermal_get_temp(void *devdata, int *temp)
-+static int rcar_gen3_thermal_get_temp(struct thermal_zone_device *tz, int *temp)
- {
--	struct rcar_gen3_thermal_tsc *tsc = devdata;
-+	struct rcar_gen3_thermal_tsc *tsc = tz->devdata;
- 	int mcelsius, val;
- 	int reg;
- 
-@@ -203,9 +203,9 @@ static int rcar_gen3_thermal_mcelsius_to_temp(struct rcar_gen3_thermal_tsc *tsc,
- 	return INT_FIXPT(val);
- }
- 
--static int rcar_gen3_thermal_set_trips(void *devdata, int low, int high)
-+static int rcar_gen3_thermal_set_trips(struct thermal_zone_device *tz, int low, int high)
- {
--	struct rcar_gen3_thermal_tsc *tsc = devdata;
-+	struct rcar_gen3_thermal_tsc *tsc = tz->devdata;
- 	u32 irqmsk = 0;
- 
- 	if (low != -INT_MAX) {
-@@ -225,7 +225,7 @@ static int rcar_gen3_thermal_set_trips(void *devdata, int low, int high)
- 	return 0;
- }
- 
--static struct thermal_zone_of_device_ops rcar_gen3_tz_of_ops = {
-+static struct thermal_zone_device_ops rcar_gen3_tz_of_ops = {
- 	.get_temp	= rcar_gen3_thermal_get_temp,
- 	.set_trips	= rcar_gen3_thermal_set_trips,
- };
-@@ -504,8 +504,8 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 	for (i = 0; i < priv->num_tscs; i++) {
- 		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
- 
--		zone = devm_thermal_zone_of_sensor_register(dev, i, tsc,
--							    &rcar_gen3_tz_of_ops);
-+		zone = devm_thermal_of_zone_register(dev, i, tsc,
-+						     &rcar_gen3_tz_of_ops);
- 		if (IS_ERR(zone)) {
- 			dev_err(dev, "Can't register thermal zone\n");
- 			ret = PTR_ERR(zone);
-@@ -556,7 +556,7 @@ static int __maybe_unused rcar_gen3_thermal_resume(struct device *dev)
- 
- 		priv->thermal_init(tsc);
- 		if (zone->ops->set_trips)
--			rcar_gen3_thermal_set_trips(tsc, zone->prev_low_trip,
-+			rcar_gen3_thermal_set_trips(zone, zone->prev_low_trip,
- 						    zone->prev_high_trip);
- 	}
- 
-diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
-index 1d729ed4d685..4df42d70d867 100644
---- a/drivers/thermal/rcar_thermal.c
-+++ b/drivers/thermal/rcar_thermal.c
-@@ -271,13 +271,6 @@ static int rcar_thermal_get_current_temp(struct rcar_thermal_priv *priv,
- 	return 0;
- }
- 
--static int rcar_thermal_of_get_temp(void *data, int *temp)
--{
--	struct rcar_thermal_priv *priv = data;
--
--	return rcar_thermal_get_current_temp(priv, temp);
--}
--
- static int rcar_thermal_get_temp(struct thermal_zone_device *zone, int *temp)
- {
- 	struct rcar_thermal_priv *priv = rcar_zone_to_priv(zone);
-@@ -323,8 +316,8 @@ static int rcar_thermal_get_trip_temp(struct thermal_zone_device *zone,
- 	return 0;
- }
- 
--static const struct thermal_zone_of_device_ops rcar_thermal_zone_of_ops = {
--	.get_temp	= rcar_thermal_of_get_temp,
-+static struct thermal_zone_device_ops rcar_thermal_zone_of_ops = {
-+	.get_temp	= rcar_thermal_get_temp,
- };
- 
- static struct thermal_zone_device_ops rcar_thermal_zone_ops = {
-@@ -534,7 +527,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
- 			goto error_unregister;
- 
- 		if (chip->use_of_thermal) {
--			priv->zone = devm_thermal_zone_of_sensor_register(
-+			priv->zone = devm_thermal_of_zone_register(
- 						dev, i, priv,
- 						&rcar_thermal_zone_of_ops);
- 		} else {
--- 
-2.25.1
-
+Rob
