@@ -2,238 +2,245 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8313057F7B0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Jul 2022 01:28:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5961B57F941
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Jul 2022 07:58:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232554AbiGXX2e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 24 Jul 2022 19:28:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60128 "EHLO
+        id S229656AbiGYF6q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Jul 2022 01:58:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231834AbiGXX2c (ORCPT
+        with ESMTP id S229842AbiGYF6p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 24 Jul 2022 19:28:32 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BD38DF40
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 24 Jul 2022 16:28:30 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id u20so3510142ljk.0
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 24 Jul 2022 16:28:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=1eu5YjbpGJQ9ulEiNLSYfLw+X2MYg9M8E1wl1Tk8HG4=;
-        b=U8fdS/QOg+atlTmhhaKSMykrsbFn1qLU6FrKhFfyxupMGeOFvUroqwF5ujdscN7JYq
-         8lisR8MUrEKgCyWL+UpuZ7UErCTmKF/ArVb55Yj1DvZH7rg4r1BrD/7nxszwCt84loPu
-         /zwNu9Ta9Xga/cyh11c8fv5bBAy+OK0cnK84ojBfPQN5CnVmmUsP9DkpxteXdn0puFB7
-         rfr8PAXGJFjQbM8RV/Th5u8+5fgERyGSNy5clP6p2r/wYtGRkdSkiSeNLszcQxShfuET
-         ArKqo/e1zP9CJ1NN5NDRdlWYNguVFt1WHea+CQPMUwpApeXC4XfJBRiZlpEFicekhRG7
-         8prQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=1eu5YjbpGJQ9ulEiNLSYfLw+X2MYg9M8E1wl1Tk8HG4=;
-        b=gRChGHEe4+xaAnwofInvuFsANDANHhNVv10quK+BqVorsQOGW3xjW8HyY6YXBqxYe6
-         Jew+b/A5aoWT5VIJjQNFOIj5a0Od7e3eQeSwMiz5oRh8PfeNM1bf0XZnI45xQHzYOGul
-         C8X+R3RgL1xZCZys4B2oXLOVqifv/2c+Ov9szoXiuFkUNimLFiy4oaqmY0ceXMoIzyfy
-         X5aVgKoUYMj/sYJRS7xLSK+vHdgZ+R8ZjE2Hm0/IbrO3+wY9QS/lhGCXi83WKhbX/br8
-         Dv27/SyYLkNriBy8RIRpP0y5GfbvHnzHg045ITR7JE5eOrY0Q3jYrGbcuolTsc8zbf2U
-         7FJw==
-X-Gm-Message-State: AJIora/0j5JLTxoONu7VRODDspMSwxmDYKgeIf51BCF80WC0nEnbw4lK
-        DLK6WA/xmRC0Rl7+k5+wbuIu2A==
-X-Google-Smtp-Source: AGRyM1v+SJhtbeF+JBiDSw/8YTQEAP5o3ZstTXafAMA3VbXngiXScwHb3IwV6uahVurZsJrXyJGWsA==
-X-Received: by 2002:a2e:9cd1:0:b0:25d:f617:f531 with SMTP id g17-20020a2e9cd1000000b0025df617f531mr3046937ljj.380.1658705308513;
-        Sun, 24 Jul 2022 16:28:28 -0700 (PDT)
-Received: from localhost (h-46-59-88-103.A463.priv.bahnhof.se. [46.59.88.103])
-        by smtp.gmail.com with ESMTPSA id s7-20020a056512202700b0048a7c86f4e7sm1362162lfs.291.2022.07.24.16.28.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Jul 2022 16:28:28 -0700 (PDT)
-Date:   Mon, 25 Jul 2022 01:28:26 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Daniel Lezcano <daniel.lezcano@linexp.org>
-Cc:     daniel.lezcano@linaro.org, rafael@kernel.org, rui.zhang@intel.com,
-        khilman@baylibre.com, abailon@baylibre.com, amitk@kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        "open list:RENESAS R-CAR THERMAL DRIVERS" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v1 17/33] thermal/drivers/rcar: Switch to new of API
-Message-ID: <Yt3Vmt/AAzqzDzBF@oden.dyn.berto.se>
-References: <20220710212423.681301-1-daniel.lezcano@linexp.org>
- <20220710212423.681301-18-daniel.lezcano@linexp.org>
- <YtZ1IExNlsYaJkC9@oden.dyn.berto.se>
- <18ade2d0-ebda-0526-71f3-65a0b2685068@linexp.org>
- <Yt2W5UCXaB3Memzg@oden.dyn.berto.se>
- <e2a56ac3-057c-2b17-7bde-7e860a86807d@linexp.org>
- <Yt3KDSO248WebZ/w@oden.dyn.berto.se>
+        Mon, 25 Jul 2022 01:58:45 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2094.outbound.protection.outlook.com [40.107.113.94])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E26C1260B;
+        Sun, 24 Jul 2022 22:58:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A5fmNAoOjYS1qXZ4pqvXQ0ilHE5bJJG2JkdewTiI8djW9vf0Q3NoYlXhMgzFMIb48cxE5+up43rojZTT/hlPk/e4+niTw2zDAAxrJkcLeVmx7GP2KQ/b1Wwrut1NiX8PWQuS524OqCLf+FqqzL8BhwCiKr/oANqtGHF5lf3kT9QoikdG+0KCP+4kMJ1XAHvb2E0wnK/mfbOLCgiowCWu9yZ3sCQ8vpuLv1yp/E2eDwRpkiLyCzHUHchmOzUdvjSNZQnD48CtsA3nU3zNEu25w73+spb1dQgSXquvdeeqm/C5LfMex5/AZ+U4hE+s8lAuUbW2BpiUAxBMXXijxkfjKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mQwKjI0ltdik4HSsHRc29svTe1Kq1G8hz7tNMd3NCBw=;
+ b=Ex4jpPqSh/i9tYQHMUF2CSyp2EApNqfbNvEbTs6V1rZyar0pMU9EIu0gmxQ+SLWwVf5KkvsVWPNjWm5M2prE3tWChXdK7DDQVh+glk55yhaEoHDE3lXeY+ajbMAZ3ScGYS3uyCXgqy6aaSKg1jcigKkWJC+I28WABENkybp7AxDrmkkRr71GjJNCXzVB2FefYY5IO99XlH2OFTy8siKURpIgfZCwalE0ZSq/M/DNMhTBgl8iEX4cWFosbspbn336i0m1mlaNgtX9naovJntr/OcQHp+GQerP2JRneCR4hnC/k3t34Q270WCsKEuwZ4UWtigFxPf9yC1kMZhimN/+hQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mQwKjI0ltdik4HSsHRc29svTe1Kq1G8hz7tNMd3NCBw=;
+ b=L9hG6qjVXDllJhgYchu7jQjjlLegMGcka3hFra6LDZmZKBpUdJEeFIvpZnUESKozTKFoemnHxoenX14fvRHKmEvTjmNjWzVJhdTCqkfcBHE9102dUbdg6ho1DSf8TdQuYELSInipuqGpMExjXlFx1AKYWo2fWyG8U7G6docdTRw=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYWPR01MB8808.jpnprd01.prod.outlook.com (2603:1096:400:167::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.19; Mon, 25 Jul
+ 2022 05:58:39 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::b046:d8a3:ac9c:75b5]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::b046:d8a3:ac9c:75b5%6]) with mapi id 15.20.5458.024; Mon, 25 Jul 2022
+ 05:58:39 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Sam Ravnborg <sam@ravnborg.org>
+CC:     Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        Biju Das <biju.das@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: RE: [PATCH v4 1/2] dt-bindings: display: bridge: Document RZ/G2L MIPI
+ DSI TX bindings
+Thread-Topic: [PATCH v4 1/2] dt-bindings: display: bridge: Document RZ/G2L
+ MIPI DSI TX bindings
+Thread-Index: AQHYnf/87eTeKvDbekaCDE5oqiHWv62K0KIAgAPI8vA=
+Date:   Mon, 25 Jul 2022 05:58:39 +0000
+Message-ID: <OS0PR01MB5922D4ACD0C05DAC4A471BA886959@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20220722191924.544869-1-biju.das.jz@bp.renesas.com>
+ <20220722191924.544869-2-biju.das.jz@bp.renesas.com>
+ <YtsC6p7yy86Dr95H@ravnborg.org>
+In-Reply-To: <YtsC6p7yy86Dr95H@ravnborg.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f93255f5-775d-4786-3170-08da6e02b8f5
+x-ms-traffictypediagnostic: TYWPR01MB8808:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: FvfPvldjfKpSqGUhvWMwQpCxUNe+A6BdfUuipwnjm7MRzrK+KWtVcH5gxucOMFkxPYpMFDI/CWME2Q5jSB1ugRSbVhWq+C9woJ/ZW/X8VI/UkvaDQmazF93u2nFdZ7PLgYZ2MGhcF017Y0rU1Wcr+LZeS17CM8Y6KeLXq+7nbUo2OA5Lo0eZpFj8c8fJxCwCFoUujGl4cf3oeB1orpn+IP3sV1wOJNX3JzqlyqDmasmghN2iJihPtdKEQD7UP+QM87d0pk+ZZHTf6yr8K3CaRAG7JotUnC+tMgO55GX5akdFnCg6IW742hpE+C+kVBVyku4jpv7oA4endZBziiEaUc4wDV2bG/XCFZMhqFKHIPIuxzWlnFcHS714tJyDjIwIvH0IBtk1XcRPqstpoI4EY3V/z9t7p/dbqiwWjJhQlO2wCYBFeqwx+4kBotiV8FLLhcdoWWzO7IuIeYU7813dycJ4n66Hn+8pfCkrEgX1rYS1H1borNPQopvOgEuOdoPtgWxxsR3eWE8mouJvsWGnnEcCZnHJQlFrJCg/XwWR4k/LAt0bwXZ3NxF6CAJn8On0EIIpPXBdZcmgz+Yd/JX6yoapJuh6juLo0iclfD02UHa4DI4lZujQS5Pikj4ByCa7GleTqgax7gWET1YVCgxRRS+JHjW2K3YdNTD8SqHvxEMk/DOPbBHqv/L/gWKJBe8jREMhc7FBL2bL6kmClLl1bFW3SAWIBma593MntAsvFpoKeRQuJBDqkwLQnWz/hBI5oHdDoNPd8YYjWu6RnFk4xKtJRYpAD54w751FJ+f8p4YO/cUZ0kSDuw4JBKNA4/CO
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(136003)(366004)(346002)(396003)(376002)(38100700002)(122000001)(38070700005)(52536014)(8936002)(83380400001)(186003)(7416002)(5660300002)(64756008)(66476007)(66556008)(66446008)(55016003)(2906002)(66946007)(41300700001)(26005)(9686003)(7696005)(478600001)(33656002)(4326008)(76116006)(8676002)(71200400001)(54906003)(316002)(86362001)(6506007)(6916009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?FAVoqc1vEF19+W3Vnr7hNHftDkzLcHtYBebNtnv4qmk9b23Xzvzne0B/IGX0?=
+ =?us-ascii?Q?oP0+3o2CpzTmG9QyV/rtyrLdVGSPKtLqJz7o266TMb7IFFY7O5QHe8O70bnX?=
+ =?us-ascii?Q?27xh6R4CijWYC0FCx1D6edl2qcyOZ0I+JIlJKaH35rLxBu6X01hV7zuPALYp?=
+ =?us-ascii?Q?LXDiV2LBfOOe3sRAAb16Py2FZcfyb3IC5dShibOjnizHwkri1MVX6akVyBnw?=
+ =?us-ascii?Q?NLg3in/nwtcuNcri8c8Ndm4hO2b48OBRqV83kL2je+aqqCPJn/NAYB73YFYf?=
+ =?us-ascii?Q?2LwsjHhyb5vKj224nOG4jQvpKF2lSVg+X8K1ZTiSobta0Ag/iAFJbT7GoBMd?=
+ =?us-ascii?Q?fi7hF4Z86q66Sf+F1C0Tj7LJ+JCbf9YoyT1ww7izv4kSmCxfUsjgqjqqH/Ir?=
+ =?us-ascii?Q?1IGWo44bn0FOh1ipsisoHXd8k/TJ9VkCcfeZUfM57uFs4SEtuPM6aQj4xuA6?=
+ =?us-ascii?Q?WsXswRbruwPXOv2UyEhreqs9eq4Tu65nAs1suAURfomBZhVEGQ0bYhXdADvZ?=
+ =?us-ascii?Q?H6JAawreMtPMBmb9lKw3k8S7VfQcogYyEaiEXNc/JiIle8cDcnKVKfZApCGf?=
+ =?us-ascii?Q?mrLFsglxEL3iwsC6DoG49DzuGZLScpeNOfwYpgAAjjzdfVp2TNun/z81tm/1?=
+ =?us-ascii?Q?tYzrfBewRhE2XP7O+/88wuvRdWvIQB/RpEa4bspD8UKKLXQCnmOjiJgP/t+t?=
+ =?us-ascii?Q?HQnrV1cgl3yACc/YAI19FSwjJh/cg1VFgJf0Tpx6/7udx9KUhDRfVUY44x6L?=
+ =?us-ascii?Q?SUeqaEW8OkK4S3NVrX1f+soZ+AHFHZ8U3Y+Lf8YFXhaU6WVW/pHO1NwGS9Bf?=
+ =?us-ascii?Q?P3fdt64T7kXniO1+za2NguLtxFsrp+808dgfDoXtDZUrl/aG6NMomEQWpzdp?=
+ =?us-ascii?Q?hEJZOKDERpzh99lkknNIIz0P5Jn9+YZMYVJkC5MEP/lhg4Jc2mbfFeu3cZmC?=
+ =?us-ascii?Q?JnuyIC55YbhyvB4BwTXSLesMUzt6B3MHFBMWWUo2cL0eqE+gotqqgHmnWoa/?=
+ =?us-ascii?Q?amH95BQxXkG00bMUHoD+Bf3SNbyMFIefTVvk9ISitbVjzx9BCEQ3X2xP6fMO?=
+ =?us-ascii?Q?+JtTLFMwaphBoAQ+ONK7ZIHPVN7VQRof0wxCEYgaZ+NpXBSCxumeXyvtIYqO?=
+ =?us-ascii?Q?2WbV2RuLG/zr2UB6A3veDNjNMNMPdhunVdsjp8ntqKW6NRKbDTTcszMng42M?=
+ =?us-ascii?Q?rFPc4vAU5QSlJ5KmwVzMEvViOZDPjMxmlUmuKLB/Jh050ax5PImPBX6S45p4?=
+ =?us-ascii?Q?zPrzVaMgNlCnxK3jcaC6P6EVHeWGUimT4zfEzZZ7qJ5ggU7hf9YABCBhF4D7?=
+ =?us-ascii?Q?GVtLSK9yeSRzxDb3FGA7i534ktwy5EPUthm0GBXBptByA/M4UXC+Xyy0mJhW?=
+ =?us-ascii?Q?/FjlNTy9OfiMx8aQJNDLMmytlQ3FxKoSsp4rDEdtIVgjMYZEQe1tDs7+ggk1?=
+ =?us-ascii?Q?rBrQj5CLcrO7xmDOamc67JAuuTiUxFbs3+ojWUVsB5fUVOmsTgrkjkWmbs1m?=
+ =?us-ascii?Q?cKt5EhkDaomzXkGozRIysfj8o43qdwQ8g5tgcjNROs6wBysrRJDDz8k9l4IP?=
+ =?us-ascii?Q?Go6LCfIbZZAPZBOwYPdbSY9vsIatAImTipQuCMG1gsUpk4vaPC20qoSoHhN5?=
+ =?us-ascii?Q?qQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yt3KDSO248WebZ/w@oden.dyn.berto.se>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f93255f5-775d-4786-3170-08da6e02b8f5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jul 2022 05:58:39.7945
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nBZHYifNlibEOIN8jk2aT35287XMF15/0NN0w0WiR5DnCzXEDfkJaSKkAQpwLZIeMTK+dsSJrcidin6PLsxtjj5bPI6rJAZW3WikbhnDryo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8808
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi (again) Daniel,
+Hi Sam,
 
-I figured it out, the thermal zone is disabled after this change. For 
-both rcar sensors with the new API thermal_zone_device_enable() is never 
-called.
+Thanks for the feedback.
 
-In the old API the zone is enabled in the call chain of 
-devm_thermal_zone_of_sensor_register(). While after this change the zone 
-is not enabled by the core when calling thermal_zone_device_enable().
+> Subject: Re: [PATCH v4 1/2] dt-bindings: display: bridge: Document
+> RZ/G2L MIPI DSI TX bindings
+>=20
+> Hi Biju,
+>=20
+> On Fri, Jul 22, 2022 at 08:19:23PM +0100, Biju Das wrote:
+> > The RZ/G2L MIPI DSI TX is embedded in the Renesas RZ/G2L family SoC's.
+> > It can operate in DSI mode, with up to four data lanes.
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > v3->v4:
+> >  * No change.
+> > v2->v3:
+> >  * Added Rb tag from Geert and Laurent
+> >  * Fixed the typo "Receive" -> "transmit"
+> >  * Added accepible values for data-lanes
+> >  * Sorted Header file in the example
+> >  * Added SoC specific compaible along with generic one.
+> > v1->v2:
+> >  * Added full path for dsi-controller.yaml
+> >  * Modeled DSI + D-PHY as single block and updated reg property
+> >  * Fixed typo D_PHY->D-PHY
+> >  * Updated description
+> >  * Added interrupts and interrupt-names and updated the example
+> > RFC->v1:
+> >  * Added a ref to dsi-controller.yaml.
+> > RFC:-
+> >  *
+> > ---
+> >  .../bindings/display/bridge/renesas,dsi.yaml  | 182
+> > ++++++++++++++++++
+> >  1 file changed, 182 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> > b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> > new file mode 100644
+> > index 000000000000..131d5b63ec4f
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yam
+> > +++ l
+> > @@ -0,0 +1,182 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +
+> > +title: Renesas RZ/G2L MIPI DSI Encoder
+> > +
+> > +maintainers:
+> > +  - Biju Das <biju.das.jz@bp.renesas.com>
+> > +
+> > +description: |
+> > +  This binding describes the MIPI DSI encoder embedded in the Renesas
+> > +  RZ/G2L alike family of SoC's. The encoder can operate in DSI mode,
+> > +with
+> > +  up to four data lanes.
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/display/dsi-controller.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +          - renesas,r9a07g044-mipi-dsi # RZ/G2{L,LC}
+> > +      - const: renesas,rzg2l-mipi-dsi
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    items:
+> > +      - description: Sequence operation channel 0 interrupt
+> > +      - description: Sequence operation channel 1 interrupt
+> > +      - description: Video-Input operation channel 1 interrupt
+> > +      - description: DSI Packet Receive interrupt
+> > +      - description: DSI Fatal Error interrupt
+> > +      - description: DSI D-PHY PPI interrupt
+> > +      - description: Debug interrupt
+> This is an awful lot of interrupts.
+> Is this really individual interrupts or status bits in a single
+> interrupt? If it is the latter then there should be only one interrupt
+> defined.
 
-If I add a call to thermal_zone_device_enable() together with the new 
-API everything works as before. But I'm not sure if the correct solution 
-is to add a call to thermal_zone_device_enable() in the sensor drivers 
-or in the call chain of the new API?
+It is individual interrupts.
 
-On 2022-07-25 00:39:10 +0200, Niklas Söderlund wrote:
-> Hi Daniel,
-> 
-> I tested your branch, unfortunately with the same result for 
-> rcar_gen3_thermal. Manipulation of emul_temp file do not trigger 
-> actions.
-> 
-> If I on-top of your branch revert:
-> 
->     409ca214f4c6bd5b ("thermal/of: Remove old OF code")
->     7b43f76d3428227e ("thermal/drivers/rcar: Switch to new of API")
-> 
-> I'm able to 'restore' the behavior where I can change the cooling state 
-> and trigger the critical trip point using emul_temp to shutdown the 
-> board.
-> 
-> As the change in question also effects the rcar_thermal sensor I gave 
-> that a try too. It have no cooling on this system I have so my only 
-> test-case is to write a temperature above the critical trip point to 
-> emul_temp as see if that shutdown the system.  And just as with 
-> rcar_gen3_thermal with your series nothing happens while with the two 
-> commits outline above reverted the system shuts down.
-> 
->     echo 110000 > /sys/devices/virtual/thermal/thermal_zone0/emul_temp
-> 
-> If it's any help writing to emul_temp have some effect as the emulated 
-> temperature is read back from the temp sysfs while. For rcar_thermal 
-> where the critical trip point is 95 degrees,
-> 
->     * With this series
->     # grep . /sys/devices/virtual/thermal/thermal_zone0/trip_point_0_*
->     /sys/devices/virtual/thermal/thermal_zone0/trip_point_0_hyst:0
->     /sys/devices/virtual/thermal/thermal_zone0/trip_point_0_temp:95000
->     /sys/devices/virtual/thermal/thermal_zone0/trip_point_0_type:critical
->     # cat /sys/devices/virtual/thermal/thermal_zone0/temp
->     35000
->     # echo 50000 > /sys/devices/virtual/thermal/thermal_zone0/emul_temp
->     # cat /sys/devices/virtual/thermal/thermal_zone0/temp
->     50000
->     # echo 110000 > /sys/devices/virtual/thermal/thermal_zone0/emul_temp
->     # cat /sys/devices/virtual/thermal/thermal_zone0/temp
->     110000
->     *** system alive ***
-> 
->     * With this series and the two patches reverted or plain v5.19-rc4
->     # grep .  /sys/devices/virtual/thermal/thermal_zone0/trip_point_0_* 
->     /sys/devices/virtual/thermal/thermal_zone0/trip_point_0_hyst:0
->     /sys/devices/virtual/thermal/thermal_zone0/trip_point_0_temp:95000
->     /sys/devices/virtual/thermal/thermal_zone0/trip_point_0_type:critical
->     # cat /sys/devices/virtual/thermal/thermal_zone0/temp
->     35000
->     # echo 50000 > /sys/devices/virtual/thermal/thermal_zone0/emul_temp
->     # cat /sys/devices/virtual/thermal/thermal_zone0/temp
->     50000
->     # echo 110000 > /sys/devices/virtual/thermal/thermal_zone0/emul_temp
->     [  121.380054] thermal thermal_zone0: cpu-thermal: critical temperature reached, shutting down
->     [  121.388482] reboot: HARDWARE PROTECTION shutdown (Temperature too high)
->     *** system shuts down ***
-> 
-> And to make it more problematic I don't think the lack of action is 
-> limited to the emul_temp interface. With rcar_thermal I lowered the 
-> critical trip point value to 45C and used the cpuburn application to 
-> generate load and raise the temperature.
-> 
-> The result mirrors the findings above, with your branch the system do 
-> not trigger the critical trip point. If I revert the two commits or run 
-> plain v5.19-rc4, once the temperature reaches 45C the critical trip 
-> point kicks in and shuts down the system.
-> 
-> I hope this helps, I'm sorry I can't find the real issue diging in the 
-> core changes. I'm happy to help trying to find the root cause for this 
-> and I think the idea behind the new API is good.
-> 
-> On 2022-07-24 23:11:47 +0200, Daniel Lezcano wrote:
-> > 
-> > Hi Niklas,
-> > 
-> > I give another try but failed to reproduce the issue. Perhaps my board has a
-> > path different from yours.
-> > 
-> > Thanks for proposing to test the series. I've uploaded the branch here:
-> > 
-> > https://github.com/dlezcano/linux-thermal
-> > 
-> > 
-> > On 24/07/2022 21:00, Niklas Söderlund wrote:
-> > > Hi Daniel,
-> > > 
-> > > On 2022-07-24 20:27:54 +0200, Daniel Lezcano wrote:
-> > > > Hi Niklas,
-> > > > 
-> > > > I tried to reproduce the issue but without success.
-> > > > 
-> > > > What sensor are you using ?
-> > > I was using rcar_gen3_thermal.
-> > > 
-> > > I did my tests starting on v5.19-rc7 and then picked '[PATCH v5 00/12]
-> > > thermal OF rework' from [1] and finally applied this full series on-top
-> > > of that. If you have a branch or some specific test you wish me to try
-> > > I'm happy to so.
-> > > 
-> > > 1. https://lore.kernel.org/lkml/20220710123512.1714714-1-daniel.lezcano@linexp.org/
-> > > 
-> > > > 
-> > > > On 19/07/2022 11:10, Niklas Söderlund wrote:
-> > > > > Hi Daniel,
-> > > > > 
-> > > > > Thanks for your work.
-> > > > > 
-> > > > > On 2022-07-10 23:24:07 +0200, Daniel Lezcano wrote:
-> > > > > > The thermal OF code has a new API allowing to migrate the OF
-> > > > > > initialization to a simpler approach.
-> > > > > > 
-> > > > > > Use this new API.
-> > > > > I tested this together with the series it depends on and while
-> > > > > temperature monitoring seems to work fine it breaks the emul_temp
-> > > > > interface (/sys/class/thermal/thermal_zone2/emul_temp).
-> > > > > 
-> > > > > Before this change I can write a temperature to this file and have it
-> > > > > trigger actions, in my test-case changing the cooling state, which I
-> > > > > observe in /sys/class/thermal/cooling_device0/cur_state.
-> > > > > 
-> > > > > Likewise before this change I could trip the critical trip-point that
-> > > > > would power off the board using the emul_temp interface, this too no
-> > > > > longer works,
-> > > > > 
-> > > > >       echo 120000 > /sys/class/thermal/thermal_zone2/emul_temp
-> > > > > 
-> > > > > Is this an intention change of the new API?
-> > > > 
-> > > > 
-> > > > 
-> > 
-> 
-> -- 
-> Kind Regards,
-> Niklas Söderlund
+As per the hw manual,  these interrupts have dedicated IRQ lines
+as below.
 
--- 
-Kind Regards,
-Niklas Söderlund
+dsi_int_seq0 174 SPI 142 IRQ 142 Level
+dsi_int_seq1 175 SPI 143 IRQ 143 Level
+dsi_int_vin1 176 SPI 144 IRQ 144 Level
+dsi_int_rcv 177 SPI 145 IRQ 145 Level
+dsi_int_ferr 178 SPI 146 IRQ 146 Level
+dsi_int_ppi 179 SPI 147 IRQ 147 Level
+dsi_int_debug 180 SPI 148 IRQ 148 Level
+
+Cheers,
+Biju
