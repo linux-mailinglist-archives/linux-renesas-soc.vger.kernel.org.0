@@ -2,64 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41B8B5807F7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jul 2022 01:06:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 145DF580802
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jul 2022 01:11:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237150AbiGYXGk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Jul 2022 19:06:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40192 "EHLO
+        id S235324AbiGYXL0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Jul 2022 19:11:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230015AbiGYXGk (ORCPT
+        with ESMTP id S237097AbiGYXLX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Jul 2022 19:06:40 -0400
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C5AF13F6B;
-        Mon, 25 Jul 2022 16:06:39 -0700 (PDT)
-Received: by mail-oo1-f45.google.com with SMTP id n16-20020a4a9550000000b0043568f1343bso2435424ooi.3;
-        Mon, 25 Jul 2022 16:06:39 -0700 (PDT)
+        Mon, 25 Jul 2022 19:11:23 -0400
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 679B913E3F;
+        Mon, 25 Jul 2022 16:11:21 -0700 (PDT)
+Received: by mail-oo1-f51.google.com with SMTP id j1-20020a4ab1c1000000b0043576bcb9b1so2432864ooo.10;
+        Mon, 25 Jul 2022 16:11:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=IhEaSHQR4f/8hLraGFE+9LlVTZgeLV3rteyyTTidIjk=;
-        b=sZF1NbBKhVGlS/L1XsAhhCk4oetb2jYZJRYJaK5APb5US2Px7oZ3jTg9Kg183Hv+oc
-         ohtqXnY67S0nQ0KVoYFY55qE9MLPRq1iFDh+oUvo76tKGDmyQypL1+K2qPWaOwa2SAV/
-         L8ls4Kbhf2GkwMyfu5/3wNvdKpw+LcYjQd3smTeQaXFQkxPZ+QsRHSC+eKim0sGCb6H1
-         yLR4tkw9t3/iuINThRUU579EvhrA98r73osiaCasL/Zzkt8C6BPoe+8Boo9Ds0rD1SQH
-         FeZ0B0XFnAxEzgTAd10Bok0eAHYGOSGnUFqHAYBwW9VVsSeCWN/X05BT5xQdnupmz0KK
-         Chig==
-X-Gm-Message-State: AJIora9W/hXzoJ3/wMdNlw2dkze6zAUmtQhwoZojDt69S2vowLNjgb2o
-        hzakts8+v0WJ/8rb2eA8Ng==
-X-Google-Smtp-Source: AGRyM1uWXbzqvCB09wbBdY4RhmV9MqfiKdcKzlsfS4eiVYuIla5/jtCEi4xIghtxm6uXUVPDYWj8NQ==
-X-Received: by 2002:a4a:d54a:0:b0:435:c4e7:77ce with SMTP id q10-20020a4ad54a000000b00435c4e777cemr4960249oos.67.1658790398832;
-        Mon, 25 Jul 2022 16:06:38 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=VNdXVWht5zzjHjVhQhSusKUMhE8ELd1CfgAT3RGumig=;
+        b=koHoDSfNCxBxtS1VCZepXqbEIg7uQ+AM7mwq79lWBeI5CunmoGontUp/zZmNx2Y0ud
+         sNA0UpzT9e6deLDVcEmCDNt52ATi3wrFLS3qUtqWE6pmam1quckFQz4sw7F6UQ/WaNa8
+         pzBj1OZ/BtHVL14MqSiiEHQhKKar8QLcU2Pr/SxGBYXl1di837hykblNj3CZJRwoCHnc
+         5HmFxdEazyBqjlt5oTAKF78pRZGU8mgwpnXOORtC4P/ebysr2ZkUeIrIzV1bhB7KZVqI
+         207z0cKpdaFHO+ejTQDNZB4GB1tYrAJ560NampQMfHrqsqHYLXEYr62mjiQPuNP6/bBY
+         HXNQ==
+X-Gm-Message-State: AJIora+Le6JrgK25NEuqHc8RRdE25up1TANE6Jti4tUyF/4BctjSbLLW
+        w82QTLZeBQShKBaZUxt0Pw==
+X-Google-Smtp-Source: AGRyM1t/aV8rKVmSzFYaQ2SEStr6U2W+xOIy+oVghT1U75c1dg0LahG8eURVPT/HXUpAh5ssvQ3zgQ==
+X-Received: by 2002:a4a:6550:0:b0:435:f3e8:8d3e with SMTP id z16-20020a4a6550000000b00435f3e88d3emr926118oog.13.1658790680687;
+        Mon, 25 Jul 2022 16:11:20 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id x24-20020a056870a79800b0010830c24aaasm6963744oao.56.2022.07.25.16.06.37
+        by smtp.gmail.com with ESMTPSA id f97-20020a9d2c6a000000b0061c87262540sm5419037otb.65.2022.07.25.16.11.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jul 2022 16:06:38 -0700 (PDT)
-Received: (nullmailer pid 2920430 invoked by uid 1000);
-        Mon, 25 Jul 2022 23:06:36 -0000
-Date:   Mon, 25 Jul 2022 17:06:36 -0600
+        Mon, 25 Jul 2022 16:11:20 -0700 (PDT)
+Received: (nullmailer pid 2927686 invoked by uid 1000);
+        Mon, 25 Jul 2022 23:11:18 -0000
+Date:   Mon, 25 Jul 2022 17:11:18 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>, devicetree@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Marc Zyngier <maz@kernel.org>, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     dri-devel@lists.freedesktop.org,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         Rob Herring <robh+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH v3 1/3] dt-bindings: interrupt-controller: Add macros for
- NMI and IRQ0-7 interrupts present on RZ/G2L SoC
-Message-ID: <20220725230636.GA2920367-robh@kernel.org>
-References: <20220722151155.21100-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220722151155.21100-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Biju Das <biju.das@bp.renesas.com>,
+        David Airlie <airlied@linux.ie>
+Subject: Re: [PATCH v4 1/2] dt-bindings: display: Document Renesas RZ/G2L DU
+ bindings
+Message-ID: <20220725231118.GA2927653-robh@kernel.org>
+References: <20220722191353.544516-1-biju.das.jz@bp.renesas.com>
+ <20220722191353.544516-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220722151155.21100-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220722191353.544516-2-biju.das.jz@bp.renesas.com>
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
@@ -71,18 +75,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 22 Jul 2022 16:11:53 +0100, Lad Prabhakar wrote:
-> Add macros for NMI and IRQ0-7 interrupts which map to SPI0-8 present on
-> RZ/G2L (and alike) SoC's so that these can be used in the first cell of
+On Fri, 22 Jul 2022 20:13:52 +0100, Biju Das wrote:
+> The RZ/G2L LCD controller is composed of Frame Compression Processor
+> (FCPVD), Video Signal Processor (VSPD), and Display Unit (DU).
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> The DU module supports the following hardware features
+> − Display Parallel Interface (DPI) and MIPI LINK Video Interface
+> − Display timing master
+> − Generates video timings
+> − Selecting the polarity of output DCLK, HSYNC, VSYNC, and DE
+> − Supports Progressive
+> − Input data format (from VSPD): RGB888, RGB666
+> − Output data format: same as Input data format
+> − Supporting Full HD (1920 pixels x 1080 lines) for MIPI-DSI Output
+> − Supporting WXGA (1280 pixels x 800 lines) for Parallel Output
+> 
+> This patch document DU module found on RZ/G2L LCDC.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
-> v3:
-> * New patch as suggested by Biju and Geert.
+> v3->v4:
+>  * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
+>  * started using same compatible for RZ/G2{L,LC}
+> v3: New patch
 > ---
->  .../interrupt-controller/irqc-rzg2l.h         | 25 +++++++++++++++++++
->  1 file changed, 25 insertions(+)
->  create mode 100644 include/dt-bindings/interrupt-controller/irqc-rzg2l.h
+>  .../bindings/display/renesas,rzg2l-du.yaml    | 124 ++++++++++++++++++
+>  1 file changed, 124 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
 > 
 
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
