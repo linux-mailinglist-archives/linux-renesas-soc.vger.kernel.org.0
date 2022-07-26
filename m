@@ -2,179 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CE2C58167D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jul 2022 17:33:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 739B7581686
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jul 2022 17:34:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238748AbiGZPdP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Jul 2022 11:33:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58738 "EHLO
+        id S229635AbiGZPer convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Jul 2022 11:34:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239184AbiGZPdI (ORCPT
+        with ESMTP id S233639AbiGZPeq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Jul 2022 11:33:08 -0400
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3EC925E9E;
-        Tue, 26 Jul 2022 08:33:06 -0700 (PDT)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 1345310000D;
-        Tue, 26 Jul 2022 15:33:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1658849585;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=HRdmWnwRFg006Jlp/fvzJK6Y6DCwlRRmJJJdDrotXMs=;
-        b=MkHhdU3nwYIlFLi6PaqFp6/zyM5/Pl5BZpebZkmq/2E2mAlmV+CEwZgBzYXWMK2HTZSFih
-        cgHzmXZNnhIKTosA0WL/i1+fVTveSf8LgYgQnVUfmdp1AoQgfxUE7xoHBdJXxdUy/oapwY
-        UXS54JT75l4ck1NCWJfl3awN6pivinxqizoGlmHMcegrUB7s2TLCmdOrSrvh3nvmX39QKw
-        JUJ8awNEihSIMB2bziIRVpqrfVoQLu8/ww+62kjdeHtVd8WDrWw6TN1MgVgemGZxHhraMB
-        WI3yRKRDKtiAkddZVV77p28yHTCX2w/ORqrUIpd8JMoR90C0PrIiDzGYgZOEtQ==
-Date:   Tue, 26 Jul 2022 17:33:02 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Michel Pollet <michel.pollet@bp.renesas.com>,
-        linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Tue, 26 Jul 2022 11:34:46 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9CCF248C2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Jul 2022 08:34:45 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1oGMZs-0006xb-LT; Tue, 26 Jul 2022 17:34:32 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1oGMZp-003LNl-QR; Tue, 26 Jul 2022 17:34:29 +0200
+Received: from pza by lupine with local (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1oGMZp-000AY3-7T; Tue, 26 Jul 2022 17:34:29 +0200
+Message-ID: <37bd0aa73076debde01dc3327d81a3685977f977.camel@pengutronix.de>
+Subject: Re: [PATCH] dt-bindings: reset: renesas,rzg2l-usbphy-ctrl: Document
+ RZ/G2UL USBPHY Control bindings
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Subject: Re: [PATCH] rtc: rzn1: Fix RTC_RD_TIME: Invalid argument
-Message-ID: <YuAJLk8UIA0omk3N@mail.local>
-References: <20220706120756.777378-1-biju.das.jz@bp.renesas.com>
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Date:   Tue, 26 Jul 2022 17:34:29 +0200
+In-Reply-To: <OS0PR01MB5922C60E1D0A737167CEEDE486949@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20220423134601.141975-1-biju.das.jz@bp.renesas.com>
+         <fd372f05-e811-a6c5-31ae-c80df44c9ae4@linaro.org>
+         <OS0PR01MB5922C5F56F72744C1D7641AD86949@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+         <0c7688d6-b222-530a-3c61-0b081b43d090@linaro.org>
+         <OS0PR01MB5922C60E1D0A737167CEEDE486949@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220706120756.777378-1-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+Hi Biju,
 
-On 06/07/2022 13:07:56+0100, Biju Das wrote:
-> This patch fixes the issue RTC_RD_TIME: Invalid argument with the below
-> use case.
+On Di, 2022-07-26 at 11:52 +0000, Biju Das wrote:
+> Hi Krzysztof Kozlowski,
 > 
-> Steps to reproduce:
-> ------------------
-> date -s "2022-12-31 23:59:55";hwclock -w
-> hwclock; sleep 10; hwclock
+> > Subject: Re: [PATCH] dt-bindings: reset: renesas,rzg2l-usbphy-ctrl:
+> > Document RZ/G2UL USBPHY Control bindings
+> > 
+> > On 26/07/2022 13:04, Biju Das wrote:
+> > > Hi All,
+> > > 
+> > > Gentle ping.
+> > > 
+> > > Are we happy with this patch?
+> > 
+> > Why do you ping me or Rob? If you want to ping, be specific to avoid
+> > wasting time of other people.
 > 
-> Original result:
-> ---------------
-> Sat Dec 31 23:59:55 UTC 2022
-> Sat Dec 31 23:59:56 2022  0.000000 seconds
-> hwclock: RTC_RD_TIME: Invalid argument
-> 
-> Result after the fix:
-> --------------------
-> Sat Dec 31 23:59:55 UTC 2022
-> Sat Dec 31 23:59:56 2022  0.000000 seconds
-> Sun Jan  1 00:00:06 2023  0.000000 seconds
-> 
-> Fixes: deeb4b5393e1 ("rtc: rzn1: Add new RTC driver")
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> This patch fix is based on [1]
-> [1] https://github.com/renesas-rz/rzn1_linux/blob/rzn1-stable-v4.19/drivers/rtc/rtc-rzn1.c
-> ---
->  drivers/rtc/rtc-rzn1.c | 47 ++++++++++++++++++++++++++++--------------
->  1 file changed, 32 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-> index ac788799c8e3..0f99b4fd3c4b 100644
-> --- a/drivers/rtc/rtc-rzn1.c
-> +++ b/drivers/rtc/rtc-rzn1.c
-> @@ -88,6 +88,35 @@ static unsigned int rzn1_rtc_tm_to_wday(struct rtc_time *tm)
->  	return (days + 4) % 7;
->  }
->  
-> +static void bcd2tm(struct rtc_time *tm)
-> +{
-> +	tm->tm_sec = bcd2bin(tm->tm_sec);
-> +	tm->tm_min = bcd2bin(tm->tm_min);
-> +	tm->tm_hour = bcd2bin(tm->tm_hour);
-> +	tm->tm_wday = bcd2bin(tm->tm_wday);
-> +	tm->tm_mday = bcd2bin(tm->tm_mday);
-> +	tm->tm_mon = bcd2bin(tm->tm_mon) - 1;
+> I am not sure do I need to rebase and send the patch? since this patch is 
+> for a while and no response.
 
-I guess this is the actual fix, I'm not sure creating the bcd2tm and
-tm2bcd functions is useful, it obfuscates more than it helps.
+Thank you for the reminder, I've picked it up into reset/next.
 
-
-> +	/* epoch == 1900 */
-> +	tm->tm_year = bcd2bin(tm->tm_year) + 100;
-
-Is it really the epoch of the RTC?
-
-> +}
-> +
-> +static int tm2bcd(struct rtc_time *tm)
-> +{
-> +	if (rtc_valid_tm(tm) != 0)
-> +		return -EINVAL;
-> +
-
-This will never fail, I'm not sure why you need to check here.
-
-> +	tm->tm_sec = bin2bcd(tm->tm_sec);
-> +	tm->tm_min = bin2bcd(tm->tm_min);
-> +	tm->tm_hour = bin2bcd(tm->tm_hour);
-> +	tm->tm_wday = bin2bcd(rzn1_rtc_tm_to_wday(tm));
-> +	tm->tm_mday = bin2bcd(tm->tm_mday);
-> +	tm->tm_mon = bin2bcd(tm->tm_mon + 1);
-> +	/* epoch == 1900 */
-> +	tm->tm_year = bin2bcd(tm->tm_year - 100);
-> +
-> +	return 0;
-> +}
-> +
->  static int rzn1_rtc_read_time(struct device *dev, struct rtc_time *tm)
->  {
->  	struct rzn1_rtc *rtc = dev_get_drvdata(dev);
-> @@ -106,14 +135,7 @@ static int rzn1_rtc_read_time(struct device *dev, struct rtc_time *tm)
->  	if (tm->tm_sec != secs)
->  		rzn1_rtc_get_time_snapshot(rtc, tm);
->  
-> -	tm->tm_sec = bcd2bin(tm->tm_sec);
-> -	tm->tm_min = bcd2bin(tm->tm_min);
-> -	tm->tm_hour = bcd2bin(tm->tm_hour);
-> -	tm->tm_wday = bcd2bin(tm->tm_wday);
-> -	tm->tm_mday = bcd2bin(tm->tm_mday);
-> -	tm->tm_mon = bcd2bin(tm->tm_mon);
-> -	tm->tm_year = bcd2bin(tm->tm_year);
-> -
-> +	bcd2tm(tm);
->  	return 0;
->  }
->  
-> @@ -123,13 +145,8 @@ static int rzn1_rtc_set_time(struct device *dev, struct rtc_time *tm)
->  	u32 val;
->  	int ret;
->  
-> -	tm->tm_sec = bin2bcd(tm->tm_sec);
-> -	tm->tm_min = bin2bcd(tm->tm_min);
-> -	tm->tm_hour = bin2bcd(tm->tm_hour);
-> -	tm->tm_wday = bin2bcd(rzn1_rtc_tm_to_wday(tm));
-> -	tm->tm_mday = bin2bcd(tm->tm_mday);
-> -	tm->tm_mon = bin2bcd(tm->tm_mon);
-> -	tm->tm_year = bin2bcd(tm->tm_year);
-> +	if (tm2bcd(tm) < 0)
-> +		return -EINVAL;
->  
->  	val = readl(rtc->base + RZN1_RTC_CTL2);
->  	if (!(val & RZN1_RTC_CTL2_STOPPED)) {
-> -- 
-> 2.25.1
-> 
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+regards
+Philipp
