@@ -2,58 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50368582295
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Jul 2022 11:00:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 387875822B6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Jul 2022 11:06:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231190AbiG0JAt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Jul 2022 05:00:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43522 "EHLO
+        id S229625AbiG0JG1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Jul 2022 05:06:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbiG0JAs (ORCPT
+        with ESMTP id S231348AbiG0JGN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Jul 2022 05:00:48 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 972A26459;
-        Wed, 27 Jul 2022 02:00:47 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id r3so29220682ybr.6;
-        Wed, 27 Jul 2022 02:00:47 -0700 (PDT)
+        Wed, 27 Jul 2022 05:06:13 -0400
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F4C1474ED;
+        Wed, 27 Jul 2022 02:06:11 -0700 (PDT)
+Received: by mail-yb1-xb31.google.com with SMTP id z132so10371839yba.3;
+        Wed, 27 Jul 2022 02:06:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Lp2UjJeoZNtF3jPddaeCcZ2oTGYQdnwK+wO4WeAagn8=;
-        b=XSbIlFiwirHn32plE+wRVIidNeyGwGE7rZrO/FxalW9hGgD1B9ySrWfh7gdqqFTZVY
-         H0IejLiZa0buXTKLM1YPKWBU91ytBxfhcdenftN4TD9ztWV/Fdg66hs7YkNaspOMKUly
-         7Sw+B7WD/IsXkTMpXtLW7SkG9qfM8tf/lYzBfRtwO56Wjci9sTysluMbYUgld7IzNeA4
-         gOYFUXNc3FhUpXS4jZwP76jeObHD5HwiL7+8RIRlGS0t5bg5wdoTmr6Y3ls4q/3UP1kO
-         lm8oCE9OvlCbXqnYkYmQzq/H9jCWjI6f2JiJMxMusR5mu2HmG+gEXPqV+mfVT6AmcGDT
-         M89Q==
+        bh=TVtZIwcu07JXR0+8xN/nQ/0RqGwtHXT7p6Ok3vBeYZE=;
+        b=ZWqbYH4Scf7v0uPK5nBhI+Oi2aGMD3geeu+RxWWfYOXlH233jnt/MhtON9mgnkNPJ8
+         6ASkPkPzx9T4XCRpBU4dfQfAwQ8QUbQgPkk4EYRT0FR3+xAI7fi8WsZqVSR/HQUjFpD+
+         45rkjW8YLxnp4INk5NmrDVeL7osGrneXlYxnSb+Yz0G0q3DWwVQr77QSpWWNIRjDkdlg
+         FtxTn4NGkfcH+d8cQ4VFkyrGGtlohUQwGzDu27uTyzhzk/eBetVM6Dg9boxyEcUtHkmz
+         Ax9VJZbcH7ZK6WV6wWnOPnjSvPvX9iocq148gy1lgQCZIMr57pRH1usjDQ2kobJ2rbHE
+         BtpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Lp2UjJeoZNtF3jPddaeCcZ2oTGYQdnwK+wO4WeAagn8=;
-        b=rMYZI8hoFpnS+K5MZOv6Q9xbFh1V9zPwAXDb/VtoCxfSqcmf7gtN26SS5MqbptSLIj
-         HYrobI6/xneO5fR+Yxnj8ngEifEKE/dSEMxc+u81DJL5b5kTY7v9tpiuD44NJGqCpBjH
-         7BiWQ/JK0/csGQd3qus2J16aXYpwEG89zbhNbkZhmpCDxEIv6QluZ4HO6o1Z5T32DGB1
-         sMCjBVlCKBPoSRIhV8ekV+vXb2r7VSULtDbdW5z18V+L1KipcimTzUQB4BIWH0+tj8e3
-         vkHe9LBOuNmaszhfSjbfeb+GcCQib3Hzeoxvne+V0Xk580XAXoEsQvl+uko3hR/jbkXV
-         3kVg==
-X-Gm-Message-State: AJIora+CAWmdgMd0yuX8FD0OqylwpiOooqn22NmZGmsiVLYqD5g3BzNz
-        lTQbAoJ5tdG9LWh3OGPRQJ/wRtKNLcmff+VQQuc=
-X-Google-Smtp-Source: AGRyM1ueFJysPUexyidBDBCQ2Ajm5GpI2JfoVj8pVsuoL+AzQRgL3tl0GMPhkouwXL5dOZX4XHhkjaJbr0lJsLccxPg=
-X-Received: by 2002:a05:6902:20a:b0:670:c563:9180 with SMTP id
- j10-20020a056902020a00b00670c5639180mr16432213ybs.401.1658912446846; Wed, 27
- Jul 2022 02:00:46 -0700 (PDT)
+        bh=TVtZIwcu07JXR0+8xN/nQ/0RqGwtHXT7p6Ok3vBeYZE=;
+        b=yE6zXk6zaGXWBRZG9UaxJQuk4Jpph/bqXQONq9egj41viwoRp1YXg9GCUUD07y/rRE
+         FVKoqWv2rT8v6EloE9+sNQSBke6OwUt3s3V3lRXikFOjM6GXZFXDK8e7QdyyfWm8d94l
+         6Webt5RrSgygrJLVNCWIWzCKZhvWPISWAjPwALrLm5H9dzwBNyz7gGnGxOPkF6xIKLfX
+         WPR/SylcXJZQgogtpQWs9/eTO6t3ZNS5J5wuXRv71tDi5N6PwUJkB1jhjmnHk7JArurB
+         wryRzPPSs0VC9rdQS/odDIppxQTBlriw9b13KjyTh27fKu07a3ZU0Sac1oGlpIKCP3e8
+         9Q0g==
+X-Gm-Message-State: AJIora+LC0QoiJjVMe46Rcgre8YMljySipqCNGumABXeMBZuSERRlE4l
+        QGbcFGgUTnSF2NzTP1g9jel7yc70npb3PBDuY80=
+X-Google-Smtp-Source: AGRyM1vMDtzNnEM6xTH8HaoM2lTtPMXOMKIaKhZ65B7NZ920zrB5f8/tgkkYAAYImsgLC6OF2gaBWwRSwVR8dhHF0+M=
+X-Received: by 2002:a25:4689:0:b0:671:6d4f:c974 with SMTP id
+ t131-20020a254689000000b006716d4fc974mr6910885yba.354.1658912769970; Wed, 27
+ Jul 2022 02:06:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220726180623.1668-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220726180623.1668-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <952a85ec-d1e9-7c14-6404-bc087723252f@linaro.org>
-In-Reply-To: <952a85ec-d1e9-7c14-6404-bc087723252f@linaro.org>
+ <20220726180623.1668-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <636e9214-4b36-e9a6-3c6b-b6edb944335e@linaro.org>
+In-Reply-To: <636e9214-4b36-e9a6-3c6b-b6edb944335e@linaro.org>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 27 Jul 2022 10:00:19 +0100
-Message-ID: <CA+V-a8vb+za1Zckk5aTxz0hKkd5fHQk7gtfV+HR_2YMZ5JuJEQ@mail.gmail.com>
-Subject: Re: [PATCH 1/6] dt-bindings: arm: renesas: Ignore the schema for
- RISC-V arch
+Date:   Wed, 27 Jul 2022 10:05:43 +0100
+Message-ID: <CA+V-a8sTw1qzuTeD2vb7RgDmmNdEP5qEcxXCjrFgkyrBrLrt5Q@mail.gmail.com>
+Subject: Re: [PATCH 4/6] dt-bindings: riscv: Add DT binding documentation for
+ Renesas RZ/Five SoC and SMARC EVK
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -83,47 +83,82 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Krzysztof,
 
-On Wed, Jul 27, 2022 at 9:53 AM Krzysztof Kozlowski
+Thank you for the review.
+
+On Wed, Jul 27, 2022 at 9:54 AM Krzysztof Kozlowski
 <krzysztof.kozlowski@linaro.org> wrote:
 >
 > On 26/07/2022 20:06, Lad Prabhakar wrote:
-> > Ignore the ARM renesas.yaml schema if the board is RZ/Five SMARC EVK
-> > (RISC-V arch).
+> > Document Renesas RZ/Five (R9A07G043) SoC and SMARC EVK based on this SoC.
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > ---
-> >  Documentation/devicetree/bindings/arm/renesas.yaml | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
+> >  .../devicetree/bindings/riscv/renesas.yaml    | 49 +++++++++++++++++++
+> >  1 file changed, 49 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/riscv/renesas.yaml
 > >
-> > diff --git a/Documentation/devicetree/bindings/arm/renesas.yaml b/Documentation/devicetree/bindings/arm/renesas.yaml
-> > index ff80152f092f..f646df1a23af 100644
-> > --- a/Documentation/devicetree/bindings/arm/renesas.yaml
-> > +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
-> > @@ -9,6 +9,15 @@ title: Renesas SH-Mobile, R-Mobile, and R-Car Platform Device Tree Bindings
-> >  maintainers:
-> >    - Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > +# We want to ignore this schema if the board is of RISC-V arch
+> > diff --git a/Documentation/devicetree/bindings/riscv/renesas.yaml b/Documentation/devicetree/bindings/riscv/renesas.yaml
+> > new file mode 100644
+> > index 000000000000..f72f8aea6a82
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/riscv/renesas.yaml
+> > @@ -0,0 +1,49 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/riscv/renesas.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas RZ/Five Platform Device Tree Bindings
+> > +
+> > +maintainers:
+> > +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > +
+> > +# We want to ignore this schema if the board is SMARC EVK based on ARM64 arch
 > > +select:
 > > +  not:
 > > +    properties:
 > > +      compatible:
 > > +        contains:
 > > +          items:
-> > +            - const: renesas,r9a07g043f01
 >
-> Second issue - why not renesas,r9a07g043?
+> I think you should rather ignore the RiscV SoCs, not specific board.
 >
-We have two R9A07G043 SOC'S one is based on ARM64 and other on RISC-V.
+You mean to ignore ARM/64 SoCs?
 
-RZ/G2UL ARM64:
-Type-1 Part Number: R9A07G043U11GBG#BC0
-Type-2 Part Number: R9A07G043U12GBG#BC0
+Agreed just the below enum, should do the trick.
 
-RZ/Five RISCV:
-13 x 13 mm Package Part Number: R9A07G043F01GBG#BC0
+            - enum:
+                - renesas,r9a07g043u11
+                - renesas,r9a07g043u12
+                - renesas,r9a07g044c1
+                - renesas,r9a07g044c2
+                - renesas,r9a07g044l1
+                - renesas,r9a07g044l2
+                - renesas,r9a07g054l1
+                - renesas,r9a07g054l2
 
-So to differentiate in ARM schema I am using  renesas,r9a07g043f01.
+
+> > +            - const: renesas,smarc-evk
+> > +            - enum:
+> > +                - renesas,r9a07g043u11
+> > +                - renesas,r9a07g043u12
+> > +                - renesas,r9a07g044c1
+> > +                - renesas,r9a07g044c2
+> > +                - renesas,r9a07g044l1
+> > +                - renesas,r9a07g044l2
+> > +                - renesas,r9a07g054l1
+> > +                - renesas,r9a07g054l2
+> > +            - enum:
+> > +                - renesas,r9a07g043
+> > +                - renesas,r9a07g044
+> > +                - renesas,r9a07g054
+>
+> Did you actually test that it works and properly matches?
+>
+Yes I have run the dtbs_check and dt_binding _check for ARM64 and
+RISC-V. Do you see any cases where it can fail?
 
 Cheers,
 Prabhakar
