@@ -2,66 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12A255829DF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Jul 2022 17:44:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC807582A20
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Jul 2022 18:00:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234094AbiG0Pn7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Jul 2022 11:43:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47454 "EHLO
+        id S233913AbiG0QAu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Jul 2022 12:00:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbiG0Pn6 (ORCPT
+        with ESMTP id S234116AbiG0QAt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Jul 2022 11:43:58 -0400
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F898481F1;
-        Wed, 27 Jul 2022 08:43:58 -0700 (PDT)
-Received: by mail-il1-f181.google.com with SMTP id y10so1270430ili.3;
-        Wed, 27 Jul 2022 08:43:58 -0700 (PDT)
+        Wed, 27 Jul 2022 12:00:49 -0400
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACEA74A82A;
+        Wed, 27 Jul 2022 09:00:48 -0700 (PDT)
+Received: by mail-io1-f51.google.com with SMTP id 125so13866676iou.6;
+        Wed, 27 Jul 2022 09:00:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=EBPsyq8xCTUIGHkDPSsIKhxwmfJ6F+duXUDyo4llVo0=;
-        b=Dd4XhgcraxGfeXihvDttIG+3BJg7BPXpZA1zb+K7jHbf+jM4h/hfp1GdjhPONgOU7W
-         sTcBHTgNh398/wuHvboiY5Zw3z+7bfReEeinFdVnOJYDWNPrhs1YjIbKPtSLB0KQgF3v
-         P2xVKp/9laZY4RMNEABJCnhUl7JOkpcvyaxa+3G5aydbcp+eTr8znI7ditlN+1Nta57X
-         aOALgIOe5FjMl/0re01w7VtFvc6MANsI0ejePTdFXBp0kWU3mtSwcMHOfqvYz5f6UCBX
-         uCnkWmWpczUIFc0K5/ZlwnDyTbd9IZiEZVEW8Nf6CFgV+JnCbfDT+tpOc9PoGxC4xCTf
-         TRww==
-X-Gm-Message-State: AJIora9eFpBE3wkG46L7F2BztFPiRxRxK+YEZYKDHs2hWIftoJv5zXR4
-        UykbjHY34a3PsuNGvamJLA==
-X-Google-Smtp-Source: AGRyM1sP6a08WkTCUGcmRvfX3ijrTpt7NEQ6DQj6lTIcMRgPCXMgOcSJmDPAyD1mwUTjZKCujuIgzg==
-X-Received: by 2002:a92:6504:0:b0:2dd:8201:fdeb with SMTP id z4-20020a926504000000b002dd8201fdebmr3968342ilb.98.1658936637261;
-        Wed, 27 Jul 2022 08:43:57 -0700 (PDT)
+        bh=uBsgoWPScdkjNHTUG+UX4gTQ/1ojeJRsC75QZ5pUW2M=;
+        b=dQeSjiXtNJ+TC/1F2dxC/wG8brQRm6WmZvQT04giY1+WkVUf/C/59pCacRKwT/1f7v
+         JHiessbZqaIJi3QdmLLqG9EkEhpp3GBAEobpP+/nMERRLuzq+DQxjLaM22jcLzR25MVV
+         KGhbEfFRG9zZf4IdYg8r83BbnzFGZwsPQHhJbZPq4dyn2cqvTq+xuaU8dtcPSZvMa3ww
+         MCw22f7LIj6rSVmFDCP7DZTM988xD6uSNWpYt7QOthGirG/soehOANYgWYUdFMNYnXrc
+         NR6Q2qe3or6ZDLwHOXQlHE85EzPGnLAGzsYoz9woVjzkbSiZhlwkNmJt8WTVBszUKPoj
+         ET8A==
+X-Gm-Message-State: AJIora92tmzTquy25lYW8/+gLerxu/llAIAk2ToMrXCySAWwZlfFJDdl
+        bwgGRxRDGrvsLF1uHzkGew==
+X-Google-Smtp-Source: AGRyM1sD8B2rbELo9ocOtlLalIh62gFYeLVGS+WKt5OHRvdHFMThwl6MxVNUoXL9QBmLT7sf0+wjNw==
+X-Received: by 2002:a6b:771a:0:b0:67b:d23e:277b with SMTP id n26-20020a6b771a000000b0067bd23e277bmr7818827iom.203.1658937647850;
+        Wed, 27 Jul 2022 09:00:47 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id a20-20020a027a14000000b0033f5e8dab90sm8092861jac.143.2022.07.27.08.43.55
+        by smtp.gmail.com with ESMTPSA id b125-20020a021983000000b0033f027c2dbcsm7953186jab.156.2022.07.27.09.00.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jul 2022 08:43:56 -0700 (PDT)
-Received: (nullmailer pid 2728328 invoked by uid 1000);
-        Wed, 27 Jul 2022 15:43:55 -0000
-Date:   Wed, 27 Jul 2022 09:43:55 -0600
+        Wed, 27 Jul 2022 09:00:47 -0700 (PDT)
+Received: (nullmailer pid 2754701 invoked by uid 1000);
+        Wed, 27 Jul 2022 16:00:46 -0000
+Date:   Wed, 27 Jul 2022 10:00:46 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anup Patel <anup@brainfault.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 1/6] dt-bindings: arm: renesas: Ignore the schema for
- RISC-V arch
-Message-ID: <20220727154355.GA2723077-robh@kernel.org>
-References: <20220726180623.1668-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220726180623.1668-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] dt-bindings: timer: renesas,tmu: Add r8a779f0 support
+Message-ID: <20220727160046.GA2754636-robh@kernel.org>
+References: <20220726205858.1199-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220726180623.1668-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220726205858.1199-1-wsa+renesas@sang-engineering.com>
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
@@ -72,32 +67,11 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 26, 2022 at 07:06:18PM +0100, Lad Prabhakar wrote:
-> Ignore the ARM renesas.yaml schema if the board is RZ/Five SMARC EVK
-> (RISC-V arch).
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Tue, 26 Jul 2022 22:58:57 +0200, Wolfram Sang wrote:
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
->  Documentation/devicetree/bindings/arm/renesas.yaml | 9 +++++++++
->  1 file changed, 9 insertions(+)
+>  Documentation/devicetree/bindings/timer/renesas,tmu.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/arm/renesas.yaml b/Documentation/devicetree/bindings/arm/renesas.yaml
-> index ff80152f092f..f646df1a23af 100644
-> --- a/Documentation/devicetree/bindings/arm/renesas.yaml
-> +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
-> @@ -9,6 +9,15 @@ title: Renesas SH-Mobile, R-Mobile, and R-Car Platform Device Tree Bindings
->  maintainers:
->    - Geert Uytterhoeven <geert+renesas@glider.be>
->  
-> +# We want to ignore this schema if the board is of RISC-V arch
-> +select:
-> +  not:
-> +    properties:
-> +      compatible:
-> +        contains:
-> +          items:
-> +            - const: renesas,r9a07g043f01
 
-As I've said, this doesn't work without tool changes I proposed.
-
-Rob
+Acked-by: Rob Herring <robh@kernel.org>
