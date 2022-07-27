@@ -2,56 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 99D615821AE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Jul 2022 10:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E1935821C9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Jul 2022 10:10:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230356AbiG0IBQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Jul 2022 04:01:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55642 "EHLO
+        id S229507AbiG0IK0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Jul 2022 04:10:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230130AbiG0IBP (ORCPT
+        with ESMTP id S229468AbiG0IKZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Jul 2022 04:01:15 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFF82422ED;
-        Wed, 27 Jul 2022 01:01:13 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id c131so29002860ybf.9;
-        Wed, 27 Jul 2022 01:01:13 -0700 (PDT)
+        Wed, 27 Jul 2022 04:10:25 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 301DA559B;
+        Wed, 27 Jul 2022 01:10:24 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-31d85f82f0bso166964557b3.7;
+        Wed, 27 Jul 2022 01:10:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=D4DAUtMqWwVudJqi/niJOWb+6cSIXvBRzWlx03pK1Nc=;
-        b=UE9j56sjpWAsYKOcxBMjUI2ak6h/MS5YtqYJaKzcqWKbuuqSfa+F3h8Vu5AdcTPsC3
-         Sd9HGogbOgcFhU/EngE77Yk77wswd7O1Ml4szPquZR7tJAqQdFKdoGBq0iwxKU/fZgII
-         NL1Dgpp8/t2Nkvdqyg0cfv/AfZuLNaB8m0kH4DM0E9t26sRsMKdPZII2imgB1jnpm61i
-         TzYCQ7DWuVjbH/SC99Sc9W8s8TwR6zbvJyKlHw6MjoC9mW4UeCFC7XN6MEsQcmnrgDga
-         gtXiAy3w1WXrtxtI015STtvB806cc5zGnVxMzt5tp7mtAcKn2J1O7TOjv5WlhxJjKvKz
-         pUrg==
+        bh=K8WsuTI5HqjVqZ3mqJBPeJnAkwvhfGL30L5LTvOm6u4=;
+        b=D5Kgg84JRiZOPD+q5N9vaIRd2tAD5RR1MMcDuqJUuLM5SoPObzBi0fHFHtSyVJUR9O
+         v98JAwUINxP/fSbxHCfYR5FNx4zgpBC6hISx2oW9k0/zBoX9FE7YiJW+J1EFMEAEJ+Oq
+         lA2xBcvprRZtJ+tHFoyslZUNR5dAFOwIGhqiaS9/SmpRU/TgdpMjXJ/EhTDnZfA+Dbq/
+         hZYkSm7aS2gxXZFc93DL31tdTuVc1ePql257a4NK2rTX46Eqz+9E3k8hznhoenxQDIeC
+         figuSrUlcgUE5iPST0Y6XB2hsacUgifsw9KnJp79loAdx2GyMHN7e1D2M4xe4ceLDo77
+         /0UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=D4DAUtMqWwVudJqi/niJOWb+6cSIXvBRzWlx03pK1Nc=;
-        b=rl0kM1AbyJU+mhkZslv1HF0STOLaQCiEhAMbUIHpTomaDPSDNkrnF/d+Xam+RuR+f5
-         ytqX6uxQoszWzhNjOI/M/cX4OvvwexYjUGmKk5qPxdbkYpZHQLSgJNPNkBaE6RRonBKf
-         gvf2mTFV0YbDnBTBs4EvP214eAvYBwfOehe/Xs1iN3cjOR9bJ/3TfAGrWR97FOEOGWTy
-         cmWMn2bEoXqJzN1Oys0ezTAHWn78lxTZHo+jGsfVRtcsDSbNal+sFogPP41Z4pBUPbjy
-         i2IDCzB3PgPBbPo5/vE58ddxA/bLMerePrUXONU0CI5VJgspyxx0wP04APdvFj87vgep
-         shRg==
-X-Gm-Message-State: AJIora/PJHwMJvq4C1Cq4TUuZQIF2WDWRQQk19aFPSfYftF+gU+1sKgx
-        Nds37KReQJGQx1qL9YFv/zR/cWVZeAFfquOLzMk=
-X-Google-Smtp-Source: AGRyM1vn+8Q6+I5xh7dntobwuywvhGo1l2I75PEVKouLyIip06Ow1NQMkw5NmUO6c3AaYmH8P2N2SYLMHai6GYktd/Q=
-X-Received: by 2002:a25:9e92:0:b0:66e:c03e:c632 with SMTP id
- p18-20020a259e92000000b0066ec03ec632mr16366501ybq.279.1658908872552; Wed, 27
- Jul 2022 01:01:12 -0700 (PDT)
+        bh=K8WsuTI5HqjVqZ3mqJBPeJnAkwvhfGL30L5LTvOm6u4=;
+        b=kFpzpIAqA7JWNLUr7XxOOHbNVKlUzZRYED0n5OyaDj+c255fo89vmFCnEuooSaZf8J
+         HsIXZuEL/T2lrWuBtsL6IalUiiCg7kboWgDPNbWiAG6U4+eO+Dvl8CWPF1Ho16XEyDSm
+         E0hQlMSOqHRW7hW7LMhn3vao1cohmdoH6sVHLs1vqxLeOIfQaLD94+b7MiYKq0QQQPbp
+         txenUmw+4UH2BLoudytMs9kYJRmbIa+rYUf+ek0K4vSop+3a+uVLUmTwtPTZrDF7o/er
+         hCwkOPKYkkKb8gU2/Ctm/MPngzwA1ip6ovSA7m8Fe3VjvBrgpB4v5S0g3iwZrzZMgKCE
+         64uQ==
+X-Gm-Message-State: AJIora/hT2rgrQC8dh197zMWB6EiD24kJF18xJHt5j3nHQ5otY9xG8Sa
+        pxahbsI/1A5jvFHIwzgOYhmUktRRUgaG6favo8o=
+X-Google-Smtp-Source: AGRyM1tq/fVV6xPYbEKCqMXyTJ4clWzdeyD8mpCOp2Jxixf0hphMcBS1e5sTtpCLva92LX3/MwHqdomugY1fgU0srZs=
+X-Received: by 2002:a81:d542:0:b0:31e:c878:7565 with SMTP id
+ l2-20020a81d542000000b0031ec8787565mr17170281ywj.382.1658909423375; Wed, 27
+ Jul 2022 01:10:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220726180623.1668-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <e05b7ef1-64ae-4c12-7664-c70c7a35f76d@microchip.com>
-In-Reply-To: <e05b7ef1-64ae-4c12-7664-c70c7a35f76d@microchip.com>
+References: <20220726180623.1668-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220726180623.1668-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <cc6f723a-441e-55fc-5044-890d45fb79b4@microchip.com>
+In-Reply-To: <cc6f723a-441e-55fc-5044-890d45fb79b4@microchip.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 27 Jul 2022 09:00:45 +0100
-Message-ID: <CA+V-a8tkDSKtJZZt8U4ZXZ8dd2jA4o=pAmwXuvLXV9KvSCUeUg@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Add support for Renesas RZ/Five SoC
+Date:   Wed, 27 Jul 2022 09:09:55 +0100
+Message-ID: <CA+V-a8vwhsa2S2UX+hi0MPnrjpfRYLzo1Ca1vffx-5A9jr6Hpg@mail.gmail.com>
+Subject: Re: [PATCH 6/6] riscv: dts: renesas: Add initial devicetree for
+ Renesas RZ/Five SoC
 To:     Conor.Dooley@microchip.com
 Cc:     "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -80,49 +82,195 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Conor,
 
-On Tue, Jul 26, 2022 at 7:51 PM <Conor.Dooley@microchip.com> wrote:
+On Tue, Jul 26, 2022 at 7:25 PM <Conor.Dooley@microchip.com> wrote:
 >
+> Hey,
+> Saw your other binding patches coming in earlier & wondered if
+> this would show up today ;)
+>
+:)
+
 > On 26/07/2022 19:06, Lad Prabhakar wrote:
-> > Useful links:
-> > -------------
-> > [0] https://www.renesas.com/us/en/products/microcontrollers-microprocessors/
-> > rz-mpus/rzfive-risc-v-general-purpose-microprocessors-risc-v-cpu-core-
-> > andes-ax45mp-single-10-ghz-2ch-gigabit-ethernet
+> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
 > >
-> > [1] http://www.andestech.com/en/products-solutions/andescore-processors/
-> > riscv-ax45mp/
+> > Add initial device tree for Renesas RZ/Five RISC-V CPU Core (AX45MP
+> > Single).
 > >
-> > Patch series depends on:
-> > -----------------------
-> > [0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/
-> > 20220722141506.20171-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> > Below is the list of IP blocks added in the initial SoC DTSI which can be
+> > used to boot via initramfs on RZ/Five SMARC EVK:
+> > - AX45MP CPU
+> > - CPG
+> > - PINCTRL
+> > - PLIC
+> > - SCIF0
+> > - SYSC
 > >
-> > [1] https://patchwork.kernel.org/project/linux-renesas-soc/
-> > cover/20220630100241.35233-1-samuel@sholland.org/
-> >
-> > [2] https://patchwork.kernel.org/project/linux-renesas-soc/patch/
-> > 20220726174525.620-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> >
-> > [3] https://patchwork.kernel.org/project/linux-renesas-soc/patch/
-> > 20220726174929.950-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> >
-> > [4] https://patchwork.kernel.org/project/linux-renesas-soc/patch/
-> > 20220726175315.1147-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  arch/riscv/boot/dts/Makefile               |   1 +
+> >  arch/riscv/boot/dts/renesas/r9a07g043.dtsi | 121 +++++++++++++++++++++
 >
-> FYI, your mail client or w/e wrapped these links and none of
-> them work properly :(
+> Missing files? Where is your Makefile for this directory?
+> Or the board dts?
 >
-Sorry I had wrapped them around.
+My plan was to get the initial minimal SoC DTSi and then later
+gradually add the board DTS, but it looks like I'll have to include it
+along with this series.
 
-[0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20220722141506.20171-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> Enabling CONFIG_SOC_RENESAS_RZFIVE causes dtbs_check to fail :(
+>
+I shall include the Makefile and boards dts in v2
 
-[1] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20220630100241.35233-1-samuel@sholland.org/
+> >  2 files changed, 122 insertions(+)
+> >  create mode 100644 arch/riscv/boot/dts/renesas/r9a07g043.dtsi
+> >
+> > diff --git a/arch/riscv/boot/dts/Makefile b/arch/riscv/boot/dts/Makefile
+> > index ff174996cdfd..b0ff5fbabb0c 100644
+> > --- a/arch/riscv/boot/dts/Makefile
+> > +++ b/arch/riscv/boot/dts/Makefile
+> > @@ -3,5 +3,6 @@ subdir-y += sifive
+> >  subdir-y += starfive
+> >  subdir-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += canaan
+> >  subdir-y += microchip
+> > +subdir-y += renesas
+> >
+> >  obj-$(CONFIG_BUILTIN_DTB) := $(addsuffix /, $(subdir-y))
+> > diff --git a/arch/riscv/boot/dts/renesas/r9a07g043.dtsi b/arch/riscv/boot/dts/renesas/r9a07g043.dtsi
+> > new file mode 100644
+> > index 000000000000..6e0b640c6c7f
+> > --- /dev/null
+> > +++ b/arch/riscv/boot/dts/renesas/r9a07g043.dtsi
+> > @@ -0,0 +1,121 @@
+> > +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +/*
+> > + * Device Tree Source for the RZ/Five SoC
+> > + *
+> > + * Copyright (C) 2022 Renesas Electronics Corp.
+> > + */
+> > +
+> > +#include <dt-bindings/interrupt-controller/arm-gic.h>
+>
+> Including arm gic stuff on riscv? That seems a bit odd to me.
+>
+Ouch this needs to be replaced with irq.h (required for IRQ_TYPE_LEVEL_* flags)
 
-[2] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220726174525.620-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> > +#include <dt-bindings/clock/r9a07g043-cpg.h>
+> > +
+> > +/ {
+> > +       compatible = "renesas,r9a07g043";
+> > +       #address-cells = <2>;
+> > +       #size-cells = <2>;
+> > +
+> > +       /* clock can be either from exclk or crystal oscillator (XIN/XOUT) */
+> > +       extal_clk: extal-clk {
+> > +               compatible = "fixed-clock";
+> > +               #clock-cells = <0>;
+> > +               /* This value must be overridden by the board */
+> > +               clock-frequency = <0>;
+>
+> Why add the empty value in that case?
+>
+For ARM64 SoC DTSI we use the above approach so f Iollowed the same,
+but you are right this can be dropped.
 
-[3] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220726174929.950-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-
-[4] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220726175315.1147-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> > +       };
+> > +
+> > +       cpus {
+> > +               #address-cells = <1>;
+> > +               #size-cells = <0>;
+> > +               timebase-frequency = <24000000>;
+> > +
+> > +               ax45mp: cpu@0 {
+> > +                       compatible = "andestech,ax45mp", "riscv";
+> > +                       device_type = "cpu";
+> > +                       reg = <0x0>;
+> > +                       status = "okay";
+> > +                       riscv,isa = "rv64imafdc";
+> > +                       mmu-type = "riscv,sv39";
+> > +                       i-cache-size = <0x8000>;
+> > +                       i-cache-line-size = <0x40>;
+> > +                       d-cache-size = <0x8000>;
+> > +                       d-cache-line-size = <0x40>;
+> > +                       clocks = <&cpg CPG_CORE R9A07G043_AX45MP_CORE0_CLK>,
+> > +                                <&cpg CPG_CORE R9A07G043_AX45MP_ACLK>;
+> > +
+> > +                       cpu0_intc: interrupt-controller {
+> > +                               #interrupt-cells = <1>;
+> > +                               compatible = "riscv,cpu-intc";
+> > +                               interrupt-controller;
+> > +                       };
+> > +               };
+> > +       };
+> > +
+> > +       soc: soc {
+> > +               compatible = "simple-bus";
+> > +               interrupt-parent = <&plic>;
+> > +               #address-cells = <2>;
+> > +               #size-cells = <2>;
+> > +               ranges;
+> > +
+> > +               scif0: serial@1004b800 {
+> > +                       compatible = "renesas,scif-r9a07g043",
+> > +                                    "renesas,scif-r9a07g044";
+> > +                       reg = <0 0x1004b800 0 0x400>;
+> > +                       interrupts = <412 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                    <414 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                    <415 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                    <413 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                    <416 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                    <416 IRQ_TYPE_LEVEL_HIGH>;
+> > +                       interrupt-names = "eri", "rxi", "txi",
+> > +                                         "bri", "dri", "tei";
+> > +                       clocks = <&cpg CPG_MOD R9A07G043_SCIF0_CLK_PCK>;
+> > +                       clock-names = "fck";
+> > +                       power-domains = <&cpg>;
+> > +                       resets = <&cpg R9A07G043_SCIF0_RST_SYSTEM_N>;
+> > +                       status = "disabled";
+> > +               };
+> > +
+> > +               cpg: clock-controller@11010000 {
+> > +                       compatible = "renesas,r9a07g043-cpg";
+> > +                       reg = <0 0x11010000 0 0x10000>;
+> > +                       clocks = <&extal_clk>;
+> > +                       clock-names = "extal";
+> > +                       #clock-cells = <2>;
+> > +                       #reset-cells = <1>;
+> > +                       #power-domain-cells = <0>;
+> > +               };
+> > +
+> > +               sysc: system-controller@11020000 {
+> > +                       compatible = "renesas,r9a07g043-sysc";
+> > +                       reg = <0 0x11020000 0 0x10000>;
+> > +                       status = "disabled";
+> > +               };
+> > +
+> > +               pinctrl: pinctrl@11030000 {
+> > +                       compatible = "renesas,r9a07g043-pinctrl";
+> > +                       reg = <0 0x11030000 0 0x10000>;
+> > +                       gpio-controller;
+> > +                       #gpio-cells = <2>;
+> > +                       #interrupt-cells = <2>;
+> > +                       interrupt-controller;
+> > +                       gpio-ranges = <&pinctrl 0 0 152>;
+> > +                       clocks = <&cpg CPG_MOD R9A07G043_GPIO_HCLK>;
+> > +                       power-domains = <&cpg>;
+> > +                       resets = <&cpg R9A07G043_GPIO_RSTN>,
+> > +                                <&cpg R9A07G043_GPIO_PORT_RESETN>,
+> > +                                <&cpg R9A07G043_GPIO_SPARE_RESETN>;
+> > +               };
+> > +
+> > +               plic: interrupt-controller@12c00000 {
+> > +                       compatible = "renesas,r9a07g043-plic", "andestech,nceplic100";
+> > +                       #interrupt-cells = <2>;
+> > +                       #address-cells = <0>;
+> > +                       riscv,ndev = <543>;
+> > +                       interrupt-controller;
+> > +                       reg = <0x0 0x12c00000 0 0x400000>;
+>
+> Does reg not usually get sorted after compatible?
+> For consistency in this file it should at least.
+>
+Agreed will fix that.
 
 Cheers,
 Prabhakar
