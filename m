@@ -2,43 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D945583B32
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Jul 2022 11:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33F81583EB3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Jul 2022 14:23:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235453AbiG1J0Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Jul 2022 05:26:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35228 "EHLO
+        id S237079AbiG1MXZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Jul 2022 08:23:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235242AbiG1J0W (ORCPT
+        with ESMTP id S236295AbiG1MXY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Jul 2022 05:26:22 -0400
+        Thu, 28 Jul 2022 08:23:24 -0400
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 85CB565813
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Jul 2022 02:26:21 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.93,196,1654527600"; 
-   d="scan'208";a="129440973"
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 12A6B6BD50;
+        Thu, 28 Jul 2022 05:23:18 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.93,198,1654527600"; 
+   d="scan'208";a="129460820"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 28 Jul 2022 18:26:20 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 28 Jul 2022 21:23:18 +0900
 Received: from localhost.localdomain (unknown [10.226.93.50])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 617BF4012273;
-        Thu, 28 Jul 2022 18:26:16 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1ACB64011408;
+        Thu, 28 Jul 2022 21:23:14 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        alsa-devel@alsa-project.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org, Pavel Machek <pavel@denx.de>
-Subject: [PATCH v2] ASoC: sh: rz-ssi: Improve error handling in rz_ssi_probe() error path
-Date:   Thu, 28 Jul 2022 10:26:12 +0100
-Message-Id: <20220728092612.38858-1-biju.das.jz@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/3] Add RSPI DMA support to RZ/G2{L, LC, UL} and RZ/V2L
+Date:   Thu, 28 Jul 2022 13:23:09 +0100
+Message-Id: <20220728122312.189766-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -51,73 +47,23 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-We usually do cleanup in reverse order of init. Currently in case of
-error rz_ssi_release_dma_channels() done in the reverse order. This
-patch improves error handling in rz_ssi_probe() error path.
+This patch series aims to add dmac phandles to RSPI nodes on SoC dtsi to
+support DMA operation on RZ/G2{L, LC, UL} and RZ/V2L SoC's
 
-While at it, use "goto cleanup" style to reduce code duplication.
+This patch series depend upon [1] and [2]
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=next-20220728&id=b620aa3a7be346f04ae7789b165937615c6ee8d3
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=next-20220728&id=7d3a3aaaa9cc8ec53e9ef4f3e1711827107f76c5
 
-Reported-by: Pavel Machek <pavel@denx.de>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- Replaced the label err_dma->err_reset.
----
- sound/soc/sh/rz-ssi.c | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+Biju Das (3):
+  arm64: dts: renesas: r9a07g043: Add DMA support to RSPI
+  arm64: dts: renesas: r9a07g044: Add DMA support to RSPI
+  arm64: dts: renesas: r9a07g054: Add DMA support to RSPI
 
-diff --git a/sound/soc/sh/rz-ssi.c b/sound/soc/sh/rz-ssi.c
-index 0d0594a0e4f6..7ace0c0db5b1 100644
---- a/sound/soc/sh/rz-ssi.c
-+++ b/sound/soc/sh/rz-ssi.c
-@@ -1017,32 +1017,36 @@ static int rz_ssi_probe(struct platform_device *pdev)
- 
- 	ssi->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
- 	if (IS_ERR(ssi->rstc)) {
--		rz_ssi_release_dma_channels(ssi);
--		return PTR_ERR(ssi->rstc);
-+		ret = PTR_ERR(ssi->rstc);
-+		goto err_reset;
- 	}
- 
- 	reset_control_deassert(ssi->rstc);
- 	pm_runtime_enable(&pdev->dev);
- 	ret = pm_runtime_resume_and_get(&pdev->dev);
- 	if (ret < 0) {
--		rz_ssi_release_dma_channels(ssi);
--		pm_runtime_disable(ssi->dev);
--		reset_control_assert(ssi->rstc);
--		return dev_err_probe(ssi->dev, ret, "pm_runtime_resume_and_get failed\n");
-+		dev_err(&pdev->dev, "pm_runtime_resume_and_get failed\n");
-+		goto err_pm;
- 	}
- 
- 	ret = devm_snd_soc_register_component(&pdev->dev, &rz_ssi_soc_component,
- 					      rz_ssi_soc_dai,
- 					      ARRAY_SIZE(rz_ssi_soc_dai));
- 	if (ret < 0) {
--		rz_ssi_release_dma_channels(ssi);
--
--		pm_runtime_put(ssi->dev);
--		pm_runtime_disable(ssi->dev);
--		reset_control_assert(ssi->rstc);
- 		dev_err(&pdev->dev, "failed to register snd component\n");
-+		goto err_snd_soc;
- 	}
- 
-+	return 0;
-+
-+err_snd_soc:
-+	pm_runtime_put(ssi->dev);
-+err_pm:
-+	pm_runtime_disable(ssi->dev);
-+	reset_control_assert(ssi->rstc);
-+err_reset:
-+	rz_ssi_release_dma_channels(ssi);
-+
- 	return ret;
- }
- 
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 6 ++++++
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 6 ++++++
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 6 ++++++
+ 3 files changed, 18 insertions(+)
+
 -- 
 2.25.1
 
