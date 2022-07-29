@@ -2,36 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 331545853BE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Jul 2022 18:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9E655853BD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Jul 2022 18:44:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237653AbiG2Qos (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S236744AbiG2Qos (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Fri, 29 Jul 2022 12:44:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34658 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236744AbiG2Qor (ORCPT
+        with ESMTP id S238026AbiG2Qor (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Fri, 29 Jul 2022 12:44:47 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A32588F08
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Jul 2022 09:44:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCB4A82467
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Jul 2022 09:44:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=yByCvOMVdA+OtiG7Iq+Uk1Xvs5y
-        3h07InTLj5VsSOb8=; b=A5t47CkAKcFh5LmQVWEfSSbbGViM7PbJS7Va8l5G76b
-        PBZ0unmEZGiB6JN3kQA6TZV/s7JI55E8JwsDyIuXwoNHMd60NVai8azykkkeR4iO
-        5Zx76cXsrvLqOmcqWOE4atNZGkjnWGumxirWZGHcbJRWC41ovXP7HCf4GkytAz74
-        =
-Received: (qmail 4011953 invoked from network); 29 Jul 2022 18:44:40 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jul 2022 18:44:40 +0200
-X-UD-Smtp-Session: l3s3148p1@k3U4XfTkEMdScWOH
+        from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-transfer-encoding; s=k1; bh=J4zHykYAR78JGx
+        YCS2xMavSad507qzvxWyYOpt7j7sA=; b=JVVysUk2TLi4QJeu0qIzBPLTjM73pR
+        1v/8bDuIdC7cG22V6Yqrx5eKITigHPUffvd5mKkoyk/4lk6JDbj9KwanJfjMVKWI
+        xWAtGbIC0Ukp/gIyw11BmZPXbQ40Awed9maOLz2SHWbzxgb9wJO6IkVKAmteq0ch
+        RFQFyU1VMLNjc=
+Received: (qmail 4011997 invoked from network); 29 Jul 2022 18:44:44 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jul 2022 18:44:44 +0200
+X-UD-Smtp-Session: l3s3148p1@+KfjXfTkiMBScWOH
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH 0/5] arm64: dts: renesas: move I2C aliases to board files
-Date:   Fri, 29 Jul 2022 18:44:20 +0200
-Message-Id: <20220729164425.11062-1-wsa+renesas@sang-engineering.com>
+Subject: [PATCH 1/5] arm64: dts: renesas: r8a779{51|60|65}: put I2C aliases to board files
+Date:   Fri, 29 Jul 2022 18:44:21 +0200
+Message-Id: <20220729164425.11062-2-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220729164425.11062-1-wsa+renesas@sang-engineering.com>
+References: <20220729164425.11062-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -44,61 +46,122 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-For R-Car Gen3 and Gen4, we had I2C aliases in per-SoC DTS include
-files. That doesn't really fit as bus naming is a board property. This
-series moves the aliases to the board files. The following procedure has
-been applied to avoid regressions:
+I2C aliases are not a property of a SoC. They belong to board files
+where they are named accordingly in the schematics.
 
-1) move the aliases from SoC files to board files. Keep the empty
-   alias-nodes in the SoC file and add the new aliases before existing
-   ones. This ensured that identical binaries[1] were created.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ arch/arm64/boot/dts/renesas/r8a77951.dtsi        | 11 -----------
+ arch/arm64/boot/dts/renesas/r8a77960.dtsi        | 11 -----------
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi        | 11 -----------
+ arch/arm64/boot/dts/renesas/salvator-common.dtsi |  8 ++++++++
+ arch/arm64/boot/dts/renesas/ulcb.dtsi            |  8 ++++++++
+ 5 files changed, 16 insertions(+), 33 deletions(-)
 
-2) Once all aliases were moved and all binaries[1] stayed identical,
-   then the empty alias nodes from the SoC files were removed.
-
-The result is this series based on the renesas-drivers tag
-'renesas-drivers-2022-07-19-v5.19-rc7'.
-
-It could be discussed if the aliases should be sorted alphabetically,
-but I'd think this is a seperate series then.
-
-I also leave it to Geert, if the commits should be squashed. At least
-for reviewing, I think this separation makes sense, though.
-
-Looking forward to comments,
-
-   Wolfram
-
-[1] For desired binaries, of course. For r8a77961 boards, the binaries
-did change. This was intended, though, because I wanted to add I2C
-aliases there which were not present before. Also, the r8a779m* boards
-now have I2C aliases, too.
-
-
-Wolfram Sang (5):
-  arm64: dts: renesas: r8a779{51|60|65}: put I2C aliases to board files
-  arm64: dts: renesas: r8a77970: put I2C aliases to board files
-  arm64: dts: renesas: r8a77980: put I2C aliases to board files
-  arm64: dts: renesas: r8a77990: put I2C aliases to board files
-  arm64: dts: renesas: r8a779a0: put I2C aliases to board files
-
- arch/arm64/boot/dts/renesas/ebisu.dtsi               |  8 ++++++++
- arch/arm64/boot/dts/renesas/r8a77951.dtsi            | 11 -----------
- arch/arm64/boot/dts/renesas/r8a77960.dtsi            | 11 -----------
- arch/arm64/boot/dts/renesas/r8a77965.dtsi            | 11 -----------
- arch/arm64/boot/dts/renesas/r8a77970-eagle.dts       |  5 +++++
- arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts       |  5 +++++
- arch/arm64/boot/dts/renesas/r8a77970.dtsi            |  8 --------
- arch/arm64/boot/dts/renesas/r8a77980-condor.dts      |  6 ++++++
- arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts       |  6 ++++++
- arch/arm64/boot/dts/renesas/r8a77980.dtsi            |  9 ---------
- arch/arm64/boot/dts/renesas/r8a77990.dtsi            | 11 -----------
- arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi |  7 +++++++
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi            | 10 ----------
- arch/arm64/boot/dts/renesas/salvator-common.dtsi     |  8 ++++++++
- arch/arm64/boot/dts/renesas/ulcb.dtsi                |  8 ++++++++
- 15 files changed, 53 insertions(+), 71 deletions(-)
-
+diff --git a/arch/arm64/boot/dts/renesas/r8a77951.dtsi b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+index a297af22a195..07c8763c1e77 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77951.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+@@ -21,17 +21,6 @@ / {
+ 	#address-cells = <2>;
+ 	#size-cells = <2>;
+ 
+-	aliases {
+-		i2c0 = &i2c0;
+-		i2c1 = &i2c1;
+-		i2c2 = &i2c2;
+-		i2c3 = &i2c3;
+-		i2c4 = &i2c4;
+-		i2c5 = &i2c5;
+-		i2c6 = &i2c6;
+-		i2c7 = &i2c_dvfs;
+-	};
+-
+ 	/*
+ 	 * The external audio clocks are configured as 0 Hz fixed frequency
+ 	 * clocks by default.
+diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+index 4159c23d3874..1424d4ad941f 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+@@ -16,17 +16,6 @@ / {
+ 	#address-cells = <2>;
+ 	#size-cells = <2>;
+ 
+-	aliases {
+-		i2c0 = &i2c0;
+-		i2c1 = &i2c1;
+-		i2c2 = &i2c2;
+-		i2c3 = &i2c3;
+-		i2c4 = &i2c4;
+-		i2c5 = &i2c5;
+-		i2c6 = &i2c6;
+-		i2c7 = &i2c_dvfs;
+-	};
+-
+ 	/*
+ 	 * The external audio clocks are configured as 0 Hz fixed frequency
+ 	 * clocks by default.
+diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+index 21a5e1cdd9f1..997f29521f66 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+@@ -21,17 +21,6 @@ / {
+ 	#address-cells = <2>;
+ 	#size-cells = <2>;
+ 
+-	aliases {
+-		i2c0 = &i2c0;
+-		i2c1 = &i2c1;
+-		i2c2 = &i2c2;
+-		i2c3 = &i2c3;
+-		i2c4 = &i2c4;
+-		i2c5 = &i2c5;
+-		i2c6 = &i2c6;
+-		i2c7 = &i2c_dvfs;
+-	};
+-
+ 	/*
+ 	 * The external audio clocks are configured as 0 Hz fixed frequency
+ 	 * clocks by default.
+diff --git a/arch/arm64/boot/dts/renesas/salvator-common.dtsi b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+index b7c7911858b2..d97473401819 100644
+--- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+@@ -33,6 +33,14 @@
+ 
+ / {
+ 	aliases {
++		i2c0 = &i2c0;
++		i2c1 = &i2c1;
++		i2c2 = &i2c2;
++		i2c3 = &i2c3;
++		i2c4 = &i2c4;
++		i2c5 = &i2c5;
++		i2c6 = &i2c6;
++		i2c7 = &i2c_dvfs;
+ 		serial0 = &scif2;
+ 		serial1 = &hscif1;
+ 		ethernet0 = &avb;
+diff --git a/arch/arm64/boot/dts/renesas/ulcb.dtsi b/arch/arm64/boot/dts/renesas/ulcb.dtsi
+index 0772dfe4adff..29cedf4dc1a9 100644
+--- a/arch/arm64/boot/dts/renesas/ulcb.dtsi
++++ b/arch/arm64/boot/dts/renesas/ulcb.dtsi
+@@ -21,6 +21,14 @@ / {
+ 	model = "Renesas R-Car Gen3 ULCB board";
+ 
+ 	aliases {
++		i2c0 = &i2c0;
++		i2c1 = &i2c1;
++		i2c2 = &i2c2;
++		i2c3 = &i2c3;
++		i2c4 = &i2c4;
++		i2c5 = &i2c5;
++		i2c6 = &i2c6;
++		i2c7 = &i2c_dvfs;
+ 		serial0 = &scif2;
+ 		ethernet0 = &avb;
+ 		mmc0 = &sdhi2;
 -- 
 2.35.1
 
