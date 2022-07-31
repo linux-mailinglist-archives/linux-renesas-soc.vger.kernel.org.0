@@ -2,43 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62DE0585FB2
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 31 Jul 2022 18:04:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3C0D585FC2
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 31 Jul 2022 18:18:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236780AbiGaQDF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 31 Jul 2022 12:03:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53716 "EHLO
+        id S237499AbiGaQSa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 31 Jul 2022 12:18:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237503AbiGaQDF (ORCPT
+        with ESMTP id S236993AbiGaQS3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 31 Jul 2022 12:03:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64BE1FD29
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 31 Jul 2022 09:03:03 -0700 (PDT)
+        Sun, 31 Jul 2022 12:18:29 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0898DFF9
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 31 Jul 2022 09:18:28 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FA21415;
-        Sun, 31 Jul 2022 18:03:01 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E505415;
+        Sun, 31 Jul 2022 18:18:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1659283381;
-        bh=qiitu4MM1LK8vgADYTZe8xrTSps9gHUBgO8CsCUyDSQ=;
+        s=mail; t=1659284307;
+        bh=9hExLcFmQyp8mznkPiezuIfRFpKVbx5iSs1QCxrntBw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sNMJekocfHFSB4lUhg6UKmeTlAIkfkIvetAXiK34NMkoXpM5ZIlzo90pue0k0bs1w
-         h5dYInEHLqVvsBz6hznao5ALwzlofKMhFTTErVDIoBbDEibNvV+l6zlKtiLZK/ySTj
-         EBe74r+4/hhSeRsG2IAjcYDoCY1MxAxXA9rW0aqc=
-Date:   Sun, 31 Jul 2022 19:02:57 +0300
+        b=tnS4Fl6sxGQznPF/XUo7gNCwQfsWAI5GcnSD0JgA2qQWwjEz21Rt3xpkfVNYH51nF
+         lfrlu9+2laZ5Genxj6Di1liHZmefytfpbAEYBMreo4bjWqfanTyUql82FmHpY/3FzL
+         YEuzaMLukuypgOxKPQqcGFnuBsJbcOUcm2bnirME=
+Date:   Sun, 31 Jul 2022 19:18:22 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Takanari Hayama <taki@igel.co.jp>
 Cc:     linux-renesas-soc@vger.kernel.org,
         kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH 2/3] kmstest: Support specifying pixel blend mode for
- planes
-Message-ID: <YuansVTsDcalyHJp@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 1/3] tests: Support enum property type
+Message-ID: <YuarTkDWaYjvAl/h@pendragon.ideasonboard.com>
 References: <20220704025632.3911253-1-taki@igel.co.jp>
- <20220704025632.3911253-3-taki@igel.co.jp>
+ <20220704025632.3911253-2-taki@igel.co.jp>
+ <YuanO6pgmtEvfwRj@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220704025632.3911253-3-taki@igel.co.jp>
+In-Reply-To: <YuanO6pgmtEvfwRj@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -48,46 +48,62 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Hayama-san,
+One more comment.
 
-Thank you for the patch.
-
-On Mon, Jul 04, 2022 at 11:56:31AM +0900, Takanari Hayama wrote:
-> Add an optional pixel blend mode argument to the atomic_plane_set()
-> function to  specify the pixel blend mode for the plane.
+On Sun, Jul 31, 2022 at 07:01:00PM +0300, Laurent Pinchart wrote:
+> Hi Hayama-san,
 > 
-> Signed-off-by: Takanari Hayama <taki@igel.co.jp>
-> ---
->  tests/kmstest.py | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> Thank you for the patch.
 > 
-> diff --git a/tests/kmstest.py b/tests/kmstest.py
-> index 224c160e32fa..a39ceab3891b 100755
-> --- a/tests/kmstest.py
-> +++ b/tests/kmstest.py
-> @@ -395,7 +395,7 @@ class KMSTest(object):
->          else:
->              return req.commit(0, True)
->  
-> -    def atomic_plane_set(self, plane, crtc, source, destination, fb, alpha=None, zpos=None, sync=False):
-> +    def atomic_plane_set(self, plane, crtc, source, destination, fb, alpha=None, zpos=None, blendmode=None, sync=False):
+> On Mon, Jul 04, 2022 at 11:56:30AM +0900, Takanari Hayama wrote:
+> > Add a support for enum property type to AtomicRequest.
+> > 
+> > Signed-off-by: Takanari Hayama <taki@igel.co.jp>
+> > ---
+> >  tests/kmstest.py | 12 +++++++++++-
+> >  1 file changed, 11 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/tests/kmstest.py b/tests/kmstest.py
+> > index 11cc328b5b32..224c160e32fa 100755
+> > --- a/tests/kmstest.py
+> > +++ b/tests/kmstest.py
+> > @@ -269,8 +269,18 @@ class AtomicRequest(pykms.AtomicReq):
+> >  
+> >                      min, max = prop.values
+> >                      v = min + int((max - min) * int(v[:-1]) / 100)
+> > -                else:
+> > +                elif v.isnumeric():
+> >                      v = int(v)
+> > +                else:
+> > +                    prop = obj.get_prop(k)
 
-I'll add a line break while at it as the line is getting long.
+I've run this test on a kernel that doesn't support the blend mode
+property, and the prop.type access below raised an exception that isn't
+very nice to read. If that's fine with you, I'll add
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+                    if not prop:
+                        raise RuntimeError(f'Property {k} not supported by object {obj}')
 
->          req = AtomicRequest(self)
->          req.add(plane, {
->                      'FB_ID': fb.id,
-> @@ -413,6 +413,8 @@ class KMSTest(object):
->              req.add(plane, 'alpha', alpha)
->          if zpos is not None:
->              req.add(plane, 'zpos', zpos)
-> +        if blendmode is not None:
-> +            req.add(plane, 'pixel blend mode', blendmode)
->          if sync:
->              return req.commit_sync()
->          else:
+here to make error messages more readable.
+
+> > +                    if prop.type != pykms.PropertyType.Enum:
+> > +                        raise RuntimeError(f'Unsupported property type {prop.type} for value {v}')
+> > +                    for value, mode in prop.enums.items():
+> 
+> I'd replace "mode" with "name" here. Apart from that,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> I'll change this when applying the patch.
+> 
+> > +                        if mode == v:
+> > +                            v = value
+> > +                            break
+> > +                    else:
+> > +                        raise RuntimeError(f'Enum value with name "{v}" not found in property {k}')
+> >  
+> >              if not isinstance(v, int):
+> >                  raise RuntimeError(f'Unsupported value type {type(v)} for property {k}')
 
 -- 
 Regards,
