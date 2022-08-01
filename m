@@ -2,198 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EBC258732A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Aug 2022 23:25:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFD84587361
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Aug 2022 23:31:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235185AbiHAVYz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 1 Aug 2022 17:24:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49166 "EHLO
+        id S234562AbiHAVbN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 1 Aug 2022 17:31:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235206AbiHAVYZ (ORCPT
+        with ESMTP id S235055AbiHAVah (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 1 Aug 2022 17:24:25 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3D8747BA2
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  1 Aug 2022 14:23:48 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id z12so5504255wrs.9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 01 Aug 2022 14:23:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linexp-org.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=862ebCD8XkBY+/fgfesDVhZbuj5QTeks1/6fcN22nnM=;
-        b=ff+LpqaLWoKlnM8wumShHf45QV7tsQst+bCCtYoUZQ39ybrJuZAWmGig8prF3XA8ng
-         SyjnXnMbyEmWHH6bM+NC3jZ45y3CKJRJ4Cd4HuYl0ut8b3YkDBWKWLoCNWZ6Ct0hp+kY
-         1BWHy5WMJw+k4fRAzp0rGw0uyI4SLBlz12tBNC0G9N/zqK98EGK2bpSD7uB70o22McRE
-         AA9O2jFwDEYdq4TkmkhD6l7ZzOFGn3eNnKXEXJL/yQyalN2cMtWfWYFu3kitJB+5rPZY
-         kqo2ff3GETMwDZYTOWsXFCh7HOPhkTqIvLg3g5Yon2eGroEr0EfVe2yq0odNM8rT5OA/
-         kQGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=862ebCD8XkBY+/fgfesDVhZbuj5QTeks1/6fcN22nnM=;
-        b=UEEmKVimM1BFLjfVzXCIwz+TykJrWSyKAZlDlJE5r9XmkVft7FbR0yiU2DBR8fAnLB
-         SrTgiLrpnigsdtSgUtyHyS5xinv0Yhk/u+5aKFwNh+va+FTSvBqnbnnl6oAG166C7QHU
-         WunkBAM6Gv9lsDJ1GjphPN974wFedjrfQNo90lrefZielaJrhyG9nVjpSchyMX3JNtv1
-         W2Ve41D3P0dmxhYmM4acTusUmk+ocYLXTdCf+VJq39xMuHFGySC7MIYj3VwZgBQJqom/
-         h6uFmsiJc2h8Jxw4tkTfi1bdH9ZV9mJa8QTSgeSY1RZ9LQIL9nbLRlCcPrKt1lipBI8v
-         oH+w==
-X-Gm-Message-State: ACgBeo1rsZF/luMoIkdyZiKj7Zmq9gkTR2HfOEzEDBXz3nKaUxVABVSS
-        DIw12/fvfCc9PRiYccf2e9w1Pg==
-X-Google-Smtp-Source: AA6agR7FQEErxSuuhthWN8Cyr8XljELqd6vX7pmDnEoE8o+yJmGViMLyWX57UlQh2Ilk62MyqHFpRg==
-X-Received: by 2002:a5d:464c:0:b0:220:26a8:d2f2 with SMTP id j12-20020a5d464c000000b0022026a8d2f2mr7437101wrs.309.1659389026785;
-        Mon, 01 Aug 2022 14:23:46 -0700 (PDT)
-Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:d00:ceb8:9c09:1302])
-        by smtp.gmail.com with ESMTPSA id c7-20020adffb07000000b0021e501519d3sm12995285wrr.67.2022.08.01.14.23.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Aug 2022 14:23:46 -0700 (PDT)
-From:   Daniel Lezcano <daniel.lezcano@linexp.org>
-To:     daniel.lezcano@linaro.org, rafael@kernel.org
-Cc:     rui.zhang@intel.com, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, khilman@baylibre.com,
-        abailon@baylibre.com, lukasz.luba@arm.com, broonie@kernel.org,
-        damien.lemoal@opensource.wdc.com, heiko@sntech.de,
-        hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
-        talel@amazon.com, thierry.reding@gmail.com, digetx@gmail.com,
-        jonathanh@nvidia.com, anarsoul@gmail.com, tiny.windzz@gmail.com,
-        baolin.wang7@gmail.com, f.fainelli@gmail.com,
-        bjorn.andersson@linaro.org, mcoquelin.stm32@gmail.com,
-        glaroque@baylibre.com, miquel.raynal@bootlin.com,
-        shawnguo@kernel.org, niklas.soderlund@ragnatech.se,
-        matthias.bgg@gmail.com, j-keerthy@ti.com,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Amit Kucheria <amitk@kernel.org>,
-        linux-renesas-soc@vger.kernel.org (open list:RENESAS R-CAR THERMAL
-        DRIVERS)
-Subject: [PATCH v4 17/32] thermal/drivers/rcar: Switch to new of API
-Date:   Mon,  1 Aug 2022 23:22:29 +0200
-Message-Id: <20220801212244.1124867-18-daniel.lezcano@linexp.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220801212244.1124867-1-daniel.lezcano@linexp.org>
-References: <20220801212244.1124867-1-daniel.lezcano@linexp.org>
+        Mon, 1 Aug 2022 17:30:37 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A4402F64E
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  1 Aug 2022 14:29:46 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oIcyW-0001FQ-SF; Mon, 01 Aug 2022 23:29:20 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oIcyU-001BuT-UV; Mon, 01 Aug 2022 23:29:18 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oIcyU-008zuW-6X; Mon, 01 Aug 2022 23:29:18 +0200
+Date:   Mon, 1 Aug 2022 23:29:16 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v4 2/2] pwm: Add support for RZ/G2L GPT
+Message-ID: <20220801212916.kzs47wj3idvnaggz@pengutronix.de>
+References: <20220728162526.330542-1-biju.das.jz@bp.renesas.com>
+ <20220728162526.330542-3-biju.das.jz@bp.renesas.com>
+ <20220731145107.iepktigt4g63ranr@pengutronix.de>
+ <OS0PR01MB59228AB5226BD45C6E8C5B70869A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="zywnslsdlpypitel"
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB59228AB5226BD45C6E8C5B70869A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The thermal OF code has a new API allowing to migrate the OF
-initialization to a simpler approach. The ops are no longer device
-tree specific and are the generic ones provided by the core code.
 
-Convert the ops to the thermal_zone_device_ops format and use the new
-API to register the thermal zone with these generic ops.
+--zywnslsdlpypitel
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
-Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/thermal/rcar_gen3_thermal.c | 16 ++++++++--------
- drivers/thermal/rcar_thermal.c      | 13 +++----------
- 2 files changed, 11 insertions(+), 18 deletions(-)
+Hello,
 
-diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-index e2020c6308cc..40ec63ad0a1b 100644
---- a/drivers/thermal/rcar_gen3_thermal.c
-+++ b/drivers/thermal/rcar_gen3_thermal.c
-@@ -164,9 +164,9 @@ static int rcar_gen3_thermal_round(int temp)
- 	return result * RCAR3_THERMAL_GRAN;
- }
- 
--static int rcar_gen3_thermal_get_temp(void *devdata, int *temp)
-+static int rcar_gen3_thermal_get_temp(struct thermal_zone_device *tz, int *temp)
- {
--	struct rcar_gen3_thermal_tsc *tsc = devdata;
-+	struct rcar_gen3_thermal_tsc *tsc = tz->devdata;
- 	int mcelsius, val;
- 	int reg;
- 
-@@ -203,9 +203,9 @@ static int rcar_gen3_thermal_mcelsius_to_temp(struct rcar_gen3_thermal_tsc *tsc,
- 	return INT_FIXPT(val);
- }
- 
--static int rcar_gen3_thermal_set_trips(void *devdata, int low, int high)
-+static int rcar_gen3_thermal_set_trips(struct thermal_zone_device *tz, int low, int high)
- {
--	struct rcar_gen3_thermal_tsc *tsc = devdata;
-+	struct rcar_gen3_thermal_tsc *tsc = tz->devdata;
- 	u32 irqmsk = 0;
- 
- 	if (low != -INT_MAX) {
-@@ -225,7 +225,7 @@ static int rcar_gen3_thermal_set_trips(void *devdata, int low, int high)
- 	return 0;
- }
- 
--static struct thermal_zone_of_device_ops rcar_gen3_tz_of_ops = {
-+static struct thermal_zone_device_ops rcar_gen3_tz_of_ops = {
- 	.get_temp	= rcar_gen3_thermal_get_temp,
- 	.set_trips	= rcar_gen3_thermal_set_trips,
- };
-@@ -504,8 +504,8 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 	for (i = 0; i < priv->num_tscs; i++) {
- 		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
- 
--		zone = devm_thermal_zone_of_sensor_register(dev, i, tsc,
--							    &rcar_gen3_tz_of_ops);
-+		zone = devm_thermal_of_zone_register(dev, i, tsc,
-+						     &rcar_gen3_tz_of_ops);
- 		if (IS_ERR(zone)) {
- 			dev_err(dev, "Sensor %u: Can't register thermal zone\n", i);
- 			ret = PTR_ERR(zone);
-@@ -556,7 +556,7 @@ static int __maybe_unused rcar_gen3_thermal_resume(struct device *dev)
- 
- 		priv->thermal_init(tsc);
- 		if (zone->ops->set_trips)
--			rcar_gen3_thermal_set_trips(tsc, zone->prev_low_trip,
-+			rcar_gen3_thermal_set_trips(zone, zone->prev_low_trip,
- 						    zone->prev_high_trip);
- 	}
- 
-diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
-index 1d729ed4d685..4df42d70d867 100644
---- a/drivers/thermal/rcar_thermal.c
-+++ b/drivers/thermal/rcar_thermal.c
-@@ -271,13 +271,6 @@ static int rcar_thermal_get_current_temp(struct rcar_thermal_priv *priv,
- 	return 0;
- }
- 
--static int rcar_thermal_of_get_temp(void *data, int *temp)
--{
--	struct rcar_thermal_priv *priv = data;
--
--	return rcar_thermal_get_current_temp(priv, temp);
--}
--
- static int rcar_thermal_get_temp(struct thermal_zone_device *zone, int *temp)
- {
- 	struct rcar_thermal_priv *priv = rcar_zone_to_priv(zone);
-@@ -323,8 +316,8 @@ static int rcar_thermal_get_trip_temp(struct thermal_zone_device *zone,
- 	return 0;
- }
- 
--static const struct thermal_zone_of_device_ops rcar_thermal_zone_of_ops = {
--	.get_temp	= rcar_thermal_of_get_temp,
-+static struct thermal_zone_device_ops rcar_thermal_zone_of_ops = {
-+	.get_temp	= rcar_thermal_get_temp,
- };
- 
- static struct thermal_zone_device_ops rcar_thermal_zone_ops = {
-@@ -534,7 +527,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
- 			goto error_unregister;
- 
- 		if (chip->use_of_thermal) {
--			priv->zone = devm_thermal_zone_of_sensor_register(
-+			priv->zone = devm_thermal_of_zone_register(
- 						dev, i, priv,
- 						&rcar_thermal_zone_of_ops);
- 		} else {
--- 
-2.25.1
+On Mon, Aug 01, 2022 at 07:24:06PM +0000, Biju Das wrote:
+> > On Thu, Jul 28, 2022 at 05:25:26PM +0100, Biju Das wrote:
+> > > +
+> > > +	if (pc->pwm_enabled_by_bootloader)
+> > > +		clk_disable(pc->clk);
+> >=20
+> > When this function is called as part of remove, not disabling the clk is
+> > wrong, isn't it?
+>=20
+> I will remove pwm_enabled_by_bootloader variable and=20
+> use the below changes, so it is taken care for the bootloader case.
+>=20
+> +	rzg2l_gpt->clk =3D devm_clk_get_enabled(&pdev->dev, NULL);
+> +	if (IS_ERR(rzg2l_gpt->clk))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(rzg2l_gpt->clk),
+> +				     "cannot get clock\n");
+> +
+> +	rzg2l_gpt->rate =3D clk_get_rate(rzg2l_gpt->clk);
+> +
+> +	/*
+> +	 *  We need to keep the clock on, in case the bootloader enabled PWM and
+> +	 *  is running during probe().
+> +	 */
+> +	if (!(rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCR) & RZG2L_GTCR_CST))
+> +		devm_clk_put(&pdev->dev, rzg2l_gpt->clk);
 
+devm_clk_put looks wrong here. You only want to disable, not put?!
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--zywnslsdlpypitel
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmLoRaoACgkQwfwUeK3K
+7Am/zAf/Tuqirnrd++1udp/mkEgTAqCoZ8NL/NWKOuU0ogBB7r7X73ZdpZ99MVFZ
+BVYpXr+4RDjwwtlGA00eCbfRdTyH5FG69lOpv60Auo5lEqr4Y5VykxZRrgw4X5pj
+Y7NoXMePLIGoyIEJyMN80HVnULsEMkaUAoocga68scka29q339g2sxtUtPAUn8Vr
+Kik4ydNKAdKr16lmW6eOUs2VuLonbWon9cYLIlLN5xWIkmXWFS5Syj+BEd046Ysq
+hAiy7narkrj5SXIuzQzFNCcs+FO2bAjzXm/qnzCyUEk1RdDkAC32oJhMAcJyeaa2
+bLkfm1mpdzxDyB/8bogYw4WuaOALww==
+=l9pg
+-----END PGP SIGNATURE-----
+
+--zywnslsdlpypitel--
