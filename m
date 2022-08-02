@@ -2,83 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD7EB5877F4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Aug 2022 09:37:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE5145879E0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Aug 2022 11:32:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235938AbiHBHh0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 Aug 2022 03:37:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42654 "EHLO
+        id S236392AbiHBJc1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Aug 2022 05:32:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232918AbiHBHhZ (ORCPT
+        with ESMTP id S236368AbiHBJcJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 Aug 2022 03:37:25 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B53B6464
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Aug 2022 00:37:24 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id r14so14761869ljp.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Aug 2022 00:37:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=URseQjXjOTyP7Y7Ids7IGoAxfF0B+LCgv9LDJOxn0e4=;
-        b=hgEifgEEc8RJp8ISWE1R7rNbqZOTjbYFLSR+ZCQ3pCzNKf6M/zLuIFQub34HwSf2Cx
-         pXKoJH0Xcib5nDBj2xTw283BeMqtxYDBvYDoIHZ5I6c/rQhNNETCJMkJnDSqRfkdnINH
-         WQsz52anuBiuLZsea5kdDORb9OCwYhdOeFETD/smvx1IIcxqGsEipeovwptZxh8xxgMi
-         HR1N11jZ7fKXqkJR1DpgnvlUxqvhw4LvcpeLid1CWKfDQbCw8sbPiQkog8VM8YuvXQo5
-         HQcRsz5ksXv2HRAld+feKYP4AKMwKPCz4CSwRRY0EOVd0zhAskdDwfJyNkWFza/SJ1WV
-         dNRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=URseQjXjOTyP7Y7Ids7IGoAxfF0B+LCgv9LDJOxn0e4=;
-        b=tlHfKYQXgDfBrP5rf48KCDV9bZJHoC1f6Vtnq+aHwMzf8/Is3TNSuVMCGOo2JWzwPY
-         /nlj4iXamWWdpuKMnJdlxfpbFzqMBILvg18jwwmaZb2iXmEnAB9BOrt5bLSsH0h76XyU
-         fSdjasiOpY9yN5NnZ1aMcVea6lg0a1hr0Kb/2CAt/p2zJ0fEYjnuytd62nZBZPjzyyGG
-         VpJ6QP3WFvfjqGnBBx8GbwNN+Z9PahIz5SM7iHrQ5CQ7jXAEPId+o1lv6qV9HEglfHKE
-         ltyjAQgyaGBx2UvzgVUiK4DSbG7KUB0XhErapZruTvwd0w2bVrGUAJlkIvVhavIFZMUQ
-         3W2g==
-X-Gm-Message-State: AJIora/2N606jzAsCtUceyKFQd/TqQVSblDEXc6RtgHuQs1bxfgzqbyJ
-        YuQc+eiEuYjS7Co73b0V0MQFTg==
-X-Google-Smtp-Source: AGRyM1uhBNEbBQJbIFzahQRwuRR5CYFcJwVMYLFPLaZ+RgbUYWmzvMn9AyXfnetpcWEXjIbws1+nSA==
-X-Received: by 2002:a2e:bc06:0:b0:25e:19b8:637b with SMTP id b6-20020a2ebc06000000b0025e19b8637bmr6779517ljf.356.1659425842847;
-        Tue, 02 Aug 2022 00:37:22 -0700 (PDT)
-Received: from [192.168.1.6] ([213.161.169.44])
-        by smtp.gmail.com with ESMTPSA id be20-20020a05651c171400b0025d4cbc20d8sm1845842ljb.22.2022.08.02.00.37.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Aug 2022 00:37:22 -0700 (PDT)
-Message-ID: <4ff10b73-d04b-cda8-6603-f6f342f5ce9a@linaro.org>
-Date:   Tue, 2 Aug 2022 09:37:20 +0200
+        Tue, 2 Aug 2022 05:32:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 459D33E748;
+        Tue,  2 Aug 2022 02:32:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D65F160EC7;
+        Tue,  2 Aug 2022 09:32:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2492DC433C1;
+        Tue,  2 Aug 2022 09:32:04 +0000 (UTC)
+Message-ID: <f035cdea-934c-3bd9-f685-47e5e9ff3f49@xs4all.nl>
+Date:   Tue, 2 Aug 2022 11:32:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 2/4] media: dt-bindings: media: Document RZ/G2L CRU
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/3] media: videobuf2: Add a transfer error event
 Content-Language: en-US
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
+To:     Michael Rodin <mrodin@de.adit-jv.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220801214718.16943-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220801214718.16943-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, michael@rodin.online,
+        erosca@de.adit-jv.com,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+References: <YqEO3/KekkZhVjW+@oden.dyn.berto.se>
+ <20220628180024.451258-1-mrodin@de.adit-jv.com>
+ <20220628180024.451258-2-mrodin@de.adit-jv.com>
+ <5e8c50cdc031bffd96b19929508f034d1263c8b7.camel@ndufresne.ca>
+ <20220715161346.GA1116690@vmlxhi-182>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220715161346.GA1116690@vmlxhi-182>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,147 +56,137 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 01/08/2022 23:47, Lad Prabhakar wrote:
-> Document the CRU block found on Renesas RZ/G2L SoC's.
+Hi Michael,
+
+Apologies for the late reply...
+
+On 7/15/22 18:15, Michael Rodin wrote:
+> Hi Nicolas,
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> RFC v2 -> v1
-> * Dropped endpoint stuff from port1 as suggested by Rob
-> * Updated description for endpoint
+> On Mon, Jul 04, 2022 at 11:59:58AM -0400, Nicolas Dufresne wrote:
+>> Hi Micheal,
+>>
+>> thanks for your work, I have some questions below ...
 > 
-> RFC v1 -> RFC v2
-> * Dropped CSI
-> ---
->  .../bindings/media/renesas,rzg2l-cru.yaml     | 142 ++++++++++++++++++
->  1 file changed, 142 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> Thank you for your feedback!
 > 
-> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> new file mode 100644
-> index 000000000000..d7389693dae9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> @@ -0,0 +1,142 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright (C) 2022 Renesas Electronics Corp.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/renesas,rzg2l-cru.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/G2L (and alike SoC's) Camera Data Receiving Unit (CRU) Image processing
-> +
-> +maintainers:
-> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> +
-> +description:
-> +  The CRU image processing module is a data conversion module equipped with pixel
-> +  color space conversion, LUT, pixel format conversion, etc. An MIPI CSI-2 input and
-> +  parallel (including ITU-R BT.656) input are provided as the image sensor interface.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
+>> Le mardi 28 juin 2022 à 20:00 +0200, Michael Rodin a écrit :
+>>> From: Niklas Söderlund <https://urldefense.proofpoint.com/v2/url?u=http-3A__niklas.soderlund-2Brenesas-40ragnatech.se&d=DwIFaQ&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=sWsgk3pKkv5GeIDM2RZlPY8TjNFU2D0oBeOj6QNBadE&m=7ktiIpDjee6bMSPLXXR7KVvJ_y234VytWEydKF2TWEo&s=-GUWUbGDkkrTAXiF_75xnL13cn3HYL2r2ZN0XwlG41U&e=>
+>>>
+>>> Add a new V4L2_EVENT_XFER_ERROR event to signal if an error happens during
+>>> video transfer.
+>>>
+>>> The use-case that sparked this new event is to signal to the video
+>>> device driver that an error has happen on the CSI-2 bus from the CSI-2
+>>> receiver subdevice.
+>>>
+>>> Signed-off-by: Niklas Söderlund <https://urldefense.proofpoint.com/v2/url?u=http-3A__niklas.soderlund-2Brenesas-40ragnatech.se&d=DwIFaQ&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=sWsgk3pKkv5GeIDM2RZlPY8TjNFU2D0oBeOj6QNBadE&m=7ktiIpDjee6bMSPLXXR7KVvJ_y234VytWEydKF2TWEo&s=-GUWUbGDkkrTAXiF_75xnL13cn3HYL2r2ZN0XwlG41U&e=>
+>>> [mrodin@de.adit-jv.com: adapted information what to do if this new event is received]
+>>> Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+>>> ---
+>>>  .../userspace-api/media/v4l/vidioc-dqevent.rst         | 10 ++++++++++
+>>>  .../userspace-api/media/videodev2.h.rst.exceptions     |  1 +
+>>>  include/uapi/linux/videodev2.h                         |  1 +
+>>>  3 files changed, 12 insertions(+)
+>>>
+>>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>> index 6eb40073c906..3cf0b4859784 100644
+>>> --- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>> @@ -182,6 +182,16 @@ call.
+>>>  	the regions changes. This event has a struct
+>>>  	:c:type:`v4l2_event_motion_det`
+>>>  	associated with it.
+>>> +    * - ``V4L2_EVENT_XFER_ERROR``
+>>
+>> I'm not sure why this event is specific to XFER. Is there uses cases were a
+>> future implementation would have both XFER and RECEIVER error ?
+> 
+> I am not sure whether I understand you correctly, do you mean that there is
+> already a method to signal a receiver error? Or that we should name it
+> V4L2_EVENT_RECEIVER_ERROR? I think that "transfer error" is a good name for
+> this event, because it could be sent by receiver or by transmitter drivers,
+> depending on their hardware error detection capabilities. We could have
+> e.g. a video transmitter which can detect an error coupled with a video
+> receiver which can not detect any errors.
+> 
+>>> +      - 7
+>>> +      - This event is triggered when an transfer error is detected while
+>>> +	streaming. For example if an error is detected on a video bus in
+>>> +	the pipeline. If a driver receives this event from an upstream
+>>> +	subdevice, it has to forward the event to userspace. The streaming
+>>> +	application has to check if the transfer error is unrecoverable,
+>>> +	i.e. no new buffers can be dequeued from the kernel after the
+>>> +	expected time. If the error is unrecoverable, the streaming
+>>> +	application should restart streaming if it wants to continue.
+>>
+>> The process to determine if an error is recoverable or not isn't clear to me. As
+>> an application developer, I would not know what to do here. Recoverable error
+>> already have a designed mechanism, it consist of marking done a buffer with the
+>> flag V4L2_BUF_FLAG_ERROR. I would like to understand what the existing mechanism
+>> needed to be replaced, and the placement should be documented.
+> 
+> "Recoverable" means in this context that kernel space continues to capture
+> video buffers (which do not necessarily have the flag V4L2_BUF_FLAG_ERROR).
+> So probably we should not say "recoverable" or "unrecoverable" in the
+> context of this event to avoid confusion. V4L2_EVENT_XFER_ERROR just tells
+> userspace that it should restart streaming if the buffer flow stops after
+> this event. So would it be sufficient for an application developer if we
+> drop all statements about "recoverability" from the event description?
 
-No need for oneOf, unless you already have a patch adding second case to
-oneOf.
+Here you touch on the core problem of this patch: you are basically saying
+that userspace has to 1) subscribe to this event, 2) poll for it, 3) if it
+arrives start a timer, 4) if the timer triggers and no new buffers have been
+received in the meantime, then 5) restart streaming.
 
-> +      - items:
-> +          - enum:
-> +              - renesas,r9a07g044-cru     # RZ/G2{L,LC}
-> +              - renesas,r9a07g054-cru     # RZ/V2L
-> +          - const: renesas,rzg2l-cru
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 3
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: image_conv
-> +      - const: image_conv_err
-> +      - const: axi_mst_err
-> +
-> +  clocks:
-> +    items:
-> +      - description: CRU Main clock
-> +      - description: CPU Register access clock
-> +      - description: CRU image transfer clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: vclk
-> +      - const: pclk
-> +      - const: aclk
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    items:
-> +      - description: CRU_PRESETN reset terminal
-> +      - description: CRU_ARESETN reset terminal
-> +
-> +  reset-names:
-> +    items:
-> +      - const: presetn
-> +      - const: aresetn
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port node, single endpoint describing a parallel input source.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              hsync-active: true
-> +              vsync-active: true
-> +              bus-width: true
-> +              data-shift: true
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Input port node, describing the Image Processing module connected to the
-> +          CSI-2 receiver.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - interrupt-names
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - power-domains
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  # Device node example with CSI-2
-> +  - |
-> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    cru: video@10830000 {
-> +            compatible = "renesas,r9a07g044-cru", "renesas,rzg2l-cru";
+So in other words, you are just too lazy to do this in the driver and want
+to hand it off to userspace.
 
-Also 4-space for DTS example, please.
+That's not how it works. Usually the driver will know if the error is
+recoverable or not (i.e. if an HDMI receiver loses signal, that's definitely
+unrecoverable, and it's something the driver can know and call vb2_queue_error).
 
+If it is really unknown, then you indeed need some monitoring thread. And
+that's fine. Even better if you can make some helper things in the V4L2 core.
 
+But you can't just kick that to userspace IMHO. I can guarantee that almost
+no userspace application will do this and it is really not the job of userspace
+to deal with such issues.
 
-Best regards,
-Krzysztof
+Regards,
+
+	Hans
+
+> 
+>> Nicolas
+>>
+>>>      * - ``V4L2_EVENT_PRIVATE_START``
+>>>        - 0x08000000
+>>>        - Base event number for driver-private events.
+>>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>> index 9cbb7a0c354a..25bde61a1519 100644
+>>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>> @@ -500,6 +500,7 @@ replace define V4L2_EVENT_CTRL event-type
+>>>  replace define V4L2_EVENT_FRAME_SYNC event-type
+>>>  replace define V4L2_EVENT_SOURCE_CHANGE event-type
+>>>  replace define V4L2_EVENT_MOTION_DET event-type
+>>> +replace define V4L2_EVENT_XFER_ERROR event-type
+>>>  replace define V4L2_EVENT_PRIVATE_START event-type
+>>>  
+>>>  replace define V4L2_EVENT_CTRL_CH_VALUE ctrl-changes-flags
+>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>>> index 5311ac4fde35..44db724d4541 100644
+>>> --- a/include/uapi/linux/videodev2.h
+>>> +++ b/include/uapi/linux/videodev2.h
+>>> @@ -2385,6 +2385,7 @@ struct v4l2_streamparm {
+>>>  #define V4L2_EVENT_FRAME_SYNC			4
+>>>  #define V4L2_EVENT_SOURCE_CHANGE		5
+>>>  #define V4L2_EVENT_MOTION_DET			6
+>>> +#define V4L2_EVENT_XFER_ERROR			7
+>>>  #define V4L2_EVENT_PRIVATE_START		0x08000000
+>>>  
+>>>  /* Payload for V4L2_EVENT_VSYNC */
+>>
+> 
+
