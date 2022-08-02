@@ -2,186 +2,275 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F65E58775A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Aug 2022 08:58:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24F7C5877ED
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Aug 2022 09:36:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233453AbiHBG6i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 Aug 2022 02:58:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41358 "EHLO
+        id S232158AbiHBHgn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Aug 2022 03:36:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231442AbiHBG6g (ORCPT
+        with ESMTP id S235975AbiHBHgb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 Aug 2022 02:58:36 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2122.outbound.protection.outlook.com [40.107.113.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08A2360EA;
-        Mon,  1 Aug 2022 23:58:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nLFG4HMjNaLCcEfaMaaOXTnqkp+2wohv76VfpgVO+qgyk4jv4K03/n/gSuqqqC0cs/ko/AlA/ka+3zw/gCGi/Mx+9htsncdbyfjqStqFQrmzEDhcFxXKw5P5pnIKLyMsv7wLoTQiVVp5Q2jYp0eNKoVU9cyHVc15AesMBgwC8VvAV1tXBh5uOJ2GqoGNhLB6Ni/OUcBcYOIpKbiFTJ/1nFgPe4dpUTQwtpcy3d8cbGW/AyCSVerTctCNK0NyVdmsja1S3yohImYJihHFoqrMPoeFMu3Rg/zXWxanBu2PzAyiaFOOKjZI6A9ZxM14cxkqFbBMdIje1qbJc3FjaEdGQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tGdKH/ITPM8aCJCLkQcMEg1J14KdTI2OvZPk/QTEdTA=;
- b=aU7vDQFt8t9E+IFe12+Z9T1Dfaygxru0Ekp487EaZEY6O6e5giHjDmUUu8tm5ZQCxE+eHV7kp/6QjsIHdyF2cbEzkEhVDio1pePQb26SAac0JEk772PG+P3VhV8Znd4PJydX4KjkLCm3s7cQ1G9xoOJ0GwsrRTKIUF1SjWBAiGt3eO/PPzHYRNB6H0TC5HWd6n2KxMZbEerO8fNQaHRNSag286HfNHJ1RIB8KLiPdIzHfFxgX1UEy+vTU1DBzoXadhCSdmJtCV5leQw28IWdXAm5Q7Te1qIyF8t9LUdE9FeNPh351T65jvXpar8jZdvH5QR0IsCp9SgUtiAt0quKXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tGdKH/ITPM8aCJCLkQcMEg1J14KdTI2OvZPk/QTEdTA=;
- b=Dz8FBJ3BRl6s22VknM+hqSVCxO4DBWswVmes+dGmCKZLObTISG/FlvOkF1Xeh6zsYmRDKvhL8gLzlaVzflnLFfhfCnTvL6cSJcghnsY2ARbqE6XxURbQtXeUDbUiZTira2auQcJ6wxI7ktT+TyW0DaIBQHjUTveMHh+y9eMx828=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB9915.jpnprd01.prod.outlook.com (2603:1096:604:1ef::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.11; Tue, 2 Aug
- 2022 06:58:32 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::b046:d8a3:ac9c:75b5]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::b046:d8a3:ac9c:75b5%4]) with mapi id 15.20.5482.016; Tue, 2 Aug 2022
- 06:58:32 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-CC:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v4 2/2] pwm: Add support for RZ/G2L GPT
-Thread-Topic: [PATCH v4 2/2] pwm: Add support for RZ/G2L GPT
-Thread-Index: AQHYop6viWpAzgfhNkuf1fxYJomgoK2YlLCAgAHZcbCAACgiAIAAnMqA
-Date:   Tue, 2 Aug 2022 06:58:32 +0000
-Message-ID: <OS0PR01MB5922D8B0F2FFE4D86395138D869D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220728162526.330542-1-biju.das.jz@bp.renesas.com>
- <20220728162526.330542-3-biju.das.jz@bp.renesas.com>
- <20220731145107.iepktigt4g63ranr@pengutronix.de>
- <OS0PR01MB59228AB5226BD45C6E8C5B70869A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20220801212916.kzs47wj3idvnaggz@pengutronix.de>
-In-Reply-To: <20220801212916.kzs47wj3idvnaggz@pengutronix.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 887cc234-df6b-4e53-004b-08da745469c4
-x-ms-traffictypediagnostic: OS3PR01MB9915:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: eHSHVobiU0BYl3N+dx9Gb/H8m2kItqUyzRsK/CnfnEj2K1Lj/6IWW36QsIfbfrWg19BL2enXBAVBHjyZYnYRuo+tIANavavhQlth+FB5ANl7Ygn2YZzv5RlwrLVbO7yB9LmuQehCppd8b7AsywL17jkrFmIBCC/5dRf+JZLGSte50vA9bufA9OEMbJZJthcZU83cCrBcX1SfGHMWP08zTmv4INxyvoPLMfAb31eucXkXaslm8qKpB+vE62JuuR9p+Id9SyouN/9woGNglmm6GwqalE4T6Hs+h0Kxphppb6vD/cIjzpvFJmJ4ZyYULbc5CH8KCavJIzPQg6v8Rro08xHTg3+WCCdXno9ntd3wmDf++dVj81FSqg2byn54Wkenf6PhQVZ1574t79L66T5VPnYf78H6TSqseEXhFktPnSS/NFjw4gH+CqPsOMYykwCgEuAeU5MWSYxQh8CKhJNatd1jQ9GkMoxSC7UGDDcBro0KKPl62RvwJUPyWN1bthlabBaq6+g9DAfIJ8H8bG4sCkbzuIBr/SOkHMa5QUrQthcgevMQtUgmozDwCShE/poFJVsnHstkMBxUVNPlNkBNtNsTDtnPzi+BNB5cAALvJqI8r/D44keGZGSGX6V7HEGEljKek5C3TV4HrbhQQm8hr9yb6Nxae5Ng0co8d+rB4fr81MI2zGy22PmYXIeoqbYUHv4PTn7ilQthieaZaJJb7nCWeGdUrIAbDxaHOdQMh6GWvjtj51SETFC1nfvFUtkSsoMncIz+OpFrXbFGmYY6EnkZFBLQloEsuDL2rfOqKiuW22UM4hfE1SPbBzC1CIt7
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(346002)(396003)(39860400002)(136003)(376002)(83380400001)(66946007)(66556008)(2906002)(186003)(8936002)(66446008)(33656002)(52536014)(4326008)(76116006)(8676002)(66476007)(64756008)(5660300002)(316002)(55016003)(71200400001)(26005)(9686003)(6506007)(54906003)(6916009)(478600001)(41300700001)(86362001)(7696005)(38100700002)(122000001)(38070700005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?jw9kmBbvA8pN2gl0FgRYr7QexhgDt4JRMRHMshlbU2A991ZDa2aD/vpNDa?=
- =?iso-8859-1?Q?ykdSElgDjK85Ce4bsx7LJuHea8K4pnPRJcYsXeeBenysboooaoymuUhTVZ?=
- =?iso-8859-1?Q?lfXtuql+Re3B+bo3UQOatMFfQOjqbOlUvnb84powER8Lkyef2HQiYaBOVy?=
- =?iso-8859-1?Q?SH5Qya0obLHXoSA19JcGGlqkeiqfqbbBG7oP+Qzo9+H98zQaaBkx7nzdmN?=
- =?iso-8859-1?Q?Bi/hyu3y6pZAUXZn1RfuoerLzSYmgxxX0J67G/InVSLb2x2pOGwfdYCEVn?=
- =?iso-8859-1?Q?3AJ1F3J/6g1A2QheZIFi2HXdxiEvhRc5rPIVdgwNLqq8A7KjIYBHZIc/zb?=
- =?iso-8859-1?Q?H67fgrEodwEsk+oiwZ4xahH//b/7ziDkoMGWctEed7SU6UTzsrdoyQURPN?=
- =?iso-8859-1?Q?nkPeSUnwdP/J41wTqluRcrHsi1G2hJQEbqZARebnt2GmDv0JImSoR2g3rq?=
- =?iso-8859-1?Q?T3TcmwKPCp2k1aAqBnm6EtaNHSGW2mCakqks6hoORClEoWf4DXpVR55M5K?=
- =?iso-8859-1?Q?ymx6bJOz9fKgQ3zi+CzPDba9BmlZMPcesmWNR8kpBq0QfNmF8PtAT7CdVt?=
- =?iso-8859-1?Q?J/v26/BER1U/bhEg0pvNFYLV9B5OfxFbBbmv5IM01rUE/fIF//VIC+LKKj?=
- =?iso-8859-1?Q?7OMZbjlJSa7QA3vjDsdB5wqRjv2Hn5LHkrA5+fBd0hHL/IReSOo+w6MEgx?=
- =?iso-8859-1?Q?WX5NajmuG93Lw6Lb42JqmhB4LrFIUY/GJGft9jjYH92SYZrHpCqIS2sBJc?=
- =?iso-8859-1?Q?nWIDnB73DA6pC9s5x47xGjIAAWBumC7xWckirRlnN6+P8UgUz/GgvR3Lfr?=
- =?iso-8859-1?Q?Auv7o3S8lThKsLYdoloY4h9niqPIz3ycekt9emKjKohedk/8TOaiCWY/pc?=
- =?iso-8859-1?Q?4b9ZNRTX/UfFKnrJi2wP8qCehcbWcB2o6yYpH9A+lHAY++ootZi/QUdzYQ?=
- =?iso-8859-1?Q?0WgKSOrsY4XPq5NQiDcwgoONSDTd0rUPy2mFwfAaux2ACM/oVEC10DkMTo?=
- =?iso-8859-1?Q?aJSah4HlJw5MecWClzP6PG6DlbWAjVcRZxuutG0oqAsJ5uSwrhiVFcHL/4?=
- =?iso-8859-1?Q?Sj5BiodAlwynPKAWOFjbDw0K0E0ehI1peFOCE/k4QFgJk1+CWZSpj0n7AW?=
- =?iso-8859-1?Q?lMSY9ucxkeBhORU1iiBnX2fK48KplVKG1FJYvJHoswqzQg+Ql9MgButYlQ?=
- =?iso-8859-1?Q?v3WPvgs7aHkYRsOq69wpvXpi+2+b/J/kUSOxoLHGUUSxiQhSh4pCzKUCWT?=
- =?iso-8859-1?Q?g6u9HwlHMieeLkXuxUhqxQVDiQftNDrYCHF9UgDMUGPVc5QhZWRCxZEQeo?=
- =?iso-8859-1?Q?UO0w4wFNW1w4JsCyj0AMRwe0YurAfAUjtrNZ5wthDTHuXJ4rYREK5oJH57?=
- =?iso-8859-1?Q?71hlLO2G9GswLVD+/x22tFx63L03Hpbiv+hOYdc8RA3d6xPQ49Jl3TVMlT?=
- =?iso-8859-1?Q?QfBLnvb+KlRSssWSe3etrHflDTn8nGDw/+lAwbwsuW0ETqaUTSWosqAAjF?=
- =?iso-8859-1?Q?ei46SMUnWc8dbSyTcoDu4iL9n8dsfd42/e+CqlJLPPAfa/vGu6vyIRNTFj?=
- =?iso-8859-1?Q?ijE2qAT7CeCE2k1kpTA9vJybPMSsUFP/J5+CIiC/oyYxP6vVvpemMOXADm?=
- =?iso-8859-1?Q?xhJ5d9a0gmiYbeDM3Y3f/NZC5Cx3diWkR+xFPNsRPP45K6uxJbZM/0nQ?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Tue, 2 Aug 2022 03:36:31 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F20E8D121
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Aug 2022 00:36:29 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id a13so14694145ljr.11
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Aug 2022 00:36:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=+uxw0k1z3yLPPGIvdY7TbWXYjeq8DTWxtJm8yZgfHjM=;
+        b=lehLhnOxHSYYvDeRIsj9cGKX6iGFd9EJ2KyLjQ5zdw7EOpe1ax+Ck7FKZfJ548h9H0
+         Zt2R10iuct7iBdcxdUCrvsrXObQRCImWlwl0I+TuPuYGTcfZUK6k0RBbN/PU+Z0seItZ
+         yTDMWwLcdRS+Mhh/bUX6F2w7fbdpfP41BrO2FvZK+NZGCtnw3OgH7Qq5dBsyKornMVRD
+         dx7PIhgzHNvZMEEjmv+Inv8ReKtWN8jIw/FgVHidrnOObka+qI1Z/KPdFjg8hfCqH7FF
+         amNvad1KBCWNy3YqRmzqn4vfET8D6hlgdXElhoAia1WeuZW4uqNU2cOil9Fzm7x25xOc
+         nYMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=+uxw0k1z3yLPPGIvdY7TbWXYjeq8DTWxtJm8yZgfHjM=;
+        b=IMbOSsOTVXINFbVVKlcEufWEY5AKTYE3p1ANkYBAgaS2Bxc3KjFoy8W+woDG7Z84eI
+         EG9zJ+FS8d23lYUysJheW6NFZ2n+egP8rF1C/9wossQZpOF0oXDKulJI57lzELSiz6Of
+         n3Xc6ak0HFULfJoxDX+2WKnY6yhGQjj1e/ljE+XxCPkBB5YKJzILYV/zZvUd5ZQgV3/T
+         iU1YIIRjRaP4V96ngPaIlqWLtYPQda3T3tI8OFpkqlIzk8TPT1pF0xOVc5v8uSqoRxk7
+         4hz+mndO2Deh7baf/Trxgf8YxZoKy+Hpf+efvufD3HhiGomnKhXLLOBmZaoSAQAknC4O
+         14NA==
+X-Gm-Message-State: AJIora/6WZg2ZIaaeTo0e7Kj2t2Ao3H1ng0eFiBGgLrPUa499eG/ycQL
+        gZGCK6njDJpc4C6VzCQsljqUJA==
+X-Google-Smtp-Source: AGRyM1sCfsPc72zuAnJmDLr75MiHUEpZykMoGAAgdiNdr2Jw6rzcump9gBcYkdkMXkdsf9InJgbzyA==
+X-Received: by 2002:a2e:934f:0:b0:24f:ea1:6232 with SMTP id m15-20020a2e934f000000b0024f0ea16232mr6321414ljh.135.1659425788309;
+        Tue, 02 Aug 2022 00:36:28 -0700 (PDT)
+Received: from [192.168.1.6] ([213.161.169.44])
+        by smtp.gmail.com with ESMTPSA id h40-20020a0565123ca800b0048af895ca6bsm718364lfv.107.2022.08.02.00.36.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Aug 2022 00:36:27 -0700 (PDT)
+Message-ID: <4b1d5266-40a9-9897-7caf-d3d41c0aa598@linaro.org>
+Date:   Tue, 2 Aug 2022 09:36:25 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 887cc234-df6b-4e53-004b-08da745469c4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Aug 2022 06:58:32.6717
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: n+nJYMT/XNqEjzuL860xdjgLldUHk/3vAjaj0GNCyPl7Bt1mJf916ZvEiYd0ZmWjrfUvTneMTJYaG+GYHLL81GrH2KDFnaMP5z1oyQ6CW+o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9915
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 1/4] media: dt-bindings: media: Document RZ/G2L CSI-2
+ block
+Content-Language: en-US
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220801214718.16943-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220801214718.16943-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Uwe,
+On 01/08/2022 23:47, Lad Prabhakar wrote:
+> Document the CSI-2 block which is part of CRU found in Renesas
+> RZ/G2L SoC.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> RFC v2 -> v1
 
-Thanks for the feedback.
+Too many "media" in the subject prefixes.
 
-> Subject: Re: [PATCH v4 2/2] pwm: Add support for RZ/G2L GPT
->=20
-> Hello,
->=20
-> On Mon, Aug 01, 2022 at 07:24:06PM +0000, Biju Das wrote:
-> > > On Thu, Jul 28, 2022 at 05:25:26PM +0100, Biju Das wrote:
-> > > > +
-> > > > +	if (pc->pwm_enabled_by_bootloader)
-> > > > +		clk_disable(pc->clk);
-> > >
-> > > When this function is called as part of remove, not disabling the
-> > > clk is wrong, isn't it?
-> >
-> > I will remove pwm_enabled_by_bootloader variable and use the below
-> > changes, so it is taken care for the bootloader case.
-> >
-> > +	rzg2l_gpt->clk =3D devm_clk_get_enabled(&pdev->dev, NULL);
-> > +	if (IS_ERR(rzg2l_gpt->clk))
-> > +		return dev_err_probe(&pdev->dev, PTR_ERR(rzg2l_gpt->clk),
-> > +				     "cannot get clock\n");
-> > +
-> > +	rzg2l_gpt->rate =3D clk_get_rate(rzg2l_gpt->clk);
-> > +
-> > +	/*
-> > +	 *  We need to keep the clock on, in case the bootloader enabled
-> PWM and
-> > +	 *  is running during probe().
-> > +	 */
-> > +	if (!(rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCR) & RZG2L_GTCR_CST))
-> > +		devm_clk_put(&pdev->dev, rzg2l_gpt->clk);
->=20
-> devm_clk_put looks wrong here. You only want to disable, not put?!
+> * Fixed review comments pointed by Rob and Jacopo.
+> 
+> RFC v1 -> RFC v2
+> * New patch
+> ---
+>  .../bindings/media/renesas,rzg2l-csi2.yaml    | 149 ++++++++++++++++++
+>  1 file changed, 149 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> new file mode 100644
+> index 000000000000..f82f88c096df
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> @@ -0,0 +1,149 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright (C) 2022 Renesas Electronics Corp.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/renesas,rzg2l-csi2.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/G2L (and alike SoC's) MIPI CSI-2 receiver
+> +
+> +maintainers:
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> +
+> +description:
+> +  The CSI-2 receiver device provides MIPI CSI-2 capabilities for the Renesas RZ/G2L
+> +  (and alike SoCs). MIPI CSI-2 is part of the CRU block which is used in conjunction
+> +  with the Image Processing module, which provides the video capture capabilities.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
+> +              - renesas,r9a07g054-csi2       # RZ/V2L
+> +          - const: renesas,rzg2l-csi2
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  interrupt-names:
+> +    const: csi2_link
+> +
+> +  clocks:
+> +    items:
+> +      - description: Internal clock for connecting CRU and MIPI
+> +      - description: CRU Main clock
+> +      - description: CPU Register access clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: sysclk
+> +      - const: vclk
+> +      - const: pclk
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    items:
+> +      - description: CRU_CMN_RSTB reset terminal
+> +
+> +  reset-names:
+> +    const: cmn-rstb
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port node, single endpoint describing the CSI-2 transmitter.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +                items:
+> +                  maximum: 4
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port node, Image Processing block connected to the CSI-2 receiver.
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - resets
+> +  - reset-names
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    csi20: csi2@10830400 {
 
-It should be ok as to free the Clock, after getting the clock rate as the a=
-ctual clock=20
-management is done by PM routines.
+Node name just "csi"
 
-Bootloader with PWM on case:-
-------------------------------
-Clk is turned on by "devm_clk_get_enabled" and after that PM manages the cl=
-ock.
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
 
-Bootloader with PWM off case:-
------------------------------
-PM manages the clk(Here no clk framework involvement, after freeing it).
 
-Please correct me if anything wrong here.
+> +            compatible = "renesas,r9a07g044-csi2", "renesas,rzg2l-csi2";
+> +            reg = <0x10830400 0xfc00>;
 
-Cheers,
-Biju
+Please use 4-space indentation for example DTS.
 
+> +            interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&cpg CPG_MOD R9A07G044_CRU_SYSCLK>,
+> +                     <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
+> +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>;
+> +            clock-names = "sysclk", "vclk", "pclk";
+> +            power-domains = <&cpg>;
+> +            resets = <&cpg R9A07G044_CRU_CMN_RSTB>;
+> +            reset-names = "cmn-rstb";
+> +
+> +            ports {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+> +                    port@0 {
+> +                            reg = <0>;
+> +
+> +                            csi2_in: endpoint {
+> +                                    clock-lanes = <0>;
+> +                                    data-lanes = <1 2>;
+> +                                    remote-endpoint = <&ov5645_ep>;
+> +                            };
+> +                    };
+> +
+> +                    port@1 {
+> +                            #address-cells = <1>;
+> +                            #size-cells = <0>;
+> +
+> +                            reg = <1>;
+> +
+> +                            csi2cru: endpoint@0 {
+> +                                    reg = <0>;
+> +                                    remote-endpoint = <&crucsi2>;
+> +                            };
+> +                    };
+> +            };
+> +    };
+
+
+Best regards,
+Krzysztof
