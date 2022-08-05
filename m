@@ -2,477 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0365D58A6FD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Aug 2022 09:25:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27C8458AB53
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Aug 2022 15:09:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236168AbiHEHZ1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 5 Aug 2022 03:25:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60470 "EHLO
+        id S232738AbiHENJn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 5 Aug 2022 09:09:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231949AbiHEHZ0 (ORCPT
+        with ESMTP id S229640AbiHENJm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 5 Aug 2022 03:25:26 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECE75647A;
-        Fri,  5 Aug 2022 00:25:23 -0700 (PDT)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2754pchB015417;
-        Fri, 5 Aug 2022 09:25:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : from : subject : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=/vR2h9k+Op4HaSl855cD/MkQwRIQ36KSIpgbD1Bof/8=;
- b=OpJQPDdcwzG0gps+7WmxyyohheuOi7qNseSwafr5QgQiPWMr5mWodZJ9Z4axKqNcMgzT
- MvkqW0Nm7j3SPdrDBcbbdqgSjaB6hFjvK3IDoEf2vAmMSezgk5acbBB9p1C9pTILoNUu
- 2UP3LTIE/B7RH7DOhH0S4t9HLotDdPeXOp5XCrtUXL6qs9lm5kw4DZ9s6y6QoEDrsXnJ
- z0R8jm7zuQx8YAOCWkzdUTaK2o33kdXkJs/4aIUKDlA7b4HhK/WQeHNDbVpQHjne71BT
- mIJVVtHY7ZQ53jJK+u99jiD7/U/xX43g5/cPojTbByokFeyePykjvC7jFwAOnfmwY+Zc FQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3hmt2m0ef8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 05 Aug 2022 09:25:22 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id CE0F410002A;
-        Fri,  5 Aug 2022 09:25:21 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9ABA5216EFC;
-        Fri,  5 Aug 2022 09:25:21 +0200 (CEST)
-Received: from [10.48.1.102] (10.75.127.47) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.20; Fri, 5 Aug
- 2022 09:25:19 +0200
-Message-ID: <05095a28-3db8-e7fe-72e5-2378f83eb950@foss.st.com>
-Date:   Fri, 5 Aug 2022 09:25:18 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-From:   Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Subject: Re: [PATCH v3 13/15] iio: adc: stm32-adc: convert to device
- properties
-To:     =?UTF-8?Q?Nuno_S=c3=a1?= <nuno.sa@analog.com>,
-        <openbmc@lists.ozlabs.org>, <linux-imx@nxp.com>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-iio@vger.kernel.org>, <linux-mips@vger.kernel.org>,
+        Fri, 5 Aug 2022 09:09:42 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2103.outbound.protection.outlook.com [40.107.113.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C27581A812
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Aug 2022 06:09:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RTaqI67SApwzJPS/PEdWm1uBHAg5GrrOXkXEStsOa3BynU14WRVPy9PQ/7WczeVpVAGsA/05PJXJgDtYSEjD1wlJYjFKfjIyLhGlaTDh8FJr4YxODbOaR+jLPyLBV8o5P7SFeUIWQtnj8tF5qznTu6acFK2YryyAGKNZrqAvWjIxVuzIB/7BiyCgUfKkOkUoKUWQtTAoiJXQVUWsGnXjy2QnwBD4oxZhKPoGucb3OvLtnbZlF4kNuifjy6EyDWa7z9GQIMsl/9GaOQ7YfselgQEo+TwfyUY5fijLDpfoVCsPnUvHN4UgHCwzBGo6t/3q79FT9X0TGxmJ2gsuCTRlOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3q4Or+xmxzHK9Swf1nzCGfBNjULlV/jQPNcbfFjvJdA=;
+ b=l5a2zgNBddhNp0xP3NjGdLP0k3eIvNUM0aK2fBcLWAvUy5exxfrmfVSQq+m8mkVjxX6d67yRdky/EzNklY9Qvo8q6SKrwcLoF2a0KvA9y4m7CJww6si/sz4FM4Mag5+KEtRMPPo91kdYf9NvzB8ZoW/Ax0gx1hX4ceyGNtopujp5cUPzbTH1oJnG+UzNm8V85v9Ec0KTHEkFd3LZL+CFPFX7Y8d1waellUtKrUFzxUHotH66EjryhAU+UH6M5163BZjKqEdIaHiNqzNKe2RacXBGYusUf5PHzEUr6xAczPSabIZ8R4tldbWIdKNwXxsF7PVjVESh1/mGl7W60qEMMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3q4Or+xmxzHK9Swf1nzCGfBNjULlV/jQPNcbfFjvJdA=;
+ b=dQq9K2aTgPjvL4vVEd2fSwQ9CAO2KJrvWKJr6EB1AnpdTig9G/oydwgVMCVmC9c93yyUAmXuSHmtWnyhuoyt9Bs0amThAdi/oXczBoWq6xF//FzucdsDLNudSYclYUcMwh0BIeIVehaW8yu2OX3t27ybcU7Jt+MmfZ5qNIOhFLw=
+Received: from TYYPR01MB7086.jpnprd01.prod.outlook.com (2603:1096:400:de::11)
+ by OS3PR01MB9515.jpnprd01.prod.outlook.com (2603:1096:604:1c8::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16; Fri, 5 Aug
+ 2022 13:09:36 +0000
+Received: from TYYPR01MB7086.jpnprd01.prod.outlook.com
+ ([fe80::3c36:680f:3292:4a79]) by TYYPR01MB7086.jpnprd01.prod.outlook.com
+ ([fe80::3c36:680f:3292:4a79%9]) with mapi id 15.20.5504.016; Fri, 5 Aug 2022
+ 13:09:36 +0000
+From:   Phil Edworthy <phil.edworthy@renesas.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <chrome-platform@lists.linux.dev>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        <linux-arm-msm@vger.kernel.org>
-CC:     Gwendal Grignou <gwendal@chromium.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Saravanan Sekar <sravanhome@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Olivier Moysan <olivier.moysan@foss.st.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Thara Gopinath <thara.gopinath@linaro.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Patrick Venture <venture@google.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Benson Leung <bleung@chromium.org>,
-        Nancy Yuen <yuenn@google.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Christophe Branchereau <cbranchereau@gmail.com>,
-        Cai Huoqing <cai.huoqing@linux.dev>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Andy Gross <agross@kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Haibo Chen <haibo.chen@nxp.com>,
-        Jishnu Prakash <quic_jprakash@quicinc.com>
-References: <20220715122903.332535-1-nuno.sa@analog.com>
- <20220715122903.332535-14-nuno.sa@analog.com>
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>
+Subject: RZ/V2M USB
+Thread-Topic: RZ/V2M USB
+Thread-Index: AdioxJFO3fqPouQQR2WlJ+Xylqw1MQ==
+Date:   Fri, 5 Aug 2022 13:09:36 +0000
+Message-ID: <TYYPR01MB70863A585C9F2B2B4ECE85D3F59E9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-In-Reply-To: <20220715122903.332535-14-nuno.sa@analog.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.75.127.47]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-05_01,2022-08-04_02,2022-06-22_01
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 849daf46-9769-49ce-7ddd-08da76e3bf20
+x-ms-traffictypediagnostic: OS3PR01MB9515:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: qtzXCwQRl6/gn5bUyRNY/BdtMDnyVe5YqqKtBv8KFW6N3VmlhN4EbUf2iOEynKHT2I53fW5FsseZeuoCXjxsvQ1s7fdoHyU+77Y4JU4YLpoZ3+ZpxKGK2uw7YusIZBy3KWTfNzB8D1IiEileA0kIjRiGRIRb/IyhTxni8ysOkddMMriiVdtTJyBFf85vpv2w0nsQvdCHIz/FJGE/OO6CxzMHUDLwAOWWZd3a3L2gY+pMGfBcSVCWObE/d5beBYREg0EnpKT64QtJ6L1WFz86d+2rjZ9dCGnXMuqctRSX1Yuyb4fjy4CuxN4bd2UvD24C5T7BIDDSzM96ypvUPDCXmTz9WVAebBAVpzzmTmKxqc/7BWsj7GTaWz1zKhavp2ipcS0vgkNJDH2YXeZe9p9MwszV4qCmYSSVDwnZSimGEXoOurWnuhh2+u3YfwgVH+68/4faU92jUMYcWzX/hqlxtQW9Mz4Hj+teQjWcFl86onzQaMO07+6v2SsG4Crpy403h+dBoQxKF+Rq7nED4WOrMSydx7v+pHt3MEcpAiJhENEJmwXHB1CWN7MhmA7YDUgUJI3Il9C5UN6ydk9vk2+EVeVJiT5XEGrO4Btjpc90bQeJFGa8x/2a2iYYTc32Wz+tlXgS+FgNCETlvX5UzIGFAww3EKXAe9ZVYZnCzjc2X1xOEqS5WlnL6JmhToe5k96UQVh/ieD3hV3Jj/1naBeAW7504VIgy8+2HLeNzudkfxMfnXKVFQOj52rG/cpDW7bAllmp1KEndQpyDfM4k0mWsruyt6vSVQ8/1d7D8YdOzd4xXeYVXLZ5U3L+feVdFbpJ
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB7086.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(136003)(346002)(366004)(376002)(396003)(2906002)(110136005)(54906003)(55016003)(9686003)(316002)(71200400001)(38100700002)(122000001)(86362001)(83380400001)(7696005)(66946007)(8936002)(6506007)(64756008)(8676002)(66446008)(4326008)(76116006)(66556008)(52536014)(186003)(44832011)(33656002)(41300700001)(38070700005)(478600001)(5660300002)(107886003)(26005)(66476007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?KljtFsYQ/wqjhS5Dj71oRVcXmw17t6F4063Btef8srk9YUqnSp31CKxvbGKW?=
+ =?us-ascii?Q?N8lPX2nX4kHuPB7JDMJ1hnX6WXWRSvixYr7go18o82X6WkBM9GrxX2XzCApD?=
+ =?us-ascii?Q?jK1yO9AC8N2pBLTTaSNQ5VThTDUI4bA8XInI6zDwvf/7Zqowvn4yYJEjiESN?=
+ =?us-ascii?Q?JPuNQZRs4Yl7PVd0uly3fiTJsB5eKKtDUWbwPB4wMqpod2lf6KbTEfL7Yvnn?=
+ =?us-ascii?Q?8yee8CMB+HaLd4MyED/PJl2p5ixn66deMVMxYj5RYILjlWN3v0wxo4mv7oTd?=
+ =?us-ascii?Q?bkDrRQ0J+ZkKRguIyHAE/hsye5/jULZmPRbOy2WsCkfcIucHJzbmEKoKT8n7?=
+ =?us-ascii?Q?wLRf4S2cue4gvhv5dxHp1uTBrEPOt6C+5l1FhySm/yxN2EMO/2I5Dbc4EnPm?=
+ =?us-ascii?Q?AhMBO1HaQTEsArPSqaVjgJ6O+7skkeXbozj24YhwbkYvss6uKqNgpOEY05u7?=
+ =?us-ascii?Q?n8doj1c/q/imfUOj4U58QheIv3hlLPA9L3cVzkTuSKHG47svjYx00n/bFgj3?=
+ =?us-ascii?Q?J6q7rptDVYZx9mgDduxXKQd4eVYFdYIw6TGs6m6KUkROjo9UdK7CMZAzi0cZ?=
+ =?us-ascii?Q?8+ihKsIN4PVM7nsxiky+s9ZvRzPCj62OqeNcFKbpxWhU/Iieu91xB7FQXhaA?=
+ =?us-ascii?Q?VZ8WQTwrSmafMqozMWpdKzJThYHIucpMZT7DBaDZ33vbD8XbS2wgkmBB5Se1?=
+ =?us-ascii?Q?z9FGkTs90JJs/F33QWzC5lLBT7A/SK6f4QjbnAd3WYAASCIB/6H+YXyi40iY?=
+ =?us-ascii?Q?Fb3/Xh1Nn9D1T5SRpjhi/8+4OM+6xe4+ZMUy2+hfzY02KGUbDjD7U/wK1dJz?=
+ =?us-ascii?Q?54qXStfP64sRNpPjt+/bDj+ZZRQXuDWIYIAXILQjoAo58unt6tWz1TkZGwZt?=
+ =?us-ascii?Q?SgeK2nNXrT/EO0hkZI1W3lU8zIUcMV8Fch1jRAZCmz8ognzn7nExA47159hJ?=
+ =?us-ascii?Q?qZMiV5s/jiibjlcj7v/lMDoBRvLXUdkbR3evMBmSWyzuG59gv5Y0ENQ+49Bx?=
+ =?us-ascii?Q?vkW0WxWVoBnx+yw/xxwLCn/zXKB4nD4Wkq6hN607c7ogRzIDHPuJNIRrtnBz?=
+ =?us-ascii?Q?qYdIC9ic/1huLhZxy1vQKQSo9K6XNyuxg1cYO6hTKBwq8VwugiUs54HToCvH?=
+ =?us-ascii?Q?6+VP1RE9QfXmVxlGymKdZXVXSjkWIxHmkdzKAvM82tzKrWFne3J4iplEbOpz?=
+ =?us-ascii?Q?3rb2w8j2Px0i/Zx1f8IYzlmiMQTAO2kPZlH+Z64dCgvLXh98SOvomMS7CvyO?=
+ =?us-ascii?Q?35DIWSTkHH2dbhQ7UH9BwU9jOVOZZGJleYVSlBK8glQrzZT3C8q5C9dWWhGW?=
+ =?us-ascii?Q?d/N8XPUVzBWBO2Abf4VG4/JhFjxiEP0LAdjA+q8lhk80gUC7DH5C8CQHXdDe?=
+ =?us-ascii?Q?ZyfgyplXK7h3Rwk9m9IgpGTevDvh5c0PEtHTJwzQAFQyKHSWaa0CChloUe/e?=
+ =?us-ascii?Q?0ZyO3NPQHdWKZ6aVraxX7oGRRDLLdGPDbDWVWC3VM2cflcgD6YcX0ueD74Y+?=
+ =?us-ascii?Q?ZIc1ifGQUc5pWXx5mdfMrtY4jibwUG1WtwxKIoRDHcvlTwEVCgDBJh6ryfD9?=
+ =?us-ascii?Q?4dFsNssHjyhUaUDhJTLMCUFRe//2Euc7GLug7DT9UtX0ybBY185PJvV+wdnG?=
+ =?us-ascii?Q?tg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB7086.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 849daf46-9769-49ce-7ddd-08da76e3bf20
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2022 13:09:36.2265
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mFtKKh+9jevcrRoOPUwuG6Ry87OhQ9dtlGYxAjddrHd2cc8Ul7C3j8IGM+POchh6w7D6vCGcibcDqVSzuX2NGk1FPKRltxwApHJ7nNQ81LY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9515
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,SUBJ_ALL_CAPS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 7/15/22 14:29, Nuno Sá wrote:
-> Make the conversion to firmware agnostic device properties. As part of
-> the conversion the IIO inkern interface 'of_xlate()' is also converted to
-> 'fwnode_xlate()'. The goal is to completely drop 'of_xlate' and hence OF
-> dependencies from IIO.
-> 
-> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Hi Geert, Yoshihiro,
 
-Hi Nuno,
+I'm a bit stuck with the usb3 drivers for RZ/V2M.
 
-You can add my:
-Reviewed-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Tested-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+The RZ/V2M USB3 is very similar to R-Car Gen3, the main difference being
+where the DRD registers are located and additional clocks, interrupts
+and resets exposed. The DRD registers are still part of the USBP address
+space, though they have been moved above the other USBP regs.
 
-Best Regards,
-Thanks,
-Fabrice
+There is however, one big difference. On RZ/V2M, you can only access the
+corresponding registers for whatever DRD mode has been set in the
+DRD_CON register, PERI_CON bit. That is to say, when PERI_CON=3D1 (periph
+mode), reading from a USBH register will cause an abort, and when
+PERI_CON=3D0 (host mode), reading from a USBP register will cause an
+abort.
 
-> ---
->  drivers/iio/adc/stm32-adc.c | 125 ++++++++++++++++++++----------------
->  1 file changed, 70 insertions(+), 55 deletions(-)
-> 
-> diff --git a/drivers/iio/adc/stm32-adc.c b/drivers/iio/adc/stm32-adc.c
-> index 3985fe972892..24248f1de1d0 100644
-> --- a/drivers/iio/adc/stm32-adc.c
-> +++ b/drivers/iio/adc/stm32-adc.c
-> @@ -21,11 +21,11 @@
->  #include <linux/io.h>
->  #include <linux/iopoll.h>
->  #include <linux/module.h>
-> +#include <linux/mod_devicetable.h>
->  #include <linux/nvmem-consumer.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
-> -#include <linux/of.h>
-> -#include <linux/of_device.h>
-> +#include <linux/property.h>
->  
->  #include "stm32-adc-core.h"
->  
-> @@ -241,6 +241,7 @@ struct stm32_adc_cfg {
->   * @chan_name:		channel name array
->   * @num_diff:		number of differential channels
->   * @int_ch:		internal channel indexes array
-> + * @nsmps:		number of channels with optional sample time
->   */
->  struct stm32_adc {
->  	struct stm32_adc_common	*common;
-> @@ -267,6 +268,7 @@ struct stm32_adc {
->  	char			chan_name[STM32_ADC_CH_MAX][STM32_ADC_CH_SZ];
->  	u32			num_diff;
->  	int			int_ch[STM32_ADC_INT_CH_NB];
-> +	int			nsmps;
->  };
->  
->  struct stm32_adc_diff_channel {
-> @@ -1530,8 +1532,8 @@ static int stm32_adc_update_scan_mode(struct iio_dev *indio_dev,
->  	return ret;
->  }
->  
-> -static int stm32_adc_of_xlate(struct iio_dev *indio_dev,
-> -			      const struct of_phandle_args *iiospec)
-> +static int stm32_adc_fwnode_xlate(struct iio_dev *indio_dev,
-> +				  const struct fwnode_reference_args *iiospec)
->  {
->  	int i;
->  
-> @@ -1585,7 +1587,7 @@ static const struct iio_info stm32_adc_iio_info = {
->  	.hwfifo_set_watermark = stm32_adc_set_watermark,
->  	.update_scan_mode = stm32_adc_update_scan_mode,
->  	.debugfs_reg_access = stm32_adc_debugfs_reg_access,
-> -	.of_xlate = stm32_adc_of_xlate,
-> +	.fwnode_xlate = stm32_adc_fwnode_xlate,
->  };
->  
->  static unsigned int stm32_adc_dma_residue(struct stm32_adc *adc)
-> @@ -1782,14 +1784,14 @@ static const struct iio_chan_spec_ext_info stm32_adc_ext_info[] = {
->  	{},
->  };
->  
-> -static int stm32_adc_of_get_resolution(struct iio_dev *indio_dev)
-> +static int stm32_adc_fw_get_resolution(struct iio_dev *indio_dev)
->  {
-> -	struct device_node *node = indio_dev->dev.of_node;
-> +	struct device *dev = &indio_dev->dev;
->  	struct stm32_adc *adc = iio_priv(indio_dev);
->  	unsigned int i;
->  	u32 res;
->  
-> -	if (of_property_read_u32(node, "assigned-resolution-bits", &res))
-> +	if (device_property_read_u32(dev, "assigned-resolution-bits", &res))
->  		res = adc->cfg->adc_info->resolutions[0];
->  
->  	for (i = 0; i < adc->cfg->adc_info->num_res; i++)
-> @@ -1873,11 +1875,11 @@ static void stm32_adc_chan_init_one(struct iio_dev *indio_dev,
->  
->  static int stm32_adc_get_legacy_chan_count(struct iio_dev *indio_dev, struct stm32_adc *adc)
->  {
-> -	struct device_node *node = indio_dev->dev.of_node;
-> +	struct device *dev = &indio_dev->dev;
->  	const struct stm32_adc_info *adc_info = adc->cfg->adc_info;
->  	int num_channels = 0, ret;
->  
-> -	ret = of_property_count_u32_elems(node, "st,adc-channels");
-> +	ret = device_property_count_u32(dev, "st,adc-channels");
->  	if (ret > adc_info->max_channels) {
->  		dev_err(&indio_dev->dev, "Bad st,adc-channels?\n");
->  		return -EINVAL;
-> @@ -1885,8 +1887,12 @@ static int stm32_adc_get_legacy_chan_count(struct iio_dev *indio_dev, struct stm
->  		num_channels += ret;
->  	}
->  
-> -	ret = of_property_count_elems_of_size(node, "st,adc-diff-channels",
-> -					      sizeof(struct stm32_adc_diff_channel));
-> +	/*
-> +	 * each st,adc-diff-channels is a group of 2 u32 so we divide @ret
-> +	 * to get the *real* number of channels.
-> +	 */
-> +	ret = device_property_count_u32(dev, "st,adc-diff-channels");
-> +	ret /= (int)(sizeof(struct stm32_adc_diff_channel) / sizeof(u32));
->  	if (ret > adc_info->max_channels) {
->  		dev_err(&indio_dev->dev, "Bad st,adc-diff-channels?\n");
->  		return -EINVAL;
-> @@ -1896,8 +1902,8 @@ static int stm32_adc_get_legacy_chan_count(struct iio_dev *indio_dev, struct stm
->  	}
->  
->  	/* Optional sample time is provided either for each, or all channels */
-> -	ret = of_property_count_u32_elems(node, "st,min-sample-time-nsecs");
-> -	if (ret > 1 && ret != num_channels) {
-> +	adc->nsmps = device_property_count_u32(dev, "st,min-sample-time-nsecs");
-> +	if (adc->nsmps > 1 && adc->nsmps != num_channels) {
->  		dev_err(&indio_dev->dev, "Invalid st,min-sample-time-nsecs\n");
->  		return -EINVAL;
->  	}
-> @@ -1907,21 +1913,20 @@ static int stm32_adc_get_legacy_chan_count(struct iio_dev *indio_dev, struct stm
->  
->  static int stm32_adc_legacy_chan_init(struct iio_dev *indio_dev,
->  				      struct stm32_adc *adc,
-> -				      struct iio_chan_spec *channels)
-> +				      struct iio_chan_spec *channels,
-> +				      int nchans)
->  {
-> -	struct device_node *node = indio_dev->dev.of_node;
->  	const struct stm32_adc_info *adc_info = adc->cfg->adc_info;
->  	struct stm32_adc_diff_channel diff[STM32_ADC_CH_MAX];
-> +	struct device *dev = &indio_dev->dev;
->  	u32 num_diff = adc->num_diff;
->  	int size = num_diff * sizeof(*diff) / sizeof(u32);
-> -	int scan_index = 0, val, ret, i;
-> -	struct property *prop;
-> -	const __be32 *cur;
-> -	u32 smp = 0;
-> +	int scan_index = 0, ret, i, c;
-> +	u32 smp = 0, smps[STM32_ADC_CH_MAX], chans[STM32_ADC_CH_MAX];
->  
->  	if (num_diff) {
-> -		ret = of_property_read_u32_array(node, "st,adc-diff-channels",
-> -						 (u32 *)diff, size);
-> +		ret = device_property_read_u32_array(dev, "st,adc-diff-channels",
-> +						     (u32 *)diff, size);
->  		if (ret) {
->  			dev_err(&indio_dev->dev, "Failed to get diff channels %d\n", ret);
->  			return ret;
-> @@ -1942,32 +1947,47 @@ static int stm32_adc_legacy_chan_init(struct iio_dev *indio_dev,
->  		}
->  	}
->  
-> -	of_property_for_each_u32(node, "st,adc-channels", prop, cur, val) {
-> -		if (val >= adc_info->max_channels) {
-> -			dev_err(&indio_dev->dev, "Invalid channel %d\n", val);
-> +	ret = device_property_read_u32_array(dev, "st,adc-channels", chans,
-> +					     nchans);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (c = 0; c < nchans; c++) {
-> +		if (chans[c] >= adc_info->max_channels) {
-> +			dev_err(&indio_dev->dev, "Invalid channel %d\n",
-> +				chans[c]);
->  			return -EINVAL;
->  		}
->  
->  		/* Channel can't be configured both as single-ended & diff */
->  		for (i = 0; i < num_diff; i++) {
-> -			if (val == diff[i].vinp) {
-> -				dev_err(&indio_dev->dev, "channel %d misconfigured\n",	val);
-> +			if (chans[c] == diff[i].vinp) {
-> +				dev_err(&indio_dev->dev, "channel %d misconfigured\n",	chans[c]);
->  				return -EINVAL;
->  			}
->  		}
-> -		stm32_adc_chan_init_one(indio_dev, &channels[scan_index], val,
-> -					0, scan_index, false);
-> +		stm32_adc_chan_init_one(indio_dev, &channels[scan_index],
-> +					chans[c], 0, scan_index, false);
->  		scan_index++;
->  	}
->  
-> +	if (adc->nsmps > 0) {
-> +		ret = device_property_read_u32_array(dev, "st,min-sample-time-nsecs",
-> +						     smps, adc->nsmps);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	for (i = 0; i < scan_index; i++) {
->  		/*
-> -		 * Using of_property_read_u32_index(), smp value will only be
-> -		 * modified if valid u32 value can be decoded. This allows to
-> -		 * get either no value, 1 shared value for all indexes, or one
-> -		 * value per channel.
-> +		 * This check is used with the above logic so that smp value
-> +		 * will only be modified if valid u32 value can be decoded. This
-> +		 * allows to get either no value, 1 shared value for all indexes,
-> +		 * or one value per channel. The point is to have the same
-> +		 * behavior as 'of_property_read_u32_index()'.
->  		 */
-> -		of_property_read_u32_index(node, "st,min-sample-time-nsecs", i, &smp);
-> +		if (i < adc->nsmps)
-> +			smp = smps[i];
->  
->  		/* Prepare sampling time settings */
->  		stm32_adc_smpr_init(adc, channels[i].channel, smp);
-> @@ -2010,22 +2030,21 @@ static int stm32_adc_generic_chan_init(struct iio_dev *indio_dev,
->  				       struct stm32_adc *adc,
->  				       struct iio_chan_spec *channels)
->  {
-> -	struct device_node *node = indio_dev->dev.of_node;
->  	const struct stm32_adc_info *adc_info = adc->cfg->adc_info;
-> -	struct device_node *child;
-> +	struct fwnode_handle *child;
->  	const char *name;
->  	int val, scan_index = 0, ret;
->  	bool differential;
->  	u32 vin[2];
->  
-> -	for_each_available_child_of_node(node, child) {
-> -		ret = of_property_read_u32(child, "reg", &val);
-> +	device_for_each_child_node(&indio_dev->dev, child) {
-> +		ret = fwnode_property_read_u32(child, "reg", &val);
->  		if (ret) {
->  			dev_err(&indio_dev->dev, "Missing channel index %d\n", ret);
->  			goto err;
->  		}
->  
-> -		ret = of_property_read_string(child, "label", &name);
-> +		ret = fwnode_property_read_string(child, "label", &name);
->  		/* label is optional */
->  		if (!ret) {
->  			if (strlen(name) >= STM32_ADC_CH_SZ) {
-> @@ -2050,7 +2069,7 @@ static int stm32_adc_generic_chan_init(struct iio_dev *indio_dev,
->  		}
->  
->  		differential = false;
-> -		ret = of_property_read_u32_array(child, "diff-channels", vin, 2);
-> +		ret = fwnode_property_read_u32_array(child, "diff-channels", vin, 2);
->  		/* diff-channels is optional */
->  		if (!ret) {
->  			differential = true;
-> @@ -2067,7 +2086,7 @@ static int stm32_adc_generic_chan_init(struct iio_dev *indio_dev,
->  		stm32_adc_chan_init_one(indio_dev, &channels[scan_index], val,
->  					vin[1], scan_index, differential);
->  
-> -		ret = of_property_read_u32(child, "st,min-sample-time-ns", &val);
-> +		ret = fwnode_property_read_u32(child, "st,min-sample-time-ns", &val);
->  		/* st,min-sample-time-ns is optional */
->  		if (!ret) {
->  			stm32_adc_smpr_init(adc, channels[scan_index].channel, val);
-> @@ -2085,14 +2104,13 @@ static int stm32_adc_generic_chan_init(struct iio_dev *indio_dev,
->  	return scan_index;
->  
->  err:
-> -	of_node_put(child);
-> +	fwnode_handle_put(child);
->  
->  	return ret;
->  }
->  
-> -static int stm32_adc_chan_of_init(struct iio_dev *indio_dev, bool timestamping)
-> +static int stm32_adc_chan_fw_init(struct iio_dev *indio_dev, bool timestamping)
->  {
-> -	struct device_node *node = indio_dev->dev.of_node;
->  	struct stm32_adc *adc = iio_priv(indio_dev);
->  	const struct stm32_adc_info *adc_info = adc->cfg->adc_info;
->  	struct iio_chan_spec *channels;
-> @@ -2102,7 +2120,7 @@ static int stm32_adc_chan_of_init(struct iio_dev *indio_dev, bool timestamping)
->  	for (i = 0; i < STM32_ADC_INT_CH_NB; i++)
->  		adc->int_ch[i] = STM32_ADC_INT_CH_NONE;
->  
-> -	num_channels = of_get_available_child_count(node);
-> +	num_channels = device_get_child_node_count(&indio_dev->dev);
->  	/* If no channels have been found, fallback to channels legacy properties. */
->  	if (!num_channels) {
->  		legacy = true;
-> @@ -2133,7 +2151,8 @@ static int stm32_adc_chan_of_init(struct iio_dev *indio_dev, bool timestamping)
->  		return -ENOMEM;
->  
->  	if (legacy)
-> -		ret = stm32_adc_legacy_chan_init(indio_dev, adc, channels);
-> +		ret = stm32_adc_legacy_chan_init(indio_dev, adc, channels,
-> +						 num_channels);
->  	else
->  		ret = stm32_adc_generic_chan_init(indio_dev, adc, channels);
->  	if (ret < 0)
-> @@ -2215,9 +2234,6 @@ static int stm32_adc_probe(struct platform_device *pdev)
->  	bool timestamping = false;
->  	int ret;
->  
-> -	if (!pdev->dev.of_node)
-> -		return -ENODEV;
-> -
->  	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*adc));
->  	if (!indio_dev)
->  		return -ENOMEM;
-> @@ -2226,17 +2242,16 @@ static int stm32_adc_probe(struct platform_device *pdev)
->  	adc->common = dev_get_drvdata(pdev->dev.parent);
->  	spin_lock_init(&adc->lock);
->  	init_completion(&adc->completion);
-> -	adc->cfg = (const struct stm32_adc_cfg *)
-> -		of_match_device(dev->driver->of_match_table, dev)->data;
-> +	adc->cfg = device_get_match_data(dev);
->  
->  	indio_dev->name = dev_name(&pdev->dev);
-> -	indio_dev->dev.of_node = pdev->dev.of_node;
-> +	device_set_node(&indio_dev->dev, dev_fwnode(&pdev->dev));
->  	indio_dev->info = &stm32_adc_iio_info;
->  	indio_dev->modes = INDIO_DIRECT_MODE | INDIO_HARDWARE_TRIGGERED;
->  
->  	platform_set_drvdata(pdev, indio_dev);
->  
-> -	ret = of_property_read_u32(pdev->dev.of_node, "reg", &adc->offset);
-> +	ret = device_property_read_u32(dev, "reg", &adc->offset);
->  	if (ret != 0) {
->  		dev_err(&pdev->dev, "missing reg property\n");
->  		return -EINVAL;
-> @@ -2265,7 +2280,7 @@ static int stm32_adc_probe(struct platform_device *pdev)
->  		}
->  	}
->  
-> -	ret = stm32_adc_of_get_resolution(indio_dev);
-> +	ret = stm32_adc_fw_get_resolution(indio_dev);
->  	if (ret < 0)
->  		return ret;
->  
-> @@ -2282,7 +2297,7 @@ static int stm32_adc_probe(struct platform_device *pdev)
->  		timestamping = true;
->  	}
->  
-> -	ret = stm32_adc_chan_of_init(indio_dev, timestamping);
-> +	ret = stm32_adc_chan_fw_init(indio_dev, timestamping);
->  	if (ret < 0)
->  		goto err_dma_disable;
->  
+This makes role switching rather difficult in Linux as the usb host hub
+code does some work in a delayed work queue, after role switch.
+
+I am therefore advocating that users can only enable host or peripheral
+in DT, and role switching is not allowed. Is that reasonable?
+How can I ensure only one driver is enabled?
+
+This unfortunately opens up another problem... So that the USBH driver
+can set the DRD mode, it needs access to the USBP address space. Could
+that be just be additional reg entry in DT for this?
+
+I'm not sure how to go about this, any advice appreciated!
+
+Thanks
+Phil
+
