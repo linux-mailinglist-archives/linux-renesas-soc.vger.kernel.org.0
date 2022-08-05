@@ -2,267 +2,218 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49DAC58AC9D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Aug 2022 16:57:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C9FA58AC93
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Aug 2022 16:57:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240976AbiHEO5t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 5 Aug 2022 10:57:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44438 "EHLO
+        id S240966AbiHEO5S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 5 Aug 2022 10:57:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240978AbiHEO5s (ORCPT
+        with ESMTP id S240962AbiHEO5R (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 5 Aug 2022 10:57:48 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6993761139
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Aug 2022 07:57:44 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id c187-20020a1c35c4000000b003a30d88fe8eso4089367wma.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Aug 2022 07:57:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=o4qJMXGfl1V64TlbGvBfcm+LN8g9SJYD1xysElPFV+w=;
-        b=eZBBQdzncTXK3CK4MNTJG2M8VMM9rVBloXv1jN1nCd/+1qkQTnhO/efbCMPGsHhhR+
-         LkPnBwv6SEuDRRqbP4CWHuoWPe0LYtlwAYHYzu7nLu2RQ9eNKs31G4BO00vnBeVluRHm
-         F6lVr3xKzO4OJNDhthOsWntpeK8XfnlCsYPqlu1GNRnUqZRmjQMxSMITM3i8NmDgkJiw
-         N9jyAaTL78pezdHS7VG3xL+31qb/AMCztVGDnaoGR20Pd9fOLaGgv6/4Bb9YfWYQaAXU
-         hMshzCDOxdv7JGUkwANk9lJ+Ptm+ejVa54gcxN8sJptA+2GYUfqVUuglLeC1A/aFJV8i
-         ttqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=o4qJMXGfl1V64TlbGvBfcm+LN8g9SJYD1xysElPFV+w=;
-        b=4Iu1PndYYBFb5+qkLD/7dEAy5AC841xp5ytJgz0GXHPduKLDUXE5k+DbS/XSY6srUQ
-         FJ0nOhUxIWJUyQ0NsGaq0U9dhHzsGDVnXzQor1d2eCEZNUFXZlgkunHDf6U0Y8rJJuqX
-         eacZ+ltFL+krIk1KSiBPuiAya6r8xmIlQnw9GrwBSfZyZ9OiJYCSYcc9Aofnxd2GTK1e
-         PIGvLC4SvcWA+MC1/tiBZlUnmcUMxE+wdHFy1WygHiYlrWq7QvHk+S2F+HWdQA3a7ag9
-         vIs9R0FDiNC1j47nh/0ruzCMqVHdwAQNDMSNiZ9Mq4ogDR4OlRRUNcZY30Ju4s0fgD9j
-         fVIQ==
-X-Gm-Message-State: ACgBeo3BEcsPpEAj21ficHkFdnP9r48DQmfcRFse022hIoIL+ePSm1G7
-        WPTJULgvSYHA7RQqA4Ksq0EbVg==
-X-Google-Smtp-Source: AA6agR5vgKZ1scONDwjrANviaKFae/NRN/p3900F4LwCunVN/wiI0liT70nfxxj9L1NFTeuSjjFQYQ==
-X-Received: by 2002:a7b:c3c6:0:b0:3a3:2065:e022 with SMTP id t6-20020a7bc3c6000000b003a32065e022mr5079223wmj.117.1659711462808;
-        Fri, 05 Aug 2022 07:57:42 -0700 (PDT)
-Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:aef0:8606:da6b:79ef])
-        by smtp.gmail.com with ESMTPSA id y1-20020adfd081000000b0022159d92004sm3102448wrh.82.2022.08.05.07.57.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Aug 2022 07:57:42 -0700 (PDT)
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-To:     daniel.lezcano@linaro.org, rafael@kernel.org
-Cc:     rui.zhang@intel.com, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Raju Rangoju <rajur@chelsio.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Peter Kaestle <peter@piie.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Thara Gopinath <thara.gopinath@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Antoine Tenart <atenart@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Dmitry Osipenko <digetx@gmail.com>, netdev@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-omap@vger.kernel.org
-Subject: [PATCH v1 00/26] Rework the trip points creation
-Date:   Fri,  5 Aug 2022 16:57:03 +0200
-Message-Id: <20220805145729.2491611-1-daniel.lezcano@linaro.org>
+        Fri, 5 Aug 2022 10:57:17 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E22184D801;
+        Fri,  5 Aug 2022 07:57:15 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.93,216,1654527600"; 
+   d="scan'208";a="128657095"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 05 Aug 2022 23:57:15 +0900
+Received: from localhost.localdomain (unknown [10.226.92.175])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 70DF743C0900;
+        Fri,  5 Aug 2022 23:57:11 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: [PATCH v5 1/2] dt-bindings: pwm: Add RZ/G2L GPT binding
+Date:   Fri,  5 Aug 2022 15:57:03 +0100
+Message-Id: <20220805145704.951293-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220805145704.951293-1-biju.das.jz@bp.renesas.com>
+References: <20220805145704.951293-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This work is the pre-requisite of handling correctly when the trip
-point are crossed. For that we need to rework how the trip points are
-declared and assigned to a thermal zone.
+Add device tree bindings for the General PWM Timer (GPT).
 
-Even if it appears to be a common sense to have the trip points being
-ordered, this no guarantee neither documentation telling that is the
-case.
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+v4->v5:
+ * No change.
+v3->v4:
+ * No change.
+v2->v3:
+ * Added Rb tag from Rob.
+v1->v2:
+ * Added '|' after 'description:' to preserve formatting.
+ * Removed description for pwm_cells as it is common property.
+ * Changed the reg size in example from 0xa4->0x100
+ * Added Rb tag from Geert.
+RFC->v1:
+ * Added Description
+ * Removed comments from reg and clock
+---
+ .../bindings/pwm/renesas,rzg2l-gpt.yaml       | 129 ++++++++++++++++++
+ 1 file changed, 129 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rzg2l-gpt.yaml
 
-One solution could have been to create an ordered array of trips built
-when registering the thermal zone by calling the different get_trip*
-ops. However those ops receive a thermal zone pointer which is not
-known as it is in the process of creating it.
-
-This cyclic dependency shows we have to rework how we manage the trip
-points.
-
-Actually, all the trip points definition can be common to the backend
-sensor drivers and we can factor out the thermal trip structure in all
-of them.
-
-Then, as we register the thermal trips array, they will be available
-in the thermal zone structure and a core function can return the trip
-given its id.
-
-The get_trip_* ops won't be needed anymore and could be removed. The
-resulting code will be another step forward to a self encapsulated
-generic thermal framework.
-
-Most of the drivers can be converted more or less easily. This series
-does a first round with most of the drivers. Some remain and will be
-converted but with a smaller set of changes as the conversion is a bit
-more complex.
-
-Cc: Raju Rangoju <rajur@chelsio.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>
-Cc: Peter Kaestle <peter@piie.net>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Mark Gross <markgross@kernel.org>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: Amit Kucheria <amitk@kernel.org>
-Cc: Zhang Rui <rui.zhang@intel.com>
-Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>
-Cc: Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>
-Cc: Florian Fainelli <f.fainelli@gmail.com>
-Cc: Ray Jui <rjui@broadcom.com>
-Cc: Scott Branden <sbranden@broadcom.com>
-Cc: Support Opensource <support.opensource@diasemi.com>
-Cc: Lukasz Luba <lukasz.luba@arm.com>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Cc: Thara Gopinath <thara.gopinath@linaro.org>
-Cc: Andy Gross <agross@kernel.org>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
-Cc: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
-Cc: Eduardo Valentin <edubezval@gmail.com>
-Cc: Keerthy <j-keerthy@ti.com>
-Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Antoine Tenart <atenart@kernel.org>
-Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: Dmitry Osipenko <digetx@gmail.com>
-Cc: netdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: platform-driver-x86@vger.kernel.org
-Cc: linux-pm@vger.kernel.org
-Cc: linux-rpi-kernel@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-arm-msm@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
-Cc: linux-samsung-soc@vger.kernel.org
-Cc: linux-tegra@vger.kernel.org
-Cc: linux-omap@vger.kernel.org
-
-Daniel Lezcano (26):
-  thermal/core: encapsulate ops->get_trip_* ops into a function
-  thermal/sysfs: Do not make get_trip_hyst optional
-  thermal/core/governors: Use thermal_zone_get_trip() instead of ops
-    functions
-  thermal/drivers/st: Use generic trip points
-  thermal/drivers/tegra: Use generic thermal_zone_get_trip() function
-  thermal/drivers/imx: Use generic thermal_zone_get_trip() function
-  thermal/drivers/exynos: Use generic thermal_zone_get_trip() function
-  thermal/drivers/rcar: Use generic thermal_zone_get_trip() function
-  thermal/drivers/uniphier: Use generic thermal_zone_get_trip() function
-  thermal/drivers/hisi: Use generic thermal_zone_get_trip() function
-  thermal/drivers/qcom: Use generic thermal_zone_get_trip() function
-  thermal/drivers/OF: Use generic thermal_zone_get_trip() function
-  thermal/drivers/armada: Use generic thermal_zone_get_trip() function
-  thermal/core/OF: Remove unused functions
-  thermal/drivers/rcar_gen3: Use the generic function to get the number
-    of trips
-  thermal/drivers/exynos: of_thermal_get_ntrips()
-  thermal/core/of: Remove of_thermal_get_ntrips()
-  thermal/drivers/exynos: Replace of_thermal_is_trip_valid() by
-    thermal_zone_get_trip()
-  thermal/core/of: Remove of_thermal_is_trip_valid()
-  thermal/drivers/broadcom: Use generic thermal_zone_get_trip() function
-  thermal/drivers/da9062: Use generic thermal_zone_get_trip() function
-  thermal/drivers/ti: Remove unused macros ti_thermal_get_trip_value() /
-    ti_thermal_trip_is_valid()
-  thermal/drivers/acerhdf: Use generic thermal_zone_get_trip() function
-  thermal/drivers/cxgb4: Use generic thermal_zone_get_trip() function
-  thermal/intel/int340x: Replace parameter to simplify
-  thermal/drivers/intel: Use generic thermal_zone_get_trip() function
-
- drivers/net/ethernet/chelsio/cxgb4/cxgb4.h    |   2 -
- .../ethernet/chelsio/cxgb4/cxgb4_thermal.c    |  41 ++----
- drivers/platform/x86/acerhdf.c                |  73 ++++-------
- drivers/thermal/armada_thermal.c              |  39 +++---
- drivers/thermal/broadcom/bcm2835_thermal.c    |   8 +-
- drivers/thermal/da9062-thermal.c              |  52 ++------
- drivers/thermal/gov_bang_bang.c               |  23 ++--
- drivers/thermal/gov_fair_share.c              |  18 +--
- drivers/thermal/gov_power_allocator.c         |  51 ++++----
- drivers/thermal/gov_step_wise.c               |  22 ++--
- drivers/thermal/hisi_thermal.c                |  11 +-
- drivers/thermal/imx_thermal.c                 |  72 ++++-------
- .../int340x_thermal/int340x_thermal_zone.c    |  31 ++---
- .../int340x_thermal/int340x_thermal_zone.h    |   4 +-
- .../processor_thermal_device.c                |  10 +-
- drivers/thermal/intel/x86_pkg_temp_thermal.c  | 120 ++++++++++--------
- drivers/thermal/qcom/qcom-spmi-temp-alarm.c   |  39 +++---
- drivers/thermal/rcar_gen3_thermal.c           |   2 +-
- drivers/thermal/rcar_thermal.c                |  49 +------
- drivers/thermal/samsung/exynos_tmu.c          |  60 ++++-----
- drivers/thermal/st/st_thermal.c               |  47 +------
- drivers/thermal/tegra/soctherm.c              |  33 ++---
- drivers/thermal/tegra/tegra30-tsensor.c       |  17 ++-
- drivers/thermal/thermal_core.c                |  68 ++++++----
- drivers/thermal/thermal_core.h                |  30 ++---
- drivers/thermal/thermal_helpers.c             |  28 ++--
- drivers/thermal/thermal_netlink.c             |  21 ++-
- drivers/thermal/thermal_of.c                  |  88 -------------
- drivers/thermal/thermal_sysfs.c               |  91 +++++--------
- drivers/thermal/ti-soc-thermal/ti-thermal.h   |  15 ---
- drivers/thermal/uniphier_thermal.c            |  26 ++--
- 31 files changed, 434 insertions(+), 757 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/pwm/renesas,rzg2l-gpt.yaml b/Documentation/devicetree/bindings/pwm/renesas,rzg2l-gpt.yaml
+new file mode 100644
+index 000000000000..e8f7b9947eaa
+--- /dev/null
++++ b/Documentation/devicetree/bindings/pwm/renesas,rzg2l-gpt.yaml
+@@ -0,0 +1,129 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/pwm/renesas,rzg2l-gpt.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas RZ/G2L General PWM Timer (GPT)
++
++maintainers:
++  - Biju Das <biju.das.jz@bp.renesas.com>
++
++description: |
++  RZ/G2L General PWM Timer (GPT) composed of 8 channels with 32-bit timer
++  (GPT32E). It supports the following functions
++  * 32 bits × 8 channels.
++  * Up-counting or down-counting (saw waves) or up/down-counting
++    (triangle waves) for each counter.
++  * Clock sources independently selectable for each channel.
++  * Two I/O pins per channel.
++  * Two output compare/input capture registers per channel.
++  * For the two output compare/input capture registers of each channel,
++    four registers are provided as buffer registers and are capable of
++    operating as comparison registers when buffering is not in use.
++  * In output compare operation, buffer switching can be at crests or
++    troughs, enabling the generation of laterally asymmetric PWM waveforms.
++  * Registers for setting up frame cycles in each channel (with capability
++    for generating interrupts at overflow or underflow)
++  * Generation of dead times in PWM operation.
++  * Synchronous starting, stopping and clearing counters for arbitrary
++    channels.
++  * Starting, stopping, clearing and up/down counters in response to input
++    level comparison.
++  * Starting, clearing, stopping and up/down counters in response to a
++    maximum of four external triggers.
++  * Output pin disable function by dead time error and detected
++    short-circuits between output pins.
++  * A/D converter start triggers can be generated (GPT32E0 to GPT32E3)
++  * Enables the noise filter for input capture and external trigger
++    operation.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - renesas,r9a07g044-gpt  # RZ/G2{L,LC}
++          - renesas,r9a07g054-gpt  # RZ/V2L
++      - const: renesas,rzg2l-gpt
++
++  reg:
++    maxItems: 1
++
++  '#pwm-cells':
++    const: 2
++
++  interrupts:
++    items:
++      - description: GTCCRA input capture/compare match
++      - description: GTCCRB input capture/compare
++      - description: GTCCRC compare match
++      - description: GTCCRD compare match
++      - description: GTCCRE compare match
++      - description: GTCCRF compare match
++      - description: GTADTRA compare match
++      - description: GTADTRB compare match
++      - description: GTCNT overflow/GTPR compare match
++      - description: GTCNT underflow
++
++  interrupt-names:
++    items:
++      - const: ccmpa
++      - const: ccmpb
++      - const: cmpc
++      - const: cmpd
++      - const: cmpe
++      - const: cmpf
++      - const: adtrga
++      - const: adtrgb
++      - const: ovf
++      - const: unf
++
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - interrupt-names
++  - clocks
++  - power-domains
++  - resets
++
++allOf:
++  - $ref: pwm.yaml#
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r9a07g044-cpg.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    gpt4: pwm@10048400 {
++        compatible = "renesas,r9a07g044-gpt", "renesas,rzg2l-gpt";
++        reg = <0x10048400 0x100>;
++        interrupts = <GIC_SPI 270 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 271 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 272 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 273 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 274 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 275 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 276 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 277 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 278 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 279 IRQ_TYPE_EDGE_RISING>;
++        interrupt-names = "ccmpa", "ccmpb", "cmpc", "cmpd",
++                          "cmpe", "cmpf", "adtrga", "adtrgb",
++                          "ovf", "unf";
++        clocks = <&cpg CPG_MOD R9A07G044_GPT_PCLK>;
++        power-domains = <&cpg>;
++        resets = <&cpg R9A07G044_GPT_RST_C>;
++        #pwm-cells = <2>;
++    };
 -- 
 2.25.1
 
