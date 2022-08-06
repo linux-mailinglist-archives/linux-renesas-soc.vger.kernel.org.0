@@ -2,409 +2,237 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56AC758B0FF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Aug 2022 23:06:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C806558B5D7
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Aug 2022 16:11:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233731AbiHEVGP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 5 Aug 2022 17:06:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40518 "EHLO
+        id S231621AbiHFOLW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 6 Aug 2022 10:11:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240588AbiHEVGO (ORCPT
+        with ESMTP id S230407AbiHFOLU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 5 Aug 2022 17:06:14 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B9C0252A0
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Aug 2022 14:06:13 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1oK4W9-0008E0-Mn; Fri, 05 Aug 2022 23:06:01 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1oK4W4-001y6B-0p; Fri, 05 Aug 2022 23:05:58 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1oK4W5-009nqE-KW; Fri, 05 Aug 2022 23:05:57 +0200
-Date:   Fri, 5 Aug 2022 23:05:54 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-pwm@vger.kernel.org,
+        Sat, 6 Aug 2022 10:11:20 -0400
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70041.outbound.protection.outlook.com [40.107.7.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B1D4101FF;
+        Sat,  6 Aug 2022 07:11:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ij/l8hsLIoFlxrHPJkqJAIJIreKm0BaqWmfFH+EEcfD48L9OR2Aqv6oBBRbxosZmrLfYyhO9BiXg8MNpAYVEALM8FyLAmNIlNuqy7cgWw/uW46JT30d5yeoblu5fgAzk4a+4vi7no4lGvXPesS6o1EpuwNM/QF0bhb15O2X51u1IzGLQxQEEnqOR5DWCs1BdJcIY4lIC4Ye+/sPM2eGWvcEc+napbhDeIgywpwehsChgX+vdtr1nUII5Vo3GaxP/rofdubgFs7oenXJoQjHVy13s0UsPP0KS2zg8+ccB0UzYUmQnEoY2YZQQWWPg3FLBBV+aEW8dLktQ/jHW+P8zXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BeyiDr+ONMlxayP+m1Q2qXUokQqLGwFXv3V21JU2yNI=;
+ b=fXTwHkvIie4YMA/AEILvmHMXTXvl3sCx1Zbnt1EiYyJ2axFaOe16M71u23Jwx6Ckpz1xieKlCsEqsvfKObpe3TVn5+lCyW/x4txaFrPHqI+efTuw9AFGxXN4wadyQb9hvjKc8qjrZsTPp28PXvOBpCo+SIZANIn5qTfPv2ssCRMYr+whtdipWPCEA2LuEywe+S/UD6SnS4vYpemsOR/+21yAQOSc6cjMp0tA735+iN9rt5MzcG+s4M+ekGOLKuu+2cR9DuH4rrcMCANvJFQtmHvCD2eUYmi4yplyEQrrf7UcaugjWyLNBiz59bEttN5RR2MGEQ8WFAg9Pu4QF/Pxhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BeyiDr+ONMlxayP+m1Q2qXUokQqLGwFXv3V21JU2yNI=;
+ b=oHSn+02vfCvbd3zGvbKkAc20oJH6vZr5DkzmlTntNRnDeFcr2L8ZwDqdp5ccUQGA5cYblu2IZxbt2u1+lYDV/OtBn4wy6SCDw5kHV9Sya/dpebodAh+9HlUPZRMf71LtgbJsO9kYU6/iYe6oApDwTGdlV04dAmazMU2w9eMf1dg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB5136.eurprd04.prod.outlook.com (2603:10a6:803:55::19)
+ by DB8PR04MB6988.eurprd04.prod.outlook.com (2603:10a6:10:117::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.17; Sat, 6 Aug
+ 2022 14:11:14 +0000
+Received: from VI1PR04MB5136.eurprd04.prod.outlook.com
+ ([fe80::71b7:8ed1:e4e0:3857]) by VI1PR04MB5136.eurprd04.prod.outlook.com
+ ([fe80::71b7:8ed1:e4e0:3857%4]) with mapi id 15.20.5504.017; Sat, 6 Aug 2022
+ 14:11:14 +0000
+From:   Vladimir Oltean <vladimir.oltean@nxp.com>
+To:     netdev@vger.kernel.org
+Cc:     devicetree@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        John Crispin <john@phrozen.org>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Mans Rullgard <mans@mansr.com>,
+        Arun Ramadoss <arun.ramadoss@microchip.com>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        George McCollister <george.mccollister@gmail.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Aleksander Jan Bajkowski <olek2@wp.pl>,
+        =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+        Luiz Angelo Daros de Luca <luizluca@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Pawel Dembicki <paweldembicki@gmail.com>,
+        =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] pwm: Add support for RZ/G2L GPT
-Message-ID: <20220805210554.czafwmpq46prlfx7@pengutronix.de>
-References: <20220805145704.951293-1-biju.das.jz@bp.renesas.com>
- <20220805145704.951293-3-biju.das.jz@bp.renesas.com>
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
+        Marcin Wojtas <mw@semihalf.com>, Marek Vasut <marex@denx.de>,
+        linux-renesas-soc@vger.kernel.org,
+        Frank Rowand <frowand.list@gmail.com>
+Subject: [RFC PATCH v3 net-next 00/10] Validate OF nodes for DSA shared ports
+Date:   Sat,  6 Aug 2022 17:10:49 +0300
+Message-Id: <20220806141059.2498226-1-vladimir.oltean@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI1PR0802CA0016.eurprd08.prod.outlook.com
+ (2603:10a6:800:aa::26) To VI1PR04MB5136.eurprd04.prod.outlook.com
+ (2603:10a6:803:55::19)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="frtvesny3b7u6mej"
-Content-Disposition: inline
-In-Reply-To: <20220805145704.951293-3-biju.das.jz@bp.renesas.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3cdba6d1-e7e2-4a25-903b-08da77b5858a
+X-MS-TrafficTypeDiagnostic: DB8PR04MB6988:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tGk7bix4SdkgHp501jEttQoE5ML9+xnXGF9qEzznstmgzFRIsg2w/m/nWAkMqx30cf057NdRpeR2Xnfpi2Op0pnfJ4lNbJL9DKg7CpOxbrQKttSNlvkMRris73NX8ceUDDnEMhc/iQzR5gsA6kLpijnsU4U3CIuaDvaidCD0X/9sg/nzspcTB6y8mVx1qQg5mAhrwvy2oTiK48yodN4ZbAIUlpn3n2grpSlQbCkq+AYFqjI52UQ63LTQrqfjfvKEvLQLhjrIgLV69HvxEHCptezS6Wc3FimKjdIXDea/ryvXNgJhSal1gNvPFEA6MPwRPtD4feHGIp+fdKft5TB4VmXENrtG8wHbpAIdkRArkoUu6a9fQuB+zjkACYLaZy1b3QlGpPzwIbDXKJXkrARUE+gIcTxo3EaWxNU+wHBmeFazVV9gy2DbUeK7GmQnEBpZ2lwYsVyiYXipHVGR+97yZBBx22msSACFITcWiD670RBG/sSLSNxb7/epIpNTnlZD01P6g2c/TIvHbCiHkb6L3LaYEeh1MSKAUPKXh+HoZjhEa+XL/VDt/lnjyYOaJcBKh+ZinnK0DmVNUxYORNQpmdaQXWaI/s6xx475QzJPmcWOPIwHplyFqQNz6b6aFeF7FaKhwgmF3ToKC4LFL4SEc8PMYp6VnsmycSjrKMlHqadL+a1fXTjNCepoxN+Y9cspcu508OYJZJWrYr0H6lI8gVqJ8H1/f39ozE1OTRvWVgSZadwPUM3fLbZX6Gp0PVGRmEVU69PI2L2DcpZvMfibeAb47SCrvvU0XHUWxau4fBqCYBCieXU+W57dUW6JaMZ4qu5HUprPe7vx7GfpMVr1jVz6Xu7YlMSeO9oo3LHb1L4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5136.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(396003)(346002)(39860400002)(136003)(366004)(5660300002)(44832011)(7416002)(7406005)(186003)(1076003)(2616005)(38100700002)(38350700002)(83380400001)(6666004)(52116002)(966005)(6486002)(41300700001)(316002)(36756003)(6916009)(54906003)(6506007)(26005)(6512007)(66946007)(66556008)(66476007)(4326008)(8676002)(8936002)(478600001)(86362001)(2906002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SlY3M3MvN0hzck96UmVJOURPM2FqSVpPTndNR2lMcW5OMjY0NDRxZEN0QnhR?=
+ =?utf-8?B?d1VsTFB0bHZidFQwclZTNVdSVnFsRnVSenZqYW5NT1JuSXhBNVR3NWJ3TFdT?=
+ =?utf-8?B?UHp1YmlYOUI1NGFuOS9wdWdtNVZmenhIZnUzN2JRTzJFSmdyQ3J2cUkrSjFu?=
+ =?utf-8?B?Wktrc3lNcUxvNzBhUDYwOUt3QXh6cWw4SW1WSkJtVnIvc1RJMlRwYW82cHFs?=
+ =?utf-8?B?NGtRTHBYOUFwdkd6RVhGTDhKS1lZQVBCZDBURS9oem4rekxBdk5JMGFYMm9L?=
+ =?utf-8?B?V2o3eU9YdUtRamhwRGpTcVJSSUpld2F1dkhBVUhCcXNFQXhXYTlEUDcwbm45?=
+ =?utf-8?B?VmdoeDdOTzZrSXNrSjlWQTNKUlZiT3NST2F2SGxKL0RzeFl4TmFNZXdpeXgy?=
+ =?utf-8?B?QVROWnBOR1hDOHpXSlY3NmJEdnBrWnJkZWRBWDVKZVdPaU1iNC9TYUx2Tjcr?=
+ =?utf-8?B?dXZjVU10alk2eHFrQXJ2OFJOcHNzbFVvNUdDc3cwMWdqcVZFcEZmV2s3dTYr?=
+ =?utf-8?B?c2doWGdWMlByY3ZGd2xGM1JZQld0d2xIbDIwUzJDOGtQazBRZU9rSTkxOTV4?=
+ =?utf-8?B?NmhJTFE0VUxIWktVRHpVQWZuVVAxNERKYTQwbkxMbHFwTEh2RXlhL0R1aUNX?=
+ =?utf-8?B?eWZlcUlTNGRJSURjRUUyK1gzS2pLNmdCaFkrTWRoNCtrRlpLMWtHbS9venJ6?=
+ =?utf-8?B?TXY2MGZ2MktOMXlNQThrNGRtdkhBNit4dHFwTis3eDkrZ3V2QUY0eHpHcnVl?=
+ =?utf-8?B?ZzZRSGZZRjZLdkZQS1AyL2R1OFdiOEI3OVh4cVkyU015dXg5NGQ0eG1wS2Ix?=
+ =?utf-8?B?L09qczhhTXptb2gxQk5VSmZ0U1VrdDRnMWppTzRINzV5cUd6UE5yS3FGZm1J?=
+ =?utf-8?B?TlU3N2RKOE03ZWJxMXRGNGltTWZNdm9FWTA0ZCtCdnI5cFdkY3g4RXZoRVRC?=
+ =?utf-8?B?VnN6L242cW1qTmlyb1ZZTVd5OXoyM0xoZCtYRkQrTGdKNStkYUJ0cDBJTGcz?=
+ =?utf-8?B?NHYwK3graERHSDVZNndHTlp0TW1KZ2sxd09uNnJqakY2U0dpQWdMY2toenI1?=
+ =?utf-8?B?R29heUtyUHFOdWpWMy9zSVV6d3o4NFl3U1RsN1lqM1B1RkpmRTBUSEk3dFZC?=
+ =?utf-8?B?Q21mbzg4L1JpZi9jUFhuZDV1T0NFamI0T2tWckplbjltVUo3U0IxUEVTdjg2?=
+ =?utf-8?B?bVdrWHBGdVRGUHJ4RkVreVhCZHBrL3pLU04zbEgxa3lDT2lYT0hpTDRQamx0?=
+ =?utf-8?B?dVFXRGV5WDJRWEJ0aUhUaGFXMWdMNUg3aHRuTGRqSHpIOGdSLzdCWjFlWWpH?=
+ =?utf-8?B?Sk1qMXUyYXlOb0hpUkRpczZTeVFWVG9IZUw4Y1ROSDJUS2twWUpzOGtQUVFW?=
+ =?utf-8?B?NStxd21kUE9RMThWeDJ0bWI5dE9ySU1pREVkSmw1cmk4RkFBMWRQeDBCdmFr?=
+ =?utf-8?B?Uit4aG1zY0Q2UWVVY2dPN2plcGZ5MVkxMG1mUk1JUUdXcElkbEVKK1J3UFBk?=
+ =?utf-8?B?RGVzYWNqd0ROSHdiZmNMa0dSUDdCSUovY0x2OHhkUXhYVTRLbFk0bFBBdVRy?=
+ =?utf-8?B?anc3cGlzVC9aemhFc0FIQmU0NllLelg4RFRza0JFVUxuYzQyc1haK1VqQzBa?=
+ =?utf-8?B?eEVpMWI3emZQMGVSREZjOXZtZDgvMG9xQ2RrYXZxN3ZMcmx3djYwbUNFV0Nv?=
+ =?utf-8?B?bkJPM1RLcE5ocXNiL3ozb1ZCVUI2UXZvK0w3a0lqYTJWclpsazR4em1pSXU2?=
+ =?utf-8?B?L2dlVkhnT0tJYzdNa0h2V0Zkc0ZWaWlmYlRyUkQ2NFUwQ24yaTdBc0pBTks3?=
+ =?utf-8?B?T2FlMXB3aGM0Vzc2bWxYSGY3VnM2RExwbnc2ODV1QkUwK1R2eGZYZDVaZ0Vj?=
+ =?utf-8?B?RVFBajRhWW9XR1BaN3hOMm5XQ2d6Nk53TEJ5Z2pFTmVPeCtxKzB0VGdDeXQr?=
+ =?utf-8?B?T0hQYkp0NnpCcmFkNm9pK3V2SzhTK1dUWGhjNWo2YTFJbXpUc1lRSmRwNFlZ?=
+ =?utf-8?B?TUZUZGhaa29tMHlGRFlicTV2OU1NWkU4YkxNRHFCcVZDS2Z2MFpOUXJUSTRS?=
+ =?utf-8?B?RlRrSWxWVzhPSlFEdEEvN0VPNzY5aVlUa29ISTYyZlB6MFVmcVJPS3ZwdVVI?=
+ =?utf-8?B?RVgxOS9PdThXOFpGek9JSHowNkRpaGRpWXhjYXoxZEdnL25qUTliakQzcXpp?=
+ =?utf-8?B?dmc9PQ==?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3cdba6d1-e7e2-4a25-903b-08da77b5858a
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5136.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2022 14:11:14.4270
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rUqq9IkDZ/L38jbXcjWjg7Z1GWMESvuZI7TJwFIralfgH8kiAseniADDfCbreJj3sVY+yzv0fc+Y75XrxL9u8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6988
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+This is the first set of measures taken so that more drivers can be
+transitioned towards phylink on shared (CPU and DSA) ports some time in
+the future. It consists of:
 
---frtvesny3b7u6mej
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+- expanding the DT schema for DSA and related drivers to clarify the new
+  requirements.
 
-Hello,
+- introducing warnings for drivers that currently skip phylink due to
+  incomplete DT descriptions.
 
-On Fri, Aug 05, 2022 at 03:57:04PM +0100, Biju Das wrote:
-> +#define RZG2L_GTIOR_GTIOA_OUT_HI_END_TOGGLE_CMP_MATCH \
-> +	(RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE | RZG2L_GTIOR_OAE)
-> +#define RZG2L_GTIOR_GTIOA_OUT_LO_END_TOGGLE_CMP_MATCH \
-> +	(RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE | RZG2L_GTIOR_OAE)
-> +#define RZG2L_GTIOR_GTIOB_OUT_HI_END_TOGGLE_CMP_MATCH \
-> +	((RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE << 16) | RZG2L_GTIOR_OBE)
+- introducing warning for drivers that currently skip phylink due to
+  using platform data (search for struct dsa_chip_data).
 
-FIELD_PREP(RZG2L_GTIOR_GTIOB, RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE)
+- closing the possibility for new(ish) drivers to skip phylink, by
+  validating their DT descriptions.
 
-> +#define RZG2L_GTIOR_GTIOB_OUT_LO_END_TOGGLE_CMP_MATCH \
-> +	((RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE << 16) | RZG2L_GTIOR_OBE)
-> +
-> [...]
-> +static u8 rzg2l_calculate_prescale(struct rzg2l_gpt_chip *rzg2l_gpt,
-> +				   u64 period_cycles)
-> +{
-> +	u32 prescaled_period_cycles;
-> +	u8 prescale;
-> +
-> +	prescaled_period_cycles =3D period_cycles >> 32;
-> +
-> +	if (prescaled_period_cycles >=3D 256)
-> +		prescale =3D 5;
-> +	else
-> +		prescale =3D (roundup_pow_of_two(prescaled_period_cycles + 1) + 1) / 2;
+- making the code paths used by shared ports more evident.
 
-I double checked, this looks correct to me.
+- preparing the code paths used by shared ports for further work to fake
+  a link description where that is possible.
 
-> +
-> +	return prescale;
-> +}
-> +
-> [...]
-> +static int rzg2l_gpt_config(struct pwm_chip *chip, struct pwm_device *pw=
-m,
-> +			    const struct pwm_state *state)
-> +{
-> +	struct rzg2l_gpt_chip *rzg2l_gpt =3D to_rzg2l_gpt_chip(chip);
-> +	struct rzg2l_gpt_pwm_device *gpt =3D &rzg2l_gpt->gpt[pwm->hwpwm];
-> +	unsigned long pv, dc;
-> +	u64 period_cycles;
-> +	u64 duty_cycles;
-> +	u8 prescale;
-> +
-> +	/*
-> +	 * Refuse clk rates > 1 GHz to prevent overflowing the following
-> +	 * calculation.
-> +	 */
-> +	if (rzg2l_gpt->rate > NSEC_PER_SEC)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * GPT counter is shared by multiple channels, so prescale and period
-> +	 * can NOT be modified when there are multiple channels in use with
-> +	 * different settings.
-> +	 */
-> +	if (state->period !=3D rzg2l_gpt->real_period && rzg2l_gpt->user_count =
-> 1)
-> +		return -EBUSY;
+More details in patch 10/10.
 
-Optional improvement here: If a period of (say) 100000 ns is requested the
-hardware might likely actually implement 99875 ns. As
-rzg2l_gpt->real_period corresponds to the requested period (is that a
-misnomer?) you could accept state->period =3D 99900.
+DT binding (patches 1-6) and kernel (7-10) are in principle separable,
+but are submitted together since they're part of the same story.
 
-Accepting state->period >=3D rzg2l_gpt->real_period is fine.
+Patches 8 and 9 are DSA cleanups, and patch 7 is a dependency for patch
+10.
 
-> +
-> +	period_cycles =3D mul_u64_u32_div(state->period, rzg2l_gpt->rate, NSEC_=
-PER_SEC);
-> +	prescale =3D rzg2l_calculate_prescale(rzg2l_gpt, period_cycles);
-> +
-> +	pv =3D period_cycles >> (2 * prescale);
+Submitting as RFC because it's RFC season, but I'd like to resend this
+for proper inclusion as soon as possible once the merge window closes,
+so ACKs/NACKs are welcome.
 
-If period_cycles is >=3D (1024 << 32), we get prescale =3D 5 and so
-period_cycles >> (2 * prescale) doesn't fit into 32 bits. This needs
-handling.
+Change log in patches.
 
-> +	duty_cycles =3D mul_u64_u32_div(state->duty_cycle, rzg2l_gpt->rate, NSE=
-C_PER_SEC);
-> +	dc =3D duty_cycles >> (2 * prescale);
-> +
-> +	/* Counter must be stopped before modifying Mode and Prescaler */
-> +	if (rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCR) & RZG2L_GTCR_CST)
-> +		rzg2l_gpt_disable(rzg2l_gpt);
+v1 at
+https://patchwork.kernel.org/project/netdevbpf/patch/20220723164635.1621911-1-vladimir.oltean@nxp.com/
 
-Does this affect the other channel? If yes, that's a bad thing and it
-might be worth to improve here.
+v2 at
+https://patchwork.kernel.org/project/netdevbpf/patch/20220729132119.1191227-5-vladimir.oltean@nxp.com/
 
-> +	/* GPT set operating mode (saw-wave up-counting) */
-> +	rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTCR,
-> +			 RZG2L_GTCR_MD, RZG2L_GTCR_MD_SAW_WAVE_PWM_MODE);
-> +
-> +	/* Set count direction */
-> +	rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTUDDTYC, RZG2L_UP_COUNTING);
-> +
-> +	rzg2l_gpt->real_period =3D state->period;
-> +	/* Select count clock */
-> +	rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTCR, RZG2L_GTCR_TPCS,
-> +			 FIELD_PREP(RZG2L_GTCR_TPCS, prescale));
-> +
-> +	/* Set period */
-> +	rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTPR, pv);
-> +
-> +	/* Set duty cycle */
-> +	rzg2l_gpt_write(rzg2l_gpt, gpt->ph->duty_reg_offset, dc);
-> +
-> +	/* Set initial value for counter */
-> +	rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTCNT, 0);
-> +
-> +	/* Set no buffer operation */
-> +	rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTBER, 0);
-> +
-> +	/* Enable pin output */
-> +	rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTIOR, gpt->ph->mask, gpt->ph->value);
-> +
-> +	return 0;
-> +}
-> +
-> +static void rzg2l_gpt_get_state(struct pwm_chip *chip, struct pwm_device=
- *pwm,
-> +				struct pwm_state *state)
-> +{
-> +	struct rzg2l_gpt_chip *rzg2l_gpt =3D to_rzg2l_gpt_chip(chip);
-> +	struct rzg2l_gpt_pwm_device *gpt =3D &rzg2l_gpt->gpt[pwm->hwpwm];
-> +	u8 prescale;
-> +	u64 tmp;
-> +	u32 val;
-> +
-> +	/* get period */
-> +	state->period =3D rzg2l_gpt->real_period;
-> +
-> +	pm_runtime_get_sync(chip->dev);
-> +	val =3D rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCR);
-> +	state->enabled =3D val & RZG2L_GTCR_CST;
-> +	if (state->enabled) {
-> +		prescale =3D FIELD_GET(RZG2L_GTCR_TPCS, val);
-> +
-> +		val =3D rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTPR);
-> +		tmp =3D NSEC_PER_SEC * val << (2 * prescale);
-> +		state->period =3D DIV_ROUND_UP_ULL(tmp, rzg2l_gpt->rate);
-> +
-> +		val =3D rzg2l_gpt_read(rzg2l_gpt, gpt->ph->duty_reg_offset);
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Frank Rowand <frowand.list@gmail.com>
 
-I still wonder if this is really better/more effective/easier to
-understand than just:
+Vladimir Oltean (10):
+  dt-bindings: net: dsa: xrs700x: add missing CPU port phy-mode to
+    example
+  dt-bindings: net: dsa: hellcreek: add missing CPU port
+    phy-mode/fixed-link to example
+  dt-bindings: net: dsa: b53: add missing CPU port phy-mode to example
+  dt-bindings: net: dsa: microchip: add missing CPU port phy-mode to
+    example
+  dt-bindings: net: dsa: rzn1-a5psw: add missing CPU port phy-mode to
+    example
+  dt-bindings: net: dsa: make phylink bindings required for CPU/DSA
+    ports
+  of: base: export of_device_compatible_match() for use in modules
+  net: dsa: avoid dsa_port_link_{,un}register_of() calls with platform
+    data
+  net: dsa: rename dsa_port_link_{,un}register_of
+  net: dsa: make phylink-related OF properties mandatory on DSA and CPU
+    ports
 
-/* These are actually called GTCCRA and GTCCRB */
-#define RZG2L_GTCCR(i) (0x4c + 4 * (i))
+ .../bindings/net/dsa/arrow,xrs700x.yaml       |   2 +
+ .../devicetree/bindings/net/dsa/brcm,b53.yaml |   2 +
+ .../devicetree/bindings/net/dsa/dsa-port.yaml |  17 ++
+ .../net/dsa/hirschmann,hellcreek.yaml         |   6 +
+ .../bindings/net/dsa/microchip,ksz.yaml       |   4 +
+ .../bindings/net/dsa/renesas,rzn1-a5psw.yaml  |   2 +
+ drivers/of/base.c                             |   1 +
+ net/dsa/dsa2.c                                |  36 +++-
+ net/dsa/dsa_priv.h                            |   4 +-
+ net/dsa/port.c                                | 193 ++++++++++++++++--
+ 10 files changed, 240 insertions(+), 27 deletions(-)
 
-plus
+-- 
+2.34.1
 
-	val =3D rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCCR(pwm->hwpwm));
-
-=09
-> +		tmp =3D NSEC_PER_SEC * val << (2 * prescale);
-> +		state->duty_cycle =3D DIV_ROUND_UP_ULL(tmp, rzg2l_gpt->rate);
-> +		/*
-> +		 * Ordering is important, when we set a period for the second
-> +		 * channel, as pwm_request_from_chip() calling get_state() will
-> +		 * have an invalid duty cycle value as the register is not
-> +		 * initialized yet. So set duty_cycle to zero.
-
-I don't understand that issue. Can you just drop the check
-"rzg2l_gpt->user_count > 1"?
-
-If you configure channel #0 while channel #1 is still untouched (in
-software), does this modify the output of channel #1?
-
-> +		 */
-> +		if (state->duty_cycle > state->period &&
-> +		    rzg2l_gpt->user_count > 1)
-> +			state->duty_cycle =3D 0;
-
-Does this setting (i.e. GTCCR{A,B} > GTPR) correspond to a 100% relative
-duty cycle?
-
-> +	}
-> +
-> +	state->polarity =3D PWM_POLARITY_NORMAL;
-> +	pm_runtime_put(chip->dev);
-> +}
-> +
-> +static int rzg2l_gpt_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-> +			   const struct pwm_state *state)
-> +{
-> +	struct rzg2l_gpt_chip *rzg2l_gpt =3D to_rzg2l_gpt_chip(chip);
-> +	int ret;
-> +
-> +	if (state->polarity !=3D PWM_POLARITY_NORMAL)
-> +		return -EINVAL;
-> +
-> +	pm_runtime_get_sync(chip->dev);
-> +	if (!state->enabled) {
-> +		rzg2l_gpt_disable(rzg2l_gpt);
-> +		ret =3D 0;
-> +		goto done;
-> +	}
-> +
-> +	mutex_lock(&rzg2l_gpt->lock);
-> +	ret =3D rzg2l_gpt_config(chip, pwm, state);
-> +	mutex_unlock(&rzg2l_gpt->lock);
-> +	if (ret)
-> +		goto done;
-> +
-> +	return rzg2l_gpt_enable(rzg2l_gpt);
-> +
-> +done:
-> +	pm_runtime_put(chip->dev);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct pwm_ops rzg2l_gpt_ops =3D {
-> +	.request =3D rzg2l_gpt_request,
-> +	.free =3D rzg2l_gpt_free,
-> +	.get_state =3D rzg2l_gpt_get_state,
-> +	.apply =3D rzg2l_gpt_apply,
-> +	.owner =3D THIS_MODULE,
-> +};
-> +
-> +static const struct of_device_id rzg2l_gpt_of_table[] =3D {
-> +	{ .compatible =3D "renesas,rzg2l-gpt", },
-> +	{ /* Sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, rzg2l_gpt_of_table);
-> +
-> +static void rzg2l_gpt_reset_assert_pm_disable(void *data)
-> +{
-> +	struct rzg2l_gpt_chip *rzg2l_gpt =3D data;
-> +
-> +	pm_runtime_disable(rzg2l_gpt->chip.dev);
-> +	reset_control_assert(rzg2l_gpt->rstc);
-> +}
-> +
-> +static int rzg2l_gpt_probe(struct platform_device *pdev)
-> +{
-> +	struct rzg2l_gpt_chip *rzg2l_gpt;
-> +	struct clk *clk;
-> +	int ret, i;
-> +
-> +	rzg2l_gpt =3D devm_kzalloc(&pdev->dev, sizeof(*rzg2l_gpt), GFP_KERNEL);
-> +	if (!rzg2l_gpt)
-> +		return -ENOMEM;
-> +
-> +	rzg2l_gpt->mmio =3D devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(rzg2l_gpt->mmio))
-> +		return PTR_ERR(rzg2l_gpt->mmio);
-> +
-> +	rzg2l_gpt->rstc =3D devm_reset_control_get_shared(&pdev->dev, NULL);
-> +	if (IS_ERR(rzg2l_gpt->rstc))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(rzg2l_gpt->rstc),
-> +				     "get reset failed\n");
-> +
-> +	ret =3D reset_control_deassert(rzg2l_gpt->rstc);
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret,
-> +				     "cannot deassert reset control\n");
-> +
-> +	pm_runtime_enable(&pdev->dev);
-> +	ret =3D devm_add_action_or_reset(&pdev->dev,
-> +				       rzg2l_gpt_reset_assert_pm_disable,
-> +				       rzg2l_gpt);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	clk =3D devm_clk_get_enabled(&pdev->dev, NULL);
-> +	if (IS_ERR(clk))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(clk),
-> +				     "cannot get clock\n");
-> +
-> +	rzg2l_gpt->rate =3D clk_get_rate(clk);
-> +	/*
-> +	 *  We need to keep the clock on, in case the bootloader enabled PWM and
-> +	 *  is running during probe().
-> +	 */
-> +	if (!(rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCR) & RZG2L_GTCR_CST))
-> +		devm_clk_put(&pdev->dev, clk);
-
-I still think this looks wrong. Please at least comment about the idea
-here. ie. devm_clk_put disables the clk and holding a reference on the
-clk isn't needed because runtime-pm handles the needed enabling.
-
-Is this really true? Does runtime-pm disable the clk if after the clk
-wasn't put here both PWMs are disabled?
-
-> +	mutex_init(&rzg2l_gpt->lock);
-> +
-> +	rzg2l_gpt->chip.dev =3D &pdev->dev;
-> +	rzg2l_gpt->chip.ops =3D &rzg2l_gpt_ops;
-> +	rzg2l_gpt->chip.npwm =3D 2;
-> +	for (i =3D 0; i < rzg2l_gpt->chip.npwm; i++)
-> +		rzg2l_gpt->gpt[i].ph =3D &rzg2l_gpt_phase_params[i];
-> +
-> +	ret =3D devm_pwmchip_add(&pdev->dev, &rzg2l_gpt->chip);
-> +	if (ret)
-> +		dev_err_probe(&pdev->dev, ret, "failed to add PWM chip\n");
-> +
-> +	return ret;
-> +}
-> +
-> +static struct platform_driver rzg2l_gpt_driver =3D {
-> +	.driver =3D {
-> +		.name =3D "pwm-rzg2l-gpt",
-> +		.of_match_table =3D of_match_ptr(rzg2l_gpt_of_table),
-> +	},
-> +	.probe =3D rzg2l_gpt_probe,
-> +};
-> +module_platform_driver(rzg2l_gpt_driver);
-> +
-> +MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
-> +MODULE_DESCRIPTION("Renesas RZ/G2L General PWM Timer (GPT) Driver");
-> +MODULE_LICENSE("GPL");
-> +MODULE_ALIAS("platform:pwm-rzg2l-gpt");
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---frtvesny3b7u6mej
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmLthi8ACgkQwfwUeK3K
-7AlDuwf+OIveqFtJ4KFSfKbDV2nF4BC65kqO03XRjmRkuXS1D2jPx87c8uQDe0j9
-mLwLH5+1Uh7J+7paZWQt/fOA2d7CgCV5CBAPlJTckncdqvi/Dx9A+Jmho0tRU0+x
-QJr2UUQSRu/gkSI3HyHekvye23O58BhKQmNC2RFF0NYdD73h27k6bmKIJDaIsE4H
-KGNpkD7NPZX4jF5JLLsNrIe5pbsHB41dKFXt5jSN9r4n7TWu9LB6cbSu9pzNqnud
-e73/Uxor9k+W8FOtOh5H7ld2C5SysrXxHhAEClwCbyyNskVL1Q0Z2QzCGqrQk4Fk
-M1HWFdHKyzP24j9y6Bsa4oQh6QsZ1A==
-=hmz2
------END PGP SIGNATURE-----
-
---frtvesny3b7u6mej--
