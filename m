@@ -2,746 +2,177 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EAAA958B81E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Aug 2022 22:10:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A328558BE55
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Aug 2022 01:47:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233631AbiHFUKI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 6 Aug 2022 16:10:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47164 "EHLO
+        id S229754AbiHGXrb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 7 Aug 2022 19:47:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230079AbiHFUKE (ORCPT
+        with ESMTP id S229747AbiHGXra (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 6 Aug 2022 16:10:04 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C5CBE0FD;
-        Sat,  6 Aug 2022 13:10:02 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id a89so7120546edf.5;
-        Sat, 06 Aug 2022 13:10:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:from:to:cc:subject:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=tJJ8+G+QyHoyBhR8loO24CAVVc4T6uPB0kCgkqiy0l8=;
-        b=bPeoABBXU1lX//k+A8XaQQftP7HEuOG7wsZXbeFxNlYKWNDSf3xqoJ9tl7yKgPMiAz
-         P3RnpGNzvDKMvas4PpH9ft23wZvRbupavcaJdLLKPMzTIn0iSkwBKUvAf2WOYtEskpVb
-         csW7hf2OlSwJbn/1O//SxrsIXuCNB0ZMj55EUVnOZJl7NFT+6XYCAXBLzetw0dfR06z4
-         QfLzFzfHlddqQpw4JmO4cQvojoeXBv0WiYXQstk33QxrtEXv7makwSUWhwp6/orFVPXq
-         IQs+PwSdNi5SrdJsXwyCg/rg8NdxocceILsqPUqj2Zd+fACtYIbpECC44uVS9rkjopgN
-         RGdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:from:to:cc:subject:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=tJJ8+G+QyHoyBhR8loO24CAVVc4T6uPB0kCgkqiy0l8=;
-        b=yyteTvwoAQ0wXUhM3WLrZUDg3+xsVtKDrUKCP8LPxGg/uCp35UxUjdcYn84QxAd/mv
-         KUxGFD9pZURPYXcHy+WNGO6NHfgfkt/i/WbstG31Oa+sT3iBfvdP4Upm1CISicPXJoZ5
-         I0Nn9Se8hc7vnbMPJB1HIMT0UbLhO8BQ+vyf81tn6A1egf5jis8IIm4T8ymxqQ9Ur7OX
-         QHVWP5KS30cUi72LnP8R8eY0GiuS/LtLF0vAWleAIZEyysuvzfrfC5e19lQ+C1HvTOLg
-         2Cr6L2aMK7mfcqJzx2xS8sp9kbHVOnfjWeCketVLtjh10d88KzXFcaw4hUayWVlEwUKF
-         5m0A==
-X-Gm-Message-State: ACgBeo0lA2BTfEpYL6wf60sZyv2qeqZfXYMy+MZjy7OfTYGcsCeK7Ex2
-        BvNmDLLqyATb+RNeRKY2Vqw=
-X-Google-Smtp-Source: AA6agR4uUGnCdcxgY8oU9l5+OogBvS5wEBGCkeNELanogCuC7WkSbjo3GsdkEQrZlOkuNQhDbFCVMQ==
-X-Received: by 2002:a05:6402:240d:b0:43b:c41d:b0e0 with SMTP id t13-20020a056402240d00b0043bc41db0e0mr11484506eda.318.1659816600630;
-        Sat, 06 Aug 2022 13:10:00 -0700 (PDT)
-Received: from Ansuel-xps. (host-87-20-249-30.retail.telecomitalia.it. [87.20.249.30])
-        by smtp.gmail.com with ESMTPSA id ak20-20020a170906889400b0072fd6e9f707sm3016802ejc.100.2022.08.06.13.09.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Aug 2022 13:10:00 -0700 (PDT)
-Message-ID: <62eeca98.170a0220.601cd.70ac@mx.google.com>
-X-Google-Original-Message-ID: <Yu7H2HKUL1qzsvK6@Ansuel-xps.>
-Date:   Sat, 6 Aug 2022 21:58:16 +0200
-From:   Christian Marangi <ansuelsmth@gmail.com>
-To:     Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        John Crispin <john@phrozen.org>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Mans Rullgard <mans@mansr.com>,
-        Arun Ramadoss <arun.ramadoss@microchip.com>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        George McCollister <george.mccollister@gmail.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Aleksander Jan Bajkowski <olek2@wp.pl>,
-        Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        Luiz Angelo Daros de Luca <luizluca@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Pawel Dembicki <paweldembicki@gmail.com>,
-        =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-        Marcin Wojtas <mw@semihalf.com>, Marek Vasut <marex@denx.de>,
-        linux-renesas-soc@vger.kernel.org,
-        Frank Rowand <frowand.list@gmail.com>
-Subject: Re: [RFC PATCH v3 net-next 10/10] net: dsa: make phylink-related OF
- properties mandatory on DSA and CPU ports
-References: <20220806141059.2498226-1-vladimir.oltean@nxp.com>
- <20220806141059.2498226-11-vladimir.oltean@nxp.com>
+        Sun, 7 Aug 2022 19:47:30 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2093.outbound.protection.outlook.com [40.107.114.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32673B4A6
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  7 Aug 2022 16:47:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BePZceQcek47/k9gf3XlwVhMOa7T0deAI8eQrK6iCrKfoBTQnHjpAdq+oI7WrjkEpYvaBufYdcMd3dMza05iiVCMsv1+hIWuMvyJXyA3kxBhRe+QwxzPX8aw/u5LCtwW8HRKFICmycmpeHRzPbu720Gg693z4ldCh3Gx/IrMojo58B2y9SVb3lVna+4iRygIdChnDEpf4Ti4igSRDjvJgpYTQRLP6xpitBD8cIoSY2yHl8UUb7Q8+gvkW9Zs0dlabCnY3FZQ6IbZw5xHtfVlLkmLd0pEcKsDkPgsIgf2qRbQb+VqvxSWsdGbzqjFgyZlpRr3nHa6u1iiLzCTuAiMNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rmyfr79ZsX90h9rr0n0m9OjFE7mob3mlIJb+Yvm6t+s=;
+ b=WeQm0EMRly55tJ5xf9HpKX5v6YPXH2aJt5VjQSFKdmbS9LSYq19OO8zIYAxl1UWJ+c6Yjbfk9Q+ADAJg1Ke+irLcJrPb5OlZQ0bKIEmA66P1ZG0qWMpG97OGWlw1NR5ZcV3b4l+bZ7mbzdcx015OfySpwoiHTeUFJdkD3q/gtd31Hi34by8JhuAHBdO5qPLyaCoe1fOfzRUGnagx/3VtlsdvE7ghbQrut6BEo0IFB23aTN8aRjWs26m2KV/AweFtoVMseCIx7GiLfGmcpS/NoYjqSpdHCqwd/W76vS/2AsCcBI8YEAKzR6e2xzz7Fa7B/KJCdaeIHIQThFTrfJtU2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rmyfr79ZsX90h9rr0n0m9OjFE7mob3mlIJb+Yvm6t+s=;
+ b=NKu5P5xKrz3IkmpnUJsf4qm7S57ynctetmqOeYuudDQCi0otBeipZ13+PdaIAIcx3WOrwSZLyKe1AdUc9J3YGMPC7G6CnFDrliSE0x2U2rIt9Z6kX0ePKItoCHg81IWeplMtwGtxBhsC1Oq0O03gj3jQccn5bA6fknrjW4tlNfU=
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ (2603:1096:404:8028::13) by TYAPR01MB5296.jpnprd01.prod.outlook.com
+ (2603:1096:404:82::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16; Sun, 7 Aug
+ 2022 23:47:25 +0000
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::307d:7cc:2021:f45f]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::307d:7cc:2021:f45f%9]) with mapi id 15.20.5504.020; Sun, 7 Aug 2022
+ 23:47:25 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>
+Subject: RE: RZ/V2M USB
+Thread-Topic: RZ/V2M USB
+Thread-Index: AdioxJFO3fqPouQQR2WlJ+Xylqw1MQB8JF5g
+Date:   Sun, 7 Aug 2022 23:47:25 +0000
+Message-ID: <TYBPR01MB534150654E57593E823F0C2DD8609@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+References: <TYYPR01MB70863A585C9F2B2B4ECE85D3F59E9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYYPR01MB70863A585C9F2B2B4ECE85D3F59E9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3d73a6d3-77f6-45e2-28eb-08da78cf2e07
+x-ms-traffictypediagnostic: TYAPR01MB5296:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: khBPwyIOKBXiXVdFrfMhwtEWKyLKpjORl27iHHE4WrYcTNCquG3TbV2uPHnTjkMRHrrTomOKjKF5eZghgxtBcgXkxJqXBhdW5+A2Xvrah0lLq5VcvOKyuLQMxBC9xcM3G5hsKR/mgev1bpNZLegXOEz3OSv6qk1DNmshTeaHQ3qV9DmK69MGoaVGGLErDp4yIlnzKN2o+4ht1FLrMAXzMFUmL9lA2aECwdCQm0kH1/XfRPN4dI4LVY6SPfvCYVkGeoVntoAOkIOh7Sgzu+Kb1JXj9NumhwmBxJdk86dTq7bOm+lzuZjze4SHNPXkATCivOUWT6vYEYgbA9BYxCaL15CTBJtXycaX85jQAagG+wzmzc3tKrrRLwmPlGCHLt40dnTlDg/oo2RTFTfFb6qYRC6DCRCo/5uPaRkcC1aGTSNjW1+p6MgOmZOWdAkOhB+BPF64TjkO9ohaer2CgNXqxb+BKb4+AgsxLoZo2OdBWHfwebkjvpMUgW/lJbqumm/3tebVRZqaRwDCWMPwtMsP8XuKhRwOJog79KLLy6DApINBcZk3GrEzOEYKr8kyqz1jrMuAEDlgq9pvhjZaMiXS1zxSiDZGCoLN4cIypA9dYWkIdnuTt/5AMLNela9VDpZGkQElUkFBrw1rZ5WIQ68wy4ColUTjUpIEtEnX1L2FqIygyFXCeB21Y8vwgbByJJMIeq535HFXX1YzHC68guyQiXoDVB7fWgNH+duOXhkwZb8lsc+fiYs2ilnH9uoKahl+vVtUiavyOfJ2Hb3dKYE8tF59nXV4oB3leIv5RKGcL4wgTNYJzErbG5ogivEzBxtB
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(346002)(136003)(376002)(39860400002)(396003)(55016003)(4326008)(8676002)(64756008)(66446008)(2906002)(33656002)(76116006)(66556008)(66946007)(66476007)(71200400001)(478600001)(316002)(54906003)(110136005)(38100700002)(122000001)(38070700005)(41300700001)(9686003)(6506007)(7696005)(86362001)(5660300002)(8936002)(52536014)(107886003)(186003)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?jH0RZQExA6yUFZjKTqtbecGgQhuLbd2k/+oHkLnvpo5XlKzUFAQl7bEZUPjh?=
+ =?us-ascii?Q?Js3O06NPxYN485m3lD/EgbkocefDSrZ7B6OUxl5qnLpkUu+MNE3MKYdKWKjP?=
+ =?us-ascii?Q?9KBr0Fk5nc0bN8Qvr+yQcUjWSr4b8anAxCxoshZTGo9yFkD9fxVVPqPmQ7or?=
+ =?us-ascii?Q?33f5miE1yWYNlOI+362fgU9RtSPqTY4EcAna0lcAepOvbzZHH7j426Jxzvqg?=
+ =?us-ascii?Q?27k2Gb6FGNMSsAbP/qUpWnEAtrkTUf2LcK6Keylo44cGUZvPB6xWTuQqXAbg?=
+ =?us-ascii?Q?RCeyWYgW6J2Jv89vpDUBzWJ24hZSB2AxHul8+350sKQgDRWLKxR5NnHROobf?=
+ =?us-ascii?Q?NYeyNR63AAAa/CTyw+lS1jje45XbdkCWhtNU+1u2UFlGNLI/ulYL/t6Jj3Lt?=
+ =?us-ascii?Q?k6+1y9JXrSJMrFzJUtO1Mb+V8XbWmFejcaFf+Sl2sP3llEhc4VfCArt6ra2z?=
+ =?us-ascii?Q?J87tYlTckKQq9lcc7omDTfRMoAD75cFfQ89vtRwG57bX3McFd5FoOBnvbM6p?=
+ =?us-ascii?Q?NlKkJUjEcvzyKTNtkNhqubApbIBmp0HOcuxELKymAb+j8XAYDsbr3cmeqKHI?=
+ =?us-ascii?Q?peuE5mGSSEXYjuzPxgbuNkD10ZZWMmIJJfQ9shXG2S0x2w1Xi7jNfAbdIbrR?=
+ =?us-ascii?Q?M+01C4iyHiw6dDuHMXA9uQRNMSKUo6H8Hou/elN5YVMZE3s5d2RybJC8p6Mf?=
+ =?us-ascii?Q?e/AfflB37MZ9e4ZR9a3dIciNtEIH6KRv8TCp4RHe2nNBtxDju5EmOoQyyfDv?=
+ =?us-ascii?Q?w07M9sVVRx9aVa5POKXpne4Lra8rYYbcESWQ53PQ8MsKEs/ljtJbmGzFvsgb?=
+ =?us-ascii?Q?MByGenCLOO6yNgsu81+4jIingeoAShRorbljs4o2lHxbNSb+2Xk502Aylcay?=
+ =?us-ascii?Q?LEKoGJO3rYZwPIM24UWBTuCAPZ2frbUieVs5KPLiKuIu59r8l8EXXqtnTlr5?=
+ =?us-ascii?Q?2+gZlimyO32Cq9PNOg1p5etzfHf2xi3OBRrWAk9mDtrlZm6AFtPx0E42Fonl?=
+ =?us-ascii?Q?BifrZOo3LoSUl1aHydHfpdxMxsw6OskDRBLrjcERRftYACGB7yZfX2K61cVX?=
+ =?us-ascii?Q?sAgto1AzdU9y2dTO48hvTbR+kRuVg35Facp9DPkpbHcbBB72zjVZIr36S8Hx?=
+ =?us-ascii?Q?CNjwiRtepvHfsZgLW2euAXWEd4JGpvvIpty/cXLYuxeqtwGdbyWL/XeVIfh2?=
+ =?us-ascii?Q?ooZ8Tkb62yuO+7/kOEUR3T2J7yHaO/+G96pxFWa1qG8wjteucJBuwrjMCTys?=
+ =?us-ascii?Q?1nfEBVzaeSEUAq3XvTTet6UwqtDJTv82ljGffzEl+yy9SmRdlxkDclKcT26c?=
+ =?us-ascii?Q?OQligqpue6ddrRHcNK/W9+bTYAAV0kDdzyaCJyYx6AfwV0tkgAH3yoY+uAsZ?=
+ =?us-ascii?Q?72wuhl56EkQJyonqsakn/wHBsoVVNJ23Pkcm6aiUdTdmlwbU3d36PHxRj1Qt?=
+ =?us-ascii?Q?gM/b0Z+T9GNMKBixUEiLNeUCGTsltW86RVEXDhiFZhbmNT1s/uDXpUAznzEn?=
+ =?us-ascii?Q?hKmhZ86SNVPLoQDlcrnRz82g0OURvsReMR921bxUyL2Bb6vrC4Zap+JqEflk?=
+ =?us-ascii?Q?yC/JRfOz6RnLZODwkkBY8C1bxwOCMz35wd5ZHx4EKV9f7YAe6/hUcMNv31RS?=
+ =?us-ascii?Q?VRzVVBhdJq97ah3PlkEXMiPEKCTmRLAIBkcwVfdPnwW7ov9gnicHsDmDpPWV?=
+ =?us-ascii?Q?guxpJQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220806141059.2498226-11-vladimir.oltean@nxp.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d73a6d3-77f6-45e2-28eb-08da78cf2e07
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Aug 2022 23:47:25.1974
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1+czIFB36Q6cDuL+aHuHnZ2YV+S6aAjhfTKy+EkYT3EswOcZabSheLbZZou61UYo2Fj8qSIpTO9np/tJvl21hrr2DpbDsfOAm9FtiRJGKGaespUZWMukYUgPt8mDHgvW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5296
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,SUBJ_ALL_CAPS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Aug 06, 2022 at 05:10:59PM +0300, Vladimir Oltean wrote:
-> Early DSA drivers were kind of simplistic in that they assumed a fairly
-> narrow hardware layout. User ports would have integrated PHYs at an
-> internal MDIO address that is derivable from the port number, and shared
-> (DSA and CPU) ports would have an MII-style (serial or parallel)
-> connection to another MAC. Phylib and then phylink were used to drive
-> the internal PHYs, and this needed little to no description through the
-> platform data structures. Bringing up the shared ports at the maximum
-> supported link speed was the responsibility of the drivers.
-> 
-> As a result of this, when these early drivers were converted from
-> platform data to the new DSA OF bindings, there was no link information
-> translated into the first DT bindings.
-> 
-> https://lore.kernel.org/all/YtXFtTsf++AeDm1l@lunn.ch/
-> 
-> Later, phylink was adopted for shared ports as well, and today we have a
-> workaround in place, introduced by commit a20f997010c4 ("net: dsa: Don't
-> instantiate phylink for CPU/DSA ports unless needed"). There, DSA checks
-> for the presence of phy-handle/fixed-link/managed OF properties, and if
-> missing, phylink registration would be skipped. This is because phylink
-> is optional for some drivers (the shared ports already work without it),
-> but the process of starting to register a port with phylink is
-> irreversible: if phylink_create() fails to find the fwnode properties it
-> needs, it bails out and it leaves the ports inoperational (because
-> phylink expects ports to be initially down, so DSA necessarily takes
-> them down, and doesn't know how to put them back up again).
-> 
-> DSA being a common framework, new drivers opt into this workaround
-> willy-nilly, but the ideal behavior from the DSA core's side would have
-> been to not interfere with phylink's process of failing at all. This
-> isn't possible because of regression concerns with pre-phylink DT blobs,
-> but at least DSA should put a stop to the proliferation of more of such
-> cases that rely on the workaround to skip phylink registration, and
-> sanitize the environment that new drivers work in.
-> 
-> To that end, create a list of compatible strings for which the
-> workaround is preserved, and don't apply the workaround for any drivers
-> outside that list (this includes new drivers).
-> 
-> In some cases, we make the assumption that even existing drivers don't
-> rely on DSA's workaround, and we do this by looking at the device trees
-> in which they appear. We can't fully know what is the situation with
-> downstream DT blobs, but we can guess the overall trend by studying the
-> DT blobs that were submitted upstream. If there are upstream blobs that
-> have lacking descriptions, we take it as very likely that there are many
-> more downstream blobs that do so too. If all upstream blobs have
-> complete descriptions, we take that as a hint that the driver is a
-> candidate for strict validation (considering that most bindings are
-> copy-pasted). If there are no upstream DT blobs, we take the
-> conservative route of skipping validation, unless the driver maintainer
-> instructs us otherwise.
-> 
-> The driver situation is as follows:
-> 
-> ar9331
-> ~~~~~~
-> 
->     compatible strings:
->     - qca,ar9331-switch
-> 
->     1 occurrence in mainline device trees, part of SoC dtsi
->     (arch/mips/boot/dts/qca/ar9331.dtsi), description is not problematic.
-> 
->     Verdict: opt into validation.
-> 
-> b53
-> ~~~
-> 
->     compatible strings:
->     - brcm,bcm5325
->     - brcm,bcm53115
->     - brcm,bcm53125
->     - brcm,bcm53128
->     - brcm,bcm5365
->     - brcm,bcm5389
->     - brcm,bcm5395
->     - brcm,bcm5397
->     - brcm,bcm5398
-> 
->     - brcm,bcm53010-srab
->     - brcm,bcm53011-srab
->     - brcm,bcm53012-srab
->     - brcm,bcm53018-srab
->     - brcm,bcm53019-srab
->     - brcm,bcm5301x-srab
->     - brcm,bcm11360-srab
->     - brcm,bcm58522-srab
->     - brcm,bcm58525-srab
->     - brcm,bcm58535-srab
->     - brcm,bcm58622-srab
->     - brcm,bcm58623-srab
->     - brcm,bcm58625-srab
->     - brcm,bcm88312-srab
->     - brcm,cygnus-srab
->     - brcm,nsp-srab
->     - brcm,omega-srab
-> 
->     - brcm,bcm3384-switch
->     - brcm,bcm6328-switch
->     - brcm,bcm6368-switch
->     - brcm,bcm63xx-switch
-> 
->     I've found at least these mainline DT blobs with problems:
-> 
->     arch/arm/boot/dts/bcm47094-linksys-panamera.dts
->     - lacks phy-mode
->     arch/arm/boot/dts/bcm47189-tenda-ac9.dts
->     - lacks phy-mode and fixed-link
->     arch/arm/boot/dts/bcm47081-luxul-xap-1410.dts
->     arch/arm/boot/dts/bcm47081-luxul-xwr-1200.dts
->     arch/arm/boot/dts/bcm47081-buffalo-wzr-600dhp2.dts
->     - lacks phy-mode and fixed-link
->     arch/arm/boot/dts/bcm47094-luxul-xbr-4500.dts
->     arch/arm/boot/dts/bcm4708-smartrg-sr400ac.dts
->     arch/arm/boot/dts/bcm4708-luxul-xap-1510.dts
->     arch/arm/boot/dts/bcm953012er.dts
->     arch/arm/boot/dts/bcm4708-netgear-r6250.dts
->     arch/arm/boot/dts/bcm4708-buffalo-wzr-1166dhp-common.dtsi
->     arch/arm/boot/dts/bcm4708-luxul-xwc-1000.dts
->     arch/arm/boot/dts/bcm47094-luxul-abr-4500.dts
->     - lacks phy-mode and fixed-link
->     arch/arm/boot/dts/bcm53016-meraki-mr32.dts
->     - lacks phy-mode
-> 
->     Verdict: opt all switches out of strict validation.
-> 
-> bcm_sf2
-> ~~~~~~~
-> 
->     compatible strings:
->     - brcm,bcm4908-switch
->     - brcm,bcm7445-switch-v4.0
->     - brcm,bcm7278-switch-v4.0
->     - brcm,bcm7278-switch-v4.8
-> 
->     A single occurrence in mainline
->     (arch/arm64/boot/dts/broadcom/bcm4908/bcm4908.dtsi), part of a SoC
->     dtsi, valid description. Florian Fainelli explains that most of the
->     bcm_sf2 device trees lack a full description for the internal IMP
->     ports.
-> 
->     Verdict: opt the BCM4908 into strict validation, and opt out the
->     rest. Note that even though BCM4908 has strict DT bindings, it still
->     does not register with phylink on the IMP port due to it implementing
->     ->adjust_link().
-> 
-> hellcreek
-> ~~~~~~~~~
-> 
->     compatible strings:
->     - hirschmann,hellcreek-de1soc-r1
-> 
->     No occurrence in mainline device trees. Kurt Kanzenbach confirms
->     that the downstream device tree lacks phy-mode and fixed link, and
->     needs work.
-> 
->     Verdict: opt out of validation.
-> 
-> lan9303
-> ~~~~~~~
-> 
->     compatible strings:
->     - smsc,lan9303-mdio
->     - smsc,lan9303-i2c
-> 
->     1 occurrence in mainline device trees:
->     arch/arm/boot/dts/imx53-kp-hsc.dts
->     - no phy-mode, no fixed-link
-> 
->     Verdict: opt out of validation.
-> 
-> lantiq_gswip
-> ~~~~~~~~~~~~
-> 
->     compatible strings:
->     - lantiq,xrx200-gswip
->     - lantiq,xrx300-gswip
->     - lantiq,xrx330-gswip
-> 
->     No occurrences in mainline device trees. Martin Blumenstingl
->     confirms that the downstream OpenWrt device trees lack a proper
->     fixed-link and need work, and that the incomplete description can
->     even be seen in the example from
->     Documentation/devicetree/bindings/net/dsa/lantiq-gswip.txt.
-> 
->     Verdict: opt out of validation.
-> 
-> microchip ksz
-> ~~~~~~~~~~~~~
-> 
->     compatible strings:
->     - microchip,ksz8765
->     - microchip,ksz8794
->     - microchip,ksz8795
->     - microchip,ksz8863
->     - microchip,ksz8873
->     - microchip,ksz9477
->     - microchip,ksz9897
->     - microchip,ksz9893
->     - microchip,ksz9563
->     - microchip,ksz8563
->     - microchip,ksz9567
->     - microchip,lan9370
->     - microchip,lan9371
->     - microchip,lan9372
->     - microchip,lan9373
->     - microchip,lan9374
-> 
->     5 occurrences in mainline device trees, all descriptions are valid.
->     But we had a snafu for the ksz8795 and ksz9477 drivers where the
->     phy-mode property would be expected to be located directly under the
->     'switch' node rather than under a port OF node. It was fixed by
->     commit edecfa98f602 ("net: dsa: microchip: look for phy-mode in port
->     nodes"). The driver still has compatibility with the old DT blobs.
->     The lan937x support was added later than the above snafu was fixed,
->     and even though it has support for the broken DT blobs by virtue of
->     sharing a common probing function, I'll take it that its DT blobs
->     are correct.
-> 
->     Verdict: opt lan937x into validation, and the others out.
-> 
-> mt7530
-> ~~~~~~
-> 
->     compatible strings
->     - mediatek,mt7621
->     - mediatek,mt7530
->     - mediatek,mt7531
-> 
->     Multiple occurrences in mainline device trees, one is part of an SoC
->     dtsi (arch/mips/boot/dts/ralink/mt7621.dtsi), all descriptions are fine.
-> 
->     Verdict: opt into strict validation.
-> 
-> mv88e6060
-> ~~~~~~~~~
-> 
->     compatible string:
->     - marvell,mv88e6060
-> 
->     no occurrences in mainline, nobody knows anybody who uses it.
-> 
->     Verdict: opt out of strict validation.
-> 
-> mv88e6xxx
-> ~~~~~~~~~
-> 
->     compatible strings:
->     - marvell,mv88e6085
->     - marvell,mv88e6190
->     - marvell,mv88e6250
-> 
->     Device trees that have incomplete descriptions of CPU or DSA ports:
->     arch/arm64/boot/dts/freescale/imx8mq-zii-ultra.dtsi
->     - lacks phy-mode
->     arch/arm64/boot/dts/marvell/cn9130-crb.dtsi
->     - lacks phy-mode and fixed-link
->     arch/arm/boot/dts/vf610-zii-ssmb-spu3.dts
->     - lacks phy-mode
->     arch/arm/boot/dts/kirkwood-mv88f6281gtw-ge.dts
->     - lacks phy-mode
->     arch/arm/boot/dts/vf610-zii-spb4.dts
->     - lacks phy-mode
->     arch/arm/boot/dts/vf610-zii-cfu1.dts
->     - lacks phy-mode
->     arch/arm/boot/dts/vf610-zii-dev-rev-c.dts
->     - lacks phy-mode on CPU port, fixed-link on DSA ports
->     arch/arm/boot/dts/vf610-zii-dev-rev-b.dts
->     - lacks phy-mode on CPU port
->     arch/arm/boot/dts/armada-381-netgear-gs110emx.dts
->     - lacks phy-mode
->     arch/arm/boot/dts/vf610-zii-scu4-aib.dts
->     - lacks fixed-link on xgmii DSA ports and/or in-band-status on
->       2500base-x DSA ports, and phy-mode on CPU port
->     arch/arm/boot/dts/imx6qdl-gw5904.dtsi
->     - lacks phy-mode and fixed-link
->     arch/arm/boot/dts/armada-385-clearfog-gtr-l8.dts
->     - lacks phy-mode and fixed-link
->     arch/arm/boot/dts/vf610-zii-ssmb-dtu.dts
->     - lacks phy-mode
->     arch/arm/boot/dts/kirkwood-dir665.dts
->     - lacks phy-mode
->     arch/arm/boot/dts/kirkwood-rd88f6281.dtsi
->     - lacks phy-mode
->     arch/arm/boot/dts/orion5x-netgear-wnr854t.dts
->     - lacks phy-mode and fixed-link
->     arch/arm/boot/dts/armada-388-clearfog.dts
->     - lacks phy-mode
->     arch/arm/boot/dts/armada-xp-linksys-mamba.dts
->     - lacks phy-mode
->     arch/arm/boot/dts/armada-385-linksys.dtsi
->     - lacks phy-mode
->     arch/arm/boot/dts/imx6q-b450v3.dts
->     arch/arm/boot/dts/imx6q-b850v3.dts
->     - has a phy-handle but not a phy-mode?
->     arch/arm/boot/dts/armada-370-rd.dts
->     - lacks phy-mode
->     arch/arm/boot/dts/kirkwood-linksys-viper.dts
->     - lacks phy-mode
->     arch/arm/boot/dts/imx51-zii-rdu1.dts
->     - lacks phy-mode
->     arch/arm/boot/dts/imx51-zii-scu2-mezz.dts
->     - lacks phy-mode
->     arch/arm/boot/dts/imx6qdl-zii-rdu2.dtsi
->     - lacks phy-mode
->     arch/arm/boot/dts/armada-385-clearfog-gtr-s4.dts
->     - lacks phy-mode and fixed-link
-> 
->     Verdict: opt out of validation.
-> 
-> ocelot
-> ~~~~~~
-> 
->     compatible strings:
->     - mscc,vsc9953-switch
->     - felix (arch/arm64/boot/dts/freescale/fsl-ls1028a.dtsi) is a PCI
->       device, has no compatible string
-> 
->     2 occurrences in mainline, both are part of SoC dtsi and complete.
-> 
->     Verdict: opt into strict validation.
-> 
-> qca8k
-> ~~~~~
-> 
->     compatible strings:
->     - qca,qca8327
->     - qca,qca8328
->     - qca,qca8334
->     - qca,qca8337
-> 
->     5 occurrences in mainline device trees, none of the descriptions are
->     problematic.
-> 
->     Verdict: opt into validation.
+Hi Phil-san,
 
-I notice some have strict validation and other simple validation. I
-didn't understand from the commit description where strict is used
-instead of simple one.
+> From: Phil Edworthy, Sent: Friday, August 5, 2022 10:10 PM
+>=20
+> Hi Geert, Yoshihiro,
+>=20
+> I'm a bit stuck with the usb3 drivers for RZ/V2M.
+>=20
+> The RZ/V2M USB3 is very similar to R-Car Gen3, the main difference being
+> where the DRD registers are located and additional clocks, interrupts
+> and resets exposed. The DRD registers are still part of the USBP address
+> space, though they have been moved above the other USBP regs.
+>=20
+> There is however, one big difference. On RZ/V2M, you can only access the
+> corresponding registers for whatever DRD mode has been set in the
+> DRD_CON register, PERI_CON bit. That is to say, when PERI_CON=3D1 (periph
+> mode), reading from a USBH register will cause an abort, and when
+> PERI_CON=3D0 (host mode), reading from a USBP register will cause an
+> abort.
 
-I'm asking this for qca8k as from what we notice with device that use
-qca8k the master ports always needs to have info in dt as we reset the
-switch and always need to correctly setup the port.
+Thank you for asking me about this topic. I have a question:
+Can the DRD register be accessed from both PERI_CON=3D1 and 0?
 
-> 
-> realtek
-> ~~~~~~~
-> 
->     compatible strings:
->     - realtek,rtl8366rb
->     - realtek,rtl8365mb
-> 
->     2 occurrences in mainline, both descriptions are fine, additionally
->     rtl8365mb.c has a comment "The device tree firmware should also
->     specify the link partner of the extension port - either via a
->     fixed-link or other phy-handle."
-> 
->     Verdict: opt into validation.
-> 
-> rzn1_a5psw
-> ~~~~~~~~~~
-> 
->     compatible strings:
->     - renesas,rzn1-a5psw
-> 
->     One single occurrence, part of SoC dtsi
->     (arch/arm/boot/dts/r9a06g032.dtsi), description is fine.
-> 
->     Verdict: opt into validation.
-> 
-> sja1105
-> ~~~~~~~
-> 
->     Driver already validates its port OF nodes in
->     sja1105_parse_ports_node().
-> 
->     Verdict: opt into validation.
-> 
-> vsc73xx
-> ~~~~~~~
-> 
->     compatible strings:
->     - vitesse,vsc7385
->     - vitesse,vsc7388
->     - vitesse,vsc7395
->     - vitesse,vsc7398
-> 
->     2 occurrences in mainline device trees, both descriptions are fine.
-> 
->     Verdict: opt into validation.
-> 
-> xrs700x
-> ~~~~~~~
-> 
->     compatible strings:
->     - arrow,xrs7003e
->     - arrow,xrs7003f
->     - arrow,xrs7004e
->     - arrow,xrs7004f
-> 
->     no occurrences in mainline, we don't know.
-> 
->     Verdict: opt out of strict validation.
-> 
-> Because there is a pattern where newly added switches reuse existing
-> drivers more often than introducing new ones, I've opted for deciding
-> who gets to opt into the workaround based on an OF compatible match
-> table in the DSA core. The alternative would have been to add another
-> boolean property to struct dsa_switch, like configure_vlan_while_not_filtering.
-> But this avoids situations where sometimes driver maintainers obfuscate
-> what goes on by sharing a common probing function, and therefore making
-> new switches inherit old quirks.
-> 
-> Side note, we also warn about missing properties for drivers that rely
-> on the workaround. This isn't an indication that we'll break
-> compatibility with those DT blobs any time soon, but is rather done to
-> raise awareness about the change, for future DT blob authors.
-> 
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Frank Rowand <frowand.list@gmail.com>
-> Acked-by: Alvin Šipraga <alsi@bang-olufsen.dk> # realtek
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> ---
-> v1->v2: print warnings even for drivers skipping phylink registration,
->         move code placement
-> v2->v3: reword commit message
-> 
->  net/dsa/port.c | 175 +++++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 170 insertions(+), 5 deletions(-)
-> 
-> diff --git a/net/dsa/port.c b/net/dsa/port.c
-> index 4b6139bff217..c07a7c69d5e0 100644
-> --- a/net/dsa/port.c
-> +++ b/net/dsa/port.c
-> @@ -1650,22 +1650,187 @@ static int dsa_shared_port_phylink_register(struct dsa_port *dp)
->  	return err;
->  }
->  
-> +/* During the initial DSA driver migration to OF, port nodes were sometimes
-> + * added to device trees with no indication of how they should operate from a
-> + * link management perspective (phy-handle, fixed-link, etc). Additionally, the
-> + * phy-mode may be absent. The interpretation of these port OF nodes depends on
-> + * their type.
-> + *
-> + * User ports with no phy-handle or fixed-link are expected to connect to an
-> + * internal PHY located on the ds->slave_mii_bus at an MDIO address equal to
-> + * the port number. This description is still actively supported.
-> + *
-> + * Shared (CPU and DSA) ports with no phy-handle or fixed-link are expected to
-> + * operate at the maximum speed that their phy-mode is capable of. If the
-> + * phy-mode is absent, they are expected to operate using the phy-mode
-> + * supported by the port that gives the highest link speed. It is unspecified
-> + * if the port should use flow control or not, half duplex or full duplex, or
-> + * if the phy-mode is a SERDES link, whether in-band autoneg is expected to be
-> + * enabled or not.
-> + *
-> + * In the latter case of shared ports, omitting the link management description
-> + * from the firmware node is deprecated and strongly discouraged. DSA uses
-> + * phylink, which rejects the firmware nodes of these ports for lacking
-> + * required properties.
-> + *
-> + * For switches in this table, DSA will skip enforcing validation and will
-> + * later omit registering a phylink instance for the shared ports, if they lack
-> + * a fixed-link, a phy-handle, or a managed = "in-band-status" property.
-> + * It becomes the responsibility of the driver to ensure that these ports
-> + * operate at the maximum speed (whatever this means) and will interoperate
-> + * with the DSA master or other cascade port, since phylink methods will not be
-> + * invoked for them.
-> + *
-> + * If you are considering expanding this table for newly introduced switches,
-> + * think again. It is OK to remove switches from this table if there aren't DT
-> + * blobs in circulation which rely on defaulting the shared ports.
-> + */
-> +static const char * const dsa_switches_dont_enforce_validation[] = {
-> +#if IS_ENABLED(CONFIG_NET_DSA_XRS700X)
-> +	"arrow,xrs7003e",
-> +	"arrow,xrs7003f",
-> +	"arrow,xrs7004e",
-> +	"arrow,xrs7004f",
-> +#endif
-> +#if IS_ENABLED(CONFIG_B53)
-> +	"brcm,bcm5325",
-> +	"brcm,bcm53115",
-> +	"brcm,bcm53125",
-> +	"brcm,bcm53128",
-> +	"brcm,bcm5365",
-> +	"brcm,bcm5389",
-> +	"brcm,bcm5395",
-> +	"brcm,bcm5397",
-> +	"brcm,bcm5398",
-> +	"brcm,bcm53010-srab",
-> +	"brcm,bcm53011-srab",
-> +	"brcm,bcm53012-srab",
-> +	"brcm,bcm53018-srab",
-> +	"brcm,bcm53019-srab",
-> +	"brcm,bcm5301x-srab",
-> +	"brcm,bcm11360-srab",
-> +	"brcm,bcm58522-srab",
-> +	"brcm,bcm58525-srab",
-> +	"brcm,bcm58535-srab",
-> +	"brcm,bcm58622-srab",
-> +	"brcm,bcm58623-srab",
-> +	"brcm,bcm58625-srab",
-> +	"brcm,bcm88312-srab",
-> +	"brcm,cygnus-srab",
-> +	"brcm,nsp-srab",
-> +	"brcm,omega-srab",
-> +	"brcm,bcm3384-switch",
-> +	"brcm,bcm6328-switch",
-> +	"brcm,bcm6368-switch",
-> +	"brcm,bcm63xx-switch",
-> +#endif
-> +#if IS_ENABLED(CONFIG_NET_DSA_BCM_SF2)
-> +	"brcm,bcm7445-switch-v4.0",
-> +	"brcm,bcm7278-switch-v4.0",
-> +	"brcm,bcm7278-switch-v4.8",
-> +#endif
-> +#if IS_ENABLED(CONFIG_NET_DSA_HIRSCHMANN_HELLCREEK)
-> +	"hirschmann,hellcreek-de1soc-r1",
-> +#endif
-> +#if IS_ENABLED(CONFIG_NET_DSA_LANTIQ_GSWIP)
-> +	"lantiq,xrx200-gswip",
-> +	"lantiq,xrx300-gswip",
-> +	"lantiq,xrx330-gswip",
-> +#endif
-> +#if IS_ENABLED(CONFIG_NET_DSA_MV88E6060)
-> +	"marvell,mv88e6060",
-> +#endif
-> +#if IS_ENABLED(CONFIG_NET_DSA_MV88E6XXX)
-> +	"marvell,mv88e6085",
-> +	"marvell,mv88e6190",
-> +	"marvell,mv88e6250",
-> +#endif
-> +#if IS_ENABLED(CONFIG_NET_DSA_MICROCHIP_KSZ_COMMON)
-> +	"microchip,ksz8765",
-> +	"microchip,ksz8794",
-> +	"microchip,ksz8795",
-> +	"microchip,ksz8863",
-> +	"microchip,ksz8873",
-> +	"microchip,ksz9477",
-> +	"microchip,ksz9897",
-> +	"microchip,ksz9893",
-> +	"microchip,ksz9563",
-> +	"microchip,ksz8563",
-> +	"microchip,ksz9567",
-> +#endif
-> +#if IS_ENABLED(CONFIG_NET_DSA_SMSC_LAN9303_MDIO)
-> +	"smsc,lan9303-mdio",
-> +#endif
-> +#if IS_ENABLED(CONFIG_NET_DSA_SMSC_LAN9303_I2C)
-> +	"smsc,lan9303-i2c",
-> +#endif
-> +	NULL,
-> +};
-> +
-> +static void dsa_shared_port_validate_of(struct dsa_port *dp,
-> +					bool *missing_phy_mode,
-> +					bool *missing_link_description)
-> +{
-> +	struct device_node *dn = dp->dn, *phy_np;
-> +	struct dsa_switch *ds = dp->ds;
-> +	phy_interface_t mode;
-> +
-> +	*missing_phy_mode = false;
-> +	*missing_link_description = false;
-> +
-> +	if (of_get_phy_mode(dn, &mode)) {
-> +		*missing_phy_mode = true;
-> +		dev_err(ds->dev,
-> +			"OF node %pOF of %s port %d lacks the required \"phy-mode\" property\n",
-> +			dn, dsa_port_is_cpu(dp) ? "CPU" : "DSA", dp->index);
-> +	}
-> +
-> +	/* Note: of_phy_is_fixed_link() also returns true for
-> +	 * managed = "in-band-status"
-> +	 */
-> +	if (of_phy_is_fixed_link(dn))
-> +		return;
-> +
-> +	phy_np = of_parse_phandle(dn, "phy-handle", 0);
-> +	if (phy_np) {
-> +		of_node_put(phy_np);
-> +		return;
-> +	}
-> +
-> +	*missing_link_description = true;
-> +
-> +	dev_err(ds->dev,
-> +		"OF node %pOF of %s port %d lacks the required \"phy-handle\", \"fixed-link\" or \"managed\" properties\n",
-> +		dn, dsa_port_is_cpu(dp) ? "CPU" : "DSA", dp->index);
-> +}
-> +
->  int dsa_shared_port_link_register_of(struct dsa_port *dp)
->  {
->  	struct dsa_switch *ds = dp->ds;
-> -	struct device_node *phy_np;
-> +	bool missing_link_description;
-> +	bool missing_phy_mode;
->  	int port = dp->index;
->  
-> +	dsa_shared_port_validate_of(dp, &missing_phy_mode,
-> +				    &missing_link_description);
-> +
-> +	if ((missing_phy_mode || missing_link_description) &&
-> +	    !of_device_compatible_match(ds->dev->of_node,
-> +					dsa_switches_dont_enforce_validation))
-> +		return -EINVAL;
-> +
->  	if (!ds->ops->adjust_link) {
-> -		phy_np = of_parse_phandle(dp->dn, "phy-handle", 0);
-> -		if (of_phy_is_fixed_link(dp->dn) || phy_np) {
-> +		if (missing_link_description) {
-> +			dev_warn(ds->dev,
-> +				 "Skipping phylink registration for %s port %d\n",
-> +				 dsa_port_is_cpu(dp) ? "CPU" : "DSA", dp->index);
-> +		} else {
->  			if (ds->ops->phylink_mac_link_down)
->  				ds->ops->phylink_mac_link_down(ds, port,
->  					MLO_AN_FIXED, PHY_INTERFACE_MODE_NA);
-> -			of_node_put(phy_np);
-> +
->  			return dsa_shared_port_phylink_register(dp);
->  		}
-> -		of_node_put(phy_np);
->  		return 0;
->  	}
->  
-> -- 
-> 2.34.1
-> 
+> This makes role switching rather difficult in Linux as the usb host hub
+> code does some work in a delayed work queue, after role switch.
+>=20
+> I am therefore advocating that users can only enable host or peripheral
+> in DT, and role switching is not allowed. Is that reasonable?
+> How can I ensure only one driver is enabled?
+>=20
+> This unfortunately opens up another problem... So that the USBH driver
+> can set the DRD mode, it needs access to the USBP address space. Could
+> that be just be additional reg entry in DT for this?
+>=20
+> I'm not sure how to go about this, any advice appreciated!
 
--- 
-	Ansuel
+If the DRD register can be accessed from both PERI_CON=3D1 and 0,
+I have an idea how to handle this.
+# However, I'm not sure whether this is a correct way or not though...
+
+My idea:
+ - Make a new role switch driver on drivers/usb/roles/ or drivers/mfd/.
+ - No describe any xHCI and USB3 UDC nodes in DT.
+ - Describe whole USB3 registers for the role device in DT.
+   (Or add sub nodes of xHCI and USB3 UDC into the role device.)
+ - The role switch driver handles the DRD register at first.
+   And then, the driver adds xHCI or USB3 UDC device somehow.
+
+Best regards,
+Yoshihiro Shimoda
+
+> Thanks
+> Phil
+
