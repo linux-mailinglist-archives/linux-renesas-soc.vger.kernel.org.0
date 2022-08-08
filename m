@@ -2,151 +2,206 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2503D58C3F5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Aug 2022 09:31:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF36A58C785
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Aug 2022 13:30:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233965AbiHHHbV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Aug 2022 03:31:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37958 "EHLO
+        id S242653AbiHHL37 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Aug 2022 07:29:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231756AbiHHHbT (ORCPT
+        with ESMTP id S230483AbiHHL36 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Aug 2022 03:31:19 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77AE35599;
-        Mon,  8 Aug 2022 00:31:18 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id k26so15004048ejx.5;
-        Mon, 08 Aug 2022 00:31:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=tgetifgbBTUwaHUUNxKhDY+i5+I0QQCMcg7l3wjWxzY=;
-        b=UTJmMy8wlZ8ar7ug6ycvZxzXHMuzQ3ccBZgVA5yaRBGGjOgthZyyYPMxB08CeQ87l6
-         wGCPkpjDbw4thwhjnyGr/n57UtRmMmqFDk98cmj76C8hnM34OpDgmqHZjJK1tjkTvt9M
-         H3L1Y76TJIGmj1mhsU1XE8xl6ORANOc1Jru+5l8+/9L1vYuMJLy09T8maKhxxv+ec8go
-         dW1Pf5bm2VMEsLEMYQca4zQOIwbuznRdw5txE5QUrfL3WXpgvwNwPnvI8riPbI4LgP3Z
-         h7rxYYR6Ba0b9L6n/uifAKXLO0vxiciVSxn3u81oXYHPoLMCYhJmJnxvEzPpv5dOST3J
-         odvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=tgetifgbBTUwaHUUNxKhDY+i5+I0QQCMcg7l3wjWxzY=;
-        b=Rhd367xNsletjcJbg4wnAfAa3qss/snZbRoFSlK2sNmg/M2CsfQVMsGTnGQeKFxdRR
-         OAOPlP/691Gwu7HymwH196Yai1qas5x5cdjj6+Hkgqs3d10h8eq7KXD4VAxWxt/zY6lm
-         kKTJ8jNhC5sseBWe8mpsqPh9nNY7vopcyu4rEWI9lBzv5uqfz6hV7RohK6XcTwU4Hfis
-         Y4nSSkXBrle8uo2aCwqppckNhKj1L9w1Tl19PefvcXmXN0oozjpS6wqWItYMEEUKUd1g
-         ryBuNNW8UafV/hMHSUK5LHE7pA+02vLvvaRS/EStQ0+GE5xitbf+2yuYLdTyKXMB8LTy
-         aUHQ==
-X-Gm-Message-State: ACgBeo2xX+DKGy/+kBFBSm6Vl6feXPcH78OiwYrmqYljBKsrmUn3N8ub
-        HKVxm/LzKTMMo8FDCFH+HVY=
-X-Google-Smtp-Source: AA6agR74/72PZxy2KSi8pJBrl2fnYKZanlnWDpQ15tSBhcIHChFc/Ji9ZCqdzJ1ioYtI3EUEdZKWng==
-X-Received: by 2002:a17:907:a42c:b0:730:9e5c:b457 with SMTP id sg44-20020a170907a42c00b007309e5cb457mr13380283ejc.666.1659943876709;
-        Mon, 08 Aug 2022 00:31:16 -0700 (PDT)
-Received: from skbuf ([188.27.185.133])
-        by smtp.gmail.com with ESMTPSA id a15-20020a056402168f00b0043aba618bf6sm4178218edv.80.2022.08.08.00.31.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Aug 2022 00:31:14 -0700 (PDT)
-Date:   Mon, 8 Aug 2022 10:31:10 +0300
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        John Crispin <john@phrozen.org>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Mans Rullgard <mans@mansr.com>,
-        Arun Ramadoss <arun.ramadoss@microchip.com>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        George McCollister <george.mccollister@gmail.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Aleksander Jan Bajkowski <olek2@wp.pl>,
-        Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        Luiz Angelo Daros de Luca <luizluca@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Pawel Dembicki <paweldembicki@gmail.com>,
-        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Marcin Wojtas <mw@semihalf.com>, Marek Vasut <marex@denx.de>,
-        linux-renesas-soc@vger.kernel.org,
-        Frank Rowand <frowand.list@gmail.com>
-Subject: Re: [RFC PATCH v3 net-next 10/10] net: dsa: make phylink-related OF
- properties mandatory on DSA and CPU ports
-Message-ID: <20220808073110.wv4nm3fllwcxl5nq@skbuf>
-References: <20220806141059.2498226-1-vladimir.oltean@nxp.com>
- <20220806141059.2498226-11-vladimir.oltean@nxp.com>
- <62eeca98.170a0220.601cd.70ac@mx.google.com>
+        Mon, 8 Aug 2022 07:29:58 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2110.outbound.protection.outlook.com [40.107.114.110])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D402E0C7
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Aug 2022 04:29:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fJ4V1NMRLPmg7wgqOcsxhmLcVmO8mzDJ3YV347j24ZEK5Pi1Y8up8b/qswEY1dWAjcf2H++xiNTWw2fZOCRf9Q0SiZYf/cA7MZ3XFXnhA7kis0lr/BDUC0Dyp+7Lvkw9DLq7gXRmrH11D8qOGshf9jT70ustYwikP1Q/iwQbBvUhBCZ+IPg3Rf1JKiq/zvlWRz9uLEz8p1yW/qV7TKGHMbdasOMWZo6LcM1LnXK4aYfNQS/5Xvzi5ifQ1qJMNmpGVy0RS4ymuRXHkmYfTZ2QgZ0+ELMByATgEhRQMKIIn7Puyzg6dC1TlRnCPpNYc5PIhQlNo87bVME3IETBHou6ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eyEGQmCvnWV9uBPJDeHcmmrfsVLIwYGTv8lvdaMfVNg=;
+ b=eFEnGlcUso+0/cE2dSj78tr6PUDz+LbfrJ4daH6fvzq86mCA0Af1z2EKVtmY1PhhjJysq580EVnBoDMCkkz6c/gOngSyj6BXtTKgZWbbFFy4sPbRzJmwe7XR+b0eaV95kYifzkEJ51IWAv32fffVocuijw33otMhrIvHyLNFkwhoaNH4rxVk3nBDD6xpLZZ2K2ir92Ad99EnukBjhAzadC9w/u2wVIqDSNNuIlPoRG6EQAFgYt8oZ1pGcemxKKHD8PGILsFnax//+3LN03qKCOsVl+1yfdylkI4SNRyTXmRM4iD/l+hRuuZFLYYsqemWYb38+iH3l6BtuOy/165Eaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eyEGQmCvnWV9uBPJDeHcmmrfsVLIwYGTv8lvdaMfVNg=;
+ b=V/Kwga3Y3x9VESXGMMz0Gl8x+6OKV/l9WGraJwTb07VwtwiKZ38G8GSWTnVOK6F8PR4M7wYMMObOkygewMQC8iV/xL7LfHVlD0rX4doHNh1jo+G0kKcWQDnXzxcC3AYv/gGfNmff40mnX4+qjuA3z+/9odzKK294MZ4gjL5YsnU=
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ (2603:1096:404:8028::13) by OS0PR01MB5442.jpnprd01.prod.outlook.com
+ (2603:1096:604:a6::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Mon, 8 Aug
+ 2022 11:29:54 +0000
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::307d:7cc:2021:f45f]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::307d:7cc:2021:f45f%9]) with mapi id 15.20.5504.020; Mon, 8 Aug 2022
+ 11:29:54 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>
+Subject: RE: RZ/V2M USB
+Thread-Topic: RZ/V2M USB
+Thread-Index: AdioxJFO3fqPouQQR2WlJ+Xylqw1MQB8JF5gABB/tRAACHnOQA==
+Date:   Mon, 8 Aug 2022 11:29:54 +0000
+Message-ID: <TYBPR01MB53413344F30C38AAE3E7848DD8639@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+References: <TYYPR01MB70863A585C9F2B2B4ECE85D3F59E9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+ <TYBPR01MB534150654E57593E823F0C2DD8609@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <TYYPR01MB7086B4D90C7BCA36E6EF156AF5639@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYYPR01MB7086B4D90C7BCA36E6EF156AF5639@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 712065b4-1ce3-43d8-8a3a-08da793150e7
+x-ms-traffictypediagnostic: OS0PR01MB5442:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: KB31PVZMspK5k5m/OEOfa9NdU7tEmMi6Csrc/3yL2pu6rkoeB6QJd5396/H0d6O1greLPIIpbc862MuuNQUr8yxA3ZOtwDQFtaxEEaHuVEXyCUNK1JtdPE7N6AllbM1mB/RTAmY7x22eaPeTJd4ZbMDjV5uQeastWJ9n2rpgbQ2vgqYfHWrlG2YWsuKyedlWMtbsJWwP0oJVJlR3ZUFkckvxp5Lu4lbzMytskbcz/hgVMis0KWt4DbKk4cPfZR27cihpEY536313GEEiAyYsN+ftg9EwUH3eH4AuJ9tXYIL7nk3tSFbvSeCSlBPdB2EeNMnalsUBHjf6Qw8Q/AfPGua8nxLZHk6ZcQ5qKxwVatkC28gJfrNLhjJDhAgG7GMGJpo5nLP6P883LuwUyGR9cLf6J+VmxDISo5fBNu/dpVJ/JGIhXuMhL4S3PDG/jJ4g/gFhpk7hDhA5g4xW7rqgY9lPzcALdYYc3fCEoBaHyC3cpMk+au0CYEUrDN9kI6Iw/VU7jzl8xLdioxDSQdBlrlGFPfnAF20EfJSVA++yV1omqo/F+tniC4W/bsS6/BK5aYuHNgdFNQ2y+oPgP+JbCKMSTX/I7yIopxMxkWrdLrTYG/U7RUlZ0xd+B56s3zHK2afrcHhGMT6I9s6qJpRPW6I33ytgONadjcxVEPfOfgrQDAajTYS64Vz9UH3eIyPuMOp4yB7I5IZ7GUbo1bGCnvrpzOmUxpm30+WBdKb2m99xk7C3Qq0j+izsrq1n8fpLiAJE+XT17Zc3wmiJZRfpGS8+fapUSMr+YQaeI21u6lnp4zuc61w0K+3Yd82Dx55M
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(366004)(136003)(346002)(39860400002)(376002)(38100700002)(110136005)(122000001)(55016003)(186003)(54906003)(83380400001)(316002)(38070700005)(8676002)(8936002)(4326008)(5660300002)(107886003)(33656002)(478600001)(52536014)(2906002)(71200400001)(66556008)(66476007)(7696005)(53546011)(86362001)(66946007)(64756008)(6506007)(9686003)(66446008)(76116006)(41300700001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?0ZidXP0MFPumDLdXkP+UDv44MWE4FVO46TDtGzAiei6bXBsLJ7pUQ66sTcuH?=
+ =?us-ascii?Q?yHEStZbz84K5shfMdm298AJa2pWPicCACDR8DYPitK7mv5H7RIF8MYe7v0w9?=
+ =?us-ascii?Q?ebPCp4GNZFBR0ClC3UbDNAmk+vmus2AmhWDPRpS22BoOFhCc8si8r5SLgSnr?=
+ =?us-ascii?Q?bJjmJJQtxPRyjfrHYb5ZKcxxOy02ONZmoverdKSWzFubH1XpaCcHjbVECY5R?=
+ =?us-ascii?Q?aoUCrQGsfkf/P5WtC26K1BVWye78ByXml6ZwhnHGWwn//2qRg2Zk2LQMgLKA?=
+ =?us-ascii?Q?H9Q4OB8iN2FdGijrtyURpF1XOyOYsqTZOd4gtbc01gUQjw9ojzioqwiobUVK?=
+ =?us-ascii?Q?LbIJRYRjzWrG/a6JYsjauC8Ggi+raFiAIPvfndTN0+kcPw7A6Z6xv/RLIrI4?=
+ =?us-ascii?Q?kENSCy+MU2X9ccnHCaNJVx62Hz1TqxLSAHcB8gUX6vMSF60ekf9ERttMlJys?=
+ =?us-ascii?Q?iOHxyMNiwunXtQTrUitNXjJWHD+D0x+eetnytz4tm4HX5N1sJa4OJkiBVbtB?=
+ =?us-ascii?Q?PZlGqNsg9rWZXnJl8ajSJP7LEXhgs27psO9Ail++ABcb37PJNrNhfF0G+kEg?=
+ =?us-ascii?Q?UtYYFxBm/wy3PKbST+JfLV6dQDeBDt9a24Gf2/RsiV+lqBOTKhpgrpl3RDNu?=
+ =?us-ascii?Q?TOUjzlnBnzwQ2pK6F9htiH3o+F9jHaPXKvaQjuKMu4ZQPKf6buQugp/wAQ5V?=
+ =?us-ascii?Q?KBcxJILuRDPMU63alOJc1rcHZ3yyR4LMQo5HNEbYF1gSvmyoNgzsKAU55r9m?=
+ =?us-ascii?Q?b4cQ0/Temyfqz8W+sR2DbmCtvzozZW9jlB0gvfiRb62YXVJWdCiQhkTteDxi?=
+ =?us-ascii?Q?igj/K8zuKJyehQYHkg0C6HMFaq8VmOeRRxRFK/1t9KM4I+9Sr84QZ/9L/VLN?=
+ =?us-ascii?Q?6sNIWdyVXCu9Qm0MeKTxQKFMUxe/oU4psTRbKR67UYR2g7xN2QG82X35kAkn?=
+ =?us-ascii?Q?uVTwv8iolv48TDNaWxVKbewYf1FR67hbT2UXGHLM6XOKu1FyhH0M69cgUWOV?=
+ =?us-ascii?Q?zMfnHr9FIGYDzC1vTJSDJho5o28tdrMNHkbJSsvNatGbhJFf4jpQi8l5IkBy?=
+ =?us-ascii?Q?KMFljJ5MRDUqolfjyKEZDFd9xDh1xJYkdSJQXSk5aqAZYBLk+PptbfwCRL1W?=
+ =?us-ascii?Q?fVZs8WP4l0xvE8nUFu2MRp90YKssSR0z6VLiJ6Z70yQpGRfM3n5rgWmSdEJr?=
+ =?us-ascii?Q?ONZCoklhiHyqx5SJoavzDq8APLzx91pgDJW+mjAM2npvBWHFji132pxzOoTS?=
+ =?us-ascii?Q?ttu5C/W2pY38aRji+Fm5vXmznXCMhS3tJ400m3LQI4dOO5c05mBdGtUvg7zf?=
+ =?us-ascii?Q?dqykeJCcz7BpqsvZp400QFahYMwSMRA5fI4z/rWiVwqlHkpZKTO1zJTETpLp?=
+ =?us-ascii?Q?RgVVosqJYuAatYbgLYyctSHupHk/JFpmKIcubyN6xovSmWnLzsYvRjy+8tS7?=
+ =?us-ascii?Q?Sh6E/fa5wX5rdYbcWoM3faT2ueHG25qsqm4OV1s1rDKVb58fh4ew/3I/1ZgR?=
+ =?us-ascii?Q?PwionKv9+yeTJBWnihpWmqPCJ1wCV3xpL/n9INrDKAXTN3/eBCmBYmZil59e?=
+ =?us-ascii?Q?9LO0ForzT+nKYH5noMb0BREGV/62d2SOdjejCnLbFx3m4N0lmZHUH3YQJuPC?=
+ =?us-ascii?Q?sEHVMfb/i5lS8yB7hW9jj73gFXDd4K1EzT4s+Tp7T8n2zsLtZrPfKQIF+aFM?=
+ =?us-ascii?Q?JdG2VQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <62eeca98.170a0220.601cd.70ac@mx.google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 712065b4-1ce3-43d8-8a3a-08da793150e7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Aug 2022 11:29:54.3587
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QDGsR5Ffnk0H/MG3AqyN5vb7CDX+Kbt1RiO7Z7Lbn5Sj32Px5oZ6vIo9YoeHPIACIeo4uK7z1sKc4wcovSHDpiK7rJWafFPczKsCCxfslV/J6iYXQKdXfrpSxuLbRB7M
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5442
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,SUBJ_ALL_CAPS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Aug 06, 2022 at 09:58:16PM +0200, Christian Marangi wrote:
-> > qca8k
-> > ~~~~~
-> > 
-> >     compatible strings:
-> >     - qca,qca8327
-> >     - qca,qca8328
-> >     - qca,qca8334
-> >     - qca,qca8337
-> > 
-> >     5 occurrences in mainline device trees, none of the descriptions are
-> >     problematic.
-> > 
-> >     Verdict: opt into validation.
-> 
-> I notice some have strict validation and other simple validation. I
-> didn't understand from the commit description where strict is used
-> instead of simple one.
+Hi Phil-san,
 
-There is no difference between "opt into validation" and "opt into
-strict validation" in the verdicts for each driver. It all means the
-same thing, which is that we won't apply DSA's workaround to skip
-phylink registration for them (and implicitly fail the probing, if they
-have lacking device trees, but the assumption is that they don't).
-I suppose I could improve the wording.
+> From: Phil Edworthy, Sent: Monday, August 8, 2022 4:27 PM
+> > Hi Shimoda-san,
+> On 08 August 2022 00:47 Yoshihiro Shimoda wrote:
+> > > From: Phil Edworthy, Sent: Friday, August 5, 2022 10:10 PM
+> > >
+> > > Hi Geert, Yoshihiro,
+> > >
+> > > I'm a bit stuck with the usb3 drivers for RZ/V2M.
+> > >
+> > > The RZ/V2M USB3 is very similar to R-Car Gen3, the main difference be=
+ing
+> > > where the DRD registers are located and additional clocks, interrupts
+> > > and resets exposed. The DRD registers are still part of the USBP addr=
+ess
+> > > space, though they have been moved above the other USBP regs.
+> > >
+> > > There is however, one big difference. On RZ/V2M, you can only access =
+the
+> > > corresponding registers for whatever DRD mode has been set in the
+> > > DRD_CON register, PERI_CON bit. That is to say, when PERI_CON=3D1 (pe=
+riph
+> > > mode), reading from a USBH register will cause an abort, and when
+> > > PERI_CON=3D0 (host mode), reading from a USBP register will cause an
+> > > abort.
+> >
+> > Thank you for asking me about this topic. I have a question:
+> > Can the DRD register be accessed from both PERI_CON=3D1 and 0?
+> Yes, that is correct.
+>=20
+>=20
+> > > This makes role switching rather difficult in Linux as the usb host h=
+ub
+> > > code does some work in a delayed work queue, after role switch.
+> > >
+> > > I am therefore advocating that users can only enable host or peripher=
+al
+> > > in DT, and role switching is not allowed. Is that reasonable?
+> > > How can I ensure only one driver is enabled?
+> > >
+> > > This unfortunately opens up another problem... So that the USBH drive=
+r
+> > > can set the DRD mode, it needs access to the USBP address space. Coul=
+d
+> > > that be just be additional reg entry in DT for this?
+> > >
+> > > I'm not sure how to go about this, any advice appreciated!
+> >
+> > If the DRD register can be accessed from both PERI_CON=3D1 and 0,
+> > I have an idea how to handle this.
+> > # However, I'm not sure whether this is a correct way or not though...
+> >
+> > My idea:
+> >  - Make a new role switch driver on drivers/usb/roles/ or drivers/mfd/.
+> >  - No describe any xHCI and USB3 UDC nodes in DT.
+> >  - Describe whole USB3 registers for the role device in DT.
+> >    (Or add sub nodes of xHCI and USB3 UDC into the role device.)
+> >  - The role switch driver handles the DRD register at first.
+> Ok
+>=20
+> >    And then, the driver adds xHCI or USB3 UDC device somehow.
+> The role switch must shut down the USBH driver so that it no longer
+> has the hub event work queue running.
+> How can we do this?
 
-> I'm asking this for qca8k as from what we notice with device that use
-> qca8k the master ports always needs to have info in dt as we reset the
-> switch and always need to correctly setup the port.
+I'm sorry for lacking my explanation. My idea is:
+- To enable host mode, add the USBH driver somehow.
+-- JFYI. renesas_usb3.c calls device_attach() for it now.
+- To disable host mode, remove the USBH driver somehow.
+-- JFYI. renesas_usb3.c calls device_release_driver() for it now.
 
-How sure are you about this? I am noticing the following commits:
-79a4ed4f0f93 ("net: dsa: qca8k: Force CPU port to its highest bandwidth")
-9bb2289f90e6 ("net: dsa: qca8k: Allow overwriting CPU port setting")
+So, I assume readding device_attach() for host can run the hub event work q=
+ueue again.
 
-which suggests at at least at some point, the qca8k driver didn't rely
-on device tree information for the CPU port. Now if that information was
-available in the device tree in the first place, I don't know.
-The phy-mode seems to have been; I'm looking at the initial commit
-6b93fb46480a ("net-next: dsa: add new driver for qca8xxx family") and
-there is an of_get_phy_mode() with a hard error on missing property for
-the CPU port.
+Best regards,
+Yoshihiro Shimoda
+
+> Thanks
+> Phil
+
