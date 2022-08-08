@@ -2,49 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 231D258BFD0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Aug 2022 03:44:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99EEF58C043
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Aug 2022 03:49:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242861AbiHHBoG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 7 Aug 2022 21:44:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41982 "EHLO
+        id S243042AbiHHBtj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 7 Aug 2022 21:49:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242477AbiHHBmF (ORCPT
+        with ESMTP id S243184AbiHHBsr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 7 Aug 2022 21:42:05 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5974C13E8D;
-        Sun,  7 Aug 2022 18:35:33 -0700 (PDT)
+        Sun, 7 Aug 2022 21:48:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05DD417A92;
+        Sun,  7 Aug 2022 18:37:21 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E3198B80E0D;
-        Mon,  8 Aug 2022 01:35:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1715C433C1;
-        Mon,  8 Aug 2022 01:35:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CBD1960DBB;
+        Mon,  8 Aug 2022 01:37:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21B27C433D6;
+        Mon,  8 Aug 2022 01:37:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659922530;
+        s=k20201202; t=1659922640;
         bh=hwBSpc7erig/674qMUa5THYn7tKXm6QBe24djanajcU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vIyfDEhzQV37RzE5F/w+rRcs0GoU0pTKRmwlMfD+NZO7BMfvOB+PQsSns574HgRe/
-         dIR4iCYuLDvN0BHo4ZgXY+tVkCYHGhHfDLfqfzmu+Lm7y85ZEmuINrLpxTVKLMmrxJ
-         WFzGgZ7MiFB3ekjSCx6kIZlPi5I/QjGm5HK3sf0y4qmGdQ5gVCl8zQn/LlIWcLvQ+K
-         QXeYp4awyekswPis3pL/pFboEgQ4J2/hsGaa8TqOIbpChDzzoRu6kh/BULo3HLpn2z
-         Piv89wEnyko4QnkldEAAV6qfgUNbnaaGfRaOvvGs+pVoYIsc7igdaEoT+0gyICrGyj
-         GJIvtkYchKdsg==
+        b=UrTCBRJ/vpUULNPDYRR6hghplr6J7PhQ4kRJSEWCJKBqb/FVXWnOREo4GTE1dO5CN
+         YvpWJM+B7PWNVMUcFpmejyEqWtqUooZO0G6cxE3XqQRxVB8KIJZcTmyt38rCnT/HYK
+         aMSL4gwMYq6/R0DPuKsR62kL0ibGAo2nJFG3GQE+JCNBOWabXReO0CdJ7MV79BS+XQ
+         TKJ/Bur53lisuMEJCbOWIgIN2pO2SPVWHO1tudzBk3yMc3XwDciXCTnd//bmviuVPw
+         9k5E89BQn1wqfbdG9CUSiI7Gq2zZ4yYfAtKSnNOgII56HAUFtk66ZTrWvbvkKWKBhV
+         jX4N1oZH2MaSQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Liang He <windhl@126.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Sasha Levin <sashal@kernel.org>, magnus.damm@gmail.com,
-        linux@armlinux.org.uk, linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 44/53] ARM: shmobile: rcar-gen2: Increase refcount for new reference
-Date:   Sun,  7 Aug 2022 21:33:39 -0400
-Message-Id: <20220808013350.314757-44-sashal@kernel.org>
+        linux@armlinux.org.uk, linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.15 37/45] ARM: shmobile: rcar-gen2: Increase refcount for new reference
+Date:   Sun,  7 Aug 2022 21:35:41 -0400
+Message-Id: <20220808013551.315446-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220808013350.314757-1-sashal@kernel.org>
-References: <20220808013350.314757-1-sashal@kernel.org>
+In-Reply-To: <20220808013551.315446-1-sashal@kernel.org>
+References: <20220808013551.315446-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
