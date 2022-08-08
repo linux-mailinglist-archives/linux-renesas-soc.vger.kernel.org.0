@@ -2,115 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80A2358C132
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Aug 2022 03:57:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38A8E58C2A8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Aug 2022 06:53:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243535AbiHHB5k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 7 Aug 2022 21:57:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52026 "EHLO
+        id S231263AbiHHEx0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Aug 2022 00:53:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243653AbiHHBzo (ORCPT
+        with ESMTP id S232177AbiHHExZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 7 Aug 2022 21:55:44 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CC5C1BEB3;
-        Sun,  7 Aug 2022 18:39:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 56AC1B80E0D;
-        Mon,  8 Aug 2022 01:39:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E85F2C433D6;
-        Mon,  8 Aug 2022 01:39:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659922747;
-        bh=hwBSpc7erig/674qMUa5THYn7tKXm6QBe24djanajcU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mkGur8NojwwtxYCaQ/HBb7DcOKPHrpgLNo/d5PD94uGsZm86gDaA4FQ0TQrKl3USm
-         hTLL6z7qVISUPcpRNM3jpwpR0PH9dzg7ZQMEyw3SGe9IO0M3r5uuT8aWarM2xN5Czc
-         l8cOtir85vZja1ConUQwFF+dd9hTkPtHjfMecE7/lo3akdczFkUhb5NJ1XeiDK0sZh
-         dpmyLFLaAkv7UJGo5yQvVWQRS4IEKnV9rdMMEWi50WMF9/6JcBhg3aD6uC1xGrWWr4
-         kDRaTIlmQv/iWcrHpe9s/R5J2haoCmFRwiX7x5aF1+gOdBwRdXT2XZrSYtsARDYIMt
-         EJRxdBct03JYw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Liang He <windhl@126.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sasha Levin <sashal@kernel.org>, magnus.damm@gmail.com,
-        linux@armlinux.org.uk, linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.4 20/23] ARM: shmobile: rcar-gen2: Increase refcount for new reference
-Date:   Sun,  7 Aug 2022 21:38:27 -0400
-Message-Id: <20220808013832.316381-20-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220808013832.316381-1-sashal@kernel.org>
-References: <20220808013832.316381-1-sashal@kernel.org>
+        Mon, 8 Aug 2022 00:53:25 -0400
+X-Greylist: delayed 966 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 07 Aug 2022 21:53:24 PDT
+Received: from b5network.net (unknown [27.112.106.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A01EE08F
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  7 Aug 2022 21:53:24 -0700 (PDT)
+Received: (qmail 9806 invoked by uid 48); 8 Aug 2022 13:35:40 +0900
+To:     linux-renesas-soc@vger.kernel.org
+Subject: DIE WELTFINANZKRISE KANN SIE REICH MACHEN!
+X-PHP-Originating-Script: 10042:class-phpmailer.php
+Date:   Mon, 8 Aug 2022 04:35:40 +0000
+From:   CharlesJouro <linux-renesas-soc@vger.kernel.org>
+Message-ID: <493d09d2f24911c7411037239e55adbf@www.chups.co.jp>
+X-Priority: 3
+X-Mailer: PHPMailer 5.2.1 (http://code.google.com/a/apache-extras.org/p/phpmailer/)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="ISO-2022-JP"
+X-Spam-Status: No, score=3.3 required=5.0 tests=BAYES_50,BITCOIN_XPRIO,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_FAIL,SPF_SOFTFAIL,SUBJ_ALL_CAPS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Liang He <windhl@126.com>
+お問い合わせありがとうございます。
 
-[ Upstream commit 75a185fb92e58ccd3670258d8d3b826bd2fa6d29 ]
+東大阪バレーボールクラブ・ロッキーです。
 
-In rcar_gen2_regulator_quirk(), for_each_matching_node_and_match() will
-automatically increase and decrease the refcount.  However, we should
-call of_node_get() for the new reference created in 'quirk->np'.
-Besides, we also should call of_node_put() before the 'quirk' being
-freed.
+内容を確認次第お返事いたしますので今しばらくお待ちくださいませ。
 
-Signed-off-by: Liang He <windhl@126.com>
-Link: https://lore.kernel.org/r/20220701121804.234223-1-windhl@126.com
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+メッセージ本文:
+Der Preisverfall von Bitcoin macht Sie zum Millionar https://telegra.ph/Deutschland-hat-eine-neue-Einnahmequelle-von-170613-Euro-pro-Woche-08-07
 
-diff --git a/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c b/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
-index 09ef73b99dd8..ba44cec5e59a 100644
---- a/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
-+++ b/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
-@@ -125,6 +125,7 @@ static int regulator_quirk_notify(struct notifier_block *nb,
- 
- 	list_for_each_entry_safe(pos, tmp, &quirk_list, list) {
- 		list_del(&pos->list);
-+		of_node_put(pos->np);
- 		kfree(pos);
- 	}
- 
-@@ -174,11 +175,12 @@ static int __init rcar_gen2_regulator_quirk(void)
- 		memcpy(&quirk->i2c_msg, id->data, sizeof(quirk->i2c_msg));
- 
- 		quirk->id = id;
--		quirk->np = np;
-+		quirk->np = of_node_get(np);
- 		quirk->i2c_msg.addr = addr;
- 
- 		ret = of_irq_parse_one(np, 0, argsa);
- 		if (ret) {	/* Skip invalid entry and continue */
-+			of_node_put(np);
- 			kfree(quirk);
- 			continue;
- 		}
-@@ -225,6 +227,7 @@ static int __init rcar_gen2_regulator_quirk(void)
- err_mem:
- 	list_for_each_entry_safe(pos, tmp, &quirk_list, list) {
- 		list_del(&pos->list);
-+		of_node_put(pos->np);
- 		kfree(pos);
- 	}
- 
--- 
-2.35.1
+--
 
