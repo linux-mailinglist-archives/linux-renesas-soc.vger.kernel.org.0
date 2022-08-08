@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 99EEF58C043
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Aug 2022 03:49:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AB2358C095
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Aug 2022 03:52:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243042AbiHHBtj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 7 Aug 2022 21:49:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54864 "EHLO
+        id S243358AbiHHBwl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 7 Aug 2022 21:52:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243184AbiHHBsr (ORCPT
+        with ESMTP id S243627AbiHHBv2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 7 Aug 2022 21:48:47 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05DD417A92;
-        Sun,  7 Aug 2022 18:37:21 -0700 (PDT)
+        Sun, 7 Aug 2022 21:51:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5CEF193F3;
+        Sun,  7 Aug 2022 18:38:22 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CBD1960DBB;
-        Mon,  8 Aug 2022 01:37:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21B27C433D6;
-        Mon,  8 Aug 2022 01:37:19 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2082560E06;
+        Mon,  8 Aug 2022 01:38:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90D80C433C1;
+        Mon,  8 Aug 2022 01:38:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659922640;
+        s=k20201202; t=1659922701;
         bh=hwBSpc7erig/674qMUa5THYn7tKXm6QBe24djanajcU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UrTCBRJ/vpUULNPDYRR6hghplr6J7PhQ4kRJSEWCJKBqb/FVXWnOREo4GTE1dO5CN
-         YvpWJM+B7PWNVMUcFpmejyEqWtqUooZO0G6cxE3XqQRxVB8KIJZcTmyt38rCnT/HYK
-         aMSL4gwMYq6/R0DPuKsR62kL0ibGAo2nJFG3GQE+JCNBOWabXReO0CdJ7MV79BS+XQ
-         TKJ/Bur53lisuMEJCbOWIgIN2pO2SPVWHO1tudzBk3yMc3XwDciXCTnd//bmviuVPw
-         9k5E89BQn1wqfbdG9CUSiI7Gq2zZ4yYfAtKSnNOgII56HAUFtk66ZTrWvbvkKWKBhV
-         jX4N1oZH2MaSQ==
+        b=CwuUzKh11NqF3YccmbX6LFxs7a5CmyuDxk2VGm9KPnZT53zN8JAXe69H2YUIt3XQh
+         hJO44JCsIbUk31KIctGN5Ar7dXG+xMRkPDZ1Byu/Gz70jaZ5JiPLsLOVV7Ol7KTUOj
+         0GffDxkxU024zqJkDHVK/X/RbTV6nShcypEuswF9RCeSUn5+r7HXqiCiIINlThbTJO
+         lBtwIYc1Kp6RiKXKbAJ00ppqW4NuDKDeapo5mq3iEpbRn5WxLk96wn/jAyI7tFC+V1
+         RjuDq//FLvVqjS/DvgTCrPHOw+M0RF+8rQZvOUvCqJjWV6UEzpYGnM42K6Z9PcFQQ2
+         lfZYHq31jYaUg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Liang He <windhl@126.com>,
@@ -39,12 +39,12 @@ Cc:     Liang He <windhl@126.com>,
         Sasha Levin <sashal@kernel.org>, magnus.damm@gmail.com,
         linux@armlinux.org.uk, linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.15 37/45] ARM: shmobile: rcar-gen2: Increase refcount for new reference
-Date:   Sun,  7 Aug 2022 21:35:41 -0400
-Message-Id: <20220808013551.315446-37-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 25/29] ARM: shmobile: rcar-gen2: Increase refcount for new reference
+Date:   Sun,  7 Aug 2022 21:37:35 -0400
+Message-Id: <20220808013741.316026-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220808013551.315446-1-sashal@kernel.org>
-References: <20220808013551.315446-1-sashal@kernel.org>
+In-Reply-To: <20220808013741.316026-1-sashal@kernel.org>
+References: <20220808013741.316026-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
