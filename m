@@ -2,222 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9023A58E706
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Aug 2022 08:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB2DB58E8DE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Aug 2022 10:37:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231270AbiHJGBe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Aug 2022 02:01:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60336 "EHLO
+        id S231688AbiHJIhW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Aug 2022 04:37:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231223AbiHJGBP (ORCPT
+        with ESMTP id S231232AbiHJIhV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Aug 2022 02:01:15 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1C6232BB1
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Aug 2022 23:01:14 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id j144-20020a25d296000000b0067ba828624fso9573229ybg.16
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Aug 2022 23:01:14 -0700 (PDT)
+        Wed, 10 Aug 2022 04:37:21 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52AC5FD1E
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Aug 2022 01:37:20 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id t2-20020a17090a4e4200b001f21572f3a4so1447805pjl.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Aug 2022 01:37:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:from:to:cc;
-        bh=vx+dUbGYOv+iuawfVE7Ay+tk/KEU0DVIy9gKSjJSbfM=;
-        b=DHsiPm8AGi/hRuAdwy5HbH6s2r/Oy5+6hpbTVaZ+kokvPnDRVEbJgOyfLDYxmu38/4
-         6c/USgm4pyf2vbNHq2+wO1DqxDN5IleK1JLrmt4AmI8cQZgYb+f2P8+NrSaqXDmNELCn
-         CG/sox7zZCWs8YPB3eduZ7lrqv9LIN7coqgFfSQDtS+H7/JcQsLLKRN2VBjD4MmQ7DpP
-         V+5QayoprOrleKbfgiC/nxCDcHAwk4cSCm1cUXlQqVrZJZ//d/l82UMam/ZZEF7Q/FKj
-         9IuQ3rPDGmmZL1xAEzGgeod2tuD2Rqc7w2LAiEWL8rfN2QjYE28QmkM4/wTaMPoRbas6
-         UhAw==
+        d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=+8Zc8rYa4ZxEs+Ek2Veiq0PdTVu1ampOcuivxciZFJ0=;
+        b=4P/ZUbIZjm73r78BXFNP71nshS+JXMhpGurRsQ6u30PLvyV1/jSisEnt/wjw70iAKt
+         dbh2AvaMkGOastO2TZ257O6ZVKxQWDR0KL5qIXa0Mx9LCRikzecreU8jOwNx+uM4neCb
+         BpEyCCUL2HRor7KNQw1a3Nz/Wo/IG2uALiV+QuAgudl+/4gw9szJq4W0WMYtd9pZNEUM
+         FzU9L1H0ONwYmZXIwHYOhU3vqV5WoQGf0klR64xK4iuiFGTS66Ydrwv1JPT3ojk8z41+
+         xM51EvsgwdoJtAakJT1+9ueQ9RJl2T9JgoRafmqQIMP+PBz2OaDffRI8Ytka40vffp4B
+         FBHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:x-gm-message-state:from:to:cc;
-        bh=vx+dUbGYOv+iuawfVE7Ay+tk/KEU0DVIy9gKSjJSbfM=;
-        b=yDXR/SEVvxevglSkHrkWSfa9ryE8ejano3IyTnkhOhA6q2lo2OnASMsnwGClK5PEXz
-         alMJyd+dJr6oI/aKZ1LlVt3G6SxWJuNrIhQZOj/UO/V+n3xSPLXOdq0sT1BHAwHms4PM
-         VdJcdTrIDxAI9M0cj/BKUYbZ2SHd9XBe5K1YjFvgPSfUTWuEh8tZk8o1LaZBbzElcUJa
-         g/Qg/l70KSSg7s0qnMMQuMpI5ViSg+xADzgHQWInIph8F4d8ccHzg6W3/+ZWcLsvkA6P
-         82m+Iu1riV6U3P2wEqBWa7d8lQnH3eAiS1aUagEWhaEahx2GsZTzSO0h6FHMhjvt04BI
-         xd5A==
-X-Gm-Message-State: ACgBeo1GnFlbySHMTiLPQGnYYDgrKFeBHOjhAJiUuL0LF+He2QImfRAI
-        2b5KmDE193NAOz4tQcg4sKffs61dQ22lQ2M=
-X-Google-Smtp-Source: AA6agR4Khze5AtD+WD0fh1ffw9yPithpzLXIHHaEEIY0YlMjElr9n+/FhIjncVMO9+wvqV/HHySsaIt/gn01T+Q=
-X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:f21:76ca:766f:e0ab])
- (user=saravanak job=sendgmr) by 2002:a5b:b8e:0:b0:67c:237b:760b with SMTP id
- l14-20020a5b0b8e000000b0067c237b760bmr5624436ybq.627.1660111274504; Tue, 09
- Aug 2022 23:01:14 -0700 (PDT)
-Date:   Tue,  9 Aug 2022 23:00:38 -0700
-In-Reply-To: <20220810060040.321697-1-saravanak@google.com>
-Message-Id: <20220810060040.321697-10-saravanak@google.com>
-Mime-Version: 1.0
-References: <20220810060040.321697-1-saravanak@google.com>
-X-Mailer: git-send-email 2.37.1.559.g78731f0fdb-goog
-Subject: [PATCH v1 9/9] of: property: Simplify of_link_to_phandle()
-From:   Saravana Kannan <saravanak@google.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Len Brown <lenb@kernel.org>
-Cc:     Saravana Kannan <saravanak@google.com>,
-        Abel Vesa <abel.vesa@linaro.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        John Stultz <jstultz@google.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Guenter Roeck <linux@roeck-us.net>, kernel-team@android.com,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=+8Zc8rYa4ZxEs+Ek2Veiq0PdTVu1ampOcuivxciZFJ0=;
+        b=ihkCD4uiXcxoxvZunUO7Mpw4NuN/aLmOThj15gJCFO3WnF9QeNhZ7HyvqOwreyPd6q
+         ohbbsXrlIBKCMIFwwY+jRvs4Pe0e4csqi/SKmCeZyWOg9eVElXoXGAzls6vPFBLwhTfV
+         gwr9WK0SCTRI0ZkXB32foLut2yWzHl2cpfzDTvzbud86BoljhJJVCz4vWfU92jKjVgiW
+         1IgGRf8G/KHWPKDqociHC7337F+CtjxDdOTOm1cWOHdrgdTvUI+7x7yn7nXLv7y9GukR
+         J0bfXbFoUrom42fFA4uFuAqUiUNfHWqsLrV99J3qI6AzBYVGPGRCF7KP3ct6tuckgqdO
+         +ung==
+X-Gm-Message-State: ACgBeo0q8yvsyBnNwSUZAQFczgb4n87v6zFYFpxPD+pGQiwUEGoxKkpU
+        HeH3Xx99qf7HfY/a2BOGYN0v3A==
+X-Google-Smtp-Source: AA6agR7L3QFrswCxE+ExkFevYhjKCaNMiyRwotJVapBpfZHxZ7APHHcKeHV4wMY7XBjhMm3S/Q8xBQ==
+X-Received: by 2002:a17:902:f548:b0:16f:9649:be69 with SMTP id h8-20020a170902f54800b0016f9649be69mr21690874plf.134.1660120639828;
+        Wed, 10 Aug 2022 01:37:19 -0700 (PDT)
+Received: from taki-u2.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
+        by smtp.gmail.com with ESMTPSA id f1-20020aa79681000000b0052d63fb109asm1323607pfk.20.2022.08.10.01.37.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Aug 2022 01:37:19 -0700 (PDT)
+From:   Takanari Hayama <taki@igel.co.jp>
+To:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
+        daniel@ffwll.ch, mchehab@kernel.org,
+        Takanari Hayama <taki@igel.co.jp>
+Subject: [PATCH v2 0/3] Add DRM pixel blend mode support to R-Car DU
+Date:   Wed, 10 Aug 2022 17:37:08 +0900
+Message-Id: <20220810083711.219642-1-taki@igel.co.jp>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The driver core now:
-- Has the parent device of a supplier pick up the consumers if the
-  supplier never has a device created for it.
-- Ignores a supplier if the supplier has no parent device and will never
-  be probed by a driver
+The series of patches adds support for DRM pixel blend mode to R-Car DU
+driver. The current R-Car DU implicitly supports "Coverage" only.
 
-And already prevents creating a device link with the consumer as a
-supplier of a parent.
+Unfortunately, this changes the default blending mode of R-Car DU to
+"Pre-multiplied" which is the default when pixel blend mode is
+supported.
 
-So, we no longer need to find the "compatible" node of the supplier or
-do any other checks in of_link_to_phandle(). We simply need to make sure
-that the supplier is available in DT.
+v2:
+ vsp1:
+ - Add a premult flag instead of blend mode enum
+ rcar-du:
+ - Support DRM_MODE_BLEND_PREMULTI via the premult flag
+ - Support DRM_MODE_BLEND_PIXEL_NONE via format override [1]
 
-Signed-off-by: Saravana Kannan <saravanak@google.com>
----
- drivers/of/property.c | 84 +++++++------------------------------------
- 1 file changed, 13 insertions(+), 71 deletions(-)
+[1] https://lore.kernel.org/linux-renesas-soc/20220704025231.3911138-1-taki@igel.co.jp/T/#m3351cb5965cd5bf2d416fa5ca5007773260205bd
 
-diff --git a/drivers/of/property.c b/drivers/of/property.c
-index 967f79b59016..98ca0399a354 100644
---- a/drivers/of/property.c
-+++ b/drivers/of/property.c
-@@ -1060,20 +1060,6 @@ of_fwnode_device_get_match_data(const struct fwnode_handle *fwnode,
- 	return of_device_get_match_data(dev);
- }
- 
--static bool of_is_ancestor_of(struct device_node *test_ancestor,
--			      struct device_node *child)
--{
--	of_node_get(child);
--	while (child) {
--		if (child == test_ancestor) {
--			of_node_put(child);
--			return true;
--		}
--		child = of_get_next_parent(child);
--	}
--	return false;
--}
--
- static struct device_node *of_get_compat_node(struct device_node *np)
- {
- 	of_node_get(np);
-@@ -1104,71 +1090,27 @@ static struct device_node *of_get_compat_node_parent(struct device_node *np)
- 	return node;
- }
- 
--/**
-- * of_link_to_phandle - Add fwnode link to supplier from supplier phandle
-- * @con_np: consumer device tree node
-- * @sup_np: supplier device tree node
-- *
-- * Given a phandle to a supplier device tree node (@sup_np), this function
-- * finds the device that owns the supplier device tree node and creates a
-- * device link from @dev consumer device to the supplier device. This function
-- * doesn't create device links for invalid scenarios such as trying to create a
-- * link with a parent device as the consumer of its child device. In such
-- * cases, it returns an error.
-- *
-- * Returns:
-- * - 0 if fwnode link successfully created to supplier
-- * - -EINVAL if the supplier link is invalid and should not be created
-- * - -ENODEV if struct device will never be create for supplier
-- */
--static int of_link_to_phandle(struct device_node *con_np,
-+static void of_link_to_phandle(struct device_node *con_np,
- 			      struct device_node *sup_np)
- {
--	struct device *sup_dev;
--	struct device_node *tmp_np = sup_np;
-+	struct device_node *tmp_np = of_node_get(sup_np);
- 
--	/*
--	 * Find the device node that contains the supplier phandle.  It may be
--	 * @sup_np or it may be an ancestor of @sup_np.
--	 */
--	sup_np = of_get_compat_node(sup_np);
--	if (!sup_np) {
--		pr_debug("Not linking %pOFP to %pOFP - No device\n",
--			 con_np, tmp_np);
--		return -ENODEV;
--	}
-+	/* Check that sup_np and its ancestors are available. */
-+	while (tmp_np) {
-+		if (of_fwnode_handle(tmp_np)->dev) {
-+			of_node_put(tmp_np);
-+			break;
-+		}
- 
--	/*
--	 * Don't allow linking a device node as a consumer of one of its
--	 * descendant nodes. By definition, a child node can't be a functional
--	 * dependency for the parent node.
--	 */
--	if (of_is_ancestor_of(con_np, sup_np)) {
--		pr_debug("Not linking %pOFP to %pOFP - is descendant\n",
--			 con_np, sup_np);
--		of_node_put(sup_np);
--		return -EINVAL;
--	}
-+		if (!of_device_is_available(tmp_np)) {
-+			of_node_put(tmp_np);
-+			return;
-+		}
- 
--	/*
--	 * Don't create links to "early devices" that won't have struct devices
--	 * created for them.
--	 */
--	sup_dev = get_dev_from_fwnode(&sup_np->fwnode);
--	if (!sup_dev &&
--	    (of_node_check_flag(sup_np, OF_POPULATED) ||
--	     sup_np->fwnode.flags & FWNODE_FLAG_NOT_DEVICE)) {
--		pr_debug("Not linking %pOFP to %pOFP - No struct device\n",
--			 con_np, sup_np);
--		of_node_put(sup_np);
--		return -ENODEV;
-+		tmp_np = of_get_next_parent(tmp_np);
- 	}
--	put_device(sup_dev);
- 
- 	fwnode_link_add(of_fwnode_handle(con_np), of_fwnode_handle(sup_np));
--	of_node_put(sup_np);
--
--	return 0;
- }
- 
- /**
+Takanari Hayama (3):
+  media: vsp1: add premultiplied alpha support
+  drm: rcar-du: Add DRM_MODE_BLEND_PREMULTI support
+  drm: rcar-du: Add DRM_MODE_BLEND_PIXEL_NONE support
+
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c         | 26 ++++++++++++++++++-
+ .../media/platform/renesas/vsp1/vsp1_drm.c    |  2 ++
+ include/media/vsp1.h                          |  2 ++
+ 3 files changed, 29 insertions(+), 1 deletion(-)
+
 -- 
-2.37.1.559.g78731f0fdb-goog
+2.25.1
 
