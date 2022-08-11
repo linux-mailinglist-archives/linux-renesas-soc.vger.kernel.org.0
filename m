@@ -2,63 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CFFB58FEBD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Aug 2022 17:04:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C460B58FF45
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Aug 2022 17:26:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235382AbiHKPEa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Aug 2022 11:04:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50852 "EHLO
+        id S235263AbiHKP0r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Aug 2022 11:26:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234070AbiHKPE3 (ORCPT
+        with ESMTP id S234925AbiHKP0q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Aug 2022 11:04:29 -0400
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 983092B242;
-        Thu, 11 Aug 2022 08:04:28 -0700 (PDT)
-Received: by mail-qk1-f172.google.com with SMTP id b2so936683qkh.12;
-        Thu, 11 Aug 2022 08:04:28 -0700 (PDT)
+        Thu, 11 Aug 2022 11:26:46 -0400
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E46D6B166;
+        Thu, 11 Aug 2022 08:26:45 -0700 (PDT)
+Received: by mail-qv1-f53.google.com with SMTP id u8so13585916qvv.1;
+        Thu, 11 Aug 2022 08:26:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=lm785/4LPbs1NDnlAeewo858fZRcKAan2W90C0EIZ80=;
-        b=IIRxhIa7Ibb07sMCowGUMxUN25XGxDDVCvYNGSQyVPtz/0oyWam40Y2tHcJRyWV52Y
-         qXnsS9DHCDS0ekg8oDW7U6vuqZqVRxXIx2FGtqlwZzCg122MqbnUHEqzeJ8yVUlVnBq9
-         u200bWqXZTuRnU6AN093dRCnZp92jhuwH0YS4pOGx09bFM+j2duPpOW5oSoFCs4XOiTA
-         3RVmTu70KtZVHimJVtYbsplBNmyy/c3b/SIxYo6JUuzrqW5ZTp/5yZff8WIWqvj+f4zI
-         5QrmbeSjPt2Dwf4IgJiOez99k31mArTI34qzyt0Z77TJsihnuaw6YBOeYuMkrc/y0llF
-         IinQ==
-X-Gm-Message-State: ACgBeo0GO3WyXD0sC9IXZdwjONtzfZFzYbXurmIAas4yobHxKq+3owSI
-        oLL4FqlwIniSj2TGUnP0XUQQ9cDvm2mSAU01
-X-Google-Smtp-Source: AA6agR4+LzpsWWc5e02gdgNaUU33K68XRYMCmYfc0l51PVz2pc6hgTX/ocBfO6Ll6DELm8OFfTHycA==
-X-Received: by 2002:a05:620a:4611:b0:6b5:fefb:5fb5 with SMTP id br17-20020a05620a461100b006b5fefb5fb5mr24924795qkb.71.1660230267500;
-        Thu, 11 Aug 2022 08:04:27 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id m18-20020a05620a291200b006b5e45ff82csm1159578qkp.93.2022.08.11.08.04.27
+        bh=DTtQnNq6ywRHsZZL/uujOqWlFtBnXuiLlCZYEJfCk7M=;
+        b=YRRJwoNP/uegJz2mkcBcT7O54hXRzqirgIvKluwiDTt51aB+9UTmVu1k26Ws3a9xYt
+         mqkvAz3guhYyqsgsxuVK5oXi7RkfGSynL/QubWggPR+fstZ3EL0pXu4aMNayPsCJhuPO
+         yimsLbKRRKKUWnVAIHBcZftXwdntEWZp6zmOo8FfuYBxvGFN87Qy3jJXo2iYk5Ci5qNc
+         0hTGBXdAt+EeO/xBPBSM7jhhWdkT/nniTPe/Hqj3h0uRJodT99tQE0t0aiKohVGS3YZp
+         wMTxjAoW7YgWbNyqgB4P8xb1rgaJaNDBao4Q8SXb+r/hTLdRar1OK1M1St8W7eV538hn
+         svgw==
+X-Gm-Message-State: ACgBeo3AHJd2X/nWpXBIuqA4OJEwXOru0x1k22S+79TT6IwfCDAODefb
+        UGa6Z0p/1/KiuQF01WB7CvrySdYETj+1RrD2
+X-Google-Smtp-Source: AA6agR4bYlU0/EITs/MY4AcXHnUfMbG/kUQgczbthvLfPtSBLiBOUmHFfIeYi5a2Uv+GTaeWJxH+vA==
+X-Received: by 2002:a05:6214:e4e:b0:476:c48f:ad7 with SMTP id o14-20020a0562140e4e00b00476c48f0ad7mr28306940qvc.33.1660231604396;
+        Thu, 11 Aug 2022 08:26:44 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id d7-20020a05620a240700b006b93ef659c3sm2310349qkn.39.2022.08.11.08.26.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Aug 2022 08:04:27 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id 123so28679814ybv.7;
-        Thu, 11 Aug 2022 08:04:27 -0700 (PDT)
-X-Received: by 2002:a05:6902:100a:b0:676:ed53:25b0 with SMTP id
- w10-20020a056902100a00b00676ed5325b0mr27586122ybt.365.1660230266927; Thu, 11
- Aug 2022 08:04:26 -0700 (PDT)
+        Thu, 11 Aug 2022 08:26:44 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-32194238c77so176451937b3.4;
+        Thu, 11 Aug 2022 08:26:43 -0700 (PDT)
+X-Received: by 2002:a81:af42:0:b0:31f:4e9a:74ad with SMTP id
+ x2-20020a81af42000000b0031f4e9a74admr33633524ywj.358.1660231603773; Thu, 11
+ Aug 2022 08:26:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220722141506.20171-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220722141506.20171-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220722141506.20171-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220726180623.1668-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220726180623.1668-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <952a85ec-d1e9-7c14-6404-bc087723252f@linaro.org> <CA+V-a8vb+za1Zckk5aTxz0hKkd5fHQk7gtfV+HR_2YMZ5JuJEQ@mail.gmail.com>
+ <3e3c0c80-48eb-098d-977d-a1801036fc0c@linaro.org> <CA+V-a8tJVGz57FcJVnbksMot=pg5dXALo4QEyqO+57HnOTJLfQ@mail.gmail.com>
+In-Reply-To: <CA+V-a8tJVGz57FcJVnbksMot=pg5dXALo4QEyqO+57HnOTJLfQ@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 11 Aug 2022 17:04:15 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUdMHvYiC+aL-W6F9DjZycY5LCjMpJdCJBdyzUi41ONFw@mail.gmail.com>
-Message-ID: <CAMuHMdUdMHvYiC+aL-W6F9DjZycY5LCjMpJdCJBdyzUi41ONFw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] soc: renesas: Identify RZ/Five SoC
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
+Date:   Thu, 11 Aug 2022 17:26:32 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWih6XiVfLT0g=k8QrMmVzb2sqv9hxqtGE1t1F1Jvj_QA@mail.gmail.com>
+Message-ID: <CAMuHMdWih6XiVfLT0g=k8QrMmVzb2sqv9hxqtGE1t1F1Jvj_QA@mail.gmail.com>
+Subject: Re: [PATCH 1/6] dt-bindings: arm: renesas: Ignore the schema for
+ RISC-V arch
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Anup Patel <anup@brainfault.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -71,18 +81,67 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 22, 2022 at 4:15 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add support for identifying the (R9A07G043) RZ/Five SoC.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2
-> * Replaced RISCV -> RISCV
-> * Reused "renesas,r9a07g043-sysc" string for RZ/Five detection
+Hi Prabhakar,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.1.
+On Wed, Jul 27, 2022 at 11:48 AM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Wed, Jul 27, 2022 at 10:31 AM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+> > On 27/07/2022 11:00, Lad, Prabhakar wrote:
+> > > On Wed, Jul 27, 2022 at 9:53 AM Krzysztof Kozlowski
+> > > <krzysztof.kozlowski@linaro.org> wrote:
+> > >> On 26/07/2022 20:06, Lad Prabhakar wrote:
+> > >>> Ignore the ARM renesas.yaml schema if the board is RZ/Five SMARC EVK
+> > >>> (RISC-V arch).
+> > >>>
+> > >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >>> ---
+> > >>>  Documentation/devicetree/bindings/arm/renesas.yaml | 9 +++++++++
+> > >>>  1 file changed, 9 insertions(+)
+> > >>>
+> > >>> diff --git a/Documentation/devicetree/bindings/arm/renesas.yaml b/Documentation/devicetree/bindings/arm/renesas.yaml
+> > >>> index ff80152f092f..f646df1a23af 100644
+> > >>> --- a/Documentation/devicetree/bindings/arm/renesas.yaml
+> > >>> +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
+> > >>> @@ -9,6 +9,15 @@ title: Renesas SH-Mobile, R-Mobile, and R-Car Platform Device Tree Bindings
+> > >>>  maintainers:
+> > >>>    - Geert Uytterhoeven <geert+renesas@glider.be>
+> > >>>
+> > >>> +# We want to ignore this schema if the board is of RISC-V arch
+> > >>> +select:
+> > >>> +  not:
+> > >>> +    properties:
+> > >>> +      compatible:
+> > >>> +        contains:
+> > >>> +          items:
+> > >>> +            - const: renesas,r9a07g043f01
+> > >>
+> > >> Second issue - why not renesas,r9a07g043?
+> > >>
+> > > We have two R9A07G043 SOC'S one is based on ARM64 and other on RISC-V.
+> > >
+> > > RZ/G2UL ARM64:
+> > > Type-1 Part Number: R9A07G043U11GBG#BC0
+> > > Type-2 Part Number: R9A07G043U12GBG#BC0
+> > >
+> > > RZ/Five RISCV:
+> > > 13 x 13 mm Package Part Number: R9A07G043F01GBG#BC0
+> > >
+> > > So to differentiate in ARM schema I am using  renesas,r9a07g043f01.
+> >
+> > What is the point to keep then r9a07g043 fallback? The two SoCs are not
+> > compatible at all, so they must not use the same fallback.
+> >
+> Agreed, I wanted to keep it consistent with what was done with ARM64
+> (since both the SoCs shared R9A07G043 part number).
+>
+> Geert - What are your thoughts on the above?
+
+"renesas,r9a07g043" is the CPU-less SoC base containing I/O devices.
+"renesas,r9a07g043f01", "renesas,r9a07g043u11", and
+"renesas,r9a07g043u12" are SoCs built by integrating one or more
+RV64 or ARM64 CPU cores and the related interrupt controllers with
+the CPU-less SoC base.
 
 Gr{oetje,eeting}s,
 
