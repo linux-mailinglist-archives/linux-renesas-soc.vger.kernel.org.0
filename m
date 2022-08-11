@@ -2,138 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7147158FDB7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Aug 2022 15:50:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F32F758FDBA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Aug 2022 15:51:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234179AbiHKNuc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Aug 2022 09:50:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60038 "EHLO
+        id S234976AbiHKNvV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Aug 2022 09:51:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234338AbiHKNu3 (ORCPT
+        with ESMTP id S234706AbiHKNvT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Aug 2022 09:50:29 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D648DB1D0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Aug 2022 06:50:28 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id p8so16922226plq.13
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Aug 2022 06:50:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc;
-        bh=3WrnZQuouAGhHmcQQLjJvCOVWdzjJDx7PwfVbZV+6TM=;
-        b=tjYziNLoxSbnyZ6jtftlbUVWPioMfks7Bbwu7hOm/Qhxhk5Tr1Wip2wWiOAEwDvWn8
-         55aDVMcAQRshoJZyGenLGK1i5zokyr5uPoF/D65J3oErWM5MXxQqisHDDS4Xk/lFtOAA
-         ZjqNLBu3Y+v1fVEXHhJXKHNanxpYvivLyQa90Qf5Mb9/OAlJtfgGdCfIQTxc0DppHAEZ
-         dm4khib7rC8BF9pRwxZnvQPUw4jq5uxfc4J4Dvqns9Z6FsfpiTArrOBskE+hivNTVVGx
-         37wxmm4W6j6Y+y29ibrCUIa1NOrLLSRYeNKrDymL3wEeIE3WBRho0uLuaHHo0omjCn/r
-         lkXg==
+        Thu, 11 Aug 2022 09:51:19 -0400
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76F8218D
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Aug 2022 06:51:18 -0700 (PDT)
+Received: by mail-qt1-f176.google.com with SMTP id c20so3655497qtw.8
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Aug 2022 06:51:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc;
-        bh=3WrnZQuouAGhHmcQQLjJvCOVWdzjJDx7PwfVbZV+6TM=;
-        b=wndmjG/SV0nuqnmgfHxecUw6MDwZVcHWvYzkYitr7KIcBa/ZE1N1e+OTLW3AeTjEbd
-         vgLkYuXc3VIvFpEXTXsUPWLdynI9jUb8hNWjtfW57ORNCP0ocSQyIw8PgPE3qimw1nWb
-         kACufOl1I/ib7ifz0A3sMdwyIEBg69gsWZghHS8sMJZ/J0qkLUYw3xDi8GbB+3iaJIIy
-         sFoa6u7HIYeYVOsyt9RWHjvV/D820sbQqmSic/K675jtNjiI+xhkOmuTN4ND+yN6obV3
-         jBFnTj68AYrk0SVj1gCIn3Yc58r1D4PKMPMySBRvgpXvxxaBdr7fedvirwbLDCMVnwvy
-         Y64w==
-X-Gm-Message-State: ACgBeo2TXVe/ONbQA5ZLrYqHoLb98cdqaSZhHfp8DOKiu8//vx/V6MDS
-        VcRfsUo0cp+rFKddHGMFNwhQmE9MSlqH9gorJqo=
-X-Google-Smtp-Source: AA6agR6gGY5EHjlnqUy8i2FZEadMi5uPp+OrtOhWFi25eqP6pqCyT88/lGjLWsfgygmBGizOmPCfqg==
-X-Received: by 2002:a17:90b:380d:b0:1f5:2c6d:7de8 with SMTP id mq13-20020a17090b380d00b001f52c6d7de8mr8863051pjb.18.1660225828293;
-        Thu, 11 Aug 2022 06:50:28 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id p3-20020a170902780300b0016d10267927sm14721360pll.203.2022.08.11.06.50.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Aug 2022 06:50:18 -0700 (PDT)
-Message-ID: <62f5091a.170a0220.25db3.8a23@mx.google.com>
-Date:   Thu, 11 Aug 2022 06:50:18 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=b6AdDuCfaUtTIvkUtG4KFpz4/ve6HWdzpfNuLg1G0lk=;
+        b=bDixxR7CKRkiw92sipfJ5kJWYOh72DBAZ6zHnk0Gki9VXoJSkLKaAUiZx7+jZMZ2d5
+         Nx7M/1TTEU57t5KyhiEFR1PetiXLvkcMHMgJmWmfLrJDeTr9jVuwivDCXS1K4K71YN/7
+         S0z4My/fYxaiLYRKz3WwgMjJky5Kzhfty9d5JusJxCa7KZKpLkjkfonldhrflnLRGoi5
+         iwshTnJdAKQJeyiTQwD2fsERg5JLPknka+aG4l6ytqMY95WlqG7lR3xE0HOAEZTQ4AL+
+         jp0yzOVbT/mFxre0DhGAcD4aoiLeYI7V3h5bMxhEUJbpj3o1V+eF/NitZIKptXqNIGHN
+         f6+Q==
+X-Gm-Message-State: ACgBeo1waygudfzbcnLV9XsVlXh9tjZ/p2APsmtSqu+vhWnb6AztfAzz
+        c978ZPlofd9pFF5PAF8dIEGfB3P+6eFUVf2O
+X-Google-Smtp-Source: AA6agR6PjPLsIXwrJqbtDGsVHHmsaBmlO8O0iBU1EcTITNR/vSSZHmdcUKCMcCf+VpZbAXNsfHdCgg==
+X-Received: by 2002:ac8:5c05:0:b0:341:769a:808 with SMTP id i5-20020ac85c05000000b00341769a0808mr29664185qti.237.1660225877433;
+        Thu, 11 Aug 2022 06:51:17 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id y15-20020a37f60f000000b006af0ce13499sm1919180qkj.115.2022.08.11.06.51.17
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Aug 2022 06:51:17 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id 199so28299724ybl.9
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Aug 2022 06:51:17 -0700 (PDT)
+X-Received: by 2002:a25:880f:0:b0:67c:2727:7e3c with SMTP id
+ c15-20020a25880f000000b0067c27277e3cmr11441905ybl.36.1660225876820; Thu, 11
+ Aug 2022 06:51:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: renesas-devel-2022-08-11-v5.19
-Subject: renesas/master ltp-ipc: 17 runs,
- 1 regressions (renesas-devel-2022-08-11-v5.19)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <TYYPR01MB70863A585C9F2B2B4ECE85D3F59E9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+ <TYBPR01MB534150654E57593E823F0C2DD8609@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <TYYPR01MB7086B4D90C7BCA36E6EF156AF5639@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+ <TYBPR01MB53413344F30C38AAE3E7848DD8639@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <TYYPR01MB7086CAF683F47E888C09B514F5629@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYYPR01MB7086CAF683F47E888C09B514F5629@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 11 Aug 2022 15:51:05 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWMjLfUz-6j3xwT=pDE39ShcUpdrBUQCS_JidaZo33ACw@mail.gmail.com>
+Message-ID: <CAMuHMdWMjLfUz-6j3xwT=pDE39ShcUpdrBUQCS_JidaZo33ACw@mail.gmail.com>
+Subject: Re: RZ/V2M USB
+To:     Phil Edworthy <phil.edworthy@renesas.com>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        SUBJ_ALL_CAPS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master ltp-ipc: 17 runs, 1 regressions (renesas-devel-2022-08-11-v5=
-.19)
+Hi Phil,
 
-Regressions Summary
--------------------
+On Tue, Aug 9, 2022 at 12:10 PM Phil Edworthy <phil.edworthy@renesas.com> wrote:
+> On 08 August 2022 12:30 Yoshihiro Shimoda wrote:
+> > > From: Phil Edworthy, Sent: Monday, August 8, 2022 4:27 PM
+> > > > Hi Shimoda-san,
+> > > On 08 August 2022 00:47 Yoshihiro Shimoda wrote:
+> > > > > From: Phil Edworthy, Sent: Friday, August 5, 2022 10:10 PM
+> > > > >
+> > > > > Hi Geert, Yoshihiro,
+> > > > >
+> > > > > I'm a bit stuck with the usb3 drivers for RZ/V2M.
+> > > > >
+> > > > > The RZ/V2M USB3 is very similar to R-Car Gen3, the main difference
+> > > > > being where the DRD registers are located and additional clocks,
+> > > > > interrupts and resets exposed. The DRD registers are still part of
+> > > > > the USBP address space, though they have been moved above the other
+> > USBP regs.
+> > > > >
+> > > > > There is however, one big difference. On RZ/V2M, you can only
+> > > > > access the corresponding registers for whatever DRD mode has been
+> > > > > set in the DRD_CON register, PERI_CON bit. That is to say, when
+> > > > > PERI_CON=1 (periph mode), reading from a USBH register will cause
+> > > > > an abort, and when
+> > > > > PERI_CON=0 (host mode), reading from a USBP register will cause an
+> > > > > abort.
+> > > >
+> > > > Thank you for asking me about this topic. I have a question:
+> > > > Can the DRD register be accessed from both PERI_CON=1 and 0?
+> > > Yes, that is correct.
+> > >
+> > >
+> > > > > This makes role switching rather difficult in Linux as the usb
+> > > > > host hub code does some work in a delayed work queue, after role
+> > switch.
+> > > > >
+> > > > > I am therefore advocating that users can only enable host or
+> > > > > peripheral in DT, and role switching is not allowed. Is that
+> > reasonable?
+> > > > > How can I ensure only one driver is enabled?
+> > > > >
+> > > > > This unfortunately opens up another problem... So that the USBH
+> > > > > driver can set the DRD mode, it needs access to the USBP address
+> > > > > space. Could that be just be additional reg entry in DT for this?
+> > > > >
+> > > > > I'm not sure how to go about this, any advice appreciated!
+> > > >
+> > > > If the DRD register can be accessed from both PERI_CON=1 and 0, I
+> > > > have an idea how to handle this.
+> > > > # However, I'm not sure whether this is a correct way or not though...
+> > > >
+> > > > My idea:
+> > > >  - Make a new role switch driver on drivers/usb/roles/ or
+> > drivers/mfd/.
+> > > >  - No describe any xHCI and USB3 UDC nodes in DT.
+> > > >  - Describe whole USB3 registers for the role device in DT.
+> > > >    (Or add sub nodes of xHCI and USB3 UDC into the role device.)
+> > > >  - The role switch driver handles the DRD register at first.
+> > > Ok
+> > >
+> > > >    And then, the driver adds xHCI or USB3 UDC device somehow.
+> > > The role switch must shut down the USBH driver so that it no longer
+> > > has the hub event work queue running.
+> > > How can we do this?
+> >
+> > I'm sorry for lacking my explanation. My idea is:
+> > - To enable host mode, add the USBH driver somehow.
+> > -- JFYI. renesas_usb3.c calls device_attach() for it now.
+> > - To disable host mode, remove the USBH driver somehow.
+> > -- JFYI. renesas_usb3.c calls device_release_driver() for it now.
+> >
+> > So, I assume readding device_attach() for host can run the hub event work
+> > queue again.
+> Ok, this sounds reasonable.
+> Let's see if Geert has any additional comments.
 
-platform        | arch  | lab           | compiler | defconfig             =
-     | regressions
-----------------+-------+---------------+----------+-----------------------=
------+------------
-mt8173-elm-hana | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrome=
-book | 1          =
+I think Shimoda-san is the actual USB expert here ;-)
 
+Gr{oetje,eeting}s,
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2022-08-11-v5.19/plan/ltp-ipc/
+                        Geert
 
-  Test:     ltp-ipc
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2022-08-11-v5.19
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      afa6e8225571047286d61812f393c879ef344b1d
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-  Test suite revisions:
-    ltp-tests
-      URL:  https://github.com/linux-test-project/ltp.git
-      SHA:  7e71b2c4b9a136602d9774c13097f5e06f6f04a9 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform        | arch  | lab           | compiler | defconfig             =
-     | regressions
-----------------+-------+---------------+----------+-----------------------=
------+------------
-mt8173-elm-hana | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrome=
-book | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62f4f59ed62360e760daf074
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-08-11-v5.19/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/ltp-i=
-pc-mt8173-elm-hana.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-08-11-v5.19/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/ltp-i=
-pc-mt8173-elm-hana.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-lt=
-p/20220805.0/arm64/initrd.cpio.gz =
-
-
-
-  * ltp-ipc.login: https://kernelci.org/test/case/id/62f4f59ed62360e760daf0=
-75
-        new failure (last pass: renesas-devel-2022-08-11-v5.19-rc8) =
-
- =20
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
