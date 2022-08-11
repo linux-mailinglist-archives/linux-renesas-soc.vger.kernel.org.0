@@ -2,61 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C460B58FF45
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Aug 2022 17:26:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A15059011E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Aug 2022 17:52:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235263AbiHKP0r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Aug 2022 11:26:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44794 "EHLO
+        id S235751AbiHKPvO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Aug 2022 11:51:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234925AbiHKP0q (ORCPT
+        with ESMTP id S236972AbiHKPuz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Aug 2022 11:26:46 -0400
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E46D6B166;
-        Thu, 11 Aug 2022 08:26:45 -0700 (PDT)
-Received: by mail-qv1-f53.google.com with SMTP id u8so13585916qvv.1;
-        Thu, 11 Aug 2022 08:26:45 -0700 (PDT)
+        Thu, 11 Aug 2022 11:50:55 -0400
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABD30A1D2F;
+        Thu, 11 Aug 2022 08:42:39 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id h4so6971646qtj.11;
+        Thu, 11 Aug 2022 08:42:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=DTtQnNq6ywRHsZZL/uujOqWlFtBnXuiLlCZYEJfCk7M=;
-        b=YRRJwoNP/uegJz2mkcBcT7O54hXRzqirgIvKluwiDTt51aB+9UTmVu1k26Ws3a9xYt
-         mqkvAz3guhYyqsgsxuVK5oXi7RkfGSynL/QubWggPR+fstZ3EL0pXu4aMNayPsCJhuPO
-         yimsLbKRRKKUWnVAIHBcZftXwdntEWZp6zmOo8FfuYBxvGFN87Qy3jJXo2iYk5Ci5qNc
-         0hTGBXdAt+EeO/xBPBSM7jhhWdkT/nniTPe/Hqj3h0uRJodT99tQE0t0aiKohVGS3YZp
-         wMTxjAoW7YgWbNyqgB4P8xb1rgaJaNDBao4Q8SXb+r/hTLdRar1OK1M1St8W7eV538hn
-         svgw==
-X-Gm-Message-State: ACgBeo3AHJd2X/nWpXBIuqA4OJEwXOru0x1k22S+79TT6IwfCDAODefb
-        UGa6Z0p/1/KiuQF01WB7CvrySdYETj+1RrD2
-X-Google-Smtp-Source: AA6agR4bYlU0/EITs/MY4AcXHnUfMbG/kUQgczbthvLfPtSBLiBOUmHFfIeYi5a2Uv+GTaeWJxH+vA==
-X-Received: by 2002:a05:6214:e4e:b0:476:c48f:ad7 with SMTP id o14-20020a0562140e4e00b00476c48f0ad7mr28306940qvc.33.1660231604396;
-        Thu, 11 Aug 2022 08:26:44 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id d7-20020a05620a240700b006b93ef659c3sm2310349qkn.39.2022.08.11.08.26.43
+        bh=CmaQmycmiDs0ZhLNzBEap3uy9DegAtgeJY98yfTaoT0=;
+        b=ULaRRhLxOhA1fMHO203DND7B0vFpogE8S0PgGp6UUUiOiTGwaHI7zh/X35/l6Yil8a
+         7IyHQLQubjxQK2x3hU7NswjbyRkNDDMBcAK47je+7H0qq7yK6NKbi39sTI1KOViC1sUx
+         nrtawqaHp0sFKxQCQz3PwLFMNOFn+0t2paUmc6VGY6mNr6cUPFbGxQRIQAAjmK9Twnf9
+         hvjINFr7tUe45xFwWmzNjnQ3mUIjkYDRtj0Xg2QFBkpSQGhkISWWlmjoUN0MTHYkE+j5
+         8GMZPUNtgC16ztb+AT9kG7NGPRKmAPVBTBpBNh8ehEdT/zUkdcchrQi0z0shIv54N/Se
+         HV1w==
+X-Gm-Message-State: ACgBeo1Rl/uUxrpsmLDGaELLGK23Wvn5b3v7GBC2GaKPixyUTr1E3Euk
+        L7V80tL2cS4pdamYW1viKiIyAKTx44Mqdfep
+X-Google-Smtp-Source: AA6agR6JZleD7P0zWD1Cs/v4IGCQsXeZzAUKD7qjw+oohmOVOnnsf8OVADIsvGQVhz+B84v5gDJQTw==
+X-Received: by 2002:ac8:5a51:0:b0:342:e917:f25b with SMTP id o17-20020ac85a51000000b00342e917f25bmr24047628qta.284.1660232558391;
+        Thu, 11 Aug 2022 08:42:38 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id w22-20020ac857d6000000b0031f287f58b4sm1890826qta.51.2022.08.11.08.42.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Aug 2022 08:26:44 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-32194238c77so176451937b3.4;
-        Thu, 11 Aug 2022 08:26:43 -0700 (PDT)
-X-Received: by 2002:a81:af42:0:b0:31f:4e9a:74ad with SMTP id
- x2-20020a81af42000000b0031f4e9a74admr33633524ywj.358.1660231603773; Thu, 11
- Aug 2022 08:26:43 -0700 (PDT)
+        Thu, 11 Aug 2022 08:42:36 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id 204so28869438yba.1;
+        Thu, 11 Aug 2022 08:42:35 -0700 (PDT)
+X-Received: by 2002:a5b:6c1:0:b0:669:a7c3:4c33 with SMTP id
+ r1-20020a5b06c1000000b00669a7c34c33mr29967472ybq.543.1660232555433; Thu, 11
+ Aug 2022 08:42:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220726180623.1668-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220726180623.1668-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <952a85ec-d1e9-7c14-6404-bc087723252f@linaro.org> <CA+V-a8vb+za1Zckk5aTxz0hKkd5fHQk7gtfV+HR_2YMZ5JuJEQ@mail.gmail.com>
- <3e3c0c80-48eb-098d-977d-a1801036fc0c@linaro.org> <CA+V-a8tJVGz57FcJVnbksMot=pg5dXALo4QEyqO+57HnOTJLfQ@mail.gmail.com>
-In-Reply-To: <CA+V-a8tJVGz57FcJVnbksMot=pg5dXALo4QEyqO+57HnOTJLfQ@mail.gmail.com>
+ <20220726180623.1668-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <636e9214-4b36-e9a6-3c6b-b6edb944335e@linaro.org> <CA+V-a8sTw1qzuTeD2vb7RgDmmNdEP5qEcxXCjrFgkyrBrLrt5Q@mail.gmail.com>
+ <e64cc15e-b31e-876d-b3cf-b60d255c495b@linaro.org> <CA+V-a8u1VW9xaj2KjySyMuegpisLVENO_6uJOpAFZGbKziYLYw@mail.gmail.com>
+ <e31e0c1f-4755-704e-8428-93970877d8f5@linaro.org> <CA+V-a8sX=Frs_cds9MriauTFRvcZUNCvoeZ+SaC0GUpL7L6qhg@mail.gmail.com>
+ <9f32a4a9-66b4-ba2e-1713-436103c2faf8@linaro.org> <OS0PR01MB5922763582B836DA45CDFF0886979@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <80f08089-e3bb-983e-313b-45613364829e@linaro.org>
+In-Reply-To: <80f08089-e3bb-983e-313b-45613364829e@linaro.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 11 Aug 2022 17:26:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWih6XiVfLT0g=k8QrMmVzb2sqv9hxqtGE1t1F1Jvj_QA@mail.gmail.com>
-Message-ID: <CAMuHMdWih6XiVfLT0g=k8QrMmVzb2sqv9hxqtGE1t1F1Jvj_QA@mail.gmail.com>
-Subject: Re: [PATCH 1/6] dt-bindings: arm: renesas: Ignore the schema for
- RISC-V arch
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+Date:   Thu, 11 Aug 2022 17:42:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWOdQ5HNU8CuWYXHqYs-UfdggTuCf1AARdJC-3WMTy7Hg@mail.gmail.com>
+Message-ID: <CAMuHMdWOdQ5HNU8CuWYXHqYs-UfdggTuCf1AARdJC-3WMTy7Hg@mail.gmail.com>
+Subject: Re: [PATCH 4/6] dt-bindings: riscv: Add DT binding documentation for
+ Renesas RZ/Five SoC and SMARC EVK
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -68,80 +72,77 @@ Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         linux-riscv <linux-riscv@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Krzysztof,
 
-On Wed, Jul 27, 2022 at 11:48 AM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Wed, Jul 27, 2022 at 10:31 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
-> > On 27/07/2022 11:00, Lad, Prabhakar wrote:
-> > > On Wed, Jul 27, 2022 at 9:53 AM Krzysztof Kozlowski
-> > > <krzysztof.kozlowski@linaro.org> wrote:
-> > >> On 26/07/2022 20:06, Lad Prabhakar wrote:
-> > >>> Ignore the ARM renesas.yaml schema if the board is RZ/Five SMARC EVK
-> > >>> (RISC-V arch).
-> > >>>
-> > >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >>> ---
-> > >>>  Documentation/devicetree/bindings/arm/renesas.yaml | 9 +++++++++
-> > >>>  1 file changed, 9 insertions(+)
-> > >>>
-> > >>> diff --git a/Documentation/devicetree/bindings/arm/renesas.yaml b/Documentation/devicetree/bindings/arm/renesas.yaml
-> > >>> index ff80152f092f..f646df1a23af 100644
-> > >>> --- a/Documentation/devicetree/bindings/arm/renesas.yaml
-> > >>> +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
-> > >>> @@ -9,6 +9,15 @@ title: Renesas SH-Mobile, R-Mobile, and R-Car Platform Device Tree Bindings
-> > >>>  maintainers:
-> > >>>    - Geert Uytterhoeven <geert+renesas@glider.be>
-> > >>>
-> > >>> +# We want to ignore this schema if the board is of RISC-V arch
-> > >>> +select:
-> > >>> +  not:
-> > >>> +    properties:
-> > >>> +      compatible:
-> > >>> +        contains:
-> > >>> +          items:
-> > >>> +            - const: renesas,r9a07g043f01
-> > >>
-> > >> Second issue - why not renesas,r9a07g043?
-> > >>
-> > > We have two R9A07G043 SOC'S one is based on ARM64 and other on RISC-V.
-> > >
-> > > RZ/G2UL ARM64:
-> > > Type-1 Part Number: R9A07G043U11GBG#BC0
-> > > Type-2 Part Number: R9A07G043U12GBG#BC0
-> > >
-> > > RZ/Five RISCV:
-> > > 13 x 13 mm Package Part Number: R9A07G043F01GBG#BC0
-> > >
-> > > So to differentiate in ARM schema I am using  renesas,r9a07g043f01.
+On Wed, Jul 27, 2022 at 2:37 PM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> On 27/07/2022 14:21, Biju Das wrote:
+> >> Subject: Re: [PATCH 4/6] dt-bindings: riscv: Add DT binding
+> >> documentation for Renesas RZ/Five SoC and SMARC EVK
+> >> On 27/07/2022 13:37, Lad, Prabhakar wrote:
+> >>>>> I did run the dtbs_check test as per your suggestion (below is the
+> >>>>> log) and didn't see "no matching schema error"
+> >>>>>
+> >>>>
+> >>>> So you do not see any errors at all. Then it does not work, does it?
+> >>>>
+> >>> Right I reverted my changes I can see it complaining, dtb_check seems
+> >>> to have returned false positive in my case.
+> >>>
+> >>> What approach would you suggest to ignore the schema here?
+> >>
+> >> I don't think currently it would work with your approach. Instead, you
+> >> should select here all SoCs which the schema should match.
+> >>
+> >> This leads to my previous concern - you use the same SoC compatible for
+> >> two different architectures and different SoCs: ARMv8 and RISC-V.
 > >
-> > What is the point to keep then r9a07g043 fallback? The two SoCs are not
-> > compatible at all, so they must not use the same fallback.
-> >
-> Agreed, I wanted to keep it consistent with what was done with ARM64
-> (since both the SoCs shared R9A07G043 part number).
+> > Or is it same SoC(R9A07G043) based on two different CPU architectures (ARMv8 and RISC-V)
 >
-> Geert - What are your thoughts on the above?
+> Then it is not the same SoC! Same means same, identical. CPU
+> architecture is one of the major differences, which means it is not the
+> same.
+>
+> > Using same SoM and Carrier board?
+>
+> It's like saying PC with x86 and ARMv8 board are the same because they
+> both use same "PC chassis".
 
-"renesas,r9a07g043" is the CPU-less SoC base containing I/O devices.
-"renesas,r9a07g043f01", "renesas,r9a07g043u11", and
-"renesas,r9a07g043u12" are SoCs built by integrating one or more
-RV64 or ARM64 CPU cores and the related interrupt controllers with
-the CPU-less SoC base.
+That's not a fair comparison: the "PC chassis" is passive, while the
+carrier board is an active PCB.  So it is more akin to plugging
+any Intel LGA 1151 processor into any motherboard with an LGA
+1151 socket.  Do we have compatible values for all such possible
+combinations? ;-)
+
+The classic compatible scheme of an ordered list from most-specific
+to least-specific is not well-suited for this case of mere
+aggregation.  That's why we have been decoupling board and SoC
+compatible values for a while, and identifying specific boards by a
+combination of a board-specific and an SoC-specific compatible value.
+
+New SoCs that are available with different core CPU families (and
+that are pin-compatible) are just the next step in the evolution....
+
+At the DT validation level, I think the proper solution is to
+merge Documentation/devicetree/bindings/arm/renesas.yaml and
+Documentation/devicetree/bindings/riscv/renesas.yaml into a single
+file under Documentation/devicetree/bindings/soc/renesas/.
+
+What do other people think?
+Thanks!
 
 Gr{oetje,eeting}s,
 
