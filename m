@@ -2,155 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87544590939
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Aug 2022 01:38:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C6C959097E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Aug 2022 02:18:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235999AbiHKXiN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Aug 2022 19:38:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39890 "EHLO
+        id S234978AbiHLASS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Aug 2022 20:18:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233974AbiHKXiM (ORCPT
+        with ESMTP id S230006AbiHLASR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Aug 2022 19:38:12 -0400
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CF4D9AFC4;
-        Thu, 11 Aug 2022 16:38:10 -0700 (PDT)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-32a09b909f6so83809797b3.0;
-        Thu, 11 Aug 2022 16:38:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=IVeJqcWhysLWzgWUShSqLwDczoSExRUDYbSpzRpTiXQ=;
-        b=k9jTdTI8sjO6UKOTeC4As0uQK2prWT7dSWXk4grIFRnvMm8jpC71fdZnFr5SVlFie3
-         J5u9uJmgcQOpJlmDc+TH8w1teZWNMP2cwYNXmIFamQ+6Oez/W8vAph4I54W5OMxOaWi3
-         nzH8r7JhnuooVcrrlRzGUgyXwBWg/NRqQooBGrXsRw4UH8M3qym/5q98FZ1LWi/Q8gIy
-         /zQtmgyn6JIhmp/XPWJ4Df1VyBMTp6GMv1xc22OfjJDwRgldahF+FV3/Co5okfwaU45w
-         TNz2pQ/MqF4vgbz7VCz+TSEj0hjfhtVk2wGEkuFhFUsNc94jgGEMz6GSwyK20nFeGtll
-         uO2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=IVeJqcWhysLWzgWUShSqLwDczoSExRUDYbSpzRpTiXQ=;
-        b=gas/YV0oWSwcjhLxplnZRCNameIjEGZRHbh57AuBnCY8I0ijJKbv/RpXom7HfSDIyo
-         920ZEE6PtzIfmiuaqRsHTiXxKZPQ5XALsC77U7gHdvTomdOcEK+P6YfodmYfzxfnmXT4
-         1xbmcBYtsHIfDoC0kOPD8/YuZWp5PN3ql4clLSy+i5tHUROecBweacjG5nZU63D2yIUH
-         H8jLuH8OSJia6t65GjnEg3yX1WoAXhZOAAoA1oTdxRjzZ58g36mC6kksjRyAagQv33gR
-         25DPXqNYMcehQNwSFYgPgI9iDFrcE3OhVjfhgGGo47j4qfH9gLGlN0CISpoLVkcqcUp0
-         dqTQ==
-X-Gm-Message-State: ACgBeo3b4BtVxtqg84hcf2GT9i/46ElBPBUkrIfSe4qmKvA3Knlakda6
-        PgYkuN1/5damsl3APcB1M8ha4R35N2Zcf9iGjoaoizT3kro=
-X-Google-Smtp-Source: AA6agR53mPvsRpuEkAtKI6C+nhnmHsWN+IupElYcWWe4XANRE7IWo58pKjOW1TMETFZly0nVg2UElycZ1NeUGtGGebc=
-X-Received: by 2002:a0d:f282:0:b0:329:7da1:90e8 with SMTP id
- b124-20020a0df282000000b003297da190e8mr1535254ywf.519.1660261089750; Thu, 11
- Aug 2022 16:38:09 -0700 (PDT)
+        Thu, 11 Aug 2022 20:18:17 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BF34A0325
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Aug 2022 17:18:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660263497; x=1691799497;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=AnPgWzzXNxlvx3IfAl4HgHxINT+gdGdjoLZaMPfGYqI=;
+  b=ablXabaqiAxSUIDqoOVZN+HrarK648+sSJDlyjhV2CFspU9VSxVaRG/U
+   3Tq1Mw+qCXfFUAROeQmKfNZ6nsOD+tmXtEdPV1sBlacWunCH2l9Eu3DtZ
+   LCBa+C+R9ezi7IOPRY9SRWO50FvOYfG0fYkdF68moA8t43xf1LjS9mVSO
+   P5ZoFCd+sva+e2pnBdmRP3GFQ63erhS6+Mbq5lepxeKL7WkDxVwxU1lSW
+   MOVRNmuPUEFYZq44Is4FzQ8eZCBhOHNC6zE1jNt+Hy1+CAUxJmLRdakZn
+   LH7fPTX3NR2kqO94TXm/Yegf7P4baTLkg2He0Sj30TxbMeeghhiqVmtPy
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10436"; a="353232013"
+X-IronPort-AV: E=Sophos;i="5.93,231,1654585200"; 
+   d="scan'208";a="353232013"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2022 17:18:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,231,1654585200"; 
+   d="scan'208";a="673900703"
+Received: from lkp-server02.sh.intel.com (HELO cfab306db114) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 11 Aug 2022 17:18:15 -0700
+Received: from kbuild by cfab306db114 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oMINS-0000rF-2e;
+        Fri, 12 Aug 2022 00:18:14 +0000
+Date:   Fri, 12 Aug 2022 08:17:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ afa6e8225571047286d61812f393c879ef344b1d
+Message-ID: <62f59c0b.as/XBG/m7Ryzjb0O%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20220726180623.1668-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220726180623.1668-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <952a85ec-d1e9-7c14-6404-bc087723252f@linaro.org> <CA+V-a8vb+za1Zckk5aTxz0hKkd5fHQk7gtfV+HR_2YMZ5JuJEQ@mail.gmail.com>
- <3e3c0c80-48eb-098d-977d-a1801036fc0c@linaro.org> <CA+V-a8tJVGz57FcJVnbksMot=pg5dXALo4QEyqO+57HnOTJLfQ@mail.gmail.com>
- <CAMuHMdWih6XiVfLT0g=k8QrMmVzb2sqv9hxqtGE1t1F1Jvj_QA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWih6XiVfLT0g=k8QrMmVzb2sqv9hxqtGE1t1F1Jvj_QA@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 12 Aug 2022 00:37:42 +0100
-Message-ID: <CA+V-a8tkRJrugewfAunO7CP9H7A8H5OM2=uRQtDfk7=15Zkw4A@mail.gmail.com>
-Subject: Re: [PATCH 1/6] dt-bindings: arm: renesas: Ignore the schema for
- RISC-V arch
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anup Patel <anup@brainfault.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: afa6e8225571047286d61812f393c879ef344b1d  Merge tag 'v5.19' into renesas-devel
 
-On Thu, Aug 11, 2022 at 4:26 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Wed, Jul 27, 2022 at 11:48 AM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Wed, Jul 27, 2022 at 10:31 AM Krzysztof Kozlowski
-> > <krzysztof.kozlowski@linaro.org> wrote:
-> > > On 27/07/2022 11:00, Lad, Prabhakar wrote:
-> > > > On Wed, Jul 27, 2022 at 9:53 AM Krzysztof Kozlowski
-> > > > <krzysztof.kozlowski@linaro.org> wrote:
-> > > >> On 26/07/2022 20:06, Lad Prabhakar wrote:
-> > > >>> Ignore the ARM renesas.yaml schema if the board is RZ/Five SMARC EVK
-> > > >>> (RISC-V arch).
-> > > >>>
-> > > >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >>> ---
-> > > >>>  Documentation/devicetree/bindings/arm/renesas.yaml | 9 +++++++++
-> > > >>>  1 file changed, 9 insertions(+)
-> > > >>>
-> > > >>> diff --git a/Documentation/devicetree/bindings/arm/renesas.yaml b/Documentation/devicetree/bindings/arm/renesas.yaml
-> > > >>> index ff80152f092f..f646df1a23af 100644
-> > > >>> --- a/Documentation/devicetree/bindings/arm/renesas.yaml
-> > > >>> +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
-> > > >>> @@ -9,6 +9,15 @@ title: Renesas SH-Mobile, R-Mobile, and R-Car Platform Device Tree Bindings
-> > > >>>  maintainers:
-> > > >>>    - Geert Uytterhoeven <geert+renesas@glider.be>
-> > > >>>
-> > > >>> +# We want to ignore this schema if the board is of RISC-V arch
-> > > >>> +select:
-> > > >>> +  not:
-> > > >>> +    properties:
-> > > >>> +      compatible:
-> > > >>> +        contains:
-> > > >>> +          items:
-> > > >>> +            - const: renesas,r9a07g043f01
-> > > >>
-> > > >> Second issue - why not renesas,r9a07g043?
-> > > >>
-> > > > We have two R9A07G043 SOC'S one is based on ARM64 and other on RISC-V.
-> > > >
-> > > > RZ/G2UL ARM64:
-> > > > Type-1 Part Number: R9A07G043U11GBG#BC0
-> > > > Type-2 Part Number: R9A07G043U12GBG#BC0
-> > > >
-> > > > RZ/Five RISCV:
-> > > > 13 x 13 mm Package Part Number: R9A07G043F01GBG#BC0
-> > > >
-> > > > So to differentiate in ARM schema I am using  renesas,r9a07g043f01.
-> > >
-> > > What is the point to keep then r9a07g043 fallback? The two SoCs are not
-> > > compatible at all, so they must not use the same fallback.
-> > >
-> > Agreed, I wanted to keep it consistent with what was done with ARM64
-> > (since both the SoCs shared R9A07G043 part number).
-> >
-> > Geert - What are your thoughts on the above?
->
-> "renesas,r9a07g043" is the CPU-less SoC base containing I/O devices.
-> "renesas,r9a07g043f01", "renesas,r9a07g043u11", and
-> "renesas,r9a07g043u12" are SoCs built by integrating one or more
-> RV64 or ARM64 CPU cores and the related interrupt controllers with
-> the CPU-less SoC base.
->
-That's bang on! which I missed to convenience the DT maintainers.
+elapsed time: 718m
 
-Cheers,
-Prabhakar
+configs tested: 53
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+powerpc                           allnoconfig
+i386                                defconfig
+i386                          randconfig-a014
+i386                          randconfig-a012
+arc                  randconfig-r043-20220811
+i386                          randconfig-a016
+arc                              allyesconfig
+alpha                            allyesconfig
+x86_64                              defconfig
+i386                             allyesconfig
+sh                               allmodconfig
+m68k                             allyesconfig
+x86_64                           allyesconfig
+mips                             allyesconfig
+m68k                             allmodconfig
+powerpc                          allmodconfig
+x86_64                        randconfig-a013
+x86_64                               rhel-8.3
+x86_64                        randconfig-a011
+ia64                             allmodconfig
+x86_64                        randconfig-a015
+arm                                 defconfig
+x86_64                           rhel-8.3-syz
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-kvm
+x86_64                    rhel-8.3-kselftests
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+arm64                            allyesconfig
+arm                              allyesconfig
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+
+clang tested configs:
+hexagon              randconfig-r045-20220811
+i386                          randconfig-a011
+hexagon              randconfig-r041-20220811
+s390                 randconfig-r044-20220811
+i386                          randconfig-a013
+riscv                randconfig-r042-20220811
+i386                          randconfig-a015
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a006
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
