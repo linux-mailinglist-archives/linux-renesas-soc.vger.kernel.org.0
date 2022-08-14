@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C36E2592178
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Aug 2022 17:37:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B33459222D
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Aug 2022 17:45:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240907AbiHNPhA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 14 Aug 2022 11:37:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54686 "EHLO
+        id S241361AbiHNPpJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 14 Aug 2022 11:45:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241270AbiHNPgh (ORCPT
+        with ESMTP id S241383AbiHNPnz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 14 Aug 2022 11:36:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D46C51F2F1;
-        Sun, 14 Aug 2022 08:32:00 -0700 (PDT)
+        Sun, 14 Aug 2022 11:43:55 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41BF72BEB;
+        Sun, 14 Aug 2022 08:33:54 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7127560C05;
-        Sun, 14 Aug 2022 15:32:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAD36C433B5;
-        Sun, 14 Aug 2022 15:31:58 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 488D6B80B4D;
+        Sun, 14 Aug 2022 15:33:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1F77C433D6;
+        Sun, 14 Aug 2022 15:33:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660491119;
-        bh=nP1DlsNRGP/D5Gl1DWMLoEGRaHYNd9cQJkhrCACYWtw=;
+        s=k20201202; t=1660491231;
+        bh=9QOTeBaCZwzn8tL1XYxhiVwIRrb0vg0D0Yjvo3r0d2I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PldSKOQK670GUJuRndsLhFMou5xLI9GIf37URLHxE40BvHNCLJmLDwkY0ti39TTjA
-         EWzrdlXAzVyal9LZCR8VjGL0nmHff7FQrGockKZJEiT6kznC7li+K608D4uVAIFig4
-         vKh0tD1QVD6gXv405GFARHVwIDxmdzzw8/a9mstIxZCDicXdiI8t8q7xPX8Xqh5LlA
-         yEOPQ4rg5DMax7N4zfQn5ZXdu4FbgypqrISqiDh0N5PPQPnzN83Tw0Dbqm5FJ1WbQ6
-         v4PA4JwxAxMJaFjN8y2oUUzNuJRQ647iJjfGqvpPXsBHRvADJF37kQORv6uGdo1Ael
-         JT7HDqPrRKXWA==
+        b=IgEgGmdJOgc9uOKklxf24vkIR0D5dPUkxWNEvuQCtHUv0VvTKy7KQ08d90lRzBQQa
+         h0pEC2rmRgujQRpeWLHiMQUXgBgtFKl8X/v/BpiYieTeTZtAPa9kCE8vbXuDE0TN5J
+         UWVj9ebB36xv4fbDyV0sj4Wsy6gcA79S0Gc7dqaazZB1KChdHPR+HMjtdw9rIlCVRo
+         iKxHC9VClncwRo+eGKgybqf31DvNw6nbXwf8/Mh7Vl2r/r/Oiz6knM+CubPckqmyKs
+         HvXZOEmwGqjGwmDO2IHyvHg0dxzIAijZxS5EGm+JAe/oeRp9aUpxW4Ogzrw55E6moF
+         UPxTBUc2gaFFQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
@@ -39,12 +39,12 @@ Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
         Sasha Levin <sashal@kernel.org>, p.zabel@pengutronix.de,
         linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 33/56] mmc: tmio: avoid glitches when resetting
-Date:   Sun, 14 Aug 2022 11:30:03 -0400
-Message-Id: <20220814153026.2377377-33-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 27/46] mmc: tmio: avoid glitches when resetting
+Date:   Sun, 14 Aug 2022 11:32:28 -0400
+Message-Id: <20220814153247.2378312-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814153026.2377377-1-sashal@kernel.org>
-References: <20220814153026.2377377-1-sashal@kernel.org>
+In-Reply-To: <20220814153247.2378312-1-sashal@kernel.org>
+References: <20220814153247.2378312-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -84,7 +84,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  4 files changed, 42 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index ddb5ca2f559e..5b438a8d5b42 100644
+index ae689bf54686..bbbd512785da 100644
 --- a/drivers/mmc/host/renesas_sdhi_core.c
 +++ b/drivers/mmc/host/renesas_sdhi_core.c
 @@ -51,9 +51,6 @@
@@ -97,7 +97,7 @@ index ddb5ca2f559e..5b438a8d5b42 100644
  #define SDHI_VER_GEN2_SDR50	0x490c
  #define SDHI_VER_RZ_A1		0x820b
  /* very old datasheets said 0x490c for SDR104, too. They are wrong! */
-@@ -564,23 +561,25 @@ static void renesas_sdhi_scc_reset(struct tmio_mmc_host *host, struct renesas_sd
+@@ -550,23 +547,25 @@ static void renesas_sdhi_scc_reset(struct tmio_mmc_host *host, struct renesas_sd
  }
  
  /* only populated for TMIO_MMC_MIN_RCAR2 */
@@ -149,7 +149,7 @@ index b55a29c53d9c..53a2ad9a24b8 100644
  	sd_ctrl_write16(host, CTL_RESET_SDIO, 0x0000);
  	usleep_range(10000, 11000);
 diff --git a/drivers/mmc/host/tmio_mmc.h b/drivers/mmc/host/tmio_mmc.h
-index e754bb3f5c32..501613c74406 100644
+index f936aad945ce..da63193dd45b 100644
 --- a/drivers/mmc/host/tmio_mmc.h
 +++ b/drivers/mmc/host/tmio_mmc.h
 @@ -42,6 +42,7 @@
