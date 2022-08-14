@@ -2,46 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A5BBA5920D1
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Aug 2022 17:31:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C7175920F5
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Aug 2022 17:32:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240479AbiHNPbT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 14 Aug 2022 11:31:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39734 "EHLO
+        id S240559AbiHNPcg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 14 Aug 2022 11:32:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240524AbiHNPao (ORCPT
+        with ESMTP id S240558AbiHNPbl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 14 Aug 2022 11:30:44 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1BFD165A3;
-        Sun, 14 Aug 2022 08:29:22 -0700 (PDT)
+        Sun, 14 Aug 2022 11:31:41 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3983E1A836;
+        Sun, 14 Aug 2022 08:29:48 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A59A6B80B27;
-        Sun, 14 Aug 2022 15:29:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A857C433D6;
-        Sun, 14 Aug 2022 15:29:18 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1023DB80B27;
+        Sun, 14 Aug 2022 15:29:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAF90C433D6;
+        Sun, 14 Aug 2022 15:29:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660490959;
-        bh=Xd7kp4FdJhUEnCQGE86uFtHNzl0l8LQMNmorz0rKF3s=;
+        s=k20201202; t=1660490983;
+        bh=VAZ7bw/cY6Ku/WESVFj7vU3YOdy8tsbj8N9GzWDRbVY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CAagZczaL2SdTxKpaP8N9he/43qgwfQBrelR+s++JGsoSEILNFDPF118MhSLHXNux
-         xidpo+0YXWECLs1D5oqPPG6PpNyrRy2cMC93XFxBw2SSrqVOaxYLK5PSA0VibGxRo9
-         ZCyfC5RSqaiwms1EfbLXW2O6ms76bDkMFbRnK1mSU6lhpP/W1WSRuVToRGKn9+RyID
-         GfjhnwATXDN3vZm9yIxWEyXx5HftXMrhXAKQ9No11oa8D8o5ZNiYnWONvoe9ZiXBWz
-         rBq411SQuEmUXF0jnBOJx8/50Fzgy5MZsJc2OOz1sL/LsUKrB8NI4l4Nr0Nc60gRhL
-         aLgiQ9jFVKN1w==
+        b=FXI8i2ia1XSm5TJypricsEdMMHdrm3FSLWuwY6/kfIP3AbCUdApzyTHVJ0GSTtBQC
+         +pxm0/0lEY47wwyAoUeiTJ+BsFNpCQhWTyIFpVSp4Y+WhviqNQDCigpeqvWu+IgMEO
+         sEcH6Vr2Im1rreVUgzb8SEzzhFvWYibjEtbriEc1eiJNue+qTMTF/HMaV2EeaZ7WzA
+         jyvBFWeCRE855l2UOJCRBCMfXbf6fLIJd96dNG4weCpdKLRMmgjsjDAZs5hpZak8Oj
+         q5Lz8hosqIQ8RV3WfCzBF0qPHo0sD6phRJJVFMB5z4vCw9EHoVQJFAWO2P+rCfaaqE
+         HgMkOzuCvFIuA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+Cc:     Takeshi Saito <takeshi.saito.xv@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
-        Sasha Levin <sashal@kernel.org>, p.zabel@pengutronix.de,
-        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 37/64] mmc: tmio: avoid glitches when resetting
-Date:   Sun, 14 Aug 2022 11:24:10 -0400
-Message-Id: <20220814152437.2374207-37-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-mmc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.19 46/64] mmc: renesas_sdhi: newer SoCs don't need manual tap correction
+Date:   Sun, 14 Aug 2022 11:24:19 -0400
+Message-Id: <20220814152437.2374207-46-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220814152437.2374207-1-sashal@kernel.org>
 References: <20220814152437.2374207-1-sashal@kernel.org>
@@ -59,208 +60,106 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+From: Takeshi Saito <takeshi.saito.xv@renesas.com>
 
-[ Upstream commit 2e586f8a5b0ed4a525014a692923ac96f6647816 ]
+[ Upstream commit 00e8c11c137b2e4b2bf54dc9881cf32e3441ddb4 ]
 
-If we reset because of an error, we need to preserve values for the
-clock frequency. Otherwise, glitches may be seen on the bus.
+The newest Gen3 SoCs and Gen4 SoCs do not need manual tap correction
+with HS400 anymore. So, instead of checking the SDHI version, add a
+quirk flag and set manual tap correction only for affected SoCs.
 
-To achieve that, we introduce a 'preserve' parameter to the reset
-function and the IP core specific reset callbacks to handle everything
-accordingly.
-
-Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Signed-off-by: Takeshi Saito <takeshi.saito.xv@renesas.com>
+[wsa: rebased, renamed the quirk variable, removed stale comment]
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Link: https://lore.kernel.org/r/20220625131722.1397-1-wsa@kernel.org
+Link: https://lore.kernel.org/r/20220720072901.1266-1-wsa+renesas@sang-engineering.com
 Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/mmc/host/renesas_sdhi_core.c | 29 ++++++++++++++--------------
- drivers/mmc/host/tmio_mmc.c          |  2 +-
- drivers/mmc/host/tmio_mmc.h          |  6 +++++-
- drivers/mmc/host/tmio_mmc_core.c     | 28 +++++++++++++++++++++------
- 4 files changed, 42 insertions(+), 23 deletions(-)
+ drivers/mmc/host/renesas_sdhi.h               | 1 +
+ drivers/mmc/host/renesas_sdhi_core.c          | 5 ++---
+ drivers/mmc/host/renesas_sdhi_internal_dmac.c | 6 ++++++
+ 3 files changed, 9 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
+index 1a1e3e020a8c..c4abfee1ebae 100644
+--- a/drivers/mmc/host/renesas_sdhi.h
++++ b/drivers/mmc/host/renesas_sdhi.h
+@@ -43,6 +43,7 @@ struct renesas_sdhi_quirks {
+ 	bool hs400_4taps;
+ 	bool fixed_addr_mode;
+ 	bool dma_one_rx_only;
++	bool manual_tap_correction;
+ 	u32 hs400_bad_taps;
+ 	const u8 (*hs400_calib_table)[SDHI_CALIB_TABLE_MAX];
+ };
 diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 4404ca1f98d8..5fa365d0c7fd 100644
+index 5fa365d0c7fd..61149c0acaae 100644
 --- a/drivers/mmc/host/renesas_sdhi_core.c
 +++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -49,9 +49,6 @@
- #define HOST_MODE_GEN3_32BIT	(HOST_MODE_GEN3_WMODE | HOST_MODE_GEN3_BUSWIDTH)
- #define HOST_MODE_GEN3_64BIT	0
+@@ -380,8 +380,7 @@ static void renesas_sdhi_hs400_complete(struct mmc_host *mmc)
+ 	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_DT2FF,
+ 		       priv->scc_tappos_hs400);
  
--#define CTL_SDIF_MODE	0xe6
--#define SDIF_MODE_HS400		BIT(0)
--
- #define SDHI_VER_GEN2_SDR50	0x490c
- #define SDHI_VER_RZ_A1		0x820b
- /* very old datasheets said 0x490c for SDR104, too. They are wrong! */
-@@ -562,23 +559,25 @@ static void renesas_sdhi_scc_reset(struct tmio_mmc_host *host, struct renesas_sd
- }
+-	/* Gen3 can't do automatic tap correction with HS400, so disable it */
+-	if (sd_ctrl_read16(host, CTL_VERSION) == SDHI_VER_GEN3_SDMMC)
++	if (priv->quirks && priv->quirks->manual_tap_correction)
+ 		sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_RVSCNTL,
+ 			       ~SH_MOBILE_SDHI_SCC_RVSCNTL_RVSEN &
+ 			       sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_RVSCNTL));
+@@ -718,7 +717,7 @@ static bool renesas_sdhi_manual_correction(struct tmio_mmc_host *host, bool use_
+ 	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_RVSREQ, 0);
  
- /* only populated for TMIO_MMC_MIN_RCAR2 */
--static void renesas_sdhi_reset(struct tmio_mmc_host *host)
-+static void renesas_sdhi_reset(struct tmio_mmc_host *host, bool preserve)
- {
- 	struct renesas_sdhi *priv = host_to_priv(host);
- 	int ret;
- 	u16 val;
+ 	/* Change TAP position according to correction status */
+-	if (sd_ctrl_read16(host, CTL_VERSION) == SDHI_VER_GEN3_SDMMC &&
++	if (priv->quirks && priv->quirks->manual_tap_correction &&
+ 	    host->mmc->ios.timing == MMC_TIMING_MMC_HS400) {
+ 		u32 bad_taps = priv->quirks ? priv->quirks->hs400_bad_taps : 0;
+ 		/*
+diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+index 3084b15ae2cb..52915404eb07 100644
+--- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
++++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+@@ -170,6 +170,7 @@ static const struct renesas_sdhi_quirks sdhi_quirks_4tap_nohs400_one_rx = {
+ static const struct renesas_sdhi_quirks sdhi_quirks_4tap = {
+ 	.hs400_4taps = true,
+ 	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
++	.manual_tap_correction = true,
+ };
  
--	if (priv->rstc) {
--		reset_control_reset(priv->rstc);
--		/* Unknown why but without polling reset status, it will hang */
--		read_poll_timeout(reset_control_status, ret, ret == 0, 1, 100,
--				  false, priv->rstc);
--		/* At least SDHI_VER_GEN2_SDR50 needs manual release of reset */
--		sd_ctrl_write16(host, CTL_RESET_SD, 0x0001);
--		priv->needs_adjust_hs400 = false;
--		renesas_sdhi_set_clock(host, host->clk_cache);
--	} else if (priv->scc_ctl) {
--		renesas_sdhi_scc_reset(host, priv);
-+	if (!preserve) {
-+		if (priv->rstc) {
-+			reset_control_reset(priv->rstc);
-+			/* Unknown why but without polling reset status, it will hang */
-+			read_poll_timeout(reset_control_status, ret, ret == 0, 1, 100,
-+					  false, priv->rstc);
-+			/* At least SDHI_VER_GEN2_SDR50 needs manual release of reset */
-+			sd_ctrl_write16(host, CTL_RESET_SD, 0x0001);
-+			priv->needs_adjust_hs400 = false;
-+			renesas_sdhi_set_clock(host, host->clk_cache);
-+		} else if (priv->scc_ctl) {
-+			renesas_sdhi_scc_reset(host, priv);
-+		}
- 	}
+ static const struct renesas_sdhi_quirks sdhi_quirks_nohs400 = {
+@@ -182,25 +183,30 @@ static const struct renesas_sdhi_quirks sdhi_quirks_fixed_addr = {
  
- 	if (sd_ctrl_read16(host, CTL_VERSION) >= SDHI_VER_GEN3_SD) {
-diff --git a/drivers/mmc/host/tmio_mmc.c b/drivers/mmc/host/tmio_mmc.c
-index b55a29c53d9c..53a2ad9a24b8 100644
---- a/drivers/mmc/host/tmio_mmc.c
-+++ b/drivers/mmc/host/tmio_mmc.c
-@@ -75,7 +75,7 @@ static void tmio_mmc_set_clock(struct tmio_mmc_host *host,
- 	tmio_mmc_clk_start(host);
- }
+ static const struct renesas_sdhi_quirks sdhi_quirks_bad_taps1357 = {
+ 	.hs400_bad_taps = BIT(1) | BIT(3) | BIT(5) | BIT(7),
++	.manual_tap_correction = true,
+ };
  
--static void tmio_mmc_reset(struct tmio_mmc_host *host)
-+static void tmio_mmc_reset(struct tmio_mmc_host *host, bool preserve)
- {
- 	sd_ctrl_write16(host, CTL_RESET_SDIO, 0x0000);
- 	usleep_range(10000, 11000);
-diff --git a/drivers/mmc/host/tmio_mmc.h b/drivers/mmc/host/tmio_mmc.h
-index e754bb3f5c32..501613c74406 100644
---- a/drivers/mmc/host/tmio_mmc.h
-+++ b/drivers/mmc/host/tmio_mmc.h
-@@ -42,6 +42,7 @@
- #define CTL_DMA_ENABLE 0xd8
- #define CTL_RESET_SD 0xe0
- #define CTL_VERSION 0xe2
-+#define CTL_SDIF_MODE 0xe6 /* only known on R-Car 2+ */
+ static const struct renesas_sdhi_quirks sdhi_quirks_bad_taps2367 = {
+ 	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
++	.manual_tap_correction = true,
+ };
  
- /* Definitions for values the CTL_STOP_INTERNAL_ACTION register can take */
- #define TMIO_STOP_STP		BIT(0)
-@@ -98,6 +99,9 @@
- /* Definitions for values the CTL_DMA_ENABLE register can take */
- #define DMA_ENABLE_DMASDRW	BIT(1)
+ static const struct renesas_sdhi_quirks sdhi_quirks_r8a7796_es13 = {
+ 	.hs400_4taps = true,
+ 	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
+ 	.hs400_calib_table = r8a7796_es13_calib_table,
++	.manual_tap_correction = true,
+ };
  
-+/* Definitions for values the CTL_SDIF_MODE register can take */
-+#define SDIF_MODE_HS400		BIT(0) /* only known on R-Car 2+ */
-+
- /* Define some IRQ masks */
- /* This is the mask used at reset by the chip */
- #define TMIO_MASK_ALL           0x837f031d
-@@ -181,7 +185,7 @@ struct tmio_mmc_host {
- 	int (*multi_io_quirk)(struct mmc_card *card,
- 			      unsigned int direction, int blk_size);
- 	int (*write16_hook)(struct tmio_mmc_host *host, int addr);
--	void (*reset)(struct tmio_mmc_host *host);
-+	void (*reset)(struct tmio_mmc_host *host, bool preserve);
- 	bool (*check_retune)(struct tmio_mmc_host *host, struct mmc_request *mrq);
- 	void (*fixup_request)(struct tmio_mmc_host *host, struct mmc_request *mrq);
- 	unsigned int (*get_timeout_cycles)(struct tmio_mmc_host *host);
-diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-index a5850d83908b..437048bb8027 100644
---- a/drivers/mmc/host/tmio_mmc_core.c
-+++ b/drivers/mmc/host/tmio_mmc_core.c
-@@ -179,8 +179,17 @@ static void tmio_mmc_set_bus_width(struct tmio_mmc_host *host,
- 	sd_ctrl_write16(host, CTL_SD_MEM_CARD_OPT, reg);
- }
+ static const struct renesas_sdhi_quirks sdhi_quirks_r8a77965 = {
+ 	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
+ 	.hs400_calib_table = r8a77965_calib_table,
++	.manual_tap_correction = true,
+ };
  
--static void tmio_mmc_reset(struct tmio_mmc_host *host)
-+static void tmio_mmc_reset(struct tmio_mmc_host *host, bool preserve)
- {
-+	u16 card_opt, clk_ctrl, sdif_mode;
-+
-+	if (preserve) {
-+		card_opt = sd_ctrl_read16(host, CTL_SD_MEM_CARD_OPT);
-+		clk_ctrl = sd_ctrl_read16(host, CTL_SD_CARD_CLK_CTL);
-+		if (host->pdata->flags & TMIO_MMC_MIN_RCAR2)
-+			sdif_mode = sd_ctrl_read16(host, CTL_SDIF_MODE);
-+	}
-+
- 	/* FIXME - should we set stop clock reg here */
- 	sd_ctrl_write16(host, CTL_RESET_SD, 0x0000);
- 	usleep_range(10000, 11000);
-@@ -190,7 +199,7 @@ static void tmio_mmc_reset(struct tmio_mmc_host *host)
- 	tmio_mmc_abort_dma(host);
+ static const struct renesas_sdhi_quirks sdhi_quirks_r8a77990 = {
+ 	.hs400_calib_table = r8a77990_calib_table,
++	.manual_tap_correction = true,
+ };
  
- 	if (host->reset)
--		host->reset(host);
-+		host->reset(host, preserve);
- 
- 	sd_ctrl_write32_as_16_and_16(host, CTL_IRQ_MASK, host->sdcard_irq_mask_all);
- 	host->sdcard_irq_mask = host->sdcard_irq_mask_all;
-@@ -206,6 +215,13 @@ static void tmio_mmc_reset(struct tmio_mmc_host *host)
- 		sd_ctrl_write16(host, CTL_TRANSACTION_CTL, 0x0001);
- 	}
- 
-+	if (preserve) {
-+		sd_ctrl_write16(host, CTL_SD_MEM_CARD_OPT, card_opt);
-+		sd_ctrl_write16(host, CTL_SD_CARD_CLK_CTL, clk_ctrl);
-+		if (host->pdata->flags & TMIO_MMC_MIN_RCAR2)
-+			sd_ctrl_write16(host, CTL_SDIF_MODE, sdif_mode);
-+	}
-+
- 	if (host->mmc->card)
- 		mmc_retune_needed(host->mmc);
- }
-@@ -248,7 +264,7 @@ static void tmio_mmc_reset_work(struct work_struct *work)
- 
- 	spin_unlock_irqrestore(&host->lock, flags);
- 
--	tmio_mmc_reset(host);
-+	tmio_mmc_reset(host, true);
- 
- 	/* Ready for new calls */
- 	host->mrq = NULL;
-@@ -961,7 +977,7 @@ static void tmio_mmc_set_ios(struct mmc_host *mmc, struct mmc_ios *ios)
- 		tmio_mmc_power_off(host);
- 		/* For R-Car Gen2+, we need to reset SDHI specific SCC */
- 		if (host->pdata->flags & TMIO_MMC_MIN_RCAR2)
--			tmio_mmc_reset(host);
-+			tmio_mmc_reset(host, false);
- 
- 		host->set_clock(host, 0);
- 		break;
-@@ -1189,7 +1205,7 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
- 		_host->sdcard_irq_mask_all = TMIO_MASK_ALL;
- 
- 	_host->set_clock(_host, 0);
--	tmio_mmc_reset(_host);
-+	tmio_mmc_reset(_host, false);
- 
- 	spin_lock_init(&_host->lock);
- 	mutex_init(&_host->ios_lock);
-@@ -1285,7 +1301,7 @@ int tmio_mmc_host_runtime_resume(struct device *dev)
- 	struct tmio_mmc_host *host = dev_get_drvdata(dev);
- 
- 	tmio_mmc_clk_enable(host);
--	tmio_mmc_reset(host);
-+	tmio_mmc_reset(host, false);
- 
- 	if (host->clk_cache)
- 		host->set_clock(host, host->clk_cache);
+ /*
 -- 
 2.35.1
 
