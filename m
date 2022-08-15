@@ -2,73 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD684592BA2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Aug 2022 12:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6676592D7F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Aug 2022 12:53:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231620AbiHOJgW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Aug 2022 05:36:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58354 "EHLO
+        id S241988AbiHOJ5o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Aug 2022 05:57:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231493AbiHOJgV (ORCPT
+        with ESMTP id S242221AbiHOJ5n (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Aug 2022 05:36:21 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 001EB1EEC3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Aug 2022 02:36:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8BF8060FF6
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Aug 2022 09:36:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DC9FDC433C1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Aug 2022 09:36:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660556179;
-        bh=58O4fO2stqrF8rGhOQFMMZcN6jkL/9DVxn9irxT/UuU=;
-        h=Subject:From:Date:To:From;
-        b=OAiPjL95PjvO2n3wB+4eVQ7/shej/jaehNlvJcMyq6TPdiQK1w1Fp70ffQZgfMJmR
-         XFXmSLUP/uAT2xrs+VifgYU8RlYUGhIgK0sRZBStLKW00AZg35GpMWzojbJlU8sSVH
-         +6EtD5iQeXMOmwmQpVTATfHOnN0ICLf/UwSjrSdTVbOpeomG2W/j+BJC4unegJYttR
-         u1j+l3N/uIC6WLdWMB6g5gDp8kqRwIHOCOOZpHZfpBqEEfPyE2x8hKEKkMgR95QGqo
-         IOUIeI+cGDYDxpT4xlzIJ6sBZRbY11eyEK066YTLtiZh+wTeXqojBUAWm/FX4ERP3b
-         nK+bK211fshMA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BF021C43142
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Aug 2022 09:36:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 15 Aug 2022 05:57:43 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80EC91CB00
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Aug 2022 02:57:41 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id j8so12671260ejx.9
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Aug 2022 02:57:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=r1NsrzieKJbz0xeysq9ijMttBXf0JDgLn0ohifJ6FV0=;
+        b=gFptx6rdf1WmUqIRWVe+56U/Fl2x7Vlevj+kn9aSdpUpmlTGT8zizF89evlAIXSLr0
+         qcp4N/y8VKls98M6J9BBaplfbsqSiDbFZuWf/4hACiKKSOAj6QuMMsxoRfyLjRCS5ynX
+         BWgAPx00uVspe9NbSXzukFJptl4K6fbbFVi56ECvPsX9N45wwEt6GA7TRgYueiGoIbMe
+         N4YA5FtvIMKaIU/XuIm+47VmJ99k7WMAhXmNwaVK1qMMcmUI18SymK23LPQ4RCIGRy2p
+         627xhWBGUoql2p8Lz/bjmhKdXNE6u+YdFOiEN7OT2QnaPqX9PwFExEDljV42PTk4A6EH
+         Nk/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=r1NsrzieKJbz0xeysq9ijMttBXf0JDgLn0ohifJ6FV0=;
+        b=Qypr4COYCKISM13otT+fayOMMd4ZB/tEzdwNu9wfNzvFOTOymGNHucoCelNMCzNHM1
+         VBVrvxDGyk0kjK4qlZzvD+kbys5hMD9AE3qtS6tsWe1s29MK+eBiJ8NGUp8Xmw1xwuNv
+         4DaBHwfCG0/SaWnxi2onTSB3bB4HF7ev4dTCYvEiS40H/rnPjwEFm4D8vq5DvI5p/8//
+         aY0rjP6yU6lL8iaZw+1mUyntcPIUnUbsFaZ6BHT63yVAWRHSTbV6S0KT95dAYsFTbSjF
+         2vRSp23N3P8fV0iyQ/54ra6PTMukkw8RE9nUcVpOUG9J4aleRWE1aK7Upli/JkViYYgL
+         aKjw==
+X-Gm-Message-State: ACgBeo1R+oHEKGsEq7bj0dsTa2iN5mB3IhEqJ0CZg8NVPrk8eFHDfDoX
+        xo/DOvK5ZDqNTj/YobZZf97EqdYSsx/YNdIBkJfSnA==
+X-Google-Smtp-Source: AA6agR42gGHsKm0sw1MEgLwBiUC1pxf/08kt1kKkLbCwyDpNq+KcaYcUtN0ZKxYuGENxjoXyk9gWqGn/QTO3a8wYKnE=
+X-Received: by 2002:a17:907:7254:b0:731:61c6:ecf9 with SMTP id
+ ds20-20020a170907725400b0073161c6ecf9mr10009999ejc.101.1660557460076; Mon, 15
+ Aug 2022 02:57:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <166055617972.18008.3607353022377593640.git-patchwork-summary@kernel.org>
-Date:   Mon, 15 Aug 2022 09:36:19 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220810060040.321697-1-saravanak@google.com> <20220810060040.321697-5-saravanak@google.com>
+In-Reply-To: <20220810060040.321697-5-saravanak@google.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Mon, 15 Aug 2022 11:57:29 +0200
+Message-ID: <CAMRc=Md=8TQf=EPKaTbOUF2=fuXVzC_dvV1SUo3Y2Tx-5hnzew@mail.gmail.com>
+Subject: Re: [PATCH v1 4/9] gpiolib: Clear the gpio_device's fwnode
+ initialized flag before adding
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Len Brown <lenb@kernel.org>, Abel Vesa <abel.vesa@linaro.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        John Stultz <jstultz@google.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>, kernel-team@android.com,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+On Wed, Aug 10, 2022 at 8:00 AM Saravana Kannan <saravanak@google.com> wrote:
+>
+> Registering an irqdomain sets the flag for the fwnode. But having the
+> flag set when a device is added is interpreted by fw_devlink to mean the
+> device has already been initialized and will never probe. This prevents
+> fw_devlink from creating device links with the gpio_device as a
+> supplier. So, clear the flag before adding the device.
+>
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> ---
+>  drivers/gpio/gpiolib.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+> index cc9c0a12259e..1d57d6f24632 100644
+> --- a/drivers/gpio/gpiolib.c
+> +++ b/drivers/gpio/gpiolib.c
+> @@ -522,6 +522,12 @@ static int gpiochip_setup_dev(struct gpio_device *gdev)
+>  {
+>         int ret;
+>
+> +       /*
+> +        * If fwnode doesn't belong to another device, it's safe to clear its
+> +        * initialized flag.
+> +        */
+> +       if (!gdev->dev.fwnode->dev)
+> +               fwnode_dev_initialized(gdev->dev.fwnode, false);
+>         ret = gcdev_register(gdev, gpio_devt);
+>         if (ret)
+>                 return ret;
+> --
+> 2.37.1.559.g78731f0fdb-goog
+>
 
-The following patches were marked "accepted", because they were applied to
-geert/renesas-devel.git (next):
-
-Patch: [GIT,PULL,FOR,v5.20] Miscellaneous R-Car DU fixes and enhancements
-  Submitter: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-  Committer: Dave Airlie <airlied@redhat.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=660257
-  Lore link: https://lore.kernel.org/r/YtIEWkE0nk/8nhUc@pendragon.ideasonboard.com
-
-
-Total patches: 1
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Acked-by: Bartosz Golaszewski <brgl@bgdev.pl>
