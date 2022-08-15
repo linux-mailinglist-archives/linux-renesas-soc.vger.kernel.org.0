@@ -2,311 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AD59592E9B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Aug 2022 14:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AC50592F0B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Aug 2022 14:39:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241521AbiHOMB6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Aug 2022 08:01:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45064 "EHLO
+        id S231543AbiHOMjb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Aug 2022 08:39:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232120AbiHOMB4 (ORCPT
+        with ESMTP id S232239AbiHOMja (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Aug 2022 08:01:56 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08DD724BEC
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Aug 2022 05:01:55 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id u133so6452483pfc.10
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Aug 2022 05:01:55 -0700 (PDT)
+        Mon, 15 Aug 2022 08:39:30 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511C2237DD;
+        Mon, 15 Aug 2022 05:39:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc;
-        bh=eDf/Thc2f95bB7QDin0VdlDbrHkC0QLHvhTZ511H8iQ=;
-        b=t+dEDkOpcDEaQdEHQoO3ql2QL6m+/8dJCQXguaCnVUehNA7EATahrSnlPYF0BL9OXN
-         t6LIsZVTbno1Vs+cMJ9sykJOBBo/CU5KzBAfIvrviFBPQ4mxrn6uBRbuHIVrcpabwVjm
-         ZO1e86K3WCDwfzXqv70JB+s2D2+kGqwBhfcbuRPr8UOGW95cXME2eFqbUvtcMm8Tsy+9
-         L5na3Ssv2dM2cHRkHN+4KNPke2oP25ikYAn6PHvepMCH3BC5rtRf4g4op38ZIGUeMARm
-         fEzY8xkMmWv0su9dxyFKjKC1NM29XeGpPi/sIBIqYi/eK6BRMC+bIGKQh8jj1DgAQrCy
-         bE3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc;
-        bh=eDf/Thc2f95bB7QDin0VdlDbrHkC0QLHvhTZ511H8iQ=;
-        b=Cx9Xhks5WkhiDys8xC1LUkex0+o/6lb8mkLudt+pgW7rTw2RwTL+//p6rEeeaTgCTa
-         GeIEt5z/veSzHmqiPdQ9t9lLcFqkXHdTpTWJgMDXm1JgZIRXr+H2a11Ok/1AhDfNXFm8
-         1CW/MNpleKt0CO8diyty+t8RdIpE6QJLogILbfbSyu7AuSg4fXWodrIbZectySEExuUX
-         /fzCYVhU7afKy2PNGd5r5Jk7IFjQFsmJnLUEWw4HQEdWnQVcc5XbMRcL69nw4RgtsFJ6
-         DXfTf1eur1xQJE5XeDj3r7goje52eFspNr1VSY2fcw+XDAkZtP9XvhJQnyt8cxeLfyVA
-         s6ng==
-X-Gm-Message-State: ACgBeo0FglUTG8sMAKT7ROBg8LZB0TMI4E8sPH7wtTSEvfPWIfDhrtB8
-        ePgVRov7kVTJLy/8wAwoDGoc6BFOTiVU1Fus
-X-Google-Smtp-Source: AA6agR7d+zPvu8CqNJ7iCGlWabrrtkjPhgx6Fp72kWFYvab/zxaHT++n7ObUHxZYI8sGAAhgOpD8rQ==
-X-Received: by 2002:a63:8648:0:b0:41d:259:754 with SMTP id x69-20020a638648000000b0041d02590754mr13250178pgd.422.1660564913767;
-        Mon, 15 Aug 2022 05:01:53 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id g8-20020aa796a8000000b0050dc76281e0sm6414383pfk.186.2022.08.15.05.01.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Aug 2022 05:01:53 -0700 (PDT)
-Message-ID: <62fa35b1.a70a0220.e7232.a892@mx.google.com>
-Date:   Mon, 15 Aug 2022 05:01:53 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1660567167; x=1692103167;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ZoeSgVqYecYa8dOXcwGrIo4k9Ip/Bxok4jHfP0iqk0s=;
+  b=RxRiPoIBIcCDT1kDI/YX1hV7vf8ExuPtme+aHhJIqCHSN8ma928khbT0
+   Eez9zl6oULI6EzEc1HCuHizcE+GVmv55luGurc9EbZ7aaPlBIjOysGqpU
+   K0TDS1l28lWsFi7tNBeVCKOwDp9uzgJdVd2sBxjhVQvA4IsSlqLFmxFKi
+   fSuMJjCIYbpIdkhUOo298dO4riLw/bMH6swlbwPo5Zr7+ckxEepLwxfo6
+   X8+2yFDghGyJZElnIjW8hvzznBoL2jke5nlQbGUn0py3/ptpTWXuopu39
+   ncLvisAFh8kMFtxWy0k1/8xxG6CFbGDqHe4aDHoEx36J4yQOckGtnQS8u
+   A==;
+X-IronPort-AV: E=Sophos;i="5.93,238,1654552800"; 
+   d="scan'208";a="25605305"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 15 Aug 2022 14:39:24 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 15 Aug 2022 14:39:24 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 15 Aug 2022 14:39:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1660567164; x=1692103164;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ZoeSgVqYecYa8dOXcwGrIo4k9Ip/Bxok4jHfP0iqk0s=;
+  b=SRYuP5tro2Iq3C5Ct21jG0BwrComttqC0+848iBBB5Rxzj5oLDsXCf6s
+   JF4ghFCSvsmxuLGW+HEaie5rlZKfJbykLh2zr/AmAuAzLYPXuzbyhFC8c
+   gVFgpEOhr6GMabGQXphj25oizxKT7ZQSl5xHXv10/G2N7Zum0ngCeXUYZ
+   lwclTWC/9linzmcWvJdWWPLJW5J6c86I/hUkkZGJxOkWPNCEcb3lOsqqZ
+   Ja81xBdUzxOJ3b50lS6fahYhKG2h614sQKfCxRzqb5jM9n0H1BmEjivYd
+   x3YI1hJlrFdY9QQBKUFPSoSXGqhZOCT240LZiirg3gv82dbhYXSgcNs0U
+   g==;
+X-IronPort-AV: E=Sophos;i="5.93,238,1654552800"; 
+   d="scan'208";a="25605304"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 15 Aug 2022 14:39:24 +0200
+Received: from steina-w.localnet (unknown [10.123.49.11])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id DCF8A280056;
+        Mon, 15 Aug 2022 14:39:23 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Len Brown <lenb@kernel.org>,
+        Saravana Kannan <saravanak@google.com>,
+        Abel Vesa <abel.vesa@linaro.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        John Stultz <jstultz@google.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>, kernel-team@android.com,
+        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v1 0/9] fw_devlink improvements
+Date:   Mon, 15 Aug 2022 14:39:23 +0200
+Message-ID: <3601760.iIbC2pHGDl@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20220810060040.321697-1-saravanak@google.com>
+References: <20220810060040.321697-1-saravanak@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: next
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: renesas-next-2022-08-15-v6.0-rc1
-Subject: renesas/next cros-ec: 10 runs,
- 7 regressions (renesas-next-2022-08-15-v6.0-rc1)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next cros-ec: 10 runs, 7 regressions (renesas-next-2022-08-15-v6.0-=
-rc1)
+Hello Saravana,
+
+Am Mittwoch, 10. August 2022, 08:00:29 CEST schrieb Saravana Kannan:
+> Alexander,
+> 
+> This should fix your issue where the power domain device not having a
+> compatible property. Can you give it a shot please?
+
+thanks for the update. Unfortunately this does not work:
+
+> [    0.774838] PM: Added domain provider from /soc@0/bus@30000000/
+gpc@303a0000/pgc/power-domain@0
+> [    0.775100] imx-pgc imx-pgc-domain.1: __genpd_dev_pm_attach() failed to 
+find PM domain: -2
+> [    0.775324] PM: Added domain provider from /soc@0/bus@30000000/
+gpc@303a0000/pgc/power-domain@2
+> [    0.775601] PM: Added domain provider from /soc@0/bus@30000000/
+gpc@303a0000/pgc/power-domain@3
+> [    0.775842] PM: Added domain provider from /soc@0/bus@30000000/
+gpc@303a0000/pgc/power-domain@4
+> [    0.776642] PM: Added domain provider from /soc@0/bus@30000000/
+gpc@303a0000/pgc/power-domain@7
+> [    0.776897] PM: Added domain provider from /soc@0/bus@30000000/
+gpc@303a0000/pgc/power-domain@8
+> [    0.777158] PM: Added domain provider from /soc@0/bus@30000000/
+gpc@303a0000/pgc/power-domain@9
+> [    0.777405] PM: Added domain provider from /soc@0/bus@30000000/
+gpc@303a0000/pgc/power-domain@a
+> [    0.779342] genpd genpd:0:38320000.blk-ctrl: __genpd_dev_pm_attach() 
+failed to find PM domain: -2
+> [    0.779422] imx8m-blk-ctrl 38320000.blk-ctrl: error -ENODEV: failed to 
+attach power domain "bus"
+> [    0.848785] etnaviv-gpu 38000000.gpu: __genpd_dev_pm_attach() failed to 
+find PM domain: -2
+> [    1.114220] pfuze100-regulator 0-0008: Full layer: 2, Metal layer: 1
+> [    1.122267] pfuze100-regulator 0-0008: FAB: 0, FIN: 0
+> [    1.132970] pfuze100-regulator 0-0008: pfuze100 found.
+> [    1.157011] imx-gpcv2 303a0000.gpc: Failed to create device link with 
+0-0008
+> [    1.164094] imx-gpcv2 303a0000.gpc: Failed to create device link with 
+0-0008
+
+The required power-supply for the power domains is still not yet available.
+Does this series require some other patches as well?
+
+Whats worse, starting with commit 9/9 [of: property: Simplify 
+of_link_to_phandle()], other drivers fail to probe waiting for pinctrl to be 
+available.
+> $ cat /sys/kernel/debug/devices_deferred
+> gpio-leds       platform: wait for supplier gpioledgrp
+> extcon-usbotg0  platform: wait for supplier usb0congrp
+> gpio-keys       platform: wait for supplier gpiobuttongrp
+> regulator-otg-vbus      platform: wait for supplier reggotgvbusgrp
+> regulator-vdd-arm       platform: wait for supplier dvfsgrp
+
+Apparently for some reason they are not probed again, once the pinctrl driver 
+probed.
+
+Best reagrds,
+Alexander
 
-Regressions Summary
--------------------
 
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
 
-hp-x360-14-G1-sona           | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
-
-mt8173-elm-hana              | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook   | 1          =
-
-rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook   | 2          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2022-08-15-v6.0-rc1/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2022-08-15-v6.0-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      a856c5f264405e55734da632683232c2e69eb68b
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/cros-ec-tests.git
-      SHA:  86181a7fbd379fc42314c450740d2cea8cdf04c1 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62fa245a2579be12d0daf0e9
-
-  Results:     5 PASS, 2 FAIL, 12 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--08-15-v6.0-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
-/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--08-15-v6.0-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
-/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220805.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/62=
-fa245a2579be12d0daf0fa
-        new failure (last pass: renesas-next-2022-07-07-v5.19-rc1) =
-
-
-  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
-2fa245a2579be12d0daf0fc
-        new failure (last pass: renesas-next-2022-07-07-v5.19-rc1)
-
-    2022-08-15T10:47:35.544483  / # =
-
-    2022-08-15T10:47:35.550925  =
-
-    2022-08-15T10:47:35.657277  / # #
-    2022-08-15T10:47:35.663429  #
-    2022-08-15T10:47:35.766151  / # export SHELL=3D/bin/sh
-    2022-08-15T10:47:35.772222  export SHELL=3D/bin/sh
-    2022-08-15T10:47:35.874336  / # . /lava-7036511/environment
-    2022-08-15T10:47:35.880697  . /lava-7036511/environment
-    2022-08-15T10:47:35.982707  / # /lava-7036511/bin/lava-test-runner /lav=
-a-7036511/0
-    2022-08-15T10:47:35.989083  /lava-7036511/bin/lava-test-runner /lava-70=
-36511/0 =
-
-    ... (7 line(s) more)  =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-hp-x360-14-G1-sona           | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62fa1ecff787f71609daf05b
-
-  Results:     5 PASS, 2 FAIL, 12 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--08-15-v6.0-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
-/cros-ec-hp-x360-14-G1-sona.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--08-15-v6.0-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
-/cros-ec-hp-x360-14-G1-sona.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220805.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/62=
-fa1ecff787f71609daf06c
-        new failure (last pass: renesas-next-2022-07-07-v5.19-rc1) =
-
-
-  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
-2fa1ecff787f71609daf06e
-        new failure (last pass: renesas-next-2022-07-07-v5.19-rc1)
-
-    2022-08-15T10:23:53.634260  / # =
-
-    2022-08-15T10:23:53.639244  =
-
-    2022-08-15T10:23:53.740935  / # #
-    2022-08-15T10:23:53.745542  #
-    2022-08-15T10:23:53.846557  / # export SHELL=3D/bin/sh
-    2022-08-15T10:23:53.851290  export SHELL=3D/bin/sh
-    2022-08-15T10:23:53.952201  / # . /lava-7036492/environment
-    2022-08-15T10:23:53.957288  . /lava-7036492/environment
-    2022-08-15T10:23:54.058210  / # /lava-7036492/bin/lava-test-runner /lav=
-a-7036492/0
-    2022-08-15T10:23:54.063149  /lava-7036492/bin/lava-test-runner /lava-70=
-36492/0 =
-
-    ... (7 line(s) more)  =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-mt8173-elm-hana              | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook   | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62fa1f7f0ee64d60e1daf08f
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--08-15-v6.0-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cros-=
-ec-mt8173-elm-hana.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--08-15-v6.0-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cros-=
-ec-mt8173-elm-hana.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220805.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.login: https://kernelci.org/test/case/id/62fa1f7f0ee64d60e1daf0=
-90
-        new failure (last pass: renesas-next-2022-07-05-v5.19-rc1) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook   | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62fa205b52d10878e1daf06d
-
-  Results:     5 PASS, 2 FAIL, 12 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--08-15-v6.0-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cros-=
-ec-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--08-15-v6.0-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cros-=
-ec-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220805.0/arm64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/62=
-fa205b52d10878e1daf07e
-        new failure (last pass: renesas-next-2022-07-05-v5.19-rc1) =
-
-
-  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
-2fa205b52d10878e1daf080
-        new failure (last pass: renesas-next-2022-07-05-v5.19-rc1)
-
-    2022-08-15T10:30:39.666328  / # =
-
-    2022-08-15T10:30:39.667844  =
-
-    2022-08-15T10:30:39.771595  / # #
-    2022-08-15T10:30:39.773301  #
-    2022-08-15T10:30:39.876961  / # export SHELL=3D/bin/sh
-    2022-08-15T10:30:39.879138  export SHELL=3D/bin/sh
-    2022-08-15T10:30:39.981248  / # . /lava-7036615/environment
-    2022-08-15T10:30:39.983573  . /lava-7036615/environment
-    2022-08-15T10:30:40.087414  / # /lava-7036615/bin/lava-test-runner /lav=
-a-7036615/0
-    2022-08-15T10:30:40.089683  /lava-7036615/bin/lava-test-runner /lava-70=
-36615/0 =
-
-    ... (10 line(s) more)  =
-
- =20
