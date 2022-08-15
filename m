@@ -2,78 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D394592CE2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Aug 2022 12:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F231592C78
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Aug 2022 12:51:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232461AbiHOIjF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Aug 2022 04:39:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33590 "EHLO
+        id S229456AbiHOI6G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Aug 2022 04:58:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233314AbiHOIjE (ORCPT
+        with ESMTP id S230468AbiHOI6D (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Aug 2022 04:39:04 -0400
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D63B5201BA;
-        Mon, 15 Aug 2022 01:39:01 -0700 (PDT)
-Received: by mail-qk1-f177.google.com with SMTP id g21so1397525qka.5;
-        Mon, 15 Aug 2022 01:39:01 -0700 (PDT)
+        Mon, 15 Aug 2022 04:58:03 -0400
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1715A20BF4;
+        Mon, 15 Aug 2022 01:58:03 -0700 (PDT)
+Received: by mail-qk1-f174.google.com with SMTP id n21so5108008qkk.3;
+        Mon, 15 Aug 2022 01:58:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=JtDCKm0cVxqAL7Pu8sRszUiFCITK99XhKJIX5xTH4x0=;
-        b=3BB7Wj5T6mz4vS17/lP3TNxbEKXpueP/U3C8QyBb1FS/Eu3B8PXeDUpD7O5B2tWmYo
-         e631E5FMoH/PS1Sssg6N9lRq4TNsFk/UVHoIyzJUoA0lLnZhaxJCqwRSzqfl+h7borgW
-         14uLnnnMOmqRzp3X5UzvkiMqjkmMgB8m7R9e+i1F4Q+ZBJ4HJAw9rSHisa2v5sU9yWZR
-         3VCrqTesfI/pk2XS1nBXdz1pUKnuSX4ml32Wm3defOknoa7dFaXv2mdUWdj4YlQMu4SS
-         VF6sxKRpynmHkCVmFjzTeqRaDokk9lwSpCCD2+zbb9/eQa7aTZGBanv1NFypryEGGQwW
-         9Ipw==
-X-Gm-Message-State: ACgBeo1Fs70PWQHacVhkoPb0WPfV9DJVixwOC8HGJt2crzJIsgPwKL/5
-        A4DYDVtUdWgK3YYt8IETi8Oujd9Ubbu1hkad
-X-Google-Smtp-Source: AA6agR5upkmc5Dx24BWnn3EskKFRinEPCDYjXf0T4LusHMjh/JWLPSCLJcFeHX7+waaB4dXKIYnMpw==
-X-Received: by 2002:a05:620a:458b:b0:6b6:aa5:1d59 with SMTP id bp11-20020a05620a458b00b006b60aa51d59mr10670876qkb.525.1660552740759;
-        Mon, 15 Aug 2022 01:39:00 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id z3-20020a05622a124300b003437a694049sm6559964qtx.96.2022.08.15.01.38.58
+        bh=nk5EGLhK+gdgPOYsEk+ZMf81tiZAjsJWcHtjJMPh2io=;
+        b=MO7rx/gRV4nEILHUy9iNkAnnBJ6aqHvt8BC3qpDT9rL5OuIc9Dsyc19HabPdVk1cZs
+         fI2sKVvG68ZUkpN6sEcHAHGLRwy6sBnXww6VD9uiKNnA2mz78mQjX4+NspD9DXu0EYlU
+         8vxVjClUYbXy16HKwP9oCXLuHZN8EuZHzOXOXvlRuRbeEglgFXwKdX77ikxCoI06WjnH
+         akrHGPhA4XNr8Caxah/8KfU6wf5ucUwS+NaoiTdbVdls0VEy76hAksxlZvCp6mXpMnrK
+         aAPvER8ZDc8IUf1GGMh3l5e88dihdu1hJB9RiQPuOwF1nGxCxp6SfOubc7YBoldY646i
+         SRVA==
+X-Gm-Message-State: ACgBeo3rvokVXW+arBD+pdWEgmiTbNv4PkqL5JAOUcQ+PfkzzTPWpT1v
+        bzEUNv8qxP7pfsSC/mpFaAxFECOHZVsGS2jt
+X-Google-Smtp-Source: AA6agR54M2VFI2yoALTW89h0106r0/WF2JlQaFEmA3tTNXq22yXy2SAB2Xa4wf5irbR4I4kHsuMsLg==
+X-Received: by 2002:a37:9344:0:b0:6b9:b91a:1634 with SMTP id v65-20020a379344000000b006b9b91a1634mr10739071qkd.75.1660553882048;
+        Mon, 15 Aug 2022 01:58:02 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id u11-20020a05620a430b00b006b99b78751csm8802718qko.112.2022.08.15.01.58.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Aug 2022 01:38:59 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-31f443e276fso60835197b3.1;
-        Mon, 15 Aug 2022 01:38:58 -0700 (PDT)
-X-Received: by 2002:a81:502:0:b0:32f:dcc4:146e with SMTP id
- 2-20020a810502000000b0032fdcc4146emr5686051ywf.316.1660552738763; Mon, 15 Aug
- 2022 01:38:58 -0700 (PDT)
+        Mon, 15 Aug 2022 01:58:01 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 64so8369737ybl.9;
+        Mon, 15 Aug 2022 01:58:01 -0700 (PDT)
+X-Received: by 2002:a25:2d4:0:b0:674:b112:4f37 with SMTP id
+ 203-20020a2502d4000000b00674b1124f37mr11285966ybc.202.1660553881297; Mon, 15
+ Aug 2022 01:58:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220601070707.3946847-1-saravanak@google.com>
- <20220601070707.3946847-4-saravanak@google.com> <CAMuHMdWo_wRwV-i_iyTxVnEsf3Th9GBAG+wxUQMQGnw1t2ijTg@mail.gmail.com>
-In-Reply-To: <CAMuHMdWo_wRwV-i_iyTxVnEsf3Th9GBAG+wxUQMQGnw1t2ijTg@mail.gmail.com>
+References: <20220805230736.1562801-1-f.fainelli@gmail.com>
+In-Reply-To: <20220805230736.1562801-1-f.fainelli@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 15 Aug 2022 10:38:47 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV0buz9JOHGs7_vMtV4GbLb+gmdpPihDu5B4ypqUDfAXQ@mail.gmail.com>
-Message-ID: <CAMuHMdV0buz9JOHGs7_vMtV4GbLb+gmdpPihDu5B4ypqUDfAXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/9] net: mdio: Delete usage of driver_deferred_probe_check_state()
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Date:   Mon, 15 Aug 2022 10:57:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVgqqnhg2TeznSP49sqVN8Hs=D0LKkne+evJkqT9U-LqQ@mail.gmail.com>
+Message-ID: <CAMuHMdVgqqnhg2TeznSP49sqVN8Hs=D0LKkne+evJkqT9U-LqQ@mail.gmail.com>
+Subject: Re: [PATCH] arch_topology: Silence early cacheinfo errors when non-existent
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Linux IOMMU <iommu@lists.linux-foundation.org>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Ionela Voinescu <ionela.voinescu@arm.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -86,61 +69,23 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
+Hi Florian,
 
-On Tue, Jul 5, 2022 at 11:11 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Wed, Jun 1, 2022 at 2:44 PM Saravana Kannan <saravanak@google.com> wrote:
-> > Now that fw_devlink=on by default and fw_devlink supports interrupt
-> > properties, the execution will never get to the point where
-> > driver_deferred_probe_check_state() is called before the supplier has
-> > probed successfully or before deferred probe timeout has expired.
-> >
-> > So, delete the call and replace it with -ENODEV.
-> >
-> > Signed-off-by: Saravana Kannan <saravanak@google.com>
+On Sat, Aug 6, 2022 at 1:10 AM Florian Fainelli <f.fainelli@gmail.com> wrote:
+> Architectures which do not have cacheinfo such as ARM 32-bit would spit
+> out the following during boot:
 >
-> Thanks for your patch, which is now commit f8217275b57aa48d ("net:
-> mdio: Delete usage of driver_deferred_probe_check_state()") in
-> driver-core/driver-core-next.
+>  Early cacheinfo failed, ret = -2
 >
-> Seems like I missed something when providing my T-b for this series,
-> sorry for that.
+> Treat -ENOENT specifically to silence this error since it means that the
+> platform does not support reporting its cache information.
 >
-> arch/arm/boot/dts/r8a7791-koelsch.dts has:
->
->     &ether {
->             pinctrl-0 = <&ether_pins>, <&phy1_pins>;
->             pinctrl-names = "default";
->
->             phy-handle = <&phy1>;
->             renesas,ether-link-active-low;
->             status = "okay";
->
->             phy1: ethernet-phy@1 {
->                     compatible = "ethernet-phy-id0022.1537",
->                                  "ethernet-phy-ieee802.3-c22";
->                     reg = <1>;
->                     interrupt-parent = <&irqc0>;
->                     interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
->                     micrel,led-mode = <1>;
->                     reset-gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
->             };
->     };
->
-> Despite the interrupts property, &ether is now probed before irqc0
-> (interrupt-controller@e61c0000 in arch/arm/boot/dts/r8a7791.dtsi),
-> causing the PHY not finding its interrupt, and resorting to polling:
->
->     -Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: attached PHY
-> driver (mii_bus:phy_addr=ee700000.ethernet-ffffffff:01, irq=185)
->     +Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: attached PHY
-> driver (mii_bus:phy_addr=ee700000.ethernet-ffffffff:01, irq=POLL)
->
-> Reverting this commit, and commit 9cbffc7a59561be9 ("driver core:
-> Delete driver_deferred_probe_check_state()") fixes that.
+> Fixes: 3fcbf1c77d08 ("arch_topology: Fix cache attributes detection in the CPU hotplug path")
+> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
 
-FTR, this issue is now present in v6.0-rc1.
-I haven't tried your newest series yet.
+Thank you, this fixes the issue seen with v6.0-rc1 on e.g. R-Car Gen2.
+
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
