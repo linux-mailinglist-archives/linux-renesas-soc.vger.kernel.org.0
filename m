@@ -2,58 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 562E35949DF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Aug 2022 02:15:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56606594E45
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Aug 2022 03:54:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354661AbiHOXzD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Aug 2022 19:55:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53358 "EHLO
+        id S240447AbiHPBxk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Aug 2022 21:53:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355367AbiHOXv7 (ORCPT
+        with ESMTP id S240745AbiHPBxM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Aug 2022 19:51:59 -0400
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A602D92F4B;
-        Mon, 15 Aug 2022 13:16:41 -0700 (PDT)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-32a17d3bba2so100485077b3.9;
-        Mon, 15 Aug 2022 13:16:41 -0700 (PDT)
+        Mon, 15 Aug 2022 21:53:12 -0400
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D472320D593;
+        Mon, 15 Aug 2022 14:45:00 -0700 (PDT)
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-32a17d3bba2so105469737b3.9;
+        Mon, 15 Aug 2022 14:45:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=F3WR7fgDxcCodVgsjoOsS+f77Gv20JzgJQeYT8zBw8Y=;
-        b=m4GdyZOqTzEPFE5ZNoXqTb7eVjWUfyZNn3ENU/zHMsrwZhp3Byl1BKCAW+70SAfFlX
-         7/EnRFBWxMB+0PFZFjCFYokpp3R6JFLkyEt7jKdgUe3iREKIe2pwbnnEQKGdq9zSi/Rk
-         8eRe2Y2oLaOqAyYlPvVRk5Dtbl/ti9cBijHFqsXdih7YukZVF22d5LMh2iNLnv1op0mO
-         eAFtV1e+FeT9O3GtU65MlTg4wC+BxRO5o4bPRQ/FaMXPRNu0/3PBw2+xt6gnYop4UatJ
-         /2kZkldAP8qpB7fze71ZA2XURtodoYr5XChHX6Es3I896c5gDy65wASUMMfjRHpWbtU9
-         mSDw==
+        bh=2afX6yrDcfpZBnmChjBnMJ+7mJFMLqevj8PH4SkpX9I=;
+        b=oSf3U64JTh1LWoO7F/1/3gk8zZHxArf7adTgKyoI9Ad3nVgVM7RU6UbdANx2U25TUQ
+         3amX/TDD5FEIheeSUZ6EuRjIAJbzip+oZADiJZ+Nb3P8hiM0BbcIUPS17Lhf79uryKkE
+         yh4xms4uwPu42LcyQrnSqYsIIKqLIcCfiaqv376RT78KMqDubqL5V+WAORKrdXWZTCfz
+         qZBulNpsOBBGkkBlYFArHHp0P/fG5cpbiUXmQFW2Bfa7h2wecNh8tm1zA4/m8InBDwWb
+         LA+uCNfeAe+F1VTqXrWmd6mbdK5skTqw/TfybgH02G7V62DE4hRxixu3bat5jiZd5Isa
+         RKjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=F3WR7fgDxcCodVgsjoOsS+f77Gv20JzgJQeYT8zBw8Y=;
-        b=wLh0XxfeOvD68bwRu8MMpuYR3RFBkzFstxulgJAZeKpaDDlIJrFQDhPA00vR70rp6q
-         mFiNiQCbK5/cEIOfZZHUpRZek0Dfee/50q3a5+yKt6rLCgItpVI6+2NcGuYzTRTJ5k4J
-         Q/KEYdiKqjQ2vKGMLrfNVXOc/Zdy7ucOQSGsg9cAnlI6ZZaBmOJwMrfldp5STsKQMLck
-         7JLcEYeOCiVYZswGJI3FVooP8SqTi0oAZ2+0ZrdSJXE/yABxxaYmlf+3iagt9ZIFhLcS
-         fC8VyPtpCYJLQlWVq47nIx9p3YvOHjqueOL8GslZdDbconSloe0V9w7c/v1uyHD+6PFb
-         WpzA==
-X-Gm-Message-State: ACgBeo00DAU/KFS5fyXSw7kVxFcJXih9z8OZ019/wZDbQkikvxK6I4jg
-        BkWYsu6Tx5NRvrKcE7TS+nkUKutNIiSo5DS+lwE=
-X-Google-Smtp-Source: AA6agR53x6Ky5DFoyiOZsi1UNCdLAREHkkmy3+pa3bj7rCyr5qdJmXVXVMo0vrQdOzqePpsCUG0fqZm8CD4XyiuvFwk=
-X-Received: by 2002:a25:3206:0:b0:677:2480:ffa6 with SMTP id
- y6-20020a253206000000b006772480ffa6mr13207204yby.335.1660594600950; Mon, 15
- Aug 2022 13:16:40 -0700 (PDT)
+        bh=2afX6yrDcfpZBnmChjBnMJ+7mJFMLqevj8PH4SkpX9I=;
+        b=tVKB/nK4WjIW6YaEvkU/bTd1IaaBcscMZKmChJh03EN0Y/nEGtfxJiPEgdykjBc7WB
+         sU1+7f50zdxAyzAFf2gyr3dBlHhfFdYf0zmC7b7awjmsG4414XyzpXhylNOyX5MrWqF6
+         OIY//lhc+auxNWTqOSsBzbiw0V9pA+rFFtq8XPgTtIwjoJsDsfivC5yb22n3z8AQHh/M
+         yJRwpU2dWNbDGCWs1HLIyPYJ3rR1SQHZkbUp5XLsobHPPBgN0orcBqURZGp1l6PGgTt4
+         XKErtAj39hkhM+BPlY9FGSIQzJcueXmqOqH9pfSgc1ygSHMkoeD5bVaqsPC+NjbNBo4z
+         2vqg==
+X-Gm-Message-State: ACgBeo3R3m569IP5fWGpppTO7j3ErvmbL2N27rXlYXBE1HhGrxkTAWVr
+        /51hWlmHT8suAUJhLSnxPVlo+jm7hTVHRYq/ajhJXbzwIFLSYA==
+X-Google-Smtp-Source: AA6agR4nBE/BsnGk7VaQ6Go1ssUjkUMWQ0gHOg5lC40UYQBbJv2HOmOOGs00Z28oIGh+7ulu3gg++WK8aq4GrjMjZUo=
+X-Received: by 2002:a0d:f282:0:b0:329:7da1:90e8 with SMTP id
+ b124-20020a0df282000000b003297da190e8mr14589755ywf.519.1660599899361; Mon, 15
+ Aug 2022 14:44:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220815151451.23293-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220815151451.23293-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <07342070-d96c-59fc-f9dd-b65cd742d97a@microchip.com>
-In-Reply-To: <07342070-d96c-59fc-f9dd-b65cd742d97a@microchip.com>
+ <20220815151451.23293-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <d9d0deef-92e1-05b4-a195-d2ca03801129@microchip.com> <CA+V-a8utT6UE=rc62LPE=UoU0DTJ2dDt7KO9UJ1vAG9r80E2pg@mail.gmail.com>
+ <cb3eb397-cc27-c8f2-4194-5c401f6dd690@microchip.com>
+In-Reply-To: <cb3eb397-cc27-c8f2-4194-5c401f6dd690@microchip.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 15 Aug 2022 21:16:13 +0100
-Message-ID: <CA+V-a8uNRr+WPX=YC+UMT4ch4S5XwsatHCzUoSt+hTk4C=cheA@mail.gmail.com>
-Subject: Re: [PATCH v2 6/8] riscv: dts: renesas: Add minimal DTS for Renesas
- RZ/Five SMARC EVK
+Date:   Mon, 15 Aug 2022 22:44:32 +0100
+Message-ID: <CA+V-a8s_t4ipLgcioB-YHOv7D8KQhWe4G0zmL=57594eWt-y6g@mail.gmail.com>
+Subject: Re: [PATCH v2 4/8] RISC-V: Kconfig.socs: Add Renesas RZ/Five SoC
+ kconfig option
 To:     Conor.Dooley@microchip.com
 Cc:     "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -82,51 +84,74 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Conor,
 
-On Mon, Aug 15, 2022 at 8:00 PM <Conor.Dooley@microchip.com> wrote:
+On Mon, Aug 15, 2022 at 9:05 PM <Conor.Dooley@microchip.com> wrote:
 >
-> On 15/08/2022 16:14, Lad Prabhakar wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> On 15/08/2022 20:57, Lad, Prabhakar wrote:
+> > Hi Conor,
 > >
-> > Enable the minimal blocks required for booting the Renesas RZ/Five
-> > SMARC EVK with initramfs.
+> > Thank you for the review.
 > >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v1->v2
-> > * New patch
-> > ---
-> >  arch/riscv/boot/dts/Makefile                  |  1 +
-> >  arch/riscv/boot/dts/renesas/Makefile          |  2 ++
-> >  .../boot/dts/renesas/r9a07g043f01-smarc.dts   | 16 ++++++++++
-> >  .../boot/dts/renesas/rzfive-smarc-som.dtsi    | 22 +++++++++++++
-> >  arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi | 32 +++++++++++++++++++
-> >  5 files changed, 73 insertions(+)
-> >  create mode 100644 arch/riscv/boot/dts/renesas/Makefile
-> >  create mode 100644 arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dts
-> >  create mode 100644 arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
+> > On Mon, Aug 15, 2022 at 8:10 PM <Conor.Dooley@microchip.com> wrote:
+> >>
+> >> On 15/08/2022 16:14, Lad Prabhakar wrote:
+> >>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> >>>
+> >>> Introduce SOC_RENESAS_RZFIVE config option to enable Renesas RZ/Five
+> >>> (R9A07G043) SoC, along side also add ARCH_RENESAS config option as most
+> >>> of the Renesas drivers depend on this config option.
+> >>
+> >> Hey Lad,
+> >>
+> >> I think I said something similar on v1, but I said it again
+> >> to Samuel today so I may as well repost here too:
+> >> "I think this and patch 12/12 with the defconfig changes should be
+> > patch 8/8.
 >
-> Just to sort out some of my own confusion here - is the smarc EVK
-> shared between your arm boards and the riscv ones? Or just the
-> peripherals etc on the soc?
+> It was a direct copy paste, hence the quotes ;)
+:)
+> Your patch 8/8 lines up with the current symbols while Samuel's
+> doesn't.
 >
-RZ/Five SoC is pin compatible with RZ/G2UL Type 1 SoC (ARM64). RZ/G2UL
-SMARC EVK carrier board can be swapped with RZ/Five or RZ/G2UL SMARC
-SoM and still be used.
+> >
+> >
+> >> deferred until post LPC (which still leaves plenty of time for
+> >> making the 6.1 merge window). We already have like 4 different
+> >> approaches between the existing SOC_FOO symbols & two more when
+> >> D1 stuff and the Renesas stuff is considered.
+> >>
+> >> Plan is to decide at LPC on one approach for what to do with
+> >> Kconfig.socs & to me it seems like a good idea to do what's being
+> >> done here - it's likely that further arm vendors will move and
+> >> keeping the common symbols makes a lot of sense to me..."
+> >>
+> > Sure not a problem. But delaying patch 4 and 8 will make RZ/Five SoC
+> > not buildable. Is that OK?
+>
+> No no, I prob just did a bad job of explaining. I meant more
+> along the lines of "I don't think this is the right approach
+> but I will defer reviewing until after LPC, when we have picked
+> one approach to use for everyone". I'm sorry, poor choice of
+> words maybe. I didn't mean drop these patches so that it does
+> not build, keeping it buildable until then so that we can all
+> test/review is the way to go. Not your fault we've done 4 different
+> things so far!
+>
+> Hopefully that makes a bit more sense?
+>
+Yep, that makes sense.
 
-> If it is the forver, does the approach suggested here for the
-> allwinner stuff make sense to also use for risc-v stuff with
-> shared parts of devicetrees?
-> https://lore.kernel.org/linux-riscv/3cd9ed5b-8348-38ac-feb1-9a7da858cebc@microchip.com/
+> >
+> >> Also, for the sake of my OCD could you pick either riscv or
+> >> RISC-V and use it for the whole series? Pedantic I guess, but
+> >> /shrug
+> >>
+> > Sorry did you mean I add riscv/RISC-V in the subject?
 >
-it does make sense. But I wonder where we would place the common
-shared dtsi that can be used by two arch's.
+> You have some patches with RISC-V and some with riscv.
+> What I meant was use one of the two for the whole series.
 
-> Would at least be interesting in hearing more opinions from the dt
-> people, Geert & Palmer. We have some SOM based stuff too with carriers
-> so I am interested in seeing how the cross platform part of that works
-> out.
->
-Yep, that would be interesting.
+I followed the previous subjects for that file which were previously
+accepted. But not a problem I'll change them to riscv instead.
 
 Cheers,
 Prabhakar
