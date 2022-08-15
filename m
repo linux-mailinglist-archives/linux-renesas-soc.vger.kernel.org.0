@@ -2,167 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AC50592F0B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Aug 2022 14:39:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C84E3593036
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Aug 2022 15:49:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231543AbiHOMjb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Aug 2022 08:39:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49756 "EHLO
+        id S231574AbiHONtU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Aug 2022 09:49:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232239AbiHOMja (ORCPT
+        with ESMTP id S233153AbiHONtS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Aug 2022 08:39:30 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511C2237DD;
-        Mon, 15 Aug 2022 05:39:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1660567167; x=1692103167;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ZoeSgVqYecYa8dOXcwGrIo4k9Ip/Bxok4jHfP0iqk0s=;
-  b=RxRiPoIBIcCDT1kDI/YX1hV7vf8ExuPtme+aHhJIqCHSN8ma928khbT0
-   Eez9zl6oULI6EzEc1HCuHizcE+GVmv55luGurc9EbZ7aaPlBIjOysGqpU
-   K0TDS1l28lWsFi7tNBeVCKOwDp9uzgJdVd2sBxjhVQvA4IsSlqLFmxFKi
-   fSuMJjCIYbpIdkhUOo298dO4riLw/bMH6swlbwPo5Zr7+ckxEepLwxfo6
-   X8+2yFDghGyJZElnIjW8hvzznBoL2jke5nlQbGUn0py3/ptpTWXuopu39
-   ncLvisAFh8kMFtxWy0k1/8xxG6CFbGDqHe4aDHoEx36J4yQOckGtnQS8u
-   A==;
-X-IronPort-AV: E=Sophos;i="5.93,238,1654552800"; 
-   d="scan'208";a="25605305"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 15 Aug 2022 14:39:24 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 15 Aug 2022 14:39:24 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 15 Aug 2022 14:39:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1660567164; x=1692103164;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ZoeSgVqYecYa8dOXcwGrIo4k9Ip/Bxok4jHfP0iqk0s=;
-  b=SRYuP5tro2Iq3C5Ct21jG0BwrComttqC0+848iBBB5Rxzj5oLDsXCf6s
-   JF4ghFCSvsmxuLGW+HEaie5rlZKfJbykLh2zr/AmAuAzLYPXuzbyhFC8c
-   gVFgpEOhr6GMabGQXphj25oizxKT7ZQSl5xHXv10/G2N7Zum0ngCeXUYZ
-   lwclTWC/9linzmcWvJdWWPLJW5J6c86I/hUkkZGJxOkWPNCEcb3lOsqqZ
-   Ja81xBdUzxOJ3b50lS6fahYhKG2h614sQKfCxRzqb5jM9n0H1BmEjivYd
-   x3YI1hJlrFdY9QQBKUFPSoSXGqhZOCT240LZiirg3gv82dbhYXSgcNs0U
-   g==;
-X-IronPort-AV: E=Sophos;i="5.93,238,1654552800"; 
-   d="scan'208";a="25605304"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 15 Aug 2022 14:39:24 +0200
-Received: from steina-w.localnet (unknown [10.123.49.11])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id DCF8A280056;
-        Mon, 15 Aug 2022 14:39:23 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Len Brown <lenb@kernel.org>,
-        Saravana Kannan <saravanak@google.com>,
-        Abel Vesa <abel.vesa@linaro.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        John Stultz <jstultz@google.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Guenter Roeck <linux@roeck-us.net>, kernel-team@android.com,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v1 0/9] fw_devlink improvements
-Date:   Mon, 15 Aug 2022 14:39:23 +0200
-Message-ID: <3601760.iIbC2pHGDl@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20220810060040.321697-1-saravanak@google.com>
-References: <20220810060040.321697-1-saravanak@google.com>
+        Mon, 15 Aug 2022 09:49:18 -0400
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 106A422BCE;
+        Mon, 15 Aug 2022 06:49:16 -0700 (PDT)
+Received: by mail-pj1-f48.google.com with SMTP id h21-20020a17090aa89500b001f31a61b91dso14483909pjq.4;
+        Mon, 15 Aug 2022 06:49:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=gVwXRsOgJI+Cnx7zqybxmCG71vWgxYHCtyi19HC0Kc8=;
+        b=ytol3Hc2EN52t7A/I5knS1WwWcfTfPVzAmSBnDvLqPwwWKYHjMNUJz0MuqtSGIC7Ix
+         hLHz93Jr3mSHCkBcSmrgk+NLq/5P9DC9A93EyMfI7QS94mNTSmtWLtuNYZo4kEH3AEY/
+         MJqSaoWhYTJv2vFlBpGnDUXq4tlAvDCNKdjiepYtAvbEhP2rs2kSVGwbAKoFp/ROflo7
+         zlxksIaxzJxzCyHSd72+uRhpJ2XSKUZJAzbTB/muQaWoe3Qn5q2A/FSpnGkJkyKCT8sn
+         m5Ba3dV36tCZeZi7xgWDSoq7TfLo5IZR3gjNdRejuCFhSzK1IXtBZRHOP4nSfqO0mdRt
+         2l2w==
+X-Gm-Message-State: ACgBeo293AInyIbZJxEWuEAYVFPJIWrzta81loeAUnbQIcb7qO4eB0d4
+        IefMt1sWm3BlYhVRNZTwpKI=
+X-Google-Smtp-Source: AA6agR5e2cZfn3HgeXo5E8txEycPGs6tblIkJci3N7OcvN2/8u50r5xhXS1mLhci6L3BQHh1yVvHPQ==
+X-Received: by 2002:a17:902:e154:b0:171:4e75:a282 with SMTP id d20-20020a170902e15400b001714e75a282mr17453864pla.90.1660571355461;
+        Mon, 15 Aug 2022 06:49:15 -0700 (PDT)
+Received: from [192.168.3.217] ([98.51.102.78])
+        by smtp.gmail.com with ESMTPSA id b12-20020a170903228c00b0016be596c8afsm6957795plh.282.2022.08.15.06.49.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Aug 2022 06:49:14 -0700 (PDT)
+Message-ID: <40700595-8c83-1b61-ea93-ea9554bfb2db@acm.org>
+Date:   Mon, 15 Aug 2022 06:49:12 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH v2 2/2] scsi: sd: Rework asynchronous resume support
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        scsi <linux-scsi@vger.kernel.org>,
+        Ming Lei <ming.lei@redhat.com>, Hannes Reinecke <hare@suse.de>,
+        John Garry <john.garry@huawei.com>, ericspero@icloud.com,
+        jason600.groome@gmail.com,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-ide@vger.kernel.org,
+        James Bottomley <James.Bottomley@hansenpartnership.com>
+References: <20220630195703.10155-1-bvanassche@acm.org>
+ <20220630195703.10155-3-bvanassche@acm.org>
+ <alpine.DEB.2.22.394.2207191125130.1006766@ramsan.of.borg>
+ <db19ed29-e7f9-e5b0-3a6c-f2812078a07d@acm.org>
+ <CAMuHMdVzsgSYtbJQnaigNax_JbxPsQfU+gHcteS-ojWbxUdMfw@mail.gmail.com>
+ <CAMuHMdWtxBj8ug7AHTqentF8UD4jpO2sgoWWcQCOvEKLJtdq8A@mail.gmail.com>
+ <506ca1a6-1122-5755-fc74-60f7c7bfbd0d@acm.org>
+ <CAMuHMdVQ2K2v8jpsFfOMk99DG_sBB4_ioiQRroC7K_Ov1wvp9w@mail.gmail.com>
+ <6f70e742-9d8a-f389-0482-0ba9696bf445@acm.org>
+ <CAMuHMdVc+ATGV-=R3uV6RyF0-mZiuKv7HpmogRBgqGVyO-MKWg@mail.gmail.com>
+ <54e20a27-a10b-b77a-e950-1d3398e2e907@acm.org>
+ <CAMuHMdURQpAEGgv4cY7v0rqzs12v2TT=Amt26Y0OoBSW7YAoaw@mail.gmail.com>
+ <084e7c5a-f98d-d61e-de81-83525851ecf9@acm.org>
+ <CAMuHMdW2vOC8ZsE_XF8TbSNoF9zCrwq7UkGZ5jXen1E1mTZe+g@mail.gmail.com>
+ <14ec47f3-f3b8-61c7-2c64-d96d00dd7076@acm.org>
+ <CAMuHMdW7nGxV_3Z2JV_TCM+WtTdYv5P+0cE6Tw=6krcseNCdAw@mail.gmail.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <CAMuHMdW7nGxV_3Z2JV_TCM+WtTdYv5P+0cE6Tw=6krcseNCdAw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Saravana,
+On 8/15/22 03:13, Geert Uytterhoeven wrote:
+> Showing all locks held in the system:
+> 1 lock held by rcu_tasks_kthre/10:
+>   #0: ffff800009575c38 (rcu_tasks.tasks_gp_mutex){+.+.}-{3:3}, at:
+> rcu_tasks_one_gp+0x34/0x4c8
+> 4 locks held by kworker/0:10/104:
+>   #0: ffff0004c0008738 ((wq_completion)events){+.+.}-{0:0}, at:
+> process_one_work+0x1f4/0x6a0
+>   #1: ffff80000a90bde0
+> ((work_completion)(&ap->scsi_rescan_task)){+.+.}-{0:0}, at:
+> process_one_work+0x1f4/0x6a0
+>   #2: ffff0004c2b6bf60 (&ap->scsi_scan_mutex){+.+.}-{3:3}, at:
+> ata_scsi_dev_rescan+0x28/0x118
+>   #3: ffff0004c2902368 (&dev->mutex){....}-{3:3}, at:
+> scsi_rescan_device+0x28/0x78
+> 1 lock held by in:imklog/636:
+>   #0: ffff0004c5ee86e8 (&f->f_pos_lock){+.+.}-{3:3}, at: __fdget_pos+0x54/0x68
+> 1 lock held by hd/1013:
+>   #0: ffff0004c06388b8 (mapping.invalidate_lock#2){.+.+}-{3:3}, at:
+> page_cache_ra_unbounded+0x64/0x1a8
 
-Am Mittwoch, 10. August 2022, 08:00:29 CEST schrieb Saravana Kannan:
-> Alexander,
-> 
-> This should fix your issue where the power domain device not having a
-> compatible property. Can you give it a shot please?
+Thank you for having shared this information. I will take a closer look 
+and see what I can derive from the above information.
 
-thanks for the update. Unfortunately this does not work:
+> I've just tried with a USB storage device on the same platform,
+> and it can be read fine after s2idle.  So it looks like the issue
+> is related to SATA.
 
-> [    0.774838] PM: Added domain provider from /soc@0/bus@30000000/
-gpc@303a0000/pgc/power-domain@0
-> [    0.775100] imx-pgc imx-pgc-domain.1: __genpd_dev_pm_attach() failed to 
-find PM domain: -2
-> [    0.775324] PM: Added domain provider from /soc@0/bus@30000000/
-gpc@303a0000/pgc/power-domain@2
-> [    0.775601] PM: Added domain provider from /soc@0/bus@30000000/
-gpc@303a0000/pgc/power-domain@3
-> [    0.775842] PM: Added domain provider from /soc@0/bus@30000000/
-gpc@303a0000/pgc/power-domain@4
-> [    0.776642] PM: Added domain provider from /soc@0/bus@30000000/
-gpc@303a0000/pgc/power-domain@7
-> [    0.776897] PM: Added domain provider from /soc@0/bus@30000000/
-gpc@303a0000/pgc/power-domain@8
-> [    0.777158] PM: Added domain provider from /soc@0/bus@30000000/
-gpc@303a0000/pgc/power-domain@9
-> [    0.777405] PM: Added domain provider from /soc@0/bus@30000000/
-gpc@303a0000/pgc/power-domain@a
-> [    0.779342] genpd genpd:0:38320000.blk-ctrl: __genpd_dev_pm_attach() 
-failed to find PM domain: -2
-> [    0.779422] imx8m-blk-ctrl 38320000.blk-ctrl: error -ENODEV: failed to 
-attach power domain "bus"
-> [    0.848785] etnaviv-gpu 38000000.gpu: __genpd_dev_pm_attach() failed to 
-find PM domain: -2
-> [    1.114220] pfuze100-regulator 0-0008: Full layer: 2, Metal layer: 1
-> [    1.122267] pfuze100-regulator 0-0008: FAB: 0, FIN: 0
-> [    1.132970] pfuze100-regulator 0-0008: pfuze100 found.
-> [    1.157011] imx-gpcv2 303a0000.gpc: Failed to create device link with 
-0-0008
-> [    1.164094] imx-gpcv2 303a0000.gpc: Failed to create device link with 
-0-0008
+Unfortunately the above does not learn us anything new. The code 
+modified by commit 88f1669019bd ("scsi: sd: Rework asynchronous resume 
+support") is only called if sdev->manage_start_stop != 1. Only the SATA 
+code, the Firewire code and the manage_start_stop sysfs attribute store 
+method set that member variable:
 
-The required power-supply for the power domains is still not yet available.
-Does this series require some other patches as well?
+$ git grep -nH 'manage_start_stop = '
+drivers/ata/libata-scsi.c:1083:		sdev->manage_start_stop = 1;
+drivers/firewire/sbp2.c:1521:		sdev->manage_start_stop = 1;
+drivers/scsi/sd.c:240:	sdp->manage_start_stop = v;
 
-Whats worse, starting with commit 9/9 [of: property: Simplify 
-of_link_to_phandle()], other drivers fail to probe waiting for pinctrl to be 
-available.
-> $ cat /sys/kernel/debug/devices_deferred
-> gpio-leds       platform: wait for supplier gpioledgrp
-> extcon-usbotg0  platform: wait for supplier usb0congrp
-> gpio-keys       platform: wait for supplier gpiobuttongrp
-> regulator-otg-vbus      platform: wait for supplier reggotgvbusgrp
-> regulator-vdd-arm       platform: wait for supplier dvfsgrp
+Would it be possible to share the output of the command below? That 
+should reveal which ATA driver is active on the test setup.
 
-Apparently for some reason they are not probed again, once the pinctrl driver 
-probed.
+find /sys -name proc_name | xargs grep -aH .
 
-Best reagrds,
-Alexander
+Thanks,
 
-
-
+Bart.
