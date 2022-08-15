@@ -2,79 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56606594E45
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Aug 2022 03:54:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D739595195
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Aug 2022 07:02:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240447AbiHPBxk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Aug 2022 21:53:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50866 "EHLO
+        id S233526AbiHPFBw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Aug 2022 01:01:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240745AbiHPBxM (ORCPT
+        with ESMTP id S234740AbiHPFB2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Aug 2022 21:53:12 -0400
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D472320D593;
-        Mon, 15 Aug 2022 14:45:00 -0700 (PDT)
-Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-32a17d3bba2so105469737b3.9;
-        Mon, 15 Aug 2022 14:45:00 -0700 (PDT)
+        Tue, 16 Aug 2022 01:01:28 -0400
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C6D50055
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Aug 2022 13:56:44 -0700 (PDT)
+Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-31f661b3f89so102878097b3.11
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Aug 2022 13:56:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=2afX6yrDcfpZBnmChjBnMJ+7mJFMLqevj8PH4SkpX9I=;
-        b=oSf3U64JTh1LWoO7F/1/3gk8zZHxArf7adTgKyoI9Ad3nVgVM7RU6UbdANx2U25TUQ
-         3amX/TDD5FEIheeSUZ6EuRjIAJbzip+oZADiJZ+Nb3P8hiM0BbcIUPS17Lhf79uryKkE
-         yh4xms4uwPu42LcyQrnSqYsIIKqLIcCfiaqv376RT78KMqDubqL5V+WAORKrdXWZTCfz
-         qZBulNpsOBBGkkBlYFArHHp0P/fG5cpbiUXmQFW2Bfa7h2wecNh8tm1zA4/m8InBDwWb
-         LA+uCNfeAe+F1VTqXrWmd6mbdK5skTqw/TfybgH02G7V62DE4hRxixu3bat5jiZd5Isa
-         RKjQ==
+        bh=D0fn3micXKWrfIVT3rhbLog8MKgivLXDeSRBFlVQCe0=;
+        b=pWNCA5tjhz3ifbg/zoi8mxeHNbQqyS6Wr+tkXqszwau/3juKJt1cJiDeWd/xTUYikf
+         3m+lUs8TRS/ONqZP2kr37pSkam/ltj8dFUHNbQSVUtOocrZd8kNivuozAsPDZGUebja5
+         8qoXrSub6bi/48WY6kMdn5wD62DzaKBuNTtBjPgC1vqE2ofoH7+pemKiSTDhtCXK+BKg
+         tM0mwmFWdjDKI5x8PolzvWsp9Wa9f7ueMXN26rQ8TanPpj13nakHNrDAbc0WTCILPcKm
+         sITU3U2AXFoq3SQH3e7W+zw/P6tvdNfqQuIWIBXSOdodHIwUTxZT8vAAFSIly2OhmtPn
+         X4/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=2afX6yrDcfpZBnmChjBnMJ+7mJFMLqevj8PH4SkpX9I=;
-        b=tVKB/nK4WjIW6YaEvkU/bTd1IaaBcscMZKmChJh03EN0Y/nEGtfxJiPEgdykjBc7WB
-         sU1+7f50zdxAyzAFf2gyr3dBlHhfFdYf0zmC7b7awjmsG4414XyzpXhylNOyX5MrWqF6
-         OIY//lhc+auxNWTqOSsBzbiw0V9pA+rFFtq8XPgTtIwjoJsDsfivC5yb22n3z8AQHh/M
-         yJRwpU2dWNbDGCWs1HLIyPYJ3rR1SQHZkbUp5XLsobHPPBgN0orcBqURZGp1l6PGgTt4
-         XKErtAj39hkhM+BPlY9FGSIQzJcueXmqOqH9pfSgc1ygSHMkoeD5bVaqsPC+NjbNBo4z
-         2vqg==
-X-Gm-Message-State: ACgBeo3R3m569IP5fWGpppTO7j3ErvmbL2N27rXlYXBE1HhGrxkTAWVr
-        /51hWlmHT8suAUJhLSnxPVlo+jm7hTVHRYq/ajhJXbzwIFLSYA==
-X-Google-Smtp-Source: AA6agR4nBE/BsnGk7VaQ6Go1ssUjkUMWQ0gHOg5lC40UYQBbJv2HOmOOGs00Z28oIGh+7ulu3gg++WK8aq4GrjMjZUo=
-X-Received: by 2002:a0d:f282:0:b0:329:7da1:90e8 with SMTP id
- b124-20020a0df282000000b003297da190e8mr14589755ywf.519.1660599899361; Mon, 15
- Aug 2022 14:44:59 -0700 (PDT)
+        bh=D0fn3micXKWrfIVT3rhbLog8MKgivLXDeSRBFlVQCe0=;
+        b=Vsx31UcTHBXZYxB3Dl+Ob7b/hkDxI1m/cqRuDlBPnL8DPVZlK91xd04Ks+qTjgjhMY
+         JFQmR64A9s2AFz21tw/EyQUoILovYDhdQ7v8+kHrK2eLCJfYfVz0zfmc4PJ26lVuDEFY
+         FyEmm8Q3nGyXDnywCFVs/5iHyQChYLjXSTecJOfOk8nAgzHY2UQ0v0X0LF7sZzHgyFOM
+         x7DaR8hp/Xqz6hoF7avt1oVOsfmaChosFFDMkwMNoGGwfc6d4WwrlKpZJL69L6Dhbtn0
+         dD9lS4HsyIx1/y6K3ULqvL9V8fijfOO+5EG4CDlNXxKAvyiZ3hgqafshC74vC9JAFVqg
+         5BbQ==
+X-Gm-Message-State: ACgBeo0O1SUdVuTNx88mGQSwvJ3dsz3tZ0agotDa3RH31TP230YZIRIl
+        EmixPUzbRzSSoi5OXMu9VeoOT85XRrTDRyAO79kv3A==
+X-Google-Smtp-Source: AA6agR4LEloPmUVOkPnMV81xQJEVCPf91bSwXVvWmCOFrRCoq8LfZMc0EKGNipgQdo+jv9Jrr6eZZKs9QGFjnp+Twkw=
+X-Received: by 2002:a0d:efc1:0:b0:32a:8e40:cd70 with SMTP id
+ y184-20020a0defc1000000b0032a8e40cd70mr14737568ywe.83.1660597003258; Mon, 15
+ Aug 2022 13:56:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220815151451.23293-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220815151451.23293-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <d9d0deef-92e1-05b4-a195-d2ca03801129@microchip.com> <CA+V-a8utT6UE=rc62LPE=UoU0DTJ2dDt7KO9UJ1vAG9r80E2pg@mail.gmail.com>
- <cb3eb397-cc27-c8f2-4194-5c401f6dd690@microchip.com>
-In-Reply-To: <cb3eb397-cc27-c8f2-4194-5c401f6dd690@microchip.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 15 Aug 2022 22:44:32 +0100
-Message-ID: <CA+V-a8s_t4ipLgcioB-YHOv7D8KQhWe4G0zmL=57594eWt-y6g@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] RISC-V: Kconfig.socs: Add Renesas RZ/Five SoC
- kconfig option
-To:     Conor.Dooley@microchip.com
-Cc:     "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+References: <20220810060040.321697-1-saravanak@google.com> <3601760.iIbC2pHGDl@steina-w>
+ <CAGETcx_tSndU0xerz=DF9JQxYFRC2aaxyOE-bR2JpM0L0ht=sw@mail.gmail.com>
+In-Reply-To: <CAGETcx_tSndU0xerz=DF9JQxYFRC2aaxyOE-bR2JpM0L0ht=sw@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Mon, 15 Aug 2022 13:56:07 -0700
+Message-ID: <CAGETcx-JUV1nj8wBJrTPfyvM7=Mre5j_vkVmZojeiumUGG6QZQ@mail.gmail.com>
+Subject: Re: [PATCH v1 0/9] fw_devlink improvements
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
+        Frank Rowand <frowand.list@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Anup Patel <anup@brainfault.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Len Brown <lenb@kernel.org>, Abel Vesa <abel.vesa@linaro.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        John Stultz <jstultz@google.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>, kernel-team@android.com,
+        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-acpi@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,76 +88,149 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Conor,
+On Mon, Aug 15, 2022 at 12:17 PM Saravana Kannan <saravanak@google.com> wrote:
+>
+> On Mon, Aug 15, 2022 at 5:39 AM Alexander Stein
+> <alexander.stein@ew.tq-group.com> wrote:
+> >
+> > Hello Saravana,
+> >
+> > Am Mittwoch, 10. August 2022, 08:00:29 CEST schrieb Saravana Kannan:
+> > > Alexander,
+> > >
+> > > This should fix your issue where the power domain device not having a
+> > > compatible property. Can you give it a shot please?
+> >
+> > thanks for the update. Unfortunately this does not work:
+> >
+> > > [    0.774838] PM: Added domain provider from /soc@0/bus@30000000/
+> > gpc@303a0000/pgc/power-domain@0
+> > > [    0.775100] imx-pgc imx-pgc-domain.1: __genpd_dev_pm_attach() failed to
+> > find PM domain: -2
+> > > [    0.775324] PM: Added domain provider from /soc@0/bus@30000000/
+> > gpc@303a0000/pgc/power-domain@2
+> > > [    0.775601] PM: Added domain provider from /soc@0/bus@30000000/
+> > gpc@303a0000/pgc/power-domain@3
+> > > [    0.775842] PM: Added domain provider from /soc@0/bus@30000000/
+> > gpc@303a0000/pgc/power-domain@4
+> > > [    0.776642] PM: Added domain provider from /soc@0/bus@30000000/
+> > gpc@303a0000/pgc/power-domain@7
+> > > [    0.776897] PM: Added domain provider from /soc@0/bus@30000000/
+> > gpc@303a0000/pgc/power-domain@8
+> > > [    0.777158] PM: Added domain provider from /soc@0/bus@30000000/
+> > gpc@303a0000/pgc/power-domain@9
+> > > [    0.777405] PM: Added domain provider from /soc@0/bus@30000000/
+> > gpc@303a0000/pgc/power-domain@a
+> > > [    0.779342] genpd genpd:0:38320000.blk-ctrl: __genpd_dev_pm_attach()
+> > failed to find PM domain: -2
+> > > [    0.779422] imx8m-blk-ctrl 38320000.blk-ctrl: error -ENODEV: failed to
+> > attach power domain "bus"
+> > > [    0.848785] etnaviv-gpu 38000000.gpu: __genpd_dev_pm_attach() failed to
+> > find PM domain: -2
+> > > [    1.114220] pfuze100-regulator 0-0008: Full layer: 2, Metal layer: 1
+> > > [    1.122267] pfuze100-regulator 0-0008: FAB: 0, FIN: 0
+> > > [    1.132970] pfuze100-regulator 0-0008: pfuze100 found.
+> > > [    1.157011] imx-gpcv2 303a0000.gpc: Failed to create device link with
+> > 0-0008
+> > > [    1.164094] imx-gpcv2 303a0000.gpc: Failed to create device link with
+> > 0-0008
+> >
+> > The required power-supply for the power domains is still not yet available.
+> > Does this series require some other patches as well?
+>
+> Ah sorry, yeah, this needs additional patches. The one I gave in the
+> other thread when I debugged this and I also noticed another issue.
+> Here's the combined diff of what's needed. Can you add this on top of
+> the series and test it?
+>
+> diff --git a/drivers/irqchip/irq-imx-gpcv2.c b/drivers/irqchip/irq-imx-gpcv2.c
+> index b9c22f764b4d..8a0e82067924 100644
+> --- a/drivers/irqchip/irq-imx-gpcv2.c
+> +++ b/drivers/irqchip/irq-imx-gpcv2.c
+> @@ -283,6 +283,7 @@ static int __init imx_gpcv2_irqchip_init(struct
+> device_node *node,
+>          * later the GPC power domain driver will not be skipped.
+>          */
+>         of_node_clear_flag(node, OF_POPULATED);
+> +       fwnode_dev_initialized(domain->fwnode, false);
+>         return 0;
+>  }
+>
+> diff --git a/drivers/soc/imx/gpcv2.c b/drivers/soc/imx/gpcv2.c
+> index 6383a4edc360..181fbfe5bd4d 100644
+> --- a/drivers/soc/imx/gpcv2.c
+> +++ b/drivers/soc/imx/gpcv2.c
+> @@ -1513,6 +1513,7 @@ static int imx_gpcv2_probe(struct platform_device *pdev)
+>
+>                 pd_pdev->dev.parent = dev;
+>                 pd_pdev->dev.of_node = np;
+> +               pd_pdev->dev.fwnode = of_fwnode_handle(np);
+>
+>                 ret = platform_device_add(pd_pdev);
+>                 if (ret) {
+>
+> With this patch, I'd really expect the power domain dependency to be
+> handled correctly.
+>
+> > Whats worse, starting with commit 9/9 [of: property: Simplify
+> > of_link_to_phandle()], other drivers fail to probe waiting for pinctrl to be
+> > available.
+>
+> Heh, Patch 9/9 and all its other dependencies in this series was to
+> fix your use case. Ironic that it's causing you more issues.
+>
+> > > $ cat /sys/kernel/debug/devices_deferred
+> > > gpio-leds       platform: wait for supplier gpioledgrp
+> > > extcon-usbotg0  platform: wait for supplier usb0congrp
+> > > gpio-keys       platform: wait for supplier gpiobuttongrp
+> > > regulator-otg-vbus      platform: wait for supplier reggotgvbusgrp
+> > > regulator-vdd-arm       platform: wait for supplier dvfsgrp
+> >
+> > Apparently for some reason they are not probed again, once the pinctrl driver
+> > probed.
+>
+> I'm hoping that this is just some issue due to the missing patch
+> above, but doesn't sound like it if you say that the pinctrl ended up
+> probing eventually.
+>
+> So when device_links_driver_bound() calls
+> __fw_devlink_pickup_dangling_consumers(), it should have picked up the
+> consumers of node like gpiobuttongrp and moved it to the pinctrl
+> device. And right after that we call __fw_devlink_link_to_consumers()
+> that would have created the device links. And then right after that,
+> we go through all the consumers and add them to the deferred probe
+> list. After that deferred probe should have run... either because it's
+> enabled at late_initcall() or because a new device probed
+> successfully.
+>
+> Can you check which one of my expectations isn't true in your case?
 
-On Mon, Aug 15, 2022 at 9:05 PM <Conor.Dooley@microchip.com> wrote:
->
-> On 15/08/2022 20:57, Lad, Prabhakar wrote:
-> > Hi Conor,
-> >
-> > Thank you for the review.
-> >
-> > On Mon, Aug 15, 2022 at 8:10 PM <Conor.Dooley@microchip.com> wrote:
-> >>
-> >> On 15/08/2022 16:14, Lad Prabhakar wrote:
-> >>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> >>>
-> >>> Introduce SOC_RENESAS_RZFIVE config option to enable Renesas RZ/Five
-> >>> (R9A07G043) SoC, along side also add ARCH_RENESAS config option as most
-> >>> of the Renesas drivers depend on this config option.
-> >>
-> >> Hey Lad,
-> >>
-> >> I think I said something similar on v1, but I said it again
-> >> to Samuel today so I may as well repost here too:
-> >> "I think this and patch 12/12 with the defconfig changes should be
-> > patch 8/8.
->
-> It was a direct copy paste, hence the quotes ;)
-:)
-> Your patch 8/8 lines up with the current symbols while Samuel's
-> doesn't.
->
-> >
-> >
-> >> deferred until post LPC (which still leaves plenty of time for
-> >> making the 6.1 merge window). We already have like 4 different
-> >> approaches between the existing SOC_FOO symbols & two more when
-> >> D1 stuff and the Renesas stuff is considered.
-> >>
-> >> Plan is to decide at LPC on one approach for what to do with
-> >> Kconfig.socs & to me it seems like a good idea to do what's being
-> >> done here - it's likely that further arm vendors will move and
-> >> keeping the common symbols makes a lot of sense to me..."
-> >>
-> > Sure not a problem. But delaying patch 4 and 8 will make RZ/Five SoC
-> > not buildable. Is that OK?
->
-> No no, I prob just did a bad job of explaining. I meant more
-> along the lines of "I don't think this is the right approach
-> but I will defer reviewing until after LPC, when we have picked
-> one approach to use for everyone". I'm sorry, poor choice of
-> words maybe. I didn't mean drop these patches so that it does
-> not build, keeping it buildable until then so that we can all
-> test/review is the way to go. Not your fault we've done 4 different
-> things so far!
->
-> Hopefully that makes a bit more sense?
->
-Yep, that makes sense.
+Actually I have a hypothesis on what might be happening. It could be a
+case of the consumer device getting added after the supplier has been
+initialized.
 
-> >
-> >> Also, for the sake of my OCD could you pick either riscv or
-> >> RISC-V and use it for the whole series? Pedantic I guess, but
-> >> /shrug
-> >>
-> > Sorry did you mean I add riscv/RISC-V in the subject?
->
-> You have some patches with RISC-V and some with riscv.
-> What I meant was use one of the two for the whole series.
+If the patch above doesn't fix everything, can you add this diff on
+top of the patch above and see if that fixes everything? If it fixes
+the pinctrl issue, can you check my hypothesis be checking in what
+order the devices get added and get probed?
 
-I followed the previous subjects for that file which were previously
-accepted. But not a problem I'll change them to riscv instead.
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 2f012e826986..866755d8ad95 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -2068,7 +2068,11 @@ static int fw_devlink_create_devlink(struct device *con,
+                device_links_write_unlock();
+        }
 
-Cheers,
-Prabhakar
+-       sup_dev = get_dev_from_fwnode(sup_handle);
++       if (sup_handle->flags & FWNODE_FLAG_NOT_DEVICE)
++               sup_dev = fwnode_get_next_parent_dev(sup_handle);
++       else
++               sup_dev = get_dev_from_fwnode(sup_handle);
++
+        if (sup_dev) {
+                /*
+                 * If it's one of those drivers that don't actually bind to
+
+Thanks,
+Saravana
