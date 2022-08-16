@@ -2,53 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 056C95963C4
+	by mail.lfdr.de (Postfix) with ESMTP id 8A4B05963C5
 	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Aug 2022 22:39:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236538AbiHPUjF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S236193AbiHPUjF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Tue, 16 Aug 2022 16:39:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41732 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236193AbiHPUjE (ORCPT
+        with ESMTP id S233510AbiHPUjE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Tue, 16 Aug 2022 16:39:04 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68E9D5246B
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6978F57891
         for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Aug 2022 13:39:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1660682343; x=1692218343;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=WpcrDyvoHW49Mqyt+cenUuc1IhY9x7LZR9LbV3tuyYY=;
-  b=ApH+jwk9WMMVEFzTzrcLfuSQL1HzN6m3x2l167B9UTXevBbk3da2pmT+
-   W2szpLcHROmGY7B6QQJhmk0CrLsuFrlEAHojod31Z37NbhH0zbrvqcd9y
-   a6UN3i41f1e2GQXEKsvcowQvEPMgr0UcLab1xqbgkyeS90Wh5kxNj6tzh
-   Vkp4IEEoHaE+EaP0IEAlSJpmd8cHs6wXiH6s4WtIGH4nMbd0C5qPAEHks
-   U4XV4Te7a9o6HH3gqw3C6zKYa1tpgzYGYTlsX3hw4nol6/vjgn41JcttU
-   xvnTMnmpcIcAPX6MBzyZJYtSAgga/FroVoTKs4k1rG/xnuDeTli/KG/rz
+  bh=PTZbgxgRoxailHiDLmgpyRKZ8apRJxKzQXWeB2qirVQ=;
+  b=CM1Qjyk6rMdOBrccZbarmA/lqSmuZp1MuVFvHGXgX3n68lID8P7A+U7j
+   4W98XtXsmkgU2Ut5SLibH+vFmtQvAR/ZsoE4Z2wkuDkP9BQVo5HWE96IK
+   neygrB81WwxDE7CnqSjG7iQ4eDN3NgsCt2dq8IAWKJQ7zZ8N8Gc/laQyP
+   Lglfn7gnW3NECue8Bb1bGnrMeRExhOQpitrsiBWURTYwmPZ5g/fhPO2BY
+   fvrZ6H/2BLBUpfhZdK2wkyjBJhu8iDECsTNBEsUFXqoxAAArMB1wMcq01
+   5RxpPNgzgkyfJaz6i0WLg4b+BpQe96UPjWTTsph+wR+x5IhkjPX+HWZ11
    g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10441"; a="293599546"
+X-IronPort-AV: E=McAfee;i="6400,9594,10441"; a="272716990"
 X-IronPort-AV: E=Sophos;i="5.93,242,1654585200"; 
-   d="scan'208";a="293599546"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2022 13:39:03 -0700
+   d="scan'208";a="272716990"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2022 13:39:03 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.93,242,1654585200"; 
-   d="scan'208";a="749443629"
+   d="scan'208";a="640181158"
 Received: from lkp-server02.sh.intel.com (HELO 81d7e1ade3ba) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 16 Aug 2022 13:39:01 -0700
+  by orsmga001.jf.intel.com with ESMTP; 16 Aug 2022 13:39:01 -0700
 Received: from kbuild by 81d7e1ade3ba with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1oO3L3-0000E6-0L;
+        id 1oO3L3-0000E4-0J;
         Tue, 16 Aug 2022 20:39:01 +0000
-Date:   Wed, 17 Aug 2022 04:38:02 +0800
+Date:   Wed, 17 Aug 2022 04:38:46 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pinctrl-for-v6.1] BUILD SUCCESS
- 96355be8f0a2a7a91aae2e66c0795a13444db5ba
-Message-ID: <62fc002a.x9VluaXe/8Iw49Dr%lkp@intel.com>
+Subject: [geert-renesas-devel:renesas-drivers-for-v6.1] BUILD SUCCESS
+ ebd0e06f3063cc2e3a689112904b29720579c6d2
+Message-ID: <62fc0056.iXcG38mLHXJEfe4N%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -63,10 +63,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v6.1
-branch HEAD: 96355be8f0a2a7a91aae2e66c0795a13444db5ba  dt-bindings: pinctrl: renesas: Document RZ/Five SoC
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v6.1
+branch HEAD: ebd0e06f3063cc2e3a689112904b29720579c6d2  soc: renesas: Identify RZ/Five SoC
 
-elapsed time: 700m
+elapsed time: 701m
 
 configs tested: 105
 configs skipped: 2
@@ -77,18 +77,18 @@ More configs may be tested in the coming days.
 gcc tested configs:
 um                             i386_defconfig
 um                           x86_64_defconfig
-arc                  randconfig-r043-20220815
 powerpc                          allmodconfig
 mips                             allyesconfig
 powerpc                           allnoconfig
 sh                               allmodconfig
-i386                                defconfig
+arc                  randconfig-r043-20220815
 m68k                             allmodconfig
 arc                              allyesconfig
 alpha                            allyesconfig
 arm64                            allyesconfig
 arm                                 defconfig
 arm                              allyesconfig
+i386                                defconfig
 csky                              allnoconfig
 alpha                             allnoconfig
 arc                               allnoconfig
@@ -158,10 +158,10 @@ sh                        dreamcast_defconfig
 sh                            migor_defconfig
 
 clang tested configs:
-hexagon              randconfig-r041-20220815
 hexagon              randconfig-r045-20220815
-riscv                randconfig-r042-20220815
+hexagon              randconfig-r041-20220815
 s390                 randconfig-r044-20220815
+riscv                randconfig-r042-20220815
 arm                       versatile_defconfig
 i386                 randconfig-a011-20220815
 i386                 randconfig-a012-20220815
