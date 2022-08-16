@@ -2,241 +2,612 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CA3E595D1E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Aug 2022 15:21:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EADE0595D39
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Aug 2022 15:26:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233350AbiHPNUi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Aug 2022 09:20:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57276 "EHLO
+        id S235799AbiHPN0L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Aug 2022 09:26:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235615AbiHPNUW (ORCPT
+        with ESMTP id S235797AbiHPN0K (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Aug 2022 09:20:22 -0400
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C5E755A8;
-        Tue, 16 Aug 2022 06:20:19 -0700 (PDT)
-Received: by mail-qt1-f182.google.com with SMTP id x5so8040008qtv.9;
-        Tue, 16 Aug 2022 06:20:19 -0700 (PDT)
+        Tue, 16 Aug 2022 09:26:10 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E6788DD5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Aug 2022 06:26:06 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id o3so9208770ple.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Aug 2022 06:26:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc;
+        bh=HeUVU8Ex0MGLYoAAO9BnOTZ+2jWpWa/yj6nBLy10egY=;
+        b=sflm75zh9a0/PNvMcPXA3AL89DcvBfwYL3ZxZdH4ci3RY2lX4U4Wae/qYxXzc2VD2H
+         gL+6zyL5LSYPJ+Tm2sQ5HPSJyYvEjo8Q+sHZqoryOxJ+U8Lxju12LDn9EMqq0zze7TDS
+         f+f++7nURha0OmzSi5r4UDhIU+srl4t9dpJLwNjjsN2frn8N/G1DektyhEIXKeAH5/6r
+         ygApAnP91yawqoPWdx8OEnnnQ0yPZAs2LKs2taTSp8IuZBB1YLjqw+ePMgJH6GxkO7xr
+         Vxd6zWkw42eTRoV8Lh+oa0qQeqLzUrQilkO+fCjY6LVPujFXja0a4CVGreH/m/qqT6K7
+         uGyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=hDkAAnw+hHxd4arV3hgrWxC6jV6Ka7uhFxxYbXDlq84=;
-        b=Ie69SXBnTFwHYq+2qoaVNTMJqlSlP9rGPH8gDFzZrNLW3RVfxY+4H6NPLctCFAX7JJ
-         MX5LOnbaDo+nw1QfpqvH4maxInHlhgD9n+KbEMkUKI4z7Ytb5ne2Vm+4oLPdjrn1Qaiy
-         NV694j6yYFFJxw0Uzi/SjeBXkrZeL5JtZl3W5ohiVAHo7W9JIzDlTk9O60ed9rffZTJk
-         5X9BAXDzth5kHhlXJuDqRLV/tGiYDX5jiJi7eia1DxIqdRcUIeUqqbWJFL920Kz2agDA
-         LYav3MtVbAtITi5R1OGrUu8t2P5MuVyvReYX80e0lawG4+Khnh2SYVzp5TAkMLccfizw
-         IkIw==
-X-Gm-Message-State: ACgBeo3QAI8E62iaDX3FIU7RRLJc6/wTBsRdDMvjeoOjmMZQlwNAbSeI
-        xPT+fhgD3/pFI51iy7lBG4n2EP7qWPwQGQ==
-X-Google-Smtp-Source: AA6agR5mtz+9F5/sG4+zrfZmReY9+LbVHIt/DB8co+JfWJP78E9Xz7B2Q5oRDve48VIykbFBeatPaA==
-X-Received: by 2002:ac8:5b0d:0:b0:33b:f61b:d173 with SMTP id m13-20020ac85b0d000000b0033bf61bd173mr18273671qtw.668.1660656017223;
-        Tue, 16 Aug 2022 06:20:17 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id n17-20020a05620a295100b006b64d36342fsm12047357qkp.68.2022.08.16.06.20.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Aug 2022 06:20:16 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-3321c2a8d4cso97038637b3.5;
-        Tue, 16 Aug 2022 06:20:15 -0700 (PDT)
-X-Received: by 2002:a81:502:0:b0:32f:dcc4:146e with SMTP id
- 2-20020a810502000000b0032fdcc4146emr10295665ywf.316.1660656015710; Tue, 16
- Aug 2022 06:20:15 -0700 (PDT)
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc;
+        bh=HeUVU8Ex0MGLYoAAO9BnOTZ+2jWpWa/yj6nBLy10egY=;
+        b=2ETVBNy8Yxw4iaaOK6ULufERZleOvFZvyPrQKM983eRFztESOd4U8d0eF02AoHBqxm
+         A6uUyPLamDdSso2Q4owKiG3yDSGcOse0T931cJzBnwVO+XYrgfW3El69FZIjMakblbt0
+         hu9sfPTIgo/2JwukhOvA0lRAE2EMN9MOKsiOGGWIQCq6PopGwnrKPzXqVlzZTz75GhbG
+         6ew+WsW8DxoeljjMFfZbZacIzs7H8v+cExVmHNCRA07VWsWjUmejD7sfNcg57PCvf/Uv
+         MWQjltawlM6CKjrkK+XKENijRq9tzVSa0lFLv06BqsCdHtYxKcbZXvlWNOjopavlo/7W
+         HG/w==
+X-Gm-Message-State: ACgBeo0gX9Ev+EPcfRyt/EeHivQcLmJeUQtUi1eiNFXaSuARclUy9Ayg
+        I7NX86xmmd6PNOLWvwqKBTb825wqqUCAngiK
+X-Google-Smtp-Source: AA6agR4t9a6pPCOo6I3xlQ1SQyOieQYm4yQBo01RX9xz8Ed5TFjO772rrgbzkH/HannM13VICpRaJQ==
+X-Received: by 2002:a17:902:d144:b0:170:cabe:a719 with SMTP id t4-20020a170902d14400b00170cabea719mr21918068plt.76.1660656365088;
+        Tue, 16 Aug 2022 06:26:05 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id ik4-20020a170902ab0400b0016c0eb202a5sm9009362plb.225.2022.08.16.06.26.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Aug 2022 06:26:04 -0700 (PDT)
+Message-ID: <62fb9aec.170a0220.1248e.f596@mx.google.com>
+Date:   Tue, 16 Aug 2022 06:26:04 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220801233403.258871-1-f.fainelli@gmail.com> <CGME20220812111948eucas1p2bf97e7f4558eb024f419346367a87b45@eucas1p2.samsung.com>
- <27016cc0-f228-748b-ea03-800dda4e5f0c@samsung.com> <8c21e530-8e8f-ce2a-239e-9d3a354996cf@gmail.com>
-In-Reply-To: <8c21e530-8e8f-ce2a-239e-9d3a354996cf@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 16 Aug 2022 15:20:03 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV8vsbFx+nikAwn1po1-PeZVhzotMaLLk+wXNquZceaRQ@mail.gmail.com>
-Message-ID: <CAMuHMdV8vsbFx+nikAwn1po1-PeZVhzotMaLLk+wXNquZceaRQ@mail.gmail.com>
-Subject: Re: [PATCH net] net: phy: Warn about incorrect mdio_bus_phy_resume() state
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        netdev <netdev@vger.kernel.org>,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        Doug Berger <opendmb@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2022-08-16-v6.0-rc1
+Subject: renesas/master baseline-nfs: 95 runs,
+ 14 regressions (renesas-devel-2022-08-16-v6.0-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Florian,
+renesas/master baseline-nfs: 95 runs, 14 regressions (renesas-devel-2022-08=
+-16-v6.0-rc1)
 
-On Fri, Aug 12, 2022 at 6:39 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
-> On 8/12/22 04:19, Marek Szyprowski wrote:
-> > On 02.08.2022 01:34, Florian Fainelli wrote:
-> >> Calling mdio_bus_phy_resume() with neither the PHY state machine set to
-> >> PHY_HALTED nor phydev->mac_managed_pm set to true is a good indication
-> >> that we can produce a race condition looking like this:
-> >>
-> >> CPU0                                         CPU1
-> >> bcmgenet_resume
-> >>    -> phy_resume
-> >>      -> phy_init_hw
-> >>    -> phy_start
-> >>      -> phy_resume
-> >>                                                   phy_start_aneg()
-> >> mdio_bus_phy_resume
-> >>    -> phy_resume
-> >>       -> phy_write(..., BMCR_RESET)
-> >>        -> usleep()                                  -> phy_read()
-> >>
-> >> with the phy_resume() function triggering a PHY behavior that might have
-> >> to be worked around with (see bf8bfc4336f7 ("net: phy: broadcom: Fix
-> >> brcm_fet_config_init()") for instance) that ultimately leads to an error
-> >> reading from the PHY.
-> >>
-> >> Fixes: fba863b81604 ("net: phy: make PHY PM ops a no-op if MAC driver manages PHY PM")
-> >> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-> >
-> > This patch, as probably intended, triggers a warning during system
-> > suspend/resume cycle in the SMSC911x driver. I've observed it on ARM
-> > Juno R1 board on the kernel compiled from next-202208010:
-> >
-> >    ------------[ cut here ]------------
-> >    WARNING: CPU: 1 PID: 398 at drivers/net/phy/phy_device.c:323
-> > mdio_bus_phy_resume+0x34/0xc8
+Regressions Summary
+-------------------
 
-I am seeing the same on the ape6evm and kzm9g development
-boards with smsc911x Ethernet, and on various boards with Renesas
-Ethernet (sh_eth or ravb) if Wake-on-LAN is disabled.
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+at91sam9g20ek                | arm   | lab-broonie   | gcc-10   | at91_dt_d=
+efconfig            | 1          =
 
-> Yes this is catching an actual issue in the driver in that the PHY state
-> machine is still running while the system is trying to suspend. We could
-> go about fixing it in a different number of ways, though I believe this
-> one is probably correct enough to work and fix the warning:
+beaglebone-black             | arm   | lab-cip       | gcc-10   | multi_v7_=
+defconfig+crypto    | 1          =
 
-> --- a/drivers/net/ethernet/smsc/smsc911x.c
-> +++ b/drivers/net/ethernet/smsc/smsc911x.c
-> @@ -1037,6 +1037,8 @@ static int smsc911x_mii_probe(struct net_device *dev)
->                  return ret;
->          }
->
-> +       /* Indicate that the MAC is responsible for managing PHY PM */
-> +       phydev->mac_managed_pm = true;
->          phy_attached_info(phydev);
->
->          phy_set_max_speed(phydev, SPEED_100);
-> @@ -2587,6 +2589,8 @@ static int smsc911x_suspend(struct device *dev)
->          if (netif_running(ndev)) {
->                  netif_stop_queue(ndev);
->                  netif_device_detach(ndev);
-> +               if (!device_may_wakeup(dev))
-> +                       phy_suspend(dev->phydev);
->          }
->
->          /* enable wake on LAN, energy detection and the external PME
-> @@ -2628,6 +2632,8 @@ static int smsc911x_resume(struct device *dev)
->          if (netif_running(ndev)) {
->                  netif_device_attach(ndev);
->                  netif_start_queue(ndev);
-> +               if (!device_may_wakeup(dev))
-> +                       phy_resume(dev->phydev);
->          }
->
->          return 0;
+beaglebone-black             | arm   | lab-cip       | gcc-10   | multi_v7_=
+defc...CONFIG_SMP=3Dn | 1          =
 
-Thanks for your patch, but unfortunately this does not work on ape6evm
-and kzm9g, where the smsc911x device is connected to a power-managed
-bus.  It looks like the PHY registers are accessed while the device
-is already suspended, causing a crash during system suspend:
+beaglebone-black             | arm   | lab-cip       | gcc-10   | multi_v7_=
+defconfig           | 1          =
 
-8<--- cut here ---
-Unhandled fault: imprecise external abort (0x1406) at 0x00000000
-[00000000] *pgd=00000000
-Internal error: : 1406 [#1] SMP ARM
-CPU: 2 PID: 75 Comm: kworker/2:2 Not tainted
-6.0.0-rc1-ape6evm-00977-gdc70725fbca5-dirty #375
-Hardware name: Generic R8A73A4 (Flattened Device Tree)
-Workqueue: events_power_efficient phy_state_machine
-PC is at smsc911x_reg_read+0x30/0x48
-LR is at smsc911x_reg_read+0x30/0x48
-pc : [<c03807cc>]    lr : [<c03807cc>]    psr: 20030093
-sp : f0891e30  ip : 00000000  fp : eff98605
-r10: c092af80  r9 : c202e6e8  r8 : 20030013
-r7 : c202e70c  r6 : 000000a4  r5 : 20030093  r4 : c202e6c0
-r3 : f0a31000  r2 : 00000002  r1 : f0a310a4  r0 : 00000000
-Flags: nzCv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment none
-Control: 10c5387d  Table: 4552006a  DAC: 00000051
-Register r0 information: NULL pointer
-Register r1 information: 0-page vmalloc region starting at 0xf0a31000
-allocated at smsc911x_drv_probe+0x108/0x934
-Register r2 information: non-paged memory
-Register r3 information: 0-page vmalloc region starting at 0xf0a31000
-allocated at smsc911x_drv_probe+0x108/0x934
-Register r4 information: slab kmalloc-4k start c202e000 pointer offset
-1728 size 4096
-Register r5 information: non-paged memory
-Register r6 information: non-paged memory
-Register r7 information: slab kmalloc-4k start c202e000 pointer offset
-1804 size 4096
-Register r8 information: non-paged memory
-Register r9 information: slab kmalloc-4k start c202e000 pointer offset
-1768 size 4096
-Register r10 information: non-slab/vmalloc memory
-Register r11 information: non-slab/vmalloc memory
-Register r12 information: NULL pointer
-Process kworker/2:2 (pid: 75, stack limit = 0x5239c21f)
-Stack: (0xf0891e30 to 0xf0892000)
-1e20:                                     c202e6c0 00000006 c19da000 c202e6c0
-1e40: 20030013 c03815bc 00000000 00000001 c19da000 c0381820 00000001 c19da000
-1e60: c19da000 00000000 c39eacc0 00000000 c092af80 c037e694 c19da000 00000001
-1e80: 00000000 c19da758 c19da000 00000001 00000000 c037e888 c29a0000 c29a03f4
-1ea0: 00000078 c29a0448 c39eacc0 c037c878 c29a0000 c037cab4 c29a0000 c29a03f4
-1ec0: c29a0000 c037fbc8 c29a0000 c29a03f4 c29a0000 c29a0448 00000004 c0377540
-1ee0: c3ac8f00 c29a03f4 c29a0000 c0378588 009a03f4 c07cce88 c3ac8f00 c29a03f4
-1f00: eff96780 00000000 eff98600 00000080 c092af80 c00426f0 00000001 00000000
-1f20: c00425c4 c07cce88 c07bb574 00000000 c13fa5b8 c0da3f6c 00000000 c071c1da
-1f40: 00000000 c07cce88 00000000 c3ac8f00 c3ac8f18 eff96780 c092a665 c07c9d00
-1f60: eff967bc c0934e20 00000000 c0042b30 c2b8a500 c2ba65c0 c3ac8880 f0901ebc
-1f80: c00428f0 c3ac8f00 00000000 c00494c4 c2ba65c0 c00493f4 00000000 00000000
-1fa0: 00000000 00000000 00000000 c0009108 00000000 00000000 00000000 00000000
-1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1fe0: 00000000 00000000 00000000 00000000 00000013 00000000 00000000 00000000
- smsc911x_reg_read from smsc911x_mac_read+0x4c/0xa0
- smsc911x_mac_read from smsc911x_mii_read+0x38/0xb4
- smsc911x_mii_read from __mdiobus_read+0x70/0xc4
- __mdiobus_read from mdiobus_read+0x34/0x48
- mdiobus_read from genphy_update_link+0x10/0xc8
- genphy_update_link from genphy_read_status+0x10/0xc4
- genphy_read_status from lan87xx_read_status+0x10/0x11c
- lan87xx_read_status from phy_check_link_status+0x5c/0xbc
- phy_check_link_status from phy_state_machine+0x78/0x218
- phy_state_machine from process_one_work+0x2f0/0x4c4
- process_one_work from worker_thread+0x240/0x2d0
- worker_thread from kthread+0xd0/0xe0
- kthread from ret_from_fork+0x14/0x2c
-Exception stack(0xf0891fb0 to 0xf0891ff8)
-1fa0:                                     00000000 00000000 00000000 00000000
-1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-Code: e5933000 e1a05000 e1a00004 e12fff33 (e1a01005)
----[ end trace 0000000000000000 ]---
+beaglebone-black             | arm   | lab-cip       | gcc-10   | multi_v7_=
+defc...MB2_KERNEL=3Dy | 1          =
 
-Gr{oetje,eeting}s,
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+crypto    | 1          =
 
-                        Geert
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...CONFIG_SMP=3Dn | 1          =
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig           | 1          =
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...MB2_KERNEL=3Dy | 1          =
+
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | tegra_def=
+config              | 1          =
+
+meson-g12b-odroid-n2         | arm64 | lab-baylibre  | gcc-10   | defconfig=
++debug              | 1          =
+
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
+
+r8a77950-salvator-x          | arm64 | lab-baylibre  | gcc-10   | renesas_d=
+efconfig            | 1          =
+
+sun50i-h5-lib...ch-all-h3-cc | arm64 | lab-broonie   | gcc-10   | defconfig=
++debug              | 1          =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-08-16-v6.0-rc1/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-08-16-v6.0-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      a9c4a500b27ef2b4904a076bc44eb14dfefdff68 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+at91sam9g20ek                | arm   | lab-broonie   | gcc-10   | at91_dt_d=
+efconfig            | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62fb60a6be048bb0e2355642
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: at91_dt_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/at91_dt_defconfig/gcc-10/lab-broonie/baseline-nfs-at=
+91sam9g20ek.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/at91_dt_defconfig/gcc-10/lab-broonie/baseline-nfs-at=
+91sam9g20ek.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220812.0/armel/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62fb60a6be048bb0e=
+2355643
+        failing since 4 days (last pass: renesas-devel-2022-08-11-v5.19-rc8=
+, first fail: renesas-devel-2022-08-11-v5.19) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+beaglebone-black             | arm   | lab-cip       | gcc-10   | multi_v7_=
+defconfig+crypto    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62fb634ebd87c4810d3556b4
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+crypto
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig+crypto/gcc-10/lab-cip/baseline-nf=
+s-beaglebone-black.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig+crypto/gcc-10/lab-cip/baseline-nf=
+s-beaglebone-black.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220812.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62fb634ebd87c4810=
+d3556b5
+        new failure (last pass: renesas-devel-2022-08-11-v5.19-rc8) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+beaglebone-black             | arm   | lab-cip       | gcc-10   | multi_v7_=
+defc...CONFIG_SMP=3Dn | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62fb65779abb204f2c35564c
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-cip/bas=
+eline-nfs-beaglebone-black.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-cip/bas=
+eline-nfs-beaglebone-black.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220812.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62fb65779abb204f2=
+c35564d
+        new failure (last pass: renesas-devel-2022-08-11-v5.19) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+beaglebone-black             | arm   | lab-cip       | gcc-10   | multi_v7_=
+defconfig           | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62fb6d13bb733c7d95355690
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig/gcc-10/lab-cip/baseline-nfs-beagl=
+ebone-black.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig/gcc-10/lab-cip/baseline-nfs-beagl=
+ebone-black.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220812.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62fb6d13bb733c7d9=
+5355691
+        new failure (last pass: renesas-devel-2022-08-11-v5.19) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+beaglebone-black             | arm   | lab-cip       | gcc-10   | multi_v7_=
+defc...MB2_KERNEL=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62fb6ff633ebecb01f355645
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
+ab-cip/baseline-nfs-beaglebone-black.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
+ab-cip/baseline-nfs-beaglebone-black.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220812.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62fb6ff633ebecb01=
+f355646
+        new failure (last pass: renesas-devel-2022-08-11-v5.19) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+crypto    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62fb741ea45d3b4a9d355669
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+crypto
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig+crypto/gcc-10/lab-baylibre/baseli=
+ne-nfs-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig+crypto/gcc-10/lab-baylibre/baseli=
+ne-nfs-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220812.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62fb741ea45d3b4a9=
+d35566a
+        new failure (last pass: renesas-devel-2022-08-11-v5.19) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...CONFIG_SMP=3Dn | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62fb7ccf4620a75a90355671
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-baylibr=
+e/baseline-nfs-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-baylibr=
+e/baseline-nfs-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220812.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62fb7ccf4620a75a9=
+0355672
+        new failure (last pass: renesas-devel-2022-08-11-v5.19) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig           | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62fb7e48b654655c7635564c
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baseline-nfs-=
+jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baseline-nfs-=
+jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220812.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62fb7e48b654655c7=
+635564d
+        new failure (last pass: renesas-devel-2022-08-11-v5.19) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...MB2_KERNEL=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62fb811d6078adf08f355648
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
+ab-baylibre/baseline-nfs-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
+ab-baylibre/baseline-nfs-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220812.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62fb811d6078adf08=
+f355649
+        new failure (last pass: renesas-devel-2022-08-11-v5.19) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | tegra_def=
+config              | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62fb7880a08e09c5c9355642
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: tegra_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/tegra_defconfig/gcc-10/lab-baylibre/baseline-nfs-jet=
+son-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm/tegra_defconfig/gcc-10/lab-baylibre/baseline-nfs-jet=
+son-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220812.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62fb7880a08e09c5c=
+9355643
+        failing since 4 days (last pass: renesas-devel-2022-08-11-v5.19-rc8=
+, first fail: renesas-devel-2022-08-11-v5.19) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+meson-g12b-odroid-n2         | arm64 | lab-baylibre  | gcc-10   | defconfig=
++debug              | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62fb68932f3209385c355660
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+debug
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm64/defconfig+debug/gcc-10/lab-baylibre/baseline-nfs-m=
+eson-g12b-odroid-n2.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm64/defconfig+debug/gcc-10/lab-baylibre/baseline-nfs-m=
+eson-g12b-odroid-n2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220812.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62fb68932f3209385=
+c355661
+        new failure (last pass: renesas-devel-2022-08-11-v5.19) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62fb63e607ba1ba461355642
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/ba=
+seline-nfs-mt8183-kukui-jacuzzi-juniper-sku16.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/ba=
+seline-nfs-mt8183-kukui-jacuzzi-juniper-sku16.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220812.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62fb63e607ba1ba46=
+1355643
+        new failure (last pass: renesas-devel-2022-08-11-v5.19) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+r8a77950-salvator-x          | arm64 | lab-baylibre  | gcc-10   | renesas_d=
+efconfig            | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62fb672d773b934d14355656
+
+  Results:     4 PASS, 1 FAIL, 0 SKIP
+  Full config: renesas_defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm64/renesas_defconfig/gcc-10/lab-baylibre/baseline-nfs=
+-r8a77950-salvator-x.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm64/renesas_defconfig/gcc-10/lab-baylibre/baseline-nfs=
+-r8a77950-salvator-x.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220812.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.dmesg.emerg: https://kernelci.org/test/case/id/62fb672d773=
+b934d1435565b
+        new failure (last pass: renesas-devel-2022-08-11-v5.19)
+        2 lines
+
+    2022-08-16T09:44:53.091745  kern  :emerg : BUG: spinlock already unlock=
+ed on CPU#0, kworker/u16:3/70
+    2022-08-16T09:44:53.093938  kern  :emerg :  lock: sci_ports+0x0/0x4f50,=
+ .magic: dead4ead, .owner: <none>/-1, .owner_cpu: -1
+    2022-08-16T09:44:53.166290  <8>[   20.269400] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Demerg RESULT=3Dfail UNITS=3Dlines MEASUREMENT=3D2>   =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+sun50i-h5-lib...ch-all-h3-cc | arm64 | lab-broonie   | gcc-10   | defconfig=
++debug              | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62fb69923c9ac7edb1355651
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+debug
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm64/defconfig+debug/gcc-10/lab-broonie/baseline-nfs-su=
+n50i-h5-libretech-all-h3-cc.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-08-16-v6.0-rc1/arm64/defconfig+debug/gcc-10/lab-broonie/baseline-nfs-su=
+n50i-h5-libretech-all-h3-cc.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220812.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62fb69923c9ac7edb=
+1355652
+        failing since 24 days (last pass: renesas-devel-2022-07-04-v5.19-rc=
+5, first fail: renesas-devel-2022-07-22-v5.19-rc7) =
+
+ =20
