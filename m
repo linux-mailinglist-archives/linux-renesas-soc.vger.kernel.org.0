@@ -2,49 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D022B595666
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Aug 2022 11:31:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8975B595679
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Aug 2022 11:32:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233168AbiHPJau (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Aug 2022 05:30:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43502 "EHLO
+        id S231783AbiHPJcB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Aug 2022 05:32:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233459AbiHPJaF (ORCPT
+        with ESMTP id S232682AbiHPJan (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Aug 2022 05:30:05 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EFF1B72B1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Aug 2022 00:50:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E3261B81648
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Aug 2022 07:50:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 834C4C433D6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Aug 2022 07:50:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660636215;
-        bh=r43MmDnRYWUa/sRrfnBVUHj6PttAig4AKlQdlqq5pxc=;
-        h=Subject:From:Date:To:From;
-        b=Y9e/3z+KTXhBXhzgQMU7yPk+NLVV38VKweYfVLD/HxnCUVLPvNZJ/7seIId4ldA7p
-         YelgUneE/IcWP4Ry+jrDPXyVbcEnlZruPOMJc74d9QLrcoLzTnjS/6lFtp4hJ8Yq+i
-         3kUsUWfZ5MCiCnorR3f1x+S4Kii9eW+shgUsV9bSmZrhBZdZE2s1ef2cQtjdJLjcoJ
-         vFj6VlD6sUIjGIPE44VE0JXO4zC00DwqbmTyNaGieFBluME1iZ1RQsfg6RAgAP0a37
-         Ul6+KTWVfLk4rSs02xihw+10mRhHf2XLYlXo2TwbiJ3/z41r/5c286J0EeCM2F7dTf
-         ftzesLes0J5Jw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 63F54C4166F
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Aug 2022 07:50:15 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 16 Aug 2022 05:30:43 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DBFC356F0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Aug 2022 00:52:35 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id u1so13732825lfq.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Aug 2022 00:52:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=lQtHUsLH/WWCjoSjGefd7DortRFai1vXhVwE4aiVS2E=;
+        b=Gpqfoc8EPuBG/IljADnLwp/zZ7Nu6MdA2w8NhpnOCBNu9qs8xm0QIuRHmed86YGInA
+         z4FqE3LGcbyeZKuqzdqYkN3c7is6lO+R1yDTrwClA4vLaTzzDnWBF3Y+txa+1VBeypwr
+         SaXP//AlTJcEacqBsAGcykak0VHCzos8jgsTjyfbQylCtiWDMjOukU1f6fWR8YdymijK
+         7lviToGRHXGreerj/g15B8oy2C0mBKLXa1WY5LCOq+2qX3GOrnjj6iOBcMs9pTZFdbT6
+         3huQNMrBaYBMsrC6JzASl+D7SxlxSZl9GL8z8CJR6Zvlap0LH1vi0c2jCGq5oiiM3Lrq
+         48qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=lQtHUsLH/WWCjoSjGefd7DortRFai1vXhVwE4aiVS2E=;
+        b=oj31LIq+I6tkGcAmscpNow35N2ayGpdmqCzoIrOA1REL+fzWDQfEF7ZwiRykeVpDzm
+         g7/LMYgqwDa/mSMPFHqfPbINuhBX6oebsdb7ySmgyIzuL3BL6xrDLkOKnmnV9DO3Jaz1
+         2tcpzvwNPVFimckL8gqX/9tNicfr7xs/7WppMcxdp+FdHSB0YIP/3eA5zzfHoLMVGmqP
+         c7Qm14xLy7Po7WOZUn4q+K1Zl42kJLnFjrvvLSc2jdckXi2oYCI+5ouXsO/1wx8hDFEv
+         hn/Y4lAWpz3wElH2EeD0rg0q368TG5GivHOy5WW/BvnEBM5h0Jra2FTmgvjvWGtvPYO0
+         uSBg==
+X-Gm-Message-State: ACgBeo0MY9FOmhh5YNDNurqUSDoJ0wWNE/7mSGUTnEvCWbe/uJfw5IW8
+        xy2NQjnUYd/9eHe/x/721n06ng==
+X-Google-Smtp-Source: AA6agR5VnT3udntrZZ7EpKwe70edEBA0fLvgAKcwEb7zHnAozngFaACreSwQIdagnlyVDCnpihCy4A==
+X-Received: by 2002:a05:6512:ba2:b0:48b:7c:84 with SMTP id b34-20020a0565120ba200b0048b007c0084mr6544937lfv.48.1660636353707;
+        Tue, 16 Aug 2022 00:52:33 -0700 (PDT)
+Received: from ?IPV6:2001:14bb:ae:539c:1782:dd68:b0c1:c1a4? (d15l54g8c71znbtrbzt-4.rev.dnainternet.fi. [2001:14bb:ae:539c:1782:dd68:b0c1:c1a4])
+        by smtp.gmail.com with ESMTPSA id s3-20020a056512314300b0048aa0ab6448sm1312234lfi.15.2022.08.16.00.52.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Aug 2022 00:52:33 -0700 (PDT)
+Message-ID: <8b912cdd-e69d-dea0-046e-6e02a9984859@linaro.org>
+Date:   Tue, 16 Aug 2022 10:52:31 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <166063621534.8584.1963681853494333178.git-patchwork-summary@kernel.org>
-Date:   Tue, 16 Aug 2022 07:50:15 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v2 3/8] dt-bindings: soc: renesas: renesas.yaml: Document
+ Renesas RZ/Five SoC
+Content-Language: en-US
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Conor Dooley <Conor.Dooley@microchip.com>,
+        Anup Patel <anup@brainfault.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20220815151451.23293-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220815151451.23293-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220815151451.23293-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -53,41 +87,17 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
-
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
-
-Series: Add support to identify RZ/Five SoC
-  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=662248
-  Lore link: https://lore.kernel.org/r/20220722141506.20171-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-    Patches: [v2,1/2] dt-bindings: soc: renesas: renesas,rzg2l-sysc: Document RZ/Five SoC
-             [v2,2/2] soc: renesas: Identify RZ/Five SoC
-
-Series: arm64: dts: renesas: Add support for R-Car H3Ne-1.7G
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=661365
-  Lore link: https://lore.kernel.org/r/cover.1656072871.git.geert+renesas@glider.be
-    Patches: [1/6] dt-bindings: arm: renesas: Document R-Car H3Ne-1.7G SoC and boards
-             [2/6] soc: renesas: Identify R-Car H3Ne-1.7G
-             [3/6] arm64: dts: renesas: Add Renesas R8A779MB SoC support
-
-Series: Add PHY interrupt support for ETH{0,1} on RZ/G2L and RZ/V2L SMARC EVK
-  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=662264
-  Lore link: https://lore.kernel.org/r/20220722151155.21100-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-    Patches: [v3,1/3] dt-bindings: interrupt-controller: Add macros for NMI and IRQ0-7 interrupts present on RZ/G2L SoC
-             [v3,3/3] arm64: dts: renesas: rzg2l-smarc-som: Add PHY interrupt support for ETH{0/1}
+On 15/08/2022 18:14, Lad Prabhakar wrote:
+> Document Renesas RZ/Five (R9A07G043) SoC.
+> 
+> More info about RZ/Five SoC:
+> https://www.renesas.com/us/en/products/microcontrollers-microprocessors/rz-mpus/rzfive-risc-v-general-purpose-microprocessors-risc-v-cpu-core-andes-ax45mp-single-10-ghz-2ch-gigabit-ethernet
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 
-Total patches: 7
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 
+Best regards,
+Krzysztof
