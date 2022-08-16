@@ -2,142 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84E4659519F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Aug 2022 07:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66D2C595510
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Aug 2022 10:26:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233062AbiHPFEC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Aug 2022 01:04:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40762 "EHLO
+        id S232934AbiHPIYp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Aug 2022 04:24:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230479AbiHPFDm (ORCPT
+        with ESMTP id S232638AbiHPIXT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Aug 2022 01:03:42 -0400
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 088FDC6E9C
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Aug 2022 14:01:34 -0700 (PDT)
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-3321c2a8d4cso50292557b3.5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Aug 2022 14:01:34 -0700 (PDT)
+        Tue, 16 Aug 2022 04:23:19 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44A0986C31
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Aug 2022 23:01:36 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id h28so8480871pfq.11
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Aug 2022 23:01:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=elGV48BlDszZRuy8S9+m13PY1kqIqtWfREXP+EXFmrg=;
-        b=r8NjbapBTS67+vpVF7+sCFfdYsvuzVpSbreXNSPasBnVSUXsEkW2Tdiy0vBzbOigcM
-         qkHezPAEwRYmAfuMzU7q6qw4S5wZy3KRTtCpEP69ti5057pFT/Te3P5tEFe+xNHwZC+m
-         Tf3GeanOn8C43ORFxDvYPY4oID2CctIoeScmjdwsfdlI5xtnUMR9bJ2JRxwTzOdhN6B/
-         Q2jJ//9GPDv5iPdQrFBgt1hXlMV7dlgnVz+CxBkfIXZqtN0HMa5iF1fqfIMMDJHs3IbN
-         gHVjl6QzTSIciKflXKOAYtOtwqyjwYxUfM2HGX2gXXOcMk2jxDLBXTVALHOUX/KDTSv6
-         vfmg==
+        d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc;
+        bh=PZ595QoZa8bP4cwqIpnehML+1Dy9UIuh1b9whHG0gKs=;
+        b=u9BM4+Epak9V7r5+nRp7i6doaBYYNXUgmKtK1bR2jmbtBhbJNAK4MNZGKiEVCHcQ5D
+         3OCeY2DENTd3RtccQtzsBX6sh/QWIzx4jWyOM6R1V1Ik95WQsGIXp396BJkAvCJ6rMOY
+         yPWA+MT6uI7a8+9rsTtzLpyITnlOzosW2VDtEf5GXaIWjUSdycf/ch3l/islQduIPzb/
+         Juhx4mMH/rsnmez7lo6h2P9dgbFEGoWX+mYtYJgugdfJ5c0qd4e+27iFxMKp3xxpECx9
+         xRRML6lfS50bG135l5lxU7Qv/Pq3rIto0UVaxTaXrhmgbEiRjb4CL2B4NRLq5hSkdil0
+         gNow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=elGV48BlDszZRuy8S9+m13PY1kqIqtWfREXP+EXFmrg=;
-        b=qTHkxOkWzFH9gDoW6+VNCZrBuYQ11JFQQtISt0oPhQ+oc+u14wQJOK/ZQEeb9+S7vK
-         71Dk6AYBXloHCkO4rTdWeLKwUSdoSPMpZvQNDZEUytz9cHByO+0AcfH5CHRDdr0Agkt1
-         OyPNem9OjaXEuUoEBkQxhWUqMPB/Pvo0yUqgqntndNMesqN9crkgvycJVX2js40FptID
-         DFeBX41rFALhwk+F6U/KtoH1GqEgFrZJmS0PbAHOz86oZJBnVX/SCU6btVOJTr6mW1x7
-         GV1rZKTCLP9Zoy7Q2l/Ik8OYtNGHG8vuPHAqEZ85VOYk43jQtMvC7e2Dkly/bgrKidCS
-         mE4w==
-X-Gm-Message-State: ACgBeo1kR71IkYdPwhw+L94H1kj1ti0ExH58qeLivyBdB7ERiORQyrvB
-        0NI8LyaCsQMa1AM2LSGY4jtd6AYFADHZXV1Hy0maKA==
-X-Google-Smtp-Source: AA6agR41q4yHanMi1A+gXLO08ia/kXxxT1OUdvxPqS+JZ3AYLwYDjl7erHXWMxbaY8NeTp1jebE8Ei5/XTiAHc+ZS+o=
-X-Received: by 2002:a25:6612:0:b0:670:7c81:3aa6 with SMTP id
- a18-20020a256612000000b006707c813aa6mr13305548ybc.530.1660597293043; Mon, 15
- Aug 2022 14:01:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220810060040.321697-1-saravanak@google.com> <20220810060040.321697-10-saravanak@google.com>
- <YvYhoGdemyKEx++d@atomide.com> <CAGETcx_SdxJKV56jGSx8GbmA4y_zaoP6z8n8xKZGZbCcmewvDQ@mail.gmail.com>
- <YvoglKDbsDLHq2S0@atomide.com>
-In-Reply-To: <YvoglKDbsDLHq2S0@atomide.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Mon, 15 Aug 2022 14:00:57 -0700
-Message-ID: <CAGETcx-wz0k13K2fOjTN9RfuMzUPti=UQqY5Mq9XYLK8vudYng@mail.gmail.com>
-Subject: Re: [PATCH v1 9/9] of: property: Simplify of_link_to_phandle()
-To:     Tony Lindgren <tony@atomide.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Len Brown <lenb@kernel.org>, Abel Vesa <abel.vesa@linaro.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        John Stultz <jstultz@google.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Guenter Roeck <linux@roeck-us.net>, kernel-team@android.com,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc;
+        bh=PZ595QoZa8bP4cwqIpnehML+1Dy9UIuh1b9whHG0gKs=;
+        b=Ze7ORx+gsRlWcD8OkNNdZiQKa52AWmtMkWLy0CopQfodw+tu2O88o/rul4AqXqnqcl
+         vxAdOpx82AVrbn7BSTn39J+nrN4WjnKugu7xpCnwS03iFsaz1BYycJuA/Y+v3wRpy0hH
+         JHYL9XyOjnN6iNp+0qG7R5zcVc8KUkHUdRVgkgXzxXHN2rSMHaEqbaKdf4xj66VIYPoh
+         h8iHqHYCUzrlE2TJNjecGW9W5v3eHLxCtgXDxftihz3D8HLPYH49e+T7nwRDSDtL+Ex8
+         dtBcZFDawFYQmAHXtJmIZV1GV+QovEm0CjRjAUdYKHHbi2YxOdGh1TqfUOtgCEzSwexa
+         GIww==
+X-Gm-Message-State: ACgBeo0BYxkHXV6I4kWQVvmfK7r81u16+FDEAlIA5+6b4HINHPsDCiXA
+        xFdvREM7QmxYy21EKmzoR+tJBg==
+X-Google-Smtp-Source: AA6agR6KElwLD6InLhGTAlll4uDJT/P4HD0PoJbOUphOvAkaITAfOGN3lW7tHiwR8bqgRNq4gv9mFg==
+X-Received: by 2002:a05:6a00:1d0f:b0:52f:d42c:8c60 with SMTP id a15-20020a056a001d0f00b0052fd42c8c60mr19954400pfx.82.1660629695705;
+        Mon, 15 Aug 2022 23:01:35 -0700 (PDT)
+Received: from smtpclient.apple (napt.igel.co.jp. [219.106.231.132])
+        by smtp.gmail.com with ESMTPSA id e9-20020a170902d38900b0016dcc381bbasm7999102pld.144.2022.08.15.23.01.33
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 15 Aug 2022 23:01:35 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
+Subject: Re: [PATCH v2 1/3] media: vsp1: add premultiplied alpha support
+From:   Takanari Hayama <taki@igel.co.jp>
+In-Reply-To: <0a9fd415-a4e8-2f87-3cbd-8e31b758cede@omp.ru>
+Date:   Tue, 16 Aug 2022 15:01:30 +0900
+Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        laurent.pinchart@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
+        daniel@ffwll.ch, mchehab@kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <8FCFDD0A-A885-43E9-9E85-5EABDB2362A5@igel.co.jp>
+References: <20220810083711.219642-1-taki@igel.co.jp>
+ <20220810083711.219642-2-taki@igel.co.jp>
+ <0a9fd415-a4e8-2f87-3cbd-8e31b758cede@omp.ru>
+To:     Sergey Shtylyov <s.shtylyov@omp.ru>
+X-Mailer: Apple Mail (2.3696.120.41.1.1)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Aug 15, 2022 at 3:31 AM Tony Lindgren <tony@atomide.com> wrote:
->
-> * Saravana Kannan <saravanak@google.com> [220813 00:30]:
-> > On Fri, Aug 12, 2022 at 2:47 AM Tony Lindgren <tony@atomide.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > * Saravana Kannan <saravanak@google.com> [220810 05:54]:
-> > > > The driver core now:
-> > > > - Has the parent device of a supplier pick up the consumers if the
-> > > >   supplier never has a device created for it.
-> > > > - Ignores a supplier if the supplier has no parent device and will never
-> > > >   be probed by a driver
-> > > >
-> > > > And already prevents creating a device link with the consumer as a
-> > > > supplier of a parent.
-> > > >
-> > > > So, we no longer need to find the "compatible" node of the supplier or
-> > > > do any other checks in of_link_to_phandle(). We simply need to make sure
-> > > > that the supplier is available in DT.
-> > >
-> > > This patch fixes booting for me, so it should be applied as a fix and
-> > > tagged with:
-> > >
-> > > Fixes: 5a46079a9645 ("PM: domains: Delete usage of driver_deferred_probe_check_state()")
-> > >
-> > > If there are dependencies to the other patches in this series, it might
-> > > make sense to revert commit 5a46079a9645 instead.
-> >
-> > Yes, there are dependencies on the rest of the patches in this series.
-> > For linux-next, I think we should pick up this series once we get more
-> > Tested-bys.
-> >
-> >  So if 5a46079a9645 is causing any regression in stable branches, we
-> > should pick up the revert series [1] instead of this series we are
-> > replying to.
->
-> Agreed we should apply the reverts in [1] for v6.0-rc series. At least
-> several generations of the TI 32-bit ARM SoCs are failing to boot
-> otherwise.
+Hi,
 
-Actually I wasn't clear in my earlier email. I meant to say "releases
-branches", as in 5.19.xxx and not "stable branches". So for 5.19.xxx
-we'd pick up these reverts.
+> 2022/08/11 2:41=E3=80=81Sergey Shtylyov =
+<s.shtylyov@omp.ru>=E3=81=AE=E3=83=A1=E3=83=BC=E3=83=AB:
+>=20
+> Hello!
+>=20
+> On 8/10/22 11:37 AM, Takanari Hayama wrote:
+>=20
+>> To support DRM blend mode in R-Car DU driver, we must be able to pass
+>> a plane with the premultiplied alpha. Adding a new property to
+>> vsp1_du_atomic_config allows the R-Car DU driver to pass the
+>> premultiplied alpha plane.
+>>=20
+>> Signed-off-by: Takanari Hayama <taki@igel.co.jp>
+>> ---
+>> drivers/media/platform/renesas/vsp1/vsp1_drm.c | 2 ++
+>> include/media/vsp1.h                           | 2 ++
+>> 2 files changed, 4 insertions(+)
+>>=20
+>> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c =
+b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+>> index 0c2507dc03d6..019e18976bd8 100644
+>> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+>> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+>> @@ -856,6 +856,8 @@ int vsp1_du_atomic_update(struct device *dev, =
+unsigned int pipe_index,
+>> 	rpf->mem.addr[1] =3D cfg->mem[1];
+>> 	rpf->mem.addr[2] =3D cfg->mem[2];
+>>=20
+>> +	rpf->format.flags =3D (cfg->premult) ? =
+V4L2_PIX_FMT_FLAG_PREMUL_ALPHA : 0;
+>> +
+>=20
+>  Parens are hardly needed here... :-)
 
-And for v6.0-rc if my other patch series [1] fixes the issue, I'd
-rather apply [1] than this series. Because this series is meant to be
-temporary (I'll be reverting this in the future).
+True. :) Thank you.
 
--Saravana
-
-[1] - https://lore.kernel.org/lkml/20220810060040.321697-1-saravanak@google.com/
+Cheers,
+Takanari Hayama, Ph.D. <taki@igel.co.jp>
+IGEL Co., Ltd.
+https://www.igel.co.jp/=
