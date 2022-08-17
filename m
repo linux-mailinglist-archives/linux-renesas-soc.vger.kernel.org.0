@@ -2,107 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26430596A6F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Aug 2022 09:37:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CC91596BB1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Aug 2022 10:55:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229684AbiHQHdl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Aug 2022 03:33:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43086 "EHLO
+        id S232929AbiHQIxn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Aug 2022 04:53:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231252AbiHQHd1 (ORCPT
+        with ESMTP id S229637AbiHQIxm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Aug 2022 03:33:27 -0400
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F332356DD;
-        Wed, 17 Aug 2022 00:33:26 -0700 (PDT)
-Received: by mail-qv1-f44.google.com with SMTP id b2so582394qvp.1;
-        Wed, 17 Aug 2022 00:33:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=SPq3Q4TPbLE7lPoozTYrDmUtlAuvRfPohoVUSyc0jcM=;
-        b=qNt41EECGChDDokode44BNhe2byNhOf7y+zMhrT6f6y0YEpHbwoZYWsXQHIwO5y3ZM
-         utGBEUz8TKR7Kf7BaNu++Pu5yFidOqFahhl3H8Mugn5U8eHJmjV0kZLJGB9G5YfFuVhu
-         ipSawDmtt4TBmTgSkPBzBfjHprJO0xkA2Pn7LOeg9kYZFUzkGNWqdAHMAzub2XR/LfGo
-         vjoFaglWlayfOn51iy84j4anq2BNYSx6bHl2jUtsMh7CN96qBZPCKurHzCWCMdeg9lHZ
-         cJieyktUtSc/dn72I7KjIqoq+qKpcVyuTT74vjfmUnwoymXuZpi1Np2Dni9aTy3mgVec
-         DZdg==
-X-Gm-Message-State: ACgBeo0YAsPVkd5gR66QmQrDuvdOnRYbzdfIil5SLLFKwtDQg0iziZt2
-        Fs+TZT8WdgE/S8CYofRwJ9NpM3e2MQWvzg==
-X-Google-Smtp-Source: AA6agR7kSI0FdlF5xw4jeTQ13xoInjFreM3MvNt7hVz9toyT07EesM5JidkthmoT1u9aTVrarMsbFA==
-X-Received: by 2002:a0c:9d09:0:b0:496:a686:2c2e with SMTP id m9-20020a0c9d09000000b00496a6862c2emr1600657qvf.61.1660721605525;
-        Wed, 17 Aug 2022 00:33:25 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id i17-20020a05620a405100b006b9c6d590fasm14481536qko.61.2022.08.17.00.33.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Aug 2022 00:33:24 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-324ec5a9e97so210106227b3.7;
-        Wed, 17 Aug 2022 00:33:24 -0700 (PDT)
-X-Received: by 2002:a25:880f:0:b0:67c:2727:7e3c with SMTP id
- c15-20020a25880f000000b0067c27277e3cmr18637000ybl.36.1660721604426; Wed, 17
- Aug 2022 00:33:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <edc5763d90054df7977ae24976e80533c7a1bff9.1660663653.git.geert+renesas@glider.be>
- <20220816112522.05aac832@kernel.org>
-In-Reply-To: <20220816112522.05aac832@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 17 Aug 2022 09:33:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU=xtnPCAd8SF+MyeFNHfsVE17++CcsBtDA3veZ0wo74w@mail.gmail.com>
-Message-ID: <CAMuHMdU=xtnPCAd8SF+MyeFNHfsVE17++CcsBtDA3veZ0wo74w@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Fix incorrect "the the" corrections
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Slark Xiao <slark_xiao@163.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Wed, 17 Aug 2022 04:53:42 -0400
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74C236745F;
+        Wed, 17 Aug 2022 01:53:39 -0700 (PDT)
+Received: from [192.168.1.103] (178.176.73.252) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Wed, 17 Aug
+ 2022 11:53:30 +0300
+Subject: Re: [PATCH v2 2/2] scsi: sd: Rework asynchronous resume support
+To:     Bart Van Assche <bvanassche@acm.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        scsi <linux-scsi@vger.kernel.org>,
+        Ming Lei <ming.lei@redhat.com>, Hannes Reinecke <hare@suse.de>,
+        John Garry <john.garry@huawei.com>, <ericspero@icloud.com>,
+        <jason600.groome@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        <linux-ide@vger.kernel.org>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>
+References: <20220630195703.10155-1-bvanassche@acm.org>
+ <db19ed29-e7f9-e5b0-3a6c-f2812078a07d@acm.org>
+ <CAMuHMdVzsgSYtbJQnaigNax_JbxPsQfU+gHcteS-ojWbxUdMfw@mail.gmail.com>
+ <CAMuHMdWtxBj8ug7AHTqentF8UD4jpO2sgoWWcQCOvEKLJtdq8A@mail.gmail.com>
+ <506ca1a6-1122-5755-fc74-60f7c7bfbd0d@acm.org>
+ <CAMuHMdVQ2K2v8jpsFfOMk99DG_sBB4_ioiQRroC7K_Ov1wvp9w@mail.gmail.com>
+ <6f70e742-9d8a-f389-0482-0ba9696bf445@acm.org>
+ <CAMuHMdVc+ATGV-=R3uV6RyF0-mZiuKv7HpmogRBgqGVyO-MKWg@mail.gmail.com>
+ <54e20a27-a10b-b77a-e950-1d3398e2e907@acm.org>
+ <CAMuHMdURQpAEGgv4cY7v0rqzs12v2TT=Amt26Y0OoBSW7YAoaw@mail.gmail.com>
+ <084e7c5a-f98d-d61e-de81-83525851ecf9@acm.org>
+ <CAMuHMdW2vOC8ZsE_XF8TbSNoF9zCrwq7UkGZ5jXen1E1mTZe+g@mail.gmail.com>
+ <14ec47f3-f3b8-61c7-2c64-d96d00dd7076@acm.org>
+ <CAMuHMdW7nGxV_3Z2JV_TCM+WtTdYv5P+0cE6Tw=6krcseNCdAw@mail.gmail.com>
+ <40700595-8c83-1b61-ea93-ea9554bfb2db@acm.org>
+ <CAMuHMdV_hzvd2YkJfRqXm8SmKuibWiUy-c7XpGCnEr86HMx=_Q@mail.gmail.com>
+ <3c7e338e-332e-fe80-e419-b360535533c5@acm.org>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <56cf0251-159c-3f83-78d2-859048625633@omp.ru>
+Date:   Wed, 17 Aug 2022 11:53:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <3c7e338e-332e-fe80-e419-b360535533c5@acm.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [178.176.73.252]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 08/17/2022 08:36:57
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 172266 [Aug 17 2022]
+X-KSE-AntiSpam-Info: Version: 5.9.20.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 495 495 bb4e71e2e9e23696ab912b286436360a94c9b107
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.252 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.252
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 08/17/2022 08:39:00
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 8/17/2022 6:00:00 AM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jakub,
+Hello!
 
-On Tue, Aug 16, 2022 at 8:25 PM Jakub Kicinski <kuba@kernel.org> wrote:
-> On Tue, 16 Aug 2022 17:30:33 +0200 Geert Uytterhoeven wrote:
-> > Lots of double occurrences of "the" were replaced by single occurrences,
-> > but some of them should become "to the" instead.
-> >
-> > Fixes: 12e5bde18d7f6ca4 ("dt-bindings: Fix typo in comment")
->
-> No empty lines between tags.
+On 8/16/22 11:21 PM, Bart Van Assche wrote:
 
-Ooops, thanks. Shall I resend?
+>> On Mon, Aug 15, 2022 at 3:49 PM Bart Van Assche <bvanassche@acm.org> wrote:
+>>> Would it be possible to share the output of the command below? That
+>>> should reveal which ATA driver is active on the test setup.
+>>>
+>>> find /sys -name proc_name | xargs grep -aH .
+>>
+>> /sys/devices/platform/soc/ee300000.sata/ata1/host0/scsi_host/host0/proc_name:sata_rcar
+> 
+> Thanks Geert for the help. Although I already posted a revert, I'm still trying to
+> root-cause this issue. Do you perhaps know whether sata_rcar controllers support NCQ
 
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> > Documentation/devicetree/bindings/net/qcom-emac.txt         | 2 +-
-> > Documentation/devicetree/bindings/thermal/rcar-thermal.yaml | 2 +-
->
-> Who takes it then? :S
+   They don't. :-)
 
-The tree that took 12e5bde18d7f6ca4, i.e. the DT tree?
+> and if so, what queue depth these controllers support? I think that information is available in sysfs. Here is an example for a VM:
+> 
+> # (cd /sys/class/scsi_device && for a in */device/*/*/ncq_prio_enable; do p=${a%/ncq_prio_enable}; grep -qi ata $p/inquiry || continue; grep -aH . $p/{queue_depth,ncq*}; done)
+> 2:0:0:0/device/driver/2:0:0:0/queue_depth:32
+> 2:0:0:0/device/driver/2:0:0:0/ncq_prio_enable:0
+> 2:0:0:0/device/driver/2:0:0:0/ncq_prio_supported:0
+> 2:0:0:0/device/generic/device/queue_depth:32
+> 2:0:0:0/device/generic/device/ncq_prio_enable:0
+> 2:0:0:0/device/generic/device/ncq_prio_supported:0
+> 6:0:0:1/device/driver/2:0:0:0/queue_depth:32
+> 6:0:0:1/device/driver/2:0:0:0/ncq_prio_enable:0
+> 6:0:0:1/device/driver/2:0:0:0/ncq_prio_supported:0
+> 
+> Thanks,
+> 
+> Bart.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+MBR, Sergey
