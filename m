@@ -2,140 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56E265968BD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Aug 2022 07:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26430596A6F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Aug 2022 09:37:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238548AbiHQFlZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Aug 2022 01:41:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60286 "EHLO
+        id S229684AbiHQHdl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Aug 2022 03:33:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238599AbiHQFlW (ORCPT
+        with ESMTP id S231252AbiHQHd1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Aug 2022 01:41:22 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79A4B78239
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Aug 2022 22:41:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660714875; x=1692250875;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=SHQR44hybNMxYfI7V7OU0ZDhcH1Cc6vFEDzkwwEAVNM=;
-  b=feekdkE0nCR8ZD7LEjIAKncos5MUvFc9FDX1t7pr7bO6bI8QIkHQ/f2O
-   aKxo1dJav3HX5RzH6To3TQEG3+Dbe8l/MnrJblphJd6vfu9AXtvMaoNC7
-   oYaDIl2r/aYSjyXwzoRwA/ftKVOEWtT8N6HDWm44Q7npVqBW0FaoRCJK9
-   12uSrfRJ34xgQOI974yCkKlw/aZC0qslGuDBWr0+B9cTXwdRUxtatKmLO
-   SJmpuaA6d+qReqpETEQqusl22bSwg9bOde8+UXZOqzNjXGvtZ7yFYJsU7
-   H199m92Crt/9jRbd5zryvvEXLsmCoveLkNgvTa294rhByrq3F0SVNs25b
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10441"; a="272174434"
-X-IronPort-AV: E=Sophos;i="5.93,242,1654585200"; 
-   d="scan'208";a="272174434"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2022 22:41:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,242,1654585200"; 
-   d="scan'208";a="583618788"
-Received: from lkp-server02.sh.intel.com (HELO 81d7e1ade3ba) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 16 Aug 2022 22:41:12 -0700
-Received: from kbuild by 81d7e1ade3ba with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oOBnj-0000cv-2A;
-        Wed, 17 Aug 2022 05:41:11 +0000
-Date:   Wed, 17 Aug 2022 13:40:52 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD SUCCESS
- 6f736f21cd347c5a1f4130cb05253c9503e72c3d
-Message-ID: <62fc7f64.x+m7A2OLV85wz083%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 17 Aug 2022 03:33:27 -0400
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F332356DD;
+        Wed, 17 Aug 2022 00:33:26 -0700 (PDT)
+Received: by mail-qv1-f44.google.com with SMTP id b2so582394qvp.1;
+        Wed, 17 Aug 2022 00:33:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=SPq3Q4TPbLE7lPoozTYrDmUtlAuvRfPohoVUSyc0jcM=;
+        b=qNt41EECGChDDokode44BNhe2byNhOf7y+zMhrT6f6y0YEpHbwoZYWsXQHIwO5y3ZM
+         utGBEUz8TKR7Kf7BaNu++Pu5yFidOqFahhl3H8Mugn5U8eHJmjV0kZLJGB9G5YfFuVhu
+         ipSawDmtt4TBmTgSkPBzBfjHprJO0xkA2Pn7LOeg9kYZFUzkGNWqdAHMAzub2XR/LfGo
+         vjoFaglWlayfOn51iy84j4anq2BNYSx6bHl2jUtsMh7CN96qBZPCKurHzCWCMdeg9lHZ
+         cJieyktUtSc/dn72I7KjIqoq+qKpcVyuTT74vjfmUnwoymXuZpi1Np2Dni9aTy3mgVec
+         DZdg==
+X-Gm-Message-State: ACgBeo0YAsPVkd5gR66QmQrDuvdOnRYbzdfIil5SLLFKwtDQg0iziZt2
+        Fs+TZT8WdgE/S8CYofRwJ9NpM3e2MQWvzg==
+X-Google-Smtp-Source: AA6agR7kSI0FdlF5xw4jeTQ13xoInjFreM3MvNt7hVz9toyT07EesM5JidkthmoT1u9aTVrarMsbFA==
+X-Received: by 2002:a0c:9d09:0:b0:496:a686:2c2e with SMTP id m9-20020a0c9d09000000b00496a6862c2emr1600657qvf.61.1660721605525;
+        Wed, 17 Aug 2022 00:33:25 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id i17-20020a05620a405100b006b9c6d590fasm14481536qko.61.2022.08.17.00.33.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Aug 2022 00:33:24 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-324ec5a9e97so210106227b3.7;
+        Wed, 17 Aug 2022 00:33:24 -0700 (PDT)
+X-Received: by 2002:a25:880f:0:b0:67c:2727:7e3c with SMTP id
+ c15-20020a25880f000000b0067c27277e3cmr18637000ybl.36.1660721604426; Wed, 17
+ Aug 2022 00:33:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <edc5763d90054df7977ae24976e80533c7a1bff9.1660663653.git.geert+renesas@glider.be>
+ <20220816112522.05aac832@kernel.org>
+In-Reply-To: <20220816112522.05aac832@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 17 Aug 2022 09:33:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU=xtnPCAd8SF+MyeFNHfsVE17++CcsBtDA3veZ0wo74w@mail.gmail.com>
+Message-ID: <CAMuHMdU=xtnPCAd8SF+MyeFNHfsVE17++CcsBtDA3veZ0wo74w@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Fix incorrect "the the" corrections
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Slark Xiao <slark_xiao@163.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: 6f736f21cd347c5a1f4130cb05253c9503e72c3d  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+Hi Jakub,
 
-elapsed time: 812m
+On Tue, Aug 16, 2022 at 8:25 PM Jakub Kicinski <kuba@kernel.org> wrote:
+> On Tue, 16 Aug 2022 17:30:33 +0200 Geert Uytterhoeven wrote:
+> > Lots of double occurrences of "the" were replaced by single occurrences,
+> > but some of them should become "to the" instead.
+> >
+> > Fixes: 12e5bde18d7f6ca4 ("dt-bindings: Fix typo in comment")
+>
+> No empty lines between tags.
 
-configs tested: 58
-configs skipped: 2
+Ooops, thanks. Shall I resend?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> > Documentation/devicetree/bindings/net/qcom-emac.txt         | 2 +-
+> > Documentation/devicetree/bindings/thermal/rcar-thermal.yaml | 2 +-
+>
+> Who takes it then? :S
 
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-i386                                defconfig
-arc                  randconfig-r043-20220815
-i386                             allyesconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-i386                 randconfig-a003-20220815
-i386                 randconfig-a004-20220815
-i386                 randconfig-a006-20220815
-m68k                             allyesconfig
-i386                 randconfig-a005-20220815
-i386                 randconfig-a002-20220815
-arm                                 defconfig
-x86_64               randconfig-a001-20220815
-x86_64               randconfig-a003-20220815
-powerpc                          allmodconfig
-x86_64               randconfig-a005-20220815
-x86_64               randconfig-a004-20220815
-i386                 randconfig-a001-20220815
-x86_64               randconfig-a002-20220815
-x86_64               randconfig-a006-20220815
-mips                             allyesconfig
-powerpc                           allnoconfig
-sh                               allmodconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-x86_64                              defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-ia64                             allmodconfig
-x86_64                           rhel-8.3-kvm
-x86_64                           rhel-8.3-syz
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-csky                              allnoconfig
-arc                               allnoconfig
-alpha                             allnoconfig
-riscv                             allnoconfig
-i386                 randconfig-c001-20220815
-m68k                             allmodconfig
+The tree that took 12e5bde18d7f6ca4, i.e. the DT tree?
 
-clang tested configs:
-hexagon              randconfig-r045-20220815
-hexagon              randconfig-r041-20220815
-s390                 randconfig-r044-20220815
-riscv                randconfig-r042-20220815
-x86_64               randconfig-a012-20220815
-x86_64               randconfig-a011-20220815
-x86_64               randconfig-a015-20220815
-x86_64               randconfig-a014-20220815
-x86_64               randconfig-a013-20220815
-x86_64               randconfig-a016-20220815
-i386                 randconfig-a012-20220815
-i386                 randconfig-a011-20220815
-i386                 randconfig-a013-20220815
-i386                 randconfig-a015-20220815
-i386                 randconfig-a014-20220815
-i386                 randconfig-a016-20220815
+Gr{oetje,eeting}s,
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
