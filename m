@@ -2,169 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 001EB596BF0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Aug 2022 11:18:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0793D596C13
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Aug 2022 11:32:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230518AbiHQJSR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Aug 2022 05:18:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44422 "EHLO
+        id S230518AbiHQJak (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Aug 2022 05:30:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbiHQJSQ (ORCPT
+        with ESMTP id S234589AbiHQJai (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Aug 2022 05:18:16 -0400
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 755A79FD6;
-        Wed, 17 Aug 2022 02:18:15 -0700 (PDT)
-Received: by mail-qk1-f177.google.com with SMTP id f4so7938959qkl.7;
-        Wed, 17 Aug 2022 02:18:15 -0700 (PDT)
+        Wed, 17 Aug 2022 05:30:38 -0400
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A54315A824;
+        Wed, 17 Aug 2022 02:30:37 -0700 (PDT)
+Received: by mail-qt1-f174.google.com with SMTP id cr9so9956458qtb.13;
+        Wed, 17 Aug 2022 02:30:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=5jBoVbzGQCtyTY7INNBLuSnir7aONmr2lpezFOUi2gc=;
-        b=lLSrBv8hiFKI883hC067WvGXRYdsRz0QVMSuz6IaK3BRJoMX3mz5kO+XyLY45EqUCu
-         VaL1+WMLuordp2GbfygQ+NxnSc3etUO7uCEzxrrsynfz7YIaAy3nw9Cb1VWCHGekJCZz
-         ue/DpCO21zOqAbXQNLzeV0hMO6YIYLJzfvi+4ik/bRW+O6waygROAKO/aeXJqd4u+C3B
-         wAM2vQqvEhdVWzvKPHVDXe/4DczcXmUaUPlwxNtq8qtth2cAN1rVc4NlgYNsFuvqUjLG
-         o572gIJuos2KLiu2RAI99dhH2HABnK2BPg51TspFs7rL1HNaeRE6zdv1UHQiDWqC6xNN
-         hjDg==
-X-Gm-Message-State: ACgBeo0EnGGbkVIfzplgd25rV2gSLSWd8g9AfvaUkEfWIEjUZ+I3MLxN
-        hOFVw2AcaHr/XOdTjsupRrv1w4pRRIV/eg==
-X-Google-Smtp-Source: AA6agR7Vxh2jb48IU2Fdspz0HBEVc8nycWpxppsaeLtKdHTjJMk2CEQonvfe80aQNkibGrlsk52RYA==
-X-Received: by 2002:a05:620a:2181:b0:6bb:50a1:222e with SMTP id g1-20020a05620a218100b006bb50a1222emr7436719qka.151.1660727894435;
-        Wed, 17 Aug 2022 02:18:14 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id do7-20020a05620a2b0700b006a6ebde4799sm14162434qkb.90.2022.08.17.02.18.12
+        bh=5akdc5q8OTZh41BRXQ6ueXN+MBAsEQyZP/YjElcO8FE=;
+        b=Ao7etct2jPsOO6PHSHBf0/De4GNGHNC1bzQ5nRNc2NcckuB8eHOjbjOn106RFG4n0e
+         sr/3OiQ0K1aP2/yqq+KAw3MuK+5GJWK5YLCjS2tNxPFx8TTKo9w33snG1KliXjzLOHBK
+         V8xKGtQrCO6K8NYB53liZKyFaZnk+jFkjvrA3CvezN91/gq/IRktigfYeenszRxFGAuv
+         avONSN2ogjDNgrCzpUEAFj1V49hd+nYQZVDAK3/T/qCJn3erNw3fcjZXyXB+MdUSYmHR
+         cK6D6/zYxtQLvunaRRRA0OExkWj5uwLIhtyRnsjcfg6l1ptLgU2V+bumJwopRj02S+4R
+         ynSw==
+X-Gm-Message-State: ACgBeo0XGvpPEqk+BpYRCERozo9LPRlSI3XOMXQkR4N94UE+Su1GUvN5
+        +LO/YW1xj6MLet7lEjYF7d3P6zOiPyOQ7A==
+X-Google-Smtp-Source: AA6agR75wkMzjymVQi/umHde2bRdVhNH/oEzu2yj9HscihiWd4t6QmZZ1rv75XG2KZ6mQ4kPLbYj1Q==
+X-Received: by 2002:a05:622a:1116:b0:31e:d8e4:ac30 with SMTP id e22-20020a05622a111600b0031ed8e4ac30mr21796777qty.660.1660728636684;
+        Wed, 17 Aug 2022 02:30:36 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id l23-20020a37f917000000b006b97151d2b3sm14056322qkj.67.2022.08.17.02.30.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Aug 2022 02:18:13 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-33387bf0c4aso110701447b3.11;
-        Wed, 17 Aug 2022 02:18:12 -0700 (PDT)
-X-Received: by 2002:a5b:bcd:0:b0:68f:b4c0:7eca with SMTP id
- c13-20020a5b0bcd000000b0068fb4c07ecamr3297004ybr.202.1660727892477; Wed, 17
- Aug 2022 02:18:12 -0700 (PDT)
+        Wed, 17 Aug 2022 02:30:36 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-32fd97c199fso191646627b3.6;
+        Wed, 17 Aug 2022 02:30:36 -0700 (PDT)
+X-Received: by 2002:a5b:6c1:0:b0:669:a7c3:4c33 with SMTP id
+ r1-20020a5b06c1000000b00669a7c34c33mr18433198ybq.543.1660728636000; Wed, 17
+ Aug 2022 02:30:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220801233403.258871-1-f.fainelli@gmail.com> <CGME20220812111948eucas1p2bf97e7f4558eb024f419346367a87b45@eucas1p2.samsung.com>
- <27016cc0-f228-748b-ea03-800dda4e5f0c@samsung.com> <8c21e530-8e8f-ce2a-239e-9d3a354996cf@gmail.com>
- <CAMuHMdV8vsbFx+nikAwn1po1-PeZVhzotMaLLk+wXNquZceaRQ@mail.gmail.com> <c1301f39-9202-5eee-a0f6-9c0b66f2dccf@gmail.com>
-In-Reply-To: <c1301f39-9202-5eee-a0f6-9c0b66f2dccf@gmail.com>
+References: <20220815111708.22302-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220816174150.GA2428940-robh@kernel.org>
+In-Reply-To: <20220816174150.GA2428940-robh@kernel.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 17 Aug 2022 11:18:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXiawCULreUKZsBD0LNc3FTqMxpfM11N46OqppChT91Kw@mail.gmail.com>
-Message-ID: <CAMuHMdXiawCULreUKZsBD0LNc3FTqMxpfM11N46OqppChT91Kw@mail.gmail.com>
-Subject: Re: [PATCH net] net: phy: Warn about incorrect mdio_bus_phy_resume() state
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        netdev <netdev@vger.kernel.org>,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        Doug Berger <opendmb@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        open list <linux-kernel@vger.kernel.org>,
+Date:   Wed, 17 Aug 2022 11:30:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWgfGgNGmj88z=Md5RAL8CHxTKj6ywsGwS2HN-vHKMq+w@mail.gmail.com>
+Message-ID: <CAMuHMdWgfGgNGmj88z=Md5RAL8CHxTKj6ywsGwS2HN-vHKMq+w@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: soc: renesas: Move renesas.yaml from arm to soc
+To:     Rob Herring <robh@kernel.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Florian,
+Hi Rob,
 
-On Wed, Aug 17, 2022 at 4:28 AM Florian Fainelli <f.fainelli@gmail.com> wrote:
-> On 8/16/2022 6:20 AM, Geert Uytterhoeven wrote:
-> > On Fri, Aug 12, 2022 at 6:39 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
-> >> On 8/12/22 04:19, Marek Szyprowski wrote:
-> >>> On 02.08.2022 01:34, Florian Fainelli wrote:
-> >>>> Calling mdio_bus_phy_resume() with neither the PHY state machine set to
-> >>>> PHY_HALTED nor phydev->mac_managed_pm set to true is a good indication
-> >>>> that we can produce a race condition looking like this:
-> >>>>
-> >>>> CPU0                                         CPU1
-> >>>> bcmgenet_resume
-> >>>>     -> phy_resume
-> >>>>       -> phy_init_hw
-> >>>>     -> phy_start
-> >>>>       -> phy_resume
-> >>>>                                                    phy_start_aneg()
-> >>>> mdio_bus_phy_resume
-> >>>>     -> phy_resume
-> >>>>        -> phy_write(..., BMCR_RESET)
-> >>>>         -> usleep()                                  -> phy_read()
-> >>>>
-> >>>> with the phy_resume() function triggering a PHY behavior that might have
-> >>>> to be worked around with (see bf8bfc4336f7 ("net: phy: broadcom: Fix
-> >>>> brcm_fet_config_init()") for instance) that ultimately leads to an error
-> >>>> reading from the PHY.
-> >>>>
-> >>>> Fixes: fba863b81604 ("net: phy: make PHY PM ops a no-op if MAC driver manages PHY PM")
-> >>>> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-> >>>
-> >>> This patch, as probably intended, triggers a warning during system
-> >>> suspend/resume cycle in the SMSC911x driver. I've observed it on ARM
-> >>> Juno R1 board on the kernel compiled from next-202208010:
-> >>>
-> >>>     ------------[ cut here ]------------
-> >>>     WARNING: CPU: 1 PID: 398 at drivers/net/phy/phy_device.c:323
-> >>> mdio_bus_phy_resume+0x34/0xc8
-> >
-> > I am seeing the same on the ape6evm and kzm9g development
-> > boards with smsc911x Ethernet, and on various boards with Renesas
-> > Ethernet (sh_eth or ravb) if Wake-on-LAN is disabled.
-> >
-> >> Yes this is catching an actual issue in the driver in that the PHY state
-> >> machine is still running while the system is trying to suspend. We could
-> >> go about fixing it in a different number of ways, though I believe this
-> >> one is probably correct enough to work and fix the warning:
-> >
-> >> --- a/drivers/net/ethernet/smsc/smsc911x.c
-> >> +++ b/drivers/net/ethernet/smsc/smsc911x.c
-> >> @@ -1037,6 +1037,8 @@ static int smsc911x_mii_probe(struct net_device *dev)
-> >>                   return ret;
-> >>           }
-> >>
-> >> +       /* Indicate that the MAC is responsible for managing PHY PM */
-> >> +       phydev->mac_managed_pm = true;
-> >>           phy_attached_info(phydev);
-> >>
-> >>           phy_set_max_speed(phydev, SPEED_100);
-> >> @@ -2587,6 +2589,8 @@ static int smsc911x_suspend(struct device *dev)
-> >>           if (netif_running(ndev)) {
-> >>                   netif_stop_queue(ndev);
-> >>                   netif_device_detach(ndev);
-> >> +               if (!device_may_wakeup(dev))
-> >> +                       phy_suspend(dev->phydev);
-> >>           }
-> >>
-> >>           /* enable wake on LAN, energy detection and the external PME
-> >> @@ -2628,6 +2632,8 @@ static int smsc911x_resume(struct device *dev)
-> >>           if (netif_running(ndev)) {
-> >>                   netif_device_attach(ndev);
-> >>                   netif_start_queue(ndev);
-> >> +               if (!device_may_wakeup(dev))
-> >> +                       phy_resume(dev->phydev);
-> >>           }
-> >>
-> >>           return 0;
-> >
-> > Thanks for your patch, but unfortunately this does not work on ape6evm
-> > and kzm9g, where the smsc911x device is connected to a power-managed
-> > bus.  It looks like the PHY registers are accessed while the device
-> > is already suspended, causing a crash during system suspend:
+On Tue, Aug 16, 2022 at 7:41 PM Rob Herring <robh@kernel.org> wrote:
+> On Mon, Aug 15, 2022 at 12:17:08PM +0100, Lad Prabhakar wrote:
+> > renesas.yaml lists out all the Renesas SoC's and the platforms/EVK's which
+> > is either ARM32/ARM64. It would rather make sense if we move renesas.yaml
+> > to the soc/renesas folder instead. This is in preparation for adding a new
+> > SoC (RZ/Five) from Renesas which is based on RISC-V.
 >
-> Does it work better if you replace phy_suspend() with phy_stop() and
-> phy_resume() with phy_start()?
+> Please post this as part of the above.
+>
+> bindings/soc/ is just a dumping ground for stuff that doesn't fit
+> anywhere. We've mostly cleaned bindings/arm/ of that, so I don't really
 
-Thank you, much better!
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Note that the target of this move is not .../bindings/soc/, but
+.../bindings/soc/renesas/, so it's a bit less of a dumping ground.
+Perhaps this is also a good opportunity to split renesas.yaml per
+family or product group
+(renesas,{rmobile,rcar-gen[1234],rza,rzg,rzn,...}.yaml?
+A fine-grained split may cause headaches with RZ/G2UL and RZ/Five
+sharing the same SoC Base, but a coarse-grained split keeping all RZ/G
+(after all RZ/Five is part of RZ/G) or even all RZ series together should work.
+
+> want to start that again. I would propose bindings/board/ instead if we
+> move in this direction.
+
+.../bindings/board has the issue with the same boards used with
+multiple pin-compatible SoCs, SiPs, and SoMs.
 
 Gr{oetje,eeting}s,
 
