@@ -2,140 +2,177 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CC91596BB1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Aug 2022 10:55:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 001EB596BF0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Aug 2022 11:18:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232929AbiHQIxn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Aug 2022 04:53:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55256 "EHLO
+        id S230518AbiHQJSR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Aug 2022 05:18:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbiHQIxm (ORCPT
+        with ESMTP id S229627AbiHQJSQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Aug 2022 04:53:42 -0400
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74C236745F;
-        Wed, 17 Aug 2022 01:53:39 -0700 (PDT)
-Received: from [192.168.1.103] (178.176.73.252) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Wed, 17 Aug
- 2022 11:53:30 +0300
-Subject: Re: [PATCH v2 2/2] scsi: sd: Rework asynchronous resume support
-To:     Bart Van Assche <bvanassche@acm.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        scsi <linux-scsi@vger.kernel.org>,
-        Ming Lei <ming.lei@redhat.com>, Hannes Reinecke <hare@suse.de>,
-        John Garry <john.garry@huawei.com>, <ericspero@icloud.com>,
-        <jason600.groome@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        <linux-ide@vger.kernel.org>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>
-References: <20220630195703.10155-1-bvanassche@acm.org>
- <db19ed29-e7f9-e5b0-3a6c-f2812078a07d@acm.org>
- <CAMuHMdVzsgSYtbJQnaigNax_JbxPsQfU+gHcteS-ojWbxUdMfw@mail.gmail.com>
- <CAMuHMdWtxBj8ug7AHTqentF8UD4jpO2sgoWWcQCOvEKLJtdq8A@mail.gmail.com>
- <506ca1a6-1122-5755-fc74-60f7c7bfbd0d@acm.org>
- <CAMuHMdVQ2K2v8jpsFfOMk99DG_sBB4_ioiQRroC7K_Ov1wvp9w@mail.gmail.com>
- <6f70e742-9d8a-f389-0482-0ba9696bf445@acm.org>
- <CAMuHMdVc+ATGV-=R3uV6RyF0-mZiuKv7HpmogRBgqGVyO-MKWg@mail.gmail.com>
- <54e20a27-a10b-b77a-e950-1d3398e2e907@acm.org>
- <CAMuHMdURQpAEGgv4cY7v0rqzs12v2TT=Amt26Y0OoBSW7YAoaw@mail.gmail.com>
- <084e7c5a-f98d-d61e-de81-83525851ecf9@acm.org>
- <CAMuHMdW2vOC8ZsE_XF8TbSNoF9zCrwq7UkGZ5jXen1E1mTZe+g@mail.gmail.com>
- <14ec47f3-f3b8-61c7-2c64-d96d00dd7076@acm.org>
- <CAMuHMdW7nGxV_3Z2JV_TCM+WtTdYv5P+0cE6Tw=6krcseNCdAw@mail.gmail.com>
- <40700595-8c83-1b61-ea93-ea9554bfb2db@acm.org>
- <CAMuHMdV_hzvd2YkJfRqXm8SmKuibWiUy-c7XpGCnEr86HMx=_Q@mail.gmail.com>
- <3c7e338e-332e-fe80-e419-b360535533c5@acm.org>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <56cf0251-159c-3f83-78d2-859048625633@omp.ru>
-Date:   Wed, 17 Aug 2022 11:53:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Wed, 17 Aug 2022 05:18:16 -0400
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 755A79FD6;
+        Wed, 17 Aug 2022 02:18:15 -0700 (PDT)
+Received: by mail-qk1-f177.google.com with SMTP id f4so7938959qkl.7;
+        Wed, 17 Aug 2022 02:18:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=5jBoVbzGQCtyTY7INNBLuSnir7aONmr2lpezFOUi2gc=;
+        b=lLSrBv8hiFKI883hC067WvGXRYdsRz0QVMSuz6IaK3BRJoMX3mz5kO+XyLY45EqUCu
+         VaL1+WMLuordp2GbfygQ+NxnSc3etUO7uCEzxrrsynfz7YIaAy3nw9Cb1VWCHGekJCZz
+         ue/DpCO21zOqAbXQNLzeV0hMO6YIYLJzfvi+4ik/bRW+O6waygROAKO/aeXJqd4u+C3B
+         wAM2vQqvEhdVWzvKPHVDXe/4DczcXmUaUPlwxNtq8qtth2cAN1rVc4NlgYNsFuvqUjLG
+         o572gIJuos2KLiu2RAI99dhH2HABnK2BPg51TspFs7rL1HNaeRE6zdv1UHQiDWqC6xNN
+         hjDg==
+X-Gm-Message-State: ACgBeo0EnGGbkVIfzplgd25rV2gSLSWd8g9AfvaUkEfWIEjUZ+I3MLxN
+        hOFVw2AcaHr/XOdTjsupRrv1w4pRRIV/eg==
+X-Google-Smtp-Source: AA6agR7Vxh2jb48IU2Fdspz0HBEVc8nycWpxppsaeLtKdHTjJMk2CEQonvfe80aQNkibGrlsk52RYA==
+X-Received: by 2002:a05:620a:2181:b0:6bb:50a1:222e with SMTP id g1-20020a05620a218100b006bb50a1222emr7436719qka.151.1660727894435;
+        Wed, 17 Aug 2022 02:18:14 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id do7-20020a05620a2b0700b006a6ebde4799sm14162434qkb.90.2022.08.17.02.18.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Aug 2022 02:18:13 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-33387bf0c4aso110701447b3.11;
+        Wed, 17 Aug 2022 02:18:12 -0700 (PDT)
+X-Received: by 2002:a5b:bcd:0:b0:68f:b4c0:7eca with SMTP id
+ c13-20020a5b0bcd000000b0068fb4c07ecamr3297004ybr.202.1660727892477; Wed, 17
+ Aug 2022 02:18:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <3c7e338e-332e-fe80-e419-b360535533c5@acm.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [178.176.73.252]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 08/17/2022 08:36:57
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 172266 [Aug 17 2022]
-X-KSE-AntiSpam-Info: Version: 5.9.20.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 495 495 bb4e71e2e9e23696ab912b286436360a94c9b107
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.252 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.252
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 08/17/2022 08:39:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 8/17/2022 6:00:00 AM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220801233403.258871-1-f.fainelli@gmail.com> <CGME20220812111948eucas1p2bf97e7f4558eb024f419346367a87b45@eucas1p2.samsung.com>
+ <27016cc0-f228-748b-ea03-800dda4e5f0c@samsung.com> <8c21e530-8e8f-ce2a-239e-9d3a354996cf@gmail.com>
+ <CAMuHMdV8vsbFx+nikAwn1po1-PeZVhzotMaLLk+wXNquZceaRQ@mail.gmail.com> <c1301f39-9202-5eee-a0f6-9c0b66f2dccf@gmail.com>
+In-Reply-To: <c1301f39-9202-5eee-a0f6-9c0b66f2dccf@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 17 Aug 2022 11:18:00 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXiawCULreUKZsBD0LNc3FTqMxpfM11N46OqppChT91Kw@mail.gmail.com>
+Message-ID: <CAMuHMdXiawCULreUKZsBD0LNc3FTqMxpfM11N46OqppChT91Kw@mail.gmail.com>
+Subject: Re: [PATCH net] net: phy: Warn about incorrect mdio_bus_phy_resume() state
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        netdev <netdev@vger.kernel.org>,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        Doug Berger <opendmb@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Florian,
 
-On 8/16/22 11:21 PM, Bart Van Assche wrote:
+On Wed, Aug 17, 2022 at 4:28 AM Florian Fainelli <f.fainelli@gmail.com> wrote:
+> On 8/16/2022 6:20 AM, Geert Uytterhoeven wrote:
+> > On Fri, Aug 12, 2022 at 6:39 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
+> >> On 8/12/22 04:19, Marek Szyprowski wrote:
+> >>> On 02.08.2022 01:34, Florian Fainelli wrote:
+> >>>> Calling mdio_bus_phy_resume() with neither the PHY state machine set to
+> >>>> PHY_HALTED nor phydev->mac_managed_pm set to true is a good indication
+> >>>> that we can produce a race condition looking like this:
+> >>>>
+> >>>> CPU0                                         CPU1
+> >>>> bcmgenet_resume
+> >>>>     -> phy_resume
+> >>>>       -> phy_init_hw
+> >>>>     -> phy_start
+> >>>>       -> phy_resume
+> >>>>                                                    phy_start_aneg()
+> >>>> mdio_bus_phy_resume
+> >>>>     -> phy_resume
+> >>>>        -> phy_write(..., BMCR_RESET)
+> >>>>         -> usleep()                                  -> phy_read()
+> >>>>
+> >>>> with the phy_resume() function triggering a PHY behavior that might have
+> >>>> to be worked around with (see bf8bfc4336f7 ("net: phy: broadcom: Fix
+> >>>> brcm_fet_config_init()") for instance) that ultimately leads to an error
+> >>>> reading from the PHY.
+> >>>>
+> >>>> Fixes: fba863b81604 ("net: phy: make PHY PM ops a no-op if MAC driver manages PHY PM")
+> >>>> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+> >>>
+> >>> This patch, as probably intended, triggers a warning during system
+> >>> suspend/resume cycle in the SMSC911x driver. I've observed it on ARM
+> >>> Juno R1 board on the kernel compiled from next-202208010:
+> >>>
+> >>>     ------------[ cut here ]------------
+> >>>     WARNING: CPU: 1 PID: 398 at drivers/net/phy/phy_device.c:323
+> >>> mdio_bus_phy_resume+0x34/0xc8
+> >
+> > I am seeing the same on the ape6evm and kzm9g development
+> > boards with smsc911x Ethernet, and on various boards with Renesas
+> > Ethernet (sh_eth or ravb) if Wake-on-LAN is disabled.
+> >
+> >> Yes this is catching an actual issue in the driver in that the PHY state
+> >> machine is still running while the system is trying to suspend. We could
+> >> go about fixing it in a different number of ways, though I believe this
+> >> one is probably correct enough to work and fix the warning:
+> >
+> >> --- a/drivers/net/ethernet/smsc/smsc911x.c
+> >> +++ b/drivers/net/ethernet/smsc/smsc911x.c
+> >> @@ -1037,6 +1037,8 @@ static int smsc911x_mii_probe(struct net_device *dev)
+> >>                   return ret;
+> >>           }
+> >>
+> >> +       /* Indicate that the MAC is responsible for managing PHY PM */
+> >> +       phydev->mac_managed_pm = true;
+> >>           phy_attached_info(phydev);
+> >>
+> >>           phy_set_max_speed(phydev, SPEED_100);
+> >> @@ -2587,6 +2589,8 @@ static int smsc911x_suspend(struct device *dev)
+> >>           if (netif_running(ndev)) {
+> >>                   netif_stop_queue(ndev);
+> >>                   netif_device_detach(ndev);
+> >> +               if (!device_may_wakeup(dev))
+> >> +                       phy_suspend(dev->phydev);
+> >>           }
+> >>
+> >>           /* enable wake on LAN, energy detection and the external PME
+> >> @@ -2628,6 +2632,8 @@ static int smsc911x_resume(struct device *dev)
+> >>           if (netif_running(ndev)) {
+> >>                   netif_device_attach(ndev);
+> >>                   netif_start_queue(ndev);
+> >> +               if (!device_may_wakeup(dev))
+> >> +                       phy_resume(dev->phydev);
+> >>           }
+> >>
+> >>           return 0;
+> >
+> > Thanks for your patch, but unfortunately this does not work on ape6evm
+> > and kzm9g, where the smsc911x device is connected to a power-managed
+> > bus.  It looks like the PHY registers are accessed while the device
+> > is already suspended, causing a crash during system suspend:
+>
+> Does it work better if you replace phy_suspend() with phy_stop() and
+> phy_resume() with phy_start()?
 
->> On Mon, Aug 15, 2022 at 3:49 PM Bart Van Assche <bvanassche@acm.org> wrote:
->>> Would it be possible to share the output of the command below? That
->>> should reveal which ATA driver is active on the test setup.
->>>
->>> find /sys -name proc_name | xargs grep -aH .
->>
->> /sys/devices/platform/soc/ee300000.sata/ata1/host0/scsi_host/host0/proc_name:sata_rcar
-> 
-> Thanks Geert for the help. Although I already posted a revert, I'm still trying to
-> root-cause this issue. Do you perhaps know whether sata_rcar controllers support NCQ
+Thank you, much better!
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-   They don't. :-)
+Gr{oetje,eeting}s,
 
-> and if so, what queue depth these controllers support? I think that information is available in sysfs. Here is an example for a VM:
-> 
-> # (cd /sys/class/scsi_device && for a in */device/*/*/ncq_prio_enable; do p=${a%/ncq_prio_enable}; grep -qi ata $p/inquiry || continue; grep -aH . $p/{queue_depth,ncq*}; done)
-> 2:0:0:0/device/driver/2:0:0:0/queue_depth:32
-> 2:0:0:0/device/driver/2:0:0:0/ncq_prio_enable:0
-> 2:0:0:0/device/driver/2:0:0:0/ncq_prio_supported:0
-> 2:0:0:0/device/generic/device/queue_depth:32
-> 2:0:0:0/device/generic/device/ncq_prio_enable:0
-> 2:0:0:0/device/generic/device/ncq_prio_supported:0
-> 6:0:0:1/device/driver/2:0:0:0/queue_depth:32
-> 6:0:0:1/device/driver/2:0:0:0/ncq_prio_enable:0
-> 6:0:0:1/device/driver/2:0:0:0/ncq_prio_supported:0
-> 
-> Thanks,
-> 
-> Bart.
+                        Geert
 
-MBR, Sergey
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
