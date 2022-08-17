@@ -2,37 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73DF0596FF9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Aug 2022 15:40:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83B33596FF0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Aug 2022 15:40:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239317AbiHQNdb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Aug 2022 09:33:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50470 "EHLO
+        id S239421AbiHQNdc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Aug 2022 09:33:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239415AbiHQNdI (ORCPT
+        with ESMTP id S239449AbiHQNdJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Aug 2022 09:33:08 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED17324BE4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Aug 2022 06:28:22 -0700 (PDT)
+        Wed, 17 Aug 2022 09:33:09 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B13D24F1A
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Aug 2022 06:28:26 -0700 (PDT)
 Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 588ED556;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC67A56D;
         Wed, 17 Aug 2022 15:28:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1660742900;
-        bh=tysLQNxMFVp6aURZeT7ig0a3UlhEffUcxleMzgjKWl0=;
+        s=mail; t=1660742901;
+        bh=isXcyL+hCIy1H1joimjTOXQlpx5PdBX8l2etzmqa9gM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cHBJY1yK/w9RRJhaM2Jdnt4fSnYB0xeiYXw325SJoL+dp+Qdc+gj/hInN6NQLKgf7
-         DmBoV+0lqQ5z5n0Cmv/rKT3ae25gCfwZy9nIZ8tBgOCEr9JvEuiFcxsTgaYJ/KmZfP
-         roYLgG9d4Qu1iU7I4DFR9SsZgx0eBvxVxO9sUE2U=
+        b=PR3P2D5e0ot1QuoNw8VH0yg+rb5y6lWKK+6u/Efo75gUqgtQMziu54KpQIh/WfTUZ
+         fwsen7wM/WlnZ3QMStLNM7gqu/FIJ0xt0zqzR5wpIEsEgFYA+hk7uwOxoibxagCB1J
+         5mWRT/wtgCb+UC9hHcTCS8LF4UE7iqa3b1M9MD6Y=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: [PATCH 2/3] drm: rcar-du: Fix r8a779a0 color issue.
-Date:   Wed, 17 Aug 2022 16:28:02 +0300
-Message-Id: <20220817132803.85373-2-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 3/3] drm: rcar-du: fix DSI enable & disable sequence
+Date:   Wed, 17 Aug 2022 16:28:03 +0300
+Message-Id: <20220817132803.85373-3-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220817132803.85373-1-tomi.valkeinen@ideasonboard.com>
 References: <20220817132803.85373-1-tomi.valkeinen@ideasonboard.com>
@@ -50,84 +50,265 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-The rcar DU driver on r8a779a0 has a bug causing some specific colors
-getting converted to transparent colors, which then (usually) show as
-black pixels on the screen.
+The rcar crtc depends on the clock provided from the rcar DSI bridge.
+When the DSI bridge is disabled, the clock is stopped, which causes the
+crtc disable to timeout.
 
-The reason seems to be that the driver sets PnMR_SPIM_ALP bit in
-PnMR.SPIM field, which is an illegal setting on r8a779a0. The
-PnMR_SPIM_EOR bit also illegal.
+Also, while I have no issue with the enable, the documentation suggests
+to enable the DSI before the crtc so that the crtc has its clock enabled
+at enable time. This is also not done by the current driver.
 
-Add a new feature flag for this (lack of a) feature and make sure the
-bits are zero on r8a779a0.
+To fix this, we need to keep the DSI bridge enabled until the crtc has
+disabled itself, and enable the DSI bridge before crtc enables itself.
+
+Add functions (rcar_mipi_dsi_atomic_early_enable and
+rcar_mipi_dsi_atomic_late_disable) to the rcar DSI bridge driver which
+the rcar driver can use to enable/disable the DSI clock when needed.
+This is similar to what is already done with the rcar LVDS bridge.
+
+Also add a new function, rcar_mipi_dsi_stop_video(), called from
+rcar_mipi_dsi_atomic_enable so that the DSI TX gets disabled at the
+correct time, even if the clocks are still kept enabled.
+
+And, while possibly not strictly needed, clear clock related enable bits
+in rcar_mipi_dsi_atomic_late_disable to mirror the sequence done in
+rcar_mipi_dsi_startup() (via rcar_mipi_dsi_atomic_early_enable).
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_drv.c   |  3 ++-
- drivers/gpu/drm/rcar-du/rcar_du_drv.h   |  1 +
- drivers/gpu/drm/rcar-du/rcar_du_plane.c | 16 +++++++++++++---
- 3 files changed, 16 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c    | 25 +++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h     |  2 +
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c |  4 ++
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c   | 63 +++++++++++++++++++++--
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h   | 32 ++++++++++++
+ 5 files changed, 121 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index 541c202c993a..a2776f1d6f2c 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -506,7 +506,8 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
- static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
- 	.gen = 3,
- 	.features = RCAR_DU_FEATURE_CRTC_IRQ
--		  | RCAR_DU_FEATURE_VSP1_SOURCE,
-+		  | RCAR_DU_FEATURE_VSP1_SOURCE
-+		  | RCAR_DU_FEATURE_NO_BLENDING,
- 	.channels_mask = BIT(1) | BIT(0),
- 	.routes = {
- 		/* R8A779A0 has two MIPI DSI outputs. */
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-index bfad7775d9a1..712389c7b3d0 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-@@ -31,6 +31,7 @@ struct rcar_du_device;
- #define RCAR_DU_FEATURE_VSP1_SOURCE	BIT(2)	/* Has inputs from VSP1 */
- #define RCAR_DU_FEATURE_INTERLACED	BIT(3)	/* HW supports interlaced */
- #define RCAR_DU_FEATURE_TVM_SYNC	BIT(4)	/* Has TV switch/sync modes */
-+#define RCAR_DU_FEATURE_NO_BLENDING	BIT(5)	/* PnMR.SPIM does not have ALP nor EOR bits */
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+index fd3b94649a01..51fd1d99f4e8 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+@@ -29,6 +29,7 @@
+ #include "rcar_du_regs.h"
+ #include "rcar_du_vsp.h"
+ #include "rcar_lvds.h"
++#include "rcar_mipi_dsi.h"
  
- #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-index 9e1f0cbbf642..2103816807cc 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-@@ -506,8 +506,19 @@ static void rcar_du_plane_setup_format_gen3(struct rcar_du_group *rgrp,
- 					    unsigned int index,
- 					    const struct rcar_du_plane_state *state)
+ static u32 rcar_du_crtc_read(struct rcar_du_crtc *rcrtc, u32 reg)
  {
--	rcar_du_plane_write(rgrp, index, PnMR,
--			    PnMR_SPIM_TP_OFF | state->format->pnmr);
-+	struct rcar_du_device *rcdu = rgrp->dev;
-+	u32 pnmr;
+@@ -733,6 +734,18 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+ 		rcar_cmm_enable(rcrtc->cmm);
+ 	rcar_du_crtc_get(rcrtc);
+ 
++	if ((rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) &&
++	    (rstate->outputs &
++	     (BIT(RCAR_DU_OUTPUT_DSI0) | BIT(RCAR_DU_OUTPUT_DSI1)))) {
++		struct drm_bridge *bridge = rcdu->dsi[rcrtc->index];
 +
-+	pnmr = state->format->pnmr;
++		/*
++		 * Enable the DSI clock output.
++		 */
 +
-+	if (rcdu->info->features & RCAR_DU_FEATURE_NO_BLENDING) {
-+		/* No blending. ALP and EOR are not supported */
-+		pnmr &= ~(PnMR_SPIM_ALP | PnMR_SPIM_EOR);
++		rcar_mipi_dsi_atomic_early_enable(bridge, state);
 +	}
 +
-+	pnmr |= PnMR_SPIM_TP_OFF;
+ 	/*
+ 	 * On D3/E3 the dot clock is provided by the LVDS encoder attached to
+ 	 * the DU channel. We need to enable its clock output explicitly if
+@@ -769,6 +782,18 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	rcar_du_crtc_stop(rcrtc);
+ 	rcar_du_crtc_put(rcrtc);
+ 
++	if ((rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) &&
++	    (rstate->outputs &
++	     (BIT(RCAR_DU_OUTPUT_DSI0) | BIT(RCAR_DU_OUTPUT_DSI1)))) {
++		struct drm_bridge *bridge = rcdu->dsi[rcrtc->index];
 +
-+	rcar_du_plane_write(rgrp, index, PnMR, pnmr);
++		/*
++		 * Disable the DSI clock output.
++		 */
++
++		rcar_mipi_dsi_atomic_late_disable(bridge);
++	}
++
+ 	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index) &&
+ 	    rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0)) {
+ 		struct drm_bridge *bridge = rcdu->lvds[rcrtc->index];
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+index 712389c7b3d0..5cfa2bb7ad93 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+@@ -92,6 +92,7 @@ struct rcar_du_device_info {
+ #define RCAR_DU_MAX_GROUPS		DIV_ROUND_UP(RCAR_DU_MAX_CRTCS, 2)
+ #define RCAR_DU_MAX_VSPS		4
+ #define RCAR_DU_MAX_LVDS		2
++#define RCAR_DU_MAX_DSI			2
  
- 	rcar_du_plane_write(rgrp, index, PnDDCR4,
- 			    state->format->edf | PnDDCR4_CODE);
-@@ -521,7 +532,6 @@ static void rcar_du_plane_setup_format_gen3(struct rcar_du_group *rgrp,
- 	 * register to 0 to avoid this.
- 	 */
+ struct rcar_du_device {
+ 	struct device *dev;
+@@ -108,6 +109,7 @@ struct rcar_du_device {
+ 	struct platform_device *cmms[RCAR_DU_MAX_CRTCS];
+ 	struct rcar_du_vsp vsps[RCAR_DU_MAX_VSPS];
+ 	struct drm_bridge *lvds[RCAR_DU_MAX_LVDS];
++	struct drm_bridge *dsi[RCAR_DU_MAX_DSI];
  
--	/* TODO: Check if alpha-blending should be disabled in PnMR. */
- 	rcar_du_plane_write(rgrp, index, PnALPHAR, 0);
+ 	struct {
+ 		struct drm_property *colorkey;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+index 60d6be78323b..ac93e08e8af4 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+@@ -84,6 +84,10 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ 		if (output == RCAR_DU_OUTPUT_LVDS0 ||
+ 		    output == RCAR_DU_OUTPUT_LVDS1)
+ 			rcdu->lvds[output - RCAR_DU_OUTPUT_LVDS0] = bridge;
++
++		if (output == RCAR_DU_OUTPUT_DSI0 ||
++		    output == RCAR_DU_OUTPUT_DSI1)
++			rcdu->dsi[output - RCAR_DU_OUTPUT_DSI0] = bridge;
+ 	}
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+index 62f7eb84ab01..1ec40e40fd08 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
++++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+@@ -542,6 +542,34 @@ static int rcar_mipi_dsi_start_video(struct rcar_mipi_dsi *dsi)
+ 	return 0;
  }
  
++static void rcar_mipi_dsi_stop_video(struct rcar_mipi_dsi *dsi)
++{
++	u32 status;
++	int ret;
++
++	/* Disable transmission in video mode. */
++	rcar_mipi_dsi_clr(dsi, TXVMCR, TXVMCR_EN_VIDEO);
++
++	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
++				!(status & TXVMSR_ACT),
++				2000, 100000, false, dsi, TXVMSR);
++	if (ret < 0) {
++		dev_err(dsi->dev, "Failed to disable video transmission\n");
++		return;
++	}
++
++	/* Assert video FIFO clear. */
++	rcar_mipi_dsi_set(dsi, TXVMCR, TXVMCR_VFCLR);
++
++	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
++				!(status & TXVMSR_VFRDY),
++				2000, 100000, false, dsi, TXVMSR);
++	if (ret < 0) {
++		dev_err(dsi->dev, "Failed to assert video FIFO clear\n");
++		return;
++	}
++}
++
+ /* -----------------------------------------------------------------------------
+  * Bridge
+  */
+@@ -558,7 +586,22 @@ static int rcar_mipi_dsi_attach(struct drm_bridge *bridge,
+ static void rcar_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
+ 					struct drm_bridge_state *old_bridge_state)
+ {
+-	struct drm_atomic_state *state = old_bridge_state->base.state;
++	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
++
++	rcar_mipi_dsi_start_video(dsi);
++}
++
++static void rcar_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
++					struct drm_bridge_state *old_bridge_state)
++{
++	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
++
++	rcar_mipi_dsi_stop_video(dsi);
++}
++
++void rcar_mipi_dsi_atomic_early_enable(struct drm_bridge *bridge,
++				       struct drm_atomic_state *state)
++{
+ 	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
+ 	const struct drm_display_mode *mode;
+ 	struct drm_connector *connector;
+@@ -586,8 +629,6 @@ static void rcar_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
+ 	if (ret < 0)
+ 		goto err_dsi_start_hs;
+ 
+-	rcar_mipi_dsi_start_video(dsi);
+-
+ 	return;
+ 
+ err_dsi_start_hs:
+@@ -595,15 +636,27 @@ static void rcar_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
+ err_dsi_startup:
+ 	rcar_mipi_dsi_clk_disable(dsi);
+ }
++EXPORT_SYMBOL_GPL(rcar_mipi_dsi_atomic_early_enable);
+ 
+-static void rcar_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
+-					 struct drm_bridge_state *old_bridge_state)
++void rcar_mipi_dsi_atomic_late_disable(struct drm_bridge *bridge)
+ {
+ 	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
+ 
++	rcar_mipi_dsi_clr(dsi, VCLKEN, VCLKEN_CKEN);
++
++	/* Disable DOT clock */
++	rcar_mipi_dsi_clr(dsi, VCLKSET, VCLKSET_CKEN);
++
++	/* CFGCLK disable */
++	rcar_mipi_dsi_clr(dsi, CFGCLKSET, CFGCLKSET_CKEN);
++
++	/* LPCLK disable */
++	rcar_mipi_dsi_clr(dsi, LPCLKSET, LPCLKSET_CKEN);
++
+ 	rcar_mipi_dsi_shutdown(dsi);
+ 	rcar_mipi_dsi_clk_disable(dsi);
+ }
++EXPORT_SYMBOL_GPL(rcar_mipi_dsi_atomic_late_disable);
+ 
+ static enum drm_mode_status
+ rcar_mipi_dsi_bridge_mode_valid(struct drm_bridge *bridge,
+diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
+new file mode 100644
+index 000000000000..1764abf65a34
+--- /dev/null
++++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
+@@ -0,0 +1,32 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * R-Car DSI Encoder
++ *
++ * Copyright (C) 2022 Renesas Electronics Corporation
++ *
++ * Contact: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
++ */
++
++#ifndef __RCAR_MIPI_DSI_H__
++#define __RCAR_MIPI_DSI_H__
++
++struct drm_bridge;
++struct drm_atomic_state;
++
++#if IS_ENABLED(CONFIG_DRM_RCAR_MIPI_DSI)
++void rcar_mipi_dsi_atomic_early_enable(struct drm_bridge *bridge,
++				       struct drm_atomic_state *state);
++void rcar_mipi_dsi_atomic_late_disable(struct drm_bridge *bridge);
++#else
++static inline void
++rcar_mipi_dsi_atomic_early_enable(struct drm_bridge *bridge,
++				  struct drm_atomic_state *state)
++{
++}
++
++void rcar_mipi_dsi_atomic_late_disable(struct drm_bridge *bridge)
++{
++}
++#endif /* CONFIG_DRM_RCAR_MIPI_DSI */
++
++#endif /* __RCAR_MIPI_DSI_H__ */
 -- 
 2.34.1
 
