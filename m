@@ -2,224 +2,241 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E36E596D8C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Aug 2022 13:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ADEB596F04
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Aug 2022 15:07:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235533AbiHQLcu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Aug 2022 07:32:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45842 "EHLO
+        id S239166AbiHQNBw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Aug 2022 09:01:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233443AbiHQLct (ORCPT
+        with ESMTP id S236393AbiHQNBv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Aug 2022 07:32:49 -0400
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 771096E2C0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Aug 2022 04:32:41 -0700 (PDT)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20220817113235euoutp026a786315f231f18f9df619283ac28244~MHo2MoH400214602146euoutp02q
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Aug 2022 11:32:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20220817113235euoutp026a786315f231f18f9df619283ac28244~MHo2MoH400214602146euoutp02q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1660735955;
-        bh=S3bzVlsCBjK72dYdHPRLrShfY7TzZgFl1ogmAT3SI24=;
-        h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-        b=HbK8GqoGH427LX3qm07kT8N1Mb+b9+RhJfBaHA+69mrnB+OI6HuZWbcAKsa5v1dY/
-         1nwSTKp/LlZJKsMpJe3BqXxIcdTdj3ixh861ZukfQHk8guvvKlq94/Zeh2mgtYLYoR
-         u0rEHiLdIjxjdMtFJ8dmDy1FQEsDxGOMYkEebjqw=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20220817113235eucas1p1c4b4ec10d7246f24f52e22d72b60efde~MHo1zZUuM0205002050eucas1p1a;
-        Wed, 17 Aug 2022 11:32:35 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges3new.samsung.com (EUCPMTA) with SMTP id 09.D8.09580.3D1DCF26; Wed, 17
-        Aug 2022 12:32:35 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20220817113234eucas1p1c936c1548099113f5eab529cf37c9c61~MHo1Twnx00207502075eucas1p1q;
-        Wed, 17 Aug 2022 11:32:34 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20220817113234eusmtrp29a82e04a30d8ee0a0c529ea333a2d636~MHo1S56PV1344513445eusmtrp2V;
-        Wed, 17 Aug 2022 11:32:34 +0000 (GMT)
-X-AuditID: cbfec7f5-9adff7000000256c-b0-62fcd1d391ed
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id 8B.38.09095.2D1DCF26; Wed, 17
-        Aug 2022 12:32:34 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20220817113234eusmtip1a857f22b521212ae48991c0120b5fbf5~MHo0eOQlY0797307973eusmtip1M;
-        Wed, 17 Aug 2022 11:32:33 +0000 (GMT)
-Message-ID: <af9f0842-5cdc-3ad3-fe97-193e6a96172c@samsung.com>
-Date:   Wed, 17 Aug 2022 13:32:33 +0200
+        Wed, 17 Aug 2022 09:01:51 -0400
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 392E94DB6C;
+        Wed, 17 Aug 2022 06:01:50 -0700 (PDT)
+Received: by mail-qk1-f182.google.com with SMTP id a15so9833791qko.4;
+        Wed, 17 Aug 2022 06:01:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=cH35DFRkJqtmVqNgkmmMsr/quu6SGsADZJqIlU2X9QA=;
+        b=RPZAEM0IgVPlanZSqYEaVnkRdO+cMBBYRmsCPW0u73UIywQRpu1zBFGVVKhHwxJJfE
+         3XTkHXN++hswmnvAgvtLxC62v6xNGrpmpyFkvdXUxnQ2LJ56Cqk8rDirjb4I+UBAoTgN
+         4yKZ7vIExuebAWWXZLLMC2Q6nvo3LvOm0+E1ctRQBhDaqOKjRNBRcD5lX90/pAQlzE4P
+         QGBF5wLLBi+MeLvpYGtnFNP2m3myW7Mp/QMg3gER7jT5lQpogoCoqcrWZBsHrjM7+Bug
+         u45muz8K9GObovMp5pw+eHcXm3ZGVJpaGNGNWUr6fFm+CvC08xzo6tAX2bZ95sGfroV+
+         Iitw==
+X-Gm-Message-State: ACgBeo3i0vOUCTPeMm5eLVGn9VHoZG+gDlcLz5rH8oXRPJ3+eSuvr5dc
+        oSFI6dlBc1wj6dYkI6JeRq/0MeRjiAPxjQ==
+X-Google-Smtp-Source: AA6agR4LAW7UhElE5/82gss2h5khbilqn+4NRSCW1xS5wiYXD4j9iSvrLUg2u7mkiKr+8sI2BNhn/w==
+X-Received: by 2002:a05:620a:705:b0:6bb:880a:9c85 with SMTP id 5-20020a05620a070500b006bb880a9c85mr2585035qkc.493.1660741308945;
+        Wed, 17 Aug 2022 06:01:48 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id k20-20020ac84754000000b003435f947d9fsm12518097qtp.74.2022.08.17.06.01.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Aug 2022 06:01:48 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-3246910dac3so228542667b3.12;
+        Wed, 17 Aug 2022 06:01:47 -0700 (PDT)
+X-Received: by 2002:a25:6890:0:b0:684:2c5c:1bd8 with SMTP id
+ d138-20020a256890000000b006842c5c1bd8mr15530630ybc.604.1660741307273; Wed, 17
+ Aug 2022 06:01:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-        Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH net] net: phy: Warn about incorrect
- mdio_bus_phy_resume() state
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Florian Fainelli <f.fainelli@gmail.com>
-Cc:     netdev <netdev@vger.kernel.org>,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        Doug Berger <opendmb@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        open list <linux-kernel@vger.kernel.org>,
+References: <20220810060040.321697-1-saravanak@google.com>
+In-Reply-To: <20220810060040.321697-1-saravanak@google.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 17 Aug 2022 15:01:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUHg+HokA63Y74EJ8OUkb6Lbvf7Fa2MX5Vdtoz6ri-otg@mail.gmail.com>
+Message-ID: <CAMuHMdUHg+HokA63Y74EJ8OUkb6Lbvf7Fa2MX5Vdtoz6ri-otg@mail.gmail.com>
+Subject: Re: [PATCH v1 0/9] fw_devlink improvements
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Len Brown <lenb@kernel.org>, Abel Vesa <abel.vesa@linaro.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        John Stultz <jstultz@google.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <CAMuHMdXiawCULreUKZsBD0LNc3FTqMxpfM11N46OqppChT91Kw@mail.gmail.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrLKsWRmVeSWpSXmKPExsWy7djP87qXL/5JMvizU8Li/N1DzBZzzrew
-        WDw99ojd4te7I+wWz27tZbJY9H4Gq8WFbX2sFpd3zWGz2PryHZPFoal7GS2OLRCz+DxpCqPF
-        t9NvGC22tPxlsmj+9IrJgd/j8rWLzB5bVt5k8tg56y67x4JNpR6bVnWyeRw63MHosXPHZyaP
-        HbdtPN7vu8rm8b/5MovH501yAdxRXDYpqTmZZalF+nYJXBlfHsxgKjikWLFz1VnmBsYGyS5G
-        Tg4JAROJ41ufsnQxcnEICaxglFi65QcrhPOFUaLh1yRmCOczo8SXed9YYFp+3t8ElVjOKLHr
-        4D2o/o+MEj+PrGcDqeIVsJP48fMtkM3BwSKgKrFthypEWFDi5MwnYINEBZIlnv1fzA5iCwuE
-        SpyY1ssKYjMLiEvcejKfCaRVRCBCYuqqZJDxzAKNLBLTHtxmBKlhEzCU6HrbBbaKUyBQ4u60
-        RcwQvfIS29/OYYY49DCnRFefJYTtIjH50j2oB4QlXh3fwg5hy0j83wmxS0IgX+LvDGOIcIXE
-        tddroMZYS9w59wvsE2YBTYn1u/Qhwo4Sy1pWQHXySdx4KwhxAJ/EpG3TmSHCvBIdbUIQ1WoS
-        s46vg9t58MIl5gmMSrOQgmQWktdnIXllFsLeBYwsqxjFU0uLc9NTi43zUsv1ihNzi0vz0vWS
-        83M3MQJT4Ol/x7/uYFzx6qPeIUYmDsZDjBIczEoivIIvfiQJ8aYkVlalFuXHF5XmpBYfYpTm
-        YFES503O3JAoJJCeWJKanZpakFoEk2Xi4JRqYJrNsd1yfzm/0JIbaZ7u0tlld5L82tXfRr68
-        Z7IvxmK20qLz3Xb675vnH8vbqPmn9/q1mcun9Kk9K8otYShd/7p6dfHXsilfNqTW6m/Uesq5
-        jytNuDOy92u/XWLoJwPFf1/vMJtILl1eEVSxKLpyYcn8FmXpvRssNgleuaTX8WTFBW63vpWl
-        jG4//J5fNF8gIqw2aeXOtDnX+v0fv86/uWVR+WuDj698mgRT94ZbnL/YIXNAwdwi9Phq3WVi
-        VpEL+lcmvf2p0nLS+C+zZDnjlYqZ8zbuvOTSIq1zgvFvV8msHZd0U29UMPH8je4X3yw255fj
-        usaC7nty6p4JzLwvF6jfulYgv9P0Oddf5hfe85RYijMSDbWYi4oTAShYMhvwAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrMIsWRmVeSWpSXmKPExsVy+t/xu7qXLv5JMnh3Qd/i/N1DzBZzzrew
-        WDw99ojd4te7I+wWz27tZbJY9H4Gq8WFbX2sFpd3zWGz2PryHZPFoal7GS2OLRCz+DxpCqPF
-        t9NvGC22tPxlsmj+9IrJgd/j8rWLzB5bVt5k8tg56y67x4JNpR6bVnWyeRw63MHosXPHZyaP
-        HbdtPN7vu8rm8b/5MovH501yAdxRejZF+aUlqQoZ+cUltkrRhhZGeoaWFnpGJpZ6hsbmsVZG
-        pkr6djYpqTmZZalF+nYJehlfHsxgKjikWLFz1VnmBsYGyS5GTg4JAROJn/c3MXcxcnEICSxl
-        lNh29TobREJG4uS0BlYIW1jiz7UusLiQwHtGiceNkSA2r4CdxI+fb4HiHBwsAqoS23aoQoQF
-        JU7OfMICYosKJEssOLQUzBYWCJW4e/4EO4jNLCAucevJfCYQW0QgQuJiyzsWkBuYBVpZJCat
-        f8wIcdB2Zom+h1/BOtgEDCW63kIcwSkQKHF32iJmiElmEl1buxghbHmJ7W/nME9gFJqF5JBZ
-        SBbOQtIyC0nLAkaWVYwiqaXFuem5xYZ6xYm5xaV56XrJ+bmbGIGxv+3Yz807GOe9+qh3iJGJ
-        g/EQowQHs5IIr+CLH0lCvCmJlVWpRfnxRaU5qcWHGE2BgTGRWUo0OR+YfPJK4g3NDEwNTcws
-        DUwtzYyVxHk9CzoShQTSE0tSs1NTC1KLYPqYODilGpg2rpuscU3kfmCpzCfeGfLnCvc3TjS7
-        1rfom25+1Y4lpia3Jj/3fWQeKnzwVKBrQB6nw+cWUx/LnkOtH5M2blveEqjF1yejpbxdssBg
-        js5tpvtVM+XWtS+ZtUQ6eZbJG47fJSe4mrWKpt2wmcPQXSMQvcAsfFVy3TrpR8+Mfwq4/Z0x
-        S1jTSbJhhZhdxap1S2YUcfGwvZrcu7EptXHZvk9CjauyHVfU8q6Rnrd+QmWN4hbVxVu9BJ9M
-        lo0vesPw7pl5Tbnkg+czHv5X9M29uTBd/efimNT/Pu+q8tJS9I/P2Drpf6fLwguv5xQ/5lTg
-        3/VvUQ7Pl0//zU946ggum+8t9v7bVwtP2eL/jteTudmUWIozEg21mIuKEwEPJRYFhgMAAA==
-X-CMS-MailID: 20220817113234eucas1p1c936c1548099113f5eab529cf37c9c61
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220812111948eucas1p2bf97e7f4558eb024f419346367a87b45
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220812111948eucas1p2bf97e7f4558eb024f419346367a87b45
-References: <20220801233403.258871-1-f.fainelli@gmail.com>
-        <CGME20220812111948eucas1p2bf97e7f4558eb024f419346367a87b45@eucas1p2.samsung.com>
-        <27016cc0-f228-748b-ea03-800dda4e5f0c@samsung.com>
-        <8c21e530-8e8f-ce2a-239e-9d3a354996cf@gmail.com>
-        <CAMuHMdV8vsbFx+nikAwn1po1-PeZVhzotMaLLk+wXNquZceaRQ@mail.gmail.com>
-        <c1301f39-9202-5eee-a0f6-9c0b66f2dccf@gmail.com>
-        <CAMuHMdXiawCULreUKZsBD0LNc3FTqMxpfM11N46OqppChT91Kw@mail.gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 17.08.2022 11:18, Geert Uytterhoeven wrote:
-> On Wed, Aug 17, 2022 at 4:28 AM Florian Fainelli <f.fainelli@gmail.com> wrote:
->> On 8/16/2022 6:20 AM, Geert Uytterhoeven wrote:
->>> On Fri, Aug 12, 2022 at 6:39 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
->>>> On 8/12/22 04:19, Marek Szyprowski wrote:
->>>>> On 02.08.2022 01:34, Florian Fainelli wrote:
->>>>>> Calling mdio_bus_phy_resume() with neither the PHY state machine set to
->>>>>> PHY_HALTED nor phydev->mac_managed_pm set to true is a good indication
->>>>>> that we can produce a race condition looking like this:
->>>>>>
->>>>>> CPU0                                         CPU1
->>>>>> bcmgenet_resume
->>>>>>      -> phy_resume
->>>>>>        -> phy_init_hw
->>>>>>      -> phy_start
->>>>>>        -> phy_resume
->>>>>>                                                     phy_start_aneg()
->>>>>> mdio_bus_phy_resume
->>>>>>      -> phy_resume
->>>>>>         -> phy_write(..., BMCR_RESET)
->>>>>>          -> usleep()                                  -> phy_read()
->>>>>>
->>>>>> with the phy_resume() function triggering a PHY behavior that might have
->>>>>> to be worked around with (see bf8bfc4336f7 ("net: phy: broadcom: Fix
->>>>>> brcm_fet_config_init()") for instance) that ultimately leads to an error
->>>>>> reading from the PHY.
->>>>>>
->>>>>> Fixes: fba863b81604 ("net: phy: make PHY PM ops a no-op if MAC driver manages PHY PM")
->>>>>> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
->>>>> This patch, as probably intended, triggers a warning during system
->>>>> suspend/resume cycle in the SMSC911x driver. I've observed it on ARM
->>>>> Juno R1 board on the kernel compiled from next-202208010:
->>>>>
->>>>>      ------------[ cut here ]------------
->>>>>      WARNING: CPU: 1 PID: 398 at drivers/net/phy/phy_device.c:323
->>>>> mdio_bus_phy_resume+0x34/0xc8
->>> I am seeing the same on the ape6evm and kzm9g development
->>> boards with smsc911x Ethernet, and on various boards with Renesas
->>> Ethernet (sh_eth or ravb) if Wake-on-LAN is disabled.
->>>
->>>> Yes this is catching an actual issue in the driver in that the PHY state
->>>> machine is still running while the system is trying to suspend. We could
->>>> go about fixing it in a different number of ways, though I believe this
->>>> one is probably correct enough to work and fix the warning:
->>>> --- a/drivers/net/ethernet/smsc/smsc911x.c
->>>> +++ b/drivers/net/ethernet/smsc/smsc911x.c
->>>> @@ -1037,6 +1037,8 @@ static int smsc911x_mii_probe(struct net_device *dev)
->>>>                    return ret;
->>>>            }
->>>>
->>>> +       /* Indicate that the MAC is responsible for managing PHY PM */
->>>> +       phydev->mac_managed_pm = true;
->>>>            phy_attached_info(phydev);
->>>>
->>>>            phy_set_max_speed(phydev, SPEED_100);
->>>> @@ -2587,6 +2589,8 @@ static int smsc911x_suspend(struct device *dev)
->>>>            if (netif_running(ndev)) {
->>>>                    netif_stop_queue(ndev);
->>>>                    netif_device_detach(ndev);
->>>> +               if (!device_may_wakeup(dev))
->>>> +                       phy_suspend(dev->phydev);
->>>>            }
->>>>
->>>>            /* enable wake on LAN, energy detection and the external PME
->>>> @@ -2628,6 +2632,8 @@ static int smsc911x_resume(struct device *dev)
->>>>            if (netif_running(ndev)) {
->>>>                    netif_device_attach(ndev);
->>>>                    netif_start_queue(ndev);
->>>> +               if (!device_may_wakeup(dev))
->>>> +                       phy_resume(dev->phydev);
->>>>            }
->>>>
->>>>            return 0;
->>> Thanks for your patch, but unfortunately this does not work on ape6evm
->>> and kzm9g, where the smsc911x device is connected to a power-managed
->>> bus.  It looks like the PHY registers are accessed while the device
->>> is already suspended, causing a crash during system suspend:
->> Does it work better if you replace phy_suspend() with phy_stop() and
->> phy_resume() with phy_start()?
-> Thank you, much better!
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Saravana,
 
-It also works for me.
+On Wed, Aug 10, 2022 at 8:00 AM Saravana Kannan <saravanak@google.com> wrote:
+> This patch series improves fw_devlink in the following ways:
+>
+> 1. It no longer cares about a fwnode having a "compatible" property. It
+>    figures this our more dynamically. The only expectation is that
+>    fwnode that are converted to devices actually get probed by a driver
+>    for the dependencies to be enforced correctly.
+>
+> 2. Finer grained dependency tracking. fw_devlink will now create device
+>    links from the consumer to the actual resource's device (if it has one,
+>    Eg: gpio_device) instead of the parent supplier device. This improves
+>    things like async suspend/resume ordering, potentially remove the need
+>    for frameworks to create device links, more parallelized async probing,
+>    and better sync_state() tracking.
+>
+> 3. Handle hardware/software quirks where a child firmware node gets
+>    populated as a device before its parent firmware node AND actually
+>    supplies a non-optional resource to the parent firmware node's
+>    device.
+>
+> 4. Way more robust at cycle handling (see patch for the insane cases).
+>
+> 5. Stops depending on OF_POPULATED to figure out some corner cases.
+>
+> 6. Simplifies the work that needs to be done by the firmware specific
+>    code.
+>
+> This took way too long to get done due to typo bugs I had in my rewrite or
+> corner cases I had to find and handle. But it's fairly well tested at this
+> point and I expect this to work properly.
+>
+> Abel & Doug,
+>
+> This should fix your cyclic dependency issues with your display. Can you
+> give it a shot please?
 
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Thanks for to your series!
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+> Geert,
+>
+> Can you test the renesas stuff I changed please? They should continue
+> working like before. Any other sanity test on other hardware would be
+> great too.
 
+At first, this series looked like a total disaster, introducing
+several regressions[1].
+
+However, after applying the additional fix from
+https://lore.kernel.org/lkml/CAGETcx-JUV1nj8wBJrTPfyvM7=Mre5j_vkVmZojeiumUGG6QZQ@mail.gmail.com
+all regressions[1] went away, and /sys/kernel/debug/devices_deferred
+is empty again.
+
+Note that the Ethernet PHY interrupt on Koelsch is not fixed, so the issue from
+https://lore.kernel.org/all/CAMuHMdWo_wRwV-i_iyTxVnEsf3Th9GBAG+wxUQMQGnw1t2ijTg@mail.gmail.com/
+is still present.
+
+Summary: while this series (+ the additional fix) doesn't seem to
+introduce any regressions on Renesas ARM platforms, it doesn't seem
+to fix anything for me neither.
+
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+[1]
+
+R-Mobile APE6 (ape6evm):
+    No "deferred probe pending" messages?
+
+    # cat /sys/kernel/debug/devices_deferred
+    ee120000.mmc platform: wait for supplier sd1
+    ee100000.mmc platform: wait for supplier sd0
+    ee200000.mmc platform: wait for supplier mmc0
+    keyboard platform: wait for supplier keyboard
+
+R-Mobile A1 (armadillo-800-eva):
+    No soundcards found.
+    platform backlight: deferred probe pending
+    i2c 0-0030: deferred probe pending (RTC)
+    platform sound: deferred probe pending
+    platform fe1f0000.sound: deferred probe pending
+    platform keyboard: deferred probe pending (gpio-keys)
+    platform e6850000.mmc: deferred probe pending (SDHI)
+    platform e6bd0000.mmc: deferred probe pending (SDHI)
+
+    # cat /sys/kernel/debug/devices_deferred
+    backlight platform: wait for supplier backlight
+    0-0030 i2c: wait for supplier rtc
+    sound asoc-simple-card: parse error
+    fe1f0000.sound platform: wait for supplier sounda
+    keyboard platform: wait for supplier keyboard
+    e6850000.mmc platform: wait for supplier sd0
+    e6bd0000.mmc platform: wait for supplier mmc0
+
+SH-Mobile AG5 (kzm9g):
+    No soundcards found.
+    platform sound: deferred probe pending
+    platform ec230000.sound: deferred probe pending
+
+    # cat /sys/kernel/debug/devices_deferred
+    sound asoc-simple-card: parse error
+    ec230000.sound platform: wait for supplier sounda
+
+    Note: This is the only board where gpio-keys still works!
+
+R-Car M2-W (koelsch):
+
+    i2c-demux-pinctrl i2c-12: failed to setup demux-adapter 0 (-19)
+    i2c-demux-pinctrl i2c-13: failed to setup demux-adapter 0 (-19)
+    i2c-demux-pinctrl i2c-14: failed to setup demux-adapter 0 (-19)
+
+    i2c-demux-pinctrl i2c-13: Failed to create device link with hdmi-in
+    i2c-demux-pinctrl i2c-13: Failed to create device link with hdmi-out
+
+    No soundcards found.
+
+    Some I2C-busses are missing, but not listed in
+/sys/kernel/debug/devices_deferred?
+    /devices/platform/soc/e6518000.i2c
+    /devices/platform/soc/e6530000.i2c
+    /devices/platform/soc/e6520000.i2c
+
+    platform keyboard: deferred probe pending
+    platform sound: deferred probe pending
+    platform feb00000.display: deferred probe pending
+
+    # cat /sys/kernel/debug/devices_deferred
+    keyboard platform: wait for supplier keyboard
+    sound asoc-simple-card: parse error
+    feb00000.display rcar-du: failed to initialize DRM/KMS
+
+R-Car Gen3 (Salvator-X(S), Ebisu)
+    platform keys: deferred probe pending (gpio-keys)
+
+    # cat /sys/kernel/debug/devices_deferred
+    keys platform: wait for supplier keys
+
+RZ/A (rskrza1, rza2mevb)
+    No "deferred probe pending" messages?
+    # cat /sys/kernel/debug/devices_deferred
+    keyboard platform: wait for supplier keyboard
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
