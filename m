@@ -2,130 +2,142 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 594C95986B5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 17:03:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F72859872A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 17:17:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343939AbiHRPAy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Aug 2022 11:00:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51112 "EHLO
+        id S245120AbiHRPQf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Aug 2022 11:16:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343943AbiHRPAv (ORCPT
+        with ESMTP id S245219AbiHRPQe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Aug 2022 11:00:51 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBFFB32BA4;
-        Thu, 18 Aug 2022 08:00:49 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4D302B821CE;
-        Thu, 18 Aug 2022 15:00:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68E77C433D7;
-        Thu, 18 Aug 2022 15:00:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1660834846;
-        bh=w6/ETLvl6ZG2+0UlR1OeUzSwR5sjy2rVzbgpetE7Jao=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jyemUVkbI7r0kIO7aSwt8dj+8DwO9ot3ryBxDCUv3IuhyBu7QbX65Dj2DoBUJ1aRA
-         IfTgDRH5H5dfm0lkURf6lstrZgWK2sl1EOE9JhkVrS5pkqvYeaNAjcc/Bnorgjord9
-         ZMme4Z1TfbRACGT2vZdJ12ucPykQdtRzPaslvb/c=
-Date:   Thu, 18 Aug 2022 17:00:44 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Tony Lindgren <tony@atomide.com>
-Cc:     Saravana Kannan <saravanak@google.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Len Brown <lenb@kernel.org>, Abel Vesa <abel.vesa@linaro.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        John Stultz <jstultz@google.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Guenter Roeck <linux@roeck-us.net>, kernel-team@android.com,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v1 0/9] fw_devlink improvements
-Message-ID: <Yv5UHLOk9jh8KB6c@kroah.com>
-References: <20220810060040.321697-1-saravanak@google.com>
- <YvYiF36M09dX9ASm@atomide.com>
- <CAGETcx-t0O0B+5i0FWwm5w2=ccOD5zVAaUvgQoP8PT9SOT_btw@mail.gmail.com>
- <Yvog4K0barAvvVeb@atomide.com>
- <CAGETcx-k+ca5uG42XvW5yiK8RWDYfeRs9va5boqnp33s45AGRg@mail.gmail.com>
- <Yv3kqoMo3R/7onlw@atomide.com>
+        Thu, 18 Aug 2022 11:16:34 -0400
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCECC7B79A;
+        Thu, 18 Aug 2022 08:16:33 -0700 (PDT)
+Received: by mail-qt1-f177.google.com with SMTP id w28so1331688qtc.7;
+        Thu, 18 Aug 2022 08:16:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=fNAryURHxGVgmjXYIDSK6dvngkhik8cAD5MGphiVLyw=;
+        b=XU253U80V4kJNEIc9yNpxgbUC/z6aqclz0KqNZqpzPe+W8j0JumtqbzPomeRWqZm9Y
+         eP6T3gBo75Fcxs+we2oo6yRCVs/6/IJAnNlUecgttXcd+hx7eeO5Sk3uwF8P+qQ7ZiAl
+         zRDHa2rEOGIZ4WiOhMZEAXmpFLKDlSmYBoKJd02i7YhGYMsfykUa4fsDDKgGnzcpCFor
+         L1nUky2l+q4CUuIf+WYFRyPpNZw7n+nyRQKOMWKFqKJlz1TcPUshB3Fyt+DMyj8pOMzV
+         9s+zb7zhAD5Gr4wP/+4JluPI940O1KyHcx/s91lLtH1YVSD+NPD+I1oSGRvSWx4O9fBR
+         NAZg==
+X-Gm-Message-State: ACgBeo2/NuxcW6zqSQH6fpILiidWQrJcKUn64t2GLcf2Ce2WRzoL3Pi9
+        ZlArYYOPBmcc3KRPe8XBpTYgL2qC2GDa2Q==
+X-Google-Smtp-Source: AA6agR6b7uNb5yJfAVZ9E74dm/uGNc05W06ZLWjqONKxyVVLED2vrJEdtbAEov/g+tK0SqHOUMDunA==
+X-Received: by 2002:ac8:7f4f:0:b0:344:6974:51fe with SMTP id g15-20020ac87f4f000000b00344697451femr3071043qtk.382.1660835792538;
+        Thu, 18 Aug 2022 08:16:32 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id bs43-20020a05620a472b00b006b9b7879964sm1725316qkb.28.2022.08.18.08.16.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Aug 2022 08:16:32 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-3375488624aso20473387b3.3;
+        Thu, 18 Aug 2022 08:16:31 -0700 (PDT)
+X-Received: by 2002:a81:658:0:b0:334:a23e:6caa with SMTP id
+ 85-20020a810658000000b00334a23e6caamr3123682ywg.283.1660835791476; Thu, 18
+ Aug 2022 08:16:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yv3kqoMo3R/7onlw@atomide.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220815151451.23293-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220815151451.23293-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220815151451.23293-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 18 Aug 2022 17:16:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW29Q40hypWZ05KRj5cc=DY8XjnDwOPVw3kJPNUrnL0fA@mail.gmail.com>
+Message-ID: <CAMuHMdW29Q40hypWZ05KRj5cc=DY8XjnDwOPVw3kJPNUrnL0fA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/8] RISC-V: Kconfig.socs: Add Renesas RZ/Five SoC
+ kconfig option
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley <Conor.Dooley@microchip.com>,
+        Anup Patel <anup@brainfault.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Aug 18, 2022 at 10:05:14AM +0300, Tony Lindgren wrote:
-> Hi,
-> 
-> * Saravana Kannan <saravanak@google.com> [220815 18:16]:
-> > On Mon, Aug 15, 2022 at 3:33 AM Tony Lindgren <tony@atomide.com> wrote:
-> > >
-> > > * Saravana Kannan <saravanak@google.com> [220813 00:45]:
-> > > > On Fri, Aug 12, 2022 at 2:49 AM Tony Lindgren <tony@atomide.com> wrote:
-> > > > >
-> > > > > * Saravana Kannan <saravanak@google.com> [220810 05:54]:
-> > > > > > Tony,
-> > > > > >
-> > > > > > This should handle the odd case of the child being the supplier of the
-> > > > > > parent. Can you please give this a shot? I want to make sure the cycle
-> > > > > > detection code handles this properly and treats it like it's NOT a cycle.
-> > > > >
-> > > > > Yup, this series works for me, so feel free to add:
-> > > > >
-> > > > > Tested-by: Tony Lindgren <tony@atomide.com>
-> > > >
-> > > > Thanks for testing!
-> > > >
-> > > > Btw, out of curiosity, how many different boards did you test this on?
-> > > > IIRC you had an issue only in one board, right? Not to say I didn't
-> > > > break anything else, I'm just trying to see how much confidence we
-> > > > have on this series so far. I'm hoping the rest of the folks I listed
-> > > > in the email will get around to testing this series.
-> > >
-> > > Sorry if I was not clear earlier. The issue affects several generations
-> > > of TI 32-bit SoCs at least, not just one board.
-> > 
-> > But this series fixes the issues for all of them or are you still
-> > seeing some broken boot with this series?
-> 
-> Yes. However, I'm now getting confused what exactly you're proposing to fix
-> the regressions for v6.0-rc series.
+Hi Prabhakar,
 
-So am I :(
+On Mon, Aug 15, 2022 at 5:16 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Introduce SOC_RENESAS_RZFIVE config option to enable Renesas RZ/Five
+> (R9A07G043) SoC, along side also add ARCH_RENESAS config option as most
+> of the Renesas drivers depend on this config option.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-> I'd like to see just the fixes series for v6.0-rc series. With proper fixes
-> tags, and possibly reverts.
+Thanks for your patch!
 
-Agreed, that would help out a lot here.
+The technical part LGTM, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> Then discussing patches for Linux next can be done based on the fixes :)
+> --- a/arch/riscv/Kconfig.socs
+> +++ b/arch/riscv/Kconfig.socs
+> @@ -80,4 +80,18 @@ config SOC_CANAAN_K210_DTB_SOURCE
+>
+>  endif # SOC_CANAAN
+>
+> +config ARCH_RENESAS
 
-Agreed.
+We definitely want ARCH_RENESAS, as it serves as a gatekeeper for
+Kconfig options for IP cores found on Renesas ARM and RISC-V SoCs.
 
-I'll drop this whole series from my queue now and wait for a new one.
+> +       bool
+> +       select GPIOLIB
+> +       select PINCTRL
+> +       select SOC_BUS
+> +
+> +config SOC_RENESAS_RZFIVE
 
-thanks,
+Do we need this symbol? You could as well make ARCH_RENESAS above
+visible, and defer the actual SoC selection to ARCH_R9A07G043 in
+drivers/soc/renesas/Kconfig[1].
 
-greg k-h
+I don't know what is the policy on RISC-V. ARM64 has a "single-symbol
+in arch/arm64/Kconfig.platforms"-policy, so we handle SoC selection
+in drivers/soc/renesas/Kconfig, and that is fine, as it avoids merge
+conflicts.
+
+> +       bool "Renesas RZ/Five SoC"
+> +       select ARCH_R9A07G043
+> +       select ARCH_RENESAS
+> +       select RESET_CONTROLLER
+> +       help
+> +         This enables support for Renesas RZ/Five SoC.
+> +
+>  endmenu # "SoC selection"
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/commit/?h=renesas-drivers-for-v6.1&id=ebd0e06f3063cc2e3a689112904b29720579c6d2
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
