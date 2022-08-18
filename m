@@ -2,108 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AEE83597EE5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 09:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD1EA597FEA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 10:16:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243762AbiHRHFT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Aug 2022 03:05:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48236 "EHLO
+        id S231430AbiHRIQg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Aug 2022 04:16:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243770AbiHRHFS (ORCPT
+        with ESMTP id S238298AbiHRIQe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Aug 2022 03:05:18 -0400
-Received: from muru.com (muru.com [72.249.23.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 38E80876BF;
-        Thu, 18 Aug 2022 00:05:16 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id BA069807E;
-        Thu, 18 Aug 2022 06:58:18 +0000 (UTC)
-Date:   Thu, 18 Aug 2022 10:05:14 +0300
-From:   Tony Lindgren <tony@atomide.com>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Len Brown <lenb@kernel.org>, Abel Vesa <abel.vesa@linaro.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        John Stultz <jstultz@google.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Guenter Roeck <linux@roeck-us.net>, kernel-team@android.com,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v1 0/9] fw_devlink improvements
-Message-ID: <Yv3kqoMo3R/7onlw@atomide.com>
-References: <20220810060040.321697-1-saravanak@google.com>
- <YvYiF36M09dX9ASm@atomide.com>
- <CAGETcx-t0O0B+5i0FWwm5w2=ccOD5zVAaUvgQoP8PT9SOT_btw@mail.gmail.com>
- <Yvog4K0barAvvVeb@atomide.com>
- <CAGETcx-k+ca5uG42XvW5yiK8RWDYfeRs9va5boqnp33s45AGRg@mail.gmail.com>
+        Thu, 18 Aug 2022 04:16:34 -0400
+Received: from mail.fadrush.pl (mail.fadrush.pl [54.37.225.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB2FA7EFDF
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Aug 2022 01:16:33 -0700 (PDT)
+Received: by mail.fadrush.pl (Postfix, from userid 1002)
+        id B015322F12; Thu, 18 Aug 2022 08:16:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fadrush.pl; s=mail;
+        t=1660810592; bh=bD6j9gIFU6CLTaCGl0Ow9oeIxtirvTfMeNZSfLEZQ+I=;
+        h=Date:From:To:Subject:From;
+        b=BNc612oQL+A7PQQszknJPZXRN5qhRFFXlxpCkSJ3XTG6M7neAHOUONlcE1bJxP0dU
+         6Jd8iF6VQJt08dculi2zNnKIhLLHNHYjGl1fjqE+1tPWWheNa4WQtoR0n2UKRXNK9b
+         b2vVW3d3HYpBHRv9qq17x+jOaC1kpB4yCg6jzGmdPbutmoTJk6TFTtCULUuf88ScxI
+         n6GEeNUubhHxye8Ux+LEubmX2lNculXoDs7WDLyQGZ9qYcUj2HggeOAsrXJD28+MPu
+         t7JMbjgfSi/ig0XWvxfRNYJrnJsJFZ7oUNGN4PF23RGNjmKwI9NnNINFwizbTvhpns
+         3fK8obPsHUzwg==
+Received: by mail.fadrush.pl for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Aug 2022 08:16:20 GMT
+Message-ID: <20220818064500-0.1.13.59ht.0.3f48nihq52@fadrush.pl>
+Date:   Thu, 18 Aug 2022 08:16:20 GMT
+From:   "Jakub Olejniczak" <jakub.olejniczak@fadrush.pl>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: =?UTF-8?Q?Zwi=C4=99kszenie_p=C5=82ynno=C5=9Bci_finansowej?=
+X-Mailer: mail.fadrush.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGETcx-k+ca5uG42XvW5yiK8RWDYfeRs9va5boqnp33s45AGRg@mail.gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Dzie=C5=84 dobry,
 
-* Saravana Kannan <saravanak@google.com> [220815 18:16]:
-> On Mon, Aug 15, 2022 at 3:33 AM Tony Lindgren <tony@atomide.com> wrote:
-> >
-> > * Saravana Kannan <saravanak@google.com> [220813 00:45]:
-> > > On Fri, Aug 12, 2022 at 2:49 AM Tony Lindgren <tony@atomide.com> wrote:
-> > > >
-> > > > * Saravana Kannan <saravanak@google.com> [220810 05:54]:
-> > > > > Tony,
-> > > > >
-> > > > > This should handle the odd case of the child being the supplier of the
-> > > > > parent. Can you please give this a shot? I want to make sure the cycle
-> > > > > detection code handles this properly and treats it like it's NOT a cycle.
-> > > >
-> > > > Yup, this series works for me, so feel free to add:
-> > > >
-> > > > Tested-by: Tony Lindgren <tony@atomide.com>
-> > >
-> > > Thanks for testing!
-> > >
-> > > Btw, out of curiosity, how many different boards did you test this on?
-> > > IIRC you had an issue only in one board, right? Not to say I didn't
-> > > break anything else, I'm just trying to see how much confidence we
-> > > have on this series so far. I'm hoping the rest of the folks I listed
-> > > in the email will get around to testing this series.
-> >
-> > Sorry if I was not clear earlier. The issue affects several generations
-> > of TI 32-bit SoCs at least, not just one board.
-> 
-> But this series fixes the issues for all of them or are you still
-> seeing some broken boot with this series?
+kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC chcia=C5=82bym za=
+proponowa=C4=87 wygodne rozwi=C4=85zanie, kt=C3=B3re umo=C5=BCliwi Pa=C5=84=
+stwa firmie stabilny rozw=C3=B3j.=20
 
-Yes. However, I'm now getting confused what exactly you're proposing to fix
-the regressions for v6.0-rc series.
+Konkurencyjne otoczenie wymaga ci=C4=85g=C5=82ego ulepszania i poszerzeni=
+a oferty, co z kolei wi=C4=85=C5=BCe si=C4=99 z konieczno=C5=9Bci=C4=85 i=
+nwestowania. Brak odpowiedniego kapita=C5=82u powa=C5=BCnie ogranicza tem=
+po rozwoju firmy.
 
-I'd like to see just the fixes series for v6.0-rc series. With proper fixes
-tags, and possibly reverts.
+Od wielu lat z powodzeniem pomagam firmom w uzyskaniu najlepszej formy fi=
+nansowania z banku oraz UE. Mam sta=C5=82ych Klient=C3=B3w, kt=C3=B3rzy n=
+adal ch=C4=99tnie korzystaj=C4=85 z moich us=C5=82ug, a tak=C5=BCe poleca=
+j=C4=85 je innym.
 
-Then discussing patches for Linux next can be done based on the fixes :)
+Czy chcieliby Pa=C5=84stwo skorzysta=C4=87 z pomocy wykwalifikowanego i d=
+o=C5=9Bwiadczonego doradcy finansowego?
 
-Regards,
 
-Tony
+Pozdrawiam
+Jakub Olejniczak
