@@ -2,53 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E69EF598267
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 13:42:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94CB259826A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 13:43:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244417AbiHRLmM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Aug 2022 07:42:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58336 "EHLO
+        id S244441AbiHRLmr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Aug 2022 07:42:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233816AbiHRLmL (ORCPT
+        with ESMTP id S233816AbiHRLmq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Aug 2022 07:42:11 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 022F77C748;
-        Thu, 18 Aug 2022 04:42:11 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id y18so869022qtv.5;
-        Thu, 18 Aug 2022 04:42:10 -0700 (PDT)
+        Thu, 18 Aug 2022 07:42:46 -0400
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 656FC7D1C6;
+        Thu, 18 Aug 2022 04:42:45 -0700 (PDT)
+Received: by mail-qk1-f178.google.com with SMTP id h27so861319qkk.9;
+        Thu, 18 Aug 2022 04:42:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=wYelvxNaUscVzn7LLGvMldYwEni7W52QM/kA6KUN1hE=;
-        b=Pj91e/ictcz4DUfUSauByARbv6OmBlM5YwhGa8Evub5GYEF4AaJd6AxrXUEaEbKxs8
-         Vnu28P+sNIDwrt7s9Jxy9a4XOSQD2cikwhlzJ51FmudoP5MkX7N/cmbYkci75vMaTq0V
-         BwaXyQkeX+H6t3TfUP+wQqF84T1gYRbgY08M3dbb+06SkRiaDLHl+1bJJb/em3HS8Rhh
-         SkzNIWuRNQGm5sxg5BHiK9yUYP5SBMV5an4rXc+SUk0pU1f5mxexGgtXfBFBoG3RkGxj
-         gxJcA0jdWjVwR2lcdh24DddIzn6SVEI8q0wYnNVQ7k264xMRh9ii4LmfPzvTsc+hUtvO
-         HEVQ==
-X-Gm-Message-State: ACgBeo1LNh5ehb9lXbJSPzYayMR2+ZV7RBp/U3h0PrB35b1slra3DSCd
-        yhvGf2SCKE84uUQG2KPbevP0P/dcFFurmA==
-X-Google-Smtp-Source: AA6agR6rCDl8+dMhzjnWHH9yYgnptpmCMfbe+Y8p9An+L2SgG0vET5hPOAiO4P+fQEcFJzBBT7guuw==
-X-Received: by 2002:a05:622a:205:b0:343:282:3d0e with SMTP id b5-20020a05622a020500b0034302823d0emr2140711qtx.436.1660822930033;
-        Thu, 18 Aug 2022 04:42:10 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id f9-20020a05620a280900b006b5fc79427fsm1291280qkp.77.2022.08.18.04.42.09
+        bh=NFBWwsF8oFFVRfvNvXYoR8iHu2rXxVuKK8VL12CxglE=;
+        b=DKSi0eUn9kL3+Ab0fp+xJI7K8g4iVO4h3KEj5ouFdXtAJOJnTrtV0tJD64LrZFPkJX
+         1/3ESBYzQHiFTKhJzyRGCaqi5sY+14wfxWTmNz8+IJzyet5mly3MiWp8i6IFoiGhKt3p
+         1D15igFxM+zB6rNLoqoJi33ug7FiBF3IsnLZV/UFlLHjigkUT8bMTUjhppfXVolwd22f
+         dvNHvnpaVIWVKFkB2XdUTwpOzui9P9fei/aWXs40YD2UVIBOtNbNlS7wTvtAj0mYFsaa
+         R0kUj7FAdc1QNbVh1oZGELo4xwHtZBkPb676gCusvMPmi4V4H8riUB9Np4mxWqMBeV2u
+         Zu5A==
+X-Gm-Message-State: ACgBeo2GkGrX8R7lektBGjSgpqGEViv3ah/Y3JIPhqN64THSmHxhtFlC
+        I0jytSJf1N3a0C6zMaz7c653pO8gxhS/6A==
+X-Google-Smtp-Source: AA6agR6zmCcnvAlNURT0q3r6zS21V754ttEF6xFM8gznXsm4teVToLK5pzOFG+6F0ZfT6QfRenQIwA==
+X-Received: by 2002:a37:27c2:0:b0:6ba:ed29:9f3b with SMTP id n185-20020a3727c2000000b006baed299f3bmr1670733qkn.635.1660822964296;
+        Thu, 18 Aug 2022 04:42:44 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id f12-20020a05622a104c00b003438a8e842fsm875173qte.44.2022.08.18.04.42.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Aug 2022 04:42:09 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-33365a01f29so33707677b3.2;
-        Thu, 18 Aug 2022 04:42:09 -0700 (PDT)
-X-Received: by 2002:a81:f47:0:b0:31f:434b:5ee with SMTP id 68-20020a810f47000000b0031f434b05eemr2404344ywp.383.1660822929393;
- Thu, 18 Aug 2022 04:42:09 -0700 (PDT)
+        Thu, 18 Aug 2022 04:42:43 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-3321c2a8d4cso33501067b3.5;
+        Thu, 18 Aug 2022 04:42:43 -0700 (PDT)
+X-Received: by 2002:a25:250b:0:b0:68f:425b:3ee0 with SMTP id
+ l11-20020a25250b000000b0068f425b3ee0mr2436519ybl.89.1660822962828; Thu, 18
+ Aug 2022 04:42:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220802101534.1401342-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220802101534.1401342-1-biju.das.jz@bp.renesas.com>
+References: <20220802101534.1401342-1-biju.das.jz@bp.renesas.com> <20220802101534.1401342-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220802101534.1401342-2-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Aug 2022 13:41:57 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX3_7b_3P1b9EX16Mawf80J7J4KhtW3SYURmj+Ur52xBg@mail.gmail.com>
-Message-ID: <CAMuHMdX3_7b_3P1b9EX16Mawf80J7J4KhtW3SYURmj+Ur52xBg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] arm64: dts: renesas: r9a07g044: Fix SCI{Rx,Tx}
+Date:   Thu, 18 Aug 2022 13:42:30 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWBonDhDGHh2yy9=3gp7nqFwzN680TVcPo7ySNOTf1urg@mail.gmail.com>
+Message-ID: <CAMuHMdWBonDhDGHh2yy9=3gp7nqFwzN680TVcPo7ySNOTf1urg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r9a07g054: Fix SCI{Rx,Tx}
  interrupt type
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
@@ -63,9 +64,8 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -73,12 +73,12 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Tue, Aug 2, 2022 at 12:15 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> As per the latest RZ/G2L Hardware User's Manual (Rev.1.10 Apr, 2022),
+> As per the RZ/V2L Hardware User's Manual (Rev.1.00 Nov, 2021),
 > the interrupt type of SCI{Rx,TX} is edge triggered.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Fixes: f9a2adcc9e908907 ("arm64: dts: renesas: r9a07g044: Add SCI[0-1] nodes")
+Fixes: 7c2b8198f4f321df ("arm64: dts: renesas: Add initial DTSI for RZ/V2L SoC")
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v6.1.
 
