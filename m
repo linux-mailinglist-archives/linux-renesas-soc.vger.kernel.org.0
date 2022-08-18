@@ -2,61 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F72859872A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 17:17:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB86A598AEF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 20:15:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245120AbiHRPQf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Aug 2022 11:16:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59114 "EHLO
+        id S244548AbiHRSPT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Aug 2022 14:15:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245219AbiHRPQe (ORCPT
+        with ESMTP id S240531AbiHRSPT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Aug 2022 11:16:34 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCECC7B79A;
-        Thu, 18 Aug 2022 08:16:33 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id w28so1331688qtc.7;
-        Thu, 18 Aug 2022 08:16:33 -0700 (PDT)
+        Thu, 18 Aug 2022 14:15:19 -0400
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EADBCACBC;
+        Thu, 18 Aug 2022 11:15:18 -0700 (PDT)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-335624d1e26so63287937b3.4;
+        Thu, 18 Aug 2022 11:15:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=O+By8SMEsmKfUQcl5iTzfeSzCB2mzamR2FlbcS3iWL4=;
+        b=OwJpheqT025swB+aQkicuRDS+5JK7bUrIY7PUJDoAKH86DJWZlcq6Pe9apJpXfgVqD
+         adOT/+026BI4sRPQYb22IS/Qc9wiFvCfBhrjfuywrQfij9F3n8Ua7Hg2XIs5itKOSAUj
+         lRfnUqtrh+K4hsTzYxzvNys4P/sksuatUIYrJ6Y/PMibiSF3ZZJ6H1ieERbMjlicpjyR
+         n3Lbd7LCkcZePV37TLPniIPFYo9RPFK2RHBuuJ+oS4H2BigeX4Gwp3wMhEKaHknGNCw+
+         +dUMMxCE1HHU8a/LA6Gx4/DNu9t8FN9wE+bNAzb8V+S3F2jUVSmyF4XKV/dMozVwEEpL
+         Ovtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=fNAryURHxGVgmjXYIDSK6dvngkhik8cAD5MGphiVLyw=;
-        b=XU253U80V4kJNEIc9yNpxgbUC/z6aqclz0KqNZqpzPe+W8j0JumtqbzPomeRWqZm9Y
-         eP6T3gBo75Fcxs+we2oo6yRCVs/6/IJAnNlUecgttXcd+hx7eeO5Sk3uwF8P+qQ7ZiAl
-         zRDHa2rEOGIZ4WiOhMZEAXmpFLKDlSmYBoKJd02i7YhGYMsfykUa4fsDDKgGnzcpCFor
-         L1nUky2l+q4CUuIf+WYFRyPpNZw7n+nyRQKOMWKFqKJlz1TcPUshB3Fyt+DMyj8pOMzV
-         9s+zb7zhAD5Gr4wP/+4JluPI940O1KyHcx/s91lLtH1YVSD+NPD+I1oSGRvSWx4O9fBR
-         NAZg==
-X-Gm-Message-State: ACgBeo2/NuxcW6zqSQH6fpILiidWQrJcKUn64t2GLcf2Ce2WRzoL3Pi9
-        ZlArYYOPBmcc3KRPe8XBpTYgL2qC2GDa2Q==
-X-Google-Smtp-Source: AA6agR6b7uNb5yJfAVZ9E74dm/uGNc05W06ZLWjqONKxyVVLED2vrJEdtbAEov/g+tK0SqHOUMDunA==
-X-Received: by 2002:ac8:7f4f:0:b0:344:6974:51fe with SMTP id g15-20020ac87f4f000000b00344697451femr3071043qtk.382.1660835792538;
-        Thu, 18 Aug 2022 08:16:32 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id bs43-20020a05620a472b00b006b9b7879964sm1725316qkb.28.2022.08.18.08.16.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Aug 2022 08:16:32 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-3375488624aso20473387b3.3;
-        Thu, 18 Aug 2022 08:16:31 -0700 (PDT)
-X-Received: by 2002:a81:658:0:b0:334:a23e:6caa with SMTP id
- 85-20020a810658000000b00334a23e6caamr3123682ywg.283.1660835791476; Thu, 18
- Aug 2022 08:16:31 -0700 (PDT)
+        bh=O+By8SMEsmKfUQcl5iTzfeSzCB2mzamR2FlbcS3iWL4=;
+        b=BbjWkVUQEtnrQ4xB1ta9wk2LT/yOMwkRtUU9DIXH9opTsa/MaaYbYARfFied5JHTNf
+         F7AKDZENpuqTyuudt017pNt5FHkAxa+TMwoRguAYDC56ZaJWLtKxBpJQDwnzd0rnCn/7
+         E2eQSs0VssZWx5tTxiX2PPcmU5IMZWKSkzOzBePRF2Kwc7YxJas+heRuGXeh9mbUZQr9
+         +vWPk957oExhrPX8tD3HTZO3mC+S8TAOTV1fu75zZkCcHgsNn3rakXNHFBjUAHkX8qq+
+         YCOo+fjazwPvM7s6HO/ex2LYCBjHfWRaFyu/iu12P3E6wQ7S9g/lha0MpsQcZ0KIM61c
+         PGkQ==
+X-Gm-Message-State: ACgBeo3sXPkFJqbX77Uzn3d5bmz2Czi3eT6d1XK0cTXX5Fm8qPXd7GQc
+        ew5iwdShDIz9dEMKUARx2anRyOX+lmcA/B/VZ7RjhmZLZ6rldQ==
+X-Google-Smtp-Source: AA6agR7JYpjH33vGbyFyKa+MW4WlwRlRszKVF+PruKNgD58gus/PmNbDQfsg4w839r1gZXy45mqFPwFmt959K4pZJuo=
+X-Received: by 2002:a25:8b8c:0:b0:67b:5c18:870 with SMTP id
+ j12-20020a258b8c000000b0067b5c180870mr4072997ybl.244.1660846517231; Thu, 18
+ Aug 2022 11:15:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220815151451.23293-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220815151451.23293-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220815151451.23293-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Aug 2022 17:16:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW29Q40hypWZ05KRj5cc=DY8XjnDwOPVw3kJPNUrnL0fA@mail.gmail.com>
-Message-ID: <CAMuHMdW29Q40hypWZ05KRj5cc=DY8XjnDwOPVw3kJPNUrnL0fA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] RISC-V: Kconfig.socs: Add Renesas RZ/Five SoC
- kconfig option
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+References: <20220815151451.23293-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220815151451.23293-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUaketBpEfoSKeSJ4SuYwOTLoqJ_FCp=G8HmVudhv3zWw@mail.gmail.com>
+In-Reply-To: <CAMuHMdUaketBpEfoSKeSJ4SuYwOTLoqJ_FCp=G8HmVudhv3zWw@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 18 Aug 2022 19:14:49 +0100
+Message-ID: <CA+V-a8tSWshjoEqq=bwsY8eMfTe_QkZ-Uv+c3QBvZtD0XXgA+g@mail.gmail.com>
+Subject: Re: [PATCH v2 3/8] dt-bindings: soc: renesas: renesas.yaml: Document
+ Renesas RZ/Five SoC
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Conor Dooley <Conor.Dooley@microchip.com>,
         Anup Patel <anup@brainfault.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
@@ -64,80 +69,62 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         <devicetree@vger.kernel.org>,
         linux-riscv <linux-riscv@lists.infradead.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Geert,
 
-On Mon, Aug 15, 2022 at 5:16 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Introduce SOC_RENESAS_RZFIVE config option to enable Renesas RZ/Five
-> (R9A07G043) SoC, along side also add ARCH_RENESAS config option as most
-> of the Renesas drivers depend on this config option.
+Thank you for the review.
+
+On Thu, Aug 18, 2022 at 4:01 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Thanks for your patch!
-
-The technical part LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> --- a/arch/riscv/Kconfig.socs
-> +++ b/arch/riscv/Kconfig.socs
-> @@ -80,4 +80,18 @@ config SOC_CANAAN_K210_DTB_SOURCE
+> Hi Prabhakar,
 >
->  endif # SOC_CANAAN
+> On Mon, Aug 15, 2022 at 5:16 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Document Renesas RZ/Five (R9A07G043) SoC.
+> >
+> > More info about RZ/Five SoC:
+> > https://www.renesas.com/us/en/products/microcontrollers-microprocessors/rz-mpus/rzfive-risc-v-general-purpose-microprocessors-risc-v-cpu-core-andes-ax45mp-single-10-ghz-2ch-gigabit-ethernet
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> +config ARCH_RENESAS
+> Thanks for your patch!
+>
+> > --- a/Documentation/devicetree/bindings/arm/renesas.yaml
+> > +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
+> > @@ -415,11 +415,12 @@ properties:
+> >                - renesas,rzn1d400-db # RZN1D-DB (RZ/N1D Demo Board for the RZ/N1D 400 pins package)
+> >            - const: renesas,r9a06g032
+> >
+> > -      - description: RZ/G2UL (R9A07G043)
+> > +      - description: RZ/Five and RZ/G2UL (R9A07G043)
+> >          items:
+> >            - enum:
+> >                - renesas,smarc-evk # SMARC EVK
+> >            - enum:
+> > +              - renesas,r9a07g043f01 # RZ/Five (RISC-V core)
+>
+> Should we be consistent, and leave out the "(RISC-V core)" comment,
+> or add it everywhere?
+>
+Rather leave it for now ;) . If Rob agrees on your suggestion on
+splitting (renesas,{rmobile,rcar-gen[1234],rza,rzg,rzn,...}.yaml that
+would make it cleaner.
 
-We definitely want ARCH_RENESAS, as it serves as a gatekeeper for
-Kconfig options for IP cores found on Renesas ARM and RISC-V SoCs.
+> Note that several of the SoCs listed in this file have SuperH or
+> RealTime ARM cores, so going for the former means a lot of work.
+>
+Agreed.
 
-> +       bool
-> +       select GPIOLIB
-> +       select PINCTRL
-> +       select SOC_BUS
-> +
-> +config SOC_RENESAS_RZFIVE
-
-Do we need this symbol? You could as well make ARCH_RENESAS above
-visible, and defer the actual SoC selection to ARCH_R9A07G043 in
-drivers/soc/renesas/Kconfig[1].
-
-I don't know what is the policy on RISC-V. ARM64 has a "single-symbol
-in arch/arm64/Kconfig.platforms"-policy, so we handle SoC selection
-in drivers/soc/renesas/Kconfig, and that is fine, as it avoids merge
-conflicts.
-
-> +       bool "Renesas RZ/Five SoC"
-> +       select ARCH_R9A07G043
-> +       select ARCH_RENESAS
-> +       select RESET_CONTROLLER
-> +       help
-> +         This enables support for Renesas RZ/Five SoC.
-> +
->  endmenu # "SoC selection"
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/commit/?h=renesas-drivers-for-v6.1&id=ebd0e06f3063cc2e3a689112904b29720579c6d2
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
