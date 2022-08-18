@@ -2,152 +2,239 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A535E59842E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 15:28:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE8A45984E6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 15:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243265AbiHRN10 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Aug 2022 09:27:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55400 "EHLO
+        id S245380AbiHRN4l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Aug 2022 09:56:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244768AbiHRN1Y (ORCPT
+        with ESMTP id S245396AbiHRN4X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Aug 2022 09:27:24 -0400
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7ADBB3B3D;
-        Thu, 18 Aug 2022 06:27:20 -0700 (PDT)
-Received: by mail-qk1-f170.google.com with SMTP id f14so1093993qkm.0;
-        Thu, 18 Aug 2022 06:27:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=MdJl78NxEosOuxjMJCio10tAlOhsC8bxFB2iOZBCOUg=;
-        b=hfCfT312Pqrziib5nNWrgZQqwYNDbE5Nvb7lsJSZUBK/L1Y2B/DDPV5+dzxtKltwZP
-         wa2TaR3Y5Wh8EL+m3371fteiSK2gKNfj6Ouy5ZSOm1gqWTtq51/OZb33TO8Vl5M72rmi
-         PbwagWhM0AruenadQDEaPtWWoQqjGDqNCF9n4W+h+2770LfDgizheRmFvG6KbhiI+9a3
-         pX3a5WNhCCxDcwbib+YjtDvU/1+Nox01IzXFBRs5PSj9jqyUx40EmjyCGm+3/qFf8vx6
-         QzEfjF/+q/skdz8E/3y1KbvBnao/sI2AWjq/0whP2abcEUz3UjwqmJdFkakv9AAf/vmL
-         Uv5A==
-X-Gm-Message-State: ACgBeo3ZsV2jHSUq/WhXJ3+Vepb6D+smXNj33dYcWHQPAHQ5Dl9jfiEw
-        bpA63ugyOqVfDvU9GdahPSJ5tWyojNFR/g==
-X-Google-Smtp-Source: AA6agR4fOlHC/7FkRk2snr9z20tCUnKyqNnoenln1YFyezCc8zaRUMaRwR6G2HVOnHGvQOx3tAPiJQ==
-X-Received: by 2002:a05:620a:290a:b0:6bb:6c8a:b9fd with SMTP id m10-20020a05620a290a00b006bb6c8ab9fdmr2087779qkp.72.1660829239850;
-        Thu, 18 Aug 2022 06:27:19 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id t39-20020a05622a182700b00342f7beccd0sm1041521qtc.45.2022.08.18.06.27.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Aug 2022 06:27:19 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-3321c2a8d4cso40796287b3.5;
-        Thu, 18 Aug 2022 06:27:19 -0700 (PDT)
-X-Received: by 2002:a81:1204:0:b0:322:7000:4ecb with SMTP id
- 4-20020a811204000000b0032270004ecbmr2793715yws.47.1660829239204; Thu, 18 Aug
- 2022 06:27:19 -0700 (PDT)
+        Thu, 18 Aug 2022 09:56:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DD58B7284;
+        Thu, 18 Aug 2022 06:55:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C1AFE616F4;
+        Thu, 18 Aug 2022 13:55:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D466C433D6;
+        Thu, 18 Aug 2022 13:55:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660830939;
+        bh=fHzcBNlzGIZpl1xhXWFZNUDkhjIsfNqXuL0NTcnbSpk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=a1Rz0rDFPWuA7x8HY71a9klDTS7phrO7CnzcNYqrI/L2GvFT+RZWZyoewgnd3RMoG
+         3V1zaan4Wz2R1xAXJ5Pvrwoi9ky/RDZGOzCFsMhiIVd11yOr3RIr25wBN5VyaAVJUX
+         cMyEaaJGETJ/OS892Rjm1jP7uo02MXutvpbI7b30rOaNWAgSoKnZ/XuLBvVUH0OuMq
+         buenYGD5g12Wtfp3Jh+iPkwxWxUj1UDyvXSTpK11YHA+JcXOQC/ZC6i+HIVtMRema+
+         XERxdZknt9iTB3KXMzp0sz8ZSvkWFS2BVNNEmzz09TETaH0JS0MvNCskXudG5AQWiq
+         Wgl/naXAHsAZA==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Qin Jian <qinjian@cqplus1.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>, Bin Liu <b-liu@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Mark Brown <broonie@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Shannon Nelson <snelson@pensando.io>,
+        Peter Chen <peter.chen@nxp.com>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Felipe Balbi <balbi@ti.com>, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: [PATCH 00/11] ARM: defconfig cleanup
+Date:   Thu, 18 Aug 2022 15:55:21 +0200
+Message-Id: <20220818135522.3143514-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20220729164425.11062-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220729164425.11062-1-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Aug 2022 15:27:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWW0kPATT4zGcjcEPw6XO+18MWJAn_HESe3rrtoEoF=FA@mail.gmail.com>
-Message-ID: <CAMuHMdWW0kPATT4zGcjcEPw6XO+18MWJAn_HESe3rrtoEoF=FA@mail.gmail.com>
-Subject: Re: [PATCH 0/5] arm64: dts: renesas: move I2C aliases to board files
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+From: Arnd Bergmann <arnd@arndb.de>
 
-CC devicetree
+I have continued the cleanup of the multi_*_defconfig files, and
+reordered the other files according to the 'make savedefconfig'
+output as before.
 
-On Fri, Jul 29, 2022 at 6:50 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> For R-Car Gen3 and Gen4, we had I2C aliases in per-SoC DTS include
-> files. That doesn't really fit as bus naming is a board property. This
-> series moves the aliases to the board files. The following procedure has
-> been applied to avoid regressions:
->
-> 1) move the aliases from SoC files to board files. Keep the empty
->    alias-nodes in the SoC file and add the new aliases before existing
->    ones. This ensured that identical binaries[1] were created.
->
-> 2) Once all aliases were moved and all binaries[1] stayed identical,
->    then the empty alias nodes from the SoC files were removed.
->
-> The result is this series based on the renesas-drivers tag
-> 'renesas-drivers-2022-07-19-v5.19-rc7'.
->
-> It could be discussed if the aliases should be sorted alphabetically,
-> but I'd think this is a seperate series then.
->
-> I also leave it to Geert, if the commits should be squashed. At least
-> for reviewing, I think this separation makes sense, though.
->
-> Looking forward to comments,
+I would like to queue these up for 6.1, though the last two
+should probably be considered bugfixes and merged for 6.0.
 
-Thanks for your series!
+Since a third of the defconfig files are for machines that
+are now marked as unused, I skipped those files. There are still
+a few things that get removed by 'make savedefconfig' as they
+now get selected by some driver:
 
-I have never been a fan of the i2c aliases in the SoC-specific .dtsi files,
-as aliases are typically board-specific.
-We also don't have physical connectors labeled "i2c<N>" on any of
-the affected boards.  But people like the i2c aliases, because i2c
-exposes the full buses to userspace, and the aliases fix the userspace
-naming of /dev/i2c-<N> (I believe there is no better way to identify
-i2c buses from userspace?).
+-CONFIG_SERIAL_BCM63XX=y
+-CONFIG_SND_AUDIO_GRAPH_CARD=m
+-CONFIG_NEW_LEDS=y
+-CONFIG_LEDS_TRIGGERS=y
+-CONFIG_TEGRA20_APB_DMA=y
 
-So moving the i2c aliases to the board files is definitely a step in
-the good direction.
+I think for those we should follow up with patches to remove the
+'select' statements.
 
-BTW, you missed r8a774a1.dtsi in your update.
+       Arnd
 
-> [1] For desired binaries, of course. For r8a77961 boards, the binaries
-> did change. This was intended, though, because I wanted to add I2C
-> aliases there which were not present before. Also, the r8a779m* boards
-> now have I2C aliases, too.
->
->
-> Wolfram Sang (5):
->   arm64: dts: renesas: r8a779{51|60|65}: put I2C aliases to board files
->   arm64: dts: renesas: r8a77970: put I2C aliases to board files
->   arm64: dts: renesas: r8a77980: put I2C aliases to board files
->   arm64: dts: renesas: r8a77990: put I2C aliases to board files
->   arm64: dts: renesas: r8a779a0: put I2C aliases to board files
->
->  arch/arm64/boot/dts/renesas/ebisu.dtsi               |  8 ++++++++
->  arch/arm64/boot/dts/renesas/r8a77951.dtsi            | 11 -----------
->  arch/arm64/boot/dts/renesas/r8a77960.dtsi            | 11 -----------
->  arch/arm64/boot/dts/renesas/r8a77965.dtsi            | 11 -----------
->  arch/arm64/boot/dts/renesas/r8a77970-eagle.dts       |  5 +++++
->  arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts       |  5 +++++
->  arch/arm64/boot/dts/renesas/r8a77970.dtsi            |  8 --------
->  arch/arm64/boot/dts/renesas/r8a77980-condor.dts      |  6 ++++++
->  arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts       |  6 ++++++
->  arch/arm64/boot/dts/renesas/r8a77980.dtsi            |  9 ---------
->  arch/arm64/boot/dts/renesas/r8a77990.dtsi            | 11 -----------
->  arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi |  7 +++++++
->  arch/arm64/boot/dts/renesas/r8a779a0.dtsi            | 10 ----------
->  arch/arm64/boot/dts/renesas/salvator-common.dtsi     |  8 ++++++++
->  arch/arm64/boot/dts/renesas/ulcb.dtsi                |  8 ++++++++
->  15 files changed, 53 insertions(+), 71 deletions(-)
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: Vladimir Zapolskiy <vz@mleia.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>
+Cc: Gregory Clement <gregory.clement@bootlin.com>
+Cc: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+Cc: Aaro Koskinen <aaro.koskinen@iki.fi>
+Cc: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc: Tony Lindgren <tony@atomide.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Dinh Nguyen <dinguyen@kernel.org>
+Cc: Qin Jian <qinjian@cqplus1.com>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Bin Liu <b-liu@ti.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Tudor Ambarus <tudor.ambarus@microchip.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: "Łukasz Stelmach" <l.stelmach@samsung.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Richard Cochran <richardcochran@gmail.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Shannon Nelson <snelson@pensando.io>
+Cc: Peter Chen <peter.chen@nxp.com>
+Cc: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Felipe Balbi <balbi@ti.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-omap@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-sunxi@lists.linux.dev
+Cc: linux-tegra@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
 
-Gr{oetje,eeting}s,
 
-                        Geert
+Arnd Bergmann (11):
+  ARM: defconfig: reorder defconfig files
+  ARM: defconfig: clean up multi_v4t and multi_v5 configs
+  ARM: defconfig: drop CONFIG_NET_VENDOR_ASIX=y
+  ARM: defconfig: drop CONFIG_SERIAL_OMAP references
+  ARM: defconfig: drop CONFIG_DRM_RCAR_LVDS
+  ARM: defconfig: drop CONFIG_PTP_1588_CLOCK=y
+  ARM: defconfig: drop CONFIG_SND_SOC_FSL_SAI
+  ARM: defconfig: drop CONFIG_USB_FSL_USB2
+  ARM: defconfig: drop CONFIG_MICROCHIP_PIT64B
+  ARM: defconfig: fix CONFIG_SND_SOC_AC97_CODEC name
+  musb: fix USB_MUSB_TUSB6010 dependency
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+ arch/arm/configs/at91_dt_defconfig   |  2 +-
+ arch/arm/configs/dove_defconfig      |  2 +-
+ arch/arm/configs/exynos_defconfig    |  2 +-
+ arch/arm/configs/imx_v6_v7_defconfig |  2 +-
+ arch/arm/configs/keystone_defconfig  |  7 +++----
+ arch/arm/configs/lpc18xx_defconfig   |  2 +-
+ arch/arm/configs/mmp2_defconfig      |  2 +-
+ arch/arm/configs/mps2_defconfig      |  2 +-
+ arch/arm/configs/multi_v4t_defconfig |  2 --
+ arch/arm/configs/multi_v5_defconfig  |  3 +--
+ arch/arm/configs/multi_v7_defconfig  | 22 +++++++---------------
+ arch/arm/configs/mvebu_v5_defconfig  |  2 +-
+ arch/arm/configs/mxs_defconfig       |  4 ++--
+ arch/arm/configs/omap1_defconfig     |  2 +-
+ arch/arm/configs/omap2plus_defconfig |  7 ++-----
+ arch/arm/configs/orion5x_defconfig   |  2 +-
+ arch/arm/configs/pxa168_defconfig    |  2 +-
+ arch/arm/configs/pxa910_defconfig    |  2 +-
+ arch/arm/configs/pxa_defconfig       |  2 +-
+ arch/arm/configs/s3c6400_defconfig   |  2 +-
+ arch/arm/configs/s5pv210_defconfig   |  2 +-
+ arch/arm/configs/sama5_defconfig     |  6 +++---
+ arch/arm/configs/sama7_defconfig     |  4 ++--
+ arch/arm/configs/shmobile_defconfig  |  2 +-
+ arch/arm/configs/socfpga_defconfig   |  6 +++---
+ arch/arm/configs/sp7021_defconfig    |  2 +-
+ arch/arm/configs/spear13xx_defconfig |  2 +-
+ arch/arm/configs/spear3xx_defconfig  |  2 +-
+ arch/arm/configs/spear6xx_defconfig  |  2 +-
+ arch/arm/configs/stm32_defconfig     |  2 +-
+ arch/arm/configs/sunxi_defconfig     |  2 +-
+ arch/arm/configs/tegra_defconfig     |  2 +-
+ arch/arm/configs/vexpress_defconfig  |  2 +-
+ drivers/usb/musb/Kconfig             |  2 +-
+ 34 files changed, 48 insertions(+), 63 deletions(-)
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+2.29.2
+
