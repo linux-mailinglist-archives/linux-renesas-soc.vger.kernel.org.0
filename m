@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5C8D59823E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 13:30:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18167598251
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 13:34:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244033AbiHRL2Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Aug 2022 07:28:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60386 "EHLO
+        id S243942AbiHRLbT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Aug 2022 07:31:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236396AbiHRL2Z (ORCPT
+        with ESMTP id S239816AbiHRLbR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Aug 2022 07:28:25 -0400
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE2451182F;
-        Thu, 18 Aug 2022 04:28:23 -0700 (PDT)
-Received: by mail-qv1-f53.google.com with SMTP id l18so930060qvt.13;
-        Thu, 18 Aug 2022 04:28:23 -0700 (PDT)
+        Thu, 18 Aug 2022 07:31:17 -0400
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7131F9BB52;
+        Thu, 18 Aug 2022 04:31:16 -0700 (PDT)
+Received: by mail-qt1-f176.google.com with SMTP id cb8so876287qtb.0;
+        Thu, 18 Aug 2022 04:31:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=6kvD/PK9AAEksB95hW0WMEl3zwUZbuYTOgEL9ku4zZQ=;
-        b=rgDvF9MuZ57iNpKyKucRhkTBEbg1Ncx/fLTedHqi2I7n+0r9IvnO+8eoxhxfNQ1Hic
-         5rHw9gq+G5/EuToEjHGYUMIsLmxJOXeXYLZEdtdVDNx9HAvoFSJYm0Fr5Uc7bZJOUvJw
-         mgSQ3UF6fgVAWTELeBAndohWUK09jF/c71btTq5hDe9sdLG3u1GzW05BQuiByCq+JSEn
-         Nz/E8Z8UqalyjeUSXUWpP6bdc3fVRFXwW0+gA25rP/Atwyh/HrwoVXulGTCT6b4Uqnmm
-         KJ6vbpcA8/SCz9GC+h1PzRLM5MQrGleZbryfbyV4vSY0w9BicdtJ9J2VUtUvcljegIyZ
-         gqcg==
-X-Gm-Message-State: ACgBeo3lmwDHQ2GKbcJ5Sq+UoeGdNvEIfBbbhuqLGDV7N8ApZlRpzOOr
-        mWw0tvo9uc2bTW6L1xXs5DGUN2Lal98N3w==
-X-Google-Smtp-Source: AA6agR6okX3QDeOc/nJWxXQkB6gYTcZNPHhXJj2BPdki6lN5HP7NgLmphCKASHT6D/0slDZYytor9A==
-X-Received: by 2002:ad4:5ba5:0:b0:47b:4f54:cd1f with SMTP id 5-20020ad45ba5000000b0047b4f54cd1fmr2101176qvq.38.1660822102709;
-        Thu, 18 Aug 2022 04:28:22 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id o4-20020a05620a22c400b006b5cc25535fsm1281072qki.99.2022.08.18.04.28.21
+        bh=S1MVOLZVCOibZ6SFDrc8OcTGdI2LjhF+pwOc+VbnEZA=;
+        b=y06KyalJrALoKXju6QtMPbMUr2ce+LdJtIFBBtvLFYBAoBLvJAdrgZAUfKXE4DZWvR
+         ioKccrliOQpsE1KHBayXpORSfst09mg6onVY4gYyq2RCWxA3jMFEc31RStgwTxMke564
+         NdsXnC9I74tvKEBGtdCaDEhb5H4NSvVf1LbGSJ1a9EDSbMCM3N93OrkIFtgbIS6W6gIf
+         yBdZejgR3xnsqIvYpyYdSh12gyoRN9TFh9WEbnl7PgNBLYhdlozLAwD2WC9HglJyXSus
+         fszibwCZmIG7UEy1xsRa9jGL5m92YsrAg+eEIUkif+VbwZ6VkuwYY99Qky5O9ZpZbvmr
+         w12Q==
+X-Gm-Message-State: ACgBeo3xM+h2iwOJE9EnrUFrBcwuu7Ge6COqz8UWRxHDMp8hhkMZ6riz
+        l8H3bNjc+5XFea80BuqSzVC6qMTQ/ZjXFg==
+X-Google-Smtp-Source: AA6agR6jrwZawUdyUUaYm5Wzz+ASEzk1n8oNtIrel183Jo/1VpZP3cw3K1bNQf+mU55Cx+fFxxMrVQ==
+X-Received: by 2002:ac8:7d48:0:b0:344:55b4:1897 with SMTP id h8-20020ac87d48000000b0034455b41897mr2088162qtb.309.1660822275411;
+        Thu, 18 Aug 2022 04:31:15 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id bs43-20020a05620a472b00b006b9b7879964sm1342129qkb.28.2022.08.18.04.31.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Aug 2022 04:28:22 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-32a17d3bba2so32398567b3.9;
-        Thu, 18 Aug 2022 04:28:21 -0700 (PDT)
-X-Received: by 2002:a81:658:0:b0:334:a23e:6caa with SMTP id
- 85-20020a810658000000b00334a23e6caamr2201512ywg.283.1660822101599; Thu, 18
- Aug 2022 04:28:21 -0700 (PDT)
+        Thu, 18 Aug 2022 04:31:15 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-333b049f231so33131377b3.1;
+        Thu, 18 Aug 2022 04:31:14 -0700 (PDT)
+X-Received: by 2002:a81:502:0:b0:32f:dcc4:146e with SMTP id
+ 2-20020a810502000000b0032fdcc4146emr2334417ywf.316.1660822274800; Thu, 18 Aug
+ 2022 04:31:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220728122312.189766-1-biju.das.jz@bp.renesas.com> <20220728122312.189766-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220728122312.189766-4-biju.das.jz@bp.renesas.com>
+References: <20220729084527.388023-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220729084527.388023-1-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Aug 2022 13:28:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUyHhEdc0sof0s03LzOUyM4HO3PJwuo0_7wKH+jXiigGA@mail.gmail.com>
-Message-ID: <CAMuHMdUyHhEdc0sof0s03LzOUyM4HO3PJwuo0_7wKH+jXiigGA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: renesas: r9a07g054: Add DMA support to RSPI
+Date:   Thu, 18 Aug 2022 13:31:02 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXVOdNmeudWJpf2tYASdtgFZO=kbffSbDYMLJhqzUesVg@mail.gmail.com>
+Message-ID: <CAMuHMdXVOdNmeudWJpf2tYASdtgFZO=kbffSbDYMLJhqzUesVg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r9a07g043: Fix audio clk node names
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -71,8 +71,9 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 28, 2022 at 2:23 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add dmac phandles to RSPI nodes to support DMA operation.
+On Fri, Jul 29, 2022 at 10:45 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Replace the clk node names audio-clk{1,2} with audio{1,2}-clk as per
+> the device tree specification.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
