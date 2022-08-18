@@ -2,135 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D93515980F3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 11:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97FFB598128
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 11:57:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242603AbiHRJjI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Aug 2022 05:39:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44444 "EHLO
+        id S243919AbiHRJ4t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Aug 2022 05:56:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230168AbiHRJjH (ORCPT
+        with ESMTP id S235275AbiHRJ4s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Aug 2022 05:39:07 -0400
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 596415B04A;
-        Thu, 18 Aug 2022 02:39:06 -0700 (PDT)
-Received: by mail-qv1-f46.google.com with SMTP id p4so806079qvr.5;
-        Thu, 18 Aug 2022 02:39:06 -0700 (PDT)
+        Thu, 18 Aug 2022 05:56:48 -0400
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44874B14CA;
+        Thu, 18 Aug 2022 02:56:47 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id cr9so703657qtb.13;
+        Thu, 18 Aug 2022 02:56:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=yJaFIy2nGiUJbEANfPip7v6rB5kJDt4D1/AQTHyeqUY=;
-        b=mNHK6FqR3WzelQfXQusSX5aprGLY8tPzMYb9LgNkbMQG0scVz/Jrm1MMQxSrcpxkqn
-         Bg86Am7GHZK1yhN2wyxjbRr8cY3elgmBvmvPtCTzUf+fdfySSk6FFiNTp6NxL5aXTvlU
-         VN2qBrjEJH0ACUq5uCQ8r0xhKnKht+J6sM8LPGf5gH1UQOUmqr9A9YY9NzziOlH9nv33
-         QOkluF3u14+NGWAUudQfl9IvsYHhej3TVRMyZP5e+MjYHJSsgPqpBcxKgBLL3DstMzBq
-         qouJPvOv9RQRyhOcGtqDT2KIEr+TOIxQcyo4EJQl8Ca3zh/i3wC4i2C069c5YeNfUIuh
-         L8og==
-X-Gm-Message-State: ACgBeo1zS2xiQFuPcjKCOPSS058DJWLC3cauKkJOh0NajWWRAZRkrMH7
-        Adru5eCtnmSJhhqT086mAJZR23lt22hgxw==
-X-Google-Smtp-Source: AA6agR6guGxFe2BvdM+E3ILwBccP8ha0FlncllTQBwXxwWpQgdgBjlno9RT5AAOQ9GbyQwmruPftcg==
-X-Received: by 2002:ad4:5cae:0:b0:496:a988:ddc0 with SMTP id q14-20020ad45cae000000b00496a988ddc0mr1549683qvh.3.1660815545392;
-        Thu, 18 Aug 2022 02:39:05 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id x8-20020a05620a258800b006b9a89d408csm1099751qko.100.2022.08.18.02.39.03
+        bh=WblwjE0ozAGvkxyVKtKYWCJ3rNKd/nqrE/2ZX5oPs6Q=;
+        b=AfXxExT0chVP8BHh/7d+QRXcBf++mkGGhnuDQajIlPRRCqYmiGH20DHbrNLCV9Apmv
+         P4E71s1450IwVb1CdSSx8VNVrys+uhSvIa3ZmMxYOcCq9ONnuwzO7X3RvYB/u1/D8ucU
+         3ItqYqS5gNWpckxJ9QafLZhjk89j2JwdXldwFiE1x+TbD1Qpp3uCsSQyIgggj61AzkYB
+         eDjKLV7MVpevD/KUN6QkRmQkUC2pyQlO6EAoQu0aazZLpQCqIRLGkL9fWVeQup9qUNd3
+         FXoZsiZRidK/DKQMxueBWvdL3yjMDoqA1i1+MY215OY0GtGDfUHCJtVeaRmz/Ba3mTvB
+         kbKA==
+X-Gm-Message-State: ACgBeo2vSAxOZGDVRHzz3MRgKAE0MOZp4P9Bh0AJ/j2GIncU6UaY0Ia+
+        Kr5IFPLPyrmjgJ838fumcn7tN28Vo2vi5g==
+X-Google-Smtp-Source: AA6agR54RKvtxVEGMkLlhQoqZrMDJF+g5j7lf3t8qvKwh82oL/gQxgmhgNBaYqngoZhnJDrzccBU1w==
+X-Received: by 2002:a05:622a:1454:b0:344:5909:ba42 with SMTP id v20-20020a05622a145400b003445909ba42mr1826117qtx.634.1660816606274;
+        Thu, 18 Aug 2022 02:56:46 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id o4-20020a05620a22c400b006b5cc25535fsm1136253qki.99.2022.08.18.02.56.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Aug 2022 02:39:04 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-32a09b909f6so27160447b3.0;
-        Thu, 18 Aug 2022 02:39:03 -0700 (PDT)
-X-Received: by 2002:a25:250b:0:b0:68f:425b:3ee0 with SMTP id
- l11-20020a25250b000000b0068f425b3ee0mr2056784ybl.89.1660815543145; Thu, 18
- Aug 2022 02:39:03 -0700 (PDT)
+        Thu, 18 Aug 2022 02:56:45 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-32a17d3bba2so27105097b3.9;
+        Thu, 18 Aug 2022 02:56:45 -0700 (PDT)
+X-Received: by 2002:a81:1204:0:b0:322:7000:4ecb with SMTP id
+ 4-20020a811204000000b0032270004ecbmr2030815yws.47.1660816605419; Thu, 18 Aug
+ 2022 02:56:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220710115248.190280-1-biju.das.jz@bp.renesas.com> <20220710115248.190280-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220710115248.190280-3-biju.das.jz@bp.renesas.com>
+References: <20220726205858.1199-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220726205858.1199-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Aug 2022 11:38:52 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVvh5n159TLVzosnHyjX3Hxadjky4DjpedSvezPZ=fRLQ@mail.gmail.com>
-Message-ID: <CAMuHMdVvh5n159TLVzosnHyjX3Hxadjky4DjpedSvezPZ=fRLQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/6] dt-bindings: can: nxp,sja1000: Document RZ/N1{D,S} support
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+Date:   Thu, 18 Aug 2022 11:56:32 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVkp6CGKzZkf_rx9OKwKbkecsyqEcMHgBhaVNFWhnCbgg@mail.gmail.com>
+Message-ID: <CAMuHMdVkp6CGKzZkf_rx9OKwKbkecsyqEcMHgBhaVNFWhnCbgg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: timer: renesas,tmu: Add r8a779f0 support
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On Tue, Jul 26, 2022 at 10:59 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-On Sun, Jul 10, 2022 at 1:53 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add CAN binding documentation for Renesas RZ/N1 SoC.
->
-> The SJA1000 CAN controller on RZ/N1 SoC has some differences compared
-> to others like it has no clock divider register (CDR) support and it has
-> no HW loopback (HW doesn't see tx messages on rx), so introduced a new
-> compatible 'renesas,rzn1-sja1000' to handle these differences.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-Thanks for your patch, which is now commit 4591c760b7975984
-("dt-bindings: can: nxp,sja1000: Document RZ/N1{D,S} in v6.0-rc1.
-
-> --- a/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
-> +++ b/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
-> @@ -11,9 +11,15 @@ maintainers:
->
->  properties:
->    compatible:
-> -    enum:
-> -      - nxp,sja1000
-> -      - technologic,sja1000
-> +    oneOf:
-> +      - enum:
-> +          - nxp,sja1000
-> +          - technologic,sja1000
-> +      - items:
-> +          - enum:
-> +              - renesas,r9a06g032-sja1000 # RZ/N1D
-> +              - renesas,r9a06g033-sja1000 # RZ/N1S
-> +          - const: renesas,rzn1-sja1000 # RZ/N1
->
->    reg:
->      maxItems: 1
-> @@ -21,6 +27,9 @@ properties:
->    interrupts:
->      maxItems: 1
->
-> +  clocks:
-> +    maxItems: 1
-> +
-
-Probably you want to add the power-domains property, and make it
-required on RZ/N1.
-This is not super-critical, as your driver patch uses explicit clock
-handling anyway.
-
->    reg-io-width:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      description: I/O register width (in bytes) implemented by this device
-
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
