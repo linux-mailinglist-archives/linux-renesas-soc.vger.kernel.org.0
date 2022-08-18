@@ -2,70 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E69B5980D5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 11:30:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D93515980F3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 11:39:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241591AbiHRJ3t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Aug 2022 05:29:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36344 "EHLO
+        id S242603AbiHRJjI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Aug 2022 05:39:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237960AbiHRJ3r (ORCPT
+        with ESMTP id S230168AbiHRJjH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Aug 2022 05:29:47 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0429B7F112
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Aug 2022 02:29:47 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id j17so666660qtp.12
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Aug 2022 02:29:46 -0700 (PDT)
+        Thu, 18 Aug 2022 05:39:07 -0400
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 596415B04A;
+        Thu, 18 Aug 2022 02:39:06 -0700 (PDT)
+Received: by mail-qv1-f46.google.com with SMTP id p4so806079qvr.5;
+        Thu, 18 Aug 2022 02:39:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=FPBV0BvJy0PPQ45PhQv1Qdnn8j75RhV+6l7B5TE8xOo=;
-        b=4ccGmFrGH0CDqZWSWTVbIR/Txey+MHEbltC/I8kQEmLqHGL0tWUw4XgNxbjc5NNHQA
-         ts0bmgdc7GPPDGCAZ2Snjf0xsu1nucTzmLT8T1l9GKZR4LQyAuMJB07ND3VdH3Tnzsnz
-         XDZLts/tch2DXIEqSkwH5eOnh8vMnIo7dRNX2/XtgVPs+8cPXE65TViMrHij+z6M59AO
-         9TQcDdtAFN4n+QZySzVI5Eml0srMFSeubevmtepaMJgk0W4VcwoB3NMEBHPYVqm6o08J
-         AeLe+B1sSKr8LEz0n4SBU1eEpMazHhoYDXhoxP8lBEd2w/rYxH0sesh90QLyYv39t+ev
-         qjDA==
-X-Gm-Message-State: ACgBeo1/pvCsdYfDeJSNw5CLM5iUuXQLCnB2lJ6R6va1pbRCqg932/vL
-        36p7zng95SzVMaLJxeo3ji2VI+jrn0+DTQ==
-X-Google-Smtp-Source: AA6agR4X3sH47Jq4jTg6xI9BYys4OGmGjJRS5VNgkJl4AfIViwT5LsUPZv7VUt3fv7LVGY79+OeJWQ==
-X-Received: by 2002:a05:622a:138f:b0:344:4ff1:f98f with SMTP id o15-20020a05622a138f00b003444ff1f98fmr1713264qtk.59.1660814985662;
-        Thu, 18 Aug 2022 02:29:45 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id l8-20020a05620a28c800b006bbc3724affsm202756qkp.45.2022.08.18.02.29.45
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=yJaFIy2nGiUJbEANfPip7v6rB5kJDt4D1/AQTHyeqUY=;
+        b=mNHK6FqR3WzelQfXQusSX5aprGLY8tPzMYb9LgNkbMQG0scVz/Jrm1MMQxSrcpxkqn
+         Bg86Am7GHZK1yhN2wyxjbRr8cY3elgmBvmvPtCTzUf+fdfySSk6FFiNTp6NxL5aXTvlU
+         VN2qBrjEJH0ACUq5uCQ8r0xhKnKht+J6sM8LPGf5gH1UQOUmqr9A9YY9NzziOlH9nv33
+         QOkluF3u14+NGWAUudQfl9IvsYHhej3TVRMyZP5e+MjYHJSsgPqpBcxKgBLL3DstMzBq
+         qouJPvOv9RQRyhOcGtqDT2KIEr+TOIxQcyo4EJQl8Ca3zh/i3wC4i2C069c5YeNfUIuh
+         L8og==
+X-Gm-Message-State: ACgBeo1zS2xiQFuPcjKCOPSS058DJWLC3cauKkJOh0NajWWRAZRkrMH7
+        Adru5eCtnmSJhhqT086mAJZR23lt22hgxw==
+X-Google-Smtp-Source: AA6agR6guGxFe2BvdM+E3ILwBccP8ha0FlncllTQBwXxwWpQgdgBjlno9RT5AAOQ9GbyQwmruPftcg==
+X-Received: by 2002:ad4:5cae:0:b0:496:a988:ddc0 with SMTP id q14-20020ad45cae000000b00496a988ddc0mr1549683qvh.3.1660815545392;
+        Thu, 18 Aug 2022 02:39:05 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id x8-20020a05620a258800b006b9a89d408csm1099751qko.100.2022.08.18.02.39.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Aug 2022 02:29:45 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-3246910dac3so25123147b3.12
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Aug 2022 02:29:45 -0700 (PDT)
-X-Received: by 2002:a25:880f:0:b0:67c:2727:7e3c with SMTP id
- c15-20020a25880f000000b0067c27277e3cmr2060915ybl.36.1660814984766; Thu, 18
- Aug 2022 02:29:44 -0700 (PDT)
+        Thu, 18 Aug 2022 02:39:04 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-32a09b909f6so27160447b3.0;
+        Thu, 18 Aug 2022 02:39:03 -0700 (PDT)
+X-Received: by 2002:a25:250b:0:b0:68f:425b:3ee0 with SMTP id
+ l11-20020a25250b000000b0068f425b3ee0mr2056784ybl.89.1660815543145; Thu, 18
+ Aug 2022 02:39:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220727160753.1774761-1-biju.das.jz@bp.renesas.com> <20220727160753.1774761-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220727160753.1774761-5-biju.das.jz@bp.renesas.com>
+References: <20220710115248.190280-1-biju.das.jz@bp.renesas.com> <20220710115248.190280-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220710115248.190280-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Aug 2022 11:29:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU8V9=w-uTt7Lx264wtz+TopHUD+W9H66y68tNMOG7P8w@mail.gmail.com>
-Message-ID: <CAMuHMdU8V9=w-uTt7Lx264wtz+TopHUD+W9H66y68tNMOG7P8w@mail.gmail.com>
-Subject: Re: [PATCH v5 04/10] drm: rcar-du: Add rcar_du_lib_fb_create()
+Date:   Thu, 18 Aug 2022 11:38:52 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVvh5n159TLVzosnHyjX3Hxadjky4DjpedSvezPZ=fRLQ@mail.gmail.com>
+Message-ID: <CAMuHMdVvh5n159TLVzosnHyjX3Hxadjky4DjpedSvezPZ=fRLQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/6] dt-bindings: can: nxp,sja1000: Document RZ/N1{D,S} support
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-can@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -74,45 +80,57 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-On Wed, Jul 27, 2022 at 6:08 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Move the common code from rcar_du_fb_create->rcar_du_lib_fb_create,
-> so that rzg2l_du_fb_create() can reuse the common code.
+On Sun, Jul 10, 2022 at 1:53 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add CAN binding documentation for Renesas RZ/N1 SoC.
+>
+> The SJA1000 CAN controller on RZ/N1 SoC has some differences compared
+> to others like it has no clock divider register (CDR) support and it has
+> no HW loopback (HW doesn't see tx messages on rx), so introduced a new
+> compatible 'renesas,rzn1-sja1000' to handle these differences.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v5:
->  * New patch
 
-Thanks for your patch!
+Thanks for your patch, which is now commit 4591c760b7975984
+("dt-bindings: can: nxp,sja1000: Document RZ/N1{D,S} in v6.0-rc1.
 
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
-> @@ -392,3 +392,72 @@ int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
+> --- a/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
+> +++ b/Documentation/devicetree/bindings/net/can/nxp,sja1000.yaml
+> @@ -11,9 +11,15 @@ maintainers:
 >
->         return drm_gem_cma_dumb_create_internal(file, dev, args);
->  }
+>  properties:
+>    compatible:
+> -    enum:
+> -      - nxp,sja1000
+> -      - technologic,sja1000
+> +    oneOf:
+> +      - enum:
+> +          - nxp,sja1000
+> +          - technologic,sja1000
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a06g032-sja1000 # RZ/N1D
+> +              - renesas,r9a06g033-sja1000 # RZ/N1S
+> +          - const: renesas,rzn1-sja1000 # RZ/N1
+>
+>    reg:
+>      maxItems: 1
+> @@ -21,6 +27,9 @@ properties:
+>    interrupts:
+>      maxItems: 1
+>
+> +  clocks:
+> +    maxItems: 1
 > +
-> +struct drm_framebuffer *
-> +rcar_du_lib_fb_create(struct drm_device *dev, struct drm_file *file_priv,
-> +                     const struct drm_mode_fb_cmd2 *mode_cmd)
-> +{
-> +       struct rcar_du_device *rcdu = to_rcar_du_device(dev);
-> +       const struct rcar_du_format_info *format;
-> +       unsigned int chroma_pitch;
-> +       unsigned int max_pitch;
-> +       unsigned int align;
-> +       unsigned int i;
-> +
-> +       format = rcar_du_format_info(mode_cmd->pixel_format);
-> +       if (format == NULL) {
-> +               dev_dbg(dev->dev, "unsupported pixel format %08x\n",
 
-I know you're just moving code, but nowadays we do have "%p4cc",
-which takes a pointer to the fourcc value.
+Probably you want to add the power-domains property, and make it
+required on RZ/N1.
+This is not super-critical, as your driver patch uses explicit clock
+handling anyway.
 
-> +                       mode_cmd->pixel_format);
-> +               return ERR_PTR(-EINVAL);
-> +       }
+>    reg-io-width:
+>      $ref: /schemas/types.yaml#/definitions/uint32
+>      description: I/O register width (in bytes) implemented by this device
+
 
 Gr{oetje,eeting}s,
 
