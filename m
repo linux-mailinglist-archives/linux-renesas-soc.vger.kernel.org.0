@@ -2,117 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC1ED598B07
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 20:21:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9863598B34
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Aug 2022 20:31:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242745AbiHRSVc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Aug 2022 14:21:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56356 "EHLO
+        id S1345471AbiHRSa3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Aug 2022 14:30:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231651AbiHRSVb (ORCPT
+        with ESMTP id S1345488AbiHRSaW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Aug 2022 14:21:31 -0400
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA715CE451;
-        Thu, 18 Aug 2022 11:21:30 -0700 (PDT)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-334dc616f86so63515177b3.8;
-        Thu, 18 Aug 2022 11:21:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=cz4aqrtGrX+pP5uaPE+3Nxxzh1rZqJ7+xHhzxGrUvU8=;
-        b=N07iSmth21aYe0Ug2MVhr/I18VG3BG3N9GJm8JMxKXfKTwT7UY2lN6G8a+5yndiAr/
-         e7g1JXUjnhuelsFLFgQlyid3CIddpKLQyFeVPBrOHf4hn0bUZ18t3OyyPfYKXhgqWQYB
-         +azSBDHrs7PrupZeX4iD4WoftRPWLByOEjowiD1nm8/SPa3KtZSIaNBCrYvBZS76CmbQ
-         rr4fcQU3Z3YytVkZW+J3x4SEBj4leZy6IsVa/QUCk19a/Q8O6XQGlS0k6ph9Nr1uvSGq
-         LQCtKqhKZqKWCUG1D17OM3xTV9f4LakV3yDumJ++hNlRN993HxyLehQBHCiOoDEygRIw
-         zTZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=cz4aqrtGrX+pP5uaPE+3Nxxzh1rZqJ7+xHhzxGrUvU8=;
-        b=IUory5Ee92y+YpavXEEl/WxlyFNCKAmI6amZvjGqVvzTHzZDIMdkOD21PfT64FiMAP
-         bKw3R15Nxwg4iH2pAsiJ8JJSv7k8r1LCRt2R1D7iRb8AvM71r2v5h1C5Iy9mGo9D8svJ
-         ayFAXd7Re2FDI52zRBybtSkl792FzVu6ok5r8bziNm6TNk8M3TES1XLM22RveZmQA8hM
-         5MGuSRh7vLFam60J958XtGpRf5Pe+PEi902JPbemCT379/RYepRuX3NIMiXbhqJ6osZV
-         kTy3yIY+CD03pyWbbU1F24vWdSiOfvNrbupoJXTDbg59HkfAFRfHLtz6A+Tcu4MGLUEy
-         +0tw==
-X-Gm-Message-State: ACgBeo33j+cjCPRsos1H2ParQz8qkQTE0WE75hUODd4by9iumDnA1aC2
-        VLwH3m5TF0oM4inAXLtVjBpiNgOWlonTMZqzB+M=
-X-Google-Smtp-Source: AA6agR6gnz3Z3AdTSbd4ifE9AdXb9U3hfPUpCwSodkO/c1SWj8iYRpoFJPnWaj8WJoSk4MFWP1iE2QLpLSwHe52ce6M=
-X-Received: by 2002:a25:dc12:0:b0:68f:b662:e85d with SMTP id
- y18-20020a25dc12000000b0068fb662e85dmr4172606ybe.279.1660846890039; Thu, 18
- Aug 2022 11:21:30 -0700 (PDT)
+        Thu, 18 Aug 2022 14:30:22 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52342B5A73;
+        Thu, 18 Aug 2022 11:30:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 10ED7B82370;
+        Thu, 18 Aug 2022 18:30:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B707AC433B5;
+        Thu, 18 Aug 2022 18:30:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660847417;
+        bh=0tcBwhvU3IwbrGMz2RXkuGs7v8beKzHJW6W7ZezoMqE=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=VyzWQ4W7Zxq4YYDdLa1ZMFGldOAczo3Z92T0pE6Wk37y+NUFm/wtT6At4YbpfPEFa
+         XZ0UQPKD3qePJ4TpiJr/TsDeLYocZtqMxd46/xEcpsSPvjYIa+Z7Vz3e/YZvg7XG69
+         D0RWOPhHBAxQxJmgKXXgdbhQwWSKYtMriZCAt3DTd8tleePyPY0kuIJybPJaW04A25
+         Twqba6D8KRryriGSBlqyLrS/xD2P0AYQEPpt+8xM4OJ64diZf8YeQspki3muPnVZKG
+         IZTFe2Mt+NaM1kWYf9P7udiulll/+HDBHIdmghTvh3+U/+QB5BpHzOL5WwPojROrB7
+         V9iQ8r6XBuBRw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9A75EE2A058;
+        Thu, 18 Aug 2022 18:30:17 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220816083842.25925-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <cae2f59a-aeeb-e573-029f-7151ae29dd28@linaro.org>
-In-Reply-To: <cae2f59a-aeeb-e573-029f-7151ae29dd28@linaro.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 18 Aug 2022 19:21:03 +0100
-Message-ID: <CA+V-a8tWTNHbqyxkjrc=mQL0zkXkg7VO4Fd06HDLV5ZGZeA-jw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: spi: renesas,sh-msiof: Fix
- 'unevaluatedProperties' warnings
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] dt-bindings: Fix incorrect "the the" corrections
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166084741762.25395.6372912472329150051.git-patchwork-notify@kernel.org>
+Date:   Thu, 18 Aug 2022 18:30:17 +0000
+References: <c5743c0a1a24b3a8893797b52fed88b99e56b04b.1660755148.git.geert+renesas@glider.be>
+In-Reply-To: <c5743c0a1a24b3a8893797b52fed88b99e56b04b.1660755148.git.geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        slark_xiao@163.com, kuba@kernel.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, niklas.soderlund@ragnatech.se,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+Hello:
 
-Thank you for the review.
+This patch was applied to netdev/net.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-On Tue, Aug 16, 2022 at 10:45 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 16/08/2022 11:38, Lad Prabhakar wrote:
-> > With 'unevaluatedProperties' support implemented, there's a number of
-> > warnings when running dtbs_check:
-> >
-> > arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: spi@e6e90000: Unevaluated properties are not allowed ('power-domains', 'resets' were unexpected)
-> >       From schema: Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
-> >
-> > The main problem is that SoC DTSI's include power-domains and resets
-> > property, whereas the renesas,sh-msiof.yaml has 'unevaluatedProperties:
-> > false'. So just add optional power-domains and resets properties.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml b/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
-> > index 5de710adfa63..7bd86cf876f1 100644
-> > --- a/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
-> > +++ b/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
-> > @@ -69,6 +69,10 @@ properties:
-> >    clocks:
-> >      maxItems: 1
-> >
-> > +  power-domains: true
-> > +
-> > +  resets: true
->
-> No. For both you need maxItems (or describe the items).
->
-Agreed, I will fix it and send a v2.
+On Wed, 17 Aug 2022 18:54:51 +0200 you wrote:
+> Lots of double occurrences of "the" were replaced by single occurrences,
+> but some of them should become "to the" instead.
+> 
+> Fixes: 12e5bde18d7f6ca4 ("dt-bindings: Fix typo in comment")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v2:
+>   - Drop blank line between Fixes and SoB tags.
+> 
+> [...]
 
-Cheers,
-Prabhakar
+Here is the summary with links:
+  - [v2] dt-bindings: Fix incorrect "the the" corrections
+    https://git.kernel.org/netdev/net/c/8aa48ade7db4
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
