@@ -2,138 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD11759973F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Aug 2022 10:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B2515997AC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Aug 2022 10:49:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347736AbiHSIZw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 Aug 2022 04:25:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41320 "EHLO
+        id S1343696AbiHSIiO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Aug 2022 04:38:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236670AbiHSIZ2 (ORCPT
+        with ESMTP id S1346630AbiHSIhi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 Aug 2022 04:25:28 -0400
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4965EE1913;
-        Fri, 19 Aug 2022 01:25:27 -0700 (PDT)
-Received: by mail-qk1-f177.google.com with SMTP id n21so2827118qkk.3;
-        Fri, 19 Aug 2022 01:25:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=ZIz9uUnGvGIaQHLjwy5JfKqGUPRt15jYrUPzIJQykQk=;
-        b=ZISG9WrP8kf1kOtq0BA0qF2iCqxMV8q/27fQnjiTCHhpg8mvyvgoeHk6963OsiZHd7
-         MwkcV+uIt6A61Se0cxaI7NBLaSWs0eeryUvRHPEHyzGmb5mRiBsiYt4ZIRf6rps/eC1G
-         QF+wl7xzH8yjoTNje1LXu2j8XIwhp9aOk0KeVtQIfcrnbeYLQN4r2tPXv2OZYpdLNvga
-         hT5ejLpegd11RnzOR5vBHSybrWbD082FMkGSOLgArqgoGpssZQHa51MEKAnttW0zHgJu
-         G6ZMAwwMqri4Og2oSa8QAsC9UVZoKiTvRGcbl2eQ58QaONDX50DyGWgwlrljHRTxjH08
-         e0KA==
-X-Gm-Message-State: ACgBeo3FRlwnnPpeW9thkEjmHbFht1R5kHV4LOlT1cB1OYsotDFFQSjT
-        ppqwQIxLwZ0LUwVgUtLv/DFpcCJioeO0TA==
-X-Google-Smtp-Source: AA6agR5tZIQrT01dl+s05GZhw1TbWhtib+sw8cy8vL7fUT+Ywl+K5/BFdLk0NHcHGdeBRCDIiXb2cQ==
-X-Received: by 2002:a37:b306:0:b0:6b6:321:27a6 with SMTP id c6-20020a37b306000000b006b6032127a6mr4521503qkf.262.1660897526233;
-        Fri, 19 Aug 2022 01:25:26 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id ch11-20020a05622a40cb00b0033b30e8e7a5sm2574690qtb.58.2022.08.19.01.25.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Aug 2022 01:25:25 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-324ec5a9e97so103272687b3.7;
-        Fri, 19 Aug 2022 01:25:24 -0700 (PDT)
-X-Received: by 2002:a5b:bcd:0:b0:68f:b4c0:7eca with SMTP id
- c13-20020a5b0bcd000000b0068fb4c07ecamr6672282ybr.202.1660897524733; Fri, 19
- Aug 2022 01:25:24 -0700 (PDT)
+        Fri, 19 Aug 2022 04:37:38 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EEAE2F3A7
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Aug 2022 01:37:14 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by laurent.telenet-ops.be with bizsmtp
+        id 9Ld92800S4C55Sk01Ld9av; Fri, 19 Aug 2022 10:37:11 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1oOxV6-001hqP-Fs; Fri, 19 Aug 2022 10:37:08 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1oOxUN-00460i-HQ; Fri, 19 Aug 2022 10:36:23 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC] MAINTAINERS: Merge ARM/Renesas ARM64 and ARM/SH-Mobile ARM architectures
+Date:   Fri, 19 Aug 2022 10:36:22 +0200
+Message-Id: <a869b8afdc47aa637ebeefcc1ca7bc61244f34b9.1660898008.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220815151451.23293-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220815151451.23293-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <07342070-d96c-59fc-f9dd-b65cd742d97a@microchip.com> <CA+V-a8uNRr+WPX=YC+UMT4ch4S5XwsatHCzUoSt+hTk4C=cheA@mail.gmail.com>
-In-Reply-To: <CA+V-a8uNRr+WPX=YC+UMT4ch4S5XwsatHCzUoSt+hTk4C=cheA@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 19 Aug 2022 10:25:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXjWsUF1_CnojrvT+EyEmAp25jkT2TyWSisGinAGgMb3w@mail.gmail.com>
-Message-ID: <CAMuHMdXjWsUF1_CnojrvT+EyEmAp25jkT2TyWSisGinAGgMb3w@mail.gmail.com>
-Subject: Re: [PATCH v2 6/8] riscv: dts: renesas: Add minimal DTS for Renesas
- RZ/Five SMARC EVK
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Conor Dooley <Conor.Dooley@microchip.com>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Anup Patel <anup@brainfault.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+There is not much point in having separate entries for the ARM/Renesas
+ARM64 and ARM/SH-Mobile ARM architectures, as they have the same
+maintainers, use the same development collaboration infrastructure, and
+share many files.
 
-On Mon, Aug 15, 2022 at 10:16 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Mon, Aug 15, 2022 at 8:00 PM <Conor.Dooley@microchip.com> wrote:
-> > On 15/08/2022 16:14, Lad Prabhakar wrote:
-> > > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> > >
-> > > Enable the minimal blocks required for booting the Renesas RZ/Five
-> > > SMARC EVK with initramfs.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > > v1->v2
-> > > * New patch
-> > > ---
-> > >  arch/riscv/boot/dts/Makefile                  |  1 +
-> > >  arch/riscv/boot/dts/renesas/Makefile          |  2 ++
-> > >  .../boot/dts/renesas/r9a07g043f01-smarc.dts   | 16 ++++++++++
-> > >  .../boot/dts/renesas/rzfive-smarc-som.dtsi    | 22 +++++++++++++
-> > >  arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi | 32 +++++++++++++++++++
-> > >  5 files changed, 73 insertions(+)
-> > >  create mode 100644 arch/riscv/boot/dts/renesas/Makefile
-> > >  create mode 100644 arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dts
-> > >  create mode 100644 arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-> >
-> > Just to sort out some of my own confusion here - is the smarc EVK
-> > shared between your arm boards and the riscv ones? Or just the
-> > peripherals etc on the soc?
-> >
-> RZ/Five SoC is pin compatible with RZ/G2UL Type 1 SoC (ARM64). RZ/G2UL
-> SMARC EVK carrier board can be swapped with RZ/Five or RZ/G2UL SMARC
-> SoM and still be used.
->
-> > If it is the forver, does the approach suggested here for the
-> > allwinner stuff make sense to also use for risc-v stuff with
-> > shared parts of devicetrees?
-> > https://lore.kernel.org/linux-riscv/3cd9ed5b-8348-38ac-feb1-9a7da858cebc@microchip.com/
-> >
-> it does make sense. But I wonder where we would place the common
-> shared dtsi that can be used by two arch's.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ MAINTAINERS | 35 +++++++++++------------------------
+ 1 file changed, 11 insertions(+), 24 deletions(-)
 
-You can keep it under arch/arm/boot/dts/renesas/, and refer to
-it from riscv as <arm64/renesas/...>.
-Cfr. the symlinks under scripts/dtc/include-prefixes/arm64/ and
-e.g. cros-ec-keyboard.dtsi.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8a5012ba6ff98ac6..62403f303bbd86ab 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2650,7 +2650,7 @@ F:	arch/arm/boot/dts/rtd*
+ F:	arch/arm/mach-realtek/
+ F:	arch/arm64/boot/dts/realtek/
+ 
+-ARM/RENESAS ARM64 ARCHITECTURE
++ARM/RENESAS ARCHITECTURE
+ M:	Geert Uytterhoeven <geert+renesas@glider.be>
+ M:	Magnus Damm <magnus.damm@gmail.com>
+ L:	linux-renesas-soc@vger.kernel.org
+@@ -2661,6 +2661,16 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git nex
+ F:	Documentation/devicetree/bindings/arm/renesas.yaml
+ F:	Documentation/devicetree/bindings/hwinfo/renesas,prr.yaml
+ F:	Documentation/devicetree/bindings/soc/renesas/
++F:	arch/arm/boot/dts/emev2*
++F:	arch/arm/boot/dts/gr-peach*
++F:	arch/arm/boot/dts/iwg20d-q7*
++F:	arch/arm/boot/dts/r7s*
++F:	arch/arm/boot/dts/r8a*
++F:	arch/arm/boot/dts/r9a*
++F:	arch/arm/boot/dts/sh*
++F:	arch/arm/configs/shmobile_defconfig
++F:	arch/arm/include/debug/renesas-scif.S
++F:	arch/arm/mach-shmobile/
+ F:	arch/arm64/boot/dts/renesas/
+ F:	drivers/soc/renesas/
+ F:	include/linux/soc/renesas/
+@@ -2772,29 +2782,6 @@ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	drivers/media/platform/samsung/s5p-mfc/
+ 
+-ARM/SHMOBILE ARM ARCHITECTURE
+-M:	Geert Uytterhoeven <geert+renesas@glider.be>
+-M:	Magnus Damm <magnus.damm@gmail.com>
+-L:	linux-renesas-soc@vger.kernel.org
+-S:	Supported
+-Q:	http://patchwork.kernel.org/project/linux-renesas-soc/list/
+-C:	irc://irc.libera.chat/renesas-soc
+-T:	git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+-F:	Documentation/devicetree/bindings/arm/renesas.yaml
+-F:	Documentation/devicetree/bindings/soc/renesas/
+-F:	arch/arm/boot/dts/emev2*
+-F:	arch/arm/boot/dts/gr-peach*
+-F:	arch/arm/boot/dts/iwg20d-q7*
+-F:	arch/arm/boot/dts/r7s*
+-F:	arch/arm/boot/dts/r8a*
+-F:	arch/arm/boot/dts/r9a*
+-F:	arch/arm/boot/dts/sh*
+-F:	arch/arm/configs/shmobile_defconfig
+-F:	arch/arm/include/debug/renesas-scif.S
+-F:	arch/arm/mach-shmobile/
+-F:	drivers/soc/renesas/
+-F:	include/linux/soc/renesas/
+-
+ ARM/SOCFPGA ARCHITECTURE
+ M:	Dinh Nguyen <dinguyen@kernel.org>
+ S:	Maintained
+-- 
+2.25.1
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
