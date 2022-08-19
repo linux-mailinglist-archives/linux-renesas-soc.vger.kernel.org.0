@@ -2,109 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D4B45997B5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Aug 2022 10:49:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 565DD5997A5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Aug 2022 10:49:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347112AbiHSIp4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 Aug 2022 04:45:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57346 "EHLO
+        id S1347732AbiHSIrA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Aug 2022 04:47:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347712AbiHSIpx (ORCPT
+        with ESMTP id S1347755AbiHSIq6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 Aug 2022 04:45:53 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0184BC57B4
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Aug 2022 01:45:52 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1oOxdJ-0008I8-6U; Fri, 19 Aug 2022 10:45:37 +0200
-Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id 1011CCE430;
-        Fri, 19 Aug 2022 08:45:34 +0000 (UTC)
-Date:   Fri, 19 Aug 2022 10:45:32 +0200
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 6/6] can: sja1000: Add support for RZ/N1 SJA1000 CAN
- Controller
-Message-ID: <20220819084532.ywtziogd7ycuozxx@pengutronix.de>
-References: <20220710115248.190280-1-biju.das.jz@bp.renesas.com>
- <20220710115248.190280-7-biju.das.jz@bp.renesas.com>
+        Fri, 19 Aug 2022 04:46:58 -0400
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 369C2CAC4D;
+        Fri, 19 Aug 2022 01:46:58 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id h22so2872192qtu.2;
+        Fri, 19 Aug 2022 01:46:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=+CK74Trg82hJrsPmCVARJr/hdgf8gZ1Ixa5AUbpaM6I=;
+        b=XzjqBAzBRBj096FUBrk7C8/92wcq5CWS5OekMmTDlOAqT1qkPG4EZ8bdjh/bTQl2RU
+         iEYRngVWSgS6ztVe0HRniYK+c4VlfTPzgPmyOEStRhiD+6dUs/HuDTyFTSX5HY3BScWJ
+         6QtH2akf8+poZbZlkpU2QqJfHdwEJfLadrSuq/A3XSfXTyiBv+qC2KBrDn/fv3K+AjmD
+         fRFSbYPfxtP3Ou1h5Qg96e7NSIJAw8NZNq51WpiD4m5mL7hHuNlEKe7I4BXobjyzrfna
+         wxSG/G2vIjve9v4bL/VXgCQVvGZs+8eF4FCOcBqhKK4mxRZS+NmFQ8inY/XXwK7lI7h5
+         AR4w==
+X-Gm-Message-State: ACgBeo2Hk8sIbjGoxQyGbfLcNl0WBXrd564Y3aXeqBuLK22kg6uXNhur
+        IZ7AmsK1LsAWmKv3AArZ6G7fbAGwvVpAhw==
+X-Google-Smtp-Source: AA6agR7JX3VqGOUpaLoLlGXacU1pVqICG5fmBaswxvqtBzMh7Dc4AMNabVthyzwvFLVn0PneCWxCNA==
+X-Received: by 2002:a05:622a:40e:b0:343:7769:5895 with SMTP id n14-20020a05622a040e00b0034377695895mr5750192qtx.467.1660898816813;
+        Fri, 19 Aug 2022 01:46:56 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id l8-20020a05620a28c800b006bbc3724affsm2507654qkp.45.2022.08.19.01.46.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Aug 2022 01:46:56 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-32a09b909f6so105248127b3.0;
+        Fri, 19 Aug 2022 01:46:55 -0700 (PDT)
+X-Received: by 2002:a0d:eb45:0:b0:333:f813:6c79 with SMTP id
+ u66-20020a0deb45000000b00333f8136c79mr6505642ywe.384.1660898815488; Fri, 19
+ Aug 2022 01:46:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="7mbwvgyie7jnnaxh"
-Content-Disposition: inline
-In-Reply-To: <20220710115248.190280-7-biju.das.jz@bp.renesas.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20220815151451.23293-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220815151451.23293-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220815151451.23293-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 19 Aug 2022 10:46:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVn50f3HuphyqeGmgzXA_TqHdqDJO7C3YZd=qMA9ZRigQ@mail.gmail.com>
+Message-ID: <CAMuHMdVn50f3HuphyqeGmgzXA_TqHdqDJO7C3YZd=qMA9ZRigQ@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] RISC-V: configs: defconfig: Enable Renesas RZ/Five SoC
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley <Conor.Dooley@microchip.com>,
+        Anup Patel <anup@brainfault.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Mon, Aug 15, 2022 at 5:16 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Enable Renesas RZ/Five SoC config in defconfig. It allows the default
+> upstream kernel to boot on RZ/Five SMARC EVK board.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
---7mbwvgyie7jnnaxh
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+But this may need a respin if "[PATCH v2 4/8] RISC-V: Kconfig.socs:
+Add Renesas RZ/Five SoC kconfig option" is changed.
 
-On 10.07.2022 12:52:48, Biju Das wrote:
-> The SJA1000 CAN controller on RZ/N1 SoC has no clock divider register
-> (CDR) support compared to others.
->=20
-> This patch adds support for RZ/N1 SJA1000 CAN Controller, by adding
-> SoC specific compatible to handle this difference as well as using
-> clk framework to retrieve the CAN clock frequency.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Gr{oetje,eeting}s,
 
-Applied to linux-can-next.
+                        Geert
 
-regards,
-Marc
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---7mbwvgyie7jnnaxh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmL/TaoACgkQrX5LkNig
-011BIwgApYLVtfJ7eiu/fg+tUiaoLoOjp/ZoG16KUJaoEsC5EDCnzR/rmlBFXK2k
-sy9g8X7jvgqA5KgHz+vWJFVYPHkxehpOpqw+h9bp5K81lXn4iZIL3XAjEfxoOqFa
-YUdYHhkZBsZ8iYuk/P7EL4WBGm2W/y4RNKmPg6QNVdhN2cU7dw++HuLVOpmjDmes
-AjJBlpz8hj6VrDBoaGT/GHO7nAKRRAvRagucMRJd03ZP7JnxTDf+T+Bp1JkUbK/z
-7M8R1IVGCQfrw713DwBSl7V8UZIPISQiff+FSlZiq4bouXEEWv5ZcGokf0rnVdC/
-nBK/IpBFB0K3vTPzC8Q1AnKBmDi1bQ==
-=Plk0
------END PGP SIGNATURE-----
-
---7mbwvgyie7jnnaxh--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
