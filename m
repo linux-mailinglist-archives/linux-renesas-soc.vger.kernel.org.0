@@ -2,137 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E45255999A6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Aug 2022 12:21:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA860599B22
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Aug 2022 13:44:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347980AbiHSKRu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 Aug 2022 06:17:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59596 "EHLO
+        id S1348223AbiHSLiW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Aug 2022 07:38:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347328AbiHSKRs (ORCPT
+        with ESMTP id S1346618AbiHSLiW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 Aug 2022 06:17:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22D0DDAEED;
-        Fri, 19 Aug 2022 03:17:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B20B4616D7;
-        Fri, 19 Aug 2022 10:17:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DBBCC43143;
-        Fri, 19 Aug 2022 10:17:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660904267;
-        bh=bBGGs+VaVwa9GZVrl+mfip/PNxqOhyRiV5mtJK9gULA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LSwaVI8rUzMmO/Ct43XNW9RruD+qxBI8tnG2OoF/s63ywpKDgUlWIi/aLX949UKPN
-         jM20X3grcEAWH38fx5/oYHEV7F5sTeuvwCDPVnMMG53ff2UByclp++LklueQkXypFU
-         H7c9/JJp/RjyIB8BwC52gvvAYZIk2WNxpCZz5cJXuJNC06FJis2sLmU6k3EGL09lKc
-         Jb0xsF7kl1AKAIK0xmR/ofWHEdPxStI2V1NvsgZa+z5y1Ow/2cxRWkgNKh/52pgoWK
-         DCt8ZOZFDA7eTYb7MHgMkmQVIDOYTuxR00NmLv1qFt7npxJhkX1i5DzsxxCLPXCGpY
-         yOQjDCPKxSuDQ==
-Received: by mail-ej1-f46.google.com with SMTP id gb36so7910196ejc.10;
-        Fri, 19 Aug 2022 03:17:47 -0700 (PDT)
-X-Gm-Message-State: ACgBeo3V1Hsa3QBjLGdI35DnZzMYK7sNyj2Mkp+8WtQFYukn/rhgCEFm
-        ByD7GnwBR/nTb0IY/PPcL4cNUxMrhXswDraLMTg=
-X-Google-Smtp-Source: AA6agR5J9QREsVSQar6+cAcI+eQkL21ldizqJ/P5eBUIHXbbNTd/IG0qShM+KxoLNU3uFpfrKuXX255VS5DFZKFqEjU=
-X-Received: by 2002:a05:6402:2751:b0:443:d90a:43d4 with SMTP id
- z17-20020a056402275100b00443d90a43d4mr5657123edd.368.1660904254658; Fri, 19
- Aug 2022 03:17:34 -0700 (PDT)
+        Fri, 19 Aug 2022 07:38:22 -0400
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB87DF3F;
+        Fri, 19 Aug 2022 04:38:17 -0700 (PDT)
+Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-3321c2a8d4cso113872497b3.5;
+        Fri, 19 Aug 2022 04:38:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=NmhoqI7k4G6QeMKgIeqojmW1W43PHTYsxk5F7putWNQ=;
+        b=ISEypOIUgRx4LtgZAU/Zt9gtmdQJMf1Necwp6xhN2wGJcJKV06jBwOeuYw+RgxNwwk
+         zOJDTubjM1fsdCiY8e3XX1JQ0D/EB8focolh0vfSxVMqlHxwF71rDamRJ1f8FyHzrLpd
+         GMpiWW0vNYD8UUeDX5lJv0g4RSIXGo2ZoxhT1d1fmaYBvZvn1aO7+UgFV6d0EH5c+q0L
+         c+7qJiWS6nPlt/6MpSDqoMvKsvFunWJcyOmp4FmR+pniCa8tKxopBLzlExRZT1GpF1+l
+         uhrabPieck9hpQKVoDsWyZOVtiYKQtAgT+7/YCID3abj6gHVno4bsiz+sa3a8+h1+xZx
+         4HNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=NmhoqI7k4G6QeMKgIeqojmW1W43PHTYsxk5F7putWNQ=;
+        b=Q4VgH+3pImTA6Bv8w1VcftapiyRDWC27NRa6681CC9qVfXzICEazPap4lSm8C9KSGP
+         SUHBH7WyHTWtBvL0Dw5f3Mu8TB2n7mEqyDDn7BhYgsek8RnECkOwyMrJfpPLThqLCtQx
+         D87JPS0ypJvsMqGJNgdPPTaaDMU1Z+nmP4KnGiFlZli7OKYYxYDDtGo/78T5r9fe5GX2
+         LZUOaMvpykCrJfKmRPHoLxQChKaj/Bwbm7SHkyuAR3DjM/vEpkngnRh+F98qDiSwqEWA
+         QqAQN/xFXpjk9J6GUUYvvvWQE2qknIwtsLjcKdJF/MwbLiZ4w/BzOY+YlSh+SgzSVks3
+         79tw==
+X-Gm-Message-State: ACgBeo3ggkbxvlLHs7mhLugzxSeeDGPS+Z2N0OVVZ7m4r/eZYV2k5s7S
+        waas3GHPOJJJvWvNC1epGKlHwdRzRZ4WYO+o5Ks=
+X-Google-Smtp-Source: AA6agR4/Vfe8x/za+bJPvbu3J3Q/1xJd9HVg7k/3oR1ufo6PrA2tdscx1U9Y0c+tmx0YQ1vTbLzMESsVWI1NfuQhhmU=
+X-Received: by 2002:a81:1c4b:0:b0:337:4e8:8bdc with SMTP id
+ c72-20020a811c4b000000b0033704e88bdcmr5909913ywc.65.1660909097055; Fri, 19
+ Aug 2022 04:38:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220818135522.3143514-1-arnd@kernel.org> <20220818135522.3143514-2-arnd@kernel.org>
- <CAMuHMdXEXQNeOQGnYTQG58nHwB8YwLQ5q1vaje7kPQexrAMsRA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXEXQNeOQGnYTQG58nHwB8YwLQ5q1vaje7kPQexrAMsRA@mail.gmail.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Fri, 19 Aug 2022 12:17:16 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0kJVLEFqS0E=Lv2=HE9dbmjgA=_T2NX4zhq7EHvk4DBg@mail.gmail.com>
-Message-ID: <CAK8P3a0kJVLEFqS0E=Lv2=HE9dbmjgA=_T2NX4zhq7EHvk4DBg@mail.gmail.com>
-Subject: Re: [PATCH 01/11] ARM: defconfig: reorder defconfig files
+References: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220801214718.16943-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXKnve1-KE+GF5YVe3k8w0oQA96P9VAfB9XxVMbuKiN7g@mail.gmail.com>
+In-Reply-To: <CAMuHMdXKnve1-KE+GF5YVe3k8w0oQA96P9VAfB9XxVMbuKiN7g@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 19 Aug 2022 12:37:50 +0100
+Message-ID: <CA+V-a8v84auNSF7HSO=VxvofHKuO75YG7DxdSmUvjUdjx8zf7w@mail.gmail.com>
+Subject: Re: [PATCH 1/4] media: dt-bindings: media: Document RZ/G2L CSI-2 block
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Qin Jian <qinjian@cqplus1.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>, Bin Liu <b-liu@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Shannon Nelson <snelson@pensando.io>,
-        Peter Chen <peter.chen@nxp.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Felipe Balbi <balbi@ti.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:TI ETHERNET SWITCH DRIVER (CPSW)" 
-        <linux-omap@vger.kernel.org>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 19, 2022 at 11:17 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> This may cause conflicts with the usual refresh I plan to do for
-> v6.0-rc1, which will be very similar to
-> https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?id=517d634d376042ab797d9feeb94236ad4cb03396
-> So it may be better to drop this part.
->
-> However, that decision is up to you, as you will have to handle the
-> conflict when merging renesas-arm-defconfig-for-v6.0-tag1 later ;-)
-> But sfr might complain before...
+Hi Geert,
 
-I'm not too worried here, if you just do the 'savedefconfig' step, you
-should get
-the same change and the mergetool will figure it out. In case there is a nasty
-context conflict, you could just send that part early so I can resolve it.
+Thank you for the review.
 
-       Arnd
+On Thu, Aug 18, 2022 at 9:56 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Mon, Aug 1, 2022 at 11:47 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Document the CSI-2 block which is part of CRU found in Renesas
+> > RZ/G2L SoC.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > RFC v2 -> v1
+> > * Fixed review comments pointed by Rob and Jacopo.
+>
+> Thanks for the update!
+>
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> > @@ -0,0 +1,149 @@
+>
+> > +  resets:
+> > +    items:
+> > +      - description: CRU_CMN_RSTB reset terminal
+> > +
+> > +  reset-names:
+> > +    const: cmn-rstb
+>
+> While it doesn't hurt to always have reset-names, you may want to drop
+> it, as there is only a single reset.
+>
+Agreed, I will drop it.
+
+Cheers,
+Prabhakar
