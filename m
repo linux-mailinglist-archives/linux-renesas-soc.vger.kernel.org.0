@@ -2,124 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7C6A5997BD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Aug 2022 10:49:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D4B45997B5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Aug 2022 10:49:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347464AbiHSInD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 Aug 2022 04:43:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50220 "EHLO
+        id S1347112AbiHSIp4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Aug 2022 04:45:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347014AbiHSIm6 (ORCPT
+        with ESMTP id S1347712AbiHSIpx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 Aug 2022 04:42:58 -0400
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 257E167146;
-        Fri, 19 Aug 2022 01:42:57 -0700 (PDT)
-Received: by mail-qk1-f178.google.com with SMTP id g21so2846180qka.5;
-        Fri, 19 Aug 2022 01:42:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=+Cq03o2awZ2CNavLumSobGfio3EFTtGHTSm82q82K2A=;
-        b=RLA5gBURjwXrKBW418Tb13lNHH6WfLKhnihlwtoipQvzpkCIHgYLCKPMUW2sCK+Mdh
-         cLTPh861GFI0AvmgmglY2Y3b6cKmG4C4xHxkH885oagwkZFpg7GM8o3bo8Mu+/MUn+03
-         d1euMZBX/3C7fTJT2x+HozcMD9kNKUnAJKtCmYPyKWUdxNJo65JRUyCu+ngLELHYFZaX
-         2nnUmwRO8w+kx71Ec8B4gevfx4ukYoOE8/gYW6OVq5nA2QcF3R3rmuG5dZ38L3OIYzg6
-         3laZ/JFqZKj+IKzJTcUuxqWeHTB37JkXM9xrtM2zQh6DqB0gGwWTzOjg5KZ6ZYKZCrvF
-         T8ug==
-X-Gm-Message-State: ACgBeo0f+LYskdR/A4iDi9dv7LpLO7HczobND3Omi1NqbIl/xg/XaFup
-        fsVKaoi7xiQK+16wLqvUE/Q/lu5dLmX9+w==
-X-Google-Smtp-Source: AA6agR5a6EDIO/adlC9pO9cqiTlx4Pa5cQBDvBpvDKPOyZ69H9MiZ2KhQG0zr5TKRgWPIbcmYaHUXQ==
-X-Received: by 2002:a37:4049:0:b0:6b8:e75f:6920 with SMTP id n70-20020a374049000000b006b8e75f6920mr4491334qka.448.1660898576144;
-        Fri, 19 Aug 2022 01:42:56 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id i12-20020ac85c0c000000b0031eb393aa45sm2721239qti.40.2022.08.19.01.42.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Aug 2022 01:42:54 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-3321c2a8d4cso104260417b3.5;
-        Fri, 19 Aug 2022 01:42:54 -0700 (PDT)
-X-Received: by 2002:a5b:bcd:0:b0:68f:b4c0:7eca with SMTP id
- c13-20020a5b0bcd000000b0068fb4c07ecamr6714080ybr.202.1660898573940; Fri, 19
- Aug 2022 01:42:53 -0700 (PDT)
+        Fri, 19 Aug 2022 04:45:53 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0184BC57B4
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Aug 2022 01:45:52 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1oOxdJ-0008I8-6U; Fri, 19 Aug 2022 10:45:37 +0200
+Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id 1011CCE430;
+        Fri, 19 Aug 2022 08:45:34 +0000 (UTC)
+Date:   Fri, 19 Aug 2022 10:45:32 +0200
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 6/6] can: sja1000: Add support for RZ/N1 SJA1000 CAN
+ Controller
+Message-ID: <20220819084532.ywtziogd7ycuozxx@pengutronix.de>
+References: <20220710115248.190280-1-biju.das.jz@bp.renesas.com>
+ <20220710115248.190280-7-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-References: <20220815151451.23293-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220815151451.23293-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220815151451.23293-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 19 Aug 2022 10:42:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVEVtu2zf0R5+LufxHWLtG0=aEvPkfcF=K9V025_TCTrQ@mail.gmail.com>
-Message-ID: <CAMuHMdVEVtu2zf0R5+LufxHWLtG0=aEvPkfcF=K9V025_TCTrQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/8] MAINTAINERS: Add entry for Renesas RISC-V architecture
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <Conor.Dooley@microchip.com>,
-        Anup Patel <anup@brainfault.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="7mbwvgyie7jnnaxh"
+Content-Disposition: inline
+In-Reply-To: <20220710115248.190280-7-biju.das.jz@bp.renesas.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
 
-On Mon, Aug 15, 2022 at 5:16 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Initial Renesas RISC-V architecture support will be for the
-> RZ/Five SMARC EVK board.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+--7mbwvgyie7jnnaxh
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On 10.07.2022 12:52:48, Biju Das wrote:
+> The SJA1000 CAN controller on RZ/N1 SoC has no clock divider register
+> (CDR) support compared to others.
+>=20
+> This patch adds support for RZ/N1 SJA1000 CAN Controller, by adding
+> SoC specific compatible to handle this difference as well as using
+> clk framework to retrieve the CAN clock frequency.
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17562,6 +17562,16 @@ F:     drivers/spi/spi-microchip-core.c
->  F:     drivers/usb/musb/mpfs.c
->  F:     include/soc/microchip/mpfs.h
->
-> +RISC-V/Renesas RISC-V ARCHITECTURE
-> +M:     Geert Uytterhoeven <geert+renesas@glider.be>
-> +L:     linux-renesas-soc@vger.kernel.org
-> +S:     Supported
-> +Q:     http://patchwork.kernel.org/project/linux-renesas-soc/list/
-> +C:     irc://irc.libera.chat/renesas-soc
-> +T:     git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-> +F:     Documentation/devicetree/bindings/soc/renesas/
-> +F:     arch/riscv/boot/dts/renesas/
-> +
->  RNBD BLOCK DRIVERS
->  M:     Md. Haris Iqbal <haris.iqbal@ionos.com>
->  M:     Jack Wang <jinpu.wang@ionos.com>
+Applied to linux-can-next.
 
-Perhaps we should merge them all into a single section for "Renesas
-ARM/ARM64/RISC-V ARCHITECTURE", to follow up on "[PATCH/RFC]
-MAINTAINERS: Merge ARM/Renesas ARM64 and ARM/SH-Mobile ARM
-architectures" I've just ssent?
-https://lore.kernel.org/r/a869b8afdc47aa637ebeefcc1ca7bc61244f34b9.1660898008.git.geert+renesas@glider.be/
+regards,
+Marc
 
-Gr{oetje,eeting}s,
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
 
-                        Geert
+--7mbwvgyie7jnnaxh
+Content-Type: application/pgp-signature; name="signature.asc"
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+-----BEGIN PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmL/TaoACgkQrX5LkNig
+011BIwgApYLVtfJ7eiu/fg+tUiaoLoOjp/ZoG16KUJaoEsC5EDCnzR/rmlBFXK2k
+sy9g8X7jvgqA5KgHz+vWJFVYPHkxehpOpqw+h9bp5K81lXn4iZIL3XAjEfxoOqFa
+YUdYHhkZBsZ8iYuk/P7EL4WBGm2W/y4RNKmPg6QNVdhN2cU7dw++HuLVOpmjDmes
+AjJBlpz8hj6VrDBoaGT/GHO7nAKRRAvRagucMRJd03ZP7JnxTDf+T+Bp1JkUbK/z
+7M8R1IVGCQfrw713DwBSl7V8UZIPISQiff+FSlZiq4bouXEEWv5ZcGokf0rnVdC/
+nBK/IpBFB0K3vTPzC8Q1AnKBmDi1bQ==
+=Plk0
+-----END PGP SIGNATURE-----
+
+--7mbwvgyie7jnnaxh--
