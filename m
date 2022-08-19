@@ -2,74 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA860599B22
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Aug 2022 13:44:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35165599B39
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Aug 2022 13:44:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348223AbiHSLiW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 Aug 2022 07:38:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44708 "EHLO
+        id S1348475AbiHSLkK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Aug 2022 07:40:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346618AbiHSLiW (ORCPT
+        with ESMTP id S1348114AbiHSLkJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 Aug 2022 07:38:22 -0400
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB87DF3F;
-        Fri, 19 Aug 2022 04:38:17 -0700 (PDT)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-3321c2a8d4cso113872497b3.5;
-        Fri, 19 Aug 2022 04:38:17 -0700 (PDT)
+        Fri, 19 Aug 2022 07:40:09 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7310EF9F9;
+        Fri, 19 Aug 2022 04:40:08 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-3375488624aso84891817b3.3;
+        Fri, 19 Aug 2022 04:40:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=NmhoqI7k4G6QeMKgIeqojmW1W43PHTYsxk5F7putWNQ=;
-        b=ISEypOIUgRx4LtgZAU/Zt9gtmdQJMf1Necwp6xhN2wGJcJKV06jBwOeuYw+RgxNwwk
-         zOJDTubjM1fsdCiY8e3XX1JQ0D/EB8focolh0vfSxVMqlHxwF71rDamRJ1f8FyHzrLpd
-         GMpiWW0vNYD8UUeDX5lJv0g4RSIXGo2ZoxhT1d1fmaYBvZvn1aO7+UgFV6d0EH5c+q0L
-         c+7qJiWS6nPlt/6MpSDqoMvKsvFunWJcyOmp4FmR+pniCa8tKxopBLzlExRZT1GpF1+l
-         uhrabPieck9hpQKVoDsWyZOVtiYKQtAgT+7/YCID3abj6gHVno4bsiz+sa3a8+h1+xZx
-         4HNA==
+        bh=V9Potjv6AygNMhgt+2OrpuJbud0dJblX7JtOBcX4tTc=;
+        b=JhYvMSyYebnn/hH7W9E+SRJbQ/fAouSceya3rqItBq1mUu2XfX/4aesOWMFoqkaAJd
+         YrBuKJMbKU3YQXzv1dLL2cgd5DMejo+X2iiH7WpkxfaGnw0zAAZuKbAkmPt7tCXP3Xpx
+         kDLc5P/s7rK4E8b6QkrziPbuHbF4jps2FMyhsGzCk9s8i9Hq7FEPxGVdgYnkpkafoKx4
+         9joN1M/K5fUaAxE9koqrRGIMxVRIx9971qLdYcOT+Saj1DLYcWVGsMX/+szKp7CIPnaQ
+         +oPsAW1sZS4qUJKI1oBcarJzhOFflwwyTB7+Cw5oEC2fmBywy697klj9eftjoOvbGiKV
+         /I+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=NmhoqI7k4G6QeMKgIeqojmW1W43PHTYsxk5F7putWNQ=;
-        b=Q4VgH+3pImTA6Bv8w1VcftapiyRDWC27NRa6681CC9qVfXzICEazPap4lSm8C9KSGP
-         SUHBH7WyHTWtBvL0Dw5f3Mu8TB2n7mEqyDDn7BhYgsek8RnECkOwyMrJfpPLThqLCtQx
-         D87JPS0ypJvsMqGJNgdPPTaaDMU1Z+nmP4KnGiFlZli7OKYYxYDDtGo/78T5r9fe5GX2
-         LZUOaMvpykCrJfKmRPHoLxQChKaj/Bwbm7SHkyuAR3DjM/vEpkngnRh+F98qDiSwqEWA
-         QqAQN/xFXpjk9J6GUUYvvvWQE2qknIwtsLjcKdJF/MwbLiZ4w/BzOY+YlSh+SgzSVks3
-         79tw==
-X-Gm-Message-State: ACgBeo3ggkbxvlLHs7mhLugzxSeeDGPS+Z2N0OVVZ7m4r/eZYV2k5s7S
-        waas3GHPOJJJvWvNC1epGKlHwdRzRZ4WYO+o5Ks=
-X-Google-Smtp-Source: AA6agR4/Vfe8x/za+bJPvbu3J3Q/1xJd9HVg7k/3oR1ufo6PrA2tdscx1U9Y0c+tmx0YQ1vTbLzMESsVWI1NfuQhhmU=
-X-Received: by 2002:a81:1c4b:0:b0:337:4e8:8bdc with SMTP id
- c72-20020a811c4b000000b0033704e88bdcmr5909913ywc.65.1660909097055; Fri, 19
- Aug 2022 04:38:17 -0700 (PDT)
+        bh=V9Potjv6AygNMhgt+2OrpuJbud0dJblX7JtOBcX4tTc=;
+        b=BoexOlSx2IkVz4Q8rNAyfWJ2d2yVhPgomgxOBDpYf9jpOTG0chK5rMbPOsnaPEM6/n
+         8P4jggjAJmL5AP370W8gMlaepXRWTz24j0DTJT7Cav56vcLIIvr98GUrmlVPh+DL3cog
+         rrB9HOEdk07QOA1CYR3ibXUknzhvF1cmK/3dL22M+xR2e04CgJL3YFuuKSqJJL/Rik7W
+         MzxcsCKCTJ46U62r7rwClAXslws0YMeRU/rH9ZQk+94IsDTsJ13orVf5oOcfyUZftVSj
+         HHVzP2CHdvSSp3YpzwaTiz4XrJm8dYj94Gmrt8isKuJ/S54sqiGkt0SMgZAQlg5ywoUy
+         FzMQ==
+X-Gm-Message-State: ACgBeo1M6EgzDbjMVaR30rtgagXaTYhDgsYQOONF2dZHacxnR4etSdt1
+        oeegHlB+RYllUy6JTambyL/KEVwit7xQEerEJho=
+X-Google-Smtp-Source: AA6agR5z/ae+3LUGHfPSdewFjNX850w3XDC/3VpieBRg+2ppKfE9XKW9bOyxaAObw85xyckVTg//mgFGeudhjeaxTyU=
+X-Received: by 2002:a05:6902:20a:b0:670:c563:9180 with SMTP id
+ j10-20020a056902020a00b00670c5639180mr7057933ybs.401.1660909207895; Fri, 19
+ Aug 2022 04:40:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220801214718.16943-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXKnve1-KE+GF5YVe3k8w0oQA96P9VAfB9XxVMbuKiN7g@mail.gmail.com>
-In-Reply-To: <CAMuHMdXKnve1-KE+GF5YVe3k8w0oQA96P9VAfB9XxVMbuKiN7g@mail.gmail.com>
+References: <20220815151451.23293-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220815151451.23293-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <07342070-d96c-59fc-f9dd-b65cd742d97a@microchip.com> <CA+V-a8uNRr+WPX=YC+UMT4ch4S5XwsatHCzUoSt+hTk4C=cheA@mail.gmail.com>
+ <CAMuHMdXjWsUF1_CnojrvT+EyEmAp25jkT2TyWSisGinAGgMb3w@mail.gmail.com>
+In-Reply-To: <CAMuHMdXjWsUF1_CnojrvT+EyEmAp25jkT2TyWSisGinAGgMb3w@mail.gmail.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 19 Aug 2022 12:37:50 +0100
-Message-ID: <CA+V-a8v84auNSF7HSO=VxvofHKuO75YG7DxdSmUvjUdjx8zf7w@mail.gmail.com>
-Subject: Re: [PATCH 1/4] media: dt-bindings: media: Document RZ/G2L CSI-2 block
+Date:   Fri, 19 Aug 2022 12:39:40 +0100
+Message-ID: <CA+V-a8t-O8ro8U3n46sjMS=HBJC-09V2hrdNXUCyhEZDrsiTfg@mail.gmail.com>
+Subject: Re: [PATCH v2 6/8] riscv: dts: renesas: Add minimal DTS for Renesas
+ RZ/Five SMARC EVK
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc:     Conor Dooley <Conor.Dooley@microchip.com>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Anup Patel <anup@brainfault.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -84,39 +85,57 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Geert,
 
-Thank you for the review.
 
-On Thu, Aug 18, 2022 at 9:56 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Fri, Aug 19, 2022 at 9:25 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
 > Hi Prabhakar,
 >
-> On Mon, Aug 1, 2022 at 11:47 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Document the CSI-2 block which is part of CRU found in Renesas
-> > RZ/G2L SoC.
+> On Mon, Aug 15, 2022 at 10:16 PM Lad, Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+> > On Mon, Aug 15, 2022 at 8:00 PM <Conor.Dooley@microchip.com> wrote:
+> > > On 15/08/2022 16:14, Lad Prabhakar wrote:
+> > > > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> > > >
+> > > > Enable the minimal blocks required for booting the Renesas RZ/Five
+> > > > SMARC EVK with initramfs.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > ---
+> > > > v1->v2
+> > > > * New patch
+> > > > ---
+> > > >  arch/riscv/boot/dts/Makefile                  |  1 +
+> > > >  arch/riscv/boot/dts/renesas/Makefile          |  2 ++
+> > > >  .../boot/dts/renesas/r9a07g043f01-smarc.dts   | 16 ++++++++++
+> > > >  .../boot/dts/renesas/rzfive-smarc-som.dtsi    | 22 +++++++++++++
+> > > >  arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi | 32 +++++++++++++++++++
+> > > >  5 files changed, 73 insertions(+)
+> > > >  create mode 100644 arch/riscv/boot/dts/renesas/Makefile
+> > > >  create mode 100644 arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dts
+> > > >  create mode 100644 arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
+> > >
+> > > Just to sort out some of my own confusion here - is the smarc EVK
+> > > shared between your arm boards and the riscv ones? Or just the
+> > > peripherals etc on the soc?
+> > >
+> > RZ/Five SoC is pin compatible with RZ/G2UL Type 1 SoC (ARM64). RZ/G2UL
+> > SMARC EVK carrier board can be swapped with RZ/Five or RZ/G2UL SMARC
+> > SoM and still be used.
 > >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > RFC v2 -> v1
-> > * Fixed review comments pointed by Rob and Jacopo.
+> > > If it is the forver, does the approach suggested here for the
+> > > allwinner stuff make sense to also use for risc-v stuff with
+> > > shared parts of devicetrees?
+> > > https://lore.kernel.org/linux-riscv/3cd9ed5b-8348-38ac-feb1-9a7da858cebc@microchip.com/
+> > >
+> > it does make sense. But I wonder where we would place the common
+> > shared dtsi that can be used by two arch's.
 >
-> Thanks for the update!
+> You can keep it under arch/arm/boot/dts/renesas/, and refer to
+> it from riscv as <arm64/renesas/...>.
+> Cfr. the symlinks under scripts/dtc/include-prefixes/arm64/ and
+> e.g. cros-ec-keyboard.dtsi.
 >
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> > @@ -0,0 +1,149 @@
->
-> > +  resets:
-> > +    items:
-> > +      - description: CRU_CMN_RSTB reset terminal
-> > +
-> > +  reset-names:
-> > +    const: cmn-rstb
->
-> While it doesn't hurt to always have reset-names, you may want to drop
-> it, as there is only a single reset.
->
-Agreed, I will drop it.
+Thanks for the pointer.
 
 Cheers,
 Prabhakar
