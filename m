@@ -2,105 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AA1F59ACFD
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Aug 2022 11:39:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B09259ADD3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Aug 2022 14:09:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344859AbiHTJhb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 20 Aug 2022 05:37:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33508 "EHLO
+        id S1346147AbiHTMHp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 20 Aug 2022 08:07:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344378AbiHTJh3 (ORCPT
+        with ESMTP id S1346075AbiHTMHn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 20 Aug 2022 05:37:29 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03B32B9404;
-        Sat, 20 Aug 2022 02:37:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660988247; x=1692524247;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ljtd1sJoSw4+WWLOhkP+dR7DajSFnivj+he0lgBJyJQ=;
-  b=XksN9KdvuwHJEfDqEcKIgfuuLD3V8JTxzElgZNaI31NVZXucTRuAuHKd
-   liBvVDKTNA5J5Ae/kpMZJ//0MQo/5o31LzSj3PTy/H8bDRPmMpuPBQwX1
-   Nw6a/IBIqyFD+dH1B44lzWIvKoszCWqAF1zTr9wc2IY+FNrrR7bv2yi1y
-   xZPoLPHXjJcC4hpOSOKcIu1G6TWzduHMVxqKmIKUa1FQ0v1Tm7OTiItB0
-   Ib2uTuGyy24UIiF65nMoT/fyOceOmKO/V4Dgd31E+1Xd8g7kAC5ctvpM1
-   0/qadMAIjSEHiXMpJQJNGr2ZRdUhMs9QHZhojgiNED5XlEQYSrppjdQ0s
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10444"; a="293164757"
-X-IronPort-AV: E=Sophos;i="5.93,250,1654585200"; 
-   d="scan'208";a="293164757"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2022 02:37:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,250,1654585200"; 
-   d="scan'208";a="637560355"
-Received: from lkp-server01.sh.intel.com (HELO 44b6dac04a33) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 20 Aug 2022 02:37:25 -0700
-Received: from kbuild by 44b6dac04a33 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oPKuy-0002Rf-1o;
-        Sat, 20 Aug 2022 09:37:24 +0000
-Date:   Sat, 20 Aug 2022 17:37:05 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 3/3] arm64: dts: renesas: rzv2m evk: Enable i2c
-Message-ID: <202208201751.koiuT1se-lkp@intel.com>
-References: <20220819193944.337599-4-phil.edworthy@renesas.com>
+        Sat, 20 Aug 2022 08:07:43 -0400
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D5F89D8DC;
+        Sat, 20 Aug 2022 05:07:42 -0700 (PDT)
+Received: by mail-qk1-f172.google.com with SMTP id a15so4969230qko.4;
+        Sat, 20 Aug 2022 05:07:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=ZR3FjkuW5iiRmrC3UtyKJcWdpW3MmZDZj9swwhPKMYc=;
+        b=rp6S5kJjVnCfxZ5P9jvbRMsH3JlGSy9gU+JfOWDu3mLvKbRu73WMviujk4xjNfelX/
+         E1RFIToF1u2Mnnt/X1ryStwf1mWNwPOrc9NwnbGIFcFlKC5LcgmzcvEAUWXQvKu9DjrE
+         JglnmkFJJnsb/qJDuAGAeh+N7KgQqDyZbFLZrDz/DSULUzvhxVQSlkVhKJmjq1Ev9DGg
+         +INL6VhOB56O4YJFvWX5C91oSTscTesA/rdCZhtR/1DDpaNyj0IfollTvTBOmBxJCaPi
+         +Ke9mmIpI37jdb0rXW8dgcGukyNNJmofoGHqh+8XIWmmMo60jT3S5wv90C3dtx2PWpYS
+         I0Jg==
+X-Gm-Message-State: ACgBeo0P+Gra8mBAlOKGNtix+YblxEN/Yk/BlvZkvwuA/R2kkJqVm1a+
+        9ONo/pC1szYHJ5qtKnkts3GSEgF4+JYgmg==
+X-Google-Smtp-Source: AA6agR4McFE7kFk21ae3mwT40DfQrXDhm+/AmmQfbaS42RIIm7LZvKeH/9Qx/wLvvvCjGAq1McqgIQ==
+X-Received: by 2002:a05:620a:12bc:b0:6bb:2f73:beab with SMTP id x28-20020a05620a12bc00b006bb2f73beabmr7845941qki.546.1660997260997;
+        Sat, 20 Aug 2022 05:07:40 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id n18-20020a05620a295200b006b9593e2f68sm6496432qkp.4.2022.08.20.05.07.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Aug 2022 05:07:40 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-3376851fe13so149793297b3.6;
+        Sat, 20 Aug 2022 05:07:39 -0700 (PDT)
+X-Received: by 2002:a81:f47:0:b0:31f:434b:5ee with SMTP id 68-20020a810f47000000b0031f434b05eemr12132492ywp.383.1660997259528;
+ Sat, 20 Aug 2022 05:07:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220819193944.337599-4-phil.edworthy@renesas.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220815151451.23293-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220815151451.23293-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <e9b00bb5-bb78-091f-9c10-96c156690469@microchip.com> <CAMuHMdUGttswcSGeOdrJLeoZLmoeKhm7R82L-3wLJnagmZ4dBA@mail.gmail.com>
+ <47cec683-dc17-7aa2-3511-b0244020d571@microchip.com>
+In-Reply-To: <47cec683-dc17-7aa2-3511-b0244020d571@microchip.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sat, 20 Aug 2022 14:07:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUSud4-0ercQe3cyg1RXqg4DKTfgvPh5wc8ibca6dyDKQ@mail.gmail.com>
+Message-ID: <CAMuHMdUSud4-0ercQe3cyg1RXqg4DKTfgvPh5wc8ibca6dyDKQ@mail.gmail.com>
+Subject: Re: [PATCH v2 5/8] riscv: dts: renesas: Add initial devicetree for
+ Renesas RZ/Five SoC
+To:     Conor Dooley <Conor.Dooley@microchip.com>
+Cc:     "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Anup Patel <anup@brainfault.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar Lad <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Phil,
+Hi Conor,
 
-Thank you for the patch! Yet something to improve:
+On Sat, Aug 20, 2022 at 10:49 AM <Conor.Dooley@microchip.com> wrote:
+> On 20/08/2022 09:45, Geert Uytterhoeven wrote:
+> > On Fri, Aug 19, 2022 at 8:40 PM <Conor.Dooley@microchip.com> wrote:
+> >> On 15/08/2022 16:14, Lad Prabhakar wrote:
+> >>> Add initial device tree for Renesas RZ/Five RISC-V CPU Core (AX45MP
+> >>> Single).
+> >>>
+> >>> Below is the list of IP blocks added in the initial SoC DTSI which can be
+> >>> used to boot via initramfs on RZ/Five SMARC EVK:
+> >>> - AX45MP CPU
+> >>> - CPG
+> >>> - PINCTRL
+> >>> - PLIC
+> >>> - SCIF0
+> >>> - SYSC
+> >>>
+> >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-[auto build test ERROR on geert-renesas-devel/next]
-[also build test ERROR on geert-renesas-drivers/renesas-clk linus/master v6.0-rc1 next-20220819]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >> That aside, by convention so far we have put things like extals or
+> >> reference clocks below the /cpus node. Could you do the same here too
+> >> please?
+> >
+> > Really? We've been putting them at the root node for a long time,
+> > since the separate "clocks" grouping subnode was deprecated.
+> > The extal-clk is not even part of the SoC, so it should definitely
+> > not be under the /cpus node.
+>
+> Under may have been a confusing choice of words, I meant "physically"
+> under it in the file. Maybe after would have been a better choice of
+> words? I wasn't suggesting you put it inside the CPUs node.
+> Does that make more sense?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Phil-Edworthy/Add-i2c-to-Renesas-RZ-V2M-SoC-and-board/20220820-034159
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-config: arm64-randconfig-r004-20220820 (https://download.01.org/0day-ci/archive/20220820/202208201751.koiuT1se-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 0ac597f3cacf60479ffd36b03766fa7462dabd78)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/4b130a56e73ba827a556422037fe7e3690a36b00
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Phil-Edworthy/Add-i2c-to-Renesas-RZ-V2M-SoC-and-board/20220820-034159
-        git checkout 4b130a56e73ba827a556422037fe7e3690a36b00
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+Oh right, you mean the order of the nodes. Yes, "extal-clk" should
+be after "cpus", following alphabetical sort order, as the nodes have no
+unit addresses.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Sorry for missing that in my review.  I also misread "below"
+(in Dutch there is only a single word for "below" and "under" ;-)
 
-All errors (new ones prefixed by >>):
+Gr{oetje,eeting}s,
 
->> Error: arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts:75.1-9 Label or path pinctrl not found
->> FATAL ERROR: Syntax error parsing input tree
+                        Geert
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
