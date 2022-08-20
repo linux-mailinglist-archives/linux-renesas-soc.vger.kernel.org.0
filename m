@@ -2,132 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B09259ADD3
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Aug 2022 14:09:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3688B59AFEC
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Aug 2022 21:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346147AbiHTMHp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 20 Aug 2022 08:07:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33788 "EHLO
+        id S229488AbiHTTeH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 20 Aug 2022 15:34:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346075AbiHTMHn (ORCPT
+        with ESMTP id S229809AbiHTTeG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 20 Aug 2022 08:07:43 -0400
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D5F89D8DC;
-        Sat, 20 Aug 2022 05:07:42 -0700 (PDT)
-Received: by mail-qk1-f172.google.com with SMTP id a15so4969230qko.4;
-        Sat, 20 Aug 2022 05:07:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=ZR3FjkuW5iiRmrC3UtyKJcWdpW3MmZDZj9swwhPKMYc=;
-        b=rp6S5kJjVnCfxZ5P9jvbRMsH3JlGSy9gU+JfOWDu3mLvKbRu73WMviujk4xjNfelX/
-         E1RFIToF1u2Mnnt/X1ryStwf1mWNwPOrc9NwnbGIFcFlKC5LcgmzcvEAUWXQvKu9DjrE
-         JglnmkFJJnsb/qJDuAGAeh+N7KgQqDyZbFLZrDz/DSULUzvhxVQSlkVhKJmjq1Ev9DGg
-         +INL6VhOB56O4YJFvWX5C91oSTscTesA/rdCZhtR/1DDpaNyj0IfollTvTBOmBxJCaPi
-         +Ke9mmIpI37jdb0rXW8dgcGukyNNJmofoGHqh+8XIWmmMo60jT3S5wv90C3dtx2PWpYS
-         I0Jg==
-X-Gm-Message-State: ACgBeo0P+Gra8mBAlOKGNtix+YblxEN/Yk/BlvZkvwuA/R2kkJqVm1a+
-        9ONo/pC1szYHJ5qtKnkts3GSEgF4+JYgmg==
-X-Google-Smtp-Source: AA6agR4McFE7kFk21ae3mwT40DfQrXDhm+/AmmQfbaS42RIIm7LZvKeH/9Qx/wLvvvCjGAq1McqgIQ==
-X-Received: by 2002:a05:620a:12bc:b0:6bb:2f73:beab with SMTP id x28-20020a05620a12bc00b006bb2f73beabmr7845941qki.546.1660997260997;
-        Sat, 20 Aug 2022 05:07:40 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id n18-20020a05620a295200b006b9593e2f68sm6496432qkp.4.2022.08.20.05.07.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 Aug 2022 05:07:40 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-3376851fe13so149793297b3.6;
-        Sat, 20 Aug 2022 05:07:39 -0700 (PDT)
-X-Received: by 2002:a81:f47:0:b0:31f:434b:5ee with SMTP id 68-20020a810f47000000b0031f434b05eemr12132492ywp.383.1660997259528;
- Sat, 20 Aug 2022 05:07:39 -0700 (PDT)
+        Sat, 20 Aug 2022 15:34:06 -0400
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B847A5FEA;
+        Sat, 20 Aug 2022 12:34:03 -0700 (PDT)
+Received: from [192.168.1.103] (178.176.79.13) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Sat, 20 Aug
+ 2022 22:33:45 +0300
+Subject: Re: [net-next 11/14] ptp: ravb: convert to .adjfine and
+ adjust_by_scaled_ppm
+To:     Jacob Keller <jacob.e.keller@intel.com>, <netdev@vger.kernel.org>
+CC:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Siva Reddy Kallam <siva.kallam@broadcom.com>,
+        Prashant Sreedharan <prashant@broadcom.com>,
+        Michael Chan <mchan@broadcom.com>,
+        Yisen Zhuang <yisen.zhuang@huawei.com>,
+        Salil Mehta <salil.mehta@huawei.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Tariq Toukan <tariqt@nvidia.com>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Bryan Whitehead <bryan.whitehead@microchip.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Vivek Thampi <vithampi@vmware.com>,
+        VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
+        Jie Wang <wangjie125@huawei.com>,
+        Guangbin Huang <huangguangbin2@huawei.com>,
+        Eran Ben Elisha <eranbe@nvidia.com>,
+        Aya Levin <ayal@nvidia.com>,
+        Cai Huoqing <cai.huoqing@linux.dev>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Wan Jiabing <wanjiabing@vivo.com>,
+        Lv Ruyi <lv.ruyi@zte.com.cn>, Arnd Bergmann <arnd@arndb.de>,
+        <linux-renesas-soc@vger.kernel.org>
+References: <20220818222742.1070935-1-jacob.e.keller@intel.com>
+ <20220818222742.1070935-12-jacob.e.keller@intel.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <0c7fdf31-3c81-2253-ef45-106ca099cac7@omp.ru>
+Date:   Sat, 20 Aug 2022 22:33:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20220815151451.23293-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220815151451.23293-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <e9b00bb5-bb78-091f-9c10-96c156690469@microchip.com> <CAMuHMdUGttswcSGeOdrJLeoZLmoeKhm7R82L-3wLJnagmZ4dBA@mail.gmail.com>
- <47cec683-dc17-7aa2-3511-b0244020d571@microchip.com>
-In-Reply-To: <47cec683-dc17-7aa2-3511-b0244020d571@microchip.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sat, 20 Aug 2022 14:07:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUSud4-0ercQe3cyg1RXqg4DKTfgvPh5wc8ibca6dyDKQ@mail.gmail.com>
-Message-ID: <CAMuHMdUSud4-0ercQe3cyg1RXqg4DKTfgvPh5wc8ibca6dyDKQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/8] riscv: dts: renesas: Add initial devicetree for
- Renesas RZ/Five SoC
-To:     Conor Dooley <Conor.Dooley@microchip.com>
-Cc:     "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Anup Patel <anup@brainfault.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar Lad <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20220818222742.1070935-12-jacob.e.keller@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [178.176.79.13]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 08/20/2022 19:17:08
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 172304 [Aug 20 2022]
+X-KSE-AntiSpam-Info: Version: 5.9.20.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 495 495 bb4e71e2e9e23696ab912b286436360a94c9b107
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.79.13 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info: d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.79.13
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 08/20/2022 19:19:00
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 8/20/2022 3:12:00 PM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Conor,
+Hello!
 
-On Sat, Aug 20, 2022 at 10:49 AM <Conor.Dooley@microchip.com> wrote:
-> On 20/08/2022 09:45, Geert Uytterhoeven wrote:
-> > On Fri, Aug 19, 2022 at 8:40 PM <Conor.Dooley@microchip.com> wrote:
-> >> On 15/08/2022 16:14, Lad Prabhakar wrote:
-> >>> Add initial device tree for Renesas RZ/Five RISC-V CPU Core (AX45MP
-> >>> Single).
-> >>>
-> >>> Below is the list of IP blocks added in the initial SoC DTSI which can be
-> >>> used to boot via initramfs on RZ/Five SMARC EVK:
-> >>> - AX45MP CPU
-> >>> - CPG
-> >>> - PINCTRL
-> >>> - PLIC
-> >>> - SCIF0
-> >>> - SYSC
-> >>>
-> >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 8/19/22 1:27 AM, Jacob Keller wrote:
 
-> >> That aside, by convention so far we have put things like extals or
-> >> reference clocks below the /cpus node. Could you do the same here too
-> >> please?
-> >
-> > Really? We've been putting them at the root node for a long time,
-> > since the separate "clocks" grouping subnode was deprecated.
-> > The extal-clk is not even part of the SoC, so it should definitely
-> > not be under the /cpus node.
->
-> Under may have been a confusing choice of words, I meant "physically"
-> under it in the file. Maybe after would have been a better choice of
-> words? I wasn't suggesting you put it inside the CPUs node.
-> Does that make more sense?
+> The ravb implementation of .adjfreq is implemented in terms of a
+> straight forward "base * ppb / 1 billion" calculation.
+> 
+> Convert this driver to .adjfine and use the adjust_by_scaled_ppm helper
+> function to calculate the new addend.
+> 
+> Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
+> Cc: Sergey Shtylyov <s.shtylyov@omp.ru>
+> Cc: Biju Das <biju.das.jz@bp.renesas.com>
+> Cc: Phil Edworthy <phil.edworthy@renesas.com>
+> Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> 
+> I do not have this hardware, and have only compile tested the change.
+> 
+>  drivers/net/ethernet/renesas/ravb_ptp.c | 16 +++++-----------
+>  1 file changed, 5 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb_ptp.c b/drivers/net/ethernet/renesas/ravb_ptp.c
+> index 87c4306d66ec..941aa3b0e8a0 100644
+> --- a/drivers/net/ethernet/renesas/ravb_ptp.c
+> +++ b/drivers/net/ethernet/renesas/ravb_ptp.c
+> @@ -88,24 +88,18 @@ static int ravb_ptp_update_compare(struct ravb_private *priv, u32 ns)
+>  }
+>  
+>  /* PTP clock operations */
+> -static int ravb_ptp_adjfreq(struct ptp_clock_info *ptp, s32 ppb)
+> +static int ravb_ptp_adjfine(struct ptp_clock_info *ptp, long scaled_ppm)
+>  {
+>  	struct ravb_private *priv = container_of(ptp, struct ravb_private,
+>  						 ptp.info);
+>  	struct net_device *ndev = priv->ndev;
+>  	unsigned long flags;
+> -	u32 diff, addend;
+> -	bool neg_adj = false;
+> +	u32 addend;
+>  	u32 gccr;
+>  
+> -	if (ppb < 0) {
+> -		neg_adj = true;
+> -		ppb = -ppb;
+> -	}
+>  	addend = priv->ptp.default_addend;
 
-Oh right, you mean the order of the nodes. Yes, "extal-clk" should
-be after "cpus", following alphabetical sort order, as the nodes have no
-unit addresses.
+   I don't think we should keep this line -- it has no effect now...
 
-Sorry for missing that in my review.  I also misread "below"
-(in Dutch there is only a single word for "below" and "under" ;-)
+> -	diff = div_u64((u64)addend * ppb, NSEC_PER_SEC);
+> -
+> -	addend = neg_adj ? addend - diff : addend + diff;
+> +	addend = (u32)adjust_by_scaled_ppm(priv->ptp.default_addend,
+> +					   scaled_ppm);
+>  
+>  	spin_lock_irqsave(&priv->lock, flags);
+>  
+[...]
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+MBR, Sergey
