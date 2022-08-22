@@ -2,113 +2,186 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33E0E59C14B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Aug 2022 16:05:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 625E559C17F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Aug 2022 16:17:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232994AbiHVOFY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Aug 2022 10:05:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53964 "EHLO
+        id S235500AbiHVOQN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Aug 2022 10:16:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235230AbiHVOFX (ORCPT
+        with ESMTP id S235375AbiHVOQM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Aug 2022 10:05:23 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7E912A95C
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Aug 2022 07:05:22 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E724B3F1;
-        Mon, 22 Aug 2022 16:05:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661177121;
-        bh=GyCZuyIXJ0qtdiZ8HUBnTpA4LE55f8z67NzyIC4JDmo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UheXW6mF0eKs0BHJEWMf/4W6dqG0iO/ePzL8iyDkJsaaA9BTPUludxaad2RGSX8SV
-         jaSz1S6LIHbIyWoZ83qdhLx/sBa0h0Ol0ompsPX5HWgF5qIh4fLkfYlEfHCesobXkS
-         pBbqMMY7kPGW3NHyxfcnhfw/Z1629NrXlHOIBheI=
-Date:   Mon, 22 Aug 2022 17:05:17 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 2/4] drm: rcar-du: dsi: Improve DSI shutdown
-Message-ID: <YwONHTkBjVSQ47ek@pendragon.ideasonboard.com>
+        Mon, 22 Aug 2022 10:16:12 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2094.outbound.protection.outlook.com [40.107.113.94])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE31A2CC86
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Aug 2022 07:16:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZaJGx3nNEWwolSuWE/Ljk+xBsR5OfvV6UpBZwRPLd4dq9yKuJwJan4GhkyCyWIWZFVStqw/VwtHQjZroibQ1vj3ORcx6fow7puEQ3X5T4EzrQM7jMowzflTeNgV2sOr+uqmI+sNFjhpJ3gJ2IJIM0/IYw6g0NsJUN3MED+G0QHFMFGwoaR+4gOLyh1HgggFAu3O/L7InDcSTEkoNVea/mw+1OhVy3I+P/mZlQu6bYE2gCK1gn5VAaE01RVIygQ+nCuRm8PSaAx7YMU0voOZdbnaJLzkAI8KecTJCKIwXKrbTq5WBAt0OXeyw0HaMBI1bs6jK1yD+EcrLiOI8msFLLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qJLUElvaLyV1WPmfkADiYzeUtJiZTa5sl+wYlsqNcMw=;
+ b=oJUylj5GhvtqbwYhcbpBAYPNleNTNm+6WMTkjOpUPZrbPIpjOgclMygUZdzXbFK99E0lUY9VR85McyHwuz43cMb1FTICKt/S3A9QVcn2mU8xYHkFOSUJvrrC1QyUihAwrqZXju8g7D92Hhy7waexraGVO6JFFVUB0gfVYiEXco8YozFYfUvP4yANmM1zImOKnTtYh+qpD+GrAO7iB4n4FsX2NofjYliJfVXG9MCONpQVGO+SBx1S6kOV9oJ8Xan7Y+L1HUA2RvJLRltszV+rpR6dACveMuxxYPtImnS23Ae5pQwK8/HszY4ixSVd7+vwOSCv5b4dedwHU0camRwUHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qJLUElvaLyV1WPmfkADiYzeUtJiZTa5sl+wYlsqNcMw=;
+ b=GlWGUAopX/e/pLZvhqoBl7vz2dYRKQfAtYhj0LbWZt93+y0x750kAAPKXrXThnmPl0y54cfKGKeBHAyEZ52O3AGYNlkXoIYWSODk0EtQP1i2TREIZH/FBe31xTO1bQo0R74s4qkKyjWVHzRLZpE34jxx+76jc7pf/QMGTyj8ldQ=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OSAPR01MB2898.jpnprd01.prod.outlook.com (2603:1096:603:3e::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.21; Mon, 22 Aug
+ 2022 14:16:08 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::14d3:5079:9de1:ceaf]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::14d3:5079:9de1:ceaf%3]) with mapi id 15.20.5546.023; Mon, 22 Aug 2022
+ 14:16:08 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+CC:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: RE: [PATCH v2 1/4] drm: rcar-du: dsi: Properly stop video mode TX
+Thread-Topic: [PATCH v2 1/4] drm: rcar-du: dsi: Properly stop video mode TX
+Thread-Index: AQHYtigCmDMb7ZOlxE2fJo+Yvz7sB6266IdggAAKWICAAAMqQA==
+Date:   Mon, 22 Aug 2022 14:16:08 +0000
+Message-ID: <OS0PR01MB5922D6D9A9AB4B7EB1561AE086719@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 References: <20220822130513.119029-1-tomi.valkeinen@ideasonboard.com>
- <20220822130513.119029-3-tomi.valkeinen@ideasonboard.com>
- <YwOCmqcZfU4zfr3D@pendragon.ideasonboard.com>
- <38c3ce75-2dcd-38e4-0e05-151ac3faf24c@ideasonboard.com>
+ <20220822130513.119029-2-tomi.valkeinen@ideasonboard.com>
+ <OS0PR01MB5922058F5712CA3367AFEAE186719@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <058337c0-ff8b-0cb4-b6eb-192e78cbeda3@ideasonboard.com>
+In-Reply-To: <058337c0-ff8b-0cb4-b6eb-192e78cbeda3@ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2a9e0e0c-bb4a-4d0a-107c-08da8448dba0
+x-ms-traffictypediagnostic: OSAPR01MB2898:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: w4DDjPl+TxEordNfnryiGzAsAeAj3wAwNxK8j87xM2WvY1TQYzstLviOVUu4Nl6nupDYj3yFilniPEyQrDY0tJUcN5ng1kDDh8xtNzpBAh4z9yDVgK/Hq7xX/rmYkFO5qsgcQ0ElaSYmR9PF1YRiAZwdcMclOj5B5GWuTAWhvG9huLxz1M8SmYoCAupfZjTxAJ//FPLhETLE+jtHFck7i8hXubn0acd9REQ5qJytmTi+oHC1TBm8HL9jXO22/fz02+A+4x8O67NHiQb6a6VNMN5B/67swbb+HtR6RnEOmWLFErQLPoRegFdfUGwK8CQYMzv+JccECIinvcLcuzSVjcdPmJGMHL8u9ma4KbMFL7JeZkdbMy/pRaahsXqnz7BEPK0+BxehT7Ujr5I/IYCZg6ZmgllxI/0VK+ks6bS79yJpAMOC9alR60pGNI4smOAz9y9lwtXQ7RdfggcjLnHvYli24X5pPlC5Uly6nXaDzgAbIXMg4j0zABKfDUmQuOsZddqXb2zxZBW1HqDnV/yIT7Ghe7zm9W62o/PUJKLu+ewscIRl0g8woGctuXVNyKdPUAX9lTFNB3iRvjrJ5JH2P1ef2dUntQBQnHxxLCV5o7yBJYBxiDvRium9qO/l77EE19YEB9n0FlhAyKQFkD2BY4nXLpF9VF6ow89nnbL7Sc4XnUJ3Rt6dEc4czCAO21IFqQ16yLti/UZ849R5mcubg/8GCAGn4tOx3HtmukkDZ/2e9YnTAKOhrZY9cJc1swdlyZTGLC5LyQ9UB63wdMI9OA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(366004)(346002)(396003)(376002)(136003)(86362001)(83380400001)(122000001)(38070700005)(38100700002)(316002)(110136005)(6506007)(8936002)(66556008)(5660300002)(52536014)(76116006)(66946007)(66476007)(66446008)(64756008)(2906002)(4326008)(8676002)(186003)(55016003)(478600001)(41300700001)(71200400001)(7696005)(53546011)(33656002)(26005)(9686003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?KzRRclg4U0R0TFBUcmtDOGd0NjdlZnBTUnZweXVISHFtQ0hGUGF1QmE0eHpC?=
+ =?utf-8?B?Ynd4cEJvVjVPTU1qRlNFTUxYcXY1UENjaC9iOVBSNklzRnZscGtZRGs5VmVE?=
+ =?utf-8?B?Sk4zQzloWUpWcnRiUkZvdnNzdW5EWE0wdW1Dcy9mNDlGdnd3ZTVHczFVRmU3?=
+ =?utf-8?B?RTNOc3Q0M2F1Zjl5ckptREJGRXEwdUd4NTRNYW1vVHg0blFFUnJDclgyUHNE?=
+ =?utf-8?B?ZzE4RGtUWXdvdTV1OHJUWDZQZ0JsUzQ1S1VVQVZGRWsreUlVQXZWWGtKZHk2?=
+ =?utf-8?B?V1NpSDhzeEs3N1VoeDZhOU50MndRWVh2bGoxWE8zak8yVmpPajZkRmIxc29G?=
+ =?utf-8?B?VXFKSjBUemhUQm9OTTJrVFphSm5UV2g4Tmtaa0J4RkhLQjhIRURid0pBK0hQ?=
+ =?utf-8?B?aDkwbUh0VFNjTzNYSmhHcW5hU2hvbGlkZGNBcjJ1QUVlbFUrK20rejBkRU5V?=
+ =?utf-8?B?RTNsQVpUSnZFcWpSZXdISGdaNSt3ZXNPbFh0aEtKT1NtVzZWc1UwZDhsK0lH?=
+ =?utf-8?B?Z3djd3BzSmlEend2c0J5aEFIWU1MaVkzYkVWK09kM2d3OGZwZmI1SFR6SnYz?=
+ =?utf-8?B?TEVPQ0tmdDNGVElucFA3bDUvcnJ1NEFBNlVHY2Fpd0dDN2JCMWFNQ012eXU0?=
+ =?utf-8?B?U3M4eGFKc3h3VHJRS0VVb0Q0UnBtLzROeTJuR3hGSDZVeDlJTFo5b3FXYkdh?=
+ =?utf-8?B?R0ZmcG5tTFJKSHBxMk9ZSktPamoraXVTWjlJQzBlWWYzd2tCTkRrVTJieWFw?=
+ =?utf-8?B?cWN4emFNbEl1TkhxOURxTjlTLzFZWm0ya0wySnBmdmRtbzRsVXpDSkpIZ2I2?=
+ =?utf-8?B?WkloNXpXbFpjOXhyVDdWS2daYTRRbFZncmdJQjF6UU05UjhacXhGWlZ1cVVG?=
+ =?utf-8?B?eEYwazNjb3lrRTBITjZESFdLSXM5Tyt5azcwZWxTM0ZadTAxNGVtcGVhVUt3?=
+ =?utf-8?B?STF2UG9aRk8vbUx2MG9PaFU1QkN6amRWNWF3YXlIWUg2UnB3NHhQMWtnMVpv?=
+ =?utf-8?B?Zy8rS2ZUb3Y0aFBYV0J5T2NYUGJySUR4dWp5UEtIQjl0OCtpZ0c3N2hrQTJW?=
+ =?utf-8?B?VkQwSEh6Mk9rbmFJMHN0YVdwd1htaXFKYjY3WnUyMXV3YnE0Uno4bW1BcTBH?=
+ =?utf-8?B?UUx4dXp3WDZNWVFxZ24xbGFtY0hZcnFpdXdLWFoyUE5OQ0tLVnNrOGNuMzgv?=
+ =?utf-8?B?Z1RQVGR1K3g4WmpObVllaXNmcFZ3SEFySGtNdE5PeVlkYUxFSExtZEMyNTBX?=
+ =?utf-8?B?dFl6aXlqZ2xYcXE4aWttU1VYaTkyWE9zd3J2ZjJhY3RFbUc1SitNWW05aC9a?=
+ =?utf-8?B?VnVNdldUT2VZOWZHa3RkMG02YnpERkF0ZzYvWE5QOHY0dEQ1UTVUZmNtQW5E?=
+ =?utf-8?B?bWkvdnNmalZ3aUZUOEpVNW1ZaHRrcVlrc0lqU3haUEMzNXJnbTBQbXhUczhl?=
+ =?utf-8?B?cjVKODRFTU9mVUFSdDhIZkxEQzJxVTlMRkJER25wYmdMTTF5RnFRUzFCOW0x?=
+ =?utf-8?B?a2MwQVlReTNINDVKdm1jQjNlM2pKTzNQRlhiNUl4VmhZZUVxalYwOHZwdWdV?=
+ =?utf-8?B?N2IycGt1ZmFEMlR3Wmw5a3dZb3ZMVWUrMGhFWDhhMmR3ZWxlbWJPVnQxNVZt?=
+ =?utf-8?B?MGxuQ3JuK2ZoV2tTYlVQbVVreC9RY0R5NlJ2VWkyR1ZZaW9pbFAvQnMycEcw?=
+ =?utf-8?B?R2h1MU95ZVMwOFNvSDR4NFpndnBKb3YzQmUrNThRZjVwV3NoRWdzd3BXYlU3?=
+ =?utf-8?B?WktGaEp5TDlCQXBTa2krRWs0ZWxHc2pWdThDa0dkMjRwMVdYak5JZ0ZVZVFl?=
+ =?utf-8?B?ZEk0RXA5d2JCNm5IbEdDUEMrNUZ4M0t2SXNaUDA5My90aXV5cXh5amRBS2l0?=
+ =?utf-8?B?aXdyTlpGOEJyd0VKa2t4NGY0eHlyL2lFVU9NQ1ZTNkVGdDBockVDMWtEdFdy?=
+ =?utf-8?B?T2gxV3l5dG4yS2djbGN3VHNja2R2dDVSTzA4b3BwMkZKbndJM2ZWVGVvdXlK?=
+ =?utf-8?B?LzZOK21qRmlmTE1DK0UzekJDckVnN3h2ZjRlaDdFTlJDNFBTV1JEQnZMbzE2?=
+ =?utf-8?B?aUhaZG1FN0pOSmExNDRzd1VMVjZMTStJRlFMcHR5Q0IyMURrRjRRUGNCMGlN?=
+ =?utf-8?B?SWhNOFBQeXFpc0JTMG5jajA1UHlyZGVaZzV0bW5MZ25GMm15ZGZ1NjU1U2pN?=
+ =?utf-8?B?RkE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <38c3ce75-2dcd-38e4-0e05-151ac3faf24c@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a9e0e0c-bb4a-4d0a-107c-08da8448dba0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2022 14:16:08.2933
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PmgFDoxhR7mjcE8y1aPboCptJ3ezMvusFnJ3ab7IHP+IRC4odaJvtl9aqsFormllsRWwmFbNuIkkFP9p0eNJsgk75N2NluaLHkHoGTXGDgI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB2898
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Aug 22, 2022 at 04:49:02PM +0300, Tomi Valkeinen wrote:
-> On 22/08/2022 16:20, Laurent Pinchart wrote:
-> > Hi Tomi,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Mon, Aug 22, 2022 at 04:05:10PM +0300, Tomi Valkeinen wrote:
-> >> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >>
-> >> Improve the DSI shutdown procedure by clearing various bits that were
-> >> set while enabling the DSI output. There has been no clear issues caused
-> >> by these, but it's safer to ensure that the features are disabled at the
-> >> start of the next DSI enable.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >> ---
-> >>   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 12 ++++++++++++
-> >>   1 file changed, 12 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> >> index 7f2be490fcf8..6a10a35f1122 100644
-> >> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> >> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> >> @@ -441,9 +441,21 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
-> >>   
-> >>   static void rcar_mipi_dsi_shutdown(struct rcar_mipi_dsi *dsi)
-> >>   {
-> >> +	/* Disable VCLKEN */
-> >> +	rcar_mipi_dsi_clr(dsi, VCLKEN, VCLKEN_CKEN);
-> >> +
-> >> +	/* Disable DOT clock */
-> >> +	rcar_mipi_dsi_clr(dsi, VCLKSET, VCLKSET_CKEN);
-> > 
-> > I think you can write 0 to those two registers, this will also be safer.
-> > With this,
-> 
-> VCLKEN has only the single VCLKEN_CKEN bit and the rest of the bits are 
-> reserved with default value of 0, however VCLKSET has other fields and 
-> the default value of those fields is not 0.
-
-But the two fields whose default value isn't 0 are set in the startup()
-function (albeit incorrectly as discussed below), so it should be fine.
-
-> Why do you think it's safer to set the whole register to 0? Isn't it 
-> better to just do what we want to do, which makes the purpose clear and, 
-> I think, is safer as we don't touch bits we don't know about?
-
-Because it will ensure that we don't get surprises when we later restart
-the device, such as mentioned below :-)
-
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > I think there's a bug in rcar_mipi_dsi_startup() related to this by the
-> > way, the function only uses rcar_mipi_dsi_set() to set bits, so if the
-> > DSI format is modified between two starts, bad things will happen.
-> 
-> Oh, that's bad. rcar_mipi_dsi_set() is not a very good function as it's 
-> easy to misuse it like that. I'll make a fix for that.
--- 
-Regards,
-
-Laurent Pinchart
+SGksDQoNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MiAxLzRdIGRybTogcmNhci1kdTogZHNpOiBQ
+cm9wZXJseSBzdG9wIHZpZGVvIG1vZGUNCj4gVFgNCj4gDQo+IEhpLA0KPiANCj4gT24gMjIvMDgv
+MjAyMiAxNjoyNSwgQmlqdSBEYXMgd3JvdGU6DQo+ID4gSGkgVG9taSwNCj4gPg0KPiA+IFRoYW5r
+cyBmb3IgdGhlIHBhdGNoLg0KPiA+DQo+ID4+IFN1YmplY3Q6IFtQQVRDSCB2MiAxLzRdIGRybTog
+cmNhci1kdTogZHNpOiBQcm9wZXJseSBzdG9wIHZpZGVvIG1vZGUNCj4gPj4gVFgNCj4gPj4NCj4g
+Pj4gRnJvbTogVG9taSBWYWxrZWluZW4gPHRvbWkudmFsa2VpbmVuK3JlbmVzYXNAaWRlYXNvbmJv
+YXJkLmNvbT4NCj4gPj4NCj4gPj4gVGhlIGRyaXZlciBkb2VzIG5vdCBleHBsaWNpdGx5IHN0b3Ag
+dGhlIHZpZGVvIG1vZGUgdHJhbnNtaXNzaW9uIHdoZW4NCj4gPj4gZGlzYWJsaW5nIHRoZSBvdXRw
+dXQuIFdoaWxlIHRoaXMgZG9lc24ndCBzZWVtIHRvIGJlIGNhdXNpbmcgYW55DQo+ID4+IGlzc3Vl
+cywgbGV0cyBmb2xsb3cgdGhlIHN0ZXBzIGRlc2NyaWJlZCBpbiB0aGUgZG9jdW1lbnRhdGlvbiBh
+bmQgYWRkDQo+ID4+IGENCj4gPj4gcmNhcl9taXBpX2RzaV9zdG9wX3ZpZGVvKCkgd2hpY2ggc3Rv
+cCB0aGUgdmlkZW8gbW9kZSB0cmFuc21pc3Npb24uDQo+ID4+IFRoaXMgZnVuY3Rpb24gd2lsbCBh
+bHNvIGJlIHVzZWQgaW4gbGF0ZXIgcGF0Y2hlcyB0byBzdG9wIHRoZSB2aWRlbw0KPiA+PiB0cmFu
+c21pc3Npb24gZXZlbiBpZiB0aGUgRFNJIElQIGlzIG5vdCBzaHV0IGRvd24uDQo+ID4+DQo+ID4+
+IFNpZ25lZC1vZmYtYnk6IFRvbWkgVmFsa2VpbmVuDQo+ID4+IDx0b21pLnZhbGtlaW5lbityZW5l
+c2FzQGlkZWFzb25ib2FyZC5jb20+DQo+ID4+IC0tLQ0KPiA+PiAgIGRyaXZlcnMvZ3B1L2RybS9y
+Y2FyLWR1L3JjYXJfbWlwaV9kc2kuYyB8IDI5DQo+ICsrKysrKysrKysrKysrKysrKysrKysrKysN
+Cj4gPj4gICAxIGZpbGUgY2hhbmdlZCwgMjkgaW5zZXJ0aW9ucygrKQ0KPiA+Pg0KPiA+PiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9taXBpX2RzaS5jDQo+ID4+IGIv
+ZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9taXBpX2RzaS5jDQo+ID4+IGluZGV4IDYyZjdl
+Yjg0YWIwMS4uN2YyYmU0OTBmY2Y4IDEwMDY0NA0KPiA+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+cmNhci1kdS9yY2FyX21pcGlfZHNpLmMNCj4gPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JjYXIt
+ZHUvcmNhcl9taXBpX2RzaS5jDQo+ID4+IEBAIC01NDIsNiArNTQyLDM0IEBAIHN0YXRpYyBpbnQg
+cmNhcl9taXBpX2RzaV9zdGFydF92aWRlbyhzdHJ1Y3QNCj4gPj4gcmNhcl9taXBpX2RzaSAqZHNp
+KQ0KPiA+PiAgIAlyZXR1cm4gMDsNCj4gPj4gICB9DQo+ID4+DQo+ID4+ICtzdGF0aWMgdm9pZCBy
+Y2FyX21pcGlfZHNpX3N0b3BfdmlkZW8oc3RydWN0IHJjYXJfbWlwaV9kc2kgKmRzaSkgew0KPiA+
+PiArCXUzMiBzdGF0dXM7DQo+ID4+ICsJaW50IHJldDsNCj4gPj4gKw0KPiA+PiArCS8qIERpc2Fi
+bGUgdHJhbnNtaXNzaW9uIGluIHZpZGVvIG1vZGUuICovDQo+ID4+ICsJcmNhcl9taXBpX2RzaV9j
+bHIoZHNpLCBUWFZNQ1IsIFRYVk1DUl9FTl9WSURFTyk7DQo+ID4+ICsNCj4gPj4gKwlyZXQgPSBy
+ZWFkX3BvbGxfdGltZW91dChyY2FyX21pcGlfZHNpX3JlYWQsIHN0YXR1cywNCj4gPj4gKwkJCQkh
+KHN0YXR1cyAmIFRYVk1TUl9BQ1QpLA0KPiA+PiArCQkJCTIwMDAsIDEwMDAwMCwgZmFsc2UsIGRz
+aSwgVFhWTVNSKTsNCj4gPj4gKwlpZiAocmV0IDwgMCkgew0KPiA+PiArCQlkZXZfZXJyKGRzaS0+
+ZGV2LCAiRmFpbGVkIHRvIGRpc2FibGUgdmlkZW8gdHJhbnNtaXNzaW9uXG4iKTsNCj4gPj4gKwkJ
+cmV0dXJuOw0KPiA+PiArCX0NCj4gPj4gKw0KPiA+PiArCS8qIEFzc2VydCB2aWRlbyBGSUZPIGNs
+ZWFyLiAqLw0KPiA+PiArCXJjYXJfbWlwaV9kc2lfc2V0KGRzaSwgVFhWTUNSLCBUWFZNQ1JfVkZD
+TFIpOw0KPiA+PiArDQo+ID4+ICsJcmV0ID0gcmVhZF9wb2xsX3RpbWVvdXQocmNhcl9taXBpX2Rz
+aV9yZWFkLCBzdGF0dXMsDQo+ID4+ICsJCQkJIShzdGF0dXMgJiBUWFZNU1JfVkZSRFkpLA0KPiA+
+PiArCQkJCTIwMDAsIDEwMDAwMCwgZmFsc2UsIGRzaSwgVFhWTVNSKTsNCj4gPj4gKwlpZiAocmV0
+IDwgMCkgew0KPiA+PiArCQlkZXZfZXJyKGRzaS0+ZGV2LCAiRmFpbGVkIHRvIGFzc2VydCB2aWRl
+byBGSUZPIGNsZWFyXG4iKTsNCj4gPj4gKwkJcmV0dXJuOw0KPiA+DQo+ID4gVGhpcyByZXR1cm4g
+aXMgbm90IHJlcXVpcmVkLg0KPiANCj4gVGhhdCBpcyB0cnVlLCBidXQgSSdkIHBlcnNvbmFsbHkg
+cmF0aGVyIGtlZXAgaXQgdGhlcmUuIElmIHRoZSByZXR1cm4gaXMNCj4gcmVtb3ZlZCwgSSBjYW4g
+aW1hZ2luZSBob3cgZWFzaWx5IG9uZSBjb3VsZCBhZGQgYSBuZXcgcGllY2Ugb2YgY29kZSBpbg0K
+PiB0aGUgZW5kIG9mIHRoZSBmdW5jdGlvbiwgbm90IHJlYWxpemluZyB0aGF0IG9uZSBhbHNvIG5l
+ZWRzIHRvIGFkZCBhDQo+IHJldHVybiAodGhlIG9uZSBhYm92ZSkgc28gdGhhdCB0aGUgY29kZSB3
+b3JrcyBjb3JyZWN0bHkuDQo+IA0KPiBJdCBqdXN0IGZlZWxzIGEgYml0IHNhZmVyIHRoaXMgd2F5
+Lg0KDQpPSywgSSBqdXN0IHRob3VnaHQgb2YgcmVkdWNpbmcgbnVtYmVyIG9mIGxpbmVzIGFuZCBy
+ZW1vdmUgdW53YW50ZWQgY29kZQ0KQXMgcmV0dXJuIHR5cGUgaXMgdm9pZC4NCg0KaWYgKHJldCA8
+IDApDQogIGRldl9lcnIoZHNpLT5kZXYsICJGYWlsZWQgdG8gYXNzZXJ0IHZpZGVvIEZJRk8gY2xl
+YXJcbiIpOw0KDQpBbnkgd2F5IHRoZXJlIGlzIGEgcmV2aWV3IHByb2Nlc3Mgd2hpY2ggd2lsbCBj
+YXB0dXJlIHRoZSBpc3N1ZSB5b3UgbWVudGlvbmVkLg0KDQpJIGFtIG9rIHdpdGggeW91ciBzdGF0
+ZW1lbnQuDQoNCkNoZWVycywNCkJpanUNCg==
