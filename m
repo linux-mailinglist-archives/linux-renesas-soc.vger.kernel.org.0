@@ -2,43 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7526B59C047
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Aug 2022 15:13:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6E3A59C061
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Aug 2022 15:20:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234692AbiHVNMd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Aug 2022 09:12:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52180 "EHLO
+        id S232132AbiHVNUe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Aug 2022 09:20:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234371AbiHVNMc (ORCPT
+        with ESMTP id S234750AbiHVNUc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Aug 2022 09:12:32 -0400
+        Mon, 22 Aug 2022 09:20:32 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2516356F3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Aug 2022 06:12:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5BE124F24
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Aug 2022 06:20:31 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07E142B3;
-        Mon, 22 Aug 2022 15:12:29 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B73B2B3;
+        Mon, 22 Aug 2022 15:20:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661173950;
-        bh=zTVbt7EriLZawrLej2Zumg9jMLXLeci7B56ylDRblYg=;
+        s=mail; t=1661174430;
+        bh=T3xjb+9Jx29xj6VPguf1lXxrZ++lLKuha4NYqNKcs48=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Z5yt8ut8RpG2Kz7TZCxYKqO1RgAzCLOpPtCaNCuVkb4rxywqarbO9oasc9RxS495z
-         /Xx/pRqiTWrnrKyqRGgfRgYODdzAAIP6CZ+roHAkV/SR6bceRTENmNCvUuIHNqNUe6
-         vQaZk/3HgEtMDWWdhRaBOLtbsthvxx12YzA7cMIU=
-Date:   Mon, 22 Aug 2022 16:12:26 +0300
+        b=XScdmiSfT/cY7RPPh5ccp81wWZCFld9+FsSN0k2yHXbxBNT1LVZvbVEkcYZO7474v
+         c1L74SNGSqRpLyciKS2Acu4we+gwFnb2LHVVBn4X3tW0DLMdi9MNv0oUIJRLZTQyPh
+         Xsh4pULi3BPfG+1STGwc5JHvtWPSozCTo8TauUZM=
+Date:   Mon, 22 Aug 2022 16:20:26 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 1/4] drm: rcar-du: dsi: Properly stop video mode TX
-Message-ID: <YwOAupzlJFVGGsY9@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 2/4] drm: rcar-du: dsi: Improve DSI shutdown
+Message-ID: <YwOCmqcZfU4zfr3D@pendragon.ideasonboard.com>
 References: <20220822130513.119029-1-tomi.valkeinen@ideasonboard.com>
- <20220822130513.119029-2-tomi.valkeinen@ideasonboard.com>
+ <20220822130513.119029-3-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220822130513.119029-2-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20220822130513.119029-3-tomi.valkeinen@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -52,71 +52,55 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Mon, Aug 22, 2022 at 04:05:09PM +0300, Tomi Valkeinen wrote:
+On Mon, Aug 22, 2022 at 04:05:10PM +0300, Tomi Valkeinen wrote:
 > From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > 
-> The driver does not explicitly stop the video mode transmission when
-> disabling the output. While this doesn't seem to be causing any issues,
-> lets follow the steps described in the documentation and add a
-> rcar_mipi_dsi_stop_video() which stop the video mode transmission. This
-> function will also be used in later patches to stop the video
-> transmission even if the DSI IP is not shut down.
+> Improve the DSI shutdown procedure by clearing various bits that were
+> set while enabling the DSI output. There has been no clear issues caused
+> by these, but it's safer to ensure that the features are disabled at the
+> start of the next DSI enable.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> index 7f2be490fcf8..6a10a35f1122 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> @@ -441,9 +441,21 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+>  
+>  static void rcar_mipi_dsi_shutdown(struct rcar_mipi_dsi *dsi)
+>  {
+> +	/* Disable VCLKEN */
+> +	rcar_mipi_dsi_clr(dsi, VCLKEN, VCLKEN_CKEN);
+> +
+> +	/* Disable DOT clock */
+> +	rcar_mipi_dsi_clr(dsi, VCLKSET, VCLKSET_CKEN);
+
+I think you can write 0 to those two registers, this will also be safer.
+With this,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 29 +++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> index 62f7eb84ab01..7f2be490fcf8 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> @@ -542,6 +542,34 @@ static int rcar_mipi_dsi_start_video(struct rcar_mipi_dsi *dsi)
->  	return 0;
+I think there's a bug in rcar_mipi_dsi_startup() related to this by the
+way, the function only uses rcar_mipi_dsi_set() to set bits, so if the
+DSI format is modified between two starts, bad things will happen.
+
+> +
+>  	rcar_mipi_dsi_clr(dsi, PHYSETUP, PHYSETUP_RSTZ);
+>  	rcar_mipi_dsi_clr(dsi, PHYSETUP, PHYSETUP_SHUTDOWNZ);
+>  
+> +	/* CFGCLK disable */
+> +	rcar_mipi_dsi_clr(dsi, CFGCLKSET, CFGCLKSET_CKEN);
+> +
+> +	/* LPCLK disable */
+> +	rcar_mipi_dsi_clr(dsi, LPCLKSET, LPCLKSET_CKEN);
+> +
+>  	dev_dbg(dsi->dev, "DSI device is shutdown\n");
 >  }
 >  
-> +static void rcar_mipi_dsi_stop_video(struct rcar_mipi_dsi *dsi)
-> +{
-> +	u32 status;
-> +	int ret;
-> +
-> +	/* Disable transmission in video mode. */
-> +	rcar_mipi_dsi_clr(dsi, TXVMCR, TXVMCR_EN_VIDEO);
-> +
-> +	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-> +				!(status & TXVMSR_ACT),
-> +				2000, 100000, false, dsi, TXVMSR);
-> +	if (ret < 0) {
-> +		dev_err(dsi->dev, "Failed to disable video transmission\n");
-> +		return;
-> +	}
-> +
-> +	/* Assert video FIFO clear. */
-> +	rcar_mipi_dsi_set(dsi, TXVMCR, TXVMCR_VFCLR);
-> +
-> +	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-> +				!(status & TXVMSR_VFRDY),
-> +				2000, 100000, false, dsi, TXVMSR);
-> +	if (ret < 0) {
-> +		dev_err(dsi->dev, "Failed to assert video FIFO clear\n");
-> +		return;
-> +	}
-> +}
-> +
->  /* -----------------------------------------------------------------------------
->   * Bridge
->   */
-> @@ -601,6 +629,7 @@ static void rcar_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
->  {
->  	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
->  
-> +	rcar_mipi_dsi_stop_video(dsi);
->  	rcar_mipi_dsi_shutdown(dsi);
->  	rcar_mipi_dsi_clk_disable(dsi);
->  }
 
 -- 
 Regards,
