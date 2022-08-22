@@ -2,109 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DDF459BD75
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Aug 2022 12:17:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2621859BE5B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Aug 2022 13:21:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234588AbiHVKRq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Aug 2022 06:17:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43428 "EHLO
+        id S233777AbiHVLUr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Aug 2022 07:20:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232331AbiHVKRo (ORCPT
+        with ESMTP id S232953AbiHVLUq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Aug 2022 06:17:44 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 785821900B
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Aug 2022 03:17:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=p/3m1RENY0wEfuDWtTgs8bWO8nYt
-        MJlYqWQ3Im9V8gE=; b=S6iDa+GXpoQk16XCZ46qbPtoeztqUvPOZWpOC4JLDPgx
-        Ctcr0khkhUkwas4hDC7IPRUTZg/sJYP21ohvV1nZZ8MIjQa20geNO39XUHmrQeqI
-        GuAVk3ZIwSIcjQG7xJSuWqkjbO3/C/iBD/N1MYT9Jyi0qaBcWsr6OWrXn6JuVN8=
-Received: (qmail 1245393 invoked from network); 22 Aug 2022 12:17:39 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Aug 2022 12:17:39 +0200
-X-UD-Smtp-Session: l3s3148p1@9c/gwdHmSosgAwDPXxw3AFlguiwjsjwa
-Date:   Mon, 22 Aug 2022 12:17:38 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a779f0: Add TMU nodes
-Message-ID: <YwNXwuhDM6wESmo4@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20220726210110.1444-1-wsa+renesas@sang-engineering.com>
- <20220726210110.1444-3-wsa+renesas@sang-engineering.com>
- <CAMuHMdXBiM_=V0XueJGcc4fVf1EkOjLVNqyhHZv0XXe0ox-Ekg@mail.gmail.com>
+        Mon, 22 Aug 2022 07:20:46 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CBB21C137
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Aug 2022 04:20:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A2D82B810B6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Aug 2022 11:20:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 187FBC433D7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Aug 2022 11:20:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661167240;
+        bh=fAIEdq4w3X5VCj+iWmMzt4eto/NwF3aMEWb1Li7xrF4=;
+        h=Subject:From:Date:To:From;
+        b=M2hUfEoFDk0QvWTd+45ad2Pb+ameGGHNqsFR6Nawje5EfAfHdJ4CP8P8DvLQBDjM7
+         xKnnhqG/1kOyup7XCl3g3IL8U4AnEmJqAcO2hSrpp6gx8FiTtmdNb1TKkgb7ex95P1
+         p9BV9RWG60JAY2qIdL1t2xb6XFRc5gZLc20aq1yO4ajiFb52/cSJaQk1Lk+vo1wpua
+         YftI4WsGxUECtoZrMr3Gvl/gSJrr4IZ4zWDYCfpOPTmtTV+Wa9XRCkq6ZuAMQqXIDs
+         5sMHoOi3HfKwCA0+4dBLDdYA2FeRHBbNGiIL7TEvMKPwDREF54KwbIgftDdn0XLwA5
+         gK9kNo7jgVZ3w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id ED1F3C4166E
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Aug 2022 11:20:39 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="DL1S/z20yBzPsoNC"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXBiM_=V0XueJGcc4fVf1EkOjLVNqyhHZv0XXe0ox-Ekg@mail.gmail.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <166116723989.1610.15726083446522347194.git-patchwork-summary@kernel.org>
+Date:   Mon, 22 Aug 2022 11:20:39 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello:
 
---DL1S/z20yBzPsoNC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Hi Geert,
+Patch: arm64: dts: renesas: r9a09g011: Add pinctrl node
+  Submitter: Phil Edworthy <Phil.Edworthy@renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=665460
+  Lore link: https://lore.kernel.org/r/20220804190846.128370-1-phil.edworthy@renesas.com
 
-> > +                       interrupts =3D <GIC_SPI 477 IRQ_TYPE_LEVEL_HIGH=
->,
-> > +                                    <GIC_SPI 478 IRQ_TYPE_LEVEL_HIGH>,
-> > +                                    <GIC_SPI 479 IRQ_TYPE_LEVEL_HIGH>;
->=20
-> We really should update the DT bindings so we can describe the fourth
-> interrupt on TMU instances that support input capture.
+Series: Add RSPI DMA support to RZ/G2{L, LC, UL} and RZ/V2L
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=663708
+  Lore link: https://lore.kernel.org/r/20220728122312.189766-1-biju.das.jz@bp.renesas.com
+    Patches: [1/3] arm64: dts: renesas: r9a07g043: Add DMA support to RSPI
+             [2/3] arm64: dts: renesas: r9a07g044: Add DMA support to RSPI
+             [3/3] arm64: dts: renesas: r9a07g054: Add DMA support to RSPI
 
-Yes, but I also think this should be a separate series then.
+Series: [1/3] arm64: dts: renesas: r9a07g044: Fix SCI{Rx,Tx} interrupt type
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=664753
+  Lore link: https://lore.kernel.org/r/20220802101534.1401342-1-biju.das.jz@bp.renesas.com
+    Patches: [1/3] arm64: dts: renesas: r9a07g044: Fix SCI{Rx,Tx} interrupt type
+             [2/3] arm64: dts: renesas: r9a07g054: Fix SCI{Rx,Tx} interrupt type
+             [3/3] arm64: dts: renesas: r9a07g043: Fix SCI{Rx,Tx} interrupt type
 
-> I don't think we need a new compatible value, as we can just look at
-> the presence of the fourth (actually renesas-channels + 1) interrupt
-> to enable the feature (if the driver ever gains support).
+Patch: [v2] dt-bindings: Fix incorrect "the the" corrections
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Jakub Kicinski <kuba@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=668483
+  Lore link: https://lore.kernel.org/r/c5743c0a1a24b3a8893797b52fed88b99e56b04b.1660755148.git.geert+renesas@glider.be
 
-Good approach. But then, we should also switch to interrupt names to be
-future proof, or? Who knows what other interrupts might be added later.
+Patch: arm64: dts: renesas: r9a07g043: Fix audio clk node names
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=664002
+  Lore link: https://lore.kernel.org/r/20220729084527.388023-1-biju.das.jz@bp.renesas.com
 
-> As the above matches how TMU is handled on other SoCs:
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v6.1.
+Patch: [v2] ASoC: sh: rz-ssi: Improve error handling in rz_ssi_probe() error path
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Mark Brown <broonie@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=663672
+  Lore link: https://lore.kernel.org/r/20220728092612.38858-1-biju.das.jz@bp.renesas.com
 
-Thanks!
+Series: r8a779f0: enable TMU
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=663240
+  Lore link: https://lore.kernel.org/r/20220726210110.1444-1-wsa+renesas@sang-engineering.com
+    Patches: [1/3] clk: renesas: r8a779f0: Add TMU and parent SASYNC clocks
+             [2/3] arm64: dts: renesas: r8a779f0: Add TMU nodes
 
-Happy hacking,
 
-   Wolfram
+Total patches: 12
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
---DL1S/z20yBzPsoNC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMDV74ACgkQFA3kzBSg
-KbZK5g//bUXp8xwLLLNuCI+8TnXGEf4fUaB0GP+cSKksOVGO6Ah5Y4uKmlhf1oMf
-r1C3oFMFihQLgO5eeGhTnMinZiaS/drdBPG4/ABZm0ls8owEJvkBhQRjs0l2zkuO
-fZ6gpH5Na2cqcd70rxfN9UVeWQ7b135WYmfThr/EPcrh8cwvsv7A1oi7Jch9r0Dv
-z9P3A3KAk+/nMvzXDC2SU3tHRc+jEE+58o3h5y+srwaHEZ10iYFy0+p4vH9vCt12
-oetVBlyNkkOZ7jGzkjJB4bR3NN6l4fO9gAfLp2fEH9HSmfcVmpgkltMl9UgaYNqK
-lbYXuhSQVjEQFfSNvIOa5ZF4GBKB4PgEqHi4Tez8mbIr5RvuDz7xLfmjKebFVm9k
-1NTAXFwZcjXIpNzQFDQvhHd9Qy7jPPwtHYnE8X1tMOLwuO4Y2gajQVgJkjBq8wja
-bIMwh8sO+2H/V5JdqygkBjOxPmn4Pzp6O00TNczk+lrH5tvQYOkbtxf4CDG6EatR
-3CM0Ieub32iakbWVpIYsu+HT+LvsEaJtWkmn3bcBkR2SF+1zYPQhYXiJGRKZZnaC
-BIUrakAhLxQ99nzpRhZ51i3ypCvKr59HCALRlClcANioh+H1jT2kINfF99MvetBB
-plopDYL65S4d8Bj2Y4PEcxm6PJdOj0F2pYpWHL0k4v2oph9ZOro=
-=hAI9
------END PGP SIGNATURE-----
-
---DL1S/z20yBzPsoNC--
