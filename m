@@ -2,221 +2,257 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 913AA59D17A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Aug 2022 08:50:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A3D059D23C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Aug 2022 09:33:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239852AbiHWGuK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Aug 2022 02:50:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53788 "EHLO
+        id S239869AbiHWHbP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Aug 2022 03:31:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239904AbiHWGuK (ORCPT
+        with ESMTP id S240747AbiHWHbM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Aug 2022 02:50:10 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31D7B32BA9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Aug 2022 23:50:09 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id r14-20020a17090a4dce00b001faa76931beso16285285pjl.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Aug 2022 23:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc;
-        bh=FAPJnlsHB2uhRwpWYkX+9SVJRhY+KJ2q94nKIfLpJzs=;
-        b=tH1oR4wjj7wYa0DcjHW7GukpHw8Jc9kCehGdhjMz7D35lv7ZVq0S3U9dtdU4LFlYQ9
-         /Yn4L+DBe36lnUxuHSOOMxjpRUjKjlVdMgfolJg/uLFG2rx928l+ILEh6sN5gzJNEI8l
-         rW8tKhuQS0dGopqXmF7+gOTQ0nSSNbScTyXANDjkcrsG9c/okxXQ1CLiP/PSQ5VOoqhj
-         GnJmMa2YDZKCajM6n4/Gt4/ZN4Xow5hA0CSWutpvBLIoLGt/arA/j0F6x8xWHCQqGe9x
-         KTbK786h9+kxOql7PUFDqUHudl0oPPrm1VdUrYIXyxRksInpElZf8jLXdruTQY2Bv0QW
-         j9Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc;
-        bh=FAPJnlsHB2uhRwpWYkX+9SVJRhY+KJ2q94nKIfLpJzs=;
-        b=um+F4G6UYGVoEKUlRrbJMUqb3E7d4Jmc8oj9nKTuNTufQsyrL/t9eytwVGpU5AXZgS
-         9beSZ4uOLwxyDl0PzGLPka+NK8uL0CHGuayd7w8YaX5F6PfRpsMuZIWg/my2U2J/6SSM
-         GxDOWGbIM3dOhSX2G/ghSavRYtumDiU5NTccfvsCacjooX/OfqfB281L0TWSmBayo4Ly
-         3/YXxBNXyFgJX1n5hwbdKNzNW8YIG96tj1suzUOzF8JYNp81Iynls58/Qhaa3Bg1dNiJ
-         GHNgBYQLfd7cWu2XNWuHyx9K0paebMcr1pe4b2mB87gQtzv3UHmIfj9Lk12UbuKTUd0q
-         wLdA==
-X-Gm-Message-State: ACgBeo1tVI41gsjFH9ZfPjir8sxnPkURy/BVgr4mhSQ84qE/DKXAeaX1
-        nyZajqb6bIbBXvJ4d+YQHXR57QdFgopTO/xj
-X-Google-Smtp-Source: AA6agR7p1Dwv2zduvMb5YjWBi/3qCPj3nwUrd4Eyz7PerRs0dNbim9v10/u+IoSa+y43rzVfnSytuA==
-X-Received: by 2002:a17:90b:4ad1:b0:1fb:eba:9977 with SMTP id mh17-20020a17090b4ad100b001fb0eba9977mr1898989pjb.182.1661237408488;
-        Mon, 22 Aug 2022 23:50:08 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id m1-20020a170902db0100b0016bf9437766sm1306171plx.261.2022.08.22.23.50.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Aug 2022 23:50:08 -0700 (PDT)
-Message-ID: <630478a0.170a0220.16547.2d9b@mx.google.com>
-Date:   Mon, 22 Aug 2022 23:50:08 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
+        Tue, 23 Aug 2022 03:31:12 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2139.outbound.protection.outlook.com [40.107.114.139])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A8FC63F01;
+        Tue, 23 Aug 2022 00:31:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cYhLZHrdSeomZkvvJBlFl5E8sZAmrSS2OIwv+84Q7RVq96iSMhkpdUDPBsP8TrEWZ6vKBl2H+vsDMIVIkMOIrMBZYA4ZH7wD0AA07RJoDiL7ZjeXpWILFNcv4/ssZWRnsvMueWDcswtVRnAqKVUYROIPdi+eNAs2CNNH8udtHkgTzZi3XYn5sdPUrkoYeVoqN2pg5MjqnPYj60OcaOxYVJ0A9e3KPa6EMKT1BJmrGd0ofxPq5R6oMzaiV5LwCzrmZkhqsOgQ/SDLQP+Hp4lmBQ+7aNk/jSKWBNK07VHm9pgMVeiRxUQYOHls7DxeuyeB6dDKMyvJdUK+JbBoxQK95w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n0dQIG61G/mmHkstNJLwPiQ/HNeOcpzrcangmzBQXww=;
+ b=BYD40afar0BjYpqT1sZKL+8EdYUJcYjsWkxO5Ytmm1M/gJahrFbwKTtDp6hFMLdOQP1TEWP6Y1s8n1+35xYNoqOYGO04tuZ7nWp/D5uG1nh21eMoAGkPTsj6ACRq71cqgfPSmidqowQ09LfLVU83bZRfhOb3BVDXCzp61pW8NMAQ3qw7T7XfnTvDKcmPP/0vTZP6Sw7xj/OL7ECcTTx2rAbuCtHjQowPngGMtgW1KjRlSmHivO/0T8Jgd9RIpHCKSXPrEa4GS89A8rn6wmki7M6scScg2NXDsZbbee9F5HubR+H1RfwIPCtclvr9bZJ+ERGLtKFu0mjLKRfzKaxRNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n0dQIG61G/mmHkstNJLwPiQ/HNeOcpzrcangmzBQXww=;
+ b=Jt1YdE6UIY9gH6c9yPytVKpeh27Iu3I0/OcHwxRhsKwtQEM+N2jLZMjOkMPLhNVCB2ZhaPsCyFre0hTyZfW1UjufjD85rM460x52pbEo6SMS9i81snHXhO5zeGs3Y6sL06eqReHGFybxkiU9ke9IOd5f4jeb5zOTxvLkhL2hWFs=
+Received: from TYYPR01MB7086.jpnprd01.prod.outlook.com (2603:1096:400:de::11)
+ by OSZPR01MB8203.jpnprd01.prod.outlook.com (2603:1096:604:1a6::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.18; Tue, 23 Aug
+ 2022 07:31:08 +0000
+Received: from TYYPR01MB7086.jpnprd01.prod.outlook.com
+ ([fe80::75e4:2ec3:b82e:10c6]) by TYYPR01MB7086.jpnprd01.prod.outlook.com
+ ([fe80::75e4:2ec3:b82e:10c6%4]) with mapi id 15.20.5546.024; Tue, 23 Aug 2022
+ 07:31:08 +0000
+From:   Phil Edworthy <phil.edworthy@renesas.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>
+CC:     "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v3 2/2] watchdog: rzg2l_wdt: Add rzv2m support
+Thread-Topic: [PATCH v3 2/2] watchdog: rzg2l_wdt: Add rzv2m support
+Thread-Index: AQHYhJA2c0CerNW+FUqClRcuEx7dqq265goAgAGVKzA=
+Date:   Tue, 23 Aug 2022 07:31:08 +0000
+Message-ID: <TYYPR01MB7086A18A2404C8B80FF01614F5709@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+References: <20220620102600.52349-1-phil.edworthy@renesas.com>
+ <20220620102600.52349-3-phil.edworthy@renesas.com>
+ <OS0PR01MB59223D1D19D25783050A875F86719@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59223D1D19D25783050A875F86719@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fa7a15cd-e540-49ef-4c56-08da84d97200
+x-ms-traffictypediagnostic: OSZPR01MB8203:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: zDhQIlvrfGPt6szGo0MMrxCcNaGi4YQJUHm8mI/drNRk9o0PsrSITrQwj+GMTbf2AkNyRalnyd/oD7kRhv0U8XzHrGph9nNk99F3992HeauNbf+UGnnZC2mBLD/cKb8NVjfZpeDwuj76W5kDu845TzfeCphpQvF+gzIDfAiqJ/p8Tv1ItY+URx946MxYvC/31RvS8DYt+0v2VMSlYRInFMJiKW9z8QTP6SPUOVPYjnb4TZk4VmmdUpofk5fylWcFQkG0BukGOPUgu8IcfSJ7e15rQc2XHKVxtvmb1mggAN32umdx3kjD10vvqIZNV5nQbmVcaRnF8m4g/8LdyvBNcBAMkord8pgmWsDqnlApwzhitXgOQUf9oy0ZkG9Q4bzDosa91woIxwB6nZBMpbXB1VCl3PkqigyHvgDU3c55MHik5UBj7I22nv6O91e/JHmImneRDV/GdcXhHSqs92ZcBX9nI6GQZ9GWQDGNOxjCxoPjM61LSrhEh52aDzz9ogoS7Hza1SUJOFIoqPgGYF37lDCgK0t9UB0mpho3g0YII0C/2EdDj9v2UIbm56b+B8ZU/91AsiFmKrCz/WSEE8bHlnSE/DvBi0C6xmrKVNIzX5RFXH4jnTvyfTDYwk+et0Ak7e9nU8eyxeidKQqdYpyHJdffds2nJaXStvK5RkpufT1rwtqQ332GjwhMYJ35adJd/YEEeG0aXRKigLbT8nA6jP8ykY6R4L7xtsYxd8B4gzp7oqsKFvMoNpWEWP5Awxr4iHAK+La3rIj1C86WxEP5xg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB7086.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(39860400002)(136003)(396003)(346002)(366004)(122000001)(86362001)(71200400001)(33656002)(66946007)(55016003)(8676002)(76116006)(4326008)(64756008)(66476007)(66556008)(26005)(66446008)(44832011)(41300700001)(9686003)(7696005)(6506007)(38070700005)(478600001)(53546011)(2906002)(38100700002)(52536014)(8936002)(5660300002)(186003)(110136005)(83380400001)(55236004)(54906003)(316002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?4zauJRu0ZI45oAed9/wCLZxleMf/HSxrwHfhGMsQgE05RnXp8sfA2k9NNEFK?=
+ =?us-ascii?Q?160nFquL9Egzqi/w7TnFnDcwgSaKl0g3uTVyf90/6vdMJPSPrfYL/UwTR8FW?=
+ =?us-ascii?Q?/eNaZ8Y+ETMo4Kyoip0s1ZPeAowY3V0XRoJLJNLH705JqOsaQcmKufSRr3/0?=
+ =?us-ascii?Q?xlRzH+pg70g4ayT24VECqbfQuuRItgDC97S6m+k2DN3rUyi9jz5m5zj6whw7?=
+ =?us-ascii?Q?OaRfjlxZcatrE7WhJ/HCCstnj5FkVNCblpGcA98fnqn18RuoOLXigN9hf/fW?=
+ =?us-ascii?Q?dTLJs8lgBVSifgHaQJpAbx6KN8VZ4tm6VTOPLH/C1nWthWrbY+SNiSednC1u?=
+ =?us-ascii?Q?gqKUct7SbbVYhydZzoUuc8xO6XDhiVomx0VhXPt4tzZYr0QQFfOyPKvRjNlG?=
+ =?us-ascii?Q?dfv1hspo+bvOxHeD0ZoKTGIXzi+Kedt+8ZLY5gaGfPdipKPXVLF/JuJ+Z+RM?=
+ =?us-ascii?Q?wwthi5RWF4Xhvwx1ZcjfMILrIlYMBCz/jKo0nFDkhpxZG0pjo1fuqOxKFiOE?=
+ =?us-ascii?Q?fOTctXhCBycdjGRHqj/zigG65NEXYwLPVI4QRVMqQcsrIVhWRZ2NQgRtMbyJ?=
+ =?us-ascii?Q?Fc0Gjvq7kmmpcAdEiTDxAg+d/yl3CSnYs/D4pZuK9lHJXmZ9l61Ab3eVJ0EY?=
+ =?us-ascii?Q?XJSnfUbyAPc+EFdHWFdpZ1sjDTuVU/clX9eSlmpWPilzhiIl9OhMG84jv3pU?=
+ =?us-ascii?Q?dvVhdaj7WRkUTfqUaQAodGyvEJ/SC34MyGJeYX7CKesrC+kX/fvKyYxd/ZsR?=
+ =?us-ascii?Q?dsYVT+Vujx6Cs5ySdfAZZAlgcOObw7hum601l4TeDaDj/r0LqGX3xnRoNl1I?=
+ =?us-ascii?Q?THcC2f7owWa3BVIgQwG9G5+U4C1Llb/Sfg+faXzZTEo/F41w4LuhjgaQIXj+?=
+ =?us-ascii?Q?vWFTHc4frVouN5Hy75QSoGdBuY7bFYL59ozKGcWcVO2VFQzT3aO953ewfWdM?=
+ =?us-ascii?Q?cOXoMU92/ril8/UGsHv8/DuZP9bxowyOJ9A/G9hWgSoWd4GfP7jNXxknUz0K?=
+ =?us-ascii?Q?xyr+6x7IVB2DrByRjdSw2yMActGYiCAAJky24H655DCA+w7G35gTOSSndANv?=
+ =?us-ascii?Q?RasquT+PeO1dsbWtWQvFwHyermKM3rDZ3E14rz8FLlTbSapSOmFRInPvpxca?=
+ =?us-ascii?Q?0FHlhLKh0OmZ9/1ZGrtNMM3U4rq5bMaCn3ZTrlPbyKQXOfQhMSwd66KsaIxb?=
+ =?us-ascii?Q?2kvHBwx4wh1KD5DtkUBV/w1bjcFji3lOKLsND6ng2XnhELSUsxeN4LqWbJdc?=
+ =?us-ascii?Q?+ZF/YTF8gfVbm2VjE6sM9irsdHd4KgfZK7B4cxTzD0qdsp6T3o92vYUt38eu?=
+ =?us-ascii?Q?moejBciHHDkLXeZ/6C4TELBOA2pXFUGul8z1Bdmwa1n6ou8c7Bk/wg81qHbo?=
+ =?us-ascii?Q?sGcDp4trT7OkwiyGbJq5H1yNqbsX+z8mrdUcwfRZsxlbRisDy2jZ4DMW8Jp7?=
+ =?us-ascii?Q?c4kkjPulxzi9Z5sCZn+4t8BVejBrQ2BaIS3iEz/uUioB/vhg+4B0CBRB41F8?=
+ =?us-ascii?Q?bTlp330UM0Zr0YgY167DKhVjLxZcxj7cIbdQ84aD0yQIDnvsxYNbwEt8p1zv?=
+ =?us-ascii?Q?MT4SK09NDjAErvqI1gOybglSHXGS08xV6KQQ7qh5?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: next
-X-Kernelci-Tree: renesas
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: renesas-next-2022-08-22-v6.0-rc1
-Subject: renesas/next cros-ec: 5 runs,
- 4 regressions (renesas-next-2022-08-22-v6.0-rc1)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB7086.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa7a15cd-e540-49ef-4c56-08da84d97200
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2022 07:31:08.1269
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bRCQyz3C0HJ+th2M9vFHMamNSEIB1sF0nIY5Jh08PCjkTPb/BtGiNeSmcFUdJpzVUMVp0zkUpR1wD/He73s426m+nZ445TbD1E0DgoUIKvI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8203
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next cros-ec: 5 runs, 4 regressions (renesas-next-2022-08-22-v6.0-r=
-c1)
+Hi Biju,
 
-Regressions Summary
--------------------
+On 22 August 2022 08:20 Biju Das wrote:
+> > Subject: [PATCH v3 2/2] watchdog: rzg2l_wdt: Add rzv2m support
+> >
+> > The WDT on RZ/V2M devices is basically the same as RZ/G2L, but without
+> > the parity error registers. This means the driver has to reset the
+> > hardware plus set the minimum timeout in order to do a restart and has =
+a
+> > single interrupt.
+> >
+> > Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> > v3:
+> >  - Don't call pm_runtime_get_sync() in restart()
+> >  - Use mdelay instead of udelay, avoids DIV64_U64_ROUND_UP
+> > v2:
+> >  - Replace use of parity error registers in restart
+> >  - Commit msg modified to reflect different contents
+> > ---
+> >  drivers/watchdog/rzg2l_wdt.c | 39 ++++++++++++++++++++++++++++++------
+> >  1 file changed, 33 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.=
+c
+> > index 6eea0ee4af49..70cbd9ba01fe 100644
+> > --- a/drivers/watchdog/rzg2l_wdt.c
+> > +++ b/drivers/watchdog/rzg2l_wdt.c
+> > @@ -10,7 +10,7 @@
+> >  #include <linux/io.h>
+> >  #include <linux/kernel.h>
+> >  #include <linux/module.h>
+> > -#include <linux/of.h>
+> > +#include <linux/of_device.h>
+> >  #include <linux/platform_device.h>
+> >  #include <linux/pm_runtime.h>
+> >  #include <linux/reset.h>
+> > @@ -40,6 +40,11 @@ module_param(nowayout, bool, 0);
+> > MODULE_PARM_DESC(nowayout, "Watchdog cannot be stopped once started
+> > (default=3D"
+> >  				__MODULE_STRING(WATCHDOG_NOWAYOUT) ")");
+> >
+> > +enum rz_wdt_type {
+> > +	I2C_RZG2L,
+> > +	I2C_RZV2M,
+> > +};
+> > +
+>=20
+> May be I2C_* to WDT_* ??
+Oops, yes I will fix this.
 
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
+Thanks
+Phil
 
-hp-x360-14-G1-sona           | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
+> >  struct rzg2l_wdt_priv {
+> >  	void __iomem *base;
+> >  	struct watchdog_device wdev;
+> > @@ -48,6 +53,7 @@ struct rzg2l_wdt_priv {
+> >  	unsigned long delay;
+> >  	struct clk *pclk;
+> >  	struct clk *osc_clk;
+> > +	enum rz_wdt_type devtype;
+> >  };
+> >
+> >  static void rzg2l_wdt_wait_delay(struct rzg2l_wdt_priv *priv) @@ -
+> > 142,11 +148,29 @@ static int rzg2l_wdt_restart(struct watchdog_device
+> > *wdev,
+> >  	clk_prepare_enable(priv->pclk);
+> >  	clk_prepare_enable(priv->osc_clk);
+> >
+> > -	/* Generate Reset (WDTRSTB) Signal on parity error */
+> > -	rzg2l_wdt_write(priv, 0, PECR);
+> > +	if (priv->devtype =3D=3D I2C_RZG2L) {
+>=20
+> Same here.
+>=20
+> > +		/* Generate Reset (WDTRSTB) Signal on parity error */
+> > +		rzg2l_wdt_write(priv, 0, PECR);
+> > +
+> > +		/* Force parity error */
+> > +		rzg2l_wdt_write(priv, PEEN_FORCE, PEEN);
+> > +	} else {
+> > +		/* RZ/V2M doesn't have parity error registers */
+> > +
+> > +		wdev->timeout =3D 0;
+> > +
+> > +		/* Initialize time out */
+> > +		rzg2l_wdt_init_timeout(wdev);
+> >
+> > -	/* Force parity error */
+> > -	rzg2l_wdt_write(priv, PEEN_FORCE, PEEN);
+> > +		/* Initialize watchdog counter register */
+> > +		rzg2l_wdt_write(priv, 0, WDTTIM);
+> > +
+> > +		/* Enable watchdog timer*/
+> > +		rzg2l_wdt_write(priv, WDTCNT_WDTEN, WDTCNT);
+> > +
+> > +		/* Wait 2 consecutive overflow cycles for reset */
+> > +		mdelay(DIV_ROUND_UP(2 * 0xFFFFF * 1000, priv-
+> > >osc_clk_rate));
+> > +	}
+> >
+> >  	return 0;
+> >  }
+> > @@ -227,6 +251,8 @@ static int rzg2l_wdt_probe(struct platform_device
+> > *pdev)
+> >  	if (ret)
+> >  		return dev_err_probe(dev, ret, "failed to deassert");
+> >
+> > +	priv->devtype =3D (enum rz_wdt_type)of_device_get_match_data(dev);
+> > +
+> >  	pm_runtime_enable(&pdev->dev);
+> >
+> >  	priv->wdev.info =3D &rzg2l_wdt_ident;
+> > @@ -255,7 +281,8 @@ static int rzg2l_wdt_probe(struct platform_device
+> > *pdev)  }
+> >
+> >  static const struct of_device_id rzg2l_wdt_ids[] =3D {
+> > -	{ .compatible =3D "renesas,rzg2l-wdt", },
+> > +	{ .compatible =3D "renesas,rzg2l-wdt", .data =3D (void *)I2C_RZG2L },
+> > +	{ .compatible =3D "renesas,rzv2m-wdt", .data =3D (void *)I2C_RZV2M },
+>=20
+> Same here.
+>=20
+> Cheers,
+> Biju
+>=20
+> >  	{ /* sentinel */ }
+> >  };
+> >  MODULE_DEVICE_TABLE(of, rzg2l_wdt_ids);
+> > --
+> > 2.34.1
 
-
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2022-08-22-v6.0-rc1/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2022-08-22-v6.0-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      64f8982ca06974904942c8adfa51efd785044107
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/cros-ec-tests.git
-      SHA:  86181a7fbd379fc42314c450740d2cea8cdf04c1 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/630465ff221bfa91b9355667
-
-  Results:     5 PASS, 2 FAIL, 12 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--08-22-v6.0-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
-/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--08-22-v6.0-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
-/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220812.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
-0465ff221bfa91b9355678
-        failing since 7 days (last pass: renesas-next-2022-07-07-v5.19-rc1,=
- first fail: renesas-next-2022-08-15-v6.0-rc1) =
-
-
-  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
-30465ff221bfa91b935567a
-        failing since 7 days (last pass: renesas-next-2022-07-07-v5.19-rc1,=
- first fail: renesas-next-2022-08-15-v6.0-rc1)
-
-    2022-08-23T05:30:19.620910  / # =
-
-    2022-08-23T05:30:19.625715  =
-
-    2022-08-23T05:30:19.727652  / # #
-    2022-08-23T05:30:19.733564  #
-    2022-08-23T05:30:19.836364  / # export SHELL=3D/bin/sh
-    2022-08-23T05:30:19.842392  export SHELL=3D/bin/sh
-    2022-08-23T05:30:19.944244  / # . /lava-7096955/environment
-    2022-08-23T05:30:19.950261  . /lava-7096955/environment
-    2022-08-23T05:30:20.052256  / # /lava-7096955/bin/lava-test-runner /lav=
-a-7096955/0
-    2022-08-23T05:30:20.057762  /lava-7096955/bin/lava-test-runner /lava-70=
-96955/0 =
-
-    ... (7 line(s) more)  =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-hp-x360-14-G1-sona           | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6304641f1e42f9a87b35567c
-
-  Results:     5 PASS, 2 FAIL, 12 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--08-22-v6.0-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
-/cros-ec-hp-x360-14-G1-sona.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--08-22-v6.0-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
-/cros-ec-hp-x360-14-G1-sona.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220812.0/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
-0464201e42f9a87b35568d
-        failing since 7 days (last pass: renesas-next-2022-07-07-v5.19-rc1,=
- first fail: renesas-next-2022-08-15-v6.0-rc1) =
-
-
-  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
-30464201e42f9a87b35568f
-        failing since 7 days (last pass: renesas-next-2022-07-07-v5.19-rc1,=
- first fail: renesas-next-2022-08-15-v6.0-rc1)
-
-    2022-08-23T05:22:33.743749  / # =
-
-    2022-08-23T05:22:33.748501  =
-
-    2022-08-23T05:22:33.850214  / # #
-    2022-08-23T05:22:33.855421  #
-    2022-08-23T05:22:33.956445  / # export SHELL=3D/bin/sh
-    2022-08-23T05:22:33.961312  export SHELL=3D/bin/sh
-    2022-08-23T05:22:34.062258  / # . /lava-7096931/environment
-    2022-08-23T05:22:34.067732  . /lava-7096931/environment
-    2022-08-23T05:22:34.168675  / # /lava-7096931/bin/lava-test-runner /lav=
-a-7096931/0
-    2022-08-23T05:22:34.174168  /lava-7096931/bin/lava-test-runner /lava-70=
-96931/0 =
-
-    ... (7 line(s) more)  =
-
- =20
