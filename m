@@ -2,29 +2,29 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3412959FABF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Aug 2022 15:01:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71CA859FAB8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Aug 2022 15:01:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237810AbiHXNA5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S237974AbiHXNA5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Wed, 24 Aug 2022 09:00:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36214 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237973AbiHXNAz (ORCPT
+        with ESMTP id S237973AbiHXNA5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Aug 2022 09:00:55 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B50F97B23
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Aug 2022 06:00:53 -0700 (PDT)
+        Wed, 24 Aug 2022 09:00:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7CC97B16
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Aug 2022 06:00:56 -0700 (PDT)
 Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 458924A8;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F1D55592;
         Wed, 24 Aug 2022 15:00:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661346051;
-        bh=TZTLKT1X06XXta7ywfGo9pLibQ9+6k6tgSFdKbj6Mcg=;
+        s=mail; t=1661346052;
+        bh=qd2zwmFtWKzt3wNOwGSiPpn0zrJLLpoC1FlvscOYJWI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gzegaz1a7UNVoNlGsaDh89PahgognU+VxfcXeO6pvEY+ozuCrfYYrnWseCYzLkOH8
-         3Oi4gQNUcCMDbY/h6P76CP3c7GYsf3LicAyNBRdzTEq/2lu48i1KZLNd+b2st5XtEV
-         1Q5jy/ssBkxb+HzvNjR1Tze625hzIiRwuKpwCVmA=
+        b=i1PHfpn0swXSUjWiVrVJll9g2IZkf4T/vZKpiJOTrfnqzx+/uAy1YxXMxIUI7mUPI
+         JcC06UvAY553nXc+EwM0WY5Da9pZl2BRvlG93YYFJFEoFYXvow+Lll5pKKVXzYyyOR
+         8vj9Ke9GFzFDeBshUwGTIHw1R/LsmUlrGvx2fBpk=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     Douglas Anderson <dianders@chromium.org>,
         Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -34,9 +34,9 @@ To:     Douglas Anderson <dianders@chromium.org>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: [PATCH v5 1/4] drm/bridge: ti-sn65dsi86: check AUX errors better
-Date:   Wed, 24 Aug 2022 16:00:31 +0300
-Message-Id: <20220824130034.196041-2-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v5 2/4] drm/bridge: ti-sn65dsi86: Reject modes with too large blanking
+Date:   Wed, 24 Aug 2022 16:00:32 +0300
+Message-Id: <20220824130034.196041-3-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220824130034.196041-1-tomi.valkeinen@ideasonboard.com>
 References: <20220824130034.196041-1-tomi.valkeinen@ideasonboard.com>
@@ -54,32 +54,48 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-The driver does not check AUX_IRQ_STATUS_NAT_I2C_FAIL bit at all when
-sending AUX transfers, which leads to the driver not returning an error.
-
-Add the check.
+The blanking related registers are 8 bits, so reject any modes
+with larger blanking periods.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 90bbabde1595..ba84215c1511 100644
+index ba84215c1511..f085a037ff5b 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -582,6 +582,11 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
- 		goto exit;
- 	}
+@@ -752,6 +752,29 @@ ti_sn_bridge_mode_valid(struct drm_bridge *bridge,
+ 	if (mode->clock > 594000)
+ 		return MODE_CLOCK_HIGH;
  
-+	if (val & AUX_IRQ_STATUS_NAT_I2C_FAIL) {
-+		ret = -EIO;
-+		goto exit;
-+	}
++	/*
++	 * The blanking related registers are 8 bits, so reject any modes
++	 * with larger blanking periods.
++	 */
 +
- 	if (val & AUX_IRQ_STATUS_AUX_SHORT) {
- 		ret = regmap_read(pdata->regmap, SN_AUX_LENGTH_REG, &len);
- 		if (ret)
++	if ((mode->hsync_start - mode->hdisplay) > 0xff)
++		return MODE_HBLANK_WIDE;
++
++	if ((mode->vsync_start - mode->vdisplay) > 0xff)
++		return MODE_VBLANK_WIDE;
++
++	if ((mode->hsync_end - mode->hsync_start) > 0xff)
++		return MODE_HSYNC_WIDE;
++
++	if ((mode->vsync_end - mode->vsync_start) > 0xff)
++		return MODE_VSYNC_WIDE;
++
++	if ((mode->htotal - mode->hsync_end) > 0xff)
++		return MODE_HBLANK_WIDE;
++
++	if ((mode->vtotal - mode->vsync_end) > 0xff)
++		return MODE_VBLANK_WIDE;
++
+ 	return MODE_OK;
+ }
+ 
 -- 
 2.34.1
 
