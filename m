@@ -2,392 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AADB59FB53
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Aug 2022 15:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 671B35A017C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Aug 2022 20:41:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238204AbiHXN1C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Aug 2022 09:27:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56764 "EHLO
+        id S238644AbiHXSli (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Aug 2022 14:41:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237493AbiHXN1B (ORCPT
+        with ESMTP id S232226AbiHXSli (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Aug 2022 09:27:01 -0400
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DB416DAC8;
-        Wed, 24 Aug 2022 06:27:00 -0700 (PDT)
-Received: by mail-oi1-f173.google.com with SMTP id r124so4018302oig.11;
-        Wed, 24 Aug 2022 06:27:00 -0700 (PDT)
+        Wed, 24 Aug 2022 14:41:38 -0400
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B79BB79A5E
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Aug 2022 11:41:36 -0700 (PDT)
+Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-334dc616f86so483421047b3.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Aug 2022 11:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=lNX/BcqYJYdLMEfvSJcFHUwAiHG3ZCAnWSKjgUOUjTo=;
+        b=QEgnyj9DuzfNdTFc+DyOTh6glJQmT7oHTydMvJUVTvdO8SOBeY24GiZ/uBZVZvYKl1
+         mT7hJc0AOiT7bKPpNgdXh8LpLTtbJaOug3Zk5GmdrT4K5tb48u0ljpzUxHUoOIosOmes
+         Rx3MCENJoCKpHp9w9vH4y674ArLinr2SiOgpTSCJgXClA9WDauHRR06yQ6cEqSPxxnl4
+         ++tX1ng94fRZWH3ibqcyRKcuXUPWUeBKd83mty+NjhLucxIB2ggJTv8wkPiuFFR5fqnR
+         nzAPVal1C6SdLoksr5q/zwikg8jmczFAdd+lUNnJLgV4F0eNcgUTXeNrSA/6ZTo8PaKJ
+         ozqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=message-id:date:subject:references:in-reply-to:cc:to:from
-         :x-gm-message-state:from:to:cc;
-        bh=ktGy9A9XV3SpXhrZvoOafpIvMXJDuPCUWT9oK6aEr9s=;
-        b=LSyyL49u1RgDQKjqi9rSI6WeXguTgUijZXsZSOgIlubX0K87aYorLJbP/WMJeT8Xnm
-         LOwbS5ShAmLR6u70Al5KMjJi3JsZmtYLWmeSjgqI/waEFTfrdwVpQ5TN/3LNsGABfO/F
-         CLh8bfB5rESp2AD6x9LqZusWOEh+rwS9DHjCihrVCzTQFG6ocXKp0hQpQpvyeG72snGm
-         K547v8XeWX6cTujq5MZTFU5FMBQPAPiBPneBaUTDVnuyNsY0YW/JkpdsmDv1/69NXgsS
-         RDOY53mJuEhnDLAMKR5XGy3T4+F9RtCsFlooFpdG3nTCNc0wNRRzOZBM9eRHzzg6qQ+b
-         Nf7A==
-X-Gm-Message-State: ACgBeo0kQOMHZPxBK3ycASnr5UJD8JWa9MhGO2jwb0HuAFff7bTHgSOd
-        ej4q29XQQiBGnxnGuy/m6h53SuVfWA==
-X-Google-Smtp-Source: AA6agR5ms3ON8Vh/oDOST3Ke4xTn6XxSBGMAbAH3e9OGnQCwx420hXtmZVz7wI6Nr9p/dwomCjTgWg==
-X-Received: by 2002:a54:4790:0:b0:343:46c5:9b8e with SMTP id o16-20020a544790000000b0034346c59b8emr3333571oic.251.1661347619386;
-        Wed, 24 Aug 2022 06:26:59 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id n128-20020aca4086000000b0034564365bf2sm1890725oia.17.2022.08.24.06.26.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Aug 2022 06:26:58 -0700 (PDT)
-Received: (nullmailer pid 2098942 invoked by uid 1000);
-        Wed, 24 Aug 2022 13:26:57 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org
-In-Reply-To: <20220824094327.33685-2-wsa+renesas@sang-engineering.com>
-References: <20220824094327.33685-1-wsa+renesas@sang-engineering.com> <20220824094327.33685-2-wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH 1/3] spi: renesas,sh-msiof: Add generic Gen4 and r8a779f0 support
-Date:   Wed, 24 Aug 2022 08:26:57 -0500
-Message-Id: <1661347617.019832.2098941.nullmailer@robh.at.kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=lNX/BcqYJYdLMEfvSJcFHUwAiHG3ZCAnWSKjgUOUjTo=;
+        b=gPGvjeNi1ye6NQXOIelhojs+myFIBStt+bz3vXMvMAEHF+6K3ohQyYC3PxjPR17rsk
+         x/4qlzWiPprIt9P+honfrLGaTUywDrB36BQPXDNkqR38yq9ct9hM9MQZ1GxSEFEQClPp
+         2IKFvNK3zGwByTyVJ77TPZrbWEzJlyXWZCFKfmmOWNz+JiWhqUWvMjPxnuX1JjyBGcmH
+         trLIWGo6isxXeAjfnhY9RIKkcBtJgEO71ZwblWr+s/CLKhZRq4YY3a6EwXQLVZjvtaGr
+         s54PseU78NoXA/87MQDP8RH3GPXXj2ZgtNqTDt3wJC0uCr78UwjirBW8IIQM9W2qo006
+         GicA==
+X-Gm-Message-State: ACgBeo1qPfGdLjmWPV/TUzTLcOL+hl9VXJreAtBitEQ4i0zCm6sCsnoX
+        vqK8Dp5mfroQm8ybGkPteJfMt8h2bbb+8IXmIIFYR6fUdkzHgQ==
+X-Google-Smtp-Source: AA6agR5tNAzxYnGCxCojee5qmrC6x9mY15Ia3ELbpn+mEfk5lA/EVGg46MTXDDvNKAfisPNJXOW2L33jF1IVMFpL0/s=
+X-Received: by 2002:a25:ef0f:0:b0:695:b3d1:15c1 with SMTP id
+ g15-20020a25ef0f000000b00695b3d115c1mr469471ybd.80.1661366495836; Wed, 24 Aug
+ 2022 11:41:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <87sflmuyf4.wl-kuninori.morimoto.gx@renesas.com> <YwXxT0Gr1KQQb71F@pendragon.ideasonboard.com>
+In-Reply-To: <YwXxT0Gr1KQQb71F@pendragon.ideasonboard.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Wed, 24 Aug 2022 11:40:58 -0700
+Message-ID: <CAGETcx-4+RkgXZjK6yDMr97Q2iUDJxosqp9s2EyhFW7+WCcFrw@mail.gmail.com>
+Subject: Re: fw_devlink.strict=1 breaks sound card probe ?
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 24 Aug 2022 11:43:24 +0200, Wolfram Sang wrote:
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
+On Wed, Aug 24, 2022 at 2:37 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Morimoto-san,
+>
+> On Wed, Aug 24, 2022 at 03:13:04AM +0000, Kuninori Morimoto wrote:
+> >
+> > Hi Renesas-ML
+> > Cc Saravana, Greg, Laurent, Geert
+> >
+> > I'm now testing v6.0.0-rc2 kernel on ULCB-KF board, and I noticed
+> > it doesn't probe sound card.
+> > I git-bisected and noticed that this patch breaks sound probe.
+> >
+> >       commit 71066545b48e4259f89481199a0bbc7c35457738
+> >       ("driver core: Set fw_devlink.strict=1 by default")
+> >
+> > I could re-probe sound card if I reverted it.
+> > (My .config is using Y for all drivers)
+> >
+> > I'm not well understanding about this patch,
+> > but it seems it is related to deferred probe.
+> >
+> > My sound card needs many drivers to probe.
+> >
+> >       HDMI
+> >       Sound CPU
+> >       Sound Codec x 2 (depends on I2C)
+> >       Sound Card
+> >
+> > To probe "Sound Card", it needs other necessary drivers.
+> > But it seems some necessary drivers are not probed by above patch.
+> > In my quick check, "HDMI" and 1 of "Sound Codec" drivers are not probed.
+> >
+> > How can I solve this issue, or where I can check ?
+>
+> Saravana is more familiar with devlink than I am, so he may be able to
+> diagnose that without further information, but otherwise it would be
+> helpful if you could provide some logs. Enabling the debug messages in
+> drivers/base/dd.c can provide some insight. The contents of the debugfs
+> devices_deferred file can also be useful, as well as the
+> consumer/supplier links in sysfs for all the devices involved with the
+> sound card.
 
-Running 'make dtbs_check' with the schema in this patch gives the
-following warnings. Consider if they are expected or the schema is
-incorrect. These may not be new warnings.
+Thanks Laurent!
 
-Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-This will change in the future.
+Kuninori, Those are exactly the things I'd need. And a pointer to the
+dts (not DTSI) file that corresponds to the board.
 
-Full log is available here: https://patchwork.ozlabs.org/patch/
+Also, (I don't think it'll help but might give info for debugging),
+try booting with deferred_probe_timeout=0 and
+deferred_probe_timeout=1.
 
-
-spi@e6c00000: Unevaluated properties are not allowed ('power-domains', 'resets' were unexpected)
-	arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-cat874.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a77950-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77950-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77950-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77961-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77970-eagle.dtb
-	arch/arm64/boot/dts/renesas/r8a77970-v3msk.dtb
-	arch/arm64/boot/dts/renesas/r8a77980-condor.dtb
-	arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dtb
-	arch/arm64/boot/dts/renesas/r8a77990-ebisu.dtb
-	arch/arm64/boot/dts/renesas/r8a77995-draak.dtb
-	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
-	arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs.dtb
-
-spi@e6c10000: Unevaluated properties are not allowed ('power-domains', 'resets' were unexpected)
-	arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-cat874.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a77950-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77950-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77950-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77961-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77970-eagle.dtb
-	arch/arm64/boot/dts/renesas/r8a77970-v3msk.dtb
-	arch/arm64/boot/dts/renesas/r8a77980-condor.dtb
-	arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dtb
-	arch/arm64/boot/dts/renesas/r8a77990-ebisu.dtb
-	arch/arm64/boot/dts/renesas/r8a77995-draak.dtb
-	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
-	arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs.dtb
-
-spi@e6c20000: Unevaluated properties are not allowed ('power-domains', 'resets' were unexpected)
-	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
-
-spi@e6c28000: Unevaluated properties are not allowed ('power-domains', 'resets' were unexpected)
-	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
-
-spi@e6c90000: Unevaluated properties are not allowed ('power-domains', 'resets' were unexpected)
-	arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dtb
-	arch/arm/boot/dts/r8a7742-iwg21d-q7.dtb
-	arch/arm/boot/dts/r8a7790-lager.dtb
-	arch/arm/boot/dts/r8a7790-stout.dtb
-
-spi@e6c90000: Unevaluated properties are not allowed ('power-domains' was unexpected)
-	arch/arm/boot/dts/sh73a0-kzm9g.dtb
-
-spi@e6e00000: Unevaluated properties are not allowed ('power-domains', 'resets' were unexpected)
-	arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dtb
-	arch/arm/boot/dts/r8a7742-iwg21d-q7.dtb
-	arch/arm/boot/dts/r8a7743-iwg20d-q7-dbcm-ca.dtb
-	arch/arm/boot/dts/r8a7743-iwg20d-q7.dtb
-	arch/arm/boot/dts/r8a7743-sk-rzg1m.dtb
-	arch/arm/boot/dts/r8a7744-iwg20d-q7-dbcm-ca.dtb
-	arch/arm/boot/dts/r8a7744-iwg20d-q7.dtb
-	arch/arm/boot/dts/r8a7745-iwg22d-sodimm-dbhd-ca.dtb
-	arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dtb
-	arch/arm/boot/dts/r8a7745-sk-rzg1e.dtb
-	arch/arm/boot/dts/r8a7790-lager.dtb
-	arch/arm/boot/dts/r8a7790-stout.dtb
-	arch/arm/boot/dts/r8a7791-koelsch.dtb
-	arch/arm/boot/dts/r8a7791-porter.dtb
-
-spi@e6e00000: Unevaluated properties are not allowed ('power-domains' was unexpected)
-	arch/arm/boot/dts/sh73a0-kzm9g.dtb
-
-spi@e6e10000: Unevaluated properties are not allowed ('power-domains', 'resets' were unexpected)
-	arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dtb
-	arch/arm/boot/dts/r8a7742-iwg21d-q7.dtb
-	arch/arm/boot/dts/r8a7743-iwg20d-q7-dbcm-ca.dtb
-	arch/arm/boot/dts/r8a7743-iwg20d-q7.dtb
-	arch/arm/boot/dts/r8a7743-sk-rzg1m.dtb
-	arch/arm/boot/dts/r8a7744-iwg20d-q7-dbcm-ca.dtb
-	arch/arm/boot/dts/r8a7744-iwg20d-q7.dtb
-	arch/arm/boot/dts/r8a7745-iwg22d-sodimm-dbhd-ca.dtb
-	arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dtb
-	arch/arm/boot/dts/r8a7745-sk-rzg1e.dtb
-	arch/arm/boot/dts/r8a7790-lager.dtb
-	arch/arm/boot/dts/r8a7790-stout.dtb
-	arch/arm/boot/dts/r8a7791-koelsch.dtb
-	arch/arm/boot/dts/r8a7791-porter.dtb
-	arch/arm/boot/dts/r8a7792-blanche.dtb
-	arch/arm/boot/dts/r8a7792-wheat.dtb
-
-spi@e6e10000: Unevaluated properties are not allowed ('power-domains' was unexpected)
-	arch/arm/boot/dts/sh73a0-kzm9g.dtb
-
-spi@e6e20000: Unevaluated properties are not allowed ('power-domains', 'resets' were unexpected)
-	arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dtb
-	arch/arm/boot/dts/r8a7742-iwg21d-q7.dtb
-	arch/arm/boot/dts/r8a7743-iwg20d-q7-dbcm-ca.dtb
-	arch/arm/boot/dts/r8a7743-iwg20d-q7.dtb
-	arch/arm/boot/dts/r8a7743-sk-rzg1m.dtb
-	arch/arm/boot/dts/r8a7744-iwg20d-q7-dbcm-ca.dtb
-	arch/arm/boot/dts/r8a7744-iwg20d-q7.dtb
-	arch/arm/boot/dts/r8a7745-iwg22d-sodimm-dbhd-ca.dtb
-	arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dtb
-	arch/arm/boot/dts/r8a7745-sk-rzg1e.dtb
-	arch/arm/boot/dts/r8a7790-lager.dtb
-	arch/arm/boot/dts/r8a7790-stout.dtb
-	arch/arm/boot/dts/r8a7791-koelsch.dtb
-	arch/arm/boot/dts/r8a7791-porter.dtb
-	arch/arm/boot/dts/r8a7792-blanche.dtb
-	arch/arm/boot/dts/r8a7792-wheat.dtb
-
-spi@e6e20000: Unevaluated properties are not allowed ('power-domains' was unexpected)
-	arch/arm/boot/dts/sh73a0-kzm9g.dtb
-
-spi@e6e90000: Unevaluated properties are not allowed ('power-domains', 'resets' were unexpected)
-	arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-cat874.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a77950-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77950-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77950-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77961-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77970-eagle.dtb
-	arch/arm64/boot/dts/renesas/r8a77970-v3msk.dtb
-	arch/arm64/boot/dts/renesas/r8a77980-condor.dtb
-	arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dtb
-	arch/arm64/boot/dts/renesas/r8a77990-ebisu.dtb
-	arch/arm64/boot/dts/renesas/r8a77995-draak.dtb
-	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
-	arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs.dtb
-
-spi@e6ea0000: Unevaluated properties are not allowed ('power-domains', 'resets' were unexpected)
-	arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-cat874.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-mipi-2.1.dtb
-	arch/arm64/boot/dts/renesas/r8a77950-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77950-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77950-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77960-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77961-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-salvator-x.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a77965-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a77970-eagle.dtb
-	arch/arm64/boot/dts/renesas/r8a77970-v3msk.dtb
-	arch/arm64/boot/dts/renesas/r8a77980-condor.dtb
-	arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dtb
-	arch/arm64/boot/dts/renesas/r8a77990-ebisu.dtb
-	arch/arm64/boot/dts/renesas/r8a77995-draak.dtb
-	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
-	arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dtb
-	arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dtb
-	arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dtb
-	arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs.dtb
-
+-Saravana
