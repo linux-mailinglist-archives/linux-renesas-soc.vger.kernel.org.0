@@ -2,44 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CC1359F7E5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Aug 2022 12:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9385B59FA4D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Aug 2022 14:47:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234401AbiHXKfh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Aug 2022 06:35:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54894 "EHLO
+        id S236307AbiHXMrl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Aug 2022 08:47:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236358AbiHXKf0 (ORCPT
+        with ESMTP id S237044AbiHXMrk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Aug 2022 06:35:26 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88D3C80520
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Aug 2022 03:35:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=JXe0s5vb4r1tug
-        Q+zr6ZHri0IlW9LJDcXIYq/OG7LtM=; b=iwm5cBrqp4BXaXZCNxgoEZReEBhtvi
-        S9CHt5CryjvynsDp4l6k551NnQndKQkgKM9QFQBvhcruQuUgclpu0OsJQoji/tHc
-        VnWjMi9qpC5wDIawMJNwKODcknMFK3/qDTJ64uSE45W3SCQRiwT6SONLZP8JYA02
-        FCWxqNSrnh1fM=
-Received: (qmail 2180907 invoked from network); 24 Aug 2022 12:35:23 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Aug 2022 12:35:23 +0200
-X-UD-Smtp-Session: l3s3148p1@2fEDPfrmjLMgAwDPXxw3AFlguiwjsjwa
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH 4/4] TEST: arm64: dts: renesas: spider: Add MSIOF node
-Date:   Wed, 24 Aug 2022 12:35:15 +0200
-Message-Id: <20220824103515.54931-5-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220824103515.54931-1-wsa+renesas@sang-engineering.com>
-References: <20220824103515.54931-1-wsa+renesas@sang-engineering.com>
+        Wed, 24 Aug 2022 08:47:40 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A31F915CF
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Aug 2022 05:47:39 -0700 (PDT)
+Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FC5E2B3;
+        Wed, 24 Aug 2022 14:47:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1661345256;
+        bh=jmXMBiW2sAdBb7wHcyIWSm1ZxeHbRx5C7F49bqeOB2I=;
+        h=From:To:Cc:Subject:Date:From;
+        b=dzNqVvfArpr05Ky8ed9MvCJ+Rxe6iyNwKomWeb3NM559Ot5pUlKvRM5NNfS9i0BZH
+         ikE7+Z8+WACR+ouU9EQBSC6kStk/eab/iP9OxO75FJKddmqe3jODRgBvZnxO/8k6SX
+         qrjW05EKcHlUVEfIh5gCnw2zC3avMu/iDCEPyzC0=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v4 0/5] drm: rcar-du: DSI fixes
+Date:   Wed, 24 Aug 2022 15:47:21 +0300
+Message-Id: <20220824124726.187224-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,30 +46,30 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Activate spidev on the MSIOF0 connector on the breakout board.
-Not for upstream!
+Changes to v3:
+- Fix LVDS function renames wrt. export symbol.
+- Fix missing static inline
+- Use rcar_mipi_dsi_write for VCLKSET writes
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- arch/arm64/boot/dts/renesas/r8a779f0-spider.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ Tomi
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
-index 7a7c8ffba711..20803dcf73dc 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
-@@ -31,3 +31,11 @@ eeprom@51 {
- 		pagesize = <8>;
- 	};
- };
-+
-+&msiof0 {
-+	spidev@0  {
-+		compatible = "rohm,dh2228fv";
-+		reg = <0>;
-+		spi-max-frequency = <400000>;
-+	};
-+};
+Tomi Valkeinen (5):
+  drm: rcar-du: lvds: Rename pclk enable/disable functions
+  drm: rcar-du: dsi: Properly stop video mode TX
+  drm: rcar-du: dsi: Improve DSI shutdown
+  drm: rcar-du: fix DSI enable & disable sequence
+  drm: rcar-du: dsi: Fix VCLKSET write
+
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c    | 30 +++++++++-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h     |  2 +
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c |  4 ++
+ drivers/gpu/drm/rcar-du/rcar_lvds.c       |  8 +--
+ drivers/gpu/drm/rcar-du/rcar_lvds.h       | 10 ++--
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c   | 68 ++++++++++++++++++++---
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h   | 31 +++++++++++
+ 7 files changed, 135 insertions(+), 18 deletions(-)
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
+
 -- 
-2.35.1
+2.34.1
 
