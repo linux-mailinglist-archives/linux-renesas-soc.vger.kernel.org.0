@@ -2,35 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3804C59F7E4
+	by mail.lfdr.de (Postfix) with ESMTP id 8CC1359F7E5
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Aug 2022 12:35:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235665AbiHXKfh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S234401AbiHXKfh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Wed, 24 Aug 2022 06:35:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54896 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234401AbiHXKf0 (ORCPT
+        with ESMTP id S236358AbiHXKf0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Wed, 24 Aug 2022 06:35:26 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1054F79ECB
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Aug 2022 03:35:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88D3C80520
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Aug 2022 03:35:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=RHR26u4fRC/NX/
-        7Z8Zgm3lMBweVcr9knTqi3LFCnimc=; b=YmHjVl2FBAlt8kuO7ntbcNTl2aNQVO
-        bMP46uZcMBdM4OjirOVaHcBQDltlaK6iVuOWQepR3MLkwE0LW9S1VvKtuspu77vk
-        So///GWkrGNPCADZTL1KNCxgPGoIvvQX/qPQG6bzM/wYN1Wc6DL4mDUzUS5wm76s
-        yqGIUhzhxkW/w=
-Received: (qmail 2180882 invoked from network); 24 Aug 2022 12:35:23 +0200
+        :mime-version:content-transfer-encoding; s=k1; bh=JXe0s5vb4r1tug
+        Q+zr6ZHri0IlW9LJDcXIYq/OG7LtM=; b=iwm5cBrqp4BXaXZCNxgoEZReEBhtvi
+        S9CHt5CryjvynsDp4l6k551NnQndKQkgKM9QFQBvhcruQuUgclpu0OsJQoji/tHc
+        VnWjMi9qpC5wDIawMJNwKODcknMFK3/qDTJ64uSE45W3SCQRiwT6SONLZP8JYA02
+        FCWxqNSrnh1fM=
+Received: (qmail 2180907 invoked from network); 24 Aug 2022 12:35:23 +0200
 Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Aug 2022 12:35:23 +0200
-X-UD-Smtp-Session: l3s3148p1@WJz7PPrmiLMgAwDPXxw3AFlguiwjsjwa
+X-UD-Smtp-Session: l3s3148p1@2fEDPfrmjLMgAwDPXxw3AFlguiwjsjwa
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH 3/4] arm64: dts: renesas: spider-cpu: Add MSIOF node
-Date:   Wed, 24 Aug 2022 12:35:14 +0200
-Message-Id: <20220824103515.54931-4-wsa+renesas@sang-engineering.com>
+Subject: [PATCH 4/4] TEST: arm64: dts: renesas: spider: Add MSIOF node
+Date:   Wed, 24 Aug 2022 12:35:15 +0200
+Message-Id: <20220824103515.54931-5-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220824103515.54931-1-wsa+renesas@sang-engineering.com>
 References: <20220824103515.54931-1-wsa+renesas@sang-engineering.com>
@@ -47,41 +47,30 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Activate spidev on the MSIOF0 connector on the breakout board.
+Not for upstream!
+
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ arch/arm64/boot/dts/renesas/r8a779f0-spider.dts | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-index 8075959cccee..f4428a35a548 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-@@ -101,6 +101,12 @@ &mmc0 {
- 	status = "okay";
- };
- 
-+&msiof0 {
-+	pinctrl-0 = <&msiof0_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
- &pfc {
- 	pinctrl-0 = <&scif_clk_pins>;
- 	pinctrl-names = "default";
-@@ -116,6 +122,12 @@ mmc_pins: mmc {
- 		power-source = <1800>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
+index 7a7c8ffba711..20803dcf73dc 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
+@@ -31,3 +31,11 @@ eeprom@51 {
+ 		pagesize = <8>;
  	};
- 
-+	msiof0_pins: msiof0 {
-+		groups = "msiof0_clk", "msiof0_sync", "msiof0_rxd",
-+			 "msiof0_txd", "msiof0_ss1", "msiof0_ss2";
-+		function = "msiof0";
-+	};
+ };
 +
- 	scif0_pins: scif0 {
- 		groups = "scif0_data", "scif0_ctrl";
- 		function = "scif0";
++&msiof0 {
++	spidev@0  {
++		compatible = "rohm,dh2228fv";
++		reg = <0>;
++		spi-max-frequency = <400000>;
++	};
++};
 -- 
 2.35.1
 
