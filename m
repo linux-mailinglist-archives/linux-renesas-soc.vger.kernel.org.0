@@ -2,170 +2,205 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7513A5A1B19
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Aug 2022 23:32:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E59645A1C64
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Aug 2022 00:31:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232541AbiHYVcw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Aug 2022 17:32:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51896 "EHLO
+        id S244476AbiHYWb2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Aug 2022 18:31:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233208AbiHYVcv (ORCPT
+        with ESMTP id S243657AbiHYWb1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Aug 2022 17:32:51 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88008BD741;
-        Thu, 25 Aug 2022 14:32:50 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id e20so25646921wri.13;
-        Thu, 25 Aug 2022 14:32:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=EqzBE2zZDGLUoXZ6/uzFpkdW0uwLXRH/ZxpTVcEz4RY=;
-        b=qRHXiAAEFxUcduAYJZefohZKXO+X74fsUPVcUnRRNf+vtvMwz8JzmfaFa/1seliOel
-         N5+yl3sLaJJlffdQq01u8PTRL9UQxM/PoiC7ftzfbX51Aq8ANtKnXVyaXgD923wBKQqx
-         rBg83MrdCs3pKmg8CGmdCWsr4aZh99glKYt7zXjnFcbfRHvzafycELQgPgmSYOf7BN47
-         3MaiDabh9OZ1Utit2EFvQvYo7b9K4nHYjvp9OZyLoiy4FQG3LnBO8IAQNX5J9l2cb7T5
-         rtgQnl9eXZzPWaaixqRuGQhKVWXU5V00NS72L6T+gCoNDqeMumddMdJCTb3+B406bi49
-         Wkgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=EqzBE2zZDGLUoXZ6/uzFpkdW0uwLXRH/ZxpTVcEz4RY=;
-        b=Yg87BBXQ477pUjuAauM9xKfhIdmjd7vFJqzw63OYNQJ7DlzjR7HyGyzASeckQ5lc6T
-         qzZsfbekazBDzOpNfQfDbNbWE1lwIV7+JdjfulQb+iiT1HjTsSYEYXLsJxRPaUGwNhsL
-         8RIXF1oEeL51bmeJmJOyK/AcZorjxDQYn7w4LLrDdhogDP+LtRu9Es74BY2LbrROVXfJ
-         KgLL7mGQl68DVIE+4FIeVXXSnfEJvODSN93eNrRqixLLNkTAn3j0oW/BsGrIDiZwzR9K
-         +JMHirE8wDh/II3ZrHqMlMfKLquiP340DPEGSZX8FoGniO1pgQ7FxtoZ9ONufgSvjUiV
-         tMYg==
-X-Gm-Message-State: ACgBeo37NzhVRHJF6O+9kf5vr9+xGM1ocxIZjv60Kh7Kp7PcdwUkDqi4
-        S0ZLlNjEcnCkV3EsgUzkbZA=
-X-Google-Smtp-Source: AA6agR4t8yoF99sRe2L0fBzRS1+im+UO4VTke2Bd+B09oSf0uCYPQMeZRw3swuBH9PBDTRwnH39EJA==
-X-Received: by 2002:a05:6000:701:b0:225:3f77:9793 with SMTP id bs1-20020a056000070100b002253f779793mr3124854wrb.202.1661463169088;
-        Thu, 25 Aug 2022 14:32:49 -0700 (PDT)
-Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id n3-20020a05600c3b8300b003a319b67f64sm14167595wms.0.2022.08.25.14.32.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 14:32:48 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     linux-arm-kernel@lists.infradead.org,
-        Arnd Bergmann <arnd@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Qin Jian <qinjian@cqplus1.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>, Bin Liu <b-liu@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Shannon Nelson <snelson@pensando.io>,
-        Peter Chen <peter.chen@nxp.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Felipe Balbi <balbi@ti.com>, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH 01/11] ARM: defconfig: reorder defconfig files
-Date:   Thu, 25 Aug 2022 23:32:46 +0200
-Message-ID: <4207673.ejJDZkT8p0@kista>
-In-Reply-To: <20220818135522.3143514-2-arnd@kernel.org>
-References: <20220818135522.3143514-1-arnd@kernel.org> <20220818135522.3143514-2-arnd@kernel.org>
+        Thu, 25 Aug 2022 18:31:27 -0400
+Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB72B9FBF
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Aug 2022 15:31:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1661466686; x=1693002686;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=pXWRUr7yy74YSO6PolHsHDXM3uM60SKPSfU0sqhXVlw=;
+  b=BSoSTgfZOf329hitmHqdKD3BUpMZW59IYJgidmAJCuaLA3NzwScd70fU
+   enEeGHr3gL6cqN+CqnDSaPjtO4Jgl8HG6372L2mTV1gdm+rDhGnl2J2Fr
+   lcmr7l42vNUy2twFLmPWfw8JxozpX+xo+1ToKYgxPexOFZz3Qc/cPZZs8
+   G52uccADazReco+QW4ny1WCnYNbOR2P3bf+zhsQp8NtSECh/UKL6BMABW
+   VX663aLuvgByQ4iSXkWgV1oSSmEwLs/kMz8x8/csBP4+yk1ib2GjgSRPr
+   w7+KBJGIbtyIr9I9PTqCvR2E4K5iZja8nu4OY4r48JDwmGbN27sc2ZtQs
+   A==;
+X-IronPort-AV: E=Sophos;i="5.93,264,1654531200"; 
+   d="scan'208";a="208130144"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 26 Aug 2022 06:31:24 +0800
+IronPort-SDR: F9hpK1ZyMl0SChQTBcdLAG3ENkZfOKhDoD591gty2M9EDvzxRm0yMN4ho6jRaOBk/BZLalv+7Q
+ uGcQRwUs6lXTj/Iq6Rv1sAlDkG4C8ZifOQxM6576s80+Iai1N+aRNW9ZRgyYMSFi7zkL55Z/BW
+ GbRH3yq5gHDKnfSoLTj1wJ/E3N3/XQZqsE0cMd58bRSIgmqvWnktVM/lhbkYEac6UdGIAs4zJY
+ 2Xmmv3sGS0Y6KUvSedYh8nLmYiyOwWHU0Tfchr1xpnr53GhARIEuyXlmz2laPmpAGc/oOQDyFU
+ 72By6ug0f+kmRo/OKuPztHzs
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 25 Aug 2022 14:52:01 -0700
+IronPort-SDR: uqfjAaWITHlHZu5InLnqyPHoFcRZ8UcScrCwP40c6iKeYfeShF2mvONFf6xKFNL+Rcrrs8kuDt
+ qXrenA1fJKp0+DPCc8aNwDom6OTv9IslFcsxrHaNXQskKevVDGkxuxPepZ+rVBPv6MKGww8QbR
+ L/nMzR8ndKpr3EDHjB7P7AK2AisOA6KmcKGogx9ewfTwIHfuxR1M3GZDganz0gC/FAaLrylCj+
+ +GiGWpU/ncZb9+l/T8ArU891zeySnI0kUpeY3DUMZ8rmLZ9XK6EHLI8ffaUoAu8kCjFfQfQTb1
+ jC4=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 25 Aug 2022 15:31:24 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MDHkM4x83z1Rwnm
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Aug 2022 15:31:23 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+        reason="pass (just generated, assumed good)"
+        header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+        opensource.wdc.com; h=content-transfer-encoding:content-type
+        :in-reply-to:organization:from:references:to:content-language
+        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+        1661466682; x=1664058683; bh=pXWRUr7yy74YSO6PolHsHDXM3uM60SKPSfU
+        0sqhXVlw=; b=DS5CoFc3iYU7cDPy9qH82TgEIsNMbhoT3C6WeVO1k1n8lfF5jOd
+        4QX9dz+jZ2zBT6lYcxg+KWIWNsTkP0T39GuuYt+Fb54L+Ay16HMoRx/umfqkrCTA
+        5g07OD/6ZWQNFpgrYTCY3b5VmwPIe8ZVeKZjxn3TcnZkMTLaDFOZPDoCaKqF7Yu0
+        M57XRvGIQ4ULgKrfH+zmolhYlxi9tLSaf3wHIfcYiq0AucN2J/i/m6EHR3ZASpwa
+        y4jnhHL1vOGRndZWTAVPX6+j9lVqy63Znj9K+/KI1ssi/+aLLozx85ixW9f3Xqhd
+        u67xga7LZad0mOnZ764Wv9X5dqdJcnCFLTw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id OlkebJvZFDtk for <linux-renesas-soc@vger.kernel.org>;
+        Thu, 25 Aug 2022 15:31:22 -0700 (PDT)
+Received: from [10.225.163.46] (unknown [10.225.163.46])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MDHk850sGz1RtVk;
+        Thu, 25 Aug 2022 15:31:12 -0700 (PDT)
+Message-ID: <bb0728d1-20fd-8b6d-5d42-a0c76b6d3e4b@opensource.wdc.com>
+Date:   Fri, 26 Aug 2022 07:31:11 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 2/5] dt-bindings: ata: drop minItems equal to maxItems
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Clark <robdclark@gmail.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Sean Paul <sean@poorly.run>, Inki Dae <inki.dae@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andre Przywara <andre.przywara@arm.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Marek Vasut <marex@denx.de>,
+        Krishna Manikandan <quic_mkrishn@quicinc.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org
+References: <20220825113334.196908-1-krzysztof.kozlowski@linaro.org>
+ <20220825113334.196908-2-krzysztof.kozlowski@linaro.org>
+From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20220825113334.196908-2-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dne =C4=8Detrtek, 18. avgust 2022 ob 15:55:22 CEST je Arnd Bergmann napisal=
-(a):
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> The debug-info and can subystem options have moved around in the
-> 'savedefconfig' output, so fix these up to reduce the clutter
-> from the savedefconfig command.
->=20
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On 8/25/22 20:33, Krzysztof Kozlowski wrote:
+> minItems, if missing, are implicitly equal to maxItems, so drop
+> redundant piece to reduce size of code.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+
 > ---
->  arch/arm/configs/at91_dt_defconfig   |  2 +-
->  arch/arm/configs/dove_defconfig      |  2 +-
->  arch/arm/configs/exynos_defconfig    |  2 +-
->  arch/arm/configs/imx_v6_v7_defconfig |  2 +-
->  arch/arm/configs/keystone_defconfig  |  6 +++---
->  arch/arm/configs/lpc18xx_defconfig   |  2 +-
->  arch/arm/configs/mmp2_defconfig      |  2 +-
->  arch/arm/configs/mps2_defconfig      |  2 +-
->  arch/arm/configs/multi_v5_defconfig  |  2 +-
->  arch/arm/configs/multi_v7_defconfig  | 12 ++++++------
->  arch/arm/configs/mvebu_v5_defconfig  |  2 +-
->  arch/arm/configs/mxs_defconfig       |  4 ++--
->  arch/arm/configs/omap1_defconfig     |  2 +-
->  arch/arm/configs/omap2plus_defconfig |  4 ++--
->  arch/arm/configs/orion5x_defconfig   |  2 +-
->  arch/arm/configs/pxa168_defconfig    |  2 +-
->  arch/arm/configs/pxa910_defconfig    |  2 +-
->  arch/arm/configs/pxa_defconfig       |  2 +-
->  arch/arm/configs/s3c6400_defconfig   |  2 +-
->  arch/arm/configs/s5pv210_defconfig   |  2 +-
->  arch/arm/configs/sama5_defconfig     |  6 +++---
->  arch/arm/configs/sama7_defconfig     |  4 ++--
->  arch/arm/configs/shmobile_defconfig  |  2 +-
->  arch/arm/configs/socfpga_defconfig   |  6 +++---
->  arch/arm/configs/sp7021_defconfig    |  2 +-
->  arch/arm/configs/spear13xx_defconfig |  2 +-
->  arch/arm/configs/spear3xx_defconfig  |  2 +-
->  arch/arm/configs/spear6xx_defconfig  |  2 +-
->  arch/arm/configs/stm32_defconfig     |  2 +-
->  arch/arm/configs/sunxi_defconfig     |  2 +-
+>  Documentation/devicetree/bindings/ata/brcm,sata-brcm.yaml       | 1 -
+>  .../devicetree/bindings/ata/cortina,gemini-sata-bridge.yaml     | 2 --
+>  Documentation/devicetree/bindings/ata/sata_highbank.yaml        | 1 -
+>  3 files changed, 4 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/ata/brcm,sata-brcm.yaml b/Documentation/devicetree/bindings/ata/brcm,sata-brcm.yaml
+> index 235a93ac86b0..3766cc80cb17 100644
+> --- a/Documentation/devicetree/bindings/ata/brcm,sata-brcm.yaml
+> +++ b/Documentation/devicetree/bindings/ata/brcm,sata-brcm.yaml
+> @@ -30,7 +30,6 @@ properties:
+>            - const: brcm,bcm-nsp-ahci
+>  
+>    reg:
+> -    minItems: 2
+>      maxItems: 2
+>  
+>    reg-names:
+> diff --git a/Documentation/devicetree/bindings/ata/cortina,gemini-sata-bridge.yaml b/Documentation/devicetree/bindings/ata/cortina,gemini-sata-bridge.yaml
+> index 21a90975593b..529093666508 100644
+> --- a/Documentation/devicetree/bindings/ata/cortina,gemini-sata-bridge.yaml
+> +++ b/Documentation/devicetree/bindings/ata/cortina,gemini-sata-bridge.yaml
+> @@ -22,7 +22,6 @@ properties:
+>      maxItems: 1
+>  
+>    resets:
+> -    minItems: 2
+>      maxItems: 2
+>      description: phandles to the reset lines for both SATA bridges
+>  
+> @@ -32,7 +31,6 @@ properties:
+>        - const: sata1
+>  
+>    clocks:
+> -    minItems: 2
+>      maxItems: 2
+>      description: phandles to the compulsory peripheral clocks
+>  
+> diff --git a/Documentation/devicetree/bindings/ata/sata_highbank.yaml b/Documentation/devicetree/bindings/ata/sata_highbank.yaml
+> index 49679b58041c..f23f26a8f21c 100644
+> --- a/Documentation/devicetree/bindings/ata/sata_highbank.yaml
+> +++ b/Documentation/devicetree/bindings/ata/sata_highbank.yaml
+> @@ -52,7 +52,6 @@ properties:
+>      minItems: 1
+>      maxItems: 8
+>      items:
+> -      minItems: 2
+>        maxItems: 2
+>  
+>    calxeda,tx-atten:
 
-=46or sunxi:
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Best regards,
-Jernej
-
-
-
+-- 
+Damien Le Moal
+Western Digital Research
