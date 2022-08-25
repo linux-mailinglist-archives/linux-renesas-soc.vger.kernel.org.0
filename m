@@ -2,45 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E07535A0984
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Aug 2022 09:12:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FC995A0C81
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Aug 2022 11:25:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237964AbiHYHLV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Aug 2022 03:11:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48532 "EHLO
+        id S238015AbiHYJZL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Aug 2022 05:25:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237830AbiHYHLA (ORCPT
+        with ESMTP id S239795AbiHYJZK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Aug 2022 03:11:00 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9205F74B84
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Aug 2022 00:10:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=h2tXULZpc07pQf
-        Ef87uNOC3kmTtDmdh1iudMwCSLugU=; b=r6wFdYxeCAGu3LdoF+L8cQkB9RTn8o
-        oulwIrvuQKwHPNzvnEqM6ddeSRd7whWgJJ79CrK7Li9Ya88w0r6QJkUPyXnY6kp3
-        l818k3BVdVUwX7Q2vAsrWFZRwZCiAr6zl60TcLuA3h5OYCy8sb8casxhRyRfp6kV
-        vm3ujkhU4OBuo=
-Received: (qmail 2556550 invoked from network); 25 Aug 2022 09:10:37 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Aug 2022 09:10:37 +0200
-X-UD-Smtp-Session: l3s3148p1@qFqEfgvnlMwucrTo
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     devicetree@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH v2 6/6] arm64: dts: renesas: r8a774a1: put I2C aliases to board files
-Date:   Thu, 25 Aug 2022 09:10:22 +0200
-Message-Id: <20220825071022.7864-7-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220825071022.7864-1-wsa+renesas@sang-engineering.com>
-References: <20220825071022.7864-1-wsa+renesas@sang-engineering.com>
+        Thu, 25 Aug 2022 05:25:10 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7003691
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Aug 2022 02:24:57 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by xavier.telenet-ops.be with bizsmtp
+        id BlQu280064C55Sk01lQuug; Thu, 25 Aug 2022 11:24:54 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1oR96b-002VXD-NG; Thu, 25 Aug 2022 11:24:53 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1oR96b-005VhA-4g; Thu, 25 Aug 2022 11:24:53 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: r8a779g0: Fix HSCIF0 interrupt number
+Date:   Thu, 25 Aug 2022 11:24:47 +0200
+Message-Id: <751dcef40d4534e856ed49b1d5b3a3e8d365ec42.1661419377.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,76 +48,35 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I2C aliases are not a property of a SoC. They belong to board files
-where they are named accordingly in the schematics.
+The interrupt number for the HSCIF0 serial port, which serves as the
+serial console on the White Hawk board, is incorrect, causing userspace
+to hang immediately as soon as it tries to print something.
+Kernel output is unaffected, as it is printed using polling.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Fixes: 987da486d84a5643 ("arm64: dts: renesas: Add Renesas R8A779G0 SoC support")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm64/boot/dts/renesas/hihope-common.dtsi        |  8 ++++++++
- .../boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dts    |  8 ++++++++
- arch/arm64/boot/dts/renesas/r8a774a1.dtsi             | 11 -----------
- 3 files changed, 16 insertions(+), 11 deletions(-)
+Oops, I must have been looking at the wrong datasheet while reviewing
+https://lore.kernel.org/r/CAMuHMdVffc4iqX6wAKwyq_eTX5c0H3-tqs_pvsec7v1_q6hS3g@mail.gmail.com
 
-diff --git a/arch/arm64/boot/dts/renesas/hihope-common.dtsi b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-index b062f41ee270..83104af2813e 100644
---- a/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-@@ -10,6 +10,14 @@
- 
- / {
- 	aliases {
-+		i2c0 = &i2c0;
-+		i2c1 = &i2c1;
-+		i2c2 = &i2c2;
-+		i2c3 = &i2c3;
-+		i2c4 = &i2c4;
-+		i2c5 = &i2c5;
-+		i2c6 = &i2c6;
-+		i2c7 = &iic_pmic;
- 		serial0 = &scif2;
- 		serial1 = &hscif0;
- 		mmc0 = &sdhi3;
-diff --git a/arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dts b/arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dts
-index 3cf2e076940f..9ae67263c0df 100644
---- a/arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dts
-@@ -14,6 +14,14 @@ / {
- 	compatible = "beacon,beacon-rzg2m", "renesas,r8a774a1";
- 
- 	aliases {
-+		i2c0 = &i2c0;
-+		i2c1 = &i2c1;
-+		i2c2 = &i2c2;
-+		i2c3 = &i2c3;
-+		i2c4 = &i2c4;
-+		i2c5 = &i2c5;
-+		i2c6 = &i2c6;
-+		i2c7 = &iic_pmic;
- 		serial0 = &scif2;
- 		serial1 = &hscif0;
- 		serial2 = &hscif1;
-diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-index e7d17776624d..aec62c93f9a3 100644
---- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-@@ -17,17 +17,6 @@ / {
- 	#address-cells = <2>;
- 	#size-cells = <2>;
- 
--	aliases {
--		i2c0 = &i2c0;
--		i2c1 = &i2c1;
--		i2c2 = &i2c2;
--		i2c3 = &i2c3;
--		i2c4 = &i2c4;
--		i2c5 = &i2c5;
--		i2c6 = &i2c6;
--		i2c7 = &iic_pmic;
--	};
--
- 	/*
- 	 * The external audio clocks are configured as 0 Hz fixed frequency
- 	 * clocks by default.
+To be queued in renesas-fixes.
+---
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+index 7cbb0de060ddc03b..1c15726cff8bf10f 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+@@ -85,7 +85,7 @@ hscif0: serial@e6540000 {
+ 				     "renesas,rcar-gen4-hscif",
+ 				     "renesas,hscif";
+ 			reg = <0 0xe6540000 0 96>;
+-			interrupts = <GIC_SPI 245 IRQ_TYPE_LEVEL_HIGH>;
++			interrupts = <GIC_SPI 246 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 514>,
+ 				 <&cpg CPG_CORE R8A779G0_CLK_S0D3_PER>,
+ 				 <&scif_clk>;
 -- 
-2.35.1
+2.25.1
 
