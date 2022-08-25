@@ -2,125 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 704655A08EB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Aug 2022 08:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94AD85A08F1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Aug 2022 08:37:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235576AbiHYGfh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Aug 2022 02:35:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44166 "EHLO
+        id S229909AbiHYGhh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Aug 2022 02:37:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235610AbiHYGfg (ORCPT
+        with ESMTP id S230078AbiHYGhg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Aug 2022 02:35:36 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F29FA00EE
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Aug 2022 23:35:34 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id s6so15714832lfo.11
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Aug 2022 23:35:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=EvKjZn6Jwen4vu3P72obwS4c6ve0NpMMiuM5nFUjsc4=;
-        b=hA4GPgaoc/uO4LTyPl6C3Xt+kHB33H1tgfQHneoEsl2dH6kJVkPkiVqziKkgko6psm
-         sykCnNuBjKSGW65OLNnTjZsc1gMvL8pxzST7G8ZaC26d1V9GnCb8gADMrX52Pg5WmWCC
-         MFk+i+s7g5Oj+JlpHgSvV2gIhBbpO8NKxa5qw7xPHWMlOMRk1AL6omhiRuXnNvaZnV7C
-         hzs9IqK1KglzKfqWlH1w0ETUDb9CENa5j95XHDtoTAK8Tdo/Y/REu5u5q9EduEq8Rjsd
-         lawoJlipNd21qz0GU9CDOlfVn2/cLAWisLJlvtML6nXytSjRYSh6PEQckm243xqW+hR8
-         iTUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=EvKjZn6Jwen4vu3P72obwS4c6ve0NpMMiuM5nFUjsc4=;
-        b=ovMtK5oOlsErk6KspILbqNG+3IBgNc5TU/MWIrj5pUuRz2K0Q4cDK5enPbYE/I0lBR
-         eBVf8Za7pCDkcoQ+IhjbETua0LI4TzsaGL0rvaQO/8Ip3ODsdyimkzVg2kfsW/4O04xg
-         ydYmfxlgzQMEDJ6kZNHmVnxGCBiHa+LwqFapKY4HBrmGoTQp7bMfzRUxrPYSf38rEz3W
-         fl3H9YP6CHnNY9BsyBNhemLYTv3Il/mMIsowS67GU2pC+0o+SG+R8P2aJNNmlaboqZve
-         tRcL/+3HuKsBTxQDZCnL5IFbscl7vqzl04e9t42sOAYhqQThizuFeeK5CbczLdIz0ebZ
-         IYFA==
-X-Gm-Message-State: ACgBeo1SThr3H/AMbQdp27AtpG3iHlmb+0MBBOb+WAwDmrdO2lVo8SIE
-        hzCD+Uy7CJOw4yukXx0tdUK1Yg==
-X-Google-Smtp-Source: AA6agR4MXfi9uA9HEyxEy5/qdbVPXms4C7TdYuwdEmdffkyYQy/oAl819Jf7A8eMC6blyL3NxEOxFA==
-X-Received: by 2002:a19:6a05:0:b0:492:f775:6f43 with SMTP id u5-20020a196a05000000b00492f7756f43mr638867lfu.10.1661409332398;
-        Wed, 24 Aug 2022 23:35:32 -0700 (PDT)
-Received: from [192.168.0.71] (82.131.98.15.cable.starman.ee. [82.131.98.15])
-        by smtp.gmail.com with ESMTPSA id k16-20020a05651c10b000b00260fdfdd23csm329602ljn.109.2022.08.24.23.35.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Aug 2022 23:35:31 -0700 (PDT)
-Message-ID: <3ea10afc-61f4-a5ac-aef9-16ddc6f845e6@linaro.org>
-Date:   Thu, 25 Aug 2022 09:35:29 +0300
+        Thu, 25 Aug 2022 02:37:36 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD029E887
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Aug 2022 23:37:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=8gyh56S0jJ8LLoS1339jRMBclOya
+        sljMtl5KEZS7o/0=; b=c3ylfx1lW/nGWWeim7QGDoeA/0UmV58mmX+u7SA8Fk4w
+        0u61xFM771ExunkbLfUIGlJoLk75Y57wg66ljx+cdlUHaO/lBlU4xEWcTvtpuA4S
+        szVrWg2vZNMq2qUVMFJkDS/AqFMsu1DZoqdgh8PZR9gb6BhjulCN/UliaL9yzkI=
+Received: (qmail 2542699 invoked from network); 25 Aug 2022 08:37:30 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Aug 2022 08:37:30 +0200
+X-UD-Smtp-Session: l3s3148p1@MNcXCAvnfLEucrTo
+Date:   Thu, 25 Aug 2022 08:37:29 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 0/5] arm64: dts: renesas: move I2C aliases to board files
+Message-ID: <YwcYqbIuwtImOQ7/@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
+References: <20220729164425.11062-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWW0kPATT4zGcjcEPw6XO+18MWJAn_HESe3rrtoEoF=FA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] ARM: configs: replace CONFIG_NO_HZ=y with
- CONFIG_NO_HZ_IDLE=y
-Content-Language: en-US
-To:     Stefan Hansson <newbie13xd@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Taichi Sugaya <sugaya.taichi@socionext.com>,
-        Takao Orito <orito.takao@socionext.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org
-References: <20220822161018.16101-1-newbie13xd@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220822161018.16101-1-newbie13xd@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vlcxb54n4PfOZJyX"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWW0kPATT4zGcjcEPw6XO+18MWJAn_HESe3rrtoEoF=FA@mail.gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 22/08/2022 19:10, Stefan Hansson wrote:
-> According to https://www.kernel.org/doc/html/latest/timers/no_hz.html,
-> CONFIG_NO_HZ=y should be replaced by CONFIG_NO_HZ_IDLE=y for newer
-> kernels, so let's reflect that in the 32-bit ARM defconfigs.
-> 
-> Signed-off-by: Stefan Hansson <newbie13xd@gmail.com>
+
+--vlcxb54n4PfOZJyX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Geert,
+
+> I have never been a fan of the i2c aliases in the SoC-specific .dtsi file=
+s,
+> as aliases are typically board-specific.
+> We also don't have physical connectors labeled "i2c<N>" on any of
+> the affected boards.  But people like the i2c aliases, because i2c
+
+The reasoning here was that the busses were named like this in the
+schematics. Debugging was confusing if these numbers were mixed.
+
+> exposes the full buses to userspace, and the aliases fix the userspace
+> naming of /dev/i2c-<N> (I believe there is no better way to identify
+> i2c buses from userspace?).
+
+The proper way is udev rules.
+
+> So moving the i2c aliases to the board files is definitely a step in
+> the good direction.
+>=20
+> BTW, you missed r8a774a1.dtsi in your update.
+
+Okay, so I will send v2 with the above SoC converted as well?
+
+Thanks for your comments,
+
+   Wolfram
 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> # Samsung
+--vlcxb54n4PfOZJyX
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Best regards,
-Krzysztof
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMHGKkACgkQFA3kzBSg
+KbbaYg//Sxg95wFf1S5jvVkEuTJZAB+hrsrS+2LQJHg+XKkvmWdsFT21ctQaunu5
+g43Z9CQ3W0TgLAF8R9jO6tuwRq3og4xcxmvOT2FrGc4ThEOfSmV054yWRrZqZUGm
+kvm2nx3bPrsI0rP6Oz7LMX5pWxwoaBZGB1lvlTdc/b6GL+jmlkiRqzKnUXubSgkO
+mLnN1960UHrVQuom1nq9k+ysghIhA05vLWeghAa5OVPewmypMytjoazpwGvXp/gN
+ITT7AmnHYc1lfLap2gKHbjIZKaZbd/sOy3IpGhl68tX4WmMErjZMMS+Dtl2sBRIz
+BtBHU4fJ+xfrv+M2WqMO1+qF62KvBosl+5vrNpq9hcd/VbugSXWZJhl+bm4uZ4Nd
+qo6+h4Nopuxls8N+WR3wupB6mBFtXkRm+zXa86pC7y/sWdTjvWx1nw2+/SJa9Ave
+BluFnswgcqab7yGpEVOS4wjwNu7C7zFz6mcnhOxZbKv81YnN0ajVYVJSbUuPjrBw
+c4Pjyl7TwWTMHJiXX9Ve5uhXjerqPfdJf1gMq3IUHiSc5lczfGeuERxBu1un48Go
+8kB7uHxP6YpZ6Tz0C3lFRc5tRrkK2eiRwriuD6ZgMwkppxWKERIZWxsJlF8rYUTf
+vAKgGxpfkG/HPZGX5g9rxddKyUhb0bXUNL/3j+0WombKEs+/WFE=
+=sJ1X
+-----END PGP SIGNATURE-----
+
+--vlcxb54n4PfOZJyX--
