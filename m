@@ -2,59 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3918F5A19CF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Aug 2022 21:49:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7513A5A1B19
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Aug 2022 23:32:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243246AbiHYTtB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Aug 2022 15:49:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45970 "EHLO
+        id S232541AbiHYVcw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Aug 2022 17:32:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243313AbiHYTs6 (ORCPT
+        with ESMTP id S233208AbiHYVcv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Aug 2022 15:48:58 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07D9B753AD;
-        Thu, 25 Aug 2022 12:48:57 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id n17so1278570wrm.4;
-        Thu, 25 Aug 2022 12:48:56 -0700 (PDT)
+        Thu, 25 Aug 2022 17:32:51 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88008BD741;
+        Thu, 25 Aug 2022 14:32:50 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id e20so25646921wri.13;
+        Thu, 25 Aug 2022 14:32:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=EEQaOMPMio1TV/1T2nsXijwtVuTW2Re2GSl+fTHb2hE=;
-        b=EOSwTGoA0nee7KFDbY0hqShMabo5lvAZLhzj+GVpXhf++Nzj9OmUn1OmWPoyWldHhh
-         dbnv+/P4Q5eGuNwR8TRpA5vnA71y/Ce1/+KcGBQ6tdxjU8neWPGCvfemSOgYsxBw8wWD
-         /r9CrCVNubmy7oRWc7HuFASont4/bo0USnvpHoPD4sH8l2EyTnNC/e/T0T/K21K+q93v
-         ZgCFsmmoNiygJD27wzIH2Y0gk2krAVmjCcEsgBCs8+912zcjpv5PrvliOdMBJuwshUXM
-         5AuVZDl8hY1dUgNxix/rwOXM95rTapj4RVl6B2/HXjH88mM8Vf/D4YhYMVe3E0VrWWyE
-         q9Hg==
+        bh=EqzBE2zZDGLUoXZ6/uzFpkdW0uwLXRH/ZxpTVcEz4RY=;
+        b=qRHXiAAEFxUcduAYJZefohZKXO+X74fsUPVcUnRRNf+vtvMwz8JzmfaFa/1seliOel
+         N5+yl3sLaJJlffdQq01u8PTRL9UQxM/PoiC7ftzfbX51Aq8ANtKnXVyaXgD923wBKQqx
+         rBg83MrdCs3pKmg8CGmdCWsr4aZh99glKYt7zXjnFcbfRHvzafycELQgPgmSYOf7BN47
+         3MaiDabh9OZ1Utit2EFvQvYo7b9K4nHYjvp9OZyLoiy4FQG3LnBO8IAQNX5J9l2cb7T5
+         rtgQnl9eXZzPWaaixqRuGQhKVWXU5V00NS72L6T+gCoNDqeMumddMdJCTb3+B406bi49
+         Wkgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=EEQaOMPMio1TV/1T2nsXijwtVuTW2Re2GSl+fTHb2hE=;
-        b=j+pyGv0GL5IDSommsaBkXxuF6HWewVQJ/l01KChEAqZsxaucuJ/vgntbGyt+gum0Jf
-         KRsIxpi6nCst9okm+ZbiNov6kCaguQKPKwxp3QIHG/fTZ7DZKlFQpb77R7NKnqzN8nMT
-         5LFxbmN0ijwaupvtpf/Cbld4wYrucKisyyUXB93jPPOKM0uw4KvZPqXJIgltUZ8vljfQ
-         h6GMkjGqzLrfvruOf1qHCgTznojjRrk9zMcX2XEm9SjIX+VLbLE/BTPJdVcLmz0zVBcd
-         bujz55uFW3ck7zd++uNsZy74x4MV5j9KqkkFIEwcJkFrSlto6RQI2YnVVg9fXawrna2i
-         Ry0Q==
-X-Gm-Message-State: ACgBeo2cgwnl5/FdXOefNGxUBj2+AS18NOaq8VPcBdDXsNGz7KyQgc9s
-        Nr6PVJwMkfpX80QN04aEdVY=
-X-Google-Smtp-Source: AA6agR6a+jB85i972kXbhLkKKpllW7496fpWqVVpOsWOvIO65uvf0tz0QQyG4Bto1DkO00QbeWBtGA==
-X-Received: by 2002:a5d:514d:0:b0:225:3507:79e6 with SMTP id u13-20020a5d514d000000b00225350779e6mr3063920wrt.85.1661456935527;
-        Thu, 25 Aug 2022 12:48:55 -0700 (PDT)
+        bh=EqzBE2zZDGLUoXZ6/uzFpkdW0uwLXRH/ZxpTVcEz4RY=;
+        b=Yg87BBXQ477pUjuAauM9xKfhIdmjd7vFJqzw63OYNQJ7DlzjR7HyGyzASeckQ5lc6T
+         qzZsfbekazBDzOpNfQfDbNbWE1lwIV7+JdjfulQb+iiT1HjTsSYEYXLsJxRPaUGwNhsL
+         8RIXF1oEeL51bmeJmJOyK/AcZorjxDQYn7w4LLrDdhogDP+LtRu9Es74BY2LbrROVXfJ
+         KgLL7mGQl68DVIE+4FIeVXXSnfEJvODSN93eNrRqixLLNkTAn3j0oW/BsGrIDiZwzR9K
+         +JMHirE8wDh/II3ZrHqMlMfKLquiP340DPEGSZX8FoGniO1pgQ7FxtoZ9ONufgSvjUiV
+         tMYg==
+X-Gm-Message-State: ACgBeo37NzhVRHJF6O+9kf5vr9+xGM1ocxIZjv60Kh7Kp7PcdwUkDqi4
+        S0ZLlNjEcnCkV3EsgUzkbZA=
+X-Google-Smtp-Source: AA6agR4t8yoF99sRe2L0fBzRS1+im+UO4VTke2Bd+B09oSf0uCYPQMeZRw3swuBH9PBDTRwnH39EJA==
+X-Received: by 2002:a05:6000:701:b0:225:3f77:9793 with SMTP id bs1-20020a056000070100b002253f779793mr3124854wrb.202.1661463169088;
+        Thu, 25 Aug 2022 14:32:49 -0700 (PDT)
 Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id f5-20020a5d4dc5000000b002235eb9d200sm120536wru.10.2022.08.25.12.48.53
+        by smtp.gmail.com with ESMTPSA id n3-20020a05600c3b8300b003a319b67f64sm14167595wms.0.2022.08.25.14.32.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 12:48:54 -0700 (PDT)
+        Thu, 25 Aug 2022 14:32:48 -0700 (PDT)
 From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     Russell King <linux@armlinux.org.uk>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
+To:     linux-arm-kernel@lists.infradead.org,
+        Arnd Bergmann <arnd@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Alim Akhtar <alim.akhtar@samsung.com>,
         Shawn Guo <shawnguo@kernel.org>,
@@ -63,37 +64,49 @@ To:     Russell King <linux@armlinux.org.uk>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
         Vladimir Zapolskiy <vz@mleia.com>,
-        Taichi Sugaya <sugaya.taichi@socionext.com>,
-        Takao Orito <orito.takao@socionext.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
         Andrew Lunn <andrew@lunn.ch>,
         Gregory Clement <gregory.clement@bootlin.com>,
         Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
         Aaro Koskinen <aaro.koskinen@iki.fi>,
         Janusz Krzysztofik <jmkrzyszt@gmail.com>,
         Tony Lindgren <tony@atomide.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Qin Jian <qinjian@cqplus1.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
         Chen-Yu Tsai <wens@csie.org>,
         Samuel Holland <samuel@sholland.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Jonathan Hunter <jonathanh@nvidia.com>, Bin Liu <b-liu@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Mark Brown <broonie@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Shannon Nelson <snelson@pensando.io>,
+        Peter Chen <peter.chen@nxp.com>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Felipe Balbi <balbi@ti.com>, linux-kernel@vger.kernel.org,
         linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org, arnd@arndb.de, olof@lixom.net,
-        soc@kernel.org, Stefan Hansson <newbie13xd@gmail.com>
-Cc:     Stefan Hansson <newbie13xd@gmail.com>
-Subject: Re: [RESEND PATCH] ARM: configs: replace CONFIG_NO_HZ=y with CONFIG_NO_HZ_IDLE=y
-Date:   Thu, 25 Aug 2022 21:48:52 +0200
-Message-ID: <2642863.mvXUDI8C0e@kista>
-In-Reply-To: <20220825162034.5901-1-newbie13xd@gmail.com>
-References: <20220825162034.5901-1-newbie13xd@gmail.com>
+        linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH 01/11] ARM: defconfig: reorder defconfig files
+Date:   Thu, 25 Aug 2022 23:32:46 +0200
+Message-ID: <4207673.ejJDZkT8p0@kista>
+In-Reply-To: <20220818135522.3143514-2-arnd@kernel.org>
+References: <20220818135522.3143514-1-arnd@kernel.org> <20220818135522.3143514-2-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
@@ -107,57 +120,52 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dne =C4=8Detrtek, 25. avgust 2022 ob 18:20:35 CEST je Stefan Hansson napisa=
-l(a):
-> According to https://www.kernel.org/doc/html/latest/timers/no_hz.html,
-> CONFIG_NO_HZ=3Dy should be replaced by CONFIG_NO_HZ_IDLE=3Dy for newer
-> kernels, so let's reflect that in the 32-bit ARM defconfigs.
+Dne =C4=8Detrtek, 18. avgust 2022 ob 15:55:22 CEST je Arnd Bergmann napisal=
+(a):
+> From: Arnd Bergmann <arnd@arndb.de>
 >=20
-> Signed-off-by: Stefan Hansson <newbie13xd@gmail.com>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> # Samsung
+> The debug-info and can subystem options have moved around in the
+> 'savedefconfig' output, so fix these up to reduce the clutter
+> from the savedefconfig command.
+>=20
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  arch/arm/configs/bcm2835_defconfig       | 2 +-
->  arch/arm/configs/cm_x300_defconfig       | 2 +-
->  arch/arm/configs/davinci_all_defconfig   | 2 +-
->  arch/arm/configs/dove_defconfig          | 2 +-
->  arch/arm/configs/exynos_defconfig        | 2 +-
->  arch/arm/configs/ezx_defconfig           | 2 +-
->  arch/arm/configs/hisi_defconfig          | 2 +-
->  arch/arm/configs/imx_v4_v5_defconfig     | 2 +-
->  arch/arm/configs/imx_v6_v7_defconfig     | 2 +-
->  arch/arm/configs/integrator_defconfig    | 2 +-
->  arch/arm/configs/lpc32xx_defconfig       | 2 +-
->  arch/arm/configs/magician_defconfig      | 2 +-
->  arch/arm/configs/milbeaut_m10v_defconfig | 2 +-
->  arch/arm/configs/moxart_defconfig        | 2 +-
->  arch/arm/configs/multi_v5_defconfig      | 2 +-
->  arch/arm/configs/multi_v7_defconfig      | 2 +-
->  arch/arm/configs/mv78xx0_defconfig       | 2 +-
->  arch/arm/configs/mvebu_v5_defconfig      | 2 +-
->  arch/arm/configs/mxs_defconfig           | 2 +-
->  arch/arm/configs/omap1_defconfig         | 2 +-
->  arch/arm/configs/omap2plus_defconfig     | 2 +-
->  arch/arm/configs/orion5x_defconfig       | 2 +-
->  arch/arm/configs/oxnas_v6_defconfig      | 2 +-
->  arch/arm/configs/pcm027_defconfig        | 2 +-
->  arch/arm/configs/pxa168_defconfig        | 2 +-
->  arch/arm/configs/pxa910_defconfig        | 2 +-
->  arch/arm/configs/pxa_defconfig           | 2 +-
->  arch/arm/configs/qcom_defconfig          | 2 +-
->  arch/arm/configs/s5pv210_defconfig       | 2 +-
->  arch/arm/configs/shmobile_defconfig      | 2 +-
->  arch/arm/configs/sunxi_defconfig         | 2 +-
+>  arch/arm/configs/at91_dt_defconfig   |  2 +-
+>  arch/arm/configs/dove_defconfig      |  2 +-
+>  arch/arm/configs/exynos_defconfig    |  2 +-
+>  arch/arm/configs/imx_v6_v7_defconfig |  2 +-
+>  arch/arm/configs/keystone_defconfig  |  6 +++---
+>  arch/arm/configs/lpc18xx_defconfig   |  2 +-
+>  arch/arm/configs/mmp2_defconfig      |  2 +-
+>  arch/arm/configs/mps2_defconfig      |  2 +-
+>  arch/arm/configs/multi_v5_defconfig  |  2 +-
+>  arch/arm/configs/multi_v7_defconfig  | 12 ++++++------
+>  arch/arm/configs/mvebu_v5_defconfig  |  2 +-
+>  arch/arm/configs/mxs_defconfig       |  4 ++--
+>  arch/arm/configs/omap1_defconfig     |  2 +-
+>  arch/arm/configs/omap2plus_defconfig |  4 ++--
+>  arch/arm/configs/orion5x_defconfig   |  2 +-
+>  arch/arm/configs/pxa168_defconfig    |  2 +-
+>  arch/arm/configs/pxa910_defconfig    |  2 +-
+>  arch/arm/configs/pxa_defconfig       |  2 +-
+>  arch/arm/configs/s3c6400_defconfig   |  2 +-
+>  arch/arm/configs/s5pv210_defconfig   |  2 +-
+>  arch/arm/configs/sama5_defconfig     |  6 +++---
+>  arch/arm/configs/sama7_defconfig     |  4 ++--
+>  arch/arm/configs/shmobile_defconfig  |  2 +-
+>  arch/arm/configs/socfpga_defconfig   |  6 +++---
+>  arch/arm/configs/sp7021_defconfig    |  2 +-
+>  arch/arm/configs/spear13xx_defconfig |  2 +-
+>  arch/arm/configs/spear3xx_defconfig  |  2 +-
+>  arch/arm/configs/spear6xx_defconfig  |  2 +-
+>  arch/arm/configs/stm32_defconfig     |  2 +-
+>  arch/arm/configs/sunxi_defconfig     |  2 +-
 
 =46or sunxi:
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
->  arch/arm/configs/tegra_defconfig         | 2 +-
->  arch/arm/configs/vt8500_v6_v7_defconfig  | 2 +-
->  arch/arm/configs/xcep_defconfig          | 2 +-
->  34 files changed, 34 insertions(+), 34 deletions(-)
 
 
 
