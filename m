@@ -2,52 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A861F5A0F59
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Aug 2022 13:35:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F14E5A0F48
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Aug 2022 13:34:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240754AbiHYLfI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Aug 2022 07:35:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50612 "EHLO
+        id S241753AbiHYLeR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Aug 2022 07:34:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241728AbiHYLeQ (ORCPT
+        with ESMTP id S241663AbiHYLdv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Aug 2022 07:34:16 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8CC2AF4B5
+        Thu, 25 Aug 2022 07:33:51 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93E14ADCFD
         for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Aug 2022 04:33:46 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id q7so24128766lfu.5
+Received: by mail-lf1-x134.google.com with SMTP id m3so22125740lfg.10
         for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Aug 2022 04:33:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=uAj6PCuWD0Jdh8SbbVYKmqZvEbRpC9H1z0Nl20Cruac=;
-        b=fvXfXXHh5BGdtsz5EycnPawDsbQFYVSc5NIkbHOCBoaR5sbVKjYhKf0riJxZtsJPn0
-         yLkXyOcZ7O7JIzBtCuFXAdx1hymKNbd4gs+d7nj0e4VvWl4XrfrySGc/UWWzKKDZEhIK
-         PMz9IhmKovNl6wE5mKmlZCJbkOZLvYujeJ9+Z+PdLEovtKAiynUSGlYTdFQH+L9I1o33
-         aPzbFi0vyGjMUfUK4pO5yOoysBDhVf7GAzunWBiJtmNBaA9A23nonR7Uj/jAlkl5+u/w
-         Pqke31tLYylGnmywof9M0uE0+6i88SzV9fj6yOGafWmodh1kwDgsqFgTQIZDW9VnaqaW
-         R9Dw==
+        bh=rAhRbS5Hk1kN9gbEDWwLBULDbxnKhCFi0FL2yZCunlY=;
+        b=Av27/C5NVsVRQaqJAXLuQXpw7HiV0wJTfn+9nSBgWIEud3WcL3Gft6ynC1JScUbV0U
+         ino1zB+WcHBvRYvbhkOAF+Iu61iV1unfYEaIQ8NL8Q+NLqQCaqr5DT1TYU2igBaf/rzv
+         ePh78adyk7hseBfuO5jxF4HevbhOAaMgm0uvEPO583j3CiLRzFGcBO/y4RwtCCLPnOg1
+         H2u1I91QEmubGJuRuScSZmWG2x0s0Vq4yYVDSNw6sc1f+urBWA/mrIExWkVxyto0bCrf
+         UaXCyMebLCQsdx3Ia9yVdSBGjO44wZqz98mb9P33oDOQUa7tGbWYVCYuQ/PostNU+aLI
+         ajzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=uAj6PCuWD0Jdh8SbbVYKmqZvEbRpC9H1z0Nl20Cruac=;
-        b=zeIm6YlqUtQJDMTX/wnoQclDGnh5A0rmhDyO0lgggdekij18/w9ZuQCR5s8STU0gb8
-         Dn9MiXnxD2Hrk8zRyUlh1neiZhhLpeFID/d9tgyJuES+wgsN4H15Dg6RT9tHb09tHy7z
-         uCTq+gwc3Nxzc2D4uIjqo05+UPIhS8z8ucTdyu2Z+HH16vLvW7iQFUdInSLNoRdgoFBw
-         K1xuqTwztNh9obb7gA1fRZ6kg9+nH9De6Im72798Bcv/wSpgYQ4CYyygzZd8G4jAn3Xs
-         2NcX45tLPFaeUHwUnlIQHLmRI8Bb0iqUtYv+mfh8UUO9Pb5wLF8meyWUpnVK/fLb+7/t
-         /VeA==
-X-Gm-Message-State: ACgBeo15CboFlkyPcNfkyyvHcFBzLwoGg6XIrMRhJAE3pUildR/Fxo0d
-        pd7SsRjHJyMTRIYUNM0K30uLZg==
-X-Google-Smtp-Source: AA6agR712qcvmFpt50SIccfBNtYn9ngIdkzCeLBRl3LE4oSeWQnKcFPJ0lH5Lj37t8pI5y2uiTBTEw==
-X-Received: by 2002:a05:6512:3f06:b0:492:f6b6:ad8b with SMTP id y6-20020a0565123f0600b00492f6b6ad8bmr993416lfa.544.1661427223942;
-        Thu, 25 Aug 2022 04:33:43 -0700 (PDT)
+        bh=rAhRbS5Hk1kN9gbEDWwLBULDbxnKhCFi0FL2yZCunlY=;
+        b=TJj2nvZguq57HWN9Od9CanIfCLPeotnXC4bj6Vv7IFmS0kARQ/+olt6h/UjM4gNVha
+         vfPEW0PPTaZ1mylpqmYKZ0c3uLIkliAKurRdH0uNL59f5vUAL+8MuOf5N50Ji/C1T84w
+         vlWQwxI1GrzKrQ8qr4rwLMqLr7ZKU44v8DA0/9ZLjrKIPmIpk88wsiW43RyLl+cwNtPl
+         vg7bkUZJlvcogYtwGsSlklo1gSGkBm6jZvFMMWEhuOxefTMIXBS9kRsdY5EXo+Nhdl6f
+         iI1/azm0INhdjgsiIObr/Jjcx9daT415OSpUazygN0ymDp41c/6uU9lgT4KXONtaBVYc
+         XTNQ==
+X-Gm-Message-State: ACgBeo2s/hJVv1W+ifiEnnyy05GdEaz6QE20rIooCSsLkLlNCrBQz6aH
+        ACiOOJddB9N+Gca0V0rs3ZHRQA==
+X-Google-Smtp-Source: AA6agR5ARi7uYm75nWPki92DVWkyl/mNNshlJuokdO63dhV9ChVFh/gL131JyPDDh3uXbw7046OIIQ==
+X-Received: by 2002:a05:6512:b12:b0:492:8943:c813 with SMTP id w18-20020a0565120b1200b004928943c813mr962504lfu.143.1661427225903;
+        Thu, 25 Aug 2022 04:33:45 -0700 (PDT)
 Received: from krzk-bin.starman.ee (82.131.98.15.cable.starman.ee. [82.131.98.15])
-        by smtp.gmail.com with ESMTPSA id e18-20020a195012000000b0048b0aa2f87csm446764lfb.181.2022.08.25.04.33.42
+        by smtp.gmail.com with ESMTPSA id e18-20020a195012000000b0048b0aa2f87csm446764lfb.181.2022.08.25.04.33.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 04:33:43 -0700 (PDT)
+        Thu, 25 Aug 2022 04:33:45 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -95,9 +95,9 @@ To:     Rob Herring <robh+dt@kernel.org>,
         dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
         freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 3/5] dt-bindings: clock: drop minItems equal to maxItems
-Date:   Thu, 25 Aug 2022 14:33:32 +0300
-Message-Id: <20220825113334.196908-3-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 4/5] dt-bindings: crypto: drop minItems equal to maxItems
+Date:   Thu, 25 Aug 2022 14:33:33 +0300
+Message-Id: <20220825113334.196908-4-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220825113334.196908-1-krzysztof.kozlowski@linaro.org>
 References: <20220825113334.196908-1-krzysztof.kozlowski@linaro.org>
@@ -106,7 +106,7 @@ Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -118,55 +118,21 @@ redundant piece to reduce size of code.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml   | 1 -
- .../devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml  | 2 --
- Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml    | 1 -
- 3 files changed, 4 deletions(-)
+ Documentation/devicetree/bindings/crypto/samsung-slimsss.yaml | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml b/Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml
-index 0abd6ba82dfd..82836086cac1 100644
---- a/Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml
-+++ b/Documentation/devicetree/bindings/clock/cirrus,cs2000-cp.yaml
-@@ -23,7 +23,6 @@ properties:
+diff --git a/Documentation/devicetree/bindings/crypto/samsung-slimsss.yaml b/Documentation/devicetree/bindings/crypto/samsung-slimsss.yaml
+index 676950bb7b37..5b31891c97fe 100644
+--- a/Documentation/devicetree/bindings/crypto/samsung-slimsss.yaml
++++ b/Documentation/devicetree/bindings/crypto/samsung-slimsss.yaml
+@@ -24,7 +24,6 @@ properties:
+     maxItems: 1
+ 
    clocks:
-     description:
-       Common clock binding for CLK_IN, XTI/REF_CLK
 -    minItems: 2
      maxItems: 2
  
    clock-names:
-diff --git a/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml b/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml
-index 6eaabb4d82ec..81f09df7147e 100644
---- a/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml
-+++ b/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml
-@@ -47,7 +47,6 @@ properties:
-     maxItems: 1
- 
-   clocks:
--    minItems: 4
-     maxItems: 4
- 
-   clock-names:
-@@ -64,7 +63,6 @@ properties:
-     maxItems: 1
- 
-   resets:
--    minItems: 2
-     maxItems: 2
- 
-   reset-names:
-diff --git a/Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml b/Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml
-index 9248bfc16d48..d5296e6053a1 100644
---- a/Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml
-+++ b/Documentation/devicetree/bindings/clock/samsung,s2mps11.yaml
-@@ -34,7 +34,6 @@ properties:
-     const: 1
- 
-   clock-output-names:
--    minItems: 3
-     maxItems: 3
-     description: Names for AP, CP and BT clocks.
- 
 -- 
 2.34.1
 
