@@ -2,150 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 495375A0586
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Aug 2022 03:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B43685A08D9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Aug 2022 08:30:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229669AbiHYBLp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Aug 2022 21:11:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51122 "EHLO
+        id S233915AbiHYGaP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Aug 2022 02:30:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229707AbiHYBLn (ORCPT
+        with ESMTP id S235002AbiHYGaN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Aug 2022 21:11:43 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2098.outbound.protection.outlook.com [40.107.113.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A3905721C
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Aug 2022 18:11:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cXUpgBVRc54KbUoxEQMDa3LelrGfChSm/FHShSPekonFN2gYYpSoMeYDWqiCFPr+BFo6pTHPi6asy2ZNKkL4GI+g419U5YJci/w85zom3nBOXnwUlLu6V18IxFfHW1fJ/GklzkE0qdJtxM7SKCcQnxMnEAb3jXzRdFqdRt21Cy4Mzv86rcOXsJUtGdCv/Ytz16cPRqOKkQ6NSqr6mnNoaWgroFONTfd8bqmB0NqxUOGQ9XswWMM5B0ohPpQCAC0l9cjzp1+RI+SXeL7HUm70avxfbsxnbXAuq7jHD2W3gcB+ZJwJKFrZiIFQZX7Zy7SxGMWH46/TY98fGJ+hAvT3uA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WA7/e1R/FURuR0Y5EANCb3ghdQw/+NSM/Gr0xUtK5xk=;
- b=lop4uOeXFRbjmwfzorOnW01fppiNsxvJNRw/chh8FQrZrUwDoBmLI8CZHnuDxdYrqWOltxT24gCKQNUXWVirxwO/YF0Jd7Xq14Xmbe9Ut9uemvPU2ntbI2LhJLtxmZz6u9w/La0tgN1cUiD7nBcyyq5ei2Io/v5BtD6gNwM69Q7WqHIQ3CrmhIlcuaj/VeWspSWhq6HfWs9t3dziZugTfgvAJdWFqT3FDpUOuPvayAPRqxWi88RGRTbLt/36jm1z/bZ+iHJPZ9wDIJOAXVrK8iQyxBcZ4Y/PTpxFkNhHqyvKR8jtqTjypU/KvngPkeXBPi4KW69qdDRpsq/J3BBU4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WA7/e1R/FURuR0Y5EANCb3ghdQw/+NSM/Gr0xUtK5xk=;
- b=Ej0Wx4CgYods9L4nWzxLUZXg9d2rtgLb3FM+D1sijIIOa0T2WHQr5KRdJ3/023DTq6ygQrtB3jlhy8oaJCrpjxwru51pEYli9QDMeG+/J3uFPm7EGYIXh2LKm/K6X19Hb7WXXPAcpqoJoIKaKs8b/NgpjBpEZUuOEV4RcXdS4eM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
- by OSAPR01MB4563.jpnprd01.prod.outlook.com (2603:1096:604:6a::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Thu, 25 Aug
- 2022 01:11:38 +0000
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::bdab:be26:6e36:88c6]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::bdab:be26:6e36:88c6%3]) with mapi id 15.20.5566.015; Thu, 25 Aug 2022
- 01:11:38 +0000
-Message-ID: <874jy12kl7.wl-kuninori.morimoto.gx@renesas.com>
-From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: fw_devlink.strict=1 breaks sound card probe ?
-In-Reply-To: <CAGETcx-4+RkgXZjK6yDMr97Q2iUDJxosqp9s2EyhFW7+WCcFrw@mail.gmail.com>
-References: <87sflmuyf4.wl-kuninori.morimoto.gx@renesas.com>
-        <YwXxT0Gr1KQQb71F@pendragon.ideasonboard.com>
-        <CAGETcx-4+RkgXZjK6yDMr97Q2iUDJxosqp9s2EyhFW7+WCcFrw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date:   Thu, 25 Aug 2022 01:11:38 +0000
-X-ClientProxiedBy: TYBP286CA0019.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:404:ce::31) To OS3PR01MB8426.jpnprd01.prod.outlook.com
- (2603:1096:604:194::10)
+        Thu, 25 Aug 2022 02:30:13 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57E6B7B1DC
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Aug 2022 23:30:12 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id z25so26954677lfr.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Aug 2022 23:30:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=06xW1jLI62seO9Abhqf7FvVwnPtCd5zQbyZloWjUVF8=;
+        b=Xp1VJitjfneppA5ItyJbrwobLKiJktUPWTA3Y1e1m8wRQrWcEUDLziByK6pc4otLjj
+         WfLxaGtsT9q2g+Pf/M9H6mCz9mwaVGySTC2KCsil15m19xi0KzeJQmmaZGg1evoc5IxO
+         mcuVCcZ8H+ZAksS/LnZNZGjsOdf4mrk7+wtqUvSsD2XfExoNatAshEygSvmYd90xKNyC
+         +73IxW2mSkX/spKZzU80B48EZ5YPWpnVhbUVx7VjEMGb9FMeRVsOQiMv3r5ueN9aPhMP
+         JhpO2ZCNHy80Dk8qZgubo0tF1HwcqmaaCDZ05OX01xcbFrXXR9bFHiGdzTRrvaqfH3yM
+         /GwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=06xW1jLI62seO9Abhqf7FvVwnPtCd5zQbyZloWjUVF8=;
+        b=Py8FhsVadnpDHfU54tW1DWBRU8sfKuamNiJWb7tFp86UscAobI1DWzeGlyJKQecxzA
+         K/sO0F8FFaKW89HaJ7yLSSgN4lTTgSJluQLts2y0rZTcIrRYArHV2qDzzb2kJUuZ2+9s
+         e7TGw8fA05E2RhU8b+fO3//SCC5qR6RxuLC1H2jB1OyL0mGRfsYEuGwEh9yH5g28ggNy
+         2UkdtNjtveZJC7vSEAu3l0ASY3rOCaRFoEE/GbPy1ogHTwPJ5ZPHcTWxv78mHndkU9U8
+         2GaDmeaxprpjBzWq6KDNN/mua+NbboJ9/fACqQe9DpJwyO8JeboKh5J5mlfVHOMNLs0K
+         6MeA==
+X-Gm-Message-State: ACgBeo1aQfjQDLJF+D/QJA98XsZdJ+kZVcuocQJiqY59+8jHgSphivpE
+        cNniYodztHMBg8XyMxNupY21UA==
+X-Google-Smtp-Source: AA6agR5voLFMZFTTgJvhNlxJQbRcDTQfj4hRCUGwRZmiTfWs0TLDdpCmpd7u6VEOeHEanOx6DfWmwA==
+X-Received: by 2002:a05:6512:c12:b0:48d:231c:3099 with SMTP id z18-20020a0565120c1200b0048d231c3099mr634468lfu.462.1661409010359;
+        Wed, 24 Aug 2022 23:30:10 -0700 (PDT)
+Received: from [192.168.0.71] (82.131.98.15.cable.starman.ee. [82.131.98.15])
+        by smtp.gmail.com with ESMTPSA id x4-20020ac24884000000b00492c2394ea5sm321001lfc.165.2022.08.24.23.30.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Aug 2022 23:30:09 -0700 (PDT)
+Message-ID: <7c502652-983b-f282-f989-b224942f27bb@linaro.org>
+Date:   Thu, 25 Aug 2022 09:30:08 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d811b10e-fd54-4b99-fd5d-08da8636c31f
-X-MS-TrafficTypeDiagnostic: OSAPR01MB4563:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3S6gEFSzrO2/v+Y+N1daYDqoFKXM87+NtW6kbbQBeN/varlvjPpuGG2ZWaY6pZWJI7OjQrOG6Z59CLeMM6RtnewSMUQ2ZXNKUMuOnr+ce8WeJpISA5NPW+jgs3PcoKoKR9HgYpIbNUUgMJN1IIqyUspVtIrNt1gPYsnMNZD98k3rAKK2qPyjHKKAeel+aUOugSM4167dlzqRpCxslfJIWc3WP9ft73CiYEE0tv/5toafsOoisylS959HWyBvs//1noPUcKHMSVYWyBY8Q7aIy816m5sQUvYXlyso6pNSNqPC6mVARqEudC3x3tCvobaEaUCCzXWoTaFtLb5D5WFHxfnFvyYMu39JeCFIKvSyU8jRLVyi9v1UDY6g4huFa0yqrX9Ch+VrtRPB2ErsxD+8vs/4E0gWc6qO240SEofAQDhQPS/iWj+5Wk/o1o4bap3u9idNULV79vn6u56x62WbpPq7AyxqyHlkdPVvR0hf0RQu5jAeLDPggACw9mavucJnP7b/vQfagK5ZaamXeIi+9XInQLrQ9H/oVOWtGB34kG9qrDxMs/89l2v+VK3qJ7Pi+VZCufGDbBqz1IP8vXp4eCfhqH4KAhPYXWuQcAWzzq+zRIHvuJ5VcYhYtWJPhz9fbTUwY+/6HpjYllmOlEu2B45VyP+D4daqIjMWihnLvQOHBmLrPpLfayc5Yt/BbLNoAWVsoLJv1qbRknFrnjkJEnPIOQLtW51ghrjJFUZbmI8Ey6Y7lp2lp3GHBmNpeHosgn2NAglngbGHDOdZIv3E3w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(396003)(136003)(346002)(39860400002)(376002)(38350700002)(38100700002)(6512007)(6506007)(52116002)(83380400001)(2616005)(6486002)(186003)(478600001)(36756003)(8936002)(41300700001)(2906002)(5660300002)(4326008)(8676002)(66476007)(66946007)(66556008)(86362001)(26005)(316002)(6916009)(54906003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IMhoxCU7aCV75HDLBLPBvdwdKhCCtd5Fh+gEkbXKC+q94VGseBCo4j/40XvZ?=
- =?us-ascii?Q?iqGMJ/HktoaNftzknI2+VfZmNdSHCykzoBnpAD65aTiL4D6EzsJLSt7zhVha?=
- =?us-ascii?Q?KUWGT6WIM17suLKFC0eb0wl/6eFX2GocqM9XeJKdPT9CIetpFgk5KmTjubbb?=
- =?us-ascii?Q?j3wnkam480CRLwW/PY6/NJbiFv3rrP7v9skcl7jXgXtw8BNpJdY0AwjDJuC4?=
- =?us-ascii?Q?NVxQpQex/b8Sc4I9DDZfgoyUSGC++4kwXj7IFGrOo4pvXXM7KD1xrdrYDHNR?=
- =?us-ascii?Q?jv/FA4o4RNbAEQFvixNv1h51tkChw/5yaYfihBwJMkEOLP/9/XoHSzNvk/F5?=
- =?us-ascii?Q?STHAwloi9uYXTcPJGnKxLP8Sdy64EqWBVUU2mQgkVKVPdOtdyEA/CdA9rkOQ?=
- =?us-ascii?Q?/ZoJ06o22I/ZDsMNwekqk9YxiyWjOJpwWB7Oahi8JOA0P/89O+XtabkSq6W2?=
- =?us-ascii?Q?dHn8iqurYrqdesUXHxfD7vx/vxTRso/9WAgPSK76fTvrW2q6g4l/SJbKeLC1?=
- =?us-ascii?Q?w9zWHk5Map+YfAA7DXEDRJhJr7+nU/xcdU8F0VtVXIVIANUrLH1qN7GTBqWY?=
- =?us-ascii?Q?DPW+qOIeVjRLEwyYOH3fvSoTFXxSOyUCfnjSBdCBl0f+IcV+tY10mh4hfe+A?=
- =?us-ascii?Q?tM/BkwRte0ZolD+LYeGtqvAJ7ufIQc6wLdbDfbmQBICS/gpTGNtky5OtevdK?=
- =?us-ascii?Q?1olkbtffKwA+QKjQNSG8VQmEW+MQi89r2EPKkBbF/0Dr2RxIjzWSMX6TTN72?=
- =?us-ascii?Q?QkwXz7DfK0ZfIneAsl65zd0im+B2OLEEC8URdaZHcPGMvEanoT4ND/A9A32X?=
- =?us-ascii?Q?0YdsVhBBJfzIULyK3Y4z4ojqpImbpEsaVjaWumzOOixWs2CvLqQX15jucURn?=
- =?us-ascii?Q?CV5r/vH5MS8fO6GRI4rvcbeLtNby2NkS17AzAhcCJWkCjsl4Cy+8+AqZ3Elr?=
- =?us-ascii?Q?ZGE7Ho36pL56WqKyPFWIf2h6JV3KtdR89CjHLh7YclDnNzNg05IQclS560Ah?=
- =?us-ascii?Q?Bbx6+r48QjpI/F2KX2aif0nSzoZMhtnBkO45iFHXYkUipowjibdHSv/M8JV3?=
- =?us-ascii?Q?RJ9OIGWF2JPPjspvRJOJUFlrTV4IkjgJChjdii0U+EDY1CMdUN1uadG+NyJl?=
- =?us-ascii?Q?l44V+pYiqWwSPifkeSZy8LG7ahOVUM349urW3OfwOzo2AlZoym52vB7K/9xq?=
- =?us-ascii?Q?euX/tED6kNAP+AQQ31lt/K8Vv6Wu6r9eQ+JYgHTPW2HBSkJjUwiGshX/sIHe?=
- =?us-ascii?Q?mxDJa0gwNZcm3neFNAOrhaua5LwTWysYIoWN09rU9skWzZKXWgNKd3NTvjrM?=
- =?us-ascii?Q?Gb5Akb47pmHxw04GA49KAUWmvzGohDf5NKcMHo+q6v/S9Y2xtZ/LAyQsu4ZZ?=
- =?us-ascii?Q?VAkbS18KzXX2SRkBL6CJskVvM9ux9m4MRmk6Ax5fGx6iXweDWrc27Nw3hHTO?=
- =?us-ascii?Q?u0LHXldi59tIqzrlulb9bSlJPGRzZPovgYNpRYKIhnwSciS733JZCuU+t9N3?=
- =?us-ascii?Q?4ketAUNjC1hJxY5ILdVhoXmh+/4rQlJthK2oe25ZBcdUfPqQ4n9w7b9rthZd?=
- =?us-ascii?Q?YxOO7CQ3sjd7rYHnUoD3pGOtxOunwYOl2j9Nh/BPzyZUdqQJ5clW4eGXPtZG?=
- =?us-ascii?Q?pk/TgpFGNitKHkB19/259l8=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d811b10e-fd54-4b99-fd5d-08da8636c31f
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2022 01:11:38.8230
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sj1cgGzxMP3DgBVYNbdSqvQL7fDQtn846dIsxC3dWzFM3Cx6F6MjELyycBvaVKkxKgvz92Sh92V3ZQLuouQZJusRHDZzFFj5TXPxaqiKemMn+XQADvLIogVLJm4+EXiC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB4563
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH] dt-bindings: pinctrl: Add missing
+ (unevaluated|additional)Properties on child nodes
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Sowjanya D <lakshmi.sowjanya.d@intel.com>,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>,
+        Andy Teng <andy.teng@mediatek.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com
+References: <20220823145649.3118479-6-robh@kernel.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220823145649.3118479-6-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 23/08/2022 17:56, Rob Herring wrote:
+> In order to ensure only documented properties are present, node schemas
+> must have unevaluatedProperties or additionalProperties set to false
+> (typically).
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Hi Laurent, Saravana
 
-Thank you for your help !!
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> > > To probe "Sound Card", it needs other necessary drivers.
-> > > But it seems some necessary drivers are not probed by above patch.
-> > > In my quick check, "HDMI" and 1 of "Sound Codec" drivers are not probed.
-(snip)
-> > Saravana is more familiar with devlink than I am, so he may be able to
-> > diagnose that without further information, but otherwise it would be
-> > helpful if you could provide some logs. Enabling the debug messages in
-> > drivers/base/dd.c can provide some insight. The contents of the debugfs
-> > devices_deferred file can also be useful, as well as the
-> > consumer/supplier links in sysfs for all the devices involved with the
-> > sound card.
-
-Thanks !
-
-This devices_deferred file (which I didn't know) helped my issue.
-It was my fault. My .config had been missing necessary driver
-(= CONFIG_REGULATOR_FIXED_VOLTAGE).
-
-... but... why it had been working without it before... ?
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
+Best regards,
+Krzysztof
