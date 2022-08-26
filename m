@@ -2,58 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 666845A235D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Aug 2022 10:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F24D35A2373
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Aug 2022 10:46:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236623AbiHZInX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Aug 2022 04:43:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43226 "EHLO
+        id S245296AbiHZIqM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Aug 2022 04:46:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245410AbiHZInH (ORCPT
+        with ESMTP id S245239AbiHZIqK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Aug 2022 04:43:07 -0400
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54A3F25F7;
-        Fri, 26 Aug 2022 01:42:43 -0700 (PDT)
-Received: by mail-qv1-f49.google.com with SMTP id l6so582495qvu.2;
-        Fri, 26 Aug 2022 01:42:43 -0700 (PDT)
+        Fri, 26 Aug 2022 04:46:10 -0400
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDA176B8DF;
+        Fri, 26 Aug 2022 01:46:07 -0700 (PDT)
+Received: by mail-qt1-f171.google.com with SMTP id a4so744399qto.10;
+        Fri, 26 Aug 2022 01:46:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=1TOFQLgW5ai0WaGlNj8bh4dsO/IqLgpL/eMztjVKjiU=;
-        b=Yl2yMM6NWReUF6jrVPMdikjxkp0mqhgaN+MFdlHJh9frQTZPOvzRVVQmcxSwy7PZMD
-         oE1gWl9IQHqtp5LBax9z/BkmHCnHR3FrDQiNeXZqIfuWKj32lfa8eIOO+7EiaEjmwGwd
-         lpk98lfi3hYDo7ZgtLhUPfpnGJMLH0hD8M8EfHCd357AVUybmXdX4CkYTLf3ZQRPmsf6
-         3ny2b5XC7xAP9fy7I9gNuCkdLy10prexe5p8fBKOAf9bhJ7PzjXj6QkGuWfu+XUvW99Q
-         LC4GKWRgn4I8bGtzHNXd1mC4KbO93Ge4x2AMasHkv2VklWw5WFLn3njdlngCg3pp0izH
-         CpOA==
-X-Gm-Message-State: ACgBeo30KPFy3SQhRN9XPuEB29HU6Sa7SVL6U69leh5dobViii4ZKPg/
-        Ma0rUiuGiCkz8OJqpgzYKZL/sp7F4iHwYQ==
-X-Google-Smtp-Source: AA6agR7h1av5995aN/nni0E40PmhYPNbnLiDTCDaKuM9CE8hNU7gS73/P+XQEN93zVV6okkBuNNN+A==
-X-Received: by 2002:a0c:b2c2:0:b0:496:f2f5:9691 with SMTP id d2-20020a0cb2c2000000b00496f2f59691mr6966254qvf.110.1661503362299;
-        Fri, 26 Aug 2022 01:42:42 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id bq44-20020a05620a46ac00b006b98315c6fbsm1377405qkb.1.2022.08.26.01.42.42
+        bh=o4DTZaQCZNcA9UZkl0hcqgSEdHaR0mKbqsnuvAS05gY=;
+        b=KYgLDC5P9mnqOTYDtW65F+MDfufdSGBBqIu7k+JsgchzSrVg9ycQeJo5iIpuQT4bX7
+         sysfnQzu0KQj2z5ppPIGOCtyCU8ZrJGZDyyouXtosgJAiMWvTYu+J2IsJR0+AmcRGrde
+         WrcaGaGcXLs1zyTYrQi47SlTv2Hravwd/BQMSbujK8eOd/3JUbHFOKTdZgvLiOsm+/ys
+         F0Ipewmbpvt5AkyPo7D0l78D5ld0JqPZdssvxAo8EaOGneHY6/IlJBVg1RAbHBZainCg
+         Zm1zmIvkOkW6ZBzrLnSCs6u/8xIi3IfI7y6u6MkywDGC3+9J6KReCvB1enOyXSDjikBw
+         eB4A==
+X-Gm-Message-State: ACgBeo1b5M8dOSBcqrxmbzd4bEmolQWTzzj9Pteal6R/Xq5OlMX4jRM9
+        N0krHT84KFcZXwD1c0XgB9dxOgrqlBeXYA==
+X-Google-Smtp-Source: AA6agR40bS0kXHJfn911mfRKa6f2abzY8auQX/4lrw5rlIufgqs0eUGUch7PIGqal+D0KGpyEIVOBA==
+X-Received: by 2002:ac8:584b:0:b0:343:6f4a:d04e with SMTP id h11-20020ac8584b000000b003436f4ad04emr6912128qth.425.1661503566731;
+        Fri, 26 Aug 2022 01:46:06 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id hh11-20020a05622a618b00b0033aac3da27dsm899247qtb.19.2022.08.26.01.46.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Aug 2022 01:42:42 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-3321c2a8d4cso19379167b3.5;
-        Fri, 26 Aug 2022 01:42:42 -0700 (PDT)
-X-Received: by 2002:a81:6d53:0:b0:33d:bbf4:7582 with SMTP id
- i80-20020a816d53000000b0033dbbf47582mr6018867ywc.384.1661503361818; Fri, 26
- Aug 2022 01:42:41 -0700 (PDT)
+        Fri, 26 Aug 2022 01:46:06 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-33dc31f25f9so19147207b3.11;
+        Fri, 26 Aug 2022 01:46:06 -0700 (PDT)
+X-Received: by 2002:a25:d80b:0:b0:696:6d79:4891 with SMTP id
+ p11-20020a25d80b000000b006966d794891mr1516074ybg.89.1661503566221; Fri, 26
+ Aug 2022 01:46:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220819193944.337599-1-phil.edworthy@renesas.com> <20220819193944.337599-4-phil.edworthy@renesas.com>
-In-Reply-To: <20220819193944.337599-4-phil.edworthy@renesas.com>
+References: <20220824094327.33685-1-wsa+renesas@sang-engineering.com> <20220824094327.33685-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220824094327.33685-2-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 26 Aug 2022 10:42:30 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWmC10CoA1ZXj12tpWVz_pUCh7ozhkgHjEzJ4-7boLnVg@mail.gmail.com>
-Message-ID: <CAMuHMdWmC10CoA1ZXj12tpWVz_pUCh7ozhkgHjEzJ4-7boLnVg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: renesas: rzv2m evk: Enable i2c
-To:     Phil Edworthy <phil.edworthy@renesas.com>
+Date:   Fri, 26 Aug 2022 10:45:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUXSniVs_LmdDpwqjR2i1KERS6T0pUAyBrQZoBUXkLtYw@mail.gmail.com>
+Message-ID: <CAMuHMdUXSniVs_LmdDpwqjR2i1KERS6T0pUAyBrQZoBUXkLtYw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] spi: renesas,sh-msiof: Add generic Gen4 and r8a779f0 support
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -65,28 +70,11 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Phil,
-
-Thanks for your patch!
-
-On Fri, Aug 19, 2022 at 9:40 PM Phil Edworthy <phil.edworthy@renesas.com> wrote:
-> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+On Wed, Aug 24, 2022 at 11:43 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.1...
-
-> --- a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-
-> +
->  &uart0 {
->         status = "okay";
->  };
-> +
-> +&pinctrl {
-
-... with this node moved up, to preserve sort order.
-No need to resend.
 
 Gr{oetje,eeting}s,
 
