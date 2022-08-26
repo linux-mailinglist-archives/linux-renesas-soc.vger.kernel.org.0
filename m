@@ -2,123 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B73515A2715
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Aug 2022 13:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76E285A28A9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Aug 2022 15:34:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230132AbiHZLst (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Aug 2022 07:48:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55690 "EHLO
+        id S245361AbiHZNeH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Aug 2022 09:34:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229940AbiHZLss (ORCPT
+        with ESMTP id S1344367AbiHZNeF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Aug 2022 07:48:48 -0400
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 632A6D0756
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Aug 2022 04:48:47 -0700 (PDT)
-Received: by mail-qv1-f42.google.com with SMTP id w4so597852qvs.4
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Aug 2022 04:48:47 -0700 (PDT)
+        Fri, 26 Aug 2022 09:34:05 -0400
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9995DC5F7
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Aug 2022 06:34:03 -0700 (PDT)
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-33dc345ad78so36488667b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Aug 2022 06:34:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=qiR3kqY1FtS7aluiuV2htyDwOrHtB3ABTNirVnY7LY0=;
+        b=Badek9Z3Zw7k7MP3T3YzVdM7CAxTgNBC24Y9sxs8xUcI7ApWgF7W8s+Gcvz5ZVhKP1
+         Gv/BM4JpKuQ0UsB3GLYAcuMHJrwhuMYNb4FXaxY6qW5KzLK0QVcBuDwguYH4jNNxTedj
+         lCUZuv+5g6OWaGpzsg7CujNCCX8jo0zwxY/d62havl0hP9HtOY07Lla1ygso+jhceuRo
+         c6zerpixbQK+eKtQ2/j8/OVTJ7t+7dCHSEbF6H4JAlv0ncMGq4l8alqAwd7ZBJWq49W7
+         dduQbKTdmgNjW5trp2/imaB1kqDb2eJN79QRGfSzutp/zKzz9em/stAFPeeyWGJku245
+         agtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=lK5luDghnd/dV3HAEqHuXDWS75i39JeDGFKWw/WnWlI=;
-        b=qfOF/Qmof0Ka4HimtM8zjmyyCLwYcWRX3W5y6ZQLX0D9k+8mex54CExli60cdi/yQ3
-         zShWO2c7eolsn2ToBXgdzjJ7ml/PdkXWduTcF/GTZlm3YsOwDOYVzo/09ptcUkGusNPt
-         8Rb2bG6qlTh7A/PC6/69Nd3esHMyg5VluPJXKqDW4sSkqaApYM2kLVCfobh00QIe7c72
-         ZwHJvWiCfDCQnmW3jmtmo1wxoe7lZ0x5H/RETc7/byhNbysFsW5JF6dlU5w9N7+nVEz+
-         zcJqC9eamb7aDWC4p4U9cyXrasHsYTDzKtPuvKuKZKIiabZcHiKVkyWXJ5zovSEXcta3
-         k/IA==
-X-Gm-Message-State: ACgBeo1AGYRfK3OyU247lFF7SoVmT0PqR23Uup/4921ypsSEd1PW+fFW
-        mS89zR2v/wgqnTOeoYCuiWWVbKKEsSaJ3w==
-X-Google-Smtp-Source: AA6agR4bfuQVD9nozewhsD/9SGeUMdKkZSWS4wUXPQYu/HRC/oqCvU+YPcXlyFN1Uozp0Uqo95S4IQ==
-X-Received: by 2002:a05:6214:c6f:b0:497:7e5:682b with SMTP id t15-20020a0562140c6f00b0049707e5682bmr7401892qvj.105.1661514526323;
-        Fri, 26 Aug 2022 04:48:46 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id j15-20020a05620a288f00b006a793bde241sm1561739qkp.63.2022.08.26.04.48.45
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Aug 2022 04:48:46 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-33dba2693d0so28940537b3.12
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Aug 2022 04:48:45 -0700 (PDT)
-X-Received: by 2002:a25:8e84:0:b0:696:466c:baa with SMTP id
- q4-20020a258e84000000b00696466c0baamr4748273ybl.604.1661514525501; Fri, 26
- Aug 2022 04:48:45 -0700 (PDT)
+        bh=qiR3kqY1FtS7aluiuV2htyDwOrHtB3ABTNirVnY7LY0=;
+        b=XvrMCNZHaI4J1Pn1hUHewJMrgsZOvAlH/LShqspXgcGMJfNC93HHfUjlQoZ8WHgeq+
+         bYU836TbpLTml8r7zKIMamNf5tbJPSZJu5LiaQGXb/ILZDuzCSFEPNlt76XhjbU6KFpJ
+         kmp/zbMWJd/1gJhQVgUgAt18yq+zKEC5B430gaq5iYI90T9j1+fkzIw+VWhxkd8g1ZMd
+         Po7fqnuuEH44HbzATAD23QP7oaDhUsJOH11Lpa/MRVgc7PRhTjKFHXS+bbaSFCbIKVgG
+         iYt7Vt82IKgd69E3QvcYi2E4MGAMs3ssuGtPv8Xsdf+E7tfFR6FTIQGQX0I6JU45Z3a1
+         5L0A==
+X-Gm-Message-State: ACgBeo07FT9XONufAqSLsZ8RcCem9sdlU6WXz1r1bBsjCbwPjhO6V1zk
+        SAYSUnR4yMpPCdXwmU+JYJaAre9YSLlK3sEgLIBDbw==
+X-Google-Smtp-Source: AA6agR4cSYDUjHjKqgs9zKaZ58NNESabUJfIrLT+OTCGH4HwSfACpDx/ctbx5ozgIrEgXjQk7zDpKuMhmKfrTiLRGm0=
+X-Received: by 2002:a05:6902:124e:b0:668:222c:e8da with SMTP id
+ t14-20020a056902124e00b00668222ce8damr7302689ybu.383.1661520843052; Fri, 26
+ Aug 2022 06:34:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <87y1vf92do.wl-kuninori.morimoto.gx@renesas.com> <87tu6392cp.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87tu6392cp.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 26 Aug 2022 13:48:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUtgGGnxOrVRtObedDbiWSr+PhUO+nCd2-22pLEpb7u=Q@mail.gmail.com>
-Message-ID: <CAMuHMdUtgGGnxOrVRtObedDbiWSr+PhUO+nCd2-22pLEpb7u=Q@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] arm64: dts: renesas: Add V3H2 Condor-I board support
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Andrey Dolnikov <andrey.dolnikov@cogentembedded.com>,
-        Valentine Barshak <valentine.barshak@cogentembedded.com>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+References: <20220823145649.3118479-6-robh@kernel.org>
+In-Reply-To: <20220823145649.3118479-6-robh@kernel.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 26 Aug 2022 15:33:51 +0200
+Message-ID: <CACRpkdZ3syQzLaZJ1aksB6o7Q_xOMGSC1RfT_9iVYgpXHi_mfw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: pinctrl: Add missing (unevaluated|additional)Properties
+ on child nodes
+To:     Rob Herring <robh@kernel.org>
+Cc:     =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Sowjanya D <lakshmi.sowjanya.d@intel.com>,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>,
+        Andy Teng <andy.teng@mediatek.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+On Tue, Aug 23, 2022 at 4:57 PM Rob Herring <robh@kernel.org> wrote:
 
-On Tue, Aug 23, 2022 at 3:26 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> In order to ensure only documented properties are present, node schemas
+> must have unevaluatedProperties or additionalProperties set to false
+> (typically).
 >
-> This patch adds r8a77980A V3H2 (= r8a77980 ES2) Condor-I board
-> basic support.
->
-> Signed-off-by: Andrey Dolnikov <andrey.dolnikov@cogentembedded.com>
-> Signed-off-by: Valentine Barshak <valentine.barshak@cogentembedded.com>
-> Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Thanks for your patch!
+Patch applied to the pinctrl tree for v6.1
 
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a77980a-condor-i.dts
-> @@ -0,0 +1,17 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device Tree Source for the Condor-I board on r8a77980A (ES2.0)
-> + *
-> + * Copyright (C) 2022 Renesas Electronics Corp.
-> + */
-> +
-> +/dts-v1/;
-> +#include "r8a77980a.dtsi"
-> +#include "condor-common.dtsi"
-> +
-> +/ {
-> +       model = "Renesas Condor-I board based on r8a77980A (ES2.0)";
-> +
-
-No need for a blank line.
-
-> +       compatible = "renesas,condor-i", "renesas,condor",
-> +                    "renesas,r8a77980a", "renesas,r8a77980";
-
-Please drop compatibility with "renesas,condor", as per my comment on
-"[PATCH v2 4/4] dt-bindings: arm: renesas: Document Renesas R-Car Gen3
-V3H2 Condor-I board".
-
-> +};
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yours,
+Linus Walleij
