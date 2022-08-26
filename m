@@ -2,200 +2,171 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FD705A21BA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Aug 2022 09:25:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7951D5A226C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Aug 2022 09:55:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244943AbiHZHZA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Aug 2022 03:25:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32886 "EHLO
+        id S245543AbiHZHy6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Aug 2022 03:54:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245260AbiHZHY6 (ORCPT
+        with ESMTP id S245678AbiHZHy5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Aug 2022 03:24:58 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2139.outbound.protection.outlook.com [40.107.114.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED9021132
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Aug 2022 00:24:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TDuudoulFjJzM7YpWgA779eWM6iQ88cbMsS3CEqS2kelpinlRYPp/nwSEMksaLQeMyK3ttuBTej5jy6Wc+dqoqqrR5MMtUoB1xI7F78l4WVEXMh1AqJKVF00bWUgo7YTEc6ObZw+hHZkMJ0s8ehFRKluOTP/QMjHsfwjQXMOxE3awq83rRV+a3PFdVHQ6+HCLGynNZL2N2q86kXu6pYHL22CqqLepx/l4Z5k1a7wfqqI2qSdUfSYDA/GEOHM2FId18E/yls8fKvfIy7g58vpMkcJ9J3TPA4sxxv90ZHOlM+EzcAmtsPNSTn3jUxIAW30v6xzuyF7Shls4SArAlD8xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yyjJ0Aea/IiLv54bkW5N+FybHC3W3vwkyFRO7LqsLO8=;
- b=cmIB9ic/PT8FH4nusDO900hYiqQl3wHPXGhdRDtCMrPVuamET94uvBMCtk7Jh2fhMxdBCJ2P6dOQjXSS3pHAKPSGPfqFRexMdaQslu2WhatLTQWvR7bnUv96x3b90k7y0u9yiSyvU9GsXpi2AthHnm05nv/RsSq/K9ZyDFr31QeXMuf1kgtd0u3ymr8WEJ5aK/NeSNLkt9yBDG8X6tIOGNgXAOfnIWYMcFqvb1G8maKHw4fcImKbpQw4wVhVKVtqE6/wtp1Myg3YZvUuWof7DDSKSkLq98Ysf45ImBh9UdqpM27ZLflnRFpM/8aZUX29NCJrEbsi01rLeTa1FSi/3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yyjJ0Aea/IiLv54bkW5N+FybHC3W3vwkyFRO7LqsLO8=;
- b=KYlviAAv8mUWEpwPpNA63VmKE1cKGCfUs3Q+d1oSHxrOqzjeC2bERzj7ryf2R5ZfhdjFBA3nB96QxQE//ZQVx/PS6OK3LpJMLWXxJiUF1vN/oQ3iC1K+jsn+PZwylWztert+qtP6D6wGhuGU57tziGLifmc0ILrspoMuWFPpru8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
- by OS3PR01MB10389.jpnprd01.prod.outlook.com (2603:1096:604:1fa::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Fri, 26 Aug
- 2022 07:24:48 +0000
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::bdab:be26:6e36:88c6]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::bdab:be26:6e36:88c6%3]) with mapi id 15.20.5566.015; Fri, 26 Aug 2022
- 07:24:48 +0000
-Message-ID: <878rnbzcua.wl-kuninori.morimoto.gx@renesas.com>
-From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Laurent <laurent.pinchart@ideasonboard.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: fw_devlink.strict=1 breaks sound card probe ?
-In-Reply-To: <CAGETcx-QBuqTHPuSXMUHMzyhf45ZNsvPGCCZap3tWHrx2y0RwA@mail.gmail.com>
-References: <87sflmuyf4.wl-kuninori.morimoto.gx@renesas.com>
-        <YwXxT0Gr1KQQb71F@pendragon.ideasonboard.com>
-        <CAGETcx-4+RkgXZjK6yDMr97Q2iUDJxosqp9s2EyhFW7+WCcFrw@mail.gmail.com>
-        <874jy12kl7.wl-kuninori.morimoto.gx@renesas.com>
-        <CAMuHMdU=Rw=NdDHAmZqJTb5vWmi5Kw0Kp-nCKjcSpfeoCTzGog@mail.gmail.com>
-        <CAGETcx-QBuqTHPuSXMUHMzyhf45ZNsvPGCCZap3tWHrx2y0RwA@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date:   Fri, 26 Aug 2022 07:24:45 +0000
-X-ClientProxiedBy: TYCPR01CA0176.jpnprd01.prod.outlook.com
- (2603:1096:400:2b2::18) To OS3PR01MB8426.jpnprd01.prod.outlook.com
- (2603:1096:604:194::10)
+        Fri, 26 Aug 2022 03:54:57 -0400
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3CD420F6E;
+        Fri, 26 Aug 2022 00:54:54 -0700 (PDT)
+Received: by mail-qv1-f42.google.com with SMTP id h12so516434qvs.3;
+        Fri, 26 Aug 2022 00:54:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=fL8b3+HSS1hWMBgkDRO4fObvjRvb6mb1AqBpq8sCS00=;
+        b=KhR8Nv6UraIf9rbxh2PmeFKQxvsoQ13j4UhsfsD5+2kDQUBwV5he2QzsRwJh++hLHX
+         YAGwiCzhaWi1P9Dwplf5vIqt6R4OO7Dj5zimbYykpAhQLxKvUzWQQlzdiySw1X402otl
+         bYOEbtqN9j+AkvVjaAB8hN1NiDwtLKDhG1bICQjZ1QszgxhwJF26vQqB7PyG80tDmxOc
+         c1zA4c62KR3/WdeG+9vBh748qgYDMzi/3+41OKL7hKWLIwAwM+w8fSuI9Zn0sW7MSbrj
+         Xtj5p/vQRO0gQLi8eZt3wYX6I/cwpY8mTEwymM/N8ms1eNhP2mPW+x8L58UzljscFq8E
+         TFIg==
+X-Gm-Message-State: ACgBeo0eBTv45EieHs8tWFELx6RyTWMireittmRZ+jvZLOGXrNL4OlHu
+        xrf1ciW68D66FspYso27qIjvxYHwc/ImiA==
+X-Google-Smtp-Source: AA6agR6ccNPLs7OnO22pHf0sBU0i3uoYoMfDjeAJs16zV1x7w+X1KvT2TfXn4/w9kH5+OS44XecIyQ==
+X-Received: by 2002:a05:6214:2387:b0:497:15b3:f792 with SMTP id fw7-20020a056214238700b0049715b3f792mr6904617qvb.118.1661500493083;
+        Fri, 26 Aug 2022 00:54:53 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id q30-20020a05620a039e00b006bbf85cad0fsm1217679qkm.20.2022.08.26.00.54.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Aug 2022 00:54:52 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-33dbbf69b3dso17172907b3.1;
+        Fri, 26 Aug 2022 00:54:52 -0700 (PDT)
+X-Received: by 2002:a81:1e45:0:b0:336:bade:e0 with SMTP id e66-20020a811e45000000b00336bade00e0mr7575383ywe.358.1661500491908;
+ Fri, 26 Aug 2022 00:54:51 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6a34c4c0-413b-4a3e-4547-08da87340d5d
-X-MS-TrafficTypeDiagnostic: OS3PR01MB10389:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZICJuYEZ4cavn/kFe6DGHU/DaNilWK5A9euIHGol+bya5gEjVnEH5dM6qYbaVeQ+VtPsesOtLfTgjwTj2GFszpc1CTMc8J5qYlgIoI8uIX9BTdIdhjMocY5Pb3KwTywg5E7235Z4S1+KUrVE8yv1AKWGHu6xVRnGBXQs5jqIbPJG6iFRoCwjwEmAhyzPnjGeCn7uB7Gyn61iNr5SYY41U/YJX5242N1cNL2X53WxqaBm2PWBHhpKUaU7gdIVUND8ebmjhJdoV/DlsqCZi2xL/xDs5QgZ00b7dMb/MKPRRM2Dpld17WPQd8NMwzWSr1PBDXAKOEH3Aq+hNM+0un2f9GLa+TSb2fHd3QZlBAvmhCj0k6Y6DgE9POgYk5LKbDhOjKNaWHoPiVBvjYUW+EDi7nV83GQCqGGDp/6cgM3fvYRShdITjz82WJhya4JYUQUJRv214JehtrzC2VAwj4R92tfUtmthx5xO7NBpkm7BMErcY0+EmSRKxpxG5lOoIj4/waO38zcwohwqj9xWPgmyS6K92loOpS0N0Cnor/OGo6arBn1XY16ikp5s7E/Nkl4EDDLMjvhgsPZEocolxfewOI6gDHueuuvD229jdmNVdJrZgwgtNn4le7mEmnx129N4vRZVWv8vv02lAIpxGF13dHiAaArgDr9sIumvP8zbEnHOj/mWGOg9/kTONRfYPYUvEny43FfTLxpAgX+8N+XkxS7GTQA3q2v02k28Ofwv9qgud8PPvhUrpez0ipNMS1Q483t0t042tlrZmmcbt8JYLA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(366004)(396003)(346002)(136003)(376002)(84040400005)(38100700002)(66946007)(6916009)(8936002)(186003)(66476007)(66556008)(5660300002)(4326008)(8676002)(83380400001)(316002)(2906002)(36756003)(6666004)(6506007)(52116002)(41300700001)(38350700002)(6512007)(26005)(54906003)(6486002)(86362001)(478600001)(2616005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?j6PRcjWUUH+EHXsvefpB6u/XDT2sKMGmTYAFWk2+IYu8hB0HCMk0Ouo3QhE2?=
- =?us-ascii?Q?Q6MkHJZq0zxRVcTsgkJZ7WeduQ+kQzdQSh17wHHQnfWiXCHuuGmMjP4A8Pjf?=
- =?us-ascii?Q?JGiQDQC4Wx8xfOhkob3XCma72k9wrdTI/wMPZOoU+yzWv/GGRaX8YmrJzbtA?=
- =?us-ascii?Q?7vPAT92JJ5w9Id7dnG46zKubu5UoEv0W/wW3OiCCKUOpXOSrQq6ThJ0JTk7o?=
- =?us-ascii?Q?5MIqh17pdpa+jQJtFZNpc01dFqqZUJq/k+RNc3kJV2vqrsHVWwriX72noaXf?=
- =?us-ascii?Q?XE+CFolLXJ/zIvaxhbes7uPvRFdlmy0GHcZM1RqyxFl5vY1DOOqTojkexxsA?=
- =?us-ascii?Q?FrLVzProLHWKJ18huYoR+srcl8JEPsu1ajJpViv93C0VCwYMxlxjmBhIepFm?=
- =?us-ascii?Q?4SJSZF9C9Wf1ZcZb7JQbkREetOpudsEatkbgBVcrGwBot4XSeH2qyl6I6xGB?=
- =?us-ascii?Q?OpHphhBpanRWr4QOwh9Hdi227RD4POM7RRW9u8wSkfQianrquT7CBeGKIr/L?=
- =?us-ascii?Q?BpG+FCqmTd4uw1Zqrtg1AM7cg9WCpxz5sqM+/NK6NpVnbxTfEvtlUVmy8FWT?=
- =?us-ascii?Q?7qpyOWUgpIbM1HE8MBCUOIrsS3C+UXAxGuJLtNpIsDnnjLlTdap6oyanEexW?=
- =?us-ascii?Q?G36ow1F08/FUQK8/tif3yRBIUrdISXHsdz9SiBucHIvUirKGIQrApQGCHjpU?=
- =?us-ascii?Q?3yosTbfgKyZhgrh5xWAfdpEHyfQcywdhKnkzruYxDBiXKfEWyLId/IJLdVX1?=
- =?us-ascii?Q?TM/2qF2gvmDSXWsmp2NQEWc2NZEDnOUezrVwXfFsw7Qjl8xwCy81IwUGO5Jz?=
- =?us-ascii?Q?AqfP9tfW/fE8abmclL9LdQq2wHKcNfyHrAf3Sy+1HKYc3YiW8rQizDss4Qjo?=
- =?us-ascii?Q?4WkT3fYzxRH6AfuUYRyUbiD6JKOadF54MgPEHFJZMRkIT4vjC1OA0o2Q9V7U?=
- =?us-ascii?Q?hqPMwnfy9EvDE52/3nr7Tp+1i7n2a92RDH6B4yuT47hFNrHCcJUMwtWGtQqI?=
- =?us-ascii?Q?K38WNdJaFMEJIrMCHXiXFZnert2p9M0dFHggk8K3keNLSN4nGsC1Rd9Lco5U?=
- =?us-ascii?Q?DKDLVzexh9lVmsgx17IIpi3vT2NcWO93O400FN1Bw7xni6g4gI6JVad8HZWU?=
- =?us-ascii?Q?u56eDzxJgpB6BCNKguwCxzMlPLpi9/zUrIDL2gnHEfQuv7A8FXvUH9+v+nub?=
- =?us-ascii?Q?d0Qcg6Cig4c5JauKK3/PsWe7Fe3mp7tT3s6ryeh9kTWmZ6pV3RLW2l+ub5V9?=
- =?us-ascii?Q?p/cFinyFRmWpZ2ubXUL7KPhWSXEI7P5dXUqW+Dq2njokLsioDJL+P40QtTXk?=
- =?us-ascii?Q?QJ0PdNZTo0WMZqHJEfPaC0c2oN8cv0qGIrxV1/3sQxJMwhXYJsYsDk9Z9pTL?=
- =?us-ascii?Q?m/R6B3LLrlwlHL3uYEtZG+dzqq1nJJz6mHWtTbSubX58TsR5Sa0d/eY21t6p?=
- =?us-ascii?Q?oBfmRjDMs/oW8KSUFUS5KeD/rPByXtAGuZxcCKG4hzrheVdQ3rEIAbLSuKZ6?=
- =?us-ascii?Q?2hf/QGk0I8w4cZBbYvDLAy6BawWYxGvmJ8hM3Fbi856xbJKk/ReYrBpf/9A0?=
- =?us-ascii?Q?zOEx5yciWXdnzHyDeB7StlMw71ElpBHhSmqk8h2JN+ztrhjqfMykOFmCh8k4?=
- =?us-ascii?Q?t7Thyc3YRhTIPuDsAxJl3Fw=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a34c4c0-413b-4a3e-4547-08da87340d5d
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2022 07:24:48.5331
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BkKzEk1gNY8nLv4yAxvK4ATrGb4GVJry3bIwKOAVrXENYH8J703i8/QUCTY7KZ6bwLeAl4yEurycIipnWOYBKyZTFvhpIlRy2lp/Vn/bjTF+mtOJeqlCtbY4NFnO4F63
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB10389
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220816172638.538734-1-bvanassche@acm.org> <decc1ef4-ec85-d947-ec81-ebeaa982f53f@redhat.com>
+ <CAMuHMdVDWrLs_KusG8vXA_1z8ORdPnpfxzNqw4jCG_G0D-fn+A@mail.gmail.com>
+ <ecf878dc-905b-f714-4c44-6c90e81f8391@acm.org> <CAMuHMdW0WzgQjR33hz9om7ahE5StbDCLozVnZzYAS1WEzStR0w@mail.gmail.com>
+ <026ad7cc-5be9-e90b-8c95-0649caf68779@acm.org>
+In-Reply-To: <026ad7cc-5be9-e90b-8c95-0649caf68779@acm.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 26 Aug 2022 09:54:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVYqceaamrYXK9bFW1mQ+m7HMUA-jhW_+co3b-GB6fAeA@mail.gmail.com>
+Message-ID: <CAMuHMdVYqceaamrYXK9bFW1mQ+m7HMUA-jhW_+co3b-GB6fAeA@mail.gmail.com>
+Subject: Re: [PATCH] scsi: sd: Revert "Rework asynchronous resume support"
+To:     Bart Van Assche <bvanassche@acm.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        scsi <linux-scsi@vger.kernel.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Hannes Reinecke <hare@suse.de>, gzhqyz@gmail.com,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Bart,
 
-Hi Geert, Saravana
-Cc: Wolfram
+On Tue, Aug 23, 2022 at 8:10 PM Bart Van Assche <bvanassche@acm.org> wrote:
+> On 8/22/22 23:41, Geert Uytterhoeven wrote:
+> > A lock-up (magic sysrq does not work) during s2idle.
+> > I tried bisecting it yesterday, but failed.
+> > On v6.0-rc1 (and rc2) it happens ca. 25% of the time, but the closer
+> > I get to v5.19, the less likely it is to happen. Apparently 100
+> > successful s2idle cycles was not enough to declare a kernel good...
+> >
+> >      Freezing ...
+> >      Filesystems sync: 0.001 seconds
+> >      Freezing user space processes ... (elapsed 0.001 seconds) done.
+> >      OOM killer disabled.
+> >      Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
+> >      sd 0:0:0:0: [sda] Synchronizing SCSI cache
+> >      sd 0:0:0:0: [sda] Stopping disk
+> >
+> > ---> hangs here if it happens
+> >
+> >      ravb e6800000.ethernet eth0: Link is Down
+> >      sd 0:0:0:0: [sda] Starting disk
+> >      Micrel KSZ9031 Gigabit PHY e6800000.ethernet-ffffffff:00: attached
+> > PHY driver (mii_bus:phy_addr=e6800000.ethernet-ffffffff:00, irq=186)
+> >      ata1: link resume succeeded after 1 retries
+> >      ata1: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
+> >      ata1.00: configured for UDMA/133
+> >      OOM killer enabled.
+> >      Restarting tasks ... done.
+> >      random: crng reseeded on system resumption
+> >      PM: suspend exit
+> >      ravb e6800000.ethernet eth0: Link is Up - 1Gbps/Full - flow control off
+>
+> I'm not sure that is enough information to find the root cause. How
 
-> > > This devices_deferred file (which I didn't know) helped my issue.
-> > > It was my fault. My .config had been missing necessary driver
-> > > (= CONFIG_REGULATOR_FIXED_VOLTAGE).
-> > >
-> > > ... but... why it had been working without it before... ?
-> 
-> Hi Morimoto-san,
-> 
-> Hmmm... even if you didn't have the driver compiled in, fw_devlink
-> should have stopped blocking the probe after deferred_probe_timeout
-> expires and that value is defaulted to 10s (it extends on every
-> successful driver registration). Can you help figure out if that's
-> happening and if not, why not?
+Sorry for not making it clear I didn't expect this to be enough
+information.
 
-It is very deep and difficult to understand / trace.
-I'm still not yet find the core point.
+> about enabling the tp_printk boot option and to enable tracing for
+> suspend/resume operations, e.g. as follows?
+>
+> cd /sys/kernel/tracing &&
+> echo 256 > /sys/kernel/tracing/buffer_size_kb &&
+> echo nop > current_tracer &&
+> echo > trace &&
+> echo 1 > events/power/device_pm_callback_start/enable &&
+> echo 1 > events/power/device_pm_callback_end/enable &&
+> echo 1 > events/power/suspend_resume/enable &&
+> echo 1 > tracing_on
 
-But something found. I hope it can be hint.
+Thanks, that generates lots of output (362 KiB/cycle)!
+Unfortunately it also has an impact on the probability of lock-ups.
+Combined with 'scsi: sd: Revert "Rework asynchronous resume support"',
+s2idle now works almost always.
 
-I'm using this DT
+I did manage to trigger the lock-up once with tracing enabled:
 
-	linux/arch/arm64/boot/dts/renesas/r8a77950-ulcb-kf.dts
+     device_pm_callback_end: gpio_rcar e6055400.gpio, err=0
+     device_pm_callback_start: gpio_rcar e6055800.gpio, parent: soc,
+noirq power domain [suspend]
+     device_pm_callback_end: gpio_rcar e6055800.gpio, err=0
+     device_pm_callback_start: renesas-cpg-mssr
+e6150000.clock-controller, parent: soc, noirq driver [suspend]
+     device_pm_callback_end: renesas-cpg-mssr e6150000.clock-controller, err=0
+     device_pm_callback_start: sh-pfc e6060000.pinctrl, parent: soc,
+noirq driver [suspend]
+     device_pm_callback_end: sh-pfc e6060000.pinctrl, err=0
+     suspend_resume: dpm_suspend_noirq[2] end
+     suspend_resume: machine_suspend[1] begin
+     suspend_resume: timekeeping_freeze[5] begin
 
-The key config was "CONFIG_REGULATOR" (not "CONFIG_REGULATOR_FIXED_VOLTAGE").
-If .config doesn't have "CONFIG_REGULATOR" and "fw_devlink_strict = true",
-some drivers probe will be deferd.
-No issue will be happend if it has "CONFIG_REGULATOR".
+---> hang
 
-Below is my .config case.
-(It will be more drivers if I used renesas_defconfig).
+     suspend_resume: timekeeping_freeze[0] end
+     suspend_resume: machine_suspend[1] end
+     suspend_resume: dpm_resume_noirq[16] begin
+     device_pm_callback_start: sh-pfc e6060000.pinctrl, parent: soc,
+noirq driver [resume]
+     device_pm_callback_end: sh-pfc e6060000.pinctrl, err=0
+     device_pm_callback_start: renesas-cpg-mssr
+e6150000.clock-controller, parent: soc, noirq driver [resume]
+     device_pm_callback_end: renesas-cpg-mssr e6150000.clock-controller, err=0
+     device_pm_callback_start: gpio_rcar e6055800.gpio, parent: soc,
+noirq power domain [resume]
 
-	# cat /sys/kernel/debug/devices_deferred
-	16-0044 i2c: supplier regulator-snd_vcc5v not ready
-	sound   asoc-audio-graph-card: parse error
+Oops, timers...
 
-If you can use "renesas_defconfig", you can reproduce it
-if you remove CONFIG_REGULATOR from it.
+At least it's not related to SCSI ;-)
 
-Here, "16-0044" is "pcm3168a" which needs "snd_vcc5v" and "snd_3p3v",
-and "sound" needs "pcm3168a".
-"pcm3168a" connection is like this
+Gr{oetje,eeting}s,
 
-	-- linux/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi --
+                        Geert
 
-	i2c2
-	 - i2c-switch@71 (pca9548)
-	   - i2c@7
-=>	     - pcm3168a
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In this case, it will get -EPROBE_DEFER forever.
-
-	driver_probe_device()
-	 - __driver_probe_device()
-	  - really_probe()
-	    -  device_links_check_suppliers() :: return -EPROBE_DEFER
-
-Thus, pcm3168a's probe function itself is not (never) called.
-
-One thing I have noticed is that I2C numbering is changed somehow.
-I'm not sure this is related to the issue.
-
-	fw_devlink_strict = true	: 16-0044
-	fw_devlink_strict		: 15-0044
-
-If you can indicate something to check, I'm happy to investigate it.
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
