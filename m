@@ -2,53 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62F885A3978
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Aug 2022 20:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A2895A398A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Aug 2022 20:37:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229637AbiH0S1I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 27 Aug 2022 14:27:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46052 "EHLO
+        id S229932AbiH0Shv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 27 Aug 2022 14:37:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiH0S1I (ORCPT
+        with ESMTP id S229884AbiH0Shu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 27 Aug 2022 14:27:08 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DD22D1E0E;
-        Sat, 27 Aug 2022 11:27:07 -0700 (PDT)
+        Sat, 27 Aug 2022 14:37:50 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FED4C0B5B
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 27 Aug 2022 11:37:49 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3DC424A8;
-        Sat, 27 Aug 2022 20:27:04 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB33C4A8;
+        Sat, 27 Aug 2022 20:37:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661624824;
-        bh=wDgPTIqj2xTF5/8Q5yzkJvHroiYOyEvKBKAXFt7Swj8=;
+        s=mail; t=1661625467;
+        bh=5c7Lxc+f0kiAvgQZagOEitA/u4Pd+/IuoMw1cpq2Xxs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tWF7uUdBws1OoM8Y/CV5M/59UcT4vK6E7d6CwcLSEzaQmBMrxHYG1eb3CLgHQa3X2
-         oBXbr3XPOtv8JiZz9AL/SGNCvAQm8e1ASzWVkUwZ3djE/CKf7cRCt8u7AnmheKyTzB
-         ryZ7zYZBrwt83jJtXKZG7uzG3SQ5g49+tTGqFHCM=
-Date:   Sat, 27 Aug 2022 21:26:56 +0300
+        b=FSYNg2TYYy5eflJXj1EanfOGgJSVicR6CqFmY/OhBiIDtWd2rvp3ooNmrD4SPWNn+
+         ebESI9M5GlI0Rvr9O3CNbnXgq3CPzt2RrqtLvbkcQ1KAWb+xGqlTqIhMldxL34ODr1
+         n9MTI+FhHUwVl4BJJFJPgcCExxm5fkfMWC5zqdXE=
+Date:   Sat, 27 Aug 2022 21:37:39 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v13 2/5] media: renesas: vsp1: Add support to
- deassert/assert reset line
-Message-ID: <Ywph8PaQS1+LQLHK@pendragon.ideasonboard.com>
-References: <20220825132144.2619239-1-biju.das.jz@bp.renesas.com>
- <20220825132144.2619239-3-biju.das.jz@bp.renesas.com>
- <YwlpH2kHv0aPwTx9@pendragon.ideasonboard.com>
- <OS0PR01MB5922E5A8E32F547787511F7C86749@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Subject: Re: [PATCH 2/2] drm: rcar-du: Use %p4cc to print 4CC format
+Message-ID: <Ywpkc5ut97L3kTb1@pendragon.ideasonboard.com>
+References: <20220825103905.2450049-1-biju.das.jz@bp.renesas.com>
+ <20220825103905.2450049-2-biju.das.jz@bp.renesas.com>
+ <YwlboWrxzP7JWeg/@pendragon.ideasonboard.com>
+ <OS0PR01MB592284D23CEF5354170765A886749@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <OS0PR01MB5922E5A8E32F547787511F7C86749@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB592284D23CEF5354170765A886749@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -60,207 +58,98 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-On Sat, Aug 27, 2022 at 04:07:56PM +0000, Biju Das wrote:
-> > Subject: Re: [PATCH v13 2/5] media: renesas: vsp1: Add support to deassert/assert reset line
-> > On Thu, Aug 25, 2022 at 02:21:41PM +0100, Biju Das wrote:
-> > > As the resets DT property is mandatory, and is present in all .dtsi in
-> > > mainline, add support to perform deassert/assert using reference
-> > > counted reset handle.
-> > >
+On Sat, Aug 27, 2022 at 09:04:25AM +0000, Biju Das wrote:
+> Subject: Re: [PATCH 2/2] drm: rcar-du: Use %p4cc to print 4CC format
+> > On Thu, Aug 25, 2022 at 11:39:05AM +0100, Biju Das wrote:
+> > > Replace use of struct rcar_du_format_info with %p4cc for printing 4CC
+> > > formats.
+> > 
+> > The code change looks good, but doesn't match the commit message. You're
+> > not replacing usage of struct rcar_du_format_info. I propose the
+> > following commit message:
+> > 
+> > Use the %p4cc format specifier to print 4CCs, which will provide a more
+> > readable message than the raw hex value.
+> 
+> OK.
+> 
+> > > Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > > > ---
-> > > v12->v13:
-> > >  * Removed unused iopoll.h header file.
-> > >  * Added Rb tag from Geert.
-> > > v11->v12:
-> > >  * Replaced read_poll_timeout_atomic-> udelay(1) as testing on RZ/G1N
-> > >    shows this delay is sufficient to avoid lock-up.
-> > >  * Removed Rb tags.
-> > > v10->v11:
-> > >  * To avoid lock-up on R-Car Gen2, added poll for reset status after deassert.
-> > > v9->v10:
-> > >  * Moved {deassert,assert} calls to vsp1_pm_runtime_{resume,suspend}
-> > > v8->v9:
-> > >  * No change
-> > > v7->v8:
-> > >  * No Change
-> > > v6->v7:
-> > >  * No change
-> > > v5->v6:
-> > >  * Rebased to media_staging and updated commit header
-> > >  * Added Rb tag from Laurent
-> > >  * Added forward declaration for struct reset_control
-> > >  * Updated vsp1_device_get() with changes suggested by Laurent
-> > >  * Updated error message for reset_control_get form ctrl->control.
-> > > v4->v5:
-> > >  * Added Rb tag from Geert
-> > > v3->v4:
-> > >  * Restored error check for pm_runtime_resume_and_get and calls
-> > >    assert() in case of failure.
-> > > v2->v3:
-> > >  * Added Rb tag from Philipp
-> > >  * If reset_control_deassert() failed, return ret directly.
-> > > v1->v2:
-> > >  * Used reference counted reset handle to perform deassert/assert
-> > > RFC->v1:
-> > >  * Added reset support as separate patch
-> > >  * Moved rstc just after the bus_master field in struct vsp1_device
-> > > RFC:
-> > >  *
-> > > ---
-> > >  drivers/media/platform/renesas/vsp1/vsp1.h    |  2 ++
-> > >  .../media/platform/renesas/vsp1/vsp1_drv.c    | 28 +++++++++++++++++-
-> > -
-> > >  2 files changed, 28 insertions(+), 2 deletions(-)
+> > >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
 > > >
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1.h
-> > > b/drivers/media/platform/renesas/vsp1/vsp1.h
-> > > index 37cf33c7e6ca..baf898d577ec 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1.h
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1.h
-> > > @@ -22,6 +22,7 @@
-> > >  struct clk;
-> > >  struct device;
-> > >  struct rcar_fcp_device;
-> > > +struct reset_control;
+> > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > > b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > > index 21881fb5e84a..8c2719efda2a 100644
+> > > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > > @@ -405,8 +405,8 @@ rcar_du_fb_create(struct drm_device *dev, struct
+> > > drm_file *file_priv,
 > > >
-> > >  struct vsp1_drm;
-> > >  struct vsp1_entity;
-> > > @@ -79,6 +80,7 @@ struct vsp1_device {
-> > >  	void __iomem *mmio;
-> > >  	struct rcar_fcp_device *fcp;
-> > >  	struct device *bus_master;
-> > > +	struct reset_control *rstc;
-> > >
-> > >  	struct vsp1_brx *brs;
-> > >  	struct vsp1_brx *bru;
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> > > b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> > > index 1f73c48eb738..975e6851735e 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> > > @@ -16,6 +16,7 @@
-> > >  #include <linux/of_device.h>
-> > >  #include <linux/platform_device.h>
-> > >  #include <linux/pm_runtime.h>
-> > > +#include <linux/reset.h>
-> > >  #include <linux/videodev2.h>
-> > >
-> > >  #include <media/rcar-fcp.h>
-> > > @@ -622,6 +623,7 @@ static int __maybe_unused vsp1_pm_runtime_suspend(struct device *dev)
-> > >  	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > >
-> > >  	rcar_fcp_disable(vsp1->fcp);
-> > > +	reset_control_assert(vsp1->rstc);
-> > >
-> > >  	return 0;
-> > >  }
-> > > @@ -631,13 +633,30 @@ static int __maybe_unused vsp1_pm_runtime_resume(struct device *dev)
-> > >  	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > >  	int ret;
-> > >
-> > > +	ret = reset_control_deassert(vsp1->rstc);
-> > > +	if (ret < 0)
-> > > +		return ret;
-> > > +
-> > > +	/*
-> > > +	 * On R-Car Gen2, vsp1 register access after deassert can cause
-> > > +	 * lock-up. It is a special case and needs some delay to avoid
-> > > +	 * this lock-up.
-> > 
-> > You can reflow this to 80 columns:
-> > 
-> > 	 * On R-Car Gen2, vsp1 register access after deassert can cause lock-up.
-> > 	 * It is a special case and needs some delay to avoid this lock-up.
-> > 
-> > > +	 */
-> 
-> OK, but after adding conditional check for Gen2, it will look like [1]
-> 
-> > > +	udelay(1);
-> > 
-> > Is it worth conditioning this on the VSP version to only add the delay
-> > on Gen2 ?
-> 
-> Will fix this in next version like [1], if it is Ok to everyone.
-
-Works for me.
-
-> > With these two small issues addressed,
-> 
-> [1]
->         if (vsp1->info) {                                                        
->  70 +               /*                                                               
->  71 +                * On R-Car Gen2 and RZ/G1, vsp1 register access after deassert  
->  72 +                * can cause lock-up.                                            
->  73 +                * It is a special case and needs some delay to avoid this       
->  74 +                * lock-up.                                                      
-
-
-As a general rule, flow the text with sentence following each others
-without line breaks, all the way to 80 columns. You can break a comment
-in paragraphs, and there should then be a blank line between paragraphs.
-You can thus write
-
-		 * On R-Car Gen2 and RZ/G1, vsp1 register access after deassert  
-		 * can cause lock-up.                                            
-		 *
-		 * It is a special case and needs some delay to avoid this       
-		 * lock-up.                                                      
-
-or
-
-		 * On R-Car Gen2 and RZ/G1, vsp1 register access after deassert
-		 * can cause lock-up. It is a special case and needs some delay
-		 * to avoid this lock-up.
-
-but not
-
-		 * On R-Car Gen2 and RZ/G1, vsp1 register access after deassert
-		 * can cause lock-up.
-		 * It is a special case and needs some delay to avoid this
-		 * lock-up.
-
-(I think the second option is better here)
-
->  75 +                */                                                              
->  76 +               if (vsp1->info->gen == 2)                                        
->  77 +                       udelay(1);
-> 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > > +
-> > >  	if (vsp1->info) {
-> > >  		ret = vsp1_device_init(vsp1);
-> > >  		if (ret < 0)
-> > > -			return ret;
-> > > +			goto done;
+> > >  	format = rcar_du_format_info(mode_cmd->pixel_format);
+> > >  	if (format == NULL) {
+> > > -		dev_dbg(dev->dev, "unsupported pixel format %08x\n",
+> > > -			mode_cmd->pixel_format);
+> > > +		dev_dbg(dev->dev, "unsupported pixel format %p4cc\n",
+> > > +			&mode_cmd->pixel_format);
+> > >  		return ERR_PTR(-EINVAL);
 > > >  	}
 > > >
-> > > -	return rcar_fcp_enable(vsp1->fcp);
-> > > +	ret = rcar_fcp_enable(vsp1->fcp);
-> > > +
-> > > +done:
-> > > +	if (ret < 0)
-> > > +		reset_control_assert(vsp1->rstc);
-> > > +
-> > > +	return ret;
-> > >  }
-> > >
-> > >  static const struct dev_pm_ops vsp1_pm_ops = { @@ -825,6 +844,11 @@
-> > > static int vsp1_probe(struct platform_device *pdev)
-> > >  	if (irq < 0)
-> > >  		return irq;
-> > >
-> > > +	vsp1->rstc = devm_reset_control_get_shared(&pdev->dev, NULL);
-> > > +	if (IS_ERR(vsp1->rstc))
-> > > +		return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
-> > > +				     "failed to get reset control\n");
-> > > +
-> > >  	/* FCP (optional). */
-> > >  	fcp_node = of_parse_phandle(pdev->dev.of_node, "renesas,fcp", 0);
+> > 
+> > There are two other occurrences:
+> > 
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> > b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> > index 26b25ca58968..83631ee2fff1 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> > @@ -626,8 +626,8 @@ int __rcar_du_plane_atomic_check(struct drm_plane
+> > *plane,
+> > 
+> >  	*format = rcar_du_format_info(state->fb->format->format);
+> >  	if (*format == NULL) {
+> > -		dev_dbg(dev->dev, "%s: unsupported format %08x\n", __func__,
+> > -			state->fb->format->format);
+> > +		dev_dbg(dev->dev, "%s: unsupported format %p4cc\n",
+> > __func__,
+> > +			&state->fb->format->format);
+> >  		return -EINVAL;
+> >  	}
+> > 
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> > b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> > index 25f50a297c11..8cd37d7b8ae2 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> > @@ -166,8 +166,8 @@ static int rcar_du_wb_enc_atomic_check(struct
+> > drm_encoder *encoder,
+> > 
+> >  	wb_state->format = rcar_du_format_info(fb->format->format);
+> >  	if (wb_state->format == NULL) {
+> > -		dev_dbg(dev->dev, "%s: unsupported format %08x\n", __func__,
+> > -			fb->format->format);
+> > +		dev_dbg(dev->dev, "%s: unsupported format %p4cc\n",
+> > __func__,
+> > +			&fb->format->format);
+> >  		return -EINVAL;
+> >  	}
+> > 
+> > I can add these changes to the patch and update the commit message when
+> > applying if you're fine with that. In that case,
+> 
+> I am ok with it.
+> 
+> Is it possible for you to share the git tree with latest RCar DU changes?
+> so that I can rebase RCar DU lib and RZ/G2L DU work on top of that.
+> 
+> Currently I am rebasing on top of drm_tip. Please let me know.
+
+Sure. The tree is available at git://linuxtv.org/pinchartl/media.git,
+and my drm next branch for the DU driver is drm/du/next.
+
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 -- 
 Regards,
 
