@@ -2,209 +2,168 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14E365A3C11
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Aug 2022 08:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 439765A3C9B
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Aug 2022 10:13:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229634AbiH1GGc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 28 Aug 2022 02:06:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57800 "EHLO
+        id S229561AbiH1INq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 28 Aug 2022 04:13:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbiH1GGb (ORCPT
+        with ESMTP id S229552AbiH1INp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 28 Aug 2022 02:06:31 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2107.outbound.protection.outlook.com [40.107.114.107])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B0D325C59
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 27 Aug 2022 23:06:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ev+Div2KhvJvguPUjIm0lrPZ9YEUymrmuMxq9QkSED+7uJEEkKKUYqHPpg2QuDVZYiVBJTVXaNkrhmeYbQxOaBz8RYQHv4QqG2r84WAXH0W0oA00mR9Jyala3VzwjzrqtGH7CJGoS4525cPp0VEtCSMctGeYXhNMKLo/qqpZYcO59+/fOjmx20iEBn6bKxmEIk1I2ylBSTwwei9q7IUM4zPTZ2LD4SuwqimO6PK986WW8iS/h71u4w/804FaSVjkdfmaOG/jgRIQUL3iJA/b14d16sS4ikyHGEUTnVrKGHHYE7YKXM64JHvM1+aabduo4j4rOPLLqSxUSFIxMvL8+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+8jnRXnU9JBB9lY9LzrXggv2skd438d7WPdU9ElfBjk=;
- b=DKR52Eu73OUHrAjKhqLZrPbTV3YxNp0a2eqgKNgEbdH4gs6KwSzTK7x3M8CG7B4fh40RQlaIMfSbYFAEcg/awJ9gAN70B1rzAR65SuhAhiM4b0pmECa0YzVZA22U7YPlLEcjBBJY7rJXU46i4KkJ2qVPFl9/VeW8YfRqJhI8olSbynqGh3D/XIEMRx+xrn64ClYXHC3Ma0m5llSHr/d/bkd9EXKMVejOs1ofJokNFAI1LsFgo9qJtYMA/DkHIGozOjqRYfWPgYwFTHMNWCAwc7mskXuacpYBxAcS+R8e1BnvWfoNQgpP7Ilw2CfaoSHv++42TFi6tKfAv2NsC4i3ew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+8jnRXnU9JBB9lY9LzrXggv2skd438d7WPdU9ElfBjk=;
- b=vUjg1FAdTZL6Crz/PNrpiomgJ+QFWrjwgk5pfubCBuerPXubt3tdHJyo+Lxk3aV+kxdct35fHxv/EVZMD/Jv4xaWl2hYhw5pJVGmC5PE7SG+PRI5tCBRhU+/jJ1eOupTuji+4J04qK5PFgF9nX3kFmaeq87fDRqhPhlVpvotZ/o=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYAPR01MB2879.jpnprd01.prod.outlook.com (2603:1096:404:8d::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Sun, 28 Aug
- 2022 06:05:57 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::14d3:5079:9de1:ceaf]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::14d3:5079:9de1:ceaf%3]) with mapi id 15.20.5566.021; Sun, 28 Aug 2022
- 06:05:56 +0000
+        Sun, 28 Aug 2022 04:13:45 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1D34327FF0;
+        Sun, 28 Aug 2022 01:13:43 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.93,270,1654527600"; 
+   d="scan'208";a="130835373"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 28 Aug 2022 17:13:43 +0900
+Received: from localhost.localdomain (unknown [10.226.92.45])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id F22BA41DDB17;
+        Sun, 28 Aug 2022 17:13:38 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH 2/2] drm: rcar-du: Use %p4cc to print 4CC format
-Thread-Topic: [PATCH 2/2] drm: rcar-du: Use %p4cc to print 4CC format
-Thread-Index: AQHYuG7t+14tWNeQw0+zXqAYnK1OK63B25yAgACX7+CAAKPCgIAAwAZQ
-Date:   Sun, 28 Aug 2022 06:05:55 +0000
-Message-ID: <OS0PR01MB5922C8DD684D606BDBD3DE9F86779@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220825103905.2450049-1-biju.das.jz@bp.renesas.com>
- <20220825103905.2450049-2-biju.das.jz@bp.renesas.com>
- <YwlboWrxzP7JWeg/@pendragon.ideasonboard.com>
- <OS0PR01MB592284D23CEF5354170765A886749@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <Ywpkc5ut97L3kTb1@pendragon.ideasonboard.com>
-In-Reply-To: <Ywpkc5ut97L3kTb1@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cc484f4c-6605-474e-803d-08da88bb5ef4
-x-ms-traffictypediagnostic: TYAPR01MB2879:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: YumbYOYmNs48OPC9vYt+WC3NA0vdx/QihCnbPLnxWK/tfoeek9i0dxFw2T1ibecGZ/LqLZlmoQQCY1Ye/DUiP2m/GUwkSHyH/kVLI47KOlF5E9GjbVp58kC5yF/g+Do6z6wgxsXmWuqczrYUT0c9wph38DFOQoOZ6lPnSCS53xtJqTuKL8PmwmrvklO1SLtKRXZEb6NNa9t9Ox763tBpVBoA0/sPOqt67493ZaYKifgp+vfKQkOkvsZ3vtKZ7S0N69fh6mc6ArNqN3HhlrI6UVUHLuOlGlzCdtfY8dRTnIeNKWi01x/HvbCdGqHLP6STC2JX6DYHoc+ajSAJK8PzxeyP0Bjh67GS9+Ekdweond9HqUr2Es6FUrIqoCnP3eTpbIjx7CmH8zYrkx3MNGVVAaQLCq0PIUrc31prBQkGEfiXGBXgM3wVw2SkNFeciTo5gKX7fWIF3ltnmBTOxAqrRCAcbMcHKaFxhvXtTPpHsEp8zB/TwWqElF+4mUYlwcrnvj7BylI16vAjOnzUJdty7AGd6Ia8oc9Io283nEyeFxcDHMrukAIJo07OawxBbn6fLUcYlJXhRT73nl12NeyVDg5LhAeMlxdS09/X9GNTEpqBltoXJcfwsGY5+HZoh+sTylvmDMn9/RMdyLwV2+hkjPHWvEAqYJrgdHa+PusLMj1qx9OGl4UkdbCGJOM/04LcjMSkn71zi7Nc1ZISa0/bdTbYKvD3UTtGDXR5YCUNYzC3CFSmbDTdEf4ZCLNesys2HGPO+qyuwSZnApwxCm+1Fg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(39860400002)(366004)(376002)(346002)(136003)(83380400001)(33656002)(6916009)(71200400001)(186003)(316002)(6506007)(107886003)(9686003)(7696005)(2906002)(26005)(38070700005)(55016003)(122000001)(41300700001)(478600001)(4326008)(8936002)(5660300002)(52536014)(76116006)(86362001)(54906003)(64756008)(66476007)(66946007)(38100700002)(8676002)(66446008)(66556008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZTEydFlwS1E5ZlVLTDNpVThRdjFIU08rakpiQmc5NHZSdlFpSWhMaGhmczg4?=
- =?utf-8?B?bk9LVFdmSXIxeVgrTStrNXl2OG9CV045SEp3bGtVYVBGYzdnd3Bjdld2WjI3?=
- =?utf-8?B?bmhaWnJvRmg1d0xzZWhuVmk0VmNzOFUrTFhWc3lyYzV1QWdsMWRTL0Q3dGhP?=
- =?utf-8?B?NVZTQStLSnZ5TlRXWkE2U0FCYm8rVHQzQWxvdzhIWmhvQ0hDU3dEcngvWm9y?=
- =?utf-8?B?RHRic2loVGM0ZGI2dzdFVmQxV2FYRXMvSHNRSVl5MGxKb2NXYm9NQ0JRWTZZ?=
- =?utf-8?B?M3gvVTZjOXlYOWVqTG4yQUQwdkNNR0M2Q2F2RkRkazJrcmV0K1dCNm9tbHhx?=
- =?utf-8?B?d3NVdXJRZnZ1K01FSHBabnVJVi9qdGZ1d2ZxbXpHTzBiaklXVEFGOU5DS0Zw?=
- =?utf-8?B?YlBDc1VmYitOclprM0ZkbmxUN09vYVJ1dHI0S3BGYmV6THVaL0lGVE1vNGUv?=
- =?utf-8?B?NHR1bTBHZm91Mng0RkF1OFo5a00xNFVnTkdJQXpxejhPcE82eTlyMzNEUUJM?=
- =?utf-8?B?bE52L0piWW8yVlJ0c28zYzBFM0Q5VnJ5RXFwK1dxMWJhY2tmMTNXZzFKdEw3?=
- =?utf-8?B?clIvbVdpejZ0RUVwdGFJNlF5Z1V5d3BnMmNPQXZlSE9PUy91RTB3elgwckdo?=
- =?utf-8?B?OTM3MmxzaXkzenhTbUtlY0JITXJFYkJhNDlLRjNDQjJSRzY1SG9weEkxSWhD?=
- =?utf-8?B?bE5KU1NIRzl0czUweXB2emlrYjJ6aE10ZE14UC9TRUpIZkJQWGRtSU4yVUFK?=
- =?utf-8?B?T0cxc1NPRG03K2xEQkJLK3BrY1dPbnNvU1JMRHZHbEprTng2a2RWaWlMc21M?=
- =?utf-8?B?WlR3am5pZFc3VmJ2WGpNbDd5RXIxckN2RW1kSkd3TXFtejZ4Uk0rTlpSMDZh?=
- =?utf-8?B?Tm1zY2tkUkZLTFZaNmN5VFZJa3RIOWxUREVyYVpXSm1oMzB1U3JpQS82YVBl?=
- =?utf-8?B?bThaODNwTVEyZE1IMWNvOGlmQ2o4ajFURDU2MXlaNEgvVEpMLzVaR1FrRTZh?=
- =?utf-8?B?T0UzNGpJSmlkcVNMZGZobVJBR0ZNMDZldUN0Z0tISG1qZnRRYmp5VVNrU0tr?=
- =?utf-8?B?QzVOTi9SK0FNcHFaNFdLK2FnQW80dlg5NTdGbjF1eTF0TGJ0dHpmeEJWQUFj?=
- =?utf-8?B?ZHZ2VnJYLzg2bUJRZW9HM3BFZmJWZUluc3kyOHRsNnkyUUNkMWc0djhvY0Q2?=
- =?utf-8?B?ekpTblRmWkFuMUVHb3dkUTRxNkREejRBWGluOWtBcG1NbDd4S29oclkzcjY0?=
- =?utf-8?B?MjFFS25YamoxT1BMY3JmSUYyRUlLMEh4WUROMTJOTWJEM2pvWE04bkVtWVFX?=
- =?utf-8?B?Sm5FZHE2MWEzTXNySE1GRU9EaWIzRmNNK1Nob01BTE1JSVlOcWM5SUJUTFJL?=
- =?utf-8?B?bnErTFZMekJaRUo3SzJqSmJVU0YxaHVHRTkva2FBNjRQclVZUWM4VXR1STdB?=
- =?utf-8?B?V1RZa094cHFCSjFkZjZZRW5LRFVKU1dBZTQzSUZFQ3d5RHlYSEtLaFFra1dB?=
- =?utf-8?B?R0pVTEpVOGFaQjlyMTVmQStITDJKMEZEKzE4d2RHVGY1Uk9pNGlZSUNPMlhq?=
- =?utf-8?B?M0ErbkNVbVJTOHNWT2F3ZktPcnVZSFZGNlJTWlRTdklqZFJkZ2dmQVZKVkNa?=
- =?utf-8?B?aGVHdDNIaTdnZTdIaWpNS1pwNW5GSUtXajJlWFEvVjBuTFovWEhuVFNhL2hP?=
- =?utf-8?B?b3l6amhIT2IwS0x0ZEgwL1ZtaVFsZy92VFBvelZBUzNsRWxNZzFYZlFSOWFp?=
- =?utf-8?B?RTNwVllRd1pwNlJvMUZVYm1EYWs3eHcrT1gwM3QxSjJYaDZhNWNXQ3pWUjlm?=
- =?utf-8?B?cjNYK1V3UHZmQ3lQakpLL0g1NDFMV1Y5S3VrMkNEUkFnRjJlbjZyT2o0eTZr?=
- =?utf-8?B?T1JmS0ZvMDVKMjVEMU45RU5aMFZVNkJsZzhDbjdMM2ZSVUdkUU5ZRTNPSUxa?=
- =?utf-8?B?NlNYRENoRmJNU0IwS1lGR2lWdXp6dHN0NHBHZkVwNGFNM2JPTGNPbFVBM0c1?=
- =?utf-8?B?N3FtNkR1aVJFbUJoUTlXcVVsWkJMaWM3Q01uWXVSNjdqMUNOZ1BoV25FT0xl?=
- =?utf-8?B?dnhvUUg5OHIwL2h1eHBvcFVRS1F1LzZ0UUhQcXFKZ0I2Mk5WNDhIamM5NEll?=
- =?utf-8?B?OUw5Y216VVJVYmpXZ3FaeEVYRnBOdEY0NXcxak9kL2tpVW52WVdLU3Nwa0hl?=
- =?utf-8?B?ZkE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Subject: [PATCH v14 0/5] Add support for RZ/G2L VSPD
+Date:   Sun, 28 Aug 2022 09:13:29 +0100
+Message-Id: <20220828081334.30078-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc484f4c-6605-474e-803d-08da88bb5ef4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2022 06:05:55.9065
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IbrBPC7o/3Y8Ds9PDtr8oZfNCbPrS4AiAhw2+KK/H6+YJrTY5d8Zs1ZYSCJ4zmGnsWtWzEbK9ST6DJL8DrBmpJ5JmbubGmsTxRKwVzREMaU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB2879
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgTGF1cmVudCwNCg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIDIvMl0gZHJtOiByY2FyLWR1OiBV
-c2UgJXA0Y2MgdG8gcHJpbnQgNENDIGZvcm1hdA0KPiANCj4gSGkgQmlqdSwNCj4gDQo+IE9uIFNh
-dCwgQXVnIDI3LCAyMDIyIGF0IDA5OjA0OjI1QU0gKzAwMDAsIEJpanUgRGFzIHdyb3RlOg0KPiA+
-IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMi8yXSBkcm06IHJjYXItZHU6IFVzZSAlcDRjYyB0byBwcmlu
-dCA0Q0MgZm9ybWF0DQo+ID4gPiBPbiBUaHUsIEF1ZyAyNSwgMjAyMiBhdCAxMTozOTowNUFNICsw
-MTAwLCBCaWp1IERhcyB3cm90ZToNCj4gPiA+ID4gUmVwbGFjZSB1c2Ugb2Ygc3RydWN0IHJjYXJf
-ZHVfZm9ybWF0X2luZm8gd2l0aCAlcDRjYyBmb3IgcHJpbnRpbmcNCj4gPiA+ID4gNENDIGZvcm1h
-dHMuDQo+ID4gPg0KPiA+ID4gVGhlIGNvZGUgY2hhbmdlIGxvb2tzIGdvb2QsIGJ1dCBkb2Vzbid0
-IG1hdGNoIHRoZSBjb21taXQgbWVzc2FnZS4NCj4gPiA+IFlvdSdyZSBub3QgcmVwbGFjaW5nIHVz
-YWdlIG9mIHN0cnVjdCByY2FyX2R1X2Zvcm1hdF9pbmZvLiBJIHByb3Bvc2UNCj4gPiA+IHRoZSBm
-b2xsb3dpbmcgY29tbWl0IG1lc3NhZ2U6DQo+ID4gPg0KPiA+ID4gVXNlIHRoZSAlcDRjYyBmb3Jt
-YXQgc3BlY2lmaWVyIHRvIHByaW50IDRDQ3MsIHdoaWNoIHdpbGwgcHJvdmlkZSBhDQo+ID4gPiBt
-b3JlIHJlYWRhYmxlIG1lc3NhZ2UgdGhhbiB0aGUgcmF3IGhleCB2YWx1ZS4NCj4gPg0KPiA+IE9L
-Lg0KPiA+DQo+ID4gPiA+IFJlcG9ydGVkLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0K3Jl
-bmVzYXNAZ2xpZGVyLmJlPg0KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5k
-YXMuanpAYnAucmVuZXNhcy5jb20+DQo+ID4gPiA+IC0tLQ0KPiA+ID4gPiAgZHJpdmVycy9ncHUv
-ZHJtL3JjYXItZHUvcmNhcl9kdV9rbXMuYyB8IDQgKystLQ0KPiA+ID4gPiAgMSBmaWxlIGNoYW5n
-ZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gPiA+ID4NCj4gPiA+ID4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfa21zLmMNCj4gPiA+ID4g
-Yi9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X2ttcy5jDQo+ID4gPiA+IGluZGV4IDIx
-ODgxZmI1ZTg0YS4uOGMyNzE5ZWZkYTJhIDEwMDY0NA0KPiA+ID4gPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vcmNhci1kdS9yY2FyX2R1X2ttcy5jDQo+ID4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9yY2FyLWR1L3JjYXJfZHVfa21zLmMNCj4gPiA+ID4gQEAgLTQwNSw4ICs0MDUsOCBAQCByY2Fy
-X2R1X2ZiX2NyZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPiA+ID4gPiBzdHJ1Y3QgZHJt
-X2ZpbGUgKmZpbGVfcHJpdiwNCj4gPiA+ID4NCj4gPiA+ID4gIAlmb3JtYXQgPSByY2FyX2R1X2Zv
-cm1hdF9pbmZvKG1vZGVfY21kLT5waXhlbF9mb3JtYXQpOw0KPiA+ID4gPiAgCWlmIChmb3JtYXQg
-PT0gTlVMTCkgew0KPiA+ID4gPiAtCQlkZXZfZGJnKGRldi0+ZGV2LCAidW5zdXBwb3J0ZWQgcGl4
-ZWwgZm9ybWF0ICUwOHhcbiIsDQo+ID4gPiA+IC0JCQltb2RlX2NtZC0+cGl4ZWxfZm9ybWF0KTsN
-Cj4gPiA+ID4gKwkJZGV2X2RiZyhkZXYtPmRldiwgInVuc3VwcG9ydGVkIHBpeGVsIGZvcm1hdCAl
-cDRjY1xuIiwNCj4gPiA+ID4gKwkJCSZtb2RlX2NtZC0+cGl4ZWxfZm9ybWF0KTsNCj4gPiA+ID4g
-IAkJcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7DQo+ID4gPiA+ICAJfQ0KPiA+ID4gPg0KPiA+ID4N
-Cj4gPiA+IFRoZXJlIGFyZSB0d28gb3RoZXIgb2NjdXJyZW5jZXM6DQo+ID4gPg0KPiA+ID4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfcGxhbmUuYw0KPiA+ID4g
-Yi9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X3BsYW5lLmMNCj4gPiA+IGluZGV4IDI2
-YjI1Y2E1ODk2OC4uODM2MzFlZTJmZmYxIDEwMDY0NA0KPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3JjYXItZHUvcmNhcl9kdV9wbGFuZS5jDQo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
-cmNhci1kdS9yY2FyX2R1X3BsYW5lLmMNCj4gPiA+IEBAIC02MjYsOCArNjI2LDggQEAgaW50IF9f
-cmNhcl9kdV9wbGFuZV9hdG9taWNfY2hlY2soc3RydWN0DQo+ID4gPiBkcm1fcGxhbmUgKnBsYW5l
-LA0KPiA+ID4NCj4gPiA+ICAJKmZvcm1hdCA9IHJjYXJfZHVfZm9ybWF0X2luZm8oc3RhdGUtPmZi
-LT5mb3JtYXQtPmZvcm1hdCk7DQo+ID4gPiAgCWlmICgqZm9ybWF0ID09IE5VTEwpIHsNCj4gPiA+
-IC0JCWRldl9kYmcoZGV2LT5kZXYsICIlczogdW5zdXBwb3J0ZWQgZm9ybWF0ICUwOHhcbiIsIF9f
-ZnVuY19fLA0KPiA+ID4gLQkJCXN0YXRlLT5mYi0+Zm9ybWF0LT5mb3JtYXQpOw0KPiA+ID4gKwkJ
-ZGV2X2RiZyhkZXYtPmRldiwgIiVzOiB1bnN1cHBvcnRlZCBmb3JtYXQgJXA0Y2NcbiIsDQo+ID4g
-PiBfX2Z1bmNfXywNCj4gPiA+ICsJCQkmc3RhdGUtPmZiLT5mb3JtYXQtPmZvcm1hdCk7DQo+ID4g
-PiAgCQlyZXR1cm4gLUVJTlZBTDsNCj4gPiA+ICAJfQ0KPiA+ID4NCj4gPiA+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X3dyaXRlYmFjay5jDQo+ID4gPiBiL2Ry
-aXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfd3JpdGViYWNrLmMNCj4gPiA+IGluZGV4IDI1
-ZjUwYTI5N2MxMS4uOGNkMzdkN2I4YWUyIDEwMDY0NA0KPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3JjYXItZHUvcmNhcl9kdV93cml0ZWJhY2suYw0KPiA+ID4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL3JjYXItZHUvcmNhcl9kdV93cml0ZWJhY2suYw0KPiA+ID4gQEAgLTE2Niw4ICsxNjYsOCBA
-QCBzdGF0aWMgaW50IHJjYXJfZHVfd2JfZW5jX2F0b21pY19jaGVjayhzdHJ1Y3QNCj4gPiA+IGRy
-bV9lbmNvZGVyICplbmNvZGVyLA0KPiA+ID4NCj4gPiA+ICAJd2Jfc3RhdGUtPmZvcm1hdCA9IHJj
-YXJfZHVfZm9ybWF0X2luZm8oZmItPmZvcm1hdC0+Zm9ybWF0KTsNCj4gPiA+ICAJaWYgKHdiX3N0
-YXRlLT5mb3JtYXQgPT0gTlVMTCkgew0KPiA+ID4gLQkJZGV2X2RiZyhkZXYtPmRldiwgIiVzOiB1
-bnN1cHBvcnRlZCBmb3JtYXQgJTA4eFxuIiwgX19mdW5jX18sDQo+ID4gPiAtCQkJZmItPmZvcm1h
-dC0+Zm9ybWF0KTsNCj4gPiA+ICsJCWRldl9kYmcoZGV2LT5kZXYsICIlczogdW5zdXBwb3J0ZWQg
-Zm9ybWF0ICVwNGNjXG4iLA0KPiA+ID4gX19mdW5jX18sDQo+ID4gPiArCQkJJmZiLT5mb3JtYXQt
-PmZvcm1hdCk7DQo+ID4gPiAgCQlyZXR1cm4gLUVJTlZBTDsNCj4gPiA+ICAJfQ0KPiA+ID4NCj4g
-PiA+IEkgY2FuIGFkZCB0aGVzZSBjaGFuZ2VzIHRvIHRoZSBwYXRjaCBhbmQgdXBkYXRlIHRoZSBj
-b21taXQgbWVzc2FnZQ0KPiA+ID4gd2hlbiBhcHBseWluZyBpZiB5b3UncmUgZmluZSB3aXRoIHRo
-YXQuIEluIHRoYXQgY2FzZSwNCj4gPg0KPiA+IEkgYW0gb2sgd2l0aCBpdC4NCj4gPg0KPiA+IElz
-IGl0IHBvc3NpYmxlIGZvciB5b3UgdG8gc2hhcmUgdGhlIGdpdCB0cmVlIHdpdGggbGF0ZXN0IFJD
-YXIgRFUNCj4gY2hhbmdlcz8NCj4gPiBzbyB0aGF0IEkgY2FuIHJlYmFzZSBSQ2FyIERVIGxpYiBh
-bmQgUlovRzJMIERVIHdvcmsgb24gdG9wIG9mIHRoYXQuDQo+ID4NCj4gPiBDdXJyZW50bHkgSSBh
-bSByZWJhc2luZyBvbiB0b3Agb2YgZHJtX3RpcC4gUGxlYXNlIGxldCBtZSBrbm93Lg0KPiANCj4g
-U3VyZS4gVGhlIHRyZWUgaXMgYXZhaWxhYmxlIGF0IGdpdDovL2xpbnV4dHYub3JnL3BpbmNoYXJ0
-bC9tZWRpYS5naXQsDQo+IGFuZCBteSBkcm0gbmV4dCBicmFuY2ggZm9yIHRoZSBEVSBkcml2ZXIg
-aXMgZHJtL2R1L25leHQuDQoNClRoYW5rIHlvdSwgV2lsbCByZWJhc2Ugb24gZHJtL2R1L25leHQN
-Cg0KQ2hlZXJzLA0KQmlqdQ0KDQogDQo+ID4gPiBSZXZpZXdlZC1ieTogTGF1cmVudCBQaW5jaGFy
-dCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPg0KPiANCj4gLS0NCj4gUmVnYXJk
-cywNCj4gDQo+IExhdXJlbnQgUGluY2hhcnQNCg==
+The RZ/G2L VSPD provides a single VSPD instance. It has the following
+sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+
+The VSPD block on RZ/G2L does not have a version register, so added a
+new compatible string "renesas,r9a07g044-vsp2" with a data pointer
+containing the info structure. Also the reset line is shared with
+the DU module.
+
+This patch series is tested on RZ/G1N, RZ/G2M and RZ/G2L boards.
+
+v13->v14:
+ * Updated Rb tag from Krzysztof Kozlowski for patch#1.
+ * Added Rb tag from Philipp and Laurent for patch#2.
+ * Updated comment flow.
+ * Changed unconditional delay-> conditional delay for register access
+   after deassert only for Gen2 SoCs.
+ Note:
+   There is no such delay required for accessing VI6_IP_VERSION register
+   (0x3f00). But accessing registers like VI6_STATUS(0x38) needs some delay
+    after deassert. 
+ * Added Rb tag from Laurent for patch#3,#4 and #5.
+ * Improved the code readability for patch#4.
+v12->v13:
+ * Removed unused iopoll.h header file from patch#2.
+ * Added Rb tag from Geert for patch#2.
+v11->v12:
+ * Replaced read_poll_timeout_atomic-> udelay(1) as testing on RZ/G1N
+   shows this delay is sufficient to avoid lock-up.
+ * Removed Rb tags from patch#2.
+v10->v11:
+ * Added poll for reset status in order to avoid lock-up on R-Car Gen2
+ * with vsp register access after deassert.
+
+v9->v10
+ * Moved {deassert,assert} calls to vsp1_pm_runtime_{resume,suspend}
+
+V8->v9
+ * Added Rb tag from Geert for patch#3
+ * Replaced break with return info in case a Model match is found and
+   removed additional check for non-match case.
+ * Used generic check for matching SoCs with LBA feature.
+ * Replaced the code comments RZ/G2L {SoC's,SoC} with RZ/G2L SoCs.
+v7->v8:
+ * Split the patch for adding s/w version, feature bit and RZ/G2L support
+ * Added feature bit VSP1_HAS_NON_ZERO_LBA to device_info
+ * Added .soc for RZ/G2L
+ * Replaced the compatible "renesas,rzg2l-vsp2" -> "renesas,r9a07g044-vsp2"
+ * Updated Clock-names to false for non RZ/G2L SoC's on binding doc
+ * Added Rb tag from Laurent for bindings
+v6->v7:
+ * Added Rb tag from Kieran for patch#3
+ * Added a quirk to handle LIF0 buffer attribute related
+   changes for V3M and G2L.
+ * Removed the macro for VSP HW version
+v5->v6:
+ * Rebased to media_staging and updated commit header
+ * Removed LCDC reference clock description from bindings
+ * Changed the clock name from du.0->aclk from bindings
+ * Added Rb tag from Laurent for reset patch
+ * Added forward declaration for struct reset_control
+ * Updated vsp1_device_get() with changes suggested by Laurent
+ * Updated error message for reset_control_get form ctrl->control.
+ * Removed the extra tab from rzg2l_vsp2_device_info
+ * Changed the function vsp1_lookup->vsp1_lookup_info and
+   all info match related code moved here.
+ * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
+   distinguish HW & SW IP_VSP_Version.
+ * Used 0x80 for RZG2L VSPD model and SoC identification
+ * Updated Switch() for LIF0 buffer attribute handling.
+v4->v5:
+ * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
+ * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
+   for SoC identification for RZ/G2L SoC's.
+v3->v4:
+ * Restored error check for pm_runtime_resume_and_get and calls
+   assert() in case of failure.
+ * Added Rb tag from Geert
+ * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M SoC's
+v2->v3:
+ * Added Rb tags from Krzysztof and Philipp
+ * If reset_control_deassert() failed, return ret directly.
+ * Fixed version comparison in vsp1_lookup()
+v1->v2:
+ * Used reference counted reset handle to perform deassert/assert
+ * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
+ * Added standalone device info for rzg2l-vsp2.
+ * Added vsp1_lookup helper function.
+ * Updated comments for LIF0 buffer attribute register
+ * Used last ID for rzg2l-vsp2.
+RFC->v1:
+ * Added reset support as separate patch
+ * Moved rstc just after the bus_master field in struct vsp1_device
+ * Used data pointer containing info structure to retrieve version information
+ * Updated commit description
+ * Changed compatible from vsp2-r9a07g044->vsp2-rzg2l
+ * Defined the clocks
+ * Clock max Items is based on SoC Compatible string
+RFC:
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-20-biju.das.jz@bp.renesas.com/
+
+Biju Das (5):
+  media: dt-bindings: media: renesas,vsp1: Document RZ/G2L VSPD bindings
+  media: renesas: vsp1: Add support to deassert/assert reset line
+  media: renesas: vsp1: Add support for VSP software version
+  media: renesas: vsp1: Add VSP1_HAS_NON_ZERO_LBA feature bit
+  media: renesas: vsp1: Add support for RZ/G2L VSPD
+
+ .../bindings/media/renesas,vsp1.yaml          |  53 ++++++---
+ drivers/media/platform/renesas/vsp1/vsp1.h    |   4 +
+ .../media/platform/renesas/vsp1/vsp1_drv.c    | 101 +++++++++++++++---
+ .../media/platform/renesas/vsp1/vsp1_lif.c    |  12 +--
+ .../media/platform/renesas/vsp1/vsp1_regs.h   |   6 ++
+ 5 files changed, 142 insertions(+), 34 deletions(-)
+
+-- 
+2.25.1
+
