@@ -2,48 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A051F5A477B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Aug 2022 12:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EE6E5A4918
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Aug 2022 13:20:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229608AbiH2KrV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Aug 2022 06:47:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55260 "EHLO
+        id S231600AbiH2LUQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Aug 2022 07:20:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbiH2KrU (ORCPT
+        with ESMTP id S231849AbiH2LT2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Aug 2022 06:47:20 -0400
+        Mon, 29 Aug 2022 07:19:28 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10E4057E21
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Aug 2022 03:47:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4413974DF8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Aug 2022 04:13:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=XB9S+g3RgsAKe4wV1L4FCt4ykgD9
-        Q1Hr2OkQZ7DpO4I=; b=XcziZsJnZO5MoLBSeHojAN0pcC6/zSDIPXTS2iygh8SV
-        t5boa2U5rH95AlcLQC/fhf2kCJfHa3S4KDxqzndVVP4Jd95HklQ4zwR0h1qDKrZB
-        kEf4+jSnN+QCsKfOYDPiwG5phyPRdBdU8TEUF4H1kl5Iof7zlEOwUu/Q10WZbCw=
-Received: (qmail 78389 invoked from network); 29 Aug 2022 12:47:14 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Aug 2022 12:47:14 +0200
-X-UD-Smtp-Session: l3s3148p1@176c/F7nMp0gAwDPXyz6AKlRFcsoQyrD
-Date:   Mon, 29 Aug 2022 12:47:14 +0200
+        :content-type:in-reply-to; s=k1; bh=rqx4smHd+iAsgBMF5sp0zWD7n5kz
+        B2KdsVD2HWPjgrE=; b=fqlTz5L2b6WB5h9TsJp9O+R9U3d5Xb9yVGZaKPKrct56
+        bNOKnd8LOuZOvV4d/dBijesvzqr5S9jtVUXiUHIPUOXCnoHRTYS2gQO5SJZCq8U3
+        C3aFIEbTc9U4I2/13N2ILTaNhnaYr5HLNfS12E4xvctBBAprnFBcaDtaqpsQ1xY=
+Received: (qmail 86280 invoked from network); 29 Aug 2022 13:11:10 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Aug 2022 13:11:10 +0200
+X-UD-Smtp-Session: l3s3148p1@YMUoUl/nnLwgAwDPXyz6AKlRFcsoQyrD
+Date:   Mon, 29 Aug 2022 13:11:09 +0200
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64: dts: renesas: r8a774e1: Rename i2c_dvfs to
- iic_pmic
-Message-ID: <YwyZMq3E6EhmS5a2@shikoro>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 3/4] arm64: dts: renesas: spider-cpu: Add MSIOF node
+Message-ID: <Ywyezf8tXUXjm8n9@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <7d60653d4d63904dc025a133297a53eb885fa064.1661525361.git.geert+renesas@glider.be>
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20220824103515.54931-1-wsa+renesas@sang-engineering.com>
+ <20220824103515.54931-4-wsa+renesas@sang-engineering.com>
+ <CAMuHMdX4q+NNf1Q=eRE3Qb8QvidJ5u_LZT8he+Aw76T45cmYWQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Vd2AfSQG5oK9W91f"
+        protocol="application/pgp-signature"; boundary="gVcIk3+k+rdkdzbM"
 Content-Disposition: inline
-In-Reply-To: <7d60653d4d63904dc025a133297a53eb885fa064.1661525361.git.geert+renesas@glider.be>
+In-Reply-To: <CAMuHMdX4q+NNf1Q=eRE3Qb8QvidJ5u_LZT8he+Aw76T45cmYWQ@mail.gmail.com>
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
@@ -55,52 +52,68 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---Vd2AfSQG5oK9W91f
-Content-Type: text/plain; charset=utf-8
+--gVcIk3+k+rdkdzbM
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi Geert,
 
-> As RZ/G2 SoCs do not support DVFS, the "iic-dvfs" module was renamed to
-> "iic-pmic" in the RZ/G Series, 2nd Generation User=E2=80=99s Manual: Hard=
-ware
-> Rev. 1.00.
+> > +&msiof0 {
+> > +       pinctrl-0 =3D <&msiof0_pins>;
+> > +       pinctrl-names =3D "default";
+> > +       status =3D "okay";
+> > +};
 >=20
-> See also commit a636d8037ef6028a ("arm64: dts: renesas: rzg2: Rename
-> i2c_dvfs to iic_pmic"), which apparently forgot to update RZ/G2H.
+> I assume you added this becomes Spider has an MSIOF pin header?
 
-Maybe convert this paragraph into a Fixes tag?
+Yes, that is one reason. It has it on the extension board. On the CPU
+board, MSIOF0 is also connected to the CPLD.
 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > +
+> >  &pfc {
+> >         pinctrl-0 =3D <&scif_clk_pins>;
+> >         pinctrl-names =3D "default";
+> > @@ -116,6 +122,12 @@ mmc_pins: mmc {
+> >                 power-source =3D <1800>;
+> >         };
+> >
+> > +       msiof0_pins: msiof0 {
+> > +               groups =3D "msiof0_clk", "msiof0_sync", "msiof0_rxd",
+> > +                        "msiof0_txd", "msiof0_ss1", "msiof0_ss2";
+>=20
+> MSIOF0_SS2 is also used as the VDDQ18_33_SPI voltage selector, which
+> is used as the power source for various components (but not available
+> on the MSIOF0 pin header?), so I'm a but reluctant to add this patch...
 
-Other than that:
+Uh, you are right with the voltage selector. I missed that, sorry.
+However, it is present on the MSIOF0 connector at pin 1. My suggestion
+is to remove SS2 from the PFC node and add a comment describing the
+situation?
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-Thanks for taking care of this!
+All the best,
 
    Wolfram
 
 
---Vd2AfSQG5oK9W91f
+--gVcIk3+k+rdkdzbM
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMMmS4ACgkQFA3kzBSg
-KbYUPg//bO+BzwUuDZ8kAvCHopSZL3d5Zk2CP0KMhaF3u9Ply+2C/ONwO/qsJAhE
-u024RN812hu19L0IJI6HgN9tW8Y1HXhSTwv/Bo7pqGI5KlD2Aol5U2BmM2cUtZA2
-caOQYl4wS8TcehA0OP6szIY9LyvMBuhsuz/ZlHjDkTRjEWlWlVpTgJeu2AOr1EUy
-SJi4isJgn11sfPIFEhBXn4nYU67LXvOiH6ftbAtjMUkhHbZ8Ft4h+VsvAAJLO10P
-azIh4bI8+LD0CMjlYWYNmPS3SYP2cSziciceobmo7+dSU411qwS70cpEYlEhG21A
-JYRcDXzNrnLbtVJ7hiszgQ5XCWpXh5ZBC/5QLmQTZwr4v4fZ1RAUuJ//Zh6I4dpC
-p2lvguI/rlG2JA3VzXQHHVDIlK+n6J14soj3VXqpbq6mVUpFirqmI5zbLw0PPIOf
-BYvlXPbIz5748fle1aRD4U7yi5nq+irFEjeI+1gauRkYpO6phiRFy8KDBxA5Wc7s
-Dl1N6kAJWfFuLHDqf4nJn9/hrde0sKr/hbWS4cCB2hZDmGYUQh5bEpHOGnQcJ7fX
-qZLSDt22mcHI8Z37hCRi/ko8AvLodyy0bbLhOg6PhzM4Kxn8SpC1t4aVamb7oQ+r
-KZpBj+/9ljklbSQi7E5+e/N+6cM5EicmP6uQ0m5HKjykLtLLR/E=
-=7aqe
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMMns0ACgkQFA3kzBSg
+KbZClxAAocDiwK4oi7VDXk9Cdu5dvKDYt2d0jN+Zdkw5bsem+isOZ9ZhDmgr3lzG
++ks9S/NPX/BIxqQ2qEWGI/4FBNDoUIQ/VU+73Hc8vSa8qEDqjYz2PG4yeBAPZcqO
+voJ+60AN4Q5lPIuSQ8T2HJbG5ZVYZa29lGVlZ0SBakkXbVTqbrB8WTeBVtlFX3Uf
+Q84rvlB7b+QCsUDnk8mDGYhKeAnALP/ALsSJb7cyEua48RsIVRHHJAmI49I7NpQl
+T9p5cKifnIf3km1nEYipJsA0w2jxCLuIQinMRleVBxKdXlNg9N7uKpl+XI/zJODt
+xLsisVa1jKe3fc68OwDocYcWxmi+aDSBSMVSWbbZxjr6eHqcBtpeH5gTglLZ9UgL
+l+SkwQGem/n90gczIXYwt6BhwbcIQIDb2srtB02QAebS+f5pfR8Un1sWu9cusrGS
+j52CkTIiuVSrHUVEUXhTg1G78ylo4nGdzlFmfrKJZ7BfLJmX2iGPPQ0sDPEBrHIQ
+2xKUtbD5riMfwS87rIwrXMN5whdhuvArQLwN0Oeei4yeVoZ+SA/Ik7SYrnop55N9
+TlS44WFsuPZGTrCcJEA4R7uYot6ZiyvG/sTzUtnqqoOABeHP/r4RoOC7w8diYfSM
+0EgfMy+4Z/Hjo9xOFAkYIhQWGRaQIACfKHPGKaAWLGK8J6bXjaY=
+=A+xu
 -----END PGP SIGNATURE-----
 
---Vd2AfSQG5oK9W91f--
+--gVcIk3+k+rdkdzbM--
