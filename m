@@ -2,101 +2,293 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F04EA5A611A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Aug 2022 12:49:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 811F15A615F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Aug 2022 13:10:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229966AbiH3Ktd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Aug 2022 06:49:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50956 "EHLO
+        id S229952AbiH3LKk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Aug 2022 07:10:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229775AbiH3Kta (ORCPT
+        with ESMTP id S230145AbiH3LKh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Aug 2022 06:49:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51F23E343F;
-        Tue, 30 Aug 2022 03:49:26 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EA6A661508;
-        Tue, 30 Aug 2022 10:49:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7543C433D6;
-        Tue, 30 Aug 2022 10:49:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661856565;
-        bh=hN4IvqLBUwQ7LA2EASNAfcsy15aflmpkS+M3B+PyQbA=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=BGnjqLXZ93XxFzw3bOsPTLNxqBkFUkOfGzLocWniOUzIY9hEr6OgjETiJqhlQPFU5
-         msPaD2phFgaFY9f1KMA9iHokmReJcHod3g+08+in04V4cJ33N3AJ/J5OP16wbp0AdJ
-         CT9RFxgLuKLop7Zu/lgGVyKgWIX+K7tlqDvHNb3lzRO/Vo7cxKb/ewUuQG425+W2Ir
-         AH/fqszLfgCIpRduolgFeeExfIM5bYkAJKBN/9ND1fMcr/7+sxsmHhQAtsPNU6rctO
-         6SvgggVyWgz0NhE3HyZ89PXKHuQ/ILXOZOZNnK7ETVlWIz5FJAFnSDhjaD8l0n7uPs
-         jyKMB47LmX+Eg==
-From:   Mark Brown <broonie@kernel.org>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>, linux-spi@vger.kernel.org
-In-Reply-To: <20220829220334.6379-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220829220334.6379-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2] dt-bindings: spi: renesas,sh-msiof: Fix 'unevaluatedProperties' warnings
-Message-Id: <166185656353.1130408.6017479791067634652.b4-ty@kernel.org>
-Date:   Tue, 30 Aug 2022 11:49:23 +0100
+        Tue, 30 Aug 2022 07:10:37 -0400
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D021F647CA;
+        Tue, 30 Aug 2022 04:10:35 -0700 (PDT)
+Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-3376851fe13so264197917b3.6;
+        Tue, 30 Aug 2022 04:10:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=nMi96jo7aVtzV6gHY/awbFwjLueQUwadnmUfMNrWPWs=;
+        b=N5QYfCJq7Cxaeozg3Gf3tMUV5fMKzuBbCiW2Pf2xoodoPo1NssosU9qMOyG2x8pBav
+         ZpkqItxXDSYOL4cYHma9WvI49RgQEiu22j5ua4GVT5W03hlEdMQvXJT6hCMUAHj1ImiO
+         4EcHDkd6QRPqmXek//SgS73D+HqtLclg0CP3dwAGxHPk+2Vcb7Ma/627r/vCjP+UFnQ4
+         m6NMiM9YOtijdVirXkQdx73yGlROl91Ub+cI0qZFXgFy0yeH8zRKG1b7W7AEWKiaUiUS
+         TiZOiSKHIq2LzmjkcF9/IPepSxzTncovLQtM/T7qxZNkvI+In0a0GAJq0dI7+Ir/RjJD
+         qHfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=nMi96jo7aVtzV6gHY/awbFwjLueQUwadnmUfMNrWPWs=;
+        b=mRSm0Vm2KxYq/kN7rG/w4BXtgLTaD0cMNeXhTo0EHGBLo/RJ8It3N4L9wNLBWu2fdo
+         fPcvcZ+HAKPNwwV2frgsObW+0SPKG12Qd5kdauAUEFNQPvifSsbueCn7bg3BQ1Yw/1nB
+         4XSAr1qWObjLFTgj7ggm4RIXp5IBEKLqCMLJT59/ZqH+jRffY85c07nXdzrjDgTLcLW+
+         MENtRhLR2PgvO77fpgS6/QZ8ZSyidULJ5F83hzJB0aEgCGakykS5hxmoy8Pc5p6CdTah
+         qlj2nRNNv7XAvNBmT2WAo+MQ172KJZagGi5o46iNDvp3ulqxiYBSe5vfhJP/IdugeA0l
+         hp3A==
+X-Gm-Message-State: ACgBeo2KinOS/HFf1EpJabg0qtBhi3fK7BFaomyPLFrWkdhXHJE5QIuj
+        E9+lOjvoqX68sFEz8Fpa1Y4cXW4luqNaTYtsauc=
+X-Google-Smtp-Source: AA6agR4CZCaWmPXoKzg6Ztgh4d98cRi1kgG4tJBVKN5dzRNiAybN999CPngmWWX6PkzbEE0vRkssrns3FT6fIUSBn8k=
+X-Received: by 2002:a81:6a84:0:b0:341:9e24:58aa with SMTP id
+ f126-20020a816a84000000b003419e2458aamr167202ywc.138.1661857835053; Tue, 30
+ Aug 2022 04:10:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-65ba7
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220801214718.16943-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <Yw1MmyFxnWNpQx8q@pendragon.ideasonboard.com>
+In-Reply-To: <Yw1MmyFxnWNpQx8q@pendragon.ideasonboard.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 30 Aug 2022 12:10:07 +0100
+Message-ID: <CA+V-a8uw-X+OC=Pa+gZtQvNF9OKU4Jd9Ne3YDJRNd4aMwsLZeQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] media: dt-bindings: media: Document RZ/G2L CSI-2 block
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 29 Aug 2022 23:03:34 +0100, Lad Prabhakar wrote:
-> With 'unevaluatedProperties' support implemented, there's a number of
-> warnings when running dtbs_check:
-> 
-> arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: spi@e6e90000: Unevaluated properties are not allowed ('power-domains', 'resets' were unexpected)
-> 	From schema: Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
-> 
-> The main problem is that SoC DTSI's include power-domains and resets
-> property, whereas the renesas,sh-msiof.yaml has 'unevaluatedProperties:
-> false'. So just add optional power-domains and resets properties.
-> 
-> [...]
+Hi Laurent,
 
-Applied to
+Thank you for the patch.
 
-   broonie/spi.git for-next
+On Tue, Aug 30, 2022 at 12:32 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> Thank you for the patch.
+>
+> On Mon, Aug 01, 2022 at 10:47:15PM +0100, Lad Prabhakar wrote:
+> > Document the CSI-2 block which is part of CRU found in Renesas
+> > RZ/G2L SoC.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > RFC v2 -> v1
+> > * Fixed review comments pointed by Rob and Jacopo.
+> >
+> > RFC v1 -> RFC v2
+> > * New patch
+> > ---
+> >  .../bindings/media/renesas,rzg2l-csi2.yaml    | 149 ++++++++++++++++++
+> >  1 file changed, 149 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> > new file mode 100644
+> > index 000000000000..f82f88c096df
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> > @@ -0,0 +1,149 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +# Copyright (C) 2022 Renesas Electronics Corp.
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/renesas,rzg2l-csi2.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas RZ/G2L (and alike SoC's) MIPI CSI-2 receiver
+> > +
+> > +maintainers:
+> > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > +
+> > +description:
+> > +  The CSI-2 receiver device provides MIPI CSI-2 capabilities for the Renesas RZ/G2L
+> > +  (and alike SoCs). MIPI CSI-2 is part of the CRU block which is used in conjunction
+> > +  with the Image Processing module, which provides the video capture capabilities.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+>
+> You can drop the oneOf and write
+>
+Agreed.
 
-Thanks!
+>     items:
+>       - enum:
+>           - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
+>           - renesas,r9a07g054-csi2       # RZ/V2L
+>       - const: renesas,rzg2l-csi2
+>
+> > +          - enum:
+> > +              - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
+> > +              - renesas,r9a07g054-csi2       # RZ/V2L
+> > +          - const: renesas,rzg2l-csi2
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  interrupt-names:
+> > +    const: csi2_link
+>
+> If there's a single interrupt you can drop the name.
+>
+OK, I will drop it.
 
-[1/1] dt-bindings: spi: renesas,sh-msiof: Fix 'unevaluatedProperties' warnings
-      commit: f4d381038700361f92d157288b0e18d87fab6c6d
+Cheers,
+Prabhakar
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Internal clock for connecting CRU and MIPI
+> > +      - description: CRU Main clock
+> > +      - description: CPU Register access clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: sysclk
+> > +      - const: vclk
+> > +      - const: pclk
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  resets:
+> > +    items:
+> > +      - description: CRU_CMN_RSTB reset terminal
+> > +
+> > +  reset-names:
+> > +    const: cmn-rstb
+>
+> Same here.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        unevaluatedProperties: false
+> > +        description:
+> > +          Input port node, single endpoint describing the CSI-2 transmitter.
+> > +
+> > +        properties:
+> > +          endpoint:
+> > +            $ref: video-interfaces.yaml#
+> > +            unevaluatedProperties: false
+> > +
+> > +            properties:
+> > +              data-lanes:
+> > +                minItems: 1
+> > +                maxItems: 4
+> > +                items:
+> > +                  maximum: 4
+> > +
+> > +            required:
+> > +              - clock-lanes
+> > +              - data-lanes
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description:
+> > +          Output port node, Image Processing block connected to the CSI-2 receiver.
+> > +
+> > +    required:
+> > +      - port@0
+> > +      - port@1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - power-domains
+> > +  - resets
+> > +  - reset-names
+> > +  - ports
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +
+> > +    csi20: csi2@10830400 {
+> > +            compatible = "renesas,r9a07g044-csi2", "renesas,rzg2l-csi2";
+> > +            reg = <0x10830400 0xfc00>;
+> > +            interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>;
+> > +            clocks = <&cpg CPG_MOD R9A07G044_CRU_SYSCLK>,
+> > +                     <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
+> > +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>;
+> > +            clock-names = "sysclk", "vclk", "pclk";
+> > +            power-domains = <&cpg>;
+> > +            resets = <&cpg R9A07G044_CRU_CMN_RSTB>;
+> > +            reset-names = "cmn-rstb";
+> > +
+> > +            ports {
+> > +                    #address-cells = <1>;
+> > +                    #size-cells = <0>;
+> > +
+> > +                    port@0 {
+> > +                            reg = <0>;
+> > +
+> > +                            csi2_in: endpoint {
+> > +                                    clock-lanes = <0>;
+> > +                                    data-lanes = <1 2>;
+> > +                                    remote-endpoint = <&ov5645_ep>;
+> > +                            };
+> > +                    };
+> > +
+> > +                    port@1 {
+> > +                            #address-cells = <1>;
+> > +                            #size-cells = <0>;
+> > +
+> > +                            reg = <1>;
+> > +
+> > +                            csi2cru: endpoint@0 {
+> > +                                    reg = <0>;
+> > +                                    remote-endpoint = <&crucsi2>;
+> > +                            };
+> > +                    };
+> > +            };
+> > +    };
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
