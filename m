@@ -2,61 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27E505A6BAF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Aug 2022 20:04:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8EA55A6CB4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Aug 2022 21:03:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230006AbiH3SEL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Aug 2022 14:04:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56264 "EHLO
+        id S230143AbiH3TDZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Aug 2022 15:03:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231284AbiH3SEI (ORCPT
+        with ESMTP id S230130AbiH3TDY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Aug 2022 14:04:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF3831839B;
-        Tue, 30 Aug 2022 11:04:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 88B3F61535;
-        Tue, 30 Aug 2022 18:04:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63639C433C1;
-        Tue, 30 Aug 2022 18:04:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661882646;
-        bh=SXz9foGOCKalc8a9oyokHuKsEKQfaVSfN6xJ/rlclUs=;
-        h=Date:From:To:Subject:References:In-Reply-To:From;
-        b=et7qx/6viOP9ZfFCNmKB1pya+dCeR8RdTtPfZf+hM0yDEUArV+P53n5/rhMFffFqm
-         WlupHOg/XxI503UryqCIBbUxtN77RP8ZvEPxqC7ZShsj10XZwSWznh0A+vfJBLHYuG
-         sWL1YvhAg3ZzPzJzrL1CELN4ZhOMcKIXXv1qYYbuOpL8Hq3LzIm3Kx8S/0IbvD1BeN
-         xRQi0w9u+OMyRzPbqEekqDcCo48AApb4XJnpyIVFeGnpGxG3IVg1bPa6xWcVvZcJrh
-         YNkWhOD8TeO18hiI/SH1yL1Ui9QlAp84v/CZyDhsIKjfU/vSbB8CiFHEaLKvRoGRIi
-         U5aPsTZlIkzPQ==
-Date:   Tue, 30 Aug 2022 19:04:05 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] spi: renesas,sh-msiof: Add generic Gen4 and r8a779f0
- support
-Message-ID: <Yw5RFX3rFeM/xwLb@sirena.org.uk>
-References: <20220824094327.33685-1-wsa+renesas@sang-engineering.com>
- <20220824094327.33685-2-wsa+renesas@sang-engineering.com>
- <Yw3WDjj7MzQjG8z6@sirena.org.uk>
- <Yw3Wm9D+9zGWlB67@shikoro>
+        Tue, 30 Aug 2022 15:03:24 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 461695F21A
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Aug 2022 12:03:22 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id y10so9235535ljq.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Aug 2022 12:03:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=gXK/wYTrdjw1OFwGZvQGSVF4ZM2/PXgjnzR2P4z9JVU=;
+        b=RfyVD3awpAa0llxye9rwb8D/ncwSK7kal8kbOTuM8IbDZFVDp3nkj1DLplToMDLPH9
+         29f5OmifJuPUSCaaEHSautt/YWR1ko394Ac4+Ke0yY9H8LAKIKnGvXOra5p9wX83TobH
+         NC+3MQoXk+6m+I67DPYLhh4r3IBHjXl796aNlSoHAxzoi9U7xscBQorR3pulfB4bkwLV
+         zaVyrK2txt0sbDMiOJ57bjrByubi+NWvB97jNTBLHnzP57aUdknZ7o2zUn9M2GeojJqg
+         VsxHRqHM4b3XJrCDpFHi8Qkqhh+fuabfsP4hykouZxs3r5PGUipSMx8rhjE+Q44E0Cww
+         WJOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=gXK/wYTrdjw1OFwGZvQGSVF4ZM2/PXgjnzR2P4z9JVU=;
+        b=ZuZyorA0BVeSnMLjKxtsZkGn+qRezXmckWMfHlEsrRMPTlDEZMGOG9w0cw7cMo7hyl
+         hSekExNNK4CRT7LwYYfqllQ25O26bOxhdOB1Qa3wgo0KR1sfxZGljgvxGr9mU2YJzZAT
+         iKv+2Iui8OrSxVN1dXnHkkmYUVSUFRWhBPRtlgbvMRsSlcMztArpozArFIOAqvsebAMC
+         yl5/oO6ealJaY+Pv2rAAV7cvDQPqTyUKXZzUjESKA0qR8OSF4kmLu+RKgelkWKVJiiRX
+         gwfWRoEEWGE/0kacVW42fzZ4iIwPJ/OLSWGDjf6v4AWQMKxq2DQqUVvMEOh1wj3GZXQN
+         z1+g==
+X-Gm-Message-State: ACgBeo3uJDKmaI6KwOqFiHbfaHCG7113mIEgZE58ZYq/TYmoD/+ksRlh
+        WbxxAyP2cT37BhfkoNWR264GXg==
+X-Google-Smtp-Source: AA6agR7XX821cAlmC8c6TzfFWW/lCcMRA71i63MiH9w6y67HfOTP74/INxmWqpqcMogEbXBBQEmDJQ==
+X-Received: by 2002:a2e:b0f9:0:b0:266:d31e:3061 with SMTP id h25-20020a2eb0f9000000b00266d31e3061mr2075012ljl.391.1661886200513;
+        Tue, 30 Aug 2022 12:03:20 -0700 (PDT)
+Received: from [192.168.28.124] (balticom-73-99-134.balticom.lv. [109.73.99.134])
+        by smtp.gmail.com with ESMTPSA id z9-20020a056512308900b00492f21c161esm1691923lfd.123.2022.08.30.12.03.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Aug 2022 12:03:19 -0700 (PDT)
+Message-ID: <1ef5dbd4-806f-ac1d-0ad5-0f8359a560de@linaro.org>
+Date:   Tue, 30 Aug 2022 22:03:18 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="N23qGugilPz27T8e"
-Content-Disposition: inline
-In-Reply-To: <Yw3Wm9D+9zGWlB67@shikoro>
-X-Cookie: Necessity is a mother.
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 1/3] dt-bindings: can: nxp,sja1000: Document RZ/N1
+ power-domains support
+Content-Language: en-US
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+References: <20220830164518.1381632-1-biju.das.jz@bp.renesas.com>
+ <20220830164518.1381632-2-biju.das.jz@bp.renesas.com>
+ <23539312-caaa-78f0-cd6c-899a826f9947@linaro.org>
+ <OS0PR01MB592292E8BE619470F4C621A186799@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <OS0PR01MB592292E8BE619470F4C621A186799@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,39 +94,34 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 30/08/2022 20:47, Biju Das wrote:
+> Hi Krzysztof Kozlowski,
+> 
+> Thanks for the feedback.
+> 
+>> Subject: Re: [PATCH v3 1/3] dt-bindings: can: nxp,sja1000: Document
+>> RZ/N1 power-domains support
+>>
+>> On 30/08/2022 19:45, Biju Das wrote:
+>>> Document RZ/N1 power-domains support. Also update the example with
+>>> power-domains property.
+>>>
+>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>> ---
+>>> v3:
+>>>  * Documented power-domains support.
+>>
+>> You made them required, so it would be nice to see reason in such
+>> change. The commit msg says only what you did, but not why you did it.
+> 
+> It is simple. As you see from [1] and [2] power-domains are enabled by default in RZ/N1 SoC.
+> So there is nothing prevent us to document this property for all IP's present in
+> RZ/N1 SoC.
 
---N23qGugilPz27T8e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Any explanation I expect to see in commit msg.
 
-On Tue, Aug 30, 2022 at 11:21:31AM +0200, Wolfram Sang wrote:
+Anyway you referred to Linux drivers, which is not actually a reason.
+What if some device is not in a power domain?
 
-> > Not sure why you didn't CC me on the cover letter for this?
-
-> After I got cover-letters rejected because of too much CC (but the
-> paaches itself went through), I wrote a script to only include lists on
-> cover-letters.
-
-That's very unhelpful, nobody is seeing your cover letters if you
-do that.  You should at least be copying the people you expect to
-apply your patch, and it seems only sensible to copy people who
-are getting every single patch in the series.  You can always
-copy patches@lists.linux.dev if all mailing lists are rejecting
-your CCs.
-
---N23qGugilPz27T8e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmMOURQACgkQJNaLcl1U
-h9BlgAf+LXnQoJNgkH8wZwKzLVjtilu+sGddJk+Rmpd/CFS5kK//tWlPPmHliCBD
-dJWKWcmNcnJGgUMrc1vbI46fX/OwlA4Kg0Pn2QqpCNOTHlp4BABhHYNY74wUxSTc
-jytN+9MvhpmYOuVqB1hKnxyMcQQ9h1VM0SFTx6AMHVutEIA0Xy1HBgrN2nk2QZQ4
-pIDmiliMvJRGfJK2k0yjzBkHWH2SOhW2fkLBb0QTEBH1D8FPYQbP1RX+kgWZk0Bb
-VDxlArIG3tltXxq5wDZihf8Mlg+p9853QtRlbgC57pUSkLvCaWWk9s+nWCS2tZp2
-D6ymx/TZ4DuhO7fL4B3EKEGhdrZdGA==
-=x+hX
------END PGP SIGNATURE-----
-
---N23qGugilPz27T8e--
+Best regards,
+Krzysztof
