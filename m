@@ -2,62 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7EE45A5C9B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Aug 2022 09:10:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 681075A5CB2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Aug 2022 09:16:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230448AbiH3HKN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Aug 2022 03:10:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42586 "EHLO
+        id S229869AbiH3HQv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Aug 2022 03:16:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231131AbiH3HJz (ORCPT
+        with ESMTP id S229446AbiH3HQs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Aug 2022 03:09:55 -0400
+        Tue, 30 Aug 2022 03:16:48 -0400
 Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83E76E4E;
-        Tue, 30 Aug 2022 00:09:47 -0700 (PDT)
-Received: by mail-qt1-f172.google.com with SMTP id r6so7880139qtx.6;
-        Tue, 30 Aug 2022 00:09:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DC4A67442;
+        Tue, 30 Aug 2022 00:16:48 -0700 (PDT)
+Received: by mail-qt1-f172.google.com with SMTP id c20so7880697qtw.8;
+        Tue, 30 Aug 2022 00:16:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=kvehLYa8RckdOHZiyCr1n+0fIpZ/1DX6g3S67QojAKk=;
-        b=LUyB9UaH3iN+wPpx6xBh/pOFCnPLE9bSgaOb0/z33lotPOGDueMWq8qIfCq0NOO25e
-         MOEmF4ZDLiu9sp+8tF35G8OsxiG4/JzETvaGvVuYnPZQQ5GnCIOPP5mzTRQD5GG9oLFM
-         VmZTBY5KGsLDMmKDAET8cUZ67uxSamKnYZgCC9Uh0z0rIjbpfuGpGrsAv0quiv1NE7mp
-         O0SSucQnKFC5tFeemof2hJTcmsg4RfjMXCDhQDfikCFtXqrIyVtwRbu9iRKiCKpKdT9r
-         58OpRLBKzl0lcyS/TV36qzEBNld2iDmTDz6dXTQRpJjbDt6zKhaWEYjj2ZqMIl9kfhJ9
-         tgtw==
-X-Gm-Message-State: ACgBeo33rnRyxP9Itw2yhAQI+f5jvHqZZLLqJWtHtBrl2aGhKTVEeXzF
-        /3+p5piJAMKfnc3J2ZtRT4eCrXLrTPmb8w==
-X-Google-Smtp-Source: AA6agR7OzLQymi4nFNOzzqioDGvDod9M3yrbunBtTzTOPOhQJ5gO4g7ikkDyUbBHWYLpmMH6psZjfg==
-X-Received: by 2002:ac8:6b18:0:b0:343:6b3:60ff with SMTP id w24-20020ac86b18000000b0034306b360ffmr13695593qts.176.1661843385968;
-        Tue, 30 Aug 2022 00:09:45 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id v13-20020a05620a440d00b006bb29d932e1sm8037817qkp.105.2022.08.30.00.09.45
+        bh=hbfMWbJBfBTtap4GWkn344FiWXI5cQK869u8DvT8sKM=;
+        b=LQ5XP93PhZb7xmLEDoIwn058EjsUhDiTwW592EJa9pGlo4atdeCPPW/wIHvHdzP66J
+         QIdv+shWpTGDTdV4BtAES3/Lx9dQoK/F6lbSxRdgYpJmDwUkPhIbT3buyCOOYUgLOOTh
+         hVm9WMimMXVk73WT7NMFuS76J3ehfLPn5udL94HNaGyA2yw3cQ0HAwHRq6BiRVCv/goa
+         nQTR1lfQcGycZ4qNcSXmXfYyWD1Ih8gs8ixe3nPpdZMImQIqQl/ypiguBeIWvfv6ShXK
+         mIWd/+KXFfbXlvBWsfPGKouzCctHpdcWRsqA4kumW5W0Lz+fV7bKLkRiBDMa5xD8ULo/
+         hYtw==
+X-Gm-Message-State: ACgBeo3lviP2AB048vrubD2siEre/1o//S8zoYLVaudHRv1uu1uQZ24I
+        rT61zG5UGPvNyz45RNaqm2UgyT4k9BojgQ==
+X-Google-Smtp-Source: AA6agR5DsovEqpiUM/z35D73uGu6TTj5lZXXpDEIsP1D8F8q1m2WCZRkUEXgl/Xpy+H9/SCyhqidbg==
+X-Received: by 2002:ac8:5c52:0:b0:343:3dc7:db0d with SMTP id j18-20020ac85c52000000b003433dc7db0dmr13674240qtj.179.1661843806969;
+        Tue, 30 Aug 2022 00:16:46 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id u187-20020a3760c4000000b006bb9e4b96e6sm7449212qkb.24.2022.08.30.00.16.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Aug 2022 00:09:45 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-333a4a5d495so250799757b3.10;
-        Tue, 30 Aug 2022 00:09:45 -0700 (PDT)
-X-Received: by 2002:a0d:e895:0:b0:340:ab79:3285 with SMTP id
- r143-20020a0de895000000b00340ab793285mr12995245ywe.358.1661843385104; Tue, 30
- Aug 2022 00:09:45 -0700 (PDT)
+        Tue, 30 Aug 2022 00:16:46 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-3413ad0640dso96155137b3.13;
+        Tue, 30 Aug 2022 00:16:46 -0700 (PDT)
+X-Received: by 2002:a81:83c8:0:b0:341:4b7b:3d9e with SMTP id
+ t191-20020a8183c8000000b003414b7b3d9emr4513475ywf.47.1661843806284; Tue, 30
+ Aug 2022 00:16:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220829214730.5752-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220829214730.5752-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220829215128.5983-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220829215128.5983-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 Aug 2022 09:09:33 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW92V6R2f97sEO9phBqDTDywXkjbjURv3Ntj_YczCQ05Q@mail.gmail.com>
-Message-ID: <CAMuHMdW92V6R2f97sEO9phBqDTDywXkjbjURv3Ntj_YczCQ05Q@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: i2c: renesas,riic: Fix 'unevaluatedProperties'
- warnings
+Date:   Tue, 30 Aug 2022 09:16:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVr8s3xYdRZOixm1CmYjQWPGqW5uG1DHSZAzrACm6tB+A@mail.gmail.com>
+Message-ID: <CAMuHMdVr8s3xYdRZOixm1CmYjQWPGqW5uG1DHSZAzrACm6tB+A@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: Drop clock-names property from RPC node
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Chris Brandt <chris.brandt@renesas.com>,
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
@@ -75,22 +71,22 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Aug 29, 2022 at 11:47 PM Lad Prabhakar
+On Mon, Aug 29, 2022 at 11:51 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 > With 'unevaluatedProperties' support implemented, there's a number of
 > warnings when running dtbs_check:
 >
-> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dtb: i2c@10058000: Unevaluated properties are not allowed ('resets' was unexpected)
->         From schema: Documentation/devicetree/bindings/i2c/renesas,riic.yaml
+> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: spi@ee200000: Unevaluated properties are not allowed ('clock-names' was unexpected)
+>         From schema: Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
 >
-> The main problem is that bindings schema marks resets as a required
-> property for RZ/G2L (and alike) SoC's but resets property is not part
-> of schema. So to fix this just add a resets property with maxItems
-> set to 1.
+> The main problem is that SoC DTSI's are including clock-names, whereas the
+> renesas,rpc-if.yaml has 'unevaluatedProperties: false'. So just drop
+> clock-names property from the SoC DTSI's.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.1.
 
 Gr{oetje,eeting}s,
 
