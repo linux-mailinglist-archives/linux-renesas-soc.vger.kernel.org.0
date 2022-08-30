@@ -2,110 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF81E5A6070
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Aug 2022 12:14:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 724AD5A60A4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Aug 2022 12:23:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229670AbiH3KN7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Aug 2022 06:13:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41318 "EHLO
+        id S230301AbiH3KW7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Aug 2022 06:22:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230043AbiH3KN2 (ORCPT
+        with ESMTP id S230310AbiH3KWh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Aug 2022 06:13:28 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0071C65CB
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Aug 2022 03:10:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=8XjgrmpmbPsbV1sHUjOhGMM5UKY4
-        NHoGPlZbLi/czoo=; b=NcdmYPZ5h0NKc359TAHxi6WBpIiqkflAyxuIj+IdA83Z
-        q23q+yfr5CXyqDS5fllrA7a9Pxh1UjBCYRz7/Qm1AMSqSJ4YlXme/UNTk5oeG4Zz
-        TTWPlnbputzjAIlxdod/DPLvC5VbSYVes4XTYyb50TTwZ+MeBncwoTEf0xJ7SmY=
-Received: (qmail 226316 invoked from network); 30 Aug 2022 12:10:03 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Aug 2022 12:10:03 +0200
-X-UD-Smtp-Session: l3s3148p1@szRwlXLnztIgAwDPXyz6AKlRFcsoQyrD
-Date:   Tue, 30 Aug 2022 12:10:02 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Chris Brandt <chris.brandt@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        Tue, 30 Aug 2022 06:22:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0CB540BE7;
+        Tue, 30 Aug 2022 03:21:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B275A612B9;
+        Tue, 30 Aug 2022 10:21:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F313BC433C1;
+        Tue, 30 Aug 2022 10:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661854893;
+        bh=hN4IvqLBUwQ7LA2EASNAfcsy15aflmpkS+M3B+PyQbA=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=eJLXCcY+LXCaNpPgZPN24kpSvkPulyeIQZIVp9JV8OF7C7LjRMK66t9FRpGN/7obJ
+         iCO02vd1Td2RvzA0zKkkkUet3HNvczHQSJInTBG0MtwUGBqiQYbJTv5+czIHCVmc7w
+         mefwBz2tXDRi3YfGEBjZzdvEOlJSyaRhQNbkHhmYkfGULZDEGzLAuFDG78SnPqCzQ2
+         6RTPHo+lE2K+H5NaUoGGRk76F3iSiyyVjekbSfxhw37YZ9KtKqqDTBJ6BeeBpc0n3s
+         hIguvnC9X58mmbEyYTkwZwQBp82FXITyyDSqaNpCSgivsYejyt5r0Eisl3+TCXX5pr
+         pS9EM/5Kek4nQ==
+From:   Mark Brown <broonie@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] dt-bindings: i2c: renesas,riic: Fix
- 'unevaluatedProperties' warnings
-Message-ID: <Yw3h+onH9ValyKGJ@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <20220829214730.5752-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Prabhakar <prabhakar.csengg@gmail.com>, linux-spi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220829220334.6379-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220829220334.6379-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2] dt-bindings: spi: renesas,sh-msiof: Fix 'unevaluatedProperties' warnings
+Message-Id: <166185489065.1123097.6582178011318784987.b4-ty@kernel.org>
+Date:   Tue, 30 Aug 2022 11:21:30 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="OdPSzfltkbbAJOzj"
-Content-Disposition: inline
-In-Reply-To: <20220829214730.5752-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.0-dev-65ba7
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---OdPSzfltkbbAJOzj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Aug 29, 2022 at 10:47:30PM +0100, Lad Prabhakar wrote:
+On Mon, 29 Aug 2022 23:03:34 +0100, Lad Prabhakar wrote:
 > With 'unevaluatedProperties' support implemented, there's a number of
 > warnings when running dtbs_check:
->=20
-> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dtb: i2c@10058000: Unevalu=
-ated properties are not allowed ('resets' was unexpected)
-> 	From schema: Documentation/devicetree/bindings/i2c/renesas,riic.yaml
->=20
-> The main problem is that bindings schema marks resets as a required
-> property for RZ/G2L (and alike) SoC's but resets property is not part
-> of schema. So to fix this just add a resets property with maxItems
-> set to 1.
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: spi@e6e90000: Unevaluated properties are not allowed ('power-domains', 'resets' were unexpected)
+> 	From schema: Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
+> 
+> The main problem is that SoC DTSI's include power-domains and resets
+> property, whereas the renesas,sh-msiof.yaml has 'unevaluatedProperties:
+> false'. So just add optional power-domains and resets properties.
+> 
+> [...]
 
-Applied to for-current, thanks!
+Applied to
 
+   broonie/spi.git for-next
 
---OdPSzfltkbbAJOzj
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks!
 
------BEGIN PGP SIGNATURE-----
+[1/1] dt-bindings: spi: renesas,sh-msiof: Fix 'unevaluatedProperties' warnings
+      commit: f4d381038700361f92d157288b0e18d87fab6c6d
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMN4foACgkQFA3kzBSg
-Kbav+g//UDcPtTrUKRiBvZLuos4JnS5tSqRj1j8O+YnHgwcmHr8Wcqw2gDFFbdXP
-RWqapxgZ/a8murGzEjobJRy7Z9/5UQoufHc8JLWjvlVqm2xyNwNd++5vpq1sYAZJ
-ikM0W3uDLhRYrmrLSKWZDsL48TawHXCerKJbfCCw2yabadCSp3Pe116lQtTM3jwy
-nOywncnlPBperr4iDNYhFcm6tGZcHFi6ZtbBz+zKFnCAsIFRtwqK5STS/4/ixOIJ
-oaDBskRewfugq8qZbW4mTH+NJW/gqDRdcrEGKgCXgEN9w0fYq6YwW6NJSNffqBBY
-7j0wPRrZCRdL33mEXWddjHynZR4ruuF/yriEdYfxGDtur9FqUf6dQS4hmgKeVIpD
-eEfYCbB6eCbFCPn0UyACVx2lYj/Q4+YbC88PVxWQWqH06rB+X4CUwgCc8ZlClYsC
-V5x2OjfS2gpuhtJpqmix8n21M6LVDaAKDPgzZR8dbqnJmd7ahgUsNfSnbWzuCcZh
-ODov7ojennrZJVOkKFGhFm7WYc6eCuew5CJ46AzYYmOLZWlY6Z8cDN57dPwnbhup
-ysAgJsF6WU5EI5bSOetiKA3hmy7WLc7x9UPdf/gj+3VE8o0xNZ8jlRMfvQYuVFo7
-0F2mpZPGYgCx94Y9Xuo4fICtdA12NYwakwb0FUY6dcz4wB6yvOo=
-=ur4c
------END PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
---OdPSzfltkbbAJOzj--
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
