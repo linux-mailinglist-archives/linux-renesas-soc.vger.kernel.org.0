@@ -2,110 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92D075A6041
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Aug 2022 12:06:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B20A55A607B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Aug 2022 12:15:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230090AbiH3KGi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Aug 2022 06:06:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50718 "EHLO
+        id S230148AbiH3KPk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Aug 2022 06:15:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229827AbiH3KGA (ORCPT
+        with ESMTP id S230019AbiH3KNX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Aug 2022 06:06:00 -0400
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AB6BF1B59;
-        Tue, 30 Aug 2022 03:03:14 -0700 (PDT)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-33dba2693d0so259618567b3.12;
-        Tue, 30 Aug 2022 03:03:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=I3uyFklCX86QnaO4FGwtK3r174JBbykuqGUsbUF86CM=;
-        b=SvE6u95A8KIYBCs4xKxTiCYBbxBSN2iF5GZ9kH5C/9wkg0aMPTTH37wmp6hMOIWLtS
-         kC/9M7nTr3ZMa29TCkbg8BVblGpxJtPFxhnW8FJqUavlqEUtwodde3Xio4iCYWBbiz+z
-         hHvwesFhf9khHthd7cskM2WeM28No/t0xUfgmB4T+KGuP5CQTrgnZvlIHI7T9gdPywIU
-         tdb0UkPXOLOJwSGT6n2VUf/sjEKB0/gcO6ewRhMieGfTGS2g1d0Tl8nqGkj44st+zkfF
-         f3/s9my62nvIu2qVuPTxTwzHqj5p7ZazPXEyDGE/e08LSjCIVVwpX0hJFmgu9qKGUShC
-         NX8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=I3uyFklCX86QnaO4FGwtK3r174JBbykuqGUsbUF86CM=;
-        b=5RSdjygaB7xHVzgbopVulnnX5DmxLEc7cdUjHwN2zTnkZfRW7EKiVXjZZLR0eh9SCi
-         BmRclojWmrkTnRpbFrcHNKgWCAAR/hvE38XwgbxMpYsewja/OiRa9r6kNv8Z8YUxgfMS
-         3JYtzkjWC7GlV8jGXrUG4I1EK4Cg0npUmqZymUaRiOybamuop677VyPhEsvZRmJQaE+G
-         10nBych+G+11wpy6UjhIwxR7gg/PoTTIOIDS9dq/gEBGnVVQwpiWI+vTwwxjwD3qKapD
-         gqxPaAvR+vJP99ssnEzMdTgnDJ0yar3C3O24FC8yD3HX489su45y9p9WlUS6g5BYekSW
-         ssbA==
-X-Gm-Message-State: ACgBeo1Xttp4BuIx7QEZm2MBYAg2uizqCeZe2TxvxKDy5P4MTIHnglS1
-        c9apbUwTI3uM+bKmkQuDrp4+CiVDalY786gLJSI=
-X-Google-Smtp-Source: AA6agR7cJuSH4etKCu9hKCZHGR2bD5vDU9CYpMir88OlfN8Q5rHi5hJI+n41bex3eVce9XadXKx3EOprlFLuWLXffl4=
-X-Received: by 2002:a05:6902:1146:b0:699:ba1f:8934 with SMTP id
- p6-20020a056902114600b00699ba1f8934mr10959552ybu.354.1661853792903; Tue, 30
- Aug 2022 03:03:12 -0700 (PDT)
+        Tue, 30 Aug 2022 06:13:23 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7BE92DED;
+        Tue, 30 Aug 2022 03:09:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 87577B811B3;
+        Tue, 30 Aug 2022 10:09:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD727C433D6;
+        Tue, 30 Aug 2022 10:09:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661854152;
+        bh=0GgQSfiovxbB6DlRH1/NdKZX2aHBw5Zag6bneKmYBJY=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=B6J2RmE3b6y2cRIRMNi1f8wV0jciD7CxkwjjVWXNProlo5pvQEGBpq1/2Chl1N7yX
+         jni8dMRa5VpsyBwz/wvxM40nOveqTbavwKNdzpslr8FKI0nnY/j0PeWHPv1QZYHfK4
+         f6p3aKXQuThtqgJT1/tyhNigUiFbDEKkJ3CHHMmsgGf3HmAk8L5pFKXQyVdRbKjwyj
+         OfikAdOlOPAmw0/1iWjVH8S3F+TQXRXAsTxmmaPlD3AaZZ9HdTkTHMK7rJTY1Dmpx9
+         /vmDMV3x8BxRqsjPWFr+3RNHL5mlFJdnjkxDEWvalxa7QRDaAJHaTmc+yKGcqTnLkS
+         59zkbokSBOzCQ==
+From:   Mark Brown <broonie@kernel.org>
+To:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+        devicetree@vger.kernel.org
+In-Reply-To: <20220824094327.33685-1-wsa+renesas@sang-engineering.com>
+References: <20220824094327.33685-1-wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH 0/3] spi: add generic R-Car Gen4 and specific r8a779f0 support
+Message-Id: <166185415042.1099942.6942703458061199839.b4-ty@kernel.org>
+Date:   Tue, 30 Aug 2022 11:09:10 +0100
 MIME-Version: 1.0
-References: <20220829215816.6206-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <e455ebd7-7949-47d6-5f9b-9869dfdd601d@linaro.org>
-In-Reply-To: <e455ebd7-7949-47d6-5f9b-9869dfdd601d@linaro.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 30 Aug 2022 11:02:46 +0100
-Message-ID: <CA+V-a8so2GYf5PZAPmCzyZayYXVqnVZ7LBLbb-WUqSeWvVX_vA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: bridge: renesas,dw-hdmi: Fix
- 'unevaluatedProperties' warnings
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.0-dev-65ba7
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+On Wed, 24 Aug 2022 11:43:23 +0200, Wolfram Sang wrote:
+> Here are the patches to enable MSIOF on R-Car S4-8. They also introduce
+> generic Gen4 support and move V3U to Gen4 (which it really is).
+> 
+> Wolfram Sang (3):
+>   spi: renesas,sh-msiof: Add generic Gen4 and r8a779f0 support
+>   spi: sh-msiof: add generic Gen4 binding
+>   spi: renesas,sh-msiof: R-Car V3U is R-Car Gen4
+> 
+> [...]
 
-Thank you for the review.
+Applied to
 
-On Tue, Aug 30, 2022 at 10:23 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 30/08/2022 00:58, Lad Prabhakar wrote:
-> > With 'unevaluatedProperties' support implemented, there's a number of
-> > warnings when running dtbs_check:
-> >
-> > arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: hdmi@fead0000: Unevaluated properties are not allowed ('resets' was unexpected)
-> >       From schema: Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
-> >
-> > The main problem is that SoC DTSI's are including resets property, whereas
-> > the renesas,dw-hdmi.yaml has 'unevaluatedProperties: false'. So just add
-> > optional resets property to the binding.
->
-> This is not main problem. I already commented on two of your similar
-> patches, so same applies here. Please describe real problem.
->
-Sure will do that and send a v2 (and also for the reset of the patches).
+   broonie/spi.git for-next
 
-Cheers,
-Prabhakar
+Thanks!
+
+[1/3] spi: renesas,sh-msiof: Add generic Gen4 and r8a779f0 support
+      commit: e1e62f05d5d9d7726349e00562299d829e478ce9
+[2/3] spi: sh-msiof: add generic Gen4 binding
+      commit: ea9d001550abaf2f4c75cf4fcd936ea19f932b84
+[3/3] spi: renesas,sh-msiof: R-Car V3U is R-Car Gen4
+      commit: b076fdd02133e6a31db167f8acc368edc2530cc0
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
