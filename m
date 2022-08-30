@@ -2,89 +2,179 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8BA85A5D05
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Aug 2022 09:34:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F2615A5D07
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Aug 2022 09:34:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230504AbiH3HeT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Aug 2022 03:34:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51320 "EHLO
+        id S230522AbiH3Heo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Aug 2022 03:34:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231126AbiH3HeR (ORCPT
+        with ESMTP id S230507AbiH3Hen (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Aug 2022 03:34:17 -0400
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C16BB7EDF
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Aug 2022 00:34:16 -0700 (PDT)
-Received: by mail-qt1-f175.google.com with SMTP id h21so7923814qta.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Aug 2022 00:34:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=mM02m2yyLGfbR/z8kem7pY1vOQ5zI//Ss+5eCdKqQgs=;
-        b=XXq7wms0yVYcq8h091GVCMUFz9sgFApOMc+x3JBjj4EXPbjJ32yIM6Wf81MaRGWugb
-         9oWRy9UjO52E795MKl/5hrBoRJBf8MYQYUWeVgAnzXtyitKLImwVQpMpHAOohkbPLZuH
-         K8wlm2SGiCGrU9wp27nnQqf38KDykZwXSi8I+dZ9BPEDbuOxw9C6SQ5DfBlYYtL8MegU
-         NhAbu1QRZFM7EBeaf7+ALfD78XECjTtVGUlID0o153TOw2cOuWCT73UaqfY3nS/UTa6p
-         ZlG9wbTlhysxiub0eiDWeUAebVepcKU3MgS7phQV9AtKq5sSc+ArgOtsK1vj1RxkI723
-         j3Zg==
-X-Gm-Message-State: ACgBeo26GyRX6MwzB+ggPYqaM7cuSB6xzChDZoOZsZh8zia5Do7ANVzj
-        C75r+2bR/HyYPbmDMG09lo0RcQGrC5Q7tA==
-X-Google-Smtp-Source: AA6agR40lvYRY+LQBqUqph/H4Z5BHnipP8g7OhwMtDEKDX/QLfDnuTQ/mc5ytbHrCBJg2wzhEQBJcw==
-X-Received: by 2002:a05:622a:24a:b0:343:75d6:ad0a with SMTP id c10-20020a05622a024a00b0034375d6ad0amr13549034qtx.564.1661844855340;
-        Tue, 30 Aug 2022 00:34:15 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id he7-20020a05622a600700b00344f7cf05b4sm6518011qtb.14.2022.08.30.00.34.15
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Aug 2022 00:34:15 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-324ec5a9e97so252284767b3.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Aug 2022 00:34:15 -0700 (PDT)
-X-Received: by 2002:a25:415:0:b0:696:814:7c77 with SMTP id 21-20020a250415000000b0069608147c77mr10956425ybe.36.1661844854960;
- Tue, 30 Aug 2022 00:34:14 -0700 (PDT)
+        Tue, 30 Aug 2022 03:34:43 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2134.outbound.protection.outlook.com [40.107.113.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E5CDB81E7
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Aug 2022 00:34:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YVY4sbwAyjVVXNp/s17Auf03DR8WG4BLwcsJHK25kKzSE4KXhe6r/KccMkywB310943Nem5zvJtWpu+OHypjeZXahTaiDGKy1w6/h/gYThKYa+w7qQjrJNJ1uHbTls4LAcuikuAITKrdDsd+xKkrKu27uvrtRQeTD7KF2wmjvrhacgTWU44reuPfEfoplOj8ArObI08Qz5pP1m13kVKQP46Pxx2w3xgiOdUv9NQeHZB/+SbmWknGavwyuRQQ/e3D6wEjwM1MBvk76UIU3KY2PXLNaEno1e8n++BTpvT1dvCwS18XrEPdHcg3OQySXEgkUrYa/KxZweXmFeBcx6ePxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p3J3NH+nLcg91I6Hx0sqo+MVCp7YAbrlAWtihSd0mAA=;
+ b=ebKoLcOVOwm/vhw9tEH78nmHqJe12ajoisTj0twItgghuCQNtrEV7k2l6CkFeaW7TLe7G83Fba9NS2er9CI1WW3bwEQM+lGy/KpjncuymMwvR/g5cbRO+/2PJndVvqIMw/pMcI7Z1g75LVB2z53MWKqMiktdUtnkqaukFmr3FJDZpD1LKmCUexBNimkYes9T0iJlj7CAK1nyzQlQ0B8fSqjykujn55fUws9zNIio4oH6bQ3D6B+RRv8AaGAzm3QY6sAaK3X7TEZZFHMK/Q07Ke7uUQwHfijTMHuSj8e34hZ34ZEjFGTh9/MBDnk2deyfdZ0ekO5f9u88vwrXqQu5ag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p3J3NH+nLcg91I6Hx0sqo+MVCp7YAbrlAWtihSd0mAA=;
+ b=UN71JkWnoD+CyGjL9MzD3zBJaEPO0FfQsFNDgY0nadkZr8Gjy5GQ83Gt8GsHxx3EjbnFdaOA2FY+PtqHLFnFwQ4e+FMmPRH2c/pXjOVxECRNEapQ0UtQ1nAntW73NEdqYGGyzQn/BNmqzdr5UcJanfWZrQZTraATzX/NEXVHmvA=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYAPR01MB5338.jpnprd01.prod.outlook.com (2603:1096:404:8030::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Tue, 30 Aug
+ 2022 07:34:37 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::14d3:5079:9de1:ceaf]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::14d3:5079:9de1:ceaf%3]) with mapi id 15.20.5566.021; Tue, 30 Aug 2022
+ 07:34:37 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Robert Foss <robert.foss@linaro.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        Biju Das <biju.das@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Sam Ravnborg <sam@ravnborg.org>
+Subject: RE: [PATCH v6 2/2] drm: rcar-du: Add RZ/G2L DSI driver
+Thread-Topic: [PATCH v6 2/2] drm: rcar-du: Add RZ/G2L DSI driver
+Thread-Index: AQHYu4hv/CDDY6+M30+sYprn/JM1O63GBEiAgAACh8CAACTegIAAxlfA
+Date:   Tue, 30 Aug 2022 07:34:37 +0000
+Message-ID: <OS0PR01MB5922254557CB18049402994A86799@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20220829091901.641784-1-biju.das.jz@bp.renesas.com>
+ <20220829091901.641784-3-biju.das.jz@bp.renesas.com>
+ <CAG3jFys4fKWBGBLX9CNB3xvz4ztgv4vdaTjB-sgrCMy6Zc9Yag@mail.gmail.com>
+ <OS0PR01MB5922BB4E4924ECE0E8A3312186769@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <Ywz+/aA3NSQqbXXm@pendragon.ideasonboard.com>
+In-Reply-To: <Ywz+/aA3NSQqbXXm@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e7c85dd2-131b-4105-a726-08da8a5a17bb
+x-ms-traffictypediagnostic: TYAPR01MB5338:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ePuGpjG77KiQPkApXSoON4r3QT2/T2EL0sHeviHjgOv9NXltsF7hyuEw6OBOD6s8DsSW9B2RBXdRR7chMxuJmMDZnPKYyakq7OKYf6tXRrizJ38pTcXYTsaNA+w6A9ej42PqjxXL8alOUPjs5ecghWrwaj5ovNRhRDEQEBKQgaBt9yu3wpyguaEZw5aNzqKGLPvCLmmEVhu8OKwoeBacJxGg8wuKviD3ctnsTnnacNYkIix9DJuKE0dqSAfsaToHYfuP4WrZh5+nR0HaYpA5IE6SPxoefkwr35LmtuuUcfjzeSlb6njwUmHwKIi8XRz9Dta+kVM4w122YJFZpTjIM8bydN2Zcly4mESF5pGDPz8zmlP8LWROFOAo0pFINePkf7Vb0+TKs2G0Gz5H9VDCAOqvQtEV2rSyK0rjBkUhBdI1t0NP5E/4XW5AyDQc4WH3GLlAkvrhqSkLEYLoW7SrGSoZl8zVQ53vArAkkA56u8qFMAEJ08I7FwOGXH17bsqBmoilc/qFiPzuTAFvL023x+D4nAgJ72H1Pfm2B8wzpyLrBm4Dx3JnaU5UCU92/ppyq8qQCH1lvwfcGR6iLijfeX1uFlWPUjWVcRTFxQ/niwjM8wh7pMViE6tDAcvpo9JTDcdjxkGg6Qsr3/3jQ8MvBA/qhDo7PLjM7MF93NXiCVnC6lyZ9Xqw9THwoi3dHLguZ0rR5RUvXV/SPNc+fLqnZXxhUiOb1vGar5p5maj4V7fkLh1MS5qSQBMgv+iAMz/xCkNPDPdSDKJEKXnbFSArkg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(346002)(366004)(376002)(39860400002)(136003)(66946007)(6506007)(55016003)(66446008)(66556008)(8676002)(76116006)(4326008)(66476007)(9686003)(83380400001)(2906002)(5660300002)(7696005)(8936002)(26005)(478600001)(52536014)(7416002)(41300700001)(33656002)(316002)(71200400001)(38070700005)(6916009)(86362001)(64756008)(122000001)(54906003)(38100700002)(186003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?plsU2CaB9vhyzA9y6zhfpM+5hK4C9jEBFL160BTZZp/+ZE6kGWH7G6E43smS?=
+ =?us-ascii?Q?AoJCnM/fLPN2f8LnoQ1g/uYe02sve0OFRUYZAuo1M1DQmJ1N+Dn5tofFKHC4?=
+ =?us-ascii?Q?8XGFm4SDSRpCoAgDLDoxi48qXcsVT8Pa3pLG5Aajl/F4hBoEQVkschMep5d8?=
+ =?us-ascii?Q?5nLuvoY+ulfWVMpWoi7GfDtZ5/mCNMQEUXaEPBPdHOpvhMR4ZZGsBkI0Xy7G?=
+ =?us-ascii?Q?RsVGfkqjWv3McdCk7rnTakASMufr3VWwmYTw2molmf9M1FbdwZYzrKk7tOwZ?=
+ =?us-ascii?Q?+fQF/7iVMcxLVqNr7Y+e3d1J6M2I68LwWLxIscFLyHPwkMqiidgAZSbwlNBn?=
+ =?us-ascii?Q?srxwzdbW7BnoO1M9cxqv/5CgRmudG83+26EcaKd3QtaEuP79nb/IjQkIJhdS?=
+ =?us-ascii?Q?gGSh2W8ydgjzeRmugStQXl7Y8arHXPxZFN1qhhzGXRa63xcnw1Qxb/z5ZRW0?=
+ =?us-ascii?Q?C1KXrPwURycydYnOkNu0WRC4vvYnQQoJgxsp9mXDwvf2dUzNgHLAaQAuSVxa?=
+ =?us-ascii?Q?Ag+/LAZuXPokrtcA2MrHrqvuQE8IWSmIKv7AnBq97YqREVggqF6w6hsy4Jg2?=
+ =?us-ascii?Q?3dUPTk11jvEsncS3bP8ZsYpmC9+5HbaNBaBGIZ7WUcnevi1rRkn4Gu0PIiHk?=
+ =?us-ascii?Q?hKjpe6PtaCh3tfAy+v1H2O1qmV2uvJAFANT6hA3cM3eSQvAf+TXr8RMl+cYe?=
+ =?us-ascii?Q?27zTXMO8kF61lg1ljE7nbN0OgNmVFEKLP3cLFHJdM5S3ONf/41wcrigQkvig?=
+ =?us-ascii?Q?al2/vH3/Cw4oCo9c4mlsWfZHEF5SjMopbVGAtvIonofpbGgPiM/SE0+YJcSY?=
+ =?us-ascii?Q?o7rfL2LYyvDXfM+PoTC6n03ytigpwsMp/Aqk5k54KR9tF/V0XvjCWJxWCdAY?=
+ =?us-ascii?Q?MSVR7jNCB/LRr5HrGWi5p1DKKUB2zaXtHtbiqdqiz3t7nym2epGGXT6PNaQN?=
+ =?us-ascii?Q?Q8m5Ne2uAh24mkj5F1x/nMwk5HkMpfMGj39wU3PS9Yj4slzGVnPXH02QfTrJ?=
+ =?us-ascii?Q?I5/CENyOPIS3hVKCjGbRyBmg+tlqnxCe1r3KpZTubw2okddI5o+bWoNI6S76?=
+ =?us-ascii?Q?Rew5wEgY08cQ9pMaNSGI8ARU9e35w26ebI79YPyguX79MxdpOkdCkajogj9t?=
+ =?us-ascii?Q?iITRPVDAO0EvvdQGOVlqGZezKZezzvn0l9MvYKT//d5usSzvXm8wBZDDb8pZ?=
+ =?us-ascii?Q?46PVq7DebdiPTQGkJPI+XG4jmXQ6B+YpFmciwAPLxFfXb4p7XJecQKTXaL0R?=
+ =?us-ascii?Q?Q6YTBSzBRYRiXNSR4nZaPKmXrtyg1+1jjyvjXGQ4wnQywqPG5MraILOwZu4D?=
+ =?us-ascii?Q?We5k61mAHRMaBT2Xve+rKAjnsvS3vx2/rc0MhDuNemXiRJfVEMSZnT5MmoN1?=
+ =?us-ascii?Q?4RTrxPF3z7lWthO/rKdoOK2t5zi3ZcbmXGk5bpAuUg543nFciAonkftkCYom?=
+ =?us-ascii?Q?dZ/4Jg8o5bDPnvScaXhgNAOBPaBH2hhRdJxfr1rIJUqIocCsDvwLZw3h0fO7?=
+ =?us-ascii?Q?eJzc/MFQN94/qIxqKqwiVuun17nN6QjAEN2hQnXQRdYxHSay8e5tJYhxCByS?=
+ =?us-ascii?Q?4dk/Srggz/JCI++zxgtXXuy8tW0/ShRLhwOOYmX9sEY/UxT9nKAS56qVDlZs?=
+ =?us-ascii?Q?JQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <8735de626c.wl-kuninori.morimoto.gx@renesas.com> <87wnaq4nkh.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87wnaq4nkh.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 Aug 2022 09:34:03 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUj2+q8_C7Z+P4OjkCm98PajFVSUU8WvHMGuP8_qa325g@mail.gmail.com>
-Message-ID: <CAMuHMdUj2+q8_C7Z+P4OjkCm98PajFVSUU8WvHMGuP8_qa325g@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] dt-bindings: arm: renesas: Document Renesas R-Car
- Gen3 V3H2 Condor-I board
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Andrey Dolnikov <andrey.dolnikov@cogentembedded.com>,
-        Valentine Barshak <valentine.barshak@cogentembedded.com>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7c85dd2-131b-4105-a726-08da8a5a17bb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Aug 2022 07:34:37.5585
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hFSI189qol5fpqSEH1+aKbXYjHlwHhBAC/kRC5VRYbeIYuZ4xb5387Gt8psGJpjit6leOdjvw3f2hWAjAPjZACWDz6PEhOJDaQ2H12Qmp94=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5338
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Aug 30, 2022 at 1:50 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->
-> This patch adds new R-Car Gen3 V3H2 Condor-I board.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Hi Laurent,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.1.
+Thanks for the feedback.
 
-Gr{oetje,eeting}s,
+> Subject: Re: [PATCH v6 2/2] drm: rcar-du: Add RZ/G2L DSI driver
+>=20
+> Hi Biju,
+>=20
+> On Mon, Aug 29, 2022 at 04:26:02PM +0000, Biju Das wrote:
+> > Hi Robert,
+> >
+> > Thanks for the feedback.
+> >
+> > > Subject: Re: [PATCH v6 2/2] drm: rcar-du: Add RZ/G2L DSI driver
+> > >
+> > > Hey Biju,
+> > >
+> > > The patch does not apply on drm-misc-next, could you rebase it and
+> > > submit the next version?
+> >
+> > I believe[1] is dependent on this patch series. Sorry for not making
+> > it clear while sending this patch series out.
+> >
+> > I thought Laurent is going to give a pull request for RCar DU patches.
+>=20
+> That's right. The patches apply fine to my branch.
+>=20
+> > Based on that assumption, currently my environment is drm-tip +
+> > 12 patches from[2], as [2] doesn't have all the latest patches from
+> > drm-misc-next/drm-tip.
+> >
+> >
+> > > Additionally it has a few 'checkpatch --strict' warnings.
+> >
+> > I got a review comment[3] to use (1 << 1) style instead of BIT macro.
+> > Some of the warnings related to this.
+> >
+> > Laurent, any thoughts??
+>=20
+> (1 << x) instead of BIT it correct when the field stores a value, not a
+> single bit flag.
 
-                        Geert
+OK, then it is fine.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Biju
