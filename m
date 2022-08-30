@@ -2,1095 +2,797 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F82E5A63B5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Aug 2022 14:43:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FE305A6440
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Aug 2022 15:00:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229793AbiH3MnJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Aug 2022 08:43:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57430 "EHLO
+        id S230055AbiH3NAb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Aug 2022 09:00:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229739AbiH3MnH (ORCPT
+        with ESMTP id S230081AbiH3NA2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Aug 2022 08:43:07 -0400
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 590F7FAC7A;
-        Tue, 30 Aug 2022 05:43:02 -0700 (PDT)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-33dba2693d0so269054107b3.12;
-        Tue, 30 Aug 2022 05:43:02 -0700 (PDT)
+        Tue, 30 Aug 2022 09:00:28 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 687381263B
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Aug 2022 06:00:26 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id u22so11022324plq.12
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Aug 2022 06:00:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=axyIXx5tpYhIEQdUVFnyUzu2MMsM8ESAqs0xAgnaZtE=;
-        b=MeMhUt57CTQsbuJQCOWSF1bpG1FUNHWXnU6Jnx/xavKim9VCaRZgqrP10wYVug8AD4
-         rubaziI5y0+s9GscnfHQQmp0kAcoioIE1VB9LlOJJaQFvk3AGzS4IPJFE/ZKn3+/GbCF
-         oOqEPe09yYmVWQReMPJ6+QuWmEy5auw8NLdAwh2ffUv/N96aGRHKP9yYIKCmvV3hBsfC
-         t4WmfxDMRWet8JI6ZXCwYOrIbcMiskW5mhOnKhsXyDJoY899bsL+5Eq/pb0UOTcSyrWv
-         R29cID5fuNsgSMiYRZcb4zl3ONShSnRLIWeC2aByg4qHIys4ulpMGdCZ/DGkfii1c9kz
-         hQxg==
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc;
+        bh=zbewsL8wN5YEG/9rhfvS1bQmSIR5TM5KU+T0CKm6YWc=;
+        b=FB3uPuYipLlldvQokKf9InUNI+FAALSQqADi9BfkPYjB95TgPTzxW27jRyET1/cFt1
+         RZOIAhpH9+QMnmjfEvjziHGqrpoc5YHh/LDg46j5I9XD821XyJXs8RmsHFHjsR+gmFCY
+         yslfylXSb+gK0ZIs2t7K4HjN5Vfy4Dffj6xErXcTPAQ01dBNIaCUMFZadlxE+LbNzv1H
+         v4Uimofg3wzlfnpr/jQbqZbSQoBLJ5FhX1nTbD3q3PC+gxbAHAKJziFOpTA/dBXFpm0j
+         +S3j6xIiNAJ8HihVed827S0Gg6yq61xjFmZ6u42fiazlcnAgWxRbQ7x57LzcyCunApiM
+         xOQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=axyIXx5tpYhIEQdUVFnyUzu2MMsM8ESAqs0xAgnaZtE=;
-        b=oqxzWJ7Hevna7P5Cg9I4dc9lc/C6Jsoc6aVtxEgUnuoR9LNpMG/o1PdAogiinzsFgc
-         guZVLsfTlWN9c6KfqLE7ox9mjlQYcSWOpvArtLhPwFtCbgwiauerv0aXB3T82XAaXulQ
-         dB/PAD2qNpi1nDR06caKaqyq//oywjg63OEilUs3OyxQq+S/4Ey8sv4KnGPEBcRrlanM
-         BD2fcQhigI2SQ01/xECOefV5IcFsVivbvwkmzwpW7Oz+2Qh0rIrDyjaZdZ3yzOLkvvj6
-         XnrdqDGexjWkrREBjpbN+z3nx1qYYgSkKYl5YgJc25ZQalTpDSKzGQuNfTJu0tNZ9vnK
-         UpDg==
-X-Gm-Message-State: ACgBeo0+or83EwgDcLFG9gvM7BauzLhV2+X3zAfTmgT7n81B6Gn0pms6
-        zdV2Am8HejuH2uIk1HfcoZ5sFWN23ym2FZ9VDtxujvojdts31w==
-X-Google-Smtp-Source: AA6agR5SwYI03qerXdA39A1TjfLZulnPPr4g+aOt3FniBZdQrJcB6NJD3quDcs815AUU5cVSEEkxz0+ePL+0JPJ6xC4=
-X-Received: by 2002:a05:6902:20a:b0:670:c563:9180 with SMTP id
- j10-20020a056902020a00b00670c5639180mr11459117ybs.401.1661863380875; Tue, 30
- Aug 2022 05:43:00 -0700 (PDT)
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc;
+        bh=zbewsL8wN5YEG/9rhfvS1bQmSIR5TM5KU+T0CKm6YWc=;
+        b=SXr94Rzkc8bRGQZ+x0U7wZbnPSOaa55kPXbT69r1xaClUAt4gs6pSCuzh3sNhmUAMh
+         LWMSacq6AWBlQCcTgKkl4PnJC7RvydTR0ZaKIYW1HvhPCIn9JyeIoxyzi6nYuxBFmxJf
+         VevpMw7UACIac9QB5RuWp7iko78ri4fXLAsLkF7VqyCS3onE30Ad5nLiYH4tOzi4vWi6
+         1Ll9OhSuy+BDlSIiPpeScoqUrjbDh+8fSOJa78VMdD3l2K/NjPUGEWnHfRQNANLrY95z
+         yT94STYui4LFhpEEBpJlTfakjc4dBDQdgh6HOAGn8Kzqc65DVMK7W06n+IqZ2kKiNaBe
+         VP3w==
+X-Gm-Message-State: ACgBeo2RoCEdGu0Troe/gJ6b5xhsY+JmvZ19Jbg1dn6VhVt4kaoyEntQ
+        Jj4JNDEhN8ufBjuonv9SqAVCOUnFwutm6lzU9Kc=
+X-Google-Smtp-Source: AA6agR7Srio67E7hh2jXoxVZiALwonjhiiuLBmgXXxS/dJ8uNRq6DoK9mryujP8iLUvdtiH6HcYzDw==
+X-Received: by 2002:a17:90a:670c:b0:1fb:c11c:4d90 with SMTP id n12-20020a17090a670c00b001fbc11c4d90mr23553829pjj.126.1661864424488;
+        Tue, 30 Aug 2022 06:00:24 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id y30-20020aa793de000000b00536fc93b569sm4654134pff.200.2022.08.30.06.00.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Aug 2022 06:00:23 -0700 (PDT)
+Message-ID: <630e09e7.a70a0220.24464.78d5@mx.google.com>
+Date:   Tue, 30 Aug 2022 06:00:23 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220801214718.16943-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <Yw1ZuKevVXRuyE5m@pendragon.ideasonboard.com>
-In-Reply-To: <Yw1ZuKevVXRuyE5m@pendragon.ideasonboard.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 30 Aug 2022 13:42:33 +0100
-Message-ID: <CA+V-a8uGNUkNx=6v+T1gZHmWad+ROADkw2HKk_h+hPrOtqa-DA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] media: platform: Add Renesas RZ/G2L MIPI CSI-2
- receiver driver
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: next
+X-Kernelci-Tree: renesas
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-next-2022-08-30-v6.0-rc1
+Subject: renesas/next baseline-nfs: 141 runs,
+ 19 regressions (renesas-next-2022-08-30-v6.0-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+renesas/next baseline-nfs: 141 runs, 19 regressions (renesas-next-2022-08-3=
+0-v6.0-rc1)
 
-Thank you for the review.
+Regressions Summary
+-------------------
 
-On Tue, Aug 30, 2022 at 1:28 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> Thank you for the patch.
->
-> On Mon, Aug 01, 2022 at 10:47:17PM +0100, Lad Prabhakar wrote:
-> > Add MIPI CSI-2 receiver driver for Renesas RZ/G2L. The MIPI
-> > CSI-2 is part of the CRU module found on RZ/G2L family.
-> >
-> > Based on a patch in the BSP by Hien Huynh
-> > <hien.huynh.px@renesas.com>
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > RFC v2 -> v1
-> > * Fixed initialization sequence of DPHY and link
-> > * Exported DPHY and link initialization functions so that the
-> >   CRU core driver can initialize the CRU and CSI2 as per the HW manual.
-> >
-> > RFC v1 -> RFC v2
-> > * new patch (split up as new driver compared to v1)
-> > ---
-> >  drivers/media/platform/renesas/Kconfig        |   1 +
-> >  drivers/media/platform/renesas/Makefile       |   1 +
-> >  .../media/platform/renesas/rzg2l-cru/Kconfig  |  17 +
-> >  .../media/platform/renesas/rzg2l-cru/Makefile |   3 +
-> >  .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 702 ++++++++++++++++++
-> >  .../platform/renesas/rzg2l-cru/rzg2l-csi2.h   |  49 ++
-> >  6 files changed, 773 insertions(+)
-> >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/Kconfig
-> >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/Makefile
-> >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.h
-> >
-> > diff --git a/drivers/media/platform/renesas/Kconfig b/drivers/media/platform/renesas/Kconfig
-> > index 9fd90672ea2d..ed788e991f74 100644
-> > --- a/drivers/media/platform/renesas/Kconfig
-> > +++ b/drivers/media/platform/renesas/Kconfig
-> > @@ -41,6 +41,7 @@ config VIDEO_SH_VOU
-> >         Support for the Video Output Unit (VOU) on SuperH SoCs.
-> >
-> >  source "drivers/media/platform/renesas/rcar-vin/Kconfig"
-> > +source "drivers/media/platform/renesas/rzg2l-cru/Kconfig"
-> >
-> >  # Mem2mem drivers
-> >
-> > diff --git a/drivers/media/platform/renesas/Makefile b/drivers/media/platform/renesas/Makefile
-> > index 3ec226ef5fd2..55854e868887 100644
-> > --- a/drivers/media/platform/renesas/Makefile
-> > +++ b/drivers/media/platform/renesas/Makefile
-> > @@ -4,6 +4,7 @@
-> >  #
-> >
-> >  obj-y += rcar-vin/
-> > +obj-y += rzg2l-cru/
-> >  obj-y += vsp1/
-> >
-> >  obj-$(CONFIG_VIDEO_RCAR_DRIF) += rcar_drif.o
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/Kconfig b/drivers/media/platform/renesas/rzg2l-cru/Kconfig
-> > new file mode 100644
-> > index 000000000000..150bf16f167c
-> > --- /dev/null
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/Kconfig
-> > @@ -0,0 +1,17 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +
-> > +config VIDEO_RZG2L_CSI2
-> > +     tristate "RZ/G2L MIPI CSI-2 Receiver"
-> > +     depends on V4L_PLATFORM_DRIVERS
-> > +     depends on VIDEO_DEV && OF
-> > +     depends on ARCH_RENESAS || COMPILE_TEST
-> > +     select MEDIA_CONTROLLER
-> > +     select VIDEO_V4L2_SUBDEV_API
-> > +     select RESET_CONTROLLER
-> > +     select V4L2_FWNODE
->
-> Please order these alphabetically.
->
-Ok, I will sort them.
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+at91sam9g20ek                | arm   | lab-broonie   | gcc-10   | at91_dt_d=
+efconfig            | 1          =
 
-> > +     help
-> > +       Support for Renesas RZ/G2L (and alike SoC's) MIPI CSI-2
-> > +       Receiver driver.
-> > +
-> > +       To compile this driver as a module, choose M here: the
-> > +       module will be called rzg2l-csi2.
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/Makefile b/drivers/media/platform/renesas/rzg2l-cru/Makefile
-> > new file mode 100644
-> > index 000000000000..91ea97a944e6
-> > --- /dev/null
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/Makefile
-> > @@ -0,0 +1,3 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +
-> > +obj-$(CONFIG_VIDEO_RZG2L_CSI2) += rzg2l-csi2.o
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> > new file mode 100644
-> > index 000000000000..252e33ddb6e8
-> > --- /dev/null
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> > @@ -0,0 +1,702 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Driver for Renesas RZ/G2L MIPI CSI-2 Receiver
-> > + *
-> > + * Copyright (C) 2022 Renesas Electronics Corp.
-> > + */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/interrupt.h>
-> > +#include <linux/io.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/of_graph.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pm_runtime.h>
-> > +#include <linux/reset.h>
-> > +#include <linux/sys_soc.h>
-> > +#include <linux/units.h>
-> > +
-> > +#include <media/v4l2-ctrls.h>
-> > +#include <media/v4l2-device.h>
-> > +#include <media/v4l2-fwnode.h>
-> > +#include <media/v4l2-mc.h>
-> > +#include <media/v4l2-subdev.h>
-> > +
-> > +#include "rzg2l-csi2.h"
-> > +
-> > +/* LINK registers */
-> > +/* Module Configuration Register */
-> > +#define CSI2nMCG                     0x0
-> > +#define CSI2nMCG_SDLN                        GENMASK(11, 8)
-> > +
-> > +/* Module Control Register 0 */
-> > +#define CSI2nMCT0                    0x10
-> > +#define CSI2nMCT0_VDLN(x)            ((x) << 0)
-> > +
-> > +/* Module Control Register 2 */
-> > +#define CSI2nMCT2                    0x18
-> > +#define CSI2nMCT2_FRRSKW(x)          ((x) << 16)
-> > +#define CSI2nMCT2_FRRCLK(x)          ((x) << 0)
-> > +
-> > +/* Module Control Register 3 */
-> > +#define CSI2nMCT3                    0x1c
-> > +#define CSI2nMCT3_RXEN                       BIT(0)
-> > +
-> > +/* Reset Control Register */
-> > +#define CSI2nRTCT                    0x28
-> > +#define CSI2nRTCT_VSRST                      BIT(0)
-> > +
-> > +/* Reset Status Register */
-> > +#define CSI2nRTST                    0x2c
-> > +#define CSI2nRTST_VSRSTS             BIT(0)
-> > +
-> > +/* Receive Data Type Enable Low Register */
-> > +#define CSI2nDTEL                    0x60
-> > +
-> > +/* Receive Data Type Enable High Register */
-> > +#define CSI2nDTEH                    0x64
-> > +
-> > +/* Power Management Status Register */
-> > +#define CSI2nPMST                    0x200
-> > +
-> > +/* Power Management Status Clear Register */
-> > +#define CSI2nPMSC                    0x204
-> > +
-> > +/* DPHY registers */
-> > +/* D-PHY Control Register 0 */
-> > +#define CSIDPHYCTRL0                 0x400
-> > +#define CSIDPHYCTRL0_EN_LDO1200              BIT(1)
-> > +#define CSIDPHYCTRL0_EN_BGR          BIT(0)
-> > +
-> > +/* D-PHY Timing Register 0 */
-> > +#define CSIDPHYTIM0                  0x404
-> > +#define CSIDPHYTIM0_TCLK_MISS(x)     ((x) << 24)
-> > +#define CSIDPHYTIM0_T_INIT(x)                ((x) << 0)
-> > +
-> > +/* D-PHY Timing Register 1 */
-> > +#define CSIDPHYTIM1                  0x408
-> > +#define CSIDPHYTIM1_THS_PREPARE(x)   ((x) << 24)
-> > +#define CSIDPHYTIM1_TCLK_PREPARE(x)  ((x) << 16)
-> > +#define CSIDPHYTIM1_THS_SETTLE(x)    ((x) << 8)
-> > +#define CSIDPHYTIM1_TCLK_SETTLE(x)   ((x) << 0)
-> > +
-> > +/* D-PHY Skew Adjustment Function */
-> > +#define CSIDPHYSKW0                  0x460
-> > +#define CSIDPHYSKW0_UTIL_DL0_SKW_ADJ(x)      ((x) & 0x3)
-> > +#define CSIDPHYSKW0_UTIL_DL1_SKW_ADJ(x)      (((x) & 0x3) << 4)
-> > +#define CSIDPHYSKW0_UTIL_DL2_SKW_ADJ(x)      (((x) & 0x3) << 8)
-> > +#define CSIDPHYSKW0_UTIL_DL3_SKW_ADJ(x)      (((x) & 0x3) << 12)
-> > +#define CSIDPHYSKW0_DEFAULT_SKW              CSIDPHYSKW0_UTIL_DL0_SKW_ADJ(1) | \
-> > +                                     CSIDPHYSKW0_UTIL_DL1_SKW_ADJ(1) | \
-> > +                                     CSIDPHYSKW0_UTIL_DL2_SKW_ADJ(1) | \
-> > +                                     CSIDPHYSKW0_UTIL_DL3_SKW_ADJ(1)
-> > +
-> > +#define VSRSTS_RETRIES                       20
-> > +
-> > +struct timings {
->
-> Such a generic name risks creating conflicts later. Could you name the
-> structure rzg2l_csi2_timings ? Same for the dphy_timings enum.
->
-Agreed, I will rename it.
+cubietruck                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+crypto    | 1          =
 
-> > +     u32 t_init;
-> > +     u32 tclk_miss;
-> > +     u32 tclk_settle;
-> > +     u32 ths_settle;
-> > +     u32 tclk_prepare;
-> > +     u32 ths_prepare;
-> > +};
-> > +
-> > +enum dphy_timings {
-> > +     TRANSMISSION_RATE_80_MBPS = 0,
-> > +     TRANSMISSION_RATE_125_MBPS,
-> > +     TRANSMISSION_RATE_250_MBPS,
-> > +     TRANSMISSION_RATE_360_MBPS,
-> > +     TRANSMISSION_RATE_360_PLUS_MBPS,
-> > +};
-> > +
-> > +static const struct timings global_timings[] = {
->
-> And there, rzg2l_csi2_global_timings.
->
-OK.
+cubietruck                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...CONFIG_SMP=3Dn | 1          =
 
-> > +     [TRANSMISSION_RATE_80_MBPS] = {
-> > +             .t_init = 79801,
-> > +             .tclk_miss = 4,
-> > +             .tclk_settle = 23,
-> > +             .ths_settle = 31,
-> > +             .tclk_prepare = 10,
-> > +             .ths_prepare = 19,
-> > +     },
-> > +     [TRANSMISSION_RATE_125_MBPS] = {
-> > +             .t_init = 79801,
-> > +             .tclk_miss = 4,
-> > +             .tclk_settle = 23,
-> > +             .ths_settle = 28,
-> > +             .tclk_prepare = 10,
-> > +             .ths_prepare = 19,
-> > +     },
-> > +     [TRANSMISSION_RATE_250_MBPS] = {
-> > +             .t_init = 79801,
-> > +             .tclk_miss = 4,
-> > +             .tclk_settle = 23,
-> > +             .ths_settle = 22,
-> > +             .tclk_prepare = 10,
-> > +             .ths_prepare = 16,
-> > +     },
-> > +     [TRANSMISSION_RATE_360_MBPS] = {
-> > +             .t_init = 79801,
-> > +             .tclk_miss = 4,
-> > +             .tclk_settle = 18,
-> > +             .ths_settle = 19,
-> > +             .tclk_prepare = 10,
-> > +             .ths_prepare = 10,
-> > +     },
-> > +     [TRANSMISSION_RATE_360_PLUS_MBPS] = {
-> > +             .t_init = 79801,
-> > +             .tclk_miss = 4,
-> > +             .tclk_settle = 18,
-> > +             .ths_settle = 18,
-> > +             .tclk_prepare = 10,
-> > +             .ths_prepare = 10,
-> > +     },
-> > +};
-> > +
-> > +struct rzg2l_csi2_format {
-> > +     u32 code;
-> > +     unsigned int datatype;
-> > +     unsigned int bpp;
-> > +};
-> > +
-> > +static const struct rzg2l_csi2_format rzg2l_csi2_formats[] = {
-> > +     { .code = MEDIA_BUS_FMT_UYVY8_1X16,     .datatype = 0x1e, .bpp = 16 },
-> > +};
-> > +
-> > +static const struct rzg2l_csi2_format *rzg2l_csi2_code_to_fmt(unsigned int code)
-> > +{
-> > +     unsigned int i;
-> > +
-> > +     for (i = 0; i < ARRAY_SIZE(rzg2l_csi2_formats); i++)
-> > +             if (rzg2l_csi2_formats[i].code == code)
-> > +                     return &rzg2l_csi2_formats[i];
-> > +
-> > +     return NULL;
-> > +}
-> > +
-> > +static inline struct rzg2l_csi2 *notifier_to_csi2(struct v4l2_async_notifier *n)
-> > +{
-> > +     return container_of(n, struct rzg2l_csi2, notifier);
-> > +}
-> > +
-> > +static u32 rzg2l_csi2_read(struct rzg2l_csi2 *csi2, unsigned int reg)
-> > +{
-> > +     return ioread32(csi2->base + reg);
-> > +}
-> > +
-> > +static void rzg2l_csi2_write(struct rzg2l_csi2 *csi2, unsigned int reg,
-> > +                          u32 data)
-> > +{
-> > +     iowrite32(data, csi2->base + reg);
-> > +}
-> > +
-> > +static void rzg2l_csi2_set(struct rzg2l_csi2 *csi2, unsigned int reg, u32 set)
-> > +{
-> > +     rzg2l_csi2_write(csi2, reg, rzg2l_csi2_read(csi2, reg) | set);
-> > +}
-> > +
-> > +static void rzg2l_csi2_clr(struct rzg2l_csi2 *csi2, unsigned int reg, u32 clr)
-> > +{
-> > +     rzg2l_csi2_write(csi2, reg, rzg2l_csi2_read(csi2, reg) & ~clr);
-> > +}
-> > +
-> > +static int rzg2l_csi2_calc_mbps(struct rzg2l_csi2 *csi2)
-> > +{
-> > +     const struct rzg2l_csi2_format *format;
-> > +     struct v4l2_subdev *source;
-> > +     struct v4l2_ctrl *ctrl;
-> > +     u64 mbps;
-> > +
-> > +     if (!csi2->remote)
-> > +             return -ENODEV;
->
-> Can this happen, given that the remote field is set in the bound()
-> handler ?
->
-Agreed, the check can be dropped.
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+crypto    | 1          =
 
-> > +
-> > +     source = csi2->remote;
-> > +
-> > +     /* Read the pixel rate control from remote. */
-> > +     ctrl = v4l2_ctrl_find(source->ctrl_handler, V4L2_CID_PIXEL_RATE);
-> > +     if (!ctrl) {
-> > +             dev_err(csi2->dev, "no pixel rate control in subdev %s\n",
-> > +                     source->name);
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     format = rzg2l_csi2_code_to_fmt(csi2->mf.code);
-> > +
-> > +     /*
-> > +      * Calculate hsfreq in Mbps
-> > +      * hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
-> > +      */
-> > +     mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * format->bpp;
-> > +     do_div(mbps, csi2->lanes * 1000000);
-> > +
-> > +     return mbps;
-> > +}
-> > +
-> > +int rzg2l_csi2_cmn_rstb_deassert(struct rzg2l_csi2 *csi2)
-> > +{
-> > +     return reset_control_deassert(csi2->rstc);
-> > +}
-> > +EXPORT_SYMBOL_GPL(rzg2l_csi2_cmn_rstb_deassert);
->
-> I don't think you need to export this, or the
-> rzg2l_csi2_mipi_link_setting() function. They're called by the CRU
-> driver just before or after calling the .s_stream() operation, so you
-> can move the calls there.
->
-OK, I will drop the export symbols.
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+ima       | 1          =
 
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * DPHY setting
-> > + */
-> > +
-> > +int rzg2l_csi2_dphy_setting(struct rzg2l_csi2 *csi2, bool on)
-> > +{
-> > +     int lanes, mbps;
-> > +
-> > +     dev_dbg(csi2->dev, "Input size (%ux%u%c)\n",
-> > +             csi2->mf.width, csi2->mf.height,
-> > +             csi2->mf.field == V4L2_FIELD_NONE ? 'p' : 'i');
-> > +
-> > +     /* Checking the maximum lanes support for CSI-2 module */
-> > +     lanes = (rzg2l_csi2_read(csi2, CSI2nMCG) & CSI2nMCG_SDLN) >> 8;
-> > +     if (lanes < csi2->lanes) {
-> > +             dev_err(csi2->dev,
-> > +                     "Failed to support %d data lanes\n", csi2->lanes);
-> > +             return -EINVAL;
-> > +     }
->
-> You should read and validate the number of lanes at probe time.
->
-Agreed, I will move this check in probe.
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...G_ARM_LPAE=3Dy | 1          =
 
-> > +
-> > +     mbps = rzg2l_csi2_calc_mbps(csi2);
-> > +     if (mbps < 0)
-> > +             return mbps;
-> > +
-> > +     csi2->hsfreq = mbps;
->
-> This is only needed in the (on) branch.
->
-Agreed.
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig           | 1          =
 
-> > +
-> > +     if (on) {
->
-> The two branches share no code. Split them in two separate functions.
->
-OK, Ill split it into two separate functions.
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...CONFIG_SMP=3Dn | 1          =
 
-> > +             struct timings dphy_timing;
->
-> Make this a const pointer.
->
-Agreed.
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | tegra_def=
+config              | 1          =
 
-> > +             u32 dphytim0, dphytim1;
-> > +
-> > +             /* Set DPHY timing parameters */
-> > +             if (csi2->hsfreq <= 80)
-> > +                     dphy_timing = global_timings[TRANSMISSION_RATE_80_MBPS];
-> > +             else if (csi2->hsfreq <= 125)
-> > +                     dphy_timing = global_timings[TRANSMISSION_RATE_125_MBPS];
-> > +             else if (csi2->hsfreq <= 250)
-> > +                     dphy_timing = global_timings[TRANSMISSION_RATE_250_MBPS];
-> > +             else if (csi2->hsfreq <= 360)
-> > +                     dphy_timing = global_timings[TRANSMISSION_RATE_360_MBPS];
-> > +             else if (csi2->hsfreq <= 1500)
-> > +                     dphy_timing = global_timings[TRANSMISSION_RATE_360_PLUS_MBPS];
-> > +             else
-> > +                     return -EINVAL;
-> > +
-> > +             /* Set D-PHY timing parameters */
-> > +             dphytim0 = CSIDPHYTIM0_TCLK_MISS(dphy_timing.tclk_miss) |
-> > +                        CSIDPHYTIM0_T_INIT(dphy_timing.t_init);
-> > +             dphytim1 = CSIDPHYTIM1_THS_PREPARE(dphy_timing.ths_prepare) |
-> > +                        CSIDPHYTIM1_TCLK_PREPARE(dphy_timing.tclk_prepare) |
-> > +                        CSIDPHYTIM1_THS_SETTLE(dphy_timing.ths_settle) |
-> > +                        CSIDPHYTIM1_TCLK_SETTLE(dphy_timing.tclk_settle);
-> > +             rzg2l_csi2_write(csi2, CSIDPHYTIM0, dphytim0);
-> > +             rzg2l_csi2_write(csi2, CSIDPHYTIM1, dphytim1);
-> > +
-> > +             /* Enable D-PHY power control 0 */
-> > +             rzg2l_csi2_write(csi2, CSIDPHYSKW0, CSIDPHYSKW0_DEFAULT_SKW);
-> > +
-> > +             /* Set the EN_BGR bit */
-> > +             rzg2l_csi2_set(csi2, CSIDPHYCTRL0, CSIDPHYCTRL0_EN_BGR);
-> > +
-> > +             /* Delay 20us to be stable */
-> > +             usleep_range(20, 40);
-> > +
-> > +             /* Enable D-PHY power control 1 */
-> > +             rzg2l_csi2_set(csi2, CSIDPHYCTRL0, CSIDPHYCTRL0_EN_LDO1200);
-> > +
-> > +             /* Delay 10us to be stable */
-> > +             usleep_range(10, 20);
-> > +
-> > +             /* Start supplying the internal clock for the D-PHY block */
-> > +             pm_runtime_get_sync(csi2->dev);
->
-> Missing error handling (and use pm_runtime_resume_and_get() to make that
-> easier). But it doesn't seem quite right, you're not supposed to resume
-> the device after writing register, but before.
->
-> > +     } else {
-> > +             /* Reset the CRU (D-PHY) */
-> > +             reset_control_assert(csi2->rstc);
-> > +
-> > +             /* Stop the D-PHY clock */
-> > +             pm_runtime_put(csi2->dev);
->
-> Same here, that should to after the register writes.
->
-> > +
-> > +             /* Cancel the EN_LDO1200 register setting */
-> > +             rzg2l_csi2_clr(csi2, CSIDPHYCTRL0, CSIDPHYCTRL0_EN_LDO1200);
-> > +
-> > +             /* Cancel the EN_BGR register setting */
-> > +             rzg2l_csi2_clr(csi2, CSIDPHYCTRL0, CSIDPHYCTRL0_EN_BGR);
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(rzg2l_csi2_dphy_setting);
->
-> Would it be a problem to also move this call to .s_stream() to avoid
-> direct calls from the CRU driver ?
->
-Yes it causes a problem, the CSI and CRU setup is as per the sequence
-mentioned in the HW manual. If I move this to .stream() callback I
-sometimes see no buffers being captured on the CSI part.
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
++CON...OMIZE_BASE=3Dy | 1          =
 
-> > +
-> > +void rzg2l_csi2_mipi_link_setting(struct rzg2l_csi2 *csi2, bool on)
-> > +{
-> > +     if (on) {
->
-> Here too the two branches share no code, split them in two separate
-> functions.
->
-Ok will do.
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
++ima                | 1          =
 
-> > +             unsigned long vclk_rate = csi2->vclk_rate / HZ_PER_MHZ;
-> > +             u32 frrskw, frrclk, frrskw_coeff, frrclk_coeff;
-> > +
-> > +             /* Select data lanes */
-> > +             rzg2l_csi2_write(csi2, CSI2nMCT0, CSI2nMCT0_VDLN(csi2->lanes));
-> > +
-> > +             frrskw_coeff = 3 * vclk_rate * 8;
-> > +             frrclk_coeff = frrskw_coeff / 2;
-> > +             frrskw = DIV_ROUND_UP(frrskw_coeff, csi2->hsfreq);
-> > +             frrclk = DIV_ROUND_UP(frrclk_coeff, csi2->hsfreq);
-> > +             rzg2l_csi2_write(csi2, CSI2nMCT2,
-> > +                              CSI2nMCT2_FRRSKW(frrskw) | CSI2nMCT2_FRRCLK(frrclk));
-> > +
-> > +             /*
-> > +              * Select data type.
-> > +              * FS, FE, LS, LE, Generic Short Packet Codes 1 to 8,
-> > +              * Generic Long Packet Data Types 1 to 4 YUV422 8-bit,
-> > +              * RGB565, RGB888, RAW8 to RAW20, User-defined 8-bit
-> > +              * data types 1 to 8
-> > +              */
-> > +             rzg2l_csi2_write(csi2, CSI2nDTEL, 0xf778ff0f);
-> > +             rzg2l_csi2_write(csi2, CSI2nDTEH, 0x00ffff1f);
-> > +
-> > +             /* Enable LINK reception */
-> > +             rzg2l_csi2_set(csi2, CSI2nMCT3, CSI2nMCT3_RXEN);
->
-> Would it be an issue to use rzg2l_csi2_write() here ?
->
-> > +     } else {
-> > +             unsigned int timeout = VSRSTS_RETRIES;
-> > +
-> > +             /* Stop LINK reception */
-> > +             rzg2l_csi2_clr(csi2, CSI2nMCT3, CSI2nMCT3_RXEN);
->
-> Same here, rzg2l_csi2_write(csi2, CSI2nMCT3, 0);
->
-> Same for the other usage of rzg2l_csi2_set() and rzg2l_csi2_clr() above,
-> to avoid having to read back the value first.
->
-> > +
-> > +             /* Request a software reset of the LINK Video Pixel Interface */
-> > +             rzg2l_csi2_write(csi2, CSI2nRTCT, CSI2nRTCT_VSRST);
-> > +
-> > +             /* Make sure CSI2nRTST.VSRSTS bit is cleared */
-> > +             while (timeout--) {
-> > +                     if (!(rzg2l_csi2_read(csi2, CSI2nRTST) & CSI2nRTST_VSRSTS))
-> > +                             break;
-> > +                     usleep_range(100, 200);
-> > +             };
-> > +     }
-> > +}
-> > +EXPORT_SYMBOL_GPL(rzg2l_csi2_mipi_link_setting);
-> > +
-> > +static int rzg2l_csi2_s_stream(struct v4l2_subdev *sd, int enable)
-> > +{
-> > +     struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
-> > +     int ret = 0;
-> > +
-> > +     mutex_lock(&csi2->lock);
-> > +
-> > +     if (!csi2->remote) {
-> > +             ret = -ENODEV;
-> > +             goto out;
-> > +     }
->
-> I don't think this can happen either.
->
-Agreed, I will drop this check.
+meson-g12b-odroid-n2         | arm64 | lab-baylibre  | gcc-10   | defconfig=
++crypto             | 1          =
 
-> > +
-> > +     if (enable && !csi2->stream_count) {
-> > +             ret = v4l2_subdev_call(csi2->remote, video, s_stream, 1);
-> > +             if (ret)
-> > +                     goto out;
-> > +     } else if (!enable && csi2->stream_count == 1) {
-> > +             v4l2_subdev_call(csi2->remote, video, s_stream, 0);
-> > +     }
-> > +
-> > +     csi2->stream_count += enable ? 1 : -1;
->
-> Drop stream_count, .s_stream() is not reference-counted.
->
-Ok, I'll drop it.
+meson-g12b-odroid-n2         | arm64 | lab-baylibre  | gcc-10   | defconfig=
++debug              | 1          =
 
-> > +out:
-> > +     mutex_unlock(&csi2->lock);
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static int rzg2l_csi2_set_format(struct v4l2_subdev *sd,
-> > +                              struct v4l2_subdev_state *state,
-> > +                              struct v4l2_subdev_format *format)
-> > +{
-> > +     struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
-> > +     struct v4l2_mbus_framefmt *framefmt;
-> > +
-> > +     mutex_lock(&csi2->lock);
-> > +
-> > +     if (!rzg2l_csi2_code_to_fmt(format->format.code))
-> > +             format->format.code = rzg2l_csi2_formats[0].code;
-> > +
-> > +     if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > +             csi2->mf = format->format;
->
-> Please use the subdev active state storage to avoid manually storing the
-> format. See https://lore.kernel.org/linux-media/20220823005822.13805-3-laurent.pinchart@ideasonboard.com/
-> and in particular
->
-> - How the .get_fmt() and .set_fmt() handlers use
->   v4l2_subdev_get_pad_format() unconditionally to get the format,
->   regardless of whether it's the active or try format.
-> - The v4l2_subdev_lock_and_get_active_state() call in .s_stream() to get
->   the active state, and access the format from it.
-> - You're already calling v4l2_subdev_init_finalize() in probe, good :-)
->
-> You'll need to implement .init_cfg(), and you'll be able to drop the
-> lock field in rzg2l_csi2.
->
-OK, I'll switch to active state storage.
+meson-gxm-khadas-vim2        | arm64 | lab-baylibre  | gcc-10   | defconfig=
+                    | 1          =
 
-> > +     } else {
-> > +             framefmt = v4l2_subdev_get_try_format(sd, state, 0);
-> > +             *framefmt = format->format;
-> > +     }
-> > +
-> > +     mutex_unlock(&csi2->lock);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int rzg2l_csi2_get_pad_format(struct v4l2_subdev *sd,
-> > +                                  struct v4l2_subdev_state *sd_state,
-> > +                                  struct v4l2_subdev_format *format)
-> > +{
-> > +     struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
-> > +
-> > +     mutex_lock(&csi2->lock);
-> > +     if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> > +             format->format = csi2->mf;
-> > +     else
-> > +             format->format = *v4l2_subdev_get_try_format(sd, sd_state, 0);
-> > +     mutex_unlock(&csi2->lock);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static const struct v4l2_subdev_video_ops rzg2l_csi2_video_ops = {
-> > +     .s_stream = rzg2l_csi2_s_stream,
-> > +};
-> > +
-> > +static const struct v4l2_subdev_pad_ops rzg2l_csi2_pad_ops = {
-> > +     .set_fmt = rzg2l_csi2_set_format,
-> > +     .get_fmt = rzg2l_csi2_get_pad_format,
->
-> Missing enum functions for format and sizes, and missing .init_cfg().
->
-I'll implement the callbacks.
+meson-gxm-khadas-vim2        | arm64 | lab-baylibre  | gcc-10   | defconfig=
++crypto             | 1          =
 
-> > +};
-> > +
-> > +static const struct v4l2_subdev_ops rzg2l_csi2_subdev_ops = {
-> > +     .video  = &rzg2l_csi2_video_ops,
-> > +     .pad    = &rzg2l_csi2_pad_ops,
-> > +};
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * Async handling and registration of subdevices and links.
-> > + */
-.> > +
-> > +static int rzg2l_csi2_notify_bound(struct v4l2_async_notifier *notifier,
-> > +                                struct v4l2_subdev *subdev,
-> > +                                struct v4l2_async_subdev *asd)
-> > +{
-> > +     struct rzg2l_csi2 *csi2 = notifier_to_csi2(notifier);
-> > +     int pad;
-> > +
-> > +     pad = media_entity_get_fwnode_pad(&subdev->entity, asd->match.fwnode,
-> > +                                       MEDIA_PAD_FL_SOURCE);
-> > +     if (pad < 0) {
-> > +             dev_err(csi2->dev, "Failed to find pad for %s\n", subdev->name);
-> > +             return pad;
-> > +     }
->
->
-> I think you can skip this and just hardcode pad to RZG2L_CSI2_SINK in
-> the media_create_pad_link(), there's no other input.
->
-OK, I'll drop it and hardcode RZG2L_CSI2_SINK.
+meson-gxm-khadas-vim2        | arm64 | lab-baylibre  | gcc-10   | defconfig=
++CON...OMIZE_BASE=3Dy | 1          =
 
-> > +
-> > +     csi2->remote = subdev;
-> > +
-> > +     dev_dbg(csi2->dev, "Bound %s pad: %d\n", subdev->name, pad);
-> > +
-> > +     return media_create_pad_link(&subdev->entity, pad,
-> > +                                  &csi2->subdev.entity, 0,
-> > +                                  MEDIA_LNK_FL_ENABLED |
-> > +                                  MEDIA_LNK_FL_IMMUTABLE);
-> > +}
-> > +
-> > +static void rzg2l_csi2_notify_unbind(struct v4l2_async_notifier *notifier,
-> > +                                  struct v4l2_subdev *subdev,
-> > +                                  struct v4l2_async_subdev *asd)
-> > +{
-> > +     struct rzg2l_csi2 *csi2 = notifier_to_csi2(notifier);
-> > +
-> > +     csi2->remote = NULL;
-> > +
-> > +     dev_dbg(csi2->dev, "Unbind %s\n", subdev->name);
-> > +}
-> > +
-> > +static const struct v4l2_async_notifier_operations rzg2l_csi2_notify_ops = {
-> > +     .bound = rzg2l_csi2_notify_bound,
-> > +     .unbind = rzg2l_csi2_notify_unbind,
-> > +};
-> > +
-> > +static int rzg2l_csi2_parse_v4l2(struct rzg2l_csi2 *csi2,
-> > +                              struct v4l2_fwnode_endpoint *vep)
-> > +{
-> > +     /* Only port 0 endpoint 0 is valid. */
-> > +     if (vep->base.port || vep->base.id)
-> > +             return -ENOTCONN;
-> > +
-> > +     if (vep->bus_type != V4L2_MBUS_CSI2_DPHY) {
-> > +             dev_err(csi2->dev, "Unsupported bus: %u\n", vep->bus_type);
-> > +             return -EINVAL;
-> > +     }
->
-> I'm not sure you need this check as the DT bindings should make it clear
-> that only CSI-2 sources are valid. Maybe require the bus-type property
-> in DT ? Up to you.
->
-OK, I'll drop this check and make it clear in the DT binding doc.
+meson-gxm-khadas-vim2        | arm64 | lab-baylibre  | gcc-10   | defconfig=
++ima                | 1          =
 
-> > +
-> > +     csi2->lanes = vep->bus.mipi_csi2.num_data_lanes;
-> > +     if (csi2->lanes != 1 && csi2->lanes != 2 && csi2->lanes != 4) {
-> > +             dev_err(csi2->dev, "Unsupported number of data-lanes: %u\n",
-> > +                     csi2->lanes);
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int rzg2l_csi2_parse_dt(struct rzg2l_csi2 *csi2)
-> > +{
-> > +     struct v4l2_fwnode_endpoint v4l2_ep = {
-> > +             .bus_type = V4L2_MBUS_CSI2_DPHY
-> > +     };
-> > +     struct v4l2_async_subdev *asd;
-> > +     struct fwnode_handle *fwnode;
-> > +     struct fwnode_handle *ep;
-> > +     int ret;
-> > +
-> > +     ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(csi2->dev), 0, 0, 0);
-> > +     if (!ep) {
-> > +             dev_err(csi2->dev, "Not connected to subdevice\n");
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     ret = v4l2_fwnode_endpoint_parse(ep, &v4l2_ep);
-> > +     if (ret) {
-> > +             dev_err(csi2->dev, "Could not parse v4l2 endpoint\n");
-> > +             fwnode_handle_put(ep);
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     ret = rzg2l_csi2_parse_v4l2(csi2, &v4l2_ep);
-> > +     if (ret) {
-> > +             fwnode_handle_put(ep);
-> > +             return ret;
-> > +     }
-> > +
-> > +     fwnode = fwnode_graph_get_remote_endpoint(ep);
-> > +     fwnode_handle_put(ep);
-> > +
-> > +     dev_dbg(csi2->dev, "Found '%pOF'\n", to_of_node(fwnode));
-> > +
-> > +     v4l2_async_nf_init(&csi2->notifier);
-> > +     csi2->notifier.ops = &rzg2l_csi2_notify_ops;
-> > +
-> > +     asd = v4l2_async_nf_add_fwnode(&csi2->notifier, fwnode,
-> > +                                    struct v4l2_async_subdev);
-> > +     fwnode_handle_put(fwnode);
-> > +     if (IS_ERR(asd))
-> > +             return PTR_ERR(asd);
-> > +
-> > +     ret = v4l2_async_subdev_nf_register(&csi2->subdev, &csi2->notifier);
-> > +     if (ret)
-> > +             v4l2_async_nf_cleanup(&csi2->notifier);
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * Platform Device Driver.
-> > + */
-> > +
-> > +static const struct media_entity_operations rzg2l_csi2_entity_ops = {
-> > +     .link_validate = v4l2_subdev_link_validate,
-> > +};
-> > +
-> > +static int rzg2l_csi2_probe(struct platform_device *pdev)
-> > +{
-> > +     struct rzg2l_csi2 *csi2;
-> > +     struct clk *vclk;
-> > +     unsigned int i;
-> > +     int ret;
-> > +
-> > +     csi2 = devm_kzalloc(&pdev->dev, sizeof(*csi2), GFP_KERNEL);
-> > +     if (!csi2)
-> > +             return -ENOMEM;
-> > +
-> > +     csi2->base = devm_platform_ioremap_resource(pdev, 0);
-> > +     if (IS_ERR(csi2->base))
-> > +             return PTR_ERR(csi2->base);
-> > +
-> > +     csi2->rstc = devm_reset_control_get(&pdev->dev, "cmn-rstb");
-> > +     if (IS_ERR(csi2->rstc))
-> > +             return dev_err_probe(&pdev->dev, PTR_ERR(csi2->rstc),
-> > +                                  "failed to get cpg cmn-rstb\n");
-> > +
-> > +     vclk = devm_clk_get(&pdev->dev, "vclk");
-> > +     if (IS_ERR(vclk))
-> > +             return dev_err_probe(&pdev->dev, PTR_ERR(vclk),
-> > +                                  "failed to get vclk clock\n");
-> > +
-> > +     csi2->vclk_rate = clk_get_rate(vclk);
-> > +     devm_clk_put(&pdev->dev, vclk);
->
-> Is there no need to ensure at runtime at the clock is on ?
->
-pm_runtime is used to turn on/off the clocks. Do you think I need to
-add a check here?
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
 
-> > +
-> > +     csi2->dev = &pdev->dev;
-> > +     mutex_init(&csi2->lock);
-> > +     csi2->stream_count = 0;
-> > +
-> > +     platform_set_drvdata(pdev, csi2);
-> > +
-> > +     ret = rzg2l_csi2_parse_dt(csi2);
-> > +     if (ret)
-> > +             goto error_mutex;
-> > +
-> > +     csi2->subdev.owner = THIS_MODULE;
->
-> You don't need this, v4l2_subdev_init() handles it.
->
-OK, I'll drop it.
+rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
 
-> > +     csi2->subdev.dev = &pdev->dev;
-> > +     v4l2_subdev_init(&csi2->subdev, &rzg2l_csi2_subdev_ops);
-> > +     v4l2_set_subdevdata(&csi2->subdev, &pdev->dev);
-> > +     snprintf(csi2->subdev.name, V4L2_SUBDEV_NAME_SIZE, "%s %s",
->
-> sizeof(csi2->subdev.name) instead of V4L2_SUBDEV_NAME_SIZE, it's less
-> error-prone.
->
-Agreed.
 
-> > +              KBUILD_MODNAME, dev_name(&pdev->dev));
->
-> Don't use KBUILD_MODNAME but set a device name here, for instance use
-> "csi-%s" as the format string. The subdev name shouldn't change if the
-> module is renamed.
->
-Agreed, I'll update it.
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2022-08-30-v6.0-rc1/plan/baseline-nfs/
 
-> > +     csi2->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > +
-> > +     csi2->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
->
-> I think MEDIA_ENT_F_VID_IF_BRIDGE would be more appropriate. The pixel
-> formatter reads or writes pixels from/to memory.
->
-OK, I'll update it.
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2022-08-30-v6.0-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      d561df8d9be01801dcab98bc7fed470db4967a94 =
 
-> > +     csi2->subdev.entity.ops = &rzg2l_csi2_entity_ops;
-> > +
-> > +     csi2->pads[RZG2L_CSI2_SINK].flags = MEDIA_PAD_FL_SINK;
-> > +     for (i = RZG2L_CSI2_SOURCE_VC0; i < NR_OF_RZG2L_CSI2_PAD; i++)
-> > +             csi2->pads[i].flags = MEDIA_PAD_FL_SOURCE;
->
-> One source pad only. Support for multiple virtual channels should be
-> implemented using the stream API that is under development (see
-> https://lore.kernel.org/linux-media/20220810121122.3149086-1-tomi.valkeinen@ideasonboard.com/T/#t).
->
-My RFCv2 had this, but I dropped it for this version as adding support
-for the multiplex stream was/is moving at a slower pace. So instead I
-thought we can patch this up later.
 
-> > +
-> > +     ret = media_entity_pads_init(&csi2->subdev.entity, NR_OF_RZG2L_CSI2_PAD, csi2->pads);
-> > +     if (ret)
-> > +             goto error_async;
-> > +
-> > +     pm_runtime_enable(&pdev->dev);
-> > +
-> > +     ret = v4l2_subdev_init_finalize(&csi2->subdev);
-> > +     if (ret < 0)
-> > +             goto error_pm;
-> > +
-> > +     ret = v4l2_async_register_subdev(&csi2->subdev);
-> > +     if (ret < 0)
-> > +             goto error_subdev;
-> > +
-> > +     dev_info(csi2->dev, "%d lanes found\n", csi2->lanes);
-> > +
-> > +     return 0;
-> > +
-> > +error_subdev:
-> > +     v4l2_subdev_cleanup(&csi2->subdev);
-> > +error_pm:
-> > +     pm_runtime_disable(&pdev->dev);
-> > +error_async:
-> > +     v4l2_async_nf_unregister(&csi2->notifier);
-> > +     v4l2_async_nf_cleanup(&csi2->notifier);
-> > +error_mutex:
-> > +     mutex_destroy(&csi2->lock);
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static const struct of_device_id rzg2l_csi2_of_table[] = {
-> > +     { .compatible = "renesas,rzg2l-csi2", },
-> > +     { /* sentinel */ }
-> > +};
-> > +
-> > +static int rzg2l_csi2_remove(struct platform_device *pdev)
-> > +{
-> > +     struct rzg2l_csi2 *csi2 = platform_get_drvdata(pdev);
-> > +
-> > +     v4l2_async_nf_unregister(&csi2->notifier);
-> > +     v4l2_async_nf_cleanup(&csi2->notifier);
-> > +     v4l2_async_unregister_subdev(&csi2->subdev);
-> > +     v4l2_subdev_cleanup(&csi2->subdev);
-> > +
-> > +     pm_runtime_disable(&pdev->dev);
-> > +     mutex_destroy(&csi2->lock);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static struct platform_driver rzg2l_csi2_pdrv = {
-> > +     .remove = rzg2l_csi2_remove,
-> > +     .probe  = rzg2l_csi2_probe,
-> > +     .driver = {
-> > +             .name = "rzg2l-csi2",
-> > +             .of_match_table = rzg2l_csi2_of_table,
-> > +     },
-> > +};
-> > +
-> > +module_platform_driver(rzg2l_csi2_pdrv);
-> > +
-> > +MODULE_AUTHOR("Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>");
-> > +MODULE_DESCRIPTION("Renesas RZ/G2L MIPI CSI2 receiver driver");
-> > +MODULE_LICENSE("GPL");
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.h
-> > new file mode 100644
-> > index 000000000000..7192923517f6
-> > --- /dev/null
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.h
-> > @@ -0,0 +1,49 @@
-> > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > +/*
-> > + * Copyright (C) 2022 Renesas Electronics Corp.
-> > + */
-> > +
-> > +#ifndef __RZG2L_CSI2__
-> > +#define __RZG2L_CSI2__
-> > +
-> > +enum rzg2l_csi2_pads {
-> > +     RZG2L_CSI2_SINK = 0,
-> > +     RZG2L_CSI2_SOURCE_VC0,
-> > +     RZG2L_CSI2_SOURCE_VC1,
-> > +     RZG2L_CSI2_SOURCE_VC2,
-> > +     RZG2L_CSI2_SOURCE_VC3,
-> > +     NR_OF_RZG2L_CSI2_PAD,
-> > +};
-> > +
-> > +struct rzg2l_csi2 {
-> > +     struct device *dev;
-> > +     void __iomem *base;
-> > +     struct reset_control *rstc;
-> > +     unsigned long vclk_rate;
-> > +
-> > +     struct v4l2_subdev subdev;
-> > +     struct media_pad pads[NR_OF_RZG2L_CSI2_PAD];
-> > +
-> > +     struct v4l2_async_notifier notifier;
-> > +     struct v4l2_subdev *remote;
->
-> You can name this field source (or remote_source, up to you), it will be
-> more explicit.
->
-OK, I will rename it.
 
-Cheers,
-Prabhakar
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+at91sam9g20ek                | arm   | lab-broonie   | gcc-10   | at91_dt_d=
+efconfig            | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd20a6d50c90be835564d
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: at91_dt_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/at91_dt_defconfig/gcc-10/lab-broonie/baseline-nfs-at91s=
+am9g20ek.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/at91_dt_defconfig/gcc-10/lab-broonie/baseline-nfs-at91s=
+am9g20ek.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/armel/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd20a6d50c90be=
+835564e
+        failing since 0 day (last pass: renesas-next-2022-08-22-v6.0-rc1, f=
+irst fail: renesas-next-2022-08-29-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+cubietruck                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+crypto    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd1d80b4306709a35564c
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+crypto
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/multi_v7_defconfig+crypto/gcc-10/lab-baylibre/baseline-=
+nfs-cubietruck.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/multi_v7_defconfig+crypto/gcc-10/lab-baylibre/baseline-=
+nfs-cubietruck.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd1d80b4306709=
+a35564d
+        new failure (last pass: renesas-next-2022-08-29-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+cubietruck                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...CONFIG_SMP=3Dn | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd851ef6ec4100935564a
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-baylibre/b=
+aseline-nfs-cubietruck.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-baylibre/b=
+aseline-nfs-cubietruck.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd851ef6ec4100=
+935564b
+        new failure (last pass: renesas-next-2022-08-29-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+crypto    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd1c0c01d53f9d635565a
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+crypto
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/multi_v7_defconfig+crypto/gcc-10/lab-baylibre/baseline-=
+nfs-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/multi_v7_defconfig+crypto/gcc-10/lab-baylibre/baseline-=
+nfs-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd1c0c01d53f9d=
+635565b
+        failing since 83 days (last pass: renesas-next-2022-05-05-v5.18-rc1=
+, first fail: renesas-next-2022-06-07-v5.19-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+ima       | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd5fd593d7791f3355664
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+ima
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/multi_v7_defconfig+ima/gcc-10/lab-baylibre/baseline-nfs=
+-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/multi_v7_defconfig+ima/gcc-10/lab-baylibre/baseline-nfs=
+-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd5fd593d7791f=
+3355665
+        failing since 83 days (last pass: renesas-next-2022-05-05-v5.18-rc1=
+, first fail: renesas-next-2022-06-07-v5.19-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...G_ARM_LPAE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd8f459cef2eb20355643
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy/g=
+cc-10/lab-baylibre/baseline-nfs-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy/g=
+cc-10/lab-baylibre/baseline-nfs-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd8f459cef2eb2=
+0355644
+        failing since 83 days (last pass: renesas-next-2022-05-05-v5.18-rc1=
+, first fail: renesas-next-2022-06-07-v5.19-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig           | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630ddd6241fb101c9a35565f
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baseline-nfs-jet=
+son-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/multi_v7_defconfig/gcc-10/lab-baylibre/baseline-nfs-jet=
+son-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630ddd6241fb101c9=
+a355660
+        failing since 83 days (last pass: renesas-next-2022-05-05-v5.18-rc1=
+, first fail: renesas-next-2022-06-07-v5.19-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...CONFIG_SMP=3Dn | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630de04baa4fe1aa8a355649
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-baylibre/b=
+aseline-nfs-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-baylibre/b=
+aseline-nfs-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630de04baa4fe1aa8=
+a35564a
+        failing since 14 days (last pass: renesas-next-2022-07-05-v5.19-rc1=
+, first fail: renesas-next-2022-08-15-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | tegra_def=
+config              | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd484ef44ba4ac8355680
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: tegra_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/tegra_defconfig/gcc-10/lab-baylibre/baseline-nfs-jetson=
+-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm/tegra_defconfig/gcc-10/lab-baylibre/baseline-nfs-jetson=
+-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd484ef44ba4ac=
+8355681
+        failing since 14 days (last pass: renesas-next-2022-07-07-v5.19-rc1=
+, first fail: renesas-next-2022-08-15-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
++CON...OMIZE_BASE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd45495405c3832355661
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-baylib=
+re/baseline-nfs-meson-g12b-a311d-khadas-vim3.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-baylib=
+re/baseline-nfs-meson-g12b-a311d-khadas-vim3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd45495405c383=
+2355662
+        new failure (last pass: renesas-next-2022-08-29-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
++ima                | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd5d08ae141b61f3556bb
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+ima
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+ima/gcc-10/lab-baylibre/baseline-nfs-meson-=
+g12b-a311d-khadas-vim3.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+ima/gcc-10/lab-baylibre/baseline-nfs-meson-=
+g12b-a311d-khadas-vim3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd5d08ae141b61=
+f3556bc
+        failing since 14 days (last pass: renesas-next-2022-07-05-v5.19-rc1=
+, first fail: renesas-next-2022-08-15-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+meson-g12b-odroid-n2         | arm64 | lab-baylibre  | gcc-10   | defconfig=
++crypto             | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd36b548ad8c77435564d
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+crypto
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+crypto/gcc-10/lab-baylibre/baseline-nfs-mes=
+on-g12b-odroid-n2.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+crypto/gcc-10/lab-baylibre/baseline-nfs-mes=
+on-g12b-odroid-n2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd36b548ad8c77=
+435564e
+        new failure (last pass: renesas-next-2022-06-17-v5.19-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+meson-g12b-odroid-n2         | arm64 | lab-baylibre  | gcc-10   | defconfig=
++debug              | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd67f7db72f786e355645
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+debug
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+debug/gcc-10/lab-baylibre/baseline-nfs-meso=
+n-g12b-odroid-n2.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+debug/gcc-10/lab-baylibre/baseline-nfs-meso=
+n-g12b-odroid-n2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd67f7db72f786=
+e355646
+        new failure (last pass: renesas-next-2022-08-29-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+meson-gxm-khadas-vim2        | arm64 | lab-baylibre  | gcc-10   | defconfig=
+                    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd0d0c7e4a72d2835565c
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig/gcc-10/lab-baylibre/baseline-nfs-meson-gxm-=
+khadas-vim2.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig/gcc-10/lab-baylibre/baseline-nfs-meson-gxm-=
+khadas-vim2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd0d0c7e4a72d2=
+835565d
+        failing since 7 days (last pass: renesas-next-2021-11-30-v5.16-rc1-=
+14-g0940300f8e1d, first fail: renesas-next-2022-08-22-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+meson-gxm-khadas-vim2        | arm64 | lab-baylibre  | gcc-10   | defconfig=
++crypto             | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd263beb875b469355687
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+crypto
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+crypto/gcc-10/lab-baylibre/baseline-nfs-mes=
+on-gxm-khadas-vim2.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+crypto/gcc-10/lab-baylibre/baseline-nfs-mes=
+on-gxm-khadas-vim2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd263beb875b46=
+9355688
+        failing since 14 days (last pass: renesas-next-2021-11-30-v5.16-rc1=
+-14-g0940300f8e1d, first fail: renesas-next-2022-08-15-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+meson-gxm-khadas-vim2        | arm64 | lab-baylibre  | gcc-10   | defconfig=
++CON...OMIZE_BASE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd3502c5a1977b7355649
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-baylib=
+re/baseline-nfs-meson-gxm-khadas-vim2.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-baylib=
+re/baseline-nfs-meson-gxm-khadas-vim2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd3502c5a1977b=
+735564a
+        failing since 14 days (last pass: renesas-next-2021-11-30-v5.16-rc1=
+-14-g0940300f8e1d, first fail: renesas-next-2022-08-15-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+meson-gxm-khadas-vim2        | arm64 | lab-baylibre  | gcc-10   | defconfig=
++ima                | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd3b4edee7d8c4e355643
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+ima
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+ima/gcc-10/lab-baylibre/baseline-nfs-meson-=
+gxm-khadas-vim2.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+ima/gcc-10/lab-baylibre/baseline-nfs-meson-=
+gxm-khadas-vim2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd3b4edee7d8c4=
+e355644
+        failing since 14 days (last pass: renesas-next-2021-11-30-v5.16-rc1=
+-14-g0940300f8e1d, first fail: renesas-next-2022-08-15-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd2d6fbcf5f47f9355642
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/basel=
+ine-nfs-mt8183-kukui-jacuzzi-juniper-sku16.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/basel=
+ine-nfs-mt8183-kukui-jacuzzi-juniper-sku16.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/630dd2d6fbcf5f47f=
+9355643
+        failing since 14 days (last pass: renesas-next-2022-07-05-v5.19-rc1=
+, first fail: renesas-next-2022-08-15-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/630dd4f42954c690403556c0
+
+  Results:     82 PASS, 6 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/basel=
+ine-nfs-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-08-30-v6.0-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/basel=
+ine-nfs-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220826.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/cas=
+e/id/630dd4f42954c690403556f5
+        failing since 146 days (last pass: renesas-next-2022-02-25-v5.17-rc=
+1, first fail: renesas-next-2022-04-04-v5.18-rc1)
+
+    2022-08-30T09:14:14.459009  /lava-7134841/1/../bin/lava-test-case   =
+
+ =20
