@@ -2,53 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E33755A7DA3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Aug 2022 14:41:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68D645A7DCF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Aug 2022 14:47:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231325AbiHaMlT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 31 Aug 2022 08:41:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40574 "EHLO
+        id S231365AbiHaMrZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 31 Aug 2022 08:47:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231320AbiHaMlR (ORCPT
+        with ESMTP id S231299AbiHaMrY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 31 Aug 2022 08:41:17 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77CDA9C8FE;
-        Wed, 31 Aug 2022 05:41:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4E422B82062;
-        Wed, 31 Aug 2022 12:41:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0365C433C1;
-        Wed, 31 Aug 2022 12:41:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661949670;
-        bh=GlqPyBG/2QZHbPqaaWonjRMxL4niWdBcQJxyKEdjQSk=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=gNwuWskc/jXU/OrebX3y24EoJciyi62c5H6tEuPGRlLQ+alc5tVqmdzZDmAVXi3Ud
-         MTw042H61ryMiZrFzQqF28RjgkCVuMWzValPBezeBZSbkfjqhmRAS4fasfq35SMot3
-         xQtL9Q6Q+DQga6bzAe3ws6RbvHwAaaLmzlOYB0y9RDIdcyUAlxm6j/Zz7XiBaZVTF9
-         kKoUWS5XduYHs8kbhkKS2YrFa+G2TQxJt813jLoNQJg5Ene0jKdVJAiALr4OtpVuvf
-         v1Twttg65eM9lvEKG9AKDgvVhfC0WW7xBilKgwSUXNKynQq5bvBJRpmdV7d+p0q70f
-         XI0HOQftONieg==
-From:   Mark Brown <broonie@kernel.org>
-To:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-spi@vger.kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20220824094327.33685-1-wsa+renesas@sang-engineering.com>
-References: <20220824094327.33685-1-wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH 0/3] spi: add generic R-Car Gen4 and specific r8a779f0 support
-Message-Id: <166194966864.85432.14716335347687736430.b4-ty@kernel.org>
-Date:   Wed, 31 Aug 2022 13:41:08 +0100
+        Wed, 31 Aug 2022 08:47:24 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 613428C447
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Aug 2022 05:47:23 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id by6so14489257ljb.11
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Aug 2022 05:47:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=L6I8ndlnuixafhz7H277xHo8gwEAzdGsvhdVjWQGwXw=;
+        b=WwJlalbqTiUtKcbX5odu1XhHB1a7Wk9hFBlJ5XimVIeH2FFBHKtWuFT2GrwrEaBJa4
+         UxldkwnUEb9ovqJtHoSKxiYne4sDdypXeIj5eNtRdBMgzeWj5j9Jsc0zvwsl019JVv1P
+         X4YAd2ZRgogwurJdMrZbq9HOijzBn/Dcj7LjCOdsKj3VG6O0mMeZQjUpQ7CAiZdjaEww
+         m+FzHM3CEBCPt4+OgQ0CBqniVlAMFUnjaTzI5rC4lMJFmmaPBc+v3EdTsSwjhEDVPh6v
+         jWimAe0C1CpcANHN8ehhy94EiLE/njxOMyfdfyxqbvD4j+JXAHBf4HDlR1pmPBa6X/hj
+         quwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=L6I8ndlnuixafhz7H277xHo8gwEAzdGsvhdVjWQGwXw=;
+        b=1qU423pO6PGtP+oKGZ+XO4WgmyNXq/KcPRS+qXclB/djWyHQ1GNkWKXfkZ9bHdqPYM
+         vym5kTd7+nI+Ep+pBjNcHeAhF17p35dJNxNrMVEyJWX6Lo0kHs/hGJ2bMAShAeBdcpbh
+         ju72WuhTOXdXvUDS/ZT5qG5O6QtgybfVgRK6uEavLYLoZicE0H9OT3urg1JCxJfPtMol
+         ECalZpNQFBFJiRrQ25m8Pqh0dfdcEXAXHYwF0y1nw9nez1MGSYU/lMBbMTpl1hrM0t8G
+         hghn5A2n5RmAwgJR9wcuFJTGkY5WHu+bNBRQpL1/JjNryKoJyg297r4Dz2YVrnD0CnIJ
+         HHuA==
+X-Gm-Message-State: ACgBeo3vITNT+Nw+/BHkCUi3XN9DFNkKV6OPjIUmPWsl1Cja8kXy2zdh
+        IOMRoJGHkBfxS65y4no2bkz3WQ==
+X-Google-Smtp-Source: AA6agR7HhMplXv+sgl7vaiXra12D78kc1aVHHONytHdf3QzQMXn/pAbiN/4Jwrx7P45zrzkSRHZsDg==
+X-Received: by 2002:a05:651c:1508:b0:268:a367:ebd8 with SMTP id e8-20020a05651c150800b00268a367ebd8mr227364ljf.516.1661950041793;
+        Wed, 31 Aug 2022 05:47:21 -0700 (PDT)
+Received: from [192.168.28.124] (balticom-73-99-134.balticom.lv. [109.73.99.134])
+        by smtp.gmail.com with ESMTPSA id f12-20020a2eb5ac000000b002689bb23a93sm131196ljn.94.2022.08.31.05.47.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Aug 2022 05:47:21 -0700 (PDT)
+Message-ID: <9f5b5d88-c941-0fe7-d79c-3e1043bc97c2@linaro.org>
+Date:   Wed, 31 Aug 2022 15:47:20 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-0c1df
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 1/3] media: dt-bindings: media: renesas,fcp: Update
+ maxItems for the clock property
+Content-Language: en-US
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220831100913.1731285-1-biju.das.jz@bp.renesas.com>
+ <20220831100913.1731285-2-biju.das.jz@bp.renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220831100913.1731285-2-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -57,45 +85,28 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 24 Aug 2022 11:43:23 +0200, Wolfram Sang wrote:
-> Here are the patches to enable MSIOF on R-Car S4-8. They also introduce
-> generic Gen4 support and move V3U to Gen4 (which it really is).
+On 31/08/2022 13:09, Biju Das wrote:
+> RZ/G2L has 3 shared clocks between du, vspd and fcpvd. Update the
+> bindings to reflect this.
 > 
-> Wolfram Sang (3):
->   spi: renesas,sh-msiof: Add generic Gen4 and r8a779f0 support
->   spi: sh-msiof: add generic Gen4 binding
->   spi: renesas,sh-msiof: R-Car V3U is R-Car Gen4
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/media/renesas,fcp.yaml | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> [...]
+> diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.yaml b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> index 43f2fed8cd33..419b110e34fe 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> @@ -29,7 +29,8 @@ properties:
+>      maxItems: 1
+>  
+>    clocks:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 3
 
-Applied to
+The clocks should be strictly defined/described.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-
-Thanks!
-
-[1/3] spi: renesas,sh-msiof: Add generic Gen4 and r8a779f0 support
-      commit: e1e62f05d5d9d7726349e00562299d829e478ce9
-[2/3] spi: sh-msiof: add generic Gen4 binding
-      commit: ea9d001550abaf2f4c75cf4fcd936ea19f932b84
-[3/3] spi: renesas,sh-msiof: R-Car V3U is R-Car Gen4
-      commit: b076fdd02133e6a31db167f8acc368edc2530cc0
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+Krzysztof
