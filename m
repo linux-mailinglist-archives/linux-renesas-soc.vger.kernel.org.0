@@ -2,103 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C71C5A9633
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Sep 2022 14:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46DFE5A96A1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Sep 2022 14:22:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233336AbiIAMDY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Sep 2022 08:03:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55288 "EHLO
+        id S231700AbiIAMWW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Sep 2022 08:22:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233349AbiIAMDD (ORCPT
+        with ESMTP id S232702AbiIAMWU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Sep 2022 08:03:03 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E64A0CACBB
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Sep 2022 05:02:51 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id t5so22224503edc.11
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 01 Sep 2022 05:02:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=EQtlz1/8bB0OljN4UM8RiMyes3u0l9AMyZLPYPjwNbg=;
-        b=csw5ErrdSflUSncY2RGnqgVsO26AzQXTVkmfMWaLDZu0r1lqkbe1Dm/e4m+d4LMmuF
-         f+0F5VaY/M8NkRSLpS5fLGu3FIP5e3Vig2aNluEEwrALGOFvhE2kA63jB7wt+jukOY7g
-         HdfXsSBWY3n1NFJe/MuHyN5GsASL7wPwUGoKrNo2DZC+POKv0J0WiLhIMeElR2v/epCt
-         Z2lPJmhe6uTZ0m2IBBfibiFUNUG4Ak6QkUbR63nLTbTLaArK71EFrXQIwK9Y2Y0oeQF1
-         nL+g/67GbFp7ErsomDo14kVw4edEef0k9aYVZA2jS+cAzanNAXpAAfz80xrP/BtpMxcu
-         6ebg==
+        Thu, 1 Sep 2022 08:22:20 -0400
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAE4411D933;
+        Thu,  1 Sep 2022 05:22:17 -0700 (PDT)
+Received: by mail-qk1-f179.google.com with SMTP id f4so13031606qkl.7;
+        Thu, 01 Sep 2022 05:22:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=EQtlz1/8bB0OljN4UM8RiMyes3u0l9AMyZLPYPjwNbg=;
-        b=UF9R/lEwJOhOhg2dvR7vDFncdzshgzO/nMwkQCu/CKAbsQTo4QyyYOT7yIT9vC+91Y
-         2V15CeW10pheBPQPB2KzAleoGXQQlSAVwHGmas1EgYX7eQal4fEogwWol+TgqVBLmpka
-         N81Ip8qMOs5W/GBNfFsaduZEodzJJrL0a4dBVAIv6xOl0BdqqN5cYxmkELHNysHeM8xl
-         eOQ000bj4WyxeqZeIuQr/D6adjBThCMKv/8IlAjt51Pu1KxDndLmDYjzq7ktwE0y/sYi
-         V0kxscGrp/R46qHkfBGY675dccjtksJro3kZRx2xQvSPGWDAZmWZqYZuEjx0lkuv6lfE
-         EJDA==
-X-Gm-Message-State: ACgBeo30uChQY0QJ06mlF+Ft+xChwxkQTU8+A8Ob5M+qzjDssol/sHAU
-        YHUYHH9Dx3kdnRxsn9j9+CITUnyRCtOmmoj6waktDQ==
-X-Google-Smtp-Source: AA6agR46lntjoWxygCrFZiR2tXvOJ0E5Z87wwnM92vmKFppeHSarx/2ykA+3g+EifYIeUwUI0d7H7IEkqsfkaefSozc=
-X-Received: by 2002:aa7:c488:0:b0:448:d11:4830 with SMTP id
- m8-20020aa7c488000000b004480d114830mr22369484edq.97.1662033769564; Thu, 01
- Sep 2022 05:02:49 -0700 (PDT)
+        bh=SmNWTeT08VNbE8tZJFw2sHkz/HBTChYPEEmpQQEBkUo=;
+        b=qPJ2iTh/eI9pbEYU1Uq11S0oRK+eQS/MKAQUUXxCLke6o2/ktOlkQU7u/yatLwPV56
+         9qNHUYGzablYHFQODXX5YYBCixuIHGHYWTy4bSY93LAru8IHfGKkL/IqHzQTaoHODXsB
+         neK4XZ3a9RDVc3jKcBTUh+JF3/pMdYReTUWsTBTNBuoypVYK2J3W53xp2l5pbdA3L8Ro
+         w5VFRjYUC5RRm0PTzT2ffYmdWpjoN3HpD/pA16P/URBYxlgBoESsZZ+otTmXZs9YbEoA
+         7JE9fpxpKhe7W4G4AfBnvDamDQwedfQzGlpz2MMMl/p5WQfLeAYjzOCbzuX4QcUQweu4
+         k2pA==
+X-Gm-Message-State: ACgBeo27wPti6z/NiQvLsG3DYzTUwdZraKqoJZX21CaN1HmPGrgstJyt
+        XcuUzR21nEfbAhnGEytP10ou7lb7GwrhbA==
+X-Google-Smtp-Source: AA6agR747SSCnKDik9yjuczTGxUVAAHgG3Y6KwNudqSwXeL+kA9S3OpDgZhg+b4bFe5zLtNy7fA5mQ==
+X-Received: by 2002:a05:620a:404d:b0:6be:9818:ea49 with SMTP id i13-20020a05620a404d00b006be9818ea49mr8941229qko.197.1662034936699;
+        Thu, 01 Sep 2022 05:22:16 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id hf11-20020a05622a608b00b00344b807bb95sm9947340qtb.74.2022.09.01.05.22.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Sep 2022 05:22:16 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id g5so8328029ybg.11;
+        Thu, 01 Sep 2022 05:22:16 -0700 (PDT)
+X-Received: by 2002:a25:8e84:0:b0:696:466c:baa with SMTP id
+ q4-20020a258e84000000b00696466c0baamr17235388ybl.604.1662034935947; Thu, 01
+ Sep 2022 05:22:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220831082653.20449-1-tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20220831082653.20449-1-tomi.valkeinen@ideasonboard.com>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 1 Sep 2022 14:02:38 +0200
-Message-ID: <CAG3jFyuaM4DYAsC1u7k==3OzVtheqxBoUJgDDso9sZgY9ByO7w@mail.gmail.com>
-Subject: Re: [PATCH v6 0/3] drm/bridge: ti-sn65dsi86: Basic DP support
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Douglas Anderson <dianders@chromium.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+References: <20220830164518.1381632-1-biju.das.jz@bp.renesas.com> <20220830164518.1381632-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220830164518.1381632-3-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 1 Sep 2022 14:22:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXJv80OM9w+euTt9OZvkxYg=1FLhXP_WStZzSrO3bB2bg@mail.gmail.com>
+Message-ID: <CAMuHMdXJv80OM9w+euTt9OZvkxYg=1FLhXP_WStZzSrO3bB2bg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] ARM: dts: r9a06g032: Add CAN{0,1} nodes
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 31 Aug 2022 at 10:27, Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
+On Tue, Aug 30, 2022 at 6:45 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add CAN{0,1} nodes to R9A06G032 (RZ/N1) SoC DTSI.
 >
-> Hi,
->
-> v5 of the series can be found from:
->
-> https://lore.kernel.org/all/20220824130034.196041-1-tomi.valkeinen@ideasonboard.com/
->
-> Changes to v5:
-> - Drop the broken "check AUX errors better" patch
-> - Fix sync pulse widths in "Reject modes with too large blanking"
-> - Drop the text about eDP, detect and get_edid from the desc of
->   "Implement bridge connector operations"
->
->  Tomi
->
-> Laurent Pinchart (2):
->   drm/bridge: ti-sn65dsi86: Support DisplayPort (non-eDP) mode
->   drm/bridge: ti-sn65dsi86: Implement bridge connector operations for DP
->
-> Tomi Valkeinen (1):
->   drm/bridge: ti-sn65dsi86: Reject modes with too large blanking
->
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 72 +++++++++++++++++++++++++--
->  1 file changed, 69 insertions(+), 3 deletions(-)
->
-> --
-> 2.34.1
->
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Dropped clock-names property.
+>  * Added power-domains property.
 
-Applied to drm-misc-next.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.1.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
