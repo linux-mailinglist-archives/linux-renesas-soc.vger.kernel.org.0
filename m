@@ -2,134 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BB455A9482
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Sep 2022 12:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 054D55A94AE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Sep 2022 12:32:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234235AbiIAK0G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Sep 2022 06:26:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53044 "EHLO
+        id S234183AbiIAKct (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Sep 2022 06:32:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233865AbiIAKZs (ORCPT
+        with ESMTP id S234206AbiIAKcq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Sep 2022 06:25:48 -0400
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 791459F75A;
-        Thu,  1 Sep 2022 03:25:42 -0700 (PDT)
-Received: by mail-qt1-f178.google.com with SMTP id w28so12998529qtc.7;
-        Thu, 01 Sep 2022 03:25:42 -0700 (PDT)
+        Thu, 1 Sep 2022 06:32:46 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36C48123C02
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Sep 2022 03:32:44 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id q16so17399570ljp.8
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 01 Sep 2022 03:32:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=ZXVAap/RQrEllx7GHmHFEmTUCY+2JbnwMtDeiKRHfQ8=;
+        b=Dhp+UYVqpfFeh+jDqzEIVKnoKF7JxN/03AsLCTOUMgF8GcAn6Ch3lv7LeqCPXQKl+w
+         mnc7afdTf2olu/Dsh7tqSXvjEofGX/mfpNqZlPHUtutvzz+oOQQEHqxXi8KaEHRdTios
+         D2olRqF2FvB2dZtP2+ZAuWQIKpYYqv3RWn2ILqHvhQoJK+SiOLyVC8LpGt2zi+GN4cgD
+         BuJRqt794voF/gu2V68Qq88X7FxsK+u0VUAnJfOfrI2JjbX2gSTzBpNBqQq5Q8d5nuaA
+         5WKRSjE9z1bBCVukE+iSE/s5V+duh/l7eW03rRDCG1+dEZ2QlkM6WzSw85o48R4/8o+M
+         Y5vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=jQiwC2wtAwOaQD0hPRp2nlHKTvtSxYoVlYqx7E4G0+s=;
-        b=sVJbv02cHu/phK05kLcIKg4I8etuzfFSG4AM+LaNh6NwpZs5ggmdCKvyEn3F2ftlEe
-         S486K92bt8PGjO4YMiSZKv5w33xioDt9fB8B6U+NYRJI3h50tcm7ezUT9cJtT7R02Tjf
-         qk/ALhacDEm04OtaEyl7ItZ2zT3fZSE7lXiuSV5wZ6p60OSvwWbOdgjxxH5dQLfzUr2h
-         AegwkGDlFNMA3j9mBZ57l4Payoz2cDQ0DcgCvTDaia1r4rbBTtue+eixJUy3NWTnCGCp
-         dA2hSGPIol2Ff3ujyByVuZEPl7mBl66PeMIKROEqQ1evw1A2C1n/S+psa0RVVi+yfePN
-         2T6Q==
-X-Gm-Message-State: ACgBeo0EYBOswqeTTPmrrEd/Tm6S8PhQHxgYdQ0qllgfd6H57hXklJ/b
-        abq8vgNMb0WL22fop6pr7KlWJMcwtv/AyA==
-X-Google-Smtp-Source: AA6agR61boqv9R5GwxiSEbbbDiM7VdzQSGWRU8MnGks8DhasC46hZJmDN75uK7FdsIMuw+IzSjdDRA==
-X-Received: by 2002:a05:622a:2c4:b0:343:7f18:c2ab with SMTP id a4-20020a05622a02c400b003437f18c2abmr22347052qtx.641.1662027941508;
-        Thu, 01 Sep 2022 03:25:41 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id az20-20020a05620a171400b006bb41ac3b6bsm11672157qkb.113.2022.09.01.03.25.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 03:25:41 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id 21so7949618ybl.6;
-        Thu, 01 Sep 2022 03:25:40 -0700 (PDT)
-X-Received: by 2002:a25:778d:0:b0:696:4bb6:9aaa with SMTP id
- s135-20020a25778d000000b006964bb69aaamr18315096ybc.380.1662027940511; Thu, 01
- Sep 2022 03:25:40 -0700 (PDT)
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=ZXVAap/RQrEllx7GHmHFEmTUCY+2JbnwMtDeiKRHfQ8=;
+        b=ijguSOqEQVCefvWlCL0Rjw1Co5cluWFNSkJ9BgzOmz3cmdBQBYLheaaFoVrHYvJyQt
+         bfOz+N3QBv8YxpYUmspTWmBFmYfeaj0XbVIxn5yX27N/CoaPb1tqxYrW9LvI8nwtd9E9
+         nUsBFOFse+sUuPCQ6sdqbIW5c73jAVGVO4lvXQn0T436qIseaWV02jXCpiNB+5adNUu/
+         cBnRNKIbQwZ5t9noLZ49hauKQi+JdJCloU5FVtrkiCUUgQogOCOqBjVhfK0lYEpnS3iV
+         j6MT6CRPPmKfyhiLwMsBn3Mij40jzktCTgPuYamys1seIv+CkjgyP1AA5EgUTsUhPLtX
+         IWzA==
+X-Gm-Message-State: ACgBeo1plgm7KtHYELO+GkeyUOYRLaphTvL9wHvJuz31G9Z/tQxvcVgy
+        DRrjlboIbtF09hqlHd3pVxKp2L1ZVUsvCiZjQJc71g==
+X-Google-Smtp-Source: AA6agR7mNmum3u12wn3ZgEHjcazZ/nYXQByxwmYoXxhjxe9BEdBb/1ct3OBV5/pl3brFfdAY/MsAgwYyy+RX0B+CEP8=
+X-Received: by 2002:a2e:9799:0:b0:261:e51d:8576 with SMTP id
+ y25-20020a2e9799000000b00261e51d8576mr10441111lji.367.1662028362375; Thu, 01
+ Sep 2022 03:32:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220830164518.1381632-1-biju.das.jz@bp.renesas.com>
- <20220830164518.1381632-2-biju.das.jz@bp.renesas.com> <23539312-caaa-78f0-cd6c-899a826f9947@linaro.org>
- <OS0PR01MB592292E8BE619470F4C621A186799@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <1ef5dbd4-806f-ac1d-0ad5-0f8359a560de@linaro.org>
-In-Reply-To: <1ef5dbd4-806f-ac1d-0ad5-0f8359a560de@linaro.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 1 Sep 2022 12:25:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWWUQvsHV4TCLd+4reMpc4nTc8Hjor5gQa2DopOrRaEjw@mail.gmail.com>
-Message-ID: <CAMuHMdWWUQvsHV4TCLd+4reMpc4nTc8Hjor5gQa2DopOrRaEjw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: can: nxp,sja1000: Document RZ/N1
- power-domains support
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
+References: <20220831214314.7794-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220831214314.7794-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 1 Sep 2022 12:32:05 +0200
+Message-ID: <CAPDyKFpsQwB97qqR6otk6VuyWF3fk+o9qh3tbxrme8B_oENnuQ@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: mmc: renesas,sdhi: Add iommus property
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
+        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
-
-On Tue, Aug 30, 2022 at 9:03 PM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> On 30/08/2022 20:47, Biju Das wrote:
-> >> Subject: Re: [PATCH v3 1/3] dt-bindings: can: nxp,sja1000: Document
-> >> RZ/N1 power-domains support
-> >>
-> >> On 30/08/2022 19:45, Biju Das wrote:
-> >>> Document RZ/N1 power-domains support. Also update the example with
-> >>> power-domains property.
-> >>>
-> >>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >>> ---
-> >>> v3:
-> >>>  * Documented power-domains support.
-> >>
-> >> You made them required, so it would be nice to see reason in such
-> >> change. The commit msg says only what you did, but not why you did it.
-> >
-> > It is simple. As you see from [1] and [2] power-domains are enabled by default in RZ/N1 SoC.
-> > So there is nothing prevent us to document this property for all IP's present in
-> > RZ/N1 SoC.
+On Wed, 31 Aug 2022 at 23:43, Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 >
-> Any explanation I expect to see in commit msg.
+> The SDHI blocks on Renesas R-Car and RZ/G2 SoCs make use of IOMMU.
 >
-> Anyway you referred to Linux drivers, which is not actually a reason.
-> What if some device is not in a power domain?
+> This patch fixes the below dtbs_check warnings:
+> arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb: mmc@ee100000: Unevaluated properties are not allowed ('iommus' was unexpected)
+>         From schema: Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-DT describes hardware, not software policy.
+Applied for next, thanks!
 
-"power domains" are a property of the hardware.
-I.e. this device (like most other devices on the SoC) is power-managed
-through the system-controller.
+Kind regards
+Uffe
 
-Whether software does that by explicitly managing the clocks, or by
-having a PM Domains driver is a software detail.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+> v1->v2
+> * Moved the iommus property after dma-names
+> * Updated commit message
+> * Included RB tag from Geert
+>
+> v1: https://lore.kernel.org/lkml/20220829214256.5583-1-prabhakar.mahadev-lad.rj@bp.renesas.com/T/
+> ---
+>  Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> index 3ea94d842c33..79dcd5f16a42 100644
+> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> @@ -89,6 +89,9 @@ properties:
+>          - tx
+>          - rx
+>
+> +  iommus:
+> +    maxItems: 1
+> +
+>    power-domains:
+>      maxItems: 1
+>
+> --
+> 2.25.1
+>
