@@ -2,116 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA7B85A9D10
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Sep 2022 18:29:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E08F5A9DB4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Sep 2022 19:06:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235026AbiIAQ3a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Sep 2022 12:29:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48682 "EHLO
+        id S234332AbiIARGj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Sep 2022 13:06:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231455AbiIAQ33 (ORCPT
+        with ESMTP id S234824AbiIARGj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Sep 2022 12:29:29 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 912577B7BA;
-        Thu,  1 Sep 2022 09:29:26 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.93,281,1654527600"; 
-   d="scan'208";a="131364655"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 02 Sep 2022 01:29:25 +0900
-Received: from localhost.localdomain (unknown [10.226.92.28])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 20A4A400A8B9;
-        Fri,  2 Sep 2022 01:29:22 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thu, 1 Sep 2022 13:06:39 -0400
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F72180E88;
+        Thu,  1 Sep 2022 10:06:37 -0700 (PDT)
+Received: by mail-qv1-f52.google.com with SMTP id jy14so8143687qvb.12;
+        Thu, 01 Sep 2022 10:06:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=R4/0vIDlliRF8NwToyf2AArqsOnJ5k9bWN6l0TOjYSk=;
+        b=SPbN70XfXPtsC6AjtuL8yBLGijRO/T+TnPcSnSoy+IKJq3MIRf0om+m9KKGsYg3v/o
+         UUf2S0fen+74CUThQQ+eEjQ9Cm2bpKsPVAInOBp+iSMWj3aIGUGuXgt9P4600NwsIHgM
+         V9EeTc+TiFa1iVrj11mAcsWNXZlg7rWmjm7CMbwsmBLXhChNJx7FuKTZmyqhxxJXfHko
+         0pqZSbG0WLGygxb78k6eWLRa+71MeAn0R7kxuXKgEbnjF9NJ1Mh98ENDfCsdkssuZ/W3
+         /Hy8Y9rJUXBUkDMi0IBLFLi9JyIVVupLOo41ixK8PXvFplsP0Ph2kV8erO9Si6KKKEkg
+         rGGA==
+X-Gm-Message-State: ACgBeo3mxxW2o/AP+i57TK2+hvmdtJkqZUGLyNBrHiF0lOOjS3wrwaoG
+        rnBPv9caMpXsSzznMgbr2dWw3Ds71bLv1w==
+X-Google-Smtp-Source: AA6agR7EBtJRmOstt+6fVvVYbKzQ37vhYoiRuOK99oD2jmia67ZgLj6kUwfGDOLscVHrWA9HeMBb6g==
+X-Received: by 2002:a0c:e449:0:b0:497:48d8:e4c with SMTP id d9-20020a0ce449000000b0049748d80e4cmr25571450qvm.75.1662051996340;
+        Thu, 01 Sep 2022 10:06:36 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id i7-20020a05620a404700b006a6ebde4799sm12180330qko.90.2022.09.01.10.06.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Sep 2022 10:06:36 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-3378303138bso343293587b3.9;
+        Thu, 01 Sep 2022 10:06:35 -0700 (PDT)
+X-Received: by 2002:a81:750b:0:b0:341:10ef:2c37 with SMTP id
+ q11-20020a81750b000000b0034110ef2c37mr18011444ywc.316.1662051995588; Thu, 01
+ Sep 2022 10:06:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220830164518.1381632-1-biju.das.jz@bp.renesas.com>
+ <20220830164518.1381632-4-biju.das.jz@bp.renesas.com> <CAMuHMdW_+VSbTj1qidjiHZX+0ryCSFj3AQskM3oX4PKjHD-9ow@mail.gmail.com>
+ <OS0PR01MB5922F1B7FC6D7C6249EF22B9867B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922F1B7FC6D7C6249EF22B9867B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 1 Sep 2022 19:06:24 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVVUN6zzRKxqf4cwkWHF=88Fkq=tYW5PSohB_bMJ-k8Kw@mail.gmail.com>
+Message-ID: <CAMuHMdVVUN6zzRKxqf4cwkWHF=88Fkq=tYW5PSohB_bMJ-k8Kw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] ARM: dts: r9a06g032-rzn1d400-db: Enable CAN{0,1}
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>
-Subject: [PATCH v4] ARM: dts: r9a06g032-rzn1d400-db: Enable CAN2
-Date:   Thu,  1 Sep 2022 17:29:19 +0100
-Message-Id: <20220901162919.47090-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable CAN2 on RZ/N1-EB board by default.
-Also add a macro to enable CAN1, if the board
-support it.
+Hi Biju,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v3->v4:
- * Updated commit descriptiom
- * Enabled CAN2 by default
- * Added a macro BOARD_HAS_CAN1_ENABLED to configure CAN1,
-   if the board supports it.
-v2->v3:
- * No change
-v1->v2:
- * No change
----
- arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts | 28 +++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+On Thu, Sep 1, 2022 at 3:15 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH v3 3/3] ARM: dts: r9a06g032-rzn1d400-db: Enable
+> > CAN{0,1}
+>
+> > On Tue, Aug 30, 2022 at 6:45 PM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > Enable CAN{0,1} on RZ/N1D-DB board.
+>
+> My bad, it is RZ/N1D-DB CPU board fitted to RZ/N1-EB carrier board.
+> Actually it enables CAN{0,1} on the carrier board.
+>
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-diff --git a/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts b/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
-index 4bf813335e21..c073ca360866 100644
---- a/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
-+++ b/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
-@@ -26,6 +26,22 @@ aliases {
- 	};
- };
- 
-+#if BOARD_HAS_CAN1_ENABLED /* CN10 on RZ/N1-EB board */
-+&can0 {
-+	pinctrl-0 = <&pins_can0>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+#endif
-+
-+&can1 {
-+	pinctrl-0 = <&pins_can1>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
- &eth_miic {
- 	status = "okay";
- 	renesas,miic-switch-portin = <MIIC_GMAC2_PORT>;
-@@ -52,6 +68,18 @@ &mii_conv5 {
- };
- 
- &pinctrl{
-+	pins_can0: pins_can0 {
-+		pinmux = <RZN1_PINMUX(162, RZN1_FUNC_CAN)>,	/* CAN0_TXD */
-+			 <RZN1_PINMUX(163, RZN1_FUNC_CAN)>;	/* CAN0_RXD */
-+		drive-strength = <6>;
-+	};
-+
-+	pins_can1: pins_can1 {
-+		pinmux = <RZN1_PINMUX(109, RZN1_FUNC_CAN)>,	/* CAN1_TXD */
-+			 <RZN1_PINMUX(110, RZN1_FUNC_CAN)>;	/* CAN1_RXD */
-+		drive-strength = <6>;
-+	};
-+
- 	pins_eth3: pins_eth3 {
- 		pinmux = <RZN1_PINMUX(36, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
- 			 <RZN1_PINMUX(37, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
--- 
-2.25.1
+> > > --- a/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
+> > > +++ b/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
+> > > @@ -26,6 +26,20 @@ aliases {
+> > >         };
+> > >  };
+> > >
+> > > +&can0 {
+> > > +       pinctrl-0 = <&pins_can0>;
+> > > +       pinctrl-names = "default";
+> > > +
+> > > +       status = "okay";
+> > > +};
+> > > +
+> > > +&can1 {
+> > > +       pinctrl-0 = <&pins_can1>;
+> > > +       pinctrl-names = "default";
+> > > +
+> > > +       status = "okay";
+> > > +};
+> >
+> > According to the schematics and board documentation, only a single CAN
+>
+> See above, RZ/N1-EB schematics has both connectors??
 
+AFAIU, CN10 and CN11 are not the real CAN connectors, they are headers
+to add jumpers to select which CAN interface to route to the real CAN
+connector J16.
+
+> > connector is present, and the CAN interface to use must be selected
+> > using the CN10/CN11 jumpers.  Hence I think we need a #define and an
+> > #ifdef to configure this, or at least keep one interface disabled, and
+> > add a comment explaining why.
+>
+> Our BSP release, by default enables both the CAN interfaces(CN10/CN11) jumpers.
+> I have a RZ/N1-EB carrier board and tested CAN loopback on these interfaces.
+
+Yeah, you can enable loopback by wiring CN10 and CN11 appropriately ;-)
+But that's not intended for normal use.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
