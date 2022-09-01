@@ -2,66 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB6F15A9412
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Sep 2022 12:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 677FB5A9439
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Sep 2022 12:22:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232853AbiIAKRJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Sep 2022 06:17:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36768 "EHLO
+        id S233865AbiIAKW1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Sep 2022 06:22:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233317AbiIAKRH (ORCPT
+        with ESMTP id S233544AbiIAKWZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Sep 2022 06:17:07 -0400
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39FB241992;
-        Thu,  1 Sep 2022 03:16:55 -0700 (PDT)
-Received: by mail-qv1-f44.google.com with SMTP id d1so13089052qvs.0;
-        Thu, 01 Sep 2022 03:16:54 -0700 (PDT)
+        Thu, 1 Sep 2022 06:22:25 -0400
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB53013608B;
+        Thu,  1 Sep 2022 03:22:23 -0700 (PDT)
+Received: by mail-qk1-f181.google.com with SMTP id c9so12823092qkk.6;
+        Thu, 01 Sep 2022 03:22:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=iFMVcT4IdQ5sgAT4Vpsh6IRTvv9s1H3TO8+JQ00SHhQ=;
-        b=cWmK99T34xpyBKRawfAdzNrc/njM/AgeSqii2aKxZ5iuN9dJ4CtdwP3fdumGicUaNN
-         uvZNI1retDQG3wdNMmkBSvg6oqhHq5+gvjeKR08iz3lVVx2h6CCBwpIogv0S+mMvZnQg
-         mlZQzbDEzA+Dk42RS0cKZhwyVWBbwTaVyWX0wfrfIDVB+lkaQxpcIJxKXd5XEvSvnmvy
-         e/4Oh5CsBsrmiN8KRQ+Mr5t5LCWVpBYa1tS3DX9HkoosA3LN6IZGY4ffOz9s3+W2R+yV
-         tIgNdqqA/AXtU6nd3b1R6bFz9wfBcQ3GJc8Etw9XwnstKfBe95toBFw7nbMGafU9X+Qz
-         EwlQ==
-X-Gm-Message-State: ACgBeo3BMpsCd33qbPvi4duZgpijUdQMuRAQgN+y+RTlvaHGHJXzc2iD
-        1C9P8TbkBFNvGbsv9Orb8LG32ymkH49keQ==
-X-Google-Smtp-Source: AA6agR7dXGdz7GVkhKPsjQWKRefzsInrURt53lCEwtR8koGum3ezBOHqIG0mVzJvHKkjnqQGqYEyFA==
-X-Received: by 2002:a05:6214:500f:b0:497:9de3:3327 with SMTP id jo15-20020a056214500f00b004979de33327mr24077987qvb.23.1662027413169;
-        Thu, 01 Sep 2022 03:16:53 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id h12-20020a05620a284c00b006b9bf03d9c6sm12079995qkp.104.2022.09.01.03.16.52
+        bh=SoW9HnsZJkbcsG3RktqGcPg2MNXcaYIQ7LfyNCFqvLI=;
+        b=oh37PccD3ZAAJpPxxRTvpTpIRD6rGQzkH5jmVx3zLNjdFIXSmITHgAOlCL9Tk2dieS
+         oTVmZaYSpz59mtFdrXl1NKup4+PV7zO70hlgHR8ZQV1criLPIwJ8yhuXAAlW6n3Ka3Ix
+         IFVDN0fageac7kYx+q/t++ci0xRmM7wAfEVhPwOpkz1jP1QiT5VZon+CBXLmim/DHagn
+         ERVuaO7caNHeoEa0zDzXSyOZ+WFz42+Q0kFmbS8tzHcGnIkjfV3OVpsLQOucBdSJf0PJ
+         48KDPsSe11aiPP43GxZJ8+yfjhlW7k/HQh8Ra73w1PPfYFc0N684zwiRj41J9wouuOhS
+         rMGw==
+X-Gm-Message-State: ACgBeo1vcLAQTcizppuyvdAJQ1XoUpQodyTk23EDIBD8pn6+kfX61Y7J
+        m0WQpcE9IKBWeRT2iEQ409qxNmJHs45QVw==
+X-Google-Smtp-Source: AA6agR7zsL1+sbg2g+lOb5Keu8r6RrPlkUVQQQnq7xR1F4nHX63ppkYmaA0StwTzut0kdkaFsOtznQ==
+X-Received: by 2002:a37:a9d8:0:b0:6ba:be20:48e2 with SMTP id s207-20020a37a9d8000000b006babe2048e2mr18330969qke.301.1662027742459;
+        Thu, 01 Sep 2022 03:22:22 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id hf11-20020a05622a608b00b00344b807bb95sm9816703qtb.74.2022.09.01.03.22.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 03:16:52 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 123so7920448ybv.7;
-        Thu, 01 Sep 2022 03:16:52 -0700 (PDT)
-X-Received: by 2002:a05:6902:4c7:b0:69a:9e36:debe with SMTP id
- v7-20020a05690204c700b0069a9e36debemr15547199ybs.543.1662027412541; Thu, 01
- Sep 2022 03:16:52 -0700 (PDT)
+        Thu, 01 Sep 2022 03:22:21 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id g5so7934662ybg.11;
+        Thu, 01 Sep 2022 03:22:21 -0700 (PDT)
+X-Received: by 2002:a25:415:0:b0:696:814:7c77 with SMTP id 21-20020a250415000000b0069608147c77mr18706967ybe.36.1662027741095;
+ Thu, 01 Sep 2022 03:22:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220726174525.620-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220726174525.620-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220830164518.1381632-1-biju.das.jz@bp.renesas.com> <20220830164518.1381632-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220830164518.1381632-2-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 1 Sep 2022 12:16:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUKQZcKTJ0v4Rim2gbRMBOeUqN6w6GohXYJyi9mLicGXw@mail.gmail.com>
-Message-ID: <CAMuHMdUKQZcKTJ0v4Rim2gbRMBOeUqN6w6GohXYJyi9mLicGXw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: clock: renesas,rzg2l: Document RZ/Five SoC
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+Date:   Thu, 1 Sep 2022 12:22:10 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVbgybWfmUOwyDrP7M0Drcr3okfKNEwm1kAoPNfbQEJMA@mail.gmail.com>
+Message-ID: <CAMuHMdVbgybWfmUOwyDrP7M0Drcr3okfKNEwm1kAoPNfbQEJMA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] dt-bindings: can: nxp,sja1000: Document RZ/N1
+ power-domains support
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
+        linux-can@vger.kernel.org, netdev <netdev@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -73,17 +77,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 26, 2022 at 7:45 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> The CPG block on the RZ/Five SoC is almost identical to one found on the
-> RZ/G2UL SoC. "renesas,r9a07g043-cpg" compatible string will be used on
-> the RZ/Five SoC so to make this clear, update the comment to include
-> RZ/Five SoC.
+On Tue, Aug 30, 2022 at 6:45 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Document RZ/N1 power-domains support. Also update the example with
+> power-domains property.
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v3:
+>  * Documented power-domains support.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v6.1.
 
 Gr{oetje,eeting}s,
 
