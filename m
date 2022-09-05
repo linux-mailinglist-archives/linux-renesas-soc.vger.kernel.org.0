@@ -2,113 +2,199 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F2465ACDFB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Sep 2022 10:54:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD3515AD1D6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Sep 2022 13:53:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238050AbiIEIks (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Sep 2022 04:40:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51622 "EHLO
+        id S237481AbiIELxG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Sep 2022 07:53:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238051AbiIEIkZ (ORCPT
+        with ESMTP id S237349AbiIELxF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Sep 2022 04:40:25 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 824311403F;
-        Mon,  5 Sep 2022 01:39:44 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id w8so12059806lft.12;
-        Mon, 05 Sep 2022 01:39:44 -0700 (PDT)
+        Mon, 5 Sep 2022 07:53:05 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4919D5C9EC
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Sep 2022 04:53:04 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id fv3so2107807pjb.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 05 Sep 2022 04:53:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date;
-        bh=whKQuPxuNlc3vZdhtpMpbA8dF2eoaMeKKG4hpG8oBcM=;
-        b=G3VyjQclSxs/IijXYJTaubBQO3bYU0PLLCLmzT9wsXJuSGO8umrikYnfY6h7sWlpoi
-         87UGTNZVb5lDWS1Rkt6yKDAIeQtZOBE2UDjLXrVPK61z/GhZmU6K+wpLpfEahtKGUfHE
-         Ga+4eeyBRi1e9exxEuEpgXhxUalJIyGOSpybP3q3w/MLP3zyUr87dauIuUamGZeQ6N/Y
-         UoySAI8ljjQp7oPW2zRNOl0xkiUohsBZRO7xrEb7EdFyR7ME+DvX6usutFojdOt3mXvv
-         M8vFvJYL8MM7PmHspB/f+Vc844hhmJMG22dgEbTXt9kiByh/+rywjv5EihWm6HQCdMEw
-         0BHg==
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date;
+        bh=RjSZWAbhWacsf8HFr3+nGxx3aHTSFcAUDFenHpqr9YY=;
+        b=RULkMOSatubQmPqj4FHgnB4PHY3lXBaqb3xldj495kKPO3kDK9LPC+qqS8zJ8DaAOh
+         I7TFTEJDJ2Wnqcxo9A7dhJuh/32MaZthp9GMLO6qfl9Fb2IlWCDVh1oyHZGk+u0aEXs5
+         GADt6vQfEdb3S/JbCV5+MC46GSgpgQLBuhVH0Mnb26I1XQbcLQcFwmrVMVpQwojY8m7Y
+         GjpPnBsA6CYCzzEOFbA24RX9sMNyRq5nL8OgdaycY2XzwSVcuACX5UaZwZiz70k7aHJX
+         7B9q+tzbMqxUcm5iBEZWLM/hUI+rsHv6MophrJ3M6Y4l49nEHtM/sgyYeRXwT6qNCheE
+         ltfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=whKQuPxuNlc3vZdhtpMpbA8dF2eoaMeKKG4hpG8oBcM=;
-        b=yqamm/OX9IXe4pFdl1IJT7F0b+Z+RCyQ5ZH2RyPeMgfhnMdloTX/mf9gfSo665ZJNq
-         CbyXvyme/crIl6+etO4F22AkTXidqqcCNpR9J4dHqlXu9UxKKAN3T7KI13hzTh1WBJzK
-         D4U5oxkjQyTnafsbr7TyMxRsLnwOgrmMuO0WKKIGQ6E14mmzF/Cj72dmuakQvYkS6Idu
-         wQc8j/hMomFSdQdFiqOLJXoURGd1qfjlrNsLBhViYvFGD9I5tnXR06/EJbdBSF8QlDTv
-         NchOw6+TH31eSbY1o7r9ismhameuUzCnbzjvSUpKhhXKerqUexFvNqmN61OSMVM4oHX8
-         du7Q==
-X-Gm-Message-State: ACgBeo2HsMiLoAEB0daD2wupNxIwQ3VAUw6qZkxh784p+75TuP5xckDE
-        owwqWx6gu9s8knzKYfJNYSpoxh0J5L4=
-X-Google-Smtp-Source: AA6agR44ycbYeXR5cUT1iKr474kunWwJe7pC1Y1qR9XbJ6baC6OvIaai0+Y7yHNf+033tIXO/pB2Yw==
-X-Received: by 2002:a05:6512:304c:b0:494:8cd2:73bb with SMTP id b12-20020a056512304c00b004948cd273bbmr7270274lfb.207.1662367182157;
-        Mon, 05 Sep 2022 01:39:42 -0700 (PDT)
-Received: from [192.168.1.103] ([31.173.80.58])
-        by smtp.gmail.com with ESMTPSA id 25-20020ac25f59000000b004946a38be45sm1124636lfz.50.2022.09.05.01.39.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Sep 2022 01:39:41 -0700 (PDT)
-Subject: Re: [PATCH v5 07/12] PCI: dwc: Avoid reading a register to detect
- whether eDMA exists
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
-        bhelgaas@google.com, krzk+dt@kernel.org, geert+renesas@glider.be,
-        magnus.damm@gmail.com
-Cc:     marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20220905071257.1059436-1-yoshihiro.shimoda.uh@renesas.com>
- <20220905071257.1059436-8-yoshihiro.shimoda.uh@renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <e615a35a-c052-aeff-8cfd-3efae677d48a@gmail.com>
-Date:   Mon, 5 Sep 2022 11:39:40 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date;
+        bh=RjSZWAbhWacsf8HFr3+nGxx3aHTSFcAUDFenHpqr9YY=;
+        b=xYhmJkI8U7oKSvU/NByRGUfjsLXu2J0TEyz/6Mphe5rT5fVjgqM4OyOIsGXR6trBVM
+         cty0hA0JJaOOR7Busgdt/HF7m4HYQCSPfg0PsaTN0AArIqHWQX/ojYnYm7enjo65uJZ7
+         Vi3vqQ3JvZH6oEij3yRVTwq/QgpFcBLRLqAveQTe9rviEWTpDVmd2L5wXdgRCkMHl5pr
+         /zuUS8tx6PSWKvOikQ6KAg8jyTaRQaAdobqo+m+v+udyVIrZxBMTyHRNqOS1hlyqdmjn
+         2uWEMqtl7Ag8ortFtHt92fI1nYeVWfxnAvtmH9eqEsqx/JLxkxOa7k92H/H5zT4VbbCI
+         PosA==
+X-Gm-Message-State: ACgBeo2adL20nIdBMrocEV5t+ASBLkf6qk/go/92IgfqR3lsQpznlAmo
+        Hz/aRsr5045a6uxrtkNUvVlC2atUGSTcGvTlr38=
+X-Google-Smtp-Source: AA6agR653TOpP+MLCzPIpRiNCpzLPNSbyZOg7jShTcYl0XTgfj5TMYMy7EHCFhcxxuG5ZI9VNY8gzQ==
+X-Received: by 2002:a17:902:cf0c:b0:16f:9023:e07b with SMTP id i12-20020a170902cf0c00b0016f9023e07bmr48245571plg.143.1662378783144;
+        Mon, 05 Sep 2022 04:53:03 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id d29-20020aa797bd000000b005380832c1fesm7854326pfq.10.2022.09.05.04.53.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Sep 2022 04:53:02 -0700 (PDT)
+Message-ID: <6315e31e.a70a0220.a6647.c29b@mx.google.com>
+Date:   Mon, 05 Sep 2022 04:53:02 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20220905071257.1059436-8-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2022-09-05-v6.0-rc4
+Subject: renesas/master cros-ec: 3 runs,
+ 3 regressions (renesas-devel-2022-09-05-v6.0-rc4)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+renesas/master cros-ec: 3 runs, 3 regressions (renesas-devel-2022-09-05-v6.=
+0-rc4)
 
-On 9/5/22 10:12 AM, Yoshihiro Shimoda wrote:
+Regressions Summary
+-------------------
 
-> Since reading value of PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL was
-> 0x00000000 on one of SoCs (R-Car S4-8), it cannot find the eDMA.
-> So, directly read the eDMA register if edma.red_base is not zero.
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+mt8173-elm-hana  | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
 
-   s/red/reg/?
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 2          =
 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  drivers/pci/controller/dwc/pcie-designware.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> index 72f9620a374d..08f91a6bbe4b 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware.c
-> +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> @@ -844,8 +844,7 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
->  {
->  	u32 val;
->  
-> -	val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-> -	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
-> +	if (pci->edma.reg_base) {
->  		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
->  
->  		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
-[...]
 
-MBR, Sergey
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-09-05-v6.0-rc4/plan/cros-ec/
+
+  Test:     cros-ec
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-09-05-v6.0-rc4
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      ce5bd4a14031a91fb83af3882c226513c60d5bf1
+
+  Test suite revisions:
+    cros-ec-tests
+      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/cros-ec-tests.git
+      SHA:  86181a7fbd379fc42314c450740d2cea8cdf04c1 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+mt8173-elm-hana  | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6315cfeff86cae395535566f
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-09-05-v6.0-rc4/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cr=
+os-ec-mt8173-elm-hana.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-09-05-v6.0-rc4/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cr=
+os-ec-mt8173-elm-hana.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20220826.0/arm64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.login: https://kernelci.org/test/case/id/6315cfeff86cae39553556=
+70
+        new failure (last pass: renesas-devel-2022-09-02-v6.0-rc3) =
+
+ =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6315cfb495f22da1c235564b
+
+  Results:     5 PASS, 2 FAIL, 12 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-09-05-v6.0-rc4/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cr=
+os-ec-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-09-05-v6.0-rc4/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cr=
+os-ec-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20220826.0/arm64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
+15cfb495f22da1c235565c
+        failing since 20 days (last pass: renesas-devel-2022-08-11-v5.19, f=
+irst fail: renesas-devel-2022-08-16-v6.0-rc1) =
+
+
+  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
+315cfb495f22da1c235565e
+        failing since 20 days (last pass: renesas-devel-2022-08-11-v5.19, f=
+irst fail: renesas-devel-2022-08-16-v6.0-rc1)
+
+    2022-09-05T10:30:04.718174  / # =
+
+    2022-09-05T10:30:04.721562  =
+
+    2022-09-05T10:30:04.830695  / # #
+    2022-09-05T10:30:04.834441  #
+    2022-09-05T10:30:04.938183  / # export SHELL=3D/bin/sh
+    2022-09-05T10:30:04.941367  export SHELL=3D/bin/sh
+    2022-09-05T10:30:05.044593  / # . /lava-7188372/environment
+    2022-09-05T10:30:05.047802  . /lava-7188372/environment
+    2022-09-05T10:30:05.151604  / # /lava-7188372/bin/lava-test-runner /lav=
+a-7188372/0
+    2022-09-05T10:30:05.154989  /lava-7188372/bin/lava-test-runner /lava-71=
+88372/0 =
+
+    ... (8 line(s) more)  =
+
+ =20
