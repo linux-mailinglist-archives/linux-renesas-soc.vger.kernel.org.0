@@ -2,139 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C26585ABD8B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Sep 2022 08:56:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9FD55AC9E2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Sep 2022 07:51:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232035AbiICG4B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 3 Sep 2022 02:56:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40722 "EHLO
+        id S235232AbiIEFtS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Sep 2022 01:49:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231666AbiICGz7 (ORCPT
+        with ESMTP id S234698AbiIEFtQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 3 Sep 2022 02:55:59 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71DB5D476E
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Sep 2022 23:55:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662188158; x=1693724158;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5K+Va2QJooBDekpjG6El7+lthYPdt4i0axSY1gfewT4=;
-  b=KNMC5dPws2b4JxJvxwMOSjKpcgWwXUgkDq4MRZfrPZGqhOwhjBcqfOXK
-   DvMqpzxEGelTW/On0lAiekHgwjfQQqQL31tOug6GQJvxbdKxTdIRmboAY
-   hINtgjRdAurvyzASDAlsmqjJ4j3jeiBwJQ11yIGlKPxNfP/dVSGUBxSGb
-   wm2rEWXtg7Jqkh80bCKoGQo00r/+k1KYdt0pjrp1bF1EBPSxVjaLU7PVC
-   VHgI4AYTT77BUd1FcbACelf8ab9vHEI/Gzm5WLUlhUSFLJu8rbS3RAqrg
-   4qHgaCZSFJL+DJSkZvSUT+na/4p5H69lUB/8nySiuERUYX4aED0Y58iC1
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10458"; a="294876871"
-X-IronPort-AV: E=Sophos;i="5.93,286,1654585200"; 
-   d="scan'208";a="294876871"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2022 23:55:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,286,1654585200"; 
-   d="scan'208";a="674639480"
-Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 02 Sep 2022 23:55:57 -0700
-Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oUN4O-0001DT-1Q;
-        Sat, 03 Sep 2022 06:55:56 +0000
-Date:   Sat, 03 Sep 2022 14:55:10 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-arm-dt-for-v6.1] BUILD SUCCESS
- 6f67580ca9edb33a95897d8c0056b961cbd2aeac
-Message-ID: <6312fa4e.l9eXR3EcWGeb/Fow%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 5 Sep 2022 01:49:16 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2121.outbound.protection.outlook.com [40.107.114.121])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B31362D1E6
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  4 Sep 2022 22:49:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ieP6BfjYgP03x5Rqaqm8C/OoTM/csjYThfhAAQAmD8U2QY1oX79CyNWl6St9OZWoWXWFt7wb/P3nM31tZGLDO81H0WvnoBzaThkdAZo7p7jqgYn1ZnvZl/8z1hQCX1exGPPsciTBfN0Sqw86yxa5REi3FC1BG4R0m45zDCXweBoNtiaUkho68MBILLP1ijFpCYS+VheZ9cYAh8WW7RWZeUKsf0KFsUgELzTw+wsTmI/VkyutVu4mGEvgMUyq7hevaqwwE4hnA4hpYdKuldyPyLJBnavUgT4qZr5SNv6BMfJrkzg/AU61tNwikyGnTtNFAKh9n60roge1Oe7VUEzIHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+F0TpPHac9xDk6XLbwIStnrYnf8t6IgVrGo87HIsRTU=;
+ b=cynwYGE08N3Q9z11jhzUmb3izN8/PYTDPk4ZYjGMq6aQVX4Zy2JCDXirG4UT+PKAG4svudJReP5TwW5geuS8jgjTR4/PSrBxiKdbAYp8buIarz9vYSM9hz6Fyq+jJ3RWg9UWjQb2lHw90ygoQ/rLogi8lmMB92rspvqpkAHGjulwfP+Y0VOBlkC3nooBxakn2v0MbV6HoWxOi7Sr/Prcke292pkLC0Qb2Bd5t/61R+hTBJ61dSDG2JGu3+Iad9L3FdnpN2nqQ501YF2sDjuQqMAbgpJ7vRiIU2hLAWSPDbSt69IWnSQIYkYMwY8Q/nSzSEbaezlo8itCoPa3ZQ1Isg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+F0TpPHac9xDk6XLbwIStnrYnf8t6IgVrGo87HIsRTU=;
+ b=ZPbYABZ2sqEAke/zkPZ5OGytUpMbNhOek4ZYb+4Wt8uWrpt9N9zmGqHg2TicUnMWbBTAdUV8yRFqfRKRZHB2P/qBydK76L2TkRQf3V3opCGdTo6h91bM16ENIU5TmiupFvWu2a7OoFv5TjjVTuiavRUB1Xs4SSGiqzjJjLWaMdY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
+ by OSZPR01MB8058.jpnprd01.prod.outlook.com (2603:1096:604:167::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.12; Mon, 5 Sep
+ 2022 05:49:12 +0000
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::bdab:be26:6e36:88c6]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::bdab:be26:6e36:88c6%3]) with mapi id 15.20.5588.018; Mon, 5 Sep 2022
+ 05:49:12 +0000
+Message-ID: <877d2iweug.wl-kuninori.morimoto.gx@renesas.com>
+From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Geert Uytterhoeven <geert.uytterhoeven@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] arm64: dts: renesas: spider: add missing bootargs
+User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date:   Mon, 5 Sep 2022 05:49:12 +0000
+X-ClientProxiedBy: TYCP286CA0114.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:29c::12) To OS3PR01MB8426.jpnprd01.prod.outlook.com
+ (2603:1096:604:194::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 92683729-9da4-40bb-b111-08da8f025c4c
+X-MS-TrafficTypeDiagnostic: OSZPR01MB8058:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NVtcQQGZ4h7DFAQbGCN1LDF//enlWwyR5A1sJJ+rSrslfuxaz6CLmfTEYXc9Bmfb/Km2W3bdIFYo42UrEGx10m1+kryPSMBR9NOnoEu2kNhRkmp6oJvwcJGKA5ZD2+fEzuqDfDo3yqq08SUuTyyvLVZGfuTEzsDnYBLnLk0WpDDw8h5WoYVkohl77iJ2PxHCKBcO7gcJTsXcp0nLFUIYbB0aH/4Mp9PJcplKihWYOy9ymDtp2MmgJw94Oao/FLJ9b6s8Iidt/my6SOasIGPpzrfrik1nMBoRVazkEpQH7bNrIHtVEiumP3YhgOPE0GzZ+I7Y/Ne/w+lAdVBC4KZ+ExEHXd7fiu+pLB60IUKeZgXSkE72cn1smx2YEw7cQj42B7iRhn9dZEHwhN1EGWnXaZiMqnlZGJhlsgn1rv8iWT4GYbGKcbj6IPvd29h85CruVdHPB9RgVlytke0AF+4LIKjKheMaUOVn/WAI5yRrAIkaDwm4Blgiku4MbBkuhu78FjGO3gNqgKTx6PfpqmG+haoWyg4fzAdyBfKnbkD5+BuOwXv94jEce0VIX3ZgcGv5iKiEql/C3wIIIpP2Uy/RP0oMKUuuQf4otirZA3N+OT/hoZnG7b4z0xnAqINOE49Ejias8nmrDKFwkArrGl7WIx/1nQVnRkNqWxyI3pvvT6oGURu7YTWVFQcLTsJef6eMCCxd+M+XckMPtggyWUP6h/yffMmMfCdkPthYXQM/NAYC+SS6BGtkNbYNCCnRxw0fyVVtABtBOqxJO1SzBzBDQQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(396003)(346002)(366004)(136003)(376002)(316002)(4326008)(38350700002)(8676002)(66556008)(66476007)(5660300002)(66946007)(107886003)(6512007)(478600001)(26005)(6506007)(6486002)(38100700002)(41300700001)(52116002)(36756003)(54906003)(186003)(110136005)(86362001)(2616005)(2906002)(8936002)(4744005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xzx7S2VT5ImUZX9qkYfP2D9bQhOZzePnNklPQkhpz8qKMGejZ//5uD8VRCUr?=
+ =?us-ascii?Q?QLeyI9QjIW4PeCLNnOJ7SzH+QVGNg9ntM+aUsIWbtYey66rXWtxEGWyWa1BM?=
+ =?us-ascii?Q?uBBPYvFlkZM12NL6rFgFtSpMVXeKvGqkRNi56KxTuHZuHmpWJOWfIGQhndCv?=
+ =?us-ascii?Q?dgG96H57Pspnu7yyFiPyX6llWB18mJuid8rLb3FcXLe1ZKe+GpEOexLWxSSu?=
+ =?us-ascii?Q?DchGTaQRqTkM+kW2KGXAlhq5bAmb0Z7z21as5JZP/ab77Oa7brPD7bxiAMUJ?=
+ =?us-ascii?Q?deYt/i6L4WHLKYAXRY1qXhQo9sjmBfRpXfsqayvLbuHoDEaIz8/dYf+cXpO5?=
+ =?us-ascii?Q?CT8bU6p03NB9V9HWpnNHawTfIhQeNQINs9JDobMYmnWGKbiUOJNmFefcxTce?=
+ =?us-ascii?Q?VEMAFYMokio2m0wIBeb+sJxBzVKNmmYeD+CMGRRqk/Vdqk1oWEjlzET8PC1q?=
+ =?us-ascii?Q?twa5KdeEaJYrVP6z+W0/+TPbuAjC4jrxO8/AQUSrh2nA7AWeF75boi+nTsli?=
+ =?us-ascii?Q?Mv3BwW6kvYUOz5u3rqojz69e4NRTOGmOP8Rd5QRqpgOAJS9mXvFCPeXcLIcl?=
+ =?us-ascii?Q?3gieKkJvFbMDPpxprtTcc/HAkjRgRV4jafYsMalJOvI0wYaGywa3R7OmMAkI?=
+ =?us-ascii?Q?TUg1g+1aq4hC1vX7i9KO9+w02lGqRHEzWEdAkfz4lJJCTlUZQbT2Ukyj91v0?=
+ =?us-ascii?Q?tg80TPh8Zwov87CqedhN17KJsYgwrx/yLS9qilmxFFcc6uXdJCruUe6G9ZeA?=
+ =?us-ascii?Q?ao/O8LWBqv9sQVrXwfUxVsAP6gZrBk9+NLxa3qaaq9P+KQ2qIPz42K1wBdOM?=
+ =?us-ascii?Q?x22P2f0oaKWMWU59znZNCntVtCDvYvVgTumykLT7w8FUg346Ppwni6kfU/Du?=
+ =?us-ascii?Q?usIuNUG/FiPUBVHZKvwL1Gq1h4M112yBrTF545yP7vCNZ1E6uA4cURbH1pUj?=
+ =?us-ascii?Q?ze7NIkc3SkKVcIBoysxWReII0I1WKgdzplMgHtZLHhL3x5fl/XMOd8z69Q+I?=
+ =?us-ascii?Q?7j80vBysk6/V++K/vZHgH3jRT5T9jHUPk9n0SHd/nPTp5qXD/8t4Dqj2RStt?=
+ =?us-ascii?Q?24CE5MbDYxavxwro7mGcSytuhPqXOGMbeMgfjXLQSAxWt+q++CCmbhUW1YuV?=
+ =?us-ascii?Q?1DooWGsGaIKynY8UKGhts/1HCCShwZS4ncbdtpYoJgD7j0A1UNODsoedYUPg?=
+ =?us-ascii?Q?QWPWpzZF2i2wccsvRVcPp01lWMUuuqcF3QTAW00tTKmZBMqmbFztbrqQ/l88?=
+ =?us-ascii?Q?UIRHDw7KRPBzsiMcNnVAe9v+ATwZu9qgdH+sCNvfR1/v6rGX2qq3tG9cfdFK?=
+ =?us-ascii?Q?qG9E/9OZ24rHjZutGPOrNJNnhVWTF8Dihpkw46r6mPFTmqDtNLhzvWDdWbOy?=
+ =?us-ascii?Q?GsrLUDBXWzRYF87iPeX/6yUThq0/3KULCMldwtfhl99we6EjoPnYQPXQeqiK?=
+ =?us-ascii?Q?XFmna/4kmyQg3BtHKCG7BfmzX2H3bKw4fdXng0aSo3PF8xKDYfu/zNe+ER7T?=
+ =?us-ascii?Q?jm3VklPwZJ7MpnDa4wRKKkSy+q/3SRXvw9/txMGF2BkWrSG143+D0UfAfZTf?=
+ =?us-ascii?Q?81qNkUmSD9e7hZoHyaLMRMc/OuPg4cqCji3vE7RIEzVXsB4xwVtCRJihMMvI?=
+ =?us-ascii?Q?Rf8ZuhSS8L8aX4rG4pcLLV0=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92683729-9da4-40bb-b111-08da8f025c4c
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2022 05:49:12.8676
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z9/ZowBZRbY3TmUIylz5qaQECCjrWcaC6BothhvhUuHoAmy5FEfTPUHcIx3UdHm3/TfYiYzf1xRdNJ14Y6sbPZo4dGOX4nnowzRXfuKdvYF7ZqABh3Yp6m8MUhloJE8E
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8058
+X-Spam-Status: No, score=0.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v6.1
-branch HEAD: 6f67580ca9edb33a95897d8c0056b961cbd2aeac  arm64: dts: renesas: Add V3H2 Condor-I board support
 
-elapsed time: 1035m
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-configs tested: 57
-configs skipped: 2
+This patch adds missing bootargs for S4 Spider board.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+One note is that current Spider board doesn't have Ethernet
+support yet, but this patch adds standard settings for it, too.
 
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-powerpc                          allmodconfig
-mips                             allyesconfig
-powerpc                           allnoconfig
-sh                               allmodconfig
-arc                  randconfig-r043-20220901
-x86_64                        randconfig-a013
-x86_64                    rhel-8.3-kselftests
-x86_64                        randconfig-a011
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                          rhel-8.3-func
-m68k                             allmodconfig
-x86_64                               rhel-8.3
-x86_64                         rhel-8.3-kunit
-arc                              allyesconfig
-x86_64                           rhel-8.3-kvm
-x86_64                        randconfig-a015
-alpha                            allyesconfig
-m68k                             allyesconfig
-i386                                defconfig
-x86_64                           rhel-8.3-syz
-i386                          randconfig-a014
-i386                          randconfig-a001
-i386                          randconfig-a012
-i386                          randconfig-a003
-i386                          randconfig-a005
-i386                          randconfig-a016
-x86_64                        randconfig-a006
-x86_64                        randconfig-a002
-x86_64                        randconfig-a004
-i386                             allyesconfig
-csky                              allnoconfig
-alpha                             allnoconfig
-arc                               allnoconfig
-riscv                             allnoconfig
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-ia64                             allmodconfig
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+---
+ arch/arm64/boot/dts/renesas/r8a779f0-spider.dts | 1 +
+ 1 file changed, 1 insertion(+)
 
-clang tested configs:
-riscv                randconfig-r042-20220901
-hexagon              randconfig-r045-20220901
-hexagon              randconfig-r041-20220901
-s390                 randconfig-r044-20220901
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a015
-i386                          randconfig-a006
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-
+diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
+index 7a7c8ffba711..70c081e745bf 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
+@@ -19,6 +19,7 @@ aliases {
+ 	};
+ 
+ 	chosen {
++		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ };
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
