@@ -2,114 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA1ED5B06CF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Sep 2022 16:32:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 471995B0EBE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Sep 2022 23:00:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230346AbiIGOcL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Sep 2022 10:32:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46986 "EHLO
+        id S229668AbiIGVAV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 7 Sep 2022 17:00:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230287AbiIGOb5 (ORCPT
+        with ESMTP id S229657AbiIGVAV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Sep 2022 10:31:57 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA8156B66B
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Sep 2022 07:31:53 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id y3so30871588ejc.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 07 Sep 2022 07:31:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date;
-        bh=UTPjlhWN0j/3cl0uibj9IdU3K9tIHCNTd74bAPWV+BQ=;
-        b=hlX5LG70Pfi5xUfXCm2C7WvkXcJVP5UakJZVNodPOy7vNkSXQuxkM6JMnL0NkwpmEx
-         GApIDchppryVktOBo5G41BqVss7NVeWmLRXcOx2bAZqQ+LAYFz8ePbLc684sFXT4Nmqj
-         OcoPmJYuvMlwncvSBL0BFnkvuWLyKibj/n8A5QS+qmy30Nhg7xyf0NkI/q67juR/h0tY
-         bD/nOML45bK21IZjrLP4cVfkyGYdsdvh6OJ7KPKPWGwDpi4WDdxiFiQ5bptV3cHn11YY
-         R2/ccByiK1oIAZVOw3mE9dymIO7CzllUwLBF2JbmBffIhO2NpTaaNqhGzBB+XMxejIE1
-         VDsQ==
+        Wed, 7 Sep 2022 17:00:21 -0400
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D9D57B7B9;
+        Wed,  7 Sep 2022 14:00:20 -0700 (PDT)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-127ba06d03fso15537770fac.3;
+        Wed, 07 Sep 2022 14:00:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=UTPjlhWN0j/3cl0uibj9IdU3K9tIHCNTd74bAPWV+BQ=;
-        b=SV81YLaAz7eqalgW4Ubn5aR7fMIyPpJIITdIp7i55xXL1yoLu5wVgiWAOsdaQhaETO
-         I07rdC+rDzFNqYuYVP8eNvLu6th7RRVN1u3JFRv2AbKnjBjJk5Vzf1o7z3Vw+OsqzsUz
-         39qaBHz5Ke+92noQurWPYpvCSfHVet1UCZuWpjN+e3Okxdb0bVWr6XG6Y4n9Klr1YsBj
-         NQES5/qDGG9GWJPAgOFtmZvnioksW8SZsyBW4gvpKyP/OVwYmIRo+pHDhm0zy2YRncfE
-         a7dXQ4EVQKdbtt4bjmYGrRr6AC7IpWEp/EYbQAhlU+FQTey1MVP3DWG8aDQRTMx5MqbH
-         T49A==
-X-Gm-Message-State: ACgBeo0mZBCHbH6sP7k/Geq//k3vhugrWVkdIjZZKSV7hrR4PaqmTmbg
-        QkUydMJsS0JGWLwGZab4B78hIsqqyBLvPQdKPws=
-X-Google-Smtp-Source: AA6agR4pyZsB+xbbjgKGlrl2+RDjPAQ7wWCMdSGS3qWC1Sv629AIX++hkd3miN/bJlP1/yRRoX5bdHKo53e2l2Vr/Xc=
-X-Received: by 2002:a17:906:38f:b0:742:1f68:7058 with SMTP id
- b15-20020a170906038f00b007421f687058mr2510502eja.743.1662561112231; Wed, 07
- Sep 2022 07:31:52 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=M8GODblblJ7lgQjEptGgaamLLNOUHZVWWN4JggoaBsc=;
+        b=vgflpSXdQ7ULcABk3+m+j3VDri5+itIEGQ1E0qXe/6RCKtMZtlRnjU5YtNu5oGtjET
+         4vj6GcoiybqqSOOEoSVfDT+m4JPAsr3V7733FXr60zVAFW2ydORtsmYViOBWEhyODmZ9
+         cYB3zw4fyWQKQvP9uXhIAaM5Sx/LxMvZa2b2QIk9/dicJbhLaK6BUOzcAk7pGMZtyhFR
+         DhyDGcfOPP+g/KUSgptmTOkxgVqrNoQj+/zDyKESEYUqG1Wb77ssf8KFV5slymAHfyd/
+         p1klmKLzgIqkhamxcI++3E0hCh+6YUwRlyi6dKArhyW8D7b70qZRGozMbH7QPslM54Nv
+         Xvvg==
+X-Gm-Message-State: ACgBeo3AA712qn+RgEMGbRmZ3arSTB0egieqjRIrYl9gCP6LQGPMLk6I
+        l7QKNu2UR5zoKsNupnJofQqp3yVxzg==
+X-Google-Smtp-Source: AA6agR5LcayUP4PBQusbKEeF/pnPOazQkEVeLrrb4JKL1wQbwL2sI1XBeIHi0Ur69fGhu53oWU7QPA==
+X-Received: by 2002:a05:6870:218e:b0:126:9dc3:9666 with SMTP id l14-20020a056870218e00b001269dc39666mr158267oae.73.1662584419332;
+        Wed, 07 Sep 2022 14:00:19 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id t8-20020a4ad0a8000000b004357ccfc8bfsm5408629oor.7.2022.09.07.14.00.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Sep 2022 14:00:18 -0700 (PDT)
+Received: (nullmailer pid 336368 invoked by uid 1000);
+        Wed, 07 Sep 2022 21:00:18 -0000
+Date:   Wed, 7 Sep 2022 16:00:18 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Subject: Re: [PATCH v3 1/3] media: dt-bindings: media: renesas,fcp: Document
+ RZ/{G2,V2}L FCPVD bindings
+Message-ID: <20220907210018.GA336305-robh@kernel.org>
+References: <20220902064628.59001-1-biju.das.jz@bp.renesas.com>
+ <20220902064628.59001-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Received: by 2002:a54:3fc4:0:0:0:0:0 with HTTP; Wed, 7 Sep 2022 07:31:51 -0700 (PDT)
-Reply-To: lumar.casey@outlook.com
-From:   LUMAR CASEY <miriankushrat@gmail.com>
-Date:   Wed, 7 Sep 2022 16:31:51 +0200
-Message-ID: <CAO4StN23CjT73+kAZo3jW6NA7B_rVMGFz9vZYzq4Gs86AZgN6A@mail.gmail.com>
-Subject: ATTENTION/PROPOSAL
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=6.8 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM,UNDISC_MONEY,UPPERCASE_75_100 autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:644 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5014]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [miriankushrat[at]gmail.com]
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 UPPERCASE_75_100 message body is 75-100% uppercase
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  0.2 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-        *  0.0 ADVANCE_FEE_4_NEW_MONEY Advance Fee fraud and lots of money
-X-Spam-Level: ******
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220902064628.59001-2-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-ATTENTION
+On Fri, 02 Sep 2022 07:46:26 +0100, Biju Das wrote:
+> Document FCPVD found in RZ/G2L alike SoCs. FCPVD block is similar to
+> FCP for VSP found on R-Car SoC's . It has 3 clocks compared to 1
+> clock on fcpv. Introduce new compatibles renesas,r9a07g044-fcpvd
+> for RZ/G2{L,LC} and renesas,r9a07g054-fcpvd for RZ/V2L to handle this
+> difference.
+> 
+> The 3 clocks are shared between du, vspd and fcpvd. No driver changes
+> are required as generic compatible string "renesas,fcpv" will be used
+> as a fallback.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Updated the compatibles by replacing items->enum as
+>    it is just one item.
+> v1->v2:
+>  * Documented RZ/{G2,V2}L FCPVD bindings
+>  * Introduces new compatibles renesas,r9a07g0{44,54}-fcpvd
+>  * Added clock-names property
+>  * described clocks.
+> ---
+>  .../bindings/media/renesas,fcp.yaml           | 45 ++++++++++++++++---
+>  1 file changed, 40 insertions(+), 5 deletions(-)
+> 
 
-BUSINESS PARTNER,
-
-I AM LUMAR CASEY WORKING WITH AN INSURANCE FINANCIAL INSTITUTE, WITH
-MY POSITION AND PRIVILEGES I WAS ABLE TO SOURCE OUT AN OVER DUE
-PAYMENT OF 12.8 MILLION POUNDS THAT IS NOW SECURED WITH A SHIPPING
-DIPLOMATIC OUTLET.
-
-I AM SEEKING YOUR PARTNERSHIP TO RECEIVE THIS CONSIGNMENT AS AS MY
-PARTNER TO INVEST THIS FUND INTO A PROSPEROUS INVESTMENT VENTURE IN
-YOUR COUNTRY.
-
-I AWAIT YOUR REPLY TO ENABLE US PROCEED WITH THIS BUSINESS PARTNERSHIP TOGETHER.
-
-REGARDS,
-
-LUMAR CASEY
+Reviewed-by: Rob Herring <robh@kernel.org>
