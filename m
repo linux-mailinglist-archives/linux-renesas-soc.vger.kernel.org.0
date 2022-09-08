@@ -2,151 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 723F75B20DD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Sep 2022 16:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 311835B251C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Sep 2022 19:47:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230451AbiIHOlN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Sep 2022 10:41:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58594 "EHLO
+        id S230339AbiIHRrE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Sep 2022 13:47:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231572AbiIHOkp (ORCPT
+        with ESMTP id S231749AbiIHRqr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Sep 2022 10:40:45 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B895EB847;
-        Thu,  8 Sep 2022 07:40:16 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id a67so15049129ybb.3;
-        Thu, 08 Sep 2022 07:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=P6etuL406xLRhT6RqJwslD+tK1bv2bUyoaOC1vIESrQ=;
-        b=O7auhBhG7nxbGY34/Uxjtdn3WKa+7mB6yfQqIFe4x0OwSVxuqbTI0a7XpqHZl+qGjl
-         v/ztxcw4PGowK8XQDZJ85NQsGMFU+nhf+4Rj6XloT7dXP6SKyIuTcDO1CWY+MG8maIts
-         vu4AGwuE9yPyNwiToDAW6uOq2n4ZfgTiaTE1BEW8EQzTAenoM5lN/YtoAbSgid/W9UcZ
-         KMh1dco6H3N68pTCN/vGZuauX05Pg3FspKaE80UDKPtfwR2N8LffSYUjhADQW2NMHlpD
-         KRyAK9Ni45PHdEY6JlRZ0RgKUJs8OcVXqZRLhYeAXAIokd3607h/95knWVh8afYsysxc
-         s2ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=P6etuL406xLRhT6RqJwslD+tK1bv2bUyoaOC1vIESrQ=;
-        b=Nhukm0YAvJsfznbgQShTaD10vZjjg/CuiTqMMjAHJlrX1dDHmbCHWYbOXn/xfo9pAD
-         aekDOMtkRooNK6GEazgYhnXgvG9iz5SVRiR0kk9ni/V6TGs3LtRGrw9BL2XjbCJGYBUh
-         aL+iMzrbV6166LuwMebpv9O0vqqAX4LsOQANVUN+FBXjSIT5VpWf9kFNkfYfIL+Wkpxm
-         GOnGGlLOdLZkOM48L4PSw4F8bZblvH/3ohrlRPVMNhpmXrAqQ54K0BvI2ULq6LRRS536
-         rRg/aY8rVwcDOyRiu9FbdSOwosUU6xhAWjr+szis702R2QyVptkZ10eArEM05lwhYG7b
-         95wg==
-X-Gm-Message-State: ACgBeo3TbKdwvdvSxezfG9sbJQAPLVRYbJ4vGRz//JXcQUwwpoH9R9St
-        TO0Vu7G56IxXyubvYmyxMveNlbCl6LDSHttbfRE=
-X-Google-Smtp-Source: AA6agR7UZHUk270jZt+chAm9rm9ZheP07KjHt6vNXD9pMgs6BeYqfa8JQMvKdUhJpTPAuGK13ZGmu2capesX8rTXTyE=
-X-Received: by 2002:a25:83d2:0:b0:696:1071:1a01 with SMTP id
- v18-20020a2583d2000000b0069610711a01mr7807235ybm.335.1662648015777; Thu, 08
- Sep 2022 07:40:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220906102154.32526-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220906102154.32526-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <8ecb62b7-53c4-1c43-65b3-567d8c12e131@microchip.com> <CAOnJCUKLpRz4Fbx1XiMnap-ELw2k1c8E9V8bZiSP+x7z9Z5QrA@mail.gmail.com>
- <f362eaeb-6ccd-4392-a346-55fa5ae25e13@microchip.com> <OS0PR01MB5922833FDCA60892191B211A86409@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <5e894d87-8abb-540d-fbd6-8a1d6f9d0e91@microchip.com> <OS0PR01MB5922F6CC81114BCE7696BEDB86409@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <02df5db7-99bc-5476-2530-4237c3904933@microchip.com>
-In-Reply-To: <02df5db7-99bc-5476-2530-4237c3904933@microchip.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 8 Sep 2022 15:39:49 +0100
-Message-ID: <CA+V-a8sBvS6Xp0vEV__GTMu-qqy3QJoFzr+F42tL7jkTDszWYA@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/2] riscv: vendors: andes: Add support to configure
- the PMA regions
-To:     Conor Dooley <Conor.Dooley@microchip.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, atishp@atishpatra.org,
-        guoheyi@linux.alibaba.com, guoren@linux.alibaba.com,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, atishp@rivosinc.com,
-        apatel@ventanamicro.com,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 8 Sep 2022 13:46:47 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 061BE63E2;
+        Thu,  8 Sep 2022 10:46:44 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.93,300,1654527600"; 
+   d="scan'208";a="132135180"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 09 Sep 2022 02:46:43 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3B68C400C9E6;
+        Fri,  9 Sep 2022 02:46:39 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] thermal/core: Add a check before calling set_trip_temp()
+Date:   Thu,  8 Sep 2022 18:46:10 +0100
+Message-Id: <20220908174610.7837-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 8, 2022 at 3:04 PM <Conor.Dooley@microchip.com> wrote:
->
-> On 08/09/2022 14:01, Biju Das wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> >
-> > Hi Conor,
-> >
-> > Thanks for the feedback.
-> >
-> >> Subject: Re: [RFC PATCH 1/2] riscv: vendors: andes: Add support to
-> >> configure the PMA regions
-> >>
-> >> On 08/09/2022 09:39, Biju Das wrote:
-> >>> EXTERNAL EMAIL: Do not click links or open attachments unless you know
-> >>> the content is safe
-> >>>
-> >>> Hi Conor, Atish,
-> >>>
-> >>> What RISC-V devices you have?
-> >>
-> >> A bunch ;)
-> >>
-> >> A __couple__ PolarFire SoC boards, HiFive Unleashed, D1 Nezha, Canaan
-> >> k210 MAIX something & the VisionFive.
-> >
-> > If standard DMA api works without any issue means, on these platforms
-> > IO Coherence port is enabled in the hardware. So all peripherals
-> > involving DMA work as expected.
-> >
-> >>> Ours is RISC-V uniprocessor without IO Coherence Port.
-> >>
-> >> What does "IO Coherence Port" mean? Zicbo*?
-> >
-> > The HW will provide coherency between CPU and peripheral.
-> >
-> > If Zibco* is uniprocessor, then highly it may not have IO coherence
-> > Port enabled in their design.
->
-> Zicbo* are cache management extensions as Geert pointed out.
->
-> >
-> > Guo, Please confirm.
-> >
-> >>
-> >>> Currently USB, ethernet, SDHI/eMMC doesn't work with standard DMA
-> >>> api's.
-> >>
-> >> Sounds pretty similar to the D1 so.
-> >>
-> >>> On RISC-V world, how do we handle DMA api for uniprocessor without IO
-> >>> Coherence Port?
-> >>
-> >> If you do mean Zicbo* you're into errata territory there & I don't know
-> >> if that'll be acceptable upstream - not for me to make that call...
-> >
-> > It is not errata for sure. It is a HW design where we don't have
-> > IO cache coherency port enabled in the HW. So looks like it is not
-> > an extension or errata but it is core stuff.
->
-> If you do non-coherent stuff that is not Zicbo*, the precedence set by
-> the D1 is errata. As I said to Prabhakar earlier, do a
-> `git grep "ERRATA_THEAD*`. I am not a maintainer so I don't know the
-> "rules" about doing cache management without the dedicated extensions
-> are.
->
-Maybe we could have a discussion about this topic at LPC too ;)
+The thermal driver [0] for Renesas RZ/G2L SoC does not implement
+set_trip_temp() callback but has trips commit 9326167058e8
+("thermal/core: Move set_trip_temp ops to the sysfs code") changed
+the behaviour which causes the below panic when trying to set the
+trip temperature:
 
-Cheers,
-Prabhakar
+root@smarc-rzg2l:~# echo 51000 > /sys/class/thermal/thermal_zone0/trip_point_0_temp
+[   92.461521] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+[   92.470958] Mem abort info:
+[   92.474311]   ESR = 0x0000000086000004
+[   92.478546]   EC = 0x21: IABT (current EL), IL = 32 bits
+[   92.484290]   SET = 0, FnV = 0
+[   92.487693]   EA = 0, S1PTW = 0
+[   92.491153]   FSC = 0x04: level 0 translation fault
+[   92.496461] user pgtable: 4k pages, 48-bit VAs, pgdp=000000004e885000
+[   92.503736] [0000000000000000] pgd=0000000000000000, p4d=0000000000000000
+[   92.510869] Internal error: Oops: 86000004 [#3] PREEMPT SMP
+[   92.516556] CPU: 0 PID: 290 Comm: sh Tainted: G      D            6.0.0-rc4-next-20220906-arm64-renesas-00124-g84633c87c5f6-dirty #509
+[   92.528814] Hardware name: Renesas SMARC EVK based on r9a07g044l2 (DT)
+[   92.535441] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   92.542516] pc : 0x0
+[   92.544764] lr : trip_point_temp_store+0x84/0x140
+[   92.549582] sp : ffff80000a92bc10
+[   92.552961] x29: ffff80000a92bc10 x28: ffff00000d8a45c0 x27: 0000000000000000
+[   92.560249] x26: 0000000000000000 x25: ffff8000082b53e8 x24: ffff00000eaffc20
+[   92.567532] x23: ffff80000a92bd68 x22: ffff00000d3e0f80 x21: 0000000000000006
+[   92.574814] x20: ffff800009149000 x19: ffff00000b8ab000 x18: 0000000000000000
+[   92.582097] x17: 0000000000000000 x16: 0000000000000000 x15: 0000aaab028cdee0
+[   92.589378] x14: 0000000000000000 x13: 0000000000000000 x12: ffff80000a92bbd0
+[   92.596659] x11: ffff00000d3e0f80 x10: ffff800009149eb8 x9 : 000000000000000a
+[   92.603940] x8 : 00000000ffffffc9 x7 : 0000000000000005 x6 : 000000000000002a
+[   92.611220] x5 : 000000000000c738 x4 : 00000000ffffffd3 x3 : 0000000000000000
+[   92.618500] x2 : 000000000000c738 x1 : 0000000000000000 x0 : ffff00000b8ab000
+[   92.625781] Call trace:
+[   92.628282]  0x0
+[   92.630176]  dev_attr_store+0x14/0x28
+[   92.633935]  sysfs_kf_write+0x4c/0x70
+[   92.637681]  kernfs_fop_write_iter+0x160/0x1e0
+[   92.642213]  vfs_write+0x474/0x540
+[   92.645703]  ksys_write+0x68/0xf8
+[   92.649100]  __arm64_sys_write+0x18/0x20
+[   92.653111]  invoke_syscall+0x40/0xf8
+[   92.656866]  el0_svc_common.constprop.3+0x88/0x110
+[   92.661758]  do_el0_svc+0x20/0x78
+[   92.665158]  el0_svc+0x3c/0x90
+[   92.668291]  el0t_64_sync_handler+0x90/0xb8
+[   92.672563]  el0t_64_sync+0x148/0x14c
+[   92.676322] Code: bad PC value
+[   92.679453] ---[ end trace 0000000000000000 ]---
+/bin/start_getty: line 40:   290 Segmentation fault      ${setsid:-} ${getty} -L $1 $2 $3
+
+Poky (Yocto Project Reference Distro) 3.2.1 smarc-rzg2l ttySC0
+
+smarc-rzg2l login:
+
+This patch fixes the above issue by adding a check to see if
+set_trip_temp() callback is implemented before calling it.
+
+[0] drivers/thermal/rzg2l_thermal.c
+
+Fixes: 9326167058e8 ("thermal/core: Move set_trip_temp ops to the sysfs code")
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+Note: Patch applies on top of [0].
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git/log/?h=thermal/linux-next
+---
+ drivers/thermal/thermal_sysfs.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/thermal/thermal_sysfs.c b/drivers/thermal/thermal_sysfs.c
+index 78c5841bdfae..ec495c7dff03 100644
+--- a/drivers/thermal/thermal_sysfs.c
++++ b/drivers/thermal/thermal_sysfs.c
+@@ -128,9 +128,11 @@ trip_point_temp_store(struct device *dev, struct device_attribute *attr,
+ 	if (kstrtoint(buf, 10, &temperature))
+ 		return -EINVAL;
+ 
+-	ret = tz->ops->set_trip_temp(tz, trip, temperature);
+-	if (ret)
+-		return ret;
++	if (tz->ops->set_trip_temp) {
++		ret = tz->ops->set_trip_temp(tz, trip, temperature);
++		if (ret)
++			return ret;
++	}
+ 
+ 	if (tz->trips)
+ 		tz->trips[trip].temperature = temperature;
+-- 
+2.25.1
+
