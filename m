@@ -2,135 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40C875B1BB6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Sep 2022 13:40:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5892C5B1BE7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Sep 2022 13:51:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229445AbiIHLkr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Sep 2022 07:40:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52418 "EHLO
+        id S229874AbiIHLv1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Sep 2022 07:51:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229814AbiIHLkq (ORCPT
+        with ESMTP id S229579AbiIHLv0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Sep 2022 07:40:46 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4FCA11CD6B
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Sep 2022 04:40:42 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id k10so12642397lfm.4
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Sep 2022 04:40:42 -0700 (PDT)
+        Thu, 8 Sep 2022 07:51:26 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7F4F12754A;
+        Thu,  8 Sep 2022 04:51:25 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id 11so26078286ybu.0;
+        Thu, 08 Sep 2022 04:51:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=qq/g+XZ2JG1ZYrx3xeBVADNTQBoVz4BOIGZJJbEw4f0=;
-        b=heg1JrEV84eY8Gs6IdvBMz1whgCoFw1U50y9XCCyoeV//ROtbYnmpDR47lPPduAt2C
-         gVYC1F9xXKQpIAA+odJPLIbbU6NVBUMthbo5CyvdQ7mpIyYhWfBCh2bBug2lXaYPDhz7
-         Crs216zxWWymg+rluvLHUVEOM1ZfpRD05Z95BjhMkEIabTZowvwYzPlFXCtdln4uhPtn
-         W2cGytNj3DxzUN9MRa30vvk0KawizOMwaWPbb1oI1oDCz+aqx/Ksiwt2iEc6rvq7GEBy
-         1QXm24jCzjQ3kYmNrd0Ky1Ys6JuZON4QZWN9LH6wBs3O0i9oAlBSHO2ewTyNlkpt1PnH
-         uirA==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=a436DR9ekYarilCtTMkNs/UYHjO6SBD2Qq+LooUdeOk=;
+        b=PQeK/QFDstoxZ+S0453r2TClY9wix1qZLhWHZ0dQYcpE3TvXPQ8HH+kmPBKJSpNInY
+         lRQroR0Fr1OONJr8JyeHuM8hfrO1Ah2LbDjw2oH5Vzari4cCnjsI7qYcRK6T74wdJOl9
+         fUtaJGdqpVgEwlgLXRaWOsAc+r2nOGyVWqtnS/qlqS+JSeQYok6QcVJ//XIxdW758ww/
+         w+wHJQhs5zy3VtJkNwg3vwQRr8wtjGZ8IKSKJiTKZ6TchJpEO2omk4B70NoVVBymi65b
+         TCrDMZCTFQhUv5Cs/yCSex9cJBp+WXPoBN2xctxI99u/edfz9OFiG6uOAAkeMbAAqQS3
+         y/Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=qq/g+XZ2JG1ZYrx3xeBVADNTQBoVz4BOIGZJJbEw4f0=;
-        b=Yfo1c5dT4TcG+gCPf4WEKfbWRzrbLDwlHO8sd+2e8cqisQSunxmP8rwpb4/PzQ68RF
-         qM50iMnGiYTzRjVitW/m8pHjfIFMstgwtQkobZAGfMKL86Rc0a4DTztpDkK+cPvXjOkx
-         36FscCX8qC/LONn6qoSyEY0sl9YN5F1ZCzlOO7axFNR7rh5lXErFO106aMx5R340GMEz
-         2WbZ+8L/BM3YbQD4wolUPLeR43MN9Xar2Lo446hMhzJ49xILpxt66AdnzUCAjBDnJ8HE
-         1P12ajfz1+4SyupiKDoHMyI2rQoYJQE+LeSlWYHcIvxAqZv9NRSSZ3n8455TcNcvM6F+
-         irlQ==
-X-Gm-Message-State: ACgBeo0gtXz6XSD9vOubFkk6pn5kU9k4D/pa8BoczlN0VXqvQPoGtKCb
-        xQHbH/AFvkOrTy3F4wacqNXmdA==
-X-Google-Smtp-Source: AA6agR4MHJFcXDkMHVXkwOkvsyyAjGenkME1tXoT11nKD0yOsg5Yi8PmifMypUg49w/SLQrIIDavvA==
-X-Received: by 2002:ac2:4429:0:b0:497:a5e9:d14a with SMTP id w9-20020ac24429000000b00497a5e9d14amr2894276lfl.372.1662637241277;
-        Thu, 08 Sep 2022 04:40:41 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id 11-20020ac25f4b000000b00492ce573726sm3012704lfz.47.2022.09.08.04.40.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Sep 2022 04:40:40 -0700 (PDT)
-Message-ID: <29d456ed-620c-8dc9-01f0-54f96b670b94@linaro.org>
-Date:   Thu, 8 Sep 2022 13:40:39 +0200
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=a436DR9ekYarilCtTMkNs/UYHjO6SBD2Qq+LooUdeOk=;
+        b=KYwDat/K0egbFUeOmmMf49hpDW9H9qOw2LXth6axm9s5yrvRhYq3a13MwCcYpw/k9I
+         9E5ErTPjxzWq1RcduxxIJIIQYKirQjU77KOv4eQHv5dWKJHLrVs2Yfwga7BP+kxKsOUs
+         hYWUCL0YN2HOER6KIKBXIsSV4Cl6RomMyMZAB1yaHEZgez/MB25m/yo+ALrbepqbFUqi
+         rYbBzj/APGU33+3n+d6MaWGt5KQMOjuvTwCi51TtBeME0YA++AIkDaP+j+ceD/ec5XhL
+         s4N4T/0FhT+dkXXtUTgEfF3vXa36Ss36tyW7HP5qxgK/WR3eV0Gx54f/c7cSPvy3KTMs
+         d95w==
+X-Gm-Message-State: ACgBeo1cmtYWdLn1VZDbmsHNTG/Ri5bBPHaSJ8Sz4efJ5Skrsxp4/1tO
+        o8o5JRjTJHEha9hNlq8G6ZAbQ5/MZKdR5t+8fS4jRvYv9s/anQ==
+X-Google-Smtp-Source: AA6agR6E7xqAbO/Yprtm4+wPiLhw7gwiKgsB/maUWDEJUTLb4z+vH9/hiMygV2JLUV4WmRV8WAKxeq+yBYhz05q96LQ=
+X-Received: by 2002:a05:6902:20a:b0:670:c563:9180 with SMTP id
+ j10-20020a056902020a00b00670c5639180mr6824058ybs.401.1662637885111; Thu, 08
+ Sep 2022 04:51:25 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 2/4] media: dt-bindings: Document Renesas RZ/G2L CRU
- block
-Content-Language: en-US
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220905230406.30801-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220905230406.30801-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220906102154.32526-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220906102154.32526-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <8ecb62b7-53c4-1c43-65b3-567d8c12e131@microchip.com> <CAOnJCUKLpRz4Fbx1XiMnap-ELw2k1c8E9V8bZiSP+x7z9Z5QrA@mail.gmail.com>
+ <f362eaeb-6ccd-4392-a346-55fa5ae25e13@microchip.com> <OS0PR01MB5922833FDCA60892191B211A86409@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922833FDCA60892191B211A86409@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 8 Sep 2022 12:50:58 +0100
+Message-ID: <CA+V-a8uttuVd5_UXvNjXU6yG-GpmxG-BuEAm9pWxx13PjZ-h5w@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] riscv: vendors: andes: Add support to configure
+ the PMA regions
+To:     guoren@linux.alibaba.com,
+        "Conor.Dooley@microchip.com" <Conor.Dooley@microchip.com>
+Cc:     "atishp@atishpatra.org" <atishp@atishpatra.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        "palmer@dabbelt.com" <palmer@dabbelt.com>,
+        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+        "atishp@rivosinc.com" <atishp@rivosinc.com>,
+        "apatel@ventanamicro.com" <apatel@ventanamicro.com>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 06/09/2022 01:04, Lad Prabhakar wrote:
-> Document the CRU block found on Renesas RZ/G2L (and alike) SoCs.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Hi Guo,
 
-Thank you for your patch. There is something to discuss/improve.
+> > -----Original Message-----
+> > From: Conor.Dooley@microchip.com <Conor.Dooley@microchip.com>
+> > Sent: 08 September 2022 00:38
+> > To: atishp@atishpatra.org
+> > Cc: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>;
+> > paul.walmsley@sifive.com; palmer@dabbelt.com; aou@eecs.berkeley.edu;
+> > atishp@rivosinc.com; apatel@ventanamicro.com; geert+renesas@glider.be;
+> > linux-riscv@lists.infradead.org; linux-renesas-soc@vger.kernel.org;
+> > linux-kernel@vger.kernel.org; prabhakar.csengg@gmail.com; Biju Das
+> > <biju.das.jz@bp.renesas.com>
+> > Subject: Re: [RFC PATCH 1/2] riscv: vendors: andes: Add support to
+> > configure the PMA regions
+> >
+> > On 07/09/2022 22:52, Atish Patra wrote:
+> > > EXTERNAL EMAIL: Do not click links or open attachments unless you know
+> > > the content is safe
+> > >
+> > >
+> > > On Tue, Sep 6, 2022 at 3:40 AM <Conor.Dooley@microchip.com
+> > > <mailto:Conor.Dooley@microchip.com>> wrote:
+> > >
+> > > On 06/09/2022 11:21, Lad Prabhakar wrote:
+> > >
+> > >> diff --git a/arch/riscv/include/asm/sbi.h
+> > >> b/arch/riscv/include/asm/sbi.h index 2a0ef738695e..10a7c855d125
+> > >> 100644 --- a/arch/riscv/include/asm/sbi.h +++
+> > >> b/arch/riscv/include/asm/sbi.h @@ -37,6 +37,7 @@ enum sbi_ext_id {
+> > >>
+> > >> /* Vendor extensions must lie within this range */
+> > >> SBI_EXT_VENDOR_START = 0x09000000, +       SBI_EXT_ANDES =
+> > >> 0x0900031E, SBI_EXT_VENDOR_END = 0x09FFFFFF, };
+> > >
+I am interested to know what is the status of your patch series [0].
 
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,r9a07g044-cru       # RZ/G2{L,LC}
-> +          - renesas,r9a07g054-cru       # RZ/V2L
-> +      - const: renesas,rzg2l-cru
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 3
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: image_conv
-> +      - const: image_conv_err
-> +      - const: axi_mst_err
-> +
-> +  clocks:
-> +    items:
-> +      - description: CRU Main clock
-> +      - description: CPU Register access clock
-> +      - description: CRU image transfer clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: vclk
-> +      - const: pclk
-> +      - const: aclk
+[0] https://lore.kernel.org/lkml/20210606143848.GA5983@lst.de/T/#m7f4c4cdfb92d6c8672bbfabebda729ce4700e177
 
-Drop the "clk" suffixes. Remaining names could be made a bit more readable.
-
-> +
-Best regards,
-Krzysztof
+Cheers,
+Prabhakar
