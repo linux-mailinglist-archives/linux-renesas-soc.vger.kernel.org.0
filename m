@@ -2,81 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F185A5B40C9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Sep 2022 22:40:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DFCC5B4268
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Sep 2022 00:18:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbiIIUkC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Sep 2022 16:40:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57720 "EHLO
+        id S229685AbiIIWSO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Sep 2022 18:18:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbiIIUkB (ORCPT
+        with ESMTP id S229610AbiIIWSN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Sep 2022 16:40:01 -0400
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A52FF2AE39;
-        Fri,  9 Sep 2022 13:39:58 -0700 (PDT)
-Received: from [192.168.1.103] (178.176.72.240) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Fri, 9 Sep 2022
- 23:39:49 +0300
-Subject: Re: [PATCH] net: ravb: Add R-Car Gen4 support
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-CC:     <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
-References: <2ee968890feba777e627d781128b074b2c43cddb.1662718171.git.geert+renesas@glider.be>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <fe859186-ecfd-017e-f78a-60b65b5037c8@omp.ru>
-Date:   Fri, 9 Sep 2022 23:39:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Fri, 9 Sep 2022 18:18:13 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 971F5ED997
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Sep 2022 15:18:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662761892; x=1694297892;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=EOAZHlOWVhfBIn9N6bePFSFWc6euqH3TpoPpuLuHbZg=;
+  b=YJSooAcb6N9eGnKZKf+tq4pGMsJw9OVvc9AXseyV9L1hLzXtXk8tKxqW
+   X1QsJ9NWwh4TMEQenyl3UNvN39fTlDfTLbOsg/lYRythmf7CYWR9zKfRf
+   tshQttvX8evJBnxf0WtwnlZqhLjz0PXFS4BoZO4KxBqObFjhDqC4PUlKT
+   Fp71v7IceYxGXhQxSa7daHJN01qRf2SIaLwJHo3es7w1ysdC9einvqH9H
+   hIS0st1DG8ccWiowAj9eEB6gP3OPIvyzCLLlr7NM3tUbkUebYVi0eMkrr
+   Spw963u78yCgBv3Q+I0F3nDVhC43UANvTFlgGmFUXyZRBJw9Fvkkx2fHH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10465"; a="277973111"
+X-IronPort-AV: E=Sophos;i="5.93,304,1654585200"; 
+   d="scan'208";a="277973111"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2022 15:18:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,304,1654585200"; 
+   d="scan'208";a="592769008"
+Received: from lkp-server02.sh.intel.com (HELO b2938d2e5c5a) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 09 Sep 2022 15:18:11 -0700
+Received: from kbuild by b2938d2e5c5a with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oWmKA-0001n3-1s;
+        Fri, 09 Sep 2022 22:18:10 +0000
+Date:   Sat, 10 Sep 2022 06:18:09 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:topic/white-hawk-enhancements-v1] BUILD
+ SUCCESS f6ba1deb7501d31e8d237a8628d9c21298ce76c5
+Message-ID: <631bbba1.23CdaLRtAfEbY8qJ%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <2ee968890feba777e627d781128b074b2c43cddb.1662718171.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [178.176.72.240]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 09/09/2022 20:18:54
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 172660 [Sep 09 2022]
-X-KSE-AntiSpam-Info: Version: 5.9.20.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 498 498 840112829f78e8dd3e3ddbbff8b15d552f4973a3
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.72.240 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.72.240 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info: d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.72.240
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 09/09/2022 20:22:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 9/9/2022 6:08:00 PM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,18 +63,79 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 9/9/22 1:10 PM, Geert Uytterhoeven wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/white-hawk-enhancements-v1
+branch HEAD: f6ba1deb7501d31e8d237a8628d9c21298ce76c5  arm64: dts: renesas: white-hawk-cpu: Add Ethernet support
 
-> Add support for the Renesas Ethernet AVB (EtherAVB-IF) blocks on R-Car
-> Gen4 SoCs (e.g. R-Car V4H) by matching on a family-specific compatible
-> value.
-> 
-> These are treated the same as EtherAVB on R-Car Gen3.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+elapsed time: 722m
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+configs tested: 58
+configs skipped: 2
 
-[...]
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-MBR, Sergey
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+i386                                defconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+m68k                             allmodconfig
+x86_64                              defconfig
+m68k                             allyesconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+i386                             allyesconfig
+x86_64                        randconfig-a013
+x86_64                    rhel-8.3-kselftests
+arc                  randconfig-r043-20220908
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+arm                                 defconfig
+x86_64                        randconfig-a011
+x86_64                           rhel-8.3-kvm
+arm64                            allyesconfig
+x86_64                        randconfig-a004
+arm                              allyesconfig
+powerpc                           allnoconfig
+arc                  randconfig-r043-20220907
+x86_64                           rhel-8.3-syz
+s390                 randconfig-r044-20220908
+riscv                randconfig-r042-20220908
+powerpc                          allmodconfig
+x86_64                        randconfig-a015
+x86_64                        randconfig-a002
+mips                             allyesconfig
+x86_64                        randconfig-a006
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+i386                          randconfig-a001
+sh                               allmodconfig
+i386                          randconfig-a003
+i386                          randconfig-a005
+ia64                             allmodconfig
+
+clang tested configs:
+hexagon              randconfig-r041-20220907
+hexagon              randconfig-r041-20220908
+x86_64                        randconfig-a016
+riscv                randconfig-r042-20220907
+hexagon              randconfig-r045-20220908
+hexagon              randconfig-r045-20220907
+s390                 randconfig-r044-20220907
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a006
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
