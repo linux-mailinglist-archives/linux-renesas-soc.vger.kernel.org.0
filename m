@@ -2,74 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 329915B35EB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Sep 2022 13:01:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C61F5B38A8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Sep 2022 15:11:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230396AbiIILAP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Sep 2022 07:00:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46076 "EHLO
+        id S230164AbiIINK4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Sep 2022 09:10:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230128AbiIIK74 (ORCPT
+        with ESMTP id S229601AbiIINKz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Sep 2022 06:59:56 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 816C24DB58
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Sep 2022 03:59:53 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 5E6241F8F4;
-        Fri,  9 Sep 2022 10:59:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1662721191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=38ymsOX9Xr62sGFoPedrsP6MiA7QpcTkkaobc+VS6tc=;
-        b=bwDRMM1zMr5cULXuNSWX301heygxGb2b3QOxXyqL2fvXMMY0zD0pQyidKLaiXMJ2jBPnhp
-        St8RHODxNWkG1Z8q36LhKq8WouW+tYEscbZilXk/1Vs9lzfSIM4XzVFRZPUFEGzoPkPhwX
-        UFcGPkzg1sozGRozmptm/toFx+IH0cY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1662721191;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=38ymsOX9Xr62sGFoPedrsP6MiA7QpcTkkaobc+VS6tc=;
-        b=1C0DKgAgUy/okf52EnV05Y5NtIPFlECX3ktGJ/yILF6NjeBs9IuZzhcfju/YjYOsxaTTJw
-        fagqwt9D9LSqLVAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C458139D5;
-        Fri,  9 Sep 2022 10:59:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id YI4VBqccG2M0BwAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Fri, 09 Sep 2022 10:59:51 +0000
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        airlied@linux.ie, daniel@ffwll.ch, bskeggs@redhat.com,
-        kherbst@redhat.com, lyude@redhat.com,
-        laurent.pinchart@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, jyri.sarha@iki.fi,
-        tomba@kernel.org, sam@ravnborg.org
-Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 4/4] drm/plane-helper: Provide DRM_PLANE_NON_ATOMIC_FUNCS initializer macro
-Date:   Fri,  9 Sep 2022 12:59:47 +0200
-Message-Id: <20220909105947.6487-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220909105947.6487-1-tzimmermann@suse.de>
-References: <20220909105947.6487-1-tzimmermann@suse.de>
+        Fri, 9 Sep 2022 09:10:55 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2520483F24
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Sep 2022 06:10:49 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id 29so2453097edv.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Sep 2022 06:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=bsMm0nu+g7i1NmtcNEyPla/T7DHXogikmWezyYUdeVI=;
+        b=FiGmnfg3S7AUDv0OIYfaTQy6w0Q7WCv9N8nh/rLbH5hgJbl7qBEJh5N6E/DVggPzAe
+         ioqFKl6gBXxg3+E5ZHJVVhyA6HGAL9k9Ga/PbE8SUFBWDk7fj+PWXEHPF07dwVaTlsJZ
+         RWM3PoSL+25CQO1duTdOXdi55dQeUrBuhBA+ed0gnz4frq/0A+iCtYgH8F9ohVggXWwe
+         KwEkfB83U23h5m3unO71YqZfHKmXY4rlX3LVvhsJrXz6cV+KSqeTazniGqJDtkDfY2Xv
+         mvxyonYHPbr4a/mw0bOTfv1ewbtl3EY4R/iGiM8yo4CjDtjVx3niAHCfsqQ8Ocrc1J1a
+         3dKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=bsMm0nu+g7i1NmtcNEyPla/T7DHXogikmWezyYUdeVI=;
+        b=rlbVK2YEdBkgQciC3wJc73SHrpsl7bfPDePN2QSknz1v3FAvij2oe07MYWNH4qinTJ
+         vzBQSFjzlqlUchLk7oGgaLX2pIsLA8EeJDvmAJvriBe5MiumrsdJbU43Rmp7wthBql4O
+         PFEnLnnnPHz5oK9Dr/KZ+ddlmZI9pYV7sVeHq/4yo3Fitp5sasSln1fEa2EVrMboQMyj
+         UZj+/KGEc04ggqA2U0G7ntDCnzHrefazxub81OsymLxjhibhsFV+XjBHI1OS7FJNNn3q
+         h+LyHb7GIxuJ7XfAQoMwC8ku2NIk+3ibAY6r978Qzag2NbuDVsQyESLnraLdNKb3qqVc
+         vxyw==
+X-Gm-Message-State: ACgBeo0gKe6rIXv4/d4aWhjU8AxgOczBfJ6KqrdWcFwiZGCkfdaURmb9
+        /DHttKdMyw2MWsyW9e3IhmGIhUeJk6XI8TgK+F5WWw==
+X-Google-Smtp-Source: AA6agR4rLLw+2Mto2FpA5ylVcQgfsw/VaaN2Qj6skwfPvRFieasT15e8jBuvji+aQt2J7BgeABU3RO/b1tEnhAymIVY=
+X-Received: by 2002:a05:6402:1d8c:b0:44e:dec5:512b with SMTP id
+ dk12-20020a0564021d8c00b0044edec5512bmr11273909edb.408.1662729047659; Fri, 09
+ Sep 2022 06:10:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+References: <649e875962b486e0bf849aba8f386eb6290a433a.1662714555.git.geert+renesas@glider.be>
+In-Reply-To: <649e875962b486e0bf849aba8f386eb6290a433a.1662714555.git.geert+renesas@glider.be>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Fri, 9 Sep 2022 15:10:36 +0200
+Message-ID: <CAMRc=MdCLu3415xvr6vVmNCvD5_k49L3XS3K6ue-fPmiiW2n8w@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: gpio: renesas,rcar-gpio: Add r8a779g0 support
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,69 +69,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Provide DRM_PLANE_NON_ATOMIC_FUNCS, which initializes plane functions
-of non-atomic drivers to default values. The macro is not supposed to
-be used in new code, but helps with documenting and finding existing
-users.
+On Fri, Sep 9, 2022 at 11:09 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> Document support for the GPIO controller blocks in the Renesas R-Car
+> V4H (R8A779G0) SoC.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+> index 75e5da6a7cc04bbd..aa424e2b95f87a51 100644
+> --- a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+> +++ b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+> @@ -52,6 +52,7 @@ properties:
+>            - enum:
+>                - renesas,gpio-r8a779a0     # R-Car V3U
+>                - renesas,gpio-r8a779f0     # R-Car S4-8
+> +              - renesas,gpio-r8a779g0     # R-Car V4H
+>            - const: renesas,rcar-gen4-gpio # R-Car Gen4
+>
+>    reg:
+> --
+> 2.25.1
+>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_modeset_helper.c    |  4 +---
- drivers/gpu/drm/nouveau/dispnv04/crtc.c |  4 +---
- include/drm/drm_plane_helper.h          | 12 ++++++++++++
- 3 files changed, 14 insertions(+), 6 deletions(-)
+Applied, thanks!
 
-diff --git a/drivers/gpu/drm/drm_modeset_helper.c b/drivers/gpu/drm/drm_modeset_helper.c
-index 38040eebfa16..f858dfedf2cf 100644
---- a/drivers/gpu/drm/drm_modeset_helper.c
-+++ b/drivers/gpu/drm/drm_modeset_helper.c
-@@ -108,9 +108,7 @@ static const uint32_t safe_modeset_formats[] = {
- };
- 
- static const struct drm_plane_funcs primary_plane_funcs = {
--	.update_plane = drm_plane_helper_update_primary,
--	.disable_plane = drm_plane_helper_disable_primary,
--	.destroy = drm_plane_helper_destroy,
-+	DRM_PLANE_NON_ATOMIC_FUNCS,
- };
- 
- /**
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-index 6b8a014b5e97..ee92d576d277 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-@@ -1276,9 +1276,7 @@ static const uint32_t modeset_formats[] = {
- };
- 
- static const struct drm_plane_funcs nv04_primary_plane_funcs = {
--	.update_plane = drm_plane_helper_update_primary,
--	.disable_plane = drm_plane_helper_disable_primary,
--	.destroy = drm_plane_helper_destroy,
-+	DRM_PLANE_NON_ATOMIC_FUNCS,
- };
- 
- static int nv04_crtc_vblank_handler(struct nvif_notify *notify)
-diff --git a/include/drm/drm_plane_helper.h b/include/drm/drm_plane_helper.h
-index 1781fab24dd6..75f9c4830564 100644
---- a/include/drm/drm_plane_helper.h
-+++ b/include/drm/drm_plane_helper.h
-@@ -42,4 +42,16 @@ int drm_plane_helper_disable_primary(struct drm_plane *plane,
- 				     struct drm_modeset_acquire_ctx *ctx);
- void drm_plane_helper_destroy(struct drm_plane *plane);
- 
-+/**
-+ * DRM_PLANE_NON_ATOMIC_FUNCS - Default plane functions for non-atomic drivers
-+ *
-+ * This macro initializes plane functions for non-atomic drivers to default
-+ * values. Non-atomic interfaces are deprecated and should not be used in new
-+ * drivers.
-+ */
-+#define DRM_PLANE_NON_ATOMIC_FUNCS \
-+	.update_plane = drm_plane_helper_update_primary, \
-+	.disable_plane = drm_plane_helper_disable_primary, \
-+	.destroy = drm_plane_helper_destroy
-+
- #endif
--- 
-2.37.2
-
+Bart
