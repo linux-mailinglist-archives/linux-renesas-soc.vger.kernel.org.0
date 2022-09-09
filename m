@@ -2,78 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51D5E5B3AF7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Sep 2022 16:45:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96EC45B3DE9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Sep 2022 19:26:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232279AbiIIOot (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Sep 2022 10:44:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44380 "EHLO
+        id S230500AbiIIR0x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Sep 2022 13:26:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232252AbiIIOok (ORCPT
+        with ESMTP id S229517AbiIIR0w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Sep 2022 10:44:40 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66899D68;
-        Fri,  9 Sep 2022 07:44:25 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id b144so1859885pfb.7;
-        Fri, 09 Sep 2022 07:44:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date;
-        bh=JwpogmzKpFPJvP8h2Z1mQPxrdy62RLNQd+TYcZ7zSbE=;
-        b=joJJGXz0U4E0gIubhJhO2WG0Cwjl6mgRNJpuDkms8LVHpNU1IU0RAnobRA8b/RQHAN
-         e9ImhOtcUMP9Fifd9Vi+2iLAavOVHD40+bxbWjPUcuyOiL21WUnuHkpLixUJgvo1+K68
-         vbouwFTO7TrJKGU9MHfkJ64fawf0bND5o2whrLUf+WOr1UGvhvQOpsJUxiwr+J1W+ykm
-         BoABuseR+znNzBBo5v42KEPky8a0jqTfO/yynRcnTzDXtReTr/bJb6bFmd0FExd0iDjG
-         R/ZNrKJbd6hlKI6G+EvLZGiQ5gi8gZ70wD38K+nTX8cyTkdjYU5XPZUq+DV2i70hqbtA
-         K/2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date;
-        bh=JwpogmzKpFPJvP8h2Z1mQPxrdy62RLNQd+TYcZ7zSbE=;
-        b=NeIZWe66fs7HtnMx7DfJgucfXLaH79/yb+w1HXMEKmvPsi2j+NRN/fb3SVA4gQj0Ha
-         5Y1eFBTik9KPh2PlPnY5+lNf3GfD3dg5a0VEn2Km/2XFBV5OlVLHqnXR+QodJygye+di
-         H4m4t3B9SZdUE8urwcS+yF0kDq8k2Qx0FOJ2gUbktIeyt843UvGM0NMRS9IKi+Hbb0U+
-         cnHOEF7MtRLATFRgnlVE6bgZcEF2csDP/3jJjwxeM1l2aO52dNNJtt6cvDVMqx25phHI
-         BDcwI7T/ew4yAskByj20iVGDlxfabSp5Ots1yTQgrs1xw8AHTsD5C59+kAUJtrEUU/tJ
-         piKw==
-X-Gm-Message-State: ACgBeo2dC8vDJ9lT4z7C8/AfmFGeaaNNncSU9H6tnfhkKvKAEXtkDVtg
-        674hYxxp9uwNeQv9fVx8yTY=
-X-Google-Smtp-Source: AA6agR5BRNiy5DuY7qYIc8SOSaZWIyXS0/+us37cIkezr95VmsQyotpDWLyM9Bq5KqtQtJeaf1xU3g==
-X-Received: by 2002:a65:590d:0:b0:434:bb83:26bf with SMTP id f13-20020a65590d000000b00434bb8326bfmr12020030pgu.581.1662734664474;
-        Fri, 09 Sep 2022 07:44:24 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id n2-20020a170902d2c200b00176b63535adsm545351plc.260.2022.09.09.07.44.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Sep 2022 07:44:23 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <b1e73db6-fa52-26d1-4080-667c21e1b00d@roeck-us.net>
-Date:   Fri, 9 Sep 2022 07:44:22 -0700
+        Fri, 9 Sep 2022 13:26:52 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7118211B00E;
+        Fri,  9 Sep 2022 10:26:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662744411; x=1694280411;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2XgdYbkWHU5wpwgtFuAdOr2mJB8qz3+43GTBZWw+MgY=;
+  b=D64wy3a2WPMCW3Kuxj26EWmPLxhrfH03wo3GFb9YqqPXecMEb8QO1EBf
+   UAaBNduKFdJilCa/5oNOJTjcMidnX4g8Q8iGHDG6QtmPpYxMZCkqPxMD+
+   8rykCNQUgPszNo8yS7IWVlIj+JqTMfzXk/8vvqKhbYTaz9r47fjSqAimY
+   qteioV57oqc++lMa5az8+wNLca7uO4u17FMLcEnrqIGm2b3mVDwUPHZds
+   HvnkGUjkilm4uTRKqeNiOhf+AaJSEG4ZFguUE0d1L86MtJUujb1669Z58
+   1jur8dFLo9Bz1cpnBqXKhuhcvyhs0HXfQ+izY6n+w5MP+AE64FJlaQ0/R
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10465"; a="298330945"
+X-IronPort-AV: E=Sophos;i="5.93,303,1654585200"; 
+   d="scan'208";a="298330945"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2022 10:26:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,303,1654585200"; 
+   d="scan'208";a="566441041"
+Received: from lkp-server02.sh.intel.com (HELO b2938d2e5c5a) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 09 Sep 2022 10:26:47 -0700
+Received: from kbuild by b2938d2e5c5a with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oWhmB-0001WX-07;
+        Fri, 09 Sep 2022 17:26:47 +0000
+Date:   Sat, 10 Sep 2022 01:26:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, geert+renesas@glider.be
+Cc:     kbuild-all@lists.01.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH 3/5] net: ethernet: renesas: Add Ethernet Switch driver
+Message-ID: <202209100156.WIC248Uh-lkp@intel.com>
+References: <20220909132614.1967276-4-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] dt-bindings: watchdog: renesas-wdt: Add r8a779g0 support
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-watchdog@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, Thanh Quan <thanh.quan.xn@renesas.com>
-References: <e3a246be066d5e9c2231285bc1488fc12866cf5d.1662714387.git.geert+renesas@glider.be>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <e3a246be066d5e9c2231285bc1488fc12866cf5d.1662714387.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220909132614.1967276-4-yoshihiro.shimoda.uh@renesas.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,31 +68,62 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 9/9/22 02:08, Geert Uytterhoeven wrote:
-> From: Thanh Quan <thanh.quan.xn@renesas.com>
-> 
-> Document support for the Watchdog Timer (WDT) Controller in the Renesas
-> R-Car V4H (R8A779G0) SoC.
-> 
-> Signed-off-by: Thanh Quan <thanh.quan.xn@renesas.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Yoshihiro,
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+I love your patch! Perhaps something to improve:
 
-> ---
->   Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> index a8d7dde5271b8f2f..b2647bbaa19ce6c8 100644
-> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> @@ -65,6 +65,7 @@ properties:
->             - enum:
->                 - renesas,r8a779a0-wdt     # R-Car V3U
->                 - renesas,r8a779f0-wdt     # R-Car S4-8
-> +              - renesas,r8a779g0-wdt     # R-Car V4H
->             - const: renesas,rcar-gen4-wdt # R-Car Gen4
->   
->     reg:
+[auto build test WARNING on next-20220909]
+[also build test WARNING on v6.0-rc4]
+[cannot apply to geert-renesas-devel/next net-next/master net/master linus/master v6.0-rc4 v6.0-rc3 v6.0-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Yoshihiro-Shimoda/treewide-Add-R-Car-S4-8-Ethernet-Switch-support/20220909-212759
+base:    9a82ccda91ed2b40619cb3c10d446ae1f97bab6e
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20220910/202209100156.WIC248Uh-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/9c5c4dd0ca6beb269dd0a6ef12c386198e193c68
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yoshihiro-Shimoda/treewide-Add-R-Car-S4-8-Ethernet-Switch-support/20220909-212759
+        git checkout 9c5c4dd0ca6beb269dd0a6ef12c386198e193c68
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash M=drivers/net/ethernet/renesas
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/ethernet/renesas/rswitch_serdes.c:16:6: warning: no previous prototype for 'rswitch_serdes_write32' [-Wmissing-prototypes]
+      16 | void rswitch_serdes_write32(void __iomem *addr, u32 offs,  u32 bank, u32 data)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/renesas/rswitch_serdes.c:22:5: warning: no previous prototype for 'rswitch_serdes_read32' [-Wmissing-prototypes]
+      22 | u32 rswitch_serdes_read32(void __iomem *addr, u32 offs,  u32 bank)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/rswitch_serdes_write32 +16 drivers/net/ethernet/renesas/rswitch_serdes.c
+
+    15	
+  > 16	void rswitch_serdes_write32(void __iomem *addr, u32 offs,  u32 bank, u32 data)
+    17	{
+    18		iowrite32(bank, addr + RSWITCH_SERDES_BANK_SELECT);
+    19		iowrite32(data, addr + offs);
+    20	}
+    21	
+  > 22	u32 rswitch_serdes_read32(void __iomem *addr, u32 offs,  u32 bank)
+    23	{
+    24		iowrite32(bank, addr + RSWITCH_SERDES_BANK_SELECT);
+    25	
+    26		return ioread32(addr + offs);
+    27	}
+    28	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
