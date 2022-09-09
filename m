@@ -2,53 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C35EB5B390E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Sep 2022 15:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE5895B391B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Sep 2022 15:37:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231147AbiIINd4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Sep 2022 09:33:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45264 "EHLO
+        id S229728AbiIINf5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Sep 2022 09:35:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230204AbiIINdz (ORCPT
+        with ESMTP id S231314AbiIINfz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Sep 2022 09:33:55 -0400
+        Fri, 9 Sep 2022 09:35:55 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 035AE139AEB
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Sep 2022 06:33:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 263CD11EA59
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Sep 2022 06:35:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=Vwa96NPgAe99rk95Oztt/MJ7OGnv
-        DPqnWAHViyLBFuA=; b=Y2mE1fX0CJq50Vu0qh0VwdOQioeTh6x54BxNuxJLC0Kn
-        X+/FIxENbsmFoREbeUD823swA7UKrNRx51hZ9Z2fA5Hm+f9bbWxXHbvwElN3CC2I
-        YpwLMpFfkHz/91jknlQeFx5bPl+ubkTpS3lRkrmTz8pVfMqaCLyNKJuiQw01G70=
-Received: (qmail 499396 invoked from network); 9 Sep 2022 15:33:48 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Sep 2022 15:33:48 +0200
-X-UD-Smtp-Session: l3s3148p1@ylSFmD7oDZQucrSh
-Date:   Fri, 9 Sep 2022 15:33:47 +0200
+        :content-type:in-reply-to; s=k1; bh=Xk82tRJQjykSFQkUPrfn3jt/YW+1
+        CSEfjjTPsonnHho=; b=JDgOd/ZUV/i8CR0tK/yMq+067PBzloAHoo0PdRpzWw9a
+        xaKcu5BF0w6QDgr8jjPAsPo/Qhtwp/JslkowD85xXwphc0EuuBEmQ9S/iVma/sQZ
+        MQT1vTx5DZg2Byals6W/qnGaQgwKmpBPlL9UlVQJu4RYqTWsaja66e2NZ/oVmDk=
+Received: (qmail 500212 invoked from network); 9 Sep 2022 15:35:51 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Sep 2022 15:35:51 +0200
+X-UD-Smtp-Session: l3s3148p1@H+Lenz7oho8ucrSh
+Date:   Fri, 9 Sep 2022 15:35:51 +0200
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-watchdog@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, Thanh Quan <thanh.quan.xn@renesas.com>
-Subject: Re: [PATCH] dt-bindings: watchdog: renesas-wdt: Add r8a779g0 support
-Message-ID: <YxtAuwlMpsEnV1Tn@shikoro>
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: net: renesas,etheravb: R-Car V3U is
+ R-Car Gen4
+Message-ID: <YxtBNzK4pxf6yA4X@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-watchdog@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, Thanh Quan <thanh.quan.xn@renesas.com>
-References: <e3a246be066d5e9c2231285bc1488fc12866cf5d.1662714387.git.geert+renesas@glider.be>
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <cover.1662714607.git.geert+renesas@glider.be>
+ <5355709e0744680d792d1e57e43441cb0b7b7611.1662714607.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="xSFMtCNoZNxEK8u/"
+        protocol="application/pgp-signature"; boundary="ceWgtDKGkpjjowgR"
 Content-Disposition: inline
-In-Reply-To: <e3a246be066d5e9c2231285bc1488fc12866cf5d.1662714387.git.geert+renesas@glider.be>
+In-Reply-To: <5355709e0744680d792d1e57e43441cb0b7b7611.1662714607.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
@@ -60,41 +68,38 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---xSFMtCNoZNxEK8u/
+--ceWgtDKGkpjjowgR
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 09, 2022 at 11:08:11AM +0200, Geert Uytterhoeven wrote:
-> From: Thanh Quan <thanh.quan.xn@renesas.com>
+On Fri, Sep 09, 2022 at 11:13:22AM +0200, Geert Uytterhoeven wrote:
+> Despite the name, R-Car V3U is the first member of the R-Car Gen4
+> family.  Hence move its compatible value to the R-Car Gen4 section.
 >=20
-> Document support for the Watchdog Timer (WDT) Controller in the Renesas
-> R-Car V4H (R8A779G0) SoC.
->=20
-> Signed-off-by: Thanh Quan <thanh.quan.xn@renesas.com>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
---xSFMtCNoZNxEK8u/
+--ceWgtDKGkpjjowgR
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMbQLgACgkQFA3kzBSg
-KbabMw//YSsvQK1h8tn6ot0Z7AN2OjwQ7Enqz2P7xHw/ES8RL8SXaE3ZiOlYEOmj
-UdLCtORqxb261X3bgPkdOzpjV/4bvn/BKUWzujVm+5c9yFVlFLMgxvrXYdxWmzoG
-zzuC8ya/kbxSK2dIxOefI0FF/s/HpTpFQMYyv1xh0kG/JCzQblKmnjX3QX/VcS31
-JyQ0zSwv7dwEDAsyeIjIB1PSIEfSWH6PmzS1j5keSEF2S0bdzmN0JoNcd0l0qxQH
-jbo0DIRN1SuA8JHqqjwlwzErC+ji0yZm6v8zR6bF5Ibp8rzQW+otVtlnnVsG3XIs
-Z3aUlIlGcZGqLnPvsRYfbrLNz+CFbuun/lh2gcjh/6vB1C5ixlLLc8K7d0Urduy4
-mWagxaI/3ST3Ps32LYm5cIC41DTTa+pN7z3TnrgN5OHSsrutJhFtd349GEJc77ka
-TtjgE1sfDRuzHJ83WQNon921IizwJN98yyRE8/q0T84i3hTY11bimDZ+310HKrhR
-M68GsICAdjGSZpJzU7qqqseewB2CpXYcWP13ofJzOJ2qc8s1Jt4P05Esx6JSbfGV
-sPZikeNE+vNOlWOqMiw2rqnk4t8Xe2e2KcnWA63i4/67twKXfV5bOnlhnPcQJbma
-/SfN8Dj7QV8E67QwWyRWWojUJ/0Rh7+UMayScoEuQqok6BobNXg=
-=3kMa
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMbQTYACgkQFA3kzBSg
+KbbwXw/8D8AUJr+TXwX+aKCUwtdmESCJhfTZsRW5EVrJ1zNxT2QaeQ3utNl3PAyB
+pTbEwfAh0TSinb6JgtyvoSVsseWUBmXfn0gSG5XwsoZ8vXuwhJQtzQomWiVmF3Jg
+rnlNgPOoy7OSFcgzb/Ia/PF0UWUSpOu7vb7wso83cmeFfwjTpW0Lrk06pbm23aPK
+Za5q0Td1csj1kmzDNELx2iS7VPYg8/ZQD3JI2ne1npZHZOnQ9Wx40sQIGvuXopoJ
+HjFCZCMrMLMAF1SDJPkz6BkmAQzqAtt44h13Rb46X770/m+V6YcuUAnrrHmpnPSM
+PyEegbnYX0miLGB31Q7QeHPDCefNfGGvhQz353H9E7b4dQE3ZAuT5jx6uoQ5zCWN
+u5Y3yBXLc8ap/u39Iz2f7qUqxFDL2vp0Y4dZSt2e4VlZlCSReODFkLRyVjMbluCZ
+wacP2JGfSbglFxkqfGgeZPX1c1sWDblaHWUaMrgXHwYsrju4202/vbyBkXpD7X+K
+me40v8gLKxxTuSQM/oGp5wSYHzGuSBXf6D3xsVh8USosreBRfrv6Wgnrbzj0lzvI
+StpsGPnN+MrO/PoGZ1bLMMR+7QDYVbgZeNwK3AVHstFirGc/E58eUbEUWKTWvlRm
+YsT2fvYZG3rnQ4aBHceLDxkJnSDXOElzJYZRPEkL59Yv1mcZcWU=
+=c59C
 -----END PGP SIGNATURE-----
 
---xSFMtCNoZNxEK8u/--
+--ceWgtDKGkpjjowgR--
