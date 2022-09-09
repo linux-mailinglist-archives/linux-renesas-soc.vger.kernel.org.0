@@ -2,118 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C47A15B3F72
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Sep 2022 21:24:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 765645B40AB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Sep 2022 22:30:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230415AbiIITYL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Sep 2022 15:24:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36450 "EHLO
+        id S231881AbiIIUaP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Sep 2022 16:30:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229862AbiIITYL (ORCPT
+        with ESMTP id S231844AbiIIU3x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Sep 2022 15:24:11 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8A811449D2
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Sep 2022 12:24:08 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id x10so3039605ljq.4
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Sep 2022 12:24:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date;
-        bh=FullVTAt4NLdIeDKelIlCFqGink5lLzTlWXTWIoGShU=;
-        b=gY7m5pkzHy9mVSPHdaIRzFpSD5O8vMgSFKnzkWSWOvdqJ91rm8AxYSjgqnXlB0PMQV
-         uEuwbcIjgM8TeBsRJOpLXjP14xJzR8FEkO46TBZFDbS4lc1Yc9mZEotUGvHRooVMu2BS
-         qJMHKXbr32g9pP5VOvmB3s3g8GtEyZRToMURsHxjrz4EQl3pl3mOjmaxt2qvAH0Y45Ty
-         SLCqVKciLk/dvdnbF75ie9iIu5SmthPlKkxeEW4vwGhRfNdZEwFnYUcM4oy59BqJAayl
-         4Fb1aGtMMq8WZzsTFmpTedDZteouaXVGsS35EmKWN6+Z1qCEtmr4zEJdKI4L3qkhOm4W
-         sywA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=FullVTAt4NLdIeDKelIlCFqGink5lLzTlWXTWIoGShU=;
-        b=q1k+md/dmH2M2SqLQOFnOpLby2os7uBUGR7mxRKh2zO1dQOlKR/8Ea4AbRT1c444Gh
-         V4kmusz/a1UMWzMvhmuJ8eP+ctLS887hMW1AlIdamJIjNyceS2bYHNa2qLSbRWDeMaA9
-         s782Yg7egtYNyoYcv3ZVTFBZ/DpMEK0WlYXMinSCNFhipfZuwCugi7Vx+PXLYZqaV0cB
-         PMEg1awarwJNUQBx0QZ+m0J0O7ywnGRNJIxRMETXRVxxxXFG2mU+ct6IblJOWbwKAAHK
-         RtWQrM4V5wM8/jyJAwN1MQkrASSDBBoAYPTIZF+2SaW0oyb+jD5jiXYBpqNe4GH7JZ/N
-         P4qA==
-X-Gm-Message-State: ACgBeo301LCcgYrA/a6Iyy14dHXUYYee2US9ZmTEPIer1i/Sxc+US/jc
-        +NEhJbnFfEdDF+2tUYr32kT4RQ==
-X-Google-Smtp-Source: AA6agR7Xty6bEZNFwVc9o5UlVTQNSYuLoZRzQM8sveYXmZcNyTkmFx7ajfrc9c6uuG8EUv5awnTy4w==
-X-Received: by 2002:a2e:92c4:0:b0:25d:9d30:5d61 with SMTP id k4-20020a2e92c4000000b0025d9d305d61mr4726427ljh.202.1662751446993;
-        Fri, 09 Sep 2022 12:24:06 -0700 (PDT)
-Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
-        by smtp.gmail.com with ESMTPSA id e22-20020ac24e16000000b004926689d410sm28982lfr.171.2022.09.09.12.24.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Sep 2022 12:24:06 -0700 (PDT)
-Date:   Fri, 9 Sep 2022 21:24:05 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH] thermal: rcar_thermal: Constify static
- thermal_zone_device_ops
-Message-ID: <YxuS1ZjrPzTvMQWg@oden.dyn.berto.se>
-References: <20220909182838.11154-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 9 Sep 2022 16:29:53 -0400
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21FCDF2954;
+        Fri,  9 Sep 2022 13:29:04 -0700 (PDT)
+Received: from [192.168.1.103] (178.176.72.240) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Fri, 9 Sep 2022
+ 23:28:54 +0300
+Subject: Re: [PATCH 1/2] dt-bindings: net: renesas,etheravb: R-Car V3U is
+ R-Car Gen4
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>
+CC:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>
+References: <cover.1662714607.git.geert+renesas@glider.be>
+ <5355709e0744680d792d1e57e43441cb0b7b7611.1662714607.git.geert+renesas@glider.be>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <6ad9d05d-ac87-28fa-2f80-7d87f62f9fa8@omp.ru>
+Date:   Fri, 9 Sep 2022 23:28:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220909182838.11154-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <5355709e0744680d792d1e57e43441cb0b7b7611.1662714607.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [178.176.72.240]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 09/09/2022 20:02:47
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 172660 [Sep 09 2022]
+X-KSE-AntiSpam-Info: Version: 5.9.20.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 498 498 840112829f78e8dd3e3ddbbff8b15d552f4973a3
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.72.240 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.72.240 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.72.240
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 09/09/2022 20:06:00
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 9/9/2022 6:08:00 PM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Lad,
+Hello!
 
-Thanks for your work.
+On 9/9/22 12:13 PM, Geert Uytterhoeven wrote:
 
-On 2022-09-09 19:28:38 +0100, Lad Prabhakar wrote:
-> The only usage of rcar_thermal_zone_of_ops is to pass its address to
-> devm_thermal_of_zone_register(), which takes a pointer to const struct
-> thermal_zone_device_ops. Make it const to allow the compiler to put
-> it in read-only memory.
+> Despite the name, R-Car V3U is the first member of the R-Car Gen4
+> family.  Hence move its compatible value to the R-Car Gen4 section.
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-> ---
->  drivers/thermal/rcar_thermal.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
-> index 4df42d70d867..61c2b8855cb8 100644
-> --- a/drivers/thermal/rcar_thermal.c
-> +++ b/drivers/thermal/rcar_thermal.c
-> @@ -316,7 +316,7 @@ static int rcar_thermal_get_trip_temp(struct thermal_zone_device *zone,
->  	return 0;
->  }
->  
-> -static struct thermal_zone_device_ops rcar_thermal_zone_of_ops = {
-> +static const struct thermal_zone_device_ops rcar_thermal_zone_of_ops = {
->  	.get_temp	= rcar_thermal_get_temp,
->  };
->  
-> -- 
-> 2.25.1
-> 
+[...]
 
--- 
-Kind Regards,
-Niklas Söderlund
+MBR, Sergey
