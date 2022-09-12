@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6657B5B58AB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Sep 2022 12:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45C055B58C0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Sep 2022 12:52:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbiILKqq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Sep 2022 06:46:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48648 "EHLO
+        id S229861AbiILKvz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Sep 2022 06:51:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbiILKqq (ORCPT
+        with ESMTP id S229931AbiILKvr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Sep 2022 06:46:46 -0400
+        Mon, 12 Sep 2022 06:51:47 -0400
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6CE4B3204C;
-        Mon, 12 Sep 2022 03:46:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C568B32DB0;
+        Mon, 12 Sep 2022 03:51:44 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.93,310,1654527600"; 
-   d="scan'208";a="134604485"
+   d="scan'208";a="134604893"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 12 Sep 2022 19:46:40 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 12 Sep 2022 19:51:43 +0900
 Received: from localhost.localdomain (unknown [10.226.92.151])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 046EF431D22D;
-        Mon, 12 Sep 2022 19:46:36 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0ECCA431E2D9;
+        Mon, 12 Sep 2022 19:51:39 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
@@ -34,9 +34,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>
-Subject: [PATCH net-next] ravb: Add RZ/G2L MII interface support
-Date:   Mon, 12 Sep 2022 11:46:34 +0100
-Message-Id: <20220912104634.302264-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH net-next v2] ravb: Add RZ/G2L MII interface support
+Date:   Mon, 12 Sep 2022 11:51:37 +0100
+Message-Id: <20220912105137.302648-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -55,19 +55,22 @@ This patch adds support for selecting MII interface mode.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
+v1->v2:
+ * Fixed spaces->Tab around CXR35 description.
+---
  drivers/net/ethernet/renesas/ravb.h      | 5 +++++
  drivers/net/ethernet/renesas/ravb_main.c | 8 +++++++-
  2 files changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-index b980bce763d3..c5ef43f06ea3 100644
+index b980bce763d3..0c7c0d404dcb 100644
 --- a/drivers/net/ethernet/renesas/ravb.h
 +++ b/drivers/net/ethernet/renesas/ravb.h
 @@ -189,6 +189,7 @@ enum ravb_reg {
  	PSR	= 0x0528,
  	PIPR	= 0x052c,
  	CXR31	= 0x0530,	/* RZ/G2L only */
-+	CXR35   = 0x0540,	/* RZ/G2L only */
++	CXR35	= 0x0540,	/* RZ/G2L only */
  	MPR	= 0x0558,
  	PFTCR	= 0x055c,
  	PFRCR	= 0x0560,
