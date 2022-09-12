@@ -2,172 +2,168 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 927FF5B5F86
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Sep 2022 19:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 655EF5B5F89
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Sep 2022 19:51:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbiILRuE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Sep 2022 13:50:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59654 "EHLO
+        id S229459AbiILRvR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Sep 2022 13:51:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229838AbiILRuC (ORCPT
+        with ESMTP id S229766AbiILRvQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Sep 2022 13:50:02 -0400
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CE2518B26;
-        Mon, 12 Sep 2022 10:49:59 -0700 (PDT)
-Received: by mail-qt1-f172.google.com with SMTP id j10so3976369qtv.4;
-        Mon, 12 Sep 2022 10:49:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=BUFxYbdRP3pfE5T89ET/KTl7QiTnnNALUuDIWRUP/cI=;
-        b=NC2p5x5CKCF7tlDk54cnfuy/U6FQ7XAMBoU7rxRfpqDUYZZHmTUQWkq3E34yBIhPNx
-         tgcMp7iMZKv6ESnL2Gk+tAMu15Eadw7R6ypjm5vxhddMCRT49c9qxPpzeyWcNGAjMG4s
-         Vm8UQZz0wAvdF0b+AtH1gEqtjeZHWlGvWuc+0zaoRuwOJs6CFIHRxfQaAvQxV6L4+hwj
-         SxPdSbHDkxcGxerMVzOm46uZKENZvRs44YfoAitEYyQaon+rfxR5Ts1//yTv+9PXdNdL
-         a8G1ZiRWNkaRf5zUYtGEmt/dS77kbrJaLG8V8OsZWGGgbx5Icu/jMp1ZdBoHXlUEa5MR
-         bt7Q==
-X-Gm-Message-State: ACgBeo009vELMZehUAW5ThRypEAuLXUkQnHFpFNYL4NtEhL4/8hRR4cD
-        bkehV2S+iygD1bszW5wl5XCbz6L/xQwEirjN
-X-Google-Smtp-Source: AA6agR7eBxkabfG1co7lj82R3nnN8vRrbrkAdcSVT0s2hgxSvlGCu1ybdwDC1T/GKr4SlTaZfZG3og==
-X-Received: by 2002:ac8:4e87:0:b0:343:6249:1810 with SMTP id 7-20020ac84e87000000b0034362491810mr24246410qtp.117.1663004998017;
-        Mon, 12 Sep 2022 10:49:58 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id g21-20020ac84695000000b0035ba5db657esm6500245qto.76.2022.09.12.10.49.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Sep 2022 10:49:57 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-3378303138bso110345777b3.9;
-        Mon, 12 Sep 2022 10:49:57 -0700 (PDT)
-X-Received: by 2002:a81:758a:0:b0:345:450b:6668 with SMTP id
- q132-20020a81758a000000b00345450b6668mr22512692ywc.316.1663004997158; Mon, 12
- Sep 2022 10:49:57 -0700 (PDT)
+        Mon, 12 Sep 2022 13:51:16 -0400
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2053.outbound.protection.outlook.com [40.107.22.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DA1620180;
+        Mon, 12 Sep 2022 10:51:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Og9mO7hQFjaDl6RUBoeJ+tEe42J8ChbIPmIme2tn775EsOJjvCGLhcfFMPX1E4pOrlxBCqE4ZGJHZWHsxGyaxGKSDyMcqUV/I0mS1BZJWDX8H9MwqbQsTjXQVAzmnBROBM1A4DA1sdTGdqakeQrBEiexDny3fiNLR+fKrHfNbvO38Ith0rPhTzDIvICCsPemaLbjwjCmQxuDyXbYdELEO27r+T/KoQ3Ag+FIGXc3pIfrNKalstsTkE8dbGio3qeIaqsA+5kGrnqqh1VhUBQ25Y2HXHPKPJIijJRRIFFiW6lacQQji3pollPCpjBGahpHZdMj4NlUqKzKMLjSw//Xgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Y1rYEA0wToTLOz1wurSJMr3voKK79USIQen3JOPEz9M=;
+ b=cLSMZDQqw9SSJJvL5ENBXFBMx4AL42xWc5aW4MWVEhocUDd2Gs4lsjGPjSRqqfRJ18upLSY6Zwj1SpxHidQomtZdsTv+56i37jpabDmOFAwj7HKzIPmJIWGa24+eUlPOKsT98EGDboz4OiDt88MxuHZE0P224503Z6805ULavlVCB5ipAy7XvR+18a24/UXWTZp6GRWmd/ArL9h+SndQInHp86UhmgiwlHumsjeMqM9nkHeAucbdMbGKAWcUxZudG2h6Y4DVi2z2QT+yA6hnYJVcumJYhzuRGJL4vz424AQQecbcFTZJDnm7y/IBAuXOKnZfccooF6ZFpE2nGtUxYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y1rYEA0wToTLOz1wurSJMr3voKK79USIQen3JOPEz9M=;
+ b=CBscDcr1MdYo16EVsIiPfFhu4L4kBL378AeagthYJxGMOrUxWFlTrJttXo1ImGCG93OGAigGZXz28GxVki/qO/u4KdB70PECbq2IMncN54RG2AKKh1jLii53pBRCY1qv2poXM6h4tkrL475KRqnjtkSvy4vH7mo9+5H70NQctVs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB5136.eurprd04.prod.outlook.com (2603:10a6:803:55::19)
+ by PAXPR04MB8687.eurprd04.prod.outlook.com (2603:10a6:102:21e::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.22; Mon, 12 Sep
+ 2022 17:51:12 +0000
+Received: from VI1PR04MB5136.eurprd04.prod.outlook.com
+ ([fe80::a67a:849c:aeff:cad1]) by VI1PR04MB5136.eurprd04.prod.outlook.com
+ ([fe80::a67a:849c:aeff:cad1%7]) with mapi id 15.20.5612.022; Mon, 12 Sep 2022
+ 17:51:11 +0000
+From:   Vladimir Oltean <vladimir.oltean@nxp.com>
+To:     netdev@vger.kernel.org
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        George McCollister <george.mccollister@gmail.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+        =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
+        =?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Marek Vasut <marex@denx.de>, John Crispin <john@phrozen.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH net-next 0/3] Remove label = "cpu" from DSA dt-bindings
+Date:   Mon, 12 Sep 2022 20:50:55 +0300
+Message-Id: <20220912175058.280386-1-vladimir.oltean@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BE0P281CA0002.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:a::12) To VI1PR04MB5136.eurprd04.prod.outlook.com
+ (2603:10a6:803:55::19)
 MIME-Version: 1.0
-References: <DU0PR04MB94173B45A2CFEE3BF1BD313A88409@DU0PR04MB9417.eurprd04.prod.outlook.com>
- <CAPDyKFrzJikk6rJr9xwV6W-whvdLe5tTUE+xO_EoRtm+9DAbNA@mail.gmail.com>
- <20220908173840.rqy335cdeg5a2ww5@bogus> <CAPDyKFqYDNXxfKHd8PYy8T3di2s206nCiHY7cEf+_EHVrY1YbQ@mail.gmail.com>
- <20220909154254.xy4jvj6ybpuynghc@bogus>
-In-Reply-To: <20220909154254.xy4jvj6ybpuynghc@bogus>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 12 Sep 2022 18:49:46 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXvTWvZHjE-7CKOxCKjuPF++xQQRGedHeL2Zy-wsnHviw@mail.gmail.com>
-Message-ID: <CAMuHMdXvTWvZHjE-7CKOxCKjuPF++xQQRGedHeL2Zy-wsnHviw@mail.gmail.com>
-Subject: Re: Question: why call clk_prepare in pm_clk_acquire
-To:     Sudeep Holla <sudeep.holla@arm.com>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>, Peng Fan <peng.fan@nxp.com>,
-        "ben.dooks@codethink.co.uk" <ben.dooks@codethink.co.uk>,
-        "rafael.j.wysocki@intel.com" <rafael.j.wysocki@intel.com>,
-        "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
-        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "npitre@baylibre.com" <npitre@baylibre.com>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        Aisheng Dong <aisheng.dong@nxp.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR04MB5136:EE_|PAXPR04MB8687:EE_
+X-MS-Office365-Filtering-Correlation-Id: ecfe269f-9037-47d0-bd95-08da94e760ec
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lnXG3TE984kLVhJSVmeEpNsq1cbQp3uBPU4URqJ+1e1BrMBY1nL5x0jGAln+RM1/z7OsmFHdbSBT0hKnof7TFX0V1wiWHclqv52gGCR/7oOW1xHetf/WbbdmdjpFhwP4nn2Mw+rbrGB+YJNdZfMY0q7tdCHcC7TXjjKzuoAm44n9IJ+ySafAZv97dm98csa2MnVy+WbIG0Tqes1M2hHfLoVRIvf2JK1iuG9oDuK+Xm1X4QsERQ6nKkqCc4Zxlud1aG8gpwMPhlx0QuLJkN3vnk6q9QVmALud4PMJchvqKk+5ffieQkd6Hwac0fkaAn/QPMqLbGuurxq/d6fw2NN8HP3d9mW9Hmfgi4YsYvTaMUxs72QoBLiNtGtqriVs3sKxngpadMWkzXzA0pZJCN/wAlPJXnD5EEeCFXKOKjp0b2Rj+l2Hfn3fY+guyQgdtks3RYX/5qzrvRfpKmF0yMZ947T8geuYBcSZ14jbHxCIvupoavdzJQ0GxecMAZQC8D2z3kavijUo+V36G2E3q65MWmqxEAdmPjVnDzQE36HI712fN5ZqvGifDcz38q98QWjndu2mvhvCAkizHVg4Mx3do+NmJNxYfxmRby+RQkAFH6If3JUW23YxXx5dFYQu5+bMmiR8KR1nq3i4khKu5c7hV8YxYrdUrKXCGHyRwe1S29cFa2uAmXswfswEGk9Rjc/b7zNwZp5Ft3CtbPWPH7CVhVK6KDQpRKrt8fMLvUn5nxER9RwWQ3MxxqZ2NyQldLcIC3MaLbGMOk5ofrbBzF39PQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5136.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(136003)(366004)(396003)(346002)(376002)(451199015)(6512007)(83380400001)(186003)(1076003)(6486002)(26005)(5660300002)(8936002)(6506007)(7406005)(52116002)(86362001)(41300700001)(478600001)(6666004)(2906002)(8676002)(38100700002)(2616005)(44832011)(54906003)(66946007)(38350700002)(66556008)(36756003)(7416002)(316002)(4326008)(66476007)(6916009);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vkUP/bbzW9k5puzhgIQJRMzEqIx5O73QGIC+9lzBWFput1DqSQ9o5nosAIHg?=
+ =?us-ascii?Q?lOpwDAyPkwnUWYsBmbl9uaQKkY10JgawPuOrZhIrT+i6iUJJfzJWSLDDzleU?=
+ =?us-ascii?Q?PY4GsvhB4QjJN5kTFZ0C/IfVZ81TSK23fABtvOyPqk7BmFjcCZq2quIpyJ66?=
+ =?us-ascii?Q?bPIUPhSGivUysBsiUhTObTKeSTJl8j3H6VA2F2LVTBnjFEAvnSAigUlnjRTN?=
+ =?us-ascii?Q?84mtdHHfeJrT469ujNiV0sCXClSkKoUZtG1RodrXn3fKaP9kL04U7EBxvwzt?=
+ =?us-ascii?Q?hyh9clDaTHs64+yrY8OKdJ8ogzTGlkjKCV2wMrniXDzR2hubyqAkUcZEcmTR?=
+ =?us-ascii?Q?J/OOzvqiXyBC3hSvSul6xQB0JVdEnTu8C3VJbQzUE2TeThJoeIyKQMcVhV9r?=
+ =?us-ascii?Q?86UR2N5njuUrVLC+eOVkJxS8VSLkA1YtmdtKie3uBpg1kZJ/EWKx9b25mwnp?=
+ =?us-ascii?Q?VDFpohWv9Qy7b+LLmV2Y0ZpRmJ9RDuLqfzFmGwWyhCPBC6vtHurAVcMiXxHw?=
+ =?us-ascii?Q?ePEOVnKpHLTEzrkmx4QTXmJ3w2J1OJMstz6tOKq0kAeSIzG7gf7scT+bqeHl?=
+ =?us-ascii?Q?OFnzftXEUXqYe78t+a561G+6Ev+Th7AquR3ibE94x12laG5THXm4L/SvUWDc?=
+ =?us-ascii?Q?v4eeQ3k+Ekis/xUaTYyZn+90YPuWs8lHAsCb93W2Sn78MYYFA+tufW7hMWQ7?=
+ =?us-ascii?Q?VEEsEMYVx+n2soOrQEduFL/cuVRpZt26NrWrvzbw0+Q2ItLtrI+dcum0rzfD?=
+ =?us-ascii?Q?cJuw7Ql+quYj7BUKXUiQugCvAVvQQvlfaxg+EmwuZ01E5LYWAiLHrVHSCeQy?=
+ =?us-ascii?Q?u0UTRwQAqKbD9iYd5yfNvr5l11Mb50/C+GuvVJYuYVkqBd+nFKAujPCkYynA?=
+ =?us-ascii?Q?n9t22UU0zky8QPM7XUn+BzhVLNbOIM3Al6zDOQIsGny97xAKDU4hWI2lEKOl?=
+ =?us-ascii?Q?NsYIqR+J1NyNsR8QlYYPgFoAqAFJW6yM8kS5w66J3yF3Id3Jy5xXbx3/e8Gd?=
+ =?us-ascii?Q?icFKN5S4busagQX2v2VqZZySDILZVo2I3aO9xdTod7amOGeMALzr/fmFCT1C?=
+ =?us-ascii?Q?jwNO+24ovFGTUrRjU2/AsvI0XV+AJMOQH4qCToPYDG//29vRKS1nocUPzJQw?=
+ =?us-ascii?Q?5wl9wE2iMf8J4EWfPdcqQpvG4dFRpX69J5o7Tst6o0Us5OGbeSt3Ephb5tKP?=
+ =?us-ascii?Q?pPhbAeW4sMpTnb45GbwUEFPzsi8NWc/jNRTD4VduKvcY5VRB87CX9P/Ak4pN?=
+ =?us-ascii?Q?2dan4p379bA5Cjl39SHpo/EqokQ1cnHJg1K+SdBO7snBZ6lYgRhRATJX0lrH?=
+ =?us-ascii?Q?r8BsB+HGjJH0vLi++qlPeabGWNP5mTqcLBvuxB+lZ5JAq6cyT1JwFixWQ4Mu?=
+ =?us-ascii?Q?J4lELFCBxPIlLd4mhHvM+0VeMo5i/Ikd5D8tX+NU4NzycaUh9UOgk6OyBlFM?=
+ =?us-ascii?Q?+yd7D7FircLo20GyvXbF+Q1ekY3T224OAMiCjaW95TuqThCaqeh/DFgJeD/0?=
+ =?us-ascii?Q?EL5rM5N+UjNkJ6VGpff186yvXC/yJkD0VRBNc3bm48GyEq9xHJpJctQjOFy6?=
+ =?us-ascii?Q?fSECv3WaqZgk+wn+XAqkGRgOXXc6J0LkZK/ZGr9ZIaj4L5HJ4NFVyOn4qG+H?=
+ =?us-ascii?Q?eQ=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ecfe269f-9037-47d0-bd95-08da94e760ec
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5136.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2022 17:51:11.2549
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lqNAZROk92iOOZIJLNrxXgXENB3p7PMnraE2hio9+B0Jh1aDEuhYXaWgI+WlpJwy9c7XHmrPDUj7Q1Cys8rUCA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8687
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sudeep,
+As explained in more detail in patch 1/3, label = "cpu" is not part of
+DSA's device tree bindings, yet we have some checks in the dt-schema for
+mt7530 which are written as if it was.
 
-On Fri, Sep 9, 2022 at 4:51 PM Sudeep Holla <sudeep.holla@arm.com> wrote:
-> On Fri, Sep 09, 2022 at 01:12:03PM +0200, Ulf Hansson wrote:
-> > On Thu, 8 Sept 2022 at 19:38, Sudeep Holla <sudeep.holla@arm.com> wrote:
-> > > On Thu, Sep 08, 2022 at 04:37:13PM +0200, Ulf Hansson wrote:
-> > > > On Thu, 8 Sept 2022 at 09:33, Peng Fan <peng.fan@nxp.com> wrote:
-> > > > > We are facing an issue clk_set_rate fail with commit a3b884cef873 ("firmware:
-> > > > > arm_scmi: Add clock management to the SCMI power domain") ,
-> > > >
-> > > > Hmm, I wonder about the main reason behind that commit. Can we revert
-> > > > it or is there some platform/driver that is really relying on it?
-> > > >
-> > >
-> > > IIUC, at the time of the commit, it was needed on some Renesas platform.
-> > > Not sure if it is still used or not.
-> >
-> > Okay! Maybe Nico remembers more, as he authored the patch...
-> >
->
-> May be, or even check with Renesas team who tested his patch.
+Reformulate those checks, and remove all occurrences of this seemingly
+used, but actually unused, property from the binding examples.
 
-I'm not aware of Renesas platforms using SCMI...
+Vladimir Oltean (3):
+  dt-bindings: net: dsa: mt7530: replace label = "cpu" with proper
+    checks
+  dt-bindings: net: dsa: mt7530: stop requiring phy-mode on CPU ports
+  dt-bindings: net: dsa: remove label = "cpu" from examples
 
-> > Normally it's best decided on a platform basis, whether it really
-> > makes sense to use the GENPD_FLAG_PM_CLK. As the scmi power domain is
-> > a cross platform power domain, it worries me that we lose some needed
-> > flexibility, which is likely to make it more difficult to use it for
-> > some platforms. Also note, the main point behind GENPD_FLAG_PM_CLK,
-> > was just to consolidate code.
-> >
->
-> I agree and share similar concern.
->
-> > That said, I decided to do some research, by looking at the DTS files
-> > in the kernel. So far, there is only Juno and the imx8 based
-> > platform(s) that are using the scmi power domain.
+ .../devicetree/bindings/net/dsa/ar9331.txt    |  1 -
+ .../bindings/net/dsa/arrow,xrs700x.yaml       |  1 -
+ .../devicetree/bindings/net/dsa/brcm,b53.yaml |  2 --
+ .../net/dsa/hirschmann,hellcreek.yaml         |  1 -
+ .../devicetree/bindings/net/dsa/lan9303.txt   |  2 --
+ .../bindings/net/dsa/lantiq-gswip.txt         |  1 -
+ .../bindings/net/dsa/mediatek,mt7530.yaml     | 22 +++----------------
+ .../bindings/net/dsa/microchip,ksz.yaml       |  2 --
+ .../devicetree/bindings/net/dsa/qca8k.yaml    |  3 ---
+ .../devicetree/bindings/net/dsa/realtek.yaml  |  2 --
+ .../bindings/net/dsa/renesas,rzn1-a5psw.yaml  |  1 -
+ .../bindings/net/dsa/vitesse,vsc73xx.txt      |  2 --
+ 12 files changed, 3 insertions(+), 37 deletions(-)
 
-Juno and imx8 are not Renesas...
+-- 
+2.34.1
 
-> >
->
-> Yes but there are few without any DTS upstream that I know.
->
-> > >
-> > > > >
-> > > > > we use scmi power domain, but not use scmi clk, but with upper commit, the clk is prepared
-> > > > > when pm_clk_acquire.
-> > > > >
-> > >
-> > > Is this based on latest SCMI clocks that support atomic or older one
-> > > which doesn't. If latter, I see pm_clk_acquire doesn't actually call
-> > > prepare as if clk_is_enabled_when_prepared(clk) = true. Do you see have
-> > > issue ?
-> >
-> > It doesn't really matter if we would be using an atomic clock or not.
-> >
->
-> No what I meant is pm_clk_acquire doesn't call prepare as clk_is_enabled_when_prepared
-> is true for scmi clocks(non atomic).
->
-> > The problem is that when using GENPD_FLAG_PM_CLK, during runtime
-> > resume (genpd_runtime_resume) we end up calling pm_clk_resume(), but
-> > prior invoking the consumer driver's ->runtime_resume() callback. In
-> > other words, the clock(s) will already be prepared and enabled when
-> > the driver's ->runtime_resume() callback gets invoked. That certainly
-> > isn't going to work for all cases.
-> >
->
-> Any specific reasons ? Sorry I am missing to understand why that would
-> be an issue ?
->
->
-> [...]
->
-> > In my opinion we should really try to move away from using
-> > GENPD_FLAG_PM_CLK for the scmi power domain. I can prepare a patch, if
-> > you think it makes sense?
-> >
->
-> As along as Renesas is fine with that, it should be OK, but doesn't removing
-> that flag means we can drop {attach,detach}_dev callbacks too as they are just
-> adding clocks and without the flag it is useless. Sounds like we must revert
-> the patch completely IIUC.
-
-Hence no objection from me ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
