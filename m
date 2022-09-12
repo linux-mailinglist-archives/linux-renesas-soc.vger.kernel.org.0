@@ -2,531 +2,172 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6C985B5D6A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Sep 2022 17:40:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 927FF5B5F86
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Sep 2022 19:50:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230244AbiILPkz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Sep 2022 11:40:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43404 "EHLO
+        id S229562AbiILRuE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Sep 2022 13:50:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230059AbiILPkv (ORCPT
+        with ESMTP id S229838AbiILRuC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Sep 2022 11:40:51 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2333A13DD8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Sep 2022 08:40:50 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id n23-20020a17090a091700b00202a51cc78bso6477390pjn.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Sep 2022 08:40:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date;
-        bh=/gk2empwlb9+oFdI400JXpFBQzCm14R9tn+8kI+3Trc=;
-        b=pvIDFdhr6ljNn7IkfjGjBPoyAS/QbhDPjGci1l9Qhq2lpcHGdZ4mjIy7U0hJbBZrpQ
-         8Nwo9VYkC6dKi06byU0OeQQL21GGXIprsNN+Vd2XG/5qv9vhKtrL+P+fDD2yRg2KJ0IW
-         KmQRlNFHkicVT5ltXErFL9LdGwiCPjsJnv70WCmdZG11AidFR68jcP+MWaebUHCmp+7F
-         vof1pFI1A4Ogth1Pl8wadZq2N+6RvGlSCK8KElEgAL42Pwy1kT9DeDRKQdOw+iY3xpW1
-         gXofLwYUvmKOjelTV2OLXrTFbxQEV6nmQN4h2+HIh4Vifi1O+GGmQa4csGQJsfYF7Cl8
-         j8Kw==
+        Mon, 12 Sep 2022 13:50:02 -0400
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CE2518B26;
+        Mon, 12 Sep 2022 10:49:59 -0700 (PDT)
+Received: by mail-qt1-f172.google.com with SMTP id j10so3976369qtv.4;
+        Mon, 12 Sep 2022 10:49:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date;
-        bh=/gk2empwlb9+oFdI400JXpFBQzCm14R9tn+8kI+3Trc=;
-        b=FGIHFJmdciOi/WbURPwnKvMY8FeARfxHt79LTXVJ49lyKRu3CNQ91XbAvutecLCwxE
-         voJS8sM8PhYvNhJAJnRiWPZF9clcVjHoN8BhllZiCNWpgEb4A/E2RE173N2xcRw6PYLZ
-         zx9eAu1sKz4jebxzjQFX5fdQh4YoADo8/pua7OqzdVz3C0Pwa/A45XMF8nuW5Vm80Kaz
-         m6uE1QeqwQSAxP5fAyBamgKzoV7eAonE+e5qhe2cxkLpVoRSVC6mTCWp9GgxEFPmHpoa
-         y9h3nMCysdtexcJo2KX3f/nSCXruVZ7U0Gs0/rk/l11oLvxv0uioq6zRe/SCezWD/Fpj
-         2RuA==
-X-Gm-Message-State: ACgBeo0FfHiFgdIBZFpvbXXKzsyfQnieY1L0dbSdZsPcUsHnDUsQWj+J
-        g9QV00vAQXFzddvesNl4PCXH70gICElCW0xxSfI=
-X-Google-Smtp-Source: AA6agR4yWzQ220fQrGMdnZ05VrmK3yUyAK6zKOESk/S/PJDVkU+Q/4r94Uj5JBz3O/Zl/8dCGCqllw==
-X-Received: by 2002:a17:90b:4b43:b0:202:e09c:664d with SMTP id mi3-20020a17090b4b4300b00202e09c664dmr3507002pjb.120.1662997249335;
-        Mon, 12 Sep 2022 08:40:49 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id d4-20020a170902654400b001749dff717dsm6114808pln.227.2022.09.12.08.40.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Sep 2022 08:40:48 -0700 (PDT)
-Message-ID: <631f5300.170a0220.d67c0.9e47@mx.google.com>
-Date:   Mon, 12 Sep 2022 08:40:48 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=BUFxYbdRP3pfE5T89ET/KTl7QiTnnNALUuDIWRUP/cI=;
+        b=NC2p5x5CKCF7tlDk54cnfuy/U6FQ7XAMBoU7rxRfpqDUYZZHmTUQWkq3E34yBIhPNx
+         tgcMp7iMZKv6ESnL2Gk+tAMu15Eadw7R6ypjm5vxhddMCRT49c9qxPpzeyWcNGAjMG4s
+         Vm8UQZz0wAvdF0b+AtH1gEqtjeZHWlGvWuc+0zaoRuwOJs6CFIHRxfQaAvQxV6L4+hwj
+         SxPdSbHDkxcGxerMVzOm46uZKENZvRs44YfoAitEYyQaon+rfxR5Ts1//yTv+9PXdNdL
+         a8G1ZiRWNkaRf5zUYtGEmt/dS77kbrJaLG8V8OsZWGGgbx5Icu/jMp1ZdBoHXlUEa5MR
+         bt7Q==
+X-Gm-Message-State: ACgBeo009vELMZehUAW5ThRypEAuLXUkQnHFpFNYL4NtEhL4/8hRR4cD
+        bkehV2S+iygD1bszW5wl5XCbz6L/xQwEirjN
+X-Google-Smtp-Source: AA6agR7eBxkabfG1co7lj82R3nnN8vRrbrkAdcSVT0s2hgxSvlGCu1ybdwDC1T/GKr4SlTaZfZG3og==
+X-Received: by 2002:ac8:4e87:0:b0:343:6249:1810 with SMTP id 7-20020ac84e87000000b0034362491810mr24246410qtp.117.1663004998017;
+        Mon, 12 Sep 2022 10:49:58 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id g21-20020ac84695000000b0035ba5db657esm6500245qto.76.2022.09.12.10.49.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Sep 2022 10:49:57 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-3378303138bso110345777b3.9;
+        Mon, 12 Sep 2022 10:49:57 -0700 (PDT)
+X-Received: by 2002:a81:758a:0:b0:345:450b:6668 with SMTP id
+ q132-20020a81758a000000b00345450b6668mr22512692ywc.316.1663004997158; Mon, 12
+ Sep 2022 10:49:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: v6.0-rc5-843-g94f27a9ea269
-Subject: renesas/master baseline: 321 runs,
- 14 regressions (v6.0-rc5-843-g94f27a9ea269)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <DU0PR04MB94173B45A2CFEE3BF1BD313A88409@DU0PR04MB9417.eurprd04.prod.outlook.com>
+ <CAPDyKFrzJikk6rJr9xwV6W-whvdLe5tTUE+xO_EoRtm+9DAbNA@mail.gmail.com>
+ <20220908173840.rqy335cdeg5a2ww5@bogus> <CAPDyKFqYDNXxfKHd8PYy8T3di2s206nCiHY7cEf+_EHVrY1YbQ@mail.gmail.com>
+ <20220909154254.xy4jvj6ybpuynghc@bogus>
+In-Reply-To: <20220909154254.xy4jvj6ybpuynghc@bogus>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 12 Sep 2022 18:49:46 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXvTWvZHjE-7CKOxCKjuPF++xQQRGedHeL2Zy-wsnHviw@mail.gmail.com>
+Message-ID: <CAMuHMdXvTWvZHjE-7CKOxCKjuPF++xQQRGedHeL2Zy-wsnHviw@mail.gmail.com>
+Subject: Re: Question: why call clk_prepare in pm_clk_acquire
+To:     Sudeep Holla <sudeep.holla@arm.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>, Peng Fan <peng.fan@nxp.com>,
+        "ben.dooks@codethink.co.uk" <ben.dooks@codethink.co.uk>,
+        "rafael.j.wysocki@intel.com" <rafael.j.wysocki@intel.com>,
+        "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+        "npitre@baylibre.com" <npitre@baylibre.com>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline: 321 runs, 14 regressions (v6.0-rc5-843-g94f27a9ea2=
-69)
-
-Regressions Summary
--------------------
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6dl-udoo                  | arm   | lab-broonie     | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-imx6q-udoo                   | arm   | lab-broonie     | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-imx6sx-sdb                   | arm   | lab-nxp         | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-imx6ul-14x14-evk             | arm   | lab-nxp         | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defconfig+crypto    | 1          =
-
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defconfig           | 1          =
-
-imx7ulp-evk                  | arm   | lab-nxp         | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-imx8mn-ddr4-evk              | arm64 | lab-nxp         | gcc-10   | defconf=
-ig+CON...OMIZE_BASE=3Dy | 1          =
-
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora   | gcc-10   | defconf=
-ig+arm64-chromebook   | 1          =
-
-rk3399-gru-kevin             | arm64 | lab-collabora   | gcc-10   | defconf=
-ig+arm64-chromebook   | 4          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/v6.0=
--rc5-843-g94f27a9ea269/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: v6.0-rc5-843-g94f27a9ea269
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      94f27a9ea2691030ed8a87c33e1e6a0badc3bde9 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6dl-udoo                  | arm   | lab-broonie     | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/631f1ea4a6fcd98595355660
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: imx_v6_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-imx6dl-udoo=
-.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-imx6dl-udoo=
-.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220805.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/631f1ea4a6fcd98595355=
-661
-        new failure (last pass: renesas-devel-2022-07-05-v5.19-rc5) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6q-udoo                   | arm   | lab-broonie     | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/631f1e05600bb62284355664
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: imx_v6_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-imx6q-udoo.=
-txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-imx6q-udoo.=
-html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220805.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/631f1e05600bb62284355=
-665
-        new failure (last pass: renesas-devel-2022-09-02-v6.0-rc3) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6sx-sdb                   | arm   | lab-nxp         | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/631f1f0811f02e92a035564c
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: imx_v6_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/imx_v6_v7_defconfig/gcc-10/lab-nxp/baseline-imx6sx-sdb.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/imx_v6_v7_defconfig/gcc-10/lab-nxp/baseline-imx6sx-sdb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220805.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/631f1f0811f02e92a0355=
-64d
-        new failure (last pass: renesas-devel-2022-09-02-v6.0-rc3) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6ul-14x14-evk             | arm   | lab-nxp         | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/631f1eb8927bb3986035564b
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: imx_v6_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/imx_v6_v7_defconfig/gcc-10/lab-nxp/baseline-imx6ul-14x14-ev=
-k.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/imx_v6_v7_defconfig/gcc-10/lab-nxp/baseline-imx6ul-14x14-ev=
-k.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220805.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/631f1eb8927bb39860355=
-64c
-        new failure (last pass: renesas-devel-2022-09-02-v6.0-rc3) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/631f2b8898ba9f3bcf35565f
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: imx_v6_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/imx_v6_v7_defconfig/gcc-10/lab-pengutronix/baseline-imx6ul-=
-pico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/imx_v6_v7_defconfig/gcc-10/lab-pengutronix/baseline-imx6ul-=
-pico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220805.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/631f2b8898ba9f3bcf355=
-660
-        failing since 125 days (last pass: renesas-devel-2021-12-06-v5.16-r=
-c4-15-g9f95ae4ce1f1, first fail: renesas-devel-2022-05-09-v5.18-rc6) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defconfig+crypto    | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/631f258332f20d2379355648
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+crypto
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/multi_v7_defconfig+crypto/gcc-10/lab-pengutronix/baseline-i=
-mx6ul-pico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/multi_v7_defconfig+crypto/gcc-10/lab-pengutronix/baseline-i=
-mx6ul-pico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220805.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/631f258332f20d2379355=
-649
-        failing since 97 days (last pass: renesas-devel-2021-12-06-v5.16-rc=
-4-15-g9f95ae4ce1f1, first fail: renesas-devel-2022-06-06-v5.19-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defconfig           | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/631f2afcffa9bd6db23556b7
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-imx6ul-p=
-ico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-imx6ul-p=
-ico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220805.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/631f2afcffa9bd6db2355=
-6b8
-        failing since 125 days (last pass: renesas-devel-2021-12-06-v5.16-r=
-c4-15-g9f95ae4ce1f1, first fail: renesas-devel-2022-05-09-v5.18-rc6) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx7ulp-evk                  | arm   | lab-nxp         | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/631f1e6724ce2dc0e43556ab
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: imx_v6_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/imx_v6_v7_defconfig/gcc-10/lab-nxp/baseline-imx7ulp-evk.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm/imx_v6_v7_defconfig/gcc-10/lab-nxp/baseline-imx7ulp-evk.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220805.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/631f1e6724ce2dc0e4355=
-6ac
-        failing since 13 days (last pass: renesas-devel-2022-07-22-v5.19-rc=
-7, first fail: renesas-devel-2022-08-30-v6.0-rc3) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx8mn-ddr4-evk              | arm64 | lab-nxp         | gcc-10   | defconf=
-ig+CON...OMIZE_BASE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/631f1beb395f6536b6355667
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-nxp/baseli=
-ne-imx8mn-ddr4-evk.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-nxp/baseli=
-ne-imx8mn-ddr4-evk.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220805.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/631f1beb395f6536b6355=
-668
-        new failure (last pass: renesas-devel-2022-09-05-v6.0-rc4) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora   | gcc-10   | defconf=
-ig+arm64-chromebook   | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/631f1e2090b9aaf7e035567d
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseline-=
-mt8183-kukui-jacuzzi-juniper-sku16.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseline-=
-mt8183-kukui-jacuzzi-juniper-sku16.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220805.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/631f1e2090b9aaf7e0355=
-67e
-        failing since 27 days (last pass: renesas-devel-2022-08-11-v5.19, f=
-irst fail: renesas-devel-2022-08-16-v6.0-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-rk3399-gru-kevin             | arm64 | lab-collabora   | gcc-10   | defconf=
-ig+arm64-chromebook   | 4          =
-
-
-  Details:     https://kernelci.org/test/plan/id/631f1e6024ce2dc0e4355642
-
-  Results:     85 PASS, 7 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseline-=
-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v6.0-rc5-843-g9=
-4f27a9ea269/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseline-=
-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220805.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/case/id=
-/631f1e6024ce2dc0e4355668
-        failing since 187 days (last pass: renesas-devel-2022-02-28-v5.17-r=
-c6, first fail: renesas-devel-2022-03-08-v5.17-rc7)
-
-    2022-09-12T11:55:55.799326  <8>[   40.052116] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s0-probed RESULT=3Dpass>
-    2022-09-12T11:55:56.831800  /lava-7241515/1/../bin/lava-test-case
-    2022-09-12T11:55:56.842265  <8>[   41.095212] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s1-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.cros-ec-sensors-gyro0-probed: https://kernelci.org/test=
-/case/id/631f1e6024ce2dc0e435568b
-        failing since 97 days (last pass: renesas-devel-2022-05-23-v5.18, f=
-irst fail: renesas-devel-2022-06-06-v5.19-rc1)
-
-    2022-09-12T11:55:54.576844  /lava-7241515/1/../bin/lava-test-case
-    2022-09-12T11:55:54.588919  <8>[   38.840723] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dcros-ec-sensors-gyro0-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.cros-ec-sensors-accel1-probed: https://kernelci.org/tes=
-t/case/id/631f1e6024ce2dc0e435568c
-        failing since 97 days (last pass: renesas-devel-2022-05-23-v5.18, f=
-irst fail: renesas-devel-2022-06-06-v5.19-rc1)
-
-    2022-09-12T11:55:52.518836  <8>[   36.770481] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dcros-ec-sensors-accel0-probed RESULT=3Dfail>
-    2022-09-12T11:55:53.544608  /lava-7241515/1/../bin/lava-test-case
-    2022-09-12T11:55:53.554071  <8>[   37.806027] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dcros-ec-sensors-accel1-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.cros-ec-sensors-accel0-probed: https://kernelci.org/tes=
-t/case/id/631f1e6024ce2dc0e435568d
-        failing since 97 days (last pass: renesas-devel-2022-05-23-v5.18, f=
-irst fail: renesas-devel-2022-06-06-v5.19-rc1)
-
-    2022-09-12T11:55:52.509336  /lava-7241515/1/../bin/lava-test-case   =
-
- =20
+Hi Sudeep,
+
+On Fri, Sep 9, 2022 at 4:51 PM Sudeep Holla <sudeep.holla@arm.com> wrote:
+> On Fri, Sep 09, 2022 at 01:12:03PM +0200, Ulf Hansson wrote:
+> > On Thu, 8 Sept 2022 at 19:38, Sudeep Holla <sudeep.holla@arm.com> wrote:
+> > > On Thu, Sep 08, 2022 at 04:37:13PM +0200, Ulf Hansson wrote:
+> > > > On Thu, 8 Sept 2022 at 09:33, Peng Fan <peng.fan@nxp.com> wrote:
+> > > > > We are facing an issue clk_set_rate fail with commit a3b884cef873 ("firmware:
+> > > > > arm_scmi: Add clock management to the SCMI power domain") ,
+> > > >
+> > > > Hmm, I wonder about the main reason behind that commit. Can we revert
+> > > > it or is there some platform/driver that is really relying on it?
+> > > >
+> > >
+> > > IIUC, at the time of the commit, it was needed on some Renesas platform.
+> > > Not sure if it is still used or not.
+> >
+> > Okay! Maybe Nico remembers more, as he authored the patch...
+> >
+>
+> May be, or even check with Renesas team who tested his patch.
+
+I'm not aware of Renesas platforms using SCMI...
+
+> > Normally it's best decided on a platform basis, whether it really
+> > makes sense to use the GENPD_FLAG_PM_CLK. As the scmi power domain is
+> > a cross platform power domain, it worries me that we lose some needed
+> > flexibility, which is likely to make it more difficult to use it for
+> > some platforms. Also note, the main point behind GENPD_FLAG_PM_CLK,
+> > was just to consolidate code.
+> >
+>
+> I agree and share similar concern.
+>
+> > That said, I decided to do some research, by looking at the DTS files
+> > in the kernel. So far, there is only Juno and the imx8 based
+> > platform(s) that are using the scmi power domain.
+
+Juno and imx8 are not Renesas...
+
+> >
+>
+> Yes but there are few without any DTS upstream that I know.
+>
+> > >
+> > > > >
+> > > > > we use scmi power domain, but not use scmi clk, but with upper commit, the clk is prepared
+> > > > > when pm_clk_acquire.
+> > > > >
+> > >
+> > > Is this based on latest SCMI clocks that support atomic or older one
+> > > which doesn't. If latter, I see pm_clk_acquire doesn't actually call
+> > > prepare as if clk_is_enabled_when_prepared(clk) = true. Do you see have
+> > > issue ?
+> >
+> > It doesn't really matter if we would be using an atomic clock or not.
+> >
+>
+> No what I meant is pm_clk_acquire doesn't call prepare as clk_is_enabled_when_prepared
+> is true for scmi clocks(non atomic).
+>
+> > The problem is that when using GENPD_FLAG_PM_CLK, during runtime
+> > resume (genpd_runtime_resume) we end up calling pm_clk_resume(), but
+> > prior invoking the consumer driver's ->runtime_resume() callback. In
+> > other words, the clock(s) will already be prepared and enabled when
+> > the driver's ->runtime_resume() callback gets invoked. That certainly
+> > isn't going to work for all cases.
+> >
+>
+> Any specific reasons ? Sorry I am missing to understand why that would
+> be an issue ?
+>
+>
+> [...]
+>
+> > In my opinion we should really try to move away from using
+> > GENPD_FLAG_PM_CLK for the scmi power domain. I can prepare a patch, if
+> > you think it makes sense?
+> >
+>
+> As along as Renesas is fine with that, it should be OK, but doesn't removing
+> that flag means we can drop {attach,detach}_dev callbacks too as they are just
+> adding clocks and without the flag it is useless. Sounds like we must revert
+> the patch completely IIUC.
+
+Hence no objection from me ;-)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
