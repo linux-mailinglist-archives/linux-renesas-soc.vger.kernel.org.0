@@ -2,352 +2,169 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3F1E5B6DE2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Sep 2022 15:02:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F37A5B6E63
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Sep 2022 15:31:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231563AbiIMNCm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Sep 2022 09:02:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53936 "EHLO
+        id S232235AbiIMNb3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Sep 2022 09:31:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231150AbiIMNCl (ORCPT
+        with ESMTP id S231314AbiIMNb1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Sep 2022 09:02:41 -0400
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0436D43611;
-        Tue, 13 Sep 2022 06:02:40 -0700 (PDT)
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-127f5411b9cso31872902fac.4;
-        Tue, 13 Sep 2022 06:02:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=OgnINX3gYcstW1evxH4c9tGrrNpe5XBwb2TjVnDG0QI=;
-        b=TIg9bPCaOXBH00VhQ4rUG5hbXBUqD+f6BsXKMFi6uBMRnyTbMgDyzbv54aHXcXBiWJ
-         IM9hZjy0e2lfj1gEM+4qFmUNsgwUEI4jBYhE/sX8wk6SUFD4hdH4409gKp3vhjok9Szk
-         J5VNuYk0JmKdctn/mmgGLiQ6FvL5rUcbtiS+nIZqic2ywzJMBq6kYXVHPJlPXQ3nsHaW
-         noUq/iwU3tBDjkFZQL2lpllURS0Ac0EFsm1f/C0u5v6iACZNFNecAEzC07WIrNpYzdvo
-         3bgHlEWa7UhgDBkC+6X8fDcdIblw8wSqFRejsJmBJa5gKewehkiJ/v3tE1rKv40mnexn
-         wCXw==
-X-Gm-Message-State: ACgBeo1vkK3lMoQP9WCB0IgDhYGUoJ8NYw+UJSf8YM2WWcbPkwKKU16L
-        KCXVqHhQ+A1NSbcc3aVRhA==
-X-Google-Smtp-Source: AA6agR4uCX2BHaqbqlBF8DTJ9Smk5/pE3HR04TnTTDMAIDX38owBddvZg873IHTo02S2GViD1abMJQ==
-X-Received: by 2002:a05:6870:f721:b0:12b:f4bc:9ee3 with SMTP id ej33-20020a056870f72100b0012bf4bc9ee3mr900973oab.106.1663074159082;
-        Tue, 13 Sep 2022 06:02:39 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id bl32-20020a05680830a000b0034d9042758fsm5168189oib.24.2022.09.13.06.02.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 06:02:38 -0700 (PDT)
-Received: (nullmailer pid 3488951 invoked by uid 1000);
-        Tue, 13 Sep 2022 13:02:37 -0000
-Date:   Tue, 13 Sep 2022 08:02:37 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, krzysztof.kozlowski+dt@linaro.org,
-        geert+renesas@glider.be, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/5] dt-bindings: net: renesas: Document Renesas Ethernet
- Switch
-Message-ID: <20220913130237.GA3475975-robh@kernel.org>
-References: <20220909132614.1967276-1-yoshihiro.shimoda.uh@renesas.com>
- <20220909132614.1967276-3-yoshihiro.shimoda.uh@renesas.com>
+        Tue, 13 Sep 2022 09:31:27 -0400
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2050.outbound.protection.outlook.com [40.107.21.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E5541B78B;
+        Tue, 13 Sep 2022 06:31:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oYuHjznnzA+pwxfGZvI3PLI12tO78mJTsbYrYR3t1v2UrkJcUODrgo+JG08sy6Er5e6hGne6NiNVO9qrQ3yhWg6qpUVnioTMxJJ8yJQztherAiqglB/cF1MEBb+lAvPtebTeW/kNX4VZ8PcZvWsWYO3dz0UhXzHCAyyk+XwOm4Z6IwQY4mxdWx/bQJ0ja9YWk0jsImw5RXHGgNVrKs5McKbVfz7TcPTl985XphqEwR0d6wT+z67aDSbxBNtaBrjJdpvwlq9XhfdRgCOrMWQkitcHNCCoSu0flnVx3t78r19rHY3YgVRxRSJuhjC1QEzHlp3FZqx6SAuCQ2gnfF0LBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uZvLcNIa9VdXhUsxczkDEsL2pEtvVPsobP9yoX/qDLU=;
+ b=N7lLcc9A06zVcTZSTrA2l/UONjVZAVpKW/qacGzbZTkG5PR9qSbvsPMcC/ufiUtZg9Qk2C1KtFuD+PH1zhQFWHC4pIAHcz/qXBtgPJn3TpagyUzvKpUZQWNo8ujrtsqi7QUHaM4UhvWaOJjghFB1ICeQJk4ASwg3Rsl5hDJq0kkrMSVQrq7WcUT6tO4xuL2NIiEbhbFXrxpl8PLFtnz25LvHsOuO7w/aZLfVhBBSMFC5+D+IcjLZVErOpLHK2pXNB23DJrA9pcxWD6VX5ZeceO5NPm2QjjY8hm6S5x6sxyvjcYpjx00/rqQ4gxf5AyecQnU9CxtJM/gtAsrigK7MJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uZvLcNIa9VdXhUsxczkDEsL2pEtvVPsobP9yoX/qDLU=;
+ b=ffd7OTiM0G4NVuMyCg+yXVCM21rMo370V25g+Wa53It7BrYW0DY58uHvnw+cwMBBAH4BB8wZBxMF+JdV/ov8qMR26paX+5gQaZHhuh2jNTtePgqhlKUVYDQ0Cp6juDz9RF9DEQ23h1qqmRIs48sroku2IZ1aSA1JA5PK3UgUZFI=
+Received: from VI1PR04MB5136.eurprd04.prod.outlook.com (2603:10a6:803:55::19)
+ by GV1PR04MB9150.eurprd04.prod.outlook.com (2603:10a6:150:25::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.22; Tue, 13 Sep
+ 2022 13:31:23 +0000
+Received: from VI1PR04MB5136.eurprd04.prod.outlook.com
+ ([fe80::a67a:849c:aeff:cad1]) by VI1PR04MB5136.eurprd04.prod.outlook.com
+ ([fe80::a67a:849c:aeff:cad1%7]) with mapi id 15.20.5612.022; Tue, 13 Sep 2022
+ 13:31:22 +0000
+From:   Vladimir Oltean <vladimir.oltean@nxp.com>
+To:     =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        George McCollister <george.mccollister@gmail.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        "UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?utf-8?B?QWx2aW4gxaBpcHJhZ2E=?= <alsi@bang-olufsen.dk>,
+        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Marek Vasut <marex@denx.de>, John Crispin <john@phrozen.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH net-next 3/3] dt-bindings: net: dsa: remove label = "cpu"
+ from examples
+Thread-Topic: [PATCH net-next 3/3] dt-bindings: net: dsa: remove label = "cpu"
+ from examples
+Thread-Index: AQHYxtBCZhrlfLn9yUSG8exS6G8zpK3dBZ8AgABW+gA=
+Date:   Tue, 13 Sep 2022 13:31:22 +0000
+Message-ID: <20220913133122.gzs2uhuk626eazee@skbuf>
+References: <20220912175058.280386-1-vladimir.oltean@nxp.com>
+ <20220912175058.280386-4-vladimir.oltean@nxp.com>
+ <b11e86c6-ff35-2103-cebe-ebe5f737d9de@arinc9.com>
+In-Reply-To: <b11e86c6-ff35-2103-cebe-ebe5f737d9de@arinc9.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: VI1PR04MB5136:EE_|GV1PR04MB9150:EE_
+x-ms-office365-filtering-correlation-id: 4060d515-7ae9-4190-f921-08da958c4009
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 6GUCwnowrWRLij396NIUbhWmCyZFr8e6NHLYgxiEpjW8JZ+cMTQxXGR5/XRL25owF4thzSWXT8+UeVo2w9Ig6UWyEws+k5iT12YHTpCXoyKP8eJWgVeZjX8FOyKpJdMc5g8j3gikaCGLwjzNz0HxJbAk0QRr2RPTXCp+a0ctt8uD/yxwelVnLVQ+TF8lsnxxmaofeTkPxGplBC29XHAHiR1y1FAFHQ9yibC7bGUlDe+ZDtO++T97lim/ie72VOQ6QpKyHj46jkeq/GXI79qs/QeQRqbOsNMDJo7pwz/a5lu6lwhVAK8W/GJAbC6SH7aFT7T4Gx6wWALU8yABdvJrrjH5BXgP6G26LmKYCfHzzrFf4VJ7b3rI94Zouzs8C/QKorQtMiLWbO9bL+Otw6xz20v+L8YAjS7Ox4/Ko48oYJAj4gs/I5iID2SSqMIb2KkbVQCWYbiorjT0O4NM7xK40bcOkUYyD59dDbLzFukkd6BMRo9gl3psTn4AKB27kCMRz3wVLPDMsbw+fSBMhYAYp/Api7/iWoJj1+563ZGtWgwxOw2An2S26m0xaYjKG8kZ0QOU9Lgp2UhWxjuPQDhwixvqySmSjU541tUqHgnoxnmeXkNHBYslvBS8AFLFJXKmY+pzEtKigx+UVaSKSK9d00uVX1arCzbraVv4HBeNvLzo68Ud0otQujP7p7/utTRN8n8YK7jfWRDO+4+PsJboeNdUGmVeZVI5EQMZv/aNv/EhbKont71v0HKdKUXdvPpbKt24WREsUG6QSroy9LBAJw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5136.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(4636009)(39860400002)(396003)(136003)(376002)(366004)(346002)(451199015)(33716001)(66946007)(122000001)(91956017)(8676002)(7406005)(66446008)(186003)(66476007)(64756008)(5660300002)(478600001)(1076003)(38070700005)(66556008)(54906003)(44832011)(38100700002)(7416002)(86362001)(8936002)(4744005)(26005)(41300700001)(6512007)(6916009)(6486002)(6506007)(316002)(4326008)(71200400001)(2906002)(76116006)(83380400001)(9686003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SnJhMGk3TzdPdTNITitkQTczUXNQRFBpSFN1SVJzSEpEeGZFKy8wTEg1M1J6?=
+ =?utf-8?B?TDVNVTgxZy9PL243VDVEanZtUnhHWTd4R3ROa2JLUGZrTUcyMEZJeEl1U2pL?=
+ =?utf-8?B?ZkhxU1RuRERLTG5lY1FhV0Z5MS8vS01DWnluUGZVN1YzOFMwVVBWOXZDeDB6?=
+ =?utf-8?B?MDc0SnpSV1BydUE4SFJvb0UwRW8wWEpGQzlyVUZzdFBJa3hTL2JIMXovdFFZ?=
+ =?utf-8?B?dEFCb2VwOURwUXM4OTJ1RXdpajJMMWQwczllOFhIaHZ6NXJSdUtqZTR5TS9r?=
+ =?utf-8?B?cWFWTFY1UkE2RjRydEV0KzY0aWpWbk5YczZGbWdyOXQxdmhsQ3FkMEdHUEEx?=
+ =?utf-8?B?MDdUSjQ3N25acHo4MTBuTWRwMHgwZ1NnbzVrSkRhNmQ2Zk9MYnRxMkJWQ0hZ?=
+ =?utf-8?B?NGhOOE1MVzRnWkoyaGZxQnJKdi9SZWJGZVlBWThCR2ZBTUhoUHJPajFXcXZJ?=
+ =?utf-8?B?WXUyVWcwWFpRZVpzOHVnNWZVWFEwUHBLL1EybFZFRklaZVRYNy81L3QzdTdW?=
+ =?utf-8?B?NWNlY0EvQmxIY2xRWm9aZFJHTm05OGhLY2lqWUJDeEoxaGQzUXdjaWROUXBZ?=
+ =?utf-8?B?dWxGbFlWaWcvNHlHaWg4MWxuL2FmUUFBZXJuSWVsdURCSU1YSEEyb2o2S2cv?=
+ =?utf-8?B?Qmh4VEF5Q0NtRGJmdVZpdTNSM1FXRC9MV05RMjMvajBxOEhiR3pjWDdpaEJM?=
+ =?utf-8?B?RXdRTmI4eDdQTXpMM2x2TUoxRFVEU2hiazhNUHR0RGllL1RqR0J6MFB3SEhJ?=
+ =?utf-8?B?L29SMmI0NkhzcDMyWmtiRFJGTnVXTXc3SE5KajBrbDVKUCtWcG5OeGZ4YVd2?=
+ =?utf-8?B?eWFXQ3dCN1RQY1JHNFkvV2wxOGl5SjJucklLczBoYUNNbVJvVkY1c00rSkR6?=
+ =?utf-8?B?YUdVNEdjU0krcEF0aS8zZlRpWVgzdFJDUnI3aEVabXpoVnN4VERiWGZIdFJs?=
+ =?utf-8?B?QWQwNHptR2pMWXRFRTZqdlJnN0VUcEJndTVFenBuKy9lNTJsdEhwd0dOV2dx?=
+ =?utf-8?B?VFpIWUN4NWRhdGF6VS9lN0V4UW1OUXUxb3ErRjd0a0swaFF3SFlPOWFycjRU?=
+ =?utf-8?B?VVVoQkhnK2RTWEJ6Vk02S1lqeWp2MGt5Y0o1N01CSm5ibzk5THJzcWJONTNF?=
+ =?utf-8?B?dy9OVVprbEJySnVnTU1qWkJJaHUrUmtjc1V2cUVlMG94aGhCMEpnSVVodmtG?=
+ =?utf-8?B?ZnJ2MWNqM0RNWjQvYXVvaU14bFRoUnNQbkpleUxUV1pDdnJhN0ZLV1JRRUhT?=
+ =?utf-8?B?ZkpMdHBhYklQb0JVQytkNE5HYUxIUDV2YlFSUUxyVDMrOFIwQndDcS9DeG5K?=
+ =?utf-8?B?SkNVTi9WdUNOTlJYV1lPaXdYTEZJV2swU0c3bzgrb3J5eDc5K1hBc3MrbTRQ?=
+ =?utf-8?B?U0MrRzVLOUR6VUh4dnNta2Mvb1hYcGNUODc3bmRFVUxqS1c1c0g5MFloeUpk?=
+ =?utf-8?B?R3ZrbGpWbXdCWGNKQzhsM2JKQVdZU0M4RklDcVBJckcva1pvOUlVbUIxTHY4?=
+ =?utf-8?B?QndGN25pMWRyMUpSQ2lVamxJQmR4UzljU3Y2VUwrQ2V6cWxsZ1VnSjJ2Wjd5?=
+ =?utf-8?B?SXkwallQR3hnckpJVEZvYlREamdybVBrMWY0T1hTK0w2ZVhRaHFEQVFDUXJC?=
+ =?utf-8?B?RGo4Qkxqd1huV3ZlNmYzNk5KYXh0NW5pdzYvQTV3ejY4SG56a2N3N1ZYVDdi?=
+ =?utf-8?B?MnhmM25ULzYrRkxEMHNDMCs0eG4wWCtIU1N1NmYzcUVaWExlbmgwOTk1a3ZD?=
+ =?utf-8?B?aSt3Kys0L3dvV1U4azgzT0RobkpkNU1hMHZOcjNRM0M0YzRMR3U3REJhZ2dX?=
+ =?utf-8?B?VFRuWFdXWEN6ODFUUUVpQW4zcmhYNktmczlvbzZseVNvczVRZE8xcHdPZW5B?=
+ =?utf-8?B?UnQzMlFpMVcvRDV1TUliWkxpQjNmdDIvbnd2NkM1TkpDeEpTNUdldmF0aWly?=
+ =?utf-8?B?dTBuOHpIZEErWS9PdWZFL3JFTlhjV1FFdUtFNndoRzVwa3B0YUhIVEE2Qkw3?=
+ =?utf-8?B?Nk4yTm5aT1VPck41MXpMOVl6MnMxV1E1UVBwTUNSMk1pdURJQmw4amoyWFov?=
+ =?utf-8?B?UDBGb3Zjbk5ETE9qSWtrVXoyTUlqU3kvZzV3eHdxcEpGcmt1OWY0S0tZQitM?=
+ =?utf-8?B?TlM4eENabWRCOExtK0xVckRNVjFUNEs1a0J5d0lsQ3BHVVFPamorNzd5ZFAw?=
+ =?utf-8?B?ZlE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <DC7BC06195C1264BB75F9F5C71D9BCC2@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220909132614.1967276-3-yoshihiro.shimoda.uh@renesas.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5136.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4060d515-7ae9-4190-f921-08da958c4009
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Sep 2022 13:31:22.8233
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ChRUK3U66oGz853Sh55iDtYPbDy7184ZCZ2GLMGuWxgbzNH4/QjYDNGsHJxv+5FKYHsBx98tOj/Cizr3gRjXiw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB9150
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Sep 09, 2022 at 10:26:11PM +0900, Yoshihiro Shimoda wrote:
-> Document Renesas Etherent Switch for R-Car S4-8 (r8a779f0).
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  .../bindings/net/renesas,etherswitch.yaml     | 252 ++++++++++++++++++
->  1 file changed, 252 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/net/renesas,etherswitch.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/net/renesas,etherswitch.yaml b/Documentation/devicetree/bindings/net/renesas,etherswitch.yaml
-> new file mode 100644
-> index 000000000000..1affbf208829
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/renesas,etherswitch.yaml
-> @@ -0,0 +1,252 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/renesas,etherswitch.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas Ethernet Switch
-> +
-> +maintainers:
-> +  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: renesas,r8a779f0-ether-switch
-> +
-> +  reg:
-> +    maxItems: 3
-> +
-> +  reg-names:
-> +    items:
-> +      - const: base
-> +      - const: secure_base
-> +      - const: serdes
-
-Is serdes really the same h/w block? Based on addresses, doesn't seem 
-like it.
-
-> +
-> +  interrupts:
-> +    maxItems: 47
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: mfwd_error
-> +      - const: race_error
-> +      - const: coma_error
-> +      - const: gwca0_error
-> +      - const: gwca1_error
-> +      - const: etha0_error
-> +      - const: etha1_error
-> +      - const: etha2_error
-> +      - const: gptp0_status
-> +      - const: gptp1_status
-> +      - const: mfwd_status
-> +      - const: race_status
-> +      - const: coma_status
-> +      - const: gwca0_status
-> +      - const: gwca1_status
-> +      - const: etha0_status
-> +      - const: etha1_status
-> +      - const: etha2_status
-> +      - const: rmac0_status
-> +      - const: rmac1_status
-> +      - const: rmac2_status
-> +      - const: gwca0_rxtx0
-> +      - const: gwca0_rxtx1
-> +      - const: gwca0_rxtx2
-> +      - const: gwca0_rxtx3
-> +      - const: gwca0_rxtx4
-> +      - const: gwca0_rxtx5
-> +      - const: gwca0_rxtx6
-> +      - const: gwca0_rxtx7
-> +      - const: gwca1_rxtx0
-> +      - const: gwca1_rxtx1
-> +      - const: gwca1_rxtx2
-> +      - const: gwca1_rxtx3
-> +      - const: gwca1_rxtx4
-> +      - const: gwca1_rxtx5
-> +      - const: gwca1_rxtx6
-> +      - const: gwca1_rxtx7
-> +      - const: gwca0_rxts0
-> +      - const: gwca0_rxts1
-> +      - const: gwca1_rxts0
-> +      - const: gwca1_rxts1
-> +      - const: rmac0_mdio
-> +      - const: rmac1_mdio
-> +      - const: rmac2_mdio
-> +      - const: rmac0_phy
-> +      - const: rmac1_phy
-> +      - const: rmac2_phy
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    items:
-> +      - const: fck
-> +      - const: tsn
-> +
-> +  resets:
-> +    maxItems: 2
-
-What is each one?
-
-> +
-> +  iommus:
-> +    maxItems: 16
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  '#address-cells':
-> +    description: Number of address cells for the MDIO bus.
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    description: Number of size cells on the MDIO bus.
-> +    const: 0
-
-It's better if you put MDIO under an 'mdio' node. That also needs a ref 
-to mdio.yaml.
-
-> +
-> +  ports:
-> +    type: object
-> +
-> +    properties:
-> +      '#address-cells':
-> +        const: 1
-> +      '#size-cells':
-> +        const: 0
-> +
-> +    additionalProperties: false
-> +
-> +    patternProperties:
-> +      "^port@[0-9a-f]+$":
-> +        type: object
-> +
-> +        $ref: "/schemas/net/ethernet-controller.yaml#"
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          '#address-cells':
-> +            const: 1
-> +          '#size-cells':
-> +            const: 0
-> +
-> +          reg:
-> +            description:
-> +              Switch port number
-> +
-> +          phy-handle:
-> +            description:
-> +              Phandle of an Ethernet PHY.
-> +
-> +          phy-mode:
-> +            description:
-> +              This specifies the interface used by the Ethernet PHY.
-> +            enum:
-> +              - mii
-> +              - sgmii
-> +              - usxgmii
-> +
-> +        required:
-> +          - reg
-> +          - phy-handle
-> +          - phy-mode
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - interrupts
-> +  - interrupt-names
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - power-domains
-> +  - '#address-cells'
-> +  - '#size-cells'
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r8a779f0-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a779f0-sysc.h>
-> +
-> +    rswitch: ethernet@e6880000 {
-
-Drop unused labels.
-
-> +            compatible = "renesas,r8a779f0-ether-switch";
-> +            reg = <0xe6880000 0x20000>, <0xe68c0000 0x20000>,
-> +                  <0xe6444000 0xc00>;
-> +            reg-names = "base", "secure_base", "serdes";
-> +            interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 257 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 258 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 259 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 260 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 261 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 262 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 263 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 265 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 266 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 267 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 270 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 271 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 272 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 273 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 274 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 276 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 277 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 278 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 280 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 281 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 282 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 283 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 284 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 285 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 286 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 287 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 288 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 291 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 292 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 293 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 294 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 295 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 296 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 297 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 298 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 299 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 301 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 302 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-> +            interrupt-names = "mfwd_error", "race_error",
-> +                              "coma_error", "gwca0_error",
-> +                              "gwca1_error", "etha0_error",
-> +                              "etha1_error", "etha2_error",
-> +                              "gptp0_status", "gptp1_status",
-> +                              "mfwd_status", "race_status",
-> +                              "coma_status", "gwca0_status",
-> +                              "gwca1_status", "etha0_status",
-> +                              "etha1_status", "etha2_status",
-> +                              "rmac0_status", "rmac1_status",
-> +                              "rmac2_status",
-> +                              "gwca0_rxtx0", "gwca0_rxtx1",
-> +                              "gwca0_rxtx2", "gwca0_rxtx3",
-> +                              "gwca0_rxtx4", "gwca0_rxtx5",
-> +                              "gwca0_rxtx6", "gwca0_rxtx7",
-> +                              "gwca1_rxtx0", "gwca1_rxtx1",
-> +                              "gwca1_rxtx2", "gwca1_rxtx3",
-> +                              "gwca1_rxtx4", "gwca1_rxtx5",
-> +                              "gwca1_rxtx6", "gwca1_rxtx7",
-> +                              "gwca0_rxts0", "gwca0_rxts1",
-> +                              "gwca1_rxts0", "gwca1_rxts1",
-> +                              "rmac0_mdio", "rmac1_mdio",
-> +                              "rmac2_mdio",
-> +                              "rmac0_phy", "rmac1_phy",
-> +                              "rmac2_phy";
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            clocks = <&cpg CPG_MOD 1506>, <&cpg CPG_MOD 1505>;
-> +            clock-names = "fck", "tsn";
-> +            power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
-> +            resets = <&cpg 1506>, <&cpg 1505>;
-> +    };
-> -- 
-> 2.25.1
-> 
-> 
+T24gVHVlLCBTZXAgMTMsIDIwMjIgYXQgMTE6MjA6MDRBTSArMDMwMCwgQXLEsW7DpyDDnE5BTCB3
+cm90ZToNCj4gSXMgdGhlcmUgYWxzbyBhIHBsYW4gdG8gcmVtb3ZlIHRoaXMgZnJvbSBldmVyeSBk
+ZXZpY2V0cmVlIG9uIG1haW5saW5lIHRoYXQNCj4gaGFzIGdvdCB0aGlzIHByb3BlcnR5IG9uIHRo
+ZSBDUFUgcG9ydD8NCj4gDQo+IEknZCBsaWtlIHRvIGRvIHRoZSBzYW1lIG9uIHRoZSBEVHMgb24g
+T3BlbldydC4NCg0KSSBkb24ndCByZWFsbHkgaGF2ZSB0aGUgdGltZSB0byBzcGxpdCBwYXRjaGVz
+IHRvd2FyZHMgZXZlcnkgaW5kaXZpZHVhbA0KcGxhdGZvcm0gbWFpbnRhaW5lciBhbmQgZm9sbG93
+IHVwIHdpdGggdGhlbSB1bnRpbCBzdWNoIHBhdGNoZXMgd291bGQgZ2V0DQphY2NlcHRlZC4gSSB3
+b3VsZCBlbmNvdXJhZ2Ugc3VjaCBhbiBpbml0aWF0aXZlIGNvbWluZyBmcm9tIHNvbWVib2R5IGVs
+c2UsDQp0aG91Z2gu
