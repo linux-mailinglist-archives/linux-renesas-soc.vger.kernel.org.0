@@ -2,168 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 701225B78B0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Sep 2022 19:48:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CF715B78A1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Sep 2022 19:47:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233563AbiIMRqW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Sep 2022 13:46:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35536 "EHLO
+        id S233527AbiIMRq1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Sep 2022 13:46:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233405AbiIMRqA (ORCPT
+        with ESMTP id S233530AbiIMRqH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Sep 2022 13:46:00 -0400
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E4D46DAED;
-        Tue, 13 Sep 2022 09:42:01 -0700 (PDT)
-Received: by mail-qt1-f181.google.com with SMTP id cb8so9110686qtb.0;
-        Tue, 13 Sep 2022 09:42:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=nUbyO9E+1Q6feXAO0oMDhnIFniyfOKjq2mcZJKwUb+k=;
-        b=Qi6MMSo0mwKInls0EPO4Zv0cXqkCG33emESjMo/MQTwOmQPiop09YNd9oYNmesvwNP
-         eAg+gvtmbBcW66vky5YshbIGEg71rYbM0o0FPWI8puNb+QVD9gYy7IwCmzANBzVlgLii
-         ODnwBAG+gea+u+/wsk1P+SL26FwMSFLai5xqMKAYqLQsBVnapucwjxbvaroGUjDRf8Pj
-         nhkPqp50UKpfRxAKY3IHMESjENlUXbUZWGyGcwB/jLioFrDQLZHRD7eIhdLriqkM3YAd
-         Woz+wd/rUgmFqvBp6qsaxAcCsfRVJMK2g8KFvyXvcg0Qqq96jaP3201HvS10Gj9VAhjQ
-         az5g==
-X-Gm-Message-State: ACgBeo2SyHqwBkWRVuKRXHmz5U92pmNuA+aLlSZb/a6L8E9ETiPL041v
-        RK+fLBWkYoNlMh96FYPsJOnkJkgzN/CPBswb
-X-Google-Smtp-Source: AA6agR4LbedjCB4ZnRcFEf8JjHYxFYQo19RUEn7yAhrC3d7e9tI6siarYa5EBDI0W4fOfIo0JYAcoA==
-X-Received: by 2002:a05:622a:3cf:b0:35b:b16d:88e7 with SMTP id k15-20020a05622a03cf00b0035bb16d88e7mr10722638qtx.405.1663087320019;
-        Tue, 13 Sep 2022 09:42:00 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id bp14-20020a05620a458e00b006ce51b541dfsm3713453qkb.36.2022.09.13.09.41.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Sep 2022 09:41:58 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-3450990b0aeso147162197b3.12;
-        Tue, 13 Sep 2022 09:41:58 -0700 (PDT)
-X-Received: by 2002:a81:1691:0:b0:345:17df:4fc6 with SMTP id
- 139-20020a811691000000b0034517df4fc6mr26381933yww.502.1663087318249; Tue, 13
- Sep 2022 09:41:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220913084434.1191619-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdX9PCdTFsY_H6dqPVFs82HGqWzydhBaFNmL3_YR6vvWzQ@mail.gmail.com>
- <OS0PR01MB5922F5F3302A3AF05820229186479@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdXdAt5kfgPbyY-ragOL=abS_GUg4U_E1ovA3Ps0sZqHhg@mail.gmail.com> <OS0PR01MB592232E7F1F06F53463FBCC986479@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB592232E7F1F06F53463FBCC986479@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 13 Sep 2022 17:41:45 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU5c=S9m+4w7vvkEPsFjuBZKsunRYK3pivxEDvr_1JJYA@mail.gmail.com>
-Message-ID: <CAMuHMdU5c=S9m+4w7vvkEPsFjuBZKsunRYK3pivxEDvr_1JJYA@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r9a07g044: Fix 533MHz PLL2/3 clock
- multiplier and divider values
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        Tue, 13 Sep 2022 13:46:07 -0400
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 379D471BC9;
+        Tue, 13 Sep 2022 09:42:22 -0700 (PDT)
+Received: from [192.168.1.103] (31.173.87.32) by msexch01.omp.ru (10.188.4.12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Tue, 13 Sep
+ 2022 19:42:12 +0300
+Subject: Re: [PATCH net-next v2] ravb: Add RZ/G2L MII interface support
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        Biju Das <biju.das@bp.renesas.com>
+References: <20220912105137.302648-1-biju.das.jz@bp.renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <8b01cd1e-dd7a-2504-27bc-c8bcdb97145a@omp.ru>
+Date:   Tue, 13 Sep 2022 19:42:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20220912105137.302648-1-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [31.173.87.32]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 09/13/2022 16:21:50
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 172710 [Sep 13 2022]
+X-KSE-AntiSpam-Info: Version: 5.9.20.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 498 498 840112829f78e8dd3e3ddbbff8b15d552f4973a3
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.32 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.32 in (user) dbl.spamhaus.org}
+X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.87.32
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 09/13/2022 16:25:00
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 9/13/2022 2:00:00 PM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On 9/12/22 1:51 PM, Biju Das wrote:
 
-On Tue, Sep 13, 2022 at 10:58 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH] clk: renesas: r9a07g044: Fix 533MHz PLL2/3 clock
-> > multiplier and divider values
-> >
-> > On Tue, Sep 13, 2022 at 10:11 AM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > > > Subject: Re: [PATCH] clk: renesas: r9a07g044: Fix 533MHz PLL2/3
-> > > > clock multiplier and divider values On Tue, Sep 13, 2022 at 9:44 AM
-> > > > Biju Das <biju.das.jz@bp.renesas.com>
-> > > > wrote:
-> > > > > As per the HW manual (Rev.1.10 Apr, 2022) clock rate for 533MHz
-> > > > > PLL2 and
-> > > > > PLL3 clocks should be 533 MHz, but with current multiplier and
-> > > > > divider values this resulted to 533.333333 MHz.
-> > > > >
-> > > > > This patch updates the multiplier and divider values for 533 MHz
-> > > > > PLL2 and
-> > > > > PLL3 clocks so that we get the exact (533 MHz) values.
-> > > >
-> > > > Does this matter? Is there anything that doesn't work (well) because
-> > > > of this?
-> > >
-> > > Yes, SDHI performance gone bad as it selects 400Mhz clock instead of
-> > 533Mhz.
-> > > Similar case for RZ/G2UL, which I am testing it now.
-> > >
-> > > Previously:-
-> > > 533333333->src clk0
-> > > 400000000->src clk1
-> > > 266666666->src clk2
-> > >
-> > > Now:-
-> > > 533000000->src clk0
-> > > 400000000->src clk1
-> > > 266500000->src clk2
-> > >
-> > > If I am correct, with wrong values, it ended up in 533333332(parent
-> > > rate= 133333333 *4) and requested rate 533333333 and it selected best
-> > > rate as 400000000.
-> >
-> > IC, that is annoying.
-> >
-> > However, I don't think the right fix is to change the dividers to values
-> > that do not match the hardware.
->
-> The new values(for SDHI, SPI mult and M4) are matching with clock list
-> Document RZG2L_clock_list_r1.1.xlsx and HW manual(page 235/236)
-> Figure 7.2/7.3 Clock System Diagram.
+> EMAC IP found on RZ/G2L Gb ethernet supports MII interface.
+> This patch adds support for selecting MII interface mode.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+[...]
 
-All values are given in MHz, with a limited number of significant
-digits, not in Hz. The most accurate value I found is 66.625 MHz,
-which has 5 significant digits, and thus really means 66625xxx Hz.
-Such an accuracy matches the accuracy of typical clock crystals.
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index b980bce763d3..0c7c0d404dcb 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+[...]
+> @@ -965,6 +966,10 @@ enum CXR31_BIT {
+>  	CXR31_SEL_LINK1	= 0x00000008,
+>  };
+>  
+> +enum CXR35_BIT {
+> +	CXR35_SEL_MII	= 0x03E80002,
 
-The figures only mention "1600 MHz" and "533 MHz".  The latter
-has only 3 significant digits, and is probably just 1600 MHz / 3.
-All further dividers are documented to be powers of two.
+   I'd really prefer that SEL_XMII[1:0] and HALFCYC_CLKSW[15:0] fields to be explicitly
+spelled out here (as they are in the manual)...
 
-> Yes, we need to have some relaxation for clocks as mentioned
-> below.
+[...]
 
-Indeed. But this is IMHO something that should be handled by the
-code that looks for the best clock rate, instead of by fiddling with the
-dividers to get "nicely rounded" numbers.
-
-> > Due to the (in)accuracy of clock crystals, the least significant digits
-> > in the above clock rates are not significant anyway.
-> >
-> > Perhaps the "if (freq > (new_clock << i))" check in
-> > renesas_sdhi_clk_update() can be slightly relaxed, so it allows e.g. a
-> > 0.1% (or 1/1024th?) higher clock rate than requested?
-> >
-> > > > > -               DEF_FIXED(".pll2_533", CLK_PLL2_533, CLK_PLL2, 1,
-> > 3),
-> > > > > +               DEF_FIXED(".pll2_533", CLK_PLL2_533, CLK_PLL2,
-> > > > > + 533, 1600),
-> > > >
-> > > > I highly doubt the actual hardware is not using a by-3 divider....
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+MBR, Sergey
