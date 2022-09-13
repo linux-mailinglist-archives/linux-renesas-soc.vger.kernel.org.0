@@ -2,62 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A6425B6B5A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Sep 2022 12:05:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A3E15B6B5E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Sep 2022 12:06:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230131AbiIMKFU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Sep 2022 06:05:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56620 "EHLO
+        id S230399AbiIMKGE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Sep 2022 06:06:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229575AbiIMKFT (ORCPT
+        with ESMTP id S230494AbiIMKGC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Sep 2022 06:05:19 -0400
+        Tue, 13 Sep 2022 06:06:02 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6FC81C925
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Sep 2022 03:05:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 979CA2CC8C
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Sep 2022 03:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=XtEBPf5pH+My+FrJKHsY0t89YQ4O
-        B+yz70I1kUtpI1A=; b=d8T55NlQPPXuk9AQJcb63ukBCGa5e+5OdhJSVSftImxz
-        LlGMkdkthQCPrXQKGVBaWpJJCtizMjeo9PT5trSKB0joVPKJ2t7f+ilO0rfoKcel
-        G+Wdns8LJOgRP3vpXzwB2FSNBKG4pKhgznH3kHAThJdeE4Y81CLs67yq8wmfs4g=
-Received: (qmail 2090427 invoked from network); 13 Sep 2022 12:05:13 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Sep 2022 12:05:13 +0200
-X-UD-Smtp-Session: l3s3148p1@iha7JYzo6IhZZcFI
-Date:   Tue, 13 Sep 2022 11:05:09 +0100
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=BYbWZ7LYHvDFpzPpdnmpIMg3Dks
+        ark4EJo5LolLoG0c=; b=rLxYd3X4Ir9w5gNqcyQWPVdfN0vtS2PO0eWEBRnt89N
+        W5OQ/nJh77c7tngpeCvp//bfNK7fmpSqaNGR8OBVvA7BaCk5q9d5ue+7O5800Ba+
+        fGyLwImY+lu0e7LveaCm4075kZZbCyT2WJQAh17WmZ3yvlTQsxXRhB06cP/xHqbk
+        =
+Received: (qmail 2090867 invoked from network); 13 Sep 2022 12:05:59 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Sep 2022 12:05:59 +0200
+X-UD-Smtp-Session: l3s3148p1@r2msKIzoCLNZZcFI
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Subject: Re: [PATCH] clk: renesas: r9a07g044: Fix 533MHz PLL2/3 clock
- multiplier and divider values
-Message-ID: <YyBV1VDQZkyZ6Sq+@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-References: <20220913084434.1191619-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdX9PCdTFsY_H6dqPVFs82HGqWzydhBaFNmL3_YR6vvWzQ@mail.gmail.com>
- <OS0PR01MB5922F5F3302A3AF05820229186479@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdXdAt5kfgPbyY-ragOL=abS_GUg4U_E1ovA3Ps0sZqHhg@mail.gmail.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] Documentation: i2c: fix references to other documents
+Date:   Tue, 13 Sep 2022 11:05:52 +0100
+Message-Id: <20220913100552.3080-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="HVNKWk6hhn/5bMum"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXdAt5kfgPbyY-ragOL=abS_GUg4U_E1ovA3Ps0sZqHhg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
@@ -68,37 +46,68 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Similar to commit fe99b819487d ("docs: i2c: i2c-sysfs: fix hyperlinks"),
+make other links in documentation consistent with the preferred way.
 
---HVNKWk6hhn/5bMum
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ Documentation/i2c/dev-interface.rst   | 2 +-
+ Documentation/i2c/slave-interface.rst | 6 +++---
+ Documentation/i2c/writing-clients.rst | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/Documentation/i2c/dev-interface.rst b/Documentation/i2c/dev-interface.rst
+index 73ad34849f99..c277a8e1202b 100644
+--- a/Documentation/i2c/dev-interface.rst
++++ b/Documentation/i2c/dev-interface.rst
+@@ -148,7 +148,7 @@ You can do plain I2C transactions by using read(2) and write(2) calls.
+ You do not need to pass the address byte; instead, set it through
+ ioctl I2C_SLAVE before you try to access the device.
+ 
+-You can do SMBus level transactions (see documentation file smbus-protocol
++You can do SMBus level transactions (see documentation file smbus-protocol.rst
+ for details) through the following functions::
+ 
+   __s32 i2c_smbus_write_quick(int file, __u8 value);
+diff --git a/Documentation/i2c/slave-interface.rst b/Documentation/i2c/slave-interface.rst
+index 82ea3e1d6fe4..58fb143baee4 100644
+--- a/Documentation/i2c/slave-interface.rst
++++ b/Documentation/i2c/slave-interface.rst
+@@ -32,9 +32,9 @@ User manual
+ ===========
+ 
+ I2C slave backends behave like standard I2C clients. So, you can instantiate
+-them as described in the document 'instantiating-devices'. The only difference
+-is that i2c slave backends have their own address space. So, you have to add
+-0x1000 to the address you would originally request. An example for
++them as described in the document instantiating-devices.rst. The only
++difference is that i2c slave backends have their own address space. So, you
++have to add 0x1000 to the address you would originally request. An example for
+ instantiating the slave-eeprom driver from userspace at the 7 bit address 0x64
+ on bus 1::
+ 
+diff --git a/Documentation/i2c/writing-clients.rst b/Documentation/i2c/writing-clients.rst
+index e3b126cf4a3b..47f7cbf4ed1a 100644
+--- a/Documentation/i2c/writing-clients.rst
++++ b/Documentation/i2c/writing-clients.rst
+@@ -364,7 +364,7 @@ stop condition is issued between transaction. The i2c_msg structure
+ contains for each message the client address, the number of bytes of the
+ message and the message data itself.
+ 
+-You can read the file ``i2c-protocol`` for more information about the
++You can read the file i2c-protocol.rst for more information about the
+ actual I2C protocol.
+ 
+ 
+@@ -414,7 +414,7 @@ transactions return 0 on success; the 'read' transactions return the read
+ value, except for block transactions, which return the number of values
+ read. The block buffers need not be longer than 32 bytes.
+ 
+-You can read the file ``smbus-protocol`` for more information about the
++You can read the file smbus-protocol.rst for more information about the
+ actual SMBus protocol.
+ 
+ 
+-- 
+2.35.1
 
-> Perhaps the "if (freq > (new_clock << i))" check in
-> renesas_sdhi_clk_update() can be slightly relaxed, so it allows
-> e.g. a 0.1% (or 1/1024th?) higher clock rate than requested?
-
-Yes, we can do that.
-
-
---HVNKWk6hhn/5bMum
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMgVdEACgkQFA3kzBSg
-Kbb/ExAAg2fU++qlIjvZgHuLRHIS2c1h94pn2/5q39QcPk2gwVKXQ2wA+SK8NmUj
-tRNJOF9dxWfhVfXWO3kygEomskU6iRgm5s9hPjb9268vQYDz/uIVH7tZH12HBn9r
-jmZhfBwq5U4bDJvqi1ccO7aUJRgEdIDQGNOimPZXtsqaKdsxQmiqVshMiddtAHJr
-2c8ZJ5M4AEiWGgSsjT/Ggxd44BcKaaTm1PvoIIDW2j2OOJ84+qdK8fIGqJ1ttL6W
-+B0oFI+J+gmBurmVUfs4pDDki3iNDqwZo1SRT/DMsPsyzn4B4Q8KMWzPeIi4nFEE
-u3elU2LQ1Lske40iFVtgy0HXxcQ714Bb4mHNyhUeQwf2rPbYb2g2rvWyurayBirz
-zui7YNs9aF4sqOb0uj2q1o0gwySVI8+TIhLNQFGNsUEraUYg3++9Y4bhtxdcCbCX
-E1uv2BZvYhQqjTRzMmyI9QhUWgV89VPJtLkIItmu+KcAN5F/2jsVJijUNjpDEIdq
-f63B4cuPYcO2aU4WOXgAyLnAPwslBEGy9HhdTvIyvng2FdDjrTaDbjX4CdoRAMpr
-W7jKMKErGpyX4JqN79eumW0LJ2EuXXLqCOyajXyhgtTBVyl9FKtE/SjS+Ar9X9ka
-jwEGUp/GntMdJsyIfS4gchKGvjUD+7ZSSfTiaqCn40lB+/tiu/g=
-=36TJ
------END PGP SIGNATURE-----
-
---HVNKWk6hhn/5bMum--
