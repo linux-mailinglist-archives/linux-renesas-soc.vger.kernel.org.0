@@ -2,31 +2,31 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AE755B87C5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Sep 2022 14:03:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E233E5B87F4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Sep 2022 14:14:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229657AbiINMDa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Sep 2022 08:03:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60100 "EHLO
+        id S229971AbiINMOg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Sep 2022 08:14:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbiINMD2 (ORCPT
+        with ESMTP id S229844AbiINMOe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Sep 2022 08:03:28 -0400
+        Wed, 14 Sep 2022 08:14:34 -0400
 Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60B252E692;
-        Wed, 14 Sep 2022 05:03:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B2FA630F;
+        Wed, 14 Sep 2022 05:14:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
         s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
         Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
         Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=AGiS0RJTIfvi76lZW3pl+xDVDO1sAPMtoNwFdsbw634=; b=vjqzDyEsUkoDI9FWKQ04N1BR2s
-        lD59yHKCy3WGtuA1rDc+Q0YxLU6LluESH/a1B1rKF7jjIl4zL6XTDb1DUlT6qdXEXikhXG3HMTXLJ
-        HNykcBcCSnQN9qaBKbb6R5fja2iq16eQKNYD0inuCUT3zrAyI3+Aldk025u4Gul/K7M8=;
+        bh=tz87bZTZSZXeu56QgGABqxUheVY7VP5s9XkP94bRNEg=; b=JbFV4/W60NL52zgyPeWN5DL1j1
+        H541VPkVSdhCO4CFCjolpMSnqt2SgWo1DmCwkL5Y7+PgqTV5fPLgBsW42LCnDigzwrVkAQq4gbSso
+        fVmP83WrNIVCy0g05a97L7rdPT9GsXVlJ/qA5lRL7r7E01FvwhTi5sCKrP/ai2g27jX4=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
         (envelope-from <andrew@lunn.ch>)
-        id 1oYR6g-00Gh3A-SF; Wed, 14 Sep 2022 14:03:06 +0200
-Date:   Wed, 14 Sep 2022 14:03:06 +0200
+        id 1oYRHZ-00Gh8O-Ms; Wed, 14 Sep 2022 14:14:21 +0200
+Date:   Wed, 14 Sep 2022 14:14:21 +0200
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     "davem@davemloft.net" <davem@davemloft.net>,
@@ -41,16 +41,17 @@ Cc:     "davem@davemloft.net" <davem@davemloft.net>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 3/5] net: ethernet: renesas: Add Ethernet Switch driver
-Message-ID: <YyHC+r3uP7s15kny@lunn.ch>
+Subject: Re: [PATCH 5/5] arm64: dts: renesas: r8a779f0: spider: Enable
+ Ethernet Switch
+Message-ID: <YyHFnZdGTJL8uLxn@lunn.ch>
 References: <20220909132614.1967276-1-yoshihiro.shimoda.uh@renesas.com>
- <20220909132614.1967276-4-yoshihiro.shimoda.uh@renesas.com>
- <Yx+9OrYDxKjVUutF@lunn.ch>
- <TYBPR01MB5341F0C51EB2EBEF5A7107E7D8469@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <20220909132614.1967276-6-yoshihiro.shimoda.uh@renesas.com>
+ <Yx/L1VeVmR/QAErf@lunn.ch>
+ <TYBPR01MB53414B8CA1157760148FACB9D8469@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <TYBPR01MB5341F0C51EB2EBEF5A7107E7D8469@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYBPR01MB53414B8CA1157760148FACB9D8469@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -60,54 +61,35 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-> > > +static void rswitch_adjust_link(struct net_device *ndev)
-> > > +{
-> > > +	struct rswitch_device *rdev = netdev_priv(ndev);
-> > > +	struct phy_device *phydev = ndev->phydev;
-> > > +
-> > > +	if (phydev->link != rdev->etha->link) {
-> > > +		phy_print_status(phydev);
-> > > +		rdev->etha->link = phydev->link;
-> > > +	}
+> > > +		port@2 {
+> > > +			reg = <2>;
+> > > +			phy-handle = <&etha2>;
+> > > +			phy-mode = "sgmii";
+> > > +			#address-cells = <1>;
+> > > +			#size-cells = <0>;
+> > > +			etha2: ethernet-phy@2 {
+> > > +				reg = <3>;
+> > > +				compatible = "ethernet-phy-ieee802.3-c45";
+> > > +			};
+> > > +		};
 > > 
-> > Given that the SERDES supports 100 and 1G, it seems odd you don't need
-> > to do anything here.
+> > I find it interesting you have PHYs are address 1, 2, 3, even though
+> > they are on individual busses. Why pay for the extra pullup/down
+> > resistors when they could all have the same address?
 > 
-> Indeed. However, unfortunately, the current hardware cannot change the speed at runtime...
-> So, I'll add such comments here.
+> I don't know why. But, the board really configured such PHY addresses...
 
-Then you need to tell phylib about this. MAC drivers with limitations
-often call phy_set_max_speed() to remove higher speeds which the PHY
-can support, but the MAC cannot. You need to go further and remove
-lower speeds as well. The autoneg in the PHY should then only work for
-the speeds you actually support.
+That is not wrong. It could be the hardware engineer is used to shared
+MDIO busses, and just copy/pasted an existing design, but then
+separated the busses?
 
-> > > +static int rswitch_serdes_common_setting(void __iomem *addr0,
-> > > +					 enum rswitch_serdes_mode mode)
-> > > +{
-> > > +	switch (mode) {
-> > > +	case SGMII:
-> > > +		rswitch_serdes_write32(addr0, 0x0244, 0x180, 0x97);
-> > > +		rswitch_serdes_write32(addr0, 0x01d0, 0x180, 0x60);
-> > > +		rswitch_serdes_write32(addr0, 0x01d8, 0x180, 0x2200);
-> > > +		rswitch_serdes_write32(addr0, 0x01d4, 0x180, 0);
-> > > +		rswitch_serdes_write32(addr0, 0x01e0, 0x180, 0x3d);
-> > 
-> > Please add #defines for all these magic numbers.
-> 
-> I should have added comments before though, the datasheet also describes
-> such magic numbers like below...
-> Step S.4.1	bank 0x180	address = 0x0244		data = 0x00000097
-> Step S.4.2	bank 0x180	address = 0x01d0		data = 0x00000060
-> ...
-> 
-> So, perhaps we can define like the followings:
-> #define	SERDES_BANK_180		0x180
-> 
-> #define	SERDES_STEP_S_4_1_ADDR	0x0244
-> #define	SERDES_STEP_S_4_1_DATA	0x00000097
+You might see actual customer boards putting all the PHYs on one MDIO
+bus, to save pins. Linux has no problem with that, the phy-handle can
+point anywhere.
 
-Not really any better. Better to comment that you have no idea what
-any of this does, it is all black magic.
+One last thought. Is there anything in the data sheet about the switch
+hardware directly talking the PHY? Some of the Marvell switches can do
+that, but we disable that feature. The hardware has no idea what the
+PHY driver is doing, such as selecting different pages.
 
-    Andrew
+	  Andrew
