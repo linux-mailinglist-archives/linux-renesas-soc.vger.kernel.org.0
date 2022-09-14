@@ -2,134 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF9155B8DEB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Sep 2022 19:14:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A5555B8DDA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Sep 2022 19:08:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229797AbiINROr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Sep 2022 13:14:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60784 "EHLO
+        id S229705AbiINRIR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Sep 2022 13:08:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229785AbiINROn (ORCPT
+        with ESMTP id S229652AbiINRIQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Sep 2022 13:14:43 -0400
-X-Greylist: delayed 299 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 14 Sep 2022 10:14:40 PDT
-Received: from pb-smtp2.pobox.com (pb-smtp2.pobox.com [64.147.108.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A5F2B49D;
-        Wed, 14 Sep 2022 10:14:39 -0700 (PDT)
-Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
-        by pb-smtp2.pobox.com (Postfix) with ESMTP id 323AB1355A1;
-        Wed, 14 Sep 2022 13:05:59 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-        :to:cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=kBcYIzUMMLzOQ1WkSSqMTb/VLy/5DNe6qKq7qq
-        gWNmg=; b=kZpa/qBFBlRZh3evhQjdk3eQHOovp5FfKGExBzolTRnLuQIfvBbBG+
-        yuha2YCJpY426PPbQ/3pP0W2OuEwp8yDZZ8M6BHsaduaYadWyOWyOWqsQujQ1jN4
-        JHqHZfH1OIGj/ICyCrsbxUowLIUcOy+Su/KAn81K0h9/E52Se1tFk=
-Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp2.pobox.com (Postfix) with ESMTP id 21EF21355A0;
-        Wed, 14 Sep 2022 13:05:59 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=kBcYIzUMMLzOQ1WkSSqMTb/VLy/5DNe6qKq7qqgWNmg=; b=C9FJ8Zqf5dBTlV5mVZyAI7uWKiGoUqxaVjYbJXaZDyMxmYJQR0VQI+etR08Axj1fX08NSNSLb+cJWwaVsfEnV16AF6snv86CrSqxjuG/kHd+1utBC6dqkuZYjXy6jX9moBLQHTAVkhPazdeW6pC35xePN7k48Rl+gyY6Hh/qBig=
-Received: from yoda.home (unknown [96.21.170.108])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 8E48B13559F;
-        Wed, 14 Sep 2022 13:05:58 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id 8AAD3422E29;
-        Wed, 14 Sep 2022 13:05:57 -0400 (EDT)
-Date:   Wed, 14 Sep 2022 13:05:57 -0400 (EDT)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     Sudeep Holla <sudeep.holla@arm.com>
-cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Peng Fan <peng.fan@nxp.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "ben.dooks@codethink.co.uk" <ben.dooks@codethink.co.uk>,
-        "rafael.j.wysocki@intel.com" <rafael.j.wysocki@intel.com>,
-        "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
-        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        Aisheng Dong <aisheng.dong@nxp.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Dien Pham <dien.pham.ry@renesas.com>
-Subject: Re: Question: why call clk_prepare in pm_clk_acquire
-In-Reply-To: <20220914153038.inbch35g7ldsyzhx@bogus>
-Message-ID: <81pr96n7-p42q-s3s-1541-n777or1p612@syhkavp.arg>
-References: <DU0PR04MB94173B45A2CFEE3BF1BD313A88409@DU0PR04MB9417.eurprd04.prod.outlook.com> <CAPDyKFrzJikk6rJr9xwV6W-whvdLe5tTUE+xO_EoRtm+9DAbNA@mail.gmail.com> <20220908173840.rqy335cdeg5a2ww5@bogus> <CAPDyKFqYDNXxfKHd8PYy8T3di2s206nCiHY7cEf+_EHVrY1YbQ@mail.gmail.com>
- <20220909154254.xy4jvj6ybpuynghc@bogus> <CAMuHMdXvTWvZHjE-7CKOxCKjuPF++xQQRGedHeL2Zy-wsnHviw@mail.gmail.com> <CAMuHMdX2rJq0DJo9D_RSMoAj9GPc-Zts5+UNCFQGF3+EYVSXgQ@mail.gmail.com> <20220914153038.inbch35g7ldsyzhx@bogus>
+        Wed, 14 Sep 2022 13:08:16 -0400
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C53B646A;
+        Wed, 14 Sep 2022 10:08:14 -0700 (PDT)
+Received: from [192.168.1.103] (31.173.80.79) by msexch01.omp.ru (10.188.4.12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Wed, 14 Sep
+ 2022 20:08:03 +0300
+Subject: Re: [PATCH net-next v3] ravb: Add RZ/G2L MII interface support
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+References: <20220914064730.1878211-1-biju.das.jz@bp.renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <631f13b7-9cab-68b7-a0b1-368bb591c4d2@omp.ru>
+Date:   Wed, 14 Sep 2022 20:08:03 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: 80C8970C-344F-11ED-BB4D-307A8E0A682E-78420484!pb-smtp2.pobox.com
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220914064730.1878211-1-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [31.173.80.79]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 09/14/2022 16:47:12
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 172723 [Sep 14 2022]
+X-KSE-AntiSpam-Info: Version: 5.9.20.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 498 498 840112829f78e8dd3e3ddbbff8b15d552f4973a3
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.80.79 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.80.79
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 09/14/2022 16:51:00
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 9/14/2022 2:00:00 PM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 14 Sep 2022, Sudeep Holla wrote:
+On 9/14/22 9:47 AM, Biju Das wrote:
 
-> On Mon, Sep 12, 2022 at 06:58:49PM +0100, Geert Uytterhoeven wrote:
-> > Hi Sudeep,
-> > 
-> > CC Dien Pham
-> > 
-> > On Mon, Sep 12, 2022 at 6:49 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Fri, Sep 9, 2022 at 4:51 PM Sudeep Holla <sudeep.holla@arm.com> wrote:
-> > > > On Fri, Sep 09, 2022 at 01:12:03PM +0200, Ulf Hansson wrote:
-> > > > > On Thu, 8 Sept 2022 at 19:38, Sudeep Holla <sudeep.holla@arm.com> wrote:
-> > > > > > On Thu, Sep 08, 2022 at 04:37:13PM +0200, Ulf Hansson wrote:
-> > > > > > > On Thu, 8 Sept 2022 at 09:33, Peng Fan <peng.fan@nxp.com> wrote:
-> > > > > > > > We are facing an issue clk_set_rate fail with commit a3b884cef873 ("firmware:
-> > > > > > > > arm_scmi: Add clock management to the SCMI power domain") ,
-> > > > > > >
-> > > > > > > Hmm, I wonder about the main reason behind that commit. Can we revert
-> > > > > > > it or is there some platform/driver that is really relying on it?
-> > > > > > >
-> > > > > >
-> > > > > > IIUC, at the time of the commit, it was needed on some Renesas platform.
-> > > > > > Not sure if it is still used or not.
-> > > > >
-> > > > > Okay! Maybe Nico remembers more, as he authored the patch...
-> > > > >
-> > > >
-> > > > May be, or even check with Renesas team who tested his patch.
-> > >
-> > > I'm not aware of Renesas platforms using SCMI...
-> > 
-> > Upon closer look, Diep Pham did report a build issue in the SCMI code, so
-> > perhaps Diep knows more...
-> > 
+> EMAC IP found on RZ/G2L Gb ethernet supports MII interface.
+> This patch adds support for selecting MII interface mode.
 > 
-> Yes indeed, Diep Pham tested the original patch IIRC and also has reported
-> few bugs in SCMI clock code which are fixed. Hence I know it is used by
-> Renesas.
-> 
-> Hi Peng,
-> 
-> Absence of DTS changes indicate nothing. I am aware of couple of vendors
-> who use SCMI on several platforms and do report issues regularly and help
-> in review of the code. So DTS is not a good indicator of SCMI usage
-> unfortunately. On reason could be that since it is a firmware, bootloaders
-> can detect and update DTS, just my thought and may differ from the reality.
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Documented CXR35_HALFCYC_CLKSW1000 and CXR35_SEL_XMII_MII macros.
 
-Sorry for the delay.
+   I definitely didn't mean it done this way...
 
-This patch was indeed requested by Renesas for one of their platform 
-that uses SCMI clocks. I didn't have access to the platform myself at 
-the time but the patch was positively validated and tested by Renesas.
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index b980bce763d3..058aceac8c92 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+[...]
+> @@ -965,6 +966,11 @@ enum CXR31_BIT {
+>  	CXR31_SEL_LINK1	= 0x00000008,
+>  };
+>  
+> +enum CXR35_BIT {
+> +	CXR35_HALFCYC_CLKSW1000	= 0x03E80000,	/* 1000 cycle of clk_chi */
 
-This works in conjunction with commit 0bfa0820c274 that made generic 
-clock pm code usable with the SCMI layer.
+   No, please just declare:
 
-I didn't touch any clock stuff since then and I forgot about the finer 
-details unfortunately.
+	CXR35_HALFCYC_CLKSW	= 0xffff0000,
 
+> +	CXR35_SEL_XMII_MII	= 0x00000002,	/* MII interface is used */
 
-Nicolas
+   All the other register *enum*s are declared from LSB to MSB. The comment is pretty
+self-obvious here, please remove it. And declare the whole field too:
+
+	CXR35_SEL_XMII		= 0x00000003,
+	CXR35_SEL_XMII_RGMII	= 0x00000000,
+	CXR35_SEL_XMII_MII	= 0x00000002,
+
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index b357ac4c56c5..9a0d06dd5eb6 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -540,7 +540,14 @@ static void ravb_emac_init_gbeth(struct net_device *ndev)
+>  	/* E-MAC interrupt enable register */
+>  	ravb_write(ndev, ECSIPR_ICDIP, ECSIPR);
+>  
+> -	ravb_modify(ndev, CXR31, CXR31_SEL_LINK0 | CXR31_SEL_LINK1, CXR31_SEL_LINK0);
+> +	if (priv->phy_interface == PHY_INTERFACE_MODE_MII) {
+> +		ravb_modify(ndev, CXR31, CXR31_SEL_LINK0 | CXR31_SEL_LINK1, 0);
+> +		ravb_write(ndev, CXR35_HALFCYC_CLKSW1000 | CXR35_SEL_XMII_MII,
+> +			   CXR35);
+
+		ravb_write(ndev, (1000 << 16) | CXR35_SEL_XMII_MII, CXR35);
+
+[...]
+
+MBR, Sergey
