@@ -2,119 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DD5D5B8F40
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Sep 2022 21:26:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82DFF5B909A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Sep 2022 00:48:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229557AbiINT0N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Sep 2022 15:26:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40348 "EHLO
+        id S229622AbiINWsq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Sep 2022 18:48:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbiINT0M (ORCPT
+        with ESMTP id S229603AbiINWsp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Sep 2022 15:26:12 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0D805832F4;
-        Wed, 14 Sep 2022 12:26:10 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.93,315,1654527600"; 
-   d="scan'208";a="132851798"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 15 Sep 2022 04:26:09 +0900
-Received: from localhost.localdomain (unknown [10.226.93.23])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 33B8640CE636;
-        Thu, 15 Sep 2022 04:26:05 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Wed, 14 Sep 2022 18:48:45 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A8EA7823D
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Sep 2022 15:48:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=oomkBqicKgYn9/lFLoIRqt/+mTvN
+        OeJhxHbEB6Wx3Oo=; b=Siob67kQ8fUeVmuVR3uBlDgj3TOGb/EzLJk+o9yQOiqf
+        xatAfciq+bXQm7ZByqWfFmO8CpJYnwSpQm+dED0FM/iSZnSuw1pwKRuMLlQJaXXD
+        RN2ZSwFZv1pzikjwiAFY0Ov1cWoUSK9CrKea8BoyBVsDCQyfXeECfbMjOKHWeZQ=
+Received: (qmail 2746108 invoked from network); 15 Sep 2022 00:48:39 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Sep 2022 00:48:39 +0200
+X-UD-Smtp-Session: l3s3148p1@HLDV7aroqPVScWNM
+Date:   Wed, 14 Sep 2022 23:48:35 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] arm64: dts: renesas: r8a779a0: Update to R-Car Gen4
+ compatible values
+Message-ID: <YyJaQ0i+gs4yTgzU@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Subject: [PATCH net-next v5] ravb: Add RZ/G2L MII interface support
-Date:   Wed, 14 Sep 2022 20:26:04 +0100
-Message-Id: <20220914192604.265859-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <f14fde21270bf8269a61a75fc6e50af2765f2a42.1663164707.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="+/dHzsUQrc/2IHx+"
+Content-Disposition: inline
+In-Reply-To: <f14fde21270bf8269a61a75fc6e50af2765f2a42.1663164707.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-EMAC IP found on RZ/G2L Gb ethernet supports MII interface.
-This patch adds support for selecting MII interface mode.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v4->v5:
- * Reorderd enum CXR35_BIT from LSB to MSB
-v3->v4:
- * Dropped CXR35_HALFCYC_CLKSW1000 enum
- * Added CXR35_HALFCYC_CLKSW, CXR35_SEL_XMII and CXR35_SEL_XMII_RGMII
-   enum.
-v2->v3:
- * Documented CXR35_HALFCYC_CLKSW1000 and CXR35_SEL_XMII_MII enum.
-v1->v2:
- * Fixed spaces->Tab around CXR35 description.
----
- drivers/net/ethernet/renesas/ravb.h      | 8 ++++++++
- drivers/net/ethernet/renesas/ravb_main.c | 8 +++++++-
- 2 files changed, 15 insertions(+), 1 deletion(-)
+--+/dHzsUQrc/2IHx+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-index b980bce763d3..e0f8276cffed 100644
---- a/drivers/net/ethernet/renesas/ravb.h
-+++ b/drivers/net/ethernet/renesas/ravb.h
-@@ -189,6 +189,7 @@ enum ravb_reg {
- 	PSR	= 0x0528,
- 	PIPR	= 0x052c,
- 	CXR31	= 0x0530,	/* RZ/G2L only */
-+	CXR35	= 0x0540,	/* RZ/G2L only */
- 	MPR	= 0x0558,
- 	PFTCR	= 0x055c,
- 	PFRCR	= 0x0560,
-@@ -965,6 +966,13 @@ enum CXR31_BIT {
- 	CXR31_SEL_LINK1	= 0x00000008,
- };
- 
-+enum CXR35_BIT {
-+	CXR35_SEL_XMII		= 0x00000003,
-+	CXR35_SEL_XMII_RGMII	= 0x00000000,
-+	CXR35_SEL_XMII_MII	= 0x00000002,
-+	CXR35_HALFCYC_CLKSW	= 0xffff0000,
-+};
-+
- enum CSR0_BIT {
- 	CSR0_TPE	= 0x00000010,
- 	CSR0_RPE	= 0x00000020,
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index b357ac4c56c5..421c8ff1ce1f 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -540,7 +540,13 @@ static void ravb_emac_init_gbeth(struct net_device *ndev)
- 	/* E-MAC interrupt enable register */
- 	ravb_write(ndev, ECSIPR_ICDIP, ECSIPR);
- 
--	ravb_modify(ndev, CXR31, CXR31_SEL_LINK0 | CXR31_SEL_LINK1, CXR31_SEL_LINK0);
-+	if (priv->phy_interface == PHY_INTERFACE_MODE_MII) {
-+		ravb_modify(ndev, CXR31, CXR31_SEL_LINK0 | CXR31_SEL_LINK1, 0);
-+		ravb_write(ndev, (1000 << 16) | CXR35_SEL_XMII_MII, CXR35);
-+	} else {
-+		ravb_modify(ndev, CXR31, CXR31_SEL_LINK0 | CXR31_SEL_LINK1,
-+			    CXR31_SEL_LINK0);
-+	}
- }
- 
- static void ravb_emac_init_rcar(struct net_device *ndev)
--- 
-2.25.1
+On Wed, Sep 14, 2022 at 04:15:14PM +0200, Geert Uytterhoeven wrote:
+> Despite the name, R-Car V3U is the first member of the R-Car Gen4
+> family.  Hence update the compatible properties in various device nodes
+> to include family-specific compatible values for R-Car Gen4 instead of
+> R-Car Gen3:
+>   - CMT,
+>   - SDHI.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
 
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+
+--+/dHzsUQrc/2IHx+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMiWj8ACgkQFA3kzBSg
+Kbakqg//T+BEqJgbaSC/M65tRcbGVOJh3rClOQf941nveL41od5YEivYhMBhy5DZ
+gLLp8rLLWf+WPFTAJO/ImETo4C/mz2OPlkVnd1Ib/prm6pWhTgmMIpS3GageHksR
+WHLtU3as6qTcJ4qEdr2/oX2AGw2o8uWf3fSLopyzhKjJjhHnWIzLDTTarImgRmYv
+M6XHCeIGXwePR/JsulaeJhDk3tlawCBoB9isQzW8+6PzHPAYKdlMsiBV28flIx4v
+KDDvBSR1S2+9yCU/LsU5Hy8WTMEEAq8IFwOGM9u42gseYPF1faVwiCQRPnOG8UTG
+DSxF9Skmfn5ktHlDUKSCrS6kqPVRfbhtzXnDY9uwanE4wipBdDF5kK+VgTEH7KLU
+zczW8i3+TZHt+hwuoaigGsA5dFvxRdpgO6Uv/w4CdFaLR8+gnUGGCKLORb7yE9r4
+bvePtEegA1lawRGd1ueyVGdkDFHBpBvcMdne1NlfU2RzuGnp9VXdtmA6C3eu3rBH
+SZJMCG9CPUi/Y0xm4BxDzHltn4oxIovf1/1iGh3AMGrcW+FK5mr0vxVNymxiPILG
+2Qj3AF2g7x+mgUoe6UrYooG7tRhrTTJJLqjJnxNrG5kPl6l9unhUvDoWffj5FPnE
+yqMdb3/LXiH8703K5ErCn1925V0UJ7Y2fnZ4nIscI+2vIwGCfiw=
+=24rz
+-----END PGP SIGNATURE-----
+
+--+/dHzsUQrc/2IHx+--
