@@ -2,102 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE5C45B8951
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Sep 2022 15:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 104365B8A9F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Sep 2022 16:33:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229734AbiINNnG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Sep 2022 09:43:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56230 "EHLO
+        id S229774AbiINOdv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Sep 2022 10:33:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbiINNnF (ORCPT
+        with ESMTP id S230102AbiINOds (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Sep 2022 09:43:05 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEE2932062;
-        Wed, 14 Sep 2022 06:43:04 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id bq9so25795019wrb.4;
-        Wed, 14 Sep 2022 06:43:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=55t9oy9rYO6atteB92gtH+id2YSq0wuOjEorCfNnfh4=;
-        b=GbW7z5KA1KjxzU5iLaNR5B7UrSRboHeExbipwRQeWnRS+XZaDEZPSv5gO6g4WjE+eL
-         s56ngNetqHmuPMLBo8dYT4Y7E/xDELeEkCd1U1TXKspkEQTZVhYH55ePPFF/w4Q/Nrz2
-         h6b/RLruWCbVIJUJBL2zGzB23nb+ybn9FgURJdJ4S1SVKEcGhGSaTn3ZWI+6cFmAdCrE
-         CT6DGhIyxsX/hzYQfXvIMCXPFdGp2vezqxXmpqjWYM9WFX2OC4HI/uvNUPEy+aBV3Qea
-         ml1dB6Zh2kLfcFIObkxp7nAyt50oiE6U9/YGd4rV5/5IQPkYfU1otSSiME17HCeHCo6T
-         EBuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=55t9oy9rYO6atteB92gtH+id2YSq0wuOjEorCfNnfh4=;
-        b=dyewdwVVCQ02TRa3VhpulcBaBJjNy642B2He3SQudPgGPm0W42KWJT84qoOgUTVO91
-         GXMqYYXTKYm56lo+xdpK4Mr5taEA/PDeufrnnfiNstvODH4+iP8/4ycIjkBomfTLeUG3
-         lvZfivIc+eXkY8AN+pAxjiFc3lnrAHcSy6+bhw684etfLRLwaXF5dtUDLPERaJD1Q+I2
-         MMaHWS0VBPcD6wisGo7+imzIXa1m9XRdBoYlS5maO0fDAMJjJA1GmGfceJxLZMMCcNHM
-         hxXkmsyhsHZfmEpUNq7Jc3jBnpHPcD7yQP5d5GvFn/1wnuvfxv4KXi6Su9eCnxi91w6J
-         vLyQ==
-X-Gm-Message-State: ACgBeo0WggYeF80x1ij6TeN28ZMXaxeeIAXoOnP1ppCzdUBqTsnvlTaf
-        QxGmpsFDNiEwxYx5eIsLMsRsiWFrCoPpeg==
-X-Google-Smtp-Source: AA6agR7D1czQQSxadf8/PUV5e13WLA+bS4TjuUa+TJHym7+J47uajM1/m+Dnn7Lmquh8MiQTRYtN9g==
-X-Received: by 2002:a05:6000:1090:b0:228:a963:3641 with SMTP id y16-20020a056000109000b00228a9633641mr22115365wrw.289.1663162983253;
-        Wed, 14 Sep 2022 06:43:03 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:fc6e:cfa1:9281:3490])
-        by smtp.gmail.com with ESMTPSA id g8-20020a5d4888000000b00228dbaea941sm13567207wrq.26.2022.09.14.06.43.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Sep 2022 06:43:02 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] arm64: dts: renesas: rzg2ul-smarc-som: Drop enabling wdt2
-Date:   Wed, 14 Sep 2022 14:42:11 +0100
-Message-Id: <20220914134211.199631-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Wed, 14 Sep 2022 10:33:48 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3BC963F39
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Sep 2022 07:33:45 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:e925:8cbe:2e99:b03b])
+        by baptiste.telenet-ops.be with bizsmtp
+        id KqZi2800y3vs4GX01qZiPX; Wed, 14 Sep 2022 16:33:43 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1oYTSQ-005B5L-9k; Wed, 14 Sep 2022 16:33:42 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1oYTAa-000z4H-GB; Wed, 14 Sep 2022 16:15:16 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: r8a779a0: Update to R-Car Gen4 compatible values
+Date:   Wed, 14 Sep 2022 16:15:14 +0200
+Message-Id: <f14fde21270bf8269a61a75fc6e50af2765f2a42.1663164707.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Despite the name, R-Car V3U is the first member of the R-Car Gen4
+family.  Hence update the compatible properties in various device nodes
+to include family-specific compatible values for R-Car Gen4 instead of
+R-Car Gen3:
+  - CMT,
+  - SDHI.
 
-WDT CH2 is specifically to check the operation of Cortex-M33 CPU so
-don't enable WDT2 by default.
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi | 5 -----
- 1 file changed, 5 deletions(-)
+Dependencies are in v6.0-rc1, to be queued in renesas-devel for v6.1.
+---
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-index cf3b3d118ef1..2a0feb53f0dc 100644
---- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-@@ -263,8 +263,3 @@ &wdt0 {
- 	status = "okay";
- 	timeout-sec = <60>;
- };
--
--&wdt2 {
--	status = "okay";
--	timeout-sec = <60>;
--};
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+index 8539013f5870c2f0..ed9400f903c9ecef 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+@@ -247,7 +247,7 @@ gpio9: gpio@e6069980 {
+ 
+ 		cmt0: timer@e60f0000 {
+ 			compatible = "renesas,r8a779a0-cmt0",
+-				     "renesas,rcar-gen3-cmt0";
++				     "renesas,rcar-gen4-cmt0";
+ 			reg = <0 0xe60f0000 0 0x1004>;
+ 			interrupts = <GIC_SPI 500 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 501 IRQ_TYPE_LEVEL_HIGH>;
+@@ -260,7 +260,7 @@ cmt0: timer@e60f0000 {
+ 
+ 		cmt1: timer@e6130000 {
+ 			compatible = "renesas,r8a779a0-cmt1",
+-				     "renesas,rcar-gen3-cmt1";
++				     "renesas,rcar-gen4-cmt1";
+ 			reg = <0 0xe6130000 0 0x1004>;
+ 			interrupts = <GIC_SPI 448 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 449 IRQ_TYPE_LEVEL_HIGH>,
+@@ -279,7 +279,7 @@ cmt1: timer@e6130000 {
+ 
+ 		cmt2: timer@e6140000 {
+ 			compatible = "renesas,r8a779a0-cmt1",
+-				     "renesas,rcar-gen3-cmt1";
++				     "renesas,rcar-gen4-cmt1";
+ 			reg = <0 0xe6140000 0 0x1004>;
+ 			interrupts = <GIC_SPI 456 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 457 IRQ_TYPE_LEVEL_HIGH>,
+@@ -298,7 +298,7 @@ cmt2: timer@e6140000 {
+ 
+ 		cmt3: timer@e6148000 {
+ 			compatible = "renesas,r8a779a0-cmt1",
+-				     "renesas,rcar-gen3-cmt1";
++				     "renesas,rcar-gen4-cmt1";
+ 			reg = <0 0xe6148000 0 0x1004>;
+ 			interrupts = <GIC_SPI 464 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>,
+@@ -2065,7 +2065,7 @@ dmac2: dma-controller@e7351000 {
+ 
+ 		mmc0: mmc@ee140000 {
+ 			compatible = "renesas,sdhi-r8a779a0",
+-				     "renesas,rcar-gen3-sdhi";
++				     "renesas,rcar-gen4-sdhi";
+ 			reg = <0 0xee140000 0 0x2000>;
+ 			interrupts = <GIC_SPI 236 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 706>, <&cpg CPG_CORE R8A779A0_CLK_SD0H>;
 -- 
 2.25.1
 
