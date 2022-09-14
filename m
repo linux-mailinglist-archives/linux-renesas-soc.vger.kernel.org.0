@@ -2,106 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7932E5B8B35
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Sep 2022 17:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E75715B8BCB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Sep 2022 17:30:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229693AbiINPES (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Sep 2022 11:04:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50846 "EHLO
+        id S229626AbiINPap (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Sep 2022 11:30:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbiINPES (ORCPT
+        with ESMTP id S229546AbiINPao (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Sep 2022 11:04:18 -0400
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0283773937
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Sep 2022 08:04:14 -0700 (PDT)
-Received: by mail-qv1-f46.google.com with SMTP id j8so1025917qvt.13
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Sep 2022 08:04:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=XSErsq1oVxsZiNaDbKGbjDodYp2Fcn0pUHmT6W4JbdY=;
-        b=jSad55cW7yWsVisOywosZ2Dz3uRvxpxML/Hgb0JhNv7lba998+QcRvUiVZshrZ5MnL
-         +7UIb1TXhC2sVmFuMM1fPfUWXkgPPxjqntfTCTsRwyvs0NCUa7TEoUiy11VjxcUeYb5/
-         VuGbb+Yqo4amsZliWgc+kEfUxzbVT4WgftUpu495jZ2kp6zURSsl4i3P6tiks3w5wqUn
-         FTbABe49r1wpxTnYB67bztM0tSOtv7FfnlMCCnJR+jQwS+0dDjY4voC89J9ZcJqnCIpi
-         MZrZndqPoUaS+FJIJeic9IzjnNWXT2zCleukDANFziU3ju5kwglrgD4ByrrBvh/B8QIa
-         93sQ==
-X-Gm-Message-State: ACgBeo1lNBT0Z6m9BI0z2XTD0typS93Lbvm4aNAhpkuJ9JZijjxRJOO0
-        lqPlx82tKistiijnOaJwpsLazCxnQtwde+wF
-X-Google-Smtp-Source: AA6agR4MyokHVbBT5ChJc3S+uvJRKTBRMEgigifnETjqMyhzAiqpt3lvLBtw/WJZ5RI+uwJ9tEQ3cw==
-X-Received: by 2002:ad4:5dee:0:b0:4ac:b74f:a03a with SMTP id jn14-20020ad45dee000000b004acb74fa03amr13142441qvb.42.1663167846818;
-        Wed, 14 Sep 2022 08:04:06 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id a7-20020ac86107000000b0035ba3cae6basm1775365qtm.34.2022.09.14.08.04.06
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Sep 2022 08:04:06 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-346cd4c3d7aso183655787b3.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Sep 2022 08:04:06 -0700 (PDT)
-X-Received: by 2002:a0d:de43:0:b0:349:31bd:e8d5 with SMTP id
- h64-20020a0dde43000000b0034931bde8d5mr13074872ywe.283.1663167846161; Wed, 14
- Sep 2022 08:04:06 -0700 (PDT)
+        Wed, 14 Sep 2022 11:30:44 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BF3CA4455F;
+        Wed, 14 Sep 2022 08:30:42 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E5D0D1576;
+        Wed, 14 Sep 2022 08:30:48 -0700 (PDT)
+Received: from bogus (unknown [10.57.48.254])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ADBD73F73D;
+        Wed, 14 Sep 2022 08:30:40 -0700 (PDT)
+Date:   Wed, 14 Sep 2022 16:30:38 +0100
+From:   Sudeep Holla <sudeep.holla@arm.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Peng Fan <peng.fan@nxp.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        "ben.dooks@codethink.co.uk" <ben.dooks@codethink.co.uk>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "rafael.j.wysocki@intel.com" <rafael.j.wysocki@intel.com>,
+        "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+        "npitre@baylibre.com" <npitre@baylibre.com>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Dien Pham <dien.pham.ry@renesas.com>
+Subject: Re: Question: why call clk_prepare in pm_clk_acquire
+Message-ID: <20220914153038.inbch35g7ldsyzhx@bogus>
+References: <DU0PR04MB94173B45A2CFEE3BF1BD313A88409@DU0PR04MB9417.eurprd04.prod.outlook.com>
+ <CAPDyKFrzJikk6rJr9xwV6W-whvdLe5tTUE+xO_EoRtm+9DAbNA@mail.gmail.com>
+ <20220908173840.rqy335cdeg5a2ww5@bogus>
+ <CAPDyKFqYDNXxfKHd8PYy8T3di2s206nCiHY7cEf+_EHVrY1YbQ@mail.gmail.com>
+ <20220909154254.xy4jvj6ybpuynghc@bogus>
+ <CAMuHMdXvTWvZHjE-7CKOxCKjuPF++xQQRGedHeL2Zy-wsnHviw@mail.gmail.com>
+ <CAMuHMdX2rJq0DJo9D_RSMoAj9GPc-Zts5+UNCFQGF3+EYVSXgQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <87leqo58ox.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87leqo58ox.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 14 Sep 2022 16:03:54 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUK27ust58Pz=oJBOELEKTGs5Cn0crhrakn-3QiaavtPw@mail.gmail.com>
-Message-ID: <CAMuHMdUK27ust58Pz=oJBOELEKTGs5Cn0crhrakn-3QiaavtPw@mail.gmail.com>
-Subject: Re: [PATCH RESEND] arm64: dts: renesas: spider: add missing bootargs
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdX2rJq0DJo9D_RSMoAj9GPc-Zts5+UNCFQGF3+EYVSXgQ@mail.gmail.com>
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+On Mon, Sep 12, 2022 at 06:58:49PM +0100, Geert Uytterhoeven wrote:
+> Hi Sudeep,
+> 
+> CC Dien Pham
+> 
+> On Mon, Sep 12, 2022 at 6:49 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Fri, Sep 9, 2022 at 4:51 PM Sudeep Holla <sudeep.holla@arm.com> wrote:
+> > > On Fri, Sep 09, 2022 at 01:12:03PM +0200, Ulf Hansson wrote:
+> > > > On Thu, 8 Sept 2022 at 19:38, Sudeep Holla <sudeep.holla@arm.com> wrote:
+> > > > > On Thu, Sep 08, 2022 at 04:37:13PM +0200, Ulf Hansson wrote:
+> > > > > > On Thu, 8 Sept 2022 at 09:33, Peng Fan <peng.fan@nxp.com> wrote:
+> > > > > > > We are facing an issue clk_set_rate fail with commit a3b884cef873 ("firmware:
+> > > > > > > arm_scmi: Add clock management to the SCMI power domain") ,
+> > > > > >
+> > > > > > Hmm, I wonder about the main reason behind that commit. Can we revert
+> > > > > > it or is there some platform/driver that is really relying on it?
+> > > > > >
+> > > > >
+> > > > > IIUC, at the time of the commit, it was needed on some Renesas platform.
+> > > > > Not sure if it is still used or not.
+> > > >
+> > > > Okay! Maybe Nico remembers more, as he authored the patch...
+> > > >
+> > >
+> > > May be, or even check with Renesas team who tested his patch.
+> >
+> > I'm not aware of Renesas platforms using SCMI...
+> 
+> Upon closer look, Diep Pham did report a build issue in the SCMI code, so
+> perhaps Diep knows more...
+> 
 
-On Tue, Sep 13, 2022 at 3:06 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> This patch adds missing bootargs for S4 Spider board.
->
-> One note is that current Spider board doesn't have Ethernet
-> support yet, but this patch adds standard settings for it, too.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Yes indeed, Diep Pham tested the original patch IIRC and also has reported
+few bugs in SCMI clock code which are fixed. Hence I know it is used by
+Renesas.
 
-Thanks for your patch!
+Hi Peng,
 
-> --- a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
+Absence of DTS changes indicate nothing. I am aware of couple of vendors
+who use SCMI on several platforms and do report issues regularly and help
+in review of the code. So DTS is not a good indicator of SCMI usage
+unfortunately. On reason could be that since it is a firmware, bootloaders
+can detect and update DTS, just my thought and may differ from the reality.
 
-Just like on White Hawk, I would like to apply this patch to
-r8a779f0-spider-cpu.dtsi instead. No need to resend.
-
-> @@ -19,6 +19,7 @@ aliases {
->         };
->
->         chosen {
-> +               bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
->                 stdout-path = "serial0:115200n8";
->         };
->  };
-
-Reviewed-by: by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Regards,
+Sudeep
