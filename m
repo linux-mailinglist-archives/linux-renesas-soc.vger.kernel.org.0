@@ -2,129 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6970E5BA0BF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Sep 2022 20:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 186885BA204
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Sep 2022 22:53:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229874AbiIOSSM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Sep 2022 14:18:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38940 "EHLO
+        id S229722AbiIOUxk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Sep 2022 16:53:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230051AbiIOSRx (ORCPT
+        with ESMTP id S229615AbiIOUxi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Sep 2022 14:17:53 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0F8B9F76F;
-        Thu, 15 Sep 2022 11:17:41 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id n10so1523776wrw.12;
-        Thu, 15 Sep 2022 11:17:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=xzoqzDtndDkISsSwTujowyDPoGXKL8jqH4hdlXLXrA0=;
-        b=g5ulsbtE6DartTUDwK1K53pxs737iOAFvah1Hi8jK5pmVKn8KAVEf6OvssWURbZdFo
-         dOSWToLwlaQwdJ18U4d1RedSFWSgxN+7k0AN5OqBda/cevb25gOLuTuI4LLibl9keWto
-         N4Q825SAEdoOvDk6rXAoR/pJs7twaguzQCwGvopOeL3C4STOtA0O7SZgrNRYy1wyTxRZ
-         9jvDY4BZL8Srqk7Y+0B8Gc61zSI9T8yYmC2DmzFDp33WvqFBWINF5x4NaI7ujWuZuoTk
-         DlNo+uDiS/xJUShEyQUfQ0UwDltURs02MR4sa1gaqN6zbcRSatsrYEFTxBqxt7dBSZ4p
-         ay3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=xzoqzDtndDkISsSwTujowyDPoGXKL8jqH4hdlXLXrA0=;
-        b=GKPuEmJ7jarW93RFlCuEp4Zld5Gey5ggZ7KxLAa6TIbtdhOiW/nlpBAkpPR3KXeuwa
-         ikgLrjHTwdm6dWMqC28pkOpbKUkN6gTA5yMnTUK6wZeXtyK0TdKTGSYighwWwb4N6pgX
-         p8dOWf3ku1j306Hw1X7GYI0LsigOSSEfad9+DjpUj4ffoJV0Y9Mz1QTtgXCtB2bsSppe
-         M8LNRWJQFDCFe+GAyyZ/fHhNyMWhPFwHjabDCf6Uu/RGnRrTNUf0d9od5kPg5hVlW/l+
-         FZPitbH0WhUZo8p0KWT7j7ixUux38BeANgcE09UWKBOV7Oe4S799XDfcK3DRLyb7FeSN
-         75uw==
-X-Gm-Message-State: ACrzQf3wvL0zA8XdiWNBUpuxUSnKOyPQzB2qJlbEuPV9eM6u6PUTuySL
-        072nAEl3CP8mKQO0SaIbGToOyezcXG8YJQ==
-X-Google-Smtp-Source: AMsMyM7tjqwmJxX5D4dBi01RrRk+6JKiqTi1egw5XeegPGl6fRnFXsEXlXXpxAL3CklC75qxxfrBMg==
-X-Received: by 2002:a05:6000:384:b0:22a:5d05:c562 with SMTP id u4-20020a056000038400b0022a5d05c562mr579729wrf.701.1663265861500;
-        Thu, 15 Sep 2022 11:17:41 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:d411:a48b:4035:3d98])
-        by smtp.gmail.com with ESMTPSA id c11-20020a05600c0a4b00b003b47e8a5d22sm4243151wmq.23.2022.09.15.11.17.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Sep 2022 11:17:40 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Thu, 15 Sep 2022 16:53:38 -0400
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A29B481E8;
+        Thu, 15 Sep 2022 13:53:36 -0700 (PDT)
+Received: from [167.98.135.4] (helo=phil.localnet)
+        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <heiko@sntech.de>)
+        id 1oYvrO-00079Q-DO; Thu, 15 Sep 2022 22:53:22 +0200
+From:   Heiko Stuebner <heiko@sntech.de>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>
-Cc:     Heiko Stuebner <heiko@sntech.de>,
-        Atish Patra <atishp@rivosinc.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Atish Patra <atishp@rivosinc.com>,
         Conor Dooley <conor.dooley@microchip.com>,
         devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 10/10] RISC-V: configs: defconfig: Enable Renesas RZ/Five SoC
-Date:   Thu, 15 Sep 2022 19:15:58 +0100
-Message-Id: <20220915181558.354737-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220915181558.354737-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220915181558.354737-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v3 02/10] dt-bindings: riscv: Sort the CPU core list alphabetically
+Date:   Thu, 15 Sep 2022 22:53:20 +0200
+Message-ID: <2526125.Lt9SDvczpP@phil>
+In-Reply-To: <20220915181558.354737-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220915181558.354737-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220915181558.354737-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_PASS,
+        T_SPF_HELO_TEMPERROR autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Am Donnerstag, 15. September 2022, 20:15:50 CEST schrieb Prabhakar:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Sort the CPU cores list alphabetically for maintenance.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Enable Renesas RZ/Five SoC config in defconfig. It allows the default
-upstream kernel to boot on RZ/Five SMARC EVK board.
+That makes a lot of sense
 
-Alongside enable SERIAL_SH_SCI config so that the serial driver used by
-RZ/Five SoC is built-in.
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2->v3
-* Included RB tags
-* Updated commit description
+> ---
+> v2->v3
+> * included RB tag from Geert
+> 
+> v1->v2
+> * Included RB tag from Krzysztof
+> ---
+>  Documentation/devicetree/bindings/riscv/cpus.yaml | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Documentation/devicetree/bindings/riscv/cpus.yaml
+> index 873dd12f6e89..2a1c5ae5b0aa 100644
+> --- a/Documentation/devicetree/bindings/riscv/cpus.yaml
+> +++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
+> @@ -27,17 +27,17 @@ properties:
+>      oneOf:
+>        - items:
+>            - enum:
+> -              - sifive,rocket0
+> +              - canaan,k210
+>                - sifive,bullet0
+>                - sifive,e5
+>                - sifive,e7
+>                - sifive,e71
+> -              - sifive,u74-mc
+> -              - sifive,u54
+> -              - sifive,u74
+> +              - sifive,rocket0
+>                - sifive,u5
+> +              - sifive,u54
+>                - sifive,u7
+> -              - canaan,k210
+> +              - sifive,u74
+> +              - sifive,u74-mc
+>            - const: riscv
+>        - items:
+>            - enum:
+> 
 
-v1->v2
-* New patch
----
- arch/riscv/configs/defconfig | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-index 05fd5fcf24f9..3dd9aa4d707d 100644
---- a/arch/riscv/configs/defconfig
-+++ b/arch/riscv/configs/defconfig
-@@ -26,6 +26,7 @@ CONFIG_EXPERT=y
- # CONFIG_SYSFS_SYSCALL is not set
- CONFIG_PROFILING=y
- CONFIG_SOC_MICROCHIP_POLARFIRE=y
-+CONFIG_SOC_RENESAS_RZFIVE=y
- CONFIG_SOC_SIFIVE=y
- CONFIG_SOC_STARFIVE=y
- CONFIG_SOC_VIRT=y
-@@ -123,6 +124,7 @@ CONFIG_INPUT_MOUSEDEV=y
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_OF_PLATFORM=y
-+CONFIG_SERIAL_SH_SCI=y
- CONFIG_VIRTIO_CONSOLE=y
- CONFIG_HW_RANDOM=y
- CONFIG_HW_RANDOM_VIRTIO=y
--- 
-2.25.1
+
 
