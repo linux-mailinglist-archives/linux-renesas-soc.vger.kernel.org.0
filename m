@@ -2,152 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D3665B9C6A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Sep 2022 15:56:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D9E45B9D21
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Sep 2022 16:31:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229642AbiION4K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Sep 2022 09:56:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51478 "EHLO
+        id S229818AbiIOObP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Sep 2022 10:31:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229706AbiION4J (ORCPT
+        with ESMTP id S229695AbiIOObO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Sep 2022 09:56:09 -0400
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8805E61700;
-        Thu, 15 Sep 2022 06:56:07 -0700 (PDT)
-Received: by mail-oi1-f177.google.com with SMTP id w125so2303701oig.3;
-        Thu, 15 Sep 2022 06:56:07 -0700 (PDT)
+        Thu, 15 Sep 2022 10:31:14 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F34C89934
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Sep 2022 07:31:13 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id ay36so4441846wmb.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Sep 2022 07:31:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=jzN+RkL3+HYpV5uaSocPVjuz6+/WusIjt5gu3LU+tH4=;
+        b=C9xrr9CBZ+W1kBMx3LJmipKqrsAdXyqlDLrSqQ58gEM4pdV9C35qA3iQK2ah9iiJ/R
+         6IolHtEk4LRhX+my19Hj2nWS0mJTxD//2s9FdO+I+qCjzXdn/GNlTZKEaiAJFop0V82v
+         OC/ZfF7LsCi52BDe6v1yyjYkmtRNVZH7v12y5uTPeXaAfsYX+m5avpNKSkgwpL6ALSbO
+         jlD29ZaWkuKT+tuMfxxWO3ytHyVbPx9aTniAQ9ILOMaVL0oVq7VmyBOUhszLnLVteXYm
+         5WmYpgZLaJ27S9EeSbpM0Cx0Ah2+1F5JGFfzZ5q10RP8ElhQtAsqZ5D9AZThrKcCNmAd
+         4GMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=q66f43KsxyST/5BEurZYfdj2G2PKAITc7F9iCXzLPdk=;
-        b=Flxga/hDO3VCaHBIyXTRyP5PDhUfHXv6PCujHJupjqUGUSCE4vcWNhXftTUnpa7+je
-         /7MIiAVk7uaW3gQN7fZsBjI5DnCzyvUDRAr/w3y73O5DPjudrZYOMnC1w5mAPGn5he5H
-         NdV2hBLNA5SX6fAQP8WEaqtA+0ZrXfT1JpWSu7JLSlS4tHSmJqXk4ioWwtso45hKLfjv
-         6zeA7dsIrREAypb1MU5WZ62dC4maFQ5j+nJPsnRZ+HSU2cKf32l6+WEGKjZxJbmo9svD
-         XH/7wxtRO7F2O6i91ewZYNgWP4ERgI/5Ib4KHv0ASnlhpVoKCRVHAgc3IyvfDPMu0k/b
-         u94w==
-X-Gm-Message-State: ACgBeo1SvCiLILcwDDY5joUHCxQBWUysWpQpO8TtrdkCduSStKfPhO5X
-        4VjNTv+N0hC8pD1rGp8vmg==
-X-Google-Smtp-Source: AA6agR4OqVR+8Sws/CQvxnWN++jg3/yUDEHTGwCJaIb2Vl0cXOP+vOI1TG5xv/TIrBp9LI7gXfjcXQ==
-X-Received: by 2002:a05:6808:f8d:b0:345:6ee0:9a65 with SMTP id o13-20020a0568080f8d00b003456ee09a65mr4115637oiw.299.1663250166396;
-        Thu, 15 Sep 2022 06:56:06 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id x7-20020a4a8d47000000b004728e64dc0fsm8043611ook.38.2022.09.15.06.56.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Sep 2022 06:56:05 -0700 (PDT)
-Received: (nullmailer pid 1191178 invoked by uid 1000);
-        Thu, 15 Sep 2022 13:56:04 -0000
-Date:   Thu, 15 Sep 2022 08:56:04 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Krzysztof Kozlowski <k.kozlowski.k@gmail.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        dri-devel@lists.freedesktop.org,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        linux-omap@vger.kernel.org,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        devicetree@vger.kernel.org,
-        =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>
-Subject: Re: [PATCH v2 3/3] dt-bindings: display: bridge: nxp,tda998x:
- Convert to json-schema
-Message-ID: <20220915135604.GA1180348-robh@kernel.org>
-References: <cover.1663165552.git.geert+renesas@glider.be>
- <1224e757ec958f8b29ec66e783a7ee805c339d84.1663165552.git.geert+renesas@glider.be>
- <20220915092649.moyd6j6jm7dk6vmh@krzk-bin>
- <CAMuHMdWqQXm66kbbKdK0O2qQFM_3oGEWEGmh4LxBZwR-PDc_Hg@mail.gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=jzN+RkL3+HYpV5uaSocPVjuz6+/WusIjt5gu3LU+tH4=;
+        b=Lr3xqD95RtHzETV1BK3f3/gFQSCtYggGF9VZgLMTcnEV/nPM00C59jaw4ztj5rm+I+
+         YSCKB1rymdp55gVsiXwYwAMZUTpT2KPlYw8COQG/DuCPPmdOWKYbOksXJ2cbJe+Dmy5z
+         +5pjccAZ0PBRkbvMyo2YyXV8UHS3D9I1/uZsD3OcSVvh1Bhdcjc/ZwS0BX6WaZEQBW7O
+         TnQd8A3607e2YEm6XFPFTdkTJnCCfx+4hktJGJmTcW5WIIG6tPhEZ/ZrJcq9/KBYT9ux
+         J+g6QgybpZM75caERV1XRg1c+LTwqXe0AGEYVLs+kg2TWkxEfYpvSzY8Ipiw5jtI8geV
+         CDeg==
+X-Gm-Message-State: ACgBeo3Tw0qalcQSTY7HWnLPhAerPDiSAATD1ZXSRiCquyU753dXs/VO
+        dY89bI3Df3SE18MaO4Mc0jibSQ==
+X-Google-Smtp-Source: AA6agR4zYPtswUxwv+bjjArjupfpo//XBQX8ZJCy1hTwWvbz611yPtorduCPyU7dIWhfCy3kzRoqqA==
+X-Received: by 2002:a1c:7905:0:b0:3b3:3fa9:4c3a with SMTP id l5-20020a1c7905000000b003b33fa94c3amr7148909wme.55.1663252271795;
+        Thu, 15 Sep 2022 07:31:11 -0700 (PDT)
+Received: from [10.119.22.201] ([89.101.193.72])
+        by smtp.gmail.com with ESMTPSA id q17-20020adff951000000b00228dff8d975sm2762250wrr.109.2022.09.15.07.31.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Sep 2022 07:31:11 -0700 (PDT)
+Message-ID: <dd95a178-8d5b-ecc9-9ec9-6988ab1dcf31@linaro.org>
+Date:   Thu, 15 Sep 2022 15:31:10 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWqQXm66kbbKdK0O2qQFM_3oGEWEGmh4LxBZwR-PDc_Hg@mail.gmail.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2] dt-bindings: phy: renesas,rcar-gen2-usb-phy: Convert
+ to json-schema
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-phy@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>
+References: <dbdcffd009302734fe2fb895ce04b72fa1ea4355.1663165000.git.geert+renesas@glider.be>
+ <20220915093537.qqddtqx2lr5ttuck@krzk-bin>
+ <CAMuHMdV9dv8j34bXBiussjM3f6+nW2aJ-S2drU-MF4q_aB8trg@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAMuHMdV9dv8j34bXBiussjM3f6+nW2aJ-S2drU-MF4q_aB8trg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 15, 2022 at 12:15:28PM +0100, Geert Uytterhoeven wrote:
+On 15/09/2022 12:12, Geert Uytterhoeven wrote:
 > Hi Krzysztof,
 > 
-> On Thu, Sep 15, 2022 at 10:26 AM Krzysztof Kozlowski
-> <k.kozlowski.k@gmail.com> wrote:
-> > On Wed, 14 Sep 2022 16:33:22 +0200, Geert Uytterhoeven wrote:
-> > > Convert the NXP TDA998x HDMI transmitter Device Tree binding
-> > > documentation to json-schema.
-> > >
-> > > Add missing "#sound-dai-cells" property.
-> > > Add ports hierarchy, as an alternative to port.
-> > > Drop pinctrl properties, as they do not belong here.
-> > >
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > > v2:
-> > >   - Add maximum to video-ports,
-> > >   - Drop unneeded maxItems for audio-ports,
-> > >   - Complete port descriptions.
-> > > ---
-> > >  .../bindings/display/bridge/nxp,tda998x.yaml  | 109 ++++++++++++++++++
-> > >  .../bindings/display/bridge/tda998x.txt       |  54 ---------
-> > >  2 files changed, 109 insertions(+), 54 deletions(-)
-> > >  create mode 100644 Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml
-> > >  delete mode 100644 Documentation/devicetree/bindings/display/bridge/tda998x.txt
-> > >
-> >
-> > Running 'make dtbs_check' with the schema in this patch gives the
-> > following warnings. Consider if they are expected or the schema is
-> > incorrect. These may not be new warnings.
-> >
-> > Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-> > This will change in the future.
-> >
-> > Full log is available here: https://patchwork.ozlabs.org/patch/
-> >
-> >
-> > tda19988@70: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-> >         arch/arm64/boot/dts/renesas/r8a774c0-cat874.dtb
-> >         arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb
-> >         arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb
-> >         arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb
-> >
-> > tda19988@70: ports: 'oneOf' conditional failed, one must be fixed:
-> >         arch/arm/boot/dts/am335x-boneblack.dtb
-> >         arch/arm/boot/dts/am335x-boneblack-wireless.dtb
-> >         arch/arm/boot/dts/am335x-sancloud-bbe.dtb
-> >
-> > tda19988@70: ports:port@0: 'reg' is a required property
-> >         arch/arm/boot/dts/am335x-boneblack.dtb
-> >         arch/arm/boot/dts/am335x-boneblack-wireless.dtb
-> >         arch/arm/boot/dts/am335x-sancloud-bbe.dtb
-> >
-> > tda9988@70: ports: 'oneOf' conditional failed, one must be fixed:
-> >         arch/arm/boot/dts/am335x-myirtech-myd.dtb
-> >
-> > tda9988@70: ports:port@0: 'reg' is a required property
-> >         arch/arm/boot/dts/am335x-myirtech-myd.dtb
+> On Thu, Sep 15, 2022 at 10:35 AM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:>
+>> On Wed, 14 Sep 2022 16:17:37 +0200, Geert Uytterhoeven wrote:
+>>> Convert the Renesas R-Car Gen2 USB PHY Device Tree binding documentation
+>>> to json-schema.
+>>>
+>>> Add missing properties.
+>>> Rename the device node from "usb-phy" to "usb-phy-controller", as it
+>>> does not represent a USB PHY itself, and thus does not have a
+>>> "#phy-cells" property.
+>>> Rename the child nodes from "usb-channel" to "usb-phy", as these do
+>>> represent USB PHYs.
+>>> Drop the second example, as it doesn't add any value.
+>>>
+>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>> ---
+>>> v2:
+>>>   - Rename nodes to fix "'#phy-cells' is a required property".
+>>>
+>>> This is the final conversion to json-schema of DT bindings for Renesas
+>>> ARM SoCs, hurray!
+>>>
+>>> Note that there are still a few plain text bindings left for Renesas IP
+>>> cores that are present on non-Renesas SoCs (nbpfaxi and usdhi6rol0).
+>>> ---
+>>>  .../devicetree/bindings/phy/rcar-gen2-phy.txt | 112 ----------------
+>>>  .../phy/renesas,rcar-gen2-usb-phy.yaml        | 123 ++++++++++++++++++
+>>>  2 files changed, 123 insertions(+), 112 deletions(-)
+>>>  delete mode 100644 Documentation/devicetree/bindings/phy/rcar-gen2-phy.txt
+>>>  create mode 100644 Documentation/devicetree/bindings/phy/renesas,rcar-gen2-usb-phy.yaml
+>>>
+>>
+>> Running 'make dtbs_check' with the schema in this patch gives the
+>> following warnings. Consider if they are expected or the schema is
+>> incorrect. These may not be new warnings.
 > 
-> Please test this with the earlier patches in the same series applied ;-)
+> These should be fixed by the DTS counterpart
+> "[PATCH] ARM: dts: renesas: Fix USB PHY device and child node names"
+> https://lore.kernel.org/all/6442b4042e26537abc8632c4772f8201685f1f1f.1663165098.git.geert+renesas@glider.be/>
+> 
+> In hindsight, I should have cross-linked the patches in both
+> directions, not just in one direction. Sorry for that.
 
-Just ignore if not useful. It's informational purposes.
+No worries. Thanks for fixing it and error can be ignored.
 
-The testing doesn't get series because it gets patches from PW which 
-filters out just bindings. And it tests a patch at a time to get 
-warnings for that patch. If folks want to stop sending binding patches 
-for a couple of months, I can improve it.
 
-Rob
+Best regards,
+Krzysztof
