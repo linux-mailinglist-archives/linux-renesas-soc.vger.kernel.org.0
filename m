@@ -2,113 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 555C95B975F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Sep 2022 11:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B39635B9785
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Sep 2022 11:35:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229480AbiIOJ04 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Sep 2022 05:26:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44486 "EHLO
+        id S229790AbiIOJfp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Sep 2022 05:35:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbiIOJ0z (ORCPT
+        with ESMTP id S229766AbiIOJfn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Sep 2022 05:26:55 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4CBF8036D;
-        Thu, 15 Sep 2022 02:26:53 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id t7so29836499wrm.10;
-        Thu, 15 Sep 2022 02:26:53 -0700 (PDT)
+        Thu, 15 Sep 2022 05:35:43 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E27532AAE
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Sep 2022 02:35:41 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id 9-20020a1c0209000000b003b494ffc00bso216325wmc.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Sep 2022 02:35:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date;
-        bh=oZcHLP4HdtR1v6BTWYj2XPRoK5siEVv1DYPhLj/hidc=;
-        b=cONemxuhxWJMQH4WpbMvaGKwDDh4gIAk76NP0g4nDCA3tstm3EL4xD44d2qcxdAlkX
-         B39HdGRxDNuZX3ktCsG3whTIwHCK+HlUz3A7uROi/5sg01STJcRS7NwWiW9HqP/zM6P6
-         olYkV6nf9ZvDtGDsc2i4ZmpYywGrSic+1yeluNOHvtnzc6Qy7M9jpkK9YLfvSje1d2eQ
-         ev29p2u8jfnyuguwbqzagr3E49jWKe2Zz6ymtMueMWiDv5JaI42zbJHDFaRL6X5dFrP/
-         +tJFxSJO2DFVaIDhZc+Jn5yyZlHjNkD9uz62A0wNU+tLbwxNPphFaKWZb/KkWkt6BBQS
-         B3RQ==
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=zAQhEoqs9m6tH0S1Pwi/N64OzurKgUWPJ1fRej5gFrw=;
+        b=Vjxh0C/hmbpUVZ/3/fYlTE1tcmtpwzvvwDGawLMSy2FaTgqKyMGNDna02fmkZer0uG
+         2F+KT5uttz3K/VNbEMKfP2YSLKGCPDcr4o7mo1gjFXINnajbx9vHG+vNUu6ATNkeO2K6
+         /oAQ2KuQj2Ai+xTS0VdfkhPPGdD0EfSkjIJ/ljj0hLQAj2VqRjX6e++3iMXqkKIrs1U9
+         O6VfGv5tNCb9QcSgo7XHrYDVq+cEdaGjIManrO8mm3MOzzDmlBCgUKqi2ysu7+go8jOh
+         wRCl2IWp4OcBBJSP+pKlxKnZz9xqWDNz+oc1/S0/kWkXEOU7yb2jya+pPZ10zliRB/PS
+         HkFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=oZcHLP4HdtR1v6BTWYj2XPRoK5siEVv1DYPhLj/hidc=;
-        b=spIpU4PcahAUEj3ECz1rAnRQci3S4d86+HTsh+nCMJ4ksZo01MrbJ2+aaT9xhrvJgM
-         5QOjE/Aw8Bp3tVwW71zTX4k/ZLlxWwAzrUwdZOwQma55nHu8LOVHoTIQ/0JIZyH8ZJxt
-         4GPN8onUmQMaZwvNPJ3GcZnFkf2PhlYZslqz3A6qGZZbWv0hakGogR8UYaDxDmPhzUeF
-         eJIy6tyuhq3Ccx1PJQeBWZCMJxKj9RCq49LDi6Mr0jigp9DBEDdW+ptQi4yuAl5/6iAC
-         DqMdYA/4vC5P3kMU5Cs21whNSwQayOVjXxLEGla9vQnZi+OV7vu+f/dhwej49i4ZojfZ
-         bJWw==
-X-Gm-Message-State: ACrzQf39+NkGgwMJG27E4CC8uuRnp2ISzVzdmqJPrRnvnkfg6ewzDlnr
-        esIRRPqdf6/jsSegTgm7HrM=
-X-Google-Smtp-Source: AMsMyM4Gj6tjcURPzhPJ93mzX9WbNhqvc9BcYOHLmidI51KP9CoUdS3FIJWsT7lf7SvYfg8axnvrtw==
-X-Received: by 2002:adf:b1d2:0:b0:22a:d6cd:63cc with SMTP id r18-20020adfb1d2000000b0022ad6cd63ccmr782474wra.483.1663234012261;
-        Thu, 15 Sep 2022 02:26:52 -0700 (PDT)
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=zAQhEoqs9m6tH0S1Pwi/N64OzurKgUWPJ1fRej5gFrw=;
+        b=u77XPCMJ61LEkaaUKC4+yo9X+HFFwLGA4ux5uQ6cMOMxNf1PLZS+ZjwqkINaGWRMrv
+         H7rpQhRbc1g7ifiTYM/91KVqMnA0IR5WHEEqLI9hsaxUPmZ81yceiVrHgImP4zWIXHRr
+         iZIG4DL0My+Xk4MkG1xdHCl2KGApDU0BSL+3WssH8oD2qqDj0zwzYXBD7t9B0pCDJgxE
+         xBp2DPXJbmP7xbGbYx7s0i+z9noASDdWgg0XPpYR41jV19iTU1FPx5FlsL6Svy79USXh
+         SMpJPxx3pHUFHI3UyOBX2rNea7Aaa29kHJOZ6HvqWxxBIGkPzUSttvhfAHJJXfmEdPLd
+         sfiQ==
+X-Gm-Message-State: ACgBeo33v4//S26gULg3zYaGk277S+RJR502kJoyyBq7kSxX5LbSUmEx
+        LTIUHopNU2u8IHvFQHeAj+yseA==
+X-Google-Smtp-Source: AA6agR7x+cQFPHQpAzgOrdY5Dr+3kqXzw6uVPUGUgZRe4xBrQsDIXWw5+TeXlLrt3hz4d2so4EFEBA==
+X-Received: by 2002:a05:600c:3ba0:b0:3b4:8ad0:6c with SMTP id n32-20020a05600c3ba000b003b48ad0006cmr5919992wms.186.1663234540088;
+        Thu, 15 Sep 2022 02:35:40 -0700 (PDT)
 Received: from krzk-bin ([89.101.193.73])
-        by smtp.googlemail.com with ESMTPSA id bg39-20020a05600c3ca700b003b47b913901sm1875153wmb.1.2022.09.15.02.26.51
+        by smtp.gmail.com with ESMTPSA id y17-20020adff6d1000000b00228d6edade0sm1995265wrp.46.2022.09.15.02.35.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Sep 2022 02:26:51 -0700 (PDT)
-From:   Krzysztof Kozlowski <k.kozlowski.k@gmail.com>
-X-Google-Original-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date:   Thu, 15 Sep 2022 10:26:49 +0100
+        Thu, 15 Sep 2022 02:35:39 -0700 (PDT)
+Date:   Thu, 15 Sep 2022 10:35:37 +0100
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Robert Foss <robert.foss@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-phy@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        linux-omap@vger.kernel.org,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        devicetree@vger.kernel.org,
-        =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>
-Subject: Re: [PATCH v2 3/3] dt-bindings: display: bridge: nxp,tda998x:
- Convert to json-schema
-Message-ID: <20220915092649.moyd6j6jm7dk6vmh@krzk-bin>
-References: <cover.1663165552.git.geert+renesas@glider.be>
- <1224e757ec958f8b29ec66e783a7ee805c339d84.1663165552.git.geert+renesas@glider.be>
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>
+Subject: Re: [PATCH v2] dt-bindings: phy: renesas,rcar-gen2-usb-phy: Convert
+ to json-schema
+Message-ID: <20220915093537.qqddtqx2lr5ttuck@krzk-bin>
+References: <dbdcffd009302734fe2fb895ce04b72fa1ea4355.1663165000.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1224e757ec958f8b29ec66e783a7ee805c339d84.1663165552.git.geert+renesas@glider.be>
+In-Reply-To: <dbdcffd009302734fe2fb895ce04b72fa1ea4355.1663165000.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 14 Sep 2022 16:33:22 +0200, Geert Uytterhoeven wrote:
-> Convert the NXP TDA998x HDMI transmitter Device Tree binding
-> documentation to json-schema.
+On Wed, 14 Sep 2022 16:17:37 +0200, Geert Uytterhoeven wrote:
+> Convert the Renesas R-Car Gen2 USB PHY Device Tree binding documentation
+> to json-schema.
 > 
-> Add missing "#sound-dai-cells" property.
-> Add ports hierarchy, as an alternative to port.
-> Drop pinctrl properties, as they do not belong here.
+> Add missing properties.
+> Rename the device node from "usb-phy" to "usb-phy-controller", as it
+> does not represent a USB PHY itself, and thus does not have a
+> "#phy-cells" property.
+> Rename the child nodes from "usb-channel" to "usb-phy", as these do
+> represent USB PHYs.
+> Drop the second example, as it doesn't add any value.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
 > v2:
->   - Add maximum to video-ports,
->   - Drop unneeded maxItems for audio-ports,
->   - Complete port descriptions.
+>   - Rename nodes to fix "'#phy-cells' is a required property".
+> 
+> This is the final conversion to json-schema of DT bindings for Renesas
+> ARM SoCs, hurray!
+> 
+> Note that there are still a few plain text bindings left for Renesas IP
+> cores that are present on non-Renesas SoCs (nbpfaxi and usdhi6rol0).
 > ---
->  .../bindings/display/bridge/nxp,tda998x.yaml  | 109 ++++++++++++++++++
->  .../bindings/display/bridge/tda998x.txt       |  54 ---------
->  2 files changed, 109 insertions(+), 54 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/tda998x.txt
+>  .../devicetree/bindings/phy/rcar-gen2-phy.txt | 112 ----------------
+>  .../phy/renesas,rcar-gen2-usb-phy.yaml        | 123 ++++++++++++++++++
+>  2 files changed, 123 insertions(+), 112 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/phy/rcar-gen2-phy.txt
+>  create mode 100644 Documentation/devicetree/bindings/phy/renesas,rcar-gen2-usb-phy.yaml
 > 
 
 Running 'make dtbs_check' with the schema in this patch gives the
@@ -121,24 +114,62 @@ This will change in the future.
 Full log is available here: https://patchwork.ozlabs.org/patch/
 
 
-tda19988@70: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-	arch/arm64/boot/dts/renesas/r8a774c0-cat874.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb
-	arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb
+usb-phy@e6590100: 'usb-channel@0' does not match any of the regexes: '^usb-phy@[02]$', 'pinctrl-[0-9]+'
+	arch/arm/boot/dts/r8a77470-iwg23s-sbc.dtb
 
-tda19988@70: ports: 'oneOf' conditional failed, one must be fixed:
-	arch/arm/boot/dts/am335x-boneblack.dtb
-	arch/arm/boot/dts/am335x-boneblack-wireless.dtb
-	arch/arm/boot/dts/am335x-sancloud-bbe.dtb
+usb-phy@e6590100: 'usb-channel@0', 'usb-channel@2' do not match any of the regexes: '^usb-phy@[02]$', 'pinctrl-[0-9]+'
+	arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dtb
+	arch/arm/boot/dts/r8a7742-iwg21d-q7.dtb
+	arch/arm/boot/dts/r8a7743-iwg20d-q7-dbcm-ca.dtb
+	arch/arm/boot/dts/r8a7743-iwg20d-q7.dtb
+	arch/arm/boot/dts/r8a7743-sk-rzg1m.dtb
+	arch/arm/boot/dts/r8a7744-iwg20d-q7-dbcm-ca.dtb
+	arch/arm/boot/dts/r8a7744-iwg20d-q7.dtb
+	arch/arm/boot/dts/r8a7745-iwg22d-sodimm-dbhd-ca.dtb
+	arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dtb
+	arch/arm/boot/dts/r8a7745-sk-rzg1e.dtb
+	arch/arm/boot/dts/r8a7790-lager.dtb
+	arch/arm/boot/dts/r8a7790-stout.dtb
+	arch/arm/boot/dts/r8a7791-koelsch.dtb
+	arch/arm/boot/dts/r8a7791-porter.dtb
+	arch/arm/boot/dts/r8a7794-alt.dtb
+	arch/arm/boot/dts/r8a7794-silk.dtb
 
-tda19988@70: ports:port@0: 'reg' is a required property
-	arch/arm/boot/dts/am335x-boneblack.dtb
-	arch/arm/boot/dts/am335x-boneblack-wireless.dtb
-	arch/arm/boot/dts/am335x-sancloud-bbe.dtb
+usb-phy@e6590100: 'usb-phy@0' is a required property
+	arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dtb
+	arch/arm/boot/dts/r8a7742-iwg21d-q7.dtb
+	arch/arm/boot/dts/r8a7743-iwg20d-q7-dbcm-ca.dtb
+	arch/arm/boot/dts/r8a7743-iwg20d-q7.dtb
+	arch/arm/boot/dts/r8a7744-iwg20d-q7-dbcm-ca.dtb
+	arch/arm/boot/dts/r8a7744-iwg20d-q7.dtb
+	arch/arm/boot/dts/r8a7745-iwg22d-sodimm-dbhd-ca.dtb
+	arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dtb
+	arch/arm/boot/dts/r8a77470-iwg23s-sbc.dtb
+	arch/arm/boot/dts/r8a7790-lager.dtb
+	arch/arm/boot/dts/r8a7790-stout.dtb
+	arch/arm/boot/dts/r8a7791-koelsch.dtb
+	arch/arm/boot/dts/r8a7791-porter.dtb
+	arch/arm/boot/dts/r8a7794-alt.dtb
+	arch/arm/boot/dts/r8a7794-silk.dtb
 
-tda9988@70: ports: 'oneOf' conditional failed, one must be fixed:
-	arch/arm/boot/dts/am335x-myirtech-myd.dtb
+usb-phy@e6590100: 'usb-phy@2' is a required property
+	arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dtb
+	arch/arm/boot/dts/r8a7742-iwg21d-q7.dtb
+	arch/arm/boot/dts/r8a7743-iwg20d-q7-dbcm-ca.dtb
+	arch/arm/boot/dts/r8a7743-iwg20d-q7.dtb
+	arch/arm/boot/dts/r8a7744-iwg20d-q7-dbcm-ca.dtb
+	arch/arm/boot/dts/r8a7744-iwg20d-q7.dtb
+	arch/arm/boot/dts/r8a7745-iwg22d-sodimm-dbhd-ca.dtb
+	arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dtb
+	arch/arm/boot/dts/r8a7790-lager.dtb
+	arch/arm/boot/dts/r8a7790-stout.dtb
+	arch/arm/boot/dts/r8a7791-koelsch.dtb
+	arch/arm/boot/dts/r8a7791-porter.dtb
+	arch/arm/boot/dts/r8a7794-alt.dtb
+	arch/arm/boot/dts/r8a7794-silk.dtb
 
-tda9988@70: ports:port@0: 'reg' is a required property
-	arch/arm/boot/dts/am335x-myirtech-myd.dtb
+usb-phy@e6598100: 'usb-channel@0' does not match any of the regexes: '^usb-phy@[02]$', 'pinctrl-[0-9]+'
+	arch/arm/boot/dts/r8a77470-iwg23s-sbc.dtb
+
+usb-phy@e6598100: 'usb-phy@0' is a required property
+	arch/arm/boot/dts/r8a77470-iwg23s-sbc.dtb
