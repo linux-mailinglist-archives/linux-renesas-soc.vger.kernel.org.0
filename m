@@ -2,79 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D9E45B9D21
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Sep 2022 16:31:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D71CD5B9F71
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Sep 2022 18:15:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbiIOObP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Sep 2022 10:31:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46624 "EHLO
+        id S229773AbiIOQPO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Sep 2022 12:15:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbiIOObO (ORCPT
+        with ESMTP id S229644AbiIOQPN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Sep 2022 10:31:14 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F34C89934
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Sep 2022 07:31:13 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id ay36so4441846wmb.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Sep 2022 07:31:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=jzN+RkL3+HYpV5uaSocPVjuz6+/WusIjt5gu3LU+tH4=;
-        b=C9xrr9CBZ+W1kBMx3LJmipKqrsAdXyqlDLrSqQ58gEM4pdV9C35qA3iQK2ah9iiJ/R
-         6IolHtEk4LRhX+my19Hj2nWS0mJTxD//2s9FdO+I+qCjzXdn/GNlTZKEaiAJFop0V82v
-         OC/ZfF7LsCi52BDe6v1yyjYkmtRNVZH7v12y5uTPeXaAfsYX+m5avpNKSkgwpL6ALSbO
-         jlD29ZaWkuKT+tuMfxxWO3ytHyVbPx9aTniAQ9ILOMaVL0oVq7VmyBOUhszLnLVteXYm
-         5WmYpgZLaJ27S9EeSbpM0Cx0Ah2+1F5JGFfzZ5q10RP8ElhQtAsqZ5D9AZThrKcCNmAd
-         4GMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=jzN+RkL3+HYpV5uaSocPVjuz6+/WusIjt5gu3LU+tH4=;
-        b=Lr3xqD95RtHzETV1BK3f3/gFQSCtYggGF9VZgLMTcnEV/nPM00C59jaw4ztj5rm+I+
-         YSCKB1rymdp55gVsiXwYwAMZUTpT2KPlYw8COQG/DuCPPmdOWKYbOksXJ2cbJe+Dmy5z
-         +5pjccAZ0PBRkbvMyo2YyXV8UHS3D9I1/uZsD3OcSVvh1Bhdcjc/ZwS0BX6WaZEQBW7O
-         TnQd8A3607e2YEm6XFPFTdkTJnCCfx+4hktJGJmTcW5WIIG6tPhEZ/ZrJcq9/KBYT9ux
-         J+g6QgybpZM75caERV1XRg1c+LTwqXe0AGEYVLs+kg2TWkxEfYpvSzY8Ipiw5jtI8geV
-         CDeg==
-X-Gm-Message-State: ACgBeo3Tw0qalcQSTY7HWnLPhAerPDiSAATD1ZXSRiCquyU753dXs/VO
-        dY89bI3Df3SE18MaO4Mc0jibSQ==
-X-Google-Smtp-Source: AA6agR4zYPtswUxwv+bjjArjupfpo//XBQX8ZJCy1hTwWvbz611yPtorduCPyU7dIWhfCy3kzRoqqA==
-X-Received: by 2002:a1c:7905:0:b0:3b3:3fa9:4c3a with SMTP id l5-20020a1c7905000000b003b33fa94c3amr7148909wme.55.1663252271795;
-        Thu, 15 Sep 2022 07:31:11 -0700 (PDT)
-Received: from [10.119.22.201] ([89.101.193.72])
-        by smtp.gmail.com with ESMTPSA id q17-20020adff951000000b00228dff8d975sm2762250wrr.109.2022.09.15.07.31.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Sep 2022 07:31:11 -0700 (PDT)
-Message-ID: <dd95a178-8d5b-ecc9-9ec9-6988ab1dcf31@linaro.org>
-Date:   Thu, 15 Sep 2022 15:31:10 +0100
+        Thu, 15 Sep 2022 12:15:13 -0400
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3D2583F01;
+        Thu, 15 Sep 2022 09:15:08 -0700 (PDT)
+Received: from [192.168.1.103] (178.176.75.186) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Thu, 15 Sep
+ 2022 19:14:57 +0300
+Subject: Re: [PATCH net-next v5] ravb: Add RZ/G2L MII interface support
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+References: <20220914192604.265859-1-biju.das.jz@bp.renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <c7ac471c-8b48-e910-9270-c8fc21a63a19@omp.ru>
+Date:   Thu, 15 Sep 2022 19:14:56 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2] dt-bindings: phy: renesas,rcar-gen2-usb-phy: Convert
- to json-schema
+In-Reply-To: <20220914192604.265859-1-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-phy@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>
-References: <dbdcffd009302734fe2fb895ce04b72fa1ea4355.1663165000.git.geert+renesas@glider.be>
- <20220915093537.qqddtqx2lr5ttuck@krzk-bin>
- <CAMuHMdV9dv8j34bXBiussjM3f6+nW2aJ-S2drU-MF4q_aB8trg@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAMuHMdV9dv8j34bXBiussjM3f6+nW2aJ-S2drU-MF4q_aB8trg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+X-Originating-IP: [178.176.75.186]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 09/15/2022 15:24:33
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 172743 [Sep 15 2022]
+X-KSE-AntiSpam-Info: Version: 5.9.20.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 499 499 6614d57ea7c6ac2e38ef0272e2cc77f73b9aae18
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.75.186 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.75.186 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info: omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.75.186
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 09/15/2022 15:27:00
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 9/15/2022 3:12:00 PM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,NICE_REPLY_A,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,54 +87,15 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 15/09/2022 12:12, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> On Thu, Sep 15, 2022 at 10:35 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:>
->> On Wed, 14 Sep 2022 16:17:37 +0200, Geert Uytterhoeven wrote:
->>> Convert the Renesas R-Car Gen2 USB PHY Device Tree binding documentation
->>> to json-schema.
->>>
->>> Add missing properties.
->>> Rename the device node from "usb-phy" to "usb-phy-controller", as it
->>> does not represent a USB PHY itself, and thus does not have a
->>> "#phy-cells" property.
->>> Rename the child nodes from "usb-channel" to "usb-phy", as these do
->>> represent USB PHYs.
->>> Drop the second example, as it doesn't add any value.
->>>
->>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->>> ---
->>> v2:
->>>   - Rename nodes to fix "'#phy-cells' is a required property".
->>>
->>> This is the final conversion to json-schema of DT bindings for Renesas
->>> ARM SoCs, hurray!
->>>
->>> Note that there are still a few plain text bindings left for Renesas IP
->>> cores that are present on non-Renesas SoCs (nbpfaxi and usdhi6rol0).
->>> ---
->>>  .../devicetree/bindings/phy/rcar-gen2-phy.txt | 112 ----------------
->>>  .../phy/renesas,rcar-gen2-usb-phy.yaml        | 123 ++++++++++++++++++
->>>  2 files changed, 123 insertions(+), 112 deletions(-)
->>>  delete mode 100644 Documentation/devicetree/bindings/phy/rcar-gen2-phy.txt
->>>  create mode 100644 Documentation/devicetree/bindings/phy/renesas,rcar-gen2-usb-phy.yaml
->>>
->>
->> Running 'make dtbs_check' with the schema in this patch gives the
->> following warnings. Consider if they are expected or the schema is
->> incorrect. These may not be new warnings.
-> 
-> These should be fixed by the DTS counterpart
-> "[PATCH] ARM: dts: renesas: Fix USB PHY device and child node names"
-> https://lore.kernel.org/all/6442b4042e26537abc8632c4772f8201685f1f1f.1663165098.git.geert+renesas@glider.be/>
-> 
-> In hindsight, I should have cross-linked the patches in both
-> directions, not just in one direction. Sorry for that.
+On 9/14/22 10:26 PM, Biju Das wrote:
 
-No worries. Thanks for fixing it and error can be ignored.
+> EMAC IP found on RZ/G2L Gb ethernet supports MII interface.
+> This patch adds support for selecting MII interface mode.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-Best regards,
-Krzysztof
+[...]
+
+MBR, Sergey
