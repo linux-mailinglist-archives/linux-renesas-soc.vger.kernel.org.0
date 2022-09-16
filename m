@@ -2,153 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 132985BA3F0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Sep 2022 03:18:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79F335BA87E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Sep 2022 10:48:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229926AbiIPBSl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Sep 2022 21:18:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34932 "EHLO
+        id S230451AbiIPIsW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Sep 2022 04:48:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229816AbiIPBRu (ORCPT
+        with ESMTP id S230443AbiIPIsU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Sep 2022 21:17:50 -0400
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01hn2245.outbound.protection.outlook.com [52.100.164.245])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 711F0876BB;
-        Thu, 15 Sep 2022 18:17:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JhyLOY+N/a0hl5iqFUhc+Ouqf1B2ohoULHIHKKaG9WwDaV6o5ulQUl+18rUpEvCM1Gpeb4b9tAK3UtfuDVdDnkahC/Swbwj4j4jlYEk7fFCW1zaB2Y1pkcDIHsBSp5unPes18XFe+H5DtPDl/mbKLq/6wb0gMvr5Y41LXwV86CJLbdDMy6IV2kyDurK/WdKaZAvmwMVkITGqqgzJM5VkBvBTh1XKHAHAHC6b8Bmlis6E+4vcqP8oXSlwFDQ4svQLidKiKhXYz2O6z659PJkQWOLk78ypyYTDIDvNqa6+zRtYBtbVXGgVgt7cNl1uWXpxwmByJBE1MWTSXIIiWWcUBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bs10Md+15nMnyayKLyd22Uv+/ZH79IcFcpzuzGLq1Fg=;
- b=fLdaE+A2GAzG3Nl4NeUw3cj0Y9kfK7Y0J6mx0yEReLLby2KkhycHSzFuQX3U0WG5JlFTpU09hC/UYTSdnse1sQtR2gp91ykj23Xae3OVbs43frizA1UAMFyNFUEEZ8ZN6+GKXmsQO0oQJCW4DKUkKY6OdQlHFq+BkoNvFZ9BRzHjFZPXU6g81wqF1yMzoM62fb++iCF94yOKt98pVdgb/+KHOctEl/Re7GB8yG2xciHmtqKys8dKACU2MH+j7U7CJGM9n3SzphxC8dSZjCz9jFngvhuegqq/UYeYToe+MV8jg7/O21P+D5rRnCqjl5J3WU4SEQdzb0+4SQLkRRrlrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 45.14.71.5) smtp.rcpttodomain=vger.kernel.orgq smtp.mailfrom=t4.cims.jp;
- dmarc=bestguesspass action=none header.from=t4.cims.jp; dkim=none (message
- not signed); arc=none (0)
-Received: from TY1PR01CA0184.jpnprd01.prod.outlook.com (2603:1096:403::14) by
- HKAPR04MB4033.apcprd04.prod.outlook.com (2603:1096:203:c6::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5612.19; Fri, 16 Sep 2022 01:17:42 +0000
-Received: from TYZAPC01FT021.eop-APC01.prod.protection.outlook.com
- (2603:1096:403:0:cafe::94) by TY1PR01CA0184.outlook.office365.com
- (2603:1096:403::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.12 via Frontend
- Transport; Fri, 16 Sep 2022 01:17:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 45.14.71.5)
- smtp.mailfrom=t4.cims.jp; dkim=none (message not signed)
- header.d=none;dmarc=bestguesspass action=none header.from=t4.cims.jp;
-Received-SPF: Pass (protection.outlook.com: domain of t4.cims.jp designates
- 45.14.71.5 as permitted sender) receiver=protection.outlook.com;
- client-ip=45.14.71.5; helo=User; pr=M
-Received: from mail.prasarana.com.my (58.26.8.158) by
- TYZAPC01FT021.mail.protection.outlook.com (10.118.152.130) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5632.12 via Frontend Transport; Fri, 16 Sep 2022 01:17:42 +0000
-Received: from MRL-EXH-02.prasarana.com.my (10.128.66.101) by
- MRL-EXH-01.prasarana.com.my (10.128.66.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Fri, 16 Sep 2022 09:17:01 +0800
-Received: from User (45.14.71.5) by MRL-EXH-02.prasarana.com.my
- (10.128.66.101) with Microsoft SMTP Server id 15.1.2176.14 via Frontend
- Transport; Fri, 16 Sep 2022 09:16:30 +0800
-Reply-To: <rhashimi202222@kakao.com>
-From:   Consultant Swift Capital Loans Ltd <info@t4.cims.jp>
-Subject: I hope you are doing well, and business is great!
-Date:   Fri, 16 Sep 2022 09:17:12 +0800
+        Fri, 16 Sep 2022 04:48:20 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B2D66A832F
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Sep 2022 01:48:15 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.93,320,1654527600"; 
+   d="scan'208";a="133059332"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 16 Sep 2022 17:48:14 +0900
+Received: from localhost.localdomain (unknown [10.226.93.23])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7DC2E41A78B3;
+        Fri, 16 Sep 2022 17:48:10 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v7 0/2] Add RZ/G2L DSI driver
+Date:   Fri, 16 Sep 2022 09:48:05 +0100
+Message-Id: <20220916084807.640225-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <9503e0ab-4510-47d5-bcde-9fb0a78227ed@MRL-EXH-02.prasarana.com.my>
-To:     Undisclosed recipients:;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-SkipListedInternetSender: ip=[45.14.71.5];domain=User
-X-MS-Exchange-ExternalOriginalInternetSender: ip=[45.14.71.5];domain=User
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZAPC01FT021:EE_|HKAPR04MB4033:EE_
-X-MS-Office365-Filtering-Correlation-Id: 629bded5-1128-4957-f6d7-08da978140f0
-X-MS-Exchange-AtpMessageProperties: SA|SL
-X-MS-Exchange-SenderADCheck: 0
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?windows-1251?Q?vcG2ZJ3c7cHHwBxLwaIoH+mS9wdGk/tReUPMbRPGf2GVJPKHxy8K1iXb?=
- =?windows-1251?Q?IQffiUP8k7IEcJri6j24FoR2oNikZBD2Wa9pWUeWpplUI/NxrmmJAKe/?=
- =?windows-1251?Q?tH6ZgM9B+qFV3OdoY+9FjexkZcQo2kAzsAkgCocGGCRM/5J83ubRrnQz?=
- =?windows-1251?Q?gOIDRDrLttf8vfg4Bjy/NeVd7ADvsVsYZ5ZT5mIQdoYV2AP4+AR7s9ch?=
- =?windows-1251?Q?DniXh47s/wErYVvCFvrxxh7HE6BSL1HTpjSAq35OBanAgfOh3TZealw1?=
- =?windows-1251?Q?GNkIx9yrqssEpWzLbBQDge+ftyRckG3cMrzph+fypJnv69sElpAwK3K5?=
- =?windows-1251?Q?6AeaN48XK4rV2uaWEdYJT0Ww8Lrf6imjqaTaaUkF8A7zjm9tV3UUqrbL?=
- =?windows-1251?Q?x63qAk5poPHlrvbJhNSEE2EWBsfovoWM8Rl3gBn3+yo5o1aT//XD2cWu?=
- =?windows-1251?Q?onVveE4NtKKtJDqb7LkzITyf8B9PW7iOUPUh/ooOeL4biG5WNHkK9dN1?=
- =?windows-1251?Q?S/ifuTKuXcJZfpExvP/yRHA6bD2vpWYMDXdoYzjjCAPuYiZNCQeTtIoi?=
- =?windows-1251?Q?pQSv5am/6fSAyTvVn48LHSFsfbuwcvZSQf1QjH7jsMozM2FVOiGf+M3W?=
- =?windows-1251?Q?tJIRDhmpAScZQSsMNdwjb3dbHE0W6gN6kI+ijQZr0ldSEZPNE4eJDQQ2?=
- =?windows-1251?Q?OFBRgBLmjGdDw3vZnWP5pQkiyGiWAJPR5Wt9jxmqoqgIJkItGsh1h0PQ?=
- =?windows-1251?Q?pHLfe6qUKqD2Y0e5+ydbWytS1ZRTu5UQHcBMpHQ8r98ZjLGNgkBWIKFJ?=
- =?windows-1251?Q?XnyN7Z9Uos5gmARBc23bW8hVP4i7TtKE9xpJfGmaEFt53iZrO5jxDLcb?=
- =?windows-1251?Q?7tqKq1tY5BbE5OiksSqpNgx1XpyAP1UrJFemIWmgXPkbsyBw93IHtLNQ?=
- =?windows-1251?Q?HU0o9drnK33Vjv7WJT24hwu8P+aQuhzgXFcIAdQewip05I8ixdtrLDgi?=
- =?windows-1251?Q?2UJv9NuchlqKW7g9u7bsk41TB/3noQ0v4aFOx4tX1fV4ucse/xxqTcvs?=
- =?windows-1251?Q?algx4oLtHkJg59+Y+9xcJpQg2eMQ3iqpDBv8qX9L6LKBBIHuBX43VMNA?=
- =?windows-1251?Q?/vD7IYfomzMXCemBsTUlinUydK6IHTRUyIyiK9FeS6oWUbYzOqsqLwf7?=
- =?windows-1251?Q?+rUcu9MS7xc4tVpHkNQsCI+SVLg7fCR4Q2vL+pDeUr7y9NqCnjJTm2mJ?=
- =?windows-1251?Q?AfaXVXcHhmhciN49a2FzDPTz+5jwCOxLUdlRte/8Ig+onKI7C37Vfdpx?=
- =?windows-1251?Q?I8xALmlS5AE0ZHBl7wnjx9cL+byAK2XcWAecWsTpNHHw4LRv?=
-X-Forefront-Antispam-Report: CIP:58.26.8.158;CTRY:JP;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:User;PTR:45.14.71.5.static.xtom.com;CAT:OSPM;SFS:(13230022)(4636009)(136003)(346002)(376002)(396003)(39860400002)(451199015)(40470700004)(46966006)(498600001)(109986005)(40480700001)(41300700001)(316002)(8676002)(6666004)(47076005)(40460700003)(7406005)(9686003)(81166007)(70206006)(2906002)(36906005)(82310400005)(7416002)(70586007)(4744005)(8936002)(86362001)(31696002)(5660300002)(26005)(82740400003)(32850700003)(336012)(31686004)(956004)(35950700001)(156005)(66899012)(2700400008);DIR:OUT;SFP:1501;
-X-OriginatorOrg: myprasarana.onmicrosoft.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2022 01:17:42.0737
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 629bded5-1128-4957-f6d7-08da978140f0
-X-MS-Exchange-CrossTenant-Id: 3cbb2ff2-27fb-4993-aecf-bf16995e64c0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3cbb2ff2-27fb-4993-aecf-bf16995e64c0;Ip=[58.26.8.158];Helo=[mail.prasarana.com.my]
-X-MS-Exchange-CrossTenant-AuthSource: TYZAPC01FT021.eop-APC01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HKAPR04MB4033
-X-Spam-Status: Yes, score=6.2 required=5.0 tests=AXB_XMAILER_MIMEOLE_OL_024C2,
-        AXB_X_FF_SEZ_S,BAYES_50,FORGED_MUA_OUTLOOK,FSL_CTYPE_WIN1251,
-        FSL_NEW_HELO_USER,HEADER_FROM_DIFFERENT_DOMAINS,NSL_RCVD_FROM_USER,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5012]
-        *  0.0 NSL_RCVD_FROM_USER Received from User
-        *  0.0 FSL_CTYPE_WIN1251 Content-Type only seen in 419 spam
-        *  3.2 AXB_X_FF_SEZ_S Forefront sez this is spam
-        * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [52.100.164.245 listed in list.dnswl.org]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-        *  0.2 HEADER_FROM_DIFFERENT_DOMAINS From and EnvelopeFrom 2nd level
-        *      mail domains are different
-        * -0.0 RCVD_IN_MSPIKE_H2 RBL: Average reputation (+2)
-        *      [52.100.164.245 listed in wl.mailspike.net]
-        *  0.0 AXB_XMAILER_MIMEOLE_OL_024C2 Yet another X header trait
-        *  0.0 FSL_NEW_HELO_USER Spam's using Helo and User
-        *  1.9 FORGED_MUA_OUTLOOK Forged mail pretending to be from MS Outlook
-X-Spam-Level: ******
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+This patch series aims to support the MIPI DSI encoder found in the RZ/G2L
+SoC. It currently supports DSI video mode only.
 
-I hope you are doing well, and business is great!
-However, if you need working capital to further grow and expand your business, we may be a perfect fit for you. I am Ms. Kaori Ichikawa Swift Capital Loans Ltd Consultant, Our loans are NOT based on your personal credit, and NO collateral is required.
+This unit supports MIPI Alliance Specification for Display Serial Interface (DSI)
+Specification. This unit provides a solution for transmitting MIPI DSI compliant
+digital video and packets. Normative References are below.
+* MIPI Alliance Specification for Display Serial Interface Version 1.3.1
+* MIPI Alliance Specification for D-PHY Version 2.1
 
-We are a Direct Lender who can approve your loan today, and fund as Early as Tomorrow.
+The following are key features of this unit.
 
-Once your reply I will send you the official website to complete your application
+* 1 channel
+* The number of Lane: 4-lane
+* Support up to Full HD (1920 × 1080), 60 fps (RGB888)
+* Maximum Bandwidth: 1.5 Gbps per lane
+* Support Output Data Format: RGB666 / RGB888
 
-Waiting for your reply.
+v6->v7:
+ * Added rzg2l_mipi_dsi_stop_video() counterpart of rzg2l_mipi_dsi_start_video().
+ * Error labels are named according to the cleanup operation they perform.
+ * Restored Max lane capability read after dphy timing initialization
+   as per the guide lines from SoC design team.
+ * Added recommended lut values for the Global Operation Timing
+   parameters for MIPI DPHY.
+v5->v6:
+ * Updated commit description
+ * Moved handling of arst and prst from rzg2l_mipi_dsi_startup->runtime
+   PM suspend/resume handlers.
+ * Max lane capability read at probe(), and enforced in
+   rzg2l_mipi_dsi_host_attach()
+ * Simplified vich1ppsetr setting.
+ * Renamed hsclk_running_mode,hsclk_mode->is_clk_cont.
+ * Fixed typo in probe error message(arst->rst).
+ * Reordered DRM bridge initaization in probe()
+ * Updated typo in e-mail address.
+v4->v5:
+ * Added Ack from Sam.
+ * Added a trivial change, replaced rzg2l_mipi_dsi_parse_dt()
+   with drm_of_get_data_lanes_count_ep() in probe.
+v3->v4:
+ * Updated error handling in rzg2l_mipi_dsi_startup() and rzg2l_mipi_dsi_atomic_enable().
+v2->v3:
+ * Added Rb tag from Geert and Laurent
+ * Fixed the typo "Receive" -> "transmit"
+ * Added accepible values for data-lanes
+ * Sorted Header file in the example
+ * Added SoC specific compaible along with generic one.
+ * pass rzg2l_mipi_dsi pointer to {Link,Phy} register rd/wr function instead
+   of the memory pointer
+ * Fixed the comment in rzg2l_mipi_dsi_startup()
+ * Removed unnecessary dbg message from rzg2l_mipi_dsi_start_video()
+ * DRM bridge parameter initialization moved to probe
+ * Replaced dev_dbg->dev_err in rzg2l_mipi_dsi_parse_dt()
+ * Inserted the missing blank lane after return in probe()
+ * Added missing MODULE_DEVICE_TABLE
+ * Added include linux/bits.h in header file
+ * Fixed various macros in header file.
+ * Reorder the make file for DSI, so that it is no more dependent
+   on RZ/G2L DU patch series.
+v1->v2:
+ * Added full path for dsi-controller.yaml
+ * Modeled DSI + D-PHY as single block and updated reg property
+ * Fixed typo D_PHY->D-PHY
+ * Updated description
+ * Added interrupts and interrupt-names and updated the example 
+ * Driver rework based on dt-binding changes (DSI + D-PHY) as single block
+ * Replaced link_mmio and phy_mmio with mmio in struct rzg2l_mipi_dsi
+ * Replaced rzg2l_mipi_phy_write with rzg2l_mipi_dsi_phy_write
+   and rzg2l_mipi_dsi_link_write
+ * Replaced rzg2l_mipi_phy_read->rzg2l_mipi_dsi_link_read
+RFC->v1:
+ * Added a ref to dsi-controller.yaml.
+ * Added "depends on ARCH_RENESAS || COMPILE_TEST" on KCONFIG
+   and dropped DRM as it is implied by DRM_BRIDGE
+ * Used devm_reset_control_get_exclusive() for reset handle
+ * Removed bool hsclkmode from struct rzg2l_mipi_dsi
+ * Added error check for pm, using pm_runtime_resume_and_get() instead of
+   pm_runtime_get_sync()
+ * Added check for unsupported formats in rzg2l_mipi_dsi_host_attach()
+ * Avoided read-modify-write stopping hsclock
+ * Used devm_platform_ioremap_resource for resource allocation
+ * Removed unnecessary assert call from probe and remove.
+ * wrap the line after the PTR_ERR() in probe()
+ * Updated reset failure messages in probe
+ * Fixed the typo arstc->prstc
+ * Made hex constants to lower case.
+RFC:
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-22-biju.das.jz@bp.renesas.com/
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-23-biju.das.jz@bp.renesas.com/
 
-Regards
-Ms. Kaori Ichikawa
-Consultant Swift Capital Loans Ltd
+Biju Das (2):
+  dt-bindings: display: bridge: Document RZ/G2L MIPI DSI TX bindings
+  drm: rcar-du: Add RZ/G2L DSI driver
+
+ .../bindings/display/bridge/renesas,dsi.yaml  | 182 ++++
+ drivers/gpu/drm/rcar-du/Kconfig               |   8 +
+ drivers/gpu/drm/rcar-du/Makefile              |   2 +
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c      | 782 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h | 151 ++++
+ 5 files changed, 1125 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h
+
+-- 
+2.25.1
+
