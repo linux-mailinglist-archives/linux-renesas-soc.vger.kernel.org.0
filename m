@@ -2,53 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 720B95BB30B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Sep 2022 21:56:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADCDC5BB9EC
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Sep 2022 20:36:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229682AbiIPT4G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Sep 2022 15:56:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49998 "EHLO
+        id S229462AbiIQSf6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 17 Sep 2022 14:35:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229538AbiIPT4E (ORCPT
+        with ESMTP id S229379AbiIQSf5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Sep 2022 15:56:04 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3416C6DF8F
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Sep 2022 12:56:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=xKW9HCH0RRzuIKcIL0dkQ2rVH+p7
-        c90a51JoGrwa+dA=; b=OdiQxvESefjQ9i5N8+V2eeYjYJv4Qps8LxuB/y8zAEBl
-        MC4yg8h/ZkjUFZ3BWiDA9W3+5NSW0dHqcgazmSyvgOPbIf0hpBOSzBCfmBlwymht
-        tLmLJtG2YgIUAvw46ZNHd2pdPRWYDq+kyeiNDXp7TTtlDioSQv2EwocHyaA6RkU=
-Received: (qmail 3519391 invoked from network); 16 Sep 2022 21:56:01 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Sep 2022 21:56:01 +0200
-X-UD-Smtp-Session: l3s3148p1@MxRTwNDorutSjfsd
-Date:   Fri, 16 Sep 2022 20:56:01 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: i2c: renesas,rcar-i2c: Add r8a779g0 support
-Message-ID: <YyTU0YLL2v5JD4v9@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Sat, 17 Sep 2022 14:35:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B3232CC94;
+        Sat, 17 Sep 2022 11:35:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8E64361157;
+        Sat, 17 Sep 2022 18:35:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F0A3C433C1;
+        Sat, 17 Sep 2022 18:35:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663439752;
+        bh=A48DVQ03g2edUc3BsKyEachP44aV138b9BeCR2ZribU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jpQ6Y5k+fHhjq/j9Vs1DwqrcyWKkO6P7WwM4YnkPFY9MzOpLEm7nq/qkv5aci1gE/
+         ytMxTYvXX54W0q8mdfi/82jI5WMrPMhRld73e+DDOMChEIKxCZ2hLLm5nzf4a4cNtr
+         d4uGFXX81P1W9+VmwLj/lpnxoIjW+n+R8fK47ZWymiPia9l7mBMsPGJF58NBZ0mDzU
+         f1/DwaLI/k6nK0wR3vuOVrkrcbbG+FfwakyyrTR7ByPB5dIxPdLCIx6DsvaIn5i1sB
+         uZgJShSmF0dcFBYPJIwSa7X+nYOC6+CcSlgcCO06NYuyXyB0wBoY7iJCM748hG+lQF
+         bOcavOg3Kmvdg==
+Date:   Sat, 17 Sep 2022 20:35:48 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Chris Brandt <chris.brandt@renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <a6a704ff5fb06218daed492010e320605a4efe2f.1662714509.git.geert+renesas@glider.be>
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] i2c: riic: Use devm_platform_ioremap_resource()
+Message-ID: <YyYThPs2s2s1eGsA@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220913170121.24246-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="GEppY4HOh5vKE/AD"
+        protocol="application/pgp-signature"; boundary="OA6H8TQYlFQXjaZV"
 Content-Disposition: inline
-In-Reply-To: <a6a704ff5fb06218daed492010e320605a4efe2f.1662714509.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20220913170121.24246-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -56,38 +66,40 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---GEppY4HOh5vKE/AD
+--OA6H8TQYlFQXjaZV
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 09, 2022 at 11:09:02AM +0200, Geert Uytterhoeven wrote:
-> Document support for the I2C Bus Interfaces in the Renesas R-Car V4H
-> (R8A779G0) SoC.
+On Tue, Sep 13, 2022 at 06:01:21PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Use the devm_platform_ioremap_resource() helper instead of calling
+> platform_get_resource() and devm_ioremap_resource() separately.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Applied to for-next, thanks!
 
 
---GEppY4HOh5vKE/AD
+--OA6H8TQYlFQXjaZV
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMk1NEACgkQFA3kzBSg
-KbZ+wg//ckrlMwqCpG5HfBbb1Alplp1o+OCXDPdo3//l6JSxge4A7XakhCQziiuH
-7tdlBXiC0l95w54SznwzpbYJuWsCxerKTR3tS5F+JIDUIBDA/veEwT371d2MgV8q
-ww2kzLMIdFwMmyrWMUGW41Ic3lKDOM6hMurIGe0HkoLkgs/1JS05ltjT4wDuXbFe
-fFiw1lxUabjRSzoXKjr8S8oWrN9AwBnmJI4gbwZVUgO7K7/biLr1fFjZtTr6CMmE
-GDwNVxWvsu/VY1N867ANEt/uVLVJ2tchofWwsaONhbSlPbr6gxosiqA8Bf6UfmD4
-Dc8T+Tcgiw5pnGeqLitmXQ4Z3L8BJg7YnlTkbLmV4KoCFo3JiPvb0Vjk+eUbsyEO
-O/uYVN2WJOCM9wXDwyfv2L7b1DnRTfFAWhMGyZXIhDFLPdB0GsdP10/kj0XGU6hW
-F+L2/cteBnncF9UNbDHtNVACFiW2Ild1UgdrMqj+ZrCxU5YyWsSGEej3Y4JF2u+j
-ux1r7nyPjXFSCyC+LXVQIwkESayxcAJyNpCDWln19PINiztX9T+WEW3XEUyMFWVA
-kD45PjJ1/bbyp/WLc6k4gDHgWXHDLSZfCmgJGj2oRE04OxCShRhpuWUXz3m9TXZ4
-QDX9JCm4K03X0Ez0OUkDi+00v/eJNjuac7PmQ377qBoxjmiGG60=
-=M/hm
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMmE4QACgkQFA3kzBSg
+KbY+RQ//cKY28S5MBG3HeMH6RvvfY1B/PmnROlNqigDZQbVWXlp+E8UETDfTqzwT
+UKg5ZYL5fSAum3lgbIpAFkAPUpTdTrpE3jsnXbeQ6g+wykqblL9SDU9QxIZ7060C
+NNoO87Qw1ZtM+k7l9fVU2Kvo4T1GwBo2ZlO2Zs/ZWJgVhEbTwHQerw+ESBbKNBG+
+evTD/0vdFTNbQ5E63b+rBKbrjS9LYZ/GZJQKiwJWNDPb9GRzA4UirW8EvU764K+g
+ID2SHylodDt37GaWSAPkmXpUI6tbT1b1ofCCscxQ9QFAeFNWnPUZ4Fmbib4Z84y/
+HbkvuJX+6y6XDbruEhqoKjhRhmsOTfMNh+jUWGV6byIWk36s+rFYHQgBisRMe5BC
+7RwZVrQMVyDXelyCKltMBU1kpYMlgTrJTms2rj55LvKTcMXarMHHV0ZjrBWYjGbU
+NGhZ4YRKQ9ERCwHMqOD99GFID+RhY87zJMcBUYw04mBwuc/XQBhvkLeGs7B7Lz0f
+rcyDRIFJ6M7h1jfGw2GGsfimvDvzabafoHGxIf3VFdt5DOS8Sc0XiG0UsQ/Gv9NJ
+1WZG5ib8s7kZJ8bTXw8k1e/bE8z9+KQZ9UlMS56AysuT5nfa22OKp2h44ONh0KQF
+rZCPutVWyLymBTIReAZThC6VvPl5WqGdv1XMwXiivn/aSvqN3l4=
+=HdKD
 -----END PGP SIGNATURE-----
 
---GEppY4HOh5vKE/AD--
+--OA6H8TQYlFQXjaZV--
