@@ -2,61 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2A3B5BBCBE
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Sep 2022 11:21:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 395C05BBCD4
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Sep 2022 11:32:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229639AbiIRJVG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 18 Sep 2022 05:21:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49466 "EHLO
+        id S229667AbiIRJcz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 18 Sep 2022 05:32:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229511AbiIRJVF (ORCPT
+        with ESMTP id S229515AbiIRJcy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 18 Sep 2022 05:21:05 -0400
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 231ED1D0FD;
-        Sun, 18 Sep 2022 02:21:05 -0700 (PDT)
-Received: by mail-qk1-f175.google.com with SMTP id i3so13995975qkl.3;
-        Sun, 18 Sep 2022 02:21:05 -0700 (PDT)
+        Sun, 18 Sep 2022 05:32:54 -0400
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 077AF20BD1;
+        Sun, 18 Sep 2022 02:32:54 -0700 (PDT)
+Received: by mail-qk1-f177.google.com with SMTP id 3so18316506qka.5;
+        Sun, 18 Sep 2022 02:32:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=6ZrC9E0hc0F9wSlef6D98otfK/intsoP1xPxZaVL8F0=;
-        b=Sg9AQKWBbn0q4u8gtpYRoHnLmKhdFpv3Y+XRe8omwvK/2UM/E3IL3fGEroQjvUu7HE
-         pOxQV2RPnViSFuZWzSvZHGXUIERlvuet6IbgaOqOi8O3G4myUYrJ2e4QICVlGmVwmRKP
-         Z+V4InzVrHwC3dvekXi89GytD7DUZxtMJ6mr6HfcCokbNtztsLUVOcsUySNoSLSB9Aw4
-         W9YjxwSgtFjEIAQsNUQ2R2CWAj63n3SvOzLNBXDJCJZJY8fgGrxbuTcrJt5QmWdYqP9/
-         S4R8ZFMuTFjLh0CW6tWf60nK6U5IBN3f3J61btSfy9SC/ZkBj50o64ECUHnIJtPATmqi
-         vf8A==
-X-Gm-Message-State: ACrzQf1L5C0J2muh7kE6TDVPZ65uw4AnWzetaK+flTGoxGwmNQsYbhee
-        BgPwb4D26sqborrB1KDbLDXGl1qx0xaUDQ==
-X-Google-Smtp-Source: AMsMyM7ej1FGoe4WDYBly6cVRD5Oh19Qhbd1Fl3ReXzl2DjbQpVP5+kPmpPupZ2ylLsjtgjxxVye7w==
-X-Received: by 2002:ae9:c217:0:b0:6bc:e9a:f50a with SMTP id j23-20020ae9c217000000b006bc0e9af50amr9683909qkg.588.1663492863887;
-        Sun, 18 Sep 2022 02:21:03 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id bn32-20020a05620a2ae000b006b615cd8c13sm10175664qkb.106.2022.09.18.02.21.03
+        bh=4HPwnRM/JJt8uEUplB7308qRpztO7gO6jjhN/yfoSRA=;
+        b=x0WKSWdSmUzeskBkj6sUm9RdwV/qdmX7cU7FKUMQDEX1vA4+go9pW5NlCuNGYUF24L
+         CAiJOq93zmisVBJLPiVhDYR1MkzDidCW0J9VSjoWyKwliLm7FPetaDlzznijYxmhcQD6
+         e4h9e/2UjsqnzfoEOc+WFCovMZ698sK8cx4zcNjuH6HqGygUNPaZnzWhn02anD8UX6SU
+         8CGGCq3gzCppQoJsHqJzjEZ9UKWJjNExUP6Gp+25T2l4vXWi5AxMKnjZtjsdXshbXxhP
+         /JYWz5x/14rOiWVUVDtrZOg5Si62zQlo3GVze5sdbB57ekK+fncNO20vBdf4330D6eEI
+         8fVQ==
+X-Gm-Message-State: ACrzQf3SEwzUXATve7MkDj+BuiYW2HqCkv2KD9kB8usQ0rOokF7uZO1i
+        p9JKHkvBYbvZt4/rzx6FPMpUjOsHaB6iNQ==
+X-Google-Smtp-Source: AMsMyM5QF+zgkKkmSZvQocjCJW93IfLps83wJ225LeZpKOiPcsiNMS7wxFPhLbjh1igoVljcwycDWg==
+X-Received: by 2002:a37:b307:0:b0:6cd:f96a:ec1c with SMTP id c7-20020a37b307000000b006cdf96aec1cmr9339117qkf.40.1663493572904;
+        Sun, 18 Sep 2022 02:32:52 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id q4-20020a37f704000000b006cbc6e1478csm10014885qkj.57.2022.09.18.02.32.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Sep 2022 02:21:03 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id s14so5812164ybe.7;
-        Sun, 18 Sep 2022 02:21:03 -0700 (PDT)
-X-Received: by 2002:a25:3851:0:b0:6ad:9cba:9708 with SMTP id
- f78-20020a253851000000b006ad9cba9708mr10855819yba.36.1663492863107; Sun, 18
- Sep 2022 02:21:03 -0700 (PDT)
+        Sun, 18 Sep 2022 02:32:52 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id p69so31956581yba.0;
+        Sun, 18 Sep 2022 02:32:52 -0700 (PDT)
+X-Received: by 2002:a05:6902:2c1:b0:6b2:8bb0:79a0 with SMTP id
+ w1-20020a05690202c100b006b28bb079a0mr5574273ybh.202.1663493572301; Sun, 18
+ Sep 2022 02:32:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220915165256.352843-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220915165256.352843-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220915165256.352843-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220915233852.415407-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220915233852.415407-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sun, 18 Sep 2022 11:20:52 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVKYqHu-mmviwO5oLS-F8nEg5wynLmy=+tJrQ26=VfV2g@mail.gmail.com>
-Message-ID: <CAMuHMdVKYqHu-mmviwO5oLS-F8nEg5wynLmy=+tJrQ26=VfV2g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arm64: dts: renesas: rzg2ul-smarc: Include SoM DTSI
- into board DTS
+Date:   Sun, 18 Sep 2022 11:32:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUhq6nJSPdR4XfFvune2g0xHLxB-jP38yhVdwFyO8VQBg@mail.gmail.com>
+Message-ID: <CAMuHMdUhq6nJSPdR4XfFvune2g0xHLxB-jP38yhVdwFyO8VQBg@mail.gmail.com>
+Subject: Re: [PATCH] ARM: shmobile: Kconfig: Drop selecting SOC_BUS
 To:     Prabhakar <prabhakar.csengg@gmail.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        Russell King <linux@armlinux.org.uk>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -72,24 +70,34 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Prabhakar,
 
-On Thu, Sep 15, 2022 at 6:53 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+On Fri, Sep 16, 2022 at 1:39 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Move including the rzg2ul-smarc-som.dtsi from the carrier board
-> rzg2ul-smarc.dtsi to the actual RZ/G2UL SMARC EVK board dts
-> r9a07g043u11-smarc.dts. Also move the SW_SW0_DEV_SEL and
-> SW_ET0_EN_N macros to board dts as they are used by SoM and carrier
-> board DTS/I.
+> Don't automatically select the SOC_BUS config option as we already have
+> automatically selected it as part of the SOC_RENESAS config option [0]
+> as renesas-soc.c [1] uses the APIs provided by SOC_BUS config option.
 >
-> This is in preparation of re-using the SoM and carrier board DTSIs
-> for RZ/Five SMARC EVK.
+> [0] drivers/soc/renesas/Kconfig
+> [1] drivers/soc/renesas/renesas-soc.c
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v6.1.
 
-For consistency, you may want to do the same with rzg2lc-smarc-som.dtsi.
+> --- a/arch/arm/mach-shmobile/Kconfig
+> +++ b/arch/arm/mach-shmobile/Kconfig
+> @@ -6,5 +6,4 @@ menuconfig ARCH_RENESAS
+>         select GPIOLIB
+>         select NO_IOPORT_MAP
+>         select PINCTRL
+> -       select SOC_BUS
+>         select ZONE_DMA if ARM_LPAE
+
+Nice catch!
+I guess it would make sense to move the GPIOLIB and PINCTRL selects
+to drivers/soc/renesas/Kconfig, too, as they are needed for all
+(arm32/arm64/riscv) Renesas SoCs?
 
 Gr{oetje,eeting}s,
 
