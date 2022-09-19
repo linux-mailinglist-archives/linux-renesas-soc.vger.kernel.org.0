@@ -2,71 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B58AC5BC9E4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Sep 2022 12:51:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E60DE5BC9F9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Sep 2022 12:52:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230037AbiISKux (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Sep 2022 06:50:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41582 "EHLO
+        id S229588AbiISKwS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Sep 2022 06:52:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229800AbiISKuf (ORCPT
+        with ESMTP id S229715AbiISKwA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Sep 2022 06:50:35 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EFB91127;
-        Mon, 19 Sep 2022 03:44:34 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id z13so26646280edb.13;
-        Mon, 19 Sep 2022 03:44:34 -0700 (PDT)
+        Mon, 19 Sep 2022 06:52:00 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C47C559A;
+        Mon, 19 Sep 2022 03:46:52 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id t7so46799050wrm.10;
+        Mon, 19 Sep 2022 03:46:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=HqV6X1qjzLYcilKB6wFdh2tVMPDFDXIW92VucSij86A=;
-        b=o7BR7P+zS1UWXCAquZeYz8VCAX7ZS43HenGAkRGaQFXkyTKUiGj0eU7ycfddvZnhv5
-         BDsKxz/AdAhBsJAhgX3kDwQ0/afcCJKMWGNbvucACNGgFFJhOHqhMF2wOnwQGnHlV/EA
-         ptrqxYkzFp/Bc7J5k7P1isc0sr5sZ50gXp5xCGlMDUip+s5zELb70ugQnftnSTi9sMcz
-         Ilvm46b0cOzU3IsTieZnHUzCdPaW6s9/r1YvUfGjgQhXdhoo62Q+oE29JTmIshCkxXdn
-         PcOE+ml2W0KdsWmtBT+iRYyOR5UeH8hp0dB6ifmP6rDZ9LYnAa/fiRDisgRl6UohW6If
-         ypZQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=nYkgf7167and0RA6WgS7T9F/ATxyX9JyRvsn4NiAu+k=;
+        b=mdhAoxpAfjgULi4cIuZtoqRNkNbQn0RrM6JNNh7HIrFx9o3gP3Si9/jymROsal3dUP
+         HwU2PulazsLKTSFKrXBzZqET37nvUFSD95pCscgkKULAHUFSsW0bkr09dnuPXyXUXYsY
+         g09DG5+yN54yOk2X38EpFmXbhQP2dV4muqad8H2R77qkw2wvDw4qx0ylU7XcPChwDlbY
+         4nZ/WnwrqYZ3WB0wX45FJEmVDTKw/fK28sPfjhIkrBgiAn0NKmg+lKoIbW5IYicHGAEK
+         FNpqmFKp8/IqwZ86qRSY2vpsWskrQE4o9IYZAHdUy6A6R0ZuSSVCC/yv02WDqm1wqofe
+         iAeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=HqV6X1qjzLYcilKB6wFdh2tVMPDFDXIW92VucSij86A=;
-        b=6c1zzMuQKNO9tq5ZXLkGYH0fBLlM+YZw1f6LrsaEylw6wHk1SMgSKjdxR8wtaSh4JE
-         AkaOrC4Lox0S0D1ZZ22DZJFj7VhdrCGynzPOJ6YTL/A31NuICllFy9j6VoAXy4uZtg9L
-         Wsqz8gVykrZ/KqnlkGLc8VYEkq510UicxkaR1dNv2WJnL35DsAui3TaEy0+w04v0/aFM
-         GAF6ScyN9f4+mfcz8gfg7lS9xYEswYFeFN3IxUFoaYkDLh+ZXs+A81q7CwNE31xBtCml
-         ILtMBabDgIIuWnxZWfx3Ipzz1Lp9K9XLKUVmGQcakpItHo7s5UdahqUkDmpJr6MLD/QO
-         pWQQ==
-X-Gm-Message-State: ACrzQf1MTMOjaoxg4ZdMi8JSrbSDIQsykPZHW8ln/5NJ7b42YXhz/V0r
-        l463WQVP0A4lwc8ELPojiRlqQOlhJqc2xV1t4Z8=
-X-Google-Smtp-Source: AMsMyM4xkljLtDEl//QR9NR5JF4xykvWeqbsnz4ycJSLS8S+jhrB+aNBGatRDPyMXGTc73FI4kqw99M48vw8DkKdYGc=
-X-Received: by 2002:a05:6402:350b:b0:452:2b68:90db with SMTP id
- b11-20020a056402350b00b004522b6890dbmr14905597edd.255.1663584273053; Mon, 19
- Sep 2022 03:44:33 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=nYkgf7167and0RA6WgS7T9F/ATxyX9JyRvsn4NiAu+k=;
+        b=WNG7uDz5UJWjOmgOENLHoTa/E5lChMlhhoj39xGtQtOcDtfq4+MjdALffcnyK6wv5v
+         6jcBl9ne3Dy4eNZCacHSyVidoM5rNkL0ORUKuiFFwqKpnXuXHIQ3JwTaAXrM6BgkODg2
+         58xpLDodGd+ybdAiv76yiC5JsN6il8+wCf1Qetn3Q2ht7RviNaUFNNS6viybfygU1Wdo
+         sXZfmyGXgXOuH2/Cb1uWpjygiBhh0f7gHJ5eK6wOzNyyXUP908tM2uFyW+OjyCcEjxCF
+         bsbgr6h7Teg7mgrSkdwM2fF4ZrNurdWHgk8Sz4X67QeD96wzw3GhO2G4h+6LycbZwgC/
+         nEBg==
+X-Gm-Message-State: ACrzQf3MAn8NoKMdK2cnTuuxK75sRpEg6ZceGjzWAj/LipbHODkU+FlK
+        DaKFrj0lfO03Du5Dd18zd8GgXtO9FkTZzw==
+X-Google-Smtp-Source: AMsMyM4CtTtPpBEfAfEjyWARnB7GtWGPdIEFw21dBbjjaKoO+IVoC78ZNpOCb9oA+FQ9Fd2H6b128g==
+X-Received: by 2002:a05:6000:1a8a:b0:22a:43ef:94f0 with SMTP id f10-20020a0560001a8a00b0022a43ef94f0mr10528556wry.279.1663584410583;
+        Mon, 19 Sep 2022 03:46:50 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2501:c701:453:ec29:bd55:6b15])
+        by smtp.gmail.com with ESMTPSA id t1-20020adfe441000000b0022a2bacabbasm13265094wrm.31.2022.09.19.03.46.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Sep 2022 03:46:50 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] soc: renesas: Kconfig: Explicitly select GPIOLIB and PINCTRL config under SOC_RENESAS
+Date:   Mon, 19 Sep 2022 11:46:06 +0100
+Message-Id: <20220919104606.96553-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220914134211.199631-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVRmuQm5xRgpQurCJTu7goqNi5zj+Q9cLLz_s_p=znbbA@mail.gmail.com>
- <CA+V-a8vDMFKJb0wDOR8LZifRDBa0hju-YgL_BDb0chVjpef98w@mail.gmail.com>
- <OS0PR01MB592272F7C6A9519E1CA99647864D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdWzWQgL1eki_aL_MnfQfM_S1yTuabWQAP8GzuA_D_A_kw@mail.gmail.com> <OS0PR01MB59221867F12797CCA685F954864D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB59221867F12797CCA685F954864D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 19 Sep 2022 11:44:05 +0100
-Message-ID: <CA+V-a8utMR5GRnNGYhn_hhRnDpxtBLjEhqBXmoNZXmiBObojmw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: rzg2ul-smarc-som: Drop enabling wdt2
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -77,49 +72,39 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 19, 2022 at 11:15 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
->
-> Hi Geert,
->
-> Prabhakar Mahadev Lad <prabhakar.mahadev-
-> > lad.rj@bp.renesas.com>
-> > Subject: Re: [PATCH] arm64: dts: renesas: rzg2ul-smarc-som: Drop
-> > enabling wdt2
-> >
-> > Hi Biju,
-> >
-> > On Mon, Sep 19, 2022 at 12:06 PM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > > > On Sun, Sep 18, 2022 at 10:04 AM Geert Uytterhoeven <geert@linux-
-> > > > m68k.org> wrote:
-> > > > > On Wed, Sep 14, 2022 at 3:43 PM Prabhakar
-> > > > <prabhakar.csengg@gmail.com> wrote:
-> > > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > >
-> > > > > > WDT CH2 is specifically to check the operation of Cortex-M33
-> > CPU
-> > > > so
-> > > > > > don't enable WDT2 by default.
-> > > > > >
-> > > > For consistency I'll drop enabling WDT2 from the RZ/G2L{C} too.
-> > >
-> > > Does remove unused clocks turn off WDT2 clock during late init??
-> > >
-> > > If that is the case, we should remove entries from clock table as
-> > well?
-> >
-> > Or add it to *_crit_mod_clks[]?
-> >
-> > Note that drivers/clk/renesas/r9a07g043-cpg.c creates wdt2 clocks and
-> > resets, so that should probably be moved inside the #ifdef
-> > CONFIG_ARM64 section.
->
-Yes we dont want it to be listed on RZ/Five.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-> Yes, both will do, I guess otherwise WDT enabled by Cortex-M33 will be disabled by
-> CORTEX-A55 during boot.
->
-Agreed.
+GPIOLIB and PINCTRL config options are required by all ARM32/ARM64/RISC-V
+Renesas SoCs, so instead of selecting them under ARCH_RENESAS for each
+architecture just explicitly select them under SOC_RENESAS config option
+which will be visible for all the three architectures (if ARCH_RENESAS is
+enabled).
 
-Cheers,
-Prabhakar
+Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+Note, only when this patch is merged I'll post the patches to drop GPIOLIB
+and PINCTRL from [0] and [1] to avoid bisect build failures.
+
+[0] arch/arm64/Kconfig.platforms
+[1] arch/arm/mach-shmobile/Kconfig
+---
+ drivers/soc/renesas/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
+index f95a1337450d..660498252ec5 100644
+--- a/drivers/soc/renesas/Kconfig
++++ b/drivers/soc/renesas/Kconfig
+@@ -2,6 +2,8 @@
+ menuconfig SOC_RENESAS
+ 	bool "Renesas SoC driver support" if COMPILE_TEST && !ARCH_RENESAS
+ 	default y if ARCH_RENESAS
++	select GPIOLIB
++	select PINCTRL
+ 	select SOC_BUS
+ 
+ if SOC_RENESAS
+-- 
+2.25.1
+
