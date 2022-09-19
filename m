@@ -2,124 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06C705BD4E5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Sep 2022 20:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01DBD5BD5AA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Sep 2022 22:20:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229783AbiISSnm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Sep 2022 14:43:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43878 "EHLO
+        id S229835AbiISUUb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Sep 2022 16:20:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229773AbiISSnk (ORCPT
+        with ESMTP id S229548AbiISUUY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Sep 2022 14:43:40 -0400
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63CDF476CB;
-        Mon, 19 Sep 2022 11:43:39 -0700 (PDT)
-Received: from [192.168.1.103] (178.176.74.120) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Mon, 19 Sep
- 2022 21:43:31 +0300
-Subject: Re: [PATCH] net: sh_eth: Fix PHY state warning splat during system
- resume
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>
-CC:     <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <c6e1331b9bef61225fa4c09db3ba3e2e7214ba2d.1663598886.git.geert+renesas@glider.be>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <817f9c27-70d6-55bd-a201-e54f3f08bbec@omp.ru>
-Date:   Mon, 19 Sep 2022 21:43:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Mon, 19 Sep 2022 16:20:24 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39B464A836
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Sep 2022 13:20:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663618816; x=1695154816;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+CzLN6PRyZw+nyX1LP9YlBPykL0/OMHzLiqmbTkbTp8=;
+  b=Yyn14NiZkQhilFEaLEIc/Cw+OgOJ4W5/EB5nzC5NYsI4n6OPx8UPXchH
+   j4Zo4KnOQacwwsIqHNZ9DDYmX2QKVED1J83tBjtCWXrgXX+i7Y/8PTjLB
+   6Gp0f0yku02XMurKUWnH0TGBzDzKs6a6w0KJJIk3Q2Jpil9gHCBb8mOYk
+   OhQ2UuZzAUnVgrfIsRx3MsR79UTVLBSE4dtD1bs0erkSUPyAu/IKuQkC0
+   WR/+rbKYJxGkgNJmRNOhpYy35Y7biPZWpn+gswTRlAa7dmroVG1J091vO
+   5gNxwC5Gk4v77ZrA6t2P/CojcFyHuO4U6ZVkq44YSTbT+HmvCyotwa89I
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="325808560"
+X-IronPort-AV: E=Sophos;i="5.93,328,1654585200"; 
+   d="scan'208";a="325808560"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 13:20:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,328,1654585200"; 
+   d="scan'208";a="618634092"
+Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 19 Sep 2022 13:20:12 -0700
+Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oaNFT-0002D3-2o;
+        Mon, 19 Sep 2022 20:20:11 +0000
+Date:   Tue, 20 Sep 2022 04:19:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ 5c8e5995413313a628eb0f9ea0d9ae6641854298
+Message-ID: <6328cec3.ekfBQ6P+BGfVEgER%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <c6e1331b9bef61225fa4c09db3ba3e2e7214ba2d.1663598886.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [178.176.74.120]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 09/19/2022 18:07:27
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 172787 [Sep 19 2022]
-X-KSE-AntiSpam-Info: Version: 5.9.20.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 499 499 6614d57ea7c6ac2e38ef0272e2cc77f73b9aae18
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.120 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.120 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info: omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.120
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 09/19/2022 18:10:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 9/19/2022 3:54:00 PM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 9/19/22 5:48 PM, Geert Uytterhoeven wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 5c8e5995413313a628eb0f9ea0d9ae6641854298  Merge tag 'v6.0-rc6' into renesas-devel
 
-> Since commit 744d23c71af39c7d ("net: phy: Warn about incorrect
-> mdio_bus_phy_resume() state"), a warning splat is printed during system
-> resume with Wake-on-LAN disabled:
-> 
-> 	WARNING: CPU: 0 PID: 626 at drivers/net/phy/phy_device.c:323 mdio_bus_phy_resume+0xbc/0xe4
-> 
-> As the Renesas SuperH Ethernet driver already calls phy_{stop,start}()
-> in its suspend/resume callbacks, it is sufficient to just mark the MAC
-> responsible for managing the power state of the PHY.
-> 
-> Fixes: fba863b816049b03 ("net: phy: make PHY PM ops a no-op if MAC driver manages PHY PM")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+elapsed time: 724m
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+configs tested: 58
+configs skipped: 2
 
-[...]
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
-> index 67ade78fb7671c4a..7fd8828d3a846169 100644
-> --- a/drivers/net/ethernet/renesas/sh_eth.c
-> +++ b/drivers/net/ethernet/renesas/sh_eth.c
-> @@ -2029,6 +2029,8 @@ static int sh_eth_phy_init(struct net_device *ndev)
->  	if (mdp->cd->register_type != SH_ETH_REG_GIGABIT)
->  		phy_set_max_speed(phydev, SPEED_100);
->  
-> +	/* Indicate that the MAC is responsible for managing PHY PM */
-> +	phydev->mac_managed_pm = true;
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+arc                                 defconfig
+alpha                               defconfig
+arc                  randconfig-r043-20220919
+x86_64                               rhel-8.3
+s390                 randconfig-r044-20220919
+riscv                randconfig-r042-20220919
+x86_64                           rhel-8.3-kvm
+x86_64               randconfig-a012-20220919
+s390                             allmodconfig
+i386                                defconfig
+i386                 randconfig-a013-20220919
+x86_64               randconfig-a011-20220919
+i386                 randconfig-a012-20220919
+x86_64                           allyesconfig
+i386                 randconfig-a014-20220919
+s390                                defconfig
+i386                 randconfig-a011-20220919
+arm                                 defconfig
+x86_64               randconfig-a014-20220919
+i386                 randconfig-a016-20220919
+x86_64                          rhel-8.3-func
+i386                 randconfig-a015-20220919
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
+x86_64               randconfig-a015-20220919
+s390                             allyesconfig
+x86_64               randconfig-a013-20220919
+x86_64                           rhel-8.3-syz
+x86_64               randconfig-a016-20220919
+i386                             allyesconfig
+arm                              allyesconfig
+mips                             allyesconfig
+alpha                            allyesconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+powerpc                           allnoconfig
+ia64                             allmodconfig
+arm64                            allyesconfig
+powerpc                          allmodconfig
+sh                               allmodconfig
 
-   Again, this field is declared as *unsigned*...
+clang tested configs:
+hexagon              randconfig-r041-20220919
+hexagon              randconfig-r045-20220919
+i386                 randconfig-a001-20220919
+i386                 randconfig-a006-20220919
+i386                 randconfig-a002-20220919
+i386                 randconfig-a003-20220919
+x86_64               randconfig-a003-20220919
+i386                 randconfig-a004-20220919
+x86_64               randconfig-a001-20220919
+i386                 randconfig-a005-20220919
+x86_64               randconfig-a002-20220919
+x86_64               randconfig-a004-20220919
+x86_64               randconfig-a006-20220919
+x86_64               randconfig-a005-20220919
 
->  	phy_attached_info(phydev);
-[...]
-
-MBR, Sergey
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
