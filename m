@@ -2,119 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBD925BC5C4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Sep 2022 11:50:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 314985BC5CA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Sep 2022 11:54:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229893AbiISJuB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Sep 2022 05:50:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46502 "EHLO
+        id S229772AbiISJx7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Sep 2022 05:53:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229819AbiISJuA (ORCPT
+        with ESMTP id S229769AbiISJx5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Sep 2022 05:50:00 -0400
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24DF1DF27;
-        Mon, 19 Sep 2022 02:49:54 -0700 (PDT)
-Received: by mail-qk1-f178.google.com with SMTP id x18so6802737qkn.6;
-        Mon, 19 Sep 2022 02:49:54 -0700 (PDT)
+        Mon, 19 Sep 2022 05:53:57 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57F0816586
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Sep 2022 02:53:56 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id p5so33174070ljc.13
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Sep 2022 02:53:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=Ozine1LMZl3lCyd+gDTUkyJgK4VZq5xPo6I1YmSTgwk=;
+        b=C0bfl5Yo6yR3581/nF0n6kJEeIj5RBteWgMCu0HqpgK61dWDWcYla+fmuc5Xa/XSlZ
+         bI+aUabiJ2ho4ZkmCZrqa9UhvilCmYPTrPhRdQybAb1P0uShrmNfbaHPiRiAdNYjcvxV
+         1U1F5GqNzqP94l0HJet1lbepiCS6UMBYc9qHpd3AN8M7AS7tGoZplkQmF3kqokpJC8yK
+         La4Vn9NSOkLeUr5Yzym5qG5wfWB5GWKt/E+qkAR8xwG+ZDhV26ALPbgMMmVCnIZisXyU
+         R0o+PGTSeD9rQyiFMbX5NbqwRhyfeXk8kxyr8RHZl5FC5l1s/D00wMnkuQ2jcYAF/B83
+         +nZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=JmfkW8xRwvt0gn536FI9P5C84QK1rTkWqIPFbAxNJRI=;
-        b=ykExiImI9t06VRFHCgnVR/+ATKvgXpZl7aKMMNBy0hXNUjmrqKp3182MIU8tEF1MT0
-         lShz6YLuCFzJGYEPcmukPQpy4S9T589yZbVroTi8eYNp7yqPuM2YGKFtZcJw2WtLsodF
-         Qeidqaxj0OAab8b/ZboWBMo8HDBa21reh6tT5tL+745d0jMIdxiINHHqdzQuBxgghTrX
-         gRQEt6qe+0vtimDucmlmUfsFjxffB7v/aGjRKRGpkqq006hsA3Ygv5Ba43kyoxWpD/+F
-         NnljnBYnvRVGQZbw5Dlb8Kc4iV1y8E083zk4wllf9FcJH0nFamHY8M+Ih+E1dkqU+3rU
-         VBvA==
-X-Gm-Message-State: ACrzQf3NfuWxJ8JSGuWzmsfVNlzJShw7rGH8I8eTNz+QnBnhV5E9ySZH
-        ElKzX+A7vMFri1YtlAVDbHAf8mtwpBJPwg==
-X-Google-Smtp-Source: AMsMyM5JarFpSalEtEOLR5Ui3KaYogLTnXoPYZfQBye9rRszP9PP23I7I1M8ehEjbePXKMc23w1uNA==
-X-Received: by 2002:a05:620a:2951:b0:6ce:c55e:102a with SMTP id n17-20020a05620a295100b006cec55e102amr10005659qkp.134.1663580993020;
-        Mon, 19 Sep 2022 02:49:53 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id ay29-20020a05622a229d00b0031f0b43629dsm2329894qtb.23.2022.09.19.02.49.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Sep 2022 02:49:52 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id a67so41706086ybb.3;
-        Mon, 19 Sep 2022 02:49:52 -0700 (PDT)
-X-Received: by 2002:a25:3851:0:b0:6ad:9cba:9708 with SMTP id
- f78-20020a253851000000b006ad9cba9708mr14263604yba.36.1663580992123; Mon, 19
- Sep 2022 02:49:52 -0700 (PDT)
+        bh=Ozine1LMZl3lCyd+gDTUkyJgK4VZq5xPo6I1YmSTgwk=;
+        b=Pj+CVtPKQ8wlwGO/Ny9CRFdR67ROBAIgPVlFGZKpwCrn7tU45hkILnbfhGihsQc9vg
+         IgCq18BKGf4RtHfvmK2S8gva8V3DozXEvyybstEPcOKFvExl4AfINKEp8yPtciSEOfiO
+         CCzu32hPXROAKsayVigWDpm52XKzKLkMUVMSVW6qv623DTWILi7qeQEk+GvqbXMDVlrz
+         tZOJ0EI3MUZvFRhC1qxmR6eDeyhYMQ+1QPjCN1yDaDQwKDewUEuUihMrV738CBN9xOgG
+         fObuEwtMj3YkfmBHVxD8nZ0kMz9gW5utYTaIHUBAOw+lwlDkGoxKZ05Whky8jG9Z9ULU
+         IAkQ==
+X-Gm-Message-State: ACrzQf3BjPUIK8dUil120ZIHZf2B8aHUHEpjtKHOoY2UVPZTC8WkiNDl
+        H6eAmc9qRp9Aim3jjZo5Z6yAqvVjlMI63ZfTM3Sxrw==
+X-Google-Smtp-Source: AMsMyM5fWor7zFcZGDCoNv8tt/+3I7m5yu8diMswgk2YJB7/em0eqqnIXj479N3TRcb3sLl9C829jV6tZUmCE6lurpU=
+X-Received: by 2002:a2e:b744:0:b0:26c:40bf:eaba with SMTP id
+ k4-20020a2eb744000000b0026c40bfeabamr3683897ljo.367.1663581234550; Mon, 19
+ Sep 2022 02:53:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220915233852.415407-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdUhq6nJSPdR4XfFvune2g0xHLxB-jP38yhVdwFyO8VQBg@mail.gmail.com> <CA+V-a8tbO2okH3oku+15nrd+KRdGoFQ8WRck5sAMuGhV9WcHpA@mail.gmail.com>
-In-Reply-To: <CA+V-a8tbO2okH3oku+15nrd+KRdGoFQ8WRck5sAMuGhV9WcHpA@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 19 Sep 2022 11:49:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVeDLSbea4pYJoajQXg0RroGeNuQcS6sBbU--GnmNu0aw@mail.gmail.com>
-Message-ID: <CAMuHMdVeDLSbea4pYJoajQXg0RroGeNuQcS6sBbU--GnmNu0aw@mail.gmail.com>
-Subject: Re: [PATCH] ARM: shmobile: Kconfig: Drop selecting SOC_BUS
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <DU0PR04MB94173B45A2CFEE3BF1BD313A88409@DU0PR04MB9417.eurprd04.prod.outlook.com>
+ <CAPDyKFrzJikk6rJr9xwV6W-whvdLe5tTUE+xO_EoRtm+9DAbNA@mail.gmail.com>
+ <20220908173840.rqy335cdeg5a2ww5@bogus> <CAPDyKFqYDNXxfKHd8PYy8T3di2s206nCiHY7cEf+_EHVrY1YbQ@mail.gmail.com>
+ <20220909154254.xy4jvj6ybpuynghc@bogus> <CAMuHMdXvTWvZHjE-7CKOxCKjuPF++xQQRGedHeL2Zy-wsnHviw@mail.gmail.com>
+ <CAMuHMdX2rJq0DJo9D_RSMoAj9GPc-Zts5+UNCFQGF3+EYVSXgQ@mail.gmail.com>
+ <20220914153038.inbch35g7ldsyzhx@bogus> <81pr96n7-p42q-s3s-1541-n777or1p612@syhkavp.arg>
+In-Reply-To: <81pr96n7-p42q-s3s-1541-n777or1p612@syhkavp.arg>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Mon, 19 Sep 2022 11:53:18 +0200
+Message-ID: <CAPDyKFoBvX7WmJu0E1p0RuVCEKFFk===ZVnYtbz9o=RZPzHSTA@mail.gmail.com>
+Subject: Re: Question: why call clk_prepare in pm_clk_acquire
+To:     Nicolas Pitre <nico@fluxnic.net>,
+        Sudeep Holla <sudeep.holla@arm.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Peng Fan <peng.fan@nxp.com>,
+        "ben.dooks@codethink.co.uk" <ben.dooks@codethink.co.uk>,
+        "rafael.j.wysocki@intel.com" <rafael.j.wysocki@intel.com>,
+        "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Dien Pham <dien.pham.ry@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-On Mon, Sep 19, 2022 at 11:46 AM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Sun, Sep 18, 2022 at 10:32 AM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
-> > On Fri, Sep 16, 2022 at 1:39 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Wed, 14 Sept 2022 at 19:05, Nicolas Pitre <nico@fluxnic.net> wrote:
+>
+> On Wed, 14 Sep 2022, Sudeep Holla wrote:
+>
+> > On Mon, Sep 12, 2022 at 06:58:49PM +0100, Geert Uytterhoeven wrote:
+> > > Hi Sudeep,
 > > >
-> > > Don't automatically select the SOC_BUS config option as we already have
-> > > automatically selected it as part of the SOC_RENESAS config option [0]
-> > > as renesas-soc.c [1] uses the APIs provided by SOC_BUS config option.
+> > > CC Dien Pham
 > > >
-> > > [0] drivers/soc/renesas/Kconfig
-> > > [1] drivers/soc/renesas/renesas-soc.c
+> > > On Mon, Sep 12, 2022 at 6:49 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > On Fri, Sep 9, 2022 at 4:51 PM Sudeep Holla <sudeep.holla@arm.com> wrote:
+> > > > > On Fri, Sep 09, 2022 at 01:12:03PM +0200, Ulf Hansson wrote:
+> > > > > > On Thu, 8 Sept 2022 at 19:38, Sudeep Holla <sudeep.holla@arm.com> wrote:
+> > > > > > > On Thu, Sep 08, 2022 at 04:37:13PM +0200, Ulf Hansson wrote:
+> > > > > > > > On Thu, 8 Sept 2022 at 09:33, Peng Fan <peng.fan@nxp.com> wrote:
+> > > > > > > > > We are facing an issue clk_set_rate fail with commit a3b884cef873 ("firmware:
+> > > > > > > > > arm_scmi: Add clock management to the SCMI power domain") ,
+> > > > > > > >
+> > > > > > > > Hmm, I wonder about the main reason behind that commit. Can we revert
+> > > > > > > > it or is there some platform/driver that is really relying on it?
+> > > > > > > >
+> > > > > > >
+> > > > > > > IIUC, at the time of the commit, it was needed on some Renesas platform.
+> > > > > > > Not sure if it is still used or not.
+> > > > > >
+> > > > > > Okay! Maybe Nico remembers more, as he authored the patch...
+> > > > > >
+> > > > >
+> > > > > May be, or even check with Renesas team who tested his patch.
+> > > >
+> > > > I'm not aware of Renesas platforms using SCMI...
 > > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Upon closer look, Diep Pham did report a build issue in the SCMI code, so
+> > > perhaps Diep knows more...
+> > >
 > >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > i.e. will queue in renesas-devel for v6.1.
+> > Yes indeed, Diep Pham tested the original patch IIRC and also has reported
+> > few bugs in SCMI clock code which are fixed. Hence I know it is used by
+> > Renesas.
 > >
-> > > --- a/arch/arm/mach-shmobile/Kconfig
-> > > +++ b/arch/arm/mach-shmobile/Kconfig
-> > > @@ -6,5 +6,4 @@ menuconfig ARCH_RENESAS
-> > >         select GPIOLIB
-> > >         select NO_IOPORT_MAP
-> > >         select PINCTRL
-> > > -       select SOC_BUS
-> > >         select ZONE_DMA if ARM_LPAE
+> > Hi Peng,
 > >
-> > Nice catch!
-> > I guess it would make sense to move the GPIOLIB and PINCTRL selects
-> > to drivers/soc/renesas/Kconfig, too, as they are needed for all
-> > (arm32/arm64/riscv) Renesas SoCs?
-> >
-> Agreed, shall I move them under SOC_RENESAS?
+> > Absence of DTS changes indicate nothing. I am aware of couple of vendors
+> > who use SCMI on several platforms and do report issues regularly and help
+> > in review of the code. So DTS is not a good indicator of SCMI usage
+> > unfortunately. On reason could be that since it is a firmware, bootloaders
+> > can detect and update DTS, just my thought and may differ from the reality.
+>
+> Sorry for the delay.
+>
+> This patch was indeed requested by Renesas for one of their platform
+> that uses SCMI clocks. I didn't have access to the platform myself at
+> the time but the patch was positively validated and tested by Renesas.
+>
+> This works in conjunction with commit 0bfa0820c274 that made generic
+> clock pm code usable with the SCMI layer.
+>
+> I didn't touch any clock stuff since then and I forgot about the finer
+> details unfortunately.
 
-That's the place I had in mind ;-)
+Thanks Nico for coming back with this information. To me, it looks
+like the patch may be applicable to some Renesas' downstream kernel
+then.
 
-Gr{oetje,eeting}s,
+In my opinion I think we should rather try to revert, to avoid any
+further problems. So I am going to send that patch and see what people
+think about it.
 
-                        Geert
+Another option, which Sudeep doesn't seem very happy about too, is to
+make the GENPD_FLAG_PM_CLK conditional, based on a platform
+compatible.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Kind regards
+Uffe
