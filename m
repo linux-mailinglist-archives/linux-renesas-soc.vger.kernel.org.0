@@ -2,188 +2,347 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 872BE5BCF2A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Sep 2022 16:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BF3A5BCF72
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Sep 2022 16:46:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229842AbiISOjM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Sep 2022 10:39:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41526 "EHLO
+        id S229727AbiISOp7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Sep 2022 10:45:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230402AbiISOis (ORCPT
+        with ESMTP id S229589AbiISOp6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Sep 2022 10:38:48 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2120.outbound.protection.outlook.com [40.107.113.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1D3F273A;
-        Mon, 19 Sep 2022 07:38:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ObPELX7xCWt95bYloNNriQZ2wDhkpQpgpwRba+pL3OBF8BELUtCIlhvEeGrKJlrqINhvTekqHQVVls11uQnP1goEAqt11L5Et8F20JZNxNxHoahsbeJ1tLFIjwh2uqJYRfG5BPbZopHFUwb8Uen+N40GWmfgW3sSb2dk+R+08QRKLiGHcm8PECXX0SGwb4ZAqy378fxTv7kijZn9LNu3etTpXIAtewPtIJBB0TUiFxzjkJnHY5Wmok3YmhjfzI9IqSv/yMhVooNappDOGbCDfO/Apv9/RiRNrDlp8KZxFvauXxReXg0VmBzLvL8jUrZd8jg87CEOCg5NBjLDQL6Rqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mijxY2U1esX/PMfQUrk20/fPCFtbjwt7SSQUxKx5MEk=;
- b=EF6Q5lGlCpkMdrmKhDR7+prDCp8km5LhzswE805Pdtx2lYIlJcI0GZ1mmmitS8Bf8ixFSfW45q9+y9DV2SDnGvU2wo8zLdlFiJ+dJUXIdwmS7g5zJ9/8Nu99uw9cUSWh/MDTDG+HFzeuRkmo2kcJlNupiCtNEwWFvlqUeh7B9CCpnAlyYzkqQxhtfy4zTxAfu2mdIs7u0WmhNb/b9ur3kOsua7nwROm/UhbVYDueOON6AliHqddlNWWg+OWtdxLJiQhjeOOqWfjAQWjAUiZ8Mfa9VVVp8fsd89DbK/Na+cBOhzVRbEZv9fyp0LdewyjflkGE4xue1HSOtulQGSp/cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mijxY2U1esX/PMfQUrk20/fPCFtbjwt7SSQUxKx5MEk=;
- b=eGRHK9dYytqhSJyaBM/Qdwoztl/+pjCSbBQoT/mKNKyju5h7k+lIL0DwjuPMnEOB6iTfE7MTFKpQWjOb87kfNtMbinehLfvQzTzs2yeOKvqV3ZYJBP0OEkBMt7icDz+i5LXOjNaIpZg4ipf7nZZk63MHuWA6VlleUIhKzm/vs4E=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYWPR01MB10275.jpnprd01.prod.outlook.com (2603:1096:400:1d5::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.18; Mon, 19 Sep
- 2022 14:38:44 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::c502:8f9f:ec5e:8e3f]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::c502:8f9f:ec5e:8e3f%3]) with mapi id 15.20.5632.021; Mon, 19 Sep 2022
- 14:38:44 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH] clk: renesas: r9a07g044: Add WDT2 clocks to critical list
-Thread-Topic: [PATCH] clk: renesas: r9a07g044: Add WDT2 clocks to critical
- list
-Thread-Index: AQHYzCwlVjlhhutYXUubI25P/bpXfa3mwNiQgAAA1QCAAADfEIAACcsAgAAFgUA=
-Date:   Mon, 19 Sep 2022 14:38:44 +0000
-Message-ID: <OS0PR01MB592278FB3E443C84130FCA7D864D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220919133122.167794-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <OS0PR01MB5922E64DD745E4F8A5FEFCD5864D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CA+V-a8vAjO9H9BdgNOVXkjWR9zpD+73P_KLo0683xp1nBgVViQ@mail.gmail.com>
- <OS0PR01MB59227B5F87C7FC3CEC271B0A864D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CA+V-a8utdkb61v_1=G85O6OCtQDv-+5YuyFy4r7BW+fR2E=WkQ@mail.gmail.com>
-In-Reply-To: <CA+V-a8utdkb61v_1=G85O6OCtQDv-+5YuyFy4r7BW+fR2E=WkQ@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYWPR01MB10275:EE_
-x-ms-office365-filtering-correlation-id: acaa53b7-3b40-4121-d103-08da9a4ca7ab
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ZPfmKaJ+KUugx+GNBxt90nTmhkRxLGfvEIqsNA+9NOHUHPOD5sIWZOaNp6agh1X8aVY7xzseoh9/WTXeUrQdUBLCFxq93rQTlYX2GRAGiR5CNGTmGEj6wPqs/Hg6o0Dd69PlvpZa1GjuSh8s4igAmZHfmKSQc7MFM12FrQS4+LbOO1i9GgtNE+xeApkuSS3FdHvFICyya21jySyLSZYpUiYLAbI0ydSgc260RKZbSqzNOiVsGXlPN9jBHAXibjoApEblRbK5kRd3cPMLF+Q4FRkJuV/Vo4JfWPuwkIcx97dmeTTa+j+Unbh+twXe/eVM3Lpok2sLHXDr9ZxxMP7jWfE3gmhBNMxCa7kEuqB8myL+Rwpl36OiNKKBivH6zc+pg7xDDMLeR9Z0vaMaPksN8OBsY8g4DJ9i+XxtMZrwEFPJ3fFuN37Pm23C2b5V3+iY4r+rOkjFrIUpgRwpPvtr4tI3yi9Lz/Fgwcp2OXOgXGsYRXrF+Fq/pFVuxTay3NcWN8MEU2ozoxSpggCzgMgDRMdWG6xVGdU/l/yYc7LhIvEICA+UyY+kg8p7CFJLZbDxAsuJDEf9tBYXStnIrNjJ/4rtFaQUW6P5BCXpvOh/8MOilJ3naOZSKksGDB6MOmcSiKZxctZTksbr+PYI2mIolP3lGSO/x+zNNJ12Cool0od6HkuW/ioj+suYpJmL4BQ4tnybkXoMbQZZnfBXoyW8dj36xOEaalSwLhgEkrO3R46WvG1Mh+wtOMRu7uuNm/ayYOliJRangQeD9lcj3Yi8mg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(366004)(346002)(396003)(376002)(39860400002)(451199015)(6506007)(4326008)(7696005)(2906002)(38070700005)(66446008)(71200400001)(86362001)(38100700002)(55016003)(26005)(53546011)(8936002)(9686003)(76116006)(8676002)(66556008)(33656002)(66476007)(122000001)(66946007)(64756008)(41300700001)(107886003)(478600001)(6916009)(54906003)(83380400001)(316002)(186003)(5660300002)(52536014);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bDk1N3JVQzcyU3ptc0NlenNaTm1oT0Vzc09RQ2dueUYrV0ppRXJyUDRhKzRE?=
- =?utf-8?B?QjR0R3F5MnlGSXhLUE1JWmpyWmJCK1h5b2ZPRnhONjFmZjN1RFpkeG5jblk1?=
- =?utf-8?B?RmZMU0J5WTB2VkFaczJiQyswSjd0dVM1bnhwbzZ2aXQ1U29JbTc5TmhkRlkr?=
- =?utf-8?B?bW5VaEtvVGM0K2xxTHZsUlcrWFRONzgwRmd2NTJGU0p0aTltZXZSYzF4cU1S?=
- =?utf-8?B?NkJ0b21kK0pJTGF6NkdxR3NkSDNjcHJDUVl2SG1YaFhvem1uYy90Z211V3BO?=
- =?utf-8?B?TTM5ajVMeFprUEhKWURkM1phdzNwRHY1SnhFTEdWNzVlSnhSeTNXK1RBVFpY?=
- =?utf-8?B?YWt6ZExMYjl5R0RLY1BlamFKUko3T2JBcUlKTGZ3NHgrVzZpaEY2Wjh3bCs2?=
- =?utf-8?B?Tkc2ekpKSVQxblAzNGt1TGJ4MUlld0hnUllLeHlNT0VqeldHNEMwZXJSQnhw?=
- =?utf-8?B?TzJYOEVYUWNtY05nZy9VUG03b0ErUVc2cW9kTGRJR3dkQUtOUVJONFBkNzdR?=
- =?utf-8?B?dUt1U1llWVlhUHpEb2puSVVQTFJjTFpGR1BjSndBemF5UU9rZ0FDbWh4NGJH?=
- =?utf-8?B?bEI1anF1WkVtYXBPQnRPV0J2UldIM1htNThlMnEwZWloM2dzcklFTENYcUQr?=
- =?utf-8?B?cFJFaEE0Tk9GTSthTDNjVEt5Nm5ubkZlazFyOTJxQjh1SUhpN3RiYmxUWWRU?=
- =?utf-8?B?OXQydzNaSGJiRTZ6OExlcmNOaXcrVFRyMGltZW5OSVdMK3RPeVVCNll3MzRJ?=
- =?utf-8?B?N1crazFpb25zMGtGSmtveEJWVzdTa3R1Z016dFNPVGNBMnV4Wng4TXo5Z05I?=
- =?utf-8?B?N0NZK3NxNVZkejdqRjJ4NUJUT2hCWDZMVFBqbjg3aGZvb2R3WDV1Mys2clhO?=
- =?utf-8?B?OXR4bHY3bkwrSGhWQ2dRZkppOUM1dGc3R0I3ZHAwRWdHTm5RWFFXRnFnazVi?=
- =?utf-8?B?cEhHbG5wU1pZa0NyMmZ3TmFWdTdrMDQ3Um83QkMrNHhzZE5Yd1REYXpmNjlo?=
- =?utf-8?B?cEtZSUpEcWF1VmtIVEQ2WlRnS0hUSnY3R0ZFbHRJeXBJVW5qZnZqWXAzVStR?=
- =?utf-8?B?NzQ3Qnl3SUF4YnVacUtyZGNJamRFZXN1OWYzVEpVRDdPYzRJRjI1RStsK1pY?=
- =?utf-8?B?S0pGZG1mbEQyWStnSjZaRmxMSXhRK1lwbjlDMWlmV3pDRExlREV1R29CZXht?=
- =?utf-8?B?N0FtVWoyc2ppZEw1ZWI3R2Q3OXZ6OGthOFRlOWhzVDNrL29mWFZmZnJ1UjYr?=
- =?utf-8?B?emtuL0IyaHJVaWZKK3Z2SGVqNEM0V3dHczZsOVFXVzh3cHNBcnpOR3NaTU9l?=
- =?utf-8?B?NXFGUUNmR2RwQlRHK0FicW1VMmxYYXBMT0JuYlJTRThWMytLeXNlMjhQNGp4?=
- =?utf-8?B?SytIa1ZOMVFsOXBIYjc3YklyL1ZiV2JMc1M1WG9TQ2Uxcm1zdEU2NWp3dmkr?=
- =?utf-8?B?VFJDVmdiNkRLOVY0bDBLQmNjMEUvR1pyYkRhOE9vbGZ1dnhaMDN2RDVxdG5p?=
- =?utf-8?B?TDZoNzFxSEVibS9FR09LMXI0ZGdZMW1rRmJrMUlRSzd2K0l4TCtqU2RMbFhm?=
- =?utf-8?B?V2d4KzFBRGVtTDIrajVqTllCL2xUUTM3YlowVFhhcjBKc0hXR1Fya3dxQWRp?=
- =?utf-8?B?WFhYcWovaklzMmNVVEYzbmNlM1l6T0hhbVBjYjRIWnorNmN2emV4MFNtRWNT?=
- =?utf-8?B?MXpncG1iQ1VWeXJwODFXNTcyZS9NQ1JZSVBQbXVoanRKU2kvQXBTMTBGS2VR?=
- =?utf-8?B?T05pSHRSWFByU3NRVnJPa3F1SUN2eDdhUXNvK09RdHFOeHN3NGxFVGFhdjRV?=
- =?utf-8?B?ZlFLMlY5TE51Yi81Uk1NU1RDMVNWdDA1QVNlcTNjWVVMNkRhUUIyajdjWkM0?=
- =?utf-8?B?Tmphbk9XZnhISUxlYVd6OURDMHJIVUpiMDAyZS96SXY4YlpRVzVOeHlzS1h1?=
- =?utf-8?B?OE9wcklDTHA3VTJJRktuRXRlZlU1NmhoUzJZU3djaTR4Z3VwRGdsaUhDOEg1?=
- =?utf-8?B?Z3V5RmRucmRGSndZOStUb2twTkpGejlOTnJRQnU4Z3ltTGw5THY1NjVzdzhv?=
- =?utf-8?B?ZFN2SS9SQXB0cG5SOWttYk1Uc2lnZDVaaGgyR25WWW5lL2VqQnZNMnNSZmVL?=
- =?utf-8?B?UXdGR3ViM1dYNVlGV0NHYVNxNnM4eTBJRDN2ZlNNQW5kM0Qxdks4ak9NWEFN?=
- =?utf-8?B?ZWc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Mon, 19 Sep 2022 10:45:58 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FFB41AF15
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Sep 2022 07:45:56 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC12A499;
+        Mon, 19 Sep 2022 16:45:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1663598755;
+        bh=aabepc7nb0ngyChlkM6UJlwgKnZ9OU5G0U7VXy3ehjU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nScVJsapKy+O4QEW0uqFnYQ4do05LXITXiWk5S3og/+DBPerGPce88+x0hGYR1CDJ
+         gafEsAayXMejbQe380YouukosvV8M0q1A3zmrNI2rOm9mSB/3emrWI6qmEaTHng+ch
+         XEFLtjWIfOTeZ7WWnLpH7Z7uZSTaI30LWQr2iPmE=
+Date:   Mon, 19 Sep 2022 17:45:41 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     tomba@kernel.org, kherbst@redhat.com, airlied@linux.ie,
+        sam@ravnborg.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org,
+        kieran.bingham+renesas@ideasonboard.com, bskeggs@redhat.com,
+        nouveau@lists.freedesktop.org, jyri.sarha@iki.fi
+Subject: Re: [PATCH 2/4] drm/plane: Allocate planes with
+ drm_universal_plane_alloc()
+Message-ID: <YyiAlRETd92wGxLn@pendragon.ideasonboard.com>
+References: <20220909105947.6487-1-tzimmermann@suse.de>
+ <20220909105947.6487-3-tzimmermann@suse.de>
+ <YyRYzpyjpmtOKnIW@pendragon.ideasonboard.com>
+ <8de43ecf-530e-0661-b4d3-60712b31e8c8@suse.de>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: acaa53b7-3b40-4121-d103-08da9a4ca7ab
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2022 14:38:44.7124
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mWDOWf4JUGlKXAjRtd2+5CHMrEZ+SlPt/xL4CHis8EZreLfxwgokl0aXQrzYTW18niFsdQw5KHXlpvJMLxkvzlIZ4mm9OQy8CGdNHQ/GQaw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10275
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <8de43ecf-530e-0661-b4d3-60712b31e8c8@suse.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgUHJhYmhha2FyLA0KDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0hdIGNsazogcmVuZXNhczogcjlh
-MDdnMDQ0OiBBZGQgV0RUMiBjbG9ja3MgdG8NCj4gY3JpdGljYWwgbGlzdA0KPiANCj4gSGkgQmlq
-dSwNCj4gDQo+IE9uIE1vbiwgU2VwIDE5LCAyMDIyIGF0IDI6NTIgUE0gQmlqdSBEYXMgPGJpanUu
-ZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiB3cm90ZToNCj4gPg0KPiA+IEhpIFByYWJoYWthciwN
-Cj4gPg0KPiA+ID4gU3ViamVjdDogUmU6IFtQQVRDSF0gY2xrOiByZW5lc2FzOiByOWEwN2cwNDQ6
-IEFkZCBXRFQyIGNsb2NrcyB0bw0KPiA+ID4gY3JpdGljYWwgbGlzdA0KPiA+ID4NCj4gPiA+IEhp
-IEJpanUsDQo+ID4gPg0KPiA+ID4gT24gTW9uLCBTZXAgMTksIDIwMjIgYXQgMjozNSBQTSBCaWp1
-IERhcw0KPiA+ID4gPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiA+ID4gd3JvdGU6DQo+
-ID4gPiA+DQo+ID4gPiA+IEhpIFByYWJoYWthciwNCj4gPiA+ID4NCj4gPiA+ID4gPiBTdWJqZWN0
-OiBbUEFUQ0hdIGNsazogcmVuZXNhczogcjlhMDdnMDQ0OiBBZGQgV0RUMiBjbG9ja3MgdG8NCj4g
-PiA+ID4gPiBjcml0aWNhbCBsaXN0DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBGcm9tOiBMYWQgUHJh
-Ymhha2FyIDxwcmFiaGFrYXIubWFoYWRldi1sYWQucmpAYnAucmVuZXNhcy5jb20+DQo+ID4gPiA+
-ID4NCj4gPiA+ID4gPiBBZGQgdGhlIFdEVDIgY2xvY2tzIHRvIHI5YTA3ZzA0NF9jcml0X21vZF9j
-bGtzW10gbGlzdCBhcyBXRFQNCj4gQ0gyDQo+ID4gPiBpcw0KPiA+ID4gPiA+IHNwZWNpZmljYWxs
-eSB0byBjaGVjayB0aGUgb3BlcmF0aW9uIG9mIENvcnRleC1NMzMgQ1BVIG9uIHRoZQ0KPiA+ID4g
-PiA+IFJaL3tHMkwsIEcyTEMsIFYyTH0gU29DcyBhbmQgd2UgZG9udCB3YW50IHRvIHR1cm4gb2Zm
-IHRoZQ0KPiBjbG9ja3MNCj4gPiA+IG9mDQo+ID4gPiA+ID4gV0RUMiBpZiBpdCBpc24ndCBlbmFi
-bGVkIGJ5IENvcnRleC1BNTUuDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBUaGlzIHBhdGNoIGlzIGlu
-IHByZXBhcmF0aW9uIHRvIGRpc2FibGUgV0RUIENIMiBmcm9tIHRoZQ0KPiBSWi9HMkwNCj4gPiA+
-ID4gPiAoYWxpa2UNCj4gPiA+ID4gPiBTb0NzKSBEVFMvSSBieSBkZWZhdWx0Lg0KPiA+ID4gPiA+
-DQo+ID4gPiA+ID4gUmVwb3J0ZWQtYnk6IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5lc2Fz
-LmNvbT4NCj4gPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBMYWQgUHJhYmhha2FyDQo+ID4gPiA+ID4g
-PHByYWJoYWthci5tYWhhZGV2LWxhZC5yakBicC5yZW5lc2FzLmNvbT4NCj4gPiA+ID4gPiAtLS0N
-Cj4gPiA+ID4gPiAgZHJpdmVycy9jbGsvcmVuZXNhcy9yOWEwN2cwNDQtY3BnLmMgfCAyICsrDQo+
-ID4gPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykNCj4gPiA+ID4gPg0KPiA+
-ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2Nsay9yZW5lc2FzL3I5YTA3ZzA0NC1jcGcuYw0K
-PiA+ID4gPiA+IGIvZHJpdmVycy9jbGsvcmVuZXNhcy9yOWEwN2cwNDQtY3BnLmMNCj4gPiA+ID4g
-PiBpbmRleCAwMmE0ZmM0MWJiNmUuLmNmOWIxYmQ3Mzc5MiAxMDA2NDQNCj4gPiA+ID4gPiAtLS0g
-YS9kcml2ZXJzL2Nsay9yZW5lc2FzL3I5YTA3ZzA0NC1jcGcuYw0KPiA+ID4gPiA+ICsrKyBiL2Ry
-aXZlcnMvY2xrL3JlbmVzYXMvcjlhMDdnMDQ0LWNwZy5jDQo+ID4gPiA+ID4gQEAgLTQxMiw2ICs0
-MTIsOCBAQCBzdGF0aWMgY29uc3QgdW5zaWduZWQgaW50DQo+ID4gPiA+ID4gcjlhMDdnMDQ0X2Ny
-aXRfbW9kX2Nsa3NbXSBfX2luaXRjb25zdCA9IHsNCj4gPiA+ID4gPiAgICAgICBNT0RfQ0xLX0JB
-U0UgKyBSOUEwN0cwNDRfR0lDNjAwX0dJQ0NMSywNCj4gPiA+ID4gPiAgICAgICBNT0RfQ0xLX0JB
-U0UgKyBSOUEwN0cwNDRfSUE1NV9DTEssDQo+ID4gPiA+ID4gICAgICAgTU9EX0NMS19CQVNFICsg
-UjlBMDdHMDQ0X0RNQUNfQUNMSywNCj4gPiA+ID4gPiArICAgICBNT0RfQ0xLX0JBU0UgKyBSOUEw
-N0cwNDRfV0RUMl9QQ0xLLA0KPiA+ID4gPiA+ICsgICAgIE1PRF9DTEtfQkFTRSArIFI5QTA3RzA0
-NF9XRFQyX0NMSywNCj4gPiA+ID4NCj4gPiA+ID4gRG8gd2UgbmVlZCB0byB0dXJuIG9uIHRoaXMg
-Y2xvY2sgdW5uZWNlc3NhcmlseT8NCj4gPiA+ID4NCj4gPiA+IE5vLCB0aGlzIGlzIGluIHByZXBh
-cmF0aW9uIHRvIGRpc2FibGUgV0RUMiBieSBkZWZhdWx0IGZyb20NCj4gUlovRzJMe0N9DQo+ID4g
-PiBEVFMvSS4NCj4gPg0KPiA+IEJ1dCB0aGF0IHdpbGwgbWFrZSBXRFQyIGRldmljZSBpcyBub3Qg
-ZW5hYmxlZCwgYnV0IHVubmVjZXNzYXJpbHkgdGhlDQo+IGNsayBpcyBvbi4NCj4gPg0KPiBBZ3Jl
-ZWQgdGhlIGNsb2NrcyB3aWxsIGJlIE9OLCBidXQgZGlkbnQgd2UgYWdyZWUgZWFybGllciBmb3IN
-Cj4gcjlhMDdnMDQzLWNwZy5jPw0KDQpZZXAsIHN0aWxsIHdlIGhhdmUgYSBjaGFuY2UgdG8gY29u
-Y2x1ZGUsIHdoZXRoZXIgd2UgbmVlZCB0byBtYWtlDQp0aGlzIGNsayBhbHdheXMgb24sIGlmIGl0
-IGlzIG5vdCBlbmFibGVkIGFuZCB0aGVyZSBpcyANCm5vIHVzZSBjYXNlIGZvciB3ZHQyIGNvbnRy
-b2xsaW5nIGZyb20gQ0EtNTU/Pw0KDQpDaGVlcnMsDQpCaWp1DQoNCj4gDQo+ID4gTm90IHN1cmUs
-IElmIHdlIGhhdmUgYW55IHVzZSBjYXNlIGZvciB3ZHQyIGNvbnRyb2xsaW5nIGZyb20gQ0EtNTU/
-Pw0KPiA+IElmIHRoZXJlIGlzIG5vIHVzZSBjYXNlLCB3aHkgY2FuJ3Qgd2UgcmVtb3ZlIGl0IGZy
-b20gU29DIGR0c2kgYW5kDQo+ID4gY2xvY2sgdGFibGVzLCB0aGF0IHdoeSB3ZSBkb24ndCB1bm5l
-Y2Vzc2FyaWx5IHVzZSB0aGlzIGNsb2NrDQo+IGFueW1vcmU/Pw0KPiA+DQo+IEkgZG9udCBoYXZl
-IGEgY2xlYXIgdXNlIGNhc2Ugb2YgdXNpbmcgV0RUIGNoMiB3aGVuIHRyeWluZyB0byB1c2UgaXQN
-Cj4gZnJvbSBDQS01NSBlaXRoZXIuDQo+IA0KPiBDaGVlcnMsDQo+IFByYWJoYWthcg0K
+Hi Thomas,
+
+On Fri, Sep 16, 2022 at 01:31:25PM +0200, Thomas Zimmermann wrote:
+> Am 16.09.22 um 13:06 schrieb Laurent Pinchart:
+> > On Fri, Sep 09, 2022 at 12:59:45PM +0200, Thomas Zimmermann wrote:
+> >> Provide drm_univeral_plane_alloc(), which allocated an initializes a
+> >> plane. Code for non-atomic drivers uses this pattern. Convert it to
+> >> the new function. The modeset helpers contain a quirk for handling their
+> >> color formats differently. Set the flag outside plane allocation.
+> >>
+> >> The new function is already deprecated to some extend. Drivers should
+> >> rather use drmm_univeral_plane_alloc() or drm_universal_plane_init().
+> > 
+> > If this is already deprecated and used by a single driver, what is the
+> > point ?
+> 
+> It's used by nouveau and drm_modeset_helper.c. Since the code is 
+> duplicated, it seems generally better to have it located and documented 
+> in a central place.
+> 
+> Although it may look somewhat pointless now, the helper will get useful 
+> in the future. The affected code in drm_modeset_helper is in 
+> drm_crtc_init(), which is also a deprecated interface; only used by 
+> non-atomic drivers. The function is a good candidate to be inlined into 
+> calling drivers. Getting drm_crtc_init() removed will allow us to 
+> correct these drivers' color-format handling. Once that happened, 
+> several more drivers will call drm_univeral_plane_alloc().
+
+OK, works for me.
+
+> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >> ---
+> >>   drivers/gpu/drm/drm_modeset_helper.c    | 61 +++++++++++--------------
+> >>   drivers/gpu/drm/drm_plane.c             | 38 +++++++++++++++
+> >>   drivers/gpu/drm/nouveau/dispnv04/crtc.c | 41 ++++++-----------
+> >>   include/drm/drm_plane.h                 | 44 ++++++++++++++++++
+> >>   4 files changed, 121 insertions(+), 63 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_modeset_helper.c b/drivers/gpu/drm/drm_modeset_helper.c
+> >> index 611dd01fb604..38040eebfa16 100644
+> >> --- a/drivers/gpu/drm/drm_modeset_helper.c
+> >> +++ b/drivers/gpu/drm/drm_modeset_helper.c
+> >> @@ -113,38 +113,6 @@ static const struct drm_plane_funcs primary_plane_funcs = {
+> >>   	.destroy = drm_plane_helper_destroy,
+> >>   };
+> >>   
+> >> -static struct drm_plane *create_primary_plane(struct drm_device *dev)
+> >> -{
+> >> -	struct drm_plane *primary;
+> >> -	int ret;
+> >> -
+> >> -	primary = kzalloc(sizeof(*primary), GFP_KERNEL);
+> >> -	if (primary == NULL) {
+> >> -		DRM_DEBUG_KMS("Failed to allocate primary plane\n");
+> >> -		return NULL;
+> >> -	}
+> >> -
+> >> -	/*
+> >> -	 * Remove the format_default field from drm_plane when dropping
+> >> -	 * this helper.
+> >> -	 */
+> >> -	primary->format_default = true;
+> >> -
+> >> -	/* possible_crtc's will be filled in later by crtc_init */
+> >> -	ret = drm_universal_plane_init(dev, primary, 0,
+> >> -				       &primary_plane_funcs,
+> >> -				       safe_modeset_formats,
+> >> -				       ARRAY_SIZE(safe_modeset_formats),
+> >> -				       NULL,
+> >> -				       DRM_PLANE_TYPE_PRIMARY, NULL);
+> >> -	if (ret) {
+> >> -		kfree(primary);
+> >> -		primary = NULL;
+> >> -	}
+> >> -
+> >> -	return primary;
+> >> -}
+> >> -
+> >>   /**
+> >>    * drm_crtc_init - Legacy CRTC initialization function
+> >>    * @dev: DRM device
+> >> @@ -176,10 +144,33 @@ int drm_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
+> >>   		  const struct drm_crtc_funcs *funcs)
+> >>   {
+> >>   	struct drm_plane *primary;
+> >> +	int ret;
+> >> +
+> >> +	/* possible_crtc's will be filled in later by crtc_init */
+> >> +	primary = __drm_universal_plane_alloc(dev, sizeof(*primary), 0, 0,
+> >> +					      &primary_plane_funcs,
+> >> +					      safe_modeset_formats,
+> >> +					      ARRAY_SIZE(safe_modeset_formats),
+> >> +					      NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
+> >> +	if (IS_ERR(primary))
+> >> +		return PTR_ERR(primary);
+> >>   
+> >> -	primary = create_primary_plane(dev);
+> >> -	return drm_crtc_init_with_planes(dev, crtc, primary, NULL, funcs,
+> >> -					 NULL);
+> >> +	/*
+> >> +	 * Remove the format_default field from drm_plane when dropping
+> >> +	 * this helper.
+> >> +	 */
+> >> +	primary->format_default = true;
+> >> +
+> >> +	ret = drm_crtc_init_with_planes(dev, crtc, primary, NULL, funcs, NULL);
+> >> +	if (ret)
+> >> +		goto err_drm_plane_cleanup;
+> >> +
+> >> +	return 0;
+> >> +
+> >> +err_drm_plane_cleanup:
+> >> +	drm_plane_cleanup(primary);
+> >> +	kfree(primary);
+> >> +	return ret;
+> >>   }
+> >>   EXPORT_SYMBOL(drm_crtc_init);
+> >>   
+> >> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> >> index 0f14b4d3bb10..33357629a7f5 100644
+> >> --- a/drivers/gpu/drm/drm_plane.c
+> >> +++ b/drivers/gpu/drm/drm_plane.c
+> >> @@ -448,6 +448,44 @@ void *__drmm_universal_plane_alloc(struct drm_device *dev, size_t size,
+> >>   }
+> >>   EXPORT_SYMBOL(__drmm_universal_plane_alloc);
+> >>   
+> >> +void *__drm_universal_plane_alloc(struct drm_device *dev, size_t size,
+> >> +				  size_t offset, uint32_t possible_crtcs,
+> >> +				  const struct drm_plane_funcs *funcs,
+> >> +				  const uint32_t *formats, unsigned int format_count,
+> >> +				  const uint64_t *format_modifiers,
+> >> +				  enum drm_plane_type type,
+> >> +				  const char *name, ...)
+> >> +{
+> >> +	void *container;
+> >> +	struct drm_plane *plane;
+> >> +	va_list ap;
+> >> +	int ret;
+> >> +
+> >> +	if (drm_WARN_ON(dev, !funcs))
+> >> +		return ERR_PTR(-EINVAL);
+> >> +
+> >> +	container = kzalloc(size, GFP_KERNEL);
+> >> +	if (!container)
+> >> +		return ERR_PTR(-ENOMEM);
+> >> +
+> >> +	plane = container + offset;
+> >> +
+> >> +	va_start(ap, name);
+> >> +	ret = __drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
+> >> +					 formats, format_count, format_modifiers,
+> >> +					 type, name, ap);
+> >> +	va_end(ap);
+> >> +	if (ret)
+> >> +		goto err_kfree;
+> >> +
+> >> +	return container;
+> >> +
+> >> +err_kfree:
+> >> +	kfree(container);
+> >> +	return ERR_PTR(ret);
+> >> +}
+> >> +EXPORT_SYMBOL(__drm_universal_plane_alloc);
+> >> +
+> >>   int drm_plane_register_all(struct drm_device *dev)
+> >>   {
+> >>   	unsigned int num_planes = 0;
+> >> diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+> >> index 660c4cbc0b3d..6b8a014b5e97 100644
+> >> --- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+> >> +++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+> >> @@ -1281,32 +1281,6 @@ static const struct drm_plane_funcs nv04_primary_plane_funcs = {
+> >>   	.destroy = drm_plane_helper_destroy,
+> >>   };
+> >>   
+> >> -static struct drm_plane *
+> >> -create_primary_plane(struct drm_device *dev)
+> >> -{
+> >> -        struct drm_plane *primary;
+> >> -        int ret;
+> >> -
+> >> -        primary = kzalloc(sizeof(*primary), GFP_KERNEL);
+> >> -        if (primary == NULL) {
+> >> -                DRM_DEBUG_KMS("Failed to allocate primary plane\n");
+> >> -                return NULL;
+> >> -        }
+> >> -
+> >> -        /* possible_crtc's will be filled in later by crtc_init */
+> >> -        ret = drm_universal_plane_init(dev, primary, 0,
+> >> -				       &nv04_primary_plane_funcs,
+> >> -                                       modeset_formats,
+> >> -                                       ARRAY_SIZE(modeset_formats), NULL,
+> >> -                                       DRM_PLANE_TYPE_PRIMARY, NULL);
+> >> -        if (ret) {
+> >> -                kfree(primary);
+> >> -                primary = NULL;
+> >> -        }
+> >> -
+> >> -        return primary;
+> >> -}
+> >> -
+> >>   static int nv04_crtc_vblank_handler(struct nvif_notify *notify)
+> >>   {
+> >>   	struct nouveau_crtc *nv_crtc =
+> >> @@ -1321,6 +1295,7 @@ nv04_crtc_create(struct drm_device *dev, int crtc_num)
+> >>   {
+> >>   	struct nouveau_display *disp = nouveau_display(dev);
+> >>   	struct nouveau_crtc *nv_crtc;
+> >> +	struct drm_plane *primary;
+> >>   	int ret;
+> >>   
+> >>   	nv_crtc = kzalloc(sizeof(*nv_crtc), GFP_KERNEL);
+> >> @@ -1335,8 +1310,18 @@ nv04_crtc_create(struct drm_device *dev, int crtc_num)
+> >>   	nv_crtc->save = nv_crtc_save;
+> >>   	nv_crtc->restore = nv_crtc_restore;
+> >>   
+> >> -	drm_crtc_init_with_planes(dev, &nv_crtc->base,
+> >> -                                  create_primary_plane(dev), NULL,
+> >> +	primary = __drm_universal_plane_alloc(dev, sizeof(*primary), 0, 0,
+> >> +					      &nv04_primary_plane_funcs,
+> >> +					      modeset_formats,
+> >> +					      ARRAY_SIZE(modeset_formats), NULL,
+> >> +					      DRM_PLANE_TYPE_PRIMARY, NULL);
+> >> +	if (IS_ERR(primary)) {
+> >> +		ret = PTR_ERR(primary);
+> >> +		kfree(nv_crtc);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	drm_crtc_init_with_planes(dev, &nv_crtc->base, primary, NULL,
+> >>                                     &nv04_crtc_funcs, NULL);
+> >>   	drm_crtc_helper_add(&nv_crtc->base, &nv04_crtc_helper_funcs);
+> >>   	drm_mode_crtc_set_gamma_size(&nv_crtc->base, 256);
+> >> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> >> index 910cb941f3d5..21dfa7f97948 100644
+> >> --- a/include/drm/drm_plane.h
+> >> +++ b/include/drm/drm_plane.h
+> >> @@ -809,6 +809,50 @@ void *__drmm_universal_plane_alloc(struct drm_device *dev,
+> >>   					      format_count, format_modifiers, \
+> >>   					      plane_type, name, ##__VA_ARGS__))
+> >>   
+> >> +__printf(10, 11)
+> >> +void *__drm_universal_plane_alloc(struct drm_device *dev,
+> >> +				  size_t size, size_t offset,
+> >> +				  uint32_t possible_crtcs,
+> >> +				  const struct drm_plane_funcs *funcs,
+> >> +				  const uint32_t *formats,
+> >> +				  unsigned int format_count,
+> >> +				  const uint64_t *format_modifiers,
+> >> +				  enum drm_plane_type plane_type,
+> >> +				  const char *name, ...);
+> >> +
+> >> +/**
+> >> + * drm_universal_plane_alloc - Allocate and initialize an universal plane object
+> >> + * @dev: DRM device
+> >> + * @type: the type of the struct which contains struct &drm_plane
+> >> + * @member: the name of the &drm_plane within @type
+> >> + * @possible_crtcs: bitmask of possible CRTCs
+> >> + * @funcs: callbacks for the new plane
+> >> + * @formats: array of supported formats (DRM_FORMAT\_\*)
+> >> + * @format_count: number of elements in @formats
+> >> + * @format_modifiers: array of struct drm_format modifiers terminated by
+> >> + *                    DRM_FORMAT_MOD_INVALID
+> >> + * @plane_type: type of plane (overlay, primary, cursor)
+> >> + * @name: printf style format string for the plane name, or NULL for default name
+> >> + *
+> >> + * Allocates and initializes a plane object of type @type. The caller
+> >> + * is responsible for releasing the allocated memory with kfree().
+> >> + *
+> >> + * Drivers are encouraged to use drmm_universal_plane_alloc() instead.
+> >> + *
+> >> + * Drivers that only support the DRM_FORMAT_MOD_LINEAR modifier support may set
+> >> + * @format_modifiers to NULL. The plane will advertise the linear modifier.
+> >> + *
+> >> + * Returns:
+> >> + * Pointer to new plane, or ERR_PTR on failure.
+> >> + */
+> >> +#define drm_universal_plane_alloc(dev, type, member, possible_crtcs, funcs, formats, \
+> >> +				   format_count, format_modifiers, plane_type, name, ...) \
+> >> +	((type *)__drm_universal_plane_alloc(dev, sizeof(type), \
+> >> +					     offsetof(type, member), \
+> >> +					     possible_crtcs, funcs, formats, \
+> >> +					     format_count, format_modifiers, \
+> >> +					     plane_type, name, ##__VA_ARGS__))
+> >> +
+> >>   /**
+> >>    * drm_plane_index - find the index of a registered plane
+> >>    * @plane: plane to find index for
+
+-- 
+Regards,
+
+Laurent Pinchart
