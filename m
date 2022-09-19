@@ -2,154 +2,165 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 314985BC5CA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Sep 2022 11:54:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B30A65BC60C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Sep 2022 12:06:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229772AbiISJx7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Sep 2022 05:53:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49502 "EHLO
+        id S230230AbiISKGt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Sep 2022 06:06:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229769AbiISJx5 (ORCPT
+        with ESMTP id S230247AbiISKGp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Sep 2022 05:53:57 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57F0816586
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Sep 2022 02:53:56 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id p5so33174070ljc.13
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Sep 2022 02:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=Ozine1LMZl3lCyd+gDTUkyJgK4VZq5xPo6I1YmSTgwk=;
-        b=C0bfl5Yo6yR3581/nF0n6kJEeIj5RBteWgMCu0HqpgK61dWDWcYla+fmuc5Xa/XSlZ
-         bI+aUabiJ2ho4ZkmCZrqa9UhvilCmYPTrPhRdQybAb1P0uShrmNfbaHPiRiAdNYjcvxV
-         1U1F5GqNzqP94l0HJet1lbepiCS6UMBYc9qHpd3AN8M7AS7tGoZplkQmF3kqokpJC8yK
-         La4Vn9NSOkLeUr5Yzym5qG5wfWB5GWKt/E+qkAR8xwG+ZDhV26ALPbgMMmVCnIZisXyU
-         R0o+PGTSeD9rQyiFMbX5NbqwRhyfeXk8kxyr8RHZl5FC5l1s/D00wMnkuQ2jcYAF/B83
-         +nZw==
+        Mon, 19 Sep 2022 06:06:45 -0400
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E914213D61;
+        Mon, 19 Sep 2022 03:06:41 -0700 (PDT)
+Received: by mail-qk1-f182.google.com with SMTP id 3so19718984qka.5;
+        Mon, 19 Sep 2022 03:06:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=Ozine1LMZl3lCyd+gDTUkyJgK4VZq5xPo6I1YmSTgwk=;
-        b=Pj+CVtPKQ8wlwGO/Ny9CRFdR67ROBAIgPVlFGZKpwCrn7tU45hkILnbfhGihsQc9vg
-         IgCq18BKGf4RtHfvmK2S8gva8V3DozXEvyybstEPcOKFvExl4AfINKEp8yPtciSEOfiO
-         CCzu32hPXROAKsayVigWDpm52XKzKLkMUVMSVW6qv623DTWILi7qeQEk+GvqbXMDVlrz
-         tZOJ0EI3MUZvFRhC1qxmR6eDeyhYMQ+1QPjCN1yDaDQwKDewUEuUihMrV738CBN9xOgG
-         fObuEwtMj3YkfmBHVxD8nZ0kMz9gW5utYTaIHUBAOw+lwlDkGoxKZ05Whky8jG9Z9ULU
-         IAkQ==
-X-Gm-Message-State: ACrzQf3BjPUIK8dUil120ZIHZf2B8aHUHEpjtKHOoY2UVPZTC8WkiNDl
-        H6eAmc9qRp9Aim3jjZo5Z6yAqvVjlMI63ZfTM3Sxrw==
-X-Google-Smtp-Source: AMsMyM5fWor7zFcZGDCoNv8tt/+3I7m5yu8diMswgk2YJB7/em0eqqnIXj479N3TRcb3sLl9C829jV6tZUmCE6lurpU=
-X-Received: by 2002:a2e:b744:0:b0:26c:40bf:eaba with SMTP id
- k4-20020a2eb744000000b0026c40bfeabamr3683897ljo.367.1663581234550; Mon, 19
- Sep 2022 02:53:54 -0700 (PDT)
+        bh=1NtF7epU6M/sM/9TSpbDJEVXR5l82D2T5Zs5FGK4Z50=;
+        b=BgTwW7JMen0fDGy/gqKhf08TxAIClx+E2Pgdn5jKkZt3M2YZ1aEhcLW2NmkM3iA1Bg
+         oLClnhugzLz9p37XtQ6VuUM4BADudFRe55DIdWQrdEpq0z2WDRKxhWvdXx/pXKLUJWcl
+         kQpAJtZJvpbgshzMTPyuod//ztSmLhmbDXfwPkOlREEM0a1NxTIyo22vVm2RcXuBUc8S
+         veeUgsAzJspGbFn1X+2T+P8TrGqiDdpBPSz9OW13DNNxQNF5AkZLNsaGpTxRRwdzB0M6
+         OVOT1rW8/9VqfKps82pBuC4dgxmwOG/wbPmwR2UuyROYcI5qV/J5E1DFC/Jn+id2aCo3
+         fBCQ==
+X-Gm-Message-State: ACrzQf0xvEdBjvWKe80moxWoB4FJGHgYuMipVzbGR6NBu8ORm8xlCTHl
+        pgbl2uPMduw8cXIR4m2hqXz1RV+7kxv/vw==
+X-Google-Smtp-Source: AMsMyM7BQ1RDTZ6J5JtzH4pObZz4IIX7led5oRYY4nRDllRwEvzDCQmvVP2zNJmT45f6WIl2pz5jBg==
+X-Received: by 2002:a05:620a:4555:b0:6ce:1af9:83fa with SMTP id u21-20020a05620a455500b006ce1af983famr12451382qkp.24.1663582000663;
+        Mon, 19 Sep 2022 03:06:40 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id p8-20020a05622a00c800b0035bb8168daesm10680079qtw.57.2022.09.19.03.06.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Sep 2022 03:06:40 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id c9so41729711ybf.5;
+        Mon, 19 Sep 2022 03:06:40 -0700 (PDT)
+X-Received: by 2002:a25:3746:0:b0:6b1:4a12:b2d5 with SMTP id
+ e67-20020a253746000000b006b14a12b2d5mr10946218yba.89.1663581999762; Mon, 19
+ Sep 2022 03:06:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <DU0PR04MB94173B45A2CFEE3BF1BD313A88409@DU0PR04MB9417.eurprd04.prod.outlook.com>
- <CAPDyKFrzJikk6rJr9xwV6W-whvdLe5tTUE+xO_EoRtm+9DAbNA@mail.gmail.com>
- <20220908173840.rqy335cdeg5a2ww5@bogus> <CAPDyKFqYDNXxfKHd8PYy8T3di2s206nCiHY7cEf+_EHVrY1YbQ@mail.gmail.com>
- <20220909154254.xy4jvj6ybpuynghc@bogus> <CAMuHMdXvTWvZHjE-7CKOxCKjuPF++xQQRGedHeL2Zy-wsnHviw@mail.gmail.com>
- <CAMuHMdX2rJq0DJo9D_RSMoAj9GPc-Zts5+UNCFQGF3+EYVSXgQ@mail.gmail.com>
- <20220914153038.inbch35g7ldsyzhx@bogus> <81pr96n7-p42q-s3s-1541-n777or1p612@syhkavp.arg>
-In-Reply-To: <81pr96n7-p42q-s3s-1541-n777or1p612@syhkavp.arg>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Mon, 19 Sep 2022 11:53:18 +0200
-Message-ID: <CAPDyKFoBvX7WmJu0E1p0RuVCEKFFk===ZVnYtbz9o=RZPzHSTA@mail.gmail.com>
-Subject: Re: Question: why call clk_prepare in pm_clk_acquire
-To:     Nicolas Pitre <nico@fluxnic.net>,
-        Sudeep Holla <sudeep.holla@arm.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Peng Fan <peng.fan@nxp.com>,
-        "ben.dooks@codethink.co.uk" <ben.dooks@codethink.co.uk>,
-        "rafael.j.wysocki@intel.com" <rafael.j.wysocki@intel.com>,
-        "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
-        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        Aisheng Dong <aisheng.dong@nxp.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Dien Pham <dien.pham.ry@renesas.com>
+References: <20220919084838.3066429-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220919084838.3066429-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 19 Sep 2022 12:06:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVF4WDA6e4bTXuqLCKCCCYYYGW6Cufi3kPFuTGt184RJA@mail.gmail.com>
+Message-ID: <CAMuHMdVF4WDA6e4bTXuqLCKCCCYYYGW6Cufi3kPFuTGt184RJA@mail.gmail.com>
+Subject: Re: [PATCH v2] mmc: renesas_sdhi: Add clk margin for sdhi hs clock
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 14 Sept 2022 at 19:05, Nicolas Pitre <nico@fluxnic.net> wrote:
->
-> On Wed, 14 Sep 2022, Sudeep Holla wrote:
->
-> > On Mon, Sep 12, 2022 at 06:58:49PM +0100, Geert Uytterhoeven wrote:
-> > > Hi Sudeep,
-> > >
-> > > CC Dien Pham
-> > >
-> > > On Mon, Sep 12, 2022 at 6:49 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > On Fri, Sep 9, 2022 at 4:51 PM Sudeep Holla <sudeep.holla@arm.com> wrote:
-> > > > > On Fri, Sep 09, 2022 at 01:12:03PM +0200, Ulf Hansson wrote:
-> > > > > > On Thu, 8 Sept 2022 at 19:38, Sudeep Holla <sudeep.holla@arm.com> wrote:
-> > > > > > > On Thu, Sep 08, 2022 at 04:37:13PM +0200, Ulf Hansson wrote:
-> > > > > > > > On Thu, 8 Sept 2022 at 09:33, Peng Fan <peng.fan@nxp.com> wrote:
-> > > > > > > > > We are facing an issue clk_set_rate fail with commit a3b884cef873 ("firmware:
-> > > > > > > > > arm_scmi: Add clock management to the SCMI power domain") ,
-> > > > > > > >
-> > > > > > > > Hmm, I wonder about the main reason behind that commit. Can we revert
-> > > > > > > > it or is there some platform/driver that is really relying on it?
-> > > > > > > >
-> > > > > > >
-> > > > > > > IIUC, at the time of the commit, it was needed on some Renesas platform.
-> > > > > > > Not sure if it is still used or not.
-> > > > > >
-> > > > > > Okay! Maybe Nico remembers more, as he authored the patch...
-> > > > > >
-> > > > >
-> > > > > May be, or even check with Renesas team who tested his patch.
-> > > >
-> > > > I'm not aware of Renesas platforms using SCMI...
-> > >
-> > > Upon closer look, Diep Pham did report a build issue in the SCMI code, so
-> > > perhaps Diep knows more...
-> > >
-> >
-> > Yes indeed, Diep Pham tested the original patch IIRC and also has reported
-> > few bugs in SCMI clock code which are fixed. Hence I know it is used by
-> > Renesas.
-> >
-> > Hi Peng,
-> >
-> > Absence of DTS changes indicate nothing. I am aware of couple of vendors
-> > who use SCMI on several platforms and do report issues regularly and help
-> > in review of the code. So DTS is not a good indicator of SCMI usage
-> > unfortunately. On reason could be that since it is a firmware, bootloaders
-> > can detect and update DTS, just my thought and may differ from the reality.
->
-> Sorry for the delay.
->
-> This patch was indeed requested by Renesas for one of their platform
-> that uses SCMI clocks. I didn't have access to the platform myself at
-> the time but the patch was positively validated and tested by Renesas.
->
-> This works in conjunction with commit 0bfa0820c274 that made generic
-> clock pm code usable with the SCMI layer.
->
-> I didn't touch any clock stuff since then and I forgot about the finer
-> details unfortunately.
+Hi Biju,
 
-Thanks Nico for coming back with this information. To me, it looks
-like the patch may be applicable to some Renesas' downstream kernel
-then.
+On Mon, Sep 19, 2022 at 10:48 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> The SDHI high speed clock is 4 times that of the main clock. Currently,
+> there is no margin added for setting the rate associated with this
+> clock. On RZ/G2L platforms, due to lack of this margin leads to the
+> selection of a clock source with a lower clock rate compared to a higher
+> one.
+>
+> This patch adds a margin of (1/1024) higher to hs clock rate and there
+> by avoid looking for a smaller clock option.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Add a comment explaining why margin is needed and set it to
+>    that particular value.
 
-In my opinion I think we should rather try to revert, to avoid any
-further problems. So I am going to send that patch and see what people
-think about it.
+Thanks for the update!
 
-Another option, which Sudeep doesn't seem very happy about too, is to
-make the GENPD_FLAG_PM_CLK conditional, based on a platform
-compatible.
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -128,6 +128,7 @@ static unsigned int renesas_sdhi_clk_update(struct tmio_mmc_host *host,
+>         struct clk *ref_clk = priv->clk;
+>         unsigned int freq, diff, best_freq = 0, diff_min = ~0;
+>         unsigned int new_clock, clkh_shift = 0;
+> +       unsigned int new_clock_margin;
+>         int i;
+>
+>         /*
+> @@ -156,7 +157,16 @@ static unsigned int renesas_sdhi_clk_update(struct tmio_mmc_host *host,
+>          */
+>         for (i = min(9, ilog2(UINT_MAX / new_clock)); i >= 0; i--) {
+>                 freq = clk_round_rate(ref_clk, new_clock << i);
+> -               if (freq > (new_clock << i)) {
+> +               /*
+> +                * Add a margin of 1/1024 rate higher to the clock rate in order
+> +                * to avoid looking for a slower clock on boundary cases (eg:
+> +                * RZ/G2L has 3 clk sources 533.333333 MHz, 400 MHz and
+> +                * 266.666666 MHz. The request for 533.333332 MHz will look for
+> +                * slower option and it selects a slower 400 MHz source clock
+> +                * instead of 533.333333 MHz).
+> +                */
+> +               new_clock_margin = (new_clock << i) + ((new_clock << i) >> 10);
 
-Kind regards
-Uffe
+Unlike in the case below, "new_clock_margin" is not the margin, but
+the actual value plus the margin.  So perhaps "new_upper_limit"?
+
+Also, this value is constant inside the loop, so its calculation can
+be moved outside, and its comment can be combined with the existing
+comment just before the loop.
+
+I would also say something about rounding errors, as that is what is
+really the problem (533333333 Hz / 4 * 4 = 533333332 Hz < 533333333 Hz).
+
+> +               if (freq > new_clock_margin) {
+>                         /* Too fast; look for a slightly slower option */
+>                         freq = clk_round_rate(ref_clk, (new_clock << i) / 4 * 3);
+>                         if (freq > (new_clock << i))
+> @@ -181,6 +191,7 @@ static unsigned int renesas_sdhi_clk_update(struct tmio_mmc_host *host,
+>  static void renesas_sdhi_set_clock(struct tmio_mmc_host *host,
+>                                    unsigned int new_clock)
+>  {
+> +       unsigned int clk_margin;
+>         u32 clk = 0, clock;
+>
+>         sd_ctrl_write16(host, CTL_SD_CARD_CLK_CTL, ~CLK_CTL_SCLKEN &
+> @@ -194,7 +205,13 @@ static void renesas_sdhi_set_clock(struct tmio_mmc_host *host,
+>         host->mmc->actual_clock = renesas_sdhi_clk_update(host, new_clock);
+>         clock = host->mmc->actual_clock / 512;
+>
+> -       for (clk = 0x80000080; new_clock >= (clock << 1); clk >>= 1)
+> +       /*
+> +        * Add a margin of 1/1024 rate higher to the clock rate in order
+> +        * to avoid clk variable setting a value of 0 due to the margin
+> +        * provided for actual_clock in renesas_sdhi_clk_update().
+> +        */
+> +       clk_margin = new_clock >> 10;
+> +       for (clk = 0x80000080; new_clock + clk_margin >= (clock << 1); clk >>= 1)
+>                 clock <<= 1;
+>
+>         /* 1/1 clock is option */
+
+The rest LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
