@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B9CF5BD11C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Sep 2022 17:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AACC5BD12D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Sep 2022 17:38:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229676AbiISPei (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Sep 2022 11:34:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44808 "EHLO
+        id S229826AbiISPi3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Sep 2022 11:38:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbiISPeh (ORCPT
+        with ESMTP id S229667AbiISPi2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Sep 2022 11:34:37 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA5305F5E
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Sep 2022 08:34:35 -0700 (PDT)
+        Mon, 19 Sep 2022 11:38:28 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E698F2A712
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Sep 2022 08:38:27 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 44236499;
-        Mon, 19 Sep 2022 17:34:34 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 174D8499;
+        Mon, 19 Sep 2022 17:38:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1663601674;
-        bh=5Obobqkdm/QseGlldjU1Tkl0Aau1csirOHQ2CjvpOIc=;
+        s=mail; t=1663601905;
+        bh=WWpB0AZaasXvtTSKo5/9Q5GDRH5jyFAkHKu5Br3nsUI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=G6AgUzxS3VJ+xsDHgxrsI53uLkcYTt0/KBNeOpnY4ofzE6XgUVNhrWUVaQFhGCj4a
-         Odq3CbDwQvNjrhW6lvi7RdXsY64HvJ3QplgAY+BUN6Lon2Fo1l5g98qs0madIADBpf
-         7EsxsT9lWtt1UzkALUy58W6BB7+Da2gWu2WK2jjw=
-Date:   Mon, 19 Sep 2022 18:34:21 +0300
+        b=ao/5MzoBgO+t7woVXZdNE0b4p8O63zE7E8y8ZKUH7lca4enEVXC90LbL/OW5sRNcl
+         RhRKIzX49LEfBk3plsf59EcRAKy9oN37VAVDja0XnIbPdpaL6XSyWjbQ+bxLyWz2jB
+         utUjHpvFC/A1PjebmB7rh9wUZPmL90dv3//emZ64=
+Date:   Mon, 19 Sep 2022 18:38:11 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Sam Ravnborg <sam@ravnborg.org>
 Cc:     dri-devel@lists.freedesktop.org,
@@ -56,15 +56,16 @@ Cc:     dri-devel@lists.freedesktop.org,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v1 11/12] drm/bridge: Drop drm_bridge_funcs.mode_fixup
-Message-ID: <YyiL/Q8X76I+ZzEu@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v1 07/12] drm/bridge: tc358767: Use
+ drm_bridge_funcs.atomic_check
+Message-ID: <YyiM47uBYuUo8PBQ@pendragon.ideasonboard.com>
 References: <20220717174454.46616-1-sam@ravnborg.org>
- <20220717175801.78668-1-sam@ravnborg.org>
- <20220717175801.78668-4-sam@ravnborg.org>
+ <20220717174454.46616-8-sam@ravnborg.org>
+ <YyiK5GK7TYNxI7eS@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220717175801.78668-4-sam@ravnborg.org>
+In-Reply-To: <YyiK5GK7TYNxI7eS@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -74,147 +75,74 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sam,
-
-Thank you for the patch.
-
-On Sun, Jul 17, 2022 at 07:58:00PM +0200, Sam Ravnborg wrote:
-> All users are converted over to drm_bridge_funcs.atomic_check()
-> so it is safe to drop the mode_fixup support.
+On Mon, Sep 19, 2022 at 06:29:41PM +0300, Laurent Pinchart wrote:
+> On Sun, Jul 17, 2022 at 07:44:49PM +0200, Sam Ravnborg wrote:
+> > When atomic_check() is defined, then mode_fixup() is ignored,
+> > so it had no effect that drm_bridge_funcs.mode_fixup was assigned.
+> > Embed the original implementation in the caller and drop the function.
+> > 
+> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> > Cc: Neil Armstrong <narmstrong@baylibre.com>
+> > Cc: Robert Foss <robert.foss@linaro.org>
+> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > Cc: Jonas Karlman <jonas@kwiboo.se>
+> > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
 > 
-> Update the comment for atomic_check with relevant parts from mode_fixup.
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+But this doesn't apply anymore, as the mode_fixup operation has been
+removed from the driver already. You can just drop this patch.
 
-> ---
->  drivers/gpu/drm/drm_bridge.c |  7 +----
->  include/drm/drm_bridge.h     | 60 ++++++++++--------------------------
->  2 files changed, 17 insertions(+), 50 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index b6f56d8f3547..3f5acb19957c 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -685,10 +685,6 @@ static int drm_atomic_bridge_check(struct drm_bridge *bridge,
->  						  crtc_state, conn_state);
->  		if (ret)
->  			return ret;
-> -	} else if (bridge->funcs->mode_fixup) {
-> -		if (!bridge->funcs->mode_fixup(bridge, &crtc_state->mode,
-> -					       &crtc_state->adjusted_mode))
-> -			return -EINVAL;
->  	}
->  
->  	return 0;
-> @@ -934,8 +930,7 @@ drm_atomic_bridge_propagate_bus_flags(struct drm_bridge *bridge,
->   * @conn_state: new connector state
->   *
->   * First trigger a bus format negotiation before calling
-> - * &drm_bridge_funcs.atomic_check() (falls back on
-> - * &drm_bridge_funcs.mode_fixup()) op for all the bridges in the encoder chain,
-> + * &drm_bridge_funcs.atomic_check() op for all the bridges in the encoder chain,
->   * starting from the last bridge to the first. These are called before calling
->   * &drm_encoder_helper_funcs.atomic_check()
->   *
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 7496f41535b1..8c93369bcc74 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -106,7 +106,7 @@ struct drm_bridge_funcs {
->  	 * to look at anything else but the passed-in mode, and validate it
->  	 * against configuration-invariant hardward constraints. Any further
->  	 * limits which depend upon the configuration can only be checked in
-> -	 * @mode_fixup.
-> +	 * @atomic_check.
->  	 *
->  	 * RETURNS:
->  	 *
-> @@ -116,46 +116,6 @@ struct drm_bridge_funcs {
->  					   const struct drm_display_info *info,
->  					   const struct drm_display_mode *mode);
->  
-> -	/**
-> -	 * @mode_fixup:
-> -	 *
-> -	 * This callback is used to validate and adjust a mode. The parameter
-> -	 * mode is the display mode that should be fed to the next element in
-> -	 * the display chain, either the final &drm_connector or the next
-> -	 * &drm_bridge. The parameter adjusted_mode is the input mode the bridge
-> -	 * requires. It can be modified by this callback and does not need to
-> -	 * match mode. See also &drm_crtc_state.adjusted_mode for more details.
-> -	 *
-> -	 * This is the only hook that allows a bridge to reject a modeset. If
-> -	 * this function passes all other callbacks must succeed for this
-> -	 * configuration.
-> -	 *
-> -	 * The mode_fixup callback is optional. &drm_bridge_funcs.mode_fixup()
-> -	 * is not called when &drm_bridge_funcs.atomic_check() is implemented,
-> -	 * so only one of them should be provided.
-> -	 *
-> -	 * NOTE:
-> -	 *
-> -	 * This function is called in the check phase of atomic modesets, which
-> -	 * can be aborted for any reason (including on userspace's request to
-> -	 * just check whether a configuration would be possible). Drivers MUST
-> -	 * NOT touch any persistent state (hardware or software) or data
-> -	 * structures except the passed in @state parameter.
-> -	 *
-> -	 * Also beware that userspace can request its own custom modes, neither
-> -	 * core nor helpers filter modes to the list of probe modes reported by
-> -	 * the GETCONNECTOR IOCTL and stored in &drm_connector.modes. To ensure
-> -	 * that modes are filtered consistently put any bridge constraints and
-> -	 * limits checks into @mode_valid.
-> -	 *
-> -	 * RETURNS:
-> -	 *
-> -	 * True if an acceptable configuration is possible, false if the modeset
-> -	 * operation should be rejected.
-> -	 */
-> -	bool (*mode_fixup)(struct drm_bridge *bridge,
-> -			   const struct drm_display_mode *mode,
-> -			   struct drm_display_mode *adjusted_mode);
->  	/**
->  	 * @disable:
->  	 *
-> @@ -466,9 +426,7 @@ struct drm_bridge_funcs {
->  	 * &drm_bridge_funcs.atomic_check() hooks are called in reverse
->  	 * order (from the last to the first bridge).
->  	 *
-> -	 * This method is optional. &drm_bridge_funcs.mode_fixup() is not
-> -	 * called when &drm_bridge_funcs.atomic_check() is implemented, so only
-> -	 * one of them should be provided.
-> +	 * This method is optional.
->  	 *
->  	 * If drivers need to tweak &drm_bridge_state.input_bus_cfg.flags or
->  	 * &drm_bridge_state.output_bus_cfg.flags it should happen in
-> @@ -478,6 +436,20 @@ struct drm_bridge_funcs {
->  	 * &drm_connector.display_info.bus_flags if the bridge is the last
->  	 * element in the chain.
->  	 *
-> +	 * NOTE:
-> +	 *
-> +	 * This function is called in the check phase of atomic modesets, which
-> +	 * can be aborted for any reason (including on userspace's request to
-> +	 * just check whether a configuration would be possible). Drivers MUST
-> +	 * NOT touch any persistent state (hardware or software) or data
-> +	 * structures except the passed in @state parameter.
-> +	 *
-> +	 * Also beware that userspace can request its own custom modes, neither
-> +	 * core nor helpers filter modes to the list of probe modes reported by
-> +	 * the GETCONNECTOR IOCTL and stored in &drm_connector.modes. To ensure
-> +	 * that modes are filtered consistently put any bridge constraints and
-> +	 * limits checks into @mode_valid.
-> +	 *
->  	 * RETURNS:
->  	 * zero if the check passed, a negative error code otherwise.
->  	 */
+> > ---
+> >  drivers/gpu/drm/bridge/tc358767.c | 21 ++++++---------------
+> >  1 file changed, 6 insertions(+), 15 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> > index 02bd757a8987..b2ab967504af 100644
+> > --- a/drivers/gpu/drm/bridge/tc358767.c
+> > +++ b/drivers/gpu/drm/bridge/tc358767.c
+> > @@ -1496,26 +1496,18 @@ tc_edp_bridge_atomic_disable(struct drm_bridge *bridge,
+> >  		dev_err(tc->dev, "main link disable error: %d\n", ret);
+> >  }
+> >  
+> > -static bool tc_bridge_mode_fixup(struct drm_bridge *bridge,
+> > -				 const struct drm_display_mode *mode,
+> > -				 struct drm_display_mode *adj)
+> > -{
+> > -	/* Fixup sync polarities, both hsync and vsync are active low */
+> > -	adj->flags = mode->flags;
+> > -	adj->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
+> > -	adj->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+> > -
+> > -	return true;
+> > -}
+> > -
+> >  static int tc_common_atomic_check(struct drm_bridge *bridge,
+> >  				  struct drm_bridge_state *bridge_state,
+> >  				  struct drm_crtc_state *crtc_state,
+> >  				  struct drm_connector_state *conn_state,
+> >  				  const unsigned int max_khz)
+> >  {
+> > -	tc_bridge_mode_fixup(bridge, &crtc_state->mode,
+> > -			     &crtc_state->adjusted_mode);
+> > +	struct drm_display_mode *adj = &crtc_state->adjusted_mode;
+> > +
+> > +	/* Fixup sync polarities, both hsync and vsync are active low */
+> > +	adj->flags = crtc_state->mode.flags;
+> > +	adj->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
+> > +	adj->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+> >  
+> >  	if (crtc_state->adjusted_mode.clock > max_khz)
+> >  		return -EINVAL;
+> > @@ -1783,7 +1775,6 @@ static const struct drm_bridge_funcs tc_edp_bridge_funcs = {
+> >  	.atomic_check = tc_edp_atomic_check,
+> >  	.atomic_enable = tc_edp_bridge_atomic_enable,
+> >  	.atomic_disable = tc_edp_bridge_atomic_disable,
+> > -	.mode_fixup = tc_bridge_mode_fixup,
+> >  	.detect = tc_bridge_detect,
+> >  	.get_edid = tc_get_edid,
+> >  	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
 
 -- 
 Regards,
