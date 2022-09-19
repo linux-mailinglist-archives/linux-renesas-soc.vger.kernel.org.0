@@ -2,160 +2,222 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 220B25BC623
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Sep 2022 12:15:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12CB35BC9A3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Sep 2022 12:39:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbiISKP0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Sep 2022 06:15:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48300 "EHLO
+        id S229838AbiISKjs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Sep 2022 06:39:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229553AbiISKPY (ORCPT
+        with ESMTP id S230076AbiISKhq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Sep 2022 06:15:24 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2133.outbound.protection.outlook.com [40.107.113.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF21F10FEA;
-        Mon, 19 Sep 2022 03:15:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PkNTClVc9RWepRNNibHMdm3Vm9cqOhZAV1GgloBZB3WBghQdBVuHu880LxKQbKUdHIP9rMlI+tXczr1WvgomRnRbelvMNEHjIZSgdrTt5t295y6kYDp2E586sFWk7B9UHtP2/4c8MsjgBO82rhV/gP5vwPZx9iC87+EssmNEFEy9RSmRimqwMGJOK4T2flPrtKbCJJpxNCzyENRWDln6I/R73Kr33X4l26cH40jlSEN7WjEFgv846bkAz7mQISx6EEIbfb/LJHSGdi+twYyaVuxZsrvamvqXfV/cMM6klVemc2H+I97j0q3BxWL5CM1wQdCQWjfGxDKJ27qaNJR2XA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=70vfkgcv3u/Aw1tn+0r/tJdc84TrbyDUUlUgvoMDLAw=;
- b=drZo76M2XmWRHofwRpnjCNnHZBdGV5eU+nPnUgk3QwGG6iqS0M0zCJa3ZnlYDDrJFNHRf7zwTm2+vV9QPNhV/Z9mWnXObyb/hPRVkRmv3c/RkhbUGlLT5TMqV9d3vpZ1EUzae+IeKRBPTWMYj+DI/LuTlcTvwIjaMUPRwPJKUgSweYxsSOtZl08A6UpFQrQTFRGIH7VwIvjB+wv0Hf+63IBIWxSRPqGNeSzrR42//5BLdPyV7EbS7bXzaQQjxkp8Qe/aK6bEdjLyj3gKFAUmCTIBjTAsCVieprINjwrSn3FwOZAQs2PGuDgnAuveeGOr/3bZV4b9JhIN1B9YHdP+Jg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=70vfkgcv3u/Aw1tn+0r/tJdc84TrbyDUUlUgvoMDLAw=;
- b=wvo+r4ePS7OJHSkQpCpAVBwbFpH8U9HYZtVdMRwFpuuxkD/lun6pksVYftuZtec3c9OHLZjD5SRAjrvB6W0biH/45GHHeSiVgfXa05Y9LN3FjPqtERQOOMO+hoHs+P87eWSVoHISAApQi5PXtOI1gY5h6rwLzgspoaMhiRu37rg=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYCPR01MB8866.jpnprd01.prod.outlook.com (2603:1096:400:189::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.18; Mon, 19 Sep
- 2022 10:15:20 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::c502:8f9f:ec5e:8e3f]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::c502:8f9f:ec5e:8e3f%3]) with mapi id 15.20.5632.021; Mon, 19 Sep 2022
- 10:15:20 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH] arm64: dts: renesas: rzg2ul-smarc-som: Drop enabling wdt2
-Thread-Topic: [PATCH] arm64: dts: renesas: rzg2ul-smarc-som: Drop enabling
- wdt2
-Thread-Index: AQHYyD/rtz77kMV/LUKpS1dYBqhnjK3k6tOAgAGecYCAAAScQIAAAboAgAAA8+A=
-Date:   Mon, 19 Sep 2022 10:15:20 +0000
-Message-ID: <OS0PR01MB59221867F12797CCA685F954864D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220914134211.199631-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVRmuQm5xRgpQurCJTu7goqNi5zj+Q9cLLz_s_p=znbbA@mail.gmail.com>
- <CA+V-a8vDMFKJb0wDOR8LZifRDBa0hju-YgL_BDb0chVjpef98w@mail.gmail.com>
- <OS0PR01MB592272F7C6A9519E1CA99647864D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdWzWQgL1eki_aL_MnfQfM_S1yTuabWQAP8GzuA_D_A_kw@mail.gmail.com>
-In-Reply-To: <CAMuHMdWzWQgL1eki_aL_MnfQfM_S1yTuabWQAP8GzuA_D_A_kw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB8866:EE_
-x-ms-office365-filtering-correlation-id: 5e42e7e0-10ca-4213-3e07-08da9a27db64
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: BeeQ9OTnEAmV0FFLuwqKG53oPPzFVIUESB9e0QWbeFO4d3cudoxnqcImOP48jJlThmnpMG34q5JvV41KG+gBYkmufEDcy7FRy7dH5ULnW9kTZq2xL4Vb30iiZ16lVBrcggmrkpgN/RaybZ2JpXChMN3zErDEOkZ+a2GI/euNfqXZ4aJEPbcN/7KhT875HV7/WkrzZ5EH2HU3CmOdL3EVUl6J5GMXqNc5kQtduINyXPDvBgIzMnPhQr9iE7JRsiPMaO8Dq/cjgvOFMi+BGKkZSIvaZlKyCjUcT2xwth3mAquIc9Epa1FNogGMJvA1qQNR4UbfGuVbmHBrbKaCphZPVBwHrY6/i9+LzRYvlJ2Ft/lwDAYJZ7hDuto2jFCDaLq9mYWQDxqVUj7N2FAQcl+wnq0FNh8cf6yy3ra5G2u/VJ3+4lJpd+Eb8uf4vPY681106tB9LuNO+KeBSU6FB+2duysudy/0IYXevsmgfUFIEHN4BCpFgUodBJx/2T0A7AkTJOmIXqd3VDFfutgF3eFwfD9s65SOOZWOlUlJYGvvaCkrbHpc6Q0wnGU5B962Dik+EBoIOV4zi2ELIjpdX7DgHcveLHaPn3X5J2BO/x3WDPvDCYmcpD3oiwMBDzFTMUrQTNP9R+l9LQHJPE4GxbbfYVoXPcFte/Da5812uXnq0ClUtqAzb2R3Ye1qgr02M8RgqSpFgwvg4x7Jv6GkB0Qj3LpzT9BhTyPsx1V23Btv5oSMDIlxdAMcAEZlz7wAQx1Xm3cVoQXT532RqioWLOqwVg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(346002)(136003)(39860400002)(376002)(396003)(451199015)(2906002)(6506007)(7696005)(4326008)(38070700005)(71200400001)(38100700002)(66446008)(86362001)(66556008)(26005)(53546011)(55016003)(8936002)(9686003)(76116006)(66476007)(122000001)(33656002)(66946007)(64756008)(41300700001)(107886003)(8676002)(478600001)(83380400001)(54906003)(6916009)(316002)(186003)(5660300002)(52536014);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SXdBZkVWNW9LcWxsMDd3SEhoR0I4TUhRTXQ2dEJscXdXK1dudE5qcEFnYzJh?=
- =?utf-8?B?U29zN3lCVDd6Y0tDOSs0ekFyeWFjSHIvTGtOdVdtbDFhMmZ5YzZObFVSVGpF?=
- =?utf-8?B?Wjh5WktodmR0UUF3MFRDM0cyK1dLR3Q4bGpHeklRY2Z3eGNPakNYVGJZWWFW?=
- =?utf-8?B?VGVxTCtwbVpSc25la0gyOE8vaFd3YmF3WmU0Y04vTTBDZ2FGcXhPcXlCZXQ3?=
- =?utf-8?B?QklYVGg0N2daNXF1NGZrcWIvRi9hcEJlRVFJcUhlMzhJZEJhWWM2a244YVJK?=
- =?utf-8?B?NGt4bUo2aHdGcWE3RWdmKzY3Z3dTb0FLWlh0TXlZblcybUY1Vm9ObGdLZy9y?=
- =?utf-8?B?RURGVGdMME5mL3E3YlZiV3kvL1g3ckN6R1VoSnRvV3ZEb1I5WkVaQnVYeGxz?=
- =?utf-8?B?Y24wclhWNXEzZkozSEhJU3NiUnY4emdCMjFCVWxwcHhROStRMU9CcWVza05r?=
- =?utf-8?B?WXJPMXJEcXR1WTVqUUxvUmI4a1V2VlhKUjF4TmQrbnN2em1ZT0JwR2ZFcXVI?=
- =?utf-8?B?amFNcy9PWUR4RjkyZG1ZZXJkQ3ZLK2VURDlMSHpjTzV0TkJqWXFBMXBwcEc1?=
- =?utf-8?B?b0ZxZ1BnYk9RYTk4MjNuNlQzdURQTmxuS3Fkb3hRb29LaWdmUTFYbW9qdTF4?=
- =?utf-8?B?d1hyR041MTlvR0dlY0pOdno4elRIdUhmcU9QQTBEOXU1MDlGczErcUYyRFFU?=
- =?utf-8?B?UTkrN0hSazkxSTFMQlkzaGlIc056aWd1Y0JJalFwOGZ0OTB3cFUvRDczbysv?=
- =?utf-8?B?YlZDQUs5cmw3SjZMYzBHT3BqTzIwSnVWa3c5N0c3ak9pdW5rb0k1eTZRVHRw?=
- =?utf-8?B?ZkxrNUNmRUpVYVdDTmRDMzdlZDZ4U2dkZkNtTDBLSnR2N1lzdUlrMGRiUTNW?=
- =?utf-8?B?a0JkWXExeW5WNytlLzZyWWtFTEZYZm5nZXZFejBoMFNFelFjTE9EVlIwdkhm?=
- =?utf-8?B?M2xpUnFxQmZuSThselZwN0FVbSt0WldTUzFUbERwR052aDNZZ3c0UlpsUTJY?=
- =?utf-8?B?R2RmYWZtU3hyeWJTQ2Q3RVVFbDlzR0tYWkxIZU5qd3lLSzYvM2EyZ0k5eDRM?=
- =?utf-8?B?OGcxb25qN1BYcXZCRlJ0dys0THdXSXQ4cGVnV0hmdzBwN1h3NDNVSzgxWE9Q?=
- =?utf-8?B?TjNQblNJSy85a015YlJmTFFQT29oR2pzcVlQekV2UDFwT2pvYlVDU3B1WU1V?=
- =?utf-8?B?aDR4TjhwSUxFMzBRYVg1NDRNdExRSTRxekRkUGlMeHVRQ29lbktYeTlPTHZ0?=
- =?utf-8?B?L210c1lNbTFZQVdWQmVHbU9WVGp2dXpMWW9VcDVtTU8rUC9XR3YrQVIrcTFv?=
- =?utf-8?B?N2tvdmdzdEJ5N2JHVm10cXBodEJVOSs5anJPdHRDejFXYjAzbkRJTlkraUZI?=
- =?utf-8?B?VU53WUIydUJheW5LRUFNbHdlMUZqajFvWjYwWmg4aDdIaGxVemUxcnA5SnNG?=
- =?utf-8?B?ZHJyTlBrSVpaN2c2VzFCQmVMdG9tY1lBcklwbHRHb3dQQTFpOXlWV25HaHVQ?=
- =?utf-8?B?NFdwMStuV0UzK3pKdkdCZVZ4QnBxRXBDZTFaa0l3ay9OeGQ4U2RpQU5tV2J3?=
- =?utf-8?B?Q1Z6b3VGdENiaUtERFY4SkMzbVg2TDcvUlhzOUorcGlYTElLRmwyeGtwK3BW?=
- =?utf-8?B?cnNNWndIL1FvL0gvZFdSZThKU1FYR1QvWnNpVkgwM0I2ZFBoNDhsT3oxSGJv?=
- =?utf-8?B?YktNazFDMldsN2RiQ0RXMks2Z2drS3NMQWZkSnRkaTErTGZ3M1JUelZuUkJt?=
- =?utf-8?B?TnlGODZseU5iVEIybzI5WEpVNnF2OW5iMDE2Y2s5ZzdPdlU4dUdsTDdJS2Ey?=
- =?utf-8?B?Mzd4STRjcTNadG5QZ1lhQ0dxbXI4ZVpjR2FNalpPRWJJRGRPR0E5RzF3YnVE?=
- =?utf-8?B?anNML1o5TU9sbnJVNXo0TnArSU1mSUxKendBSDRSMXV4bDJDVmN5ZnZTRkNE?=
- =?utf-8?B?V3NSL1RxWHlmc1dwdm5NbmRvU3l5V2F1TFQxTitpUjkvNUEvbVJBR3dNeDh5?=
- =?utf-8?B?dmptRUdlU21qc1ZJenVuaWFSdjFLdHo5M0NrV1Y3K0MxZG9iR2dldVNwV29p?=
- =?utf-8?B?eHNSdTdoN3orNW5nSFBTMERpOTRiWS9HcU9Fc1QvTHh0TUNuZFdTdUUyb3pT?=
- =?utf-8?B?RkFJWnhMSG53K1RYeFYxL1RCblkrNloxU2xwOUJtd0lGQUhXS2ZVT0JMaVd3?=
- =?utf-8?B?RXc9PQ==?=
+        Mon, 19 Sep 2022 06:37:46 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 472CA248FA
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Sep 2022 03:21:17 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id w20so15410107ply.12
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Sep 2022 03:21:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date;
+        bh=TIWcxSZEHO5I8EqX35iCBwZJzdTR4+q+EAUyK/gnI8g=;
+        b=VyNkIDrZlYpiN7DXa2090fbRFXBWBVoVvUFBndpqkm43NPufV0UNNTc8i1K7w854iu
+         PJ3/1m79KoHX3oWQr5Jsjq+Gw06RxpuJnmlJhOORxZZRmEXToXCNRVxgG33jfNvwcEKG
+         zciTQmvA7n9k3NJiFTeX+A+Ngl337OPQoMB2JV46/jzcVYyz0QZAsfMktyoEmaLfFkiY
+         wwJonU3C3gu/IytaHm7T4EW1WqBma7XMhBs5//uMS7t6yAWT9VwUgLgFcnrUC4pCBGhi
+         J4ztSkeVPxZ2sTGzTt5ZrVBFuUKY54k5gO/3PbCwYT0LydRLEye6tuqhbaPt7U3IXs5C
+         cHXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date;
+        bh=TIWcxSZEHO5I8EqX35iCBwZJzdTR4+q+EAUyK/gnI8g=;
+        b=L/OhZ7ODXFofnsYaJ3r7wXe+g6Nfce+DtQPpwjcAnOOgkEZvis9z415TuoPaiz5Wyv
+         9FyANkwmKiKUhiG+VRZiEXLeTHPPTsnAni/9OCmbAJ0Fp76YQ5ey3xYJcTRAel8BIVDG
+         S/RjcWhRnHrpm2IP2R+fZDMhwWejrMfeo5omIs5j+FnvRh4A6VNeCAxsyfEXWAQxyZHs
+         6Xw8oC10A8dWdggm53pP8RCz8I1Qekd+KntSkCw2r0ue3lxmfhr4I9pvqa9JrFaFtKLc
+         OW8A1pTpZxuvRyiWuRy0vzW3ZoC8/zO7iBERZ0LY+AdAoz1agPLu5YvPWHOqWflKtt6n
+         blUA==
+X-Gm-Message-State: ACrzQf2MyeC1z5c/klGUNsKTT9rylwAyiWGzrntn0siZWbHbBDWpsPOS
+        f2iN9ZmBdNnLgOmLnJd3Ks9wM30A1d1VNp/r7k0=
+X-Google-Smtp-Source: AMsMyM7O/VOWeOouz5gwP720v22VP5czfAaPB989UXu+lLjjNbBk/pDrei7KqvR4vw1Pgt3uQ7uwbg==
+X-Received: by 2002:a17:902:e14c:b0:177:e7be:2ab6 with SMTP id d12-20020a170902e14c00b00177e7be2ab6mr12127726pla.25.1663582872082;
+        Mon, 19 Sep 2022 03:21:12 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id n13-20020a170902d2cd00b0017894903949sm3683513plc.157.2022.09.19.03.21.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Sep 2022 03:21:11 -0700 (PDT)
+Message-ID: <63284297.170a0220.3d689.52c0@mx.google.com>
+Date:   Mon, 19 Sep 2022 03:21:11 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e42e7e0-10ca-4213-3e07-08da9a27db64
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2022 10:15:20.0434
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3gnDD0bi6sXE0NlimWnbxv0X3w8XqRD3ZS0EwEwfaXZcu+oQxCfsAb4b5QtGVlmPe3opV4cNMMpR3H18VKMMQqdeGnsasMbQjr9cx5jIpFA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8866
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2022-09-19-v6.0-rc6
+Subject: renesas/master cros-ec: 10 runs,
+ 4 regressions (renesas-devel-2022-09-19-v6.0-rc6)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsDQoNClByYWJoYWthciBNYWhhZGV2IExhZCA8cHJhYmhha2FyLm1haGFkZXYtDQo+
-IGxhZC5yakBicC5yZW5lc2FzLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSF0gYXJtNjQ6IGR0
-czogcmVuZXNhczogcnpnMnVsLXNtYXJjLXNvbTogRHJvcA0KPiBlbmFibGluZyB3ZHQyDQo+IA0K
-PiBIaSBCaWp1LA0KPiANCj4gT24gTW9uLCBTZXAgMTksIDIwMjIgYXQgMTI6MDYgUE0gQmlqdSBE
-YXMgPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiB3cm90ZToNCj4gPiA+IE9uIFN1biwg
-U2VwIDE4LCAyMDIyIGF0IDEwOjA0IEFNIEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgt
-DQo+ID4gPiBtNjhrLm9yZz4gd3JvdGU6DQo+ID4gPiA+IE9uIFdlZCwgU2VwIDE0LCAyMDIyIGF0
-IDM6NDMgUE0gUHJhYmhha2FyDQo+ID4gPiA8cHJhYmhha2FyLmNzZW5nZ0BnbWFpbC5jb20+IHdy
-b3RlOg0KPiA+ID4gPiA+IEZyb206IExhZCBQcmFiaGFrYXIgPHByYWJoYWthci5tYWhhZGV2LWxh
-ZC5yakBicC5yZW5lc2FzLmNvbT4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IFdEVCBDSDIgaXMgc3Bl
-Y2lmaWNhbGx5IHRvIGNoZWNrIHRoZSBvcGVyYXRpb24gb2YgQ29ydGV4LU0zMw0KPiBDUFUNCj4g
-PiA+IHNvDQo+ID4gPiA+ID4gZG9uJ3QgZW5hYmxlIFdEVDIgYnkgZGVmYXVsdC4NCj4gPiA+ID4g
-Pg0KPiA+ID4gRm9yIGNvbnNpc3RlbmN5IEknbGwgZHJvcCBlbmFibGluZyBXRFQyIGZyb20gdGhl
-IFJaL0cyTHtDfSB0b28uDQo+ID4NCj4gPiBEb2VzIHJlbW92ZSB1bnVzZWQgY2xvY2tzIHR1cm4g
-b2ZmIFdEVDIgY2xvY2sgZHVyaW5nIGxhdGUgaW5pdD8/DQo+ID4NCj4gPiBJZiB0aGF0IGlzIHRo
-ZSBjYXNlLCB3ZSBzaG91bGQgcmVtb3ZlIGVudHJpZXMgZnJvbSBjbG9jayB0YWJsZSBhcw0KPiB3
-ZWxsPw0KPiANCj4gT3IgYWRkIGl0IHRvICpfY3JpdF9tb2RfY2xrc1tdPw0KPiANCj4gTm90ZSB0
-aGF0IGRyaXZlcnMvY2xrL3JlbmVzYXMvcjlhMDdnMDQzLWNwZy5jIGNyZWF0ZXMgd2R0MiBjbG9j
-a3MgYW5kDQo+IHJlc2V0cywgc28gdGhhdCBzaG91bGQgcHJvYmFibHkgYmUgbW92ZWQgaW5zaWRl
-IHRoZSAjaWZkZWYNCj4gQ09ORklHX0FSTTY0IHNlY3Rpb24uDQoNClllcywgYm90aCB3aWxsIGRv
-LCBJIGd1ZXNzIG90aGVyd2lzZSBXRFQgZW5hYmxlZCBieSBDb3J0ZXgtTTMzIHdpbGwgYmUgZGlz
-YWJsZWQgYnkNCkNPUlRFWC1BNTUgZHVyaW5nIGJvb3QuDQoNCkNoZWVycywNCkJpanUNCg0K
+renesas/master cros-ec: 10 runs, 4 regressions (renesas-devel-2022-09-19-v6=
+.0-rc6)
+
+Regressions Summary
+-------------------
+
+platform                     | arch   | lab           | compiler | defconfi=
+g                    | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------------+------------
+hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
+efcon...6-chromebook | 2          =
+
+rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defconfi=
+g+arm64-chromebook   | 2          =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-09-19-v6.0-rc6/plan/cros-ec/
+
+  Test:     cros-ec
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-09-19-v6.0-rc6
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      5c8e5995413313a628eb0f9ea0d9ae6641854298
+
+  Test suite revisions:
+    cros-ec-tests
+      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/cros-ec-tests.git
+      SHA:  86181a7fbd379fc42314c450740d2cea8cdf04c1 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g                    | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------------+------------
+hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
+efcon...6-chromebook | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63282ebef8b140b68a355649
+
+  Results:     5 PASS, 2 FAIL, 12 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-09-19-v6.0-rc6/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
+ora/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-09-19-v6.0-rc6/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
+ora/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20220826.0/amd64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
+282ebef8b140b68a35565a
+        failing since 33 days (last pass: renesas-devel-2022-08-11-v5.19, f=
+irst fail: renesas-devel-2022-08-16-v6.0-rc1) =
+
+
+  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
+3282ebef8b140b68a35565c
+        failing since 33 days (last pass: renesas-devel-2022-08-11-v5.19, f=
+irst fail: renesas-devel-2022-08-16-v6.0-rc1)
+
+    2022-09-19T08:56:12.052680  / # =
+
+    2022-09-19T08:56:12.058847  =
+
+    2022-09-19T08:56:12.164625  / # #
+    2022-09-19T08:56:12.170865  #
+    2022-09-19T08:56:12.273129  / # export SHELL=3D/bin/sh
+    2022-09-19T08:56:12.279757  export SHELL=3D/bin/sh
+    2022-09-19T08:56:12.381956  / # . /lava-7311730/environment
+    2022-09-19T08:56:12.387987  . /lava-7311730/environment
+    2022-09-19T08:56:12.490103  / # /lava-7311730/bin/lava-test-runner /lav=
+a-7311730/0
+    2022-09-19T08:56:12.495984  /lava-7311730/bin/lava-test-runner /lava-73=
+11730/0 =
+
+    ... (7 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g                    | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------------+------------
+rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defconfi=
+g+arm64-chromebook   | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6328353bb481450e45355644
+
+  Results:     4 PASS, 2 FAIL, 11 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-09-19-v6.0-rc6/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cr=
+os-ec-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-09-19-v6.0-rc6/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cr=
+os-ec-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20220826.0/arm64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
+28353bb481450e45355653
+        failing since 33 days (last pass: renesas-devel-2022-08-11-v5.19, f=
+irst fail: renesas-devel-2022-08-16-v6.0-rc1) =
+
+
+  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
+328353bb481450e45355655
+        failing since 33 days (last pass: renesas-devel-2022-08-11-v5.19, f=
+irst fail: renesas-devel-2022-08-16-v6.0-rc1)
+
+    2022-09-19T09:23:48.268578  / # =
+
+    2022-09-19T09:23:48.269211  <6>[   20.598767] mwifiex_pcie 0000:01:00.0=
+: info: FW download over, size 638992 bytes
+    2022-09-19T09:23:48.271499  =
+
+    2022-09-19T09:23:48.376040  / # #
+    2022-09-19T09:23:48.380474  #
+    2022-09-19T09:23:48.484052  / # export SHELL=3D/bin/sh
+    2022-09-19T09:23:48.487941  export SHELL=3D/bin/sh
+    2022-09-19T09:23:48.591602  / #. /lava-7312062/environment
+    2022-09-19T09:23:48.595484   . /lava-7312062/environment
+    2022-09-19T09:23:48.699165  / # /lava-7312062/bin/lava-test-runner /lav=
+a-7312062/0 =
+
+    ... (15 line(s) more)  =
+
+ =20
