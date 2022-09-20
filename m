@@ -2,56 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC0765BED97
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Sep 2022 21:24:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A05E5BEDA3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Sep 2022 21:26:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231361AbiITTYX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Sep 2022 15:24:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40314 "EHLO
+        id S231361AbiITT0W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Sep 2022 15:26:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230029AbiITTYW (ORCPT
+        with ESMTP id S231438AbiITT0T (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Sep 2022 15:24:22 -0400
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D08027FE6;
-        Tue, 20 Sep 2022 12:24:19 -0700 (PDT)
-Received: by mail-qv1-f45.google.com with SMTP id y9so2782289qvo.4;
-        Tue, 20 Sep 2022 12:24:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=yysm/muSvmUqRZUlhuFzQOUXKN32lBic33bRnAUB65A=;
-        b=TZaReT3idjc95k14UNpI7XrpdRriIprYwK814rCNUKrn9+61GdakSoRrv+r8ZpxOt7
-         N7+YL7OBJq+LsX04yy8CBuULEvmWpIDihsXu4T2fdJbJ0oLtQUVBFJvebhAzY+ea4wXv
-         2oJfwsxeZyJBk5LUVX0fp1xaHobmlKQKjCE/hXNa75p+6bqzguLbWeozkgO8S+1jzeET
-         DAJH/bzaAcmhOtK7XmC6GyjfNL12futE05NN7nMoX0bRDYG4eHRuA1g8B7nFTgHVjQpX
-         zmgMlJjfHdEj4IhnipnpUQ3D6S+X654y8cHNNsE80M9L3FIatZHnU+A7MuHVdoCeZuIL
-         xuDg==
-X-Gm-Message-State: ACrzQf37HBiATfSMxWWvg7Uj2wc9VUSGfRCbmWnhIFhZ+RdI7bjO6/Ej
-        gUWPKfLKdYbYNilxF1acML0oNYtxmUURaA==
-X-Google-Smtp-Source: AMsMyM5bWF08qQCCpwdUQs/NFmMSjEXtHGTRIcs0f8E9NJDFjaWjvGwgJQDjNGQv14SYbdzvnuc5TA==
-X-Received: by 2002:ad4:5bcd:0:b0:4ad:2fc4:6571 with SMTP id t13-20020ad45bcd000000b004ad2fc46571mr12945010qvt.103.1663701858395;
-        Tue, 20 Sep 2022 12:24:18 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id h22-20020a05622a171600b0035ba366cc90sm368019qtk.15.2022.09.20.12.24.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Sep 2022 12:24:17 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 125so4823836ybt.12;
-        Tue, 20 Sep 2022 12:24:17 -0700 (PDT)
-X-Received: by 2002:a25:8e84:0:b0:696:466c:baa with SMTP id
- q4-20020a258e84000000b00696466c0baamr19432910ybl.604.1663701857015; Tue, 20
- Sep 2022 12:24:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220920184904.90495-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <YyoSgGlkIB8GMog8@spud>
-In-Reply-To: <YyoSgGlkIB8GMog8@spud>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 20 Sep 2022 21:24:05 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXfkX-AOusfOn-6fmaJavWWoD1mW8QNqUCUdkHuz=3FsA@mail.gmail.com>
-Message-ID: <CAMuHMdXfkX-AOusfOn-6fmaJavWWoD1mW8QNqUCUdkHuz=3FsA@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] Add support for Renesas RZ/Five SoC
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
+        Tue, 20 Sep 2022 15:26:19 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2117.outbound.protection.outlook.com [40.107.113.117])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AD3072EEC;
+        Tue, 20 Sep 2022 12:26:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ergY+kpRDUNkcNM/yfjJzdP/yzOl6Jy+4fzj353C5SzM7mH999EpzDHcpHLdsVbyNNGWMsOvbZFAvIWtgTdnbX5HEwZBevM98cAEn286x6jMuFjsmLW04vBfzMi16waz83GvvZy/MrUs1Lv5n1E1akhKBwuOzejYADj0dP/2x3FV8Sd15IBI3O3d03oCSENoPl8LOLQwYIp43JtKZE+UArlMYx9pssrd2czrKWj6ZRZofiXKXmR82/HxEFKxWhbQt0wBQkht5uZOq+/cE6j+DHLpRHOp+59qRFSWax+Sa4GklnSRuonP1ryxct9ZxKx0eUjTrpbE2uXGmwG9pMkKpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BBcNAR7OEBUyeayWVfMxWnzHHAm2Pyn9uhyEy2Y3hNA=;
+ b=DcmofQoCTxaiKkh+KeJvSfAVNUXID5V8jL2F910UEPB7sLc8EGmNAwo7fRuv5srGzcQ43/uEL2rbZyqjenVmnoKfSsainCI/IfNS6mxxcmPNSkBNK0HUiILmd0nntxwjr4TCUC/IetMPmU+qtVnm0xN7GOX+khvKYEQjSkezs+7VZXvYDN0fOp/mednFhdzkRBRokQYJaPQXgrvfvg2k563l87j1hSR4c8GbO6iVlFqJYq1VSI55vBCYixEz4QwefAfva9/jYKtBP6kHOMAA1hlBBHpx1FspwxsLs61JRYuHf5DWJYRao2iqaY18T6vryzkH+jkT//PRNP15izalDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BBcNAR7OEBUyeayWVfMxWnzHHAm2Pyn9uhyEy2Y3hNA=;
+ b=nB01NIcA17Od8M7MekIrrDOqNP1oOPvsHl8Nb0NvjNiy7W6s0/P96q8If7cRJn4e7JqkJw3UH9SWf1NWg5unEJ7CvwWHf1Kf9Vd2ejJTy0BLRff5TVzqRRMVLSeMk65W6C7OCYCBuaAQSxlnV0TEl2r5LT1J4yknmN+saEqMfEc=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TY3PR01MB10455.jpnprd01.prod.outlook.com (2603:1096:400:313::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.15; Tue, 20 Sep
+ 2022 19:26:13 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::c502:8f9f:ec5e:8e3f]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::c502:8f9f:ec5e:8e3f%3]) with mapi id 15.20.5654.015; Tue, 20 Sep 2022
+ 19:26:13 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Prabhakar <prabhakar.csengg@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Paul Walmsley <paul.walmsley@sifive.com>,
@@ -59,69 +48,365 @@ Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Heiko Stuebner <heiko@sntech.de>,
+        Conor Dooley <conor.dooley@microchip.com>
+CC:     Heiko Stuebner <heiko@sntech.de>,
         Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-        Atish Patra <atishp@rivosinc.com>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Atish Patra <atishp@rivosinc.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v4 07/10] riscv: dts: r9a07g043: Add placeholder nodes
+Thread-Topic: [PATCH v4 07/10] riscv: dts: r9a07g043: Add placeholder nodes
+Thread-Index: AQHYzSHUiYFQxotF30GY+2sg2SrZHa3oru6AgAAEELA=
+Date:   Tue, 20 Sep 2022 19:26:13 +0000
+Message-ID: <OS0PR01MB59224D591B8A227A5655ECDE864C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20220920184904.90495-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220920184904.90495-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <OS0PR01MB5922AFDAFE3DEBBFFF875875864C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922AFDAFE3DEBBFFF875875864C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TY3PR01MB10455:EE_
+x-ms-office365-filtering-correlation-id: d7f1f7fa-a979-4a9e-d1fb-08da9b3dfb61
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bubj3O3t51EBB0SBuysCvwnG1VGkYIFc82XaUnl49Lq/IDkAt8OTB39M3W6/6HlbE6AHYacIGsnBe3f8niHaKzkFsZnqElZnvtG0eUNNqqju395efckdd/vS11MNs5JxbqdUciQyUK+i3H79gQpj+Ypq3JgwR8KW50EUoUiechisg3P0D634+J+aPxS81oqGxt5zU9jBq6WS4mAuQ6L3niTHkz8Curn/SybTrypAAzFqIryUdBTpoh/ZuCTY/tWS+3pHAjoN5kkZYvxMXoPaSVa30dr/FZOkhUCl/BFcsyBMuJBACecn4pnos0MyaIeF2vvKK/HH3HQ1TqicMajM2Nj76acEVOmPbwY5+oD+PMDYcAX8BwjwRZcn+5jcC1aYaArVEN1sd0IG+UMCS7iZGP9U1KhbRIZvSRrHZ+rLr7zf5TxAIJJotJ+QoULUGxMQtyyUR7EruTDGisnwlyDZdiJc/YINHtdgA6sO4DRLwRRszyspvCShn3qiumBYwvcN/7lO2PLVu8x9vayUwUbJEVh3+ZDG7uetgXaZaxs/3Nm+L68cTfw4ApxtPW7PWzK7XJ66svXOYOkstE4OmJD46EazISs/z4YWBpDMGETeDqE/2wRAedmFWIK73zIKNTjRk/wYCjS5Kts9/ncljC1eTIOM9hvbI/wXTcGY2WmytUBHPmRBAjB5+gwAMVe5sfetZ9Vi4sdVxFy/mL6iFrLY4E3ASLfH02iaLxlcelKrQ42hSRkq4Xy3Ggdxa6YR19yHBxCp7peeTnOSqLj3g9QgVg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(39860400002)(136003)(346002)(376002)(366004)(451199015)(41300700001)(83380400001)(2906002)(66476007)(66446008)(64756008)(2940100002)(66556008)(7416002)(53546011)(71200400001)(55016003)(186003)(478600001)(6506007)(107886003)(7696005)(38070700005)(38100700002)(5660300002)(316002)(76116006)(66946007)(26005)(8936002)(33656002)(86362001)(4326008)(54906003)(52536014)(122000001)(8676002)(9686003)(110136005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?bmYKCogikEofdc5lTxCGYUBeGEaab9lZeQhBGY92ytUdHtZIkfjNw36m8XY3?=
+ =?us-ascii?Q?g+Cc/y5MWwvgTOjZ3+E5yl5n2sFmcDugH3S/yPJWmYkpuRwDm+RW72h1rpcP?=
+ =?us-ascii?Q?ruH4Yw9sksnKZ1A8gi3a4B6rKYLJvLvwT3lfVv/mu6ncEYMCdvVqjlwpHp7K?=
+ =?us-ascii?Q?kKDOBbDSEphcQmRHYQJgBpmV2qN8UWXCTp+TwPoHdeTxxrfxTyIkGy8JVbqd?=
+ =?us-ascii?Q?d7xDvY6vmZYUrFLaDE2+GzwqyTrezZtx17zF442heS4iVz0MF7QwqaYx8zGp?=
+ =?us-ascii?Q?MzyvA/KxsupM8gUV0LWZgAVGmpt7AgydImhem+GDZ33B1fqCTegkHcgK++Fr?=
+ =?us-ascii?Q?h0afXBUjKcWBmbIIUIR7SGGqLXAsdFwJdsve24wJPfyu5j9p8/N29JX90oym?=
+ =?us-ascii?Q?oQGLtgbnlluHZb0rO2lyGFY3u9ddNqmIB5b8coURYboSYH7hIPzoncUxYSAq?=
+ =?us-ascii?Q?Uh6vdNuyeZHgXA3mIy/f6IViptDluI5sttt/lNNZV8rfLXLy84AkLTo4ABNe?=
+ =?us-ascii?Q?ncueddHzH7jWmNkQU+BprPaM1F7YY5LvsTwhQhgvj9fzYbqIdWStay6j1cfK?=
+ =?us-ascii?Q?9Z9z8ZCq+OQ+m/JI6/+YLXUvPQIoLFRdbdwWUUR8Ftbj2nTD0yXxwBxiiHUt?=
+ =?us-ascii?Q?iLyKfmD4kmiB8BW23iZBkhSyXKiz7U+Vzm84E0auRL4TrjHJ+eCMdsKtT8nu?=
+ =?us-ascii?Q?YnND1Td7/gTxfRBq6rZWoyUFFvj/BsUscnQ9GMYUWTxYnILzIXRrZ9B/c1hm?=
+ =?us-ascii?Q?d+ZQc3Pp+B5Ajb1j61UvYIElUFRDYSli50QAooW4T5/sTkBlQq0bGRP8ASi1?=
+ =?us-ascii?Q?ohIgVX7jPCz2CLZSXEuiPv3Ct4/FlTXG2KGScsRrU96dP1MBzEdUMgtIgBFC?=
+ =?us-ascii?Q?aSaOiP4HoNn4+JB3aSi0T6yg7Qo/aVCMchBpME2ZgvxhbVMuuKqER7xM3rov?=
+ =?us-ascii?Q?3/qQAXDMtW7MapxoKG+QZql1WaU3nh+Moq5S/0ly0UwIJdhWOIA4WcD8sMDX?=
+ =?us-ascii?Q?r/H1qniQawUHh/ZY/TpfJPaSZV3I4gfNCx1l1cOqbNFDuDFxCOtNXvo3ne6g?=
+ =?us-ascii?Q?kv33zNPkQZhYxnDW70/PsceYnVhBXzqcKFY01E7JgyYw0HYQPs7ls/c9iK/q?=
+ =?us-ascii?Q?llv4dJVhVWl4iQPq9Ay0KDfOy6PgYd1L5+qalbt46oQYnh3hQCsKmhA7RTt4?=
+ =?us-ascii?Q?5Tf3jzJ8fk2M1Py1FDD0BcgA7v2Q/46IUEHFqFLtzjXQxFJuR7U+lhIEc1Ik?=
+ =?us-ascii?Q?dlXM0EPbNlmE3iBhiCA1dh7UVd+IRRvO37Uwo4yfdIBdpjl727lTpit/ZELj?=
+ =?us-ascii?Q?BJteZJhRGcYnuCLvGtJtvhwYQ9pT5ghp/0s/pAgrJNdQRHdrD1ODJt2QO7nM?=
+ =?us-ascii?Q?hSNVakeIoo6H4k0PLWRgNRdJ841VmN/ecIxVBWg3EME9RXMo3xkF3T3LBxKx?=
+ =?us-ascii?Q?TCQoHVppRVZo2S6plzfnpRD+m8nEOcvRiXMojymOIVuoGLDHXaWFWPtsoi+f?=
+ =?us-ascii?Q?4IOBNDbJN6UjcVE8BejaaqDqAaQWFal1e+ue43iHhC2MBd+EIARGnEfVayFZ?=
+ =?us-ascii?Q?ESTC1Gs1L7jg9zE8n/zVzLQSs1PL/kn+yuxZid1KrGpyp4Mq4Xztkj1ZOQaw?=
+ =?us-ascii?Q?+w=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7f1f7fa-a979-4a9e-d1fb-08da9b3dfb61
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Sep 2022 19:26:13.8836
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mjLmC0O/0iRmEgh7wfVAoWVAdvQeTkD1xK36yGe6s1nAap5ZmJOesCjVTgBTgW4vEYiKhK3cNJFbISkQA+YvtnetVRlF3Z88FU2l+0qzm58=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10455
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Conor,
 
-On Tue, Sep 20, 2022 at 9:20 PM Conor Dooley <conor@kernel.org> wrote:
-> On Tue, Sep 20, 2022 at 07:48:54PM +0100, Prabhakar wrote:
+Just ignore my mail, As I realised IRQ property in each node will be a prob=
+lem.
+
+Cheers,
+Biju
+
+> -----Original Message-----
+> From: Biju Das
+> Sent: 20 September 2022 20:22
+> To: Prabhakar <prabhakar.csengg@gmail.com>; Rob Herring
+> <robh+dt@kernel.org>; Krzysztof Kozlowski
+> <krzysztof.kozlowski+dt@linaro.org>; Paul Walmsley
+> <paul.walmsley@sifive.com>; Palmer Dabbelt <palmer@dabbelt.com>;
+> Albert Ou <aou@eecs.berkeley.edu>; Geert Uytterhoeven
+> <geert+renesas@glider.be>; Magnus Damm <magnus.damm@gmail.com>; Conor
+> Dooley <conor.dooley@microchip.com>
+> Cc: Heiko Stuebner <heiko@sntech.de>; Heinrich Schuchardt
+> <heinrich.schuchardt@canonical.com>; Atish Patra
+> <atishp@rivosinc.com>; devicetree@vger.kernel.org; linux-
+> kernel@vger.kernel.org; linux-riscv@lists.infradead.org; linux-
+> renesas-soc@vger.kernel.org; Prabhakar Mahadev Lad <prabhakar.mahadev-
+> lad.rj@bp.renesas.com>
+> Subject: RE: [PATCH v4 07/10] riscv: dts: r9a07g043: Add placeholder
+> nodes
+>=20
+> Hi Prabhakar,
+>=20
+> Thanks for the patch.
+>=20
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > The RZ/Five microprocessor includes a RISC-V CPU Core (AX45MP Single)
-> > 1.0 GHz, 16-bit DDR3L/DDR4 interface. And it also has many interfaces such
-> > as Gbit-Ether, CAN, and USB 2.0, making it ideal for applications such as
-> > entry-class social infrastructure gateway control and industrial gateway
-> > control.
 > >
-> > This patch series adds initial SoC DTSi support for Renesas RZ/Five
-> > (R9A07G043) SoC and updates the bindings for the same. Below is the list
-> > of IP blocks added in the initial SoC DTSI which can be used to boot via
-> > initramfs on RZ/Five SMARC EVK:
-> > - AX45MP CPU
-> > - CPG
-> > - PINCTRL
-> > - PLIC
-> > - SCIF0
-> > - SYSC
->
-> Ran into one complaint from dtbs_check:
-> arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dtb: usb-phy@11c50200: '#phy-cells' is a required property
->         From schema: /home/conor/.local/lib/python3.10/site-packages/dtschema/schemas/phy/phy-provider.yaml
-> arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dtb: usb-phy@11c70200: '#phy-cells' is a required property
->         From schema: /home/conor/.local/lib/python3.10/site-packages/dtschema/schemas/phy/phy-provider.yaml
->
-> Other than that which should be a trivial fix the whole lot looks good
-> to me...
+> > Add empty placeholder nodes to RZ/Five (R9A07G043) SoC DTSI.
+> >
+> > This is in preparation to reuse the RZ/G2UL SMARC SoM and carrier
+> > board DTSIs([0] and [1]).
+>=20
+> Just a question,
+>=20
+> Why can't we reuse SoC dtsi as well, as 90% of the SoC nodes are same?
+>=20
+> Split common stuff from arch/arm/boot/dts/renesas/r9a07g043.dtsi
+>=20
+> and add ARM specific CPU, IRQ to
+> arch/arm/boot/dts/renesas/r9a07g043u.dtsi
+>=20
+> RISC-V specific CPU, IRQ to
+> arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+>=20
+> Both r9a07g043{u,f} dtsi will add common dtsi.
+>=20
+>=20
+> Cheers,
+> Biju
+>=20
+>=20
+> >
+> > As the RZ/G2UL SMARC EVK enables almost all the blocks supported by
+> > the SoC and whereas for the RZ/Five SMARC EVK we will gradually be
+> > enabling the blocks as a result we are adding the placeholder nodes
+> to
+> > avoid DTB compilation errors (currently we dont have support in DTC
+> to
+> > delete the reference nodes without actual nodes).
+> >
+> > [0] arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
+> > [1] arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-
+> lad.rj@bp.renesas.com>
+> > ---
+> > v3 -> v4
+> > * Dropped status and reg-names properties
+> > * Updated the commit message
+> > * Note sbc node is not enabled in RZ/G2UL SMARC EVK but will be soon
+> >   enabled so added a placeholder for this too.
+> >
+> > v2 -> v3
+> > * New patch
+> > ---
+> >  arch/riscv/boot/dts/renesas/r9a07g043.dtsi | 150
+> > +++++++++++++++++++++
+> >  1 file changed, 150 insertions(+)
+> >
+> > diff --git a/arch/riscv/boot/dts/renesas/r9a07g043.dtsi
+> > b/arch/riscv/boot/dts/renesas/r9a07g043.dtsi
+> > index fb6733f3cc2b..d90d263b1b13 100644
+> > --- a/arch/riscv/boot/dts/renesas/r9a07g043.dtsi
+> > +++ b/arch/riscv/boot/dts/renesas/r9a07g043.dtsi
+> > @@ -13,6 +13,14 @@ / {
+> >  	#address-cells =3D <2>;
+> >  	#size-cells =3D <2>;
+> >
+> > +	audio_clk1: audio1-clk {
+> > +		/* placeholder */
+> > +	};
+> > +
+> > +	audio_clk2: audio2-clk {
+> > +		/* placeholder */
+> > +	};
+> > +
+> >  	cpus {
+> >  		#address-cells =3D <1>;
+> >  		#size-cells =3D <0>;
+> > @@ -54,6 +62,19 @@ soc: soc {
+> >  		#size-cells =3D <2>;
+> >  		ranges;
+> >
+> > +		ssi1: ssi@1004a000 {
+> > +			reg =3D <0 0x1004a000 0 0x400>;
+> > +			#sound-dai-cells =3D <0>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		spi1: spi@1004b000 {
+> > +			reg =3D <0 0x1004b000 0 0x400>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> >  		scif0: serial@1004b800 {
+> >  			compatible =3D "renesas,scif-r9a07g043",
+> >  				     "renesas,scif-r9a07g044";
+> > @@ -73,6 +94,41 @@ scif0: serial@1004b800 {
+> >  			status =3D "disabled";
+> >  		};
+> >
+> > +		canfd: can@10050000 {
+> > +			reg =3D <0 0x10050000 0 0x8000>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		i2c0: i2c@10058000 {
+> > +			reg =3D <0 0x10058000 0 0x400>;
+> > +			#address-cells =3D <1>;
+> > +			#size-cells =3D <0>;
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		i2c1: i2c@10058400 {
+> > +			reg =3D <0 0x10058400 0 0x400>;
+> > +			#address-cells =3D <1>;
+> > +			#size-cells =3D <0>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		adc: adc@10059000 {
+> > +			reg =3D <0 0x10059000 0 0x400>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		sbc: spi@10060000 {
+> > +			reg =3D <0 0x10060000 0 0x10000>,
+> > +			      <0 0x20000000 0 0x10000000>,
+> > +			      <0 0x10070000 0 0x10000>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> >  		cpg: clock-controller@11010000 {
+> >  			compatible =3D "renesas,r9a07g043-cpg";
+> >  			reg =3D <0 0x11010000 0 0x10000>;
+> > @@ -104,6 +160,82 @@ pinctrl: pinctrl@11030000 {
+> >  				 <&cpg R9A07G043_GPIO_SPARE_RESETN>;
+> >  		};
+> >
+> > +		sdhi0: mmc@11c00000 {
+> > +			reg =3D <0x0 0x11c00000 0 0x10000>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		sdhi1: mmc@11c10000 {
+> > +			reg =3D <0x0 0x11c10000 0 0x10000>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		eth0: ethernet@11c20000 {
+> > +			reg =3D <0 0x11c20000 0 0x10000>;
+> > +			#address-cells =3D <1>;
+> > +			#size-cells =3D <0>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		eth1: ethernet@11c30000 {
+> > +			reg =3D <0 0x11c30000 0 0x10000>;
+> > +			#address-cells =3D <1>;
+> > +			#size-cells =3D <0>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		phyrst: usbphy-ctrl@11c40000 {
+> > +			reg =3D <0 0x11c40000 0 0x10000>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		ohci0: usb@11c50000 {
+> > +			reg =3D <0 0x11c50000 0 0x100>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		ohci1: usb@11c70000 {
+> > +			reg =3D <0 0x11c70000 0 0x100>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		ehci0: usb@11c50100 {
+> > +			reg =3D <0 0x11c50100 0 0x100>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		ehci1: usb@11c70100 {
+> > +			reg =3D <0 0x11c70100 0 0x100>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		usb2_phy0: usb-phy@11c50200 {
+> > +			reg =3D <0 0x11c50200 0 0x700>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		usb2_phy1: usb-phy@11c70200 {
+> > +			reg =3D <0 0x11c70200 0 0x700>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		hsusb: usb@11c60000 {
+> > +			reg =3D <0 0x11c60000 0 0x10000>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> >  		plic: interrupt-controller@12c00000 {
+> >  			compatible =3D "renesas,r9a07g043-plic",
+> "andestech,nceplic100";
+> >  			#interrupt-cells =3D <2>;
+> > @@ -116,5 +248,23 @@ plic: interrupt-controller@12c00000 {
+> >  			resets =3D <&cpg R9A07G043_NCEPLIC_ARESETN>;
+> >  			interrupts-extended =3D <&cpu0_intc 11 &cpu0_intc 9>;
+> >  		};
+> > +
+> > +		wdt0: watchdog@12800800 {
+> > +			reg =3D <0 0x12800800 0 0x400>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		ostm1: timer@12801400 {
+> > +			reg =3D <0x0 0x12801400 0x0 0x400>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> > +
+> > +		ostm2: timer@12801800 {
+> > +			reg =3D <0x0 0x12801800 0x0 0x400>;
+> > +
+> > +			/* placeholder */
+> > +		};
+> >  	};
+> >  };
+> > --
+> > 2.25.1
 
-That's due to the placeholders...
-
-Currently it is not yet a requirement that "make dtbs_check" is warning-free.
-I'm wondering how we have to handle new SoCs with existing boards in
-the future. Probably just more properties in the placeholders...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
