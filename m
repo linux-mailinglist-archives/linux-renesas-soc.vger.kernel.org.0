@@ -2,178 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D655C5BE299
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Sep 2022 12:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63C855BE3DF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Sep 2022 12:55:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229982AbiITKEj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Sep 2022 06:04:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57140 "EHLO
+        id S230133AbiITKzM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Sep 2022 06:55:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229825AbiITKEi (ORCPT
+        with ESMTP id S230204AbiITKzL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Sep 2022 06:04:38 -0400
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A3F8B84D
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Sep 2022 03:04:35 -0700 (PDT)
-Received: by mail-qk1-f177.google.com with SMTP id c19so1217692qkm.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Sep 2022 03:04:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=ghyT8cgVwiLe1DvCIX2P5ZyVfH7PzN5WsJqoA326jcw=;
-        b=uwhWqxr9iYsI0yRzIDbcCssBBEUq5Mc+gLavOX52J/nVsk5ul/tCqnZmIWHlxBCa/N
-         W1Ot+6x7YUKSPV89YHWFaHGDFNhtHsaDCrnkt8xGJ3TY17r8iNXMV9Ai+AyLfpc+O7CJ
-         bJ23doY5tDCFKYQhzpvRJjk9owuxxgxZ6eV/73Gw1TNsuyPFLWr0dI7mHQrJwg3W2IFd
-         Fc9vRhIKEnmjHkHlz9Ic/Ts1d1cwZ8oNbjlJd6FWnfSyNDuTbdQUrujC6xnB3o8lBSnC
-         mNw4zXnBlWVJHoABJeYgt4JcE6E9/D14ZG0rF7t6Xo2bUFi+ImvaRiqiiIjBa86NEXqQ
-         XmWA==
-X-Gm-Message-State: ACrzQf2nRFkCvfHhDpbEQhN/WRNMamRIWiDue9LYcDf77MbeyAuDkUer
-        gHEyyslUlKqYzupkwfXl+3xfVVgpen8uXw==
-X-Google-Smtp-Source: AMsMyM4TAV4cduajmQ6B+AhwqTaxmISJsOVzTNPPNeTfWEmGEy9Zv6MAX7jmMwQ2sZ0eQRKJUcTIyg==
-X-Received: by 2002:a05:620a:4309:b0:6bc:4017:8d55 with SMTP id u9-20020a05620a430900b006bc40178d55mr16193829qko.655.1663668274741;
-        Tue, 20 Sep 2022 03:04:34 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id ay20-20020a05622a229400b0035ba3cae6basm627114qtb.34.2022.09.20.03.04.33
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Sep 2022 03:04:34 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id p69so2703342yba.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Sep 2022 03:04:33 -0700 (PDT)
-X-Received: by 2002:a5b:506:0:b0:6af:ffac:4459 with SMTP id
- o6-20020a5b0506000000b006afffac4459mr16987243ybp.365.1663668273568; Tue, 20
- Sep 2022 03:04:33 -0700 (PDT)
+        Tue, 20 Sep 2022 06:55:11 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B46206745A
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Sep 2022 03:55:09 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.93,330,1654527600"; 
+   d="scan'208";a="133399489"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 20 Sep 2022 19:55:08 +0900
+Received: from localhost.localdomain (unknown [10.226.92.28])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3E7B940061A2;
+        Tue, 20 Sep 2022 19:55:04 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v8 0/3] Add RZ/G2L DSI driver
+Date:   Tue, 20 Sep 2022 11:54:58 +0100
+Message-Id: <20220920105501.396999-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <3685623bed84674039adb61e723288d359ab0a50.1648544199.git.geert+renesas@glider.be>
- <CAMuHMdWdrugZEN=7yqrsSc86AeuFR2=qM7nRk_aD=UXW9Q6cLQ@mail.gmail.com>
- <CAMuHMdWiQNjx9_hDhMEe0gHLiqLw1U0Sy0JSb+bdXHEBMgyNvg@mail.gmail.com>
- <CAMuHMdXAdeVXFytY4_ffNUJ6JVVt4SpVyk4wwDx4yMNY4hwG4Q@mail.gmail.com> <7b05d61c-3f81-c58d-3728-88a2b4a5201f@arm.com>
-In-Reply-To: <7b05d61c-3f81-c58d-3728-88a2b4a5201f@arm.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 20 Sep 2022 12:04:21 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWhHMMzaLhko38Twi2Qv81qtkzsuz0T=Jb4PjLqes09TA@mail.gmail.com>
-Message-ID: <CAMuHMdWhHMMzaLhko38Twi2Qv81qtkzsuz0T=Jb4PjLqes09TA@mail.gmail.com>
-Subject: Re: [TF-A] Re: [PATCH TF-A] fix(plat/rcar3): Fix RPC-IF device node name
-To:     Sandrine Bailleux <sandrine.bailleux@arm.com>
-Cc:     tf-a@lists.trustedfirmware.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sandrine,
+This patch series aims to support the MIPI DSI encoder found in the RZ/G2L
+SoC. It currently supports DSI video mode only.
 
-[dropped Jorge Ramirez-Ortiz, aas his address bounces, while
- he is still listed as first Renesas maintainer]
+This unit supports MIPI Alliance Specification for Display Serial Interface (DSI)
+Specification. This unit provides a solution for transmitting MIPI DSI compliant
+digital video and packets. Normative References are below.
+* MIPI Alliance Specification for Display Serial Interface Version 1.3.1
+* MIPI Alliance Specification for D-PHY Version 2.1
 
-On Thu, Sep 1, 2022 at 9:57 AM Sandrine Bailleux
-<sandrine.bailleux@arm.com> wrote:
-> TF-A project uses Gerrit for code reviews. Please refer to the
-> "Contributor's Guide" [1], in particular section "6.3. Submitting Changes".
->
-> Could you please post your patch to review.trustedfirmware.org, adding
-> the Renesas platform maintainers as reviewers?
+The following are key features of this unit.
 
-Thank you, I have done so.
-If anything is still missing, please let me know.
+* 1 channel
+* The number of Lane: 4-lane
+* Support up to Full HD (1920 × 1080), 60 fps (RGB888)
+* Maximum Bandwidth: 1.5 Gbps per lane
+* Support Output Data Format: RGB666 / RGB888
 
-Thanks!
+This patch series is based on drm_misc and patches from drm/du/next [1]
 
-> I will trigger a CI run on your patch (in this case, given the nature of
-> the change, this is mainly just for commit message compliance) and I'll
-> provide the "maintainer" review.
->
-> [1]
-> https://trustedfirmware-a.readthedocs.io/en/latest/process/contributing.html
->
-> On 8/24/22 11:54, Geert Uytterhoeven via TF-A wrote:
-> > CC the other Renesas rcar-gen3 platform port maintainer
-> >
-> > On Wed, Aug 24, 2022 at 10:04 AM Geert Uytterhoeven
-> > <geert@linux-m68k.org> wrote:
-> >> On Wed, Jun 15, 2022 at 4:33 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> >>> On Tue, Mar 29, 2022 at 2:17 PM Geert Uytterhoeven
-> >>> <geert+renesas@glider.be> wrote:
-> >>>> According to the Generic Names Recommendation in the Devicetree
-> >>>> Specification Release v0.3, and the DT Bindings for the Renesas Reduced
-> >>>> Pin Count Interface, the node name for a Renesas RPC-IF device should be
-> >>>> "spi".  The node name matters, as the node is enabled by passing a DT
-> >>>> fragment from TF-A to subsequent software.
-> >>>>
-> >>>> Fix this by renaming the device nodes from "rpc" to "spi".
-> >>>>
-> >>>> Fixes: 12c75c8886a0ee69 ("feat(plat/rcar3): emit RPC status to DT fragment if RPC unlocked")
-> >>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >>>> ---
-> >>>> Background:
-> >>>>
-> >>>> On Renesas R-Car Gen3 platforms, the SPI Multi I/O Bus Controllers
-> >>>> (RPC-IF) provide access to HyperFlash or QSPI storage.  On production
-> >>>> systems, they are typically locked by the TF-A firmware, unless TF-A is
-> >>>> built with RCAR_RPC_HYPERFLASH_LOCKED=0.  When unlocked, TF-A
-> >>>> communicates this to subsequent software by passing a DT fragment that
-> >>>> sets the "status" property of the RPC-IF device node to "okay".
-> >>>>
-> >>>> Unfortunately there are several issues preventing this from working all
-> >>>> the way to Linux:
-> >>>>    1. TF-A (and U-Boot on the receiving side) uses a device node name
-> >>>>       that does not conform to the DT specification nor the DT bindings
-> >>>>       for RPC-IF,
-> >>>>    2. While U-Boot receives the RPC-IF enablement from TF-A, it does not
-> >>>>       propagate it to Linux yet,
-> >>>>    3. The DTS files that are part of Linux do not have RPC HyperFlash
-> >>>>       support yet.
-> >>>>
-> >>>> This patch takes care of the first issue in TF-A.
-> >>>>
-> >>>> The related patches for U-Boot are [1].
-> >>>> Patches to enable RPC-IF support in Linux are available at [2].
-> >>>
-> >>> The patches to enable RPC HyperFlash support in Linux are now in
-> >>> v5.19-rc1.  What needs to be done to accept the TF-A counterpart?
-> >>
-> >> The Linux counterpart is now in v5.19.
-> >> Can you please apply this patch to TF-A?
-> >> Thanks!
-> >>
-> >>>> [1] "[PATCH u-boot 0/3] renesas: Fix RPC-IF enablement"
-> >>>>      https://lore.kernel.org/r/cover.1648544792.git.geert+renesas@glider.be
-> >>>> [2] "[PATCH 0/5] arm64: dts: renesas: rcar-gen3: Enable HyperFlash support"
-> >>>>      https://lore.kernel.org/r/cover.1648548339.git.geert+renesas@glider.be
-> >>>>
-> >>>> ---
-> >>>>   plat/renesas/rcar/bl2_plat_setup.c | 2 +-
-> >>>>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/plat/renesas/rcar/bl2_plat_setup.c b/plat/renesas/rcar/bl2_plat_setup.c
-> >>>> index bbfa16927d6c2384..f85db8d650c6b1a5 100644
-> >>>> --- a/plat/renesas/rcar/bl2_plat_setup.c
-> >>>> +++ b/plat/renesas/rcar/bl2_plat_setup.c
-> >>>> @@ -574,7 +574,7 @@ static void bl2_add_rpc_node(void)
-> >>>>                  goto err;
-> >>>>          }
-> >>>>
-> >>>> -       node = ret = fdt_add_subnode(fdt, node, "rpc@ee200000");
-> >>>> +       node = ret = fdt_add_subnode(fdt, node, "spi@ee200000");
-> >>>>          if (ret < 0) {
-> >>>>                  goto err;
-> >>>>          }
+[1] https://git.linuxtv.org/pinchartl/media.git/log/?h=drm/du/next
 
-Gr{oetje,eeting}s,
+v7->v8:
+ * Added Rb tag from Laurent.
+ * Added hsfreq_max to struct rzg2l_mipi_dsi_timings.
+ * Removed enums rzg2l_mipi_dsi_dphy_timings.
+ * Replaced if else with for loop for finding dphy_timings
+   based on hsfreq.
+ * Removed checking "number of lanes capability" from rzg2l_mipi_dsi_
+   startup() and added patch#3 for handling it in probe() and enforcing
+   it in rzg2l_mipi_dsi_host_attach().
+ * Added Labels with an "err_" prefix.
+	out_pm_put->err_pm_put
+	out_assert_rst_and_stop_clocks->err_stop
+	out_stop_hs_clock->err_stop_clock
+	out_pm_disable->err_pm_disable
+ * Added error message for lane check in rzg2l_mipi_dsi_host_attach()
+ * Replaced dev_warn->dev_err for the format error in rzg2l_mipi_dsi_host
+   _attach(). Added missing "\n" and print the format for debugging.
+v6->v7:
+ * Added rzg2l_mipi_dsi_stop() counterpart of rzg2l_mipi_dsi_startup().
+ * Error labels are named according to the cleanup operation they perform.
+ * Restored Max lane capability read after dphy timing initialization
+   as per the guide lines from SoC design team.
+ * Added recommended lut values for the Global Operation Timing
+   parameters for MIPI DPHY.
+v5->v6:
+ * Updated commit description
+ * Moved handling of arst and prst from rzg2l_mipi_dsi_startup->runtime
+   PM suspend/resume handlers.
+ * Max lane capability read at probe(), and enforced in
+   rzg2l_mipi_dsi_host_attach()
+ * Simplified vich1ppsetr setting.
+ * Renamed hsclk_running_mode,hsclk_mode->is_clk_cont.
+ * Fixed typo in probe error message(arst->rst).
+ * Reordered DRM bridge initaization in probe()
+ * Updated typo in e-mail address.
+v4->v5:
+ * Added Ack from Sam.
+ * Added a trivial change, replaced rzg2l_mipi_dsi_parse_dt()
+   with drm_of_get_data_lanes_count_ep() in probe.
+v3->v4:
+ * Updated error handling in rzg2l_mipi_dsi_startup() and rzg2l_mipi_dsi_atomic_enable().
+v2->v3:
+ * Added Rb tag from Geert and Laurent
+ * Fixed the typo "Receive" -> "transmit"
+ * Added accepible values for data-lanes
+ * Sorted Header file in the example
+ * Added SoC specific compaible along with generic one.
+ * pass rzg2l_mipi_dsi pointer to {Link,Phy} register rd/wr function instead
+   of the memory pointer
+ * Fixed the comment in rzg2l_mipi_dsi_startup()
+ * Removed unnecessary dbg message from rzg2l_mipi_dsi_start_video()
+ * DRM bridge parameter initialization moved to probe
+ * Replaced dev_dbg->dev_err in rzg2l_mipi_dsi_parse_dt()
+ * Inserted the missing blank lane after return in probe()
+ * Added missing MODULE_DEVICE_TABLE
+ * Added include linux/bits.h in header file
+ * Fixed various macros in header file.
+ * Reorder the make file for DSI, so that it is no more dependent
+   on RZ/G2L DU patch series.
+v1->v2:
+ * Added full path for dsi-controller.yaml
+ * Modeled DSI + D-PHY as single block and updated reg property
+ * Fixed typo D_PHY->D-PHY
+ * Updated description
+ * Added interrupts and interrupt-names and updated the example 
+ * Driver rework based on dt-binding changes (DSI + D-PHY) as single block
+ * Replaced link_mmio and phy_mmio with mmio in struct rzg2l_mipi_dsi
+ * Replaced rzg2l_mipi_phy_write with rzg2l_mipi_dsi_phy_write
+   and rzg2l_mipi_dsi_link_write
+ * Replaced rzg2l_mipi_phy_read->rzg2l_mipi_dsi_link_read
+RFC->v1:
+ * Added a ref to dsi-controller.yaml.
+ * Added "depends on ARCH_RENESAS || COMPILE_TEST" on KCONFIG
+   and dropped DRM as it is implied by DRM_BRIDGE
+ * Used devm_reset_control_get_exclusive() for reset handle
+ * Removed bool hsclkmode from struct rzg2l_mipi_dsi
+ * Added error check for pm, using pm_runtime_resume_and_get() instead of
+   pm_runtime_get_sync()
+ * Added check for unsupported formats in rzg2l_mipi_dsi_host_attach()
+ * Avoided read-modify-write stopping hsclock
+ * Used devm_platform_ioremap_resource for resource allocation
+ * Removed unnecessary assert call from probe and remove.
+ * wrap the line after the PTR_ERR() in probe()
+ * Updated reset failure messages in probe
+ * Fixed the typo arstc->prstc
+ * Made hex constants to lower case.
+RFC:
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-22-biju.das.jz@bp.renesas.com/
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-23-biju.das.jz@bp.renesas.com/
 
-                        Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Biju Das (3):
+  dt-bindings: display: bridge: Document RZ/G2L MIPI DSI TX bindings
+  drm: rcar-du: Add RZ/G2L DSI driver
+  drm: rcar-du: rzg2l_mipi_dsi: Enhance device lanes check
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+ .../bindings/display/bridge/renesas,dsi.yaml  | 182 ++++
+ drivers/gpu/drm/rcar-du/Kconfig               |   8 +
+ drivers/gpu/drm/rcar-du/Makefile              |   2 +
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c      | 816 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h | 151 ++++
+ 5 files changed, 1159 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h
+
+-- 
+2.25.1
+
