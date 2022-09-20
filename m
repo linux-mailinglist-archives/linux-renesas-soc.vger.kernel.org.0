@@ -2,69 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F68D5BE77D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Sep 2022 15:47:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9AA85BE80F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Sep 2022 16:07:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230220AbiITNrY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Sep 2022 09:47:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37424 "EHLO
+        id S231519AbiITOGT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Sep 2022 10:06:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229814AbiITNrY (ORCPT
+        with ESMTP id S230400AbiITOGI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Sep 2022 09:47:24 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB3057217;
-        Tue, 20 Sep 2022 06:47:20 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id lh5so6236006ejb.10;
-        Tue, 20 Sep 2022 06:47:20 -0700 (PDT)
+        Tue, 20 Sep 2022 10:06:08 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B8C41275B;
+        Tue, 20 Sep 2022 07:05:37 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id w28so4004939edi.7;
+        Tue, 20 Sep 2022 07:05:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=FIfv7ldS0YkRlbgUcQzoAtfI4poeYBTKR3ilCVR4L44=;
-        b=Ib4LtlPrWnMKsLSranL8+d9s8BraCoSk8vC38PSPG45HunaEjF8J+E7X0fZ87WYJ1T
-         YexlNUct7PIKUbSlqgCUBv5ecfQOZpLeD7P1/K2BPLk+UTiBRGMsIRLtGti9asAtn/41
-         6k5vyMnMTcb/o9pFgCacfYFq7yNJvXdYUYRy8NkOiBwlmYFVSOR6saJaJtjGE7RjSmBg
-         U1B1HRDT8He6dxCAimHvMReIJOZoBlHIWYiQeITjAFS2zQs7+MBsSWP+OHJ69pTb28mT
-         sG47+kawwNL6JJ6Lx4hgTLKH0ZssKBtnrcAku3GFT8Mizcf+D5Ogz6HE1OZCeSMwQtXA
-         +ubg==
+        bh=EwHes8ZciAYGoy8BwMgXo7aFIkW9k1/APFM7gcA+YE4=;
+        b=UNDKskzLSAqbQLUP+UeVxwK0UrKWnS2e0H/TwbCQJ2rixeaZaYlbvCdGVYky9wfOby
+         tp77xiWquLD1kWTMXO3uaWndWNce0DO6Tk/8LoU6eUapjDLrI0DkVT2VOESjxO5pjgm+
+         dtagsyw2LVi+F7SCvTt6bRm4tbwmPSpojCL1wPR5020nN8WG2wjhN0BJ8J76o6cYTOM2
+         44np7Wcpo+TYzPQZHqhhUNCQU56IFY4g4iMZJ1w+ltXtvEhbArAOijIiatTP1QHxBtEt
+         SJbr4N+xQE3+on7lfFHYYb8DJ9C4mw1R5U3Co6UQ0VnZYbyu9J3orCJgOjAdOtOyHftD
+         nTag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=FIfv7ldS0YkRlbgUcQzoAtfI4poeYBTKR3ilCVR4L44=;
-        b=XSLdOu6J3VOrw1ZGIe54PnCHNZUHpxwPP9lohqw/nCFzDLj0BUZJAxvnU+8BuxNFPA
-         qjsIHkz3Gfc6yCJ1kfm5+K57JH0FCjBEdvN+gF0IeG3uk/afSOlk2LT8EwpDY8gu+eBF
-         rnlazhNHe5HXrljLZkNL5lkWexhwKA0i8nz6UzCY/v6g80nC36ET2HRwRL5FtmTK6yhO
-         oDuAEpIRXFpwPacWRffXQTWILLoJE+2nJ4UiQKRAJOV8hkXiSHU+s90CK/geS9kuU/8a
-         bHno1jf2niq+6wTaAa+V+5SnjbAwZ+wmWqpkihcgN7bgZECUn+p0GuyqtdPBBCrbDBCE
-         athg==
-X-Gm-Message-State: ACrzQf1W4KQBpFGiF2D1y+FTI+X7l4b9E1HC0rFB/LzGBaKSaXUkOFX/
-        zjm9sAA5xhzKeZbMopHHe4JCgEezqop1qjfIubM=
-X-Google-Smtp-Source: AMsMyM5HgTh+5QojTUeIrgHbwGkUKtpIcdqU9tP/gHB3cveUpRK1tcUB+nxOzNhlHbkx+N7yPSGymD5FZc6WqDCbsRo=
-X-Received: by 2002:a17:907:6d90:b0:77c:68a8:a5b with SMTP id
- sb16-20020a1709076d9000b0077c68a80a5bmr17470946ejc.342.1663681639186; Tue, 20
- Sep 2022 06:47:19 -0700 (PDT)
+        bh=EwHes8ZciAYGoy8BwMgXo7aFIkW9k1/APFM7gcA+YE4=;
+        b=f8eVF29GyHKR+iP1f23UYAVq/mnAvAO7bNVCEGLQ9XACm12k+bdIFO/7UqUd+hp4eM
+         qsL/hqr0GS+r7Om8CoZ7lvg+U5AE4ik8OYbgFVhLd7zHWYaWWvzUFEtO6cBUtgl+mAuI
+         KWsTUYPp/QzPkr7tijKiY6hmuGrQIWpWiq00feg3PGt0xSWzQ7+c5jq1D2Ft9u7eTo7y
+         BRhB8Etz+lBsFGMRf+U3pzOVIbXKIv4gKqBD+XqAMa8vZcOl3Pi1dWs39f8EzyCugMeM
+         PqtiUczY22u0ulhZoEGZza1wjK03AeaNP/+JaEg0AIZRAjv7WTLdpsYrXvflh3vOIM6F
+         WFeA==
+X-Gm-Message-State: ACrzQf1iequQShcxSjdcTqQG2KeV7NxLy6k0oaOnjndxnBR3MoabRqJS
+        jQF72GfVCNPj3ONBMhHEE8mglh4jC4SIzkyXHe/xRQN+o2Y=
+X-Google-Smtp-Source: AMsMyM5XSfvvCDjeoAw6txH9Jh1QnO4jMEY9JZD9n/EemS81naNt3d916d86R2GXAfqdBjhL4qYHRFonHHvh+LhWNDo=
+X-Received: by 2002:a05:6402:518d:b0:451:6655:5fb4 with SMTP id
+ q13-20020a056402518d00b0045166555fb4mr20197904edd.150.1663682735470; Tue, 20
+ Sep 2022 07:05:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220915181558.354737-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220915181558.354737-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <3693a3a1-5a2a-4cc5-fb55-f6ad9a4b3f72@microchip.com> <CA+V-a8u87tqhC69qGD2zq_gT9jc_cSWd+NRn_u0bPTdmmk+j4A@mail.gmail.com>
- <e15f3e2a-2761-84d9-c5c9-118717e0bb83@conchuod.ie> <CAMuHMdUGD9s96JJafsYdfnPqvg6KLvmC9GUS4yjaaXi2hYrJYQ@mail.gmail.com>
- <Yymyh+UlIICacxeV@wendy>
-In-Reply-To: <Yymyh+UlIICacxeV@wendy>
+ <20220915181558.354737-9-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdW99EutciosPtOTU9AztfvfMdKTaS+YRmpmS4VnhZ9KAA@mail.gmail.com>
+In-Reply-To: <CAMuHMdW99EutciosPtOTU9AztfvfMdKTaS+YRmpmS4VnhZ9KAA@mail.gmail.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 20 Sep 2022 14:46:49 +0100
-Message-ID: <CA+V-a8u3LcDhOYqWSOJUUeSMX+o=12pAcFJ0xArYSPy+=uT9NA@mail.gmail.com>
-Subject: Re: [PATCH v3 07/10] riscv: boot: dts: r9a07g043: Add placeholder nodes
-To:     Conor Dooley <conor.dooley@microchip.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Conor Dooley <mail@conchuod.ie>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, paul.walmsley@sifive.com,
-        palmer@dabbelt.com, aou@eecs.berkeley.edu, heiko@sntech.de,
-        atishp@rivosinc.com, devicetree@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, biju.das.jz@bp.renesas.com,
-        prabhakar.mahadev-lad.rj@bp.renesas.com
+Date:   Tue, 20 Sep 2022 15:05:05 +0100
+Message-ID: <CA+V-a8s9y0Jq4TJk9E_ptsZTW3iCoysaBSrUeQV8qfDFO3wzeQ@mail.gmail.com>
+Subject: Re: [PATCH v3 08/10] riscv: dts: renesas: Add minimal DTS for Renesas
+ RZ/Five SMARC EVK
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Atish Patra <atishp@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -76,60 +78,109 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Conor and Geert,
+Hi Geert,
 
-On Tue, Sep 20, 2022 at 1:31 PM Conor Dooley <conor.dooley@microchip.com> wrote:
+Thank you for the review.
+
+On Tue, Sep 20, 2022 at 1:32 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> On Tue, Sep 20, 2022 at 02:17:50PM +0200, Geert Uytterhoeven wrote:
-> > Hi Conor,
+> Hi Prabhakar,
+>
+> On Thu, Sep 15, 2022 at 8:17 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > On Fri, Sep 16, 2022 at 12:40 AM Conor Dooley <mail@conchuod.ie> wrote:
-> > > On 15/09/2022 23:26, Lad, Prabhakar wrote:
-> > > > On Thu, Sep 15, 2022 at 10:36 PM <Conor.Dooley@microchip.com> wrote:
-> > > >> On 15/09/2022 19:15, Prabhakar wrote:
-> > > >>> riscv: boot: dts: r9a07g043: Add placeholder nodes
-> > > >>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >>> Add empty placeholder nodes to RZ/Five (R9A07G043) SoC DTSI.
-> > > >> Can you explain why do you need placeholder nodes for this and
-> > > >> cannot just directly include the other dtsis?
-> > > >>
-> > > > Since the RZ/G2UL SoC is ARM64 where it has a GIC and on RZ/Five SoC
-> > > > we have PLIC for interrupts. Also the interrupt numbering for RZ/Five
-> > > > SoC differs from RZ/G2UL SoC hence we are not directly using the
-> > > > RZ/G2UL SoC DTSI [0].
-> > > >
-> > > > [0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/renesas/r9a07g043.dtsi?h=v6.0-rc5
-> > > >
-> > > > For the RZ/Five SMARC EVK I am re-using the below files [1] (SoM) and
-> > > > [2] (Carrier board) as the RZ/Five SMARC EVK is pin compatible.  Since
-> > > > I am re-using these when trying to compile the RZ/Five DTB I get
-> > > > compilation errors since the nodes dont exist (and there is no way
-> > > > currently we can delete the node reference when the actual node itself
-> > > > isn't present) hence these place holders.
-> > > >
-> > > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi?h=v6.0-rc5
-> > > > [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi?h=v6.0-rc5
-> > >
-> > > If this method is acceptable to Geert, this explanation 100% needs to
-> > > go into the commit message.
+> > Enable the minimal blocks required for booting the Renesas RZ/Five
+> > SMARC EVK with initramfs.
 > >
-> > We've been using these placeholders a lot in Renesas SoC-specific
-> > .dtsi files, as they allow us to introduce gradually support for a new SoC
-> > that is mounted on an existing PCB, and thus shares a board-specific
-> > .dtsi file.  Hence I'm fine with this.
->
-> Aye, if you're happy with it then I am too...
+> > Below are the blocks enabled:
+> > - CPG
+> > - CPU0
+> > - DDR (memory regions)
+> > - PINCTRL
+> > - PLIC
+> > - SCIF0
 > >
-> > However, I think more properties can be dropped from the placeholders.
-> > There is no need to have e.g. 'reg-names' and 'status = "disabled"'
-> > (there is no compatible value, so no matching is done).
+> > Note we have deleted the nodes from the DT for which support needs to be
+> > added for RZ/Five SoC and are enabled by RZ/G2UL SMARC EVK SoM/carrier
+> > board DTS/I.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v2->v3
+> > * Dropped RB tags from Conor and Geert
+> > * Now re-using the SoM and carrier board DTS/I from RZ/G2UL
 >
-> ...and this makes a lot of sense. I'd still like a comment in the
-> commit message though explaining why placeholder nodes are needed as
-> opposed to just leaving it blank etc.
+> Thanks for the update!
 >
-I will drop the status and reg-names properties and also update the
-commit message while sending the v4
+> > --- /dev/null
+> > +++ b/arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dts
+> > @@ -0,0 +1,27 @@
+> > +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +/*
+> > + * Device Tree Source for the RZ/Five SMARC EVK
+> > + *
+> > + * Copyright (C) 2022 Renesas Electronics Corp.
+> > + */
+> > +
+> > +/dts-v1/;
+> > +
+> > +/*
+> > + * DIP-Switch SW1 setting
+> > + * 1 : High; 0: Low
+> > + * SW1-2 : SW_SD0_DEV_SEL      (0: uSD; 1: eMMC)
+> > + * SW1-3 : SW_ET0_EN_N         (0: ETHER0; 1: CAN0, CAN1, SSI1, RSPI1)
+> > + * Please change below macros according to SW1 setting on SoM
+>
+> "on the SoM" (like in r9a07g043u11-smarc.dts)?
+>
+Agreed, I will update it.
+
+> > --- /dev/null
+> > +++ b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
+> > @@ -0,0 +1,42 @@
+> > +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +/*
+> > + * Device Tree Source for the RZ/Five SMARC EVK SOM
+> > + *
+> > + * Copyright (C) 2022 Renesas Electronics Corp.
+> > + */
+> > +
+> > +#include <arm64/renesas/rzg2ul-smarc-som.dtsi>
+> > +
+> > +/ {
+> > +       aliases {
+> > +               /delete-property/ ethernet0;
+> > +               /delete-property/ ethernet1;
+>
+> OK
+>
+I assume you are OK with dropping the above too?
+
+> > +       };
+> > +
+> > +       chosen {
+> > +               bootargs = "ignore_loglevel";
+> > +       };
+> > +};
+> > +
+> > +#if (SW_SW0_DEV_SEL)
+> > +/delete-node/ &adc;
+> > +#endif
+> > +
+> > +#if (!SW_ET0_EN_N)
+> > +/delete-node/ &eth0;
+> > +#endif
+> > +/delete-node/ &eth1;
+> > +
+> > +/delete-node/ &ostm1;
+> > +/delete-node/ &ostm2;
+>
+> Given they are all placeholders, do you really need to delete them?
+> (more below)
+>
+I did retest without deleting the place holders and I dont see any
+issues (or splat) while booting up so I'll drop them while sending the
+v4.
 
 Cheers,
 Prabhakar
