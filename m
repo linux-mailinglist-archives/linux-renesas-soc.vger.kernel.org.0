@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CC5B5BE5EA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Sep 2022 14:32:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 794E25BE5F1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Sep 2022 14:34:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231240AbiITMcu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Sep 2022 08:32:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48358 "EHLO
+        id S229656AbiITMew (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Sep 2022 08:34:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231272AbiITMcn (ORCPT
+        with ESMTP id S230331AbiITMeu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Sep 2022 08:32:43 -0400
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC032753B2;
-        Tue, 20 Sep 2022 05:32:39 -0700 (PDT)
-Received: by mail-qv1-f54.google.com with SMTP id m9so1861750qvv.7;
-        Tue, 20 Sep 2022 05:32:39 -0700 (PDT)
+        Tue, 20 Sep 2022 08:34:50 -0400
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 545FF19018;
+        Tue, 20 Sep 2022 05:34:49 -0700 (PDT)
+Received: by mail-qv1-f47.google.com with SMTP id w4so1892514qvp.2;
+        Tue, 20 Sep 2022 05:34:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=Wf+OpOOgKm2MQUZNT6fzDTc2lerh5dFGABEYb4COJ4Y=;
-        b=oPJtUACPa+yeG10enZMgNzR4vA9vJARWIAbZcucDDNSzYHQ6QJKvomdVKAlYREF9kr
-         ZVWOo+2VQ90xxvW7Gcj3OjQ5XGWiD/wZosqBLN+QkeX1Ikp0fwwvIo0QJX3Ymd9fgOVb
-         W9mUT5E9wLPMRdWlpWXa1bUDqeN2omfHc4S75y8SoxmDxCzrpMQbWdefmve39sIzXUE8
-         C8zdqlc9QHSSDgd2RtNUxcZ/BjZ9pGu9vFg9I2KhyztXP0SOBIM1smIviKkdjZ+mb/p8
-         0KhoggbQmEiggnug9OVJ/ogbGsP1lwoBoVGqWIpBu+6XRb3GFfU02K4yuel82XjT78VS
-         /kWA==
-X-Gm-Message-State: ACrzQf2XHcxdD2/CYITzUYk47xfCR9pTQpfagQf9HO+cMxKK/vQOQg+s
-        PvplZV6hwVgB6tKfn3Eq2sTKIPadcJgTFA==
-X-Google-Smtp-Source: AMsMyM7Yo9TjkGZ98y/4LtdivMQ4NpD3iJ0oBbqoQctlUyO0brSTKE1Lzd4ZUWQRvbPTL6R9S7upig==
-X-Received: by 2002:a05:6214:27ed:b0:4ac:7fd7:7d8b with SMTP id jt13-20020a05621427ed00b004ac7fd77d8bmr18620641qvb.129.1663677158499;
-        Tue, 20 Sep 2022 05:32:38 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id bn35-20020a05620a2ae300b006cbc00db595sm53521qkb.23.2022.09.20.05.32.37
+        bh=DScy5TK0GP5AqTqFl701GW46IDwtxGgy76xOd2cvfOc=;
+        b=rAedqHJCKUz1FFJmPMPtQFFJzRU95uT9J02jZeqB0yClI3gMUlERSieH5tMqeYTq3X
+         j13bqfPAEi0FKuYgeODQpVHxKHaHj8eyDPRfjqWiMWqNf7oHTRdS24hktUqLnV55TSl7
+         T99b783aEo710bqQdKV0qY2JDgLulYuuWrOMXMM+WgCZ/FKyN5K/V2LVFJfuxG9pw5Hp
+         7N2M6PayLrTdUVA5geCetTQtnv5PNdBqo1ttgXc7QaQu4Y9TsNpL9ZHUCobv0NyKmpfa
+         LAWGZK1D8uA6mSTWG85u8DIpdTAlEjrcdKLKZsb6bpywT7ufS7z45gPcGhD6T2esAG9n
+         6XGQ==
+X-Gm-Message-State: ACrzQf21txhdIgMOGLaX8ZWfivTVMiGQOlKT2rXlR4EwzxDYs1HMfsul
+        QCyHbRorxQ8zN0zoMMQmtV9TU87+9PfOFA==
+X-Google-Smtp-Source: AMsMyM6C+shd7dihay6XlWt6Es6bG/q9Kks5AstAoKM8ZXJJCPjKFCXaa2i2xJf3lz6Jx9zqjfT3Gw==
+X-Received: by 2002:a0c:8d85:0:b0:497:8b1:d372 with SMTP id t5-20020a0c8d85000000b0049708b1d372mr18938386qvb.68.1663677288043;
+        Tue, 20 Sep 2022 05:34:48 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id i11-20020a05622a08cb00b00342f844e30fsm875816qte.31.2022.09.20.05.34.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Sep 2022 05:32:37 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-333a4a5d495so24781107b3.10;
-        Tue, 20 Sep 2022 05:32:37 -0700 (PDT)
-X-Received: by 2002:a81:6756:0:b0:345:525e:38 with SMTP id b83-20020a816756000000b00345525e0038mr19491451ywc.47.1663677157058;
- Tue, 20 Sep 2022 05:32:37 -0700 (PDT)
+        Tue, 20 Sep 2022 05:34:47 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id p69so3233938yba.0;
+        Tue, 20 Sep 2022 05:34:46 -0700 (PDT)
+X-Received: by 2002:a25:3746:0:b0:6b1:4a12:b2d5 with SMTP id
+ e67-20020a253746000000b006b14a12b2d5mr16262084yba.89.1663677286562; Tue, 20
+ Sep 2022 05:34:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220915181558.354737-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220915181558.354737-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220915181558.354737-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220915181558.354737-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220915181558.354737-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220915181558.354737-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 20 Sep 2022 14:32:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW99EutciosPtOTU9AztfvfMdKTaS+YRmpmS4VnhZ9KAA@mail.gmail.com>
-Message-ID: <CAMuHMdW99EutciosPtOTU9AztfvfMdKTaS+YRmpmS4VnhZ9KAA@mail.gmail.com>
-Subject: Re: [PATCH v3 08/10] riscv: dts: renesas: Add minimal DTS for Renesas
- RZ/Five SMARC EVK
+Date:   Tue, 20 Sep 2022 14:34:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUWOGRpdG5=GLHc=fySqn7ErHtO0c91bJsgOO+Bp1ZUoA@mail.gmail.com>
+Message-ID: <CAMuHMdUWOGRpdG5=GLHc=fySqn7ErHtO0c91bJsgOO+Bp1ZUoA@mail.gmail.com>
+Subject: Re: [PATCH v3 09/10] MAINTAINERS: Add entry for Renesas RISC-V architecture
 To:     Prabhakar <prabhakar.csengg@gmail.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -74,95 +74,19 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
 On Thu, Sep 15, 2022 at 8:17 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Enable the minimal blocks required for booting the Renesas RZ/Five
-> SMARC EVK with initramfs.
->
-> Below are the blocks enabled:
-> - CPG
-> - CPU0
-> - DDR (memory regions)
-> - PINCTRL
-> - PLIC
-> - SCIF0
->
-> Note we have deleted the nodes from the DT for which support needs to be
-> added for RZ/Five SoC and are enabled by RZ/G2UL SMARC EVK SoM/carrier
-> board DTS/I.
+> Add RISC-V architecture as part of ARM/Renesas architecture, as they have
+> the same maintainers, use the same development collaboration
+> infrastructure, and share many files.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
 > v2->v3
-> * Dropped RB tags from Conor and Geert
-> * Now re-using the SoM and carrier board DTS/I from RZ/G2UL
+> * Merged as part of ARM
 
-Thanks for the update!
-
-> --- /dev/null
-> +++ b/arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dts
-> @@ -0,0 +1,27 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +/*
-> + * Device Tree Source for the RZ/Five SMARC EVK
-> + *
-> + * Copyright (C) 2022 Renesas Electronics Corp.
-> + */
-> +
-> +/dts-v1/;
-> +
-> +/*
-> + * DIP-Switch SW1 setting
-> + * 1 : High; 0: Low
-> + * SW1-2 : SW_SD0_DEV_SEL      (0: uSD; 1: eMMC)
-> + * SW1-3 : SW_ET0_EN_N         (0: ETHER0; 1: CAN0, CAN1, SSI1, RSPI1)
-> + * Please change below macros according to SW1 setting on SoM
-
-"on the SoM" (like in r9a07g043u11-smarc.dts)?
-
-> --- /dev/null
-> +++ b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-> @@ -0,0 +1,42 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +/*
-> + * Device Tree Source for the RZ/Five SMARC EVK SOM
-> + *
-> + * Copyright (C) 2022 Renesas Electronics Corp.
-> + */
-> +
-> +#include <arm64/renesas/rzg2ul-smarc-som.dtsi>
-> +
-> +/ {
-> +       aliases {
-> +               /delete-property/ ethernet0;
-> +               /delete-property/ ethernet1;
-
-OK
-
-> +       };
-> +
-> +       chosen {
-> +               bootargs = "ignore_loglevel";
-> +       };
-> +};
-> +
-> +#if (SW_SW0_DEV_SEL)
-> +/delete-node/ &adc;
-> +#endif
-> +
-> +#if (!SW_ET0_EN_N)
-> +/delete-node/ &eth0;
-> +#endif
-> +/delete-node/ &eth1;
-> +
-> +/delete-node/ &ostm1;
-> +/delete-node/ &ostm2;
-
-Given they are all placeholders, do you really need to delete them?
-(more below)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
