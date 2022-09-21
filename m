@@ -2,288 +2,173 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 063615BFC95
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 12:50:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38EFE5BFDDA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 14:32:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbiIUKu4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Sep 2022 06:50:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33532 "EHLO
+        id S229953AbiIUMc2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Sep 2022 08:32:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229602AbiIUKuw (ORCPT
+        with ESMTP id S229985AbiIUMcV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Sep 2022 06:50:52 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2135.outbound.protection.outlook.com [40.107.114.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FD047CAA0;
-        Wed, 21 Sep 2022 03:50:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QlgGDchk8pCleUSwKJDIwEaV26B0vpbNFjAgS6MejsGWMMNx7N0xqswT/4jcP3EgOpRKkh1FgCSG23Yv7jSAQ7ZiKlR+xNS+wiQcjNHt5JGhzZezIFjdjsTD9ijvpYeZxyF2TTqSPYKEDMRujgGcs5nBmmu9EQ5UPov8oJgP9HEy1nMPfeHQJ6nJEEAigiKFnkrr7eSJEFyvCyNZvFfyshRH8ghlyHg9S1cbRNeUXpP1jRBpGJyI8BRRCVXrEw5djEL1Mw+iJIkLN7AmcBJTZSLt58M6w+iMphuo5zwpNAwLuoxqkZ/GtpqYdHKQnb0RQhq0IPyXOHu1D1NRtN5P2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Hz3vBChET99+Ujji32DHeOh44fr2aKKwpe1yyLkeOc8=;
- b=L/3O4nHQZl0qPyC27MGf5p9F9pJ0mrNmqnP5rjpAaORHp/MDe4IUI/q+TOaozq7V7M44nk1vfXRgiwrgrhVK7zGYUjSbyRJGPBbzkJrFo4yv92adC0cd3E4nnthKN5XAEaGFds9ZRT/wrr+W0hR1M9SsEhZcgiMiQ8vDm5p7iZTKdUEni65emlmyCWXYF7tHxT9E63TvzlJ1hj01UlEa/jkWZXXdYCeK4qMv27NTkF2kzp5hRKsS9Ebfb8EAegUsJYpSpwrePNDilHp6h8CBuVvsR03Lgn+LzrmaCY5xwnInqoNHJMJAI5rXhe0LFgZSbmx0FWypE/EhXc9yWKsUfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hz3vBChET99+Ujji32DHeOh44fr2aKKwpe1yyLkeOc8=;
- b=UetKzgOcWm632b7Z72i7XVdCRs1P+A3yDWi4M8YwS064q/+ljBGE7wBLGCoxmdjulzbG6YiI10YgzcsGxsXkbzMl3ExVW9MZyWJmOWaNxXZ1h+oVqfTt65sq7nn4CwND2oPsI1BLf0xJFdNJByzs2I4W3nv0yfNvP1E9VA5jzmI=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYAPR01MB5676.jpnprd01.prod.outlook.com (2603:1096:404:805a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.15; Wed, 21 Sep
- 2022 10:50:48 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::c502:8f9f:ec5e:8e3f]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::c502:8f9f:ec5e:8e3f%3]) with mapi id 15.20.5654.015; Wed, 21 Sep 2022
- 10:50:48 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-CC:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v6 2/2] pwm: Add support for RZ/G2L GPT
-Thread-Topic: [PATCH v6 2/2] pwm: Add support for RZ/G2L GPT
-Thread-Index: AQHYwUrah2CK2PlWrU6yp9jjjlk8rK3meFWAgAIFOuCAABIAAIAADOWAgAEuu3A=
-Date:   Wed, 21 Sep 2022 10:50:48 +0000
-Message-ID: <OS0PR01MB5922289B89061F6B3DF4819F864F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220905171328.991367-1-biju.das.jz@bp.renesas.com>
- <20220905171328.991367-3-biju.das.jz@bp.renesas.com>
- <20220919075727.rmph7jmopaqvyyri@pengutronix.de>
- <OS0PR01MB5922B87D4A05973F88B427A7864C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20220920155306.dvcz4324zvg72udm@pengutronix.de>
- <OS0PR01MB5922A9B3314F2F2B32F6B0DE864C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922A9B3314F2F2B32F6B0DE864C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYAPR01MB5676:EE_
-x-ms-office365-filtering-correlation-id: a95dc2df-8ba6-4530-ce93-08da9bbf250a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: H1orVm0ARu+JxjJSwBydndCvb4DMpe2YZIHkOVJo4p5Ff4VaEXp9sSwC/pjoQbNhnYe0XdqRp3fme2cq1S5nvSQ91kPYgUvrMwBY9owBVPUc68qfyes+BFcieAd9Uat1euGrRH8Iz1Mxu0Zax0pghPSlboxIurHTKRvew9ls0SHVo8VOuSz3rXrONs2PrBg8jAMryAZV5PpHk7xtFHuVBVlS4m29Ch0JBOOK4yhGmJ6NFRyfnyR718moht0X8bDPlEm15D7xVHrf9K5FeNKHn+wYurgbxG2e/Mi1YyXxfOGH5uJbccDG8s0H6B5disVm+tx4thhxKMMdCVjpzp4w8CDxsxOvQ5dvcjTd/jZIMByNjGQApz5FALOXxxd2aTC9HBqDa34YlLuvTSJ84oLT6+I8nqBT4Z33fcYFnVaOPhjlcjFqWy5DlV+hZT/NX0tOmT/lcnE93ezhNJA36J1YBO/aD5qTUVN703XJ/iM/wYTUGbU1B06bt+fpn6w2Xc0/hdEYnTI+Erje7HdIOsweigr9UG7o+hlHxVFkI6JkjysBHX/5J73i+wQsw2hxjo0dtbfYyAfbT+Kn058dbu7fho85/P8Fiiof15B/iuOH6vKKWpDZSN7zyA/CqJhl7LOHZsSvUqtl6om1gjk/AaqGRVh3BE+xKnEdOYxBvGIMhLARCELfwlvyMqmGcYmbUfoSmO1wmaSUNYsCwheSXRe2eAmx8av4EdIF7enyYvxEnrbd+Kqv9SG0QHjVsZLIQDwL2UGIPoWrc8BQH9jyMvxEVhs7cJeSMhcEdAs9Q8A7ZYI=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(366004)(346002)(396003)(136003)(39860400002)(451199015)(55016003)(33656002)(71200400001)(52536014)(5660300002)(8936002)(66946007)(66446008)(66476007)(66556008)(64756008)(122000001)(8676002)(2906002)(38070700005)(76116006)(4326008)(38100700002)(86362001)(6916009)(54906003)(478600001)(186003)(83380400001)(66574015)(53546011)(6506007)(7696005)(41300700001)(9686003)(26005)(316002)(966005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?yXGsxpa0QnUKRH7GDfBu5/NQUrFZUWxoPlk7fbDL5YtYagOd4Se2wBwZGI?=
- =?iso-8859-1?Q?CwmQY2Hc+ImysUzropIwH8mX82avaaBZ0+zUKMSf3PXqgY3e3FKcR4Pf7N?=
- =?iso-8859-1?Q?w1iVfOlhmPiRccN706oeIpgzkvakaNKp4L1XbecEhb68f60vvySYEZfGm1?=
- =?iso-8859-1?Q?4F793YcUVtxYLGd5WyL1uDRGoPmRwyZrXoe1BC/p9sjCdbxan3zna7pGXa?=
- =?iso-8859-1?Q?zmPA/QX6St21AObiR/FFAE5Fsep7vJCSKCzPKEmxaWWrhVnxKedwDXynzn?=
- =?iso-8859-1?Q?S2/Hz4c2g3oM84HP6fSsvXvUVK5jaSCxdQlzF0mzopUqTpu5vEJFDL4ssm?=
- =?iso-8859-1?Q?rZBmao7gCu7PIrrk3Wz5v3XL2h3asnON+LX87VzR+VmohgWLufFtjrqtWl?=
- =?iso-8859-1?Q?i6arQKKZqq4Ap5KiswO9pZTUm7JtdyKbpeYREOO/7P/zPKIDSrB3EYBRJm?=
- =?iso-8859-1?Q?/phrpvN3JY+g+xWQzxOwBONP/J3au62Xi9qilkneY+53sFOgnTEch7CDS2?=
- =?iso-8859-1?Q?AqPCWWP4ZDGvRHxecubGGeR61Hu8XH1plESb0w0sJjanOaHuK1hB6modwK?=
- =?iso-8859-1?Q?BXxrT5Rv2YRzqPrPI5hFnEu+tCiBT2LxeZgfl4LPSP3FP3OZ3q8Dg2QJ3g?=
- =?iso-8859-1?Q?NJ8Qy8DYvF43vJNFrbg+m/T1k61sirLWKb3PZcI6M4fQeIpCXswzh0uVsP?=
- =?iso-8859-1?Q?vNfv0JAVEVYSOLDeRJixzLKBo4h96E8E6PzUJ2V8dCZJds6g5mbJxVJuc8?=
- =?iso-8859-1?Q?m070EI+gJpNjgXnAfuGAMlGcNcM4GD4YjOjhMiRGucvG1CP7dyGQux8+MR?=
- =?iso-8859-1?Q?GgU60c7ooN8zYJ+19I2/k8V9UmgvMzsUc3xre/i60YkWOCjseqER+DXpNe?=
- =?iso-8859-1?Q?Oz6J7ueFNicg+05xbzrfu2QnrLvD+AF30bJhCTVaNny9l6Sd4Z0GaN0PXg?=
- =?iso-8859-1?Q?O9rx00yKLyWczeCfYrQAj2dWMXhJ1R/GQWRafZEC/VBpzkEkHZPY2EG3Z8?=
- =?iso-8859-1?Q?ThO0AfE5QgoXe9MFzkg7P6FQ+7rd6ov1Slv3TR9MWPrb8RZ0Ji+bkqN4zG?=
- =?iso-8859-1?Q?Q/YzZe3wvEn9jZ6t6T5FOyt12yibGh3cxM9G1UGY1S+NcotBfdj7l7MNqh?=
- =?iso-8859-1?Q?wfpCrKvzU2DOV6nrf83fXLS7uBqFnyAmU5I8krL3aisr8foaONabkCYwWe?=
- =?iso-8859-1?Q?4kton/KE0OhRGzkjo/AW/swxBpTyTwSgSxZdz2UlwXysRKQPQvvfC7iSuA?=
- =?iso-8859-1?Q?Qp4zxk/WslQY4Nf3hpsMdPs/tio4cSapBK2C3mvn+eT3TNXmGyIZbB9fWr?=
- =?iso-8859-1?Q?GlLbEuUGsmNTKFPQVMSplNMJY7vWo5unwdTkTAcUwQmXlp+rmYv5P099HG?=
- =?iso-8859-1?Q?MHwGPj+57G+VvMknil+dFEKEsflj2MtvRuBtCJUwDfl925riBWIP9oYpPe?=
- =?iso-8859-1?Q?uKdaPt8PUH3brpcmzZZGnQPsU2ZQ/Ij0W3lKSqlmzqQO5nACvcJXorF0ZE?=
- =?iso-8859-1?Q?b5RLhD6y6i3i8mm4LhUXuIQ8u6uD37NT2TCZJA/gfM5/5XvQGJrQMGeELd?=
- =?iso-8859-1?Q?3TNaST1M4o7lU0rzQDFeyUrd5yJqnBdUiflK2hr0cts6sSyqLsZFexp56O?=
- =?iso-8859-1?Q?yQLce37RiOiMU62pGHFOVxNSPQjwjNkf4kIB3QPGIdT5E7mcE6FFmeKg?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 21 Sep 2022 08:32:21 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A76C475CE7;
+        Wed, 21 Sep 2022 05:32:20 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id f20so8433933edf.6;
+        Wed, 21 Sep 2022 05:32:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=hiqLbKca8k6bq2csBR6EohjwEjpvjpypWz+SdN+bVt4=;
+        b=emT9vTaCD7+oG6jkAJp0Dn3lwh2mDqMiYurK3U9c46Fpo30G2g3NOIehp1VNLJ17q8
+         jyyKS/PCt42kw8LyUwb3LHTVj/ziK/zWyTIJBQnPWfIQ0xXIaYXnNwOvULus0JAo5HZb
+         bhGav7kBsMR0v4wy0j3M1xz9k7LEXVhXqLoVwNmMG93KjVz6igYjjCeMtOxWgIxTTmvc
+         zHCGDEuwEr7NjBNYycHg9IVET+L5upk7STERCgz8BUlO1l546SjBI0IiPAWAViZObB2h
+         CwRCmpzSiNZArUw9PNLRGiiangQyANEA6lAmPYJ0GtDtqaZT9rPdlcvIhrjr7vU9TYn1
+         Ez5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=hiqLbKca8k6bq2csBR6EohjwEjpvjpypWz+SdN+bVt4=;
+        b=WU5S7f5iPer6ynvc3+bl4ep9vv9lf1DC9IVqLOPCP4zrJjHeCq7hW8VrYsxbDhcZlQ
+         PlNQvZ7o+EN6Li/9VJ0nw5tdTr8BkogfbZKuZ+ffvAfbJgIp+GMu2jqyU81juKTpjsRc
+         Bdlmv7xVqkOMydfUkIFKbQ0WLT/OYysSK9MarbiUfh+aVbjx+DtpTQJTmanuBUjDTBLw
+         HicuyQixUisAxh/F/Z/dDee1RtUaWMYWE9np1fb8/smAh/OBLKWLI24xaNP9ndoQ52VR
+         giN+I9GCNqO8vBbLDT7KYu3slm8hMNJTcNGOK74Lvl6y7l4a1bJgNptoX2E1ZI+HbNWs
+         UYuA==
+X-Gm-Message-State: ACrzQf1T8eDa2JPWE1nivts6heDzFxUl/j8+roFntF5r6O4P8kz33BqY
+        5mDF1Bd0jjw4oNX/uvxNY69YUAtpZKXiJngba/I=
+X-Google-Smtp-Source: AMsMyM4SN4E8Ngfb+QYCpcTmdG3S1tlw3imbL7osycTOyOh35D599SmTIqI4BpaF36WSCZMdWOSNDEX2Br5DvF7JJdw=
+X-Received: by 2002:a05:6402:50d1:b0:452:899e:77c with SMTP id
+ h17-20020a05640250d100b00452899e077cmr24591975edb.0.1663763538931; Wed, 21
+ Sep 2022 05:32:18 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a95dc2df-8ba6-4530-ce93-08da9bbf250a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Sep 2022 10:50:48.8245
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lcWtSfUwwmgOCXXp3V3Ttagnw6U9H9LmXd2P4lE0aPnwgW/1boQjfPNA34QX/Es57lGUaoO3xySeamgwgTUfziT+pcu4X8omoQ0qzSGREyg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5676
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220905230406.30801-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <961b4821-4111-b48e-1ae0-60da8c427fbb@linaro.org>
+In-Reply-To: <961b4821-4111-b48e-1ae0-60da8c427fbb@linaro.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 21 Sep 2022 13:31:52 +0100
+Message-ID: <CA+V-a8vrixnR2fXv8a8YS+tfK3KHmO1qJxE=RaFw4FPopubdBA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] media: dt-bindings: Document Renesas RZ/G2L CSI-2 block
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Krzysztof,
 
+On Thu, Sep 8, 2022 at 12:39 PM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 06/09/2022 01:04, Lad Prabhakar wrote:
+> > Document the CSI-2 block which is part of CRU found in Renesas
+> > RZ/G2L (and alike) SoCs.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> > v1 -> v2
+> > * Dropped media prefix from subject
+> > * Renamed node name csi20 -> csi
+> > * Used 4 spaces for indentation in example node
+> > * Dropped reset-names and interrupt-names properties
+> > * Dropped oneOf from compatible
+> > * Included RB tag from Laurent
+> >
+> > RFC v2 -> v1
+> > * Fixed review comments pointed by Rob and Jacopo.
+> >
+> > RFC v1 -> RFC v2
+> > * New patch
+> > ---
+> >  .../bindings/media/renesas,rzg2l-csi2.yaml    | 140 ++++++++++++++++++
+> >  1 file changed, 140 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> > new file mode 100644
+> > index 000000000000..79beace4dec2
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> > @@ -0,0 +1,140 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +# Copyright (C) 2022 Renesas Electronics Corp.
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/renesas,rzg2l-csi2.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas RZ/G2L (and alike SoC's) MIPI CSI-2 receiver
+> > +
+> > +maintainers:
+> > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > +
+> > +description:
+> > +  The CSI-2 receiver device provides MIPI CSI-2 capabilities for the Renesas RZ/G2L
+> > +  (and alike SoCs). MIPI CSI-2 is part of the CRU block which is used in conjunction
+> > +  with the Image Processing module, which provides the video capture capabilities.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +          - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
+> > +          - renesas,r9a07g054-csi2       # RZ/V2L
+> > +      - const: renesas,rzg2l-csi2
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Internal clock for connecting CRU and MIPI
+> > +      - description: CRU Main clock
+> > +      - description: CPU Register access clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: sysclk
+> > +      - const: vclk
+> > +      - const: pclk
+>
+> One more: drop the "clk" suffixes. Remaining names could be made a bit
+> more readable.
+>
+The clock names are coming from the clock-list document provided along
+with the HW manual:
 
-> -----Original Message-----
-> From: Biju Das
-> Sent: 20 September 2022 18:01
-> To: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> Cc: Thierry Reding <thierry.reding@gmail.com>; Lee Jones
-> <lee.jones@linaro.org>; Philipp Zabel <p.zabel@pengutronix.de>; linux-
-> pwm@vger.kernel.org; Geert Uytterhoeven <geert+renesas@glider.be>;
-> Chris Paterson <Chris.Paterson2@renesas.com>; Biju Das
-> <biju.das@bp.renesas.com>; Prabhakar Mahadev Lad <prabhakar.mahadev-
-> lad.rj@bp.renesas.com>; linux-renesas-soc@vger.kernel.org
-> Subject: RE: [PATCH v6 2/2] pwm: Add support for RZ/G2L GPT
->=20
-> Hi Uwe,
->=20
-> > Subject: Re: [PATCH v6 2/2] pwm: Add support for RZ/G2L GPT
-> >
-> > Hello,
-> >
-> > On Tue, Sep 20, 2022 at 03:31:16PM +0000, Biju Das wrote:
-> > > > On Mon, Sep 05, 2022 at 06:13:28PM +0100, Biju Das wrote:
-> > > > > +	if (period_cycles >=3D (1024ULL << 32))
-> > > > > +		pv =3D U32_MAX;
-> > > > > +	else
-> > > > > +		pv =3D period_cycles >> (2 * prescale);
-> > > >
-> > > > You're assuming that pv <=3D U32_MAX after this block, right? Then
-> > > > maybe
-> > > Yes, That is correct.
-> > >
-> > > >
-> > > > 	if (period_cycles >> (2 * prescale) <=3D U32_MAX)
-> > > >
-> > > > is the more intuitive check?
-> > >
-> > > Ok will add like below, so we support up to (U32_MAX * 1024); Is
-> it
-> > ok
-> > > for you?
-> > >
-> > >   if (!(period_cycles >> (2 * prescale) <=3D U32_MAX))
-> > > +               return -EINVAL;
-> > > +
-> > > +       pv =3D period_cycles >> (2 * prescale);
-> >
-> > Not -EINVAL, using pv =3D U32_MAX is correct.
->=20
-> OK.
->=20
-> >
-> > > Same case for duty cycle.
-> > > >
-> > > > > +	duty_cycles =3D mul_u64_u32_div(state->duty_cycle,
-> > > > > +rzg2l_gpt->rate, NSEC_PER_SEC);
-> > > > > +
-> > > > > +	if (duty_cycles >=3D (1024ULL << 32))
-> > > > > +		dc =3D U32_MAX;
-> > > > > +	else
-> > > > > +		dc =3D duty_cycles >> (2 * prescale);
-> > > > > +
-> > > > > +	/* Counter must be stopped before modifying Mode and
-> > Prescaler */
-> > > > > +	if (rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCR) & RZG2L_GTCR_CST)
-> > > > > +		rzg2l_gpt_disable(rzg2l_gpt);
-> > > >
-> > > > For v5 I asked if this affects other channels, you said yes and
-> in
-> > > > the follow up I failed to reply how to improve this.
-> > > >
-> > > > I wonder how this affects other channels. Does it restart a
-> period
-> > > > afterwards, or is the effect only that the currently running
-> > period
-> > > > is a bit stretched?
-> > >
-> > > If we stops the counter, it resets to starting count position.
-> >
-> > So if I update pwm#1, pwm#0 doesn't only freeze for a moment, but
-> > starts a new period. Hui.
-> >
-> > > >At least point that this stops the global counter and  so affects
-> > the
-> > > >other PWMs provided by this chip.
-> > >
-> > > We should not allow Counter to stop if it is running.
-> > > We should allow changing mode and prescalar only for the first
-> > enabled
-> > > channel in Linux.
-> > >
-> > > Also as per the HW manual, we should not change RZG2L_GTCNT,
-> > > RZG2L_GTBER while Counter is running.
-> > >
-> > > Will add bool is_counter_running to take care of this conditions.
-> > >
-> > > Is it ok with you?
-> >
-> > I'm torn here. Resetting the period for the other counter is quite
-> > disturbing. If you cannot prevent that, please document that in the
-> > Limitations section above.
->=20
+- CRU_SYSCLK
+- CRU_VCLK
+- CRU_PCLK
 
-OK, I will document this in limitation section.=20
-
- * - While using dual channels, both the channels should be enabled and
- *   disabled at the same time as it uses shared register for controlling
- *   counter start/stop.
+Ive dropped the CRU_ prefix, do you still want me to rename them?
 
 Cheers,
-Biju
-
-> >
-> > > > > +	pm_runtime_get_sync(chip->dev);
-> > > > > +	val =3D rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCR);
-> > > > > +	state->enabled =3D val & RZG2L_GTCR_CST;
-> > > > > +	if (state->enabled) {
-> > > > > +		prescale =3D FIELD_GET(RZG2L_GTCR_TPCS, val);
-> > > > > +
-> > > > > +		val =3D rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTPR);
-> > > > > +		tmp =3D NSEC_PER_SEC * val << (2 * prescale);
-> > > >
-> > > > This can overflow.
-> > >
-> > > OK will use inverse calculation to avoid overflow.
-> > > mul_u64_u32_div(val << (2 * prescale), NSEC_PER_SEC, rzg2l_gpt-
-> > >rate);
-> > >
-> > > Is it ok?
-> >
-> > It uses the wrong rounding direction :-\ Using
-> >
-> > 	tmp =3D NSEC_PER_SEC * (u64)val << (2 * prescale);
-> >
-> > should be enough to fix the problem I pointed out.
->=20
-> OK, Thanks for the pointer.
->=20
-> Cheers,
-> Biju
->=20
-> >
-> > > > > +		state->period =3D DIV_ROUND_UP_ULL(tmp, rzg2l_gpt-
-> > >rate);
-> > > > > +
-> > > > > +		val =3D rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCCR(pwm-
-> > >hwpwm));
-> > > > > +		tmp =3D NSEC_PER_SEC * val << (2 * prescale);
-> >
-> > Best regards
-> > Uwe
-> >
-> > --
-> > Pengutronix e.K.                           | Uwe Kleine-K=F6nig
-> > |
-> > Industrial Linux Solutions                 |
-> > https://www.pengutronix.de/ |
+Prabhakar
