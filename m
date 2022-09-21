@@ -2,89 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 363545E5375
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 20:58:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A23605E54E4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 23:06:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230047AbiIUS6d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Sep 2022 14:58:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38858 "EHLO
+        id S229588AbiIUVGH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Sep 2022 17:06:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229844AbiIUS6a (ORCPT
+        with ESMTP id S229437AbiIUVGH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Sep 2022 14:58:30 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D86DA285C
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Sep 2022 11:58:29 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id f9so10781594lfr.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Sep 2022 11:58:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=i0GvNHAA6HriUK1iwHQhuKbfhvmDlYsJZtxUwtDszrU=;
-        b=tyQxrwTx7FC0WMK4iNa0xMT5ZTkUNUXRjuYJ6ngr8504lz1m287MotseKwIv4+vIkw
-         t7ydFQuNkDAN8HycVQ460BqRkotr6Dtu2XLxAznWv5gwKqQRTi9apNCAKpX2xeaeagN8
-         C0J2zzWG1pdBm7brCVJs+eEAC4hXKE7+J1xJa1y4JrNtdo6H54TdR+ps2n7gQPbCG754
-         Qle8zKu4I113dnuI17fY6ZicPB0FC3+nDac3X9PV1A3Of81mKNa+rT2ooMnLvM262f7c
-         oCzVykwGdjm/VXCbZxmN4rtgQfZWLfQjLGBkGTeSsz4dBrX6dayd+H+6ptW3DZyWtkw6
-         m4dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=i0GvNHAA6HriUK1iwHQhuKbfhvmDlYsJZtxUwtDszrU=;
-        b=KyarhO6FecvyCfMSLPi8Z1BNZ0+gjRMKiOnkZ1byk1aHOc2EPwMA4eUpYC2AKOcDTn
-         uHJ9bpnPiacEoJJdfqanj95gOCdVPNFJ9OU3fwNdbeqWPYy8rMQIDPSf0Q79K1e0LY1t
-         jYEWYIOTlBL8bYoBWkZG0jXBVMzKNGjTG8Em0eabLVgpKXZawDcyVn+lF+gDa9IXLkv2
-         f2ubcDv2NmpHzb89/sBJr5FZCsg5efZPbktJ7GWuPIU8JLpntc84BpB2YpUB1bl54+Ch
-         kwUomT2FHwUdUFgnEAr7ECLLK6lHhnyn9BFgtRV8YtJQ45manitDoqRrLLSuUs7sekSg
-         0cXQ==
-X-Gm-Message-State: ACrzQf2ljmmo3rQaBp/wqxYiwjTrmd09kD2rX2aRg6se78bfVziem0o8
-        45Ve6GvZAUHl8Fg2DrXK8lSmbw==
-X-Google-Smtp-Source: AMsMyM7BFiYVamvKMGfRkSVY1bQDxJm0JXW9wMgz8WbyWhMSAHmN5EjwbxsFX4D044b8XvGAD77rwg==
-X-Received: by 2002:ac2:5b0f:0:b0:49c:949e:d8f7 with SMTP id v15-20020ac25b0f000000b0049c949ed8f7mr10203910lfn.336.1663786707635;
-        Wed, 21 Sep 2022 11:58:27 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id l6-20020ac25546000000b00492ce573726sm559891lfk.47.2022.09.21.11.58.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Sep 2022 11:58:27 -0700 (PDT)
-Message-ID: <bba1ed72-d691-b51c-dce8-ab9a2e45fe86@linaro.org>
-Date:   Wed, 21 Sep 2022 20:58:26 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 2/4] media: dt-bindings: Document Renesas RZ/G2L CRU
- block
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Wed, 21 Sep 2022 17:06:07 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35DC2A2230;
+        Wed, 21 Sep 2022 14:06:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C8A44B828EC;
+        Wed, 21 Sep 2022 21:06:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C545EC433C1;
+        Wed, 21 Sep 2022 21:05:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663794362;
+        bh=4pEno27AZYa4mJMVJgAgsAXTI/+40ZvutoCLEOhJzGM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sDQSjVHV+zbK4QkKWAC0QEE3eleBlrxAN/lUEQ5+rlQRQ8/bSOSzaqbLEQulF+nml
+         7s+TcuZGAnf/JkUt5g4ywB3NSBlS2B6tt/4DXjig42OddiO9OeK1x0zCdGCU8OM3sO
+         LUQ9IYbV+QND4jdV4/Gkhakzqz4ohno535eWT03xlFMdGj2mj2j0MaqRGwdaCMC63J
+         iCWm/AqP2rr6PVKVVoaq2SL+Cu5FwRhLjEyJ3PEqQMni6BL1zOpx9lLLHXxc4cP2wp
+         Gte9njqBesBn2vyIwu8t7Y4w/WzUIMXbmeMVGLK+XKgXIy5ESVh1xqu/P4GAFlEqjq
+         qCvJXSBwUD7bg==
+Date:   Wed, 21 Sep 2022 22:05:55 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220905230406.30801-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <29d456ed-620c-8dc9-01f0-54f96b670b94@linaro.org>
- <YysHAkWBfTTAJF3E@pendragon.ideasonboard.com>
- <ba436dd5-2ea2-b2e0-7056-5bae6b4c7bb4@linaro.org>
- <YytJ/oJK9s2mfqPL@pendragon.ideasonboard.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <YytJ/oJK9s2mfqPL@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        Andre Przywara <andre.przywara@arm.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Atish Patra <atishp@atishpatra.org>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
+Subject: Re: Similar SoCs with different CPUs and interrupt bindings
+Message-ID: <Yyt8s5+pyoysVNeC@spud>
+References: <CAMuHMdUPm36RsxHdVwspR3NCAR3C507AyB6R65W42N2gXWq0ag@mail.gmail.com>
+ <b0f2e13a-ff5d-5bfc-6dda-ca39bb57803e@linaro.org>
+ <CA+V-a8t3ukpa1PNz=5fP+BTjWkFJmwDo_EJJYjO9YctF2=K1Vg@mail.gmail.com>
+ <df9ff0bd-ad0e-4b5b-859d-dd913628edc8@linaro.org>
+ <CAMuHMdXaWz4zP-Zrc4drxwVmbMjmGZHABVbUtO91fZXKawathw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXaWz4zP-Zrc4drxwVmbMjmGZHABVbUtO91fZXKawathw@mail.gmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -92,41 +73,41 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 21/09/2022 19:29, Laurent Pinchart wrote:
->>>>> +  clock-names:
->>>>> +    items:
->>>>> +      - const: vclk
->>>>> +      - const: pclk
->>>>> +      - const: aclk
->>>>
->>>> Drop the "clk" suffixes. Remaining names could be made a bit more readable.
->>>
->>> These names come from the documentation, isn't it better to match the
->>> datasheet ?
->>
->> If datasheet calls it "vclk_really_clk_it_is_clk_clk", it's not the
->> reason to use it. :)
->>
->> The "clk" is redundant even if the hardware engineer thought different.
->>
->> The same for IRQs ("tx" not "txirq"), for dmas ("tx" not "txdma").
+On Wed, Sep 21, 2022 at 12:08:11PM +0200, Geert Uytterhoeven wrote:
+> Hi Krzysztof,
+> > > This worked as expected, but couldn't get the arithmetic operation
+> > > working. Could you please provide an example?
+> >
+> > diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> > index ff6aab388eb7..0ecca775fa3f 100644
+> > --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> > @@ -8,6 +8,8 @@
+> >  #include <dt-bindings/interrupt-controller/arm-gic.h>
+> >  #include <dt-bindings/clock/r9a07g043-cpg.h>
+> >
+> > +#define SOC_PERIPHERAL_IRQ_NUMBER(na)  (na + 32)
+> > +#define SOC_PERIPHERAL_IRQ(nr, na) GIC_SPI nr SOC_PERIPHERAL_IRQ_NUMBER(na)
 > 
-> I'd argue that naming clocks "v", "p" and "a" would be less readable and
-> more confusing. Is this a new rule ?
+> #define SOC_PERIPHERAL_IRQ(nr, flags) GIC_SPI
+> SOC_PERIPHERAL_IRQ_NUMBER(nr) flags
+> 
+> >  / {
+> >         compatible = "renesas,r9a07g043";
+> >         #address-cells = <2>;
+> > @@ -128,7 +130,7 @@ ssi1: ssi@1004a000 {
+> >                         compatible = "renesas,r9a07g043-ssi",
+> >                                      "renesas,rz-ssi";
+> >                         reg = <0 0x1004a000 0 0x400>;
+> > -                       interrupts = <GIC_SPI 330 IRQ_TYPE_LEVEL_HIGH>,
+> > +                       interrupts = <SOC_PERIPHERAL_IRQ(330, IRQ_TYPE_LEVEL_HIGH)>,
+> >
+> >
+> >
+> > Or any other method like that....
+> 
+> Oh cool, seems like arithmetic is supported.
+> No idea what I did wrong last time I tried...
 
-Not really, but also it's only a style issue.
-
-Indeed "v" and "p" are not much better... but still "vclk" does not
-bring any additional information over "v". It's redundant.
-
-You can also drop entire entry - unless it helps in particular
-implementation.
-
-https://lore.kernel.org/all/20220517175958.GA1321687-robh@kernel.org/
-https://lore.kernel.org/all/20210815133926.22860-1-biju.das.jz@bp.renesas.com/
-https://lore.kernel.org/all/YYFCaHI%2FDASUz+Vu@robh.at.kernel.org/
-https://lore.kernel.org/all/20220830182540.GA1797396-robh@kernel.org/
-
-Best regards,
-Krzysztof
-
+Oh sick, it does actually work??? So, am I missing something or is this
+sort of approach now a no-brainer?
