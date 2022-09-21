@@ -2,53 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 655AB5BF1BB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 02:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABA985BF36B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 04:22:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbiIUAKU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Sep 2022 20:10:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39974 "EHLO
+        id S229885AbiIUCWJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Sep 2022 22:22:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbiIUAKR (ORCPT
+        with ESMTP id S229471AbiIUCWH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Sep 2022 20:10:17 -0400
+        Tue, 20 Sep 2022 22:22:07 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59723419A3;
-        Tue, 20 Sep 2022 17:10:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B30F61D7D;
+        Tue, 20 Sep 2022 19:22:07 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8457062EAD;
-        Wed, 21 Sep 2022 00:10:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D1393C433B5;
-        Wed, 21 Sep 2022 00:10:14 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8C9FB61223;
+        Wed, 21 Sep 2022 02:22:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B64F4C433D6;
+        Wed, 21 Sep 2022 02:22:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663719014;
-        bh=USJfMo9G5LTVqiOPXZPGXYioWux37smQZpdvofRzyY4=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=Fwxbx78lWren4Z6BZ6Dm37ThtT/VbaHhmDKXdn+sp2KOh5m4sE+q1uA3xBGMgHGJU
-         1BAPKcc40QDvHaXWA92VKBUlHRaUrNN0ud43snAeOv6AzPcg2iTDwextptYF8EQbkR
-         dyLXF54/Cy2gy9ZVFsV2A9Tvi8KCPQoHrAfHF0/9oGUgWE2qE7Yk6KBxo5AIMxFr9f
-         qfGcdWGM8Fc2vvPKi3phr8Pzvw8CBVbkWZDKAUQvQeUIEReeICXuDsEF4WqzHu2+pT
-         MOh+zr1B+rOT0yowi9xXbdNXFANPXMJDjHSzi9fBwwXE1NmGwC68YcxzoiBt3p0Z5l
-         OKYIVidJTakiA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B05EAE5250A;
-        Wed, 21 Sep 2022 00:10:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        s=k20201202; t=1663726926;
+        bh=Nbnnvo9kvKva9lxHPmP+cCH4H3hG1lmax1LODPQ/hSg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=ryvK1SrKa5Bc2XfeKZvibPeVVSJrDJDJosH42xpMgsejNKdgvne2+x2yhNGuVl/b6
+         YwtThcKND48TCgyf7xsS0N0BEeJby/ZwZqzKaQUGLpzEQCFii5XTCBsd/gldVCjZoq
+         i2DUiVOMvaqDrfcUPI36b1CfbiTcmMwhU1sbX+0hAEFhJBXWAWDI0R6VXkZFKtafKb
+         pPhonDtwNbxNHFB0W3O/1mkXUAGB375EQ9DDmof2+/amk7l0am4OdVj3D9QxngqEmB
+         96JkUeJLrXadaAbMyZuwhyUZDz0Plg8WSY1cPGRIuntkqfHGvKhcBgOxja9X2UwjYn
+         8oN7NnxHr9A/w==
+Date:   Tue, 20 Sep 2022 21:22:04 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "kw@linux.com" <kw@linux.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v5 03/12] PCI: Add PCI_EXP_LNKCAP_MLW macros
+Message-ID: <20220921022204.GA1154967@bhelgaas>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net: sh_eth: Fix PHY state warning splat during system resume
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166371901471.22206.14776111693725439875.git-patchwork-notify@kernel.org>
-Date:   Wed, 21 Sep 2022 00:10:14 +0000
-References: <c6e1331b9bef61225fa4c09db3ba3e2e7214ba2d.1663598886.git.geert+renesas@glider.be>
-In-Reply-To: <c6e1331b9bef61225fa4c09db3ba3e2e7214ba2d.1663598886.git.geert+renesas@glider.be>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, hkallweit1@gmail.com,
-        f.fainelli@gmail.com, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYBPR01MB5341A75BFA6AFFCF59FA4502D84F9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -58,31 +62,53 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Mon, 19 Sep 2022 16:48:28 +0200 you wrote:
-> Since commit 744d23c71af39c7d ("net: phy: Warn about incorrect
-> mdio_bus_phy_resume() state"), a warning splat is printed during system
-> resume with Wake-on-LAN disabled:
+On Wed, Sep 21, 2022 at 12:05:26AM +0000, Yoshihiro Shimoda wrote:
+> Hi Bjorn,
 > 
-> 	WARNING: CPU: 0 PID: 626 at drivers/net/phy/phy_device.c:323 mdio_bus_phy_resume+0xbc/0xe4
+> Thank you for your review!
 > 
-> As the Renesas SuperH Ethernet driver already calls phy_{stop,start}()
-> in its suspend/resume callbacks, it is sufficient to just mark the MAC
-> responsible for managing the power state of the PHY.
+> > From: Bjorn Helgaas, Sent: Wednesday, September 21, 2022 5:08 AM
+> > 
+> > On Mon, Sep 05, 2022 at 04:12:48PM +0900, Yoshihiro Shimoda wrote:
+> > > Add macros defining Maximum Link Width bits in Link Capabilities
+> > > Register.
+> > >
+> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > ---
+> > >  include/uapi/linux/pci_regs.h | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > >
+> > > diff --git a/include/uapi/linux/pci_regs.h b/include/uapi/linux/pci_regs.h
+> > > index 57b8e2ffb1dd..c9f4c452e210 100644
+> > > --- a/include/uapi/linux/pci_regs.h
+> > > +++ b/include/uapi/linux/pci_regs.h
+> > > @@ -538,6 +538,13 @@
+> > >  #define  PCI_EXP_LNKCAP_SLS_16_0GB 0x00000004 /* LNKCAP2 SLS Vector bit 3 */
+> > >  #define  PCI_EXP_LNKCAP_SLS_32_0GB 0x00000005 /* LNKCAP2 SLS Vector bit 4 */
+> > >  #define  PCI_EXP_LNKCAP_SLS_64_0GB 0x00000006 /* LNKCAP2 SLS Vector bit 5 */
+> > > +#define  PCI_EXP_LNKCAP_MLW_X1	0x00000010 /* Maximum Link Width x1 */
+> > > +#define  PCI_EXP_LNKCAP_MLW_X2	0x00000020 /* Maximum Link Width x2 */
+> > > +#define  PCI_EXP_LNKCAP_MLW_X4	0x00000040 /* Maximum Link Width x4 */
+> > > +#define  PCI_EXP_LNKCAP_MLW_X8	0x00000080 /* Maximum Link Width x8 */
+> > > +#define  PCI_EXP_LNKCAP_MLW_X12	0x000000c0 /* Maximum Link Width x12 */
+> > > +#define  PCI_EXP_LNKCAP_MLW_X16	0x00000100 /* Maximum Link Width x16 */
+> > > +#define  PCI_EXP_LNKCAP_MLW_X32	0x00000200 /* Maximum Link Width x32 */
+> > 
+> > In PCIe r6.0, x32 is mentioned a few times, but not actually defined
+> > for Link Capabilities.  Has it been defined in an ECN or something?
 > 
-> [...]
+> I should have looked PCIe r6.0, but I looked PCIe r4.0 v1.0 and it mentioned x32.
+> So, I wrote the x32 macro.
 
-Here is the summary with links:
-  - net: sh_eth: Fix PHY state warning splat during system resume
-    https://git.kernel.org/netdev/net/c/6a1dbfefdae4
+Sure enough.  It's there in r4.0 and r5.0, but dropped from r6.0.
+Wish there were a git tree where we could see whether this was a
+mistake or there was some reason for it.  Maybe nobody had actually
+built x32 hardware and they wanted to reserve the flexibility for
+something else.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> I'll drop PCI_EXP_LNKCAP_MLW_X32 on v6 patch.
 
+When you do, add my:
+
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
