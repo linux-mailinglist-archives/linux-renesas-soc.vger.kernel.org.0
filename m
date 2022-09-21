@@ -2,67 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 707105BF819
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 09:46:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8465F5BF82D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 09:50:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230015AbiIUHqu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Sep 2022 03:46:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45904 "EHLO
+        id S230457AbiIUHuB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Sep 2022 03:50:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbiIUHqs (ORCPT
+        with ESMTP id S229519AbiIUHt7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Sep 2022 03:46:48 -0400
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C39EF77EB2;
-        Wed, 21 Sep 2022 00:46:47 -0700 (PDT)
-Received: by mail-qt1-f175.google.com with SMTP id c11so3502740qtw.8;
-        Wed, 21 Sep 2022 00:46:47 -0700 (PDT)
+        Wed, 21 Sep 2022 03:49:59 -0400
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04C1F4BD33;
+        Wed, 21 Sep 2022 00:49:59 -0700 (PDT)
+Received: by mail-qk1-f179.google.com with SMTP id h28so3459571qka.0;
+        Wed, 21 Sep 2022 00:49:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=OhopKPZK57xXKGubPvCv9frnIozANjFyjeXFzVUULTY=;
-        b=5Bl0Ov3ZE4I6E0b288w9kl81HA7PP+/Qmmzk7ZvIlRHkZNwIPVjPGyOI0eCEL4xIuO
-         Ymozpe/dcnEiQMZuSeD+jJNGpuBPbLtjtkfwoFvBg1cjHPo3Xr/3Y2SQK3vDKalJGaGI
-         obQrOLSV1z9F1RrqfXkEWN9yu5nX+ep65XT6BvR3VTq64gaF89ur6ixKVVwTLoOLUI/2
-         45mJyWZOEDJr2msm9A8n+pC6v2iw8rjWHO0KdEsHM61tW6gb+kvlbWHU2Pew5usQJ8rk
-         zp0jwPhOQlWQiB4XYePkqMekZ/g22cEgo4MpZQVhYJOb3cBMIRlZ8mW5gsFCVTve3Xnw
-         /QKg==
-X-Gm-Message-State: ACrzQf2gL/qUfOwLpgteco+d4AVJrxEs8vO4SZuJy+9Nj3fLOmgSMXqy
-        Uex+BSsWmNbXFu3oyNLX+TyYttvDkYV4Eg==
-X-Google-Smtp-Source: AMsMyM5CNdwKzgOZSQLEfegt3sBIMLvD49jy7iKbp2hvykIW4Ph2Toc0fiJ1FN1ZJlqHsJPEI2MJAg==
-X-Received: by 2002:ac8:5d49:0:b0:35c:e066:b972 with SMTP id g9-20020ac85d49000000b0035ce066b972mr15221455qtx.303.1663746406583;
-        Wed, 21 Sep 2022 00:46:46 -0700 (PDT)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id v6-20020a05620a0f0600b006bc0980db76sm1485535qkl.126.2022.09.21.00.46.45
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=YKleuzdmkhtfbEdrDq5PbIw/9ZW5U210A5YEzz/fnok=;
+        b=8HGrLnoBaqZpbIO8Qwov4JNT44jkbRiMl+evntahSFYDNHG6ecLkvcfTDnoz1AwTfz
+         WsEsggbeG+P3iyhUPCbnWKGqRAC2aTlOf+Ct8ZHTNhJZ8MVDH+vFAJywLk5t70sV77Dg
+         5/CpHfdaXkdDzrw59K2IxIPdZg4z+C7xkxHhTfjv/PtAsnQ5EcngnWu6seUB3GWvWikW
+         kruyzuv8bm3Gz/qsRJCzyu2sjaBb909ATSAEAnoq1Q51nxfEBRWTv1YV/Iis26KvZYfO
+         eiD2jvrpRobsRf7MWOiu+UKNMv11fQc4ZdNzF8+QFQWZd06ExBZWAMLACXI86hRahoaN
+         r5pA==
+X-Gm-Message-State: ACrzQf3/cdMfw1eG/VzzzK5PTycF4ZYN95YjZnp8M7g28+h1jJWuQGTI
+        TJ3NqVrW3D7nelFF5Ox0YYdOgK7Kl2rhdA==
+X-Google-Smtp-Source: AMsMyM7AtAsKVnL9Jxy1KyI9u4g8uqj+1+M9TJmbqRqcuiGiiueg1RLjz3ysy/3exuN2JuZnPLlW5g==
+X-Received: by 2002:a05:620a:2697:b0:6cf:33cd:2bd2 with SMTP id c23-20020a05620a269700b006cf33cd2bd2mr6397411qkp.341.1663746597903;
+        Wed, 21 Sep 2022 00:49:57 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id u2-20020ae9d802000000b006ce407b996asm1378518qkf.69.2022.09.21.00.49.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Sep 2022 00:46:45 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-3454b0b1b6dso54712427b3.4;
-        Wed, 21 Sep 2022 00:46:45 -0700 (PDT)
-X-Received: by 2002:a81:8d3:0:b0:34d:1215:fb4b with SMTP id
- 202-20020a8108d3000000b0034d1215fb4bmr10409981ywi.383.1663746405180; Wed, 21
- Sep 2022 00:46:45 -0700 (PDT)
+        Wed, 21 Sep 2022 00:49:57 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id 125so6815498ybt.12;
+        Wed, 21 Sep 2022 00:49:55 -0700 (PDT)
+X-Received: by 2002:a5b:506:0:b0:6af:ffac:4459 with SMTP id
+ o6-20020a5b0506000000b006afffac4459mr21105286ybp.365.1663746594861; Wed, 21
+ Sep 2022 00:49:54 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220920184904.90495-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220920184904.90495-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <OS0PR01MB5922AFDAFE3DEBBFFF875875864C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB59224D591B8A227A5655ECDE864C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CA+V-a8s-6FLu-5D44-Szt8eN1V0rhPxm+cO4OrcKmT90O8LoXg@mail.gmail.com> <OS0PR01MB59220E0803C83EC63954340E864F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59220E0803C83EC63954340E864F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 21 Sep 2022 09:46:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUPm36RsxHdVwspR3NCAR3C507AyB6R65W42N2gXWq0ag@mail.gmail.com>
-Message-ID: <CAMuHMdUPm36RsxHdVwspR3NCAR3C507AyB6R65W42N2gXWq0ag@mail.gmail.com>
-Subject: Similar SoCs with different CPUs and interrupt bindings
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Andre Przywara <andre.przywara@arm.com>,
+Date:   Wed, 21 Sep 2022 09:49:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdViUPjWHg0=99HE=GdsuKRTEF37A-OcTf218Kag=sByMg@mail.gmail.com>
+Message-ID: <CAMuHMdViUPjWHg0=99HE=GdsuKRTEF37A-OcTf218Kag=sByMg@mail.gmail.com>
+Subject: Re: [PATCH v4 07/10] riscv: dts: r9a07g043: Add placeholder nodes
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Conor Dooley <conor.dooley@microchip.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Atish Patra <atishp@atishpatra.org>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Heiko Stuebner <heiko@sntech.de>,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -74,55 +84,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-        Hi Rob, Krzysztof,
+Hi Biju,
 
-This is a topic that came up at the RISC-V BoF at Plumbers, and it was
-suggested to bring it up with you.
+On Wed, Sep 21, 2022 at 7:22 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH v4 07/10] riscv: dts: r9a07g043: Add placeholder
+> > nodes
+> > On Tue, Sep 20, 2022 at 8:26 PM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > Just ignore my mail, As I realised IRQ property in each node will be
+> > a problem.
+> > >
+> > Yes the IRQ numbers are different (offset of 32) along with the IRQ
+> > parent.
+> >
+> > Refer this thread [0] where other SoC vendors have similar issues,
+> > maybe in future when DTC becomes more clever we can use single SoC
+> > DTSI for both.
+>
+> Not sure, May be the macro suggestion mentioned in that thread will work for us??
+> As it is just only the interrupt properties that differ which is
+> handled in macro. A Generic macro in common dtsi which is
+> expanded in RISCV or arm64 specific dtsi to get proper one??
 
-The same SoC may be available with either RISC-V or other (e.g. ARM) CPU
-cores (an example of this are the Renesas RZ/Five and RZ/G2UL SoCs).
-To avoid duplication, we would like to have:
-  - <riscv-soc>.dtsi includes <base-soc>.dtsi,
-  - <arm-soc>.dtsi includes <base-soc>.dtsi.
+I brought it up with the DT people in a separate thread[1].
+Please continue the discussion there.
+Thanks!
 
-Unfortunately RISC-V and ARM typically use different types of interrupt
-controllers, using different bindings (e.g. 2-cell vs. 3-cell), and
-possibly using different interrupt numbers.  Hence the interrupt-parent
-and interrupts{-extended} properties should be different, too.
-
-Possible solutions[1]:
-  1. interrupt-map
-
-  2. Use a SOC_PERIPHERAL_IRQ() macro in interrupts properties in
-     <base-soc>.dtsi, with
-       - #define SOC_PERIPHERAL_IRQ(nr, na) nr          // RISC-V
-       - #define SOC_PERIPHERAL_IRQ(nr, na) GIC_SPI na  // ARM
-     Note that the cpp/dtc combo does not support arithmetic, so even
-     the simple case where nr = 32 + na cannot be simplified.
-
-  3. Wrap inside RISCV() and ARM() macros, e.g.:
-
-        RISCV(interrupts = <412 IRQ_TYPE_LEVEL_HIGH>;)
-        ARM(interrupts = <GIC_SPI 380 IRQ_TYPE_LEVEL_HIGH>;)
-
-     Cfr. ARM() and THUMB() in arch/arm/include/asm/unified.h, as used
-     to express the same operation using plain ARM or ARM Thumb
-     instructions.
-
-Personally, I'm leaning towards the third solution, as it is the most
-flexible, and allows us to extend to more than 2 interrupt controllers.
-
-Note that this is actually not a new issue.  For years, ARM SoCs have
-existed with multiple types of cores on the same die, using Cortex-A
-cores for the application, and Cortex-R/SuperH/V850/... cores for
-real-time and/or baseband operation.  So far this wasn't an issue, as
-only the Cortex-A cores ran Linux, and we ignored the other cores (and
-the related interrupt controllers and hierarchy) in DT.
-
-What do you think?
-Thanks for your comments!
-
-[1] https://lore.kernel.org/lkml/20220815050815.22340-7-samuel@sholland.org
+[1] https://lore.kernel.org/r/CAMuHMdUPm36RsxHdVwspR3NCAR3C507AyB6R65W42N2gXWq0ag@mail.gmail.com
 
 Gr{oetje,eeting}s,
 
