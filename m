@@ -2,33 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38CA45BFC18
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 12:14:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B7BD5BFC21
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 12:17:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231216AbiIUKOR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Sep 2022 06:14:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41572 "EHLO
+        id S231193AbiIUKRm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Sep 2022 06:17:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230500AbiIUKOP (ORCPT
+        with ESMTP id S231332AbiIUKRj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Sep 2022 06:14:15 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AA28E9352A;
-        Wed, 21 Sep 2022 03:14:14 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B2E9313D5;
-        Wed, 21 Sep 2022 03:14:20 -0700 (PDT)
-Received: from [10.57.18.118] (unknown [10.57.18.118])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 71CA13F73D;
-        Wed, 21 Sep 2022 03:14:11 -0700 (PDT)
-Message-ID: <567e9e6c-e34c-4ded-9622-9ad8387dd24b@arm.com>
-Date:   Wed, 21 Sep 2022 11:14:10 +0100
+        Wed, 21 Sep 2022 06:17:39 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33F079569B
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Sep 2022 03:17:37 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id x27so8489068lfu.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Sep 2022 03:17:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=yzjx6E9igsuTXnzRNP3+K/9v8BB+rrIrI9XXW0kAwts=;
+        b=N3jo3aH8q00MNnQwdAGWJul1Hg8tzQq8aTnbigvxcRhGj7gFPgLKkbgDiLdQRfPd58
+         iF3CKoXL0ngKYxKjZFQIRaxxQzLFI+FSihQtBzKsxDkinM96LdTl6A3TOQTOOFk4nT/y
+         RfsalRLJPWoZOUORCbMo4+TShCiXW7Jk6dSKwe10RrV9eJM8tr3ZDzr9DAu1R7eUuvk9
+         YkWj0AvdIFK2rwI+zO1xDGMJE7v4WoHuJUTBYYksWNulOW14rcKFrSPXt/zY/92zjImr
+         x7FU5Ny2wAxyZT7p7XqdkjOL27WxQt0qcgcQ7xFiiSLF6EoOOsJcOWnPrG1rlJqKzVG6
+         Mbow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=yzjx6E9igsuTXnzRNP3+K/9v8BB+rrIrI9XXW0kAwts=;
+        b=ow3qZSUVlzMZY26PqB4amRfLoPQRvcTuZ2GkBod8b31APhC8xdytmBYd5sN3Pr1mOC
+         yEqqr/hEkarncUQ4XQ256YkTaJf71gRpXbV1d8PgxUJfbNdFNg9X/a002isdhwM8TbxP
+         KgCHBdHGkKgdvfL7v+NrFYmGmBrulBWcFZdJxlRwCHXUZfl2TBCRYf/7ZYCjgwnkVvgR
+         1Scy1vqIFuza89mUwf11/VA87hy0+VAeQZe42fmkecGJ6W3Lbar2wHnFquGJtLXKPZp2
+         0SohKyYICzT9pYTPusTh1oUGX1LuXK9RsaROAzu9a4jdJx4JsU92l4mwARBxI8LjDNom
+         ABkQ==
+X-Gm-Message-State: ACrzQf2avKULQg/7F9vKB1FxvLTdwtMhmfAV7vsMj2T4652HeCVy8Eal
+        zusruKAxCrTTgvjssDBsM7Y9Kw==
+X-Google-Smtp-Source: AMsMyM7cHVHULWLnULj9mK8sInlgIqpR3q7VVoVLlsSAKejKuWD0ZCRo9zwghPn7eLFT6gBaZ17SKg==
+X-Received: by 2002:a05:6512:110c:b0:49f:99f0:5a3a with SMTP id l12-20020a056512110c00b0049f99f05a3amr5913755lfg.384.1663755455262;
+        Wed, 21 Sep 2022 03:17:35 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id m26-20020a05651202fa00b0048b3a92a2dbsm362277lfq.215.2022.09.21.03.17.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Sep 2022 03:17:34 -0700 (PDT)
+Message-ID: <b49de03c-2d88-ad81-7bdb-a33e6841481e@linaro.org>
+Date:   Wed, 21 Sep 2022 12:17:33 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
 Subject: Re: Similar SoCs with different CPUs and interrupt bindings
-Content-Language: en-GB
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+Content-Language: en-US
+To:     Robin Murphy <robin.murphy@arm.com>,
         "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -51,89 +80,53 @@ References: <CAMuHMdUPm36RsxHdVwspR3NCAR3C507AyB6R65W42N2gXWq0ag@mail.gmail.com>
  <b0f2e13a-ff5d-5bfc-6dda-ca39bb57803e@linaro.org>
  <CA+V-a8t3ukpa1PNz=5fP+BTjWkFJmwDo_EJJYjO9YctF2=K1Vg@mail.gmail.com>
  <df9ff0bd-ad0e-4b5b-859d-dd913628edc8@linaro.org>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <df9ff0bd-ad0e-4b5b-859d-dd913628edc8@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <567e9e6c-e34c-4ded-9622-9ad8387dd24b@arm.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <567e9e6c-e34c-4ded-9622-9ad8387dd24b@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-10.6 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-5.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2022-09-21 10:26, Krzysztof Kozlowski wrote:
-> On 21/09/2022 11:20, Lad, Prabhakar wrote:
->>>
->>> What do you mean? Macros support string concatenation and simple
->>> arithmetic like adding numbers. I just tested it.
->>>
->> I did try the below:
->>
->> diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->> b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->> index 689aa4ba416b..0f923c276cd3 100644
->> --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->> @@ -8,6 +8,8 @@
->>   #include <dt-bindings/interrupt-controller/arm-gic.h>
->>   #include <dt-bindings/clock/r9a07g043-cpg.h>
->>
->> +#define SOC_PERIPHERAL_IRQ(nr, na) GIC_SPI nr na
->> +
+On 21/09/2022 12:14, Robin Murphy wrote:
+>> +#define SOC_PERIPHERAL_IRQ_NUMBER(na)  (na + 32)
+>> +#define SOC_PERIPHERAL_IRQ(nr, na) GIC_SPI nr SOC_PERIPHERAL_IRQ_NUMBER(na)
 >>   / {
->>       compatible = "renesas,r9a07g043";
->>       #address-cells = <2>;
+>>          compatible = "renesas,r9a07g043";
+>>          #address-cells = <2>;
 >> @@ -128,7 +130,7 @@ ssi1: ssi@1004a000 {
->>               compatible = "renesas,r9a07g043-ssi",
->>                        "renesas,rz-ssi";
->>               reg = <0 0x1004a000 0 0x400>;
->> -            interrupts = <GIC_SPI 330 IRQ_TYPE_LEVEL_HIGH>,
->> +            interrupts = <SOC_PERIPHERAL_IRQ(330, IRQ_TYPE_LEVEL_HIGH)>,
->>                        <GIC_SPI 331 IRQ_TYPE_EDGE_RISING>,
->>                        <GIC_SPI 332 IRQ_TYPE_EDGE_RISING>,
->>                        <GIC_SPI 333 IRQ_TYPE_EDGE_RISING>;
+>>                          compatible = "renesas,r9a07g043-ssi",
+>>                                       "renesas,rz-ssi";
+>>                          reg = <0 0x1004a000 0 0x400>;
+>> -                       interrupts = <GIC_SPI 330 IRQ_TYPE_LEVEL_HIGH>,
+>> +                       interrupts = <SOC_PERIPHERAL_IRQ(330, IRQ_TYPE_LEVEL_HIGH)>,
 >>
->> This worked as expected, but couldn't get the arithmetic operation
->> working. Could you please provide an example?
+>>
+>>
+>> Or any other method like that....
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-> index ff6aab388eb7..0ecca775fa3f 100644
-> --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-> @@ -8,6 +8,8 @@
->   #include <dt-bindings/interrupt-controller/arm-gic.h>
->   #include <dt-bindings/clock/r9a07g043-cpg.h>
->   
-> +#define SOC_PERIPHERAL_IRQ_NUMBER(na)  (na + 32)
-> +#define SOC_PERIPHERAL_IRQ(nr, na) GIC_SPI nr SOC_PERIPHERAL_IRQ_NUMBER(na)
->   / {
->          compatible = "renesas,r9a07g043";
->          #address-cells = <2>;
-> @@ -128,7 +130,7 @@ ssi1: ssi@1004a000 {
->                          compatible = "renesas,r9a07g043-ssi",
->                                       "renesas,rz-ssi";
->                          reg = <0 0x1004a000 0 0x400>;
-> -                       interrupts = <GIC_SPI 330 IRQ_TYPE_LEVEL_HIGH>,
-> +                       interrupts = <SOC_PERIPHERAL_IRQ(330, IRQ_TYPE_LEVEL_HIGH)>,
+> Which will generate the text:
 > 
+> 	"interrupts = <GIC_SPI 330 (IRQ_TYPE_LEVEL_HIGH + 32)>,"
 > 
+> (give or take some whitespace)
 > 
-> Or any other method like that....
+> CPP supports constant expressions in #if and #elif directives, but 
+> macros are purely literal text replacement. It might technically be 
+> achievable with some insane CPP metaprogramming, but for all practical 
+> purposes this is a non-starter unless dtc itself grows the ability to 
+> process arithmetic expressions.
 
-Which will generate the text:
+Except I put it into flags, not to IRQ number, it works, so I am not
+sure why do you call it non-starter?
 
-	"interrupts = <GIC_SPI 330 (IRQ_TYPE_LEVEL_HIGH + 32)>,"
+Best regards,
+Krzysztof
 
-(give or take some whitespace)
-
-CPP supports constant expressions in #if and #elif directives, but 
-macros are purely literal text replacement. It might technically be 
-achievable with some insane CPP metaprogramming, but for all practical 
-purposes this is a non-starter unless dtc itself grows the ability to 
-process arithmetic expressions.
-
-Thanks,
-Robin.
