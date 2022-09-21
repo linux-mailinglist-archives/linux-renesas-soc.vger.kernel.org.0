@@ -2,64 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 265265BFC07
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 12:11:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D9115BFC13
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 12:13:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229673AbiIUKKr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Sep 2022 06:10:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38034 "EHLO
+        id S230267AbiIUKNi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Sep 2022 06:13:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230409AbiIUKKN (ORCPT
+        with ESMTP id S231410AbiIUKNc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Sep 2022 06:10:13 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 535775A89E
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Sep 2022 03:10:12 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id a2so8363277lfb.6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Sep 2022 03:10:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=yxhsCHqbjeaUvDSrWwmS/tUjVYbJlbwwcVnNivmxf/A=;
-        b=Mx7+v7mLDXYL9fZJN81ZLtHPaaRSjT+E201/j9MMBacZSRokSKMoitW9Kj6QZeFCfc
-         5KgqLjmvBVDHm1PQr2blWlEPWQY8I2wreEH0ThGty+Nm1LpGMQbSVt0jjd0+8V+fxWbc
-         aZHdCVM+JrKPXIITHE2oz24+bHztTA+QVFxyZcAIgUNZYqopCE77QX1aPYlqWv3hiYpv
-         s6hx4P8rHUxBqsam0PFddMEK0cEizIyZuv2ztE/pD8vHs7UDYAWJ714lt8GIgLdXoSpy
-         lhxbCCMCjWQAe+yapph8KF6kewtaIxLyW4qJ63h3LZp1MUOmFT3n1RquYE03323Qkbsc
-         THQg==
+        Wed, 21 Sep 2022 06:13:32 -0400
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AC357FF84;
+        Wed, 21 Sep 2022 03:13:31 -0700 (PDT)
+Received: by mail-qv1-f46.google.com with SMTP id c6so4060210qvn.6;
+        Wed, 21 Sep 2022 03:13:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=yxhsCHqbjeaUvDSrWwmS/tUjVYbJlbwwcVnNivmxf/A=;
-        b=OU9ZmRKajj6tcMCnIxU8AJLx28Zewp5Yy/jjGfWyDRicd4J7OLCJ72WYw8VBNdP4zN
-         GdHcqjmi/xWbba6VyKoB9LVE8MUhR5XKDOLhjNeNAxjMZ8FRF5gpWvS6UYJR3ArNYcxj
-         JVh5rVQjJcWm2KryXpBTJ4J9NibqbEaJwoZ02mRpiBmBYQdO2D2NWsE5/2cXrzajBvBG
-         HBxpBo7B9cHsaWtbqWPOyUO0qZkPNiNg894UvJLDAwTDZAkjcMqqNhhM59vah2brzYkL
-         db9OSsZ7z9euoWcc/r5vKynmtlotmk806nkn9qfQ5qhX8ijkhMfgzShHFqfvFBbDS59v
-         SzUg==
-X-Gm-Message-State: ACrzQf1DgDLJ39J0uDoO5pTd+id3HmCFG00VOqTKhBLAh6QzEaPGZznK
-        45VlsyIzxdFG/5DyFY9SSAm8RQ==
-X-Google-Smtp-Source: AMsMyM7miLYxhwhmdAm6xqnhxaOOx6BmPBe4KQD2NDEVZSgjClHYYwttY/drvejnXcRy+vqeDU5rVg==
-X-Received: by 2002:a05:6512:68a:b0:49f:4c31:e9f with SMTP id t10-20020a056512068a00b0049f4c310e9fmr10129696lfe.136.1663755010574;
-        Wed, 21 Sep 2022 03:10:10 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id o12-20020a056512052c00b00497a41b3a42sm370469lfc.88.2022.09.21.03.10.09
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=9A/p6ZkdEYO1vNEWi1IhugiWPSS0Lp7RP7GaNC2clvU=;
+        b=K/x1XSIRZ5t+HB+JVsvkRjQDFnbL2VVu8BCx61zoQCo9Jr5r0FrejptJLoiR5WBfoq
+         UAhGcsVqb0v+Jh5P/SB5/Rcwc9TjDT8D2OW81HdPtr+GkycB7/mLMb1vZ/u6PArztIr3
+         vJdaCObs36dHh2IBZU9kJauWalpQApOQn1x8YF6/obprEXf3BfUKw2EzgA6RWHJulHPn
+         GPMcvTG6vOUBIW4pLC2s+twN/KwKCSogCpsbNR992AWAZ2/1IqhLC/VykOGtAcFI6dJe
+         qX1cfl6KzToI79U8rkW08Eam59EuSHcqtOwzoFMs4PxFCK7ZA/S3tiPSAI4bVjf+E6G9
+         H1IQ==
+X-Gm-Message-State: ACrzQf2y+CDhv7T+Hn1nP6WMLFg2LIHl2jwj5ClDhravPZ3A41npkLk0
+        VDSyylRinp81q/ThJFGGzroLz9/ISgEmvEP7
+X-Google-Smtp-Source: AMsMyM6ZWzpzfyKU2lzy4ycJrV9h3j4IcW2XogqOCaIjetJtBoxuYyM5td6cajWRJkj9KspQWyBnTg==
+X-Received: by 2002:a05:6214:5190:b0:4ad:41ed:80c7 with SMTP id kl16-20020a056214519000b004ad41ed80c7mr11741018qvb.53.1663755209954;
+        Wed, 21 Sep 2022 03:13:29 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id fc11-20020a05622a488b00b003435bb7fe9csm1391920qtb.78.2022.09.21.03.13.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Sep 2022 03:10:09 -0700 (PDT)
-Message-ID: <131d9058-a9de-7012-49e0-95e8477edf85@linaro.org>
-Date:   Wed, 21 Sep 2022 12:10:08 +0200
+        Wed, 21 Sep 2022 03:13:29 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id a67so7350733ybb.3;
+        Wed, 21 Sep 2022 03:13:28 -0700 (PDT)
+X-Received: by 2002:a25:3746:0:b0:6b1:4a12:b2d5 with SMTP id
+ e67-20020a253746000000b006b14a12b2d5mr20690282yba.89.1663755208456; Wed, 21
+ Sep 2022 03:13:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
+References: <CAMuHMdUPm36RsxHdVwspR3NCAR3C507AyB6R65W42N2gXWq0ag@mail.gmail.com>
+ <45d2e6c2-3b4b-5720-0431-002c74b1f9cc@arm.com>
+In-Reply-To: <45d2e6c2-3b4b-5720-0431-002c74b1f9cc@arm.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 21 Sep 2022 12:13:17 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWd5cmxgG8jdpDw3nrfrdSX6ecb+XwuJTLkkRgP5LbcHQ@mail.gmail.com>
+Message-ID: <CAMuHMdWd5cmxgG8jdpDw3nrfrdSX6ecb+XwuJTLkkRgP5LbcHQ@mail.gmail.com>
 Subject: Re: Similar SoCs with different CPUs and interrupt bindings
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Andre Przywara <andre.przywara@arm.com>,
         Conor Dooley <conor.dooley@microchip.com>,
@@ -75,42 +68,77 @@ Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
-References: <CAMuHMdUPm36RsxHdVwspR3NCAR3C507AyB6R65W42N2gXWq0ag@mail.gmail.com>
- <b0f2e13a-ff5d-5bfc-6dda-ca39bb57803e@linaro.org>
- <CA+V-a8t3ukpa1PNz=5fP+BTjWkFJmwDo_EJJYjO9YctF2=K1Vg@mail.gmail.com>
- <df9ff0bd-ad0e-4b5b-859d-dd913628edc8@linaro.org>
- <CAMuHMdXaWz4zP-Zrc4drxwVmbMjmGZHABVbUtO91fZXKawathw@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAMuHMdXaWz4zP-Zrc4drxwVmbMjmGZHABVbUtO91fZXKawathw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 21/09/2022 12:08, Geert Uytterhoeven wrote:
->> diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->> index ff6aab388eb7..0ecca775fa3f 100644
->> --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->> @@ -8,6 +8,8 @@
->>  #include <dt-bindings/interrupt-controller/arm-gic.h>
->>  #include <dt-bindings/clock/r9a07g043-cpg.h>
->>
->> +#define SOC_PERIPHERAL_IRQ_NUMBER(na)  (na + 32)
->> +#define SOC_PERIPHERAL_IRQ(nr, na) GIC_SPI nr SOC_PERIPHERAL_IRQ_NUMBER(na)
-> 
-> #define SOC_PERIPHERAL_IRQ(nr, flags) GIC_SPI
-> SOC_PERIPHERAL_IRQ_NUMBER(nr) flags
+Hi Robin,
 
-Right. Let's consider my code just proof-of-concept :)
+On Wed, Sep 21, 2022 at 11:20 AM Robin Murphy <robin.murphy@arm.com> wrote:
+> On 2022-09-21 08:46, Geert Uytterhoeven wrote:
+> > This is a topic that came up at the RISC-V BoF at Plumbers, and it was
+> > suggested to bring it up with you.
+> >
+> > The same SoC may be available with either RISC-V or other (e.g. ARM) CPU
+> > cores (an example of this are the Renesas RZ/Five and RZ/G2UL SoCs).
+> > To avoid duplication, we would like to have:
+> >    - <riscv-soc>.dtsi includes <base-soc>.dtsi,
+> >    - <arm-soc>.dtsi includes <base-soc>.dtsi.
+> >
+> > Unfortunately RISC-V and ARM typically use different types of interrupt
+> > controllers, using different bindings (e.g. 2-cell vs. 3-cell), and
+> > possibly using different interrupt numbers.  Hence the interrupt-parent
+> > and interrupts{-extended} properties should be different, too.
+> >
+> > Possible solutions[1]:
+> >    1. interrupt-map
+> >
+> >    2. Use a SOC_PERIPHERAL_IRQ() macro in interrupts properties in
+> >       <base-soc>.dtsi, with
+> >         - #define SOC_PERIPHERAL_IRQ(nr, na) nr          // RISC-V
+> >         - #define SOC_PERIPHERAL_IRQ(nr, na) GIC_SPI na  // ARM
+> >       Note that the cpp/dtc combo does not support arithmetic, so even
+> >       the simple case where nr = 32 + na cannot be simplified.
+> >
+> >    3. Wrap inside RISCV() and ARM() macros, e.g.:
+> >
+> >          RISCV(interrupts = <412 IRQ_TYPE_LEVEL_HIGH>;)
+> >          ARM(interrupts = <GIC_SPI 380 IRQ_TYPE_LEVEL_HIGH>;)
+> >
+> >       Cfr. ARM() and THUMB() in arch/arm/include/asm/unified.h, as used
+> >       to express the same operation using plain ARM or ARM Thumb
+> >       instructions.
+>
+> 4. Put all the "interrupts" properties in the SoC-specific DTSI at the
+> same level as the interrupt controller to which they correspond. Works
+> out of the box with no horrible mystery macros, and is really no more or
+> less error-prone than any other approach. Yes, it means replicating a
+> bit of structure and/or having labels for everything (many of which may
+> be wanted anyway), but that's not necessarily a bad thing for
+> readability anyway. Hierarchical definitions are standard FDT practice
+> and should be well understood, so this is arguably the simplest and
+> least surprising approach :)
 
-Best regards,
-Krzysztof
+Thanks for the suggestion!
 
+It does mean we have to update 3 .dtsi files when adding support
+for a new device. As long as all DT changes go through the same (soc)
+tree, we can easily manage the dependencies.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
