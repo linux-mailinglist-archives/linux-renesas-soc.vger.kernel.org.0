@@ -2,114 +2,213 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A88015BFE1F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 14:44:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9EF45BFF00
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 15:36:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229974AbiIUMoF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Sep 2022 08:44:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45866 "EHLO
+        id S229709AbiIUNgA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Sep 2022 09:36:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbiIUMoE (ORCPT
+        with ESMTP id S229890AbiIUNf6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Sep 2022 08:44:04 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 745A08688A;
-        Wed, 21 Sep 2022 05:44:03 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D18BD2B3;
-        Wed, 21 Sep 2022 14:44:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1663764241;
-        bh=hIY9NeY10mPIFhNf/7yysEh0nHb6PlfT2EppjthWmTY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=L0oh9H0/uct8ZXze2QfOE6KG3GhKarEcFlF299rQzholayfICHXI6C1Y+Qjo5tsdu
-         XfF2BcuKypEnvDCRvPqkV6fDZjl6t5YLF7biz985xhEMIvhlF4KTXBT7cndJIkssGM
-         f07OImIIu9E7rrhZXQWQsE2SaFTOPeLpCCYhrPEE=
-Date:   Wed, 21 Sep 2022 15:43:46 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wed, 21 Sep 2022 09:35:58 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE91B7390C
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Sep 2022 06:35:57 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oaztD-0008CF-ID; Wed, 21 Sep 2022 15:35:47 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oaztD-0024Ic-FK; Wed, 21 Sep 2022 15:35:46 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oaztB-002T1l-CF; Wed, 21 Sep 2022 15:35:45 +0200
+Date:   Wed, 21 Sep 2022 15:35:42 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 2/4] media: dt-bindings: Document Renesas RZ/G2L CRU
- block
-Message-ID: <YysHAkWBfTTAJF3E@pendragon.ideasonboard.com>
-References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220905230406.30801-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <29d456ed-620c-8dc9-01f0-54f96b670b94@linaro.org>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v6 2/2] pwm: Add support for RZ/G2L GPT
+Message-ID: <20220921133542.3glfgeddnlhrebkz@pengutronix.de>
+References: <20220905171328.991367-1-biju.das.jz@bp.renesas.com>
+ <20220905171328.991367-3-biju.das.jz@bp.renesas.com>
+ <20220919075727.rmph7jmopaqvyyri@pengutronix.de>
+ <OS0PR01MB5922B87D4A05973F88B427A7864C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20220920155306.dvcz4324zvg72udm@pengutronix.de>
+ <OS0PR01MB5922A9B3314F2F2B32F6B0DE864C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922289B89061F6B3DF4819F864F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="jbozhv5sc6bhwhkt"
 Content-Disposition: inline
-In-Reply-To: <29d456ed-620c-8dc9-01f0-54f96b670b94@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <OS0PR01MB5922289B89061F6B3DF4819F864F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 08, 2022 at 01:40:39PM +0200, Krzysztof Kozlowski wrote:
-> On 06/09/2022 01:04, Lad Prabhakar wrote:
-> > Document the CRU block found on Renesas RZ/G2L (and alike) SoCs.
-> > 
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> 
-> Thank you for your patch. There is something to discuss/improve.
-> 
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +          - renesas,r9a07g044-cru       # RZ/G2{L,LC}
-> > +          - renesas,r9a07g054-cru       # RZ/V2L
-> > +      - const: renesas,rzg2l-cru
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 3
-> > +
-> > +  interrupt-names:
-> > +    items:
-> > +      - const: image_conv
-> > +      - const: image_conv_err
-> > +      - const: axi_mst_err
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: CRU Main clock
-> > +      - description: CPU Register access clock
-> > +      - description: CRU image transfer clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: vclk
-> > +      - const: pclk
-> > +      - const: aclk
-> 
-> Drop the "clk" suffixes. Remaining names could be made a bit more readable.
 
-These names come from the documentation, isn't it better to match the
-datasheet ?
+--jbozhv5sc6bhwhkt
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > +
+Hello,
 
--- 
-Regards,
+On Wed, Sep 21, 2022 at 10:50:48AM +0000, Biju Das wrote:
+> > -----Original Message-----
+> > From: Biju Das
+> > Sent: 20 September 2022 18:01
+> > To: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > Cc: Thierry Reding <thierry.reding@gmail.com>; Lee Jones
+> > <lee.jones@linaro.org>; Philipp Zabel <p.zabel@pengutronix.de>; linux-
+> > pwm@vger.kernel.org; Geert Uytterhoeven <geert+renesas@glider.be>;
+> > Chris Paterson <Chris.Paterson2@renesas.com>; Biju Das
+> > <biju.das@bp.renesas.com>; Prabhakar Mahadev Lad <prabhakar.mahadev-
+> > lad.rj@bp.renesas.com>; linux-renesas-soc@vger.kernel.org
+> > Subject: RE: [PATCH v6 2/2] pwm: Add support for RZ/G2L GPT
+> >=20
+> > Hi Uwe,
+> >=20
+> > > Subject: Re: [PATCH v6 2/2] pwm: Add support for RZ/G2L GPT
+> > >
+> > > Hello,
+> > >
+> > > On Tue, Sep 20, 2022 at 03:31:16PM +0000, Biju Das wrote:
+> > > > > On Mon, Sep 05, 2022 at 06:13:28PM +0100, Biju Das wrote:
+> > > > > > +	if (period_cycles >=3D (1024ULL << 32))
+> > > > > > +		pv =3D U32_MAX;
+> > > > > > +	else
+> > > > > > +		pv =3D period_cycles >> (2 * prescale);
+> > > > >
+> > > > > You're assuming that pv <=3D U32_MAX after this block, right? Then
+> > > > > maybe
+> > > > Yes, That is correct.
+> > > >
+> > > > >
+> > > > > 	if (period_cycles >> (2 * prescale) <=3D U32_MAX)
+> > > > >
+> > > > > is the more intuitive check?
+> > > >
+> > > > Ok will add like below, so we support up to (U32_MAX * 1024); Is
+> > it
+> > > ok
+> > > > for you?
+> > > >
+> > > >   if (!(period_cycles >> (2 * prescale) <=3D U32_MAX))
+> > > > +               return -EINVAL;
+> > > > +
+> > > > +       pv =3D period_cycles >> (2 * prescale);
+> > >
+> > > Not -EINVAL, using pv =3D U32_MAX is correct.
+> >=20
+> > OK.
+> >=20
+> > >
+> > > > Same case for duty cycle.
+> > > > >
+> > > > > > +	duty_cycles =3D mul_u64_u32_div(state->duty_cycle,
+> > > > > > +rzg2l_gpt->rate, NSEC_PER_SEC);
+> > > > > > +
+> > > > > > +	if (duty_cycles >=3D (1024ULL << 32))
+> > > > > > +		dc =3D U32_MAX;
+> > > > > > +	else
+> > > > > > +		dc =3D duty_cycles >> (2 * prescale);
+> > > > > > +
+> > > > > > +	/* Counter must be stopped before modifying Mode and
+> > > Prescaler */
+> > > > > > +	if (rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCR) & RZG2L_GTCR_CST)
+> > > > > > +		rzg2l_gpt_disable(rzg2l_gpt);
+> > > > >
+> > > > > For v5 I asked if this affects other channels, you said yes and
+> > in
+> > > > > the follow up I failed to reply how to improve this.
+> > > > >
+> > > > > I wonder how this affects other channels. Does it restart a
+> > period
+> > > > > afterwards, or is the effect only that the currently running
+> > > period
+> > > > > is a bit stretched?
+> > > >
+> > > > If we stops the counter, it resets to starting count position.
+> > >
+> > > So if I update pwm#1, pwm#0 doesn't only freeze for a moment, but
+> > > starts a new period. Hui.
+> > >
+> > > > >At least point that this stops the global counter and  so affects
+> > > the
+> > > > >other PWMs provided by this chip.
+> > > >
+> > > > We should not allow Counter to stop if it is running.
+> > > > We should allow changing mode and prescalar only for the first
+> > > enabled
+> > > > channel in Linux.
+> > > >
+> > > > Also as per the HW manual, we should not change RZG2L_GTCNT,
+> > > > RZG2L_GTBER while Counter is running.
+> > > >
+> > > > Will add bool is_counter_running to take care of this conditions.
+> > > >
+> > > > Is it ok with you?
+> > >
+> > > I'm torn here. Resetting the period for the other counter is quite
+> > > disturbing. If you cannot prevent that, please document that in the
+> > > Limitations section above.
+> >=20
+>=20
+> OK, I will document this in limitation section.=20
+>=20
+>  * - While using dual channels, both the channels should be enabled and
+>  *   disabled at the same time as it uses shared register for controlling
+>  *   counter start/stop.
 
-Laurent Pinchart
+Actually it's worse:
+
+- When both channels are used, setting the duty-cycle on one aborts the
+  currently running period on the other and starts it anew.
+
+(Did I get this correctly?)
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--jbozhv5sc6bhwhkt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmMrEysACgkQwfwUeK3K
+7AmaUAf9H64E4M3aeRHqvIK0LHpSJD+UTMQJRt7XljAXlFRgpd47x446VLiXD+h5
+GfcwiIQ8V0K3GpGRt9B7FKbLftTLdqfWWqJ9XgVVcL/ypFfh2ennmlzqQ6LLc4RW
+ipUZjODnldjY1LGUpTCPC7rAk9/Ed5bg6GZscxrYM6RT2M19eDkwV9ZR64AlOKDb
+bSbxrHJLbQ6VMDAIS9aZE42D6jaEb8yvkMrm1cmr7Nch/mz5Lb6H8uAPpMec79Gi
+aIgJwaM6DFELYSfO9GSJtxMAIWF32OdTespxawnNZRA4UOcMU4kbCyi5fLy5zjur
+blUYo81HvwDDNSApifqtTD6F/xFe+g==
+=167n
+-----END PGP SIGNATURE-----
+
+--jbozhv5sc6bhwhkt--
