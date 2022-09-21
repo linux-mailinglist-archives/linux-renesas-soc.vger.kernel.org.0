@@ -2,58 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 892905BFABA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 11:22:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 411D85BFAE3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 11:26:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231589AbiIUJWZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Sep 2022 05:22:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34854 "EHLO
+        id S231691AbiIUJ0Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Sep 2022 05:26:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231408AbiIUJWG (ORCPT
+        with ESMTP id S231587AbiIUJ0I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Sep 2022 05:22:06 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E09EA51A37;
-        Wed, 21 Sep 2022 02:21:27 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id a41so7735292edf.4;
-        Wed, 21 Sep 2022 02:21:27 -0700 (PDT)
+        Wed, 21 Sep 2022 05:26:08 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E6E5895E0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Sep 2022 02:26:06 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id a8so8117973lff.13
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Sep 2022 02:26:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=GLpNbv2dDZs2ELKJfedbPTLfT2mNSjQrTpD1eCAo9R4=;
-        b=mdAeRwbFj19Rzs/mqgRFM2d7927buI86UH/L76robThQCURIrMdVolDmohaWuKLt8F
-         ZfJGEFoE5VoyRUdHha0+3lArmu35lorSe0gugTFVVrKQJBPKvNZmq7HbVEpBfkHTjfKx
-         X+FRub5EJupwXhVdt7yIy/jkz30YU74pYcMEwqsMB3xrL+wzsWAbmla2uTv3ihCuU9J9
-         eYWlTb67MOkHBcKQiT1i4XFrIn0KbAbBlMUPVD6NqznG8+UVojtf1f5yeFMb/wlgHwda
-         3soPAwF9S213cC9McMt9xZ7Rq8GJhxlCiJxhBSldfOIvj0jbxFmFKTZioJDYlrxq2UlP
-         iSLQ==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=ezjLW8T0NnEvujrr+yzCxs0Deq1uyAkeS9ezzI+wOlY=;
+        b=sK8YpVlFRQHVPWV/D2oTHdullgr0ojORZlODvaC0y5qrYolxrJNQN/VcgFepuYOOVF
+         9XzaSs1eBp+6XfFjMH6CwjqjriUOtPTSLtxtMMa10Dm5gawSXBO9YrS87Z7N6dqz83QU
+         +mvP6MZm4VjD11quHXnPwd8Nl+sO/IDL7PGb+fFM2Q9kPA2QOZzSP0v4ju1W63rvSsK9
+         1jHqXNDT1fSn//4eN12bTKbuxMH96XAzatxgylqGStavXz3AC/RRamnSr/f/x3XsmasM
+         +A7Mj5TpRHkH67k+fMl3obmniN/ViMfReMVR0tjwXBcq5Ss63imtx9fsfkyKPZaQ+O80
+         UjRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=GLpNbv2dDZs2ELKJfedbPTLfT2mNSjQrTpD1eCAo9R4=;
-        b=xntGCVrHyezYpeT8ZxCifWLSbgJjVLWxs+8c1UYQ1ELQl6WIvYOIX7nDd8nnUP7FvV
-         3AcymrRTH6FW73iuSiC1RP23oYnkZnPv7MmZX1kqC21JRDEJ2ECgDZsQToSZOPY7Vcy9
-         xba7VWPEo+trH/xCO0ablbvGV0VjLHMU9OlG/oA0noD7yRUJ9YV28L/LlvbMq2OTc9XS
-         T2ct1tb7MIHrNRxTYCxCsgpMmj3XeD49p0PaKpwyOIjk22aDmIOEVfiEeEN8MVWmMYRz
-         hJeLBVu/YkYDCgR61SxeGy/kgqwfjnC2ahha47SbL6SurU1NL3kLc7/nH4lIwj3b0SK2
-         TXGg==
-X-Gm-Message-State: ACrzQf3yewhy53iOHLICk8NJPQ8uS33vHN96juGj5/HpTJQxHGd7LdRz
-        CgXb+Xw8uEAvOBuYNqPEempdCT0+bI0cgLtchVE=
-X-Google-Smtp-Source: AMsMyM7+OZ810UA2mZJt2QSEYSd2Q9iA3wdNG3qKqnIkRmmrozXEWttDQZsMNbbQC6kq39c2WPA+h5udMhfxXLYzak8=
-X-Received: by 2002:a05:6402:350b:b0:452:2b68:90db with SMTP id
- b11-20020a056402350b00b004522b6890dbmr23967840edd.255.1663752085609; Wed, 21
- Sep 2022 02:21:25 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=ezjLW8T0NnEvujrr+yzCxs0Deq1uyAkeS9ezzI+wOlY=;
+        b=tXJIt8AqTBcpUxt69aHisPSAdDAYLnlSwcQkZctGVG20Bcgu3qtS4ty59ma+AoAL77
+         P1JpjZz7yyMJWSSEwQoWykWg0tIWQp5b3XYhh7y/VTV8PiAb4EtJw5sL8UYzID+zip0Q
+         H9aHjphGjq18WUhKd+/Fy0oyr68G3n2qRfjGH1MzK/gJ2vdKOyp3vWYFlJnqZGDyAOvC
+         E/aLOfYvnOUJQAensJr3k3HP3hch7zpGQ9qYiVQ6MdL5cJt8+bV3nIgH3XOk7Bh4F36a
+         n/4kWhA8DuhIXbtjSMLLmAb0xga1fzac2oTnMVFzfBKgFIjp+A6NEI33M0NYBad8s0Ra
+         CKHA==
+X-Gm-Message-State: ACrzQf3WPNmdF0RsyDzQ8c69w2Ij0YqepcJFESrtZ5u6282VNfORwGaa
+        3KnNPdagZAcNofUWp9mKbMeELcfMf5KfgQ==
+X-Google-Smtp-Source: AMsMyM4q9W7PZ0FNmBge0OKP6Vy5oQjiloIoQojkEylWDKl/E9ETnWbWzbw58onHa6PBPZqj2juazA==
+X-Received: by 2002:a05:6512:15a0:b0:49b:1eba:89d4 with SMTP id bp32-20020a05651215a000b0049b1eba89d4mr9070467lfb.188.1663752364597;
+        Wed, 21 Sep 2022 02:26:04 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id o16-20020a05651205d000b00492aefd73a5sm353258lfo.132.2022.09.21.02.26.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Sep 2022 02:26:03 -0700 (PDT)
+Message-ID: <df9ff0bd-ad0e-4b5b-859d-dd913628edc8@linaro.org>
+Date:   Wed, 21 Sep 2022 11:26:02 +0200
 MIME-Version: 1.0
-References: <CAMuHMdUPm36RsxHdVwspR3NCAR3C507AyB6R65W42N2gXWq0ag@mail.gmail.com>
- <b0f2e13a-ff5d-5bfc-6dda-ca39bb57803e@linaro.org>
-In-Reply-To: <b0f2e13a-ff5d-5bfc-6dda-ca39bb57803e@linaro.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 21 Sep 2022 10:20:58 +0100
-Message-ID: <CA+V-a8t3ukpa1PNz=5fP+BTjWkFJmwDo_EJJYjO9YctF2=K1Vg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
 Subject: Re: Similar SoCs with different CPUs and interrupt bindings
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -71,83 +75,81 @@ Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <CAMuHMdUPm36RsxHdVwspR3NCAR3C507AyB6R65W42N2gXWq0ag@mail.gmail.com>
+ <b0f2e13a-ff5d-5bfc-6dda-ca39bb57803e@linaro.org>
+ <CA+V-a8t3ukpa1PNz=5fP+BTjWkFJmwDo_EJJYjO9YctF2=K1Vg@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CA+V-a8t3ukpa1PNz=5fP+BTjWkFJmwDo_EJJYjO9YctF2=K1Vg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+On 21/09/2022 11:20, Lad, Prabhakar wrote:
+>>
+>> What do you mean? Macros support string concatenation and simple
+>> arithmetic like adding numbers. I just tested it.
+>>
+> I did try the below:
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> index 689aa4ba416b..0f923c276cd3 100644
+> --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> @@ -8,6 +8,8 @@
+>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+>  #include <dt-bindings/clock/r9a07g043-cpg.h>
+> 
+> +#define SOC_PERIPHERAL_IRQ(nr, na) GIC_SPI nr na
+> +
+>  / {
+>      compatible = "renesas,r9a07g043";
+>      #address-cells = <2>;
+> @@ -128,7 +130,7 @@ ssi1: ssi@1004a000 {
+>              compatible = "renesas,r9a07g043-ssi",
+>                       "renesas,rz-ssi";
+>              reg = <0 0x1004a000 0 0x400>;
+> -            interrupts = <GIC_SPI 330 IRQ_TYPE_LEVEL_HIGH>,
+> +            interrupts = <SOC_PERIPHERAL_IRQ(330, IRQ_TYPE_LEVEL_HIGH)>,
+>                       <GIC_SPI 331 IRQ_TYPE_EDGE_RISING>,
+>                       <GIC_SPI 332 IRQ_TYPE_EDGE_RISING>,
+>                       <GIC_SPI 333 IRQ_TYPE_EDGE_RISING>;
+> 
+> This worked as expected, but couldn't get the arithmetic operation
+> working. Could you please provide an example?
 
-On Wed, Sep 21, 2022 at 9:53 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 21/09/2022 09:46, Geert Uytterhoeven wrote:
-> >         Hi Rob, Krzysztof,
-> >
-> > This is a topic that came up at the RISC-V BoF at Plumbers, and it was
-> > suggested to bring it up with you.
->
-> I guess you also need SoC maintainers as well (+Cc Arnd and Olof). :)
->
-> >
-> > The same SoC may be available with either RISC-V or other (e.g. ARM) CPU
-> > cores (an example of this are the Renesas RZ/Five and RZ/G2UL SoCs).
-> > To avoid duplication, we would like to have:
-> >   - <riscv-soc>.dtsi includes <base-soc>.dtsi,
-> >   - <arm-soc>.dtsi includes <base-soc>.dtsi.
-> >
-> > Unfortunately RISC-V and ARM typically use different types of interrupt
-> > controllers, using different bindings (e.g. 2-cell vs. 3-cell), and
-> > possibly using different interrupt numbers.  Hence the interrupt-parent
-> > and interrupts{-extended} properties should be different, too.
-> >
-> > Possible solutions[1]:
-> >   1. interrupt-map
-> >
-> >   2. Use a SOC_PERIPHERAL_IRQ() macro in interrupts properties in
-> >      <base-soc>.dtsi, with
-> >        - #define SOC_PERIPHERAL_IRQ(nr, na) nr          // RISC-V
-> >        - #define SOC_PERIPHERAL_IRQ(nr, na) GIC_SPI na  // ARM
-> >      Note that the cpp/dtc combo does not support arithmetic, so even
-> >      the simple case where nr = 32 + na cannot be simplified.
->
-> What do you mean? Macros support string concatenation and simple
-> arithmetic like adding numbers. I just tested it.
->
-I did try the below:
-
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-index 689aa4ba416b..0f923c276cd3 100644
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+index ff6aab388eb7..0ecca775fa3f 100644
 --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
 +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
 @@ -8,6 +8,8 @@
  #include <dt-bindings/interrupt-controller/arm-gic.h>
  #include <dt-bindings/clock/r9a07g043-cpg.h>
-
-+#define SOC_PERIPHERAL_IRQ(nr, na) GIC_SPI nr na
-+
+ 
++#define SOC_PERIPHERAL_IRQ_NUMBER(na)  (na + 32)
++#define SOC_PERIPHERAL_IRQ(nr, na) GIC_SPI nr SOC_PERIPHERAL_IRQ_NUMBER(na)
  / {
-     compatible = "renesas,r9a07g043";
-     #address-cells = <2>;
+        compatible = "renesas,r9a07g043";
+        #address-cells = <2>;
 @@ -128,7 +130,7 @@ ssi1: ssi@1004a000 {
-             compatible = "renesas,r9a07g043-ssi",
-                      "renesas,rz-ssi";
-             reg = <0 0x1004a000 0 0x400>;
--            interrupts = <GIC_SPI 330 IRQ_TYPE_LEVEL_HIGH>,
-+            interrupts = <SOC_PERIPHERAL_IRQ(330, IRQ_TYPE_LEVEL_HIGH)>,
-                      <GIC_SPI 331 IRQ_TYPE_EDGE_RISING>,
-                      <GIC_SPI 332 IRQ_TYPE_EDGE_RISING>,
-                      <GIC_SPI 333 IRQ_TYPE_EDGE_RISING>;
+                        compatible = "renesas,r9a07g043-ssi",
+                                     "renesas,rz-ssi";
+                        reg = <0 0x1004a000 0 0x400>;
+-                       interrupts = <GIC_SPI 330 IRQ_TYPE_LEVEL_HIGH>,
++                       interrupts = <SOC_PERIPHERAL_IRQ(330, IRQ_TYPE_LEVEL_HIGH)>,
 
-This worked as expected, but couldn't get the arithmetic operation
-working. Could you please provide an example?
 
-Cheers,
-Prabhakar
+
+Or any other method like that....
+
+Best regards,
+Krzysztof
+
