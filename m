@@ -2,168 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 189BD5BFB7B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 11:45:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF3AB5BFBFF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 12:08:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229716AbiIUJpB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Sep 2022 05:45:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44738 "EHLO
+        id S229971AbiIUKID (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Sep 2022 06:08:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231748AbiIUJn7 (ORCPT
+        with ESMTP id S229695AbiIUKIA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Sep 2022 05:43:59 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0266392F7A
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Sep 2022 02:43:56 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id y5so8951412wrh.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Sep 2022 02:43:56 -0700 (PDT)
+        Wed, 21 Sep 2022 06:08:00 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3820785B3;
+        Wed, 21 Sep 2022 03:07:57 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id hy2so8754404ejc.8;
+        Wed, 21 Sep 2022 03:07:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=1g7iD3leIss4w6BJ5qO+L1jz4YwsNBVACOWMBVjZgpk=;
-        b=zQbmfBmegjos4DstNIyh4h3OfgjszA3bL7nsBwXGl/h1Rh1x03+MeT9QU8UpnjjUrv
-         MB4FZYymJ9XdqFI5WTo05b2iK/TyqXb/IbvqFsoc8Dj1Ow8qlyiHsQ3Vt2FuJe5uR492
-         fOC068b6lAjpy9eQ8R7bcM4+UQyY3Kyiz2DHxz3xLqt1RELb0RVRhso6JbQqYpF5BgqN
-         fEpI+FpSF1dyhxqrFLcIyLbx8nIZin0jG4VXiBDFlJU/9Ir9+UaIAjqSJztcgVBtnHG2
-         ShmfOqw644YZqLiRvOAzigLsm9XFbFNsEqehgBYa9hj7na3+xCxQ511pw7LY7RDiUUNP
-         AkQg==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=16JHpy8HOV5zOjzO41UWCeQsc//VdSkHGlgOJLsMd8k=;
+        b=W2nsBUXvxZW4u9Vlf0bwCXbGqjxzpcwSk+491KYGNutwKR5iVS/4+r1ZWnYID/AMjB
+         XMXv5w2GMh6+F8QGi7Io73MQA5tSGqmG2x/3U2WZN7mB/C3zCUl0vt1c7Li5kpJ5ieNe
+         r8r2OyPJyAxFaQXePEK0wOHZpVDUuuj7DJjhSGHEzNN9tpj70q+o/+LJhw5u9sVksOQr
+         T/FBkTX5G9QjyXlKxw1cBnk2Z5yk3gkHGF0DZ2+UvaT/knvTFCAVHRVNnH91qBVrvo8H
+         80e0lk7XR3ChVikb17npTnmpn70MchyWfxrtsQAYXUWDsUZhSg0+lJ+n9WpY5F7UyvaE
+         pQiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=1g7iD3leIss4w6BJ5qO+L1jz4YwsNBVACOWMBVjZgpk=;
-        b=TVkrtIDT/KTBvVDJr8KlnNyuC8W40na8a+45qGJn0GKt7mkGBMtwuzZC96eMmEKW9g
-         22mOTbpMOTONMC76JAh7resMFiv6zwQ9LlXdjDTPDXNrK94ktzg64gDi83knGBDmIChf
-         4prTsmOPWdIxilinlCoi+wj2V8KruzJbAhDZMNATnNnFtZbZAdBnncT1L+XnISovPn02
-         7ONdyhegNrNxKUnozgAMvL1DkiKI/Tvv1mDszer1DgeBUQ6sirlTUg/khPyFXnJLxLU/
-         /oXVg2u5ixoaET4yjzBI5eOs4yYUAs7rgO4Z7yIK2u1FqR2Z45+3lWm44m9BjCoe+1x6
-         nJvQ==
-X-Gm-Message-State: ACrzQf3W+joQkNCvHLSNkNIwXh0KvP4wPCqQlp/5hfJuxv9kzTfcYkTF
-        6E89ttDP62B/W6hIzk8d79vcjA==
-X-Google-Smtp-Source: AMsMyM5Fy5rsKtsYjouyAotA7L+Pne0w+FWVZ0x6QfNVNWl4vzzA09eOpseqiZdhv/eLWnoKGpc7AQ==
-X-Received: by 2002:a05:6000:1866:b0:228:e373:ad68 with SMTP id d6-20020a056000186600b00228e373ad68mr16155764wri.605.1663753434825;
-        Wed, 21 Sep 2022 02:43:54 -0700 (PDT)
-Received: from mai.. (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.gmail.com with ESMTPSA id r123-20020a1c2b81000000b003a62052053csm2763917wmr.18.2022.09.21.02.43.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Sep 2022 02:43:54 -0700 (PDT)
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-To:     daniel.lezcano@linaro.org, rafael@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        rui.zhang@intel.com,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Amit Kucheria <amitk@kernel.org>,
-        linux-renesas-soc@vger.kernel.org (open list:RENESAS R-CAR THERMAL
-        DRIVERS)
-Subject: [PATCH v4 23/30] thermal/drivers/rcar: Use generic thermal_zone_get_trip() function
-Date:   Wed, 21 Sep 2022 11:42:36 +0200
-Message-Id: <20220921094244.606948-24-daniel.lezcano@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220921094244.606948-1-daniel.lezcano@linaro.org>
-References: <20220921094244.606948-1-daniel.lezcano@linaro.org>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=16JHpy8HOV5zOjzO41UWCeQsc//VdSkHGlgOJLsMd8k=;
+        b=dcC3LGwj3pgCe7ObXfI0e1KitgTpUqZ2Kw/5ijPrBW92BbAF04UZb4ypnW5WMt4kxc
+         APkhp1e8dIrp5nZ5IYW46QHxUNsZtqJq/nRcZ6CUPCR1edlMJw4/zdomdgAjso/zoozn
+         pv2VmOoEnijqhnuZX2LhIb4+rBMp2Wlfk3sujDI5r89iCbBv0X3017wTygd/61KoedHS
+         nI7l169xfPGgcHxfFNTmt9Gl0khpubMqEAbWs4OyKEAKvlieXORxGWBr73RLD8a0nqqU
+         veW2ncMq0NChL9hTQjzU6o6xuQYe01FqAA2/p6SUxQP5n+PugiwEP6dMVITd6vKn5xDw
+         jCJw==
+X-Gm-Message-State: ACrzQf1hUsjmAjH6ybMnh3q0TEJZvZb5Cu20xLQRg6axjJfqKY14nxTo
+        FOtr8YkjCdsuhkH59tU+UXpnUNwN/jOxRKpe1qTuIzMUrh4=
+X-Google-Smtp-Source: AMsMyM5rh1KQ7KgFpMv+pJ3tu52sOsSxVxHqI6HzSneUdWNk74IBai04tZfLSooyjz4dTz8BOkizUbI1Qgl4nYk8Jqs=
+X-Received: by 2002:a17:906:591:b0:73d:c3ef:84ae with SMTP id
+ 17-20020a170906059100b0073dc3ef84aemr20462081ejn.155.1663754876285; Wed, 21
+ Sep 2022 03:07:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <CAMuHMdUPm36RsxHdVwspR3NCAR3C507AyB6R65W42N2gXWq0ag@mail.gmail.com>
+ <b0f2e13a-ff5d-5bfc-6dda-ca39bb57803e@linaro.org> <CA+V-a8t3ukpa1PNz=5fP+BTjWkFJmwDo_EJJYjO9YctF2=K1Vg@mail.gmail.com>
+ <df9ff0bd-ad0e-4b5b-859d-dd913628edc8@linaro.org>
+In-Reply-To: <df9ff0bd-ad0e-4b5b-859d-dd913628edc8@linaro.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 21 Sep 2022 11:07:29 +0100
+Message-ID: <CA+V-a8svcTXceeLSVD4D9VazTc9nN5MXsFmvcFaDd2mM0REDhg@mail.gmail.com>
+Subject: Re: Similar SoCs with different CPUs and interrupt bindings
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andre Przywara <andre.przywara@arm.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Atish Patra <atishp@atishpatra.org>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The thermal framework gives the possibility to register the trip
-points with the thermal zone. When that is done, no get_trip_* ops are
-needed and they can be removed.
+On Wed, Sep 21, 2022 at 10:26 AM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 21/09/2022 11:20, Lad, Prabhakar wrote:
+> >>
+> >> What do you mean? Macros support string concatenation and simple
+> >> arithmetic like adding numbers. I just tested it.
+> >>
+> > I did try the below:
+> >
+> > diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> > b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> > index 689aa4ba416b..0f923c276cd3 100644
+> > --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> > @@ -8,6 +8,8 @@
+> >  #include <dt-bindings/interrupt-controller/arm-gic.h>
+> >  #include <dt-bindings/clock/r9a07g043-cpg.h>
+> >
+> > +#define SOC_PERIPHERAL_IRQ(nr, na) GIC_SPI nr na
+> > +
+> >  / {
+> >      compatible = "renesas,r9a07g043";
+> >      #address-cells = <2>;
+> > @@ -128,7 +130,7 @@ ssi1: ssi@1004a000 {
+> >              compatible = "renesas,r9a07g043-ssi",
+> >                       "renesas,rz-ssi";
+> >              reg = <0 0x1004a000 0 0x400>;
+> > -            interrupts = <GIC_SPI 330 IRQ_TYPE_LEVEL_HIGH>,
+> > +            interrupts = <SOC_PERIPHERAL_IRQ(330, IRQ_TYPE_LEVEL_HIGH)>,
+> >                       <GIC_SPI 331 IRQ_TYPE_EDGE_RISING>,
+> >                       <GIC_SPI 332 IRQ_TYPE_EDGE_RISING>,
+> >                       <GIC_SPI 333 IRQ_TYPE_EDGE_RISING>;
+> >
+> > This worked as expected, but couldn't get the arithmetic operation
+> > working. Could you please provide an example?
+>
+> diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> index ff6aab388eb7..0ecca775fa3f 100644
+> --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> @@ -8,6 +8,8 @@
+>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+>  #include <dt-bindings/clock/r9a07g043-cpg.h>
+>
+> +#define SOC_PERIPHERAL_IRQ_NUMBER(na)  (na + 32)
+> +#define SOC_PERIPHERAL_IRQ(nr, na) GIC_SPI nr SOC_PERIPHERAL_IRQ_NUMBER(na)
+>  / {
+>         compatible = "renesas,r9a07g043";
+>         #address-cells = <2>;
+> @@ -128,7 +130,7 @@ ssi1: ssi@1004a000 {
+>                         compatible = "renesas,r9a07g043-ssi",
+>                                      "renesas,rz-ssi";
+>                         reg = <0 0x1004a000 0 0x400>;
+> -                       interrupts = <GIC_SPI 330 IRQ_TYPE_LEVEL_HIGH>,
+> +                       interrupts = <SOC_PERIPHERAL_IRQ(330, IRQ_TYPE_LEVEL_HIGH)>,
+>
+>
+>
+> Or any other method like that....
+>
+Thanks for the pointer! (Ive tested the above and it works)
 
-Convert ops content logic into generic trip points and register them with the
-thermal zone.
-
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/thermal/rcar_thermal.c | 49 +++++-----------------------------
- 1 file changed, 6 insertions(+), 43 deletions(-)
-
-diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
-index 4df42d70d867..003457810072 100644
---- a/drivers/thermal/rcar_thermal.c
-+++ b/drivers/thermal/rcar_thermal.c
-@@ -278,52 +278,16 @@ static int rcar_thermal_get_temp(struct thermal_zone_device *zone, int *temp)
- 	return rcar_thermal_get_current_temp(priv, temp);
- }
- 
--static int rcar_thermal_get_trip_type(struct thermal_zone_device *zone,
--				      int trip, enum thermal_trip_type *type)
--{
--	struct rcar_thermal_priv *priv = rcar_zone_to_priv(zone);
--	struct device *dev = rcar_priv_to_dev(priv);
--
--	/* see rcar_thermal_get_temp() */
--	switch (trip) {
--	case 0: /* +90 <= temp */
--		*type = THERMAL_TRIP_CRITICAL;
--		break;
--	default:
--		dev_err(dev, "rcar driver trip error\n");
--		return -EINVAL;
--	}
--
--	return 0;
--}
--
--static int rcar_thermal_get_trip_temp(struct thermal_zone_device *zone,
--				      int trip, int *temp)
--{
--	struct rcar_thermal_priv *priv = rcar_zone_to_priv(zone);
--	struct device *dev = rcar_priv_to_dev(priv);
--
--	/* see rcar_thermal_get_temp() */
--	switch (trip) {
--	case 0: /* +90 <= temp */
--		*temp = MCELSIUS(90);
--		break;
--	default:
--		dev_err(dev, "rcar driver trip error\n");
--		return -EINVAL;
--	}
--
--	return 0;
--}
--
- static struct thermal_zone_device_ops rcar_thermal_zone_of_ops = {
- 	.get_temp	= rcar_thermal_get_temp,
- };
- 
- static struct thermal_zone_device_ops rcar_thermal_zone_ops = {
- 	.get_temp	= rcar_thermal_get_temp,
--	.get_trip_type	= rcar_thermal_get_trip_type,
--	.get_trip_temp	= rcar_thermal_get_trip_temp,
-+};
-+
-+static struct thermal_trip trips[] = {
-+	{ .type = THERMAL_TRIP_CRITICAL, .temperature = 90000 }
- };
- 
- /*
-@@ -531,9 +495,8 @@ static int rcar_thermal_probe(struct platform_device *pdev)
- 						dev, i, priv,
- 						&rcar_thermal_zone_of_ops);
- 		} else {
--			priv->zone = thermal_zone_device_register(
--						"rcar_thermal",
--						1, 0, priv,
-+			priv->zone = thermal_zone_device_register_with_trips(
-+				"rcar_thermal", trips, ARRAY_SIZE(trips), 0, priv,
- 						&rcar_thermal_zone_ops, NULL, 0,
- 						idle);
- 
--- 
-2.34.1
-
+Cheers,
+Prabhakar
