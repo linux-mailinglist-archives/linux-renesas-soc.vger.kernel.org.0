@@ -2,65 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D74B5BF884
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 10:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E60A5BF8FD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Sep 2022 10:23:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229913AbiIUIBd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Sep 2022 04:01:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40046 "EHLO
+        id S230232AbiIUIWg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Sep 2022 04:22:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230116AbiIUIBU (ORCPT
+        with ESMTP id S229953AbiIUIWd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Sep 2022 04:01:20 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 581028688F;
-        Wed, 21 Sep 2022 01:01:08 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id l8so3852215wmi.2;
-        Wed, 21 Sep 2022 01:01:08 -0700 (PDT)
+        Wed, 21 Sep 2022 04:22:33 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF0D08304C;
+        Wed, 21 Sep 2022 01:22:30 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id e18so3867054wmq.3;
+        Wed, 21 Sep 2022 01:22:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date;
-        bh=P1brdYL05ONOqQ4UPTBlIuUKc3UGGvzkcC42vcfAOXE=;
-        b=Tp4x8+lc/Y0D2Kel7La5a943urpZ+ieIGWh3yhiz3eDUFYePzoFJAP+2ndSSKxnJc5
-         m0ZqC1mtwCT6x+pe9R3oHcQzEfozq5zeFVC34kNQr4FG6FiBOYlf9ypDV4QWUduETurm
-         lShJkM84+xebPK4MDDXeqH4re1appi8FSIbj4Ee9v3gWWGJFj9Z8bl4dKMMeytNT7f07
-         kWITGFlBX8XBTWO0wKsbXcpZWiofRHjNOd+jg3WK9bfCGPfVbCIIw94BeC6KX7579CZ5
-         YId80/1v43hxBsyfMtCpvZaDEsCh5vHEUBCJO/JVo/wgrXV31E304zh5RvEY3wTTNK75
-         X69w==
+        bh=H5pPXCSR18kwywyOge1PAaJr0wGHH6sXNgt54XvoBP8=;
+        b=XifkRMc+1ZWXN4YyX7Oc2smwmjtRmnhBqVApSiKvH1tA8dJQz+/MBohKljL1zNCJfS
+         zq0T+W3XwjZR06H97v0dJC/e0oLwko6ngqmLSf+TApICU47sZIXTPm1lJw6NBgz59hSm
+         eZiPGC2W7SQyc8gcJS+RyX59DZMIo0izFrCug4dH570jGbINg6RMPXy25IrNelnnS1md
+         sl7WIw6LVcgXq8h4FqsZQKIh2eB7X2YfDg2tCmxCJZ/y5pO5vyCx5a1XqytZulT2LwB5
+         WYWV5t/oTr08KjlA/5uhz6f9gnpkgcz6tjVzcYE5mliE1Y54n0Ot71IouvT1KrvQIjUO
+         ragw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=P1brdYL05ONOqQ4UPTBlIuUKc3UGGvzkcC42vcfAOXE=;
-        b=TuwxoGCB/cOLWmv6/Z8EiqJDSIOsa5OZ2gHxBjHZ2RmIdLMRiMwXlRVSGuujtKcoFD
-         fjoEx7deOsPTYaLa5zBi4hwoqbxpj5q9yGbgdvc8q1IzuVTT4oH7rZlhnDvZtQnIWiMc
-         Q/3RB7R2p2hGB7s+UbW017/UdY4mvVK01lUj2Mb54oK1l4jWK0tPMI3Gr8SqniklNDOi
-         yfLUeJyOxl1RAfq757itj9/ZNpt3EjOr3mNs1ut/6ydVU26Dtde9m2tEtG1gn5Oejjd7
-         1Pves7OsBuZFcvdQ/X5LNDiAK/plR56mi16LrpyjQD3MrhS4CxdxDav0Zvf9hBvBKDRB
-         fGGQ==
-X-Gm-Message-State: ACrzQf0hiLyj6eA8bZlKdGmYzHd000MCLM/o49SW4lWHowOik917VQpt
-        sPQ4IqGzNlOBkKFEpKpNFFE=
-X-Google-Smtp-Source: AMsMyM7T6I+upU/Mrkb86ceE1LroMuK/me1ZMw8e9uVVDpvwEa3joBeBaHLI5M5hUMpecZQvqzhOhA==
-X-Received: by 2002:a05:600c:4e89:b0:3b4:8648:c4e1 with SMTP id f9-20020a05600c4e8900b003b48648c4e1mr4993677wmq.26.1663747266639;
-        Wed, 21 Sep 2022 01:01:06 -0700 (PDT)
+        bh=H5pPXCSR18kwywyOge1PAaJr0wGHH6sXNgt54XvoBP8=;
+        b=pEXlZ9jVZTKb6PAm0iC8zvui5O5NtQ7On9UNH4PkJgrlyDAn7sNszvHZjj/aI9EFWJ
+         zL0qzMuCt8NnorILX3lPzeozrp8q9nQkTJbggbtFJOufBLdpsn+/R0MVLezSB/2QpKs5
+         Kt4ERPDXuepNqR6yDC7j05poo0EpVGIOF8MeZKNlq8YIb7FUP0PxXMsn8z4qJ23drjS/
+         vFZ+J+utag1qgGt1yZm2fnWvNrIQuIA2nyl3X/e1jqI1EIIw/l2t+5QSk3wQgFeGxORo
+         gShUrajPokJIb4blfJ7Wx2nYN7Q45bNR4J/5gtCB0EKRAt0TZ6wlK584SdsLT5RuK2ac
+         sUqA==
+X-Gm-Message-State: ACrzQf2y6AIMTWd4KPuqrJsAZvSQZ+Oq7BjdpM6EeT4OTgwcSY9i9+6F
+        1fjmcCF/rfBR8QNDupgP269w8OFzDVjYsg==
+X-Google-Smtp-Source: AMsMyM5bd8NKuFcIaKie8yXjkFGvIqTpDR7aUk3Ji0DUu8y1iRoihxa5oqiZQWfxjtFuatfIkCNjtg==
+X-Received: by 2002:a05:600c:43d3:b0:3b3:2f1c:f01c with SMTP id f19-20020a05600c43d300b003b32f1cf01cmr4994864wmn.152.1663748549379;
+        Wed, 21 Sep 2022 01:22:29 -0700 (PDT)
 Received: from prasmi.home ([2a00:23c8:2501:c701:a137:83be:d4a3:8e44])
-        by smtp.gmail.com with ESMTPSA id n24-20020a1c7218000000b003a8434530bbsm1968410wmc.13.2022.09.21.01.01.05
+        by smtp.gmail.com with ESMTPSA id b15-20020a5d40cf000000b00228fa832b7asm1863529wrq.52.2022.09.21.01.22.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Sep 2022 01:01:06 -0700 (PDT)
+        Wed, 21 Sep 2022 01:22:28 -0700 (PDT)
 From:   Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] clk: renesas: rzg2l: Fix typo in function name
-Date:   Wed, 21 Sep 2022 09:00:51 +0100
-Message-Id: <20220921080051.5604-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] arm64: dts: renesas: rzg2ul-smarc: Move spi1 pinmux to carrier board DTSI
+Date:   Wed, 21 Sep 2022 09:22:21 +0100
+Message-Id: <20220921082221.10599-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -76,37 +77,55 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Fix typo, rzg2l_mod_clock__get_sibling -> rzg2l_mod_clock_get_sibling
+spi1 is available on the RZ/G2UL SMARC EVK carrier board (PMOD0), hence
+moving the spi1 pinmux from SoM to carrier board. This is to keep
+consistency with the other SMARC EVKs.
+
+Also while moving the pinmux rename rspi1 to spi1 to be consistent with
+other SMARC EVK DTSIs.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/clk/renesas/rzg2l-cpg.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi | 7 +++++++
+ arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi         | 7 -------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-index 3ff6ecd61756..16beec2e3061 100644
---- a/drivers/clk/renesas/rzg2l-cpg.c
-+++ b/drivers/clk/renesas/rzg2l-cpg.c
-@@ -1014,8 +1014,8 @@ static const struct clk_ops rzg2l_mod_clock_ops = {
+diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi
+index bd8bc858c28c..58923dc83faa 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi
+@@ -99,6 +99,13 @@ sound_clk_pins: sound_clk {
+ 		input-enable;
+ 	};
+ 
++	spi1_pins: spi1 {
++		pinmux = <RZG2L_PORT_PINMUX(4, 0, 2)>, /* CK */
++			 <RZG2L_PORT_PINMUX(4, 1, 2)>, /* MOSI */
++			 <RZG2L_PORT_PINMUX(4, 2, 2)>, /* MISO */
++			 <RZG2L_PORT_PINMUX(4, 3, 2)>; /* SSL */
++	};
++
+ 	ssi1_pins: ssi1 {
+ 		pinmux = <RZG2L_PORT_PINMUX(3, 0, 2)>, /* BCK */
+ 			 <RZG2L_PORT_PINMUX(3, 1, 2)>, /* RCK */
+diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
+index 2a0feb53f0dc..931efc07d6fb 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
+@@ -221,13 +221,6 @@ sd0_mux_uhs {
+ 			pinmux = <RZG2L_PORT_PINMUX(0, 0, 1)>; /* SD0_CD */
+ 		};
+ 	};
+-
+-	spi1_pins: rspi1 {
+-		pinmux = <RZG2L_PORT_PINMUX(4, 0, 2)>, /* CK */
+-			 <RZG2L_PORT_PINMUX(4, 1, 2)>, /* MOSI */
+-			 <RZG2L_PORT_PINMUX(4, 2, 2)>, /* MISO */
+-			 <RZG2L_PORT_PINMUX(4, 3, 2)>; /* SSL */
+-	};
  };
  
- static struct mstp_clock
--*rzg2l_mod_clock__get_sibling(struct mstp_clock *clock,
--			      struct rzg2l_cpg_priv *priv)
-+*rzg2l_mod_clock_get_sibling(struct mstp_clock *clock,
-+			     struct rzg2l_cpg_priv *priv)
- {
- 	struct clk_hw *hw;
- 	unsigned int i;
-@@ -1101,7 +1101,7 @@ rzg2l_cpg_register_mod_clk(const struct rzg2l_mod_clk *mod,
- 		struct mstp_clock *sibling;
- 
- 		clock->enabled = rzg2l_mod_clock_is_enabled(&clock->hw);
--		sibling = rzg2l_mod_clock__get_sibling(clock, priv);
-+		sibling = rzg2l_mod_clock_get_sibling(clock, priv);
- 		if (sibling) {
- 			clock->sibling = sibling;
- 			sibling->sibling = clock;
+ #if (SW_SW0_DEV_SEL)
 -- 
 2.25.1
 
