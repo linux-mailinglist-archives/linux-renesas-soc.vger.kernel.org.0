@@ -2,186 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 723D25E5D11
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Sep 2022 10:08:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BB775E5D4C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Sep 2022 10:20:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229554AbiIVIIu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Sep 2022 04:08:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47838 "EHLO
+        id S229578AbiIVIUQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Sep 2022 04:20:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230402AbiIVIIp (ORCPT
+        with ESMTP id S229560AbiIVIUQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Sep 2022 04:08:45 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 073D6CC8D2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Sep 2022 01:08:44 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id t4so2303518wmj.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Sep 2022 01:08:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=ARvQNMyOMyOP1V8sDexoGcQ9GOGjiChUnt03h87Fvgk=;
-        b=Hf0CLrMXp2MhccozCR/XCe207jTe3dBr8f+rR0qG3UhsjP7z9xGxo+aS6WmCvV6cQf
-         cOz7qD5FUuxD1nGdXqflqWWBxIoCH2VV6HgeApIAdRFbW9sUMybzjkZLIxodV7AoHOOm
-         u1yzJOCOL+52o6/XKTUfcT6/IerzN2tJtSMg8FTmLf72b1hmPcLa82ZqvnE8Bdv0YTZV
-         NqHJ16/rTYijJD2LI0RvBnAp5P/UhL97IjcUSUHn2EK90wjufjicQDXzwwBLhjmD4n8y
-         7a3e4QkmVJMbENe89Men6OwH4OVBrV8fIU1L34XSYn2hGHwgJB5o5QlIrfhk5e9OzPAc
-         c0fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=ARvQNMyOMyOP1V8sDexoGcQ9GOGjiChUnt03h87Fvgk=;
-        b=ZyJbotV5T0gjBIecQ9ujC38PgGyzhGXtuD7yfVC5qtI5jmos1Dp/yDxXQqklNF+0De
-         xvzuXMlcvD8lPP0wqQ0VaeBValHVyHe8mfKOQ3mjS30uJTdpgOMa941Jhf/6+hRCl8+E
-         dIchJgz9vVPdHWda/n644ME23ovwSQ1DW8iSE93eiSk2BUT9vKRpfdjcpRxTCKb35PvS
-         AfQSl0k7QZthMctOVLwqzbKas0gwGGq4prk9ehWvrQ/7qFsAj7AZaDghKkNuGGYUAO/9
-         p0BF7qbgf9jhIn5zRoORdFEnKVvqESEnO4KOS+lYkwNPjNYIfvUM5+2Bqd4sT/JkAuTi
-         YkiA==
-X-Gm-Message-State: ACrzQf1xsytdloLAIVBbo0hhyXfE6OQ7sB9zRTnnFBCzJ7grPifRm9AM
-        yRvB60Tp7IQ5kRqEbv6LZxwb/aHgzo7SuLb51lcYUA==
-X-Google-Smtp-Source: AMsMyM5twWT/kjhQnt6WYWcLNJnKZDXCrJItS/TFkIahsbbx6CwuxMbyGk4eegJn4Df56Pq+baf0cIi1+FadLna8oyw=
-X-Received: by 2002:a05:600c:4f8d:b0:3b4:9f2f:4311 with SMTP id
- n13-20020a05600c4f8d00b003b49f2f4311mr1329955wmq.17.1663834122445; Thu, 22
- Sep 2022 01:08:42 -0700 (PDT)
+        Thu, 22 Sep 2022 04:20:16 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2100.outbound.protection.outlook.com [40.107.113.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 264F3422D3;
+        Thu, 22 Sep 2022 01:20:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kwtqTIpta/BfUDS/ZRQRQSmMSWEDn85sVvJ6DmxFcFjMRjj/yP0Lk0xvDpAWb0Hfmqs3zg2v7ifE2ypCCofr+71UNqMM8djq3K4hkxRV5iZPo6C3EbN/fS+jreuWv4qy0hu+F7I6sae1JlJbf4I2u/uC6Uq274oogZBf+oWvFTg8DXKVqCVl3yTrllBoc1JfwDx0w7wO4sDpzpeq93VdVCwt3Oeqh3s7mNT62N3o5gpkQQJvCrS6e9+4E5obojbzBkM5QjwER5Ykr8YmKKGH2+3A8D5I6tOz4z0La99kIfv1aVznSNy5UppW8w7pQTU5WNNJtJB0pk2GCSwhhVvr7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=P18E5XwWG0BkKzp/6VjkPLlbQaW34ergQZUPyLnunWU=;
+ b=NuCJXpI/jILrUudf84SsPz3UaxzF+KdFl9ELjY35b70zPL7dqMGZPqWbx2+0dtqXP86hILW2etPmO5sohvUgPyq3+0YEYIPgn4sPx8gZSqD5+kARyeDqsOxLsTQ65kqjIjPlgzFvODBGCZzTLgR9ghktE3QaC/XQ6jhRrqGIxD4+d6L+jlV6Vxlo6VAUAHgiPj42ELTP7WApiltWGaLvVMjj6xpeOGkyesYl2wpsXBHd2hmn+ELmwW/Q6Q37zThnO6NU2jR6S3ij/j1W2uTo4p7xfkgjFMW3A/93lKF8q0gMvlnqlTILKCvS0Sdl9ZYATzMJl5DdpCo0mEJuF4i7CQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P18E5XwWG0BkKzp/6VjkPLlbQaW34ergQZUPyLnunWU=;
+ b=aEahvilmSsPiKBc3QwO72nvduklq+tvFmiO1khMqWt4Fk4KMJ3d0bxAscGRpy6/3yRxAY/3Q0dVIirRDsIIGWYHTkncNmFif9ZnxyY4wI0YRa1UYknFm2O1wKy0fn9q8rKSZrIwLAmX6/CylArkteQ+N67UGrrJO7q9EpYHV4zo=
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ (2603:1096:404:8028::13) by OS3PR01MB10359.jpnprd01.prod.outlook.com
+ (2603:1096:604:1fb::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.16; Thu, 22 Sep
+ 2022 08:20:11 +0000
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::2991:1e2d:e62c:37d0]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::2991:1e2d:e62c:37d0%3]) with mapi id 15.20.5654.018; Thu, 22 Sep 2022
+ 08:20:11 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        "kishon@ti.com" <kishon@ti.com>,
+        "vkoul@kernel.org" <vkoul@kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "richardcochran@gmail.com" <richardcochran@gmail.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "andrew@lunn.ch" <andrew@lunn.ch>,
+        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v2 2/8] dt-bindings: phy: renesas: Document Renesas
+ Ethernet SERDES
+Thread-Topic: [PATCH v2 2/8] dt-bindings: phy: renesas: Document Renesas
+ Ethernet SERDES
+Thread-Index: AQHYzZbyAdB5zxMt9EG9rj3m+K4rGq3rDseAgAAB7gCAAAWmAIAABSWA
+Date:   Thu, 22 Sep 2022 08:20:11 +0000
+Message-ID: <TYBPR01MB534120E881FFA267A65E8B7CD84E9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+References: <20220921084745.3355107-1-yoshihiro.shimoda.uh@renesas.com>
+ <20220921084745.3355107-3-yoshihiro.shimoda.uh@renesas.com>
+ <9b29ee3f-ed48-9d95-a262-7d9e23a20528@linaro.org>
+ <TYBPR01MB534100D42EC0202CA8BEF04CD84E9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <CAMuHMdV=HECSXtLi6BFRVFiYZvjJ_t5RDUY3DckbSB4ozEtOgg@mail.gmail.com>
+In-Reply-To: <CAMuHMdV=HECSXtLi6BFRVFiYZvjJ_t5RDUY3DckbSB4ozEtOgg@mail.gmail.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|OS3PR01MB10359:EE_
+x-ms-office365-filtering-correlation-id: 608f4dc0-d138-4e79-b3c7-08da9c7344e6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Kz1r79NFJnl7OhHqjlQJIXyVhrV5mCsgi98IZ8RGjktT3p0uy2K++NDK3Z3rlrFnUkOSTDyHynwVNjOjjFGfyCrHE+FWogoXt07COgyE6jWz6IlETnEeF7i3zjWiQf0/ctiXkOrhUjQitlQoUSVCixN2bLYPIxUvxQhf9BVH9fHTpEdTsdwFqQzcD671lR9qhrXDs6SHKEUt2vZQ8ru6tVeS3bBIir7BEfPxbghbpifRsXWHJ5eYxYuxUEM4FyGGcE8eFlZJ9XEjanmwIXN5YoBFtBOcpzi6CfqtzmxZJOM4W92FQ4+1k8Iiy7unWJpoNmZ8V1C4BI52BYoLud0ydy5KEVmTGlMscne8h8cJoiJ5dMSts0kkoqL/1HLzcXQhes+27AcYXBfWYv3XAOn/T4FPLF6Pfucq2JDmOXBcBH7IdVODucroPfVYuYId7fjGPlNWAcrweoveDYbdUwdXguzEQp3vNxkQVRduG8DSOtoH2Kfd7sIv402wvozPfTlgvc2LTxzvdVD3gPOZf8NNJK7nimyMA062RYMj8cqzyyUy+ZScXrT6/JHxMQvVxNimDVp9G1vFos26vZNcshtk0ZMshM61B4MmU65T6RqCqFAxm7dw6d8g1bAVOe7LoTXd5c+Yex0YEiAxz7f810NA1iHRcuCdHpA/CuTe3E+JfY9FjK393XbyDITJFrRHeoYmi7wSb3/BUO/ypeHusHs5M5n5w5pKlwTQ0LmnDD1JaEo8ZULHWx4fGT7HGScev12oHProCj//R19xdU2xjTqqhQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(346002)(366004)(396003)(39860400002)(451199015)(8676002)(2906002)(316002)(38100700002)(122000001)(8936002)(6506007)(9686003)(26005)(53546011)(7696005)(52536014)(7416002)(55016003)(41300700001)(186003)(478600001)(38070700005)(86362001)(5660300002)(66946007)(64756008)(66556008)(66476007)(54906003)(76116006)(33656002)(71200400001)(4326008)(66446008)(6916009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QzBuQk9BVUFKMWVqU04zV2tTakNzdE9mcXdZY3B3aWlVbnZQRDdzZzV5VXpR?=
+ =?utf-8?B?MTh0RFVsWmRpQmdhaFY2b2JKYktuK2d3S2huZFhQdkFvR21hOXJsTjdMTlJ4?=
+ =?utf-8?B?QmM0WEhHZTZwVWN1VzkySWY0Z0tRb21CcmRJZ0pQdko0RW0xNlN1SDNLRlZE?=
+ =?utf-8?B?Y3h2VS8rSndFOHZMaWw0cTlQdktkT01Lc0pXdklrVVRxU2xnOVVKU1JhNTF3?=
+ =?utf-8?B?S0loLytiL3dncXkwd25pckFwR1V2OTJZNUNJOFI4RFpjeHVHVmJYeFh3M2ZO?=
+ =?utf-8?B?L0ZDbnUxcklyR0JRL3Fka2tOWTB6MzlCMkQrS3BydHZFVkpVYUZETlFyaEVS?=
+ =?utf-8?B?RnJ4eDFMa3krYmc5VmZ0cHhLaWRmYnpIckxaT2FBZGx0OG9KQ0xaVG9mMy9x?=
+ =?utf-8?B?b3dYcnNpS24wak43OUhWa293VE1mVGhaSUs0eEcrenNSUDNUcEYvdmpNVUhI?=
+ =?utf-8?B?cmN5NkhyMS8rUDhBYkk0RWxhTXR0UnRuRitKWjNRU3NWL2VXaGh1dnh5TlBG?=
+ =?utf-8?B?cUZJTlo4T09BWUV0emVYc1VIUHMyRVVzZWloNHdSUjNZRTVVaXd5M2Fyd1lW?=
+ =?utf-8?B?THAxZnpJazc1YlBMSExudWZNOFhZYU85V0ZRcGNDcmNjZzZwMjZScHQyVGRG?=
+ =?utf-8?B?UjRXMWt6dnNMdm4rRXYxSkVEeUw2dXRtOTAweTQ0TFpDWDhnaTU5alB4MHYr?=
+ =?utf-8?B?R09UVXYwaTFrWUZjdFFJZmhMWUFOYnhoTkYzazFsK0R0dDdLSGl2a1RUSUJi?=
+ =?utf-8?B?eTZXRlVkYk9MRlJkakVnd2dxMGJuTUFJUVVMRDRDSHRWMGFTWDFqaCs4TDNy?=
+ =?utf-8?B?VUlRM1dCVWZLNkE2dUl1bG1rVFVzN0Jod2dTVDlib2U5a1lvdktvaUtYSHlY?=
+ =?utf-8?B?UjdpaWZYOHhGQlN0TzFSeENPRWxsT3dRbGNnbFp0bzV0bllEZ0UzU1dwYk1l?=
+ =?utf-8?B?VzZ0eitrTHR4UlVUNzJYVFFySjZnazIweFcwMVFpblREVGtTakdIV29SNTFu?=
+ =?utf-8?B?OGJyQkloTXpBQXRqbzJmWTQxVDJrWkprcFp5OW5reDlyMG1TaEZPanFpYmFZ?=
+ =?utf-8?B?bStQR2lXWXY4bjVFUE8xOUN2VGxSQXVxNG9mS2JMcXQvUFhiNS9CdkwzRDJ5?=
+ =?utf-8?B?VjVabFhqazNwb1dwaVliUDhjVUMrdHhJVll5OTRPc3F4SjdXcEZmaFV0blgr?=
+ =?utf-8?B?eUdNMVN2U0F6K0lYR1hEUjFyZFIxR2JyM3Jna2xkMm5hQkJZcTBpZmV5ajNk?=
+ =?utf-8?B?Vjk1L2krQUNQVmk0VHZQbVpXelhFVmVjNUJWVWdOWllvT0V6WUtnYkxEdTlM?=
+ =?utf-8?B?UU9XZ2xIS21sV0lIMEJrT2dsQ3B3UGkvRkt4Mmd5aGJ6bjBFNjNCbldjdkQw?=
+ =?utf-8?B?UWYzeitLcHpxK1l6ZHc2cjR5ZkNBcDlFamlWWDJzcGovdUZUcFVveG5jTFFW?=
+ =?utf-8?B?aFkva0pMMU5uOS9xSkE0T1ZSTzhPMEZ6bHU2U3VsSjlyUTlTaFN2Y2h3N0Qr?=
+ =?utf-8?B?cEtKOGlJZDNjbXVmdDNIOHU4V0N6dlpld3R6OTQ0L2pxVWY3SWZSVWxZU0hh?=
+ =?utf-8?B?am45Qy9tVXEvSWRBQnYyUEFvYnRVQmlvOUJVRzNUZHUwdEhjYW1NR0luY3dj?=
+ =?utf-8?B?QnpZLzlCcC9wSkVhRWwyTHlzNG14dG8wWUZKajZ5SlVkckdFN0NFbmI0UHNh?=
+ =?utf-8?B?ZFJsYVpiWkxSTmpNWkZUb05ZaFJTRWRxYU5pdFpWK25JMzZZRjN6Mmtad2d5?=
+ =?utf-8?B?M1h3YTIyT3QyeDFUT1JORGtVak1TWGpmUldMN2R4SCtSZ3BuTnVDVjl3eW8r?=
+ =?utf-8?B?aS82T1diUDdod05ZMzBRRWxzbTFzUHIzVjV4NEQxYVFlbnF3WVFpdXcwcVoy?=
+ =?utf-8?B?eUpoZjdhbVZvVVFhc3FqM1BYWXQvaVRpcGptZmZVN2IyRkFZa2ZtcThBcGRi?=
+ =?utf-8?B?VGxiV0NuaXNaNUMvQ2lwTG02OFB0dHh6ekRqMVUzY3hXV0NqVjNaT01haVV3?=
+ =?utf-8?B?bDU4NThCSFJRVHFNR2hQcjQ3Y0VKclkvMFpwU0NTSjliUE5CUFdMajB1bGVq?=
+ =?utf-8?B?cGlWblYxNHJQRnhLaEl1bFdwQURFWGZBVFBrclV2SVhsUFl0c3VueVNPZ3No?=
+ =?utf-8?B?dmJRNk5uc2NrMDZKck5qdWtRTDZJQlgvSkpUSVRoejZuMTE3OHJGbEJVbmtO?=
+ =?utf-8?B?eGc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <DU0PR04MB94173B45A2CFEE3BF1BD313A88409@DU0PR04MB9417.eurprd04.prod.outlook.com>
- <CAPDyKFrzJikk6rJr9xwV6W-whvdLe5tTUE+xO_EoRtm+9DAbNA@mail.gmail.com>
- <20220908173840.rqy335cdeg5a2ww5@bogus> <CAPDyKFqYDNXxfKHd8PYy8T3di2s206nCiHY7cEf+_EHVrY1YbQ@mail.gmail.com>
- <20220909154254.xy4jvj6ybpuynghc@bogus> <CAMuHMdXvTWvZHjE-7CKOxCKjuPF++xQQRGedHeL2Zy-wsnHviw@mail.gmail.com>
- <CAMuHMdX2rJq0DJo9D_RSMoAj9GPc-Zts5+UNCFQGF3+EYVSXgQ@mail.gmail.com>
- <20220914153038.inbch35g7ldsyzhx@bogus> <81pr96n7-p42q-s3s-1541-n777or1p612@syhkavp.arg>
- <CAPDyKFoBvX7WmJu0E1p0RuVCEKFFk===ZVnYtbz9o=RZPzHSTA@mail.gmail.com> <20220921144203.asmpurbklwdcprix@bogus>
-In-Reply-To: <20220921144203.asmpurbklwdcprix@bogus>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 22 Sep 2022 10:08:05 +0200
-Message-ID: <CAPDyKFq0ryd9PZbLbtLW0hpjbbb8F0rk+33+OdvvPVitbbJvPg@mail.gmail.com>
-Subject: Re: Question: why call clk_prepare in pm_clk_acquire
-To:     Sudeep Holla <sudeep.holla@arm.com>
-Cc:     Nicolas Pitre <nico@fluxnic.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Peng Fan <peng.fan@nxp.com>,
-        "ben.dooks@codethink.co.uk" <ben.dooks@codethink.co.uk>,
-        "rafael.j.wysocki@intel.com" <rafael.j.wysocki@intel.com>,
-        "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
-        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        Aisheng Dong <aisheng.dong@nxp.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Dien Pham <dien.pham.ry@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 608f4dc0-d138-4e79-b3c7-08da9c7344e6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2022 08:20:11.6864
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Mr3ol4gEjVX1eU4AXVHoIzHIAziEIXhFI68+l+8L/z4JIBljWUlFvsDTJ1DdBhCs0PpFdCQqlown7OkRFIFu1YgUsAqvOgyBDkb1phLSKxJy5/+WHcipAeAx87oT3q6e
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB10359
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 21 Sept 2022 at 16:42, Sudeep Holla <sudeep.holla@arm.com> wrote:
->
-> On Mon, Sep 19, 2022 at 11:53:18AM +0200, Ulf Hansson wrote:
-> > On Wed, 14 Sept 2022 at 19:05, Nicolas Pitre <nico@fluxnic.net> wrote:
-> > >
-> > > On Wed, 14 Sep 2022, Sudeep Holla wrote:
-> > >
-> > > > On Mon, Sep 12, 2022 at 06:58:49PM +0100, Geert Uytterhoeven wrote:
-> > > > > Hi Sudeep,
-> > > > >
-> > > > > CC Dien Pham
-> > > > >
-> > > > > On Mon, Sep 12, 2022 at 6:49 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > > On Fri, Sep 9, 2022 at 4:51 PM Sudeep Holla <sudeep.holla@arm.com> wrote:
-> > > > > > > On Fri, Sep 09, 2022 at 01:12:03PM +0200, Ulf Hansson wrote:
-> > > > > > > > On Thu, 8 Sept 2022 at 19:38, Sudeep Holla <sudeep.holla@arm.com> wrote:
-> > > > > > > > > On Thu, Sep 08, 2022 at 04:37:13PM +0200, Ulf Hansson wrote:
-> > > > > > > > > > On Thu, 8 Sept 2022 at 09:33, Peng Fan <peng.fan@nxp.com> wrote:
-> > > > > > > > > > > We are facing an issue clk_set_rate fail with commit a3b884cef873 ("firmware:
-> > > > > > > > > > > arm_scmi: Add clock management to the SCMI power domain") ,
-> > > > > > > > > >
-> > > > > > > > > > Hmm, I wonder about the main reason behind that commit. Can we revert
-> > > > > > > > > > it or is there some platform/driver that is really relying on it?
-> > > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > IIUC, at the time of the commit, it was needed on some Renesas platform.
-> > > > > > > > > Not sure if it is still used or not.
-> > > > > > > >
-> > > > > > > > Okay! Maybe Nico remembers more, as he authored the patch...
-> > > > > > > >
-> > > > > > >
-> > > > > > > May be, or even check with Renesas team who tested his patch.
-> > > > > >
-> > > > > > I'm not aware of Renesas platforms using SCMI...
-> > > > >
-> > > > > Upon closer look, Diep Pham did report a build issue in the SCMI code, so
-> > > > > perhaps Diep knows more...
-> > > > >
-> > > >
-> > > > Yes indeed, Diep Pham tested the original patch IIRC and also has reported
-> > > > few bugs in SCMI clock code which are fixed. Hence I know it is used by
-> > > > Renesas.
-> > > >
-> > > > Hi Peng,
-> > > >
-> > > > Absence of DTS changes indicate nothing. I am aware of couple of vendors
-> > > > who use SCMI on several platforms and do report issues regularly and help
-> > > > in review of the code. So DTS is not a good indicator of SCMI usage
-> > > > unfortunately. On reason could be that since it is a firmware, bootloaders
-> > > > can detect and update DTS, just my thought and may differ from the reality.
-> > >
-> > > Sorry for the delay.
-> > >
-> > > This patch was indeed requested by Renesas for one of their platform
-> > > that uses SCMI clocks. I didn't have access to the platform myself at
-> > > the time but the patch was positively validated and tested by Renesas.
-> > >
-> > > This works in conjunction with commit 0bfa0820c274 that made generic
-> > > clock pm code usable with the SCMI layer.
-> > >
-> > > I didn't touch any clock stuff since then and I forgot about the finer
-> > > details unfortunately.
-> >
-> > Thanks Nico for coming back with this information. To me, it looks
-> > like the patch may be applicable to some Renesas' downstream kernel
-> > then.
-> >
->
-> Though I agree in most of the case, I am not sure in this particular
-> case as they may not need any downstream kernel changes for SCMI. All
-> they need is DT nodes.
-
-Right, good point!
-
->
-> > In my opinion I think we should rather try to revert, to avoid any
-> > further problems. So I am going to send that patch and see what people
-> > think about it.
-> >
->
-> Since I see absolute silence from Renesas, I am happy to revert if no
-> one has any objections.
-
-Okay, good!
-
->
-> > Another option, which Sudeep doesn't seem very happy about too, is to
-> > make the GENPD_FLAG_PM_CLK conditional, based on a platform
-> > compatible.
->
-> Correct, I would rather make it generic based on clock flags like in this
-> case it is CLK_SET_PARENT_GATE or CLK_SET_RATE_GATE or something right ?
-
-That needs some more thinking, but potentially it could work - at
-least for this particular case with clk_set_rate().
-
-Although, as it's likely that the subsystem/driver is already handling
-the clock(s), the whole thing with using GENPD_FLAG_PM_CLK is in most
-cases superfluous. That means we end up running unnecessary code-paths
-during runtime suspend/resume (to ungate/gate clock(s) twice) - and
-that involves acquiring/releasing locks too, when that isn't really
-needed.
-
-Kind regards
-Uffe
+SGkgR2VlcnQtc2FuLA0KDQo+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiwgU2VudDogVGh1cnNk
+YXksIFNlcHRlbWJlciAyMiwgMjAyMiA0OjU2IFBNDQo+IA0KPiBIaSBTaGltb2RhLXNhbiwNCj4g
+DQo+IE9uIFRodSwgU2VwIDIyLCAyMDIyIGF0IDk6MzkgQU0gWW9zaGloaXJvIFNoaW1vZGENCj4g
+PHlvc2hpaGlyby5zaGltb2RhLnVoQHJlbmVzYXMuY29tPiB3cm90ZToNCj4gPiA+IEZyb206IEty
+enlzenRvZiBLb3psb3dza2ksIFNlbnQ6IFRodXJzZGF5LCBTZXB0ZW1iZXIgMjIsIDIwMjIgNDoy
+OSBQTQ0KPiA+ID4gT24gMjEvMDkvMjAyMiAxMDo0NywgWW9zaGloaXJvIFNoaW1vZGEgd3JvdGU6
+DQo+ID4gPiA+IERvY3VtZW50IFJlbmVzYXMgRXRoZXJlbnQgU0VSREVTIGZvciBSLUNhciBTNC04
+IChyOGE3NzlmMCkuDQo+ID4gPiA+DQo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IFlvc2hpaGlybyBT
+aGltb2RhIDx5b3NoaWhpcm8uc2hpbW9kYS51aEByZW5lc2FzLmNvbT4NCj4gPiA+ID4gLS0tDQo+
+ID4gPiA+ICAuLi4vYmluZGluZ3MvcGh5L3JlbmVzYXMsZXRoZXItc2VyZGVzLnlhbWwgICAgfCA1
+NCArKysrKysrKysrKysrKysrKysrDQo+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgNTQgaW5zZXJ0
+aW9ucygrKQ0KPiA+ID4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy9waHkvcmVuZXNhcyxldGhlci1zZXJkZXMueWFtbA0KPiA+ID4gPg0KPiA+
+ID4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3BoeS9y
+ZW5lc2FzLGV0aGVyLXNlcmRlcy55YW1sDQo+ID4gPiBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9waHkvcmVuZXNhcyxldGhlci1zZXJkZXMueWFtbA0KPiA+ID4gPiBuZXcgZmls
+ZSBtb2RlIDEwMDY0NA0KPiA+ID4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLjA0ZDY1MDI0NGE2YQ0K
+PiA+ID4gPiAtLS0gL2Rldi9udWxsDQo+ID4gPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy9waHkvcmVuZXNhcyxldGhlci1zZXJkZXMueWFtbA0KPiA+ID4NCj4gPiA+
+IEZpbGVuYW1lIGJhc2VkIG9uIGNvbXBhdGlibGUsIHNvIHJlbmVzYXMscjhhNzc5ZjAtZXRoZXIt
+c2VyZGVzLnlhbWwNCj4gPg0KPiA+IEkgZ290IGl0LiBJJ2xsIHJlbmFtZSB0aGUgZmlsZS4NCj4g
+DQo+IElzIHRoaXMgc2VyZGVzIHByZXNlbnQgb24gb3RoZXIgUi1DYXIgR2VuNCBTb0NzLCBvciBp
+cyBpdCAoc28gZmFyKSBvbmx5DQo+IGZvdW5kIG9uIFItQ2FyIFM0LTg/DQoNClNvIGZhciBpdCdz
+IG9ubHkgZm91bmQgb24gUi1DYXIgUzQgc2VyaWVzLg0KDQpCZXN0IHJlZ2FyZHMsDQpZb3NoaWhp
+cm8gU2hpbW9kYQ0KDQo=
