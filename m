@@ -2,176 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF2C45E8BCB
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Sep 2022 13:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 402455E8D2C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Sep 2022 15:43:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231669AbiIXLif (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 24 Sep 2022 07:38:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59758 "EHLO
+        id S229447AbiIXNnE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 24 Sep 2022 09:43:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229677AbiIXLie (ORCPT
+        with ESMTP id S229633AbiIXNnD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 24 Sep 2022 07:38:34 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF07D10B23F;
-        Sat, 24 Sep 2022 04:38:32 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id c30so2128908edn.2;
-        Sat, 24 Sep 2022 04:38:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=dyM/rt0gKNSVbo2LRmeJCOAYDEu/aCHyvBr+3Af8zq8=;
-        b=fmAeP3hPmDf+RNnACiFP0vinV3rvcS+CuIuamPXvHu+P0MgDyl46tIxHNM44QYE13l
-         aHDrv1G+8cK8o62yQb2IiG1mcuQ3FBda9rDKziRGcBoUY6/aLDGDRnfytIYFi4RgmVwU
-         qUvjqoGwd9KtFIsnCtpvYqSmu/WKgzkTL7yiqILov98cmzYpTcgQTvtOgwc2WFwN9yj1
-         HeORF7f6fTrOALdzZw/V4gsbyQHcr7FaF/dgwTC75wbPIHSZ73xFSK6UYuHWNIb1JXwY
-         uYJcOME+Sm5WKDtFKfAFcm4yXZKX3Xn/lrbP1MhxY7qOoLXYtom21l1epJXWDQ3lXe0Q
-         C7yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=dyM/rt0gKNSVbo2LRmeJCOAYDEu/aCHyvBr+3Af8zq8=;
-        b=rd1WL8JuBf8CxtEumpdidRA17iecQkSQ4axkqsmFqLjrtHo8Bh50zZn7D4MwQH8cwy
-         oJr698YHMgx6S3ZjD4Osv6hcXoo3Gro689gS1Oc+GFZzMHKaEFfE3TTjT+fXBq5w7VXN
-         CZRWkyeh2sLPxchogA9rLmOx88MUpNBHXzu65ZVgu9wsMczvBgbR6x3yLWZ5kHnxxz6h
-         IWyyJkVYXFpxFY8b7GJ6iyAqYcUSu+8pUSIdlOzsImJ399J+yW40xdHbjOpGeZ+4n0nS
-         ckogahrsmRjjSMiknN8IUBnTdf0Bgex69HzGkgSc5gpuzqPJvx3CT1QlxMS+qN2fdZGN
-         Y4Wg==
-X-Gm-Message-State: ACrzQf1z1dPypoBA/cSeLJfkioj6AEjGGbg+6HLsQNlTgysTFEWD/aZE
-        tOeGD4Zzt5Fa/A6zewap2mKRh6CA9TYsMVg4MhU=
-X-Google-Smtp-Source: AMsMyM6npIX132f34bc7kQx5JR4oEJq+EDLjQufM/wqFTh6f/M7O179otOQTl3hUY00Wt62O1jTuICK0Jn692CCz7hY=
-X-Received: by 2002:a05:6402:350b:b0:452:2b68:90db with SMTP id
- b11-20020a056402350b00b004522b6890dbmr12971523edd.255.1664019511404; Sat, 24
- Sep 2022 04:38:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220905230406.30801-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <Yy4TtzPtSN9qiiQS@paasikivi.fi.intel.com>
-In-Reply-To: <Yy4TtzPtSN9qiiQS@paasikivi.fi.intel.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Sat, 24 Sep 2022 12:38:03 +0100
-Message-ID: <CA+V-a8sNVJe5o5taQrEzLis0KbdihVv+JzSHU26FUfD=ctPhhg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] media: platform: Add Renesas RZ/G2L CRU driver
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sat, 24 Sep 2022 09:43:03 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B096A4A10D
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 24 Sep 2022 06:43:02 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oc5Qi-000493-3H; Sat, 24 Sep 2022 15:42:52 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oc5Qf-002evp-Q5; Sat, 24 Sep 2022 15:42:48 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oc5Qd-003Dyv-Kk; Sat, 24 Sep 2022 15:42:47 +0200
+Date:   Sat, 24 Sep 2022 15:42:33 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v6 2/2] pwm: Add support for RZ/G2L GPT
+Message-ID: <20220924134233.m7uyvwyulbmo3mrv@pengutronix.de>
+References: <20220919075727.rmph7jmopaqvyyri@pengutronix.de>
+ <OS0PR01MB5922B87D4A05973F88B427A7864C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20220920155306.dvcz4324zvg72udm@pengutronix.de>
+ <OS0PR01MB5922A9B3314F2F2B32F6B0DE864C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922289B89061F6B3DF4819F864F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20220921133542.3glfgeddnlhrebkz@pengutronix.de>
+ <OS0PR01MB592258F2341BEDA1A5A7301C864F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20220922053605.qivxzwon52orbdgz@pengutronix.de>
+ <OS0PR01MB59220ECD0B2D42DF5012B6C7864E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <TYCPR01MB59336AAF4DD1D304FA53451286509@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6ehgdgnokkrf4zgm"
+Content-Disposition: inline
+In-Reply-To: <TYCPR01MB59336AAF4DD1D304FA53451286509@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sakari,
 
-Thank you for the review.
+--6ehgdgnokkrf4zgm
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 23, 2022 at 9:14 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Prabhakar,
->
-> On Tue, Sep 06, 2022 at 12:04:06AM +0100, Lad Prabhakar wrote:
-> ...
->
-> > +#define to_buf_list(vb2_buffer) (&container_of(vb2_buffer, \
-> > +                                             struct rzg2l_cru_buffer, \
-> > +                                             vb)->list)
->
-> #define to_buf_list(vb2_buffer) \
->         (&container_of(vb2_buffer, struct rzg2l_cru_buffer, vb)->list)
->
-OK.
+Hello Biju,
 
->
-> ...
->
-> > +static int rzg2l_cru_open(struct file *file)
-> > +{
-> > +     struct rzg2l_cru_dev *cru = video_drvdata(file);
-> > +     int ret;
-> > +
-> > +     ret = clk_prepare_enable(cru->pclk);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     ret = clk_prepare_enable(cru->vclk);
-> > +     if (ret)
-> > +             goto disable_pclk;
-> > +
-> > +     ret = clk_prepare_enable(cru->aclk);
-> > +     if (ret)
-> > +             goto disable_vclk;
-> > +
-> > +     ret = mutex_lock_interruptible(&cru->lock);
-> > +     if (ret)
-> > +             goto disable_aclk;
-> > +
-> > +     file->private_data = cru;
-> > +     ret = v4l2_fh_open(file);
-> > +     if (ret)
-> > +             goto err_unlock;
-> > +
-> > +     ret = v4l2_pipeline_pm_get(&cru->vdev.entity);
->
-> Please use runtime PM instead in sensor drivers, we're trying to get rid of
-> this function.
->
-OK.
+On Sat, Sep 24, 2022 at 10:53:30AM +0000, Biju Das wrote:
+> > Subject: RE: [PATCH v6 2/2] pwm: Add support for RZ/G2L GPT
+> >=20
+> > Thanks for the feedback.
+> >=20
+> > > Subject: Re: [PATCH v6 2/2] pwm: Add support for RZ/G2L GPT
+> > >
+> > > Hello,
+> > >
+> > > On Wed, Sep 21, 2022 at 01:46:54PM +0000, Biju Das wrote:
+> > > > > Actually it's worse:
+> > > > >
+> > > > > - When both channels are used, setting the duty-cycle on one
+> > > aborts the
+> > > > >   currently running period on the other and starts it anew.
+> > > > >
+> > > > > (Did I get this correctly?)
+> > > >
+> > > > I think, I have fixed that issue with the below logic Which allows
+> > > to
+> > > > update duty cycle on the fly.
+> > > >
+> > > > Now the only limitation is w.r.to disabling channels as we need to
+> > > > disable together as stopping the counter affects both.
+> > > >
+> > > >       /*
+> > > > 	 * Counter must be stopped before modifying mode, prescaler,
+> > > timer
+> > > > 	 * counter and buffer enable registers. These registers are
+> > > shared
+> > > > 	 * between both channels. So allow updating these registers only
+> > > for the
+> > > > 	 * first enabled channel.
+> > > > 	 */
+> > > > 	if (rzg2l_gpt->user_count <=3D 1)
+> > > > 		rzg2l_gpt_disable(rzg2l_gpt);
+> > > >
+> > > > 	is_counter_running =3D rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCR) &
+> > > RZG2L_GTCR_CST;
+> > > > 	if (!is_counter_running)
+> > > > 		/* GPT set operating mode (saw-wave up-counting) */
+> > > > 		rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTCR, RZG2L_GTCR_MD,
+> > > > 				 RZG2L_GTCR_MD_SAW_WAVE_PWM_MODE);
+> > >
+> > > So if the PWM is already running (e.g. from the bootloader) and the
+> > > mode is wrong, this isn't fixed? Similar problems in the if blocks
+> > > below.
+>=20
+> What is your thought on caching the registers that needs counter to be st=
+opped
+> for updating values. Basically, we don't stop the counter if the values a=
+re same?
 
-> It'd be nice to have it in this one as well.
->
-I'll will switch to runtime PM.
+I don't see a very relevant difference between caching and reading the
+registers. Whatever is fine for you.
 
-> > +     if (ret < 0)
-> > +             goto err_open;
-> > +
-> > +     mutex_unlock(&cru->lock);
-> > +
-> > +     return 0;
-> > +err_open:
-> > +     v4l2_fh_release(file);
-> > +err_unlock:
-> > +     mutex_unlock(&cru->lock);
-> > +disable_aclk:
-> > +     clk_disable_unprepare(cru->aclk);
-> > +disable_vclk:
-> > +     clk_disable_unprepare(cru->vclk);
-> > +disable_pclk:
-> > +     clk_disable_unprepare(cru->pclk);
-> > +
-> > +     return ret;
-> > +}
->
-> ...
->
-> > +void rzg2l_cru_v4l2_unregister(struct rzg2l_cru_dev *cru)
-> > +{
-> > +     if (!video_is_registered(&cru->vdev))
-> > +             return;
-> > +
-> > +     v4l2_info(&cru->v4l2_dev, "Removed %s\n",
-> > +               video_device_node_name(&cru->vdev));
->
-> I'd just leave this out. Same for the similar message on registration.
->
-OK, I'll drop both the messages.
+> This allows updating period/duty cycle on the fly without stopping the co=
+unter
+> even for the single channel use case.
 
-Cheers,
-Prabhakar
+I didn't get the relevant difference, but the result sounds good.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--6ehgdgnokkrf4zgm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmMvCUcACgkQwfwUeK3K
+7AnakAgAlxBpFtEBrJDLRLaLwMkZxXapgRA6U4DRpMcQXanMl4vXNr8PQzcKYqp9
+vvOPQox9ecJ4QOs+5PNbhXJENbYdqK6qnvvjJmOu+Lvpcy9Y15y+Kuxf5RydbRV6
+iRpIfdV0HL5Cx7GPkCGl1HRKRzd4Bt6wSnKQRTrCNxpsc8Y623/hpTgTx1oDLlx9
+fxUD8t2hYEfAoNDaz8u5FO/0Kwyrzl1tbpcxhm3MrmZpVb8081tgIWFfDfu9OfsX
+dyK8QXBWtINgx0+bVcoGlatQ7QS2guVCJpNyiOoCTzvxqBcVnFvyPgetnCCFhvDI
+MGhjl8aUlzSxVF42BsNlk7XnlgWCog==
+=7/kV
+-----END PGP SIGNATURE-----
+
+--6ehgdgnokkrf4zgm--
