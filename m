@@ -2,148 +2,359 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A18455EAE6D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Sep 2022 19:44:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAA1C5EAEAE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Sep 2022 19:53:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230337AbiIZRoq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Sep 2022 13:44:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47478 "EHLO
+        id S230499AbiIZRxu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Sep 2022 13:53:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231255AbiIZRoW (ORCPT
+        with ESMTP id S229596AbiIZRxM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Sep 2022 13:44:22 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2114.outbound.protection.outlook.com [40.107.114.114])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B13C4DB00;
-        Mon, 26 Sep 2022 10:13:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NOhlglPwQn1bfs/vTKldC8dV/XKC/vfNpWZelk4O5M+vsDWim1kK2GSEu1T+dDhcxGz9hnqW2coXbNr7z1aCxgZCb5lbRWJx+Sq38ULK3iLOIemJPp6wyEBgU5VNjCtp4DEAVZo9BGqdwVxYvUclt7HaWz9O4aqqPEu86eyCEkZeQyBVCyLticbFqjJ5q4UmzSm2sCWhSqEsnzeeXG2GMhpsbaKySEyJRbxpem8rvz5OGDK19Q8kq2qwk4UdA+HW3jypv8q7Mztd3wUqiPs9DUHrq9bvecjCvVba3k2MPi7ugCxVI1+nTMirkdKPutAtgdknEsIrzMo4LgWSOtPqtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8etB8qkgGcOe2WTws2YT9MekSRcNP34mSsOBQ7SKN/U=;
- b=Yd+XdC1P22UM1L4zS8ZGyycaBpQtu0x3h0LkHM4GXKTR/zVNrWAgdOY4KMpPab2jETVvdj/eO0xPi8RFkN1H86c+IVGyCPldYJblJbpETPlCdKFieT4WCkaF/LugT07D4TsWvvqmiSyObzi42mgvs4WIvyt+FS6Gp/RSw4uczGcw4OeEU3xctbZQaJWHTla8ZO20l4yXo9ADWh4O7NOtROYSsTr6dq8sGSJmNHr6JQ2KeI0A/cNG5wAqXGGJfW7wt4mjnKnMN6btvopk1utumMpYgTOG+AAqlGZNS73VcK1yVnpjfr7un2g+KImzEN/AF0O8jZSfkiHVzJXWDtWneg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8etB8qkgGcOe2WTws2YT9MekSRcNP34mSsOBQ7SKN/U=;
- b=IrYeLg+KxH3gVdHMNaTrCXM6M8XIMYS53ssiuCy9AIQn2df5s2oaQC29efyTFx/jC2r83f2zJ9XypVKL/+r2WDmsx9XDoduKqsW8gLuqSto5u0S2TlPnbRCyrde+BP+fQmyIedDGnRl0ZlcNuLjVviPg6B6Ua09lAuSqLkTkgdY=
-Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com (2603:1096:400:47::11)
- by TYCPR01MB10616.jpnprd01.prod.outlook.com (2603:1096:400:290::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.26; Mon, 26 Sep
- 2022 17:13:21 +0000
-Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com
- ([fe80::7c12:d63c:a151:92bc]) by TYCPR01MB5933.jpnprd01.prod.outlook.com
- ([fe80::7c12:d63c:a151:92bc%9]) with mapi id 15.20.5654.024; Mon, 26 Sep 2022
- 17:13:21 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-CC:     Ulf Hansson <ulf.hansson@linaro.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v3] mmc: renesas_sdhi: Fix rounding errors
-Thread-Topic: [PATCH v3] mmc: renesas_sdhi: Fix rounding errors
-Thread-Index: AQHYzmEL8L/KEMB8n02YNi6lLAt7563wYWCAgAGYHjA=
-Date:   Mon, 26 Sep 2022 17:13:21 +0000
-Message-ID: <TYCPR01MB59335B9556A66EE2D23351CD86529@TYCPR01MB5933.jpnprd01.prod.outlook.com>
-References: <20220922085511.1078256-1-biju.das.jz@bp.renesas.com>
- <YzCHFZnhrMWPkyIQ@shikoro>
-In-Reply-To: <YzCHFZnhrMWPkyIQ@shikoro>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB5933:EE_|TYCPR01MB10616:EE_
-x-ms-office365-filtering-correlation-id: ba38fb2c-3187-4adc-211b-08da9fe269dc
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ATj6M+54+YC/ChWyr7XdvFsSrTXNcG1zhmiKC20cgk9LuKf+IN6VK10FH25eE/ibg6PQ0VZAeBudHx5FcDY0e2pl9AtoMet+Zd2YaogZu9+exlmLEsVRiJ4l3pdSSQkiNE54orf9BLvcbH2OriPnRO/3+RbYaBjiI94ACHWBxQQWiKSFbMzL6hM9JGKQRM3LhNjUkWv6bE4pBWkGVpBbYcnivzF6KINCONq+yeBzvDhCwR7aY5LRKQtl87a4gVepMqg0pOExNIHOw+rF/XVf4EjusrfnCu/1u35ukNfLgv2j94KBuq3SaRwUPdUl5NrRkaJRgc3kKoBtiM0S/TJxFDPnyWmwF+B2a3EQ7+cNOoK4N/BpjPiiejsu9cSn95fTaPyK8lontj6fuDO8rF1r4ZcpTJhBZHPea7nXp28KzPKoZsIfkCCJDheJ0YUjQksthtGsE6jKlzPNcQckbXgXqvM5I7wJU43NxyInFihR2Klu+Q7hPLmewX8TyMsVXILJrAg2gvAOZZXxt3w7TafZkVkZjEA2slXv2XlbXSS7MwEUI1FUVM+0ZJ9J0KT3/96nl7ydxV6HXb33m7zZXMaN8ta3lrlVzcLcOPb6AkswTN+0pMDIgEbBKfkB8cy1P8jnXSbiYqIQWQznyFD43hgy2XDZJQRVjGW4H67CUeJKuDnpiDEHHMOGZu+37Ppfh/wIcGZz44wJKIimtRJLmOwulajrz2J6Hx7XEUZzQlqKwraowgITf5nCR06Gtuq+qFI5gTHtz/9O6s3FHwyIbrxzDA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB5933.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(396003)(366004)(39860400002)(136003)(451199015)(122000001)(54906003)(33656002)(2906002)(86362001)(4744005)(5660300002)(52536014)(4326008)(186003)(66556008)(76116006)(41300700001)(38070700005)(66946007)(8676002)(64756008)(66446008)(9686003)(26005)(66476007)(8936002)(316002)(7696005)(38100700002)(6506007)(107886003)(83380400001)(478600001)(55016003)(71200400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?nmserbB6fEj3LhRUs7G5yZHbrxLDVwRczZdGxGwJPk2OR6TcI3SXyzl+Mx8u?=
- =?us-ascii?Q?S6i1ViW0BbaRfpcAMwSD+P7D69OxwSN2PzI+VUtHzV9SE8BTgM3XvokCbbDb?=
- =?us-ascii?Q?M86Mbx77gXQe+t+otJv0kAvb9lMcGf2fmSZps+2oqt2bjA6huSYc93kIPTNL?=
- =?us-ascii?Q?U/F6aoIaIYwIRVItKCS+bNanHKwHQHHAt49ghtnKYMeP1OijhOdUz8G5nTJo?=
- =?us-ascii?Q?pEzawglwwBSWiIbUTLCArfA8ccsnVazIRuKwBgMWNmgdsZVC0EGOFEFL3cHi?=
- =?us-ascii?Q?sRc3paSYya4wrZd1kXDqwXoJe2iKeeRM95+ZZ5rjLrgQSsh7O+unf+/i5Iza?=
- =?us-ascii?Q?9PVGvOx/o0DgfFV9iNzThpQl9N+2foroCO2HCBJaDMM9Dq31jutexVSeQ06Z?=
- =?us-ascii?Q?xLle4m8WH0+K9UonKTMdBntZq4Qiku1zCvpyrmaSSu0uaj9/m0SvNJvRLXeB?=
- =?us-ascii?Q?usDI6qWvYXMOZO/yYi3BjLLP76KjQHDwpm8IXALzS5as+JUPMivOHqHSM3DA?=
- =?us-ascii?Q?ebqo5qqYScGUFbbgrp4X8Fp7oaGwqbf+h+xeTf7hheTeU7f5Tao2cuDnv1AP?=
- =?us-ascii?Q?752OMlNrf9QgyZBTawbfR8WK3sIfPk1z/tyUFZdG8WhQLQFVrUthK8wcmkpp?=
- =?us-ascii?Q?6KRM+x8jqU/nNQhIwmcQD7RkN4RG5G/KB6BrY2BY3DuPn5MwqJpxRZAJ4zty?=
- =?us-ascii?Q?VwSJ7Ajq+EdyHdVLSE6FA9m1zICvFEEGEFHm8GJwVA3ieLd3WUWlrPUQKf4J?=
- =?us-ascii?Q?MqFRhvu+XAMh6sXn4dexwUpMMRCFgvQzLuXCZjmYSg9uTwTMovDF/WdYhq5/?=
- =?us-ascii?Q?TcrrKv/9j4+SbmtSU07CmJFJL+Ywv1SYca2BIDEbFvUFgd32r6aR6b+0n5hw?=
- =?us-ascii?Q?aXq0CY+k0oJo4wYhqM37ihRFHdGESS99ufLgSPaOBonFxr5ya5r4eZ0E9pDI?=
- =?us-ascii?Q?mqcHD0QPs+ha6pAKXAkdZcSHxUsv/dOMQNr2TD8e61vS/jgslfV4ZJKl7eSi?=
- =?us-ascii?Q?vWEqih3JxcagwUFEQRf0WOvbbdF2PZGxrHnnWLWCHqYZcPubp/OjHCy3EMwq?=
- =?us-ascii?Q?bi6GcJqLOSk9Pi4SXCIutHuXbwRYOFkSs5cC2huSWfS36dE0Gf16RD3lPY5q?=
- =?us-ascii?Q?6/1/g/8udlgU62jhNCwboKZ2x9LWvA5/AZJIISRvSn1RkaEvbkZhbY6TfG8O?=
- =?us-ascii?Q?wY1noEbOQnu7nP73e4qMcL4vZ6e7pjRvdrtKyHEB0JxtJpDBVExsAbWyAc/t?=
- =?us-ascii?Q?buC1xOAKxaLSMl6ZFTrJozzb2G7dZS0h0Ac09bB+qL3tKmjSorHrgWX06USL?=
- =?us-ascii?Q?GwhaPPtS5uulI/FElnc5LAomCEvOoeOwv1FSsnZ8lnTI+g8OcbanXrXIYu0c?=
- =?us-ascii?Q?zGtd9z1+oxNusmKya3bmHuGGZy76zVs95xgz1T9HxktRpAtkqZ5PSJ5GaX4e?=
- =?us-ascii?Q?i12fJgiw8oh8gAuQ9a6BwS5M9su0/LRjFkG8qbvTgjQnL9ugRBOUaa0kDRGI?=
- =?us-ascii?Q?n4z8+GUy4gM1ONoxgMzOm5dXm6oJgJGDhUfIi+3mIFiVCBAA+ZnqmYWacXtG?=
- =?us-ascii?Q?OhFOmzKAMPxr6/CajvPjX2h1fo89NZ/rR/8WjbEg?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 26 Sep 2022 13:53:12 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C77ACF4B4;
+        Mon, 26 Sep 2022 10:28:09 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id hy2so15586153ejc.8;
+        Mon, 26 Sep 2022 10:28:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=xExxZjnmGcaw3QGraBtNgEvwSjAuoTSZutYwNZ79r+4=;
+        b=n7ivu5RiIj/cKKHmq6cyhWsFISUYZ5anCY8z5apwuftmN7cjxJ1l9wUEOiOUp2eI47
+         cUWmPYp4pwEwZOYK+NLl1u+y49n/pvbNlkK4wlf7KUc2YLqt5LDtrqrz/2Jo+RusyPkK
+         vv9NtO0ih1Bmj5+DUFTuJBaPT8zxWaT49jx1sCy6898S4FTjBA8n/1nt6GvIgl0xYh2q
+         KS8GDRFgpe3yiIvezDRkwUVoYHXZsSOhWWw8c0p3/0O9JDPn43pRZxcXuTxIv8UP/4Sz
+         3ildImah1o+HI91Rn+lz+owAC5wIgxedK4A5nVNEFS/XgxGNJ0BdRyVrAZWMuysy/7AA
+         skPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=xExxZjnmGcaw3QGraBtNgEvwSjAuoTSZutYwNZ79r+4=;
+        b=DNqaK/1TbZhccVf8N30LwIgaTjyR1cZ+akyNsYsLrdPsSIidGuPWaEoXsw4XVs2ZSm
+         8Z/GoUzQJYaoamfmkio4wwwANmHw7FC3eIETwkswh5bYIoUETQvKfz9X25FBfJKwhmnr
+         2HwpH0WoRStK6YOXpAsBgCXY1SHSzxgeDrRbQwc22Hro2Yyyg0Pq0K0W77AgTbRtgCzx
+         LPBv5g/8YqnD0qoe3mLShG2e3nzGQNGkYCeEuVbSSJpot2GECYBVSL4BhmTqXHFtddqn
+         DEUoqBsztOvfXad7d47IwfTsRuUVhHVrwgc3AehEDAPk9MhvxPnhw+SdLq9tP02p4Ck/
+         Mvmg==
+X-Gm-Message-State: ACrzQf3KDKnpDIFT6+VHfE1xFJ00cpoA2KlNpzyq5neMBLa5Tl9Lml3l
+        Wkt+D3cyVEYOm23LhewC2C+fdacoX+Gzx+cfFps=
+X-Google-Smtp-Source: AMsMyM7ykhGwupiGVH5KR3XhZAtm66N440j3DJvQ+Fgg6IQoFyZrHjHIvVBnX7VC5416XVDKsOR868iWGVlzEEGIYh0=
+X-Received: by 2002:a17:907:75d4:b0:77a:fcb7:a2cc with SMTP id
+ jl20-20020a17090775d400b0077afcb7a2ccmr19263536ejc.480.1664213287674; Mon, 26
+ Sep 2022 10:28:07 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB5933.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba38fb2c-3187-4adc-211b-08da9fe269dc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2022 17:13:21.3336
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: d1PgsVC+OcUF1qQhR3EEG/XTysvRLGmIsfjsePFPKlq0nf/ni2nO+llMgcjS24uC9k6KMOjNkId1LDgx68vUeN3A/AmUP+gqH2ed0ZR8a+c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10616
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220905230406.30801-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Yyx/NI8sew4hpFAc@pendragon.ideasonboard.com> <CA+V-a8u9DqzN_dDxU74F1wCZpJeODQet-aF7sd6j2=jk545x7Q@mail.gmail.com>
+ <YzFp8x78/HJ/Yf2Y@pendragon.ideasonboard.com> <CA+V-a8tcj1iun1-9qcCP5649S___JfD_rL46v0_1HCcnEXnNVg@mail.gmail.com>
+ <YzHTcuThQgNTo/HS@pendragon.ideasonboard.com>
+In-Reply-To: <YzHTcuThQgNTo/HS@pendragon.ideasonboard.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 26 Sep 2022 18:27:40 +0100
+Message-ID: <CA+V-a8sGzAC1M8hxgbizKFnCbAGXzr0FXFzmsfnfEgMz_H_hxg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] media: platform: Add Renesas RZ/G2L CRU driver
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hi Laurent,
 
-> Subject: Re: [PATCH v3] mmc: renesas_sdhi: Fix rounding errors
->=20
-> On Thu, Sep 22, 2022 at 09:55:11AM +0100, Biju Das wrote:
-> > Due to clk rounding errors on RZ/G2L platforms, it selects a clock
-> > source with a lower clock rate compared to a higher one.
-> > For eg:- (533333333 Hz / 4 * 4 =3D 533333332 Hz < 533333333 Hz).
+On Mon, Sep 26, 2022 at 5:29 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> On Mon, Sep 26, 2022 at 05:24:47PM +0100, Lad, Prabhakar wrote:
+> > On Mon, Sep 26, 2022 at 9:59 AM Laurent Pinchart wrote:
+> > > On Fri, Sep 23, 2022 at 08:02:12PM +0100, Lad, Prabhakar wrote:
+> > > > On Thu, Sep 22, 2022 at 4:29 PM Laurent Pinchart wrote:
+> > > > > On Tue, Sep 06, 2022 at 12:04:06AM +0100, Lad Prabhakar wrote:
+> > > > > > Add v4l driver for Renesas RZ/G2L Camera data Receiving Unit.
+> > > > > >
+> > > > > > Based on a patch in the BSP by Hien Huynh
+> > > > > > <hien.huynh.px@renesas.com>
+> > > > > >
+> > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > ---
+> > > > > > v1 -> v2
+> > > > > > * No change
+> > > > > >
+> > > > > > RFC v2 -> v1
+> > > > > > * Moved the driver to renesas folder
+> > > > > > * Fixed review comments pointed by Jacopo
+> > > > > >
+> > > > > > RFC v1 -> RFC v2
+> > > > > > * Dropped group
+> > > > > > * Dropped CSI subdev and implemented as new driver
+> > > > > > * Dropped "mc_" from function names
+> > > > > > * Moved the driver to renesas folder
+> > > > > > ---
+> > > > > >  .../media/platform/renesas/rzg2l-cru/Kconfig  |  17 +
+> > > > > >  .../media/platform/renesas/rzg2l-cru/Makefile |   3 +
+> > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 395 ++++++++++
+> > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    | 152 ++++
+> > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-dma.c    | 734 ++++++++++++++++++
+> > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-v4l2.c   | 368 +++++++++
+> > > > >
+> > > > > I'd merge those two files together, they both handle the video node.
+> > > > > There's a comment below that recommends adding a subdev, that should
+> > > > > then go to a separate file.
+> > > >
+> > > > OK, I'll merge these files into rzg2l-video.c.
+> > > >
+> > > > > >  6 files changed, 1669 insertions(+)
+> > > > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> > > > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> > > > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-dma.c
+> > > > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-v4l2.c
+> > > > > >
+> > > > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/Kconfig b/drivers/media/platform/renesas/rzg2l-cru/Kconfig
+> > > > > > index 57c40bb499df..08ff0e96b3f5 100644
+> > > > > > --- a/drivers/media/platform/renesas/rzg2l-cru/Kconfig
+> > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/Kconfig
+> > > > > > @@ -15,3 +15,20 @@ config VIDEO_RZG2L_CSI2
+> > > > > >
+> > > > > >         To compile this driver as a module, choose M here: the
+> > > > > >         module will be called rzg2l-csi2.
+> > > > > > +
+> > > > > > +config VIDEO_RZG2L_CRU
+> > > > > > +     tristate "RZ/G2L Camera Receiving Unit (CRU) Driver"
+> > > > > > +     depends on ARCH_RENESAS || COMPILE_TEST
+> > > > > > +     depends on V4L_PLATFORM_DRIVERS
+> > > > > > +     depends on VIDEO_DEV && OF
+> > > > > > +     select MEDIA_CONTROLLER
+> > > > > > +     select V4L2_FWNODE
+> > > > > > +     select VIDEOBUF2_DMA_CONTIG
+> > > > > > +     select VIDEO_RZG2L_CSI2
+> > > > >
+> > > > > Is this required, can't the CRU be used with a parallel sensor without
+> > > > > the CSI-2 receiver ?
+> > > >
+> > > > Yes the CRU can be used with parallel sensors, I'll drop the above select.
+> > > >
+> > > > > > +     select VIDEO_V4L2_SUBDEV_API
+> > > > > > +     help
+> > > > > > +       Support for Renesas RZ/G2L (and alike SoC's) Camera Receiving
+> > > > > > +       Unit (CRU) driver.
+> > > > > > +
+> > > > > > +       To compile this driver as a module, choose M here: the
+> > > > > > +       module will be called rzg2l-cru.
+> > > > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/Makefile b/drivers/media/platform/renesas/rzg2l-cru/Makefile
+> > > > > > index 91ea97a944e6..7628809e953f 100644
+> > > > > > --- a/drivers/media/platform/renesas/rzg2l-cru/Makefile
+> > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/Makefile
+> > > > > > @@ -1,3 +1,6 @@
+> > > > > >  # SPDX-License-Identifier: GPL-2.0
+> > > > > >
+> > > > > >  obj-$(CONFIG_VIDEO_RZG2L_CSI2) += rzg2l-csi2.o
+> > > > > > +
+> > > > > > +rzg2l-cru-objs = rzg2l-core.o rzg2l-dma.o rzg2l-v4l2.o
+> > > > > > +obj-$(CONFIG_VIDEO_RZG2L_CRU) += rzg2l-cru.o
+> > > > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> > > > > > new file mode 100644
+> > > > > > index 000000000000..b5d4110b1913
+> > > > > > --- /dev/null
+> > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> > > > > > @@ -0,0 +1,395 @@
+> > > > > > +// SPDX-License-Identifier: GPL-2.0+
+> > > > > > +/*
+> > > > > > + * Driver for Renesas RZ/G2L CRU
+> > > > > > + *
+> > > > > > + * Copyright (C) 2022 Renesas Electronics Corp.
+> > > > > > + *
+> > > > > > + * Based on Renesas R-Car VIN
+> > > > > > + * Copyright (C) 2011-2013 Renesas Solutions Corp.
+> > > > > > + * Copyright (C) 2013 Cogent Embedded, Inc., <source@cogentembedded.com>
+> > > > > > + * Copyright (C) 2008 Magnus Damm
+> > > > > > + */
+> > > > > > +
+> > > > > > +#include <linux/clk.h>
+> > > > > > +#include <linux/module.h>
+> > > > > > +#include <linux/mod_devicetable.h>
+> > > > > > +#include <linux/of.h>
+> > > > > > +#include <linux/of_device.h>
+> > > > > > +#include <linux/of_graph.h>
+> > > > > > +#include <linux/platform_device.h>
+> > > > > > +#include <linux/pm_runtime.h>
+> > > > > > +
+> > > > > > +#include <media/v4l2-fwnode.h>
+> > > > > > +#include <media/v4l2-mc.h>
+> > > > > > +
+> > > > > > +#include "rzg2l-cru.h"
+> > > > > > +
+> > > > > > +#define v4l2_dev_to_cru(d)   container_of(d, struct rzg2l_cru_dev, v4l2_dev)
+> > > > >
+> > > > > As this macro is only used to get the rzg2l_cru_dev pointer from the
+> > > > > v4l2_async_notifier pointer, you can replace it with
+> > > > >
+> > > > > #define notifier_to_cru(n)      container_of(n, struct rzg2l_cru_dev, notifier)
+> > > > >
+> > > > > I would also turn it into a static inline function for additional
+> > > > > compile-time type safety.
+> > > >
+> > > > OK, I will do it as mentioned above.
+> > > >
+> > > > > > +
+> > > > > > +static int rzg2l_cru_csi2_link_notify(struct media_link *link, u32 flags,
+> > > > > > +                                   unsigned int notification)
+> > > > > > +{
+> > > > > > +     struct media_entity *entity;
+> > > > > > +     struct rzg2l_cru_dev *cru;
+> > > > > > +     struct media_pad *csi_pad;
+> > > > > > +     struct v4l2_subdev *sd;
+> > > > > > +     int ret;
+> > > > > > +
+> > > > > > +     ret = v4l2_pipeline_link_notify(link, flags, notification);
+> > > > > > +     if (ret)
+> > > > > > +             return ret;
+> > > > > > +
+> > > > > > +     /* Only care about link enablement for CRU nodes. */
+> > > > > > +     if (!(flags & MEDIA_LNK_FL_ENABLED))
+> > > > > > +             return 0;
+> > > > > > +
+> > > > > > +     cru = container_of(link->graph_obj.mdev, struct rzg2l_cru_dev, mdev);
+> > > > > > +     /*
+> > > > > > +      * Don't allow link changes if any entity in the graph is
+> > > > > > +      * streaming, modifying the CHSEL register fields can disrupt
+> > > > > > +      * running streams.
+> > > > > > +      */
+> > > > > > +     media_device_for_each_entity(entity, &cru->mdev)
+> > > > > > +             if (media_entity_is_streaming(entity))
+> > > > > > +                     return -EBUSY;
+> > > > > > +
+> > > > > > +     mutex_lock(&cru->mdev_lock);
+> > > > > > +
+> > > > > > +     csi_pad = media_pad_remote_pad_first(&cru->vdev.entity.pads[0]);
+> > > > > > +     if (csi_pad) {
+> > > > > > +             ret = -EMLINK;
+> > > > > > +             goto out;
+> > > > > > +     }
+> > > > > > +
+> > > > > > +     sd = media_entity_to_v4l2_subdev(link->source->entity);
+> > > > > > +     if (cru->csi.subdev == sd) {
+> > > > > > +             cru->csi.channel = link->source->index - 1;
+> > > > > > +             cru->is_csi = true;
+> > > > > > +     } else {
+> > > > > > +             ret = -ENODEV;
+> > > > > > +     }
+> > > > > > +
+> > > > > > +out:
+> > > > > > +     mutex_unlock(&cru->mdev_lock);
+> > > > > > +
+> > > > > > +     return ret;
+> > > > > > +}
+> > > > > > +
+> > > > > > +static const struct media_device_ops rzg2l_cru_media_ops = {
+> > > > > > +     .link_notify = rzg2l_cru_csi2_link_notify,
+> > > > > > +};
+> > > > > > +
+> > > > > > +/* -----------------------------------------------------------------------------
+> > > > > > + * Group async notifier
+> > > > > > + */
+> > > > > > +
+> > > > > > +static int rzg2l_cru_group_notify_complete(struct v4l2_async_notifier *notifier)
+> > > > > > +{
+> > > > > > +     struct rzg2l_cru_dev *cru = v4l2_dev_to_cru(notifier->v4l2_dev);
+> > > > > > +     unsigned int i;
+> > > > > > +     int ret;
+> > > > > > +
+> > > > > > +     ret = media_device_register(&cru->mdev);
+> > > > > > +     if (ret)
+> > > > > > +             return ret;
+> > > > >
+> > > > > I'd move the v4l2_device_register() call here, as it's the V4L2
+> > > > > counterpart of the media device, and handling them together would be
+> > > > > best.
+> > > >
+> > > > OK.
+> > > >
+> > > > > > +
+> > > > > > +     ret = v4l2_device_register_subdev_nodes(&cru->v4l2_dev);
+> > > > > > +     if (ret) {
+> > > > > > +             dev_err(cru->dev, "Failed to register subdev nodes\n");
+> > > > > > +             return ret;
+> > > > > > +     }
+> > > > > > +
+> > > > > > +     if (!video_is_registered(&cru->vdev)) {
+> > > > >
+> > > > > Can this happen ?
+> > > >
+> > > > No, I'll drop this check.
+> > > >
+> > > > > > +             ret = rzg2l_cru_v4l2_register(cru);
+> > > > > > +             if (ret)
+> > > > > > +                     return ret;
+> > > > > > +     }
+> > > > > > +
+> > > > > > +     /* Create all media device links between CRU and CSI-2's. */
+> > > > > > +     /*
+> > > > > > +      * TODO: RZ/G2L supports 4 VC0, as support for virtual channels
+> > > > > > +      * should be implemented by streams API which is under development
+> > > > > > +      * so for now just link it to VC0
+> > > > > > +      */
+> > > > >
+> > > > > The streams API won't require more links, so I'd drop the comment and
+> > > > > the loop and create a single link.
+> > > >
+> > > > OK.
+> > > >
+> > > > > > +     for (i = 1; i <= 1; i++) {
+> > > > > > +             struct media_entity *source, *sink;
+> > > > > > +
+> > > > > > +             source = &cru->csi.subdev->entity;
+> > > > > > +             sink = &cru->vdev.entity;
+> > > > >
+> > > > > Hmmm... I'd recommend adding a subdev to model the image processing
+> > > > > pipeline of the CRU, between the CSI-2 receiver and the video node. That
+> > > > > will help when you'll add support for parallel sensors, and it will also
+> > > > > be needed by the streams API to select which virtual channel to capture.
+> > > >/
+> > > > just model as a dummy subdev for now (MEDIA_ENT_F_VID_MUX)?
+> > >
+> > > I think MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER would be more
+> > > appropriate.
 > >
-> > This patch fixes this issue by adding a margin of (1/1024) higher to
-> > the clock rate.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->=20
-> Despite the discussion about the comments, the patch does not change
-> any clock selection on my R-Car M3-N based Salvator-XS, both for eMMC
-> and some SD cards. So:
->=20
-> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > OK I will use MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER. As this will be
+> > just like a switch should I be implementing the get_fmt/set_fmt
+> > callbacks?
+>
+> Yes, subdev operations need to be implemented, especially given that the
+> CRU implements color space conversion, so the input and output formats
+> of the subdev can be different.
+>
+OK, the reason I asked as, for the sink pad the format of IP subdev
+will be the same as remote source pad (i.e. either from CSI/parallel
+subdev) and for the source pad this will be the same as format on the
+video node (ie CRU output).
 
-Thanks for testing. I have incorporated the review comments and send v4.
+get_fmt -> we get the subdev pad fmt of the remote source and return it.
+set_fmt -> we just pass through, as the fmt is set on the video dev node.
+
+Does the above sound good?
 
 Cheers,
-Biju
-
+Prabhakar
