@@ -2,150 +2,294 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7CCE5EA92E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Sep 2022 16:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14DDF5EAA2D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Sep 2022 17:19:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234080AbiIZOyy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Sep 2022 10:54:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39050 "EHLO
+        id S236001AbiIZPT0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Sep 2022 11:19:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235254AbiIZOyd (ORCPT
+        with ESMTP id S236256AbiIZPSv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Sep 2022 10:54:33 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4022173336;
-        Mon, 26 Sep 2022 06:21:50 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.93,346,1654527600"; 
-   d="scan'208";a="136203517"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 26 Sep 2022 22:21:49 +0900
-Received: from localhost.localdomain (unknown [10.226.92.133])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A48764005B43;
-        Mon, 26 Sep 2022 22:21:46 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH RFC 8/8] arm64: dts: renesas: rzg2l-smarc: [HACK] Enable MTU for 16-bit phase count testing
-Date:   Mon, 26 Sep 2022 14:21:14 +0100
-Message-Id: <20220926132114.60396-9-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220926132114.60396-1-biju.das.jz@bp.renesas.com>
-References: <20220926132114.60396-1-biju.das.jz@bp.renesas.com>
+        Mon, 26 Sep 2022 11:18:51 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D661814F3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Sep 2022 07:06:17 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id t7so10367116wrm.10
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Sep 2022 07:06:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=eCLgw6DVFbSTGoI9qj9IIEXgogUtP4RUj12TjUJu8eM=;
+        b=joDs8XqC+N66WNbkGMvZ5beINjS5duHHpB/xs4Y+w4HvaDH2pd9FSU1iElDBBUtIMy
+         dXCobQuk+iW6gFXfmiqaX1puWddDPq6aU0SJcbdM8Snx4ouCX+TfN731fqvZuJ6GdZMP
+         X87ZmzEemo7I6H6NIBEy+l/I6AFyiM0VQJ/JgBcfJHWD7628f9xMlaoy4ND9z6hHZxma
+         DzQYpUli1RRkMOzoaOE0oPByvLibJQCdRl8c+EqURfR/4MXN62e+1CeokZjJ8k2bFo7h
+         qOzZPSrOa6+FobbLZ6lYHJHKeAfr0s6vDv52RwgH5nPQn8PwZ5N7BeqVRekPZsynlydN
+         OxKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=eCLgw6DVFbSTGoI9qj9IIEXgogUtP4RUj12TjUJu8eM=;
+        b=yuAuJX9l4SxCT7BUVnwXYOLcKhOi6HPSGeKL83AFN/Yrkg/LeEWQA5umyyLqa0A1VO
+         +pbmdr/z/SzSG8fGQLUExUl3c+ti/TBPX4+EkDZRcmbV5xNvPiUmQjAXvpsRitbYiNI+
+         QwCxPTAawqDmQHfmh4KHAfz1LyIHduxOrF1hER5KZJnj7WD7qjFRiZ+6hYj/YhSiAzqE
+         z5LORUDVfL+8/hPU1+Iljzbt729DWnqN/bnY+Cv3mNc/y8dWZI7pyjn2UxBWL3359BJH
+         xAZz8E4tmss+tcX+m7bPfmsb+Q+4QGCB5hSj99HvmEr6SyvJBCFrsuHQOGMc5k0AN3h7
+         RmnQ==
+X-Gm-Message-State: ACrzQf2w5jRZ9jOXrbWIYjCAVpKXfMzlHOWJAZQlaS6qb6bWXUb2vZ7S
+        99RlcsqJjM/N0CMmi0PpfB37FQ==
+X-Google-Smtp-Source: AMsMyM7d6uz2QOBhraN3AiBmiJKHPqc7TLo82asj6WdY62740LYHAGNd9QlC3F68f7LCOrhq7otlMQ==
+X-Received: by 2002:a5d:6a07:0:b0:228:dba4:2138 with SMTP id m7-20020a5d6a07000000b00228dba42138mr13235530wru.346.1664201175053;
+        Mon, 26 Sep 2022 07:06:15 -0700 (PDT)
+Received: from mai.. (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.gmail.com with ESMTPSA id v3-20020adfebc3000000b0022adf321d22sm14310731wrn.92.2022.09.26.07.06.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Sep 2022 07:06:14 -0700 (PDT)
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+To:     daniel.lezcano@linaro.org, rafael@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        rui.zhang@intel.com, Raju Rangoju <rajur@chelsio.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Kaestle <peter@piie.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Thara Gopinath <thara.gopinath@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Antoine Tenart <atenart@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Dmitry Osipenko <digetx@gmail.com>, netdev@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-omap@vger.kernel.org
+Subject: [PATCH v5 00/30] Rework the trip points creation
+Date:   Mon, 26 Sep 2022 16:05:34 +0200
+Message-Id: <20220926140604.4173723-1-daniel.lezcano@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable MTU{1,2} for 16-bit phase count testing.
+This work is the pre-requisite of handling correctly when the trip
+point are crossed. For that we need to rework how the trip points are
+declared and assigned to a thermal zone.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- .../boot/dts/renesas/r9a07g044l2-smarc.dts    |  2 --
- .../dts/renesas/rzg2l-smarc-pinfunction.dtsi  | 11 ++++++++
- arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  | 25 ++++++++++++++++++-
- 3 files changed, 35 insertions(+), 3 deletions(-)
+Even if it appears to be a common sense to have the trip points being
+ordered, this no guarantee neither documentation telling that is the
+case.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
-index bc2af6c92ccd..247b0b3f1b58 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
-@@ -8,8 +8,6 @@
- /dts-v1/;
- #include "r9a07g044l2.dtsi"
- #include "rzg2l-smarc-som.dtsi"
--#include "rzg2l-smarc-pinfunction.dtsi"
--#include "rz-smarc-common.dtsi"
- #include "rzg2l-smarc.dtsi"
- 
- / {
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
-index 9085d8c76ce1..8c25c9f31ec0 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
-@@ -53,17 +53,28 @@ i2c3_pins: i2c3 {
- 			 <RZG2L_PORT_PINMUX(18, 1, 3)>; /* SCL */
- 	};
- 
-+#if (MTU3_PHASE_COUNTING_SUPPORT)
-+	mtu3_pins: mtu3 {
-+		mtu3_clk {
-+			pinmux = <RZG2L_PORT_PINMUX(48, 0, 4)>, /* MTCLKA */
-+				 <RZG2L_PORT_PINMUX(48, 1, 4)>; /* MTLCKB */
-+		};
-+	};
-+#endif
-+
- 	scif0_pins: scif0 {
- 		pinmux = <RZG2L_PORT_PINMUX(38, 0, 1)>,	/* TxD */
- 			 <RZG2L_PORT_PINMUX(38, 1, 1)>;	/* RxD */
- 	};
- 
-+#if (!MTU3_PHASE_COUNTING_SUPPORT)
- 	scif2_pins: scif2 {
- 		pinmux = <RZG2L_PORT_PINMUX(48, 0, 1)>, /* TxD */
- 			 <RZG2L_PORT_PINMUX(48, 1, 1)>, /* RxD */
- 			 <RZG2L_PORT_PINMUX(48, 3, 1)>, /* CTS# */
- 			 <RZG2L_PORT_PINMUX(48, 4, 1)>; /* RTS# */
- 	};
-+#endif
- 
- 	sd1-pwr-en-hog {
- 		gpio-hog;
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-index e180a955b6ac..79b3088d2eda 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-@@ -9,7 +9,14 @@
- #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
- 
- /* comment the #define statement to disable SCIF2 (SER0) on PMOD1 (CN7) */
--#define PMOD1_SER0	1
-+#define PMOD1_SER0	0
-+
-+#if (!PMOD1_SER0)
-+#define MTU3_PHASE_COUNTING_SUPPORT	1
-+#endif
-+
-+#include "rzg2l-smarc-pinfunction.dtsi"
-+#include "rz-smarc-common.dtsi"
- 
- / {
- 	aliases {
-@@ -36,6 +43,22 @@ wm8978: codec@1a {
- 	};
- };
- 
-+#if (MTU3_PHASE_COUNTING_SUPPORT)
-+&mtu3 {
-+	pinctrl-0 = <&mtu3_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+	counter@1 {
-+		status = "okay";
-+	};
-+
-+	counter@2 {
-+		status = "okay";
-+	};
-+};
-+#endif
-+
- /*
-  * To enable SCIF2 (SER0) on PMOD1 (CN7)
-  * SW1 should be at position 2->3 so that SER0_CTS# line is activated
+One solution could have been to create an ordered array of trips built
+when registering the thermal zone by calling the different get_trip*
+ops. However those ops receive a thermal zone pointer which is not
+known as it is in the process of creating it.
+
+This cyclic dependency shows we have to rework how we manage the trip
+points.
+
+Actually, all the trip points definition can be common to the backend
+sensor drivers and we can factor out the thermal trip structure in all
+of them.
+
+Then, as we register the thermal trips array, they will be available
+in the thermal zone structure and a core function can return the trip
+given its id.
+
+The get_trip_* ops won't be needed anymore and could be removed. The
+resulting code will be another step forward to a self encapsulated
+generic thermal framework.
+
+Most of the drivers can be converted more or less easily. This series
+does a first round with most of the drivers. Some remain and will be
+converted but with a smaller set of changes as the conversion is a bit
+more complex.
+
+Changelog:
+ v5:
+    - Fixed a deadlock when calling thermal_zone_get_trip() while
+      handling the thermal zone lock
+    - Remove an extra line in the sysfs change
+    - Collected tags
+v4:
+   - Remove extra lines on exynos changes as reported by Krzysztof Kozlowski
+   - Collected tags
+ v3:
+   - Reorg the series to be git-bisect safe
+   - Added the set_trip generic function
+   - Added the get_crit_temp generic function
+   - Removed more dead code in the thermal-of
+   - Fixed the exynos changelog
+   - Fixed the error check for the exynos drivers
+   - Collected tags
+ v2:
+   - Added missing EXPORT_SYMBOL_GPL() for thermal_zone_get_trip()
+   - Removed tab whitespace in the acerhdf driver
+   - Collected tags
+
+Cc: Raju Rangoju <rajur@chelsio.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Peter Kaestle <peter@piie.net>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Mark Gross <markgross@kernel.org>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Amit Kucheria <amitk@kernel.org>
+Cc: Zhang Rui <rui.zhang@intel.com>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>
+Cc: Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>
+Cc: Florian Fainelli <f.fainelli@gmail.com>
+Cc: Ray Jui <rjui@broadcom.com>
+Cc: Scott Branden <sbranden@broadcom.com>
+Cc: Support Opensource <support.opensource@diasemi.com>
+Cc: Lukasz Luba <lukasz.luba@arm.com>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: Thara Gopinath <thara.gopinath@linaro.org>
+Cc: Andy Gross <agross@kernel.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+Cc: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Eduardo Valentin <edubezval@gmail.com>
+Cc: Keerthy <j-keerthy@ti.com>
+Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Antoine Tenart <atenart@kernel.org>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Dmitry Osipenko <digetx@gmail.com>
+Cc: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: platform-driver-x86@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+Cc: linux-rpi-kernel@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org
+Cc: linux-omap@vger.kernel.org
+
+Daniel Lezcano (30):
+  thermal/core: Add a generic thermal_zone_get_trip() function
+  thermal/sysfs: Do not make get_trip_hyst optional
+  thermal/core: Add a generic thermal_zone_set_trip() function
+  thermal/core: Add a generic thermal_zone_get_crit_temp() function
+  thermal/core/governors: Use thermal_zone_get_trip() instead of ops
+    functions
+  thermal/of: Use generic thermal_zone_get_trip() function
+  thermal/of: Remove unused functions
+  thermal/drivers/exynos: Use generic thermal_zone_get_trip() function
+  thermal/drivers/exynos: of_thermal_get_ntrips()
+  thermal/drivers/exynos: Replace of_thermal_is_trip_valid() by
+    thermal_zone_get_trip()
+  thermal/drivers/tegra: Use generic thermal_zone_get_trip() function
+  thermal/drivers/uniphier: Use generic thermal_zone_get_trip() function
+  thermal/drivers/hisi: Use generic thermal_zone_get_trip() function
+  thermal/drivers/qcom: Use generic thermal_zone_get_trip() function
+  thermal/drivers/armada: Use generic thermal_zone_get_trip() function
+  thermal/drivers/rcar_gen3: Use the generic function to get the number
+    of trips
+  thermal/of: Remove of_thermal_get_ntrips()
+  thermal/of: Remove of_thermal_is_trip_valid()
+  thermal/of: Remove of_thermal_set_trip_hyst()
+  thermal/of: Remove of_thermal_get_crit_temp()
+  thermal/drivers/st: Use generic trip points
+  thermal/drivers/imx: Use generic thermal_zone_get_trip() function
+  thermal/drivers/rcar: Use generic thermal_zone_get_trip() function
+  thermal/drivers/broadcom: Use generic thermal_zone_get_trip() function
+  thermal/drivers/da9062: Use generic thermal_zone_get_trip() function
+  thermal/drivers/ti: Remove unused macros ti_thermal_get_trip_value() /
+    ti_thermal_trip_is_valid()
+  thermal/drivers/acerhdf: Use generic thermal_zone_get_trip() function
+  thermal/drivers/cxgb4: Use generic thermal_zone_get_trip() function
+  thermal/intel/int340x: Replace parameter to simplify
+  thermal/drivers/intel: Use generic thermal_zone_get_trip() function
+
+ drivers/net/ethernet/chelsio/cxgb4/cxgb4.h    |   2 -
+ .../ethernet/chelsio/cxgb4/cxgb4_thermal.c    |  41 +----
+ drivers/platform/x86/acerhdf.c                |  73 +++-----
+ drivers/thermal/armada_thermal.c              |  39 ++---
+ drivers/thermal/broadcom/bcm2835_thermal.c    |   8 +-
+ drivers/thermal/da9062-thermal.c              |  52 +-----
+ drivers/thermal/gov_bang_bang.c               |  29 ++--
+ drivers/thermal/gov_fair_share.c              |  18 +-
+ drivers/thermal/gov_power_allocator.c         |  51 +++---
+ drivers/thermal/gov_step_wise.c               |  22 ++-
+ drivers/thermal/hisi_thermal.c                |  11 +-
+ drivers/thermal/imx_thermal.c                 |  72 +++-----
+ .../int340x_thermal/int340x_thermal_zone.c    |  31 ++--
+ .../int340x_thermal/int340x_thermal_zone.h    |   4 +-
+ .../processor_thermal_device.c                |  10 +-
+ drivers/thermal/intel/x86_pkg_temp_thermal.c  | 120 +++++++------
+ drivers/thermal/qcom/qcom-spmi-temp-alarm.c   |  39 ++---
+ drivers/thermal/rcar_gen3_thermal.c           |   2 +-
+ drivers/thermal/rcar_thermal.c                |  49 +-----
+ drivers/thermal/samsung/exynos_tmu.c          |  57 +++----
+ drivers/thermal/st/st_thermal.c               |  47 +----
+ drivers/thermal/tegra/soctherm.c              |  33 ++--
+ drivers/thermal/tegra/tegra30-tsensor.c       |  17 +-
+ drivers/thermal/thermal_core.c                | 160 +++++++++++++++---
+ drivers/thermal/thermal_core.h                |  24 +--
+ drivers/thermal/thermal_helpers.c             |  28 +--
+ drivers/thermal/thermal_netlink.c             |  21 +--
+ drivers/thermal/thermal_of.c                  | 116 -------------
+ drivers/thermal/thermal_sysfs.c               | 127 +++++---------
+ drivers/thermal/ti-soc-thermal/ti-thermal.h   |  15 --
+ drivers/thermal/uniphier_thermal.c            |  27 ++-
+ include/linux/thermal.h                       |  10 ++
+ 32 files changed, 545 insertions(+), 810 deletions(-)
+
 -- 
-2.25.1
+2.34.1
 
