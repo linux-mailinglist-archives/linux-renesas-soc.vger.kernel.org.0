@@ -2,189 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 620935E99E2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Sep 2022 08:50:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B4075E9A70
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Sep 2022 09:30:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233731AbiIZGuM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Sep 2022 02:50:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40090 "EHLO
+        id S233348AbiIZHaw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Sep 2022 03:30:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233748AbiIZGuK (ORCPT
+        with ESMTP id S233264AbiIZHav (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Sep 2022 02:50:10 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2D891F62B
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 25 Sep 2022 23:50:07 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id i26so9273596lfp.11
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 25 Sep 2022 23:50:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=rMv/6RaQNfPOzLYbEjVzggzY8CZ+X96gFNKrqQ2B2Ow=;
-        b=xg1FMouFc39uYJfpo1TMTLh6Tz1Vheo3Fw4i4l3fcognD2CeckgksJP71bZytbEUqU
-         K76jhbCWLj5KC4OqfPlcmMAaQjeje9tY380R0SpZm61Xs6slylUAciPBo1eHhac4y65U
-         u1fs3iY+n+FxT7C71rYQiInoZ8ZJZaWkfVp0EqdB7cL3aUd5tKaXSr95zdQEdxFCHLMZ
-         Ya3PB+ZHoo4kNnxmt3VfbUS631IaaXvHlmSS1u1FpS3bkEgyvOUdtrC2rKGWwgykomML
-         /8ZVhBn4XTzSQ80KUB9HPUPOkIWbu5/o/HSW5Lp9IEn4tAtkwVPjeag/XW8vQFvQDSXP
-         INtQ==
+        Mon, 26 Sep 2022 03:30:51 -0400
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D65A20BFD;
+        Mon, 26 Sep 2022 00:30:50 -0700 (PDT)
+Received: by mail-qv1-f44.google.com with SMTP id g4so3853457qvo.3;
+        Mon, 26 Sep 2022 00:30:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=rMv/6RaQNfPOzLYbEjVzggzY8CZ+X96gFNKrqQ2B2Ow=;
-        b=Z5Gsf6yxQxs2j97NVJoKSreBm+c8fRqogSCvWvZBTwb9WgYaL1SAWxWBS/Ooy1f8AH
-         wMt96RrAwU+oGvqcE+CSBo8bkIg8u/vH0dAk5OlStfD+nVADcoMr+04aJDh9dLNAaF1N
-         BZv/LD8ahBD+PaF2Li5luYcl3xWpiYbSkoy6h5rswVeLLkJ13/wSBNVf7KzhZdgEoAss
-         ACjiq1gH+rl0olvaKRWQn87aZOdqxHpdHs5rI6SdBDie6rg84O/uSlEr7fwvi2o2akBg
-         coLQxpCvbgrZYFK2HcCe7o2cmdFaKxBkqGT2pE+Kps0feGu+YITblA3MTYwJ8yVrzIfy
-         x+sg==
-X-Gm-Message-State: ACrzQf3/hPpMiKudRotLFc6tZsfex0DFf4x1CFH23M/rnk/q0hbH5BhB
-        tl3q1ehLd15fu5bO9cOIGWpWCQ==
-X-Google-Smtp-Source: AMsMyM4A2p2dVHbr2MrZbNkvzA+TDXrYrHq10zKyOpuUy8eKdgqnmSqsTMBymCWb70/WbocMjsZ6jw==
-X-Received: by 2002:a19:e01e:0:b0:497:81a9:c2c4 with SMTP id x30-20020a19e01e000000b0049781a9c2c4mr8259528lfg.74.1664175005928;
-        Sun, 25 Sep 2022 23:50:05 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id e12-20020a05651236cc00b00499b19f23e8sm2440271lfs.279.2022.09.25.23.50.04
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=PD9kRGu3xP06426an9uPmLar4Br/xl9PzLRr4C+tbrw=;
+        b=7Oj36kkQgBDsmZKKbKnJoIX9d194NeacrbL4hAfi5knLaV/9xzaZe6ojIak4KcZSo0
+         XPZOb7nWf4WOuuh5WRgcIjZJ+L0qxuIrX2fYmhiNzAKoCcovKdxe5iqRtX5pxzjzsySO
+         NO4NqXCSq9SOH4V2ktmpZfzt4XyOypW4BrpJYNa2KktLmujje8EKePsHw1o7HsqHDsxY
+         aGzzN+D6gAKSwIqTr7CdSTBfaN0kXtLi774OOjYtpdp+GtKDSf9uK9o13Ss8TJzfFoNq
+         7BPoSLnon15Wh+N5bFEL2rMxEO6n8iaxD9oC6YabA3dIM1Qk5K2ZZan7p7RDR0DuORsz
+         oWJg==
+X-Gm-Message-State: ACrzQf3ZIIEpEUWWMAOo40OSi+ihB/gTb1IyJ+mnhMrKGCVg0P1EBJlY
+        RJz6dVlpjZtg6NNh46wl4tDm3pxoEuI=
+X-Google-Smtp-Source: AMsMyM7i9IZ3oKY/XdPBB8qswSZUQwg/wKw5aLJbdDrhimL0SWJfrtAi4qlqKkoQ8kkr9gnx9KYi1A==
+X-Received: by 2002:a05:6214:2129:b0:4ac:8dfe:9d82 with SMTP id r9-20020a056214212900b004ac8dfe9d82mr16056290qvc.98.1664177448999;
+        Mon, 26 Sep 2022 00:30:48 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id w12-20020a05620a444c00b006af1f0af045sm11458785qkp.107.2022.09.26.00.30.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Sep 2022 23:50:05 -0700 (PDT)
-Message-ID: <d31dc406-3ef2-0625-8f5e-ff6731457427@linaro.org>
-Date:   Mon, 26 Sep 2022 08:50:04 +0200
+        Mon, 26 Sep 2022 00:30:48 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-3487d84e477so59409067b3.6;
+        Mon, 26 Sep 2022 00:30:48 -0700 (PDT)
+X-Received: by 2002:a0d:dd09:0:b0:344:fca5:9b44 with SMTP id
+ g9-20020a0ddd09000000b00344fca59b44mr19280461ywe.358.1664177448106; Mon, 26
+ Sep 2022 00:30:48 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v2 4/8] dt-bindings: net: renesas: Document Renesas
- Ethernet Switch
-Content-Language: en-US
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "kishon@ti.com" <kishon@ti.com>,
-        "vkoul@kernel.org" <vkoul@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>
-Cc:     "andrew@lunn.ch" <andrew@lunn.ch>,
-        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+References: <20220919075727.rmph7jmopaqvyyri@pengutronix.de>
+ <OS0PR01MB5922B87D4A05973F88B427A7864C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20220920155306.dvcz4324zvg72udm@pengutronix.de> <OS0PR01MB5922A9B3314F2F2B32F6B0DE864C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922289B89061F6B3DF4819F864F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20220921133542.3glfgeddnlhrebkz@pengutronix.de> <OS0PR01MB592258F2341BEDA1A5A7301C864F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20220922053605.qivxzwon52orbdgz@pengutronix.de> <OS0PR01MB59220ECD0B2D42DF5012B6C7864E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <TYCPR01MB59336AAF4DD1D304FA53451286509@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+ <20220924134233.m7uyvwyulbmo3mrv@pengutronix.de> <OS0PR01MB5922B479EE78E840DA9B8F0E86509@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922B479EE78E840DA9B8F0E86509@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 26 Sep 2022 09:30:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU_-Y_MV=6t+ri_MicEMK+Z5JhxHHp3AsDU+4KgdMsXSQ@mail.gmail.com>
+Message-ID: <CAMuHMdU_-Y_MV=6t+ri_MicEMK+Z5JhxHHp3AsDU+4KgdMsXSQ@mail.gmail.com>
+Subject: Re: [PATCH v6 2/2] pwm: Add support for RZ/G2L GPT
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-References: <20220921084745.3355107-1-yoshihiro.shimoda.uh@renesas.com>
- <20220921084745.3355107-5-yoshihiro.shimoda.uh@renesas.com>
- <1aebd827-3ff4-8d13-ca85-acf4d3a82592@linaro.org>
- <TYBPR01MB5341514CD57AB080454749F2D8529@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <TYBPR01MB5341514CD57AB080454749F2D8529@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 26/09/2022 08:10, Yoshihiro Shimoda wrote:
+Hi Biju,
 
-> I'll add a blank line here.
-> 
->>> +      '#size-cells':
->>> +        const: 0
->>> +
->>> +    additionalProperties: false
->>
->> Don't put it between properties. For nested object usually this is
->> before properties:
-> 
-> I'll drop it.
+On Sat, Sep 24, 2022 at 6:10 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Note:
+> I have a plan to develop another PWM driver using MTU IP on the same SoC.
+> The work is not started yet.
 
-Don't drop, but instead put it before "properties" for this nested object.
+That is the MTU3, which seems to be a further evolution of the MTU2
+in e.g. RZ/A1, which is already supported as a timer through the
+sh_mtu2 driver?
 
-> 
->>> +
->>> +    patternProperties:
->>> +      "^port@[0-9a-f]+$":
->>> +        type: object
->>> +
->>
->> Skip blank line.
-> 
-> I got it.
-> 
->>> +        $ref: "/schemas/net/ethernet-controller.yaml#"
->>
->> No need for quotes.
-> 
-> I'll drop the quotes.
-> 
->>> +        unevaluatedProperties: false
->>> +
->>> +        properties:
->>> +          reg:
->>> +            description:
->>> +              Port number of ETHA (TSNA).
->>> +
->>> +          phy-handle:
->>> +            description:
->>> +              Phandle of an Ethernet PHY.
->>
->> Why do you need to mention this property? Isn't it coming from
->> ethernet-controller.yaml?
-> 
-> Indeed. I'll drop the description.
-> 
->>> +
->>> +          phy-mode:
->>> +            description:
->>> +              This specifies the interface used by the Ethernet PHY.
->>> +            enum:
->>> +              - mii
->>> +              - sgmii
->>> +              - usxgmii
->>> +
->>> +          phys:
->>> +            maxItems: 1
->>> +            description:
->>> +              Phandle of an Ethernet SERDES.
->>
->> This is getting confusing. You have now:
->> - phy-handle
->> - phy
->> - phy-device
->> - phys
->> in one schema... although lan966x serdes seems to do the same. :/
-> 
-> Yes... I found the following documents have "phy" and "phy-handle" by using
-> git grep -l -w "phys" `git grep -l phy-handle Documentation/devicetree/bindings/`:
-> Documentation/devicetree/bindings/net/cdns,macb.yaml
-> Documentation/devicetree/bindings/net/cpsw.txt
-> Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
-> Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml
-> Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml
-> Documentation/devicetree/bindings/net/ti,k3-am654-cpsw-nuss.yaml
-> Documentation/devicetree/bindings/phy/phy-bindings.txt
-> 
-> And I'm interesting that the phy-bindings.txt said the following:
-> -----
-> phys : the phandle for the PHY device (used by the PHY subsystem; not to be
->        confused with the Ethernet specific 'phy' and 'phy-handle' properties,
->        see Documentation/devicetree/bindings/net/ethernet.txt for these)
-> -----
+> For this IP, I planned to use MFD framework for the MTU driver and
+> Will add counter driver, timer driver(clock source, clock event)
+> and pwm driver as child devices.
+>
+> Currently the MFD driver and 16-Bit Phase Counting using counter framework
+> is almost done.
 
-Indeed, seems ok.
+Do you really need an MFD? (MFDs trigger a red flag for me ;-)
+E.g. there are two sets of bindings for renesas,tpu: when #pwm-cells
+is present, it is used for PWM, otherwise it is used as a timer.
 
-> 
+Gr{oetje,eeting}s,
 
-Best regards,
-Krzysztof
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
