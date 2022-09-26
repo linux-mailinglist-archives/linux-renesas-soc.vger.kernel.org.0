@@ -2,58 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96B015EA747
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Sep 2022 15:30:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 539605EA79F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Sep 2022 15:50:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234065AbiIZNah (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Sep 2022 09:30:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50832 "EHLO
+        id S235167AbiIZNuv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Sep 2022 09:50:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234061AbiIZNaL (ORCPT
+        with ESMTP id S235216AbiIZNtn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Sep 2022 09:30:11 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EB821DB566;
-        Mon, 26 Sep 2022 04:53:51 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id i3so3888769qkl.3;
-        Mon, 26 Sep 2022 04:53:50 -0700 (PDT)
+        Mon, 26 Sep 2022 09:49:43 -0400
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BF7B1F34BA;
+        Mon, 26 Sep 2022 05:06:40 -0700 (PDT)
+Received: by mail-qt1-x82e.google.com with SMTP id f26so3869209qto.11;
+        Mon, 26 Sep 2022 05:06:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=mVuGJPGJe2H+3+FixPWiruk+UJOFvQNy8mtyw4ti/gs=;
-        b=lfIaCJtsilZce/5dgOUpHw7EzBToAwvGukuki8q/l3F9WFkG/FmtBB/sDKim1KHNLq
-         9GZSgdN++YfOiTp86wzJm3bH/R4SukeQfun8hMRcQ6U5nYweIYTpZcHK+VnWaR2oGNBN
-         zNzIlyIjTS22RaX129cRIMcsZaFlF8hfEj3uolZWViXMmwkiCMcgLW32wtEwzUgOFceO
-         Z3HTZffPsfAqen1OM+1n5I65doNYAIMvGbD1wPum/gQD/DzR9OL66cUfbds4Td/8PqM7
-         YEBiYCfD6YoG5ZkTBERLdz7PUwOYbEm9YAm6WukN6pXI12nkG6YbCM2yDnm0CYXACQp7
-         hERg==
-X-Gm-Message-State: ACrzQf3YOZ3eg0vfvX5kS0VV/Sz6sYP7hUzr4cmw+k25f5aEvJp8JQF+
-        4sWjLJ+Lg/d4kPUBbM6iL9QM4ScYsUS4+Q==
-X-Google-Smtp-Source: AMsMyM6201Ll1guJSciLRUZqAwkQ/Q7CDaM6WPu3mXZ5b0UozLIJDadSyILgnzI75/0feM52MTnInA==
-X-Received: by 2002:a05:620a:1103:b0:6ce:a0f6:90da with SMTP id o3-20020a05620a110300b006cea0f690damr14037502qkk.101.1664193102779;
-        Mon, 26 Sep 2022 04:51:42 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id o24-20020a05620a229800b006ce515196a7sm11381825qkh.8.2022.09.26.04.51.42
+        bh=zwqQg/EA9NE7hz0+et8lHT66JUNAuO2pFuOCuX6k/yw=;
+        b=GCIfIQGiXmu/6cfWujCAOqJ/QLyH4WfVnAdCseU2ByKuvQFM6L43TyYWULJtbJ1qnD
+         eqWDO+g/0H5KaeRRfNHDMsRdUNgcQEN2Xs9cVCbAv53NID5UHteaJbW+wplS/KQ/MKLw
+         IBliSNcohxL0yFijJ1gYgVBJay7bctF7OeSiArVhEf8qqPZ7CB/A8T5h/CNy+Vrd052y
+         f2Ft1oN3X/XvS/aRLtG7i7BGIQxjY0+lzSkh4rE/3FIagzfLe3GoNusAY4AqatBb30RA
+         /YdCick7/ziJ3ddPpIPVPJF84eRmXMFkAjKe1nbAqkuVcRaQF0SdMr1AK6pBYACHxO0t
+         0DlA==
+X-Gm-Message-State: ACrzQf1MqQcLiL6/1iEj+tHFXPMWQ90K6UICG7jtNi7Md6VLQdbuRnTm
+        Rn77gVBlrFBFYnr+oGlFj0hTC0NEKtbxRw==
+X-Google-Smtp-Source: AMsMyM4f2USErY5Wp2DisWPjWgm1QD0z6baomR7VfxgKHkXKSd34kSylqlz42uKKNc9kkJ2bNl0i+Q==
+X-Received: by 2002:ac8:7d14:0:b0:35c:bdbe:5b97 with SMTP id g20-20020ac87d14000000b0035cbdbe5b97mr17568542qtb.272.1664193536555;
+        Mon, 26 Sep 2022 04:58:56 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id fv19-20020a05622a4a1300b0035d474fd797sm349916qtb.23.2022.09.26.04.58.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Sep 2022 04:51:42 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-3511e80f908so2601127b3.2;
-        Mon, 26 Sep 2022 04:51:42 -0700 (PDT)
-X-Received: by 2002:a81:758a:0:b0:345:450b:6668 with SMTP id
- q132-20020a81758a000000b00345450b6668mr19418082ywc.316.1664193101855; Mon, 26
- Sep 2022 04:51:41 -0700 (PDT)
+        Mon, 26 Sep 2022 04:58:56 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 126so7951281ybw.3;
+        Mon, 26 Sep 2022 04:58:55 -0700 (PDT)
+X-Received: by 2002:a05:6902:2c1:b0:6b2:8bb0:79a0 with SMTP id
+ w1-20020a05690202c100b006b28bb079a0mr20847868ybh.202.1664193535675; Mon, 26
+ Sep 2022 04:58:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220921080051.5604-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220921080051.5604-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220921082221.10599-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220921082221.10599-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 26 Sep 2022 13:51:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdULe59ZDysdLzyYTwXa0SXvLm7sGVOVjZ40r05h0sXmRA@mail.gmail.com>
-Message-ID: <CAMuHMdULe59ZDysdLzyYTwXa0SXvLm7sGVOVjZ40r05h0sXmRA@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: rzg2l: Fix typo in function name
+Date:   Mon, 26 Sep 2022 13:58:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVgwNMr-KgXTancXGJUqLEb92S0MR9rLM8fzn+Bc51U1w@mail.gmail.com>
+Message-ID: <CAMuHMdVgwNMr-KgXTancXGJUqLEb92S0MR9rLM8fzn+Bc51U1w@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: rzg2ul-smarc: Move spi1 pinmux to
+ carrier board DTSI
 To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -68,15 +70,20 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Sep 21, 2022 at 10:01 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+On Wed, Sep 21, 2022 at 10:22 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Fix typo, rzg2l_mod_clock__get_sibling -> rzg2l_mod_clock_get_sibling
+> spi1 is available on the RZ/G2UL SMARC EVK carrier board (PMOD0), hence
+> moving the spi1 pinmux from SoM to carrier board. This is to keep
+> consistency with the other SMARC EVKs.
+>
+> Also while moving the pinmux rename rspi1 to spi1 to be consistent with
+> other SMARC EVK DTSIs.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v6.2.
+i.e. will queue in renesas-devel for v6.2.
 
 Gr{oetje,eeting}s,
 
