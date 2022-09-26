@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62A2C5EA934
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Sep 2022 16:55:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7CCE5EA92E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Sep 2022 16:54:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233546AbiIZOy5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Sep 2022 10:54:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43682 "EHLO
+        id S234080AbiIZOyy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Sep 2022 10:54:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235256AbiIZOyd (ORCPT
+        with ESMTP id S235254AbiIZOyd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Mon, 26 Sep 2022 10:54:33 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4CCDB74DC2;
-        Mon, 26 Sep 2022 06:21:46 -0700 (PDT)
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4022173336;
+        Mon, 26 Sep 2022 06:21:50 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.93,346,1654527600"; 
-   d="scan'208";a="133987323"
+   d="scan'208";a="136203517"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 26 Sep 2022 22:21:46 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 26 Sep 2022 22:21:49 +0900
 Received: from localhost.localdomain (unknown [10.226.92.133])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0F8324005B43;
-        Mon, 26 Sep 2022 22:21:42 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A48764005B43;
+        Mon, 26 Sep 2022 22:21:46 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
@@ -32,9 +32,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH RFC 7/8] arm64: dts: renesas: r9a07g054: Add MTU3a node
-Date:   Mon, 26 Sep 2022 14:21:13 +0100
-Message-Id: <20220926132114.60396-8-biju.das.jz@bp.renesas.com>
+Subject: [PATCH RFC 8/8] arm64: dts: renesas: rzg2l-smarc: [HACK] Enable MTU for 16-bit phase count testing
+Date:   Mon, 26 Sep 2022 14:21:14 +0100
+Message-Id: <20220926132114.60396-9-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220926132114.60396-1-biju.das.jz@bp.renesas.com>
 References: <20220926132114.60396-1-biju.das.jz@bp.renesas.com>
@@ -48,107 +48,104 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add MTU3a node to R9A07G054 (RZ/V2L) SoC DTSI.
+Enable MTU{1,2} for 16-bit phase count testing.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 83 ++++++++++++++++++++++
- 1 file changed, 83 insertions(+)
+ .../boot/dts/renesas/r9a07g044l2-smarc.dts    |  2 --
+ .../dts/renesas/rzg2l-smarc-pinfunction.dtsi  | 11 ++++++++
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  | 25 ++++++++++++++++++-
+ 3 files changed, 35 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-index 358d4c34465f..da78a75bc4d6 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-@@ -168,6 +168,89 @@ soc: soc {
- 		#size-cells = <2>;
- 		ranges;
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
+index bc2af6c92ccd..247b0b3f1b58 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
++++ b/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
+@@ -8,8 +8,6 @@
+ /dts-v1/;
+ #include "r9a07g044l2.dtsi"
+ #include "rzg2l-smarc-som.dtsi"
+-#include "rzg2l-smarc-pinfunction.dtsi"
+-#include "rz-smarc-common.dtsi"
+ #include "rzg2l-smarc.dtsi"
  
-+		mtu3: timer@10001200 {
-+			compatible = "renesas,r9a07g054-mtu3",
-+				     "renesas,rzg2l-mtu3";
-+			reg = <0 0x10001200 0 0xb00>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			interrupts = <GIC_SPI 170 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 171 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 172 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 173 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 174 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 175 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 176 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 177 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 178 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 179 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 180 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 181 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 182 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 183 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 184 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 185 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 186 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 187 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 188 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 189 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 190 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 191 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 192 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 193 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 194 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 195 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 196 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 197 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 198 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 199 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 200 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 201 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 202 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 203 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 204 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 205 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 206 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 207 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 208 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 209 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 210 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 211 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 212 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 213 IRQ_TYPE_EDGE_RISING>;
-+			interrupt-names = "tgia0", "tgib0", "tgic0", "tgid0",
-+					  "tgiv0", "tgie0", "tgif0",
-+					  "tgia1", "tgib1", "tgiv1", "tgiu1",
-+					  "tgia2", "tgib2", "tgiv2", "tgiu2",
-+					  "tgia3", "tgib3", "tgic3", "tgid3",
-+					  "tgiv3",
-+					  "tgia4", "tgib4", "tgic4", "tgid4",
-+					  "tgiv4",
-+					  "tgiu5", "tgiv5", "tgiw5",
-+					  "tgia6", "tgib6", "tgic6", "tgid6",
-+					  "tgiv6",
-+					  "tgia7", "tgib7", "tgic7", "tgid7",
-+					  "tgiv7",
-+					  "tgia8", "tgib8", "tgic8", "tgid8",
-+					  "tgiv8", "tgiu8";
-+			clocks = <&cpg CPG_MOD R9A07G054_MTU_X_MCK_MTU3>;
-+			power-domains = <&cpg>;
-+			resets = <&cpg R9A07G054_MTU_X_PRESET_MTU3>;
-+			status = "disabled";
-+
-+			counter@1 {
-+				compatible = "renesas,rzg2l-mtu3-counter";
-+				reg = <1>;
-+				status = "disabled";
-+			};
-+
-+			counter@2 {
-+				compatible = "renesas,rzg2l-mtu3-counter";
-+				reg = <2>;
-+				status = "disabled";
-+			};
+ / {
+diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
+index 9085d8c76ce1..8c25c9f31ec0 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
+@@ -53,17 +53,28 @@ i2c3_pins: i2c3 {
+ 			 <RZG2L_PORT_PINMUX(18, 1, 3)>; /* SCL */
+ 	};
+ 
++#if (MTU3_PHASE_COUNTING_SUPPORT)
++	mtu3_pins: mtu3 {
++		mtu3_clk {
++			pinmux = <RZG2L_PORT_PINMUX(48, 0, 4)>, /* MTCLKA */
++				 <RZG2L_PORT_PINMUX(48, 1, 4)>; /* MTLCKB */
 +		};
++	};
++#endif
 +
- 		ssi0: ssi@10049c00 {
- 			compatible = "renesas,r9a07g054-ssi",
- 				     "renesas,rz-ssi";
+ 	scif0_pins: scif0 {
+ 		pinmux = <RZG2L_PORT_PINMUX(38, 0, 1)>,	/* TxD */
+ 			 <RZG2L_PORT_PINMUX(38, 1, 1)>;	/* RxD */
+ 	};
+ 
++#if (!MTU3_PHASE_COUNTING_SUPPORT)
+ 	scif2_pins: scif2 {
+ 		pinmux = <RZG2L_PORT_PINMUX(48, 0, 1)>, /* TxD */
+ 			 <RZG2L_PORT_PINMUX(48, 1, 1)>, /* RxD */
+ 			 <RZG2L_PORT_PINMUX(48, 3, 1)>, /* CTS# */
+ 			 <RZG2L_PORT_PINMUX(48, 4, 1)>; /* RTS# */
+ 	};
++#endif
+ 
+ 	sd1-pwr-en-hog {
+ 		gpio-hog;
+diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+index e180a955b6ac..79b3088d2eda 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+@@ -9,7 +9,14 @@
+ #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
+ 
+ /* comment the #define statement to disable SCIF2 (SER0) on PMOD1 (CN7) */
+-#define PMOD1_SER0	1
++#define PMOD1_SER0	0
++
++#if (!PMOD1_SER0)
++#define MTU3_PHASE_COUNTING_SUPPORT	1
++#endif
++
++#include "rzg2l-smarc-pinfunction.dtsi"
++#include "rz-smarc-common.dtsi"
+ 
+ / {
+ 	aliases {
+@@ -36,6 +43,22 @@ wm8978: codec@1a {
+ 	};
+ };
+ 
++#if (MTU3_PHASE_COUNTING_SUPPORT)
++&mtu3 {
++	pinctrl-0 = <&mtu3_pins>;
++	pinctrl-names = "default";
++
++	status = "okay";
++	counter@1 {
++		status = "okay";
++	};
++
++	counter@2 {
++		status = "okay";
++	};
++};
++#endif
++
+ /*
+  * To enable SCIF2 (SER0) on PMOD1 (CN7)
+  * SW1 should be at position 2->3 so that SER0_CTS# line is activated
 -- 
 2.25.1
 
