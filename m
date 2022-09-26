@@ -2,105 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 415955EB0EB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Sep 2022 21:08:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 849305EB125
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Sep 2022 21:18:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231225AbiIZTIm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Sep 2022 15:08:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42660 "EHLO
+        id S229489AbiIZTSL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Sep 2022 15:18:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbiIZTIH (ORCPT
+        with ESMTP id S229458AbiIZTSK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Sep 2022 15:08:07 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12D944BA71
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Sep 2022 12:07:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=vw+JKRmxcEVLInkDUh1AVHpoLVMA
-        JhvYGdtbyKCJoLM=; b=uxgcgzdp1ycy/kLV0dBsmZOQqiSofPuI2lmVLE02miOz
-        yIXQmMibf9LF9Pe9wwKfxF/nG2qBStLf7LNChQo00AXzNbw3vJxKnPwnUVgS9S+r
-        krhAZPK9q9BL5LjAQRihLs+0qCm2eDCCfMk78OFUtzhm32VTTex0IcJRDkd/PvI=
-Received: (qmail 3232996 invoked from network); 26 Sep 2022 21:06:23 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Sep 2022 21:06:23 +0200
-X-UD-Smtp-Session: l3s3148p1@0m9BOZnpIs0gAwDtxwncAPgJb5TsabMI
-Date:   Mon, 26 Sep 2022 21:06:22 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4] mmc: renesas_sdhi: Fix rounding errors
-Message-ID: <YzH4LsJzq8rRgRlm@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220926171002.62352-1-biju.das.jz@bp.renesas.com>
+        Mon, 26 Sep 2022 15:18:10 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5836D9C216;
+        Mon, 26 Sep 2022 12:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=hS7TFU/5h99HaCSSIks5N//b6fAZfGSpwFxmPBRrixI=; b=XHz1NCfYK3a/4gi9B7dQ/XFHss
+        Co4OCAcVisij3zK+7jMLP7dbnDL8xAZZ/NDCQl+rHpE4/jL98jr8bJ+oP2QzCnlPSbFk5vw9qksC+
+        AA/rYQp4nDmFaMajeQ5qG3yoV4HdtCimNbrKquzPYGw4g9V0r4Iq1j4UpLa5fDRKQJ+E=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1octc5-000Kq6-C5; Mon, 26 Sep 2022 21:17:57 +0200
+Date:   Mon, 26 Sep 2022 21:17:57 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v3 2/3] net: ethernet: renesas: Add Ethernet Switch driver
+Message-ID: <YzH65W3r1IV+rHFW@lunn.ch>
+References: <20220922052803.3442561-1-yoshihiro.shimoda.uh@renesas.com>
+ <20220922052803.3442561-3-yoshihiro.shimoda.uh@renesas.com>
+ <Yy2wivbzUA2zroqy@lunn.ch>
+ <TYBPR01MB5341ACAD30E913D01C94FE08D8529@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="SWnf/U3U2mtcaPSz"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220926171002.62352-1-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <TYBPR01MB5341ACAD30E913D01C94FE08D8529@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Mon, Sep 26, 2022 at 08:12:14AM +0000, Yoshihiro Shimoda wrote:
+> Hi Andrew,
+> 
+> > From: Andrew Lunn, Sent: Friday, September 23, 2022 10:12 PM
+> > 
+> > > +/* Forwarding engine block (MFWD) */
+> > > +static void rswitch_fwd_init(struct rswitch_private *priv)
+> > > +{
+> > > +	int i;
+> > > +
+> > > +	for (i = 0; i < RSWITCH_NUM_HW; i++) {
+> > > +		iowrite32(FWPC0_DEFAULT, priv->addr + FWPC0(i));
+> > > +		iowrite32(0, priv->addr + FWPBFC(i));
+> > > +	}
+> > 
+> > What is RSWITCH_NUM_HW?
+> 
+> I think the name is unclear...
+> Anyway, this hardware has 3 ethernet ports and 2 CPU ports.
+> So that the RSWITCH_NUM_HW is 5. Perhaps, RSWITCH_NUM_ALL_PORTS
+> is better name.
 
---SWnf/U3U2mtcaPSz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+How do the CPU ports differ to the other ports? When you mention CPU
+ports, it makes me wonder if this should be a DSA driver?
 
-On Mon, Sep 26, 2022 at 06:10:02PM +0100, Biju Das wrote:
-> Due to clk rounding errors on RZ/G2L platforms, it selects a clock source
-> with a lower clock rate compared to a higher one.
-> For eg: The rounding error (533333333 Hz / 4 * 4 =3D 533333332 Hz < 53333=
-33
-> 33 Hz) selects a clk source of 400 MHz instead of 533.333333 MHz.
->=20
-> This patch fixes this issue by adding a margin of (1/1024) higher to
-> the clock rate.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Is there a public data sheet for this device?
 
-Looks very good to me now! Thanks for keeping at it:
+> Perhaps, since the current driver supports 1 ethernet port and 1 CPU port only,
+> I should modify this driver for the current condition strictly.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+I would suggest you support all three user ports. For an initial
+driver you don't need to support any sort of acceleration. You don't
+need any hardware bridging etc. That can be added later. Just three
+separated ports.
 
+> > > +
+> > > +	for (i = 0; i < RSWITCH_NUM_ETHA; i++) {
+> > 
+> > RSWITCH_NUM_ETHA appears to be the number of ports?
+> 
+> Yes, this is number of ethernet ports.
 
---SWnf/U3U2mtcaPSz
-Content-Type: application/pgp-signature; name="signature.asc"
+In the DSA world we call these user ports. 
 
------BEGIN PGP SIGNATURE-----
+> > > +	kfree(c->skb);
+> > > +	c->skb = NULL;
+> > 
+> > When i see code like this, i wonder why an API call like
+> > dev_kfree_skb() is not being used. I would suggest reaming this to
+> > something other than skb, which has a very well understood meaning.
+> 
+> Perhaps, c->skbs is better name than just c->skb.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMx+C4ACgkQFA3kzBSg
-KbY3KA/9HPW+ldJ6FGYDHHhOXQAxWHHlKimNPIQvHpvWEqHiHMNP40oJYrPi+uds
-sWTS7562uZ8Cug90pFzMNlGhHzJHifHrNwyQmsjebJNIgK5HyqNT6JTAcEcZLI1b
-c1nEEp4mgdL8yhhVWfoHyzTwFZkTZ3qzgzK29oEOLePgqvtySl30GfuDndSeMPYW
-5l9FPNWrnkfR6Loe+oLUkgc4xCPPrAOJfJGEHjLTil9SDxUBBv6vA7RNRgN9zWk2
-ClBh+UUukNVjPjsKoc1R7/VRlp1RI1UxL9SxmIB4aRRUt5irs+kdGvQVEo19s1sl
-vuwsbKPp7+UrYGZtPmUAr8m+yMEvIs1VJhOcrlU3HzrSNZOubnZJEPr0NwT1BpuC
-K24x+Mv/wG2Q6algastD1HDBf7N+dgiek4aG3hf0qgVXHD8cfRFVEgq5PA411MSI
-xHEwFTBHSmKXiZ7wCbzzRabt5r8m2rImF+eNA8L4K06BUDXxjJJEQ4ltWSDAlbp+
-uHmkWfwpZs7Bu529M9w/oiYKgpXeTEpF21dNYiOcPoueUe89DDPLElV3cev52J+y
-AvAT3jcRwEKYLu06zCh2W1SJenMHwK87hhCuZFdCIIA+Kp2x9DQhzGfNhpaCaaGo
-qZuPYtRpuMrQ7igYpqD7G3yhqHSSGxbw0zp45HptUtPMdtF59wM=
-=Mrck
------END PGP SIGNATURE-----
+Yes, that is O.K.
 
---SWnf/U3U2mtcaPSz--
+     Andrew
