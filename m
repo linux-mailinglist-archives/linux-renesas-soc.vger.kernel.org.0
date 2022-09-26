@@ -2,92 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2BD75EAC9A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Sep 2022 18:33:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B77DE5EACBA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Sep 2022 18:39:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229577AbiIZQdr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Sep 2022 12:33:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37382 "EHLO
+        id S229655AbiIZQjo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Sep 2022 12:39:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229682AbiIZQda (ORCPT
+        with ESMTP id S229674AbiIZQjV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Sep 2022 12:33:30 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F841198FF
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Sep 2022 08:21:53 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id a14so7826778ljj.8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Sep 2022 08:21:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=rVeM/2z2RL7wShJp3R+AGD2+tohyP4EZGs6J3R3DeLw=;
-        b=Y4CaRVDxS8Y3JvTSmgkn8fJ/38atNIuEOaa8KUbLHQLKo0H4O8yL5pwp4n0vvNGAr5
-         D0oZvX8o4dkGAgFUbQX7tJoY4c7Siwtk1eTBlaxrN2K7um9JpHKr18FwECQal7HSvCOE
-         iz7PTEH0s1Khu18OkQPj8FQSkwtLf5AYaPU6aTMWgY1cCpcsKGf6AK+2mB38X5BCtva5
-         JTPG/bmgzpyZvmJnSIbdVZ1Bq5UsWxbYKqmeTL9Lyna9Fmxt/vlGjjYmSIH35yR/XJbP
-         6kGcNnjn01ku95H5z642Hm2BctzKIAhBXU/Krx3u7OYYzZ2pamoaHrQox2bCm6s2l1u0
-         2Rfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=rVeM/2z2RL7wShJp3R+AGD2+tohyP4EZGs6J3R3DeLw=;
-        b=ofpyOKoei3gLYECtuylA6vH6p0+H54AcObBFAIO8oaLc9Wtq7pyAc+xR91irkdAAQJ
-         O/+Ki/PSBLNV8ftr2sh4baFTGH7JME51khsrDiJFMI3WHq09WWMyR2Mogr4KavjDTG5D
-         QPLRbJmojiEcAjbxrT+DmUmXtKRoDS7MmJhe6b638UGgK+gqCqVEqWRbskDBKEYcZpwV
-         PIyw4myxtW0VHwE95+rSXmYLcMiT0wtmFJOpmVN3cH2MZ/ZjUVj54WKBU9wmPg4zAruo
-         UxovyitvjTSi8xDjFBxRMtf9LvZf9kW24ZjWpb3TdH+7C8bSqLDERdy+aeKfliRFk8fX
-         8v7A==
-X-Gm-Message-State: ACrzQf1smjG0LUdtE28rFplnkzr/kNrY25n+zWyqGslsKGZOI6UR/BVt
-        oh15w/4XlnfRtcBabH2kDkH2iQ==
-X-Google-Smtp-Source: AMsMyM6TnBiGwylYUiIDQx8ZP/84Pe+VKWseD7Y9O/a6KvH0Gmnu7tIsrT/BNEF3Lb841xFelxuHKQ==
-X-Received: by 2002:a05:651c:546:b0:26c:698f:a4a2 with SMTP id q6-20020a05651c054600b0026c698fa4a2mr8536230ljp.161.1664205702839;
-        Mon, 26 Sep 2022 08:21:42 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id k27-20020a2ea27b000000b0026c3e350682sm2412307ljm.14.2022.09.26.08.21.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Sep 2022 08:21:23 -0700 (PDT)
-Message-ID: <47bcc9c0-f5c1-4308-8774-a7cf59ec2b36@linaro.org>
-Date:   Mon, 26 Sep 2022 17:21:07 +0200
+        Mon, 26 Sep 2022 12:39:21 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10D31137E6D
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Sep 2022 08:26:33 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:d95b:5c9b:4085:7c0d])
+        by michel.telenet-ops.be with bizsmtp
+        id QfST280083Qogd106fSTnm; Mon, 26 Sep 2022 17:26:27 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ocq03-006Jqw-0m; Mon, 26 Sep 2022 17:26:27 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ocq02-00DOPq-GG; Mon, 26 Sep 2022 17:26:26 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/2] arm64: dts: renesas: r8a779g0: Add DMA and MSIOF support
+Date:   Mon, 26 Sep 2022 17:26:22 +0200
+Message-Id: <cover.1664204771.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH] spi: renesas,sh-msiof: Add r8a779g0 support
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <a840ca8487cfd612fae2b20c98e93ae7c7f50ef4.1664204638.git.geert+renesas@glider.be>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <a840ca8487cfd612fae2b20c98e93ae7c7f50ef4.1664204638.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 26/09/2022 17:05, Geert Uytterhoeven wrote:
-> Document support for the Clock-Synchronized Serial Interface with FIFO
-> (MSIOF) in the Renesas R-Car V4H (R8A779G0) SoC.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
+	Hi all,
 
+This patch series adds support for DMA on the R-Car V4H SoC, to be used
+(for now) by:
+  - I2C,
+  - the HSCIF0 serial port,
+  - the newly-added MSIOF SPI support.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+HSCIF0 DMA was tested on the White Hawk development board by removing
+the uart_console() check from sci_request_dma().
+MSIOF1 and MSIOF2 were tested on the MSIOF Pin Headers on the White Hawk
+development board using a logic analyzer, and internal and external
+loopback with the spi-loopback-test module, cfr. the DT overlays at [1].
+Unfortunately I don't know how to test I2C DMA: all transfers used by
+the AT24 EEPROM driver seem to be either too small, or unsafe for DMA.
+Anyone who knows a good test client?
 
-Best regards,
-Krzysztof
+I plan to queue these in renesas-devel-for-v6.2.
 
+Thanks!
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?h=topic/renesas-overlays&id=88f65e516d426aaa105416557f8157a38147cb21
+
+Geert Uytterhoeven (2):
+  arm64: dts: renesas: r8a779g0: Add DMA support
+  arm64: dts: renesas: r8a779g0: Add MSIOF nodes
+
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 187 ++++++++++++++++++++++
+ 1 file changed, 187 insertions(+)
+
+-- 
+2.25.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
