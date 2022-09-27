@@ -2,90 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3101B5EC175
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Sep 2022 13:33:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 746075EC2BF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Sep 2022 14:32:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231239AbiI0LdM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Sep 2022 07:33:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32850 "EHLO
+        id S232047AbiI0Mb6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Sep 2022 08:31:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230388AbiI0LdL (ORCPT
+        with ESMTP id S232257AbiI0Mby (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Sep 2022 07:33:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5DC923C8;
-        Tue, 27 Sep 2022 04:33:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 65BDD618A2;
-        Tue, 27 Sep 2022 11:33:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57083C433D7;
-        Tue, 27 Sep 2022 11:33:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664278384;
-        bh=gpfGRrAWW5mkPRoJOdCRu0hfA1mpduu9wAyITqlMEDk=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=cS6z6QiCRu7eQFH+OiWE7ejo6olwc6VlyRXFy8wfsFM3Bbe2TCJzoKjxLVdYDc+wf
-         jUThVcR4CiWE62YPgkzxZJq+mVMuXziVb7Z8TGAqryY4eVuCpF1M3mCYbSCcGNMGuH
-         nsbnso6s4gw8l9axZkZZ7ax+sqnS1vOQ1oOXnhIOVw0Hxo9SVaoJwScXaoB0lZnJ+O
-         Re/AecTRmWE9YzBBoTaMhUplz/nBEUh2XkcrxUgjbFPILFE19fbCrf11M9PXHcKILT
-         eeYn3cCZ4v1AkTkjA0Ak6pVqJYytjzJHrkTI9Sx+kYxmWCv/adSNEouzFaVSw87/d9
-         pFSQA2kIGYk7g==
-From:   Mark Brown <broonie@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-spi@vger.kernel.org
-In-Reply-To: <a840ca8487cfd612fae2b20c98e93ae7c7f50ef4.1664204638.git.geert+renesas@glider.be>
-References: <a840ca8487cfd612fae2b20c98e93ae7c7f50ef4.1664204638.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] spi: renesas,sh-msiof: Add r8a779g0 support
-Message-Id: <166427838298.302944.9343978718748524915.b4-ty@kernel.org>
-Date:   Tue, 27 Sep 2022 12:33:02 +0100
+        Tue, 27 Sep 2022 08:31:54 -0400
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C8A5C9D7;
+        Tue, 27 Sep 2022 05:31:50 -0700 (PDT)
+Received: by mail-qk1-f173.google.com with SMTP id o7so5869641qkj.10;
+        Tue, 27 Sep 2022 05:31:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=/pgjHOejlC8oGKDlQhQOq2adEqMriIKNJeVAPevDKWk=;
+        b=otv3anjU3TXCWAikxTxJX3D0nviaJjUzzdSkoJzWulaING5Mo2L3rY1drTzvGXdDsf
+         g2+zGVWhn2W6xqMz193sysq4mRKWIXADCi1yEeonhMjqBLORoYHgWZtxgmFRfc7VbbnT
+         wmqQG/Bz+6daxengvoKLi/GyAmYOdpjuLjEVBf9R1y/keGkAUJGkCi7+6Oetho9wJmLK
+         Dc6A+VyJHMkVdsyuGa1SGav8yYrUsrYewSZ+ipxksOBSBe91bPwucrtGGeHEY3U/oS9v
+         w69qBVd9oh3zy3+bx4VRa5keHA59hgdjMG/3TISX9UmKVgwhq5829ZoWczRuEPiPEbcx
+         isBg==
+X-Gm-Message-State: ACrzQf1ATspJnD5W4dBR3ICaioGwJyVdpYCajEObQpDzmktcHLCJVR6Q
+        yZwvB/lu3wbWMNRidBGflTSfj+BLCvNfqQ==
+X-Google-Smtp-Source: AMsMyM5T05fAr4joaBJsMiFyNjFErXuIL0MtS2dYjfammkRmOuVIlzTuzfuFPfbWRt2+55VcUrgroA==
+X-Received: by 2002:a05:620a:24d2:b0:6ce:cc17:c0dd with SMTP id m18-20020a05620a24d200b006cecc17c0ddmr17562040qkn.325.1664281909533;
+        Tue, 27 Sep 2022 05:31:49 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id r13-20020ae9d60d000000b006cf19068261sm152976qkk.116.2022.09.27.05.31.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Sep 2022 05:31:48 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-349c4310cf7so98618187b3.3;
+        Tue, 27 Sep 2022 05:31:48 -0700 (PDT)
+X-Received: by 2002:a81:9c49:0:b0:34a:de:97b8 with SMTP id n9-20020a819c49000000b0034a00de97b8mr24981503ywa.384.1664281908221;
+ Tue, 27 Sep 2022 05:31:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-fc921
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220818145616.3156379-1-arnd@kernel.org> <20220818145616.3156379-6-arnd@kernel.org>
+In-Reply-To: <20220818145616.3156379-6-arnd@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 27 Sep 2022 14:31:36 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU3bKa5rU6Tx6LVYOnzSmQZJ5o=5hj=aYqwaOPVPUX-5w@mail.gmail.com>
+Message-ID: <CAMuHMdU3bKa5rU6Tx6LVYOnzSmQZJ5o=5hj=aYqwaOPVPUX-5w@mail.gmail.com>
+Subject: Re: [PATCH 5/5] ARM: make ARCH_MULTIPLATFORM user-visible
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Ard Biesheuvel <ardb@kernel.org>, Sekhar Nori <nsekhar@ti.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 26 Sep 2022 17:05:42 +0200, Geert Uytterhoeven wrote:
-> Document support for the Clock-Synchronized Serial Interface with FIFO
-> (MSIOF) in the Renesas R-Car V4H (R8A779G0) SoC.
-> 
-> 
+Hi Arnd,
 
-Applied to
+On Thu, Aug 18, 2022 at 4:56 PM Arnd Bergmann <arnd@kernel.org> wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> Some options like CONFIG_DEBUG_UNCOMPRESS and CONFIG_CMDLINE_FORCE are
+> fundamentally incompatible with portable kernels but are currently allowed
+> in all configurations. Other options like XIP_KERNEL are essentially
+> useless after the completion of the multiplatform conversion.
+>
+> Repurpose the existing CONFIG_ARCH_MULTIPLATFORM option to decide
+> whether the resulting kernel image is meant to be portable or not,
+> and using this to guard all of the known incompatible options.
+>
+> This is similar to how the RISC-V kernel handles the CONFIG_NONPORTABLE
+> option (with the opposite polarity).
+>
+> A few references to CONFIG_ARCH_MULTIPLATFORM were left behind by
+> earlier clanups and have to be removed now up.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+Thanks for your patch, which is now commit 84fc863606239d8b ("ARM: make
+ARCH_MULTIPLATFORM user-visible") in soc/for-next.
 
-Thanks!
+> --- a/arch/arm/Kconfig
+> +++ b/arch/arm/Kconfig
+> @@ -320,7 +320,19 @@ config ARCH_MMAP_RND_BITS_MAX
+>         default 16
+>
+>  config ARCH_MULTIPLATFORM
+> -       def_bool MMU && !(ARCH_FOOTBRIDGE || ARCH_RPC || ARCH_SA1100)
+> +       bool "Require kernel to be portable to multiple machines" if EXPERT
+> +       depends on MMU && !(ARCH_FOOTBRIDGE || ARCH_RPC || ARCH_SA1100)
+> +       default y
+> +       help
+> +         In general, all Arm machines can be supported in a single
+> +         kernel image, covering either Armv4/v5 or Armv6/v7.
+> +
+> +         However, some configuration options require hardcoding machine
+> +         specific physical addresses or enable errata workarounds that may
+> +         break other machines.
+> +
+> +         Selecting N here allows using those options, including
+> +         DEBUG_UNCOMPRESS, XIP_KERNEL and ZBOOT_ROM. If unsure, say Y.
+>
+>  menu "Platform selection"
+>         depends on MMU
+> @@ -1609,6 +1621,7 @@ config CMDLINE_EXTEND
+>
+>  config CMDLINE_FORCE
+>         bool "Always use the default kernel command string"
+> +       depends on !ARCH_MULTIPLATFORM
 
-[1/1] spi: renesas,sh-msiof: Add r8a779g0 support
-      commit: aa69dc65e3b34ce67847f92be06ce9a624a02475
+This change broke half of the boards in my collective.
+Dropping this dependency again fixes the issue for me.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+On older platforms that boot an image with an appended DTB, or where
+the boot loader has no support for updating chosen/bootargs, I rely on
+CMDLINE_FORCE.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Note that the CMDLINE choice depends on CONFIG_ATAGS=y, although
+my systems do not use ATAGS at all.  Arm64, loongarch, microblaze,
+nios2, powerpc, and riscv do not have such a limitation, so perhaps
+that should be lifted on arm, too?
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+I do see the rationale behind this change, and agree that a fixed
+command line can make the kernel unbootable on other platforms.
+However, a common command line is not guaranteed to cause that.
+E.g. all Renesas boards use the same chosen/bootargs in upstream DTS,
+which works fine if your DHCP server hands out proper nfsroot
+parameters (note that mine, running on OpenWRT, doesn't, hence my use
+of CMDLINE_FORCE ;-).
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+>         help
+>           Always use the default kernel command string, even if the boot
+>           loader passes other arguments to the kernel.
 
-Thanks,
-Mark
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
