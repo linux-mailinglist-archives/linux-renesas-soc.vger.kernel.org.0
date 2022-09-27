@@ -2,108 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CC5B5ECE8B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Sep 2022 22:31:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A2A85ED002
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Sep 2022 00:06:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232443AbiI0UbJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Sep 2022 16:31:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54206 "EHLO
+        id S230359AbiI0WGN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Sep 2022 18:06:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232156AbiI0UbI (ORCPT
+        with ESMTP id S232256AbiI0WFz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Sep 2022 16:31:08 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0D145D10D;
-        Tue, 27 Sep 2022 13:31:07 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id u16-20020a05600c211000b003b5152ebf09so7582967wml.5;
-        Tue, 27 Sep 2022 13:31:07 -0700 (PDT)
+        Tue, 27 Sep 2022 18:05:55 -0400
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99BAF1CD6B2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Sep 2022 15:05:44 -0700 (PDT)
+Received: by mail-oi1-x22b.google.com with SMTP id n83so13399102oif.11
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Sep 2022 15:05:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=00ysRaGn1+uuyHYovWFc2fyLe0FbaGvnUPiX3NT3tOA=;
-        b=TjLSgJWhGwsrJaAPS7yq8DC0NokO9BLyPxdHH06ZYl0OYHGNjvZdlaVV3wW/nNoogw
-         UVYsgCwXNhJ5h2FppVzrkvjoJ6rvnm0KepoF+39urwKffslISnGJRYzPwKV45UqyXmSt
-         g3ywbj1uQM9pvp0J8mWafYulHKtmNR35VYcwi3y47VcrMTzHwYrK5zpMpSgBA86i7n8z
-         pshJJaAsQb3aMAve0eGkiT+60pbyTvgrDPhLJQxpTeHDejkXUB3zNJmT5TGfw1gZkM15
-         qEZraDB2PTKGde8MWlky1SNrIf/5/AjEOrw4j7h/ZrxdLgotQt8pwZbc8R5mHHWpYFgp
-         yXrw==
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=JaMWwQ9HrjvsyjP4+lMX3j2mmeycMY/Ai6gz1nlGh+c=;
+        b=rf0dI63kpZex5b62iqy4YMzkDWuar2qJrs70KoWcuAwe6sFqJVtm/l4VOk9CwracdV
+         i5kiQJxiskS19UJxBOqbkvxgzqBiPtKqzuJYyHObHxIniegw9Hdr6Rdw/eqbBbn6ejBa
+         rpx5jyRt4hZw23UAkFEhKLUEuqh5kreMXDtkWSulgPw7CvH4hsyizNCnmxiYWpRfOw7s
+         TMGGWzEf4rx7S7rOaGzbjcRka7CMwmeMlgRYZFVNFTckvPh8AIMyD/cl4D+KQxyOHBSS
+         h+lmhq8lkrFB5MDwt5/r75Qn7osHhqKT/pMmcC4AC5Pw/zI6vxCxiXHYQ21uOFdua8k9
+         kKig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=00ysRaGn1+uuyHYovWFc2fyLe0FbaGvnUPiX3NT3tOA=;
-        b=XfPlrrEjOzbjBOL+z1RhYqo6uOgsnMeKvftwpo961Wi6Lf5/ANDqopqZWc4hffuYei
-         k0yAkJvsU1L0aTi7g7ZD+8HMXwIglz7DC3PVYq1bk8idrgSMa8uxNZxGJMUvsFOCzo13
-         knj+lx2Lze5FU4GMbSqfXMkEk7CjW2yEKhDgYofVWpcKDiR/UcDIotEhDzEv6ZfkLMI7
-         w3Umca6Y3fXp9taEqsu97U94LTDNHbLnyiFXVhw1PbftrQt0pkE6/EuGpRSDIVfNnvTn
-         /HaeUpZ8b23D02XhcdYBTVnAdJiNCCmppkdk6IR+JTYC8g2PRV70PjsGjZrxQuLogDgK
-         Kngw==
-X-Gm-Message-State: ACrzQf3DTWSBl+gv4Jw/JWUg9ti8xRB/VJ0WWvm58AfXRLF1y4MiOzBM
-        ecZ16o7U6YrJ4vS8MmRFNCI=
-X-Google-Smtp-Source: AMsMyM6xpLDtZWn/yUglFmRLH7kW4iJBnk5wv7CWXhDdwAB77dhKg2SrFlZC6ayrrn4FAE29B2gu2g==
-X-Received: by 2002:a05:600c:3ba0:b0:3b4:8ad0:6c with SMTP id n32-20020a05600c3ba000b003b48ad0006cmr4038012wms.186.1664310665923;
-        Tue, 27 Sep 2022 13:31:05 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:c6a:3c62:baf6:511c])
-        by smtp.gmail.com with ESMTPSA id ck16-20020a5d5e90000000b0022cc4b7861fsm754830wrb.97.2022.09.27.13.31.04
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=JaMWwQ9HrjvsyjP4+lMX3j2mmeycMY/Ai6gz1nlGh+c=;
+        b=sUIqY7XOuaUCYS+OeseO5DThNk0dvSgla6ZylBT5xa6RHbzJYMp87zpIQBYNf//pMf
+         zUzhIQonTVHnikjIrHcgE/jenykYu3OCnLreDIkYBLTiKmoAQc6so6i8HPRPmHLl4GZQ
+         BkMq938hiqKW7nn7BHuAbfLKYlu/nQw8WzuGkMU0I4qsD6Jl7icMWr//jclgfkFniwt5
+         HzDKa13B68QIfMvMHbo4Sr52kCcYAK2IFoBF8aWd3A/ERaV3VyK/i/1Z7r8WNg8TqN/U
+         ulzW3hqEZqRxSaBvAKYtvHztpczUB7XUPbMd+GNo1ynYRDqXBeJ9vv2ILZ4uHXCm3OEn
+         9Hjg==
+X-Gm-Message-State: ACrzQf0oxSn6lZIJl73AGfi+QKhk3EFTIe8BVhB45bHeFoAch7dO45jJ
+        /yY7dW0mENsa5Uuym+vuhTcuow==
+X-Google-Smtp-Source: AMsMyM69sEAW5sC87A5BdOty2QyeC+oSd8dCAfo8e2Yf7ON+NBnfr+vFtjYa30arwddCtWOuuS/AEg==
+X-Received: by 2002:a05:6808:1a14:b0:350:1965:8b5 with SMTP id bk20-20020a0568081a1400b00350196508b5mr2774875oib.85.1664316343555;
+        Tue, 27 Sep 2022 15:05:43 -0700 (PDT)
+Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
+        by smtp.gmail.com with ESMTPSA id t15-20020a9d774f000000b006594674d4ddsm1280317otl.44.2022.09.27.15.05.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Sep 2022 13:31:05 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Tue, 27 Sep 2022 15:05:43 -0700 (PDT)
+Date:   Tue, 27 Sep 2022 18:05:40 -0400
+From:   William Breathitt Gray <william.gray@linaro.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [RFC PATCH 2/2] clk: renesas: r9a07g044: Mark CRU_SYSCLK and CRU_VCLK as no PM
-Date:   Tue, 27 Sep 2022 21:30:44 +0100
-Message-Id: <20220927203044.751611-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220927203044.751611-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220927203044.751611-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Stephen Boyd <sboyd@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lee Jones <lee@kernel.org>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH RFC 0/8] Add RZ/G2L MTU3a MFD and Counter driver
+Message-ID: <YzNztKSYQPQrnV7k@fedora>
+References: <20220926132114.60396-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="3JebmYDBRONn6Avy"
+Content-Disposition: inline
+In-Reply-To: <20220926132114.60396-1-biju.das.jz@bp.renesas.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-CRU_SYSCLK and CRU_VCLK clocks need to be turned ON/OFF in particular
-sequence for the CRU block hence use DEF_NO_PM() to set the no_pm flag.
+--3JebmYDBRONn6Avy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/clk/renesas/r9a07g044-cpg.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Mon, Sep 26, 2022 at 02:21:06PM +0100, Biju Das wrote:
+> The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
+> the Renesas RZ/G2L family SoC's. It consists of eight 16-bit timer
+> channels and one 32-bit timer channel. It supports the following
+> functions
+>  - Counter
+>  - Timer
+>  - PWM
+>=20
+> This patch series aim to add MFD and counter driver for MTU3a.
+> Subsequent patch seies will add TImer and PWM driver support
+> also enhancements to counter driver.
 
-diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
-index 6935441f7504..31b1437c57e4 100644
---- a/drivers/clk/renesas/r9a07g044-cpg.c
-+++ b/drivers/clk/renesas/r9a07g044-cpg.c
-@@ -252,9 +252,9 @@ static const struct {
- 					0x558, 1),
- 		DEF_MOD("gpu_ace_clk",	R9A07G044_GPU_ACE_CLK, R9A07G044_CLK_P1,
- 					0x558, 2),
--		DEF_MOD("cru_sysclk",   R9A07G044_CRU_SYSCLK, CLK_M2_DIV2,
-+		DEF_NO_PM("cru_sysclk",	R9A07G044_CRU_SYSCLK, CLK_M2_DIV2,
- 					0x564, 0),
--		DEF_MOD("cru_vclk",     R9A07G044_CRU_VCLK, R9A07G044_CLK_M2,
-+		DEF_NO_PM("cru_vclk",	R9A07G044_CRU_VCLK, R9A07G044_CLK_M2,
- 					0x564, 1),
- 		DEF_MOD("cru_pclk",     R9A07G044_CRU_PCLK, R9A07G044_CLK_ZT,
- 					0x564, 2),
--- 
-2.25.1
+Hello Biju,
 
+I see this device consists of several channels, but only one Count is
+defined in the counter patch ("Channel 1 Count"). Do all channels
+support counting, or is it limited to just one channel?
+
+Thanks,
+
+William Breathitt Gray
+
+--3JebmYDBRONn6Avy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCYzNztAAKCRC1SFbKvhIj
+Kzj6AP4sKi7ppEU6iFRI55vrVy/B8K5aZkGgsGuMvoxg/GjHCQD+O8s8zrGt+LRN
+xmCaiedfdSS+4BNhI2WWK/e+7DCDuQ0=
+=0jtN
+-----END PGP SIGNATURE-----
+
+--3JebmYDBRONn6Avy--
