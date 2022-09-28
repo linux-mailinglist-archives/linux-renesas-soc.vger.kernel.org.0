@@ -2,139 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 681F45EDB65
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Sep 2022 13:10:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD38F5EDC20
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Sep 2022 14:01:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229576AbiI1LKa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 28 Sep 2022 07:10:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41102 "EHLO
+        id S233223AbiI1MB2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 28 Sep 2022 08:01:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233502AbiI1LI4 (ORCPT
+        with ESMTP id S231301AbiI1MB1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 28 Sep 2022 07:08:56 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 99494101F6;
-        Wed, 28 Sep 2022 04:08:01 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.93,351,1654527600"; 
-   d="scan'208";a="134249184"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 28 Sep 2022 20:08:01 +0900
-Received: from localhost.localdomain (unknown [10.226.93.94])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 505FD40065BB;
-        Wed, 28 Sep 2022 20:07:58 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v5] mmc: renesas_sdhi: Fix rounding errors
-Date:   Wed, 28 Sep 2022 12:07:55 +0100
-Message-Id: <20220928110755.849275-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 28 Sep 2022 08:01:27 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 947E46CD0E;
+        Wed, 28 Sep 2022 05:01:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=yG3EO7bhQAbZBMVLnUELpWW5SoVX+r5MbUkq+fTPHdk=; b=zsDIjoZXxhbZwwH4RSzziY+y8Z
+        OxaIAz/ND+ZwVJSocwu9+lnHXhP0FBbqaoV5C6o2OPPNKFCOnJ8osRNJ3NJ510QANPFaBytU1XkIS
+        WCQ6VnrUsfXPRdFEK/rbIzimAo7pjRzz/5hn15H+yfI0VV7o3i81vdsbuZeiI001v9Qw=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1odVkP-000VTF-66; Wed, 28 Sep 2022 14:01:05 +0200
+Date:   Wed, 28 Sep 2022 14:01:05 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v3 2/3] net: ethernet: renesas: Add Ethernet Switch driver
+Message-ID: <YzQ3gdO/a+jygIDa@lunn.ch>
+References: <20220922052803.3442561-1-yoshihiro.shimoda.uh@renesas.com>
+ <20220922052803.3442561-3-yoshihiro.shimoda.uh@renesas.com>
+ <Yy2wivbzUA2zroqy@lunn.ch>
+ <TYBPR01MB5341ACAD30E913D01C94FE08D8529@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <YzH65W3r1IV+rHFW@lunn.ch>
+ <TYBPR01MB534189F384D8A0F5E5E00666D8559@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <YzLybsJBIHtbQOwE@lunn.ch>
+ <TYBPR01MB53419D2076953EB3480BC301D8549@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYBPR01MB53419D2076953EB3480BC301D8549@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Due to clk rounding errors on RZ/G2L platforms, it selects a clock source
-with a lower clock rate compared to a higher one.
-For eg: The rounding error (533333333 Hz / 4 * 4 = 533333332 Hz < 5333333
-33 Hz) selects a clk source of 400 MHz instead of 533.333333 MHz.
+> > How do you direct a frame from the
+> > CPU out a specific user port? Via the DMA ring you place it into, or
+> > do you need a tag on the frame to indicate its egress port?
+> 
+> Via the DMA ring.
 
-This patch fixes this issue by adding a margin of (1/1024) higher to
-the clock rate.
+Are there bits in the ring descriptor which indicate the user port?
+Can you set these bits to some other value which causes the switch to
+use its MAC table to determine the egress interface?
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v4->v5:
- * Moved upper limit calculation inside the for loop as it caused
-   regression on R-Car M2-W board.
- * Removed Rb tag from Wolfram as there is some new changes.
-v3->v4:
- * Added Tested-by tag from Wolfram.
- * Updated commit description and code comment with real example.
-v2->v3:
- * Renamed the variable new_clock_margin->new_upper_limit in renesas_sdhi_clk_
-   update()
- * Moved setting of new_upper_limit outside for loop.
- * Updated the comment section to mention the rounding errors and merged with
-   existing comment out side the for loop.
- * Updated commit description. 
-v1->v2:
- * Add a comment explaining why margin is needed and set it to
-   that particular value.
----
- drivers/mmc/host/renesas_sdhi_core.c | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+> > > The PHY is 88E2110 on my environment, so Linux has a driver in
+> > > drivers/net/phy/marvell10g.c. However, I guess this is related to
+> > > configuration of the PHY chip on the board, it needs to change
+> > > the host 7interface mode, but the driver doesn't support it for now.
+> > 
+> > Please give us more details. The marvell10g driver will change its
+> > host side depending on the result of the line side negotiation. It
+> > changes the value of phydev->interface to indicate what is it doing on
+> > its host side, and you have some control over what modes it will use
+> > on the host side. You can probably define its initial host side mode
+> > via phy-mode in DT.
+> 
+> I'm sorry, my explanation was completely wrong.
+> My environment needs to change default MAC speed from 2.5G/5G to 1000M.
+> The register of 88E2110 is 31.F000.7:6. And sets the register to "10" (1000 Mbps).
+> (Default value of the register is "11" (Speed controlled by other register).)
 
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 6edbf5c161ab..b970699743e0 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -128,6 +128,7 @@ static unsigned int renesas_sdhi_clk_update(struct tmio_mmc_host *host,
- 	struct clk *ref_clk = priv->clk;
- 	unsigned int freq, diff, best_freq = 0, diff_min = ~0;
- 	unsigned int new_clock, clkh_shift = 0;
-+	unsigned int new_upper_limit;
- 	int i;
- 
- 	/*
-@@ -153,13 +154,20 @@ static unsigned int renesas_sdhi_clk_update(struct tmio_mmc_host *host,
- 	 * greater than, new_clock.  As we can divide by 1 << i for
- 	 * any i in [0, 9] we want the input clock to be as close as
- 	 * possible, but no greater than, new_clock << i.
-+	 *
-+	 * Add an upper limit of 1/1024 rate higher to the clock rate to fix
-+	 * clk rate jumping to lower rate due to rounding error (eg: RZ/G2L has
-+	 * 3 clk sources 533.333333 MHz, 400 MHz and 266.666666 MHz. The request
-+	 * for 533.333333 MHz will selects a slower 400 MHz due to rounding
-+	 * error (533333333 Hz / 4 * 4 = 533333332 Hz < 533333333 Hz)).
- 	 */
- 	for (i = min(9, ilog2(UINT_MAX / new_clock)); i >= 0; i--) {
- 		freq = clk_round_rate(ref_clk, new_clock << i);
--		if (freq > (new_clock << i)) {
-+		new_upper_limit = (new_clock << i) + ((new_clock << i) >> 10);
-+		if (freq > new_upper_limit) {
- 			/* Too fast; look for a slightly slower option */
- 			freq = clk_round_rate(ref_clk, (new_clock << i) / 4 * 3);
--			if (freq > (new_clock << i))
-+			if (freq > new_upper_limit)
- 				continue;
- 		}
- 
-@@ -181,6 +189,7 @@ static unsigned int renesas_sdhi_clk_update(struct tmio_mmc_host *host,
- static void renesas_sdhi_set_clock(struct tmio_mmc_host *host,
- 				   unsigned int new_clock)
- {
-+	unsigned int clk_margin;
- 	u32 clk = 0, clock;
- 
- 	sd_ctrl_write16(host, CTL_SD_CARD_CLK_CTL, ~CLK_CTL_SCLKEN &
-@@ -194,7 +203,13 @@ static void renesas_sdhi_set_clock(struct tmio_mmc_host *host,
- 	host->mmc->actual_clock = renesas_sdhi_clk_update(host, new_clock);
- 	clock = host->mmc->actual_clock / 512;
- 
--	for (clk = 0x80000080; new_clock >= (clock << 1); clk >>= 1)
-+	/*
-+	 * Add a margin of 1/1024 rate higher to the clock rate in order
-+	 * to avoid clk variable setting a value of 0 due to the margin
-+	 * provided for actual_clock in renesas_sdhi_clk_update().
-+	 */
-+	clk_margin = new_clock >> 10;
-+	for (clk = 0x80000080; new_clock + clk_margin >= (clock << 1); clk >>= 1)
- 		clock <<= 1;
- 
- 	/* 1/1 clock is option */
--- 
-2.25.1
+Is this the host side speed? The speed of the SERDES between the
+switch and the PHY? Normally, the PHY determines this from the line
+side. If the line side is using 2.5G, it will set the host side to
+2500BaseX. If the line side is 1G, the host side is likely to be
+SGMII.
 
+You have already removed speeds you don't support. So the PHY will not
+negotiate 2.5G or 5G. It is limited to 1G. So it should always have
+the host side as SGMII. This should be enough to make it work.
+
+    Andrew
