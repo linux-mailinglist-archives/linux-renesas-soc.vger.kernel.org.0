@@ -2,108 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7728D5EF837
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Sep 2022 17:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1AF25EFBE6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Sep 2022 19:24:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235120AbiI2PAr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Sep 2022 11:00:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58900 "EHLO
+        id S234420AbiI2RYe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Sep 2022 13:24:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234982AbiI2PAp (ORCPT
+        with ESMTP id S236222AbiI2RYK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Sep 2022 11:00:45 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7614713C879;
-        Thu, 29 Sep 2022 08:00:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=qkht88ZXOQUl4Ga9al3536op0DNgwiqJBZ0ndODkQYg=; b=0u+87Rfs0PU6EKb8x3exrHsrbN
-        YWJqF2Yq3M/StU4XRvBWmGlwBfBKdS7PxfbFjQ0Cd/fXqmRJYyCXvshDNg8Xrd2zHwFOc17ZFPlTT
-        cE6JyjJH6bjijvmZD/Ui4QYY0VOzPpN0cl8vP85gpFgswTCEVIefy5xEO2vh2wUGeZH0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1odv1Z-000ctn-0y; Thu, 29 Sep 2022 17:00:29 +0200
-Date:   Thu, 29 Sep 2022 17:00:28 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v3 2/3] net: ethernet: renesas: Add Ethernet Switch driver
-Message-ID: <YzWzDEqCFYqqJcr0@lunn.ch>
-References: <20220922052803.3442561-1-yoshihiro.shimoda.uh@renesas.com>
- <20220922052803.3442561-3-yoshihiro.shimoda.uh@renesas.com>
- <Yy2wivbzUA2zroqy@lunn.ch>
- <TYBPR01MB5341ACAD30E913D01C94FE08D8529@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <YzH65W3r1IV+rHFW@lunn.ch>
- <TYBPR01MB534189F384D8A0F5E5E00666D8559@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <YzLybsJBIHtbQOwE@lunn.ch>
- <TYBPR01MB53419D2076953EB3480BC301D8549@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <YzQ3gdO/a+jygIDa@lunn.ch>
- <TYBPR01MB53415F3D11FEBFFC8BF09FE0D8579@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+        Thu, 29 Sep 2022 13:24:10 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 496F21F01BA;
+        Thu, 29 Sep 2022 10:24:03 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id n40-20020a05600c3ba800b003b49aefc35fso1058149wms.5;
+        Thu, 29 Sep 2022 10:24:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=bGeJq6EVRV3G3ZsUhhY+gmUHYWqjyGOmnCpjQGSVwc8=;
+        b=gLYR4SOlzMTTP1Yuo339Pc4usVMMKLH4moFTksSgJK9P97c3gobM1GFZCm+7mT6nDF
+         VSvuMJ6AzzRGbMb+01ABfYzM70BgOxo2Xsece1cJ+eUeDU+vpOWa53BhWVqK1glNlkJH
+         Awv5hhxPlHixJmbkgyFWZkaKpwpuDAVP8qGzZ1WhDt6jCpFQY59JmioeD4Cg2gysi93o
+         CdiCeoKS7wj2bbMTgaTGyqPt0cFHsDG4dXHeSfSBvHai/NCxRbPf9wU4OZ9tO7goywl5
+         6eQ6txV5cnH5SA/718ywSVGETb2m0BeNczcnC7p0lcikDAbu7ACujMRGVZID3HHgXMD4
+         1x4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=bGeJq6EVRV3G3ZsUhhY+gmUHYWqjyGOmnCpjQGSVwc8=;
+        b=Rp7PPZda6TvdH6GQq2hpJOzmtb7LrPKax82obPgI1HZHcqB2uCiWb5A9TIhyCqE1f6
+         Q6eRvDQkyEavy4bLdhBWWd5KUB4VA2hPHCWC81cOwGSUfcysUCnbogWmBdNAI9YPSfxD
+         UhmBx4W2zNvqHUQfUVgiuNTDwVSVcRd4pqsBejH3vHM4zhYwWtbv0WTEQXQoQRVR4B4r
+         /AMoRenPwIbO7buDziz4vrrO59p4a/ZZ/YVo8fd+rmaRY0ZMQ86fEAwAOn6MrjNIQfOr
+         GTLnQxAu1BvNSkEKWf7sH8LoZo+GBG+ng66NPzUMo8bMz7nXYTzXEwhmJBSPDElvURgJ
+         tegA==
+X-Gm-Message-State: ACrzQf3GZVFLZ7/I9uRwcOfo4v+Y/p163wSLbHZDra0YdcNZ45mVMr7m
+        WweC7R5VLGzRnff6KcgWei5A4B12tQN1wg==
+X-Google-Smtp-Source: AMsMyM4iY3w7jSKMj0VFREZ9+1K+daZXdgwz87Pg5hEcWLOWrA7wNoOh3Oiqp3GrESpsDArnm5rI3w==
+X-Received: by 2002:a05:600c:4c22:b0:3b4:766a:4f76 with SMTP id d34-20020a05600c4c2200b003b4766a4f76mr11044380wmp.101.1664472241668;
+        Thu, 29 Sep 2022 10:24:01 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2501:c701:9174:aca4:83d8:90fd])
+        by smtp.gmail.com with ESMTPSA id d18-20020adfe852000000b0022a293ab1e9sm11815wrn.11.2022.09.29.10.24.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Sep 2022 10:24:01 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        DT <devicetree@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [RFC PATCH 0/2] RZ/G2UL separate out SoC specific parts
+Date:   Thu, 29 Sep 2022 18:23:54 +0100
+Message-Id: <20220929172356.301342-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <TYBPR01MB53415F3D11FEBFFC8BF09FE0D8579@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 12:22:15PM +0000, Yoshihiro Shimoda wrote:
-> Hi Andrew,
-> 
-> > From: Andrew Lunn, Sent: Wednesday, September 28, 2022 9:01 PM
-> > 
-> > > > How do you direct a frame from the
-> > > > CPU out a specific user port? Via the DMA ring you place it into, or
-> > > > do you need a tag on the frame to indicate its egress port?
-> > >
-> > > Via the DMA ring.
-> > 
-> > Are there bits in the ring descriptor which indicate the user port?
-> > Can you set these bits to some other value which causes the switch to
-> > use its MAC table to determine the egress interface?
-> 
-> I'm sorry, I misunderstood the hardware behaviors.
-> 
-> 1) From CPU to user port: CPU sends a frame to all user ports.
-> 2) From user port to CPU: each user port sends a frame to each DMA ring.
-> 
-> About the 1) above, the switch can have MAC tables and sends a frame to
-> a specific user port. However, the driver doesn't support it.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-In order to make STP and PTP work, you need to be able to send a frame
-out a specific port. With STP, that port can also be blocked,
-i.e. normal frames are not allowed to be transmitted/received, but
-these STP frames are allowed. You also need to know what port an STP
-frame was received on.
+Hi All,
 
-So the switch probably has a mechanism to send a frame from the CPU
-out one specific port. And frames received from a user port and passed
-to the CPU should also be identifiable. There are different ways of
-doing this. DSA typically has an extra header on the frame, indicating
-where it is from/to. Some switches have extra bits in the DMA buffer
-descriptor indicating the port.
+This patch series aims to split up the RZ/G2UL SoC DTSI into common parts
+so that this can be shared with the RZ/Five SoC.
 
-> However, if I dropped specific registers setting, it doesn't work correctly.
-> I'll investigate why removing speeds of PHY didn't work.
+Implementation is based on the discussion [0] where I have used option#2.
 
-It could be the PHY is using SGMII, but your MAC needs 1000BaseX?
+The Renesas RZ/G2UL (ARM64) and RZ/Five (RISC-V) have almost the same
+identical blocks to avoid duplication a base SoC dtsi (r9a07g043.dtsi) is
+created which will be used by the RZ/G2UL (r9a07g043u.dtsi) and RZ/Five
+(r9a07g043F.dtsi)
 
-   Andrew
+Sending this as an RFC to get some feedback.
+
+r9a07g043f.dtsi will look something like below:
+
+#include <dt-bindings/interrupt-controller/irq.h>
+
+#define SOC_PERIPHERAL_IRQ_NUMBER(nr)	(nr + 32)
+#define SOC_PERIPHERAL_IRQ(nr, na)	SOC_PERIPHERAL_IRQ_NUMBER(nr) na
+
+#include <arm64/renesas/r9a07g043.dtsi>
+
+/ {
+   ...
+   ...   
+};
+
+Although patch#2 can be merged into patch#1 just wanted to keep them separated
+for easier review.
+
+[0] https://lore.kernel.org/linux-arm-kernel/Yyt8s5+pyoysVNeC@spud/T/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (2):
+  arm64: dts: renesas: r9a07g043: Introduce SOC_PERIPHERAL_IRQ() macro
+    to specify interrupt property
+  arm64: dts: renesas: r9a07g043: Split out RZ/G2UL SoC specific parts
+
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi    | 362 +++++++-----------
+ arch/arm64/boot/dts/renesas/r9a07g043u.dtsi   |  87 +++++
+ .../boot/dts/renesas/r9a07g043u11-smarc.dts   |   2 +-
+ 3 files changed, 235 insertions(+), 216 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
+
+-- 
+2.25.1
+
