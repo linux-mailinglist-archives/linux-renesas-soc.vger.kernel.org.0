@@ -2,196 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83B225EEC73
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Sep 2022 05:28:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8FA45EEF09
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Sep 2022 09:31:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234315AbiI2D2P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 28 Sep 2022 23:28:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39654 "EHLO
+        id S235174AbiI2HbQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Sep 2022 03:31:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232396AbiI2D2G (ORCPT
+        with ESMTP id S234895AbiI2HbP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 28 Sep 2022 23:28:06 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6A1812848B
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 28 Sep 2022 20:28:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664422081; x=1695958081;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OUG68EAQ5Jd2DeWRt6utbkEtSTxCpnCAEQgk3edAzCI=;
-  b=fgFmAsICbSIsuV5FAEokKGryxX6OTZJwNfIzUW6zyikPTTBLmMsNk6aH
-   B42enBkXAkOxw0Fc7YK0/AQQpLw0BBl9TvOXBqCZU/kuqkk2Nh3mEe2qp
-   g5zxtD8ZITHi60+qc7rQo8AycvtELtoGiNyxwIXfLOme/d8RMNKj2FAt6
-   R9RP0zzVbQMzPnHH3+T/dwkB1Zwd5rI2mU40qmmj9SIe6QaXzZN0SRv++
-   Vsv4qLwKd3Q88fg4PyuNs6lqtJLgTdPV+Ph91YducT6+T6VdQBBsWD71N
-   IMc1CTLJqvwoPO20yWuPUMQJLcu7Ks9lUw1aBFtTGdtak0vjM0jpqbHoc
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="303268334"
-X-IronPort-AV: E=Sophos;i="5.93,353,1654585200"; 
-   d="scan'208";a="303268334"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2022 20:27:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="747667456"
-X-IronPort-AV: E=Sophos;i="5.93,353,1654585200"; 
-   d="scan'208";a="747667456"
-Received: from lkp-server01.sh.intel.com (HELO 6126f2790925) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 28 Sep 2022 20:27:57 -0700
-Received: from kbuild by 6126f2790925 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1odkDN-0000Wx-0s;
-        Thu, 29 Sep 2022 03:27:57 +0000
-Date:   Thu, 29 Sep 2022 11:27:32 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/renesas-overlays] BUILD SUCCESS
- 4ccf4c30402d0876e44a741f368cbc067068e7f6
-Message-ID: <633510a4.e55FgNEsYV14qevS%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 29 Sep 2022 03:31:15 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42F00125787
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Sep 2022 00:31:13 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id s6so956842lfo.7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Sep 2022 00:31:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=d2EazhJPJSbwMcP0nRzwyGojAz7jhGIxDxpFS+S8wS4=;
+        b=du0lWC60PB/jENlb0ba14brLNTgO/3DRWot41R5k3uTVz+24nP0HL0BjGYCMm95mr5
+         BNPOsJXPrBecasKO/4qlBapwV9Vk1MORFh/AI+5khaDupzZXiCRMLYlaPQmhPIs0fHC5
+         61a0SgFNd1bo75he6Oc53j8W4ssb2A1Xoerac/pU59704OyLHhAtMVxwnAmXul6rBN7/
+         dkDvQgvbCQvydmJigpKdMTvayu4WJ4qDzSy/jkoHCdjfNX7fCJ0lpySU5GjsxY1W5WRg
+         gPyi7UY8h0W+7uV9sa6V8XnVoTYDEBTwTchp9qibd2MzuQY1/sTmJIvsj0wjrl7NExbu
+         JHAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=d2EazhJPJSbwMcP0nRzwyGojAz7jhGIxDxpFS+S8wS4=;
+        b=XF0cwwT1Z2G7pkH9MBwZZ1WsAy1CXN8EuDDtN/jgG9ikNrSJOKj3mBq6FsLu3YMqBn
+         8szqv4/sCdfgrgyVn4AFw7SQOUdE1NNpOb4kgFJ/LNQWfHM00qDFojE2b+CYHaPGoG8Z
+         ZCuOKO061nYeulXOJ5jcEa6haYy9mDCIOv6eFVbumwOXZ9RlOPTcShpZ6cCTZmV0Tj3Z
+         NRdKuPR6Dn3Vdbk9QT0XNbQSFCsVX4z4a+ur0ldv6vi2NVMEk7AKiy+g+Sjyk0DhKbdv
+         GZgG5RFXKmgJS+Gajey+Pv4L9PXM2c9JqF4WfQwqMpTFnKYHFUbn5TcJx8AxANhZyM30
+         FRGA==
+X-Gm-Message-State: ACrzQf0cT9BDfCxXgcqWlPD0xgMC1kQCuz5BTS+6SHbFkQSn1nvlZZLV
+        nxCfhyxiIpmfKXXsF+6MVu9yEQ==
+X-Google-Smtp-Source: AMsMyM5CKgW4S6Mj6aaX7feZSKj0JYhQYbjagNlBJnXfen43EhgyNrhEeSF02sHPuLu5XZa8/PUkvQ==
+X-Received: by 2002:a19:6b01:0:b0:499:b6fb:fcf2 with SMTP id d1-20020a196b01000000b00499b6fbfcf2mr753900lfa.622.1664436671624;
+        Thu, 29 Sep 2022 00:31:11 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id d22-20020a196b16000000b00497ac35ae1esm702592lfa.85.2022.09.29.00.31.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Sep 2022 00:31:11 -0700 (PDT)
+Message-ID: <1ddfd9c5-7986-3ff7-bcf8-409bc1250076@linaro.org>
+Date:   Thu, 29 Sep 2022 09:31:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v7 09/29] thermal/drivers/exynos: Replace
+ of_thermal_is_trip_valid() by thermal_zone_get_trip()
+Content-Language: en-US
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        rui.zhang@intel.com, Raju Rangoju <rajur@chelsio.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Kaestle <peter@piie.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Thara Gopinath <thara.gopinath@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Antoine Tenart <atenart@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Dmitry Osipenko <digetx@gmail.com>, netdev@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-omap@vger.kernel.org
+References: <20220928210059.891387-1-daniel.lezcano@linaro.org>
+ <20220928210059.891387-10-daniel.lezcano@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220928210059.891387-10-daniel.lezcano@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-overlays
-branch HEAD: 4ccf4c30402d0876e44a741f368cbc067068e7f6  arm64: dts: renesas: r8a779g0: whitehawk: Add overlay for IRQ2
+On 28/09/2022 23:00, Daniel Lezcano wrote:
+> The thermal_zone_get_trip() does the same check as
+> of_thermal_is_trip_valid(). Replace the call to
+> of_thermal_is_trip_valid() by thermal_zone_get_trip().
+> 
+> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 
-elapsed time: 867m
+I think I acked it...
 
-configs tested: 114
-configs skipped: 2
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Best regards,
+Krzysztof
 
-gcc tested configs:
-arc                                 defconfig
-alpha                               defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                          rhel-8.3-func
-s390                                defconfig
-x86_64                    rhel-8.3-kselftests
-powerpc                           allnoconfig
-s390                             allmodconfig
-s390                             allyesconfig
-i386                                defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-arm                                 defconfig
-x86_64                           allyesconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-sh                               allmodconfig
-powerpc                          allmodconfig
-i386                             allyesconfig
-m68k                             allmodconfig
-x86_64                           rhel-8.3-syz
-arc                              allyesconfig
-mips                             allyesconfig
-arc                  randconfig-r043-20220926
-alpha                            allyesconfig
-i386                 randconfig-a001-20220926
-x86_64                         rhel-8.3-kunit
-m68k                             allyesconfig
-x86_64                        randconfig-a002
-i386                 randconfig-a002-20220926
-x86_64                           rhel-8.3-kvm
-i386                 randconfig-a003-20220926
-i386                 randconfig-a004-20220926
-x86_64                        randconfig-a006
-i386                 randconfig-a005-20220926
-i386                 randconfig-a006-20220926
-x86_64                        randconfig-a004
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-m68k                         amcore_defconfig
-mips                           xway_defconfig
-sh                          lboxre2_defconfig
-csky                              allnoconfig
-alpha                             allnoconfig
-arc                               allnoconfig
-riscv                             allnoconfig
-xtensa                  audio_kc705_defconfig
-sh                         ap325rxa_defconfig
-xtensa                generic_kc705_defconfig
-sh                          urquell_defconfig
-arm                         nhk8815_defconfig
-i386                          debian-10.3-kvm
-i386                        debian-10.3-kunit
-i386                         debian-10.3-func
-arm                        multi_v7_defconfig
-m68k                          amiga_defconfig
-arm                            xcep_defconfig
-mips                          rb532_defconfig
-nios2                            alldefconfig
-sh                          landisk_defconfig
-sh                           sh2007_defconfig
-sh                            hp6xx_defconfig
-sh                      rts7751r2d1_defconfig
-i386                          randconfig-c001
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220925
-m68k                        m5407c3_defconfig
-powerpc                      chrp32_defconfig
-powerpc                 mpc8540_ads_defconfig
-x86_64               randconfig-a002-20220926
-x86_64               randconfig-a001-20220926
-x86_64               randconfig-a004-20220926
-x86_64               randconfig-a006-20220926
-x86_64               randconfig-a005-20220926
-x86_64               randconfig-a003-20220926
-ia64                             allmodconfig
-
-clang tested configs:
-riscv                randconfig-r042-20220926
-i386                 randconfig-a011-20220926
-i386                 randconfig-a015-20220926
-s390                 randconfig-r044-20220926
-i386                 randconfig-a014-20220926
-i386                 randconfig-a013-20220926
-i386                 randconfig-a016-20220926
-hexagon              randconfig-r041-20220926
-x86_64                        randconfig-a001
-hexagon              randconfig-r045-20220926
-i386                 randconfig-a012-20220926
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-x86_64                        randconfig-k001
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-hexagon              randconfig-r041-20220925
-hexagon              randconfig-r045-20220925
-x86_64               randconfig-a016-20220926
-x86_64               randconfig-a012-20220926
-x86_64               randconfig-a014-20220926
-x86_64               randconfig-a013-20220926
-x86_64               randconfig-a011-20220926
-x86_64               randconfig-a015-20220926
-hexagon                          alldefconfig
-mips                      malta_kvm_defconfig
-hexagon                             defconfig
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
