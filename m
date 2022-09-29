@@ -2,166 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 602B75EF817
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Sep 2022 16:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7728D5EF837
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Sep 2022 17:00:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235485AbiI2O50 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Sep 2022 10:57:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49752 "EHLO
+        id S235120AbiI2PAr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Sep 2022 11:00:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235702AbiI2O5Y (ORCPT
+        with ESMTP id S234982AbiI2PAp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Sep 2022 10:57:24 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EEF013EE9E
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Sep 2022 07:57:21 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id v28so2635963wrd.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Sep 2022 07:57:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=nMnoSaH++1jbxSRlI1i6ADibQaQmTqMy1EUBbqCTBb4=;
-        b=Vv38lf5pdCpNoqOoAP120tgQ2KJMA7ZXY3zRv5IFf/18Ka+QYWp8iVvfDHwGWrUURq
-         XMcDVzCN67NfLLBvXneNU5Hkez1866vy2rJVUYu1vKryg0jxvA42QIHMFr7FwGNaV9n6
-         +IocjwdpayeRbeM2/sZgvPjKG7ythoaKpeUuXczusJJEcfS9wVBWcjyCRFl0D/sVgICw
-         2J5a8U1veuMcYYFjAV1q0dwyuM/YnZan597rCZ3Ds+v2h0MHW6JxifLG9t4Ao/8M6lM7
-         dZ4dzrfOEAf3pCEuuCr6J1A5XSYwp2pNtFtcBkJ2x/vFTyXVLC2qrq4yFh7WpEiVWHAy
-         sp4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=nMnoSaH++1jbxSRlI1i6ADibQaQmTqMy1EUBbqCTBb4=;
-        b=KIL0tH3l6tq3OMqscslZUoZcJ33BEPJc5D9zdESlAjNShUQn0Bphey/+m2TFi3sNQ9
-         4Syur5qWKhDSUtFdhAulU/S4voGwu9SSHlQGSPfaGcIQflK6iKf6VAgrsSsWcnwwZkR9
-         W6tfve4Q2zG3QW5GW0l/kwu0lJ2yTFcxMb+nmjoIoOhxuTYMAtjF1AAdiANH08Q10ifh
-         OcIPoPX6iKDuLH5AEgXV0glGDNiQmme1mCJIIfG16l2WGo6HzTp3aY4qaxytS7HJ1/50
-         Di1ynoZ57ClZpI4440C2LFThYgv2M+3q+LhO44kcHQM6LSF8xZCRZGcwfKCMh4w9BoIf
-         Y/5A==
-X-Gm-Message-State: ACrzQf0IIH74JXXXWD7C8CyfNQbKZI0YZHEW0k6E85d0DXbrlJA1a/Ug
-        goUTV0Ia+JaizL3ZeBw94lly9g==
-X-Google-Smtp-Source: AMsMyM4axP40VuENGb1cdsZ/JJas2+un/fCosaf9j+YjtgOlism/1wYOdarXHCbv/7WEnKLKyS9PoQ==
-X-Received: by 2002:a05:6000:2a3:b0:226:dff3:b031 with SMTP id l3-20020a05600002a300b00226dff3b031mr2687409wry.495.1664463439654;
-        Thu, 29 Sep 2022 07:57:19 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:48a2:39eb:9d1b:8b8d? ([2a05:6e02:1041:c10:48a2:39eb:9d1b:8b8d])
-        by smtp.googlemail.com with ESMTPSA id t187-20020a1c46c4000000b003b4a699ce8esm4646084wma.6.2022.09.29.07.57.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 07:57:19 -0700 (PDT)
-Message-ID: <ae86fc5a-0521-3dde-c2ea-8679c0ec4831@linaro.org>
-Date:   Thu, 29 Sep 2022 16:57:16 +0200
+        Thu, 29 Sep 2022 11:00:45 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7614713C879;
+        Thu, 29 Sep 2022 08:00:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=qkht88ZXOQUl4Ga9al3536op0DNgwiqJBZ0ndODkQYg=; b=0u+87Rfs0PU6EKb8x3exrHsrbN
+        YWJqF2Yq3M/StU4XRvBWmGlwBfBKdS7PxfbFjQ0Cd/fXqmRJYyCXvshDNg8Xrd2zHwFOc17ZFPlTT
+        cE6JyjJH6bjijvmZD/Ui4QYY0VOzPpN0cl8vP85gpFgswTCEVIefy5xEO2vh2wUGeZH0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1odv1Z-000ctn-0y; Thu, 29 Sep 2022 17:00:29 +0200
+Date:   Thu, 29 Sep 2022 17:00:28 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v3 2/3] net: ethernet: renesas: Add Ethernet Switch driver
+Message-ID: <YzWzDEqCFYqqJcr0@lunn.ch>
+References: <20220922052803.3442561-1-yoshihiro.shimoda.uh@renesas.com>
+ <20220922052803.3442561-3-yoshihiro.shimoda.uh@renesas.com>
+ <Yy2wivbzUA2zroqy@lunn.ch>
+ <TYBPR01MB5341ACAD30E913D01C94FE08D8529@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <YzH65W3r1IV+rHFW@lunn.ch>
+ <TYBPR01MB534189F384D8A0F5E5E00666D8559@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <YzLybsJBIHtbQOwE@lunn.ch>
+ <TYBPR01MB53419D2076953EB3480BC301D8549@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <YzQ3gdO/a+jygIDa@lunn.ch>
+ <TYBPR01MB53415F3D11FEBFFC8BF09FE0D8579@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 00/29] Rework the trip points creation
-Content-Language: en-US
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        rui.zhang@intel.com, Raju Rangoju <rajur@chelsio.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Peter Kaestle <peter@piie.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Thara Gopinath <thara.gopinath@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Antoine Tenart <atenart@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Dmitry Osipenko <digetx@gmail.com>, netdev@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-omap@vger.kernel.org
-References: <20220928210059.891387-1-daniel.lezcano@linaro.org>
- <d0be3159-8094-aed1-d9b1-c4b16d88d67c@linaro.org>
- <CAJZ5v0hOFoe0KqEimFv9pgmiAOzuRoLjdqoScr53ErNFU4AAPA@mail.gmail.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <CAJZ5v0hOFoe0KqEimFv9pgmiAOzuRoLjdqoScr53ErNFU4AAPA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYBPR01MB53415F3D11FEBFFC8BF09FE0D8579@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 29/09/2022 15:58, Rafael J. Wysocki wrote:
-> On Thu, Sep 29, 2022 at 2:26 PM Daniel Lezcano
-> <daniel.lezcano@linaro.org> wrote:
->>
->>
->> Hi Rafael,
->>
->> are you happy with the changes?
+On Thu, Sep 29, 2022 at 12:22:15PM +0000, Yoshihiro Shimoda wrote:
+> Hi Andrew,
 > 
-> I'll have a look and let you know.
-
-Great, thanks
+> > From: Andrew Lunn, Sent: Wednesday, September 28, 2022 9:01 PM
+> > 
+> > > > How do you direct a frame from the
+> > > > CPU out a specific user port? Via the DMA ring you place it into, or
+> > > > do you need a tag on the frame to indicate its egress port?
+> > >
+> > > Via the DMA ring.
+> > 
+> > Are there bits in the ring descriptor which indicate the user port?
+> > Can you set these bits to some other value which causes the switch to
+> > use its MAC table to determine the egress interface?
 > 
->> I would like to integrate those changes with the thermal pull request
+> I'm sorry, I misunderstood the hardware behaviors.
 > 
-> Sure, but it looks like you've got only a few ACKs for these patches
-> from the driver people.
+> 1) From CPU to user port: CPU sends a frame to all user ports.
+> 2) From user port to CPU: each user port sends a frame to each DMA ring.
 > 
-> Wouldn't it be prudent to give them some more time to review the changes?
+> About the 1) above, the switch can have MAC tables and sends a frame to
+> a specific user port. However, the driver doesn't support it.
 
-Well I would say I received the ACKs from the drivers which are actively 
-maintained. Others are either not with a dedicated maintainer or not a 
-reactive one. The first iteration of the series is from August 5th. So 
-it has been 2 months.
+In order to make STP and PTP work, you need to be able to send a frame
+out a specific port. With STP, that port can also be blocked,
+i.e. normal frames are not allowed to be transmitted/received, but
+these STP frames are allowed. You also need to know what port an STP
+frame was received on.
 
-I pinged for imx, armada and tegra two weeks ago.
+So the switch probably has a mechanism to send a frame from the CPU
+out one specific port. And frames received from a user port and passed
+to the CPU should also be identifiable. There are different ways of
+doing this. DSA typically has an extra header on the frame, indicating
+where it is from/to. Some switches have extra bits in the DMA buffer
+descriptor indicating the port.
 
-The st, hisilicon drivers fall under the thermal maintainers umbrella
+> However, if I dropped specific registers setting, it doesn't work correctly.
+> I'll investigate why removing speeds of PHY didn't work.
 
-There are three series coming after this series to be posted. I would 
-like to go forward in the process of cleaning up the framework. IMO two 
-months is enough to let the maintainers pay attention to the changes, 
-especially if we do a gentle ping and there are seven versions.
+It could be the PHY is using SGMII, but your MAC needs 1000BaseX?
 
-And after that comes the thermal_zone_device_register() parameters 
-simplification :)
-
-[ ... ]
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+   Andrew
