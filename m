@@ -2,111 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 666A45EFD69
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Sep 2022 20:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25F225EFE05
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Sep 2022 21:36:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229768AbiI2Sve (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Sep 2022 14:51:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44818 "EHLO
+        id S230000AbiI2TgC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Sep 2022 15:36:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229644AbiI2Svb (ORCPT
+        with ESMTP id S229805AbiI2TgB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Sep 2022 14:51:31 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AD3F13D850;
-        Thu, 29 Sep 2022 11:51:30 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id ay36so1570921wmb.0;
-        Thu, 29 Sep 2022 11:51:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=5mnSpNIFACpxpGOfOqdDk93rUyldB4P9QmLL2da/TPo=;
-        b=oGc3wjTZu6wmTA+cw8D+q0x34E0YHhLhGKzuvtMi7oi2Bp2Wh84WEoOI7BT7EuH/3g
-         NoZZpDTj6ZFP2DU9petRudB83qoI7cwxVC+VvAJUKCaST/wJcZWMNYh3DpzrSE5FrxcD
-         sZ5Ba2rHJfRGk65L012XY4EWX5EvvvIeoAiUPKzfPSCX66Spy58dNSQmh7dfD40VLmbu
-         1lmRVyYkf8RpvUOv7ma+gO+2pRNnP86sgPxgh1bp+ooylgBfd/xznqoMdcUciuFV7f4u
-         i/3BDUfFbBMC3RU/txuiDdvxklmCOzuEsHfH3YqjG5Nj+A4wG99LwxQyExAdDuH2HF67
-         Lc4g==
+        Thu, 29 Sep 2022 15:36:01 -0400
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD2D75F9A6;
+        Thu, 29 Sep 2022 12:35:59 -0700 (PDT)
+Received: by mail-qk1-f177.google.com with SMTP id k12so1517246qkj.8;
+        Thu, 29 Sep 2022 12:35:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=5mnSpNIFACpxpGOfOqdDk93rUyldB4P9QmLL2da/TPo=;
-        b=NEdyfydnAZyPV5Mk4B5qt68bAtq+3HNXKusgTlqOZNlggEH4jXVmeh2zEpJtruxfh1
-         GfrwvUr8nsdbOUahgwlL6yWLhJ/ckHitjsiJRWsLJPHxuQewOSQoFg6DdbXo7AT6q+CQ
-         pD0zIc2GGfEg8NpEkgAYx/cWRWEZu+g8jJHepCDtrsgTPd+gwGAysEwUF/IUmmLJt3Yc
-         EhYGbuAEuux3b9PoO+JLc/Ux+hiQoFG7Qr9+dlJs4VedT3KtrOAuguylceONHeIrLciq
-         uvDGvPKklsXmmoiOQ2GBJZ3niW5JMhYWDQtGN93UXI1dPikDNmRz/VQ0f9/ysTTXICAI
-         YE4g==
-X-Gm-Message-State: ACrzQf39MrJPr3Fb7yhEy42RQlXY+bgdHIhduwTnruhnX95E24ltvHZG
-        T3zFJ5OdpvU/J4+PV9lF3LE=
-X-Google-Smtp-Source: AMsMyM72mwMadxTBk3RTkmN1xiaiFRnrdjH221pc62cKh9RDauFV11wBW6Uxvvm5BIWD+hdTkdFO4g==
-X-Received: by 2002:a7b:c450:0:b0:3b4:fb1a:325d with SMTP id l16-20020a7bc450000000b003b4fb1a325dmr3512527wmi.138.1664477489154;
-        Thu, 29 Sep 2022 11:51:29 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:9174:aca4:83d8:90fd])
-        by smtp.gmail.com with ESMTPSA id v10-20020a5d43ca000000b00228aea99efcsm167301wrr.14.2022.09.29.11.51.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Sep 2022 11:51:28 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] clk: renesas: r9a07g044: Mark CRU_SYSCLK and CRU_VCLK as no PM
-Date:   Thu, 29 Sep 2022 19:51:19 +0100
-Message-Id: <20220929185119.335273-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220929185119.335273-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220929185119.335273-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=mTAlcKpePLUmoa2PPlLgnnpbbR37vsLCkLJsK3FMOMM=;
+        b=zonwpLQcKQG+p2EU8QstcgW8hyoj+hCye+Gp+61vVgzBiB56Aubi5H1NSfomPzhVsA
+         Zxro0mDXhF9BDRkdtR1Pjgrbo4vANCoeGbndss/IRw3qq7TuNlMTkIFbLBpswp13mvtt
+         kK0gYEwokxJPlqpr8FAG+t1LaEBKxdxmrIyVkxLdwrUP37mG2ZwwFbmHMKt+pBFXdOst
+         8MzsJniTYqeFtIxm7e3sVgZANp37M5v4hSQ53mh56YUzN+IIh/nWd4TVba9h0mi2KyoV
+         Dz77r5JHBkMVnjEMWaVVfOGIzHc+UKx8evxnRkHK6tmgi9gMZiA/TWPpPMQhq4MrvDdV
+         BGHQ==
+X-Gm-Message-State: ACrzQf11s1ZFzyh6D7Auax7/3wMtv0laiaSaLNiEljkKcUcGwuUC/8YT
+        jThOBetiYo28V+NwTDT0xA0kKbSCujtI9zLOQkA=
+X-Google-Smtp-Source: AMsMyM6nwPbbMnzN+TFVkeFoMqPTRrzMun/9SaGI62vQ28n3j95zFU2xk6dTQ3pv+9rh/XRcMovC6IXcuteR1RYwINI=
+X-Received: by 2002:a05:620a:290d:b0:6b6:1a92:d88a with SMTP id
+ m13-20020a05620a290d00b006b61a92d88amr3634308qkp.58.1664480158981; Thu, 29
+ Sep 2022 12:35:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220928210059.891387-1-daniel.lezcano@linaro.org>
+ <d0be3159-8094-aed1-d9b1-c4b16d88d67c@linaro.org> <CAJZ5v0hOFoe0KqEimFv9pgmiAOzuRoLjdqoScr53ErNFU4AAPA@mail.gmail.com>
+ <ae86fc5a-0521-3dde-c2ea-8679c0ec4831@linaro.org>
+In-Reply-To: <ae86fc5a-0521-3dde-c2ea-8679c0ec4831@linaro.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 29 Sep 2022 21:35:48 +0200
+Message-ID: <CAJZ5v0jrWamTTXcHabSk=6cmm4pEx0_ebiECKZRfrX_vS85YYg@mail.gmail.com>
+Subject: Re: [PATCH v7 00/29] Rework the trip points creation
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        "Zhang, Rui" <rui.zhang@intel.com>,
+        Raju Rangoju <rajur@chelsio.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Kaestle <peter@piie.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Antoine Tenart <atenart@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        netdev <netdev@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        linux-rpi-kernel@lists.infradead.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Samsung SoC <linux-samsung-soc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux OMAP Mailing List <linux-omap@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, Sep 29, 2022 at 4:57 PM Daniel Lezcano
+<daniel.lezcano@linaro.org> wrote:
+>
+> On 29/09/2022 15:58, Rafael J. Wysocki wrote:
+> > On Thu, Sep 29, 2022 at 2:26 PM Daniel Lezcano
+> > <daniel.lezcano@linaro.org> wrote:
+> >>
+> >>
+> >> Hi Rafael,
+> >>
+> >> are you happy with the changes?
+> >
+> > I'll have a look and let you know.
+>
+> Great, thanks
 
-CRU_SYSCLK and CRU_VCLK clocks need to be turned ON/OFF in particular
-sequence for the CRU block hence use DEF_NO_PM() to set the no_pm flag.
+Well, because you have not added the history of changes to the
+patches, that will take more time than it would otherwise.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-RFC->v1
-* No change
----
- drivers/clk/renesas/r9a07g044-cpg.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Generally, please always add information on what has changed in the
+patch between different versions of it.
 
-diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
-index 6935441f7504..31b1437c57e4 100644
---- a/drivers/clk/renesas/r9a07g044-cpg.c
-+++ b/drivers/clk/renesas/r9a07g044-cpg.c
-@@ -252,9 +252,9 @@ static const struct {
- 					0x558, 1),
- 		DEF_MOD("gpu_ace_clk",	R9A07G044_GPU_ACE_CLK, R9A07G044_CLK_P1,
- 					0x558, 2),
--		DEF_MOD("cru_sysclk",   R9A07G044_CRU_SYSCLK, CLK_M2_DIV2,
-+		DEF_NO_PM("cru_sysclk",	R9A07G044_CRU_SYSCLK, CLK_M2_DIV2,
- 					0x564, 0),
--		DEF_MOD("cru_vclk",     R9A07G044_CRU_VCLK, R9A07G044_CLK_M2,
-+		DEF_NO_PM("cru_vclk",	R9A07G044_CRU_VCLK, R9A07G044_CLK_M2,
- 					0x564, 1),
- 		DEF_MOD("cru_pclk",     R9A07G044_CRU_PCLK, R9A07G044_CLK_ZT,
- 					0x564, 2),
--- 
-2.25.1
+> >> I would like to integrate those changes with the thermal pull request
+> >
+> > Sure, but it looks like you've got only a few ACKs for these patches
+> > from the driver people.
+> >
+> > Wouldn't it be prudent to give them some more time to review the changes?
+>
+> Well I would say I received the ACKs from the drivers which are actively
+> maintained. Others are either not with a dedicated maintainer or not a
+> reactive one. The first iteration of the series is from August 5th. So
+> it has been 2 months.
+>
+> I pinged for imx, armada and tegra two weeks ago.
 
+OK
+
+> The st, hisilicon drivers fall under the thermal maintainers umbrella
+>
+> There are three series coming after this series to be posted. I would
+> like to go forward in the process of cleaning up the framework. IMO two
+> months is enough to let the maintainers pay attention to the changes,
+> especially if we do a gentle ping and there are seven versions.
+>
+> And after that comes the thermal_zone_device_register() parameters
+> simplification :)
+
+Well, that's all fine, but I don't want people to get surprised by
+significant changes they haven't expected and I want to avoid missing
+anything subtle.
