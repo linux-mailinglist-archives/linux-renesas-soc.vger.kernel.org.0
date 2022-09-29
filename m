@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93DDD5EF384
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Sep 2022 12:31:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AF265EF389
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Sep 2022 12:31:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235544AbiI2KbQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Sep 2022 06:31:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55032 "EHLO
+        id S235532AbiI2KbT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Sep 2022 06:31:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235523AbiI2KbP (ORCPT
+        with ESMTP id S235534AbiI2KbS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Sep 2022 06:31:15 -0400
+        Thu, 29 Sep 2022 06:31:18 -0400
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5AF4D12B4A2;
-        Thu, 29 Sep 2022 03:31:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9BB6712AEF6;
+        Thu, 29 Sep 2022 03:31:16 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.93,354,1654527600"; 
-   d="scan'208";a="136619505"
+   d="scan'208";a="136619519"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 29 Sep 2022 19:31:12 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 29 Sep 2022 19:31:16 +0900
 Received: from localhost.localdomain (unknown [10.226.92.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id B6A1D400F7A8;
-        Thu, 29 Sep 2022 19:31:09 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 596BE400F7A2;
+        Thu, 29 Sep 2022 19:31:13 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
@@ -32,9 +32,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH RFC 6/7] arm64: dts: renesas: r9a07g054: Add MTU3 PWM support
-Date:   Thu, 29 Sep 2022 11:30:42 +0100
-Message-Id: <20220929103043.1228235-7-biju.das.jz@bp.renesas.com>
+Subject: [PATCH RFC 7/7] arm64: dts: renesas: rzg2l-smarc: [HACK] Enable MTU3 PWM channel 3 for PWM mode 1 testing
+Date:   Thu, 29 Sep 2022 11:30:43 +0100
+Message-Id: <20220929103043.1228235-8-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220929103043.1228235-1-biju.das.jz@bp.renesas.com>
 References: <20220929103043.1228235-1-biju.das.jz@bp.renesas.com>
@@ -48,66 +48,122 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add MTU3 pwm support by adding pwm nodes to RZ/V2L SoC DTSI.
-
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 42 ++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ .../boot/dts/renesas/rz-smarc-common.dtsi     |  2 ++
+ .../dts/renesas/rzg2l-smarc-pinfunction.dtsi  | 11 ++++++++++
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  |  5 +++++
+ arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi | 20 +++++++++++++++++++
+ 4 files changed, 38 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-index 3f25e1b280eb..3aa527a003cb 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-@@ -249,6 +249,48 @@ counter@2 {
- 				reg = <2>;
- 				status = "disabled";
- 			};
-+
-+			pwm@1 {
-+				compatible = "renesas,rz-mtu3-pwm";
-+				reg = <1>;
-+				#pwm-cells = <2>;
-+				status = "disabled";
-+			};
-+
-+			pwm@2 {
-+				compatible = "renesas,rz-mtu3-pwm";
-+				reg = <2>;
-+				#pwm-cells = <2>;
-+				status = "disabled";
-+			};
-+
-+			pwm@3 {
-+				compatible = "renesas,rz-mtu3-pwm";
-+				reg = <3>;
-+				#pwm-cells = <2>;
-+				status = "disabled";
-+			};
-+
-+			pwm@4 {
-+				compatible = "renesas,rz-mtu3-pwm";
-+				reg = <4>;
-+				#pwm-cells = <2>;
-+				status = "disabled";
-+			};
-+
-+			pwm@6 {
-+				compatible = "renesas,rz-mtu3-pwm";
-+				reg = <6>;
-+				#pwm-cells = <2>;
-+				status = "disabled";
-+			};
-+
-+			pwm@7 {
-+				compatible = "renesas,rz-mtu3-pwm";
-+				reg = <7>;
-+				#pwm-cells = <2>;
-+				status = "disabled";
-+			};
- 		};
+diff --git a/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi b/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
+index 3962d47b3e59..1414cc8e99ca 100644
+--- a/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
+@@ -160,12 +160,14 @@ &sdhi1 {
+ 	status = "okay";
+ };
  
- 		gpt0: pwm@10048000 {
++#if 0
+ &spi1 {
+ 	pinctrl-0 = <&spi1_pins>;
+ 	pinctrl-names = "default";
+ 
+ 	status = "okay";
+ };
++#endif
+ 
+ &usb2_phy0 {
+ 	pinctrl-0 = <&usb0_pins>;
+diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
+index bd81028d5462..40772bde9d05 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
+@@ -64,6 +64,15 @@ mtu3_clk {
+ 			pinmux = <RZG2L_PORT_PINMUX(48, 0, 4)>, /* MTCLKA */
+ 				 <RZG2L_PORT_PINMUX(48, 1, 4)>; /* MTLCKB */
+ 		};
++
++		mtu3_pwm {
++			pinmux =
++
++				<RZG2L_PORT_PINMUX(44, 0, 4)>, /* MTIOC3A */
++				<RZG2L_PORT_PINMUX(44, 1, 4)>, /* MTIOC3B */
++				<RZG2L_PORT_PINMUX(44, 2, 4)>, /* MTIOC3C */
++				<RZG2L_PORT_PINMUX(44, 3, 4)>; /* MTIOC3D */
++		};
+ 	};
+ #endif
+ 
+@@ -125,12 +134,14 @@ sound_clk_pins: sound_clk {
+ 		input-enable;
+ 	};
+ 
++#if 0
+ 	spi1_pins: spi1 {
+ 		pinmux = <RZG2L_PORT_PINMUX(44, 0, 1)>, /* CK */
+ 			 <RZG2L_PORT_PINMUX(44, 1, 1)>, /* MOSI */
+ 			 <RZG2L_PORT_PINMUX(44, 2, 1)>, /* MISO */
+ 			 <RZG2L_PORT_PINMUX(44, 3, 1)>; /* SSL */
+ 	};
++#endif
+ 
+ 	ssi0_pins: ssi0 {
+ 		pinmux = <RZG2L_PORT_PINMUX(45, 0, 1)>, /* BCK */
+diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+index 6ce6e9434873..b9f8f1759fce 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+@@ -62,6 +62,11 @@ counter@1 {
+ 	counter@2 {
+ 		status = "okay";
+ 	};
++
++	pwm@3 {
++		renesas,pwm-mode1;
++		status = "okay";
++	};
+ };
+ #endif
+ 
+diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+index 6be25a8a28db..f17428c5826d 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+@@ -18,6 +18,8 @@
+  * Please change below macros according to SW1 setting
+  */
+ 
++#define MTU3_PHASE_COUNTING_SUPPORT	1
++
+ #define SW_SD0_DEV_SEL	1
+ 
+ #define SW_SCIF_CAN	0
+@@ -78,6 +80,24 @@ wm8978: codec@1a {
+ 	};
+ };
+ 
++#if (MTU3_PHASE_COUNTING_SUPPORT)
++&mtu3 {
++	status = "okay";
++	counter@1 {
++		status = "okay";
++	};
++
++	counter@2 {
++		status = "okay";
++	};
++
++	pwm@3 {
++		renesas,pwm-mode1;
++		status = "okay";
++	};
++};
++#endif
++
+ /*
+  * To enable SCIF1 (SER0) on PMOD1 (CN7), On connector board
+  * SW1 should be at position 2->3 so that SER0_CTS# line is activated
 -- 
 2.25.1
 
