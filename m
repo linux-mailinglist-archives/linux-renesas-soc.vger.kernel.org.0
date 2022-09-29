@@ -2,79 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF8F85EFBE9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Sep 2022 19:24:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6D695EFC0E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Sep 2022 19:35:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235307AbiI2RYh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Sep 2022 13:24:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60658 "EHLO
+        id S236055AbiI2Rfl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Sep 2022 13:35:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236236AbiI2RYL (ORCPT
+        with ESMTP id S235442AbiI2Rfk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Sep 2022 13:24:11 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB2CA1F0CE1;
-        Thu, 29 Sep 2022 10:24:05 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id f11so530059wrm.6;
-        Thu, 29 Sep 2022 10:24:05 -0700 (PDT)
+        Thu, 29 Sep 2022 13:35:40 -0400
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEAC210F729;
+        Thu, 29 Sep 2022 10:35:39 -0700 (PDT)
+Received: by mail-qk1-x72b.google.com with SMTP id i17so1289470qkk.12;
+        Thu, 29 Sep 2022 10:35:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=jHdgvFWHb19G7Tf1bbecViUw7+xy+qKpBmYS/rq//kM=;
-        b=jT/hcgtRNaRLR7wymeBOkaUaKdRC9hO+p+mO480tI/8JOX+gSwffNrHAidmTFmEB0v
-         2+BbnK2/dRSRoPQHydgrunLqXPfrHrMyKE4fD/ArMFeS2+aefRHJZhfj8mGAxrZxAgxU
-         2l4KxJmNxvnM/gea3Zm4BD4STS5L7GPKGxGlpmWhPVzVdbU8IVCSPqp+wMdBA4CbqWM2
-         rLWZRIv3MD7O6TVKTebfmbNsdclpL6hc0BxRgaBsXBqKtsNKpnjxdLWXHt9Lf8fD4okc
-         yLwsy1vGGomFk5BY6waIDikwls+TGRqezrrOVJDbzo/Wa4uOVK+v3JhQpfAkbUwIw0/t
-         4Zjg==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=zA6Y5hkQML6R8vIpJqVNEmC/+vTq2vUA6WDac9IkZHQ=;
+        b=oDEM1tP1F7UAQVNZ91VmNnenaUm4qws7hEHmiEJRTthVohQUH5kO4G1hktHhuWt4CM
+         EXQeLMeZeFlF32hqNkCbnw4vAAccKlVWEdhS89TBTSAWS4VrzAAwYropIGyq+4fzcIO5
+         eDhJkFzHIo9VN1Dc2ixvSF25dp8FYQaXt+ADjX3g7d9JFEJEKQoi5HInCc8iua/m7T9X
+         /0LdiHd4Ua5124nOwY/J4/lsmG9wSL2LOzz4GJGQ4eSC41jVmv1amWgIwgY0SoTz1KV5
+         gLSqULVmTuciVMrXMzGbthl1K7bl/z5QNTi7Uzp1DXtwPIrBwOoRdLlgk9Tzp/smlRHe
+         lBUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=jHdgvFWHb19G7Tf1bbecViUw7+xy+qKpBmYS/rq//kM=;
-        b=N/5+CzPFXSamnZlEDrV7EsL/y8uuisoRTRpD4/i5bCAn2740Jy7HQrx8jXowrMVaiE
-         buL/LqIatdLJKgw0xzuPoFOSMMRsibefs5T+zJ/3ex+1+AgDQ52dZOrbdBM/UH1xm+47
-         PAiZLY70muN5J5qKZa3IM9+1ucFiSxMCTUkii2pimCVdc0N3UkoGOeVA1STopREyRIs8
-         1E+8ljPTvpRiXBvWlxhBFoEijp4UBQGverDPlWDmciNaGcSgQ/xPAadY79S27w/FIDfm
-         X/AJmPjCpe1Ar9RqcPaLmjDmmgJ716aZTJuR2lR9aIyy9YGC27j8yD2omgcUrds4gQza
-         vnNQ==
-X-Gm-Message-State: ACrzQf3V5kaO6NzTX1jrt60SRfKfZAeTy9Z6/yOLXHBNMEwXZcpGilrB
-        gWkgJ5us/z4w6AYMZN6C9Vw=
-X-Google-Smtp-Source: AMsMyM7cJNAb9NcFKm5iOKs5ZcfFOaeEdram8y20UldC0+d1eOXPWy8TEt0dBiwAdq9xOZ+ntmTX3Q==
-X-Received: by 2002:adf:e4c5:0:b0:22c:c92b:27ef with SMTP id v5-20020adfe4c5000000b0022cc92b27efmr3319251wrm.246.1664472244330;
-        Thu, 29 Sep 2022 10:24:04 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:9174:aca4:83d8:90fd])
-        by smtp.gmail.com with ESMTPSA id d18-20020adfe852000000b0022a293ab1e9sm11815wrn.11.2022.09.29.10.24.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Sep 2022 10:24:03 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Conor Dooley <conor.dooley@microchip.com>,
-        Samuel Holland <samuel@sholland.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DT <devicetree@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [RFC PATCH 2/2] arm64: dts: renesas: r9a07g043: Split out RZ/G2UL SoC specific parts
-Date:   Thu, 29 Sep 2022 18:23:56 +0100
-Message-Id: <20220929172356.301342-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220929172356.301342-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220929172356.301342-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=zA6Y5hkQML6R8vIpJqVNEmC/+vTq2vUA6WDac9IkZHQ=;
+        b=stlfClGuOeRKo9IdjBO6QsPE5ItAzVKAq408AgvN/UoWm2gpXniOujvhlmlhqXw8ua
+         7lA8JrGZoD9Scrdo5qhhoZqP9k0HnKl6hAxgWCtVgLw/qz72hlm9rVOvqVJ5mAuADnsF
+         MYN7+8meZDGPPtZNCQICAftGSJfrCMjGVrFNqFqSqPNKtIFWRD5tCdyOay0NKMjnyHC6
+         qrVQ/ML1V3kNHkIkLrO6JDfT0Dpx0ikRw/h1OojmFx1FFdhqXLZ55CFLX8cme5urb8wU
+         PecmgWsExTbvc/ztOW1m2oHtZA5KMOYO3iSQDX1JAXAlVQbC9BpJNzyXrG6FYQFpSFfA
+         dvEg==
+X-Gm-Message-State: ACrzQf3JaelOPEMIF4soYIABCAC7Bm8JMoU7zfl65Ac3e8xzhuMCB4oe
+        OF9CZENOXkOttkiXUemnvV8=
+X-Google-Smtp-Source: AMsMyM4Yah3QrJm+TCHsStE8k6mas/dBTRodARjXJOj7YfvBpRznPsuKIDoMU9NryiwLqSH3VhMzdQ==
+X-Received: by 2002:a05:620a:2683:b0:6cf:3768:8e4b with SMTP id c3-20020a05620a268300b006cf37688e4bmr3058946qkp.768.1664472938687;
+        Thu, 29 Sep 2022 10:35:38 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id l19-20020ac84593000000b003437a694049sm5992207qtn.96.2022.09.29.10.35.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Sep 2022 10:35:37 -0700 (PDT)
+Message-ID: <bc0fd01d-4d05-ef97-dbb9-d92b4549b9a3@gmail.com>
+Date:   Thu, 29 Sep 2022 10:34:57 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v7 23/29] thermal/drivers/broadcom: Use generic
+ thermal_zone_get_trip() function
+Content-Language: en-US
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        rui.zhang@intel.com, Raju Rangoju <rajur@chelsio.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Kaestle <peter@piie.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Thara Gopinath <thara.gopinath@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Antoine Tenart <atenart@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Dmitry Osipenko <digetx@gmail.com>, netdev@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-omap@vger.kernel.org
+References: <20220928210059.891387-1-daniel.lezcano@linaro.org>
+ <20220928210059.891387-24-daniel.lezcano@linaro.org>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20220928210059.891387-24-daniel.lezcano@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -83,222 +120,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 9/28/22 14:00, Daniel Lezcano wrote:
+> The thermal framework gives the possibility to register the trip
+> points with the thermal zone. When that is done, no get_trip_* ops are
+> needed and they can be removed.
+> 
+> Convert ops content logic into generic trip points and register them with the
+> thermal zone.
+> 
+> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 
-Move RZ/G2UL SoC specific parts to r9a07g043u.dtsi so that r9a07g043.dtsi
-can be shared with RZ/Five (RISC-V SoC).
-
-Below are the changes due to which SoC specific parts are moved to
-r9a07g043u.dtsi:
-- RZ/G2UL has Cortex-A55 (ARM64) whereas the RZ/Five has AX45MP (RISC-V)
-- RZ/G2UL has GICv3 as interrupt controller whereas the RZ/Five has PLIC
-- RZ/G2UL has WDT2 (channel 2) whereas this block is missing on RZ/Five
-- RZ/G2UL has interrupts for SYSC block whereas interrupts are missing
-  for SYSC block on RZ/Five
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a07g043.dtsi  | 69 +------------------
- arch/arm64/boot/dts/renesas/r9a07g043u.dtsi | 75 +++++++++++++++++++++
- 2 files changed, 76 insertions(+), 68 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-index dfb8e1e30236..fd2b7d7e6d1a 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- /*
-- * Device Tree Source for the RZ/G2UL SoC
-+ * Device Tree Source for the RZ/Five and RZ/G2UL SoCs
-  *
-  * Copyright (C) 2022 Renesas Electronics Corp.
-  */
-@@ -68,36 +68,8 @@ opp-1000000000 {
- 		};
- 	};
- 
--	cpus {
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		cpu0: cpu@0 {
--			compatible = "arm,cortex-a55";
--			reg = <0>;
--			device_type = "cpu";
--			#cooling-cells = <2>;
--			next-level-cache = <&L3_CA55>;
--			enable-method = "psci";
--			clocks = <&cpg CPG_CORE R9A07G043_CLK_I>;
--			operating-points-v2 = <&cluster0_opp>;
--		};
--
--		L3_CA55: cache-controller-0 {
--			compatible = "cache";
--			cache-unified;
--			cache-size = <0x40000>;
--		};
--	};
--
--	psci {
--		compatible = "arm,psci-1.0", "arm,psci-0.2";
--		method = "smc";
--	};
--
- 	soc: soc {
- 		compatible = "simple-bus";
--		interrupt-parent = <&gic>;
- 		#address-cells = <2>;
- 		#size-cells = <2>;
- 		ranges;
-@@ -550,12 +522,6 @@ cpg: clock-controller@11010000 {
- 		sysc: system-controller@11020000 {
- 			compatible = "renesas,r9a07g043-sysc";
- 			reg = <0 0x11020000 0 0x10000>;
--			interrupts = <SOC_PERIPHERAL_IRQ(42, IRQ_TYPE_LEVEL_HIGH)>,
--				     <SOC_PERIPHERAL_IRQ(43, IRQ_TYPE_LEVEL_HIGH)>,
--				     <SOC_PERIPHERAL_IRQ(44, IRQ_TYPE_LEVEL_HIGH)>,
--				     <SOC_PERIPHERAL_IRQ(45, IRQ_TYPE_LEVEL_HIGH)>;
--			interrupt-names = "lpm_int", "ca55stbydone_int",
--					  "cm33stbyr_int", "ca55_deny";
- 			status = "disabled";
- 		};
- 
-@@ -608,16 +574,6 @@ dmac: dma-controller@11820000 {
- 			dma-channels = <16>;
- 		};
- 
--		gic: interrupt-controller@11900000 {
--			compatible = "arm,gic-v3";
--			#interrupt-cells = <3>;
--			#address-cells = <0>;
--			interrupt-controller;
--			reg = <0x0 0x11900000 0 0x40000>,
--			      <0x0 0x11940000 0 0x60000>;
--			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
--		};
--
- 		sdhi0: mmc@11c00000 {
- 			compatible = "renesas,sdhi-r9a07g043",
- 				     "renesas,rcar-gen3-sdhi";
-@@ -819,21 +775,6 @@ wdt0: watchdog@12800800 {
- 			status = "disabled";
- 		};
- 
--		wdt2: watchdog@12800400 {
--			compatible = "renesas,r9a07g043-wdt",
--				     "renesas,rzg2l-wdt";
--			reg = <0 0x12800400 0 0x400>;
--			clocks = <&cpg CPG_MOD R9A07G043_WDT2_PCLK>,
--				 <&cpg CPG_MOD R9A07G043_WDT2_CLK>;
--			clock-names = "pclk", "oscclk";
--			interrupts = <SOC_PERIPHERAL_IRQ(53, IRQ_TYPE_LEVEL_HIGH)>,
--				     <SOC_PERIPHERAL_IRQ(54, IRQ_TYPE_LEVEL_HIGH)>;
--			interrupt-names = "wdt", "perrout";
--			resets = <&cpg R9A07G043_WDT2_PRESETN>;
--			power-domains = <&cpg>;
--			status = "disabled";
--		};
--
- 		ostm0: timer@12801000 {
- 			compatible = "renesas,r9a07g043-ostm",
- 				     "renesas,ostm";
-@@ -898,12 +839,4 @@ target: trip-point {
- 			};
- 		};
- 	};
--
--	timer {
--		compatible = "arm,armv8-timer";
--		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>;
--	};
- };
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
-index be84392ee47f..97062ad03765 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
-@@ -10,3 +10,78 @@
- #define SOC_PERIPHERAL_IRQ(nr, na)	GIC_SPI nr na
- 
- #include "r9a07g043.dtsi"
-+
-+/ {
-+	cpus {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		cpu0: cpu@0 {
-+			compatible = "arm,cortex-a55";
-+			reg = <0>;
-+			device_type = "cpu";
-+			#cooling-cells = <2>;
-+			next-level-cache = <&L3_CA55>;
-+			enable-method = "psci";
-+			clocks = <&cpg CPG_CORE R9A07G043_CLK_I>;
-+			operating-points-v2 = <&cluster0_opp>;
-+		};
-+
-+		L3_CA55: cache-controller-0 {
-+			compatible = "cache";
-+			cache-unified;
-+			cache-size = <0x40000>;
-+		};
-+	};
-+
-+	psci {
-+		compatible = "arm,psci-1.0", "arm,psci-0.2";
-+		method = "smc";
-+	};
-+
-+	timer {
-+		compatible = "arm,armv8-timer";
-+		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
-+				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
-+				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
-+				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>;
-+	};
-+};
-+
-+&soc {
-+	interrupt-parent = <&gic>;
-+
-+	gic: interrupt-controller@11900000 {
-+		compatible = "arm,gic-v3";
-+		#interrupt-cells = <3>;
-+		#address-cells = <0>;
-+		interrupt-controller;
-+		reg = <0x0 0x11900000 0 0x40000>,
-+		      <0x0 0x11940000 0 0x60000>;
-+		interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
-+	};
-+
-+	wdt2: watchdog@12800400 {
-+		compatible = "renesas,r9a07g043-wdt",
-+				"renesas,rzg2l-wdt";
-+		reg = <0 0x12800400 0 0x400>;
-+		clocks = <&cpg CPG_MOD R9A07G043_WDT2_PCLK>,
-+			 <&cpg CPG_MOD R9A07G043_WDT2_CLK>;
-+		clock-names = "pclk", "oscclk";
-+		interrupts = <SOC_PERIPHERAL_IRQ(53, IRQ_TYPE_LEVEL_HIGH)>,
-+			     <SOC_PERIPHERAL_IRQ(54, IRQ_TYPE_LEVEL_HIGH)>;
-+		interrupt-names = "wdt", "perrout";
-+		resets = <&cpg R9A07G043_WDT2_PRESETN>;
-+		power-domains = <&cpg>;
-+		status = "disabled";
-+	};
-+};
-+
-+&sysc {
-+	interrupts = <SOC_PERIPHERAL_IRQ(42, IRQ_TYPE_LEVEL_HIGH)>,
-+		     <SOC_PERIPHERAL_IRQ(43, IRQ_TYPE_LEVEL_HIGH)>,
-+		     <SOC_PERIPHERAL_IRQ(44, IRQ_TYPE_LEVEL_HIGH)>,
-+		     <SOC_PERIPHERAL_IRQ(45, IRQ_TYPE_LEVEL_HIGH)>;
-+	interrupt-names = "lpm_int", "ca55stbydone_int",
-+			  "cm33stbyr_int", "ca55_deny";
-+};
+Acked-by: Florian Fainelli <f.fainelli@gmail.com>
 -- 
-2.25.1
-
+Florian
