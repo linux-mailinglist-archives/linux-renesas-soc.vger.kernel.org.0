@@ -2,121 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFCD35F0B52
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Sep 2022 14:07:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 702925F0B6D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Sep 2022 14:11:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230019AbiI3MHz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Sep 2022 08:07:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43824 "EHLO
+        id S231576AbiI3MLl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Sep 2022 08:11:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230092AbiI3MHy (ORCPT
+        with ESMTP id S231538AbiI3MLQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Sep 2022 08:07:54 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3687916DDF0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Sep 2022 05:07:52 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id t16so4584567ljh.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Sep 2022 05:07:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=xYoUsAvXhuDV9Hv97ovHM6bRu6VbknOSFPnIdjEZnwo=;
-        b=fBZvS89+eVxzJe8xRtbBl5VdwwSnxJUtLPTBkU9Tii+utA++C6vdPZKXN/Ak9Z8GgG
-         CsR7k8b+Eo4HnPe3TIh91dOaVh1b826ThZBAk0N0uwADvDtF8XNzrNgqBT8TIAznn5ss
-         3prxp9G7ereEyQNSM3pF77/VZFtTk3FWtEd5yk5HAqSX/NWv0zL9ZCaToIxBgoKCvQAP
-         UYbn/cFE9+y3/UAlWl8FjkTdmKqi/iiy7qeoUNSyV651/af3WrrABEXQ+zx+qfxjvsrT
-         4xnzAh8cd2g8eb+xqcSgWsrrcTbsgHoP3e24I31dZZ+aOffHrsxURBUh9VFq9Q2ZLALT
-         Xr/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=xYoUsAvXhuDV9Hv97ovHM6bRu6VbknOSFPnIdjEZnwo=;
-        b=6G+L3ZSc59pp7hmgvgm4LuuPam3fmLKWAPDMFU4CEXlCp+7ZKqMbZTvwvNf6M+Pijt
-         yB7ohXrXGb8MLQvfy7ADCHoJtpCP99G3jxqSX30KU9R3kT9IApkQsNelLlew+LXfxE6F
-         EBI1MNfFNslC0vrL95cXAvHfRPvS57ok9dreWnM9UPKX5OKPEAX+sVKid8qALO1VtQuH
-         8YYbFVn59pSuuKvRXxCHCfzJRZUAYUEsRJ30BgfpT7Zyq1He//VMK50MQHR1+KakxkVn
-         7tW33kFhyz+klZFCz5Xj6SFG7aiDoSNjYg3kdUDZe7yUvKR7AtH1UZKR8Ai7cUNPrDQc
-         UvMg==
-X-Gm-Message-State: ACrzQf1sQ0ts4X31oE76bTXEvv+uFiKSB/lVpsFMB08JZQbSyg/jXPyJ
-        JebO1t5NTom7h3+ik5yBBmAkNA==
-X-Google-Smtp-Source: AMsMyM4ta/2mmSPg4EgDMf+L0/KVTvVhdfbeYG+EbkN/4uW5p29tCyGKZcFdtIKrbZjock1sbevLRw==
-X-Received: by 2002:a2e:b712:0:b0:26a:d1d9:f8d1 with SMTP id j18-20020a2eb712000000b0026ad1d9f8d1mr2976103ljo.271.1664539670488;
-        Fri, 30 Sep 2022 05:07:50 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id be43-20020a056512252b00b00499cf3e3edcsm268267lfb.296.2022.09.30.05.07.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Sep 2022 05:07:50 -0700 (PDT)
-Message-ID: <dc35bb16-3edb-6369-ad8d-9a95a3066746@linaro.org>
-Date:   Fri, 30 Sep 2022 14:07:48 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v2 2/4] media: dt-bindings: Document Renesas RZ/G2L CRU
- block
-Content-Language: en-US
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        Fri, 30 Sep 2022 08:11:16 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13BBB58148;
+        Fri, 30 Sep 2022 05:11:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id F3B4FB82897;
+        Fri, 30 Sep 2022 12:10:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBF49C433C1;
+        Fri, 30 Sep 2022 12:10:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664539857;
+        bh=8PoWIrPFu1RotwVvo7U9/sShxzjz4XuF8NY3hrKT2KQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TsgY9cnuchcdBv35/LSHrDb678BNpjAyC4p+SWyLL/n+x/CeH0Eu18LQRQoW50JEQ
+         SgQ/0wwhpDqggKwUtlfYlVkQ/5iO3UvmmsgJbOLK1eMf1WMqWuRal3lgcwQcNBW15f
+         WUZPm4bZi7Qk86BgGkpmsbu7cL5bJolTqNRbF+9I/UzvWmMz4Tnc5/Dmw4NT4ataLB
+         QS3PP5JT41DdKBYW1bBTXEDwBlsJnA38W9ueBqic3r39FyEhfyW2BbP2Em8bYTed0j
+         ZxOaVauLd0aFVOCgZ+PyP/vNhqcy2/etxTO0Ji1SO3b5nR+vYUEmMTqOiYKsLJdRdP
+         0vxmhSVMHTsWQ==
+Date:   Fri, 30 Sep 2022 13:10:51 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220905230406.30801-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <29d456ed-620c-8dc9-01f0-54f96b670b94@linaro.org>
- <YysHAkWBfTTAJF3E@pendragon.ideasonboard.com>
- <ba436dd5-2ea2-b2e0-7056-5bae6b4c7bb4@linaro.org>
- <YytJ/oJK9s2mfqPL@pendragon.ideasonboard.com>
- <bba1ed72-d691-b51c-dce8-ab9a2e45fe86@linaro.org>
- <YyxnJ/Ho5rZQzDDN@pendragon.ideasonboard.com>
- <CA+V-a8vaHPbXQWyMeVWsFaf3mUSAECcJiiww5xmhC99+zm3SuQ@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CA+V-a8vaHPbXQWyMeVWsFaf3mUSAECcJiiww5xmhC99+zm3SuQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH RFC 3/7] dt-bindings: mfd: rz-mtu3: Document RZ/G2L MTU3
+ PWM
+Message-ID: <YzbcyxY839GlR71V@google.com>
+References: <20220929103043.1228235-1-biju.das.jz@bp.renesas.com>
+ <20220929103043.1228235-4-biju.das.jz@bp.renesas.com>
+ <YzXbU69imBM5aKwn@google.com>
+ <OS0PR01MB5922134DC72EE29D5404867B86579@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <OS0PR01MB5922134DC72EE29D5404867B86579@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 30/09/2022 12:49, Lad, Prabhakar wrote:
-> I have got the below details from the HW  team:
-> 
-> CRU_SYSCLK -> System clock for CSI-2 DPHY
-> CRU_VCLK -> video clock
-> CRU_PCLK -> APB clock
-> CRU_ACLK -> AXI clock
-> 
-> So I'll rename the clocks to below respectively:
-> 
-> +  clock-names:
-> +    items:
-> +      - const: system
-> +      - const: video
-> +      - const: apb
-> +      - const: axi
-> 
-> Does the above sound good?
+On Thu, 29 Sep 2022, Biju Das wrote:
 
-For me sounds awesome! Thank you.
+> Hi Lee Jones,
+> 
+> Thanks for the feedback.
+> 
+> > Subject: Re: [PATCH RFC 3/7] dt-bindings: mfd: rz-mtu3: Document
+> > RZ/G2L MTU3 PWM
+> > 
+> > On Thu, 29 Sep 2022, Biju Das wrote:
+> > 
+> > > Document RZ/G2L MTU3 PWM support. It supports following pwm modes.
+> > > 	1) PWM mode 1
+> > > 	2) PWM mode 2
+> > > 	3) Reset-synchronized PWM mode
+> > > 	4) Complementary PWM mode 1 (transfer at crest)
+> > > 	5) Complementary PWM mode 2 (transfer at trough)
+> > > 	6) Complementary PWM mode 3 (transfer at crest and trough)
+> > 
+> > Shouldn't all this go in the PWM driver binding?
+> 
+> Looks like at top level MTU3 IP provides similar HW functionality like below
+> binding [1], where there is a core MFD driver and pwm, counter and timer
+> as child devices.
 
-Best regards,
-Krzysztof
+Previous mistakes are not good references for what should happen in
+the present and the future. =;)
 
+> [1] https://elixir.bootlin.com/linux/v6.0-rc7/source/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
+> 
+> Cheers,
+> Biju
+> > 
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > >  .../bindings/mfd/renesas,rzg2l-mtu3.yaml      | 50
+> > +++++++++++++++++++
+> > >  1 file changed, 50 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/mfd/renesas,rzg2l-
+> > mtu3.yaml b/Documentation/devicetree/bindings/mfd/renesas,rzg2l-
+> > mtu3.yaml
+> > > index c4bcf28623d6..362fedf5bedb 100644
+> > > --- a/Documentation/devicetree/bindings/mfd/renesas,rzg2l-mtu3.yaml
+> > > +++ b/Documentation/devicetree/bindings/mfd/renesas,rzg2l-mtu3.yaml
+> > > @@ -223,6 +223,50 @@ patternProperties:
+> > >        - compatible
+> > >        - reg
+> > >
+> > > +  "^pwm@([0-4]|[6-7])+$":
+> > > +    type: object
+> > > +
+> > > +    properties:
+> > > +      compatible:
+> > > +        const: renesas,rz-mtu3-pwm
+> > > +
+> > > +      reg:
+> > > +        description: Identify pwm channels.
+> > > +        items:
+> > > +          enum: [ 0, 1, 2, 3, 4, 6, 7 ]
+> > > +
+> > > +      "#pwm-cells":
+> > > +        const: 2
+> > > +
+> > > +      renesas,pwm-mode1:
+> > > +        type: boolean
+> > > +        description: Enable PWM mode 1.
+> > > +
+> > > +      renesas,pwm-mode2:
+> > > +        type: boolean
+> > > +        description: Enable PWM mode 2.
+> > > +
+> > > +      renesas,reset-synchronized-pwm-mode:
+> > > +        type: boolean
+> > > +        description: Enable Reset-synchronized PWM mode.
+> > > +
+> > > +      renesas,complementary-pwm-mode1:
+> > > +        type: boolean
+> > > +        description: Complementary PWM mode 1 (transfer at crest).
+> > > +
+> > > +      renesas,complementary-pwm-mode2:
+> > > +        type: boolean
+> > > +        description: Complementary PWM mode 2 (transfer at trough).
+> > > +
+> > > +      renesas,complementary-pwm-mode3:
+> > > +        type: boolean
+> > > +        description: Complementary PWM mode 3 (transfer at crest
+> > and trough).
+> > > +
+> > > +    required:
+> > > +      - compatible
+> > > +      - reg
+> > > +      - "#pwm-cells"
+> > > +
+> > >  required:
+> > >    - compatible
+> > >    - reg
+> > > @@ -305,6 +349,12 @@ examples:
+> > >          compatible = "renesas,rzg2l-mtu3-counter";
+> > >          reg = <1>;
+> > >        };
+> > > +      pwm@3 {
+> > > +        compatible = "renesas,rz-mtu3-pwm";
+> > > +        reg = <3>;
+> > > +        #pwm-cells = <2>;
+> > > +        renesas,pwm-mode1;
+> > > +      };
+> > >      };
+> > >
+> > >  ...
+> > 
+
+-- 
+Lee Jones [李琼斯]
