@@ -2,99 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BC2D5F1420
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Sep 2022 22:49:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78ECD5F1452
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Sep 2022 23:05:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232260AbiI3Utc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Sep 2022 16:49:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42986 "EHLO
+        id S232195AbiI3VFg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Sep 2022 17:05:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232262AbiI3UtG (ORCPT
+        with ESMTP id S232192AbiI3VFf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Sep 2022 16:49:06 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 883B063FF4;
-        Fri, 30 Sep 2022 13:49:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664570945; x=1696106945;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=jDIVi1DtobmhbOEiB3twfsAQ2NDCM1tO+n5kwnrzHfk=;
-  b=lxgOA7NvHFAqIil6hJ+ujbvbESJ/QAH7HSZNsP95++L8JQFOspKa2E1t
-   XkIP6bCu1+m8nsnbWEEETkbe8tijhzsJftgpy/Y6J/447KR1NHLSDYH9b
-   sz3h3K1RUfD1/LNQidfES4zcZDCFtbmL6Us5nj9wbpd0DAy8lIAHnBI/9
-   pXyieI8qI4VCHJaq5tk0tHpsXVDwHxnzgRmzrDjt1fierVetBh1YX7ea5
-   gIfrEc8J4YiE5vyfomsE0ksPi7QzYjWWKxAcVxVS6zuwSxFIv86rk7iuB
-   U680AL0LF83EZ5M9+mq9/eaGFt2Cm32+XM4Z7Dt9lAqy43DfvtCRcgGV/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="289446001"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; 
-   d="scan'208";a="289446001"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 13:49:04 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="691383717"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; 
-   d="scan'208";a="691383717"
-Received: from jekeller-desk.amr.corp.intel.com (HELO jekeller-desk.jekeller.internal) ([10.166.241.7])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 13:49:03 -0700
-From:   Jacob Keller <jacob.e.keller@intel.com>
-To:     netdev@vger.kernel.org
-Cc:     Jacob Keller <jacob.e.keller@intel.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Siva Reddy Kallam <siva.kallam@broadcom.com>,
-        Prashant Sreedharan <prashant@broadcom.com>,
-        Michael Chan <mchan@broadcom.com>,
-        Yisen Zhuang <yisen.zhuang@huawei.com>,
-        Salil Mehta <salil.mehta@huawei.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Tariq Toukan <tariqt@nvidia.com>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Bryan Whitehead <bryan.whitehead@microchip.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Vivek Thampi <vithampi@vmware.com>,
-        VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
-        Jie Wang <wangjie125@huawei.com>,
-        Guangbin Huang <huangguangbin2@huawei.com>,
-        Eran Ben Elisha <eranbe@nvidia.com>,
-        Aya Levin <ayal@nvidia.com>,
-        Cai Huoqing <cai.huoqing@linux.dev>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
+        Fri, 30 Sep 2022 17:05:35 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF6C18C020;
+        Fri, 30 Sep 2022 14:05:29 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5DBFA4D5;
+        Fri, 30 Sep 2022 23:05:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1664571927;
+        bh=yMPbFOlWA6DnUrGYk0efelboSLYqi558kgrzCCOcZss=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sgQIyFYxgzelUKNDM9EkplmoUAS7EnjG1MlPNcTrXxXb1BrmUpMTqbKodj8yQBfCl
+         6y4Wg1Qh/lAwAE82AH6EH9LpmeXgrdfBud868Za0b6MMTxaklfGv3U6r18dGkp85mR
+         V3reQtJyugrKYkgOSQaZXq1fAHGIUQzC4J13LEFs=
+Date:   Sat, 1 Oct 2022 00:05:25 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Wan Jiabing <wanjiabing@vivo.com>,
-        Lv Ruyi <lv.ruyi@zte.com.cn>, Arnd Bergmann <arnd@arndb.de>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [net-next v2 8/9] ptp: ravb: convert to .adjfine and adjust_by_scaled_ppm
-Date:   Fri, 30 Sep 2022 13:48:50 -0700
-Message-Id: <20220930204851.1910059-9-jacob.e.keller@intel.com>
-X-Mailer: git-send-email 2.37.1.394.gc50926e1f488
-In-Reply-To: <20220930204851.1910059-1-jacob.e.keller@intel.com>
-References: <20220930204851.1910059-1-jacob.e.keller@intel.com>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2 2/4] media: dt-bindings: Document Renesas RZ/G2L CRU
+ block
+Message-ID: <YzdaFRA0L+qKbfMx@pendragon.ideasonboard.com>
+References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220905230406.30801-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <29d456ed-620c-8dc9-01f0-54f96b670b94@linaro.org>
+ <YysHAkWBfTTAJF3E@pendragon.ideasonboard.com>
+ <ba436dd5-2ea2-b2e0-7056-5bae6b4c7bb4@linaro.org>
+ <YytJ/oJK9s2mfqPL@pendragon.ideasonboard.com>
+ <bba1ed72-d691-b51c-dce8-ab9a2e45fe86@linaro.org>
+ <YyxnJ/Ho5rZQzDDN@pendragon.ideasonboard.com>
+ <CA+V-a8vaHPbXQWyMeVWsFaf3mUSAECcJiiww5xmhC99+zm3SuQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8vaHPbXQWyMeVWsFaf3mUSAECcJiiww5xmhC99+zm3SuQ@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -102,64 +67,68 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The ravb implementation of .adjfreq is implemented in terms of a
-straight forward "base * ppb / 1 billion" calculation.
+Hi Prabhakar,
 
-Convert this driver to .adjfine and use the adjust_by_scaled_ppm helper
-function to calculate the new addend.
+On Fri, Sep 30, 2022 at 11:49:22AM +0100, Lad, Prabhakar wrote:
+> On Thu, Sep 22, 2022 at 2:46 PM Laurent Pinchart wrote:
+> > On Wed, Sep 21, 2022 at 08:58:26PM +0200, Krzysztof Kozlowski wrote:
+> > > On 21/09/2022 19:29, Laurent Pinchart wrote:
+> > > >>>>> +  clock-names:
+> > > >>>>> +    items:
+> > > >>>>> +      - const: vclk
+> > > >>>>> +      - const: pclk
+> > > >>>>> +      - const: aclk
+> > > >>>>
+> > > >>>> Drop the "clk" suffixes. Remaining names could be made a bit more readable.
+> > > >>>
+> > > >>> These names come from the documentation, isn't it better to match the
+> > > >>> datasheet ?
+> > > >>
+> > > >> If datasheet calls it "vclk_really_clk_it_is_clk_clk", it's not the
+> > > >> reason to use it. :)
+> > > >>
+> > > >> The "clk" is redundant even if the hardware engineer thought different.
+> > > >>
+> > > >> The same for IRQs ("tx" not "txirq"), for dmas ("tx" not "txdma").
+> > > >
+> > > > I'd argue that naming clocks "v", "p" and "a" would be less readable and
+> > > > more confusing. Is this a new rule ?
+> > >
+> > > Not really, but also it's only a style issue.
+> > >
+> > > Indeed "v" and "p" are not much better... but still "vclk" does not
+> > > bring any additional information over "v". It's redundant.
+> > >
+> > > You can also drop entire entry - unless it helps in particular
+> > > implementation.
+> >
+> > There are multiple clocks, so I think names are better than indices. If
+> > you really insist we could name them "v", "p" and "a", but I think the
+> > clk suffix here improves readability. If those clocks were named
+> > "videoclk", "pixelclk" and "axiclk" I'd be fine dropping the suffix, but
+> > that's not the case here.
+> 
+> I have got the below details from the HW  team:
+> 
+> CRU_SYSCLK -> System clock for CSI-2 DPHY
+> CRU_VCLK -> video clock
+> CRU_PCLK -> APB clock
+> CRU_ACLK -> AXI clock
+> 
+> So I'll rename the clocks to below respectively:
+> 
+> +  clock-names:
+> +    items:
+> +      - const: system
+> +      - const: video
+> +      - const: apb
+> +      - const: axi
+> 
+> Does the above sound good?
 
-Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Phil Edworthy <phil.edworthy@renesas.com>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/net/ethernet/renesas/ravb_ptp.c | 17 +++++------------
- 1 file changed, 5 insertions(+), 12 deletions(-)
+That's great, thank you !
 
-diff --git a/drivers/net/ethernet/renesas/ravb_ptp.c b/drivers/net/ethernet/renesas/ravb_ptp.c
-index 87c4306d66ec..6e4ef7af27bf 100644
---- a/drivers/net/ethernet/renesas/ravb_ptp.c
-+++ b/drivers/net/ethernet/renesas/ravb_ptp.c
-@@ -88,24 +88,17 @@ static int ravb_ptp_update_compare(struct ravb_private *priv, u32 ns)
- }
- 
- /* PTP clock operations */
--static int ravb_ptp_adjfreq(struct ptp_clock_info *ptp, s32 ppb)
-+static int ravb_ptp_adjfine(struct ptp_clock_info *ptp, long scaled_ppm)
- {
- 	struct ravb_private *priv = container_of(ptp, struct ravb_private,
- 						 ptp.info);
- 	struct net_device *ndev = priv->ndev;
- 	unsigned long flags;
--	u32 diff, addend;
--	bool neg_adj = false;
-+	u32 addend;
- 	u32 gccr;
- 
--	if (ppb < 0) {
--		neg_adj = true;
--		ppb = -ppb;
--	}
--	addend = priv->ptp.default_addend;
--	diff = div_u64((u64)addend * ppb, NSEC_PER_SEC);
--
--	addend = neg_adj ? addend - diff : addend + diff;
-+	addend = (u32)adjust_by_scaled_ppm(priv->ptp.default_addend,
-+					   scaled_ppm);
- 
- 	spin_lock_irqsave(&priv->lock, flags);
- 
-@@ -295,7 +288,7 @@ static const struct ptp_clock_info ravb_ptp_info = {
- 	.max_adj	= 50000000,
- 	.n_ext_ts	= N_EXT_TS,
- 	.n_per_out	= N_PER_OUT,
--	.adjfreq	= ravb_ptp_adjfreq,
-+	.adjfine	= ravb_ptp_adjfine,
- 	.adjtime	= ravb_ptp_adjtime,
- 	.gettime64	= ravb_ptp_gettime64,
- 	.settime64	= ravb_ptp_settime64,
 -- 
-2.37.1.394.gc50926e1f488
+Regards,
 
+Laurent Pinchart
