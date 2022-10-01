@@ -2,73 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6BA35F1753
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Oct 2022 02:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE4805F1A56
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Oct 2022 08:42:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232548AbiJAAZZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Sep 2022 20:25:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53400 "EHLO
+        id S229459AbiJAGmU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 1 Oct 2022 02:42:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232565AbiJAAZA (ORCPT
+        with ESMTP id S229451AbiJAGmS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Sep 2022 20:25:00 -0400
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57FDED69C5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Sep 2022 17:23:01 -0700 (PDT)
-Received: by mail-qt1-x82a.google.com with SMTP id g23so3638608qtu.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Sep 2022 17:23:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=x4vt+CWV+xG5t7iFXTxxs3JWTPPF+kbcbI8t7m8zKAM=;
-        b=qwWkMfemkBcpkXKFVl7TIKmMAEEG2joHouDsM0tjY7J9rsKE8PT/P9n1lu58DOuXpG
-         TcEPWogEColr3miARJ0YYjUoQiJKnax+EFD8kV8U2RbkoCjWRZ8I+EKs65NZbwDJtoqT
-         eQn2LmZ7NUoRoah7TPUxKykBvz1qcalrYCpjneyyL2HY8jBQIR7LUnEMLRukss2flaz+
-         wUA5MnpGXryCFM9TPP6+cxpHjmLe08mEdNFLF2kkdLGT1kffKnt5wxNRQvXw9mn3ealF
-         97pX6qFnXPdAlkvmjwil3ML/en9yzDuQpU6hS/dKQjpxrnJUUcqsHEoiT3ZMvv4nBSO3
-         Otxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=x4vt+CWV+xG5t7iFXTxxs3JWTPPF+kbcbI8t7m8zKAM=;
-        b=r3w/vpkW62fxS+BcgMdjbL2cmr7fuMxxU1eKumtCzlAzrcjfufRXgGittETHPxn8M9
-         rLIXoFFStXCCMku6XDcndFlaFf0wF94DS2KBfcLreHvWWQ1MIVSQpy/tc99M3Nm9ejo+
-         DmdZFoVKf6PMiWBeDZfqk2e0ZRqXi4lKYw/Ar6w8nQCEAkakvRLAiEi2Igv1Wm69HZzw
-         pfE3sXNsR/ui9V92bGfPgZy4n8ArLLaHDpnqszMXfAwrJWkU5Di8l9Iriaj2Q3OGy6HF
-         Z2EmUl/iAy+5IKmHwYt6oiBYVdqp0uKY8l4eWnT5UXONQ30ZcasM7ej/8F2wCMWNengJ
-         MP6Q==
-X-Gm-Message-State: ACrzQf0PMnudHDimvLE7ipYU/baE6DT1HwfAMeBs1omDtgAWc2i9kzjF
-        bLbTvjPQMIfcFWh71AZoO1SOyEiC23DEnw==
-X-Google-Smtp-Source: AMsMyM6aVmmUg051HW0jO80PEl3XY7p07fblFRfwkIhlo6cLpNq3Dz1FBnZtayZAnBPUqtkVeOk8Lw==
-X-Received: by 2002:ac8:5cd5:0:b0:35b:bbd1:20ea with SMTP id s21-20020ac85cd5000000b0035bbbd120eamr8949706qta.549.1664583779952;
-        Fri, 30 Sep 2022 17:22:59 -0700 (PDT)
-Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
-        by smtp.gmail.com with ESMTPSA id x4-20020a05620a448400b006ceda7a9283sm3872710qkp.48.2022.09.30.17.22.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Sep 2022 17:22:58 -0700 (PDT)
-Date:   Fri, 30 Sep 2022 20:22:56 -0400
-From:   William Breathitt Gray <william.gray@linaro.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     linux-iio@vger.kernel.org,
+        Sat, 1 Oct 2022 02:42:18 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E657925C79
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Sep 2022 23:42:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=/89nnS4Ca4Z9ELgqt6mLiZHkrrWq
+        x7Z0teg6BVDd2Dg=; b=JvPC392QlBSi6u+Y/oDGSjAp0tE5XEU0r6v12zPZfH1T
+        Lw5USGODj87CWvU2H+4/L3xLOVNF2mRQayOJ1QQJdrTSEEe2GYfRs3CRkhZAjHok
+        a1jK2pXEAAPgFx4pkFqnX7liGlJParavvDX2ipUge7P55m+zBnrZ6i1oaA6p/Ks=
+Received: (qmail 858644 invoked from network); 1 Oct 2022 08:42:12 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Oct 2022 08:42:12 +0200
+X-UD-Smtp-Session: l3s3148p1@C2QGafPp18kucrO7
+Date:   Sat, 1 Oct 2022 08:42:11 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH RFC 5/8] counter: Add RZ/G2L MTU3 counter driver
-Message-ID: <YzeIYLrZTHGXfcOV@fedora>
-References: <20220926132114.60396-1-biju.das.jz@bp.renesas.com>
- <20220926132114.60396-6-biju.das.jz@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v5] mmc: renesas_sdhi: Fix rounding errors
+Message-ID: <YzfhQ9gFgGbCafid@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220928110755.849275-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdU+0Umi1RiLxdR5MCV2FZvi7a9HuS8EFJtx7JksQBP4eg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="WWAWRr4QfURyjFgV"
+        protocol="application/pgp-signature"; boundary="LhyXKQm22sMbRxbp"
 Content-Disposition: inline
-In-Reply-To: <20220926132114.60396-6-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAMuHMdU+0Umi1RiLxdR5MCV2FZvi7a9HuS8EFJtx7JksQBP4eg@mail.gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -76,250 +63,57 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---WWAWRr4QfURyjFgV
+--LhyXKQm22sMbRxbp
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 26, 2022 at 02:21:11PM +0100, Biju Das wrote:
-> Add RZ/G2L MTU3 counter driver. Currently it supports 16-bit phase
-> counting mode on MTU{1,2} channels.
+On Fri, Sep 30, 2022 at 11:09:07AM +0200, Geert Uytterhoeven wrote:
+> On Wed, Sep 28, 2022 at 1:08 PM Biju Das <biju.das.jz@bp.renesas.com> wro=
+te:
+> > Due to clk rounding errors on RZ/G2L platforms, it selects a clock sour=
+ce
+> > with a lower clock rate compared to a higher one.
+> > For eg: The rounding error (533333333 Hz / 4 * 4 =3D 533333332 Hz < 533=
+3333
+> > 33 Hz) selects a clk source of 400 MHz instead of 533.333333 MHz.
+> >
+> > This patch fixes this issue by adding a margin of (1/1024) higher to
+> > the clock rate.
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> > v4->v5:
+> >  * Moved upper limit calculation inside the for loop as it caused
+> >    regression on R-Car M2-W board.
+> >  * Removed Rb tag from Wolfram as there is some new changes.
 >=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>=20
+> Still works fine on R-Car Gen2/Gen3, so:
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Hi Biju,
+I'll test this patch on Monday.
 
-This driver will likely change in your next revision, but I want to give
-some feedback anyway on a few things I noticed. See the comments below.
 
-> +struct rzg2l_mtu3_cnt {
-> +	struct clk *clk;
-> +	void __iomem *mmio;
-> +	struct rzg2l_mtu3_channel *ch;
-> +};
-
-Add kernel-doc comments to document this structure. It seems that
-neither clk nor mmio is access in the code from this structure; what's
-the purpose of having them here?
-
-> +static int rzg2l_mtu3_count_read(struct counter_device *counter,
-> +				 struct counter_count *count, u64 *val)
-> +{
-> +	struct rzg2l_mtu3_cnt *const priv =3D counter_priv(counter);
-> +	u32 cnt;
-> +
-> +	cnt =3D rzg2l_mtu3_16bit_ch_read(priv->ch, RZG2L_MTU3_TCNT);
-> +	*val =3D cnt;
-
-The rzg2l_mtu3_16bit_ch_read() function returns a u16, so there's no
-need for the cnt variable; just return the count via val directly.
-
-> +static int rzg2l_mtu3_count_write(struct counter_device *counter,
-> +				  struct counter_count *count, const u64 val)
-> +{
-> +	struct rzg2l_mtu3_cnt *const priv =3D counter_priv(counter);
-> +	u16 ceiling;
-> +
-> +	ceiling =3D rzg2l_mtu3_16bit_ch_read(priv->ch, RZG2L_MTU3_TGRA);
-> +
-> +	if (val > ceiling)
-> +		return -EINVAL;
-
-Return -ERANGE instead to indicate the request is outside the boundary.
-
-> +
-> +	rzg2l_mtu3_16bit_ch_write(priv->ch, RZG2L_MTU3_TCNT, (u16)val);
-
-Remove the explicit cast to u16, it's already implicit in the call. You
-probably also need some sort of lock in this function to ensure that
-your ceiling value does not change before you write to the register.
-
-> +static int rzg2l_mtu3_count_ceiling_read(struct counter_device *counter,
-> +					 struct counter_count *count,
-> +					 u64 *ceiling)
-> +{
-> +	struct rzg2l_mtu3_cnt *const priv =3D counter_priv(counter);
-> +	u32 val;
-> +
-> +	val =3D rzg2l_mtu3_16bit_ch_read(priv->ch, RZG2L_MTU3_TGRA);
-> +	*ceiling =3D val;
-
-Same comment as in rzg2l_mtu3_count_read().
-
-> +static int rzg2l_mtu3_count_ceiling_write(struct counter_device *counter,
-> +					  struct counter_count *count,
-> +					  u64 ceiling)
-> +{
-> +	struct rzg2l_mtu3_cnt *const priv =3D counter_priv(counter);
-> +
-> +	if (ceiling > U16_MAX)
-> +		return -ERANGE;
-> +
-> +	rzg2l_mtu3_16bit_ch_write(priv->ch, RZG2L_MTU3_TGRA, (u16)ceiling);
-> +	rzg2l_mtu3_8bit_ch_write(priv->ch, RZG2L_MTU3_TCR,
-> +				 RZG2L_MTU3_TCR_CCLR_TGRA);
-
-Same comments about cast and lock as in rzg2l_mtu3_count_write().
-
-> +static int rzg2l_mtu3_count_enable_read(struct counter_device *counter,
-> +					struct counter_count *count, u8 *enable)
-> +{
-> +	struct rzg2l_mtu3_cnt *const priv =3D counter_priv(counter);
-> +	int ch =3D priv->ch->index;
-> +
-> +	*enable =3D (rzg2l_mtu3_shared_reg_read(priv->ch, RZG2L_MTU3_TSTRA) &
-> +		(0x1 << ch)) >> ch;
-
-A lot of operations happening in a single line; can this be broken down
-to clearer distinct steps?
-
-> +static int rzg2l_mtu3_action_read(struct counter_device *counter,
-> +				  struct counter_count *count,
-> +				  struct counter_synapse *synapse,
-> +				  enum counter_synapse_action *action)
-> +{
-> +	enum counter_function function;
-> +	int err;
-> +
-> +	err =3D rzg2l_mtu3_count_function_read(counter, count, &function);
-> +	if (err)
-> +		return err;
-> +
-> +	switch (function) {
-> +	case COUNTER_FUNCTION_PULSE_DIRECTION:
-> +		/*
-> +		 * Rising edges on signal A updates the respective count.
-> +		 * The input level of signal B determines direction.
-> +		 */
-> +		*action =3D COUNTER_SYNAPSE_ACTION_RISING_EDGE;
-
-You need to differentiate between signal A and B here: the Synapse for
-signal A will have an action mode of COUNTER_SYNAPSE_ACTION_RING_EDGE,
-but the Synapse for Signal B will have an action mode of
-COUNTER_SYNAPSE_ACTION_NONE because its not the trigger point for the
-respective Count value update.
-
-> +		break;
-> +	case COUNTER_FUNCTION_QUADRATURE_X2_B:
-> +		/*
-> +		 * Any state transition on quadrature pair signal B updates
-> +		 * the respective count.
-> +		 */
-> +		*action =3D COUNTER_SYNAPSE_ACTION_BOTH_EDGES;
-
-Similar to above, you need to differentiate between signal A and B here
-as well.
-
-> +static struct counter_count rzg2l_mtu3_counts =3D {
-> +	.id =3D 0,
-
-The id member is an optional way for driver authors to identify their
-own Counts; it can be set to anything your like, and if you don't use
-it in your code then you don't need to set it at all.
-
-> +static int rzg2l_mtu3_cnt_probe(struct platform_device *pdev)
-> +{
-> +	struct rzg2l_mtu3 *ddata =3D dev_get_drvdata(pdev->dev.parent);
-> +	struct device *dev =3D &pdev->dev;
-> +	struct counter_device *counter;
-> +	struct rzg2l_mtu3_cnt *priv;
-> +	int ret;
-> +	u32 ch;
-> +
-> +	if (IS_ERR_OR_NULL(ddata))
-> +		return -EINVAL;
-
-Is this actually possible? What situation would cause this, and why is
-it not handled before we reach probe()?
-
-> +
-> +	counter =3D devm_counter_alloc(dev, sizeof(*priv));
-> +	if (!counter)
-> +		return -ENOMEM;
-> +
-> +	priv =3D counter_priv(counter);
-> +
-> +	ret =3D of_property_read_u32(dev->of_node, "reg", &ch);
-> +	if (ret) {
-> +		dev_err(dev, "%pOF: No reg property found\n", dev->of_node);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (ch !=3D RZG2L_MTU1 && ch !=3D RZG2L_MTU2) {
-> +		dev_err(dev, "%pOF: Invalid channel '%u'\n", dev->of_node, ch);
-> +		return -EINVAL;
-> +	}
-> +
-> +	priv->clk =3D ddata->clk;
-> +	priv->ch =3D &ddata->channels[ch];
-> +	priv->ch->dev =3D dev;
-> +
-> +	counter->name =3D dev_name(dev);
-> +	counter->parent =3D dev;
-> +	counter->ops =3D &rzg2l_mtu3_cnt_ops;
-> +	counter->counts =3D &rzg2l_mtu3_counts;
-> +	counter->num_counts =3D 1;
-
-Even though you only have one Count defined, use ARRAY_SIZE here for
-consistency with the other Counter drivers as well as making the
-intention of the code clear.
-
-> +	counter->signals =3D rzg2l_mtu3_signals;
-> +	counter->num_signals =3D ARRAY_SIZE(rzg2l_mtu3_signals);
-> +	platform_set_drvdata(pdev, priv);
-> +
-> +	/* Register Counter device */
-> +	ret =3D devm_counter_add(dev, counter);
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "Failed to add counter\n");
-
-The Counter driver goes live with the call to devm_counter_add() so move
-it to the end after your device initialization code below.
-
-> +
-> +	priv->ch->function =3D RZG2L_MTU3_16BIT_PHASE_COUNTING;
-> +	ret =3D clk_prepare_enable(ddata->clk);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * Phase counting mode 1 will be used as default
-> +	 * when initializing counters.
-> +	 */
-> +	rzg2l_mtu3_8bit_ch_write(priv->ch, RZG2L_MTU3_TMDR1,
-> +				 RZG2L_MTU3_TMDR1_PH_CNT_MODE_1);
-> +
-> +	/* Initialize 16-bit counter max value */
-> +	rzg2l_mtu3_8bit_ch_write(priv->ch, RZG2L_MTU3_TCR,
-> +				 RZG2L_MTU3_TCR_CCLR_TGRA);
-> +	rzg2l_mtu3_16bit_ch_write(priv->ch, RZG2L_MTU3_TGRA, U16_MAX);
-> +
-> +	clk_disable(ddata->clk);
-
-Should this be moved up near the clk_prepare_enable() call above?
-
-> +MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
-> +MODULE_ALIAS("platform:rzg2l-mtu3-counter");
-> +MODULE_DESCRIPTION("Renesas RZ/G2L MTU3a counter driver");
-> +MODULE_LICENSE("GPL");
-
-Add MODULE_IMPORT_NS(COUNTER) to import the COUNTER namespace.
-
-Make sure you're based on top of the counter-next branch. You can find
-the Counter tree here: https://git.kernel.org/pub/scm/linux/kernel/git/wbg/=
-counter.git
-
-William Breathitt Gray
-
---WWAWRr4QfURyjFgV
+--LhyXKQm22sMbRxbp
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCYzeIYAAKCRC1SFbKvhIj
-K8EfAP9ZBiff/7TzJlbvOLvhigQ7YWhtKlryc3g3B5RqHnYW5wD9Hpr7/VISymx3
-lmeGUKCORZvQjtolxLt7e1XHdlcxogA=
-=zGnA
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmM34UAACgkQFA3kzBSg
+KbbDsRAAmvX22ffiiTnFr1/d7ZhmEeffxj5M63kbRDb8RkkURGBAWkAkQaJG9blt
+rKu0ueXSKCrxjVQu2ezMtFTednwwwXAMEIbjwkHEpnNLub3ZJcNzzfQaTfFGavI7
+4u1xdUHUPM4+t4KaSHCRHOqUMxF3Aieru2EHfMY6yCyaFnuecb9lfXxmz9dmjqbt
+0+74tTdJLZPiTDfA0BL1m3+njPfgNyB5gNfe0295cYOaxNuG3z7wVf4s+QQVhkPo
+oxIoDNwRc7zjSPKQDwo56FhwXIZVj9lYtPWjLGt7NQUC5tHXsQD0t2oHPXIgaS6I
+UT8dICrcXWe2DyYHi8H/QI+NzhhB96Ozl0jelMAWXKwKDDDzc3yKDi8NVZG0u6Ki
+C4h91v3+xHJDECv2q8kQpRBf4Dav3d9qQu1haGeEWpjQiQP38fJgrZEyxvlapfZ7
+RJ5tpQy7AO/Rhr3eNod+CG3e2guaBtDspSiYN62hROJLTVDXcME35L1TUzDRAr6C
+9SVq+AUh+BrSQaE7nnpdQE7Z3Lo6AY7JNacAOlYvZCmBImau6Epi6Q2FSCanMicC
+9cruWLYLw5RLLkKqrgV/2HKVJ8qyUMQ1bRZPoWwEtvAqoolfRsyXeo8eQWo97wXt
+ODby7q6Cp5d7MVwarylbEWjTEs6QZIJvNGQoLeMwFkrd54+/B9o=
+=h/pB
 -----END PGP SIGNATURE-----
 
---WWAWRr4QfURyjFgV--
+--LhyXKQm22sMbRxbp--
