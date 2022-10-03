@@ -2,280 +2,353 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ABD185F32A7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Oct 2022 17:37:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEAB25F33E0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Oct 2022 18:48:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230234AbiJCPhH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Oct 2022 11:37:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39560 "EHLO
+        id S229826AbiJCQsF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Oct 2022 12:48:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230052AbiJCPgp (ORCPT
+        with ESMTP id S229879AbiJCQsA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Oct 2022 11:36:45 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A30772EF24
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Oct 2022 08:36:39 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id u10so17196738wrq.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Oct 2022 08:36:38 -0700 (PDT)
+        Mon, 3 Oct 2022 12:48:00 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A400303EA
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Oct 2022 09:47:59 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id 70so10368161pjo.4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Oct 2022 09:47:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=XNKN62ufy1+xZwjokTiFAK6DG0fkYs2uyoDmdXUsmfk=;
-        b=joStem3d8drVJs049ako4kuE59txaO6NDwV0bfhPO1a6au6KSg1jl9JsQbZC3bw7u+
-         FD6FayZuGqdzNjFvhzr644aHDEG6eCiaS9OElKxDfveQgku8qAOD+P94IxzfUncnx8IO
-         RK+0MVu0VdhcKkFmQsLSyILE5TNyJbkDMhEFSgk6kG9xiR+G48J4fbd7Ydqu9lfNyuxm
-         tvzmrPwJsIDRpFq4+XQKhrZjD3+bkaJPRtm2Df97oP5CxhB+whhXaMyK76P9RB4KrQx9
-         WR8EWkAW9tn/Zis7k+FaXmzNAPD5b79QWJRpBzgishcYEQtk6m/FkQliHjtVn56Kmtc7
-         3OuA==
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date;
+        bh=W1HSEm9f3u0qIMXW2ATcrePLO9nczNzppEZTHrnnlWc=;
+        b=mu6SCXDxBmvHnEXcUGSBd3og/yfmcSexvMY8h5m8rZC1nlp06tGBl5BmxS1Tl8FmqH
+         Z4QjO2Yn4PEsUGsy9DueLKnxX9rZhVqoGVb5B/fsWgD+7wzdlqxhCykEdsRV6TrE9avm
+         fxGrXHU9v0VMNS+4WrKwjBa+QgNaY+RQIs1DevgqyzLc0seoZYHsP6OraHOxh+/bfpXH
+         Sb/7/S74rQUYFPjIMwGL1sftqL1xHHRU+hiUNRwD771bblwUYF+qK/2P1m+rWhQ/ecPC
+         fCWVx027q0Zr4ZVbEjblym+rBAouzt+t7jcVidz1ON3JeRBRryg18grIHB7FOHvyojrn
+         M1Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=XNKN62ufy1+xZwjokTiFAK6DG0fkYs2uyoDmdXUsmfk=;
-        b=OwYyuQlgbLdLnjb6kPeJsQPhdbp2+s0kLj8hmTd1rw72xljIF0xzCezmn9RgRR0NkN
-         xfvfIubqAT20/Lk1ILheKHkgowAUm8F0VEGF50bmGIMkDOzEh0Ht8g5LfqCzkzkwso9/
-         Bgre/bbYnYJrPO95HZYvEf8r8N0xvvvLJVZciYdUrjoeTpsU2unhTWEkZ3XTwsyJY6d8
-         JauvTQEvQcv/6i5aV1oeolEqiMbnHk9iv3Lp3D3aWfVyvgs2S6SIDlKVF8tTHKPWPuGV
-         bXwO5vi77nirUr5aNYgS5lQrdp/t6LkXPnzQ9+L1qFH5qWrCOCh4Pk9PwvIJoJGcMoBR
-         mmwQ==
-X-Gm-Message-State: ACrzQf0LSFnMBtohmU4H/Y3s58H+OsQzOjPDS5JjaGp5Cpa6+jm3L1Pj
-        S1iff/v2IQ8eDQ8x+Dapu/4jFw==
-X-Google-Smtp-Source: AMsMyM5sZ5raF+DNJ/cTSf5EVIWxvlZeClNcXX2TDk8N8PojssLE59qDPC1gOPTXuAj69kjJPYFesg==
-X-Received: by 2002:a05:6000:1c0e:b0:22e:2c39:1da6 with SMTP id ba14-20020a0560001c0e00b0022e2c391da6mr7285770wrb.588.1664811396754;
-        Mon, 03 Oct 2022 08:36:36 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:f3a:9f5e:1605:a75a? ([2a05:6e02:1041:c10:f3a:9f5e:1605:a75a])
-        by smtp.googlemail.com with ESMTPSA id v17-20020a5d43d1000000b0022e049586c5sm8599784wrr.28.2022.10.03.08.36.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Oct 2022 08:36:36 -0700 (PDT)
-Message-ID: <d8533a76-9626-dcc2-f3fb-de878d2603df@linaro.org>
-Date:   Mon, 3 Oct 2022 17:36:34 +0200
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date;
+        bh=W1HSEm9f3u0qIMXW2ATcrePLO9nczNzppEZTHrnnlWc=;
+        b=EyOFdUX7i2gGZe4mRODDuH1S+FsYL3CJryXjLiVC8pOd8g0B1VMWbCBL6u3dEYq2AM
+         uOQi2YoVDlO53pT+FR+3M2aQoqpHBK6uRVwTbkPXEksba4TZRkExNmQxKg3FDUT7p0d5
+         D93spIX+TVlF9F1s6bCoDanlZ6qTUz4Ddv7IwpGnauXqQVuS157rqbAUtiox4LrZq1xc
+         1eMyPVbwGJYan2/68eF5X4uFlqgx3xv9IH5BIrSKMSTt3117A9D66uJL0ZVazBVlF9Af
+         PjcbSj/txMAmNLK5Cr5vs5hRh9aKGPMnIvIl8sG7gq+d8sc8kZFyxuvScyGOvl8rI/HI
+         +oEg==
+X-Gm-Message-State: ACrzQf0azpMjV4PW+fOnzI/VxJIWqNepj4ENhV93a1aYOkJbW9xcY8wW
+        KedbNS/JPkuvBj1iAAfXAq/0mqIt6nAjluTwNUY=
+X-Google-Smtp-Source: AMsMyM6Ov0vGuIuQp3zM9a8lDSPN1M+ZTyuJzslFFlpukk6d9xPtbHwy2SJMjbGB28oOveX3JfjoUw==
+X-Received: by 2002:a17:902:b942:b0:178:4a7e:da04 with SMTP id h2-20020a170902b94200b001784a7eda04mr23066797pls.8.1664815678491;
+        Mon, 03 Oct 2022 09:47:58 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id d23-20020a17090a02d700b001fd7e56da4csm10324364pjd.39.2022.10.03.09.47.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Oct 2022 09:47:58 -0700 (PDT)
+Message-ID: <633b123e.170a0220.a6dad.17a3@mx.google.com>
+Date:   Mon, 03 Oct 2022 09:47:58 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v8 00/29] Rework the trip points creation
-Content-Language: en-US
-To:     Marek Szyprowski <m.szyprowski@samsung.com>, rafael@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        rui.zhang@intel.com,
-        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>, netdev@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-omap@vger.kernel.org
-References: <CGME20221003092704eucas1p2875c1f996dfd60a58f06cf986e02e8eb@eucas1p2.samsung.com>
- <20221003092602.1323944-1-daniel.lezcano@linaro.org>
- <8cdd1927-da38-c23e-fa75-384694724b1c@samsung.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <8cdd1927-da38-c23e-fa75-384694724b1c@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2022-10-03-v6.0
+X-Kernelci-Report-Type: test
+Subject: renesas/master baseline-nfs: 53 runs,
+ 7 regressions (renesas-devel-2022-10-03-v6.0)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 03/10/2022 16:10, Marek Szyprowski wrote:
-> Hi Daniel,
-> 
-> On 03.10.2022 11:25, Daniel Lezcano wrote:
->> This work is the pre-requisite of handling correctly when the trip
->> point are crossed. For that we need to rework how the trip points are
->> declared and assigned to a thermal zone.
->>
->> Even if it appears to be a common sense to have the trip points being
->> ordered, this no guarantee neither documentation telling that is the
->> case.
->>
->> One solution could have been to create an ordered array of trips built
->> when registering the thermal zone by calling the different get_trip*
->> ops. However those ops receive a thermal zone pointer which is not
->> known as it is in the process of creating it.
->>
->> This cyclic dependency shows we have to rework how we manage the trip
->> points.
->>
->> Actually, all the trip points definition can be common to the backend
->> sensor drivers and we can factor out the thermal trip structure in all
->> of them.
->>
->> Then, as we register the thermal trips array, they will be available
->> in the thermal zone structure and a core function can return the trip
->> given its id.
->>
->> The get_trip_* ops won't be needed anymore and could be removed. The
->> resulting code will be another step forward to a self encapsulated
->> generic thermal framework.
->>
->> Most of the drivers can be converted more or less easily. This series
->> does a first round with most of the drivers. Some remain and will be
->> converted but with a smaller set of changes as the conversion is a bit
->> more complex.
->>
->> Changelog:
->> v8:
->> - Pretty oneline change and parenthesis removal (Rafael)
->> - Collected tags
->> v7:
->> - Added missing return 0 in the x86_pkg_temp driver
->> v6:
->> - Improved the code for the get_crit_temp() function as suggested by
->> Rafael
->> - Removed inner parenthesis in the set_trip_temp() function and invert the
->> conditions. Check the type of the trip point is unchanged
->> - Folded patch 4 with 1
->> - Add per thermal zone info message in the bang-bang governor
->> - Folded the fix for an uninitialized variable in
->> int340x_thermal_zone_add()
->> v5:
->> - Fixed a deadlock when calling thermal_zone_get_trip() while
->> handling the thermal zone lock
->> - Remove an extra line in the sysfs change
->> - Collected tags
->> v4:
->> - Remove extra lines on exynos changes as reported by Krzysztof Kozlowski
->> - Collected tags
->> v3:
->> - Reorg the series to be git-bisect safe
->> - Added the set_trip generic function
->> - Added the get_crit_temp generic function
->> - Removed more dead code in the thermal-of
->> - Fixed the exynos changelog
->> - Fixed the error check for the exynos drivers
->> - Collected tags
->> v2:
->> - Added missing EXPORT_SYMBOL_GPL() for thermal_zone_get_trip()
->> - Removed tab whitespace in the acerhdf driver
->> - Collected tags
->>
->> Cc: Raju Rangoju <rajur@chelsio.com>
->> Cc: "David S. Miller" <davem@davemloft.net>
->> Cc: Eric Dumazet <edumazet@google.com>
->> Cc: Jakub Kicinski <kuba@kernel.org>
->> Cc: Paolo Abeni <pabeni@redhat.com>
->> Cc: Peter Kaestle <peter@piie.net>
->> Cc: Hans de Goede <hdegoede@redhat.com>
->> Cc: Mark Gross <markgross@kernel.org>
->> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
->> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
->> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
->> Cc: Amit Kucheria <amitk@kernel.org>
->> Cc: Zhang Rui <rui.zhang@intel.com>
->> Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>
->> Cc: Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>
->> Cc: Florian Fainelli <f.fainelli@gmail.com>
->> Cc: Ray Jui <rjui@broadcom.com>
->> Cc: Scott Branden <sbranden@broadcom.com>
->> Cc: Support Opensource <support.opensource@diasemi.com>
->> Cc: Lukasz Luba <lukasz.luba@arm.com>
->> Cc: Shawn Guo <shawnguo@kernel.org>
->> Cc: Sascha Hauer <s.hauer@pengutronix.de>
->> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
->> Cc: Fabio Estevam <festevam@gmail.com>
->> Cc: NXP Linux Team <linux-imx@nxp.com>
->> Cc: Thara Gopinath <thara.gopinath@linaro.org>
->> Cc: Andy Gross <agross@kernel.org>
->> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
->> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
->> Cc: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
->> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Cc: Alim Akhtar <alim.akhtar@samsung.com>
->> Cc: Thierry Reding <thierry.reding@gmail.com>
->> Cc: Jonathan Hunter <jonathanh@nvidia.com>
->> Cc: Eduardo Valentin <edubezval@gmail.com>
->> Cc: Keerthy <j-keerthy@ti.com>
->> Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
->> Cc: Masami Hiramatsu <mhiramat@kernel.org>
->> Cc: Antoine Tenart <atenart@kernel.org>
->> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
->> Cc: Dmitry Osipenko <digetx@gmail.com>
->> Cc: netdev@vger.kernel.org
->> Cc: linux-kernel@vger.kernel.org
->> Cc: platform-driver-x86@vger.kernel.org
->> Cc: linux-pm@vger.kernel.org
->> Cc: linux-rpi-kernel@lists.infradead.org
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: linux-arm-msm@vger.kernel.org
->> Cc: linux-renesas-soc@vger.kernel.org
->> Cc: linux-samsung-soc@vger.kernel.org
->> Cc: linux-tegra@vger.kernel.org
->> Cc: linux-omap@vger.kernel.org
->>
->> Daniel Lezcano (29):
->> thermal/core: Add a generic thermal_zone_get_trip() function
->> thermal/sysfs: Always expose hysteresis attributes
->> thermal/core: Add a generic thermal_zone_set_trip() function
->> thermal/core/governors: Use thermal_zone_get_trip() instead of ops
->> functions
->> thermal/of: Use generic thermal_zone_get_trip() function
->> thermal/of: Remove unused functions
->> thermal/drivers/exynos: Use generic thermal_zone_get_trip() function
->> thermal/drivers/exynos: of_thermal_get_ntrips()
->> thermal/drivers/exynos: Replace of_thermal_is_trip_valid() by
->> thermal_zone_get_trip()
->> thermal/drivers/tegra: Use generic thermal_zone_get_trip() function
->> thermal/drivers/uniphier: Use generic thermal_zone_get_trip() function
->> thermal/drivers/hisi: Use generic thermal_zone_get_trip() function
->> thermal/drivers/qcom: Use generic thermal_zone_get_trip() function
->> thermal/drivers/armada: Use generic thermal_zone_get_trip() function
->> thermal/drivers/rcar_gen3: Use the generic function to get the number
->> of trips
->> thermal/of: Remove of_thermal_get_ntrips()
->> thermal/of: Remove of_thermal_is_trip_valid()
->> thermal/of: Remove of_thermal_set_trip_hyst()
->> thermal/of: Remove of_thermal_get_crit_temp()
->> thermal/drivers/st: Use generic trip points
->> thermal/drivers/imx: Use generic thermal_zone_get_trip() function
->> thermal/drivers/rcar: Use generic thermal_zone_get_trip() function
->> thermal/drivers/broadcom: Use generic thermal_zone_get_trip() function
->> thermal/drivers/da9062: Use generic thermal_zone_get_trip() function
->> thermal/drivers/ti: Remove unused macros ti_thermal_get_trip_value() /
->> ti_thermal_trip_is_valid()
->> thermal/drivers/acerhdf: Use generic thermal_zone_get_trip() function
->> thermal/drivers/cxgb4: Use generic thermal_zone_get_trip() function
->> thermal/intel/int340x: Replace parameter to simplify
->> thermal/drivers/intel: Use generic thermal_zone_get_trip() function
-> 
-> I've tested this v8 patchset after fixing the issue with Exynos TMU with
-> https://lore.kernel.org/all/20221003132943.1383065-1-daniel.lezcano@linaro.org/
-> patch and I got the following lockdep warning on all Exynos-based boards:
->
-> ======================================================
-> WARNING: possible circular locking dependency detected
-> 6.0.0-rc1-00083-ge5c9d117223e #12945 Not tainted
-> ------------------------------------------------------
-> swapper/0/1 is trying to acquire lock:
-> c1ce66b0 (&data->lock#2){+.+.}-{3:3}, at: exynos_get_temp+0x3c/0xc8
-> 
-> but task is already holding lock:
-> c2979b94 (&tz->lock){+.+.}-{3:3}, at:
-> thermal_zone_device_update.part.0+0x3c/0x528
-> 
-> which lock already depends on the new lock.
+renesas/master baseline-nfs: 53 runs, 7 regressions (renesas-devel-2022-10-=
+03-v6.0)
 
-Investigating ...
+Regressions Summary
+-------------------
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+at91sam9g20ek                | arm   | lab-broonie   | gcc-10   | at91_dt_d=
+efconfig          | 1          =
+
+imx6dl-udoo                  | arm   | lab-broonie   | gcc-10   | imx_v6_v7=
+_defconfig        | 1          =
+
+imx6q-udoo                   | arm   | lab-broonie   | gcc-10   | imx_v6_v7=
+_defconfig        | 1          =
+
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
++videodec         | 1          =
+
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
++debug            | 1          =
+
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook | 1          =
+
+r8a77950-salvator-x          | arm64 | lab-baylibre  | gcc-10   | renesas_d=
+efconfig          | 1          =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-10-03-v6.0/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-10-03-v6.0
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      f0dbcd134f5abcdd4e2ad16bc81a158b2a23e2d9 =
 
 
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+Test Regressions
+---------------- =
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+at91sam9g20ek                | arm   | lab-broonie   | gcc-10   | at91_dt_d=
+efconfig          | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/633add7d926dcc61d8ec4ea7
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: at91_dt_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-03-v6.0/arm/at91_dt_defconfig/gcc-10/lab-broonie/baseline-nfs-at91sa=
+m9g20ek.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-03-v6.0/arm/at91_dt_defconfig/gcc-10/lab-broonie/baseline-nfs-at91sa=
+m9g20ek.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220923.1/armel/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/633add7d926dcc61d=
+8ec4ea8
+        new failure (last pass: renesas-devel-2022-09-27-v6.0-rc7) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+imx6dl-udoo                  | arm   | lab-broonie   | gcc-10   | imx_v6_v7=
+_defconfig        | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/633ae94b1ec063a04dcab5fa
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: imx_v6_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-03-v6.0/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-nfs-imx6=
+dl-udoo.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-03-v6.0/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-nfs-imx6=
+dl-udoo.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220923.1/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/633ae94b1ec063a04=
+dcab5fb
+        failing since 14 days (last pass: v6.0-rc5-843-g94f27a9ea269, first=
+ fail: renesas-devel-2022-09-19-v6.0-rc6) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+imx6q-udoo                   | arm   | lab-broonie   | gcc-10   | imx_v6_v7=
+_defconfig        | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/633aea1331da6bbc58cab5ec
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: imx_v6_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-03-v6.0/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-nfs-imx6=
+q-udoo.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-03-v6.0/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-nfs-imx6=
+q-udoo.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220923.1/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/633aea1331da6bbc5=
+8cab5ed
+        failing since 5 days (last pass: renesas-devel-2022-09-19-v6.0-rc6,=
+ first fail: renesas-devel-2022-09-27-v6.0-rc7) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
++videodec         | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/633ae58c447bda4044cab6a9
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+videodec
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-03-v6.0/arm64/defconfig+videodec/gcc-10/lab-baylibre/baseline-nfs-me=
+son-g12b-a311d-khadas-vim3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-03-v6.0/arm64/defconfig+videodec/gcc-10/lab-baylibre/baseline-nfs-me=
+son-g12b-a311d-khadas-vim3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220923.1/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/633ae58c447bda404=
+4cab6aa
+        new failure (last pass: renesas-devel-2022-09-19-v6.0-rc6) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
++debug            | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/633ae7088df975e5c3cab5f1
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+debug
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-03-v6.0/arm64/defconfig+debug/gcc-10/lab-baylibre/baseline-nfs-meson=
+-g12b-a311d-khadas-vim3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-03-v6.0/arm64/defconfig+debug/gcc-10/lab-baylibre/baseline-nfs-meson=
+-g12b-a311d-khadas-vim3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220923.1/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/633ae7088df975e5c=
+3cab5f2
+        failing since 30 days (last pass: renesas-devel-2022-08-30-v6.0-rc3=
+, first fail: renesas-devel-2022-09-02-v6.0-rc3) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/633ae0f75c6db1a6e5ec4ea9
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-03-v6.0/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseli=
+ne-nfs-mt8183-kukui-jacuzzi-juniper-sku16.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-03-v6.0/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseli=
+ne-nfs-mt8183-kukui-jacuzzi-juniper-sku16.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220923.1/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/633ae0f75c6db1a6e=
+5ec4eaa
+        failing since 48 days (last pass: renesas-devel-2022-08-11-v5.19, f=
+irst fail: renesas-devel-2022-08-16-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+r8a77950-salvator-x          | arm64 | lab-baylibre  | gcc-10   | renesas_d=
+efconfig          | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/633ade4a569f832b9fec4ea6
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: renesas_defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-03-v6.0/arm64/renesas_defconfig/gcc-10/lab-baylibre/baseline-nfs-r8a=
+77950-salvator-x.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-03-v6.0/arm64/renesas_defconfig/gcc-10/lab-baylibre/baseline-nfs-r8a=
+77950-salvator-x.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220923.1/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/633ade4a569f832b9=
+fec4ea7
+        new failure (last pass: renesas-devel-2022-09-27-v6.0-rc7) =
+
+ =20
