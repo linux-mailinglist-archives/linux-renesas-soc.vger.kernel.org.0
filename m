@@ -2,94 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AD355F2C36
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Oct 2022 10:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9BC45F2B6A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Oct 2022 10:06:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230196AbiJCInV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Oct 2022 04:43:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47690 "EHLO
+        id S230346AbiJCIGw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Oct 2022 04:06:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229949AbiJCImw (ORCPT
+        with ESMTP id S230398AbiJCIGa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Oct 2022 04:42:52 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B8BA8205CE;
-        Mon,  3 Oct 2022 01:19:13 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8CB4E139F;
-        Mon,  3 Oct 2022 00:33:12 -0700 (PDT)
-Received: from [10.57.4.29] (unknown [10.57.4.29])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B323B3F73B;
-        Mon,  3 Oct 2022 00:32:57 -0700 (PDT)
-Message-ID: <e4276afa-b6c5-8f5f-e604-92bc480714c9@arm.com>
-Date:   Mon, 3 Oct 2022 08:32:55 +0100
+        Mon, 3 Oct 2022 04:06:30 -0400
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87D9E29C8F;
+        Mon,  3 Oct 2022 00:41:39 -0700 (PDT)
+Received: by mail-qv1-xf36.google.com with SMTP id f14so2836634qvo.3;
+        Mon, 03 Oct 2022 00:41:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=PmPtBLaImy0M17k5GJ4a8BjzmR/ee8/kkmzPE3BQ0dk=;
+        b=z5e2b00JAP5Zx8ViEgB5eyp/5sDaf/6nA0hYxSESWuP/NwfIycPbQUkEEtf7opn7NM
+         7USraqldVdOdTE369rDTykHJ+7IpWJjJKrx7v7Tx5xQGWhx/tp0yitN4xF32fYnppARi
+         28AwFhHwZdCzEolzuA6knQjQYMVPYhRHt0hP+hqwjx0bNvDtYdpchi2qyjBDUAm99Fbe
+         22USNPvv2YxZcP0xaQh3MxYXhwvtssl0dOIK1gWeDPuqQsoWCM2GoDuzRebxz9rg0FQ1
+         fNC/Jm80HyYGxPsq2Ox5h22GmFuWMmrrInSJtnHbQOluQq7pmdM/YgcWVDjLGryklTU0
+         4lEQ==
+X-Gm-Message-State: ACrzQf3Zf6G14KqrxJplZs5M4iQRSh8jQy/1M4ZFYnK+4w1QXNUka7eT
+        EtG4U5WvWT1bfjyVEycjKRtbMsQ4ffotkA==
+X-Google-Smtp-Source: AMsMyM5pNi4lyaT+9EzFxYBjN4ZVJV7V7tHgH4wNDrc3fABtzI/vG2U05cSEtgkrs2kc5wlg6hslpA==
+X-Received: by 2002:ad4:5f0b:0:b0:4b1:7a60:399a with SMTP id fo11-20020ad45f0b000000b004b17a60399amr7343134qvb.101.1664782741002;
+        Mon, 03 Oct 2022 00:39:01 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id b8-20020ac844c8000000b0035d57445127sm8923604qto.47.2022.10.03.00.39.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Oct 2022 00:39:00 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id 207so8800173ybn.1;
+        Mon, 03 Oct 2022 00:39:00 -0700 (PDT)
+X-Received: by 2002:a5b:506:0:b0:6af:ffac:4459 with SMTP id
+ o6-20020a5b0506000000b006afffac4459mr17041345ybp.365.1664782740393; Mon, 03
+ Oct 2022 00:39:00 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 00/29] Rework the trip points creation
-Content-Language: en-US
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "Zhang, Rui" <rui.zhang@intel.com>,
-        Raju Rangoju <rajur@chelsio.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Peter Kaestle <peter@piie.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Antoine Tenart <atenart@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        netdev <netdev@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-rpi-kernel@lists.infradead.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Samsung SoC <linux-samsung-soc@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux OMAP Mailing List <linux-omap@vger.kernel.org>
-References: <20220928210059.891387-1-daniel.lezcano@linaro.org>
- <d0be3159-8094-aed1-d9b1-c4b16d88d67c@linaro.org>
- <CAJZ5v0hOFoe0KqEimFv9pgmiAOzuRoLjdqoScr53ErNFU4AAPA@mail.gmail.com>
- <ae86fc5a-0521-3dde-c2ea-8679c0ec4831@linaro.org>
- <CAJZ5v0jrWamTTXcHabSk=6cmm4pEx0_ebiECKZRfrX_vS85YYg@mail.gmail.com>
- <CAJZ5v0gnfK2MBuzZi-C03VVO+b4dthckJcdj3zLo3q-qAUyy_g@mail.gmail.com>
-From:   Lukasz Luba <lukasz.luba@arm.com>
-In-Reply-To: <CAJZ5v0gnfK2MBuzZi-C03VVO+b4dthckJcdj3zLo3q-qAUyy_g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=ham
+References: <20220929103043.1228235-1-biju.das.jz@bp.renesas.com>
+ <20220929103043.1228235-2-biju.das.jz@bp.renesas.com> <YzXbrZNI81f1ebBt@google.com>
+ <20220930174707.GA567190-robh@kernel.org> <YzqQdUcsvu4AJPj2@google.com>
+In-Reply-To: <YzqQdUcsvu4AJPj2@google.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 3 Oct 2022 09:38:47 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXMy0cZEhT4R+19NgrEtF8a_TqN1hXM8LZ_HvYD+oYaag@mail.gmail.com>
+Message-ID: <CAMuHMdXMy0cZEhT4R+19NgrEtF8a_TqN1hXM8LZ_HvYD+oYaag@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/7] dt-bindings: mfd: Document RZ/G2L MTU3a bindings
+To:     Lee Jones <lee@kernel.org>
+Cc:     Rob Herring <robh@kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -97,41 +73,39 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rafael and Daniel
+Hi Lee,
 
-On 9/30/22 18:39, Rafael J. Wysocki wrote:
-> On Thu, Sep 29, 2022 at 9:35 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
->>
->> On Thu, Sep 29, 2022 at 4:57 PM Daniel Lezcano
->> <daniel.lezcano@linaro.org> wrote:
->>>
->>> On 29/09/2022 15:58, Rafael J. Wysocki wrote:
->>>> On Thu, Sep 29, 2022 at 2:26 PM Daniel Lezcano
->>>> <daniel.lezcano@linaro.org> wrote:
->>>>>
->>>>>
->>>>> Hi Rafael,
->>>>>
->>>>> are you happy with the changes?
->>>>
->>>> I'll have a look and let you know.
->>>
->>> Great, thanks
->>
->> Well, because you have not added the history of changes to the
->> patches, that will take more time than it would otherwise.
-> 
-> Done.  I've sent ACKs and still had a comment on one patch (minor but
-> still).  When that is addressed, the four initial core patches should
-> be good to go in.
-> 
-> I'm trusting you regarding the thermal/of changes (even though I think
-> that it would be good if someone involved in that code could review
-> them) and if you are confident about all of the driver changes, they
-> are fine with me too.
+On Mon, Oct 3, 2022 at 9:34 AM Lee Jones <lee@kernel.org> wrote:
+> On Fri, 30 Sep 2022, Rob Herring wrote:
+> > On Thu, Sep 29, 2022 at 06:53:49PM +0100, Lee Jones wrote:
+> > > On Thu, 29 Sep 2022, Biju Das wrote:
+> > >
+> > > > The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
+> > > > the Renesas RZ/G2L family SoC's. It consists of eight 16-bit timer
+> > > > channels and one 32-bit timer channel. It supports the following
+> > > > functions
+> > > >  - Counter
+> > > >  - Timer
+> > > >  - PWM
+> > > >
+> > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Sorry for being late. I have been busy with some internal bug hunting.
-I'll check the code today and test it on my dev boards.
+> > > Not sure you need to list all of the IRQs in the example.
+> >
+> > You do, because that's what the schema says is valid.
+>
+> You have to use the exhaustive list?
 
-Regards,
-Lukasz
+Yes, else "make dt_binding_check" fails to validate the example,
+as the schema says all interrupts must be present.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
