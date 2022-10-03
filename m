@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C30C5F31D4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Oct 2022 16:18:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0FE55F31D6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Oct 2022 16:18:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbiJCOSE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Oct 2022 10:18:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33280 "EHLO
+        id S229779AbiJCOSF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Oct 2022 10:18:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbiJCOSA (ORCPT
+        with ESMTP id S229646AbiJCOSA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Mon, 3 Oct 2022 10:18:00 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C00DF4CA33
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Oct 2022 07:17:59 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id w2so10344926pfb.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Oct 2022 07:17:59 -0700 (PDT)
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E3284CA38
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Oct 2022 07:18:00 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id v1so9802333plo.9
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Oct 2022 07:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:from:to:cc:subject:date;
-        bh=p8fYKgqgGQ+x+gagBAsd70Q/v8gz4OF1qDXYjQiJrXA=;
-        b=5yhVcsbzc8b0QkD1pgPAjXseV5joF0zPOvoX38f5QPmlanUt41bkVFsHbMM9Dg+6uu
-         6OEhqTkkQH9RY7i05JDuS8aSgp5h4y6ibTnj7DBs6LGq3qItenkqIpANnILrNk8MXJ0P
-         vU1NLet7E/oieV49W65S71VRVai7QQjHuhUoWTjSlNSZA5c80Qt1LweMcoPDUMPWwd0/
-         e5VcImcnjV2GLV01bOH0Jr99rr/AlyrpnK2CM6r1iEGFcEyf3TPoldSqxqzd2IQb/J3D
-         1w2iwcLAtyHswvPRxjkKge5naLN0bcE9ddQN6QHap9A1Tos4COK2puzrWzRx/sm0Mcm/
-         dcsw==
+        bh=FE3x9oWjgQIhSjemNwQPCWN71EcG+DAcFtRM70fXPVU=;
+        b=UPThKiYQjLsktCzXpsVkbUVL4FS7IixqZLbK0SAiPs5uwW+Tb2j2/SNaYhtLye5xAP
+         HDd9Xj+OhMmzwOSA6TFuHHrjD2ZCuSW2AyMq31gvPxr1fo9++tSSWijNse5/0EWZn0KQ
+         6wtWl8qmTQLnKu1+6rQHfheGd5p8yKIDzZRROBD0ZXZsGB/CkbHORqZoUrapxMeHhJ6U
+         w65RrZInLpGBCaQmIyKO0JoV1SMZ1JBiNIVUFNCQbPFs1bdI8RhkKBVoHNZvutO5RH3m
+         KKO5d6hbulOa7/cjz3ZTHly5fV+6cDZy2zfifXzfhNpQwTMK1o+PngPuB7TCcd5RSotT
+         gjgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date;
-        bh=p8fYKgqgGQ+x+gagBAsd70Q/v8gz4OF1qDXYjQiJrXA=;
-        b=LVGV9Vg3ZZiOzY0v5a2F+L+JJJC1pio6SfUAeasAlBg/px32ODmCRI//C0opwAKC5Z
-         zTnhDSm+jMC22nYLIE3eaBubb7siCm1olrSXjPWinKyqV42R6GkW8s+jIGPnfV8VX+im
-         kDYJ+XFs7F0fESzEbS4uKaa8MMgMzPYO+3d1K9c8sqPwd0OIDWX4dPc39PkFInzJqNoX
-         udMkHYX4+6aR5Cxq2wIZk0a2jjF65rjRQ2WMQEOlXsSV1FOXyN9QhEbtMT8Dk6ssiSNd
-         5kDCpD0+oK2vUDlM/Kbh8cgsKw9tD/mBM+nR3Oed/TbNrcq808qYwzPCnva41JUYnDEz
-         wOZw==
-X-Gm-Message-State: ACrzQf24rU0NxfAqt8HuJVdqDxFoq2xtVL/0BavvtF9LoDyuO1/XzPLj
-        4k3SGVVh9QLpQ6At1P3E0oP/85zt/sdg5IBmphU=
-X-Google-Smtp-Source: AMsMyM4Lq2IkswgkbjsV8gmoGi3kbFIONuYTtvEK6KWv1gfNN93jkirYdq62kwJh4f/gz2T0T5KTBw==
-X-Received: by 2002:a63:4e18:0:b0:43c:2fc7:2eea with SMTP id c24-20020a634e18000000b0043c2fc72eeamr19442189pgb.119.1664806679140;
+        bh=FE3x9oWjgQIhSjemNwQPCWN71EcG+DAcFtRM70fXPVU=;
+        b=xpser+tVnt9JN87b5Bs6qSSy5JiSbqHT1fMgt3BxraPjTc/LxCCcpWxlfHT2oDsKpu
+         o9vPtqtR2vg/vRzvB6vE4ZB48j7/cPfAtwSbjkQOiKgUYqULJ4P3wEyCOV1oFYszDDdX
+         1BdsoxbPbUb2UDMajacwmsQyAuipMTS9gbJyWuKeH6NptlNnouXvn3Qqe3458H03udFy
+         fK72O1pwrfjMxVXHmVPRl6dk6igGfsvFP900GQYIImsUENKQmTHwUyUKOPIdquLwzj+o
+         d+LRC3hMYMw8rNYKNdja61BEDM4ma2sw8E0BE301kSOq7kQMuQlH5WY+giaQHDLWdk+b
+         C/Rg==
+X-Gm-Message-State: ACrzQf3vZa+XJzauB6pRXU2jzHQxMCk7vkcDGeUkL0qRp+dipNEPXEJ9
+        J6LxxZutYaKshZPMOiNL4iPj9uRIfyooEwosac0=
+X-Google-Smtp-Source: AMsMyM774GjNje/nLL3cfVXmMPmPj6Sqp6td7E6zoL1SsmtFXPoO4ZOgkIYhA6oK3XJ54TNag9lv/g==
+X-Received: by 2002:a17:902:e884:b0:178:2065:5c29 with SMTP id w4-20020a170902e88400b0017820655c29mr22795857plg.114.1664806679478;
         Mon, 03 Oct 2022 07:17:59 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id b2-20020a170902d50200b0016d9b101413sm7272116plg.200.2022.10.03.07.17.58
+        by smtp.gmail.com with ESMTPSA id n9-20020a635909000000b00439f027789asm6703446pgb.59.2022.10.03.07.17.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 07:17:58 -0700 (PDT)
-Message-ID: <633aef16.170a0220.dd41f.c202@mx.google.com>
-Date:   Mon, 03 Oct 2022 07:17:58 -0700 (PDT)
+        Mon, 03 Oct 2022 07:17:59 -0700 (PDT)
+Message-ID: <633aef17.630a0220.fb21c.b360@mx.google.com>
+Date:   Mon, 03 Oct 2022 07:17:59 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -57,8 +57,8 @@ X-Kernelci-Branch: master
 X-Kernelci-Tree: renesas
 X-Kernelci-Kernel: renesas-devel-2022-10-03-v6.0
 X-Kernelci-Report-Type: test
-Subject: renesas/master cros-ec: 8 runs,
- 4 regressions (renesas-devel-2022-10-03-v6.0)
+Subject: renesas/master igt-gpu-panfrost: 1 runs,
+ 1 regressions (renesas-devel-2022-10-03-v6.0)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -70,27 +70,24 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master cros-ec: 8 runs, 4 regressions (renesas-devel-2022-10-03-v6.=
-0)
+renesas/master igt-gpu-panfrost: 1 runs, 1 regressions (renesas-devel-2022-=
+10-03-v6.0)
 
 Regressions Summary
 -------------------
 
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
-
-rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook   | 2          =
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
 
 
   Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2022-10-03-v6.0/plan/cros-ec/
+sas-devel-2022-10-03-v6.0/plan/igt-gpu-panfrost/
 
-  Test:     cros-ec
+  Test:     igt-gpu-panfrost
   Tree:     renesas
   Branch:   master
   Describe: renesas-devel-2022-10-03-v6.0
@@ -99,10 +96,12 @@ evel.git
   SHA:      f0dbcd134f5abcdd4e2ad16bc81a158b2a23e2d9
 
   Test suite revisions:
-    cros-ec-tests
-      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/cros-ec-tests.git
-      SHA:  86181a7fbd379fc42314c450740d2cea8cdf04c1 =
+    drm
+      URL:  git://anongit.freedesktop.org/mesa/drm
+      SHA:  474894ed17a037a464e5bd845a0765a50f647898
+    igt-gpu-tools
+      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
+      SHA:  dcb1d7a8822e62935f4fe3f2e6a04caaee669369 =
 
 
 
@@ -111,113 +110,55 @@ Test Regressions
 
 
 
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/633adbd97e05a830bbec4eaa
+  Details:     https://kernelci.org/test/plan/id/633ae3943d4559d437cab607
 
-  Results:     5 PASS, 2 FAIL, 12 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-10-03-v6.0/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora/=
-cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-10-03-v6.0/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora/=
-cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220923.1/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
-3adbd97e05a830bbec4ebb
-        failing since 48 days (last pass: renesas-devel-2022-08-11-v5.19, f=
-irst fail: renesas-devel-2022-08-16-v6.0-rc1) =
-
-
-  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
-33adbd97e05a830bbec4ebd
-        failing since 48 days (last pass: renesas-devel-2022-08-11-v5.19, f=
-irst fail: renesas-devel-2022-08-16-v6.0-rc1)
-
-    2022-10-03T12:55:37.173078  / # =
-
-    2022-10-03T12:55:37.177766  =
-
-    2022-10-03T12:55:37.279469  / # #
-    2022-10-03T12:55:37.283861  #
-    2022-10-03T12:55:37.384873  / # export SHELL=3D/bin/sh
-    2022-10-03T12:55:37.389396  export SHELL=3D/bin/sh
-    2022-10-03T12:55:37.490333  / # . /lava-7483784/environment
-    2022-10-03T12:55:37.495138  . /lava-7483784/environment
-    2022-10-03T12:55:37.596091  / # /lava-7483784/bin/lava-test-runner /lav=
-a-7483784/0
-    2022-10-03T12:55:37.600806  /lava-7483784/bin/lava-test-runner /lava-74=
-83784/0 =
-
-    ... (7 line(s) more)  =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-rk3399-gru-kevin             | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm64-chromebook   | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/633ae313861e74b354cab5ec
-
-  Results:     5 PASS, 2 FAIL, 12 SKIP
+  Results:     15 PASS, 2 FAIL, 0 SKIP
   Full config: defconfig+arm64-chromebook
   Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
 110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-10-03-v6.0/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cros-e=
-c-rk3399-gru-kevin.txt
+022-10-03-v6.0/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/igt-gp=
+u-panfrost-rk3399-gru-kevin.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-10-03-v6.0/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cros-e=
-c-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20220923.1/arm64/rootfs.cpio.gz =
+022-10-03-v6.0/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/igt-gp=
+u-panfrost-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-ig=
+t/20220923.1/arm64/rootfs.cpio.gz =
 
 
 
-  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
-3ae313861e74b354cab5fd
-        failing since 48 days (last pass: renesas-devel-2022-08-11-v5.19, f=
-irst fail: renesas-devel-2022-08-16-v6.0-rc1) =
+  * igt-gpu-panfrost.panfrost_submit.pan-unhandled-pagefault: https://kerne=
+lci.org/test/case/id/633ae3943d4559d437cab610
+        new failure (last pass: renesas-devel-2022-09-27-v6.0-rc7)
 
+    2022-10-03T13:28:47.818455  <8>[   26.854475] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dpan-submit-and-close RESULT=3Dpass>
+    2022-10-03T13:28:47.857768  <6>[   26.895925] Console: switching to col=
+our dummy device 80x25
+    2022-10-03T13:28:47.862871  <14>[   26.902982] [IGT] panfrost_submit: e=
+xecuting
+    2022-10-03T13:28:47.868956  IGT-Version: 1.26-gdcb1d7a (aarch64) (Linux=
+: 6.0.0 aarch64)
+    2022-10-03T13:28:47.885974  <14>[   26.922457] [IGT] panfrost_submit: s=
+tarting subtest pan-unhandled-pagefault
+    2022-10-03T13:28:47.889664  Starting subtest: pan-unhandled-pagefault
+    2022-10-03T13:28:48.005957  (panfrost_submit:349) CRITICAL: Test assert=
+ion failure function __igt_unique____real_main65, file ../tests/panfrost_su=
+bmit.c:178<14>[   27.042003] [IGT] panfrost_submit: exiting, ret=3D98
+    2022-10-03T13:28:48.006273  :
+    2022-10-03T13:28:48.019838  (panfrost_submit:349) CRITICAL: Failed asse=
+rtion: syncobj_wait(fd, &submit->args->out_sync, 1, abs_timeout(SHORT_TIME_=
+NSEC), 0, NULL)
+    2022-10-03T13:28:48.021541  Stack trace: =
 
-  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
-33ae313861e74b354cab5ff
-        failing since 48 days (last pass: renesas-devel-2022-08-11-v5.19, f=
-irst fail: renesas-devel-2022-08-16-v6.0-rc1)
-
-    2022-10-03T13:26:27.163716  / # =
-
-    2022-10-03T13:26:27.166445  =
-
-    2022-10-03T13:26:27.269827  / # #
-    2022-10-03T13:26:27.272375  #
-    2022-10-03T13:26:27.375273  / # export SHELL=3D/bin/sh
-    2022-10-03T13:26:27.376861  export SHELL=3D/bin/sh
-    2022-10-03T13:26:27.479814  / # . /lava-7484091/environment
-    2022-10-03T13:26:27.481931  . /lava-7484091/environment
-    2022-10-03T13:26:27.585256  / # /lava-7484091/bin/lava-test-runner /lav=
-a-7484091/0
-    2022-10-03T13:26:27.587369  /lava-7484091/bin/lava-test-runner /lava-74=
-84091/0 =
-
-    ... (8 line(s) more)  =
+    ... (15 line(s) more)  =
 
  =20
