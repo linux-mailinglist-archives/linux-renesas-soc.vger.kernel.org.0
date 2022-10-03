@@ -2,288 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 140055F2FE1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Oct 2022 13:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C04465F3040
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Oct 2022 14:26:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbiJCL4c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Oct 2022 07:56:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53396 "EHLO
+        id S229470AbiJCM0V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Oct 2022 08:26:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbiJCL43 (ORCPT
+        with ESMTP id S229480AbiJCM0U (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Oct 2022 07:56:29 -0400
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C30D4F1A5;
-        Mon,  3 Oct 2022 04:56:28 -0700 (PDT)
-Received: by mail-qk1-f175.google.com with SMTP id k12so6355263qkj.8;
-        Mon, 03 Oct 2022 04:56:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WitNOf6WBeNmu77lsn7kACwTyf0tIcs7nBCxwgdcQsc=;
-        b=JblJdVZJHNu6dAYBd986ggG1XshqKu8jN1X+Qn2hlyLhPN2gS8TNzbZtbaNFNjDzcv
-         EtLliRJuX+F7coOo30/Gz1iuALGngevAgNUuNAdIrSBVGTEGui87K3UYIuA5e2whJoIo
-         YZoRVWjGSJOtVqpV5mRuv9PNPkJLGaTLhvbrib9u1xEtS1bqGI1aDIQiANXk0yHOOQds
-         kdnD2elzyBnFlY4ioj2Li2n4un8Q3j/T0NjgDOoQlllUClVdsZ1AYsjafjrOr9iNftog
-         1/1tdRWufXIiCzkPJjobiHrgAMieARYDijI6vz4NpU6xzCaN05JgRUMhN4/mBc6JyoWd
-         7d8w==
-X-Gm-Message-State: ACrzQf3kTj098frc7SX25UM5LpS63QIKdIflauM+RFYJY8QtL66c+tNx
-        u0suCzAEHebQ8P8SeMhVxBcIf7YV0RuYjoZNdhY=
-X-Google-Smtp-Source: AMsMyM6gK4Lpk9U29mVa1xe8BWRFfH9VFbqDWp91XeWepB1sC9vs6HtLeg7T4HHwhuWsguU1iWWGBGWooT36YUjNN0U=
-X-Received: by 2002:a37:a907:0:b0:6cb:be29:ac72 with SMTP id
- s7-20020a37a907000000b006cbbe29ac72mr13323935qke.505.1664798187356; Mon, 03
- Oct 2022 04:56:27 -0700 (PDT)
+        Mon, 3 Oct 2022 08:26:20 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F39A32D87
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Oct 2022 05:26:19 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BE4D7440;
+        Mon,  3 Oct 2022 14:26:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1664799978;
+        bh=l6kAghhGQzoT10LBUDIpg2R8/PADqRlHOE6BOq1ZWqM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cPR1NQ27vHQJnq125N5WiyNnGLnP7p/LaHoCjVegQQWlcxX8ttHLe+L8XobMXUvLy
+         MpAVNGwWyTRjM62aNTIeDRRMxuGk0H/cuwTBbxdXsqxI85Ld0WZa2cQgK8B7MaTWj9
+         DH7dA2kxeZLJfzjLy22jeIq0M3xMG9ygMYiTc+qk=
+Date:   Mon, 3 Oct 2022 15:26:15 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH] drm: rcar-du: Fix Kconfig dependency between RCAR_DU and
+ RCAR_MIPI_DSI
+Message-ID: <YzrU51q/k4+DgaMK@pendragon.ideasonboard.com>
+References: <20221001220342.5828-1-laurent.pinchart+renesas@ideasonboard.com>
+ <b1425f66-29cf-ce13-fe29-895cd2140c77@ideasonboard.com>
+ <CAMuHMdUV7TY=mfTS6ShOqPbT8JAC-nQFmUWdsyGtP86Op+0SaQ@mail.gmail.com>
+ <37521172-d358-ff90-682b-ffe66effd063@ideasonboard.com>
 MIME-Version: 1.0
-References: <20221003092602.1323944-1-daniel.lezcano@linaro.org> <20221003092602.1323944-4-daniel.lezcano@linaro.org>
-In-Reply-To: <20221003092602.1323944-4-daniel.lezcano@linaro.org>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 3 Oct 2022 13:56:16 +0200
-Message-ID: <CAJZ5v0jjHH1S=+i2i=TOERtgEmxFmm_SAJBXEwoJunQATH3pLQ@mail.gmail.com>
-Subject: Re: [PATCH v8 03/29] thermal/core: Add a generic thermal_zone_set_trip()
- function
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     rafael@kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, rui.zhang@intel.com,
-        Raju Rangoju <rajur@chelsio.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Peter Kaestle <peter@piie.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Thara Gopinath <thara.gopinath@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Antoine Tenart <atenart@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Dmitry Osipenko <digetx@gmail.com>, netdev@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-omap@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <37521172-d358-ff90-682b-ffe66effd063@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 3, 2022 at 11:26 AM Daniel Lezcano
-<daniel.lezcano@linaro.org> wrote:
->
-> The thermal zone ops defines a set_trip callback where we can invoke
-> the backend driver to set an interrupt for the next trip point
-> temperature being crossed the way up or down, or setting the low level
-> with the hysteresis.
->
-> The ops is only called from the thermal sysfs code where the userspace
-> has the ability to modify a trip point characteristic.
->
-> With the effort of encapsulating the thermal framework core code,
-> let's create a thermal_zone_set_trip() which is the writable side of
-> the thermal_zone_get_trip() and put there all the ops encapsulation.
->
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+Hi Tomi,
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+On Mon, Oct 03, 2022 at 10:31:24AM +0300, Tomi Valkeinen wrote:
+> On 03/10/2022 10:01, Geert Uytterhoeven wrote:
+> > On Mon, Oct 3, 2022 at 8:56 AM Tomi Valkeinen wrote:
+> >> On 02/10/2022 01:03, Laurent Pinchart wrote:
+> >>> When the R-Car MIPI DSI driver was added, it was a standalone encoder
+> >>> driver without any dependency to or from the R-Car DU driver. Commit
+> >>> 957fe62d7d15 ("drm: rcar-du: Fix DSI enable & disable sequence") then
+> >>> added a direct call from the DU driver to the MIPI DSI driver, without
+> >>> updating Kconfig to take the new dependency into account. Fix it the
+> >>> same way that the LVDS encoder is handled.
+> >>>
+> >>> Fixes: 957fe62d7d15 ("drm: rcar-du: Fix DSI enable & disable sequence")
+> >>> Reported-by: kernel test robot <lkp@intel.com>
+> >>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> >>> ---
+> >>>    drivers/gpu/drm/rcar-du/Kconfig | 13 +++++++++----
+> >>>    1 file changed, 9 insertions(+), 4 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> >>> index c959e8c6be7d..fd2c2eaee26b 100644
+> >>> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> >>> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> >>> @@ -44,12 +44,17 @@ config DRM_RCAR_LVDS
+> >>>        select OF_FLATTREE
+> >>>        select OF_OVERLAY
+> >>>
+> >>> +config DRM_RCAR_USE_MIPI_DSI
+> >>> +     bool "R-Car DU MIPI DSI Encoder Support"
+> >>> +     depends on DRM_BRIDGE && OF
+> >>> +     default DRM_RCAR_DU
+> >>> +     help
+> >>> +       Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
+> >>> +
+> >>>    config DRM_RCAR_MIPI_DSI
+> >>> -     tristate "R-Car DU MIPI DSI Encoder Support"
+> >>> -     depends on DRM && DRM_BRIDGE && OF
+> >>> +     def_tristate DRM_RCAR_DU
+> >>> +     depends on DRM_RCAR_USE_MIPI_DSI
+> >>>        select DRM_MIPI_DSI
+> >>> -     help
+> >>> -       Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
+> >>>
+> >>>    config DRM_RCAR_VSP
+> >>>        bool "R-Car DU VSP Compositor Support" if ARM
+> >>>
+> >>> base-commit: 7860d720a84c74b2761c6b7995392a798ab0a3cb
+> >>
+> >> Interesting dependency issue. Took me a while to understand it =).
+> >>
+> >> But is there a reason to not have "depends on DRM_RCAR_DU" for
+> >> DRM_RCAR_USE_MIPI_DSI and DRM_RCAR_USE_LVDS? Now the menu items are
+> >> available even if RCAR_DU is n. That's also the case for
+> >> DRM_RCAR_DW_HDMI, but I'm not sure if that's supposed to be usable even
+> >> without RCAR_DU.
+> > 
+> > See
+> > https://lore.kernel.org/linux-renesas-soc/cover.1639559338.git.geert+renesas@glider.be/
+> > 
+> > Didn't get to implement the suggested improvements yet...
+> 
+> Ok, looks good.
+> 
+> But I started to wonder, for LVDS and DSI (maybe for HDMI too), what's 
+> the point of modules here...
+> 
+> If RCAR_DU, LVDS and DSI are compiled as modules, you can load either 
+> LVDS or DSI module, but those won't do anything alone. So in practice 
+> you always need to load RCAR_DU module too. But if LVDS or DSI are 
+> enabled in the kconfig, you _have_ to load those before RCAR_DU.
+> 
+> In other words, you can never, e.g. load RCAR_DU and LVDS, but not DSI, 
+> if all three are enabled.
+> 
+> So why not just compile LVDS and DSI into the RCAR_DU module, 
+> simplifying the dependencies, removing this issue altogether?
 
-> ---
->  V8:
->    - pretty one line condition and parenthesis removal (Rafael J. Wysocki)
-> ---
->  drivers/thermal/thermal_core.c  | 46 +++++++++++++++++++++++++++++
->  drivers/thermal/thermal_sysfs.c | 52 +++++++++++----------------------
->  include/linux/thermal.h         |  3 ++
->  3 files changed, 66 insertions(+), 35 deletions(-)
->
-> diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
-> index 16ef91dc102f..3a9915824e67 100644
-> --- a/drivers/thermal/thermal_core.c
-> +++ b/drivers/thermal/thermal_core.c
-> @@ -1211,6 +1211,52 @@ int thermal_zone_get_trip(struct thermal_zone_device *tz, int trip_id,
->  }
->  EXPORT_SYMBOL_GPL(thermal_zone_get_trip);
->
-> +int thermal_zone_set_trip(struct thermal_zone_device *tz, int trip_id,
-> +                         const struct thermal_trip *trip)
-> +{
-> +       struct thermal_trip t;
-> +       int ret = -EINVAL;
-> +
-> +       mutex_lock(&tz->lock);
-> +
-> +       if (!tz->ops->set_trip_temp && !tz->ops->set_trip_hyst && !tz->trips)
-> +               goto out;
-> +
-> +       ret = __thermal_zone_get_trip(tz, trip_id, &t);
-> +       if (ret)
-> +               goto out;
-> +
-> +       if (t.type != trip->type) {
-> +               ret = -EINVAL;
-> +               goto out;
-> +       }
-> +
-> +       if (t.temperature != trip->temperature && tz->ops->set_trip_temp) {
-> +               ret = tz->ops->set_trip_temp(tz, trip_id, trip->temperature);
-> +               if (ret)
-> +                       goto out;
-> +       }
-> +
-> +       if (t.hysteresis != trip->hysteresis && tz->ops->set_trip_hyst) {
-> +               ret = tz->ops->set_trip_hyst(tz, trip_id, trip->hysteresis);
-> +               if (ret)
-> +                       goto out;
-> +       }
-> +
-> +       if (tz->trips && (t.temperature != trip->temperature || t.hysteresis != trip->hysteresis))
-> +               tz->trips[trip_id] = *trip;
-> +out:
-> +       mutex_unlock(&tz->lock);
-> +
-> +       if (!ret) {
-> +               thermal_notify_tz_trip_change(tz->id, trip_id, trip->type,
-> +                                             trip->temperature, trip->hysteresis);
-> +               thermal_zone_device_update(tz, THERMAL_TRIP_CHANGED);
-> +       }
-> +
-> +       return ret;
-> +}
-> +
->  /**
->   * thermal_zone_device_register_with_trips() - register a new thermal zone device
->   * @type:      the thermal zone device type
-> diff --git a/drivers/thermal/thermal_sysfs.c b/drivers/thermal/thermal_sysfs.c
-> index 6c45194aaabb..8d7b25ab67c2 100644
-> --- a/drivers/thermal/thermal_sysfs.c
-> +++ b/drivers/thermal/thermal_sysfs.c
-> @@ -115,32 +115,19 @@ trip_point_temp_store(struct device *dev, struct device_attribute *attr,
->         struct thermal_trip trip;
->         int trip_id, ret;
->
-> -       if (!tz->ops->set_trip_temp && !tz->trips)
-> -               return -EPERM;
-> -
->         if (sscanf(attr->attr.name, "trip_point_%d_temp", &trip_id) != 1)
->                 return -EINVAL;
->
-> -       if (kstrtoint(buf, 10, &trip.temperature))
-> -               return -EINVAL;
-> -
-> -       if (tz->ops->set_trip_temp) {
-> -               ret = tz->ops->set_trip_temp(tz, trip_id, trip.temperature);
-> -               if (ret)
-> -                       return ret;
-> -       }
-> -
-> -       if (tz->trips)
-> -               tz->trips[trip_id].temperature = trip.temperature;
-> -
->         ret = thermal_zone_get_trip(tz, trip_id, &trip);
->         if (ret)
->                 return ret;
->
-> -       thermal_notify_tz_trip_change(tz->id, trip_id, trip.type,
-> -                                     trip.temperature, trip.hysteresis);
-> +       if (kstrtoint(buf, 10, &trip.temperature))
-> +               return -EINVAL;
->
-> -       thermal_zone_device_update(tz, THERMAL_EVENT_UNSPECIFIED);
-> +       ret = thermal_zone_set_trip(tz, trip_id, &trip);
-> +       if (ret)
-> +               return ret;
->
->         return count;
->  }
-> @@ -168,29 +155,24 @@ trip_point_hyst_store(struct device *dev, struct device_attribute *attr,
->                       const char *buf, size_t count)
->  {
->         struct thermal_zone_device *tz = to_thermal_zone(dev);
-> -       int trip, ret;
-> -       int temperature;
-> -
-> -       if (!tz->ops->set_trip_hyst)
-> -               return -EPERM;
-> +       struct thermal_trip trip;
-> +       int trip_id, ret;
->
-> -       if (sscanf(attr->attr.name, "trip_point_%d_hyst", &trip) != 1)
-> +       if (sscanf(attr->attr.name, "trip_point_%d_hyst", &trip_id) != 1)
->                 return -EINVAL;
->
-> -       if (kstrtoint(buf, 10, &temperature))
-> -               return -EINVAL;
-> +       ret = thermal_zone_get_trip(tz, trip_id, &trip);
-> +       if (ret)
-> +               return ret;
->
-> -       /*
-> -        * We are not doing any check on the 'temperature' value
-> -        * here. The driver implementing 'set_trip_hyst' has to
-> -        * take care of this.
-> -        */
-> -       ret = tz->ops->set_trip_hyst(tz, trip, temperature);
-> +       if (kstrtoint(buf, 10, &trip.hysteresis))
-> +               return -EINVAL;
->
-> -       if (!ret)
-> -               thermal_zone_set_trips(tz);
-> +       ret = thermal_zone_set_trip(tz, trip_id, &trip);
-> +       if (ret)
-> +               return ret;
->
-> -       return ret ? ret : count;
-> +       return count;
->  }
->
->  static ssize_t
-> diff --git a/include/linux/thermal.h b/include/linux/thermal.h
-> index feb8b61df746..66373f872237 100644
-> --- a/include/linux/thermal.h
-> +++ b/include/linux/thermal.h
-> @@ -338,6 +338,9 @@ static inline void devm_thermal_of_zone_unregister(struct device *dev,
->  int thermal_zone_get_trip(struct thermal_zone_device *tz, int trip_id,
->                           struct thermal_trip *trip);
->
-> +int thermal_zone_set_trip(struct thermal_zone_device *tz, int trip_id,
-> +                         const struct thermal_trip *trip);
-> +
->  int thermal_zone_get_num_trips(struct thermal_zone_device *tz);
->
->  int thermal_zone_get_crit_temp(struct thermal_zone_device *tz, int *temp);
-> --
-> 2.34.1
->
+Patches are welcome :-) I'd do that for v6.2 though, not as a v6.1 fix.
+
+-- 
+Regards,
+
+Laurent Pinchart
