@@ -2,202 +2,305 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A56445F2D0F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Oct 2022 11:24:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C2B55F2D1E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Oct 2022 11:26:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229650AbiJCJYI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Oct 2022 05:24:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49298 "EHLO
+        id S230135AbiJCJ0l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Oct 2022 05:26:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbiJCJYG (ORCPT
+        with ESMTP id S230075AbiJCJ0e (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Oct 2022 05:24:06 -0400
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-eopbgr150089.outbound.protection.outlook.com [40.107.15.89])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C030A31DCA
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Oct 2022 02:24:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=DOHBAH4ylBHwKsdsrZ4p7q0ypAz2mNoOYwt1V9tyH1Z/WjxwY1zNCrpwwpsVPFBWopb2+MlryNuFL6ZM8wkK0EkukDQorcWeWkyuFq3etFZrKZ59qftdOEy8wyIK0K1JgYaZhTIt/2o2e7WGcFKf/+AbnkxTXZD3o3X09YdNHyNFm2KeQpkNwedAmrMZnoIMOPLFmuA4oH8gkx/u/4hMLgiSKLJtBmstTBcMcI2AVnQbSHEgmFSIbi3Oq2t+Yyx/2Q6iHiZjpaPwHLwi2lhhS+MlZuu8ymZP5Gjc9kn+TV0PO74B5XMFELs3dUnvpGRjWPG+UZlRGIftW00AL6M2zg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lFbSuKyJ+vkGrUKrkzdrgGvo7KLwfgauRBHjcomDaUg=;
- b=bRPhc77VTv5FuwsYocx74VjwIkwfkFJBvAlLssTGciiGAUhE7QQwxFG+zv0ypIqmFWNJtl78jPnrlVHL6codsqqBrqE3txecbBLm9owL2FpyYl3QtMEm5fCC6cPNqh7lN6Kmr2zQxmTqnFFe3+/E5yw0YNi3kAQaQbEhF4tHPXMr0kEBfnZGROAjQCtOy+amIZFsWCN3vWL4ZE8W+9abOO9Vq+jv7V9ljKyj9sNoXoojADfHCFcnQa4KVa2IeQch43SZD5qWhU6LAlRcB2EudQTHdJpKYBSnl02yx9IfA7f1kLzaTnlDzAdxGw1AVeoz+gC9AzLOpdcyoVVWmaGvwA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lFbSuKyJ+vkGrUKrkzdrgGvo7KLwfgauRBHjcomDaUg=;
- b=WwcWvtNatGOe6kdDPeWrcRNgygNfxmGOXXxuKP3e7v4VRE1U3wOrv7rAD7L+RsbDRS9JlucZPajnlJJKbQapfLMpQ7p0fIucHEXM4VEnFFk2qflMAzZn63s17uTKk1ERT5WlqgAdOkLmV/8E6IKj5S6B9TcuHa921ZIYV5eSYaA=
-Received: from DU2PR04CA0153.eurprd04.prod.outlook.com (2603:10a6:10:2b0::8)
- by GVXPR08MB8211.eurprd08.prod.outlook.com (2603:10a6:150:17::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.26; Mon, 3 Oct
- 2022 09:23:57 +0000
-Received: from DBAEUR03FT005.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:2b0:cafe::75) by DU2PR04CA0153.outlook.office365.com
- (2603:10a6:10:2b0::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.30 via Frontend
- Transport; Mon, 3 Oct 2022 09:23:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT005.mail.protection.outlook.com (100.127.142.81) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5676.17 via Frontend Transport; Mon, 3 Oct 2022 09:23:56 +0000
-Received: ("Tessian outbound 937eed45f6ed:v128"); Mon, 03 Oct 2022 09:23:56 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 95d2e9fab833515b
-X-CR-MTA-TID: 64aa7808
-Received: from 0914d38d10af.1
-        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 3584CC39-49E2-4C54-86A2-0816EA81A934.1;
-        Mon, 03 Oct 2022 09:23:50 +0000
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 0914d38d10af.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 03 Oct 2022 09:23:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ETii1YylNTP9VhnRpDFX1GOiCw8bQqaJqx6cJfk98mue0sRC7EH+31ggKU7piWZEowqUFtHUC/zIu4VTpiqXndntdoMqCnP68FEJ6MnPcn3UBn3CeZFAbQFp3rlojJxtyNHJXhLR54GOOhdWSovfz/oVzxuPdWf1QT9nSTXNlyT6jprvCLg5ylzfVoFvWtUOLdJSFlihrtV2fvawbCuKOUrxUgbOfPKMo2oCwhssa8yuesovQwRIcIES6KUQAVkYWbwwbPgaU51u9nxwi3WDvarwDIhkLs/PCs4faC4HxtbhVu0BrkgfnRMU3KSNvKzzVeVP0g9EpTodiK1avtPFSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lFbSuKyJ+vkGrUKrkzdrgGvo7KLwfgauRBHjcomDaUg=;
- b=WZatIuhFJ2d715fQvS7b0fWQ9S9sc409lL9x8LaXnTavzRl3OTo/g8UbVR3OjeKtXfm3KmY0O9GHyxv3uQi2NGseZW7/+gVvvYqxMuybkm2sPMLRbyS4hkz7MceYJyyusXlZjbInJu75C49zCM5JgJwMhSJL728Zk+s/33Gy1GMaeYvCpbpWcIUarXFcgXUKJ04QOLIMNBw+MIRuvIfujkieLMA75Ojnt+0tSr4fkgJSjCDRMl4GGpn2u7PR6FLhDsNwhezMbI1LAicknvrISxSOneMtV+FzT4pDdzCak7F4t9tb1EKezw8LaTu1gyKYwptgW9EVDGuk305/EeUwKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lFbSuKyJ+vkGrUKrkzdrgGvo7KLwfgauRBHjcomDaUg=;
- b=WwcWvtNatGOe6kdDPeWrcRNgygNfxmGOXXxuKP3e7v4VRE1U3wOrv7rAD7L+RsbDRS9JlucZPajnlJJKbQapfLMpQ7p0fIucHEXM4VEnFFk2qflMAzZn63s17uTKk1ERT5WlqgAdOkLmV/8E6IKj5S6B9TcuHa921ZIYV5eSYaA=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from HE1PR08MB2827.eurprd08.prod.outlook.com (2603:10a6:7:37::11) by
- GV1PR08MB8106.eurprd08.prod.outlook.com (2603:10a6:150:95::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5676.28; Mon, 3 Oct 2022 09:23:48 +0000
-Received: from HE1PR08MB2827.eurprd08.prod.outlook.com
- ([fe80::d981:e6fd:db8e:b9ca]) by HE1PR08MB2827.eurprd08.prod.outlook.com
- ([fe80::d981:e6fd:db8e:b9ca%7]) with mapi id 15.20.5676.029; Mon, 3 Oct 2022
- 09:23:47 +0000
-Message-ID: <c0a5e9ce-1c8c-4e71-8856-e0d8b36849c2@arm.com>
-Date:   Mon, 3 Oct 2022 11:23:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [TF-A] Re: [PATCH TF-A] fix(plat/rcar3): Fix RPC-IF device node
- name
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     tf-a@lists.trustedfirmware.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <3685623bed84674039adb61e723288d359ab0a50.1648544199.git.geert+renesas@glider.be>
- <CAMuHMdWdrugZEN=7yqrsSc86AeuFR2=qM7nRk_aD=UXW9Q6cLQ@mail.gmail.com>
- <CAMuHMdWiQNjx9_hDhMEe0gHLiqLw1U0Sy0JSb+bdXHEBMgyNvg@mail.gmail.com>
- <CAMuHMdXAdeVXFytY4_ffNUJ6JVVt4SpVyk4wwDx4yMNY4hwG4Q@mail.gmail.com>
- <7b05d61c-3f81-c58d-3728-88a2b4a5201f@arm.com>
- <CAMuHMdWhHMMzaLhko38Twi2Qv81qtkzsuz0T=Jb4PjLqes09TA@mail.gmail.com>
- <CAMuHMdXLtoY4ccMdhkJozHAbtYxJtotfu9+NRtaEF9n7UBznww@mail.gmail.com>
-From:   Sandrine Bailleux <sandrine.bailleux@arm.com>
-In-Reply-To: <CAMuHMdXLtoY4ccMdhkJozHAbtYxJtotfu9+NRtaEF9n7UBznww@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR1P264CA0027.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:19f::14) To HE1PR08MB2827.eurprd08.prod.outlook.com
- (2603:10a6:7:37::11)
+        Mon, 3 Oct 2022 05:26:34 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FD562C11E
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Oct 2022 02:26:19 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id iv17so6614046wmb.4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Oct 2022 02:26:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=Y0YHAX3IJBqRSh8IZpETtoKcuFjw3ABnoFNc1724Vds=;
+        b=GjfNsTOxmJdj45+RKYb1TM0lEdBnuZxA6sW1PEl18hHm79qpCIjEgq/G0mKrtdWD8z
+         ZROtTIsL1eq8tr4SGVQvMltIuGmC3RAfHyz1PKadg9cvvfifsSiNOURFQkuvwqZ/tkw3
+         Y7lre3wkrP9eUfv6luXTaySBGXzE4CdAZ5S3y0E64Xgc+O+yulO1IfI/Tore+n/O5VUX
+         CsV8Yq3BcPStkrjjvpWKolh+6hBP+9DpTCVSpNWnKYDsVgVOeJAOGi317NLcYVjuNInj
+         9bolsynJTJkSYJR0gq54lwySDgUs0DCrk3iZeZrU5vDil158EV3D4O3l3mQnCNgGcG2L
+         Adig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=Y0YHAX3IJBqRSh8IZpETtoKcuFjw3ABnoFNc1724Vds=;
+        b=O4yNO4SXke7XtVxFV9TDOe2NmnNxBleiVuUzkeLBh07Lt0g80MONXJ4jit3QnP3LQB
+         vgqUBysbdzr2cwDwSXeBSjYW/q1JImO/i6C9f0hhkbBLiI2BKEzJx2LNeM7C8398RIto
+         w65NZZk3/Soh/fnUp64Vc8jfuiE5HN1rxxESFoMiMk1HqWetLyXGKRrJOF7S7QnouZx3
+         f01dr8BymhKENbYpkU+c4ujG3wheUrPSPWuom6I3PGPf4S9x3c5GJAjsBbCexMJ2gXVF
+         fk2qAUmapFzWQd4qQLxOkl/1lcM4RVTiYTv6U2+40ahAz7d0nzCajo3ugA4ey9sOnu/N
+         2N+g==
+X-Gm-Message-State: ACrzQf1eaWqg1R0iYM/YS2gwL8fOZ5mofdtmgZj3tPkMN+kbayxdnM6+
+        sKa1YZ0E3bbuwzE54G34fhyXjQ==
+X-Google-Smtp-Source: AMsMyM7LcedHRSysrolU97GwYTo+lD5iowjy2A36yZBNhF5GXYg86rK+G5ZyetvmXN1buwMkh0GYvw==
+X-Received: by 2002:a05:600c:3845:b0:3b4:b187:3d09 with SMTP id s5-20020a05600c384500b003b4b1873d09mr6206257wmr.96.1664789173820;
+        Mon, 03 Oct 2022 02:26:13 -0700 (PDT)
+Received: from mai.. ([2a05:6e02:1041:c10:f3a:9f5e:1605:a75a])
+        by smtp.gmail.com with ESMTPSA id ay3-20020a5d6f03000000b0022cc157bf26sm9707520wrb.85.2022.10.03.02.26.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Oct 2022 02:26:13 -0700 (PDT)
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+To:     daniel.lezcano@linaro.org, rafael@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        rui.zhang@intel.com, Raju Rangoju <rajur@chelsio.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Kaestle <peter@piie.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Thara Gopinath <thara.gopinath@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Antoine Tenart <atenart@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Dmitry Osipenko <digetx@gmail.com>, netdev@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-omap@vger.kernel.org
+Subject: [PATCH v8 00/29] Rework the trip points creation
+Date:   Mon,  3 Oct 2022 11:25:33 +0200
+Message-Id: <20221003092602.1323944-1-daniel.lezcano@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: HE1PR08MB2827:EE_|GV1PR08MB8106:EE_|DBAEUR03FT005:EE_|GVXPR08MB8211:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce27dd15-457b-4421-0d85-08daa520ff59
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: eErhFlo8IvWMfkdP4TCM1GelrNQNFFwwTMWBxZcKgERfU0qGeMjzK9IO+TGIj6DlDNTOhnuNz6yLLy8oc2WA8h8sWrgNOLM+6sjSpSfZLj1nRw9S4K8qIC3vrUJZjQD604uk3cRoTelECIvj7NJzDkSIttnUMozaqe6J3feTOx1HQe/i2XuGuQJ01X2l/CaJL0nYR4U1PS0L0aMJZM9D6eRfIqduRDO9HjZBWyBLJAEHFgXzW0jTgx69UnsZzlZ+0O4MJFMoWDU5EvMcCKWlDnzkL8V9yRVPDhCJ45a5Q3BZ3kqTLqAu5hAdyQ9ybQEfWPzEmNC76V6S4AJZSX8JOAaCXLmM+Jp3PB/+bat8R3Uhete46+PlH8J+c7pz5LLo5gEAtvKafTwX1mLg3X/VpEyF/z3XUxNJPXTnYOh2OvhLp+GmT/IPXNSyfGcZrAh0Q+Jat8O+Na9KIkh6zVNU+Mj++yVCcWNwzypCe0soocVNiX9KPMLMGLgqrA+3FbKLMc7z8GIXopawdbOruDBMzvOFnODT7qPjfl1nAZAUAL05Auo0SIc7rRWgVK9nXby+qnpZSkjEidtp+6bSbFtBpIrK0T6UFENr9gQlzmY4YRKIULUm2c/bGU5H6K7HG0j0aItINhaEpP3MIsShoExop428lNGzRR1YSRZkr98PJQa0fcI1GSHqlAxQu77VC03gXzbmsobqJULDz4S1cJvbwE3xHXX7ya+Rfaxdvil7axrQVLTEBsEYOg4My2BdfhTq3LYflKkQgVQgi5f1Ecnhzkpkr2r+e1CSHK000JZIcZlWvbnfdaHZ2E30AnjZHkR3ghumGgPKGOB9xxoBwbAUXg==
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR08MB2827.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(366004)(376002)(39860400002)(396003)(346002)(451199015)(8936002)(36756003)(5660300002)(2906002)(44832011)(53546011)(26005)(6486002)(316002)(966005)(6506007)(6512007)(478600001)(54906003)(6916009)(86362001)(41300700001)(31696002)(6666004)(186003)(4326008)(66946007)(66556008)(66476007)(2616005)(8676002)(31686004)(38100700002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB8106
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DBAEUR03FT005.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 20dfef27-3755-4512-ffd0-08daa520f960
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9j/5ZWTeloY52okwcW6IXs9di3AcGHz6U7IhMIFShYe8hWF/KP1UODbD2TnxStw7FdxgEWCCRuspn0Gnd4RNIR81tUyxfmvmYrnexAhIri/0OEVwyGUp3qrFyr4dIULJybzMqxqPU9ajP9UEcaRZjjh0Qaqh2CPz0lFWcdk3KDeg5KJLIKxJoW7fjxSVwBPOICg4of/Sa44o7raR7zKuRyo4KTqv9lVlt9ohwFKM++DN+ZUt6LfLmSJdgAz1j708qF0kb9kI0A3m/X94RFvOuJGCgpKpzWgD3s/4EpFJ3ACJoRYrN3Ao1NLuh6dGQ9iXRdggDl9zHEncNDSMz9V7TQ6Fu/CsjXMP03Yp+CloauW2Nf6QmXX/3F1T7+GzJTk1Eeqy7ju/Qpy1m8pUeFzExpY39DbaMfOJdgXugeIxL5mV0ehLmXNhE1re4IZVJ+r8rNxZGpHz3nWBLmPEwIkKDTaSOMaTRQqvcc1hKhyBiah5IEy4MtFpJjhoM9soASsVs/PNnYHUDeORQfGdvV+uRQpA+a+LEX4gpcIGHgoTYGNJ55dBwSW6T2rAPe9A7sHii4VAXEj+GEepT9ll+ybOvkmLdqvVUiFW2n+B74AjHDiBB3mALYPWUeSlJvTY4VCRLC3giyYqTxe60uiElN/Lkvk8t4SAVtYavdn+i8+A036UHICM1mu/vsGyTgRhGXFysoIeszstiTcUjSVbvQz+44VBPjQbKHcruSXXZPbWbUZGcVTVvGwkftuWbIXTqLpV9epjf33uz9T9RvwbLLP4eTysxN8WcsiFzqSiJnHyPWpwLlHZxxuroWlpKcvSwG16sIyLKnA7X993/q0Hgnkimw==
-X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230022)(4636009)(136003)(39860400002)(376002)(396003)(346002)(451199015)(40470700004)(46966006)(36840700001)(31686004)(36756003)(82310400005)(40480700001)(44832011)(47076005)(6486002)(6512007)(53546011)(6506007)(966005)(26005)(8936002)(478600001)(6862004)(31696002)(2906002)(70586007)(82740400003)(70206006)(316002)(40460700003)(5660300002)(54906003)(36860700001)(356005)(81166007)(4326008)(6666004)(86362001)(41300700001)(336012)(186003)(2616005)(8676002)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2022 09:23:56.7753
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce27dd15-457b-4421-0d85-08daa520ff59
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT005.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB8211
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,FORGED_SPF_HELO,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,UNPARSEABLE_RELAY
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+This work is the pre-requisite of handling correctly when the trip
+point are crossed. For that we need to rework how the trip points are
+declared and assigned to a thermal zone.
 
-Thanks for the nudge!
+Even if it appears to be a common sense to have the trip points being
+ordered, this no guarantee neither documentation telling that is the
+case.
 
-I've rebased your patch on top of the integration branch (which has the 
-versal_net platform support patches), reran the CI and as I expected, it 
-passed.
+One solution could have been to create an ordered array of trips built
+when registering the thermal zone by calling the different get_trip*
+ops. However those ops receive a thermal zone pointer which is not
+known as it is in the process of creating it.
 
-The patch has been merged now.
+This cyclic dependency shows we have to rework how we manage the trip
+points.
 
-Regards,
-Sandrine
+Actually, all the trip points definition can be common to the backend
+sensor drivers and we can factor out the thermal trip structure in all
+of them.
 
-On 10/3/22 08:58, Geert Uytterhoeven wrote:
-> Hi Sandrine,
-> 
-> On Tue, Sep 20, 2022 at 12:04 PM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
->> On Thu, Sep 1, 2022 at 9:57 AM Sandrine Bailleux
->> <sandrine.bailleux@arm.com> wrote:
->>> TF-A project uses Gerrit for code reviews. Please refer to the
->>> "Contributor's Guide" [1], in particular section "6.3. Submitting Changes".
->>>
->>> Could you please post your patch to review.trustedfirmware.org, adding
->>> the Renesas platform maintainers as reviewers?
->>
->> Thank you, I have done so.
->> If anything is still missing, please let me know.
-> 
-> https://review.trustedfirmware.org/c/TF-A/trusted-firmware-a/+/16792
-> seems to be stuck because the CI tries to build for the unsupported
-> "versal_net" plaform, hence fails.
-> 
-> What's the next step?
-> Thanks!
-> 
-> Gr{oetje,eeting}s,
-> 
->                          Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                  -- Linus Torvalds
+Then, as we register the thermal trips array, they will be available
+in the thermal zone structure and a core function can return the trip
+given its id.
+
+The get_trip_* ops won't be needed anymore and could be removed. The
+resulting code will be another step forward to a self encapsulated
+generic thermal framework.
+
+Most of the drivers can be converted more or less easily. This series
+does a first round with most of the drivers. Some remain and will be
+converted but with a smaller set of changes as the conversion is a bit
+more complex.
+
+Changelog:
+ v8:
+    - Pretty oneline change and parenthesis removal (Rafael)
+    - Collected tags
+ v7:
+    - Added missing return 0 in the x86_pkg_temp driver
+ v6:
+    - Improved the code for the get_crit_temp() function as suggested by Rafael
+    - Removed inner parenthesis in the set_trip_temp() function and invert the
+      conditions. Check the type of the trip point is unchanged
+    - Folded patch 4 with 1
+    - Add per thermal zone info message in the bang-bang governor
+    - Folded the fix for an uninitialized variable in int340x_thermal_zone_add()
+ v5:
+    - Fixed a deadlock when calling thermal_zone_get_trip() while
+      handling the thermal zone lock
+    - Remove an extra line in the sysfs change
+    - Collected tags
+v4:
+   - Remove extra lines on exynos changes as reported by Krzysztof Kozlowski
+   - Collected tags
+ v3:
+   - Reorg the series to be git-bisect safe
+   - Added the set_trip generic function
+   - Added the get_crit_temp generic function
+   - Removed more dead code in the thermal-of
+   - Fixed the exynos changelog
+   - Fixed the error check for the exynos drivers
+   - Collected tags
+ v2:
+   - Added missing EXPORT_SYMBOL_GPL() for thermal_zone_get_trip()
+   - Removed tab whitespace in the acerhdf driver
+   - Collected tags
+
+Cc: Raju Rangoju <rajur@chelsio.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Peter Kaestle <peter@piie.net>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Mark Gross <markgross@kernel.org>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Amit Kucheria <amitk@kernel.org>
+Cc: Zhang Rui <rui.zhang@intel.com>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>
+Cc: Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>
+Cc: Florian Fainelli <f.fainelli@gmail.com>
+Cc: Ray Jui <rjui@broadcom.com>
+Cc: Scott Branden <sbranden@broadcom.com>
+Cc: Support Opensource <support.opensource@diasemi.com>
+Cc: Lukasz Luba <lukasz.luba@arm.com>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: Thara Gopinath <thara.gopinath@linaro.org>
+Cc: Andy Gross <agross@kernel.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+Cc: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Eduardo Valentin <edubezval@gmail.com>
+Cc: Keerthy <j-keerthy@ti.com>
+Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Antoine Tenart <atenart@kernel.org>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Dmitry Osipenko <digetx@gmail.com>
+Cc: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: platform-driver-x86@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+Cc: linux-rpi-kernel@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org
+Cc: linux-omap@vger.kernel.org
+
+Daniel Lezcano (29):
+  thermal/core: Add a generic thermal_zone_get_trip() function
+  thermal/sysfs: Always expose hysteresis attributes
+  thermal/core: Add a generic thermal_zone_set_trip() function
+  thermal/core/governors: Use thermal_zone_get_trip() instead of ops
+    functions
+  thermal/of: Use generic thermal_zone_get_trip() function
+  thermal/of: Remove unused functions
+  thermal/drivers/exynos: Use generic thermal_zone_get_trip() function
+  thermal/drivers/exynos: of_thermal_get_ntrips()
+  thermal/drivers/exynos: Replace of_thermal_is_trip_valid() by
+    thermal_zone_get_trip()
+  thermal/drivers/tegra: Use generic thermal_zone_get_trip() function
+  thermal/drivers/uniphier: Use generic thermal_zone_get_trip() function
+  thermal/drivers/hisi: Use generic thermal_zone_get_trip() function
+  thermal/drivers/qcom: Use generic thermal_zone_get_trip() function
+  thermal/drivers/armada: Use generic thermal_zone_get_trip() function
+  thermal/drivers/rcar_gen3: Use the generic function to get the number
+    of trips
+  thermal/of: Remove of_thermal_get_ntrips()
+  thermal/of: Remove of_thermal_is_trip_valid()
+  thermal/of: Remove of_thermal_set_trip_hyst()
+  thermal/of: Remove of_thermal_get_crit_temp()
+  thermal/drivers/st: Use generic trip points
+  thermal/drivers/imx: Use generic thermal_zone_get_trip() function
+  thermal/drivers/rcar: Use generic thermal_zone_get_trip() function
+  thermal/drivers/broadcom: Use generic thermal_zone_get_trip() function
+  thermal/drivers/da9062: Use generic thermal_zone_get_trip() function
+  thermal/drivers/ti: Remove unused macros ti_thermal_get_trip_value() /
+    ti_thermal_trip_is_valid()
+  thermal/drivers/acerhdf: Use generic thermal_zone_get_trip() function
+  thermal/drivers/cxgb4: Use generic thermal_zone_get_trip() function
+  thermal/intel/int340x: Replace parameter to simplify
+  thermal/drivers/intel: Use generic thermal_zone_get_trip() function
+
+ drivers/net/ethernet/chelsio/cxgb4/cxgb4.h    |   2 -
+ .../ethernet/chelsio/cxgb4/cxgb4_thermal.c    |  41 +----
+ drivers/platform/x86/acerhdf.c                |  73 +++-----
+ drivers/thermal/armada_thermal.c              |  39 ++---
+ drivers/thermal/broadcom/bcm2835_thermal.c    |   8 +-
+ drivers/thermal/da9062-thermal.c              |  52 +-----
+ drivers/thermal/gov_bang_bang.c               |  39 +++--
+ drivers/thermal/gov_fair_share.c              |  18 +-
+ drivers/thermal/gov_power_allocator.c         |  51 +++---
+ drivers/thermal/gov_step_wise.c               |  22 ++-
+ drivers/thermal/hisi_thermal.c                |  11 +-
+ drivers/thermal/imx_thermal.c                 |  72 +++-----
+ .../int340x_thermal/int340x_thermal_zone.c    |  33 ++--
+ .../int340x_thermal/int340x_thermal_zone.h    |   4 +-
+ .../processor_thermal_device.c                |  10 +-
+ drivers/thermal/intel/x86_pkg_temp_thermal.c  | 120 +++++++------
+ drivers/thermal/qcom/qcom-spmi-temp-alarm.c   |  39 ++---
+ drivers/thermal/rcar_gen3_thermal.c           |   2 +-
+ drivers/thermal/rcar_thermal.c                |  53 +-----
+ drivers/thermal/samsung/exynos_tmu.c          |  57 +++----
+ drivers/thermal/st/st_thermal.c               |  47 +----
+ drivers/thermal/tegra/soctherm.c              |  33 ++--
+ drivers/thermal/tegra/tegra30-tsensor.c       |  17 +-
+ drivers/thermal/thermal_core.c                | 160 +++++++++++++++---
+ drivers/thermal/thermal_core.h                |  24 +--
+ drivers/thermal/thermal_helpers.c             |  28 +--
+ drivers/thermal/thermal_netlink.c             |  21 +--
+ drivers/thermal/thermal_of.c                  | 116 -------------
+ drivers/thermal/thermal_sysfs.c               | 133 +++++----------
+ drivers/thermal/ti-soc-thermal/ti-thermal.h   |  15 --
+ drivers/thermal/uniphier_thermal.c            |  27 ++-
+ include/linux/thermal.h                       |  10 ++
+ 32 files changed, 559 insertions(+), 818 deletions(-)
+
+-- 
+2.34.1
+
