@@ -2,127 +2,244 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1150A5F4400
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Oct 2022 15:14:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F30C5F46DE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Oct 2022 17:43:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbiJDNOb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 Oct 2022 09:14:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45954 "EHLO
+        id S229581AbiJDPnn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 Oct 2022 11:43:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229922AbiJDNOa (ORCPT
+        with ESMTP id S229472AbiJDPnm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Oct 2022 09:14:30 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0A772A947
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Oct 2022 06:14:28 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:e15b:43db:96f7:952f])
-        by albert.telenet-ops.be with bizsmtp
-        id TpES280092GKRF306pESEz; Tue, 04 Oct 2022 15:14:26 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ofhkf-000gFg-Se
-        for linux-renesas-soc@vger.kernel.org; Tue, 04 Oct 2022 15:14:25 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ofhkf-007wv4-DM
-        for linux-renesas-soc@vger.kernel.org; Tue, 04 Oct 2022 15:14:25 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2022-10-04-v6.0
-Date:   Tue,  4 Oct 2022 15:14:25 +0200
-Message-Id: <20221004131425.1894739-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Tue, 4 Oct 2022 11:43:42 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37C0D4E617
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Oct 2022 08:43:41 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id b5so13018022pgb.6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Oct 2022 08:43:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date;
+        bh=3Dxu880lxqMHxGJkBBv+SpQ2XRHkcUq+saSoR3EOnlA=;
+        b=4BYxI732OX5lSrmQEARZPKnuD+2GWwu/ViDiXFjIuOEkBEctQdwC6BMWJu1MaaZa6/
+         /1nHhFM589NuYp1fXw3tzHmzIJVi1R+7s4GLjKiRSiLi+QFO5zPeHVGmhnAz5/CJMjvJ
+         7UfwZmTv0fwkIBE6MXGPuGHhbMPmpOGKvPXhy+Z03BIWKKN7hKy7vo+UAO4jyxV2vGI1
+         dlOlFFIF96PC/3aDdz5SnzRQplYxK+9ZnTszIDXsQR8NfwLMBT0TVYbBsO6RNWCvGvI7
+         8hHMcLgT24IN1AzhMEKvS8c+y/T6MTYaBOhcgHoBZDlJMeS0cYfos8TYayNHJxPtbjYB
+         PPKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date;
+        bh=3Dxu880lxqMHxGJkBBv+SpQ2XRHkcUq+saSoR3EOnlA=;
+        b=yWdbR/bAwLPkm6pJLgI8X6NaaJC1fZu5Ebbds7jyYDMoIFaoNM3Bw8WoH+6GB98Fjb
+         /1WRGxaMtWGNOX/lijrhF17awXUIkJr40ahvR7Kq8Vo33KjElVGOyoOu3pVwzTzG/GHe
+         Ce/DII6PfEktOvnfH8JwcwCKuL/ZYxF5Eq9rZj6hdbwbLwJomPzSYPq6WjnNlw6nSbBu
+         k49Wl0ArYaaUbU+/ogex/RkqTF39vAZ6pgINt0BZVGOyErZ7j+HWYiMyaoohieXehG+I
+         zAFYsMqpV17/CIHfQMoxASA2qNoeQOq5p6Qhf82pwDW8oUrw0n2r/V5ubUvJOfbkqEhb
+         qmLg==
+X-Gm-Message-State: ACrzQf0XCXqy+zIxoirlPD8ZBms/IdAOuXzUIsirhctnM6FMXEypXUS6
+        njL9XSLbfW5OrFcUd3m92mv4V/U95J99mU/8lJA=
+X-Google-Smtp-Source: AMsMyM4HA6Yd5YPjYZvhEIxyY6UvBqWzN3rYxqT21qMaOd+ZWxrlZXUIQI1UeXbrHBh86PyyXSdNMg==
+X-Received: by 2002:a65:4d46:0:b0:43b:e00f:8663 with SMTP id j6-20020a654d46000000b0043be00f8663mr23563356pgt.147.1664898220457;
+        Tue, 04 Oct 2022 08:43:40 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id d21-20020a630e15000000b00456f77f6dd7sm694874pgl.44.2022.10.04.08.43.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Oct 2022 08:43:40 -0700 (PDT)
+Message-ID: <633c54ac.630a0220.31891.13d7@mx.google.com>
+Date:   Tue, 04 Oct 2022 08:43:40 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2022-10-04-v6.0
+X-Kernelci-Report-Type: test
+Subject: renesas/master baseline-nfs: 99 runs,
+ 4 regressions (renesas-devel-2022-10-04-v6.0)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2022-10-04-v6.0 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+renesas/master baseline-nfs: 99 runs, 4 regressions (renesas-devel-2022-10-=
+04-v6.0)
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+Regressions Summary
+-------------------
 
-Today's version is based on renesas-devel-2022-10-04-v6.0.
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+at91sam9g20ek                | arm   | lab-broonie   | gcc-10   | at91_dt_d=
+efconfig          | 1          =
 
-Included branches with driver code:
-  - renesas-clk-for-v6.2
-  - topic/rcar-v3u-is-gen4-v2
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/gpio-logic-analyzer-v8~1
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
++videodec         | 1          =
 
-Included fixes:
-  - [LOCAL] soc: renesas: rcar-rst: Allow WDT reset on R-Car Gen4
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook | 1          =
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git#irq/irqchip-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.libc.org/linux-sh#for-next
-  - https://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
+r8a77950-salvator-x          | arm64 | lab-baylibre  | gcc-10   | defconfig=
++crypto           | 1          =
 
-Gr{oetje,eeting}s,
 
-						Geert
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-10-04-v6.0/plan/baseline-nfs/
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-10-04-v6.0
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      a341ff11c47c3b9175e02fd34c584a0c19c12e0b =
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+at91sam9g20ek                | arm   | lab-broonie   | gcc-10   | at91_dt_d=
+efconfig          | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/633c1d80f1e9c0dd6ccab61c
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: at91_dt_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-04-v6.0/arm/at91_dt_defconfig/gcc-10/lab-broonie/baseline-nfs-at91sa=
+m9g20ek.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-04-v6.0/arm/at91_dt_defconfig/gcc-10/lab-broonie/baseline-nfs-at91sa=
+m9g20ek.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220923.1/armel/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/633c1d80f1e9c0dd6=
+ccab61d
+        failing since 0 day (last pass: renesas-devel-2022-09-27-v6.0-rc7, =
+first fail: renesas-devel-2022-10-03-v6.0) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
++videodec         | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/633c52c5921a136348cab609
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+videodec
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-04-v6.0/arm64/defconfig+videodec/gcc-10/lab-baylibre/baseline-nfs-me=
+son-g12b-a311d-khadas-vim3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-04-v6.0/arm64/defconfig+videodec/gcc-10/lab-baylibre/baseline-nfs-me=
+son-g12b-a311d-khadas-vim3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220923.1/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/633c52c5921a13634=
+8cab60a
+        failing since 1 day (last pass: renesas-devel-2022-09-19-v6.0-rc6, =
+first fail: renesas-devel-2022-10-03-v6.0) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/633c222e2748e3ee76cab60d
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-04-v6.0/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseli=
+ne-nfs-mt8183-kukui-jacuzzi-juniper-sku16.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-04-v6.0/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/baseli=
+ne-nfs-mt8183-kukui-jacuzzi-juniper-sku16.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220923.1/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/633c222e2748e3ee7=
+6cab60e
+        failing since 49 days (last pass: renesas-devel-2022-08-11-v5.19, f=
+irst fail: renesas-devel-2022-08-16-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+r8a77950-salvator-x          | arm64 | lab-baylibre  | gcc-10   | defconfig=
++crypto           | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/633c338af8e63e7c12cab639
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+crypto
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-04-v6.0/arm64/defconfig+crypto/gcc-10/lab-baylibre/baseline-nfs-r8a7=
+7950-salvator-x.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-04-v6.0/arm64/defconfig+crypto/gcc-10/lab-baylibre/baseline-nfs-r8a7=
+7950-salvator-x.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220923.1/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/633c338af8e63e7c1=
+2cab63a
+        new failure (last pass: renesas-devel-2022-09-27-v6.0-rc7) =
+
+ =20
