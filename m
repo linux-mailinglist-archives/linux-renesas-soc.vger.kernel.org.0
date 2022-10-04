@@ -2,229 +2,202 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A5275F48C7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Oct 2022 19:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3511D5F49C8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Oct 2022 21:36:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229564AbiJDRnV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 Oct 2022 13:43:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51320 "EHLO
+        id S229446AbiJDTgN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 Oct 2022 15:36:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229962AbiJDRnP (ORCPT
+        with ESMTP id S229436AbiJDTgM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Oct 2022 13:43:15 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 184A066A65;
-        Tue,  4 Oct 2022 10:43:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id CC44BCE105F;
-        Tue,  4 Oct 2022 17:43:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8B43C433D6;
-        Tue,  4 Oct 2022 17:42:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664905382;
-        bh=qFiToPKk2o4dHCSK1eA4+ehkbWfnkHDJylCe2Xsnuvw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LRHekYh/YbdvhifLPhvyZXHx2xGGwxuw6Q1+X/h5RiwAcp4Lx+ToUXhlGGw8cyeNJ
-         GF9NYdWNWiOO8c9lNkxw5IvBQc/Kuj/V96i8iRAY5/JzDCOnShuRQoRgROnysAR5A2
-         Ax2p1aOvcPDd7nzKbrZayv1b9SbnVcV++tkdlZ5UJxM7mj4F6FCfTpoUeBHnZgOb/i
-         o8XEP3PxzYGBD/8AyHQzTH4zbRFHLGDHL2PXiO90dtToW8yWj8h6HE2qjIn2axZWQy
-         /23Q9daA5W0xF+faWWRzxiKtdNfB5JDapXBP47H2lFMnx9xsa9aQ19HJCtmcnqHckY
-         +LNLchAsuOoiw==
-Date:   Tue, 4 Oct 2022 18:42:56 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [RFC PATCH v2 2/2] soc: renesas: Add L2 cache management for
- RZ/Five SoC
-Message-ID: <YzxwoELNBctbhjJb@spud>
-References: <20221003223222.448551-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221003223222.448551-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Tue, 4 Oct 2022 15:36:12 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 753381EC46
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Oct 2022 12:36:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664912171; x=1696448171;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OVvofnG4F2THKWtqK+mW3xxx/K7W+N5dxNTFO8z/ofg=;
+  b=D8Z9utkGkLsoUwpMNbDYtPKPH0nehV9lljDNi1J2d7wcpJ6qwd7OCqBC
+   pdaiUIeDe3jK66Ru5KpLLdM3IAaFetFMKkNAFTijcis+4a37Hq8f0yICi
+   puZ5iiGh14svusPCHndJ12bMApAxDQgcefdp8D0pbtGtSVMQnkjRyfW0C
+   DLEVb8/St5rVoZfJJWzUOQ/tca7JnhB5MlTlxR0xn0syBPpBLs+xBLcRs
+   /tHMNjVL5eV44Kt/Lw5hTpD1BP9sL9wsknO5Atj+AC9LkP5QyeJ02Fkvy
+   zwDhp09j2jNH9kjUeVypibmTs+F7KKJDr4dB6MbjiLydCZA6OFTSiSUWS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="389301005"
+X-IronPort-AV: E=Sophos;i="5.95,158,1661842800"; 
+   d="scan'208";a="389301005"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 12:35:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="686678403"
+X-IronPort-AV: E=Sophos;i="5.95,158,1661842800"; 
+   d="scan'208";a="686678403"
+Received: from lkp-server01.sh.intel.com (HELO d4f44333118a) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 04 Oct 2022 12:35:32 -0700
+Received: from kbuild by d4f44333118a with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1ofnhT-0000UL-1G;
+        Tue, 04 Oct 2022 19:35:31 +0000
+Date:   Wed, 05 Oct 2022 03:35:16 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-arm-dt-for-v6.2] BUILD SUCCESS
+ f621040b30c93b1a054c0d12b6e310eecbb1a58b
+Message-ID: <633c8af4.tUCIBVAak7yQU5Ib%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221003223222.448551-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 03, 2022 at 11:32:22PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> On the AX45MP core, cache coherency is a specification option so it may
-> not be supported. In this case DMA will fail. As a workaround, firstly we
-> allocate a global dma coherent pool from which DMA allocations are taken
-> and marked as non-cacheable + bufferable using the PMA region as specified
-> in the device tree. Synchronization callbacks are implemented to
-> synchronize when doing DMA transactions.
-> 
-> The Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
-> block that allows dynamic adjustment of memory attributes in the runtime.
-> It contains a configurable amount of PMA entries implemented as CSR
-> registers to control the attributes of memory locations in interest.
-> 
-> Below are the memory attributes supported:
-> * Device, Non-bufferable
-> * Device, bufferable
-> * Memory, Non-cacheable, Non-bufferable
-> * Memory, Non-cacheable, Bufferable
-> * Memory, Write-back, No-allocate
-> * Memory, Write-back, Read-allocate
-> * Memory, Write-back, Write-allocate
-> * Memory, Write-back, Read and Write-allocate
-> 
-> This patch adds support to configure the memory attributes of the memory
-> regions as passed from the l2 cache node and exposes the cache management
-> ops. Currently the OpenSBI code implements support for "Memory,
-> Non-cacheable, Non-bufferable" option with SBI_EXT_ANDES_SET_PMA.
-> 
-> More info about PMA (section 10.3):
-> http://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
-> 
-> This feature is based on the work posted [0] by Vincent Chen
-> <vincentc@andestech.com> for the Andes AndeStart RISC-V CPU.
-> 
-> [0] https://lore.kernel.org/lkml/1540982130-28248-1-git-send-email-vincentc@andestech.com/
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  arch/riscv/include/asm/cacheflush.h    |   8 +
->  arch/riscv/include/asm/errata_list.h   |   2 +
->  arch/riscv/include/asm/sbi.h           |   1 +
->  arch/riscv/mm/dma-noncoherent.c        |  20 ++
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v6.2
+branch HEAD: f621040b30c93b1a054c0d12b6e310eecbb1a58b  arm64: dts: renesas: condor-common: Add missing bootargs
 
-Stupid question maybe, but I assume you mixed the driver addition and
-the changes to arch/riscv for the sake of easily creating the RFC?
+elapsed time: 720m
 
->  drivers/soc/renesas/Makefile           |   4 +
->  drivers/soc/renesas/rzf/Makefile       |   3 +
->  drivers/soc/renesas/rzf/ax45mp_cache.c | 365 +++++++++++++++++++++++++
->  drivers/soc/renesas/rzf/rzf_sbi.h      |  27 ++
->  8 files changed, 430 insertions(+)
->  create mode 100644 drivers/soc/renesas/rzf/Makefile
->  create mode 100644 drivers/soc/renesas/rzf/ax45mp_cache.c
->  create mode 100644 drivers/soc/renesas/rzf/rzf_sbi.h
-> 
+configs tested: 119
+configs skipped: 3
 
-I won't make any comments on the ALTERNATIVES usage & leave that to the
-likes of Heiko rather than make a fool of myself! But to my untrained
-eye, having to use #defines looks like you've strayed pretty far from
-the light.. My understanding was that the whole point was to avoid
-having any ifdef-ery!
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> diff --git a/arch/riscv/include/asm/sbi.h b/arch/riscv/include/asm/sbi.h
-> index 2a0ef738695e..10a7c855d125 100644
-> --- a/arch/riscv/include/asm/sbi.h
-> +++ b/arch/riscv/include/asm/sbi.h
-> @@ -37,6 +37,7 @@ enum sbi_ext_id {
-> 
->         /* Vendor extensions must lie within this range */
->         SBI_EXT_VENDOR_START = 0x09000000,
-> +       SBI_EXT_ANDES = 0x0900031E,
->         SBI_EXT_VENDOR_END = 0x09FFFFFF,
->  };
+gcc tested configs:
+arc                                 defconfig
+alpha                               defconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+x86_64                           rhel-8.3-kvm
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
+powerpc                           allnoconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+powerpc                          allmodconfig
+mips                             allyesconfig
+i386                 randconfig-a011-20221003
+i386                 randconfig-a016-20221003
+i386                 randconfig-a012-20221003
+i386                 randconfig-a014-20221003
+i386                 randconfig-a015-20221003
+i386                 randconfig-a013-20221003
+arm64                            allyesconfig
+arm                                 defconfig
+arm                              allyesconfig
+riscv                randconfig-r042-20221003
+arc                  randconfig-r043-20221003
+arc                  randconfig-r043-20221002
+s390                 randconfig-r044-20221003
+s390                                defconfig
+sh                               allmodconfig
+i386                             allyesconfig
+i386                                defconfig
+s390                             allmodconfig
+x86_64               randconfig-a011-20221003
+x86_64               randconfig-a016-20221003
+x86_64               randconfig-a014-20221003
+x86_64               randconfig-a013-20221003
+x86_64               randconfig-a012-20221003
+x86_64               randconfig-a015-20221003
+s390                             allyesconfig
+alpha                            allyesconfig
+arc                              allyesconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+csky                              allnoconfig
+alpha                             allnoconfig
+arc                               allnoconfig
+riscv                             allnoconfig
+powerpc                      mgcoge_defconfig
+arc                 nsimosci_hs_smp_defconfig
+powerpc                     mpc83xx_defconfig
+sh                      rts7751r2d1_defconfig
+arc                    vdk_hs38_smp_defconfig
+arm                             ezx_defconfig
+arm                        realview_defconfig
+xtensa                           alldefconfig
+sh                          kfr2r09_defconfig
+arm                          exynos_defconfig
+sh                           se7619_defconfig
+m68k                         apollo_defconfig
+m68k                          atari_defconfig
+sh                   sh7770_generic_defconfig
+i386                          randconfig-c001
+sh                              ul2_defconfig
+m68k                        stmark2_defconfig
+nios2                               defconfig
+m68k                          amiga_defconfig
+arc                            hsdk_defconfig
+loongarch                 loongson3_defconfig
+powerpc                      cm5200_defconfig
+xtensa                  cadence_csp_defconfig
+powerpc                 mpc8540_ads_defconfig
+arm                          simpad_defconfig
+xtensa                          iss_defconfig
+arm                            lart_defconfig
+sh                     magicpanelr2_defconfig
+arm                  randconfig-c002-20221002
+x86_64                        randconfig-c001
+sh                ecovec24-romimage_defconfig
+arm64                            alldefconfig
+powerpc                 mpc837x_mds_defconfig
+mips                         cobalt_defconfig
+mips                 randconfig-c004-20221002
+m68k                          sun3x_defconfig
+powerpc                     tqm8548_defconfig
+i386                          debian-10.3-kvm
+i386                        debian-10.3-kunit
+i386                         debian-10.3-func
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+sh                   rts7751r2dplus_defconfig
+ia64                             allmodconfig
+s390                       zfcpdump_defconfig
+powerpc                      chrp32_defconfig
+sh                             espt_defconfig
+powerpc                       maple_defconfig
+sparc64                             defconfig
+arc                          axs101_defconfig
+powerpc                 linkstation_defconfig
+arm                            pleb_defconfig
 
-Hmm, does this belong there? It certainly makes the comment look a
-little odd! /If/ it goes into this file, I think it should be in a
-separate section "heading" - but could it not be put into rzf_sbi.h?
+clang tested configs:
+i386                 randconfig-a001-20221003
+i386                 randconfig-a006-20221003
+i386                 randconfig-a002-20221003
+i386                 randconfig-a003-20221003
+i386                 randconfig-a005-20221003
+i386                 randconfig-a004-20221003
+x86_64               randconfig-a003-20221003
+x86_64               randconfig-a005-20221003
+x86_64               randconfig-a001-20221003
+x86_64               randconfig-a004-20221003
+x86_64               randconfig-a002-20221003
+x86_64               randconfig-a006-20221003
+x86_64                        randconfig-k001
+powerpc                      walnut_defconfig
+arm                  colibri_pxa300_defconfig
+arm                       mainstone_defconfig
+riscv                             allnoconfig
 
-> diff --git a/drivers/soc/renesas/rzf/ax45mp_cache.c b/drivers/soc/renesas/rzf/ax45mp_cache.c
-> new file mode 100644
-> index 000000000000..6eca32aef33e
-> --- /dev/null
-> +++ b/drivers/soc/renesas/rzf/ax45mp_cache.c
-> @@ -0,0 +1,365 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * PMA setup and non-coherent cache functions for AX45MP
-> + *
-
-Given your comment in the commit message, should this also be carrying a
-copyright from Andestech?
-
-> + * Copyright (C) 2022 Renesas Electronics Corp.
-> + */
-> +
-> +#include <linux/cacheinfo.h>
-> +#include <linux/of_address.h>
-> +
-
-> +static void __iomem *l2c_base;
-> +
-> +/* -----------------------------------------------------------------------------
-
-I'll (mostly) keep my nose out of style for soc/renesas, but this /* ---
-style looks unusual!
-
-> + * PMA setup
-> + */
-
-> +static long sbi_set_pma(void *arg)
-> +static void ax45mp_configure_pma_regions(struct device_node *np, int count)
-> +static void cpu_dcache_inval_range(unsigned long start,
-> +void rzfive_cpu_dma_inval_range(void *vaddr, size_t size)
-
-There's a real mix of function name prefixes in here, sbi_ aside is
-there a reason you didn't just stick to ax45mp_foo()? Apologies if
-I missed something that should've been obvious
-
-> +static void cpu_dcache_wb_range(unsigned long start,
-> +				unsigned long end,
-> +				int line_size)
-> +{
-> +	bool ucctl_ok = false;
-> +	unsigned long pa;
-> +	int mhartid = 0;
-> +#ifdef CONFIG_SMP
-> +	mhartid = smp_processor_id();
-> +#endif
-
-Won't this produce complaints from your if you compile with CONFIG_SMP
-set?
-
-> +
-> +	ucctl_ok = cpu_cache_controlable();
-> +
-> +	while (end > start) {
-> +		if (ucctl_ok) {
-> +			csr_write(CCTL_REG_UCCTLBEGINADDR_NUM, start);
-> +			csr_write(CCTL_REG_UCCTLCOMMAND_NUM, CCTL_L1D_VA_WB);
-> +		}
-> +
-> +		if (l2c_base && (cpu_l2c_ctl_status() & L2_CACHE_CTL_CEN_MASK)) {
-> +			pa = virt_to_phys((void *)start);
-> +			writel(pa, (void *)(l2c_base + L2C_REG_CN_ACC_OFFSET(mhartid)));
-> +			writel(CCTL_L2_PA_WB, (void *)(l2c_base + L2C_REG_CN_CMD_OFFSET(mhartid)));
-> +			while ((cpu_l2c_get_cctl_status() &
-> +				CCTL_L2_STATUS_CN_MASK(mhartid)) != CCTL_L2_STATUS_IDLE)
-> +				;
-> +		}
-> +
-> +		start += line_size;
-> +	}
-> +}
-
-Thanks,
-Conor.
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
