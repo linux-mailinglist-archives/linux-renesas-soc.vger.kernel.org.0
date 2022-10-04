@@ -2,86 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 377C35F3D0F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Oct 2022 09:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1964C5F3D33
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Oct 2022 09:26:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229631AbiJDHMu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 Oct 2022 03:12:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55434 "EHLO
+        id S229578AbiJDH0b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 Oct 2022 03:26:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbiJDHMt (ORCPT
+        with ESMTP id S229520AbiJDH0a (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Oct 2022 03:12:49 -0400
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F077020F6C
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Oct 2022 00:12:46 -0700 (PDT)
-Received: by mail-qt1-f169.google.com with SMTP id r20so7670967qtn.12
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Oct 2022 00:12:46 -0700 (PDT)
+        Tue, 4 Oct 2022 03:26:30 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 946FF3ED73;
+        Tue,  4 Oct 2022 00:26:29 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id lt21so1657144ejb.0;
+        Tue, 04 Oct 2022 00:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=T3VGRLa6aY7lVkf/VuhGMNa+o18TjOrgkKnR6deWLjE=;
+        b=nTdCXM20HL5cFabkBUv1DnQX20uSpePVUtP19e2qSGkWNdmYwRslvNTJ1T8SmB7LQf
+         cAHyD6MQIbYIfRFr9qJZU4idDuvQfy3eBTDk+mu9RouqgQkuGLl+jfCL3zMRX4P9JhVL
+         6iSEAABhrLD8NPVNyKR9g9W9BUTV0MTgtVUxiMx3OQp4ileKlqMgwv8tVuiesimdiRTo
+         rqekcAdj3HXnTKd4ObTe5Xe18PSIg1zl5eDHu55aYGE4lx7rEk4o+ZUEquvIOL3mD+dj
+         CGgwCEfL1clKoRdJ4nk/HSLZGAbrI60PTOao0Cq8Tqu4zy1Y2RotrbZisgo5OjecBPXa
+         3U2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=slBNUZrVSjtb3RN56au5p9VnQ4iSCUSp3M8LS/FoGt0=;
-        b=e8614zDLmGf03JmInJ43nx0tfFBETyyXZDUZzjKKRB7Ud1L3g2cLH2d5by4LDGgcxm
-         4GPIcKsn5VaSeLGDQzdGZYNTZ7iHPlwxGN4lwstWZZFk3rbfQFO5VZWJOLqV452uuDY+
-         apf2akkOS6/O5Hk2xkm130EFibo9VZXqNi/UVXs17djQ9zzX+0AXEuMUDo81TP1ym+Ct
-         cftz6/YQvSf9kENFwaxdNrIqJLt/KrWHVLIOIg8Gtgtuq+19U2SwpxWb+m4FE4ea6BtT
-         d8A1t4/7AoKyK+sfuOQMKGaj/1jt4QyPiufvXWmWGb+yYdPlHmQvA07E3rVw5BHTWKPl
-         qhKg==
-X-Gm-Message-State: ACrzQf3WJiIUPgMbb32HulAMHWnG1/JGdCFduvGIzJKICbJscFOIrBZD
-        lWLNRL/lIiYL2hfXwDPRmQq5uy6Ez/PbSg==
-X-Google-Smtp-Source: AMsMyM5/z5+Ub/8bvJWD+i5E50FR1432wHPqQza5vSHz8tGqaWX8lhWtJOuTt/jdyVc0Jj5DkZb4Fg==
-X-Received: by 2002:a05:622a:54e:b0:35d:d33:dff3 with SMTP id m14-20020a05622a054e00b0035d0d33dff3mr18566503qtx.115.1664867565993;
-        Tue, 04 Oct 2022 00:12:45 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id ea20-20020a05620a489400b006ce76811a07sm12718323qkb.75.2022.10.04.00.12.45
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Oct 2022 00:12:45 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id e20so1272081ybh.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Oct 2022 00:12:45 -0700 (PDT)
-X-Received: by 2002:a5b:506:0:b0:6af:ffac:4459 with SMTP id
- o6-20020a5b0506000000b006afffac4459mr21837341ybp.365.1664867565359; Tue, 04
- Oct 2022 00:12:45 -0700 (PDT)
+        bh=T3VGRLa6aY7lVkf/VuhGMNa+o18TjOrgkKnR6deWLjE=;
+        b=WOE+jXpVPm9Ps/kwQpX8otTyHB+Bjgh0BqGWdKRQ9MsFa97simvpkr7eayEZnK20ca
+         CeUb6BRXpF8tCJU1sq3Af9C1K7hlNq0Xiyti7ulsx8Z4toTC17nYu4b3sNUM8mHvggAq
+         9UmpBAFzGxKH7sWhKjXtTXSRiyFh4uD+X7p/OXuq48niJ4msoOUxftHjYb20GPrkIaGx
+         zmc2vQcl0zwFVztQsxWDei6azR0qZ6J5geBks1f6Ly+p5pP6FJ23pj1a3uefsD7HfKwd
+         Qeazq9YMPi/QlVBtQ+NcTfBbXrFq6keBYuB04bk+uQxFj0+giFO8IjsxAdSZ3z6ah7xy
+         g6FQ==
+X-Gm-Message-State: ACrzQf0a/PAw7shm67bBoGTr1xvzE6mlSPPPJFFFmNxTZl8tLxEeaEKq
+        /lU5CtOmEk3fKjmJoeuqBdusKL0ompVetB9wkGc=
+X-Google-Smtp-Source: AMsMyM7REJDwTonQC1YNeER8EI+7qTq2llohoFBpu6tNo14D20X5S629XxELZSCTnSFF+grYSwJw237zL9ganyg38Bw=
+X-Received: by 2002:a17:907:75dc:b0:78b:339:63c7 with SMTP id
+ jl28-20020a17090775dc00b0078b033963c7mr7383359ejc.480.1664868388049; Tue, 04
+ Oct 2022 00:26:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <87h70lhd1c.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87h70lhd1c.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 4 Oct 2022 09:12:33 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW2EM0kVGRjmCBj7gZiF9U7Mxrh2Ed3OiJayQCt2fCETQ@mail.gmail.com>
-Message-ID: <CAMuHMdW2EM0kVGRjmCBj7gZiF9U7Mxrh2Ed3OiJayQCt2fCETQ@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: condor-common: add missing bootargs
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20221003223222.448551-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221003223222.448551-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdX1BuvHz46QWd+ajEcwmWMeSmvN4AtODuFEysRk14ArZQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdX1BuvHz46QWd+ajEcwmWMeSmvN4AtODuFEysRk14ArZQ@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 4 Oct 2022 08:26:01 +0100
+Message-ID: <CA+V-a8vnNQDMgjhJfz91g++dVVv5Z5FTuFrNRHLW3PjPump0Mg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/2] dt-bindings: soc: renesas: r9a07g043f-l2-cache:
+ Add DT binding documentation for L2 cache controller
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 3, 2022 at 4:11 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Hi Geert,
+
+Thank you for the review.
+
+On Tue, Oct 4, 2022 at 7:42 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> This patch adds missing bootargs for V3H Condor board.
+> Hi Prabhakar,
 >
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> On Tue, Oct 4, 2022 at 12:32 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add DT binding documentation for L2 cache controller found on RZ/Five SoC.
+> >
+> > The Renesas RZ/Five microprocessor includes a RISC-V CPU Core (AX45MP
+> > Single) from Andes. The AX45MP core has an L2 cache controller, this patch
+> > describes the L2 cache block.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/soc/renesas/r9a07g043f-l2-cache.yaml
+>
+> Not andestech,ax45mp-cache.yaml?
+>
+I wasn't sure as we were including this in soc/renesas so named it as
+r9a07g043f-l2-cache.yaml if there are no issues I'll rename it
+andestech,ax45mp-cache.yaml.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.2.
+> > @@ -0,0 +1,82 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +# Copyright (C) 2022 Renesas Electronics Corp.
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/soc/renesas/r9a07g043f-l2-cache.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: SiFive L2 Cache Controller
+>
+> Andestech AX45MP?
+>
+Ouch!
 
-Gr{oetje,eeting}s,
+> > +
+> > +maintainers:
+> > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > +
+> > +description:
+> > +  A level-2 cache (L2C) is used to improve the system performance by providing
+> > +  a larger amount of cache line entries and reasonable access delays. The L2C
+> > +  is shared between cores, and a non-inclusive non-exclusive policy is used.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - const: andestech,ax45mp-cache
+> > +      - const: cache
+>
+> This makes the schema apply to any node which is compatible with
+> "cache", cfr. the report from Rob's bot.
+>
+Actually dt_binding_check didn't complain when I ran it locally (maybe
+it's time to update dt-schema).
 
-                        Geert
+> You need a select block to avoid that, cfr.
+> Documentation/devicetree/bindings/riscv/sifive-l2-cache.yaml.
+>
+Thanks for the pointer.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
