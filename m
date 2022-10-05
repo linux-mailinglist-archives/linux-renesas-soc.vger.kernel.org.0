@@ -2,43 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2C535F55E5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Oct 2022 15:55:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8FE65F55E7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Oct 2022 15:55:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229998AbiJENzg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Oct 2022 09:55:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45526 "EHLO
+        id S229844AbiJENzi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Oct 2022 09:55:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229844AbiJENzc (ORCPT
+        with ESMTP id S230074AbiJENzg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Oct 2022 09:55:32 -0400
+        Wed, 5 Oct 2022 09:55:36 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B56546527E;
-        Wed,  5 Oct 2022 06:55:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C1E5D659CC
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Oct 2022 06:55:33 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.95,159,1661785200"; 
-   d="scan'208";a="135457108"
+   d="scan'208";a="135457112"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Oct 2022 22:55:30 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 05 Oct 2022 22:55:33 +0900
 Received: from localhost.localdomain (unknown [10.226.92.36])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id D6F0D4006190;
-        Wed,  5 Oct 2022 22:55:25 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 9B9534006190;
+        Wed,  5 Oct 2022 22:55:30 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        William Breathitt Gray <william.gray@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>
+To:     Philipp Zabel <p.zabel@pengutronix.de>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>, Lee Jones <lee@kernel.org>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, devicetree@vger.kernel.org,
-        linux-pwm@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 1/3] dt-bindings: mfd: Document RZ/G2L MTU3a bindings
-Date:   Wed,  5 Oct 2022 14:55:16 +0100
-Message-Id: <20221005135518.876913-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 2/3] mfd: Add RZ/G2L MTU3 driver
+Date:   Wed,  5 Oct 2022 14:55:17 +0100
+Message-Id: <20221005135518.876913-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221005135518.876913-1-biju.das.jz@bp.renesas.com>
 References: <20221005135518.876913-1-biju.das.jz@bp.renesas.com>
@@ -52,420 +46,623 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
-the Renesas RZ/G2L family SoC's. It consists of eight 16-bit timer
-channels and one 32-bit timer channel. It supports the following
-functions
- - Counter
- - Timer
- - PWM
+Add RZ/G2L MTU3 MFD driver.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 RFC->v1:
- * Modelled counter and pwm as a single device that handles
-   multiple channels.
- * Moved counter and pwm bindings to respective subsystems
- * Dropped 'bindings' from MFD binding title.
- * Updated the example
- * Changed the compatible names.
+ * Changed the compatible name
+ * Replaced devm_reset_control_get->devm_reset_control_get_exclusive
+ * Renamed function names rzg2l_mtu3->rz_mtu3 as this is generic IP
+   in RZ family SoC's.
 ---
- .../counter/renesas,rz-mtu3-counter.yaml      |  30 ++
- .../bindings/mfd/renesas,rz-mtu3.yaml         | 290 ++++++++++++++++++
- .../bindings/pwm/renesas,rz-mtu3-pwm.yaml     |  50 +++
- 3 files changed, 370 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/counter/renesas,rz-mtu3-counter.yaml
- create mode 100644 Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
- create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rz-mtu3-pwm.yaml
+ drivers/mfd/Kconfig         |   9 +
+ drivers/mfd/Makefile        |   1 +
+ drivers/mfd/rz-mtu3.c       | 395 ++++++++++++++++++++++++++++++++++++
+ include/linux/mfd/rz-mtu3.h | 160 +++++++++++++++
+ 4 files changed, 565 insertions(+)
+ create mode 100644 drivers/mfd/rz-mtu3.c
+ create mode 100644 include/linux/mfd/rz-mtu3.h
 
-diff --git a/Documentation/devicetree/bindings/counter/renesas,rz-mtu3-counter.yaml b/Documentation/devicetree/bindings/counter/renesas,rz-mtu3-counter.yaml
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index 8b93856de432..c68b4e0ae4b9 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -2033,6 +2033,15 @@ config MFD_ROHM_BD957XMUF
+ 	  BD9573MUF Power Management ICs. BD9576 and BD9573 are primarily
+ 	  designed to be used to power R-Car series processors.
+ 
++config MFD_RZ_MTU3
++	tristate "Support for RZ/G2L Multi-Function Timer Pulse Unit 3 MTU3a"
++	depends on (ARCH_RZG2L && OF) || COMPILE_TEST
++	select MFD_CORE
++	help
++	  Select this option to enable RZ/G2L MTU3 timers driver used
++	  for PWM, Clock Source, Clock event and Counter. This driver allow to
++	  share the registers between the others drivers.
++
+ config MFD_STM32_LPTIMER
+ 	tristate "Support for STM32 Low-Power Timer"
+ 	depends on (ARCH_STM32 && OF) || COMPILE_TEST
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index 7ed3ef4a698c..828826f07a71 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -256,6 +256,7 @@ obj-$(CONFIG_MFD_ALTERA_SYSMGR) += altera-sysmgr.o
+ obj-$(CONFIG_MFD_STPMIC1)	+= stpmic1.o
+ obj-$(CONFIG_MFD_SUN4I_GPADC)	+= sun4i-gpadc.o
+ 
++obj-$(CONFIG_MFD_RZ_MTU3) 	+= rz-mtu3.o
+ obj-$(CONFIG_MFD_STM32_LPTIMER)	+= stm32-lptimer.o
+ obj-$(CONFIG_MFD_STM32_TIMERS) 	+= stm32-timers.o
+ obj-$(CONFIG_MFD_MXS_LRADC)     += mxs-lradc.o
+diff --git a/drivers/mfd/rz-mtu3.c b/drivers/mfd/rz-mtu3.c
 new file mode 100644
-index 000000000000..c8b86ef254b6
+index 000000000000..451903097751
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/counter/renesas,rz-mtu3-counter.yaml
-@@ -0,0 +1,30 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/counter/renesas,rz-mtu3-counter.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/mfd/rz-mtu3.c
+@@ -0,0 +1,395 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Renesas RZ/G2L Multi-Function Timer Pulse Unit 3 - MTU3a
++ *
++ * Copyright (C) 2022 Renesas Electronics Corporation
++ */
 +
-+title: Renesas RZ/G2L MTU3a Counter Module
++#include <linux/bitfield.h>
++#include <linux/mfd/rz-mtu3.h>
++#include <linux/module.h>
++#include <linux/interrupt.h>
++#include <linux/io.h>
++#include <linux/ioport.h>
++#include <linux/irq.h>
++#include <linux/of_platform.h>
++#include <linux/pm_runtime.h>
++#include <linux/reset.h>
 +
-+maintainers:
-+  - Biju Das <biju.das.jz@bp.renesas.com>
++static const unsigned long rz_mtu3_8bit_ch_reg_offs[][13] = {
++	{
++		[RZ_MTU3_TIER] = 0x4, [RZ_MTU3_NFCR] = 0x70,
++		[RZ_MTU3_TCR] = 0x0, [RZ_MTU3_TCR2] = 0x28,
++		[RZ_MTU3_TMDR1] = 0x1, [RZ_MTU3_TIORH] = 0x2,
++		[RZ_MTU3_TIORL] = 0x3
++	},
++	{
++		[RZ_MTU3_TIER] = 0x4, [RZ_MTU3_NFCR] = 0xef,
++		[RZ_MTU3_TSR] = 0x5, [RZ_MTU3_TCR] = 0x0,
++		[RZ_MTU3_TCR2] = 0x14, [RZ_MTU3_TMDR1] = 0x1,
++		[RZ_MTU3_TIOR] = 0x2
++	},
++	{
++		[RZ_MTU3_TIER] = 0x4, [RZ_MTU3_NFCR] = 0x16e,
++		[RZ_MTU3_TSR] = 0x5, [RZ_MTU3_TCR] = 0x0,
++		[RZ_MTU3_TCR2] = 0xc, [RZ_MTU3_TMDR1] = 0x1,
++		[RZ_MTU3_TIOR] = 0x2
++	},
++	{
++		[RZ_MTU3_TIER] = 0x8, [RZ_MTU3_NFCR] = 0x93,
++		[RZ_MTU3_TSR] = 0x2c, [RZ_MTU3_TCR] = 0x0,
++		[RZ_MTU3_TCR2] = 0x4c, [RZ_MTU3_TMDR1] = 0x2,
++		[RZ_MTU3_TIORH] = 0x4, [RZ_MTU3_TIORL] = 0x5,
++		[RZ_MTU3_TBTM] = 0x38
++	},
++	{
++		[RZ_MTU3_TIER] = 0x8, [RZ_MTU3_NFCR] = 0x93,
++		[RZ_MTU3_TSR] = 0x2c, [RZ_MTU3_TCR] = 0x0,
++		[RZ_MTU3_TCR2] = 0x4c, [RZ_MTU3_TMDR1] = 0x2,
++		[RZ_MTU3_TIORH] = 0x5, [RZ_MTU3_TIORL] = 0x6,
++		[RZ_MTU3_TBTM] = 0x38
++	},
++	{
++		[RZ_MTU3_TIER] = 0x32, [RZ_MTU3_NFCR] = 0x1eb,
++		[RZ_MTU3_TSTR] = 0x34, [RZ_MTU3_TCNTCMPCLR] = 0x36,
++		[RZ_MTU3_TCRU] = 0x4, [RZ_MTU3_TCR2U] = 0x5,
++		[RZ_MTU3_TIORU] = 0x6, [RZ_MTU3_TCRV] = 0x14,
++		[RZ_MTU3_TCR2V] = 0x15, [RZ_MTU3_TIORV] = 0x16,
++		[RZ_MTU3_TCRW] = 0x24, [RZ_MTU3_TCR2W] = 0x25,
++		[RZ_MTU3_TIORW] = 0x26
++	},
++	{
++		[RZ_MTU3_TIER] = 0x8, [RZ_MTU3_NFCR] = 0x93,
++		[RZ_MTU3_TSR] = 0x2c, [RZ_MTU3_TCR] = 0x0,
++		[RZ_MTU3_TCR2] = 0x4c, [RZ_MTU3_TMDR1] = 0x2,
++		[RZ_MTU3_TIORH] = 0x4, [RZ_MTU3_TIORL] = 0x5,
++		[RZ_MTU3_TBTM] = 0x38
++	},
++	{
++		[RZ_MTU3_TIER] = 0x8, [RZ_MTU3_NFCR] = 0x93,
++		[RZ_MTU3_TSR] = 0x2c, [RZ_MTU3_TCR] = 0x0,
++		[RZ_MTU3_TCR2] = 0x4c, [RZ_MTU3_TMDR1] = 0x2,
++		[RZ_MTU3_TIORH] = 0x5, [RZ_MTU3_TIORL] = 0x6,
++		[RZ_MTU3_TBTM] = 0x38
++	},
++	{
++		[RZ_MTU3_TIER] = 0x4, [RZ_MTU3_NFCR] = 0x368,
++		[RZ_MTU3_TCR] = 0x0, [RZ_MTU3_TCR2] = 0x6,
++		[RZ_MTU3_TMDR1] = 0x1, [RZ_MTU3_TIORH] = 0x2,
++		[RZ_MTU3_TIORL] = 0x3
++	}
++};
 +
-+description: |
-+  This module is part of the rz-mtu3 multi-function device. For more
-+  details see ../mfd/renesas,rz-mtu3.yaml.
++static const unsigned long rz_mtu3_16bit_ch_reg_offs[][12] = {
++	{
++		[RZ_MTU3_TCNT] = 0x6, [RZ_MTU3_TGRA] = 0x8,
++		[RZ_MTU3_TGRB] = 0xa, [RZ_MTU3_TGRC] = 0xc,
++		[RZ_MTU3_TGRD] = 0xe, [RZ_MTU3_TGRE] = 0x20,
++		[RZ_MTU3_TGRF] = 0x22
++	},
++	{
++		[RZ_MTU3_TCNT] = 0x6, [RZ_MTU3_TGRA] = 0x8,
++		[RZ_MTU3_TGRB] = 0xa
++	},
++	{
++		[RZ_MTU3_TCNT] = 0x6, [RZ_MTU3_TGRA] = 0x8,
++		[RZ_MTU3_TGRB] = 0xa
++	},
++	{
++		[RZ_MTU3_TCNT] = 0x10, [RZ_MTU3_TGRA] = 0x18,
++		[RZ_MTU3_TGRB] = 0x1a, [RZ_MTU3_TGRC] = 0x24,
++		[RZ_MTU3_TGRD] = 0x26, [RZ_MTU3_TGRE] = 0x72
++	},
++	{
++		[RZ_MTU3_TCNT] = 0x11, [RZ_MTU3_TGRA] = 0x1b,
++		[RZ_MTU3_TGRB] = 0x1d, [RZ_MTU3_TGRC] = 0x27,
++		[RZ_MTU3_TGRD] = 0x29, [RZ_MTU3_TGRE] = 0x73,
++		[RZ_MTU3_TGRF] = 0x75, [RZ_MTU3_TADCR] = 0x3f,
++		[RZ_MTU3_TADCORA] = 0x43, [RZ_MTU3_TADCORB] = 0x45,
++		[RZ_MTU3_TADCOBRA] = 0x47,
++		[RZ_MTU3_TADCOBRB] = 0x49
++	},
++	{
++		[RZ_MTU3_TCNTU] = 0x0, [RZ_MTU3_TGRU] = 0x2,
++		[RZ_MTU3_TCNTV] = 0x10, [RZ_MTU3_TGRV] = 0x12,
++		[RZ_MTU3_TCNTW] = 0x20, [RZ_MTU3_TGRW] = 0x22
++	},
++	{
++		[RZ_MTU3_TCNT] = 0x10, [RZ_MTU3_TGRA] = 0x18,
++		[RZ_MTU3_TGRB] = 0x1a, [RZ_MTU3_TGRC] = 0x24,
++		[RZ_MTU3_TGRD] = 0x26, [RZ_MTU3_TGRE] = 0x72
++	},
++	{
++		[RZ_MTU3_TCNT] = 0x11, [RZ_MTU3_TGRA] = 0x1b,
++		[RZ_MTU3_TGRB] = 0x1d, [RZ_MTU3_TGRC] = 0x27,
++		[RZ_MTU3_TGRD] = 0x29, [RZ_MTU3_TGRE] = 0x73,
++		[RZ_MTU3_TGRF] = 0x75, [RZ_MTU3_TADCR] = 0x3f,
++		[RZ_MTU3_TADCORA] = 0x43, [RZ_MTU3_TADCORB] = 0x45,
++		[RZ_MTU3_TADCOBRA] = 0x47,
++		[RZ_MTU3_TADCOBRB] = 0x49
++	},
++};
 +
-+  There are two phase counting modes: 16-bit phase counting mode in which MTU1
-+  and MTU2 operate independently, and cascade connection 32-bit phase counting
-+  mode in which MTU1 and MTU2 are cascaded.
++static bool rz_mtu3_is_16bit_shared_reg(u16 off)
++{
++	return (off == RZ_MTU3_TDDRA || off == RZ_MTU3_TDDRB ||
++		off == RZ_MTU3_TCDRA || off == RZ_MTU3_TCDRB ||
++		off == RZ_MTU3_TCBRA || off == RZ_MTU3_TCBRB ||
++		off == RZ_MTU3_TCNTSA || off == RZ_MTU3_TCNTSB);
++}
 +
-+  In phase counting mode, the phase difference between two external input clocks
-+  is detected and the corresponding TCNT is incremented or decremented.
++static u16 rz_mtu3_shared_reg_read(struct rz_mtu3_channel *ch, u16 off)
++{
++	struct rz_mtu3 *mtu = dev_get_drvdata(ch->dev->parent);
 +
-+properties:
-+  compatible:
-+    const: renesas,rz-mtu3-counter
++	if (rz_mtu3_is_16bit_shared_reg(off))
++		return readw(mtu->mmio + off);
++	else
++		return readb(mtu->mmio + off);
++}
 +
-+required:
-+  - compatible
++u8 rz_mtu3_8bit_ch_read(struct rz_mtu3_channel *ch, u16 off)
++{
++	u16 ch_offs;
 +
-+additionalProperties: false
-diff --git a/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml b/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
++	ch_offs = rz_mtu3_8bit_ch_reg_offs[ch->index][off];
++	if (off != RZ_MTU3_TCR && ch_offs == 0)
++		return -EINVAL;
++
++	/*
++	 * NFCR register addresses on MTU{0,1,2,5,8} channels are smaller than
++	 * channel's base address.
++	 */
++	if (off == RZ_MTU3_NFCR && (ch->index <= RZ_MTU2 ||
++				    ch->index == RZ_MTU5 ||
++				    ch->index == RZ_MTU8))
++		return readb(ch->base - ch_offs);
++	else
++		return readb(ch->base + ch_offs);
++}
++EXPORT_SYMBOL_GPL(rz_mtu3_8bit_ch_read);
++
++u16 rz_mtu3_16bit_ch_read(struct rz_mtu3_channel *ch, u16 off)
++{
++	u16 ch_offs;
++
++	/* MTU8 doesn't have 16-bit registers */
++	if (ch->index == RZ_MTU8)
++		return 0;
++
++	ch_offs = rz_mtu3_16bit_ch_reg_offs[ch->index][off];
++	if (ch->index != RZ_MTU5 && off != RZ_MTU3_TCNTU && ch_offs == 0)
++		return 0;
++
++	return readw(ch->base + ch_offs);
++}
++EXPORT_SYMBOL_GPL(rz_mtu3_16bit_ch_read);
++
++void rz_mtu3_8bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u8 val)
++{
++	u16 ch_offs;
++
++	ch_offs = rz_mtu3_8bit_ch_reg_offs[ch->index][off];
++	if (ch->index != RZ_MTU5 && off != RZ_MTU3_TCR && ch_offs == 0)
++		return;
++
++	/*
++	 * NFCR register addresses on MTU{0,1,2,5,8} channels are smaller than
++	 * channel's base address.
++	 */
++	if (off == RZ_MTU3_NFCR && (ch->index <= RZ_MTU2 ||
++				    ch->index == RZ_MTU5 ||
++				    ch->index == RZ_MTU8))
++		writeb(val, ch->base - ch_offs);
++	else
++		writeb(val, ch->base + ch_offs);
++}
++EXPORT_SYMBOL_GPL(rz_mtu3_8bit_ch_write);
++
++void rz_mtu3_16bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u16 val)
++{
++	u16 ch_offs;
++
++	/* MTU8 doesn't have 16-bit registers */
++	if (ch->index == RZ_MTU8)
++		return;
++
++	ch_offs = rz_mtu3_16bit_ch_reg_offs[ch->index][off];
++	if (ch->index != RZ_MTU5 && off != RZ_MTU3_TCNTU && ch_offs == 0)
++		return;
++
++	writew(val, ch->base + ch_offs);
++}
++EXPORT_SYMBOL_GPL(rz_mtu3_16bit_ch_write);
++
++static inline void rz_mtu3_shared_reg_write(struct rz_mtu3_channel *ch,
++					    u16 off, u16 value)
++{
++	struct rz_mtu3 *mtu = dev_get_drvdata(ch->dev->parent);
++
++	if (rz_mtu3_is_16bit_shared_reg(off))
++		writew(value, mtu->mmio + off);
++	else
++		writeb((u8)value, mtu->mmio + off);
++}
++
++static void rz_mtu3_start_stop_ch(struct rz_mtu3_channel *ch, bool start)
++{
++	struct rz_mtu3 *mtu = dev_get_drvdata(ch->dev->parent);
++	unsigned long flags, value;
++	u8 offs;
++
++	/* start stop register shared by multiple timer channels */
++	raw_spin_lock_irqsave(&mtu->lock, flags);
++
++	if (ch->index == RZ_MTU6 || ch->index == RZ_MTU7) {
++		value = rz_mtu3_shared_reg_read(ch, RZ_MTU3_TSTRB);
++		if (start)
++			value |= 1 << ch->index;
++		else
++			value &= ~(1 << ch->index);
++		rz_mtu3_shared_reg_write(ch, RZ_MTU3_TSTRB, value);
++	} else if (ch->index != RZ_MTU5) {
++		value = rz_mtu3_shared_reg_read(ch, RZ_MTU3_TSTRA);
++		if (ch->index == RZ_MTU8)
++			offs = 0x08;
++		else if (ch->index < RZ_MTU3)
++			offs = 1 << ch->index;
++		else
++			offs = 1 << (ch->index + 3);
++		if (start)
++			value |= offs;
++		else
++			value &= ~offs;
++		rz_mtu3_shared_reg_write(ch, RZ_MTU3_TSTRA, value);
++	}
++
++	raw_spin_unlock_irqrestore(&mtu->lock, flags);
++}
++
++bool rz_mtu3_is_enabled(struct rz_mtu3_channel *ch)
++{
++	struct rz_mtu3 *mtu = dev_get_drvdata(ch->dev->parent);
++	unsigned long flags, value;
++	bool ret = false;
++	u8 offs;
++
++	/* start stop register shared by multiple timer channels */
++	raw_spin_lock_irqsave(&mtu->lock, flags);
++
++	if (ch->index == RZ_MTU6 || ch->index == RZ_MTU7) {
++		value = rz_mtu3_shared_reg_read(ch, RZ_MTU3_TSTRB);
++		ret = value & (1 << ch->index);
++	} else if (ch->index != RZ_MTU5) {
++		value = rz_mtu3_shared_reg_read(ch, RZ_MTU3_TSTRA);
++		if (ch->index == RZ_MTU8)
++			offs = 0x08;
++		else if (ch->index < RZ_MTU3)
++			offs = 1 << ch->index;
++		else
++			offs = 1 << (ch->index + 3);
++
++		ret = value & offs;
++	}
++
++	raw_spin_unlock_irqrestore(&mtu->lock, flags);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(rz_mtu3_is_enabled);
++
++int rz_mtu3_enable(struct rz_mtu3_channel *ch)
++{
++	/* enable channel */
++	rz_mtu3_start_stop_ch(ch, true);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(rz_mtu3_enable);
++
++void rz_mtu3_disable(struct rz_mtu3_channel *ch)
++{
++	/* disable channel */
++	rz_mtu3_start_stop_ch(ch, false);
++}
++EXPORT_SYMBOL_GPL(rz_mtu3_disable);
++
++static const unsigned int ch_reg_offsets[] = {
++	0x100, 0x180, 0x200, 0x000, 0x001, 0xa80, 0x800, 0x801, 0x400
++};
++
++static void rz_mtu3_reset_assert(void *data)
++{
++	struct reset_control *rstc = data;
++
++	reset_control_assert(rstc);
++}
++
++static int rz_mtu3_probe(struct platform_device *pdev)
++{
++	struct reset_control *rstc;
++	struct rz_mtu3 *ddata;
++	unsigned int i;
++	int ret;
++
++	ddata = devm_kzalloc(&pdev->dev, sizeof(*ddata), GFP_KERNEL);
++	if (!ddata)
++		return -ENOMEM;
++
++	ddata->mmio = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(ddata->mmio))
++		return PTR_ERR(ddata->mmio);
++
++	rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
++	if (IS_ERR(rstc))
++		return PTR_ERR(rstc);
++
++	ret = devm_add_action_or_reset(&pdev->dev, rz_mtu3_reset_assert,
++				       rstc);
++	if (ret < 0)
++		return ret;
++
++	ddata->clk = devm_clk_get(&pdev->dev, NULL);
++	if (IS_ERR(ddata->clk))
++		return PTR_ERR(ddata->clk);
++
++	raw_spin_lock_init(&ddata->lock);
++	reset_control_deassert(rstc);
++
++	for (i = 0; i < RZ_MTU_NUM_CHANNELS; i++) {
++		ddata->channels[i].index = i;
++		ddata->channels[i].function = RZ_MTU3_NORMAL;
++		ddata->channels[i].base = ddata->mmio + ch_reg_offsets[i];
++	}
++
++	platform_set_drvdata(pdev, ddata);
++
++	return of_platform_populate(pdev->dev.of_node, NULL, NULL, &pdev->dev);
++}
++
++static int rz_mtu3_remove(struct platform_device *pdev)
++{
++	of_platform_depopulate(&pdev->dev);
++
++	return 0;
++}
++
++static const struct of_device_id rz_mtu3_of_match[] = {
++	{ .compatible = "renesas,rz-mtu3", },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, rz_mtu3_of_match);
++
++static struct platform_driver rz_mtu3_driver = {
++	.probe = rz_mtu3_probe,
++	.remove = rz_mtu3_remove,
++	.driver	= {
++		.name = "rz-mtu3",
++		.of_match_table = rz_mtu3_of_match,
++	},
++};
++module_platform_driver(rz_mtu3_driver);
++
++MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
++MODULE_DESCRIPTION("Renesas RZ/G2L MTU3 Driver");
++MODULE_LICENSE("GPL");
+diff --git a/include/linux/mfd/rz-mtu3.h b/include/linux/mfd/rz-mtu3.h
 new file mode 100644
-index 000000000000..0413d22704c9
+index 000000000000..d0e333e790e7
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
-@@ -0,0 +1,290 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mfd/renesas,rz-mtu3.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/include/linux/mfd/rz-mtu3.h
+@@ -0,0 +1,160 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2022 Renesas Electronics Corporation
++ */
 +
-+title: Renesas RZ/G2L Multi-Function Timer Pulse Unit 3 (MTU3a)
++#ifndef __LINUX_RZ_MTU3_H__
++#define __LINUX_RZ_MTU3_H__
 +
-+maintainers:
-+  - Biju Das <biju.das.jz@bp.renesas.com>
++#include <linux/clk.h>
 +
-+description: |
-+  This hardware block pconsisting of eight 16-bit timer channels and one
-+  32- bit timer channel. It supports the following specifications:
-+    - Pulse input/output: 28 lines max.
-+    - Pulse input 3 lines
-+    - Count clock 11 clocks for each channel (14 clocks for MTU0, 12 clocks
-+      for MTU2, and 10 clocks for MTU5, four clocks for MTU1-MTU2 combination
-+      (when LWA = 1))
-+    - Operating frequency Up to 100 MHz
-+    - Available operations [MTU0 to MTU4, MTU6, MTU7, and MTU8]
-+        - Waveform output on compare match
-+        - Input capture function (noise filter setting available)
-+        - Counter-clearing operation
-+        - Simultaneous writing to multiple timer counters (TCNT)
-+          (excluding MTU8).
-+        - Simultaneous clearing on compare match or input capture
-+          (excluding MTU8).
-+        - Simultaneous input and output to registers in synchronization with
-+          counter operations           (excluding MTU8).
-+        - Up to 12-phase PWM output in combination with synchronous operation
-+          (excluding MTU8)
-+    - [MTU0 MTU3, MTU4, MTU6, MTU7, and MTU8]
-+        - Buffer operation specifiable
-+    - [MTU1, MTU2]
-+        - Phase counting mode can be specified independently
-+        - 32-bit phase counting mode can be specified for interlocked operation
-+          of MTU1 and MTU2 (when TMDR3.LWA = 1)
-+        - Cascade connection operation available
-+    - [MTU3, MTU4, MTU6, and MTU7]
-+        - Through interlocked operation of MTU3/4 and MTU6/7, the positive and
-+          negative signals in six phases (12 phases in total) can be output in
-+          complementary PWM and reset-synchronized PWM operation.
-+        - In complementary PWM mode, values can be transferred from buffer
-+          registers to temporary registers at crests and troughs of the timer-
-+          counter values or when the buffer registers (TGRD registers in MTU4
-+          and MTU7) are written to.
-+        - Double-buffering selectable in complementary PWM mode.
-+    - [MTU3 and MTU4]
-+        - Through interlocking with MTU0, a mode for driving AC synchronous
-+          motors (brushless DC motors) by using complementary PWM output and
-+          reset-synchronized PWM output is settable and allows the selection
-+          of two types of waveform output (chopping or level).
-+    - [MTU5]
-+        - Capable of operation as a dead-time compensation counter.
-+    - [MTU0/MTU5, MTU1, MTU2, and MTU8]
-+        - 32-bit phase counting mode specifiable by combining MTU1 and MTU2 and
-+          through interlocked operation with MTU0/MTU5 and MTU8.
-+    - Interrupt-skipping function
-+        - In complementary PWM mode, interrupts on crests and troughs of counter
-+          values and triggers to start conversion by the A/D converter can be
-+          skipped.
-+    - Interrupt sources: 43 sources.
-+    - Buffer operation:
-+        - Automatic transfer of register data (transfer from the buffer
-+          register to the timer register).
-+    - Trigger generation
-+        - A/D converter start triggers can be generated
-+        - A/D converter start request delaying function enables A/D converter
-+          to be started with any desired timing and to be synchronized with
-+          PWM output.
-+    - Low power consumption function
-+        - The MTU3a can be placed in the module-stop state.
++/* 8-bit shared register offsets macros */
++#define RZ_MTU3_TSTRA	0x080 /* Timer start register A */
++#define RZ_MTU3_TSTRB	0x880 /* Timer start register B */
 +
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - renesas,r9a07g044-mtu3  # RZ/G2{L,LC}
-+          - renesas,r9a07g054-mtu3  # RZ/V2L
-+      - const: renesas,rz-mtu3
++/* 16-bit shared register offset macros */
++#define RZ_MTU3_TDDRA	0x016 /* Timer dead time data register A */
++#define RZ_MTU3_TDDRB	0x816 /* Timer dead time data register B */
++#define RZ_MTU3_TCDRA	0x014 /* Timer cycle data register A */
++#define RZ_MTU3_TCDRB	0x814 /* Timer cycle data register B */
++#define RZ_MTU3_TCBRA	0x022 /* Timer cycle buffer register A */
++#define RZ_MTU3_TCBRB	0x822 /* Timer cycle buffer register B */
++#define RZ_MTU3_TCNTSA	0x020 /* Timer subcounter A */
++#define RZ_MTU3_TCNTSB	0x820 /* Timer subcounter B */
 +
-+  reg:
-+    maxItems: 1
++/*
++ * MTU5 contains 3 timer counter registers and is totaly different
++ * from other channels, so we must separate its offset
++ */
 +
-+  interrupts:
-+    items:
-+      - description: MTU0.TGRA input capture/compare match
-+      - description: MTU0.TGRB input capture/compare match
-+      - description: MTU0.TGRC input capture/compare match
-+      - description: MTU0.TGRD input capture/compare match
-+      - description: MTU0.TCNT overflow
-+      - description: MTU0.TGRE compare match
-+      - description: MTU0.TGRF compare match
-+      - description: MTU1.TGRA input capture/compare match
-+      - description: MTU1.TGRB input capture/compare match
-+      - description: MTU1.TCNT overflow
-+      - description: MTU1.TCNT underflow
-+      - description: MTU2.TGRA input capture/compare match
-+      - description: MTU2.TGRB input capture/compare match
-+      - description: MTU2.TCNT overflow
-+      - description: MTU2.TCNT underflow
-+      - description: MTU3.TGRA input capture/compare match
-+      - description: MTU3.TGRB input capture/compare match
-+      - description: MTU3.TGRC input capture/compare match
-+      - description: MTU3.TGRD input capture/compare match
-+      - description: MTU3.TCNT overflow
-+      - description: MTU4.TGRA input capture/compare match
-+      - description: MTU4.TGRB input capture/compare match
-+      - description: MTU4.TGRC input capture/compare match
-+      - description: MTU4.TGRD input capture/compare match
-+      - description: MTU4.TCNT overflow/underflow
-+      - description: MTU5.TGRU input capture/compare match
-+      - description: MTU5.TGRV input capture/compare match
-+      - description: MTU5.TGRW input capture/compare match
-+      - description: MTU6.TGRA input capture/compare match
-+      - description: MTU6.TGRB input capture/compare match
-+      - description: MTU6.TGRC input capture/compare match
-+      - description: MTU6.TGRD input capture/compare match
-+      - description: MTU6.TCNT overflow
-+      - description: MTU7.TGRA input capture/compare match
-+      - description: MTU7.TGRB input capture/compare match
-+      - description: MTU7.TGRC input capture/compare match
-+      - description: MTU7.TGRD input capture/compare match
-+      - description: MTU7.TCNT overflow/underflow
-+      - description: MTU8.TGRA input capture/compare match
-+      - description: MTU8.TGRB input capture/compare match
-+      - description: MTU8.TGRC input capture/compare match
-+      - description: MTU8.TGRD input capture/compare match
-+      - description: MTU8.TCNT overflow
-+      - description: MTU8.TCNT underflow
++/* 8-bit register offset macros of MTU3 channels except MTU5 */
++#define RZ_MTU3_TIER	0 /* Timer interrupt register */
++#define RZ_MTU3_NFCR	1 /* Noise filter control register */
++#define RZ_MTU3_TSR	2 /* Timer status register */
++#define RZ_MTU3_TCR	3 /* Timer control register */
++#define RZ_MTU3_TCR2	4 /* Timer control register 2 */
++#define RZ_MTU3_TMDR1	5 /* Timer mode register 1 */
++#define RZ_MTU3_TIOR	6 /* Timer I/O control register */
++#define RZ_MTU3_TIORH	6 /* Timer I/O control register H */
++#define RZ_MTU3_TIORL	7 /* Timer I/O control register L */
++/* Only MTU3/4/6/7 have TBTM registers */
++#define RZ_MTU3_TBTM	8 /* Timer buffer operation transfer mode register */
 +
-+  interrupt-names:
-+    items:
-+      - const: tgia0
-+      - const: tgib0
-+      - const: tgic0
-+      - const: tgid0
-+      - const: tgiv0
-+      - const: tgie0
-+      - const: tgif0
-+      - const: tgia1
-+      - const: tgib1
-+      - const: tgiv1
-+      - const: tgiu1
-+      - const: tgia2
-+      - const: tgib2
-+      - const: tgiv2
-+      - const: tgiu2
-+      - const: tgia3
-+      - const: tgib3
-+      - const: tgic3
-+      - const: tgid3
-+      - const: tgiv3
-+      - const: tgia4
-+      - const: tgib4
-+      - const: tgic4
-+      - const: tgid4
-+      - const: tgiv4
-+      - const: tgiu5
-+      - const: tgiv5
-+      - const: tgiw5
-+      - const: tgia6
-+      - const: tgib6
-+      - const: tgic6
-+      - const: tgid6
-+      - const: tgiv6
-+      - const: tgia7
-+      - const: tgib7
-+      - const: tgic7
-+      - const: tgid7
-+      - const: tgiv7
-+      - const: tgia8
-+      - const: tgib8
-+      - const: tgic8
-+      - const: tgid8
-+      - const: tgiv8
-+      - const: tgiu8
++/* 8-bit MTU5 register offset macros */
++#define RZ_MTU3_TSTR		2 /* MTU5 Timer start register */
++#define RZ_MTU3_TCNTCMPCLR	3 /* MTU5 Timer compare match clear register */
++#define RZ_MTU3_TCRU		4 /* Timer control register U */
++#define RZ_MTU3_TCR2U		5 /* Timer control register 2U */
++#define RZ_MTU3_TIORU		6 /* Timer I/O control register U */
++#define RZ_MTU3_TCRV		7 /* Timer control register V */
++#define RZ_MTU3_TCR2V		8 /* Timer control register 2V */
++#define RZ_MTU3_TIORV		9 /* Timer I/O control register V */
++#define RZ_MTU3_TCRW		10 /* Timer control register W */
++#define RZ_MTU3_TCR2W		11 /* Timer control register 2W */
++#define RZ_MTU3_TIORW		12 /* Timer I/O control register W */
 +
-+  clocks:
-+    maxItems: 1
++/* 16-bit register offset macros of MTU3 channels except MTU5 */
++#define RZ_MTU3_TCNT		0 /* Timer counter */
++#define RZ_MTU3_TGRA		1 /* Timer general register A */
++#define RZ_MTU3_TGRB		2 /* Timer general register B */
++#define RZ_MTU3_TGRC		3 /* Timer general register C */
++#define RZ_MTU3_TGRD		4 /* Timer general register D */
++#define RZ_MTU3_TGRE		5 /* Timer general register E */
++#define RZ_MTU3_TGRF		6 /* Timer general register F */
++/* Timer A/D converter start request registers */
++#define RZ_MTU3_TADCR		7 /* control register */
++#define RZ_MTU3_TADCORA		8 /* cycle set register A */
++#define RZ_MTU3_TADCORB		9 /* cycle set register B */
++#define RZ_MTU3_TADCOBRA	10 /* cycle set buffer register A */
++#define RZ_MTU3_TADCOBRB	11 /* cycle set buffer register B */
 +
-+  power-domains:
-+    maxItems: 1
++/* 16-bit MTU5 register offset macros */
++#define RZ_MTU3_TCNTU		0 /* MTU5 Timer counter U */
++#define RZ_MTU3_TGRU		1 /* MTU5 Timer general register U */
++#define RZ_MTU3_TCNTV		2 /* MTU5 Timer counter V */
++#define RZ_MTU3_TGRV		3 /* MTU5 Timer general register V */
++#define RZ_MTU3_TCNTW		4 /* MTU5 Timer counter W */
++#define RZ_MTU3_TGRW		5 /* MTU5 Timer general register W */
 +
-+  resets:
-+    maxItems: 1
++/* Macros for setting registers */
++#define RZ_MTU3_TCR_CCLR_TGRA	BIT(5)
 +
-+  "#address-cells":
-+    const: 1
++enum rz_mtu3_channels {
++	RZ_MTU0,
++	RZ_MTU1,
++	RZ_MTU2,
++	RZ_MTU3,
++	RZ_MTU4,
++	RZ_MTU5,
++	RZ_MTU6,
++	RZ_MTU7,
++	RZ_MTU8,
++	RZ_MTU_NUM_CHANNELS
++};
 +
-+  "#size-cells":
-+    const: 0
++enum rz_mtu3_functions {
++	RZ_MTU3_NORMAL,
++	RZ_MTU3_16BIT_PHASE_COUNTING,
++	RZ_MTU3_32BIT_PHASE_COUNTING,
++	RZ_MTU3_PWM_MODE_1,
++};
 +
-+  "counter":
-+    $ref: ../counter/renesas,rz-mtu3-counter.yaml
++struct rz_mtu3_channel {
++	struct device *dev;
++	unsigned int index;
++	void __iomem *base;
++	enum rz_mtu3_functions function;
++};
 +
-+  "pwm":
-+    $ref: ../pwm/renesas,rz-mtu3-pwm.yaml
++struct rz_mtu3 {
++	struct clk *clk;
++	void __iomem *mmio;
++	raw_spinlock_t lock; /* Protect the shared registers */
++	struct rz_mtu3_channel channels[RZ_MTU_NUM_CHANNELS];
++};
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - interrupt-names
-+  - clocks
-+  - power-domains
-+  - resets
++#if IS_ENABLED(CONFIG_MFD_RZ_MTU3)
++bool rz_mtu3_is_enabled(struct rz_mtu3_channel *ch);
++void rz_mtu3_disable(struct rz_mtu3_channel *ch);
++int rz_mtu3_enable(struct rz_mtu3_channel *ch);
 +
-+additionalProperties: false
++u8 rz_mtu3_8bit_ch_read(struct rz_mtu3_channel *ch, u16 off);
++u16 rz_mtu3_16bit_ch_read(struct rz_mtu3_channel *ch, u16 off);
 +
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r9a07g044-cpg.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
++void rz_mtu3_8bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u8 val);
++void rz_mtu3_16bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u16 val);
++#else
++static inline bool rz_mtu3_is_enabled(struct rz_mtu3_channel *ch)
++{
++	return false;
++}
 +
-+    mtu3: timer@10001200 {
-+      compatible = "renesas,r9a07g044-mtu3", "renesas,rz-mtu3";
-+      reg = <0x10001200 0xb00>;
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      interrupts = <GIC_SPI 170 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 171 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 172 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 173 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 174 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 175 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 176 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 177 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 178 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 179 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 180 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 181 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 182 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 183 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 184 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 185 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 186 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 187 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 188 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 189 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 190 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 191 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 192 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 193 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 194 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 195 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 196 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 197 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 198 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 199 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 200 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 201 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 202 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 203 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 204 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 205 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 206 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 207 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 208 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 209 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 210 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 211 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 212 IRQ_TYPE_EDGE_RISING>,
-+                   <GIC_SPI 213 IRQ_TYPE_EDGE_RISING>;
-+      interrupt-names = "tgia0", "tgib0", "tgic0", "tgid0", "tgiv0", "tgie0",
-+                        "tgif0",
-+                        "tgia1", "tgib1", "tgiv1", "tgiu1",
-+                        "tgia2", "tgib2", "tgiv2", "tgiu2",
-+                        "tgia3", "tgib3", "tgic3", "tgid3", "tgiv3",
-+                        "tgia4", "tgib4", "tgic4", "tgid4", "tgiv4",
-+                        "tgiu5", "tgiv5", "tgiw5",
-+                        "tgia6", "tgib6", "tgic6", "tgid6", "tgiv6",
-+                        "tgia7", "tgib7", "tgic7", "tgid7", "tgiv7",
-+                        "tgia8", "tgib8", "tgic8", "tgid8", "tgiv8", "tgiu8";
-+      clocks = <&cpg CPG_MOD R9A07G044_MTU_X_MCK_MTU3>;
-+      power-domains = <&cpg>;
-+      resets = <&cpg R9A07G044_MTU_X_PRESET_MTU3>;
++static inline void rz_mtu3_disable(struct rz_mtu3_channel *ch)
++{
++}
 +
-+      counter {
-+        compatible = "renesas,rz-mtu3-counter";
-+      };
++static inline int rz_mtu3_enable(struct rz_mtu3_channel *ch)
++{
++	return 0;
++}
 +
-+      pwm {
-+        compatible = "renesas,rz-mtu3-pwm";
-+        #pwm-cells = <2>;
-+      };
-+    };
++static inline u8 rz_mtu3_8bit_ch_read(struct rz_mtu3_channel *ch, u16 off)
++{
++	return 0;
++}
 +
-+...
-diff --git a/Documentation/devicetree/bindings/pwm/renesas,rz-mtu3-pwm.yaml b/Documentation/devicetree/bindings/pwm/renesas,rz-mtu3-pwm.yaml
-new file mode 100644
-index 000000000000..29d7d0fdf7f2
---- /dev/null
-+++ b/Documentation/devicetree/bindings/pwm/renesas,rz-mtu3-pwm.yaml
-@@ -0,0 +1,50 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/pwm/renesas,rz-mtu3-pwm.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++static inline u16 rz_mtu3_16bit_ch_read(struct rz_mtu3_channel *ch, u16 off)
++{
++	return 0;
++}
 +
-+title: PWM driver for the RZ/G2L multi-function timer pulse unit 3 (MTU3a)
++static inline void rz_mtu3_8bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u8 val)
++{
++}
 +
-+maintainers:
-+  - Biju Das <biju.das.jz@bp.renesas.com>
++static inline void rz_mtu3_16bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u16 val)
++{
++}
++#endif
 +
-+description: |
-+  This module is part of the RZ/G2L MTU3a multi-function device. For more
-+  details see ../mfd/renesas,rz-mtu3.yaml.
-+
-+  The module supports PWM mode{1,2}, Reset-synchronized PWM mode and
-+  complementary PWM mode{1,2,3}.
-+
-+  In complementary PWM mode, six positive-phase and six negative-phase PWM
-+  waveforms (12 phases in total) with dead time can be output by
-+  combining MTU{3,4} and MTU{6,7}.
-+
-+  The pwm channels corresponding to each hardware channels.
-+  0  - MTU0.MTIOC0A PWM mode 1
-+  1  - MTU0.MTIOC0C PWM mode 1
-+  2  - MTU1.MTIOC1A PWM mode 1
-+  3  - MTU2.MTIOC2A PWM mode 1
-+  4  - MTU3.MTIOC3A PWM mode 1
-+  5  - MTU3.MTIOC3C PWM mode 1
-+  6  - MTU4.MTIOC4A PWM mode 1
-+  7  - MTU4.MTIOC4C PWM mode 1
-+  8  - MTU6.MTIOC6A PWM mode 1
-+  9  - MTU6.MTIOC6C PWM mode 1
-+  10 - MTU7.MTIOC7A PWM mode 1
-+  11 - MTU7.MTIOC7C PWM mode 1
-+
-+allOf:
-+  - $ref: pwm.yaml#
-+
-+properties:
-+  compatible:
-+    const: renesas,rz-mtu3-pwm
-+
-+  "#pwm-cells":
-+    const: 2
-+
-+required:
-+  - compatible
-+
-+additionalProperties: false
++#endif /* __LINUX_RZ_MTU3_H__ */
 -- 
 2.25.1
 
