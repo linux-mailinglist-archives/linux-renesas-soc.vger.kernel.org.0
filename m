@@ -2,76 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 669A35F54C3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Oct 2022 14:54:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB0A35F54C9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Oct 2022 14:56:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229928AbiJEMyP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Oct 2022 08:54:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57702 "EHLO
+        id S229790AbiJEM4w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Oct 2022 08:56:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229830AbiJEMyN (ORCPT
+        with ESMTP id S229459AbiJEM4w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Oct 2022 08:54:13 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E18EB72FCD;
-        Wed,  5 Oct 2022 05:54:12 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id g27so5983411edf.11;
-        Wed, 05 Oct 2022 05:54:12 -0700 (PDT)
+        Wed, 5 Oct 2022 08:56:52 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D82645D13F;
+        Wed,  5 Oct 2022 05:56:50 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id z23so18507310ejw.12;
+        Wed, 05 Oct 2022 05:56:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=+/BpHNUiX7JadelGxCPFlNmOoEOJtPwIvuyPjnCDWlw=;
-        b=e6fMM1BObwqE0wCzwzVi+O9wL9KCw6rpt+K5AX6yF1M3XtoO4odTQWR/BN64rJMnLu
-         O+qTNHQH8wGgicBOpPJlk0I2X4fyHJ8K40TB6xXmPWAP77uBxYD5QJusdMe/r8ZBmm+C
-         UkaqYh7sbI/hwmtTzZ482u7hK7qz3ZqsQ9SU5vKT9FbwPzuHKVwMII8q2u4o1TDSzHDi
-         Xz3j+33pbpb/abtNZy14KFzbpmfsCwOtgAIUOi5z3VQuVmPxBQEJdVqOYiyAm9WPRBXq
-         WVc9vhXOcr4vkm+NyMhIdpX+QpCjKKa0U2fLjtSKEQoRT8C53PuERGoAMRKBmDhqp/fH
-         rbfg==
+        bh=3hRHxdqHIje5FknTJ5KEacsVN7WFRHzy8hAOq67mToA=;
+        b=RcvnrdSbxx7KFIR23+Xu5+IWBgvpRzBfeSBnL323zeMkA5PMr6EaMth8eGRHm2AQlI
+         50mgbAGAiEvnifvIPdoxWlJuGUj1AxhufP7YZX/qhAuF5LpfPgvyoGK/vtlB+INTksl9
+         dkEJhxR+smdS39b2nNyz89DQimi9pG9sPD9vyhp49JnQyS/J230WJtK7XL1ZLAU3OPsV
+         Ve+bDgVtPvEsk+zWc1QYG1eFkmkJFncTEMFplRnyWFCDv5Eo7Aja6oTs1iGPRxog+3hE
+         MJuD37nMbidVFyDGigr3l9JcxJW1UEXgOroBTMgmfATIWCLOFs1vAYSx3n+nT+k/6G0m
+         VUzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=+/BpHNUiX7JadelGxCPFlNmOoEOJtPwIvuyPjnCDWlw=;
-        b=xylUQ0rvChdRBE6MBZFOmTPHyGurYLxjbVl1eZOzCskXmfkwEH8+NVnOUL+cPxoXJz
-         BaL/biCna7MpKye11N3xZ+aDF2kzS1XFZFy7Cm5pia4EEq/0OncMUsxHudfwv0LJ2W4H
-         b3oM4tQ4kAadF7zII2xhLIV7IUnPpBGevR7RmOP4vOv28Fp7csS7WigR+W8C0Y3J6GHV
-         Y4KWi2hXC+evEwYhwEDYqSdgG3Ffb1k2HU25vKxt3Ri8cdPQk8iC7e9gIHcCJZyPrhu1
-         QZOygTqMISt9Tbr3V/l4rMbFm2Rsdwkt82C44sueeZeYE0bAt3X1hQf5RCXaHIBkNHKd
-         cUPw==
-X-Gm-Message-State: ACrzQf13dWMcHsUbez9ck7PUH2SMN++/kWr5pyFGQe+QJNa0osj0NWlw
-        McBa3SCjPdtzxBfAQ9YH5Y+Kmx1drBMvc+GEaWI=
-X-Google-Smtp-Source: AMsMyM68FFkOONmspqWdcj7OVMrZtTASnunn2gJ0ZrCK2kwFFJdpz25HPbRCfns2zjcZ8yq0n+iRi5/tOZOg8OBAiIw=
-X-Received: by 2002:a05:6402:50d1:b0:452:899e:77c with SMTP id
- h17-20020a05640250d100b00452899e077cmr28041684edb.0.1664974451331; Wed, 05
- Oct 2022 05:54:11 -0700 (PDT)
+        bh=3hRHxdqHIje5FknTJ5KEacsVN7WFRHzy8hAOq67mToA=;
+        b=RQJsg9gb/r3aebuO81dkeq390rx4UuH+hLQHifJ3LaiZIxNzM0c62IdgnQdbgAm+1O
+         jz7+XsDRGMwJZRboGLQ11feYJKwuSqh0J/1qzHnC0GQpcwaa56Q8kPsrmPHLn+ZNoH3I
+         E8iZYvQWp3lcvjPz1lmDKFIBEroz4paRf9vmNUs1jpW06LO66n6pR0UrZF1XEuaQ86IU
+         Ln1TkLcWAXc94krVqtvzZlNnMsp8agIldqj+4Nm7HZ7Zgu4AwTikuPkDFxQUbw+d1hTo
+         e84FhYz+F4/eJFlmzuSP2SB6TkcjzU8UTuk5CcOC5dEHEAgBvJkAJrk3izp96aYsSOdW
+         yKXg==
+X-Gm-Message-State: ACrzQf2WlXPosIXWZm+lHogDUjMIzW76nkWFLDJxxHnw6B6W9XXbQWlb
+        tgbE1q9zZoKSpwcbN+zfNmjG5VBVtE9VT4FFW3E=
+X-Google-Smtp-Source: AMsMyM4fEebU5vXdmoNhZeqjJsBt6nkb3ptyPHHOAGQaiSjg1CAHVnsDSqSdjhgnhHWf4VY7PXiZjQOX12cHmq/1W0o=
+X-Received: by 2002:a17:907:2c41:b0:77d:8aed:cf7c with SMTP id
+ hf1-20020a1709072c4100b0077d8aedcf7cmr23405273ejc.447.1664974609274; Wed, 05
+ Oct 2022 05:56:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221003223222.448551-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221003223222.448551-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAJF2gTQuSX9idEyNmGRwpAsSP8V=+QKQ7UAp28T-seM8rbkwOA@mail.gmail.com>
-In-Reply-To: <CAJF2gTQuSX9idEyNmGRwpAsSP8V=+QKQ7UAp28T-seM8rbkwOA@mail.gmail.com>
+References: <20220919133122.167794-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <OS0PR01MB5922E64DD745E4F8A5FEFCD5864D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CA+V-a8vAjO9H9BdgNOVXkjWR9zpD+73P_KLo0683xp1nBgVViQ@mail.gmail.com>
+ <OS0PR01MB59227B5F87C7FC3CEC271B0A864D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CA+V-a8utdkb61v_1=G85O6OCtQDv-+5YuyFy4r7BW+fR2E=WkQ@mail.gmail.com>
+ <OS0PR01MB592278FB3E443C84130FCA7D864D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922DAA91FFD18FD52FEC916865D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922DAA91FFD18FD52FEC916865D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 5 Oct 2022 13:53:44 +0100
-Message-ID: <CA+V-a8smkDmQbz76sTA5XfUm7bkY4Ee-L5xYW+-xRWkE1TYiAw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/2] soc: renesas: Add L2 cache management for
- RZ/Five SoC
-To:     Guo Ren <guoren@kernel.org>
+Date:   Wed, 5 Oct 2022 13:56:22 +0100
+Message-ID: <CA+V-a8uNhM92ezEX3iCcP2zp3Er9EPDy1Z-4L3gQfe=xU8O1bw@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: r9a07g044: Add WDT2 clocks to critical list
+To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -83,50 +77,116 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Guo,
+Hi Biju,
 
-On Wed, Oct 5, 2022 at 2:29 AM Guo Ren <guoren@kernel.org> wrote:
+On Wed, Oct 5, 2022 at 9:27 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
 >
-> On Tue, Oct 4, 2022 at 6:32 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> >
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > On the AX45MP core, cache coherency is a specification option so it may
-> > not be supported. In this case DMA will fail. As a workaround, firstly we
-> > allocate a global dma coherent pool from which DMA allocations are taken
-> > and marked as non-cacheable + bufferable using the PMA region as specified
-> > in the device tree. Synchronization callbacks are implemented to
-> > synchronize when doing DMA transactions.
-> >
-> > The Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
-> > block that allows dynamic adjustment of memory attributes in the runtime.
-> > It contains a configurable amount of PMA entries implemented as CSR
-> > registers to control the attributes of memory locations in interest.
-> >
-> > Below are the memory attributes supported:
-> > * Device, Non-bufferable
-> > * Device, bufferable
-> > * Memory, Non-cacheable, Non-bufferable
-> > * Memory, Non-cacheable, Bufferable
-> > * Memory, Write-back, No-allocate
-> > * Memory, Write-back, Read-allocate
-> > * Memory, Write-back, Write-allocate
-> > * Memory, Write-back, Read and Write-allocate
-> Seems Svpbmt's PMA, IO, and NC wouldn't fit your requirements, could
-> give a map list of the types of Svpbmt? And give out what you needed,
-> but Svpbmt can't.
+> Hi Geert and Prabhakar,
 >
-Sorry I didn't get what you meant here, could you please elaborate.
+> > Subject: RE: [PATCH] clk: renesas: r9a07g044: Add WDT2 clocks to
+> > critical list
+> >
+> > Hi Prabhakar,
+> >
+> > > Subject: Re: [PATCH] clk: renesas: r9a07g044: Add WDT2 clocks to
+> > > critical list
+> > >
+> > > Hi Biju,
+> > >
+> > > On Mon, Sep 19, 2022 at 2:52 PM Biju Das
+> > <biju.das.jz@bp.renesas.com>
+> > > wrote:
+> > > >
+> > > > Hi Prabhakar,
+> > > >
+> > > > > Subject: Re: [PATCH] clk: renesas: r9a07g044: Add WDT2 clocks to
+> > > > > critical list
+> > > > >
+> > > > > Hi Biju,
+> > > > >
+> > > > > On Mon, Sep 19, 2022 at 2:35 PM Biju Das
+> > > > > <biju.das.jz@bp.renesas.com>
+> > > > > wrote:
+> > > > > >
+> > > > > > Hi Prabhakar,
+> > > > > >
+> > > > > > > Subject: [PATCH] clk: renesas: r9a07g044: Add WDT2 clocks to
+> > > > > > > critical list
+> > > > > > >
+> > > > > > > From: Lad Prabhakar <prabhakar.mahadev-
+> > lad.rj@bp.renesas.com>
+> > > > > > >
+> > > > > > > Add the WDT2 clocks to r9a07g044_crit_mod_clks[] list as WDT
+> > > CH2
+> > > > > is
+> > > > > > > specifically to check the operation of Cortex-M33 CPU on the
+> > > > > > > RZ/{G2L, G2LC, V2L} SoCs and we dont want to turn off the
+> > > clocks
+> > > > > of
+> > > > > > > WDT2 if it isn't enabled by Cortex-A55.
+> > > > > > >
+> > > > > > > This patch is in preparation to disable WDT CH2 from the
+> > > RZ/G2L
+> > > > > > > (alike
+> > > > > > > SoCs) DTS/I by default.
+> > > > > > >
+> > > > > > > Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > > > Signed-off-by: Lad Prabhakar
+> > > > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > > ---
+> > > > > > >  drivers/clk/renesas/r9a07g044-cpg.c | 2 ++
+> > > > > > >  1 file changed, 2 insertions(+)
+> > > > > > >
+> > > > > > > diff --git a/drivers/clk/renesas/r9a07g044-cpg.c
+> > > > > > > b/drivers/clk/renesas/r9a07g044-cpg.c
+> > > > > > > index 02a4fc41bb6e..cf9b1bd73792 100644
+> > > > > > > --- a/drivers/clk/renesas/r9a07g044-cpg.c
+> > > > > > > +++ b/drivers/clk/renesas/r9a07g044-cpg.c
+> > > > > > > @@ -412,6 +412,8 @@ static const unsigned int
+> > > > > > > r9a07g044_crit_mod_clks[] __initconst = {
+> > > > > > >       MOD_CLK_BASE + R9A07G044_GIC600_GICCLK,
+> > > > > > >       MOD_CLK_BASE + R9A07G044_IA55_CLK,
+> > > > > > >       MOD_CLK_BASE + R9A07G044_DMAC_ACLK,
+> > > > > > > +     MOD_CLK_BASE + R9A07G044_WDT2_PCLK,
+> > > > > > > +     MOD_CLK_BASE + R9A07G044_WDT2_CLK,
+> > > > > >
+> > > > > > Do we need to turn on this clock unnecessarily?
+> > > > > >
+> > > > > No, this is in preparation to disable WDT2 by default from
+> > > RZ/G2L{C}
+> > > > > DTS/I.
+> > > >
+> > > > But that will make WDT2 device is not enabled, but unnecessarily
+> > the
+> > > clk is on.
+> > > >
+> > > Agreed the clocks will be ON, but didnt we agree earlier for
+> > > r9a07g043-cpg.c?
+> >
+> > Yep, still we have a chance to conclude, whether we need to make this
+> > clk always on, if it is not enabled and there is no use case for wdt2
+> > controlling from CA-55??
+> >
+>
+> I got confirmation that that using WDT2 from CA55 is prohibited.
+> WDT2 is only for CM33.
+>
+> With CPG register, we can select whether CM33 to trigger CM33 cpu reset, or trigger system reset
+> when WDT2 overflows.
+>
+> If WDT2 is used by CA55, it may result in unexpected behaviour.
+>
+Thanks.
 
-> Here is the Linux dma type to Svpbmt map:
-> PMA -> Normal
-> IO -> ioremap, pgprot_noncached
-> NC -> pgprot_writecombine
+> So we may need to take WDT2 entries from binding + dtsi + clock table??
 >
-> How about AX45MP?
+> Or
 >
-Svpbmt extension is not supported on AX45MP (reported by
-riscv_isa_extension_available())
+> Added it to critical clock list, to avoid changes in binding + dtsi + clock table
+> at the expense of turning on the WDT2 clk unnecessarily.
+>
+I'm in favour of option#1 except that we keep WDT2 entries in binding.
+Said that I'll leave Geert to decide on this.
 
 Cheers,
 Prabhakar
