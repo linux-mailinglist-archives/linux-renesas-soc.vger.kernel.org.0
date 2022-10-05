@@ -2,144 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE0A35F549D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Oct 2022 14:37:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 669A35F54C3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Oct 2022 14:54:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbiJEMhW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Oct 2022 08:37:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38024 "EHLO
+        id S229928AbiJEMyP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Oct 2022 08:54:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229624AbiJEMhV (ORCPT
+        with ESMTP id S229830AbiJEMyN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Oct 2022 08:37:21 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E30B34DF17
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Oct 2022 05:37:18 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id j16so13815973wrh.5
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Oct 2022 05:37:18 -0700 (PDT)
+        Wed, 5 Oct 2022 08:54:13 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E18EB72FCD;
+        Wed,  5 Oct 2022 05:54:12 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id g27so5983411edf.11;
+        Wed, 05 Oct 2022 05:54:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KTX8CzjgT3X/t2r5vWkkyRPC+B6Zpur5yx6z33EALmI=;
-        b=dzsfAxgdAGlUvKVUY6p3V8qGo313WeGugAOXWZSt+1fBP2srisSYreLvsC4Jt8R7vI
-         6CCNZ2KSUzFipf2TUazEUfYo06vjjv91Xy+qnqqccv6JnCX5hNP31NA70WmGp0Yy32QP
-         mExqi6cWI3IjFT/cgE6UfcZSCVhbtLcSJWWwIhNYbOhV6a1O9pc8mtgsF6so8OABSDbC
-         Zz/V8dDJJNEFO8LSd3y5bD7HlZgjLbp0vYE7xf1uhZtqnOrcZuofQtpcfMuSMNNg7ivk
-         kfkIb4D7afc9KH4Wn9yfjJvGbhkNxbmLo2OKigcWEZvHo4LzCO3D1KBst2Iy2FRzztXS
-         ++rw==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=+/BpHNUiX7JadelGxCPFlNmOoEOJtPwIvuyPjnCDWlw=;
+        b=e6fMM1BObwqE0wCzwzVi+O9wL9KCw6rpt+K5AX6yF1M3XtoO4odTQWR/BN64rJMnLu
+         O+qTNHQH8wGgicBOpPJlk0I2X4fyHJ8K40TB6xXmPWAP77uBxYD5QJusdMe/r8ZBmm+C
+         UkaqYh7sbI/hwmtTzZ482u7hK7qz3ZqsQ9SU5vKT9FbwPzuHKVwMII8q2u4o1TDSzHDi
+         Xz3j+33pbpb/abtNZy14KFzbpmfsCwOtgAIUOi5z3VQuVmPxBQEJdVqOYiyAm9WPRBXq
+         WVc9vhXOcr4vkm+NyMhIdpX+QpCjKKa0U2fLjtSKEQoRT8C53PuERGoAMRKBmDhqp/fH
+         rbfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KTX8CzjgT3X/t2r5vWkkyRPC+B6Zpur5yx6z33EALmI=;
-        b=OM2EGDR8Mxnkx+1l79mkYpl4zvYL8n/p2VyKPmSIIWEJ8ZdtEMU0hTanMY2Vpc1+Z0
-         oHPgxTFPTZSyDyeOp+w15C9rPsuR9Fjyj1ENKPCPkqdEowfkJO/Bo+KLW917lLZTAuh0
-         yMbnOqyPAD+90r9QiCfVucoi6QM7jhCTaE4tVuJQp17+kBZapot7pCc00mNe9mBMU8KK
-         cwLdsqy8tuDL4jf5ngWVnn+IvjplSXR9ZKS7BGjUCSkC/gcVrDm+3pm41mOXAWXUdCci
-         Z5L9p6d1T2RWtIUqnluD5VAFBdO2F73BzQKdggXsVc1iVDWRrfDly6CKvFKPTW0s8VNd
-         RzRA==
-X-Gm-Message-State: ACrzQf38qsBcz8oG5GKGp1ev9DOs1xA/6cIcekmJLkg5hyf45cvpFFPx
-        zYVibEkfSJdvkfAQnx6++dtQrg==
-X-Google-Smtp-Source: AMsMyM6Jlg5EJX8UPumAZ9rKA8q/8S24FJ3Uw0SxmI6WuaZGcUfDRQsK4mhRcGoSkeMPVSiGBC98sw==
-X-Received: by 2002:a5d:5983:0:b0:22c:b9a0:e874 with SMTP id n3-20020a5d5983000000b0022cb9a0e874mr19860166wri.306.1664973437294;
-        Wed, 05 Oct 2022 05:37:17 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:ffcf:b5a4:bbee:42a5? ([2a05:6e02:1041:c10:ffcf:b5a4:bbee:42a5])
-        by smtp.googlemail.com with ESMTPSA id f18-20020a05600c4e9200b003b492b30822sm2031325wmq.2.2022.10.05.05.37.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Oct 2022 05:37:16 -0700 (PDT)
-Message-ID: <851008bf-145d-224c-87a8-cb6ec1e9addb@linaro.org>
-Date:   Wed, 5 Oct 2022 14:37:14 +0200
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=+/BpHNUiX7JadelGxCPFlNmOoEOJtPwIvuyPjnCDWlw=;
+        b=xylUQ0rvChdRBE6MBZFOmTPHyGurYLxjbVl1eZOzCskXmfkwEH8+NVnOUL+cPxoXJz
+         BaL/biCna7MpKye11N3xZ+aDF2kzS1XFZFy7Cm5pia4EEq/0OncMUsxHudfwv0LJ2W4H
+         b3oM4tQ4kAadF7zII2xhLIV7IUnPpBGevR7RmOP4vOv28Fp7csS7WigR+W8C0Y3J6GHV
+         Y4KWi2hXC+evEwYhwEDYqSdgG3Ffb1k2HU25vKxt3Ri8cdPQk8iC7e9gIHcCJZyPrhu1
+         QZOygTqMISt9Tbr3V/l4rMbFm2Rsdwkt82C44sueeZeYE0bAt3X1hQf5RCXaHIBkNHKd
+         cUPw==
+X-Gm-Message-State: ACrzQf13dWMcHsUbez9ck7PUH2SMN++/kWr5pyFGQe+QJNa0osj0NWlw
+        McBa3SCjPdtzxBfAQ9YH5Y+Kmx1drBMvc+GEaWI=
+X-Google-Smtp-Source: AMsMyM68FFkOONmspqWdcj7OVMrZtTASnunn2gJ0ZrCK2kwFFJdpz25HPbRCfns2zjcZ8yq0n+iRi5/tOZOg8OBAiIw=
+X-Received: by 2002:a05:6402:50d1:b0:452:899e:77c with SMTP id
+ h17-20020a05640250d100b00452899e077cmr28041684edb.0.1664974451331; Wed, 05
+ Oct 2022 05:54:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v8 00/29] Rework the trip points creation
-Content-Language: en-US
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        rui.zhang@intel.com,
-        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>, netdev@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-omap@vger.kernel.org, rafael@kernel.org
-References: <CGME20221003092704eucas1p2875c1f996dfd60a58f06cf986e02e8eb@eucas1p2.samsung.com>
- <20221003092602.1323944-1-daniel.lezcano@linaro.org>
- <8cdd1927-da38-c23e-fa75-384694724b1c@samsung.com>
- <c3258cb2-9a56-d048-5738-1132331a157d@linaro.org>
-In-Reply-To: <c3258cb2-9a56-d048-5738-1132331a157d@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20221003223222.448551-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221003223222.448551-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAJF2gTQuSX9idEyNmGRwpAsSP8V=+QKQ7UAp28T-seM8rbkwOA@mail.gmail.com>
+In-Reply-To: <CAJF2gTQuSX9idEyNmGRwpAsSP8V=+QKQ7UAp28T-seM8rbkwOA@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 5 Oct 2022 13:53:44 +0100
+Message-ID: <CA+V-a8smkDmQbz76sTA5XfUm7bkY4Ee-L5xYW+-xRWkE1TYiAw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/2] soc: renesas: Add L2 cache management for
+ RZ/Five SoC
+To:     Guo Ren <guoren@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Guo,
 
-Hi Marek,
+On Wed, Oct 5, 2022 at 2:29 AM Guo Ren <guoren@kernel.org> wrote:
+>
+> On Tue, Oct 4, 2022 at 6:32 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> >
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > On the AX45MP core, cache coherency is a specification option so it may
+> > not be supported. In this case DMA will fail. As a workaround, firstly we
+> > allocate a global dma coherent pool from which DMA allocations are taken
+> > and marked as non-cacheable + bufferable using the PMA region as specified
+> > in the device tree. Synchronization callbacks are implemented to
+> > synchronize when doing DMA transactions.
+> >
+> > The Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
+> > block that allows dynamic adjustment of memory attributes in the runtime.
+> > It contains a configurable amount of PMA entries implemented as CSR
+> > registers to control the attributes of memory locations in interest.
+> >
+> > Below are the memory attributes supported:
+> > * Device, Non-bufferable
+> > * Device, bufferable
+> > * Memory, Non-cacheable, Non-bufferable
+> > * Memory, Non-cacheable, Bufferable
+> > * Memory, Write-back, No-allocate
+> > * Memory, Write-back, Read-allocate
+> > * Memory, Write-back, Write-allocate
+> > * Memory, Write-back, Read and Write-allocate
+> Seems Svpbmt's PMA, IO, and NC wouldn't fit your requirements, could
+> give a map list of the types of Svpbmt? And give out what you needed,
+> but Svpbmt can't.
+>
+Sorry I didn't get what you meant here, could you please elaborate.
 
-On 03/10/2022 23:18, Daniel Lezcano wrote:
+> Here is the Linux dma type to Svpbmt map:
+> PMA -> Normal
+> IO -> ioremap, pgprot_noncached
+> NC -> pgprot_writecombine
+>
+> How about AX45MP?
+>
+Svpbmt extension is not supported on AX45MP (reported by
+riscv_isa_extension_available())
 
-[ ... ]
-
->> I've tested this v8 patchset after fixing the issue with Exynos TMU with
->> https://lore.kernel.org/all/20221003132943.1383065-1-daniel.lezcano@linaro.org/ 
->>
->> patch and I got the following lockdep warning on all Exynos-based boards:
->>
->>
->> ======================================================
->> WARNING: possible circular locking dependency detected
->> 6.0.0-rc1-00083-ge5c9d117223e #12945 Not tainted
->> ------------------------------------------------------
->> swapper/0/1 is trying to acquire lock:
->> c1ce66b0 (&data->lock#2){+.+.}-{3:3}, at: exynos_get_temp+0x3c/0xc8
->>
->> but task is already holding lock:
->> c2979b94 (&tz->lock){+.+.}-{3:3}, at:
->> thermal_zone_device_update.part.0+0x3c/0x528
->>
->> which lock already depends on the new lock.
-> 
-> I'm wondering if the problem is not already there and related to 
-> data->lock ...
-> 
-> Doesn't the thermal zone lock already prevent racy access to the data 
-> structure?
-> 
-> Another question: if the sensor clock is disabled after reading it, how 
-> does the hardware update the temperature and detect the programed 
-> threshold is crossed?
-
-just a gentle ping, as the fix will depend on your answer ;)
-
-Thanks
-
-   -- D.
-
-[ ... ]
-
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Cheers,
+Prabhakar
