@@ -2,191 +2,194 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB0A35F54C9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Oct 2022 14:56:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 629605F54F9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Oct 2022 15:05:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229790AbiJEM4w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Oct 2022 08:56:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35506 "EHLO
+        id S229803AbiJENFw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Oct 2022 09:05:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbiJEM4w (ORCPT
+        with ESMTP id S229732AbiJENFv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Oct 2022 08:56:52 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D82645D13F;
-        Wed,  5 Oct 2022 05:56:50 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id z23so18507310ejw.12;
-        Wed, 05 Oct 2022 05:56:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=3hRHxdqHIje5FknTJ5KEacsVN7WFRHzy8hAOq67mToA=;
-        b=RcvnrdSbxx7KFIR23+Xu5+IWBgvpRzBfeSBnL323zeMkA5PMr6EaMth8eGRHm2AQlI
-         50mgbAGAiEvnifvIPdoxWlJuGUj1AxhufP7YZX/qhAuF5LpfPgvyoGK/vtlB+INTksl9
-         dkEJhxR+smdS39b2nNyz89DQimi9pG9sPD9vyhp49JnQyS/J230WJtK7XL1ZLAU3OPsV
-         Ve+bDgVtPvEsk+zWc1QYG1eFkmkJFncTEMFplRnyWFCDv5Eo7Aja6oTs1iGPRxog+3hE
-         MJuD37nMbidVFyDGigr3l9JcxJW1UEXgOroBTMgmfATIWCLOFs1vAYSx3n+nT+k/6G0m
-         VUzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=3hRHxdqHIje5FknTJ5KEacsVN7WFRHzy8hAOq67mToA=;
-        b=RQJsg9gb/r3aebuO81dkeq390rx4UuH+hLQHifJ3LaiZIxNzM0c62IdgnQdbgAm+1O
-         jz7+XsDRGMwJZRboGLQ11feYJKwuSqh0J/1qzHnC0GQpcwaa56Q8kPsrmPHLn+ZNoH3I
-         E8iZYvQWp3lcvjPz1lmDKFIBEroz4paRf9vmNUs1jpW06LO66n6pR0UrZF1XEuaQ86IU
-         Ln1TkLcWAXc94krVqtvzZlNnMsp8agIldqj+4Nm7HZ7Zgu4AwTikuPkDFxQUbw+d1hTo
-         e84FhYz+F4/eJFlmzuSP2SB6TkcjzU8UTuk5CcOC5dEHEAgBvJkAJrk3izp96aYsSOdW
-         yKXg==
-X-Gm-Message-State: ACrzQf2WlXPosIXWZm+lHogDUjMIzW76nkWFLDJxxHnw6B6W9XXbQWlb
-        tgbE1q9zZoKSpwcbN+zfNmjG5VBVtE9VT4FFW3E=
-X-Google-Smtp-Source: AMsMyM4fEebU5vXdmoNhZeqjJsBt6nkb3ptyPHHOAGQaiSjg1CAHVnsDSqSdjhgnhHWf4VY7PXiZjQOX12cHmq/1W0o=
-X-Received: by 2002:a17:907:2c41:b0:77d:8aed:cf7c with SMTP id
- hf1-20020a1709072c4100b0077d8aedcf7cmr23405273ejc.447.1664974609274; Wed, 05
- Oct 2022 05:56:49 -0700 (PDT)
+        Wed, 5 Oct 2022 09:05:51 -0400
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E856921E37
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Oct 2022 06:05:47 -0700 (PDT)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20221005130543euoutp01922fced9a7db8afe72591e044e73f6a8~bLhJai3YP1553915539euoutp01W
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Oct 2022 13:05:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20221005130543euoutp01922fced9a7db8afe72591e044e73f6a8~bLhJai3YP1553915539euoutp01W
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1664975143;
+        bh=cShw/3LGlylN+4jJotpQbuNoLk30Zznf4m8prglpDWE=;
+        h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+        b=S/UHF0e2phRkGiCF0XGwtynhMSI6OuPOWGnyUO31/4azPx9Fd/P482Gl+oVJELhmQ
+         4jSqwCm04jceqZqXx7ZIDlc124H3kU9UGzGKbKQ0r9kZHRmSgCpFwDeWXGZJSZtX8T
+         i62BfLpu0Uya4Uk6HTG2BvfShkSGvcgkGRaYS9oA=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20221005130543eucas1p1aed6763fdecb50ca11125c7eec2cbbf0~bLhI6xuMy3238032380eucas1p14;
+        Wed,  5 Oct 2022 13:05:43 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 1B.A2.29727.6218D336; Wed,  5
+        Oct 2022 14:05:42 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20221005130542eucas1p1a50cb2c3ee56c7c6b3b78f9d4b191abf~bLhIInLdI3061230612eucas1p19;
+        Wed,  5 Oct 2022 13:05:42 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20221005130542eusmtrp2fa51b0c29199130127621c85d53fce3c~bLhIHmN630188401884eusmtrp2Y;
+        Wed,  5 Oct 2022 13:05:42 +0000 (GMT)
+X-AuditID: cbfec7f2-205ff7000001741f-4f-633d81261c13
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id BA.2D.10862.6218D336; Wed,  5
+        Oct 2022 14:05:42 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20221005130541eusmtip25243c5df6e3b8a7331bd5ea6df42850f~bLhHDpACD0498804988eusmtip2d;
+        Wed,  5 Oct 2022 13:05:41 +0000 (GMT)
+Message-ID: <207c1979-0da2-b05d-fead-6880ad956b90@samsung.com>
+Date:   Wed, 5 Oct 2022 15:05:41 +0200
 MIME-Version: 1.0
-References: <20220919133122.167794-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <OS0PR01MB5922E64DD745E4F8A5FEFCD5864D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CA+V-a8vAjO9H9BdgNOVXkjWR9zpD+73P_KLo0683xp1nBgVViQ@mail.gmail.com>
- <OS0PR01MB59227B5F87C7FC3CEC271B0A864D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CA+V-a8utdkb61v_1=G85O6OCtQDv-+5YuyFy4r7BW+fR2E=WkQ@mail.gmail.com>
- <OS0PR01MB592278FB3E443C84130FCA7D864D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB5922DAA91FFD18FD52FEC916865D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922DAA91FFD18FD52FEC916865D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 5 Oct 2022 13:56:22 +0100
-Message-ID: <CA+V-a8uNhM92ezEX3iCcP2zp3Er9EPDy1Z-4L3gQfe=xU8O1bw@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r9a07g044: Add WDT2 clocks to critical list
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+        Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [PATCH v8 00/29] Rework the trip points creation
+Content-Language: en-US
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        rui.zhang@intel.com,
+        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>, netdev@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-omap@vger.kernel.org, rafael@kernel.org
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <851008bf-145d-224c-87a8-cb6ec1e9addb@linaro.org>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpkk+LIzCtJLcpLzFFi42LZduznOV21Rttkg9/XrS3OPf7NYvFg3jY2
+        i7W9R1ksvm+5zmQx77OsxaqpO1ks9r7eym6x6fE1VouJ+8+yW3T9WslscXnXHDaL2Uv6WSw+
+        9x5htNj68h2TxcTbG9gtZpzfx2TR+WUWm8WxBWIWq/e8YLaY+2Uqs8WTh31sFntbLzI7iHnM
+        un+WzWPFJ32PnbPusnss3vOSyWPTqk42jzvX9rB5bF5S77Hx3Q4mj/6/Bh59W1YxenzeJBfA
+        HcVlk5Kak1mWWqRvl8CVsXLTSraCv/wVFze/YmpgbOPtYuTgkBAwkXg+T7SLkYtDSGAFo8Tz
+        f59ZIZwvjBK7H75lh3A+M0rM2PSBsYuRE6zj4qNHLBCJ5YwSP859Z4ZwPjJKXF6yiR2kilfA
+        TuLn2sdgNouAisSi582MEHFBiZMzn7CA2KICyRI/uw6wgdjCArYS7390gtUzC4hL3HoynwnE
+        FhHQk2h838YEsoBZYAqbxOEVe1lBEmwChhJdb7vAmjmBlh3ZsAiqWV5i+9s5zBCnvuKUODHR
+        FsJ2kZg/6S4ThC0s8er4FnYIW0bi/875YAskBNoZJRb8vg/lTGCUaHh+C+ppa4k7536xgYKM
+        WUBTYv0ufUjoOUrc/+cPYfJJ3HgrCHECn8SkbdOZIcK8Eh1tQhAz1CRmHV8Ht/XghUvMExiV
+        ZiGFyiwk389C8swshLULGFlWMYqnlhbnpqcWG+allusVJ+YWl+al6yXn525iBKbS0/+Of9rB
+        OPfVR71DjEwcjIcYJTiYlUR4eU/aJAvxpiRWVqUW5ccXleakFh9ilOZgURLnZZuhlSwkkJ5Y
+        kpqdmlqQWgSTZeLglGpgas1MywlXW6yRvWzhuUS/oxOTTppaP9/kmKzPFxEUopizT8O0wNm2
+        aX9r6JKILwqnVqyUKhD7WbFlS/i74w+ubdT7fr/52CfZJ5mnd2wwYNVk7GH0/ZY3a8KfW3OU
+        M9uvrT0nzXXI2Mjk7fxDiqLy5TGuC2JO9Zlf/nNecva3A2v9OZPmvLK5cHTdRvF93tXS4uEp
+        fTmngzQ+p/AE6UysU/FdZVpdmm8xOyd1X36Pi8vDSUWR/gblZufs2EVN9Y93hU80fXYyKv+I
+        YVPJ7v7+rcuTiqR2Lj+7Osbr7r6vaa0LS382yZ6Jeu6z5orKgje9XK95hftf1J0oVr5/5kWY
+        NeuH+Km5FlqZKpWvjqxQYinOSDTUYi4qTgQA70iftBQEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprMKsWRmVeSWpSXmKPExsVy+t/xe7pqjbbJBttb2SzOPf7NYvFg3jY2
+        i7W9R1ksvm+5zmQx77OsxaqpO1ks9r7eym6x6fE1VouJ+8+yW3T9WslscXnXHDaL2Uv6WSw+
+        9x5htNj68h2TxcTbG9gtZpzfx2TR+WUWm8WxBWIWq/e8YLaY+2Uqs8WTh31sFntbLzI7iHnM
+        un+WzWPFJ32PnbPusnss3vOSyWPTqk42jzvX9rB5bF5S77Hx3Q4mj/6/Bh59W1YxenzeJBfA
+        HaVnU5RfWpKqkJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9nk5Kak1mWWqRvl6CXsXLT
+        SraCv/wVFze/YmpgbOPtYuTkkBAwkbj46BFLFyMXh5DAUkaJlytb2CESMhInpzWwQtjCEn+u
+        dbGB2EIC7xklZu8OA7F5Bewkfq59DFbPIqAiseh5MyNEXFDi5MwnLCC2qECyxMs/E8FqhAVs
+        Jd7/6ASzmQXEJW49mc8EYosI6Ek0vm9jgohPY5P4/DkeYtdGJon3W+pBbDYBQ4mutxA3cALt
+        PbJhEdQcM4murV2MELa8xPa3c5gnMArNQnLGLCTrZiFpmYWkZQEjyypGkdTS4tz03GIjveLE
+        3OLSvHS95PzcTYzA1LHt2M8tOxhXvvqod4iRiYPxEKMEB7OSCC/vSZtkId6UxMqq1KL8+KLS
+        nNTiQ4ymwLCYyCwlmpwPTF55JfGGZgamhiZmlgamlmbGSuK8ngUdiUIC6YklqdmpqQWpRTB9
+        TBycUg1M1fHK5u17e/xmPNAx/RH0+cWjBb8WrNXuNq34YHCgtn/5TlP7D3sKTu25XGdRv+Bo
+        oMPkE2zaJ5cdPzpr9inpX/6XOaK26YtPvS8ygaf5seqXe+0nVrnrNpe0+Z9e/SOpau82KdeZ
+        J2Vkru5/EVpp7Cj1wkzmg0iIo6HeXPkwqU0PC9Iap8yJesKwfzqXW6GYzvcLrEL2N40WJrjP
+        3szWtf2Uada+eyXyJi2z9Phn7N6RvLljdZqM9uFwg+K7eW41zayWv3UMdkV+n7np305rbdGb
+        t7tCMuctC7JT2X7EV3mP2PRd+xP61F8/NJB9vf1I0+KwwILXh3j22pbOLnhya8YOsRa7yJzF
+        cj45z6adV2Ipzkg01GIuKk4EAIdUMlKmAwAA
+X-CMS-MailID: 20221005130542eucas1p1a50cb2c3ee56c7c6b3b78f9d4b191abf
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20221003092704eucas1p2875c1f996dfd60a58f06cf986e02e8eb
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20221003092704eucas1p2875c1f996dfd60a58f06cf986e02e8eb
+References: <CGME20221003092704eucas1p2875c1f996dfd60a58f06cf986e02e8eb@eucas1p2.samsung.com>
+        <20221003092602.1323944-1-daniel.lezcano@linaro.org>
+        <8cdd1927-da38-c23e-fa75-384694724b1c@samsung.com>
+        <c3258cb2-9a56-d048-5738-1132331a157d@linaro.org>
+        <851008bf-145d-224c-87a8-cb6ec1e9addb@linaro.org>
+X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
 
-On Wed, Oct 5, 2022 at 9:27 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+On 05.10.2022 14:37, Daniel Lezcano wrote:
 >
-> Hi Geert and Prabhakar,
+> Hi Marek,
 >
-> > Subject: RE: [PATCH] clk: renesas: r9a07g044: Add WDT2 clocks to
-> > critical list
-> >
-> > Hi Prabhakar,
-> >
-> > > Subject: Re: [PATCH] clk: renesas: r9a07g044: Add WDT2 clocks to
-> > > critical list
-> > >
-> > > Hi Biju,
-> > >
-> > > On Mon, Sep 19, 2022 at 2:52 PM Biju Das
-> > <biju.das.jz@bp.renesas.com>
-> > > wrote:
-> > > >
-> > > > Hi Prabhakar,
-> > > >
-> > > > > Subject: Re: [PATCH] clk: renesas: r9a07g044: Add WDT2 clocks to
-> > > > > critical list
-> > > > >
-> > > > > Hi Biju,
-> > > > >
-> > > > > On Mon, Sep 19, 2022 at 2:35 PM Biju Das
-> > > > > <biju.das.jz@bp.renesas.com>
-> > > > > wrote:
-> > > > > >
-> > > > > > Hi Prabhakar,
-> > > > > >
-> > > > > > > Subject: [PATCH] clk: renesas: r9a07g044: Add WDT2 clocks to
-> > > > > > > critical list
-> > > > > > >
-> > > > > > > From: Lad Prabhakar <prabhakar.mahadev-
-> > lad.rj@bp.renesas.com>
-> > > > > > >
-> > > > > > > Add the WDT2 clocks to r9a07g044_crit_mod_clks[] list as WDT
-> > > CH2
-> > > > > is
-> > > > > > > specifically to check the operation of Cortex-M33 CPU on the
-> > > > > > > RZ/{G2L, G2LC, V2L} SoCs and we dont want to turn off the
-> > > clocks
-> > > > > of
-> > > > > > > WDT2 if it isn't enabled by Cortex-A55.
-> > > > > > >
-> > > > > > > This patch is in preparation to disable WDT CH2 from the
-> > > RZ/G2L
-> > > > > > > (alike
-> > > > > > > SoCs) DTS/I by default.
-> > > > > > >
-> > > > > > > Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > > > Signed-off-by: Lad Prabhakar
-> > > > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > > ---
-> > > > > > >  drivers/clk/renesas/r9a07g044-cpg.c | 2 ++
-> > > > > > >  1 file changed, 2 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/drivers/clk/renesas/r9a07g044-cpg.c
-> > > > > > > b/drivers/clk/renesas/r9a07g044-cpg.c
-> > > > > > > index 02a4fc41bb6e..cf9b1bd73792 100644
-> > > > > > > --- a/drivers/clk/renesas/r9a07g044-cpg.c
-> > > > > > > +++ b/drivers/clk/renesas/r9a07g044-cpg.c
-> > > > > > > @@ -412,6 +412,8 @@ static const unsigned int
-> > > > > > > r9a07g044_crit_mod_clks[] __initconst = {
-> > > > > > >       MOD_CLK_BASE + R9A07G044_GIC600_GICCLK,
-> > > > > > >       MOD_CLK_BASE + R9A07G044_IA55_CLK,
-> > > > > > >       MOD_CLK_BASE + R9A07G044_DMAC_ACLK,
-> > > > > > > +     MOD_CLK_BASE + R9A07G044_WDT2_PCLK,
-> > > > > > > +     MOD_CLK_BASE + R9A07G044_WDT2_CLK,
-> > > > > >
-> > > > > > Do we need to turn on this clock unnecessarily?
-> > > > > >
-> > > > > No, this is in preparation to disable WDT2 by default from
-> > > RZ/G2L{C}
-> > > > > DTS/I.
-> > > >
-> > > > But that will make WDT2 device is not enabled, but unnecessarily
-> > the
-> > > clk is on.
-> > > >
-> > > Agreed the clocks will be ON, but didnt we agree earlier for
-> > > r9a07g043-cpg.c?
-> >
-> > Yep, still we have a chance to conclude, whether we need to make this
-> > clk always on, if it is not enabled and there is no use case for wdt2
-> > controlling from CA-55??
-> >
+> On 03/10/2022 23:18, Daniel Lezcano wrote:
 >
-> I got confirmation that that using WDT2 from CA55 is prohibited.
-> WDT2 is only for CM33.
+> [ ... ]
 >
-> With CPG register, we can select whether CM33 to trigger CM33 cpu reset, or trigger system reset
-> when WDT2 overflows.
+>>> I've tested this v8 patchset after fixing the issue with Exynos TMU 
+>>> with
+>>> https://lore.kernel.org/all/20221003132943.1383065-1-daniel.lezcano@linaro.org/ 
+>>>
+>>> patch and I got the following lockdep warning on all Exynos-based 
+>>> boards:
+>>>
+>>>
+>>> ======================================================
+>>> WARNING: possible circular locking dependency detected
+>>> 6.0.0-rc1-00083-ge5c9d117223e #12945 Not tainted
+>>> ------------------------------------------------------
+>>> swapper/0/1 is trying to acquire lock:
+>>> c1ce66b0 (&data->lock#2){+.+.}-{3:3}, at: exynos_get_temp+0x3c/0xc8
+>>>
+>>> but task is already holding lock:
+>>> c2979b94 (&tz->lock){+.+.}-{3:3}, at:
+>>> thermal_zone_device_update.part.0+0x3c/0x528
+>>>
+>>> which lock already depends on the new lock.
+>>
+>> I'm wondering if the problem is not already there and related to 
+>> data->lock ...
+>>
+>> Doesn't the thermal zone lock already prevent racy access to the data 
+>> structure?
+>>
+>> Another question: if the sensor clock is disabled after reading it, 
+>> how does the hardware update the temperature and detect the programed 
+>> threshold is crossed?
 >
-> If WDT2 is used by CA55, it may result in unexpected behaviour.
+> just a gentle ping, as the fix will depend on your answer ;)
 >
-Thanks.
+Sorry, I've been busy with other stuff. I thought I will fix this once I 
+find a bit of spare time.
 
-> So we may need to take WDT2 entries from binding + dtsi + clock table??
->
-> Or
->
-> Added it to critical clock list, to avoid changes in binding + dtsi + clock table
-> at the expense of turning on the WDT2 clk unnecessarily.
->
-I'm in favour of option#1 except that we keep WDT2 entries in binding.
-Said that I'll leave Geert to decide on this.
+IMHO the clock management is a bit over-engineered, as there is little 
+(if any) benefit from such fine grade clock management. That clock is 
+needed only for the AHB related part of the TMU (reading/writing the 
+registers). The IRQ generation and temperature measurement is clocked 
+from so called 'sclk' (special clock).
 
-Cheers,
-Prabhakar
+I also briefly looked at the code and the internal lock doesn't look to 
+be really necessary assuming that the thermal core already serializes 
+all the calls.
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
