@@ -2,230 +2,388 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 935FD5F570F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Oct 2022 17:04:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 301585F584A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Oct 2022 18:32:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230306AbiJEPD5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Oct 2022 11:03:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33976 "EHLO
+        id S229868AbiJEQcX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Oct 2022 12:32:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230455AbiJEPDi (ORCPT
+        with ESMTP id S229592AbiJEQcW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Oct 2022 11:03:38 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01A3AE00B;
-        Wed,  5 Oct 2022 08:03:16 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id m3so23365496eda.12;
-        Wed, 05 Oct 2022 08:03:15 -0700 (PDT)
+        Wed, 5 Oct 2022 12:32:22 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 340645722C
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Oct 2022 09:32:19 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id q17so19319918lji.11
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Oct 2022 09:32:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=EV7XyXChgvT98eS3lyY/bsEgvLKgLuQ8kiVyGfqgsRc=;
-        b=ZB6dTPLvXNrIx9hvUtmntH3rsUAsOE0PNl4vNOIZIGh31+xuUaPpRkjC+Qf9kcPCPE
-         tWMRmoDlCaR6cTcEDNgYpvlFEm164K3jp/BqQNvKPDSSYFUYVBDifEo6dXgwWf3PNomp
-         /UC5ZtgNRtLbk351hxquTgNu/eWt59F38/A8etKpb3fe40msiUNJyYdlrBPdslvkm4DG
-         Ej7YJ8PZAD3ckZn2Iu/Q/q0USDXhz9dA62wb9IOvGQeOrq3WG4omAwBmeoKRuJ/CxSMD
-         M+9OlrsM+JrCNAcXv21FxncLv1V3ffXuIo9TWAjrhznvtvC6zbNjix7L89HIIum8aX6o
-         LdDA==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=3R2HKzhAxoqn6hiWZE2OL4sMSIpfHzrT9gZcR8mlyU0=;
+        b=KTBbow3QVkLZuh66UHbWJxEettCZ9PehOYjTlqNLCnUENM0S4aJqZ/Y1Tp0B3nAzCH
+         tnrQB7Orz3924b39z7cntMdQ4NYFDAq+DHHobCsMyS6wnfHZuW0rNYFxqYa+/Iw2dkMK
+         FICdUcuVW6pE3hxqNIUM2iu5fPZ7Xe6w694yZxPDtE7XI5ktbt7nja4yGfXhnVuEFwT5
+         TtN2zGrbMJjzAcdGedKn7TqYVfnFyJA/KdNqAqOpQ/D2oztqWWaXU8x9kYm/mZF6qHJe
+         OiPqwMDjrItMDXmA1E9rLL7U3xuzZwaFXsrjMdFAxqHkHF43vFyQsHiunZaWIbvWWBel
+         atlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=EV7XyXChgvT98eS3lyY/bsEgvLKgLuQ8kiVyGfqgsRc=;
-        b=WAoPBH+OlNvOlJE4ualbc+zId1KNPkb/k5G3M4FN/z4/J5dtqb4tz17WYQOt63l4tw
-         Gae/P1C9ZASKG57r8zsMKGVYXqxj/u1XJcIcFetQgzN6Xtuy4/ZvcDG1OIntBFZW05rV
-         Omqp0by0bjRqQxO9/OVUeaHqpFiioxDufZk3J8AG/OuncbrSxGBxrvLGw9LhlcYRNbBp
-         isiMAJoDQEH72JPrJlXUcWSOwbHz2T+Qf4wLMvN6HCOkM+DuA1Pq9rpuH1vknzFG+RMd
-         sNZfDS9deJEcF20qh21VBMUtERiBFCtKsGAw51rLoeswyBPR9YwSbRpruCbS8UxeiBWF
-         1U9w==
-X-Gm-Message-State: ACrzQf13t9An50K6Z4IfXKp0q/oFBTYNww9FrSPG0tA/eG88eOAWSP9R
-        w+QpmURF7gZILplpawumHcgWh/kzDyVOBFq+/AQ=
-X-Google-Smtp-Source: AMsMyM4qr8LOycRew9uAIlBT+l89Vtps7ikFw9UBTKlclR06oIm+0yGzuCwAzVU/0yUjjkrkTgpUNxP3/6PJFo/4vRs=
-X-Received: by 2002:a05:6402:1393:b0:457:ea9e:ba20 with SMTP id
- b19-20020a056402139300b00457ea9eba20mr174784edv.109.1664982194272; Wed, 05
- Oct 2022 08:03:14 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=3R2HKzhAxoqn6hiWZE2OL4sMSIpfHzrT9gZcR8mlyU0=;
+        b=r31rRXfgfBrScpNTNFsv6sKlV3RGlGwFwdesY1H75BAwZqcFFhkXyHMCtTwwA2A+AN
+         w/z/5Scmh9qqghRUn1B9nN5C6oM/wT6Ny5bje9q4iXrsAZIsU25W8Hbpi5/lkvqUOT/6
+         Ly1+VujSYm8b+fEX3FxeZH50X+y2QX+7LJ1C45wqXwKGmP/DmxRxk9GNv1V4akQbCy+X
+         mZeof8/YSztWfq/FrILDUFBftRPT+9IqI1HxMyTce6w6rp8xorbYEw6lLPAnbciW5HfW
+         9nK1MdY3rNhBOjfWh4SQrqWu/gNtIJpqmyBIkPjRNLaK4F6ljVTboRUxJgkwMTpdnVwJ
+         p4Ew==
+X-Gm-Message-State: ACrzQf1FulXZZyr67KzPFbsZq8ItN+cbyd+9btcuppANmvZPERrkTdFd
+        y9cXaC/4rYAjIQ3EIHU8xwlPYg==
+X-Google-Smtp-Source: AMsMyM4NT+WToY5xcjbbGP+eFoVfPiLF8pCT0EcZssPUtK7JjRYcCCbVjg6jYf5v9kLAbSnImBx91w==
+X-Received: by 2002:a2e:9f17:0:b0:26c:43f6:fd9d with SMTP id u23-20020a2e9f17000000b0026c43f6fd9dmr175058ljk.176.1664987537470;
+        Wed, 05 Oct 2022 09:32:17 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id g22-20020a05651222d600b0048aa9d67483sm2385790lfu.160.2022.10.05.09.32.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Oct 2022 09:32:17 -0700 (PDT)
+Message-ID: <ea77fa9d-d579-b517-7b47-e6765d1a3492@linaro.org>
+Date:   Wed, 5 Oct 2022 18:32:15 +0200
 MIME-Version: 1.0
-References: <20221003223222.448551-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221003223222.448551-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAJF2gTQuSX9idEyNmGRwpAsSP8V=+QKQ7UAp28T-seM8rbkwOA@mail.gmail.com>
- <CA+V-a8smkDmQbz76sTA5XfUm7bkY4Ee-L5xYW+-xRWkE1TYiAw@mail.gmail.com> <CAJF2gTQ4G-j3p_pHvVQ82R2DFQZq70xgE3ZhoRkxiSzrHnU2og@mail.gmail.com>
-In-Reply-To: <CAJF2gTQ4G-j3p_pHvVQ82R2DFQZq70xgE3ZhoRkxiSzrHnU2og@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 5 Oct 2022 16:02:47 +0100
-Message-ID: <CA+V-a8tLYT0541FNo_o-sTsV7ywwnGTRtv6ropVu+0Wd-PsM6A@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/2] soc: renesas: Add L2 cache management for
- RZ/Five SoC
-To:     Guo Ren <guoren@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH 1/3] dt-bindings: mfd: Document RZ/G2L MTU3a bindings
+Content-Language: en-US
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        William Breathitt Gray <william.gray@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Lee Jones <lee@kernel.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <20221005135518.876913-1-biju.das.jz@bp.renesas.com>
+ <20221005135518.876913-2-biju.das.jz@bp.renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221005135518.876913-2-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Guo,
+On 05/10/2022 15:55, Biju Das wrote:
+> The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
+> the Renesas RZ/G2L family SoC's. It consists of eight 16-bit timer
+> channels and one 32-bit timer channel. It supports the following
+> functions
+>  - Counter
+>  - Timer
+>  - PWM
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> RFC->v1:
+>  * Modelled counter and pwm as a single device that handles
+>    multiple channels.
+>  * Moved counter and pwm bindings to respective subsystems
+>  * Dropped 'bindings' from MFD binding title.
+>  * Updated the example
+>  * Changed the compatible names.
 
-On Wed, Oct 5, 2022 at 3:23 PM Guo Ren <guoren@kernel.org> wrote:
->
-> On Wed, Oct 5, 2022 at 8:54 PM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> >
-> > Hi Guo,
-> >
-> > On Wed, Oct 5, 2022 at 2:29 AM Guo Ren <guoren@kernel.org> wrote:
-> > >
-> > > On Tue, Oct 4, 2022 at 6:32 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > > >
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > On the AX45MP core, cache coherency is a specification option so it may
-> > > > not be supported. In this case DMA will fail. As a workaround, firstly we
-> > > > allocate a global dma coherent pool from which DMA allocations are taken
-> > > > and marked as non-cacheable + bufferable using the PMA region as specified
-> > > > in the device tree. Synchronization callbacks are implemented to
-> > > > synchronize when doing DMA transactions.
-> > > >
-> > > > The Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
-> > > > block that allows dynamic adjustment of memory attributes in the runtime.
-> > > > It contains a configurable amount of PMA entries implemented as CSR
-> > > > registers to control the attributes of memory locations in interest.
-> > > >
-> > > > Below are the memory attributes supported:
-> > > > * Device, Non-bufferable
-> > > > * Device, bufferable
-> > > > * Memory, Non-cacheable, Non-bufferable
-> > > > * Memory, Non-cacheable, Bufferable
-> > > > * Memory, Write-back, No-allocate
-> > > > * Memory, Write-back, Read-allocate
-> > > > * Memory, Write-back, Write-allocate
-> > > > * Memory, Write-back, Read and Write-allocate
-> > > Seems Svpbmt's PMA, IO, and NC wouldn't fit your requirements, could
-> > > give a map list of the types of Svpbmt? And give out what you needed,
-> > > but Svpbmt can't.
-> > >
-> > Sorry I didn't get what you meant here, could you please elaborate.
-> I know there is no pbmt in AX45MP, I am just curious how many physical
-> memory attributes you would use in linux? It seems only one type used
-> in the series:
-> cpu_nocache_area_set -> sbi_ecall(SBI_EXT_ANDES,
-> SBI_EXT_ANDES_SET_PMA, offset, vaddr, size, entry_id, 0, 0);
->
-Yes, currently we only use "Memory, Non-cacheable, Bufferable". I was
-wondering if we could send these options as flags from DT something
-like below so that it's not hard coded in the code.
+RFC is a v1. This is a v2.
 
-/* PMA config */
-#define AX45MP_PMACFG_ETYP                GENMASK(1, 0)
-/* OFF: PMA entry is disabled */
-#define AX45MP_PMACFG_ETYP_DISABLED            0
-/* Naturally aligned power of 2 region */
-#define AX45MP_PMACFG_ETYP_NAPOT            3
+> ---
+>  .../counter/renesas,rz-mtu3-counter.yaml      |  30 ++
+>  .../bindings/mfd/renesas,rz-mtu3.yaml         | 290 ++++++++++++++++++
+>  .../bindings/pwm/renesas,rz-mtu3-pwm.yaml     |  50 +++
+>  3 files changed, 370 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/counter/renesas,rz-mtu3-counter.yaml
+>  create mode 100644 Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
+>  create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rz-mtu3-pwm.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/counter/renesas,rz-mtu3-counter.yaml b/Documentation/devicetree/bindings/counter/renesas,rz-mtu3-counter.yaml
+> new file mode 100644
+> index 000000000000..c8b86ef254b6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/counter/renesas,rz-mtu3-counter.yaml
+> @@ -0,0 +1,30 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/counter/renesas,rz-mtu3-counter.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/G2L MTU3a Counter Module
+> +
+> +maintainers:
+> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +
+> +description: |
+> +  This module is part of the rz-mtu3 multi-function device. For more
+> +  details see ../mfd/renesas,rz-mtu3.yaml.
+> +
+> +  There are two phase counting modes: 16-bit phase counting mode in which MTU1
+> +  and MTU2 operate independently, and cascade connection 32-bit phase counting
+> +  mode in which MTU1 and MTU2 are cascaded.
+> +
+> +  In phase counting mode, the phase difference between two external input clocks
+> +  is detected and the corresponding TCNT is incremented or decremented.
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,rz-mtu3-counter
+> +
+> +required:
+> +  - compatible
 
-#define AX45MP_PMACFG_MTYP                GENMASK(5, 2)
-/* Device, Non-bufferable */
-#define AX45MP_PMACFG_MTYP_DEV_NON_BUF            (0 << 2)
-/* Device, bufferable */
-#define AX45MP_PMACFG_MTYP_DEV_BUF            (1 << 2)
-/* Memory, Non-cacheable, Non-bufferable */
-#define AX45MP_PMACFG_MTYP_MEM_NON_CACHE_NON_BUF    (2 << 2)
-/* Memory, Non-cacheable, Bufferable */
-#define AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF        (3 << 2)
-/* Memory, Write-back, No-allocate */
-#define AX45MP_PMACFG_MTYP_MEM_WB_NA            (8 << 2)
-/* Memory, Write-back, Read-allocate */
-#define AX45MP_PMACFG_MTYP_MEM_WB_RA            (9 << 2)
-/* Memory, Write-back, Write-allocate */
-#define AX45MP_PMACFG_MTYP_MEM_WB_WA            (10 << 2)
-/* Memory, Write-back, Read and Write-allocate */
-#define AX45MP_PMACFG_MTYP_MEM_WB_R_WA            (11 << 2)
+One property - compatible - does not deserve its own schema. Integrate
+with the other one.
 
-/* AMO instructions are supported */
-#define AX45MP_PMACFG_NAMO_AMO_SUPPORT            (0 << 6)
-/* AMO instructions are not supported */
-#define AX45MP_PMACFG_NAMO_AMO_NO_SUPPORT        (1 << 6)
+> +
+> +additionalProperties: false
+> diff --git a/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml b/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
+> new file mode 100644
+> index 000000000000..0413d22704c9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
+> @@ -0,0 +1,290 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/renesas,rz-mtu3.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/G2L Multi-Function Timer Pulse Unit 3 (MTU3a)
+> +
+> +maintainers:
+> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +
+> +description: |
+> +  This hardware block pconsisting of eight 16-bit timer channels and one
+> +  32- bit timer channel. It supports the following specifications:
+> +    - Pulse input/output: 28 lines max.
+> +    - Pulse input 3 lines
+> +    - Count clock 11 clocks for each channel (14 clocks for MTU0, 12 clocks
+> +      for MTU2, and 10 clocks for MTU5, four clocks for MTU1-MTU2 combination
+> +      (when LWA = 1))
+> +    - Operating frequency Up to 100 MHz
+> +    - Available operations [MTU0 to MTU4, MTU6, MTU7, and MTU8]
+> +        - Waveform output on compare match
+> +        - Input capture function (noise filter setting available)
+> +        - Counter-clearing operation
+> +        - Simultaneous writing to multiple timer counters (TCNT)
+> +          (excluding MTU8).
+> +        - Simultaneous clearing on compare match or input capture
+> +          (excluding MTU8).
+> +        - Simultaneous input and output to registers in synchronization with
+> +          counter operations           (excluding MTU8).
+> +        - Up to 12-phase PWM output in combination with synchronous operation
+> +          (excluding MTU8)
+> +    - [MTU0 MTU3, MTU4, MTU6, MTU7, and MTU8]
+> +        - Buffer operation specifiable
+> +    - [MTU1, MTU2]
+> +        - Phase counting mode can be specified independently
+> +        - 32-bit phase counting mode can be specified for interlocked operation
+> +          of MTU1 and MTU2 (when TMDR3.LWA = 1)
+> +        - Cascade connection operation available
+> +    - [MTU3, MTU4, MTU6, and MTU7]
+> +        - Through interlocked operation of MTU3/4 and MTU6/7, the positive and
+> +          negative signals in six phases (12 phases in total) can be output in
+> +          complementary PWM and reset-synchronized PWM operation.
+> +        - In complementary PWM mode, values can be transferred from buffer
+> +          registers to temporary registers at crests and troughs of the timer-
+> +          counter values or when the buffer registers (TGRD registers in MTU4
+> +          and MTU7) are written to.
+> +        - Double-buffering selectable in complementary PWM mode.
+> +    - [MTU3 and MTU4]
+> +        - Through interlocking with MTU0, a mode for driving AC synchronous
+> +          motors (brushless DC motors) by using complementary PWM output and
+> +          reset-synchronized PWM output is settable and allows the selection
+> +          of two types of waveform output (chopping or level).
+> +    - [MTU5]
+> +        - Capable of operation as a dead-time compensation counter.
+> +    - [MTU0/MTU5, MTU1, MTU2, and MTU8]
+> +        - 32-bit phase counting mode specifiable by combining MTU1 and MTU2 and
+> +          through interlocked operation with MTU0/MTU5 and MTU8.
+> +    - Interrupt-skipping function
+> +        - In complementary PWM mode, interrupts on crests and troughs of counter
+> +          values and triggers to start conversion by the A/D converter can be
+> +          skipped.
+> +    - Interrupt sources: 43 sources.
+> +    - Buffer operation:
+> +        - Automatic transfer of register data (transfer from the buffer
+> +          register to the timer register).
+> +    - Trigger generation
+> +        - A/D converter start triggers can be generated
+> +        - A/D converter start request delaying function enables A/D converter
+> +          to be started with any desired timing and to be synchronized with
+> +          PWM output.
+> +    - Low power consumption function
+> +        - The MTU3a can be placed in the module-stop state.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - renesas,r9a07g044-mtu3  # RZ/G2{L,LC}
+> +          - renesas,r9a07g054-mtu3  # RZ/V2L
+> +      - const: renesas,rz-mtu3
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    items:
+> +      - description: MTU0.TGRA input capture/compare match
+> +      - description: MTU0.TGRB input capture/compare match
+> +      - description: MTU0.TGRC input capture/compare match
+> +      - description: MTU0.TGRD input capture/compare match
+> +      - description: MTU0.TCNT overflow
+> +      - description: MTU0.TGRE compare match
+> +      - description: MTU0.TGRF compare match
+> +      - description: MTU1.TGRA input capture/compare match
+> +      - description: MTU1.TGRB input capture/compare match
+> +      - description: MTU1.TCNT overflow
+> +      - description: MTU1.TCNT underflow
+> +      - description: MTU2.TGRA input capture/compare match
+> +      - description: MTU2.TGRB input capture/compare match
+> +      - description: MTU2.TCNT overflow
+> +      - description: MTU2.TCNT underflow
+> +      - description: MTU3.TGRA input capture/compare match
+> +      - description: MTU3.TGRB input capture/compare match
+> +      - description: MTU3.TGRC input capture/compare match
+> +      - description: MTU3.TGRD input capture/compare match
+> +      - description: MTU3.TCNT overflow
+> +      - description: MTU4.TGRA input capture/compare match
+> +      - description: MTU4.TGRB input capture/compare match
+> +      - description: MTU4.TGRC input capture/compare match
+> +      - description: MTU4.TGRD input capture/compare match
+> +      - description: MTU4.TCNT overflow/underflow
+> +      - description: MTU5.TGRU input capture/compare match
+> +      - description: MTU5.TGRV input capture/compare match
+> +      - description: MTU5.TGRW input capture/compare match
+> +      - description: MTU6.TGRA input capture/compare match
+> +      - description: MTU6.TGRB input capture/compare match
+> +      - description: MTU6.TGRC input capture/compare match
+> +      - description: MTU6.TGRD input capture/compare match
+> +      - description: MTU6.TCNT overflow
+> +      - description: MTU7.TGRA input capture/compare match
+> +      - description: MTU7.TGRB input capture/compare match
+> +      - description: MTU7.TGRC input capture/compare match
+> +      - description: MTU7.TGRD input capture/compare match
+> +      - description: MTU7.TCNT overflow/underflow
+> +      - description: MTU8.TGRA input capture/compare match
+> +      - description: MTU8.TGRB input capture/compare match
+> +      - description: MTU8.TGRC input capture/compare match
+> +      - description: MTU8.TGRD input capture/compare match
+> +      - description: MTU8.TCNT overflow
+> +      - description: MTU8.TCNT underflow
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: tgia0
+> +      - const: tgib0
+> +      - const: tgic0
+> +      - const: tgid0
+> +      - const: tgiv0
+> +      - const: tgie0
+> +      - const: tgif0
+> +      - const: tgia1
+> +      - const: tgib1
+> +      - const: tgiv1
+> +      - const: tgiu1
+> +      - const: tgia2
+> +      - const: tgib2
+> +      - const: tgiv2
+> +      - const: tgiu2
+> +      - const: tgia3
+> +      - const: tgib3
+> +      - const: tgic3
+> +      - const: tgid3
+> +      - const: tgiv3
+> +      - const: tgia4
+> +      - const: tgib4
+> +      - const: tgic4
+> +      - const: tgid4
+> +      - const: tgiv4
+> +      - const: tgiu5
+> +      - const: tgiv5
+> +      - const: tgiw5
+> +      - const: tgia6
+> +      - const: tgib6
+> +      - const: tgic6
+> +      - const: tgid6
+> +      - const: tgiv6
+> +      - const: tgia7
+> +      - const: tgib7
+> +      - const: tgic7
+> +      - const: tgid7
+> +      - const: tgiv7
+> +      - const: tgia8
+> +      - const: tgib8
+> +      - const: tgic8
+> +      - const: tgid8
+> +      - const: tgiv8
+> +      - const: tgiu8
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
 
+You still do not have children with unit addresses, so these are weird.
+So again - why do you need this?
 
-                pma-regions = <0x0 0x00000000 0x0 0x10000000 0x0
-AX45MP_PMACFG_ETYP_NAPOT |  AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF |
-AX45MP_PMACFG_NAMO_AMO_SUPPORT>,
-                              <0x0 0x10000000 0x0 0x04000000 0x0
-AX45MP_PMACFG_ETYP_NAPOT |  AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF |
-AX45MP_PMACFG_NAMO_AMO_SUPPORT >,
-                              <0x0 0x20000000 0x0 0x10000000 0x0
-AX45MP_PMACFG_ETYP_NAPOT |  AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF |
-AX45MP_PMACFG_NAMO_AMO_SUPPORT>,
-                              <0x0 0x58000000 0x0 0x08000000 0x0
-AX45MP_PMACFG_ETYP_NAPOT |  AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF |
-AX45MP_PMACFG_NAMO_AMO_SUPPORT>;
+> +
+> +  "counter":
 
-Does the above sound good?
+No need for quotes.
 
-> I'm not sure how you make emmc/usb/gmac's dma ctrl desc work around
-> without pbmt when they don't have cache coherency protocol. Do you
-> need to inject dma_sync for desc synchronization? What's the effect of
-> dynamic PMA in the patch series?
->
-Currently we have setup the pma regions as below:
+> +    $ref: ../counter/renesas,rz-mtu3-counter.yaml
 
-l2cache: cache-controller@13400000 {
-                compatible = "andestech,ax45mp-cache", "cache";
-                cache-size = <0x40000>;
-                cache-line-size = <64>;
-                cache-sets = <1024>;
-                cache-unified;
-                reg = <0x0 0x13400000 0x0 0x100000>;
-                pma-regions = <0x0 0x00000000 0x0 0x10000000 0x0 0xf>,
-                              <0x0 0x10000000 0x0 0x04000000 0x0 0xf>,
-                              <0x0 0x20000000 0x0 0x10000000 0x0 0xf>,
-                              <0x0 0x58000000 0x0 0x08000000 0x0 0xf>;
-                interrupts = <SOC_PERIPHERAL_IRQ(476, IRQ_TYPE_LEVEL_HIGH)>;
-        };
+> +
+> +  "pwm":
 
-The last pma-regions entry 0x58000000 is a DDR location this memory
-locations is marked as shared DMA pool with below in DT,
+No need for quotes.
 
-    reserved-memory {
-        #address-cells = <2>;
-        #size-cells = <2>;
-        ranges;
+> +    $ref: ../pwm/renesas,rz-mtu3-pwm.yaml
 
-        reserved: linux,cma@58000000 {
-            compatible = "shared-dma-pool";
-            no-map;
-            linux,dma-default;
-            reg = <0x0 0x58000000 0x0 0x08000000>;
-        };
-    };
+Full path, so /schemas/pwm/...
 
-And for ARCH_R9A07G043 we automatically select DMA_GLOBAL_POOL, so the
-IP blocks (emmc/usb/gmac's) requesting DMA'able memory will
-automatically fall into this region which is non-cacheable but
-bufferable (set in PMA) and rest everything is taken care by clean and
-flush callbacks. We dont have  inject dma_sync for desc
-synchronization for existing drivers (which are shared with Renesas
-RZ/G2L family)
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - interrupt-names
+> +  - clocks
+> +  - power-domains
+> +  - resets
 
-Cheers,
-Prabhakar
+Best regards,
+Krzysztof
+
