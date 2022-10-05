@@ -2,113 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91E255F5563
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Oct 2022 15:30:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7CAE5F55E2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Oct 2022 15:55:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229829AbiJENa3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Oct 2022 09:30:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59158 "EHLO
+        id S229965AbiJENzf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Oct 2022 09:55:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229676AbiJENa2 (ORCPT
+        with ESMTP id S229831AbiJENzc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Oct 2022 09:30:28 -0400
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CCE14A11F;
-        Wed,  5 Oct 2022 06:30:26 -0700 (PDT)
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-132e9bc5ff4so803867fac.7;
-        Wed, 05 Oct 2022 06:30:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=irQeqZ8WEX66ZHtDLuvQlYzdGNkgZkPT/seAIhsHDCE=;
-        b=r6TNBLVaXtnbGtF7uk6kCPerWr3Ba/YdTCl/P22adYP9n2eukw9Eetp/vv82q8PUHJ
-         tRhHba0FneVd9676Km2uJqRKYzHGFaz6JMcWeh7tG/lmSR7mfiY7SguND0k23IileDKG
-         D3B8g9hOV8oLZG2tXqCNQtsbtwuGmqywjio5AxFmdAMgz2WO3tqba6HyPC4wzHdW677V
-         eC3p2Ljt/UtOXzQKO6R/2OXKTJnaPEeAi5R9LzDH84CPuSlId8gB9A10K5S/pWx22hbW
-         KOt5XLJrfx4KXjgw0dk9ZJQnDrXYkL2HtrllsXXXRQjaaz6Qfl4GU3ju/olGFuQLwEUn
-         5D2Q==
-X-Gm-Message-State: ACrzQf1pqvxrm6JZi6lKhiVOtgBYTAdF4rbiYBElINqpUKr0AmBkjLPP
-        7K6fw0S50L3uvAlgxCnsKw5Wk2E7nA==
-X-Google-Smtp-Source: AMsMyM7Dc9AAulz+lgm5eba8K4nXKXzu0+Ca/UyNBORLFk6fdfkXj2d1AselHUi2iVcgMfsHwdmvvg==
-X-Received: by 2002:a05:6870:14c1:b0:12d:be49:8c23 with SMTP id l1-20020a05687014c100b0012dbe498c23mr2600372oab.21.1664976625001;
-        Wed, 05 Oct 2022 06:30:25 -0700 (PDT)
-Received: from robh_at_kernel.org ([2607:fb90:5fee:ea3a:4239:ad4:650a:6e66])
-        by smtp.gmail.com with ESMTPSA id t14-20020a056870638e00b001313ec705f3sm5177066oap.37.2022.10.05.06.30.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 06:30:24 -0700 (PDT)
-Received: (nullmailer pid 3275000 invoked by uid 1000);
-        Wed, 05 Oct 2022 13:30:22 -0000
-Date:   Wed, 5 Oct 2022 08:30:22 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org,
+        Wed, 5 Oct 2022 09:55:32 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E09FF63F1E;
+        Wed,  5 Oct 2022 06:55:26 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.95,159,1661785200"; 
+   d="scan'208";a="135457105"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 05 Oct 2022 22:55:25 +0900
+Received: from localhost.localdomain (unknown [10.226.92.36])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2511B4006190;
+        Wed,  5 Oct 2022 22:55:20 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] media: dt-bindings: Document Renesas RZ/G2L CRU
- block
-Message-ID: <166497662123.3274947.8880601658127889560.robh@kernel.org>
-References: <20221004234343.54777-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221004234343.54777-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        William Breathitt Gray <william.gray@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>, Lee Jones <lee@kernel.org>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, devicetree@vger.kernel.org,
+        linux-pwm@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 0/3] Add RZ/G2L MTU3a MFD and pwm driver
+Date:   Wed,  5 Oct 2022 14:55:15 +0100
+Message-Id: <20221005135518.876913-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221004234343.54777-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 05 Oct 2022 00:43:41 +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Document the CRU block found on Renesas RZ/G2L (and alike) SoCs.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
-> v2 -> v3
-> * Updated clock names
-> 
-> v1 -> v2
-> * Dropped media prefix from subject
-> * Dropped oneOf from compatible
-> * Used 4 spaces for indentation in example node
-> * Marked port0/1 as required
-> * Updated example node
-> * Included RB tag from Laurent
-> 
-> RFC v2 -> v1
-> * Dropped endpoint stuff from port1 as suggested by Rob
-> * Updated description for endpoint
-> 
-> RFC v1 -> RFC v2
-> * Dropped CSI
-> ---
->  .../bindings/media/renesas,rzg2l-cru.yaml     | 157 ++++++++++++++++++
->  1 file changed, 157 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> 
+The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
+the Renesas RZ/G2L family SoC's. It consists of eight 16-bit timer
+channels and one 32-bit timer channel. It supports the following
+functions
+ - Counter
+ - Timer
+ - PWM
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+This patch series aim to add MFD and pwm driver for MTU3a.
+
+The 8/16/32 bit registers are mixed in each channel. The HW
+specifications of the IP is described in patch#1.
+
+Current patch set is tested for PWM mode1 on MTU3 channel.
+
+RFC->v1:
+ * replaced devm_reset_control_get->devm_reset_control_get_exclusive
+ * Dropped 'bindings' from the binding title
+ * Updated the binding example
+ * Added additionalProperties: false for counter bindings
+ * Squashed all the binding patches
+ * Modelled as a single counter device providing both 16-bit
+   and 32-bit phase counting modes
+ * Modelled as a single pwm device for supporting different pwm modes.
+ * Moved counter and pwm bindings to respective subsystems.
+
+Biju Das (3):
+  dt-bindings: mfd: Document RZ/G2L MTU3a bindings
+  mfd: Add RZ/G2L MTU3 driver
+  pwm: Add support for RZ/G2L MTU3 PWM
+
+ .../counter/renesas,rz-mtu3-counter.yaml      |  30 ++
+ .../bindings/mfd/renesas,rz-mtu3.yaml         | 290 +++++++++++
+ .../bindings/pwm/renesas,rz-mtu3-pwm.yaml     |  50 ++
+ drivers/mfd/Kconfig                           |   9 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/rz-mtu3.c                         | 395 +++++++++++++++
+ drivers/pwm/Kconfig                           |  11 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-rz-mtu3.c                     | 462 ++++++++++++++++++
+ include/linux/mfd/rz-mtu3.h                   | 160 ++++++
+ 10 files changed, 1409 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/counter/renesas,rz-mtu3-counter.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
+ create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rz-mtu3-pwm.yaml
+ create mode 100644 drivers/mfd/rz-mtu3.c
+ create mode 100644 drivers/pwm/pwm-rz-mtu3.c
+ create mode 100644 include/linux/mfd/rz-mtu3.h
+
+-- 
+2.25.1
+
