@@ -2,81 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CE9A5F663F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Oct 2022 14:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24D945F68A2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Oct 2022 15:57:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231481AbiJFMlK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Oct 2022 08:41:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49930 "EHLO
+        id S230496AbiJFN53 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Oct 2022 09:57:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231479AbiJFMlI (ORCPT
+        with ESMTP id S230339AbiJFN52 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Oct 2022 08:41:08 -0400
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 145699F77C
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Oct 2022 05:41:04 -0700 (PDT)
-Received: by mail-qk1-f171.google.com with SMTP id x18so888001qkn.6
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 06 Oct 2022 05:41:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=JiLu8lqRwjZu0bTrwE13gkIKumEkyQ7K7yg8IICQqyU=;
-        b=Q9Mc6WObS9ANNdKFhCA6J6JOgK92jMCFM3X895cwvzIw1FP7wOxUQtgcgXW2sXOo2f
-         Qjdr0vNrhDXvmWFQ+sT649i4Gk6EQjCm6rBUkwWWGJW5PuEPokUBdoAIWwj+6ppfAGMU
-         URDjTGqMz5/N94zOYsBH+GlHaH3QDxF892eadDIVJpQvvp3dpSoCHdzmul3okVviKIbq
-         wvkqKF0AaKrvQrC68KWbP5CjZ80lycm03hxg6oESyXFS3Eq/LRGGGxtr5wGEnX416C7w
-         0ZK8cN+0785SUz5M4Y1bDjkm9KXWsvjDpqCb3CkAwTZNmAnUPl2eaVXqtg2mPI6nIM+U
-         Jzfg==
-X-Gm-Message-State: ACrzQf0qVlk30tbhAUbq0oWj8NtPtMt2WiQ4dV9OC0lZ2FUSctkPmJ1s
-        Ths+u/WQSrGB71IgXMkSbLc8t8M6iKcyKg==
-X-Google-Smtp-Source: AMsMyM44WvGbHPLIie/tl1h3jhSHK+LcrfP1IHyccDDJJJpQ8kOgQtXlhbB/iI0mXzJ9wmB1yOYhIw==
-X-Received: by 2002:a37:ac06:0:b0:6e3:8ddf:d45c with SMTP id e6-20020a37ac06000000b006e38ddfd45cmr3087356qkm.22.1665060062835;
-        Thu, 06 Oct 2022 05:41:02 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id w9-20020a05620a148900b006e62cd6aa5bsm1041564qkj.61.2022.10.06.05.41.02
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Oct 2022 05:41:02 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-349c4310cf7so16519167b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 06 Oct 2022 05:41:02 -0700 (PDT)
-X-Received: by 2002:a81:848c:0:b0:356:e173:2c7a with SMTP id
- u134-20020a81848c000000b00356e1732c7amr4146755ywf.502.1665060062262; Thu, 06
- Oct 2022 05:41:02 -0700 (PDT)
+        Thu, 6 Oct 2022 09:57:28 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AB738915F6;
+        Thu,  6 Oct 2022 06:57:26 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.95,164,1661785200"; 
+   d="scan'208";a="137903235"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 06 Oct 2022 22:57:24 +0900
+Received: from localhost.localdomain (unknown [10.226.92.84])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4D5EC53EEFC8;
+        Thu,  6 Oct 2022 22:57:20 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        William Breathitt Gray <william.gray@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>, Lee Jones <lee@kernel.org>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, devicetree@vger.kernel.org,
+        linux-pwm@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 0/4] Add RZ/G2L MTU3a MFD, Counter and pwm driver
+Date:   Thu,  6 Oct 2022 14:57:13 +0100
+Message-Id: <20221006135717.1748560-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 6 Oct 2022 14:40:51 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWXPesKV7XE_QwLrM6pZ1z6GFC-SjJ1ceFTs4o=hv71Zg@mail.gmail.com>
-Message-ID: <CAMuHMdWXPesKV7XE_QwLrM6pZ1z6GFC-SjJ1ceFTs4o=hv71Zg@mail.gmail.com>
-Subject: Future renesas-drivers releases
-To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Next planned releases, if all goes well:
-  - renesas-drivers-2022-10-04-v6.0,
-  - renesas-drivers-2022-10-18-v6.1-rc1,
-  - renesas-drivers-2022-11-01-v6.1-rc3,
-  - renesas-drivers-2022-11-15-v6.1-rc5,
-  - renesas-drivers-2022-11-29-v6.1-rc7,
-  - renesas-drivers-2022-12-06-v6.1 (TBD),
-  - renesas-drivers-2022-12-13-v6.1 (TBD).
+The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
+the Renesas RZ/G2L family SoC's. It consists of eight 16-bit timer
+channels and one 32-bit timer channel. It supports the following
+functions
+ - Counter
+ - Timer
+ - PWM
 
-Gr{oetje,eeting}s,
+This patch series aim to add MFD and pwm driver for MTU3a.
 
-                        Geert
+The 8/16/32 bit registers are mixed in each channel. The HW
+specifications of the IP is described in patch#1.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Current patch set is tested for PWM mode1 on MTU3 channel
+and 16 and 32 bit phase counting modes.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+v2->v3:
+ * Dropped counter bindings and integrated with mfd as it has only one property.
+ * Removed "#address-cells" and "#size-cells" as it do not have children with
+   unit addresses.
+ * Removed quotes from counter and pwm.
+ * Provided full path for pwm bindings.
+ * Updated the binding example.
+ * removed unwanted header files
+ * Added LUT for 32 bit registers as it needed for 32-bit cascade counting.
+ * Exported 32 bit read/write functions.
+ * Modelled as a counter device supporting 3 counters(2 16-bit and 
+   32-bit)
+ * Add kernel-doc comments to document struct rz_mtu3_cnt
+ * Removed mmio variable from struct rz_mtu3_cnt
+ * Removed cnt local variable from rz_mtu3_count_read()
+ * Replaced -EINVAL->-ERANGE for out of range error conditions.
+ * Removed explicit cast from write functions.
+ * Removed local variable val from rz_mtu3_count_ceiling_read()
+ * Added lock for RMW for counter/ceiling updates.
+ * Added different synapses for counter0 and counter{1,2}
+ * Used ARRAY for assigning num_counts.
+ * Added PM runtime for managing clocks.
+ * Add MODULE_IMPORT_NS(COUNTER) to import the COUNTER namespace.
+
+RFC->v2:
+ * replaced devm_reset_control_get->devm_reset_control_get_exclusive
+ * Dropped 'bindings' from the binding title
+ * Updated the binding example
+ * Added additionalProperties: false for counter bindings
+ * Squashed all the binding patches
+ * Modelled as a single counter device providing both 16-bit
+   and 32-bit phase counting modes
+ * Modelled as a single pwm device for supporting different pwm modes.
+ * Moved counter and pwm bindings to respective subsystems.
+
+Biju Das (4):
+  dt-bindings: mfd: Document RZ/G2L MTU3a bindings
+  mfd: Add RZ/G2L MTU3 driver
+  pwm: Add support for RZ/G2L MTU3 PWM
+  counter: Add RZ/G2L MTU3 counter driver
+
+ .../bindings/mfd/renesas,rz-mtu3.yaml         | 304 ++++++++++
+ .../bindings/pwm/renesas,rz-mtu3-pwm.yaml     |  50 ++
+ drivers/counter/Kconfig                       |   9 +
+ drivers/counter/Makefile                      |   1 +
+ drivers/counter/rz-mtu3-cnt.c                 | 568 ++++++++++++++++++
+ drivers/mfd/Kconfig                           |   9 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/rz-mtu3.c                         | 436 ++++++++++++++
+ drivers/pwm/Kconfig                           |  11 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-rz-mtu3.c                     | 462 ++++++++++++++
+ include/linux/mfd/rz-mtu3.h                   | 183 ++++++
+ 12 files changed, 2035 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
+ create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rz-mtu3-pwm.yaml
+ create mode 100644 drivers/counter/rz-mtu3-cnt.c
+ create mode 100644 drivers/mfd/rz-mtu3.c
+ create mode 100644 drivers/pwm/pwm-rz-mtu3.c
+ create mode 100644 include/linux/mfd/rz-mtu3.h
+
+-- 
+2.25.1
+
