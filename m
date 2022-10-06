@@ -2,242 +2,196 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AB265F5E21
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Oct 2022 02:59:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4D685F6141
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Oct 2022 08:55:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229639AbiJFA7y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Oct 2022 20:59:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45710 "EHLO
+        id S229762AbiJFGzW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Oct 2022 02:55:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229661AbiJFA7x (ORCPT
+        with ESMTP id S229683AbiJFGzR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Oct 2022 20:59:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE4F3D136;
-        Wed,  5 Oct 2022 17:59:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8B0E7617F4;
-        Thu,  6 Oct 2022 00:59:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E45E2C43143;
-        Thu,  6 Oct 2022 00:59:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665017988;
-        bh=fQf/JNM+xDB7AfCqM55geVsCDG+Rba+PXIX7GBlJE7Y=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Cwu6IZ1HIQu47d3LN1vv1lNCo7jtddXsCYuldGsT8WK1j4MLVxhmL41qjOYGA2GuD
-         fStm8XGomGHb41sTYh1xuR8wCs8T1gxjB5BnwMOjqein15P2NWzl+THLjr/rJe5my1
-         2/kBc05X1W5aktR71xDXJh+YCLE4MWIPvY4OmIl9Uty1jdwGOs7HwkU7NGRvKuNtYu
-         avzsNp+EJSXPnw6efqvOkPQAIbvsYuRUvj1ZkiHP/lnt0uHwUCvVFgRS0sUJVq/hpo
-         P4Fwmn/H6k4VBzfceSM1R2IdmdNTvfW5wNY/hOSt3rrzp1sNwN0CS5ueQk0Uybdgaf
-         VCqa1kru1DR5w==
-Received: by mail-oi1-f174.google.com with SMTP id w70so442864oie.2;
-        Wed, 05 Oct 2022 17:59:48 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2t4lvdLk9sovd+Vi3slst9aJ1ECVgiI08eVbaBULDv0KXs9QI6
-        mHSVhufs0nSA9QlUrkF6exmP76ma9d20FSjx7D4=
-X-Google-Smtp-Source: AMsMyM7d+v+3xgGmPgvQD1qK0/F/9XFNSgoIUtuODUetfgEaCPybGyk6k711U6WxHhxo8jgLAvZdeSTkOZSUsUlQ+lA=
-X-Received: by 2002:a05:6808:151f:b0:350:1b5e:2380 with SMTP id
- u31-20020a056808151f00b003501b5e2380mr3665247oiw.112.1665017987935; Wed, 05
- Oct 2022 17:59:47 -0700 (PDT)
+        Thu, 6 Oct 2022 02:55:17 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AF902F39E
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Oct 2022 23:55:14 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id b4so1177852wrs.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Oct 2022 23:55:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mpnbl0sOHmjZXpRaPHZuxhEh+P6N/msQTLYNVhfBBe8=;
+        b=MiPZCFMrd8ZJnITo2QNV97U1PS/R+5ZaOpCPg1dg0ozuIl6v8QxOhznFxmMRbJFt61
+         +KQ26aFgOClHddDkzpBN5Ti5bjTzZazFn9IOccCqYNGZm83luL0MAi2ZIMoiLBhbdpI9
+         ErI4nhBYVAiDsh8U0oXUCxVcV8bop7IuJT7Ik70JSybZ18r2+2UEeGXI8zLnhalxuyPK
+         D72/xbL0hdoGvzz5uUDTnekoAkjXs/FrL4Ugud+EDDTaZGiQrY2Xuz1ety4QCzOavUyl
+         +n3MfQtsIn5LI92EpTTgt2DO7DNNtKRNghaJz8p+7n59IVXb/QZmDJ0puWLNYB+9gbop
+         agyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mpnbl0sOHmjZXpRaPHZuxhEh+P6N/msQTLYNVhfBBe8=;
+        b=iEt1qu/DZ24EFbofXEH1eX/n9SW5dNoD3x+I1eUhdqpYaNw1qanUGkOMpfIqgNaQkx
+         EeCOCsOuCCL4apaoTdQ9ahyqSGv9HrbnKwUpt4dkzEcQeYAWCmip+sRtz9Ac4xmYch7Z
+         +4Ve/dUP8XNlwBt9qr2RmC0LY76lEtvWt8E2Ez7MB9jlbjqTNtY8+OXmvREYwpaf5qN4
+         JxYBjAjQfUlPoyoM/A7PYSedaB0JDOPU0he8nWgBVMXLuVW8YguM2d6NHuy0YZPC1OB2
+         Gshwddo+iZxiZk2svq4Dp/BB8M4oHkxLp2rAwKn1cceAwN4qQhG9ihzeVV/09u1TdxLr
+         D4xA==
+X-Gm-Message-State: ACrzQf1KD0D7MAbDhZNWXN2wwfPj5QYfQPAejI1ObyfC9aehUZ54dqSC
+        LX1KpPF6AoiKHVJsCgxB6K43jQ==
+X-Google-Smtp-Source: AMsMyM4tUv+yoGLPcmLIx0TCLkILd2ZuyZqPgL+k6wTXzf/o8aVrTs7qe5sYTzmE/qACZEBJdXpwZw==
+X-Received: by 2002:a05:6000:806:b0:22a:36df:2663 with SMTP id bt6-20020a056000080600b0022a36df2663mr1873670wrb.423.1665039312765;
+        Wed, 05 Oct 2022 23:55:12 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:86cc:fff3:d44b:9793? ([2a05:6e02:1041:c10:86cc:fff3:d44b:9793])
+        by smtp.googlemail.com with ESMTPSA id a5-20020adfeec5000000b0022e2c38f8basm14459474wrp.14.2022.10.05.23.55.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Oct 2022 23:55:12 -0700 (PDT)
+Message-ID: <97201878-3bb8-eac5-7fac-a690322ac43a@linaro.org>
+Date:   Thu, 6 Oct 2022 08:55:10 +0200
 MIME-Version: 1.0
-References: <20221003223222.448551-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221003223222.448551-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAJF2gTQuSX9idEyNmGRwpAsSP8V=+QKQ7UAp28T-seM8rbkwOA@mail.gmail.com>
- <CA+V-a8smkDmQbz76sTA5XfUm7bkY4Ee-L5xYW+-xRWkE1TYiAw@mail.gmail.com>
- <CAJF2gTQ4G-j3p_pHvVQ82R2DFQZq70xgE3ZhoRkxiSzrHnU2og@mail.gmail.com> <CA+V-a8tLYT0541FNo_o-sTsV7ywwnGTRtv6ropVu+0Wd-PsM6A@mail.gmail.com>
-In-Reply-To: <CA+V-a8tLYT0541FNo_o-sTsV7ywwnGTRtv6ropVu+0Wd-PsM6A@mail.gmail.com>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Thu, 6 Oct 2022 08:59:35 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTQ9N5tyYB46eaMJ=Z0V7pm9TxFAXQ1qxLXLqj2C9zP2Ng@mail.gmail.com>
-Message-ID: <CAJF2gTQ9N5tyYB46eaMJ=Z0V7pm9TxFAXQ1qxLXLqj2C9zP2Ng@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/2] soc: renesas: Add L2 cache management for
- RZ/Five SoC
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v8 00/29] Rework the trip points creation
+Content-Language: en-US
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        rui.zhang@intel.com,
+        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>, netdev@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-omap@vger.kernel.org, rafael@kernel.org
+References: <CGME20221003092704eucas1p2875c1f996dfd60a58f06cf986e02e8eb@eucas1p2.samsung.com>
+ <20221003092602.1323944-1-daniel.lezcano@linaro.org>
+ <8cdd1927-da38-c23e-fa75-384694724b1c@samsung.com>
+ <c3258cb2-9a56-d048-5738-1132331a157d@linaro.org>
+ <851008bf-145d-224c-87a8-cb6ec1e9addb@linaro.org>
+ <207c1979-0da2-b05d-fead-6880ad956b90@samsung.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <207c1979-0da2-b05d-fead-6880ad956b90@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 5, 2022 at 11:03 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
->
-> Hi Guo,
->
-> On Wed, Oct 5, 2022 at 3:23 PM Guo Ren <guoren@kernel.org> wrote:
-> >
-> > On Wed, Oct 5, 2022 at 8:54 PM Lad, Prabhakar
-> > <prabhakar.csengg@gmail.com> wrote:
-> > >
-> > > Hi Guo,
-> > >
-> > > On Wed, Oct 5, 2022 at 2:29 AM Guo Ren <guoren@kernel.org> wrote:
-> > > >
-> > > > On Tue, Oct 4, 2022 at 6:32 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > > > >
-> > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > >
-> > > > > On the AX45MP core, cache coherency is a specification option so it may
-> > > > > not be supported. In this case DMA will fail. As a workaround, firstly we
-> > > > > allocate a global dma coherent pool from which DMA allocations are taken
-> > > > > and marked as non-cacheable + bufferable using the PMA region as specified
-> > > > > in the device tree. Synchronization callbacks are implemented to
-> > > > > synchronize when doing DMA transactions.
-> > > > >
-> > > > > The Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
-> > > > > block that allows dynamic adjustment of memory attributes in the runtime.
-> > > > > It contains a configurable amount of PMA entries implemented as CSR
-> > > > > registers to control the attributes of memory locations in interest.
-> > > > >
-> > > > > Below are the memory attributes supported:
-> > > > > * Device, Non-bufferable
-> > > > > * Device, bufferable
-> > > > > * Memory, Non-cacheable, Non-bufferable
-> > > > > * Memory, Non-cacheable, Bufferable
-> > > > > * Memory, Write-back, No-allocate
-> > > > > * Memory, Write-back, Read-allocate
-> > > > > * Memory, Write-back, Write-allocate
-> > > > > * Memory, Write-back, Read and Write-allocate
-> > > > Seems Svpbmt's PMA, IO, and NC wouldn't fit your requirements, could
-> > > > give a map list of the types of Svpbmt? And give out what you needed,
-> > > > but Svpbmt can't.
-> > > >
-> > > Sorry I didn't get what you meant here, could you please elaborate.
-> > I know there is no pbmt in AX45MP, I am just curious how many physical
-> > memory attributes you would use in linux? It seems only one type used
-> > in the series:
-> > cpu_nocache_area_set -> sbi_ecall(SBI_EXT_ANDES,
-> > SBI_EXT_ANDES_SET_PMA, offset, vaddr, size, entry_id, 0, 0);
-> >
-> Yes, currently we only use "Memory, Non-cacheable, Bufferable". I was
-> wondering if we could send these options as flags from DT something
-> like below so that it's not hard coded in the code.
->
-> /* PMA config */
-> #define AX45MP_PMACFG_ETYP                GENMASK(1, 0)
-> /* OFF: PMA entry is disabled */
-> #define AX45MP_PMACFG_ETYP_DISABLED            0
-> /* Naturally aligned power of 2 region */
-> #define AX45MP_PMACFG_ETYP_NAPOT            3
->
-> #define AX45MP_PMACFG_MTYP                GENMASK(5, 2)
-> /* Device, Non-bufferable */
-> #define AX45MP_PMACFG_MTYP_DEV_NON_BUF            (0 << 2)
-> /* Device, bufferable */
-> #define AX45MP_PMACFG_MTYP_DEV_BUF            (1 << 2)
-> /* Memory, Non-cacheable, Non-bufferable */
-> #define AX45MP_PMACFG_MTYP_MEM_NON_CACHE_NON_BUF    (2 << 2)
-> /* Memory, Non-cacheable, Bufferable */
-> #define AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF        (3 << 2)
-> /* Memory, Write-back, No-allocate */
-> #define AX45MP_PMACFG_MTYP_MEM_WB_NA            (8 << 2)
-> /* Memory, Write-back, Read-allocate */
-> #define AX45MP_PMACFG_MTYP_MEM_WB_RA            (9 << 2)
-> /* Memory, Write-back, Write-allocate */
-> #define AX45MP_PMACFG_MTYP_MEM_WB_WA            (10 << 2)
-> /* Memory, Write-back, Read and Write-allocate */
-> #define AX45MP_PMACFG_MTYP_MEM_WB_R_WA            (11 << 2)
->
-> /* AMO instructions are supported */
-> #define AX45MP_PMACFG_NAMO_AMO_SUPPORT            (0 << 6)
-> /* AMO instructions are not supported */
-> #define AX45MP_PMACFG_NAMO_AMO_NO_SUPPORT        (1 << 6)
->
->
->                 pma-regions = <0x0 0x00000000 0x0 0x10000000 0x0
-> AX45MP_PMACFG_ETYP_NAPOT |  AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF |
-> AX45MP_PMACFG_NAMO_AMO_SUPPORT>,
->                               <0x0 0x10000000 0x0 0x04000000 0x0
-> AX45MP_PMACFG_ETYP_NAPOT |  AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF |
-> AX45MP_PMACFG_NAMO_AMO_SUPPORT >,
->                               <0x0 0x20000000 0x0 0x10000000 0x0
-> AX45MP_PMACFG_ETYP_NAPOT |  AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF |
-> AX45MP_PMACFG_NAMO_AMO_SUPPORT>,
->                               <0x0 0x58000000 0x0 0x08000000 0x0
-> AX45MP_PMACFG_ETYP_NAPOT |  AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF |
-> AX45MP_PMACFG_NAMO_AMO_SUPPORT>;
->
-> Does the above sound good?
-I've no idea. But for working around, I would give Acked-by.
 
->
-> > I'm not sure how you make emmc/usb/gmac's dma ctrl desc work around
-> > without pbmt when they don't have cache coherency protocol. Do you
-> > need to inject dma_sync for desc synchronization? What's the effect of
-> > dynamic PMA in the patch series?
-> >
-> Currently we have setup the pma regions as below:
->
-> l2cache: cache-controller@13400000 {
->                 compatible = "andestech,ax45mp-cache", "cache";
->                 cache-size = <0x40000>;
->                 cache-line-size = <64>;
->                 cache-sets = <1024>;
->                 cache-unified;
->                 reg = <0x0 0x13400000 0x0 0x100000>;
->                 pma-regions = <0x0 0x00000000 0x0 0x10000000 0x0 0xf>,
->                               <0x0 0x10000000 0x0 0x04000000 0x0 0xf>,
->                               <0x0 0x20000000 0x0 0x10000000 0x0 0xf>,
->                               <0x0 0x58000000 0x0 0x08000000 0x0 0xf>;
->                 interrupts = <SOC_PERIPHERAL_IRQ(476, IRQ_TYPE_LEVEL_HIGH)>;
->         };
->
-> The last pma-regions entry 0x58000000 is a DDR location this memory
-> locations is marked as shared DMA pool with below in DT,
->
->     reserved-memory {
->         #address-cells = <2>;
->         #size-cells = <2>;
->         ranges;
->
->         reserved: linux,cma@58000000 {
->             compatible = "shared-dma-pool";
->             no-map;
->             linux,dma-default;
->             reg = <0x0 0x58000000 0x0 0x08000000>;
->         };
->     };
->
-> And for ARCH_R9A07G043 we automatically select DMA_GLOBAL_POOL, so the
-> IP blocks (emmc/usb/gmac's) requesting DMA'able memory will
-> automatically fall into this region which is non-cacheable but
-> bufferable (set in PMA) and rest everything is taken care by clean and
-> flush callbacks. We dont have  inject dma_sync for desc
-> synchronization for existing drivers (which are shared with Renesas
-> RZ/G2L family)
-Better than I thought :). The "non-cacheable but bufferable" is "weak
-order," also raising the bufferable signal of AXI transactions. Right?
-But some drivers think ctrl desc is strong order without bufferable
-and don't put any mb() before/after IO control operations.
+Hi Marek,
 
->
-> Cheers,
-> Prabhakar
+On 05/10/2022 15:05, Marek Szyprowski wrote:
+> 
+> On 05.10.2022 14:37, Daniel Lezcano wrote:
+>>
+>> Hi Marek,
+>>
+>> On 03/10/2022 23:18, Daniel Lezcano wrote:
+>>
+>> [ ... ]
+>>
+>>>> I've tested this v8 patchset after fixing the issue with Exynos TMU
+>>>> with
+>>>> https://lore.kernel.org/all/20221003132943.1383065-1-daniel.lezcano@linaro.org/
+>>>>
+>>>> patch and I got the following lockdep warning on all Exynos-based
+>>>> boards:
+>>>>
+>>>>
+>>>> ======================================================
+>>>> WARNING: possible circular locking dependency detected
+>>>> 6.0.0-rc1-00083-ge5c9d117223e #12945 Not tainted
+>>>> ------------------------------------------------------
+>>>> swapper/0/1 is trying to acquire lock:
+>>>> c1ce66b0 (&data->lock#2){+.+.}-{3:3}, at: exynos_get_temp+0x3c/0xc8
+>>>>
+>>>> but task is already holding lock:
+>>>> c2979b94 (&tz->lock){+.+.}-{3:3}, at:
+>>>> thermal_zone_device_update.part.0+0x3c/0x528
+>>>>
+>>>> which lock already depends on the new lock.
+>>>
+>>> I'm wondering if the problem is not already there and related to
+>>> data->lock ...
+>>>
+>>> Doesn't the thermal zone lock already prevent racy access to the data
+>>> structure?
+>>>
+>>> Another question: if the sensor clock is disabled after reading it,
+>>> how does the hardware update the temperature and detect the programed
+>>> threshold is crossed?
+>>
+>> just a gentle ping, as the fix will depend on your answer ;)
+>>
+> Sorry, I've been busy with other stuff. I thought I will fix this once I
+> find a bit of spare time.
+
+Ok, that is great if you can find time to fix it up because I've other 
+drivers to convert to the generic thermal trips.
 
 
+> IMHO the clock management is a bit over-engineered, as there is little
+> (if any) benefit from such fine grade clock management. That clock is
+> needed only for the AHB related part of the TMU (reading/writing the
+> registers). The IRQ generation and temperature measurement is clocked
+> from so called 'sclk' (special clock).
+> 
+> I also briefly looked at the code and the internal lock doesn't look to
+> be really necessary assuming that the thermal core already serializes
+> all the calls.
+
+I looked at the code and I think the driver can be simplified (fixed?) 
+even more.
+
+IIUC, the sensor has multiple trip point interrupts, so if the device 
+tree is describing more trip points than the sensor supports, there is a 
+warning and the number of trip point is capped.
+
+IMO that can be simplified by using two trip point interrupt because the 
+thermal_zone_device_update() will call the set_trips callback with the 
+new boundaries. IOW, the thermal framework sets a new trip point 
+interrupt when one is crossed.
+
+That should result in the simplification of the tmu_control as well as 
+the tmu_probe function. As well as removing the limitation of the number 
+of trip points.
+
+In order to have that correctly working, the 'set_trips' ops must be 
+used to call the tmu_control callback instead of calling it in tmu_probe.
+
+The intialization workflow should be:
+
+probe->...
+  ->thermal_zone_device_register()
+   ->thermal_zone_device_update()
+    ->update_trip_points()
+     ->ops->set_trips()
+       ->tmu_control()
+
+Also, replace the workqueue by a threaded interrupt.
+
+Does it make sense?
 
 -- 
-Best Regards
- Guo Ren
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
