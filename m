@@ -2,39 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF5995F68A9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Oct 2022 15:57:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 231325F68AA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Oct 2022 15:57:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231552AbiJFN5j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Oct 2022 09:57:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37178 "EHLO
+        id S231607AbiJFN5p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Oct 2022 09:57:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231479AbiJFN5i (ORCPT
+        with ESMTP id S231504AbiJFN5l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Oct 2022 09:57:38 -0400
+        Thu, 6 Oct 2022 09:57:41 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 899379082D;
-        Thu,  6 Oct 2022 06:57:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4871F9082D;
+        Thu,  6 Oct 2022 06:57:39 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.95,163,1661785200"; 
-   d="scan'208";a="135616448"
+   d="scan'208";a="135616457"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 06 Oct 2022 22:57:35 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 06 Oct 2022 22:57:39 +0900
 Received: from localhost.localdomain (unknown [10.226.92.84])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2398853EEFCE;
-        Thu,  6 Oct 2022 22:57:32 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 78CC053EEFC8;
+        Thu,  6 Oct 2022 22:57:36 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+To:     William Breathitt Gray <william.gray@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-iio@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 3/4] pwm: Add support for RZ/G2L MTU3 PWM
-Date:   Thu,  6 Oct 2022 14:57:16 +0100
-Message-Id: <20221006135717.1748560-4-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v3 4/4] counter: Add RZ/G2L MTU3 counter driver
+Date:   Thu,  6 Oct 2022 14:57:17 +0100
+Message-Id: <20221006135717.1748560-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221006135717.1748560-1-biju.das.jz@bp.renesas.com>
 References: <20221006135717.1748560-1-biju.das.jz@bp.renesas.com>
@@ -48,535 +46,637 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for RZ/G2L MTU3 PWM driver. The IP supports
-following PWM modes
-
-1) PWM mode 1
-2) PWM mode 2
-3) Reset-synchronized PWM mode
-4) Complementary PWM mode 1 (transfer at crest)
-5) Complementary PWM mode 2 (transfer at trough)
-6) Complementary PWM mode 3 (transfer at crest and trough)
-
-This patch adds basic pwm mode 1 support for RZ/G2L MTU3 driver
-by creating separate logical channels for each IOs.
+Add RZ/G2L MTU3 counter driver.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v2->v3:
- * No change.
-v1->v2:
- * Modelled as a single PWM device handling multiple channles.
- * Used PM framework to manage the clocks.
+v1->v3:
+ * Modelled as a counter device supporting 3 counters(2 16-bit and 
+   32-bit)
+ * Add kernel-doc comments to document struct rz_mtu3_cnt
+ * Removed mmio variable from struct rz_mtu3_cnt
+ * Removed cnt local variable from rz_mtu3_count_read()
+ * Replaced -EINVAL->-ERANGE for out of range error conditions.
+ * Removed explicit cast from write functions.
+ * Removed local variable val from rz_mtu3_count_ceiling_read()
+ * Added lock for RMW for counter/ceiling updates.
+ * Added different synapses for counter0 and counter{1,2}
+ * Used ARRAY for assigning num_counts.
+ * Added PM runtime for managing clocks.
+ * Add MODULE_IMPORT_NS(COUNTER) to import the COUNTER namespace.
 ---
- drivers/pwm/Kconfig       |  11 +
- drivers/pwm/Makefile      |   1 +
- drivers/pwm/pwm-rz-mtu3.c | 462 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 474 insertions(+)
- create mode 100644 drivers/pwm/pwm-rz-mtu3.c
+ drivers/counter/Kconfig       |   9 +
+ drivers/counter/Makefile      |   1 +
+ drivers/counter/rz-mtu3-cnt.c | 568 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 578 insertions(+)
+ create mode 100644 drivers/counter/rz-mtu3-cnt.c
 
-diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-index 60d13a949bc5..568f1be139b9 100644
---- a/drivers/pwm/Kconfig
-+++ b/drivers/pwm/Kconfig
-@@ -481,6 +481,17 @@ config PWM_ROCKCHIP
- 	  Generic PWM framework driver for the PWM controller found on
- 	  Rockchip SoCs.
+diff --git a/drivers/counter/Kconfig b/drivers/counter/Kconfig
+index d388bf26f4dc..531b187e4630 100644
+--- a/drivers/counter/Kconfig
++++ b/drivers/counter/Kconfig
+@@ -39,6 +39,15 @@ config INTERRUPT_CNT
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called interrupt-cnt.
  
-+config PWM_RZ_MTU3
-+	tristate "Renesas RZ/G2L MTU3 PWM Timer support"
-+	depends on ARCH_RZG2L || COMPILE_TEST
-+	depends on HAS_IOMEM
++config RZ_MTU3_CNT
++	tristate "RZ/G2L MTU3 counter driver"
++	depends on MFD_RZ_MTU3 || COMPILE_TEST
 +	help
-+	  This driver exposes the MTU3 PWM Timer controller found in Renesas
-+	  RZ/G2L like chips through the PWM API.
++	  Select this option to enable RZ/G2L MTU3 counter driver.
 +
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called pwm-rz-mtu3.
++	  To compile this driver as a module, choose M here: the
++	  module will be called rz-mtu3-cnt.
 +
- config PWM_SAMSUNG
- 	tristate "Samsung PWM support"
- 	depends on PLAT_SAMSUNG || ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
-diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
-index 7bf1a29f02b8..b85fc9fba326 100644
---- a/drivers/pwm/Makefile
-+++ b/drivers/pwm/Makefile
-@@ -44,6 +44,7 @@ obj-$(CONFIG_PWM_RASPBERRYPI_POE)	+= pwm-raspberrypi-poe.o
- obj-$(CONFIG_PWM_RCAR)		+= pwm-rcar.o
- obj-$(CONFIG_PWM_RENESAS_TPU)	+= pwm-renesas-tpu.o
- obj-$(CONFIG_PWM_ROCKCHIP)	+= pwm-rockchip.o
-+obj-$(CONFIG_PWM_RZ_MTU3)	+= pwm-rz-mtu3.o
- obj-$(CONFIG_PWM_SAMSUNG)	+= pwm-samsung.o
- obj-$(CONFIG_PWM_SIFIVE)	+= pwm-sifive.o
- obj-$(CONFIG_PWM_SL28CPLD)	+= pwm-sl28cpld.o
-diff --git a/drivers/pwm/pwm-rz-mtu3.c b/drivers/pwm/pwm-rz-mtu3.c
+ config STM32_TIMER_CNT
+ 	tristate "STM32 Timer encoder counter driver"
+ 	depends on MFD_STM32_TIMERS || COMPILE_TEST
+diff --git a/drivers/counter/Makefile b/drivers/counter/Makefile
+index b9a369e0d4fc..933fdd50b3e4 100644
+--- a/drivers/counter/Makefile
++++ b/drivers/counter/Makefile
+@@ -8,6 +8,7 @@ counter-y := counter-core.o counter-sysfs.o counter-chrdev.o
+ 
+ obj-$(CONFIG_104_QUAD_8)	+= 104-quad-8.o
+ obj-$(CONFIG_INTERRUPT_CNT)		+= interrupt-cnt.o
++obj-$(CONFIG_RZ_MTU3_CNT)	+= rz-mtu3-cnt.o
+ obj-$(CONFIG_STM32_TIMER_CNT)	+= stm32-timer-cnt.o
+ obj-$(CONFIG_STM32_LPTIMER_CNT)	+= stm32-lptimer-cnt.o
+ obj-$(CONFIG_TI_EQEP)		+= ti-eqep.o
+diff --git a/drivers/counter/rz-mtu3-cnt.c b/drivers/counter/rz-mtu3-cnt.c
 new file mode 100644
-index 000000000000..b4c25e48a50e
+index 000000000000..26b5ea3852f8
 --- /dev/null
-+++ b/drivers/pwm/pwm-rz-mtu3.c
-@@ -0,0 +1,462 @@
++++ b/drivers/counter/rz-mtu3-cnt.c
+@@ -0,0 +1,568 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Renesas RZ/G2L MTU3 PWM Timer driver
++ * Renesas RZ/G2L MTU3a Counter driver
 + *
 + * Copyright (C) 2022 Renesas Electronics Corporation
-+ *
-+ * Hardware manual for this IP can be found here
-+ * https://www.renesas.com/eu/en/document/mah/rzg2l-group-rzg2lc-group-users-manual-hardware-0?language=en
-+ *
-+ * Limitations:
-+ * - When PWM is disabled, the output is driven to Hi-Z.
-+ * - While the hardware supports both polarities, the driver (for now)
-+ *   only handles normal polarity.
-+ * - While the hardware supports pwm mode{1,2}, reset-synchronized pwm and
-+ *   complementary pwm modes, the driver (for now) only handles pwm mode1.
 + */
-+
-+#include <linux/bitfield.h>
-+#include <linux/clk.h>
-+#include <linux/io.h>
++#include <linux/counter.h>
 +#include <linux/mfd/rz-mtu3.h>
 +#include <linux/module.h>
 +#include <linux/of.h>
-+#include <linux/limits.h>
 +#include <linux/platform_device.h>
 +#include <linux/pm_runtime.h>
-+#include <linux/pwm.h>
-+#include <linux/time.h>
++#include <linux/types.h>
 +
-+#define RZ_MTU3_TMDR1_MD_NORMAL		(0)
-+#define RZ_MTU3_TMDR1_MD_PWM_MODE_1	(2)
++#define RZ_MTU3_TSR_TCFD	BIT(7)
++#define RZ_MTU3_MAX_HW_CNTR_CHANNELS	(2)
 +
-+#define RZ_MTU3_TIOR_OC_RETAIN		(0)
-+#define RZ_MTU3_TIOR_OC_0_H_COMP_MATCH	(2)
-+#define RZ_MTU3_TIOR_OC_1_TOGGLE	(7)
-+#define RZ_MTU3_TIOR_OC_IOA		GENMASK(3, 0)
++#define RZ_MTU3_TMDR1_PH_CNT_MODE_1	(4)
++#define RZ_MTU3_TMDR1_PH_CNT_MODE_2	(5)
++#define RZ_MTU3_TMDR1_PH_CNT_MODE_3	(6)
++#define RZ_MTU3_TMDR1_PH_CNT_MODE_4	(7)
++#define RZ_MTU3_TMDR1_PH_CNT_MODE_5	(9)
++#define RZ_MTU3_TMDR1_PH_CNT_MODE_MASK	(0xf)
 +
-+#define RZ_MTU3_TCR_CCLR_TGRC		(5 << 5)
-+#define RZ_MTU3_TCR_CKEG_RISING		(0 << 3)
++#define RZ_MTU3_TCR_CCLR	GENMASK(7, 5)
++#define RZ_MTU3_TCR_CCLR_NONE	FIELD_PREP(RZ_MTU3_TCR_CCLR, 0)
 +
-+#define RZ_MTU3_TCR_TPCS		GENMASK(2, 0)
++#define RZ_MTU3_TMDR3_LWA	BIT(0)
++#define RZ_MTU3_32_BIT_CH	(2)
 +
-+#define RZ_MTU3_MAX_PWM_MODE1_CHANNELS	(12)
++#define RZ_MTU3_TIOR_IC_BOTH	(10)
 +
-+#define RZ_MTU3_MAX_HW_PWM_CHANNELS	(7)
-+
-+static const u8 rz_mtu3_pwm_mode1_num_ios[] = { 2, 1, 1, 2, 2, 2, 2 };
-+
-+struct rz_mtu3_pwm_chip {
-+	struct pwm_chip chip;
++/**
++ * struct rz_mtu3_cnt - MTU3 counter private data
++ *
++ * @clk: MTU3 module clock
++ * @lock: Lock to prevent concurrent access for ceiling and count
++ * @rz_mtu3_channel: HW channels for the counters
++ */
++struct rz_mtu3_cnt {
 +	struct clk *clk;
 +	struct mutex lock;
-+	unsigned long rate;
-+	u32 user_count[RZ_MTU3_MAX_HW_PWM_CHANNELS];
-+	struct rz_mtu3_channel *ch[RZ_MTU3_MAX_HW_PWM_CHANNELS];
++	struct rz_mtu3_channel *ch[RZ_MTU3_MAX_HW_CNTR_CHANNELS];
 +};
 +
-+static inline struct rz_mtu3_pwm_chip *to_rz_mtu3_pwm_chip(struct pwm_chip *chip)
++static const enum counter_function rz_mtu3_count_functions[] = {
++	COUNTER_FUNCTION_QUADRATURE_X4,
++	COUNTER_FUNCTION_PULSE_DIRECTION,
++	COUNTER_FUNCTION_QUADRATURE_X2_B,
++};
++
++static bool rz_mtu3_is_16_bit_cnt_mode(struct rz_mtu3_cnt *const priv)
 +{
-+	return container_of(chip, struct rz_mtu3_pwm_chip, chip);
++	return (priv->ch[0]->function == RZ_MTU3_16BIT_PHASE_COUNTING ||
++		priv->ch[1]->function == RZ_MTU3_16BIT_PHASE_COUNTING);
 +}
 +
-+static u8 rz_mtu3_pwm_calculate_prescale(struct rz_mtu3_pwm_chip *rz_mtu3,
-+					 u64 period_cycles)
++static bool rz_mtu3_is_32_bit_cnt_mode(struct rz_mtu3_cnt *const priv)
 +{
-+	u32 prescaled_period_cycles;
-+	u8 prescale;
++	return (priv->ch[0]->function == RZ_MTU3_32BIT_PHASE_COUNTING &&
++		priv->ch[1]->function == RZ_MTU3_32BIT_PHASE_COUNTING);
++}
 +
-+	prescaled_period_cycles = period_cycles >> 16;
-+	if (prescaled_period_cycles >= 16)
-+		prescale = 3;
++static int rz_mtu3_count_read(struct counter_device *counter,
++			      struct counter_count *count, u64 *val)
++{
++	struct rz_mtu3_cnt *const priv = counter_priv(counter);
++	u32 id = count->id & 1;
++
++	if (count->id == RZ_MTU3_32_BIT_CH)
++		*val = rz_mtu3_32bit_ch_read(priv->ch[id], RZ_MTU3_TCNTLW);
 +	else
-+		prescale = (fls(prescaled_period_cycles) + 1) / 2;
-+
-+	return prescale;
-+}
-+
-+static struct rz_mtu3_channel *
-+rz_mtu3_get_hw_channel(struct rz_mtu3_pwm_chip *rz_mtu3_pwm, u32 channel)
-+{
-+	unsigned int i, ch_index = 0;
-+
-+	for (i = 0; i < ARRAY_SIZE(rz_mtu3_pwm_mode1_num_ios); i++) {
-+		ch_index += rz_mtu3_pwm_mode1_num_ios[i];
-+
-+		if (ch_index > channel)
-+			break;
-+	}
-+
-+	return rz_mtu3_pwm->ch[i];
-+}
-+
-+static u32 rz_mtu3_get_hw_channel_index(struct rz_mtu3_pwm_chip *rz_mtu3_pwm,
-+					struct rz_mtu3_channel *ch)
-+{
-+	u32 i;
-+
-+	for (i = 0; i < ARRAY_SIZE(rz_mtu3_pwm_mode1_num_ios); i++) {
-+		if (ch == rz_mtu3_pwm->ch[i])
-+			break;
-+	}
-+
-+	return i;
-+}
-+
-+static bool rz_mtu3_pwm_is_second_channel(u32 ch_index, u32 hwpwm)
-+{
-+	u32 i, pwm_ch_index = 0;
-+
-+	for (i = 0; i < ch_index; i++)
-+		pwm_ch_index += rz_mtu3_pwm_mode1_num_ios[i];
-+
-+	return pwm_ch_index != hwpwm;
-+}
-+
-+static bool rz_mtu3_pwm_is_ch_enabled(struct rz_mtu3_pwm_chip *rz_mtu3_pwm,
-+				      u32 hwpwm)
-+{
-+	struct rz_mtu3_channel *ch;
-+	bool is_channel_en;
-+	u32 ch_index;
-+	u8 val;
-+
-+	ch = rz_mtu3_get_hw_channel(rz_mtu3_pwm, hwpwm);
-+	ch_index = rz_mtu3_get_hw_channel_index(rz_mtu3_pwm, ch);
-+	is_channel_en = rz_mtu3_is_enabled(ch);
-+
-+	if (rz_mtu3_pwm_is_second_channel(ch_index, hwpwm))
-+		val = rz_mtu3_8bit_ch_read(ch, RZ_MTU3_TIORL);
-+	else
-+		val = rz_mtu3_8bit_ch_read(ch, RZ_MTU3_TIORH);
-+
-+	return (is_channel_en && (val & RZ_MTU3_TIOR_OC_IOA));
-+}
-+
-+static int rz_mtu3_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
-+{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = to_rz_mtu3_pwm_chip(chip);
-+	struct rz_mtu3_channel *ch;
-+	u32 ch_index;
-+
-+	ch = rz_mtu3_get_hw_channel(rz_mtu3_pwm, pwm->hwpwm);
-+	ch_index = rz_mtu3_get_hw_channel_index(rz_mtu3_pwm, ch);
-+
-+	mutex_lock(&rz_mtu3_pwm->lock);
-+	rz_mtu3_pwm->user_count[ch_index]++;
-+	mutex_unlock(&rz_mtu3_pwm->lock);
-+
-+	ch->function = RZ_MTU3_PWM_MODE_1;
++		*val = rz_mtu3_16bit_ch_read(priv->ch[id], RZ_MTU3_TCNT);
 +
 +	return 0;
 +}
 +
-+static void rz_mtu3_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
++static int rz_mtu3_count_write(struct counter_device *counter,
++			       struct counter_count *count, const u64 val)
 +{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = to_rz_mtu3_pwm_chip(chip);
-+	struct rz_mtu3_channel *ch;
-+	u32 ch_index;
++	struct rz_mtu3_cnt *const priv = counter_priv(counter);
++	u32 id = count->id & 1;
++	u32 ceiling;
 +
-+	ch = rz_mtu3_get_hw_channel(rz_mtu3_pwm, pwm->hwpwm);
-+	ch_index = rz_mtu3_get_hw_channel_index(rz_mtu3_pwm, ch);
-+
-+	mutex_lock(&rz_mtu3_pwm->lock);
-+	rz_mtu3_pwm->user_count[ch_index]--;
-+	mutex_unlock(&rz_mtu3_pwm->lock);
-+
-+	if (!rz_mtu3_pwm->user_count[ch_index])
-+		ch->function = RZ_MTU3_NORMAL;
-+}
-+
-+static int rz_mtu3_pwm_enable(struct rz_mtu3_pwm_chip *rz_mtu3_pwm,
-+			      struct pwm_device *pwm)
-+{
-+	struct rz_mtu3_channel *ch;
-+	u32 ch_index;
-+	u8 val;
-+
-+	ch = rz_mtu3_get_hw_channel(rz_mtu3_pwm, pwm->hwpwm);
-+	ch_index = rz_mtu3_get_hw_channel_index(rz_mtu3_pwm, ch);
-+	val = (RZ_MTU3_TIOR_OC_1_TOGGLE << 4) | RZ_MTU3_TIOR_OC_0_H_COMP_MATCH;
-+
-+	rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TMDR1, RZ_MTU3_TMDR1_MD_PWM_MODE_1);
-+	if (rz_mtu3_pwm_is_second_channel(ch_index, pwm->hwpwm))
-+		rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TIORL, val);
++	mutex_lock(&priv->lock);
++	if (count->id == RZ_MTU3_32_BIT_CH)
++		ceiling = rz_mtu3_32bit_ch_read(priv->ch[id], RZ_MTU3_TGRALW);
 +	else
-+		rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TIORH, val);
++		ceiling = rz_mtu3_16bit_ch_read(priv->ch[id], RZ_MTU3_TGRA);
 +
-+	if (rz_mtu3_pwm->user_count[ch_index] <= 1)
-+		rz_mtu3_enable(ch);
++	if (val > ceiling) {
++		mutex_unlock(&priv->lock);
++		return -ERANGE;
++	}
++
++	if (count->id == RZ_MTU3_32_BIT_CH)
++		rz_mtu3_32bit_ch_write(priv->ch[id], RZ_MTU3_TCNTLW, val);
++	else
++		rz_mtu3_16bit_ch_write(priv->ch[id], RZ_MTU3_TCNT, val);
++
++	mutex_unlock(&priv->lock);
 +
 +	return 0;
 +}
 +
-+static void rz_mtu3_pwm_disable(struct rz_mtu3_pwm_chip *rz_mtu3_pwm,
-+				struct pwm_device *pwm)
++static int rz_mtu3_count_function_read(struct counter_device *counter,
++				       struct counter_count *count,
++				       enum counter_function *function)
 +{
-+	struct rz_mtu3_channel *ch;
-+	u32 ch_index;
++	struct rz_mtu3_cnt *const priv = counter_priv(counter);
++	u32 id = count->id & 1;
++	u8 val;
 +
-+	ch = rz_mtu3_get_hw_channel(rz_mtu3_pwm, pwm->hwpwm);
-+	ch_index = rz_mtu3_get_hw_channel_index(rz_mtu3_pwm, ch);
++	val = rz_mtu3_8bit_ch_read(priv->ch[id], RZ_MTU3_TMDR1);
 +
-+	/* Return to normal mode and disable output pins of MTU3 channel */
-+	if (rz_mtu3_pwm->user_count[ch_index] <= 1)
-+		rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TMDR1, RZ_MTU3_TMDR1_MD_NORMAL);
++	switch (val & RZ_MTU3_TMDR1_PH_CNT_MODE_MASK) {
++	case RZ_MTU3_TMDR1_PH_CNT_MODE_1:
++		*function = COUNTER_FUNCTION_QUADRATURE_X4;
++		break;
++	case RZ_MTU3_TMDR1_PH_CNT_MODE_2:
++		*function = COUNTER_FUNCTION_PULSE_DIRECTION;
++		break;
++	case RZ_MTU3_TMDR1_PH_CNT_MODE_4:
++		*function = COUNTER_FUNCTION_QUADRATURE_X2_B;
++		break;
++	default:
++		return -EINVAL;
++	}
 +
-+	if (rz_mtu3_pwm_is_second_channel(ch_index, pwm->hwpwm))
-+		rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TIORL, RZ_MTU3_TIOR_OC_RETAIN);
-+	else
-+		rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TIORH, RZ_MTU3_TIOR_OC_RETAIN);
-+
-+	if (rz_mtu3_pwm->user_count[ch_index] <= 1)
-+		rz_mtu3_disable(ch);
++	return 0;
 +}
 +
-+static int rz_mtu3_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
-+			      const struct pwm_state *state)
++static int rz_mtu3_count_function_write(struct counter_device *counter,
++					struct counter_count *count,
++					enum counter_function function)
 +{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = to_rz_mtu3_pwm_chip(chip);
-+	struct rz_mtu3_channel *ch;
-+	unsigned long pv, dc;
-+	u64 period_cycles;
-+	u64 duty_cycles;
-+	u32 ch_index;
-+	u8 prescale;
-+	u8 val;
++	struct rz_mtu3_cnt *const priv = counter_priv(counter);
++	u32 id = count->id & 1;
++	u8 mode;
++
++	switch (function) {
++	case COUNTER_FUNCTION_QUADRATURE_X4:
++		mode = RZ_MTU3_TMDR1_PH_CNT_MODE_1;
++		break;
++	case COUNTER_FUNCTION_PULSE_DIRECTION:
++		mode = RZ_MTU3_TMDR1_PH_CNT_MODE_2;
++		break;
++	case COUNTER_FUNCTION_QUADRATURE_X2_B:
++		mode = RZ_MTU3_TMDR1_PH_CNT_MODE_4;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	rz_mtu3_8bit_ch_write(priv->ch[id], RZ_MTU3_TMDR1, mode);
++
++	return 0;
++}
++
++static int rz_mtu3_count_direction_read(struct counter_device *counter,
++					struct counter_count *count,
++					enum counter_count_direction *direction)
++{
++	struct rz_mtu3_cnt *const priv = counter_priv(counter);
++	u32 id = count->id & 1;
++	u8 cnt;
++
++	cnt = rz_mtu3_8bit_ch_read(priv->ch[id], RZ_MTU3_TSR);
++
++	if (cnt & RZ_MTU3_TSR_TCFD)
++		*direction = COUNTER_COUNT_DIRECTION_FORWARD;
++	else
++		*direction = COUNTER_COUNT_DIRECTION_BACKWARD;
++
++	return 0;
++}
++
++static int rz_mtu3_count_ceiling_read(struct counter_device *counter,
++				      struct counter_count *count,
++				      u64 *ceiling)
++{
++	struct rz_mtu3_cnt *const priv = counter_priv(counter);
++	u32 id = count->id & 1;
++
++	if (count->id == RZ_MTU3_32_BIT_CH)
++		*ceiling = rz_mtu3_32bit_ch_read(priv->ch[id], RZ_MTU3_TGRALW);
++	else
++		*ceiling = rz_mtu3_16bit_ch_read(priv->ch[id], RZ_MTU3_TGRA);
++
++	return 0;
++}
++
++static int rz_mtu3_count_ceiling_write(struct counter_device *counter,
++				       struct counter_count *count,
++				       u64 ceiling)
++{
++	struct rz_mtu3_cnt *const priv = counter_priv(counter);
++	u32 id = count->id & 1;
++
++	if (ceiling > U16_MAX && rz_mtu3_is_16_bit_cnt_mode(priv))
++		return -ERANGE;
++
++	if (ceiling > U32_MAX && rz_mtu3_is_32_bit_cnt_mode(priv))
++		return -ERANGE;
++
++	mutex_lock(&priv->lock);
++	if (ceiling == 0) {
++		rz_mtu3_8bit_ch_write(priv->ch[id], RZ_MTU3_TCR,
++				      RZ_MTU3_TCR_CCLR_NONE);
++
++	} else {
++		if (count->id == RZ_MTU3_32_BIT_CH)
++			rz_mtu3_32bit_ch_write(priv->ch[id], RZ_MTU3_TGRALW, ceiling);
++		else
++			rz_mtu3_16bit_ch_write(priv->ch[id], RZ_MTU3_TGRA, ceiling);
++
++		rz_mtu3_8bit_ch_write(priv->ch[id], RZ_MTU3_TCR,
++				      RZ_MTU3_TCR_CCLR_TGRA);
++	}
++	mutex_unlock(&priv->lock);
++
++	return 0;
++}
++
++static void rz_mtu3_32bit_cnt_setting(struct counter_device *counter, int id)
++{
++	struct rz_mtu3_cnt *const priv = counter_priv(counter);
 +
 +	/*
-+	 * Refuse clk rates > 1 GHz to prevent overflowing the following
-+	 * calculation.
++	 * 32-bit phase counting need MTU1 and MTU2 to create 32-bit cascade
++	 * counter.
 +	 */
-+	if (rz_mtu3_pwm->rate > NSEC_PER_SEC)
-+		return -EINVAL;
++	priv->ch[0]->function = RZ_MTU3_32BIT_PHASE_COUNTING;
++	priv->ch[1]->function = RZ_MTU3_32BIT_PHASE_COUNTING;
 +
-+	ch = rz_mtu3_get_hw_channel(rz_mtu3_pwm, pwm->hwpwm);
-+	ch_index = rz_mtu3_get_hw_channel_index(rz_mtu3_pwm, ch);
-+	duty_cycles = state->duty_cycle;
-+	if (!state->enabled)
-+		duty_cycles = 0;
++	rz_mtu3_shared_reg_write(priv->ch[0], RZ_MTU3_TMDR3, RZ_MTU3_TMDR3_LWA);
 +
-+	period_cycles = mul_u64_u32_div(state->period, rz_mtu3_pwm->rate,
-+					NSEC_PER_SEC);
-+	prescale = rz_mtu3_pwm_calculate_prescale(rz_mtu3_pwm, period_cycles);
++	/* Phase counting mode 1 is used as default in initialization. */
++	rz_mtu3_8bit_ch_write(priv->ch[0], RZ_MTU3_TMDR1,
++			      RZ_MTU3_TMDR1_PH_CNT_MODE_1);
 +
-+	if (period_cycles >> (2 * prescale) <= U16_MAX)
-+		pv = period_cycles >> (2 * prescale);
++	rz_mtu3_8bit_ch_write(priv->ch[0], RZ_MTU3_TCR, RZ_MTU3_TCR_CCLR_TGRA);
++	rz_mtu3_8bit_ch_write(priv->ch[0], RZ_MTU3_TIOR, RZ_MTU3_TIOR_IC_BOTH);
++
++	rz_mtu3_enable(priv->ch[0]);
++	rz_mtu3_enable(priv->ch[1]);
++}
++
++static void rz_mtu3_16bit_cnt_setting(struct counter_device *counter, int id)
++{
++	struct rz_mtu3_cnt *const priv = counter_priv(counter);
++
++	priv->ch[id]->function = RZ_MTU3_16BIT_PHASE_COUNTING;
++
++	/* Phase counting mode 1 is used as default in initialization. */
++	rz_mtu3_8bit_ch_write(priv->ch[id], RZ_MTU3_TMDR1,
++			      RZ_MTU3_TMDR1_PH_CNT_MODE_1);
++
++	rz_mtu3_8bit_ch_write(priv->ch[id], RZ_MTU3_TCR, RZ_MTU3_TCR_CCLR_TGRA);
++	rz_mtu3_16bit_ch_write(priv->ch[id], RZ_MTU3_TGRA, U16_MAX);
++
++	rz_mtu3_enable(priv->ch[id]);
++}
++
++static int rz_mtu3_initialize_counter(struct counter_device *counter, int id)
++{
++	struct rz_mtu3_cnt *const priv = counter_priv(counter);
++
++	if (id == RZ_MTU3_32_BIT_CH && rz_mtu3_is_16_bit_cnt_mode(priv))
++		return -EBUSY;
++
++	if (id != RZ_MTU3_32_BIT_CH && rz_mtu3_is_32_bit_cnt_mode(priv))
++		return -EBUSY;
++
++	if (id == RZ_MTU3_32_BIT_CH)
++		rz_mtu3_32bit_cnt_setting(counter, id);
 +	else
-+		pv = U16_MAX;
-+
-+	duty_cycles = mul_u64_u32_div(duty_cycles, rz_mtu3_pwm->rate,
-+				      NSEC_PER_SEC);
-+	if (duty_cycles >> (2 * prescale) <= U16_MAX)
-+		dc = duty_cycles >> (2 * prescale);
-+	else
-+		dc = U16_MAX;
-+
-+	val = RZ_MTU3_TCR_CKEG_RISING | prescale;
-+	if (rz_mtu3_pwm_is_second_channel(ch_index, pwm->hwpwm)) {
-+		rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TCR,
-+				      RZ_MTU3_TCR_CCLR_TGRC | val);
-+		rz_mtu3_16bit_ch_write(ch, RZ_MTU3_TGRD, dc);
-+		rz_mtu3_16bit_ch_write(ch, RZ_MTU3_TGRC, pv);
-+	} else {
-+		rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TCR,
-+				      RZ_MTU3_TCR_CCLR_TGRA | val);
-+		rz_mtu3_16bit_ch_write(ch, RZ_MTU3_TGRB, dc);
-+		rz_mtu3_16bit_ch_write(ch, RZ_MTU3_TGRA, pv);
-+	}
++		rz_mtu3_16bit_cnt_setting(counter, id);
 +
 +	return 0;
 +}
 +
-+static void rz_mtu3_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-+				  struct pwm_state *state)
++static void rz_mtu3_terminate_counter(struct counter_device *counter, int id)
 +{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = to_rz_mtu3_pwm_chip(chip);
-+	struct rz_mtu3_channel *ch;
-+	u8 prescale, val;
-+	u32 ch_index;
-+	u16 dc, pv;
-+	u64 tmp;
++	struct rz_mtu3_cnt *const priv = counter_priv(counter);
 +
-+	ch = rz_mtu3_get_hw_channel(rz_mtu3_pwm, pwm->hwpwm);
-+	ch_index = rz_mtu3_get_hw_channel_index(rz_mtu3_pwm, ch);
-+	pm_runtime_get_sync(chip->dev);
-+	state->enabled = rz_mtu3_pwm_is_ch_enabled(rz_mtu3_pwm, pwm->hwpwm);
-+	if (state->enabled) {
-+		val = rz_mtu3_8bit_ch_read(ch, RZ_MTU3_TCR);
-+		prescale = FIELD_GET(RZ_MTU3_TCR_TPCS, val);
-+
-+		if (rz_mtu3_pwm_is_second_channel(ch_index, pwm->hwpwm)) {
-+			dc = rz_mtu3_16bit_ch_read(ch, RZ_MTU3_TGRD);
-+			pv = rz_mtu3_16bit_ch_read(ch, RZ_MTU3_TGRC);
-+		} else {
-+			dc = rz_mtu3_16bit_ch_read(ch, RZ_MTU3_TGRB);
-+			pv = rz_mtu3_16bit_ch_read(ch, RZ_MTU3_TGRA);
-+		}
-+
-+		tmp = NSEC_PER_SEC * (u64)pv << (2 * prescale);
-+		state->period = DIV_ROUND_UP_ULL(tmp, rz_mtu3_pwm->rate);
-+
-+		tmp = NSEC_PER_SEC * (u64)dc << (2 * prescale);
-+		state->duty_cycle = DIV_ROUND_UP_ULL(tmp, rz_mtu3_pwm->rate);
++	if (id == RZ_MTU3_32_BIT_CH) {
++		priv->ch[0]->function = RZ_MTU3_NORMAL;
++		priv->ch[1]->function = RZ_MTU3_NORMAL;
++		rz_mtu3_shared_reg_write(priv->ch[0], RZ_MTU3_TMDR3, 0);
++		rz_mtu3_disable(priv->ch[1]);
++		rz_mtu3_disable(priv->ch[0]);
++	} else {
++		priv->ch[id]->function = RZ_MTU3_NORMAL;
++		rz_mtu3_disable(priv->ch[id]);
 +	}
-+
-+	state->polarity = PWM_POLARITY_NORMAL;
-+	pm_runtime_put(chip->dev);
 +}
 +
-+static int rz_mtu3_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-+			     const struct pwm_state *state)
++static int rz_mtu3_count_enable_read(struct counter_device *counter,
++				     struct counter_count *count, u8 *enable)
 +{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = to_rz_mtu3_pwm_chip(chip);
-+	struct pwm_state cur_state;
-+	bool enabled;
-+	int ret;
++	struct rz_mtu3_cnt *const priv = counter_priv(counter);
 +
-+	cur_state = pwm->state;
-+	enabled = cur_state.enabled;
-+	if (state->polarity != PWM_POLARITY_NORMAL)
-+		return -EINVAL;
++	if (count->id == RZ_MTU3_32_BIT_CH)
++		*enable = rz_mtu3_is_enabled(priv->ch[0]) &&
++			rz_mtu3_is_enabled(priv->ch[1]);
++	else
++		*enable = rz_mtu3_is_enabled(priv->ch[count->id]);
 +
-+	if (!enabled && state->enabled)
-+		pm_runtime_get_sync(chip->dev);
++	return 0;
++}
 +
-+	ret = rz_mtu3_pwm_config(chip, pwm, state);
-+	if (ret && state->enabled)
-+		goto done;
++static int rz_mtu3_count_enable_write(struct counter_device *counter,
++				      struct counter_count *count, u8 enable)
++{
++	struct rz_mtu3_cnt *const priv = counter_priv(counter);
++	struct rz_mtu3_channel *ch = priv->ch[count->id & 0x1];
++	int ret = 0;
 +
-+	if (!state->enabled) {
-+		if (enabled)
-+			rz_mtu3_pwm_disable(rz_mtu3_pwm, pwm);
-+		ret = 0;
-+		goto done;
++	if (enable) {
++		pm_runtime_get_sync(ch->dev);
++		ret = rz_mtu3_initialize_counter(counter, count->id);
++	} else {
++		rz_mtu3_terminate_counter(counter, count->id);
++		pm_runtime_put(ch->dev);
 +	}
-+
-+	return rz_mtu3_pwm_enable(rz_mtu3_pwm, pwm);
-+done:
-+	if (enabled && !state->enabled)
-+		pm_runtime_put(chip->dev);
 +
 +	return ret;
 +}
 +
-+static const struct pwm_ops rz_mtu3_pwm_ops = {
-+	.request = rz_mtu3_pwm_request,
-+	.free = rz_mtu3_pwm_free,
-+	.get_state = rz_mtu3_pwm_get_state,
-+	.apply = rz_mtu3_pwm_apply,
-+	.owner = THIS_MODULE,
++static struct counter_comp rz_mtu3_count_ext[] = {
++	COUNTER_COMP_DIRECTION(rz_mtu3_count_direction_read),
++	COUNTER_COMP_ENABLE(rz_mtu3_count_enable_read,
++			    rz_mtu3_count_enable_write),
++	COUNTER_COMP_CEILING(rz_mtu3_count_ceiling_read,
++			     rz_mtu3_count_ceiling_write),
 +};
 +
-+static const struct of_device_id rz_mtu3_pwm_of_table[] = {
-+	{ .compatible = "renesas,rz-mtu3-pwm", },
-+	{ /* Sentinel */ }
++static const enum counter_synapse_action rz_mtu3_synapse_actions[] = {
++	COUNTER_SYNAPSE_ACTION_BOTH_EDGES,
++	COUNTER_SYNAPSE_ACTION_RISING_EDGE,
++	COUNTER_SYNAPSE_ACTION_NONE,
 +};
-+MODULE_DEVICE_TABLE(of, rz_mtu3_pwm_of_table);
 +
-+static int __maybe_unused rz_mtu3_pwm_pm_runtime_suspend(struct device *dev)
++static int rz_mtu3_action_read(struct counter_device *counter,
++			       struct counter_count *count,
++			       struct counter_synapse *synapse,
++			       enum counter_synapse_action *action)
 +{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = dev_get_drvdata(dev);
++	const size_t signal_a_id = count->synapses[0].signal->id;
++	const size_t signal_b_id = count->synapses[1].signal->id;
++	enum counter_function function;
++	int err;
 +
-+	clk_disable_unprepare(rz_mtu3_pwm->clk);
++	err = rz_mtu3_count_function_read(counter, count, &function);
++	if (err)
++		return err;
++
++	/* Default action mode */
++	*action = COUNTER_SYNAPSE_ACTION_NONE;
++
++	switch (function) {
++	case COUNTER_FUNCTION_PULSE_DIRECTION:
++		/*
++		 * Rising edges on signal A updates the respective count.
++		 * The input level of signal B determines direction.
++		 */
++		if (synapse->signal->id == signal_a_id)
++			*action = COUNTER_SYNAPSE_ACTION_RISING_EDGE;
++		break;
++	case COUNTER_FUNCTION_QUADRATURE_X2_B:
++		/*
++		 * Any state transition on quadrature pair signal B updates
++		 * the respective count.
++		 */
++		if (synapse->signal->id == signal_b_id)
++			*action = COUNTER_SYNAPSE_ACTION_BOTH_EDGES;
++		break;
++	case COUNTER_FUNCTION_QUADRATURE_X4:
++		/* counts up/down on both edges of A and B signal*/
++		*action = COUNTER_SYNAPSE_ACTION_BOTH_EDGES;
++		break;
++	default:
++		return -EINVAL;
++	}
 +
 +	return 0;
 +}
 +
-+static int __maybe_unused rz_mtu3_pwm_pm_runtime_resume(struct device *dev)
-+{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = dev_get_drvdata(dev);
++static const struct counter_ops rz_mtu3_cnt_ops = {
++	.count_read = rz_mtu3_count_read,
++	.count_write = rz_mtu3_count_write,
++	.function_read = rz_mtu3_count_function_read,
++	.function_write = rz_mtu3_count_function_write,
++	.action_read = rz_mtu3_action_read,
++};
 +
-+	clk_prepare_enable(rz_mtu3_pwm->clk);
++#define RZ_MTU3_PHASE_SIGNAL(_id, _name) {		\
++	.id = (_id),				\
++	.name = (_name),			\
++}
++
++static struct counter_signal rz_mtu3_signals[] = {
++	RZ_MTU3_PHASE_SIGNAL(0, "MTU1 MTCLKA"),
++	RZ_MTU3_PHASE_SIGNAL(1, "MTU1 MTCLKB"),
++	RZ_MTU3_PHASE_SIGNAL(2, "MTU2 MTCLKC"),
++	RZ_MTU3_PHASE_SIGNAL(3, "MTU2 MTCLKD"),
++};
++
++#define RZ_MTU3_COUNT_SYNAPSES(_id) {					\
++	{								\
++		.actions_list = rz_mtu3_synapse_actions,		\
++		.num_actions = ARRAY_SIZE(rz_mtu3_synapse_actions),	\
++		.signal = rz_mtu3_signals + 2 * (_id)			\
++	},								\
++	{								\
++		.actions_list = rz_mtu3_synapse_actions,		\
++		.num_actions = ARRAY_SIZE(rz_mtu3_synapse_actions),	\
++		.signal = rz_mtu3_signals + 2 * (_id) + 1		\
++	}								\
++}
++
++static struct counter_synapse rz_mtu3_count_synapses[][2] = {
++	RZ_MTU3_COUNT_SYNAPSES(0), RZ_MTU3_COUNT_SYNAPSES(1)
++};
++
++static struct counter_count rz_mtu3_counts[] = {
++	{
++		.id = 0,
++		.name = "Channel 1 Count(16-bit)",
++		.functions_list = rz_mtu3_count_functions,
++		.num_functions = ARRAY_SIZE(rz_mtu3_count_functions),
++		.synapses = rz_mtu3_count_synapses[0],
++		.num_synapses = 2,
++		.ext = rz_mtu3_count_ext,
++		.num_ext = ARRAY_SIZE(rz_mtu3_count_ext),
++	},
++	{
++		.id = 1,
++		.name = "Channel 2 Count(16-bit)",
++		.functions_list = rz_mtu3_count_functions,
++		.num_functions = ARRAY_SIZE(rz_mtu3_count_functions),
++		.synapses = rz_mtu3_count_synapses[0],
++		.num_synapses = 4,
++		.ext = rz_mtu3_count_ext,
++		.num_ext = ARRAY_SIZE(rz_mtu3_count_ext),
++	},
++	{
++		.id = 2,
++		.name = "Channel3 Count(32-bit)",
++		.functions_list = rz_mtu3_count_functions,
++		.num_functions = ARRAY_SIZE(rz_mtu3_count_functions),
++		.synapses = rz_mtu3_count_synapses[0],
++		.num_synapses = 4,
++		.ext = rz_mtu3_count_ext,
++		.num_ext = ARRAY_SIZE(rz_mtu3_count_ext),
++	}
++};
++
++static int __maybe_unused rz_mtu3_cnt_pm_runtime_suspend(struct device *dev)
++{
++	struct rz_mtu3_cnt *const priv = dev_get_drvdata(dev);
++
++	clk_disable_unprepare(priv->clk);
 +
 +	return 0;
 +}
 +
-+static const struct dev_pm_ops rz_mtu3_pwm_pm_ops = {
-+	SET_RUNTIME_PM_OPS(rz_mtu3_pwm_pm_runtime_suspend, rz_mtu3_pwm_pm_runtime_resume, NULL)
-+};
-+
-+static void rz_mtu3_pwm_pm_disable(void *data)
++static int __maybe_unused rz_mtu3_cnt_pm_runtime_resume(struct device *dev)
 +{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = dev_get_drvdata(data);
++	struct rz_mtu3_cnt *const priv = dev_get_drvdata(dev);
 +
-+	pm_runtime_disable(rz_mtu3_pwm->chip.dev);
-+	pm_runtime_set_suspended(rz_mtu3_pwm->chip.dev);
++	clk_prepare_enable(priv->clk);
++
++	return 0;
 +}
 +
-+static int rz_mtu3_pwm_probe(struct platform_device *pdev)
++static const struct dev_pm_ops rz_mtu3_cnt_pm_ops = {
++	SET_RUNTIME_PM_OPS(rz_mtu3_cnt_pm_runtime_suspend, rz_mtu3_cnt_pm_runtime_resume, NULL)
++};
++
++static void rz_mtu3_cnt_pm_disable(void *data)
++{
++	struct device *dev = data;
++
++	pm_runtime_disable(dev);
++	pm_runtime_set_suspended(dev);
++}
++
++static int rz_mtu3_cnt_probe(struct platform_device *pdev)
 +{
 +	struct rz_mtu3 *ddata = dev_get_drvdata(pdev->dev.parent);
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm;
 +	struct device *dev = &pdev->dev;
-+	int num_pwm_hw_ch;
++	struct counter_device *counter;
++	struct rz_mtu3_cnt *priv;
 +	unsigned int i;
 +	int ret;
 +
-+	rz_mtu3_pwm = devm_kzalloc(&pdev->dev, sizeof(*rz_mtu3_pwm), GFP_KERNEL);
-+	if (!rz_mtu3_pwm)
++	counter = devm_counter_alloc(dev, sizeof(*priv));
++	if (!counter)
 +		return -ENOMEM;
 +
-+	rz_mtu3_pwm->clk = ddata->clk;
-+	num_pwm_hw_ch = 0;
-+	for (i = 0; i < RZ_MTU_NUM_CHANNELS; i++) {
-+		if (i == RZ_MTU5 || i == RZ_MTU8)
-+			continue;
++	priv = counter_priv(counter);
++	priv->clk = ddata->clk;
 +
-+		rz_mtu3_pwm->ch[num_pwm_hw_ch] = &ddata->channels[i];
-+		rz_mtu3_pwm->ch[num_pwm_hw_ch]->dev = dev;
-+		if (rz_mtu3_pwm->ch[num_pwm_hw_ch]->function != RZ_MTU3_NORMAL)
++	for (i = 0; i < RZ_MTU3_MAX_HW_CNTR_CHANNELS; i++) {
++		priv->ch[i] = &ddata->channels[RZ_MTU1 + i];
++		priv->ch[i]->dev = dev;
++		if (priv->ch[i]->function != RZ_MTU3_NORMAL)
 +			return dev_err_probe(dev, -EINVAL,
 +					     "channel '%u' is already claimed\n", i);
-+		num_pwm_hw_ch++;
 +	}
 +
-+	rz_mtu3_pwm->rate = clk_get_rate(rz_mtu3_pwm->clk);
-+
-+	mutex_init(&rz_mtu3_pwm->lock);
-+
-+	clk_prepare_enable(rz_mtu3_pwm->clk);
++	mutex_init(&priv->lock);
++	clk_prepare_enable(priv->clk);
 +	pm_runtime_set_active(&pdev->dev);
 +	pm_runtime_enable(&pdev->dev);
 +	ret = devm_add_action_or_reset(&pdev->dev,
-+				       rz_mtu3_pwm_pm_disable,
-+				       rz_mtu3_pwm);
++				       rz_mtu3_cnt_pm_disable,
++				       dev);
 +	if (ret < 0)
 +		goto disable_clock;
 +
-+	platform_set_drvdata(pdev, rz_mtu3_pwm);
++	counter->name = dev_name(dev);
++	counter->parent = dev;
++	counter->ops = &rz_mtu3_cnt_ops;
++	counter->counts = rz_mtu3_counts;
++	counter->num_counts = ARRAY_SIZE(rz_mtu3_counts);
++	counter->signals = rz_mtu3_signals;
++	counter->num_signals = ARRAY_SIZE(rz_mtu3_signals);
++	platform_set_drvdata(pdev, priv);
 +
-+	rz_mtu3_pwm->chip.dev = &pdev->dev;
-+	rz_mtu3_pwm->chip.ops = &rz_mtu3_pwm_ops;
-+	rz_mtu3_pwm->chip.npwm = RZ_MTU3_MAX_PWM_MODE1_CHANNELS;
-+
-+	ret = devm_pwmchip_add(&pdev->dev, &rz_mtu3_pwm->chip);
-+	if (ret) {
-+		dev_err_probe(&pdev->dev, ret, "failed to add PWM chip\n");
++	/* Register Counter device */
++	ret = devm_counter_add(dev, counter);
++	if (ret < 0) {
++		dev_err_probe(dev, ret, "Failed to add counter\n");
 +		goto disable_clock;
 +	}
 +
 +	return 0;
 +
 +disable_clock:
-+	clk_disable_unprepare(rz_mtu3_pwm->clk);
++	clk_disable_unprepare(priv->clk);
 +
 +	return ret;
 +}
 +
-+static struct platform_driver rz_mtu3_pwm_driver = {
-+	.driver = {
-+		.name = "pwm-rz-mtu3",
-+		.pm = &rz_mtu3_pwm_pm_ops,
-+		.of_match_table = of_match_ptr(rz_mtu3_pwm_of_table),
-+	},
-+	.probe = rz_mtu3_pwm_probe,
++static const struct of_device_id rz_mtu3_cnt_of_match[] = {
++	{ .compatible = "renesas,rz-mtu3-counter", },
++	{ /* sentinel */ }
 +};
-+module_platform_driver(rz_mtu3_pwm_driver);
++MODULE_DEVICE_TABLE(of, rz_mtu3_cnt_of_match);
++
++static struct platform_driver rz_mtu3_cnt_driver = {
++	.probe = rz_mtu3_cnt_probe,
++	.driver = {
++		.name = "rz-mtu3-counter",
++		.pm = &rz_mtu3_cnt_pm_ops,
++		.of_match_table = rz_mtu3_cnt_of_match,
++	},
++};
++module_platform_driver(rz_mtu3_cnt_driver);
 +
 +MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
-+MODULE_DESCRIPTION("Renesas RZ/G2L MTU3 PWM Timer Driver");
++MODULE_ALIAS("platform:rz-mtu3-counter");
++MODULE_DESCRIPTION("Renesas RZ/G2L MTU3a counter driver");
 +MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:pwm-rz-mtu3");
++MODULE_IMPORT_NS(COUNTER);
 -- 
 2.25.1
 
