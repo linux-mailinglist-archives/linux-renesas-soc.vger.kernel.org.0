@@ -2,37 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2C515F6DD8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Oct 2022 21:05:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 343245F6DD9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Oct 2022 21:05:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231895AbiJFTFZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Oct 2022 15:05:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55882 "EHLO
+        id S230489AbiJFTF2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Oct 2022 15:05:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232088AbiJFTFM (ORCPT
+        with ESMTP id S232082AbiJFTFM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Thu, 6 Oct 2022 15:05:12 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEE3F13CDE
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AED7012D35
         for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Oct 2022 12:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=e1hBVcfalOBT8O
-        FtEtYNAgTXpszX4FDo09PlBGNBZ9I=; b=04hxqIlRi9U0eQJlZrxKqCE7a0bL/9
-        W9+YTmLxOrB9DwGrmbaOLsjQ5KfXkjdUUqH3YzYy8CJ31n7pLTMUEzqOJUerg7ZC
-        wodtBB/oljFE0H9qrbb+zCEYqkfcJRNcGZOtL3Wgs+GS4omj4MbRcJmSSVnGQLoE
-        6LWwU0BHwFyKc=
-Received: (qmail 1467531 invoked from network); 6 Oct 2022 21:05:02 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Oct 2022 21:05:02 +0200
-X-UD-Smtp-Session: l3s3148p1@oHnOXmLqRPcucrRL
+        :mime-version:content-transfer-encoding; s=k1; bh=9KxShdTj13w/Mc
+        0LMm4wiI/w1D5j+XBvZbk5fx6Bnuc=; b=tGbpKy2CX0fYIAHhhG9MF6R3CL1Dz+
+        SAFnn6uHiwHPqLSW6ZtDUTuVBMtmV00TCHL3XzA9oRC2QUkaUdJGLaHi0aGrZEzV
+        7aCscgt+vF4ylh4+WQi2I5+HOoGSpPI6Ii2ZUiKBy/j38Lla8hF5WhMW//s4bifA
+        WNh72Zg2B2B84=
+Received: (qmail 1467560 invoked from network); 6 Oct 2022 21:05:03 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Oct 2022 21:05:03 +0200
+X-UD-Smtp-Session: l3s3148p1@QCzeXmLqONoucrRL
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-mmc@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH RFC 1/6] mmc: renesas_sdhi: remove accessor function for internal_dmac
-Date:   Thu,  6 Oct 2022 21:04:47 +0200
-Message-Id: <20221006190452.5316-2-wsa+renesas@sang-engineering.com>
+Subject: [PATCH RFC 2/6] mmc: renesas_sdhi: improve naming of DMA struct
+Date:   Thu,  6 Oct 2022 21:04:48 +0200
+Message-Id: <20221006190452.5316-3-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221006190452.5316-1-wsa+renesas@sang-engineering.com>
 References: <20221006190452.5316-1-wsa+renesas@sang-engineering.com>
@@ -48,94 +48,59 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This accessor function does not help readability but makes it worse.
-Because I soon need to read from the registers as well and don't want to
-add another function like this, I chose to remove the existing one and
-use the accessor directly. I also switch from writeq to writel because
-no 64 bit register is actually involved.
+Commit 058db2868cd8 ("mmc: tmio, renesas_sdhi: move struct tmio_mmc_dma
+to renesas_sdhi.h") is correct. The DMA struct should be prefixed with
+'renesas_sdhi' to avoid confusion about is namespace. Fix some
+indentation while here.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/mmc/host/renesas_sdhi_internal_dmac.c | 31 +++++--------------
- 1 file changed, 8 insertions(+), 23 deletions(-)
+ drivers/mmc/host/renesas_sdhi.h      | 8 ++++----
+ drivers/mmc/host/renesas_sdhi_core.c | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-index 42937596c4c4..48bea0bd75e8 100644
---- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-@@ -279,13 +279,6 @@ static const struct of_device_id renesas_sdhi_internal_dmac_of_match[] = {
+diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
+index c4abfee1ebae..b661892847f6 100644
+--- a/drivers/mmc/host/renesas_sdhi.h
++++ b/drivers/mmc/host/renesas_sdhi.h
+@@ -53,12 +53,12 @@ struct renesas_sdhi_of_data_with_quirks {
+ 	const struct renesas_sdhi_quirks *quirks;
  };
- MODULE_DEVICE_TABLE(of, renesas_sdhi_internal_dmac_of_match);
  
--static void
--renesas_sdhi_internal_dmac_dm_write(struct tmio_mmc_host *host,
--				    int addr, u64 val)
--{
--	writeq(val, host->ctl + addr);
--}
--
- static void
- renesas_sdhi_internal_dmac_enable_dma(struct tmio_mmc_host *host, bool enable)
+-struct tmio_mmc_dma {
++struct renesas_sdhi_dma {
+ 	enum dma_slave_buswidth dma_buswidth;
+ 	bool (*filter)(struct dma_chan *chan, void *arg);
+ 	void (*enable)(struct tmio_mmc_host *host, bool enable);
+-	struct completion	dma_dataend;
+-	struct tasklet_struct	dma_complete;
++	struct completion dma_dataend;
++	struct tasklet_struct dma_complete;
+ };
+ 
+ struct renesas_sdhi {
+@@ -66,7 +66,7 @@ struct renesas_sdhi {
+ 	struct clk *clkh;
+ 	struct clk *clk_cd;
+ 	struct tmio_mmc_data mmc_data;
+-	struct tmio_mmc_dma dma_priv;
++	struct renesas_sdhi_dma dma_priv;
+ 	const struct renesas_sdhi_quirks *quirks;
+ 	struct pinctrl *pinctrl;
+ 	struct pinctrl_state *pins_default, *pins_uhs;
+diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+index b970699743e0..0733951325e9 100644
+--- a/drivers/mmc/host/renesas_sdhi_core.c
++++ b/drivers/mmc/host/renesas_sdhi_core.c
+@@ -908,7 +908,7 @@ int renesas_sdhi_probe(struct platform_device *pdev,
  {
-@@ -295,8 +288,7 @@ renesas_sdhi_internal_dmac_enable_dma(struct tmio_mmc_host *host, bool enable)
- 		return;
- 
- 	if (!enable)
--		renesas_sdhi_internal_dmac_dm_write(host, DM_CM_INFO1,
--						    INFO1_CLEAR);
-+		writel(INFO1_CLEAR, host->ctl + DM_CM_INFO1);
- 
- 	if (priv->dma_priv.enable)
- 		priv->dma_priv.enable(host, enable);
-@@ -309,10 +301,8 @@ renesas_sdhi_internal_dmac_abort_dma(struct tmio_mmc_host *host)
- 
- 	renesas_sdhi_internal_dmac_enable_dma(host, false);
- 
--	renesas_sdhi_internal_dmac_dm_write(host, DM_CM_RST,
--					    RST_RESERVED_BITS & ~val);
--	renesas_sdhi_internal_dmac_dm_write(host, DM_CM_RST,
--					    RST_RESERVED_BITS | val);
-+	writel(RST_RESERVED_BITS & ~val, host->ctl + DM_CM_RST);
-+	writel(RST_RESERVED_BITS | val, host->ctl + DM_CM_RST);
- 
- 	clear_bit(SDHI_INTERNAL_DMAC_RX_IN_USE, &global_flags);
- 
-@@ -397,10 +387,8 @@ renesas_sdhi_internal_dmac_start_dma(struct tmio_mmc_host *host,
- 	renesas_sdhi_internal_dmac_enable_dma(host, true);
- 
- 	/* set dma parameters */
--	renesas_sdhi_internal_dmac_dm_write(host, DM_CM_DTRAN_MODE,
--					    dtran_mode);
--	renesas_sdhi_internal_dmac_dm_write(host, DM_DTRAN_ADDR,
--					    sg_dma_address(sg));
-+	writel(dtran_mode, host->ctl + DM_CM_DTRAN_MODE);
-+	writel(sg_dma_address(sg), host->ctl + DM_DTRAN_ADDR);
- 
- 	host->dma_on = true;
- 
-@@ -420,8 +408,7 @@ static void renesas_sdhi_internal_dmac_issue_tasklet_fn(unsigned long arg)
- 	tmio_mmc_enable_mmc_irqs(host, TMIO_STAT_DATAEND);
- 
- 	/* start the DMAC */
--	renesas_sdhi_internal_dmac_dm_write(host, DM_CM_DTRAN_CTRL,
--					    DTRAN_CTRL_DM_START);
-+	writel(DTRAN_CTRL_DM_START, host->ctl + DM_CM_DTRAN_CTRL);
- }
- 
- static bool renesas_sdhi_internal_dmac_complete(struct tmio_mmc_host *host)
-@@ -502,10 +489,8 @@ renesas_sdhi_internal_dmac_request_dma(struct tmio_mmc_host *host,
- 	struct renesas_sdhi *priv = host_to_priv(host);
- 
- 	/* Disable DMAC interrupts, we don't use them */
--	renesas_sdhi_internal_dmac_dm_write(host, DM_CM_INFO1_MASK,
--					    INFO1_MASK_CLEAR);
--	renesas_sdhi_internal_dmac_dm_write(host, DM_CM_INFO2_MASK,
--					    INFO2_MASK_CLEAR);
-+	writel(INFO1_MASK_CLEAR, host->ctl + DM_CM_INFO1_MASK);
-+	writel(INFO2_MASK_CLEAR, host->ctl + DM_CM_INFO2_MASK);
- 
- 	/* Each value is set to non-zero to assume "enabling" each DMA */
- 	host->chan_rx = host->chan_tx = (void *)0xdeadbeaf;
+ 	struct tmio_mmc_data *mmd = pdev->dev.platform_data;
+ 	struct tmio_mmc_data *mmc_data;
+-	struct tmio_mmc_dma *dma_priv;
++	struct renesas_sdhi_dma *dma_priv;
+ 	struct tmio_mmc_host *host;
+ 	struct renesas_sdhi *priv;
+ 	int num_irqs, irq, ret, i;
 -- 
 2.35.1
 
