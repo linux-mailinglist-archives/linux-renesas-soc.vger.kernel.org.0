@@ -2,63 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9224A5F8EE2
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Oct 2022 23:15:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF5745F8EEF
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Oct 2022 23:21:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231502AbiJIVPd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 9 Oct 2022 17:15:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46258 "EHLO
+        id S230316AbiJIVVB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 9 Oct 2022 17:21:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231317AbiJIVPK (ORCPT
+        with ESMTP id S231834AbiJIVUo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 9 Oct 2022 17:15:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9289526579;
-        Sun,  9 Oct 2022 14:13:52 -0700 (PDT)
+        Sun, 9 Oct 2022 17:20:44 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A0B01057E;
+        Sun,  9 Oct 2022 14:20:43 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2DAE060C4F;
-        Sun,  9 Oct 2022 21:13:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA687C433D6;
-        Sun,  9 Oct 2022 21:13:50 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3B14DB80DC3;
+        Sun,  9 Oct 2022 21:20:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 426AFC433C1;
+        Sun,  9 Oct 2022 21:20:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665350031;
-        bh=2zd6Qg+FP1qIWZIo7NmtEz9KTIyCcblY+UYIslYBvfA=;
+        s=k20201202; t=1665350440;
+        bh=5SBLnG/2JbsEn6gA0IetOD5ieNSX8nb8zt7W8D8p3tA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=K09B9Aqc4zfaC0UAKoCnxPc3j9brP9boX8kCaNZm4Cxei/13BSQug9h/LjmKnmjk2
-         NEn4xjl6bDcQez18TFtiKnf1kmJcpH3fkM4EdB6Gm1QSqwi3CGwGYdwP8uVo0mB9pp
-         yCtnW70x7y9w4bEk8Da3hl6GLxqNaq2+lhZqcqWhCueM7i30Xxaw1QHS0AwcUr4kH7
-         hlblckzTnkZE7OsudTIV81mofDbXK0JrUFP0fWXRR85wmt4Iv6Zkm6yrj5hy5huY8X
-         wfiT+ai3DKpU8Af2vBX5tQmBOFisfv+YxB+tTMGpaV1UAR2N1gCunEiIpMtxDEm/wN
-         O0OZaDrdVmCBQ==
-Date:   Sun, 9 Oct 2022 23:13:47 +0200
+        b=kSMfViCr/ZxMMoF/vVbns7y/c5BIXwC96c1QdHUX+TaJtsvWzvPgMRlV/21Ctjnib
+         9OyE95iqlKy45b6s1QCnpW1lVI0FrrHdddaMQnguVuo1Q8gkRrYNSO139o/ERPKezl
+         JE0vAje5afI/vwHdCON/mx80MVg1uMbxNmD5rD0YNtety1MOSDxzZRpYS9lWRkXKPj
+         Z/0Dt2BbfRD29uOa4x2GUSjMD/KIb8gZN0J/w3+ofjyQaG+TY2y0WZTMCwkBy2cLxJ
+         9ZGxflzqJI9eiCHYBi9NFzwPQc6Yuz/wWc/TIYKp/sfBmSqCYQW0NCvSArGAllOveX
+         YAYX73LJeVn0w==
+Date:   Sun, 9 Oct 2022 23:20:37 +0200
 From:   Wolfram Sang <wsa@kernel.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: pwm: renesas,tpu: Add r8a779g0 support
-Message-ID: <Y0M5i6/zl+g8pyur@shikoro>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/5] clk: renesas: r8a779g0: Add SASYNCPER clocks
+Message-ID: <Y0M7JVPVmrudEvZI@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <f5ad691051f69f2dbfcb5c5a722960bd9cd41b06.1665156364.git.geert+renesas@glider.be>
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <cover.1665147497.git.geert+renesas@glider.be>
+ <d0f35c35e1f96c5a649ab477e7ba5d8025957cd0.1665147497.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="/VB7UW1WsaPGGdk0"
+        protocol="application/pgp-signature"; boundary="y5AJyrcNjBbPAWBA"
 Content-Disposition: inline
-In-Reply-To: <f5ad691051f69f2dbfcb5c5a722960bd9cd41b06.1665156364.git.geert+renesas@glider.be>
+In-Reply-To: <d0f35c35e1f96c5a649ab477e7ba5d8025957cd0.1665147497.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -69,42 +64,54 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---/VB7UW1WsaPGGdk0
+--y5AJyrcNjBbPAWBA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 07, 2022 at 05:26:37PM +0200, Geert Uytterhoeven wrote:
-> Document support for the 16-Bit Timer Pulse Unit (TPU) in the Renesas
-> R-Car V4H (R8A779G0) SoC.
->=20
-> Based on a patch in the BSP by CongDang.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Hi Geert,
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> +	DEF_FIXED("sasyncperd1",R8A779G0_CLK_SASYNCPERD1, CLK_SASYNCPER,1, 1),
+> +	DEF_FIXED("sasyncperd2",R8A779G0_CLK_SASYNCPERD2, CLK_SASYNCPER,2, 1),
+> +	DEF_FIXED("sasyncperd4",R8A779G0_CLK_SASYNCPERD4, CLK_SASYNCPER,4, 1),
+
+Some spaces missing after the commas.
+
+But my main issue is that we have it a little different for S4-8:
+
+112         DEF_FIXED("sasyncperd1", R8A779F0_CLK_SASYNCPERD1, CLK_PLL5_DIV4, 3, 1),
+113         DEF_FIXED("sasyncperd2", R8A779F0_CLK_SASYNCPERD2, R8A779F0_CLK_SASYNCPERD1, 2, 1),
+114         DEF_FIXED("sasyncperd4", R8A779F0_CLK_SASYNCPERD4, R8A779F0_CLK_SASYNCPERD1, 4, 1),
+
+So, no CLK_SASYNCPER at all because R8A779G0_CLK_SASYNCPERD1 divides
+PLL5 directly. I don't mind which version we use but I think it should
+be consistent because the diagram looks the same in the specs. What do
+you think?
+
+I'll have a look at your other patches tomorrow.
+
+Thanks and happy hacking,
+
+   Wolfram
 
 
---/VB7UW1WsaPGGdk0
+--y5AJyrcNjBbPAWBA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNDOYsACgkQFA3kzBSg
-Kbbpow/9F+VDJrUOjWjKujGUHXDG83F/sEnme6Yleu+1XrxWOTtDFeC+6V6Unrhf
-VcLLc8+XizJG74y1cKRNrP1MKHEuIsPQYMzhFjLB96mUjFIsoOqIluQsU+Y7plt4
-nEFctU5WTJ/0OsnQzsaDXeTpstdNOmU51EraZ7rsMuNfvsxFkOoXrJA7XcfNsoGf
-TCK3oQ3NA5h2XxG4ChjLbQwbWglo70qyJpMY2HubmU/cl5D/p1dbzPC4Wvm1xW+Q
-tsScWa01Sjukr4QaGcQfcoiv/lmVoePEodfC/cW5pIhU3J9C6fHPIrsgN6ufPURl
-E2LRseU6U74lQRDgx136wu1m/MPtTO/MRLB5GN3XkyUrl3bzQVplERvYEaCyYemj
-vbSMqevvaLsap9NmPw/EWGF2+jhbouuJlhcq5CYGJJ6NfF09pRSx29NgpPuOcBYT
-AxRvH65XcJMfU1sGechBLWwaiN5k+Wo6VFr7JTngs1Zz40KNhuECX3yagvCIn2Bp
-PU+jWJ46rXnuaiMvJAWLA8/tkvXcPSmj1xpU3kFv72PoIUObMlp3/Flppxh2C+b6
-BkHkeQyMZZGtCq50qDzHJ5x+OAjAi1Gbs1czcC2VSnmnD+nJQY2XussH2CHupZ0u
-QOBjPIqeweJYNYqKj6d7DhWIN/DsZW+N/NrVXd2xnZSDt8wNNP0=
-=3nqH
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNDOyUACgkQFA3kzBSg
+KbZLlw/+Ix2Lk4UhEVnvR6VgDGKscyMeEfUDYwmdSz+Y21xDSniqyLye89yMvOc0
+DHNu2P6D8zv5y5EBt2+ZjrbUxusUNNhxj2hmN5l9GSYaUIUfI8zIOWX92BV1GNUO
+9g4VHymlHGDF0xm87i92bCYC2zfn4X3mQEKnjPqEnSI8r0UmYv+zKDwqmes16KeP
+zV+fVsnOI5te/KHbCXy5K5OAQrSCF2NUBydYsn2+OOSP9EZtzYtLMBV8n701/7FP
+/jgpZRxlN9xHDUve/rnKyLlRHnHqbVXlXvttHLSdcIVcxl24CcrBhck+pfH3cHYr
+C/a1KiJ+V9qg9qN6/KPMkliXsxVSMHf+TxPPbml0hHjfQLyLko2BcI+yhMs3IqmZ
+gm+at0L5sICBKDWjj4o9APmMrEYk5tevWjN+FDP+owj7BprxzlBrtX0hryYEafHK
+tiOZMncbGaPyoCNVtm3r/HJ+EctILxQ1dFymIoUjmxvyr75jdCZdb9Og9JEPf3AX
+fDQMi/7qZm7k1jAyCqiKx55YftFwX+TmNJukXoYC2mNoIv3pJhdiJO6CleBt9ve/
+HHDNIdB8uneNBgYURJjbFHwX6TifxRnmo/Tk2YokLL/14mldSStTC6mbnrzEe6++
+6YgNbE5Jrb0PLhsyQO+F54si4UkAHzPzGAjpwCLzCS669XYacGw=
+=kxY2
 -----END PGP SIGNATURE-----
 
---/VB7UW1WsaPGGdk0--
+--y5AJyrcNjBbPAWBA--
