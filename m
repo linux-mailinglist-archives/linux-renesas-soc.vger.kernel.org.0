@@ -2,43 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F02635F8EF7
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Oct 2022 23:35:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 901455F938A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Oct 2022 01:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230072AbiJIVfU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 9 Oct 2022 17:35:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52860 "EHLO
+        id S231764AbiJIXeD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 9 Oct 2022 19:34:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229887AbiJIVfT (ORCPT
+        with ESMTP id S231623AbiJIXdk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 9 Oct 2022 17:35:19 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B2101C915;
-        Sun,  9 Oct 2022 14:35:18 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3520B9C4;
-        Sun,  9 Oct 2022 23:35:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1665351315;
-        bh=G039zjAux/RiMi/GUO2mIlJOW1hz3O4bVoFnIHRELoY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ta8zRipDyLUBh/MjWNX50cjYaBMx862MqfEkdd2FfiqIuKm2CZJKd62CfhM/v+wmL
-         4sj3FUZ1eU8/28vplMFFV37P/KBHvjGu/dZRdTNr2YpfQj9dhzwh7DhUKCdnGVPhQi
-         3LUDT31OmqjiOCSQ4+keFBwIP/YPt3KDsbvEpBkw=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [RFC PATCH] media: Documentation: Drop deprecated bytesused == 0
-Date:   Mon, 10 Oct 2022 00:35:09 +0300
-Message-Id: <20221009213509.860-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.35.1
+        Sun, 9 Oct 2022 19:33:40 -0400
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7AC786FA7;
+        Sun,  9 Oct 2022 16:03:48 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id b4so14683672wrs.1;
+        Sun, 09 Oct 2022 16:03:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ntYc1AkFq41YXwR0c67KJmXrmIK2VgnpBL6L+QNUEAo=;
+        b=gDSZJq4WKYiPUbHWtXys8bDocFRBw3yOGuyOsXXgv0Bvhd0nOK+VY5SepfTuLIfI64
+         jeeBzawyDaRt05Fub/Pu/nFdIol7jYsGMy52BW6JsKqIRFaScuWjgV6UAKPvFGhYUgB0
+         g3OJNmdfW+/YED+f+MF8Y2h1JIrHLtuPtl7kZesRFL50afLLhfi4mVem2Z4LoKtAlUlm
+         qM20NtXqCeEmPIMoeaDVBGCo3wRJeVFxau0EqNxO3sKiYsOt8lClN6Zuvt/kaz7oYG7s
+         +PAjAjFAS3zsDt4+u+pRH9r/9v0faf8dkUee6ujGn9kHFGDCTrP8LuM82y6lgE9uvy6r
+         kdDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ntYc1AkFq41YXwR0c67KJmXrmIK2VgnpBL6L+QNUEAo=;
+        b=a3hw5zK1ucAIoailSxySXqEPNaMNmD7TFWAl2f7Tz26Wa/qCsFMrUd91iqNLYkWAUl
+         7urhmad6efZzV+E96IB2u6h0fWNlln5mftcoAkjVe/PdmCZ+bLMURbhp1YG8nnG+FwIY
+         05qpY+AvCVP+kCH16TgbaN52+rIU3DbNIYEp9I3oNkoWjS9EfcmeNR9MfkOY5QZf3OvO
+         LhUh1osKNifB3HkDr/8eCZwKzx4pQtMmwdC8CziVcwz2MmlDULdci5M1m1puHEJXQWYH
+         jpNw6KZmHJUcf3Pozu0d7jHz7qe1EG158EQKYkFwasNAqXA/TXFJThHA1NWrBJepzfGt
+         WjcQ==
+X-Gm-Message-State: ACrzQf0wquhphg6LgWJp+7vImBqR2bbtJmcl9lE023biGYTusap+SquC
+        iQO3bNvuoc+vHgtjam8txc/xCIbu4R5BCg==
+X-Google-Smtp-Source: AMsMyM5E2pn0j6nx1UKQDQdPis08K0nejWGf8xUEEguMvxKZB/pYIAhc+YaOrlE/0CyG6A1xzh1fkw==
+X-Received: by 2002:adf:d1ec:0:b0:22e:3341:a8cb with SMTP id g12-20020adfd1ec000000b0022e3341a8cbmr9422466wrd.151.1665356458447;
+        Sun, 09 Oct 2022 16:00:58 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2501:c701:e4:5cde:80ab:dfd4])
+        by smtp.gmail.com with ESMTPSA id r16-20020adff710000000b0022afbd02c69sm7239689wrp.56.2022.10.09.16.00.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Oct 2022 16:00:57 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/5] arm64: dts: renesas: rzg2l/rzg2lc/rzg2ul/rzv2l: Drop WDT2
+Date:   Mon, 10 Oct 2022 00:00:39 +0100
+Message-Id: <20221009230044.10961-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -46,66 +76,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The V4L2 API historically allowed buffers to be queued with bytesused
-set to 0 on output devices, in which case the driver would use the
-buffer length. This behaviour is deprecated, and videobuf2 prints a
-warning message in the kernel log. Drop it from the documentation.
+Hi All,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
+This patch series aims to drop WDT CH2 from SoC DTSIs and enabling of it
+from board DTSs as WDT CH2 is specifically to check the operation of
+Cortex-M33 CPU.
 
-This patch aims at starting (or continuing) the discussion related to
-handling of bytesused == 0 on video output devices. videobuf2 currently
-printes a warning that indicates the behaviour is deprecated, but the
-API documentation allows it explicitly. This discrepency bothers me and
-I think we should fix it.
+Cheers,
+Prabhakar
 
-We probably won't be able to drop support for the deprecated behaviour
-in the near future, if ever. If we want to push applications to get
-fixed, we may want to replace the dev_warn() with a WARN_ONCE(), which
-could be done in a v2 of this patch, or in another patch.
+Lad Prabhakar (5):
+  arm64: dts: renesas: rzg2l-smarc-som: Drop enabling WDT2
+  arm64: dts: renesas: rzg2lc-smarc-som: Drop enabling WDT2
+  arm64: dts: renesas: r9a07g044: Drop WDT2 node
+  arm64: dts: renesas: r9a07g054: Drop WDT2 node
+  arm64: dts: renesas: r9a07g043: Drop WDT2 node
 
-Another option would be to consider that the behaviour is fine and keep
-official support for it in the documentation, in which case vb2 should
-stop warning about it. This wouldn't be my preference.
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi        | 15 ---------------
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi        | 15 ---------------
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi        | 15 ---------------
+ arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi  |  5 -----
+ arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi |  5 -----
+ 5 files changed, 55 deletions(-)
 
----
- Documentation/userspace-api/media/v4l/buffer.rst | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
-index 4638ec64db00..04dec3e570ed 100644
---- a/Documentation/userspace-api/media/v4l/buffer.rst
-+++ b/Documentation/userspace-api/media/v4l/buffer.rst
-@@ -187,10 +187,8 @@ struct v4l2_buffer
- 	on the negotiated data format and may change with each buffer for
- 	compressed variable size data like JPEG images. Drivers must set
- 	this field when ``type`` refers to a capture stream, applications
--	when it refers to an output stream. If the application sets this
--	to 0 for an output stream, then ``bytesused`` will be set to the
--	size of the buffer (see the ``length`` field of this struct) by
--	the driver. For multiplanar formats this field is ignored and the
-+	when it refers to an output stream. For multiplanar formats this field
-+        is ignored and the
- 	``planes`` pointer is used instead.
-     * - __u32
-       - ``flags``
-@@ -327,10 +325,7 @@ struct v4l2_plane
-       - ``bytesused``
-       - The number of bytes occupied by data in the plane (its payload).
- 	Drivers must set this field when ``type`` refers to a capture
--	stream, applications when it refers to an output stream. If the
--	application sets this to 0 for an output stream, then
--	``bytesused`` will be set to the size of the plane (see the
--	``length`` field of this struct) by the driver.
-+	stream, applications when it refers to an output stream.
- 
- 	.. note::
- 
+base-commit: f621040b30c93b1a054c0d12b6e310eecbb1a58b
 -- 
-Regards,
-
-Laurent Pinchart
+2.25.1
 
