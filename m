@@ -2,121 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65EEA5F8BEB
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Oct 2022 17:17:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84B315F8D35
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Oct 2022 20:37:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbiJIPR0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 9 Oct 2022 11:17:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44936 "EHLO
+        id S229590AbiJIShI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 9 Oct 2022 14:37:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230058AbiJIPRZ (ORCPT
+        with ESMTP id S230315AbiJIShH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 9 Oct 2022 11:17:25 -0400
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C8532A27F
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  9 Oct 2022 08:17:24 -0700 (PDT)
-Received: by mail-qk1-x735.google.com with SMTP id a22so5501606qkk.7
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 09 Oct 2022 08:17:24 -0700 (PDT)
+        Sun, 9 Oct 2022 14:37:07 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 636A325C4B
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  9 Oct 2022 11:37:05 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id u21so13239151edi.9
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 09 Oct 2022 11:37:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gDVjDN2hc5vVTSMOAggOEb9m9ZtapX9IIDMEqTOQ1x0=;
-        b=H4fbn1j172SCEsklqsllZtM7rSDPVd5FUWsOhxH9xbYqpPHriCab5ihAYa2Q9fKu6z
-         IDIn0N0/5LMSBL+/OuOwDL/LA3QV4Z773rwjCI/P4LLFSv4eBrwhA1hQi5/fbBNN6Iku
-         r/RCbbWXyqP/AKMADXbfGAf6hzZc/o7AXCrU0SIJf+5T11stQZCN5Eto70/D/R9exCgV
-         W+vwb7EhixEc/i1rD34aofVCEvv+vRH0/eZeV/OlvAxNUgSgwWe526Fzax82Wgg8YVJQ
-         wTFiqx7msLcS28GnASVnbBI+1hMfJrYciO+U51U5UtqjHRfJ6YR0gZhzlG6/G946eFN4
-         ohWw==
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ACwGlN0BRnEYThscUK3CoIEB7lP8hoVucUxDhLzneEk=;
+        b=7Jh07O8JCrk3g4JYofKrvove8Gd75W0CRlQ4alht4UdEcSJJqDACJIkLzAxtVjgAaa
+         X2kw1yMLePc4yXQY9xNLlU1hdHMzv/atTQCVozbAoMI+fxZKuUB9K9ZTmhXOinF5rOeG
+         zJU2fAmaulQ3B55LQ8ijUnURHLp8fVfhpubn/+a035+kwZymsOBx0sDcomDaXZx5fAEn
+         3cQzVl1cTnZRgeAVTKZ4QJGbBCwRr3YfnFkhYNXscZOpTvVmdUQxnbelEgFAvrrRsx5J
+         X26+Dxox5YfgZz2Y8yHdpN+gPTVo3wocoqGJ54C2RYyLwsD8AfacZKNZr+sI9bx75O33
+         YBhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gDVjDN2hc5vVTSMOAggOEb9m9ZtapX9IIDMEqTOQ1x0=;
-        b=Jy4RtKPiKb3JTGZDw5E+u0LXB/EVn9OpI5pbKHL2yRYinWM5lFcXN/HZhGknC/MKZm
-         sk+y13hJzCEHDV8SGoKvw3+2lzjWNl6RrvsIMMKakHnum1Xa2nHgpFcZ+fYRXDwuBbl4
-         tRVFaJeEmZBfxr2McQi+Xfrb4bGkMNONoUn5eG+6pZYdr5ve760iBbRKdgGPsy+EVBlo
-         eU3g08sOAnh92xMgWe2jSAkfklJ6yp2uia50Szlv/5J2a9GEihNHvSwr+GTm3rasepyM
-         Rat5zyUP004DW/8Qj/vahB45n1KzwXApDboLYUIjj75aXOCUqv+JTK3U/F7CsrPqor9q
-         9CEQ==
-X-Gm-Message-State: ACrzQf3E5rKfQhtWdf5IR4jafeXNzr8jAZpntmW4BIfuW8nwnlTY8ds4
-        IKNWS1DFGXgkMNNglqS8HH5Epw==
-X-Google-Smtp-Source: AMsMyM5H7ETuErdfaJFeaTLUbSUaCy8+VQoEIqBBNI74zcH3Wxju3S2Fw9m2ZAQSz7lAiVeGqrXMWA==
-X-Received: by 2002:a05:620a:284b:b0:6b4:8685:2aa6 with SMTP id h11-20020a05620a284b00b006b486852aa6mr10190525qkp.780.1665328643416;
-        Sun, 09 Oct 2022 08:17:23 -0700 (PDT)
-Received: from [192.168.1.57] (cpe-72-225-192-120.nyc.res.rr.com. [72.225.192.120])
-        by smtp.gmail.com with ESMTPSA id m8-20020ac84448000000b0039a1146e0e1sm649509qtn.33.2022.10.09.08.17.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Oct 2022 08:17:22 -0700 (PDT)
-Message-ID: <2961c272-52af-9f77-0ff3-105b81438316@linaro.org>
-Date:   Sun, 9 Oct 2022 17:17:21 +0200
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ACwGlN0BRnEYThscUK3CoIEB7lP8hoVucUxDhLzneEk=;
+        b=BNqO6j8F191cFgqD7DA4eqlaVyI3zC5B2BkSRq9r92O8aMvndv/WB227ylFRD6+4yu
+         qQ36NiizIBhRvYOLMw+H3cUU9+JQrb6cXY1akgYcihIqgiJ86itaRRdpZqMK2lEHdOlL
+         AJmw3zgZy/9YRCmR9EaxhFpqlSNcvD1fXYDMtjw3vyGIIazHioAX0U2GFNduvl4syrXz
+         VHIcihomRhaH/FHX+xrosYK/23zsVsI44kje/yqaniIkJSRBYFehr+L+0yTMpdQDWnnf
+         grKaTVnQh8wZrYOqzMaMlVX3s7QNXmEmW9Zhhde6BQ6kbUChxPF1mx7EaOIANeJsPCJf
+         i6sw==
+X-Gm-Message-State: ACrzQf1SaTKtJDDIPB/GfszsybNYVrkspU5XXn8ErAZkO6o5CTT9hWkl
+        7wO+pDwJtsTZDFe88NI+SYybNg==
+X-Google-Smtp-Source: AMsMyM5X2SgxWeDlvNs/2NvxgdONXqr+iN79eEHlJPeaCIRAMB2Om23eOUxGLRH/DY9y/Cv88rxuUg==
+X-Received: by 2002:a05:6402:2793:b0:45c:21f4:35a3 with SMTP id b19-20020a056402279300b0045c21f435a3mr849746ede.345.1665340623966;
+        Sun, 09 Oct 2022 11:37:03 -0700 (PDT)
+Received: from sleipner.berto.se (p54ac5370.dip0.t-ipconnect.de. [84.172.83.112])
+        by smtp.googlemail.com with ESMTPSA id o14-20020a50fd8e000000b00459148fbb3csm5610050edt.86.2022.10.09.11.37.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Oct 2022 11:37:03 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/3] media: rcar-vin: Add Gen3 scaler support
+Date:   Sun,  9 Oct 2022 20:35:48 +0200
+Message-Id: <20221009183551.1664631-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v3 1/4] dt-bindings: mfd: Document RZ/G2L MTU3a bindings
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh@kernel.org>,
-        William Breathitt Gray <william.gray@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-References: <20221006135717.1748560-1-biju.das.jz@bp.renesas.com>
- <20221006135717.1748560-2-biju.das.jz@bp.renesas.com>
- <20221006201746.GA93297-robh@kernel.org>
- <OS0PR01MB5922F8058FC8FD1E35C17755865F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB59221BDEB7E6B39AEFD31C44865E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdWmT7+8ow4-P-gbPb6gt221B51RN3vGXafmpeVwi4rbkA@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAMuHMdWmT7+8ow4-P-gbPb6gt221B51RN3vGXafmpeVwi4rbkA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 09/10/2022 16:38, Geert Uytterhoeven wrote:
->>
->> So looks like either we need to use compatible "renesas,rz-mtu3-counter" and
->> "renesas,rz-mtu3-pwm" if these functionalities to be in respective subsystem tree
->>
->> or
->>
->> squash counter and pwm functionalities to MFD subsystem.
->>
->> Please share your views on this. Is there any better way to handle this?
-> 
-> I think what Rob means is that you can have a single driver that binds
-> against "renesas,rz-mtu3", and registers both the counter and the pwm
-> functionalities. Just like the clock driver, which registers clock,
-> reset, and PM Domain functionalities.  I.e. no mfd would be involved
-> anymore.
-> You can still split the driver functionality across multiple source
-> files (core, counter, pwm).
+Hi,
 
-Yes.
+This series adds support for R-Car Gen3 VIN Up Down Scaler (UDS) on 
+those SoCs that supports it.
 
-Bindings design is independent of driver design (e.g. still MFD framework).
+Patch 1/3 prepares the VIN driver selection rectangles to work with the
+media controller part of the driver. Patch 2/3 then do the plumbing to 
+allow more then one scaler implementation. Finally patch 3/3 adds 
+support for the Gen3 UDS scaler.
 
-Best regards,
-Krzysztof
+The series is based on top of media-tree/master and is tested on both 
+Gen3 and Gen2 without finding any regressions.
+
+Niklas Söderlund (3):
+  media: rcar-vin: Do not cache remote rectangle
+  media: rcar-vin: Store scaler in a function pointer
+  media: rcar-vin: Add support for Gen3 UDS (Up Down Scaler)
+
+ .../platform/renesas/rcar-vin/rcar-core.c     |  22 +++-
+ .../platform/renesas/rcar-vin/rcar-dma.c      | 104 ++++++++++++++++--
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     |  93 ++++++++++++----
+ .../platform/renesas/rcar-vin/rcar-vin.h      |   9 +-
+ 4 files changed, 194 insertions(+), 34 deletions(-)
+
+-- 
+2.37.3
 
