@@ -2,59 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A079D5F9D51
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Oct 2022 13:09:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F4B55F9D56
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Oct 2022 13:12:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231512AbiJJLJs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Oct 2022 07:09:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52696 "EHLO
+        id S231134AbiJJLMV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Oct 2022 07:12:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231899AbiJJLJq (ORCPT
+        with ESMTP id S229462AbiJJLMU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Oct 2022 07:09:46 -0400
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF976DFAE
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Oct 2022 04:09:44 -0700 (PDT)
-Received: by mail-qk1-f180.google.com with SMTP id s7so2481125qkj.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Oct 2022 04:09:44 -0700 (PDT)
+        Mon, 10 Oct 2022 07:12:20 -0400
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AA8846D91
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Oct 2022 04:12:20 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id i3so6446592qkl.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Oct 2022 04:12:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aIPRi7WPOuxRNIA8AqPDtN9TwH1w4pPbJITKzf2WWDc=;
-        b=nvZq8XOWGPTN82N78ttMvtHHMkj68RzklNXk/82MiDMM3Sp9xpdbhTe0GDW+lxs4dQ
-         B/vLsICWWFcbywWpWn0kQ84uiX5SwoC45khJJO2gDj7tg0L5v+p2Xl0UPebJm9tezuC1
-         hnDJEOEMBmX4ukMQz24v94EUbhPVYzxFznIhmTn6qLwt28g32nG9cI1rGS/Ou2vO8OVl
-         hrGcw3UpyF2T5Y4mkxG1D2GIVXLOWyX7cwAWIIgj67VGiRVBjzlC/Ne3DMRFymUwZORn
-         0WstZ2OXYwGegpwoiYXVF/xSP2T6SUKtbQOMaa5XmVWib7RYFN2Zfbs/KV0fMxMReCCl
-         oAeQ==
-X-Gm-Message-State: ACrzQf2yXs/kIX/QiPooC+M6b+6Hbf0E1b9elPNDNBpDG0IjOCwCLRAv
-        FoXBQcizCnOMXJUOdzPuURQ4O0el+XE5NA==
-X-Google-Smtp-Source: AMsMyM6KyQdm7JLDcTxc7JGU4gMdvazGbfKVNFnB/jA824X5tA3zIO9K/4ZIJHAn2dB177EuY/gScg==
-X-Received: by 2002:a05:620a:6013:b0:6e0:6a88:2940 with SMTP id dw19-20020a05620a601300b006e06a882940mr12079307qkb.163.1665400183117;
-        Mon, 10 Oct 2022 04:09:43 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id az20-20020a05620a171400b006ec62032d3dsm3462237qkb.30.2022.10.10.04.09.42
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Sle1oX17Fjk+pIlayM5b0Lb4WcqvNWyC6zvzllHNZ+0=;
+        b=q4+HI1zxdL0Y4fEOHxKXbimZktIsK2z87fLR7ls0625QeAc+OTB7hE1WXpu9/2hDfk
+         YX4v5bcXdbuVRnsoBoHFCY9V4nLGiYh6DWZisdNWblK/vcu6Wrv9HtGWPx6RqtxdtvNC
+         E5tc70aTVN06FOWohvhZWkyVpcCin1JaWEt9/N/lr9ewKjNLTCl/bejF3FidnNpSjGUb
+         LRCAgbOaaXvnUNhntQko6iIjadb+ASg0cGE/LGJOQekLhHn8Asz6aKpK1NkCvsPA5F2Q
+         y2xvt2zeYQfFDp8WZps3OSw6TloQsbtxD/c2PEVAD1WhzdCj2aKamdfIC7qMRyjtxcRU
+         oYUA==
+X-Gm-Message-State: ACrzQf24HkgEdbLic8qpHvlDGMuiB0/wxBiIAk0YzgDqzlhh17H8UEjn
+        s9CJyivhz/qIrbBdjLVWtWHTcwU2fk6hzQ==
+X-Google-Smtp-Source: AMsMyM60H1M/uqtjUywvUk5UTk184x+a9EI2SlO5P61oxGlG74WWNblw3yqfrNKsXa4sSg3bZuPE6A==
+X-Received: by 2002:a37:9302:0:b0:6ce:3765:eb95 with SMTP id v2-20020a379302000000b006ce3765eb95mr12340813qkd.177.1665400339002;
+        Mon, 10 Oct 2022 04:12:19 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id o3-20020ac85543000000b0035d0655b079sm8291637qtr.30.2022.10.10.04.12.18
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Oct 2022 04:09:42 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id t186so7096261yba.12
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Oct 2022 04:09:42 -0700 (PDT)
-X-Received: by 2002:a5b:506:0:b0:6af:ffac:4459 with SMTP id
- o6-20020a5b0506000000b006afffac4459mr15944365ybp.365.1665400182080; Mon, 10
- Oct 2022 04:09:42 -0700 (PDT)
+        Mon, 10 Oct 2022 04:12:18 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-354c7abf786so97805477b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Oct 2022 04:12:18 -0700 (PDT)
+X-Received: by 2002:a81:848c:0:b0:356:e173:2c7a with SMTP id
+ u134-20020a81848c000000b00356e1732c7amr15929266ywf.502.1665400337990; Mon, 10
+ Oct 2022 04:12:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1665156023.git.geert+renesas@glider.be> <20dc2d1985fef5fb432cd2ef0fbaaecb33743473.1665156023.git.geert+renesas@glider.be>
- <Y0PVaG6OW3wQLQGc@shikoro>
-In-Reply-To: <Y0PVaG6OW3wQLQGc@shikoro>
+References: <a5bd4148f92806f7c8e577d383370f810315f586.1665155947.git.geert+renesas@glider.be>
+ <Y0PQDVzGj8O4oZZY@shikoro>
+In-Reply-To: <Y0PQDVzGj8O4oZZY@shikoro>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 10 Oct 2022 13:09:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXFRVTjyjEqc7GP2WZS3ioavmsOCoU=aZE7zqZC0k6Cyw@mail.gmail.com>
-Message-ID: <CAMuHMdXFRVTjyjEqc7GP2WZS3ioavmsOCoU=aZE7zqZC0k6Cyw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: r8a779g0: Add SCIF nodes
-To:     Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+Date:   Mon, 10 Oct 2022 13:12:05 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUBJi9kgbXKLzmz51u-46sXk2gh-mbcPZ0-vpvANDLCOg@mail.gmail.com>
+Message-ID: <CAMuHMdUBJi9kgbXKLzmz51u-46sXk2gh-mbcPZ0-vpvANDLCOg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a779g0: Fix HSCIF0 "brg_int" clock
+To:     Wolfram Sang <wsa@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
@@ -70,12 +71,29 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Wolfram,
 
-On Mon, Oct 10, 2022 at 10:18 AM Wolfram Sang <wsa@kernel.org> wrote:
-> > +                     reg = <0 0xe6e60000 0 0x64>;
+On Mon, Oct 10, 2022 at 9:56 AM Wolfram Sang <wsa@kernel.org> wrote:
+> On Fri, Oct 07, 2022 at 05:20:03PM +0200, Geert Uytterhoeven wrote:
+> > As serial communication requires a clock signal, the High Speed Serial
+> > Communication Interfaces with FIFO (HSCIF) are clocked by a clock that
+> > is not affected by Spread Spectrum or Fractional Multiplication.
+> >
+> > Hence change the clock input for the HSCIF0 Baud Rate Generator internal
+> > clock from the S0D3_PER clock to the SASYNCPERD1 clock (which has the
+> > same clock rate), cfr. R-Car V4H Hardware User's Manual rev. 0.54.
+> >
+> > Fixes: 987da486d84a5643 ("arm64: dts: renesas: Add Renesas R8A779G0 SoC support")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 >
-> "64" not "0x64", I think. Or we convert all Gen3+ to "0x40"?
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Thanks, will go for 64.
+Thanks!
+
+> Do we need to wait for the clarification about the docs mentioned in
+> another thread?
+
+This one matches the docs ;-)
+It's the module clock's parent in the clock driver which doesn't seem to
+match actual hardware.
 
 Gr{oetje,eeting}s,
 
