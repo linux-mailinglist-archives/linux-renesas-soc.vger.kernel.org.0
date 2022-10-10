@@ -2,58 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF9AA5F9A6E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Oct 2022 09:49:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D16135F9A87
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Oct 2022 09:56:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232514AbiJJHtr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Oct 2022 03:49:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39526 "EHLO
+        id S231543AbiJJH4I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Oct 2022 03:56:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232844AbiJJHtK (ORCPT
+        with ESMTP id S230486AbiJJH4H (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Oct 2022 03:49:10 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5636558F8;
-        Mon, 10 Oct 2022 00:46:33 -0700 (PDT)
+        Mon, 10 Oct 2022 03:56:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EC12FD03
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Oct 2022 00:56:03 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 57E5EB80D13;
-        Mon, 10 Oct 2022 07:46:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82F42C433D7;
-        Mon, 10 Oct 2022 07:46:30 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BF85D60E75
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Oct 2022 07:56:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F7B6C433C1;
+        Mon, 10 Oct 2022 07:56:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665387991;
-        bh=gME83fhuFjH8EZ8DVJ3MZxJ4DjwSXa5AJpjHV+kVkcA=;
+        s=k20201202; t=1665388562;
+        bh=X9X8kqocGw7LQV0BdLDoaVSy4mFZQQ99TtUzFvBsMKQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EFf+1TLAAZe4PVniG6YqgywEmPBaCF10OODazL1QTTLHmj3qbFwrK7fWQ9r1/BcY6
-         fzAGFrm7wv9P7z2DJ0cqB2B9w9QtKqrsUNFJhAOY3Jiz3ttoQ9e/a2skpsraobTyBi
-         4nG0t6fnKIGLPrkwJRq80PUJjo34s2bdPOPQERWqLLsUCRtlLtUItIJLs8ItmM8FJW
-         qJZuRRXUSo0vMPL9YMecsCPuOTz1td5dmLMGL+dl3dc4lOBDXfdBVYo4Die4+pA3Mg
-         /WOQjV4P8OlM9wP8EYV50p6ZZJa239wkBzpcOBNpEKMmvFwKFQlqoun/hTWeYdnBxF
-         oRddSvAHut5hQ==
-Date:   Mon, 10 Oct 2022 09:46:27 +0200
+        b=nP1v1eAHMzOn2xIf5FZXWonG/9K5S+ucEjnTMoBdCMudKzlfdj7A5pNX21H8gUA+4
+         AnMb1cz0pSROzKKHHYuL2uEl714PIGKblELyWPUraMDOBOrST6tVA/Rrq/VGup50/J
+         ynjqFq0gkmNb9+7HVWsd7eaWI/YLiW4iWEyEYKz07qDcGUDhYgDwrJ0SGmT57CFLfG
+         bCqkHxCnDZ/vvGC2LzGp9J4VGnxle3ZVZtwIbqulXoYcDMJJmfPrF7fKfb96jLYMHb
+         7LLFg0lry3+EszUF27PIAqGYs/AU7YUkuMHY/OLsZXxwEOIELqp+qF577WVtXzk4se
+         sw5niW/o92BSw==
+Date:   Mon, 10 Oct 2022 09:55:57 +0200
 From:   Wolfram Sang <wsa@kernel.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 5/5] clk: renesas: r8a779g0: Add TPU clock
-Message-ID: <Y0PN06dSfFi6NAUW@shikoro>
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] arm64: dts: renesas: r8a779g0: Fix HSCIF0 "brg_int" clock
+Message-ID: <Y0PQDVzGj8O4oZZY@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <cover.1665147497.git.geert+renesas@glider.be>
- <f2c1e2c5411b7bd6af726e6baf6e1efc354a7cdf.1665147497.git.geert+renesas@glider.be>
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <a5bd4148f92806f7c8e577d383370f810315f586.1665155947.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="d2Se/esHAN659/ZB"
+        protocol="application/pgp-signature"; boundary="o/rusjh+K/6dtUIE"
 Content-Disposition: inline
-In-Reply-To: <f2c1e2c5411b7bd6af726e6baf6e1efc354a7cdf.1665147497.git.geert+renesas@glider.be>
+In-Reply-To: <a5bd4148f92806f7c8e577d383370f810315f586.1665155947.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -64,38 +63,48 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---d2Se/esHAN659/ZB
+--o/rusjh+K/6dtUIE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 07, 2022 at 03:10:04PM +0200, Geert Uytterhoeven wrote:
-> Add the module clock used by the 16-Bit Timer Pulse Unit (TPU) on the
-> Renesas R-Car V4H (R8A779G0) SoC.
+On Fri, Oct 07, 2022 at 05:20:03PM +0200, Geert Uytterhoeven wrote:
+> As serial communication requires a clock signal, the High Speed Serial
+> Communication Interfaces with FIFO (HSCIF) are clocked by a clock that
+> is not affected by Spread Spectrum or Fractional Multiplication.
 >=20
+> Hence change the clock input for the HSCIF0 Baud Rate Generator internal
+> clock from the S0D3_PER clock to the SASYNCPERD1 clock (which has the
+> same clock rate), cfr. R-Car V4H Hardware User's Manual rev. 0.54.
+>=20
+> Fixes: 987da486d84a5643 ("arm64: dts: renesas: Add Renesas R8A779G0 SoC s=
+upport")
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
+Do we need to wait for the clarification about the docs mentioned in
+another thread?
 
---d2Se/esHAN659/ZB
+
+--o/rusjh+K/6dtUIE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNDzdMACgkQFA3kzBSg
-KbalWA//RNCKyytT4Xu3QZwYpy5WvqfoEmtnUrHP1XAuJI+M0o1xGi1lsGCX7NKg
-h23Y31InEfar06yq1/vHD9Pwo+FWVKKxa8vj8ZMZSdUredVzgVI/bizA+E/WWsax
-Wy905O0V5nFX9oVCFMV0XUNguc8nuNNa7C2AebF6DcurGtXbEC9g6frnVQf9oilz
-hIpxxKLIZuh+PPa6blJGEojLqCUAzKJYhJagpZj/vNH1ozFkGvhTRG+AjjeZ0S//
-DVvNQg2IpoBxoCi4YfkuvOWonuZLDZ8imtllzXz/xTyAfUPfiebghSnLAACvB0PL
-ENvYsmmxQEfBmGecEgogxde6nBdIdXlD41uj0fbNiMqRhKPGJVa+mSdTzuSAY/1S
-T2+04US5zfmthTkmzFYMH6rMAM+ESfKOyfodJEZMxwf1/N59yGhkfMYsiu+XuVJz
-VWF9LHvpYNfLk3SzlWOrjLwgszrrYy3bv42XOl5tSvOCU2OJSYmhmncbxi9UdBjz
-W29G0kw3ia0HFktYEzkuWjMEtIdr/UUbm8UUBm/Ws6o+lxP53YuN/7G1HQvzNXk2
-gs3k2VMjVWNDDze3LRzHlMttyRd2eYfw7zNaYpsj4g+W6rHtS77WQaEAc5m9xwPH
-UudTSqEeB2JLnIaWTjkRr+FvvTC5ZIU1PI8Kn3RNL+4IK6PYXw8=
-=yGDc
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmND0A0ACgkQFA3kzBSg
+KbYKwRAAiiN1kpiV9HNaLWbIdPTUK9HOg4GxRw1htWD3VjZoodWbTQKSZ8EOvuvi
+YcZGT0tLJ5ciR1g7P14LvHcNeQzR/16LYsJcBqHmS0TE7VpNrQn9cOhZcIMmo0R/
+fp0q7mCFSxild4wzcRDp/uhBpghICSJlHHId2UkGgj1Rko5I5nTyXsW8XXi6Pd3Q
+Z/8hA2fcnK4QU8kmIKH+PHMruer9Q7D2IjmJLyY9MKXJN3VLVVbLlmqYrpjKIqsR
+TurxgsjTaQZMA7rt5Ld2U3SFbbhZlJdwU0vT+B5wy14ZT+Qau/QHaPAJWaVtQgrI
+tPs2p2LyxNsSvAU3okQ9HmT9JN6ZgknUDpl74dkGg5wVEYCpIMvLzJqw6cR/m/xC
+Zi86HzOiyC0xClDItfFDhmQoF723jPYwMtPeKBwaCB5ABdhhTIbRmh2jxUxQUQNn
+vf/zlg/+tz1fmnXwJcZOwZBHCUzS0MQk3eEUPIKJJiOyKntaam7firpiJXuM9SST
+ZbsB2XdQOEs2ovDsYu044T9LWwaVgZG74DFBhZkhfWi53WCulm3eBFe6SmP97xjW
+UVtyc3o/RLNt6nMOAWNLjCk4XJxEafPPPnt7rh+4BDdloGVxgPC08Da+8R4F7iag
+Ms2c+kjNBDWUyBj6fqkt39r96/vfrUuzzVDl+h8cmU+5QBnIAnA=
+=oco5
 -----END PGP SIGNATURE-----
 
---d2Se/esHAN659/ZB--
+--o/rusjh+K/6dtUIE--
