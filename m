@@ -2,120 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4ABC55F94C2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Oct 2022 02:06:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78E1E5F96B5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Oct 2022 04:02:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230381AbiJJAGZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 9 Oct 2022 20:06:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35666 "EHLO
+        id S230217AbiJJCCm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 9 Oct 2022 22:02:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230424AbiJJAGB (ORCPT
+        with ESMTP id S230136AbiJJCCm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 9 Oct 2022 20:06:01 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31AB5B7E2;
-        Sun,  9 Oct 2022 16:39:47 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id bu30so14709232wrb.8;
-        Sun, 09 Oct 2022 16:39:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GCmeO7eLk7Whj4sq2p+anE/GFIH3HaIi9Zm1K77Z+rg=;
-        b=YXMp2No1KMvGGEPZK6KQaNiIjfAofBWJ5USAaNhtLGkAntPhwZyJEqK28+ncwOjEgj
-         ScclSiAhexUImXCc8XYOgenKmamBpyrehyDiuO226gIgxo4/SNHxrfWerTgYoz9TAVii
-         +IKi+i4wEkCzhElkafxZSom4PEysChAWT3CAmp8XrOKIOvW3qv3TY8v7b9yPNaM3eS7k
-         /fU/B8EhNTjxaF4OEOpugNOjWp+Ijwd4KzJ0+joR22xGQ5Arx7ikjw/w96fRfXcbkkG5
-         w8bGdny/bYz2MPsNJrr9kNv8ewY4ru0UIJ3BPKuNtZn4qhil0CZUu+KJLdmXtqoXQ8vl
-         scPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GCmeO7eLk7Whj4sq2p+anE/GFIH3HaIi9Zm1K77Z+rg=;
-        b=D9la5c/dSKwOH8EzUU3cm8mVCGSm68rH71fBQZSLU3btgKL+6n389MTXR7GJ/TejBl
-         MlRUtWmih6vjsFprflQzBed5f+4jtm2/gFLWpfTIoLmUHYM0l0Pql44C5EHAf1kwmvT7
-         +aqdCVyrCLaWs9rrCrhOKZuVJGyaFn7QwKpfST5IaM/BXEwrJi6A1O/pi8LT3ooVBze6
-         ggEoRmgMXgp8sdZC5whump8G+HgDnIkmYNOPvv0QVW3BoBtaMzJwYG4KFtxVBTQ0B2St
-         TrKoyv5I2pdIjl+yyJNwqZ5pmU4xpOWNYBOVvIq5GM1Vk1AGq3qV3+6ocRVMxpY4KAVc
-         zqXQ==
-X-Gm-Message-State: ACrzQf1Te+OGEJyjmEusaVKBt6vQs+Gl3cZz58wt440GsilBZ1NM1Dr2
-        sE8IH78KCLCDZKOPNh7MCFY+alFNb6RXFA==
-X-Google-Smtp-Source: AMsMyM46cs4TZTGyY/4e5N8zP8tZWw/LX45Qb+GnvhI8U42wAfPoeZjCr4pa5K4R/PluiFky39v+Bg==
-X-Received: by 2002:adf:d1cc:0:b0:22e:6371:65ad with SMTP id b12-20020adfd1cc000000b0022e637165admr9812976wrd.326.1665356463914;
-        Sun, 09 Oct 2022 16:01:03 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:e4:5cde:80ab:dfd4])
-        by smtp.gmail.com with ESMTPSA id r16-20020adff710000000b0022afbd02c69sm7239689wrp.56.2022.10.09.16.01.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Oct 2022 16:01:03 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 5/5] arm64: dts: renesas: r9a07g043: Drop WDT2 node
-Date:   Mon, 10 Oct 2022 00:00:44 +0100
-Message-Id: <20221009230044.10961-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221009230044.10961-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20221009230044.10961-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Sun, 9 Oct 2022 22:02:42 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA5AA53D17;
+        Sun,  9 Oct 2022 19:02:40 -0700 (PDT)
+Received: from kwepemi500022.china.huawei.com (unknown [172.30.72.54])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Mm2B72QLdz1P70Y;
+        Mon, 10 Oct 2022 09:58:07 +0800 (CST)
+Received: from huawei.com (10.67.175.34) by kwepemi500022.china.huawei.com
+ (7.221.188.64) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 10 Oct
+ 2022 10:02:38 +0800
+From:   Ren Zhijie <renzhijie2@huawei.com>
+To:     <laurent.pinchart@ideasonboard.com>,
+        <tomi.valkeinen+renesas@ideasonboard.com>, <airlied@gmail.com>,
+        <daniel@ffwll.ch>
+CC:     <dri-devel@lists.freedesktop.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Ren Zhijie <renzhijie2@huawei.com>
+Subject: [PATCH -next] drm/rcar-du: Fix undefined reference error
+Date:   Mon, 10 Oct 2022 01:58:56 +0000
+Message-ID: <20221010015856.248029-1-renzhijie2@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.67.175.34]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemi500022.china.huawei.com (7.221.188.64)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+If DRM_RCAR_MIPI_DSI=m and DRM_RCAR_DU=y,
+gcc complained about undefined reference :
 
-WDT CH2 is specifically to check the operation of Cortex-M33 CPU and if
-used from CA55 CPU would result in an unexpected behaviour. Hence drop
-WDT2 node from RZ/G2UL SoC DTSI.
+drivers/gpu/drm/rcar-du/rcar_du_crtc.o: In function `rcar_du_crtc_atomic_enable':
+rcar_du_crtc.c:(.text+0x1958): undefined reference to `rcar_mipi_dsi_pclk_enable'
+drivers/gpu/drm/rcar-du/rcar_du_crtc.o: In function `rcar_du_crtc_atomic_disable':
+rcar_du_crtc.c:(.text+0x3cf4): undefined reference to `rcar_mipi_dsi_pclk_disable'
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To fix this error, add select DRM_RCAR_MIPI_DSI dependency to config DRM_RCAR_DU.
+
+Fixes: 957fe62d7d15 ("drm: rcar-du: Fix DSI enable & disable sequence")
+Signed-off-by: Ren Zhijie <renzhijie2@huawei.com>
 ---
- arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 15 ---------------
- 1 file changed, 15 deletions(-)
+ drivers/gpu/drm/rcar-du/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-index 689aa4ba416b..c1fb29de2fa4 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-@@ -820,21 +820,6 @@ wdt0: watchdog@12800800 {
- 			status = "disabled";
- 		};
- 
--		wdt2: watchdog@12800400 {
--			compatible = "renesas,r9a07g043-wdt",
--				     "renesas,rzg2l-wdt";
--			reg = <0 0x12800400 0 0x400>;
--			clocks = <&cpg CPG_MOD R9A07G043_WDT2_PCLK>,
--				 <&cpg CPG_MOD R9A07G043_WDT2_CLK>;
--			clock-names = "pclk", "oscclk";
--			interrupts = <GIC_SPI 53 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 54 IRQ_TYPE_LEVEL_HIGH>;
--			interrupt-names = "wdt", "perrout";
--			resets = <&cpg R9A07G043_WDT2_PRESETN>;
--			power-domains = <&cpg>;
--			status = "disabled";
--		};
--
- 		ostm0: timer@12801000 {
- 			compatible = "renesas,r9a07g043-ostm",
- 				     "renesas,ostm";
+diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+index c959e8c6be7d..23f6aa70f4cf 100644
+--- a/drivers/gpu/drm/rcar-du/Kconfig
++++ b/drivers/gpu/drm/rcar-du/Kconfig
+@@ -7,6 +7,7 @@ config DRM_RCAR_DU
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_DMA_HELPER
+ 	select VIDEOMODE_HELPERS
++	select DRM_RCAR_MIPI_DSI
+ 	help
+ 	  Choose this option if you have an R-Car chipset.
+ 	  If M is selected the module will be called rcar-du-drm.
 -- 
-2.25.1
+2.17.1
 
