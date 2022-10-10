@@ -2,167 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB1EE5FA004
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Oct 2022 16:15:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 097B75FA07B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Oct 2022 16:52:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229673AbiJJOP1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Oct 2022 10:15:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49938 "EHLO
+        id S229591AbiJJOwc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Oct 2022 10:52:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbiJJOP0 (ORCPT
+        with ESMTP id S229519AbiJJOwc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Oct 2022 10:15:26 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB0875A2E3;
-        Mon, 10 Oct 2022 07:15:24 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 46DF6BB0;
-        Mon, 10 Oct 2022 16:15:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1665411323;
-        bh=HUUKKWN7DOTb6qRqWfIbzR54BPmPxMvPX8Hx+e+3GWM=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=gMo6LfP/j6zFOV3UO+m+ZJXhi4ofqySmQXETT6JXlha8X6hLYITT07wQoOdInaQL6
-         7Sg0RlS4DvWAflGneF6F/B5Kygszpu47seGN+XwxwvWwqTCgIeGWoQ8Xl0JUVr6Ikn
-         IZGnyWGMKEInzkE0hfDt2blSwlmGttsNDXBBnrhI=
-Content-Type: text/plain; charset="utf-8"
+        Mon, 10 Oct 2022 10:52:32 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5A0CC40BEB;
+        Mon, 10 Oct 2022 07:52:30 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.95,173,1661785200"; 
+   d="scan'208";a="138354530"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 10 Oct 2022 23:52:28 +0900
+Received: from localhost.localdomain (unknown [10.226.92.95])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B1CA842F5162;
+        Mon, 10 Oct 2022 23:52:24 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        William Breathitt Gray <william.gray@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>, Lee Jones <lee@kernel.org>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, devicetree@vger.kernel.org,
+        linux-pwm@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v4 0/4] Add RZ/G2L MTU3a MFD, Counter and pwm driver
+Date:   Mon, 10 Oct 2022 15:52:18 +0100
+Message-Id: <20221010145222.1047748-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <Y0QncbqvmkwCQUV/@oden.dyn.berto.se>
-References: <20221009144146.1199437-1-niklas.soderlund+renesas@ragnatech.se> <166540999229.3760285.2092310778890819597@Monstersaurus> <Y0QncbqvmkwCQUV/@oden.dyn.berto.se>
-Subject: Re: [PATCH] media: adv748x: afe: Select input port when initializing AFE
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-To:     Niklas =?utf-8?q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Date:   Mon, 10 Oct 2022 15:15:21 +0100
-Message-ID: <166541132134.3760285.5424145248690989762@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Niklas S=C3=B6derlund (2022-10-10 15:08:49)
-> Hi Kieran,
->=20
-> On 2022-10-10 14:53:12 +0100, Kieran Bingham wrote:
-> > Hi Niklas,
-> >=20
-> > Your other patch for adv748x has the prefix:
-> >=20
-> >       media: i2c: adv748x:
-> >=20
-> > I'm not sure if the i2c: is required though.
-> > There seems to be a mix of usage in the driver already so I don't think
-> > it matters too much.
->=20
-> Me neither, so I use both in an random pattern to not discriminate.  =20
-> Let me know what you prefer and I will try to use that in the future. =20
+The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
+the Renesas RZ/G2L family SoC's. It consists of eight 16-bit timer
+channels and one 32-bit timer channel. It supports the following
+functions
+ - Counter
+ - Timer
+ - PWM
 
-Doesn't bother me - That's up to whoever picks the patch I think ;-)
+This patch series aim to add MFD and pwm driver for MTU3a.
 
-> > Quoting Niklas S=C3=B6derlund (2022-10-09 15:41:46)
-> > > When moving the input selection to adv748x_reset() it was missed that
-> > > during probe the device is reset _before_ the initialization and pars=
-ing
-> > > of DT by the AFE subdevice. This can lead to the wrong input port (in
-> > > case it's not port 0) being selected until the device is reset for the
-> > > first time.
-> > >=20
-> > > Fix this by restoring the call to adv748x_afe_s_input() in the AFE
-> > > initialization while also keeping it in the adv748x_reset().
-> > >=20
-> > > Fixes: c30ed81afe89 ("media: adv748x: afe: Select input port when dev=
-ice is reset")
-> > > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnat=
-ech.se>
-> > > ---
-> > >  drivers/media/i2c/adv748x/adv748x-afe.c | 4 ++++
-> > >  1 file changed, 4 insertions(+)
-> > >=20
-> > > diff --git a/drivers/media/i2c/adv748x/adv748x-afe.c b/drivers/media/=
-i2c/adv748x/adv748x-afe.c
-> > > index 02eabe10ab97..00095c7762c2 100644
-> > > --- a/drivers/media/i2c/adv748x/adv748x-afe.c
-> > > +++ b/drivers/media/i2c/adv748x/adv748x-afe.c
-> > > @@ -521,6 +521,10 @@ int adv748x_afe_init(struct adv748x_afe *afe)
-> > >                 }
-> > >         }
-> > > =20
-> > > +       adv748x_afe_s_input(afe, afe->input);
-> > > +
-> > > +       adv_dbg(state, "AFE Default input set to %d\n", afe->input);
-> >=20
-> > That's now two places with this message. But we likely can't put it in
-> > adv748x_afe_s_input(), as that isn't always setting the default, but the
-> > current...
-> >=20
-> > And it's probably not worth an extra function just to dedup a single
-> > debug line :S
-> >=20
-> > So - it seems reasonable to me.
-> >=20
-> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> >=20
-> > Though does this now mean that a normal boot will show (with debug
-> > enabled)
-> >=20
-> > AFE Default input set to 0
-> > ...
-> > AFE Default input set to 0
-> >=20
-> > ?
->=20
-> Yes, but if the default input is not 0 after paring DT it will be,
->=20
-> AFE Default input set to 0
-> ...
-> AFE Default input set to 2
->=20
-> Where the first one is form the reset and the second one from the probe=20
-> after we have parsed DT. Not sure how much effort we should put in to=20
-> resolving this, I'm happy with anything, keeping both or dropping any or =
+The 8/16/32 bit registers are mixed in each channel. The HW
+specifications of the IP is described in patch#1.
 
-> both of them.
->=20
-> Let me know what you think. And if you wish me to spin a v2. I do like=20
-> to get his fixed without to much delay as it kills my new automatic test =
+Current patch set is tested for PWM mode1 on MTU3 channel
+and 16 and 32 bit phase counting modes.
 
-> setup without an ugly quirk :-)
+v3->v4:
+ * Dropped counter and pwm compatibeles as they don't have any resources.
+ * Made rz-mtu3 as pwm provider.
+ * Updated the example and description.
+ * A single driver that registers both the counter and the pwm functionalities
+   that binds against "renesas,rz-mtu3".
+ * Moved PM handling from child devices to here.
+ * replaced include/linux/mfd/rz-mtu3.h->drivers/mfd/rz-mtu3.h
+ * Removed "remove" callback from mfd driver
+ * There is no resource associated with "rz-mtu3-counter" and "rz-mtu3-pwm"
+   compatible and moved the code to mfd subsystem as it binds against "rz-mtu".
+ * Removed struct platform_driver rz_mtu3_cnt_driver.
+ * Removed struct platform_driver rz_mtu3_pwm_driver.
+ * Updated commit description
+ * Updated Kconfig description
+ * Added macros RZ_MTU3_16_BIT_MTU{1,2}_CH for MTU1 and MTU2 channels
+ * Added RZ_MTU3_GET_HW_CH macro for getting channel ID.
+ * replaced priv->ch[id]->priv->ch[0] in rz_mtu3_count_read()
+ * Cached counter max values
+ * replaced cnt->tsr in rz_mtu3_count_direction_read()
+ * Added comments for RZ_MTU3_TCR_CCLR_NONE
+ * Replaced if with switch in rz_mtu3_initialize_counter() and
+   rz_mtu3_count_ceiling_write()
+ * Added locks in initialize, terminate and enable_read to prevent races.
+ * Updated rz_mtu3_action_read to take care of MTU2 signals.
+ * Added separate distinct array for each group of Synapse.
+ * Moved pm handling to parent.
+v2->v3:
+ * Dropped counter bindings and integrated with mfd as it has only one property.
+ * Removed "#address-cells" and "#size-cells" as it do not have children with
+   unit addresses.
+ * Removed quotes from counter and pwm.
+ * Provided full path for pwm bindings.
+ * Updated the binding example.
+ * removed unwanted header files
+ * Added LUT for 32 bit registers as it needed for 32-bit cascade counting.
+ * Exported 32 bit read/write functions.
+ * Modelled as a counter device supporting 3 counters(2 16-bit and 
+   32-bit)
+ * Add kernel-doc comments to document struct rz_mtu3_cnt
+ * Removed mmio variable from struct rz_mtu3_cnt
+ * Removed cnt local variable from rz_mtu3_count_read()
+ * Replaced -EINVAL->-ERANGE for out of range error conditions.
+ * Removed explicit cast from write functions.
+ * Removed local variable val from rz_mtu3_count_ceiling_read()
+ * Added lock for RMW for counter/ceiling updates.
+ * Added different synapses for counter0 and counter{1,2}
+ * Used ARRAY for assigning num_counts.
+ * Added PM runtime for managing clocks.
+ * Add MODULE_IMPORT_NS(COUNTER) to import the COUNTER namespace.
 
-Doesn't bother me here I don't think. Perhaps a bit odd that the default
-changes, but I suspect that fixing it to only have one would require
-refactoring the ordering of how probe/reset is occuring?
+RFC->v2:
+ * replaced devm_reset_control_get->devm_reset_control_get_exclusive
+ * Dropped 'bindings' from the binding title
+ * Updated the binding example
+ * Added additionalProperties: false for counter bindings
+ * Squashed all the binding patches
+ * Modelled as a single counter device providing both 16-bit
+   and 32-bit phase counting modes
+ * Modelled as a single pwm device for supporting different pwm modes.
+ * Moved counter and pwm bindings to respective subsystems.
 
-You could only change/report the default as changed if it differs too
-... but even that's maybe an over-optimisation.
+Biju Das (4):
+  dt-bindings: mfd: Document RZ/G2L MTU3a bindings
+  mfd: Add RZ/G2L MTU3 driver
+  mfd: Add RZ/G2L MTU3 counter driver
+  mfd: Add RZ/G2L MTU3 PWM driver
 
---
-Kieran
+ .../bindings/mfd/renesas,rz-mtu3.yaml         | 305 ++++++++++
+ drivers/mfd/Kconfig                           |  26 +
+ drivers/mfd/Makefile                          |   5 +
+ drivers/mfd/rz-mtu3-cnt.c                     | 554 ++++++++++++++++++
+ drivers/mfd/rz-mtu3-core.c                    | 476 +++++++++++++++
+ drivers/mfd/rz-mtu3-pwm.c                     | 405 +++++++++++++
+ drivers/mfd/rz-mtu3.h                         | 221 +++++++
+ 7 files changed, 1992 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
+ create mode 100644 drivers/mfd/rz-mtu3-cnt.c
+ create mode 100644 drivers/mfd/rz-mtu3-core.c
+ create mode 100644 drivers/mfd/rz-mtu3-pwm.c
+ create mode 100644 drivers/mfd/rz-mtu3.h
 
+-- 
+2.25.1
 
->=20
-> > --
-> > Kieran
-> >=20
-> >=20
-> >=20
-> >=20
-> > > +
-> > >         /* Entity pads and sinks are 0-indexed to match the pads */
-> > >         for (i =3D ADV748X_AFE_SINK_AIN0; i <=3D ADV748X_AFE_SINK_AIN=
-7; i++)
-> > >                 afe->pads[i].flags =3D MEDIA_PAD_FL_SINK;
-> > > --=20
-> > > 2.37.3
-> > >
->=20
-> --=20
-> Kind Regards,
-> Niklas S=C3=B6derlund
