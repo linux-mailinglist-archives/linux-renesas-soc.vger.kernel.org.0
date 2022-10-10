@@ -2,157 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A3E85F9D42
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Oct 2022 13:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A079D5F9D51
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Oct 2022 13:09:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231716AbiJJLDs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Oct 2022 07:03:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41968 "EHLO
+        id S231512AbiJJLJs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Oct 2022 07:09:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231641AbiJJLDr (ORCPT
+        with ESMTP id S231899AbiJJLJq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Oct 2022 07:03:47 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9079DFAC;
-        Mon, 10 Oct 2022 04:03:45 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkv1q4tdsdyy1rk42mgbt-3.rev.dnainternet.fi [IPv6:2001:14ba:446a:dc40:6f18:157:2316:5143])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 6964C1B001B1;
-        Mon, 10 Oct 2022 14:03:42 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1665399822;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=X+umJlZlDZ6iSnvwxVf1PmWT7krWCU4iHOOGGM49XJ0=;
-        b=HLwEa1DSIR1kzxU3hqCTaZ1ZJ8fxZC5oZvYZatX72Wckl43xo58rAZrY9p6v+mWHI4B+BI
-        Iam6n3ZuuBRf+K6e+9mxqyatEVzNdzDvNwZfpy1B/CFzGWgXAeybiyDVjJx7PRdMjIYsEt
-        X5wXPIbAeVbFFfQG7p4C/r4YadIHG7qwYS6kTwuoMXGExIcVtXLHt/sHdjwrnHwLX4md6F
-        xegs/TVzfRpSqwi2ITamWuzRfojnEwgidhy82bN6sJ6Pt/knpZPwMHacIM8PHuB3ykNU/6
-        VDC1dMnhdqNIrpu1+D9XNZcy7NDNomOdSxFcjP+ERziiV7jFgaB26pQhT5DiQw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id D1851634C93;
-        Mon, 10 Oct 2022 14:03:41 +0300 (EEST)
-Date:   Mon, 10 Oct 2022 14:03:41 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [RFC PATCH] media: Documentation: Drop deprecated bytesused == 0
-Message-ID: <Y0P8DQQ0XlRxzAoH@valkosipuli.retiisi.eu>
-References: <20221009213509.860-1-laurent.pinchart@ideasonboard.com>
+        Mon, 10 Oct 2022 07:09:46 -0400
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF976DFAE
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Oct 2022 04:09:44 -0700 (PDT)
+Received: by mail-qk1-f180.google.com with SMTP id s7so2481125qkj.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Oct 2022 04:09:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aIPRi7WPOuxRNIA8AqPDtN9TwH1w4pPbJITKzf2WWDc=;
+        b=nvZq8XOWGPTN82N78ttMvtHHMkj68RzklNXk/82MiDMM3Sp9xpdbhTe0GDW+lxs4dQ
+         B/vLsICWWFcbywWpWn0kQ84uiX5SwoC45khJJO2gDj7tg0L5v+p2Xl0UPebJm9tezuC1
+         hnDJEOEMBmX4ukMQz24v94EUbhPVYzxFznIhmTn6qLwt28g32nG9cI1rGS/Ou2vO8OVl
+         hrGcw3UpyF2T5Y4mkxG1D2GIVXLOWyX7cwAWIIgj67VGiRVBjzlC/Ne3DMRFymUwZORn
+         0WstZ2OXYwGegpwoiYXVF/xSP2T6SUKtbQOMaa5XmVWib7RYFN2Zfbs/KV0fMxMReCCl
+         oAeQ==
+X-Gm-Message-State: ACrzQf2yXs/kIX/QiPooC+M6b+6Hbf0E1b9elPNDNBpDG0IjOCwCLRAv
+        FoXBQcizCnOMXJUOdzPuURQ4O0el+XE5NA==
+X-Google-Smtp-Source: AMsMyM6KyQdm7JLDcTxc7JGU4gMdvazGbfKVNFnB/jA824X5tA3zIO9K/4ZIJHAn2dB177EuY/gScg==
+X-Received: by 2002:a05:620a:6013:b0:6e0:6a88:2940 with SMTP id dw19-20020a05620a601300b006e06a882940mr12079307qkb.163.1665400183117;
+        Mon, 10 Oct 2022 04:09:43 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id az20-20020a05620a171400b006ec62032d3dsm3462237qkb.30.2022.10.10.04.09.42
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Oct 2022 04:09:42 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id t186so7096261yba.12
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Oct 2022 04:09:42 -0700 (PDT)
+X-Received: by 2002:a5b:506:0:b0:6af:ffac:4459 with SMTP id
+ o6-20020a5b0506000000b006afffac4459mr15944365ybp.365.1665400182080; Mon, 10
+ Oct 2022 04:09:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221009213509.860-1-laurent.pinchart@ideasonboard.com>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1665399822;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=X+umJlZlDZ6iSnvwxVf1PmWT7krWCU4iHOOGGM49XJ0=;
-        b=HxR3uaBRGoWlBvJoLd5b7/p/amZQ5M72sw0OFPcktOR/9f7Wa+ZIf+oipa2xzJdTJB+TY0
-        VGmElii/6p6fGIImGHC53PpqkJ+BgrSfPZ7n7Gfxnz1kf0q4hyC85h3OXuDr0E4c8k+E/A
-        2pXxLRLED1UiATGeYZr5W3/Aw4uBKGmHUUxHGu+paZTmsn8RLWa3ZPq0xYvPc4alsH+O6p
-        gkiyAuiPPrAzesLwWEeqSy2EZtdSqB/mO8gH5YWn3IVXr2CYgYv9+fia+fEIy/r60hFiP5
-        +hvhzveUc3rnV9yaPwh/3Ly1zyTMrxaHEnp52GxAAUUAtwbqAN07j1r97kND4A==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1665399822; a=rsa-sha256;
-        cv=none;
-        b=YW1ArMHyOEhEbGtMmt12xX/R+4fxComNmM0c+PDUfh831PQZjBtyKkyxt1XXriHceEJ9aE
-        INZ57scckNCGlPTFv7sMGc25ODoV6LI2JmAewJkgzPxvkBKKyDZva5Pt7bF0dstlEZtuAN
-        TbN9L2GX4u4+h6Lf6w8PZuteSk0rYTLsrUpbdtEyoabBaD40qlV0XGybTCjlaVV7BZM5sp
-        a4Pq1sEcYkhdFBmk49qCtDGuzgqsAsyIZqbP/VjeYroEf8iapdQSqq/Yh1hP12nmIeFE7y
-        q4yIXV+98lJJqGjQAaavDWWcuV+Bc5DpsOxYuXIHzyULI/JU+SyxlT4pgqNqLQ==
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <cover.1665156023.git.geert+renesas@glider.be> <20dc2d1985fef5fb432cd2ef0fbaaecb33743473.1665156023.git.geert+renesas@glider.be>
+ <Y0PVaG6OW3wQLQGc@shikoro>
+In-Reply-To: <Y0PVaG6OW3wQLQGc@shikoro>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 10 Oct 2022 13:09:29 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXFRVTjyjEqc7GP2WZS3ioavmsOCoU=aZE7zqZC0k6Cyw@mail.gmail.com>
+Message-ID: <CAMuHMdXFRVTjyjEqc7GP2WZS3ioavmsOCoU=aZE7zqZC0k6Cyw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: r8a779g0: Add SCIF nodes
+To:     Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Wolfram,
 
-On Mon, Oct 10, 2022 at 12:35:09AM +0300, Laurent Pinchart wrote:
-> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> 
-> The V4L2 API historically allowed buffers to be queued with bytesused
-> set to 0 on output devices, in which case the driver would use the
-> buffer length. This behaviour is deprecated, and videobuf2 prints a
-> warning message in the kernel log. Drop it from the documentation.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Mon, Oct 10, 2022 at 10:18 AM Wolfram Sang <wsa@kernel.org> wrote:
+> > +                     reg = <0 0xe6e60000 0 0x64>;
+>
+> "64" not "0x64", I think. Or we convert all Gen3+ to "0x40"?
 
-Thanks!
+Thanks, will go for 64.
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Gr{oetje,eeting}s,
 
-> ---
-> 
-> This patch aims at starting (or continuing) the discussion related to
-> handling of bytesused == 0 on video output devices. videobuf2 currently
-> printes a warning that indicates the behaviour is deprecated, but the
-> API documentation allows it explicitly. This discrepency bothers me and
-> I think we should fix it.
-> 
-> We probably won't be able to drop support for the deprecated behaviour
-> in the near future, if ever. If we want to push applications to get
-> fixed, we may want to replace the dev_warn() with a WARN_ONCE(), which
-> could be done in a v2 of this patch, or in another patch.
-> 
-> Another option would be to consider that the behaviour is fine and keep
-> official support for it in the documentation, in which case vb2 should
-> stop warning about it. This wouldn't be my preference.
-> 
-> ---
->  Documentation/userspace-api/media/v4l/buffer.rst | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
-> index 4638ec64db00..04dec3e570ed 100644
-> --- a/Documentation/userspace-api/media/v4l/buffer.rst
-> +++ b/Documentation/userspace-api/media/v4l/buffer.rst
-> @@ -187,10 +187,8 @@ struct v4l2_buffer
->  	on the negotiated data format and may change with each buffer for
->  	compressed variable size data like JPEG images. Drivers must set
->  	this field when ``type`` refers to a capture stream, applications
-> -	when it refers to an output stream. If the application sets this
-> -	to 0 for an output stream, then ``bytesused`` will be set to the
-> -	size of the buffer (see the ``length`` field of this struct) by
-> -	the driver. For multiplanar formats this field is ignored and the
-> +	when it refers to an output stream. For multiplanar formats this field
-> +        is ignored and the
->  	``planes`` pointer is used instead.
->      * - __u32
->        - ``flags``
-> @@ -327,10 +325,7 @@ struct v4l2_plane
->        - ``bytesused``
->        - The number of bytes occupied by data in the plane (its payload).
->  	Drivers must set this field when ``type`` refers to a capture
-> -	stream, applications when it refers to an output stream. If the
-> -	application sets this to 0 for an output stream, then
-> -	``bytesused`` will be set to the size of the plane (see the
-> -	``length`` field of this struct) by the driver.
-> +	stream, applications when it refers to an output stream.
->  
->  	.. note::
->  
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+                        Geert
 
--- 
-Sakari Ailus
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
