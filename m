@@ -2,145 +2,159 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89BF45FB4BD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Oct 2022 16:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 142E25FB4E6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Oct 2022 16:48:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229766AbiJKOkF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Oct 2022 10:40:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40648 "EHLO
+        id S229865AbiJKOsH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Oct 2022 10:48:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbiJKOkD (ORCPT
+        with ESMTP id S229811AbiJKOsG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Oct 2022 10:40:03 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C60C813FB8;
-        Tue, 11 Oct 2022 07:40:01 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id cj27so8340090qtb.7;
-        Tue, 11 Oct 2022 07:40:01 -0700 (PDT)
+        Tue, 11 Oct 2022 10:48:06 -0400
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFE105B7B0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Oct 2022 07:48:02 -0700 (PDT)
+Received: by mail-qt1-x82b.google.com with SMTP id g11so3724604qts.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Oct 2022 07:48:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NNtqRYxDNEfihRF5QefJQz25yKJmze/w7Ghq2bpMKzQ=;
+        b=A7Ebks0DDm8Brcx+96Mp6zlGn790bpTzawzPpZK/MMOgLbo+qTXBYfo2iCl8iG0sBr
+         IZccMy7odYcxMae+hFQchhMS1Gfx0njxyw+NDEC1ONq60A4sRYQoEqWA1IvFymS2sRfs
+         0evCtRJTKDm1hwId+phP/HoqvXnEmUZ46OcPDZWg/ORsWRXEfdvAnxJ67xlZYZAgsz6H
+         1M8u1IqCggLVnyjsKUkVvhfTbTTj7Ju3ndiRi6GH4H17iVHzQqrT2X2uCIqRq7bnlmX6
+         AThw43Y5NJMEa39MRR41Pr79z+mJ3P/WTBcHaC+9oNK1uciwQslk1ASiGZ3E57nl8lzU
+         2Fzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7sKcP+GTT+SWbU28Mvg7qTSCnoQqhpg8QoNv8i57vas=;
-        b=1aNMOHpvof8T12wTAyU55u7qVFoNhS1TB23r1CqXs3i1eZK+TM5HO59VOvt6M/E27R
-         EA38S3n/l+OM2H2sSAdK/RugbSUkW0SR5K/icQ3Q1jzYLG5x4NpMuSx0ThSgbFRv2IK6
-         7yUDy4NEgldJumzmi3qa+RobR1ce6xc63cez23NNNEBEC5YMA5jMvku0xy3BTQbLTLtX
-         AfnpU0jDlsNRErk7JqdRLNmqaeb5fkPOYNg2h+pgKouGSh8exYETRNtek7P0gDUcd69D
-         4bxucfkk+JDtgW0y8yBxvVlFPp0EZ4DBuF/lqh7uo6wUu+EyQW9xIK2ZadmP9hfbvyQX
-         O1fg==
-X-Gm-Message-State: ACrzQf1SCNwAc5AdJHKXDqN3KCAbnw9ZsWfgLowXcIs+kRXuz8atLkb2
-        4a9rw6P7hoQGpjXE/a70EFcW5vWbkGb1NQ==
-X-Google-Smtp-Source: AMsMyM4YpuJRtELUxBQ47QR4BZqAaZNk2NdfGebfSuG/kCUVyPn3dFtBV9xGHo8vAZs7LWsqk/l0hA==
-X-Received: by 2002:ac8:7c4c:0:b0:35c:fa89:5a30 with SMTP id o12-20020ac87c4c000000b0035cfa895a30mr19674630qtv.359.1665499200606;
-        Tue, 11 Oct 2022 07:40:00 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id az31-20020a05620a171f00b006ce9e880c6fsm13030433qkb.111.2022.10.11.07.39.58
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NNtqRYxDNEfihRF5QefJQz25yKJmze/w7Ghq2bpMKzQ=;
+        b=XTplNu+oHLuuzYInMGReHOKrkR/1lSPuoAyrHUZxQHiKmRag+H2wO19ggyy4beVUqq
+         rLTwakZQawqmsqh6uEJAMUkMUFJ/lTc6fElXu3toaNAvytJZCUa/g6Ziw2gM/c+ZbQ9a
+         ifuHhQfem0+t6V9qmX5L2mUcoga7f6WSuwzFub0gMTm7rdIWUEWDYoQyf7XjmCFv5EHw
+         pMJN//pt/t5k+In9Or3dpJY+oMR6s25IghVxGdk7JJ9gZ4EmXxhPwjvOHNorDDDCpYbt
+         D/1WwfmVWsZ2RQ+vOLStfOGUmT8mH4I3pQV+JXET+YUbyAsg7JHYg8u6/MNIcbA13vXN
+         nacg==
+X-Gm-Message-State: ACrzQf3L9P580t/+HyU1PikpGfEQapYC7/SNeFzZXAHqh6GVcpbxSMXS
+        GfxPtn90cti5isL7Y+iCH96HRw==
+X-Google-Smtp-Source: AMsMyM4M/PsdaNdoSwh2bCfVsJEe9LHVxaQ4Xy4/bPTVGlg6k1gNq1gzkbwTIH06/KaPx4FH9j677w==
+X-Received: by 2002:ac8:5fca:0:b0:35c:d2a:3d8a with SMTP id k10-20020ac85fca000000b0035c0d2a3d8amr19933012qta.460.1665499681730;
+        Tue, 11 Oct 2022 07:48:01 -0700 (PDT)
+Received: from [192.168.1.57] (cpe-72-225-192-120.nyc.res.rr.com. [72.225.192.120])
+        by smtp.gmail.com with ESMTPSA id w41-20020a05622a192900b0035d5e5660cbsm1789278qtc.59.2022.10.11.07.48.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Oct 2022 07:39:58 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id b145so16775121yba.0;
-        Tue, 11 Oct 2022 07:39:58 -0700 (PDT)
-X-Received: by 2002:a25:4fc2:0:b0:6be:afb4:d392 with SMTP id
- d185-20020a254fc2000000b006beafb4d392mr21857240ybb.604.1665499197788; Tue, 11
- Oct 2022 07:39:57 -0700 (PDT)
+        Tue, 11 Oct 2022 07:48:01 -0700 (PDT)
+Message-ID: <8d6b8f0e-d9d7-0d77-aa99-379de768fd5d@linaro.org>
+Date:   Tue, 11 Oct 2022 10:45:49 -0400
 MIME-Version: 1.0
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
- <20221010201453.77401-3-andriy.shevchenko@linux.intel.com>
- <Y0SyVwjDl7NGfTPn@sol> <CAHp75Vf4oS8g0zxgismtLrzsJ7AE-bdMEq+GAzx2=Mwnhuk3UA@mail.gmail.com>
- <Y0V0IXF3sASTGdMU@smile.fi.intel.com> <Y0V57gI75ik4ki3A@sol> <Y0V9eJX7a0fe6EfX@smile.fi.intel.com>
-In-Reply-To: <Y0V9eJX7a0fe6EfX@smile.fi.intel.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 11 Oct 2022 16:39:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUhSKuJ3N5zf_+ad_dFu6kSmVTqRpgFUWtd54S9ryw=ew@mail.gmail.com>
-Message-ID: <CAMuHMdUhSKuJ3N5zf_+ad_dFu6kSmVTqRpgFUWtd54S9ryw=ew@mail.gmail.com>
-Subject: Re: [PATCH v2 02/36] gpiolib: cdev: Add missed header(s)
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Kent Gibson <warthog618@gmail.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
-        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
-        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Document RZ/G2L MTU3a bindings
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        William Breathitt Gray <william.gray@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Lee Jones <lee@kernel.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <20221010145222.1047748-1-biju.das.jz@bp.renesas.com>
+ <20221010145222.1047748-2-biju.das.jz@bp.renesas.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221010145222.1047748-2-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andy,
+On 10/10/2022 10:52, Biju Das wrote:
+> The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
+> the Renesas RZ/G2L family SoC's. It consists of eight 16-bit timer
+> channels and one 32-bit timer channel. It supports the following
+> functions
+>  - Counter
+>  - Timer
+>  - PWM
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v3->v4:
+>  * Dropped counter and pwm compatibeles as they don't have any resources.
+>  * Made rz-mtu3 as pwm provider.
+>  * Updated the example and description.
+> v2->v3:
+>  * Dropped counter bindings and integrated with mfd as it has only one property.
+>  * Removed "#address-cells" and "#size-cells" as it do not have children with
+>    unit addresses.
+>  * Removed quotes from counter and pwm.
+>  * Provided full path for pwm bindings.
+>  * Updated the example.
+> v1->v2:
+>  * Modelled counter and pwm as a single device that handles
+>    multiple channels.
+>  * Moved counter and pwm bindings to respective subsystems
+>  * Dropped 'bindings' from MFD binding title.
+>  * Updated the example
+>  * Changed the compatible names.
+> ---
+>  .../bindings/mfd/renesas,rz-mtu3.yaml         | 305 ++++++++++++++++++
+>  1 file changed, 305 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
 
-On Tue, Oct 11, 2022 at 4:31 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> On Tue, Oct 11, 2022 at 10:13:02PM +0800, Kent Gibson wrote:
-> > On Tue, Oct 11, 2022 at 04:48:17PM +0300, Andy Shevchenko wrote:
-> > > On Tue, Oct 11, 2022 at 11:05:42AM +0300, Andy Shevchenko wrote:
-> > > > On Tue, Oct 11, 2022 at 3:02 AM Kent Gibson <warthog618@gmail.com> wrote:
-> > > > > On Mon, Oct 10, 2022 at 11:14:18PM +0300, Andy Shevchenko wrote:
->
-> ...
->
-> > > > > > -#include <linux/gpio.h>
-> > > > > >  #include <linux/gpio/driver.h>
-> > > > > > +#include <linux/gpio.h>
-> > > > > > +#include <linux/hte.h>
-> > > > >
-> > > > > Ok with the hte re-order.
-> > > > >
-> > > > > But moving the gpio subsystem header after the gpio/driver is not
-> > > > > alphabetical ('.' precedes '/') and it read better and made more sense
-> > > > > to me the way it was.
-> > > >
-> > > > I see, I guess this is vim sort vs shell sort. Strange, they should
-> > > > follow the locale settings...
-> > >
-> > > I have checked, the shell and vim sort gave the same result as in this patch.
-> > >
-> >
-> > The original order (sans hte.h) was done by VSCode Sort Lines Ascending,
-> > and that still returns the same result.  That matches what I would
-> > expect to see given the content of the text.
-> >
-> > And for me vim also gives the original order.
-> >
-> > Just to confirm - is '.' 0x2e and '/' 0x2f in your universe?
->
-> $ LC_COLLATE=C sort test1.txt
-> #include <linux/gpio.h>
-> #include <linux/gpio/driver.h>
->
-> $ LC_COLLATE= sort test1.txt
-> #include <linux/gpio/driver.h>
-> #include <linux/gpio.h>
->
-> I guess this explains the difference. Currently I have en_US.UTF-8.
+This should not be in MFD. Just because some device has few features,
+does not mean it should go to MFD... Choose either timer or pwm.
 
-Throwing my can of paint into the mix...
 
-I think it is more logical to first include the general <linux/gpio.h>,
-followed by whatever <linux/gpio-foo.h> and <linux/gpio/bar.h>,
-irrespective of (language-specific or phonebook) sort order.
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml b/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
+> new file mode 100644
+> index 000000000000..1b0be9f5cd18
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
+> @@ -0,0 +1,305 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/renesas,rz-mtu3.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/G2L Multi-Function Timer Pulse Unit 3 (MTU3a)
+> +
+> +maintainers:
+> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +
+> +description: |
+> +  This hardware block pconsisting of eight 16-bit timer channels and one
 
-Yeah, it sucks that this requires some manual work after running sort...
+"This hardware block consists of..."
 
-Gr{oetje,eeting}s,
+> +  32- bit timer channel. It supports the following specifications:
+> +    - Pulse input/output: 28 lines max.
+> +    - Pulse input 3 lines
+> +    - Count clock 11 clocks for each channel (14 clocks for MTU0, 12 clocks
+> +      for MTU2, and 10 clocks for MTU5, four clocks for MTU1-MTU2 combination
+> +      (when LWA = 1))
+> +    - Operating frequency Up to 100 MHz
 
-                        Geert
+Best regards,
+Krzysztof
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
