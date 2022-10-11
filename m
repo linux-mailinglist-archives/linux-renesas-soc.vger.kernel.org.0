@@ -2,159 +2,171 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 142E25FB4E6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Oct 2022 16:48:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 994265FB4EE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Oct 2022 16:50:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229865AbiJKOsH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Oct 2022 10:48:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56876 "EHLO
+        id S229882AbiJKOuD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Oct 2022 10:50:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229811AbiJKOsG (ORCPT
+        with ESMTP id S229573AbiJKOuB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Oct 2022 10:48:06 -0400
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFE105B7B0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Oct 2022 07:48:02 -0700 (PDT)
-Received: by mail-qt1-x82b.google.com with SMTP id g11so3724604qts.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Oct 2022 07:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NNtqRYxDNEfihRF5QefJQz25yKJmze/w7Ghq2bpMKzQ=;
-        b=A7Ebks0DDm8Brcx+96Mp6zlGn790bpTzawzPpZK/MMOgLbo+qTXBYfo2iCl8iG0sBr
-         IZccMy7odYcxMae+hFQchhMS1Gfx0njxyw+NDEC1ONq60A4sRYQoEqWA1IvFymS2sRfs
-         0evCtRJTKDm1hwId+phP/HoqvXnEmUZ46OcPDZWg/ORsWRXEfdvAnxJ67xlZYZAgsz6H
-         1M8u1IqCggLVnyjsKUkVvhfTbTTj7Ju3ndiRi6GH4H17iVHzQqrT2X2uCIqRq7bnlmX6
-         AThw43Y5NJMEa39MRR41Pr79z+mJ3P/WTBcHaC+9oNK1uciwQslk1ASiGZ3E57nl8lzU
-         2Fzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NNtqRYxDNEfihRF5QefJQz25yKJmze/w7Ghq2bpMKzQ=;
-        b=XTplNu+oHLuuzYInMGReHOKrkR/1lSPuoAyrHUZxQHiKmRag+H2wO19ggyy4beVUqq
-         rLTwakZQawqmsqh6uEJAMUkMUFJ/lTc6fElXu3toaNAvytJZCUa/g6Ziw2gM/c+ZbQ9a
-         ifuHhQfem0+t6V9qmX5L2mUcoga7f6WSuwzFub0gMTm7rdIWUEWDYoQyf7XjmCFv5EHw
-         pMJN//pt/t5k+In9Or3dpJY+oMR6s25IghVxGdk7JJ9gZ4EmXxhPwjvOHNorDDDCpYbt
-         D/1WwfmVWsZ2RQ+vOLStfOGUmT8mH4I3pQV+JXET+YUbyAsg7JHYg8u6/MNIcbA13vXN
-         nacg==
-X-Gm-Message-State: ACrzQf3L9P580t/+HyU1PikpGfEQapYC7/SNeFzZXAHqh6GVcpbxSMXS
-        GfxPtn90cti5isL7Y+iCH96HRw==
-X-Google-Smtp-Source: AMsMyM4M/PsdaNdoSwh2bCfVsJEe9LHVxaQ4Xy4/bPTVGlg6k1gNq1gzkbwTIH06/KaPx4FH9j677w==
-X-Received: by 2002:ac8:5fca:0:b0:35c:d2a:3d8a with SMTP id k10-20020ac85fca000000b0035c0d2a3d8amr19933012qta.460.1665499681730;
-        Tue, 11 Oct 2022 07:48:01 -0700 (PDT)
-Received: from [192.168.1.57] (cpe-72-225-192-120.nyc.res.rr.com. [72.225.192.120])
-        by smtp.gmail.com with ESMTPSA id w41-20020a05622a192900b0035d5e5660cbsm1789278qtc.59.2022.10.11.07.48.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Oct 2022 07:48:01 -0700 (PDT)
-Message-ID: <8d6b8f0e-d9d7-0d77-aa99-379de768fd5d@linaro.org>
-Date:   Tue, 11 Oct 2022 10:45:49 -0400
+        Tue, 11 Oct 2022 10:50:01 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0562B1D0FA;
+        Tue, 11 Oct 2022 07:49:57 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 3DECE660235B;
+        Tue, 11 Oct 2022 15:49:51 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1665499795;
+        bh=WjWfvO7t5fdyGrI6m+hgGbT3QH4QBKj79I/hqKmON7Y=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=JOT+AnjvhQZ3vD+INlRyJUZGm23CWRspXdxuJNoFNT/2BU3BDi5IDkH2Yrh9cl34H
+         N8tYn0ib9h2NSJZ2wAIfZfryQVLEoNCgFUyUgtoeB3uep2/6DEsQ7yGEO0febOyHvI
+         hMQps4hKjRpiDfHJVubm1kSgDODcE0fxz35XL3pmTQUoBsYWlj52rSQaBN3or/Qysa
+         Nnl5TlEZJvEM/mGOVrA3G338yKAO4fX3D/W0mLbDZJMGmbluyKM/eYT4wVNA1RFmtD
+         w5vR7Uu6LnwTML9dH9/oGV1Cci4KZACKsyC/Ihfwo8y3IRLkhbhb0iRzW5ZY4Zwh1d
+         X736PHBsaUIKg==
+Message-ID: <74cdcd93-a528-ec8c-0808-0d698b86e47d@collabora.com>
+Date:   Tue, 11 Oct 2022 16:49:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Document RZ/G2L MTU3a bindings
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        William Breathitt Gray <william.gray@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Lee Jones <lee@kernel.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-References: <20221010145222.1047748-1-biju.das.jz@bp.renesas.com>
- <20221010145222.1047748-2-biju.das.jz@bp.renesas.com>
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v2 14/36] pinctrl: mediatek: Add missed header(s)
 Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221010145222.1047748-2-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Kent Gibson <warthog618@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Billy Tsai <billy_tsai@aspeedtech.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Prathamesh Shete <pshete@nvidia.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
+        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Joel Stanley <joel@jms.id.au>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Sean Wang <sean.wang@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Haojian Zhuang <haojian.zhuang@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
+ <20221010201453.77401-15-andriy.shevchenko@linux.intel.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20221010201453.77401-15-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 10/10/2022 10:52, Biju Das wrote:
-> The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
-> the Renesas RZ/G2L family SoC's. It consists of eight 16-bit timer
-> channels and one 32-bit timer channel. It supports the following
-> functions
->  - Counter
->  - Timer
->  - PWM
+Il 10/10/22 22:14, Andy Shevchenko ha scritto:
+> Do not imply that some of the generic headers may be always included.
+> Instead, include explicitly what we are direct user of.
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v3->v4:
->  * Dropped counter and pwm compatibeles as they don't have any resources.
->  * Made rz-mtu3 as pwm provider.
->  * Updated the example and description.
-> v2->v3:
->  * Dropped counter bindings and integrated with mfd as it has only one property.
->  * Removed "#address-cells" and "#size-cells" as it do not have children with
->    unit addresses.
->  * Removed quotes from counter and pwm.
->  * Provided full path for pwm bindings.
->  * Updated the example.
-> v1->v2:
->  * Modelled counter and pwm as a single device that handles
->    multiple channels.
->  * Moved counter and pwm bindings to respective subsystems
->  * Dropped 'bindings' from MFD binding title.
->  * Updated the example
->  * Changed the compatible names.
-> ---
->  .../bindings/mfd/renesas,rz-mtu3.yaml         | 305 ++++++++++++++++++
->  1 file changed, 305 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
-
-This should not be in MFD. Just because some device has few features,
-does not mean it should go to MFD... Choose either timer or pwm.
-
-
+> While at it, sort headers alphabetically.
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml b/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
-> new file mode 100644
-> index 000000000000..1b0be9f5cd18
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
-> @@ -0,0 +1,305 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/renesas,rz-mtu3.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>   drivers/pinctrl/mediatek/pinctrl-moore.c | 3 +++
+>   drivers/pinctrl/mediatek/pinctrl-paris.c | 5 +++++
+>   2 files changed, 8 insertions(+)
+> 
+> diff --git a/drivers/pinctrl/mediatek/pinctrl-moore.c b/drivers/pinctrl/mediatek/pinctrl-moore.c
+> index 526faaebaf77..9474ada5addb 100644
+> --- a/drivers/pinctrl/mediatek/pinctrl-moore.c
+> +++ b/drivers/pinctrl/mediatek/pinctrl-moore.c
+> @@ -9,6 +9,9 @@
+>    */
+>   
+>   #include <linux/gpio/driver.h>
 > +
-> +title: Renesas RZ/G2L Multi-Function Timer Pulse Unit 3 (MTU3a)
-> +
-> +maintainers:
-> +  - Biju Das <biju.das.jz@bp.renesas.com>
-> +
-> +description: |
-> +  This hardware block pconsisting of eight 16-bit timer channels and one
 
-"This hardware block consists of..."
+Apart from this blank line that I deem unnecessary....
 
-> +  32- bit timer channel. It supports the following specifications:
-> +    - Pulse input/output: 28 lines max.
-> +    - Pulse input 3 lines
-> +    - Count clock 11 clocks for each channel (14 clocks for MTU0, 12 clocks
-> +      for MTU2, and 10 clocks for MTU5, four clocks for MTU1-MTU2 combination
-> +      (when LWA = 1))
-> +    - Operating frequency Up to 100 MHz
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Best regards,
-Krzysztof
 
