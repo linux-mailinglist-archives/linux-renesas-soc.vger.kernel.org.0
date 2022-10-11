@@ -2,122 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC42F5FB458
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Oct 2022 16:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 752345FB47D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Oct 2022 16:24:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229799AbiJKONP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Oct 2022 10:13:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48564 "EHLO
+        id S229557AbiJKOYc convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Oct 2022 10:24:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbiJKONO (ORCPT
+        with ESMTP id S229451AbiJKOYb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Oct 2022 10:13:14 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 849925925D;
-        Tue, 11 Oct 2022 07:13:13 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id p14so9293794pfq.5;
-        Tue, 11 Oct 2022 07:13:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=czRWuspWIHlagJO4TEuyucASTDboV9sDSZyO/JWLXqc=;
-        b=Ce+BVV5v8U7whmYd/FcwKuyV+liXHdnCihvE4vxDmi/zFRXHgG5BsKzJlkvJm3ymzp
-         i0kk+obd9ehg5kvdXpvifSYQKkIBJbAwLGSIa8MzHAOItPx5O2ghaGpv98wheUqfKMtx
-         xYK29jqCSGAVqjF4MPQoXzVWPbY3qWyTm0lvTcEBlWPddeF6YcST3WGeI8+5CF6qMkzB
-         /lDnL0m98oNEh6bOyWy8Twswwetn33Cy9kGtv+34nK50zqhZaf/wZPS7BxRAs1neYTBy
-         /bZWo8ysVbEXrzMM/+HfoBHs8qu8Q0eGt0b+IXToEUouhHiAP9GLUrTwNKB7EENxNPMI
-         wO2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=czRWuspWIHlagJO4TEuyucASTDboV9sDSZyO/JWLXqc=;
-        b=R5OW/P2QXydePMlNxYLey0Q6+T7On62EK5bvSbvfdGOzozkk+z9NzDIWd2SdHvuMXv
-         5dIY7zkzXo8Ya4KSifj1KhsCgbEfFZ21ZmSdN5asPC9dMfGrgGra8E2pDDJC4XP/q9ps
-         Y7+feMlvoGHjLvPzGWINtt3pLgCdtvkpxGk2cXrow/897iIyNzvzz8Yt/2sjh1kmjWmO
-         BOE34JhS7QsxsFfGPCm6VoW1p2gMuVVBiUVh1ZbEuWaocfZOHMxgVTmKmuAtW2ffhvzu
-         XzkOTkUx42uRDnstC4mUeC0tD7OA+nwQp2UnV5HT6tIJFba9S0/WH2R+g8P/F45c/Eol
-         XsmQ==
-X-Gm-Message-State: ACrzQf0wsGj09y/1GVcNqcmVDUHJVu0r/Dv40s5iUUT7j/13aVrZEj7q
-        WqrvNl0eCibcawR+dypxVgU=
-X-Google-Smtp-Source: AMsMyM6A7bmN99+8aFFd/V9x8yL+08obUJvhZG8B8wKWgbvIl/Bh1jOgBftu0u99farGA2SFP/OdqQ==
-X-Received: by 2002:a63:8643:0:b0:462:9b02:a0c1 with SMTP id x64-20020a638643000000b004629b02a0c1mr8758435pgd.536.1665497593024;
-        Tue, 11 Oct 2022 07:13:13 -0700 (PDT)
-Received: from sol (110-174-58-111.static.tpgi.com.au. [110.174.58.111])
-        by smtp.gmail.com with ESMTPSA id q17-20020aa79831000000b00563ce1905f4sm1492741pfl.5.2022.10.11.07.13.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Oct 2022 07:13:12 -0700 (PDT)
-Date:   Tue, 11 Oct 2022 22:13:02 +0800
-From:   Kent Gibson <warthog618@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-actions@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
-        alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
-        linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v2 02/36] gpiolib: cdev: Add missed header(s)
-Message-ID: <Y0V57gI75ik4ki3A@sol>
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
- <20221010201453.77401-3-andriy.shevchenko@linux.intel.com>
- <Y0SyVwjDl7NGfTPn@sol>
- <CAHp75Vf4oS8g0zxgismtLrzsJ7AE-bdMEq+GAzx2=Mwnhuk3UA@mail.gmail.com>
- <Y0V0IXF3sASTGdMU@smile.fi.intel.com>
+        Tue, 11 Oct 2022 10:24:31 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8297895AEE
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Oct 2022 07:24:30 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1oiGBB-0007MQ-I1; Tue, 11 Oct 2022 16:24:21 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1oiGB9-000ub5-GJ; Tue, 11 Oct 2022 16:24:19 +0200
+Received: from pza by lupine with local (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1oiGB8-000FZg-RL; Tue, 11 Oct 2022 16:24:18 +0200
+Message-ID: <c41fe00b1e6eb5599da77f959294b05fd73bf069.camel@pengutronix.de>
+Subject: Re: [PATCH v8 2/2] pwm: Add support for RZ/G2L GPT
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Date:   Tue, 11 Oct 2022 16:24:18 +0200
+In-Reply-To: <20221011134135.1930260-3-biju.das.jz@bp.renesas.com>
+References: <20221011134135.1930260-1-biju.das.jz@bp.renesas.com>
+         <20221011134135.1930260-3-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y0V0IXF3sASTGdMU@smile.fi.intel.com>
-X-Spam-Status: No, score=0.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        SUSPICIOUS_RECIPS autolearn=no autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Oct 11, 2022 at 04:48:17PM +0300, Andy Shevchenko wrote:
-> On Tue, Oct 11, 2022 at 11:05:42AM +0300, Andy Shevchenko wrote:
-> > On Tue, Oct 11, 2022 at 3:02 AM Kent Gibson <warthog618@gmail.com> wrote:
-> > > On Mon, Oct 10, 2022 at 11:14:18PM +0300, Andy Shevchenko wrote:
-> 
-> ...
-> 
-> > > > -#include <linux/gpio.h>
-> > > >  #include <linux/gpio/driver.h>
-> > > > +#include <linux/gpio.h>
-> > > > +#include <linux/hte.h>
-> > >
-> > > Ok with the hte re-order.
-> > >
-> > > But moving the gpio subsystem header after the gpio/driver is not
-> > > alphabetical ('.' precedes '/') and it read better and made more sense
-> > > to me the way it was.
-> > 
-> > I see, I guess this is vim sort vs shell sort. Strange, they should
-> > follow the locale settings...
-> 
-> I have checked, the shell and vim sort gave the same result as in this patch.
-> 
+Hi Biju,
 
-The original order (sans hte.h) was done by VSCode Sort Lines Ascending,
-and that still returns the same result.  That matches what I would
-expect to see given the content of the text.
+On Di, 2022-10-11 at 14:41 +0100, Biju Das wrote:
+[...]
+> +static int rzg2l_gpt_probe(struct platform_device *pdev)
+> +{
+[...]
+> +	ret = reset_control_deassert(rzg2l_gpt->rstc);
+> +	if (ret)
+> +		return dev_err_probe(&pdev->dev, ret,
+> +				     "cannot deassert reset control\n");
+> +
+> +	rzg2l_gpt->clk = devm_clk_get(&pdev->dev, NULL);
+> +	if (IS_ERR(rzg2l_gpt->clk))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(rzg2l_gpt->clk),
+> +				     "cannot get clock\n");
 
-And for me vim also gives the original order.
+If devm_clk_get() fails, the reset stays deasserted. Better deassert
+after devm_clk_get().
 
-Just to confirm - is '.' 0x2e and '/' 0x2f in your universe?
-
-Cheers,
-Kent.
-
-
-
+regards
+Philipp
