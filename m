@@ -2,134 +2,183 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 341AA5FBC76
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Oct 2022 22:56:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9668A5FBC7E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Oct 2022 22:56:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229487AbiJKU4D (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Oct 2022 16:56:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55680 "EHLO
+        id S229591AbiJKU4U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Oct 2022 16:56:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbiJKU4C (ORCPT
+        with ESMTP id S229527AbiJKU4S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Oct 2022 16:56:02 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 225EC7B1EC
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Oct 2022 13:56:01 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id r19so860335qtx.6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Oct 2022 13:56:01 -0700 (PDT)
+        Tue, 11 Oct 2022 16:56:18 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 356AA7A74B;
+        Tue, 11 Oct 2022 13:56:17 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id h12so7795831pjk.0;
+        Tue, 11 Oct 2022 13:56:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=phcPnw7dcuc44KZUYWuewvfBJldUOZylGEDx3Dgbnv0=;
-        b=gK4FDT0XfqsXAXX3i8tlIpULdYgu2OgwQyekBVF0lAI5uZlzTod7m7alpHDagNuvQN
-         +cKK6rNGWdF7RHXNn0laAF2Zjn1fmjP4efEUQFNwVLOrnNUVXa4Zg9Bo3tifS0A8xE4T
-         gzoj0dTLVoc18GkfWJ8BvgrbzODRQI6BFppUmuOAqiL1hyIEqYWJcvFr5ugrmq+ZD3b4
-         j/DuK2MUeZQ65DGyWyGLbUQLvxjk2e9BuE05egL/J7YYsBh9GuzGfKp8RVdzTCaUXYZw
-         CUfcTyBtO6ZAnlb4m7aKlYMfZwNtFBE3DcMvvsf6f0F6cUDkYIlhDC8pP1bm5VhUDuzG
-         G5tQ==
+        bh=AcPVh42qVgkJBf4RM2Ey0P8OhTX4x5A+uHddaUsQ6Co=;
+        b=DlfaPAoLX/0Jb1SsUAFBMfuYimfDeLB1Gs+lotFCf5wX/xRNwwaeEjZ5ki70F0YSfL
+         rO7wa9sBAK38Fitsjr8wWeGaTbB17rWj/5uv6Qggo2NMYLqZ3T8nbfHPEpUJcQu2bQ5S
+         2uJcOyvVHU3GCMrUVyQTjgWU857w+EEMu3KOOXzRP0sBYb9WpwXPa+bHwKfdWnDYL1IZ
+         sjB2VBMKHp8LTg0LYEtI3ZlOLTHkYjnwE1T4zHOamUMrxkhqgzXrSXOnblYNQPKxo6AV
+         GmstnP6z2i66RfbJJQ1IzTNkzjBUrVnp0pu77wz8fvzBSAWlB5mtP7EKE8gyxWRookcL
+         WWLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=phcPnw7dcuc44KZUYWuewvfBJldUOZylGEDx3Dgbnv0=;
-        b=hbS2IaoYJdYIVTiD9cPhXTCbMYoEBVF10Difqf1j6cvQB8P4p9idmh3XIdJ/PRbvBg
-         YDk4GToPWSJa0X5ANHp1+K06EoUy5Kx9Ax7xui1eOy9Wi/BbQIvd1n7rGCIgQI/jY2Ge
-         RQ9O8VAXZgtk2q6abaU6q1BXVOExtl7HVmKYu7IJ6JxHVjoZDmiXVXg/yZTrmxahZ+jv
-         1lfRa1n717rUNcC/dgzgJ/A0VUuAp/TWr5tK5b/M3kSAMCMsGi8Z2CqugyG3C5ZX/WTq
-         rE/15QO1yG20cw/VsJ2rMTewjDo9MfweZshKvtPEtOeLEi0x1YBq31I86z0UNRyr8uRE
-         yO6w==
-X-Gm-Message-State: ACrzQf2LZh3/5yl7OS2l0LPMK+OauPKa0sF0Ou4gFMQ/B/WF7PZx/xq5
-        XCU6M9GeDNrt906fy6rH9zJJc7sVoLHKxw==
-X-Google-Smtp-Source: AMsMyM6wAwKQMZAUfQJqFyV8DsusO7fUVSBbFhs+ADw1XJksa8IPxzDLSb4QIsAiccDZ/GI8YgecTg==
-X-Received: by 2002:a05:622a:1650:b0:391:b2cb:6d42 with SMTP id y16-20020a05622a165000b00391b2cb6d42mr20933512qtj.643.1665521760300;
-        Tue, 11 Oct 2022 13:56:00 -0700 (PDT)
-Received: from [192.168.1.57] (cpe-72-225-192-120.nyc.res.rr.com. [72.225.192.120])
-        by smtp.gmail.com with ESMTPSA id l7-20020ac84a87000000b003996aa171b9sm6248217qtq.97.2022.10.11.13.55.59
+        bh=AcPVh42qVgkJBf4RM2Ey0P8OhTX4x5A+uHddaUsQ6Co=;
+        b=s0qEG/YqPzYKf5wwma94gZzg+rApwbx6t5JyvFlCnZX+0sTp2PAov1kYvp/96eClF0
+         nqiVu0v2O1h8v8XkelxVQLKLX2G01q7MB9roL1Ch+iAspfC2hFp0hIW9ZLmrAYOt3PfJ
+         gDM18/pW6Amgt9j5UViiOMY4+TO2peL0dUnFQUMUHN8/nZKGvYpL3GbGg0hs6tjkMPcW
+         i2k5Scg4NqzpBsxwrfc8FAlIbppSW9SjKvQaH2rVsZId8GbYSlCWEbGtTIRQ5YoeNWBS
+         iy7kvvPb7o8nj1jR4lim6Z1EeLFb2m5XwCr/e14XxzuTxvG61Jxc+PniIW0aTtWUs55S
+         XD+w==
+X-Gm-Message-State: ACrzQf08EDOYEfYFeMJXaE5vvH5FjWq7DrfmGeFyZRnB8PtmSDVDovIT
+        /Nw+85don7KMx4EnREjUdCA=
+X-Google-Smtp-Source: AMsMyM5pIEdsgeht0NOYcyruIBhuS4NISKYBTrmuG1I0+RU2v1LFNfTy+oB9jcY4eA/I6+ThSmPvTg==
+X-Received: by 2002:a17:90b:1bc9:b0:20d:75b8:ee5d with SMTP id oa9-20020a17090b1bc900b0020d75b8ee5dmr1171628pjb.147.1665521776548;
+        Tue, 11 Oct 2022 13:56:16 -0700 (PDT)
+Received: from ?IPV6:2600:8802:b00:4a48:7467:a6d1:4211:7f63? ([2600:8802:b00:4a48:7467:a6d1:4211:7f63])
+        by smtp.gmail.com with ESMTPSA id k207-20020a6284d8000000b00537eacc8fa6sm9403022pfd.40.2022.10.11.13.56.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Oct 2022 13:55:59 -0700 (PDT)
-Message-ID: <7b8f1097-e56d-2cb9-337d-c7d771eca6e4@linaro.org>
-Date:   Tue, 11 Oct 2022 16:53:47 -0400
+        Tue, 11 Oct 2022 13:56:15 -0700 (PDT)
+Message-ID: <0684f480-2092-d520-2c8e-bd9a2dca47e3@gmail.com>
+Date:   Tue, 11 Oct 2022 13:56:09 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.2
-Subject: Re: [PATCH v4 4/4] mfd: Add RZ/G2L MTU3 PWM driver
+Subject: Re: [rft, PATCH v2 00/36] pinctrl: Clean up and add missed headers
 Content-Language: en-US
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Lee Jones <lee@kernel.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Kent Gibson <warthog618@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Billy Tsai <billy_tsai@aspeedtech.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-References: <20221010145222.1047748-1-biju.das.jz@bp.renesas.com>
- <20221010145222.1047748-5-biju.das.jz@bp.renesas.com>
- <b701187b-d2aa-eecc-0052-d611d1f45807@linaro.org>
- <OS0PR01MB59227CF4B0D4CA846E24298C86239@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <219922df-5bba-e6ae-fa89-60a9b319424b@linaro.org>
- <OS0PR01MB592269EB3BAE686A2F74B48286239@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <f12dfcd3-ef5c-b422-c00c-35cef082a3ff@linaro.org>
- <OS0PR01MB5922E406D2711AA6B8CD632C86239@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ddfb11e0-0704-1600-d89c-ec8ca1650c38@linaro.org>
- <OS0PR01MB5922130811695F9B906EA62E86239@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <OS0PR01MB5922130811695F9B906EA62E86239@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Prathamesh Shete <pshete@nvidia.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
+        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Joel Stanley <joel@jms.id.au>, Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Sean Wang <sean.wang@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Haojian Zhuang <haojian.zhuang@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 11/10/2022 16:43, Biju Das wrote:
->> Subject: Re: [PATCH v4 4/4] mfd: Add RZ/G2L MTU3 PWM driver
->>
->> On 11/10/2022 16:35, Biju Das wrote:
->>>>>>
->>>>>> So no, here and in other files - don't put subsystem specific
->> code
->>>>>> like PWM or timer into MFD.
->>>>>
->>>>> Where should do we put, if there is single driver to be bind
->> against
->>>>> "renesas,rz-mtu3" and register functionalities for pwm and
->> counter??
->>>>
->>>> Again - how binding is related to this problem? If you have
->> separate
->>>> drivers, e.g. counter, timer and PWM, all go to their respective
->>>> subsystems. Counter goes to counter, timer to timer, PWM to pwm.
->>>
->>> How do you instantiate these drivers with a single compatible
->> "renesas,rz-mtu3"?
->>> If it is separate drivers.
->>>
->>
->> With MFD framework and mfd_cell, just like many, many other drivers.
+
+
+On 10/10/2022 1:14 PM, Andy Shevchenko wrote:
+> Currently the header inclusion inside the pinctrl headers seems more arbitrary
+> than logical. This series is basically out of two parts:
+> - add missed headers to the pin control drivers / users
+> - clean up the headers of pin control subsystem
 > 
-> They all have compatibles for child devices, right??
+> The idea is to have this series to be pulled after -rc1 by the GPIO and
+> pin control subsystems, so all new drivers will utilize cleaned up headers
+> of the pin control.
+> 
+> Please, review and comment.
 
-No
+Did you really need to split this on a per-driver basis as opposed to 
+just a treewide drivers/pinctrl, drivers/media and drivers/gpiolib patch 
+set?
 
-> Can you please Provide an MFD example which has a single compatible and 
-> Multiple child devices in different subsystems??
-
-There is plenty of examples:
-git grep -C 4 'struct mfd_cell'
-
-Even the first search result in MFD directory fits your needs, doesn't it?
-
-Best regards,
-Krzysztof
-
+36 patches seems needlessly high when 4 patches could have achieve the 
+same outcome.
+-- 
+Florian
