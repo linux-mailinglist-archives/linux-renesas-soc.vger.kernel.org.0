@@ -2,105 +2,255 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EB535FB3AD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Oct 2022 15:48:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A676A5FB683
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Oct 2022 17:06:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229901AbiJKNsn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Oct 2022 09:48:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49830 "EHLO
+        id S231478AbiJKPGl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Oct 2022 11:06:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230004AbiJKNs0 (ORCPT
+        with ESMTP id S231503AbiJKPGQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Oct 2022 09:48:26 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD8AE77555;
-        Tue, 11 Oct 2022 06:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665496105; x=1697032105;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QHbuyb2S/uUcVxyF/lwXUqAZuHdBPKm0sW+WbMyb3sc=;
-  b=Pj4BNK+rzzSTyBXemPpBH2NMgeihtQKzOP08GkE32BBDFHsEGUAOjS/g
-   YtBTzP+IhzjASx0CQoxtsOGSgggsc6r1ZngggideScpztEHBpvubxJvM/
-   PrBL8xLU0ZS173Xl1LBsRCKZZsUhVi7fKD8k2d9jHx/MqBAXkHRDZRdt4
-   jP4ZP+oPiaF9m0MFT6RAOay9XKsfteS6LOUKuYpRkK5k6bSbSgcvtu+/L
-   naYmNshmjYqukJl6ZQrLY6QTS7HynU+I2J6mqh2J4UJJdOFmwMHwDGHsu
-   Dh8DYhwk1KYkPnYhlJoeIytZJScs+etnJw5/us2S84x9IdC3nJtnr0iej
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="303244167"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; 
-   d="scan'208";a="303244167"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2022 06:48:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="695068698"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; 
-   d="scan'208";a="695068698"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Oct 2022 06:48:19 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1oiFcH-005KIR-1Z;
-        Tue, 11 Oct 2022 16:48:17 +0300
-Date:   Tue, 11 Oct 2022 16:48:17 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Kent Gibson <warthog618@gmail.com>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-actions@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
-        alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
-        linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v2 02/36] gpiolib: cdev: Add missed header(s)
-Message-ID: <Y0V0IXF3sASTGdMU@smile.fi.intel.com>
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
- <20221010201453.77401-3-andriy.shevchenko@linux.intel.com>
- <Y0SyVwjDl7NGfTPn@sol>
- <CAHp75Vf4oS8g0zxgismtLrzsJ7AE-bdMEq+GAzx2=Mwnhuk3UA@mail.gmail.com>
+        Tue, 11 Oct 2022 11:06:16 -0400
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9518F9DFBC
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Oct 2022 07:59:17 -0700 (PDT)
+Received: by mail-oo1-f47.google.com with SMTP id h1-20020a4aa741000000b004756c611188so10212153oom.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Oct 2022 07:59:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1R2XHYhG7tLGMT55z9AHFkRYDYEPZkrqjvqR781+rik=;
+        b=OtNlsJQCwUO0pK3lonPFFBIxSq/C/dIxlKSqoxwz0erw6PnQWbbN1hAdDBrCgqZHj7
+         n12q7lirRIgIup45NkTApxHWetRL88yHJnGocM3ZUajr1kux40dEn8wcOZbUG19hixjk
+         TkCOit/h/isvmZzOAsBIHCYZ3ju+qazTHuxrmQHclZP3FgPFW9dLARHIOlNWkcaWg0W3
+         1n/jZzMSioNwdYTk1/ivnUyVoSSAzF+4dc2mqwhTa1esZOVs76ciA8NXb/8XoyfVYgrY
+         JDtYBgYFnyJ8+IbXAtyHyN4sswVPsD8GwpMgx8FRafRQUpRbfwhD0s6LQ/MACyY2UkNq
+         WcRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1R2XHYhG7tLGMT55z9AHFkRYDYEPZkrqjvqR781+rik=;
+        b=lGp3kFgqwh6GdqDad6xNiKkBHiMt/qRUZIr/rKaiAaOpa5OM0IUnlhndMvjmOMrpGA
+         OHOJoVRNMPJwfED7sWREMcg41rg3916cH3ZJEbaSfDrm5rWojuWg7RdNkToW9l6XdmAP
+         SirHIkGsDjL+7JYLLr/Mf1HDd6GU9obSynRnifAm7ws+rXCGQJiuKykYBvE0Z/mmVIh5
+         8XzL6qbEhtP0jE7m2hHK8t4GUvDmVzEMD/O3+FqDDWyWGh1+o/KHHwNBCQAvgTWzlHwI
+         A5kEDzrqLfKd87dAOY5OhtgD4+J/4jsluOGo7V/XQrQ0o8dq8HT4A/telDjZslDaSab0
+         Jt/g==
+X-Gm-Message-State: ACrzQf0t3N+U53asOTdvqhvi/m0weU7Mfqf+UDOZaGBahYd0hkQYwhYZ
+        7SPxRJsZOG44f9k7Sthwmv2qEg==
+X-Google-Smtp-Source: AMsMyM7+RHeDbnNXmnCIiVEVspKqSax/L7qWP2DIt63VnePEUfBbYOEJAnsYj5N+3cp5ETgSUSi1gA==
+X-Received: by 2002:a9d:4d07:0:b0:655:eab5:3c01 with SMTP id n7-20020a9d4d07000000b00655eab53c01mr10617844otf.253.1665499979446;
+        Tue, 11 Oct 2022 07:52:59 -0700 (PDT)
+Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
+        by smtp.gmail.com with ESMTPSA id t20-20020a056870f21400b0013191b00f72sm6485882oao.17.2022.10.11.07.52.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Oct 2022 07:52:59 -0700 (PDT)
+Date:   Tue, 11 Oct 2022 09:15:05 -0400
+From:   William Breathitt Gray <william.gray@linaro.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v3 4/4] counter: Add RZ/G2L MTU3 counter driver
+Message-ID: <Y0VsWdrpoAhM2jK3@fedora>
+References: <20221006135717.1748560-1-biju.das.jz@bp.renesas.com>
+ <20221006135717.1748560-5-biju.das.jz@bp.renesas.com>
+ <Y0DUQTMd2TpFTnZS@fedora>
+ <OS0PR01MB5922B6980F38873D494B3937865E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="e/hJ8wYBKKWjMEVp"
 Content-Disposition: inline
-In-Reply-To: <CAHp75Vf4oS8g0zxgismtLrzsJ7AE-bdMEq+GAzx2=Mwnhuk3UA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <OS0PR01MB5922B6980F38873D494B3937865E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Oct 11, 2022 at 11:05:42AM +0300, Andy Shevchenko wrote:
-> On Tue, Oct 11, 2022 at 3:02 AM Kent Gibson <warthog618@gmail.com> wrote:
-> > On Mon, Oct 10, 2022 at 11:14:18PM +0300, Andy Shevchenko wrote:
 
-...
+--e/hJ8wYBKKWjMEVp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > > -#include <linux/gpio.h>
-> > >  #include <linux/gpio/driver.h>
-> > > +#include <linux/gpio.h>
-> > > +#include <linux/hte.h>
-> >
-> > Ok with the hte re-order.
-> >
-> > But moving the gpio subsystem header after the gpio/driver is not
-> > alphabetical ('.' precedes '/') and it read better and made more sense
-> > to me the way it was.
-> 
-> I see, I guess this is vim sort vs shell sort. Strange, they should
-> follow the locale settings...
+On Sat, Oct 08, 2022 at 09:01:21AM +0000, Biju Das wrote:
+> Hi William Breathitt Gray,
+>=20
+> Thanks for the feedback.
 
-I have checked, the shell and vim sort gave the same result as in this patch.
+Hello Biju,
 
--- 
-With Best Regards,
-Andy Shevchenko
+I see that you have already released a v4, so some of my comments may no
+longer apply, but I want to respond here to continue our discussions;
+I'll reiterate any relevant suggestions when I review v4 in the coming
+days.
 
+By the way, if you agree with a review comment there is no need to reply
+with "OK"; just delete the parts you agree with from your response and
+I'll know those are okay. Doing this will reduce the amount of text we
+have to scroll through and thus allow us to focus on just the questions
+we have remaining. ;-)
 
+> > > +/**
+> > > + * struct rz_mtu3_cnt - MTU3 counter private data
+> > > + *
+> > > + * @clk: MTU3 module clock
+> > > + * @lock: Lock to prevent concurrent access for ceiling and count
+> > > + * @rz_mtu3_channel: HW channels for the counters  */ struct
+> > > +rz_mtu3_cnt {
+> > > +	struct clk *clk;
+> > > +	struct mutex lock;
+> > > +	struct rz_mtu3_channel *ch[RZ_MTU3_MAX_HW_CNTR_CHANNELS];
+> >=20
+> > Does this need to be a pointer to an array of struct rz_mtu3_channel?
+>=20
+> Yes, HW has MTU{0..8} channels and MTU{1,2} supports counters
+> At probe time this array is filled with *ch[0]=3D MTU1 and *ch[1]=3D MTU2
+
+In the rz_mtu3_cnt_probe() function I see the rz_mtu3_cnt.ch elements
+manually set to the address of each rz_mtu3.channels element:
+
+    for (i =3D 0; i < RZ_MTU3_MAX_HW_CNTR_CHANNELS; i++) {
+        priv->ch[i] =3D &ddata->channels[RZ_MTU1 + i];
+	priv->ch[i]->dev =3D dev;
+    ...
+
+The rz_mut3.channels member is a contiguous array of struct
+rz_mtu3_channel. If you change the rz_mtu3_channel to a pointer to
+struct rz_mtu3_channel, you can set it to the RZ_MTU1 offset address
+outside of the for loop and thus avoid the double dereference because
+these address are contiguous:
+
+    priv->ch =3D &ddata->channels[RZ_MTU1];
+    for (i =3D 0; i < RZ_MTU3_MAX_HW_CNTR_CHANNELS; i++) {
+	priv->ch[i].dev =3D dev;
+    ...
+
+> > > +	mutex_lock(&priv->lock);
+> > > +	if (ceiling =3D=3D 0) {
+> > > +		rz_mtu3_8bit_ch_write(priv->ch[id], RZ_MTU3_TCR,
+> > > +				      RZ_MTU3_TCR_CCLR_NONE);
+> >=20
+> > Looks like something different is done when ceiling is set to 0. Would
+> > you explain what's happening in this case and why it's different that
+> > then else case below; in other words, what's the difference between
+> > RZ_MTU3_TCR_CCLR_NONE and RZ_MTU3_TCR_CCLR_TGRA?
+>=20
+> RZ_MTU3_TCR_CCLR_TGRA --> for triggering counter count using Z-Phase sign=
+al.
+> RZ_MTU3_TCR_CCLR_NONE --> No clearing.
+
+Does the Z-Phase signal trigger a reset of the counter count back to the
+ceiling value? Does the count loop back to 0 when it passes the ceiling
+value, or does it remain at the ceiling until the direction changes?
+By "no clearing" do you mean that the ceiling is disabled in this case
+and the Counter count increases without limit?
+
+In the Counter subsystem, the "ceiling" Count extension puts an upper
+limit on the Count value. This means that setting "ceiling" to 0 would
+put the upper limit at 0, effectively restricting the Count value to 0
+until the value of "ceiling" is raised.
+
+If the device is unable to support a ceiling value of 0, you should
+return -ERANGE rather than disable the ceiling.
+
+> > > +static void rz_mtu3_16bit_cnt_setting(struct counter_device
+> > *counter,
+> > > +int id) {
+> > > +	struct rz_mtu3_cnt *const priv =3D counter_priv(counter);
+> > > +
+> > > +	priv->ch[id]->function =3D RZ_MTU3_16BIT_PHASE_COUNTING;
+> >=20
+> > If 16-bit phase counting is selected for one 16-bit counter, does the
+> > other 16-bit counter need to be configured as well?
+>=20
+> Not required I guess, as it is run time decision.
+>=20
+> After this, if user tries to enable 16-bit on other channel,
+> we will configure that channel. otherwise, we will return error,
+> if user tries to enable 32-bit channel.
+>=20
+> Are you ok with this?=20
+
+Because the phase mode affects how the device interprets multiple
+channels rather than a specific one, maybe it's better to save this
+state as an enum rz_mtu3_function member of struct rz_mtu3_cnt. Or if
+this is affecting the entire device, move it to your struct rz_mut3 and
+share a pointer to that for your Counter and PWM drivers.
+
+It makes me wonder if the rz_mut3_cnt structure is necessary for this
+Counter driver at all when you could pass a pointer your existing
+rz_mut3 structure instead in order to access the channels.
+
+> > > +	int ret =3D 0;
+> > > +
+> > > +	if (enable) {
+> > > +		pm_runtime_get_sync(ch->dev);
+> > > +		ret =3D rz_mtu3_initialize_counter(counter, count->id);
+> >=20
+> > Are you using the Count's "enable" extension to switch between 16-bit
+> > and 32-bit phase modes?
+>=20
+> No. But will use that for switching on the next version.
+
+Sorry, I wasn't clear with my question. Please do not implement the
+"enable" Count extensions as a way to toggle between the 16-bit and
+32-bit phase modes. The purpose of "enable" is to provide a pause/resume
+mechanism for a Count: the existing count value should be preserved when
+a Count is disabled, and should continue where it left off when the
+Count is enabled.
+
+To support the phase mode selection, implement a Counter device
+extension for that specific purpose. You can use DEFINE_COUNTER_ENUM()
+and COUNTER_COMP_DEVICE_ENUM() to create a device extension that will
+allow users to toggle between "16-bit" and "32-bit" phase modes. If you
+need help with these macros, just let me know.
+
+> > > +		.name =3D "Channel3 Count(32-bit)",
+> >=20
+> > We probably don't need the "(32-bit)" in the name when it's obvious
+> > already from the channel id and ceiling value.
+>=20
+> OK will remove it.
+> >=20
+> > I wonder how this counter is described in the RZ/G2L user
+> > documentation; is it named "Channel 3" or "Channel 1 and 2"?
+>=20
+> It is mentioned as MTU1 and MTU2 channels.
+>=20
+> These channels can be used for phase counting and PWM operations.
+
+We should avoid calling it "Channel 3" in that case to avoid confusion.
+Perhaps "Channel 1 and 2 (combined) Count" would be better; that's just
+something I came up with off the top of my head, but if you can think of
+a better way to phrase it then please do.
+
+William Breathitt Gray
+
+--e/hJ8wYBKKWjMEVp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCY0VsWQAKCRC1SFbKvhIj
+K3EpAQDdKFP5efpN2b1Pne7SW7Do5WOfP9CYPhS9SCeUqxWCmQD8C4b1baU3qrUa
+1eMvvhb5i34i/3XiA2bMcxBBHlpbbAc=
+=Bpq1
+-----END PGP SIGNATURE-----
+
+--e/hJ8wYBKKWjMEVp--
