@@ -2,171 +2,223 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 994265FB4EE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Oct 2022 16:50:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 649CE5FB70F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Oct 2022 17:28:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229882AbiJKOuD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Oct 2022 10:50:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60234 "EHLO
+        id S231172AbiJKP2J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Oct 2022 11:28:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229573AbiJKOuB (ORCPT
+        with ESMTP id S231598AbiJKP1b (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Oct 2022 10:50:01 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0562B1D0FA;
-        Tue, 11 Oct 2022 07:49:57 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 3DECE660235B;
-        Tue, 11 Oct 2022 15:49:51 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1665499795;
-        bh=WjWfvO7t5fdyGrI6m+hgGbT3QH4QBKj79I/hqKmON7Y=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=JOT+AnjvhQZ3vD+INlRyJUZGm23CWRspXdxuJNoFNT/2BU3BDi5IDkH2Yrh9cl34H
-         N8tYn0ib9h2NSJZ2wAIfZfryQVLEoNCgFUyUgtoeB3uep2/6DEsQ7yGEO0febOyHvI
-         hMQps4hKjRpiDfHJVubm1kSgDODcE0fxz35XL3pmTQUoBsYWlj52rSQaBN3or/Qysa
-         Nnl5TlEZJvEM/mGOVrA3G338yKAO4fX3D/W0mLbDZJMGmbluyKM/eYT4wVNA1RFmtD
-         w5vR7Uu6LnwTML9dH9/oGV1Cci4KZACKsyC/Ihfwo8y3IRLkhbhb0iRzW5ZY4Zwh1d
-         X736PHBsaUIKg==
-Message-ID: <74cdcd93-a528-ec8c-0808-0d698b86e47d@collabora.com>
-Date:   Tue, 11 Oct 2022 16:49:48 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v2 14/36] pinctrl: mediatek: Add missed header(s)
-Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Kent Gibson <warthog618@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Billy Tsai <billy_tsai@aspeedtech.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Tue, 11 Oct 2022 11:27:31 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2112.outbound.protection.outlook.com [40.107.113.112])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB7D34B0D9;
+        Tue, 11 Oct 2022 08:18:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C868asH0kl9CuDEEWpq7QNx1+oKCx/GuKWLhIMw/Gr2dreTxSEhhJyei4BeekX1pLbRKIuM/e7YsSr0aMOJdXBexB+JpMJBHKZ7AbhJNdZsOgKiKDeZiwoZD4oLR8x75xJEFxhNT64ywOUKhxdYEbC3SiXKWIDhLa0keYu19RnXc3zCF1xy4PitrPIGUT5UFKcsjr/CCUR5xZIIQ+TrTDwlFK89sSt3bMbNyj1N1qVdU3iZ94HGz7Z/ojV+tAnktWJUWW3z/7Ccra+kD/31VuaA8rpZTwG9WH2E00sm6P3kO5v9K4d0M/i5citDK8AQQSypsQfuQ5hLuk0HYomA5ew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K0D7eWo5A6Y3r0HhUQiv2ncBhfiP0SSRbPDxd2vVBDE=;
+ b=ny70xxXUIIdFKg8G5Peye7KJBzDEvRxm1T/zspLjtw6cMPaKfqyefkDeQJDaayHePRcRlLHbZMtaGDCCXtKPfrpX1/yPE5ooWvKWDM7nfBQASGZRwwhE3w5tVOSweG7RVRpiLSuFQh52Yu9ttGlm/XOo2KBfDkkf7dzKxCcK1k0Ec2xt549BZMwu0/0eN6HSfR0+TgFU0E6TsgfpGsuyTWycsehqYpFkBaX1r7NTuGk2naES8JD/XjQmAoThMcYcdq7SjumUPFjs70kfgBZNf3oh/O+5970EI/JZQCd8RbxoqJqe+PX0PLLtii38mPr8Z1/yycPuGQm/kDozCgQYOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K0D7eWo5A6Y3r0HhUQiv2ncBhfiP0SSRbPDxd2vVBDE=;
+ b=TQa+NW4iXlZ6+cdJGosWEXYGlwIQHxlFcrTFMAlpNh53EHmNDNy+qhS4edN8Sj0elDJpAZT1FYM4XVaf2+UykX2AZHmLjplKk/sT8LYNA6uD5jhNS4tvPO9khgMAFTZPurRZejeY2PAxJTqVuOCibC47auIQ478LoPgsHMyjdEg=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OSZPR01MB8799.jpnprd01.prod.outlook.com (2603:1096:604:15b::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.15; Tue, 11 Oct
+ 2022 14:55:31 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::73a6:588d:1198:7262]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::73a6:588d:1198:7262%9]) with mapi id 15.20.5709.019; Tue, 11 Oct 2022
+ 14:55:30 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        William Breathitt Gray <william.gray@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+CC:     Lee Jones <lee@kernel.org>,
+        =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Fabien Dessenne <fabien.dessenne@foss.st.com>,
-        Prathamesh Shete <pshete@nvidia.com>,
-        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
-        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
-        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Joel Stanley <joel@jms.id.au>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Sean Wang <sean.wang@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Haojian Zhuang <haojian.zhuang@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Andy Gross <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
- <20221010201453.77401-15-andriy.shevchenko@linux.intel.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20221010201453.77401-15-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v4 1/4] dt-bindings: mfd: Document RZ/G2L MTU3a bindings
+Thread-Topic: [PATCH v4 1/4] dt-bindings: mfd: Document RZ/G2L MTU3a bindings
+Thread-Index: AQHY3LfvgCpXQRSGOUCqUs4Dd5zxEq4JRt6AgAAA/2A=
+Date:   Tue, 11 Oct 2022 14:55:30 +0000
+Message-ID: <OS0PR01MB592232C831CCA84FC302212F86239@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20221010145222.1047748-1-biju.das.jz@bp.renesas.com>
+ <20221010145222.1047748-2-biju.das.jz@bp.renesas.com>
+ <8d6b8f0e-d9d7-0d77-aa99-379de768fd5d@linaro.org>
+In-Reply-To: <8d6b8f0e-d9d7-0d77-aa99-379de768fd5d@linaro.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OSZPR01MB8799:EE_
+x-ms-office365-filtering-correlation-id: 29fc9943-80ef-4633-c257-08daab98a47a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 602sPYr3+JX2TaEr11dOc7F6xd5eD2oTMeQkNHgePHl9N7kR0UOehnZcyMpcK8GxFPrLEI+X9mFam9uAQUjeL+RjJ55i5nF/1yHdygclG6JaH8jPm/4EkP+KEUY2w9HUp0ph9vSUVUYfSw0YAXriDftv4VzGVcXkqWtxaucTViuTzeviFvJHcryQoJuic64irc78UahDoM34jXfn+R2WK7WA5X9zJY54rmyFlSWKb7BuM/cgVIos1uYo64y2dNZB+MPmlXBaPe5VIunu6SVUggJmgFDN6jr+d9aicPciwpXCI9HoKKgIufiFj345bPVG2hm3QVsiXSpFsNWd4M6uZhC7R/7aM1TjywiyE3sC0qCzn6mWNWimNVVdBduOV8ylQhPq1bP8AEzyJR5cgMWT4Pg+Rw+fiOAkLrHjRhNFw1F/Gc6CjcGfN5ml/JKigzhxKJi+dNECpK88EXcvorMr+LF1tFYHNaA2SFaNIJt2qJDTZ0o5HjNI/UHILBUh1uwNNvawM+mpCgpiOxE7wuplfqfrA1+1N136+qVEjN0hO8DHxAimDkIhOwpIOv/Zbb2zGtXcVW/gZ0fqF9kL9N5PDWbN61v+OBfVLj05lI+lKPXGc7dch8knCo7bcHQpGSIHnWO2/+XEeVyJxqo3N45NdYmvMLaDdKhRvDcjNWULtOROLpdOQ/c1omJLMKqtq+JME+oQTbjxtSaiFs+nh1sxdlNziz9mobjfrduvhuFBw66re7o87Vf4XZE30XbOgfdPZ/smAgSAi9crkNz3QKeIs/syk0zHauo70A1Sybdw7o4=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(136003)(366004)(346002)(39860400002)(376002)(451199015)(33656002)(5660300002)(52536014)(8676002)(7416002)(66446008)(4326008)(66946007)(76116006)(86362001)(41300700001)(478600001)(8936002)(6506007)(53546011)(26005)(9686003)(83380400001)(7696005)(122000001)(186003)(38100700002)(66476007)(38070700005)(55016003)(54906003)(316002)(64756008)(71200400001)(66556008)(110136005)(2906002)(32563001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?NgUJCajlPonEhK6D0Fs1p4GUs2lRg9QfO6AyJg2H0Y0c/+gW97g5YALXFv?=
+ =?iso-8859-1?Q?9SooltILzkplLW0jUOH3fqEMP16n6y9NVB4oTLiu8W1RsxG16Wysiig7r7?=
+ =?iso-8859-1?Q?O0x7nYdKrtyzHu4ye9kij0UjaJS5mKt4wm/hFsVOT/KxEfT6LuLhKte2ST?=
+ =?iso-8859-1?Q?ssBHtSOt5mTNuKnCUfVV32SLGZC6xmfFAj/pIkk3ph0XdYpwJqLrb3BCZM?=
+ =?iso-8859-1?Q?Z2FOhBNscmjmhEo0SdVSoMMeUgiwHc85cJRmKGzmr+6tBbQwlODr91zhiJ?=
+ =?iso-8859-1?Q?+P2DurOnt+IVw/fzmLfdDTb8FYuOQpTRGiNbf83Yxv0MxTAOtCBIdclQ8H?=
+ =?iso-8859-1?Q?NGSmcufdzDPkegUAhmPJb4YjMQjKewk/tqYXIzUjQxv9R9Y50rIcnwxXPL?=
+ =?iso-8859-1?Q?1tfsT+9fD9GNXHV4rutth/9VnM0Z6QqTdFkn7dY3zfx7oNkx5yFp6eMI0j?=
+ =?iso-8859-1?Q?HAb7jRXjCKAlpMqlPC0FIKXR8CIFn8N8iMZmK7omBa9iIATkSQ/uyvb+Kd?=
+ =?iso-8859-1?Q?KBIcNwgstkMjT2cX4gqjCzXCHdYFC9h7GvYfHLUjpoyH2d364qWIUGjU+b?=
+ =?iso-8859-1?Q?Uw0yRwl2vlbRARwsvPM7MLO3B4wMrjbWK2mG6Gax/CotY9HZYKqrDrxb2N?=
+ =?iso-8859-1?Q?QS9RSzga+IMwc8SVTIgx85miREbYw116wFs8GTRdtugV5OAaX5gPh74CpU?=
+ =?iso-8859-1?Q?OQDvOpjdXDb5fK/2GMcxPkpA/74JyNtBISuDzuUAJ33NE1vIXzPC+dK/jy?=
+ =?iso-8859-1?Q?/cn9+d40ZwsKW9iD2dNYo1CySsGErMMy2Bu6rYeJRWWiOLVeplLTQzp9P8?=
+ =?iso-8859-1?Q?IP2mbPUzJtXbNcrliw58x1jcA6cuIgx7m8rcSq3y9F+RIzT1BJFAPzZXdR?=
+ =?iso-8859-1?Q?/ViXuQ8ttI//fvNVr1oJvDrFzS8w9MMXFvOZnngFEJwyBtyhPcP+Q2XcaT?=
+ =?iso-8859-1?Q?8XUzp3P+5WZQyoMkt2q2fStkdaaCQHi7+xp5MkcnspW/7EjO6TYLNdcdNv?=
+ =?iso-8859-1?Q?v0PYDZpwNtpHVxYOCQyQsDMy0L5MV1uS7ftHZCNKqCmNx/jS6aC2ibykA9?=
+ =?iso-8859-1?Q?rmMbNv+BGeyoxsJpHqg+ETyc+r7nDXBvJI8WzscKkNeOXpK+97OWd12itn?=
+ =?iso-8859-1?Q?8rJzkbLbhWmgVpoEpe0sIO7vCX+KA6vChC/Oy9xYPNfipvRKA3ytmh3FRt?=
+ =?iso-8859-1?Q?OSYzlTuOvGbRdapyJ5BBo+3GI8Bi+6cIM8kTAVKYsYAsc1askKjxKZlRSU?=
+ =?iso-8859-1?Q?q+wjImoHyBPQIhvF/bBi2pp4pUGD7iWzPxyxij3u5Sp5u62I802+AUMCIm?=
+ =?iso-8859-1?Q?ff7+0n8Gm7fugB3/dba2wjlll665c/VXW2zzLuemc7Zk7GkvXcPHt1oMRw?=
+ =?iso-8859-1?Q?Bgw5pT1FF2WK8uDhxY9uHSnCVvNzYrNs6gis/3yGxHuMfYVA7HY7YD0wZN?=
+ =?iso-8859-1?Q?qs9Pbk6+NPphpcO4pcxnmrkPaMetv5x2sheMcPFE02cuUMOIBsDBCqwB35?=
+ =?iso-8859-1?Q?743mzlzjfLzs22CkTpzkK41LmZRMbhjiK/DgTqRjYzDMvyncnQhHTwOtKp?=
+ =?iso-8859-1?Q?N/jyAOOF0/DTmymK+/RrVSWLQC75Zn+aTh+4ckrpSJhggCLThZwTpH4WHm?=
+ =?iso-8859-1?Q?VjUJDxAdyPWZnpZdjwc3cRaIuNaobo4ZUOokQtI5YkfvIomZMXRJSJGA?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29fc9943-80ef-4633-c257-08daab98a47a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Oct 2022 14:55:30.8608
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lymPTnqPrlRcEeiRNWsMdlHLbLZmD0oiEichMYxXgOWlUdNZuWSCvdxWlLOatt7Z2rXnfkP1xLRiT+SSg35dm2Tuo/Uf4ZPU1j/zOhxGSgE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8799
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Il 10/10/22 22:14, Andy Shevchenko ha scritto:
-> Do not imply that some of the generic headers may be always included.
-> Instead, include explicitly what we are direct user of.
-> 
-> While at it, sort headers alphabetically.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->   drivers/pinctrl/mediatek/pinctrl-moore.c | 3 +++
->   drivers/pinctrl/mediatek/pinctrl-paris.c | 5 +++++
->   2 files changed, 8 insertions(+)
-> 
-> diff --git a/drivers/pinctrl/mediatek/pinctrl-moore.c b/drivers/pinctrl/mediatek/pinctrl-moore.c
-> index 526faaebaf77..9474ada5addb 100644
-> --- a/drivers/pinctrl/mediatek/pinctrl-moore.c
-> +++ b/drivers/pinctrl/mediatek/pinctrl-moore.c
-> @@ -9,6 +9,9 @@
->    */
->   
->   #include <linux/gpio/driver.h>
-> +
 
-Apart from this blank line that I deem unnecessary....
+Hi Krzysztof Kozlowski,
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Document RZ/G2L MTU3a
+> bindings
+>=20
+> On 10/10/2022 10:52, Biju Das wrote:
+> > The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
+> > the Renesas RZ/G2L family SoC's. It consists of eight 16-bit timer
+> > channels and one 32-bit timer channel. It supports the following
+> > functions
+> >  - Counter
+> >  - Timer
+> >  - PWM
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> > v3->v4:
+> >  * Dropped counter and pwm compatibeles as they don't have any
+> resources.
+> >  * Made rz-mtu3 as pwm provider.
+> >  * Updated the example and description.
+> > v2->v3:
+> >  * Dropped counter bindings and integrated with mfd as it has only
+> one property.
+> >  * Removed "#address-cells" and "#size-cells" as it do not have
+> children with
+> >    unit addresses.
+> >  * Removed quotes from counter and pwm.
+> >  * Provided full path for pwm bindings.
+> >  * Updated the example.
+> > v1->v2:
+> >  * Modelled counter and pwm as a single device that handles
+> >    multiple channels.
+> >  * Moved counter and pwm bindings to respective subsystems
+> >  * Dropped 'bindings' from MFD binding title.
+> >  * Updated the example
+> >  * Changed the compatible names.
+> > ---
+> >  .../bindings/mfd/renesas,rz-mtu3.yaml         | 305
+> ++++++++++++++++++
+> >  1 file changed, 305 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
+>=20
+> This should not be in MFD. Just because some device has few features,
+> does not mean it should go to MFD... Choose either timer or pwm.
 
+MFD is for multifunction device. This IP supports multiple functions
+like timer, pwm, clock source/events. That is the reason I have added=20
+here. MFD is core which provides register access for client devices.
+
+For me moving it to pwm or counter is not a big problem.
+Why do you think it cannot be MFD?
+
+Cheers,
+Biju
+
+>=20
+>=20
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
+> > b/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
+> > new file mode 100644
+> > index 000000000000..1b0be9f5cd18
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
+> > @@ -0,0 +1,305 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +$id:
+> >
+> > +title: Renesas RZ/G2L Multi-Function Timer Pulse Unit 3 (MTU3a)
+> > +
+> > +maintainers:
+> > +  - Biju Das <biju.das.jz@bp.renesas.com>
+> > +
+> > +description: |
+> > +  This hardware block pconsisting of eight 16-bit timer channels
+> and
+> > +one
+>=20
+> "This hardware block consists of..."
+
+OK, will fix this in next version.
+
+Cheers,
+Biju
 
