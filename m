@@ -2,145 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AE0C5FC887
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Oct 2022 17:38:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BB415FC8E8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Oct 2022 18:10:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229902AbiJLPih (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Oct 2022 11:38:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54414 "EHLO
+        id S229686AbiJLQKu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Oct 2022 12:10:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229745AbiJLPig (ORCPT
+        with ESMTP id S229533AbiJLQKt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Oct 2022 11:38:36 -0400
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46EAFDB750
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Oct 2022 08:38:35 -0700 (PDT)
-Received: by mail-qv1-xf2f.google.com with SMTP id df9so11108201qvb.9
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Oct 2022 08:38:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Z+NMoPOZq1erzKnfhYuGIlvnqtWcZGNnxl2pMMZiBdo=;
-        b=Lz+j6HeJDCFOKr1Gyj43KK/P7fM0J4lk/iKn6dVTn+y8wEIYuHfAh5SyfCA8cJWXhY
-         obM6zp6Ht3x/RTCY18QHtftkGoImtad9ussJ+nBB6PIRujcV9ZF0ToMVFfYrz+uHJyE7
-         O//8XUzkLvspmUOeE2JoBqBQBcO2ByxXbSDnawaDVa9lyljOqF8Nz/iHhC9J119RmLXI
-         c+5t48cJNJRzvuxh441WXhpgdKnpqzzUmU4EioMXHDK5qgeeO8/JrWImvlCVnDVAFvk2
-         vlAcmZCnHC+XdxOJ6l+Va0KmA13NT4iQFf8tNrTrDNbrGO2uouR5BVVtGumAzxTYgWb8
-         ZBZQ==
+        Wed, 12 Oct 2022 12:10:49 -0400
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 639CA5301A;
+        Wed, 12 Oct 2022 09:10:48 -0700 (PDT)
+Received: by mail-oi1-f171.google.com with SMTP id l5so19580941oif.7;
+        Wed, 12 Oct 2022 09:10:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z+NMoPOZq1erzKnfhYuGIlvnqtWcZGNnxl2pMMZiBdo=;
-        b=yxlyCDjx0wQG8sL/1wauY/yr4PtwPgl+RokEspXtJ98yGLNL+pXvj4UZIz4s/oa3eH
-         9nKTEl2QgNMHP0J7HDBVEXyeCOwVGX3NTv+4RuIQwqLZoHWlrrsAbErGp2z8/NqJNQnI
-         AMB93vfzy8WR4KOEPhhRDK6zMvlh0bWouYux2fM/c9TKe31TvVsDBO387MpeeJ1vF8qQ
-         kLRhJZLZjtuR6kkXs6BROra7BDNL0Hg6mh+djw1YzhLeH+xif+D9aZFP8MBovpYPnhqQ
-         cNfAtRFTssX6AeAZdWpRzkFiSTgAhBzAYSZ8MSaOI5ibLDXPTRuwKYsNXu2CfKRCJtC4
-         EZDA==
-X-Gm-Message-State: ACrzQf0QBD+xXi7c5i38Dchrj/Qnno+spqiKudFcpfPqTWzoxGrDq/ZB
-        2ZQdTyc7CJc9EsuDnh8PvVfeXw==
-X-Google-Smtp-Source: AMsMyM6FgPeEeq6o1hXq7OPXCciAymFLlQ+QAF+otIX2xa/uUftSe2ABcXLoRVZM1hDWaM/wexNsPQ==
-X-Received: by 2002:a05:6214:1d01:b0:4b0:b782:15a6 with SMTP id e1-20020a0562141d0100b004b0b78215a6mr24569885qvd.43.1665589114407;
-        Wed, 12 Oct 2022 08:38:34 -0700 (PDT)
-Received: from [192.168.1.57] (cpe-72-225-192-120.nyc.res.rr.com. [72.225.192.120])
-        by smtp.gmail.com with ESMTPSA id m15-20020a05620a13af00b006cfc1d827cbsm15705502qki.9.2022.10.12.08.38.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Oct 2022 08:38:33 -0700 (PDT)
-Message-ID: <57e454f4-6767-bf42-8337-ce1f486137ca@linaro.org>
-Date:   Wed, 12 Oct 2022 11:38:17 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [RFC PATCH 0/2] RZ/G2UL separate out SoC specific parts
-Content-Language: en-US
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v5nfVGttcfS2Qx29EmT7eIAyFp05PRBGUmnlDuw8/8Y=;
+        b=sQu8O2WbchnCdDFkCV9LFX5kgS1dHIUvLNRg2CW1Z+H0r8hz9T96Iuw05pAHAALwJV
+         Qv1l8lSxh5LS0Ffv7Jl51LOi0cFpN6PQWCOIr0zAivWBxzXYKPcq5X1tnyJ8BS+bLcoK
+         suFs4IDqQ7nElvdyNMUWx1jEQah7xArF4nIkYirJi6DwLaywowBiFgeDVWCKNcPFRSzD
+         etIsY5onGa5eFzikRg8YI+o7i/33DC33obW/7mc0FnIR8r4Ml2QvhHyyLhuYv1Pxc/JW
+         ZwvSQehgjc3V1XIrDeb9K0/xE+nbpJxcydp5rlyPKWrL2aGxVpI/yYptCjwcdiTXI8kc
+         nLGw==
+X-Gm-Message-State: ACrzQf3ydLuuIQVD6QeHKQYQF4CXvIn2wmBZOkRDHaYztXyEs8I+o3I1
+        +eKld0dG76zr4wOSo/wmbw==
+X-Google-Smtp-Source: AMsMyM5zySNiT7AeWdpH5HpvgmCX+7J3LX2aiwxqw8PKyFxsH+AFEdoknuBk5bpw4cP5c410opywdg==
+X-Received: by 2002:a05:6808:2226:b0:354:ab07:4f12 with SMTP id bd38-20020a056808222600b00354ab074f12mr2463085oib.234.1665591047619;
+        Wed, 12 Oct 2022 09:10:47 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id b40-20020a4a98eb000000b00480549b424asm1096201ooj.34.2022.10.12.09.10.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Oct 2022 09:10:47 -0700 (PDT)
+Received: (nullmailer pid 2270015 invoked by uid 1000);
+        Wed, 12 Oct 2022 16:10:48 -0000
+Date:   Wed, 12 Oct 2022 11:10:48 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        linux-renesas-soc@vger.kernel.org, linux-pwm@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Conor Dooley <conor.dooley@microchip.com>,
-        Samuel Holland <samuel@sholland.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DT <devicetree@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220929172356.301342-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CA+V-a8vD1+kbby8rbZqYv2Ux1GaT=7n7V9qHJS3Djv-fKdWrAQ@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CA+V-a8vD1+kbby8rbZqYv2Ux1GaT=7n7V9qHJS3Djv-fKdWrAQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, Biju Das <biju.das@bp.renesas.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v8 1/2] dt-bindings: pwm: Add RZ/G2L GPT binding
+Message-ID: <166559104805.2269963.18219742807985150114.robh@kernel.org>
+References: <20221011134135.1930260-1-biju.das.jz@bp.renesas.com>
+ <20221011134135.1930260-2-biju.das.jz@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221011134135.1930260-2-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 10/10/2022 05:41, Lad, Prabhakar wrote:
-> Hi Rob, Krzysztof,
+On Tue, 11 Oct 2022 14:41:34 +0100, Biju Das wrote:
+> Add device tree bindings for the General PWM Timer (GPT).
 > 
-> On Thu, Sep 29, 2022 at 6:24 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
->>
->> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>
->> Hi All,
->>
->> This patch series aims to split up the RZ/G2UL SoC DTSI into common parts
->> so that this can be shared with the RZ/Five SoC.
->>
->> Implementation is based on the discussion [0] where I have used option#2.
->>
->> The Renesas RZ/G2UL (ARM64) and RZ/Five (RISC-V) have almost the same
->> identical blocks to avoid duplication a base SoC dtsi (r9a07g043.dtsi) is
->> created which will be used by the RZ/G2UL (r9a07g043u.dtsi) and RZ/Five
->> (r9a07g043F.dtsi)
->>
->> Sending this as an RFC to get some feedback.
->>
->> r9a07g043f.dtsi will look something like below:
->>
->> #include <dt-bindings/interrupt-controller/irq.h>
->>
->> #define SOC_PERIPHERAL_IRQ_NUMBER(nr)   (nr + 32)
->> #define SOC_PERIPHERAL_IRQ(nr, na)      SOC_PERIPHERAL_IRQ_NUMBER(nr) na
->>
->> #include <arm64/renesas/r9a07g043.dtsi>
->>
->> / {
->>    ...
->>    ...
->> };
->>
->> Although patch#2 can be merged into patch#1 just wanted to keep them separated
->> for easier review.
->>
->> [0] https://lore.kernel.org/linux-arm-kernel/Yyt8s5+pyoysVNeC@spud/T/
->>
->> Cheers,
->> Prabhakar
->>
->> Lad Prabhakar (2):
->>   arm64: dts: renesas: r9a07g043: Introduce SOC_PERIPHERAL_IRQ() macro
->>     to specify interrupt property
-> 
-> Can either of you please review patch #1.
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v7->v8:
+>  * Removed Rb tags from Rob and Geert as it modelled as single GPT
+>    device handling multiple channels.
+>  * Updated description
+>  * Updated interrupts and interrupt-names properties
+>  * Updated example
+> v6->v7:
+>  * No change.
+> v5->v6:
+>  * No change.
+> v4->v5:
+>  * No change.
+> v3->v4:
+>  * No change.
+> v2->v3:
+>  * Added Rb tag from Rob.
+> v1->v2:
+>  * Added '|' after 'description:' to preserve formatting.
+>  * Removed description for pwm_cells as it is common property.
+>  * Changed the reg size in example from 0xa4->0x100
+>  * Added Rb tag from Geert.
+> RFC->v1:
+>  * Added Description
+>  * Removed comments from reg and clock
+> ---
+>  .../bindings/pwm/renesas,rzg2l-gpt.yaml       | 378 ++++++++++++++++++
+>  1 file changed, 378 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rzg2l-gpt.yaml
 > 
 
-Why? This is a DTS patch, isn't it? You should CC rather platform
-maintainers, architecture maintainers and SoC folks (the latter you
-missed for sure). You missed them, so please resend.
-
-Best regards,
-Krzysztof
-
+Reviewed-by: Rob Herring <robh@kernel.org>
