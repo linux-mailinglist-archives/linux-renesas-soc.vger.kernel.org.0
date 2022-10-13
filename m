@@ -2,83 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54A375FD1C8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Oct 2022 02:47:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB5AA5FD27C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Oct 2022 03:23:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232288AbiJMArv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Oct 2022 20:47:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48752 "EHLO
+        id S229653AbiJMBXX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Oct 2022 21:23:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232295AbiJMArg (ORCPT
+        with ESMTP id S229489AbiJMBXV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Oct 2022 20:47:36 -0400
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F260F14D8DC
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Oct 2022 17:40:45 -0700 (PDT)
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-136b5dd6655so642480fac.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Oct 2022 17:40:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qKk00GZ788naBGTxoT5GM72rM2lKT+rrPq0Zst2EeZk=;
-        b=R0vTmFqSXzH7GlHiD/WdG8Fg/fzkiLCENmLCoeZIFYsFDCg9qNK6UZyeufN9Enm5tK
-         VtJ+DY0v0kKovOyZ1Y9u4o8RAkHjijLbeLmP+o3NHj8x6krSZ9Bv5RfK016Hz9XWK2ol
-         0hipL9pepUV7SO7rzMd41iECRnTZLJfT8sohvCy/Irt+8bTFCVFWYaxidnr0xQwEoFbT
-         NY7QZvdGGs7a6J3csxQEd71LZuCzvGIy9vtIiTUQG/CkK1N1aq+UG9vicUr9BV6HIYZX
-         ZFMI0hV+U+b1iymFxpleXGNpyD7MmiBUJONQao5MR9JhUpq4iMM8HY9kkUFAhIwre6kV
-         fJKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qKk00GZ788naBGTxoT5GM72rM2lKT+rrPq0Zst2EeZk=;
-        b=qitRiQqZs/S1/mvJiqqjz3xDJqL4TiAEzEDp5fGajtHd9GZE7EkijKy3rni1SH3nUr
-         QTmdZa7Z8tANk9yDGEJO8angslTXNeb5VJkO/mGRVPPlbGgPetYvWt6ZWaHWYg62OVH+
-         h6eaKnS7yyewcb9oeoFFIlFzGLC49xmaYF0A/WXqZ881KjyRCpMY6tZk5C/ixnF8udO3
-         yitkMWWABt03URJW+JgmZR4HofdJnmx2VLGbFVNjjSfcqCSHNz6RmCSTDmDW2X/pQoNe
-         vUdz5HpDM2CuIkrAfbkLljiv3LyKj8aLzJ1gm5Oh9mFZOQM8NiFfMn75zTMZ9J624Uot
-         eClg==
-X-Gm-Message-State: ACrzQf3toCT+GTOLZGABRfhAunobfYqTfqdvGKIxKCExG3czg6Bj8JLc
-        8GHEQuHy9dFenPvNRHYF4vz4CQPxgjvl7A==
-X-Google-Smtp-Source: AMsMyM6r0jgBppwpsnKdoP6avayVNk2JuobRx5dg9qTljduaWYK6GJTGUF6rtzxoZoRHc39ZOFdNKQ==
-X-Received: by 2002:a05:6808:ec4:b0:354:475a:c101 with SMTP id q4-20020a0568080ec400b00354475ac101mr3425156oiv.56.1665620643659;
-        Wed, 12 Oct 2022 17:24:03 -0700 (PDT)
-Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
-        by smtp.gmail.com with ESMTPSA id r4-20020a05683001c400b00661946468c6sm4975880ota.31.2022.10.12.17.24.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Oct 2022 17:24:03 -0700 (PDT)
-Date:   Wed, 12 Oct 2022 20:24:00 -0400
-From:   William Breathitt Gray <william.gray@linaro.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v3 4/4] counter: Add RZ/G2L MTU3 counter driver
-Message-ID: <Y0daoGTQJM7mo1/U@fedora>
-References: <20221006135717.1748560-1-biju.das.jz@bp.renesas.com>
- <20221006135717.1748560-5-biju.das.jz@bp.renesas.com>
- <Y0DUQTMd2TpFTnZS@fedora>
- <OS0PR01MB5922B6980F38873D494B3937865E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <Y0VsWdrpoAhM2jK3@fedora>
- <OS0PR01MB592280D15AF243C0A5FA93CD86239@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB5922DDC46213E925988C2C9686239@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Wed, 12 Oct 2022 21:23:21 -0400
+Received: from out30-42.freemail.mail.aliyun.com (out30-42.freemail.mail.aliyun.com [115.124.30.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53076D77DA;
+        Wed, 12 Oct 2022 18:23:16 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R631e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=98;SR=0;TI=SMTPD_---0VS19mRS_1665624179;
+Received: from 30.97.48.54(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0VS19mRS_1665624179)
+          by smtp.aliyun-inc.com;
+          Thu, 13 Oct 2022 09:23:04 +0800
+Message-ID: <b7c8afe1-af89-9b5a-2c2c-82a2810ca9f1@linux.alibaba.com>
+Date:   Thu, 13 Oct 2022 09:23:27 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="SqBc1oHt8iHqXeCa"
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB5922DDC46213E925988C2C9686239@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v2 23/36] pinctrl: sprd: Add missed header(s)
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Kent Gibson <warthog618@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Billy Tsai <billy_tsai@aspeedtech.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Prathamesh Shete <pshete@nvidia.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
+        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Joel Stanley <joel@jms.id.au>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Sean Wang <sean.wang@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Haojian Zhuang <haojian.zhuang@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
+ <20221010201453.77401-24-andriy.shevchenko@linux.intel.com>
+From:   Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20221010201453.77401-24-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-10.4 required=5.0 tests=BAYES_00,
+        ENV_AND_HDR_SPF_MATCH,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+        USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -86,45 +131,40 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---SqBc1oHt8iHqXeCa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 11, 2022 at 05:55:50PM +0000, Biju Das wrote:
-> > > > > Looks like something different is done when ceiling is set to 0.
-> > > > > Would you explain what's happening in this case and why it's
-> > > > > different that then else case below; in other words, what's the
-> > > > > difference between RZ_MTU3_TCR_CCLR_NONE and
-> > > RZ_MTU3_TCR_CCLR_TGRA?
-> > > >
-> > > > RZ_MTU3_TCR_CCLR_TGRA --> for triggering counter count using Z-
-> > Phase
-> > > signal.
-> > > > RZ_MTU3_TCR_CCLR_NONE --> No clearing.
-> > >
-> > > Does the Z-Phase signal trigger a reset of the counter count back to
-> > > the ceiling value?
-> >=20
-> > No, It resets to 0.
->=20
-> It reset to 0 for forward counting
-> and resets to U16_MAX or U32_MAX for backword counting
+On 10/11/2022 4:14 AM, Andy Shevchenko wrote:
+> Do not imply that some of the generic headers may be always included.
+> Instead, include explicitly what we are direct user of.
+> 
+> While at it, sort headers alphabetically.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-So when counting backwards, will the value reset to the ceiling value
-when it passes 0?
+LGTM. Thanks.
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
 
-William Breathitt Gray
-
---SqBc1oHt8iHqXeCa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCY0daoAAKCRC1SFbKvhIj
-Kw+6AQD8Olun4md/v+SivFJKnHrGwUlm2lGVYLpvgzcUSvjLBgD9FEOJYC9CnFSg
-92ucwlWAtepEnfFNv8/uFnwBPDPvGgU=
-=VZzI
------END PGP SIGNATURE-----
-
---SqBc1oHt8iHqXeCa--
+> ---
+>   drivers/pinctrl/sprd/pinctrl-sprd.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pinctrl/sprd/pinctrl-sprd.c b/drivers/pinctrl/sprd/pinctrl-sprd.c
+> index dca7a505d413..c1806b7dcf78 100644
+> --- a/drivers/pinctrl/sprd/pinctrl-sprd.c
+> +++ b/drivers/pinctrl/sprd/pinctrl-sprd.c
+> @@ -13,12 +13,14 @@
+>   #include <linux/of.h>
+>   #include <linux/of_device.h>
+>   #include <linux/platform_device.h>
+> +#include <linux/slab.h>
+> +
+> +#include <linux/pinctrl/consumer.h>
+>   #include <linux/pinctrl/machine.h>
+> -#include <linux/pinctrl/pinconf.h>
+>   #include <linux/pinctrl/pinconf-generic.h>
+> +#include <linux/pinctrl/pinconf.h>
+>   #include <linux/pinctrl/pinctrl.h>
+>   #include <linux/pinctrl/pinmux.h>
+> -#include <linux/slab.h>
+>   
+>   #include "../core.h"
+>   #include "../pinmux.h"
