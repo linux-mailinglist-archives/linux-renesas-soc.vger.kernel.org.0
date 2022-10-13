@@ -2,52 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04B005FD8E2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Oct 2022 14:11:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DB985FD8E7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Oct 2022 14:13:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229554AbiJMMLs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Oct 2022 08:11:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34618 "EHLO
+        id S229469AbiJMMM7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Oct 2022 08:12:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229576AbiJMMLn (ORCPT
+        with ESMTP id S229491AbiJMMM6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Oct 2022 08:11:43 -0400
+        Thu, 13 Oct 2022 08:12:58 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEFADF88DC
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Oct 2022 05:11:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56DF2F53E6
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Oct 2022 05:12:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=Bs6UaAtdKRczUE9CXUJ6ws9B8/5Q
-        tcCJT0ZD9hFHa1I=; b=qSMaNS6nmiUAS8Ga4uxIy1OfchpgpUJIkKRXlr6WTjde
-        a0n3bEK+fBAZroabc/SVXiN6zn8gDOliCrhhRe/Vreud5TXVY4QrJj1jDmOsRbbb
-        uEJbjafJ5FmsuhtQRbHEt4zvmYfAej1yAlFTNy7uqp4SPC17E/2vc93KdKZ7SgA=
-Received: (qmail 1098375 invoked from network); 13 Oct 2022 14:11:40 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Oct 2022 14:11:40 +0200
-X-UD-Smtp-Session: l3s3148p1@g0hdaenqTa0ucrUX
-Date:   Thu, 13 Oct 2022 14:11:39 +0200
+        :content-type:in-reply-to; s=k1; bh=V3ttPE0OWRpiM7P8jLqcMA3oC3ic
+        nW/le1crg3SvzN4=; b=ZLvHdjykFpJhYQxeAANbZ504VP9SXqFNeWgAO7zo4OAn
+        Mlr/6G17SwhKvUN6Wq9zUo/Ul4SABK79W7pHWXtbula/IfTZwmvtc3xb+VPGu30G
+        4h+WZANchVtDy+2TWxwKcK/tU0ZmTjaJEJpqXMwAwcunEj7rQV5LH6pBl6z5jos=
+Received: (qmail 1098858 invoked from network); 13 Oct 2022 14:12:55 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Oct 2022 14:12:55 +0200
+X-UD-Smtp-Session: l3s3148p1@mJ3XbenqXYIucrUX
+Date:   Thu, 13 Oct 2022 14:12:54 +0200
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] memory: renesas-rpc-if: Add support for R-Car Gen4
-Message-ID: <Y0gAezsj7gCAvL3U@shikoro>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH] clk: renesas: r8a779g0: Add RPC-IF clock
+Message-ID: <Y0gAxsDGvuGkcD5h@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1665583089.git.geert+renesas@glider.be>
- <4d0824bf5ed0fb95c51cd36f9a3f0f562b1a6bf8.1665583089.git.geert+renesas@glider.be>
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
+References: <f0609c82e742865be753b67a0a6080f193f405ad.1665583328.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5WOA92+W0p1Wi3PQ"
+        protocol="application/pgp-signature"; boundary="avvEzddlTE9n6nSi"
 Content-Disposition: inline
-In-Reply-To: <4d0824bf5ed0fb95c51cd36f9a3f0f562b1a6bf8.1665583089.git.geert+renesas@glider.be>
+In-Reply-To: <f0609c82e742865be753b67a0a6080f193f405ad.1665583328.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
@@ -59,53 +56,41 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---5WOA92+W0p1Wi3PQ
+--avvEzddlTE9n6nSi
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 12, 2022 at 04:01:52PM +0200, Geert Uytterhoeven wrote:
-> The SPI Multi I/O Bus Controller (RPC-IF) on R-Car Gen4 SoCs is very
-> similar to the RPC-IF on R-Car Gen3 SoCs.  It does support four instead
-> of three bits of strobe timing adjustment (STRTIM), and thus requires a
-> new mask and new settings.
+On Wed, Oct 12, 2022 at 04:03:44PM +0200, Geert Uytterhoeven wrote:
+> Add the module clock used by the SPI Multi I/O Bus Controller (RPC-IF)
+> on the Renesas R-Car V4H (R8A779G0) SoC.
 >=20
-> Inspired by a patch in the BSP by Cong Dang.
+> While at it, fix table alignment in the definition of the related
+> RPCSRC internal clock.
 >=20
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-> +#define RPCIF_PHYCNT_STRTIM(v)	(((v) & 0x7) << 15 | ((v) & 0x8) << 24) /=
-* valid for R-Car and RZ/G2{E,H,M,N} */
 
-Very minor but I spent a minute to get it: To make sure the reader
-easily understands that we want to set bit 27, we could make that maybe
-more clear with:
-
-	... | !!((v) & 0x8) << 27)
-
-But if you prefer, we can keep it like this.
-
-
---5WOA92+W0p1Wi3PQ
+--avvEzddlTE9n6nSi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNIAHsACgkQFA3kzBSg
-KbZmvA//bKaE//8bh/0bhSzHJAKP3qLJl5MFpTTBalSsHCgQ1Q44MlxrmWIOk3ki
-XQCMCY943fMYpcNB65kMNONI1FqEUhYPjnTKBvTdgTOOL4fA3Rpt8Rqvos/dOzUZ
-OJgBPcOsrJRcME2Sir6O3hwZQC3iTrw5tDjAUgW7rJhtrptGO6Q3EtQv/yJuu6CK
-Z/FCjGl3Z/hmWi8JwQ49X6WFaJqIG9z9RIc5SR83vzu8Fea8WImGtZahLDNdKZEe
-UJQNuHPH+bRq97DiNXUtwbun4RZZLjBZ5qPWDtBkc2KguoolkAPeBYdV0FcGygyt
-/uRQRXyPc613G8uvsE8U5h1zs1/uv+1ueJuTAbBi6N9o0doXvaeL2nqbmrM9Vvr1
-QtER5cdtoimF7+4qYeR5jLdxFT7TApNaD+0qrBIPFI98QROVq0Bh73MjrP+vyyQ0
-mXhpvQRtINJ356Y03PhfER7n+5tEkI5PRRAlv752u0kQkzVWlLTvgBOhcp34vqE+
-5ibgpp2LD5+iC15arWqCtD7k6vHYF7Tpd6lDXyE5y52izzOAu5rWFgFKAJ4DUdUm
-AKNjcdKQZpyi/pVX+lmpbikQTUkLpPYWwhJYRAXSp8zO3wO49dYpy6WH3lGw7q0V
-GefCSnHE9T7OUXnKBUPE5mvP+0n3go8lIdgRR5XOFy1UoluFW6U=
-=utA2
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNIAMYACgkQFA3kzBSg
+KbZ4BhAAl/tlJvPwC92SAYFBB56lJm+JyyvOB+zZ3Upi3u14k0T9Qrs9pBQW86jE
+U/aOks0a8TB4IqOdtBsxlYbtRypvXowhbCBDa96rQGAEsneLGyS2YS9XILrAieCu
+Lmwma3rUqzFy+dzxYRD0K9kfJjlEyZohG3lrBgUTQBCh65IekrAXcw35sMlZxKt7
+7phgJfEV7Q3BMTDn0CbekXs4qMznell1EE0eguDGFGIqxOcdkpZKweechyLTeyAj
+Zo7+JACOXPSg2fLQaZZBb1bQCMxg7byoj5aBo8OStjPbqY5AS8op2AD4rNhdMRii
+zsFJl6eKUQSWQLNPj5DcXXiKHQcLH+RVMmRWZ0BlT3eAVn1LXG3XCRwoT8Ci8DAn
+XV/f+QdqwBqzmHjLO9rn0cDImMrnC4NLGWpSa1ck47N9PLkwfzBQ+sZIVDzDoVrs
+7sNxMXA6uT8NhrKKaNaC2FyvTanYcDNzp3CkIVUo3cooktL9R1Fxy6OuaJ91Sscx
+XkHn9Lw0GT5KVIxqCpDnGnsLyyKLGfljWHUzpohmamFlzUvuD9H4Dqg/mtXTCfeC
+FErTEkHhiccTT4lLs/vqoT4rOuydfhQ7vgbDtdS3roLK02cylj+LpMOoVlAQOjIj
+jTc2+WtBWWMX7HQ4frpjiux4/WbOp1xh2rzhVnrKQ/3dO9I0NqY=
+=tazu
 -----END PGP SIGNATURE-----
 
---5WOA92+W0p1Wi3PQ--
+--avvEzddlTE9n6nSi--
