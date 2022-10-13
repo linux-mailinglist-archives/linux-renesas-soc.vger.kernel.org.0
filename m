@@ -2,85 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BAAB5FD543
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Oct 2022 08:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5C215FD54B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Oct 2022 08:56:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229617AbiJMGx6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Oct 2022 02:53:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57500 "EHLO
+        id S229700AbiJMG4i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Oct 2022 02:56:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbiJMGx5 (ORCPT
+        with ESMTP id S229788AbiJMG4e (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Oct 2022 02:53:57 -0400
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92AF9326D5;
-        Wed, 12 Oct 2022 23:53:56 -0700 (PDT)
-Received: by mail-qt1-f176.google.com with SMTP id s3so469035qtn.12;
-        Wed, 12 Oct 2022 23:53:56 -0700 (PDT)
+        Thu, 13 Oct 2022 02:56:34 -0400
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A3261162D5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Oct 2022 23:56:33 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id c23so481472qtw.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Oct 2022 23:56:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dJTU43O6Wi9BS2BszmSyodhB+jZB65JGEtu+jXPJK2s=;
-        b=2Gcby0njqNRW/P+djJheQVkbIxuD9FY4RNp/bKzMssvaEzS48jle933yJ76/jI6Fk4
-         ayduEGYZ2774ouDrCQ4sfYB4+odWGcV3Es8OjTouLTs6zOdvWFdxjdF7K/Z+OurpzPcJ
-         n4ZM8WuMizWPVIgALlY7gIS+t6yX1uAqNi6hMUIrqgUnT8br6wocopKLOoE3U0pzCRW8
-         hlbfiQvM5lAO6WOeG20bCEkGPicGbSKOOL755yOv8oMpV7K2PaPk/oGlzJAHenyXjLEW
-         b0B9l9oyGnGCmp/334WUbDztM9VBSnTWf06btfhLBifGwpQ47gVqlbTfg128vXEqx2Qg
-         giGA==
-X-Gm-Message-State: ACrzQf1xDsHibesvn5q7L4hwMw8Wpjq6IgDae9STui6eiOZEBU2hHiWP
-        eAEyhstL07d1K79bARkxMuBxoF3NLZBPIA==
-X-Google-Smtp-Source: AMsMyM4oOCxpiUMZ1PGT3Rz5AUI93Iy62BCz1byPJWE1l9g/9ICcS4bw8KEAAy3SNCGyjlmLn/20lg==
-X-Received: by 2002:ac8:4e8e:0:b0:39c:c256:1465 with SMTP id 14-20020ac84e8e000000b0039cc2561465mr4803337qtp.259.1665644035444;
-        Wed, 12 Oct 2022 23:53:55 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id gb14-20020a05622a598e00b0035cf0f50d7csm14057562qtb.52.2022.10.12.23.53.54
+        bh=Lf/1uO1R6pqNrUpFQ/pk4OR8tctH9f0cwIBfB3aGdO0=;
+        b=4P7DgxohU4emYUfp/EbGYTBd2l7CCeRNhKr24uGsFx9SwNdHQu2ocx/XnMetnrtV6O
+         4FjzjqoZuv2/OsoUlry8DoafKyEv/dFoFswG2iexPZFpsQNn4TF/5zrqyvg8PUNAQ39O
+         cn2RV5y30Xuv6FZGhbgTiOrj3OZQN1STKZ/NMjc/IVjheSmLD0GbQhAgXZAv2wB87pBe
+         kC9zjz5ixZlPiMEAQDHQSiYtcHEJKRJ0PAZBcQE4OwSX66aCUQ1m8eYIN9xhMyCET4Ue
+         P84CSmgCYmlebKBa0/Ix9Aq0lypFFa43CQ8MOTdNWvU4s4s9aDJdBgp3aZES5hDnLW6c
+         DXkg==
+X-Gm-Message-State: ACrzQf0VQcCzFHIONaqIv+SLurRpSjKET0VffExkqkmBxC48SzXnt6O+
+        m0Y1Sk4Xt4RyE9sxS4ZJlOcAxq0w3qJIJg==
+X-Google-Smtp-Source: AMsMyM5h+PRVtKj8EWSzdk0Jd5LhRjZWFWRUendFlHSQ07r/3fdXODyUFz0GGSyECdeT1qZS7aWzAA==
+X-Received: by 2002:a05:622a:450:b0:394:6aeb:832f with SMTP id o16-20020a05622a045000b003946aeb832fmr27019356qtx.398.1665644192441;
+        Wed, 12 Oct 2022 23:56:32 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id do31-20020a05620a2b1f00b006ea5a9984d1sm15541171qkb.94.2022.10.12.23.56.31
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Oct 2022 23:53:55 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id b145so1050991yba.0;
-        Wed, 12 Oct 2022 23:53:54 -0700 (PDT)
-X-Received: by 2002:a25:4fc2:0:b0:6be:afb4:d392 with SMTP id
- d185-20020a254fc2000000b006beafb4d392mr29107744ybb.604.1665644034794; Wed, 12
- Oct 2022 23:53:54 -0700 (PDT)
+        Wed, 12 Oct 2022 23:56:31 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-3560e81aa1dso9465197b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Oct 2022 23:56:31 -0700 (PDT)
+X-Received: by 2002:a81:848c:0:b0:356:e173:2c7a with SMTP id
+ u134-20020a81848c000000b00356e1732c7amr29175104ywf.502.1665644190862; Wed, 12
+ Oct 2022 23:56:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221012184830.3199-1-wsa+renesas@sang-engineering.com> <CAMuHMdWkp_jMLZxCW6atKMy8XPsrhnjX5L6Nm3uZqM+77pvaVw@mail.gmail.com>
-In-Reply-To: <CAMuHMdWkp_jMLZxCW6atKMy8XPsrhnjX5L6Nm3uZqM+77pvaVw@mail.gmail.com>
+References: <cover.1665583435.git.geert+renesas@glider.be> <Y0cSlcx79NPbwM3x@shikoro>
+In-Reply-To: <Y0cSlcx79NPbwM3x@shikoro>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 13 Oct 2022 08:53:43 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXooLEsTz3jV3mT1rSzY0iZcdZacJjhLBEXnroq7avQQA@mail.gmail.com>
-Message-ID: <CAMuHMdXooLEsTz3jV3mT1rSzY0iZcdZacJjhLBEXnroq7avQQA@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r8a779a0: Fix SD0H clock name
+Date:   Thu, 13 Oct 2022 08:56:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWC3ki_RiOgKvxZ53mVzzw9dK=Y=boo8c1e2OmA8NsH7g@mail.gmail.com>
+Message-ID: <CAMuHMdWC3ki_RiOgKvxZ53mVzzw9dK=Y=boo8c1e2OmA8NsH7g@mail.gmail.com>
+Subject: Re: [PATCH 0/2] arm64: dts: renesas: r8a779g0/white-hawk: Add RPC and
+ QSPI FLASH support
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Oct 13, 2022 at 8:53 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Wed, Oct 12, 2022 at 8:48 PM Wolfram Sang
-> <wsa+renesas@sang-engineering.com> wrote:
-> > Correct the misspelled textual name of the SD0H clock.
-> >
-> > Fixes: 470e3f0d0b15 ("clk: renesas: rcar-gen4: Introduce R-Car Gen4 CPG driver")
->
-> Thanks for your patch!
->
-> > Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> I hadn't even noticed the R-Car S4-8 misspelling was copied from V3U ;-)
->
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hi Wolfram,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v6.2.
+On Wed, Oct 12, 2022 at 9:16 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > This patch series adds SPI Multi I/O Bus Controller (RPC-IF) support for
+> > the R-Car V4H SoC, and QSPI FLASH support for the White Hawk board.
+>
+> Did you need to alter the firmware to access it, or did it work out of
+> the box?
+
+It worked out of the box.
+Note that the initial firmware that was on the board was newer, but
+that was lost by installing a firmware stack that did include U-Boot.
 
 Gr{oetje,eeting}s,
 
