@@ -2,55 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 349715FD8B4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Oct 2022 14:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04B005FD8E2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Oct 2022 14:11:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229755AbiJMMBQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Oct 2022 08:01:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41632 "EHLO
+        id S229554AbiJMMLs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Oct 2022 08:11:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbiJMMBP (ORCPT
+        with ESMTP id S229576AbiJMMLn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Oct 2022 08:01:15 -0400
+        Thu, 13 Oct 2022 08:11:43 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5346FE52E5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Oct 2022 05:01:08 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEFADF88DC
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Oct 2022 05:11:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=N7+eHjL6LFM+ESLvcFQjUaWfxnyv
-        zQIZKKCKQXqmslg=; b=G50JIk7tZfJDMAo3k49+2fBwPAbvjLZsZFn5gBoz0DLN
-        a5jP6qU7yyHVVd8KjAHQLpr6tq1ONz+iL7E26bji5Kencl0XadNU1/oPUDj6Mc09
-        vD9wPmHdoS7+A5SD8t6dChEEETtgy1htUY6Jf5dcIN53LlNmBPOMkFEboRcuCc0=
-Received: (qmail 1095071 invoked from network); 13 Oct 2022 14:01:04 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Oct 2022 14:01:04 +0200
-X-UD-Smtp-Session: l3s3148p1@dM9+Q+nqG/EucrUX
-Date:   Thu, 13 Oct 2022 14:01:03 +0200
+        :content-type:in-reply-to; s=k1; bh=Bs6UaAtdKRczUE9CXUJ6ws9B8/5Q
+        tcCJT0ZD9hFHa1I=; b=qSMaNS6nmiUAS8Ga4uxIy1OfchpgpUJIkKRXlr6WTjde
+        a0n3bEK+fBAZroabc/SVXiN6zn8gDOliCrhhRe/Vreud5TXVY4QrJj1jDmOsRbbb
+        uEJbjafJ5FmsuhtQRbHEt4zvmYfAej1yAlFTNy7uqp4SPC17E/2vc93KdKZ7SgA=
+Received: (qmail 1098375 invoked from network); 13 Oct 2022 14:11:40 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Oct 2022 14:11:40 +0200
+X-UD-Smtp-Session: l3s3148p1@g0hdaenqTa0ucrUX
+Date:   Thu, 13 Oct 2022 14:11:39 +0200
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
         Sergei Shtylyov <sergei.shtylyov@gmail.com>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Cong Dang <cong.dang.xn@renesas.com>,
-        Hai Pham <hai.pham.ud@renesas.com>
-Subject: Re: [PATCH 1/2] memory: renesas-rpc-if: Clear HS bit during hardware
- initialization
-Message-ID: <Y0f9/9mcYpXG8Irf@shikoro>
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] memory: renesas-rpc-if: Add support for R-Car Gen4
+Message-ID: <Y0gAezsj7gCAvL3U@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
         Sergei Shtylyov <sergei.shtylyov@gmail.com>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Cong Dang <cong.dang.xn@renesas.com>,
-        Hai Pham <hai.pham.ud@renesas.com>
+        linux-kernel@vger.kernel.org
 References: <cover.1665583089.git.geert+renesas@glider.be>
- <08d9fb10b3051decebf871267a6e2e7cb2d4faf9.1665583089.git.geert+renesas@glider.be>
+ <4d0824bf5ed0fb95c51cd36f9a3f0f562b1a6bf8.1665583089.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="66w0jPitfrxKTN6+"
+        protocol="application/pgp-signature"; boundary="5WOA92+W0p1Wi3PQ"
 Content-Disposition: inline
-In-Reply-To: <08d9fb10b3051decebf871267a6e2e7cb2d4faf9.1665583089.git.geert+renesas@glider.be>
+In-Reply-To: <4d0824bf5ed0fb95c51cd36f9a3f0f562b1a6bf8.1665583089.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
@@ -62,49 +59,53 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---66w0jPitfrxKTN6+
+--5WOA92+W0p1Wi3PQ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 12, 2022 at 04:01:51PM +0200, Geert Uytterhoeven wrote:
-> From: Cong Dang <cong.dang.xn@renesas.com>
+On Wed, Oct 12, 2022 at 04:01:52PM +0200, Geert Uytterhoeven wrote:
+> The SPI Multi I/O Bus Controller (RPC-IF) on R-Car Gen4 SoCs is very
+> similar to the RPC-IF on R-Car Gen3 SoCs.  It does support four instead
+> of three bits of strobe timing adjustment (STRTIM), and thus requires a
+> new mask and new settings.
 >=20
-> According to the datasheet, HS bit should be specified to 1 when using
-> DMA transfer. As DMA transfer is not supported, it should be cleared to
-> 0.
+> Inspired by a patch in the BSP by Cong Dang.
 >=20
-> Previously, the driver relied on the HS bit being cleared by prior
-> firmware but this is not always the case.
->=20
-> Fix this by ensuring the bit is cleared during hardware initialization.
->=20
-> Fixes: ca7d8b980b67f133 ("memory: add Renesas RPC-IF driver")
-> Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
-> Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
+> +#define RPCIF_PHYCNT_STRTIM(v)	(((v) & 0x7) << 15 | ((v) & 0x8) << 24) /=
+* valid for R-Car and RZ/G2{E,H,M,N} */
 
---66w0jPitfrxKTN6+
+Very minor but I spent a minute to get it: To make sure the reader
+easily understands that we want to set bit 27, we could make that maybe
+more clear with:
+
+	... | !!((v) & 0x8) << 27)
+
+But if you prefer, we can keep it like this.
+
+
+--5WOA92+W0p1Wi3PQ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNH/f8ACgkQFA3kzBSg
-KbYkAg//XV7tD7sfp+dZnLRiest7WjeH/nUh7Us4MDiw8WSSb3kkgKNIeXufAAYo
-3zm3Rp/bX7B/xPnImZosl26jcjWK18NP1rVezTzhKQENQ3K13uOOjDI8pU3c9tg1
-jbU4WTYso/mjqe4vHLB2WpJsR6FCHjGs9tQ2ii4Ta7PpQBodhlQISB6RH6Vllrt/
-3d+cHL+EexdbVXhFKUDdgrGq11VanihCFOITVV1cwWi2blnybcugTlNNXchYOKQw
-VTmyCcwnSKVitHZmLmBEO0ftFnaV/TkmJ3NSjG6vI2QAw5yh9rG9rPC8rXFLLYCW
-xdJqRqC5uUOKYtEzpJaL5k4x7nfjm4i5OWJEhLRg7H7HvqTvEcH7+dil99lksE4Y
-sOeB/abONu+wdP6d6ac1rFWtyYNbyDWB802ALeqQ8/hsHPBp/+1CXq3B/sdpxfj0
-KBDa9tEkqrQ5G6RG2gtQxTWaGRldPiu8ZapmW1nkDvuUh69+JE4G+CZCEFpXtGUX
-X1fdaqSLlQq3VXRME2/O6Bv3nsEvET6lf8dbA2mTSEL6sCHWDWw/pzgUkvjEHN3e
-xTJDpZzEciCB4q4w6gZS9P+rBEXJ8N3FxXjj+iguDlWLeAadLoVpubYtK+U3DX/H
-q6f1E/Jq65f9XKT9L1BaXgJxLze3je8MwN0KgE6E21IGr+kAoow=
-=UBIc
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNIAHsACgkQFA3kzBSg
+KbZmvA//bKaE//8bh/0bhSzHJAKP3qLJl5MFpTTBalSsHCgQ1Q44MlxrmWIOk3ki
+XQCMCY943fMYpcNB65kMNONI1FqEUhYPjnTKBvTdgTOOL4fA3Rpt8Rqvos/dOzUZ
+OJgBPcOsrJRcME2Sir6O3hwZQC3iTrw5tDjAUgW7rJhtrptGO6Q3EtQv/yJuu6CK
+Z/FCjGl3Z/hmWi8JwQ49X6WFaJqIG9z9RIc5SR83vzu8Fea8WImGtZahLDNdKZEe
+UJQNuHPH+bRq97DiNXUtwbun4RZZLjBZ5qPWDtBkc2KguoolkAPeBYdV0FcGygyt
+/uRQRXyPc613G8uvsE8U5h1zs1/uv+1ueJuTAbBi6N9o0doXvaeL2nqbmrM9Vvr1
+QtER5cdtoimF7+4qYeR5jLdxFT7TApNaD+0qrBIPFI98QROVq0Bh73MjrP+vyyQ0
+mXhpvQRtINJ356Y03PhfER7n+5tEkI5PRRAlv752u0kQkzVWlLTvgBOhcp34vqE+
+5ibgpp2LD5+iC15arWqCtD7k6vHYF7Tpd6lDXyE5y52izzOAu5rWFgFKAJ4DUdUm
+AKNjcdKQZpyi/pVX+lmpbikQTUkLpPYWwhJYRAXSp8zO3wO49dYpy6WH3lGw7q0V
+GefCSnHE9T7OUXnKBUPE5mvP+0n3go8lIdgRR5XOFy1UoluFW6U=
+=utA2
 -----END PGP SIGNATURE-----
 
---66w0jPitfrxKTN6+--
+--5WOA92+W0p1Wi3PQ--
