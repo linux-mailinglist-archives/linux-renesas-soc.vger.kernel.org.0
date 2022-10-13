@@ -2,54 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C82625FCB5E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Oct 2022 21:16:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 675785FD05B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Oct 2022 02:26:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229652AbiJLTQl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Oct 2022 15:16:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50590 "EHLO
+        id S230360AbiJMA0J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Oct 2022 20:26:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229807AbiJLTQl (ORCPT
+        with ESMTP id S230363AbiJMAY2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Oct 2022 15:16:41 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E0BBD8EC3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Oct 2022 12:16:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=KT0tcmcQzZyWogOD3cbS21db8dEZ
-        zVFVycpKkeTp1fE=; b=dLcoWxbHRaE3DMLmuZp6VTaNWs9r7iq9A+Fq3DpEB7Tg
-        GdaGLwdD9H1hO2ens7UaS1gnz1eMX61lzuw/I9iVgY0sfaz1Y7yb8vYwMMt9PzMK
-        6gmoS/zGV5HbjjIm/tr+9Rvnu4qfw53ZklSVQqfy5UoomN+Aj8A4ZDaJLYy0Ae8=
-Received: (qmail 819953 invoked from network); 12 Oct 2022 21:16:38 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Oct 2022 21:16:38 +0200
-X-UD-Smtp-Session: l3s3148p1@LKRUO9vqOocgAwDtxxN7ABspc7EPVowl
-Date:   Wed, 12 Oct 2022 21:16:37 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 0/2] arm64: dts: renesas: r8a779g0/white-hawk: Add RPC
- and QSPI FLASH support
-Message-ID: <Y0cSlcx79NPbwM3x@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Wed, 12 Oct 2022 20:24:28 -0400
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1978813CC2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Oct 2022 17:23:57 -0700 (PDT)
+Received: by mail-qt1-x829.google.com with SMTP id a24so123809qto.10
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Oct 2022 17:23:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+vM1Pq6pizJAQjF6d0WUQMuk01qOUpPCFDdYQ3Ehce8=;
+        b=Q6xPY7GHL/VI7cIryPepuHleBoXyhYKfqHP+0RLBPS+dYi3N5bWuqNmXerkiYqttJb
+         TJcf5TuL88lhHWKqQuwJ/sXyknbKudYOUP8o98wIJ74T7VD0avn6CfdUKaMfUpo50Xk/
+         N7VGAN8Cz+z6CeDiEddWvt5bOYWuMTygxsAOrZ5aDryqTkyiUZYjNNmmeAmHiXAth2+r
+         gxBoYlMoAQy7t8DpJZvo9STlbla2q3ASS2DJNfedcOW2+OD1lbcmka0OrnOR3dbB65sQ
+         qnnxMmBGLAUeUNAlNQr1KtSi+f5JNtV8X//Jr9uevbBK7VeE1nNwEfjnehOqJXtAU44B
+         YF0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+vM1Pq6pizJAQjF6d0WUQMuk01qOUpPCFDdYQ3Ehce8=;
+        b=4j6H97OTSKLbtPtyKZVx0lU+irLXz09zv7lD2P2Xvj654VhWATJiGkf/mvYiGZeboa
+         LJxDGkWwE634kfpHWVDwbphu6e6V7y5bal+Is0FInhnI3+/S9ckEsfnAqyMUvCllMZRY
+         EW/pzDsrZaVRj3NlnKKrgvJI7fqZNP/dVu60XZtW0UxtnOsaFceczcLY/9ntT1p/abEP
+         AZYv7jQyixmIWAK/uaGD5ZnUHJzdAdQk1vuSIBnp4Mld5DSi5BnQQ1l1X22HikFGXTRm
+         hbVTu4Oby/YHapn3iVxR3hU54Eziyj0z8OcpvKOoC/xZVVXyyxjJHAakUGgY2ZV9em1x
+         WWFg==
+X-Gm-Message-State: ACrzQf2hYq4JVVtatF2Y7HMMN+e0cUiuE502YFON8BeY3x27jOqVOvTN
+        0yk2ACYPaPU6y3wXooYGVtUwSXU4zBp42A==
+X-Google-Smtp-Source: AMsMyM67fxRbKy5Iqz/XDJ/snoBSe3gb3BinrTx9cGx95Is05iVJ3Iq6kgCkFlziWy1piJYcQ5iamw==
+X-Received: by 2002:a05:622a:546:b0:393:7334:65de with SMTP id m6-20020a05622a054600b00393733465demr26217697qtx.504.1665620371659;
+        Wed, 12 Oct 2022 17:19:31 -0700 (PDT)
+Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
+        by smtp.gmail.com with ESMTPSA id f11-20020ac8068b000000b0039853b7b771sm10371672qth.80.2022.10.12.17.19.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Oct 2022 17:19:30 -0700 (PDT)
+Date:   Wed, 12 Oct 2022 20:19:28 -0400
+From:   William Breathitt Gray <william.gray@linaro.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <cover.1665583435.git.geert+renesas@glider.be>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v3 4/4] counter: Add RZ/G2L MTU3 counter driver
+Message-ID: <Y0dZkOAGlVGKup1v@fedora>
+References: <20221006135717.1748560-1-biju.das.jz@bp.renesas.com>
+ <20221006135717.1748560-5-biju.das.jz@bp.renesas.com>
+ <Y0DUQTMd2TpFTnZS@fedora>
+ <OS0PR01MB5922B6980F38873D494B3937865E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <Y0VsWdrpoAhM2jK3@fedora>
+ <OS0PR01MB592280D15AF243C0A5FA93CD86239@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="iDZjrwiS0JZhVsM7"
+        protocol="application/pgp-signature"; boundary="3/itvaV4N/gk6Vxb"
 Content-Disposition: inline
-In-Reply-To: <cover.1665583435.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <OS0PR01MB592280D15AF243C0A5FA93CD86239@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -57,41 +84,67 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---iDZjrwiS0JZhVsM7
+--3/itvaV4N/gk6Vxb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+On Tue, Oct 11, 2022 at 03:50:38PM +0000, Biju Das wrote:
+> > To support the phase mode selection, implement a Counter device
+> > extension for that specific purpose. You can use DEFINE_COUNTER_ENUM()
+> > and COUNTER_COMP_DEVICE_ENUM() to create a device extension that will
+> > allow users to toggle between "16-bit" and "32-bit" phase modes. If
+> > you need help with these macros, just let me know.
+>=20
+> Yes please, that will be helpful.=20
+>=20
+> Cheers,
+> Biju
 
-> This patch series adds SPI Multi I/O Bus Controller (RPC-IF) support for
-> the R-Car V4H SoC, and QSPI FLASH support for the White Hawk board.
+It'll look something like this::
 
-Did you need to alter the firmware to access it, or did it work out of
-the box?
+    static const char *const rz_mtu3_phase_counting_modes[] =3D {
+            "16-bit",
+            "32-bit",
+    };
+   =20
+    static int rz_mtu3_phase_counting_mode_get(struct counter_device *count=
+er,
+                                               u32 *phase_counting_mode);
+    static int rz_mtu3_phase_counting_mode_set(struct counter_device *count=
+er,
+                                               u32 phase_counting_mode);
+   =20
+    static DEFINE_COUNTER_ENUM(rz_mtu3_phase_counting_mode_enum,
+                               rz_mtu3_phase_counting_modes);
+   =20
+    static struct counter_comp rz_mtu3_device_ext[] =3D {
+            COUNTER_COMP_DEVICE_ENUM("phase_counting_mode",
+                                     rz_mtu3_phase_counting_mode_get,
+                                     rz_mtu3_phase_counting_mode_set,
+                                     rz_mtu3_phase_counting_mode_enum),
+    };
 
-Happy hacking,
+Using the get/set callbacks, you can get/set the index for the
+respective mode of your rz_mtu3_phase_counting_modes array.
 
-   Wolfram
+In rz_mtu3_cnt_probe() you could set the counter_device ext member to
+rz_mtu3_device_ext. This will make the extensions appear in the sysfs
+tree for your Counter device. You should also add a new entry in
+Documentation/ABI/testing/sysfs-bus-counter to document this new sysfs
+file.
 
+William Breathitt Gray
 
---iDZjrwiS0JZhVsM7
+--3/itvaV4N/gk6Vxb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNHEpUACgkQFA3kzBSg
-Kbbe8A//USwScBhv58teJ8mQ++4AzbX9rS8OrRHhLdN0d0+qRIEDztu/013uDiiy
-sXg6yk+6ufG8QzKX+6LWHXIGLKRuAVTE92+p+WStnYQ7IDtaG24enA3uNUNYEdPr
-L+vxrg/XVP+ScEPs9aXCBkNoRDhWrtMDEvRNARfZQzk8w703mYw0qJn9BlmOUSmw
-ZxhQmj3mW0PfRmIcfF7ankyBYkzOsWF0vRKpFbJcjk/JbeyvePeK/f1XIxcsJXWp
-sBYhZzlGl99Gh9P8EqiVx24aNQeTRVbL+Ochs4eKmPJiZdymtBDGvPGnDYDu6KVQ
-LkUdcGmG7ee05xsP4Xcbole0KAMQDkdUHZrBpijKmyvgaizAmwzAckkn3LpFejWW
-9FR6qW9hgtRlBfJfhFTVMc5nOMI+rFX1prboLCj0tx0RiXzLa67VluKoHjYaJcGR
-boHjUxE6nFtN/qf+p/FLKfnd3VGsYjvuVf/d3AG09o6iYi9UJkfKxPJo04z1S0C9
-tZbOiMYUirSfQQvzsW37uYauIVs3NaFvXy3FsgvR8TDH11oM3siS+9iGWo1u06oU
-TmEYhkIo6bJgn6LXUXb5eV5DpoDOpoAw+9DwbZESt/sPiO42LnVYepTl4kKNLt02
-UveuKgSKdEpOJP+rPKVR22q1m0MdDdJ+6PWmRlDcLsq0EQRyxck=
-=HCiS
+iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCY0dZkAAKCRC1SFbKvhIj
+K4uhAQDXAEzRAPEwNp+jKPEWWJSkCu8qqQuaCmZCDGbWt6gncQD/ch8PskJWzhpX
+tH6RCE5eVgu+jT6nmyWSwBxJOq61YQ8=
+=cpQc
 -----END PGP SIGNATURE-----
 
---iDZjrwiS0JZhVsM7--
+--3/itvaV4N/gk6Vxb--
