@@ -2,67 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5C215FD54B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Oct 2022 08:56:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88C1F5FD550
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Oct 2022 09:02:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229700AbiJMG4i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Oct 2022 02:56:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37584 "EHLO
+        id S229484AbiJMHC1 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Oct 2022 03:02:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229788AbiJMG4e (ORCPT
+        with ESMTP id S229470AbiJMHC0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Oct 2022 02:56:34 -0400
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A3261162D5
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Oct 2022 23:56:33 -0700 (PDT)
-Received: by mail-qt1-f180.google.com with SMTP id c23so481472qtw.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Oct 2022 23:56:33 -0700 (PDT)
+        Thu, 13 Oct 2022 03:02:26 -0400
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F34C8EC508;
+        Thu, 13 Oct 2022 00:02:25 -0700 (PDT)
+Received: by mail-qk1-f169.google.com with SMTP id a18so604835qko.0;
+        Thu, 13 Oct 2022 00:02:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Lf/1uO1R6pqNrUpFQ/pk4OR8tctH9f0cwIBfB3aGdO0=;
-        b=4P7DgxohU4emYUfp/EbGYTBd2l7CCeRNhKr24uGsFx9SwNdHQu2ocx/XnMetnrtV6O
-         4FjzjqoZuv2/OsoUlry8DoafKyEv/dFoFswG2iexPZFpsQNn4TF/5zrqyvg8PUNAQ39O
-         cn2RV5y30Xuv6FZGhbgTiOrj3OZQN1STKZ/NMjc/IVjheSmLD0GbQhAgXZAv2wB87pBe
-         kC9zjz5ixZlPiMEAQDHQSiYtcHEJKRJ0PAZBcQE4OwSX66aCUQ1m8eYIN9xhMyCET4Ue
-         P84CSmgCYmlebKBa0/Ix9Aq0lypFFa43CQ8MOTdNWvU4s4s9aDJdBgp3aZES5hDnLW6c
-         DXkg==
-X-Gm-Message-State: ACrzQf0VQcCzFHIONaqIv+SLurRpSjKET0VffExkqkmBxC48SzXnt6O+
-        m0Y1Sk4Xt4RyE9sxS4ZJlOcAxq0w3qJIJg==
-X-Google-Smtp-Source: AMsMyM5h+PRVtKj8EWSzdk0Jd5LhRjZWFWRUendFlHSQ07r/3fdXODyUFz0GGSyECdeT1qZS7aWzAA==
-X-Received: by 2002:a05:622a:450:b0:394:6aeb:832f with SMTP id o16-20020a05622a045000b003946aeb832fmr27019356qtx.398.1665644192441;
-        Wed, 12 Oct 2022 23:56:32 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id do31-20020a05620a2b1f00b006ea5a9984d1sm15541171qkb.94.2022.10.12.23.56.31
-        for <linux-renesas-soc@vger.kernel.org>
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xFBaFZ7wolEO3qxhb8a8NTy+t9VBo3V4xaw2Z47Lf1s=;
+        b=L3tOdsVb+L/1POZfeJkWDtRKL7xfWX0F32Axach71uU/s7Ph9sv3U3ykfsFXXWEB//
+         uT0NJN9hmGX0W2iY/9oixxt88U53m3dJSgPmCxR2xwpaFlydFHj5qrdHCCjtgUZBxLCs
+         5RZl+PmchiPRVGGeLavQwq14+WoGoT4TZVqXoKQE6C9NgF4LtRPIyekQJKPbI7DrqEOF
+         Puv2b9IcMTOVbLWWsm9xBFIEKFcN6PRrJPKYsRgOEpFnTWxqs0m5EoDu1cT2c/FUiwgf
+         hreMhbbC0SswMTlJtO1zchjRi9PyK2uV+AbpwFkUhbSkXk8c3jvB4lfaV3v7fyeAwKe3
+         iuCQ==
+X-Gm-Message-State: ACrzQf0jegxhDDq16N9oTiOYHfmgd4ADkHRyuQXOGQoA7zc9OSa81QH0
+        SOVsPeo43tPW4Xbp+uy9pHfsoC0F5ly+Yw==
+X-Google-Smtp-Source: AMsMyM4VH64S8ACfmdrDYIm9b982nJK440VCmPN4xJRJlHYLOSrhjqqoFK063HKkbKpLwG8BHia/2A==
+X-Received: by 2002:a37:be86:0:b0:6cf:b1aa:7476 with SMTP id o128-20020a37be86000000b006cfb1aa7476mr22699840qkf.715.1665644544854;
+        Thu, 13 Oct 2022 00:02:24 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id ay11-20020a05620a178b00b006bb78d095c5sm16746965qkb.79.2022.10.13.00.02.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Oct 2022 23:56:31 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-3560e81aa1dso9465197b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Oct 2022 23:56:31 -0700 (PDT)
-X-Received: by 2002:a81:848c:0:b0:356:e173:2c7a with SMTP id
- u134-20020a81848c000000b00356e1732c7amr29175104ywf.502.1665644190862; Wed, 12
- Oct 2022 23:56:30 -0700 (PDT)
+        Thu, 13 Oct 2022 00:02:23 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-3608b5e634aso9441637b3.6;
+        Thu, 13 Oct 2022 00:02:23 -0700 (PDT)
+X-Received: by 2002:a81:5a57:0:b0:353:6de6:3263 with SMTP id
+ o84-20020a815a57000000b003536de63263mr29669742ywb.358.1665644543462; Thu, 13
+ Oct 2022 00:02:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1665583435.git.geert+renesas@glider.be> <Y0cSlcx79NPbwM3x@shikoro>
-In-Reply-To: <Y0cSlcx79NPbwM3x@shikoro>
+References: <c268cb4497cbe79773bb6568f36c37adc6fb5bbe.1665582645.git.geert+renesas@glider.be>
+ <Y0cPpJin64ou4ivI@shikoro>
+In-Reply-To: <Y0cPpJin64ou4ivI@shikoro>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 13 Oct 2022 08:56:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWC3ki_RiOgKvxZ53mVzzw9dK=Y=boo8c1e2OmA8NsH7g@mail.gmail.com>
-Message-ID: <CAMuHMdWC3ki_RiOgKvxZ53mVzzw9dK=Y=boo8c1e2OmA8NsH7g@mail.gmail.com>
-Subject: Re: [PATCH 0/2] arm64: dts: renesas: r8a779g0/white-hawk: Add RPC and
- QSPI FLASH support
+Date:   Thu, 13 Oct 2022 09:02:11 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUqp6J8PZOx57tGpKZKxQBY_bkU7b8Kiqu9DNjmj2vCGg@mail.gmail.com>
+Message-ID: <CAMuHMdUqp6J8PZOx57tGpKZKxQBY_bkU7b8Kiqu9DNjmj2vCGg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: memory: renesas,rpc-if: Document R-Car V4H support
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hai Pham <hai.pham.ud@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -71,17 +73,28 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Wolfram,
 
-On Wed, Oct 12, 2022 at 9:16 PM Wolfram Sang
+On Wed, Oct 12, 2022 at 9:04 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> > This patch series adds SPI Multi I/O Bus Controller (RPC-IF) support for
-> > the R-Car V4H SoC, and QSPI FLASH support for the White Hawk board.
+> On Wed, Oct 12, 2022 at 03:51:46PM +0200, Geert Uytterhoeven wrote:
+> > From: Hai Pham <hai.pham.ud@renesas.com>
+> >
+> > Document support for the SPI Multi I/O Bus Controller (RPC-IF) in the
+> > R-Car V4H SoC.
+> >
+> > Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 >
-> Did you need to alter the firmware to access it, or did it work out of
-> the box?
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-It worked out of the box.
-Note that the initial firmware that was on the board was newer, but
-that was lost by installing a firmware stack that did include U-Boot.
+Thanks!
+
+> What about moving V3U to the new Gen4 section?
+
+I actually wrote such a patch a while back.
+However, I didn't send it after discovering the R-Car V3U Series
+User’s Manual Rev. 0.50 does not mention the fourth Strobe Timing
+Adjustment bit (STRTIM) in the RPC-IF PHY Control Register (PHYCNT),
+which is present on R-Car S4-8 and V4H, but not on R-Car Gen3.
 
 Gr{oetje,eeting}s,
 
