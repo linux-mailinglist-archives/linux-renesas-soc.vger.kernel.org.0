@@ -2,118 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF9875FF0DF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Oct 2022 17:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88F885FF39F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Oct 2022 20:35:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229941AbiJNPLq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Oct 2022 11:11:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38002 "EHLO
+        id S230164AbiJNSfb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 Oct 2022 14:35:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229942AbiJNPLn (ORCPT
+        with ESMTP id S230414AbiJNSf2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Oct 2022 11:11:43 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54C871CF54B;
-        Fri, 14 Oct 2022 08:11:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665760302; x=1697296302;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=N/njfTWM92urhDh1tc8kt06mInCQV3hTHb5sdf7xqk0=;
-  b=bYM9g6tVvtVxav3WaIrakhmyROkTIIboxfH+Snti7Ci8xFZNO4FolujL
-   thOBhsuC2TfFHL04DoRxG5S2eUY/pAV0ZXb0LWpYmunDj/ubmUPdfkPSY
-   lNHnGkeaZMzKLb684jH0zXNvWWJdgTnh0v0EcW4qCAjgpfJ+TBq5lwWg2
-   1euRJ0TRDrJx5ddSw44StElwH8iUvgQNGC6z3xIaZe9/ef+zoNkL0R21m
-   AGZv/jOUPRKHS0+dy0loDJ4uj3Bzkmpsh04Qo5X4rRcPoI2vhFmADfEF4
-   D/1eSZezcYNv2aMlKCnX02TtPb5jFtE3vkhoYLsQg15GaZf6PSNlwT/Er
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10500"; a="369587630"
-X-IronPort-AV: E=Sophos;i="5.95,184,1661842800"; 
-   d="scan'208";a="369587630"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2022 08:11:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10500"; a="660758830"
-X-IronPort-AV: E=Sophos;i="5.95,184,1661842800"; 
-   d="scan'208";a="660758830"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga001.jf.intel.com with ESMTP; 14 Oct 2022 08:11:36 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ojMLW-006yCQ-0e;
-        Fri, 14 Oct 2022 18:11:34 +0300
-Date:   Fri, 14 Oct 2022 18:11:33 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Florian Fainelli <f.fainelli@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Kent Gibson <warthog618@gmail.com>, linux-gpio@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-actions@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
-        alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
-        linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: Re: [rft, PATCH v2 00/36] pinctrl: Clean up and add missed headers
-Message-ID: <Y0l8JTQQvLzRejk1@smile.fi.intel.com>
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
- <0684f480-2092-d520-2c8e-bd9a2dca47e3@gmail.com>
- <CAHp75VdDjyUAZBTaoPOe5oA3f_5xRznAooq08=Eff4F1AZyVOQ@mail.gmail.com>
+        Fri, 14 Oct 2022 14:35:28 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D17D88A31;
+        Fri, 14 Oct 2022 11:35:18 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id j7so8896558wrr.3;
+        Fri, 14 Oct 2022 11:35:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+qOL/iKcZGPLu/1YRxFH9hlgpWjHigg9iXBISYd9lB4=;
+        b=e025hcg0iYOrxQAl774n7xh8vRKmd9KfsoEuOsmX3LDK9MQueog38aWf2dKEvYhUn2
+         Fk3PrYQDiH3xINDqo5RML+K9OERlJe7ksaHW92oZLjyh/7GeNX47+ajZ9aQfDy3qj7Ud
+         uqKXOWuOpIXL9Es/3LXhb1fNiILo97cgmeYPK/eqx17iQ/jKysE1VWlX/hagQb2HUmTj
+         ehwCn/nVqHpZoxC2Xws8JgjJHdwtVoJ6+H1waxTbQlHWIx1bxfdpztG8GuMseQdKrQ25
+         SVIB4GYHqkuCLRsdvlAiuSYKo4mlmjgezBWrxxw+H3r1FRDj2B9hmih/YdkCW3jzGe/H
+         JZIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+qOL/iKcZGPLu/1YRxFH9hlgpWjHigg9iXBISYd9lB4=;
+        b=7YZBkkDmoqg5vQRV1Kxd56Bt0T5s0AQ4/U9AaevElTlbQodtIGewvLdryrEbXUn4KF
+         xeLReCViyH093838CvxK/JOml57/xMxll/5GCVjl1NhUbAZ0thqR36WmKRoZyZnva5Xl
+         zKHcUWygU9rCgcUkrMNiBHi8cUJE++eFLUT6WWyBlCdOutBRaOdEJdzh0RDw6TPBTgW2
+         gG1EeiszuKHzIfoBL5JkGvTlVRTtUYb3LgRCJS7mIt3joTZKDAkiWPIN3q4VGOlAQjwx
+         Bv6fMvYyjPR9OeGlIF3LD96IcTQdJxpnoEYRXP+TSRRA5gVFjIu2kAywRRUc3wCIfpMO
+         CnQg==
+X-Gm-Message-State: ACrzQf1L96YXDRoI1XR+pg46Yp37djed29XjImHnXYsoxzYIUIehqf39
+        2ZfN1Jf8OfTz8hPwJohQ0Uc=
+X-Google-Smtp-Source: AMsMyM6ZkTlq8cTLUDQguxpCM4KrLKdSs6H4upsg/TMc6Uv8hH1iz45uaLbdZpQxjxt5Xa3nEXtwqg==
+X-Received: by 2002:adf:f5c5:0:b0:22e:264b:2179 with SMTP id k5-20020adff5c5000000b0022e264b2179mr4191486wrp.386.1665772516880;
+        Fri, 14 Oct 2022 11:35:16 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2501:c701:fc4d:6548:d8bd:5bd])
+        by smtp.gmail.com with ESMTPSA id h10-20020a5d504a000000b0022a403954c3sm2485410wrt.42.2022.10.14.11.35.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Oct 2022 11:35:15 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Shawn Tu <shawnx.tu@intel.com>, Jacopo Mondi <jacopo@jmondi.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/5] media: i2c: ov5645 driver enhancements 
+Date:   Fri, 14 Oct 2022 19:34:54 +0100
+Message-Id: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VdDjyUAZBTaoPOe5oA3f_5xRznAooq08=Eff4F1AZyVOQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 12, 2022 at 01:04:10PM +0300, Andy Shevchenko wrote:
-> On Tue, Oct 11, 2022 at 11:56 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
-> > On 10/10/2022 1:14 PM, Andy Shevchenko wrote:
-> > > Currently the header inclusion inside the pinctrl headers seems more arbitrary
-> > > than logical. This series is basically out of two parts:
-> > > - add missed headers to the pin control drivers / users
-> > > - clean up the headers of pin control subsystem
-> > >
-> > > The idea is to have this series to be pulled after -rc1 by the GPIO and
-> > > pin control subsystems, so all new drivers will utilize cleaned up headers
-> > > of the pin control.
-> > >
-> > > Please, review and comment.
-> >
-> > Did you really need to split this on a per-driver basis as opposed to
-> > just a treewide drivers/pinctrl, drivers/media and drivers/gpiolib patch
-> > set?
-> >
-> > 36 patches seems needlessly high when 4 patches could have achieve the
-> > same outcome.
-> 
-> I can combine them if maintainers ask for that, nevertheless for Intel
-> pin control and GPIO drivers, which I care more about, I would like to
-> leave as separate changes (easy to see in history what was done).
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-I can now tell why I don't like to combine. While doing a revert (it's not
-related to GPIO nor to pin control), it appears that I reverted extra bits
-as merge conflict resolution. This is per se is not an issue, but when
-I tried to find and reapply that missed piece I can't, because the patch
-is combined and Git simply ignores to have
-`git cherry-pick _something in the past_` done.
+Hi All,
 
-But again, up to maintainers.
+The main aim of this series is to add PM support to the sensor driver.
+
+I had two more patches [0] and [1] which were for ov5645, so instead
+sending them separately I have clubbed them as series.
+
+v1-> v2
+- patch #1 is infact a v3 [1] no changes
+- patch #2 fixed review comments pointed by Sakari
+- patch #3 [0] no changes 
+- patches #4 and #5 are new
+
+[0] https://patchwork.linuxtv.org/project/linux-media/patch/20220927202005.750621-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+[1] https://patchwork.linuxtv.org/project/linux-media/patch/20220919153540.178732-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (5):
+  media: dt-bindings: ov5645: Convert OV5645 binding to a schema
+  media: i2c: ov5645: Use runtime PM
+  media: i2c: ov5645: Drop empty comment
+  media: i2c: ov5645: Return zero for s_stream(0)
+  media: i2c: ov5645: Call ov5645_entity_init_cfg() before registering
+    the subdev
+
+ .../devicetree/bindings/media/i2c/ov5645.txt  |  54 -------
+ .../bindings/media/i2c/ovti,ov5645.yaml       | 104 ++++++++++++
+ drivers/media/i2c/Kconfig                     |   2 +-
+ drivers/media/i2c/ov5645.c                    | 151 +++++++++---------
+ 4 files changed, 178 insertions(+), 133 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
