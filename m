@@ -2,275 +2,162 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EB4C5FFA2C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Oct 2022 15:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 534AD5FFA33
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Oct 2022 15:17:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229581AbiJONL3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 15 Oct 2022 09:11:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41426 "EHLO
+        id S229774AbiJONRO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 15 Oct 2022 09:17:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbiJONL2 (ORCPT
+        with ESMTP id S229679AbiJONRN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 15 Oct 2022 09:11:28 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2129.outbound.protection.outlook.com [40.107.113.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01169167CD
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Oct 2022 06:11:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O94Xpq9paQFUKoiwADMvqo7KM98RCluKZv5vU8UZ+WKHzvpv9qsLJhqc9ehSLRJ9scYIuugA6M9vwdXIMSHfhDrPgEGP3Bst0pmYht1SVHVyYOU+g6X5OGJsDKXTGogXjKoWGjbC8EqyxWXjB0adqvp9oVZUemXGho9PWgTARguetVFuPy5GvYGxyEGS/xUxpbAbatUrkZZJCsgrz8I1NWGr5t4F1wasBCtYVfwRQNoXuOmcIn7qRfQh9TDo68if0tn+wb2OOYIzcUW2xkEDs80KiykkLcqq2sIlnI/VK6jR7Yt6VYkmBmQoq7L4+diICxsvSulGBfwQWKpRBWWonA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mbXLVLcdifbKrrFDiGPG5JvvZ2TOs7E7aEtYJJUxal0=;
- b=D6PcGNOtPG/ujx0fRT9gUkXRpGt537P73OMlFPm4HWByMzCknJHGwIVTnBgWMKTf0yDknCTypWwbrqIe+4KXY/HSbrALKSEqMg+Wm8v9HshElGnbS0sfe26z7dCRTGZMO7QsScYedqbwa69aVdlQl/gSUt4Xlcxy/lu6wloXEgzXIQ65rtllJha7N9WcYG6nHTMigHBzy4nnTu7IFW72icednRcxTX3ZNb2ctb1UXmh0+qvXsV0rbgIqi7tZ1tVT+MTVlQUdNXeYkqU91Ahky2glMNVOtaJYwVRkM2VWjIT3jdMKkUMVVr1tFN+Arb+RFM60yAZ0muLR8hgdHkBRCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mbXLVLcdifbKrrFDiGPG5JvvZ2TOs7E7aEtYJJUxal0=;
- b=NsbarDNv4QC2osRXX7G4T9qTDEJxipWioiXZtFX053bb8HDpAHX5zAfTsub67qiAWT1xuFMtk4A/jwo8TntynK+FveIbZk3qniqpk8DwqsZ1NQNqeOreusWdX1piYJTvfkXig9TpGJ0TP7aWNPFabudXAFXp71tHQ3y+66ijs4o=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYWPR01MB8590.jpnprd01.prod.outlook.com (2603:1096:400:13d::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.30; Sat, 15 Oct
- 2022 13:11:21 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::73a6:588d:1198:7262]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::73a6:588d:1198:7262%8]) with mapi id 15.20.5723.030; Sat, 15 Oct 2022
- 13:11:20 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v8 0/3] Add RZ/G2L DSI driver
-Thread-Topic: [PATCH v8 0/3] Add RZ/G2L DSI driver
-Thread-Index: AQHYzN90vuwfyOFCtEyXvr9R15v3X64PlUVg
-Date:   Sat, 15 Oct 2022 13:11:20 +0000
-Message-ID: <OS0PR01MB592238A6FBE0BA8368EEE57C86279@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220920105501.396999-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220920105501.396999-1-biju.das.jz@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYWPR01MB8590:EE_
-x-ms-office365-filtering-correlation-id: f00f3b1f-8746-472a-a35e-08daaeaec05e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +CFsIMgLiMM/e8zsa+wOToJizrQ/qQokZ/zeNlLQBA0uDpR+g34PIshAcNgkb2m6ZiSY27KHiqZR0TLEP3UC7BROAuMPzvrJHfCcgbJmwk+gIjaOnhH4D2kXrVQACaL6vrBM2BZHI5EllxmXNSeXjolX2tkrGEBaiRMu2sUanmY/ayIs9WAf3KKi+nOSvWol7ZA7H6EzTUPsKVaQIddVxUuvoJpEr6FtwFBr51BAyG2K1aaaUnaOKg+qhsHfRn00RVVbCoiUMpK0no6viVTUME5DwXPze4Rtn3Aa4x9xvjyXdw28aqk5kXsxrELla63/o7dcg9A4N05PVRg87ilF8klCM4+Fl8wOkhNIARMg/2gWwn9w7dUoaxWpKbGSWGAfuFUGMgPFlYdaNDHEVJj4v8jeL02wwz+uGRsdjnjTkAhpoxOCEfjamPjcEvSkH7Zl5i+tT+Uywfbu3Rp4zHMXPkwQ/GkZZVl3Tv9JNmcq5a0TAcNC2W5fJsP19X8f2BNIdsykYCjXOFXO7rlJAgaH8I0O0l6aRrbjkWRTMLkl1iy4zm+rNSYGtq5NwKlMXWeZJEi6/Xe9J8a/OBzBRRXGEux7QChUqFHk8xRAdJV/qpONJtDK9Q5358fysEn+NOnMnjeYVP11Pu0OQuV2mQ9vPZIgPxLFWHMHZLYGBI7H9BtgpcQSL9koiMPImAAnRd3dp6b+u439I2P4ON0TvXD9kSdks86TCkoA7i4XZGDsXcwrQG0FIQb6Z6crgWWl0S+QVotFZ+gYhq+6Amv1Omtt1g==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(376002)(366004)(39860400002)(136003)(451199015)(5660300002)(54906003)(316002)(76116006)(66946007)(110136005)(64756008)(66446008)(66476007)(66556008)(4326008)(8676002)(7696005)(41300700001)(9686003)(26005)(6506007)(8936002)(2906002)(52536014)(71200400001)(186003)(83380400001)(38070700005)(122000001)(38100700002)(107886003)(478600001)(86362001)(55016003)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?h6U2s+HZihm0Jz+Mj6J9KTNft3og1lz0WxvoSznNtqtt1usBNaOuru8w0S?=
- =?iso-8859-1?Q?BuAHaBMKb3b5O+mp/nKSZ1mVxfc9bc1hUrKhQE7o9jCFMfGQb+0TixnzdQ?=
- =?iso-8859-1?Q?Wy6oFwOThuYCK8iTVRmReRD7CEYJwu1eNU7i3n9bmXN3Z1hgbZLLrrISa6?=
- =?iso-8859-1?Q?2fGsgowM2ODXKyPAQtxh4FAaNQUj3VpT6G2TQvKCf3uMgUawk+uYYwny+1?=
- =?iso-8859-1?Q?Ew0mgfxmSgKfNsASsp35EGEDKTCdnrPhUNfDxhRzUfIW0I9XZnxPksRTEe?=
- =?iso-8859-1?Q?zDvCPfh4ecVt1FtZhFqDtwM1caeSp/iE6rJ8/zIAaAHB79x63DaJik5NIq?=
- =?iso-8859-1?Q?AZAuAoDJsI2/79bZ4Y4I7wCIqqzSmqjLfNRkGzsFFUf7sJxB4QzpyMIIWa?=
- =?iso-8859-1?Q?3GLyJpRymgzz/F5a6cKWx18tKuHlSih7HWg0yPRDYVmbt1Ts8VUqEw0ceG?=
- =?iso-8859-1?Q?4kuKaeWepIu6rdXKvuUxnE4S8qdLiTh0VAUi1bgCayflCICxoHGWibY52Y?=
- =?iso-8859-1?Q?rPucb2kQD/7D7haoBOdNMqn8s1BMUPPEwCqmSbUo66ecIfsfiJUaKprO1F?=
- =?iso-8859-1?Q?ruZ5x7oSp5CNRJ/zG4ZEy8xWM7xJ4HwyzjJGoSW67+VEOe51cyZEKF0MzX?=
- =?iso-8859-1?Q?4Aq6X1bEDgXwolS3JuWeLCsL/hhlTg9iIsDM+KJkwiCsdNnI7zjeIUiyVy?=
- =?iso-8859-1?Q?BwhWUlXiJPjyRDdlKb+K3tN2tK+d3W3V+ym7qOlMBRlP51uUIg/Ec5KRE9?=
- =?iso-8859-1?Q?/3YAXC/6ecHYHEtHKqnIu13ET9r2uch3lSMd+r3o1gdhGyfHaytn5IlFkO?=
- =?iso-8859-1?Q?uxTtgL1+txW3mfC9crOvja6ic3JuhSni3deVOE6lasupGLEmr/VLGWXha5?=
- =?iso-8859-1?Q?0aNXiqC8zaNc9BaQo6BPIScmOIZms4tipvtnRZQh5MuVoLu6k3CNfmPp9H?=
- =?iso-8859-1?Q?f7RpM/H3AWBRpeGd+CNvefaqjrOCaV9vv/1hnmUN/AbOikxoJwIHyvGZLi?=
- =?iso-8859-1?Q?yKMaqB0ck6MuviLbhAFsZ5F4xRVM5KR1JKpqdn9RL+fOl28ijhmFWxwN4T?=
- =?iso-8859-1?Q?cdG4eMG00R/xMfjvlwdcZ8/jxxiTcbQ250aRJzLjqiO6Gxfie1Ql0pEqT8?=
- =?iso-8859-1?Q?ZrIapa/sL0h+FTuj8WL25Lkdojg6U7ekK5+h7YgX5Hkeq/OOnirAvIQA2f?=
- =?iso-8859-1?Q?9t977POYfNQeCC+h3hC/iZrZMXHo1/b8lP4GYTS9JyTbrmCb1Ma69xsnSK?=
- =?iso-8859-1?Q?olQck7esmIkdXw/Iwc/dmE6jspST1/jHiYSMjtrRYx//deoAxGKuUoZe7B?=
- =?iso-8859-1?Q?PV3rAxDr6sYagSkwc2dkadQTxO2klRPaaSsLXvC+jEb1M2gqAsZ2ZeP0e1?=
- =?iso-8859-1?Q?Af2S6j9Bm3I+Dcv5GoqnkwPTmS+rOU9ILLoowpVirRAZvjJDzWEL+h2V2e?=
- =?iso-8859-1?Q?SC023GE93CUCGctdUUCXnGlVjEznNJ9pyGdXaFisUiv/LmnQNRsQLDQXV2?=
- =?iso-8859-1?Q?//72PYRg9E7pjb6YKPgi8EMCqOU1O2i6GIxmvE5FGnHiXR6UAcgBFlAvPm?=
- =?iso-8859-1?Q?2q1R/YoKunpkFft7mcLrcfgOhe8vhjqw7jYS9MlFnHIKHC+CcTgZHi03x4?=
- =?iso-8859-1?Q?QjF7LmB3raC3GJ5fzZL2d/fAgtdZkkGDAM?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Sat, 15 Oct 2022 09:17:13 -0400
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 371F94D162
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Oct 2022 06:17:11 -0700 (PDT)
+Received: by mail-qv1-xf35.google.com with SMTP id i9so4951366qvo.0
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Oct 2022 06:17:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GgRe8FExVz3GkkvoaaG9sGhymMB0PRwWjEbFxn6Jfss=;
+        b=l8pIr4sinoKUjWeipxRKIZ4oXm0ZoyoEdMLntlfg3I8d2d+o3gEDkvKbeMV4mdGZM9
+         pbWNz1n+CPFeyEowUoqwctEYOovkQ1fqDRm8G+D9Aa9hNlctlztjkQ40WdqsM3ren7G8
+         Tn+4VgnJ9HjAUuHoe/tkgklIyGV/C4LCZO0Qy9a+X3Q39s5OUZkc0G5qkbdiwkwbtid0
+         DxAP+DpCZLLbqYCKwXzeHKqOmZaxZOYNUcBjHDKReduIISgMbwpiYm8SgwfTjZwLfZQw
+         qlLJTpQaq7MbySaWBBqABO0ce6fFRduBW7gMJdziQlsV2tu/3UMsXEcqsilSKuNVA/Ly
+         CKCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GgRe8FExVz3GkkvoaaG9sGhymMB0PRwWjEbFxn6Jfss=;
+        b=e9POVAa3nsHYHDveJEUzL0TsJZLCVn11S4ICco3Bp8XSnB43lVUcWS+VYwsyX2OoST
+         YYYzqpK+4ye5occpRqHSRpVegLuPRmMXBwcA1Adtt5457MiEZS/m5mpso0Ewclol0eMA
+         CqasNHRAo+YiWwoi3HIZWSTkKUlIH3g2MDD4J3IVao1XTfGcYFwbPigh31nu2NPR9AKX
+         GrBUtK7+UG3BhBX35P0uKM53SSkY0M2YUUdt+/Ip89Ahzx2guPCbePY1i0tk99lnSBBN
+         6wXv5kKEQUGhdlsKhVRPTPFT0Lcrt92yPi/7GpDvW3XpIzNZRQ0Aglc9fxNAFJPD6rgi
+         AP5A==
+X-Gm-Message-State: ACrzQf0RhWjVCTR+YgBoUzuASR3z+c2kSfJo4GkIsJPoujfjv0slE8U6
+        3maZMI0AerXQZfCUz4hZEgBgexHTereTAQ==
+X-Google-Smtp-Source: AMsMyM6zyp0J3UGIsDFNwMFzEPuj7ARj7VGL3aJ2WLojj8HlMPHHcidekN3FLnw/8rXbQp4cVl86dw==
+X-Received: by 2002:ad4:5e8a:0:b0:4b1:b225:dbc1 with SMTP id jl10-20020ad45e8a000000b004b1b225dbc1mr2023264qvb.94.1665839830343;
+        Sat, 15 Oct 2022 06:17:10 -0700 (PDT)
+Received: from ?IPV6:2601:42:0:3450:161:5720:79e9:9739? ([2601:42:0:3450:161:5720:79e9:9739])
+        by smtp.gmail.com with ESMTPSA id h8-20020a05620a284800b006eeb51bb33dsm5046162qkp.78.2022.10.15.06.17.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 Oct 2022 06:17:09 -0700 (PDT)
+Message-ID: <2928a80c-6c5d-c7e0-10f1-4c3b18dab525@linaro.org>
+Date:   Sat, 15 Oct 2022 09:17:07 -0400
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f00f3b1f-8746-472a-a35e-08daaeaec05e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Oct 2022 13:11:20.1004
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iF3IwlSrJVhJeb3x5BNDl1TEboh0Fev9Lb9H3aCdd4uOJblrKjWYVyaxn42zVOm4pKB8j/daxDIUtGKUQUpgqzRLd1azon/u3Nvle+EMh74=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8590
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v2 1/5] media: dt-bindings: ov5645: Convert OV5645 binding
+ to a schema
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh@kernel.org>
+Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221014183459.181567-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAL_JsqKC_BJDJLLFck_0CbQ-0rZ0oVWMAdiwwGep23nh2pP19g@mail.gmail.com>
+ <CA+V-a8vMLuzJ8h5UDNXUiZRXPV1vJ9gguUMywe_+sPcU8tK+tA@mail.gmail.com>
+ <20221014214029.GA2937999-robh@kernel.org>
+ <Y0pLDFMsFmHhC/R8@pendragon.ideasonboard.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <Y0pLDFMsFmHhC/R8@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Gentle ping.
+On 15/10/2022 01:54, Laurent Pinchart wrote:
+> Hi Rob,
+> 
+> On Fri, Oct 14, 2022 at 04:40:29PM -0500, Rob Herring wrote:
+>> On Fri, Oct 14, 2022 at 10:27:53PM +0100, Lad, Prabhakar wrote:
+>>> On Fri, Oct 14, 2022 at 10:05 PM Rob Herring <robh+dt@kernel.org> wrote:
+>>>> On Fri, Oct 14, 2022 at 1:35 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+>>>>>
+>>>>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>>>>
+>>>>> Convert the simple OV5645 Device Tree binding to json-schema.
+>>>>>
+>>>>> The previous binding marked the below properties as required which was a
+>>>>> driver requirement and not the device requirement so just drop them from
+>>>>> the required list during the conversion.
+>>>>> - clock-frequency
+>>>>> - enable-gpios
+>>>>> - reset-gpios
+>>>>>
+>>>>> Also drop the "clock-names" property as we have a single clock source for
+>>>>> the sensor and the driver has been updated to drop the clk referencing by
+>>>>> name.
+>>>>
+>>>> Driver requirements are the ABI!
+>>>>
+>>>> This breaks a kernel without the driver change and a DTB that has
+>>>> dropped the properties.
+>>>>
+>>> I already have a patch for the driver [0] which I missed to include
+>>> along with the series.
+>>
+>> You completely miss the point. Read the first sentence again. Changing 
+>> driver requirements changes the ABI.
+>>
+>> This breaks the ABI. The driver patch does not help that.
+> 
+> I'm not following you here. If the DT binding makes a mandatory property
+> optional, it doesn't break any existing platform. The only thing that
+> would not work is a new DT that doesn't contain the now optional
+> property combined with an older driver that makes it required. That's
+> not a regression, as it would be a *new* DT.
 
-Cheers,
-Biju
+You're right although in-tree DTS are now not compatible with older
+kernels. So it is not only about new DTS, it is about our kernel DTS
+which requires new kernel to work.
 
-> Subject: [PATCH v8 0/3] Add RZ/G2L DSI driver
->=20
-> This patch series aims to support the MIPI DSI encoder found in the
-> RZ/G2L SoC. It currently supports DSI video mode only.
->=20
-> This unit supports MIPI Alliance Specification for Display Serial
-> Interface (DSI) Specification. This unit provides a solution for
-> transmitting MIPI DSI compliant digital video and packets. Normative
-> References are below.
-> * MIPI Alliance Specification for Display Serial Interface Version
-> 1.3.1
-> * MIPI Alliance Specification for D-PHY Version 2.1
->=20
-> The following are key features of this unit.
->=20
-> * 1 channel
-> * The number of Lane: 4-lane
-> * Support up to Full HD (1920 =D7 1080), 60 fps (RGB888)
-> * Maximum Bandwidth: 1.5 Gbps per lane
-> * Support Output Data Format: RGB666 / RGB888
->=20
-> This patch series is based on drm_misc and patches from drm/du/next
-> [1]
->=20
->=20
-> v7->v8:
->  * Added Rb tag from Laurent.
->  * Added hsfreq_max to struct rzg2l_mipi_dsi_timings.
->  * Removed enums rzg2l_mipi_dsi_dphy_timings.
->  * Replaced if else with for loop for finding dphy_timings
->    based on hsfreq.
->  * Removed checking "number of lanes capability" from rzg2l_mipi_dsi_
->    startup() and added patch#3 for handling it in probe() and
-> enforcing
->    it in rzg2l_mipi_dsi_host_attach().
->  * Added Labels with an "err_" prefix.
-> 	out_pm_put->err_pm_put
-> 	out_assert_rst_and_stop_clocks->err_stop
-> 	out_stop_hs_clock->err_stop_clock
-> 	out_pm_disable->err_pm_disable
->  * Added error message for lane check in rzg2l_mipi_dsi_host_attach()
->  * Replaced dev_warn->dev_err for the format error in
-> rzg2l_mipi_dsi_host
->    _attach(). Added missing "\n" and print the format for debugging.
-> v6->v7:
->  * Added rzg2l_mipi_dsi_stop() counterpart of
-> rzg2l_mipi_dsi_startup().
->  * Error labels are named according to the cleanup operation they
-> perform.
->  * Restored Max lane capability read after dphy timing initialization
->    as per the guide lines from SoC design team.
->  * Added recommended lut values for the Global Operation Timing
->    parameters for MIPI DPHY.
-> v5->v6:
->  * Updated commit description
->  * Moved handling of arst and prst from rzg2l_mipi_dsi_startup-
-> >runtime
->    PM suspend/resume handlers.
->  * Max lane capability read at probe(), and enforced in
->    rzg2l_mipi_dsi_host_attach()
->  * Simplified vich1ppsetr setting.
->  * Renamed hsclk_running_mode,hsclk_mode->is_clk_cont.
->  * Fixed typo in probe error message(arst->rst).
->  * Reordered DRM bridge initaization in probe()
->  * Updated typo in e-mail address.
-> v4->v5:
->  * Added Ack from Sam.
->  * Added a trivial change, replaced rzg2l_mipi_dsi_parse_dt()
->    with drm_of_get_data_lanes_count_ep() in probe.
-> v3->v4:
->  * Updated error handling in rzg2l_mipi_dsi_startup() and
-> rzg2l_mipi_dsi_atomic_enable().
-> v2->v3:
->  * Added Rb tag from Geert and Laurent
->  * Fixed the typo "Receive" -> "transmit"
->  * Added accepible values for data-lanes
->  * Sorted Header file in the example
->  * Added SoC specific compaible along with generic one.
->  * pass rzg2l_mipi_dsi pointer to {Link,Phy} register rd/wr function
-> instead
->    of the memory pointer
->  * Fixed the comment in rzg2l_mipi_dsi_startup()
->  * Removed unnecessary dbg message from rzg2l_mipi_dsi_start_video()
->  * DRM bridge parameter initialization moved to probe
->  * Replaced dev_dbg->dev_err in rzg2l_mipi_dsi_parse_dt()
->  * Inserted the missing blank lane after return in probe()
->  * Added missing MODULE_DEVICE_TABLE
->  * Added include linux/bits.h in header file
->  * Fixed various macros in header file.
->  * Reorder the make file for DSI, so that it is no more dependent
->    on RZ/G2L DU patch series.
-> v1->v2:
->  * Added full path for dsi-controller.yaml
->  * Modeled DSI + D-PHY as single block and updated reg property
->  * Fixed typo D_PHY->D-PHY
->  * Updated description
->  * Added interrupts and interrupt-names and updated the example
->  * Driver rework based on dt-binding changes (DSI + D-PHY) as single
-> block
->  * Replaced link_mmio and phy_mmio with mmio in struct rzg2l_mipi_dsi
->  * Replaced rzg2l_mipi_phy_write with rzg2l_mipi_dsi_phy_write
->    and rzg2l_mipi_dsi_link_write
->  * Replaced rzg2l_mipi_phy_read->rzg2l_mipi_dsi_link_read
-> RFC->v1:
->  * Added a ref to dsi-controller.yaml.
->  * Added "depends on ARCH_RENESAS || COMPILE_TEST" on KCONFIG
->    and dropped DRM as it is implied by DRM_BRIDGE
->  * Used devm_reset_control_get_exclusive() for reset handle
->  * Removed bool hsclkmode from struct rzg2l_mipi_dsi
->  * Added error check for pm, using pm_runtime_resume_and_get() instead
-> of
->    pm_runtime_get_sync()
->  * Added check for unsupported formats in rzg2l_mipi_dsi_host_attach()
->  * Avoided read-modify-write stopping hsclock
->  * Used devm_platform_ioremap_resource for resource allocation
->  * Removed unnecessary assert call from probe and remove.
->  * wrap the line after the PTR_ERR() in probe()
->  * Updated reset failure messages in probe
->  * Fixed the typo arstc->prstc
->  * Made hex constants to lower case.
-> RFC:
->  *
->=20
->=20
-> Biju Das (3):
->   dt-bindings: display: bridge: Document RZ/G2L MIPI DSI TX bindings
->   drm: rcar-du: Add RZ/G2L DSI driver
->   drm: rcar-du: rzg2l_mipi_dsi: Enhance device lanes check
->=20
->  .../bindings/display/bridge/renesas,dsi.yaml  | 182 ++++
->  drivers/gpu/drm/rcar-du/Kconfig               |   8 +
->  drivers/gpu/drm/rcar-du/Makefile              |   2 +
->  drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c      | 816
-> ++++++++++++++++++
->  drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h | 151 ++++
->  5 files changed, 1159 insertions(+)
->  create mode 100644
-> Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
->  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h
->=20
-> --
-> 2.25.1
+DTS are exported and used by other systems, thus if someone blindly
+takes this new DTS without clock-names, his kernel/OS/bootloader might
+stop working.
+
+That is however a more relaxed requirement than kernel ABI against old DTS.
+
+> 
+>>>> Also, with 'clock-names' dropped, you've just introduced a bunch of
+>>>> warnings on other people's platforms. Are you going to 'fix' all of
+>>>> them?
+>>>>
+>>> Yes I will fix them, once the patch driver patch [0] is merged in.
+>>
+>> Why? You are just making extra work. We have enough warnings as-is to 
+>> fix.
+> 
+> I agree that a DT binding change should patch all in-tree DTS to avoid
+> introducing new warnings.
+
+Yes.
+
+Best regards,
+Krzysztof
 
