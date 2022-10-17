@@ -2,263 +2,264 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FC5B6010AB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Oct 2022 16:00:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17A10601137
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Oct 2022 16:36:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230095AbiJQOAj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Oct 2022 10:00:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49892 "EHLO
+        id S230413AbiJQOgJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Oct 2022 10:36:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229726AbiJQOAh (ORCPT
+        with ESMTP id S230383AbiJQOgI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Oct 2022 10:00:37 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B9AF101CF;
-        Mon, 17 Oct 2022 07:00:36 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id bj12so25064749ejb.13;
-        Mon, 17 Oct 2022 07:00:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/6Mxh+LUgjvM5Wy1z968oPB0TD46726WrRuhqmLLUF8=;
-        b=cIB6/ZaMlhQLapkDhLKU88sKZVO8jSTXcbrwyM0v0J14Lyp9HI/NvT7Rg4R0iwiOw5
-         Tr+goX1/+z3/6ZT89TN+wTQG30Anz6owonNBXvffGvwPcp0KC3igmjHt0vFIfiVEExYq
-         OpyzcZ5/F76gd1iYG3D0VAs9Ext9SD81/T9/xgxccz2elVaIJyRS31RepA14jTGY6u4w
-         JtFz+xvcOPmkOgWMi2XK7/H/MxAfFmlu2YaxFk17Uyrv1LsYWYMJZq2rq3DFuHkpcBr7
-         3mGD+04tlPHdh2rX+INqGYQc0fJfc5/vMmujikmWC7xQSdr1PrJGnbza8355Nndrls9q
-         x/3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/6Mxh+LUgjvM5Wy1z968oPB0TD46726WrRuhqmLLUF8=;
-        b=e5X1YexuzuWAArWsl0VufqymJ6zUIfkwK2GVpn+vkXmi6U/fW+GkYIZDWZYofxmsJ7
-         duKXkSW07duR8MEa+XF8iZYJd3dxVDqUt12d3F6eWN7XPIkOCjb9zXkgzDyCOvD78M+Z
-         iawxQ6qBoWHDeW9XQImQQxuhDFMUlqZS4rnc2lKhXnCUgzDdpVX/QcvNm+QdhN2iKBJ+
-         CrLvTdUafxtaC7ZDknDrOyIteWTehlrRdmNY6lxF/pAERnNrX78EYVXQgeWZK93nt8jQ
-         Xz/fP1WQSEqtxrzKO9E1qd5oNqDVugMcRXbcLRLgY9Q4lulyQI6ky8A5UuvL5VQ0UtCj
-         qFTw==
-X-Gm-Message-State: ACrzQf39MrX+GjTsjvZc6AfvabCdL35+tqNl8xS/Hgh/kS5UyzsCFcug
-        JatfcAeA5/E+svcZ+ZWomaI=
-X-Google-Smtp-Source: AMsMyM7/2Qu+IN4+gZnrPRxaCKtT7vBBWfcsq/ollfS2FGqUS9hTmmS4SwjYJtUP+clglaCk3um8gg==
-X-Received: by 2002:a17:907:3e0f:b0:791:9529:3674 with SMTP id hp15-20020a1709073e0f00b0079195293674mr2292715ejc.503.1666015234887;
-        Mon, 17 Oct 2022 07:00:34 -0700 (PDT)
-Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id s15-20020a05640217cf00b0045467008dd0sm7468590edy.35.2022.10.17.07.00.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Oct 2022 07:00:33 -0700 (PDT)
-Date:   Mon, 17 Oct 2022 16:00:31 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     William Breathitt Gray <william.gray@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lee Jones <lee@kernel.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Document RZ/G2L MTU3a bindings
-Message-ID: <Y01f/5VtxgCDz+tx@orome>
-References: <20221010145222.1047748-1-biju.das.jz@bp.renesas.com>
- <20221010145222.1047748-2-biju.das.jz@bp.renesas.com>
- <8d6b8f0e-d9d7-0d77-aa99-379de768fd5d@linaro.org>
- <OS0PR01MB592232C831CCA84FC302212F86239@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ad2e4445-052b-d65a-bdba-5759c169aafd@linaro.org>
- <OS0PR01MB59228146DE05231586212FE886239@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <17fc9f27-03ad-7663-db21-2f14c7ff4312@linaro.org>
- <OS0PR01MB5922152268684B5564AA170D86239@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <Y0rDpaGosqox77SQ@fedora>
+        Mon, 17 Oct 2022 10:36:08 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D347660CB4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 07:36:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6D9DDB818CC
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 14:36:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 264F1C433D6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 14:36:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666017361;
+        bh=ryS0vggc9LD6YGSgoAuz3qrtzQJrwMg4ashyleXsCbA=;
+        h=Subject:From:Date:To:From;
+        b=E/vcq7v26e/Pb9ad0Dla4kVkvSCKNSBDqIWkD0JPtiEV+0xAN7yTW/ftKGMRk8aPE
+         EIl+GeQCQ+jJFYO0y94hIKiSOw3wXIS1aiVOiPNX/YS4J2tR06bbrpLG9XLSoYmFml
+         gacQe9BU3StNyIrt4RzGxxfPw1dV3zpvbwSavmyqBz4Ae4xPhdtqgcsKwAPzwreVqf
+         tptW21kZNU1auc/U4Q2aQv00anTowKm87zabN4T6iphA13sxmv4mkZEt7BUyeQbm1j
+         l1ok45hLQ0JO6AfMNdsS7n0J8/7c8nuIW4Gd2tAnzRvAfqU6A4Hh2R51oqGnb6CmUt
+         0yfvxvoe4zc0w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0588DE270EB
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 14:36:01 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="nZ+UcSAkhSAEBb22"
-Content-Disposition: inline
-In-Reply-To: <Y0rDpaGosqox77SQ@fedora>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <166601736094.25096.10617877407363192538.git-patchwork-summary@kernel.org>
+Date:   Mon, 17 Oct 2022 14:36:00 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello:
 
---nZ+UcSAkhSAEBb22
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-On Sat, Oct 15, 2022 at 10:28:53AM -0400, William Breathitt Gray wrote:
-> On Tue, Oct 11, 2022 at 08:31:48PM +0000, Biju Das wrote:
-> > > Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Document RZ/G2L MTU3a
-> > > bindings
-> > >=20
-> > > On 11/10/2022 15:23, Biju Das wrote:
-> > > >> Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Document RZ/G2L MTU3a
-> > > >> bindings
-> > > >>
-> > > >> On 11/10/2022 10:55, Biju Das wrote:
-> > > >>>
-> > > >>>>>  .../bindings/mfd/renesas,rz-mtu3.yaml         | 305
-> > > >>>> ++++++++++++++++++
-> > > >>>>>  1 file changed, 305 insertions(+)  create mode 100644
-> > > >>>>> Documentation/devicetree/bindings/mfd/renesas,rz-mtu3.yaml
-> > > >>>>
-> > > >>>> This should not be in MFD. Just because some device has few
-> > > >> features,
-> > > >>>> does not mean it should go to MFD... Choose either timer or pwm.
-> > > >>>
-> > > >>> MFD is for multifunction device. This IP supports multiple
-> > > functions
-> > > >>> like timer, pwm, clock source/events. That is the reason I have
-> > > >> added
-> > > >>> here. MFD is core which provides register access for client
-> > > devices.
-> > > >>>
-> > > >>> For me moving it to pwm or counter is not a big problem.
-> > > >>> Why do you think it cannot be MFD?
-> > > >>
-> > > >>
-> > > >> Because it makes MFD a dump for everything where author did not
-> > > want
-> > > >> to think about real device aspects, but instead represented driver
-> > > >> design (MFD driver).
-> > > >
-> > > > Core driver is MFD, just provides resources to child devices and is
-> > > > not aware of any real device aspects.
-> > > >
-> > > >>
-> > > >> MFDs are pretty often combining unrelated features, e.g. PMICs
-> > > which
-> > > >> have wakeup and system power control, regulator, 32 kHz clocks, RTC
-> > > >> and some USB connector.
-> > > >
-> > > > Here also same right? pwm, counter and clock are 3 unrelated
-> > > features.
-> > > > That is the reason we have separate subsystems for these features.
-> > >=20
-> > > These are quite similar features of a similar piece of hardware.
-> > > Sometimes called timer.
-> > >=20
-> > > >
-> > > >>
-> > > >> Just because you will have clocksource driver, PWM driver and timer
-> > > >> driver does not make it a MFD.
-> > > >
-> > > > MFD is multi function device.
-> > >=20
-> > > No. MFD is a Linux subsystem name. Not a device type. The bindings are
-> > > located in respective type.
-> > >=20
-> > > > So are are you agreeing Clock source, PWM and timer are different
-> > > > functionalities or not? If not, why do we have 3 subsystems, if it
-> > > is
-> > > > same?
-> > >=20
-> > > Linux subsystems? We can have millions of them and it is not related
-> > > to bindings.
-> >=20
-> > OK.
-> >=20
-> > >=20
-> > >=20
-> > > > Where do keep these bindings as there is only single "rz_mtu"
-> > > bindings for these 3 different functionalities?
-> > >=20
-> > > Again, focus on hardware not on Linux drivers. Hardware is called MTU
-> > > - Multi-Function TIMER Unit. Timer.
-> >=20
-> > OK
-> > >=20
-> > > > pwm or counter or mfd?
-> > >=20
-> > > Not MFD. I already proposed where to put it. Other Timer/PWM/Counter
-> > > units are also in timer.
-> > >=20
-> >=20
-> > I guess for counter/pwm maintainers, it is ok to model MTU3 as a single=
-=20
-> > binding "rz-mtu3" in timer that binds against counter and pwm=20
-> > functionalities as well??
-> >=20
-> > Cheers,
-> > Biju
->=20
-> I'm okay with putting the MTU3 binding under timer; we already have
-> Documentation/devicetree/bindings/timer/renesas,mtu2.yaml there so
-> adding a new renesas,mtu3.yaml next to it seems reasonable.
->=20
-> Just to reiterate Krzysztof's point, the subsystems in Linux serve as a
-> way to group drivers together that utilize the same ABIs, whereas the
-> devicetree is a structure for organizing physical hardware. The
-> structure of physical hardware types don't necessarily match the
-> organization of the ABIs we use to support them. This is why you may end
-> up with differing heirarchies between the devicetree and driver
-> subsystems.
->=20
-> To illustrate the point, take for example a hypothetical
-> digital-to-analog (DAC) device with a few GPIO lines. Those GPIO
-> input signals could be tied to buttons used to indicate to the system
-> that a user wants to reset or adjust the DAC output, while the GPIO
-> output signals could be status lights or triggers indicating that the
-> DAC is operating. The respective driver for this device may utilize the
-> IIO subsystem to support the DAC and the GPIO subsystem to support those
-> GPIO lines, but it would be incorrect to put this under MFD because the
-> purpose of the GPIO lines is to assist in the operation of the DAC; in
-> other words, this is primarily a DAC device with some auxiliary
-> convenience functionalities, not a MFD with distinct unrelated separate
-> components.
+Patch: [v2] dt-bindings: display: bridge: renesas,dw-hdmi: Add resets property
+  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=672970
+  Lore link: https://lore.kernel.org/r/20220831213536.7602-1-prabhakar.mahadev-lad.rj@bp.renesas.com
 
-Exactly. In addition to the DT aspect, another misconception is that a
-driver for a multi-function device needs to be somehow split up to match
-the Linux subsystem structure. In most cases that's not true. Pick the
-subsystem that most closely fits the main function of a device and
-implement the driver. If you can expose further functions using other
-subsystems, that's absolutely fine. Drivers can register with multiple
-subsystems at the same time.
+Patch: arm64: dts: renesas: r8a779g0: Fix HSCIF0 "brg_int" clock
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=683735
+  Lore link: https://lore.kernel.org/r/a5bd4148f92806f7c8e577d383370f810315f586.1665155947.git.geert+renesas@glider.be
 
-Yes, that's not quite as neat as having individual drivers for each
-subsystem, but it's a much better approximation of the hardware and
-therefore will lead to more compact and stable drivers. Trying to split
-things up arbitrarily often makes for wonky constructs.
+Series: arm64: dts: renesas: r8a779g0: Add PWM and TPU device
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=683745
+  Lore link: https://lore.kernel.org/r/cover.1665156417.git.geert+renesas@glider.be
+    Patches: [1/2] arm64: dts: renesas: r8a779g0: Add PWM device nodes
+             [2/2] arm64: dts: renesas: r8a779g0: Add TPU device node
 
-We've gained powerful tools over the years to easily deal with cross-
-subsystem drivers, so there's seldom a reason to strictly split things
-across subsystem boundaries anymore.
+Patch: ARM: defconfig cleanup
+  Submitter: Arnd Bergmann <arnd@kernel.org>
+  Committer: Arnd Bergmann <arnd@arndb.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=668759
+  Lore link: https://lore.kernel.org/r/20220818135522.3143514-1-arnd@kernel.org
 
-Thierry
+Series: [1/3] drm: rcar-du: remove unnecessary include
+  Submitter: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=668409
+  Lore link: https://lore.kernel.org/r/20220817132803.85373-1-tomi.valkeinen@ideasonboard.com
+    Patches: [1/3] drm: rcar-du: remove unnecessary include
 
---nZ+UcSAkhSAEBb22
-Content-Type: application/pgp-signature; name="signature.asc"
+Series: r8a779f0: enable CMT timers
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=659263
+  Lore link: https://lore.kernel.org/r/20220713101447.3804-1-wsa+renesas@sang-engineering.com
+    Patches: [1/3] clk: renesas: r8a779f0: Add CMT clocks
 
------BEGIN PGP SIGNATURE-----
+Series: dt-bindings: display: bridge: nxp,tda998x: Json-schema conversion and fixes
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=676993
+  Lore link: https://lore.kernel.org/r/cover.1663165552.git.geert+renesas@glider.be
+    Patches: [v2,1/3] ARM: dts: am335x: Fix TDA998x ports addressing
+             [v2,3/3] dt-bindings: display: bridge: nxp,tda998x: Convert to json-schema
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmNNX/0ACgkQ3SOs138+
-s6Fd7w/7Bk/7GH1pccb3LSpYVwJqBPu6guiw4I1yjG2aNVsX3MBfwjXXg0LBJkRV
-0YctZRdJTPgZcaXrTs5Kx8GovuxokrxgM9M9jqktB7tSmlQSVUEJC19uk01X5hwc
-f+VtHHugkqde1PbC2aMSX4OBX0C7MeRHijIGK8oi2e9auN+LQm+w2lh5vKJtP/6C
-MEDJtOOCo+eEZWKPx5wOwwV/8WLEmyBolMYQunCrwVE8VyXnerGzf0Pc9BBsEEFS
-vaO8ad+VaUFnSMsMDTPOzW6oPsPmQafD8Jih3diuP1aZgcEE1iwfzBYTHAkX4kuw
-us38EbVXOMNx6pVi9MzUTon/XuKdPHsXT4byq4nHXVqE0yv1O9H6zrGIQTocBKvK
-8WJaHynZUW+fmL5Yi3wnBY72EY3+bFQxtpGNCBb5EWdO45e871pXnAebOCpsgw3Y
-rIu74lOmAUeHuSvZZC8njsW8aFgXlBNtSb9Ja0c+ng7XxmrVNWgRgJ4E9MUV8Kf7
-nESRrVTHyhPbOyKjAe4nTZF3hxZV52Rq74icpPGA6Mv4mKZpY6q999WvVzUPxUT6
-2wTZc4nQoKyDn233bD/FwQqA5fguE4lx1fZ2UOItvPyK5abQvVVw5d/980Wr71IP
-Xk3Q7svtVW1zRBaJoltW+D8v62H8pXk6BZvfgPnz3YSVr+1y3xA=
-=yeGv
------END PGP SIGNATURE-----
+Patch: dt-bindings: pinctrl: Add missing (unevaluated|additional)Properties on child nodes
+  Submitter: Rob Herring <robh@kernel.org>
+  Committer: Linus Walleij <linus.walleij@linaro.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=670314
+  Lore link: https://lore.kernel.org/r/20220823145649.3118479-6-robh@kernel.org
 
---nZ+UcSAkhSAEBb22--
+Series: arm64: dts: renesas: r8a779g0/white-hawk: Add SDHI/eMMC support
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=684694
+  Lore link: https://lore.kernel.org/r/cover.1665558371.git.geert+renesas@glider.be
+    Patches: [1/2] arm64: dts: renesas: r8a779g0: Add SDHI node
+
+Series: Add support for RZ/G2L VSPD
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Mauro Carvalho Chehab <mchehab@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=671788
+  Lore link: https://lore.kernel.org/r/20220828081334.30078-1-biju.das.jz@bp.renesas.com
+    Patches: [v14,1/5] media: dt-bindings: media: renesas,vsp1: Document RZ/G2L VSPD bindings
+             [v14,2/5] media: renesas: vsp1: Add support to deassert/assert reset line
+             [v14,3/5] media: renesas: vsp1: Add support for VSP software version
+             [v14,4/5] media: renesas: vsp1: Add VSP1_HAS_NON_ZERO_LBA feature bit
+             [v14,5/5] media: renesas: vsp1: Add support for RZ/G2L VSPD
+
+Series: drm/bridge: ti-sn65dsi86: Basic DP support
+  Submitter: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+  Committer: Robert Foss <robert.foss@linaro.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=672744
+  Lore link: https://lore.kernel.org/r/20220831082653.20449-1-tomi.valkeinen@ideasonboard.com
+    Patches: [v6,1/3] drm/bridge: ti-sn65dsi86: Reject modes with too large blanking
+             [v6,2/3] drm/bridge: ti-sn65dsi86: Support DisplayPort (non-eDP) mode
+             [v6,3/3] drm/bridge: ti-sn65dsi86: Implement bridge connector operations for DP
+
+Series: drm/plane: Remove drm_plane_init(), plus other cleanups
+  Submitter: Thomas Zimmermann <tzimmermann@suse.de>
+  Committer: Thomas Zimmermann <tzimmermann@suse.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=675642
+  Lore link: https://lore.kernel.org/r/20220909105947.6487-1-tzimmermann@suse.de
+    Patches: [1/4] drm/plane: Remove drm_plane_init()
+             [3/4] drm/plane-helper: Warn if atomic drivers call non-atomic helpers
+
+Series: arm64: dts: renesas: r8a779g0/white-hawk: Add RPC and QSPI FLASH support
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=684800
+  Lore link: https://lore.kernel.org/r/cover.1665583435.git.geert+renesas@glider.be
+    Patches: [1/2] arm64: dts: renesas: r8a779g0: Add RPC node
+             [2/2] arm64: dts: renesas: white-hawk-cpu: Add QSPI FLASH support
+
+Patch: drm: rcar-du: Drop leftovers variables from Makefile
+  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=671668
+  Lore link: https://lore.kernel.org/r/20220827004220.8397-1-laurent.pinchart+renesas@ideasonboard.com
+
+Series: [1/2] drm: rcar-du: Drop unused encoder header files
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=671015
+  Lore link: https://lore.kernel.org/r/20220825103905.2450049-1-biju.das.jz@bp.renesas.com
+    Patches: [1/2] drm: rcar-du: Drop unused encoder header files
+
+Patch: ARM: Drop CMDLINE_FORCE dependency on !ARCH_MULTIPLATFORM
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Arnd Bergmann <arnd@arndb.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=681020
+  Lore link: https://lore.kernel.org/r/c557b149780faa2299700585afc9d270ede7f78b.1664285062.git.geert+renesas@glider.be
+
+Series: Add RZ/N1 CAN support
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Marc Kleine-Budde <mkl@pengutronix.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=672511
+  Lore link: https://lore.kernel.org/r/20220830164518.1381632-1-biju.das.jz@bp.renesas.com
+    Patches: [v3,1/3] dt-bindings: can: nxp,sja1000: Document RZ/N1 power-domains support
+
+Patch: None
+  Submitter: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=670156
+  Lore link: https://lore.kernel.org/r/20220823105706.44282-1-tomi.valkeinen@ideasonboard.com
+
+Series: drm: rcar-du: DSI fixes
+  Submitter: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=670653
+  Lore link: https://lore.kernel.org/r/20220824124726.187224-1-tomi.valkeinen@ideasonboard.com
+    Patches: [v4,1/5] drm: rcar-du: lvds: Rename pclk enable/disable functions
+             [v4,2/5] drm: rcar-du: dsi: Properly stop video mode TX
+             [v4,3/5] drm: rcar-du: dsi: Improve DSI shutdown
+             [v4,5/5] drm: rcar-du: dsi: Fix VCLKSET write
+
+Patch: i2c: riic: Use devm_platform_ioremap_resource()
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Wolfram Sang <wsa@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=676648
+  Lore link: https://lore.kernel.org/r/20220913170121.24246-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+Patch: net: ravb: Add R-Car Gen4 support
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Jakub Kicinski <kuba@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=675617
+  Lore link: https://lore.kernel.org/r/2ee968890feba777e627d781128b074b2c43cddb.1662718171.git.geert+renesas@glider.be
+
+Series: Remove label = "cpu" from DSA dt-bindings
+  Submitter: Vladimir Oltean <vladimir.oltean@nxp.com>
+  Committer: Jakub Kicinski <kuba@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=676285
+  Lore link: https://lore.kernel.org/r/20220912175058.280386-1-vladimir.oltean@nxp.com
+    Patches: [net-next,1/3] dt-bindings: net: dsa: mt7530: replace label = "cpu" with proper checks
+             [net-next,2/3] dt-bindings: net: dsa: mt7530: stop requiring phy-mode on CPU ports
+             [net-next,3/3] dt-bindings: net: dsa: remove label = "cpu" from examples
+
+Series: [v2,1/2] lib/string_helpers: Add str_read_write() helper
+  Submitter: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+  Committer: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=656112
+  Lore link: https://lore.kernel.org/r/20220703154232.55549-1-andriy.shevchenko@linux.intel.com
+    Patches: [v2,1/2] lib/string_helpers: Add str_read_write() helper
+
+Series: Add i2c to Renesas RZ/V2M SoC and board
+  Submitter: Phil Edworthy <Phil.Edworthy@renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=669335
+  Lore link: https://lore.kernel.org/r/20220819193944.337599-1-phil.edworthy@renesas.com
+    Patches: [1/3] clk: renesas: r9a09g011: Add IIC clock and reset entries
+
+Series: r8a779f0: add SDHI support
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=658561
+  Lore link: https://lore.kernel.org/r/20220711134656.277730-1-wsa+renesas@sang-engineering.com
+    Patches: [1/3] clk: renesas: r8a779f0: Add sdh0 clock
+
+Patch: ARM: Drop CMDLINE_* dependency on ATAGS
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Arnd Bergmann <arnd@arndb.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=681021
+  Lore link: https://lore.kernel.org/r/09f0619e8038654d01588d9ad3a023485b2bd77f.1664285209.git.geert+renesas@glider.be
+
+Patch: [net-next,v5] ravb: Add RZ/G2L MII interface support
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Jakub Kicinski <kuba@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=677063
+  Lore link: https://lore.kernel.org/r/20220914192604.265859-1-biju.das.jz@bp.renesas.com
+
+Patch: dt-bindings: clock: renesas,rzg2l: Document RZ/Five SoC
+  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=663176
+  Lore link: https://lore.kernel.org/r/20220726174525.620-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+
+Total patches: 43
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
