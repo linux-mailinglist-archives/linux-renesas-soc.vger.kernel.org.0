@@ -2,104 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A33A6007AD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Oct 2022 09:26:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 570EE6007DB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Oct 2022 09:41:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230130AbiJQH0S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Oct 2022 03:26:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57388 "EHLO
+        id S230028AbiJQHlV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Oct 2022 03:41:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229799AbiJQH0R (ORCPT
+        with ESMTP id S230022AbiJQHlU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Oct 2022 03:26:17 -0400
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D088359715;
-        Mon, 17 Oct 2022 00:26:16 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 8E5D63200201;
-        Mon, 17 Oct 2022 03:26:15 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Mon, 17 Oct 2022 03:26:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1665991575; x=1666077975; bh=QxZFt3QBmH
-        IoQfMp/FC9LEPOpzpCYtGddTyuGXfMHts=; b=sO+2EouwX94ev8P02yO6A8A4Fz
-        QPHBOZPd3awl1SI60x3BWux0l1iP9kSRH3ZOcBVnzUbIynoGVTSp1rDY74PdqFnF
-        PiYjFPnlTg/1LyA3xb0b6NL4R2ALp6ufuaTydHqFEZ+Rr8t95J+0fmGm+UNR19ur
-        JJ8ZO3gkNR5S7C3FHqdgK/XZGsTl2soOBeJdhQ+CicMwLEWdJ5Guc5V2JuyK+qVQ
-        1bm3y8BhviT3ddT9SXJnrmDdnBxYfmX+ie/jLgdNTkfd3i1/26s2gFmPfc3AdNOx
-        DInUtbWuc/EekyIA/ZZTRUxXruwatiF/TTcJSS9d+LwKIaJp4elKq47cER8g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1665991575; x=1666077975; bh=QxZFt3QBmHIoQfMp/FC9LEPOpzpC
-        YtGddTyuGXfMHts=; b=F6TGgT+U5mxBhfmWI/7vgTwLeAClf9ELsI1oZdgbZMUi
-        x6qkFKch8JbwdMdk1h5n+9Jtr0FSB9mlWoYQUQ/CKV1v+g4fWDr9iS8h3S7Ypbdj
-        xkTrU3VfbJtXXmBPkZEEpZl5DmYDBSpIk74YphQR4zDFVEhLetBojwskAxKQeJg3
-        /NSVd/ddlUJYvNF3zC+IFuqGF6k1QAAKv2ntXrwvKLyQk0fSSF4Ha9HtvVV00Zuw
-        tzF8sH94t6EtBh1nzIHybzALlwPo1ceVMRsrnRJAMnyCwYqzMGncwcDu2hlK6biR
-        Q0sOu8dAr8zZ9x309dZlNw/eu7Akbp1CwXz7S++VNw==
-X-ME-Sender: <xms:lgNNY-6Q4eNxu4_LyqbAqTCriFFoYhHoqNxNnGGgkZpdHdPD9bCAFQ>
-    <xme:lgNNY36lnvbZzwN1nVeD5qxlgtifFEceKCOYQybcJ4-6uBtFU2blshPpVOgH1Lqlh
-    t95REm-zp5k6PbeVno>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeekkedguddvtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:lgNNY9cCxFWtCINwBFeYvmvm8xFIVwDkJyfJZDWJFnEVr9Vh84jI1g>
-    <xmx:lgNNY7LLGfQ0IoZHI2C_STOsFWLd6ODxUU3HcXwAAIc4bj2j8yR1jw>
-    <xmx:lgNNYyJrWXwva8_DBqkJFUYYy0I0Vz_FwumY-vv6VJKnviuBPVSTCw>
-    <xmx:lwNNY68NrTbNl4HD4BbR4HCcksGTDavbBDb6QWVXj9A5fr-6FHn5Ag>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 2731CB60086; Mon, 17 Oct 2022 03:26:14 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
-Mime-Version: 1.0
-Message-Id: <b93fb33e-5835-4c20-9781-68a1bb58bd78@app.fastmail.com>
-In-Reply-To: <20221017032205.2210188-1-damien.lemoal@opensource.wdc.com>
-References: <20221017032205.2210188-1-damien.lemoal@opensource.wdc.com>
-Date:   Mon, 17 Oct 2022 09:25:53 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Damien Le Moal" <damien.lemoal@opensource.wdc.com>,
-        linux-ide@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org,
-        "Patrice Chotard" <patrice.chotard@foss.st.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "Sergey Shtylyov" <s.shtylyov@omp.ru>,
-        "Shawn Guo" <shawnguo@kernel.org>,
-        "Sascha Hauer" <s.hauer@pengutronix.de>,
-        "Pengutronix Kernel Team" <kernel@pengutronix.de>
-Subject: Re: [PATCH 0/6] Fix compilation warnings
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 17 Oct 2022 03:41:20 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBB2813DDF;
+        Mon, 17 Oct 2022 00:41:17 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id bj12so22850104ejb.13;
+        Mon, 17 Oct 2022 00:41:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jp8HrSCso1cEfmmqdQBEdUtj0Bbq01HpoZXdky0tskI=;
+        b=fbtJmyV8qM0M7KbwD36UBnvc5tzo0doZXFZ/rKdCDx8J3dYTtTSn/IYu+gZtMCBLgp
+         lQvG5PJDQN7Yrzkbc8NJ0q6iGhSvRMMKQnlQjzKIbd5V+AF6ny6Pwsvs2V4+pWCEFIC+
+         gaqbTTfnIQClaSTJVTF71H9Mfc9yqtRPvqIm4F7sHF1JaXtTiuW99vHpazTA9lqm9za8
+         ac8ZWPMB+cf0oq+dp0GoqNYrZj5ldg8eZLQ2JVAoG+z9Bk47MrXDNLLf3OX+ung1X3aK
+         an7QqerLK5UB69vodObQcJB8xyhiv2AjbIjDY2RkhFo7jLrkwK4gz5XJ1u36pFoNZY2z
+         AQjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jp8HrSCso1cEfmmqdQBEdUtj0Bbq01HpoZXdky0tskI=;
+        b=m0QRq3sghvRHaNL0NC7WBMqf+0UxmOpaqStSWPA5icmxipCRqPzFwr2auLnPAa6iUx
+         v6bY8RXPgTie1BuHEMim+1UusAVDoS78M83d13pAdeQ6WYlHWGizwa1+vF3F4Wdj9yub
+         uuoedS1y36rGIX82vKaE0nwFADTBhKVtGlsWgDU6LZWXBFCGrqpFk8GdZazP+PQTrPUk
+         YRyBV1wO9M74nzhJUYaKo+Hi81QssttjzBb6qN44YHW20COmOKXdOWDjU0x5Mj2OnbQX
+         w4Ooak/cK1kEIF3navrqDSPuoccIg4kAPLKLbZD5kdEdw97rhw5PZ+YyIp9sqg9XIu5R
+         jMqA==
+X-Gm-Message-State: ACrzQf36H+LSUAmIsVCxKH0afZkR+5hlecvEzfv2A1bSd51dxhz7F373
+        7HLG0tD3/fckhI/7acacLwIW8r6FoFT/zYo+iUY=
+X-Google-Smtp-Source: AMsMyM71lZzbP/LAJp4Ui5wekihf0780L8XnOegyGGstUHtaFcNanS3NyUllyd/7igndW+Z+Um8u8n5p2XT0oK/PrJA=
+X-Received: by 2002:a17:906:5a4b:b0:78d:4e5a:d101 with SMTP id
+ my11-20020a1709065a4b00b0078d4e5ad101mr7459289ejc.196.1665992475700; Mon, 17
+ Oct 2022 00:41:15 -0700 (PDT)
+MIME-Version: 1.0
+References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221014183459.181567-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y0pSYfw+VDxXv85b@pendragon.ideasonboard.com> <Y0snkMEp9WqGtzom@paasikivi.fi.intel.com>
+ <Y0tA4cZBdwCOkaOs@pendragon.ideasonboard.com> <Y0xnXM+Iw5OkdKj6@paasikivi.fi.intel.com>
+ <Y0xxlTP53dwx8VD+@pendragon.ideasonboard.com> <Y00ASntfSkMsWTN0@paasikivi.fi.intel.com>
+In-Reply-To: <Y00ASntfSkMsWTN0@paasikivi.fi.intel.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 17 Oct 2022 08:40:49 +0100
+Message-ID: <CA+V-a8vtAAkmV6BfP0azNOTcxDbs2yaCbKQ4M_hrsTmRv+OQaw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] media: i2c: ov5645: Return zero for s_stream(0)
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 17, 2022, at 5:21 AM, Damien Le Moal wrote:
-> Several patches for 6.1-fixes to dwiaddress fix compilation warnings
-> thrown with CC=clang and W=1 and depending on CONFIG_OF settings.
+Hi Sakari,
+
+On Mon, Oct 17, 2022 at 8:12 AM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
 >
-> Damien Le Moal (6):
->   ata: ahci_st: Fix compilation warning
->   ata: sata_rcar: Fix compilation warning
->   ata: ahci_brcm: Fix compilation warning
->   ata: ahci_xgene: Fix compilation warning
->   ata: ahci_imx: Fix compilation warning
->   ata: ahci_qoriq: Fix compilation warning
+> On Mon, Oct 17, 2022 at 12:03:17AM +0300, Laurent Pinchart wrote:
+> > Hi Sakari,
+> >
+> > On Sun, Oct 16, 2022 at 08:19:40PM +0000, Sakari Ailus wrote:
+> > > On Sun, Oct 16, 2022 at 02:23:13AM +0300, Laurent Pinchart wrote:
+> > > > On Sat, Oct 15, 2022 at 09:35:12PM +0000, Sakari Ailus wrote:
+> > > > > On Sat, Oct 15, 2022 at 09:25:37AM +0300, Laurent Pinchart wrote:
+> > > > > > On Fri, Oct 14, 2022 at 07:34:58PM +0100, Prabhakar wrote:
+> > > > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > >
+> > > > > > > Always return zero while stopping the stream as the caller will ignore the
+> > > > > > > return value.
+> > > > > > >
+> > > > > > > This patch drops checking the return value of ov5645_write_reg() and
+> > > > > > > continues further in the code path while stopping stream. The user anyway
+> > > > > > > gets an error message in case ov5645_write_reg() fails.
+> > > > > >
+> > > > > > Continuing all the way to pm_runtime_put() is fine, but I don't think
+> > > > > > the function should return 0. It's not up to the driver to decide if a
+> > > > > > failure would be useful to signal to the caller or not.
+> > > > >
+> > > > > If the function returns an error when disabling streaming, what is the
+> > > > > expected power state of the device after this?
+> > > >
+> > > > That's up to us to decide :-)
+> > > >
+> > > > > The contract between the caller and the callee is that the state is not
+> > > > > changed if there is an error.
+> > > >
+> > > > For most APIs, but that's not universal.
+> > > >
+> > > > > This is a special case as very few callers
+> > > > > check the return value for streamoff operation and those that do generally
+> > > > > just print something. I've never seen a caller trying to prevent streaming
+> > > > > off in this case, for instance.
+> > > >
+> > > > I think the stream off call should proceed and try to power off the
+> > > > device even if an error occurs along the way, i.e. it shouldn't return
+> > > > upon the first detected error.
+> > > >
+> > > > > Of course we could document that streaming off always counts as succeeded
+> > > > > (e.g. decreasing device's runtime PM usage_count) while it could return an
+> > > > > informational error code. But I wonder if anyone would ever benefit from
+> > > > > that somehow. :-)
+> > > >
+> > > > I think it could be useful to propagate errors up to inform the user
+> > > > that something wrong happened. That would involve fixing lots of drivers
+> > > > along the call chain though, so there's no urgency for the ov5645 to do
+> > > > so, but isn't it better to propagate the error code instead of hiding
+> > > > the issue ?
+> > >
+> > > I also don't think hiding the issue would be the best thing to do, but that
+> > > wouldn't likely be a big problem either.
+> > >
+> > > How about printing a warning in the wrapper while returning zero to the
+> > > original caller? This would keep the API intact while still leaving a trace
+> > > on something failing. Of course the driver is also free to print whatever
+> > > messages it likes.
+> >
+> > While I think error propagation could be more useful in the long run,
+> > printing a message in the wrapper is a good idea. I like centralized
+> > error handling, it has a tendency to go wrong when left to individual
+> > drivers.
+>
+> I can send a patch...
+>
+To conclude, for v3 I'll continue down the code path upon error and
+then report back the error?
 
-Whole series
-
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+Cheers,
+Prabhakar
