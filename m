@@ -2,89 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA50F600BA7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Oct 2022 11:56:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66B28600BB7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Oct 2022 11:58:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230375AbiJQJ4a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Oct 2022 05:56:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32972 "EHLO
+        id S231524AbiJQJ6U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Oct 2022 05:58:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230209AbiJQJ43 (ORCPT
+        with ESMTP id S231311AbiJQJ6T (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Oct 2022 05:56:29 -0400
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED29433403;
-        Mon, 17 Oct 2022 02:56:28 -0700 (PDT)
-Received: by mail-qv1-f43.google.com with SMTP id de14so7094371qvb.5;
-        Mon, 17 Oct 2022 02:56:28 -0700 (PDT)
+        Mon, 17 Oct 2022 05:58:19 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 820925D123
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 02:58:16 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id bj12so23586753ejb.13
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 02:58:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=B/Byge+Vue4J7Z80ANz5rsyrsoG83IPzp3UARO7F6/s=;
+        b=MUHWuYJag6UdIGNJWiJWxn8WAAZ42CXEFTnECn+6skOIqg/uauJYEVg974vMd9sMEk
+         zE6zI7z18arTxzgN6sTudVQN0HH06/PzZJ+4X18m75Vy/bF7X3X+fEqiRAyn7cwpLeMe
+         1S3Gkx8o3vO463r4qBmru/5P+HeV+QtYD7XFaMKTFQkBKEINKik6GSXOIGd4TakIzo/y
+         22NV5ZvkVpf1kqoQWmMXugwEs+G3K/F00qz0J2gsZD0tyQrxzJVUb1Rv0OE2tl8BfDdT
+         1Thx86QUb3Eo9BPHEOAqRcLadLrkm9xIrIOP9q0Nx+T+iVZxfi/eZSxmcD7GZQwM5l3C
+         f6SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9gKRqDUtAHQUXUoHy9pqj/nWSaQny/hgTIVkVZktn0E=;
-        b=H4G4o0CulucZpH0zEHozYdp2/mOYGcuYI+54INLK0K6LnklH0lcUmxZeUxsvb4ed2m
-         m033mwjoRztqqw7TTTcSNQHfpRYMdcjZMW/5FqwLzHHotTkBH5o8gQrWPgN3nsdsEPCM
-         sKjbn25VsLHCLwTasI4mVvTGqSre80oYh/54UAn4Gzc27AwizYAoR7iUBHBg487x5IlV
-         IdS20/3giWmvBnvbJ2jZpL0K0yAPaSrnSGWRuJER91bJZQCLPrs1NdcnchPwvZ/FtN1T
-         of50zYwZ2jyfYm3nq8AO628Ab70H6MqVz9Tdn+TGg2hYvZnbre7MviPj2lfygmRaFO3o
-         2Jhw==
-X-Gm-Message-State: ACrzQf1sFEnN5CnC+boZrwoeXf5MNr6N4hi8jEKUahb6iS2B2yJMO28v
-        5Sg+wyLEOxq9yvmC4A4gw3KFCDBXYNZaTA==
-X-Google-Smtp-Source: AMsMyM7PhEx0uzrtLzFx9atzkYKxEPzWkNgNYdGQoHis7daNO+NW85lF5Hlc4HhL1dbZshR+/nmeng==
-X-Received: by 2002:a05:6214:5cc5:b0:4b3:ec9e:79d8 with SMTP id lk5-20020a0562145cc500b004b3ec9e79d8mr7621481qvb.61.1666000587690;
-        Mon, 17 Oct 2022 02:56:27 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id f25-20020a05622a1a1900b00398df095cf5sm7697957qtb.34.2022.10.17.02.56.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Oct 2022 02:56:27 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id r3so12632888yba.5;
-        Mon, 17 Oct 2022 02:56:27 -0700 (PDT)
-X-Received: by 2002:a25:26c1:0:b0:6c3:bdae:c6d6 with SMTP id
- m184-20020a2526c1000000b006c3bdaec6d6mr8000372ybm.36.1666000586883; Mon, 17
- Oct 2022 02:56:26 -0700 (PDT)
+        bh=B/Byge+Vue4J7Z80ANz5rsyrsoG83IPzp3UARO7F6/s=;
+        b=AuXOtexyAsRfex5Ke1tHhc3bK5aJkt8z90XBR+t9JJrqiDzpVuNkA0TzR6pGypnxCR
+         j6jlNeHiQNALQn6oHWRAWyRUwGGZWI0NH1/KiihejRsWhIfqDx8k+MNzArLthNc3RxZe
+         /devPUwh2nhpAyQHz1EorvPVlB7bAy13zZy32SUBbWc/Yca5TYwLl3z4FHxfuKPP0W9e
+         z8v7K6kComiXDJ3Ac1lkYYDJDadijZfW7Om6lEvSLFtNwelSWaXYmCPzaAfHxfU/qA3q
+         UBA/JQ0u3XVj4diU9yh8oITZxh4wZ7MxRFdvKN2x0s3WiCw25dBR7FIYzLCSOhz5cv9x
+         66Qg==
+X-Gm-Message-State: ACrzQf2OHOdV4MkjYOMJ4uxoT/Z+sEFaQhoepTMieCJqnF4Znyjpzw15
+        Kt0mYnEgiSDUCJzdKBjXSEXO6aScZLFnH7WnKDfMsQ==
+X-Google-Smtp-Source: AMsMyM4L0M6bcj2Wvh4KRdD8EKd7M4z6+eLVjZHPl1MFPGYp6JqekMO0KaAEpqZ8kDbWIS4EMUIR8qxcTy8qHdB2D/8=
+X-Received: by 2002:a17:907:7606:b0:78e:61d:757e with SMTP id
+ jx6-20020a170907760600b0078e061d757emr7556783ejc.690.1666000695069; Mon, 17
+ Oct 2022 02:58:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221005111855.553436-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20221005111855.553436-1-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 17 Oct 2022 11:56:15 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVDwe98RDC7tJv+ic8zfjWqE27YKZ_+mXDKraFifJjrmA@mail.gmail.com>
-Message-ID: <CAMuHMdVDwe98RDC7tJv+ic8zfjWqE27YKZ_+mXDKraFifJjrmA@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r9a07g044: Add MTU3a clock and reset entry
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
+ <CACRpkdZ1M3ckw+jFgvMqG4jvR-t_44GPoZ6ZDXszwZCJr-cDpg@mail.gmail.com> <Y00f5exY2fM6IwZ+@smile.fi.intel.com>
+In-Reply-To: <Y00f5exY2fM6IwZ+@smile.fi.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 17 Oct 2022 11:58:03 +0200
+Message-ID: <CACRpkdYmSOGtFz8W_RRkDqMXRRBOSB9jqSn65Sah90bf3Gm59g@mail.gmail.com>
+Subject: Re: [rft, PATCH v2 00/36] pinctrl: Clean up and add missed headers
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Kent Gibson <warthog618@gmail.com>, linux-gpio@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-actions@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+        openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
+        alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+        linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 5, 2022 at 1:19 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add MTU3a clock and reset entry to CPG driver.
+On Mon, Oct 17, 2022 at 11:27 AM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> On Mon, Oct 17, 2022 at 11:02:09AM +0200, Linus Walleij wrote:
+> > On Mon, Oct 10, 2022 at 10:15 PM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> >
+> > > Currently the header inclusion inside the pinctrl headers seems more arbitrary
+> > > than logical. This series is basically out of two parts:
+> > > - add missed headers to the pin control drivers / users
+> > > - clean up the headers of pin control subsystem
+> > >
+> > > The idea is to have this series to be pulled after -rc1 by the GPIO and
+> > > pin control subsystems, so all new drivers will utilize cleaned up headers
+> > > of the pin control.
+> >
+> > Aha I see you want to send a pull request so I backed out the applied patches
+> > from the series for now.
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Can I consider all that you answered to as Rb tag?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v6.2.
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-Gr{oetje,eeting}s,
+I haven't reviewed in detail but I fully trust you to do the right thing
+and fix any fallout so will happily pull this.
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yours,
+Linus Walleij
