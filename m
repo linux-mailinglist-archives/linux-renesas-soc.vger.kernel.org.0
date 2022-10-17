@@ -2,71 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66B28600BB7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Oct 2022 11:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E9A4600DCB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Oct 2022 13:33:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231524AbiJQJ6U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Oct 2022 05:58:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35044 "EHLO
+        id S229963AbiJQLdB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Oct 2022 07:33:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231311AbiJQJ6T (ORCPT
+        with ESMTP id S230160AbiJQLcy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Oct 2022 05:58:19 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 820925D123
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 02:58:16 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id bj12so23586753ejb.13
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 02:58:16 -0700 (PDT)
+        Mon, 17 Oct 2022 07:32:54 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657ED1096
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 04:32:53 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id i3so10790001pfk.9
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 04:32:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=B/Byge+Vue4J7Z80ANz5rsyrsoG83IPzp3UARO7F6/s=;
-        b=MUHWuYJag6UdIGNJWiJWxn8WAAZ42CXEFTnECn+6skOIqg/uauJYEVg974vMd9sMEk
-         zE6zI7z18arTxzgN6sTudVQN0HH06/PzZJ+4X18m75Vy/bF7X3X+fEqiRAyn7cwpLeMe
-         1S3Gkx8o3vO463r4qBmru/5P+HeV+QtYD7XFaMKTFQkBKEINKik6GSXOIGd4TakIzo/y
-         22NV5ZvkVpf1kqoQWmMXugwEs+G3K/F00qz0J2gsZD0tyQrxzJVUb1Rv0OE2tl8BfDdT
-         1Thx86QUb3Eo9BPHEOAqRcLadLrkm9xIrIOP9q0Nx+T+iVZxfi/eZSxmcD7GZQwM5l3C
-         f6SA==
+        bh=Rrl2OknZsaWiUDo+xm2A7h8HEBYe0c3y7aA5IiC4CCA=;
+        b=jhB+41Qw6gWGX6XVB2dXsAneYHLfN2fk727EVAP3U7CqiRrLU+78WvWnC02wXgVI2x
+         QCEXvet4qoPcNEeKNwdc18k2GuUUt2yP0pBZzeXchAUTMUKld+B7eTzu8mrOrPwcTYxv
+         cNsgRFAASvvzKaCYnEPIF3/ZJoB2k4SYWRfSuVB8R3XijpixCcTD4g9ID0hVXFes96ag
+         Vu4mx0aE7pE/w2E6WwhTz4UEh36a87HUspEwUsXsFMfN0xUlCcIp60zPfuyNVUQ3g2BC
+         SPQrpyckwMQMAm2PenZLHQZOFhgma9QHqPQFS3T89DlrzwFJSQgLQaUKJzI9yyBWiGO0
+         2TSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=B/Byge+Vue4J7Z80ANz5rsyrsoG83IPzp3UARO7F6/s=;
-        b=AuXOtexyAsRfex5Ke1tHhc3bK5aJkt8z90XBR+t9JJrqiDzpVuNkA0TzR6pGypnxCR
-         j6jlNeHiQNALQn6oHWRAWyRUwGGZWI0NH1/KiihejRsWhIfqDx8k+MNzArLthNc3RxZe
-         /devPUwh2nhpAyQHz1EorvPVlB7bAy13zZy32SUBbWc/Yca5TYwLl3z4FHxfuKPP0W9e
-         z8v7K6kComiXDJ3Ac1lkYYDJDadijZfW7Om6lEvSLFtNwelSWaXYmCPzaAfHxfU/qA3q
-         UBA/JQ0u3XVj4diU9yh8oITZxh4wZ7MxRFdvKN2x0s3WiCw25dBR7FIYzLCSOhz5cv9x
-         66Qg==
-X-Gm-Message-State: ACrzQf2OHOdV4MkjYOMJ4uxoT/Z+sEFaQhoepTMieCJqnF4Znyjpzw15
-        Kt0mYnEgiSDUCJzdKBjXSEXO6aScZLFnH7WnKDfMsQ==
-X-Google-Smtp-Source: AMsMyM4L0M6bcj2Wvh4KRdD8EKd7M4z6+eLVjZHPl1MFPGYp6JqekMO0KaAEpqZ8kDbWIS4EMUIR8qxcTy8qHdB2D/8=
-X-Received: by 2002:a17:907:7606:b0:78e:61d:757e with SMTP id
- jx6-20020a170907760600b0078e061d757emr7556783ejc.690.1666000695069; Mon, 17
- Oct 2022 02:58:15 -0700 (PDT)
+        bh=Rrl2OknZsaWiUDo+xm2A7h8HEBYe0c3y7aA5IiC4CCA=;
+        b=Kan/Sboxowx3eC4t0oIzMM24btDXb6jLI2sJIi1q8kpHFaLWIvsIgcHtWthCzYsAj5
+         WkcOejWND0sXCL1rB2yjheuo+GLfyeJgziWCUrfjvbe8hYOnuGT3KvFiUV78E2DNNTUP
+         L4WoLvkqSQarVy7Po0ohNJIY1WMI+R9m10jBlG2ThxsiK3XtK1XlobG3lbCL/trrOvP0
+         6wZCjtT4ZmVPOjpkudnZpVobwoq+qZQPv+gDdX6Kt4ryWT8vBc8jBQ4aoc4LdI44MgJJ
+         UcIL5Hhqf2NFtVRLudFYjSl8EU/Gbzau7gYuIADqzDrmjdvTJiwgKurcupF5DfHLRmEo
+         xa5A==
+X-Gm-Message-State: ACrzQf2Eyq9nhl4LIa5AEdzhjDb+JZ9lwl9RHANBkd+3ARBojMu6Yu1E
+        C3K6s7Ph3Mkm1D+owgHj0nnapP9CmuEd7xgPSjN3gA==
+X-Google-Smtp-Source: AMsMyM4OqEFxEYjNvU2z31snfcvpPzLkTeQxsTaaLdl0ZuMkoL07Y1cJeXe9yI6lV13pcRZ5g3xtZBX5Oyvl+6U7d6E=
+X-Received: by 2002:a63:1612:0:b0:461:4180:d88b with SMTP id
+ w18-20020a631612000000b004614180d88bmr10597542pgl.434.1666006372909; Mon, 17
+ Oct 2022 04:32:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
- <CACRpkdZ1M3ckw+jFgvMqG4jvR-t_44GPoZ6ZDXszwZCJr-cDpg@mail.gmail.com> <Y00f5exY2fM6IwZ+@smile.fi.intel.com>
-In-Reply-To: <Y00f5exY2fM6IwZ+@smile.fi.intel.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 17 Oct 2022 11:58:03 +0200
-Message-ID: <CACRpkdYmSOGtFz8W_RRkDqMXRRBOSB9jqSn65Sah90bf3Gm59g@mail.gmail.com>
-Subject: Re: [rft, PATCH v2 00/36] pinctrl: Clean up and add missed headers
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Kent Gibson <warthog618@gmail.com>, linux-gpio@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-actions@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
-        alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
-        linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
+References: <7ee7fdb6a46fc9f0e50c2b803ede6b4b2fdfa450.1665558324.git.geert+renesas@glider.be>
+In-Reply-To: <7ee7fdb6a46fc9f0e50c2b803ede6b4b2fdfa450.1665558324.git.geert+renesas@glider.be>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Mon, 17 Oct 2022 13:32:15 +0200
+Message-ID: <CAPDyKFqjq5YwXwxmvyOWwqiXYPrfBgp-yBOVLH1ekF86fihZXA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: mmc: renesas,sdhi: Document R-Car V4H support
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
@@ -78,30 +70,36 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 17, 2022 at 11:27 AM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> On Mon, Oct 17, 2022 at 11:02:09AM +0200, Linus Walleij wrote:
-> > On Mon, Oct 10, 2022 at 10:15 PM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> >
-> > > Currently the header inclusion inside the pinctrl headers seems more arbitrary
-> > > than logical. This series is basically out of two parts:
-> > > - add missed headers to the pin control drivers / users
-> > > - clean up the headers of pin control subsystem
-> > >
-> > > The idea is to have this series to be pulled after -rc1 by the GPIO and
-> > > pin control subsystems, so all new drivers will utilize cleaned up headers
-> > > of the pin control.
-> >
-> > Aha I see you want to send a pull request so I backed out the applied patches
-> > from the series for now.
+On Wed, 12 Oct 2022 at 09:06, Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 >
-> Can I consider all that you answered to as Rb tag?
+> Document support for the SD Card/MMC Interface on the Renesas R-Car V4H
+> (R8A779G0) SoC.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Applied for next, thanks!
 
-I haven't reviewed in detail but I fully trust you to do the right thing
-and fix any fallout so will happily pull this.
+Kind regards
+Uffe
 
-Yours,
-Linus Walleij
+
+> ---
+>  Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> index 0424b06cb6551e00..7bfb10c6256602e2 100644
+> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> @@ -64,6 +64,7 @@ properties:
+>            - enum:
+>                - renesas,sdhi-r8a779a0  # R-Car V3U
+>                - renesas,sdhi-r8a779f0  # R-Car S4-8
+> +              - renesas,sdhi-r8a779g0  # R-Car V4H
+>            - const: renesas,rcar-gen4-sdhi # R-Car Gen4
+>
+>    reg:
+> --
+> 2.25.1
+>
