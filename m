@@ -2,57 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DFCC6009BE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Oct 2022 11:01:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3F066009D5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Oct 2022 11:02:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230435AbiJQJBE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Oct 2022 05:01:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59040 "EHLO
+        id S230465AbiJQJCe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Oct 2022 05:02:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230408AbiJQJA7 (ORCPT
+        with ESMTP id S230461AbiJQJCa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Oct 2022 05:00:59 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FD614A136
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 02:00:47 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id b12so15046037edd.6
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 02:00:47 -0700 (PDT)
+        Mon, 17 Oct 2022 05:02:30 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 288DA2A27B
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 02:02:23 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id ot12so23408445ejb.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 02:02:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=683v4hUy0SmafI83To+Isl3SKfGOBhxnh8RoSe2BfVE=;
-        b=baKbTregC3QhRdgmJUkHOf2bAAxxqlLwuEXARcNGa3/WqFVAKHDu91dlmMKFRVfyFw
-         s7c1IegnAd/ZA9suBgLZpR0L+BaX22/B3jmG+76M+E+k6juRwzMbuoY1EEK+2DFaFcQj
-         vHc0HMarKjxDZ2Rl+jhmlSY2HbAdhg3CinUqff9ZoO5rLuy9lkDCeuNKh6PLosoKElld
-         ygJbctlrPwFE96iJ1Qbz98jJJdKZ0fYFAZ3+TaiKi2i0SDYwzjKN2AYo1QYvZ+sWtX2p
-         M7eda4stYmZU1Rfm0Wf03Nj1MIR+gICsX2oOuXGWZrEvR9SsMZgZz6UrE8IWMJ3PhbRR
-         4DfA==
+        bh=+DzhSmH1cBeruDtFaVKaVattsEwc8q4hTsou+lcv6jY=;
+        b=Q+/ZCk5uKgheops7slfnvs8xurY8FEURvOhzY1eTrLbemXNWuo99WUD81VK+SpWCxY
+         kzFTgIjquxop1/2G9aP+Jc1kCFR8S4kpwj8bfbUkfgvulb3p97gFWTEKh91wZsvKLTym
+         IGt1H+AuIDwRoqtXQsNeJNwHocUiIbe3K3kYShul2xo1CQl7PNr7jxP/Mgn3ZFbkZlVO
+         J/03NK6UfMQfdp40SIbVe6sr9G0pZuHS/nb7XvkWBeDwVFOg7SA3FW+4r+22nfUcKvmM
+         0KiMdRaZT5lr/vOJbfahx9OfxFGmc5oyK0hcI+W0d917YHmMVMRNLZ2UqBGud/XBVBC3
+         GKCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=683v4hUy0SmafI83To+Isl3SKfGOBhxnh8RoSe2BfVE=;
-        b=cM88OrHpKhNgMUCws+1948hk0pJZCDe00wEetyRb5BwTbHD0EHyWssIYlK0kCtxbrq
-         uCBzz+wRF6TPlGRheiR/NfJ3iehRzaAvXh9/jPAcwtoAmrY914Pq/Y94Qe6FCz6LKZ6Y
-         bTqcEms+m38rjmBG+pWZxWdHbkLDsL9hcpZ9W+Jid8XeR73d/zU4urspbB2w+Sehl/T0
-         hUbBF7V8x0TSM8uMKyrwuW8tZINv2fz6FNxXmUf3TYgdrftbLY+YWQL4YGltQ4GSz6qb
-         hZWnxFDgrVM22D4TQikoT7Pxssoh/CEwba+MyRLl9Ydp6RapN/Q9730zQPgPLXWcbt+e
-         4hvQ==
-X-Gm-Message-State: ACrzQf0AbwdtvousfuPbnq0nryH0L6XILr9Q5FKRZJuLNEl1UeetxeGV
-        vsSDcONaT4+WObiBPLqAa8IUUU4Mq1twGdxcImv21A==
-X-Google-Smtp-Source: AMsMyM7KLX1HAl4ni5IX/0ZUj/Z5Ng5V/LISTngsrYYu60h+W61fPfqDHKqOkVMzkfb8AN6gXeEI3n5jApzCVtxB1uY=
-X-Received: by 2002:a05:6402:d0b:b0:458:a244:4e99 with SMTP id
- eb11-20020a0564020d0b00b00458a2444e99mr9354686edb.46.1665997245656; Mon, 17
- Oct 2022 02:00:45 -0700 (PDT)
+        bh=+DzhSmH1cBeruDtFaVKaVattsEwc8q4hTsou+lcv6jY=;
+        b=HQ6xKKwFPeVBRDDP7D78hqS8K7HE+TqdQW94mgWcVpPT8LIJFV94SKAqELZ6Yu9rdY
+         P8uYR8jfjypyT4Os56DEmiXc0nnzpshkYPl+ibeJYBqGpHXI7NMG8l2SgF+KBi/Mj6eq
+         LpoLFsQBTnKJvS1CZXcDtlVypbDSfb4OWETPAIrrrNKf2PEyxK87H2dNuMBZK5pfU4r1
+         OPJWL7DaY1xua410MSfv3gHzKEOtIUkN0RbCOMyZZeyhj4LPKYFrFb/DvPNdR2/AVUrS
+         6JP5O9LUXbEvGTTz8c6ns1cjXfbraUWgUuD41Kx1HCOHq/lD549zpALkEw6JCLDmKABj
+         CkdQ==
+X-Gm-Message-State: ACrzQf3mpHcmbQh3IKfa+GMY5q2pV9a+1PPuw/0BlBmEdmqPPjrkUh7L
+        880tRie1Wlibm3dAccvxWEOyWZHtTQ3maPnlghv4fg==
+X-Google-Smtp-Source: AMsMyM4UDyy4gIfLqRCo+xVdWhgvw2QqSAfU62C/zZi9P70aMTTtCFnk0FMes6AqIcJjw6kKWDVGE0urcJP2xkclA/A=
+X-Received: by 2002:a17:906:8a48:b0:78d:acdc:b7d9 with SMTP id
+ gx8-20020a1709068a4800b0078dacdcb7d9mr7921544ejc.500.1665997341068; Mon, 17
+ Oct 2022 02:02:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com> <20221010201453.77401-12-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20221010201453.77401-12-andriy.shevchenko@linux.intel.com>
+References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 17 Oct 2022 11:00:34 +0200
-Message-ID: <CACRpkdZLfPKwsABYnz0fAhqTGDnE7ZJzFJ4v_M2XF6_DTjW0Mw@mail.gmail.com>
-Subject: Re: [PATCH v2 11/36] pinctrl: ingenic: Add missed header(s)
+Date:   Mon, 17 Oct 2022 11:02:09 +0200
+Message-ID: <CACRpkdZ1M3ckw+jFgvMqG4jvR-t_44GPoZ6ZDXszwZCJr-cDpg@mail.gmail.com>
+Subject: Re: [rft, PATCH v2 00/36] pinctrl: Clean up and add missed headers
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Marc Zyngier <maz@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
         Kent Gibson <warthog618@gmail.com>,
@@ -155,14 +155,17 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Mon, Oct 10, 2022 at 10:15 PM Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
 
-> Do not imply that some of the generic headers may be always included.
-> Instead, include explicitly what we are direct user of.
+> Currently the header inclusion inside the pinctrl headers seems more arbitrary
+> than logical. This series is basically out of two parts:
+> - add missed headers to the pin control drivers / users
+> - clean up the headers of pin control subsystem
 >
-> While at it, sort headers alphabetically.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> The idea is to have this series to be pulled after -rc1 by the GPIO and
+> pin control subsystems, so all new drivers will utilize cleaned up headers
+> of the pin control.
 
-Patch applied!
+Aha I see you want to send a pull request so I backed out the applied patches
+from the series for now.
 
 Yours,
 Linus Walleij
