@@ -2,49 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17A10601137
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Oct 2022 16:36:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B9476013AA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Oct 2022 18:41:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230413AbiJQOgJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Oct 2022 10:36:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45466 "EHLO
+        id S229808AbiJQQk6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Oct 2022 12:40:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230383AbiJQOgI (ORCPT
+        with ESMTP id S230149AbiJQQk4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Oct 2022 10:36:08 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D347660CB4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 07:36:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6D9DDB818CC
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 14:36:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 264F1C433D6
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 14:36:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666017361;
-        bh=ryS0vggc9LD6YGSgoAuz3qrtzQJrwMg4ashyleXsCbA=;
-        h=Subject:From:Date:To:From;
-        b=E/vcq7v26e/Pb9ad0Dla4kVkvSCKNSBDqIWkD0JPtiEV+0xAN7yTW/ftKGMRk8aPE
-         EIl+GeQCQ+jJFYO0y94hIKiSOw3wXIS1aiVOiPNX/YS4J2tR06bbrpLG9XLSoYmFml
-         gacQe9BU3StNyIrt4RzGxxfPw1dV3zpvbwSavmyqBz4Ae4xPhdtqgcsKwAPzwreVqf
-         tptW21kZNU1auc/U4Q2aQv00anTowKm87zabN4T6iphA13sxmv4mkZEt7BUyeQbm1j
-         l1ok45hLQ0JO6AfMNdsS7n0J8/7c8nuIW4Gd2tAnzRvAfqU6A4Hh2R51oqGnb6CmUt
-         0yfvxvoe4zc0w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0588DE270EB
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 14:36:01 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 17 Oct 2022 12:40:56 -0400
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 079E06C77D
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 09:40:54 -0700 (PDT)
+Received: by mail-oi1-x233.google.com with SMTP id j188so12729419oih.4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Oct 2022 09:40:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=K0cKR3KD0RCU5iLYxLy6W7xc1yzczG+IYMwWhTv8Fxo=;
+        b=kZwCQbQSRNdgSf7dXV8jx1hNHKQWlTToA6o+vifggGCImtIHpci5z8o+RnDr8R4ow2
+         7FHonqXPZyn4uhs2cnPI13ZkV69FfH5/x9eAiGq7leGNHSa9xdy3r5Q1ycGRBFcCu3fX
+         8d+Rfq4xOglzr+F7hb9UM/0d76Z7CmBCAwTa8xEaSyO+j+H0cxaD4gjU0LPyd2qi7qkm
+         Xv4XzyCw22duBThpS+VxZl1Y8z0MLgNWHIMAPNODx6zpSx3m8d3L8vxvOd91rUgr1BTX
+         8AW1/CG4xz3/F2Tp9tKKx9Kb66ASuCusRjulZiW+EG9XRbJA2uc8vyLEYo80hZEJNUQT
+         F6+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K0cKR3KD0RCU5iLYxLy6W7xc1yzczG+IYMwWhTv8Fxo=;
+        b=N3+CxYcb6TgGTGarXN6ZIikkQLNPTaK8+URv7j4x8V9SPbvLteU1xZit0hWqiit9Y3
+         4SWRnTLCmIt+7R7a0tVP+6d8STCMTgINTBKa8wAGy3yq9fHNJgdg/faKszbe0y4eCSO7
+         RSzR6AcWUc0GoK1R62ZV72285dWl3MEi5meOkgz23jicFkLyLDVD7Rvd9BD/wEuRtIqT
+         yk7r82QQptGMGOYBjoCADoJiay+LqKjvMNAADxt+hOPvA6GJ6596oZkLR7/TKGsYDHft
+         qYtCqNMutL4MpDlhsrJrpC3n6pndaekUrRSOUm8YUfW4pyL8SPD2BB2yybeqwEhpEis0
+         UACQ==
+X-Gm-Message-State: ACrzQf13Bg5sckXE/LelKd+4wKEt3r3eO2cYewhlDMatXfzKzjDkos3r
+        L3XGsrTSWelTMbFtmyIRJDl24LE/lpxsFQ==
+X-Google-Smtp-Source: AMsMyM5SZeXKGCxALmNnZ3YqeUyPK0FV7SN0idFsa+iPJnN5l6fAMSNs/Za85Guk+uzKqoA/lC3zhw==
+X-Received: by 2002:a05:6808:3007:b0:351:5ea9:83d1 with SMTP id ay7-20020a056808300700b003515ea983d1mr5169637oib.150.1666024853717;
+        Mon, 17 Oct 2022 09:40:53 -0700 (PDT)
+Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
+        by smtp.gmail.com with ESMTPSA id i9-20020aca2b09000000b00354b1edb60fsm4476750oik.32.2022.10.17.09.40.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Oct 2022 09:40:52 -0700 (PDT)
+Date:   Mon, 17 Oct 2022 12:40:50 -0400
+From:   William Breathitt Gray <william.gray@linaro.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>, Lee Jones <lee@kernel.org>,
+        linux-iio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 3/4] mfd: Add RZ/G2L MTU3 counter driver
+Message-ID: <Y02FksmG22a03bcS@fedora>
+References: <20221010145222.1047748-1-biju.das.jz@bp.renesas.com>
+ <20221010145222.1047748-4-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <166601736094.25096.10617877407363192538.git-patchwork-summary@kernel.org>
-Date:   Mon, 17 Oct 2022 14:36:00 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="4DB8XTZ3HluUNltT"
+Content-Disposition: inline
+In-Reply-To: <20221010145222.1047748-4-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,214 +77,236 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+--4DB8XTZ3HluUNltT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Patch: [v2] dt-bindings: display: bridge: renesas,dw-hdmi: Add resets property
-  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=672970
-  Lore link: https://lore.kernel.org/r/20220831213536.7602-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+On Mon, Oct 10, 2022 at 03:52:21PM +0100, Biju Das wrote:
+> Add RZ/G2L MTU3 counter driver. This IP supports the following
+> phase counting modes on MTU1 and MTU2 channels
+>=20
+> 1) 16-bit phase counting modes on MTU1 and MTU2 channels.
+> 2) 32-bit phase counting mode by cascading MTU1 and MTU2.
+>=20
+> This patch adds 3 counters by creating 3 logical channels
+> 	counter0: 16-bit phase counter on MTU1 channel
+> 	counter1: 16-bit phase counter on MTU2 channel
+> 	counter2: 32-bit phase counter by cascading MTU1 and MTU2
+> 		  channels.
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Patch: arm64: dts: renesas: r8a779g0: Fix HSCIF0 "brg_int" clock
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=683735
-  Lore link: https://lore.kernel.org/r/a5bd4148f92806f7c8e577d383370f810315f586.1665155947.git.geert+renesas@glider.be
+Hello Biju,
 
-Series: arm64: dts: renesas: r8a779g0: Add PWM and TPU device
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=683745
-  Lore link: https://lore.kernel.org/r/cover.1665156417.git.geert+renesas@glider.be
-    Patches: [1/2] arm64: dts: renesas: r8a779g0: Add PWM device nodes
-             [2/2] arm64: dts: renesas: r8a779g0: Add TPU device node
+We discussed some changes already for v5, but I have some additional
+comments and questions below.
 
-Patch: ARM: defconfig cleanup
-  Submitter: Arnd Bergmann <arnd@kernel.org>
-  Committer: Arnd Bergmann <arnd@arndb.de>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=668759
-  Lore link: https://lore.kernel.org/r/20220818135522.3143514-1-arnd@kernel.org
+> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+> index 7329971a3bdf..fa88056224c9 100644
+> --- a/drivers/mfd/Kconfig
+> +++ b/drivers/mfd/Kconfig
+> @@ -1986,6 +1986,14 @@ config MFD_RZ_MTU3
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called rz-mtu3.
+> =20
+> +config MFD_RZ_MTU3_CNT
+> +	tristate "RZ/G2L MTU3 counter driver"
 
-Series: [1/3] drm: rcar-du: remove unnecessary include
-  Submitter: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=668409
-  Lore link: https://lore.kernel.org/r/20220817132803.85373-1-tomi.valkeinen@ideasonboard.com
-    Patches: [1/3] drm: rcar-du: remove unnecessary include
+This is a nitpick, but include the manufacturer name in the tristate
+string for the sake of clarity: "Renesas RZ/G2L MTU3 counter driver".
 
-Series: r8a779f0: enable CMT timers
-  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=659263
-  Lore link: https://lore.kernel.org/r/20220713101447.3804-1-wsa+renesas@sang-engineering.com
-    Patches: [1/3] clk: renesas: r8a779f0: Add CMT clocks
+> +	depends on MFD_RZ_MTU3 || COMPILE_TEST
 
-Series: dt-bindings: display: bridge: nxp,tda998x: Json-schema conversion and fixes
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=676993
-  Lore link: https://lore.kernel.org/r/cover.1663165552.git.geert+renesas@glider.be
-    Patches: [v2,1/3] ARM: dts: am335x: Fix TDA998x ports addressing
-             [v2,3/3] dt-bindings: display: bridge: nxp,tda998x: Convert to json-schema
+I noticed you include <linux/of.h> in the rz-mtu3-cnt.c file; do you
+need to depend on OF here in the Kconfig as well?
 
-Patch: dt-bindings: pinctrl: Add missing (unevaluated|additional)Properties on child nodes
-  Submitter: Rob Herring <robh@kernel.org>
-  Committer: Linus Walleij <linus.walleij@linaro.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=670314
-  Lore link: https://lore.kernel.org/r/20220823145649.3118479-6-robh@kernel.org
+> +static int rz_mtu3_count_read(struct counter_device *counter,
+> +			      struct counter_count *count, u64 *val)
+> +{
+> +	struct rz_mtu3_cnt *const priv =3D counter_priv(counter);
+> +
+> +	if (count->id =3D=3D RZ_MTU3_32_BIT_CH)
+> +		*val =3D rz_mtu3_32bit_ch_read(priv->ch[0], RZ_MTU3_TCNTLW);
+> +	else
+> +		*val =3D rz_mtu3_16bit_ch_read(priv->ch[count->id], RZ_MTU3_TCNT);
 
-Series: arm64: dts: renesas: r8a779g0/white-hawk: Add SDHI/eMMC support
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=684694
-  Lore link: https://lore.kernel.org/r/cover.1665558371.git.geert+renesas@glider.be
-    Patches: [1/2] arm64: dts: renesas: r8a779g0: Add SDHI node
-
-Series: Add support for RZ/G2L VSPD
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Mauro Carvalho Chehab <mchehab@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=671788
-  Lore link: https://lore.kernel.org/r/20220828081334.30078-1-biju.das.jz@bp.renesas.com
-    Patches: [v14,1/5] media: dt-bindings: media: renesas,vsp1: Document RZ/G2L VSPD bindings
-             [v14,2/5] media: renesas: vsp1: Add support to deassert/assert reset line
-             [v14,3/5] media: renesas: vsp1: Add support for VSP software version
-             [v14,4/5] media: renesas: vsp1: Add VSP1_HAS_NON_ZERO_LBA feature bit
-             [v14,5/5] media: renesas: vsp1: Add support for RZ/G2L VSPD
-
-Series: drm/bridge: ti-sn65dsi86: Basic DP support
-  Submitter: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-  Committer: Robert Foss <robert.foss@linaro.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=672744
-  Lore link: https://lore.kernel.org/r/20220831082653.20449-1-tomi.valkeinen@ideasonboard.com
-    Patches: [v6,1/3] drm/bridge: ti-sn65dsi86: Reject modes with too large blanking
-             [v6,2/3] drm/bridge: ti-sn65dsi86: Support DisplayPort (non-eDP) mode
-             [v6,3/3] drm/bridge: ti-sn65dsi86: Implement bridge connector operations for DP
-
-Series: drm/plane: Remove drm_plane_init(), plus other cleanups
-  Submitter: Thomas Zimmermann <tzimmermann@suse.de>
-  Committer: Thomas Zimmermann <tzimmermann@suse.de>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=675642
-  Lore link: https://lore.kernel.org/r/20220909105947.6487-1-tzimmermann@suse.de
-    Patches: [1/4] drm/plane: Remove drm_plane_init()
-             [3/4] drm/plane-helper: Warn if atomic drivers call non-atomic helpers
-
-Series: arm64: dts: renesas: r8a779g0/white-hawk: Add RPC and QSPI FLASH support
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=684800
-  Lore link: https://lore.kernel.org/r/cover.1665583435.git.geert+renesas@glider.be
-    Patches: [1/2] arm64: dts: renesas: r8a779g0: Add RPC node
-             [2/2] arm64: dts: renesas: white-hawk-cpu: Add QSPI FLASH support
-
-Patch: drm: rcar-du: Drop leftovers variables from Makefile
-  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=671668
-  Lore link: https://lore.kernel.org/r/20220827004220.8397-1-laurent.pinchart+renesas@ideasonboard.com
-
-Series: [1/2] drm: rcar-du: Drop unused encoder header files
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=671015
-  Lore link: https://lore.kernel.org/r/20220825103905.2450049-1-biju.das.jz@bp.renesas.com
-    Patches: [1/2] drm: rcar-du: Drop unused encoder header files
-
-Patch: ARM: Drop CMDLINE_FORCE dependency on !ARCH_MULTIPLATFORM
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Arnd Bergmann <arnd@arndb.de>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=681020
-  Lore link: https://lore.kernel.org/r/c557b149780faa2299700585afc9d270ede7f78b.1664285062.git.geert+renesas@glider.be
-
-Series: Add RZ/N1 CAN support
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Marc Kleine-Budde <mkl@pengutronix.de>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=672511
-  Lore link: https://lore.kernel.org/r/20220830164518.1381632-1-biju.das.jz@bp.renesas.com
-    Patches: [v3,1/3] dt-bindings: can: nxp,sja1000: Document RZ/N1 power-domains support
-
-Patch: None
-  Submitter: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=670156
-  Lore link: https://lore.kernel.org/r/20220823105706.44282-1-tomi.valkeinen@ideasonboard.com
-
-Series: drm: rcar-du: DSI fixes
-  Submitter: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=670653
-  Lore link: https://lore.kernel.org/r/20220824124726.187224-1-tomi.valkeinen@ideasonboard.com
-    Patches: [v4,1/5] drm: rcar-du: lvds: Rename pclk enable/disable functions
-             [v4,2/5] drm: rcar-du: dsi: Properly stop video mode TX
-             [v4,3/5] drm: rcar-du: dsi: Improve DSI shutdown
-             [v4,5/5] drm: rcar-du: dsi: Fix VCLKSET write
-
-Patch: i2c: riic: Use devm_platform_ioremap_resource()
-  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  Committer: Wolfram Sang <wsa@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=676648
-  Lore link: https://lore.kernel.org/r/20220913170121.24246-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-
-Patch: net: ravb: Add R-Car Gen4 support
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Jakub Kicinski <kuba@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=675617
-  Lore link: https://lore.kernel.org/r/2ee968890feba777e627d781128b074b2c43cddb.1662718171.git.geert+renesas@glider.be
-
-Series: Remove label = "cpu" from DSA dt-bindings
-  Submitter: Vladimir Oltean <vladimir.oltean@nxp.com>
-  Committer: Jakub Kicinski <kuba@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=676285
-  Lore link: https://lore.kernel.org/r/20220912175058.280386-1-vladimir.oltean@nxp.com
-    Patches: [net-next,1/3] dt-bindings: net: dsa: mt7530: replace label = "cpu" with proper checks
-             [net-next,2/3] dt-bindings: net: dsa: mt7530: stop requiring phy-mode on CPU ports
-             [net-next,3/3] dt-bindings: net: dsa: remove label = "cpu" from examples
-
-Series: [v2,1/2] lib/string_helpers: Add str_read_write() helper
-  Submitter: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-  Committer: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=656112
-  Lore link: https://lore.kernel.org/r/20220703154232.55549-1-andriy.shevchenko@linux.intel.com
-    Patches: [v2,1/2] lib/string_helpers: Add str_read_write() helper
-
-Series: Add i2c to Renesas RZ/V2M SoC and board
-  Submitter: Phil Edworthy <Phil.Edworthy@renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=669335
-  Lore link: https://lore.kernel.org/r/20220819193944.337599-1-phil.edworthy@renesas.com
-    Patches: [1/3] clk: renesas: r9a09g011: Add IIC clock and reset entries
-
-Series: r8a779f0: add SDHI support
-  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=658561
-  Lore link: https://lore.kernel.org/r/20220711134656.277730-1-wsa+renesas@sang-engineering.com
-    Patches: [1/3] clk: renesas: r8a779f0: Add sdh0 clock
-
-Patch: ARM: Drop CMDLINE_* dependency on ATAGS
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Arnd Bergmann <arnd@arndb.de>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=681021
-  Lore link: https://lore.kernel.org/r/09f0619e8038654d01588d9ad3a023485b2bd77f.1664285209.git.geert+renesas@glider.be
-
-Patch: [net-next,v5] ravb: Add RZ/G2L MII interface support
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Jakub Kicinski <kuba@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=677063
-  Lore link: https://lore.kernel.org/r/20220914192604.265859-1-biju.das.jz@bp.renesas.com
-
-Patch: dt-bindings: clock: renesas,rzg2l: Document RZ/Five SoC
-  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=663176
-  Lore link: https://lore.kernel.org/r/20220726174525.620-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+After considering this again, I think it'll be better to match the
+structure of the rest of the functions in this driver for consistency.
+Rather than hardcoding priv->ch[0], determine the ch_id first and pass
+that instead::
 
 
-Total patches: 43
+    const size_t ch_id =3D RZ_MTU3_GET_HW_CH(count->id);
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+    if (count->id =3D=3D RZ_MTU3_32_BIT_CH)
+            *val =3D rz_mtu3_32bit_ch_read(priv->ch[ch_id], RZ_MTU3_TCNTLW);
+    else
+            *val =3D rz_mtu3_16bit_ch_read(priv->ch[ch_id], RZ_MTU3_TCNT);
 
+> +static int rz_mtu3_count_write(struct counter_device *counter,
+> +			       struct counter_count *count, const u64 val)
+> +{
+> +	struct rz_mtu3_cnt *const priv =3D counter_priv(counter);
+> +	const size_t ch_id =3D RZ_MTU3_GET_HW_CH(count->id);
+> +	u32 ceiling;
+> +
+> +	mutex_lock(&priv->lock);
+> +	if (count->id =3D=3D RZ_MTU3_32_BIT_CH)
+> +		ceiling =3D priv->mtu_32bit_max;
+> +	else
+> +		ceiling =3D priv->mtu_16bit_max[ch_id];
+> +
+> +	if (val > ceiling) {
+> +		mutex_unlock(&priv->lock);
+> +		return -ERANGE;
+> +	}
+> +
+> +	if (count->id =3D=3D RZ_MTU3_32_BIT_CH)
+> +		rz_mtu3_32bit_ch_write(priv->ch[0], RZ_MTU3_TCNTLW, val);
 
+Like in count_read(), use ch_id here instead of 0 for the sake of
+consistency.
+
+> +static int rz_mtu3_count_ceiling_write(struct counter_device *counter,
+> +				       struct counter_count *count,
+> +				       u64 ceiling)
+> +{
+> +	struct rz_mtu3_cnt *const priv =3D counter_priv(counter);
+> +	const size_t ch_id =3D RZ_MTU3_GET_HW_CH(count->id);
+> +
+> +	switch (count->id) {
+> +	case RZ_MTU3_16_BIT_MTU1_CH:
+> +	case RZ_MTU3_16_BIT_MTU2_CH:
+> +		if (ceiling > U16_MAX)
+> +			return -ERANGE;
+> +		priv->mtu_16bit_max[ch_id] =3D ceiling;
+> +		break;
+> +	case RZ_MTU3_32_BIT_CH:
+> +		if (ceiling > U32_MAX)
+> +			return -ERANGE;
+> +		priv->mtu_32bit_max =3D ceiling;
+> +		break;
+> +	}
+> +
+> +	mutex_lock(&priv->lock);
+> +	if (ceiling =3D=3D 0) {
+> +		/* Disable counter clear source */
+> +		rz_mtu3_8bit_ch_write(priv->ch[ch_id], RZ_MTU3_TCR,
+> +				      RZ_MTU3_TCR_CCLR_NONE);
+
+Refer to our discussions in the v3 review thread regarding ceiling set
+to 0; in particular, don't disable the count value ceiling but rather
+limit it to a maximum value of 0.
+
+> +static int rz_mtu3_count_enable_write(struct counter_device *counter,
+> +				      struct counter_count *count, u8 enable)
+> +{
+> +	struct rz_mtu3_cnt *const priv =3D counter_priv(counter);
+> +	const size_t ch_id =3D RZ_MTU3_GET_HW_CH(count->id);
+> +	struct rz_mtu3_channel *ch =3D priv->ch[ch_id];
+> +	int ret =3D 0;
+> +
+> +	if (enable) {
+> +		pm_runtime_get_sync(ch->dev);
+> +		ret =3D rz_mtu3_initialize_counter(counter, count->id);
+> +	} else {
+> +		rz_mtu3_terminate_counter(counter, count->id);
+> +		pm_runtime_put(ch->dev);
+> +	}
+Refer to our discussions in the v3 review thread regarding the "enable"
+Count extension; in particular, "enable" pauses/unpauses counting.
+
+> +static int rz_mtu3_action_read(struct counter_device *counter,
+> +			       struct counter_count *count,
+> +			       struct counter_synapse *synapse,
+> +			       enum counter_synapse_action *action)
+> +{
+> +	const size_t signal_a_id =3D count->synapses[0].signal->id;
+> +	const size_t signal_b_id =3D count->synapses[1].signal->id;
+> +	size_t signal_c_id;
+> +	size_t signal_d_id;
+> +	enum counter_function function;
+> +	int err;
+> +
+> +	if (count->id !=3D RZ_MTU3_16_BIT_MTU1_CH) {
+> +		signal_c_id =3D count->synapses[2].signal->id;
+> +		signal_d_id =3D count->synapses[3].signal->id;
+> +	}
+
+The Signal ids are constants so you remove them from this function and
+use preprocessor defines instead to represent SIGNAL_A_ID, SIGNAL_B_ID,
+SIGNAL_C_ID, and SIGNAL_D_ID. Remember to set the Signal ids in the
+rz_mtu3_signals[] array accordingly.
+
+> +static struct counter_signal rz_mtu3_signals[] =3D {
+> +	RZ_MTU3_PHASE_SIGNAL(0, "MTU1 MTCLKA"),
+> +	RZ_MTU3_PHASE_SIGNAL(1, "MTU1 MTCLKB"),
+> +	RZ_MTU3_PHASE_SIGNAL(2, "MTU2 MTCLKC"),
+> +	RZ_MTU3_PHASE_SIGNAL(3, "MTU2 MTCLKD"),
+> +};
+
+The relationship of these Signals still has me somewhat confused so I'm
+hoping you can help me properly ironed out my understanding. This is how
+I currently understand it, so please point out any mistakes I have:
+
+MTU1 (Channel 1):
+ * Pulse-Direction mode:
+   - MTCLKA updates count
+   - MTCLKB determines direction
+ * Quadrature x2 B:
+   - MTCLKA is quadrature phase A
+   - MTCLKB is quadrature phase B
+   - Any state transition on MTCLKB updates count
+ * Quadrature x4:
+   - MTCLKA is quadrature phase A
+   - MTCLKB is quadrature phase B
+   - Any state transition on either MTCLKA or MTCLKB updates count
+
+MTU2 (Channel 2):
+ - Same as MTU1, but optionally can select MTCLKC and MTCLKD instead of
+   MTCLKA and MTCLKB respectively
+ * Pulse-Direction mode:
+   - MTCLKA(C) updates count
+   - MTCLKB(D) determines direction
+ * Quadrature x2 B:
+   - MTCLKA(C) is quadrature phase A
+   - MTCLKB(D) is quadrature phase B
+   - Any state transition on MTCLKB updates count
+ * Quadrature x4:
+   - MTCLKA(C) is quadrature phase A
+   - MTCLKB(D) is quadrature phase B
+   - Any state transition on either MTCLKA(C) or MTCLKB(D) updates count
+
+MTU3 (Channel 1 and 2 cascading):
+ - Same as MTU2 (but count is now 32-bit)
+ * Pulse-Direction mode:
+   - MTCLKA(C) updates count
+   - MTCLKB(D) determines direction
+ * Quadrature x2 B:
+   - MTCLKA(C) is quadrature phase A
+   - MTCLKB(D) is quadrature phase B
+   - Any state transition on MTCLKB updates count
+ * Quadrature x4:
+   - MTCLKA(C) is quadrature phase A
+   - MTCLKB(D) is quadrature phase B
+   - Any state transition on either MTCLKA(C) or MTCLKB(D) updates count
+
+Is my understanding correct here? Is the selection between MTCLKA/MTCLKB
+and MTCLKC/MTCLKD done in software, and should we expose it in sysfs?
+
+William Breathitt Gray
+
+--4DB8XTZ3HluUNltT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCY02FkgAKCRC1SFbKvhIj
+K67cAP4o2be9ZTz9c53rpLFHZMS508l0vWb9BqFy8rDKf6Uz0wD+MMgAu30duNJW
+Wkhz+LZpAcgZFWBHpbrNXsFcodSiFwA=
+=Vk0j
+-----END PGP SIGNATURE-----
+
+--4DB8XTZ3HluUNltT--
