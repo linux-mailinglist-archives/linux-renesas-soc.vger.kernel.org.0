@@ -2,74 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA80D603437
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Oct 2022 22:48:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C0FA603447
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Oct 2022 22:49:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229930AbiJRUsC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Oct 2022 16:48:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42356 "EHLO
+        id S229760AbiJRUtE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Oct 2022 16:49:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229788AbiJRUsB (ORCPT
+        with ESMTP id S229623AbiJRUtC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Oct 2022 16:48:01 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FBA17654E
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Oct 2022 13:48:00 -0700 (PDT)
+        Tue, 18 Oct 2022 16:49:02 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5294C760C7
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Oct 2022 13:49:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666126080; x=1697662080;
+  t=1666126141; x=1697662141;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=cY9GT0X5IkJqf3RSsQcimL4qWKIkN0xH1/e9fjXnVsg=;
-  b=hjv0/26mUDo2qYiG0U3AnKSldgCTMZF9bzPq7UTnGZWTQ7OF9XvLtVe1
-   2lFwJA3LTtZ/zMoYzaPDty2kLIQVWLNGCH+WWS1REPAIJ5Bw03eSiVzdM
-   ajAuJZvqOe0b+kjJqYW+sa116lg20GrL+c1XaNrhk5tgs/wE65p1pOKRR
-   EVfItmkI7+JQ+75Z7l5Q+1nRptPvugLKVtRumgJEsoRyKQp3vgTKA/Pih
-   u8etsPMrkmUeKh7G+ERxaRk60b8G8k8x3zRK6U6XjE8lwyKnvru+RFrcd
-   jou+D3s/OT7QT41fyqDfLPJ3qZMkMb3Pf4fG64056QPRl+7yL52g9fDhE
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="303847522"
+  bh=artc6TGw/6CJ4+bC5NGYVokuoMS9ZHjAACJjwk5EwLI=;
+  b=JZU+UGnobwIIOXrjWkPn+rqsghBTFlR7xDO4WekTLere6ihnN5uSZJ7h
+   TZzaRxcnpyVdtv+yUyZl2Dty5z+ikFja9/vLUg6pWsWQtiFhePindZi+6
+   qJGf1oTmI04l/1zpna+eFdqAulX4noXzzkZ9aGgOibTtloaHUJiGvwmkF
+   1JhInAEcFiVzL6XxXWbXjR0nTt8c+b96CaRfA81t5S1UJdqANlVLoWiaI
+   dbhhwcdLEQ1yrWqYKv6620n+TdYXfmz3m+BiJvomiZMn1eG/5tiVjiIW1
+   hHNDMUvw1SS6dS6SowH7LCYd0Vz3UTsmArbcNaJPRhAjogt+XetEm8P34
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="293627882"
 X-IronPort-AV: E=Sophos;i="5.95,194,1661842800"; 
-   d="scan'208";a="303847522"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2022 13:48:00 -0700
+   d="scan'208";a="293627882"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2022 13:49:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="628910492"
+X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="579990097"
 X-IronPort-AV: E=Sophos;i="5.95,194,1661842800"; 
-   d="scan'208";a="628910492"
+   d="scan'208";a="579990097"
 Received: from lkp-server01.sh.intel.com (HELO 8381f64adc98) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 18 Oct 2022 13:47:58 -0700
+  by orsmga003.jf.intel.com with ESMTP; 18 Oct 2022 13:48:59 -0700
 Received: from kbuild by 8381f64adc98 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1oktVF-00022O-2v;
-        Tue, 18 Oct 2022 20:47:57 +0000
-Date:   Wed, 19 Oct 2022 04:47:32 +0800
+        id 1oktWE-00023j-2C;
+        Tue, 18 Oct 2022 20:48:58 +0000
+Date:   Wed, 19 Oct 2022 04:48:48 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:next] BUILD SUCCESS
- 58a728f6c721ae830704858101c6462a12a5bb93
-Message-ID: <634f10e4.hp2zAPBi2xLr2+NX%lkp@intel.com>
+Subject: [geert-renesas-devel:renesas-drivers-for-v6.2] BUILD SUCCESS
+ b3acbca3c80e612478b354e43c1480c3fc15873e
+Message-ID: <634f1130.CoMnfa3rYq0uYjAV%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: 58a728f6c721ae830704858101c6462a12a5bb93  Merge branches 'renesas-arm-dt-for-v6.2' and 'renesas-drivers-for-v6.2' into renesas-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v6.2
+branch HEAD: b3acbca3c80e612478b354e43c1480c3fc15873e  soc: renesas: Kconfig: Explicitly select GPIOLIB and PINCTRL config under SOC_RENESAS
 
-elapsed time: 1778m
+elapsed time: 1779m
 
-configs tested: 244
+configs tested: 247
 configs skipped: 9
 
 The following configs have been built successfully.
@@ -133,17 +133,17 @@ m68k                             allyesconfig
 m68k                             allmodconfig
 arc                              allyesconfig
 alpha                            allyesconfig
-m68k                          hp300_defconfig
-sh                           se7751_defconfig
+powerpc                        warp_defconfig
+sh                          polaris_defconfig
 powerpc                    adder875_defconfig
+sh                           se7751_defconfig
 parisc                           alldefconfig
 nios2                               defconfig
 mips                        vocore2_defconfig
-powerpc                        warp_defconfig
-sh                          polaris_defconfig
 sh                          rsk7203_defconfig
 arm                             ezx_defconfig
 powerpc                     mpc83xx_defconfig
+m68k                          hp300_defconfig
 arm                            lart_defconfig
 sh                        edosk7760_defconfig
 sh                             shx3_defconfig
@@ -170,6 +170,8 @@ i386                        debian-10.3-kunit
 i386                         debian-10.3-func
 arm                           h3600_defconfig
 riscv                               defconfig
+x86_64               randconfig-c001-20221017
+arm                  randconfig-c002-20221017
 powerpc                     taishan_defconfig
 m68k                       bvme6000_defconfig
 riscv                    nommu_virt_defconfig
@@ -247,9 +249,9 @@ sh                  sh7785lcr_32bit_defconfig
 mips                           jazz_defconfig
 powerpc                     asp8347_defconfig
 mips                  maltasmvp_eva_defconfig
-m68k                       m5275evb_defconfig
 powerpc                     pq2fads_defconfig
 arm                         cm_x300_defconfig
+m68k                       m5275evb_defconfig
 loongarch                        allmodconfig
 sh                   sh7724_generic_defconfig
 openrisc                 simple_smp_defconfig
@@ -266,6 +268,8 @@ arm                        mvebu_v7_defconfig
 openrisc                         alldefconfig
 arm                      jornada720_defconfig
 ia64                             allmodconfig
+x86_64                        randconfig-c001
+arm                  randconfig-c002-20221018
 
 clang tested configs:
 i386                 randconfig-a013-20221017
@@ -318,6 +322,7 @@ powerpc                  mpc866_ads_defconfig
 x86_64                        randconfig-a005
 x86_64                        randconfig-a003
 x86_64                        randconfig-a001
+arm                         socfpga_defconfig
 arm                       mainstone_defconfig
 arm                          sp7021_defconfig
 powerpc                    mvme5100_defconfig
