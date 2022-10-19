@@ -2,111 +2,141 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50E1D604596
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Oct 2022 14:42:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A316060460D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Oct 2022 14:56:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232570AbiJSMmU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Oct 2022 08:42:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40972 "EHLO
+        id S231583AbiJSM4i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Oct 2022 08:56:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233284AbiJSMmF (ORCPT
+        with ESMTP id S230398AbiJSM4J (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Oct 2022 08:42:05 -0400
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46703317E9;
-        Wed, 19 Oct 2022 05:24:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=JhqoTv6oI6VeCIoZx6BVwVchA34wqcZ6eZRE7mXJULQ=; b=Jppr6nR3t5UgH30loqLy82PiMR
-        fZ5pGuOVZuY/mmhBVAT8Zt78bQqGEDbRixgB7dzHgMCZsLXv0jS/kPZUZTVoF4fM6bdzmhogKMn/r
-        pFwk+dEDM1taRD5sqsH7sjzmkLkT03N8LfcaMFxXW9GdCgwelb1CXR18Ld+gZi0pmpSmS2tYMqLLa
-        E8USl5tGbxKvHnbDNcRWuqGMv76GgjU3o4txg4Y6lqUpml+s9r+baCF1oxDI2I0HZ0/pk26pfpZKt
-        5jDwILtn6Cs8y2mNU/mNT1q8bEIXUYWtpgKMu6EwTwgJ13n2/eZoUEtlfpSPJz7BboHQNaqFo/Pzr
-        w0myR9wA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34796)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1ol7ib-0005cB-2W; Wed, 19 Oct 2022 12:58:41 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1ol7iZ-00027y-J3; Wed, 19 Oct 2022 12:58:39 +0100
-Date:   Wed, 19 Oct 2022 12:58:39 +0100
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>, andrew@lunn.ch,
-        hkallweit1@gmail.com, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH RFC 2/3] net: phy: marvell10g: Add host interface speed
- configuration
-Message-ID: <Y0/mbzaUItB1BOzg@shell.armlinux.org.uk>
-References: <20221019085052.933385-1-yoshihiro.shimoda.uh@renesas.com>
- <20221019085052.933385-3-yoshihiro.shimoda.uh@renesas.com>
- <20221019124839.33ad3458@dellmb>
+        Wed, 19 Oct 2022 08:56:09 -0400
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83E4123EA4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Oct 2022 05:39:01 -0700 (PDT)
+Received: by mail-qk1-x729.google.com with SMTP id 8so10563871qka.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Oct 2022 05:39:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yztcDb/9Hhh5Rkv5M5nLE2clBrl/RANSXIwbIVDKzcg=;
+        b=c6TUtOPHf/1jy2RkaZ9KZYqSJRHzD/kcZx5TA9S1o397Mrus0CeSD0Emoa46RX+OXV
+         ioJWsrANMi4wmLC6peKtC788oaEqgtld0Y+FYh31c0WO/Xs+8HPJ0CG4svmVo3cQWVvZ
+         +32DT1yuGfoLdmVqOca7sl4J3clcFxk2hQlRA0/yV4YlwGHaX3ZHJub0Fa1npAj65XgL
+         L0TMPgHvaH0WwEDlhKFwJWyJJS1r6Dz+FibEGoGey2sOnImhL0tipecHyIXjYvHvaUG0
+         riDEl7SRMowNXhYbNshwUtoPzIraCVlcwcb4WcklAhR5vSrtu96Y87JzzOrc7l/AhhTg
+         gYFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yztcDb/9Hhh5Rkv5M5nLE2clBrl/RANSXIwbIVDKzcg=;
+        b=KOtVh7N5CwHfF32Hl+WYNkpNDAIAQ3hMDArsjnlTD+xLO6iUPkwq5EEWDOw7vjeGMT
+         WG2SqhSNrnro0Gc+m7smREStgBLtbYB2VBZ28N95c5TeBbdkVj8eQ37JlvJuxUcKx6t+
+         p1VyclTNreFLVOoaC/ndHq67ECRxn8VGE8iKaC0SDlbWniES+CBKy30cDsFENprDYErA
+         EJze0VcpTwt2qalY+55zR8+8YVFOVsUPXBVoZOcMgK1tzQPIhsQugl+jpiP/YLWSZO/d
+         8/taEsEXR9A4mCUygo0Izipk+88tgqnHrP3Me1xYto7t2Ai5LQ1TXzPP+l/fKM4nUauA
+         LRvQ==
+X-Gm-Message-State: ACrzQf1/T7Yft+ijLqS/iL40oILlGfYhjg0F6fQ91XKE2t9nyDA4Vixx
+        VcWNs4kfPRh1oTcRVP805mTkzw==
+X-Google-Smtp-Source: AMsMyM6SC40e+0JgwyPmZJo+chi9ytQvP9whxlTv+lJaJhecWJIKYPMqoLkW/vEBTOm+/nphGOcI5A==
+X-Received: by 2002:a05:620a:28ce:b0:6cf:933c:40d3 with SMTP id l14-20020a05620a28ce00b006cf933c40d3mr5104264qkp.258.1666183076537;
+        Wed, 19 Oct 2022 05:37:56 -0700 (PDT)
+Received: from [192.168.10.124] (pool-72-83-177-149.washdc.east.verizon.net. [72.83.177.149])
+        by smtp.gmail.com with ESMTPSA id bp17-20020a05620a459100b006ce3f1af120sm4916845qkb.44.2022.10.19.05.37.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Oct 2022 05:37:56 -0700 (PDT)
+Message-ID: <11d6f585-bd9f-246f-29e0-719f0551e6c9@linaro.org>
+Date:   Wed, 19 Oct 2022 08:37:53 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221019124839.33ad3458@dellmb>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v4 1/3] dt-bindings: net: renesas: Document Renesas
+ Ethernet Switch
+Content-Language: en-US
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org
+Cc:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20221019083518.933070-1-yoshihiro.shimoda.uh@renesas.com>
+ <20221019083518.933070-2-yoshihiro.shimoda.uh@renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221019083518.933070-2-yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 19, 2022 at 12:48:39PM +0200, Marek Behún wrote:
-> On Wed, 19 Oct 2022 17:50:51 +0900
-> Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> wrote:
+On 19/10/2022 04:35, Yoshihiro Shimoda wrote:
+> Document Renesas Etherent Switch for R-Car S4-8 (r8a779f0).
 > 
-> > Add support for selecting host speed mode. For now, only support
-> > 1000M bps.
-> > 
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > ---
-> >  drivers/net/phy/marvell10g.c | 23 +++++++++++++++++++++++
-> >  1 file changed, 23 insertions(+)
-> > 
-> > diff --git a/drivers/net/phy/marvell10g.c b/drivers/net/phy/marvell10g.c
-> > index 383a9c9f36e5..daf3242c6078 100644
-> > --- a/drivers/net/phy/marvell10g.c
-> > +++ b/drivers/net/phy/marvell10g.c
-> > @@ -101,6 +101,10 @@ enum {
-> >  	MV_AN_21X0_SERDES_CTRL2_AUTO_INIT_DIS	= BIT(13),
-> >  	MV_AN_21X0_SERDES_CTRL2_RUN_INIT	= BIT(15),
-> >  
-> > +	MV_MOD_CONF		= 0xf000,
-> > +	MV_MOD_CONF_SPEED_MASK	= 0x00c0,
-> > +	MV_MOD_CONF_SPEED_1000	= BIT(7),
-> > +
-> 
-> Where did you get these values from? My documentation says:
->   Mode Configuration
->   Device 31, Register 0xF000
->   Bits
->   7:6   Reserved  R/W  0x3  This must always be 11.
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-The closest is from the 88x3310 documentation that indicates these are
-the default speed, which are used when the media side is down. There
-is a specific sequence to update these.
+Thank you for your patch. There is something to discuss/improve.
 
-However, as we seem to be talking about the 2110 here, that should be
-reflected in these definitions.
+> +  ethernet-ports:
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      '#address-cells':
+> +        description: Port number of ETHA (TSNA).
+> +        const: 1
+> +
+> +      '#size-cells':
+> +        const: 0
+> +
+> +    patternProperties:
+> +      "^port@[0-9a-f]+$":
+> +        type: object
+> +        $ref: /schemas/net/ethernet-controller.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          reg:
+> +            description:
+> +              Port number of ETHA (TSNA).
+> +
+> +          phy-handle: true
+> +
+> +          phy-mode: true
 
-Finally, using BIT() for definitions of a field which can be one of
-four possible values is not acceptable. BIT() is for single bits
-not for a multi-bit field which can take any possible value but just
-the value we're representing there just happens to have a single bit
-set.
+Why do you need these two properties here? They are provided by
+ethernet-controller, so I suggest to drop them.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+I already commented about it in v3.
+
+> +
+> +          phys:
+> +            maxItems: 1
+> +            description:
+> +              Phandle of an Ethernet SERDES.
+> +
+> +          mdio:
+> +            $ref: /schemas/net/mdio.yaml#
+> +            unevaluatedProperties: false
+> +
+> +        required:
+> +          - reg
+> +          - phy-handle
+> +          - phy-mode
+> +          - phys
+> +          - mdio
+
+
+Best regards,
+Krzysztof
+
