@@ -2,113 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 700B860437D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Oct 2022 13:41:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 275AB6046DA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Oct 2022 15:21:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229865AbiJSLkn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Oct 2022 07:40:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34252 "EHLO
+        id S232311AbiJSNVs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Oct 2022 09:21:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231474AbiJSLj6 (ORCPT
+        with ESMTP id S232108AbiJSNVQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Oct 2022 07:39:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0923518DAA6;
-        Wed, 19 Oct 2022 04:18:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9C97E6176B;
-        Wed, 19 Oct 2022 10:41:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14972C433D6;
-        Wed, 19 Oct 2022 10:41:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666176065;
-        bh=B6/i+zuHr8M8YUCl5dAojeyEr1/k0AiM1p2uxl25xx4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tEDEaoFbXcvOR15+0B3Ox/PnYnpuM8GvrZl68oUKFqopE+DMQNg+Z/JlwyA5sAyTv
-         71XLaUr2NDVAJDAUz1nJC8ZKHnMsE8O3hPU3gw+sGPFiKCs/i/B+qQIU+B6LZ8mgkt
-         in8tn3dT7bWQ8+QPyDSvxqLhy1RCNLbEXNn9lFkCeJ9oY1DEPW0N1lFEOlkQ1fioCu
-         ZR2D78gHSzME9geOD7LtTiIGhfHGTeoNql4MJfwKQ844WX2hQjL2gxFelQh0tf5Hp1
-         08phjIkMSYBvUoJQ3Rh447M/5mNyn5lPpp8OUAeJZOTPV7DONfBOCLiBdqW6LoXYBl
-         l5T+0+b7d1QIg==
-Date:   Wed, 19 Oct 2022 12:41:00 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     linux@armlinux.org.uk, andrew@lunn.ch, hkallweit1@gmail.com,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH RFC 3/3] net: renesas: rswitch: Pass host parameters to
- phydev
-Message-ID: <20221019124100.41c9bbaf@dellmb>
-In-Reply-To: <20221019085052.933385-4-yoshihiro.shimoda.uh@renesas.com>
-References: <20221019085052.933385-1-yoshihiro.shimoda.uh@renesas.com>
-        <20221019085052.933385-4-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+        Wed, 19 Oct 2022 09:21:16 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E231F114DCD;
+        Wed, 19 Oct 2022 06:06:35 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.95,195,1661785200"; 
+   d="scan'208";a="137159771"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 19 Oct 2022 17:51:10 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5FEB3400BC0E;
+        Wed, 19 Oct 2022 17:51:10 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     linux@armlinux.org.uk, kabel@kernel.org, andrew@lunn.ch,
+        hkallweit1@gmail.com, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH RFC 0/3] net: phy: marvell10g: Add host speed setting by an ethernet driver
+Date:   Wed, 19 Oct 2022 17:50:49 +0900
+Message-Id: <20221019085052.933385-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.3 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        KHOP_HELO_FCRDNS,SPF_HELO_NONE autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 19 Oct 2022 17:50:52 +0900
-Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> wrote:
+R-Car S4-8 environment board requires to change the host interface
+as SGMII and the host speed as 1000 Mbps because the strap pin was
+other mode, but the SoC/board cannot work on that mode. Also, after
+the SoC initialized the SERDES once, we cannot re-initialized it
+because the initialized procedure seems all black magic...
 
-> Use of_phy_connect_with_host_params() to pass host parameters to
-> phydev. Otherwise, connected PHY cannot work correctly.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  drivers/net/ethernet/renesas/rswitch.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-> index c604331bfd88..bb2f1e667210 100644
-> --- a/drivers/net/ethernet/renesas/rswitch.c
-> +++ b/drivers/net/ethernet/renesas/rswitch.c
-> @@ -16,6 +16,7 @@
->  #include <linux/of_irq.h>
->  #include <linux/of_mdio.h>
->  #include <linux/of_net.h>
-> +#include <linux/phy.h>
->  #include <linux/phy/phy.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/slab.h>
-> @@ -1234,11 +1235,19 @@ static void rswitch_phy_remove_link_mode(struct rswitch_device *rdev,
->  
->  static int rswitch_phy_init(struct rswitch_device *rdev, struct device_node *phy)
->  {
-> +	DECLARE_PHY_INTERFACE_MASK(host_interfaces);
->  	struct phy_device *phydev;
->  	int err = 0;
->  
-> -	phydev = of_phy_connect(rdev->ndev, phy, rswitch_adjust_link, 0,
-> -				rdev->etha->phy_interface);
-> +	phy_interface_zero(host_interfaces);
-> +	if (rdev->etha->phy_interface == PHY_INTERFACE_MODE_SGMII)
-> +		__set_bit(PHY_INTERFACE_MODE_SGMII, host_interfaces);
-> +
-> +	phydev = of_phy_connect_with_host_params(rdev->ndev, phy,
-> +						 rswitch_adjust_link, 0,
-> +						 rdev->etha->phy_interface,
-> +						 host_interfaces,
-> +						 rdev->etha->speed);
->  	if (!phydev) {
->  		err = -ENOENT;
->  		goto out;
+To communicate between R-Car S4-8 (host MAC) and marvell PHY,
+this patch series adds a new function of_phy_connect_with_host_param()
+to set host parameters (host_interfaces and host_speed), and
+rswitch driver sets the paramter. After that, the marvell10g can
+check the paramters and set specific registers for it.
 
-NAK. There already is API for doing this: phylink. Adding new, and so
-much specific function for this is a waste. Just convert the rswitch
-driver to phylink.
+This patch series is based on next-20221017 and the following patches
+which are not upstreamed yet:
+https://lore.kernel.org/all/20221019083518.933070-1-yoshihiro.shimoda.uh@renesas.com/T/#m1c3de735de018b5cb90cb3720056ac1497112b36
 
-Please look at the documentation at
-  Documentation/networking/sfp-phylink.rst
+I'm not sure whether this is a correct way or not. So, I marked
+this patch series as RFC.
 
-Marek
+Yoshihiro Shimoda (3):
+  net: mdio: Add of_phy_connect_with_host_param()
+  net: phy: marvell10g: Add host interface speed configuration
+  net: renesas: rswitch: Pass host parameters to phydev
+
+ drivers/net/ethernet/renesas/rswitch.c | 13 ++++++--
+ drivers/net/mdio/of_mdio.c             | 42 ++++++++++++++++++++++++++
+ drivers/net/phy/marvell10g.c           | 23 ++++++++++++++
+ include/linux/of_mdio.h                |  7 +++++
+ include/linux/phy.h                    |  8 +++++
+ 5 files changed, 91 insertions(+), 2 deletions(-)
+
+-- 
+2.25.1
+
