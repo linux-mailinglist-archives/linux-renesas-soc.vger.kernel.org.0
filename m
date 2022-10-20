@@ -2,85 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB994605F9A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Oct 2022 14:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FC26606035
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Oct 2022 14:30:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229959AbiJTMBK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Oct 2022 08:01:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60986 "EHLO
+        id S229874AbiJTMai (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Oct 2022 08:30:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229911AbiJTMBH (ORCPT
+        with ESMTP id S229925AbiJTMah (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Oct 2022 08:01:07 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5823144083;
-        Thu, 20 Oct 2022 05:01:01 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 2CEEE20A43;
-        Thu, 20 Oct 2022 12:01:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1666267260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=xkVVGkBtQDyTBLM0kpfBsn85EfLgvqE9XvpjJpebKS0=;
-        b=jH0AvdmQ5Sn82qm3xMDUFxEtzQ8Afd86NNzn7lSCGUrsJFLaw9SnOVNSzFWgYotcUsDNAg
-        GKaqBJMmMrfij+SPe7P8hnpSwt/PMM4kACWzGqryH9FajEaW0KkQM86idJuP32rsTloZ7/
-        EQO0HWAxraWBomxhUiO5JqjhYu4FO/o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1666267260;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=xkVVGkBtQDyTBLM0kpfBsn85EfLgvqE9XvpjJpebKS0=;
-        b=vHl/tg1vlnnTCoJtjSfQJbaUEq4mIb+x/G13qkx57QzPLCFuuxyt3aozzSXnhYTqv6SF/Y
-        S/MUxJREit23oWCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8E08013494;
-        Thu, 20 Oct 2022 12:00:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id FxuXIXs4UWMgFQAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 20 Oct 2022 12:00:59 +0000
-Message-ID: <8f3a7b67-d193-eb47-a5a6-8826e9c82f83@suse.de>
-Date:   Thu, 20 Oct 2022 14:00:59 +0200
+        Thu, 20 Oct 2022 08:30:37 -0400
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AADE17A94A
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Oct 2022 05:30:33 -0700 (PDT)
+Received: by mail-qt1-x833.google.com with SMTP id h24so13201782qta.7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Oct 2022 05:30:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nwFzTfmaI4aoP9ub3l+xxk91QEvLlkdEzVB8aFhbF8M=;
+        b=GOpQigYwwWrtTc0MsrR0sgADT2xbbze/Spvqf1mCIvK0nTB7VqU254sOkVyTgaaQ6g
+         XnOfwJpzvufp/3VqiIohSnhyU1v1U7x3IHjbJ5uz4AnMU3Mmu0L1zvLILTti72/xnzyP
+         H976nafkHoX6i9s2HduXhGKo6FM9XrbP69tgduk9JzsZcXKnVk4lRh/teVGhxTYG/fxb
+         XOIfr8v8vR4B4/b8b7kII0MK/IVJqEFQUbJ1SIB5ZFqUQ7HysEw7/+ZDRa7CmFm9N+4J
+         3BEz5sHxO6CyS94uCwcponIV8DyZhZN3STu7lStGisyoQRS5LSVSGXDkcvdFwEmLUk+u
+         Q1og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nwFzTfmaI4aoP9ub3l+xxk91QEvLlkdEzVB8aFhbF8M=;
+        b=mG9S6CeYMhX48K6WPId1a1Kv2Xt//3JOdesU3LMRiKUG+TaG8Xc3FfLRVKUPjwJwQK
+         2sPth95QictVXpA3bD/JdNKFA/0QvOzc1Bgj1Wcdid0Ai6898ZMyEkMhfP8mrZl9TnDt
+         oX/BUoBkSEWdQJWPHCnq0rPuNc1yiA08K7G8Lo0X7y3dh2bw/aHFHdsaOmBj+x5O/+G/
+         cAMoFvQcfxXBehZ9muAJ/l30CfvFaPRBumFdWRApGrC1IjkPXToBxSECX/LFNySiRBfv
+         v961btvKrccTQBAHLgGZZ8JXKcFg7CHbdKwLiXd+ttWL9Jkt9P66m512U0QuLiX1jvbm
+         7WzQ==
+X-Gm-Message-State: ACrzQf2fcqBWfACKOttHIvgZO1TmDCKmItb2WR5GBCxvwm2ZBGIeNdpv
+        0biO+b1sKBxbyUa+IfpClhAimg==
+X-Google-Smtp-Source: AMsMyM5F9WV0Thpuu3h2+g2DvPdwv/u/qD/2u0zviGnfaQQrCmaqtd0WBCOF7oX5IGMKR+rIqDSxOQ==
+X-Received: by 2002:a05:622a:214:b0:39c:de63:2580 with SMTP id b20-20020a05622a021400b0039cde632580mr10656012qtx.31.1666269032574;
+        Thu, 20 Oct 2022 05:30:32 -0700 (PDT)
+Received: from [192.168.10.124] (pool-72-83-177-149.washdc.east.verizon.net. [72.83.177.149])
+        by smtp.gmail.com with ESMTPSA id s7-20020a05620a254700b006af0ce13499sm7259659qko.115.2022.10.20.05.30.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Oct 2022 05:30:31 -0700 (PDT)
+Message-ID: <5081381c-093c-5a2b-6e17-47733a3b12e7@linaro.org>
+Date:   Thu, 20 Oct 2022 08:30:28 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH 01/21] drm/amdgpu: Don't set struct drm_driver.lastclose
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v4 1/3] dt-bindings: net: renesas: Document Renesas
+ Ethernet Switch
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org,
-        javierm@redhat.com, mripard@kernel.org,
-        maarten.lankhorst@linux.intel.com
-Cc:     linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-samsung-soc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org,
-        spice-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
-        xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, freedreno@lists.freedesktop.org
-References: <20221020103755.24058-1-tzimmermann@suse.de>
- <20221020103755.24058-2-tzimmermann@suse.de>
- <b26e508b-7599-3953-6803-7db00b3cfbcb@amd.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <b26e508b-7599-3953-6803-7db00b3cfbcb@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------WYrb0xK08aT03AsuaxFIILPE"
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>
+Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+References: <20221019083518.933070-1-yoshihiro.shimoda.uh@renesas.com>
+ <20221019083518.933070-2-yoshihiro.shimoda.uh@renesas.com>
+ <11d6f585-bd9f-246f-29e0-719f0551e6c9@linaro.org>
+ <TYBPR01MB53418699D3420682CB8B3F31D82A9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <TYBPR01MB53418699D3420682CB8B3F31D82A9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -89,114 +88,64 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------WYrb0xK08aT03AsuaxFIILPE
-Content-Type: multipart/mixed; boundary="------------gwXK6OaLfaQ8iAMdjblSoB42";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org, javierm@redhat.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Cc: linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- spice-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- freedreno@lists.freedesktop.org
-Message-ID: <8f3a7b67-d193-eb47-a5a6-8826e9c82f83@suse.de>
-Subject: Re: [PATCH 01/21] drm/amdgpu: Don't set struct drm_driver.lastclose
-References: <20221020103755.24058-1-tzimmermann@suse.de>
- <20221020103755.24058-2-tzimmermann@suse.de>
- <b26e508b-7599-3953-6803-7db00b3cfbcb@amd.com>
-In-Reply-To: <b26e508b-7599-3953-6803-7db00b3cfbcb@amd.com>
+On 19/10/2022 21:31, Yoshihiro Shimoda wrote:
+> Hi Krzysztof,
+> 
+>> From: Krzysztof Kozlowski, Sent: Wednesday, October 19, 2022 9:38 PM
+>>
+>> On 19/10/2022 04:35, Yoshihiro Shimoda wrote:
+>>> Document Renesas Etherent Switch for R-Car S4-8 (r8a779f0).
+>>>
+>>> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>>
+>> Thank you for your patch. There is something to discuss/improve.
+> 
+> Thank you for your review!
+> 
+>>> +  ethernet-ports:
+>>> +    type: object
+>>> +    additionalProperties: false
+>>> +
+>>> +    properties:
+>>> +      '#address-cells':
+>>> +        description: Port number of ETHA (TSNA).
+>>> +        const: 1
+>>> +
+>>> +      '#size-cells':
+>>> +        const: 0
+>>> +
+>>> +    patternProperties:
+>>> +      "^port@[0-9a-f]+$":
+>>> +        type: object
+>>> +        $ref: /schemas/net/ethernet-controller.yaml#
+>>> +        unevaluatedProperties: false
+>>> +
+>>> +        properties:
+>>> +          reg:
+>>> +            description:
+>>> +              Port number of ETHA (TSNA).
+>>> +
+>>> +          phy-handle: true
+>>> +
+>>> +          phy-mode: true
+>>
+>> Why do you need these two properties here? They are provided by
+>> ethernet-controller, so I suggest to drop them.
+>>
+>> I already commented about it in v3.
+> 
+> I'm sorry. I misunderstood you comments. I thought I should drop
+> "description" on these properties and "enum" on the phy-mode.
+> I'll drop them on v5.
 
---------------gwXK6OaLfaQ8iAMdjblSoB42
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+If the enum on phy-mode is different than what ethernet-controller.yaml
+brings, then please keep it.
 
-SGkNCg0KQW0gMjAuMTAuMjIgdW0gMTM6NDggc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0K
-PiBBbSAyMC4xMC4yMiB1bSAxMjozNyBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOg0KPj4g
-RG9uJ3Qgc2V0IHN0cnVjdCBkcm1fZHJpdmVyLmxhc3RjbG9zZS4gSXQncyB1c2VkIHRvIHJl
-c3RvcmUgdGhlDQo+PiBmYmRldiBjb25zb2xlLiBCdXQgYXMgYW1kZ3B1IHVzZXMgZ2VuZXJp
-YyBmYmRldiBlbXVsYXRpb24sIHRoZQ0KPj4gY29uc29sZSBpcyBiZWluZyByZXN0b3JlZCBi
-eSB0aGUgRFJNIGNsaWVudCBoZWxwZXJzIGFscmVhZHkuIFNlZQ0KPj4gdGhlIGNhbGwgdG8g
-ZHJtX2NsaWVudF9kZXZfcmVzdG9yZSgpIGluIGRybV9sYXN0Y2xvc2UoKS4NCj4gDQo+ID8/
-Pw0KPiANCj4gVGhlIGNvbW1pdCBtZXNzYWdlIGRvZXNuJ3QgbWF0Y2ggd2hhdCB0aGUgcGF0
-Y2ggaXMgZG9pbmcuIFlvdSBhcmUgDQo+IHJlbW92aW5nIG91dHB1dF9wb2xsX2NoYW5nZWQg
-aW5zdGVhZCBvZiBsYXN0Y2xvc2UgaGVyZS4NCj4gDQo+IERpZCBzb21ldGhpbmcgZ290IG1p
-eGVkIHVwPw0KDQpBcmdoaC4gVGhlcmUgYXJlIHBhdGNoZXMgZm9yIGxhc3RjbG9zZSBhbmQg
-b3V0cHV0X3BvbGxfY2hhbmdlZC4gVGhlIA0KcmVhc29uIGZvciByZW1vdmluZyB0aGVtIGlz
-IHRoZSBzYW1lLCBidXQgdGhhbmtzIHRvIGNvcHkgYW5kIHBhc3RlIHRoZSANCm5hbWVzIGFy
-ZSB3cm9uZy4gU28gdGhlIHBhdGNoIGlzIGNvcnJlY3QsIGJ1dCB0aGUgZGVzY3JpcHRpb24g
-aXNuJ3QuIA0KV2lsbCBiZSBmaXhlZC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAN
-Cj4gQ2hlZXJzLA0KPiBDaHJpc3RpYW4uDQo+IA0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRo
-b21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gLS0tDQo+PiDCoCBk
-cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZGlzcGxheS5jwqDCoMKgwqDCoMKg
-IHwgMSAtDQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2Ft
-ZGdwdV9kbS5jIHwgMiAtLQ0KPj4gwqAgMiBmaWxlcyBjaGFuZ2VkLCAzIGRlbGV0aW9ucygt
-KQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
-cHVfZGlzcGxheS5jIA0KPj4gYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
-ZGlzcGxheS5jDQo+PiBpbmRleCAyMzk5OGY3MjdjN2Y5Li5mYjcxODZjNWFkZTJhIDEwMDY0
-NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rpc3BsYXku
-Yw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rpc3BsYXku
-Yw0KPj4gQEAgLTEyMjQsNyArMTIyNCw2IEBAIGFtZGdwdV9kaXNwbGF5X3VzZXJfZnJhbWVi
-dWZmZXJfY3JlYXRlKHN0cnVjdCANCj4+IGRybV9kZXZpY2UgKmRldiwNCj4+IMKgIGNvbnN0
-IHN0cnVjdCBkcm1fbW9kZV9jb25maWdfZnVuY3MgYW1kZ3B1X21vZGVfZnVuY3MgPSB7DQo+
-PiDCoMKgwqDCoMKgIC5mYl9jcmVhdGUgPSBhbWRncHVfZGlzcGxheV91c2VyX2ZyYW1lYnVm
-ZmVyX2NyZWF0ZSwNCj4+IC3CoMKgwqAgLm91dHB1dF9wb2xsX2NoYW5nZWQgPSBkcm1fZmJf
-aGVscGVyX291dHB1dF9wb2xsX2NoYW5nZWQsDQo+PiDCoCB9Ow0KPj4gwqAgc3RhdGljIGNv
-bnN0IHN0cnVjdCBkcm1fcHJvcF9lbnVtX2xpc3QgYW1kZ3B1X3VuZGVyc2Nhbl9lbnVtX2xp
-c3RbXSA9DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2Ft
-ZGdwdV9kbS9hbWRncHVfZG0uYyANCj4+IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5
-L2FtZGdwdV9kbS9hbWRncHVfZG0uYw0KPj4gaW5kZXggZjZhOWU4ZmRkODdkNi4uZTlhMjhh
-NTM2M2I5YSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9h
-bWRncHVfZG0vYW1kZ3B1X2RtLmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlz
-cGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMNCj4+IEBAIC04Miw3ICs4Miw2IEBADQo+PiDC
-oCAjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWNfdWFwaS5oPg0KPj4gwqAgI2luY2x1ZGUgPGRy
-bS9kcm1fYXRvbWljX2hlbHBlci5oPg0KPj4gwqAgI2luY2x1ZGUgPGRybS9kcm1fYmxlbmQu
-aD4NCj4+IC0jaW5jbHVkZSA8ZHJtL2RybV9mYl9oZWxwZXIuaD4NCj4+IMKgICNpbmNsdWRl
-IDxkcm0vZHJtX2ZvdXJjYy5oPg0KPj4gwqAgI2luY2x1ZGUgPGRybS9kcm1fZWRpZC5oPg0K
-Pj4gwqAgI2luY2x1ZGUgPGRybS9kcm1fdmJsYW5rLmg+DQo+PiBAQCAtMjgxMCw3ICsyODA5
-LDYgQEAgY29uc3Qgc3RydWN0IGFtZGdwdV9pcF9ibG9ja192ZXJzaW9uIGRtX2lwX2Jsb2Nr
-ID0NCj4+IMKgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX21vZGVfY29uZmlnX2Z1bmNzIGFt
-ZGdwdV9kbV9tb2RlX2Z1bmNzID0gew0KPj4gwqDCoMKgwqDCoCAuZmJfY3JlYXRlID0gYW1k
-Z3B1X2Rpc3BsYXlfdXNlcl9mcmFtZWJ1ZmZlcl9jcmVhdGUsDQo+PiDCoMKgwqDCoMKgIC5n
-ZXRfZm9ybWF0X2luZm8gPSBhbWRfZ2V0X2Zvcm1hdF9pbmZvLA0KPj4gLcKgwqDCoCAub3V0
-cHV0X3BvbGxfY2hhbmdlZCA9IGRybV9mYl9oZWxwZXJfb3V0cHV0X3BvbGxfY2hhbmdlZCwN
-Cj4+IMKgwqDCoMKgwqAgLmF0b21pY19jaGVjayA9IGFtZGdwdV9kbV9hdG9taWNfY2hlY2ss
-DQo+PiDCoMKgwqDCoMKgIC5hdG9taWNfY29tbWl0ID0gZHJtX2F0b21pY19oZWxwZXJfY29t
-bWl0LA0KPj4gwqAgfTsNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNz
-IERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21i
-SA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5
-LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+Just remove everything which is already provided by
+ethernet-controller.yaml (and does not differ).
 
---------------gwXK6OaLfaQ8iAMdjblSoB42--
+> 
 
---------------WYrb0xK08aT03AsuaxFIILPE
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Best regards,
+Krzysztof
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNROHsFAwAAAAAACgkQlh/E3EQov+Af
-qg/8DLfmRUYvAEkOGUdb+UPWlqwaao88s9cPeIA3h2HV6bYLuN3tcbcDWHFeQuAGVFYRgYLVboNR
-UtD8lzBIfELkuzD83B+VRxYJBSUdOWNVr5cmES8vFHFcFPQKMLAl/NCnOZOkXBa2xbSyfsJ9t/t4
-yXi4FqFTtRT4SWIfAHVY2cduEA/oRkqwmhB1nu+Nv+dWdMxKlWT5W5cc9D/tV7PNyU0D43q/xC3U
-UPqtz6yMg2u6UXyQ4smF0HltdBU+CjGDnCKVwKfW1JHy3eo2ONTt3ORu7QnXAGImozT2vrN3G3rF
-9FxNTpfh6Hv15QQMOPJqlCicq4nVRIXFHA2Za5jvGWa4m+bLzS4OH7KB+KqeWUEtX+QKl3eqgC56
-HBs9QpM0tp9VLVX4ws1GcGoJ48BWHSSNQv2suBrtz7yhdrquiPhXM4+XqWo/MZAxS1jnki7QdBhj
-PgYr3LQM68v3qRoLkKoAvqpkMDCUeAP7Sql6H1EmSBYcKupo8RvWEi0xTIoeHWA3WMXS+Lst+3uT
-gOVa/gN0OgRYykGJ6NRHykDPW2fBb50tDngSNH9Mh6zxabnKGwbgzG6q6w+SZy4uEceuLu9yfkv7
-bc/vqXu6UkH5/6ofgivW2hkPpkiyjQj5u9L55R67jqYOZCZfVsG2nGCNPoWHmDSbMdO1Fgmx46g4
-koE=
-=eccN
------END PGP SIGNATURE-----
-
---------------WYrb0xK08aT03AsuaxFIILPE--
