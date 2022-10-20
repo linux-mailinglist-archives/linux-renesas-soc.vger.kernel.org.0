@@ -2,167 +2,256 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61A016058BB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Oct 2022 09:36:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E7B3605C96
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Oct 2022 12:38:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230235AbiJTHgI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Oct 2022 03:36:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43948 "EHLO
+        id S230190AbiJTKiB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Oct 2022 06:38:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229928AbiJTHgG (ORCPT
+        with ESMTP id S229514AbiJTKiA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Oct 2022 03:36:06 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2122.outbound.protection.outlook.com [40.107.113.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86982166572;
-        Thu, 20 Oct 2022 00:36:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F2n4nAKK8RrqejrnDTzsZbbIB13IG/WJZEyrPN3WiDUOv08wQVXZOura1PXMHeVIeFGXltcjp68Kif5xTJp29m0Yn27GNNU2TwHrTN1YKsCcpR0iSnvAjHr+BrBQfJcMn0ohvTrNGOSdoRkFzkYMNioK5C0URHzFTk06jpC+Wdn61k5teeL9TICEN6VskzfLYf6bwpmzb4wmJYZBMm+0jwWrWvipeCsjRAY9p6QP7jHltOzH7yTOkKomET65U9KWYP92+fsc2OHWmjcpryxGBiD83qJJbcHRFxLHNHidmuM4BdG7pSKO2Qm0kZ/CZPxL6o6gz+HCTAqJqOfcvlnVKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9cu4IcvDw3yDTatQvDx4wIeT5EsjfbAMHYK/Ad9bsSE=;
- b=l/j4KRK+ON+EBHZdOn4WuskajU+ds5S7eowbidW38OmyikRMsH/yc/daonA7vikCn9Qs4GcdAqmaB4OUytmwLXb1mvx6KSgsA8f1CEI6cyjGGqf05D6Xg0hldJQcN+B1L0urlBYuOdMb8ZXF70v5GUSr6rhinuTKKK00jI7AC0v+qv9q/ngA97eGS0VdHSd73z7U7Ks8mL6Wks6XHJMTAYgBWnymRTmKtassuW1mkfSjx0Z1aHHfwzyENIn+CPfe8f/dOo8D7opn5RLqeBxEM+Nm3sCu/C7OcP/mee/6jbhGekDSCEWOsAuy9nfhNuSLc7W0rs6ESfT9pRCiTghPOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9cu4IcvDw3yDTatQvDx4wIeT5EsjfbAMHYK/Ad9bsSE=;
- b=StdUc/I7Lr1VKzcIQpqkjfEN0BM1QeBXmDxRa3wbocMYwSieZcPgl0GpuF49bhnHdJLb9/cilaSMYXHFBQEvR+v+XcXyvRc7kznDdx+C4oaVsFkzgTlD+kuVqeutLsAcD8k28t4vj2C2maVPryo/f4c2YXd0hD1fwzyu333sFds=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by OS3PR01MB9463.jpnprd01.prod.outlook.com
- (2603:1096:604:1c7::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.34; Thu, 20 Oct
- 2022 07:35:59 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::51b0:c391:5c63:4af4]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::51b0:c391:5c63:4af4%3]) with mapi id 15.20.5723.034; Thu, 20 Oct 2022
- 07:35:59 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Florian Fainelli <f.fainelli@gmail.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>, Andrew Lunn <andrew@lunn.ch>,
-        Vladimir Oltean <olteanv@gmail.com>
-CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v4 2/3] net: ethernet: renesas: Add Ethernet Switch driver
-Thread-Topic: [PATCH v4 2/3] net: ethernet: renesas: Add Ethernet Switch
- driver
-Thread-Index: AQHY45W84OTfYE+kgU+A+iXKytdlb64WjrIAgABMRaA=
-Date:   Thu, 20 Oct 2022 07:35:59 +0000
-Message-ID: <TYBPR01MB5341BFDA86EE48F07DBC9882D82A9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <20221019083518.933070-1-yoshihiro.shimoda.uh@renesas.com>
- <20221019083518.933070-3-yoshihiro.shimoda.uh@renesas.com>
- <ccd7f1fc-b2e2-7acf-d7fd-85191564603a@gmail.com>
-In-Reply-To: <ccd7f1fc-b2e2-7acf-d7fd-85191564603a@gmail.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|OS3PR01MB9463:EE_
-x-ms-office365-filtering-correlation-id: 2dafb0ee-951a-494e-72e3-08dab26dbbca
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: reg/OvlmlpI8BubbJ604H0LifJUblWUuSG1zCJX3G06/BTaZK1hpQN70fXGmYGz4p06E/1vXkzd+5dz4ONTb+XljY0fbYb9y8x/wdZJ9CsJxlBx4GqIwqUgtZYkB2/Pkm1KoIrhSlu38Izna94XdVZIkaBhZu4ZG6Rpfh/oyWxtppTdYt9KbDsgdNn1UMpp3QZlaw7JuYGGnXIAsMqcQ4h2Sz8crJstV+/iLRAJBcdyH3MmdF7coQr0m7yD6NWOfa273n2AFmtOFe5L3Zu+uSmii4/VDu/eSDOBA5YRcnWOZ5s7+FD7LM4wOzETQziIuy9Liq7fHYfYg82Ugtz2lWetsx1fuOAVRUL6VvmGW9SXLJMX23EfDWTGjvVmF3mGWqQ/2Mr13UM7MDbb897o6agcQq070ksHOdiaQzjWd2+Y0K9Ifbv+14IyHSg+OmScGTaUoqVsIthJSJnJNchihDWEr4phJwqFdMQoxpDqTUe+2UlMpi+TtY3bZMyjuZI08DUgGcd0c3ssLDNrk9YMUHm3L9ZohBvrvFUxy9qqQ0IGxphte8u3BHi2FNduHA4xo41FYmteKQZkuZEzcga51d1UnHCjyLEEGEt3yXfmdsDy4HPg3wtCLZ4NgJo5sEWF519KrIhP7Ph0QPuo0k2BWUvi13RZy4Fiq30LFCUUfVq2DKGGteigiPxxju/T4gyH6sncKvnmVCyY75lCam6SPGjoCD06cy5ZB8wcppV8uYG6vJrmClW7ske4UbJOe+CiFugwHHO8Hnhj8jokfH0d23Q==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(376002)(346002)(366004)(136003)(39860400002)(451199015)(55016003)(2906002)(41300700001)(66946007)(66556008)(8936002)(52536014)(66446008)(66476007)(4326008)(64756008)(8676002)(5660300002)(7416002)(6506007)(54906003)(186003)(33656002)(71200400001)(316002)(110136005)(86362001)(38100700002)(76116006)(38070700005)(9686003)(478600001)(7696005)(53546011)(122000001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eXVhVk5YU2dZcnJsb3pQNGxPQVFzMS9HY09BN0hzVzdFRXQ0dERQem1TS1Vl?=
- =?utf-8?B?cm9HWDVtRmpHYlhGSWpBSHBrRmNwSVdQdzB2TnRTeEZCekpiVkdyVzdscXJ4?=
- =?utf-8?B?NkpRYmpuWmZPd1VwVFBIR0xNdTdPeFozNFVGOWE2WUdjRDQrQVR6elkxU2Ru?=
- =?utf-8?B?UzdNZmVTNlJ5azFkb2paRkN0VVB0b2tWR2dtbzFOV1RRb1BBN1dtRUFKREg3?=
- =?utf-8?B?dm1hcTQ0WllzdGFjYkJaaDBVcHcyR0pjTTBVVlVnTG51eUNQcVl3VjNCWUdI?=
- =?utf-8?B?SmZ3TkhaTkFaNWRGZU9zamJpSHFBSkRiV3RjeWMwaE9sS3V4aUVvNkMzS1Yr?=
- =?utf-8?B?NGxQeWtRWVh2SVJSRkRHcllIM2tUU1NFUlBLSEpMWTB6YjAxbEt3MmFVd2NF?=
- =?utf-8?B?dXdTcWczV1dJa1Nzb1NkeVVsdExkS0ViMW5rb1RwRjFzamdvdlo2WGVnQWpF?=
- =?utf-8?B?ZDRueUxpRlUvWWF4NmY0R1djWVpFZzdkUE9CdHRuU0hRTFFTUzlpTmlRcWFk?=
- =?utf-8?B?S2Z3VkJBNnByTHAzbFYxaW5ocWZ0UlNXZGFydzMybmh6L0Ria0duWm9iOCtH?=
- =?utf-8?B?bjE0Mk5ZdE1ZNGpkUCtMMjNRaGNvUlRPRDJOcys0ZWhCT3hMRlJ3M1dMWklt?=
- =?utf-8?B?NFRDUFFSbUxPZVVRcXQzZlowL2ZHM0lvbjZaQ3RGdE9kMFBZaFFvajdoaTNm?=
- =?utf-8?B?RGwrL0R2TzdCbnZQSDBVYWtycWo1WHJTbG5QVzc4b284NmFxOGtxZTZ0WWRk?=
- =?utf-8?B?V1N3Y1Fvc3BOeUYzS3VIZkJUTXpQRG1QZkkxZjZSS05YbExPekNpblU5cFJM?=
- =?utf-8?B?eTAvNUJHcUNGM0gwaDRmS0dxaEp5Wk9mSVpaZmNqMFlGakpyV3FtTjRNRmpY?=
- =?utf-8?B?UUpIQ1VEcFZMNkU3Y2RWZktlRm4vQmNET2Q0dDVuZlliSGwrTlVGYWVzQXRm?=
- =?utf-8?B?c1pQei9wWEpMRTZ1MFRKUEhhWWlQNVBHOU0wNFJMTWlGMllYQmY5R3E0bzFO?=
- =?utf-8?B?MWE1Q2ZrNTdmanNvWm5KbUpZVzlTQTBQSnFsNTlNOVlkYkEwckovaGNSeXA4?=
- =?utf-8?B?WExQOTFvQlNKZ0pCa3lGQmVuNHhrd2FKMkV1K0RpSW5GUzU5VzJ4ZXdXeWxT?=
- =?utf-8?B?SEJhQndnbXVWVVllV00zTExuWDRWdjBFY2cvcFBGR05sY1k2SE5Zd0lUeG1U?=
- =?utf-8?B?Z1RZcDlaUlYwclI5ZnJzK0IwQTRmU0NaM2F2bGIwcGNGelpIOVkzSllvOE5w?=
- =?utf-8?B?elVMcUlibzBLV0hvOWJBUXh1Yk11RXFEcVJWTFJ1bnE4U0hJZloyRkpkZldT?=
- =?utf-8?B?b28vYmpYeExxcksxZ3JINnExb3UxMGVTR09SMWY3T3NkQ0NLWHVGTkNVK3pq?=
- =?utf-8?B?KytYOFczZ3VWaHppYm8xZTZQcHBtRjhhMkNRa1ZUZEZwZms5LzQ1ZFFvLzkx?=
- =?utf-8?B?TlVLckVFS1hrNGY1WmZQRWh4K1FjSkkzbHA3d1p0TWUzN2VQTTBKKzF0N0RW?=
- =?utf-8?B?enVTSGU0YUV2bnIzUFEzOG9mbU13NUFtZC9XTGxia0dLWUQrWThZejFveWtq?=
- =?utf-8?B?eXRxTHdpV0VuR3JpdlVJclRaaVRhcmNxUmdJNWI4MWx2Q2pYclBoNXRaOXVn?=
- =?utf-8?B?T1kyR0IrcFk4Ynd1VXRQb2hxQ3VzNHFzRm02STJyNjB2akp3anlJMzN1WGFm?=
- =?utf-8?B?eE9oQ3VId0dwWlpBMkd6MHNLSW00cXYrSHBtNHBqeXp1OHFFTUJ6em5yaVRM?=
- =?utf-8?B?WU0vbmlFZEdOQVhWM0FDWlpTTVZQNHRNUGFwVDZWWVBuRU8rSDRkVG9IMzQw?=
- =?utf-8?B?VnVic3J4SVRkbFVRV3hIbEJudGcyQkNMWTZQcnJ0ZTFxWllaL2NxaC9veld6?=
- =?utf-8?B?SWZhaXgxajJEejFXeTdjaHN6aFFEdGsrT2pQSkRPWFV2Sk5MYng4aTM2Tzlt?=
- =?utf-8?B?cnRkcDRDSmsrQ2ZLNjI3Mm0vVUNWbE5KdDkrQnMxT1J5YnMvMktDczNHSFhO?=
- =?utf-8?B?azhMSUozZDBZZEdBSFhJSFA4Yko3aGVBOFRmcE9YQnpIWHdWVDBGQ3dvTDJa?=
- =?utf-8?B?T2FVZG10RTFIUDRaYjVRNGE4cTBTRUh5T001NFd4N09NcTJIc1RLLytoV3hh?=
- =?utf-8?B?end3TWFIUlluUFBNSXNqY3N1VmZnam50Y2p5bFRGdXJxbTFBV1cyWnZuTjFW?=
- =?utf-8?B?eXpQQ05INlNYMG9yOWVVNG5MbWVLSmFtOGtxa2RGejZOeDJSWlVWeHZIRU1I?=
- =?utf-8?B?ckxHUkVzTUFUMS8rbTBqQ1I4dHpBPT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Thu, 20 Oct 2022 06:38:00 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D4451BFB98;
+        Thu, 20 Oct 2022 03:37:58 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 428851F93A;
+        Thu, 20 Oct 2022 10:37:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1666262277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=Y7BdOtp6TFqwXPX3o6UHDb+9HmQzCsygQB8jvOJl5oY=;
+        b=pexEAXjK3+YaGpJd+JADtO15n0ydGTiAR9QdozIjQlWTGCJGvjDk3GLtnTjahBibfxqKn8
+        e0ZCiKKRAhP4pa+DGq9AHeQHkye84awc19SWK5FgvFa4p4jHOOLv6Ie/+7K77qgyduKGGP
+        7xA6whgamY9hl61unJ7iRpO/wohJ91Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1666262277;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=Y7BdOtp6TFqwXPX3o6UHDb+9HmQzCsygQB8jvOJl5oY=;
+        b=CVcd7TwC6JyEu5wf89r3Wdsik/2sML9uk++MZ6TfBQTpvFyIWJxR+TOmqJlzmQsVkjVxBs
+        WhUhW1hA4SnyrHBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BE6B013AF5;
+        Thu, 20 Oct 2022 10:37:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 8BWlLQQlUWPPYwAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 20 Oct 2022 10:37:56 +0000
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org,
+        javierm@redhat.com, mripard@kernel.org,
+        maarten.lankhorst@linux.intel.com
+Cc:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        linux-aspeed@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org,
+        etnaviv@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        spice-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        xen-devel@lists.xenproject.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 00/21] drm/fb-helper: Untangle fbdev emulation and helpers
+Date:   Thu, 20 Oct 2022 12:37:34 +0200
+Message-Id: <20221020103755.24058-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2dafb0ee-951a-494e-72e3-08dab26dbbca
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2022 07:35:59.7820
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4hHI6+8zVcc/Wb8mwzTP0mpe4QeS9pV1zjxoNMXYlbPW/1NPA4caK2Ex7Oele3Djumr7rTNu3X/D6SroRzSsLcOCMZ3K4LvHwW0PK4/91vOILly5jx5nwo/01PTnuaFe
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9463
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgRmxvcmlhbiwNCg0KPiBGcm9tOiBGbG9yaWFuIEZhaW5lbGxpLCBTZW50OiBUaHVyc2RheSwg
-T2N0b2JlciAyMCwgMjAyMiAxMToyMyBBTQ0KPiANCj4gT24gMTAvMTkvMjAyMiAxOjM1IEFNLCBZ
-b3NoaWhpcm8gU2hpbW9kYSB3cm90ZToNCj4gPiBBZGQgUmVuZXNhcyBFdGhlcm5ldCBTd2l0Y2gg
-ZHJpdmVyIGZvciBSLUNhciBTNC04IHRvIGJlIHVzZWQgYXMgYW4NCj4gPiBldGhlcm5ldCBjb250
-cm9sbGVyLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogWW9zaGloaXJvIFNoaW1vZGEgPHlvc2hp
-aGlyby5zaGltb2RhLnVoQHJlbmVzYXMuY29tPg0KPiANCj4gSG93IGNhbiB0aGlzIGJlIGEgc3dp
-dGNoIGRyaXZlciB3aGVuIGl0IGRvZXMgbm90IGluY2x1ZGUgYW55IHN3aXRjaGRldg0KPiBoZWFk
-ZXIgZmlsZXMgbm9yIGRvZXMgaXQgYXR0ZW1wdCB0byBiZSB1c2luZyB0aGUgRFNBIGZyYW1ld29y
-az8gWW91IGFyZQ0KPiBjZXJ0YWlubHkgZHVwbGljYXRpbmcgYSBsb3Qgb2YgdGhpbmdzIHRoYXQg
-RFNBIHdvdWxkIGRvIGZvciB5b3UgbGlrZQ0KPiBtYW5hZ2luZyBQSFlzIGFuZCByZWdpc3Rlcmlu
-ZyBwZXItcG9ydCBuZXdvcmsgZGV2aWNlcy4gV2h5Pw0KDQpUaGUgY3VycmVudCBkcml2ZXIgZG9l
-c24ndCBzdXBwb3J0IGFueSBmb3J3YXJkaW5nIG9mZmxvYWQuIEFuZCwgYXQgdGhlIGZpcnN0DQpz
-dGVwIG9mIHN1cHBvcnRpbmcgdGhpcyBoYXJkd2FyZSwgSSdkIGxpa2UgdG8gdXNlIHRoZSBoYXJk
-d2FyZSBhcyBhbiBldGhlcm5ldA0KY29udHJvbGxlciBmb3Igc2VuZGluZy9yZWNlaXZpbmcgZnJh
-bWVzLiBTbywgSSBkaWRuJ3QgdXNlIHRoZSBzd2l0Y2hkZXYgYW5kDQp0aGUgRFNBIGZyYW1ld29y
-a3MuDQoNCkJ5IHRoZSB3YXksIHRoZSBoYXJkd2FyZSBuYW1lIGlzICJFdGhlcm5ldCBTd2l0Y2gi
-IHNvIHRoYXQgSSB3cm90ZQ0KdGhlIHN1YmplY3QgYXMgIkFkZCBFdGhlcm5ldCBTd2l0Y2ggZHJp
-dmVyIi4gQnV0LCBJJ20gdGhpbmtpbmcgdGhhdA0KdGhpcyBzdWJqZWN0L2NvbW1pdCBkZXNjcmlw
-dGlvbiBzaG91bGQgYmUgY2hhbmdlZCBsaWtlIGJlbG93Og0KLS0tDQpTdWJqZWN0OiBuZXQ6IGV0
-aGVybmV0OiByZW5lc2FzOiBBZGQgc3VwcG9ydCBmb3IgIkV0aGVybmV0IFN3aXRjaCINCg0KQWRk
-IGluaXRpYWwgc3VwcG9ydCBmb3IgUmVuZXNhcyBFdGhlcm5ldCBTd2l0Y2ggb2YgUi1DYXIgUzQt
-OC4NClRoZSBoYXJkd2FyZSBoYXMgZmVhdHVyZXMgYWJvdXQgZm9yd2FyZGluZyBmb3IgYW4gZXRo
-ZXJuZXQgc3dpdGNoDQpkZXZpY2UuIEJ1dCwgZm9yIG5vdywgaXQgYWN0cyBhcyBhbiBldGhlcm5l
-dCBjb250cm9sbGVyIHNvIHRoYXQgYW55DQpmb3J3YXJkaW5nIG9mZmxvYWQgZmVhdHVyZXMgYXJl
-IG5vdCBzdXBwb3J0ZWQuDQotLS0NCg0KQmVzdCByZWdhcmRzLA0KWW9zaGloaXJvIFNoaW1vZGEN
-Cg0KPiAtLQ0KPiBGbG9yaWFuDQo=
+Separate generic fbdev emulation from the helper code that is shared
+among the various fbdev implementations within DRM. Affects many drivers.
+
+The goal of this patchset is to improve readability and streamline the
+fbdev helper code within DRM. In the long term, we want to get to a point
+where drivers or memory managers can pick and combine the various helpers
+for optimal fbdev support.
+
+Patches 1 to 8 start by preparing drivers. Setting lastclose is not
+required by generic fbdev emulation.
+
+Two drivers depend on fb helpers implicitly including other Linux header
+files. Fixing this in patches 9 and 10 allows to remove unnecesary include
+statements from the fb-helper header in patch 11.
+
+Do some renaming in patches 12 to 14.
+
+There are currently various implementation of the fbdev I/O helpers
+with varying feature sets. The fb helpers for fbdev I/O should all call
+fb_sync, which is what fbdev's internal implementation does. For DRM,
+damage handling needs to be performed after updating a framebuffer. The
+damage worker is part of the fb helpers, but the actual update logic only
+works with generic fbdev emulation. Separate the two, which also gives
+other drivers an option so set their own damage handling if neccessary.
+The full-featured I/O helpers can be moved under a shared implementation
+and called by all drivers. Patches 15 to 18 resolve these issues.
+
+Patch 19 changes fbdev disablement to work at the level of display
+detection. If disabled, generic fbdev emulation will be initialized,
+but no display will be detected. It can later be enabled by changing
+the parameter in sysfs and plugging in a connector.
+
+Patches 20 and 21 move the generic fbdev emulation into their own source
+and header files and clean up the include statements throughout DRM.
+Many drivers only call drm_fbdev_generic_setup() and can avoid including
+other Linux header files.
+
+Built on x86-64, aarch64, arm, ppc64le. Tested with various combinations
+of bochs, radeon, simpledrm.
+
+Thomas Zimmermann (21):
+  drm/amdgpu: Don't set struct drm_driver.lastclose
+  drm/imx: Don't set struct drm_driver.lastclose
+  drm/ingenic: Don't set struct drm_driver.lastclose
+  drm/komeda: Don't set struct drm_driver.lastclose
+  drm/logicvc: Don't set struct drm_driver.lastclose
+  drm/mcde: Don't set struct drm_driver.lastclose
+  drm/rockchip: Don't set struct drm_driver.lastclose
+  drm/vboxvideo: Don't set struct drm_driver.lastclose
+  drm/panel-ili9341: Include <linux/backlight.h>
+  drm/tve200: Include <linux/of.h>
+  drm/fb-helper: Cleanup include statements in header file
+  drm/fb_helper: Rename field fbdev to info in struct drm_fb_helper
+  drm/fb-helper: Rename drm_fb_helper_alloc_fbi() to use _info postfix
+  drm/fb-helper: Rename drm_fb_helper_unregister_fbi() to use _info
+    postfix
+  drm/fb-helper: Disconnect damage worker from update logic
+  drm/fb-helper: Call fb_sync in I/O functions
+  drm/fb-helper: Perform all fbdev I/O with the same implementation
+  drm/fb_helper: Minimize damage-helper overhead
+  drm/fb-helper: Always initialize generic fbdev emulation
+  drm/fb-helper: Move generic fbdev emulation into separate source file
+  drm/fb-helper: Remove unnecessary include statements
+
+ drivers/gpu/drm/Makefile                      |    2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |    1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |    2 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |    1 -
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |    2 -
+ .../gpu/drm/arm/display/komeda/komeda_drv.c   |    2 +-
+ .../gpu/drm/arm/display/komeda/komeda_kms.c   |    2 -
+ drivers/gpu/drm/arm/hdlcd_crtc.c              |    1 -
+ drivers/gpu/drm/arm/hdlcd_drv.c               |    2 +-
+ drivers/gpu/drm/arm/malidp_drv.c              |    2 +-
+ drivers/gpu/drm/armada/armada_fbdev.c         |    6 +-
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |    2 +-
+ drivers/gpu/drm/ast/ast_drv.c                 |    1 +
+ drivers/gpu/drm/ast/ast_drv.h                 |    1 -
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |    2 +-
+ drivers/gpu/drm/bridge/tc358762.c             |    2 +-
+ drivers/gpu/drm/drm_crtc_helper.c             |    1 -
+ drivers/gpu/drm/drm_fb_helper.c               | 1081 ++++++-----------
+ drivers/gpu/drm/drm_fbdev.c                   |  512 ++++++++
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c  |    1 -
+ drivers/gpu/drm/drm_probe_helper.c            |    1 -
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h         |    3 +-
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c     |    6 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |    2 +-
+ drivers/gpu/drm/gma500/framebuffer.c          |    6 +-
+ drivers/gpu/drm/gud/gud_drv.c                 |    2 +-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |    1 +
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |    1 -
+ .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |    2 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c       |    2 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |    1 -
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |    8 +-
+ drivers/gpu/drm/imx/dcss/dcss-kms.c           |    3 +-
+ drivers/gpu/drm/imx/imx-drm-core.c            |    2 +-
+ drivers/gpu/drm/imx/imx-ldb.c                 |    2 +-
+ drivers/gpu/drm/imx/imx-tve.c                 |    1 -
+ drivers/gpu/drm/imx/parallel-display.c        |    2 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |    3 +-
+ drivers/gpu/drm/kmb/kmb_drv.c                 |    2 +-
+ drivers/gpu/drm/kmb/kmb_plane.c               |    1 -
+ drivers/gpu/drm/logicvc/logicvc_drm.c         |    2 +-
+ drivers/gpu/drm/logicvc/logicvc_mode.c        |    2 -
+ drivers/gpu/drm/mcde/mcde_drv.c               |    3 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |    2 +-
+ drivers/gpu/drm/meson/meson_drv.c             |    2 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c         |    1 +
+ drivers/gpu/drm/mgag200/mgag200_drv.h         |    1 -
+ drivers/gpu/drm/msm/msm_fbdev.c               |    4 +-
+ drivers/gpu/drm/mxsfb/lcdif_drv.c             |    2 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c             |    2 +-
+ drivers/gpu/drm/nouveau/nouveau_fbcon.c       |   27 +-
+ drivers/gpu/drm/omapdrm/omap_fbdev.c          |    6 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c  |    3 +-
+ drivers/gpu/drm/pl111/pl111_drv.c             |    2 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                 |    1 +
+ drivers/gpu/drm/qxl/qxl_drv.h                 |    1 -
+ drivers/gpu/drm/radeon/radeon_fb.c            |    6 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.c    |    2 -
+ drivers/gpu/drm/solomon/ssd130x.c             |    2 +-
+ drivers/gpu/drm/sti/sti_drv.c                 |    2 +-
+ drivers/gpu/drm/stm/drv.c                     |    2 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |    2 +-
+ drivers/gpu/drm/tegra/fb.c                    |    8 +-
+ drivers/gpu/drm/tidss/tidss_drv.c             |    2 +-
+ drivers/gpu/drm/tidss/tidss_kms.c             |    1 -
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c           |    2 +-
+ drivers/gpu/drm/tiny/arcpgu.c                 |    2 +-
+ drivers/gpu/drm/tiny/bochs.c                  |    2 +-
+ drivers/gpu/drm/tiny/cirrus.c                 |    2 +-
+ drivers/gpu/drm/tiny/gm12u320.c               |    2 +-
+ drivers/gpu/drm/tiny/hx8357d.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9163.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9225.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9341.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9486.c                |    2 +-
+ drivers/gpu/drm/tiny/mi0283qt.c               |    2 +-
+ drivers/gpu/drm/tiny/ofdrm.c                  |    2 +-
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c         |    2 +-
+ drivers/gpu/drm/tiny/repaper.c                |    2 +-
+ drivers/gpu/drm/tiny/simpledrm.c              |    2 +-
+ drivers/gpu/drm/tiny/st7586.c                 |    2 +-
+ drivers/gpu/drm/tiny/st7735r.c                |    2 +-
+ drivers/gpu/drm/tve200/tve200_drv.c           |    3 +-
+ drivers/gpu/drm/udl/udl_drv.c                 |    2 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |    1 -
+ drivers/gpu/drm/vboxvideo/vbox_drv.c          |    4 +-
+ drivers/gpu/drm/vboxvideo/vbox_main.c         |    1 -
+ drivers/gpu/drm/vc4/vc4_drv.c                 |    2 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c          |    1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h          |    1 -
+ drivers/gpu/drm/vkms/vkms_drv.c               |    2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fb.c            |    3 +
+ drivers/gpu/drm/xen/xen_drm_front_gem.c       |    1 -
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |    2 +-
+ include/drm/drm_fb_helper.h                   |   59 +-
+ include/drm/drm_fbdev.h                       |   15 +
+ 99 files changed, 1019 insertions(+), 883 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_fbdev.c
+ create mode 100644 include/drm/drm_fbdev.h
+
+
+base-commit: 8c797a984264f04708d2099e83c85978a0fede89
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
+-- 
+2.38.0
+
