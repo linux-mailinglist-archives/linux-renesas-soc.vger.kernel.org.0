@@ -2,213 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41EC86081A7
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Oct 2022 00:32:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55ED36081BC
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Oct 2022 00:34:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229756AbiJUWcL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Oct 2022 18:32:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44320 "EHLO
+        id S229497AbiJUWem (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Oct 2022 18:34:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229800AbiJUWcK (ORCPT
+        with ESMTP id S229690AbiJUWel (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Oct 2022 18:32:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4728F2AD30F;
-        Fri, 21 Oct 2022 15:32:09 -0700 (PDT)
+        Fri, 21 Oct 2022 18:34:41 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600D8E0D3;
+        Fri, 21 Oct 2022 15:34:39 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B3B6061F9B;
-        Fri, 21 Oct 2022 22:32:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F22F8C433C1;
-        Fri, 21 Oct 2022 22:32:03 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B72CFB82CAD;
+        Fri, 21 Oct 2022 22:34:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91434C433C1;
+        Fri, 21 Oct 2022 22:34:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666391528;
-        bh=Mgf709eKeuqcdRrSCZHgWGV8BbLp66Y1l9AWxFpPvgo=;
+        s=k20201202; t=1666391676;
+        bh=prLeAf2ItsWJEmbqEjaM5pwP4sQzp/lQoV0fdaws78s=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hCwSnjMch7C/z9MnbyBUqv4MGDb0CGXLFLUnOzN9zOwyFNSn5xAEHvmtZbugfAD3K
-         MnVoInBcRY0B1MurhdV/8rour87p3xV70bBkQxj1f3ALhtRY4Iv6aJZc3I+DGhuik8
-         w+pkaWYbDK5auKNiGuGvd/6F7XKxy58T153L8tTEag95KKkd+edyTgM/JQimsuaKaH
-         6EzDT+HvtoiywH/BpZOEW3DhWSNgn9pla4zxsGlBof7EIbYEOzE0lOeNizm4zRX4YM
-         MrKWDYLTifYnPMh/UqpEjqSmHEmDvAM/U4hTqCubS3l+1tJR04ZY3wUs0hu867wrfb
-         Ic2EGRuWRrUbA==
-Date:   Fri, 21 Oct 2022 23:32:01 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Rob Herring <robh@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        b=t5TtIhEjokM2OHeKhxVRvBDslLnI7wnxwv6+sYUv3MQaW+ZjTqUQ0f2FnxI3q9CyX
+         Dnt39CIDHgJFtHSZIshbbblKksPyRPY5qIFFzPwCCDpsGD78nnyaXbRzBovAfNjwwV
+         YkBD1oyAOLHsJmyqWMch8Dt6YYGhsKio/fNP/rcOdwrAwOawtmpYjsOT6W2G0TokIP
+         YQqdoM7j6uMHpRA23rNTLnsYf+5UNbkevXw3GFBDeYdd8m97HscCh3eoUHXxjrd22d
+         M/BKDUTJw/FQv0JHA0zkseLf3mNARSm1kb27q4/WXNe7O+cLzqobzi3mnrkug+HRJP
+         NuJIQEpcOHlUw==
+Date:   Sat, 22 Oct 2022 00:34:32 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Guo Ren <guoren@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Anup Patel <anup@brainfault.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [RFC PATCH v3 2/2] soc: renesas: Add L2 cache management for
- RZ/Five SoC
-Message-ID: <Y1Md4bMYJHI34HuJ@spud>
-References: <20221019220242.4746-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221019220242.4746-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221021020500.GA2157489-robh@kernel.org>
- <CA+V-a8v0jEFj+XKAtyAaTBFmX3bObBZgGd6n1LB3OnTU_W002w@mail.gmail.com>
+        linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: serial: renesas,scif: Document r8a779g0
+ support
+Message-ID: <Y1MeeKRs+a4J+0zM@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <8a2d04651f04a97d652395b4d933af5c3c8d5b5b.1666360789.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="c1Ew6U8+PLXNDYdQ"
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8v0jEFj+XKAtyAaTBFmX3bObBZgGd6n1LB3OnTU_W002w@mail.gmail.com>
+In-Reply-To: <8a2d04651f04a97d652395b4d933af5c3c8d5b5b.1666360789.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Oct 21, 2022 at 11:05:40PM +0100, Lad, Prabhakar wrote:
-> Hi Rob,
-> 
-> Thank you for the review.
-> 
-> On Fri, Oct 21, 2022 at 3:05 AM Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Wed, Oct 19, 2022 at 11:02:42PM +0100, Prabhakar wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > On the AX45MP core, cache coherency is a specification option so it may
-> > > not be supported. In this case DMA will fail. As a workaround, firstly we
-> > > allocate a global dma coherent pool from which DMA allocations are taken
-> > > and marked as non-cacheable + bufferable using the PMA region as specified
-> > > in the device tree. Synchronization callbacks are implemented to
-> > > synchronize when doing DMA transactions.
-> > >
-> > > The Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
-> > > block that allows dynamic adjustment of memory attributes in the runtime.
-> > > It contains a configurable amount of PMA entries implemented as CSR
-> > > registers to control the attributes of memory locations in interest.
-> > >
-> > > Below are the memory attributes supported:
-> > > * Device, Non-bufferable
-> > > * Device, bufferable
-> > > * Memory, Non-cacheable, Non-bufferable
-> > > * Memory, Non-cacheable, Bufferable
-> > > * Memory, Write-back, No-allocate
-> > > * Memory, Write-back, Read-allocate
-> > > * Memory, Write-back, Write-allocate
-> > > * Memory, Write-back, Read and Write-allocate
-> > >
-> > > This patch adds support to configure the memory attributes of the memory
-> > > regions as passed from the l2 cache node and exposes the cache management
-> > > ops.
-> > >
-> > > More info about PMA (section 10.3):
-> > > http://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
-> > >
-> > > This feature is based on the work posted [0] by Vincent Chen
-> > > <vincentc@andestech.com> for the Andes AndeStart RISC-V CPU.
-> > >
-> > > [0] https://lore.kernel.org/lkml/1540982130-28248-1-git-send-email-vincentc@andestech.com/
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > >  arch/riscv/include/asm/cacheflush.h    |   8 +
-> > >  arch/riscv/include/asm/errata_list.h   |   2 +
-> > >  arch/riscv/mm/dma-noncoherent.c        |  20 ++
-> > >  drivers/soc/renesas/Kconfig            |   5 +
-> > >  drivers/soc/renesas/Makefile           |   4 +
-> > >  drivers/soc/renesas/rzf/Kconfig        |   6 +
-> > >  drivers/soc/renesas/rzf/Makefile       |   3 +
-> > >  drivers/soc/renesas/rzf/ax45mp_cache.c | 431 +++++++++++++++++++++++++
-> >
-> > How many cache drivers do we have around now? I've seen a few bindings
-> > go by. I'm guessing it is time to stop putting the drivers in the
-> > drivers/soc/ dumping ground.
-> >
-> The main reason this driver is not in arch/riscv is that it has vendor
-> specific extensions. Due to this reason it was agreed during the LPC
-> that vendor specific extension should be maintained by SoC vendors and
-> was agreed that this can go into drivers/soc/renesas folder instead.
 
-Does not in drivers/soc mean they need to go into arch/riscv?
-The outcome of the chat at the LPC BoF was more that the cache drivers
-themselves should not be be routed via the arch maintainers, no?
+--c1Ew6U8+PLXNDYdQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> > >  drivers/soc/renesas/rzf/ax45mp_sbi.h   |  29 ++
-> > >  9 files changed, 508 insertions(+)
-> > >  create mode 100644 drivers/soc/renesas/rzf/Kconfig
-> > >  create mode 100644 drivers/soc/renesas/rzf/Makefile
-> > >  create mode 100644 drivers/soc/renesas/rzf/ax45mp_cache.c
-> > >  create mode 100644 drivers/soc/renesas/rzf/ax45mp_sbi.h
-> > >
-> > > diff --git a/arch/riscv/include/asm/cacheflush.h b/arch/riscv/include/asm/cacheflush.h
-> > > index 8a5c246b0a21..40aa790be9a3 100644
-> > > --- a/arch/riscv/include/asm/cacheflush.h
-> > > +++ b/arch/riscv/include/asm/cacheflush.h
-> > > @@ -65,6 +65,14 @@ static inline void riscv_noncoherent_supported(void) {}
-> > >  #define SYS_RISCV_FLUSH_ICACHE_LOCAL 1UL
-> > >  #define SYS_RISCV_FLUSH_ICACHE_ALL   (SYS_RISCV_FLUSH_ICACHE_LOCAL)
-> > >
-> > > +#ifdef CONFIG_AX45MP_L2_CACHE
-> > > +void ax45mp_cpu_dma_inval_range(void *vaddr, size_t end);
-> > > +void ax45mp_cpu_dma_wb_range(void *vaddr, size_t end);
-> > > +
-> > > +#define ALT_CMO_OP(_op, _start, _size, _cachesize)   \
-> > > +                _op(_start, _size)
-> > > +#endif
-> > > +
-> > >  #include <asm-generic/cacheflush.h>
-> > >
-> > >  #endif /* _ASM_RISCV_CACHEFLUSH_H */
-> > > diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/asm/errata_list.h
-> > > index 19a771085781..d9cbf60c3b65 100644
-> > > --- a/arch/riscv/include/asm/errata_list.h
-> > > +++ b/arch/riscv/include/asm/errata_list.h
-> > > @@ -89,6 +89,7 @@ asm volatile(ALTERNATIVE(                                           \
-> > >  #define ALT_THEAD_PMA(_val)
-> > >  #endif
-> > >
-> > > +#ifdef CONFIG_ERRATA_THEAD_CMO
-> > >  /*
-> > >   * dcache.ipa rs1 (invalidate, physical address)
-> > >   * | 31 - 25 | 24 - 20 | 19 - 15 | 14 - 12 | 11 - 7 | 6 - 0 |
-> > > @@ -143,5 +144,6 @@ asm volatile(ALTERNATIVE_2(                                               \
-> > >       : "a0")
-> > >
-> > >  #endif /* __ASSEMBLY__ */
-> > > +#endif
-> > >
-> > >  #endif
-> > > diff --git a/arch/riscv/mm/dma-noncoherent.c b/arch/riscv/mm/dma-noncoherent.c
-> > > index b0add983530a..5270acca6766 100644
-> > > --- a/arch/riscv/mm/dma-noncoherent.c
-> > > +++ b/arch/riscv/mm/dma-noncoherent.c
-> > > @@ -24,13 +24,25 @@ void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
-> > >
-> > >       switch (dir) {
-> > >       case DMA_TO_DEVICE:
-> > > +#ifdef CONFIG_ERRATA_THEAD_CMO
-> > >               ALT_CMO_OP(clean, vaddr, size, riscv_cbom_block_size);
-> > > +#elif CONFIG_AX45MP_L2_CACHE
-> > > +             ALT_CMO_OP(ax45mp_cpu_dma_wb_range, vaddr, size, 0x0);
-> > > +#endif
-> >
-> > How do you support more than one platform in a build?
-> >
-> Yes, that's one concern which I have mentioned in the cover letter too
-> (At that moment it's just a single platform). Suggestions welcome!
+On Fri, Oct 21, 2022 at 04:02:16PM +0200, Geert Uytterhoeven wrote:
+> Document support for the Serial Communication Interface with FIFO (SCIF)
+> in the Renesas R-Car V4H (R8A779G0) SoC.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I think I said it on one of the earlier version, but it needs to be
-implemented w/ runtime patching via alternatives just like the thead
-stuff patches in their functions.
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
+
+--c1Ew6U8+PLXNDYdQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNTHngACgkQFA3kzBSg
+KbbYHhAAljl8BJDNghhM24PiJHIK/iAltOMpntNOca1YnWDaemx72fGXMn0DLSTG
+5sSktrXMxYVTopAEimP87lUwe4fKeTTfzQl98DqDTBxZ0Xzmbzb73U/KnoFd7bdj
+PCnal18q6N1v8V/LH+EiDgbl7R4F26oFLwl8BTF1xKtx2GzfUUe+QAiEN3tn0VnR
+fEkICnmBa5NGkXGSoOBRv7rW6lI6g0zzPlCv+Q98Y4tR9fGUw0EZWGv0ENg55sId
+rTVacsC7QssPvK8GgLMtiCL1lG4JDxvZFh1kowR1Vs9c+w50PGEFM1iAeAvEe3X3
+dypmy2BP7uXu23EHsoxnBCRnlVzACCOHpLPAJoch3txchS/4Gji3YVa9fHZmAdW3
+DuhxOkYmBpAlCpkziVLILKY3NQggjrhNuNpwk8Y5FW/c4cGL7OV8W1N3NHdA/vbU
++J50tlARYwnPbLeLua8TxFQVbAXLokGTEBkRKZUDy/wJY9U0GG/SPzPfJn2nwRDL
+0jO1Lp6L71PG+++E6OtO4oNy9N23N4jJ11ia07ovKyxqna7uco8OtSGqL/g2eIeX
+DQEbc4SV3IPsOyre7c1fxZjCeyoOGhGn4fIGFegy8NQFap2HA+HMGeyQJXeB3y0+
+snomh8MWnUpnEWxwwYwRye839fbgxSmj+/Fc7maSR8oFhtE3FqA=
+=qDQr
+-----END PGP SIGNATURE-----
+
+--c1Ew6U8+PLXNDYdQ--
