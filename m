@@ -2,69 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31A966079E9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Oct 2022 16:50:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96F17608151
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Oct 2022 00:06:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230401AbiJUOuv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Oct 2022 10:50:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52406 "EHLO
+        id S229634AbiJUWGL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Oct 2022 18:06:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230175AbiJUOuX (ORCPT
+        with ESMTP id S229755AbiJUWGJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Oct 2022 10:50:23 -0400
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2C43EA6A0;
-        Fri, 21 Oct 2022 07:50:09 -0700 (PDT)
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-132fb4fd495so3774093fac.12;
-        Fri, 21 Oct 2022 07:50:09 -0700 (PDT)
+        Fri, 21 Oct 2022 18:06:09 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 998FB29069E;
+        Fri, 21 Oct 2022 15:06:08 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id q19so10797968edd.10;
+        Fri, 21 Oct 2022 15:06:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fj7H4f9/5FF7rrceAwSF1Et0E+FnHCVLEl47OTB4zRg=;
+        b=bPYdKSl/QFk4+7B9Vbu1X/0B2vv8cB1DscwjVj38aHPN31PuxeaWgZKKZM9rJmJ3jd
+         piN0i+6Y3oxINgh/TgpUH5ZOlKU2NqqgR3S3tAjghte+yQc9nLk98fwzRJyXi19NOz4a
+         iq8vvB+9cvdwR5RtDhYDDvsc5t8DKvlR2mMjvIOhKVwKFEwZ37Kqx3ZIsbf2rL35De6Z
+         eJi1Cf7Es++jPy2OC05a+O4TaUmAOnl/Id/qDi483kzmVveHWGHhijsRXebX2FVPmqO9
+         /J9t+qxjEvx3RK5O6RwX0cPkoC+D3Yqk+fNj0nN85dq2hwAmnCpFbPLnvAgZV38TMSVF
+         Qwpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wnm8CTZGfD6ls1hnKruN6hj9x0O7kfsoToo4nL1JtNg=;
-        b=we/Qp6FeQDgBgEqEJWVMmSonM63sW4sLHNwJbO0X7iuf1wR4v6hG5FOJlwMsadjhWI
-         Q+pJKvBNqNTYOpCXXe5HlGct1HJAzSqsOgmBWfvAlQosBFiV9pbkseQM+LfE6z9Wf2aZ
-         7BbL5Qy2zcsPL/7XZowVIP1j75BRlJH3X0qyyp0f589P7M4nIz20ZZl/kga8jE+yjYnp
-         4Ju8Pz3zqt+7QEf5AQmBa8ywIC5RQ7jjVgYcGe/zu85RRNxE63ZzYpOApeXAmEquFWDh
-         mnTYtjWkx3c/Y8qflGG7HqMpF+d7UqZlrD85g3KeL7Athrv9Wre6Cs7Sm99jfmq41Wj0
-         K3UA==
-X-Gm-Message-State: ACrzQf0CbEoWCv2kKLnUCF6HSCtTDxIf+gp27fWaNouiKcPCMV6S+Vj2
-        NChMB7KtFVnQ0Uj7O6ir7w==
-X-Google-Smtp-Source: AMsMyM6bXQm2nnbvgzyu5lgBTRIgIReCxfP3ps0Jhw/HDJ+XOqUmns6D6PYXY8dJYipwV1+ojjA7oA==
-X-Received: by 2002:a05:6870:c092:b0:132:a01f:7c31 with SMTP id c18-20020a056870c09200b00132a01f7c31mr12925185oad.56.1666363808748;
-        Fri, 21 Oct 2022 07:50:08 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id t21-20020a05683014d500b00661946468c6sm1172952otq.31.2022.10.21.07.50.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Oct 2022 07:50:08 -0700 (PDT)
-Received: (nullmailer pid 3719169 invoked by uid 1000);
-        Fri, 21 Oct 2022 14:50:09 -0000
-Date:   Fri, 21 Oct 2022 09:50:09 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        iommu@lists.linux.dev, devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Robin Murphy <robin.murphy@arm.com>,
-        Joerg Roedel <jroedel@suse.de>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v3 resend] dt-bindings: iommu: renesas,ipmmu-vmsa: R-Car
- V3U is R-Car Gen4
-Message-ID: <166636380847.3719105.11808204724147299494.robh@kernel.org>
-References: <c1fb71448a8400986fd30d51a1bb2704376c0306.1666361055.git.geert+renesas@glider.be>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fj7H4f9/5FF7rrceAwSF1Et0E+FnHCVLEl47OTB4zRg=;
+        b=7D68ius/Eh21q3/qz5nyVWOmhHKM+C2IbNQcuAe8FhwkOCcf8OCCK6ZQk1oR/yKIni
+         evAJNdz9uOo70kgpw6fJdCk/kT4G38jXmrmCbCN9E3yn1hjYps3rHBq5P7YnBcGNuDGf
+         1E0g4TjjO/q6Ck4qon7vAc+QWBn2eFII4kEZPh+6jiwE9ftijbcs591IAOfw5P5iUsni
+         Cs3KijXRS0VxV35FXp7s3q1a1jeBv89hD9dLRXiywjWlRJAxryuF7evKXuJmMyMYEJId
+         3kYPhPq6OzYCvmOqy1NatiT95GaWQxXPWXSH8dwMhjtysUSby/eqnQ2zAj7FcUR+Ffaf
+         8HbA==
+X-Gm-Message-State: ACrzQf3MV9VQyl4cli7uq/BO9cCHPbnwMeFoBtc8Iwm5VPKfAt2ahYXV
+        gPHjS7Ln9/h/ZW1XuKRTJhgRIbpAQEdCSYq+Uoc=
+X-Google-Smtp-Source: AMsMyM4458QUG6GWHFAK4wMhwxdindPP7SYutQGi351xOhy+v9IlgGW7zV7L2Edpw9VRuQ1QxVmkz8bk+429zT1FGNs=
+X-Received: by 2002:a17:906:5a4b:b0:78d:4e5a:d101 with SMTP id
+ my11-20020a1709065a4b00b0078d4e5ad101mr16940953ejc.196.1666389967011; Fri, 21
+ Oct 2022 15:06:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c1fb71448a8400986fd30d51a1bb2704376c0306.1666361055.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+References: <20221019220242.4746-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221019220242.4746-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <20221021020500.GA2157489-robh@kernel.org>
+In-Reply-To: <20221021020500.GA2157489-robh@kernel.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 21 Oct 2022 23:05:40 +0100
+Message-ID: <CA+V-a8v0jEFj+XKAtyAaTBFmX3bObBZgGd6n1LB3OnTU_W002w@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 2/2] soc: renesas: Add L2 cache management for
+ RZ/Five SoC
+To:     Rob Herring <robh@kernel.org>
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <anup@brainfault.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,25 +85,132 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 21 Oct 2022 16:06:02 +0200, Geert Uytterhoeven wrote:
-> Despite the name, R-Car V3U is the first member of the R-Car Gen4
-> family.  Hence move its compatible value to the R-Car Gen4 section.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Acked-by: Joerg Roedel <jroedel@suse.de>
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
-> v3:
-> - Add Reviewed-by,
-> 
-> v2:
->   - Add Acked-by, Reviewed-by,
->   - Add blank lines to improve readability.
-> ---
->  .../devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml       | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
+Hi Rob,
 
-Applied, thanks!
+Thank you for the review.
+
+On Fri, Oct 21, 2022 at 3:05 AM Rob Herring <robh@kernel.org> wrote:
+>
+> On Wed, Oct 19, 2022 at 11:02:42PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > On the AX45MP core, cache coherency is a specification option so it may
+> > not be supported. In this case DMA will fail. As a workaround, firstly we
+> > allocate a global dma coherent pool from which DMA allocations are taken
+> > and marked as non-cacheable + bufferable using the PMA region as specified
+> > in the device tree. Synchronization callbacks are implemented to
+> > synchronize when doing DMA transactions.
+> >
+> > The Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
+> > block that allows dynamic adjustment of memory attributes in the runtime.
+> > It contains a configurable amount of PMA entries implemented as CSR
+> > registers to control the attributes of memory locations in interest.
+> >
+> > Below are the memory attributes supported:
+> > * Device, Non-bufferable
+> > * Device, bufferable
+> > * Memory, Non-cacheable, Non-bufferable
+> > * Memory, Non-cacheable, Bufferable
+> > * Memory, Write-back, No-allocate
+> > * Memory, Write-back, Read-allocate
+> > * Memory, Write-back, Write-allocate
+> > * Memory, Write-back, Read and Write-allocate
+> >
+> > This patch adds support to configure the memory attributes of the memory
+> > regions as passed from the l2 cache node and exposes the cache management
+> > ops.
+> >
+> > More info about PMA (section 10.3):
+> > http://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
+> >
+> > This feature is based on the work posted [0] by Vincent Chen
+> > <vincentc@andestech.com> for the Andes AndeStart RISC-V CPU.
+> >
+> > [0] https://lore.kernel.org/lkml/1540982130-28248-1-git-send-email-vincentc@andestech.com/
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  arch/riscv/include/asm/cacheflush.h    |   8 +
+> >  arch/riscv/include/asm/errata_list.h   |   2 +
+> >  arch/riscv/mm/dma-noncoherent.c        |  20 ++
+> >  drivers/soc/renesas/Kconfig            |   5 +
+> >  drivers/soc/renesas/Makefile           |   4 +
+> >  drivers/soc/renesas/rzf/Kconfig        |   6 +
+> >  drivers/soc/renesas/rzf/Makefile       |   3 +
+> >  drivers/soc/renesas/rzf/ax45mp_cache.c | 431 +++++++++++++++++++++++++
+>
+> How many cache drivers do we have around now? I've seen a few bindings
+> go by. I'm guessing it is time to stop putting the drivers in the
+> drivers/soc/ dumping ground.
+>
+The main reason this driver is not in arch/riscv is that it has vendor
+specific extensions. Due to this reason it was agreed during the LPC
+that vendor specific extension should be maintained by SoC vendors and
+was agreed that this can go into drivers/soc/renesas folder instead.
+
+> >  drivers/soc/renesas/rzf/ax45mp_sbi.h   |  29 ++
+> >  9 files changed, 508 insertions(+)
+> >  create mode 100644 drivers/soc/renesas/rzf/Kconfig
+> >  create mode 100644 drivers/soc/renesas/rzf/Makefile
+> >  create mode 100644 drivers/soc/renesas/rzf/ax45mp_cache.c
+> >  create mode 100644 drivers/soc/renesas/rzf/ax45mp_sbi.h
+> >
+> > diff --git a/arch/riscv/include/asm/cacheflush.h b/arch/riscv/include/asm/cacheflush.h
+> > index 8a5c246b0a21..40aa790be9a3 100644
+> > --- a/arch/riscv/include/asm/cacheflush.h
+> > +++ b/arch/riscv/include/asm/cacheflush.h
+> > @@ -65,6 +65,14 @@ static inline void riscv_noncoherent_supported(void) {}
+> >  #define SYS_RISCV_FLUSH_ICACHE_LOCAL 1UL
+> >  #define SYS_RISCV_FLUSH_ICACHE_ALL   (SYS_RISCV_FLUSH_ICACHE_LOCAL)
+> >
+> > +#ifdef CONFIG_AX45MP_L2_CACHE
+> > +void ax45mp_cpu_dma_inval_range(void *vaddr, size_t end);
+> > +void ax45mp_cpu_dma_wb_range(void *vaddr, size_t end);
+> > +
+> > +#define ALT_CMO_OP(_op, _start, _size, _cachesize)   \
+> > +                _op(_start, _size)
+> > +#endif
+> > +
+> >  #include <asm-generic/cacheflush.h>
+> >
+> >  #endif /* _ASM_RISCV_CACHEFLUSH_H */
+> > diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/asm/errata_list.h
+> > index 19a771085781..d9cbf60c3b65 100644
+> > --- a/arch/riscv/include/asm/errata_list.h
+> > +++ b/arch/riscv/include/asm/errata_list.h
+> > @@ -89,6 +89,7 @@ asm volatile(ALTERNATIVE(                                           \
+> >  #define ALT_THEAD_PMA(_val)
+> >  #endif
+> >
+> > +#ifdef CONFIG_ERRATA_THEAD_CMO
+> >  /*
+> >   * dcache.ipa rs1 (invalidate, physical address)
+> >   * | 31 - 25 | 24 - 20 | 19 - 15 | 14 - 12 | 11 - 7 | 6 - 0 |
+> > @@ -143,5 +144,6 @@ asm volatile(ALTERNATIVE_2(                                               \
+> >       : "a0")
+> >
+> >  #endif /* __ASSEMBLY__ */
+> > +#endif
+> >
+> >  #endif
+> > diff --git a/arch/riscv/mm/dma-noncoherent.c b/arch/riscv/mm/dma-noncoherent.c
+> > index b0add983530a..5270acca6766 100644
+> > --- a/arch/riscv/mm/dma-noncoherent.c
+> > +++ b/arch/riscv/mm/dma-noncoherent.c
+> > @@ -24,13 +24,25 @@ void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
+> >
+> >       switch (dir) {
+> >       case DMA_TO_DEVICE:
+> > +#ifdef CONFIG_ERRATA_THEAD_CMO
+> >               ALT_CMO_OP(clean, vaddr, size, riscv_cbom_block_size);
+> > +#elif CONFIG_AX45MP_L2_CACHE
+> > +             ALT_CMO_OP(ax45mp_cpu_dma_wb_range, vaddr, size, 0x0);
+> > +#endif
+>
+> How do you support more than one platform in a build?
+>
+Yes, that's one concern which I have mentioned in the cover letter too
+(At that moment it's just a single platform). Suggestions welcome!
+
+Cheers,
+Prabhakar
