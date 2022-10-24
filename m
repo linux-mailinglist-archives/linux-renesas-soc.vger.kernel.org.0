@@ -2,143 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E81560BD4E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 00:22:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDC5060BE3C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 01:10:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230463AbiJXWWz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Oct 2022 18:22:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57546 "EHLO
+        id S230525AbiJXXK4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Oct 2022 19:10:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230488AbiJXWWi (ORCPT
+        with ESMTP id S231157AbiJXXK3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Oct 2022 18:22:38 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24B58A98E3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 13:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666644088; x=1698180088;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=qBJeUx7QzYcaaXlphPOryE6Cwi0vY20U9b5pTOAlgT0=;
-  b=XjYzl6o+xVdSH3nJrtCAMrZFAwyw70sk7CEnJaBLGt45chO+KIbPLYy/
-   7CmzfqXoc4GnMTwlDn6N/VjgxLHEbJPEj84OXmsXpmthSvYaEUyVYFt3B
-   3H0Gyi/mZs+0i8c1xSh6OUEM6hVc33zscAPXuZTIm8OuAFlJq45Gw+syp
-   /Ae/L8Lc2dEsWGUZ8G1WNPiIPeDY7HIodgjKDE+yTDFUNsdfrj2GpggFK
-   ixv+BQ2FE7kmiytSAgKVD/cjMWSgDm2s+nWfR9vzLYYB1oJhGPn2bLLRj
-   gELPBEIvxKU8f7tUWR2FSuNtq7Z4Trfa7lmTUgDkGfLMy0NXMLcy+0b28
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="290820322"
-X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; 
-   d="scan'208";a="290820322"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 13:40:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="694687361"
-X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; 
-   d="scan'208";a="694687361"
-Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Oct 2022 13:40:49 -0700
-Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1on4Fc-0005dT-2z;
-        Mon, 24 Oct 2022 20:40:48 +0000
-Date:   Tue, 25 Oct 2022 04:40:35 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 547a476a7857aadfcaa264982527697926c55d6a
-Message-ID: <6356f843.fHbH4wuYJJHo+P6Y%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 24 Oct 2022 19:10:29 -0400
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 637F82920DE;
+        Mon, 24 Oct 2022 14:31:37 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 06C895C003F;
+        Mon, 24 Oct 2022 16:47:25 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute3.internal (MEProxy); Mon, 24 Oct 2022 16:47:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1666644445; x=1666730845; bh=bssarCcp+y
+        bz5Owzby5mbuikPgqNGdz7c6tjuDYrQ3g=; b=NkbkhwyyD8JqPgTF3GX90T1KBu
+        yQ9e/V+AO1CLTjIi8zfuuZgeQvpaXwrxX3ya+3+OrAeyAVYdNmr/+ER8a0OZRltT
+        gtBshfPPACEOHBCVWScZexae8sa5OK+3kFWDS8K4B3EEWxyjLrxzofvUU7BQDyaT
+        L1ttZShK16j3WsJsBjSZzbUUJG8wqDH6bM0lyj4+iVFQRiMIa6GBfQuRbQWuqoPJ
+        nACfYzQR+oRqWGthATSqXV6yjH7CyjTWUlSfLIkIq+ZNPPiP/Ofbzgf09p5Krmms
+        xvZ7ssFg9cppnaZVin+3puzx5Y5sPAAoR4QKsYXch+L4FQtwwhLtyQmj8Frg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1666644445; x=1666730845; bh=bssarCcp+ybz5Owzby5mbuikPgqN
+        Gdz7c6tjuDYrQ3g=; b=drKbqYTA/JMvghcg/uGUzDqCxegdFYCtOvrnfLxKVxsL
+        YvvCToAcYe+J+FDw6gKgduCxZBDY5aqlsjNCTNyzcMaeVWGdN54Ee2uu5Qc/iINn
+        yDAakJpSu0Oabj+beUPP5mzdiWC0ajS7FxsntXwvgMQeuGThdf4JMTGwovs/WHiQ
+        y5bDGDQCpDax8fFUnbjaLlNdbAJieVj4WWwSl4s/ja9SFr+ZJ+BdHqv3Qp9A1GOB
+        Jg7yGvTECSNyR15ey/fH8E4j4QwcD6JxUrqgEJQoDkTS6ccSrEo9S44zFMC0ODqK
+        ixhR6QkVRTNR4rXGh+00xldsi6GUEOikMEeFxPUiVg==
+X-ME-Sender: <xms:3PlWY_8dsRmJoEusUvxzYpneAlbj4D0Va88JoH-QpCpEhfzlCcsO1A>
+    <xme:3PlWY7v7ZiKOPhXQSUaFWtVcHadM8SdhtRKwyYRZOSR63Jc7OX8Cm4IJFaVcrRHZZ
+    uETvbTcx2CRiykDXO8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgedgudegkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
+    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:3PlWY9CIx10DAbClCvAaaTKzMKfdX3FYjdeR1Le5MNK-QKmc5-QUEg>
+    <xmx:3PlWY7eMg_ctgRs8qmbJdIMKJhJlN5RjEG9erEWUWCIohDToyFvgjA>
+    <xmx:3PlWY0MYZzo6cj_FYlLaDQ_d2nFYY3lbeOWhMkX4XADrN03uytQCkw>
+    <xmx:3flWY1FBIFFnkCiZjIK7VUixKdIKbF9oyYYYnwyvqR_F1hN2K0ZZhw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id F3B47B60086; Mon, 24 Oct 2022 16:47:23 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
+Mime-Version: 1.0
+Message-Id: <3df2007f-acd2-4cd1-8f96-8ebd6070770a@app.fastmail.com>
+In-Reply-To: <CAMuHMdWbkro70fmyauUnEPyKZYytWD0o4a06=UzDTzCZ9-B6vw@mail.gmail.com>
+References: <20221019083518.933070-3-yoshihiro.shimoda.uh@renesas.com>
+ <202210191806.RZK10y3x-lkp@intel.com>
+ <CAMuHMdXBT2cEqfy00u+0VB=cRUAtrgH9LD26gXgavdvmQyN+pQ@mail.gmail.com>
+ <d7c9b9b4-4ee8-4754-b32f-e3205daf47b3@app.fastmail.com>
+ <CAMuHMdWbkro70fmyauUnEPyKZYytWD0o4a06=UzDTzCZ9-B6vw@mail.gmail.com>
+Date:   Mon, 24 Oct 2022 22:47:02 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Geert Uytterhoeven" <geert@linux-m68k.org>
+Cc:     "kernel test robot" <lkp@intel.com>,
+        "Yoshihiro Shimoda" <yoshihiro.shimoda.uh@renesas.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        "Eric Dumazet" <edumazet@google.com>,
+        "Jakub Kicinski" <kuba@kernel.org>,
+        "Paolo Abeni" <pabeni@redhat.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        krzysztof.kozlowski+dt@linaro.org, kbuild-all@lists.01.org,
+        Netdev <netdev@vger.kernel.org>, devicetree@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v4 2/3] net: ethernet: renesas: Add Ethernet Switch driver
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 547a476a7857aadfcaa264982527697926c55d6a  Merge branch 'renesas-next', tag 'v6.1-rc2' into renesas-devel
+On Mon, Oct 24, 2022, at 22:35, Geert Uytterhoeven wrote:
 
-elapsed time: 729m
+>>
+>> Regardless of which way this is expressed, it looked like there is
+>> a missing __le32_to_cpu() around the high word.
+>
+> I think it's OK, because desc->dptrh is u8:
+>
+>     struct rswitch_desc {
+>             __le16 info_ds; /* Descriptor size */
+>             u8 die_dt;      /* Descriptor interrupt enable and type */
+>             __u8  dptrh;    /* Descriptor pointer MSB */
+>             __le32 dptrl;   /* Descriptor pointer LSW */
+>     } __packed;
 
-configs tested: 61
-configs skipped: 2
+Right, that makes sense. On a completely unrelated note, you might
+want to remove the __packed annotation though, as the compiler
+might otherwise use bytewise access to the dptrl field instead of
+a word access, which would cause some overhead in case this is
+in uncached memory.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-x86_64                           rhel-8.3-syz
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-m68k                             allmodconfig
-arc                                 defconfig
-arc                              allyesconfig
-s390                             allmodconfig
-alpha                            allyesconfig
-alpha                               defconfig
-s390                                defconfig
-s390                             allyesconfig
-m68k                             allyesconfig
-i386                 randconfig-a011-20221024
-x86_64               randconfig-a014-20221024
-x86_64               randconfig-a013-20221024
-i386                 randconfig-a013-20221024
-x86_64               randconfig-a012-20221024
-i386                 randconfig-a012-20221024
-x86_64               randconfig-a016-20221024
-i386                 randconfig-a016-20221024
-x86_64               randconfig-a011-20221024
-i386                 randconfig-a015-20221024
-x86_64               randconfig-a015-20221024
-i386                 randconfig-a014-20221024
-x86_64                              defconfig
-i386                                defconfig
-arm                                 defconfig
-arm                              allyesconfig
-x86_64                               rhel-8.3
-arm64                            allyesconfig
-x86_64                           allyesconfig
-ia64                             allmodconfig
-i386                             allyesconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-arc                  randconfig-r043-20221023
-arc                  randconfig-r043-20221024
-s390                 randconfig-r044-20221024
-riscv                randconfig-r042-20221024
-
-clang tested configs:
-i386                 randconfig-a004-20221024
-i386                 randconfig-a001-20221024
-x86_64               randconfig-a001-20221024
-i386                 randconfig-a002-20221024
-i386                 randconfig-a005-20221024
-x86_64               randconfig-a005-20221024
-i386                 randconfig-a003-20221024
-x86_64               randconfig-a003-20221024
-i386                 randconfig-a006-20221024
-x86_64               randconfig-a006-20221024
-x86_64               randconfig-a004-20221024
-x86_64               randconfig-a002-20221024
-hexagon              randconfig-r041-20221023
-riscv                randconfig-r042-20221023
-hexagon              randconfig-r045-20221023
-s390                 randconfig-r044-20221023
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+       Arnd
