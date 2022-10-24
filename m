@@ -2,91 +2,222 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A40F360B182
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Oct 2022 18:27:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEA3760B35C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Oct 2022 19:05:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230232AbiJXQ07 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Oct 2022 12:26:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58922 "EHLO
+        id S232873AbiJXRF0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Oct 2022 13:05:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233980AbiJXQ0a (ORCPT
+        with ESMTP id S235140AbiJXREN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Oct 2022 12:26:30 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 726041146A;
-        Mon, 24 Oct 2022 08:13:05 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id q9-20020a17090a178900b00212fe7c6bbeso3318031pja.4;
-        Mon, 24 Oct 2022 08:13:04 -0700 (PDT)
+        Mon, 24 Oct 2022 13:04:13 -0400
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAC437E324;
+        Mon, 24 Oct 2022 08:40:03 -0700 (PDT)
+Received: by mail-qk1-f177.google.com with SMTP id z17so3630316qkj.8;
+        Mon, 24 Oct 2022 08:40:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sgFso1FaRAWQJ83kT84q4SS+gpbh+wtZ0NmrEVRj1YY=;
-        b=JEeYA3H21scMHN91lpqzdCc2WEyA7QBLvMBPU54OSb8+D3/TrbzghnO+nf3DP4kSwk
-         top+O1KROKOqjOgfiiabZ1HMZdQw9hxvyc46rHdNfkMaydPQBDvyfLI2f2ox4HAR9Vo4
-         3qvkWGSmMq6hF0NM7t3PLsoMA57/V/KcbT5by7r5WTJWfkGkzvzRz60GFU/E1BXMKNeu
-         9yXLERg0b1k6LB91F7HBLY8ig8A8ZFWA9GWUjYBtxTwiZ4q+ge9WeL1qECOdjdjJkzhc
-         EmOtDtw9yGYLJNjNA9mzYvl2cylOGR0Gk8d0w70TURCTw5HcWdJ7JSXR5mehLP+X7UoS
-         seIw==
-X-Gm-Message-State: ACrzQf0HIPIVFQX0IeigGwiHD4BKdrSLNJTYThouyDgrmCt3eE+2IgtC
-        kBZcl0wWE0oYmratV3fq1s/6gbAzeWrb7A==
-X-Google-Smtp-Source: AMsMyM7kV5I1xzy3WptmBGmtY5SIvtzh+zDKIMpSuQGpTci8zxKxtKKmQFNzFDiSCDHAyut8AiTibg==
-X-Received: by 2002:a0c:8d4b:0:b0:4bb:798f:5251 with SMTP id s11-20020a0c8d4b000000b004bb798f5251mr1900924qvb.51.1666613360740;
-        Mon, 24 Oct 2022 05:09:20 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id z15-20020a05622a124f00b0039a08c0a594sm12631508qtx.82.2022.10.24.05.09.19
+        bh=zOUr8vKGqEWk39crx6gBwH6ieHL8arm1vSqANMxY3zA=;
+        b=LvyIIQTXIEg/BA3CAYzOWGXMJjNCorfEsMLOX7fUS3VispZDJx7AhYlai9sTP/MaFU
+         GIPYuh03VBGJ2K2atkA6yCOAhIc474EFMfyeuHFOBLp3Alsm1k66uDgYqRbkL4EYnOS+
+         gk1e/P/9Uy8J0P53QX3as0/uo0bO2YaR+d/7/NJzZmm68KMfHDcDDLw6bNxideu2tfid
+         rCbbKL1CKAlcFAd4P7CyzP1ShKcLNiS+N4vTnyUVhyey1RJ/W5/h+Iy9y5UQaivQvsnE
+         2gm36k5ucsmgkZye9YwwXvvUH2CB3CFkR72FCCY8++n/r5j8Bcaf05FgWbC0hqd2LSDl
+         F8yA==
+X-Gm-Message-State: ACrzQf2fnB6D5UT6b2pDsmGcLrwnhk0n6uZULGreDZ4xpA4cj/V2BuzD
+        OxDUCklL1GfHNBQ63KNRNslR7fJst1CeqQ==
+X-Google-Smtp-Source: AMsMyM6V9GpFdBVsAvJFJvDpUUuxm7k92sCv6iAHVCdeIA89KNpPcu9pNesifpvhdJsyV0vpnqiBwg==
+X-Received: by 2002:a05:620a:4310:b0:6ac:f9df:178d with SMTP id u16-20020a05620a431000b006acf9df178dmr23150286qko.773.1666619235241;
+        Mon, 24 Oct 2022 06:47:15 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id cf17-20020a05622a401100b0039c7b9522ecsm12926068qtb.35.2022.10.24.06.47.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Oct 2022 05:09:20 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 63so10776097ybq.4;
-        Mon, 24 Oct 2022 05:09:19 -0700 (PDT)
-X-Received: by 2002:a25:687:0:b0:6c2:2b0c:26e with SMTP id 129-20020a250687000000b006c22b0c026emr28296908ybg.202.1666613359730;
- Mon, 24 Oct 2022 05:09:19 -0700 (PDT)
+        Mon, 24 Oct 2022 06:47:14 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-36a4b86a0abso69897237b3.7;
+        Mon, 24 Oct 2022 06:47:14 -0700 (PDT)
+X-Received: by 2002:a0d:de43:0:b0:349:31bd:e8d5 with SMTP id
+ h64-20020a0dde43000000b0034931bde8d5mr28384338ywe.283.1666619233755; Mon, 24
+ Oct 2022 06:47:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221023182437.15263-1-afd@ti.com> <20221023182437.15263-4-afd@ti.com>
-In-Reply-To: <20221023182437.15263-4-afd@ti.com>
+References: <20221019220242.4746-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20221019220242.4746-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20221019220242.4746-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 24 Oct 2022 14:09:08 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW+31HbDvKORyiNFXOGh5dyYYTM2fcpEJEnuMD8ANA5Cw@mail.gmail.com>
-Message-ID: <CAMuHMdW+31HbDvKORyiNFXOGh5dyYYTM2fcpEJEnuMD8ANA5Cw@mail.gmail.com>
-Subject: Re: [PATCH 3/6] of: overlay: rename overlay source files from .dts to .dtso
-To:     Andrew Davis <afd@ti.com>
-Cc:     Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
+Date:   Mon, 24 Oct 2022 15:47:02 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVVzUN1ScY4vh3d8=XvshOjc0C4G2duFRHSPms3S+2yeA@mail.gmail.com>
+Message-ID: <CAMuHMdVVzUN1ScY4vh3d8=XvshOjc0C4G2duFRHSPms3S+2yeA@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 1/2] dt-bindings: cache: r9a07g043f-l2-cache: Add
+ DT binding documentation for L2 cache controller
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.co>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+        Nathan Chancellor <nathan@kernel.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <anup@brainfault.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Oct 23, 2022 at 8:25 PM Andrew Davis <afd@ti.com> wrote:
-> From: Frank Rowand <frank.rowand@sony.com>
->
-> In drivers/of/unittest-data/:
->    - Rename .dts overlay source files to use .dtso suffix.
->
-> Modify driver/of/unitest.c to use .dtbo.o based symbols instead of .dtb.o
->
-> Signed-off-by: Frank Rowand <frank.rowand@sony.com>
-> Signed-off-by: Andrew Davis <afd@ti.com>
+Hi Prabhakar,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Thu, Oct 20, 2022 at 12:02 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add DT binding documentation for L2 cache controller found on RZ/Five SoC.
+>
+> The Renesas RZ/Five microprocessor includes a RISC-V CPU Core (AX45MP
+> Single) from Andes. The AX45MP core has an L2 cache controller, this patch
+> describes the L2 cache block.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Thanks for your patch!
+
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
+> @@ -0,0 +1,125 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright (C) 2022 Renesas Electronics Corp.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/cache/andestech,ax45mp-cache.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Andestech AX45MP L2 Cache Controller
+> +
+> +maintainers:
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> +
+> +description:
+> +  A level-2 cache (L2C) is used to improve the system performance by providing
+> +  a larger amount of cache line entries and reasonable access delays. The L2C
+
+large
+
+> +  is shared between cores, and a non-inclusive non-exclusive policy is used.
+> +
+> +select:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - andestech,ax45mp-cache
+> +
+> +  required:
+> +    - compatible
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: andestech,ax45mp-cache
+> +      - const: cache
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  cache-line-size:
+> +    const: 64
+
+This is fixed here, but the driver accepts (and uses) whatever value specified?
+
+> +
+> +  cache-level:
+> +    const: 2
+> +
+> +  cache-sets:
+> +    const: 1024
+> +
+> +  cache-size:
+> +    enum: [131072, 262144, 524288, 1048576, 2097152]
+> +
+> +  cache-unified: true
+> +
+> +  next-level-cache: true
+> +
+> +  andestech,pma-regions:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-matrix
+> +    minItems: 1
+> +    maxItems: 16
+> +    description: Optional array of memory regions to be set as non-cacheable
+> +                 bufferable regions which will be setup in the PMA.
+> +
+> +  andestech,inst-prefetch:
+> +    description: Instruction prefetch depth
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [ 0, 1, 2, 3 ]
+> +
+> +  andestech,data-prefetch:
+> +    description: Data prefetch depth
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [ 0, 1, 2, 3 ]
+
+According to Section 8.1.2 ("L2-Cache Prefetch"), this should be
+[ 0, 2, 4, 8 ].
+
+> +  andestech,tag-ram-ctl:
+> +    description: Tag RAM output cycle. First tuple indicates output cycle and the
+> +      second tuple indicates setup cycle.
+
+Nit: to me it sounds more logical to have the setup cycle first.
+See also the order in the comment in the driver code:
+
+     /* tag RAM and data RAM setup and output cycle */
+
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    items:
+> +      - minimum: 0
+> +        maximum: 2
+> +      - minimum: 0
+> +        maximum: 2
+> +
+> +  andestech,data-ram-ctl:
+> +    description: Data RAM output cycle. First tuple indicates output cycle and the
+> +      second tuple indicates setup cycle.
+
+Likewise.
+
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    items:
+> +      - minimum: 0
+> +        maximum: 2
+> +      - minimum: 0
+> +        maximum: 2
+
+Do we really need these andestech-specific properties?
+If yes, how much (if any) of this do we want to be handled by the boot
+loader, and how much (if any) by Linux?
+If Linux is responsible, we might have to boot with L2 disabled, right?
+
+For ARM Cortex A15/A7, we also have arm,{data,tag}-latency properties
+defined, but no DTS specifies them (my patches to add them on R-Car
+Gen2 were rejected).  Note that this is different for e.g. older PL310.
 
 Gr{oetje,eeting}s,
 
