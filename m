@@ -2,135 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDD8E60BC8A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Oct 2022 23:53:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D48560BD91
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 00:40:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231361AbiJXVxw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Oct 2022 17:53:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46940 "EHLO
+        id S230229AbiJXWkG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Oct 2022 18:40:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230273AbiJXVxf (ORCPT
+        with ESMTP id S232288AbiJXWjX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Oct 2022 17:53:35 -0400
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85E0D2E64BE;
-        Mon, 24 Oct 2022 13:07:14 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 350D05C0110;
-        Mon, 24 Oct 2022 15:55:54 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Mon, 24 Oct 2022 15:55:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1666641354; x=1666727754; bh=yvZgy+waNc
-        ff7yBysOe48rYkSNUahr7uM+2UxFt6Jds=; b=f4Osk4cc2VTIGvDgnG+huMNokj
-        v/ZGu2sgLvQ3Z4IQHJDLQdIxYUIR8fLDa7b1xGAzpmwF+ruwmmVsgSQjr5zYfQ4E
-        BeFI+rdO2gbAzgIYeAiB0E+Cq4548p3srUv2o0jptxWk4T3EvkvhKp2w7D65lRhv
-        1YGXqsPbuAL2IOAhFnCEjuwHIRTf/QWbZTgSYmArEOWsZjZCZCONuuGEPB1sXMcO
-        q094EWVweB5KcRxzRZVWk3hs6sIGOazFsa8EYSx+Qi12PHWjfcOX1GpbaVPau/Or
-        4gcrtCl4FOH7lKrF+CcWUPAd8ahoEH+FLv+fkis1lfL9Nu3KOypo4ya5p2dA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1666641354; x=1666727754; bh=yvZgy+waNcff7yBysOe48rYkSNUa
-        hr7uM+2UxFt6Jds=; b=S7taihxHxz2EUQ0dL72kdYybtXC/6+qTCJvHHKKe5oZ3
-        w1prI3WpBdkAf+34WmOyO5NH9u+RZcClvBE0ter9dWYffrSvrtaqyR2eAu9adwEX
-        0my74u9xtquGR7xyra1s1fYbQpqVuNi6xHNGei+76Efb4/ZqQyREfILrN9c0+n/S
-        s/Q5627rFcK1365cdTE7xYKigDhU2qf/yDW0PFmvWsBPzw9Z+5WN0wTTzNlUwHTx
-        caA2+tQOtGON9dhcL0CFSi6TIMJraMDAGIiaihFxgqgjM8qMXUFk4oYZmp2Hz+Ot
-        t1jtXYmVRmEF+sPsqLXJV/x+vIGomLj7KF814uOLqA==
-X-ME-Sender: <xms:yO1WY8MKpDh3CgS3GDY3xy6596feSDDdXidrJf-NWadTzfsBQjIlgA>
-    <xme:yO1WYy_jPc0lF-T3lsFam6EQpTOAqJ7lpaH4s9DuSk4pZSvvDMAf3IwygleMXqVnt
-    WZ6zEYBgRCUUQPpCzY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgedgudefkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:ye1WYzRNKiZM83MLr9rc-88a7X8y4AEc2A6rUMEhxjb0K3Z31dGf_A>
-    <xmx:ye1WY0sDM8o5pao3_KakHHMdWLZOT2Egqonem2Wji-TNooLHy1mH5A>
-    <xmx:ye1WY0eNFTz--jYQjqKiAGU39bUSLdtegu5VAlsj4A0TS6m56eKTEQ>
-    <xmx:yu1WY1X_JaE63c9p_TkEWkCezAQERn5P9qrx-IbGBGnRtt2W4L-7zg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id DEFDCB60086; Mon, 24 Oct 2022 15:55:52 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
-Mime-Version: 1.0
-Message-Id: <d7c9b9b4-4ee8-4754-b32f-e3205daf47b3@app.fastmail.com>
-In-Reply-To: <CAMuHMdXBT2cEqfy00u+0VB=cRUAtrgH9LD26gXgavdvmQyN+pQ@mail.gmail.com>
-References: <20221019083518.933070-3-yoshihiro.shimoda.uh@renesas.com>
- <202210191806.RZK10y3x-lkp@intel.com>
- <CAMuHMdXBT2cEqfy00u+0VB=cRUAtrgH9LD26gXgavdvmQyN+pQ@mail.gmail.com>
-Date:   Mon, 24 Oct 2022 21:55:31 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Geert Uytterhoeven" <geert@linux-m68k.org>,
-        "kernel test robot" <lkp@intel.com>
-Cc:     "Yoshihiro Shimoda" <yoshihiro.shimoda.uh@renesas.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Eric Dumazet" <edumazet@google.com>,
-        "Jakub Kicinski" <kuba@kernel.org>,
-        "Paolo Abeni" <pabeni@redhat.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        krzysztof.kozlowski+dt@linaro.org, kbuild-all@lists.01.org,
-        Netdev <netdev@vger.kernel.org>, devicetree@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v4 2/3] net: ethernet: renesas: Add Ethernet Switch driver
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 24 Oct 2022 18:39:23 -0400
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F5AD2BABC9;
+        Mon, 24 Oct 2022 14:02:58 -0700 (PDT)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 29OHTCDQ049088;
+        Mon, 24 Oct 2022 12:29:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1666632552;
+        bh=adanlXXMqLG7D31QcjsmCrsQK+NgdUg/Qpj94rrEAeU=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To;
+        b=wZ6kx/rxmTfZLpzb85qoPyFJuGrLRyJVzXE9zsj306a8JVTpvBdG9mn/i9+D7njp/
+         MbFUm5gva2Xrccif3TKo1BCuUk0O7Hb0barGRNHf1HGn73rIisbTGkP8CyvXAtOtcj
+         S1BjgNGuN4gKyPuT7zuUr1C0juPnegFa7h+eIB5s=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 29OHTC5C002438
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 24 Oct 2022 12:29:12 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Mon, 24
+ Oct 2022 12:29:11 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
+ Frontend Transport; Mon, 24 Oct 2022 12:29:11 -0500
+Received: from [10.250.34.50] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 29OHTAUk033402;
+        Mon, 24 Oct 2022 12:29:10 -0500
+Message-ID: <f52c205c-477d-2135-afb7-d2f8be928185@ti.com>
+Date:   Mon, 24 Oct 2022 12:29:10 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 0/6] Rename DTB overlay source files
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20221023182437.15263-1-afd@ti.com>
+ <CAMuHMdVSeqcgj=ocY-9XAf9A312xBwdypBCNk-fsnh+bWiCtTg@mail.gmail.com>
+Content-Language: en-US
+From:   Andrew Davis <afd@ti.com>
+In-Reply-To: <CAMuHMdVSeqcgj=ocY-9XAf9A312xBwdypBCNk-fsnh+bWiCtTg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 24, 2022, at 17:27, Geert Uytterhoeven wrote:
-> On Wed, Oct 19, 2022 at 1:17 PM kernel test robot <lkp@intel.com> wrote:
-
->>    drivers/net/ethernet/renesas/rswitch.c: In function 'rswitch_ext_desc_get_dptr':
->> >> drivers/net/ethernet/renesas/rswitch.c:355:71: warning: left shift count >= width of type [-Wshift-count-overflow]
->>      355 |         return __le32_to_cpu(desc->dptrl) | (dma_addr_t)(desc->dptrh) << 32;
->>          |                                                                       ^~
->>    drivers/net/ethernet/renesas/rswitch.c: In function 'rswitch_ext_ts_desc_get_dptr':
->>    drivers/net/ethernet/renesas/rswitch.c:367:71: warning: left shift count >= width of type [-Wshift-count-overflow]
->>      367 |         return __le32_to_cpu(desc->dptrl) | (dma_addr_t)(desc->dptrh) << 32;
->>          |                                                                       ^~
+On 10/24/22 7:28 AM, Geert Uytterhoeven wrote:
+> Hi Andrew,
+> 
+> On Sun, Oct 23, 2022 at 8:24 PM Andrew Davis <afd@ti.com> wrote:
+>> This is a series based on my patch here[0]. As suggested by Rob
+>> I've resurrected Frank's patch and appended it to mine as a series.
 >>
+>> First patch here is my original patch, 3rd is Frank's patch but with
+>> the unittest changes pulled out into the 2nd patch. That was re-worked
+>> moving the source building macro into scripts/Makefile.lib.
 >>
->> vim +355 drivers/net/ethernet/renesas/rswitch.c
+>> Patches 4, 5, and 6 are an attempt at renaming all the existing DTB
+>> overlays. Split out by platform so they could be taken by platform
+>> maintainers or if easier ACK'd here and taken all together.
 >>
->>    352
->>    353  static dma_addr_t rswitch_ext_desc_get_dptr(struct rswitch_ext_desc *desc)
->>    354  {
->>  > 355          return __le32_to_cpu(desc->dptrl) | (dma_addr_t)(desc->dptrh) << 32;
->
-> A simple fix would be to replace the cast to "dma_addr_t" by a cast to "u64".
-> A more convoluted fix would be:
->
->     dma_addr_t dma;
->
->     dma = __le32_to_cpu(desc->dptrl);
->     if (IS_ENABLED(CONFIG_ARCH_DMA_ADDR_T_64BIT))
->             dma |= (u64)desc->dptrh << 32;
->     return dma;
->
-> Looking at the gcc compiler output, the both cases are optimized to the
-> exact same code, for both arm32 and arm64, so I'd go for the simple fix.
->
-> BTW, if struct rswitch_ext_desc would just extend struct rswitch_desc,
-> you could use rswitch_ext_desc_get_dptr() for both.
->
+>> This should cover all the DTB overlays so we can remove the old .dts
+>> rule for overlays and make .dtso the only supported way, let me know
+>> if we want that this cycle and I can post that too.
+> 
+> Thanks a lot for picking this up!
+> 
+> Everything builds still fine, and the OF unit tests still run fine, so
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> BTW, you missed the Smarthome-Wolf Pi433 overlay[1] and its
+> documentation[2] under drivers/staging/, but perhaps that was
+> intentional, as it is not tied into the build system?
+> 
 
-Regardless of which way this is expressed, it looked like there is
-a missing __le32_to_cpu() around the high word.
+Wasn't really sure about that one, but it seems simple enough to rename,
+will add a patch for that in v2. Will also fix the wording in the last
+3 patches as suggested.
 
-     Arnd
+Thanks,
+Andrew
+
+> [1] drivers/staging/pi433/Documentation/devicetree/pi433-overlay.dts
+> [2] drivers/staging/pi433/Documentation/devicetree/pi433.txt
+> 
+> Gr{oetje,eeting}s,
+> 
+>                          Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                  -- Linus Torvalds
