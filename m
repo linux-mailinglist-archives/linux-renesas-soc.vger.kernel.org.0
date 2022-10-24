@@ -2,68 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90DD860B10C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Oct 2022 18:16:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE86F60B25E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Oct 2022 18:46:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233761AbiJXQP5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Oct 2022 12:15:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43470 "EHLO
+        id S234769AbiJXQqA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Oct 2022 12:46:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234198AbiJXQOX (ORCPT
+        with ESMTP id S234771AbiJXQos (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Oct 2022 12:14:23 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 861CF89AEA
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 08:01:57 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id m14-20020a17090a3f8e00b00212dab39bcdso6715874pjc.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 08:01:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=nwYHpzHQu66zx1oO4S+JU7fAFPrCg5TP0t9wvdYLfT0=;
-        b=QaBUJOOtOa6q/YFzfzi5NbwffxmpWIgIUIqBM3AFTrq5cZwEGkEuqvGYfadDpPEmKt
-         GK4zl2KxhEdVu5ep3Xd66gH/jVYpppmF9yQrY8xVzM/y6/WlprFvHEXaW+3fh0n5FH/M
-         bouHiKBdSVq/aWMHW0PYdeNG3SQkw5Jv7qoVrD8imnKDXy7DgA8/TGdl9UMPr1nh5Zio
-         3ikmB/vgnv6Zj3ld+VaSNiqM7THAYIedM4GXna/nTh2BANu3HXbPo500qPGB2xwhsgqr
-         FBJYNfs5ixejlehVwN2/sSr/DuG2sTYzDc/nCQJxpqGX060eQ6XlUuduze6c0l4I+7SK
-         Un4g==
+        Mon, 24 Oct 2022 12:44:48 -0400
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD23D132241;
+        Mon, 24 Oct 2022 08:30:55 -0700 (PDT)
+Received: by mail-qk1-x72b.google.com with SMTP id 8so6277443qka.1;
+        Mon, 24 Oct 2022 08:30:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nwYHpzHQu66zx1oO4S+JU7fAFPrCg5TP0t9wvdYLfT0=;
-        b=adj/NFcqKqKJNe9eyNCrmC+AbWAKq/qh9gTXI79YKZ0RzrVwUyeg5Ufyvb1G5rRQwI
-         tBYgyVpEkH/pxTK2MpxV8bVxQU2AP0hF8RURAFyx6gStx6EJ2a54NT93S9Znrj/cYR98
-         A1xzpAclA64arHeus3ha1KLI7V98bS7VD/NZdr4oDc5P8sjTVK65snGURxHNFWKmSrpq
-         tw9+z4579JxDUDseQuPT06eqGzybS0+kvQSMNOFSa14c4XhohGBKl3lo/Czorg7zo7DD
-         v+mcgzuDvVMtUDOOYNYRzJEQhy5fEw7Ut6H3Yp1IrwSURSY2b9ys5rkylQDpo23ipsHY
-         1dWw==
-X-Gm-Message-State: ACrzQf3biWutBtvkoiVVK3rbKv0KbGmSWtWRwoMAJbHxxvtg6RKIb2wm
-        muk27SbCBds5FfQs4WGPUvDFYuBvZQy7p5FP
-X-Google-Smtp-Source: AMsMyM7BKJovYMnv0tzRjmQem6aQrFzeuGBtgzv0NpmJ0AzhwIQiw3y1Y+QEfgjn8qajbPm5x2AJqg==
-X-Received: by 2002:a17:90b:1bc9:b0:20d:75b8:ee5d with SMTP id oa9-20020a17090b1bc900b0020d75b8ee5dmr40042053pjb.147.1666623600604;
-        Mon, 24 Oct 2022 08:00:00 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id w15-20020aa7954f000000b0056bd59eaef0sm1601248pfq.4.2022.10.24.07.59.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 08:00:00 -0700 (PDT)
-Message-ID: <6356a870.a70a0220.e894d.2f8d@mx.google.com>
-Date:   Mon, 24 Oct 2022 08:00:00 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        bh=cHT5Rt2YRD3TxMdqZcnrFfX+ch7zR8neoaazNIgvH4s=;
+        b=o8UYQnYqagOJk7xHL7ioRItrsBk4Qv7WzL2+wKOHKL98J666DOd7Ceoqs44x6TqF+h
+         4RBe8hHOwdDaRf4CZij0jLuG0ExctYqHhJBq+2AFPJucTPiOI60tSGlI6Smk3eIgJwMa
+         p8lduArEWE4JPCaWcUoxSBY5DF6Jl7AQ8iUHI+d2TPTzASa50EXQyzk0kUxTDe/NYF0O
+         ejhHvs1TZHgphuoE8EI9fqka1snqi76MZ3OcpcqFqCloivxTlFYI1UwCrUdVFM6p88x2
+         gVAoTsi4sDb+Advoty8x2kvCV/WRPXYNPsTNyMtY2U+7K2086PF6gaC+fZoIswYvG9Hw
+         2AKA==
+X-Gm-Message-State: ACrzQf2pNrSLoSSBDKSahyLaSPk/ux+EZ3etTuPI1FGV+oZIYq2RrFJ9
+        bfjNVsEZbxT86JEck6isCUTsw+iOp/RWhw==
+X-Google-Smtp-Source: AMsMyM4Vkd7cp4pbO1rM/WpR2yqfdH7jEaPA2xKnICY7kI7XOc/KqJfpkN+1sY6S7VC0Kr3Hgqfa9g==
+X-Received: by 2002:a05:620a:244e:b0:6c6:f3b8:9c3 with SMTP id h14-20020a05620a244e00b006c6f3b809c3mr23359764qkn.218.1666625281759;
+        Mon, 24 Oct 2022 08:28:01 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id d19-20020a05620a241300b006cfc01b4461sm103204qkn.118.2022.10.24.08.28.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Oct 2022 08:28:01 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-35befab86a4so88605387b3.8;
+        Mon, 24 Oct 2022 08:28:00 -0700 (PDT)
+X-Received: by 2002:a81:99d8:0:b0:368:909b:a111 with SMTP id
+ q207-20020a8199d8000000b00368909ba111mr19866197ywg.502.1666625280651; Mon, 24
+ Oct 2022 08:28:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: renesas-next-2022-10-24-v6.1-rc1
-X-Kernelci-Branch: next
-X-Kernelci-Tree: renesas
-Subject: renesas/next baseline-nfs: 142 runs,
- 8 regressions (renesas-next-2022-10-24-v6.1-rc1)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+References: <20221019083518.933070-3-yoshihiro.shimoda.uh@renesas.com> <202210191806.RZK10y3x-lkp@intel.com>
+In-Reply-To: <202210191806.RZK10y3x-lkp@intel.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 24 Oct 2022 17:27:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXBT2cEqfy00u+0VB=cRUAtrgH9LD26gXgavdvmQyN+pQ@mail.gmail.com>
+Message-ID: <CAMuHMdXBT2cEqfy00u+0VB=cRUAtrgH9LD26gXgavdvmQyN+pQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] net: ethernet: renesas: Add Ethernet Switch driver
+To:     kernel test robot <lkp@intel.com>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, kbuild-all@lists.01.org,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,323 +69,79 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next baseline-nfs: 142 runs, 8 regressions (renesas-next-2022-10-24=
--v6.1-rc1)
-
-Regressions Summary
--------------------
-
-platform                     | arch  | lab           | compiler | defconfig=
-                    | regressions
------------------------------+-------+---------------+----------+----------=
---------------------+------------
-cubietruck                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
-defconfig+crypto    | 1          =
-
-jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
-defconfig+crypto    | 1          =
-
-jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
-defconfig+ima       | 1          =
-
-meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
-+ima                | 1          =
-
-meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
-+CON...OMIZE_BASE=3Dy | 1          =
-
-meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
-                    | 1          =
-
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook   | 1          =
-
-rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook   | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2022-10-24-v6.1-rc1/plan/baseline-nfs/
-
-  Test:     baseline-nfs
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2022-10-24-v6.1-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      e165b026d6f6a9f7c09e956119621b2f05b5f42d =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                    | regressions
------------------------------+-------+---------------+----------+----------=
---------------------+------------
-cubietruck                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
-defconfig+crypto    | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/635677b4d917718e015e5b7f
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+crypto
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm/multi_v7_defconfig+crypto/gcc-10/lab-baylibre/baseline-=
-nfs-cubietruck.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm/multi_v7_defconfig+crypto/gcc-10/lab-baylibre/baseline-=
-nfs-cubietruck.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-221007.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/635677b4d917718e0=
-15e5b80
-        new failure (last pass: renesas-next-2022-10-17-v6.1-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                    | regressions
------------------------------+-------+---------------+----------+----------=
---------------------+------------
-jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
-defconfig+crypto    | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6356797e8558222c6f5e5b5f
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+crypto
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm/multi_v7_defconfig+crypto/gcc-10/lab-baylibre/baseline-=
-nfs-jetson-tk1.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm/multi_v7_defconfig+crypto/gcc-10/lab-baylibre/baseline-=
-nfs-jetson-tk1.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-221007.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/6356797e8558222c6=
-f5e5b60
-        new failure (last pass: renesas-next-2022-10-17-v6.1-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                    | regressions
------------------------------+-------+---------------+----------+----------=
---------------------+------------
-jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
-defconfig+ima       | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/63567ea9b0f2aad67c5e5b4b
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+ima
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm/multi_v7_defconfig+ima/gcc-10/lab-baylibre/baseline-nfs=
--jetson-tk1.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm/multi_v7_defconfig+ima/gcc-10/lab-baylibre/baseline-nfs=
--jetson-tk1.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-221007.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/63567ea9b0f2aad67=
-c5e5b4c
-        new failure (last pass: renesas-next-2022-10-17-v6.1-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                    | regressions
------------------------------+-------+---------------+----------+----------=
---------------------+------------
-meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
-+ima                | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/63567007c65eb2694e5e5b48
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+ima
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm64/defconfig+ima/gcc-10/lab-baylibre/baseline-nfs-meson-=
-g12b-a311d-khadas-vim3.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm64/defconfig+ima/gcc-10/lab-baylibre/baseline-nfs-meson-=
-g12b-a311d-khadas-vim3.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-221007.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/63567007c65eb2694=
-e5e5b49
-        failing since 70 days (last pass: renesas-next-2022-07-05-v5.19-rc1=
-, first fail: renesas-next-2022-08-15-v6.0-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                    | regressions
------------------------------+-------+---------------+----------+----------=
---------------------+------------
-meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
-+CON...OMIZE_BASE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6356780dd3b618d3c95e5b73
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-baylib=
-re/baseline-nfs-meson-g12b-a311d-khadas-vim3.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-baylib=
-re/baseline-nfs-meson-g12b-a311d-khadas-vim3.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-221007.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/6356780dd3b618d3c=
-95e5b74
-        failing since 55 days (last pass: renesas-next-2022-08-29-v6.0-rc1,=
- first fail: renesas-next-2022-08-30-v6.0-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                    | regressions
------------------------------+-------+---------------+----------+----------=
---------------------+------------
-meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
-                    | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/63567892544fb736c85e5b5f
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm64/defconfig/gcc-10/lab-baylibre/baseline-nfs-meson-g12b=
--a311d-khadas-vim3.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm64/defconfig/gcc-10/lab-baylibre/baseline-nfs-meson-g12b=
--a311d-khadas-vim3.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-221007.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/63567892544fb736c=
-85e5b60
-        new failure (last pass: renesas-next-2022-09-26-v6.0-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                    | regressions
------------------------------+-------+---------------+----------+----------=
---------------------+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook   | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/63567326b60be07ad95e5b5e
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/basel=
-ine-nfs-mt8183-kukui-jacuzzi-juniper-sku16.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/basel=
-ine-nfs-mt8183-kukui-jacuzzi-juniper-sku16.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-221007.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/63567326b60be07ad=
-95e5b5f
-        failing since 70 days (last pass: renesas-next-2022-07-05-v5.19-rc1=
-, first fail: renesas-next-2022-08-15-v6.0-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
-                    | regressions
------------------------------+-------+---------------+----------+----------=
---------------------+------------
-rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
-+arm64-chromebook   | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/635673fb68ef38c86a5e5bc0
-
-  Results:     82 PASS, 6 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/basel=
-ine-nfs-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-24-v6.1-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/basel=
-ine-nfs-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-221007.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/cas=
-e/id/635673fb68ef38c86a5e5be6
-        failing since 201 days (last pass: renesas-next-2022-02-25-v5.17-rc=
-1, first fail: renesas-next-2022-04-04-v5.18-rc1)
-
-    2022-10-24T11:15:50.395791  /lava-7695774/1/../bin/lava-test-case   =
-
- =20
+On Wed, Oct 19, 2022 at 1:17 PM kernel test robot <lkp@intel.com> wrote:
+> I love your patch! Perhaps something to improve:
+>
+> [auto build test WARNING on net-next/master]
+> [also build test WARNING on net/master robh/for-next linus/master v6.1-rc1 next-20221019]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yoshihiro-Shimoda/net-ethernet-renesas-Add-Ethernet-Switch-driver/20221019-163806
+> patch link:    https://lore.kernel.org/r/20221019083518.933070-3-yoshihiro.shimoda.uh%40renesas.com
+> patch subject: [PATCH v4 2/3] net: ethernet: renesas: Add Ethernet Switch driver
+> config: m68k-allyesconfig
+> compiler: m68k-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/f310f8cc37dfb090cfb06ae38530276327569464
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Yoshihiro-Shimoda/net-ethernet-renesas-Add-Ethernet-Switch-driver/20221019-163806
+>         git checkout f310f8cc37dfb090cfb06ae38530276327569464
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/net/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+>
+> All warnings (new ones prefixed by >>):
+>
+>    drivers/net/ethernet/renesas/rswitch.c: In function 'rswitch_ext_desc_get_dptr':
+> >> drivers/net/ethernet/renesas/rswitch.c:355:71: warning: left shift count >= width of type [-Wshift-count-overflow]
+>      355 |         return __le32_to_cpu(desc->dptrl) | (dma_addr_t)(desc->dptrh) << 32;
+>          |                                                                       ^~
+>    drivers/net/ethernet/renesas/rswitch.c: In function 'rswitch_ext_ts_desc_get_dptr':
+>    drivers/net/ethernet/renesas/rswitch.c:367:71: warning: left shift count >= width of type [-Wshift-count-overflow]
+>      367 |         return __le32_to_cpu(desc->dptrl) | (dma_addr_t)(desc->dptrh) << 32;
+>          |                                                                       ^~
+>
+>
+> vim +355 drivers/net/ethernet/renesas/rswitch.c
+>
+>    352
+>    353  static dma_addr_t rswitch_ext_desc_get_dptr(struct rswitch_ext_desc *desc)
+>    354  {
+>  > 355          return __le32_to_cpu(desc->dptrl) | (dma_addr_t)(desc->dptrh) << 32;
+
+A simple fix would be to replace the cast to "dma_addr_t" by a cast to "u64".
+A more convoluted fix would be:
+
+    dma_addr_t dma;
+
+    dma = __le32_to_cpu(desc->dptrl);
+    if (IS_ENABLED(CONFIG_ARCH_DMA_ADDR_T_64BIT))
+            dma |= (u64)desc->dptrh << 32;
+    return dma;
+
+Looking at the gcc compiler output, the both cases are optimized to the
+exact same code, for both arm32 and arm64, so I'd go for the simple fix.
+
+BTW, if struct rswitch_ext_desc would just extend struct rswitch_desc,
+you could use rswitch_ext_desc_get_dptr() for both.
+
+>    356  }
+>    357
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
