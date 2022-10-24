@@ -2,145 +2,699 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13F5960B195
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Oct 2022 18:28:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB21760B224
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Oct 2022 18:43:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232231AbiJXQ1v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Oct 2022 12:27:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53492 "EHLO
+        id S234363AbiJXQmj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Oct 2022 12:42:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233627AbiJXQ1Z (ORCPT
+        with ESMTP id S234495AbiJXQls (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Oct 2022 12:27:25 -0400
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC74328E32;
-        Mon, 24 Oct 2022 08:14:04 -0700 (PDT)
-Received: by mail-qk1-f169.google.com with SMTP id a5so6237092qkl.6;
-        Mon, 24 Oct 2022 08:14:04 -0700 (PDT)
+        Mon, 24 Oct 2022 12:41:48 -0400
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 238CD77E80
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 08:28:46 -0700 (PDT)
+Received: by mail-oi1-x22b.google.com with SMTP id y67so11224147oiy.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 08:28:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=yb/oFwMM4S1mOivUJd41CEh2es0049xYpzIBYiCwtb4=;
+        b=g4LpjrieGQSpYUmCchGnin6xi8MJU69tPdceM4grmrigy/OHzZO6La16U32cYkrU1Q
+         x01F5IFZGLtuKZCAkBJhjeprVEBImCRmcPaY3d5yAjzteWaPW9LsMtzef7AlyJWzWxAZ
+         bgRxbtqWNqzSPLdB93PfDlzsAk6+iKMQAaC66Oxfo64LN4VE9rXCcKJSvwqvCS9ysqdK
+         PJNQlrEJIFpkPOGYeCDdgAOON0S6Qate3IUgcaFXsDQmjYsmvgP64b0oB2lAeMeiLl1J
+         kjop3tanrbIelqe+nOT82nbxycRy5soqosH+d1fCoFcKBJ4OWsvuHB8Al5QEJmSTS4bJ
+         Hs1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=m4viJHxfacreRm9wTZHfw/EqLzaLhJI57ZF7n+4sesI=;
-        b=lddOhnkSKqyV2/fbsZbKMLZdAwM9Y/gUuPCGVvtUPfVT/jTGajqv3g6uH7kAKNtS2T
-         tFa6RmIdpi/lUs9ONaT9r20sWi2CmpUJ91rusL8/c/hSzUK2hh2fDoKNltiyypMfpsYz
-         11EM+YAxQWKHidSXxqigA9UXaTlzmlT5vqXF9lKavWpXZPzQmy1iQxsKKCC/CN6+lDaI
-         in79LpkqyLJWruosf+GiwUhTNhjGHG5aD50uSY6j8tKdrXHpTh8m4V90KIXKC+0telWQ
-         LRUoS7FvixiekIDUQSQPGhhYFCreQHEA+6nfeGvmPhsvtWb7xzEB1vxsffzh9+AM9eCT
-         MNGQ==
-X-Gm-Message-State: ACrzQf16LyWeCKMPetNzTI2vEW3Zg3oPezbgo6UONIjDrOY5OgSUDkvA
-        We9rF5lYQHvtutoxAlObWTiiwUlX2JcA7w==
-X-Google-Smtp-Source: AMsMyM66KLH3yXhQf1WGFA8wXaMs+RlBpXmfGyKsiH1ejjEA5fUSplb+c2cRmWGIYbu9/1gNyDHzaA==
-X-Received: by 2002:ac8:4e4f:0:b0:39c:e080:3643 with SMTP id e15-20020ac84e4f000000b0039ce0803643mr27954535qtw.426.1666623570029;
-        Mon, 24 Oct 2022 07:59:30 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id cq13-20020a05622a424d00b003972790deb9sm32320qtb.84.2022.10.24.07.59.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Oct 2022 07:59:29 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id y72so11261489yby.13;
-        Mon, 24 Oct 2022 07:59:29 -0700 (PDT)
-X-Received: by 2002:a25:26c1:0:b0:6c3:bdae:c6d6 with SMTP id
- m184-20020a2526c1000000b006c3bdaec6d6mr30854658ybm.36.1666623568821; Mon, 24
- Oct 2022 07:59:28 -0700 (PDT)
+        bh=yb/oFwMM4S1mOivUJd41CEh2es0049xYpzIBYiCwtb4=;
+        b=iB5l1cCzoqChArMsegVk4ms93HfezRFBeTUJidCNgerU9fQ9MmMUttk49SO2eviDUC
+         2AwdQs8b6h4YeGoZG7ISohqTsebp92MxrXdONz3d/rNPCx/aDTmGS5wErFRpMewsxI4E
+         R+fgQy1dDbELzgwwOhjS+iE7kccxHkIwxhYvFbUj4uTywwGbWHKnMBs5Kwo8/LlfZVtt
+         TchQwZuBxe9kljqgS/hLMg+o4sRja1cwFJ5VBKn5iIhkWgm7gytiK1Y/xiXcytJgVYVg
+         JpppuMI1cGMR6/mFpUsV0XKTDc0D9VNw0AR5/3ZHat0foT48QUkViuOyuBHfPDqELlS8
+         DdPg==
+X-Gm-Message-State: ACrzQf2KfQm3eF7jbI1nT520TbQ3dVAc7dtQC45ZfJcYE82H7C1Er9LL
+        pqWgpBcQtBxuzLG9woiUomKqT75srWqhi42c
+X-Google-Smtp-Source: AMsMyM4mkWkbkLpkjjr86lf0XWJ7EIs56Pj1rWCx7dPB2f0+jsfI1mXsP80WVgtT0vjJ6H3Cp38Iyg==
+X-Received: by 2002:a17:90b:1648:b0:20b:f0ae:2169 with SMTP id il8-20020a17090b164800b0020bf0ae2169mr72781196pjb.173.1666623600952;
+        Mon, 24 Oct 2022 08:00:00 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id 20-20020a621714000000b0056befcd7958sm1008708pfx.84.2022.10.24.08.00.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Oct 2022 08:00:00 -0700 (PDT)
+Message-ID: <6356a870.620a0220.53dda.21c3@mx.google.com>
+Date:   Mon, 24 Oct 2022 08:00:00 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20221022104357.1276740-1-biju.das.jz@bp.renesas.com> <20221022104357.1276740-7-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20221022104357.1276740-7-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 24 Oct 2022 16:59:17 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV8MmTMMPnCGgXbZZ-gb4CVduAUBBG3BdAecBrc3J7RLQ@mail.gmail.com>
-Message-ID: <CAMuHMdV8MmTMMPnCGgXbZZ-gb4CVduAUBBG3BdAecBrc3J7RLQ@mail.gmail.com>
-Subject: Re: [PATCH 6/6] can: rcar_canfd: Add has_gerfl_eef to struct rcar_canfd_hw_info
-To:     biju.das.jz@bp.renesas.com
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        =?UTF-8?Q?Stefan_M=C3=A4tje?= <stefan.maetje@esd.eu>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-next-2022-10-24-v6.1-rc1
+X-Kernelci-Branch: next
+X-Kernelci-Tree: renesas
+Subject: renesas/next baseline: 416 runs,
+ 18 regressions (renesas-next-2022-10-24-v6.1-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+renesas/next baseline: 416 runs, 18 regressions (renesas-next-2022-10-24-v6=
+.1-rc1)
 
-On Sat, Oct 22, 2022 at 1:03 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> R-Car has ECC error flags in global error interrupts whereas it is
-> not available on RZ/G2L.
->
-> Add has_gerfl_eef to struct rcar_canfd_hw_info so that rcar_canfd_
-> global_error() will process ECC errors only for R-Car.
->
-> whilst, this patch fixes the below checkpatch warnings
->   CHECK: Unnecessary parentheses around 'ch == 0'
->   CHECK: Unnecessary parentheses around 'ch == 1'
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Regressions Summary
+-------------------
 
-Thanks for your patch!
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...G_ARM_LPAE=3Dy | 1          =
 
-> --- a/drivers/net/can/rcar/rcar_canfd.c
-> +++ b/drivers/net/can/rcar/rcar_canfd.c
-> @@ -523,6 +523,7 @@ struct rcar_canfd_hw_info {
->         unsigned multi_global_irqs:1;   /* Has multiple global irqs  */
->         unsigned clk_postdiv:1;         /* Has CAN clk post divider  */
->         unsigned multi_channel_irqs:1;  /* Has multiple channel irqs  */
-> +       unsigned has_gerfl_eef:1;       /* Has ECC Error Flag  */
+kontron-kbox-a-230-ls        | arm64 | lab-kontron   | gcc-10   | defconfig=
++ima                | 1          =
 
-Do you really need this flag? According to the RZ/G2L docs, the
-corresponding register bits are always read as zero.
+kontron-kbox-a-230-ls        | arm64 | lab-kontron   | gcc-10   | defconfig=
++CON...OMIZE_BASE=3Dy | 1          =
 
->  };
->
->  /* Channel priv data */
+kontron-kbox-a-230-ls        | arm64 | lab-kontron   | gcc-10   | defconfig=
++debug              | 1          =
 
-> @@ -947,17 +950,18 @@ static void rcar_canfd_global_error(struct net_device *ndev)
->  {
->         struct rcar_canfd_channel *priv = netdev_priv(ndev);
->         struct rcar_canfd_global *gpriv = priv->gpriv;
-> +       const struct rcar_canfd_hw_info *info = gpriv->info;
->         struct net_device_stats *stats = &ndev->stats;
->         u32 ch = priv->channel;
->         u32 gerfl, sts;
->         u32 ridx = ch + RCANFD_RFFIFO_IDX;
->
->         gerfl = rcar_canfd_read(priv->base, RCANFD_GERFL);
-> -       if ((gerfl & RCANFD_GERFL_EEF0) && (ch == 0)) {
-> +       if (info->has_gerfl_eef && (gerfl & RCANFD_GERFL_EEF0) && ch == 0) {
->                 netdev_dbg(ndev, "Ch0: ECC Error flag\n");
->                 stats->tx_dropped++;
->         }
-> -       if ((gerfl & RCANFD_GERFL_EEF1) && (ch == 1)) {
-> +       if (info->has_gerfl_eef && (gerfl & RCANFD_GERFL_EEF1) && ch == 1) {
->                 netdev_dbg(ndev, "Ch1: ECC Error flag\n");
->                 stats->tx_dropped++;
->         }
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
 
-Just wrap both checks inside a single "if (gpriv->info->has_gerfl) { ... }"?
+ox820-clouden...lug-series-3 | arm   | lab-baylibre  | gcc-10   | oxnas_v6_=
+defconfig           | 1          =
 
-Gr{oetje,eeting}s,
+qemu_arm-virt-gicv2          | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
 
-                        Geert
+qemu_arm-virt-gicv2          | arm   | lab-broonie   | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+qemu_arm-virt-gicv2-uefi     | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+qemu_arm-virt-gicv2-uefi     | arm   | lab-broonie   | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
+
+qemu_arm-virt-gicv3          | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
+
+qemu_arm-virt-gicv3          | arm   | lab-broonie   | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
+
+qemu_arm-virt-gicv3-uefi     | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
+
+qemu_arm-virt-gicv3-uefi     | arm   | lab-broonie   | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
+
+rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 4          =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2022-10-24-v6.1-rc1/plan/baseline/
+
+  Test:     baseline
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2022-10-24-v6.1-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      e165b026d6f6a9f7c09e956119621b2f05b5f42d =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...G_ARM_LPAE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63567460be18e198255e5b47
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy/g=
+cc-10/lab-baylibre/baseline-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy/g=
+cc-10/lab-baylibre/baseline-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/63567460be18e198255e5=
+b48
+        failing since 138 days (last pass: renesas-next-2022-05-05-v5.18-rc=
+1, first fail: renesas-next-2022-06-07-v5.19-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+kontron-kbox-a-230-ls        | arm64 | lab-kontron   | gcc-10   | defconfig=
++ima                | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63566ea63482e14d175e5b7c
+
+  Results:     94 PASS, 1 FAIL, 1 SKIP
+  Full config: defconfig+ima
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm64/defconfig+ima/gcc-10/lab-kontron/baseline-kontron-kbo=
+x-a-230-ls.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm64/defconfig+ima/gcc-10/lab-kontron/baseline-kontron-kbo=
+x-a-230-ls.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.mscc_felix-probed: https://kernelci.org/test/case/id/63=
+566ea63482e14d175e5b89
+        failing since 111 days (last pass: renesas-next-2022-04-25-v5.18-rc=
+1, first fail: renesas-next-2022-07-05-v5.19-rc1)
+
+    2022-10-24T10:53:05.698345  /lava-189711/1/../bin/lava-test-case
+    2022-10-24T10:53:05.698725  <8>[   18.681754] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dmscc_felix-probed RESULT=3Dfail>   =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+kontron-kbox-a-230-ls        | arm64 | lab-kontron   | gcc-10   | defconfig=
++CON...OMIZE_BASE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6356755d84333956d45e5b95
+
+  Results:     94 PASS, 1 FAIL, 1 SKIP
+  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-kontro=
+n/baseline-kontron-kbox-a-230-ls.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-kontro=
+n/baseline-kontron-kbox-a-230-ls.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.mscc_felix-probed: https://kernelci.org/test/case/id/63=
+56755d84333956d45e5ba2
+        failing since 139 days (last pass: renesas-next-2022-04-25-v5.18-rc=
+1, first fail: renesas-next-2022-06-07-v5.19-rc1)
+
+    2022-10-24T11:21:42.954751  /lava-189754/1/../bin/lava-test-case
+    2022-10-24T11:21:42.955050  <8>[   13.901470] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dmscc_felix-probed RESULT=3Dfail>
+    2022-10-24T11:21:42.955204  /lava-189754/1/../bin/lava-test-case
+    2022-10-24T11:21:42.955346  <8>[   13.917584] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dleds-gpio-driver-present RESULT=3Dpass>
+    2022-10-24T11:21:42.955489  /lava-189754/1/../bin/lava-test-case
+    2022-10-24T11:21:42.955626  <8>[   13.933671] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dleds-gpio-probed RESULT=3Dpass>
+    2022-10-24T11:21:42.955828  /lava-189754/1/../bin/lava-test-case   =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+kontron-kbox-a-230-ls        | arm64 | lab-kontron   | gcc-10   | defconfig=
++debug              | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/635679599b0dda71125e5b60
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+debug
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm64/defconfig+debug/gcc-10/lab-kontron/baseline-kontron-k=
+box-a-230-ls.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm64/defconfig+debug/gcc-10/lab-kontron/baseline-kontron-k=
+box-a-230-ls.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/635679599b0dda71125e5=
+b61
+        new failure (last pass: renesas-next-2022-09-26-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/635673261e64be88485e5b44
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/basel=
+ine-mt8183-kukui-jacuzzi-juniper-sku16.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/basel=
+ine-mt8183-kukui-jacuzzi-juniper-sku16.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/635673261e64be88485e5=
+b45
+        failing since 70 days (last pass: renesas-next-2022-07-05-v5.19-rc1=
+, first fail: renesas-next-2022-08-15-v6.0-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+ox820-clouden...lug-series-3 | arm   | lab-baylibre  | gcc-10   | oxnas_v6_=
+defconfig           | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63566e9a38c47953bb5e5b43
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: oxnas_v6_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/oxnas_v6_defconfig/gcc-10/lab-baylibre/baseline-ox820-c=
+loudengines-pogoplug-series-3.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/oxnas_v6_defconfig/gcc-10/lab-baylibre/baseline-ox820-c=
+loudengines-pogoplug-series-3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/63566e9a38c47953bb5e5=
+b44
+        failing since 6 days (last pass: renesas-next-2022-09-26-v6.0-rc1, =
+first fail: renesas-next-2022-10-17-v6.1-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+qemu_arm-virt-gicv2          | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63567245fe5692b5b35e5b3d
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+debug
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baseline-q=
+emu_arm-virt-gicv2.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baseline-q=
+emu_arm-virt-gicv2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/63567245fe5692b5b35e5=
+b3e
+        failing since 6 days (last pass: renesas-next-2022-09-26-v6.0-rc1, =
+first fail: renesas-next-2022-10-17-v6.1-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+qemu_arm-virt-gicv2          | arm   | lab-broonie   | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/635676557eed90f2c15e5b4c
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+debug
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline-qe=
+mu_arm-virt-gicv2.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline-qe=
+mu_arm-virt-gicv2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/635676557eed90f2c15e5=
+b4d
+        failing since 6 days (last pass: renesas-next-2022-09-26-v6.0-rc1, =
+first fail: renesas-next-2022-10-17-v6.1-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+qemu_arm-virt-gicv2-uefi     | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6356726e124d7ff7515e5b55
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+debug
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baseline-q=
+emu_arm-virt-gicv2-uefi.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baseline-q=
+emu_arm-virt-gicv2-uefi.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/6356726e124d7ff7515e5=
+b56
+        failing since 6 days (last pass: renesas-next-2022-09-26-v6.0-rc1, =
+first fail: renesas-next-2022-10-17-v6.1-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+qemu_arm-virt-gicv2-uefi     | arm   | lab-broonie   | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/635676419df45c18b15e5bb1
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+debug
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline-qe=
+mu_arm-virt-gicv2-uefi.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline-qe=
+mu_arm-virt-gicv2-uefi.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/635676419df45c18b15e5=
+bb2
+        failing since 6 days (last pass: renesas-next-2022-09-26-v6.0-rc1, =
+first fail: renesas-next-2022-10-17-v6.1-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+qemu_arm-virt-gicv3          | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63567272124d7ff7515e5b5b
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+debug
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baseline-q=
+emu_arm-virt-gicv3.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baseline-q=
+emu_arm-virt-gicv3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/63567272124d7ff7515e5=
+b5c
+        failing since 6 days (last pass: renesas-next-2022-09-26-v6.0-rc1, =
+first fail: renesas-next-2022-10-17-v6.1-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+qemu_arm-virt-gicv3          | arm   | lab-broonie   | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/635676b94fd83a948d5e5b58
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+debug
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline-qe=
+mu_arm-virt-gicv3.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline-qe=
+mu_arm-virt-gicv3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/635676b94fd83a948d5e5=
+b59
+        failing since 6 days (last pass: renesas-next-2022-09-26-v6.0-rc1, =
+first fail: renesas-next-2022-10-17-v6.1-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+qemu_arm-virt-gicv3-uefi     | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/635672700db3b9aa885e5b64
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+debug
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baseline-q=
+emu_arm-virt-gicv3-uefi.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baseline-q=
+emu_arm-virt-gicv3-uefi.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/635672700db3b9aa885e5=
+b65
+        failing since 6 days (last pass: renesas-next-2022-09-26-v6.0-rc1, =
+first fail: renesas-next-2022-10-17-v6.1-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+qemu_arm-virt-gicv3-uefi     | arm   | lab-broonie   | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/635676693e06d919205e5b3a
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+debug
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline-qe=
+mu_arm-virt-gicv3-uefi.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline-qe=
+mu_arm-virt-gicv3-uefi.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/635676693e06d919205e5=
+b3b
+        failing since 6 days (last pass: renesas-next-2022-09-26-v6.0-rc1, =
+first fail: renesas-next-2022-10-17-v6.1-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 4          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6356743bd17ff970fa5e5b55
+
+  Results:     85 PASS, 7 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/basel=
+ine-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-10-24-v6.1-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/basel=
+ine-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/case/id=
+/6356743bd17ff970fa5e5b78
+        failing since 201 days (last pass: renesas-next-2022-02-25-v5.17-rc=
+1, first fail: renesas-next-2022-04-04-v5.18-rc1)
+
+    2022-10-24T11:17:02.403122  <8>[   39.135114] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Drockchip-i2s0-probed RESULT=3Dpass>
+    2022-10-24T11:17:03.436551  /lava-7695775/1/../bin/lava-test-case   =
+
+
+  * baseline.bootrr.cros-ec-sensors-gyro0-probed: https://kernelci.org/test=
+/case/id/6356743bd17ff970fa5e5b9b
+        failing since 139 days (last pass: renesas-next-2022-05-05-v5.18-rc=
+1, first fail: renesas-next-2022-06-07-v5.19-rc1)
+
+    2022-10-24T11:16:59.590481  <8>[   36.322942] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dcros-ec-sensors-accel1-probed RESULT=3Dfail>
+    2022-10-24T11:17:00.615754  /lava-7695775/1/../bin/lava-test-case   =
+
+
+  * baseline.bootrr.cros-ec-sensors-accel1-probed: https://kernelci.org/tes=
+t/case/id/6356743bd17ff970fa5e5b9d
+        failing since 139 days (last pass: renesas-next-2022-05-05-v5.18-rc=
+1, first fail: renesas-next-2022-06-07-v5.19-rc1)
+
+    2022-10-24T11:16:59.579692  /lava-7695775/1/../bin/lava-test-case   =
+
+
+  * baseline.bootrr.cros-ec-sensors-accel0-probed: https://kernelci.org/tes=
+t/case/id/6356743bd17ff970fa5e5b9e
+        failing since 139 days (last pass: renesas-next-2022-05-05-v5.18-rc=
+1, first fail: renesas-next-2022-06-07-v5.19-rc1)
+
+    2022-10-24T11:16:58.532200  /lava-7695775/1/../bin/lava-test-case
+    2022-10-24T11:16:58.552330  <8>[   35.284790] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dcros-ec-sensors-accel0-probed RESULT=3Dfail>   =
+
+ =20
