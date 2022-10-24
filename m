@@ -2,80 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1803F60AF47
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Oct 2022 17:41:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1350160AF68
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Oct 2022 17:48:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231944AbiJXPlC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Oct 2022 11:41:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59378 "EHLO
+        id S229833AbiJXPs2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Oct 2022 11:48:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231274AbiJXPkq (ORCPT
+        with ESMTP id S231389AbiJXPsM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Oct 2022 11:40:46 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CEF8A98C9;
-        Mon, 24 Oct 2022 07:30:35 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id b25so6130122qkk.7;
-        Mon, 24 Oct 2022 07:30:35 -0700 (PDT)
+        Mon, 24 Oct 2022 11:48:12 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D397710DE52
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 07:41:07 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id n7so8634656plp.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 07:41:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=NnrHq+V0fDYwlxztLrNfPJ3XRX5E89cecUmQNN1ixNs=;
+        b=VywJ3tK78ooNlpwrzGI+ea3zZCobPygT8YcJ4KhhFPBx7xUh3ZUSM/Air/v7jWuxn7
+         1wINA3koP19+AWAFwJwVKeT69k1AGNtLd41ZYpCtVFnJ+TiD51pvAiNhpq3GPdPFXMSm
+         eyHhLCP2hlc+VjLGjeTLwYCcUG8H+ejPmu/JjA/Vv+0M5LglHNpH3eDNE1sTZl/gVwSL
+         eZwb5BrApV0yVtD5etZAW8r9cbNOe7Sad2TzyCwL2uxVqOJQj+kh3RXJJp0+HUpSMOnw
+         USl6JHdyTK55ktGp9MRADi6mzdCGbtk6xzhETs1t15D7a+ecLbPwrfaJEDk5XDDrjjyj
+         mlxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=a9qF1Rvllj4BtsCBG7Cn5V9JrHYVjBhx5pA0E/JzBw8=;
-        b=6I++0yMEesxQapQUpU3sa07Zt/7H5Czlp0oV7mlbwmSGQlQFca3NvARyR4hgv7hyyN
-         92ljU+t+sJIUZ4nlnWH1yczht278tP0n1kbLaARonczswxyLvTE+lMSEnROuMPW4SyMD
-         UhjScwVzgrD2X8hjdPuf/BwjPUobSL8ZWWyoHH/nWEJVutxqY6qwPjbS7fOeswnmS8ch
-         CqzGsdIXTJNno5pldyfv3cjxq+AATMb6uChCxAHNR9P+GRXVjNODGOLNMpbADQ1P1YVX
-         4ou4XNwq/JhCMmnNpvX2jt861DQzZFsBs39yrp8Cz5/AHeFNmv5yy+HVCU6aOk7JdtS8
-         EJLQ==
-X-Gm-Message-State: ACrzQf2lS+8wRFdVecYMGr1GCy+2qAi/HyfuApUZfy3nmBkN0sumiiJT
-        5hT4TFW6SBMufKl4gc4FqSVq2LyW7Z4Pkw==
-X-Google-Smtp-Source: AMsMyM62iGCgHsC36yJglrj9B70GnN5CTYkZTCH8cwt/KuSLmF9rDiZGyKyXmiNiyldlHD5SZhmWKA==
-X-Received: by 2002:a05:620a:294b:b0:6ee:cfd2:1cfe with SMTP id n11-20020a05620a294b00b006eecfd21cfemr21568030qkp.363.1666621369755;
-        Mon, 24 Oct 2022 07:22:49 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id d13-20020a05620a240d00b006bc192d277csm67130qkn.10.2022.10.24.07.22.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Oct 2022 07:22:49 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id f205so11228627yba.2;
-        Mon, 24 Oct 2022 07:22:48 -0700 (PDT)
-X-Received: by 2002:a25:4fc2:0:b0:6be:afb4:d392 with SMTP id
- d185-20020a254fc2000000b006beafb4d392mr27332087ybb.604.1666621368623; Mon, 24
- Oct 2022 07:22:48 -0700 (PDT)
+        bh=NnrHq+V0fDYwlxztLrNfPJ3XRX5E89cecUmQNN1ixNs=;
+        b=iKa3GcT8NXEg63y7h94IyO8WhBp5yKliITTFqCFQDUFmmTQyJoFE+/zY++Gt0iE20q
+         liF8iRJ7cx2rduIlslygb6DAjCC6gWFNujaFTZhy3PPn7MStgRnJHKxdi0sWPh9RhJPA
+         R39/wwnk9OuDoiamON2YVYC4FsL1ADaDM4/XNw2YF6P6zsD9Vrh4B7JbnjHocULXxnt8
+         tbIxvcjE85h8tMFg8b8qLdQFSMRi9D0TdELziq9t160HGWKtpBjuhNQ903eINY/NtCeD
+         l0EviyKWtUEP5hpwkijlRoRpDUImAfRakiCZuL/F7NBLLmJt+wDrRnOyfy7FMRDBfEZh
+         lyZg==
+X-Gm-Message-State: ACrzQf2tKMUo0S+C0pxuc6n4sn+VQuNaOa4R2y8W6rEFPdD5nXAMqCDq
+        +5vxTwRY84VAo09HVm4wQjLsWSmH/WDUrnuV
+X-Google-Smtp-Source: AMsMyM50ALq0Kph7AT0eLQrvUJ4oKeXtQIzl3tkc+tDY7DQcXhpZqFfk7z+cNJctFzMJ4or6U2W6yg==
+X-Received: by 2002:a17:903:22cb:b0:186:a8ae:d107 with SMTP id y11-20020a17090322cb00b00186a8aed107mr5560803plg.119.1666622337008;
+        Mon, 24 Oct 2022 07:38:57 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id ij4-20020a170902ab4400b0017f8edd3d8asm19436343plb.177.2022.10.24.07.38.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Oct 2022 07:38:56 -0700 (PDT)
+Message-ID: <6356a380.170a0220.40c67.4c8c@mx.google.com>
+Date:   Mon, 24 Oct 2022 07:38:56 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20221019220242.4746-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20221019220242.4746-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20221019220242.4746-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 24 Oct 2022 16:22:36 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXSk7RJa4JQNCV6hU9ZMeC3oSEj=MJhTtKauxaWpiGREw@mail.gmail.com>
-Message-ID: <CAMuHMdXSk7RJa4JQNCV6hU9ZMeC3oSEj=MJhTtKauxaWpiGREw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 2/2] soc: renesas: Add L2 cache management for
- RZ/Five SoC
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Guo Ren <guoren@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Anup Patel <anup@brainfault.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2022-10-24-v6.1-rc2
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+Subject: renesas/master baseline: 390 runs,
+ 9 regressions (renesas-devel-2022-10-24-v6.1-rc2)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,425 +71,282 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+renesas/master baseline: 390 runs, 9 regressions (renesas-devel-2022-10-24-=
+v6.1-rc2)
 
-(fixed Palmer's address)
+Regressions Summary
+-------------------
 
-On Thu, Oct 20, 2022 at 12:02 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> On the AX45MP core, cache coherency is a specification option so it may
-> not be supported. In this case DMA will fail. As a workaround, firstly we
-> allocate a global dma coherent pool from which DMA allocations are taken
-> and marked as non-cacheable + bufferable using the PMA region as specified
-> in the device tree. Synchronization callbacks are implemented to
-> synchronize when doing DMA transactions.
->
-> The Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
-> block that allows dynamic adjustment of memory attributes in the runtime.
-> It contains a configurable amount of PMA entries implemented as CSR
-> registers to control the attributes of memory locations in interest.
->
-> Below are the memory attributes supported:
-> * Device, Non-bufferable
-> * Device, bufferable
-> * Memory, Non-cacheable, Non-bufferable
-> * Memory, Non-cacheable, Bufferable
-> * Memory, Write-back, No-allocate
-> * Memory, Write-back, Read-allocate
-> * Memory, Write-back, Write-allocate
-> * Memory, Write-back, Read and Write-allocate
->
-> This patch adds support to configure the memory attributes of the memory
-> regions as passed from the l2 cache node and exposes the cache management
-> ops.
->
-> More info about PMA (section 10.3):
-> http://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
->
-> This feature is based on the work posted [0] by Vincent Chen
-> <vincentc@andestech.com> for the Andes AndeStart RISC-V CPU.
->
-> [0] https://lore.kernel.org/lkml/1540982130-28248-1-git-send-email-vincentc@andestech.com/
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...G_ARM_LPAE=3Dy | 1          =
 
-Thanks for your patch!
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
 
-> --- a/drivers/soc/renesas/Kconfig
-> +++ b/drivers/soc/renesas/Kconfig
-> @@ -340,9 +340,14 @@ if RISCV
->  config ARCH_R9A07G043
->         bool "RISC-V Platform support for RZ/Five"
->         select ARCH_RZG2L
-> +       select AX45MP_L2_CACHE
-> +       select DMA_GLOBAL_POOL
-> +       select RISCV_DMA_NONCOHERENT
->         help
->           This enables support for the Renesas RZ/Five SoC.
->
-> +source "drivers/soc/renesas/rzf/Kconfig"
+ox820-clouden...lug-series-3 | arm   | lab-baylibre  | gcc-10   | oxnas_v6_=
+defconfig           | 1          =
 
-s/rzf/rzfive/? (or "rz5"? "rzv"?)
+qemu_mips-malta              | mips  | lab-collabora | gcc-10   | malta_def=
+config              | 1          =
 
-> +
->  endif # RISCV
->
->  config RST_RCAR
-> diff --git a/drivers/soc/renesas/Makefile b/drivers/soc/renesas/Makefile
-> index 535868c9c7e4..a20cc7ad5b12 100644
-> --- a/drivers/soc/renesas/Makefile
-> +++ b/drivers/soc/renesas/Makefile
-> @@ -31,6 +31,10 @@ ifdef CONFIG_SMP
->  obj-$(CONFIG_ARCH_R9A06G032)   += r9a06g032-smp.o
->  endif
->
-> +ifdef CONFIG_RISCV
-> +obj-y += rzf/
-> +endif
+rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 4          =
 
-obj-$(CONFIG_RISCV)
+sc7180-trogdo...zor-limozeen | arm64 | lab-collabora | gcc-10   | defconfig=
++arm...ook+videodec | 1          =
 
-> --- /dev/null
-> +++ b/drivers/soc/renesas/rzf/Kconfig
-> @@ -0,0 +1,6 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +config AX45MP_L2_CACHE
-> +       bool "AX45MP L2 Cache controller"
 
-Andes Technology ...
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-10-24-v6.1-rc2/plan/baseline/
 
-> +       help
-> +         Support for the L2 cache controller on AX45MP platforms.
+  Test:     baseline
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-10-24-v6.1-rc2
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      547a476a7857aadfcaa264982527697926c55d6a =
 
-... Andes Technology ...
 
-> --- /dev/null
-> +++ b/drivers/soc/renesas/rzf/ax45mp_cache.c
-> @@ -0,0 +1,431 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * PMA setup and non-coherent cache functions for AX45MP
-> + *
-> + * Copyright (C) 2022 Renesas Electronics Corp.
-> + */
-> +
-> +#include <linux/cacheflush.h>
-> +#include <linux/cacheinfo.h>
-> +#include <linux/of_address.h>
-> +#include <linux/of_platform.h>
-> +
-> +#include <asm/sbi.h>
-> +
-> +#include "ax45mp_sbi.h"
-> +
-> +/* L2 cache registers */
-> +#define AX45MP_L2C_REG_CTL_OFFSET              0x8
-> +#define AX45MP_L2C_IPREPETCH_OFF               3
-> +#define AX45MP_L2C_DPREPETCH_OFF               5
-> +#define AX45MP_L2C_IPREPETCH_MSK               (3 << AX45MP_L2C_IPREPETCH_OFF)
-> +#define AX45MP_L2C_DPREPETCH_MSK               (3 << AX45MP_L2C_DPREPETCH_OFF)
 
-#define AX45MP_L2C_IPREPETCH    GENMASK(4, 3)
-etc., and then you can use the FIELD_PREP() macros.
+Test Regressions
+---------------- =
 
-> +#define AX45MP_L2C_TRAMOCTL_OFF                        8
-> +#define AX45MP_L2C_TRAMICTL_OFF                        10
-> +#define AX45MP_L2C_TRAMOCTL_MSK                        (3 << AX45MP_L2C_TRAMOCTL_OFF)
-> +#define AX45MP_L2C_TRAMICTL_MSK                        BIT(AX45MP_L2C_TRAMICTL_OFF)
-> +#define AX45MP_L2C_DRAMOCTL_OFF                        11
-> +#define AX45MP_L2C_DRAMICTL_OFF                        13
-> +#define AX45MP_L2C_DRAMOCTL_MSK                        (3 << AX45MP_L2C_DRAMOCTL_OFF)
-> +#define AX45MP_L2C_DRAMICTL_MSK                        BIT(AX45MP_L2C_DRAMICTL_OFF)
 
-> +
-> +#define AX45MP_MAX_CACHE_LINE_SIZE             256
-> +
-> +#define AX45MP_MAX_PMA_REGIONS                 16
-> +
-> +struct ax45mp_priv {
-> +       void __iomem *l2c_base;
-> +       unsigned int ax45mp_cache_line_size;
-> +       bool l2cache_enabled;
-> +       bool ucctl_ok;
-> +};
-> +
-> +static struct ax45mp_priv *ax45mp_priv;
-> +static DEFINE_STATIC_KEY_FALSE(ax45mp_l2c_configured);
-> +
-> +/* PMA setup */
-> +static long ax45mp_sbi_set_pma(unsigned long start,
-> +                              unsigned long size,
-> +                              unsigned long flags,
-> +                              unsigned int entry_id)
-> +{
-> +       struct sbiret ret;
-> +
-> +       ret = sbi_ecall(SBI_EXT_ANDES, AX45MP_SBI_EXT_SET_PMA,
-> +                       start, start + size, size, entry_id,
-> +                       flags, 0);
 
-Fits on two lines.
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...G_ARM_LPAE=3Dy | 1          =
 
-> +
-> +       return ret.value;
-> +}
-> +
-> +static int ax45mp_configure_pma_regions(struct device_node *np)
-> +{
-> +       const char *propname = "andestech,pma-regions";
-> +       u64 start, size, flags;
-> +       unsigned int entry_id;
-> +       unsigned int i;
-> +       int count;
-> +       int ret;
-> +
-> +       count = of_property_count_elems_of_size(np, propname,
-> +                                               sizeof(u32) * 6);
 
-Fits on a single line.
+  Details:     https://kernelci.org/test/plan/id/63566e42351b18c0de5e5b52
 
-> +static inline uint32_t ax45mp_cpu_l2c_get_cctl_status(void)
-> +{
-> +       return readl((void *)(ax45mp_priv->l2c_base + AX45MP_L2C_REG_STATUS_OFFSET));
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-24-v6.1-rc2/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3D=
+y/gcc-10/lab-baylibre/baseline-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-24-v6.1-rc2/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3D=
+y/gcc-10/lab-baylibre/baseline-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/armel/rootfs.cpio.gz =
 
-Why the cast to "(void *)"?
 
-> +}
-> +
-> +static inline uint32_t ax45mp_cpu_l2c_ctl_status(void)
-> +{
-> +       return readl((void *)(ax45mp_priv->l2c_base + AX45MP_L2C_REG_CTL_OFFSET));
 
-Likewise.
+  * baseline.login: https://kernelci.org/test/case/id/63566e42351b18c0de5e5=
+b53
+        failing since 177 days (last pass: renesas-devel-2022-04-13-v5.18-r=
+c2, first fail: renesas-devel-2022-04-29-v5.18-rc4) =
 
-> +}
+ =
 
-> +static void ax45mp_cpu_dcache_wb_range(unsigned long start,
-> +                                      unsigned long end,
-> +                                      int line_size)
-> +{
-> +       void __iomem *base = ax45mp_priv->l2c_base;
-> +       unsigned long pa;
-> +       int mhartid = 0;
-> +#ifdef CONFIG_SMP
-> +       mhartid = smp_processor_id();
-> +#endif
-> +
-> +       while (end > start) {
-> +               if (ax45mp_priv->ucctl_ok) {
-> +                       csr_write(AX45MP_CCTL_REG_UCCTLBEGINADDR_NUM, start);
-> +                       csr_write(AX45MP_CCTL_REG_UCCTLCOMMAND_NUM, AX45MP_CCTL_L1D_VA_WB);
-> +               }
-> +
-> +               if (ax45mp_priv->l2cache_enabled) {
-> +                       pa = virt_to_phys((void *)start);
 
-Looks like start and end should be "void *" instead of " unsigned long",
-as they are virtual addresses. See also below...
 
-> +                       writel(pa, (void *)(base + AX45MP_L2C_REG_CN_ACC_OFFSET(mhartid)));
-> +                       writel(AX45MP_CCTL_L2_PA_WB,
-> +                              (void *)(base + AX45MP_L2C_REG_CN_CMD_OFFSET(mhartid)));
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
 
-Why the casts to "(void *)"?
 
-> +                       while ((ax45mp_cpu_l2c_get_cctl_status() &
-> +                               AX45MP_CCTL_L2_STATUS_CN_MASK(mhartid)) !=
-> +                               AX45MP_CCTL_L2_STATUS_IDLE)
-> +                               ;
-> +               }
-> +
-> +               start += line_size;
-> +       }
-> +}
-> +
-> +static void ax45mp_cpu_dcache_inval_range(unsigned long start,
-> +                                         unsigned long end,
-> +                                         int line_size)
-> +{
-> +       void __iomem *base = ax45mp_priv->l2c_base;
-> +       unsigned long pa;
-> +       int mhartid = 0;
-> +#ifdef CONFIG_SMP
-> +       mhartid = smp_processor_id();
-> +#endif
-> +
-> +       while (end > start) {
-> +               if (ax45mp_priv->ucctl_ok) {
-> +                       csr_write(AX45MP_CCTL_REG_UCCTLBEGINADDR_NUM, start);
-> +                       csr_write(AX45MP_CCTL_REG_UCCTLCOMMAND_NUM, AX45MP_CCTL_L1D_VA_INVAL);
-> +               }
-> +
-> +               if (ax45mp_priv->l2cache_enabled) {
-> +                       pa = virt_to_phys((void *)start);
+  Details:     https://kernelci.org/test/plan/id/63566cbd7e85e220805e5b3e
 
-Looks like start and end should be "void *" instead of " unsigned long",
-as they are virtual addresses. See also below...
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-24-v6.1-rc2/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/ba=
+seline-mt8183-kukui-jacuzzi-juniper-sku16.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-24-v6.1-rc2/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/ba=
+seline-mt8183-kukui-jacuzzi-juniper-sku16.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/arm64/rootfs.cpio.gz =
 
-> +                       writel(pa, (void *)(base + AX45MP_L2C_REG_CN_ACC_OFFSET(mhartid)));
-> +                       writel(AX45MP_CCTL_L2_PA_INVAL,
-> +                              (void *)(base + AX45MP_L2C_REG_CN_CMD_OFFSET(mhartid)));
-> +                       while ((ax45mp_cpu_l2c_get_cctl_status() &
-> +                               AX45MP_CCTL_L2_STATUS_CN_MASK(mhartid)) !=
-> +                               AX45MP_CCTL_L2_STATUS_IDLE)
-> +                               ;
-> +               }
-> +
-> +               start += line_size;
-> +       }
-> +}
-> +
-> +void ax45mp_cpu_dma_inval_range(void *vaddr, size_t size)
-> +{
-> +       char cache_buf[2][AX45MP_MAX_CACHE_LINE_SIZE] = { 0 };
 
-AX45MP_MAX_CACHE_LINE_SIZE = 256, so 512 bytes of data on the stack,
-auto-initialized by memset().
 
-Please remove the { 0 }, ...
+  * baseline.login: https://kernelci.org/test/case/id/63566cbd7e85e220805e5=
+b3f
+        failing since 69 days (last pass: renesas-devel-2022-08-11-v5.19, f=
+irst fail: renesas-devel-2022-08-16-v6.0-rc1) =
 
-> +       unsigned long start = (unsigned long)vaddr;
-> +       unsigned long end = start + size;
-> +       unsigned long old_start = start;
-> +       unsigned long old_end = end;
-> +       unsigned long line_size;
-> +       unsigned long flags;
-> +
-> +       if (static_branch_unlikely(&ax45mp_l2c_configured) && !ax45mp_priv)
-> +               return;
-> +
-> +       if (unlikely(start == end))
-> +               return;
-> +
-> +       line_size = ax45mp_priv->ax45mp_cache_line_size;
+ =
 
-... and call memset() here, so the buffer is not initialized when unused.
-Perhaps use two buffers, so you can easily memset() only the part that is
-used?
 
-> +
-> +       start = start & (~(line_size - 1));
-> +       end = ((end + line_size - 1) & (~(line_size - 1)));
 
-These are the only calculations that need to use "unsigned long"
-instead of "void *", but you can use PTR_ALIGN_DOWN() and PTR_ALIGN()
-to avoid explicit casts.
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+ox820-clouden...lug-series-3 | arm   | lab-baylibre  | gcc-10   | oxnas_v6_=
+defconfig           | 1          =
 
-> +
-> +       local_irq_save(flags);
-> +       if (unlikely(start != old_start))
-> +               memcpy(&cache_buf[0][0], (void *)start, line_size);
-> +
-> +       if (unlikely(end != old_end))
-> +               memcpy(&cache_buf[1][0], (void *)(old_end & (~(line_size - 1))), line_size);
 
-PTR_ALIGN_DOWN()
+  Details:     https://kernelci.org/test/plan/id/6356680a008a41d9c65e5b59
 
-> +
-> +       ax45mp_cpu_dcache_inval_range(start, end, line_size);
-> +
-> +       if (unlikely(start != old_start))
-> +               memcpy((void *)start, &cache_buf[0][0], (old_start & (line_size - 1)));
-> +
-> +       if (unlikely(end != old_end))
-> +               memcpy((void *)(old_end + 1),
-> +                      &cache_buf[1][(old_end & (line_size - 1)) + 1],
-> +                      end - old_end - 1);
-> +
-> +       local_irq_restore(flags);
-> +}
-> +EXPORT_SYMBOL(ax45mp_cpu_dma_inval_range);
-> +
-> +void ax45mp_cpu_dma_wb_range(void *vaddr, size_t size)
-> +{
-> +       unsigned long start = (unsigned long)vaddr;
-> +       unsigned long end = start + size;
-> +       unsigned long line_size;
-> +       unsigned long flags;
-> +
-> +       if (static_branch_unlikely(&ax45mp_l2c_configured) && !ax45mp_priv)
-> +               return;
-> +
-> +       line_size = ax45mp_priv->ax45mp_cache_line_size;
-> +       local_irq_save(flags);
-> +       start = start & (~(line_size - 1));
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: oxnas_v6_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-24-v6.1-rc2/arm/oxnas_v6_defconfig/gcc-10/lab-baylibre/baseline-ox82=
+0-cloudengines-pogoplug-series-3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-24-v6.1-rc2/arm/oxnas_v6_defconfig/gcc-10/lab-baylibre/baseline-ox82=
+0-cloudengines-pogoplug-series-3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/armel/rootfs.cpio.gz =
 
-PTR_ALIGN_DOWN() etc...
 
-> +       ax45mp_cpu_dcache_wb_range(start, end, line_size);
-> +       local_irq_restore(flags);
-> +}
-> +EXPORT_SYMBOL(ax45mp_cpu_dma_wb_range);
-> +
-> +static int ax45mp_configure_l2_cache(struct device_node *np)
-> +{
-> +       u8 ram_ctl[2];
-> +       u32 cache_ctl;
-> +       u32 prefetch;
-> +       int ret;
-> +
-> +       cache_ctl = ax45mp_cpu_l2c_ctl_status();
-> +
-> +       /* Instruction and data fetch prefetch depth */
-> +       ret = of_property_read_u32(np, "andestech,inst-prefetch", &prefetch);
-> +       if (!ret) {
-> +               cache_ctl &= ~AX45MP_L2C_IPREPETCH_MSK;
-> +               cache_ctl |= (prefetch << AX45MP_L2C_IPREPETCH_OFF);
 
-FIELD_PREP(), also below
+  * baseline.login: https://kernelci.org/test/case/id/6356680a008a41d9c65e5=
+b5a
+        failing since 6 days (last pass: renesas-devel-2022-10-04-v6.0, fir=
+st fail: renesas-devel-2022-10-17-v6.1-rc1) =
 
-> +       }
-> +
-> +       ret = of_property_read_u32(np, "andestech,data-prefetch", &prefetch);
-> +       if (!ret) {
-> +               cache_ctl &= ~AX45MP_L2C_DPREPETCH_MSK;
-> +               cache_ctl |= (prefetch << AX45MP_L2C_DPREPETCH_OFF);
+ =
 
-prefect / 2
 
-> +       }
-> +
-> +       /* tag RAM and data RAM setup and output cycle */
-> +       ret = of_property_read_u8_array(np, "andestech,tag-ram-ctl", ram_ctl, 2);
-> +       if (!ret) {
-> +               cache_ctl &= ~(AX45MP_L2C_TRAMOCTL_MSK | AX45MP_L2C_TRAMICTL_MSK);
-> +               cache_ctl |= ram_ctl[0] << AX45MP_L2C_TRAMOCTL_OFF;
-> +               cache_ctl |= ram_ctl[1] << AX45MP_L2C_TRAMICTL_OFF;
-> +       }
-> +
-> +       ret = of_property_read_u8_array(np, "andestech,data-ram-ctl", ram_ctl, 2);
-> +       if (!ret) {
-> +               cache_ctl &= ~(AX45MP_L2C_DRAMOCTL_MSK | AX45MP_L2C_DRAMICTL_MSK);
-> +               cache_ctl |= ram_ctl[0] << AX45MP_L2C_DRAMOCTL_OFF;
-> +               cache_ctl |= ram_ctl[1] << AX45MP_L2C_DRAMICTL_OFF;
-> +       }
-> +
-> +       writel(cache_ctl, ax45mp_priv->l2c_base + AX45MP_L2C_REG_CTL_OFFSET);
-> +
-> +       ret = of_property_read_u32(np, "cache-line-size", &ax45mp_priv->ax45mp_cache_line_size);
 
-According to the bindings, this must be 64?
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+qemu_mips-malta              | mips  | lab-collabora | gcc-10   | malta_def=
+config              | 1          =
 
-> +       if (ret) {
-> +               pr_err("Failed to get cache-line-size defaulting to 64 bytes\n");
-> +               ax45mp_priv->ax45mp_cache_line_size = SZ_64;
-> +       }
-> +
-> +       ax45mp_priv->ucctl_ok = ax45mp_cpu_cache_controlable();
-> +       ax45mp_priv->l2cache_enabled = ax45mp_cpu_l2c_ctl_status() & AX45MP_L2_CACHE_CTL_CEN_MASK;
-> +
-> +       return 0;
-> +}
 
-Gr{oetje,eeting}s,
+  Details:     https://kernelci.org/test/plan/id/63566a22f6d69e9bfb5e5b4f
 
-                        Geert
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: malta_defconfig
+  Compiler:    gcc-10 (mips-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-24-v6.1-rc2/mips/malta_defconfig/gcc-10/lab-collabora/baseline-qemu_=
+mips-malta.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-24-v6.1-rc2/mips/malta_defconfig/gcc-10/lab-collabora/baseline-qemu_=
+mips-malta.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/mipsel/rootfs.cpio.gz =
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+  * baseline.login: https://kernelci.org/test/case/id/63566a22f6d69e9bfb5e5=
+b50
+        new failure (last pass: renesas-devel-2022-10-17-v6.1-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 4          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63566bdd4f8f16362d5e5b9f
+
+  Results:     85 PASS, 7 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-24-v6.1-rc2/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/ba=
+seline-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-24-v6.1-rc2/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/ba=
+seline-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/case/id=
+/63566bdd4f8f16362d5e5bc5
+        failing since 229 days (last pass: renesas-devel-2022-02-28-v5.17-r=
+c6, first fail: renesas-devel-2022-03-08-v5.17-rc7)
+
+    2022-10-24T10:41:23.123516  /lava-7695206/1/../bin/lava-test-case
+    2022-10-24T10:41:23.135390  <8>[   40.705758] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Drockchip-i2s1-probed RESULT=3Dfail>   =
+
+
+  * baseline.bootrr.cros-ec-sensors-gyro0-probed: https://kernelci.org/test=
+/case/id/63566bde4f8f16362d5e5be8
+        failing since 139 days (last pass: renesas-devel-2022-05-23-v5.18, =
+first fail: renesas-devel-2022-06-06-v5.19-rc1)
+
+    2022-10-24T10:41:20.134056  /lava-7695206/1/../bin/lava-test-case   =
+
+
+  * baseline.bootrr.cros-ec-sensors-accel1-probed: https://kernelci.org/tes=
+t/case/id/63566bde4f8f16362d5e5be9
+        failing since 139 days (last pass: renesas-devel-2022-05-23-v5.18, =
+first fail: renesas-devel-2022-06-06-v5.19-rc1)
+
+    2022-10-24T10:41:18.063904  <8>[   35.633530] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dcros-ec-sensors-accel0-probed RESULT=3Dfail>
+    2022-10-24T10:41:19.095731  /lava-7695206/1/../bin/lava-test-case
+    2022-10-24T10:41:19.105290  <8>[   36.675257] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dcros-ec-sensors-accel1-probed RESULT=3Dfail>   =
+
+
+  * baseline.bootrr.cros-ec-sensors-accel0-probed: https://kernelci.org/tes=
+t/case/id/63566bde4f8f16362d5e5bea
+        failing since 139 days (last pass: renesas-devel-2022-05-23-v5.18, =
+first fail: renesas-devel-2022-06-06-v5.19-rc1)
+
+    2022-10-24T10:41:16.967887  <8>[   34.537156] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dcros-ec-sensors-driver-present RESULT=3Dpass>
+    2022-10-24T10:41:18.050410  /lava-7695206/1/../bin/lava-test-case   =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+sc7180-trogdo...zor-limozeen | arm64 | lab-collabora | gcc-10   | defconfig=
++arm...ook+videodec | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63566daaee219493835e5ba3
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook+videodec
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-24-v6.1-rc2/arm64/defconfig+arm64-chromebook+videodec/gcc-10/lab-col=
+labora/baseline-sc7180-trogdor-lazor-limozeen.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-10-24-v6.1-rc2/arm64/defconfig+arm64-chromebook+videodec/gcc-10/lab-col=
+labora/baseline-sc7180-trogdor-lazor-limozeen.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221007.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/63566daaee219493835e5=
+ba4
+        new failure (last pass: renesas-devel-2022-10-17-v6.1-rc1) =
+
+ =20
