@@ -2,72 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9449960957D
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Oct 2022 20:25:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 834B3609BF5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Oct 2022 10:00:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230353AbiJWSZ1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 23 Oct 2022 14:25:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49224 "EHLO
+        id S229936AbiJXIAs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Oct 2022 04:00:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230024AbiJWSZV (ORCPT
+        with ESMTP id S229864AbiJXIAo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 23 Oct 2022 14:25:21 -0400
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97899481FA;
-        Sun, 23 Oct 2022 11:25:17 -0700 (PDT)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 29NIOiY1031002;
-        Sun, 23 Oct 2022 13:24:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1666549484;
-        bh=9st99SOgqqJ97K4IHxXw4rse3SOpMoT1XJwiOcRMdnA=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=WW7lvUjehxsNPQSr5FaxNfwuJokggGP/iaF2FTQvKBVFQpuPn2AywnvxVlJE56kAH
-         +kS8i9E4hZk/kBEzE2g0710fyIUvd8q9kHAm3ufBIuu1xuzakyoKoPGiuWYDVEUake
-         lAJYHLBxoSsGtQ1862Rgx/fuCPNMVB0Iu4ovz8r4=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 29NIOiDC021588
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sun, 23 Oct 2022 13:24:44 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Sun, 23
- Oct 2022 13:24:44 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
- Frontend Transport; Sun, 23 Oct 2022 13:24:44 -0500
-Received: from ula0226330.dal.design.ti.com (ileaxei01-snat.itg.ti.com [10.180.69.5])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 29NIObVd042708;
-        Sun, 23 Oct 2022 13:24:43 -0500
-From:   Andrew Davis <afd@ti.com>
-To:     Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Frank Rowand <frowand.list@gmail.com>
-CC:     <devicetree@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Andrew Davis <afd@ti.com>
-Subject: [PATCH 6/6] arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
-Date:   Sun, 23 Oct 2022 13:24:37 -0500
-Message-ID: <20221023182437.15263-7-afd@ti.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221023182437.15263-1-afd@ti.com>
-References: <20221023182437.15263-1-afd@ti.com>
+        Mon, 24 Oct 2022 04:00:44 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90A433E773
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 01:00:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0757061073
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 08:00:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 630D8C433C1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 08:00:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666598442;
+        bh=+qCARg+jQKIU8YCry64+zB8dbOEwkFNRulWWeg3+1w8=;
+        h=Subject:From:Date:To:From;
+        b=fjifOrYZXtG1Qb0JK0QHlNc3kTDXkestHX6LU7xhzj+19V1RbultGJJq6Ilbiwqew
+         8d6ljwBIzpBcZdPGdekIn7zeFrxSddtwjS7tpXb3U0Bw3ApgadDCNqoi3OpgOC7LnQ
+         kBPmz6iQNeOn9DhGyWUHonNO6Xg6OnrfmB5mAeSMQcMY9fju8yJjI9fh5n2v2s0Iux
+         69v8unPjdpLO9chuJuueN079+O0VjaR/NikO2Fi3/bGKKTzZZWaefGVPaVcAfBV49G
+         6KCwtoSqBIki7zqF0GKeboXCfss3peA8MV1UfEM+YqQWEm/J0G5m7Na+rqsW4R677w
+         Wu8n7dnBxtq3g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 44AE6C4166D
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 08:00:42 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <166659844222.14311.17116209019703402868.git-patchwork-summary@kernel.org>
+Date:   Mon, 24 Oct 2022 08:00:42 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,28 +52,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-DTB Overlays (.dtbo) can now be built from source files with the
-extension (.dtso). This makes it clear the content of the file
-and differentiates them from base DTB source files.
+Hello:
 
-Convert the DTB overlay source files in the arm64/xilinx directory.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Signed-off-by: Andrew Davis <afd@ti.com>
----
- .../{zynqmp-sck-kv-g-revA.dts => zynqmp-sck-kv-g-revA.dtso}       | 0
- .../{zynqmp-sck-kv-g-revB.dts => zynqmp-sck-kv-g-revB.dtso}       | 0
- 2 files changed, 0 insertions(+), 0 deletions(-)
- rename arch/arm64/boot/dts/xilinx/{zynqmp-sck-kv-g-revA.dts => zynqmp-sck-kv-g-revA.dtso} (100%)
- rename arch/arm64/boot/dts/xilinx/{zynqmp-sck-kv-g-revB.dts => zynqmp-sck-kv-g-revB.dtso} (100%)
+Series: Rename DTB overlay source files
+  Submitter: Andrew Davis <afd@ti.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=687972
+  Lore link: https://lore.kernel.org/r/20221023182437.15263-1-afd@ti.com
+    Patches: [1/6] kbuild: Allow DTB overlays to built from .dtso named source files
+             [4/6] arm64: dts: freescale: Rename DTB overlay source files from .dts to .dtso
+             [5/6] arm64: dts: renesas: Rename DTB overlay source files from .dts to .dtso
+             [6/6] arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
 
-diff --git a/arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revA.dts b/arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revA.dtso
-similarity index 100%
-rename from arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revA.dts
-rename to arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revA.dtso
-diff --git a/arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revB.dts b/arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revB.dtso
-similarity index 100%
-rename from arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revB.dts
-rename to arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revB.dtso
+Series: arm64: dts: renesas: r8a779g0: Add remaining (H)SCIF nodes
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=687545
+  Lore link: https://lore.kernel.org/r/cover.1666361314.git.geert+renesas@glider.be
+    Patches: [v3,1/2] arm64: dts: renesas: r8a779g0: Add SCIF nodes
+             [v3,2/2] arm64: dts: renesas: r8a779g0: Add remaining HSCIF nodes
+
+
+Total patches: 6
+
 -- 
-2.37.3
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
