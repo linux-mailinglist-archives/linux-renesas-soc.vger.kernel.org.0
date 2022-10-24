@@ -2,83 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 834B3609BF5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Oct 2022 10:00:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF7C8609D8B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Oct 2022 11:11:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229936AbiJXIAs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Oct 2022 04:00:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60970 "EHLO
+        id S230426AbiJXJLj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Oct 2022 05:11:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229864AbiJXIAo (ORCPT
+        with ESMTP id S230488AbiJXJLi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Oct 2022 04:00:44 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90A433E773
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 01:00:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0757061073
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 08:00:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 630D8C433C1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 08:00:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666598442;
-        bh=+qCARg+jQKIU8YCry64+zB8dbOEwkFNRulWWeg3+1w8=;
-        h=Subject:From:Date:To:From;
-        b=fjifOrYZXtG1Qb0JK0QHlNc3kTDXkestHX6LU7xhzj+19V1RbultGJJq6Ilbiwqew
-         8d6ljwBIzpBcZdPGdekIn7zeFrxSddtwjS7tpXb3U0Bw3ApgadDCNqoi3OpgOC7LnQ
-         kBPmz6iQNeOn9DhGyWUHonNO6Xg6OnrfmB5mAeSMQcMY9fju8yJjI9fh5n2v2s0Iux
-         69v8unPjdpLO9chuJuueN079+O0VjaR/NikO2Fi3/bGKKTzZZWaefGVPaVcAfBV49G
-         6KCwtoSqBIki7zqF0GKeboXCfss3peA8MV1UfEM+YqQWEm/J0G5m7Na+rqsW4R677w
-         Wu8n7dnBxtq3g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 44AE6C4166D
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 08:00:42 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 24 Oct 2022 05:11:38 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06BCE558DC
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 02:11:34 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:1037:e7a1:b1a2:65fe])
+        by baptiste.telenet-ops.be with bizsmtp
+        id blBX2800U3Gfk6v01lBXTN; Mon, 24 Oct 2022 11:11:32 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1omtUZ-001CRu-Pc; Mon, 24 Oct 2022 11:11:31 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1omtUZ-00CzOd-7x; Mon, 24 Oct 2022 11:11:31 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/LOCAL] arm64: renesas: defconfig: Refresh for v6.1-rc1
+Date:   Mon, 24 Oct 2022 11:11:30 +0200
+Message-Id: <2757e6c714fd9ee55909dcaceaf7190f2af098d9.1666602592.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <166659844222.14311.17116209019703402868.git-patchwork-summary@kernel.org>
-Date:   Mon, 24 Oct 2022 08:00:42 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Refresh the defconfig for Renesas ARM64 systems:
+  - Disable ARM64_ERRATUM_2658417 (No Cortex-A510),
+  - Drop CONFIG_ARM64_CRYPTO=y, move CONFIG_CRYPTO_*ARM64* ((re)moved in
+    commit 4a329fecc9aaebb2 ("crypto: Kconfig - submenus for arm and
+    arm64")).
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Not intended for upstream merge.
+To be applied to the topic/renesas-defconfig branch.
 
-Series: Rename DTB overlay source files
-  Submitter: Andrew Davis <afd@ti.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=687972
-  Lore link: https://lore.kernel.org/r/20221023182437.15263-1-afd@ti.com
-    Patches: [1/6] kbuild: Allow DTB overlays to built from .dtso named source files
-             [4/6] arm64: dts: freescale: Rename DTB overlay source files from .dts to .dtso
-             [5/6] arm64: dts: renesas: Rename DTB overlay source files from .dts to .dtso
-             [6/6] arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
+ arch/arm64/configs/renesas_defconfig | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Series: arm64: dts: renesas: r8a779g0: Add remaining (H)SCIF nodes
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=687545
-  Lore link: https://lore.kernel.org/r/cover.1666361314.git.geert+renesas@glider.be
-    Patches: [v3,1/2] arm64: dts: renesas: r8a779g0: Add SCIF nodes
-             [v3,2/2] arm64: dts: renesas: r8a779g0: Add remaining HSCIF nodes
-
-
-Total patches: 6
-
+diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
+index f7a186177a20af67..5698d17b9ff9c265 100644
+--- a/arch/arm64/configs/renesas_defconfig
++++ b/arch/arm64/configs/renesas_defconfig
+@@ -30,6 +30,7 @@ CONFIG_ARCH_RENESAS=y
+ # CONFIG_ARM64_ERRATUM_1508412 is not set
+ # CONFIG_ARM64_ERRATUM_2051678 is not set
+ # CONFIG_ARM64_ERRATUM_2077057 is not set
++# CONFIG_ARM64_ERRATUM_2658417 is not set
+ # CONFIG_ARM64_ERRATUM_2054223 is not set
+ # CONFIG_ARM64_ERRATUM_2067961 is not set
+ # CONFIG_ARM64_ERRATUM_2441009 is not set
+@@ -71,12 +72,6 @@ CONFIG_CPU_FREQ=y
+ CONFIG_CPUFREQ_DT=y
+ CONFIG_VIRTUALIZATION=y
+ CONFIG_KVM=y
+-CONFIG_ARM64_CRYPTO=y
+-CONFIG_CRYPTO_SHA1_ARM64_CE=y
+-CONFIG_CRYPTO_SHA2_ARM64_CE=y
+-CONFIG_CRYPTO_GHASH_ARM64_CE=y
+-CONFIG_CRYPTO_AES_ARM64_CE_CCM=y
+-CONFIG_CRYPTO_AES_ARM64_CE_BLK=y
+ CONFIG_JUMP_LABEL=y
+ CONFIG_BLK_DEV_INTEGRITY=y
+ # CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS is not set
+@@ -405,6 +400,11 @@ CONFIG_ROOT_NFS=y
+ CONFIG_NLS_CODEPAGE_437=y
+ CONFIG_NLS_ISO8859_1=y
+ CONFIG_CRYPTO_ANSI_CPRNG=y
++CONFIG_CRYPTO_GHASH_ARM64_CE=y
++CONFIG_CRYPTO_SHA1_ARM64_CE=y
++CONFIG_CRYPTO_SHA2_ARM64_CE=y
++CONFIG_CRYPTO_AES_ARM64_CE_BLK=y
++CONFIG_CRYPTO_AES_ARM64_CE_CCM=y
+ CONFIG_CRYPTO_DEV_CCREE=y
+ CONFIG_DMA_CMA=y
+ CONFIG_CMA_SIZE_MBYTES=128
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.25.1
 
