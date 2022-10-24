@@ -2,118 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDC5060BE3C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 01:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A490660BED3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 01:43:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230525AbiJXXK4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Oct 2022 19:10:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52870 "EHLO
+        id S230381AbiJXXnm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Oct 2022 19:43:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231157AbiJXXK3 (ORCPT
+        with ESMTP id S230268AbiJXXnJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Oct 2022 19:10:29 -0400
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 637F82920DE;
-        Mon, 24 Oct 2022 14:31:37 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 06C895C003F;
-        Mon, 24 Oct 2022 16:47:25 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Mon, 24 Oct 2022 16:47:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1666644445; x=1666730845; bh=bssarCcp+y
-        bz5Owzby5mbuikPgqNGdz7c6tjuDYrQ3g=; b=NkbkhwyyD8JqPgTF3GX90T1KBu
-        yQ9e/V+AO1CLTjIi8zfuuZgeQvpaXwrxX3ya+3+OrAeyAVYdNmr/+ER8a0OZRltT
-        gtBshfPPACEOHBCVWScZexae8sa5OK+3kFWDS8K4B3EEWxyjLrxzofvUU7BQDyaT
-        L1ttZShK16j3WsJsBjSZzbUUJG8wqDH6bM0lyj4+iVFQRiMIa6GBfQuRbQWuqoPJ
-        nACfYzQR+oRqWGthATSqXV6yjH7CyjTWUlSfLIkIq+ZNPPiP/Ofbzgf09p5Krmms
-        xvZ7ssFg9cppnaZVin+3puzx5Y5sPAAoR4QKsYXch+L4FQtwwhLtyQmj8Frg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1666644445; x=1666730845; bh=bssarCcp+ybz5Owzby5mbuikPgqN
-        Gdz7c6tjuDYrQ3g=; b=drKbqYTA/JMvghcg/uGUzDqCxegdFYCtOvrnfLxKVxsL
-        YvvCToAcYe+J+FDw6gKgduCxZBDY5aqlsjNCTNyzcMaeVWGdN54Ee2uu5Qc/iINn
-        yDAakJpSu0Oabj+beUPP5mzdiWC0ajS7FxsntXwvgMQeuGThdf4JMTGwovs/WHiQ
-        y5bDGDQCpDax8fFUnbjaLlNdbAJieVj4WWwSl4s/ja9SFr+ZJ+BdHqv3Qp9A1GOB
-        Jg7yGvTECSNyR15ey/fH8E4j4QwcD6JxUrqgEJQoDkTS6ccSrEo9S44zFMC0ODqK
-        ixhR6QkVRTNR4rXGh+00xldsi6GUEOikMEeFxPUiVg==
-X-ME-Sender: <xms:3PlWY_8dsRmJoEusUvxzYpneAlbj4D0Va88JoH-QpCpEhfzlCcsO1A>
-    <xme:3PlWY7v7ZiKOPhXQSUaFWtVcHadM8SdhtRKwyYRZOSR63Jc7OX8Cm4IJFaVcrRHZZ
-    uETvbTcx2CRiykDXO8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgedgudegkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:3PlWY9CIx10DAbClCvAaaTKzMKfdX3FYjdeR1Le5MNK-QKmc5-QUEg>
-    <xmx:3PlWY7eMg_ctgRs8qmbJdIMKJhJlN5RjEG9erEWUWCIohDToyFvgjA>
-    <xmx:3PlWY0MYZzo6cj_FYlLaDQ_d2nFYY3lbeOWhMkX4XADrN03uytQCkw>
-    <xmx:3flWY1FBIFFnkCiZjIK7VUixKdIKbF9oyYYYnwyvqR_F1hN2K0ZZhw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id F3B47B60086; Mon, 24 Oct 2022 16:47:23 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
-Mime-Version: 1.0
-Message-Id: <3df2007f-acd2-4cd1-8f96-8ebd6070770a@app.fastmail.com>
-In-Reply-To: <CAMuHMdWbkro70fmyauUnEPyKZYytWD0o4a06=UzDTzCZ9-B6vw@mail.gmail.com>
-References: <20221019083518.933070-3-yoshihiro.shimoda.uh@renesas.com>
- <202210191806.RZK10y3x-lkp@intel.com>
- <CAMuHMdXBT2cEqfy00u+0VB=cRUAtrgH9LD26gXgavdvmQyN+pQ@mail.gmail.com>
- <d7c9b9b4-4ee8-4754-b32f-e3205daf47b3@app.fastmail.com>
- <CAMuHMdWbkro70fmyauUnEPyKZYytWD0o4a06=UzDTzCZ9-B6vw@mail.gmail.com>
-Date:   Mon, 24 Oct 2022 22:47:02 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Geert Uytterhoeven" <geert@linux-m68k.org>
-Cc:     "kernel test robot" <lkp@intel.com>,
-        "Yoshihiro Shimoda" <yoshihiro.shimoda.uh@renesas.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Eric Dumazet" <edumazet@google.com>,
-        "Jakub Kicinski" <kuba@kernel.org>,
-        "Paolo Abeni" <pabeni@redhat.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        krzysztof.kozlowski+dt@linaro.org, kbuild-all@lists.01.org,
-        Netdev <netdev@vger.kernel.org>, devicetree@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v4 2/3] net: ethernet: renesas: Add Ethernet Switch driver
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 24 Oct 2022 19:43:09 -0400
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B1F3303A89;
+        Mon, 24 Oct 2022 15:01:44 -0700 (PDT)
+Received: by mail-io1-xd34.google.com with SMTP id 137so8875332iou.9;
+        Mon, 24 Oct 2022 15:01:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iCVvqcbtryqkba55ajfW30/hhAqAey3voyUhIcczG7M=;
+        b=k/yMzxKN4O9CuIG2TeoPuCZX8tR28S/zIO/DMm9skNax/0ZGiRi3KnqAxfvVdhxQgd
+         mfM77go/T9zPJ2m+Ah0m29PXxfzHUsj0pKFSqmEQpkfbix6x3255hbO0kH3qE36fDa9a
+         9bGE5miMjx7uL3w+6JKd9R3w6MYBXIyvW+naaJ1GI5vov+gafXo9iZIyhRZuTB6J0azk
+         e8yQx3qqmKQDMg1ybvER2wdbCoNMr/TYcjuB77FBzWnl8TWzhynSNfv2hF8FgzxZF/EL
+         1dLEXNs76kqJ8lOhPB/Zykm3NmnxRJQpW684o5ppGAKuQS3QrfV6p35vHapqq26aTp1I
+         EB/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iCVvqcbtryqkba55ajfW30/hhAqAey3voyUhIcczG7M=;
+        b=lPKJz+qXBVBOdZoK+JAptx+9xxtd59ELi0AalMYQczqaNS/vwFjMGK2mCYFEYPAWAI
+         vGSTDdf/U2TYEyusldrJOlRgH2y0RN3e+/3f09jEXcZcNF04xTXD0PoVr2r3XT3OUFW3
+         qvt8yhp9b22ZWpWDx6qOuEcuxkfGDvoewLchyDf7ls7tV3ONMfaOh0RIiiVc+a8m/YG9
+         SCXibJrw+y3IObVjPYnVhuhXbwkczmQVG3xaDtG7dcm3ZLkgUko7RUWgPThKTwf8pYlt
+         pLVuEKfega5Xntmm8UsC3k77wpb8vOAteKELMYwh7IxLe0BseynYgbY9XUIvHiXHGLar
+         gYDQ==
+X-Gm-Message-State: ACrzQf0Bltfmj9SH1b0WS6YEHi5Zb8c2+xNnH33RnvCNwp4zfsBqnmEc
+        okVJ/WhvRibtt+kXFpGFJ3U=
+X-Google-Smtp-Source: AMsMyM4c7c0r3zBwwZ7I7IPHzKNxH3p9ZAkVLOPu5ptxF2+B6ZMa4GlxQWLzQae7hJt8jjF5atZehw==
+X-Received: by 2002:a02:a487:0:b0:363:fc40:edf5 with SMTP id d7-20020a02a487000000b00363fc40edf5mr22740252jam.233.1666648900481;
+        Mon, 24 Oct 2022 15:01:40 -0700 (PDT)
+Received: from ?IPV6:2600:1700:2442:6db0:b8cc:2162:7a0f:fd4b? ([2600:1700:2442:6db0:b8cc:2162:7a0f:fd4b])
+        by smtp.gmail.com with ESMTPSA id v2-20020a056602058200b006bcbe33eca6sm362168iox.14.2022.10.24.15.01.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Oct 2022 15:01:39 -0700 (PDT)
+Message-ID: <8cc34d10-a087-5ccf-ec0e-df87ff0d95f9@gmail.com>
+Date:   Mon, 24 Oct 2022 17:01:38 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 1/7] kbuild: Allow DTB overlays to built from .dtso
+ named source files
+Content-Language: en-US
+To:     Andrew Davis <afd@ti.com>, Shawn Guo <shawnguo@kernel.org>,
+        Li Yang <leoyang.li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20221024173434.32518-1-afd@ti.com>
+ <20221024173434.32518-2-afd@ti.com>
+From:   Frank Rowand <frowand.list@gmail.com>
+In-Reply-To: <20221024173434.32518-2-afd@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 24, 2022, at 22:35, Geert Uytterhoeven wrote:
+On 10/24/22 12:34, Andrew Davis wrote:
+> Currently DTB Overlays (.dtbo) are build from source files with the same
+> extension (.dts) as the base DTs (.dtb). This may become confusing and
+> even lead to wrong results. For example, a composite DTB (created from a
+> base DTB and a set of overlays) might have the same name as one of the
+> overlays that create it.
+> 
+> Different files should be generated from differently named sources.
+>  .dtb  <-> .dts
+>  .dtbo <-> .dtso
+> 
+> We do not remove the ability to compile DTBO files from .dts files here,
+> only add a new rule allowing the .dtso file name. The current .dts named
+> overlays can be renamed with time. After all have been renamed we can
+> remove the other rule.
+> 
+> Signed-off-by: Andrew Davis <afd@ti.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
 
->>
->> Regardless of which way this is expressed, it looked like there is
->> a missing __le32_to_cpu() around the high word.
->
-> I think it's OK, because desc->dptrh is u8:
->
->     struct rswitch_desc {
->             __le16 info_ds; /* Descriptor size */
->             u8 die_dt;      /* Descriptor interrupt enable and type */
->             __u8  dptrh;    /* Descriptor pointer MSB */
->             __le32 dptrl;   /* Descriptor pointer LSW */
->     } __packed;
+Reviewed-by: Frank Rowand <frowand.list@gmail.com>
+Tested-by: Frank Rowand <frowand.list@gmail.com>
 
-Right, that makes sense. On a completely unrelated note, you might
-want to remove the __packed annotation though, as the compiler
-might otherwise use bytewise access to the dptrl field instead of
-a word access, which would cause some overhead in case this is
-in uncached memory.
+-Frank
 
-       Arnd
+
+>  scripts/Makefile.lib | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 3aa384cec76b8..0376a6f18bfb1 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -408,6 +408,9 @@ $(obj)/%.dtb: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
+>  $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
+>  	$(call if_changed_dep,dtc)
+>  
+> +$(obj)/%.dtbo: $(src)/%.dtso $(DTC) FORCE
+> +	$(call if_changed_dep,dtc)
+> +
+>  dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
+>  
+>  # Bzip2
+
