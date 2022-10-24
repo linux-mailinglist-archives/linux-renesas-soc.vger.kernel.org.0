@@ -2,137 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 19CC260BD40
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 00:19:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81D8860BD51
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 00:24:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231124AbiJXWTl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Oct 2022 18:19:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51230 "EHLO
+        id S230156AbiJXWYY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Oct 2022 18:24:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232136AbiJXWTY (ORCPT
+        with ESMTP id S229520AbiJXWXx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Oct 2022 18:19:24 -0400
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D5C030F9DD;
-        Mon, 24 Oct 2022 13:36:49 -0700 (PDT)
-Received: by mail-qk1-f176.google.com with SMTP id a18so6872702qko.0;
-        Mon, 24 Oct 2022 13:36:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yYxFT6Ykd1Wr0+ICysK5Xd7jISrpDQ+r635XImWlzf0=;
-        b=QEjw10dykjyDM543pBxA1qhz9xttlulerWDCp4NT2P0O9Di4sspd5BAaBrMDAuxzr8
-         OBlObuvcjC9B/A8Ht3XDnV3XrCIhHtoopyu7BxXAPeao59mX1Zol/NRXNiX/jDRg3spV
-         qWtsjKSPMSRWX7QHLnMJfE9Zvs0zvfP+AyVVnqcMwIUVinofsz+2y12HvZlSziBRq3pT
-         a//Kv+9kyZmUkL07tMI21f69PnyxomnKopoO8EjW8dsjiKgPbjhmvJsSMfbjmO79chYX
-         L2q+JANHQfvqDPZzPVF7tIQxyeuytAmbFGs1VoKBFPcpAxWWjnBgnd3qKR7NS39fHkAN
-         gDuQ==
-X-Gm-Message-State: ACrzQf01FUQXkf3/snR5HI417+AxUBIY4AnU7XLP5Xe5u97zTE2UavDD
-        QuqBCq2deGgYgYCx3UHii6vgIWiu8U2yJg==
-X-Google-Smtp-Source: AMsMyM6BVlxBodu2isqZi/nHNp+DBjZA6YEAeJAuVLCM10/VOKf1TYiSs/Sa0Qvdk4qHUi5dS9qT3Q==
-X-Received: by 2002:a05:620a:240f:b0:6ec:ffd0:22a4 with SMTP id d15-20020a05620a240f00b006ecffd022a4mr24568272qkn.523.1666643753277;
-        Mon, 24 Oct 2022 13:35:53 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id v14-20020a05622a188e00b0039a8b075248sm545400qtc.14.2022.10.24.13.35.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Oct 2022 13:35:52 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 187so3223130ybe.1;
-        Mon, 24 Oct 2022 13:35:51 -0700 (PDT)
-X-Received: by 2002:a25:d24a:0:b0:6ca:4a7a:75cd with SMTP id
- j71-20020a25d24a000000b006ca4a7a75cdmr20186708ybg.89.1666643750729; Mon, 24
- Oct 2022 13:35:50 -0700 (PDT)
+        Mon, 24 Oct 2022 18:23:53 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 965E6B600D
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Oct 2022 13:44:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666644274; x=1698180274;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=HGKHVWYLVyX5GDWwu8zkJdxXgR2TyyvR5uxquxzTVA0=;
+  b=TNgq9Wi6gNg6SMbWwKl4luCMVyAWhRCYMZ5sbrebmiXvbJ5mVrU7+eZL
+   2ligoapOnWBAqzaLi8p+MKI0YEIeaqnPbANy7aSt0jTZO5AOOMMVeLTsU
+   s3n7IGUctI89UoFAyEwZPE5xq+owt3T9h21B01Sqfhg+e4FXmjL2uIIUI
+   AAGbzhI0rLoKJshXvIWGhVtveAOacAusP10TkjDd5VHJG12yLWYkrYQC6
+   RV2vHmtG8Nen3WvSdBAgGHBftYoQE0lHqhwT0cQ4T2bxl4uPjziw2FJpN
+   DPsQQE+56gsOnoqpzYQ8PCYbhWu1lpZCsgFbGF7aw5+Tt8z9gef9+AVB6
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="307508412"
+X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; 
+   d="scan'208";a="307508412"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 13:40:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="582535452"
+X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; 
+   d="scan'208";a="582535452"
+Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 24 Oct 2022 13:40:49 -0700
+Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1on4Fc-0005dW-37;
+        Mon, 24 Oct 2022 20:40:48 +0000
+Date:   Tue, 25 Oct 2022 04:40:30 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-arm-dt-for-v6.2] BUILD SUCCESS
+ 39d9dfc6fbe1860e2ee7f72edd2582a071c90b20
+Message-ID: <6356f83e.ifXmvnGh/jXa1m8Q%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20221019083518.933070-3-yoshihiro.shimoda.uh@renesas.com>
- <202210191806.RZK10y3x-lkp@intel.com> <CAMuHMdXBT2cEqfy00u+0VB=cRUAtrgH9LD26gXgavdvmQyN+pQ@mail.gmail.com>
- <d7c9b9b4-4ee8-4754-b32f-e3205daf47b3@app.fastmail.com>
-In-Reply-To: <d7c9b9b4-4ee8-4754-b32f-e3205daf47b3@app.fastmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 24 Oct 2022 22:35:39 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWbkro70fmyauUnEPyKZYytWD0o4a06=UzDTzCZ9-B6vw@mail.gmail.com>
-Message-ID: <CAMuHMdWbkro70fmyauUnEPyKZYytWD0o4a06=UzDTzCZ9-B6vw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] net: ethernet: renesas: Add Ethernet Switch driver
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     kernel test robot <lkp@intel.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        krzysztof.kozlowski+dt@linaro.org, kbuild-all@lists.01.org,
-        Netdev <netdev@vger.kernel.org>, devicetree@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Arnd,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v6.2
+branch HEAD: 39d9dfc6fbe1860e2ee7f72edd2582a071c90b20  arm64: dts: renesas: r8a779g0: Add remaining HSCIF nodes
 
-On Mon, Oct 24, 2022 at 9:55 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> On Mon, Oct 24, 2022, at 17:27, Geert Uytterhoeven wrote:
-> > On Wed, Oct 19, 2022 at 1:17 PM kernel test robot <lkp@intel.com> wrote:
-> >>    drivers/net/ethernet/renesas/rswitch.c: In function 'rswitch_ext_desc_get_dptr':
-> >> >> drivers/net/ethernet/renesas/rswitch.c:355:71: warning: left shift count >= width of type [-Wshift-count-overflow]
-> >>      355 |         return __le32_to_cpu(desc->dptrl) | (dma_addr_t)(desc->dptrh) << 32;
-> >>          |                                                                       ^~
-> >>    drivers/net/ethernet/renesas/rswitch.c: In function 'rswitch_ext_ts_desc_get_dptr':
-> >>    drivers/net/ethernet/renesas/rswitch.c:367:71: warning: left shift count >= width of type [-Wshift-count-overflow]
-> >>      367 |         return __le32_to_cpu(desc->dptrl) | (dma_addr_t)(desc->dptrh) << 32;
-> >>          |                                                                       ^~
-> >>
-> >>
-> >> vim +355 drivers/net/ethernet/renesas/rswitch.c
-> >>
-> >>    352
-> >>    353  static dma_addr_t rswitch_ext_desc_get_dptr(struct rswitch_ext_desc *desc)
-> >>    354  {
-> >>  > 355          return __le32_to_cpu(desc->dptrl) | (dma_addr_t)(desc->dptrh) << 32;
-> >
-> > A simple fix would be to replace the cast to "dma_addr_t" by a cast to "u64".
-> > A more convoluted fix would be:
-> >
-> >     dma_addr_t dma;
-> >
-> >     dma = __le32_to_cpu(desc->dptrl);
-> >     if (IS_ENABLED(CONFIG_ARCH_DMA_ADDR_T_64BIT))
-> >             dma |= (u64)desc->dptrh << 32;
-> >     return dma;
-> >
-> > Looking at the gcc compiler output, the both cases are optimized to the
-> > exact same code, for both arm32 and arm64, so I'd go for the simple fix.
-> >
-> > BTW, if struct rswitch_ext_desc would just extend struct rswitch_desc,
-> > you could use rswitch_ext_desc_get_dptr() for both.
-> >
->
-> Regardless of which way this is expressed, it looked like there is
-> a missing __le32_to_cpu() around the high word.
+elapsed time: 727m
 
-I think it's OK, because desc->dptrh is u8:
+configs tested: 98
+configs skipped: 118
 
-    struct rswitch_desc {
-            __le16 info_ds; /* Descriptor size */
-            u8 die_dt;      /* Descriptor interrupt enable and type */
-            __u8  dptrh;    /* Descriptor pointer MSB */
-            __le32 dptrl;   /* Descriptor pointer LSW */
-    } __packed;
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Gr{oetje,eeting}s,
+gcc tested configs:
+arm64                            allyesconfig
+powerpc                           allnoconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+sh                               allmodconfig
+ia64                             allmodconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+arm                                 defconfig
+arm                              allyesconfig
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+arc                  randconfig-r043-20221023
+arc                  randconfig-r043-20221024
+s390                 randconfig-r044-20221024
+riscv                randconfig-r042-20221024
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+x86_64                           rhel-8.3-kvm
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
+i386                 randconfig-a011-20221024
+i386                 randconfig-a014-20221024
+i386                 randconfig-a015-20221024
+i386                 randconfig-a016-20221024
+i386                 randconfig-a012-20221024
+i386                 randconfig-a013-20221024
+i386                             allyesconfig
+i386                                defconfig
+x86_64               randconfig-k001-20221024
+mips                        bcm47xx_defconfig
+powerpc                       eiger_defconfig
+i386                             alldefconfig
+mips                           jazz_defconfig
+sh                           se7206_defconfig
+powerpc                   motionpro_defconfig
+sh                        sh7757lcr_defconfig
+powerpc                        cell_defconfig
+loongarch                        alldefconfig
+sh                          polaris_defconfig
+powerpc                 mpc8540_ads_defconfig
+arc                      axs103_smp_defconfig
+s390                                defconfig
+s390                             allmodconfig
+arc                                 defconfig
+alpha                               defconfig
+s390                             allyesconfig
+x86_64               randconfig-a014-20221024
+x86_64               randconfig-a015-20221024
+x86_64               randconfig-a016-20221024
+x86_64               randconfig-a013-20221024
+x86_64               randconfig-a012-20221024
+x86_64               randconfig-a011-20221024
+sparc64                             defconfig
+sh                          sdk7786_defconfig
+powerpc                      tqm8xx_defconfig
+csky                             alldefconfig
+powerpc                 mpc837x_rdb_defconfig
+openrisc                            defconfig
+arm                        mini2440_defconfig
+parisc                generic-64bit_defconfig
+sh                           se7712_defconfig
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+powerpc                     tqm8555_defconfig
+sh                          lboxre2_defconfig
+i386                 randconfig-c001-20221024
 
-                        Geert
+clang tested configs:
+x86_64               randconfig-a005-20221024
+x86_64               randconfig-a002-20221024
+x86_64               randconfig-a006-20221024
+x86_64               randconfig-a001-20221024
+x86_64               randconfig-a004-20221024
+x86_64               randconfig-a003-20221024
+powerpc                  mpc885_ads_defconfig
+mips                           rs90_defconfig
+i386                 randconfig-a004-20221024
+i386                 randconfig-a006-20221024
+i386                 randconfig-a002-20221024
+i386                 randconfig-a003-20221024
+i386                 randconfig-a001-20221024
+i386                 randconfig-a005-20221024
+s390                 randconfig-r044-20221023
+hexagon              randconfig-r041-20221023
+riscv                randconfig-r042-20221023
+hexagon              randconfig-r045-20221023
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+arm                        mvebu_v5_defconfig
+powerpc                 mpc832x_mds_defconfig
+arm                        multi_v5_defconfig
+arm                       spear13xx_defconfig
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
