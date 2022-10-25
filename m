@@ -2,92 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED7DF60C462
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 08:57:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF74A60C622
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 10:13:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231432AbiJYG5n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Oct 2022 02:57:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55736 "EHLO
+        id S232142AbiJYIN1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Oct 2022 04:13:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231469AbiJYG52 (ORCPT
+        with ESMTP id S231248AbiJYIN0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Oct 2022 02:57:28 -0400
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 087E162C3;
-        Mon, 24 Oct 2022 23:57:26 -0700 (PDT)
-Received: by mail-qt1-f178.google.com with SMTP id w3so6979576qtv.9;
-        Mon, 24 Oct 2022 23:57:25 -0700 (PDT)
+        Tue, 25 Oct 2022 04:13:26 -0400
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAC7EEF59E;
+        Tue, 25 Oct 2022 01:13:25 -0700 (PDT)
+Received: by mail-qk1-f182.google.com with SMTP id l9so5031466qkk.11;
+        Tue, 25 Oct 2022 01:13:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3QYintIKLSO/5/dPNaNKqiylY6TQ4PQK7lYP/tlZYSw=;
-        b=IELxruD5ijyoHHjG0ysg8Cru3TMpzNoRDagQq3xYVFiZ15Uzi76LYtl94KVL6QYOtn
-         fiEassSflgAMuZVnAlY6jnpEW6XHNF6Zm2QGqQONsU6o8jj/3A9pCHuDMmcjhSs/0jiy
-         /wjyNX+acELrfIrzrvlYo/Xl/cJjK8w847kq9mHQ7WyOTNvx2SOn5Kuv+Tetg5KAEn3n
-         2I5ihMfpwGDRmmwDZEOnJ4PoWHwpt9hdXJTJ63PXPCOs/nogtkjxeP2Vp6eLdlOOpH75
-         uMiw3rMwTo3p+a7P50i374thEllvRS//8FHpdHkQaPWNv4mveoSNKoCIzki0Yz9LI/hl
-         U0aA==
-X-Gm-Message-State: ACrzQf0oped5oIKvoBV/n072oFJ6u8x8Omz1AJPWPjTByVua4hcfl/YI
-        3QGokIn1P13WTrum/qLX8QLw0m52G8BKZg==
-X-Google-Smtp-Source: AMsMyM7DXI8LKKrba+CS3zADWP6A05C7Zv2sSIPE5eSjgpzaHMKcgzn7pFXO8KVcYzlZF3w2LNZw6Q==
-X-Received: by 2002:ac8:7e96:0:b0:39c:d833:e8c3 with SMTP id w22-20020ac87e96000000b0039cd833e8c3mr30699526qtj.303.1666681044738;
-        Mon, 24 Oct 2022 23:57:24 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id bi24-20020a05620a319800b006eeca296c00sm1548652qkb.104.2022.10.24.23.57.23
+        bh=PtQY6npOwzdAaof0U9/1BSiKAWT8zlsAxOmGaO2LJJU=;
+        b=AvXnRsGDKOxy5AqK3Ijm7nbYO8iMN/1LNoV33RpqErb+ZHwBCbLVC8AbgV7Y19UL2Q
+         aqGNnddQw7tQF+5WvCA4Nsxkc9oNvXYTUJMJEmlAx2mHVty42p+cZ2b00HskS12V0JSw
+         Y6MAv1qkEIKAyL2K4F113Nc8PIrZPi6cVkJI5+xtfncCY1peGXNae0XM1LUDSvCZrhn6
+         4Z/khKuq2cbiDA0CtmSoGaeVUDUznbfAz3aUxxN763M41+aKtSyRDo3Cet7rufF8TsDo
+         EZb3ViT8YYdWTY4cj6K/Oo0G6TL6JeyvLMrcWTi7HEWRDXvsSG7UXAaEC8OTUZ5z8ohA
+         5o6Q==
+X-Gm-Message-State: ACrzQf1lrlCOcxMW0izo/sZFRNb65/VJxOrk2mqdEOZ43AvTYHHBqX5A
+        qnyKjSb/8S4SPJYTlbOn955AbypsvbyQVA==
+X-Google-Smtp-Source: AMsMyM5iweyC604cUhRZST7up1PaoYKREGcaguAShjygJaiQCRDb+XZGnpJUnnfH0ywlzjHqvVsIQg==
+X-Received: by 2002:a05:620a:2686:b0:6f5:723e:6316 with SMTP id c6-20020a05620a268600b006f5723e6316mr6249327qkp.103.1666685604844;
+        Tue, 25 Oct 2022 01:13:24 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id cm21-20020a05622a251500b0039c72bb51f3sm1215273qtb.86.2022.10.25.01.13.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Oct 2022 23:57:24 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id f205so13544456yba.2;
-        Mon, 24 Oct 2022 23:57:23 -0700 (PDT)
-X-Received: by 2002:a25:26c1:0:b0:6c3:bdae:c6d6 with SMTP id
- m184-20020a2526c1000000b006c3bdaec6d6mr34190989ybm.36.1666681043700; Mon, 24
- Oct 2022 23:57:23 -0700 (PDT)
+        Tue, 25 Oct 2022 01:13:24 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-36847dfc5ccso107245067b3.0;
+        Tue, 25 Oct 2022 01:13:24 -0700 (PDT)
+X-Received: by 2002:a81:1b09:0:b0:35d:cf91:aadc with SMTP id
+ b9-20020a811b09000000b0035dcf91aadcmr32638191ywb.47.1666685604020; Tue, 25
+ Oct 2022 01:13:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221024173434.32518-1-afd@ti.com> <20221024173434.32518-8-afd@ti.com>
-In-Reply-To: <20221024173434.32518-8-afd@ti.com>
+References: <20220915165256.352843-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220915165256.352843-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220915165256.352843-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Oct 2022 08:57:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWrL1U7qOM+qOCa6-YhdJEe_5bCCDnXp_Fx3_6eDgkkSA@mail.gmail.com>
-Message-ID: <CAMuHMdWrL1U7qOM+qOCa6-YhdJEe_5bCCDnXp_Fx3_6eDgkkSA@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] staging: pi433: overlay: Rename overlay source
- file from .dts to .dtso
-To:     Andrew Davis <afd@ti.com>
-Cc:     Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
+Date:   Tue, 25 Oct 2022 10:13:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVJ4gp=kT2S+5bhjdZACSbEX=3pP7mmmi_GEbeAOxtHGw@mail.gmail.com>
+Message-ID: <CAMuHMdVJ4gp=kT2S+5bhjdZACSbEX=3pP7mmmi_GEbeAOxtHGw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: rzg2ul-smarc: Add
+ /omit-if-no-ref/ to pinmux
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 24, 2022 at 7:34 PM Andrew Davis <afd@ti.com> wrote:
-> DTB Overlays (.dtbo) can now be built from source files with the
-> extension (.dtso). This makes it clear what is the content of the files
-> and differentiates them from base DTB source files.
->
-> Rename the pi433-overlay.dts file to pi433-overlay.dtso and update
-> the information file pi433.txt for the same.
->
-> Signed-off-by: Andrew Davis <afd@ti.com>
+Hi Prabhakar,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Thu, Sep 15, 2022 at 6:53 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> In preparation to re-use the RZ/G2UL SMARC SoM and carrier DTS/I with the
+> RZ/Five add /omit-if-no-ref/ keyword to pinmux entries as the support for
+> RZ/Five SMARC EVK will be gradually added.
+>
+> Once we have full blown support for RZ/Five SMARC EVK we can get rid of
+> the /omit-if-no-ref/ keyword.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Thanks for your patch!
+
+I finally had a deeper look at this...
+
+Why do you want to disable these nodes? While they are indeed not
+used yet on RZ/Five, they are valid hardware descriptions for the
+RZ/Five SMARC EVK, and their presence doesn't harm anything.
+
+I do see a valid use case for marking pin control subnodes with
+/omit-if-no-ref/: you can provide all possible configurations as a
+convenience for the user, so the user no longer has to look up the
+numeric parameters of the RZG2L_PORT_PINMUX() macros.
+But IMHO those would belong in the SoC-specific .dtsi, not in a
+board .dtsi.  See e.g. the massive use of /omit-if-no-ref/ in sunxi
+and rockchip .dtsi files.
+
+Am I missing something?
+
+> --- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi
+> @@ -12,12 +12,14 @@ &pinctrl {
+>         pinctrl-0 = <&sound_clk_pins>;
+                        ^^^^^^^^^^^^^^
+>         pinctrl-names = "default";
+>
+> +       /omit-if-no-ref/
+>         can0_pins: can0 {
+>                 pinmux = <RZG2L_PORT_PINMUX(1, 1, 3)>, /* TX */
+>                          <RZG2L_PORT_PINMUX(1, 2, 3)>; /* RX */
+>         };
+>
+>  #if (SW_ET0_EN_N)
+> +       /omit-if-no-ref/
+>         can0-stb-hog {
+>                 gpio-hog;
+>                 gpios = <RZG2L_GPIO(2, 2) GPIO_ACTIVE_HIGH>;
+
+> @@ -94,11 +103,13 @@ sd1_mux_uhs {
+>                 };
+>         };
+>
+> +       /omit-if-no-ref/
+>         sound_clk_pins: sound_clk {
+
+FTR, this one is always referenced.
+
+>                 pins = "AUDIO_CLK1", "AUDIO_CLK2";
+>                 input-enable;
+>         };
 
 Gr{oetje,eeting}s,
 
