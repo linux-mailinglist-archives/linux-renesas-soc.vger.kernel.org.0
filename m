@@ -2,77 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC24E60D16A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 18:15:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A11F60D2B5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 19:45:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233148AbiJYQPc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Oct 2022 12:15:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32778 "EHLO
+        id S231688AbiJYRpL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Oct 2022 13:45:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233146AbiJYQPb (ORCPT
+        with ESMTP id S232292AbiJYRpK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Oct 2022 12:15:31 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 128DD36BC1;
-        Tue, 25 Oct 2022 09:15:30 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id kt23so8306986ejc.7;
-        Tue, 25 Oct 2022 09:15:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=C6UbVAonXzXEF4tPDCKPCg7WA+lFJIW3l1l+LGaIaaE=;
-        b=RjpvOL7MSyyleyOkn8duD/qRqvUDoc6ReK96YgdY5m0G5KbDzB58n9ZiozO5uLkYzl
-         WGKrhs3fXBqlLFh2WalirQ+LuFXGXrw0T65oKEfXNv6vKU6fdrvf5mkPLCnqYg4GG9AD
-         zl3lgzL9PGDRBLuN1Dz3NdxNQIuTw1Zdb4eAtSKWLAcAUqVenhNFXJkDG3Td3vkrZqkI
-         +ZUIotgvcfu2D+YHA7WPGU+B7km+CGQsyfDuY5jkALCn7i7b67de2tO4HitSy7IBPvIX
-         YpEu8r8wj5RIoAkggInn9ZfemMGg677A4W2Dypf5py66SRM96J7/lypK2wDBhB9YQCyl
-         lMKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C6UbVAonXzXEF4tPDCKPCg7WA+lFJIW3l1l+LGaIaaE=;
-        b=I4IsfHvPvWgKa/Ca59zOMTBU3dInXsN18nAbVGsaxgun1ZyF1TBOItU1vtWcm8qC5m
-         98+/U+wo1hJTIThBmxdar4AamyiGId24iM0OIBj6YAUaCdzFglJBV2SdOmMYGSDFSnzx
-         ztrgweRrOPixrmthL3LNHhqDEDN2skkCVrHKUcijnh0FXcLA4Q6TiKu5nHjEpDmjkdeh
-         xYpOyeMtSjt5q1OeiVQfYkD/rYL0BXvpgZz3dkxSirp2AJqXZ4YHdzmYRA7wefvwFlnd
-         778szuw0BKhipYV/xnIyV4KSaEQq5X9fKWWNrlz1PIoH5q33Ush89ZTiCcDblar4kpHr
-         WsQg==
-X-Gm-Message-State: ACrzQf0ZCiciN/WpoS+p0iWUhKL6Mf4onJ9QCGqm3gdZ6MdhzmivQTwE
-        OZFsCoRUFimJ8vszqREJMkQpmc9zzPoIT/eXfnw=
-X-Google-Smtp-Source: AMsMyM6vy+HKe105A0nfDnGKP7UgYHtFcSSQKGQ0dQB7bPXBOvkwm8XyyCyR6qhyWVIACh56BdQUdBIdPqCHtiZCRtc=
-X-Received: by 2002:a17:906:5a4b:b0:78d:4e5a:d101 with SMTP id
- my11-20020a1709065a4b00b0078d4e5ad101mr32495249ejc.196.1666714528655; Tue, 25
- Oct 2022 09:15:28 -0700 (PDT)
+        Tue, 25 Oct 2022 13:45:10 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CC517D1E2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Oct 2022 10:45:07 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1onNyj-00083L-TA; Tue, 25 Oct 2022 19:44:41 +0200
+Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id F10BF109A5E;
+        Tue, 25 Oct 2022 17:44:37 +0000 (UTC)
+Date:   Tue, 25 Oct 2022 19:44:34 +0200
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        Stefan =?utf-8?B?TcOkdGpl?= <stefan.maetje@esd.eu>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Rob Herring <robh@kernel.org>,
+        "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: RE: [PATCH 1/3] can: rcar_canfd: Fix IRQ storm on global fifo
+ receive
+Message-ID: <20221025174434.cjrbpobb7st2hn5c@pengutronix.de>
+References: <20221022081503.1051257-1-biju.das.jz@bp.renesas.com>
+ <20221022081503.1051257-2-biju.das.jz@bp.renesas.com>
+ <20221024153726.72avg6xbgzwyboms@pengutronix.de>
+ <20221024155342.bz2opygr62253646@pengutronix.de>
+ <OS0PR01MB5922B66F44AEF91CDCED8374862E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20221024180708.5zfti5whtpfowk5c@pengutronix.de>
+ <OS0PR01MB59224B2AE8F84B961D2A061C862E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB59221FB0C29220B7D4794CEE86319@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-References: <20221017091201.199457-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXcHWaUS3rq=3bQOeax1Vig4R1MpG8dDHbe5TDjkVYx0Q@mail.gmail.com>
-In-Reply-To: <CAMuHMdXcHWaUS3rq=3bQOeax1Vig4R1MpG8dDHbe5TDjkVYx0Q@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 25 Oct 2022 17:15:02 +0100
-Message-ID: <CA+V-a8vGW9Vngo+Rs2=v=c6Q-iCxqh9DR=TT2i1K1-cRTza25A@mail.gmail.com>
-Subject: Re: [RFC RESEND PATCH 0/2] RZ/G2UL separate out SoC specific parts
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        soc@kernel.org, linux-arm-kernel@lists.infradead.org,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-riscv@lists.infradead.org,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Samuel Holland <samuel@sholland.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="prc4fzu7ja2ebda3"
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB59221FB0C29220B7D4794CEE86319@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,52 +76,66 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert.
 
-Thank you for the review.
+--prc4fzu7ja2ebda3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 25, 2022 at 1:42 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> (now replying to the latest version)
->
-> On Mon, Oct 17, 2022 at 11:12 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > This patch series aims to split up the RZ/G2UL SoC DTSI into common parts
-> > so that this can be shared with the RZ/Five SoC.
-> >
-> > Implementation is based on the discussion [0] where I have used option#2.
-> >
-> > The Renesas RZ/G2UL (ARM64) and RZ/Five (RISC-V) have almost the same
-> > identical blocks to avoid duplication a base SoC dtsi (r9a07g043.dtsi) is
-> > created which will be used by the RZ/G2UL (r9a07g043u.dtsi) and RZ/Five
-> > (r9a07g043F.dtsi)
->
-> Thanks for your series!
->
-> > Sending this as an RFC to get some feedback.
-> >
-> > r9a07g043f.dtsi will look something like below:
-> >
-> > #include <dt-bindings/interrupt-controller/irq.h>
-> >
-> > #define SOC_PERIPHERAL_IRQ_NUMBER(nr)   (nr + 32)
-> > #define SOC_PERIPHERAL_IRQ(nr, na)      SOC_PERIPHERAL_IRQ_NUMBER(nr) na
->
-> Originally, when I assumed incorrectly that dtc does not support
-> arithmetic, I used "nr" and "na" in the macro I proposed to mean RISC-V
-> ("r") resp. ARM ("a") interrupt number.  Apparently the names stuck,
-> although the second parameter now has a completely different meaning ;-)
->
-> However, as the NCEPLIC does support interrupt flags, unlike the SiFive
-> PLIC, there is no need to have the flags parameter in the macro.
->
-> Moreover,  it looks like the SOC_PERIPHERAL_IRQ_NUMBER()
-> intermediate is not needed, so you can just write:
->
->     #define SOC_PERIPHERAL_IRQ(nr)  (nr + 32)
->
-Agreed, I'll change it as per your suggestion and send a v2.
+On 25.10.2022 15:50:18, Biju Das wrote:
+[...]
+> > > index 567620d215f8..ea828c1bd3a1 100644
+> > > --- a/drivers/net/can/rcar/rcar_canfd.c
+> > > +++ b/drivers/net/can/rcar/rcar_canfd.c
+> > > @@ -1157,11 +1157,13 @@ static void
+> > > rcar_canfd_handle_global_receive(struct rcar_canfd_global *gpriv, u3
+> > {
+> > >         struct rcar_canfd_channel *priv =3D gpriv->ch[ch];
+> > >         u32 ridx =3D ch + RCANFD_RFFIFO_IDX;
+> > > -       u32 sts;
+> > > +       u32 sts, cc;
+> > >
+> > >         /* Handle Rx interrupts */
+> > >         sts =3D rcar_canfd_read(priv->base, RCANFD_RFSTS(gpriv,
+> > ridx));
+> > > -       if (likely(sts & RCANFD_RFSTS_RFIF)) {
+> > > +       cc =3D rcar_canfd_read(priv->base, RCANFD_RFCC(gpriv, ridx));
+> > > +       if (likely(sts & RCANFD_RFSTS_RFIF &&
+> > > +                  cc & RCANFD_RFCC_RFIE)) {
+> > >                 if (napi_schedule_prep(&priv->napi)) {
+> > >                         /* Disable Rx FIFO interrupts */
+> > >                         rcar_canfd_clear_bit(priv->base,
+> > >
+> > > Please check if that fixes your issue.
+>=20
+> Yes, it fixes the issue.
 
-Cheers,
-Prabhakar
+\o/
+
+> I will send V2 with these changes.
+
+Thanks,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--prc4fzu7ja2ebda3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmNYIH8ACgkQrX5LkNig
+010RKAf+KeLuPIN7xWZc3tQ1/T35iryOK1o5Kg3Mb29xS8YjtIoo8XEhihEhG/Hn
+09lNw6nIe+U9Fde7/BvKRM7sc4bmVSrge0lr/KoKtXeodYq2tvUvkvs9cUzBkdoT
+3/BJZy2qE4fr+hn5qlCth4BDVQbeTg0Xj6otsQq5w/fFrLXL5oxI32KWiFcfqcyz
+wHdVoqO5SxJsVwXlNkWGu4TXT2V3CzSho7z5D2uxJ6b2ZOG0PLdsAro4qtO10C1/
+L1dbzjPAG1sH/STOfQ+xpoMdkMBAIf78rEkYEtWeeX8UR0xdfNsQIhQHiBhG0fbq
+ULlm08dMCXaghL604CraXA2+Kekgbw==
+=KNOj
+-----END PGP SIGNATURE-----
+
+--prc4fzu7ja2ebda3--
