@@ -2,198 +2,168 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32A9B60D72D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Oct 2022 00:33:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26B5860D73B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Oct 2022 00:39:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231947AbiJYWdJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Oct 2022 18:33:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58434 "EHLO
+        id S232182AbiJYWjH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Oct 2022 18:39:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232000AbiJYWdI (ORCPT
+        with ESMTP id S229629AbiJYWjF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Oct 2022 18:33:08 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 116775244E;
-        Tue, 25 Oct 2022 15:33:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666737187; x=1698273187;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PkMpR8UhouXSKr2UufQNVOYgkr4gvr3rdbAMwptbgJI=;
-  b=SxU8Ud45IJ1cB+IIjMKe8EbkT38b0/BK9JYwKGebUXnrwv9RMEJiKv92
-   cW9ktr6H8OsGNcs/tKuKQ+XP/XnOq/q+T69n8qL5i9z2RK5oZGDaw1t6X
-   +4CQNedVmEa8tzzxPctUvXhonxlgCdGPV+c6WYxSXLYi9WkLIzsBucGem
-   8a8O2fXj+j6CNhzhF3/e3XCIad/3pROuwr0VTrQf7wNO7JMFdzASZkOlT
-   mvUnBhPaPc3bah+cftBzgtjuRYpK6TIfA1+paugvnOm6gUD1yIMu3+MqA
-   gpxf0enXaHxpVGVX5410tx/u8H3C+ad/RNlVNE52c53+tl7UAGfezXgYM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="309496360"
-X-IronPort-AV: E=Sophos;i="5.95,213,1661842800"; 
-   d="scan'208";a="309496360"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 15:33:05 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="700709944"
-X-IronPort-AV: E=Sophos;i="5.95,213,1661842800"; 
-   d="scan'208";a="700709944"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 15:33:02 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id D800420321;
-        Wed, 26 Oct 2022 01:32:59 +0300 (EEST)
-Date:   Tue, 25 Oct 2022 22:32:59 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tue, 25 Oct 2022 18:39:05 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CD006B152;
+        Tue, 25 Oct 2022 15:39:04 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id fy4so16600995ejc.5;
+        Tue, 25 Oct 2022 15:39:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DXGyyU/EtDoBqiMPzZf3JshDG4DtDWGTdQClBxCBOus=;
+        b=T3/t/qgpl8gvFR8QoBRQHWVdF6vL8P748OP1/U6ZZDBrEWoi9ICOUlbQemoFFh44yH
+         vRTBnQ592VEQcnN5DfOLSy5uiW3gMPF2l3/QncC2JAE96V17JCBv5RA6hIxB5LR1b7Xp
+         IuigW696YylH2WKQaBNEysjIhpUZ8bRp+5FskHzwgAwoajrxk3Omy5+5x+ciNWxSP6ch
+         wT0jZmMNrabQJU6PsA21lu56wUD7AD7y858R+VN5dNFFbbs2/gz0BSK+YLa8Gzj0LcN2
+         XiEVxmATdU40lVYoI+yeH8Cg8zOf8mAow2mnn1zHT7ZkmZpXJ3hVJygbB/0OEraA/S2k
+         y+2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DXGyyU/EtDoBqiMPzZf3JshDG4DtDWGTdQClBxCBOus=;
+        b=hNZcCbTHh1dfN2+UAcpaqpkxErH8pRlxqu6ufBgZd0n02pFOwcAO8T8rlDVXK+lEft
+         T3KTKRHcTvyu911NVjpMcQ68sHwq+AmqOsqOT7nU3RCOdU4r8RGQSLmXoRCBCj7hLACC
+         UuRnvUpTqoGxJMTO6aJdKLmk/i0/JBK4rbdejAdjzwW8oMp/RjsBplgVO07/bcsh6W6g
+         ZSKIlBHNBfGs1pcBR/9ae+RnWWPe7s/jf7474CM78s2gLngJPNTjsZmVsAMuO5ay3LXE
+         O5WIA4SIZpCwBd6RYZL/oE4yXI1bCqOR732MXZ8ocfn6yzUimiga2ZRs3aCzB8s3ZX//
+         vl9w==
+X-Gm-Message-State: ACrzQf2atnlfkEgoG1AdG2wpyNTQU9MkaZtVjR4MOa8CFzdM3YshvDjG
+        6MZdu5SQqR8HEetmn4pXZTI5K2k0+JAPb53QNnc=
+X-Google-Smtp-Source: AMsMyM6zJ3KqdgzyaaWt58d2LFCL8i+EV02a7Lroi5S+VhlGd1aRozxKThF3lgyvX6Z2KpEhfkJMYGlsan+zJBhY1/s=
+X-Received: by 2002:a17:906:5a4b:b0:78d:4e5a:d101 with SMTP id
+ my11-20020a1709065a4b00b0078d4e5ad101mr33741777ejc.196.1666737543066; Tue, 25
+ Oct 2022 15:39:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220915165256.352843-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220915165256.352843-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVJ4gp=kT2S+5bhjdZACSbEX=3pP7mmmi_GEbeAOxtHGw@mail.gmail.com>
+In-Reply-To: <CAMuHMdVJ4gp=kT2S+5bhjdZACSbEX=3pP7mmmi_GEbeAOxtHGw@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 25 Oct 2022 23:38:36 +0100
+Message-ID: <CA+V-a8sidwGQVSb7UV56opqE9ViS_y7nVPWx8Krx7t6P1BExCg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: rzg2ul-smarc: Add
+ /omit-if-no-ref/ to pinmux
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 4/4] media: platform: Add Renesas RZ/G2L CRU driver
-Message-ID: <Y1hkG6NVFS08WTIg@paasikivi.fi.intel.com>
-References: <20221004234343.54777-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221004234343.54777-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221004234343.54777-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Geert,
 
-A few comments below... apologies for not reviewing this earlier. Looks
-good in general but there are a few points that need some attention.
+Thank you for the review.
 
-On Wed, Oct 05, 2022 at 12:43:43AM +0100, Prabhakar wrote:
-...
-> +static int rzg2l_cru_ip_pre_streamon(struct v4l2_subdev *sd, u32 flags)
-> +{
-> +	struct rzg2l_cru_dev *cru;
-> +	int ret;
-> +
-> +	cru = v4l2_get_subdevdata(sd);
-> +
-> +	if (!cru->is_csi)
-> +		return -EINVAL;
-> +
-> +	ret = v4l2_subdev_call(cru->ip.remote, video, pre_streamon, 0);
+On Tue, Oct 25, 2022 at 9:13 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Thu, Sep 15, 2022 at 6:53 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > In preparation to re-use the RZ/G2UL SMARC SoM and carrier DTS/I with the
+> > RZ/Five add /omit-if-no-ref/ keyword to pinmux entries as the support for
+> > RZ/Five SMARC EVK will be gradually added.
+> >
+> > Once we have full blown support for RZ/Five SMARC EVK we can get rid of
+> > the /omit-if-no-ref/ keyword.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> I finally had a deeper look at this...
+>
+> Why do you want to disable these nodes? While they are indeed not
+> used yet on RZ/Five, they are valid hardware descriptions for the
+> RZ/Five SMARC EVK, and their presence doesn't harm anything.
+>
+> I do see a valid use case for marking pin control subnodes with
+> /omit-if-no-ref/: you can provide all possible configurations as a
+> convenience for the user, so the user no longer has to look up the
+> numeric parameters of the RZG2L_PORT_PINMUX() macros.
+> But IMHO those would belong in the SoC-specific .dtsi, not in a
+> board .dtsi.  See e.g. the massive use of /omit-if-no-ref/ in sunxi
+> and rockchip .dtsi files.
+>
+> Am I missing something?
+>
+My intention was to keep the DTB as minimal as possible so that it
+includes just the required pinmuxes which were enabled on the RZ/Five.
+For example [0], [1] we do delete the pinctrl for the nodes which are
+marked as disabled. Do you think we should drop it?
 
-If you're calling pre_streamon successfully, you'll have to have an
-equivalent number of post_streamoff calls.
+But now that things are falling in place for RZ/Five we can ignore this patch.
 
-...
+[0] arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+[1] arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
 
-> +static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
-> +{
-> +	struct media_pipeline *pipe;
-> +	struct v4l2_subdev *sd;
-> +	struct media_pad *pad;
-> +	unsigned long flags;
-> +	int ret;
-> +
-> +	pad = media_pad_remote_pad_first(&cru->pad);
-> +	if (!pad)
-> +		return -EPIPE;
-> +
-> +	sd = media_entity_to_v4l2_subdev(pad->entity);
-> +
-> +	if (!on) {
-> +		media_pipeline_stop(&cru->vdev.entity);
-> +		return v4l2_subdev_call(sd, video, s_stream, 0);
+Cheers,
+Prabhakar
 
-Ditto.
-
-> +	}
-> +
-> +	ret = rzg2l_cru_mc_validate_format(cru, sd, pad);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = v4l2_subdev_call(sd, video, pre_streamon, 0);
-> +	if (ret == -ENOIOCTLCMD)
-> +		ret = 0;
-> +	if (ret)
-> +		return ret;
-
-For all cases below where streaming on doesn't succeed, you'll have to have
-a call of post_streamoff.
-
-> +
-> +	spin_lock_irqsave(&cru->qlock, flags);
-> +
-> +	/* Select a video input */
-> +	if (cru->is_csi)
-> +		rzg2l_cru_write(cru, CRUnCTRL, CRUnCTRL_VINSEL(0));
-> +
-> +	/* Cancel the software reset for image processing block */
-> +	rzg2l_cru_write(cru, CRUnRST, CRUnRST_VRESETN);
-> +
-> +	/* Disable and clear the interrupt before using */
-> +	rzg2l_cru_write(cru, CRUnIE, 0);
-> +	rzg2l_cru_write(cru, CRUnINTS, 0x001f000f);
-> +
-> +	/* Initialize the AXI master */
-> +	rzg2l_cru_initialize_axi(cru);
-> +
-> +	/* Initialize image convert */
-> +	ret = rzg2l_cru_initialize_image_conv(cru);
-> +	if (ret) {
-> +		spin_unlock_irqrestore(&cru->qlock, flags);
-> +		return ret;
-> +	}
-> +
-> +	/* Enable interrupt */
-> +	rzg2l_cru_write(cru, CRUnIE, CRUnIE_EFE);
-> +
-> +	/* Enable image processing reception */
-> +	rzg2l_cru_write(cru, ICnEN, ICnEN_ICEN);
-> +
-> +	spin_unlock_irqrestore(&cru->qlock, flags);
-> +
-> +	pipe = sd->entity.pipe ? sd->entity.pipe : &cru->vdev.pipe;
-> +	ret = media_pipeline_start(&cru->vdev.entity, pipe);
-> +	if (ret)
-> +		return ret;
-> +
-> +	clk_disable_unprepare(cru->vclk);
-> +
-> +	ret = v4l2_subdev_call(sd, video, s_stream, 1);
-> +	if (ret == -ENOIOCTLCMD)
-> +		ret = 0;
-> +	if (ret) {
-> +		/* enable back vclk so that release() disables it */
-> +		clk_prepare_enable(cru->vclk);
-> +		media_pipeline_stop(&cru->vdev.entity);
-> +		return ret;
-> +	}
-> +
-> +	ret = clk_prepare_enable(cru->vclk);
-
-What will happen if enabling vclk will fail here? (Or above?)
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-
--- 
-Kind regards,
-
-Sakari Ailus
+> > --- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi
+> > @@ -12,12 +12,14 @@ &pinctrl {
+> >         pinctrl-0 = <&sound_clk_pins>;
+>                         ^^^^^^^^^^^^^^
+> >         pinctrl-names = "default";
+> >
+> > +       /omit-if-no-ref/
+> >         can0_pins: can0 {
+> >                 pinmux = <RZG2L_PORT_PINMUX(1, 1, 3)>, /* TX */
+> >                          <RZG2L_PORT_PINMUX(1, 2, 3)>; /* RX */
+> >         };
+> >
+> >  #if (SW_ET0_EN_N)
+> > +       /omit-if-no-ref/
+> >         can0-stb-hog {
+> >                 gpio-hog;
+> >                 gpios = <RZG2L_GPIO(2, 2) GPIO_ACTIVE_HIGH>;
+>
+> > @@ -94,11 +103,13 @@ sd1_mux_uhs {
+> >                 };
+> >         };
+> >
+> > +       /omit-if-no-ref/
+> >         sound_clk_pins: sound_clk {
+>
+> FTR, this one is always referenced.
+>
+> >                 pins = "AUDIO_CLK1", "AUDIO_CLK2";
+> >                 input-enable;
+> >         };
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
