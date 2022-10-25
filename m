@@ -2,77 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6543660CBFD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 14:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C194F60CC0C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 14:41:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231822AbiJYMhc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Oct 2022 08:37:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56190 "EHLO
+        id S231911AbiJYMlB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Oct 2022 08:41:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231921AbiJYMhZ (ORCPT
+        with ESMTP id S231378AbiJYMlA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Oct 2022 08:37:25 -0400
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6244B188A8F;
-        Tue, 25 Oct 2022 05:37:22 -0700 (PDT)
-Received: by mail-qt1-f179.google.com with SMTP id w29so263639qtv.9;
-        Tue, 25 Oct 2022 05:37:22 -0700 (PDT)
+        Tue, 25 Oct 2022 08:41:00 -0400
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E82D185425;
+        Tue, 25 Oct 2022 05:40:59 -0700 (PDT)
+Received: by mail-qk1-f175.google.com with SMTP id 8so7909888qka.1;
+        Tue, 25 Oct 2022 05:40:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DEjQC8UwPSpJbdU9AEdKNSZFHoUYuJmVXV6mmwXFmnE=;
-        b=kPoaRQDk7c03OxLLlwxc/8TvgirLoU8gjI0HHW2VjngQ3RG+390WQ4sqxfBZlmM1Ct
-         R9wle9KvdhO4NfemC2o9Ec0DEX3rWoVPZmM4JZoWl1oC63Kgalkn5uopv7vXQzca8XR4
-         nOLjNv4S5H0oEi3uflSndg9wet7UF0CrBx+zUIAmckCRO35KE3aCCbuk/ZhjOpt442uE
-         F2SzG6fffYfzeztkET3uTivkslDy061lir5Z5Gza/Hp305tpDn63BnFcEDgSsqMub9zB
-         0L4jzT/tk0NCivB48vSC0ZvczO99X1TDDJRJH6DJU7f8p29cd3ASqq8CbF6wX+Qb8mCV
-         yNqw==
-X-Gm-Message-State: ACrzQf14jH4zgyRTdjFTDGHBapHMfQNL1tBhgVUiehq3BRyNeLae0toV
-        n5cEuIgObrDOCSSyhBr1FuP0cVXcgWeW0Q==
-X-Google-Smtp-Source: AMsMyM6fy6Pk9aSnxvpfj4ewVzTeuNY4HOgACqJEkX2PwEBilrcbv7P5dWvPqGTVm2je/ZXnL4P5mA==
-X-Received: by 2002:a05:622a:49:b0:39c:e83e:8839 with SMTP id y9-20020a05622a004900b0039ce83e8839mr30682325qtw.424.1666701441266;
-        Tue, 25 Oct 2022 05:37:21 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id g3-20020ac87d03000000b00342f8984348sm1570874qtb.87.2022.10.25.05.37.19
+        bh=Lao/ypUUNI0LjIKEvGEpGGZT7cntnLS2PFomcQrERvE=;
+        b=isKE4M3Ed15PP3W2RI9Xgl09g+mee7lta8lrAXvRWga5CRrE+vESEEnLhZi+omNHaQ
+         DPRj/DoXeqnLeHe85RnlmgVFl1W1yhkOVGvTG6FZ5aPwZ41GhDlJ4I69GP8VrmaCkcLB
+         O8a++ioqdZ/xcx1qks59yo8rnf7HadckRpnuoTD0PMqjYo5LCCepgyU6xClkPuzUNvIz
+         IYAzd3IzK+lScBLuCsoGc5WquYuxA+DMKWQxxw8k+9ojH/wg/g3gPajstPFliCJHM9Bd
+         cuHqYSbzBgNVW0YQ006s4fMrbikHvgimxNBkEYUiBQqA/3X28OC5yH+0OgwpkU6Srga9
+         XP0w==
+X-Gm-Message-State: ACrzQf26KjDuz4b/u5uA7YwjnpCuVx3UNLJm+yPl6HY5+t35jrj7xHxW
+        BHBUKDcDm28gOP8vVPC6LNePYpIJFiK5Nw==
+X-Google-Smtp-Source: AMsMyM7MsvRpNJJYaxWIj/JGMMdI8VbctEcpSCeueXrEDTD2qjlQ7VI6zTZEqU1ktt+xkO7jIGg4mQ==
+X-Received: by 2002:a37:b802:0:b0:6ee:9495:9a79 with SMTP id i2-20020a37b802000000b006ee94959a79mr25672278qkf.136.1666701657782;
+        Tue, 25 Oct 2022 05:40:57 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id d19-20020a05620a241300b006cfc01b4461sm1975292qkn.118.2022.10.25.05.40.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Oct 2022 05:37:19 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-369426664f9so111664067b3.12;
-        Tue, 25 Oct 2022 05:37:19 -0700 (PDT)
-X-Received: by 2002:a0d:de43:0:b0:349:31bd:e8d5 with SMTP id
- h64-20020a0dde43000000b0034931bde8d5mr32925900ywe.283.1666701438736; Tue, 25
- Oct 2022 05:37:18 -0700 (PDT)
+        Tue, 25 Oct 2022 05:40:57 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id o70so14386009yba.7;
+        Tue, 25 Oct 2022 05:40:57 -0700 (PDT)
+X-Received: by 2002:a25:4fc2:0:b0:6be:afb4:d392 with SMTP id
+ d185-20020a254fc2000000b006beafb4d392mr31753639ybb.604.1666701657095; Tue, 25
+ Oct 2022 05:40:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221017091201.199457-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20221017091201.199457-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20221017091201.199457-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220929172356.301342-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220929172356.301342-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Oct 2022 14:37:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXuiCne2NvCzu8x9LeM_W8rxwLX-0w=kHnGa30bdzFaDQ@mail.gmail.com>
-Message-ID: <CAMuHMdXuiCne2NvCzu8x9LeM_W8rxwLX-0w=kHnGa30bdzFaDQ@mail.gmail.com>
-Subject: Re: [RFC RESEND PATCH 2/2] arm64: dts: renesas: r9a07g043: Split out
- RZ/G2UL SoC specific parts
+Date:   Tue, 25 Oct 2022 14:40:45 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVfExBuXNiRBaPRqaX9AvDprTHec7+1K-7Un6gDf6VWJA@mail.gmail.com>
+Message-ID: <CAMuHMdVfExBuXNiRBaPRqaX9AvDprTHec7+1K-7Un6gDf6VWJA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/2] RZ/G2UL separate out SoC specific parts
 To:     Prabhakar <prabhakar.csengg@gmail.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        soc@kernel.org, linux-arm-kernel@lists.infradead.org,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-riscv@lists.infradead.org,
         Conor Dooley <conor.dooley@microchip.com>,
         Samuel Holland <samuel@sholland.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        DT <devicetree@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -81,27 +77,45 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Prabhakar,
 
-On Mon, Oct 17, 2022 at 11:12 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, Sep 29, 2022 at 7:24 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> This patch series aims to split up the RZ/G2UL SoC DTSI into common parts
+> so that this can be shared with the RZ/Five SoC.
 >
-> Move RZ/G2UL SoC specific parts to r9a07g043u.dtsi so that r9a07g043.dtsi
-> can be shared with RZ/Five (RISC-V SoC).
+> Implementation is based on the discussion [0] where I have used option#2.
 >
-> Below are the changes due to which SoC specific parts are moved to
-> r9a07g043u.dtsi:
-> - RZ/G2UL has Cortex-A55 (ARM64) whereas the RZ/Five has AX45MP (RISC-V)
-> - RZ/G2UL has GICv3 as interrupt controller whereas the RZ/Five has PLIC
-> - RZ/G2UL has interrupts for SYSC block whereas interrupts are missing
->   for SYSC block on RZ/Five
+> The Renesas RZ/G2UL (ARM64) and RZ/Five (RISC-V) have almost the same
+> identical blocks to avoid duplication a base SoC dtsi (r9a07g043.dtsi) is
+> created which will be used by the RZ/G2UL (r9a07g043u.dtsi) and RZ/Five
+> (r9a07g043F.dtsi)
+
+Thanks for your series!
+
+> r9a07g043f.dtsi will look something like below:
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> #include <dt-bindings/interrupt-controller/irq.h>
+>
+> #define SOC_PERIPHERAL_IRQ_NUMBER(nr)   (nr + 32)
+> #define SOC_PERIPHERAL_IRQ(nr, na)      SOC_PERIPHERAL_IRQ_NUMBER(nr) na
 
-Thanks for your patch!
+Originally, when I assumed incorrectly that dtc does not support
+arithmetic, I used "nr" and "na" in the macro I proposed to mean RISC-V
+("r") resp. ARM ("a") interrupt number.  Apparently the names stuck,
+although the second parameter now has a completely different meaning ;-)
 
-This assumes the operating points tables are the same for both variants?
-I guess that's OK.
+However, as the NCEPLIC does support interrupt flags, unlike the SiFive
+PLIC, there is no need to have the flags parameter in the macro.
 
-Overall, LGTM.
+Moreover,  it looks like the SOC_PERIPHERAL_IRQ_NUMBER()
+intermediate is not needed, so you can just write:
+
+    #define SOC_PERIPHERAL_IRQ(nr)  (nr + 32)
+
+> #include <arm64/renesas/r9a07g043.dtsi>
+>
+> / {
+>    ...
+>    ...
+> };
 
 Gr{oetje,eeting}s,
 
