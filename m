@@ -2,162 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB7C360C3FB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 08:48:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED7DF60C462
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Oct 2022 08:57:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230040AbiJYGsY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Oct 2022 02:48:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43410 "EHLO
+        id S231432AbiJYG5n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Oct 2022 02:57:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229597AbiJYGsX (ORCPT
+        with ESMTP id S231469AbiJYG52 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Oct 2022 02:48:23 -0400
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5109B3B30;
-        Mon, 24 Oct 2022 23:48:22 -0700 (PDT)
-Received: by mail-qk1-f169.google.com with SMTP id o2so7479368qkk.10;
-        Mon, 24 Oct 2022 23:48:22 -0700 (PDT)
+        Tue, 25 Oct 2022 02:57:28 -0400
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 087E162C3;
+        Mon, 24 Oct 2022 23:57:26 -0700 (PDT)
+Received: by mail-qt1-f178.google.com with SMTP id w3so6979576qtv.9;
+        Mon, 24 Oct 2022 23:57:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RCdxzpG/IM7eM2oVhWiHkGzrr4g33IhjuElBadOIVHg=;
-        b=iPQ/Fj+CBe47YoxxJrIYyvuBrYIEf2RnWwcE2yhJDLH68rM2Dl/qOdd8PeTkzwmeXi
-         wPcPVtupx4wIUuiWL2fSMKGc4Z1e2Mu9vGYXq3ok9wJYKtu52i2jzKzbus7AM708PIuz
-         msSihi6Ah2Ztwbzd5yEyFDW7NnxfjGACoK1Bo6MCyxEOP4SGAPxVyrXOUj6qF850wUxU
-         B6iaIaq++fgtUo1qXgw11pEdBW9sar7V+sRDTMSjzi9RVrtU7fJqtc37e1kBJ0+sH+rH
-         O2WVGhgtfVrVDluRsnXLFGvvAATklDJLA8cb2YAGYzHqFqr8Ti30oyJ7PmWam2vqOCI1
-         Tz6A==
-X-Gm-Message-State: ACrzQf3frRCmKnzY4+/Po1B2k0lb/wxznjcqOqA8zonfdfPq9ctpUpB6
-        3weDWUbdo3ZMiG5yAuCE2ml0LV6kGBMuRg==
-X-Google-Smtp-Source: AMsMyM6fULg5S51WHVlufUBgyUhFv9akx58tcgDKNBiRvRrypSWcAc/HbzpJbxczi46eQexMqIidjQ==
-X-Received: by 2002:a05:620a:14b2:b0:6ea:1443:8c0a with SMTP id x18-20020a05620a14b200b006ea14438c0amr19731658qkj.302.1666680501350;
-        Mon, 24 Oct 2022 23:48:21 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id f14-20020a05620a280e00b006eec09eed39sm1549652qkp.40.2022.10.24.23.48.19
+        bh=3QYintIKLSO/5/dPNaNKqiylY6TQ4PQK7lYP/tlZYSw=;
+        b=IELxruD5ijyoHHjG0ysg8Cru3TMpzNoRDagQq3xYVFiZ15Uzi76LYtl94KVL6QYOtn
+         fiEassSflgAMuZVnAlY6jnpEW6XHNF6Zm2QGqQONsU6o8jj/3A9pCHuDMmcjhSs/0jiy
+         /wjyNX+acELrfIrzrvlYo/Xl/cJjK8w847kq9mHQ7WyOTNvx2SOn5Kuv+Tetg5KAEn3n
+         2I5ihMfpwGDRmmwDZEOnJ4PoWHwpt9hdXJTJ63PXPCOs/nogtkjxeP2Vp6eLdlOOpH75
+         uMiw3rMwTo3p+a7P50i374thEllvRS//8FHpdHkQaPWNv4mveoSNKoCIzki0Yz9LI/hl
+         U0aA==
+X-Gm-Message-State: ACrzQf0oped5oIKvoBV/n072oFJ6u8x8Omz1AJPWPjTByVua4hcfl/YI
+        3QGokIn1P13WTrum/qLX8QLw0m52G8BKZg==
+X-Google-Smtp-Source: AMsMyM7DXI8LKKrba+CS3zADWP6A05C7Zv2sSIPE5eSjgpzaHMKcgzn7pFXO8KVcYzlZF3w2LNZw6Q==
+X-Received: by 2002:ac8:7e96:0:b0:39c:d833:e8c3 with SMTP id w22-20020ac87e96000000b0039cd833e8c3mr30699526qtj.303.1666681044738;
+        Mon, 24 Oct 2022 23:57:24 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id bi24-20020a05620a319800b006eeca296c00sm1548652qkb.104.2022.10.24.23.57.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Oct 2022 23:48:20 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id r3so13490971yba.5;
-        Mon, 24 Oct 2022 23:48:19 -0700 (PDT)
-X-Received: by 2002:a25:cd01:0:b0:6c2:6f0d:f4ce with SMTP id
- d1-20020a25cd01000000b006c26f0df4cemr30518508ybf.365.1666680499617; Mon, 24
- Oct 2022 23:48:19 -0700 (PDT)
+        Mon, 24 Oct 2022 23:57:24 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id f205so13544456yba.2;
+        Mon, 24 Oct 2022 23:57:23 -0700 (PDT)
+X-Received: by 2002:a25:26c1:0:b0:6c3:bdae:c6d6 with SMTP id
+ m184-20020a2526c1000000b006c3bdaec6d6mr34190989ybm.36.1666681043700; Mon, 24
+ Oct 2022 23:57:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221019083518.933070-3-yoshihiro.shimoda.uh@renesas.com>
- <202210191806.RZK10y3x-lkp@intel.com> <CAMuHMdXBT2cEqfy00u+0VB=cRUAtrgH9LD26gXgavdvmQyN+pQ@mail.gmail.com>
- <TYBPR01MB5341E2B5F143F178F0AFD1CBD8319@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYBPR01MB5341E2B5F143F178F0AFD1CBD8319@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+References: <20221024173434.32518-1-afd@ti.com> <20221024173434.32518-8-afd@ti.com>
+In-Reply-To: <20221024173434.32518-8-afd@ti.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Oct 2022 08:48:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU+O+hz9ja18cFkmwtz+AfEXJHz7N5Hx0S9aw+zD9wkEQ@mail.gmail.com>
-Message-ID: <CAMuHMdU+O+hz9ja18cFkmwtz+AfEXJHz7N5Hx0S9aw+zD9wkEQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] net: ethernet: renesas: Add Ethernet Switch driver
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     kernel test robot <lkp@intel.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
+Date:   Tue, 25 Oct 2022 08:57:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWrL1U7qOM+qOCa6-YhdJEe_5bCCDnXp_Fx3_6eDgkkSA@mail.gmail.com>
+Message-ID: <CAMuHMdWrL1U7qOM+qOCa6-YhdJEe_5bCCDnXp_Fx3_6eDgkkSA@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] staging: pi433: overlay: Rename overlay source
+ file from .dts to .dtso
+To:     Andrew Davis <afd@ti.com>
+Cc:     Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
-
-On Tue, Oct 25, 2022 at 6:39 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Geert Uytterhoeven, Sent: Tuesday, October 25, 2022 12:28 AM
-> > To: kernel test robot <lkp@intel.com>
-> > Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>; davem@davemloft.net; edumazet@google.com; kuba@kernel.org;
-> > pabeni@redhat.com; robh+dt@kernel.org; krzysztof.kozlowski+dt@linaro.org; kbuild-all@lists.01.org;
-> > netdev@vger.kernel.org; devicetree@vger.kernel.org; linux-renesas-soc@vger.kernel.org
-> > Subject: Re: [PATCH v4 2/3] net: ethernet: renesas: Add Ethernet Switch driver
-> >
-> > On Wed, Oct 19, 2022 at 1:17 PM kernel test robot <lkp@intel.com> wrote:
-> > > I love your patch! Perhaps something to improve:
-> > >
-> > > [auto build test WARNING on net-next/master]
-> > > [also build test WARNING on net/master robh/for-next linus/master v6.1-rc1 next-20221019]
-> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > > And when submitting patch, we suggest to use '--base' as documented in
-> > >
-> <snip>
-> > >         git checkout f310f8cc37dfb090cfb06ae38530276327569464
-> > >         # save the config file
-> > >         mkdir build_dir && cp config build_dir/.config
-> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
-> > drivers/net/
-> > >
-> > > If you fix the issue, kindly add following tag where applicable
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > >
-> > > All warnings (new ones prefixed by >>):
-> > >
-> > >    drivers/net/ethernet/renesas/rswitch.c: In function 'rswitch_ext_desc_get_dptr':
-> > > >> drivers/net/ethernet/renesas/rswitch.c:355:71: warning: left shift count >= width of type [-Wshift-count-overflow]
-> > >      355 |         return __le32_to_cpu(desc->dptrl) | (dma_addr_t)(desc->dptrh) << 32;
-> > >          |                                                                       ^~
-> > >    drivers/net/ethernet/renesas/rswitch.c: In function 'rswitch_ext_ts_desc_get_dptr':
-> > >    drivers/net/ethernet/renesas/rswitch.c:367:71: warning: left shift count >= width of type [-Wshift-count-overflow]
-> > >      367 |         return __le32_to_cpu(desc->dptrl) | (dma_addr_t)(desc->dptrh) << 32;
-> > >          |                                                                       ^~
-> > >
-> > >
-> > > vim +355 drivers/net/ethernet/renesas/rswitch.c
-> > >
-> > >    352
-> > >    353  static dma_addr_t rswitch_ext_desc_get_dptr(struct rswitch_ext_desc *desc)
-> > >    354  {
-> > >  > 355          return __le32_to_cpu(desc->dptrl) | (dma_addr_t)(desc->dptrh) << 32;
-> >
-> > A simple fix would be to replace the cast to "dma_addr_t" by a cast to "u64".
-
-> I got it. I'll fix this by a cast to "u64".
+On Mon, Oct 24, 2022 at 7:34 PM Andrew Davis <afd@ti.com> wrote:
+> DTB Overlays (.dtbo) can now be built from source files with the
+> extension (.dtso). This makes it clear what is the content of the files
+> and differentiates them from base DTB source files.
 >
-> > BTW, if struct rswitch_ext_desc would just extend struct rswitch_desc,
-> > you could use rswitch_ext_desc_get_dptr() for both.
+> Rename the pi433-overlay.dts file to pi433-overlay.dtso and update
+> the information file pi433.txt for the same.
 >
-> Yes, all rswitch_xxx_desc just extend struct rswitch_desc.
-> So, I'll modify this function like below:
-> ---
-> /* All struct rswitch_xxx_desc just extend struct rswitch_desc, so that
->  * we can use rswitch_desc_get_dptr() for them.
->  */
-> static dma_addr_t rswitch_desc_get_dptr(void *_desc)
-> {
->         struct rswitch_desc *desc = _desc;
->
->         return __le32_to_cpu(desc->dptrl) | (u64)(desc->dptrh) << 32;
-> }
+> Signed-off-by: Andrew Davis <afd@ti.com>
 
-While the above would work, the void * parameter inhibits compiler checks.
-
-Hence I suggest defining struct rswitch_ext_desc like:
-
-    struct rswitch_ext_desc {
-            struct rswitch_desc desc;
-            __le64 info1;
-    };
-
-Then you can just pass &ext->desc to a function that takes a
-(const) struct rswitch_desc *.
-
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
