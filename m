@@ -2,121 +2,141 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8DE560E2EA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Oct 2022 16:11:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C776C60E5DD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Oct 2022 18:56:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233731AbiJZOLf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Oct 2022 10:11:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52212 "EHLO
+        id S233898AbiJZQ4z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Oct 2022 12:56:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233648AbiJZOLe (ORCPT
+        with ESMTP id S233893AbiJZQ4x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Oct 2022 10:11:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41B22A3AAD;
-        Wed, 26 Oct 2022 07:11:34 -0700 (PDT)
+        Wed, 26 Oct 2022 12:56:53 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B1869AC11;
+        Wed, 26 Oct 2022 09:56:52 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CF95761EC1;
-        Wed, 26 Oct 2022 14:11:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35B4DC43142;
-        Wed, 26 Oct 2022 14:11:33 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D5B2CB82389;
+        Wed, 26 Oct 2022 16:56:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81CAAC43147;
+        Wed, 26 Oct 2022 16:56:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666793493;
-        bh=YMIF5UCWISG2ob0vvfFQtpNcUPd+lX4YhYyWt0PFYPw=;
+        s=k20201202; t=1666803409;
+        bh=Vi8sx4aHNpojzRYzXmqjTrqY6mW5GyQ8eA3RJ1HlulQ=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=dCCnkTS6zQYXpli9FHZ3e7+Dogw8PaXYNgjsWYWZcuPL0kREvUpGKJtP4qBggBodN
-         2AMODGNDYnn4B7/vXd8sq4gdpeRhscDJp4UaGXRNI6dLkAm0M1nQoSnemavqR6+4QG
-         c73C/TQ3Hn86w+Boor+bUecKVVhFzNbQ/EgtI85Skrhrt5/7ee69/w98i9SqgdGl3e
-         ZTYZ88KE3ZHmD8BwhFwr5fDAJnjNVr9haOpBqvrko0bS1YFjFiepe+nz31iSFkSA3+
-         jgMnKrdWPQzTBG1pUCicthhiwteujQHpqXOIhjUGVfrfJKwr+nOKQKcF7MlZ/KFOuL
-         7hfJ51haA9kKw==
-Received: by mail-lj1-f169.google.com with SMTP id o4so17267156ljp.8;
-        Wed, 26 Oct 2022 07:11:33 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3pDNHafGb3fNm4dnGpXq6wki8FvI5gB5lOW6UBLTEphwHB4x0g
-        7PzvvbvIDAvGVJNodLXBPCpcGbT5PF8UK9sD3g==
-X-Google-Smtp-Source: AMsMyM6i/jjuNFCIcusJ8ZdpQuFHkRapKnNvN0juosoob6Nyxuo+jLAbTwN/yM4+V2v4zQPVryPgNoBO+QR4ZVRpbGk=
-X-Received: by 2002:a05:651c:114a:b0:25d:5ae6:42a4 with SMTP id
- h10-20020a05651c114a00b0025d5ae642a4mr16242008ljo.255.1666793491191; Wed, 26
- Oct 2022 07:11:31 -0700 (PDT)
+        b=anP5j2gqPlA0CJUatDTr2DdhObFHUzWHqJfMkJ2XwAhpxjrmo9+g3+huQbX1jq544
+         dNvq+Lj+aO/+ADOWr3wMz3fPM3StPYP/BfgTuiuQtLGzqen1ftnp7HbBCH7mIJ3YjD
+         LnkRpUl4PufDhzyKpxewCF7hyXIuLHL+s9037D29o1S/gtMMd+BQhzQeHEjgvKnNXL
+         XC3CiCVHG8umwyfVnrYHjNUl+hfoeFRHSvUpYOAqUjajznc5qyqe+Ky8taqLCzy2Mf
+         C2t7zJBY/wlYUluEPXIfKLsZcWgUnTeZMCwe8V6Biv91Yv6X/JzJBoaZ3Eu2KI7QGg
+         BNbjBnSBRx0Og==
+Received: by mail-lf1-f46.google.com with SMTP id j4so30022202lfk.0;
+        Wed, 26 Oct 2022 09:56:49 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2EELtfqnjpRayPEpG6FYES/RVUNYGAwI8WIm5TYRk9X7y6R1OH
+        LaUkqKnpk1NSyvtzIrN8Iwn6zGfpsqA+kEWz7g==
+X-Google-Smtp-Source: AMsMyM6LrfSRjX/HUKVBgz4AtfsuMXbX9k+asKJtcIXDWCakd6ADGIkff/pXR6/xCmQI+exsymHAHErxpqcm1TMu7Gw=
+X-Received: by 2002:a05:6512:3f0e:b0:4a0:45b7:a8dc with SMTP id
+ y14-20020a0565123f0e00b004a045b7a8dcmr16030816lfa.368.1666803407497; Wed, 26
+ Oct 2022 09:56:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221024173434.32518-1-afd@ti.com>
-In-Reply-To: <20221024173434.32518-1-afd@ti.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Wed, 26 Oct 2022 09:11:21 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJxgVwsjKnkCEkZeoSsDgaRD+DVPkHRBc2SrcSq69PBNw@mail.gmail.com>
-Message-ID: <CAL_JsqJxgVwsjKnkCEkZeoSsDgaRD+DVPkHRBc2SrcSq69PBNw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] Rename DTB overlay source files
-To:     Andrew Davis <afd@ti.com>
-Cc:     Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
+References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221014183459.181567-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAL_JsqKC_BJDJLLFck_0CbQ-0rZ0oVWMAdiwwGep23nh2pP19g@mail.gmail.com>
+ <CA+V-a8vMLuzJ8h5UDNXUiZRXPV1vJ9gguUMywe_+sPcU8tK+tA@mail.gmail.com>
+ <20221014214029.GA2937999-robh@kernel.org> <Y0pLDFMsFmHhC/R8@pendragon.ideasonboard.com>
+In-Reply-To: <Y0pLDFMsFmHhC/R8@pendragon.ideasonboard.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 26 Oct 2022 11:56:38 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+K72HEEqA2inRRgk4wHjLsueJhvrLPTXFpfhnGK3HJiQ@mail.gmail.com>
+Message-ID: <CAL_Jsq+K72HEEqA2inRRgk4wHjLsueJhvrLPTXFpfhnGK3HJiQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] media: dt-bindings: ov5645: Convert OV5645 binding
+ to a schema
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 24, 2022 at 12:34 PM Andrew Davis <afd@ti.com> wrote:
+On Sat, Oct 15, 2022 at 12:54 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Hello all,
+> Hi Rob,
 >
-> This is a series based on my patch here[0]. As suggested by Rob
-> I've resurrected Frank's patch and appended it to mine as a series.
+> On Fri, Oct 14, 2022 at 04:40:29PM -0500, Rob Herring wrote:
+> > On Fri, Oct 14, 2022 at 10:27:53PM +0100, Lad, Prabhakar wrote:
+> > > On Fri, Oct 14, 2022 at 10:05 PM Rob Herring <robh+dt@kernel.org> wrote:
+> > > > On Fri, Oct 14, 2022 at 1:35 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> > > > >
+> > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > >
+> > > > > Convert the simple OV5645 Device Tree binding to json-schema.
+> > > > >
+> > > > > The previous binding marked the below properties as required which was a
+> > > > > driver requirement and not the device requirement so just drop them from
+> > > > > the required list during the conversion.
+> > > > > - clock-frequency
+> > > > > - enable-gpios
+> > > > > - reset-gpios
+> > > > >
+> > > > > Also drop the "clock-names" property as we have a single clock source for
+> > > > > the sensor and the driver has been updated to drop the clk referencing by
+> > > > > name.
+> > > >
+> > > > Driver requirements are the ABI!
+> > > >
+> > > > This breaks a kernel without the driver change and a DTB that has
+> > > > dropped the properties.
+> > > >
+> > > I already have a patch for the driver [0] which I missed to include
+> > > along with the series.
+> >
+> > You completely miss the point. Read the first sentence again. Changing
+> > driver requirements changes the ABI.
+> >
+> > This breaks the ABI. The driver patch does not help that.
 >
-> First patch here is my original patch, 3rd is Frank's patch but with
-> the unittest changes pulled out into the 2nd patch. That was re-worked
-> moving the source building macro into scripts/Makefile.lib.
+> I'm not following you here. If the DT binding makes a mandatory property
+> optional, it doesn't break any existing platform. The only thing that
+> would not work is a new DT that doesn't contain the now optional
+> property combined with an older driver that makes it required. That's
+> not a regression, as it would be a *new* DT.
 >
-> Patches 4, 5, and 6 are an attempt at renaming all the existing DTB
-> overlays. Split out by platform so they could be taken by platform
-> maintainers or if easier ACK'd here and taken all together.
+> > > > Also, with 'clock-names' dropped, you've just introduced a bunch of
+> > > > warnings on other people's platforms. Are you going to 'fix' all of
+> > > > them?
+> > > >
+> > > Yes I will fix them, once the patch driver patch [0] is merged in.
+> >
+> > Why? You are just making extra work. We have enough warnings as-is to
+> > fix.
 >
-> This should cover all the DTB overlays so we can remove the old .dts
-> rule for overlays and make .dtso the only supported way, let me know
-> if we want that this cycle and I can post that too.
->
-> Thanks,
-> Andrew
->
-> Changes from v1[1]:
->  - Added patch to rename pi433 overlay.
->  - Cleaned wording on patch 4-6.
->  - Collected some ACKs
->
-> [0] https://www.spinics.net/lists/kernel/msg4548509.html
-> [1] https://www.spinics.net/lists/arm-kernel/msg1020165.html
->
-> Andrew Davis (6):
->   kbuild: Allow DTB overlays to built from .dtso named source files
->   kbuild: Allow DTB overlays to built into .dtso.S files
->   arm64: dts: freescale: Rename DTB overlay source files from .dts to
->     .dtso
->   arm64: dts: renesas: Rename DTB overlay source files from .dts to
->     .dtso
->   arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
->   staging: pi433: overlay: Rename overlay source file from .dts to .dtso
->
-> Frank Rowand (1):
->   of: overlay: rename overlay source files from .dts to .dtso
+> I agree that a DT binding change should patch all in-tree DTS to avoid
+> introducing new warnings.
 
-I've applied patches 1-3 and 7. I'll send a PR for the branch to the
-platform maintainers after a few days in linux-next.
+That is not what I was saying. Why not just keep 'clock-names' and go
+spend the DTS fixing time fixing some other warnings that we already
+have. Also, there is no requirement that converting bindings also fix
+DTS files. The only wish is that any warnings we do see are ones
+deemed needing to be fixed in the DTS file.
+
+Anyways, there's patches now for the new warnings, so nevermind on this one.
 
 Rob
