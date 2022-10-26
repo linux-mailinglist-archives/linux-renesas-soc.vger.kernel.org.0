@@ -2,68 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5265860D879
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Oct 2022 02:33:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4078660D8CF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Oct 2022 03:21:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230366AbiJZAdy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Oct 2022 20:33:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59728 "EHLO
+        id S231937AbiJZBVb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Oct 2022 21:21:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230307AbiJZAdy (ORCPT
+        with ESMTP id S229800AbiJZBVa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Oct 2022 20:33:54 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27BDBE09F7;
-        Tue, 25 Oct 2022 17:33:53 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id sc25so17125685ejc.12;
-        Tue, 25 Oct 2022 17:33:53 -0700 (PDT)
+        Tue, 25 Oct 2022 21:21:30 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2FDEBEAC7;
+        Tue, 25 Oct 2022 18:21:28 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id bk15so23910357wrb.13;
+        Tue, 25 Oct 2022 18:21:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4aaWjS4eNJQCSflTPbOyiWS6X5z8XgwuVIyZ0zSHeyw=;
-        b=SHvn6WzuKVF3LpTc/NiE0K7REkU1D+t31ewuYJJDe9vO/IGeR++UK4sJcY4JVfs9P9
-         4tn09MZgZ3umnJxr4I+8KrPkdfBjzNlProITgLufKqnsbp3aQXbC6NCLogOHJwEaxxpe
-         F0uTxKwYT/9nv3v/A7EnOX3iUNOz1GTG1WkEckuAy9wjtbw6hTYgTF7EmnEoh0LtbDra
-         HtVOmE4LVAhvpzeT/16Q6YbPl7I0uMDCskC+koYA7ExOwxG5iseAxtKwolV0o1bWHMx2
-         1KVMFGreiyq9AWLWBaAX2FabnXniRUVJ4LX4Tu9gMNf7bnBVox+SZbflXSSzaODyJqbN
-         MYDA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0Jz/vuqprTwlUswHT+3fQYYY63+kBW8BHUTRfhG1llY=;
+        b=OEHYEg101oDjbITmOmTAHCNj0HRcHTCchvZtotNvvAIhVbZcPmVW/KSnXx0nok+IA8
+         0x41O6RspdRnfAk9Jd9SzJ/8M0ynlVLiIuTvhFHYXMDqAbfxQ19IOP9tcIjnpDirGYr3
+         RxpAOISRff7tE7cONcw9LnOHTs6dDW4aLO4EWXSyezqt3IvHLwo8iCBK6hWcl1dpQbUK
+         ON80L9eSKMhst+TCRbONpecScmVzu8ypsYJNLpGOOP5+3x9ahfQzrkWR6siieXMdesMH
+         pWy4K1cJJDr9xM1Jl6DLS1eACGtNVgVwSzFm2Xb/56+O/1Y0I1hhpbLh/R9Bs279eC96
+         F6HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4aaWjS4eNJQCSflTPbOyiWS6X5z8XgwuVIyZ0zSHeyw=;
-        b=Aaff+Hr30eXlESwQUUTC/gPJj1Y5Hx6g/JxIlgsbj1Zn53oYNUTMKnQI6CVq7kectC
-         R5SU+6EzD4RpJsKRMfuQ5I7llNBEfg5pOX2FkhECb54W0lZ3CVIVZOO2+MToFsEO84Pk
-         7tXMRCAsHu4GOljRxtGiYzTLabEZbGus32yWL0zW+R4ZZPFMuGDpOI9xktVBedEn04U4
-         CWdWpEY/3V1vmBvMQuLGj+YSF8YzSvrZOj+xIpe5MBxs9vUbxr7AiJoRd73s9LAvQKzE
-         Z69vQKeNpDv51S82Z6DxmdcVPvVDrRg2XF9DA4GbRjj5SbwXtbsyUBbwRWMSPJ5frbdK
-         lB8Q==
-X-Gm-Message-State: ACrzQf29EMM+3e3U+NSYc2J2jWGpmuwj/D/vd0MZEWqnaIengahmEuqz
-        CII4KVchsTSL+d+aE0N95dZizpWj+YtUEcMcZOrN3dYVCHk=
-X-Google-Smtp-Source: AMsMyM41fHmvE/tw4iklmaAb+tsqtyxfNYyQRmCSC3l1Ydpw8H0fd4O6opPaTD2iDYsaKwcpryWF6XN0IFp4SXx9s9g=
-X-Received: by 2002:a17:906:c14f:b0:793:30e1:96be with SMTP id
- dp15-20020a170906c14f00b0079330e196bemr29985809ejc.447.1666744431536; Tue, 25
- Oct 2022 17:33:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220929185119.335273-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220929185119.335273-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXR+Nsyd0EkNeBvUOpm+qPNUDMZedfY0wErESi5x2Z9JA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXR+Nsyd0EkNeBvUOpm+qPNUDMZedfY0wErESi5x2Z9JA@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 26 Oct 2022 01:33:24 +0100
-Message-ID: <CA+V-a8ujJR-Ca4QRgiosPfaEmscFKERHySUL9xpzr794x5EzmQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] clk: renesas: rzg2l: Don't assume all CPG_MOD clocks
- support PM
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        bh=0Jz/vuqprTwlUswHT+3fQYYY63+kBW8BHUTRfhG1llY=;
+        b=xXeynXrVkuiWzjTJZOWwRy7KsDDpA5qm2NYm+h9SpLq/NyupW1iUC9LCkh719pTEBl
+         bNj0YoTWKDEcMutugYJ7hVxuNXNvfqtzdSHZ+eDnBOBCxh68tVNUCKUfM5s0iDgLzmd2
+         fPW6zVrp/kwB9tzbEJW5i/OElnFiVmuKDWRQnPW9gsBKKJISVu5T/Kv5rSEstMe7V4l9
+         2waFS9gG1yV4UHF0MHMTFdopBikTTw/QXqrHrGPYyW17QZtD2ZJ0YGrFw0AsWwDW/gMs
+         i2G+N0ISX68iCGSbEaSp1ZZtDLtoKs8dOfsgGV6TfcQ6kzC4NsULblnqE7jOmkMiU5WD
+         YkpQ==
+X-Gm-Message-State: ACrzQf1rDwNISq/4giRyxPyFLFVgUyPjqQNSWqKfj6CZXcfLUfoJbI4y
+        Hs+6PZz1zV6UudMhmzl0/uY=
+X-Google-Smtp-Source: AMsMyM7TjQyEarJdQUz8kJ3bvQ8YOCO0mEm8pAH+q3zaxkAWblq2ftveFlDSnFSHssFKJ7+5Jqv7qw==
+X-Received: by 2002:a5d:6d0b:0:b0:232:bd2e:1bf2 with SMTP id e11-20020a5d6d0b000000b00232bd2e1bf2mr27339228wrq.534.1666747287415;
+        Tue, 25 Oct 2022 18:21:27 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2501:c701:1d2a:d2a2:361e:a475])
+        by smtp.gmail.com with ESMTPSA id t2-20020a1c7702000000b003c6bd12ac27sm394456wmi.37.2022.10.25.18.21.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Oct 2022 18:21:26 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH] clk: renesas: rzg2l: Fix typo
+Date:   Wed, 26 Oct 2022 02:21:23 +0100
+Message-Id: <20221026012123.159790-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -74,137 +75,34 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thank you for the review.
+Fix typo pll5_mux_dsi_div_params -> mux_dsi_div_params
 
-On Tue, Oct 25, 2022 at 9:56 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Thu, Sep 29, 2022 at 8:51 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > There are cases where not all CPG_MOD clocks should be assumed to support
-> > PM. For example on the CRU block there is a particular sequence that needs
-> > to be followed to initialize the CSI-2 D-PHY in which individual clocks
-> > need to be turned ON/OFF, due to which Runtime PM support wasn't used by
-> > the CRU CSI-2 driver.
-> >
-> > This patch adds support to allow indicating if PM is supported by the
-> > CPG_MOD clocks. A new macro is DEF_NO_PM() is added which sets the no_pm
-> > flag in struct rzg2l_mod_clk and when the driver uses Runtime PM support
-> > no_pm flag is checked to see if the clk needs to included as part of
-> > Runtime PM.
-> >
-> > CPG_MOD clocks with no_pm flag set need to be individually turned ON/OFF
-> > depending on the requirement of the driver.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > RFC->v1
-> > * Added no_pm_mod_clks and num_no_pm_mod_clks members as part of
-> >   struct rzg2l_cpg_priv
->
-> Thanks for your patch!
->
-> > --- a/drivers/clk/renesas/rzg2l-cpg.c
-> > +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> > @@ -108,12 +108,16 @@ struct rzg2l_cpg_priv {
-> >         unsigned int num_mod_clks;
-> >         unsigned int num_resets;
-> >         unsigned int last_dt_core_clk;
-> > +       int *no_pm_mod_clks;
-> > +       unsigned int num_no_pm_mod_clks;
-> >
-> >         const struct rzg2l_cpg_info *info;
-> >
-> >         struct rzg2l_pll5_mux_dsi_div_param mux_dsi_div_params;
-> >  };
-> >
-> > +static struct rzg2l_cpg_priv *rzg2l_cpg_priv;
->
-> I think you can do without this, by moving the currently separately
-> allocated struct generic_pm_domain into struct rzg2l_cpg_priv,
-> and using container_of() on the currently unused pointer passed to
-> rzg2l_cpg_attach_dev().
->
-Agreed.
+Fixes the below warning (make W=1):
 
-> Note to self: get rid of the cpg_mssr_clk_domain static pointer in
-> the CPG/MSSR driver.
->
-> > +
-> >  static void rzg2l_cpg_del_clk_provider(void *data)
-> >  {
-> >         of_clk_del_provider(data);
-> > @@ -1225,16 +1229,24 @@ static int rzg2l_cpg_reset_controller_register(struct rzg2l_cpg_priv *priv)
-> >
-> >  static bool rzg2l_cpg_is_pm_clk(const struct of_phandle_args *clkspec)
-> >  {
-> > +       struct rzg2l_cpg_priv *priv = rzg2l_cpg_priv;
-> > +       const struct rzg2l_cpg_info *info = priv->info;
->
-> info is used only once, expand user below?
->
-With the below change suggested info will be used more than once
-(3-times), so I'll keep it.
+drivers/clk/renesas/rzg2l-cpg.c:115: warning: Function parameter or member 'mux_dsi_div_params' not described in 'rzg2l_cpg_priv'
 
-> > +       unsigned int id;
-> > +       unsigned int i;
-> > +
-> >         if (clkspec->args_count != 2)
-> >                 return false;
-> >
-> > -       switch (clkspec->args[0]) {
-> > -       case CPG_MOD:
-> > -               return true;
-> > -
-> > -       default:
-> > +       if (clkspec->args[0] != CPG_MOD)
-> >                 return false;
-> > +
-> > +       id = clkspec->args[1] + info->num_total_core_clks;
-> > +       for (i = 0; i < priv->num_no_pm_mod_clks; i++) {
-> > +               if (priv->no_pm_mod_clks[i] == id)
-> > +                       return false;
-> >         }
-> > +
-> > +       return true;
-> >  }
-> >
-> >  static int rzg2l_cpg_attach_dev(struct generic_pm_domain *unused, struct device *dev)
->
-> > @@ -1366,8 +1379,26 @@ static int __init rzg2l_cpg_probe(struct platform_device *pdev)
-> >         for (i = 0; i < info->num_core_clks; i++)
-> >                 rzg2l_cpg_register_core_clk(&info->core_clks[i], info, priv);
-> >
-> > -       for (i = 0; i < info->num_mod_clks; i++)
-> > +       priv->num_no_pm_mod_clks = 0;
-> > +       for (i = 0; i < info->num_mod_clks; i++) {
-> > +               if (info->mod_clks[i].no_pm)
-> > +                       priv->num_no_pm_mod_clks++;
-> > +       }
-> > +
-> > +       if (priv->num_no_pm_mod_clks && info->num_mod_clks) {
-> > +               priv->no_pm_mod_clks =
-> > +                               devm_kmalloc_array(dev, priv->num_no_pm_mod_clks,
-> > +                                                  sizeof(info->mod_clks[0].id),
-> > +                                                  GFP_KERNEL);
-> > +               if (!priv->no_pm_mod_clks)
-> > +                       return -ENOMEM;
-> > +       }
-> > +
-> > +       for (i = 0, j = 0; i < info->num_mod_clks; i++) {
-> > +               if (info->mod_clks[i].no_pm)
-> > +                       priv->no_pm_mod_clks[j++] = info->mod_clks[i].id;
-> >                 rzg2l_cpg_register_mod_clk(&info->mod_clks[i], info, priv);
-> > +       }
->
-> Alternatively, you could have a separate rzg2l_cpg_info.no_pm_clks[]
-> array, like .crit_mod_clks[], and do the counting etc. at compile-time.
->
-Agreed.
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/clk/renesas/rzg2l-cpg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-Prabhakar
+diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+index be4868fa3971..dfd676310ce9 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.c
++++ b/drivers/clk/renesas/rzg2l-cpg.c
+@@ -95,7 +95,7 @@ struct rzg2l_pll5_mux_dsi_div_param {
+  * @num_resets: Number of Module Resets in info->resets[]
+  * @last_dt_core_clk: ID of the last Core Clock exported to DT
+  * @info: Pointer to platform data
+- * @pll5_mux_dsi_div_params: pll5 mux and dsi div parameters
++ * @mux_dsi_div_params: pll5 mux and dsi div parameters
+  */
+ struct rzg2l_cpg_priv {
+ 	struct reset_controller_dev rcdev;
+
+base-commit: 888a358164525a701121192f504433de6c7a281b
+-- 
+2.25.1
+
