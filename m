@@ -2,130 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BD6E60E1F0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Oct 2022 15:19:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8DE560E2EA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Oct 2022 16:11:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233825AbiJZNTb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Oct 2022 09:19:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55444 "EHLO
+        id S233731AbiJZOLf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Oct 2022 10:11:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234073AbiJZNTB (ORCPT
+        with ESMTP id S233648AbiJZOLe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Oct 2022 09:19:01 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D2BE2100BD5;
-        Wed, 26 Oct 2022 06:18:15 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.95,214,1661785200"; 
-   d="scan'208";a="140456063"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 26 Oct 2022 22:18:15 +0900
-Received: from localhost.localdomain (unknown [10.226.92.188])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E81AE4255D31;
-        Wed, 26 Oct 2022 22:18:09 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        =?UTF-8?q?Stefan=20M=C3=A4tje?= <stefan.maetje@esd.eu>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 6/6] can: rcar_canfd: Add has_gerfl_eef to struct rcar_canfd_hw_info
-Date:   Wed, 26 Oct 2022 14:17:32 +0100
-Message-Id: <20221026131732.1843105-7-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221026131732.1843105-1-biju.das.jz@bp.renesas.com>
-References: <20221026131732.1843105-1-biju.das.jz@bp.renesas.com>
+        Wed, 26 Oct 2022 10:11:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41B22A3AAD;
+        Wed, 26 Oct 2022 07:11:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CF95761EC1;
+        Wed, 26 Oct 2022 14:11:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35B4DC43142;
+        Wed, 26 Oct 2022 14:11:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666793493;
+        bh=YMIF5UCWISG2ob0vvfFQtpNcUPd+lX4YhYyWt0PFYPw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=dCCnkTS6zQYXpli9FHZ3e7+Dogw8PaXYNgjsWYWZcuPL0kREvUpGKJtP4qBggBodN
+         2AMODGNDYnn4B7/vXd8sq4gdpeRhscDJp4UaGXRNI6dLkAm0M1nQoSnemavqR6+4QG
+         c73C/TQ3Hn86w+Boor+bUecKVVhFzNbQ/EgtI85Skrhrt5/7ee69/w98i9SqgdGl3e
+         ZTYZ88KE3ZHmD8BwhFwr5fDAJnjNVr9haOpBqvrko0bS1YFjFiepe+nz31iSFkSA3+
+         jgMnKrdWPQzTBG1pUCicthhiwteujQHpqXOIhjUGVfrfJKwr+nOKQKcF7MlZ/KFOuL
+         7hfJ51haA9kKw==
+Received: by mail-lj1-f169.google.com with SMTP id o4so17267156ljp.8;
+        Wed, 26 Oct 2022 07:11:33 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3pDNHafGb3fNm4dnGpXq6wki8FvI5gB5lOW6UBLTEphwHB4x0g
+        7PzvvbvIDAvGVJNodLXBPCpcGbT5PF8UK9sD3g==
+X-Google-Smtp-Source: AMsMyM6i/jjuNFCIcusJ8ZdpQuFHkRapKnNvN0juosoob6Nyxuo+jLAbTwN/yM4+V2v4zQPVryPgNoBO+QR4ZVRpbGk=
+X-Received: by 2002:a05:651c:114a:b0:25d:5ae6:42a4 with SMTP id
+ h10-20020a05651c114a00b0025d5ae642a4mr16242008ljo.255.1666793491191; Wed, 26
+ Oct 2022 07:11:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221024173434.32518-1-afd@ti.com>
+In-Reply-To: <20221024173434.32518-1-afd@ti.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 26 Oct 2022 09:11:21 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJxgVwsjKnkCEkZeoSsDgaRD+DVPkHRBc2SrcSq69PBNw@mail.gmail.com>
+Message-ID: <CAL_JsqJxgVwsjKnkCEkZeoSsDgaRD+DVPkHRBc2SrcSq69PBNw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] Rename DTB overlay source files
+To:     Andrew Davis <afd@ti.com>
+Cc:     Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-R-Car has ECC error flags in global error interrupts whereas it is
-not available on RZ/G2L.
+On Mon, Oct 24, 2022 at 12:34 PM Andrew Davis <afd@ti.com> wrote:
+>
+> Hello all,
+>
+> This is a series based on my patch here[0]. As suggested by Rob
+> I've resurrected Frank's patch and appended it to mine as a series.
+>
+> First patch here is my original patch, 3rd is Frank's patch but with
+> the unittest changes pulled out into the 2nd patch. That was re-worked
+> moving the source building macro into scripts/Makefile.lib.
+>
+> Patches 4, 5, and 6 are an attempt at renaming all the existing DTB
+> overlays. Split out by platform so they could be taken by platform
+> maintainers or if easier ACK'd here and taken all together.
+>
+> This should cover all the DTB overlays so we can remove the old .dts
+> rule for overlays and make .dtso the only supported way, let me know
+> if we want that this cycle and I can post that too.
+>
+> Thanks,
+> Andrew
+>
+> Changes from v1[1]:
+>  - Added patch to rename pi433 overlay.
+>  - Cleaned wording on patch 4-6.
+>  - Collected some ACKs
+>
+> [0] https://www.spinics.net/lists/kernel/msg4548509.html
+> [1] https://www.spinics.net/lists/arm-kernel/msg1020165.html
+>
+> Andrew Davis (6):
+>   kbuild: Allow DTB overlays to built from .dtso named source files
+>   kbuild: Allow DTB overlays to built into .dtso.S files
+>   arm64: dts: freescale: Rename DTB overlay source files from .dts to
+>     .dtso
+>   arm64: dts: renesas: Rename DTB overlay source files from .dts to
+>     .dtso
+>   arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
+>   staging: pi433: overlay: Rename overlay source file from .dts to .dtso
+>
+> Frank Rowand (1):
+>   of: overlay: rename overlay source files from .dts to .dtso
 
-Add has_gerfl_eef to struct rcar_canfd_hw_info so that rcar_canfd_
-global_error() will process ECC errors only for R-Car.
+I've applied patches 1-3 and 7. I'll send a PR for the branch to the
+platform maintainers after a few days in linux-next.
 
-whilst, this patch fixes the below checkpatch warnings
-  CHECK: Unnecessary parentheses around 'ch == 0'
-  CHECK: Unnecessary parentheses around 'ch == 1'
-
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Replaced info->has_gerfl to gpriv->info->has_gerfl and wrapped
-   the ECC error flag check within single if statement.
----
- drivers/net/can/rcar/rcar_canfd.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-index 20d434eef639..0bb0ed65ea8c 100644
---- a/drivers/net/can/rcar/rcar_canfd.c
-+++ b/drivers/net/can/rcar/rcar_canfd.c
-@@ -523,6 +523,7 @@ struct rcar_canfd_hw_info {
- 	/* hardware features */
- 	unsigned shared_global_irqs:1;	/* Has shared global irqs */
- 	unsigned multi_channel_irqs:1;	/* Has multiple channel irqs */
-+	unsigned has_gerfl_eef:1;	/* Has ECC Error Flag */
- };
- 
- /* Channel priv data */
-@@ -596,6 +597,7 @@ static const struct rcar_canfd_hw_info rcar_gen3_hw_info = {
- 	.max_channels = 2,
- 	.postdiv = 2,
- 	.shared_global_irqs = 1,
-+	.has_gerfl_eef = 1,
- };
- 
- static const struct rcar_canfd_hw_info rzg2l_hw_info = {
-@@ -608,6 +610,7 @@ static const struct rcar_canfd_hw_info r8a779a0_hw_info = {
- 	.max_channels = 8,
- 	.postdiv = 2,
- 	.shared_global_irqs = 1,
-+	.has_gerfl_eef = 1,
- };
- 
- /* Helper functions */
-@@ -955,13 +958,15 @@ static void rcar_canfd_global_error(struct net_device *ndev)
- 	u32 ridx = ch + RCANFD_RFFIFO_IDX;
- 
- 	gerfl = rcar_canfd_read(priv->base, RCANFD_GERFL);
--	if ((gerfl & RCANFD_GERFL_EEF0) && (ch == 0)) {
--		netdev_dbg(ndev, "Ch0: ECC Error flag\n");
--		stats->tx_dropped++;
--	}
--	if ((gerfl & RCANFD_GERFL_EEF1) && (ch == 1)) {
--		netdev_dbg(ndev, "Ch1: ECC Error flag\n");
--		stats->tx_dropped++;
-+	if (gpriv->info->has_gerfl_eef) {
-+		if ((gerfl & RCANFD_GERFL_EEF0) && ch == 0) {
-+			netdev_dbg(ndev, "Ch0: ECC Error flag\n");
-+			stats->tx_dropped++;
-+		}
-+		if ((gerfl & RCANFD_GERFL_EEF1) && ch == 1) {
-+			netdev_dbg(ndev, "Ch1: ECC Error flag\n");
-+			stats->tx_dropped++;
-+		}
- 	}
- 	if (gerfl & RCANFD_GERFL_MES) {
- 		sts = rcar_canfd_read(priv->base,
--- 
-2.25.1
-
+Rob
