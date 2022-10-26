@@ -2,55 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF50560DC9C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Oct 2022 09:56:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6710060DCAA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Oct 2022 09:58:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232648AbiJZH4j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Oct 2022 03:56:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56618 "EHLO
+        id S233214AbiJZH6h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Oct 2022 03:58:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232530AbiJZH4h (ORCPT
+        with ESMTP id S233181AbiJZH6h (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Oct 2022 03:56:37 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0C719C2FF;
-        Wed, 26 Oct 2022 00:56:36 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id w29so2264168qtv.9;
-        Wed, 26 Oct 2022 00:56:36 -0700 (PDT)
+        Wed, 26 Oct 2022 03:58:37 -0400
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BD59A98C7;
+        Wed, 26 Oct 2022 00:58:36 -0700 (PDT)
+Received: by mail-qv1-f51.google.com with SMTP id ml12so9798819qvb.0;
+        Wed, 26 Oct 2022 00:58:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JZv0EQODj9uEccYLjpbGQ7puG1gOLqeceGxoxO6cEYU=;
-        b=setqzUmYHRSiYre5/T+0kgNI3iXoE9iWKxpsJz875KxymiWnntPWgKRZ9rwbcTNUN+
-         qf142g5K0RV1vCxF4WBeQH/oNaDasDsl5RUxFON5MN+c5zTmk0poD8kz/U2d30Tgfq0j
-         Ev3nPjCQT5vD/sE31WMpPJeREVdXChUVh4WOsXucDRa8scdMIXYf5IPngJxLyMVtTtW0
-         E53lXsrBdo0RJd4Qjxvc6mmAWZk4tLuHENYqn7fzXg0Q4O1m7VUoS6y/haUHlylUjda4
-         bfgyJItFGEWb2IYE+VPvJpeZs1CoqsqjP2TrwhMbg8c0fjaa1zw71lwKLwHzNVvRnpNh
-         67nw==
-X-Gm-Message-State: ACrzQf1n7BL0OKK8asZAE+iCEEENuZg2gKW/yD+FjacK+Ty+pGCAbJ5A
-        cDe+Xk8X6xAEpFwenHvR5j1kUMTUiFXTrA==
-X-Google-Smtp-Source: AMsMyM4j/Gy1QEfODnznT78OG8URXlMN9UDpoy5OilRFBh/GUR2BXUSkR3qbn90gFSPWlac65RnCqQ==
-X-Received: by 2002:ac8:7f8c:0:b0:39c:db49:29cc with SMTP id z12-20020ac87f8c000000b0039cdb4929ccmr35462246qtj.224.1666770995508;
-        Wed, 26 Oct 2022 00:56:35 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id e14-20020ac85dce000000b0039764587192sm2764782qtx.57.2022.10.26.00.56.35
+        bh=F3WQcdE0WzwCWNl9OlEV6pv3M37aoXQt24XvswxJUCM=;
+        b=MklElcdvI85ZWmYTMkPWgBay2Z124a6V8jrAw4WiLfi43L+nZp3yY3o7BfsgiqKJmy
+         R4pXeBUzGUa7+bFI4uLb1T/tZJq0+4RBYs4CDfZ3t2Ps/zuiWU/IwTnNsQzuKPOeFkyJ
+         T6O2hmgOPsVSC40ABGeFU3egi/OC4YdypSgF5u6V5e+ly6IOKq/7B3DpnXw1Ij4FWZm5
+         R2Kz8K7VnU2fGRFQQXtxe77yC+I+8Ym7FvqhQnszYJU/YjfgqxmiS1vRbSMIPcza4qv2
+         3rWS4m2KjaTlFArefqWbDMzfN9TZmpUReOACKNdP4lhUJ3qdDq+uDGfosN2b2g2G6IYS
+         yhkw==
+X-Gm-Message-State: ACrzQf3C4j0X1I3H7ptT0k1LQOHCkpV9t/Tl7hcwxoXi//m2t4LKkaAN
+        zF1qcy7tvB4CZit97cyuw3BMXuUdubB/9g==
+X-Google-Smtp-Source: AMsMyM41MnUS2Hloi2O7nf+sbHjyKCJuL/JnX5IN4I5NWOeJkBUYlzbPDbQwxbAT0A0iqRP1ZSYlpg==
+X-Received: by 2002:ad4:5be7:0:b0:4b3:fe6c:904b with SMTP id k7-20020ad45be7000000b004b3fe6c904bmr36303486qvc.42.1666771115415;
+        Wed, 26 Oct 2022 00:58:35 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id a25-20020a05620a16d900b006b615cd8c13sm3306437qkn.106.2022.10.26.00.58.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Oct 2022 00:56:35 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-35befab86a4so139401637b3.8;
-        Wed, 26 Oct 2022 00:56:35 -0700 (PDT)
-X-Received: by 2002:a81:9c49:0:b0:34a:de:97b8 with SMTP id n9-20020a819c49000000b0034a00de97b8mr37831330ywa.384.1666770994803;
- Wed, 26 Oct 2022 00:56:34 -0700 (PDT)
+        Wed, 26 Oct 2022 00:58:35 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-333a4a5d495so139335527b3.10;
+        Wed, 26 Oct 2022 00:58:35 -0700 (PDT)
+X-Received: by 2002:a81:12c8:0:b0:36a:bd6b:92fb with SMTP id
+ 191-20020a8112c8000000b0036abd6b92fbmr20336268yws.316.1666771114757; Wed, 26
+ Oct 2022 00:58:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221026014227.162121-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20221026014227.162121-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20221026014227.162121-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20221026014227.162121-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20221026014227.162121-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20221026014227.162121-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 26 Oct 2022 09:56:22 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVg1sFH1gAqo3yf5-m7edfHFO0VM63n=FmDQHhJqSpHyg@mail.gmail.com>
-Message-ID: <CAMuHMdVg1sFH1gAqo3yf5-m7edfHFO0VM63n=FmDQHhJqSpHyg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] clk: renesas: rzg2l: Don't assume all CPG_MOD
- clocks support PM
+Date:   Wed, 26 Oct 2022 09:58:22 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVa28=84ZovtWazx0w=xWLDZioK0+CVnoE=NALjMewSkg@mail.gmail.com>
+Message-ID: <CAMuHMdVa28=84ZovtWazx0w=xWLDZioK0+CVnoE=NALjMewSkg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] clk: renesas: r9a07g044: Add CRU_SYSCLK and
+ CRU_VCLK to no PM list
 To:     Prabhakar <prabhakar.csengg@gmail.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -61,8 +62,8 @@ Cc:     Michael Turquette <mturquette@baylibre.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -74,44 +75,37 @@ Hi Prabhakar,
 On Wed, Oct 26, 2022 at 3:42 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> There are cases where not all CPG_MOD clocks should be assumed to support
-> PM. For example on the CRU block there is a particular sequence that needs
-> to be followed to initialize the CSI-2 D-PHY in which individual clocks
-> need to be turned ON/OFF, due to which Runtime PM support wasn't used by
-> the CRU CSI-2 driver.
->
-> This patch adds support to allow indicating if PM is not supported by the
-> CPG_MOD clocks. Two new members no_pm_mod_clks and num_no_pm_mod_clks are
-> added to struct rzg2l_cpg_info so that MOD clocks which do not support PM
-> can be passed by no_pm_mod_clks[] array and when the driver uses Runtime
-> PM support the clk ID is matched against the no_pm_mod_clks[] array to see
-> if the clk is needed to be included as part of Runtime PM.
+> CRU_SYSCLK and CRU_VCLK clocks need to be turned ON/OFF in particular
+> sequence for the CRU block hence add these clocks to
+> r9a07g044_no_pm_mod_clks[] array.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
 > v1->v2
-> * Dropped DEF_NO_PM() macro
-> * Added genpd member to struct rzg2l_cpg_priv
-> * Added no_pm_mod_clks and num_no_pm_mod_clks members
->   to struct rzg2l_cpg_info
+> * Dropped usage of DEF_NO_PM() macro
+> * Added CRU_SYSCLK and CRU_VCLK to no PM list
 > * Updated commit message
 
 Thanks for the update!
 
-> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-
+> --- a/drivers/clk/renesas/r9a07g044-cpg.c
+> +++ b/drivers/clk/renesas/r9a07g044-cpg.c
+> @@ -412,6 +412,11 @@ static const unsigned int r9a07g044_crit_mod_clks[] __initconst = {
+>         MOD_CLK_BASE + R9A07G044_DMAC_ACLK,
+>  };
 >
->  static int rzg2l_cpg_attach_dev(struct generic_pm_domain *unused, struct device *dev)
+> +static const unsigned int r9a07g044_no_pm_mod_clks[] __initconst = {
 
-Time to rename "unused" to "domain" ;-)
+This cannot be __initconst, so please drop this keyword.
 
->  {
-> +       struct rzg2l_cpg_priv *priv = container_of(unused, struct rzg2l_cpg_priv, genpd);
+> +       MOD_CLK_BASE + R9A07G044_CRU_SYSCLK,
+> +       MOD_CLK_BASE + R9A07G044_CRU_VCLK,
+> +};
 
-I can fix that while applying...
+I believe I haven't seen patches yet to add support for these clocks?
+Perhaps these can be combined?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks!
 
 Gr{oetje,eeting}s,
 
