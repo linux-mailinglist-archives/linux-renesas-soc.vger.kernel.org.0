@@ -2,118 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6710060DCAA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Oct 2022 09:58:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71B5560DD7C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Oct 2022 10:47:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233214AbiJZH6h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Oct 2022 03:58:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59648 "EHLO
+        id S232489AbiJZIrN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Oct 2022 04:47:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233181AbiJZH6h (ORCPT
+        with ESMTP id S229904AbiJZIrM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Oct 2022 03:58:37 -0400
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BD59A98C7;
-        Wed, 26 Oct 2022 00:58:36 -0700 (PDT)
-Received: by mail-qv1-f51.google.com with SMTP id ml12so9798819qvb.0;
-        Wed, 26 Oct 2022 00:58:36 -0700 (PDT)
+        Wed, 26 Oct 2022 04:47:12 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D33107696D;
+        Wed, 26 Oct 2022 01:47:11 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id sc25so19303379ejc.12;
+        Wed, 26 Oct 2022 01:47:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dHciPpZ1UgXbXRvGPu7x5GbGmWOSivcZ/5MPRV1/Ons=;
+        b=HBPuNLiaf8LEoGHt9vdgvBgH+wID/hJDgyUmFN/i+CrvJANhSJKYN+sb7Izc/w4+sk
+         /WfcGVJFkOxLUC/ykQV/1YAV659IcfSeTt9JqJcL9CuPdClwVGWD/w1zR92g79O/vR2R
+         mcEShBP+h+mW5LSuEkWsMqlW8ud1IvPo86sm2UMEvwajuTlxza3iHb8rSUdyeDmTsr2P
+         c/mezJVXUzW9CHb/2jn+dmHa2gzqI0prXGlljJRzM+IbKl5CeHdF3V+UgFizqkMZkRBD
+         eteUctnBLmGvvur5uxHo+MiEVcrz3y9siQ4flTfn5WyjItSRXNalJmV6D2XSD8PQQOpO
+         Nxow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=F3WQcdE0WzwCWNl9OlEV6pv3M37aoXQt24XvswxJUCM=;
-        b=MklElcdvI85ZWmYTMkPWgBay2Z124a6V8jrAw4WiLfi43L+nZp3yY3o7BfsgiqKJmy
-         R4pXeBUzGUa7+bFI4uLb1T/tZJq0+4RBYs4CDfZ3t2Ps/zuiWU/IwTnNsQzuKPOeFkyJ
-         T6O2hmgOPsVSC40ABGeFU3egi/OC4YdypSgF5u6V5e+ly6IOKq/7B3DpnXw1Ij4FWZm5
-         R2Kz8K7VnU2fGRFQQXtxe77yC+I+8Ym7FvqhQnszYJU/YjfgqxmiS1vRbSMIPcza4qv2
-         3rWS4m2KjaTlFArefqWbDMzfN9TZmpUReOACKNdP4lhUJ3qdDq+uDGfosN2b2g2G6IYS
-         yhkw==
-X-Gm-Message-State: ACrzQf3C4j0X1I3H7ptT0k1LQOHCkpV9t/Tl7hcwxoXi//m2t4LKkaAN
-        zF1qcy7tvB4CZit97cyuw3BMXuUdubB/9g==
-X-Google-Smtp-Source: AMsMyM41MnUS2Hloi2O7nf+sbHjyKCJuL/JnX5IN4I5NWOeJkBUYlzbPDbQwxbAT0A0iqRP1ZSYlpg==
-X-Received: by 2002:ad4:5be7:0:b0:4b3:fe6c:904b with SMTP id k7-20020ad45be7000000b004b3fe6c904bmr36303486qvc.42.1666771115415;
-        Wed, 26 Oct 2022 00:58:35 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id a25-20020a05620a16d900b006b615cd8c13sm3306437qkn.106.2022.10.26.00.58.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Oct 2022 00:58:35 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-333a4a5d495so139335527b3.10;
-        Wed, 26 Oct 2022 00:58:35 -0700 (PDT)
-X-Received: by 2002:a81:12c8:0:b0:36a:bd6b:92fb with SMTP id
- 191-20020a8112c8000000b0036abd6b92fbmr20336268yws.316.1666771114757; Wed, 26
- Oct 2022 00:58:34 -0700 (PDT)
+        bh=dHciPpZ1UgXbXRvGPu7x5GbGmWOSivcZ/5MPRV1/Ons=;
+        b=nPLlWY3R0PFp0z25B4bwcQT/MTOT1AyANSZuSAlaAjBHyGWfykuMJgGDMeE7ncFp3x
+         frikMlNe1mcyttER3SN9AiV1aggqcvjoUp2ZAdJ52v7nIXqj45bB4RaplA1CDsfNgn0s
+         yQ1wWBjFlQpsSTiuCYIZ257R9QaspXQh0MhQn8KPlZfHArxQQ8wHRCCMTv+4EOhtSK63
+         9r9B3F10h/ZCWcnf/+lp1rWTWM6vO80BD9Zo/upFCYgGNfaOC7h2uAilWy/Y+lWpdK9q
+         Ijw6taWMzEP3Bf6IIRG+qBuRzwAYyWRUuCaPDf1GJRFBljea09CWxHQpffBVl+5AtCGg
+         hsgg==
+X-Gm-Message-State: ACrzQf30nvQotWqyKAWdjsQuo8+shaMBjiTKqYmLeExEREcrBlN6sML0
+        xRteCSsV9gb2GJhDWQquRqlfHlSPwQzTK+WqIzg=
+X-Google-Smtp-Source: AMsMyM4xEIf06naDNkYmEl1zQz9IpL3fkrDGCsIddCLnKN0gZpHjaEDxcmdQKlbVGQLLjrPJ3Ykmdoo3ESPtHE0uPPQ=
+X-Received: by 2002:a17:906:c14f:b0:793:30e1:96be with SMTP id
+ dp15-20020a170906c14f00b0079330e196bemr31466869ejc.447.1666774030318; Wed, 26
+ Oct 2022 01:47:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221026014227.162121-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20221026014227.162121-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20221026014227.162121-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 26 Oct 2022 09:58:22 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVa28=84ZovtWazx0w=xWLDZioK0+CVnoE=NALjMewSkg@mail.gmail.com>
-Message-ID: <CAMuHMdVa28=84ZovtWazx0w=xWLDZioK0+CVnoE=NALjMewSkg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] clk: renesas: r9a07g044: Add CRU_SYSCLK and
- CRU_VCLK to no PM list
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+References: <20220915165256.352843-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220915165256.352843-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdVJ4gp=kT2S+5bhjdZACSbEX=3pP7mmmi_GEbeAOxtHGw@mail.gmail.com>
+ <CA+V-a8sidwGQVSb7UV56opqE9ViS_y7nVPWx8Krx7t6P1BExCg@mail.gmail.com> <CAMuHMdWkg-k2efZoy=U+j-xji0Agp38qRy-8cjb7K7QiJrL-ZQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWkg-k2efZoy=U+j-xji0Agp38qRy-8cjb7K7QiJrL-ZQ@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 26 Oct 2022 09:46:43 +0100
+Message-ID: <CA+V-a8t3D0wFQhjm51hoduDqy2K93O5dUB=7aU0UjzhGYEowgg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: rzg2ul-smarc: Add
+ /omit-if-no-ref/ to pinmux
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Geert,
 
-On Wed, Oct 26, 2022 at 3:42 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Wed, Oct 26, 2022 at 8:29 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> CRU_SYSCLK and CRU_VCLK clocks need to be turned ON/OFF in particular
-> sequence for the CRU block hence add these clocks to
-> r9a07g044_no_pm_mod_clks[] array.
+> Hi Prabhakar,
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2
-> * Dropped usage of DEF_NO_PM() macro
-> * Added CRU_SYSCLK and CRU_VCLK to no PM list
-> * Updated commit message
-
-Thanks for the update!
-
-> --- a/drivers/clk/renesas/r9a07g044-cpg.c
-> +++ b/drivers/clk/renesas/r9a07g044-cpg.c
-> @@ -412,6 +412,11 @@ static const unsigned int r9a07g044_crit_mod_clks[] __initconst = {
->         MOD_CLK_BASE + R9A07G044_DMAC_ACLK,
->  };
+> On Wed, Oct 26, 2022 at 12:39 AM Lad, Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+> > On Tue, Oct 25, 2022 at 9:13 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > On Thu, Sep 15, 2022 at 6:53 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > In preparation to re-use the RZ/G2UL SMARC SoM and carrier DTS/I with the
+> > > > RZ/Five add /omit-if-no-ref/ keyword to pinmux entries as the support for
+> > > > RZ/Five SMARC EVK will be gradually added.
+> > > >
+> > > > Once we have full blown support for RZ/Five SMARC EVK we can get rid of
+> > > > the /omit-if-no-ref/ keyword.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Thanks for your patch!
+> > >
+> > > I finally had a deeper look at this...
+> > >
+> > > Why do you want to disable these nodes? While they are indeed not
+> > > used yet on RZ/Five, they are valid hardware descriptions for the
+> > > RZ/Five SMARC EVK, and their presence doesn't harm anything.
+> > >
+> > > I do see a valid use case for marking pin control subnodes with
+> > > /omit-if-no-ref/: you can provide all possible configurations as a
+> > > convenience for the user, so the user no longer has to look up the
+> > > numeric parameters of the RZG2L_PORT_PINMUX() macros.
+> > > But IMHO those would belong in the SoC-specific .dtsi, not in a
+> > > board .dtsi.  See e.g. the massive use of /omit-if-no-ref/ in sunxi
+> > > and rockchip .dtsi files.
+> > >
+> > > Am I missing something?
+> > >
+> > My intention was to keep the DTB as minimal as possible so that it
+> > includes just the required pinmuxes which were enabled on the RZ/Five.
+> > For example [0], [1] we do delete the pinctrl for the nodes which are
+> > marked as disabled. Do you think we should drop it?
 >
-> +static const unsigned int r9a07g044_no_pm_mod_clks[] __initconst = {
+> You mean
+>
+>     /delete-property/ pinctrl-0;
+>     /delete-property/ pinctrl-names;
+>
+> ?
+> These do not delete pinctrl subnodes, but pinctrl properties in disabled
+> device nodes pointing to pinctrl subnodes.  The actual pinctrl subnodes
+> are still present.
+>
+Ahh right the pinctrl subnodes will still remain.
 
-This cannot be __initconst, so please drop this keyword.
-
-> +       MOD_CLK_BASE + R9A07G044_CRU_SYSCLK,
-> +       MOD_CLK_BASE + R9A07G044_CRU_VCLK,
-> +};
-
-I believe I haven't seen patches yet to add support for these clocks?
-Perhaps these can be combined?
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
