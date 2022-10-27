@@ -2,25 +2,25 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E663060F8FF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Oct 2022 15:29:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C80F660F902
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Oct 2022 15:29:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236069AbiJ0N3U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S236071AbiJ0N3U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Thu, 27 Oct 2022 09:29:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54158 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235149AbiJ0N3T (ORCPT
+        with ESMTP id S235978AbiJ0N3T (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Thu, 27 Oct 2022 09:29:19 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0327417FD76;
-        Thu, 27 Oct 2022 06:29:17 -0700 (PDT)
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2E34617FD7A;
+        Thu, 27 Oct 2022 06:29:18 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.95,217,1661785200"; 
-   d="scan'208";a="138150706"
+   d="scan'208";a="140601790"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 27 Oct 2022 22:29:17 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 27 Oct 2022 22:29:17 +0900
 Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 4BF8840071E9;
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6BB4B40006BD;
         Thu, 27 Oct 2022 22:29:17 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     kishon@ti.com, vkoul@kernel.org, robh+dt@kernel.org,
@@ -28,50 +28,90 @@ To:     kishon@ti.com, vkoul@kernel.org, robh+dt@kernel.org,
 Cc:     linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v3 0/2] phy: renesas: Add Renesas Ethernet SERDES driver for R-Car S4-8
-Date:   Thu, 27 Oct 2022 22:29:05 +0900
-Message-Id: <20221027132907.2342830-1-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v3 1/2] dt-bindings: phy: renesas: Document Renesas Ethernet SERDES
+Date:   Thu, 27 Oct 2022 22:29:06 +0900
+Message-Id: <20221027132907.2342830-2-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221027132907.2342830-1-yoshihiro.shimoda.uh@renesas.com>
+References: <20221027132907.2342830-1-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.4 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch series is based on next-20221027.
-Add support for R-Car S4-8 Etherent SERDES as a Generic PHY.
+Document Renesas Etherent SERDES for R-Car S4-8 (r8a779f0).
 
-Changes from v2:
-https://lore.kernel.org/all/20221019083449.933005-1-yoshihiro.shimoda.uh@renesas.com/
- - Rebased on next-20221027.
- - Fix examples on the dt-bindings doc.
- - Remove unneeded variable in r8a779f0_eth_serdes_probe().
-
-Changes from v1:
-https://lore.kernel.org/all/20220922051645.3442321-1-yoshihiro.shimoda.uh@renesas.com/
- - Rebased on next-20221017.
- - Rename the dt-binding file.
- - Fix the node name of examples.
- - Fix Makefile.
- - Modify the initialized procedure for all channels.
- - Add commit description about the initialization.
-
-Yoshihiro Shimoda (2):
-  dt-bindings: phy: renesas: Document Renesas Ethernet SERDES
-  phy: renesas: Add Renesas Ethernet SERDES driver for R-Car S4-8
-
- .../phy/renesas,r8a779f0-ether-serdes.yaml    |  54 +++
- drivers/phy/renesas/Kconfig                   |   7 +
- drivers/phy/renesas/Makefile                  |   1 +
- drivers/phy/renesas/r8a779f0-ether-serdes.c   | 416 ++++++++++++++++++
- 4 files changed, 478 insertions(+)
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ .../phy/renesas,r8a779f0-ether-serdes.yaml    | 54 +++++++++++++++++++
+ 1 file changed, 54 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/phy/renesas,r8a779f0-ether-serdes.yaml
- create mode 100644 drivers/phy/renesas/r8a779f0-ether-serdes.c
 
+diff --git a/Documentation/devicetree/bindings/phy/renesas,r8a779f0-ether-serdes.yaml b/Documentation/devicetree/bindings/phy/renesas,r8a779f0-ether-serdes.yaml
+new file mode 100644
+index 000000000000..93ab72874228
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/renesas,r8a779f0-ether-serdes.yaml
+@@ -0,0 +1,54 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/renesas,r8a779f0-ether-serdes.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas Ethernet SERDES
++
++maintainers:
++  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
++
++properties:
++  compatible:
++    const: renesas,r8a779f0-ether-serdes
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  '#phy-cells':
++    description: Port number of SERDES.
++    const: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - resets
++  - power-domains
++  - '#phy-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a779f0-cpg-mssr.h>
++    #include <dt-bindings/power/r8a779f0-sysc.h>
++
++    phy@e6444000 {
++        compatible = "renesas,r8a779f0-ether-serdes";
++        reg = <0xe6444000 0xc00>;
++        clocks = <&cpg CPG_MOD 1506>;
++        power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
++        resets = <&cpg 1506>;
++        #phy-cells = <1>;
++    };
 -- 
 2.25.1
 
