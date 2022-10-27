@@ -2,77 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C58A60ED06
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Oct 2022 02:33:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B540E60F0F8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Oct 2022 09:13:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbiJ0Adn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Oct 2022 20:33:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51702 "EHLO
+        id S233850AbiJ0HN0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Oct 2022 03:13:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbiJ0Adn (ORCPT
+        with ESMTP id S232903AbiJ0HNZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Oct 2022 20:33:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97B5313224C;
-        Wed, 26 Oct 2022 17:33:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 27186620D9;
-        Thu, 27 Oct 2022 00:33:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85819C433C1;
-        Thu, 27 Oct 2022 00:33:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666830821;
-        bh=LHGmM/mXpFrHGGaXOWXbiRdBL+GibSz7b5zQD+9pun0=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=OHYvcFimlKnSGT4YaClHAJO5pu1y88wgJp1BQuyAwhwJ16+Et4zih/dmjV8S6RR9o
-         qciLCYL2XAHJ4VhaQXvXmSXeyXhMFgnv9mHsW3He9/r3m8W29oflEjCSXMJIN71Mda
-         zub4XQs1D1NzrTFU/4CEGcx/vv9PkZVOSzJRx+gHffHNxQklaIKcHLXYrENFf23Whu
-         SbktOQKKORJ4fsUMIcUyE5dY0T0C95pCuv6cWC1AEC/BBPVPV5sWr8NPTFCfl72C2r
-         xN5XiFtaC6/IReUJQY8MBRNH3v3iUl82bC6xSfrYvFK8+9q8yEPTvmlMgKRb3E40Mi
-         jtSch+adnb7kQ==
-Content-Type: text/plain; charset="utf-8"
+        Thu, 27 Oct 2022 03:13:25 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D18078BC8
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Oct 2022 00:13:24 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1onx4c-0006a3-I0; Thu, 27 Oct 2022 09:13:06 +0200
+Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id 2C2F810AEDF;
+        Thu, 27 Oct 2022 07:13:02 +0000 (UTC)
+Date:   Thu, 27 Oct 2022 09:12:59 +0200
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        Stefan =?utf-8?B?TcOkdGpl?= <stefan.maetje@esd.eu>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-can@vger.kernel.org, netdev@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/6] can: rcar_canfd: Add max_channels to struct
+ rcar_canfd_hw_info
+Message-ID: <20221027071259.ixueuw5xkptv22x5@pengutronix.de>
+References: <20221026131732.1843105-1-biju.das.jz@bp.renesas.com>
+ <20221026131732.1843105-3-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <cover.1666780184.git.geert+renesas@glider.be>
-References: <cover.1666780184.git.geert+renesas@glider.be>
-Subject: Re: [GIT PULL] clk: renesas: Fixes for v6.1
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>
-Date:   Wed, 26 Oct 2022 17:33:39 -0700
-User-Agent: alot/0.10
-Message-Id: <20221027003341.85819C433C1@smtp.kernel.org>
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="kze524f3mqvex6jc"
+Content-Disposition: inline
+In-Reply-To: <20221026131732.1843105-3-biju.das.jz@bp.renesas.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2022-10-26 04:35:28)
->         Hi Mike, Stephen,
->=20
-> The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc7=
-80:
->=20
->   Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
->=20
-> are available in the Git repository at:
->=20
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
- tags/renesas-clk-fixes-for-v6.1-tag1
->=20
-> for you to fetch changes up to a9003f74f5a2f487e101f3aa1dd5c3d3a78c6999:
->=20
->   clk: renesas: r8a779g0: Fix HSCIF parent clocks (2022-10-26 12:05:36 +0=
-200)
->=20
-> ----------------------------------------------------------------
 
-Thanks. Pulled into clk-fixes
+--kze524f3mqvex6jc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 26.10.2022 14:17:28, Biju Das wrote:
+> R-Car V3U supports a maximum of 8 channels whereas rest of the SoCs
+> support 2 channels.
+>=20
+> Add max_channels variable to struct rcar_canfd_hw_info to handle this
+> difference.
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v1->v2:
+>  * Replaced data type of max_channels from u32->unsigned int.
+>  * Added Rb tag from Geert.
+> ---
+>  drivers/net/can/rcar/rcar_canfd.c | 30 +++++++++++++++---------------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rca=
+r_canfd.c
+> index 5660bf0cd755..00e06cd26487 100644
+> --- a/drivers/net/can/rcar/rcar_canfd.c
+> +++ b/drivers/net/can/rcar/rcar_canfd.c
+> @@ -525,6 +525,7 @@ struct rcar_canfd_global;
+> =20
+>  struct rcar_canfd_hw_info {
+>  	enum rcanfd_chip_id chip_id;
+> +	unsigned int max_channels;
+
+You can save some bytes of you make this an u8 and the postdiv in the
+next patch, too.
+
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--kze524f3mqvex6jc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmNaL3cACgkQrX5LkNig
+012xYgf+LeHXchpNeBHlu/ytLHIwV0FgBOuGi/6WHpZt1MdsfdLzncvirwl/T9W5
+lnbtqiDACm+qfHemFX8Xu3sz8sbZ4D/pe/VScuCGT0b00FcDK7W49+b8Qh2Q/JRs
+G1g6o4dpHJXcp6zCEevLAdkWK0Zit4iqSicpFbqYZ3fJkCWYZL239Bg3HqoZ+iIV
+VDVdRarsOtLPKrmFQQE3NuHtrMFRuaioV2esh05bvtWaz1Pmb60k/5qOwPgNHySE
+W+tcWIyqpWxvNaPJCWagrG/Aiiz0mHEcYEYIJlw6Br7tx+3XS+NUuhb7wUCgdOiA
+Irs2UOmZl9Vc+elCTIz4pRI6QhT3oQ==
+=uX4Q
+-----END PGP SIGNATURE-----
+
+--kze524f3mqvex6jc--
