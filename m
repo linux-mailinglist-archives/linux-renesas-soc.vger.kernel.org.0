@@ -2,151 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F9CA60F618
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Oct 2022 13:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E83860F61D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Oct 2022 13:23:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234874AbiJ0LU6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Oct 2022 07:20:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36502 "EHLO
+        id S234847AbiJ0LXW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Oct 2022 07:23:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233403AbiJ0LU4 (ORCPT
+        with ESMTP id S233403AbiJ0LXV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Oct 2022 07:20:56 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 876EB72FD8;
-        Thu, 27 Oct 2022 04:20:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666869655; x=1698405655;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=n+6l6M6A5lyLOnRfDL5yPnQAsnHZqojf7vW9iC3diEI=;
-  b=WAyglAx5a0eAhOsxGJacsiJjMtZ7+vjIdLepGY8gdAxFFSe1diIvOKTu
-   oNT/WfwpPoHEsTc/8ofSxsDPI6/FLYryY1DN8oCab1SqwWzmfdju7PG88
-   tIZMFQb+MviH92+SsiDImRGtugkymjlsuXxJaYfGerrerSYwVuDPY/li+
-   y50tigVZ/uUKhVoJpltIjIQx6MGAQP3rAr/qW9amms2Xye4BLX/Utc63q
-   A/24Ji9SW4ueeVIBW5uhAGDVRbTzmFrME3/oWdgevYRjDC9yVIz7HCp6L
-   KGHNC0sZEbf0TzcvnyFvdH9OK4PYIrK0t8TCgVnr+QJEHPDaFzEayxmx/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="309287701"
-X-IronPort-AV: E=Sophos;i="5.95,217,1661842800"; 
-   d="scan'208";a="309287701"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2022 04:20:55 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="634865973"
-X-IronPort-AV: E=Sophos;i="5.95,217,1661842800"; 
-   d="scan'208";a="634865973"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2022 04:20:42 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id E87862021B;
-        Thu, 27 Oct 2022 14:20:37 +0300 (EEST)
-Date:   Thu, 27 Oct 2022 11:20:37 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
+        Thu, 27 Oct 2022 07:23:21 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0180510048A;
+        Thu, 27 Oct 2022 04:23:21 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id n14so734098wmq.3;
+        Thu, 27 Oct 2022 04:23:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uY6K96MvM8kdidoT3f2vQiQI2jlMcMD1VqsRhi02ZgA=;
+        b=IBMhQKDnmWWHKnrtpmHImTZwcyPcNSMtUPJ4Vju90frunWYRMVlPWZg5KrARFf1VF7
+         j7rr0KQDlHKadvTO1M6Li84OCjI1zlbHaZ5CKWtOTLP1roDcsGau/emb6/y/PwLe7ngV
+         /L3Rdn2AoFWUnidrUiCmtkAT/Yv628XMCZMCzvrO8ig175BGSC2ZM9iUkuAiCmi6eaSc
+         4wUug+8AbGa8yKLx2dLFnoqptQ4+cBzLjIuzrwpAjo7JVZqMRUl18xbZ9VGcW3Z2zeZ9
+         DYUFXvALZSl5RnEwURYOHT0rNHKdUYl1WYwBc5Y7rIODPgxF70GiAWFT4egAnFTb4IO6
+         54ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uY6K96MvM8kdidoT3f2vQiQI2jlMcMD1VqsRhi02ZgA=;
+        b=si4EcgHiyIo4CUcEU4aGTi0Z0wis7fyxDczdCW+AA1+WOH8y+Da0WtufrYcjCO4SkF
+         E5BVpt2swHfWINd0ouFEzSelypwnqNT2GbZMddzPj3LH4+AlnFN4WwdEj6gaPgfo0vnr
+         z0JSF19q4vwjfss5Y82azLze+VOrOyTKhY5lwBuTcg36nSygIR8RidkO0pZpZwjrLBqV
+         vVq2JRkGKNbM6vULbye/GjAaXAoH9FPH27UDEeHe4tPsVgiOKE7Dj+4a8Yo8p2eSd/ae
+         nm1l2YLw+kuVJIJondZubO/bFTzXQm7UR2D8a4l8ARJY7cP1fH4Bdc0L1ZgClHW2YfJd
+         czWQ==
+X-Gm-Message-State: ACrzQf1J5LO3+b1a60t4ODxXQPcFPPsEASbjF6WVNCK+0yQB1UlHEqu+
+        pJmqL//mE7S04b3Jh2bVaWCSWencgcoFKg==
+X-Google-Smtp-Source: AMsMyM70rYvZIh4wwAn6qw20hdyrHftQAv8lftd68cBp3ndir8OAFF1VEMc5hrZZkozJR+z8C/xMSg==
+X-Received: by 2002:a1c:4454:0:b0:3cf:4792:d3ad with SMTP id r81-20020a1c4454000000b003cf4792d3admr5654130wma.5.1666869799536;
+        Thu, 27 Oct 2022 04:23:19 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2501:c701:66:ff81:b0d3:60a0])
+        by smtp.gmail.com with ESMTPSA id n19-20020a05600c4f9300b003b4c979e6bcsm4800634wmq.10.2022.10.27.04.23.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Oct 2022 04:23:18 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Russell King <linux@armlinux.org.uk>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 2/5] media: i2c: ov5645: Use runtime PM
-Message-ID: <Y1pphVPw0J97AmW4@paasikivi.fi.intel.com>
-References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221014183459.181567-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] ARM: shmobile: Drop selecting GPIOLIB and PINCTRL
+Date:   Thu, 27 Oct 2022 12:23:00 +0100
+Message-Id: <20221027112300.77184-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221014183459.181567-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-One more comment.
+Don't automatically select the GPIOLIB and PINCTRL config options as we
+already have automatically selected it as part of the SOC_RENESAS config
+option [0].
 
-On Fri, Oct 14, 2022 at 07:34:56PM +0100, Prabhakar wrote:
-> @@ -1209,12 +1190,16 @@ static int ov5645_probe(struct i2c_client *client)
->  
->  	dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
->  
-> +	pm_runtime_set_active(dev);
-> +	pm_runtime_get_noresume(dev);
-> +	pm_runtime_enable(dev);
+[0] drivers/soc/renesas/Kconfig
 
-You won't gain anything by eanbling runtime PM here. Just move it to the
-end of the function before the rest of the calls. Error handling becomes
-more simple.
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ arch/arm/mach-shmobile/Kconfig | 2 --
+ 1 file changed, 2 deletions(-)
 
-> +
->  	ret = ov5645_read_reg(ov5645, OV5645_AEC_PK_MANUAL,
->  			      &ov5645->aec_pk_manual);
->  	if (ret < 0) {
->  		dev_err(dev, "could not read AEC/AGC mode\n");
->  		ret = -ENODEV;
-> -		goto power_down;
-> +		goto err_pm_runtime;
->  	}
->  
->  	ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG20,
-> @@ -1222,7 +1207,7 @@ static int ov5645_probe(struct i2c_client *client)
->  	if (ret < 0) {
->  		dev_err(dev, "could not read vflip value\n");
->  		ret = -ENODEV;
-> -		goto power_down;
-> +		goto err_pm_runtime;
->  	}
->  
->  	ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG21,
-> @@ -1230,23 +1215,30 @@ static int ov5645_probe(struct i2c_client *client)
->  	if (ret < 0) {
->  		dev_err(dev, "could not read hflip value\n");
->  		ret = -ENODEV;
-> -		goto power_down;
-> +		goto err_pm_runtime;
->  	}
->  
-> -	ov5645_s_power(&ov5645->sd, false);
-> -
->  	ret = v4l2_async_register_subdev(&ov5645->sd);
->  	if (ret < 0) {
->  		dev_err(dev, "could not register v4l2 device\n");
-> +		pm_runtime_disable(dev);
-> +		pm_runtime_set_suspended(dev);
->  		goto free_entity;
->  	}
->  
-> +	pm_runtime_set_autosuspend_delay(dev, 1000);
-> +	pm_runtime_use_autosuspend(dev);
-> +	pm_runtime_put_autosuspend(dev);
-> +
->  	ov5645_entity_init_cfg(&ov5645->sd, NULL);
->  
->  	return 0;
->  
-> +err_pm_runtime:
-> +	pm_runtime_disable(dev);
-> +	pm_runtime_put_noidle(dev);
->  power_down:
-> -	ov5645_s_power(&ov5645->sd, false);
-> +	ov5645_set_power_off(dev);
->  free_entity:
->  	media_entity_cleanup(&ov5645->sd.entity);
->  free_ctrl:
-
+diff --git a/arch/arm/mach-shmobile/Kconfig b/arch/arm/mach-shmobile/Kconfig
+index 37f862f13c8d..8d64cc7edccd 100644
+--- a/arch/arm/mach-shmobile/Kconfig
++++ b/arch/arm/mach-shmobile/Kconfig
+@@ -3,7 +3,5 @@ menuconfig ARCH_RENESAS
+ 	bool "Renesas ARM SoCs"
+ 	depends on ARCH_MULTI_V7
+ 	select ARM_GIC
+-	select GPIOLIB
+ 	select NO_IOPORT_MAP
+-	select PINCTRL
+ 	select ZONE_DMA if ARM_LPAE
 -- 
-Kind regards,
+2.17.1
 
-Sakari Ailus
