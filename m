@@ -2,69 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BFDE60F625
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Oct 2022 13:25:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 353FC60F6AE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Oct 2022 14:02:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233403AbiJ0LZW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Oct 2022 07:25:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43374 "EHLO
+        id S235484AbiJ0MCW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Oct 2022 08:02:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235178AbiJ0LZT (ORCPT
+        with ESMTP id S235465AbiJ0MCU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Oct 2022 07:25:19 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A56C43328;
-        Thu, 27 Oct 2022 04:25:17 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id y10so758645wma.0;
-        Thu, 27 Oct 2022 04:25:17 -0700 (PDT)
+        Thu, 27 Oct 2022 08:02:20 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0442A7A779;
+        Thu, 27 Oct 2022 05:02:20 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id m15so2258384edb.13;
+        Thu, 27 Oct 2022 05:02:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i7wM3m18YxeVNzjNxwf4KcaB1sq+2kufm8mhS2pGbtk=;
-        b=lcF1djpINOFGXYHAZJo7HGmSyKZbDeLQOEVFZQO6BJD0KGPIOH4bWdTiI/45rLBJLX
-         5EhxSTuvPHWplLjng2zgR/EzBeWThne2vstnq5p7fE3y4G3nRWyxRm9xDx1WJ1naM/z+
-         2V6HpvKCVYk2RS1RoqHh3w8/vGkz7tqnjq8aaHlxeyNjexTlR50PpkeqiM6W1+MrkLM8
-         qvayngCgLXeHtw6o27djIUVURuY7i8BI/4yh6MMWb3wWPlmDU4AZ/NMNxtP0dz+DGf3T
-         2KdRjjL2c9d+z5T6Bag5RDct5L0CRp94jNk+p/sz0Q7+jCCJ0gwkYT+s2W8MpBKdVBW1
-         eGzA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nae3MTaQSLKYtpB9ujJglOZE8cA0/GC19l2/IFTBBNc=;
+        b=DBs6mLPPobcb3ZQ9TGha9oXMaB+EXK6Bf4FwHAy1XNUBiSwzxRAHTw7ec+jcTYB41N
+         PmUi7EQy4fwD1oo7GPcHR/LmK8IM9DEqT94ekRQCbdLwDST8LWjjOV33ZyILzkOWi8E9
+         CeqrQTeqqmXZt4G44iwRhCvOF3xqte9n2utdWvjfA9tmWH5dRFnK+EutKMY3yoqXg0TA
+         spPEaUWYMTpm1HfWuM1LoustamNC6SPkL/0BIQIWmOIkhk5ZEizN0w76K0KSPYk5F1i5
+         m2vE2w5ROP3tntMvj8w5wei75d2bOOcMGY1SFC7NzgnYJlgADqc+U2zNfS59GbAyOTaM
+         H+/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=i7wM3m18YxeVNzjNxwf4KcaB1sq+2kufm8mhS2pGbtk=;
-        b=iNOOpeUug+oa/ol1F/ob1TKEAe9IV4jI4KDu8tP+78+NOZQR2TXIIPCrxq3vqUYG06
-         fsk3mZDrnT+FvnED5u+K51vTBXVAjlv9pZ2JN7/POiRou0r5ENScDXX7OuRlKSnLnEvd
-         O+AXsTShtUZel0L2tYhc7YJgoz1I7rf/uGxQha9QhcArfuuwcKaaKmge/efeqzSuzB70
-         fZ5uLgyVI7nnT5gdLQb5rEePJDu5dg14YQaLmpEnDPvulzc6cbmbWXV+w6SwccqZojaC
-         IuTRXG+KlRbVN5fAQ5G2DEbUVBAiNPSsUbAi34nz0trMTPklYfTaxnESv5p74oibwTNo
-         V/zA==
-X-Gm-Message-State: ACrzQf0vvhW3Q3FqU5i8VkhZEziBSjdmtUF5J/yzl1QIGly7n11A0s9F
-        S36/p0v/H0ocOy3qwM0IWZU=
-X-Google-Smtp-Source: AMsMyM4QoxqEIuqNv4YlI8xRpnE40wr3v9CNW9t76zwRsxuBFlEorzAg6XpvND/iMcSanWCu5ZzNTA==
-X-Received: by 2002:a05:600c:6028:b0:3c6:f0bb:316a with SMTP id az40-20020a05600c602800b003c6f0bb316amr5546401wmb.1.1666869915828;
-        Thu, 27 Oct 2022 04:25:15 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:66:ff81:b0d3:60a0])
-        by smtp.gmail.com with ESMTPSA id n5-20020a05600c304500b003a84375d0d1sm4216841wmh.44.2022.10.27.04.25.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Oct 2022 04:25:15 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
+        bh=nae3MTaQSLKYtpB9ujJglOZE8cA0/GC19l2/IFTBBNc=;
+        b=E2Y/EaOsMS96TD4rnyKhqenchrzg4uCIcHAmofvBFpPlQjLsgShkyB+GEyf18bQVlI
+         vArTjwoAZiO6wMbOgLOYoDv+ZyzHna3cQIHECZD3VdfR0uaiC6PngNcg/CVuS1ZX2j7d
+         ip1WFl4q/iO60Ju7Rb/THwRCo/Z9KVBLpqH1l2DGCMlE/POuDBK2A8ivwSjnlpC3MgyJ
+         Sk9aIxyz6/wonMWJomjYs+AeaynbaAWPH7an7maeNxPmlGP5e6GVqMKMHT8NnWV9h0hz
+         VM7b3f2+G1ZELI55aj5D2q37nroskYPXxJtkOeMpj0YDUrEy8S9miuViIuzzBoZkNByE
+         xxIg==
+X-Gm-Message-State: ACrzQf1UcxpC7ltpsdL7V/L97PzMk2WJRh+i+O/3CiwDewS5qLvp2qMy
+        Awy7xs515Eal8vAgnaQzHOUibR+qxNjEk6SMc9gzMkK468sTRu+4
+X-Google-Smtp-Source: AMsMyM4EvkA5Xahm06ht/ZKpqzZTCPn07pdZDlFCtL/quOxAJxUSAVS95eNwvCzgaTflYdChjCVVftaeGqRq2wsDWDY=
+X-Received: by 2002:a05:6402:26cf:b0:45d:48d7:928e with SMTP id
+ x15-20020a05640226cf00b0045d48d7928emr43709300edd.275.1666872138527; Thu, 27
+ Oct 2022 05:02:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221014183459.181567-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y1pphVPw0J97AmW4@paasikivi.fi.intel.com>
+In-Reply-To: <Y1pphVPw0J97AmW4@paasikivi.fi.intel.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 27 Oct 2022 13:01:52 +0100
+Message-ID: <CA+V-a8szaPjwumrBgOT9gzMKBjY7hk0zfP8RgzUUDfY+BAsogA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] media: i2c: ov5645: Use runtime PM
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] arm64: renesas: Drop selecting GPIOLIB and PINCTRL
-Date:   Thu, 27 Oct 2022 12:24:59 +0100
-Message-Id: <20221027112459.77413-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -75,32 +77,36 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Sakari,
 
-Don't automatically select the GPIOLIB and PINCTRL config options as we
-already have automatically selected it as part of the SOC_RENESAS config
-option [0].
+On Thu, Oct 27, 2022 at 12:20 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Prabhakar,
+>
+> One more comment.
+>
+> On Fri, Oct 14, 2022 at 07:34:56PM +0100, Prabhakar wrote:
+> > @@ -1209,12 +1190,16 @@ static int ov5645_probe(struct i2c_client *client)
+> >
+> >       dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
+> >
+> > +     pm_runtime_set_active(dev);
+> > +     pm_runtime_get_noresume(dev);
+> > +     pm_runtime_enable(dev);
+>
+> You won't gain anything by eanbling runtime PM here. Just move it to the
+> end of the function before the rest of the calls. Error handling becomes
+> more simple.
+>
+If I move the above calls below I get the below warning:
 
-[0] drivers/soc/renesas/Kconfig
+[    2.633386] ov5645 0-003c: Runtime PM usage count underflow!
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/Kconfig.platforms | 2 --
- 1 file changed, 2 deletions(-)
+This is because of the last patch which moves ov5645_entity_init_cfg()
+before registering the subdev. ov5645_entity_init_cfg() calls s_ctrl
+due to which we are seeing the above message. Please let me know how
+to proceed on this.
 
-diff --git a/arch/arm64/Kconfig.platforms b/arch/arm64/Kconfig.platforms
-index 76580b932e44..d1970adf80ab 100644
---- a/arch/arm64/Kconfig.platforms
-+++ b/arch/arm64/Kconfig.platforms
-@@ -252,8 +252,6 @@ config ARCH_REALTEK
- 
- config ARCH_RENESAS
- 	bool "Renesas SoC Platforms"
--	select GPIOLIB
--	select PINCTRL
- 	help
- 	  This enables support for the ARMv8 based Renesas SoCs.
- 
--- 
-2.17.1
-
+Cheers,
+Prabhakar
