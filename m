@@ -2,68 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0B05611721
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Oct 2022 18:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2431061188F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Oct 2022 19:00:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230253AbiJ1QKV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Oct 2022 12:10:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49464 "EHLO
+        id S230454AbiJ1RAO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Oct 2022 13:00:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230256AbiJ1QJt (ORCPT
+        with ESMTP id S230344AbiJ1Q76 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Oct 2022 12:09:49 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 074D1220FAB
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Oct 2022 09:07:42 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id 192so5146373pfx.5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Oct 2022 09:07:42 -0700 (PDT)
+        Fri, 28 Oct 2022 12:59:58 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70ED5DF4F;
+        Fri, 28 Oct 2022 09:59:31 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id k8so7442381wrh.1;
+        Fri, 28 Oct 2022 09:59:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZZx0ULRM9XDMu0Lf0N2j+9JxezZNO738UZy5+Pn1ZFg=;
-        b=1HFUL4yrO7uzP6hyzvSLljcQwTeGZiTYe1BrJt/ezJfP/EhtRiCDjSLvahgMn0j8gX
-         KzjMpIBda5V18nABkDUVXmDZKegUhko3NERGQrYVJGTPydgTjibbMYVAfEtbQ6e07nrr
-         NUHyszJAHKRKvIFOP9t8911lkHd54wsjwLElzwLM4lhOjPuaNa6Kp8bxDGsiKqbFBhi5
-         c20Mj8MMT5yIBR4ZKUGvT5gRsDd5rRMZIYb3lrrMGkK8TfHJQj5ujEzEo64UclIQJeo5
-         dX4mz3olothTfhn3JJ13TCNHqYUvB6r+NFN1gAll6DFSvjY8Zg0gx/pqm49XU8mF2o7r
-         Pt/A==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YSDOqIdoNlOlB0ihcZOzgF+vJpmvbenipcGLouNqGrE=;
+        b=H6v3TvORnhmLtG/Z0/dp3UNn0K+loybSBe4K2NdETJrcV97iYyZALucUeHVwnKkmi2
+         iGxpbd0IgBBdACgEXU3YsPravInJUgIM/UtikWB2aW2op0az/WOPja/dGbTH7K60CjNL
+         tEuVdvU21PPFwdzhfaRW0Lcj4QTZCixDqOMwXASKUNQlYibNtb3B031cpwrYZDRS0JI7
+         M5XOcYE0+eig38tMa3euBSmEH5LrMS1hC0GPNbRmoVPbfRWdVsyQF/YEBVphRAk3jbnW
+         LUgf29x/53RVaUI7NSxgIbEmHgEhbAcBJOGbXo5YN3x4VLrXsC2xXoauAArgo0UY5eBS
+         uYBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZZx0ULRM9XDMu0Lf0N2j+9JxezZNO738UZy5+Pn1ZFg=;
-        b=CbiAtD7pd5PetSRnWJ/lahZpMVToH7s7wWtRlTGyTD0OTP1mMj4N5QaP30cuKzFmhp
-         R2jP3809fHWwOUBsiGL/vFTExIOlo0cnAD5gNN5RY1bzvQ+CUFcI6s890HPZ/5qy51Qv
-         a1UXyWACOF81uIsQHsAiJC/4okBat7DYhnjy5+Sehe7xQupnUNY/Dy2XBUunoETFqMP5
-         tW49hFJKOJUzWXrMomlALfsM4o+b8/HETzQQYl5Yi08cMVtARukPRH+1I9qC7Vyp0yN6
-         BwQBZfwzHroJcI7co7QbBFEu0OMQhTFkbhBM/tGsFaipmm2oJDDH3b96XhbYfezOMi/Z
-         POxg==
-X-Gm-Message-State: ACrzQf03Wfu7LGBgv1rxy2S/sD9/bymBJ3lJYZDU3J93Spm5ek9Tgcm4
-        HZL67bN2lL1vY2JMvyHDs1e8p9m0Ap2pZgXv
-X-Google-Smtp-Source: AMsMyM7UvGXfYdUNlUb8jQqOxdMWk7n5qpPOqfHrQabkn9mWOcHPqZXb8RSmwbKZQnJLAIbrZ/I5bw==
-X-Received: by 2002:a63:4283:0:b0:457:dced:8ba3 with SMTP id p125-20020a634283000000b00457dced8ba3mr246304pga.220.1666973261276;
-        Fri, 28 Oct 2022 09:07:41 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id l17-20020a170902d05100b001782a6fbcacsm3223378pll.101.2022.10.28.09.07.40
+        bh=YSDOqIdoNlOlB0ihcZOzgF+vJpmvbenipcGLouNqGrE=;
+        b=JGDhGbUHQXM1cJZ5jBW6fqzxLfPJWPsYge7edjDlJ+0nXar6WqRM1BUjRQ3Y75Bk4t
+         yqh4aXcumYZ058ry/Zt34i61cA2WuLc7YAv3jBBscTz/+zm6eq9p2bZgyfWb2+zNEQPD
+         7AtwQghRcpJIJZqdlDAunitZdYzwSckGqoqtlKLQrbLd1Tf9SVTApxAgJUsOfWus8+Y3
+         x7RegcLJXQRvZo8OBmtVr2W0JiAaAnWqzcPP0cyoUHqzBfSACDoQo3MDXnfm9p2qiyYs
+         BcDXtkgjecMPIrXJWII6ultwwVz6Ga101eXXKEo329xWx0fWtc694U1bRZiqfpQ5YkNW
+         SAXQ==
+X-Gm-Message-State: ACrzQf0VwXdloPZfaL/ENYT67it7bs0oabup/0nR7HP9UY6J/zGawbCz
+        NsbuVsr5XUQX2RRE6zBItUQ=
+X-Google-Smtp-Source: AMsMyM4dwZtboFNwFZjWL4Xywo1a0JjqVS4MtFb794S2KqmixnAYk1B9iWZLCHrXSK1tFOUItkJkAA==
+X-Received: by 2002:a5d:4811:0:b0:236:7077:e3c3 with SMTP id l17-20020a5d4811000000b002367077e3c3mr191677wrq.368.1666976370328;
+        Fri, 28 Oct 2022 09:59:30 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2501:c701:d53b:eaf9:15f:6a8a])
+        by smtp.gmail.com with ESMTPSA id h2-20020adfe982000000b002322bff5b3bsm4939689wrm.54.2022.10.28.09.59.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 09:07:40 -0700 (PDT)
-Message-ID: <635bfe4c.170a0220.0cf5.64c1@mx.google.com>
-Date:   Fri, 28 Oct 2022 09:07:40 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Fri, 28 Oct 2022 09:59:29 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>, Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v5 0/7] Add support for Renesas RZ/Five SoC
+Date:   Fri, 28 Oct 2022 17:59:14 +0100
+Message-Id: <20221028165921.94487-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: renesas-next-2022-10-28-v6.1-rc1
-X-Kernelci-Branch: next
-X-Kernelci-Tree: renesas
-Subject: renesas/next igt-gpu-panfrost: 1 runs,
- 1 regressions (renesas-next-2022-10-28-v6.1-rc1)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,95 +84,164 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next igt-gpu-panfrost: 1 runs, 1 regressions (renesas-next-2022-10-=
-28-v6.1-rc1)
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Regressions Summary
--------------------
+Hi All,
 
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
+The RZ/Five microprocessor includes a RISC-V CPU Core (AX45MP Single)
+1.0 GHz, 16-bit DDR3L/DDR4 interface. And it also has many interfaces such
+as Gbit-Ether, CAN, and USB 2.0, making it ideal for applications such as
+entry-class social infrastructure gateway control and industrial gateway
+control.
 
+This patch series adds initial SoC DTSi support for Renesas RZ/Five
+(R9A07G043) SoC. Below is the list of IP blocks enabled in the initial
+board DTS which can be used to boot via initramfs on RZ/Five SMARC EVK:
+- AX45MP CPU
+- CPG
+- PINCTRL
+- PLIC
+- SCIF0
+- SYSC
 
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2022-10-28-v6.1-rc1/plan/igt-gpu-panfrost/
+Useful links:
+-------------
+[0] https://www.renesas.com/us/en/products/microcontrollers-microprocessors/rz-mpus/rzfive-risc-v-general-purpose-microprocessors-risc-v-cpu-core-andes-ax45mp-single-10-ghz-2ch-gigabit-ethernet
+[1] http://www.andestech.com/en/products-solutions/andescore-processors/riscv-ax45mp/
 
-  Test:     igt-gpu-panfrost
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2022-10-28-v6.1-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      4bff929bc882c742102dbb29613c4cf8c0c92fa5
+Patch series depends on the below patches (which are queued in the Renesas tree for v6.2):
+------------------------------------------------------------------------------------
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/commit/?h=renesas-dt-bindings-for-v6.2&id=c27ce08b806d606cd5cd0e8252d1ed2b729b5b55
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/commit/?h=renesas-dt-bindings-for-v6.2&id=7dd1d57c052e88f98b9e9145461b13bca019d108
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/commit/?h=renesas-arm-soc-for-v6.2&id=b3acbca3c80e612478b354e43c1480c3fc15873e
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/commit/?h=renesas-arm-dt-for-v6.2&id=49669da644cf000eb79dbede55bd04acf3f2f0a0
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/commit/?h=renesas-arm-dt-for-v6.2&id=b9a0be2054964026aa58966ce9724b672f210835
 
-  Test suite revisions:
-    drm
-      URL:  git://anongit.freedesktop.org/mesa/drm
-      SHA:  82b2b1e8987c182d14fcaf5a3a3b8ee1b4d5e1df
-    igt-gpu-tools
-      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
-      SHA:  9eff5fba09403bf1df3a1edd655b66fa1b60de2e =
+v4 -> v5:
+---------
+* Rebased patches on -next
+* Included RB tags
+* Dropped patches #1 and #4 (form v4) as they are queued up by Renesas trees
+* Patch #7 from v4 was not needed anymore so dropped it
+* Patches #4 and #5 are new
 
+v4: https://lore.kernel.org/all/20220920184904.90495-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+v3: https://lore.kernel.org/lkml/20220915181558.354737-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+v2: https://lore.kernel.org/all/20220815151451.23293-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+v1: https://lore.kernel.org/lkml/20220726180623.1668-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
+Below are the logs from RZ/Five SMARC EVK:
+------------------------------------------
 
-Test Regressions
----------------- =
+/ # uname -ra;
+Linux (none) 6.1.0-rc2-00036-gbad82a074f62 #145 SMP Fri Oct 28 17:18:41 BST 2022 riscv64 GNU/Linux
+/ # cat /proc/cpuinfo;
+processor       : 0
+hart            : 0
+isa             : rv64imafdc
+mmu             : sv39
+uarch           : andestech,ax45mp
+mvendorid       : 0x31e
+marchid         : 0x8000000000008a45
+mimpid          : 0x500
 
+/ # for i in machine family soc_id revision; do echo -n "$i: ";cat /sys/devices/
+soc0/$i; done
+machine: Renesas SMARC EVK based on r9a07g043f01
+family: RZ/Five
+soc_id: r9a07g043
+revision: 0
+/ #
+/ # cat /proc/interrupts
+           CPU0
+  1:          0  SiFive PLIC 412 Level     1004b800.serial:rx err
+  2:         16  SiFive PLIC 414 Level     1004b800.serial:rx full
+  3:        402  SiFive PLIC 415 Level     1004b800.serial:tx empty
+  4:          0  SiFive PLIC 413 Level     1004b800.serial:break
+  5:      41826  RISC-V INTC   5 Edge      riscv-timer
+  6:         10  SiFive PLIC 416 Level     1004b800.serial:rx ready
+IPI0:         0  Rescheduling interrupts
+IPI1:         0  Function call interrupts
+IPI2:         0  CPU stop interrupts
+IPI3:         0  IRQ work interrupts
+IPI4:         0  Timer broadcast interrupts
+/ #
+/ # cat /proc/meminfo
+MemTotal:         882252 kB
+MemFree:          860848 kB
+MemAvailable:     858608 kB
+Buffers:               0 kB
+Cached:             1796 kB
+SwapCached:            0 kB
+Active:                0 kB
+Inactive:             72 kB
+Active(anon):          0 kB
+Inactive(anon):       72 kB
+Active(file):          0 kB
+Inactive(file):        0 kB
+Unevictable:        1796 kB
+Mlocked:               0 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:                 0 kB
+Writeback:             0 kB
+AnonPages:           108 kB
+Mapped:             1200 kB
+Shmem:                 0 kB
+KReclaimable:       6760 kB
+Slab:              12360 kB
+SReclaimable:       6760 kB
+SUnreclaim:         5600 kB
+KernelStack:         620 kB
+PageTables:           32 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:      441124 kB
+Committed_AS:        592 kB
+VmallocTotal:   67108864 kB
+VmallocUsed:        1132 kB
+VmallocChunk:          0 kB
+Percpu:               84 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+/ #
+/ #
 
+Cheers,
+Prabhakar
 
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
+Lad Prabhakar (7):
+  dt-bindings: riscv: Sort the CPU core list alphabetically
+  dt-bindings: riscv: Add Andes AX45MP core to the list
+  riscv: Kconfig.socs: Add ARCH_RENESAS kconfig option
+  riscv: dts: renesas: Add initial devicetree for Renesas RZ/Five SoC
+  riscv: dts: renesas: Add minimal DTS for Renesas RZ/Five SMARC EVK
+  MAINTAINERS: Add entry for Renesas RISC-V
+  riscv: configs: defconfig: Enable Renesas RZ/Five SoC
 
+ .../devicetree/bindings/riscv/cpus.yaml       | 11 ++-
+ MAINTAINERS                                   |  3 +-
+ arch/riscv/Kconfig.socs                       |  5 +
+ arch/riscv/boot/dts/Makefile                  |  1 +
+ arch/riscv/boot/dts/renesas/Makefile          |  2 +
+ arch/riscv/boot/dts/renesas/r9a07g043f.dtsi   | 57 ++++++++++++
+ .../boot/dts/renesas/r9a07g043f01-smarc.dts   | 27 ++++++
+ .../boot/dts/renesas/rzfive-smarc-som.dtsi    | 58 ++++++++++++
+ arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi | 91 +++++++++++++++++++
+ arch/riscv/configs/defconfig                  |  3 +
+ 10 files changed, 252 insertions(+), 6 deletions(-)
+ create mode 100644 arch/riscv/boot/dts/renesas/Makefile
+ create mode 100644 arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+ create mode 100644 arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dts
+ create mode 100644 arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
+ create mode 100644 arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi
 
-  Details:     https://kernelci.org/test/plan/id/635bf1354b973be27be7db50
+-- 
+2.25.1
 
-  Results:     15 PASS, 2 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-28-v6.1-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/igt-g=
-pu-panfrost-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--10-28-v6.1-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/igt-g=
-pu-panfrost-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-ig=
-t/20221024.1/arm64/rootfs.cpio.gz =
-
-
-
-  * igt-gpu-panfrost.panfrost_submit.pan-unhandled-pagefault: https://kerne=
-lci.org/test/case/id/635bf1354b973be27be7db53
-        new failure (last pass: renesas-next-2022-10-24-v6.1-rc1)
-
-    2022-10-28T15:11:44.139205  <8>[   34.979033] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dpan-submit-and-close RESULT=3Dpass>
-    2022-10-28T15:11:44.173101  <6>[   35.015186] Console: switching to col=
-our dummy device 80x25
-    2022-10-28T15:11:44.178698  <14>[   35.021834] [IGT] panfrost_submit: e=
-xecuting
-    2022-10-28T15:11:44.184901  IGT-Version: 1.26-g9eff5fb (aarch64) (Linux=
-: 6.1.0-rc1 aarch64)
-    2022-10-28T15:11:44.195547  <14>[   35.035992] [IGT] panfrost_submit: s=
-tarting subtest pan-unhandled-pagefault
-    2022-10-28T15:11:44.199898  Starting subtest: pan-unhandled-pagefault
-    2022-10-28T15:11:44.315289  (panfrost_submit:354) CRITICAL: Test assert=
-ion failure function __igt_unique____real_main65, file ../tests/panfrost_su=
-bmit.c:178<14>[   35.151610] [IGT] panfrost_submit: exiting, ret=3D98
-    2022-10-28T15:11:44.315420  :
-    2022-10-28T15:11:44.328439  (panfrost_submit:354) CRITICAL: Failed asse=
-rtion: syncobj_wait(fd, &submit->args->out_sync, 1, abs_timeout(SHORT_TIME_=
-NSEC), 0, NULL)
-    2022-10-28T15:11:44.329695  Stack trace: =
-
-    ... (10 line(s) more)  =
-
- =20
