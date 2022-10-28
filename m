@@ -2,123 +2,195 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B31F61073D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Oct 2022 03:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60EA161077D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Oct 2022 03:55:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235279AbiJ1B2U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Oct 2022 21:28:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40922 "EHLO
+        id S235845AbiJ1BzT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Oct 2022 21:55:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235235AbiJ1B2T (ORCPT
+        with ESMTP id S235719AbiJ1BzJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Oct 2022 21:28:19 -0400
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A31E5A98FF
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Oct 2022 18:28:18 -0700 (PDT)
-Received: by mail-qt1-x834.google.com with SMTP id z6so2684606qtv.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Oct 2022 18:28:18 -0700 (PDT)
+        Thu, 27 Oct 2022 21:55:09 -0400
+Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12D5C27150
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Oct 2022 18:55:08 -0700 (PDT)
+Received: by mail-vs1-xe29.google.com with SMTP id p4so3803840vsa.11
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Oct 2022 18:55:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kQ/Ipt22j5aHIq5r1kAyzN5xaRx2BsZw/TMCHCAQ0qw=;
-        b=RLrYoc/hs+jtC6QNt+Zz14C3HPgCX2cekOQzCuYq/iEA65WE2tRR9tFJut3R5ECK2s
-         dWxi5YhVqCc+pkVu1bJvjvWbtmMEnYv8iMDATYo2jN0hXceGnFVXB/lB5K+s/EhLz5L0
-         XNUdo3/fHmtD0crnUZpFTwWVOKsaY8q5er7n7ljM15ORYecu3OGlKGO5Vwt2w5ReS66Z
-         7XCYgfIgNhiPYY0epaxLLA3Nvzl+fRLv2Yxt6mqGACmFmZQMUsgrrCZuLGK5o8PrEuPP
-         Dt49KfPPtPDrQtiKjML6KV9kyF1IREMCOL/ictcyBTh9/a9QMTcmzTb36hnH0RQ5Ob9R
-         wV/Q==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2bW2zopTlg25jDOdqXgCYa9SYjwIlYLKzQ7Rf0QVa04=;
+        b=uI3ltAYZAP8NoIfYF9BFEMoMJ7D97b1+QqthrWkKCU7dXaoT1abWklIUuN7W1JgOQd
+         GjkudrHR5lP10j6XjwqHIIrvISOE+Gh8hx0EolZiPSYHBU/+KaL3/7XNhE7D8kz5bTE9
+         CG8Lmy2GhCO1xySyJ8A8zSxkD8wvM+N6jCuc8xB1sBTlXNIbYOXjYQC1NMmpzjH4B6Qu
+         RajDjRnp9CkXaRtMHjLDkR7k3hF5xKmhALXHDPueVk1bZ8I3PxOG4uxZWAHrswZrMLXs
+         tGN334gJOnp5V3OMr4wKdIx2joqMYF9kbd1iQRH4u91OWC0o/ERNmjeynXomL7iIIFuB
+         S5fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kQ/Ipt22j5aHIq5r1kAyzN5xaRx2BsZw/TMCHCAQ0qw=;
-        b=vvgGCS9b9DX7DQJzxXuIci7Sqhsw2qBmJccQmh15aP03+mBwDIdPxQaT9w03IY/Wk/
-         T/oJgNiSuFjz+w6jzHFZ6Us8TWGHE504crRnd0+SELalW17rXkjUzJnSTsPEEqKLGpo8
-         8cPbV84lnNpqlaICJtfmx/DYLSzJpw3+g8jILMztlV8fqcEYf6FXaRREpFDltzcdM9xR
-         lTDKVA/r+9t6j8J6A3XMpVX6FoIgg3pU55bFVkn5ei67iN4IQ2UJ5QP1AuLs3LIrpI8b
-         dF+POG52vMGP7dD3c8hRL90w9Y3l2zEjvulHbusMQJoPP+RpIJhu+aLcN/aoitdSoH8s
-         OA8g==
-X-Gm-Message-State: ACrzQf3RCqHDipMi5NTBN4k4zxWr22nUdaEWxXmm6AHlk3M8BquovgO6
-        imlYSGVzh7dW8dHAtwYt+nxQPA==
-X-Google-Smtp-Source: AMsMyM6wiLjQD5dYl5ZDyBqbCDv9dpT9xao43RBi2tdneNrrIH2NZkFipEKs/0u2YMm/2ZnfHx0sQg==
-X-Received: by 2002:ac8:7d0b:0:b0:39d:90d:601b with SMTP id g11-20020ac87d0b000000b0039d090d601bmr37235040qtb.278.1666920497798;
-        Thu, 27 Oct 2022 18:28:17 -0700 (PDT)
-Received: from [192.168.1.11] ([64.57.193.93])
-        by smtp.gmail.com with ESMTPSA id f18-20020a05620a409200b006cbe3be300esm2049175qko.12.2022.10.27.18.28.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Oct 2022 18:28:17 -0700 (PDT)
-Message-ID: <bb23a9e0-1264-702e-a646-8de5afedb23e@linaro.org>
-Date:   Thu, 27 Oct 2022 21:28:15 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v5 1/3] dt-bindings: net: renesas: Document Renesas
- Ethernet Switch
-Content-Language: en-US
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org
-Cc:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <20221027134034.2343230-1-yoshihiro.shimoda.uh@renesas.com>
- <20221027134034.2343230-2-yoshihiro.shimoda.uh@renesas.com>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2bW2zopTlg25jDOdqXgCYa9SYjwIlYLKzQ7Rf0QVa04=;
+        b=JngZVBCed+VKT+qsmSbCNEgfrNJrucukfMH8GdqDB9MznZU7+iPkI6RJU2sPiG/AG8
+         uECRR0qqp/NYMl89nsLktN/PN8fW2TtJyYePbc+1FV6gzYXfdeIs2iXh7cvDQhadKfdg
+         +29J0JIytFp3CPT5v7BcL6KYVhWjFGYTloaLDjlOsMqVmDG5HjSSb5+YB2zNXP71FMTH
+         DRzahONFtAVv3GDXjkzfh3AjIaQW8LLyMf8VrIc2P5rUTpxUItSEKWnFdTuqQiHeZBn/
+         fVddDjgrL50588VTLG6tIkxupR645haNr/rOAiBijzB/lGKXPBL1+awDOUx/OmCXvCR4
+         fYWg==
+X-Gm-Message-State: ACrzQf1XrjFVjFljPHxEZ+xLcN8PR0zc+p4Md/IFcDHxdAnuGX0r265V
+        fF4WIQQoS9my0NdOyKwrwnq/Gq5y47+V3w==
+X-Google-Smtp-Source: AMsMyM75QUav7tBwGMpChuFcCrl4I7ooRQZeT0bj+c7r0BGWeRmtlCvrL6E6OPOdePWKh+nOepUJNw==
+X-Received: by 2002:a05:6214:19c9:b0:4b2:fe6f:90f9 with SMTP id j9-20020a05621419c900b004b2fe6f90f9mr43025226qvc.66.1666922097007;
+        Thu, 27 Oct 2022 18:54:57 -0700 (PDT)
+Received: from krzk-bin.. ([64.57.193.93])
+        by smtp.gmail.com with ESMTPSA id l15-20020ac84a8f000000b0035cd6a4ba3csm1714720qtq.39.2022.10.27.18.54.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Oct 2022 18:54:56 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221027134034.2343230-2-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lars Povlsen <lars.povlsen@microchip.com>,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Daniel Machon <daniel.machon@microchip.com>,
+        UNGLinuxDriver@microchip.com, Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] dt-bindings: net: constrain number of 'reg' in ethernet ports
+Date:   Thu, 27 Oct 2022 21:54:53 -0400
+Message-Id: <20221028015453.101251-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 27/10/2022 09:40, Yoshihiro Shimoda wrote:
-> Document Renesas Etherent Switch for R-Car S4-8 (r8a779f0).
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
+'reg' without any constraints allows multiple items which is not the
+intention for Ethernet controller's port number.
 
-> +
-> +  ethernet-ports:
-> +    type: object
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      '#address-cells':
-> +        description: Port number of ETHA (TSNA).
-> +        const: 1
-> +
-> +      '#size-cells':
-> +        const: 0
-> +
-> +    patternProperties:
-> +      "^port@[0-9a-f]+$":
-> +        type: object
-> +        $ref: /schemas/net/ethernet-controller.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          reg:
-> +            description:
-> +              Port number of ETHA (TSNA).
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-I think you need here "maxItems: 1" as no schema sets the limit. I did
-not notice it before.
+---
 
-> +
-> +          phys:
-> +            maxItems: 1
-> +            description:
-> +              Phandle of an Ethernet SERDES.
-> +
+Please give it a time for Rob's bot to process this.
+---
+ Documentation/devicetree/bindings/net/asix,ax88178.yaml       | 4 +++-
+ Documentation/devicetree/bindings/net/microchip,lan95xx.yaml  | 4 +++-
+ .../devicetree/bindings/net/microchip,lan966x-switch.yaml     | 4 ++--
+ .../devicetree/bindings/net/microchip,sparx5-switch.yaml      | 3 ++-
+ .../devicetree/bindings/net/mscc,vsc7514-switch.yaml          | 3 ++-
+ .../bindings/net/renesas,r8a779f0-ether-switch.yaml           | 4 ++--
+ 6 files changed, 14 insertions(+), 8 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/Documentation/devicetree/bindings/net/asix,ax88178.yaml b/Documentation/devicetree/bindings/net/asix,ax88178.yaml
+index 1af52358de4c..a81dbc4792f6 100644
+--- a/Documentation/devicetree/bindings/net/asix,ax88178.yaml
++++ b/Documentation/devicetree/bindings/net/asix,ax88178.yaml
+@@ -27,7 +27,9 @@ properties:
+           - usbb95,772b   # ASIX AX88772B
+           - usbb95,7e2b   # ASIX AX88772B
+ 
+-  reg: true
++  reg:
++    maxItems: 1
++
+   local-mac-address: true
+   mac-address: true
+ 
+diff --git a/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml b/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml
+index cf91fecd8909..3715c5f8f0e0 100644
+--- a/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml
++++ b/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml
+@@ -39,7 +39,9 @@ properties:
+           - usb424,9e08   # SMSC LAN89530 USB Ethernet Device
+           - usb424,ec00   # SMSC9512/9514 USB Hub & Ethernet Device
+ 
+-  reg: true
++  reg:
++    maxItems: 1
++
+   local-mac-address: true
+   mac-address: true
+ 
+diff --git a/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml b/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
+index dc116f14750e..583d70c51be6 100644
+--- a/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
++++ b/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
+@@ -83,8 +83,8 @@ properties:
+             const: 0
+ 
+           reg:
+-            description:
+-              Switch port number
++            items:
++              - description: Switch port number
+ 
+           phys:
+             description:
+diff --git a/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml b/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml
+index 57ffeb8fc876..ccb912561446 100644
+--- a/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml
++++ b/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml
+@@ -89,7 +89,8 @@ properties:
+ 
+         properties:
+           reg:
+-            description: Switch port number
++            items:
++              - description: Switch port number
+ 
+           phys:
+             maxItems: 1
+diff --git a/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml b/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml
+index ee0a504bdb24..1cf82955d75e 100644
+--- a/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml
++++ b/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml
+@@ -109,7 +109,8 @@ properties:
+ 
+         properties:
+           reg:
+-            description: Switch port number
++            items:
++              - description: Switch port number
+ 
+           phy-handle: true
+ 
+diff --git a/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml b/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
+index 581fff8902f4..0eba66a29c6c 100644
+--- a/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
++++ b/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
+@@ -106,8 +106,8 @@ properties:
+ 
+         properties:
+           reg:
+-            description:
+-              Port number of ETHA (TSNA).
++            items:
++              - description: Port number of ETHA (TSNA).
+ 
+           phys:
+             maxItems: 1
+-- 
+2.34.1
 
