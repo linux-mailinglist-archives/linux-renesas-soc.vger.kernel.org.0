@@ -2,58 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C3E7610BCD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Oct 2022 10:07:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48388610BDD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Oct 2022 10:09:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229711AbiJ1IHU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Oct 2022 04:07:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41840 "EHLO
+        id S229456AbiJ1II7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Oct 2022 04:08:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbiJ1IHP (ORCPT
+        with ESMTP id S230102AbiJ1IIp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Oct 2022 04:07:15 -0400
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFD5314D1DE;
-        Fri, 28 Oct 2022 01:07:14 -0700 (PDT)
-Received: by mail-qk1-f180.google.com with SMTP id t25so2968993qkm.2;
-        Fri, 28 Oct 2022 01:07:14 -0700 (PDT)
+        Fri, 28 Oct 2022 04:08:45 -0400
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56ABE1C25EA;
+        Fri, 28 Oct 2022 01:08:18 -0700 (PDT)
+Received: by mail-qk1-f176.google.com with SMTP id 8so2968485qka.1;
+        Fri, 28 Oct 2022 01:08:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=R3K6HrWPJdcJ3kNDZ8m1cpGhsIwUzPY/4lz3JycA9gM=;
-        b=ALbpJQSJzwsaiby2jBHGhEBD/CFFd3qkafEAWWxFSzfR+XKjQFD7FVFK8RObRv8x5Q
-         03y2/vvcbpntSq+AK7UUbgXSh5707+6ax2isMBtN4o4hiyPDivjjbmJdQk8TME5OaKOJ
-         2LZi0Km63vsR3oSXw7SKdozOWxf5t/BykY5tAvPR6X3QjBzOp05nbyCJHRlqEsXh09Il
-         gYIuNuvBUUFU7h+wTakoUIwZSLNY2qfSn1RsvywSdUq8HZ4fUTuxsN6tn5juTSW1k8HF
-         BQ5a+cEizoiz182JVlgJO7ROMiLuv1VZux+dfC31sKf/T2E7eyc2m8XjaD19UBz/ToNZ
-         pnnQ==
-X-Gm-Message-State: ACrzQf2XRVWBFCU/bKiY++6OueDbQPUn9yOmkAsd2LpC6S53ztP6auVa
-        DnAFAQBrWVNAD3lGb2ygwMz3NmhJawE6kg==
-X-Google-Smtp-Source: AMsMyM6z7X15zju+vTYrCJnky8Wzd9ZChI7oO4tahyF3POdI2Ht8xpGljKONVjRQ0iiv/rK7R36MWA==
-X-Received: by 2002:a05:620a:1995:b0:6f8:4c19:a12b with SMTP id bm21-20020a05620a199500b006f84c19a12bmr12153736qkb.482.1666944433848;
-        Fri, 28 Oct 2022 01:07:13 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id t1-20020a05620a450100b006ee7e223bb8sm2522892qkp.39.2022.10.28.01.07.13
+        bh=RHNjVYF81lO8OdfUhIpcIslc6s39L/2If9j6fPR0Er0=;
+        b=DaXVOfTDdDMadaF/ZK7laxnQM2sKapmMQBI3nA9o0DyCYM1ICZWtCR2h9eaabPBFFb
+         r1jbWfFvrwNdJyhxZnDeU3lfJObA6TWBE2d6bmSwJg2RgpnS/nCNbhuze5W6KdXH8rRT
+         3drG9z7GXdauwWQg7NH9XAZGF928qHnh9CJWpnpjLLhBSKjqpB+ktj6AJOSxlOz/BEDU
+         LdwWrHMEJa2n8dPIknpQnBj8J4Dd2w2YqCynAjGGHfmphJ36UoG1qz7E44Un7NZag2Ra
+         TN0o5/PSmxA8KaTixVwdQ3mn9Tgopz4gAW6m8Vne8NhmbsnuJdLmAgaoXGCE+YhWTngB
+         Wsbw==
+X-Gm-Message-State: ACrzQf0A1Xt+WjGVrqfhE96FbcgkbJEwE332xrRPvsSWxqEzljNZdUto
+        GCeu8ZhdPRfPywmWxgu4qE1kVGI8OLrtyw==
+X-Google-Smtp-Source: AMsMyM6B0Zvhg/3+hQiDA3wN3OAOrnjzoRDzVHipo91MlSZS09ZzX3SqXO3Jo85RLavSa6unJgESBQ==
+X-Received: by 2002:a05:620a:288b:b0:6b6:4f9b:85c6 with SMTP id j11-20020a05620a288b00b006b64f9b85c6mr37384383qkp.614.1666944486405;
+        Fri, 28 Oct 2022 01:08:06 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id n16-20020ac85a10000000b0039cc82a319asm2050152qta.76.2022.10.28.01.08.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Oct 2022 01:07:13 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-367b8adf788so40853407b3.2;
-        Fri, 28 Oct 2022 01:07:13 -0700 (PDT)
-X-Received: by 2002:a81:12c8:0:b0:36a:bd6b:92fb with SMTP id
- 191-20020a8112c8000000b0036abd6b92fbmr30447625yws.316.1666944433383; Fri, 28
- Oct 2022 01:07:13 -0700 (PDT)
+        Fri, 28 Oct 2022 01:08:06 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-3321c2a8d4cso40718317b3.5;
+        Fri, 28 Oct 2022 01:08:06 -0700 (PDT)
+X-Received: by 2002:a81:3d2:0:b0:36b:6772:75a3 with SMTP id
+ 201-20020a8103d2000000b0036b677275a3mr29098444ywd.383.1666944485753; Fri, 28
+ Oct 2022 01:08:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221027112300.77184-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20221027112300.77184-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20221027112459.77413-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20221027112459.77413-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 28 Oct 2022 10:07:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU5V_Vx8uxuK=pGHP6t548bYBLmL9xJ8P2xj-ify3HC3A@mail.gmail.com>
-Message-ID: <CAMuHMdU5V_Vx8uxuK=pGHP6t548bYBLmL9xJ8P2xj-ify3HC3A@mail.gmail.com>
-Subject: Re: [PATCH] ARM: shmobile: Drop selecting GPIOLIB and PINCTRL
+Date:   Fri, 28 Oct 2022 10:07:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX0Nmi1_UY6xJa5Keje5WJt4grnTeUDnhhy_HPa-7EpOw@mail.gmail.com>
+Message-ID: <CAMuHMdX0Nmi1_UY6xJa5Keje5WJt4grnTeUDnhhy_HPa-7EpOw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: renesas: Drop selecting GPIOLIB and PINCTRL
 To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
@@ -69,7 +69,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Oct 27, 2022 at 1:23 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+On Thu, Oct 27, 2022 at 1:25 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
 > Don't automatically select the GPIOLIB and PINCTRL config options as we
