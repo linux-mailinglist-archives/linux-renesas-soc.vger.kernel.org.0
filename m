@@ -2,120 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21D48611125
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Oct 2022 14:22:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D234E6111CA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Oct 2022 14:45:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229520AbiJ1MWO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Oct 2022 08:22:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58880 "EHLO
+        id S229674AbiJ1MpH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Oct 2022 08:45:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229719AbiJ1MWN (ORCPT
+        with ESMTP id S229494AbiJ1MpG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Oct 2022 08:22:13 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E8F42AD7;
-        Fri, 28 Oct 2022 05:22:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666959730; x=1698495730;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jyi2YPooioLK0F2LEjhYuRsxAS5UfvB2qcGTTVQ+86k=;
-  b=JhA32RIAAlQp0udyLlAYMh2ufytPoUhISB0CIDVzrbeUBKVzQfJDqTvN
-   VPif8ILODITkXMKTS644vKPcrlS0Nw/O4Y1d1r9KokNThFGMXDOWt9aGK
-   f2B9mYNCzqeO6SRiLFGGl0ViXSXH0Tc7jxhu6KrTwtulraePyvwJA+c/7
-   mZ7wWz5coCakG4SBvmicXXwNQA1C9//aImaF7Pf3H7m7i+VKa4mdqVxh3
-   ki0lCPsVUNFH4PxADCscq/sjSlFxiUJz5lIszuZnP5dnwx4w7KuLx6kuf
-   sHoHaWk9mv43STFjLN32tBQMh+ztwVi/dWwS/OMGig2jdk8Ssr4bkdkwW
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="335119535"
-X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
-   d="scan'208";a="335119535"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 05:22:10 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="758064551"
-X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
-   d="scan'208";a="758064551"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 05:22:06 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 0F1C020399;
-        Fri, 28 Oct 2022 15:22:04 +0300 (EEST)
-Date:   Fri, 28 Oct 2022 12:22:04 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        Fri, 28 Oct 2022 08:45:06 -0400
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3129C4C62F;
+        Fri, 28 Oct 2022 05:45:05 -0700 (PDT)
+Received: by mail-qk1-f181.google.com with SMTP id b25so3297291qkk.7;
+        Fri, 28 Oct 2022 05:45:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=d5L/coRKTHoItE23ReDb1PV3s90z+puDyMQpN9g990M=;
+        b=a3RBMBN3/FDng7LPU8cUjxhYpgnkS+CRVxacsjtgsOAOjEL2w7xwKGlD9UD9WbtCLy
+         JiEbONhz3pKDrxw/B1ysIiELluLgTlFmSP04CyP62umHgsH93YtTNMefAM/b0mQb07GT
+         uTWl73fOn6cR/waaUD8MRgTWQLovLyrzsxMcBTI1Lr9abvJ8ZoHguxAPRDEQj0zhvq6N
+         Yoqhx3XPLrh79Mf/NukxYPVJdS/CgYX+tycmM0CgAOVQq/8srsS5dIFhHTwK4jgraqJR
+         RRjHZa2a730A2SB4hojjQU9nwcTAZNUkXvtAPpxsTuyUN92KjYWzx7YAlcepI4AjsORG
+         uDrw==
+X-Gm-Message-State: ACrzQf1dVPG5/iRfO95lEauSuUkzE3DvQxIaeFOHjbN7DtHAa+SeqJ9R
+        Vk0L+8pLSInW36896TkhutZbtKTgIJVmyQ==
+X-Google-Smtp-Source: AMsMyM6XuJrgYkPWttyciuKZVVyitZ7bgI4UnIPMFD87TSdyjtZk/2CDAGcXbUv37C4RHzsvntj+zA==
+X-Received: by 2002:a05:620a:2601:b0:6bc:70bb:c56b with SMTP id z1-20020a05620a260100b006bc70bbc56bmr38918312qko.416.1666961104181;
+        Fri, 28 Oct 2022 05:45:04 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id dt36-20020a05620a47a400b006bb8b5b79efsm2872781qkb.129.2022.10.28.05.45.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Oct 2022 05:45:02 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-3321c2a8d4cso46026487b3.5;
+        Fri, 28 Oct 2022 05:45:01 -0700 (PDT)
+X-Received: by 2002:a81:3d2:0:b0:36b:6772:75a3 with SMTP id
+ 201-20020a8103d2000000b0036b677275a3mr30116483ywd.383.1666961101680; Fri, 28
+ Oct 2022 05:45:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220920184904.90495-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220920184904.90495-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220920184904.90495-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 28 Oct 2022 14:44:50 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXaxb05O0vqw8PqRQShOFE-f9JEQqxGb0LaPWTA=yDAYg@mail.gmail.com>
+Message-ID: <CAMuHMdXaxb05O0vqw8PqRQShOFE-f9JEQqxGb0LaPWTA=yDAYg@mail.gmail.com>
+Subject: Re: [PATCH v4 01/10] dt-bindings: soc: renesas: Move renesas.yaml
+ from arm to soc
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        Atish Patra <atishp@rivosinc.com>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4 4/4] media: platform: Add Renesas RZ/G2L CRU driver
-Message-ID: <Y1vJbJfFjV9jRNzz@paasikivi.fi.intel.com>
-References: <20221027103104.74576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221027103104.74576-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y1qCbUoLrR6qlQwa@paasikivi.fi.intel.com>
- <CA+V-a8seroka4YkyCnSYa2KMPDWMG1Zk8tyiqRntdPUQnc+nrA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8seroka4YkyCnSYa2KMPDWMG1Zk8tyiqRntdPUQnc+nrA@mail.gmail.com>
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+On Tue, Sep 20, 2022 at 8:50 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> renesas.yaml lists out all the Renesas SoC's and the platforms/EVK's which
+> is either ARM32/ARM64. It would rather make sense if we move renesas.yaml
+> to the soc/renesas folder instead. This is in preparation for adding a new
+> SoC (RZ/Five) from Renesas which is based on RISC-V.
+>
+> While at it drop the old entry for renesas.yaml from MAINTAINERS file and
+> there is no need to update the new file path of renesas.yaml as we already
+> have an entry for Documentation/devicetree/bindings/soc/renesas/ folder.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v3 -> v4
+> * Updated the path in the DT binding
+> * Included RB tag from Geert
 
-On Thu, Oct 27, 2022 at 08:04:40PM +0100, Lad, Prabhakar wrote:
-...
-> > > +static int rzg2l_cru_ip_s_stream(struct v4l2_subdev *sd, int enable)
-> > > +{
-> > > +     struct rzg2l_cru_dev *cru;
-> > > +     int ret;
-> > > +
-> > > +     cru = v4l2_get_subdevdata(sd);
-> > > +
-> > > +     if (!cru->is_csi)
-> > > +             return -EINVAL;
-> > > +
-> > > +     ret = v4l2_subdev_call(cru->ip.remote, video, s_stream, enable);
-> >
-> > It's up to the driver how call pre_streamon() and post_streamoff(), as long
-> > as it takes place on both sides of s_stream().
-> >
-> > In other words, as it seems your device doesn't need anything special, you
-> > could waive implemeting the callbacks yourself and call pre_streamon() and
-> > post_streamoff() here.
-> >
-> Here the cru->ip.remote = CSI, in the rzg2l_cru_set_stream(1) where we
-> are calling pre_streamon()/post_streamoff() callbacks the subdev is
-> CRU-IP. So the calls from rzg2l_cru_set_stream() land into
-> rzg2l_cru_ip_pre_streamon() and rzg2l_cru_ip_post_streamoff() which
-> are calling pre_streamon/post_streamoff for the CSI subdev.
+Will queue in renesas-devel for v6.2.
 
-Again, you should call the source sub-device's pre_streamon and
-post_streamoff from the s_stream handler (not from
-rzg2l_cru_ip_pre_streamon or rzg2l_cru_ip_post_streamoff).
+Gr{oetje,eeting}s,
 
-Starting streaming takes place link by link. This allows a driver to omit
-implementing pre_streamon and post_streamon callbacks if it doesn't need
-them.
+                        Geert
 
--- 
-Kind regards,
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Sakari Ailus
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
