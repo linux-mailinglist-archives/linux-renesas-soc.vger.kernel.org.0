@@ -2,108 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34F496111D0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Oct 2022 14:46:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95F4E611260
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Oct 2022 15:10:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbiJ1MqW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Oct 2022 08:46:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47492 "EHLO
+        id S229926AbiJ1NKZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Oct 2022 09:10:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbiJ1MqV (ORCPT
+        with ESMTP id S230234AbiJ1NKX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Oct 2022 08:46:21 -0400
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91C8C1CEC07;
-        Fri, 28 Oct 2022 05:46:20 -0700 (PDT)
-Received: by mail-qt1-f170.google.com with SMTP id g16so3361165qtu.2;
-        Fri, 28 Oct 2022 05:46:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4PLs2L+UHYQFSiNXWVRX1eTlixniK4rGG++88ZUzDFM=;
-        b=iDGyrBv6XU4b7i74SyvWcF583rlj3OchhpTUjhWlcHmIhB5exC/nXRhraB1ukSN7BM
-         ROfknZZ4nLhoEvWIEcZstQ4I/tLLKGB/pK86hdKaSUQb7mbXOYQJV39qjlvHiSTL4x5w
-         vBzdkKQO6qz8+6oIbtUr2yMCQ5cCpQMlrlex6gpVmXO0LI8yJieDr6sQlP/7wIdnuQOu
-         p37fMeSKwFIo1SNnAuAR6AttHusvC1PHjZjYMRex8h6Ot3bSoBXrPxP1I0eYvwNbAePX
-         1NSji0Q//oCVa6aYzlQVUTkNdYv+XTg8QIT9JFgPZYhR54X24tW03zgjtjKubvKKtInf
-         mvlQ==
-X-Gm-Message-State: ACrzQf2/j8KJ2Ub7seo0yBTySiT+UXLBAfbQ5YvgLspjHcXdQKoj4zV2
-        aso/+mrdPNDxk7dwO8zENJNCdY0Qq1NDSA==
-X-Google-Smtp-Source: AMsMyM7umw66oHKnWvFfDUrs+bpvdvF5NQCo7lwMTmEBqPCPXyn0qvQRIqDF8tubCjezPUhMQs+MOQ==
-X-Received: by 2002:ac8:4e44:0:b0:399:efde:98c5 with SMTP id e4-20020ac84e44000000b00399efde98c5mr45464321qtw.640.1666961179564;
-        Fri, 28 Oct 2022 05:46:19 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id h24-20020ac846d8000000b0039cc22a2c49sm2293682qto.47.2022.10.28.05.46.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Oct 2022 05:46:18 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id t186so5963064yba.12;
-        Fri, 28 Oct 2022 05:46:18 -0700 (PDT)
-X-Received: by 2002:a25:cd01:0:b0:6c2:6f0d:f4ce with SMTP id
- d1-20020a25cd01000000b006c26f0df4cemr46239035ybf.365.1666961178681; Fri, 28
- Oct 2022 05:46:18 -0700 (PDT)
+        Fri, 28 Oct 2022 09:10:23 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97AC16BCE9
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Oct 2022 06:10:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 56145B82A04
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Oct 2022 13:10:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F033DC433D6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Oct 2022 13:10:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666962620;
+        bh=0oQrl45GbGHCJTBpMBTGyG8WI31BrHwtC1g6rk1qZ8M=;
+        h=Subject:From:Date:To:From;
+        b=Rt8DOYP47wBSKZw1dVsGgbDI5jJLy6gHsr2/MYMsS2DelyAOBzrrJQL+WwPXCR38v
+         ZA7elQh89zfhMZ7omQBxDXzPbrN62rImXBRORQ4CpYIXAKb6gCuZWt4T18W4GLMGj6
+         nbB+NnZYHjEHszu2mm5ZyZPXj0WyCjy1bfWRpgJ6X+Fq1b/Uj9DFsCAJeVg8otQ69w
+         e3nKG4KM0d96WWu721vnmhV+IWxoksFMWKZD48dhjluDtTRUJEhWq4Fujd1JvkfZfr
+         pcc5z/HBY05o5bd5jYG3Ogao7p62rUjoMI7u5SHm76rlyyolgegbLnxgJHZbzAElYh
+         qrUcqq4JM5Ccw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D0EF9C41670
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Oct 2022 13:10:19 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220920184904.90495-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220920184904.90495-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220920184904.90495-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 28 Oct 2022 14:46:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWNq2J40jiC-TkEA23hVWsWTk483KXuDO9-bMe3CiGRcw@mail.gmail.com>
-Message-ID: <CAMuHMdWNq2J40jiC-TkEA23hVWsWTk483KXuDO9-bMe3CiGRcw@mail.gmail.com>
-Subject: Re: [PATCH v4 04/10] dt-bindings: soc: renesas: renesas.yaml:
- Document Renesas RZ/Five SoC
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-        Atish Patra <atishp@rivosinc.com>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <166696261979.30092.16225355597116936447.git-patchwork-summary@kernel.org>
+Date:   Fri, 28 Oct 2022 13:10:19 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Sep 20, 2022 at 8:50 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Document Renesas RZ/Five (R9A07G043) SoC.
->
-> More info about RZ/Five SoC:
-> https://www.renesas.com/us/en/products/microcontrollers-microprocessors/rz-mpus/rzfive-risc-v-general-purpose-microprocessors-risc-v-cpu-core-andes-ax45mp-single-10-ghz-2ch-gigabit-ethernet
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v3 -> v4
-> * No change
+Hello:
 
-Will queue in renesas-devel for v6.2.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Gr{oetje,eeting}s,
+Patch: arm64: dts: renesas: r8a779a0: Update to R-Car Gen4 compatible values
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=688118
+  Lore link: https://lore.kernel.org/r/387168aef20d399d4f4318f4ecab9c3b016fd6f2.1666605756.git.geert+renesas@glider.be
 
-                        Geert
+Series: Add support for Renesas RZ/Five SoC
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=678751
+  Lore link: https://lore.kernel.org/r/20220920184904.90495-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [v4,01/10] dt-bindings: soc: renesas: Move renesas.yaml from arm to soc
+             [v4,04/10] dt-bindings: soc: renesas: renesas.yaml: Document Renesas RZ/Five SoC
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Patch: ARM: dts: renesas: Miscellaneous whitespace fixes
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=688124
+  Lore link: https://lore.kernel.org/r/1666adade07e16b77af1f03c55799b2ad1378e60.1666605877.git.geert+renesas@glider.be
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Patch: arm64: renesas: Drop selecting GPIOLIB and PINCTRL
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=689391
+  Lore link: https://lore.kernel.org/r/20221027112459.77413-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+Patch: ARM: shmobile: Drop selecting GPIOLIB and PINCTRL
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=689390
+  Lore link: https://lore.kernel.org/r/20221027112300.77184-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+Patch: [PATCH/LOCAL] arm64: renesas: defconfig: Refresh for v6.1-rc1
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=688097
+  Lore link: https://lore.kernel.org/r/2757e6c714fd9ee55909dcaceaf7190f2af098d9.1666602592.git.geert+renesas@glider.be
+
+Series: Rename DTB overlay source files
+  Submitter: Andrew Davis <afd@ti.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=688359
+  Lore link: https://lore.kernel.org/r/20221024173434.32518-1-afd@ti.com
+    Patches: [v2,1/7] kbuild: Allow DTB overlays to built from .dtso named source files
+             [v2,4/7] arm64: dts: freescale: Rename DTB overlay source files from .dts to .dtso
+             [v2,5/7] arm64: dts: renesas: Rename DTB overlay source files from .dts to .dtso
+             [v2,6/7] arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
+
+Series: RZ/G2UL separate out SoC specific parts
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=688831
+  Lore link: https://lore.kernel.org/r/20221025220629.79321-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [v2,1/2] arm64: dts: renesas: r9a07g043: Introduce SOC_PERIPHERAL_IRQ() macro to specify interrupt property
+             [v2,2/2] arm64: dts: renesas: r9a07g043: Split out RZ/G2UL SoC specific parts
+
+
+Total patches: 13
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
