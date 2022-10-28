@@ -2,122 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63DD0610FE1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Oct 2022 13:41:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15B9E6110E8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Oct 2022 14:11:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229781AbiJ1LlU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Oct 2022 07:41:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59252 "EHLO
+        id S229739AbiJ1ML5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Oct 2022 08:11:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbiJ1LlT (ORCPT
+        with ESMTP id S230320AbiJ1MLh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Oct 2022 07:41:19 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1D2B61D80;
-        Fri, 28 Oct 2022 04:41:18 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id k2so12339368ejr.2;
-        Fri, 28 Oct 2022 04:41:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y5y5A9pG1/H0U+8RgwnxHXSQw6+Rfn/giVW1kToYs3Y=;
-        b=Csf6zZS0/kCTQiC1yhxCCUQQrGy4No9ZwiINBJnWGpQCa2tG0KVfBIdKNllX+F85uz
-         vzZ5VFkfvUdJkGdJriHLfOY89Q4WOKODXwTdZVhsOdwWOQ+OJbnxRF1k2g65xQJlQb6L
-         ImdBaFL8609ImsALNyovHlAtjGeyD0t3h/YpavNYYIEmP5CfZ1sLdWiSYnIQSI9+iVUJ
-         slLwnX6Ycwasc/zYFb4nlwfdF31S99ZisgeiZHMr7PhDejYZ182nBfMGMp1FybyegHzJ
-         CP9i85gdja1QLPowrSviaFSJWu8xRm3aL3PjboYiuFpnoWVEjDs09zff16/mOj+H//ec
-         R+jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y5y5A9pG1/H0U+8RgwnxHXSQw6+Rfn/giVW1kToYs3Y=;
-        b=ZknsGsU82EOePBOam0v6qqzVIU+hJnSDaFKIpK3PRmrTnzhW0rnx32DN6NRJdHvKa4
-         2Lxxm6D0IjX744Cf1H9VErRTqqDt2lTXJH0er6iI2+Sx2YreRf8q6bixjyzX4N1IKMVK
-         NG9lCoCLpfWZXNQs8JL5fAn5/cXOEPIOdVoWJjPYtWvqa9PR/sag1b3XTdlNH7lbX7LJ
-         2osiFQW1akZ8p7+pl4SPJELQd6MfMFWxLif7GM6JDNp42QEI2eo4RA4RmFdHNOy2q0ZB
-         GOCBNrADLtgf+O4ldQd2FDhFrS8ow2FOp9oDiLHiWVmI3r6ppIqqN/GZlAr04kfzrZhm
-         dpyQ==
-X-Gm-Message-State: ACrzQf294nvJLllwbqcM0U7vKyiG0SpORas9DyQkkHPAD8rlzpsjQ2us
-        +qO0gIQuUANWiN/z3Nwjyo5pZPoACJCiWEPp2p+YAFWdFfI=
-X-Google-Smtp-Source: AMsMyM7k7NlrLg2TkNTq5MWbYtY7EI7PuCwUCR7FFMsv2VcliAPc0Yg89vfXdfHM4lu0CUxKH39lgb2/kVF9LDK8Kqk=
-X-Received: by 2002:a17:907:847:b0:77f:f489:cc25 with SMTP id
- ww7-20020a170907084700b0077ff489cc25mr46178042ejb.80.1666957277120; Fri, 28
- Oct 2022 04:41:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221025220629.79321-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221025220629.79321-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXw0DTAXFjqutP4X2E3gzkBQ579tHPfjtLC2X0j3R-+Lw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXw0DTAXFjqutP4X2E3gzkBQ579tHPfjtLC2X0j3R-+Lw@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 28 Oct 2022 12:40:50 +0100
-Message-ID: <CA+V-a8v2RkNSuVxVsoYhS3c-xJ7bJAm+ApaDCoK6oBzTx5gsnA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: r9a07g043: Split out RZ/G2UL
- SoC specific parts
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Samuel Holland <samuel@sholland.org>, soc@kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Fri, 28 Oct 2022 08:11:37 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CB191C9045
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Oct 2022 05:11:35 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1ooOCw-0000cg-M1; Fri, 28 Oct 2022 14:11:30 +0200
+Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id 3911210CBA9;
+        Fri, 28 Oct 2022 12:11:29 +0000 (UTC)
+Date:   Fri, 28 Oct 2022 14:11:26 +0200
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Ulrich Hecht <uli+renesas@fpond.eu>, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] can: rcar_canfd: Add missing ECC error checks for
+ channels 2-7
+Message-ID: <20221028121126.aigrnf4uph6hsppl@pengutronix.de>
+References: <4edb2ea46cc64d0532a08a924179827481e14b4f.1666951503.git.geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ubstobhq47tay4vw"
+Content-Disposition: inline
+In-Reply-To: <4edb2ea46cc64d0532a08a924179827481e14b4f.1666951503.git.geert+renesas@glider.be>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
 
-Thank you for the review.
+--ubstobhq47tay4vw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 28, 2022 at 12:35 PM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Wed, Oct 26, 2022 at 12:06 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Move RZ/G2UL SoC specific parts to r9a07g043u.dtsi so that r9a07g043.dtsi
-> > can be shared with RZ/Five (RISC-V SoC).
-> >
-> > Below are the changes due to which SoC specific parts are moved to
-> > r9a07g043u.dtsi:
-> > - RZ/G2UL has Cortex-A55 (ARM64) whereas the RZ/Five has AX45MP (RISC-V)
-> > - RZ/G2UL has GICv3 as interrupt controller whereas the RZ/Five has PLIC
-> > - RZ/G2UL has interrupts for SYSC block whereas interrupts are missing
-> >   for SYSC block on RZ/Five
-> > - RZ/G2UL has armv8-timer whereas the RZ/Five has riscv-timer
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v6.2.
->
-> > ---
-> > RFC->v2
-> > * Updated commit message about timer
->
-> Right. And I'll add while applying:
->
->   - RZ/G2UL has PSCI whereas RZ/Five have OpenSBI
->
-That makes sense, thanks.
+On 28.10.2022 12:06:45, Geert Uytterhoeven wrote:
+> When introducing support for R-Car V3U, which has 8 instead of 2
+> channels, the ECC error bitmask was extended to take into account the
+> extra channels, but rcar_canfd_global_error() was not updated to act
+> upon the extra bits.
+>=20
+> Replace the RCANFD_GERFL_EEF[01] macros by a new macro that takes the
+> channel number, fixing R-Car V3U while simplifying the code.
+>=20
+> Fixes: 45721c406dcf50d4 ("can: rcar_canfd: Add support for r8a779a0 SoC")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Cheers,
-Prabhakar
+Added stable on Cc and added to linux-can.
+
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--ubstobhq47tay4vw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmNbxuwACgkQrX5LkNig
+013Qfgf/fkqiHPRNYQM2wioOyj/AM8EgMCMraqKrtalSn3zGZ5ZLKiX1KcnmSxdM
+5dSpsWCM90ZckJN3VB6q10Mmu5N0ftC6xB8eK08JCwJqHz3g0ui40mlJtYoJ6g7H
+69K/NjwkeMCM3ANPqHvlSQs/VmdZ9URcnb4MlWMI5dW3QC7QbyFSfR6M42Q0MTzN
+P0CwQugvmMur1D5ZW9h5SndgcHiR1WS3YsdjZwN2S1p7HlZXcp0KLULBqHtmlyAQ
+WJq+fx12rXPihiuGbVKX+dTW5chyV3kaR4sfSVYFU4gxVmTGTvM4bZsUkWuTstGW
+7d9oV1fHbaHzW1+MgcuFl4+aI2Xl9A==
+=SNJZ
+-----END PGP SIGNATURE-----
+
+--ubstobhq47tay4vw--
