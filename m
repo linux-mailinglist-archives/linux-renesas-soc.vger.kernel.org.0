@@ -2,140 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B96D611F15
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Oct 2022 03:30:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F26CC611FF7
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Oct 2022 06:18:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229489AbiJ2Ban (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Oct 2022 21:30:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44058 "EHLO
+        id S229553AbiJ2ESo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 29 Oct 2022 00:18:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbiJ2Bal (ORCPT
+        with ESMTP id S229379AbiJ2ESn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Oct 2022 21:30:41 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADEF86CF5D
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Oct 2022 18:30:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667007040; x=1698543040;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=lcmIixKbgw7TMbWl/SPsOOJgAlqzhmoTg+f1mY1Veqo=;
-  b=XUWaA+13tZuzYsusHoBscYUGomWjkooPkRDUYGPjuZT3VeZxKqahslR6
-   x52yCl1QXhHsiBRY7+jcHKLO5oL147GTidwe378Ph52cJSnzg99gpM1Dq
-   T/AyQHBXs/CYvUOCQ15up7TP8T8vOCqeQn9fTX9ILhObNhOcrL0RC/Ef0
-   os3OOekQmRfPddFX5wCnr+9toY4G+htXYU4E1LHrp8U3FSAXT6XtbW9yu
-   cDlJR7/9fvGtSgDzL5EKbGhOSlO+OHkOaYewcIiMSeIYug1Mj3+kHHmU6
-   YwDX6OzZnIfPqXypiWTpYBuTphNUJMpX6r8/WvcdwSQJ+l2RM8BETM0fZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="289018731"
-X-IronPort-AV: E=Sophos;i="5.95,222,1661842800"; 
-   d="scan'208";a="289018731"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 18:30:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="722255585"
-X-IronPort-AV: E=Sophos;i="5.95,222,1661842800"; 
-   d="scan'208";a="722255585"
-Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 28 Oct 2022 18:30:39 -0700
-Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1ooagI-000APr-2P;
-        Sat, 29 Oct 2022 01:30:38 +0000
-Date:   Sat, 29 Oct 2022 09:29:58 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:topic/renesas-defconfig] BUILD SUCCESS
- 083fa8efbec4676c44d1bbf8a7d042a143c3cfd3
-Message-ID: <635c8216.rcWNJ2lTMq+eGEef%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 29 Oct 2022 00:18:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0076A16D89A;
+        Fri, 28 Oct 2022 21:18:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 91B4C600BE;
+        Sat, 29 Oct 2022 04:18:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06666C433D6;
+        Sat, 29 Oct 2022 04:18:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667017121;
+        bh=tGuK0t80zkZtAo5Nex2KKRFbSxKUDdhcBhWx7hEFvuk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=RtJVoTaiv6EMCogDfUCGceorfx6aaNUEll7Q8rg5fLr4HKY1itrLCISTS66FC9/ou
+         AqMIT41osUEC2q49MQnPmnraOkPUzAlNo9WvaRfZiYZbDasUQjpTYFjJ2Fwki1nIIh
+         mEDao7xBQ/2A+LLlPqKlV3rJG3JD6ALZJIy9rfXz2RoAllGP/eKfRqV4X8Rue3VXPm
+         9jL+GLbvXY/yXvS+RWVJrFou+hGiwvcu0hcYmg6jc/v1tbSAwq0nzkkMBhMSqOzSSj
+         d0InLC5Oell6Uj4hUF11zfJ8oydSQddODUY90kMN1YBhV0Klv/O10as6l2gSjMCrEw
+         suM1eiENECX5w==
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-13bd19c3b68so8416606fac.7;
+        Fri, 28 Oct 2022 21:18:40 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1wPL5D0iAC8Ow+6uwj5pDy+1iIjerfeBZCeMhzZtPBhV8rdRfC
+        k/Xe4+cWyzUnfhAGk7GDcejUELThX24cA2h4UlE=
+X-Google-Smtp-Source: AMsMyM7e6IHCx9azxcE286jAdW0V+KhXxyaPIe0xY+vKOQn5w6MOSy85TfhuXUeFW6s9kqA39gLLKuYmyas/W8K7zG4=
+X-Received: by 2002:a05:6870:5803:b0:12c:c3e0:99dc with SMTP id
+ r3-20020a056870580300b0012cc3e099dcmr10197639oap.19.1667017120186; Fri, 28
+ Oct 2022 21:18:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20221028165921.94487-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20221028165921.94487-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20221028165921.94487-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Sat, 29 Oct 2022 12:18:27 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTTxzV3M0b4UbPpyUtNTKtT6ViU1i=hihcnneM2M-2jR3A@mail.gmail.com>
+Message-ID: <CAJF2gTTxzV3M0b4UbPpyUtNTKtT6ViU1i=hihcnneM2M-2jR3A@mail.gmail.com>
+Subject: Re: [PATCH v5 3/7] riscv: Kconfig.socs: Add ARCH_RENESAS kconfig option
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git topic/renesas-defconfig
-branch HEAD: 083fa8efbec4676c44d1bbf8a7d042a143c3cfd3  arm64: renesas: defconfig: Refresh for v6.1-rc1
+On Sat, Oct 29, 2022 at 12:59 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+>
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add ARCH_RENESAS config option to allow selecting the Renesas RISC-V SoCs.
+> We currently have the newly added RZ/Five (R9A07G043) RISC-V based SoC.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> v4 -> v5
+> * Sorted as per SoC name
+> * Included RB tag from Conor
+>
+> v3 -> v4
+> * Dropped SOC_RENESAS_RZFIVE config option
+> * Dropped explicitly selecting SOC_BUS/GPIOLIB/PINCTRL configs
+>   under ARCH_RENESAS
+> * Updated commit message
+> * Dropped RB tag
+> * Used riscv instead of RISC-V in subject line
+>
+> v2 -> v3
+> * Included RB tag from Geert
+>
+> v1 -> v2
+> * No Change
+> ---
+>  arch/riscv/Kconfig.socs | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/arch/riscv/Kconfig.socs b/arch/riscv/Kconfig.socs
+> index 69774bb362d6..75fb0390d6bd 100644
+> --- a/arch/riscv/Kconfig.socs
+> +++ b/arch/riscv/Kconfig.socs
+> @@ -7,6 +7,11 @@ config SOC_MICROCHIP_POLARFIRE
+>         help
+>           This enables support for Microchip PolarFire SoC platforms.
+>
+> +config ARCH_RENESAS
+> +       bool "Renesas RISC-V SoCs"
+> +       help
+> +         This enables support for the RISC-V based Renesas SoCs.
+> +
+Looks good.
 
-elapsed time: 725m
+Reviewed-by: Guo Ren <guoren@kernel.org>
 
-configs tested: 58
-configs skipped: 2
+>  config SOC_SIFIVE
+>         bool "SiFive SoCs"
+>         select SERIAL_SIFIVE if TTY
+> --
+> 2.25.1
+>
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-powerpc                           allnoconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-arc                                 defconfig
-alpha                               defconfig
-x86_64                              defconfig
-sh                               allmodconfig
-mips                             allyesconfig
-x86_64                           allyesconfig
-powerpc                          allmodconfig
-i386                                defconfig
-x86_64                               rhel-8.3
-ia64                             allmodconfig
-x86_64                          rhel-8.3-func
-s390                             allmodconfig
-x86_64                    rhel-8.3-kselftests
-i386                          randconfig-a001
-m68k                             allmodconfig
-i386                          randconfig-a014
-i386                          randconfig-a003
-s390                                defconfig
-i386                          randconfig-a012
-i386                          randconfig-a016
-arm                                 defconfig
-arc                  randconfig-r043-20221028
-arc                              allyesconfig
-s390                             allyesconfig
-alpha                            allyesconfig
-i386                          randconfig-a005
-riscv                randconfig-r042-20221028
-i386                             allyesconfig
-x86_64                        randconfig-a002
-x86_64                           rhel-8.3-syz
-x86_64                        randconfig-a013
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-s390                 randconfig-r044-20221028
-x86_64                        randconfig-a004
-arm64                            allyesconfig
-x86_64                        randconfig-a011
-arm                              allyesconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a015
-m68k                             allyesconfig
-
-clang tested configs:
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a002
-i386                          randconfig-a015
-hexagon              randconfig-r041-20221028
-hexagon              randconfig-r045-20221028
-x86_64                        randconfig-a014
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-x86_64                        randconfig-a005
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Best Regards
+ Guo Ren
