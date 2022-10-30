@@ -2,109 +2,217 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94DEC612ABC
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Oct 2022 14:30:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E38B8612BB7
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Oct 2022 18:06:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbiJ3Naq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 30 Oct 2022 09:30:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51368 "EHLO
+        id S229494AbiJ3RGI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 30 Oct 2022 13:06:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbiJ3Nap (ORCPT
+        with ESMTP id S229795AbiJ3RGH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 30 Oct 2022 09:30:45 -0400
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76272A1AC;
-        Sun, 30 Oct 2022 06:30:44 -0700 (PDT)
-Received: by mail-ot1-f54.google.com with SMTP id cb2-20020a056830618200b00661b6e5dcd8so5498643otb.8;
-        Sun, 30 Oct 2022 06:30:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HD39gM3Y6SRPo4vcxIc+9YUMAKWkt9Hhn/IHBrOsFlQ=;
-        b=Vr5R1QJ2NB7IT6vUZgRUv9NKLpsSDNItPaM62RsJVrzC6vOtNn44yBGq9YXVZNJIN4
-         IH7UezjmfMqj1EkyqYmqeotlovdWvBWYjEmTfItAp23n7nBy7qWAOGD9kOYVWdhu0ArX
-         jTuqMLatl7T/Grv5iLvwAatwvkVJ3+gK+234eS92ssF3hbYAUdbG39D/4Ur223eMCVhL
-         +9m8cRtutnV0ESR3VazJUDja3VvWMLnx6V8HMMd2lyoh9DDR31r/G/2kTh6UHSvP+ENv
-         uaDMwSAMn1ghMvDnBK/d3d/YLDXmeSWLTDiQBTWVkOXzhV99txIAWsd5I1E5n/+azO5K
-         N6ZQ==
-X-Gm-Message-State: ACrzQf2OTA+wlvtRzPVEi9mOPySIdmlVldpWYdcpd3KnQddomu1fyy3K
-        lDnPnW5VDzU6NWQLQzoFHg15ttKE2w==
-X-Google-Smtp-Source: AMsMyM7eb5wn/o7W0L3N1kxoCZoa3guN36yaLuEOuip6+FdK0zFbNExjnXEq0PuFn2cnF/atfZze+g==
-X-Received: by 2002:a9d:2da3:0:b0:66a:38de:96b6 with SMTP id g32-20020a9d2da3000000b0066a38de96b6mr4210624otb.20.1667136643544;
-        Sun, 30 Oct 2022 06:30:43 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id w17-20020a9d77d1000000b0066193df8edasm1703173otl.34.2022.10.30.06.30.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Oct 2022 06:30:42 -0700 (PDT)
-Received: (nullmailer pid 964892 invoked by uid 1000);
-        Sun, 30 Oct 2022 13:30:44 -0000
-Date:   Sun, 30 Oct 2022 08:30:44 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Sun, 30 Oct 2022 13:06:07 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FEE02B7
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 30 Oct 2022 10:06:03 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1opBju-0002tX-Qd; Sun, 30 Oct 2022 18:04:50 +0100
+Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1opBjm-0000cU-6B; Sun, 30 Oct 2022 18:04:42 +0100
+Date:   Sun, 30 Oct 2022 18:04:42 +0100
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Bjorn Andersson <andersson@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Lars Povlsen <lars.povlsen@microchip.com>,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Daniel Machon <daniel.machon@microchip.com>,
+        UNGLinuxDriver@microchip.com, Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Jonathan Marek <jonathan@marek.ca>,
+        Martin Botka <martin.botka@somainline.org>,
+        Taniya Das <tdas@codeaurora.org>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        krishna Lanka <quic_vamslank@quicinc.com>,
+        Iskren Chernev <iskren.chernev@gmail.com>,
+        Del Regno <angelogioacchino.delregno@somainline.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        Jeffrey Hugo <quic_jhugo@quicinc.com>,
+        Govind Singh <govinds@codeaurora.org>,
+        Loic Poulain <loic.poulain@linaro.org>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 1/5] dt-bindings: timer: Document RZ/G2L MTU3a bindings
-Message-ID: <20221030133044.GA964038-robh@kernel.org>
-References: <20221027144844.85149-1-biju.das.jz@bp.renesas.com>
- <20221027144844.85149-2-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH] dt-bindings: net: constrain number of 'reg' in ethernet
+ ports
+Message-ID: <20221030170442.GA7508@pengutronix.de>
+References: <20221028140326.43470-1-krzysztof.kozlowski@linaro.org>
+ <20221028140326.43470-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221027144844.85149-2-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20221028140326.43470-2-krzysztof.kozlowski@linaro.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Oct 27, 2022 at 03:48:40PM +0100, Biju Das wrote:
-> The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
-> the Renesas RZ/G2L family SoC's. It consists of eight 16-bit timer
-> channels and one 32-bit timer channel. It supports the following
-> functions
->  - Counter
->  - Timer
->  - PWM
+On Fri, Oct 28, 2022 at 10:03:25AM -0400, Krzysztof Kozlowski wrote:
+> 'reg' without any constraints allows multiple items which is not the
+> intention for Ethernet controller's port number.
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v4->v5:
->  * Modelled as timer bindings.
->  * Fixed the typo.
-> v3->v4:
->  * Dropped counter and pwm compatibeles as they don't have any resources.
->  * Made rz-mtu3 as pwm provider.
->  * Updated the example and description.
-> v2->v3:
->  * Dropped counter bindings and integrated with mfd as it has only one property.
->  * Removed "#address-cells" and "#size-cells" as it do not have children with
->    unit addresses.
->  * Removed quotes from counter and pwm.
->  * Provided full path for pwm bindings.
->  * Updated the example.
-> v1->v2:
->  * Modelled counter and pwm as a single device that handles
->    multiple channels.
->  * Moved counter and pwm bindings to respective subsystems
->  * Dropped 'bindings' from MFD binding title.
->  * Updated the example
->  * Changed the compatible names.
-> ---
->  .../bindings/timer/renesas,rz-mtu3.yaml       | 302 ++++++++++++++++++
->  1 file changed, 302 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+For  asix,ax88178.yaml and microchip,lan95xx.yaml
+
+Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
+
+> 
+> ---
+> 
+> Please give it a time for Rob's bot to process this.
+> ---
+>  Documentation/devicetree/bindings/net/asix,ax88178.yaml       | 4 +++-
+>  Documentation/devicetree/bindings/net/microchip,lan95xx.yaml  | 4 +++-
+>  .../devicetree/bindings/net/microchip,lan966x-switch.yaml     | 4 ++--
+>  .../devicetree/bindings/net/microchip,sparx5-switch.yaml      | 3 ++-
+>  .../devicetree/bindings/net/mscc,vsc7514-switch.yaml          | 3 ++-
+>  .../bindings/net/renesas,r8a779f0-ether-switch.yaml           | 4 ++--
+>  6 files changed, 14 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/asix,ax88178.yaml b/Documentation/devicetree/bindings/net/asix,ax88178.yaml
+> index 1af52358de4c..a81dbc4792f6 100644
+> --- a/Documentation/devicetree/bindings/net/asix,ax88178.yaml
+> +++ b/Documentation/devicetree/bindings/net/asix,ax88178.yaml
+> @@ -27,7 +27,9 @@ properties:
+>            - usbb95,772b   # ASIX AX88772B
+>            - usbb95,7e2b   # ASIX AX88772B
+>  
+> -  reg: true
+> +  reg:
+> +    maxItems: 1
+> +
+>    local-mac-address: true
+>    mac-address: true
+>  
+> diff --git a/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml b/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml
+> index cf91fecd8909..3715c5f8f0e0 100644
+> --- a/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml
+> +++ b/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml
+> @@ -39,7 +39,9 @@ properties:
+>            - usb424,9e08   # SMSC LAN89530 USB Ethernet Device
+>            - usb424,ec00   # SMSC9512/9514 USB Hub & Ethernet Device
+>  
+> -  reg: true
+> +  reg:
+> +    maxItems: 1
+> +
+>    local-mac-address: true
+>    mac-address: true
+>  
+> diff --git a/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml b/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
+> index dc116f14750e..583d70c51be6 100644
+> --- a/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
+> +++ b/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
+> @@ -83,8 +83,8 @@ properties:
+>              const: 0
+>  
+>            reg:
+> -            description:
+> -              Switch port number
+> +            items:
+> +              - description: Switch port number
+>  
+>            phys:
+>              description:
+> diff --git a/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml b/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml
+> index 57ffeb8fc876..ccb912561446 100644
+> --- a/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml
+> +++ b/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml
+> @@ -89,7 +89,8 @@ properties:
+>  
+>          properties:
+>            reg:
+> -            description: Switch port number
+> +            items:
+> +              - description: Switch port number
+>  
+>            phys:
+>              maxItems: 1
+> diff --git a/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml b/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml
+> index ee0a504bdb24..1cf82955d75e 100644
+> --- a/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml
+> +++ b/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml
+> @@ -109,7 +109,8 @@ properties:
+>  
+>          properties:
+>            reg:
+> -            description: Switch port number
+> +            items:
+> +              - description: Switch port number
+>  
+>            phy-handle: true
+>  
+> diff --git a/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml b/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
+> index 581fff8902f4..0eba66a29c6c 100644
+> --- a/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
+> +++ b/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
+> @@ -106,8 +106,8 @@ properties:
+>  
+>          properties:
+>            reg:
+> -            description:
+> -              Port number of ETHA (TSNA).
+> +            items:
+> +              - description: Port number of ETHA (TSNA).
+>  
+>            phys:
+>              maxItems: 1
+> -- 
+> 2.34.1
+> 
+> 
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
