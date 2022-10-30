@@ -2,72 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18F28612D6B
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Oct 2022 23:33:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0535D612D92
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Oct 2022 23:37:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229692AbiJ3WdQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 30 Oct 2022 18:33:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44884 "EHLO
+        id S229494AbiJ3Wha (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 30 Oct 2022 18:37:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbiJ3WdP (ORCPT
+        with ESMTP id S229476AbiJ3Wh3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 30 Oct 2022 18:33:15 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FA2B95B3;
-        Sun, 30 Oct 2022 15:33:11 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id y69so15190376ede.5;
-        Sun, 30 Oct 2022 15:33:11 -0700 (PDT)
+        Sun, 30 Oct 2022 18:37:29 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C722ABA5;
+        Sun, 30 Oct 2022 15:37:28 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id sc25so25348315ejc.12;
+        Sun, 30 Oct 2022 15:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=n2o/GMQ0tE3kyma8kEJB/WriSFlX/4OAcK/yGlC1IlE=;
-        b=HABUGdOYJ2Ota30RMDhZXtIDHugmsIIqXOuZRUA24b6bDOpJXQ2G3HHR2xZx4lsH6m
-         7MPFnhxyxZZnJalq7R6AKJyp7R8e+Q9QpYuo7SrguIFU9zScACRdg44x9drn7M1Vw5nO
-         D+F8+at+RnRWoC2j74lZ9YpPJfKZwBDJx0lA75eR93WhVTKfJsrobxOuYZ7gxPhadicD
-         5v5hIqYZKpEw51Gi/PlwYc725575Z/D7UzzqU0J9CMK2a6y+nKC4kOQPJRCg+LH6Xvtz
-         S/+Q8oncydo38Iy6DHxXoS0zSzAFzL9jwzmAMRm7TCSrKxYKDhdjtI2OvvFWZEtoKKWN
-         wvxQ==
+        bh=mvvzkff6DOL85U8amZ/DXhVJ4JENLNiq7XjnHhrGMvs=;
+        b=f0QVCDZ5EVWlrUN1rKoSG+yS/A2K3M7mCkQ4bxP3jzMM/+mMruxSV5Usb/toSwsPBU
+         RDjIqyagVzNRtdtTfqq7srhGfEWj70L+F0p1VlBdWpDl8A+1wpBB+MYo17QOF2lr8lJP
+         wMqRerhgoRq7Tq3tubk2FH61N9zB1PNJ+PxSpdvet4Em/xVtxiMVpvrwzeqL1s6VuSOx
+         oKCkeNTXo4vbJGuN9vW756plKb4qoj6zSoiJFGBUeYM28Ipm5ZD+PXrMsM5WL6zzRm02
+         8zL2Zbh1DBl1tuiqY/oBA2wLMPJ6N0ihjW5UekqaI0m+sdIcVPDlpws3W+Dd6hhEJ9kf
+         RhTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=n2o/GMQ0tE3kyma8kEJB/WriSFlX/4OAcK/yGlC1IlE=;
-        b=eEfv1YkxpBLnCmyt8AhHgmiGzO+NlYcqJQolUcqKJLRqzAwOh5Bw4e6+JUufodv8ed
-         TAjYbnQFt+vg0zRmcU2/obAm/pfMYt1ohwqXxz5gQt5x2onXYAMzIvZYZ5vurbCGUHaB
-         GrtGyxMvDuWELcPkP1MVr8ZCbi3kjA2Cgt0GJroxLrEt+e1xHajZPBsCBSVFJtPITuK2
-         KigbMS0jbgOuo4SXqwykg0ekNS4CclqcUexKkCfnkZ2P15wYbbUsEZAKKba4wkWXn9si
-         QLlYpuGWou9vMuySQbdWXXuZyJpqpdKnxJW/HhjN0LnDmjivLUiGTgWDOBJtBGcm1/Kc
-         OKkQ==
-X-Gm-Message-State: ACrzQf079zZoMZMWw4PaVW5OuCGcUwCw8GJfcndBzILfD05WGV9Cq6QE
-        qgR6sh5+HtawORncyer3UCTF+hgU8boOipa7qyo=
-X-Google-Smtp-Source: AMsMyM7al3v/Q859ICA2kZ1i0JIfKddkJZDg1/XHd4Nv2cElZqaKFyOBOvfe3sVNCkvwP4CZRYWXR2Y1gqPYmcvqdho=
-X-Received: by 2002:a05:6402:1219:b0:462:e788:723f with SMTP id
- c25-20020a056402121900b00462e788723fmr10523123edw.319.1667169190008; Sun, 30
- Oct 2022 15:33:10 -0700 (PDT)
+        bh=mvvzkff6DOL85U8amZ/DXhVJ4JENLNiq7XjnHhrGMvs=;
+        b=Hk6t5kpx1T1VoejWInFFOcGA1HnNQJAqWlwVpW76xn4mdxaI2U7PVDZAouJZITkP0w
+         yz1BpKaN9gsuAPLP1dD5BGpbBPpsHctEtuUqFQ8Xpw3vy7M51P994Y6rIjHYBv0JGdnN
+         gaIby0lMrYyzH3EBtMZBz0U/Lvw1NHo/PS3oSCgzIz56YlZ09f9dNPfuxgCf94KvfBLT
+         voA6zf+MLm99w7UhgLQpOwAxc0J7LntmE+Lzk7LylrkrCE7EL4cRs56RHFszObi7j3MA
+         +ctzxiZHqF46QlWiLC62IX/vp2lCa9QEC8hD/lVtn3CgJpYCKd8zO1fDblWnNcKPUk71
+         tXPg==
+X-Gm-Message-State: ACrzQf2VAGPlQk+QMh+9aO89+f+SN2nEXiWpP4hANjNFj8G8Wz+XxaRr
+        DDgwh7OqrQqHXpiB3RJRBgRi7uuMApmvxgV39Gg=
+X-Google-Smtp-Source: AMsMyM4K4QK9yJsrNxEButWAcDD9G1p0AEwb26nEyCEdPv2RRCmrAW1IeJm/NMhanC2p48KjJY79xk+O5lrVh8jmUwA=
+X-Received: by 2002:a17:907:847:b0:77f:f489:cc25 with SMTP id
+ ww7-20020a170907084700b0077ff489cc25mr9809377ejb.80.1667169447405; Sun, 30
+ Oct 2022 15:37:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221027103104.74576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221027103104.74576-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y1qCbUoLrR6qlQwa@paasikivi.fi.intel.com> <CA+V-a8seroka4YkyCnSYa2KMPDWMG1Zk8tyiqRntdPUQnc+nrA@mail.gmail.com>
- <Y1vJbJfFjV9jRNzz@paasikivi.fi.intel.com>
-In-Reply-To: <Y1vJbJfFjV9jRNzz@paasikivi.fi.intel.com>
+References: <20221028165921.94487-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y17BWPuEcmY7Bba3@spud>
+In-Reply-To: <Y17BWPuEcmY7Bba3@spud>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Sun, 30 Oct 2022 22:32:43 +0000
-Message-ID: <CA+V-a8tONhJ1_x3T7+6n7tu=xyFBZfsqT2v3iUGd2Jy5_NuZCg@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] media: platform: Add Renesas RZ/G2L CRU driver
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+Date:   Sun, 30 Oct 2022 22:37:01 +0000
+Message-ID: <CA+V-a8uKQ8QvYi5qLC9O=QAQN5CxNB7cOTmw4vk+ndB2R8d3nQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/7] Add support for Renesas RZ/Five SoC
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>, Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -81,53 +81,51 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sakari,
+Hi Conor,
 
-On Fri, Oct 28, 2022 at 1:22 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+On Sun, Oct 30, 2022 at 6:24 PM Conor Dooley <conor@kernel.org> wrote:
 >
-> Hi Prabhakar,
+> On Fri, Oct 28, 2022 at 05:59:14PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Hi All,
+> >
+> > The RZ/Five microprocessor includes a RISC-V CPU Core (AX45MP Single)
+> > 1.0 GHz, 16-bit DDR3L/DDR4 interface. And it also has many interfaces such
+> > as Gbit-Ether, CAN, and USB 2.0, making it ideal for applications such as
+> > entry-class social infrastructure gateway control and industrial gateway
+> > control.
+> >
+> > This patch series adds initial SoC DTSi support for Renesas RZ/Five
+> > (R9A07G043) SoC. Below is the list of IP blocks enabled in the initial
+> > board DTS which can be used to boot via initramfs on RZ/Five SMARC EVK:
+> > - AX45MP CPU
+> > - CPG
+> > - PINCTRL
 >
-> On Thu, Oct 27, 2022 at 08:04:40PM +0100, Lad, Prabhakar wrote:
-> ...
-> > > > +static int rzg2l_cru_ip_s_stream(struct v4l2_subdev *sd, int enable)
-> > > > +{
-> > > > +     struct rzg2l_cru_dev *cru;
-> > > > +     int ret;
-> > > > +
-> > > > +     cru = v4l2_get_subdevdata(sd);
-> > > > +
-> > > > +     if (!cru->is_csi)
-> > > > +             return -EINVAL;
-> > > > +
-> > > > +     ret = v4l2_subdev_call(cru->ip.remote, video, s_stream, enable);
-> > >
-> > > It's up to the driver how call pre_streamon() and post_streamoff(), as long
-> > > as it takes place on both sides of s_stream().
-> > >
-> > > In other words, as it seems your device doesn't need anything special, you
-> > > could waive implemeting the callbacks yourself and call pre_streamon() and
-> > > post_streamoff() here.
-> > >
-> > Here the cru->ip.remote = CSI, in the rzg2l_cru_set_stream(1) where we
-> > are calling pre_streamon()/post_streamoff() callbacks the subdev is
-> > CRU-IP. So the calls from rzg2l_cru_set_stream() land into
-> > rzg2l_cru_ip_pre_streamon() and rzg2l_cru_ip_post_streamoff() which
-> > are calling pre_streamon/post_streamoff for the CSI subdev.
+> Hey,
+> Looks like you've got a pair of warnings here from dtbs_check. I tested
+> this on top of 20221028's next, with the three branches below merged in,
+> hopefully my merges aren't the source of them:
 >
-> Again, you should call the source sub-device's pre_streamon and
-> post_streamoff from the s_stream handler (not from
-> rzg2l_cru_ip_pre_streamon or rzg2l_cru_ip_post_streamoff).
+> linux/arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dtb: pinctrl@11030000: 'interrupt-controller' is a required property
+>         From schema: Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+> linux/arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dtb: pinctrl@11030000: '#interrupt-cells' is a required property
+>         From schema: linux/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
 >
-> Starting streaming takes place link by link. This allows a driver to omit
-> implementing pre_streamon and post_streamon callbacks if it doesn't need
-> them.
->
-Thank you for the explanation that makes sense now to me.
+Thanks for the review and test. The warnings above are coming from [0]
+as support for IRQC is missing, once that is added the warnings should
+go away.
 
-Now with this approach the initialization sequence of CSI + CRU won't
-align as per the HW manual. Unfortunately I'll have to switch back on
-exporting the functions. I hope that's okay?
+> With this sorted, whatever wasn't already is now:
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> Thanks for putting up with my messing around re: kconfig symbols and I
+> am glad that we ended up being able to share the dts across archs in the
+> end, so thanks to everyone involved in that :)
+>
+:-)
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
 
 Cheers,
 Prabhakar
