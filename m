@@ -2,217 +2,225 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E38B8612BB7
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Oct 2022 18:06:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31935612C28
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Oct 2022 19:16:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229494AbiJ3RGI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 30 Oct 2022 13:06:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43284 "EHLO
+        id S229441AbiJ3SQN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 30 Oct 2022 14:16:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229795AbiJ3RGH (ORCPT
+        with ESMTP id S229571AbiJ3SQM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 30 Oct 2022 13:06:07 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FEE02B7
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 30 Oct 2022 10:06:03 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1opBju-0002tX-Qd; Sun, 30 Oct 2022 18:04:50 +0100
-Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1opBjm-0000cU-6B; Sun, 30 Oct 2022 18:04:42 +0100
-Date:   Sun, 30 Oct 2022 18:04:42 +0100
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Bjorn Andersson <andersson@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+        Sun, 30 Oct 2022 14:16:12 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49580DCB;
+        Sun, 30 Oct 2022 11:16:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id ED65CB8016A;
+        Sun, 30 Oct 2022 18:16:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB1D5C433D6;
+        Sun, 30 Oct 2022 18:16:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667153768;
+        bh=GcWNx03b0Xzk2l/0+XEDO3/WrjKqXL6Ez2UIT1I3zu8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ik8Fd5DP4EyZ+odez6N3eOw7eRcaFuAeAy4meWzAHvwmLOCNZs7W5KCUHPfcmuyLF
+         MbUvBiyfwuEXRVUdCKDTzHP+AQvMvnKLmAwLJve8qqG/koeHxKYkK2Srk3bDs3dEGt
+         yn+XSYBf7ULQyaC1/JR82Hv+a+h93D0oFxua87mHBXqdleJ4YFzzxb+yBaooEqYgNb
+         LTbOZiAwKtAYK5AAnM2cIy8hlfqZKksBLLguAbCeDghZ1o2eFjojb1SeTu8FaUJzzM
+         Wsqk5C0MHSk9pa+o7lhJ5sQ6tSI2BDzz4bfgOPA5ZdRanQhirI+CYFaW5as4+/AHvl
+         +vOb0tpYzBdcw==
+Date:   Sun, 30 Oct 2022 18:16:01 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Guo Ren <guoren@kernel.org>
+Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Daniel Machon <daniel.machon@microchip.com>,
-        UNGLinuxDriver@microchip.com, Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Jonathan Marek <jonathan@marek.ca>,
-        Martin Botka <martin.botka@somainline.org>,
-        Taniya Das <tdas@codeaurora.org>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        Shawn Guo <shawn.guo@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        krishna Lanka <quic_vamslank@quicinc.com>,
-        Iskren Chernev <iskren.chernev@gmail.com>,
-        Del Regno <angelogioacchino.delregno@somainline.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Jeffrey Hugo <quic_jhugo@quicinc.com>,
-        Govind Singh <govinds@codeaurora.org>,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: net: constrain number of 'reg' in ethernet
- ports
-Message-ID: <20221030170442.GA7508@pengutronix.de>
-References: <20221028140326.43470-1-krzysztof.kozlowski@linaro.org>
- <20221028140326.43470-2-krzysztof.kozlowski@linaro.org>
+        Heiko Stuebner <heiko@sntech.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v5 4/7] riscv: dts: renesas: Add initial devicetree for
+ Renesas RZ/Five SoC
+Message-ID: <Y16/YQTOW3DuQvo9@spud>
+References: <20221028165921.94487-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221028165921.94487-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAJF2gTQPU0FGmeVt9jrNfOAQSA=04Vcm4U_wcC_dGMc5X2Bo7w@mail.gmail.com>
+ <CA+V-a8vBkHhTtq6Veb2vn-6o4S5Ter==yN6TFhYQvxko_Bk2LQ@mail.gmail.com>
+ <CAJF2gTSQH0q4PoucBgr3abWWA+XCdxm1tk1j8Sqydt_XyCq2RA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221028140326.43470-2-krzysztof.kozlowski@linaro.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <CAJF2gTSQH0q4PoucBgr3abWWA+XCdxm1tk1j8Sqydt_XyCq2RA@mail.gmail.com>
+X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Oct 28, 2022 at 10:03:25AM -0400, Krzysztof Kozlowski wrote:
-> 'reg' without any constraints allows multiple items which is not the
-> intention for Ethernet controller's port number.
+On Sun, Oct 30, 2022 at 08:02:10AM +0800, Guo Ren wrote:
+> On Sun, Oct 30, 2022 at 3:11 AM Lad, Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+> >
+> > Hi Guo,
+> >
+> > Thank you for the review.
+> >
+> > On Sat, Oct 29, 2022 at 5:25 AM Guo Ren <guoren@kernel.org> wrote:
+> > >
+> > > On Sat, Oct 29, 2022 at 12:59 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> > > >
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Add initial device tree for Renesas RZ/Five RISC-V CPU Core (AX45MP
+> > > > Single).
+> > > >
+> > > > RZ/Five SoC is almost identical to RZ/G2UL Type-1 SoC (ARM64) hence we
+> > > > will be reusing r9a07g043.dtsi [0] as a base DTSI for both the SoC's.
+> > > > r9a07g043f.dtsi includes RZ/Five SoC specific blocks.
+> > > >
+> > > > Below are the RZ/Five SoC specific blocks added in the initial DTSI which
+> > > > can be used to boot via initramfs on RZ/Five SMARC EVK:
+> > > > - AX45MP CPU
+> > > > - PLIC
+> > > >
+> > > > [0] arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > ---
+> > > > v4 -> v5
+> > > > * Fixed riscv,ndev value (should be 511)
+> > > > * Reworked completely (sort of new patch)
+> > > >
+> > > > v3 -> v4
+> > > > * No change
+> > > >
+> > > > v2 -> v3
+> > > > * Fixed clock entry for CPU core
+> > > > * Fixed timebase frequency to 12MHz
+> > > > * Fixed sorting of the nodes
+> > > > * Included RB tags
+> > > >
+> > > > v1 -> v2
+> > > > * Dropped including makefile change
+> > > > * Updated ndev count
+> > > > ---
+> > > >  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi | 57 +++++++++++++++++++++
+> > > >  1 file changed, 57 insertions(+)
+> > > >  create mode 100644 arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> > > >
+> > > > diff --git a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> > > > new file mode 100644
+> > > > index 000000000000..50134be548f5
+> > > > --- /dev/null
+> > > > +++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> > > > @@ -0,0 +1,57 @@
+> > > > +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > +/*
+> > > > + * Device Tree Source for the RZ/Five SoC
+> > > > + *
+> > > > + * Copyright (C) 2022 Renesas Electronics Corp.
+> > > > + */
+> > > > +
+> > > > +#include <dt-bindings/interrupt-controller/irq.h>
+> > > > +
+> > > > +#define SOC_PERIPHERAL_IRQ(nr) (nr + 32)
+> > > > +
+> > > > +#include <arm64/renesas/r9a07g043.dtsi>
+> > > The initial patch shouldn't be broken. Combine them together with the
+> > > minimal components and add others late. Don't separate the DTS files.
+> > >
+> > r9a07g043.dtsi [0] already exists in the kernel. r9a07g043.dtsi is
+> > shared with the RZ/G2UL SoC (ARM64) and the RZ/Five SoC. There are two
+> > more patches [1] which are required and are currently queued up in the
+> > Renesas tree for v6.2 (Ive mentioned the dependencies in the cover
+> > letter).
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> You could just move the below part to the second dtsi patch. Then
+> compile won't be broken.
+> 
+>             clocks = <&cpg CPG_MOD R9A07G043_NCEPLIC_ACLK>;
+>             power-domains = <&cpg>;
+>             resets = <&cpg R9A07G043_NCEPLIC_ARESETN>;
 
-For  asix,ax88178.yaml and microchip,lan95xx.yaml
+The makefile for this directory is not added until the next patch right?
+The compile shouldn't be broken here since it therefore cannot be
+compiled?
 
-Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Slightly confused,
+Conor.
 
 > 
-> ---
-> 
-> Please give it a time for Rob's bot to process this.
-> ---
->  Documentation/devicetree/bindings/net/asix,ax88178.yaml       | 4 +++-
->  Documentation/devicetree/bindings/net/microchip,lan95xx.yaml  | 4 +++-
->  .../devicetree/bindings/net/microchip,lan966x-switch.yaml     | 4 ++--
->  .../devicetree/bindings/net/microchip,sparx5-switch.yaml      | 3 ++-
->  .../devicetree/bindings/net/mscc,vsc7514-switch.yaml          | 3 ++-
->  .../bindings/net/renesas,r8a779f0-ether-switch.yaml           | 4 ++--
->  6 files changed, 14 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/net/asix,ax88178.yaml b/Documentation/devicetree/bindings/net/asix,ax88178.yaml
-> index 1af52358de4c..a81dbc4792f6 100644
-> --- a/Documentation/devicetree/bindings/net/asix,ax88178.yaml
-> +++ b/Documentation/devicetree/bindings/net/asix,ax88178.yaml
-> @@ -27,7 +27,9 @@ properties:
->            - usbb95,772b   # ASIX AX88772B
->            - usbb95,7e2b   # ASIX AX88772B
->  
-> -  reg: true
-> +  reg:
-> +    maxItems: 1
-> +
->    local-mac-address: true
->    mac-address: true
->  
-> diff --git a/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml b/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml
-> index cf91fecd8909..3715c5f8f0e0 100644
-> --- a/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml
-> +++ b/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml
-> @@ -39,7 +39,9 @@ properties:
->            - usb424,9e08   # SMSC LAN89530 USB Ethernet Device
->            - usb424,ec00   # SMSC9512/9514 USB Hub & Ethernet Device
->  
-> -  reg: true
-> +  reg:
-> +    maxItems: 1
-> +
->    local-mac-address: true
->    mac-address: true
->  
-> diff --git a/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml b/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
-> index dc116f14750e..583d70c51be6 100644
-> --- a/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
-> +++ b/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
-> @@ -83,8 +83,8 @@ properties:
->              const: 0
->  
->            reg:
-> -            description:
-> -              Switch port number
-> +            items:
-> +              - description: Switch port number
->  
->            phys:
->              description:
-> diff --git a/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml b/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml
-> index 57ffeb8fc876..ccb912561446 100644
-> --- a/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml
-> +++ b/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml
-> @@ -89,7 +89,8 @@ properties:
->  
->          properties:
->            reg:
-> -            description: Switch port number
-> +            items:
-> +              - description: Switch port number
->  
->            phys:
->              maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml b/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml
-> index ee0a504bdb24..1cf82955d75e 100644
-> --- a/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml
-> +++ b/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml
-> @@ -109,7 +109,8 @@ properties:
->  
->          properties:
->            reg:
-> -            description: Switch port number
-> +            items:
-> +              - description: Switch port number
->  
->            phy-handle: true
->  
-> diff --git a/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml b/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
-> index 581fff8902f4..0eba66a29c6c 100644
-> --- a/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
-> +++ b/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
-> @@ -106,8 +106,8 @@ properties:
->  
->          properties:
->            reg:
-> -            description:
-> -              Port number of ETHA (TSNA).
-> +            items:
-> +              - description: Port number of ETHA (TSNA).
->  
->            phys:
->              maxItems: 1
-> -- 
-> 2.34.1
+> >
+> > [0] arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> > [1] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20221025220629.79321-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> >
+> > > > +
+> > > > +/ {
+> > > > +       cpus {
+> > > > +               #address-cells = <1>;
+> > > > +               #size-cells = <0>;
+> > > > +               timebase-frequency = <12000000>;
+> > > > +
+> > > > +               cpu0: cpu@0 {
+> > > > +                       compatible = "andestech,ax45mp", "riscv";
+> > > > +                       device_type = "cpu";
+> > > > +                       reg = <0x0>;
+> > > > +                       status = "okay";
+> > > > +                       riscv,isa = "rv64imafdc";
+> > > > +                       mmu-type = "riscv,sv39";
+> > > > +                       i-cache-size = <0x8000>;
+> > > > +                       i-cache-line-size = <0x40>;
+> > > > +                       d-cache-size = <0x8000>;
+> > > > +                       d-cache-line-size = <0x40>;
+> > > > +                       clocks = <&cpg CPG_CORE R9A07G043_CLK_I>;
+> > > > +
+> > > > +                       cpu0_intc: interrupt-controller {
+> > > > +                               #interrupt-cells = <1>;
+> > > > +                               compatible = "riscv,cpu-intc";
+> > > > +                               interrupt-controller;
+> > > > +                       };
+> > > > +               };
+> > > > +       };
+> > > > +};
+> > > > +
+> > > > +&soc {
+> > > > +       interrupt-parent = <&plic>;
+> > > > +
+> > > > +       plic: interrupt-controller@12c00000 {
+> > > > +               compatible = "renesas,r9a07g043-plic", "andestech,nceplic100";
+> > > > +               #interrupt-cells = <2>;
+> > > > +               #address-cells = <0>;
+> > > > +               riscv,ndev = <511>;
+> > > > +               interrupt-controller;
+> > > > +               reg = <0x0 0x12c00000 0 0x400000>;
+> > > > +               clocks = <&cpg CPG_MOD R9A07G043_NCEPLIC_ACLK>;
+> > > > +               power-domains = <&cpg>;
+> > > > +               resets = <&cpg R9A07G043_NCEPLIC_ARESETN>;
+> > > Ditto, Where is cpg? in r9a07g043.dtsi?
+> > >
+> > Yes CPG node is in r9a07g043.dtsi.
+> >
+> > Cheers,
+> > Prabhakar
 > 
 > 
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> 
+> --
+> Best Regards
+>  Guo Ren
