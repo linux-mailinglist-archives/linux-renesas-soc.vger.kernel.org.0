@@ -2,60 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59129612509
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Oct 2022 21:14:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FB1F612688
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Oct 2022 02:02:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbiJ2TOe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 29 Oct 2022 15:14:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45620 "EHLO
+        id S229682AbiJ3AC0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 29 Oct 2022 20:02:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbiJ2TOd (ORCPT
+        with ESMTP id S229588AbiJ3ACZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 29 Oct 2022 15:14:33 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21526FAED;
-        Sat, 29 Oct 2022 12:14:30 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id kt23so20299895ejc.7;
-        Sat, 29 Oct 2022 12:14:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AJRIdsMw/IOATrytnmVavgGTGfe9xVPXjP+iBSme7yU=;
-        b=EQiTJUYjRkrYfC1hDKqfmlKYDk13GZOfknnLeRcwKl12UuZsoQDMLOzMR72KnGAY/V
-         LWbDk+Np2vAp6n638Q0pkyMSSycx3KcyywNuuhlKZ16UESJZVhrbqOveuKBdF593Vvc8
-         hwmLXGgn6YDsd2ZyqaaP9JqJ5tJsogdluGr4IHv876tDDkVzuwnwFUZMlThsAIenFA5Z
-         Z832cHjIRZq3u2zo0YmTqpTpwKgrM0yw2Qxr/iZY4yvT5fp1/r3TNZMuyJ4zGN4RM/t8
-         GCx/ucQgaEZ9cb/lFVp3X82zytiS5aAurpGV2rxz+djYTx/QlGOF0YrvIXRwYS4deJDf
-         upTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AJRIdsMw/IOATrytnmVavgGTGfe9xVPXjP+iBSme7yU=;
-        b=aZODLBVIU0WIxijaGysg1Y3NwoWnXnlv38C0czlRo03vn3Nz2iHssfxTXmH8Ir9L7b
-         viBayUZ66LgVCR8DTcRrMDlRkTPKeMSF1NunNhuskkRMyXheTqgEN7UCYLtOmniID5hg
-         82HJljCyXLj7iyj8UhTnpYqpbr/byniiSkS0inTmEY0uBeKnXxjkx+iJt3T2YVNfJGCP
-         Nk/5nZt++9GNt1T2ytiecH8/r/GEER0GTfR1OsKkVNWgAjoWxwA5hIw3MzaMgdDdWPcr
-         5ojZ6zQuAd39ZJt0c6rPMQg0UPhrQ6Qm7/lqM9cv3t6/hNI7Nz/jDHHduFtInwdv8Tc2
-         UXjw==
-X-Gm-Message-State: ACrzQf1yYe17BmR2XZ3qFS2O29UuwQw/NXewudpgdAGx9gpN/+8MycLB
-        RJH5TPiJ4OU7wQjMD34WzX8Dvk6ZaqOgMOkuTmY=
-X-Google-Smtp-Source: AMsMyM5SayRe8eI5BmOIfBcPwMVf1RiS3yjxDSbTADPEcsw84802zGEC7OlnAiyqYT9YXCe+QIOgNcTI416kZVLx2Rg=
-X-Received: by 2002:a17:907:270b:b0:7ad:ae01:e0d9 with SMTP id
- w11-20020a170907270b00b007adae01e0d9mr4392845ejk.196.1667070868665; Sat, 29
- Oct 2022 12:14:28 -0700 (PDT)
+        Sat, 29 Oct 2022 20:02:25 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E95BDF87;
+        Sat, 29 Oct 2022 17:02:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0B49F60C87;
+        Sun, 30 Oct 2022 00:02:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70EADC43147;
+        Sun, 30 Oct 2022 00:02:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667088143;
+        bh=gd6pC0+bcQjdQw9DyI29fnP4KnEhLlrHdT330jq8glg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ETiwOj1AmurjbpO00zoqLX0FJDUG/TtkJYwIiHUeS/CRvknHA5/eRFkZUVmUF5XwS
+         /CD5TCMi5eMLSRbzuTyXlv14Tv/3IfTYO+T13BeCPmdPD96zMIIrn/pXdarYO8U4Fx
+         bzqIzqjDMAgJgHE287EzDDfe7M91v+gZnpk12swMttRBVh+N/90u1RzeJDINR30Pkx
+         kILWLrOuKbZ8yR0cGNNQpbFvQ96ZZMe/9/2TMLElVRGUY4CHa+pficw8a5Ub0cyCTo
+         4jKgl/IuBPnJ8vBpsPVjSvbF0dlJC4okQsCTSS5yV/SPAOUvcNgR1vqhB/7w6GEkXV
+         8M5G6xfSYlHwg==
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-13ba9a4430cso10158836fac.11;
+        Sat, 29 Oct 2022 17:02:23 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2nbhdG/47jKES5jWi8Zf2HPKKXVS1tFw/thvkNpU4c4p+gPPvR
+        j/pRL73g6ZivrrNThjn8Z0SYt0pdbDdEMtm+nvE=
+X-Google-Smtp-Source: AMsMyM6XwJ7EwZD1AhYJFW8bBGJayD1vEV1WkaIkqNe08tAfzgSSJH8W8in+jloM19s3/C8NQjK6Zre7bOXAnE8QBtk=
+X-Received: by 2002:a05:6870:64a1:b0:13c:d09d:79f9 with SMTP id
+ cz33-20020a05687064a100b0013cd09d79f9mr826979oab.112.1667088142326; Sat, 29
+ Oct 2022 17:02:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221028165921.94487-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221028165921.94487-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAJF2gTQn+6pTjuiGf-febHhDHjVeJ78Zdywd+EkteeO0MEUGaw@mail.gmail.com>
-In-Reply-To: <CAJF2gTQn+6pTjuiGf-febHhDHjVeJ78Zdywd+EkteeO0MEUGaw@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Sat, 29 Oct 2022 20:14:01 +0100
-Message-ID: <CA+V-a8ugVeUB5qCG0CtTZHr43WXqv13-GBLRG9X1n_62LtJ4Aw@mail.gmail.com>
-Subject: Re: [PATCH v5 5/7] riscv: dts: renesas: Add minimal DTS for Renesas
- RZ/Five SMARC EVK
-To:     Guo Ren <guoren@kernel.org>
+ <20221028165921.94487-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAJF2gTQPU0FGmeVt9jrNfOAQSA=04Vcm4U_wcC_dGMc5X2Bo7w@mail.gmail.com> <CA+V-a8vBkHhTtq6Veb2vn-6o4S5Ter==yN6TFhYQvxko_Bk2LQ@mail.gmail.com>
+In-Reply-To: <CA+V-a8vBkHhTtq6Veb2vn-6o4S5Ter==yN6TFhYQvxko_Bk2LQ@mail.gmail.com>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Sun, 30 Oct 2022 08:02:10 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTSQH0q4PoucBgr3abWWA+XCdxm1tk1j8Sqydt_XyCq2RA@mail.gmail.com>
+Message-ID: <CAJF2gTSQH0q4PoucBgr3abWWA+XCdxm1tk1j8Sqydt_XyCq2RA@mail.gmail.com>
+Subject: Re: [PATCH v5 4/7] riscv: dts: renesas: Add initial devicetree for
+ Renesas RZ/Five SoC
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
@@ -73,25 +69,154 @@ Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Guo,
-
-On Sat, Oct 29, 2022 at 5:26 AM Guo Ren <guoren@kernel.org> wrote:
+On Sun, Oct 30, 2022 at 3:11 AM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
 >
-> This should combine with the previous one, which makes the patch complete.
+> Hi Guo,
 >
-For easier review purposes we tend to have separate patches for SoC
-and the board on ARM/64 which is what I have followed here. If you
-insist I can merge this along with the SoC DTSI patch.
+> Thank you for the review.
+>
+> On Sat, Oct 29, 2022 at 5:25 AM Guo Ren <guoren@kernel.org> wrote:
+> >
+> > On Sat, Oct 29, 2022 at 12:59 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> > >
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Add initial device tree for Renesas RZ/Five RISC-V CPU Core (AX45MP
+> > > Single).
+> > >
+> > > RZ/Five SoC is almost identical to RZ/G2UL Type-1 SoC (ARM64) hence we
+> > > will be reusing r9a07g043.dtsi [0] as a base DTSI for both the SoC's.
+> > > r9a07g043f.dtsi includes RZ/Five SoC specific blocks.
+> > >
+> > > Below are the RZ/Five SoC specific blocks added in the initial DTSI which
+> > > can be used to boot via initramfs on RZ/Five SMARC EVK:
+> > > - AX45MP CPU
+> > > - PLIC
+> > >
+> > > [0] arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > > v4 -> v5
+> > > * Fixed riscv,ndev value (should be 511)
+> > > * Reworked completely (sort of new patch)
+> > >
+> > > v3 -> v4
+> > > * No change
+> > >
+> > > v2 -> v3
+> > > * Fixed clock entry for CPU core
+> > > * Fixed timebase frequency to 12MHz
+> > > * Fixed sorting of the nodes
+> > > * Included RB tags
+> > >
+> > > v1 -> v2
+> > > * Dropped including makefile change
+> > > * Updated ndev count
+> > > ---
+> > >  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi | 57 +++++++++++++++++++++
+> > >  1 file changed, 57 insertions(+)
+> > >  create mode 100644 arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> > >
+> > > diff --git a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> > > new file mode 100644
+> > > index 000000000000..50134be548f5
+> > > --- /dev/null
+> > > +++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> > > @@ -0,0 +1,57 @@
+> > > +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +/*
+> > > + * Device Tree Source for the RZ/Five SoC
+> > > + *
+> > > + * Copyright (C) 2022 Renesas Electronics Corp.
+> > > + */
+> > > +
+> > > +#include <dt-bindings/interrupt-controller/irq.h>
+> > > +
+> > > +#define SOC_PERIPHERAL_IRQ(nr) (nr + 32)
+> > > +
+> > > +#include <arm64/renesas/r9a07g043.dtsi>
+> > The initial patch shouldn't be broken. Combine them together with the
+> > minimal components and add others late. Don't separate the DTS files.
+> >
+> r9a07g043.dtsi [0] already exists in the kernel. r9a07g043.dtsi is
+> shared with the RZ/G2UL SoC (ARM64) and the RZ/Five SoC. There are two
+> more patches [1] which are required and are currently queued up in the
+> Renesas tree for v6.2 (Ive mentioned the dependencies in the cover
+> letter).
 
-Cheers,
-Prabhakar
+You could just move the below part to the second dtsi patch. Then
+compile won't be broken.
+
+            clocks = <&cpg CPG_MOD R9A07G043_NCEPLIC_ACLK>;
+            power-domains = <&cpg>;
+            resets = <&cpg R9A07G043_NCEPLIC_ARESETN>;
+
+>
+> [0] arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> [1] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20221025220629.79321-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+>
+> > > +
+> > > +/ {
+> > > +       cpus {
+> > > +               #address-cells = <1>;
+> > > +               #size-cells = <0>;
+> > > +               timebase-frequency = <12000000>;
+> > > +
+> > > +               cpu0: cpu@0 {
+> > > +                       compatible = "andestech,ax45mp", "riscv";
+> > > +                       device_type = "cpu";
+> > > +                       reg = <0x0>;
+> > > +                       status = "okay";
+> > > +                       riscv,isa = "rv64imafdc";
+> > > +                       mmu-type = "riscv,sv39";
+> > > +                       i-cache-size = <0x8000>;
+> > > +                       i-cache-line-size = <0x40>;
+> > > +                       d-cache-size = <0x8000>;
+> > > +                       d-cache-line-size = <0x40>;
+> > > +                       clocks = <&cpg CPG_CORE R9A07G043_CLK_I>;
+> > > +
+> > > +                       cpu0_intc: interrupt-controller {
+> > > +                               #interrupt-cells = <1>;
+> > > +                               compatible = "riscv,cpu-intc";
+> > > +                               interrupt-controller;
+> > > +                       };
+> > > +               };
+> > > +       };
+> > > +};
+> > > +
+> > > +&soc {
+> > > +       interrupt-parent = <&plic>;
+> > > +
+> > > +       plic: interrupt-controller@12c00000 {
+> > > +               compatible = "renesas,r9a07g043-plic", "andestech,nceplic100";
+> > > +               #interrupt-cells = <2>;
+> > > +               #address-cells = <0>;
+> > > +               riscv,ndev = <511>;
+> > > +               interrupt-controller;
+> > > +               reg = <0x0 0x12c00000 0 0x400000>;
+> > > +               clocks = <&cpg CPG_MOD R9A07G043_NCEPLIC_ACLK>;
+> > > +               power-domains = <&cpg>;
+> > > +               resets = <&cpg R9A07G043_NCEPLIC_ARESETN>;
+> > Ditto, Where is cpg? in r9a07g043.dtsi?
+> >
+> Yes CPG node is in r9a07g043.dtsi.
+>
+> Cheers,
+> Prabhakar
+
+
+
+--
+Best Regards
+ Guo Ren
