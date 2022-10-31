@@ -2,197 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF687612E91
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Oct 2022 02:12:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AADF1613193
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Oct 2022 09:19:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229632AbiJaBMB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 30 Oct 2022 21:12:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41152 "EHLO
+        id S229770AbiJaITj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Oct 2022 04:19:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229544AbiJaBMA (ORCPT
+        with ESMTP id S229468AbiJaITi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 30 Oct 2022 21:12:00 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B60C233;
-        Sun, 30 Oct 2022 18:11:58 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 167D760FA1;
-        Mon, 31 Oct 2022 01:11:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7193DC433C1;
-        Mon, 31 Oct 2022 01:11:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667178717;
-        bh=xtgHnB5H7FEL8NvoLBnWlLaYF4pAr6sLR85QXAmTFBQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ig5oPFlS6P2mJDvXnVvb7qPZKkCC6juQFHkVcjTxAW0i+g4dScJKtM3R1G/Np1fd9
-         gOCsShBsKo0AYehLM1AgC5euypdSkO9lQaXWxzpOx9WvL0f+uR07kjzeeJWnzKvDkq
-         m6cj7lfb94Ob8xL1BU9KkZG6mNSoN3UyuEJcMlGihvOnDbkXNZNj2joLITUmtgHD1d
-         FvMIGozPeodO9nIqWwmhI8DRvpXm+5URAtb6q/oPK9aRjCCsUSDsIK909XMz7dV1fH
-         p0JfWVyhC9wKDQlkw0OgYr+fDOzMoFLhoMMetLmyeei5QKjrMrWwTtFDwoQlqfNzT1
-         VM63N14v2HzrQ==
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-13ae8117023so12098423fac.9;
-        Sun, 30 Oct 2022 18:11:57 -0700 (PDT)
-X-Gm-Message-State: ACrzQf1MOVUbrC2uOpMHW2fUxM9tEYxOG1P498kpY9Cs2y0XM4hv9hOr
-        LxqbGKWwT3Ys9JaVwl2DSWlCgIZesw0qKzFJG2c=
-X-Google-Smtp-Source: AMsMyM5YffQDzr4FZcxz9urfVbuCFu/0rR++ppFsy2T3KvqpS2lZzj9GI8kgBPLqT+THZWLCIJ6fChiw2RfdmVEmRKk=
-X-Received: by 2002:a05:6870:64a1:b0:13c:d09d:79f9 with SMTP id
- cz33-20020a05687064a100b0013cd09d79f9mr3510873oab.112.1667178714338; Sun, 30
- Oct 2022 18:11:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221028165921.94487-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221028165921.94487-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAJF2gTQPU0FGmeVt9jrNfOAQSA=04Vcm4U_wcC_dGMc5X2Bo7w@mail.gmail.com>
- <CA+V-a8vBkHhTtq6Veb2vn-6o4S5Ter==yN6TFhYQvxko_Bk2LQ@mail.gmail.com>
- <CAJF2gTSQH0q4PoucBgr3abWWA+XCdxm1tk1j8Sqydt_XyCq2RA@mail.gmail.com>
- <Y16/YQTOW3DuQvo9@spud> <CA+V-a8vCNx-bqjeOa13LewaEJOGW-0ypqJTvZo7om6XcM4T7UA@mail.gmail.com>
-In-Reply-To: <CA+V-a8vCNx-bqjeOa13LewaEJOGW-0ypqJTvZo7om6XcM4T7UA@mail.gmail.com>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Mon, 31 Oct 2022 09:11:42 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTRrLOxZt0qhcpC9_fx4bFc1Rj9TDyQVBXdKbwboh-ZGyQ@mail.gmail.com>
-Message-ID: <CAJF2gTRrLOxZt0qhcpC9_fx4bFc1Rj9TDyQVBXdKbwboh-ZGyQ@mail.gmail.com>
-Subject: Re: [PATCH v5 4/7] riscv: dts: renesas: Add initial devicetree for
- Renesas RZ/Five SoC
+        Mon, 31 Oct 2022 04:19:38 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F2059FEA;
+        Mon, 31 Oct 2022 01:19:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667204378; x=1698740378;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lbmevJjnjpGGx89wIvYMNqwP6/k7SVFB7D/svXf4f3Q=;
+  b=ZFmgBRtrG/AzYYinGijkyX07wvba3HRqSwiWSVxrXGAnzx0SNHyquXZY
+   Jjn8ugRRuPpN+aUUp9bguQ6dvJSUXxOLWfFHuARvgye41zVb6OH1zoLk8
+   3fLtB7SSltUaZ4Hna75rZmgrCydoS7dEw76PyQ23uGGertUNVJaG2zEsZ
+   3cffd6WI98j0YWrrWDFpwUarjOw0V1YBgFvcZzaMbwYWxLnvPLeF04lXN
+   KPgWkOVfBxfVEl2B7Qoyvur9W9OCaoPHGPPxlTok318wvc2sKwWAlscWm
+   CvihE1llBYOjTax3/dbjWCjI4BeypTGgE5wPUH7ejMLnLHwC2Lp/O7ist
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="335500652"
+X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; 
+   d="scan'208";a="335500652"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2022 01:19:37 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="776051657"
+X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; 
+   d="scan'208";a="776051657"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2022 01:19:34 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 130C72026C;
+        Mon, 31 Oct 2022 10:19:32 +0200 (EET)
+Date:   Mon, 31 Oct 2022 08:19:32 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Conor Dooley <conor@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Anup Patel <anup@brainfault.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [PATCH v4 4/4] media: platform: Add Renesas RZ/G2L CRU driver
+Message-ID: <Y1+FFD4/XCY8HyYa@paasikivi.fi.intel.com>
+References: <20221027103104.74576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221027103104.74576-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y1qCbUoLrR6qlQwa@paasikivi.fi.intel.com>
+ <CA+V-a8seroka4YkyCnSYa2KMPDWMG1Zk8tyiqRntdPUQnc+nrA@mail.gmail.com>
+ <Y1vJbJfFjV9jRNzz@paasikivi.fi.intel.com>
+ <CA+V-a8tONhJ1_x3T7+6n7tu=xyFBZfsqT2v3iUGd2Jy5_NuZCg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8tONhJ1_x3T7+6n7tu=xyFBZfsqT2v3iUGd2Jy5_NuZCg@mail.gmail.com>
+X-Spam-Status: No, score=-8.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 31, 2022 at 6:27 AM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
->
-> Hi Conor,
->
-> On Sun, Oct 30, 2022 at 6:16 PM Conor Dooley <conor@kernel.org> wrote:
-> >
-> > On Sun, Oct 30, 2022 at 08:02:10AM +0800, Guo Ren wrote:
-> > > On Sun, Oct 30, 2022 at 3:11 AM Lad, Prabhakar
-> > > <prabhakar.csengg@gmail.com> wrote:
-> > > >
-> > > > Hi Guo,
-> > > >
-> > > > Thank you for the review.
-> > > >
-> > > > On Sat, Oct 29, 2022 at 5:25 AM Guo Ren <guoren@kernel.org> wrote:
-> > > > >
-> > > > > On Sat, Oct 29, 2022 at 12:59 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > > > > >
-> > > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > >
-> > > > > > Add initial device tree for Renesas RZ/Five RISC-V CPU Core (AX45MP
-> > > > > > Single).
-> > > > > >
-> > > > > > RZ/Five SoC is almost identical to RZ/G2UL Type-1 SoC (ARM64) hence we
-> > > > > > will be reusing r9a07g043.dtsi [0] as a base DTSI for both the SoC's.
-> > > > > > r9a07g043f.dtsi includes RZ/Five SoC specific blocks.
-> > > > > >
-> > > > > > Below are the RZ/Five SoC specific blocks added in the initial DTSI which
-> > > > > > can be used to boot via initramfs on RZ/Five SMARC EVK:
-> > > > > > - AX45MP CPU
-> > > > > > - PLIC
-> > > > > >
-> > > > > > [0] arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-> > > > > >
-> > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > ---
-> > > > > > v4 -> v5
-> > > > > > * Fixed riscv,ndev value (should be 511)
-> > > > > > * Reworked completely (sort of new patch)
-> > > > > >
-> > > > > > v3 -> v4
-> > > > > > * No change
-> > > > > >
-> > > > > > v2 -> v3
-> > > > > > * Fixed clock entry for CPU core
-> > > > > > * Fixed timebase frequency to 12MHz
-> > > > > > * Fixed sorting of the nodes
-> > > > > > * Included RB tags
-> > > > > >
-> > > > > > v1 -> v2
-> > > > > > * Dropped including makefile change
-> > > > > > * Updated ndev count
-> > > > > > ---
-> > > > > >  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi | 57 +++++++++++++++++++++
-> > > > > >  1 file changed, 57 insertions(+)
-> > > > > >  create mode 100644 arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-> > > > > >
-> > > > > > diff --git a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-> > > > > > new file mode 100644
-> > > > > > index 000000000000..50134be548f5
-> > > > > > --- /dev/null
-> > > > > > +++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-> > > > > > @@ -0,0 +1,57 @@
-> > > > > > +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > > +/*
-> > > > > > + * Device Tree Source for the RZ/Five SoC
-> > > > > > + *
-> > > > > > + * Copyright (C) 2022 Renesas Electronics Corp.
-> > > > > > + */
-> > > > > > +
-> > > > > > +#include <dt-bindings/interrupt-controller/irq.h>
-> > > > > > +
-> > > > > > +#define SOC_PERIPHERAL_IRQ(nr) (nr + 32)
-> > > > > > +
-> > > > > > +#include <arm64/renesas/r9a07g043.dtsi>
-> > > > > The initial patch shouldn't be broken. Combine them together with the
-> > > > > minimal components and add others late. Don't separate the DTS files.
-> > > > >
-> > > > r9a07g043.dtsi [0] already exists in the kernel. r9a07g043.dtsi is
-> > > > shared with the RZ/G2UL SoC (ARM64) and the RZ/Five SoC. There are two
-> > > > more patches [1] which are required and are currently queued up in the
-> > > > Renesas tree for v6.2 (Ive mentioned the dependencies in the cover
-> > > > letter).
-> > >
-> > > You could just move the below part to the second dtsi patch. Then
-> > > compile won't be broken.
-> > >
-> > >             clocks = <&cpg CPG_MOD R9A07G043_NCEPLIC_ACLK>;
-> > >             power-domains = <&cpg>;
-> > >             resets = <&cpg R9A07G043_NCEPLIC_ARESETN>;
-> >
-> > The makefile for this directory is not added until the next patch right?
-> > The compile shouldn't be broken here since it therefore cannot be
-> > compiled?
-> >
-> These nodes are already present in the kernel [0]  so the makefile
-> change in the next patch if made here still won't break the
-> compilation alone of SoC DTSI (included in dts).
-Oh... Sorry, I screwed up. The
-arch/arm64/boot/dts/renesas/r9a07g043.dtsi is not belonged to the
-patch series.
+Hi Prabhakar,
 
->
-> [0] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm64/boot/dts/renesas/r9a07g043.dtsi?h=next-20221028#n563
->
-> Cheers,
-> Prabhakar
+On Sun, Oct 30, 2022 at 10:32:43PM +0000, Lad, Prabhakar wrote:
+> Hi Sakari,
+> 
+> On Fri, Oct 28, 2022 at 1:22 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Prabhakar,
+> >
+> > On Thu, Oct 27, 2022 at 08:04:40PM +0100, Lad, Prabhakar wrote:
+> > ...
+> > > > > +static int rzg2l_cru_ip_s_stream(struct v4l2_subdev *sd, int enable)
+> > > > > +{
+> > > > > +     struct rzg2l_cru_dev *cru;
+> > > > > +     int ret;
+> > > > > +
+> > > > > +     cru = v4l2_get_subdevdata(sd);
+> > > > > +
+> > > > > +     if (!cru->is_csi)
+> > > > > +             return -EINVAL;
+> > > > > +
+> > > > > +     ret = v4l2_subdev_call(cru->ip.remote, video, s_stream, enable);
+> > > >
+> > > > It's up to the driver how call pre_streamon() and post_streamoff(), as long
+> > > > as it takes place on both sides of s_stream().
+> > > >
+> > > > In other words, as it seems your device doesn't need anything special, you
+> > > > could waive implemeting the callbacks yourself and call pre_streamon() and
+> > > > post_streamoff() here.
+> > > >
+> > > Here the cru->ip.remote = CSI, in the rzg2l_cru_set_stream(1) where we
+> > > are calling pre_streamon()/post_streamoff() callbacks the subdev is
+> > > CRU-IP. So the calls from rzg2l_cru_set_stream() land into
+> > > rzg2l_cru_ip_pre_streamon() and rzg2l_cru_ip_post_streamoff() which
+> > > are calling pre_streamon/post_streamoff for the CSI subdev.
+> >
+> > Again, you should call the source sub-device's pre_streamon and
+> > post_streamoff from the s_stream handler (not from
+> > rzg2l_cru_ip_pre_streamon or rzg2l_cru_ip_post_streamoff).
+> >
+> > Starting streaming takes place link by link. This allows a driver to omit
+> > implementing pre_streamon and post_streamon callbacks if it doesn't need
+> > them.
+> >
+> Thank you for the explanation that makes sense now to me.
+> 
+> Now with this approach the initialization sequence of CSI + CRU won't
+> align as per the HW manual. Unfortunately I'll have to switch back on
+> exporting the functions. I hope that's okay?
 
+It is not.
 
+What exactly would you like to do that you can't with the
+pre_streamon/post_streamoff callbacks called from s_stream?
+
+In the worst case we can redefine where they are to be called.
 
 -- 
-Best Regards
- Guo Ren
+Kind regards,
+
+Sakari Ailus
