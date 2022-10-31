@@ -2,62 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BFAC613566
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Oct 2022 13:09:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCC5961357E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Oct 2022 13:14:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230472AbiJaMJZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Oct 2022 08:09:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40620 "EHLO
+        id S231252AbiJaMOm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Oct 2022 08:14:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230467AbiJaMJX (ORCPT
+        with ESMTP id S231185AbiJaMOl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Oct 2022 08:09:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69274BFB
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Oct 2022 05:08:22 -0700 (PDT)
+        Mon, 31 Oct 2022 08:14:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 268C0E0D5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Oct 2022 05:13:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667218101;
+        s=mimecast20190719; t=1667218423;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=UzviKTRQBMSKwIl6kvNWZgMaFQwic4ec30sKv7m652k=;
-        b=HVwgxIFnTQWShJIbAp+p3yMHeOQrB6J5obh03OwUqlJlXbm90w49w/nPJiu98HKGScM9Uj
-        vcR2K1W6wwdh1fa05SHdk+3fuL31eun9CsHTnQBBPzXgM2GVsUWvjC59Qd/0aT4EbN9Vql
-        WRS4q8gCbvbwjjBXqhS0GpswFgCgaLQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=2H8Fq04+XbNugdc6Ty/YSDXQIs5WWNt9cW9u1MIkjOA=;
+        b=LyZfO8oK7WZg4YiS9L3p0sPvSDxJCNdr2Me/YfWcIWtG3BRFZltcOhxxLIrtskFui509hE
+        xsInseEH2yFmN84gB9WUs/gQuBrkKynCG9+fUX6R3pQXdXRJ3+3lDQY7Th6RTNKRybZc4i
+        Jd+OU8QSZF05D6AMylsox0LmSDOrFXE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-222-Tvj4UUMoODamz1Oot0A3yg-1; Mon, 31 Oct 2022 08:08:20 -0400
-X-MC-Unique: Tvj4UUMoODamz1Oot0A3yg-1
-Received: by mail-wr1-f72.google.com with SMTP id w23-20020adf8bd7000000b002358f733307so2993697wra.17
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Oct 2022 05:08:19 -0700 (PDT)
+ us-mta-91-IFuH9cJBM9eYlcDolsLoXQ-1; Mon, 31 Oct 2022 08:13:41 -0400
+X-MC-Unique: IFuH9cJBM9eYlcDolsLoXQ-1
+Received: by mail-wr1-f70.google.com with SMTP id i14-20020adfa50e000000b0023652707418so3002950wrb.20
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Oct 2022 05:13:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UzviKTRQBMSKwIl6kvNWZgMaFQwic4ec30sKv7m652k=;
-        b=vnjuH6B1dcMnJ/oo67BO7HMpvalDEnPnWRgCB47jvqWquiXvW2fUzbhfVQeK+E3HYk
-         ako0G5xfKo14IbKnlsB3NlVDz9rLhGOjqiz/RdNAhcU6FNTntcyAuqisEmAH93bcZIk9
-         p9UP6GjTdNWF0o78UqI20ZrnVD/QMVhHjs55KUP6uVOQoQaj7WYZ6hwYvm54z45Y6RuU
-         j4NJSBBIrFavV4WxyTQMa46RJ9lGrNWsFLqB/vLN4mpsmhdp8qJq6l4sfgUB+7eSyPUd
-         zUE4r0gJGSMqAGiUexDAO+Zv6vAWhRx+sX5Gq/L6xy7JceQcwP3E+S4cb4ZXSS4IRyx5
-         Mgnw==
-X-Gm-Message-State: ACrzQf1YfrLonA497d3e7ad+4Ov1k2aoHuUWfuAI5A3cf5xKl4hpbfZL
-        Yjt5YxpbO9GoL3UNLe8/OIpUc4W757XMiu+0xN0m7O9EpAzZhBmn+WyERaVaWrjyWUSDK4AWpW/
-        BmTirUilEQ8YNCevG9kDYamIvpjTTP7E=
-X-Received: by 2002:a05:6000:15cd:b0:236:9701:7939 with SMTP id y13-20020a05600015cd00b0023697017939mr7691184wry.248.1667218098866;
-        Mon, 31 Oct 2022 05:08:18 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6Xfc/ao13H30KX93ABjLq4iUJ6oQF+1EOXF8gvz+3LvWSBMjjIijdjEWsEsBBK0GpYNHL8UA==
-X-Received: by 2002:a05:6000:15cd:b0:236:9701:7939 with SMTP id y13-20020a05600015cd00b0023697017939mr7691171wry.248.1667218098682;
-        Mon, 31 Oct 2022 05:08:18 -0700 (PDT)
+        bh=2H8Fq04+XbNugdc6Ty/YSDXQIs5WWNt9cW9u1MIkjOA=;
+        b=l+FkiCT6iRSnU5s9JV03u3mc4swbaXHKsTUXMbo9xVxvMR5v8VmECerVJKyiV0K3UP
+         cSRxJiZxxOmB7eow1mD+7OaTNxKjABazy+y8MwOTXo1yku3vB+qDjSQhd4oiOHbV6ty+
+         ZCPpdmfzWfc2TaE6KtPDLn/q24+/fuej794Df3qzwPlKaN4Lw9AhL3TE/6x6Kz/Ca7Bz
+         T2c5gp5dnsAGijyd0ZXAVJV0P71W43q6gUb0PDXGAGWq8/+AxG/uzyZDYnbqUAUTV8DG
+         g1XlJreR79wGaoq1JfrY/f8NukoPaw8T9toc6L/7qrWy45TrAKUGN90M0VAZJe6vSbXB
+         TAHw==
+X-Gm-Message-State: ACrzQf1ZT9gttmNf3pSXhLtUP/7/TjQPwyj+G48vCvM1dj8xTi1EU9Rj
+        Udi8cCD1APX4RBf8GXAZ/KeXvoDY12QGKrqcRu7o9esMqfJzO5H5iECmStbM3X5YIQSB6aBgKMp
+        9uu5e+ygOkWWkhgi5h7eUZ/0NT24cNao=
+X-Received: by 2002:a5d:64cd:0:b0:236:6d1c:c1a2 with SMTP id f13-20020a5d64cd000000b002366d1cc1a2mr8196688wri.360.1667218420929;
+        Mon, 31 Oct 2022 05:13:40 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6+QX10ZDmjvc1IfL0XXmvBimtEQHEjFBrrHb50hNQes1zzurNnpW//og1SN1o9c/o5tX548g==
+X-Received: by 2002:a5d:64cd:0:b0:236:6d1c:c1a2 with SMTP id f13-20020a5d64cd000000b002366d1cc1a2mr8196664wri.360.1667218420692;
+        Mon, 31 Oct 2022 05:13:40 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id bn26-20020a056000061a00b0022cd0c8c696sm6948033wrb.103.2022.10.31.05.08.17
+        by smtp.gmail.com with ESMTPSA id az29-20020a05600c601d00b003cdf141f363sm7207444wmb.11.2022.10.31.05.13.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Oct 2022 05:08:18 -0700 (PDT)
-Message-ID: <fd53a4f9-34a8-f5f3-1b1f-baf4a456bcc9@redhat.com>
-Date:   Mon, 31 Oct 2022 13:08:16 +0100
+        Mon, 31 Oct 2022 05:13:40 -0700 (PDT)
+Message-ID: <231be619-96b7-b725-0735-0275e07477d8@redhat.com>
+Date:   Mon, 31 Oct 2022 13:13:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
@@ -91,7 +91,7 @@ Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -112,13 +112,6 @@ On 10/24/22 13:19, Thomas Zimmermann wrote:
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
-Do you think that the fbdev helpers kernel doc has to be updated to mention
-that drm_fb_helper_lastclose() and drm_fb_helper_output_poll_changed() are
-not needed when generic fbdev emulation is used? Because by reading that is
-not clear that's the case:
-
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_fb_helper.c#L86
 
 -- 
 Best regards,
