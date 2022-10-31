@@ -2,67 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 19C6161363B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Oct 2022 13:26:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12F83613652
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Oct 2022 13:28:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229923AbiJaM0W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Oct 2022 08:26:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51572 "EHLO
+        id S231207AbiJaM17 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Oct 2022 08:27:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231379AbiJaM0S (ORCPT
+        with ESMTP id S230443AbiJaM1t (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Oct 2022 08:26:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09AE33B2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Oct 2022 05:25:30 -0700 (PDT)
+        Mon, 31 Oct 2022 08:27:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECFDE1E3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Oct 2022 05:26:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667219129;
+        s=mimecast20190719; t=1667219211;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=G3lFqSUva8cf7eu6ekgojQtwZeR44+C1N0qDI7SjLRc=;
-        b=FokqE+OawLhTjp7iVH+q3xV5qU+owxbjGYpygfYYbZilLPOWQS+Uk06vGCqWKa5Zg61x7L
-        KCsidB+Mn9zm2uZnf0vRptgX9YPuFnLxLSh6Vf32dmbdyEZCSdg2Dup14duyFQymj0gh5B
-        wqZkX+UaWVQlOkjtLaQulkamOJmfsPg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=/x9mAjb8LNYXXK+HVNHKFir+j3ZwIeSko/dKjp9YLmY=;
+        b=AkQsTEKR1y9Fem7oTJ0E3dmo3tSyUuX34g7YcIEBfU/OXBSKRL/QiVX4biNYbj4VOFhn4W
+        OCYtrt/Yx9m3DzmtnpA8LOacAJbORJ9GshIUa4dxrFXoxCS8kBtwGlqp6K0QEQc7VI3zeI
+        6gqkmpi5G0SI5+1pENUOav6Ir2O/Na4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-647-J-ggUX9pO2ecJ7b1qjuNrA-1; Mon, 31 Oct 2022 08:25:28 -0400
-X-MC-Unique: J-ggUX9pO2ecJ7b1qjuNrA-1
-Received: by mail-wr1-f72.google.com with SMTP id o13-20020adfa10d000000b00232c00377a0so3015884wro.13
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Oct 2022 05:25:28 -0700 (PDT)
+ us-mta-358-t2G9ccCYPI2phEJ2BBMHPA-1; Mon, 31 Oct 2022 08:26:50 -0400
+X-MC-Unique: t2G9ccCYPI2phEJ2BBMHPA-1
+Received: by mail-wm1-f72.google.com with SMTP id c5-20020a1c3505000000b003c56da8e894so8297726wma.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Oct 2022 05:26:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G3lFqSUva8cf7eu6ekgojQtwZeR44+C1N0qDI7SjLRc=;
-        b=rvm83b8o27S7i3d1phHCxJSwL46At4eX9IJW/lIEFZiWoHRkW2xOSuoZFGb/sx9j0S
-         fStaYVFEIwHTo8qGUyCU8C0iLlS408DkgDOgsJsWxHrbZeBn2WM7bVeIOhRvkyKRcwEA
-         F4zxVU1ZvEiWCIk07PtdJDsEynDURJvf0j1tiUdnnVZT0jy5Qxw+mxnG/2PDKbeUVP14
-         2DhfPavFINqADIxeoFTpU3O/ExWJ4Gu+QaIsbHcC9bMpocuQ73OO/oP2XMFwXkQ6Y5P0
-         VM62lz0dmlQ5pA93J7aXVl1kNiDKdRfKB+pn4tZ807KOl37mAlB0YTLPdEdUKlvpsXpE
-         GwLA==
-X-Gm-Message-State: ACrzQf25AX6UUFm1zS6D4U0TbsZ7HtHZ+2peTz8q1CHZplS6vL71KF3C
-        gV9lPrRpRKr0bP/kIwnIPU7sNN7oer9C2pyBkllyNwgOUNdijEYHNqMyS/Zy7O9eRmqcjjw/QlG
-        033wdkkgLu+7q0mUJ8r334MxZ+vvgPnY=
-X-Received: by 2002:a5d:498a:0:b0:236:58ef:6796 with SMTP id r10-20020a5d498a000000b0023658ef6796mr8133542wrq.399.1667219127468;
-        Mon, 31 Oct 2022 05:25:27 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5OaQ4lCdeJx0P85vXeCC9ohI1f8Am/sl3oDUbbTCyW5S09EQhBnmsKMGoGzObNL20EAzLquw==
-X-Received: by 2002:a5d:498a:0:b0:236:58ef:6796 with SMTP id r10-20020a5d498a000000b0023658ef6796mr8133518wrq.399.1667219127226;
-        Mon, 31 Oct 2022 05:25:27 -0700 (PDT)
+        bh=/x9mAjb8LNYXXK+HVNHKFir+j3ZwIeSko/dKjp9YLmY=;
+        b=1nVt0C/rS0v92Skddg+2fJzzSK3nASh9+KNGH6l7/foFz4ZJnz/1RwJsYWQvUHf1Yx
+         j3VDlj0owOcKd1tV+enrVOcAJxUPnXZNG8eCBc7iAFN9W21swGIMQCZoAIZMuKWlhfgm
+         bXaX4R8x7NE+wMeNmXMWg/cLcEqhMOWB2KoVAu4P9E6zcIkuXpI4wumRLDpaTt66KxY+
+         7Q9CEjTUfNrI12tIgURLKVlNm80aVmF1J51tHLbhAta2dokKYw0V/AKddBhp4FqZzbjt
+         dlrzagNXsukvC92IwnVtnY5GFffIYu81sejlJs+CLGuMDuWmSPefFmSuWBOsj2Lz6Vx1
+         sdQg==
+X-Gm-Message-State: ACrzQf2J/Nd5EUv9m8LRdCGpnjyO/i/Hym2Y345NfcgzT45xfM3L7qIt
+        fu2cTLCQUgA+F5/WhmDY/DpGgh5J8Sj/pZ0lMAySW3jevuk3LHFlSLAgiuci1A24gRXsQIwGMcu
+        kiN7r2IrepMnclBrIV9cPDsemcUQdxsU=
+X-Received: by 2002:a05:600c:4f10:b0:3c6:dcc6:51d7 with SMTP id l16-20020a05600c4f1000b003c6dcc651d7mr7887422wmq.91.1667219208976;
+        Mon, 31 Oct 2022 05:26:48 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4eCY6FaPESRi0FBsuwSJAU0ypknopcItEy1BimghpIISJ8Db9xrgTY3spCPjOXKZ6zCgaGzA==
+X-Received: by 2002:a05:600c:4f10:b0:3c6:dcc6:51d7 with SMTP id l16-20020a05600c4f1000b003c6dcc651d7mr7887399wmq.91.1667219208796;
+        Mon, 31 Oct 2022 05:26:48 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id m13-20020a05600c3b0d00b003bfaba19a8fsm7382582wms.35.2022.10.31.05.25.25
+        by smtp.gmail.com with ESMTPSA id q1-20020a1ce901000000b003b476cabf1csm4889352wmc.26.2022.10.31.05.26.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Oct 2022 05:25:26 -0700 (PDT)
-Message-ID: <53f341ad-4b72-5546-f752-ca705d62d63c@redhat.com>
-Date:   Mon, 31 Oct 2022 13:25:25 +0100
+        Mon, 31 Oct 2022 05:26:48 -0700 (PDT)
+Message-ID: <0d2250e4-dc26-2fc9-e429-0d43ef280e5b@redhat.com>
+Date:   Mon, 31 Oct 2022 13:26:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 12/21] drm/fb_helper: Rename field fbdev to info in
- struct drm_fb_helper
+Subject: Re: [PATCH v2 13/21] drm/fb-helper: Rename drm_fb_helper_alloc_fbi()
+ to use _info postfix
 Content-Language: en-US
 To:     Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
         airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
@@ -83,9 +83,9 @@ Cc:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
         linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
         xen-devel@lists.xenproject.org
 References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-13-tzimmermann@suse.de>
+ <20221024111953.24307-14-tzimmermann@suse.de>
 From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-13-tzimmermann@suse.de>
+In-Reply-To: <20221024111953.24307-14-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -99,15 +99,12 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 10/24/22 13:19, Thomas Zimmermann wrote:
-> Rename struct drm_fb_helper.fbdev to info. The current name is
-> misleading as it overlaps with generic fbdev naming conventions.
-> Adapt to the usual naming in fbdev drivers by calling the field
-> 'info'. No functional changes.
+> Rename drm_fb_helper_alloc_fbi() to drm_fb_helper_alloc_info() as
+> part of unifying the naming within fbdev helpers. Adapt drivers. No
+> functional changes.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
-
-Agreed. I got confused by this naming in the past.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
