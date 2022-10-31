@@ -2,160 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AFF7613AFF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Oct 2022 17:11:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECC44613DC1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Oct 2022 19:51:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231134AbiJaQLP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Oct 2022 12:11:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38794 "EHLO
+        id S229838AbiJaSva (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Oct 2022 14:51:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229947AbiJaQLO (ORCPT
+        with ESMTP id S229934AbiJaSvY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Oct 2022 12:11:14 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7367DF61;
-        Mon, 31 Oct 2022 09:11:13 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id 21so18166550edv.3;
-        Mon, 31 Oct 2022 09:11:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iCzM+z8lbU3sUbT7i4WqD5Kg67j9Dyb20Cc1XCa8sRM=;
-        b=qKqmZWqo0DkJvx0vYCMHgc8guzN8iVhj59dDHl16HPXO4yL9xeYSfmTVB87fLCXkds
-         /q0gAMJ3hYKLh/JC2740UsBREiIvBWInMT8We1fJapvSCu2k9WvdFpDG5O16LMPH/qYC
-         u8Ia8txchf1OK2lP0+LYcYa0PvD3EMSyJVkgrf85D7gQ1lTdgbzTVbqOWi6llu9mJSKe
-         5BlUQSGfj9enWi8ecWCwMouY5FFuqy45snE6um9sh/TJPGfu+yCS0C8IGRKjyUSapizZ
-         ARgl3abqhJTrr8ctR/z8vuF06gMSFbZ7EEgNrzrQtZwvlmb4ObZ02BI07zvN7zCpefQo
-         ouxg==
+        Mon, 31 Oct 2022 14:51:24 -0400
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46E5E13EBB;
+        Mon, 31 Oct 2022 11:51:17 -0700 (PDT)
+Received: by mail-oi1-f181.google.com with SMTP id p127so13670080oih.9;
+        Mon, 31 Oct 2022 11:51:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iCzM+z8lbU3sUbT7i4WqD5Kg67j9Dyb20Cc1XCa8sRM=;
-        b=xr7jQ3+3JNkpmGtbQBzhpgP3CXS4mCyeYFVPyqjYdyQ75yQTvWTzpye68cbp3ri/yD
-         uNVEzAMsi3wF7jdCz5YveWZ4U5bXOEcM287pYUD881kzLHbO45Drg+X0b0BJC/umin9Z
-         fwBAzTzoULKYqjVClzp+m3Fqj/rpsyq1A4b5/2PosI64BvV2S6Wj6gSNTPIR3OtQoTHe
-         VSozrosLBydiIn0SLRDNOY+RvFWBCE4hUbfny0oh6keqRf4JpqddzDLAFAEx4ASYU4O4
-         dbTzt8XKNn6YwNVwqL2kcmkBbS8PRzyPILPnh1HbjGgBc25orKZcj7h2eNjzJOoozM4m
-         o16A==
-X-Gm-Message-State: ACrzQf3Q42wwpCizkIJGsQsB+8gKqQwoTk7DXzpZpZyqTXMdp+04WXlB
-        xyydiqOf64WeEVRFr7AFquQJXaFB/SiuPdsEaOo=
-X-Google-Smtp-Source: AMsMyM6PFq7Zt3THHm08ReMXUZEYl5HsciKAwxHOZtB+/CwtOnuYr2XqM5HB9OrJs8TZ9T7qLnN4DLpUwpo8LGtnLQA=
-X-Received: by 2002:aa7:de0a:0:b0:462:d2a0:93a with SMTP id
- h10-20020aa7de0a000000b00462d2a0093amr13865340edv.275.1667232672211; Mon, 31
- Oct 2022 09:11:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221014183459.181567-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y1pphVPw0J97AmW4@paasikivi.fi.intel.com> <CA+V-a8szaPjwumrBgOT9gzMKBjY7hk0zfP8RgzUUDfY+BAsogA@mail.gmail.com>
- <Y1p91+XxPCB9NWwh@paasikivi.fi.intel.com> <CA+V-a8uhYymEVg7jdLVGNLsVD3=O1mk-_NVERu00W+gsv-7QXg@mail.gmail.com>
- <Y1rQBmXj71C1RrwB@paasikivi.fi.intel.com> <Y1/a4QUQpykhuXwh@paasikivi.fi.intel.com>
-In-Reply-To: <Y1/a4QUQpykhuXwh@paasikivi.fi.intel.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 31 Oct 2022 16:10:45 +0000
-Message-ID: <CA+V-a8vQkvO5k=b169SfiD5qdn9hNOJk6y2GHns1OkrnxHXeXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] media: i2c: ov5645: Use runtime PM
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RndPaegPky68KZOdumOMylBv9kWNrkQoLXpeXbebU08=;
+        b=FHJL26nrBO7Y+ooYGT8JNwBVhk5kEDmH5ZkJa+x3N7fmDsrryTfLmFbVK8pI+1zUBi
+         6Z/uze63re3oi/u45Sj1v4pmQi7JQTX+D4QGRE0mHijV7pY1Y3Mk9cTCMqJL4frMBrR4
+         SfhDLYs4kXYDucLxE9NE2naToeTvFoe0LrXqYtbfMsEErVm8I5WsMW2w+rhDRJaXIBcv
+         o/agymsecg1xOov3RIXRhJLKVQXZipKXGOyE13WVB0w5df+HsTtSfz7b4wJLyEQ3UEH7
+         Y5x+68mDb3OV8BfEzatVolJ6BLGUSs3gBs7qWMtOej9cv/BAt2N8omVutmQuU0vKgevA
+         INCg==
+X-Gm-Message-State: ACrzQf0SEkFgs7GJ7R3x5YZjhjVg0PswnnHaFrPMdnM68mCc0Zw5AVKJ
+        wV3RP6OFsaI7TZHijLAOAw==
+X-Google-Smtp-Source: AMsMyM6v/cJPflJtabY+T+O+Vhy37yW2suHI3E7cGffQ2s7Uq9cqhT/JjWVLuNAjcq9ze5HnDlOyGQ==
+X-Received: by 2002:a05:6808:120c:b0:351:6d17:1845 with SMTP id a12-20020a056808120c00b003516d171845mr7565039oil.254.1667242276384;
+        Mon, 31 Oct 2022 11:51:16 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id k9-20020a056870350900b0013191fdeb9bsm3411798oah.38.2022.10.31.11.51.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Oct 2022 11:51:15 -0700 (PDT)
+Received: (nullmailer pid 3248529 invoked by uid 1000);
+        Mon, 31 Oct 2022 18:51:16 -0000
+Date:   Mon, 31 Oct 2022 13:51:16 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Daniel Machon <daniel.machon@microchip.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
         linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Del Regno <angelogioacchino.delregno@somainline.org>,
+        linux-arm-msm@vger.kernel.org,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Iskren Chernev <iskren.chernev@gmail.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Loic Poulain <loic.poulain@linaro.org>,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Taniya Das <tdas@codeaurora.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Jeffrey Hugo <quic_jhugo@quicinc.com>,
+        Martin Botka <martin.botka@somainline.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Lars Povlsen <lars.povlsen@microchip.com>,
+        UNGLinuxDriver@microchip.com, Jonathan Marek <jonathan@marek.ca>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        linux-kernel@vger.kernel.org,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Stephen Boyd <sboyd@kernel.org>, netdev@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+        krishna Lanka <quic_vamslank@quicinc.com>,
+        Govind Singh <govinds@codeaurora.org>,
+        Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: clock: qcom,gcc-ipq8074: use common GCC
+ schema
+Message-ID: <166724227425.3248438.11996329262779132119.robh@kernel.org>
+References: <20221028140326.43470-1-krzysztof.kozlowski@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221028140326.43470-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sakari,
 
-On Mon, Oct 31, 2022 at 2:25 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Prabhakar,
->
-> On Thu, Oct 27, 2022 at 06:37:58PM +0000, Sakari Ailus wrote:
-> > Hi Prabhakar,
-> >
-> > On Thu, Oct 27, 2022 at 05:32:07PM +0100, Lad, Prabhakar wrote:
-> > > Hi Sakari,
-> > >
-> > > On Thu, Oct 27, 2022 at 1:47 PM Sakari Ailus
-> > > <sakari.ailus@linux.intel.com> wrote:
-> > > >
-> > > > Hi Prabhakar,
-> > > >
-> > > > On Thu, Oct 27, 2022 at 01:01:52PM +0100, Lad, Prabhakar wrote:
-> > > > > Hi Sakari,
-> > > > >
-> > > > > On Thu, Oct 27, 2022 at 12:20 PM Sakari Ailus
-> > > > > <sakari.ailus@linux.intel.com> wrote:
-> > > > > >
-> > > > > > Hi Prabhakar,
-> > > > > >
-> > > > > > One more comment.
-> > > > > >
-> > > > > > On Fri, Oct 14, 2022 at 07:34:56PM +0100, Prabhakar wrote:
-> > > > > > > @@ -1209,12 +1190,16 @@ static int ov5645_probe(struct i2c_client *client)
-> > > > > > >
-> > > > > > >       dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
-> > > > > > >
-> > > > > > > +     pm_runtime_set_active(dev);
-> > > > > > > +     pm_runtime_get_noresume(dev);
-> > > > > > > +     pm_runtime_enable(dev);
-> > > > > >
-> > > > > > You won't gain anything by eanbling runtime PM here. Just move it to the
-> > > > > > end of the function before the rest of the calls. Error handling becomes
-> > > > > > more simple.
-> > > > > >
-> > > > > If I move the above calls below I get the below warning:
-> > > > >
-> > > > > [    2.633386] ov5645 0-003c: Runtime PM usage count underflow!
-> > > > >
-> > > > > This is because of the last patch which moves ov5645_entity_init_cfg()
-> > > > > before registering the subdev. ov5645_entity_init_cfg() calls s_ctrl
-> > > > > due to which we are seeing the above message. Please let me know how
-> > > > > to proceed on this.
-> > > >
-> > > > Ah. Yes, this is a problem with the usage pattern of
-> > > > pm_runtime_get_if_in_use(). But please don't change that.
-> > > >
-> > > > You can still move enabling runtime PM later in the function.
-> > > >
-> > > Agreed, the final version looks like below:
-> > >
-> > >     pm_runtime_set_active(dev);
-> > >     pm_runtime_get_noresume(dev);
-> > >
-> >
-> > You'll have to enable runtime PM here, before pm_runtime_get_if_in_use()
-> > gets called.
-> >
-> > I'll see if it could be made to work in a sensible way when runtime PM
-> > isn't enabled yet.
->
-> There are various ways how runtime PM interface functions generally work,
-> and generally return an error when runtime PM is disabled. Incrementing the
-> usage_count when runtime PM is disabled would make
-> pm_runtime_get_if_in_use() very special and not match what the rest would
-> do. Therefore I think it's best to keep this in the driver. After all, mo
-> other driver needs this in the media tree, which is the major user of the
-> function.
->
-Thank you for digging deep into this. I'll keep it as is and send a v3.
+On Fri, 28 Oct 2022 10:03:24 -0400, Krzysztof Kozlowski wrote:
+> Reference common Qualcomm GCC schema to remove common pieces.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../bindings/clock/qcom,gcc-ipq8074.yaml      | 25 +++----------------
+>  1 file changed, 4 insertions(+), 21 deletions(-)
+> 
 
-Cheers,
-Prabhakar
+Acked-by: Rob Herring <robh@kernel.org>
