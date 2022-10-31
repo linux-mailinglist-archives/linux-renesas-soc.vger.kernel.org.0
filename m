@@ -2,120 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 856126139D9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Oct 2022 16:17:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AFF7613AFF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Oct 2022 17:11:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231298AbiJaPRv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Oct 2022 11:17:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46366 "EHLO
+        id S231134AbiJaQLP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Oct 2022 12:11:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229826AbiJaPRu (ORCPT
+        with ESMTP id S229947AbiJaQLO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Oct 2022 11:17:50 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B5CD11441
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Oct 2022 08:17:49 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1opWXY-00078z-KN; Mon, 31 Oct 2022 16:17:28 +0100
-Received: from pengutronix.de (unknown [IPv6:2a03:f580:87bc:d400:3c2a:13d:f861:4564])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id D6B1010F39A;
-        Mon, 31 Oct 2022 15:17:24 +0000 (UTC)
-Date:   Mon, 31 Oct 2022 16:17:19 +0100
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        Stefan =?utf-8?B?TcOkdGpl?= <stefan.maetje@esd.eu>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: RE: [PATCH v3 6/6] can: rcar_canfd: Add has_gerfl_eef to struct
- rcar_canfd_hw_info
-Message-ID: <20221031151719.6p3jyou4rxoblz3q@pengutronix.de>
-References: <20221027082158.95895-1-biju.das.jz@bp.renesas.com>
- <20221027082158.95895-7-biju.das.jz@bp.renesas.com>
- <CAMuHMdXayck0o9=Oc2+X7pDSx=Y+SHHdi3QtmYz+U-rumpc92Q@mail.gmail.com>
- <20221028102458.6qcuojc5xk46jbuo@pengutronix.de>
- <OS0PR01MB5922A029B93F82F47AE1DD7C86329@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB5922BBCF1BDFD3176C5DAAF386379@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Mon, 31 Oct 2022 12:11:14 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7367DF61;
+        Mon, 31 Oct 2022 09:11:13 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id 21so18166550edv.3;
+        Mon, 31 Oct 2022 09:11:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=iCzM+z8lbU3sUbT7i4WqD5Kg67j9Dyb20Cc1XCa8sRM=;
+        b=qKqmZWqo0DkJvx0vYCMHgc8guzN8iVhj59dDHl16HPXO4yL9xeYSfmTVB87fLCXkds
+         /q0gAMJ3hYKLh/JC2740UsBREiIvBWInMT8We1fJapvSCu2k9WvdFpDG5O16LMPH/qYC
+         u8Ia8txchf1OK2lP0+LYcYa0PvD3EMSyJVkgrf85D7gQ1lTdgbzTVbqOWi6llu9mJSKe
+         5BlUQSGfj9enWi8ecWCwMouY5FFuqy45snE6um9sh/TJPGfu+yCS0C8IGRKjyUSapizZ
+         ARgl3abqhJTrr8ctR/z8vuF06gMSFbZ7EEgNrzrQtZwvlmb4ObZ02BI07zvN7zCpefQo
+         ouxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iCzM+z8lbU3sUbT7i4WqD5Kg67j9Dyb20Cc1XCa8sRM=;
+        b=xr7jQ3+3JNkpmGtbQBzhpgP3CXS4mCyeYFVPyqjYdyQ75yQTvWTzpye68cbp3ri/yD
+         uNVEzAMsi3wF7jdCz5YveWZ4U5bXOEcM287pYUD881kzLHbO45Drg+X0b0BJC/umin9Z
+         fwBAzTzoULKYqjVClzp+m3Fqj/rpsyq1A4b5/2PosI64BvV2S6Wj6gSNTPIR3OtQoTHe
+         VSozrosLBydiIn0SLRDNOY+RvFWBCE4hUbfny0oh6keqRf4JpqddzDLAFAEx4ASYU4O4
+         dbTzt8XKNn6YwNVwqL2kcmkBbS8PRzyPILPnh1HbjGgBc25orKZcj7h2eNjzJOoozM4m
+         o16A==
+X-Gm-Message-State: ACrzQf3Q42wwpCizkIJGsQsB+8gKqQwoTk7DXzpZpZyqTXMdp+04WXlB
+        xyydiqOf64WeEVRFr7AFquQJXaFB/SiuPdsEaOo=
+X-Google-Smtp-Source: AMsMyM6PFq7Zt3THHm08ReMXUZEYl5HsciKAwxHOZtB+/CwtOnuYr2XqM5HB9OrJs8TZ9T7qLnN4DLpUwpo8LGtnLQA=
+X-Received: by 2002:aa7:de0a:0:b0:462:d2a0:93a with SMTP id
+ h10-20020aa7de0a000000b00462d2a0093amr13865340edv.275.1667232672211; Mon, 31
+ Oct 2022 09:11:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="i5zf2r45iochguhu"
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB5922BBCF1BDFD3176C5DAAF386379@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221014183459.181567-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y1pphVPw0J97AmW4@paasikivi.fi.intel.com> <CA+V-a8szaPjwumrBgOT9gzMKBjY7hk0zfP8RgzUUDfY+BAsogA@mail.gmail.com>
+ <Y1p91+XxPCB9NWwh@paasikivi.fi.intel.com> <CA+V-a8uhYymEVg7jdLVGNLsVD3=O1mk-_NVERu00W+gsv-7QXg@mail.gmail.com>
+ <Y1rQBmXj71C1RrwB@paasikivi.fi.intel.com> <Y1/a4QUQpykhuXwh@paasikivi.fi.intel.com>
+In-Reply-To: <Y1/a4QUQpykhuXwh@paasikivi.fi.intel.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 31 Oct 2022 16:10:45 +0000
+Message-ID: <CA+V-a8vQkvO5k=b169SfiD5qdn9hNOJk6y2GHns1OkrnxHXeXQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] media: i2c: ov5645: Use runtime PM
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Sakari,
 
---i5zf2r45iochguhu
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Oct 31, 2022 at 2:25 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Prabhakar,
+>
+> On Thu, Oct 27, 2022 at 06:37:58PM +0000, Sakari Ailus wrote:
+> > Hi Prabhakar,
+> >
+> > On Thu, Oct 27, 2022 at 05:32:07PM +0100, Lad, Prabhakar wrote:
+> > > Hi Sakari,
+> > >
+> > > On Thu, Oct 27, 2022 at 1:47 PM Sakari Ailus
+> > > <sakari.ailus@linux.intel.com> wrote:
+> > > >
+> > > > Hi Prabhakar,
+> > > >
+> > > > On Thu, Oct 27, 2022 at 01:01:52PM +0100, Lad, Prabhakar wrote:
+> > > > > Hi Sakari,
+> > > > >
+> > > > > On Thu, Oct 27, 2022 at 12:20 PM Sakari Ailus
+> > > > > <sakari.ailus@linux.intel.com> wrote:
+> > > > > >
+> > > > > > Hi Prabhakar,
+> > > > > >
+> > > > > > One more comment.
+> > > > > >
+> > > > > > On Fri, Oct 14, 2022 at 07:34:56PM +0100, Prabhakar wrote:
+> > > > > > > @@ -1209,12 +1190,16 @@ static int ov5645_probe(struct i2c_client *client)
+> > > > > > >
+> > > > > > >       dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
+> > > > > > >
+> > > > > > > +     pm_runtime_set_active(dev);
+> > > > > > > +     pm_runtime_get_noresume(dev);
+> > > > > > > +     pm_runtime_enable(dev);
+> > > > > >
+> > > > > > You won't gain anything by eanbling runtime PM here. Just move it to the
+> > > > > > end of the function before the rest of the calls. Error handling becomes
+> > > > > > more simple.
+> > > > > >
+> > > > > If I move the above calls below I get the below warning:
+> > > > >
+> > > > > [    2.633386] ov5645 0-003c: Runtime PM usage count underflow!
+> > > > >
+> > > > > This is because of the last patch which moves ov5645_entity_init_cfg()
+> > > > > before registering the subdev. ov5645_entity_init_cfg() calls s_ctrl
+> > > > > due to which we are seeing the above message. Please let me know how
+> > > > > to proceed on this.
+> > > >
+> > > > Ah. Yes, this is a problem with the usage pattern of
+> > > > pm_runtime_get_if_in_use(). But please don't change that.
+> > > >
+> > > > You can still move enabling runtime PM later in the function.
+> > > >
+> > > Agreed, the final version looks like below:
+> > >
+> > >     pm_runtime_set_active(dev);
+> > >     pm_runtime_get_noresume(dev);
+> > >
+> >
+> > You'll have to enable runtime PM here, before pm_runtime_get_if_in_use()
+> > gets called.
+> >
+> > I'll see if it could be made to work in a sensible way when runtime PM
+> > isn't enabled yet.
+>
+> There are various ways how runtime PM interface functions generally work,
+> and generally return an error when runtime PM is disabled. Incrementing the
+> usage_count when runtime PM is disabled would make
+> pm_runtime_get_if_in_use() very special and not match what the rest would
+> do. Therefore I think it's best to keep this in the driver. After all, mo
+> other driver needs this in the media tree, which is the major user of the
+> function.
+>
+Thank you for digging deep into this. I'll keep it as is and send a v3.
 
-On 31.10.2022 14:57:43, Biju Das wrote:
-[...]
-
-> > > This way we'll avoid a merge conflict.
->=20
-> Is it OK, if I send all other patches ie, patch#1 to patch#5 in [1] and l=
-ater
-> once net/main merged to net-next/main, will send patch#6?
->=20
-> Please let me know.
-
-I picked patches 1...5 for can-next/main.
-
-regards,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---i5zf2r45iochguhu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmNf5vwACgkQrX5LkNig
-010NgAf+PVoRDYEoikD26GnGOeEZn240nW7P24ols+p3jfOaqpb4AlFAPafKRHho
-ZzKWxR9paqtd+YKONsh5bhgI12d005S2vFs0Rq6I/TyxivBUG5VDPwC1Wm/WMg0N
-kkLwV+ac3CsW/rf8fpaAy4vg7fS9Kz0oAXkaOr5iiihW0iEF4W9KxmwoQZUfU5S0
-446aMy4EGg5OtQ9S2IzZP3gQ138NivbIYBK4UoCKhHDT6NSzlH3oNNzNWln3862H
-oHh0fNqO1PW2Ismwy3LyONlQnH/xVARY392uvD2rPtEOhtuD0ecVjguFajJXK59K
-snjKBap38hsh4ofDHfN0dZlScLvKDg==
-=EXJg
------END PGP SIGNATURE-----
-
---i5zf2r45iochguhu--
+Cheers,
+Prabhakar
