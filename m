@@ -2,75 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9108A614BDF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Nov 2022 14:38:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37788614D0E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Nov 2022 15:47:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229959AbiKANi1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Nov 2022 09:38:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35282 "EHLO
+        id S229566AbiKAOrz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Nov 2022 10:47:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229866AbiKANi0 (ORCPT
+        with ESMTP id S230380AbiKAOry (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Nov 2022 09:38:26 -0400
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D5D82BF;
-        Tue,  1 Nov 2022 06:38:23 -0700 (PDT)
-Received: by mail-qk1-f175.google.com with SMTP id l9so9496640qkk.11;
-        Tue, 01 Nov 2022 06:38:23 -0700 (PDT)
+        Tue, 1 Nov 2022 10:47:54 -0400
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD57C193D4
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Nov 2022 07:47:53 -0700 (PDT)
+Received: by mail-qk1-f173.google.com with SMTP id 8so9678938qka.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 01 Nov 2022 07:47:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=K+9k3LzVJhLHOoT31IHmRkr9T7Wq3FpXbHH08Qx0zJI=;
-        b=hW3kqn5frCNP7gxKzAdzOtsJ9VgAwsuQTKx2Nz0m9VKva4jfVyoeKzcmCZzObepQUz
-         X5koGoueEDyIwKUZUA7Ctyq2GOCqLrC3X2OHm1vFokePLGJk3qLAQZrdw0OQFqkt5uxA
-         XeTicxUoyT/wYCydeOeKCkMAs5xGl/bJ68XjfxOokviuvWYNRjIJd1DPYlbwSlxI+3uM
-         kWhIdbp/yHwoxYDCh+GKq6LMOUmuvra4zN/9JxBuUZXHYHtgxNWYovvncx4Uo6+QfSf9
-         A/jKIn4na+pNnkzqY/AJCMI7WEvk+ELuOKvWW9NQjqZuu1QP9IAm80gL6r8+HWb5d7oN
-         pDDQ==
-X-Gm-Message-State: ACrzQf3k+UnZpEyb1VLvIiDhbno6Nu6Qz9HQsii4pAryw/wLuHkhZOdY
-        KnVI3d6v5BZExflWbzsPQJ6M2KhQR4+zKQ==
-X-Google-Smtp-Source: AMsMyM4fh7FUZrSTZ5WqarmfnQ/A6fUHwt0ZLP66ReAW4fmQ5Ggh2zPKG3E4WFIrckuwFHgIDoO2uA==
-X-Received: by 2002:a05:620a:1438:b0:6fa:2196:20fd with SMTP id k24-20020a05620a143800b006fa219620fdmr9671701qkj.78.1667309901708;
-        Tue, 01 Nov 2022 06:38:21 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id w128-20020a379486000000b006ce76811a07sm6511365qkd.75.2022.11.01.06.38.20
+        bh=2FY8jITvcx+cMyyAHnTM+uZAERSq0piUR08CFQlD830=;
+        b=PaTyFaXJQf9fO2EnDyNM2VURCUdbVWGoi1Lz5K+NXKscHeHfvlYCDwepKhI8yFiDyw
+         gYOsftmoUpxpQqVVz2ErvZAg2a1o/INWX60EP+8nmQwNuYf5h2qKL9OCeU3OLijcDbmF
+         CPQDLHMpnscmYH1wX5fQlyp7zHX2k+gwcS7Gun/IOl7epMhBYvacq1Lf+Z7vDaOVXqCs
+         R/0L/n/sCIBF4KfXn3z7MoTVxrUxhlpQSs5Tt7g14aFdwE9lleHQYdurp0nhQU2IQhpV
+         lUcxyR567ZTupqnBx8w3gPL4vIoSAPczmfleOPFbwrG0cYHoCXPCEitr1qSmGQ2zfziF
+         DLug==
+X-Gm-Message-State: ACrzQf1r5BgZhdNk6dgyoElgpuDk3t70NblxCxNI+HuAKaDPHKSJ5BfA
+        2mvi0UsQp7lbbrMV1T1miPqsmOF41a8pKg==
+X-Google-Smtp-Source: AMsMyM4FI51z5ZLcp7utZLfKrdQd2qR/a9XKizu1d7M11NCe1nGmhogGYEmYkhTi55DBYt0m7w+QtA==
+X-Received: by 2002:a37:68c7:0:b0:6fa:12a9:aa55 with SMTP id d190-20020a3768c7000000b006fa12a9aa55mr13031364qkc.583.1667314072664;
+        Tue, 01 Nov 2022 07:47:52 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id bj41-20020a05620a192900b006f7ee901674sm6716605qkb.2.2022.11.01.07.47.52
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Nov 2022 06:38:20 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-3321c2a8d4cso136323477b3.5;
-        Tue, 01 Nov 2022 06:38:20 -0700 (PDT)
-X-Received: by 2002:a81:12c8:0:b0:36a:bd6b:92fb with SMTP id
- 191-20020a8112c8000000b0036abd6b92fbmr17487708yws.316.1667309900285; Tue, 01
- Nov 2022 06:38:20 -0700 (PDT)
+        Tue, 01 Nov 2022 07:47:52 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id j130so17550664ybj.9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 01 Nov 2022 07:47:52 -0700 (PDT)
+X-Received: by 2002:a25:4fc2:0:b0:6be:afb4:d392 with SMTP id
+ d185-20020a254fc2000000b006beafb4d392mr16904390ybb.604.1667314072002; Tue, 01
+ Nov 2022 07:47:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221019220242.4746-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20221019220242.4746-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20221019220242.4746-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <166729684941.22390.7627523146991171045.git-patchwork-summary@kernel.org>
+In-Reply-To: <166729684941.22390.7627523146991171045.git-patchwork-summary@kernel.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 1 Nov 2022 14:38:09 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU6+qNQh2vFic89cnqDmUoyhrJTROCHPdoPguXAEnZMfA@mail.gmail.com>
-Message-ID: <CAMuHMdU6+qNQh2vFic89cnqDmUoyhrJTROCHPdoPguXAEnZMfA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 2/2] soc: renesas: Add L2 cache management for
- RZ/Five SoC
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Guo Ren <guoren@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Anup Patel <anup@brainfault.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date:   Tue, 1 Nov 2022 15:47:41 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVMwy3_EmL2+smhDBDTtH=so-AHNuUP1nvPWy4JuhyRoA@mail.gmail.com>
+Message-ID: <CAMuHMdVMwy3_EmL2+smhDBDTtH=so-AHNuUP1nvPWy4JuhyRoA@mail.gmail.com>
+Subject: Re: Patchwork summary for: linux-renesas-soc
+To:     patchwork-bot+linux-renesas-soc@kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -82,72 +65,23 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+On Tue, Nov 1, 2022 at 11:05 AM
+<patchwork-bot+linux-renesas-soc@kernel.org> wrote:
+> The following patches were marked "mainlined", because they were applied to
+> geert/renesas-devel.git (master):
+>
+> Series: R-Car CANFD fixes
+>   Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+>   Committer: Marc Kleine-Budde <mkl@pengutronix.de>
+>   Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=688725
+>   Lore link: https://lore.kernel.org/r/20221025155657.1426948-1-biju.das.jz@bp.renesas.com
+>     Patches: [v2,1/3] can: rcar_canfd: Fix IRQ storm on global fifo receive
+>              [v2,2/3] can: rcar_canfd: Fix channel specific IRQ handling for RZ/G2L
+>
+>
+> Total patches: 2
 
-On Thu, Oct 20, 2022 at 12:02 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> On the AX45MP core, cache coherency is a specification option so it may
-> not be supported. In this case DMA will fail. As a workaround, firstly we
-> allocate a global dma coherent pool from which DMA allocations are taken
-> and marked as non-cacheable + bufferable using the PMA region as specified
-> in the device tree. Synchronization callbacks are implemented to
-> synchronize when doing DMA transactions.
->
-> The Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
-> block that allows dynamic adjustment of memory attributes in the runtime.
-> It contains a configurable amount of PMA entries implemented as CSR
-> registers to control the attributes of memory locations in interest.
->
-> Below are the memory attributes supported:
-> * Device, Non-bufferable
-> * Device, bufferable
-> * Memory, Non-cacheable, Non-bufferable
-> * Memory, Non-cacheable, Bufferable
-> * Memory, Write-back, No-allocate
-> * Memory, Write-back, Read-allocate
-> * Memory, Write-back, Write-allocate
-> * Memory, Write-back, Read and Write-allocate
->
-> This patch adds support to configure the memory attributes of the memory
-> regions as passed from the l2 cache node and exposes the cache management
-> ops.
->
-> More info about PMA (section 10.3):
-> http://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
->
-> This feature is based on the work posted [0] by Vincent Chen
-> <vincentc@andestech.com> for the Andes AndeStart RISC-V CPU.
->
-> [0] https://lore.kernel.org/lkml/1540982130-28248-1-git-send-email-vincentc@andestech.com/
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Thanks for your patch!
-
-> --- a/arch/riscv/include/asm/errata_list.h
-> +++ b/arch/riscv/include/asm/errata_list.h
-> @@ -89,6 +89,7 @@ asm volatile(ALTERNATIVE(                                             \
->  #define ALT_THEAD_PMA(_val)
->  #endif
->
-> +#ifdef CONFIG_ERRATA_THEAD_CMO
->  /*
->   * dcache.ipa rs1 (invalidate, physical address)
->   * | 31 - 25 | 24 - 20 | 19 - 15 | 14 - 12 | 11 - 7 | 6 - 0 |
-> @@ -143,5 +144,6 @@ asm volatile(ALTERNATIVE_2(                                         \
->         : "a0")
->
->  #endif /* __ASSEMBLY__ */
-> +#endif
-
-FTR, the new #endif should be above the old #endif.
-
-I noticed because after rebasing on top of commit 65e9fb081877a18c
-("drivers/perf: riscv_pmu_sbi: add support for PMU variant on T-Head
-C9xx cores") in riscv/for-next, the build failed because the new
-ALT_SBI_PMU_OVERFLOW() definition ended up inside both #endifs,
-instead of between.
+No they weren't.
 
 Gr{oetje,eeting}s,
 
