@@ -2,183 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87CEA614559
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Nov 2022 08:59:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B3E061459B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Nov 2022 09:24:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229813AbiKAH7f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Nov 2022 03:59:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41554 "EHLO
+        id S229819AbiKAIX7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Nov 2022 04:23:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229795AbiKAH7e (ORCPT
+        with ESMTP id S229462AbiKAIX6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Nov 2022 03:59:34 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2102.outbound.protection.outlook.com [40.107.114.102])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E20249FE8;
-        Tue,  1 Nov 2022 00:59:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KFxhLJb3dp7aiXZuMawF5GNBcCQ0BufkhCuwXCsXyrX35rbSHA2pM+CHEtXHfIP0hIecQmaQ2ET+DmkQn5RMhGC3PwBxPkthvw3IhtAyOXzI1Ud+Nj+VJ0h1h6prxUZCRnDoKMDb9RfvUxtdavzTlqD+jCwE53BVc+bCVoZye13TvFIUU2mnt8HvtYNAkHwnVkGH/vFQ4tTL8fKdz+veCoMeQTZmHGC924gGvckAFkbWFuT9cw0/wdwRyo8MerbaPuh2kspz4eMOY+BMoz/rnrxBTloB4wTtB8LsQh21cM0Wa4TstxORCBZ7oMGLQTTjAhHDVsn0LhRCoGysOSNrvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YNQnSQWeoDqu5YYjHoljVn2ORUD4UbH0D/iPHUS57UY=;
- b=UQL6aBgvMOoho7WrAE8V6KXQmB2Rb27R9kqET9uEH9dRjCr7th+aouBT6nINUxownoKa1rAztFUq1KMSwAvS4sBQwBX68s4IjmkcU/6+uwoHLepy4jdtNAxPR0EBHiclRFQjfvjqiyKx9LidG9xWpijGHeXEG6iXcjs7RhOvFp9cAHHUZvsugKqjCPvyHvEH3k1ijGa6qcZPYfdK1an9Xvz8ncyozLRxv37Vbad8q2RX9CI/6vrf8G3RdQxIbRi6wrt7u9MX3o9uTbO7E7RKr6MYH+kJ6ZfSORMmzDGwOiOzr729HFJIp8DtEh1Zood4Aa6ipt9OBh4JWDsCniGyHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YNQnSQWeoDqu5YYjHoljVn2ORUD4UbH0D/iPHUS57UY=;
- b=DV/WuUVFmv/3ePqlbGQJgGxXUNKCLTNhtczxaUFsAkzS8pZ3WUZoq+3LwPBYJsSZIabN325f/diqHS0137qP/pZ81N1gttXB3s4ZeyrEabjyaRrwubG+NDN8BUBglDLsJtOru27Sf3jmD31Bsbbr58m49kYICSf294LOYcQsum8=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OSZPR01MB9440.jpnprd01.prod.outlook.com (2603:1096:604:1d3::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.21; Tue, 1 Nov
- 2022 07:59:30 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::5b24:f581:85bd:6ce2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::5b24:f581:85bd:6ce2%3]) with mapi id 15.20.5769.021; Tue, 1 Nov 2022
- 07:59:30 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Pavel Machek <pavel@denx.de>
-CC:     Wolfgang Grandegger <wg@grandegger.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Sasha Levin <sashal@kernel.org>,
-        "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH] can: rcar_canfd: rcar_canfd_handle_global_receive(): fix
- IRQ storm on global FIFO receive
-Thread-Topic: [PATCH] can: rcar_canfd: rcar_canfd_handle_global_receive(): fix
- IRQ storm on global FIFO receive
-Thread-Index: AQHY7TW7D2EMMc+mzUausq+Kiyen/q4psPKAgAACydA=
-Date:   Tue, 1 Nov 2022 07:59:30 +0000
-Message-ID: <OS0PR01MB59222BA2B1CAA6CDA9B4137486369@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20221031143317.938785-1-biju.das.jz@bp.renesas.com>
- <20221101074351.GA8310@amd>
-In-Reply-To: <20221101074351.GA8310@amd>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OSZPR01MB9440:EE_
-x-ms-office365-filtering-correlation-id: 63cbcb09-509d-483d-b3b1-08dabbdf016d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9onyGgXBYoFgpdRSjoFjXk7OL4x35BTwiSJENgrrttIOFZu9Sq4GnxHFxHeU2z1XVbK2BBOwVnwYQ3H/eXF2G855u9iH9VOX+ym+FQSP9LTneW4Ki7QYofBnTK6TKvgjGEPN1JKwHGKkwGqtyLqY2DACxEpxO6IAiUS5B/tHyy6ArQoOCKsVQw5S2k20dsgN2nRjwZc4vNmD3Lw9RsWZFk+to6Lxx2DA0XpoPWZPQt2C5GY5UQZvSIa4YLs2FGWifkgcFK0kYzAQLntE6uEY5TY1bKW95P0eyEW25Lvvq2otzus7jeuz3S6XLqv7WfoNVZrXxKy6HJ8EM+jU4pHVkNlDcT484LVKbenE26zcIYsyFCd8uOppTUuRWc6kbLBzwEjJ/7XtFLJmdupGcROFu8ZDG7SroE96fFb8UZpZk2o7IhhQkKuAYsplbv4fNTuVHoUMZkDhCJpGCwi29DGrDEvsiGh+66feO5Lo8FadG4o/98KJ2/78zVdoEFVIOPyNtZiiHdNktWJqXwKYYGVer/zIPU4YFNffYkuQEi/S1QcOT2kA2014gbm+pssrYTAj0icwbyK8chsMOe6PpNncbETuBetCig11L2PM3Bj3yw3VQ9TMFsHtD6azVDo99r4xCSAeU8Jk7X7gy2RUC8CoOSQ+G6KNNd2ZzlJj8LvQ2kCrgRuINClNowbSof/VHoZEQKrDGIinW6WrmIlb9vUdVH/Zg8vbJtw8aNouE2M0xHaq4UJyywrmdOUYThoVE11o6s/rTpO4PLbR7w68e65D0KCGNxpzFo2YHTzv2rQ9JwI=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(396003)(366004)(39860400002)(136003)(451199015)(5660300002)(4326008)(8676002)(8936002)(38070700005)(41300700001)(7416002)(52536014)(33656002)(86362001)(71200400001)(2906002)(64756008)(83380400001)(966005)(55016003)(6506007)(122000001)(478600001)(9686003)(26005)(38100700002)(186003)(66556008)(66476007)(66446008)(66946007)(316002)(76116006)(7696005)(54906003)(6916009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xHEDxvGaLbQHTPZ4NqtkRHtB45sCWSWZFqlFED8WIQcDv5BYc8YAz/otc2uZ?=
- =?us-ascii?Q?xEQzmTU96s4EMpecvuwa7nSr4ybqvwy9N3aN09WUh+FB3v347n0qrmCbq76Z?=
- =?us-ascii?Q?Lgb6udMkIY4nsKIK/THmDl7PJg/+2O8xDJsDQD+92lMu49lCNwADeNhbvool?=
- =?us-ascii?Q?UFxksZArukqzYpdDQNUGxupGSPafO0jMVaEQbPnvEEjkFWzrNRAqnwB0Krqi?=
- =?us-ascii?Q?AIQexljj3+v4Uybe8lLjoIbo8CkAzbr/doqYKJh96XJvV0OtlFt1E+Cjz3Lw?=
- =?us-ascii?Q?VCnq8KR9G71enIICkYkzKneZlFWuvhVxyr0jasrVIgGhK7d1Fz8RWEBERLkS?=
- =?us-ascii?Q?232+z+xwJogAgsel+JeCwsES22bya+2QpXUS65PqjKDpc4QV9YDMkzBXxxlb?=
- =?us-ascii?Q?uNKu9V9M52Vlgj7V/MJhgbDfqUNADss6/XQU0xPdnBrJCEkReys74H6sNRQn?=
- =?us-ascii?Q?6xcImD2EwWs7EEZGSAdztKa+M2lFktc4+ZcvpOYxPJsdYmQjw1ntrFNnWFBd?=
- =?us-ascii?Q?H0wDBCsJBz77DzLhdxYw+oQMy8Hs5E8jQ2afwrXK/cXN91Rtj0v1Ca7y/OHs?=
- =?us-ascii?Q?cGHZBSmz3z1yTe5is4BlUTeQKLG1Jx3s3kUiq6wpvUy/WsvZ+tlB9fp5jtX/?=
- =?us-ascii?Q?0zswUM58f3kHDWPbh4sil9Zx5AXoOXA9LGCDdxh8j6QUBJY0MqrDQqxEVV3W?=
- =?us-ascii?Q?BguqXAfVFKrj6VUYehB1W8WNesQ44lziPr0hqvEUdAAz2mrxXnysxeJ5JOcz?=
- =?us-ascii?Q?NKMyrQ3eRohJJKKFDBkqX7deuvzD2IEDolAZ95G4cT9OPkAc60v/ZKD7lsPk?=
- =?us-ascii?Q?ZTFNNy95Kc4s75lVkTnOtShGECa8X8wkas+p0wPfLRq22fs85MPhfE6VY8it?=
- =?us-ascii?Q?B4wyXaBjaSsEOCD+2beqg6Z9KzzZZP+po6G3C0EfeLGy0bT3RtH1kFxnCxUk?=
- =?us-ascii?Q?Lxnn3vKs58de/Mw70O8OF4xjD8pFZscZ4wVLjoZigiNqsFj0GP8Y2puqOa9Q?=
- =?us-ascii?Q?BDLg11VCxG0IwJkhdpilWFOwldPg/1jOjR/+kc3p428XOrYtuBaN89myDg80?=
- =?us-ascii?Q?vz2hfRC/BsZuQivSasjb6I2bvkFW29VJWCKZlak1VP5V7XX/n+/CWa9qVA3S?=
- =?us-ascii?Q?kmsSWuAhbIAHhjn5nrk3A2taADNibTdZHYT0ZTzSiR5amekFY3HLsTiqLUPT?=
- =?us-ascii?Q?0aQdNP2beWW9Z1aEGt7hWDGBMpm8KM7hn8QOL36ltQQlnuT9LJOzCHrpKxmM?=
- =?us-ascii?Q?s64Acq0FkWI0PZ+NRJhJFeNAy19ShA8wldKDb3bx8vuBDyl6IcOvQsZf1+CM?=
- =?us-ascii?Q?EYMRWWLgCJn5ZeKxxlE8REPxBVMNv6EHOBmAngD2uwRpBQleYJE6JvFUTro9?=
- =?us-ascii?Q?Pc3Yspg5v3zkZX6YQ1s9H38eQ0zhVe0lol/i+sjh0ufN3auLj22FPP+GfKA0?=
- =?us-ascii?Q?CRypm8QAzaNC7iQfgsmzsWg+v+w/EwBRP82qkf/wgsQL32w5iTz67+0sXhPC?=
- =?us-ascii?Q?KlXyykxZf3Rl/PamyTMBqJcSVA8f5lI4vNAtFmcTo7mBGF1Iouck+kKk5xmf?=
- =?us-ascii?Q?oVau3x+SKMB5Q8eh+QdD+Gg/V5Vc/kiAr1wUGVyBOSnK/TXo8PaCfsW5VXn7?=
- =?us-ascii?Q?yQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Tue, 1 Nov 2022 04:23:58 -0400
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDB1B13EB2;
+        Tue,  1 Nov 2022 01:23:57 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id fz10so3171633qtb.3;
+        Tue, 01 Nov 2022 01:23:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oV9IoANGr7KjTrgD9Er5Ouofy/hTns0x+o38tZjPpPU=;
+        b=VIqBUVhvVPunqfm5zy7DGyIUW87X/2nXzy3tsIyLP0TRopusKyKKIF6EPNuOB1lkJx
+         fsMdb3fsh6Au9MXmtnEsd6lOXMzIffBIkXm9xH5eL+IND4FXikngZoquclltK9kyWxrT
+         moThGB50NEMiIB2nBrJZkjCyvxURRnpnM06oFYg1IreAeDJub+D1lQFL/iUp7BSGQoVo
+         N28vQEPL5MZpS0kL5nKxafC+gObISvFZp8G1WL2reWtWbQ4st6/abSt8MPXRcfoW10Ts
+         03X0mNlQfOrP/2dK+XFCRIcmB3cvQmMjFtuKFFoK6t1LzcZ0kiJPeTyvF/jakgMr6pW8
+         zZBg==
+X-Gm-Message-State: ACrzQf2/JYMOPGR4TebyaVWjB1KAQmaD/p2twsSmQiMgw2sA7Nn4GTfw
+        PLiOt8WC1Xh4KKgTPFlAdMnzoMXpVOC/Ew==
+X-Google-Smtp-Source: AMsMyM6ncAi1nR6qFhisl9xZL7qu2dKvisZb5735klZsafny9A3b5SuVVlMfO4Ja3K3H9s65GJtR0Q==
+X-Received: by 2002:ac8:4c9b:0:b0:3a5:1721:8023 with SMTP id j27-20020ac84c9b000000b003a517218023mr11859817qtv.523.1667291036850;
+        Tue, 01 Nov 2022 01:23:56 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id w20-20020a05620a445400b006eeae49537bsm6217812qkp.98.2022.11.01.01.23.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Nov 2022 01:23:56 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id i127so16451313ybc.11;
+        Tue, 01 Nov 2022 01:23:56 -0700 (PDT)
+X-Received: by 2002:a25:6b07:0:b0:6cd:3a43:bfe5 with SMTP id
+ g7-20020a256b07000000b006cd3a43bfe5mr3924009ybc.89.1667291036065; Tue, 01 Nov
+ 2022 01:23:56 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63cbcb09-509d-483d-b3b1-08dabbdf016d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Nov 2022 07:59:30.1945
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8n6pLGcROGB53GMyNi2jsMTZyg6s1FsBSDJ1JvJA1yTfCuQfNHWNiQynLfASm/QWthwtC2e1xSOaT9lFyJZCvCIDdXwP3vlV5dZVHpMtFMQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB9440
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <9c41a4372b27420c732ff5599d823e363de00c6d.1657704829.git.geert+renesas@glider.be>
+ <ed791d5270ce8684085b47d83332ef0aa172e1d0.camel@linux.ibm.com>
+In-Reply-To: <ed791d5270ce8684085b47d83332ef0aa172e1d0.camel@linux.ibm.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 1 Nov 2022 09:23:39 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVHf5ydfJtmzkEF89ey-HUM4+vmECDoia0r4YTKvijTkg@mail.gmail.com>
+Message-ID: <CAMuHMdVHf5ydfJtmzkEF89ey-HUM4+vmECDoia0r4YTKvijTkg@mail.gmail.com>
+Subject: Re: [PATCH] PCI: Fix dropping valid root bus resources with .end = zero
+To:     Niklas Schnelle <schnelle@linux.ibm.com>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Rob Herring <robh@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Pavel,
+Hi Niklas,
 
-Thanks for the feedback.
+On Mon, Oct 31, 2022 at 12:56 PM Niklas Schnelle <schnelle@linux.ibm.com> wrote:
+> On Wed, 2022-07-13 at 11:35 +0200, Geert Uytterhoeven wrote:
+> > On r8a7791/koelsch:
+> >
+> >     kmemleak: 1 new suspected memory leaks (see /sys/kernel/debug/kmemleak)
+> >     # cat /sys/kernel/debug/kmemleak
+> >     unreferenced object 0xc3a34e00 (size 64):
+> >       comm "swapper/0", pid 1, jiffies 4294937460 (age 199.080s)
+> >       hex dump (first 32 bytes):
+> >       b4 5d 81 f0 b4 5d 81 f0 c0 b0 a2 c3 00 00 00 00  .]...]..........
+> >       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+> >       backtrace:
+> >       [<fe3aa979>] __kmalloc+0xf0/0x140
+> >       [<34bd6bc0>] resource_list_create_entry+0x18/0x38
+> >       [<767046bc>] pci_add_resource_offset+0x20/0x68
+> >       [<b3f3edf2>] devm_of_pci_get_host_bridge_resources.constprop.0+0xb0/0x390
+> >
+> > When coalescing two resources for a contiguous aperture, the first
+> > resource is enlarged to cover the full contiguous range, while the
+> > second resource is marked invalid.  This invalidation is done by
+> > clearing the flags, start, and end members.
+> >
+> > When adding the initial resources to the bus later, invalid resources
+> > are skipped.  Unfortunately, the check for an invalid resource considers
+> > only the end member, causing false positives.
+> >
+> > E.g. on r8a7791/koelsch, root bus resource 0 ("bus 00") is skipped, and
+> > no longer registered with pci_bus_insert_busn_res() (causing the memory
+> > leak), nor printed:
+> >
+> >      pci-rcar-gen2 ee090000.pci: host bridge /soc/pci@ee090000 ranges:
+> >      pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080000..0x00ee08ffff -> 0x00ee080000
+> >      pci-rcar-gen2 ee090000.pci: PCI: revision 11
+> >      pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
+> >     -pci_bus 0000:00: root bus resource [bus 00]
+> >      pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08ffff]
+> >
+> > Fix this by only skipping resources where all of the flags, start, and
+> > end members are zero.
+> >
+> > Fixes: 7c3855c423b17f6c ("PCI: Coalesce host bridge contiguous apertures")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > Is there any side effect of not registering the root bus resource with
+> > pci_bus_insert_busn_res()?  This is the resource created by
+> > of_pci_parse_bus_range(), and thus affects any DT platforms using
+> > "bus-range = <0 0>".
+> >
+> > Perhaps checking for "!res->flags" would be sufficient?
+> >
+> > I assume this still causes memory leaks on systems where resources are
+> > coalesced, as the second resource of a contiguous aperture is no longer
+> > referenced? Perhaps instead of clearing the resource, it should be
+> > removed from the list (and freed? is it actually safe to do that?)?
+> >
+> > Apparently Johannes had identified the bug before, but didn't realize
+> > the full impact...
+> > https://lore.kernel.org/r/5331e942ff28bb191d62bb403b03ceb7d750856c.camel@sipsolutions.net/
+> > ---
+> >  drivers/pci/probe.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> > index 17a969942d37033a..be628798d279ada0 100644
+> > --- a/drivers/pci/probe.c
+> > +++ b/drivers/pci/probe.c
+> > @@ -994,7 +994,7 @@ static int pci_register_host_bridge(struct pci_host_bridge *bridge)
+> >       resource_list_for_each_entry_safe(window, n, &resources) {
+> >               offset = window->offset;
+> >               res = window->res;
+> > -             if (!res->end)
+> > +             if (!res->flags && !res->start && !res->end)
+> >                       continue;
+> >
+> >               list_move_tail(&window->node, &bridge->windows);
+>
+> Hi Geert, Hi Bjorn, Hi Kai-Heng,
+>
+> I just stumbled over this issue on s390 with the below kmemleak
+> splat[0]. On s390 we currently always have a single PCI bus with bus
+> number 00 per PCI domain so this is triggered whenever there are PCI
+> devices attached to the system.
+>
+> Applying the patch from this mail makes the splat go away and the
+> 'pci_bus 0002:00: root bus resource [bus 00]' message reappear. As this
+> mail is from July I guess it got lost and this was never picked up ;-(
 
-> Subject: Re: [PATCH] can: rcar_canfd:
-> rcar_canfd_handle_global_receive(): fix IRQ storm on global FIFO
-> receive
->=20
-> Hi!
->=20
-> > Fixes: dd3bd23eb438 ("can: rcar_canfd: Add Renesas R-Car CAN FD
-> > driver")
-> > Suggested-by: Marc Kleine-Budde <mkl@pengutronix.de>
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Link:
-> > https://lore.kernel.org/all/20221025155657.1426948-2-
-> biju.das.jz@bp.re
-> > nesas.com
-> > Cc: stable@vger.kernel.org#5.15.y
-> > [mkl: adjust commit message]
->=20
-> I got 7 or so copies of this, with slightly different Cc: lines.
+Sorry, I still have to go over all patches submitted last summer that
+didn't make it...
 
-I followed option 1 mentioned in [1]
+> For now feel free to add my:
+>
+> Tested-by: Niklas Schnelle <schnelle@linux.ibm.com>
 
-[1] https://www.kernel.org/doc/html/v5.10/process/stable-kernel-rules.html
+Thanks!
 
+Gr{oetje,eeting}s,
 
->=20
-> AFAICT this is supposed to be stable kernel submission. In such case,
-> I'd expect [PATCH 4.14, 4.19, 5.10] in the subject line, and original
-> sign-off block from the mainline patch.
+                        Geert
 
-OK. Maybe [1] needs updating.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
->=20
-> OTOH if it has Fixes tag (and it does) or Cc: stable (it has both),
-> normally there's no need to do separate submission to stable, as Greg
-> handles these automatically?
-
-I got merge conflict mails for 4.9, 4.14, 4.19, 5.4, 5.10 and 5.15 stable.
-I thought, I need to fix the conflicts and resend. Am I missing anything?? =
-Please let me know.
-
-Cheers,
-biju
-
-
-
-
-
-
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
