@@ -2,173 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 339D9614613
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Nov 2022 09:57:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAD5B61461E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Nov 2022 10:01:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229950AbiKAI5p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Nov 2022 04:57:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40082 "EHLO
+        id S229645AbiKAJBa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Nov 2022 05:01:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229936AbiKAI5m (ORCPT
+        with ESMTP id S229601AbiKAJB3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Nov 2022 04:57:42 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D54A186F3;
-        Tue,  1 Nov 2022 01:57:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667293061; x=1698829061;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=msnEZkv3YQ45VUNdt3VQyEvi87+GNc4MrWptBr/Uq0I=;
-  b=mz7L7Ruf5CToUEAY8QuwOSVAYGKh7zSKoqvXwHU++JKoSipgEzog7scb
-   dzLQ2HiNLN81gCWmTi7Kh682HHioxZ9uZmohIrMWiYOuILl1FmjvzxW3Q
-   J7CpkQnSPvVkcmEUIW8WWrT13SXDdpwwNjOpbh2W8d4dKSAHuRN3hKrpr
-   U4tWaEMSQVj5rOxB/obheVexWOepe3mu+oRtZRBHtxcxTW3VmWhzwVdz1
-   f796HbFX9PoSIvu6g0155m9sPa9qKeE2vg5b31KQYqrwqoNPCOacBpoID
-   UqvNLJUOoMS+zOaDuC7SdBrteZfdJAinEhQS+q3qQ+K6EyF+B7tr5MOo8
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="309095587"
-X-IronPort-AV: E=Sophos;i="5.95,230,1661842800"; 
-   d="scan'208";a="309095587"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 01:57:41 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="697337066"
-X-IronPort-AV: E=Sophos;i="5.95,230,1661842800"; 
-   d="scan'208";a="697337066"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 01:57:37 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id B8EF220207;
-        Tue,  1 Nov 2022 10:57:34 +0200 (EET)
-Date:   Tue, 1 Nov 2022 08:57:34 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4 4/4] media: platform: Add Renesas RZ/G2L CRU driver
-Message-ID: <Y2Dffvzr24FCG1Lw@paasikivi.fi.intel.com>
-References: <20221027103104.74576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221027103104.74576-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y1qCbUoLrR6qlQwa@paasikivi.fi.intel.com>
- <CA+V-a8seroka4YkyCnSYa2KMPDWMG1Zk8tyiqRntdPUQnc+nrA@mail.gmail.com>
- <Y1vJbJfFjV9jRNzz@paasikivi.fi.intel.com>
- <CA+V-a8tONhJ1_x3T7+6n7tu=xyFBZfsqT2v3iUGd2Jy5_NuZCg@mail.gmail.com>
- <Y1+FFD4/XCY8HyYa@paasikivi.fi.intel.com>
- <CA+V-a8sKb4em07S5bYfe9RsgBnp3WDhf6bHu38LfuB2g+iJYZg@mail.gmail.com>
+        Tue, 1 Nov 2022 05:01:29 -0400
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5870060D8
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Nov 2022 02:01:28 -0700 (PDT)
+Received: by mail-qk1-f180.google.com with SMTP id v8so2643643qkg.12
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 01 Nov 2022 02:01:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=s482LsQY+Gn+Y9KAbhZLUP8g0j734KkAzf28xOFQ7eo=;
+        b=0CkUwYReq1uvFDjTrpAjTkxS94kblCG98ny21+w0VyRA0GZKR3963I40UkaTgILU7M
+         sIZbWMETzdUaYEtVstS+UgLsWRJo16wQdTwLc0CYyMwpvD0zQbJAKBAj9I0gdm6gw23g
+         mtx/fNZ916lGO/waRgTszu/0pdFfmABUXsZ34Askk3/jIHIUmOjY6F/+vvZHIpAF/B5V
+         APdPUAyV7y6VbZDBjzN3GKuV4V/toctC50BXHm5txZdn+0moETzIeaAQtTu/9pWBOcKt
+         TYKwzjcWBMU3JK9fL95A4hWJ59zVf3oPxOl1AdpB7prGcaPVr2wzWJllfepGwBJot1EP
+         dAnw==
+X-Gm-Message-State: ACrzQf3SAHAsE14toQfQ6dl6ewPqK2CheG8THyd312MPcBCn/XBZsMr+
+        xHD5OrrtYKc8/udoD6MCzrcPt5kfrWn6tg==
+X-Google-Smtp-Source: AMsMyM6itvw0PbLJZTQoq4LxSif7q0w+b13FBNBXjmPYiU7Pt/fYGdVpg9jFKH7AETiecyr/D1uLCQ==
+X-Received: by 2002:a05:620a:2a02:b0:6ee:7de4:9690 with SMTP id o2-20020a05620a2a0200b006ee7de49690mr12204017qkp.172.1667293287340;
+        Tue, 01 Nov 2022 02:01:27 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id f11-20020a05620a280b00b006f8665f483fsm6214131qkp.85.2022.11.01.02.01.26
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Nov 2022 02:01:27 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id g127so8033322ybg.8
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 01 Nov 2022 02:01:26 -0700 (PDT)
+X-Received: by 2002:a05:6902:503:b0:6cf:c510:6a23 with SMTP id
+ x3-20020a056902050300b006cfc5106a23mr348405ybs.380.1667293286625; Tue, 01 Nov
+ 2022 02:01:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8sKb4em07S5bYfe9RsgBnp3WDhf6bHu38LfuB2g+iJYZg@mail.gmail.com>
-X-Spam-Status: No, score=-8.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <166696261979.30092.16225355597116936447.git-patchwork-summary@kernel.org>
+In-Reply-To: <166696261979.30092.16225355597116936447.git-patchwork-summary@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 1 Nov 2022 10:01:11 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV+wSEGhf7PXQS2v-_hRFQP_53xH06jqtK84BU9m-+ykA@mail.gmail.com>
+Message-ID: <CAMuHMdV+wSEGhf7PXQS2v-_hRFQP_53xH06jqtK84BU9m-+ykA@mail.gmail.com>
+Subject: Re: Patchwork summary for: linux-renesas-soc
+To:     patchwork-bot+linux-renesas-soc@kernel.org,
+        helpdesk <helpdesk@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi pwbot,
 
-On Mon, Oct 31, 2022 at 12:40:28PM +0000, Lad, Prabhakar wrote:
-> Hi Sakari,
-> 
-> On Mon, Oct 31, 2022 at 8:19 AM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Hi Prabhakar,
-> >
-> > On Sun, Oct 30, 2022 at 10:32:43PM +0000, Lad, Prabhakar wrote:
-> > > Hi Sakari,
-> > >
-> > > On Fri, Oct 28, 2022 at 1:22 PM Sakari Ailus
-> > > <sakari.ailus@linux.intel.com> wrote:
-> > > >
-> > > > Hi Prabhakar,
-> > > >
-> > > > On Thu, Oct 27, 2022 at 08:04:40PM +0100, Lad, Prabhakar wrote:
-> > > > ...
-> > > > > > > +static int rzg2l_cru_ip_s_stream(struct v4l2_subdev *sd, int enable)
-> > > > > > > +{
-> > > > > > > +     struct rzg2l_cru_dev *cru;
-> > > > > > > +     int ret;
-> > > > > > > +
-> > > > > > > +     cru = v4l2_get_subdevdata(sd);
-> > > > > > > +
-> > > > > > > +     if (!cru->is_csi)
-> > > > > > > +             return -EINVAL;
-> > > > > > > +
-> > > > > > > +     ret = v4l2_subdev_call(cru->ip.remote, video, s_stream, enable);
-> > > > > >
-> > > > > > It's up to the driver how call pre_streamon() and post_streamoff(), as long
-> > > > > > as it takes place on both sides of s_stream().
-> > > > > >
-> > > > > > In other words, as it seems your device doesn't need anything special, you
-> > > > > > could waive implemeting the callbacks yourself and call pre_streamon() and
-> > > > > > post_streamoff() here.
-> > > > > >
-> > > > > Here the cru->ip.remote = CSI, in the rzg2l_cru_set_stream(1) where we
-> > > > > are calling pre_streamon()/post_streamoff() callbacks the subdev is
-> > > > > CRU-IP. So the calls from rzg2l_cru_set_stream() land into
-> > > > > rzg2l_cru_ip_pre_streamon() and rzg2l_cru_ip_post_streamoff() which
-> > > > > are calling pre_streamon/post_streamoff for the CSI subdev.
-> > > >
-> > > > Again, you should call the source sub-device's pre_streamon and
-> > > > post_streamoff from the s_stream handler (not from
-> > > > rzg2l_cru_ip_pre_streamon or rzg2l_cru_ip_post_streamoff).
-> > > >
-> > > > Starting streaming takes place link by link. This allows a driver to omit
-> > > > implementing pre_streamon and post_streamon callbacks if it doesn't need
-> > > > them.
-> > > >
-> > > Thank you for the explanation that makes sense now to me.
-> > >
-> > > Now with this approach the initialization sequence of CSI + CRU won't
-> > > align as per the HW manual. Unfortunately I'll have to switch back on
-> > > exporting the functions. I hope that's okay?
-> >
-> > It is not.
-> >
-> > What exactly would you like to do that you can't with the
-> > pre_streamon/post_streamoff callbacks called from s_stream?
-> >
-> The initialization sequence for MIPI CSI [0]. As per [0] we need to
-> initialize the CSI2 dphy first then setup the AXI (part of CRU driver)
-> and then later MIPI CSI2 link (part of csi driver) and lastly turn on
-> clock and link (in the cru driver).
-> 
-> So as per the current implementation we have the below:
-> 1] CRU IP subdev is calling pre_stream for the CSI2 subdev in its
-> pre_stream on callback - This is where the CSI2 DPHY is initialized
-> 2] Later in the flow we initialize the AXI part - ie part of
-> rzg2l_cru_set_stream
-> 3] We call s_stream in rzg2l_cru_set_stream - This lands into CSI2
-> subdev to initialize the MIPI CSI2 Link
-> 4] In the rzg2l_cru_set_stream we setup up the vclk and enable link reception
-> 
-> [0] https://ibb.co/QpHNkLh
+A few more false-positives...
 
-How is this changed by calling the pre_streamon/post_streamoff callbacks
-from s_stream? I understand the pipeline device-wise is:
+On Fri, Oct 28, 2022 at 3:23 PM
+<patchwork-bot+linux-renesas-soc@kernel.org> wrote:
+> The following patches were marked "mainlined", because they were applied to
+> geert/renesas-devel.git (master):
 
-	... -> CSI-2 -> CRU
+[...]
 
-I wonder if it would be faster to discuss this on #linux-media.
+> Series: Rename DTB overlay source files
+>   Submitter: Andrew Davis <afd@ti.com>
+>   Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=688359
+>   Lore link: https://lore.kernel.org/r/20221024173434.32518-1-afd@ti.com
+>     Patches: [v2,1/7] kbuild: Allow DTB overlays to built from .dtso named source files
 
--- 
-Kind regards,
+This patch was not applied to geert/renesas-devel.git.
+It is still marked "New" in patchwork.
+It was applied by Rob Herring as commit 363547d2191cbc32 ("kbuild: Allow
+DTB overlays to built from .dtso named source files") in robh/for-next,
+and next-20221027 and later.
 
-Sakari Ailus
+>              [v2,4/7] arm64: dts: freescale: Rename DTB overlay source files from .dts to .dtso
+>              [v2,5/7] arm64: dts: renesas: Rename DTB overlay source files from .dts to .dtso
+>              [v2,6/7] arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
+
+These three patches were not applied to geert/renesas-devel.git.
+They are marked "Mainlined" in patchwork.
+They are not applied by anyone else (AFAIK), and are not part of linux-next.
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
