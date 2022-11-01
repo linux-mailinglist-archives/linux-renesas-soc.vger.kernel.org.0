@@ -2,99 +2,173 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 381C26145E4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Nov 2022 09:44:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 339D9614613
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Nov 2022 09:57:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229457AbiKAIoC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Nov 2022 04:44:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32814 "EHLO
+        id S229950AbiKAI5p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Nov 2022 04:57:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230084AbiKAIoB (ORCPT
+        with ESMTP id S229936AbiKAI5m (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Nov 2022 04:44:01 -0400
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7789B183B3
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Nov 2022 01:44:00 -0700 (PDT)
-Received: by mail-qt1-f178.google.com with SMTP id hh9so8863549qtb.13
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 01 Nov 2022 01:44:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OW5NQpROzo7oPbjT0qkDSpEA4IuEKxlB5hu1uVeIcig=;
-        b=F/5G1bosf2+OqZtCriJ+JnaxqKwKYKYcmEq9tJLqES7Mjjc1f56Cigv0PBYGFazEa/
-         ZuQbsU+X+bfG0g7dNuB1MX6nwqUnKdF58G9A936STtyDyFaALY66liwIz2kmgYBs+mug
-         sBNFAoSa1vvbZwu4gAPIBdLwHqsWLi+eJg2vReS184V63z2VOllx6TccsvlVrNwe8Awf
-         s4MNfKHIwIuz2teJC1JtpkabcTZrkLx9ILqWLjp984zOl6XrNTQHKS/ih09cUsjrYdf+
-         FDSX94KLPQRrJ3X20/0tFEs9Ay/yvmorUSGgsYM6a/f/o83Nut9qCTMjjIW93XvzIqnb
-         AhZg==
-X-Gm-Message-State: ACrzQf3ajMkuWOlpR8HglABcL52xGZumAlCunp4EVDCrRcMGlnAiV0RP
-        TxbYqwBhb9q3IGW+WcjrUu7QWPDBAuW/Ow==
-X-Google-Smtp-Source: AMsMyM4fv4H7l0CWU42xWe/Lw4yggu+wSt8Twj/Roktlg2DV0yxEtCfW0a8mc40SYKuTXa2r24m0fg==
-X-Received: by 2002:ac8:5cca:0:b0:39d:952:1b41 with SMTP id s10-20020ac85cca000000b0039d09521b41mr13896698qta.602.1667292239366;
-        Tue, 01 Nov 2022 01:43:59 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id e1-20020ac84b41000000b00398ed306034sm4808484qts.81.2022.11.01.01.43.58
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Nov 2022 01:43:59 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id 63so16549906ybq.4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 01 Nov 2022 01:43:58 -0700 (PDT)
-X-Received: by 2002:a05:6902:503:b0:6cf:c510:6a23 with SMTP id
- x3-20020a056902050300b006cfc5106a23mr304052ybs.380.1667292238702; Tue, 01 Nov
- 2022 01:43:58 -0700 (PDT)
+        Tue, 1 Nov 2022 04:57:42 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D54A186F3;
+        Tue,  1 Nov 2022 01:57:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667293061; x=1698829061;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=msnEZkv3YQ45VUNdt3VQyEvi87+GNc4MrWptBr/Uq0I=;
+  b=mz7L7Ruf5CToUEAY8QuwOSVAYGKh7zSKoqvXwHU++JKoSipgEzog7scb
+   dzLQ2HiNLN81gCWmTi7Kh682HHioxZ9uZmohIrMWiYOuILl1FmjvzxW3Q
+   J7CpkQnSPvVkcmEUIW8WWrT13SXDdpwwNjOpbh2W8d4dKSAHuRN3hKrpr
+   U4tWaEMSQVj5rOxB/obheVexWOepe3mu+oRtZRBHtxcxTW3VmWhzwVdz1
+   f796HbFX9PoSIvu6g0155m9sPa9qKeE2vg5b31KQYqrwqoNPCOacBpoID
+   UqvNLJUOoMS+zOaDuC7SdBrteZfdJAinEhQS+q3qQ+K6EyF+B7tr5MOo8
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="309095587"
+X-IronPort-AV: E=Sophos;i="5.95,230,1661842800"; 
+   d="scan'208";a="309095587"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 01:57:41 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="697337066"
+X-IronPort-AV: E=Sophos;i="5.95,230,1661842800"; 
+   d="scan'208";a="697337066"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 01:57:37 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id B8EF220207;
+        Tue,  1 Nov 2022 10:57:34 +0200 (EET)
+Date:   Tue, 1 Nov 2022 08:57:34 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v4 4/4] media: platform: Add Renesas RZ/G2L CRU driver
+Message-ID: <Y2Dffvzr24FCG1Lw@paasikivi.fi.intel.com>
+References: <20221027103104.74576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221027103104.74576-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y1qCbUoLrR6qlQwa@paasikivi.fi.intel.com>
+ <CA+V-a8seroka4YkyCnSYa2KMPDWMG1Zk8tyiqRntdPUQnc+nrA@mail.gmail.com>
+ <Y1vJbJfFjV9jRNzz@paasikivi.fi.intel.com>
+ <CA+V-a8tONhJ1_x3T7+6n7tu=xyFBZfsqT2v3iUGd2Jy5_NuZCg@mail.gmail.com>
+ <Y1+FFD4/XCY8HyYa@paasikivi.fi.intel.com>
+ <CA+V-a8sKb4em07S5bYfe9RsgBnp3WDhf6bHu38LfuB2g+iJYZg@mail.gmail.com>
 MIME-Version: 1.0
-References: <635c2176.170a0220.dc0ac.5f06@mx.google.com>
-In-Reply-To: <635c2176.170a0220.dc0ac.5f06@mx.google.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 1 Nov 2022 09:43:44 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVoguo5knqDKeSEdyYGFFgjMLHKGsZPLks845kOpiBT2g@mail.gmail.com>
-Message-ID: <CAMuHMdVoguo5knqDKeSEdyYGFFgjMLHKGsZPLks845kOpiBT2g@mail.gmail.com>
-Subject: Re: renesas/next baseline: 306 runs, 11 regressions (renesas-next-2022-10-28-v6.1-rc1)
-To:     "kernelci.org bot" <bot@kernelci.org>
-Cc:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8sKb4em07S5bYfe9RsgBnp3WDhf6bHu38LfuB2g+iJYZg@mail.gmail.com>
+X-Spam-Status: No, score=-8.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Oct 28, 2022 at 8:44 PM kernelci.org bot <bot@kernelci.org> wrote:
-> renesas/next baseline: 306 runs, 11 regressions (renesas-next-2022-10-28-v6.1-rc1)
->
-> Regressions Summary
-> -------------------
->
-> platform                     | arch  | lab           | compiler | defconfig                    | regressions
-> -----------------------------+-------+---------------+----------+------------------------------+------------
-> at91sam9g20ek                | arm   | lab-broonie   | gcc-10   | at91_dt_defconfig            | 1
-> jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_defc...G_ARM_LPAE=y | 1
-> kontron-kbox-a-230-ls        | arm64 | lab-kontron   | gcc-10   | defconfig+CON...OMIZE_BASE=y | 1
-> kontron-kbox-a-230-ls        | arm64 | lab-kontron   | gcc-10   | defconfig+ima                | 1
-> mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chromebook   | 1
-> ox820-clouden...lug-series-3 | arm   | lab-baylibre  | gcc-10   | oxnas_v6_defconfig           | 1
-> rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chromebook   | 4
-> sc7180-trogdo...zor-limozeen | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chromebook   | 1
->
->   Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesas-next-2022-10-28-v6.1-rc1/plan/baseline/
+Hi Prabhakar,
 
-I believe none of these regressions are _introduced_ in renesas-next.
-Please improve your reporting.
-Thanks!
+On Mon, Oct 31, 2022 at 12:40:28PM +0000, Lad, Prabhakar wrote:
+> Hi Sakari,
+> 
+> On Mon, Oct 31, 2022 at 8:19 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Prabhakar,
+> >
+> > On Sun, Oct 30, 2022 at 10:32:43PM +0000, Lad, Prabhakar wrote:
+> > > Hi Sakari,
+> > >
+> > > On Fri, Oct 28, 2022 at 1:22 PM Sakari Ailus
+> > > <sakari.ailus@linux.intel.com> wrote:
+> > > >
+> > > > Hi Prabhakar,
+> > > >
+> > > > On Thu, Oct 27, 2022 at 08:04:40PM +0100, Lad, Prabhakar wrote:
+> > > > ...
+> > > > > > > +static int rzg2l_cru_ip_s_stream(struct v4l2_subdev *sd, int enable)
+> > > > > > > +{
+> > > > > > > +     struct rzg2l_cru_dev *cru;
+> > > > > > > +     int ret;
+> > > > > > > +
+> > > > > > > +     cru = v4l2_get_subdevdata(sd);
+> > > > > > > +
+> > > > > > > +     if (!cru->is_csi)
+> > > > > > > +             return -EINVAL;
+> > > > > > > +
+> > > > > > > +     ret = v4l2_subdev_call(cru->ip.remote, video, s_stream, enable);
+> > > > > >
+> > > > > > It's up to the driver how call pre_streamon() and post_streamoff(), as long
+> > > > > > as it takes place on both sides of s_stream().
+> > > > > >
+> > > > > > In other words, as it seems your device doesn't need anything special, you
+> > > > > > could waive implemeting the callbacks yourself and call pre_streamon() and
+> > > > > > post_streamoff() here.
+> > > > > >
+> > > > > Here the cru->ip.remote = CSI, in the rzg2l_cru_set_stream(1) where we
+> > > > > are calling pre_streamon()/post_streamoff() callbacks the subdev is
+> > > > > CRU-IP. So the calls from rzg2l_cru_set_stream() land into
+> > > > > rzg2l_cru_ip_pre_streamon() and rzg2l_cru_ip_post_streamoff() which
+> > > > > are calling pre_streamon/post_streamoff for the CSI subdev.
+> > > >
+> > > > Again, you should call the source sub-device's pre_streamon and
+> > > > post_streamoff from the s_stream handler (not from
+> > > > rzg2l_cru_ip_pre_streamon or rzg2l_cru_ip_post_streamoff).
+> > > >
+> > > > Starting streaming takes place link by link. This allows a driver to omit
+> > > > implementing pre_streamon and post_streamon callbacks if it doesn't need
+> > > > them.
+> > > >
+> > > Thank you for the explanation that makes sense now to me.
+> > >
+> > > Now with this approach the initialization sequence of CSI + CRU won't
+> > > align as per the HW manual. Unfortunately I'll have to switch back on
+> > > exporting the functions. I hope that's okay?
+> >
+> > It is not.
+> >
+> > What exactly would you like to do that you can't with the
+> > pre_streamon/post_streamoff callbacks called from s_stream?
+> >
+> The initialization sequence for MIPI CSI [0]. As per [0] we need to
+> initialize the CSI2 dphy first then setup the AXI (part of CRU driver)
+> and then later MIPI CSI2 link (part of csi driver) and lastly turn on
+> clock and link (in the cru driver).
+> 
+> So as per the current implementation we have the below:
+> 1] CRU IP subdev is calling pre_stream for the CSI2 subdev in its
+> pre_stream on callback - This is where the CSI2 DPHY is initialized
+> 2] Later in the flow we initialize the AXI part - ie part of
+> rzg2l_cru_set_stream
+> 3] We call s_stream in rzg2l_cru_set_stream - This lands into CSI2
+> subdev to initialize the MIPI CSI2 Link
+> 4] In the rzg2l_cru_set_stream we setup up the vclk and enable link reception
+> 
+> [0] https://ibb.co/QpHNkLh
 
-Gr{oetje,eeting}s,
+How is this changed by calling the pre_streamon/post_streamoff callbacks
+from s_stream? I understand the pipeline device-wise is:
 
-                        Geert
+	... -> CSI-2 -> CRU
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+I wonder if it would be faster to discuss this on #linux-media.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Kind regards,
+
+Sakari Ailus
