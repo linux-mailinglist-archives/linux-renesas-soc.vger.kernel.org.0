@@ -2,96 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 22EAE614BC8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Nov 2022 14:31:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9108A614BDF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Nov 2022 14:38:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229531AbiKANbQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Nov 2022 09:31:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58494 "EHLO
+        id S229959AbiKANi1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Nov 2022 09:38:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230074AbiKANbM (ORCPT
+        with ESMTP id S229866AbiKANi0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Nov 2022 09:31:12 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF97D15823;
-        Tue,  1 Nov 2022 06:31:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 955B1B81D90;
-        Tue,  1 Nov 2022 13:31:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E585DC433D6;
-        Tue,  1 Nov 2022 13:31:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1667309469;
-        bh=3mnC+ohPX5eM5kabMfqS4VLYbl3w+VHP+O9hIGhQWPA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2RPpq2L0tufs3QfJAzzsU11zpwK88plYUKNLqNLLPAiPFkhc2TzAUAGYVFZ0r83da
-         yeK4H+Zzry0i9QdMHMiaUtQ3JvemxyKDjHj8cBTpEDRUpBksI41pT/JEOELPKfg0MR
-         gL6A4INBEPxoGShGyaFGY9+6VbohijR6nPW9Al5w=
-Date:   Tue, 1 Nov 2022 14:32:02 +0100
-From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Pavel Machek <pavel@denx.de>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Sasha Levin <sashal@kernel.org>,
-        "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCH] can: rcar_canfd: rcar_canfd_handle_global_receive(): fix
- IRQ storm on global FIFO receive
-Message-ID: <Y2Ef0hK4rTmAoEUs@kroah.com>
-References: <20221031143317.938785-1-biju.das.jz@bp.renesas.com>
- <20221101074351.GA8310@amd>
- <OS0PR01MB59222BA2B1CAA6CDA9B4137486369@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <83d70f8f-419c-2eb9-5130-782750772868@gmail.com>
+        Tue, 1 Nov 2022 09:38:26 -0400
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D5D82BF;
+        Tue,  1 Nov 2022 06:38:23 -0700 (PDT)
+Received: by mail-qk1-f175.google.com with SMTP id l9so9496640qkk.11;
+        Tue, 01 Nov 2022 06:38:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K+9k3LzVJhLHOoT31IHmRkr9T7Wq3FpXbHH08Qx0zJI=;
+        b=hW3kqn5frCNP7gxKzAdzOtsJ9VgAwsuQTKx2Nz0m9VKva4jfVyoeKzcmCZzObepQUz
+         X5koGoueEDyIwKUZUA7Ctyq2GOCqLrC3X2OHm1vFokePLGJk3qLAQZrdw0OQFqkt5uxA
+         XeTicxUoyT/wYCydeOeKCkMAs5xGl/bJ68XjfxOokviuvWYNRjIJd1DPYlbwSlxI+3uM
+         kWhIdbp/yHwoxYDCh+GKq6LMOUmuvra4zN/9JxBuUZXHYHtgxNWYovvncx4Uo6+QfSf9
+         A/jKIn4na+pNnkzqY/AJCMI7WEvk+ELuOKvWW9NQjqZuu1QP9IAm80gL6r8+HWb5d7oN
+         pDDQ==
+X-Gm-Message-State: ACrzQf3k+UnZpEyb1VLvIiDhbno6Nu6Qz9HQsii4pAryw/wLuHkhZOdY
+        KnVI3d6v5BZExflWbzsPQJ6M2KhQR4+zKQ==
+X-Google-Smtp-Source: AMsMyM4fh7FUZrSTZ5WqarmfnQ/A6fUHwt0ZLP66ReAW4fmQ5Ggh2zPKG3E4WFIrckuwFHgIDoO2uA==
+X-Received: by 2002:a05:620a:1438:b0:6fa:2196:20fd with SMTP id k24-20020a05620a143800b006fa219620fdmr9671701qkj.78.1667309901708;
+        Tue, 01 Nov 2022 06:38:21 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id w128-20020a379486000000b006ce76811a07sm6511365qkd.75.2022.11.01.06.38.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Nov 2022 06:38:20 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-3321c2a8d4cso136323477b3.5;
+        Tue, 01 Nov 2022 06:38:20 -0700 (PDT)
+X-Received: by 2002:a81:12c8:0:b0:36a:bd6b:92fb with SMTP id
+ 191-20020a8112c8000000b0036abd6b92fbmr17487708yws.316.1667309900285; Tue, 01
+ Nov 2022 06:38:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <83d70f8f-419c-2eb9-5130-782750772868@gmail.com>
-X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221019220242.4746-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20221019220242.4746-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20221019220242.4746-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 1 Nov 2022 14:38:09 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU6+qNQh2vFic89cnqDmUoyhrJTROCHPdoPguXAEnZMfA@mail.gmail.com>
+Message-ID: <CAMuHMdU6+qNQh2vFic89cnqDmUoyhrJTROCHPdoPguXAEnZMfA@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 2/2] soc: renesas: Add L2 cache management for
+ RZ/Five SoC
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <anup@brainfault.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Nov 01, 2022 at 07:36:20PM +0700, Bagas Sanjaya wrote:
-> On 11/1/22 14:59, Biju Das wrote:
-> >> I got 7 or so copies of this, with slightly different Cc: lines.
-> > 
-> > I followed option 1 mentioned in [1]
-> > > [1] https://www.kernel.org/doc/html/v5.10/process/stable-kernel-rules.html
-> > 
-> > 
-> >>
-> >> AFAICT this is supposed to be stable kernel submission. In such case,
-> >> I'd expect [PATCH 4.14, 4.19, 5.10] in the subject line, and original
-> >> sign-off block from the mainline patch.
-> > 
-> > OK. Maybe [1] needs updating.
-> 
-> The documentation says (in this case the third option applies):
-> 
-> > Send the patch, after verifying that it follows the above rules, to> stable@vger.kernel.org. You must note the upstream commit ID in the
-> > changelog of your submission, as well as the kernel version you wish
-> > it to be applied to.
-> 
-> It doesn't specify how to mark desired target branch, unfortunately.
+Hi Prabhakar,
 
-And that's fine, the submitter did the right thing here and gave me all
-of the information that I need.  Please do not confuse people, there is
-nothing wrong with the submission as-is.
+On Thu, Oct 20, 2022 at 12:02 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> On the AX45MP core, cache coherency is a specification option so it may
+> not be supported. In this case DMA will fail. As a workaround, firstly we
+> allocate a global dma coherent pool from which DMA allocations are taken
+> and marked as non-cacheable + bufferable using the PMA region as specified
+> in the device tree. Synchronization callbacks are implemented to
+> synchronize when doing DMA transactions.
+>
+> The Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
+> block that allows dynamic adjustment of memory attributes in the runtime.
+> It contains a configurable amount of PMA entries implemented as CSR
+> registers to control the attributes of memory locations in interest.
+>
+> Below are the memory attributes supported:
+> * Device, Non-bufferable
+> * Device, bufferable
+> * Memory, Non-cacheable, Non-bufferable
+> * Memory, Non-cacheable, Bufferable
+> * Memory, Write-back, No-allocate
+> * Memory, Write-back, Read-allocate
+> * Memory, Write-back, Write-allocate
+> * Memory, Write-back, Read and Write-allocate
+>
+> This patch adds support to configure the memory attributes of the memory
+> regions as passed from the l2 cache node and exposes the cache management
+> ops.
+>
+> More info about PMA (section 10.3):
+> http://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
+>
+> This feature is based on the work posted [0] by Vincent Chen
+> <vincentc@andestech.com> for the Andes AndeStart RISC-V CPU.
+>
+> [0] https://lore.kernel.org/lkml/1540982130-28248-1-git-send-email-vincentc@andestech.com/
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-thanks,
+Thanks for your patch!
 
-greg k-h
+> --- a/arch/riscv/include/asm/errata_list.h
+> +++ b/arch/riscv/include/asm/errata_list.h
+> @@ -89,6 +89,7 @@ asm volatile(ALTERNATIVE(                                             \
+>  #define ALT_THEAD_PMA(_val)
+>  #endif
+>
+> +#ifdef CONFIG_ERRATA_THEAD_CMO
+>  /*
+>   * dcache.ipa rs1 (invalidate, physical address)
+>   * | 31 - 25 | 24 - 20 | 19 - 15 | 14 - 12 | 11 - 7 | 6 - 0 |
+> @@ -143,5 +144,6 @@ asm volatile(ALTERNATIVE_2(                                         \
+>         : "a0")
+>
+>  #endif /* __ASSEMBLY__ */
+> +#endif
+
+FTR, the new #endif should be above the old #endif.
+
+I noticed because after rebasing on top of commit 65e9fb081877a18c
+("drivers/perf: riscv_pmu_sbi: add support for PMU variant on T-Head
+C9xx cores") in riscv/for-next, the build failed because the new
+ALT_SBI_PMU_OVERFLOW() definition ended up inside both #endifs,
+instead of between.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
