@@ -2,101 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 883FA616B5C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Nov 2022 19:00:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69859616D45
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Nov 2022 19:58:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229993AbiKBSAB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Nov 2022 14:00:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58788 "EHLO
+        id S231855AbiKBS6u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Nov 2022 14:58:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231283AbiKBR7y (ORCPT
+        with ESMTP id S231806AbiKBS6m (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Nov 2022 13:59:54 -0400
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64441DF02;
-        Wed,  2 Nov 2022 10:59:52 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 74CE9320099E;
-        Wed,  2 Nov 2022 13:59:50 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Wed, 02 Nov 2022 13:59:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; t=1667411990; x=1667498390; bh=7GRoQxQ5O/
-        7M/hCgn9KlfgoFjwoQ1yifn3eO5z+5VOY=; b=RXn6bWm7GTfW/yAE4+dGVwwgy/
-        UW8G0WWZva+W4EXS4eBCoztfMzY7FwruoLXM6zYXuvlIgLofLsVG1Lr4Fa77giS6
-        1SAU4NMJ3Y2mthTFIxYMMODwTVn8zdXoG7VYbAHu77s9/79Il4vPpFFS/hLI/fkF
-        J1NfpnA9SMXi1wpInq0oHLhbooOemddUqB+X6MpenRAK2/XrreqMQXf8hx79Bqa+
-        AYeNavWelj5jR3nI4YQj7bnxLYpO9pkeNfIa5yvspDpAx3lKcAZDqoc6JSzS25Ys
-        ZAj+Vx0E89R4+/zO60lRhrzLvaHizqTX6BDD8kDueRHUmVEpgHN4J+xeIFbA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1667411990; x=1667498390; bh=7GRoQxQ5O/7M/hCgn9KlfgoFjwoQ
-        1yifn3eO5z+5VOY=; b=ZrNtGnGJTkmajqMkJHdYo+u/cTYmUJ79yfOzoYFEzs1n
-        kRLuuuXsCdwk5N25zf3F31znCZAzbWRz7l4/IaiioigNJuMufUR+jWved/1Biyo3
-        iB+RNggbCX6j0erlJ7Efbyx/94JbngFthBQFvDMyrVTtiUhh//9MNG7vIOBN2G8v
-        ElqUTSyH7Ouv1xOOEwVUbHSGwYg++OpNvcdteFcZ+1pr6EH5qvU86wJ0eHwDigLw
-        Yf9D++8KGGdCYQGwSN46KZ6xXk8IMZqBbeISGbht4o5pyNSLXzE6boMtOGvfgieU
-        LBVBdWbWdKJdNLE96qsKMq6sFhz2NUcQ4Prven3Yiw==
-X-ME-Sender: <xms:FbBiY4wxCdWrv6f0_bkEiMl7Kb-f6ysnHjSrW-RaTBVPKWaTvoH71A>
-    <xme:FbBiY8T8c1SAIwBlrhDunEMcuS__JbmPZb6YFC0_pUIRz0k0sTNraUGF0WGfA-wPa
-    ev9Y37qbOszLaYtqK8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudejgddutdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:FbBiY6UPix6nnvEq0TY7cN55-1OemKmGO8icLhV7msNgJqzaSC_x9w>
-    <xmx:FbBiY2hTQ7g01Xx7Ja1EjeZnaTMnGXJdV0738-4-9sQUVh0T5IqGog>
-    <xmx:FbBiY6C3vUHt7Hnfeeq7WepyxeCtGX5GvuLHCEqYimzKHbgo7LPCng>
-    <xmx:FrBiY1qcyjSY84IEFydVqf4Z3AbN3kV67bT7TG7Vzd-6wl-3ne43rw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id BB6C5B603EA; Wed,  2 Nov 2022 13:59:49 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1087-g968661d8e1-fm-20221021.001-g968661d8
-Mime-Version: 1.0
-Message-Id: <5b882121-f129-4130-bd5c-507072463a41@app.fastmail.com>
-In-Reply-To: <20221102125430.28466-1-wsa+renesas@sang-engineering.com>
+        Wed, 2 Nov 2022 14:58:42 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C14A81054E
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Nov 2022 11:58:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=CVQfVYsusTV5YbUJ5tvTqTLZtBuv
+        1EJx+Rrd8GG7anQ=; b=1xiFxe0w0wQTs0c8enDJAUONMjRN68BrLfGZ0Yafplq+
+        6+MDrtD4H95V3mEcckyDQqZ6JmjKaCDfHguZmM5YxVetUufY9eizHRWAofcbB1/p
+        XpFVEXCMBwkBq+2rCWWlmuHhfVsVySaeONBiyKpblbN/YDxpjIANc7dJFNDNHg0=
+Received: (qmail 2321701 invoked from network); 2 Nov 2022 19:58:32 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Nov 2022 19:58:32 +0100
+X-UD-Smtp-Session: l3s3148p1@IBUfbYHs6qAujns0
+Date:   Wed, 2 Nov 2022 19:58:29 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [RFC PATCH 0/2] mmc: tmio: further cleanups after kmap_atomic
+ removal
+Message-ID: <Y2K91TZLLJhwsHfH@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 References: <20221102125430.28466-1-wsa+renesas@sang-engineering.com>
-Date:   Wed, 02 Nov 2022 18:59:27 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Wolfram Sang" <wsa+renesas@sang-engineering.com>,
-        "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [RFC PATCH 0/2] mmc: tmio: further cleanups after kmap_atomic removal
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+ <5b882121-f129-4130-bd5c-507072463a41@app.fastmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="WUhn73sTmuvknFMo"
+Content-Disposition: inline
+In-Reply-To: <5b882121-f129-4130-bd5c-507072463a41@app.fastmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Nov 2, 2022, at 13:54, Wolfram Sang wrote:
-> Thanks to Adrian's patches mentioned in patch 1 in this series, we can
-> now simplify the TMIO driver a tad further to ease future refactoring.
-> This is marked as RFC because testing the corner cases is not so easy so
-> extra eyes for review are more than welcome.
->
-> Thanks and happy hacking!
->
 
-Hi Wolfram,
+--WUhn73sTmuvknFMo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I haven't posted my PXA boardfile patches yet, but after that
-series, the separate tmio MFD devices (MFD_TMIO, MFD_ASIC3)
-will all be gone, and tmio-mmc will only be used by SuperH,
-Arm MACH_RENESAS and MACH_UNIPHIER. I hope this doesn't conflict
-too much with your work and instead opens up further cleanups.
+Hi Arnd,
 
-       Arnd
+> I haven't posted my PXA boardfile patches yet, but after that
+> series, the separate tmio MFD devices (MFD_TMIO, MFD_ASIC3)
+> will all be gone, and tmio-mmc will only be used by SuperH,
+> Arm MACH_RENESAS and MACH_UNIPHIER. I hope this doesn't conflict
+> too much with your work and instead opens up further cleanups.
+
+Definately the latter. You didn't send the patches but you did send the
+coverletter for the PXA work. Just skimming from that, I see potential
+for more cleanups regarding the TMIO MMC/Renesas SDHI driver. Looking
+really forward to it :)
+
+Happy hacking,
+
+   Wolfram
+
+
+--WUhn73sTmuvknFMo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNivdEACgkQFA3kzBSg
+KbZdrxAAlLEeSXQqKM9gJF41Hh/zqHFdLe3eCcmPDDAJaRnToutnTxfVFP1l0Ri6
+tLNshAV22U3H97AJ/ejcVdyP6uacHE4ZuEWISwaF+vEiFrgsRYesyE1sYYF+btdj
+Ygit1wPd8mymZFBmbQBFdWyGALvVI0HKlk2zASODz1d3T1d3qBibhUXxEDnMYCR0
+HuJYiaER/zHv9xgoP4ufBHjImUBV/JuSHNbiqAVAKWoptCQ5tHph5HeT2ekIeKWh
+aVbL4MUB3XqQVIvUJGP1uAu7M32M7OQtFVA6PkdYtzEzjAkxtU9R4e/y7G1UeE/n
+/tcf/FmD2ko71x/clUUkfwGGRbI8/H9Oeu/1IMaxryniUn4I8UX9gwTqWWhDA+wq
+dM7f27MoiM/HbCjtyGX0Js6Ba8UB0RJN80mkns02UONhs5U0jjv2W3eU9w6jEw5E
+/DvayBZGEoL6rr106we4LwRHLK+qudOjDHY7j30d8TLeZNfHd/3/iWXMHmCsXzxe
+JjCGgjaHZBFPRoqlj2WA3b9j4Z6MkeyimIYp2tHnzmWIK32f8NRVGu+oswGE/ys0
+oCQO1YovubJAlm+0ZUDUyB5U3/T/1QXvTQNEBNpk2hQgW8zydZNqawrasnBLnpDi
+t/chn8fkqJGDuRS8LZFlULXPdEPy0xsG422lYxKYvzskmA9BZuc=
+=aYCi
+-----END PGP SIGNATURE-----
+
+--WUhn73sTmuvknFMo--
