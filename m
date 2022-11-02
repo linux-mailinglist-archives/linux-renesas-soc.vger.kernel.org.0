@@ -2,67 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A7F8616016
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Nov 2022 10:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DDBF61605A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Nov 2022 11:02:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230298AbiKBJlZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Nov 2022 05:41:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52534 "EHLO
+        id S230132AbiKBKCW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Nov 2022 06:02:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230123AbiKBJlX (ORCPT
+        with ESMTP id S229459AbiKBKCV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Nov 2022 05:41:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEB7B22BE1
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Nov 2022 02:40:20 -0700 (PDT)
+        Wed, 2 Nov 2022 06:02:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65851205E7
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Nov 2022 03:01:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667382019;
+        s=mimecast20190719; t=1667383286;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=BsLrquRWckXT1s1aby8jZXWvTG60TzDOu2w8x1+2PdY=;
-        b=eEAnBVkZJbwzOPCO+Ba00Yn0YLXfCYE/kW0GIiTKFGtZptXm2xdCv81hCkTt6G0W0+ckN1
-        J3PQXDl4JZhhShU3rM6gg6Y9waiTMUIagw1GBGYxxmc2wXNu80JqKkN2IjYPSz5ToaFAtc
-        JLhaW78yBy/xS+nq1+oPvVRgjM4PvtA=
+        bh=QoVTRIE06q1gLaA+FiGPh2NoY5TNtlfidxMdk3t+aTM=;
+        b=fuSs/eA4/7vZhV+X35FsnJlEhJ/20+W2k2LZenlQ7FIAvrb5mWjQpHZEEE3G7/vkuBezcY
+        ci/Smj7q/Z7hIgWVlQx1F2hNiJZQuFSvdEElWEudDf6CzncUGzYGNXoMcPmOQDpm4N2pDn
+        leC3TPAoQgZGNS5Qf5k3LtPYa4n+dVI=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-351-nxcesowgO6CZTzkf0gPSiA-1; Wed, 02 Nov 2022 05:40:18 -0400
-X-MC-Unique: nxcesowgO6CZTzkf0gPSiA-1
-Received: by mail-wm1-f70.google.com with SMTP id c5-20020a1c3505000000b003c56da8e894so863278wma.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Nov 2022 02:40:18 -0700 (PDT)
+ us-mta-510-0OUbBfbDOOGYReRrMp6gYA-1; Wed, 02 Nov 2022 06:01:25 -0400
+X-MC-Unique: 0OUbBfbDOOGYReRrMp6gYA-1
+Received: by mail-wm1-f70.google.com with SMTP id d13-20020a05600c34cd00b003ce1f62ac5aso867915wmq.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Nov 2022 03:01:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BsLrquRWckXT1s1aby8jZXWvTG60TzDOu2w8x1+2PdY=;
-        b=B+SBBK+kJdTRWtNunqQA5WMWHNgIMovDkSgcPcMVra+WZtRsPmgFzNjazNiKFFerjZ
-         UeWcbvQfaguiXE1bg4Fl8ti14Bet6WwiFaOMjkLaGfUWgWJMlqoOI+DMd7V4BfisctL5
-         AzIoUJ9bFyYeWWJpuhgSC7d6nmKEWXZ6nCTG651D1YZHQrMUSns9NEnj2vP7IsZ/cs5S
-         QCRisJykRgNuvJlf2m2zBmH6CpJ3TYmIVkj22EX6+TAAKOyy4M7FC8B0KASZsdHLNqIX
-         ZI033DNsydsxVXVtHi6sqmCEvxa1fn0K76U6A+lfVqTLW1rSNXV2HUTqefSrPn3mITQq
-         HEoA==
-X-Gm-Message-State: ACrzQf1A0vxcDsMhO3SQ2LOuwSrgelb4BFxsXm9TJCyXbJYeUCurdc4d
-        ix4ZOFcTF+/6OyLAMys0Y+TRrwseRxE1QsgvtLGhshAfYJvxVy5DKmvY6DLSEDCYCTOo73AIJU/
-        mvz6meBmzulCOWN464Tee6zWfYwb9nNE=
-X-Received: by 2002:adf:ba8f:0:b0:22c:def3:1179 with SMTP id p15-20020adfba8f000000b0022cdef31179mr14547808wrg.571.1667382017691;
-        Wed, 02 Nov 2022 02:40:17 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5M29YlmTkXAEgNYduNYpaEq18eaSYaR/je5Gn7y2xNrovwH6Pttvb6rYpMLmmOPDm/qr+vag==
-X-Received: by 2002:adf:ba8f:0:b0:22c:def3:1179 with SMTP id p15-20020adfba8f000000b0022cdef31179mr14547781wrg.571.1667382017447;
-        Wed, 02 Nov 2022 02:40:17 -0700 (PDT)
+        bh=QoVTRIE06q1gLaA+FiGPh2NoY5TNtlfidxMdk3t+aTM=;
+        b=eDwHvZCij2Ev5xvbjXdwFt+vqjSLGqrTiyDNl3fvvIxnDuX7rUTA3tbcpJd1gAczLF
+         qoypC7h6eXVTtlm3u7pgHdbI22aJeJFRkaLxspxzas1Gt+Oz6HJ9WSa1SE598wla1pu0
+         z4+XEW6DYPfJ2nEcxNJlot4aApli6aisXN4FNuwRic09EvR8/sBSW+7kYYn2x0wOIf4Q
+         LGfA2dW4iejsLyCqdrlawPjh6rgED85ypyIti2Z/jXg74zzLa40glhAXgXNeCGVblETu
+         yFI0COpSfzzBDtfT2oDeyw2/oxt/ZW+2goXVAs8HIHmWS8LcRrTFmsvp56NMj55QUfHL
+         Vkrw==
+X-Gm-Message-State: ACrzQf3xnaUzlCZ8n0cdGpnMoL+GBvo3g/wiOBCszk+5uS/kYZbf4VI3
+        0XDC0x/YbmLAVk1BQ5IyIYOpy7kkk3q6GUwEZOYERiTH04EHffNjs1YXpZ/IZTPQeDQgH9BcMvs
+        4f2TV7p1OkVmxUVVh3e7r1yNWT9idCdo=
+X-Received: by 2002:a5d:5505:0:b0:236:582b:7eb0 with SMTP id b5-20020a5d5505000000b00236582b7eb0mr14405764wrv.68.1667383284422;
+        Wed, 02 Nov 2022 03:01:24 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5ieiweFPtXW5w3c0VZoUXMoQohTPuy1WtQBfT29g+UzlDhvHMzFOjUUUPFpm0LZwMa5DV8ag==
+X-Received: by 2002:a5d:5505:0:b0:236:582b:7eb0 with SMTP id b5-20020a5d5505000000b00236582b7eb0mr14405736wrv.68.1667383284200;
+        Wed, 02 Nov 2022 03:01:24 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id j20-20020a05600c191400b003b47e8a5d22sm1924445wmq.23.2022.11.02.02.40.15
+        by smtp.gmail.com with ESMTPSA id b13-20020a5d550d000000b002366b17ca8bsm14230263wrv.108.2022.11.02.03.01.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Nov 2022 02:40:16 -0700 (PDT)
-Message-ID: <7ac0da2c-0a43-4c02-4199-f48a50347171@redhat.com>
-Date:   Wed, 2 Nov 2022 10:40:15 +0100
+        Wed, 02 Nov 2022 03:01:23 -0700 (PDT)
+Message-ID: <1d2b9809-857f-48cc-1177-72e6fc67b8e5@redhat.com>
+Date:   Wed, 2 Nov 2022 11:01:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 19/21] drm/fb-helper: Always initialize generic fbdev
- emulation
+Subject: Re: [PATCH v2 20/21] drm/fb-helper: Move generic fbdev emulation into
+ separate source file
 Content-Language: en-US
 To:     Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
         airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
@@ -83,9 +83,9 @@ Cc:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
         linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
         xen-devel@lists.xenproject.org
 References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-20-tzimmermann@suse.de>
+ <20221024111953.24307-21-tzimmermann@suse.de>
 From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-20-tzimmermann@suse.de>
+In-Reply-To: <20221024111953.24307-21-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -99,16 +99,12 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 10/24/22 13:19, Thomas Zimmermann wrote:
-> Initialize the generic fbdev emulation even if it has been disabled
-> on the kernel command line. The hotplug and mode initialization will
-> fail accordingly.
-> 
-> The kernel parameter can still be changed at runtime and the emulation
-> will initialize after hotplugging the connector.
+> Move the generic fbdev implementation into its own source and header
+> file. Adapt drivers. No functonal changes, but some of the internal
+> helpers have been renamed to fit into the drm_fbdev_ naming scheme.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
-
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
