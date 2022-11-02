@@ -2,63 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F390A6156D4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Nov 2022 02:00:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D02FC6156D8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Nov 2022 02:02:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229772AbiKBBA0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Nov 2022 21:00:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38224 "EHLO
+        id S229920AbiKBBCe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Nov 2022 21:02:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbiKBBAZ (ORCPT
+        with ESMTP id S229528AbiKBBCd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Nov 2022 21:00:25 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08DD71F60B;
-        Tue,  1 Nov 2022 18:00:25 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id d26so41365170eje.10;
-        Tue, 01 Nov 2022 18:00:24 -0700 (PDT)
+        Tue, 1 Nov 2022 21:02:33 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 178B31F61D;
+        Tue,  1 Nov 2022 18:02:32 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id kt23so41375284ejc.7;
+        Tue, 01 Nov 2022 18:02:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cKOPjxW6hMffC27C/SCX+FUVc2eMjho9VRyb1I26W+A=;
-        b=WMeekXVXt4lsAnluw5FHfJXlbxIcWLcnK0/RbVL1jCWnwcib9Y/v8p/XxVAeCBO9DQ
-         sNQ6Q/hQkfJCuB3h5z7fiH09wV2j3CsLzSjQKJoaCnjvn1vOZcv9Y8Ofna042Tng4guC
-         RR742cQGy1mL7xZVk/+8ThiEG0hcPC3AdbHs8LmE0YtoDzy6PpgN4TU8VmDowr2XB4vs
-         IK77xH1Q1BB6X24V0KWE1p8qBtzIiupySA3AMX5CiqITFm2O+IggA3y0nmWZoGhTAwb6
-         gpmNVwNjfxUrSO8STeE10KBGR4kV7qNLS+RqCG9FXfiKc6sdLUaI3q0Nc3jZvXLShbMe
-         q1Iw==
+        bh=1NL65ctDu7Unb6G0NzPXkABlskH655QCWon4X0fuchI=;
+        b=hGawBFzd27Ll/+ulBi0YThZo+OCE5WQppu6U/JIsgVX9F19ZlS0csCHGEXm0OgpvMb
+         wpYrl+6aUFV00YDV+ZM14r6Vi1whkq7+IAblyUccWIXB7RouuehTaVLg/caaSzrgsxs5
+         zUetBOVuUl1O3Uh6fz0NprxI1JBc6ArkdhCC8skOvJMQqBStALqoeKSSUCLr1VnqSvpL
+         OzE5sWKTb8zxNC0/bUuy30pbNRr7J1Ry4ykBUCezoybx7125w1dwjSN/49CUF38idloA
+         SPuuSJOUUC2k8xQHm0A5eJ/C80NcViOSrRgHjQ+NbOBjTQDO0NlB46bvWWSXrjm2YRsx
+         w/tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cKOPjxW6hMffC27C/SCX+FUVc2eMjho9VRyb1I26W+A=;
-        b=ygecsmz1MENijTEyWn0tdEpxy5J1UHK6oB+1Z3KlNp0QxZDqJIAIyYU4qwecLF4CIO
-         Fj0hAjDUg6yahO9WSCGfst1WrqHrueqCiRDlkjt0ghLc4FZ4SuTL86oDeFyhfWDM96Cy
-         +uUcuT6gCLpFDxKIi5SGw0zrn0d9zEqjAPvCrShwhyVVyxf0i8Mqj3x8iu8wDJ35y4xE
-         o7DOgqePbtZ54bK4lmGeF+D8BoxZHWAGTqM2JnWLWiixfdFvJCpmimvtZs4vamqpDYLo
-         T6SJIrXEBUH6TIRCO2l9UnmryPxILNCeE4SwOOHWBRp1Opa87L+FuBULFFYBgm+9T3yw
-         oEgQ==
-X-Gm-Message-State: ACrzQf3Q8Kep7rWvu0HOsy/B+LGmgJpOUeix6BLautUqVbyHpgRFL+7x
-        AuWs/KZLVDlnJYQbFxv+whIVd/RVoNcK6Y7zdZQ=
-X-Google-Smtp-Source: AMsMyM7c/ABaJaKAKRpL8Ijw/KO0JHwmCdEqPhD5GS9nFJ96c+cfsR284v8V2kqJHwH5onhRriMFhzTVZ3Xb/F628+Q=
-X-Received: by 2002:a17:906:c14f:b0:793:30e1:96be with SMTP id
- dp15-20020a170906c14f00b0079330e196bemr21349587ejc.447.1667350823464; Tue, 01
- Nov 2022 18:00:23 -0700 (PDT)
+        bh=1NL65ctDu7Unb6G0NzPXkABlskH655QCWon4X0fuchI=;
+        b=Gs/inZsBzVTYE3OkT98bTjVGEcltopBPu9dHr6Q+AZJz2TSYWNpxfNcWLshgyWDcA8
+         7fKBtK7Jij1thZNMPHvBp9kKkw7RgPEvXHZezaaESNutuZVPpqWUeJ38LCX0f7yruqar
+         vX4UQsNVicI6l8v8IetkJdB3jvFmMtSBuCPR6VyME7rVInpL8kvCnwkT8x0+mKzLPTO5
+         GgSXkJmlUTVOOTKGVt7shqpPziYz9c/Sba9R18APxuI62XGaRWNNkedk/JBGBv28aH/g
+         pt+lJ5LTSXXOzR4MTewDGcGa2+r9eoZOXsYNwySwblVcsj76kQPbk/qS0B7Ta5/EYXJr
+         znpg==
+X-Gm-Message-State: ACrzQf3KTMnsThgVsQrtqRjSDDsly4dCTbpC5pGrDLz7foeaSDDaSGHE
+        tsp0aY7tTSxqz408eahkJvbn600KqZKXca7pUG4=
+X-Google-Smtp-Source: AMsMyM6sS5NbLcirE7cuNJF2ENVum0rp7FXZA+0mfV0A+E4UsSVJu+1ylaOAVgpzZgqxdwewr0jHMytjSwRGzUq5nGM=
+X-Received: by 2002:a17:906:371a:b0:7ad:c01c:6fa0 with SMTP id
+ d26-20020a170906371a00b007adc01c6fa0mr16456257ejc.267.1667350950657; Tue, 01
+ Nov 2022 18:02:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221019220242.4746-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221019220242.4746-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdU6+qNQh2vFic89cnqDmUoyhrJTROCHPdoPguXAEnZMfA@mail.gmail.com>
-In-Reply-To: <CAMuHMdU6+qNQh2vFic89cnqDmUoyhrJTROCHPdoPguXAEnZMfA@mail.gmail.com>
+ <20221019220242.4746-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXqh=wQaTYTuQ8vq__=2jvqRx1i9fpQsVPKpBJrBOy1Hw@mail.gmail.com>
+In-Reply-To: <CAMuHMdXqh=wQaTYTuQ8vq__=2jvqRx1i9fpQsVPKpBJrBOy1Hw@mail.gmail.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 2 Nov 2022 00:59:57 +0000
-Message-ID: <CA+V-a8sv9QVDfokN5LExu9p5GeCuHb99-mxBpugDk6J2LSB8SQ@mail.gmail.com>
+Date:   Wed, 2 Nov 2022 01:02:04 +0000
+Message-ID: <CA+V-a8uDo83ZvCwQdDtxEzLUDvs42AP3Kqd36tuB3+vYuG8WUw@mail.gmail.com>
 Subject: Re: [RFC PATCH v3 2/2] soc: renesas: Add L2 cache management for
  RZ/Five SoC
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
+        Palmer Dabbelt <palmer@dabbelt.co>,
         Albert Ou <aou@eecs.berkeley.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -87,7 +88,7 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Geert,
 
-On Tue, Nov 1, 2022 at 1:38 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Tue, Nov 1, 2022 at 12:43 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
 > Hi Prabhakar,
 >
@@ -132,31 +133,26 @@ On Tue, Nov 1, 2022 at 1:38 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
 > Thanks for your patch!
 >
-> > --- a/arch/riscv/include/asm/errata_list.h
-> > +++ b/arch/riscv/include/asm/errata_list.h
-> > @@ -89,6 +89,7 @@ asm volatile(ALTERNATIVE(                                             \
-> >  #define ALT_THEAD_PMA(_val)
-> >  #endif
+> > --- a/arch/riscv/mm/dma-noncoherent.c
+> > +++ b/arch/riscv/mm/dma-noncoherent.c
+> > @@ -24,13 +24,25 @@ void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
 > >
+> >         switch (dir) {
+> >         case DMA_TO_DEVICE:
 > > +#ifdef CONFIG_ERRATA_THEAD_CMO
-> >  /*
-> >   * dcache.ipa rs1 (invalidate, physical address)
-> >   * | 31 - 25 | 24 - 20 | 19 - 15 | 14 - 12 | 11 - 7 | 6 - 0 |
-> > @@ -143,5 +144,6 @@ asm volatile(ALTERNATIVE_2(                                         \
-> >         : "a0")
-> >
-> >  #endif /* __ASSEMBLY__ */
-> > +#endif
+> >                 ALT_CMO_OP(clean, vaddr, size, riscv_cbom_block_size);
+> > +#elif CONFIG_AX45MP_L2_CACHE
 >
-> FTR, the new #endif should be above the old #endif.
+> "#elif defined(CONFIG_AX45MP_L2_CACHE)" (everywhere)
 >
-> I noticed because after rebasing on top of commit 65e9fb081877a18c
-> ("drivers/perf: riscv_pmu_sbi: add support for PMU variant on T-Head
-> C9xx cores") in riscv/for-next, the build failed because the new
-> ALT_SBI_PMU_OVERFLOW() definition ended up inside both #endifs,
-> instead of between.
+> Else it may fail with:
 >
-Thanks for pointing this out.
+>     error: "CONFIG_AX45MP_L2_CACHE" is not defined, evaluates to 0
+> [-Werror=undef]
+>
+Agreed, thanks for pointing this out. Said that I plan to get rid of
+these checks in the next version (only after getting around the
+ALTERNATIVE() macro).
 
 Cheers,
 Prabhakar
