@@ -2,133 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C352A61691D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Nov 2022 17:33:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34B1D61697C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Nov 2022 17:43:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231819AbiKBQdo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Nov 2022 12:33:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56836 "EHLO
+        id S230409AbiKBQnw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Nov 2022 12:43:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231868AbiKBQcw (ORCPT
+        with ESMTP id S232043AbiKBQn1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Nov 2022 12:32:52 -0400
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BE7E2A739
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Nov 2022 09:29:01 -0700 (PDT)
-Received: by mail-qv1-xf2a.google.com with SMTP id ml12so12855777qvb.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Nov 2022 09:29:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wSLCTGltW3Pi3vNURWHl/J6vr0vOOEtgsi2cwjTbaHk=;
-        b=IBM51Ly+I+VOb6yQDBY5QFXqI4VLSSXLOi3e8mlWm0IvAkBPN8ujE746YJPCI2E6uU
-         SJhM61XFfmDf6N+5lYTlVW01Rhgt9IYTh4XUXnXz/WSgrP2OQG2uMF9nMZP5Rk3iBxsv
-         yqlnLtmV6EvvajTgj+5ozKpC4dOOL/4bD02y2Xo577MIAjxfBXQD9DpVekhEXTcgN8z9
-         rJ6GtIxN49Cx8s1aGXTOAB+DngWoU6ZPCFjkQ7UAJrffHSI78PnXukShZwQfcmvMYT4a
-         96gj54S1D5wNEy5IJQU7vJp17h1NvQ+/ovoL4PR0ESvVfgMlJ3hILNm5ZNfEw9UdQYcG
-         NpKg==
+        Wed, 2 Nov 2022 12:43:27 -0400
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E1D020BD1;
+        Wed,  2 Nov 2022 09:38:43 -0700 (PDT)
+Received: by mail-ot1-f41.google.com with SMTP id 16-20020a9d0490000000b0066938311495so10578517otm.4;
+        Wed, 02 Nov 2022 09:38:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wSLCTGltW3Pi3vNURWHl/J6vr0vOOEtgsi2cwjTbaHk=;
-        b=HDNOpc/IEBgI3RUkRUBKR19MU8srdE+ZIQ8oru41sXpnXyDWrMvGxpERkiG7Iw/D+z
-         dBgqLocofAC/FRwh0x7hrLPWqW3dMeIRiUXJ2/9xSgo8I21Dfc3aAVzHHT92fukWWs/p
-         9CDSNCTr+URSQ+LONSB5aEVU+hT5It/ZBXFNlN5jM8B5gN3t2F8mOOdYqllsvY/5k1aL
-         lPDoy4ZxTIjc0Ywd8/cAgMooOiA2SI8FuiuUvANySnwpDlvcRTrzEKf0YTrNe3q6Bxoj
-         VbZunW41G3LR+X8PJf1dY8wehh3RNxUx+uIhBYAsPKEj5+J8WdP6fCLzzGTPU6jEjUsp
-         Rszg==
-X-Gm-Message-State: ACrzQf1OUizC9kSFVx7a52QKglx16bGbKIjk0Rxk4DkG06aVGG0UY9Md
-        6jzmVcqfFEXOzc7kzocgtaGnqQ==
-X-Google-Smtp-Source: AMsMyM6vEdjs6pC2UwrHlF7jhERcEyWGRw3mHyE1j1GlNQHycpdB2Yn71e9EB42zr2iMMXdyy9CE4A==
-X-Received: by 2002:a05:6214:2a84:b0:4bc:e81:39e1 with SMTP id jr4-20020a0562142a8400b004bc0e8139e1mr10179419qvb.115.1667406540345;
-        Wed, 02 Nov 2022 09:29:00 -0700 (PDT)
-Received: from ?IPV6:2601:586:5000:570:28d9:4790:bc16:cc93? ([2601:586:5000:570:28d9:4790:bc16:cc93])
-        by smtp.gmail.com with ESMTPSA id u21-20020a37ab15000000b006fa1dc83a36sm7811228qke.64.2022.11.02.09.28.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Nov 2022 09:28:59 -0700 (PDT)
-Message-ID: <af086bd0-89da-d40a-6c45-742de69a8f47@linaro.org>
-Date:   Wed, 2 Nov 2022 12:28:57 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 1/2] dt-bindings: clock: qcom,gcc-ipq8074: use common GCC
- schema
-Content-Language: en-US
-To:     Stephen Boyd <sboyd@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Daniel Machon <daniel.machon@microchip.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Del Regno <angelogioacchino.delregno@somainline.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Govind Singh <govinds@codeaurora.org>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        Iskren Chernev <iskren.chernev@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jeffrey Hugo <quic_jhugo@quicinc.com>,
-        Jonathan Marek <jonathan@marek.ca>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Martin Botka <martin.botka@somainline.org>,
-        Mic hael Turquette <mturquette@baylibre.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Shawn Guo <shawn.guo@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        Taniya Das <tdas@codeaurora.org>, UNGLinuxDriver@microchip.com,
-        Vinod Koul <vkoul@kernel.org>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        devicetree@vger.kernel.org,
-        krishna Lanka <quic_vamslank@quicinc.com>,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U9ksTZ83TtbRKPPlqnz00eQ8hM+aPwJfXyLg4128WEI=;
+        b=cSW1HcnV9v9A6i8Q8SA9vRUqUA+6paC59MZklYcnI1NRCRX5WTI+9AtODGGeJ0cY+O
+         UkuTv0xxvOT6VGI/VNgU6Tg7zA3wLLZrOJkNe8xIcp83jvugNyHJB+OH4U1LpFmtJ0Rd
+         YPQ9TGmyP0UQ5dQiTAgr3qq9+gRRMWdBJ4MMl0KAIdOiDxqXrcIitJ/65fW4p8wxNZ7M
+         gPPrSKBmj33Q7zmEyA9Q5XLcSdm+1mKwaIiqRHgL4zYgS6iOFtAv9uNuQ/KwWccCXn0n
+         703LsEyZa9UjPYSIkpRc7jzGt/Xc9vVsqGmfEGeJE+uAFB7IPjzYrC/pDaKVF8BqZLJq
+         f4Yg==
+X-Gm-Message-State: ACrzQf0wR1HhE111VXE8oWlvBLW49WH8qreNrc4xMEMc+oTGrF2YsCrE
+        qKN7oobEO4FlayJyC3NJgA==
+X-Google-Smtp-Source: AMsMyM5E0phLlXbOOPIfqMi0psVJ3aAAbDHqmPGVzw82Uj2oW84WOtt0Hpm0fYkA+oJBV56lx5Ewuw==
+X-Received: by 2002:a05:6830:1f34:b0:66c:4a42:9ca5 with SMTP id e20-20020a0568301f3400b0066c4a429ca5mr10015204oth.175.1667407123140;
+        Wed, 02 Nov 2022 09:38:43 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id bh23-20020a056808181700b003547a3401e6sm4722569oib.43.2022.11.02.09.38.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Nov 2022 09:38:42 -0700 (PDT)
+Received: (nullmailer pid 4014126 invoked by uid 1000);
+        Wed, 02 Nov 2022 16:38:44 -0000
+Date:   Wed, 2 Nov 2022 11:38:44 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     linux-media@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
         linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        netdev@vger.kernel.org
-References: <20221028140326.43470-1-krzysztof.kozlowski@linaro.org>
- <20221101194805.9EE0EC433C1@smtp.kernel.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221101194805.9EE0EC433C1@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        linux-renesas-soc@vger.kernel.org,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-kernel@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Tu <shawnx.tu@intel.com>
+Subject: Re: [PATCH v4 5/9] media: dt-bindings: ov5645: Convert OV5645
+ binding to a schema
+Message-ID: <166740712341.4014070.1564117171862683626.robh@kernel.org>
+References: <20221031232202.131945-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221031232202.131945-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221031232202.131945-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 01/11/2022 15:48, Stephen Boyd wrote:
-> Quoting Krzysztof Kozlowski (2022-10-28 07:03:24)
->> Reference common Qualcomm GCC schema to remove common pieces.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
+
+On Mon, 31 Oct 2022 23:21:58 +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Should I pick this up into clk tree? Or are you going to apply it to
-> binding tree?
+> Convert the simple OV5645 Device Tree binding to json-schema.
+> 
+> The previous binding marked the below properties as required which was a
+> driver requirement and not the device requirement so just drop them from
+> the required list during the conversion.
+> - clock-frequency
+> - enable-gpios
+> - reset-gpios
+> 
+> Also drop the "clock-names" property as we have a single clock source for
+> the sensor and the driver has been updated to drop the clk referencing by
+> name.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> v3->v4:
+> * Used 4 spaces for example node
+> * Added reg property after compatible
+> 
+> v3:
+> * No change
+> 
+> v2 -> v3
+> * Dropped clock-names property
+> * Marked power supplies as mandatory
+> * Dropped the comment for voltage power supplies
+> * Included RB tag from Laurent
+> * Driver change to drop clock-names [0]
+> 
+> [0] https://lore.kernel.org/linux-media/Yyh%2F3uzOJOu3drEB@pendragon.ideasonboard.com/T/#t
+> 
+> v1 -> v2
+> * Dropped ref to video-interface-devices.yaml#
+> * Dropped driver specific required items from the list
+> * Updated commit message
+> * Dropped clock-lanes and bus-type from the port and example node
+> * Marked data-lanes as required in port node
+> ---
+>  .../devicetree/bindings/media/i2c/ov5645.txt  |  54 ---------
+>  .../bindings/media/i2c/ovti,ov5645.yaml       | 104 ++++++++++++++++++
+>  2 files changed, 104 insertions(+), 54 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
+> 
 
-I'll send v2 with subject fix pointed out by Rob and then please pick
-them up via clk.
-
-Best regards,
-Krzysztof
-
+Reviewed-by: Rob Herring <robh@kernel.org>
