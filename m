@@ -2,67 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DDBF61605A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Nov 2022 11:02:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D84F6616067
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Nov 2022 11:03:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230132AbiKBKCW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Nov 2022 06:02:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34026 "EHLO
+        id S230232AbiKBKD1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Nov 2022 06:03:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbiKBKCV (ORCPT
+        with ESMTP id S229681AbiKBKDZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Nov 2022 06:02:21 -0400
+        Wed, 2 Nov 2022 06:03:25 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65851205E7
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Nov 2022 03:01:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C109911172
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Nov 2022 03:02:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667383286;
+        s=mimecast20190719; t=1667383353;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=QoVTRIE06q1gLaA+FiGPh2NoY5TNtlfidxMdk3t+aTM=;
-        b=fuSs/eA4/7vZhV+X35FsnJlEhJ/20+W2k2LZenlQ7FIAvrb5mWjQpHZEEE3G7/vkuBezcY
-        ci/Smj7q/Z7hIgWVlQx1F2hNiJZQuFSvdEElWEudDf6CzncUGzYGNXoMcPmOQDpm4N2pDn
-        leC3TPAoQgZGNS5Qf5k3LtPYa4n+dVI=
+        bh=lYDm2f88uo7N+T5CuGh2kGVIDaWbYMjQLaRZ3nU/m+Y=;
+        b=ap5HxA5nVNBX4Kft77Bwp22PvJM5V9OpmiiEAw2stbn4gU+Gs5O+Y4jjxnUhYyK48Sa2H9
+        VdeuO4B+QuxURImRBUw0k/37Zkt2eUnI51CrT6GbQPXFqxWynnsaMbcqaYz0D0WearhG6L
+        lsJrFc0CDFyuArQOOPvOroA5dcElooY=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-510-0OUbBfbDOOGYReRrMp6gYA-1; Wed, 02 Nov 2022 06:01:25 -0400
-X-MC-Unique: 0OUbBfbDOOGYReRrMp6gYA-1
-Received: by mail-wm1-f70.google.com with SMTP id d13-20020a05600c34cd00b003ce1f62ac5aso867915wmq.4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Nov 2022 03:01:25 -0700 (PDT)
+ us-mta-352-aH3YJHmVP1WR8rAoR8utww-1; Wed, 02 Nov 2022 06:02:31 -0400
+X-MC-Unique: aH3YJHmVP1WR8rAoR8utww-1
+Received: by mail-wm1-f70.google.com with SMTP id az11-20020a05600c600b00b003c6e3d4d5b1so7746574wmb.7
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Nov 2022 03:02:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QoVTRIE06q1gLaA+FiGPh2NoY5TNtlfidxMdk3t+aTM=;
-        b=eDwHvZCij2Ev5xvbjXdwFt+vqjSLGqrTiyDNl3fvvIxnDuX7rUTA3tbcpJd1gAczLF
-         qoypC7h6eXVTtlm3u7pgHdbI22aJeJFRkaLxspxzas1Gt+Oz6HJ9WSa1SE598wla1pu0
-         z4+XEW6DYPfJ2nEcxNJlot4aApli6aisXN4FNuwRic09EvR8/sBSW+7kYYn2x0wOIf4Q
-         LGfA2dW4iejsLyCqdrlawPjh6rgED85ypyIti2Z/jXg74zzLa40glhAXgXNeCGVblETu
-         yFI0COpSfzzBDtfT2oDeyw2/oxt/ZW+2goXVAs8HIHmWS8LcRrTFmsvp56NMj55QUfHL
-         Vkrw==
-X-Gm-Message-State: ACrzQf3xnaUzlCZ8n0cdGpnMoL+GBvo3g/wiOBCszk+5uS/kYZbf4VI3
-        0XDC0x/YbmLAVk1BQ5IyIYOpy7kkk3q6GUwEZOYERiTH04EHffNjs1YXpZ/IZTPQeDQgH9BcMvs
-        4f2TV7p1OkVmxUVVh3e7r1yNWT9idCdo=
-X-Received: by 2002:a5d:5505:0:b0:236:582b:7eb0 with SMTP id b5-20020a5d5505000000b00236582b7eb0mr14405764wrv.68.1667383284422;
-        Wed, 02 Nov 2022 03:01:24 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5ieiweFPtXW5w3c0VZoUXMoQohTPuy1WtQBfT29g+UzlDhvHMzFOjUUUPFpm0LZwMa5DV8ag==
-X-Received: by 2002:a5d:5505:0:b0:236:582b:7eb0 with SMTP id b5-20020a5d5505000000b00236582b7eb0mr14405736wrv.68.1667383284200;
-        Wed, 02 Nov 2022 03:01:24 -0700 (PDT)
+        bh=lYDm2f88uo7N+T5CuGh2kGVIDaWbYMjQLaRZ3nU/m+Y=;
+        b=WJ+5sPVHg+Y0iLZyPZPDz28ZvBwhOhka/c8ZCbJBhv96UysUKPEHlbxewjhtl4vOQu
+         IL0VSHL6W+XndXtxD6mwZAK7YZUCYbyKllSuZVKJ4W3NL6gxIT5S3tdiXLrndcsI4xPT
+         IdRYYTznlVwixkHsmXT7D5jLr0+yQa870fg7uV2ev283YSRjk6a9tKIkyhBWcVYjcUc5
+         V6CzRrvcvuLTfkwv4XNcdnh+uJ5JUmXkQ2XRa/cf0WE+1880GzERfZrdqnxR5n/4px6X
+         +4eK7l+tPyGkuS3G5HZRcbwe6dC7VvSx8PUE7aMyujRX5+xS332t/gUtR7Q2Mf1ULrWy
+         fxBQ==
+X-Gm-Message-State: ACrzQf0hwmqh5kQyKyuXipVDUazxY5I1mrrnwOgcVEapB5POOBF5EEJq
+        zRohgCFF+HZabUI/R8Job8OKZzTce9oAXoyM61z+mcql8kuPCXTs0z7cNfQ19htF1mdXq33Gw34
+        wgnVW+UjrNCAXTIhIL/cLx7lOC0aDXH8=
+X-Received: by 2002:adf:f9cf:0:b0:236:6a26:c055 with SMTP id w15-20020adff9cf000000b002366a26c055mr14584869wrr.195.1667383350613;
+        Wed, 02 Nov 2022 03:02:30 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6OHHkFmpcUlQhLx4VZSF/FNGP0hsrmpEExWtKIxFg2Jf6dmbAckk/gQVQTytU8dXpfU2B04w==
+X-Received: by 2002:adf:f9cf:0:b0:236:6a26:c055 with SMTP id w15-20020adff9cf000000b002366a26c055mr14584846wrr.195.1667383350420;
+        Wed, 02 Nov 2022 03:02:30 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id b13-20020a5d550d000000b002366b17ca8bsm14230263wrv.108.2022.11.02.03.01.22
+        by smtp.gmail.com with ESMTPSA id fn13-20020a05600c688d00b003a3170a7af9sm1564836wmb.4.2022.11.02.03.02.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Nov 2022 03:01:23 -0700 (PDT)
-Message-ID: <1d2b9809-857f-48cc-1177-72e6fc67b8e5@redhat.com>
-Date:   Wed, 2 Nov 2022 11:01:22 +0100
+        Wed, 02 Nov 2022 03:02:30 -0700 (PDT)
+Message-ID: <68309442-ad39-36da-b1ec-680dd4129a7f@redhat.com>
+Date:   Wed, 2 Nov 2022 11:02:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 20/21] drm/fb-helper: Move generic fbdev emulation into
- separate source file
+Subject: Re: [PATCH v2 21/21] drm/fb-helper: Remove unnecessary include
+ statements
 Content-Language: en-US
 To:     Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
         airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
@@ -83,9 +83,9 @@ Cc:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
         linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
         xen-devel@lists.xenproject.org
 References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-21-tzimmermann@suse.de>
+ <20221024111953.24307-22-tzimmermann@suse.de>
 From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-21-tzimmermann@suse.de>
+In-Reply-To: <20221024111953.24307-22-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -99,12 +99,13 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 10/24/22 13:19, Thomas Zimmermann wrote:
-> Move the generic fbdev implementation into its own source and header
-> file. Adapt drivers. No functonal changes, but some of the internal
-> helpers have been renamed to fit into the drm_fbdev_ naming scheme.
+> Remove include statements for <drm/drm_fb_helper.h> where it is not
+> required (i.e., most of them). In a few places include other header
+> files that are required by the source code.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
+
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
