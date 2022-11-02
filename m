@@ -2,134 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34B1D61697C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Nov 2022 17:43:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 883FA616B5C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Nov 2022 19:00:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230409AbiKBQnw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Nov 2022 12:43:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39928 "EHLO
+        id S229993AbiKBSAB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Nov 2022 14:00:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232043AbiKBQn1 (ORCPT
+        with ESMTP id S231283AbiKBR7y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Nov 2022 12:43:27 -0400
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E1D020BD1;
-        Wed,  2 Nov 2022 09:38:43 -0700 (PDT)
-Received: by mail-ot1-f41.google.com with SMTP id 16-20020a9d0490000000b0066938311495so10578517otm.4;
-        Wed, 02 Nov 2022 09:38:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U9ksTZ83TtbRKPPlqnz00eQ8hM+aPwJfXyLg4128WEI=;
-        b=cSW1HcnV9v9A6i8Q8SA9vRUqUA+6paC59MZklYcnI1NRCRX5WTI+9AtODGGeJ0cY+O
-         UkuTv0xxvOT6VGI/VNgU6Tg7zA3wLLZrOJkNe8xIcp83jvugNyHJB+OH4U1LpFmtJ0Rd
-         YPQ9TGmyP0UQ5dQiTAgr3qq9+gRRMWdBJ4MMl0KAIdOiDxqXrcIitJ/65fW4p8wxNZ7M
-         gPPrSKBmj33Q7zmEyA9Q5XLcSdm+1mKwaIiqRHgL4zYgS6iOFtAv9uNuQ/KwWccCXn0n
-         703LsEyZa9UjPYSIkpRc7jzGt/Xc9vVsqGmfEGeJE+uAFB7IPjzYrC/pDaKVF8BqZLJq
-         f4Yg==
-X-Gm-Message-State: ACrzQf0wR1HhE111VXE8oWlvBLW49WH8qreNrc4xMEMc+oTGrF2YsCrE
-        qKN7oobEO4FlayJyC3NJgA==
-X-Google-Smtp-Source: AMsMyM5E0phLlXbOOPIfqMi0psVJ3aAAbDHqmPGVzw82Uj2oW84WOtt0Hpm0fYkA+oJBV56lx5Ewuw==
-X-Received: by 2002:a05:6830:1f34:b0:66c:4a42:9ca5 with SMTP id e20-20020a0568301f3400b0066c4a429ca5mr10015204oth.175.1667407123140;
-        Wed, 02 Nov 2022 09:38:43 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id bh23-20020a056808181700b003547a3401e6sm4722569oib.43.2022.11.02.09.38.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Nov 2022 09:38:42 -0700 (PDT)
-Received: (nullmailer pid 4014126 invoked by uid 1000);
-        Wed, 02 Nov 2022 16:38:44 -0000
-Date:   Wed, 2 Nov 2022 11:38:44 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     linux-media@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Tu <shawnx.tu@intel.com>
-Subject: Re: [PATCH v4 5/9] media: dt-bindings: ov5645: Convert OV5645
- binding to a schema
-Message-ID: <166740712341.4014070.1564117171862683626.robh@kernel.org>
-References: <20221031232202.131945-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221031232202.131945-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221031232202.131945-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+        Wed, 2 Nov 2022 13:59:54 -0400
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64441DF02;
+        Wed,  2 Nov 2022 10:59:52 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.west.internal (Postfix) with ESMTP id 74CE9320099E;
+        Wed,  2 Nov 2022 13:59:50 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute3.internal (MEProxy); Wed, 02 Nov 2022 13:59:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1667411990; x=1667498390; bh=7GRoQxQ5O/
+        7M/hCgn9KlfgoFjwoQ1yifn3eO5z+5VOY=; b=RXn6bWm7GTfW/yAE4+dGVwwgy/
+        UW8G0WWZva+W4EXS4eBCoztfMzY7FwruoLXM6zYXuvlIgLofLsVG1Lr4Fa77giS6
+        1SAU4NMJ3Y2mthTFIxYMMODwTVn8zdXoG7VYbAHu77s9/79Il4vPpFFS/hLI/fkF
+        J1NfpnA9SMXi1wpInq0oHLhbooOemddUqB+X6MpenRAK2/XrreqMQXf8hx79Bqa+
+        AYeNavWelj5jR3nI4YQj7bnxLYpO9pkeNfIa5yvspDpAx3lKcAZDqoc6JSzS25Ys
+        ZAj+Vx0E89R4+/zO60lRhrzLvaHizqTX6BDD8kDueRHUmVEpgHN4J+xeIFbA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1667411990; x=1667498390; bh=7GRoQxQ5O/7M/hCgn9KlfgoFjwoQ
+        1yifn3eO5z+5VOY=; b=ZrNtGnGJTkmajqMkJHdYo+u/cTYmUJ79yfOzoYFEzs1n
+        kRLuuuXsCdwk5N25zf3F31znCZAzbWRz7l4/IaiioigNJuMufUR+jWved/1Biyo3
+        iB+RNggbCX6j0erlJ7Efbyx/94JbngFthBQFvDMyrVTtiUhh//9MNG7vIOBN2G8v
+        ElqUTSyH7Ouv1xOOEwVUbHSGwYg++OpNvcdteFcZ+1pr6EH5qvU86wJ0eHwDigLw
+        Yf9D++8KGGdCYQGwSN46KZ6xXk8IMZqBbeISGbht4o5pyNSLXzE6boMtOGvfgieU
+        LBVBdWbWdKJdNLE96qsKMq6sFhz2NUcQ4Prven3Yiw==
+X-ME-Sender: <xms:FbBiY4wxCdWrv6f0_bkEiMl7Kb-f6ysnHjSrW-RaTBVPKWaTvoH71A>
+    <xme:FbBiY8T8c1SAIwBlrhDunEMcuS__JbmPZb6YFC0_pUIRz0k0sTNraUGF0WGfA-wPa
+    ev9Y37qbOszLaYtqK8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudejgddutdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:FbBiY6UPix6nnvEq0TY7cN55-1OemKmGO8icLhV7msNgJqzaSC_x9w>
+    <xmx:FbBiY2hTQ7g01Xx7Ja1EjeZnaTMnGXJdV0738-4-9sQUVh0T5IqGog>
+    <xmx:FbBiY6C3vUHt7Hnfeeq7WepyxeCtGX5GvuLHCEqYimzKHbgo7LPCng>
+    <xmx:FrBiY1qcyjSY84IEFydVqf4Z3AbN3kV67bT7TG7Vzd-6wl-3ne43rw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id BB6C5B603EA; Wed,  2 Nov 2022 13:59:49 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1087-g968661d8e1-fm-20221021.001-g968661d8
+Mime-Version: 1.0
+Message-Id: <5b882121-f129-4130-bd5c-507072463a41@app.fastmail.com>
+In-Reply-To: <20221102125430.28466-1-wsa+renesas@sang-engineering.com>
+References: <20221102125430.28466-1-wsa+renesas@sang-engineering.com>
+Date:   Wed, 02 Nov 2022 18:59:27 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Wolfram Sang" <wsa+renesas@sang-engineering.com>,
+        "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [RFC PATCH 0/2] mmc: tmio: further cleanups after kmap_atomic removal
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Wed, Nov 2, 2022, at 13:54, Wolfram Sang wrote:
+> Thanks to Adrian's patches mentioned in patch 1 in this series, we can
+> now simplify the TMIO driver a tad further to ease future refactoring.
+> This is marked as RFC because testing the corner cases is not so easy so
+> extra eyes for review are more than welcome.
+>
+> Thanks and happy hacking!
+>
 
-On Mon, 31 Oct 2022 23:21:58 +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Convert the simple OV5645 Device Tree binding to json-schema.
-> 
-> The previous binding marked the below properties as required which was a
-> driver requirement and not the device requirement so just drop them from
-> the required list during the conversion.
-> - clock-frequency
-> - enable-gpios
-> - reset-gpios
-> 
-> Also drop the "clock-names" property as we have a single clock source for
-> the sensor and the driver has been updated to drop the clk referencing by
-> name.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> v3->v4:
-> * Used 4 spaces for example node
-> * Added reg property after compatible
-> 
-> v3:
-> * No change
-> 
-> v2 -> v3
-> * Dropped clock-names property
-> * Marked power supplies as mandatory
-> * Dropped the comment for voltage power supplies
-> * Included RB tag from Laurent
-> * Driver change to drop clock-names [0]
-> 
-> [0] https://lore.kernel.org/linux-media/Yyh%2F3uzOJOu3drEB@pendragon.ideasonboard.com/T/#t
-> 
-> v1 -> v2
-> * Dropped ref to video-interface-devices.yaml#
-> * Dropped driver specific required items from the list
-> * Updated commit message
-> * Dropped clock-lanes and bus-type from the port and example node
-> * Marked data-lanes as required in port node
-> ---
->  .../devicetree/bindings/media/i2c/ov5645.txt  |  54 ---------
->  .../bindings/media/i2c/ovti,ov5645.yaml       | 104 ++++++++++++++++++
->  2 files changed, 104 insertions(+), 54 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
-> 
+Hi Wolfram,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+I haven't posted my PXA boardfile patches yet, but after that
+series, the separate tmio MFD devices (MFD_TMIO, MFD_ASIC3)
+will all be gone, and tmio-mmc will only be used by SuperH,
+Arm MACH_RENESAS and MACH_UNIPHIER. I hope this doesn't conflict
+too much with your work and instead opens up further cleanups.
+
+       Arnd
