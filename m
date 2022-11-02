@@ -2,66 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DA2C616005
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Nov 2022 10:40:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A7F8616016
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Nov 2022 10:41:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230437AbiKBJkY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Nov 2022 05:40:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51926 "EHLO
+        id S230298AbiKBJlZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Nov 2022 05:41:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230298AbiKBJkW (ORCPT
+        with ESMTP id S230123AbiKBJlX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Nov 2022 05:40:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C90FC2181C
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Nov 2022 02:39:27 -0700 (PDT)
+        Wed, 2 Nov 2022 05:41:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEB7B22BE1
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Nov 2022 02:40:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667381966;
+        s=mimecast20190719; t=1667382019;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=RgeOXsRJ+XKaYoOYvxoyhBylXQrWD/HUrGfmQUHOZZs=;
-        b=Jio9JFQacF7FMi0mPUb743H5F84vjCUoxUEdOs4aCfEtqSNexXzNQhBZqnP+aEdEkKHJXh
-        URmHGjTMdLlBZMQtpImG0Y4/SH1ck9czoq54M3olm1njxLJsVz+LHQL3sTJgt66SNaM5Ds
-        +mvqMM0BCfe4PNY5ygcY3NKi7w2CfF8=
+        bh=BsLrquRWckXT1s1aby8jZXWvTG60TzDOu2w8x1+2PdY=;
+        b=eEAnBVkZJbwzOPCO+Ba00Yn0YLXfCYE/kW0GIiTKFGtZptXm2xdCv81hCkTt6G0W0+ckN1
+        J3PQXDl4JZhhShU3rM6gg6Y9waiTMUIagw1GBGYxxmc2wXNu80JqKkN2IjYPSz5ToaFAtc
+        JLhaW78yBy/xS+nq1+oPvVRgjM4PvtA=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-90-wIwG-rNuNwe6SPo_jxLjxA-1; Wed, 02 Nov 2022 05:39:25 -0400
-X-MC-Unique: wIwG-rNuNwe6SPo_jxLjxA-1
-Received: by mail-wm1-f70.google.com with SMTP id v191-20020a1cacc8000000b003bdf7b78dccso7730097wme.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Nov 2022 02:39:25 -0700 (PDT)
+ us-mta-351-nxcesowgO6CZTzkf0gPSiA-1; Wed, 02 Nov 2022 05:40:18 -0400
+X-MC-Unique: nxcesowgO6CZTzkf0gPSiA-1
+Received: by mail-wm1-f70.google.com with SMTP id c5-20020a1c3505000000b003c56da8e894so863278wma.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Nov 2022 02:40:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RgeOXsRJ+XKaYoOYvxoyhBylXQrWD/HUrGfmQUHOZZs=;
-        b=HWNKDoqGZWizJ3NbeohZLa3OnsWToxRhMOiTK98plKj70FTzFadZH3RvpBtgOqkzL4
-         R7S8gb7hwSMfiEm0+/pgYYpg//cQ1hN2QksXVR64T4N8lzud4C4N1yQ0mZtJk78Pt9Zs
-         yYM9H9ZgZMjzi/v7dDnSV6EBFRNLsLLDXmZfDixOSVdZ0j+fHfXQOlMCuPdWsu7byjwh
-         qtoLEUgiKGxIZ9YOTUqh8/fwJ+f8QOMKpJevQn2LJI+1qb2wXKz7XyAYGRNpHeuqC7Kz
-         46a53YwIshfoHWE8qw7bgS5F6feEqqVi93YsjRtmUOglrPe8FI1SBW1AxFu4DzkPprK8
-         1HVg==
-X-Gm-Message-State: ACrzQf3zw0eya8n/w33tptz/M6KtEZzz8Dh6N7MRP8a7wTEvqJ4Z2w+y
-        vfyu5pPKTJEO+iUyilvheciH+H1GCyyPSTJffg1fr4tECuVL4RXN9hgQki8RagaXEmkT6eNAmDM
-        RCVipTFsQxjqfsTr4TlvZ4iX1k5LkQZo=
-X-Received: by 2002:a5d:40d1:0:b0:236:786d:611e with SMTP id b17-20020a5d40d1000000b00236786d611emr14871565wrq.355.1667381964727;
-        Wed, 02 Nov 2022 02:39:24 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4/k2KHrjikPXyIbTE3cWGjPi0EsRobUeOg55XAJjnO250x+w4Sp4JFFeS1nRK3GUJGY3QPnQ==
-X-Received: by 2002:a5d:40d1:0:b0:236:786d:611e with SMTP id b17-20020a5d40d1000000b00236786d611emr14871522wrq.355.1667381964509;
-        Wed, 02 Nov 2022 02:39:24 -0700 (PDT)
+        bh=BsLrquRWckXT1s1aby8jZXWvTG60TzDOu2w8x1+2PdY=;
+        b=B+SBBK+kJdTRWtNunqQA5WMWHNgIMovDkSgcPcMVra+WZtRsPmgFzNjazNiKFFerjZ
+         UeWcbvQfaguiXE1bg4Fl8ti14Bet6WwiFaOMjkLaGfUWgWJMlqoOI+DMd7V4BfisctL5
+         AzIoUJ9bFyYeWWJpuhgSC7d6nmKEWXZ6nCTG651D1YZHQrMUSns9NEnj2vP7IsZ/cs5S
+         QCRisJykRgNuvJlf2m2zBmH6CpJ3TYmIVkj22EX6+TAAKOyy4M7FC8B0KASZsdHLNqIX
+         ZI033DNsydsxVXVtHi6sqmCEvxa1fn0K76U6A+lfVqTLW1rSNXV2HUTqefSrPn3mITQq
+         HEoA==
+X-Gm-Message-State: ACrzQf1A0vxcDsMhO3SQ2LOuwSrgelb4BFxsXm9TJCyXbJYeUCurdc4d
+        ix4ZOFcTF+/6OyLAMys0Y+TRrwseRxE1QsgvtLGhshAfYJvxVy5DKmvY6DLSEDCYCTOo73AIJU/
+        mvz6meBmzulCOWN464Tee6zWfYwb9nNE=
+X-Received: by 2002:adf:ba8f:0:b0:22c:def3:1179 with SMTP id p15-20020adfba8f000000b0022cdef31179mr14547808wrg.571.1667382017691;
+        Wed, 02 Nov 2022 02:40:17 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5M29YlmTkXAEgNYduNYpaEq18eaSYaR/je5Gn7y2xNrovwH6Pttvb6rYpMLmmOPDm/qr+vag==
+X-Received: by 2002:adf:ba8f:0:b0:22c:def3:1179 with SMTP id p15-20020adfba8f000000b0022cdef31179mr14547781wrg.571.1667382017447;
+        Wed, 02 Nov 2022 02:40:17 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id dn12-20020a05600c654c00b003cf537ec2efsm1653185wmb.36.2022.11.02.02.39.22
+        by smtp.gmail.com with ESMTPSA id j20-20020a05600c191400b003b47e8a5d22sm1924445wmq.23.2022.11.02.02.40.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Nov 2022 02:39:24 -0700 (PDT)
-Message-ID: <23b6c3ca-828a-5376-ae80-0b04202e190b@redhat.com>
-Date:   Wed, 2 Nov 2022 10:39:22 +0100
+        Wed, 02 Nov 2022 02:40:16 -0700 (PDT)
+Message-ID: <7ac0da2c-0a43-4c02-4199-f48a50347171@redhat.com>
+Date:   Wed, 2 Nov 2022 10:40:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 18/21] drm/fb_helper: Minimize damage-helper overhead
+Subject: Re: [PATCH v2 19/21] drm/fb-helper: Always initialize generic fbdev
+ emulation
 Content-Language: en-US
 To:     Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
         airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
@@ -82,15 +83,15 @@ Cc:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
         linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
         xen-devel@lists.xenproject.org
 References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-19-tzimmermann@suse.de>
+ <20221024111953.24307-20-tzimmermann@suse.de>
 From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-19-tzimmermann@suse.de>
+In-Reply-To: <20221024111953.24307-20-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -98,33 +99,17 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 10/24/22 13:19, Thomas Zimmermann wrote:
-> Pull the test for fb_dirty into the caller to avoid extra work
-> if no callback has been set. In this case no damage handling is
-> required and no damage area needs to be computed. Print a warning
-> if the damage worker runs without getting an fb_dirty callback.
+> Initialize the generic fbdev emulation even if it has been disabled
+> on the kernel command line. The hotplug and mode initialization will
+> fail accordingly.
+> 
+> The kernel parameter can still be changed at runtime and the emulation
+> will initialize after hotplugging the connector.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
-But I've a trivial comment below:
-
->  drivers/gpu/drm/drm_fb_helper.c | 90 ++++++++++++++++++++++-----------
->  1 file changed, 60 insertions(+), 30 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 836523aef6a27..fbc5c5445fdb0 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -449,12 +449,13 @@ static int drm_fb_helper_damage_blit(struct drm_fb_helper *fb_helper,
->  static void drm_fb_helper_damage_work(struct work_struct *work)
->  {
->  	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper, damage_work);
-> +	struct drm_device *dev = helper->dev;
-
-You removed this in patch #15, maybe just leaving it in that patch if you
-plan to use it again here?
 
 -- 
 Best regards,
