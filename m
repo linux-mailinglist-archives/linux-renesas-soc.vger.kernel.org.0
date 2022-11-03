@@ -2,105 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D5A1617691
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Nov 2022 07:06:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA5DB617B2C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Nov 2022 11:59:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230231AbiKCGGw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Nov 2022 02:06:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43916 "EHLO
+        id S231320AbiKCK7O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Nov 2022 06:59:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229825AbiKCGGw (ORCPT
+        with ESMTP id S231339AbiKCK7K (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Nov 2022 02:06:52 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD600193E6;
-        Wed,  2 Nov 2022 23:06:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=0smtlWd4HGnf6GjxBBNVPyZdRbAeNRzlEzj9TPQNMMk=; b=if61U6QEgvQm9kJwy7xXOTydGC
-        wvSEX+Sc65lQ6DaGdxNDpqVT3O9Ii3+vzX8iwt53dq/VCkPFgqovdHAXVLvZZb7YpOaVl2J5sIrz3
-        XHR+pa7Uyr1xgWxZdPvWDIhfzeuMSi2n6w5TyQ/FkvnM8LYh0IqmrSpdUD1FF5HdM3jxGpYrXhXFo
-        LM4JynT99eU5y9Znj2/QC3tfMiAOujsISggWXubVt/JG5WIf32+VRfrudTKqT38sHTxpvgHxqRABj
-        5/d+2lddCn0yQc2znpmC0kfTOapiqm+25R9bALANRqOYqi1oWSXRtvHzAnveMatnwpImW9sbgLrJX
-        P1kJX6sA==;
-Received: from [2601:1c2:d80:3110:e65e:37ff:febd:ee53]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oqTNJ-00GGEk-BK; Thu, 03 Nov 2022 06:06:49 +0000
-Message-ID: <a68a24a0-eda3-8711-21c1-334289eca0d3@infradead.org>
-Date:   Wed, 2 Nov 2022 23:06:45 -0700
+        Thu, 3 Nov 2022 06:59:10 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E35D2F0E;
+        Thu,  3 Nov 2022 03:59:08 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2DDE4589;
+        Thu,  3 Nov 2022 11:59:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1667473147;
+        bh=fsK27h8kbSA/i0+lhbJgLA1FCVaIX2x7inLddU1g7Bs=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=k3TMnj4WfTAH8YFeBcA6f2is+yng+J1K2iBlUpXeNs2HKa+uQpx8OvT/nbh0elHmA
+         wxBcRZT/F2D9h1wQbgd+CcmjiZVr3+z83eoFCqhbEYUZNLaf8r+MKrwf8JJNW3aNhT
+         HQiqPUB2qyAnAzClPBYfLd2VNpLff/aHTD15ew20=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH] drm: rcar_du: DRM_RCAR_DU optionally depends on
- RCAR_MIPI_DSI
-Content-Language: en-US
-To:     linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <a68a24a0-eda3-8711-21c1-334289eca0d3@infradead.org>
+References: <20221018181828.19528-1-rdunlap@infradead.org> <a68a24a0-eda3-8711-21c1-334289eca0d3@infradead.org>
+Subject: Re: [PATCH] drm: rcar_du: DRM_RCAR_DU optionally depends on RCAR_MIPI_DSI
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Cc:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         LUU HOAI <hoai.luu.ub@renesas.com>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         David Airlie <airlied@gmail.com>,
         Daniel Vetter <daniel@ffwll.ch>
-References: <20221018181828.19528-1-rdunlap@infradead.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20221018181828.19528-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Date:   Thu, 03 Nov 2022 10:59:04 +0000
+Message-ID: <166747314442.3962897.9754510086268412956@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-ping. I have verified (on linux-next-20221103) that this is still needed.
-Thanks.
+Hi Randy,
 
-On 10/18/22 11:18, Randy Dunlap wrote:
-> When CONFIG_DRM_RCAR_DU=y and CONFIG_DRM_RCAR_MIPI_DSI=m, calls
-> from the builtin driver to the mipi driver fail due to linker
-> errors.
-> Since the RCAR_MIPI_DSI driver is not always required, fix the
-> build error by making DRM_RCAR_DU optionally depend on the
-> RCAR_MIPI_DSI Kconfig symbol. This prevents the problematic
-> kconfig combination without requiring that RCAR_MIPI_DSI always
-> be enabled.
-> 
-> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
-> rcar_du_crtc.c:(.text+0x3a18): undefined reference to `rcar_mipi_dsi_pclk_enable'
-> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
-> rcar_du_crtc.c:(.text+0x47cc): undefined reference to `rcar_mipi_dsi_pclk_disable'
-> 
-> Fixes: 957fe62d7d15 ("drm: rcar-du: Fix DSI enable & disable sequence")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: LUU HOAI <hoai.luu.ub@renesas.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> ---
->  drivers/gpu/drm/rcar-du/Kconfig |    1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff -- a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-> --- a/drivers/gpu/drm/rcar-du/Kconfig
-> +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> @@ -4,6 +4,7 @@ config DRM_RCAR_DU
->  	depends on DRM && OF
->  	depends on ARM || ARM64
->  	depends on ARCH_RENESAS || COMPILE_TEST
-> +	depends on DRM_RCAR_MIPI_DSI || DRM_RCAR_MIPI_DSI=n
->  	select DRM_KMS_HELPER
->  	select DRM_GEM_DMA_HELPER
->  	select VIDEOMODE_HELPERS
+Quoting Randy Dunlap (2022-11-03 06:06:45)
+> ping. I have verified (on linux-next-20221103) that this is still needed.
+> Thanks.
+>=20
+> On 10/18/22 11:18, Randy Dunlap wrote:
+> > When CONFIG_DRM_RCAR_DU=3Dy and CONFIG_DRM_RCAR_MIPI_DSI=3Dm, calls
+> > from the builtin driver to the mipi driver fail due to linker
+> > errors.
+> > Since the RCAR_MIPI_DSI driver is not always required, fix the
+> > build error by making DRM_RCAR_DU optionally depend on the
+> > RCAR_MIPI_DSI Kconfig symbol. This prevents the problematic
+> > kconfig combination without requiring that RCAR_MIPI_DSI always
+> > be enabled.
+> >=20
+> > aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `=
+rcar_du_crtc_atomic_enable':
+> > rcar_du_crtc.c:(.text+0x3a18): undefined reference to `rcar_mipi_dsi_pc=
+lk_enable'
+> > aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `=
+rcar_du_crtc_atomic_disable':
+> > rcar_du_crtc.c:(.text+0x47cc): undefined reference to `rcar_mipi_dsi_pc=
+lk_disable'
+> >=20
+> > Fixes: 957fe62d7d15 ("drm: rcar-du: Fix DSI enable & disable sequence")
+> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> > Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> > Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > Cc: LUU HOAI <hoai.luu.ub@renesas.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linux-renesas-soc@vger.kernel.org
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > ---
+> >  drivers/gpu/drm/rcar-du/Kconfig |    1 +
+> >  1 file changed, 1 insertion(+)
+> >=20
+> > diff -- a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kco=
+nfig
+> > --- a/drivers/gpu/drm/rcar-du/Kconfig
+> > +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> > @@ -4,6 +4,7 @@ config DRM_RCAR_DU
+> >       depends on DRM && OF
+> >       depends on ARM || ARM64
+> >       depends on ARCH_RENESAS || COMPILE_TEST
+> > +     depends on DRM_RCAR_MIPI_DSI || DRM_RCAR_MIPI_DSI=3Dn
 
--- 
-~Randy
+Please forgive my ignorance, but I don't understand how this works.
+Could you explain what this is doing please?
+
+I know you've explained above that it fixes it to optionally depend on
+DRM_RCAR_MIPI_DSI ... but it's not making sense to me.
+
+To me - this is saying we depend on DRM_RCAR_MIPI_DSI being enabled, or
+not being enabled ... ? Which is like saying if (0 || 1) ?
+
+I'm guessing I'm missing something obvious :-S
+
+--
+Kieran
+
+
+> >       select DRM_KMS_HELPER
+> >       select DRM_GEM_DMA_HELPER
+> >       select VIDEOMODE_HELPERS
+>=20
+> --=20
+> ~Randy
