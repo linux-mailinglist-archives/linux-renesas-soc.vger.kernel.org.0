@@ -2,42 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CEB5F6189E6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Nov 2022 21:49:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B41AA6189FB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Nov 2022 21:56:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229850AbiKCUtM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Nov 2022 16:49:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50210 "EHLO
+        id S230511AbiKCU4A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Nov 2022 16:56:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbiKCUtL (ORCPT
+        with ESMTP id S230388AbiKCUzz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Nov 2022 16:49:11 -0400
+        Thu, 3 Nov 2022 16:55:55 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 860A864DA
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Nov 2022 13:49:08 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BED320F62
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Nov 2022 13:55:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=oijAjFsRVhq0aa+m08HEjKONuzl
-        CulWOERem8aFjwTc=; b=EshHGB99WnuFmV5X+YNLMWqXraPiMR8fnnb7o0vK4jV
-        Z9C/NIgL577ycBPpIn68fNhFJW9iacZX1l4wUuQT4dOGztXGH7QhJXTYEynMUV7c
-        VFaarD59f3AndJpoBn2zy3mkRcsZhxGNMTmEHzm+DWf3hKQLZqTZjTg67p8HXOXU
+        :content-transfer-encoding; s=k1; bh=JWjIjltlEQXtONld3iwSzFWfb1s
+        APlyroiYNxkfAmBQ=; b=rxRDac/XSEVNcpceFHptYTNrmGWgOJ8+sjNdQZEZovo
+        4ZA7x5wemWPUC3+Z3+xvfmD5eYPjErYGgvO2pan0sLrJTC7+nlXBp5yhP4O28/jH
+        eFpd6BVCuAH+a3GJveUuEUZLMFaoDCFotGBiEa7AgsK5LCCVOUv0fzAj4Gp93CJI
         =
-Received: (qmail 2784596 invoked from network); 3 Nov 2022 21:49:04 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Nov 2022 21:49:04 +0100
-X-UD-Smtp-Session: l3s3148p1@V65wFpfsQocujns0
+Received: (qmail 2787654 invoked from network); 3 Nov 2022 21:55:51 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Nov 2022 21:55:51 +0100
+X-UD-Smtp-Session: l3s3148p1@8EKvLpfsuOUujns0
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH] dt-bindings: timer: renesas,tmu: Add r8a779g0 support
-Date:   Thu,  3 Nov 2022 21:48:58 +0100
-Message-Id: <20221103204859.24667-1-wsa+renesas@sang-engineering.com>
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] r8a779g0: add TMU support
+Date:   Thu,  3 Nov 2022 21:55:41 +0100
+Message-Id: <20221103205546.24836-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -51,23 +46,21 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- Documentation/devicetree/bindings/timer/renesas,tmu.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Here are the clk and DTS changes to enable TMU timers on the R-Car V4H
+based WhiteHawk board. Tested with the 'clocksource-switch' selftest.
+Nothing special, very similar to S4-8. Happy hacking!
 
-diff --git a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
-index 60f4c059bcff..a67e427a9e7e 100644
---- a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
-+++ b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
-@@ -38,6 +38,7 @@ properties:
-           - renesas,tmu-r8a77995 # R-Car D3
-           - renesas,tmu-r8a779a0 # R-Car V3U
-           - renesas,tmu-r8a779f0 # R-Car S4-8
-+          - renesas,tmu-r8a779g0 # R-Car V4H
-       - const: renesas,tmu
- 
-   reg:
+Wolfram Sang (4):
+  clk: renesas: r8a779g0: Add TMU and SASYNCRT clocks
+  arm64: dts: renesas: r8a779g0: Add TMU nodes
+  arm64: dts: renesas: white-hawk-cpu: sort RWDT entry correctly
+  TEST: arm64: dts: renesas: white-hawk-cpu: Enable TMU
+
+ .../dts/renesas/r8a779g0-white-hawk-cpu.dtsi  | 24 ++++++-
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi     | 65 +++++++++++++++++++
+ drivers/clk/renesas/r8a779g0-cpg-mssr.c       |  6 ++
+ 3 files changed, 93 insertions(+), 2 deletions(-)
+
 -- 
 2.35.1
 
