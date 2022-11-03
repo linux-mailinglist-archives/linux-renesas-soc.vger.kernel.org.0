@@ -2,99 +2,282 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86688618090
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Nov 2022 16:07:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C8C56180DA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Nov 2022 16:14:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231984AbiKCPHh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Nov 2022 11:07:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45938 "EHLO
+        id S231997AbiKCPOx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Nov 2022 11:14:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231967AbiKCPHN (ORCPT
+        with ESMTP id S231898AbiKCPOw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Nov 2022 11:07:13 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 351831ADAB
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Nov 2022 08:04:45 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id q9so1864924pfg.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 03 Nov 2022 08:04:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y5SX8S1GoqbnGutA7INzRoyQfzD7Efc9HM+BPmRWtUQ=;
-        b=jJiOqWM0NMptNv3BNBY/lAWtQ+JFPO0Uf71TRdXOIwP4IjjTYrClPkItlaG+o1Dpkc
-         oU7/Toemr8NflzwrL5RLcweQqEupjnzTvXnGV/Gre/Zb9Ku7QK8hOt4P9T2JxH5KymWo
-         O2ZdAmF6IoZc1ZaD5sIcaPHWn05dVAMXmsTLq+hrJwHSW161GEBn6utiy/DwBJY/g10P
-         ETHtG7Ls+eI7r4Ag/d7ugMwBI4eQZllss0CaXjOiUco+LF3itDZAi/u/eF9+AO+/5Av9
-         qXjuIXYpoaALQDBKXLD/z31PltwvsrcRv1YxIPK3PtRCi1jPcApLL4oDGALyFHGHkDuu
-         7UiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y5SX8S1GoqbnGutA7INzRoyQfzD7Efc9HM+BPmRWtUQ=;
-        b=yxe1zlmrvqCYJqpxmDDuMu/QiYchLBXC2AdDuiSCGloaaUVjx/OvGVUGetN1fzIjgP
-         r1dkimjHLfs1WnfsSQveqCE4cT4dtktXnNnkBD6ry8wjhmBNgRSizqr6eWFMUYwIQ4tW
-         HGyTwtalZEP+C7M8v4JKGuL7bQhhq5jlBilPlGDbZ7qV5IvJRwsXIj5ZE5SOgtDjzoTe
-         W3c6qkcOfPQ5qjJCSzMI9ySFS4d36Px5Zy5yIW4S+kFbMdcapjyHeNFgsRQ+HRBGPqxG
-         ogT+FuC3NAvLkQSHVMgWECdnHJoGIp/7HdtecTxNdvlCar314LZ0Q8219qH+3vVXUPSW
-         049A==
-X-Gm-Message-State: ACrzQf1jBrDyDqC2aiLMPJiDWcUnejjvtkwak5jIq/ArKt84cOgXcLop
-        RCp59EemwLpXcLZZHxM9JbhKadaykgbqy9emDnCuP/wpyn8=
-X-Google-Smtp-Source: AMsMyM4cbJucyEqLbWDZpIyLnaLE+WJJU1EjZS+YPC+DzcUIWaiTUDs71Ng+lyG577vLJRbeIcvD+n9TMaqO/rQIAbE=
-X-Received: by 2002:a63:1345:0:b0:470:30c2:8b0b with SMTP id
- 5-20020a631345000000b0047030c28b0bmr973457pgt.434.1667487884662; Thu, 03 Nov
- 2022 08:04:44 -0700 (PDT)
+        Thu, 3 Nov 2022 11:14:52 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B81F60;
+        Thu,  3 Nov 2022 08:14:50 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 77F601F88C;
+        Thu,  3 Nov 2022 15:14:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1667488489; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=HedAlrS8erHkRoHUc/nk9PZPahT98wWins1TZNQ+myo=;
+        b=ts+mFZqzw7nt496UOWxsBj/xG6sJKPY/ZWmHdFZxUG6ONqcbseLnVXu/wXRLAFn+VGn/YR
+        Rqass7K9e5Tf8KqeYY+gKZRv+JgfpuuYK6ggxjkZHiOpS0V3LO8NFAUASBN8QOA44nud45
+        u9o1mCiJIX4XReB+zkbZ4HbcduFUihs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1667488489;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=HedAlrS8erHkRoHUc/nk9PZPahT98wWins1TZNQ+myo=;
+        b=lsvt5cpyVTNQvpmzx5qsqs1XtiL2L/Eibv9TPCR/dY0Qky34DmnJAVBCZYMH6j2JOe7LS2
+        KLgvNS9ctlteh0Cg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E34DA13AAF;
+        Thu,  3 Nov 2022 15:14:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id oqOUNujaY2PBGgAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 03 Nov 2022 15:14:48 +0000
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org,
+        javierm@redhat.com, mripard@kernel.org,
+        maarten.lankhorst@linux.intel.com
+Cc:     "linux-hyperv@vger.kernel.orglinux-hyperv"@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-samsung-soc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-rockchip@lists.infradead.org, xen-devel@lists.xenproject.org,
+        linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org,
+        spice-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, freedreno@lists.freedesktop.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 00/23] drm/fb-helper: Untangle fbdev emulation and helpers
+Date:   Thu,  3 Nov 2022 16:14:23 +0100
+Message-Id: <20221103151446.2638-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-References: <20221006190452.5316-1-wsa+renesas@sang-engineering.com>
- <CAPDyKFqA1RtcaGMCQgDsKKju4izHWJRAD12SqqirNm+TWLt_hA@mail.gmail.com> <Y2LBiOqomYJ2E/Gd@shikoro>
-In-Reply-To: <Y2LBiOqomYJ2E/Gd@shikoro>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 3 Nov 2022 16:04:08 +0100
-Message-ID: <CAPDyKFr1UR3QX4X45TmShADDpOEuxnadcvyTGaXLhcxKrAxbow@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/6] mmc: renesas_sdhi: add support for DMA end irqs
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 2 Nov 2022 at 20:14, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> Hi Ulf,
->
-> > The tmio/sdhi core still relies on using tasklets. I think we should
-> > strive to move away from tasklets for all mmc host drivers and to use
-> > threaded irqs instead.
->
-> Ooookay, noted. I'll put it on my todo-list. But frankly, I can't give
-> this priority for a while :/ SDHI is used on a lot of platforms, even on
-> different architectures. Regression testing will be a big one here.
->
-> > That said, I am worried that it might be harder to move away from
-> > tasklets beyond $subject series, for tmio/sdhi, but I might be wrong?
-> > So, I am wondering if it perhaps would be better to make that
-> > modernization/conversion as the first step instead?
->
-> As said above, I can't do this in the foreseeable future. However, this
-> series fixes an issue we see. So, my vote goes for applying this now.
-> Even if it costs some extra cycles on the tasklet-removal-work.
->
-> D'accord?
+Separate generic fbdev emulation from the helper code that is shared
+among the various fbdev implementations within DRM. Affects many drivers.
 
-Sure, I am fine with applying this. I just wanted to point out my long
-term thoughts around using the tasklets.
+It has become apparent that our fully generic fbdev emulation will
+never produce optimal results for all drivers. In its current form,
+it is also hard to maintain. The goal of this patchset is to improve
+readability and streamline the fbdev helper code within DRM. In the
+long term, we want to get to a point where drivers or memory managers
+can pick and combine the various helpers for optimal fbdev support.
 
-Do you intend to send a new version to drop the RFC? Or can I apply as is?
+Patches 1 to 8 start by preparing drivers. Setting struct drm_driver's
+lastclose and output_poll_changed is not required by generic fbdev
+emulation.
 
-Kind regards
-Uffe
+Two drivers depend on fb helpers implicitly including other Linux header
+files. Fixing this in patches 9 and 10 allows to remove unnecesary include
+statements from the fb-helper header in patch 11.
+
+Do some renaming in patches 12 to 14.
+
+There are currently various implementation of the fbdev I/O helpers
+with varying feature sets. The fb helpers for fbdev I/O should all call
+fb_sync, which is what fbdev's internal implementation does. For DRM,
+damage handling needs to be performed after updating a framebuffer. The
+damage worker is part of the fb helpers, but the actual update logic only
+works with generic fbdev emulation. Separate the two, which also gives
+other drivers an option to set their own damage handling if neccessary.
+The full-featured I/O helpers can be moved under a shared implementation
+and called by all drivers. Patches 15 to 18 resolve these issues.
+
+Patch 19 changes fbdev disablement to work at the level of display
+detection. If disabled, generic fbdev emulation will be initialized,
+but no display will be detected. It can later be enabled by changing
+the parameter in sysfs and plugging in a connector.
+
+Patches 20 to 22 move the generic fbdev emulation into their own source
+and header files and clean up the include statements throughout DRM. Many
+drivers only call drm_fbdev_generic_setup() and can avoid including other
+Linux header files.
+
+Patch 23 is a documentation update.
+
+Built on x86-64, aarch64, arm, ppc64le. Tested with various combinations
+of bochs, i915, simpledrm.
+
+v3:
+	* documentation fixes (Javier)
+	* rename drm_fbdev.{c,h} to drm_fbdev_generic.{c,h}
+	* keep drm_leak_fbdev_smem in drm_fb_helper.c
+	* fix several include statements
+	* rebases
+v2:
+      	* fixed commit descriptions (Christian, Sergey)
+
+Thomas Zimmermann (23):
+  drm/komeda: Don't set struct drm_driver.lastclose
+  drm/mcde: Don't set struct drm_driver.lastclose
+  drm/vboxvideo: Don't set struct drm_driver.lastclose
+  drm/amdgpu: Don't set struct drm_driver.output_poll_changed
+  drm/imx/dcss: Don't set struct drm_driver.output_poll_changed
+  drm/ingenic: Don't set struct drm_driver.output_poll_changed
+  drm/logicvc: Don't set struct drm_driver.output_poll_changed
+  drm/rockchip: Don't set struct drm_driver.output_poll_changed
+  drm/panel-ili9341: Include <linux/backlight.h>
+  drm/tve200: Include <linux/of.h>
+  drm/fb-helper: Cleanup include statements in header file
+  drm/fb_helper: Rename field fbdev to info in struct drm_fb_helper
+  drm/fb-helper: Rename drm_fb_helper_alloc_fbi() to use _info postfix
+  drm/fb-helper: Rename drm_fb_helper_unregister_fbi() to use _info
+    postfix
+  drm/fb-helper: Disconnect damage worker from update logic
+  drm/fb-helper: Call fb_sync in I/O functions
+  drm/fb-helper: Perform all fbdev I/O with the same implementation
+  drm/fb_helper: Minimize damage-helper overhead
+  drm/fb-helper: Always initialize generic fbdev emulation
+  drm/fb-helper: Set flag in struct drm_fb_helper for leaking physical
+    addresses
+  drm/fb-helper: Move generic fbdev emulation into separate source file
+  drm/fb-helper: Remove unnecessary include statements
+  drm/fb-helper: Clarify use of last_close and output_poll_changed
+
+ drivers/gpu/drm/Makefile                      |    4 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |    1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |    1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |    3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |    1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       |    1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |    1 -
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |    1 +
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |    1 +
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |    1 +
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |    1 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |    2 -
+ .../gpu/drm/arm/display/komeda/komeda_drv.c   |    2 +-
+ .../gpu/drm/arm/display/komeda/komeda_kms.c   |    2 -
+ drivers/gpu/drm/arm/hdlcd_crtc.c              |    1 -
+ drivers/gpu/drm/arm/hdlcd_drv.c               |    2 +-
+ drivers/gpu/drm/arm/malidp_drv.c              |    2 +-
+ drivers/gpu/drm/armada/armada_fbdev.c         |    6 +-
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |    2 +-
+ drivers/gpu/drm/ast/ast_drv.c                 |    1 +
+ drivers/gpu/drm/ast/ast_drv.h                 |    1 -
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |    2 +-
+ drivers/gpu/drm/bridge/tc358762.c             |    2 +-
+ drivers/gpu/drm/drm_crtc_helper.c             |    1 -
+ drivers/gpu/drm/drm_fb_helper.c               | 1008 ++++++-----------
+ drivers/gpu/drm/drm_fbdev_generic.c           |  493 ++++++++
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c  |    1 -
+ drivers/gpu/drm/drm_probe_helper.c            |    1 -
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h         |    3 +-
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c     |    6 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |    2 +-
+ drivers/gpu/drm/gma500/framebuffer.c          |    6 +-
+ drivers/gpu/drm/gud/gud_drv.c                 |    2 +-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |    1 +
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |    1 -
+ .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |    2 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c       |    2 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |    1 -
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |    8 +-
+ drivers/gpu/drm/imx/dcss/dcss-kms.c           |    3 +-
+ drivers/gpu/drm/imx/imx-drm-core.c            |    2 +-
+ drivers/gpu/drm/imx/imx-ldb.c                 |    2 +-
+ drivers/gpu/drm/imx/imx-tve.c                 |    1 -
+ drivers/gpu/drm/imx/parallel-display.c        |    2 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |    3 +-
+ drivers/gpu/drm/kmb/kmb_drv.c                 |    2 +-
+ drivers/gpu/drm/kmb/kmb_plane.c               |    1 -
+ drivers/gpu/drm/logicvc/logicvc_drm.c         |    2 +-
+ drivers/gpu/drm/logicvc/logicvc_mode.c        |    2 -
+ drivers/gpu/drm/mcde/mcde_drv.c               |    3 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |    2 +-
+ drivers/gpu/drm/meson/meson_drv.c             |    2 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c         |    1 +
+ drivers/gpu/drm/mgag200/mgag200_drv.h         |    1 -
+ drivers/gpu/drm/msm/msm_fbdev.c               |    4 +-
+ drivers/gpu/drm/mxsfb/lcdif_drv.c             |    2 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c             |    2 +-
+ drivers/gpu/drm/nouveau/nouveau_fbcon.c       |   27 +-
+ drivers/gpu/drm/omapdrm/omap_fbdev.c          |    6 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c  |    3 +-
+ drivers/gpu/drm/pl111/pl111_drv.c             |    2 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                 |    1 +
+ drivers/gpu/drm/qxl/qxl_drv.h                 |    1 -
+ drivers/gpu/drm/radeon/radeon_fb.c            |    6 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.c    |    2 -
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |    1 +
+ drivers/gpu/drm/solomon/ssd130x.c             |    2 +-
+ drivers/gpu/drm/sti/sti_drv.c                 |    2 +-
+ drivers/gpu/drm/stm/drv.c                     |    2 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |    2 +-
+ drivers/gpu/drm/tegra/fb.c                    |    8 +-
+ drivers/gpu/drm/tidss/tidss_drv.c             |    2 +-
+ drivers/gpu/drm/tidss/tidss_kms.c             |    1 -
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c           |    2 +-
+ drivers/gpu/drm/tiny/arcpgu.c                 |    2 +-
+ drivers/gpu/drm/tiny/bochs.c                  |    2 +-
+ drivers/gpu/drm/tiny/cirrus.c                 |    2 +-
+ drivers/gpu/drm/tiny/gm12u320.c               |    2 +-
+ drivers/gpu/drm/tiny/hx8357d.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9163.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9225.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9341.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9486.c                |    2 +-
+ drivers/gpu/drm/tiny/mi0283qt.c               |    2 +-
+ drivers/gpu/drm/tiny/ofdrm.c                  |    2 +-
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c         |    2 +-
+ drivers/gpu/drm/tiny/repaper.c                |    2 +-
+ drivers/gpu/drm/tiny/simpledrm.c              |    2 +-
+ drivers/gpu/drm/tiny/st7586.c                 |    2 +-
+ drivers/gpu/drm/tiny/st7735r.c                |    2 +-
+ drivers/gpu/drm/tve200/tve200_drv.c           |    3 +-
+ drivers/gpu/drm/udl/udl_drv.c                 |    2 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |    1 -
+ drivers/gpu/drm/vboxvideo/vbox_drv.c          |    4 +-
+ drivers/gpu/drm/vboxvideo/vbox_main.c         |    1 -
+ drivers/gpu/drm/vc4/vc4_drv.c                 |    2 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c          |    1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h          |    1 -
+ drivers/gpu/drm/vkms/vkms_drv.c               |    2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |    2 +-
+ drivers/gpu/drm/xen/xen_drm_front_gem.c       |    1 -
+ drivers/gpu/drm/xlnx/zynqmp_kms.c             |    2 +-
+ include/drm/drm_fb_helper.h                   |   61 +-
+ include/drm/drm_fbdev_generic.h               |   15 +
+ 107 files changed, 987 insertions(+), 835 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_fbdev_generic.c
+ create mode 100644 include/drm/drm_fbdev_generic.h
+
+
+base-commit: f5a9fb2d688dfc6efa1fd779a2d225048bfb10f9
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
+prerequisite-patch-id: db1c43fc253bf3b55cfa09128a2d83d960599ead
+prerequisite-patch-id: 007fca7c89f5fe0e5279021fcac49fb621bf5708
+-- 
+2.38.0
+
