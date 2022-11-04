@@ -2,88 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E723618C8B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 00:07:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66139618D6A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 02:06:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231639AbiKCXHv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Nov 2022 19:07:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41364 "EHLO
+        id S230261AbiKDBGp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Nov 2022 21:06:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230435AbiKCXHQ (ORCPT
+        with ESMTP id S229485AbiKDBGp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Nov 2022 19:07:16 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E7E1822BF3;
-        Thu,  3 Nov 2022 16:07:14 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.96,135,1665414000"; 
-   d="scan'208";a="141406977"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 04 Nov 2022 08:07:14 +0900
-Received: from mulinux.home (unknown [10.226.92.174])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 7EC78400B9D5;
-        Fri,  4 Nov 2022 08:07:10 +0900 (JST)
-From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Wolfram Sang <wsa@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH 3/3] arm64: dts: renesas: r9a09g011: Fix I2C SoC specific strings
-Date:   Thu,  3 Nov 2022 23:06:48 +0000
-Message-Id: <20221103230648.53748-4-fabrizio.castro.jz@renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221103230648.53748-1-fabrizio.castro.jz@renesas.com>
-References: <20221103230648.53748-1-fabrizio.castro.jz@renesas.com>
+        Thu, 3 Nov 2022 21:06:45 -0400
+Received: from out199-3.us.a.mail.aliyun.com (out199-3.us.a.mail.aliyun.com [47.90.199.3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31E2810B0;
+        Thu,  3 Nov 2022 18:06:42 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0VTuSVaz_1667523997;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VTuSVaz_1667523997)
+          by smtp.aliyun-inc.com;
+          Fri, 04 Nov 2022 09:06:39 +0800
+From:   Yang Li <yang.lee@linux.alibaba.com>
+To:     davem@davemloft.net
+Cc:     edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        richardcochran@gmail.com, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH -next] net: ethernet: Simplify bool conversion
+Date:   Fri,  4 Nov 2022 09:06:35 +0800
+Message-Id: <20221104010635.68515-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
+        ENV_AND_HDR_SPF_MATCH,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+        USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-s/renesas,i2c-r9a09g011/renesas,r9a09g011-i2c/g for consistency.
+./drivers/net/ethernet/renesas/rcar_gen4_ptp.c:32:40-45: WARNING: conversion to bool not needed here
 
-renesas,i2c-r9a09g011 is not actually used by the driver, therefore
-changing this doesn't cause any harm.
-
-Fixes: 54ac6794df9d ("arm64: dts: renesas: r9a09g011: Add i2c nodes")
-Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2729
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 ---
- arch/arm64/boot/dts/renesas/r9a09g011.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/net/ethernet/renesas/rcar_gen4_ptp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-index 1948d2e6bcae..2ccd48ee9880 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-@@ -126,7 +126,7 @@ cpg: clock-controller@a3500000 {
- 		i2c0: i2c@a4030000 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
--			compatible = "renesas,i2c-r9a09g011", "renesas,rzv2m-i2c";
-+			compatible = "renesas,r9a09g011-i2c", "renesas,rzv2m-i2c";
- 			reg = <0 0xa4030000 0 0x80>;
- 			interrupts = <GIC_SPI 232 IRQ_TYPE_EDGE_RISING>,
- 				     <GIC_SPI 236 IRQ_TYPE_EDGE_RISING>;
-@@ -140,7 +140,7 @@ i2c0: i2c@a4030000 {
- 		i2c2: i2c@a4030100 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
--			compatible = "renesas,i2c-r9a09g011", "renesas,rzv2m-i2c";
-+			compatible = "renesas,r9a09g011-i2c", "renesas,rzv2m-i2c";
- 			reg = <0 0xa4030100 0 0x80>;
- 			interrupts = <GIC_SPI 234 IRQ_TYPE_EDGE_RISING>,
- 				     <GIC_SPI 238 IRQ_TYPE_EDGE_RISING>;
+diff --git a/drivers/net/ethernet/renesas/rcar_gen4_ptp.c b/drivers/net/ethernet/renesas/rcar_gen4_ptp.c
+index c007e33c47e1..37f7359678e5 100644
+--- a/drivers/net/ethernet/renesas/rcar_gen4_ptp.c
++++ b/drivers/net/ethernet/renesas/rcar_gen4_ptp.c
+@@ -29,7 +29,7 @@ static const struct rcar_gen4_ptp_reg_offset s4_offs = {
+ static int rcar_gen4_ptp_adjfine(struct ptp_clock_info *ptp, long scaled_ppm)
+ {
+ 	struct rcar_gen4_ptp_private *ptp_priv = ptp_to_priv(ptp);
+-	bool neg_adj = scaled_ppm < 0 ? true : false;
++	bool neg_adj = scaled_ppm < 0;
+ 	s64 addend = ptp_priv->default_addend;
+ 	s64 diff;
+ 
 -- 
-2.34.1
+2.20.1.7.g153144c
 
