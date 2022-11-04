@@ -2,67 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F097261949F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 11:38:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1294F6194A3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 11:39:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231812AbiKDKiw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Nov 2022 06:38:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53758 "EHLO
+        id S231804AbiKDKjT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Nov 2022 06:39:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231826AbiKDKid (ORCPT
+        with ESMTP id S231390AbiKDKjQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Nov 2022 06:38:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 329D12B19C
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Nov 2022 03:37:30 -0700 (PDT)
+        Fri, 4 Nov 2022 06:39:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB8AD2B62E
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Nov 2022 03:38:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667558249;
+        s=mimecast20190719; t=1667558292;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=FvcSXdbTIY6j0RtoeMW2Oyvbsf0knEKyh2vmjeJsi+Y=;
-        b=Rf7Y0x2rmHCJixzVfneytF9Am7S6DScMizsbjl0XclcHjmrS6FPguGpDS21bWKcaSNoWS8
-        IU34rB7tm8+HIrkqjlXmm8ygtqUVipefGTYZrcAvIZthEbmZUTNabiOFhO6uRJcm6XHgzx
-        1svERowWXKKM5DwNVwy2HP6lQY2ewpE=
+        bh=M88yz4GfmbUNq4mWECugnsnJkV6z34uCwDqL3DFZ74U=;
+        b=X9/6b8rldhRlkUpmgYmLgpgyKzTITKrxN79vp81phcOinSHMxBjZU8x5YVdpGoLQdWF+XW
+        BQ0s9DW5KFjRuZK/UlKybOu+B9UtgGHG1GI/NjGiEu23mabuRFISk0o5tu/IQ4//Se5CvC
+        RgrGtrfsH82k6hw+HqNnKNekqRjuhaQ=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-534-oePjR0yANKet3T1GuHh-Bw-1; Fri, 04 Nov 2022 06:37:20 -0400
-X-MC-Unique: oePjR0yANKet3T1GuHh-Bw-1
-Received: by mail-wm1-f72.google.com with SMTP id v188-20020a1cacc5000000b003cf76c4ae66so4041108wme.7
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Nov 2022 03:37:20 -0700 (PDT)
+ us-mta-75-z1Mr0ioBPzOytZb0NaYBsg-1; Fri, 04 Nov 2022 06:38:10 -0400
+X-MC-Unique: z1Mr0ioBPzOytZb0NaYBsg-1
+Received: by mail-wm1-f72.google.com with SMTP id f62-20020a1c3841000000b003cf6d9aacbbso2130254wma.8
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Nov 2022 03:38:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FvcSXdbTIY6j0RtoeMW2Oyvbsf0knEKyh2vmjeJsi+Y=;
-        b=fwSenAzALl0tqGRy2Km4GuFZMaZ3fRvZzWMMLFPP+VGnmcCWlDQRmMvXo36S6cr2Js
-         GS6duhnvUkectqC6XillXwq3rlgdjW3hjv813F7rGbfJrvtIXcc/fo2++RdE+37EvANS
-         Qpn277O5CofLy0/4PuOVKYVgewp9ecC/cq9H+AhBcHL13aTPSL85v3iGuSXGSSb2IIFR
-         JnbMssvm/kdmjpJCSNrem22FHRxc/8yysH5/OTmkrA3w1lRlSxIwohB9CRxTYiKXmmSw
-         nTvNXvGniPVuekIEJNVD5b90T1NsSgh+CVfQf/6YXXiKQxN5MWOC4CWGjcED/3f2rKlt
-         PD8g==
-X-Gm-Message-State: ACrzQf3jIPtIGusgJJGWHzNEjWq1hykeRx14ah10UHlovw+viaLGFkLf
-        rM1BoGgqNKwaAvnkzhhq2+K7wfoqGZtb2kGyf3AVAeB78AC6utodZfg1DOsMukWV1SQenpr8YfV
-        1z9flkCojwiwlXhN+rTGSlo5igIzgb9E=
-X-Received: by 2002:a05:600c:1e2a:b0:3c3:d770:1756 with SMTP id ay42-20020a05600c1e2a00b003c3d7701756mr23539608wmb.134.1667558239667;
-        Fri, 04 Nov 2022 03:37:19 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4LKXhwK5qh8ieFEkCSZgi7mblk9sJOfnr0awtpFbS+pIQGNE9IUSRaCOrs9CG3VpGFJY/xjQ==
-X-Received: by 2002:a05:600c:1e2a:b0:3c3:d770:1756 with SMTP id ay42-20020a05600c1e2a00b003c3d7701756mr23539569wmb.134.1667558239379;
-        Fri, 04 Nov 2022 03:37:19 -0700 (PDT)
+        bh=M88yz4GfmbUNq4mWECugnsnJkV6z34uCwDqL3DFZ74U=;
+        b=pk8h9z+tHAzAyr2Ydyt38RWfN+fL8wvYP1TNRvqSAH8FahbdJRZskBAqIMpFQ3NyPE
+         xjxV/5xf4tW/8dS3DQpt2bzuy3Ow8HCBjGa4NLYUbQoxgOWOBhip82HtOp/okIOHhT4J
+         bqxRlztgf5q67T6ZP7jrvRZSokhE1s9sOYQ4DWwI27v2NmkXX8RJa4/oSdrqGOFGBxg4
+         769BE4SWEmkO9LGAHFsgEj/ok2Is2zZYMWIX8fXUgUdRLZ25cl4nultrnouq+Y7YFQu2
+         SG/jfXkwkD6fua5lc5zirCKOJGF2u61MDDhidGwGs49eaPCV8PzXqJCaEvXPkx5JyMro
+         ccSg==
+X-Gm-Message-State: ACrzQf0YIWYfpvEi86hUyt21HKNnYzY89DF0yVefPirt+cS8r3K3BmOp
+        BOcC2vjIAvcBj4NttHOdDojVF/HlUG5IEuyRmH4pnBx41bRamBfQy26myzQNn6G+i5iTJiSR9kA
+        jqCqDofXl29sxn+ChejdnzWe+ovVz7cE=
+X-Received: by 2002:adf:bc51:0:b0:236:8fa1:47ea with SMTP id a17-20020adfbc51000000b002368fa147eamr218071wrh.77.1667558289567;
+        Fri, 04 Nov 2022 03:38:09 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6s9MOXnwXonR8VOapq6d4n3ZU7IGA+EIjACuJbvHHOLIXD7EQUkeJV/V+5P7qnQBQKVLAVkQ==
+X-Received: by 2002:adf:bc51:0:b0:236:8fa1:47ea with SMTP id a17-20020adfbc51000000b002368fa147eamr218064wrh.77.1667558289372;
+        Fri, 04 Nov 2022 03:38:09 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id f15-20020a5d50cf000000b0022e36c1113fsm3031008wrt.13.2022.11.04.03.37.17
+        by smtp.gmail.com with ESMTPSA id k4-20020a05600c1c8400b003b4cba4ef71sm2534442wms.41.2022.11.04.03.38.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Nov 2022 03:37:18 -0700 (PDT)
-Message-ID: <ab8358a9-8450-0d49-627f-26afe7ba4f9d@redhat.com>
-Date:   Fri, 4 Nov 2022 11:37:17 +0100
+        Fri, 04 Nov 2022 03:38:09 -0700 (PDT)
+Message-ID: <1f5e6de4-3fe2-7933-f8c0-5f13564595cc@redhat.com>
+Date:   Fri, 4 Nov 2022 11:38:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v3 20/23] drm/fb-helper: Set flag in struct drm_fb_helper
- for leaking physical addresses
+Subject: Re: [PATCH v3 23/23] drm/fb-helper: Clarify use of last_close and
+ output_poll_changed
 Content-Language: en-US
 To:     Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
         airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
@@ -81,9 +81,9 @@ Cc:     linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org,
         linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, freedreno@lists.freedesktop.org
 References: <20221103151446.2638-1-tzimmermann@suse.de>
- <20221103151446.2638-21-tzimmermann@suse.de>
+ <20221103151446.2638-24-tzimmermann@suse.de>
 From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221103151446.2638-21-tzimmermann@suse.de>
+In-Reply-To: <20221103151446.2638-24-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -97,10 +97,9 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 11/3/22 16:14, Thomas Zimmermann wrote:
-> Uncouple the parameter drm_leak_fbdev_smem from the implementation by
-> setting a flag in struct drm_fb_helper. This will help to move the
-> generic fbdev emulation into its own source file, while keeping the
-> parameter in drm_fb_helper.c. No functional changes.
+> Clarify documentation in the use of struct drm_driver.last_close and
+> struct drm_mode_config_funcs.output_poll_changed. Those callbacks should
+> not be said for fbdev implementations on top of struct drm_client_funcs.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
