@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C9A76194CD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 11:50:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00A5F6194CB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 11:50:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231470AbiKDKuP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Nov 2022 06:50:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60634 "EHLO
+        id S231682AbiKDKuN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Nov 2022 06:50:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231790AbiKDKuK (ORCPT
+        with ESMTP id S231756AbiKDKuH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Nov 2022 06:50:10 -0400
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 395ED2BB12
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Nov 2022 03:50:06 -0700 (PDT)
+        Fri, 4 Nov 2022 06:50:07 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3943F2BB0B
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Nov 2022 03:50:05 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:c5ee:bf27:9df:5172])
-        by michel.telenet-ops.be with bizsmtp
-        id gAq32800Q2kjr6L06Aq3Nv; Fri, 04 Nov 2022 11:50:04 +0100
+        by laurent.telenet-ops.be with bizsmtp
+        id gAq4280132kjr6L01Aq4SS; Fri, 04 Nov 2022 11:50:04 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1oquGx-002mVL-6S; Fri, 04 Nov 2022 11:50:03 +0100
+        id 1oquGx-002mVM-Iu; Fri, 04 Nov 2022 11:50:03 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1oquGw-00HWF1-Oh; Fri, 04 Nov 2022 11:50:02 +0100
+        id 1oquGw-00HWF8-PG; Fri, 04 Nov 2022 11:50:02 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     arm-soc <arm@kernel.org>, soc <soc@kernel.org>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 3/4] Renesas driver updates for v6.2
-Date:   Fri,  4 Nov 2022 11:49:56 +0100
-Message-Id: <cover.1667558747.git.geert+renesas@glider.be>
+Subject: [GIT PULL 4/4] Renesas DT binding updates for v6.2
+Date:   Fri,  4 Nov 2022 11:49:57 +0100
+Message-Id: <cover.1667558749.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1667558738.git.geert+renesas@glider.be>
 References: <cover.1667558738.git.geert+renesas@glider.be>
@@ -55,21 +55,23 @@ The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v6.2-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dt-bindings-for-v6.2-tag1
 
-for you to fetch changes up to b3acbca3c80e612478b354e43c1480c3fc15873e:
+for you to fetch changes up to 7dd1d57c052e88f98b9e9145461b13bca019d108:
 
-  soc: renesas: Kconfig: Explicitly select GPIOLIB and PINCTRL config under SOC_RENESAS (2022-10-17 12:18:49 +0200)
-
-----------------------------------------------------------------
-Renesas driver updates for v6.2
-
-  - Let SOC_RENESAS select GPIOLIB and PINCTRL, so this does not have to
-    be handled in two (soon three: arm/arm64/riscv), places.
+  dt-bindings: soc: renesas: renesas.yaml: Document Renesas RZ/Five SoC (2022-10-28 14:43:12 +0200)
 
 ----------------------------------------------------------------
-Lad Prabhakar (1):
-      soc: renesas: Kconfig: Explicitly select GPIOLIB and PINCTRL config under SOC_RENESAS
+Renesas DT binding updates for v6.2
 
- drivers/soc/renesas/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
+  - Move renesas.yaml from arm to soc, and document RZ/Five support.
+
+----------------------------------------------------------------
+Lad Prabhakar (2):
+      dt-bindings: soc: renesas: Move renesas.yaml from arm to soc
+      dt-bindings: soc: renesas: renesas.yaml: Document Renesas RZ/Five SoC
+
+ Documentation/devicetree/bindings/{arm => soc/renesas}/renesas.yaml | 5 +++--
+ MAINTAINERS                                                         | 1 -
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename Documentation/devicetree/bindings/{arm => soc/renesas}/renesas.yaml (98%)
