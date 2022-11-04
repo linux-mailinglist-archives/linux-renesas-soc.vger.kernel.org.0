@@ -2,133 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7EFA6194EC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 11:57:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5D77619535
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 12:15:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229611AbiKDK52 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Nov 2022 06:57:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36772 "EHLO
+        id S231307AbiKDLPI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Nov 2022 07:15:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231807AbiKDK5X (ORCPT
+        with ESMTP id S230428AbiKDLPH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Nov 2022 06:57:23 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E5C92BB24
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Nov 2022 03:57:22 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:c5ee:bf27:9df:5172])
-        by andre.telenet-ops.be with bizsmtp
-        id gAxL2800r2kjr6L01AxLJZ; Fri, 04 Nov 2022 11:57:20 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1oquNz-002mYT-Cw; Fri, 04 Nov 2022 11:57:19 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1oquNy-00HWNj-NL; Fri, 04 Nov 2022 11:57:18 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] clk: renesas: Updates for v6.2
-Date:   Fri,  4 Nov 2022 11:57:17 +0100
-Message-Id: <cover.1667559042.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Fri, 4 Nov 2022 07:15:07 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99E73F45
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Nov 2022 04:15:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=kb2kbisxuNx/5Qhb1xm5Fa2x3BDC
+        yhrGdVOj3vwkUcU=; b=hXE3+bIScF4Srsx9K/QrAktRMC5u1zRkQ1l3I5o/jWME
+        wva+U2DK9p7ZesbZjp5tTEA7GrmUI9+D8xxMVUpl6zOb4mZLm0cK7r5iwvBn64eE
+        64C/jKqA2OLjL4/aZFQGhg0007f4IpI6DWArrVFlJ+lTF4MMFPGqXroSXA0mhWQ=
+Received: (qmail 3058062 invoked from network); 4 Nov 2022 12:15:01 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Nov 2022 12:15:01 +0100
+X-UD-Smtp-Session: l3s3148p1@NQ4WL6PsPZUucrX5
+Date:   Fri, 4 Nov 2022 12:14:57 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] arm64: dts: renesas: white-hawk-cpu: sort RWDT entry
+ correctly
+Message-ID: <Y2T0MT2mZ5kghUQ1@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221103205546.24836-1-wsa+renesas@sang-engineering.com>
+ <20221103205546.24836-4-wsa+renesas@sang-engineering.com>
+ <7cfe285d-eb82-1840-0149-b5b77f2beaae@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="WmaBimbi6vKaUGvX"
+Content-Disposition: inline
+In-Reply-To: <7cfe285d-eb82-1840-0149-b5b77f2beaae@linaro.org>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Mike, Stephen,
 
-The following changes since commit a9003f74f5a2f487e101f3aa1dd5c3d3a78c6999:
+--WmaBimbi6vKaUGvX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  clk: renesas: r8a779g0: Fix HSCIF parent clocks (2022-10-26 12:05:36 +0200)
 
-are available in the Git repository at:
+> But I doubt that there is a bug here. Style (like order of things) is
+> not a bug.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v6.2-tag1
+Okay, I'll be more strict next time. Geert, could you kindly drop the
+Fixes tag or shall I resend?
 
-for you to fetch changes up to 02693e11611e082e3c4d8653e8af028e43d31164:
 
-  clk: renesas: r9a06g032: Repair grave increment error (2022-11-01 10:15:28 +0100)
+--WmaBimbi6vKaUGvX
+Content-Type: application/pgp-signature; name="signature.asc"
 
-----------------------------------------------------------------
-clk: renesas: Updates for v6.2
+-----BEGIN PGP SIGNATURE-----
 
-  - Round SD clock rate to improve parent clock selection,
-  - Add Ethernet Switch and internal SASYNCPER clocks on R-Car S4-8,
-  - Add DMA (SYS-DMAC), SPI (MSIOF), external interrupt (INTC-EX),
-    serial (SCIF), PWM (PWM and TPU), SDHI, and HyperFLASH/QSPI (RPC-IF)
-    clocks on R-Car V4H,
-  - Add Multi-Function Timer Pulse Unit (MTU3a) clock and reset on
-    RZ/G2L,
-  - Fix endless loop on RZ/N1,
-  - Miscellaneous fixes and improvements.
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNk9C0ACgkQFA3kzBSg
+KbaXpA//aKHJpB+WdjFMjJSHKTjyd54QODpeCDNiUiKAf7AqUDfijp/Mbn/CfakX
+IsDn0iKCFjtBOFKuIxA57jqPMnEPWvl3Xwm4Lz5aYWACc1L0tDl3u2Ws2KyF7FL2
+ED+vUqdMGmjLgzzd89Y0C48xe6BWqmNrqqMKFWfh8bXpTA6rcZ3p+1ngHRNO6auf
+hWZG5t8vK0oluvURfv8G4M98SFi6CLkEk7CA+NlZVdzWOfrQWW88yR228DmFFVhx
+mSfCgsvqsChq2gcCBxvCTnPF2/g84rs7BimFQFK7SjLnLjckmLTrPHdWRAVhvQbm
+eCy+b4p++OYENJ+aUwAdZZup3HsJlp8nkzxEuSIyMIptLlOS7XJ/l3eO7fDarhLO
+gO/sr3joDMTHwaap4xc+Qg5t3SCdkiVSZGPSURHbE/bELoDcoWvrGv6Vlx4bGKsV
+gOzbAFUnmhFSXF8CFDE4wYeJovStXURLhdvmh8I5pDhdwYC1eJ8HrJPl+efB/g+Y
+/dQ7GUON4GZ2nfl6rcgANftIBd6eQBkfE46GMCR7qwEb3QDEXegRUdhfVMrvb9hY
+Ngpgc8QfM54BuMDRsV4SLfixl04REUvnI5BGUWPwl7DpLSwvL67K7NjFcNVR7COm
+oF19eNBhlsP3XE/Lq0+pTfPeubudh5ZM1T3uvOJ4d8/mbkxh4gU=
+=VghL
+-----END PGP SIGNATURE-----
 
-Note that this includes my previous pull request for
-renesas-clk-fixes-for-v6.1-tag1, which you have already pulled.
-
-Thanks for pulling!
-
-----------------------------------------------------------------
-Biju Das (2):
-      clk: renesas: rzg2l: Support sd clk mux round operation
-      clk: renesas: r9a07g044: Add MTU3a clock and reset entry
-
-Geert Uytterhoeven (11):
-      clk: renesas: r8a779g0: Add SYS-DMAC clocks
-      clk: renesas: r8a779g0: Add MSIOF clocks
-      clk: renesas: r8a779g0: Add INTC-EX clock
-      Merge tag 'renesas-clk-fixes-for-v6.1-tag1'
-      clk: renesas: r8a779g0: Add SCIF clocks
-      clk: renesas: r8a779g0: Add PWM clock
-      clk: renesas: r8a779g0: Add TPU clock
-      clk: renesas: r8a779f0: Fix SD0H clock name
-      clk: renesas: r8a779f0: Add SASYNCPER internal clock
-      clk: renesas: r8a779g0: Add SDHI clocks
-      clk: renesas: r8a779g0: Add RPC-IF clock
-
-Lad Prabhakar (5):
-      clk: renesas: rzg2l: Fix typo in function name
-      clk: renesas: r9a07g044: Drop WDT2 clock and reset entry
-      clk: renesas: r9a07g043: Drop WDT2 clock and reset entry
-      clk: renesas: rzg2l: Fix typo in struct rzg2l_cpg_priv kerneldoc
-      clk: renesas: rzg2l: Don't assume all CPG_MOD clocks support PM
-
-Marek Vasut (1):
-      clk: renesas: r9a06g032: Repair grave increment error
-
-Wolfram Sang (1):
-      clk: renesas: r8a779a0: Fix SD0H clock name
-
-Yoshihiro Shimoda (1):
-      clk: renesas: r8a779f0: Add Ethernet Switch clocks
-
- drivers/clk/renesas/r8a779a0-cpg-mssr.c |  2 +-
- drivers/clk/renesas/r8a779f0-cpg-mssr.c | 12 +++++---
- drivers/clk/renesas/r8a779g0-cpg-mssr.c | 22 +++++++++++++--
- drivers/clk/renesas/r9a06g032-clocks.c  |  3 +-
- drivers/clk/renesas/r9a07g043-cpg.c     |  5 ----
- drivers/clk/renesas/r9a07g044-cpg.c     | 10 +++----
- drivers/clk/renesas/rzg2l-cpg.c         | 49 +++++++++++++++++++--------------
- drivers/clk/renesas/rzg2l-cpg.h         |  4 +++
- 8 files changed, 67 insertions(+), 40 deletions(-)
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+--WmaBimbi6vKaUGvX--
