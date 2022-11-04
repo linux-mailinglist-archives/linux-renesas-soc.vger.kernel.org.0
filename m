@@ -2,119 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 226DB61A104
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 20:29:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4332961A3E7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 23:09:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229501AbiKDT3k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Nov 2022 15:29:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58624 "EHLO
+        id S230094AbiKDWJs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Nov 2022 18:09:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbiKDT3i (ORCPT
+        with ESMTP id S230043AbiKDWJq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Nov 2022 15:29:38 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6164635E
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Nov 2022 12:29:36 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id 4so5834137pli.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Nov 2022 12:29:36 -0700 (PDT)
+        Fri, 4 Nov 2022 18:09:46 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD1CD2D746
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Nov 2022 15:09:43 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id bj12so16619720ejb.13
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Nov 2022 15:09:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=coppeWfhGCt8RrFh4xp+o6BaCFfthicfV88Hga7Ywrs=;
-        b=bXaVfbdb3ZcahXxunt5x8dpa93cEIlg83ooOkQZ8Xca/qcP9mecyVfzC59GKM3ic7r
-         C2LwHAjdc3W4bJoDaUB6364Dip+DxzhWZSlJqBjd2UnrA4UQnQyDx0wkV/IskMEJ89WD
-         gJITpdGbc51rtgK3c7N/pLdDDrjrZqkC+BSvU=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=E5tz9kDARs7bEUpBgBU6vkYUGWPrxNGs4ZuVgd2D+O0=;
+        b=e63z/xZTYHs+wM70ZKty1cPbCAJVughzXg6uyiyaGr4cCcS0EUngASMR2Dey8Nlmv7
+         x471ErFdwXhh+agGiW0u8Eq3IYAq9L/OnLJeEXQe+A8bvEWUY8B4ZkTJcJ0B1+m52KiB
+         S3AZIRjpXmbUkG4EZ1HigN+/i/Cs9nHE0sy33v10NAHFH3zW4n4RbfKymGQ8putGtZqF
+         xxmkin+/H9oOa9ZTnOEa75YpnyUUUNQUJi/FSky8KTyQMHgg0kpT2SFs1RPgwxCDQ+4B
+         EBg4GVS+Vk0fjg1pDV9mRzU2JB/QN1Ubeav5I2M8MjtQUXTu3efFkVMRmE9+3e37Iwv5
+         u7fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=coppeWfhGCt8RrFh4xp+o6BaCFfthicfV88Hga7Ywrs=;
-        b=luNKPdIaFZE2nlyVBY0nHnw+cYsBsxs5u23rHFZE6LqTka9JS7kQeGvT3SCFvKOl2D
-         YPeNrL+67t9ojM3/9fzm70UVGt3ev0nREXogLuSfBgBhAnazhL3gvU7N2BS6CYrMha7o
-         QbF2ujDz5pxtY9mdizcBzo8nxrIjHJe1jJYE2wXys9C7xRhsLr1unJpllUT1Uk2hyirY
-         I0KbOPrdg17ZjhdTjtbqn8JWDoMnnvF/VoHvWLUAmIvPZRt+Z9Xg8BiGnCfsgEk1bHVw
-         jlOoNC4oplYsejSdfYspKES42H4mNA+psBulZgy3z++ikrzY+8Cjo9hXKrAoDr07gYlH
-         YnvQ==
-X-Gm-Message-State: ACrzQf3eJp2Iuoy9n9pT0yppMOQ+pHaMdwa/J0feq0SC3go/OWBXcoqL
-        ttxrqmnmE4aRTENkD8wKIuifXQ==
-X-Google-Smtp-Source: AMsMyM5GA4vWe+7Au3BfwULC3SI7otx4Z3kmU+RAsXyTVz1BP2dUWnjKFDmRuAy9Wg2mW/X84RWcaw==
-X-Received: by 2002:a17:90a:f414:b0:212:cacf:42c3 with SMTP id ch20-20020a17090af41400b00212cacf42c3mr55439472pjb.198.1667590176353;
-        Fri, 04 Nov 2022 12:29:36 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id u7-20020a170902e5c700b00174d9bbeda4sm117527plf.197.2022.11.04.12.29.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Nov 2022 12:29:36 -0700 (PDT)
-From:   coverity-bot <keescook@chromium.org>
-X-Google-Original-From: coverity-bot <keescook+coverity-bot@chromium.org>
-Date:   Fri, 4 Nov 2022 12:29:35 -0700
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Sergey Shtylyov <s.shtylyov@omp.ru>,
-        linux-renesas-soc@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        linux-next@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Coverity: rswitch_gwca_queue_alloc_skb(): Control flow issues
-Message-ID: <202211041229.F3B37C03@keescook>
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=E5tz9kDARs7bEUpBgBU6vkYUGWPrxNGs4ZuVgd2D+O0=;
+        b=jfyvjE4vqN5JN+vzS5H/XxuzNBikNh5bqD9f9qsl46RBuHDHPqRuPmRZef6N17NPst
+         VihvMTkK9aLI3ifghsFEUcRs7jtRt+sfFrNhpF55czhYl4VL2MEMlx1PiairSrpYWxDA
+         yGyRHgI6JnZxsnRwx4GjEe9pmNLGmgfQhV4T4wOwTVkxSNZ9bL6Tb5se2tsbMLAG6wA7
+         NtYvfoNnelmCZN0m0DS89OwBNtmRLeBdB/tdlfr+UnyRPapIcs3ryqyQ5J8+ziv//8Hk
+         4SgR17lMKAEX9BjUjpx2p1Sy0dpgLFkED8T/4FWFEFluWVTcbC4Jwot04umwYnTmf1hN
+         z4fw==
+X-Gm-Message-State: ACrzQf3P0N/91hsxCO3dM5Zs3sdRdIvrRv7DisNdFNzrpC1WeBxq1KPv
+        FxRs9n7skDODqzDd0nkk6R3r8fEIHLvQbWyrzXo=
+X-Google-Smtp-Source: AMsMyM7hOSo+MPQXTisKR46l8SXpBysoB5PG9CesHQ2UESeL+vAR1QVi8uCrmFqSUiYhWdkrvAt0e9X58nXzuNA6TwE=
+X-Received: by 2002:a17:906:371a:b0:7ad:c01c:6fa0 with SMTP id
+ d26-20020a170906371a00b007adc01c6fa0mr32068491ejc.267.1667599781913; Fri, 04
+ Nov 2022 15:09:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 4 Nov 2022 22:09:15 +0000
+Message-ID: <CA+V-a8u_u9Q6Hb8kOZVKFjGyPsc2HQt88c4y2Nh8dzx0XSebeA@mail.gmail.com>
+Subject: [QUERY]: RZ/Five (AX45MP) non-coherent DMA
+To:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Conor Dooley <Conor.Dooley@microchip.com>,
+        Heiko Stuebner <heiko@sntech.de>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi All,
 
-This is an experimental semi-automated report about issues detected by
-Coverity from a scan of next-20221104 as part of the linux-next scan project:
-https://scan.coverity.com/projects/linux-next-weekly-scan
+When trying to add non coherent DMA support for the RZ/Five SoC, I was
+suggested to use the ALTERNATIVE() macro [0].
 
-You're getting this email because you were associated with the identified
-lines of code (noted below) that were touched by commits:
+My initial intention was to implement the alternative_call_x()
+something like what x86 has and from there call the C function, So
+while doing some experiments I realized that using the asm "call
+<func>" would cause adding the whole lot of registers in the clobbers
+list.
 
-  Wed Nov 2 12:38:53 2022 +0000
-    3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")
+As per my understanding the only correct approach to
+alternative_call_x() is if the function itself is inline assembly then
+we know the exact registers being used and then we could add them
+appropriately in the clobbers list.
 
-Coverity reported the following:
+The problem with the above approach being we have quite a lot of C
+code [1] for the CMO and it also requires some register writes of the
+l2 cache controller, converting this to assembly would be a pain.
 
-*** CID 1527147:  Control flow issues  (NO_EFFECT)
-drivers/net/ethernet/renesas/rswitch.c:270 in rswitch_gwca_queue_alloc_skb()
-264     			goto err;
-265     	}
-266
-267     	return 0;
-268
-269     err:
-vvv     CID 1527147:  Control flow issues  (NO_EFFECT)
-vvv     This greater-than-or-equal-to-zero comparison of an unsigned value is always true. "i >= 0U".
-270     	for (i--; i >= 0; i--) {
-271     		index = (i + start_index) % gq->ring_size;
-272     		dev_kfree_skb(gq->skbs[index]);
-273     		gq->skbs[index] = NULL;
-274     	}
-275
+* Is my understanding correct?
+* Is there any other approach I am missing?
+* Is there no way out apart from implementing inline asm?
 
-If this is a false positive, please let us know so we can mark it as
-such, or teach the Coverity rules to be smarter. If not, please make
-sure fixes get into linux-next. :) For patches fixing this, please
-include these lines (but double-check the "Fixes" first):
+[0] https://patchwork.kernel.org/project/linux-riscv/cover/20221019220242.4746-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+[1] https://patchwork.kernel.org/project/linux-riscv/patch/20221019220242.4746-3-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
-Addresses-Coverity-ID: 1527147 ("Control flow issues")
-Fixes: 3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")
-
-Thanks for your attention!
-
--- 
-Coverity-bot
+Cheers,
+Prabhakar
