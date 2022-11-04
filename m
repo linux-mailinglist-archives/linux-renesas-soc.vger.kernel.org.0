@@ -2,95 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB41F61961E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 13:21:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1A6561969F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 13:55:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231842AbiKDMVT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Nov 2022 08:21:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47560 "EHLO
+        id S231697AbiKDMze (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Nov 2022 08:55:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231833AbiKDMVR (ORCPT
+        with ESMTP id S231983AbiKDMzd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Nov 2022 08:21:17 -0400
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D12321FFBC;
-        Fri,  4 Nov 2022 05:21:15 -0700 (PDT)
-Received: by mail-qk1-f176.google.com with SMTP id f8so2907480qkg.3;
-        Fri, 04 Nov 2022 05:21:15 -0700 (PDT)
+        Fri, 4 Nov 2022 08:55:33 -0400
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7984B2E68F
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Nov 2022 05:55:32 -0700 (PDT)
+Received: by mail-qt1-x82b.google.com with SMTP id s4so2940069qtx.6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Nov 2022 05:55:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ukBJpA5NwdEmIsRSONm/eOzcZ3EUL0Iz2TQFiM0DRbg=;
+        b=P0XdkENWM6UJbpKDZ/vB5Goin9tjjDAotAqHlHhjppgKXhtExM18/xqP3ySTo/BQLx
+         mxkXLXh/FePSsqxzw0TciFB3j7rzMIDghpedcIQOzSdsUbYPk1iYSkUsLsk6CxmKJE30
+         NdnBaU+yy7D+oe39MNZms0hHnQE/QCyhjl6RyXxfKSBd0gC+0WJZruw4tKpCC/OVVb2Q
+         /kwbKqFUxhOY1QH7MHPgVZPHCNYkygzTSfPRxpdhIQ7bvCpPVkxdlofUBMPVwOL5bkkJ
+         DKA5wS//dvZkfO2312zhbmBYTX/OSKxw4DPCQBk2ofbbIjS7uaqgp9DJO7GB4/Hjtmk8
+         uxoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MpOBZFHbb5n86fo/L37mcIC77vG4ouciWdT84I9gcW4=;
-        b=usoqyl0Fswti9IMLxd6W6eq5sbA7Bl80cvqOLGkijkWFS2+jpNjQrMr/H3FtwNh8qE
-         z9sx1671tFAHFngC+NEl0jenHi7ZFzafYfGxfE1R8kA0ffdsoW+2f/EwZDyXZPIZMcC3
-         Da55NfF/epeEeyIxhzo9Ejy7y3lHVnUWY2/K0uxTZAyC1WW7UZHRs4mfESD9eTeVe5sQ
-         FM9nPKjAoMkzG4OZHIcF4lDGlezj1kOKbdblYZEq6vGPu753tAm9jl+Go9aF0MdatUGj
-         zK+GW+c3d/DPsCxe7ZQbAmoanc91QyNMmCMgGf27r6stBLDB4JgSILyjrywC3Pqty3GY
-         fueA==
-X-Gm-Message-State: ACrzQf1jC8doy0MAmKelhYhlfgTLW4v+JH5OunXjltD8/Ey96NEa28qb
-        3gqeyVu3K0m9ihdwqwUf53nD8/bcOmsJ9g==
-X-Google-Smtp-Source: AMsMyM6Tc3dneT99Wm55yxEyoppMN0GVPVmVf3jHJqAqDPQ1YkdwUStg7MvaVUWXmRGfVnIWp93EFw==
-X-Received: by 2002:ae9:e902:0:b0:6fa:8e2c:6c33 with SMTP id x2-20020ae9e902000000b006fa8e2c6c33mr1954998qkf.664.1667564474809;
-        Fri, 04 Nov 2022 05:21:14 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id e15-20020ac845cf000000b003995f6513b9sm2305584qto.95.2022.11.04.05.21.14
+        bh=ukBJpA5NwdEmIsRSONm/eOzcZ3EUL0Iz2TQFiM0DRbg=;
+        b=UthWV4R65VpegpvFUDOx/x+neV/2LsPZmpPlR1ryqwEkEhzC67tIe3xzUSJ10PmnKX
+         rExhw9r8IVdb1vTS1Z9KjjO2q16QGR04dVns0Fh12rZciRjMDYQ16MY4hDDCMptPEzrD
+         gK38xyOxUqsJqh399B45Tsk1YK4Bv/TLui+77cqSlfMnHKcJDiMbUy44uZuH+5khc66U
+         zG1gSFdMxfHA+eqdAmrFEJgBgJ+qHaF27XqrVU5dK7v7K3BgfrWO/gMuHfw2E+j/h8lA
+         9A3lGnwaSOtr3PCPnZ1pBQclFa1VdUM9Ryzry0Pbc6w35XeuzWFMJt7UcMG0BdzCjipP
+         nVIA==
+X-Gm-Message-State: ACrzQf2stN9i8ny+gRehtd/IeJcNJPmWrOCic7ITQQP4QB4b8UrMhIjW
+        yO5wgc+uTvYf6tzcuoBetZJpOw==
+X-Google-Smtp-Source: AMsMyM5Cf7I/mX7W/K9eeFZMbSU0+FWFJecGF2aorNkY8PDS2j26RAVWb8afuVTNZlpngf7AWb4qew==
+X-Received: by 2002:a05:622a:14cb:b0:39a:7194:7de1 with SMTP id u11-20020a05622a14cb00b0039a71947de1mr29191254qtx.91.1667566531648;
+        Fri, 04 Nov 2022 05:55:31 -0700 (PDT)
+Received: from ?IPV6:2601:586:5000:570:aad6:acd8:4ed9:299b? ([2601:586:5000:570:aad6:acd8:4ed9:299b])
+        by smtp.gmail.com with ESMTPSA id k11-20020a05620a0b8b00b006fa0d98a037sm2733840qkh.87.2022.11.04.05.55.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Nov 2022 05:21:14 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id j130so5568471ybj.9;
-        Fri, 04 Nov 2022 05:21:14 -0700 (PDT)
-X-Received: by 2002:a25:6b07:0:b0:6cd:3a43:bfe5 with SMTP id
- g7-20020a256b07000000b006cd3a43bfe5mr22021198ybc.89.1667564474153; Fri, 04
- Nov 2022 05:21:14 -0700 (PDT)
+        Fri, 04 Nov 2022 05:55:30 -0700 (PDT)
+Message-ID: <69896316-e38d-edae-77dd-9c6aad0ad0dd@linaro.org>
+Date:   Fri, 4 Nov 2022 08:55:29 -0400
 MIME-Version: 1.0
-References: <20221103205546.24836-1-wsa+renesas@sang-engineering.com>
- <20221103205546.24836-4-wsa+renesas@sang-engineering.com> <7cfe285d-eb82-1840-0149-b5b77f2beaae@linaro.org>
- <Y2T0MT2mZ5kghUQ1@shikoro>
-In-Reply-To: <Y2T0MT2mZ5kghUQ1@shikoro>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 4 Nov 2022 13:21:02 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXd1B=BbePp9X21ptUbr9tp9Qz4JPYBbvzCVtRjN+A97w@mail.gmail.com>
-Message-ID: <CAMuHMdXd1B=BbePp9X21ptUbr9tp9Qz4JPYBbvzCVtRjN+A97w@mail.gmail.com>
-Subject: Re: [PATCH 3/4] arm64: dts: renesas: white-hawk-cpu: sort RWDT entry correctly
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 2/3] dt-bindings: i2c: renesas,rzv2m: Fix SoC specific
+ string
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Magnus Damm <magnus.damm@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+References: <20221103230648.53748-1-fabrizio.castro.jz@renesas.com>
+ <20221103230648.53748-3-fabrizio.castro.jz@renesas.com>
+ <7fcd798a-9cce-9453-1657-7be1abf3b97e@linaro.org>
+ <CAMuHMdX-b-DoNGeccO82bh4s9d7HKh_7o5W967a_iKBMo-fckw@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAMuHMdX-b-DoNGeccO82bh4s9d7HKh_7o5W967a_iKBMo-fckw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+On 04/11/2022 04:55, Geert Uytterhoeven wrote:
+> Hi Krzysztof,
+> 
+> On Fri, Nov 4, 2022 at 2:48 AM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>> On 03/11/2022 19:06, Fabrizio Castro wrote:
+>>> s/renesas,i2c-r9a09g011/renesas,r9a09g011-i2c/g for consistency.
+>>>
+>>> renesas,i2c-r9a09g011 is not actually used by the driver, therefore
+>>> changing this doesn't cause any harm.
+>>
+>> And what about other users of DTS? One chosen driver implementation
+>> might not be enough...
+>>
+>>>
+>>> Fixes: ba7a4d15e2c4 ("dt-bindings: i2c: Document RZ/V2M I2C controller")
+>>
+>> You need to explain the bug - where is the issue, how it affects users.
+>> Otherwise it is not a bug and there is nothing to fix.
+> 
+> Yep.
+> 
+>     The preferred form is "<vendor>,<family>-<module>", blah blah ...
+> 
+>>> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+>>> ---
+>>>  Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml | 4 ++--
+>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml b/Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
+>>> index c46378efc123..92e899905ef8 100644
+>>> --- a/Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
+>>> +++ b/Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
+>>> @@ -16,7 +16,7 @@ properties:
+>>>    compatible:
+>>>      items:
+>>>        - enum:
+>>> -          - renesas,i2c-r9a09g011  # RZ/V2M
+>>> +          - renesas,r9a09g011-i2c  # RZ/V2M
+>>
+>> No.
+>>
+>> Deprecate instead old compatible. There are already users of it, at
+>> least in kernel. Not sure about other OS/bootloaders/firmwares.
+> 
+> As stated in the cover letter:
+> 
+>     Since it's early days for r9a09g011.dtsi, and compatible
+>     renesas,i2c-r9a09g011 isn't being actively used at the moment,
+>     I think it's safe to change to make compatible strings less
+>     confusing.
+> 
+> The bindings entered in v6.0.
+> The first user in the kernel is not yet in a released kernel, it will
+> be in v6.1. So it can still be fixed in v6.1...
+> Even if we don't fix it before v6.2, I don't think there is much harm in
+> making this change.
+> 
 
-On Fri, Nov 4, 2022 at 12:15 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > But I doubt that there is a bug here. Style (like order of things) is
-> > not a bug.
->
-> Okay, I'll be more strict next time. Geert, could you kindly drop the
-> Fixes tag or shall I resend?
+ABI break reasons should be explained in the commit because cover letter
+does not get merged.
 
-Consider it done, no need to resend.
-BTW, I guess the stable machinery will pick it up anyway...
+Best regards,
+Krzysztof
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
