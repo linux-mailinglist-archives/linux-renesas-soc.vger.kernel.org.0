@@ -2,72 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3114061A0B3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 20:17:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 226DB61A104
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 20:29:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229582AbiKDTRE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Nov 2022 15:17:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51974 "EHLO
+        id S229501AbiKDT3k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Nov 2022 15:29:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbiKDTRC (ORCPT
+        with ESMTP id S229533AbiKDT3i (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Nov 2022 15:17:02 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1A964874A
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Nov 2022 12:16:59 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id u6so5736519plq.12
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Nov 2022 12:16:59 -0700 (PDT)
+        Fri, 4 Nov 2022 15:29:38 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6164635E
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Nov 2022 12:29:36 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id 4so5834137pli.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Nov 2022 12:29:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uwf9cNrPS5Rc31CwAis9I5k42+w3JYRmcdVU7DdGiu4=;
-        b=N6TFAIctV4hgpYE38ZyX/b+J/o7aIK0+cR8rBnXD24Pic0BLxQcHU237p09FZeLrX9
-         6yj0AmbLE6V1HcPmWLID7VETZlaV+M9dng3VlpfIN3WNRO3xTYAAiE2momLGKWMNEkhQ
-         G4VT1cqNjnQ6Oe4tlUOO1WbSzvJVPgeHtyRA8=
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=coppeWfhGCt8RrFh4xp+o6BaCFfthicfV88Hga7Ywrs=;
+        b=bXaVfbdb3ZcahXxunt5x8dpa93cEIlg83ooOkQZ8Xca/qcP9mecyVfzC59GKM3ic7r
+         C2LwHAjdc3W4bJoDaUB6364Dip+DxzhWZSlJqBjd2UnrA4UQnQyDx0wkV/IskMEJ89WD
+         gJITpdGbc51rtgK3c7N/pLdDDrjrZqkC+BSvU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uwf9cNrPS5Rc31CwAis9I5k42+w3JYRmcdVU7DdGiu4=;
-        b=qoGPgKl8k5iCyBcbKPWvBb9OOLDvpW8kvsZAwAXcp9dDNU4nL5Ud/2omAg+CiWb6qK
-         Hu4P2eFGmRa19SC+PVoeDBsN9Gzj7t2unWX32Ks3fmdPa2hX9FAHJ8b+h5PSUe/3z9v0
-         geJl4W0U7wgCADIUGd1bD3q1fQ/gjG5bTLZeoUkcus06zq3+2UXPcC/YJdBnRcgSDEkx
-         zBwAZ3HemUQIZSNfsGWywjycTaezaqnzB5mkOLxfIJ0xcUi5oqXSmPsWmV4lxk4RolEq
-         qhBVrFo/lsXLN+h47At6HCCqNCHtp4CTa+mMt7k38bpt6d5lmHllJDwRCqETI7IQmXE6
-         3tQg==
-X-Gm-Message-State: ACrzQf176XlEa+LZW6/hnggPhWOJmsOWF8tvNvNrqBStJHpuPPiWysgR
-        595AO32yqH7yM+qLAhmwQK5b52GLA+O/Tw==
-X-Google-Smtp-Source: AMsMyM723xbKuDkCJ7wXLAB+SxhuL5RfQWSJSVDW6OhzUsKHC44G/DKWPnsbHUAvL7N0/sG7WSCPRg==
-X-Received: by 2002:a17:902:8693:b0:17a:f71:98fd with SMTP id g19-20020a170902869300b0017a0f7198fdmr37053238plo.25.1667589419426;
-        Fri, 04 Nov 2022 12:16:59 -0700 (PDT)
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=coppeWfhGCt8RrFh4xp+o6BaCFfthicfV88Hga7Ywrs=;
+        b=luNKPdIaFZE2nlyVBY0nHnw+cYsBsxs5u23rHFZE6LqTka9JS7kQeGvT3SCFvKOl2D
+         YPeNrL+67t9ojM3/9fzm70UVGt3ev0nREXogLuSfBgBhAnazhL3gvU7N2BS6CYrMha7o
+         QbF2ujDz5pxtY9mdizcBzo8nxrIjHJe1jJYE2wXys9C7xRhsLr1unJpllUT1Uk2hyirY
+         I0KbOPrdg17ZjhdTjtbqn8JWDoMnnvF/VoHvWLUAmIvPZRt+Z9Xg8BiGnCfsgEk1bHVw
+         jlOoNC4oplYsejSdfYspKES42H4mNA+psBulZgy3z++ikrzY+8Cjo9hXKrAoDr07gYlH
+         YnvQ==
+X-Gm-Message-State: ACrzQf3eJp2Iuoy9n9pT0yppMOQ+pHaMdwa/J0feq0SC3go/OWBXcoqL
+        ttxrqmnmE4aRTENkD8wKIuifXQ==
+X-Google-Smtp-Source: AMsMyM5GA4vWe+7Au3BfwULC3SI7otx4Z3kmU+RAsXyTVz1BP2dUWnjKFDmRuAy9Wg2mW/X84RWcaw==
+X-Received: by 2002:a17:90a:f414:b0:212:cacf:42c3 with SMTP id ch20-20020a17090af41400b00212cacf42c3mr55439472pjb.198.1667590176353;
+        Fri, 04 Nov 2022 12:29:36 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id e38-20020a631e26000000b0046497308480sm74704pge.77.2022.11.04.12.16.58
+        by smtp.gmail.com with ESMTPSA id u7-20020a170902e5c700b00174d9bbeda4sm117527plf.197.2022.11.04.12.29.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Nov 2022 12:16:58 -0700 (PDT)
-Date:   Fri, 4 Nov 2022 12:16:57 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>,
-        Sami Tolvanen <samitolvanen@google.com>, llvm@lists.linux.dev,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH net-next] net: ethernet: renesas: Fix return type of
- rswitch_start_xmit()
-Message-ID: <202211041216.AEE2A8A353@keescook>
-References: <20221103220032.2142122-1-nathan@kernel.org>
+        Fri, 04 Nov 2022 12:29:36 -0700 (PDT)
+From:   coverity-bot <keescook@chromium.org>
+X-Google-Original-From: coverity-bot <keescook+coverity-bot@chromium.org>
+Date:   Fri, 4 Nov 2022 12:29:35 -0700
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sergey Shtylyov <s.shtylyov@omp.ru>,
+        linux-renesas-soc@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        linux-next@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Coverity: rswitch_gwca_queue_alloc_skb(): Control flow issues
+Message-ID: <202211041229.F3B37C03@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221103220032.2142122-1-nathan@kernel.org>
 X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -78,28 +74,47 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 03, 2022 at 03:00:32PM -0700, Nathan Chancellor wrote:
-> With clang's kernel control flow integrity (kCFI, CONFIG_CFI_CLANG),
-> indirect call targets are validated against the expected function
-> pointer prototype to make sure the call target is valid to help mitigate
-> ROP attacks. If they are not identical, there is a failure at run time,
-> which manifests as either a kernel panic or thread getting killed. A
-> proposed warning in clang aims to catch these at compile time, which
-> reveals:
-> 
->   drivers/net/ethernet/renesas/rswitch.c:1533:20: error: incompatible function pointer types initializing 'netdev_tx_t (*)(struct sk_buff *, struct net_device *)' (aka 'enum netdev_tx (*)(struct sk_buff *, struct net_device *)') with an expression of type 'int (struct sk_buff *, struct net_device *)' [-Werror,-Wincompatible-function-pointer-types-strict]
->           .ndo_start_xmit = rswitch_start_xmit,
->                           ^~~~~~~~~~~~~~~~~~
->   1 error generated.
-> 
-> ->ndo_start_xmit() in 'struct net_device_ops' expects a return type of
-> 'netdev_tx_t', not 'int'. Adjust the return type of rswitch_start_xmit()
-> to match the prototype's to resolve the warning and CFI failure.
-> 
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1750
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Hello!
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+This is an experimental semi-automated report about issues detected by
+Coverity from a scan of next-20221104 as part of the linux-next scan project:
+https://scan.coverity.com/projects/linux-next-weekly-scan
+
+You're getting this email because you were associated with the identified
+lines of code (noted below) that were touched by commits:
+
+  Wed Nov 2 12:38:53 2022 +0000
+    3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")
+
+Coverity reported the following:
+
+*** CID 1527147:  Control flow issues  (NO_EFFECT)
+drivers/net/ethernet/renesas/rswitch.c:270 in rswitch_gwca_queue_alloc_skb()
+264     			goto err;
+265     	}
+266
+267     	return 0;
+268
+269     err:
+vvv     CID 1527147:  Control flow issues  (NO_EFFECT)
+vvv     This greater-than-or-equal-to-zero comparison of an unsigned value is always true. "i >= 0U".
+270     	for (i--; i >= 0; i--) {
+271     		index = (i + start_index) % gq->ring_size;
+272     		dev_kfree_skb(gq->skbs[index]);
+273     		gq->skbs[index] = NULL;
+274     	}
+275
+
+If this is a false positive, please let us know so we can mark it as
+such, or teach the Coverity rules to be smarter. If not, please make
+sure fixes get into linux-next. :) For patches fixing this, please
+include these lines (but double-check the "Fixes" first):
+
+Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
+Addresses-Coverity-ID: 1527147 ("Control flow issues")
+Fixes: 3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")
+
+Thanks for your attention!
 
 -- 
-Kees Cook
+Coverity-bot
