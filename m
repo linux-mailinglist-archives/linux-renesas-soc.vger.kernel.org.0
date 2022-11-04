@@ -2,88 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BCA6619B1E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 16:12:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D614619B4F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Nov 2022 16:19:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230454AbiKDPMF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Nov 2022 11:12:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54682 "EHLO
+        id S232519AbiKDPTr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Nov 2022 11:19:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232437AbiKDPLv (ORCPT
+        with ESMTP id S232517AbiKDPTp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Nov 2022 11:11:51 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 644BD1D651
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Nov 2022 08:11:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=goF9wc5+Rtu27P
-        piBYCeFCpbgEpJxB9otcfihRuwblg=; b=bUxYA7yTSx4MUhzulIiQY89hE0Kppu
-        2hCXGkd3JFULswVkFllNvczfQKGCVJEUavdlgJKMPzph4SfMDCB63yAy0TRMcnxH
-        5QxMtdi7zIRSquHVvGYwnn9A21wzZiR3zflAVhbftrmaqysRjSHKy/wfakwPAG0d
-        eZRHYyx5OYwb4=
-Received: (qmail 3148319 invoked from network); 4 Nov 2022 16:11:47 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Nov 2022 16:11:47 +0100
-X-UD-Smtp-Session: l3s3148p1@fEwFfqbsoAhZD+8G
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Fri, 4 Nov 2022 11:19:45 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 448331EC69;
+        Fri,  4 Nov 2022 08:19:42 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.96,137,1665414000"; 
+   d="scan'208";a="139000228"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 05 Nov 2022 00:19:41 +0900
+Received: from localhost.localdomain (unknown [10.226.93.164])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id D32504006A8E;
+        Sat,  5 Nov 2022 00:19:37 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Linus Walleij <linus.walleij@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] TEST: arm64: dts: renesas: white-hawk-cpu: Enable CMT
-Date:   Fri,  4 Nov 2022 16:11:35 +0100
-Message-Id: <20221104151135.4706-4-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221104151135.4706-1-wsa+renesas@sang-engineering.com>
-References: <20221104151135.4706-1-wsa+renesas@sang-engineering.com>
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 0/2] Add RZ/G2L POEG support
+Date:   Fri,  4 Nov 2022 15:19:33 +0000
+Message-Id: <20221104151935.1783791-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.2 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch enables CMT{0|1|2|3} on the WhiteHawk board.
+The output pins of the general PWM timer (GPT) can be disabled by using the port
+output enabling function for the GPT (POEG). Specifically, either of the
+following ways can be used.
 
-Only for testing, not for upstream!
+  * Input level detection of the GTETRGA to GTETRGD pins.
+  * Output-disable request from the GPT.
+  * Register setting(ie, by setting POEGGn.SSF to 1)
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- .../dts/renesas/r8a779g0-white-hawk-cpu.dtsi     | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+This patch series add support for controlling output disable function using sysfs.
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
-index c10740aee9f6..7f565e161662 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
-@@ -279,3 +279,19 @@ &rwdt {
- &scif_clk {
- 	clock-frequency = <24000000>;
- };
-+
-+&cmt0 {
-+	status = "okay";
-+};
-+
-+&cmt1 {
-+	status = "okay";
-+};
-+
-+&cmt2 {
-+	status = "okay";
-+};
-+
-+&cmt3 {
-+	status = "okay";
-+};
+For output disable operation, POEG group needs to be linked with GPT.
+Plan to send a follow up patch with renesas,poeg-group as numeric
+property in pwm bindings for linking both GPT and POEG devices.
+
+v2->v3:
+ * Removed Rb tag from Rob as there are some changes introduced.
+ * Added companion property, so that poeg can link with gpt device
+ * Documented renesas,id, as identifier for POEGG{A,B,C,D}.
+ * Updated the binding example.
+ * Added sysfs documentation for output_disable
+ * PWM_RZG2L_GPT implies ARCH_RZG2L. So removed ARCH_RZG2L dependency
+ * Used dev_get_drvdata to get device data
+ * Replaced sprintf->sysfs_emit in show().
+v1->v2:
+ * Updated binding description.
+ * Renamed the file poeg-rzg2l->rzg2l-poeg
+ * Removed the macro POEGG as there is only single register and
+   updated rzg2l_poeg_write() and rzg2l_poeg_read()
+ * Updated error handling in probe()
+REF->v1:
+ * Modelled as pincontrol as most of its configuration is intended to be
+   static and moved driver files from soc to pincontrol directory.
+ * Updated reg size in dt binding example.
+ * Updated Kconfig
+
+REF:
+https://lore.kernel.org/linux-renesas-soc/20220510151112.16249-1-biju.das.jz@bp.renesas.com/
+
+Biju Das (2):
+  dt-bindings: pinctrl: renesas: Add RZ/G2L POEG binding
+  drivers: pinctrl: renesas: Add RZ/G2L POEG driver support
+
+ .../ABI/testing/sysfs-platform-rzg2l-poeg     |  18 ++
+ .../bindings/pinctrl/renesas,rzg2l-poeg.yaml  |  86 ++++++++++
+ drivers/pinctrl/renesas/Kconfig               |   2 +
+ drivers/pinctrl/renesas/Makefile              |   2 +
+ drivers/pinctrl/renesas/poeg/Kconfig          |  11 ++
+ drivers/pinctrl/renesas/poeg/Makefile         |   2 +
+ drivers/pinctrl/renesas/poeg/rzg2l-poeg.c     | 157 ++++++++++++++++++
+ 7 files changed, 278 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-platform-rzg2l-poeg
+ create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-poeg.yaml
+ create mode 100644 drivers/pinctrl/renesas/poeg/Kconfig
+ create mode 100644 drivers/pinctrl/renesas/poeg/Makefile
+ create mode 100644 drivers/pinctrl/renesas/poeg/rzg2l-poeg.c
+
 -- 
-2.35.1
+2.25.1
 
