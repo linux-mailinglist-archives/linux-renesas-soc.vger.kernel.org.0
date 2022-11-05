@@ -2,105 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B40C061A557
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Nov 2022 00:07:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3375461A6F1
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Nov 2022 03:40:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbiKDXHR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Nov 2022 19:07:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40940 "EHLO
+        id S229556AbiKECkV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Nov 2022 22:40:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbiKDXHQ (ORCPT
+        with ESMTP id S229531AbiKECkU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Nov 2022 19:07:16 -0400
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 427E7D7F
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Nov 2022 16:07:12 -0700 (PDT)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=diego.localnet)
-        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <heiko@sntech.de>)
-        id 1or5m9-00020w-A4; Sat, 05 Nov 2022 00:07:01 +0100
-From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Conor Dooley <Conor.Dooley@microchip.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [QUERY]: RZ/Five (AX45MP) non-coherent DMA
-Date:   Sat, 05 Nov 2022 00:07:00 +0100
-Message-ID: <13365637.uLZWGnKmhe@diego>
-In-Reply-To: <CA+V-a8u_u9Q6Hb8kOZVKFjGyPsc2HQt88c4y2Nh8dzx0XSebeA@mail.gmail.com>
-References: <CA+V-a8u_u9Q6Hb8kOZVKFjGyPsc2HQt88c4y2Nh8dzx0XSebeA@mail.gmail.com>
+        Fri, 4 Nov 2022 22:40:20 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 879CF32B88;
+        Fri,  4 Nov 2022 19:40:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2B9DCB8306A;
+        Sat,  5 Nov 2022 02:40:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C4152C43144;
+        Sat,  5 Nov 2022 02:40:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667616016;
+        bh=LvVJwvczjJn+XP0eZyC5ywkLqnY9k7dQh7bidNRFIDk=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=kdJVTst15IypdLHD05BX/IGowCb1ppXWfh1RC32sJbWJUuVMc47ErKhk8XIoi6AqK
+         uPXPSTa/xGlMtycNK80ycQtWCMy+p62FYNAo9nCjCLLMDalYuAzN7npXAxf51drwYV
+         Qb7MTTStcuwRlPmyU2xekf3KdfEuE9e69Ai+QnsKJkQYnAlYUNTawFHVI1jabn3Kb9
+         laNnFljHJQXUBhaN/spCFkgpYTQjDZuKUtG9F06khuRfTF/gaEsou34zucEAQfKBWP
+         REC7/XU0pwkVIbFN4VCWn1FuzfNPRHpIZmubYIyBfrBddhO2+SqN8K2YpxVeTidZk+
+         mAKK/xay8MaNA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AB3C8E6BAC0;
+        Sat,  5 Nov 2022 02:40:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_PASS,
-        T_SPF_HELO_TEMPERROR autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] net: ethernet: renesas: Fix return type of
+ rswitch_start_xmit()
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166761601669.5821.12760894848990416491.git-patchwork-notify@kernel.org>
+Date:   Sat, 05 Nov 2022 02:40:16 +0000
+References: <20221103220032.2142122-1-nathan@kernel.org>
+In-Reply-To: <20221103220032.2142122-1-nathan@kernel.org>
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, s.shtylyov@omp.ru,
+        yoshihiro.shimoda.uh@renesas.com, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, ndesaulniers@google.com,
+        trix@redhat.com, keescook@chromium.org, samitolvanen@google.com,
+        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev
+X-Spam-Status: No, score=-8.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hello:
 
-Am Freitag, 4. November 2022, 23:09:15 CET schrieb Lad, Prabhakar:
-> When trying to add non coherent DMA support for the RZ/Five SoC, I was
-> suggested to use the ALTERNATIVE() macro [0].
+This patch was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Thu,  3 Nov 2022 15:00:32 -0700 you wrote:
+> With clang's kernel control flow integrity (kCFI, CONFIG_CFI_CLANG),
+> indirect call targets are validated against the expected function
+> pointer prototype to make sure the call target is valid to help mitigate
+> ROP attacks. If they are not identical, there is a failure at run time,
+> which manifests as either a kernel panic or thread getting killed. A
+> proposed warning in clang aims to catch these at compile time, which
+> reveals:
 > 
-> My initial intention was to implement the alternative_call_x()
-> something like what x86 has and from there call the C function, So
-> while doing some experiments I realized that using the asm "call
-> <func>" would cause adding the whole lot of registers in the clobbers
-> list.
-> 
-> As per my understanding the only correct approach to
-> alternative_call_x() is if the function itself is inline assembly then
-> we know the exact registers being used and then we could add them
-> appropriately in the clobbers list.
+> [...]
 
-I'm working in a quite similar area right now and I've Cc'ed you on a
-RFC series when I'm also worked on makeing call work in alternatives.
+Here is the summary with links:
+  - [net-next] net: ethernet: renesas: Fix return type of rswitch_start_xmit()
+    https://git.kernel.org/netdev/net-next/c/8e0aa1ff44ca
 
-As you noted, using assembler for the call'ed function makes things
-way easier to handle.
-
-> The problem with the above approach being we have quite a lot of C
-> code [1] for the CMO and it also requires some register writes of the
-> l2 cache controller, converting this to assembly would be a pain.
-> 
-> * Is my understanding correct?
-> * Is there any other approach I am missing?
-> * Is there no way out apart from implementing inline asm?
-
-In the inline-asm part that will form the alternative, can you
-not just save and restore the registers manually around the
-actual call?
-
-ALTERNATIVE(
-[1] ... nops ...,
-[2] ... CMO ...,
-[3] ... THEAD ...,
-[4] save registers to stack
-    call ax45mp dma-func
-    restore registers from stack
-
-That way you would no incur many penalties to the other alternatives
-I think.
-
-
-Heiko
-
-> [0] https://patchwork.kernel.org/project/linux-riscv/cover/20221019220242.4746-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> [1] https://patchwork.kernel.org/project/linux-riscv/patch/20221019220242.4746-3-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> 
-> Cheers,
-> Prabhakar
-
-
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
