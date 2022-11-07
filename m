@@ -2,80 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDD3261FD75
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 19:24:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A94F461FDBD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 19:40:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232965AbiKGSY6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 13:24:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39424 "EHLO
+        id S232400AbiKGSkS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Nov 2022 13:40:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233048AbiKGSY2 (ORCPT
+        with ESMTP id S232711AbiKGSju (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 13:24:28 -0500
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 586B528E20
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Nov 2022 10:24:05 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id g12so17930123lfh.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Nov 2022 10:24:05 -0800 (PST)
+        Mon, 7 Nov 2022 13:39:50 -0500
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71CF7209B9
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Nov 2022 10:39:22 -0800 (PST)
+Received: by mail-lj1-x234.google.com with SMTP id b9so17670143ljr.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Nov 2022 10:39:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=v/+DmlpUJNQ6H+y2+hAk27Zykcqu9Cxop/8nW/tfq8o=;
-        b=YM6wEP8D2ic+78mnkgabgCawUWu5PRsEDd33Uz5A4ygUYI7EaV1pBVoNegOluHeRBP
-         cpj54KXembu+3W9hDl8Qyro7au79xuQTxdiq6zb58BMrvmw4tzlESZVBcOZ5m3S7FOmU
-         SB8wdGGh7d+J47isBugbdpZrCno3LYjdZ5IUiwRQgUEr3rY11SkXAo7RikONu9QnX1vI
-         HU5YAF3KGAV0c51lqPbYeSrW/SOu7vO7uc9C9PnS8HamJQxPT3KOAS47YGutU11oBIeR
-         fPpPsCH6oP+s8yO3U2EmoHtmH4C3H52m8SAhIKzEd3ZCgijel+Yrtlc/STylA8BJbvK5
-         3/Zw==
+        bh=LXLngX/j4wkIy1a9aDZYAsscBJK84bs835gvLoMQ2Zc=;
+        b=p8s+8y6nA/RKsg3W8UDwn8HNzn/gBM6qW6RG7gK8bdc292ji3GV+aDWGh5vApUo0uq
+         +Odi5dDni2uXQwbXnQ1jIOgzSLRQumhCDOWwO72eZCCynkcgpZX9mwRMX9eLyzdbdK+5
+         hn3IrZTJEKrKjKYbwEYrImjf2d/zSNtAkUYrm8LXJLV4mAC6rFk2dPQdDs78VgVPk0Dd
+         BWjVYJM1/g0O9/sdh8nCMw0TvzWFi/yvQ7HmnkECjdrclsUawmgUtpGr4Oc2nK+aTU9w
+         4N5DPRxM3qvwevZ8b67FeGbQ55tJlwrctmZCJlFsyfnFp4hgvXKd298LdVqGaQFPFJYE
+         mDEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v/+DmlpUJNQ6H+y2+hAk27Zykcqu9Cxop/8nW/tfq8o=;
-        b=pCXHY0fZj4LudG4fEwROaJk3WergKQQRy40dVAfqYq8pMat3ZI55igugy8yezZlote
-         3kFszJ2QrpNMTKxdEmqm1JxYybDyO2O7XXNcg9jys8Dlb8XAoiGbJ7aAM7yDKupqIh3+
-         YPMZti33bIEy+c28AUi0eSFu3WEK3H3qLlV50gGjwIqfIQ0oo4+3bLNaRy4f5X1FXE4W
-         NHj8WwQ2gaWS/byMDHst8Svvg9ilCv4cXdfjWhOdh9Mlnreg8WKY0RxRzGIJcK6kNH3h
-         FBgLOAPrPp713EMtxE41RC0mAmH9vvoa5jpQvlS94MhSaH+DGWsxku6qYNmOnf3uItIj
-         qIDA==
-X-Gm-Message-State: ANoB5pnCIg0xAv2IfUNLL0gW37fZjdrAe7BA3j4S1Ix4kAS4sgkCzzg4
-        Bz5O9tGZiiW985xkj2kEdaosZw==
-X-Google-Smtp-Source: AA0mqf5uwcpb6dUhKs4Vhu0uRUXiku2hqbfLgAsSVoGqbFd7CA76YcTVc/3qG22gp+wuXsTzA+O6sA==
-X-Received: by 2002:a05:6512:374e:b0:4b2:c8b:7a66 with SMTP id a14-20020a056512374e00b004b20c8b7a66mr4976348lfs.498.1667845443689;
-        Mon, 07 Nov 2022 10:24:03 -0800 (PST)
+        bh=LXLngX/j4wkIy1a9aDZYAsscBJK84bs835gvLoMQ2Zc=;
+        b=Yh9BARFjyc7Z3fW/CfFcVxxuYMYcNWtXwv7nH/c6cUofyB/aSK9WPXx/1aeou1tCwg
+         SZbzDHyhRgsnz+dFFYiCp89rFvIG6Lp6H27/8Yby0dbYMijS+5pZRu8VI8tWBCLtyBOh
+         K8OFRyE+3ZtzVKYpv7wMqpTebfJcWWvLSOY7GHlhXo+FrhjtNXaDui4UtHaAkZ6GKCGN
+         aUt9O6tX5eMGgSdwBiG3FY4v17iAl68Jhb/XPZJulPkLtlLt+zXVhydoxyZIW2o3SeW8
+         fXkwOFp4HB98WIrrc1QqdZTMpf3uy5/WuT0POGaFe9SIsSZureCftYWvlsIpeWC6QSgq
+         2A0g==
+X-Gm-Message-State: ACrzQf1Sfb21JW1sblaxoqFWKEM+aVkXZJLZhvmJpxTxRhkgo6XJWuer
+        BlW97/BLseqYO3CVsP7/18v8mg==
+X-Google-Smtp-Source: AMsMyM4YviYvRTH1ZcXzreVIUAoZYJF8ybIxlPozw8btQH80v3fQT2qIb27GiXzyEh97+9Cs7j19iQ==
+X-Received: by 2002:a05:651c:1047:b0:277:6939:e278 with SMTP id x7-20020a05651c104700b002776939e278mr11515026ljm.522.1667846360840;
+        Mon, 07 Nov 2022 10:39:20 -0800 (PST)
 Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
-        by smtp.gmail.com with ESMTPSA id q23-20020a19a417000000b004ab98cd5644sm1358051lfc.182.2022.11.07.10.24.02
+        by smtp.gmail.com with ESMTPSA id o12-20020a2e730c000000b0027706d22878sm1360533ljc.94.2022.11.07.10.39.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Nov 2022 10:24:02 -0800 (PST)
-Message-ID: <c10df12c-ccb9-03b7-96be-1aac5feee1aa@linaro.org>
-Date:   Mon, 7 Nov 2022 19:24:01 +0100
+        Mon, 07 Nov 2022 10:39:20 -0800 (PST)
+Message-ID: <a6193f07-18b8-687a-7423-09ff9918e00a@linaro.org>
+Date:   Mon, 7 Nov 2022 19:39:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 4/7] dt-bindings: usb: add the Renesas USBF controller
- binding
+Subject: Re: [PATCH RFC 1/5] dt-bindings: interrupt-controller:
+ renesas,rzg2l-irqc: Document RZ/G2UL SoC
 Content-Language: en-US
-To:     Herve Codina <herve.codina@bootlin.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+To:     Prabhakar <prabhakar.csengg@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-References: <20221107135825.583877-1-herve.codina@bootlin.com>
- <20221107135825.583877-5-herve.codina@bootlin.com>
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20221107175305.63975-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221107175305.63975-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221107135825.583877-5-herve.codina@bootlin.com>
+In-Reply-To: <20221107175305.63975-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -87,100 +85,19 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 07/11/2022 14:58, Herve Codina wrote:
-> The Renesas USBF controller is an USB2.0 device controller
-> (UDC) available in Renesas r9a06g032 SoC (RZ/N1 family).
+On 07/11/2022 18:53, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> Document RZ/G2UL (R9A07G043) IRQC bindings. The RZ/G2UL IRQC block is
+> identical to one found on the RZ/G2L SoC. No driver changes are
+> required as generic compatible string "renesas,rzg2l-irqc" will be
+> used as a fallback.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
->  .../devicetree/bindings/usb/renesas,usbf.yaml | 64 +++++++++++++++++++
->  1 file changed, 64 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/renesas,usbf.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/renesas,usbf.yaml b/Documentation/devicetree/bindings/usb/renesas,usbf.yaml
-> new file mode 100644
-> index 000000000000..f2b146d9d37b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/renesas,usbf.yaml
-> @@ -0,0 +1,64 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/renesas,usbf.yaml#
-
-Filename based on compatible, so renesas,rzn1-usbf.yaml.
-
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas USBF (USB Function) controller binding
-> +
-> +description: |
-> +   The Renesas USBF controller is an USB2.0 device
-> +   controller (UDC).
-> +
-> +maintainers:
-> +  - Herve Codina <herve.codina@bootlin.com>
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-
-You have only one possibility, so oneOf is not needed. Unless you
-already predict it will grow with new incompatible lists?
-
-> +      - items:
-> +          - enum:
-> +              - renesas,r9a06g032-usbf
-> +          - const: renesas,rzn1-usbf
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Internal bus clock (AHB) for Function
-> +      - description: Internal bus clock (AHB) for Power Management
-
-Blank line
-
-> +  clock-names:
-> +    items:
-> +      - const: hclkf
-> +      - const: hclkpm
-> +
-> +  interrupts:
-> +    items:
-> +      - description: The USBF EPC interrupt
-> +      - description: The USBF AHB-EPC interrupt
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/r9a06g032-sysctrl.h>
-> +
-> +    usb@4001e000 {
-> +        compatible = "renesas,r9a06g032-usbf", "renesas,rzn1-usbf";
-> +        reg = <0x4001e000 0x2000>;
-> +        interrupts =
-
-No need for line break. It's not helping in readability.
 
 
-> +            <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
-> +            <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&sysctrl R9A06G032_HCLK_USBF>,
-> +                 <&sysctrl R9A06G032_HCLK_USBPM>;
-> +        clock-names = "hclkf", "hclkpm";
-> +    };
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
