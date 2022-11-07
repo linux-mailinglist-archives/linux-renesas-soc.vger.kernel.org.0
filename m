@@ -2,144 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5228761FB4B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 18:26:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14E0761FB62
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 18:30:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232611AbiKGR0y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 12:26:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40262 "EHLO
+        id S232471AbiKGRaY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Nov 2022 12:30:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232881AbiKGR0v (ORCPT
+        with ESMTP id S232062AbiKGRaX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 12:26:51 -0500
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA76323BEB;
-        Mon,  7 Nov 2022 09:26:49 -0800 (PST)
-Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id A023C24000A;
-        Mon,  7 Nov 2022 17:26:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1667842007;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Zv+yUunUjsjy2ElQRsQJL+bVnY9BR/J89WhE/UA/CSM=;
-        b=gGVonuLcssp6dLp7SlC1kwVDa35VVpmaTyA4BQ+tc43/U6b2FhrXPTp7Qw19hfxwslGtuB
-        omk03iWiaTXKAl2+wbgcZ7mJJ1eDHuoKqKERRQIplI+QJg+vD5GjXb58ey3fmgSeGnwQx0
-        fcnEap3BQkwsXWZj2menKRqe5BPjBahPjbAcgxQf5FxrviqgI5+vKFOlV+QDM0dmnD+4n9
-        9wBd5FZwMHpVbhrY3wziYE1svF0mLr9+4lD+hKJ4JI37S4o+msPn/iutZ0+l0liDhRGLlU
-        /hKEtywwQouaGOvt9AkiXbXr6RDJx+72CDSY6yti5y6gQ+rd+lW2yafzI51n7w==
-Date:   Mon, 7 Nov 2022 18:26:42 +0100
-From:   Herve Codina <herve.codina@bootlin.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mon, 7 Nov 2022 12:30:23 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CF6F1EAD9;
+        Mon,  7 Nov 2022 09:30:18 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id ja4-20020a05600c556400b003cf6e77f89cso8686748wmb.0;
+        Mon, 07 Nov 2022 09:30:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1zLkiIKtBP3G4ennZ6Vxv24S0jhOjjTrjkyB/yfOimU=;
+        b=hp3xfUHV3oC8hoVExev+Eo7bg8c8ycNRkOMIzYMpu4kyTDsoRBf0g597WfCtcPOK2t
+         Lj5fNmL2gm9yspO2JwmcKhJ5hB2JspDqFb0ZN1P5yRxNf4yEfFMb8r6t1E9RsQLJe1d9
+         nhy/3bcuL0oyo5EAa1/2JpNVKPNlUQKvqKH7jLqDVqtvvdJl+EDn3q7fof040Y+oOXt/
+         VZDe2arD/+DRDIs+AgDvssfHcZR8vyQoRvEBurJiAyd0UGday4vamRjuM1bfUu0mlFMg
+         zOum3WzSmdRBWtC5likFCurJr9t2zWcEodfr2JSu5VBnsPVO11HySj88MqHcJH3su9Zq
+         SUwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1zLkiIKtBP3G4ennZ6Vxv24S0jhOjjTrjkyB/yfOimU=;
+        b=GgUpHVM7cgQy1KuZJJodlBo4pKdw4xVw3kTc5hHL2CpC5naj152Flsme+aXrTO61nQ
+         UB/NziJGOMs8PGbx8jd/XPGRYjBicFPaDfgVOkc16iNNm7tPy+T2PvanGy4YPHLI07j6
+         tX9iKJBpE9Ld22bak/YQ7bcPhsZ6tpdgtesoC8NcKT5C0CAO89I9QhFZkcD+7NGJsgzP
+         i7xYcEd9ZZI+7k92V99qYG1G021vYKS/EtUGYiFh0AteWOXlKhEEAt6yCt2EspBDS8Nr
+         HWm/inj5uzA8KpJDTFxdKsD498/HHLAgQvoVG7Z5vGcCGk86tYVrYpvyTHzCMyHZu7mH
+         9Kfw==
+X-Gm-Message-State: ACrzQf3a5eXOqKUNBF+hhjZrdvj2O0Pt1qD6PhnmmZM4QM4gfOxZin6Q
+        BI/H3h5ZEMi0KBIUOJD5/oQ=
+X-Google-Smtp-Source: AMsMyM5k1QUgtjwOK7TlRtz4flyEgBb6Fjwo6nhhBvpHKqaYnoZnz0LRHVIZbfDl+9/DFWFGBb5b2A==
+X-Received: by 2002:a05:600c:5114:b0:3c7:8eb:fb1c with SMTP id o20-20020a05600c511400b003c708ebfb1cmr44055192wms.204.1667842216808;
+        Mon, 07 Nov 2022 09:30:16 -0800 (PST)
+Received: from prasmi.home ([2a00:23c8:2501:c701:9c45:7ed3:c12e:e25b])
+        by smtp.gmail.com with ESMTPSA id k4-20020a05600c1c8400b003b4cba4ef71sm13148496wms.41.2022.11.07.09.30.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Nov 2022 09:30:16 -0800 (PST)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH 2/7] dt-bindings: clock: renesas,r9a06g032-sysctrl: Add
- h2mode property
-Message-ID: <20221107182642.05a09f2f@bootlin.com>
-In-Reply-To: <CAMuHMdXoyE+MP4N=5o6a=u83gcsYD_RijpjrYf15i5MR85gEJg@mail.gmail.com>
-References: <20221107135825.583877-1-herve.codina@bootlin.com>
-        <20221107135825.583877-3-herve.codina@bootlin.com>
-        <CAMuHMdXoyE+MP4N=5o6a=u83gcsYD_RijpjrYf15i5MR85gEJg@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] arm64: dts: renesas: r9a07g044: Drop #address-cells from pinctrl node
+Date:   Mon,  7 Nov 2022 17:29:52 +0000
+Message-Id: <20221107172953.63218-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Mon, 7 Nov 2022 16:14:10 +0100
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+This fixes the below dtbs_check warning:
 
-> Hi Herv=C3=A9,
->=20
-> On Mon, Nov 7, 2022 at 2:59 PM Herve Codina <herve.codina@bootlin.com> wr=
-ote:
-> > Add the h2mode property to force the USBs mode ie:
-> >  - 2 hosts
-> > or
-> >  - 1 host and 1 device
-> >
-> > Signed-off-by: Herve Codina <herve.codina@bootlin.com> =20
->=20
-> Thanks for your patch!
->=20
-> > --- a/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl=
-.yaml
-> > +++ b/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl=
-.yaml
-> > @@ -39,6 +39,16 @@ properties:
-> >    '#power-domain-cells':
-> >      const: 0
-> >
-> > +  renesas,h2mode:
-> > +    description: |
-> > +      Configure the USBs mode.
-> > +        - <0> : the USBs are in 1 host and 1 device mode.
-> > +        - <1> : the USBs are in 2 host mode.
-> > +      If the property is not present, the value used is the one alread=
-y present
-> > +      in the CFG_USB register (from reset or set by the bootloader).
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    enum: [0, 1]
-> > +
-> >    '#address-cells':
-> >      const: 1 =20
->=20
-> While the H2MODE register bit is indeed located in the sysctrl's
-> address space, and handling it here makes it simpler for the drivers
-> (especially w.r.t. the default handling), this is really a property
-> of the switchable usbh/f core...
-> Perhaps it can be moved there? Or not?
+arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: pinctrl@11030000: #address-cells: 'anyOf' conditional failed, one must be fixed:
+    [[2]] is not of type 'object'
+    From schema: Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dtb: pinctrl@11030000: #address-cells: 'anyOf' conditional failed, one must be fixed:
+    [[2]] is not of type 'object'
+    From schema: Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
 
-Moving the property outside sysctrl (and so its handling) will not
-be that easy especially if some more operations are needed (as you
-mention in your patch 3/4 review).
+Drop #address-cells property from pinctrl node as it has no child nodes in it.
 
-Not sure about what is the best thing to do.
-(a) Keep it simple and stay in sysctrl
-  or
-(b) Create an usb_role_switch driver.
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 1 -
+ 1 file changed, 1 deletion(-)
 
->=20
-> Gr{oetje,eeting}s,
->=20
->                         Geert
->=20
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->=20
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+index c606d9ef5991..53e9c0df59f4 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+@@ -644,7 +644,6 @@ pinctrl: pinctrl@11030000 {
+ 			reg = <0 0x11030000 0 0x10000>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+-			#address-cells = <2>;
+ 			#interrupt-cells = <2>;
+ 			interrupt-parent = <&irqc>;
+ 			interrupt-controller;
+-- 
+2.25.1
 
-
-
---=20
-Herv=C3=A9 Codina, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
