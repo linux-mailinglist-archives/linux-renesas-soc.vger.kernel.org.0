@@ -2,110 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B21B61FB65
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 18:30:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D248F61FC39
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 18:55:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232795AbiKGRa1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 12:30:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43360 "EHLO
+        id S232085AbiKGRz1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Nov 2022 12:55:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232781AbiKGRaZ (ORCPT
+        with ESMTP id S232646AbiKGRy3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 12:30:25 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 677701F9FC;
-        Mon,  7 Nov 2022 09:30:19 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id bk15so17259678wrb.13;
-        Mon, 07 Nov 2022 09:30:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eBJ6jWsnCmjINjKUCMEXLUFRQqsk1nKd3YYbN6OJUh0=;
-        b=I1arPQYxJjLmhPOdpF6GuXQSbMwuzKlQmW08ebW6xlmPdMZo1up7C8pTQaOx5OzPta
-         xtOd+9Z9bO2paf8C32/S6xppuZ19TgR1MB0p4/jgGYLnX/B72KGP3wthIb7YfdwA7xFR
-         c+I0S/dGchyYGjl3bSYmZCnYkQQpQQYaGvx4byeSA+jQD4tWyPX8+uVTSFnlIySPcOcc
-         Tti8YySUCsdlXEnO0VwbcgjZj32z66gSYhNfNmWjiJFjd02QQ/P8Oyl6MXNFa/LBaker
-         /Iv3Nl4DrYdNSKHKw6UsZKCAXoZkGsX91aeHa5OcU4NZE21ZoHxU/GGOumxbn8uhTuMJ
-         nccw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eBJ6jWsnCmjINjKUCMEXLUFRQqsk1nKd3YYbN6OJUh0=;
-        b=3blZ9OFf410tvSoo3vUKU/IjrpCqDSm7cgT7zgAMRkqL4BDzQo8qdH8bv+NpTvBQoC
-         T3yV4EfmfMvIbdgslIQjw9BbRErDzWWqSBVLDGTIP+TdZ99yuIqmiFsc8yamEcAZ8Y+V
-         yqQANU+ebjydLoh4cR76FDoDFQBX54Z1J3n8WjVksWXLY8Zgh8lleHp7u+J8ytkiXFwP
-         Z7c/sLQq6VXtrJSf6TLeSTyq5peVTeg17xmCE9+biRlw/AEXGtczg4ChuHqxBEHpxpFq
-         jdsTAvru08v8eE43O6G6udRRXFokBqQCE51fKOanN8ckiUllRwLcXykbuZ1Kmge6GsLt
-         JHjA==
-X-Gm-Message-State: ACrzQf1u2UsWPQPbDDVhi8K8x7JYTTjJ3FdrQjYBgH5X3JWgixQrQeji
-        UejPDXQ7Zcg2OBJRJ3KhyTin6p/I8zlrvg==
-X-Google-Smtp-Source: AMsMyM4OMrrUzgSfjH90dpLje1+f7nojx7H+/9mNKn9+yOvbOuC1Hfy+cvHK+oAiNJ6fOGLNPZA+/g==
-X-Received: by 2002:adf:eac6:0:b0:238:6b48:4bb6 with SMTP id o6-20020adfeac6000000b002386b484bb6mr15672186wrn.34.1667842217882;
-        Mon, 07 Nov 2022 09:30:17 -0800 (PST)
-Received: from prasmi.home ([2a00:23c8:2501:c701:9c45:7ed3:c12e:e25b])
-        by smtp.gmail.com with ESMTPSA id k4-20020a05600c1c8400b003b4cba4ef71sm13148496wms.41.2022.11.07.09.30.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 09:30:17 -0800 (PST)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] arm64: dts: renesas: r9a07g054: Drop #address-cells from pinctrl node
-Date:   Mon,  7 Nov 2022 17:29:53 +0000
-Message-Id: <20221107172953.63218-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221107172953.63218-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20221107172953.63218-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 7 Nov 2022 12:54:29 -0500
+Received: from aposti.net (aposti.net [89.234.176.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAFE8248C8;
+        Mon,  7 Nov 2022 09:53:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1667843591; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=FpKBRvbfGxTJfnKV4fn4HQn1v0QW6PL5yfSkhMzLybQ=;
+        b=t6u5Sv21PJgRfXF++fVJX+VAdRGp22WwCvx3HAFeoJqKhPNeoyYRMFB/djd+Ebh/lf3kZC
+        rTKnn3KtzAURpA6fRa2lcs47DlsesOMS7QWiaBDdWzUwWUWvImJPGeQHLrv76gHL5K2OX9
+        M6bDNVdE7juf+odLNfe79u2KQmnHw54=
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Paul Cercueil <paul@crapouillou.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 17/26] drm: rcar-du: Remove #ifdef guards for PM related functions
+Date:   Mon,  7 Nov 2022 17:52:47 +0000
+Message-Id: <20221107175256.360839-7-paul@crapouillou.net>
+In-Reply-To: <20221107175256.360839-1-paul@crapouillou.net>
+References: <20221107175106.360578-1-paul@crapouillou.net>
+ <20221107175256.360839-1-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Use the DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr() macros to handle
+the .suspend/.resume callbacks.
 
-This fixes the below dtbs_check warning:
+These macros allow the suspend and resume functions to be automatically
+dropped by the compiler when CONFIG_SUSPEND is disabled, without having
+to use #ifdef guards.
 
-arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dtb: pinctrl@11030000: #address-cells: 'anyOf' conditional failed, one must be fixed:
-    [[2]] is not of type 'object'
-    From schema: Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+This has the advantage of always compiling these functions in,
+independently of any Kconfig option. Thanks to that, bugs and other
+regressions are subsequently easier to catch.
 
-Drop #address-cells property from pinctrl node as it has no child nodes in it.
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 1 -
- 1 file changed, 1 deletion(-)
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-index 7c7bbe377699..2459e40a208a 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-@@ -650,7 +650,6 @@ pinctrl: pinctrl@11030000 {
- 			reg = <0 0x11030000 0 0x10000>;
- 			gpio-controller;
- 			#gpio-cells = <2>;
--			#address-cells = <2>;
- 			#interrupt-cells = <2>;
- 			interrupt-parent = <&irqc>;
- 			interrupt-controller;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+index a2776f1d6f2c..0a89094461cc 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+@@ -599,7 +599,6 @@ static const struct drm_driver rcar_du_driver = {
+  * Power management
+  */
+ 
+-#ifdef CONFIG_PM_SLEEP
+ static int rcar_du_pm_suspend(struct device *dev)
+ {
+ 	struct rcar_du_device *rcdu = dev_get_drvdata(dev);
+@@ -613,11 +612,9 @@ static int rcar_du_pm_resume(struct device *dev)
+ 
+ 	return drm_mode_config_helper_resume(&rcdu->ddev);
+ }
+-#endif
+ 
+-static const struct dev_pm_ops rcar_du_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(rcar_du_pm_suspend, rcar_du_pm_resume)
+-};
++static DEFINE_SIMPLE_DEV_PM_OPS(rcar_du_pm_ops,
++				rcar_du_pm_suspend, rcar_du_pm_resume);
+ 
+ /* -----------------------------------------------------------------------------
+  * Platform driver
+@@ -712,7 +709,7 @@ static struct platform_driver rcar_du_platform_driver = {
+ 	.shutdown	= rcar_du_shutdown,
+ 	.driver		= {
+ 		.name	= "rcar-du",
+-		.pm	= &rcar_du_pm_ops,
++		.pm	= pm_sleep_ptr(&rcar_du_pm_ops),
+ 		.of_match_table = rcar_du_of_table,
+ 	},
+ };
 -- 
-2.25.1
+2.35.1
 
