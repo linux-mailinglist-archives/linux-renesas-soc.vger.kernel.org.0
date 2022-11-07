@@ -2,58 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B01B61F9BA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 17:29:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00AD761F9C1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 17:30:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232655AbiKGQ3b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 11:29:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51362 "EHLO
+        id S231961AbiKGQaP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Nov 2022 11:30:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232302AbiKGQ3G (ORCPT
+        with ESMTP id S232113AbiKGQ36 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 11:29:06 -0500
+        Mon, 7 Nov 2022 11:29:58 -0500
 Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C6AE62;
-        Mon,  7 Nov 2022 08:27:27 -0800 (PST)
-Received: by mail-qv1-f51.google.com with SMTP id n18so8426545qvt.11;
-        Mon, 07 Nov 2022 08:27:27 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 626C82181F;
+        Mon,  7 Nov 2022 08:27:58 -0800 (PST)
+Received: by mail-qv1-f51.google.com with SMTP id w10so8446031qvr.3;
+        Mon, 07 Nov 2022 08:27:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FHuZT/X3Udj945i4AGOq1IWIr+mvd6w8t7fykVu9RG0=;
-        b=oGht8EEfTsNU3ERrUE6MMXYWSEqDEQSf24bQxWYP6LQvExnmUFcoLgEaJexB/fExGQ
-         z/gJWZgGSSN+RyvEtndhGt5eM532IhgbHNMIUhYcCxuL9z1tQNrRBVenXAs3R0Z3r2ya
-         xxb2bDXE4vyBbqi8q6Rau02hYb1bGVDvIvNBLbq4yhk09Eo6KqwwTg+5Gi9nTjjJB6qH
-         adMyIIOLQfhlP+6wBC1KG9oDFxoGAhbFwPL7tNd/sBXFnSHJtwsVwj6ZQZUKawi7LXxw
-         dImNaGeIoBH7eppqeE2jxMc8bKTzK5HmS/YHprsvEYJYvF/JF5+O0Q2zILaZ+MDGuKLl
-         M6mg==
-X-Gm-Message-State: ACrzQf1S4eailQk85HXhg+kQR9GSQcJilIIZTF3YJSo9Y3h5NCaGKB06
-        Hz4SVhEspw+MUASHs0bagAzJVh+g9CwPWg==
-X-Google-Smtp-Source: AMsMyM5qZiogsQgXMx520QV3QS+W55Vw0zB/WEdMC2Q2PMpDB2F/E6xeCXr5Kuksr/86mQW4Ki+LMw==
-X-Received: by 2002:a05:6214:d6e:b0:4b9:692d:c486 with SMTP id 14-20020a0562140d6e00b004b9692dc486mr46025955qvs.104.1667838446157;
-        Mon, 07 Nov 2022 08:27:26 -0800 (PST)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id i15-20020a05622a08cf00b00398313f286dsm6370141qte.40.2022.11.07.08.27.25
+        bh=+pquVRvPM2Ug94AZ4Ogi5augDPbFclTaGPnWcHVEL9Q=;
+        b=f4R5P2fUXkghb3/t0YaJS2MJSuVdVKujikc6fpUOp+CJSbv5nwnIgRZ2JqdOoO4t94
+         gqGUOkridGo9iccsrVf3tHa+lJaXBZPdO0nxGfAQE+jHbbf5bQurGLTRBYRncc8pRdFZ
+         Y1IpIKiAWYCZWACz4XQzumy51X3qvzL8kZBBWXfV8uWZN56gmldhzAqFJ8tCDeMPWFXv
+         s6yJzNQ/+zE9PCedZZkyzVqD4pMe7+g6j4DKGZ499dC/FmjRhXGrlBTCazHJuDDGSuCq
+         FHLCeI7peeKAvY305lMo5TaG4JSXEaXiJ8XaB23KPSSNHv7yKODuEmjiYtxdrwj9a+tW
+         0ymA==
+X-Gm-Message-State: ACrzQf1PnsyQcnCQpDf3tsmYcQ47HYq6gmLRL2BdwI2FzjqKzUo4u7vX
+        BUVg5HWIhvpHHWKeEMetndpDcoFWOCI9oZTv
+X-Google-Smtp-Source: AMsMyM5WvrWsL66G0CIMUEGsaF6r1FpsVCmApSZa+PvVETM4+Pah52npKpxxUF9nb0ZJEBl5oTtOJQ==
+X-Received: by 2002:a0c:e2c8:0:b0:4b7:c1bf:784a with SMTP id t8-20020a0ce2c8000000b004b7c1bf784amr46055185qvl.17.1667838477160;
+        Mon, 07 Nov 2022 08:27:57 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id br8-20020a05620a460800b006cf38fd659asm7244778qkb.103.2022.11.07.08.27.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Nov 2022 08:27:25 -0800 (PST)
-Received: by mail-yb1-f177.google.com with SMTP id z192so14297801yba.0;
-        Mon, 07 Nov 2022 08:27:25 -0800 (PST)
+        Mon, 07 Nov 2022 08:27:56 -0800 (PST)
+Received: by mail-yb1-f171.google.com with SMTP id 131so9843312ybl.3;
+        Mon, 07 Nov 2022 08:27:56 -0800 (PST)
 X-Received: by 2002:a25:6b07:0:b0:6cd:3a43:bfe5 with SMTP id
- g7-20020a256b07000000b006cd3a43bfe5mr37690368ybc.89.1667838445507; Mon, 07
- Nov 2022 08:27:25 -0800 (PST)
+ g7-20020a256b07000000b006cd3a43bfe5mr37692694ybc.89.1667838476378; Mon, 07
+ Nov 2022 08:27:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20221103205546.24836-1-wsa+renesas@sang-engineering.com> <20221103205546.24836-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20221103205546.24836-2-wsa+renesas@sang-engineering.com>
+References: <20221104151135.4706-1-wsa+renesas@sang-engineering.com> <20221104151135.4706-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20221104151135.4706-2-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Nov 2022 17:27:14 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVxBEXWHK75tx0jxLOF5fFgcSDdtZZyqLmZ1MJO_Xmjvg@mail.gmail.com>
-Message-ID: <CAMuHMdVxBEXWHK75tx0jxLOF5fFgcSDdtZZyqLmZ1MJO_Xmjvg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] clk: renesas: r8a779g0: Add TMU and SASYNCRT clocks
+Date:   Mon, 7 Nov 2022 17:27:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU63pCKumPvT0r-iGJBXJ9X9e1E+eu0xcrPG7XD3bUcCA@mail.gmail.com>
+Message-ID: <CAMuHMdU63pCKumPvT0r-iGJBXJ9X9e1E+eu0xcrPG7XD3bUcCA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] clk: renesas: r8a779g0: Add CMT clocks
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
         linux-kernel@vger.kernel.org
@@ -68,7 +67,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 3, 2022 at 9:55 PM Wolfram Sang
+On Fri, Nov 4, 2022 at 4:11 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
