@@ -2,70 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED12761FFE5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 21:56:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCA1261FFEE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 21:57:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232764AbiKGU4R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 15:56:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44562 "EHLO
+        id S232976AbiKGU53 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Nov 2022 15:57:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231481AbiKGU4Q (ORCPT
+        with ESMTP id S233103AbiKGU5X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 15:56:16 -0500
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C08FD2B620;
-        Mon,  7 Nov 2022 12:56:13 -0800 (PST)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-13bef14ea06so14116268fac.3;
-        Mon, 07 Nov 2022 12:56:13 -0800 (PST)
+        Mon, 7 Nov 2022 15:57:23 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 179992B632;
+        Mon,  7 Nov 2022 12:57:22 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id cl5so18010443wrb.9;
+        Mon, 07 Nov 2022 12:57:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:in-reply-to
+         :subject:cc:to:from:references:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xNuIDh9+z0CfhmCPEaKB/O13kWB7hEyf2+U7jlAoSUM=;
+        b=PMUoELhE6AnXK+iNbgb6rPTOJPEKsFgBujXqxbWpgwA5fYf4gBdL2QEZ7s38On6Pdv
+         tEvNrpWkJH7345NtNVL6P6neZYoOwCet4Y628+aQE5juJnavU3qBi7KlO1rk5DAUAUOq
+         438HwMs8JiemVJnEaCYxBD3fJBcnKF+Ec4ElTT2rACGgYIzmW6zjKAQjhVEt1OoUDQVI
+         vKeu2GP4yAVneediojKblkMb81j+Ywo5HajTIEQtgDumphUC4m8/Zrw4Q3MU5M1r0ziT
+         8aiG4DnxTEwp4bvltkVyz/XtyJfkf0wefxRxSHxi02sFECEhyFppC6IqlBS76u0z4eLR
+         9SRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Mqygz+AwBgs9VWg0nK3QIhzMHWxsGM/+YbQMo/qaLoA=;
-        b=bVNVGFdQcfkywkZjtQKe0WhBTbF4CwCN6139R5ir0V7fU5bUbirCJ6RhsZ9ZIZWOS8
-         WxoHiOsD0L0MEaSDB/5beNOWsVa3uZXU380DgbQh0LdpztlB81qCpwLQv6xv9t1PzDOC
-         pICbVUiMAUGn0AEyJ6IQfV7mdK1aUsZbwmU+dgD2Y3DTbU5SfboJ/Qv6gddylqYuMhd7
-         HY6Iw5xekZ47XEX8WiXMBxwLYpjZHmNwyR117Ev7ozBdL6cHCyY2ybu5S8THJ6slx0Or
-         Zh0lM2NVmDNLzI9oLkTfXt08BCO7lAFomCh++zPvpNyYON55dd3vme3gU4wRWCvXB6tZ
-         WhFg==
-X-Gm-Message-State: ACrzQf0EDFthut3EpMOjFlNZO+OtnbU7Ma8EiWFngL4X+UPbq3KKBqIT
-        lrnOyXSW478gTtT45Md8ng==
-X-Google-Smtp-Source: AMsMyM6Gf5fZli0JXcxXW8pOeQLSyMdps/r8/dfQGZCF/gd4+Wo2STtJmjGH93cwS+qXBw2JrWmnvw==
-X-Received: by 2002:a05:6870:f70f:b0:13d:843c:c818 with SMTP id ej15-20020a056870f70f00b0013d843cc818mr16611266oab.17.1667854572973;
-        Mon, 07 Nov 2022 12:56:12 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id z9-20020a4ade49000000b0049ef7712ee5sm872782oot.11.2022.11.07.12.56.11
+        h=content-transfer-encoding:mime-version:message-id:date:in-reply-to
+         :subject:cc:to:from:references:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=xNuIDh9+z0CfhmCPEaKB/O13kWB7hEyf2+U7jlAoSUM=;
+        b=JsLXa4biJokzvgDsx+WOLHELdsIAyAbr1+6cee+6wTnxzoPbYO3BjrlijspssfmSsN
+         LLKLAQtUd11MPSOft6/+qp0XLIUFdAucPc6sSg0QqoC2Wr1e+vyXaw7nD2f8njvVc7js
+         YVv6k057OaofuB4C/P03K/1WVJmMUwPqp21RGCRgGzjqOVluY3UhGcMP5Oq7zbAJIR4L
+         rupNKoKRlDmlhmgaya5NZeC3fOcZfty3co0Zfu6EtzAYN072AxK8HYIAfbqUn7on/7aK
+         vzs8Ivp2AZ066VMASy1c03lMmbFvQHzOjxs6hbDjwP5wF9xjOrWitpeqmorPMk1uWQ7Q
+         TGeA==
+X-Gm-Message-State: ACrzQf3kfBuprYTJPLuhCSQIBntTUEWaV5wtsTUrU+HdBAeT/xqoPqsW
+        aOk8Oae3zleHQh8DR1wjKrs=
+X-Google-Smtp-Source: AMsMyM68KhRfPQSDi8CFA78pakjxRAM3L6JCB7fc1yr/DnXKn9yQG4njsjQsXjAXYrNXUB9CMb72nw==
+X-Received: by 2002:a5d:4ec1:0:b0:22e:435c:1e0f with SMTP id s1-20020a5d4ec1000000b0022e435c1e0fmr633954wrv.200.1667854640408;
+        Mon, 07 Nov 2022 12:57:20 -0800 (PST)
+Received: from localhost (188.28.3.103.threembb.co.uk. [188.28.3.103])
+        by smtp.gmail.com with ESMTPSA id m1-20020a7bca41000000b003c6c3fb3cf6sm9173176wml.18.2022.11.07.12.57.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 12:56:12 -0800 (PST)
-Received: (nullmailer pid 1616165 invoked by uid 1000);
-        Mon, 07 Nov 2022 20:56:14 -0000
-Date:   Mon, 7 Nov 2022 14:56:14 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mon, 07 Nov 2022 12:57:19 -0800 (PST)
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-56-f6736dec138e@cerno.tech>
+ <80VTKR.CE8RVN8M3ZYK3@crapouillou.net>
+ <20221104145946.orsyrhiqvypisl5j@houat>
+ <cp7Yh29ndlOOi1yW8KwCcpzoLPLxm1vR@localhost>
+ <20221107085417.xrsh6xy3ouwdkp4z@houat>
+From:   Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Paul Cercueil <paul@crapouillou.net>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: pinctrl: renesas: Add RZ/G2L POEG
- binding
-Message-ID: <20221107205614.GA1610785-robh@kernel.org>
-References: <20221104151935.1783791-1-biju.das.jz@bp.renesas.com>
- <20221104151935.1783791-2-biju.das.jz@bp.renesas.com>
+        Jaroslav Kysela <perex@perex.cz>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Abel Vesa <abelvesa@kernel.org>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Takashi Iwai <tiwai@suse.com>,
+        David Airlie <airlied@gmail.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        David Lechner <david@lechnology.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Mark Brown <broonie@kernel.org>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
+        linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 56/65] clk: ingenic: cgu: Switch to determine_rate
+In-reply-to: <20221107085417.xrsh6xy3ouwdkp4z@houat>
+Date:   Mon, 07 Nov 2022 20:57:22 +0000
+Message-ID: <ucJ6KSBqdPTxfxUQqLUr9C9RGiQRnY1I@localhost>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221104151935.1783791-2-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,128 +131,131 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Nov 04, 2022 at 03:19:34PM +0000, Biju Das wrote:
-> Add device tree bindings for the RZ/G2L Port Output Enable for GPT (POEG).
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v2->v3:
->  * Removed Rb tag from Rob as there are some changes introduced.
->  * Added companion property, so that poeg can link with gpt device
->  * Documented renesas,id, as identifier for POEGG{A,B,C,D}.
->  * Updated the example.
-> v1->v2:
->  * Updated the description.
-> REF->v1:
->  * Modelled as pincontrol as most of its configuration is intended to be
->    static.
->  * Updated reg size in example.
-> ---
->  .../bindings/pinctrl/renesas,rzg2l-poeg.yaml  | 86 +++++++++++++++++++
->  1 file changed, 86 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-poeg.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-poeg.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-poeg.yaml
-> new file mode 100644
-> index 000000000000..8adf01682de5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-poeg.yaml
-> @@ -0,0 +1,86 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-poeg.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/G2L Port Output Enable for GPT (POEG)
-> +
-> +maintainers:
-> +  - Biju Das <biju.das.jz@bp.renesas.com>
-> +
-> +description: |
-> +  The output pins(GTIOCxA and GTIOCxB) of the general PWM timer (GPT) can be
-> +  disabled by using the port output enabling function for the GPT (POEG).
-> +  Specifically, either of the following ways can be used.
-> +  * Input level detection of the GTETRGA to GTETRGD pins.
-> +  * Output-disable request from the GPT.
-> +  * SSF bit setting(ie, by setting POEGGn.SSF to 1)
-> +
-> +  The state of the GTIOCxA and the GTIOCxB pins when the output is disabled,
-> +  are controlled by the GPT module.
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,r9a07g044-poeg  # RZ/G2{L,LC}
-> +          - renesas,r9a07g054-poeg  # RZ/V2L
-> +      - const: renesas,rzg2l-poeg
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  companion:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: phandle of a companion.
-> +
-> +  renesas,id:
 
-Perhaps 'poeg' in the name.
+Maxime Ripard <maxime@cerno.tech> writes:
 
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [ 0, 1, 2, 3 ]
-> +    description: |
-> +      POEG group index. Valid values are:
-> +        <0> : POEG group A (default)
+> Hi,
+>
+> On Fri, Nov 04, 2022 at 05:35:29PM +0000, Aidan MacDonald wrote:
+>>
+>> Maxime Ripard <maxime@cerno.tech> writes:
+>>
+>> > Hi Paul,
+>> >
+>> > On Fri, Nov 04, 2022 at 02:31:20PM +0000, Paul Cercueil wrote:
+>> >> Le ven. 4 nov. 2022 =C3=A0 14:18:13 +0100, Maxime Ripard <maxime@cern=
+o.tech> a
+>> >> =C3=A9crit :
+>> >> > The Ingenic CGU clocks implements a mux with a set_parent hook, but
+>> >> > doesn't provide a determine_rate implementation.
+>> >> >
+>> >> > This is a bit odd, since set_parent() is there to, as its name impl=
+ies,
+>> >> > change the parent of a clock. However, the most likely candidate to
+>> >> > trigger that parent change is a call to clk_set_rate(), with
+>> >> > determine_rate() figuring out which parent is the best suited for a
+>> >> > given rate.
+>> >> >
+>> >> > The other trigger would be a call to clk_set_parent(), but it's far=
+ less
+>> >> > used, and it doesn't look like there's any obvious user for that cl=
+ock.
+>> >> >
+>> >> > So, the set_parent hook is effectively unused, possibly because of =
+an
+>> >> > oversight. However, it could also be an explicit decision by the
+>> >> > original author to avoid any reparenting but through an explicit ca=
+ll to
+>> >> > clk_set_parent().
+>> >> >
+>> >> > The driver does implement round_rate() though, which means that we =
+can
+>> >> > change the rate of the clock, but we will never get to change the
+>> >> > parent.
+>> >> >
+>> >> > However, It's hard to tell whether it's been done on purpose or not.
+>> >> >
+>> >> > Since we'll start mandating a determine_rate() implementation, let's
+>> >> > convert the round_rate() implementation to a determine_rate(), which
+>> >> > will also make the current behavior explicit. And if it was an
+>> >> > oversight, the clock behaviour can be adjusted later on.
+>> >>
+>> >> So it's partly on purpose, partly because I didn't know about
+>> >> .determine_rate.
+>> >>
+>> >> There's nothing odd about having a lonely .set_parent callback; in my=
+ case
+>> >> the clocks are parented from the device tree.
+>> >>
+>> >> Having the clocks driver trigger a parent change when requesting a ra=
+te
+>> >> change sounds very dangerous, IMHO. My MMC controller can be parented=
+ to the
+>> >> external 48 MHz oscillator, and if the card requests 50 MHz, it could=
+ switch
+>> >> to one of the PLLs. That works as long as the PLLs don't change rate,=
+ but if
+>> >> one is configured as driving the CPU clock, it becomes messy.
+>> >> The thing is, the clocks driver has no way to know whether or not it =
+is
+>> >> "safe" to use a designated parent.
+>> >>
+>> >> For that reason, in practice, I never actually want to have a clock
+>> >> re-parented - it's almost always a bad idea vs. sticking to the paren=
+t clock
+>> >> configured in the DTS.
+>> >
+>> > Yeah, and this is totally fine. But we need to be explicit about it. T=
+he
+>> > determine_rate implementation I did in all the patches is an exact
+>> > equivalent to the round_rate one if there was one. We will never ask to
+>> > change the parent.
+>> >
+>> > Given what you just said, I would suggest to set the
+>> > CLK_SET_RATE_NO_REPARENT flag as well.
+>>
+>> Ideally there should be a way for drivers and the device tree to
+>> say, "clock X must be driven by clock Y", but the clock framework
+>> would be allowed to re-parent clocks freely as long as it doesn't
+>> violate any DT or driver constraints.
+>
+> I'm not really sure what you mean there, sorry. Isn't it what
+> assigned-clock-parents/clk_set_parent() at probe, plus a determine_rate
+> implementation that would affect best_parent_hw would already provide?
 
-default: 0
+Assigning the parent clock in the DT works once, at boot, but going off
+what you wrote in the commit message, if the clock driver has a
+.determine_rate() implementation that *can* reparent clocks then it
+probably *will* reparent them, and the DT assignment will be lost.
 
-Though a default for a required property doesn't make much sense...
+What I'm suggesting is a runtime constraint that the clock subsystem
+would enforce, and actively prevent drivers from changing the parent.
+Either explicitly with clk_set_parent() or due to .determine_rate().
 
-> +        <1> : POEG group B
-> +        <2> : POEG group C
-> +        <3> : POEG group D
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - power-domains
-> +  - resets
-> +  - renesas,id
-> +  - companion
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    poeggd: poeg@10049400 {
-> +        compatible = "renesas,r9a07g044-poeg", "renesas,rzg2l-poeg";
-> +        reg = <0x10049400 0x400>;
-> +        interrupts = <GIC_SPI 325 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&cpg CPG_MOD R9A07G044_POEG_D_CLKP>;
-> +        power-domains = <&cpg>;
-> +        resets = <&cpg R9A07G044_POEG_D_RST>;
-> +        renesas,id = <3>;
-> +        companion = <&gpt>;
-> +    };
-> -- 
-> 2.25.1
-> 
-> 
+That way you could write a .determine_rate() implementation that *can*
+select a better parent, but if the DT applies a constraint to fix the
+clock to a particular parent, the clock subsystem will force that parent
+to be used so you can be sure the clock is never reparented by accident.
+
+>> That way allowing reparenting doesn't need to be an all-or-nothing
+>> thing, and it doesn't need to be decided at the clock driver level
+>> with special flags.
+>
+> Like I said, the default implementation is already working to what you
+> suggested if I understood properly. However, this has never been tested
+> for any of the drivers in that series so I don't want to introduce (and
+> debug ;)) regressions in all those drivers that were not setting any
+> constraint but never actually tested their reparenting code.
+>
+> So that series is strictly equivalent to what you had before, it's just
+> explicit now.
+>
+> If you find that some other decision make sense for your driver in
+> particular cases, feel free to change it. I barely know most of these
+> platforms, so I won't be able to make that decision (and test it)
+> unfortunately.
+>
+> Maxime
+
+That's OK, I didn't review the patch, I'm just making a general
+suggestion. :)
