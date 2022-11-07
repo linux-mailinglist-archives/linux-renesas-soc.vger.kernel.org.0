@@ -2,124 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C4AF61F513
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 15:16:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9B7A61F611
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 15:31:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231933AbiKGOQl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 09:16:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55592 "EHLO
+        id S232257AbiKGObG convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Nov 2022 09:31:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231367AbiKGOQl (ORCPT
+        with ESMTP id S232385AbiKGOaw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 09:16:41 -0500
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D5E81BE94
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Nov 2022 06:16:40 -0800 (PST)
-Received: by mail-qt1-f173.google.com with SMTP id hh9so6873195qtb.13
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Nov 2022 06:16:40 -0800 (PST)
+        Mon, 7 Nov 2022 09:30:52 -0500
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE8261E3D9;
+        Mon,  7 Nov 2022 06:26:56 -0800 (PST)
+Received: by mail-qk1-f180.google.com with SMTP id g10so7205843qkl.6;
+        Mon, 07 Nov 2022 06:26:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aoUHYyeERJ7ZSoedqyEHbCH9y9cYzcmahl5CxAc/j5Q=;
-        b=3/lrSV2FB3VKgjWLFbnWITKGetXu251tGPp+qNBUFDcyDvBgZjIEqkFq3MuQXeDOB3
-         3Uc6Yr/mFMsIVYR7izY/IrN6xrf9Yyo7E5wZuRTVN4K+NyNEU3UhzTSaybLZIQZO933Z
-         r2IGFz+j/8sLAaFyl/P3mFoiQ18C1Vq27T/Y1siIBdWCkUP09V2yIiS4Op7baCP8y8zt
-         n3jkSk5x6Wqi9d9xWV++L2yWvAqMpb+m68FAm8mgKkkHszec5qDH9wNGp7TjJoBawESl
-         A17fx3FjGIAU/I2w6d3sTD9vvYmy6ek5ckP1jwEyLKmxomK7GRQ+4XQYItsB7CvN/Xje
-         LD5A==
-X-Gm-Message-State: ACrzQf2eaj358++e4xi/NMRMV22hr81GABOYG+3E7/Wg2/fWgGtaUEkG
-        RIEBH9litdBujkjCGh36oLba+nurL/SAlQkA
-X-Google-Smtp-Source: AMsMyM4VT79dWTcRY+RuMl8JgTcc0AG/ny0owzByxoSjX/9A+h7cnUqoaiW0QatyiXIJ4FA/HoQl2Q==
-X-Received: by 2002:ac8:7309:0:b0:3a5:44d0:f000 with SMTP id x9-20020ac87309000000b003a544d0f000mr22262622qto.448.1667830599267;
-        Mon, 07 Nov 2022 06:16:39 -0800 (PST)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id r16-20020ac87ef0000000b003996aa171b9sm5987525qtc.97.2022.11.07.06.16.38
-        for <linux-renesas-soc@vger.kernel.org>
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ft1r9aPFGJF0+nCT//rpLeqH0WDImyUG+eP+SvMdOUM=;
+        b=aQyZyVWsvpNpO/mxf/icp5EiRCg6lZ5KxIh3CaOEExqJiKWvJ0Uwsqza4zBgLK0zje
+         XEPuquZgemOHm8UoeuETaoYRyfvW202c8bDjNWSRGb3AcQZHh336vndZx1gcNOMndzmk
+         jDFIEwn4gikfQINXXX8Al0z8v57Z1mL/lnaYvVb4Xs2PgXvIMR+rDJAIwHjK0fw5unnw
+         7n81mGLlCSwl2m9vOOanZORGNEthVLBiqttuZPQ8z2vhGGPRB44GCntu+5SaLiugz2Nx
+         HqvGhdRyXEeoOYfbfacO4uBYz9xDgOxQw1vYLjwYJB7ignoSoG9uZn3GJXoQ8bt12LIn
+         x6sQ==
+X-Gm-Message-State: ACrzQf08b0yeD6gkp5YT2E7TinyczM9FZ+ao38B5FxcmXo2++8QEV3FI
+        Aq7HZNW1jHRGDjWoxUaeYPe8A8tBSHOocw==
+X-Google-Smtp-Source: AMsMyM6Jpv0EgHEXEmn+VZEsX8fU0eJLbwDLeD2piUtkylPTDhDBomQ0VQSOPxjzO4jkMEVQv5l5mg==
+X-Received: by 2002:a37:65c9:0:b0:6fa:1ef8:fa10 with SMTP id z192-20020a3765c9000000b006fa1ef8fa10mr32177855qkb.648.1667831215541;
+        Mon, 07 Nov 2022 06:26:55 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id u17-20020a05622a011100b003a598fcddefsm664637qtw.87.2022.11.07.06.26.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Nov 2022 06:16:38 -0800 (PST)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-333a4a5d495so105316887b3.10
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Nov 2022 06:16:38 -0800 (PST)
-X-Received: by 2002:a0d:e301:0:b0:374:a8ba:99b0 with SMTP id
- m1-20020a0de301000000b00374a8ba99b0mr2071926ywe.358.1667830598476; Mon, 07
- Nov 2022 06:16:38 -0800 (PST)
+        Mon, 07 Nov 2022 06:26:54 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id o70so13760513yba.7;
+        Mon, 07 Nov 2022 06:26:54 -0800 (PST)
+X-Received: by 2002:a05:6902:503:b0:6cf:c510:6a23 with SMTP id
+ x3-20020a056902050300b006cfc5106a23mr30733838ybs.380.1667831214389; Mon, 07
+ Nov 2022 06:26:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20221027144844.85149-1-biju.das.jz@bp.renesas.com> <20221027144844.85149-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20221027144844.85149-3-biju.das.jz@bp.renesas.com>
+References: <20221107135825.583877-1-herve.codina@bootlin.com> <20221107135825.583877-5-herve.codina@bootlin.com>
+In-Reply-To: <20221107135825.583877-5-herve.codina@bootlin.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Nov 2022 15:16:27 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVghus=mN0PajCsY5CAO+sT-NQPL9NJ5e=3wtqMOcahSQ@mail.gmail.com>
-Message-ID: <CAMuHMdVghus=mN0PajCsY5CAO+sT-NQPL9NJ5e=3wtqMOcahSQ@mail.gmail.com>
-Subject: Re: [PATCH v5 2/5] clocksource/drivers: Add RZ/G2L MTU3 core driver
-To:     biju.das.jz@bp.renesas.com
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org, Lee Jones <lee@kernel.org>
+Date:   Mon, 7 Nov 2022 15:26:43 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX9WBxkrQRV6yEXmJdj3qQ9Ne4W0xmiGDEC6j=R_ARgsQ@mail.gmail.com>
+Message-ID: <CAMuHMdX9WBxkrQRV6yEXmJdj3qQ9Ne4W0xmiGDEC6j=R_ARgsQ@mail.gmail.com>
+Subject: Re: [PATCH 4/7] dt-bindings: usb: add the Renesas USBF controller binding
+To:     Herve Codina <herve.codina@bootlin.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Hervé,
 
-On Thu, Oct 27, 2022 at 4:49 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add RZ/G2L MTU3 core driver for the Multi-Function Timer Pulse
-> Unit 3 (MTU3a) hardware available on SoCs from Renesas. The core
-> driver allow to share the clk and channel between the other
-> drivers like PWM, Clock Source, Clock event and Counter.
+On Mon, Nov 7, 2022 at 3:00 PM Herve Codina <herve.codina@bootlin.com> wrote:
+> The Renesas USBF controller is an USB2.0 device controller
+> (UDC) available in Renesas r9a06g032 SoC (RZ/N1 family).
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v4->v5:
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 
-Thanks for the update!
+Thanks for your patch!
 
->  * Moved core driver from MFD to timer
->  * Child devices instatiated using mfd_add_devices()
-
-> --- a/drivers/clocksource/Kconfig
-> +++ b/drivers/clocksource/Kconfig
-> @@ -524,6 +524,16 @@ config SH_TIMER_MTU2
->           Timer Pulse Unit 2 (MTU2) hardware available on SoCs from Renesas.
->           This hardware comes with 16-bit timer registers.
->
-> +config RZ_MTU3
-> +       bool "Renesas RZ/G2L MTU3 core driver"
-> +       depends on (ARCH_RZG2L && OF) || COMPILE_TEST
-
-As you are calling mfd_add_devices(), this driver needs (a very small
-part of) the functionality provided by MFD.
-
-If CONFIG_MFD_CORE is not set:
-
-    aarch64-linux-gnu-ld: drivers/clocksource/rz-mtu3.o: in function
-`rz_mtu3_reset_assert':
-    rz-mtu3.c:(.text+0x38): undefined reference to `mfd_remove_devices'
-    aarch64-linux-gnu-ld: drivers/clocksource/rz-mtu3.o: in function
-`rz_mtu3_probe':
-    rz-mtu3.c:(.text+0x180): undefined reference to `mfd_add_devices'
-
-So either you should make this depend on MFD_CORE, or move to
-another mechanism for registering the sub devices (e.g. calling
-platform_device_{alloc,add}(), cfr. rpcif_probe()).
-
-> +       help
-> +         Select this option to enable Renesas RZ/G2L MTU3 core driver for
-> +         the Multi-Function Timer Pulse Unit 3 (MTU3a) hardware available on
-> +         SoCs from Renesas. The core driver allow to share the clk and channel
-> +         between the others drivers like PWM, Clock Source, Clock event and
-> +         Counter.
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/renesas,usbf.yaml
+> @@ -0,0 +1,64 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/usb/renesas,usbf.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
+> +title: Renesas USBF (USB Function) controller binding
+> +
+> +description: |
+> +   The Renesas USBF controller is an USB2.0 device
+> +   controller (UDC).
+> +
+> +maintainers:
+> +  - Herve Codina <herve.codina@bootlin.com>
+
+Hervé? ;-)
+
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a06g032-usbf
+> +          - const: renesas,rzn1-usbf
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Internal bus clock (AHB) for Function
+> +      - description: Internal bus clock (AHB) for Power Management
+> +  clock-names:
+> +    items:
+> +      - const: hclkf
+> +      - const: hclkpm
+
+power-domains?
 
 Gr{oetje,eeting}s,
 
