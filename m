@@ -2,58 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79E1661F766
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 16:18:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC22861F781
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 16:23:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232643AbiKGPSV convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 10:18:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57306 "EHLO
+        id S232869AbiKGPXa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Nov 2022 10:23:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231481AbiKGPSU (ORCPT
+        with ESMTP id S231438AbiKGPX3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 10:18:20 -0500
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE5511EAF8;
-        Mon,  7 Nov 2022 07:18:19 -0800 (PST)
-Received: by mail-qk1-f173.google.com with SMTP id x21so7347308qkj.0;
-        Mon, 07 Nov 2022 07:18:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=41bg/V6C1tOqJ9fv/+V5kseVmkby+8ASnDXXHqgf6AE=;
-        b=hkxDvyO+0SCcHx91eVSw3gekw9enTCquiYlFuwhhUNBLUWoi1dcv50pmkPJEv8uuwr
-         UnhvKtn+0y3IueZgVauD4WGNfzjN06InZqTqzejtl0jlHa9QjKA58JHbzUqxPq5oom3n
-         dikm/O48geOI2Ji5HyF9RtDj4FRUTvCM7/IJvV6VagCwX74+POKq3Ktld0Ry6qBG9/wx
-         ZwDjfdvEHYKW3PPqMtqxUo5iFobZYD6iFvAfkLi0Nl+w1B5aopdbhLDfFE1r1S/r4+8d
-         3S+1AX9g71LZ7Ox+qLFw8egrBOxa39YAEXpwY2+SQyNqjvBIAT8+NUqj3aXDeH63knof
-         kfMw==
-X-Gm-Message-State: ACrzQf3zyVR0/BgyvhMduLvtLhc9qEIFHIBMCLRyfEBHvYxENE3F8Vlm
-        NgS+i13phnNZxCMDei+IV2iNl6/LNfB+CGOw
-X-Google-Smtp-Source: AMsMyM6vfARP7bAuXyS/rlS0frMt7k8RaJi0Mf1YB8l/LMgJiXieGO/dOYMmV6RgeMDdZVvzCVzPDw==
-X-Received: by 2002:a05:620a:458a:b0:6fa:2522:9c56 with SMTP id bp10-20020a05620a458a00b006fa25229c56mr733423qkb.22.1667834298659;
-        Mon, 07 Nov 2022 07:18:18 -0800 (PST)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id k1-20020ac81401000000b003434d3b5938sm6231877qtj.2.2022.11.07.07.18.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Nov 2022 07:18:18 -0800 (PST)
-Received: by mail-yb1-f175.google.com with SMTP id g127so13980445ybg.8;
-        Mon, 07 Nov 2022 07:18:17 -0800 (PST)
-X-Received: by 2002:a25:6b07:0:b0:6cd:3a43:bfe5 with SMTP id
- g7-20020a256b07000000b006cd3a43bfe5mr37368541ybc.89.1667834297660; Mon, 07
- Nov 2022 07:18:17 -0800 (PST)
-MIME-Version: 1.0
-References: <20221107135825.583877-1-herve.codina@bootlin.com> <20221107135825.583877-4-herve.codina@bootlin.com>
-In-Reply-To: <20221107135825.583877-4-herve.codina@bootlin.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Nov 2022 16:18:06 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX17=GJgn3=gYUHo7=1r3amXnPYE4h-45pEH=neAV4oKQ@mail.gmail.com>
-Message-ID: <CAMuHMdX17=GJgn3=gYUHo7=1r3amXnPYE4h-45pEH=neAV4oKQ@mail.gmail.com>
-Subject: Re: [PATCH 3/7] soc: renesas: r9a06g032-sysctrl: Handle h2mode
- device-tree property
-To:     Herve Codina <herve.codina@bootlin.com>
+        Mon, 7 Nov 2022 10:23:29 -0500
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A9CECD9;
+        Mon,  7 Nov 2022 07:23:24 -0800 (PST)
+Received: (Authenticated sender: herve.codina@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 4F5BF240007;
+        Mon,  7 Nov 2022 15:23:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1667834603;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=SJd93Y5HIkbd3Alvti1JPtGvDBLfYghJCCdXFuuDQuY=;
+        b=oa6r8eHOhRqhyq8m0OyGQMeXXLO+mcrcHTch6Sxrcj+ToRz4YE1Pjfq5pgFZyZ+KoSMwf9
+        oZrCPxvhvmALjaTn2UyYyKJIqTOz8HEuqVpkCYHBbMjEAQ0+Q5CWMcFZ7d4np9xSjS1z8M
+        5ZETcxVWIiJ59CLrOBZzIuIqVfHcmEUNSrMTUfTp60LirRgQzSKMVoAQNrXSnrgPZ6i4lA
+        b4vFUl1iCad/M8DwIiK8RcISyYi7J1BebN4suQzD4xBTVORiwfLer29EeEHbDv/3zhpb28
+        ykYPaKzQgdmBxAhRPtOFbMb5BlmCoSe3coP40G18XD/FOZ8eMYQP3+QNC8hR5g==
+Date:   Mon, 7 Nov 2022 16:23:19 +0100
+From:   Herve Codina <herve.codina@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -66,78 +45,173 @@ Cc:     Michael Turquette <mturquette@baylibre.com>,
         linux-usb@vger.kernel.org,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Subject: Re: [PATCH 5/7] usb: gadget: udc: add Renesas RZ/N1 USBF controller
+ support
+Message-ID: <20221107162319.7945f241@bootlin.com>
+In-Reply-To: <CAMuHMdVod1VqKSBFa5syeSPU=RzgqQ=3tg70V1OSZFOext7kgw@mail.gmail.com>
+References: <20221107135825.583877-1-herve.codina@bootlin.com>
+        <20221107135825.583877-6-herve.codina@bootlin.com>
+        <CAMuHMdVod1VqKSBFa5syeSPU=RzgqQ=3tg70V1OSZFOext7kgw@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Hervé,
+Hi Geert,
 
-On Mon, Nov 7, 2022 at 2:59 PM Herve Codina <herve.codina@bootlin.com> wrote:
-> Handle the h2mode property and forces the CFG_USB[H2MODE] bit
-> accordingly.
->
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+On Mon, 7 Nov 2022 15:37:40 +0100
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-Thanks for your patch!
+> Hi Herv=C3=A9,
+>=20
+> On Mon, Nov 7, 2022 at 3:00 PM Herve Codina <herve.codina@bootlin.com> wr=
+ote:
+> > Add support for the Renesas USBF controller.
+> > This controller is an USB2.0 UDC controller available in the
+> > Renesas r9a06g032 SoC (RZ/N1 family).
+> >
+> > Signed-off-by: Herve Codina <herve.codina@bootlin.com> =20
+>=20
+> > --- /dev/null
+> > +++ b/drivers/usb/gadget/udc/renesas_usbf.c =20
+>=20
+> > +struct usbf_udc {
+> > +       struct usb_gadget               gadget;
+> > +       struct usb_gadget_driver        *driver;
+> > +       struct device                   *dev;
+> > +       struct clk_bulk_data            *clocks;
+> > +       int                             nclocks;
+> > +       void __iomem                    *regs;
+> > +       spinlock_t                      lock;
+> > +       bool                            is_remote_wakeup;
+> > +       bool                            is_usb_suspended;
+> > +       struct usbf_ep                  ep[USBF_NUM_ENDPOINTS];
+> > +       /* for EP0 control messages */
+> > +       enum usbf_ep0state              ep0state;
+> > +       struct usbf_req                 setup_reply;
+> > +       u8                              ep0_buf[USBF_EP0_MAX_PCKT_SIZE];
+> > +}; =20
+>=20
+> > +static int usbf_probe(struct platform_device *pdev)
+> > +{
+> > +       struct device *dev =3D &pdev->dev;
+> > +       struct usbf_udc *udc;
+> > +       struct usbf_ep *ep;
+> > +       bool h2mode;
+> > +       int irq;
+> > +       int ret;
+> > +       int i;
+> > +
+> > +       ret =3D r9a06g032_sysctrl_get_usb_h2mode(&h2mode);
+> > +       if (ret)
+> > +               return ret;
+> > +       if (h2mode) {
+> > +               dev_warn(dev, "Disabled in H2 (host) mode\n");
+> > +               return -ENODEV;
+> > +       }
+> > +
+> > +       udc =3D devm_kzalloc(dev, sizeof(*udc), GFP_KERNEL);
+> > +       if (!udc)
+> > +               return -ENOMEM;
+> > +       platform_set_drvdata(pdev, udc);
+> > +
+> > +       udc->dev =3D dev;
+> > +       spin_lock_init(&udc->lock);
+> > +
+> > +       udc->regs =3D devm_platform_ioremap_resource(pdev, 0);
+> > +       if (IS_ERR(udc->regs))
+> > +               return PTR_ERR(udc->regs);
+> > +
+> > +       devm_pm_runtime_enable(&pdev->dev);
+> > +       ret =3D pm_runtime_resume_and_get(&pdev->dev);
+> > +       if (ret < 0)
+> > +               return ret;
+> > +
+> > +       ret =3D devm_clk_bulk_get_all(dev, &udc->clocks);
+> > +       if (ret < 1) {
+> > +               dev_err(dev, "failed to get clocks %d\n", ret);
+> > +               return ret;
+> > +       }
+> > +       udc->nclocks =3D ret;
+> > +
+> > +       ret =3D clk_bulk_prepare_enable(udc->nclocks, udc->clocks);
+> > +       if (ret) {
+> > +               dev_err(dev, "can not enable the clock\n");
+> > +               return ret;
+> > +       } =20
+>=20
+> As this driver only enables/disables the clocks, perhaps you could
+> just delegate this to Runtime PM (through the clock domain pointed
+> by the power-domains property in DT), and drop the .clocks and
+> .nclocks fields?
 
-> --- a/drivers/clk/renesas/r9a06g032-clocks.c
-> +++ b/drivers/clk/renesas/r9a06g032-clocks.c
-> @@ -946,6 +946,7 @@ static int __init r9a06g032_clocks_probe(struct platform_device *pdev)
->         struct clk *mclk;
->         unsigned int i;
->         u16 uart_group_sel[2];
-> +       u32 usb, h2mode;
->         int error;
->
->         clocks = devm_kzalloc(dev, sizeof(*clocks), GFP_KERNEL);
-> @@ -966,6 +967,26 @@ static int __init r9a06g032_clocks_probe(struct platform_device *pdev)
->         clocks->reg = of_iomap(np, 0);
->         if (WARN_ON(!clocks->reg))
->                 return -ENOMEM;
-> +
-> +       error = of_property_read_u32(np, "renesas,h2mode", &h2mode);
-> +       if (!error) {
-> +               usb = readl(clocks->reg + R9A06G032_SYSCTRL_USB);
-> +               switch (h2mode) {
-> +               case 0:
-> +                       /* 1 host, 1 device */
-> +                       usb &= ~R9A06G032_SYSCTRL_USB_H2MODE;
-> +                       break;
-> +               case 1:
-> +                       /* 2 hosts */
-> +                       usb |= R9A06G032_SYSCTRL_USB_H2MODE;
-> +                       break;
-> +               default:
-> +                       dev_err(dev, "invalid h2mode %d\n", h2mode);
-> +                       return -EINVAL;
-> +               }
-> +               writel(usb, clocks->reg + R9A06G032_SYSCTRL_USB);
+Yes, indeed.
+I tested it and it works.
+I will remove the the clocks handling from this driver in v2 series.
 
-Reading the big fat warnings in the documentation about changing
-this at runtime (disconnect nodes, reset clocks, ...), I'm wondering if
-the above is sufficient?
+>=20
+> > +clk_disable:
+> > +       clk_bulk_disable_unprepare(udc->nclocks, udc->clocks);
+> > +       return ret;
+> > +}
+> > +
+> > +static int usbf_remove(struct platform_device *pdev)
+> > +{
+> > +       struct usbf_udc *udc =3D platform_get_drvdata(pdev);
+> > +
+> > +       usb_del_gadget_udc(&udc->gadget);
+> > +
+> > +       clk_bulk_disable_unprepare(udc->nclocks, udc->clocks);
+> > +
+> > +       pm_runtime_put(&pdev->dev);
+> > +
+> > +       return 0;
+> > +} =20
+>=20
+> > +MODULE_AUTHOR("Herve Codina <herve.codina@bootlin.com>"); =20
+>=20
+> Herv=C3=A9? ;-)
 
-> +       }
-> +
->         for (i = 0; i < ARRAY_SIZE(r9a06g032_clocks); ++i) {
->                 const struct r9a06g032_clkdesc *d = &r9a06g032_clocks[i];
->                 const char *parent_name = d->source ?
+Just to be consistent with other places where my email appears,
+I keep "Herve" :)
 
-Gr{oetje,eeting}s,
+>=20
+> > +MODULE_DESCRIPTION("Renesas R-Car Gen3 & RZ/N1 USB Function driver");
+> > +MODULE_LICENSE("GPL"); =20
+>=20
+> > --
+> > 2.37.3
+> > =20
+>=20
+>=20
+> --
+> Gr{oetje,eeting}s,
+>=20
+>                         Geert
+>=20
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>=20
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
 
-                        Geert
+Thanks for this review,
+Herv=C3=A9
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--=20
+Herv=C3=A9 Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
