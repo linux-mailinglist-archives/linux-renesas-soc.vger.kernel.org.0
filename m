@@ -2,189 +2,177 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 548B061F279
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 13:07:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A6B461F3D6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 14:00:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231431AbiKGMHG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 07:07:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36062 "EHLO
+        id S231486AbiKGNAf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Nov 2022 08:00:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231844AbiKGMGr (ORCPT
+        with ESMTP id S231349AbiKGNAe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 07:06:47 -0500
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC5761B1EF;
-        Mon,  7 Nov 2022 04:06:30 -0800 (PST)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.west.internal (Postfix) with ESMTP id 1008B2B066C1;
-        Mon,  7 Nov 2022 07:06:16 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Mon, 07 Nov 2022 07:06:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1667822776; x=1667829976; bh=B05aDEGhPx
-        Oz9qxjqo1oM6WpXvxfjmgCQJwzLTnqx7o=; b=c4zx5wLHNyF7xm2AkdGG3OUdCb
-        RO+l5I2vtO9DaajfBbNfka/dBUIMlboYQcCfJquVMcsj2o9/zEXEI+l2hSRokeuQ
-        aqNSYIxr3Y0epBEAgaNnOXQEU50pT5NaDa4fjXvmfNBKbpt4a25wAzOIuLNEMx/j
-        a0NvDSHSwrN80f0eXo5zTMav2ja+eJjpbZgEWPnOAm5hx3UlDuHHMYVNOnwUKcFK
-        JhVZU1uK1lCqT7Xt4pPHgtY46Pm/9MWSSmC1SBPYRRzq2x1wtOtWfJwfe6msiD2s
-        4ftE1AIcyhD+AKlWVDWP4DZo5gxXIpFxRJOhKEGEM1+6Kwb5JLctiyuKQ9Yg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1667822776; x=1667829976; bh=B05aDEGhPxOz9qxjqo1oM6WpXvxf
-        jmgCQJwzLTnqx7o=; b=uf/zn+bV9iXr/LMxeg8+E1bMrkdm7AISotuw6SbdRTQ/
-        bmzu2ZkuuQ5Jzt9xaNZorZoCwetVElpGMEulW+HJm7DFbhBqjRt+oBvI0saqW6ha
-        tgMnQ7xcD7FkrucW5A6s2F1c65udztNZ8ZiWPc7xzXIrky/pP6cidenYwLXJ/N/a
-        tM/RVYNM/OYKZDXwL9GL4OfR1g5xTlYcDOpTl2Vwv69y82DJ0f0qvqbgBPSIigA4
-        pqPSSpx1zgZLtTapbWIl0Ddl7gEq0y+oCYBzSYLsR+EeoYvAAknIs3WM8s/Nx/5b
-        jpyc8SaYuZkTPLAbmrS6XMc+jTmbPIH0iOmo3sv8bg==
-X-ME-Sender: <xms:tvRoY3PFGlEb7RJaNxEM6Ugu14yWdBktiA3qTs6-BrcOTKxv9PtG0w>
-    <xme:tvRoYx-AxZ1WQ5KPyQzG4GSF9nOnWeHRYhvJyXfy3N24GhiD2xu75K_OjpfjagZWV
-    y90fJJ-e5lUpDTgDzY>
-X-ME-Received: <xmr:tvRoY2S_J5RFPZf-4wkcmwOCc_x7XeD76M1-byAnNeAtf22t62skzxbyLnsciOlkPyG3wB15U761HZLZq9yhVcKMElIgfcsK48JM6SyhT4FcOw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdekgdefhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
-    vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:tvRoY7vB8zdfJRUWlKeCfXorc4DFpIxrb30X2e71xu4KD0Npw-oSFw>
-    <xmx:tvRoY_dCf9FHlSc7kwHzI7umAVLs1tZN4BwIBGyAX4-0zxT4lWdE_w>
-    <xmx:tvRoY30J9PfIrSDM30MzXkeEfxvgGhpJ0dFzuHYby7zDzSEEdQesmg>
-    <xmx:uPRoYzkpBG9adcnPxB-xonp3ewdKFqQr6dIQjDA-sX9kYmvTYh0sZ_NCjqM>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Nov 2022 07:06:13 -0500 (EST)
-Date:   Mon, 7 Nov 2022 13:06:11 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     David Lechner <david@lechnology.com>
-Cc:     Stephen Boyd <sboyd@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
+        Mon, 7 Nov 2022 08:00:34 -0500
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2066.outbound.protection.outlook.com [40.107.21.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87D2A13F79;
+        Mon,  7 Nov 2022 05:00:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cxGeF2wigfvTLyYJ48PIJT7SRZ+P+doXVXM02MmeoSaWCBddlzk1gjFVmMsRtd97JU44+PDo+U1OayjZ1XX67sSa7N1rHp9ARUbmaRtMHxG+eGcQaHee3MxNMa7tAlh1hVJyfoI4yF2l0uLvw5RTepF9/ltOUhYWagHxtU01JbJUSXz369Wy7L37uOnBH5yZWMXKZ3dlogQL1awcQrFwiCez+ZQm25RY7/TSAi4QBGAieTlF50J/DU3ZG2KU5/ZVJDfCBIKkVc57Z9elvXbbLcHAWQ7+qgt3qT+MehAOasBTbkR65mPpU1Ztf1RGJnKHvXyGi9GMWmakwTda0wZecA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9Y7hXv082RRO177Jkx3+duI0Rsbs+ddNcXnKRWErdsk=;
+ b=AAPdl6/eg9sNdbXY2rdqENO2KgO+6H9NyuGabbxmsuNO8D8o70H6/UAuT+hT0IjcR8oJ5/Cu4lHM8RSxIZz2llJz4bktlu4DLXc+SjIFFzCill1JYf88q0cokQkJXLCBgRP+tK5Kx3ap01T4RUUL+0VMbmKd2AYbqWfnWeVkMckXEz7WUDYES6Cmd8q2UujTpNG/T/ikoB99jaSUsNA3lZEb0PxaY/bnRCzwwiOcd3Aj0y8kDWI0XmPnmzl0sLlg53dQOVIcn5d2TYALuCCmSeGdj2YDFwqpCRjZlV1ONNC9Sp85fd49gSj8RMsbGFpLhf+RK61u5D0ACBSpmwf4NA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9Y7hXv082RRO177Jkx3+duI0Rsbs+ddNcXnKRWErdsk=;
+ b=E3D9+FuGVq63URE0UJVOkJSFwmOGqW5DXrju50AbvAK02HpLApi/ALZvSCtm72Tf1AXtk/f3E5P35s1pZWTLiH1+1k/t1WMpwetBUUpu3Uy/OO6B9CLC8Q4SpgBoAptuOVZWeF6pyrztDmPUdYWVJAUl1o+TFZUxmrsVY9b0mHc=
+Received: from VI1PR04MB5136.eurprd04.prod.outlook.com (2603:10a6:803:55::19)
+ by DBBPR04MB7548.eurprd04.prod.outlook.com (2603:10a6:10:20c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.22; Mon, 7 Nov
+ 2022 13:00:27 +0000
+Received: from VI1PR04MB5136.eurprd04.prod.outlook.com
+ ([fe80::4a73:29eb:28e3:f66d]) by VI1PR04MB5136.eurprd04.prod.outlook.com
+ ([fe80::4a73:29eb:28e3:f66d%7]) with mapi id 15.20.5791.024; Mon, 7 Nov 2022
+ 13:00:27 +0000
+From:   Vladimir Oltean <vladimir.oltean@nxp.com>
+To:     "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+CC:     Joyce Ooi <joyce.ooi@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Chris Snook <chris.snook@gmail.com>,
         Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
         Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Abel Vesa <abelvesa@kernel.org>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Samuel Holland <samuel@sholland.org>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        Taras Chornyi <tchornyi@marvell.com>,
+        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Mark Lee <Mark-MC.Lee@mediatek.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Takashi Iwai <tiwai@suse.com>,
-        David Airlie <airlied@gmail.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Mark Brown <broonie@kernel.org>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
-        linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 21/65] clk: davinci: da8xx-cfgchip: Add a
- determine_rate hook
-Message-ID: <20221107120611.vutsgpgpcorsgzwp@houat>
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-21-f6736dec138e@cerno.tech>
- <187e61cd-7d02-2453-acf1-30180559d42f@lechnology.com>
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        Lars Povlsen <lars.povlsen@microchip.com>,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Daniel Machon <daniel.machon@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>
+Subject: Re: [PATCH net-next] net: remove explicit phylink_generic_validate()
+ references
+Thread-Topic: [PATCH net-next] net: remove explicit phylink_generic_validate()
+ references
+Thread-Index: AQHY8HDMdl+vkQ7h8UWdK3AxPmtmWw==
+Date:   Mon, 7 Nov 2022 13:00:27 +0000
+Message-ID: <20221107130027.5itc5uqljcs4eath@skbuf>
+References: <E1or0FZ-001tRa-DI@rmk-PC.armlinux.org.uk>
+ <E1or0FZ-001tRa-DI@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1or0FZ-001tRa-DI@rmk-PC.armlinux.org.uk>
+ <E1or0FZ-001tRa-DI@rmk-PC.armlinux.org.uk>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: VI1PR04MB5136:EE_|DBBPR04MB7548:EE_
+x-ms-office365-filtering-correlation-id: 8379f2b8-f0ad-4486-a6ab-08dac0c00b0f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DxQFl1JEwQoxGUKvmIRgjgq0/HJgmfyYCJtoXSm3p+E5BgFoxX0tTp+qdNdhtKy1xJqcnpAWm6lUku3blX2lAfq1YDoyDwg7Py+lpiKy55rTreIOANiK+TN0fX1g66Kex7Cw35bSogKqAvhi3W3NMiHoyu3+zKL/tNN/suW72uaQI1sC7poys9PoCF598nNd9NXK1LPS+qkzYJaBEdvcWxRh9bjSEwSOose8ptZld++Xrq3N99XUIBKY7ahFK0dUmtlYZKcCHhEfGQoer3V9WeXvH879LMtW1fzacGFh+oYRsnf9hlz2Bvtlt7mVMPai1tJOvs5bY8J2LdZbvNi1sWdAvWEXEJOnYY2HzAQ6LyXfsQhhD3L0afh4Cg7sfE1qMS/4KZyPOa0YdwqdlYqIkJdy39+ZJEOxuZWF7HH8T3jiY0nF26O2S/o9OigZVDFiJUu1K25suFAwDTd1tuyXVl+KDYZT4RBjL6M6s2UpOnOOy57x729wbgSe3cSLipZ0lKBMqI7PIC3Rw9ydIRswvY8HnBYU0i0zfkL9+jUCkMk1cUd6nXmk6VXER+oelDuGMbGlmWWVRrJ65RK2UFat59EZv8Njbb8001XkWjC0mUxxH+rJxXqExvYZhsK2jbDFhzpJ6UAgnQkh/I3sdb9VcAcv1cn//IaI8EGfd7bAvheyz55cw8iYkh0AWyTfGYXf2WEEqidhftlZf9bcOSRoaEthbZ30bDp5e20vLAStVXnEFqrGY5yJAdKgOnijk2qhFBXmYN0Pf5n9y9iyGDrPL/nvozRKoOn2pWRD2V4hzu8=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5136.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(7916004)(136003)(396003)(346002)(376002)(39860400002)(366004)(451199015)(26005)(6512007)(9686003)(1076003)(6506007)(186003)(122000001)(83380400001)(44832011)(4744005)(2906002)(8676002)(7406005)(7416002)(33716001)(478600001)(54906003)(71200400001)(38100700002)(6486002)(41300700001)(5660300002)(8936002)(91956017)(4326008)(316002)(76116006)(66446008)(66946007)(66556008)(64756008)(66476007)(38070700005)(86362001)(41533002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?h3I6vsmX68czQxu9DGCd7jkrk/jQBKJSRsTpk98uPf0jgERPs6UnQLwS84sm?=
+ =?us-ascii?Q?q+X7moCF2lT/glSJrrUs0uaSLyJRPFs7glgg8Beyqe+JMA5w5ZKvwqo/t2RL?=
+ =?us-ascii?Q?0pjiQa/OkhffwNzTCiFzjC/rFjOq40tYeRzAxFX/lBUhZD6Jq66k9GrogiRd?=
+ =?us-ascii?Q?Ua11NV4hLY2uevS1LJWnmpnAVRqaRSqAcKkTFvgZlaIECQxevnixIvhLM5Iq?=
+ =?us-ascii?Q?dIHdbc2L18ndi+xcMzTcUHrOraFtvnLgjVvAx0jHahulRIhsz2GPkL46ioLU?=
+ =?us-ascii?Q?kapg4pMCuOlCYzOszMkuHZTbOlBa+W5eSGSC/UkMTkxraWcQua6+MHLS7nZk?=
+ =?us-ascii?Q?xb08nWzcHt4qrieCk5k1GhQbTAP8ckf4UISpdhfDowXuhvoz7RiywEec/mJe?=
+ =?us-ascii?Q?BC7/eC9JtLpcyACwMCUH7Wp8Y6VtpoEQj5fXYrt37sRp4pYGdi9rWjvwjKot?=
+ =?us-ascii?Q?zL3mQgn1piAsVympLkVcSEwwIh7lveYZK01TXTJsMUpz3nYih49wbv8rXxHz?=
+ =?us-ascii?Q?BOctaFpq6uYxW2T0Z072nCuCPLRqcKH53eemZCssGi+Zuf3gNL/fiXPwABR8?=
+ =?us-ascii?Q?y0bPCXPMeVlI3O/jx60B3dMxSwBgUWgl9eiVIbl/VYLkF/q0yPGhs90oefVZ?=
+ =?us-ascii?Q?yIakqd67Fe6o2DjY0rGqdYInXPv7L98roPeoav/fzbEM46Xp/toki1ICdbZs?=
+ =?us-ascii?Q?YJETCrKiG+joGOghMaiXJKeMfajEPhzvwgcJLJBhhDp8qCKsKc1oiRzTwbHA?=
+ =?us-ascii?Q?/hiRwbXUa956MwcQkUcHNZ5+r4tEnIekQ0CkYnKxo8w+vjy/+aaS7bfh/1bD?=
+ =?us-ascii?Q?tTRrum1f5Uc0E1E3jzZyDk7GoqGVGlKcMnfRLwCUzhlhIf/oX3sXax2/1DRO?=
+ =?us-ascii?Q?wzIlOR0NVING7g0uPYhnAk+JAJtsBzeU0HyN0lP3rxNnt+MAKVTD/1UaIzOe?=
+ =?us-ascii?Q?wDL79hdxmZqXRTritWRSDhsjYGzSHRae3hYBvQwobiiL7RAVOLMCVlYHy3QL?=
+ =?us-ascii?Q?wtpnnyBmgvtkzejDGGUJmidu3id9E6RGDurmsvhsCltjLEyw2VcIhqlmXJdU?=
+ =?us-ascii?Q?pYQrYvLhKf9SvVEF0rBDqe+4F2gtgvqnah8bAxyzAkf+34Nb05gr1650OlgG?=
+ =?us-ascii?Q?SuFLZX39hT++wj9GtDbUUif8+KJprnRnLieFeJy64VLFWXRkW/1oIz/m0GvW?=
+ =?us-ascii?Q?HrR6Wv+zxw/A/YhK0IA4goAI8L5+opNfOHwBbolFYeVMqOcBOJI13MWduwm8?=
+ =?us-ascii?Q?MYE6hOqihGY9fEG/5aFgjoBYl0fGp0MLoi1XDxWwvwVvAGdmA2fOLubJh6RY?=
+ =?us-ascii?Q?BQojctrcXkWAjHVLGGiaWOJ2NsX4ZAEu7D9chwVCGPmiGz6EN1pQyTgfEYYS?=
+ =?us-ascii?Q?bg4Qnq01nl4ic2qOnTloJ55G+QS5NR4hWyLhjyJMD3Ukv7J8tVqKwa0bOraI?=
+ =?us-ascii?Q?CfBCLRWoMSbT2/46fqsBzQrC3/0GZnB3FBaZUbwVc8tqz0EtwGIEozceUFxz?=
+ =?us-ascii?Q?kq0ofepBO5w/wix8vA3F6h3qHRTdDvAYpB//rFx8cglTZHb2isqSZ1asSWS2?=
+ =?us-ascii?Q?LTBHmw+r3B9Z0lXjUlE0p826Gi8MhCmajUOziZFzKSXiFMYi8cjtqv/8HPUT?=
+ =?us-ascii?Q?cg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <A158BAF6A45039439EFFF98CA61228A9@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nc45elwfwbnglqoe"
-Content-Disposition: inline
-In-Reply-To: <187e61cd-7d02-2453-acf1-30180559d42f@lechnology.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5136.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8379f2b8-f0ad-4486-a6ab-08dac0c00b0f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2022 13:00:27.8019
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1fmwY1au33an5lCPHExcDIMs0WlYNWEWT1Q7c1nIotVpdUp2jT3PjeUG230VmkwZKurFzkBha31ijgKTuvM1XA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7548
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---nc45elwfwbnglqoe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi David,
-
-On Fri, Nov 04, 2022 at 11:45:17AM -0500, David Lechner wrote:
-> On 11/4/22 8:17 AM, Maxime Ripard wrote:
-> > The Davinci DA8xxx cfgchip mux clock implements a mux with a set_parent
-> > hook, but doesn't provide a determine_rate implementation.
-> >=20
-> > This is a bit odd, since set_parent() is there to, as its name implies,
-> > change the parent of a clock. However, the most likely candidate to
-> > trigger that parent change is a call to clk_set_rate(), with
-> > determine_rate() figuring out which parent is the best suited for a
-> > given rate.
-> >=20
-> > The other trigger would be a call to clk_set_parent(), but it's far less
-> > used, and it doesn't look like there's any obvious user for that clock.
-> >=20
-> > So, the set_parent hook is effectively unused, possibly because of an
-> > oversight. However, it could also be an explicit decision by the
-> > original author to avoid any reparenting but through an explicit call to
-> > clk_set_parent().
+On Fri, Nov 04, 2022 at 05:13:01PM +0000, Russell King (Oracle) wrote:
+> Virtually all conventional network drivers are now converted to use
+> phylink_generic_validate() - only DSA drivers and fman_memac remain,
+> so lets remove the necessity for network drivers to explicitly set
+> this member, and default to phylink_generic_validate() when unset.
+> This is possible as .validate must currently be set.
 >=20
+> Any remaining instances that have not been addressed by this patch can
+> be fixed up later.
 >=20
-> The parent is defined in the device tree and is not expected to change
-> at runtime, so if I am understanding the patch correctly, setting the
-> CLK_SET_RATE_NO_REPARENT flag seems correct.
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
 
-Is that an acked-by/reviewed-by?
-
-Thanks!
-Maxime
-
---nc45elwfwbnglqoe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY2j0swAKCRDj7w1vZxhR
-xQMwAQCrPeeZ2S11jlGiajn8sRupqFc/kS+IENFSoo8u57CVDQEA8P8p1AEYl25u
-k96e3hU7z8K+yJbTwZo5iph4D4IHFww=
-=Sagk
------END PGP SIGNATURE-----
-
---nc45elwfwbnglqoe--
+Reviewed-by: Vladimir Oltean <vladimir.oltean@nxp.com>=
