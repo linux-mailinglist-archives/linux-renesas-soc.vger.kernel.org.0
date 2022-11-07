@@ -2,57 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB4FB61F652
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 15:41:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D87161F669
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 15:43:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232167AbiKGOlR convert rfc822-to-8bit (ORCPT
+        id S232144AbiKGOnN convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 09:41:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54578 "EHLO
+        Mon, 7 Nov 2022 09:43:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231552AbiKGOlI (ORCPT
+        with ESMTP id S232125AbiKGOnJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 09:41:08 -0500
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D9F314D3E;
-        Mon,  7 Nov 2022 06:41:06 -0800 (PST)
-Received: by mail-qt1-f181.google.com with SMTP id c15so6940569qtw.8;
-        Mon, 07 Nov 2022 06:41:06 -0800 (PST)
+        Mon, 7 Nov 2022 09:43:09 -0500
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6144B1A3BB;
+        Mon,  7 Nov 2022 06:43:02 -0800 (PST)
+Received: by mail-qv1-f51.google.com with SMTP id j6so8184969qvn.12;
+        Mon, 07 Nov 2022 06:43:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=auAl3TG+WCd06b713vu/zKhrp7Pm1giyKjxfMJDpScA=;
-        b=6LdH5Bz3zyvdrARzQaBh2TH2VoqndfqauBYBfZMmnFyFx9XnXeQvE7ce2lEtoQ+3QD
-         rJusGU6EW/4w5rFLyuP3JnnWr2XsoaVyf2uBV2jZu2qrmnbblLPEaGFcsYyfe8HVvBwv
-         tVPnWCysRTgNjSDDCkYnngKWgph+KMKJ9YSwIqOsd6k+TmvuApTagrjTXsnGYrHmgRDI
-         GGwN+WmoMsRxdqZBqreypkTnXw10AG6QyPZdOur5Pyg3aOHag6NHbpCbeoiLeflKCU2z
-         hjclZBRqdbE3XM/T7m6/kmoCahh5b4VMpEhcVLkRmaFfJQBcDSmgSomjg6QCK1FjwSTb
-         CIpw==
-X-Gm-Message-State: ACrzQf2PIUr9yJd0WIqq9F/G2m0xqt0tduIpqgyBdnl2MAZ+U9+9bzdD
-        WHDY3Cbs4XCSoJCcsQiUTG4yXN1KgFOifc48
-X-Google-Smtp-Source: AMsMyM7U+myaKVvR4QyMTfQx7LX3oJpIGGCXIrDhFlQihir7IqggDZufrOJkOBU+k8R0JIzOhz32aQ==
-X-Received: by 2002:a05:622a:4010:b0:3a5:3131:34f4 with SMTP id cf16-20020a05622a401000b003a5313134f4mr28932164qtb.54.1667832065660;
-        Mon, 07 Nov 2022 06:41:05 -0800 (PST)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id t12-20020a37ea0c000000b006bb82221013sm7080121qkj.0.2022.11.07.06.41.05
+        bh=unzujgx2IFO2xv07GVYQlpwOttD9eRvw4Avn0aUkXh0=;
+        b=ikEUrvshKQKGXyGHSxNs+XWwWvhkNuKFWYf2rr8sMbaLhf/AK/2B8mi0plcv0DaF8n
+         rk0EKBqXt5jPxzGc+GCJCT+C1AkOnmydldvaqh1AhAW1jWdrE7RDJOkdOFlCLyUFxWuh
+         je67RAPN8XcczpPn5yr9OKJ0rxzVtVmi2Mc8tpZkTjIGrbJl1lHg3wZnxZjxA+U6QvcX
+         Lmt+MquDZrmIPb5RRjUsffsSFXR6UCdz5Xo5uEdkUhQfbgT8i/LMQh98rt4zlEu1fbck
+         SCTyebp9D1tI3JtpgUgPj+lUsqJW0mwlGqG9mErg1zAMEOR9NpmPsJG/bOr0ZFdW0mxZ
+         56cw==
+X-Gm-Message-State: ACrzQf2tc5mFwjagLvnuRPOqa71yTP5vwUzjrS45laddeSKrOnvEA5Tq
+        DKCy2YyYfGBKacpFIThe9ONv2D1pz1T3KA==
+X-Google-Smtp-Source: AMsMyM4YdpqCnMUIlta2r1PoISSOqxEC2UNRJ7E3az1m+YbJI4n82Lz6v04AWIjTdxhE2+F0YZLPRQ==
+X-Received: by 2002:a05:6214:1a48:b0:4bb:604d:fb2c with SMTP id fi8-20020a0562141a4800b004bb604dfb2cmr44477643qvb.93.1667832181400;
+        Mon, 07 Nov 2022 06:43:01 -0800 (PST)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id 69-20020a370c48000000b006eea4b5abcesm6821459qkm.89.2022.11.07.06.43.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Nov 2022 06:41:05 -0800 (PST)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-367b8adf788so106311287b3.2;
-        Mon, 07 Nov 2022 06:41:05 -0800 (PST)
-X-Received: by 2002:a0d:e301:0:b0:374:a8ba:99b0 with SMTP id
- m1-20020a0de301000000b00374a8ba99b0mr2185019ywe.358.1667832064943; Mon, 07
- Nov 2022 06:41:04 -0800 (PST)
+        Mon, 07 Nov 2022 06:43:01 -0800 (PST)
+Received: by mail-yb1-f172.google.com with SMTP id 131so9452079ybl.3;
+        Mon, 07 Nov 2022 06:43:01 -0800 (PST)
+X-Received: by 2002:a05:6902:503:b0:6cf:c510:6a23 with SMTP id
+ x3-20020a056902050300b006cfc5106a23mr30806206ybs.380.1667832180877; Mon, 07
+ Nov 2022 06:43:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20221107135825.583877-1-herve.codina@bootlin.com> <20221107135825.583877-2-herve.codina@bootlin.com>
-In-Reply-To: <20221107135825.583877-2-herve.codina@bootlin.com>
+References: <20221107135825.583877-1-herve.codina@bootlin.com> <20221107135825.583877-8-herve.codina@bootlin.com>
+In-Reply-To: <20221107135825.583877-8-herve.codina@bootlin.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Nov 2022 15:40:53 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVbWGYPkspMx40S02cr6sX2LZkGwye3JQCtiPtLhuDCPw@mail.gmail.com>
-Message-ID: <CAMuHMdVbWGYPkspMx40S02cr6sX2LZkGwye3JQCtiPtLhuDCPw@mail.gmail.com>
-Subject: Re: [PATCH 1/7] soc: renesas: r9a06g032-sysctrl: Export function to
- get H2MODE from CFG_USB register
+Date:   Mon, 7 Nov 2022 15:42:49 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVip_e7dZ2P7sv1OH+P48dQyjnmsJBoATHLAqzPEcwDdw@mail.gmail.com>
+Message-ID: <CAMuHMdVip_e7dZ2P7sv1OH+P48dQyjnmsJBoATHLAqzPEcwDdw@mail.gmail.com>
+Subject: Re: [PATCH 7/7] MAINTAINERS: add the Renesas RZ/N1 USBF controller entry
 To:     Herve Codina <herve.codina@bootlin.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -70,8 +69,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -80,45 +79,37 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Hervé,
 
-On Mon, Nov 7, 2022 at 2:59 PM Herve Codina <herve.codina@bootlin.com> wrote:
-> The CFG_USB register is located within the system controller.
->
-> We need a helper to get the H2MODE value from the CFG_USB register
-> without syscon.
+On Mon, Nov 7, 2022 at 3:00 PM Herve Codina <herve.codina@bootlin.com> wrote:
+> After contributing the driver, add myself as the maintainer
+> for Renesas RZ/N1 USBF controller.
 >
 > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 
-> --- a/drivers/clk/renesas/r9a06g032-clocks.c
-> +++ b/drivers/clk/renesas/r9a06g032-clocks.c
-> @@ -25,6 +25,8 @@
->  #include <linux/spinlock.h>
->  #include <dt-bindings/clock/r9a06g032-sysctrl.h>
->
-> +#define R9A06G032_SYSCTRL_USB    0x00
-> +#define R9A06G032_SYSCTRL_USB_H2MODE  (1<<1)
->  #define R9A06G032_SYSCTRL_DMAMUX 0xA0
->
->  struct r9a06g032_gate {
-> @@ -341,6 +343,22 @@ int r9a06g032_sysctrl_set_dmamux(u32 mask, u32 val)
->  }
->  EXPORT_SYMBOL_GPL(r9a06g032_sysctrl_set_dmamux);
->
-> +
-> +/* Exported helper to get the H2MODE bit from USB register */
-> +int r9a06g032_sysctrl_get_usb_h2mode(bool *h2mode)
-> +{
-> +       u32 usb;
-> +
-> +       if (!sysctrl_priv)
-> +               return -EPROBE_DEFER;
-> +
-> +       usb = readl(sysctrl_priv->reg + R9A06G032_SYSCTRL_USB);
-> +       *h2mode = (usb & R9A06G032_SYSCTRL_USB_H2MODE) ? true : false;
-> +
-> +       return 0;
+Thanks for your patch!
 
-Perhaps not pass *h2mode, but just return USB_ROLE_{HOST,DEVICE}
-(enum usb_role in <linux/usb/role.h>), or a negative error code?
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -17627,6 +17627,14 @@ S:     Maintained
+>  F:     Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
+>  F:     drivers/rtc/rtc-rzn1.c
+>
+> +RENESAS RZ/N1 USBF CONTROLLER DRIVER
+> +M:     Herve Codina <herve.codina@bootlin.com>
+
+Hervé?
+
+> +L:     linux-renesas-soc@vger.kernel.org
+> +L:     linux-usb@vger.kernel.org
+> +S:     Maintained
+> +F:     Documentation/devicetree/bindings/usb/renesas,usbf.yaml
+> +F:     drivers/usb/gadget/udc/renesas_usbf.c
+> +
+>  RENESAS R-CAR GEN3 & RZ/N1 NAND CONTROLLER DRIVER
+>  M:     Miquel Raynal <miquel.raynal@bootlin.com>
+>  L:     linux-mtd@lists.infradead.org
+
+Up to you, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
