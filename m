@@ -2,112 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 728C861FDC0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 19:40:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C34B261FE73
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 20:18:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232420AbiKGSki (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 13:40:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53500 "EHLO
+        id S231319AbiKGTSd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Nov 2022 14:18:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233158AbiKGSkE (ORCPT
+        with ESMTP id S231865AbiKGTSb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 13:40:04 -0500
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79A581AD8D
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Nov 2022 10:40:02 -0800 (PST)
-Received: by mail-lj1-x231.google.com with SMTP id c25so17650046ljr.8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Nov 2022 10:40:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zu8Huj0bPMNsIqjTrIRXl4tf9CZ1yQ2L0lxIAXL9iVs=;
-        b=gBzEObADVp5mtqxgk+lzuUPqMxxAL9wosa04e075/qjVZ6gNiviehxXI/wwbI+DxHR
-         BNPEqlSI+gtimj4nm2oFGHs1nboOysYSyuV4oaMazFVnwBv9XnghnFfK/ixI9XsKUAUW
-         Goz9k+U86atux9bLF8z+y1AOfXbAIoPzNbh+gSEfNLredoBbJyqZwQcE4OiIZRtAnv/a
-         rTI2p9KyriA6/E5DG/niYmrgeI5Qb5ZOBeRK6KS59pxJBdTVjxRDZyvolbf077VpICjt
-         kxhvzP3kOs5BY/nmjrJ8LRpeW6uEPM/B+9MpIMiNr8qFANxTmRb38Vvwadd9sVq8Mi7s
-         wvZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zu8Huj0bPMNsIqjTrIRXl4tf9CZ1yQ2L0lxIAXL9iVs=;
-        b=xNG5YbMscoeAGxKN5SDpDo8XmiyoB1DiXXFvTVVwvvWZia4Rkr6IBdk+BGSdcjsgDH
-         qGcK6Hye80cj+rK0NkR71GP+nXu/22zU2Hw+sSfWK0XaXDfwsAKEUJ9RU7j5uBcBmLqH
-         MJ5D/DqIfZARKtCepQJD/jMddnIT73h6LEhUDwD1ASjHIOCRXzXNbkA8S4KeU7N3xW5O
-         HioFCf0ZVkzNL/JC1MhDl/D1rn8Wh0mG/LIE1eY+4n5M4RHARTBIECra89QenkYxNpDt
-         sfr7LcK81PaDM8KqqYBgEZ2HaBhSbrIwZjizzBZiyjhS+EpwM369hoJqM59o3M9macJ1
-         of9Q==
-X-Gm-Message-State: ACrzQf3N9RrIOmbpvgw/Vuv1K3R2XP4PAKt0q4OxrB+fLOuyBGEdqIpS
-        zM9mInfi15R0teKMCAdjfZkIqg==
-X-Google-Smtp-Source: AMsMyM4QyMCFiYp6kD2IUfKXFyDf1b18akD1Z4DGlZsS3MTzqmC+0aBlDgaBeRfmZITKdcqgY0tZvA==
-X-Received: by 2002:a05:651c:c6:b0:277:c75:e295 with SMTP id 6-20020a05651c00c600b002770c75e295mr5586206ljr.228.1667846400799;
-        Mon, 07 Nov 2022 10:40:00 -0800 (PST)
-Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
-        by smtp.gmail.com with ESMTPSA id p25-20020a2eb119000000b002770fb5722fsm1376743ljl.123.2022.11.07.10.39.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Nov 2022 10:40:00 -0800 (PST)
-Message-ID: <b5f881b7-1f59-623a-a126-d7827dec85fe@linaro.org>
-Date:   Mon, 7 Nov 2022 19:39:59 +0100
+        Mon, 7 Nov 2022 14:18:31 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E94F412D33
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Nov 2022 11:18:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=R4/8WDlh+QvIQF9JJDcK007Te26y
+        E621ztQD4QOf3wY=; b=UcjqmI2KPOoUDWEcBRSH286l2sTZdZJgNZeFobH8DuPg
+        Pnh4QahenZy5rRMv5lqyORnVOD8w6FgT9G77S8FHZQ3blRVfHIXo0ffuyHdYfdcJ
+        t7iNzeqn8wPPluRaJWTYqUcsHI1AIeUE704IcQpmwG1FHMRATeayz0u3bIML/h0=
+Received: (qmail 310455 invoked from network); 7 Nov 2022 20:18:26 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Nov 2022 20:18:26 +0100
+X-UD-Smtp-Session: l3s3148p1@oLM0SebsiI0gAQnoAF0KALfe5HstmmzE
+Date:   Mon, 7 Nov 2022 20:18:16 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 3/4] arm64: dts: renesas: r8a779f0: Fix HSCIF "brg_int"
+ clock
+Message-ID: <Y2lZyh8+EsEGko6L@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-renesas-soc@vger.kernel.org
+References: <20221103143440.46449-1-wsa+renesas@sang-engineering.com>
+ <20221103143440.46449-4-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWjGbP0zQ6ZzZZ4noNWrK7CrHR+W0GjcaApCAHbgELCvQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 1/2] dt-bindings: i2c: renesas,rzv2m: Fix SoC specific
- string
-Content-Language: en-US
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Wolfram Sang <wsa@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-References: <20221107165027.54150-1-fabrizio.castro.jz@renesas.com>
- <20221107165027.54150-2-fabrizio.castro.jz@renesas.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221107165027.54150-2-fabrizio.castro.jz@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="18olbLnfWfnD/lDd"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWjGbP0zQ6ZzZZ4noNWrK7CrHR+W0GjcaApCAHbgELCvQ@mail.gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 07/11/2022 17:50, Fabrizio Castro wrote:
-> The preferred form for Renesas' compatible strings is:
-> "<vendor>,<family>-<module>"
-> 
-> Somehow the compatible string for the r9a09g011 I2C IP was upstreamed
-> as renesas,i2c-r9a09g011 instead of renesas,r9a09g011-i2c, which
-> is really confusing, especially considering the generic fallback
-> is renesas,rzv2m-i2c.
-> 
-> The first user of renesas,i2c-r9a09g011 in the kernel is not yet in
-> a kernel release, it will be in v6.1, therefore it can still be
-> fixed in v6.1.
-> Even if we don't fix it before v6.2, I don't think there is any
-> harm in making such a change.
-> 
-> s/renesas,i2c-r9a09g011/renesas,r9a09g011-i2c/g for consistency.
-> 
-> Fixes: ba7a4d15e2c4 ("dt-bindings: i2c: Document RZ/V2M I2C controller")
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+--18olbLnfWfnD/lDd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Krzysztof
+On Mon, Nov 07, 2022 at 05:13:15PM +0100, Geert Uytterhoeven wrote:
+> On Thu, Nov 3, 2022 at 3:34 PM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> > As serial communication requires a clock signal, the High Speed Serial
+>=20
+> I see the missing "clean" introduced by me is propagating ;-)
 
+:D Except for the missing word, this is an awesome description, so it
+should spread. Thanks for fixing!
+
+
+--18olbLnfWfnD/lDd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNpWfgACgkQFA3kzBSg
+KbZmTg//SUHYUiFuxK6wRs2XWNTm8PoT58yyCzFTqnMqBJPXVIFcHKKa43KOpTds
+NG0xKM6OfrC6ZhflqQju2az/yn0L5IuhWoV+RzqZCND3IJJInztc871RxAZiCQEM
+3Ik2ZzAXsrFBE2Q/J2Z4MMZxuaHN8TkhAdWtWnl24+MEqfD0xHnA6IJNkGqymdF0
+N1x5peI19uzjR9zUOaDPuLAuWSR+4MFe2HfscmUyDA2OW9tHNtgcl6zpfkt8mXYV
+thWNyAa1zahB3/brRUKIxl8Q6CaMXsL2uFtLPknjeQf3PDgTmxeO6Yc7PixxSiUR
+mbWXScjePvG+p6u43ItFVWD0yv/aljxMQbxzsCHC4KyIeayqo89ATetAmsJ09k+f
+ngqCK8hi5WU1l41DhIyiguXb9OgZJ6M8o4gFmpu/TD1e1Lh89SOOHj1WD1JVOCjq
+LlNtG2/4Lvj5wq6QnEibVWz79laO8NRU0CLR94xvy5TxqAL7HgO2s5uEr5cfimWK
++44Ure7sgEi0vm9Hkb/7IGlPPJ7dmpxUu9xhRkMOlDHPaicdGEK6WUNEXp6/Xc/1
+NHxOf/gQhh4u2H7UnVO6zdrrab4QMHNwnO0VmyCcn6AmUMf4idm91S3mzqhzFIUr
+F5oaXUMVdtNy+su2WytUKq7jsrkPTQsrjg363IXi2Da4hzpe540=
+=4O4X
+-----END PGP SIGNATURE-----
+
+--18olbLnfWfnD/lDd--
