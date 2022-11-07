@@ -2,146 +2,169 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6F7061FC2D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 18:55:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34F3261FC5E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 18:58:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232842AbiKGRzL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 12:55:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59260 "EHLO
+        id S232539AbiKGR6d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Nov 2022 12:58:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232629AbiKGRyO (ORCPT
+        with ESMTP id S232882AbiKGR6Q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 12:54:14 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A93EBE1;
-        Mon,  7 Nov 2022 09:53:23 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id m7-20020a05600c090700b003cf8a105d9eso7633262wmp.5;
-        Mon, 07 Nov 2022 09:53:23 -0800 (PST)
+        Mon, 7 Nov 2022 12:58:16 -0500
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 755C0286EF
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Nov 2022 09:55:32 -0800 (PST)
+Received: by mail-lj1-x229.google.com with SMTP id u2so17503722ljl.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Nov 2022 09:55:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q4TTGBwgL+ktdOw4ymdhP2iQ7Qgir5s0YZqnZpagiD8=;
-        b=qzc1ZsNUdzsob01/2wRaVQHNLF4py4pCfex3JUed9atVJy7CuwemVZfzOMiCo6zYV6
-         2H8nF9UxAtBfgaxZsEOg6JIVVirPswkP6fXN0v0z94G7BEgAm4SgM5EY9CmohgFN6yDp
-         0bdn6aXfJ/C9quufF9vJwDGIBpq7MKLQIqkKy1QqV0w9TCKesd/XcjVj1m2jhPIZjWBU
-         hN8P5oAuQrboUpdXg9DU52EOohOtP390+F9QCygoyXPSMKR7zwCoOFYQBpQVpy9trTF7
-         T9Q1vvuieZCCk2D4XjXCjpGQMQHH5n0OSRj7bYMEAAML+n5ilga1xsZh7617IUhPorvn
-         u2SQ==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PGr+OHpd9QR70TelEUD0vawxtEQ1HAh4AfgGSoeJdCg=;
+        b=YJ1bDYl6JLlBjy8eyB95SYQZIKQOVjudBlguIR/pdlO9WhqJqZP5VFxWpqsOhj+q/F
+         XPCwvsTaIC3lDzN8fuOI7q/rdvZiXOl2Uyc06eAWQTgYbkVZ3vUTB2xk5bCxCOiEzN3m
+         Mig/4KNs+R8/fdK27ItXKObx4D0FoanGoi4XtUJhBebXNS7v73cRMRqO00XvHc9UHSiW
+         K673Tc2Wiy+vGBC5vO7XUso8/lieNabysdAzjR/3jdnMeTMH9bYD/q/d1frObSXI0PQk
+         CnD/cnz6JdKNse3zFfvIPX0y9NLRwJKX1LxMiucrA8l6H+hTF5v6191LWCt6gDGerOLG
+         aV5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q4TTGBwgL+ktdOw4ymdhP2iQ7Qgir5s0YZqnZpagiD8=;
-        b=YTjy9v0yV5sbbNJignAF9HC9XfSl8T2/5h2sA+UjxxoacyvnDEpyb04qQHvaqoYalZ
-         MO1oTReIwg+2TvS4BFH7Ktj9VP0nWmMuDpC9RveDliEtNm2wmTli1Kg+bzte2wkbYa7s
-         BikmdbwA4wQoXCmbsw8wNXIsShMIwHwNzFjQOvr0XzXsNtVUuZVYyBgF2MKjFFziBBxs
-         nq0uw9qN6rp/ozyRS7n8V1XoFRF9LYZPge5QzSe8qH6cePUSawniLQgsKDsCAbzdVWlK
-         WadDpjKDfOnqRJAD16GCPruQjKDV8eUu86eIvUbbFxb0U9ETIsHo3afj5dlnZQakeeXG
-         1FNg==
-X-Gm-Message-State: ANoB5pm+v230R+x/k2eCI6nxrZ+cEzZHavqasy3FP3gpoBiToOjs5Abd
-        4FNl3Qw0MsaH37eTSUAuH/w=
-X-Google-Smtp-Source: AA0mqf5+1sHKNcJD4wf6tL+PWNxmSW/c4aKVYkw8LrS7L2MjhvRDOnkfTbcFh68vIahIPRsaP3dW2g==
-X-Received: by 2002:a05:600c:4f44:b0:3cf:b5dd:46f7 with SMTP id m4-20020a05600c4f4400b003cfb5dd46f7mr419523wmq.73.1667843601979;
-        Mon, 07 Nov 2022 09:53:21 -0800 (PST)
-Received: from prasmi.home ([2a00:23c8:2501:c701:9c45:7ed3:c12e:e25b])
-        by smtp.gmail.com with ESMTPSA id v4-20020a5d4a44000000b002365254ea42sm8072454wrs.1.2022.11.07.09.53.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 09:53:21 -0800 (PST)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH RFC 5/5] arm64: dts: renesas: rzg2ul-smarc-som: Add PHY interrupt support for ETH{0/1}
-Date:   Mon,  7 Nov 2022 17:53:05 +0000
-Message-Id: <20221107175305.63975-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221107175305.63975-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20221107175305.63975-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PGr+OHpd9QR70TelEUD0vawxtEQ1HAh4AfgGSoeJdCg=;
+        b=5JmK2Rbf0mwYRccmc4ubPnrhW8HzQOS7wsiM2CcUGfQawReOUKbHTglgTcCEIA5yrd
+         5wjB1TxW7T2c2zYsdckKJbxNQvnUoPIgmZS6Dy8UTZyUJZE7ExGv5ZTYGZgdEUkaHnq3
+         R25R56FIeFww4NDBb9TXnpDaFhMqenD9BNl1bkuxb/20pTGz/R408pdKY8HE55uKMQlG
+         9VKMXOVDEAvapFCXtQULTNcYKrP3zbYlJlQRHXO19Y6Dhrmy0+NT6XdLgXy3IKur7/Lz
+         Atar7ob+Rkgv8K7+USVbyBXdYGeCtfa5SJo8M0lwnLhGLHbAMwMbd/Kq7/EdgGIH5EGT
+         GnDw==
+X-Gm-Message-State: ACrzQf3UI2a3F3GXTksVpCmRhG29LxqSehJeRTyegUxHGpnyb1yYB7qm
+        G97eFYfwq/SeK4ph5nzc81dzpQ==
+X-Google-Smtp-Source: AMsMyM4i3h9s+NDpf4TdbXxN2HKfcV0lefo8LkPXtTQWjLJHSetVxfR9aJ+uXIefvKsVbJ2ZwlNwvA==
+X-Received: by 2002:a05:651c:516:b0:277:2428:3682 with SMTP id o22-20020a05651c051600b0027724283682mr6104769ljp.291.1667843730703;
+        Mon, 07 Nov 2022 09:55:30 -0800 (PST)
+Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
+        by smtp.gmail.com with ESMTPSA id j10-20020a056512344a00b004afd23cf7eesm1336063lfr.168.2022.11.07.09.55.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Nov 2022 09:55:29 -0800 (PST)
+Message-ID: <84b57a5c-3b29-3e40-8375-8496baabdbc9@linaro.org>
+Date:   Mon, 7 Nov 2022 18:55:26 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 07/23] arm64: dts: Update cache properties for exynos
+Content-Language: en-US
+To:     Pierre Gondois <pierre.gondois@arm.com>,
+        linux-kernel@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Tsahee Zidenberg <tsahee@annapurnalabs.com>,
+        Antoine Tenart <atenart@kernel.org>,
+        Brijesh Singh <brijeshkumar.singh@amd.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        William Zhang <william.zhang@broadcom.com>,
+        Anand Gore <anand.gore@broadcom.com>,
+        Kursad Oney <kursad.oney@broadcom.com>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Chester Lin <clin@suse.com>,
+        =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+        Matthias Brugger <mbrugger@suse.com>,
+        NXP S32 Linux Team <s32@nxp.com>,
+        Wei Xu <xuwei5@hisilicon.com>, Chanho Min <chanho.min@lge.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Lars Povlsen <lars.povlsen@microchip.com>,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Daniel Machon <daniel.machon@microchip.com>,
+        UNGLinuxDriver@microchip.com, Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Nishanth Menon <nm@ti.co>, Tero Kristo <kristo@kernel.org>,
+        73@gmail.com, Martin Kepplinger <martink@posteo.de>,
+        Liu Ying <victor.liu@nxp.com>, Haibo Chen <haibo.chen@nxp.com>,
+        Clark Wang <xiaoning.wang@nxp.com>,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>,
+        Vadym Kochan <vadym.kochan@plvision.eu>,
+        Sameer Pujar <spujar@nvidia.com>,
+        Akhil R <akhilrajeev@nvidia.com>,
+        Ashish Mhetre <amhetre@nvidia.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Shashank Prashar <s.prashar@samsung.com>,
+        Sriranjani P <sriranjani.p@samsung.com>,
+        devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
+        linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-realtek-soc@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+References: <20221107155825.1644604-1-pierre.gondois@arm.com>
+ <20221107155825.1644604-8-pierre.gondois@arm.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221107155825.1644604-8-pierre.gondois@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 07/11/2022 16:57, Pierre Gondois wrote:
+> The DeviceTree Specification v0.3 specifies that the cache node
+> 'compatible' and 'cache-level' properties are 'required'. Cf.
+> s3.8 Multi-level and Shared Cache Nodes
+> The 'cache-unified' property should be present if one of the
+> properties for unified cache is present ('cache-size', ...).
+> 
+> Update the Device Trees accordingly.
 
-The PHY interrupt (INT_N) pin is connected to IRQ2 and IRQ7 for ETH0 and
-ETH1 respectively.
+Why do you send it again? This was applied.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+What is more - you have way too many recipients. Mail servers reject it.
+It's impossible even to reply to it...
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-index 931efc07d6fb..49ecd33aeeb8 100644
---- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-@@ -6,6 +6,7 @@
-  */
- 
- #include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/irqc-rzg2l.h>
- #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
- 
- / {
-@@ -77,6 +78,8 @@ phy0: ethernet-phy@7 {
- 		compatible = "ethernet-phy-id0022.1640",
- 			     "ethernet-phy-ieee802.3-c22";
- 		reg = <7>;
-+		interrupt-parent = <&irqc>;
-+		interrupts = <RZG2L_IRQ2 IRQ_TYPE_LEVEL_LOW>;
- 		rxc-skew-psec = <2400>;
- 		txc-skew-psec = <2400>;
- 		rxdv-skew-psec = <0>;
-@@ -104,6 +107,8 @@ phy1: ethernet-phy@7 {
- 		compatible = "ethernet-phy-id0022.1640",
- 			     "ethernet-phy-ieee802.3-c22";
- 		reg = <7>;
-+		interrupt-parent = <&irqc>;
-+		interrupts = <RZG2L_IRQ7 IRQ_TYPE_LEVEL_LOW>;
- 		rxc-skew-psec = <2400>;
- 		txc-skew-psec = <2400>;
- 		rxdv-skew-psec = <0>;
-@@ -151,7 +156,8 @@ eth0_pins: eth0 {
- 			 <RZG2L_PORT_PINMUX(3, 2, 1)>, /* ET0_RXD0 */
- 			 <RZG2L_PORT_PINMUX(3, 3, 1)>, /* ET0_RXD1 */
- 			 <RZG2L_PORT_PINMUX(4, 0, 1)>, /* ET0_RXD2 */
--			 <RZG2L_PORT_PINMUX(4, 1, 1)>; /* ET0_RXD3 */
-+			 <RZG2L_PORT_PINMUX(4, 1, 1)>, /* ET0_RXD3 */
-+			 <RZG2L_PORT_PINMUX(5, 1, 7)>; /* IRQ2 */
- 	};
- 
- 	eth1_pins: eth1 {
-@@ -169,7 +175,8 @@ eth1_pins: eth1 {
- 			 <RZG2L_PORT_PINMUX(9, 1, 1)>, /* ET1_RXD0 */
- 			 <RZG2L_PORT_PINMUX(9, 2, 1)>, /* ET1_RXD1 */
- 			 <RZG2L_PORT_PINMUX(9, 3, 1)>, /* ET1_RXD2 */
--			 <RZG2L_PORT_PINMUX(10, 0, 1)>; /* ET1_RXD3 */
-+			 <RZG2L_PORT_PINMUX(10, 0, 1)>, /* ET1_RXD3 */
-+			 <RZG2L_PORT_PINMUX(18, 5, 1)>; /* IRQ7 */
- 	};
- 
- 	sdhi0_emmc_pins: sd0emmc {
--- 
-2.25.1
+>  			cache-sets = <2048>;
+
+Best regards,
+Krzysztof
 
