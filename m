@@ -2,63 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC22861F781
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 16:23:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBFF561F790
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 16:26:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232869AbiKGPXa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 10:23:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60566 "EHLO
+        id S232546AbiKGP0V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Nov 2022 10:26:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231438AbiKGPX3 (ORCPT
+        with ESMTP id S231577AbiKGP0U (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 10:23:29 -0500
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A9CECD9;
-        Mon,  7 Nov 2022 07:23:24 -0800 (PST)
-Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 4F5BF240007;
-        Mon,  7 Nov 2022 15:23:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1667834603;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=SJd93Y5HIkbd3Alvti1JPtGvDBLfYghJCCdXFuuDQuY=;
-        b=oa6r8eHOhRqhyq8m0OyGQMeXXLO+mcrcHTch6Sxrcj+ToRz4YE1Pjfq5pgFZyZ+KoSMwf9
-        oZrCPxvhvmALjaTn2UyYyKJIqTOz8HEuqVpkCYHBbMjEAQ0+Q5CWMcFZ7d4np9xSjS1z8M
-        5ZETcxVWIiJ59CLrOBZzIuIqVfHcmEUNSrMTUfTp60LirRgQzSKMVoAQNrXSnrgPZ6i4lA
-        b4vFUl1iCad/M8DwIiK8RcISyYi7J1BebN4suQzD4xBTVORiwfLer29EeEHbDv/3zhpb28
-        ykYPaKzQgdmBxAhRPtOFbMb5BlmCoSe3coP40G18XD/FOZ8eMYQP3+QNC8hR5g==
-Date:   Mon, 7 Nov 2022 16:23:19 +0100
-From:   Herve Codina <herve.codina@bootlin.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH 5/7] usb: gadget: udc: add Renesas RZ/N1 USBF controller
- support
-Message-ID: <20221107162319.7945f241@bootlin.com>
-In-Reply-To: <CAMuHMdVod1VqKSBFa5syeSPU=RzgqQ=3tg70V1OSZFOext7kgw@mail.gmail.com>
-References: <20221107135825.583877-1-herve.codina@bootlin.com>
-        <20221107135825.583877-6-herve.codina@bootlin.com>
-        <CAMuHMdVod1VqKSBFa5syeSPU=RzgqQ=3tg70V1OSZFOext7kgw@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+        Mon, 7 Nov 2022 10:26:20 -0500
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55E03A1B3;
+        Mon,  7 Nov 2022 07:26:18 -0800 (PST)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.west.internal (Postfix) with ESMTP id DEA372B05E77;
+        Mon,  7 Nov 2022 10:26:08 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Mon, 07 Nov 2022 10:26:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1667834768; x=1667841968; bh=IIy8QXUDWn
+        lcncLyNQJNbxMRRWumgUmyAMyd+aDiO3o=; b=Yz8C45furNQhVL2oz7HXZgGnHH
+        TvCIbx3oIXxLgbEPnABUHdZn1FjTlBXO/L1HUin7nlSwmgzBZEAHQXtqUueLWNNB
+        OwfmyOlg36y4QZvHUbl/IFeKRrua5v3nbs+lI8yzO8mXx4IT19hD5T6x7SIXqH7E
+        cc2GzTsHAmmLjTDm7nLKE9rJj7tzh9QXh/pmM/gmbKHm8u4yCEDXIt2H8iqZARt9
+        QsECam1RG4/cnzrlWYrmdX95jbKBthE1SCw52xWcjKgvNrC/w9eFBvNcqPdoP0VC
+        kgyueznhPVmNlxZMotlGuMS8QDMwTbcA/aTq9dkJ4NLHTQ8GcN7cr6b1QC9Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; t=1667834768; x=1667841968; bh=IIy8QXUDWnlcncLyNQJNbxMRRWum
+        gUmyAMyd+aDiO3o=; b=we3Y+H0VECymbGK0VaXTFHbsW346wsLVjErpCLgJ45+g
+        scHpf9eiainU1JBqntlua0SrTwXrGABBVlunf276/GfhfNOd/1vGEf1lUcHwrvm5
+        zbWxzN3W7Zenf9Aa8Y0lcDOZ0gM54P8lT8lwFBUPN/ByfauorTjW7d7RXbvSlkJT
+        k7v9evp6jVencFixQzMQhtO2nt3yGpBePuWO6Pu5QWJ2wKtmD8tFnyhZw/c9eN/k
+        XmLHoh4bXi0sW22vHo0bm88oijG5yx4MWoMqBaBgxLapeXxyjGYt3QLy+aQKy4Ug
+        w/V1K5ZGWlq/bSa4sSDWF1/AjvqtR9hsVVTIILV+1w==
+X-ME-Sender: <xms:jiNpY8OMxnFFt5PbqqvqZSEoKfqq7taLlfkj3szUIQCjdWFIeQL24w>
+    <xme:jiNpYy89u_mQTLvZGrbcNIjZbLYu9wV4EYfNRlktfKZUm38GG6xC_Qlt2hrpbO_df
+    BSGxlyk5s8vknO0ZFg>
+X-ME-Received: <xmr:jiNpYzSfZa6atc_eqwJFct1WjeHK-hLh2fplSb5wr1nE_LAD9arud3e8hqAHxwKU5wiR6hkEVdXqGN4RgoEjwLXSB8uMLCObkZqNF9IY6V2NlA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdekgdejhecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
+    vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:jiNpY0vtIK-PZdgej79mMr_MApM6wLdfXscqntkFAEOkhGYrOU0MCQ>
+    <xmx:jiNpY0cvni03g0uv0yl-yo399Y_hbctd4rNagD2H1NT2_Xs_g9EWBQ>
+    <xmx:jiNpY42HLjMSaphod3lQyPY5KzbEAeoKRXRXEDPctlkn3XY9SKEjVg>
+    <xmx:kCNpY4m1DCnGwZRgh_rsYFaEzCSCv9LG7n_fC4ovY1-GZspzYu6x7s6Mw5U>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 7 Nov 2022 10:26:05 -0500 (EST)
+Date:   Mon, 7 Nov 2022 16:26:03 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Abel Vesa <abelvesa@kernel.org>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Takashi Iwai <tiwai@suse.com>,
+        David Airlie <airlied@gmail.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        David Lechner <david@lechnology.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
+        linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
+Message-ID: <20221107152603.57qimyzkinhifx5p@houat>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech>
+ <Y2UzdYyjgahJsbHg@sirena.org.uk>
+ <20221104155123.qomguvthehnogkdd@houat>
+ <Y2U2+ePwRieYkNjv@sirena.org.uk>
+ <20221107084322.gk4j75r52zo5k7xk@houat>
+ <Y2j0r0wX1XtQBvqO@sirena.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6jvzxow5645ldbud"
+Content-Disposition: inline
+In-Reply-To: <Y2j0r0wX1XtQBvqO@sirena.org.uk>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,152 +142,63 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
 
-On Mon, 7 Nov 2022 15:37:40 +0100
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+--6jvzxow5645ldbud
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Hi Herv=C3=A9,
+On Mon, Nov 07, 2022 at 12:06:07PM +0000, Mark Brown wrote:
+> On Mon, Nov 07, 2022 at 09:43:22AM +0100, Maxime Ripard wrote:
+> > On Fri, Nov 04, 2022 at 03:59:53PM +0000, Mark Brown wrote:
 >=20
-> On Mon, Nov 7, 2022 at 3:00 PM Herve Codina <herve.codina@bootlin.com> wr=
-ote:
-> > Add support for the Renesas USBF controller.
-> > This controller is an USB2.0 UDC controller available in the
-> > Renesas r9a06g032 SoC (RZ/N1 family).
-> >
-> > Signed-off-by: Herve Codina <herve.codina@bootlin.com> =20
+> > > Well, hopefully everyone for whom it's an issue currently will be
+> > > objecting to this version of the change anyway so we'll either know
+> > > where to set the flag or we'll get the whack-a-mole with the series
+> > > being merged?
 >=20
-> > --- /dev/null
-> > +++ b/drivers/usb/gadget/udc/renesas_usbf.c =20
+> > I'm sorry, I'm not sure what you mean here. The only issue to fix at the
+> > moment is that determine_rate and set_parent aren't coupled, and it led
+> > to issues due to oversight.
 >=20
-> > +struct usbf_udc {
-> > +       struct usb_gadget               gadget;
-> > +       struct usb_gadget_driver        *driver;
-> > +       struct device                   *dev;
-> > +       struct clk_bulk_data            *clocks;
-> > +       int                             nclocks;
-> > +       void __iomem                    *regs;
-> > +       spinlock_t                      lock;
-> > +       bool                            is_remote_wakeup;
-> > +       bool                            is_usb_suspended;
-> > +       struct usbf_ep                  ep[USBF_NUM_ENDPOINTS];
-> > +       /* for EP0 control messages */
-> > +       enum usbf_ep0state              ep0state;
-> > +       struct usbf_req                 setup_reply;
-> > +       u8                              ep0_buf[USBF_EP0_MAX_PCKT_SIZE];
-> > +}; =20
+> > I initially added a warning but Stephen wanted to fix all users in that
+> > case and make that an error instead.
 >=20
-> > +static int usbf_probe(struct platform_device *pdev)
-> > +{
-> > +       struct device *dev =3D &pdev->dev;
-> > +       struct usbf_udc *udc;
-> > +       struct usbf_ep *ep;
-> > +       bool h2mode;
-> > +       int irq;
-> > +       int ret;
-> > +       int i;
-> > +
-> > +       ret =3D r9a06g032_sysctrl_get_usb_h2mode(&h2mode);
-> > +       if (ret)
-> > +               return ret;
-> > +       if (h2mode) {
-> > +               dev_warn(dev, "Disabled in H2 (host) mode\n");
-> > +               return -ENODEV;
-> > +       }
-> > +
-> > +       udc =3D devm_kzalloc(dev, sizeof(*udc), GFP_KERNEL);
-> > +       if (!udc)
-> > +               return -ENOMEM;
-> > +       platform_set_drvdata(pdev, udc);
-> > +
-> > +       udc->dev =3D dev;
-> > +       spin_lock_init(&udc->lock);
-> > +
-> > +       udc->regs =3D devm_platform_ioremap_resource(pdev, 0);
-> > +       if (IS_ERR(udc->regs))
-> > +               return PTR_ERR(udc->regs);
-> > +
-> > +       devm_pm_runtime_enable(&pdev->dev);
-> > +       ret =3D pm_runtime_resume_and_get(&pdev->dev);
-> > +       if (ret < 0)
-> > +               return ret;
-> > +
-> > +       ret =3D devm_clk_bulk_get_all(dev, &udc->clocks);
-> > +       if (ret < 1) {
-> > +               dev_err(dev, "failed to get clocks %d\n", ret);
-> > +               return ret;
-> > +       }
-> > +       udc->nclocks =3D ret;
-> > +
-> > +       ret =3D clk_bulk_prepare_enable(udc->nclocks, udc->clocks);
-> > +       if (ret) {
-> > +               dev_err(dev, "can not enable the clock\n");
-> > +               return ret;
-> > +       } =20
+> My suggestion is that instead of doing either of these things it'd be
+> quicker and less error prone to just fix the core to provide the default
+> implementation if nothing more specific is provided.  Any issues that
+> causes would already be present with your current series.
 >=20
-> As this driver only enables/disables the clocks, perhaps you could
-> just delegate this to Runtime PM (through the clock domain pointed
-> by the power-domains property in DT), and drop the .clocks and
-> .nclocks fields?
+> > If I filled __clk_mux_determine_rate into clocks that weren't using it
+> > before, I would change their behavior. With that flag set, on all users
+> > I add __clk_mux_determine_rate to, the behavior is the same than what we
+> > previously had, so the risk of regressions is minimal, and everything
+> > should keep going like it was?
+>=20
+> The series does fill in __clk_mux_determine_rate for everything though -
+> if it was just assumed by default the only thing that'd be needed would
+> be adding the flag.
 
-Yes, indeed.
-I tested it and it works.
-I will remove the the clocks handling from this driver in v2 series.
+The behavior assumed by default was equivalent to
+__clk_mux_determine_rate + CLK_SET_RATE_NO_REPARENT. We could indeed set
+both if determine_rate is missing in the core, but that's unprecedented
+in the clock framework so I think we'll want Stephen to comment here :)
 
->=20
-> > +clk_disable:
-> > +       clk_bulk_disable_unprepare(udc->nclocks, udc->clocks);
-> > +       return ret;
-> > +}
-> > +
-> > +static int usbf_remove(struct platform_device *pdev)
-> > +{
-> > +       struct usbf_udc *udc =3D platform_get_drvdata(pdev);
-> > +
-> > +       usb_del_gadget_udc(&udc->gadget);
-> > +
-> > +       clk_bulk_disable_unprepare(udc->nclocks, udc->clocks);
-> > +
-> > +       pm_runtime_put(&pdev->dev);
-> > +
-> > +       return 0;
-> > +} =20
->=20
-> > +MODULE_AUTHOR("Herve Codina <herve.codina@bootlin.com>"); =20
->=20
-> Herv=C3=A9? ;-)
+It's also replacing one implicit behavior by another. The point of this
+series was to raise awareness on that particular point, so I'm not sure
+it actually fixes things. We'll see what Stephen thinks about it.
 
-Just to be consistent with other places where my email appears,
-I keep "Herve" :)
+Maxime
 
->=20
-> > +MODULE_DESCRIPTION("Renesas R-Car Gen3 & RZ/N1 USB Function driver");
-> > +MODULE_LICENSE("GPL"); =20
->=20
-> > --
-> > 2.37.3
-> > =20
->=20
->=20
-> --
-> Gr{oetje,eeting}s,
->=20
->                         Geert
->=20
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->=20
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+--6jvzxow5645ldbud
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks for this review,
-Herv=C3=A9
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Herv=C3=A9 Codina, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY2kjiwAKCRDj7w1vZxhR
+xbC4AQCzinBg5fORSxUmh/ryaaQ1U50ULCO44lpcoTcfgR8NCQEArCtBTBrB8cDz
+ZaXsPn80Mh//XhAP83gNXiHtZW4aJwQ=
+=1n6i
+-----END PGP SIGNATURE-----
+
+--6jvzxow5645ldbud--
