@@ -2,140 +2,173 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B41CF61ECA4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 09:10:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5FE961ED2B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 09:43:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231277AbiKGIKe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 03:10:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59146 "EHLO
+        id S231477AbiKGInm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Nov 2022 03:43:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231351AbiKGIKd (ORCPT
+        with ESMTP id S231423AbiKGInh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 03:10:33 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A739013F61;
-        Mon,  7 Nov 2022 00:10:30 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.96,143,1665414000"; 
-   d="scan'208";a="141750250"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 07 Nov 2022 17:10:29 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id E05C94002C03;
-        Mon,  7 Nov 2022 17:10:29 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        coverity-bot <keescook+coverity-bot@chromium.org>
-Subject: [PATCH] net: ethernet: renesas: rswitch: Fix endless loop in error paths
-Date:   Mon,  7 Nov 2022 17:10:21 +0900
-Message-Id: <20221107081021.2955122-1-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 7 Nov 2022 03:43:37 -0500
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94AC1C14;
+        Mon,  7 Nov 2022 00:43:27 -0800 (PST)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.nyi.internal (Postfix) with ESMTP id DCF6C5809A3;
+        Mon,  7 Nov 2022 03:43:26 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Mon, 07 Nov 2022 03:43:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+        :cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm2; t=1667810606; x=
+        1667817806; bh=Aq/rXhvOvHCvrLASPVtA3GhXPBKkD/XGjmzw/rPkVIM=; b=X
+        Mzr/NIXE6ygs347sr9HjDgFFmGK0kq2KoXS6EvljdsT42q4HsSnbBFrXk17Pe+gZ
+        dWbVuf6oW1+RlsFCQbTn544CssUriWkdV+D7FXCbxrEp8AxET1HdURrEBKJzUYip
+        gVp212D/tSe6iCpYb8VYliJ6Hev5v0qHDCpkBoJUaujjvJGMUAqW8xJ0KWDbIhx2
+        f5norJaeRYMtACTiES69qUrDVZarBnstpffE60GXGDd6KlKdXhD/p6mDfle1Oi4F
+        tw8iedF5sTGvIEhGaml/Nc6ebkrPtqOu9NjXpE5BUxEsl1U9zmVbTM0yWe9Za4Cz
+        JF3Za+gLAV5z5vYvIwltw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1667810606; x=
+        1667817806; bh=Aq/rXhvOvHCvrLASPVtA3GhXPBKkD/XGjmzw/rPkVIM=; b=l
+        wO0TYr73LbJV0++Mo0Um+3yOostKt5yo2CyyIGo8HFTSTPAi2RrbvF/eRSp9o2o2
+        +aEVg2asFpEDgNzFCjzsmWw/I+winn7en/mnpBxWoy/G9LDRZ5zDpfIzUw5/ExAf
+        Y7SEm+UrAAGqRUJtHB7t0Xc50b9C6WaAjlDM4qjFcrD2PcYNYOE9QOiOy4F7vJjr
+        fmjXTSUWCZhrxcaSeBX3LtrMMbHa4zhhWUrzwuBioKbLUhXVRM289XoLHGsg3xp2
+        6zbPAykMclfzZdWbQloPKRXZpM9u+s22KxEGCZhH8wEOlTH1HKC+Jt2c+4+482O8
+        Z39ITGRaZngh6H60+S0aA==
+X-ME-Sender: <xms:LMVoYx7dsZ21l2kErXuCb57W6V-JAsoe4W4HyM-WpbOoXImjvs3hCg>
+    <xme:LMVoY-41AhVywvyeK4JfUUsEXi7yGSMTiVKjjqjrhVi3Vf1Yt9cKCBrkudXStPFiS
+    80CbN6QU3FxaDKrquA>
+X-ME-Received: <xmr:LMVoY4ciLQGBbg4CzXUFW73ZhYqObOA6ViBEUq4OeCeWLiBj7LCQ0Jxh9VVQb2zHcTSkhAgpDRwjT3Ql7rjQtJFL6DUYyC-FaDJ1OEZlc5vEZQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdejgdduvdefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+    grthhtvghrnheptefgleeggfegkeekgffgleduieduffejffegveevkeejudektdduueet
+    feetfefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:LMVoY6JplDgIhemcdbpXp5Yl8GMlUJ2C4lCcCvxIoPX9Qw0Zvdc0mQ>
+    <xmx:LMVoY1JKtIdwUipzss4LM7NNIWStHUol6IdWpo5CiSQ2mvmoUJi-bA>
+    <xmx:LMVoYzztB-PRe8uYYyegx0uiiyjfwD6LHztfsDpgQpUsGlbjTfSTUA>
+    <xmx:LsVoY5TW4OQFLtlRuiANOQeiVNxH9XWmg3_g5ax-jjleBakAR9plvQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 7 Nov 2022 03:43:23 -0500 (EST)
+Date:   Mon, 7 Nov 2022 09:43:22 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Abel Vesa <abelvesa@kernel.org>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Takashi Iwai <tiwai@suse.com>,
+        David Airlie <airlied@gmail.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        David Lechner <david@lechnology.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
+        linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
+Message-ID: <20221107084322.gk4j75r52zo5k7xk@houat>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech>
+ <Y2UzdYyjgahJsbHg@sirena.org.uk>
+ <20221104155123.qomguvthehnogkdd@houat>
+ <Y2U2+ePwRieYkNjv@sirena.org.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <Y2U2+ePwRieYkNjv@sirena.org.uk>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Coverity reported that the error path in rswitch_gwca_queue_alloc_skb()
-has an issue to cause endless loop. So, fix the issue by changing
-variables' types from u32 to int. After changed the types,
-rswitch_tx_free() should use rswitch_get_num_cur_queues() to
-calculate number of current queues.
+Hi Mark,
 
-Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
-Addresses-Coverity-ID: 1527147 ("Control flow issues")
-Fixes: 3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/net/ethernet/renesas/rswitch.c | 17 +++++++++--------
- drivers/net/ethernet/renesas/rswitch.h |  6 +++---
- 2 files changed, 12 insertions(+), 11 deletions(-)
+On Fri, Nov 04, 2022 at 03:59:53PM +0000, Mark Brown wrote:
+> On Fri, Nov 04, 2022 at 04:51:23PM +0100, Maxime Ripard wrote:
+>=20
+> > Just filling determine_rate if it's missing with
+> > __clk_mux_determine_rate will possibly pick different parents, and I'm
+> > fairly certain that this have never been tested on most platforms, and
+> > will be completely broken. And I don't really want to play a game of
+> > whack-a-mole adding that flag everywhere it turns out it's broken.
+>=20
+> Well, hopefully everyone for whom it's an issue currently will be
+> objecting to this version of the change anyway so we'll either know
+> where to set the flag or we'll get the whack-a-mole with the series
+> being merged?
 
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index f0168fedfef9..3bd5e6239855 100644
---- a/drivers/net/ethernet/renesas/rswitch.c
-+++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -219,9 +219,9 @@ static void rswitch_ack_data_irq(struct rswitch_private *priv, int index)
- 	iowrite32(BIT(index % 32), priv->addr + offs);
- }
- 
--static u32 rswitch_next_queue_index(struct rswitch_gwca_queue *gq, bool cur, u32 num)
-+static int rswitch_next_queue_index(struct rswitch_gwca_queue *gq, bool cur, int num)
- {
--	u32 index = cur ? gq->cur : gq->dirty;
-+	int index = cur ? gq->cur : gq->dirty;
- 
- 	if (index + num >= gq->ring_size)
- 		index = (index + num) % gq->ring_size;
-@@ -231,7 +231,7 @@ static u32 rswitch_next_queue_index(struct rswitch_gwca_queue *gq, bool cur, u32
- 	return index;
- }
- 
--static u32 rswitch_get_num_cur_queues(struct rswitch_gwca_queue *gq)
-+static int rswitch_get_num_cur_queues(struct rswitch_gwca_queue *gq)
- {
- 	if (gq->cur >= gq->dirty)
- 		return gq->cur - gq->dirty;
-@@ -250,9 +250,9 @@ static bool rswitch_is_queue_rxed(struct rswitch_gwca_queue *gq)
- }
- 
- static int rswitch_gwca_queue_alloc_skb(struct rswitch_gwca_queue *gq,
--					u32 start_index, u32 num)
-+					int start_index, int num)
- {
--	u32 i, index;
-+	int i, index;
- 
- 	for (i = 0; i < num; i++) {
- 		index = (i + start_index) % gq->ring_size;
-@@ -410,12 +410,12 @@ static int rswitch_gwca_queue_format(struct net_device *ndev,
- 
- static int rswitch_gwca_queue_ts_fill(struct net_device *ndev,
- 				      struct rswitch_gwca_queue *gq,
--				      u32 start_index, u32 num)
-+				      int start_index, int num)
- {
- 	struct rswitch_device *rdev = netdev_priv(ndev);
- 	struct rswitch_ext_ts_desc *desc;
- 	dma_addr_t dma_addr;
--	u32 i, index;
-+	int i, index;
- 
- 	for (i = 0; i < num; i++) {
- 		index = (i + start_index) % gq->ring_size;
-@@ -736,7 +736,8 @@ static int rswitch_tx_free(struct net_device *ndev, bool free_txed_only)
- 	int free_num = 0;
- 	int size;
- 
--	for (; gq->cur - gq->dirty > 0; gq->dirty = rswitch_next_queue_index(gq, false, 1)) {
-+	for (; rswitch_get_num_cur_queues(gq) > 0;
-+	     gq->dirty = rswitch_next_queue_index(gq, false, 1)) {
- 		desc = &gq->ring[gq->dirty];
- 		if (free_txed_only && (desc->desc.die_dt & DT_MASK) != DT_FEMPTY)
- 			break;
-diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
-index 778177ec8d4f..edbdd1b98d3d 100644
---- a/drivers/net/ethernet/renesas/rswitch.h
-+++ b/drivers/net/ethernet/renesas/rswitch.h
-@@ -908,9 +908,9 @@ struct rswitch_gwca_queue {
- 		struct rswitch_ext_ts_desc *ts_ring;
- 	};
- 	dma_addr_t ring_dma;
--	u32 ring_size;
--	u32 cur;
--	u32 dirty;
-+	int ring_size;
-+	int cur;
-+	int dirty;
- 	struct sk_buff **skbs;
- 
- 	struct net_device *ndev;	/* queue to ndev for irq */
--- 
-2.25.1
+I'm sorry, I'm not sure what you mean here. The only issue to fix at the
+moment is that determine_rate and set_parent aren't coupled, and it led
+to issues due to oversight.
 
+I initially added a warning but Stephen wanted to fix all users in that
+case and make that an error instead.
+
+If I filled __clk_mux_determine_rate into clocks that weren't using it
+before, I would change their behavior. With that flag set, on all users
+I add __clk_mux_determine_rate to, the behavior is the same than what we
+previously had, so the risk of regressions is minimal, and everything
+should keep going like it was?
+
+Maxime
