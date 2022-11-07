@@ -2,182 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB26661EC75
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 08:52:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B41CF61ECA4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Nov 2022 09:10:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231485AbiKGHwX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 02:52:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52828 "EHLO
+        id S231277AbiKGIKe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Nov 2022 03:10:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231313AbiKGHwW (ORCPT
+        with ESMTP id S231351AbiKGIKd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 02:52:22 -0500
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15DDB7E1;
-        Sun,  6 Nov 2022 23:52:21 -0800 (PST)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-13b103a3e5dso11817387fac.2;
-        Sun, 06 Nov 2022 23:52:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hLKOOl0yo7YI7pAdrLyTR/NQWG7rhWdAq87I8wp+XOk=;
-        b=Hz4IE7Yn/5Nk8NP9z/+kHSK2iouID2NqPAJE07Gf7dUmrO4KnUTFzlxtL17jMaBXyp
-         Dv8cHm8yE0X+WAdKn4ta0lHnmPPGfGfpqw07hjoUFsj269CFe3fkBiBGKkM1Km0ZpBVq
-         5FV9MdfdXsA+SCYMUJsU5Mn77akA5ZCA2PaN4H2APil9FSkds3jXsuxr+BDJfrBWiaM5
-         rq0ytCDRu1afvaduGSERw3Lhw3WnYPZbZBgTOezBolnSeyuJmyNqBeAAxCpTtuGE5uyJ
-         2wJB6T+x72yrVPWlXHlocyEcwEuOanDtNzXq3z1T+oSGECc93ju7wyeWDz9t553gHl+0
-         0Rpg==
-X-Gm-Message-State: ACrzQf2aC3vOwXLhcvRjLxjIQHOKLXRXZrcFyuHa2adtz3AlLoSTj0Go
-        nUVwS6lx2ZvAY/XgTjRsvr1BHWPzu0YxKQ==
-X-Google-Smtp-Source: AMsMyM79ktbSDFQXhG8HxgxzC9XjiIyabewaT9y3o1EOqeqG95rHakAsNcx7ruKGx21FsDn3b6kSrA==
-X-Received: by 2002:a05:6870:c1d1:b0:13a:f691:c9ae with SMTP id i17-20020a056870c1d100b0013af691c9aemr27647508oad.34.1667807540968;
-        Sun, 06 Nov 2022 23:52:20 -0800 (PST)
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com. [209.85.210.49])
-        by smtp.gmail.com with ESMTPSA id x12-20020a05683000cc00b0065c2c46077dsm2627246oto.67.2022.11.06.23.52.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Nov 2022 23:52:20 -0800 (PST)
-Received: by mail-ot1-f49.google.com with SMTP id cb2-20020a056830618200b00661b6e5dcd8so6071166otb.8;
-        Sun, 06 Nov 2022 23:52:20 -0800 (PST)
-X-Received: by 2002:a81:9c49:0:b0:34a:de:97b8 with SMTP id n9-20020a819c49000000b0034a00de97b8mr45959924ywa.384.1667807529144;
- Sun, 06 Nov 2022 23:52:09 -0800 (PST)
+        Mon, 7 Nov 2022 03:10:33 -0500
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A739013F61;
+        Mon,  7 Nov 2022 00:10:30 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.96,143,1665414000"; 
+   d="scan'208";a="141750250"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 07 Nov 2022 17:10:29 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id E05C94002C03;
+        Mon,  7 Nov 2022 17:10:29 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        coverity-bot <keescook+coverity-bot@chromium.org>
+Subject: [PATCH] net: ethernet: renesas: rswitch: Fix endless loop in error paths
+Date:   Mon,  7 Nov 2022 17:10:21 +0900
+Message-Id: <20221107081021.2955122-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech> <20221018-clk-range-checks-fixes-v2-28-f6736dec138e@cerno.tech>
-In-Reply-To: <20221018-clk-range-checks-fixes-v2-28-f6736dec138e@cerno.tech>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Nov 2022 08:51:56 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXee3Xf8G53anCq-4qfenHhgnMiyC1KhKo8Uv6-UV_jrw@mail.gmail.com>
-Message-ID: <CAMuHMdXee3Xf8G53anCq-4qfenHhgnMiyC1KhKo8Uv6-UV_jrw@mail.gmail.com>
-Subject: Re: [PATCH v2 28/65] clk: renesas: r9a06g032: Add a determine_rate hook
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Stephen Boyd <sboyd@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Abel Vesa <abelvesa@kernel.org>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Takashi Iwai <tiwai@suse.com>,
-        David Airlie <airlied@gmail.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        David Lechner <david@lechnology.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Mark Brown <broonie@kernel.org>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
-        linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Gareth Williams <gareth.williams.jx@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-CC Gareth
+Coverity reported that the error path in rswitch_gwca_queue_alloc_skb()
+has an issue to cause endless loop. So, fix the issue by changing
+variables' types from u32 to int. After changed the types,
+rswitch_tx_free() should use rswitch_get_num_cur_queues() to
+calculate number of current queues.
 
-On Fri, Nov 4, 2022 at 2:18 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> The Renesas r9a06g032 bitselect clock implements a mux with a set_parent
-> hook, but doesn't provide a determine_rate implementation.
->
-> This is a bit odd, since set_parent() is there to, as its name implies,
-> change the parent of a clock. However, the most likely candidate to
-> trigger that parent change is a call to clk_set_rate(), with
-> determine_rate() figuring out which parent is the best suited for a
-> given rate.
->
-> The other trigger would be a call to clk_set_parent(), but it's far less
-> used, and it doesn't look like there's any obvious user for that clock.
->
-> So, the set_parent hook is effectively unused, possibly because of an
-> oversight. However, it could also be an explicit decision by the
-> original author to avoid any reparenting but through an explicit call to
-> clk_set_parent().
->
-> The latter case would be equivalent to setting the flag
-> CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
-> to __clk_mux_determine_rate(). Indeed, if no determine_rate
-> implementation is provided, clk_round_rate() (through
-> clk_core_round_rate_nolock()) will call itself on the parent if
-> CLK_SET_RATE_PARENT is set, and will not change the clock rate
-> otherwise. __clk_mux_determine_rate() has the exact same behavior when
-> CLK_SET_RATE_NO_REPARENT is set.
->
-> And if it was an oversight, then we are at least explicit about our
-> behavior now and it can be further refined down the line.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/clk/renesas/r9a06g032-clocks.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
-> index 983faa5707b9..70c37097ca6e 100644
-> --- a/drivers/clk/renesas/r9a06g032-clocks.c
-> +++ b/drivers/clk/renesas/r9a06g032-clocks.c
-> @@ -773,6 +773,7 @@ static int r9a06g032_clk_mux_set_parent(struct clk_hw *hw, u8 index)
->  }
->
->  static const struct clk_ops clk_bitselect_ops = {
-> +       .determine_rate = __clk_mux_determine_rate,
->         .get_parent = r9a06g032_clk_mux_get_parent,
->         .set_parent = r9a06g032_clk_mux_set_parent,
->  };
-> @@ -797,7 +798,7 @@ r9a06g032_register_bitsel(struct r9a06g032_priv *clocks,
->
->         init.name = desc->name;
->         init.ops = &clk_bitselect_ops;
-> -       init.flags = CLK_SET_RATE_PARENT;
-> +       init.flags = CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT;
->         init.parent_names = names;
->         init.num_parents = 2;
->
->
-> --
-> b4 0.11.0-dev-99e3a
+Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
+Addresses-Coverity-ID: 1527147 ("Control flow issues")
+Fixes: 3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ drivers/net/ethernet/renesas/rswitch.c | 17 +++++++++--------
+ drivers/net/ethernet/renesas/rswitch.h |  6 +++---
+ 2 files changed, 12 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
+index f0168fedfef9..3bd5e6239855 100644
+--- a/drivers/net/ethernet/renesas/rswitch.c
++++ b/drivers/net/ethernet/renesas/rswitch.c
+@@ -219,9 +219,9 @@ static void rswitch_ack_data_irq(struct rswitch_private *priv, int index)
+ 	iowrite32(BIT(index % 32), priv->addr + offs);
+ }
+ 
+-static u32 rswitch_next_queue_index(struct rswitch_gwca_queue *gq, bool cur, u32 num)
++static int rswitch_next_queue_index(struct rswitch_gwca_queue *gq, bool cur, int num)
+ {
+-	u32 index = cur ? gq->cur : gq->dirty;
++	int index = cur ? gq->cur : gq->dirty;
+ 
+ 	if (index + num >= gq->ring_size)
+ 		index = (index + num) % gq->ring_size;
+@@ -231,7 +231,7 @@ static u32 rswitch_next_queue_index(struct rswitch_gwca_queue *gq, bool cur, u32
+ 	return index;
+ }
+ 
+-static u32 rswitch_get_num_cur_queues(struct rswitch_gwca_queue *gq)
++static int rswitch_get_num_cur_queues(struct rswitch_gwca_queue *gq)
+ {
+ 	if (gq->cur >= gq->dirty)
+ 		return gq->cur - gq->dirty;
+@@ -250,9 +250,9 @@ static bool rswitch_is_queue_rxed(struct rswitch_gwca_queue *gq)
+ }
+ 
+ static int rswitch_gwca_queue_alloc_skb(struct rswitch_gwca_queue *gq,
+-					u32 start_index, u32 num)
++					int start_index, int num)
+ {
+-	u32 i, index;
++	int i, index;
+ 
+ 	for (i = 0; i < num; i++) {
+ 		index = (i + start_index) % gq->ring_size;
+@@ -410,12 +410,12 @@ static int rswitch_gwca_queue_format(struct net_device *ndev,
+ 
+ static int rswitch_gwca_queue_ts_fill(struct net_device *ndev,
+ 				      struct rswitch_gwca_queue *gq,
+-				      u32 start_index, u32 num)
++				      int start_index, int num)
+ {
+ 	struct rswitch_device *rdev = netdev_priv(ndev);
+ 	struct rswitch_ext_ts_desc *desc;
+ 	dma_addr_t dma_addr;
+-	u32 i, index;
++	int i, index;
+ 
+ 	for (i = 0; i < num; i++) {
+ 		index = (i + start_index) % gq->ring_size;
+@@ -736,7 +736,8 @@ static int rswitch_tx_free(struct net_device *ndev, bool free_txed_only)
+ 	int free_num = 0;
+ 	int size;
+ 
+-	for (; gq->cur - gq->dirty > 0; gq->dirty = rswitch_next_queue_index(gq, false, 1)) {
++	for (; rswitch_get_num_cur_queues(gq) > 0;
++	     gq->dirty = rswitch_next_queue_index(gq, false, 1)) {
+ 		desc = &gq->ring[gq->dirty];
+ 		if (free_txed_only && (desc->desc.die_dt & DT_MASK) != DT_FEMPTY)
+ 			break;
+diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
+index 778177ec8d4f..edbdd1b98d3d 100644
+--- a/drivers/net/ethernet/renesas/rswitch.h
++++ b/drivers/net/ethernet/renesas/rswitch.h
+@@ -908,9 +908,9 @@ struct rswitch_gwca_queue {
+ 		struct rswitch_ext_ts_desc *ts_ring;
+ 	};
+ 	dma_addr_t ring_dma;
+-	u32 ring_size;
+-	u32 cur;
+-	u32 dirty;
++	int ring_size;
++	int cur;
++	int dirty;
+ 	struct sk_buff **skbs;
+ 
+ 	struct net_device *ndev;	/* queue to ndev for irq */
+-- 
+2.25.1
+
