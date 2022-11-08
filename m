@@ -2,106 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0269620ECE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Nov 2022 12:23:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08D83620F06
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Nov 2022 12:27:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233098AbiKHLXx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Nov 2022 06:23:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34250 "EHLO
+        id S233313AbiKHL1o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Nov 2022 06:27:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233870AbiKHLX0 (ORCPT
+        with ESMTP id S229784AbiKHL1n (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Nov 2022 06:23:26 -0500
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A5B749B7F
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Nov 2022 03:23:24 -0800 (PST)
-Received: by mail-io1-xd30.google.com with SMTP id p141so11182955iod.6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 08 Nov 2022 03:23:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5B7dfi7xVJ3OslQ0ALi00lhJojz9IHhiYsVHA/RHqOE=;
-        b=SKxoMXk71fzsH4RiXsi+C/6DrTYSmJg4y1x26aHehdukMfOTxbvTz1RDZUF5ezzzn/
-         SQHYV4p3Y0wU6zNmLXlSGC0M0pB4u1QXpkiFBqj96YkCT31bBeSPHVyC9vbsQojRcKKa
-         SwDbPs5WKRvZ1NoWEDhTso55tNTqvUdAli9jMSpajt514Wj81lAxmYoGpi6DQ4M8d/YW
-         uNuOs+TGP30ZU5GtAl8fFqJCJVBKD4dazlRxiLu29LiZYp1FL2RFvwqDLOuunnObSg9E
-         p/NuCd3UGlvOiIG98Srp88iAS0c7bT56QT5PdmY+ak3wAUeTvaY55MnBzDy9nfsyKYCp
-         Znkw==
+        Tue, 8 Nov 2022 06:27:43 -0500
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75F8B1D0DE;
+        Tue,  8 Nov 2022 03:27:42 -0800 (PST)
+Received: by mail-qk1-f178.google.com with SMTP id x18so8868872qki.4;
+        Tue, 08 Nov 2022 03:27:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5B7dfi7xVJ3OslQ0ALi00lhJojz9IHhiYsVHA/RHqOE=;
-        b=XrMTwtqZpvzGrt6IxkhcEUbmpqXzNMtyEfsXMgkqSIpFckKCdLq5MulyKJbwzc06W7
-         9bLwGMqeaElU+qlzt93ftu64+te1qwfWffXudX2zNThjBxX54V/vIMbJJaNlnk/zGm9w
-         rzuafLrOiyBINMS7m2GMuZ+Bu4Wm20vDMeJ8+nIQmQ0s9PPwWith36wXXzYRSodI0Lw6
-         zVYKirpVr3PfkkcmJnOuWUjzKcZ5VxaEZtM7vkRcQWyaFGhUkdkMujSzNSk/tv7WjiHQ
-         ArEIaLI88OplDnUpXlPlHGRq5DixgQsXXUS3onMZcBypH6m/vVBz3DDSclb0gV0Putn8
-         74Cw==
-X-Gm-Message-State: ACrzQf3w5mi/0vtQLBdTygwtXYQCI16dt0fO8qBovpHSCWOZ37sPiYcI
-        l9tjatoLZnamBVpcmgjbDnxEIjtTIXSE/GrCdeY=
-X-Google-Smtp-Source: AMsMyM7+myFlW6XFCXeSKLT27SlDPwGDh9RuXs3znV2KSQYgkg4ZcNfREnZlVBvtvS1gzBfTPQfDB8rVRvELVHxJ/ls=
-X-Received: by 2002:a05:6638:2:b0:363:8330:d75 with SMTP id
- z2-20020a056638000200b0036383300d75mr32884715jao.33.1667906603907; Tue, 08
- Nov 2022 03:23:23 -0800 (PST)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fBJ14flGz4qbu94DTpiasIKodwrjiggJ5qyDbPrXNj4=;
+        b=Dhe15we2hTI/0JQR0j97gAEkUkFyO6iL1w829WeUj+ERtBK2OLLdR7pI49sqtiachj
+         xnPsCFsXtUDGhvli94tHG6AzG3atfiZSeYhX1uCOjjjIJ1eDGIdfI43BnwPl86bsfyGA
+         RhDO/pidAmZGBH5qUSLwxtpmNzhquNPzSC1+GNXhPtURFt+c75xRxWJUeUUaDBFwqXZk
+         J4TuqUbqw5T/9rpPR+vE/j3SLEqRW9qa0yetfTpWlOTCXvFGCdeMoHA59Xv2fSH85FBD
+         3fWyX6FT1x4K+FSmxpFD8stKNGmBA6eREscfaNyMww82cb1t4YLutwyfza9+nmxSNCnD
+         z5LA==
+X-Gm-Message-State: ANoB5pk3W+Otf9o8+uTbOwVDz4zhE/e2FhNJq0VbzRCX6zQZbFZAfuqT
+        K5XydblYW9D9jGKeW/JQQKW9+1k9vCytnA==
+X-Google-Smtp-Source: AA0mqf5mmNfxraIJ9iPkUaT49dAba0jIRAB40sEcTG7kNhR2nUTfavfxBtsZ3rUNY5LaAnYoHtaWsw==
+X-Received: by 2002:a05:620a:4ec:b0:6fa:f76d:bb45 with SMTP id b12-20020a05620a04ec00b006faf76dbb45mr4047654qkh.680.1667906861428;
+        Tue, 08 Nov 2022 03:27:41 -0800 (PST)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id r3-20020a05620a298300b006eecc4a0de9sm9445790qkp.62.2022.11.08.03.27.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Nov 2022 03:27:41 -0800 (PST)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-367b8adf788so130864207b3.2;
+        Tue, 08 Nov 2022 03:27:40 -0800 (PST)
+X-Received: by 2002:a0d:e301:0:b0:374:a8ba:99b0 with SMTP id
+ m1-20020a0de301000000b00374a8ba99b0mr6626131ywe.358.1667906860433; Tue, 08
+ Nov 2022 03:27:40 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:6638:1921:0:0:0:0 with HTTP; Tue, 8 Nov 2022 03:23:23
- -0800 (PST)
-Reply-To: mrinvest1010@gmail.com
-From:   "K. A. Mr. Kairi" <ctocik10@gmail.com>
-Date:   Tue, 8 Nov 2022 03:23:23 -0800
-Message-ID: <CAEbPynvgXcwj+VPyZrCxfVHXTsPyXOo7WiLoVkUCLehN3kB_iQ@mail.gmail.com>
-Subject: Re: My Response..
-To:     undisclosed-recipients:;
+References: <20221107172953.63218-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20221107172953.63218-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 8 Nov 2022 12:27:28 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVcn=r_hj3OOOCzqtcGQstvxyNzi5dahQMwDHgKnJAS+A@mail.gmail.com>
+Message-ID: <CAMuHMdVcn=r_hj3OOOCzqtcGQstvxyNzi5dahQMwDHgKnJAS+A@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r9a07g044: Drop #address-cells from
+ pinctrl node
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:d30 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5001]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [mrinvest1010[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [ctocik10[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [ctocik10[at]gmail.com]
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
--- 
-Dear
+On Mon, Nov 7, 2022 at 6:30 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> This fixes the below dtbs_check warning:
+>
+> arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: pinctrl@11030000: #address-cells: 'anyOf' conditional failed, one must be fixed:
+>     [[2]] is not of type 'object'
+>     From schema: Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+> arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dtb: pinctrl@11030000: #address-cells: 'anyOf' conditional failed, one must be fixed:
+>     [[2]] is not of type 'object'
+>     From schema: Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+>
+> Drop #address-cells property from pinctrl node as it has no child nodes in it.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-How are you, I have a serious client, whom will be interested to
-invest in your country, I got your Details through the Investment
-Network and world Global Business directory.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.2.
 
-Let me know if you are interested for more details.....
+Gr{oetje,eeting}s,
 
-Sincerely,
-Mr. Kairi Andrew
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
