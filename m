@@ -2,102 +2,158 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31EB6620F1E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Nov 2022 12:31:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6903B621247
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Nov 2022 14:25:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234086AbiKHLbE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Nov 2022 06:31:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40928 "EHLO
+        id S233700AbiKHNZW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Nov 2022 08:25:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234099AbiKHLbA (ORCPT
+        with ESMTP id S234103AbiKHNZT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Nov 2022 06:31:00 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 029344E416;
-        Tue,  8 Nov 2022 03:30:56 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id l11so21994834edb.4;
-        Tue, 08 Nov 2022 03:30:55 -0800 (PST)
+        Tue, 8 Nov 2022 08:25:19 -0500
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30DED1D64A
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Nov 2022 05:25:17 -0800 (PST)
+Received: by mail-ej1-x62b.google.com with SMTP id m22so1348823eji.10
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 08 Nov 2022 05:25:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wL2n7EuR8P7CPo0/whRos0A/zGJ3McpJONiv/y4QNg0=;
-        b=VtOnZxabcY1KU2EIYSidXphIP4a2KBXFBW9VWRN2obDePoy4eePXqw7w0J7Q1i1B4w
-         36YTNcyp+a4QIZKnj6/Tx+aoQrQOwq/CsATs7f+cMqGr7Jy2yMmryF9ELgzS1pXLDBUQ
-         828hePRKAWWigWt4Z8GMI7LqWVSQyfRs88qBDx4MRYytVsVE+5wFhGqtAebkI+pVfard
-         LEP99eK1ntYfarG5h9uwcXkElJzvRhtd2dLQ3/u7NO5FuXG4M9zkgUXlhnth2KYvC9jM
-         jCabGVOzJhvIbn4uPPOoSNn0+OtQGsSW/FTSjXWA0f+nSMydyvdpvWOsInxiZjDl0pH2
-         3l0g==
+        bh=xIunjndO5rqOpIPjGIQJB4TuLtmFYebQ0fOsvPNeO54=;
+        b=dY2KECnuVH7NYv0yOK7RrL62QdqUlhl2JmgS7xh7Aop7k+RcPrpLQgabXuGbHHpGQR
+         eHydRYWR08BPIi0DGkFfFL5aziMJHQLfVfnBD+eU2h7KlhHzcO6P+1GLNOD4+iPtpIq9
+         f+xJ7woffKNTUf34ylHgwFwugM0mjDy+MNR+/tosLv90DX21VaSDgG9tpTl2KCuCdJUO
+         uOa6Dv9G/jILV/FYPlkjsMzVEJLK96Ug7G7tfkWymeifahO0bdSmcFGNxzhRtu8RVMPO
+         uhbfFCJ4Ya/DrkwEqdNt0sBFZZ7Pau3qynHAmgL94y0H0QvBHa6kKlb7zVfFQiDHP0ks
+         6ZQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wL2n7EuR8P7CPo0/whRos0A/zGJ3McpJONiv/y4QNg0=;
-        b=MHlTFqls2t+VBJGLLn+5CD+Ug9qUfpg0U9r2K3WSsffsZ7IJLqsGjH3vH+OFHYRZZ2
-         xbuWS4cWZTKanbIppotsawRODfxUAblK5LvM7GBgy/tEZoMN0rJQtCeFwsCDkCAEGZ8m
-         sXEXkHrf/VU1wF0bgLyKjw6zvLqDE5hSD8R6T9ThZNF3P7lnYguIwTaJdvWTARHoF2ff
-         mZaP/5WPBOi/3EOu7NjL5ySa7HJGNxR/KYR7tzQ5kpJwhJQGKa3sS+gxzqcvOnRRzuXM
-         RD8KB059jLN/JGUfQ/l7ROJa44u78qs1jrO3+RtidwWyzCJGgjuhZgAgF+HJwszA6JK3
-         tnoQ==
-X-Gm-Message-State: ACrzQf1GNdISA+cTJEbi8AheTACylXlGM6b0AzzTgecvzMJ6T6LnE/TW
-        DqwNlrt0m8hn6uKhzSRFoAWDPs1QyJxnUn1LIIg=
-X-Google-Smtp-Source: AMsMyM4TBJguhG8wh+Yi9QFwi2sB7qSY83X5NZglly7UHCWA+t0R5H1JdMwglw8UX1bGl5CflUNXw5SYunnMYZL5UWg=
-X-Received: by 2002:a05:6402:3217:b0:461:d6d7:7f19 with SMTP id
- g23-20020a056402321700b00461d6d77f19mr33920546eda.109.1667907054452; Tue, 08
- Nov 2022 03:30:54 -0800 (PST)
+        bh=xIunjndO5rqOpIPjGIQJB4TuLtmFYebQ0fOsvPNeO54=;
+        b=LH1nAvf+xxuECNbax5Boc5Fhma7K7ZPMPge1xE/ZubULlBQiELYvCgd2OdtK7VXJqX
+         iX+CGIWZ2B13zjN4uag7CN9LyXpRTBTCEK2wc+/nahPN/Pg+7ff5wwWmtid6LsHr+HhK
+         382mANVoWX4WVPwxdw3VTNSDYdlU84qq6/V2BjBc7cPWOVAPfPZ+p+RVau7kqjNgFB4J
+         N4YB1/6KjEv7cg4iOdVJZPAo4vztnVeX0MqasQNjTcAH6i47QSk/WG7fWkwsne/BgXFB
+         1CmPgKj0OE6DaHh0RxT1vWadAW+SszHY7xCk3yLkQbiqOvIVVpYPkMXQco9DLh+G1LIo
+         kuXw==
+X-Gm-Message-State: ANoB5pnO7ubr85gwa/5gB6zkMy1VEtrRK+mjzj807nzOfIwk+V7J7EOV
+        lpmM+6skckrGI1MGVbJLwyi5DsbvY0O877pbcBkoTw==
+X-Google-Smtp-Source: AA0mqf68wWCeuB7GkTzw5Vcyy6luDq6tRlJuZOq+6MaYhZcTvhkBj9mitsGYltXA5OQs4b2+osg1ro8i402jh/hf0IY=
+X-Received: by 2002:a17:906:6acc:b0:7ae:658c:ee45 with SMTP id
+ q12-20020a1709066acc00b007ae658cee45mr11184945ejs.190.1667913915716; Tue, 08
+ Nov 2022 05:25:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20221107172953.63218-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221107172953.63218-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWZyiRz0Qe2OgCZLeQe4L+ty7MR2AHQVVeC0upaM3X8OQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWZyiRz0Qe2OgCZLeQe4L+ty7MR2AHQVVeC0upaM3X8OQ@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 8 Nov 2022 11:30:27 +0000
-Message-ID: <CA+V-a8vNxyw_ivDSpFk5kJznSktYU=7KwqY3x3R9MNE-yXvKUA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r9a07g054: Drop #address-cells from
- pinctrl node
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech> <20221018-clk-range-checks-fixes-v2-34-f6736dec138e@cerno.tech>
+In-Reply-To: <20221018-clk-range-checks-fixes-v2-34-f6736dec138e@cerno.tech>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 8 Nov 2022 14:25:04 +0100
+Message-ID: <CACRpkdYwM6X8bBABCisUGX=P4F=hcFb7QLT3Cu7XUWUvV4TE1Q@mail.gmail.com>
+Subject: Re: [PATCH v2 34/65] clk: ux500: prcmu: Add a determine_rate hook
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Abel Vesa <abelvesa@kernel.org>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Takashi Iwai <tiwai@suse.com>,
+        David Airlie <airlied@gmail.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        David Lechner <david@lechnology.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Mark Brown <broonie@kernel.org>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
+        linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Fri, Nov 4, 2022 at 2:32 PM Maxime Ripard <maxime@cerno.tech> wrote:
 
-Thank you for the review.
+> The UX500 PRCMU "clkout" clock implements a mux with a set_parent hook,
+> but doesn't provide a determine_rate implementation.
+>
+> This is a bit odd, since set_parent() is there to, as its name implies,
+> change the parent of a clock. However, the most likely candidate to
+> trigger that parent change is a call to clk_set_rate(), with
+> determine_rate() figuring out which parent is the best suited for a
+> given rate.
+>
+> The other trigger would be a call to clk_set_parent(), but it's far less
+> used, and it doesn't look like there's any obvious user for that clock.
+>
+> So, the set_parent hook is effectively unused, possibly because of an
+> oversight. However, it could also be an explicit decision by the
+> original author to avoid any reparenting but through an explicit call to
+> clk_set_parent().
 
-On Tue, Nov 8, 2022 at 11:28 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> On Mon, Nov 7, 2022 at 6:30 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > This fixes the below dtbs_check warning:
-> >
-> > arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dtb: pinctrl@11030000: #address-cells: 'anyOf' conditional failed, one must be fixed:
-> >     [[2]] is not of type 'object'
-> >     From schema: Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
-> >
-> > Drop #address-cells property from pinctrl node as it has no child nodes in it.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v6.2.
-> If you don't mind, I'll squash both patches into a single commit.
->
-Sure not a problem.
+It is actually set up from the device tree, typically like this:
 
-Cheers,
-Prabhakar
+/* clkout1 from ACLK divided by 8 */
+clocks = <&clkout_clk DB8500_CLKOUT_1 DB8500_CLKOUT_SRC_ACLK 8>;
+
+So the parent (source) and divisor comes in there.
+
+clk->source and clk->divider is already set up when clk_hw_register() is
+called.
+
+So set/get_parent() is never used on clkout.
+
+I think I just added the callbacks for completeness, should we delete them
+altogether? The patch is probably fine as-is as well so
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
