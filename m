@@ -2,147 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 195766203FD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Nov 2022 00:50:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F787620572
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Nov 2022 01:55:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232083AbiKGXuo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Nov 2022 18:50:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33870 "EHLO
+        id S233055AbiKHAzY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Nov 2022 19:55:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231974AbiKGXuo (ORCPT
+        with ESMTP id S232967AbiKHAzX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Nov 2022 18:50:44 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB311FFAE
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Nov 2022 15:50:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667865043; x=1699401043;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=P+nf1d6j8nLsOhyHznubzcNk1+0rYIpffIxiK/nSco0=;
-  b=NFOEDHP0yMnsyDW0BsDRTfHMKEV3YI7KYadcdk17PWHV1VQLQTbL5OLB
-   W8bGWMLpmh67UNjGIrY6QLbIgigypZGkzxr6kT+QzVaUJBKAxT0eIkJQd
-   9tiPXjGim4rydEU8k6iK44FPllp51SS5Tocp3Ot0zHdef8eELNfXs0ebh
-   uuMlwlNSmZ402S5QmfZc065taw/T/VVwoPIUQbyW/UgD18XCVImsx/lh0
-   WXgQw/grqBtkvTvEMMlvmt0ArdkK27C20ODRJvJq0qocHpCdMdnNc66qD
-   cmt1e/YGym1M4S9Hw0pv/wZSQ1MS/N8dEDGVdf3cvAwZkUUPRrZa3VtWy
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="308176734"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; 
-   d="scan'208";a="308176734"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 15:50:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="636111548"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; 
-   d="scan'208";a="636111548"
-Received: from lkp-server01.sh.intel.com (HELO 462403710aa9) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 07 Nov 2022 15:50:25 -0800
-Received: from kbuild by 462403710aa9 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1osBsm-0001JV-2U;
-        Mon, 07 Nov 2022 23:50:24 +0000
-Date:   Tue, 08 Nov 2022 07:49:40 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- d49546ff226ac7b625b180afe6df8247a16964a5
-Message-ID: <63699994.CHKwgY6Vprwbftyv%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 7 Nov 2022 19:55:23 -0500
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 058D51D9;
+        Mon,  7 Nov 2022 16:55:21 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.96,145,1665414000"; 
+   d="scan'208";a="139278947"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 08 Nov 2022 09:55:21 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0E2374157802;
+        Tue,  8 Nov 2022 09:55:21 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     vkoul@kernel.org, kishon@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org
+Cc:     linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v4 0/2] phy: renesas: Add Renesas Ethernet SERDES driver for R-Car S4-8
+Date:   Tue,  8 Nov 2022 09:54:58 +0900
+Message-Id: <20221108005500.3011449-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: d49546ff226ac7b625b180afe6df8247a16964a5  Merge tag 'v6.1-rc4' into renesas-devel
+This patch series is based on next-20221104.
+Add support for R-Car S4-8 Etherent SERDES as a Generic PHY.
 
-elapsed time: 722m
+Changes from v3:
+https://lore.kernel.org/all/20221027134006.2343164-1-yoshihiro.shimoda.uh@renesas.com/
+ - Rebased on next-20221104.
+ - Add Reviewed-by in the patch [1/2].
+ - Sorted config names alphabetically in the Kconfig of patch [2/2].
+ - Use dev_dbg() instead of pr_debug() in the patch [2/2].
 
-configs tested: 65
-configs skipped: 3
+Changes from v2:
+https://lore.kernel.org/all/20221019083449.933005-1-yoshihiro.shimoda.uh@renesas.com/
+ - Rebased on next-20221027.
+ - Fix examples on the dt-bindings doc.
+ - Remove unneeded variable in r8a779f0_eth_serdes_probe().
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Changes from v1:
+https://lore.kernel.org/all/20220922051645.3442321-1-yoshihiro.shimoda.uh@renesas.com/
+ - Rebased on next-20221017.
+ - Rename the dt-binding file.
+ - Fix the node name of examples.
+ - Fix Makefile.
+ - Modify the initialized procedure for all channels.
+ - Add commit description about the initialization.
 
-gcc tested configs:
-s390                                defconfig
-s390                             allmodconfig
-arc                                 defconfig
-alpha                               defconfig
-s390                             allyesconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-m68k                             allmodconfig
-m68k                             allyesconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-arc                  randconfig-r043-20221107
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-x86_64                           rhel-8.3-kvm
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-ia64                             allmodconfig
-i386                 randconfig-a002-20221107
-i386                 randconfig-a003-20221107
-i386                 randconfig-a004-20221107
-i386                 randconfig-a005-20221107
-i386                 randconfig-a001-20221107
-i386                 randconfig-a006-20221107
-i386                                defconfig
-x86_64               randconfig-a004-20221107
-x86_64               randconfig-a001-20221107
-x86_64               randconfig-a003-20221107
-x86_64               randconfig-a005-20221107
-x86_64               randconfig-a006-20221107
-x86_64               randconfig-a002-20221107
-i386                             allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
+Yoshihiro Shimoda (2):
+  dt-bindings: phy: renesas: Document Renesas Ethernet SERDES
+  phy: renesas: Add Renesas Ethernet SERDES driver for R-Car S4-8
 
-clang tested configs:
-hexagon              randconfig-r041-20221107
-s390                 randconfig-r044-20221107
-x86_64               randconfig-a014-20221107
-x86_64               randconfig-a011-20221107
-x86_64               randconfig-a013-20221107
-x86_64               randconfig-a012-20221107
-x86_64               randconfig-a015-20221107
-x86_64               randconfig-a016-20221107
-riscv                randconfig-r042-20221107
-hexagon              randconfig-r045-20221107
-i386                 randconfig-a013-20221107
-i386                 randconfig-a011-20221107
-i386                 randconfig-a012-20221107
-i386                 randconfig-a014-20221107
-i386                 randconfig-a016-20221107
-i386                 randconfig-a015-20221107
-hexagon              randconfig-r041-20221108
-hexagon              randconfig-r045-20221108
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
+ .../phy/renesas,r8a779f0-ether-serdes.yaml    |  54 +++
+ drivers/phy/renesas/Kconfig                   |   8 +
+ drivers/phy/renesas/Makefile                  |   1 +
+ drivers/phy/renesas/r8a779f0-ether-serdes.c   | 417 ++++++++++++++++++
+ 4 files changed, 480 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/phy/renesas,r8a779f0-ether-serdes.yaml
+ create mode 100644 drivers/phy/renesas/r8a779f0-ether-serdes.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
