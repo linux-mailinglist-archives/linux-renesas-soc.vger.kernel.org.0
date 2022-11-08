@@ -2,155 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25624620B8E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Nov 2022 09:53:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B9F4620BB7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Nov 2022 10:06:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233685AbiKHIxp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Nov 2022 03:53:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54552 "EHLO
+        id S233521AbiKHJGt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Nov 2022 04:06:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233087AbiKHIxo (ORCPT
+        with ESMTP id S233343AbiKHJGs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Nov 2022 03:53:44 -0500
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 623AC2E6B1;
-        Tue,  8 Nov 2022 00:53:43 -0800 (PST)
-Received: by mail-qt1-f170.google.com with SMTP id fz10so8320076qtb.3;
-        Tue, 08 Nov 2022 00:53:43 -0800 (PST)
+        Tue, 8 Nov 2022 04:06:48 -0500
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB0EE1D665;
+        Tue,  8 Nov 2022 01:06:47 -0800 (PST)
+Received: by mail-qt1-f171.google.com with SMTP id hh9so8288482qtb.13;
+        Tue, 08 Nov 2022 01:06:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sMUrTGbsuJBSNskypqc+l16xSCENjcN6xWIa6z6rntY=;
-        b=1KfjDWT0uq6bdoX96LCib9Lnc4qVlUNpdog0kTSOiPg9EOkfKwwlwc9yoXkLG1CTvx
-         Dax4mkNCvQAPqQjdAXOsVNH4BlIdKyr7cU2rwtDRMVTtv+BveVgx61QfX7blfjmGtP7I
-         pVkn8SK9BeCKXPSH3QNmzSkVUAmYP5EIKxcxdxVUdC+0wl6z3DtSsKFassUcrSrzpfk4
-         lGUlLpYWIfyI/Pl3do6Ex0w15MSkKWJm/nF5n7RYqAVQAauqNwNSm0qxlc4lM+FXQLaE
-         8RxWdhwtGhtqUbKi3DsmdRqtDK5zXquwlbIyxl38QMkwlSlmCHLdEL1GhHXyyXJisBiu
-         1OsA==
-X-Gm-Message-State: ACrzQf3TYtgSzd5t4A+lmGYz8qv/Qz6uS6s5gWF8vQ1OLITHYGRrUbJX
-        M6nM6qjrruWlcXTvMco8xKHDW6ufELINtPzC
-X-Google-Smtp-Source: AMsMyM6zdhrGeW2yrJuK1+2Y3Wi9nIWwdegxGARtcMMB3b2UdZwNOW2l5Wu42LH8b4/kTBRrubASOA==
-X-Received: by 2002:ac8:5ad1:0:b0:3a4:ffff:8c59 with SMTP id d17-20020ac85ad1000000b003a4ffff8c59mr41644037qtd.57.1667897622314;
-        Tue, 08 Nov 2022 00:53:42 -0800 (PST)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id w10-20020ac843ca000000b003a4f2510e5dsm7706488qtn.24.2022.11.08.00.53.41
+        bh=0T8HgYVJ1mNntgjMxG03tZyGh+ROdELpIil7Sk6K/tw=;
+        b=iwApCO5lfs638Lh3CHVK6rUJCkdtM2tXAHXcZ0BYye6wEQF5IxATPiEC5nN/8DO6Sk
+         v2QtJx76rCtlKTGYCKzVMrzV/3fh7dm1mWY9vASBJRS+/RSYvQU2nJy9CgcPkEj4Rw75
+         Gt69s4dt4l90FtiCTTxqRWGnTHhuHfqsFyqJLP+qkfITZ5g9DcS+jli9gcKqJl+8iT6c
+         9OZEra35Tfm8xBPNJ4BCwAtYWzxMCPcTdaivgU2xybr/Gv+Pis98lwHVwSDlDgtukc/l
+         vX32DNF+ev258O2YZSBaxlkfs3uYPZWx4yPMTeSyjU3JjrqJ3xjsZt20q0+z/A+KvjAk
+         AMbA==
+X-Gm-Message-State: ACrzQf2GI7opCp1ymSSuXLVmw6v+yByXxu82x23uE6T+xpQkxUQ6v/po
+        w36UJYDu3tXklPhMCKMQavDmQmtAx9sCzSvm
+X-Google-Smtp-Source: AMsMyM6DYyUgtwSYbOYXQtHoid4iWH8t/FD/0NmWBetrY0hMLADBQPp10+S0PO7/XD3VXv4w5I9r7g==
+X-Received: by 2002:a05:622a:1b13:b0:3a5:3ddd:bb72 with SMTP id bb19-20020a05622a1b1300b003a53dddbb72mr812093qtb.75.1667898406580;
+        Tue, 08 Nov 2022 01:06:46 -0800 (PST)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id p67-20020a378d46000000b006a6ebde4799sm8668976qkd.90.2022.11.08.01.06.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Nov 2022 00:53:41 -0800 (PST)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-36ad4cf9132so127693027b3.6;
-        Tue, 08 Nov 2022 00:53:41 -0800 (PST)
-X-Received: by 2002:a0d:e301:0:b0:374:a8ba:99b0 with SMTP id
- m1-20020a0de301000000b00374a8ba99b0mr6095905ywe.358.1667897620819; Tue, 08
- Nov 2022 00:53:40 -0800 (PST)
+        Tue, 08 Nov 2022 01:06:46 -0800 (PST)
+Received: by mail-yb1-f180.google.com with SMTP id 129so16593761ybb.12;
+        Tue, 08 Nov 2022 01:06:45 -0800 (PST)
+X-Received: by 2002:a25:4fc2:0:b0:6be:afb4:d392 with SMTP id
+ d185-20020a254fc2000000b006beafb4d392mr50004228ybb.604.1667898405719; Tue, 08
+ Nov 2022 01:06:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20221107141638.3790965-1-john.ogness@linutronix.de> <20221107141638.3790965-41-john.ogness@linutronix.de>
-In-Reply-To: <20221107141638.3790965-41-john.ogness@linutronix.de>
+References: <20221107165027.54150-1-fabrizio.castro.jz@renesas.com> <20221107165027.54150-3-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20221107165027.54150-3-fabrizio.castro.jz@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Nov 2022 09:53:29 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXZnTaxbezvH=NBz7tbBgiXjj6H5YGv88tVHtYLFxKuag@mail.gmail.com>
-Message-ID: <CAMuHMdXZnTaxbezvH=NBz7tbBgiXjj6H5YGv88tVHtYLFxKuag@mail.gmail.com>
-Subject: Re: [PATCH printk v3 40/40] tty: serial: sh-sci: use setup() callback
- for early console
-To:     John Ogness <john.ogness@linutronix.de>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-serial@vger.kernel.org,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Tue, 8 Nov 2022 10:06:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV=GFcR01_Rxd_u8VXaokbOvqj7kD8o+YOQFy2bG1Qamg@mail.gmail.com>
+Message-ID: <CAMuHMdV=GFcR01_Rxd_u8VXaokbOvqj7kD8o+YOQFy2bG1Qamg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: r9a09g011: Fix I2C SoC
+ specific strings
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi John,
+On Mon, Nov 7, 2022 at 5:50 PM Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> The preferred form for Renesas' compatible strings is:
+> "<vendor>,<family>-<module>"
+>
+> Somehow the compatible string for the r9a09g011 I2C IP was upstreamed
+> as renesas,i2c-r9a09g011 instead of renesas,r9a09g011-i2c, which
+> is really confusing, especially considering the generic fallback
+> is renesas,rzv2m-i2c.
+>
+> The first user of renesas,i2c-r9a09g011 in the kernel is not yet in
+> a kernel release, it will be in v6.1, therefore it can still be
+> fixed in v6.1.
+> Even if we don't fix it before v6.2, I don't think there is any
+> harm in making such a change.
+>
+> s/renesas,i2c-r9a09g011/renesas,r9a09g011-i2c/g for consistency.
+>
+> Fixes: 54ac6794df9d ("arm64: dts: renesas: r9a09g011: Add i2c nodes")
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> ---
+>
+> v2 - Improved changelog, as suggested by Geert and Krzysztof
 
-CC linux-sh (SH-specific code)
-CC linux-renesas-soc (JFYI)
-
-On Mon, Nov 7, 2022 at 3:20 PM John Ogness <john.ogness@linutronix.de> wrote:
-> When setting up the early console, the setup() callback of the
-> regular console is used. It is called manually before registering
-> the early console instead of providing a setup() callback for the
-> early console. This is probably because the early setup needs a
-> different @options during the early stage.
->
-> The issue here is that the setup() callback is called without the
-> console_list_lock held and functions such as uart_set_options()
-> expect that.
->
-> Rather than manually calling the setup() function before registering,
-> provide an early console setup() callback that will use the different
-> early options. This ensures that the error checking, ordering, and
-> locking context when setting up the early console are correct.
->
-> Note that technically the current implementation works because it is
-> only used in early boot. And since the early console setup is
-> performed before registering, it cannot race with anything and thus
-> does not need any locking. However, longterm maintenance is easier
-> when drivers rely on the subsystem API rather than manually
-> implementing steps that could cause breakage in the future.
->
-> Signed-off-by: John Ogness <john.ogness@linutronix.de>
-
-Thanks for your patch!
-
-> --- a/drivers/tty/serial/sh-sci.c
-> +++ b/drivers/tty/serial/sh-sci.c
-> @@ -3054,15 +3054,26 @@ static struct console serial_console = {
->  };
->
->  #ifdef CONFIG_SUPERH
-> +static char early_serial_buf[32];
-> +
-> +static int early_serial_console_setup(struct console *co, char *options)
-> +{
-> +       WARN_ON(options);
-> +       /*
-> +        * Use @early_serial_buf because @options will always be
-> +        * NULL at this early stage.
-> +        */
-> +       return serial_console_setup(co, early_serial_buf);
-> +}
-> +
->  static struct console early_serial_console = {
->         .name           = "early_ttySC",
->         .write          = serial_console_write,
-> +       .setup          = early_serial_console_setup,
->         .flags          = CON_PRINTBUFFER,
->         .index          = -1,
->  };
->
-> -static char early_serial_buf[32];
-> -
->  static int sci_probe_earlyprintk(struct platform_device *pdev)
->  {
->         const struct plat_sci_port *cfg = dev_get_platdata(&pdev->dev);
-> @@ -3074,8 +3085,6 @@ static int sci_probe_earlyprintk(struct platform_device *pdev)
->
->         sci_init_single(pdev, &sci_ports[pdev->id], pdev->id, cfg, true);
->
-> -       serial_console_setup(&early_serial_console, early_serial_buf);
-> -
->         if (!strstr(early_serial_buf, "keep"))
->                 early_serial_console.flags |= CON_BOOT;
->
-> --
-> 2.30.2
-
-LGTM, so
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.2.
 
 Gr{oetje,eeting}s,
 
