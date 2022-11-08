@@ -2,116 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 441E162125C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Nov 2022 14:27:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68EB1621370
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Nov 2022 14:50:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234376AbiKHN1V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Nov 2022 08:27:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60996 "EHLO
+        id S234629AbiKHNuV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Nov 2022 08:50:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234092AbiKHN1U (ORCPT
+        with ESMTP id S234637AbiKHNuT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Nov 2022 08:27:20 -0500
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23DC553EC4
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Nov 2022 05:27:19 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id bj12so38481971ejb.13
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 08 Nov 2022 05:27:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=N/2yj1vtV3WtEYwU3cNvgg/PVgtVCmwn3eJn8jo49wk=;
-        b=VMnat+U1KSonabFKRPuR13L5JqFFcM/AvvqPUwa+9VtqcDpyz6Op4uI9k8fhWWUfgj
-         OQMGyd7nBSVagfiyDveayuziCLNEcnxn2ErDoMUoLlpt3yo8/JHVhiTmfW1xUoXEQ8ch
-         5jJZRKNOXfrIQxouT0FZtywu8oBKzwLv6/7PIprEyWb5tHAmIqyiFvsPphy4dzO+D1O/
-         ByJEsT3p8EBbAPP+gKvFSCFRhufjqGSeVaHTdjl/xTUCo6crbpyBuirSVOUQflk15qBf
-         1q39gU7+oVdTRiJwpV9lCujVgxFVrOBGfRo6fbxcreewXR1hDWvKWjF1rSAwPNJVX2jh
-         IlsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N/2yj1vtV3WtEYwU3cNvgg/PVgtVCmwn3eJn8jo49wk=;
-        b=uFcu4gyDIAWUVv9CV95xkRQ4RMFkjYvfL/5W2G94Ez9vL7AloCEFhvfl8Z72rL1ZwO
-         LPlZ+C2H2uSPgTyKHjUXBnJ2WEHtaJ4bgbS6Tmv/Cm+Q7Q2ufEQpfSFFEz5NxNzXjVOe
-         /q44ZHM7GWPFihdqv5WRPKtRBEtqg9JViVx0J4Jyr5+BjcZGEcPcoSNlnYNTwCcA3uWP
-         R0u8zECLYY4Y5MRWv5+ZCuZHoKtceTZrPXRZ48JBSgpyH1OGUqHLBlunZVpU2Zq0cWmM
-         tvhx476TFaqf4sEltOsMK6/hmrrymVn9YYtB+7ZXfd4YhVsCmrgJQTQRxb+isaPCCVSj
-         6m/w==
-X-Gm-Message-State: ACrzQf2hr86SYWAK4DGLZv5RPmE7WvhxyrThgdXrkPSaOTTjOBDIgu1Q
-        0kFq5hPu16+pIdbVOtEvujwXctCjZ6Zu/4hzaA16MQ==
-X-Google-Smtp-Source: AMsMyM4SQlliAGfUpQoe5HVHzBogl+LIrkzKv8wyDOakcTA7xnKfY84HO6wUWBApVXLz+WmeEpt0AVEmstNop5fvJLQ=
-X-Received: by 2002:a17:906:4c4b:b0:7ad:a197:b58e with SMTP id
- d11-20020a1709064c4b00b007ada197b58emr54058070ejw.203.1667914037645; Tue, 08
- Nov 2022 05:27:17 -0800 (PST)
+        Tue, 8 Nov 2022 08:50:19 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A40BB843
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Nov 2022 05:50:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 65AA161567
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Nov 2022 13:50:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CF515C433C1
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Nov 2022 13:50:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667915416;
+        bh=7uLgHVUGWznPbcl3IXPDjTEVBIUtaPNRkCGu7WsqVjI=;
+        h=Subject:From:Date:To:From;
+        b=ItY51YKNzcVznJhhqcuTnAFlfe7kIu6mL8GpLR0BA4jdk1aP4TI93UKt3mQsgeW1y
+         5UCpPvQQs3FXykWgP1SvIpefgx4JmQY/9rUYtUEmqEKfnrPCLs3+CLi7RgQyxsd+w8
+         IKvOH/8WwrpROPcX/j8Q9+3zofhRxEuXf+LwGSIReNA11BJ6xY6nZbz9RbmNtRZnrM
+         HbHSE+R6zRiV6Lm7KId+IXypFeK8pFreYLkfs1wyCP77JeM//74tBSEUKEr203ZXXH
+         Mjxbqbwy7W5YWqP8luqHm5pzHz02QXrLiXCSp3iRP55uxNbe7aEgSx+th7pX1djSgt
+         /I7tpgXM4v1Yg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B818BC4166D
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Nov 2022 13:50:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech> <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech>
-In-Reply-To: <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 8 Nov 2022 14:27:06 +0100
-Message-ID: <CACRpkdaOM=T1pRJNK6hdc76m5tQfrjvF9nVBp7ZDf3wOMNSwyg@mail.gmail.com>
-Subject: Re: [PATCH v2 35/65] clk: ux500: sysctrl: Add a determine_rate hook
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Stephen Boyd <sboyd@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Abel Vesa <abelvesa@kernel.org>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Takashi Iwai <tiwai@suse.com>,
-        David Airlie <airlied@gmail.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        David Lechner <david@lechnology.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Mark Brown <broonie@kernel.org>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
-        linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <166791541670.11791.14185890872193156181.git-patchwork-summary@kernel.org>
+Date:   Tue, 08 Nov 2022 13:50:16 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -119,40 +52,59 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Nov 4, 2022 at 2:32 PM Maxime Ripard <maxime@cerno.tech> wrote:
+Hello:
 
-> The UX500 sysctrl "set_parent" clocks implement a mux with a set_parent
-> hook, but doesn't provide a determine_rate implementation.
->
-> This is a bit odd, since set_parent() is there to, as its name implies,
-> change the parent of a clock. However, the most likely candidate to
-> trigger that parent change is a call to clk_set_rate(), with
-> determine_rate() figuring out which parent is the best suited for a
-> given rate.
->
-> The other trigger would be a call to clk_set_parent(), but it's far less
-> used, and it doesn't look like there's any obvious user for that clock.
->
-> So, the set_parent hook is effectively unused, possibly because of an
-> oversight. However, it could also be an explicit decision by the
-> original author to avoid any reparenting but through an explicit call to
-> clk_set_parent().
->
-> The latter case would be equivalent to setting the flag
-> CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
-> to __clk_mux_determine_rate(). Indeed, if no determine_rate
-> implementation is provided, clk_round_rate() (through
-> clk_core_round_rate_nolock()) will call itself on the parent if
-> CLK_SET_RATE_PARENT is set, and will not change the clock rate
-> otherwise. __clk_mux_determine_rate() has the exact same behavior when
-> CLK_SET_RATE_NO_REPARENT is set.
->
-> And if it was an oversight, then we are at least explicit about our
-> behavior now and it can be further refined down the line.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Series: Update cache properties for arm64 DTS
+  Submitter: Pierre Gondois <Pierre.Gondois@arm.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=692829
+  Lore link: https://lore.kernel.org/r/20221107155825.1644604-1-pierre.gondois@arm.com
+    Patches: [v2,01/23] arm64: dts: Update cache properties for amazon
+             [v2,18/23] arm64: dts: Update cache properties for renesas
 
-Yours,
-Linus Walleij
+Series: r8a779f0: update SCIF parent clocks
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=691668
+  Lore link: https://lore.kernel.org/r/20221103143440.46449-1-wsa+renesas@sang-engineering.com
+    Patches: [1/4] clk: renesas: r8a779f0: Fix HSCIF parent clocks
+             [3/4] arm64: dts: renesas: r8a779f0: Fix HSCIF "brg_int" clock
+             [4/4] arm64: dts: renesas: r8a779f0: Fix SCIF "brg_int" clock
+
+Series: r8a779g0: add TMU support
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=692150
+  Lore link: https://lore.kernel.org/r/20221104151135.4706-1-wsa+renesas@sang-engineering.com
+    Patches: [1/3] clk: renesas: r8a779g0: Add CMT clocks
+             [2/3] arm64: dts: renesas: r8a779g0: Add CMT node
+
+Patch: arm64: dts: renesas: r9a07g044: Drop #address-cells from pinctrl node
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=692872
+  Lore link: https://lore.kernel.org/r/20221107172953.63218-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+Series: Minor fixes for RZ/V2M
+  Submitter: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=691860
+  Lore link: https://lore.kernel.org/r/20221103230648.53748-1-fabrizio.castro.jz@renesas.com
+    Patches: [1/3] arm64: dts: renesas: r9a09g011: Fix unit address format error
+             [3/3] arm64: dts: renesas: r9a09g011: Fix I2C SoC specific strings
+
+Series: Fix r9a09g011 specific I2C compatible string
+  Submitter: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=692856
+  Lore link: https://lore.kernel.org/r/20221107165027.54150-1-fabrizio.castro.jz@renesas.com
+    Patches: [v2,1/2] dt-bindings: i2c: renesas,rzv2m: Fix SoC specific string
+             [v2,2/2] arm64: dts: renesas: r9a09g011: Fix I2C SoC specific strings
+
+
+Total patches: 12
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
