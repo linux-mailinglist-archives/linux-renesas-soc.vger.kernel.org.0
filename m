@@ -2,49 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27A28622D3A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Nov 2022 15:12:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C01FF622E3D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Nov 2022 15:46:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230421AbiKIOMC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Nov 2022 09:12:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53866 "EHLO
+        id S231657AbiKIOqO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Nov 2022 09:46:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230399AbiKIOMB (ORCPT
+        with ESMTP id S230454AbiKIOqN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Nov 2022 09:12:01 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8486C1902A;
-        Wed,  9 Nov 2022 06:12:00 -0800 (PST)
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72203896;
-        Wed,  9 Nov 2022 15:11:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1668003118;
-        bh=AffXHvdxCHZjAgL7Z9CuecNf9qFUAfZCnvn/pjOY1HI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ffO7kK8Rx6z7y+oG64svjLUW+zCTHx5u6OuAQWUNDNScvBrY+gsleyDUUKvX5cVlU
-         MYt4pd0CSIBLUj/vKUJDjGj0sKb0upFIGDhRskNM1cu9kAqM/N32bDqJVdOAqDNy4V
-         /xJCHiPiC2LrEHsSevkMndX19TGYcsZlQlCZ2C0w=
-Date:   Wed, 9 Nov 2022 16:11:39 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        LUU HOAI <hoai.luu.ub@renesas.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm: rcar_du: DRM_RCAR_DU optionally depends on
- RCAR_MIPI_DSI
-Message-ID: <Y2u1G2OBMwlBjZ+8@pendragon.ideasonboard.com>
-References: <20221018181828.19528-1-rdunlap@infradead.org>
+        Wed, 9 Nov 2022 09:46:13 -0500
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F1C21ADB9
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Nov 2022 06:46:11 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:410d:c657:be54:f60b])
+        by baptiste.telenet-ops.be with bizsmtp
+        id iEm92800Q47WmLZ01Em9yo; Wed, 09 Nov 2022 15:46:09 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1osmLB-0006nc-15; Wed, 09 Nov 2022 15:46:09 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1osmLA-005N5d-H8; Wed, 09 Nov 2022 15:46:08 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: leds: Document Bluetooth and WLAN triggers
+Date:   Wed,  9 Nov 2022 15:46:06 +0100
+Message-Id: <a85c256af01f64389a078c2b37c3b72a27d97536.1668005062.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221018181828.19528-1-rdunlap@infradead.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,59 +49,46 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Randy,
+Add the missing trigger patterns for Bluetooth and WLAN activity, which
+are already in active use.
 
-Thank you for the patch.
+While at it, move the mmc pattern comment where it belongs, and restore
+alphabetical sort order.
 
-On Tue, Oct 18, 2022 at 11:18:28AM -0700, Randy Dunlap wrote:
-> When CONFIG_DRM_RCAR_DU=y and CONFIG_DRM_RCAR_MIPI_DSI=m, calls
-> from the builtin driver to the mipi driver fail due to linker
-> errors.
-> Since the RCAR_MIPI_DSI driver is not always required, fix the
-> build error by making DRM_RCAR_DU optionally depend on the
-> RCAR_MIPI_DSI Kconfig symbol. This prevents the problematic
-> kconfig combination without requiring that RCAR_MIPI_DSI always
-> be enabled.
-> 
-> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
-> rcar_du_crtc.c:(.text+0x3a18): undefined reference to `rcar_mipi_dsi_pclk_enable'
-> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
-> rcar_du_crtc.c:(.text+0x47cc): undefined reference to `rcar_mipi_dsi_pclk_disable'
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: bt_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+	'hci0-power' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+	'hci0-power' does not match '^mmc[0-9]+$'
+	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: wlan_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+	'phy0tx' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+	'phy0tx' does not match '^mmc[0-9]+$'
+	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+---
+ Documentation/devicetree/bindings/leds/common.yaml | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-I've already posted a fix, see
-
-https://lore.kernel.org/dri-devel/20221001220342.5828-1-laurent.pinchart+renesas@ideasonboard.com/
-
-It aligns with how the LVDS encoder driver is handled, so I would prefer
-that. I will send a pull request shortly, as a v6.1 fix.
-
-> Fixes: 957fe62d7d15 ("drm: rcar-du: Fix DSI enable & disable sequence")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: LUU HOAI <hoai.luu.ub@renesas.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> ---
->  drivers/gpu/drm/rcar-du/Kconfig |    1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff -- a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-> --- a/drivers/gpu/drm/rcar-du/Kconfig
-> +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> @@ -4,6 +4,7 @@ config DRM_RCAR_DU
->  	depends on DRM && OF
->  	depends on ARM || ARM64
->  	depends on ARCH_RENESAS || COMPILE_TEST
-> +	depends on DRM_RCAR_MIPI_DSI || DRM_RCAR_MIPI_DSI=n
->  	select DRM_KMS_HELPER
->  	select DRM_GEM_DMA_HELPER
->  	select VIDEOMODE_HELPERS
-
+diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+index f5c57a580078ea23..d34bb58c00371402 100644
+--- a/Documentation/devicetree/bindings/leds/common.yaml
++++ b/Documentation/devicetree/bindings/leds/common.yaml
+@@ -98,9 +98,13 @@ properties:
+             # LED alters the brightness for the specified duration with one software
+             # timer (requires "led-pattern" property)
+           - pattern
+-        # LED is triggered by SD/MMC activity
+-      - pattern: "^mmc[0-9]+$"
+       - pattern: "^cpu[0-9]*$"
++      - pattern: "^hci[0-9]+-power$"
++        # LED is triggered by Bluetooth activity
++      - pattern: "^mmc[0-9]+$"
++        # LED is triggered by SD/MMC activity
++      - pattern: "^phy[0-9]+tx$"
++        # LED is triggered by WLAN activity
+ 
+   led-pattern:
+     description: |
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
