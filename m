@@ -2,45 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 462E0622C6F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Nov 2022 14:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27A28622D3A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Nov 2022 15:12:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229981AbiKINdN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Nov 2022 08:33:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56602 "EHLO
+        id S230421AbiKIOMC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Nov 2022 09:12:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbiKINdM (ORCPT
+        with ESMTP id S230399AbiKIOMB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Nov 2022 08:33:12 -0500
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40BBD2C106
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Nov 2022 05:33:11 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:410d:c657:be54:f60b])
-        by michel.telenet-ops.be with bizsmtp
-        id iDZ92800547WmLZ06DZ9Z7; Wed, 09 Nov 2022 14:33:09 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1oslCW-0006f1-Om; Wed, 09 Nov 2022 14:33:08 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1oslCW-001cE1-9p; Wed, 09 Nov 2022 14:33:08 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] pinctrl: renesas: gpio: Use dynamic GPIO base if no function GPIOs
-Date:   Wed,  9 Nov 2022 14:33:04 +0100
-Message-Id: <df2cf30ac4c3cbee726799f32b727c1ebe62819c.1668000684.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Wed, 9 Nov 2022 09:12:01 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8486C1902A;
+        Wed,  9 Nov 2022 06:12:00 -0800 (PST)
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72203896;
+        Wed,  9 Nov 2022 15:11:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1668003118;
+        bh=AffXHvdxCHZjAgL7Z9CuecNf9qFUAfZCnvn/pjOY1HI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ffO7kK8Rx6z7y+oG64svjLUW+zCTHx5u6OuAQWUNDNScvBrY+gsleyDUUKvX5cVlU
+         MYt4pd0CSIBLUj/vKUJDjGj0sKb0upFIGDhRskNM1cu9kAqM/N32bDqJVdOAqDNy4V
+         /xJCHiPiC2LrEHsSevkMndX19TGYcsZlQlCZ2C0w=
+Date:   Wed, 9 Nov 2022 16:11:39 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        LUU HOAI <hoai.luu.ub@renesas.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm: rcar_du: DRM_RCAR_DU optionally depends on
+ RCAR_MIPI_DSI
+Message-ID: <Y2u1G2OBMwlBjZ+8@pendragon.ideasonboard.com>
+References: <20221018181828.19528-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221018181828.19528-1-rdunlap@infradead.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,82 +52,59 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since commit 502df79b860563d7 ("gpiolib: Warn on drivers still using
-static gpiobase allocation") in gpio/for-next, one or more warnings are
-printed during boot on systems where the pin controller also provides
-GPIO functionality:
+Hi Randy,
 
-    gpio gpiochip0: Static allocation of GPIO base is deprecated, use dynamic allocation.
+Thank you for the patch.
 
-Fix this for ARM-based SH/R-Mobile SoCs by:
-  1. Taking into account a non-zero GPIO base in the various GPIO chip
-     callbacks,
-  2. Switching to dynamic allocation of the GPIO base when support for
-     legacy function GPIOs is not enabled.
+On Tue, Oct 18, 2022 at 11:18:28AM -0700, Randy Dunlap wrote:
+> When CONFIG_DRM_RCAR_DU=y and CONFIG_DRM_RCAR_MIPI_DSI=m, calls
+> from the builtin driver to the mipi driver fail due to linker
+> errors.
+> Since the RCAR_MIPI_DSI driver is not always required, fix the
+> build error by making DRM_RCAR_DU optionally depend on the
+> RCAR_MIPI_DSI Kconfig symbol. This prevents the problematic
+> kconfig combination without requiring that RCAR_MIPI_DSI always
+> be enabled.
+> 
+> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
+> rcar_du_crtc.c:(.text+0x3a18): undefined reference to `rcar_mipi_dsi_pclk_enable'
+> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
+> rcar_du_crtc.c:(.text+0x47cc): undefined reference to `rcar_mipi_dsi_pclk_disable'
 
-On SuperH SoCs using legacy function GPIOs, the GPIO bases of the GPIO
-controller and the GPIO function controller must not be changed, as all
-board files rely on the fixed GPIO_* and GPIO_FN_* definitions provided
-by the various <cpu/sh*.h> header files.
+I've already posted a fix, see
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Tested on all affected ARM SH/R-Mobile SoCs.
+https://lore.kernel.org/dri-devel/20221001220342.5828-1-laurent.pinchart+renesas@ideasonboard.com/
 
-Obviously SuperH should be converted from function GPIOs to pin control.
-Is it actually possible to use pin control without DT?
-Unfortunately I do not have access to any of the affected systems
-(SH7203, SH726[49], SH772[0234], SH7734, SH7757, SH778[56] and SHX3).
----
- drivers/pinctrl/renesas/gpio.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+It aligns with how the LVDS encoder driver is handled, so I would prefer
+that. I will send a pull request shortly, as a v6.1 fix.
 
-diff --git a/drivers/pinctrl/renesas/gpio.c b/drivers/pinctrl/renesas/gpio.c
-index ea3d38b4af8da4e1..5758daf94fe2e867 100644
---- a/drivers/pinctrl/renesas/gpio.c
-+++ b/drivers/pinctrl/renesas/gpio.c
-@@ -135,12 +135,12 @@ static int gpio_pin_request(struct gpio_chip *gc, unsigned offset)
- 	if (idx < 0 || pfc->info->pins[idx].enum_id == 0)
- 		return -EINVAL;
- 
--	return pinctrl_gpio_request(offset);
-+	return pinctrl_gpio_request(gc->base + offset);
- }
- 
- static void gpio_pin_free(struct gpio_chip *gc, unsigned offset)
- {
--	return pinctrl_gpio_free(offset);
-+	return pinctrl_gpio_free(gc->base + offset);
- }
- 
- static void gpio_pin_set_value(struct sh_pfc_chip *chip, unsigned offset,
-@@ -164,7 +164,7 @@ static void gpio_pin_set_value(struct sh_pfc_chip *chip, unsigned offset,
- 
- static int gpio_pin_direction_input(struct gpio_chip *gc, unsigned offset)
- {
--	return pinctrl_gpio_direction_input(offset);
-+	return pinctrl_gpio_direction_input(gc->base + offset);
- }
- 
- static int gpio_pin_direction_output(struct gpio_chip *gc, unsigned offset,
-@@ -172,7 +172,7 @@ static int gpio_pin_direction_output(struct gpio_chip *gc, unsigned offset,
- {
- 	gpio_pin_set_value(gpiochip_get_data(gc), offset, value);
- 
--	return pinctrl_gpio_direction_output(offset);
-+	return pinctrl_gpio_direction_output(gc->base + offset);
- }
- 
- static int gpio_pin_get(struct gpio_chip *gc, unsigned offset)
-@@ -238,7 +238,7 @@ static int gpio_pin_setup(struct sh_pfc_chip *chip)
- 	gc->label = pfc->info->name;
- 	gc->parent = pfc->dev;
- 	gc->owner = THIS_MODULE;
--	gc->base = 0;
-+	gc->base = IS_ENABLED(CONFIG_PINCTRL_SH_FUNC_GPIO) ? 0 : -1;
- 	gc->ngpio = pfc->nr_gpio_pins;
- 
- 	return 0;
+> Fixes: 957fe62d7d15 ("drm: rcar-du: Fix DSI enable & disable sequence")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: LUU HOAI <hoai.luu.ub@renesas.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> ---
+>  drivers/gpu/drm/rcar-du/Kconfig |    1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff -- a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -4,6 +4,7 @@ config DRM_RCAR_DU
+>  	depends on DRM && OF
+>  	depends on ARM || ARM64
+>  	depends on ARCH_RENESAS || COMPILE_TEST
+> +	depends on DRM_RCAR_MIPI_DSI || DRM_RCAR_MIPI_DSI=n
+>  	select DRM_KMS_HELPER
+>  	select DRM_GEM_DMA_HELPER
+>  	select VIDEOMODE_HELPERS
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
