@@ -2,60 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B627462219C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Nov 2022 03:06:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A57662219D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Nov 2022 03:06:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229470AbiKICGP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Nov 2022 21:06:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46146 "EHLO
+        id S229591AbiKICGQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Nov 2022 21:06:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbiKICGO (ORCPT
+        with ESMTP id S229610AbiKICGP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Nov 2022 21:06:14 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80F6067F41
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Nov 2022 18:06:13 -0800 (PST)
+        Tue, 8 Nov 2022 21:06:15 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F9F467F40
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Nov 2022 18:06:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667959573; x=1699495573;
+  t=1667959574; x=1699495574;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=AAWgWYysaQpdJ7DH7A4TO9n54vyTmGnIieYAG2zAwZU=;
-  b=P4kO/H5zwCuwBBytUpfMO6/9rk1d38bzQKeRxnjKwGchzgp4wW5gNREs
-   BZaT/fvBOlEKRzyd2bxfgQqY5+LL54MTXjlcf4+RtMJBOLbtJVQNwe71Q
-   negOHeDAbQMk4t+UlpzjEQElZVdfY4rdE7aIXsLrRKv/vow7G+OZrFDFN
-   T9PET36pC5c3/xpjKQ1q+AsMj7VNZ4WNXsNz8X4/MJrwTKwIWt5YZlds5
-   wHqjDAUGw9b/fmSmmC9IPE9qgEEyS1dV7mazR2efEHEnAMye1BAqW6MaP
-   l1pwYVPSDlQsFUPcbo4Ft7940iRwGn0+QANQJlC+6w22sGTfaSLvB4QKG
+  bh=bh+HoMjVLJ5vewY0akJcSlsBWMYLfbcWAzeJHLbWz4s=;
+  b=KsuYk0kYCQ5OADza1X4E4+a+3PKFh1cmGoNAnaHiyVVEiUd0PoJ8pDjK
+   cSmpEFZGa7ruV6o27C8Ev0afDF1mnP7AvOOSYTDSXdMb1Nl0fsp6HeXMk
+   jPWvsa0B43/MWqXDKG8OGIRXNBFwHdf9fAt1fptCQjtXFReU2wKoMeQtF
+   /SYpxxhappl7XSqigNL+LrK3GiuYH+Zfq4abdV6h2RODrISWkWX8YlBWU
+   EvZPBBQ/dWGisyD6Y330ZRQyHy7MaUt3S563k68EYMp0MJf/BlRUhmzPi
+   86Y0PfmHfSQdYIbFZY1fxoOVizCoeBCLaFvgQYFaGHwGC5qMeTu3SaTN/
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="310860352"
+X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="375138051"
 X-IronPort-AV: E=Sophos;i="5.96,149,1665471600"; 
-   d="scan'208";a="310860352"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 18:06:12 -0800
+   d="scan'208";a="375138051"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 18:06:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="587595762"
+X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="669774221"
 X-IronPort-AV: E=Sophos;i="5.96,149,1665471600"; 
-   d="scan'208";a="587595762"
+   d="scan'208";a="669774221"
 Received: from lkp-server01.sh.intel.com (HELO e783503266e8) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 08 Nov 2022 18:06:11 -0800
+  by orsmga001.jf.intel.com with ESMTP; 08 Nov 2022 18:06:11 -0800
 Received: from kbuild by e783503266e8 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1osaTi-0000uS-2B;
+        id 1osaTi-0000ua-2O;
         Wed, 09 Nov 2022 02:06:10 +0000
-Date:   Wed, 09 Nov 2022 10:05:47 +0800
+Date:   Wed, 09 Nov 2022 10:05:52 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-clk-for-v6.2] BUILD SUCCESS
- 523ed9442b997c39220ee364b07a8773623e3a58
-Message-ID: <636b0afb.0Adt+t0S/56nBHNr%lkp@intel.com>
+Subject: [geert-renesas-devel:renesas-arm-dt-for-v6.2] BUILD SUCCESS
+ eafbed2a4556f90792338630ab6ddf7b2e492e8d
+Message-ID: <636b0b00.ojoo38AFnRSOceIK%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,13 +63,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.2
-branch HEAD: 523ed9442b997c39220ee364b07a8773623e3a58  clk: renesas: r8a779g0: Add CMT clocks
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v6.2
+branch HEAD: eafbed2a4556f90792338630ab6ddf7b2e492e8d  arm64: dts: renesas: rzg2l: Drop #address-cells from pinctrl nodes
 
-elapsed time: 727m
+elapsed time: 726m
 
 configs tested: 121
-configs skipped: 5
+configs skipped: 73
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -92,14 +92,14 @@ x86_64                    rhel-8.3-kselftests
 i386                          randconfig-a012
 i386                          randconfig-a014
 i386                          randconfig-a016
+sh                          rsk7203_defconfig
+powerpc                     asp8347_defconfig
+nios2                            alldefconfig
 s390                                defconfig
 s390                             allmodconfig
 arc                                 defconfig
 alpha                               defconfig
 s390                             allyesconfig
-sh                          rsk7203_defconfig
-powerpc                     asp8347_defconfig
-nios2                            alldefconfig
 powerpc                    sam440ep_defconfig
 arm                             ezx_defconfig
 sh                        edosk7705_defconfig
