@@ -2,49 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D8AA6246BB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Nov 2022 17:20:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DB666246C5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Nov 2022 17:21:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230501AbiKJQUV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Nov 2022 11:20:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49914 "EHLO
+        id S230206AbiKJQVf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Nov 2022 11:21:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230496AbiKJQUU (ORCPT
+        with ESMTP id S231147AbiKJQVd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Nov 2022 11:20:20 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53D901A388
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Nov 2022 08:20:19 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0B9DBB8224A
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Nov 2022 16:20:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A4A2EC433B5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Nov 2022 16:20:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668097216;
-        bh=BlOVYzIL3lT3I3XO/uoDcQd+xCLlsy9oTqT8UpojF08=;
-        h=Subject:From:Date:To:From;
-        b=I0817Fj2mFlztow4dq0EzJAgM+Tep+2J3F2/QjXVgXlRIc5RyYLVpTBdW0OLmCcpu
-         7L1kYxIfotQdTCWj8rJZLch45PDhNRohC2OuAWqwrlLYQ11nIEEhgZ6YRLU1g7FzwH
-         IJBvNMDzCh28g9ebQ4jB6CqDimAd7rtxSPnnPyu3ldDLuKJW02UkjylaEEMBNYKmGh
-         hHCfEI2Vy9v07YOT677VOx4BSme3YauOb+FIrwjXV7zbPtFyRuWaUWe/cQdXzXoe9m
-         yLR1/d7vBuDGXprdR9nnkdBYwUV5Q2f6JzAdPQr+KRQdANWAauFsrQzGp0vJPA9qSt
-         xQuLqq9EHuEtw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 83AD2C395FD
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Nov 2022 16:20:16 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 10 Nov 2022 11:21:33 -0500
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2895715825;
+        Thu, 10 Nov 2022 08:21:32 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.96,154,1665414000"; 
+   d="scan'208";a="142191630"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 11 Nov 2022 01:21:31 +0900
+Received: from localhost.localdomain (unknown [10.226.92.14])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id CF7D8400C447;
+        Fri, 11 Nov 2022 01:21:28 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: [PATCH v2 0/3] Add SoC identification support for RZ/V2M
+Date:   Thu, 10 Nov 2022 16:21:23 +0000
+Message-Id: <20221110162126.103437-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <166809721644.7776.15032284685607807028.git-patchwork-summary@kernel.org>
-Date:   Thu, 10 Nov 2022 16:20:16 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,43 +45,42 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+This patch series aims to add SoC identification support for RZ/V2M.
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+v1->v2:
+ * Moved the binding file from arm->soc/renesas
+ * Updated the binding example
+ * Removed config from patch#2 as it is already present
+ * Removed extra space before 'else if' statement
 
-Series: Add support for Renesas RZ/Five SoC
-  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=689949
-  Lore link: https://lore.kernel.org/r/20221028165921.94487-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-    Patches: [v5,1/7] dt-bindings: riscv: Sort the CPU core list alphabetically
-             [v5,2/7] dt-bindings: riscv: Add Andes AX45MP core to the list
-             [v5,3/7] riscv: Kconfig.socs: Add ARCH_RENESAS kconfig option
-             [v5,4/7] riscv: dts: renesas: Add initial devicetree for Renesas RZ/Five SoC
-             [v5,5/7] riscv: dts: renesas: Add minimal DTS for Renesas RZ/Five SMARC EVK
-             [v5,7/7] riscv: configs: defconfig: Enable Renesas RZ/Five SoC
+Ref:
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220321154232.56315-3-phil.edworthy@renesas.com/
+[2] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220321154232.56315-8-phil.edworthy@renesas.com/
 
-Series: [1/2] arm64: dts: renesas: r8a779f0: Add HSCIF 0+1 nodes
-  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=649908
-  Lore link: https://lore.kernel.org/r/20220613131033.10053-1-wsa+renesas@sang-engineering.com
-    Patches: [1/2] arm64: dts: renesas: r8a779f0: Add HSCIF 0+1 nodes
-             [2/2] arm64: dts: renesas: spider-cpu: Switch from SCIF3 to HSCIF0
+logs:
+root@rzv2m:~# dmesg | grep "Renesas RZ/V2M"
+[ 0.119196] Detected Renesas RZ/V2M r9a09g011 1.1
 
-Series: Add support for Renesas RZ/Five SoC
-  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=667677
-  Lore link: https://lore.kernel.org/r/20220815151451.23293-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-    Patches: [v2,1/8] dt-bindings: riscv: Sort the CPU core list alphabetically
-             [v2,2/8] dt-bindings: riscv: Add Andes AX45MP core to the list
+root@rzv2m:~# for i in machine family soc_id revision; do echo -n "$i: ";cat /sys/devices/soc0/$i; done
+machine: RZ/V2M Evaluation Kit 2.0
+family: RZ/V2M
+soc_id: r9a09g011
+revision: 1.1
 
+Biju Das (1):
+  arm64: dts: renesas: r9a09g011: Add system configuration node
 
-Total patches: 10
+Phil Edworthy (2):
+  dt-bindings: arm: renesas: Document Renesas RZ/V2M System
+    Configuration
+  soc: renesas: Identify RZ/V2M SoC
+
+ .../soc/renesas/renesas,rzv2m-sys.yaml        | 39 +++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r9a09g011.dtsi    |  6 +++
+ drivers/soc/renesas/renesas-soc.c             | 22 +++++++++++
+ 3 files changed, 67 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/renesas/renesas,rzv2m-sys.yaml
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.25.1
 
