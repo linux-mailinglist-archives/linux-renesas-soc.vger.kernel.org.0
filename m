@@ -2,83 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C967262430B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Nov 2022 14:16:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A75262445A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Nov 2022 15:33:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229547AbiKJNQk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Nov 2022 08:16:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41088 "EHLO
+        id S229566AbiKJOdV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Nov 2022 09:33:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230211AbiKJNQk (ORCPT
+        with ESMTP id S229453AbiKJOdU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Nov 2022 08:16:40 -0500
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5F5524B9BC
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Nov 2022 05:16:39 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.96,153,1665414000"; 
-   d="scan'208";a="139607093"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 10 Nov 2022 22:16:37 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 16D824310C0A;
-        Thu, 10 Nov 2022 22:16:37 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     geert+renesas@glider.be, magnus.damm@gmail.com
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v5 3/3] arm64: configs: Enable Renesas R-Car S4-8 Spider Ethernet devices
-Date:   Thu, 10 Nov 2022 22:16:30 +0900
-Message-Id: <20221110131630.3814538-4-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221110131630.3814538-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20221110131630.3814538-1-yoshihiro.shimoda.uh@renesas.com>
+        Thu, 10 Nov 2022 09:33:20 -0500
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 530CD54B18
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Nov 2022 06:33:19 -0800 (PST)
+Received: by mail-qk1-f177.google.com with SMTP id k4so1149338qkj.8
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Nov 2022 06:33:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/ZD1XIiSOnzqwLvedal49IcBOHAtFvP8svKlIj70YGc=;
+        b=l10eShXibJpwaWS1Qv9ho1ORNSE3zooHoPiSzsAiIjxfvDPWHBBfjzEyLehO+jR88B
+         EULpbOGnRSFqufvzv2djIangTuglOPnM0vOKsOPGV2de6e6HNAbQN3AVegjZ6DcywthG
+         vimdh7BAUYS3TZ/VnW9pWHssqboJdfmRMZKYcz5iOzCe6jRbRFI7A2tGJJwb0gqKuWij
+         QwjB9udcgM/2oemtA3eG2UN55NzNONIbt0tWuo1HKvlVntnJM/cJxiSXG5dSLuA9HY48
+         dMAUwPive/00X8hVf9GmLSqT44E4Nd4iZEmf8Hdt16sOqqH37A/G8zrWIuoWkg8YYJO9
+         LKAQ==
+X-Gm-Message-State: ACrzQf1nWJ40MKGfIJdgcZHxb1tu0/uRkBt30H2fduc9f457HnVI65Cs
+        aEdn6PpIweS8vd6gs2bF6mJi0afRIdGZWw==
+X-Google-Smtp-Source: AMsMyM44HA/QrQ2dI/RA/stTz1+q2nOWM2G6dl5lM+TV19IIMmo4f3fUN+dl9b8KGGVidNdvfEX7eA==
+X-Received: by 2002:a37:9a95:0:b0:6fa:da8:ac7b with SMTP id c143-20020a379a95000000b006fa0da8ac7bmr46637834qke.448.1668090798114;
+        Thu, 10 Nov 2022 06:33:18 -0800 (PST)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id az8-20020a05620a170800b006bb87c4833asm12848786qkb.109.2022.11.10.06.33.17
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Nov 2022 06:33:17 -0800 (PST)
+Received: by mail-yb1-f178.google.com with SMTP id 63so2511978ybq.4
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Nov 2022 06:33:17 -0800 (PST)
+X-Received: by 2002:a25:6b07:0:b0:6cd:3a43:bfe5 with SMTP id
+ g7-20020a256b07000000b006cd3a43bfe5mr51727324ybc.89.1668090797360; Thu, 10
+ Nov 2022 06:33:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221110131630.3814538-1-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20221110131630.3814538-1-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 10 Nov 2022 15:33:05 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWA-bO9wu4Opp2t=KGdBBgutwd45Q1UAErV7kefkQuSGw@mail.gmail.com>
+Message-ID: <CAMuHMdWA-bO9wu4Opp2t=KGdBBgutwd45Q1UAErV7kefkQuSGw@mail.gmail.com>
+Subject: Re: [PATCH v5 0/3] arm64: dts: renesas: r8a779f0: Add/Enable Ethernet
+ Switch and SERDES nodes
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable Renesas "Ethernet Switch", Ethernet SERDES and Marvell 10G PHY
-drivers to be used by NFS root on the Renesas Spider board.
+Hi Shimoda-san,
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- arch/arm64/configs/defconfig | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On Thu, Nov 10, 2022 at 2:16 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Add/enable Ethernet Switch and SERDES for R-Car S4-8 (r8a779f0).
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 0b6af3348e79..311e0b134b27 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -357,6 +357,7 @@ CONFIG_RMNET=m
- CONFIG_R8169=m
- CONFIG_SH_ETH=y
- CONFIG_RAVB=y
-+CONFIG_RENESAS_ETHER_SWITCH=y
- CONFIG_SMC91X=y
- CONFIG_SMSC911X=y
- CONFIG_SNI_AVE=y
-@@ -369,7 +370,7 @@ CONFIG_MESON_GXL_PHY=m
- CONFIG_AQUANTIA_PHY=y
- CONFIG_BCM54140_PHY=m
- CONFIG_MARVELL_PHY=m
--CONFIG_MARVELL_10G_PHY=m
-+CONFIG_MARVELL_10G_PHY=y
- CONFIG_MICREL_PHY=y
- CONFIG_MICROSEMI_PHY=y
- CONFIG_AT803X_PHY=y
-@@ -1239,6 +1240,7 @@ CONFIG_PHY_QCOM_USB_HS=m
- CONFIG_PHY_QCOM_USB_SNPS_FEMTO_V2=m
- CONFIG_PHY_QCOM_USB_HS_28NM=m
- CONFIG_PHY_QCOM_USB_SS=m
-+CONFIG_PHY_R8A779F0_ETHERNET_SERDES=y
- CONFIG_PHY_RCAR_GEN3_PCIE=y
- CONFIG_PHY_RCAR_GEN3_USB2=y
- CONFIG_PHY_RCAR_GEN3_USB3=m
--- 
-2.25.1
+Thanks for the update!
 
+> Notes that we need to modify Marvell 10G PHY driver for Spider board. I have
+> local patches to use the Marvell 10G driver on the Spider board. But, it needs
+> to update for upstraming.
+>
+> JFYI, if we don't modify the Marvell 10G PHY driver, the ethernet device cannot
+> work correctly with the following error messages:
+>
+> [    2.137800] phy phy-e6444000.phy.0: phy init failed --> -110
+> [    2.148809] renesas_eth_sw: probe of e6880000.ethernet failed with error -110
+
+Yes, I had noticed that failure ;-)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
