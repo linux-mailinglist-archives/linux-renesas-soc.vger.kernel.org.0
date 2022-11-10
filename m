@@ -2,39 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0E586246C6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Nov 2022 17:21:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5283B6246C8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Nov 2022 17:21:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231221AbiKJQVi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Nov 2022 11:21:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50786 "EHLO
+        id S231228AbiKJQVm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Nov 2022 11:21:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230266AbiKJQVg (ORCPT
+        with ESMTP id S230173AbiKJQVl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Nov 2022 11:21:36 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 68BCC13F64;
-        Thu, 10 Nov 2022 08:21:35 -0800 (PST)
+        Thu, 10 Nov 2022 11:21:41 -0500
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6E88415825;
+        Thu, 10 Nov 2022 08:21:40 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.96,154,1665414000"; 
-   d="scan'208";a="142191635"
+   d="scan'208";a="139618419"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 11 Nov 2022 01:21:35 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 11 Nov 2022 01:21:40 +0900
 Received: from localhost.localdomain (unknown [10.226.92.14])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2BC4A400C447;
-        Fri, 11 Nov 2022 01:21:31 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 78A4340062DC;
+        Fri, 11 Nov 2022 01:21:37 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <chris.paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: [PATCH v2 1/3] dt-bindings: arm: renesas: Document Renesas RZ/V2M System Configuration
-Date:   Thu, 10 Nov 2022 16:21:24 +0000
-Message-Id: <20221110162126.103437-2-biju.das.jz@bp.renesas.com>
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: [PATCH v2 3/3] arm64: dts: renesas: r9a09g011: Add system configuration node
+Date:   Thu, 10 Nov 2022 16:21:26 +0000
+Message-Id: <20221110162126.103437-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221110162126.103437-1-biju.das.jz@bp.renesas.com>
 References: <20221110162126.103437-1-biju.das.jz@bp.renesas.com>
@@ -48,72 +47,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Phil Edworthy <phil.edworthy@renesas.com>
+Add system configuration node to RZ/V2M SoC dtsi.
 
-Add DT binding documentation for System Configuration (SYS) found on
-RZ/V2M SoC's.
-
-SYS block contains the SYS_VERSION register which can be used to retrieve
-SoC version information.
-
-Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-[biju: Updated the example ]
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v1->v2:
- * Moved the file from arm->soc/renesas
- * Updated the path for binding file
- * Updated the example
+v2:
+ * New patch
 ---
- .../soc/renesas/renesas,rzv2m-sys.yaml        | 39 +++++++++++++++++++
- 1 file changed, 39 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/soc/renesas/renesas,rzv2m-sys.yaml
+ arch/arm64/boot/dts/renesas/r9a09g011.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,rzv2m-sys.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,rzv2m-sys.yaml
-new file mode 100644
-index 000000000000..cc41747798e2
---- /dev/null
-+++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzv2m-sys.yaml
-@@ -0,0 +1,39 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/soc/renesas/renesas,rzv2m-sys.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
+index 7b949e40745a..07164d9e4a0f 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
+@@ -130,6 +130,12 @@ cpg: clock-controller@a3500000 {
+ 			#power-domain-cells = <0>;
+ 		};
+ 
++		sysc: system-configuration@a3f03000 {
++			compatible = "renesas,r9a09g011-sys";
++			reg = <0 0xa3f03000 0 0x400>;
++			status = "disabled";
++		};
 +
-+title: Renesas RZ/V2M System Configuration (SYS)
-+
-+maintainers:
-+  - Geert Uytterhoeven <geert+renesas@glider.be>
-+
-+description:
-+  The RZ/V2M System Configuration (SYS) performs system control of the LSI
-+  and supports the following functions,
-+  - LSI version
-+  - 34-bit address space access function
-+  - PCIe related settings
-+  - WDT stop control
-+  - Temperature sensor (TSU) monitor
-+
-+properties:
-+  compatible:
-+    const: renesas,r9a09g011-sys
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sysc: system-configuration@a3f03000 {
-+            compatible = "renesas,r9a09g011-sys";
-+            reg = <0xa3f03000 0x400>;
-+    };
+ 		i2c0: i2c@a4030000 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
 -- 
 2.25.1
 
