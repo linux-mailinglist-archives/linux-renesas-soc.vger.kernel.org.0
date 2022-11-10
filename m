@@ -2,158 +2,195 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 737BF62419C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Nov 2022 12:40:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 255B16241BA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Nov 2022 12:47:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230425AbiKJLkG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Nov 2022 06:40:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45584 "EHLO
+        id S230489AbiKJLrG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Nov 2022 06:47:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230372AbiKJLkD (ORCPT
+        with ESMTP id S230459AbiKJLq5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Nov 2022 06:40:03 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DF01716F8
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Nov 2022 03:39:59 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id i21so2628122edj.10
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Nov 2022 03:39:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ck1BFgYQUoxfjthSY0Z/ICMvhRDs51HkE0D/E51e4wU=;
-        b=cLoqN/9Hw4WN89uoDoxpq9Ce/Ps341RBpybWaA/Ttn7dX0XjEZSpQMeE/cLupilSy+
-         h9M/AwRJwi+wD3lcUZtgCbl5J3Y1/4+a+UG987xrzyBKVQSsdTGx1Fm9p56BVwQCgeqw
-         ImbNP+V0cuLG09qZBqDEVWEBH4JmnDYapBzy20rI0QOEnuyEvU41wtqwWtHQ/Ku+SIq6
-         z/iAwWeg98cPs684u3jM1bZkrHRFlxBeM553WE2HZydhyBqAswoiUSyHfbMc8MScHPVp
-         jTxj/0bSYX2PEajd6PNI/IV0ZBru+l7g17Wn1GCvWMrBI6s8qLNSd3U7dwQx3hiin+sp
-         LiYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ck1BFgYQUoxfjthSY0Z/ICMvhRDs51HkE0D/E51e4wU=;
-        b=Gl+wJv6Lx+9nPLL6JEnafpmIOdV6nUup0uUUxVE1L8zjflSnvv+tGks/qgDzNTxiTT
-         zIo79au5UDdccf3sfspoNGoIMJzcnRsGzScRWsDeQXR44dFuceMnDrFPOM6zlvPdD+EB
-         tovLBkqCfjYE4pLwxe+Dd+GB+UpuV8ySpBI6+of8DcTB5dlBEWLzqcvqQQGJ9zg+fp8A
-         O0Bi/gs+b4HHZ30FJkZ8Ge9c+sOAIJTs+GHyxStclS36B/+1zrqa33glktW73e7/8ut9
-         I8TRw3gr68GR3WVv/bOKTKc9hrw+GGoG6uNHtZKDk+fEvXj0iboOpvFET9kGi9Ar8nhQ
-         /VZg==
-X-Gm-Message-State: ACrzQf13wbWI7bJxlfqkYdEOv+I5cBZAZIKYcQIr4bvFeauRz2PvSkvx
-        0Yi/nS/FJ58Rxw3OMr391yuaddplc3Gqke69QBSPdw==
-X-Google-Smtp-Source: AMsMyM6KPfAGNVILTJIJybxZbWNcNW1j294XPOEkghGZsATADMyuAh5FXMGRYiA9Y0UOLTHKSZCe9zdW3Mb4U369XWo=
-X-Received: by 2002:a05:6402:4002:b0:463:bc31:2604 with SMTP id
- d2-20020a056402400200b00463bc312604mr2100488eda.32.1668080397979; Thu, 10 Nov
- 2022 03:39:57 -0800 (PST)
-MIME-Version: 1.0
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech> <CAPDyKFoycVedCJMy0=UK+q5SiPQHqje_8bSN-gdkpBa6KhFfkg@mail.gmail.com>
-In-Reply-To: <CAPDyKFoycVedCJMy0=UK+q5SiPQHqje_8bSN-gdkpBa6KhFfkg@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 10 Nov 2022 12:39:46 +0100
-Message-ID: <CACRpkdYOj8uozJZO4MV-_OAKeOsQHhoEM=PyynVuNY-JkpgTOw@mail.gmail.com>
-Subject: Re: [PATCH v2 35/65] clk: ux500: sysctrl: Add a determine_rate hook
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Maxime Ripard <maxime@cerno.tech>, Stephen Boyd <sboyd@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Thu, 10 Nov 2022 06:46:57 -0500
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A3AB2CE2E;
+        Thu, 10 Nov 2022 03:46:54 -0800 (PST)
+Received: (Authenticated sender: herve.codina@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 04A38C0003;
+        Thu, 10 Nov 2022 11:46:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1668080813;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xiAAdHYzbPaEDUFu+7SLegTpQrvPsJnBynesNdlRAi4=;
+        b=Ut2WXe4mh9+0Aw40DQLRV1z7aqSkaAQZKgB/bxsSuoBJ2VuNjm9EItmXqVrXzCWs7rqhNH
+        bHkxbrsbbtCB8t6WsARNZfqP2B8iBIC/ZqYCzljP80jdqDwSDJSX6mlCH3OBDk+mYpRVOg
+        Cit3Z3zEVwv8+b3UiHDIChUDg3HSSOaWmvmxlGj5Y4ue8jfdRAx55FDlAyslcMI5/B0wMy
+        FxffFMIbPC6vLRzvsAkRcOZbOD8w2XFxcfIRNmwGLNqcdrBNtv6Kxa2iThtDRWmQ5Hk/qv
+        bGrY/bLV2UaoanZ4AAUMOxeNpKTTtUfn7Wbn+zuVhcTqqW3vrMCYCN4A8N61Ow==
+Date:   Thu, 10 Nov 2022 12:46:42 +0100
+From:   Herve Codina <herve.codina@bootlin.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Michael Turquette <mturquette@baylibre.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Abel Vesa <abelvesa@kernel.org>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Takashi Iwai <tiwai@suse.com>,
-        David Airlie <airlied@gmail.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        David Lechner <david@lechnology.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Mark Brown <broonie@kernel.org>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
-        linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH 4/7] dt-bindings: usb: add the Renesas USBF controller
+ binding
+Message-ID: <20221110124642.38bf5edf@bootlin.com>
+In-Reply-To: <c10df12c-ccb9-03b7-96be-1aac5feee1aa@linaro.org>
+References: <20221107135825.583877-1-herve.codina@bootlin.com>
+        <20221107135825.583877-5-herve.codina@bootlin.com>
+        <c10df12c-ccb9-03b7-96be-1aac5feee1aa@linaro.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 10, 2022 at 12:29 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> On Fri, 4 Nov 2022 at 14:32, Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > The UX500 sysctrl "set_parent" clocks implement a mux with a set_parent
-> > hook, but doesn't provide a determine_rate implementation.
-> >
-> > This is a bit odd, since set_parent() is there to, as its name implies,
-> > change the parent of a clock. However, the most likely candidate to
-> > trigger that parent change is a call to clk_set_rate(), with
-> > determine_rate() figuring out which parent is the best suited for a
-> > given rate.
-> >
-> > The other trigger would be a call to clk_set_parent(), but it's far less
-> > used, and it doesn't look like there's any obvious user for that clock.
->
-> If I recall correctly, that is the use case we did target for these
-> types of clocks. See sound/soc/ux500/ux500_ab85xx.c, for example.
+Hi Krzysztof,
 
-Hm I am trying to get that driver to work ... from time to time.
-It's just that ALSA SoC DT has changed to much that it turns out
-into a complete rewrite :/
+On Mon, 7 Nov 2022 19:24:01 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-So in sound/soc/ux500/mop500_ab8500.c
-I see this:
+> On 07/11/2022 14:58, Herve Codina wrote:
+> > The Renesas USBF controller is an USB2.0 device controller
+> > (UDC) available in Renesas r9a06g032 SoC (RZ/N1 family).
+> >=20
+> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> > ---
+> >  .../devicetree/bindings/usb/renesas,usbf.yaml | 64 +++++++++++++++++++
+> >  1 file changed, 64 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/usb/renesas,usbf.=
+yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/usb/renesas,usbf.yaml b/=
+Documentation/devicetree/bindings/usb/renesas,usbf.yaml
+> > new file mode 100644
+> > index 000000000000..f2b146d9d37b
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/usb/renesas,usbf.yaml
+> > @@ -0,0 +1,64 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/usb/renesas,usbf.yaml# =20
+>=20
+> Filename based on compatible, so renesas,rzn1-usbf.yaml.
 
-        status = clk_set_parent(drvdata->clk_ptr_intclk, clk_ptr);
-        if (status)
-(...)
+Will be fixed in the v2 series.
 
-and there is elaborate code to switch between "SYSCLK" and
-"ULPCLK" (ulta-low power clock). Just like you say... however
-a clock named SYSCLK or ULPCLK does not appear in the
-code in drivers/clk/ux500 or any DT bindings so... it seems to
-be non-working for the time being.
+>=20
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas USBF (USB Function) controller binding
+> > +
+> > +description: |
+> > +   The Renesas USBF controller is an USB2.0 device
+> > +   controller (UDC).
+> > +
+> > +maintainers:
+> > +  - Herve Codina <herve.codina@bootlin.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf: =20
+>=20
+> You have only one possibility, so oneOf is not needed. Unless you
+> already predict it will grow with new incompatible lists?
 
-Yours,
-Linus Walleij
+No new compatible planned right now. So, oneOf will be removed
+in the v2 series.
+
+>=20
+> > +      - items:
+> > +          - enum:
+> > +              - renesas,r9a06g032-usbf
+> > +          - const: renesas,rzn1-usbf
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Internal bus clock (AHB) for Function
+> > +      - description: Internal bus clock (AHB) for Power Management =20
+>=20
+> Blank line
+
+Will be fixed in the v2 series
+
+>=20
+> > +  clock-names:
+> > +    items:
+> > +      - const: hclkf
+> > +      - const: hclkpm
+> > +
+> > +  interrupts:
+> > +    items:
+> > +      - description: The USBF EPC interrupt
+> > +      - description: The USBF AHB-EPC interrupt
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - clock-names
+> > +  - interrupts
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/clock/r9a06g032-sysctrl.h>
+> > +
+> > +    usb@4001e000 {
+> > +        compatible =3D "renesas,r9a06g032-usbf", "renesas,rzn1-usbf";
+> > +        reg =3D <0x4001e000 0x2000>;
+> > +        interrupts =3D =20
+>=20
+> No need for line break. It's not helping in readability.
+
+Will be fixed in the v2 series
+
+>=20
+>=20
+> > +            <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
+> > +            <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clocks =3D <&sysctrl R9A06G032_HCLK_USBF>,
+> > +                 <&sysctrl R9A06G032_HCLK_USBPM>;
+> > +        clock-names =3D "hclkf", "hclkpm";
+> > +    }; =20
+>=20
+> Best regards,
+> Krzysztof
+>=20
+
+Thanks for the review,
+Herv=C3=A9
+
+--=20
+Herv=C3=A9 Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
