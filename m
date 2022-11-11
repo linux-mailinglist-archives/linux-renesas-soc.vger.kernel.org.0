@@ -2,176 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38DBA625680
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Nov 2022 10:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BEC136258B6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Nov 2022 11:50:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233350AbiKKJUu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Nov 2022 04:20:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39016 "EHLO
+        id S233525AbiKKKuu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Nov 2022 05:50:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233312AbiKKJUt (ORCPT
+        with ESMTP id S233305AbiKKKus (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Nov 2022 04:20:49 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 457E8663F6
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Nov 2022 01:20:48 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id 21so6825998edv.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Nov 2022 01:20:48 -0800 (PST)
+        Fri, 11 Nov 2022 05:50:48 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A60A657E5
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Nov 2022 02:50:39 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id be13so7783735lfb.4
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Nov 2022 02:50:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KQqlnqh61yDEivsgLuzXFgBFvWeIkle9538NvChEgG4=;
-        b=eRHEStFUgdZI+TOEkzLgPNAUqr8je9PakORGJBpBvetm722q6+52mzO4PuK6UP2C9B
-         y5QKHELjwoL/I5ZveEAoHNQYPUFH2gG9BiO6rNE0Zoi1U/NPdjDb6jXihqpiYnUK7uS7
-         SaEgVVAc1rCLsO+PywRf34jY4cKkxjJ5rpb0iLv7Lx6icnPxIKkBSReqSNOAi5AyQqJr
-         wfParI72b+nyrA1C6NNwYpO2mYi/F3sK4RXxqU2kGu5IcDipfl9TyQkhA6GnH0/P0zga
-         4Pzu7HawlgloyguZmgsGbfP6pqVHW5N9NgfDTgsFvjn4zWaBEAPihtz4CQ3ui15zn27r
-         jJSw==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=q6uzXd9rjr0+MjLzY/HrG+pQd4oP8LwDd91lEObJUaQ=;
+        b=I9WKwUNhIR5elOxoGTRWpNTjG31YTLcg0Ktty6H3+BrT/cqTYe7o5P5iUL7WJFUnCH
+         jNESdIU7GUhNIopL3UXPPS5cbBIjaTgZYqVeLF8Q9biYlbgsLBoGYi7FsNmc75pbyzXf
+         W9oOTpZt9iyxAdBlU3YElS8nOlXyoXqaJ1rK6OwzcTjRyZI8J1KxvGx3xk+YtAVlHSKf
+         gGq4xu2/bLNoYz+uaMCcFWOqUOiSDVZ8qjK9GlPTTxMvg7ljYZD7YEEbzAGWlPDOUSJH
+         Q9JKS9mGf32vmmM9s9Kcn4Yxc/QEQ9P+i5M3fSseJHD+LdfwKEAkjY3Ya5HxgwgXf+0q
+         G9/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KQqlnqh61yDEivsgLuzXFgBFvWeIkle9538NvChEgG4=;
-        b=LeorbbGvI7X2Y4Gm9/eoHNRyrfyKE+PcwaoXSqOP5jugXmYTZdesAxbKKnVBiHKjYF
-         6dPWX/fHVY9Jsion0NaJffYKFjFbvHWvOz1udLAGnyZ4d9V/Yoa+e0ACkaqkJcMgw2op
-         hMmpFCm9Ou/Qj1XUa/tEzg1z6HCdbuEB8AgPBMuAtwBpv72DcY8SeWdqyxOjkkiiE72I
-         buWP2GEm+YHKoJmx8IIRWJqx4l0VVBDKHNdGwrdiJb69/dFR3gqxNXwV4SD17ABqGMG0
-         Kpu+NVYQzgDGh8lg+RL+zGwF4ilwalbmoYwA/67UQVlxyWk2WPgqz6ulXiXk+bpsVZam
-         eyNg==
-X-Gm-Message-State: ANoB5pnyKVQLgJXnLdxpLw3x5rVhdBsfkOI3iTPHQGNzHRPE5wQOvM7n
-        L91SJFRCJcvKIJNrdIfV+/O46zadb74QgqAiLYeg4g==
-X-Google-Smtp-Source: AA0mqf53QBR47pUgYWT2xVhbs/Lj4/kZl7NAGXQCY837HnfVAtbLsG6fA3g+X2q4OOQ/b93b11NyQoioTLD4pHwNxXU=
-X-Received: by 2002:a50:ee13:0:b0:463:a83c:e0af with SMTP id
- g19-20020a50ee13000000b00463a83ce0afmr679526eds.158.1668158446767; Fri, 11
- Nov 2022 01:20:46 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=q6uzXd9rjr0+MjLzY/HrG+pQd4oP8LwDd91lEObJUaQ=;
+        b=3t2gqZAtlYIjRw8Sg0yGzYXJNdi+ugtCTKWGheEA21lw6XKfYn+2IZQHrHYLQOxABa
+         WE8elNbYwyM8KLK4RFaSR9Vx5FEkyXLUUAAofRAnXltV4sdcosFfVHhIDpkg+UbwgcIH
+         ye3zcxTGBb1qc5SsA4zFVvxWcE6F6q6d4v313SAmv7BRm/Lkt3RS0UAq7zaVvxPnP7kI
+         gONzuDDY82QJhQaAqbcY5WZ6oE1vtAUSDHXJGdb0Rku5Tg0eDfnpTvwQ6d7/ZjuAb1kB
+         wlsN+mpewPwp4muC8rnxh7I9De1pwxfJK18KBLYJAyocTbBIzFbs8ptjuwczHXE8sDg5
+         e4kQ==
+X-Gm-Message-State: ANoB5pk6CbTh/LKTYQs+Apt2ctXpVMWEGOBBGCzIQK/GA7xZ4WA+zydC
+        W/gw8++LeVDSgZf5uoEmprrs+A==
+X-Google-Smtp-Source: AA0mqf6cgJitB+6WrjolHrR4FTBiJloBk88LOICcNXtAeUiCVl88D+f0zoTJ4+uDUUmEJqCHTZJxTg==
+X-Received: by 2002:a05:6512:401d:b0:4b1:25ff:28aa with SMTP id br29-20020a056512401d00b004b125ff28aamr517492lfb.547.1668163837807;
+        Fri, 11 Nov 2022 02:50:37 -0800 (PST)
+Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
+        by smtp.gmail.com with ESMTPSA id q26-20020a2eb4ba000000b0026e0434eb1esm327348ljm.67.2022.11.11.02.50.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Nov 2022 02:50:37 -0800 (PST)
+Message-ID: <b4e54a00-cc37-8c3a-8f72-289fdff5f1d2@linaro.org>
+Date:   Fri, 11 Nov 2022 11:50:36 +0100
 MIME-Version: 1.0
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech>
- <CAPDyKFoycVedCJMy0=UK+q5SiPQHqje_8bSN-gdkpBa6KhFfkg@mail.gmail.com>
- <CACRpkdYOj8uozJZO4MV-_OAKeOsQHhoEM=PyynVuNY-JkpgTOw@mail.gmail.com> <CAPDyKFr6VeF3s47JfzJ9urtMsEem+GiBtHeU=_S8jNaz-D+qnw@mail.gmail.com>
-In-Reply-To: <CAPDyKFr6VeF3s47JfzJ9urtMsEem+GiBtHeU=_S8jNaz-D+qnw@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 11 Nov 2022 10:20:34 +0100
-Message-ID: <CACRpkdb8uYfs6w99FVjD_t6nZgDhPUx=yB1j=CmpHTHAM2QGQw@mail.gmail.com>
-Subject: Re: [PATCH v2 35/65] clk: ux500: sysctrl: Add a determine_rate hook
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Maxime Ripard <maxime@cerno.tech>, Stephen Boyd <sboyd@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Abel Vesa <abelvesa@kernel.org>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Takashi Iwai <tiwai@suse.com>,
-        David Airlie <airlied@gmail.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        David Lechner <david@lechnology.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Mark Brown <broonie@kernel.org>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
-        linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, Lee Jones <lee@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 3/3] arm64: dts: renesas: r9a09g011: Add system
+ configuration node
+Content-Language: en-US
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+References: <20221110162126.103437-1-biju.das.jz@bp.renesas.com>
+ <20221110162126.103437-4-biju.das.jz@bp.renesas.com>
+ <b28c469b-f0f0-47c0-dd07-bf2dcde55824@linaro.org>
+ <OS0PR01MB5922ADB9F181E6745FE46EE986009@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <OS0PR01MB5922ADB9F181E6745FE46EE986009@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 10, 2022 at 2:05 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> On Thu, 10 Nov 2022 at 12:39, Linus Walleij <linus.walleij@linaro.org> wrote:
-> >
-> > On Thu, Nov 10, 2022 at 12:29 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> > > On Fri, 4 Nov 2022 at 14:32, Maxime Ripard <maxime@cerno.tech> wrote:
-> > > >
-> > > > The UX500 sysctrl "set_parent" clocks implement a mux with a set_parent
-> > > > hook, but doesn't provide a determine_rate implementation.
-> > > >
-> > > > This is a bit odd, since set_parent() is there to, as its name implies,
-> > > > change the parent of a clock. However, the most likely candidate to
-> > > > trigger that parent change is a call to clk_set_rate(), with
-> > > > determine_rate() figuring out which parent is the best suited for a
-> > > > given rate.
-> > > >
-> > > > The other trigger would be a call to clk_set_parent(), but it's far less
-> > > > used, and it doesn't look like there's any obvious user for that clock.
-> > >
-> > > If I recall correctly, that is the use case we did target for these
-> > > types of clocks. See sound/soc/ux500/ux500_ab85xx.c, for example.
-> >
-> > Hm I am trying to get that driver to work ... from time to time.
-> > It's just that ALSA SoC DT has changed to much that it turns out
-> > into a complete rewrite :/
-> >
-> > So in sound/soc/ux500/mop500_ab8500.c
-> > I see this:
-> >
-> >         status = clk_set_parent(drvdata->clk_ptr_intclk, clk_ptr);
-> >         if (status)
-> > (...)
-> >
-> > and there is elaborate code to switch between "SYSCLK" and
-> > "ULPCLK" (ulta-low power clock). Just like you say... however
-> > a clock named SYSCLK or ULPCLK does not appear in the
-> > code in drivers/clk/ux500 or any DT bindings so... it seems to
-> > be non-working for the time being.
->
-> It's definitely not working, but the corresponding clocks ("ulpclk",
-> "intclk", "audioclk", etc) are being registered in ab8500_reg_clks().
->
-> What seems to be missing is a DT conversion for these clocks, so they
-> can be consumed properly. Right?
+On 11/11/2022 10:10, Biju Das wrote:
+> Hi Krzysztof Kozlowski,
+> 
+> Thanks for the  feedback.
+> 
+>> -----Original Message-----
+>> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Sent: 11 November 2022 08:35
+>> To: Biju Das <biju.das.jz@bp.renesas.com>; Rob Herring <robh+dt@kernel.org>;
+>> Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+>> Cc: Geert Uytterhoeven <geert+renesas@glider.be>; Magnus Damm
+>> <magnus.damm@gmail.com>; linux-renesas-soc@vger.kernel.org;
+>> devicetree@vger.kernel.org; Chris Paterson <Chris.Paterson2@renesas.com>;
+>> Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+>> Subject: Re: [PATCH v2 3/3] arm64: dts: renesas: r9a09g011: Add system
+>> configuration node
+>>
+>> On 10/11/2022 17:21, Biju Das wrote:
+>>> Add system configuration node to RZ/V2M SoC dtsi.
+>>>
+>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>> ---
+>>> v2:
+>>>  * New patch
+>>> ---
+>>>  arch/arm64/boot/dts/renesas/r9a09g011.dtsi | 6 ++++++
+>>>  1 file changed, 6 insertions(+)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
+>> b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
+>>> index 7b949e40745a..07164d9e4a0f 100644
+>>> --- a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
+>>> +++ b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
+>>> @@ -130,6 +130,12 @@ cpg: clock-controller@a3500000 {
+>>>  			#power-domain-cells = <0>;
+>>>  		};
+>>>
+>>> +		sysc: system-configuration@a3f03000 {
+>>> +			compatible = "renesas,r9a09g011-sys";
+>>> +			reg = <0 0xa3f03000 0 0x400>;
+>>> +			status = "disabled";
+>>
+>> Why disabled? You do not have any other resources needed. This is odd.
+> 
+> OK, will enable by default. Currently the driver compatible is used for getting SoC
+> Major and Minor versions. But later will enhance to support more features.
 
-Yeps that and a few more things, I have a scratch rewrite here:
-https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-stericsson.git/log/?h=ux500-audio-rewrite
+Whatever your driver is doing, should be rather independent of
+enabling/disabling nodes in DTS. Generic rule is that all SoC
+components, which do not need external resources from board, should be
+enabled by default. Of course there are exceptions to this rule. DTS is
+anyway description of hardware, so "driver compatible" is not
+appropriate argument for this (or I miss the meaning behind this).
 
-I remember Lee said he had audio working with the mainline kernel
-on Snowball at one point, unfortunately I think that was before we
-started with the DT conversions and then we probably broke it.
+Best regards,
+Krzysztof
 
-Yours,
-Linus Walleij
