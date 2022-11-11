@@ -2,188 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E39906261EC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Nov 2022 20:30:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE828626225
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Nov 2022 20:40:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233878AbiKKTaC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Nov 2022 14:30:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33802 "EHLO
+        id S234175AbiKKTkG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Nov 2022 14:40:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233690AbiKKTaB (ORCPT
+        with ESMTP id S233965AbiKKTkF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Nov 2022 14:30:01 -0500
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4DE276CA2C;
-        Fri, 11 Nov 2022 11:30:00 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.96,157,1665414000"; 
-   d="scan'208";a="139759893"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 12 Nov 2022 04:30:00 +0900
-Received: from localhost.localdomain (unknown [10.226.92.47])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9548240E20C7;
-        Sat, 12 Nov 2022 04:29:57 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 3/3] pwm: rzg2l-gpt: Add support for linking with poeg
-Date:   Fri, 11 Nov 2022 19:29:42 +0000
-Message-Id: <20221111192942.717137-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221111192942.717137-1-biju.das.jz@bp.renesas.com>
-References: <20221111192942.717137-1-biju.das.jz@bp.renesas.com>
+        Fri, 11 Nov 2022 14:40:05 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE2FD7BE68;
+        Fri, 11 Nov 2022 11:40:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668195604; x=1699731604;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GLdMSB5CsEKL3506k4a4m+VfHEqPk8gt4vgr9ECm460=;
+  b=RN3Y/Ld5ZqXQkdaVkwf4k6a6F7CtGCYf27M9f0YLMHoZmTHeLW+qcOyX
+   IezvlhZCArgsdRGJK8FischrgGiFnLknXzHydXqj8qj/bk4W3MxMxsRbu
+   xxBMh/UmficwDAFuQ6y6oVb/F+YFgCeSU2lGoidUPAAGqUVuoaYBp05/p
+   PbeB4faUW9qEruQ8oiP4itSv9BcHtnYMgK5SuTiJkyIZ8OuUnKQKJykpJ
+   /0GQIOLhVDnE3ZyxEQu0+Adv675pE4hoiQBrJtACiCkeJ28vXPKiCKuKP
+   51xstpk0Nru1+Q4ieiDak4jIO6t+tOMzIkL2eQ1V2fFBCwGRjcHK8uWje
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10528"; a="311660271"
+X-IronPort-AV: E=Sophos;i="5.96,157,1665471600"; 
+   d="scan'208";a="311660271"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2022 11:40:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10528"; a="637674932"
+X-IronPort-AV: E=Sophos;i="5.96,157,1665471600"; 
+   d="scan'208";a="637674932"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga002.jf.intel.com with ESMTP; 11 Nov 2022 11:39:59 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1otZsb-00AsUm-0A;
+        Fri, 11 Nov 2022 21:39:57 +0200
+Date:   Fri, 11 Nov 2022 21:39:56 +0200
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Andrew Davis <afd@ti.com>, Shawn Guo <shawnguo@kernel.org>,
+        Li Yang <leoyang.li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] Rename DTB overlay source files
+Message-ID: <Y26lDEtiG4KFzc91@smile.fi.intel.com>
+References: <20221024173434.32518-1-afd@ti.com>
+ <CAL_JsqJxgVwsjKnkCEkZeoSsDgaRD+DVPkHRBc2SrcSq69PBNw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqJxgVwsjKnkCEkZeoSsDgaRD+DVPkHRBc2SrcSq69PBNw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch add support for linking poeg group with gpt, so that
-gpt can control the output disable function.
+On Wed, Oct 26, 2022 at 09:11:21AM -0500, Rob Herring wrote:
+> On Mon, Oct 24, 2022 at 12:34 PM Andrew Davis <afd@ti.com> wrote:
+> >
+> > Hello all,
+> >
+> > This is a series based on my patch here[0]. As suggested by Rob
+> > I've resurrected Frank's patch and appended it to mine as a series.
+> >
+> > First patch here is my original patch, 3rd is Frank's patch but with
+> > the unittest changes pulled out into the 2nd patch. That was re-worked
+> > moving the source building macro into scripts/Makefile.lib.
+> >
+> > Patches 4, 5, and 6 are an attempt at renaming all the existing DTB
+> > overlays. Split out by platform so they could be taken by platform
+> > maintainers or if easier ACK'd here and taken all together.
+> >
+> > This should cover all the DTB overlays so we can remove the old .dts
+> > rule for overlays and make .dtso the only supported way, let me know
+> > if we want that this cycle and I can post that too.
+> >
+> > Thanks,
+> > Andrew
+> >
+> > Changes from v1[1]:
+> >  - Added patch to rename pi433 overlay.
+> >  - Cleaned wording on patch 4-6.
+> >  - Collected some ACKs
+> >
+> > [0] https://www.spinics.net/lists/kernel/msg4548509.html
+> > [1] https://www.spinics.net/lists/arm-kernel/msg1020165.html
+> >
+> > Andrew Davis (6):
+> >   kbuild: Allow DTB overlays to built from .dtso named source files
+> >   kbuild: Allow DTB overlays to built into .dtso.S files
+> >   arm64: dts: freescale: Rename DTB overlay source files from .dts to
+> >     .dtso
+> >   arm64: dts: renesas: Rename DTB overlay source files from .dts to
+> >     .dtso
+> >   arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
+> >   staging: pi433: overlay: Rename overlay source file from .dts to .dtso
+> >
+> > Frank Rowand (1):
+> >   of: overlay: rename overlay source files from .dts to .dtso
+> 
+> I've applied patches 1-3 and 7. I'll send a PR for the branch to the
+> platform maintainers after a few days in linux-next.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Replaced id->poeg-id as per poeg bindings.
-This patch depend upon [1]
-[1] https://lore.kernel.org/linux-renesas-soc/20221111162325.471963-3-biju.das.jz@bp.renesas.com/T/#u
----
- drivers/pwm/pwm-rzg2l-gpt.c | 69 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 69 insertions(+)
+The patch
 
-diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
-index 3f9325e958b8..e16f976c3dcb 100644
---- a/drivers/pwm/pwm-rzg2l-gpt.c
-+++ b/drivers/pwm/pwm-rzg2l-gpt.c
-@@ -31,6 +31,7 @@
- #define RZG2L_GTCR		0x2c
- #define RZG2L_GTUDDTYC		0x30
- #define RZG2L_GTIOR		0x34
-+#define RZG2L_GTINTAD		0x38
- #define RZG2L_GTBER		0x40
- #define RZG2L_GTCNT		0x48
- #define RZG2L_GTCCRA		0x4c
-@@ -48,9 +49,15 @@
- #define RZG2L_UP_COUNTING	(RZG2L_GTUDDTYC_UP | RZG2L_GTUDDTYC_UDF)
- 
- #define RZG2L_GTIOR_GTIOA	GENMASK(4, 0)
-+#define RZG2L_GTIOR_OADF	GENMASK(10, 9)
- #define RZG2L_GTIOR_GTIOB	GENMASK(20, 16)
-+#define RZG2L_GTIOR_OBDF	GENMASK(26, 25)
- #define RZG2L_GTIOR_OAE		BIT(8)
- #define RZG2L_GTIOR_OBE		BIT(24)
-+#define RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE	BIT(9)
-+#define RZG2L_GTIOR_OBDF_HIGH_IMP_ON_OUT_DISABLE	BIT(25)
-+#define RZG2L_GTIOR_PIN_DISABLE_SETTING \
-+	(RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE | RZG2L_GTIOR_OBDF_HIGH_IMP_ON_OUT_DISABLE)
- 
- #define RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE	0x07
- #define RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE	0x1b
-@@ -64,12 +71,16 @@
- #define RZG2L_GTIOR_GTIOB_OUT_LO_END_TOGGLE_CMP_MATCH \
- 	(FIELD_PREP(RZG2L_GTIOR_GTIOB, RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE) | RZG2L_GTIOR_OBE)
- 
-+#define RZG2L_GTINTAD_GRP_MASK			GENMASK(25, 24)
-+
- #define RZG2L_GTCCR(i) (0x4c + 4 * (i))
- 
- #define RZG2L_MAX_HW_CHANNELS	(8)
- #define RZG2L_CHANNELS_PER_IO	(2)
- #define RZG2L_MAX_PWM_CHANNELS	(RZG2L_MAX_HW_CHANNELS * RZG2L_CHANNELS_PER_IO)
- 
-+#define RZG2L_MAX_POEG_GROUPS	(4)
-+
- #define RZG2L_IS_IOB(a) ((a) & 0x1)
- #define RZG2L_GET_CH_INDEX(a) ((a) / 2)
- 
-@@ -85,6 +96,7 @@ struct rzg2l_gpt_chip {
- 	u32 state_period[RZG2L_MAX_HW_CHANNELS];
- 	u32 user_count[RZG2L_MAX_HW_CHANNELS];
- 	u8 prescale[RZG2L_MAX_HW_CHANNELS];
-+	DECLARE_BITMAP(poeg_gpt_link, RZG2L_MAX_POEG_GROUPS * RZG2L_MAX_HW_CHANNELS);
- };
- 
- static inline struct rzg2l_gpt_chip *to_rzg2l_gpt_chip(struct pwm_chip *chip)
-@@ -438,6 +450,62 @@ static void rzg2l_gpt_reset_assert_pm_disable(void *data)
- 	reset_control_assert(rzg2l_gpt->rstc);
- }
- 
-+static void rzg2l_gpt_parse_properties(struct platform_device *pdev,
-+				       struct rzg2l_gpt_chip *rzg2l_gpt)
-+{
-+	struct of_phandle_args of_args;
-+	unsigned int i;
-+	u32 poeg_grp;
-+	int cells;
-+	u32 offs;
-+	int ret;
-+
-+	cells = of_property_count_u32_elems(pdev->dev.of_node, "renesas,poegs");
-+	if (cells == -EINVAL)
-+		return;
-+
-+	cells >>= 1;
-+	for (i = 0; i < cells; i++) {
-+		ret = of_parse_phandle_with_fixed_args(pdev->dev.of_node,
-+						       "renesas,poegs", 1, i,
-+						       &of_args);
-+		if (ret) {
-+			dev_err(&pdev->dev,
-+				"Failed to parse 'renesas,poegs' property\n");
-+			return;
-+		}
-+
-+		if (of_args.args[0] >= RZG2L_MAX_HW_CHANNELS) {
-+			dev_err(&pdev->dev,
-+				"Invalid channel %d > 7\n", of_args.args[0]);
-+			return;
-+		}
-+
-+		if (!of_device_is_available(of_args.np)) {
-+			/* It's fine to have a phandle to a non-enabled poeg. */
-+			of_node_put(of_args.np);
-+			continue;
-+		}
-+
-+		if (!of_property_read_u32(of_args.np, "renesas,poeg-id", &poeg_grp)) {
-+			offs = RZG2L_GET_CH_OFFS(of_args.args[0]);
-+
-+			set_bit(poeg_grp * RZG2L_MAX_HW_CHANNELS + of_args.args[0],
-+				rzg2l_gpt->poeg_gpt_link);
-+
-+			rzg2l_gpt_modify(rzg2l_gpt, offs + RZG2L_GTINTAD,
-+					 RZG2L_GTINTAD_GRP_MASK,
-+					 poeg_grp << 24);
-+
-+			rzg2l_gpt_modify(rzg2l_gpt, offs + RZG2L_GTIOR,
-+					 RZG2L_GTIOR_OBDF | RZG2L_GTIOR_OADF,
-+					 RZG2L_GTIOR_PIN_DISABLE_SETTING);
-+		}
-+
-+		of_node_put(of_args.np);
-+	}
-+}
-+
- static int rzg2l_gpt_probe(struct platform_device *pdev)
- {
- 	DECLARE_BITMAP(ch_en_bits, RZG2L_MAX_PWM_CHANNELS);
-@@ -480,6 +548,7 @@ static int rzg2l_gpt_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		goto clk_disable;
- 
-+	rzg2l_gpt_parse_properties(pdev, rzg2l_gpt);
- 	mutex_init(&rzg2l_gpt->lock);
- 	platform_set_drvdata(pdev, rzg2l_gpt);
- 	bitmap_zero(ch_en_bits, RZG2L_MAX_PWM_CHANNELS);
+commit 941214a512d8c80d47e720c17ec17e8539175e93
+Author: Andrew Davis <afd@ti.com>
+Date:   Mon Oct 24 12:34:29 2022 -0500
+
+    kbuild: Allow DTB overlays to built into .dtbo.S files
+
+broke the build reproducibility / no-op builds.
+
+Before:
+  2+ execution of `make` on non-changed tree did nothing
+
+Now:
+  Each run of `make` (even without a single bit changed) restarts vmlinux
+  rebuild.
+
+Please, revert or fix.
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
