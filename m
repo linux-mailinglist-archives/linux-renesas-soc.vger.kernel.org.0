@@ -2,156 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3796562635C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Nov 2022 22:06:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD4AE6265D0
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Nov 2022 01:10:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233551AbiKKVGM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Nov 2022 16:06:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44438 "EHLO
+        id S234058AbiKLAKJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Nov 2022 19:10:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233842AbiKKVGK (ORCPT
+        with ESMTP id S230103AbiKLAKI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Nov 2022 16:06:10 -0500
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA55783B94;
-        Fri, 11 Nov 2022 13:06:09 -0800 (PST)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2ABL5L2W124440;
-        Fri, 11 Nov 2022 15:05:21 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1668200721;
-        bh=qZUp0LgToCdeKTOa83YyPSwidLhs3SutcFlXMmeJ5+g=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To;
-        b=Nk8BC8B1RQkKSHbYNSEtNECGVu6W9yYKEsbJ5eKqzvUZUtARwYEG5mLRuPbdqrKdC
-         uXMqSarIdMkG6TVr2dRZER9MRDGmXwVVXOLlAsKiIzX31SKCg0VyOpheMf7fW6U0s4
-         hoYQs4/YNUoKusjtgFgBMYtuHQB50mat3wigoFbE=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2ABL5Lv2092391
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 11 Nov 2022 15:05:21 -0600
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Fri, 11
- Nov 2022 15:05:20 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
- Frontend Transport; Fri, 11 Nov 2022 15:05:20 -0600
-Received: from [128.247.81.39] (ileaxei01-snat.itg.ti.com [10.180.69.5])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2ABL5K5I066401;
-        Fri, 11 Nov 2022 15:05:20 -0600
-Message-ID: <e5ce57b2-4557-2dcb-fb3a-71e2acae4502@ti.com>
-Date:   Fri, 11 Nov 2022 15:05:20 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 0/7] Rename DTB overlay source files
-To:     Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Rob Herring <robh+dt@kernel.org>
-CC:     Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20221024173434.32518-1-afd@ti.com>
- <CAL_JsqJxgVwsjKnkCEkZeoSsDgaRD+DVPkHRBc2SrcSq69PBNw@mail.gmail.com>
- <Y26lDEtiG4KFzc91@smile.fi.intel.com>
-Content-Language: en-US
-From:   Andrew Davis <afd@ti.com>
-In-Reply-To: <Y26lDEtiG4KFzc91@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+        Fri, 11 Nov 2022 19:10:08 -0500
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC437CE1;
+        Fri, 11 Nov 2022 16:10:06 -0800 (PST)
+Received: by mail-oi1-f178.google.com with SMTP id r76so6292925oie.13;
+        Fri, 11 Nov 2022 16:10:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=J/s/8WrMybomH+uSoTBx79E7XvX1snTU0smn6/Ob6qY=;
+        b=Pp6wJkNOAp8EnrVSchY9IEqGKmRsS2ME1CU5dzXaDBmqA7/fSxkRR8L9BD5aIR+HX/
+         dOGBz7hF9CcuBwJb73SdzF3If2snrOO8rRI8K8539KGQN0YnfikN0HXU77bvxs2jvByj
+         QNQ/7hBEsReyZQnInclsHsNWjtnyDUMhfonCx1Q7+VpqzII0OfY/PaF+oswc9xVmeHX0
+         HP/VuFHwx9Nl0xMSpFICFpistyiIsxv4ycx3WVt4Ms67fgerR9IuQIu9vxj7iC/TKdBr
+         /oHf4x6Aew9qKb8WMEuPGrvVqyErkM9mguSOaNhOCasFPINakq/0qqJcSVTnVJ9onKcw
+         hKfQ==
+X-Gm-Message-State: ANoB5pnOexBugMgV8BkwKtbPpsMzPS5oSXYF0YM+hCuAvnyOZkblTEdi
+        XuX63XdZzIpXo1nf66kXgA==
+X-Google-Smtp-Source: AA0mqf4Ep5nf7YszEiII97XrlA5yBV1xgevCzjsoVwBxRXju2usMMGxe5Nno0cyl45VOPX5o6H+XLg==
+X-Received: by 2002:a05:6808:1492:b0:359:c597:735f with SMTP id e18-20020a056808149200b00359c597735fmr1900723oiw.206.1668211806151;
+        Fri, 11 Nov 2022 16:10:06 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id l37-20020a05687106a500b00131c3d4d38fsm1990406oao.39.2022.11.11.16.10.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Nov 2022 16:10:05 -0800 (PST)
+Received: (nullmailer pid 299133 invoked by uid 1000);
+        Sat, 12 Nov 2022 00:10:07 -0000
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Chris Paterson <chris.paterson2@renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Uwe =?utf-8?q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        devicetree@vger.kernel.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-pwm@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+In-Reply-To: <20221111192942.717137-3-biju.das.jz@bp.renesas.com>
+References: <20221111192942.717137-1-biju.das.jz@bp.renesas.com>
+ <20221111192942.717137-3-biju.das.jz@bp.renesas.com>
+Message-Id: <166821148218.241040.12720094893409312973.robh@kernel.org>
+Subject: Re: [PATCH v2 2/3] dt-bindings: pwm: rzg2l-gpt: Document
+ renesas,poegs property
+Date:   Fri, 11 Nov 2022 18:10:07 -0600
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 11/11/22 1:39 PM, Andy Shevchenko wrote:
-> On Wed, Oct 26, 2022 at 09:11:21AM -0500, Rob Herring wrote:
->> On Mon, Oct 24, 2022 at 12:34 PM Andrew Davis <afd@ti.com> wrote:
->>>
->>> Hello all,
->>>
->>> This is a series based on my patch here[0]. As suggested by Rob
->>> I've resurrected Frank's patch and appended it to mine as a series.
->>>
->>> First patch here is my original patch, 3rd is Frank's patch but with
->>> the unittest changes pulled out into the 2nd patch. That was re-worked
->>> moving the source building macro into scripts/Makefile.lib.
->>>
->>> Patches 4, 5, and 6 are an attempt at renaming all the existing DTB
->>> overlays. Split out by platform so they could be taken by platform
->>> maintainers or if easier ACK'd here and taken all together.
->>>
->>> This should cover all the DTB overlays so we can remove the old .dts
->>> rule for overlays and make .dtso the only supported way, let me know
->>> if we want that this cycle and I can post that too.
->>>
->>> Thanks,
->>> Andrew
->>>
->>> Changes from v1[1]:
->>>   - Added patch to rename pi433 overlay.
->>>   - Cleaned wording on patch 4-6.
->>>   - Collected some ACKs
->>>
->>> [0] https://www.spinics.net/lists/kernel/msg4548509.html
->>> [1] https://www.spinics.net/lists/arm-kernel/msg1020165.html
->>>
->>> Andrew Davis (6):
->>>    kbuild: Allow DTB overlays to built from .dtso named source files
->>>    kbuild: Allow DTB overlays to built into .dtso.S files
->>>    arm64: dts: freescale: Rename DTB overlay source files from .dts to
->>>      .dtso
->>>    arm64: dts: renesas: Rename DTB overlay source files from .dts to
->>>      .dtso
->>>    arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
->>>    staging: pi433: overlay: Rename overlay source file from .dts to .dtso
->>>
->>> Frank Rowand (1):
->>>    of: overlay: rename overlay source files from .dts to .dtso
->>
->> I've applied patches 1-3 and 7. I'll send a PR for the branch to the
->> platform maintainers after a few days in linux-next.
+
+On Fri, 11 Nov 2022 19:29:41 +0000, Biju Das wrote:
+> RZ/G2L GPT IP supports output pin disable function by dead time
+> error and detecting short-circuits between output pins.
 > 
-> The patch
+> Add documentation for the optional property renesas,poegs to
+> link a pair of GPT IOs with POEG.
 > 
-> commit 941214a512d8c80d47e720c17ec17e8539175e93
-> Author: Andrew Davis <afd@ti.com>
-> Date:   Mon Oct 24 12:34:29 2022 -0500
-> 
->      kbuild: Allow DTB overlays to built into .dtbo.S files
-> 
-> broke the build reproducibility / no-op builds.
-> 
-> Before:
->    2+ execution of `make` on non-changed tree did nothing
-> 
-> Now:
->    Each run of `make` (even without a single bit changed) restarts vmlinux
->    rebuild.
-> 
-> Please, revert or fix.
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * removed quotes from ref
+>  * Added maxItems and minItems for renesas,poegs property
+>  * Added enums for gpt index
+> ---
+>  .../bindings/pwm/renesas,rzg2l-gpt.yaml       | 23 +++++++++++++++++++
+>  1 file changed, 23 insertions(+)
 > 
 
-I do not see this behavior. What config are you using?
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Not sure how this patch could be the root cause, it only adds
-a build target/rule, but doesn't actually use it anywhere yet..
+yamllint warnings/errors:
 
-Andrew
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pwm/renesas,rzg2l-gpt.yaml: properties:renesas,poegs:items: 'oneOf' conditional failed, one must be fixed:
+	{'maxItems': 8, 'minItems': 1, 'items': [{'description': 'phandle to POEG instance that serves the output disable'}, {'enum': [0, 1, 2, 3, 4, 5, 6, 7], 'description': 'An index identifying pair of GPT channels.\n  <0> : GPT channels 0 and 1\n  <1> : GPT channels 2 and 3\n  <2> : GPT channels 4 and 5\n  <3> : GPT channels 6 and 7\n  <4> : GPT channels 8 and 9\n  <5> : GPT channels 10 and 11\n  <6> : GPT channels 12 and 13\n  <7> : GPT channels 14 and 15\n'}]} should not be valid under {'required': ['maxItems']}
+		hint: "maxItems" is not needed with an "items" list
+	{'maxItems': 8, 'minItems': 1, 'items': [{'description': 'phandle to POEG instance that serves the output disable'}, {'enum': [0, 1, 2, 3, 4, 5, 6, 7], 'description': 'An index identifying pair of GPT channels.\n  <0> : GPT channels 0 and 1\n  <1> : GPT channels 2 and 3\n  <2> : GPT channels 4 and 5\n  <3> : GPT channels 6 and 7\n  <4> : GPT channels 8 and 9\n  <5> : GPT channels 10 and 11\n  <6> : GPT channels 12 and 13\n  <7> : GPT channels 14 and 15\n'}]} is not of type 'array'
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
