@@ -2,582 +2,198 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD976627138
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Nov 2022 18:16:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABB9B627300
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Nov 2022 23:35:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235378AbiKMRQM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 13 Nov 2022 12:16:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44156 "EHLO
+        id S235520AbiKMWfy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 13 Nov 2022 17:35:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235400AbiKMRQL (ORCPT
+        with ESMTP id S235422AbiKMWfx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 13 Nov 2022 12:16:11 -0500
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2ADB4DFE4;
-        Sun, 13 Nov 2022 09:16:09 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.96,161,1665414000"; 
-   d="scan'208";a="139869905"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 14 Nov 2022 02:16:08 +0900
-Received: from localhost.localdomain (unknown [10.226.92.50])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 746224032A20;
-        Mon, 14 Nov 2022 02:16:06 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+        Sun, 13 Nov 2022 17:35:53 -0500
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F39DEFAE8;
+        Sun, 13 Nov 2022 14:35:51 -0800 (PST)
+Received: by mail-qt1-x834.google.com with SMTP id z6so5920259qtv.5;
+        Sun, 13 Nov 2022 14:35:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2UWIwxNMt9Li5DI9V3Ue/+A2ETbpfwK4uJjlNth28Ps=;
+        b=cxos6M6SEMWjz70hcYfwJn7Qy9x3ScQZdWjcWHcTUuPDd6QIkxHfs4TdC7er0cgTfw
+         Zecl1ammtXTh3CRumNopuCdrO/B9HdufOATVFx7LmHWfcuepu8nGRPAXZimVwU33NdJY
+         fSpdh/6V9x/8s+acnZlcPXnCq3SzIgJYAOJ+MdHag7DONXMIur05Qu2T29C+PPj+G5FS
+         51vaHNJTqtvQKEh0MKIsH8wIeeMtk/77Zn6zHSFYDKwwTYJrTvxOcJz1pI56sykta8ez
+         ucf+QXApfLU7u3dxQYz1YwJFVAwCWBLrNvZsrMdMSVYHA3yVHW95iD4uAWPO1ebw8AQZ
+         l5aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2UWIwxNMt9Li5DI9V3Ue/+A2ETbpfwK4uJjlNth28Ps=;
+        b=SHRhf3ePzGWd2eW9o9v+lLAbpwPN7fWPliNSTLPdEJVI8OUpdhq+2LJvaqTPeCPqKz
+         CrppKsATY3mnE6/gta6JICDXpkV9Y33NMBK9Ca7vs7N/+xKUbiS0ieC1HYcC0a//cVCP
+         oNa9Z9bWMh8n2aOTOEsRH8t7Zo9WSZuK9PzIVFwg6Zt0J1Rw1EDYmVU2zDRaUmSaWB2x
+         D17rHqKQMx96kAHzJAg2FvHsOwVVkxQrD53OInAaDVpPOuUogvseS6VwsvO22Xhqfb2c
+         P5zkdlS3Zy2Q9lTSiXP67q6Z3c42pbHEw/iBOQWfdiy5WrlLh+cIy0eiQDW7S1VKSB9g
+         CAeg==
+X-Gm-Message-State: ANoB5plYYsDjhGWuYBBunRQ6lPH15hkZM5ooD9D9wfAN6nL5cgD4UCZJ
+        NlSb4wLRqKefJDbi6lbchjI=
+X-Google-Smtp-Source: AA0mqf6n/LTjELlMgOPAUHKCZj998ajlsJmr6FJtHheLBD4DRKv0w+DZx/+jLTxZzLzeUXXjccj7Rg==
+X-Received: by 2002:a05:622a:4806:b0:3a4:f140:f707 with SMTP id fb6-20020a05622a480600b003a4f140f707mr10057169qtb.317.1668378951056;
+        Sun, 13 Nov 2022 14:35:51 -0800 (PST)
+Received: from shaak (modemcable055.92-163-184.mc.videotron.ca. [184.163.92.55])
+        by smtp.gmail.com with ESMTPSA id bk8-20020a05620a1a0800b006f9f3c0c63csm5482646qkb.32.2022.11.13.14.35.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Nov 2022 14:35:50 -0800 (PST)
+Date:   Sun, 13 Nov 2022 17:35:46 -0500
+From:   Liam Beguin <liambeguin@gmail.com>
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Abel Vesa <abelvesa@kernel.org>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Takashi Iwai <tiwai@suse.com>,
+        David Airlie <airlied@gmail.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        David Lechner <david@lechnology.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Mark Brown <broonie@kernel.org>,
+        Max Filippov <jcmvbkbc@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v6 5/5] pwm: Add Renesas RZ/G2L MTU3a PWM driver
-Date:   Sun, 13 Nov 2022 17:15:45 +0000
-Message-Id: <20221113171545.282457-6-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221113171545.282457-1-biju.das.jz@bp.renesas.com>
-References: <20221113171545.282457-1-biju.das.jz@bp.renesas.com>
+        linux-stm32@st-md-mailman.stormreply.com,
+        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
+        linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 13/65] clk: lmk04832: clkout: Add a determine_rate hook
+Message-ID: <Y3FxQsT240Wm0G6g@shaak>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-13-f6736dec138e@cerno.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221018-clk-range-checks-fixes-v2-13-f6736dec138e@cerno.tech>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for RZ/G2L MTU3a PWM driver. The IP supports
-following PWM modes
+Hi Maxime,
 
-1) PWM mode{1,2}
-2) Reset-synchronized PWM mode
-3) Complementary PWM mode{1,2,3}
+On Fri, Nov 04, 2022 at 02:17:30PM +0100, Maxime Ripard wrote:
+> The LKM04832 "CLKOUT" clock implements a mux with a set_parent hook, but
+> doesn't provide a determine_rate implementation.
+> 
+> This is a bit odd, since set_parent() is there to, as its name implies,
+> change the parent of a clock. However, the most likely candidate to
+> trigger that parent change is a call to clk_set_rate(), with
+> determine_rate() figuring out which parent is the best suited for a
+> given rate.
+> 
+> The other trigger would be a call to clk_set_parent(), but it's far less
+> used, and it doesn't look like there's any obvious user for that clock.
+> 
+> So, the set_parent hook is effectively unused, possibly because of an
+> oversight. However, it could also be an explicit decision by the
+> original author to avoid any reparenting but through an explicit call to
+> clk_set_parent().
 
-This patch adds basic pwm mode 1 support for RZ/G2L MTU3a pwm driver
-by creating separate logical channels for each IOs.
+This is correct, the set_parent hook is effectively unused at the
+moment. It was implemented as a way for consumers to select the parent
+themselves.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v5->v6:
- * Updated commit and Kconfig description
- * Sorted the header
- * Replaced dev_get_drvdata from rz_mtu3_pwm_pm_disable()
- * Replaced SET_RUNTIME_PM_OPS->DEFINE_RUNTIME_DEV_PM_OPS and removed
-   __maybe_unused from suspend/resume()
-v4->v5:
- * pwm device is instantiated by mtu3a core driver.
-v3->v4:
- * There is no resource associated with "rz-mtu3-pwm" compatible
-   and moved the code to mfd subsystem as it binds against "rz-mtu".
- * Removed struct platform_driver rz_mtu3_pwm_driver.
-v2->v3:
- * No change.
-v1->v2:
- * Modelled as a single PWM device handling multiple channles.
- * Used PM framework to manage the clocks.
----
- drivers/pwm/Kconfig       |  11 +
- drivers/pwm/Makefile      |   1 +
- drivers/pwm/pwm-rz-mtu3.c | 455 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 467 insertions(+)
- create mode 100644 drivers/pwm/pwm-rz-mtu3.c
+The LMK04832 is used in JESD204 applications where devices need a device
+clock as well as a sysref clock. Since this is determined by the
+hardware layout, a devicetree option is used to select the inital state
+of the clkout mux. This is set at the end of lmk04832_register_clkout().
 
-diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-index 60d13a949bc5..18a7cc6a7fc9 100644
---- a/drivers/pwm/Kconfig
-+++ b/drivers/pwm/Kconfig
-@@ -481,6 +481,17 @@ config PWM_ROCKCHIP
- 	  Generic PWM framework driver for the PWM controller found on
- 	  Rockchip SoCs.
- 
-+config PWM_RZ_MTU3
-+	tristate "Renesas RZ/G2L MTU3a PWM Timer support"
-+	depends on RZ_MTU3 || COMPILE_TEST
-+	depends on HAS_IOMEM
-+	help
-+	  This driver exposes the MTU3a PWM Timer controller found in Renesas
-+	  RZ/G2L like chips through the PWM API.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called pwm-rz-mtu3.
-+
- config PWM_SAMSUNG
- 	tristate "Samsung PWM support"
- 	depends on PLAT_SAMSUNG || ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
-diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
-index 7bf1a29f02b8..b85fc9fba326 100644
---- a/drivers/pwm/Makefile
-+++ b/drivers/pwm/Makefile
-@@ -44,6 +44,7 @@ obj-$(CONFIG_PWM_RASPBERRYPI_POE)	+= pwm-raspberrypi-poe.o
- obj-$(CONFIG_PWM_RCAR)		+= pwm-rcar.o
- obj-$(CONFIG_PWM_RENESAS_TPU)	+= pwm-renesas-tpu.o
- obj-$(CONFIG_PWM_ROCKCHIP)	+= pwm-rockchip.o
-+obj-$(CONFIG_PWM_RZ_MTU3)	+= pwm-rz-mtu3.o
- obj-$(CONFIG_PWM_SAMSUNG)	+= pwm-samsung.o
- obj-$(CONFIG_PWM_SIFIVE)	+= pwm-sifive.o
- obj-$(CONFIG_PWM_SL28CPLD)	+= pwm-sl28cpld.o
-diff --git a/drivers/pwm/pwm-rz-mtu3.c b/drivers/pwm/pwm-rz-mtu3.c
-new file mode 100644
-index 000000000000..838d94604788
---- /dev/null
-+++ b/drivers/pwm/pwm-rz-mtu3.c
-@@ -0,0 +1,455 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Renesas RZ/G2L MTU3a PWM Timer driver
-+ *
-+ * Copyright (C) 2022 Renesas Electronics Corporation
-+ *
-+ * Hardware manual for this IP can be found here
-+ * https://www.renesas.com/eu/en/document/mah/rzg2l-group-rzg2lc-group-users-manual-hardware-0?language=en
-+ *
-+ * Limitations:
-+ * - When PWM is disabled, the output is driven to Hi-Z.
-+ * - While the hardware supports both polarities, the driver (for now)
-+ *   only handles normal polarity.
-+ * - While the hardware supports pwm mode{1,2}, reset-synchronized pwm and
-+ *   complementary pwm modes, the driver (for now) only handles pwm mode1.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/clk.h>
-+#include <linux/limits.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/pwm.h>
-+#include <linux/time.h>
-+
-+#include <clocksource/rz-mtu3.h>
-+
-+#define RZ_MTU3_TMDR1_MD_NORMAL		(0)
-+#define RZ_MTU3_TMDR1_MD_PWM_MODE_1	(2)
-+
-+#define RZ_MTU3_TIOR_OC_RETAIN		(0)
-+#define RZ_MTU3_TIOR_OC_0_H_COMP_MATCH	(2)
-+#define RZ_MTU3_TIOR_OC_1_TOGGLE	(7)
-+#define RZ_MTU3_TIOR_OC_IOA		GENMASK(3, 0)
-+
-+#define RZ_MTU3_TCR_CCLR_TGRC		(5 << 5)
-+#define RZ_MTU3_TCR_CKEG_RISING		(0 << 3)
-+
-+#define RZ_MTU3_TCR_TPCS		GENMASK(2, 0)
-+
-+#define RZ_MTU3_MAX_PWM_MODE1_CHANNELS	(12)
-+
-+#define RZ_MTU3_MAX_HW_PWM_CHANNELS	(7)
-+
-+static const u8 rz_mtu3_pwm_mode1_num_ios[] = { 2, 1, 1, 2, 2, 2, 2 };
-+
-+/**
-+ * struct rz_mtu3_pwm_chip - MTU3 pwm private data
-+ *
-+ * @chip: MTU3 pwm chip data
-+ * @clk: MTU3 module clock
-+ * @lock: Lock to prevent concurrent access for usage count
-+ * @rate: MTU3 clock rate
-+ * @user_count: MTU3 usage count
-+ * @rz_mtu3_channel: HW channels for the PWM
-+ */
-+
-+struct rz_mtu3_pwm_chip {
-+	struct pwm_chip chip;
-+	struct clk *clk;
-+	struct mutex lock;
-+	unsigned long rate;
-+	u32 user_count[RZ_MTU3_MAX_HW_PWM_CHANNELS];
-+	struct rz_mtu3_channel *ch[RZ_MTU3_MAX_HW_PWM_CHANNELS];
-+};
-+
-+static inline struct rz_mtu3_pwm_chip *to_rz_mtu3_pwm_chip(struct pwm_chip *chip)
-+{
-+	return container_of(chip, struct rz_mtu3_pwm_chip, chip);
-+}
-+
-+static u8 rz_mtu3_pwm_calculate_prescale(struct rz_mtu3_pwm_chip *rz_mtu3,
-+					 u64 period_cycles)
-+{
-+	u32 prescaled_period_cycles;
-+	u8 prescale;
-+
-+	prescaled_period_cycles = period_cycles >> 16;
-+	if (prescaled_period_cycles >= 16)
-+		prescale = 3;
-+	else
-+		prescale = (fls(prescaled_period_cycles) + 1) / 2;
-+
-+	return prescale;
-+}
-+
-+static struct rz_mtu3_channel *
-+rz_mtu3_get_hw_channel(struct rz_mtu3_pwm_chip *rz_mtu3_pwm, u32 channel)
-+{
-+	unsigned int i, ch_index = 0;
-+
-+	for (i = 0; i < ARRAY_SIZE(rz_mtu3_pwm_mode1_num_ios); i++) {
-+		ch_index += rz_mtu3_pwm_mode1_num_ios[i];
-+
-+		if (ch_index > channel)
-+			break;
-+	}
-+
-+	return rz_mtu3_pwm->ch[i];
-+}
-+
-+static u32 rz_mtu3_get_hw_channel_index(struct rz_mtu3_pwm_chip *rz_mtu3_pwm,
-+					struct rz_mtu3_channel *ch)
-+{
-+	u32 i;
-+
-+	for (i = 0; i < ARRAY_SIZE(rz_mtu3_pwm_mode1_num_ios); i++) {
-+		if (ch == rz_mtu3_pwm->ch[i])
-+			break;
-+	}
-+
-+	return i;
-+}
-+
-+static bool rz_mtu3_pwm_is_second_channel(u32 ch_index, u32 hwpwm)
-+{
-+	u32 i, pwm_ch_index = 0;
-+
-+	for (i = 0; i < ch_index; i++)
-+		pwm_ch_index += rz_mtu3_pwm_mode1_num_ios[i];
-+
-+	return pwm_ch_index != hwpwm;
-+}
-+
-+static bool rz_mtu3_pwm_is_ch_enabled(struct rz_mtu3_pwm_chip *rz_mtu3_pwm,
-+				      u32 hwpwm)
-+{
-+	struct rz_mtu3_channel *ch;
-+	bool is_channel_en;
-+	u32 ch_index;
-+	u8 val;
-+
-+	ch = rz_mtu3_get_hw_channel(rz_mtu3_pwm, hwpwm);
-+	ch_index = rz_mtu3_get_hw_channel_index(rz_mtu3_pwm, ch);
-+	is_channel_en = rz_mtu3_is_enabled(ch);
-+
-+	if (rz_mtu3_pwm_is_second_channel(ch_index, hwpwm))
-+		val = rz_mtu3_8bit_ch_read(ch, RZ_MTU3_TIORL);
-+	else
-+		val = rz_mtu3_8bit_ch_read(ch, RZ_MTU3_TIORH);
-+
-+	return (is_channel_en && (val & RZ_MTU3_TIOR_OC_IOA));
-+}
-+
-+static int rz_mtu3_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
-+{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = to_rz_mtu3_pwm_chip(chip);
-+	struct rz_mtu3_channel *ch;
-+	u32 ch_index;
-+
-+	ch = rz_mtu3_get_hw_channel(rz_mtu3_pwm, pwm->hwpwm);
-+	ch_index = rz_mtu3_get_hw_channel_index(rz_mtu3_pwm, ch);
-+
-+	mutex_lock(&rz_mtu3_pwm->lock);
-+	rz_mtu3_pwm->user_count[ch_index]++;
-+	mutex_unlock(&rz_mtu3_pwm->lock);
-+
-+	ch->function = RZ_MTU3_PWM_MODE_1;
-+
-+	return 0;
-+}
-+
-+static void rz_mtu3_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
-+{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = to_rz_mtu3_pwm_chip(chip);
-+	struct rz_mtu3_channel *ch;
-+	u32 ch_index;
-+
-+	ch = rz_mtu3_get_hw_channel(rz_mtu3_pwm, pwm->hwpwm);
-+	ch_index = rz_mtu3_get_hw_channel_index(rz_mtu3_pwm, ch);
-+
-+	mutex_lock(&rz_mtu3_pwm->lock);
-+	rz_mtu3_pwm->user_count[ch_index]--;
-+	mutex_unlock(&rz_mtu3_pwm->lock);
-+
-+	if (!rz_mtu3_pwm->user_count[ch_index])
-+		ch->function = RZ_MTU3_NORMAL;
-+}
-+
-+static int rz_mtu3_pwm_enable(struct rz_mtu3_pwm_chip *rz_mtu3_pwm,
-+			      struct pwm_device *pwm)
-+{
-+	struct rz_mtu3_channel *ch;
-+	u32 ch_index;
-+	u8 val;
-+
-+	ch = rz_mtu3_get_hw_channel(rz_mtu3_pwm, pwm->hwpwm);
-+	ch_index = rz_mtu3_get_hw_channel_index(rz_mtu3_pwm, ch);
-+	val = (RZ_MTU3_TIOR_OC_1_TOGGLE << 4) | RZ_MTU3_TIOR_OC_0_H_COMP_MATCH;
-+
-+	rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TMDR1, RZ_MTU3_TMDR1_MD_PWM_MODE_1);
-+	if (rz_mtu3_pwm_is_second_channel(ch_index, pwm->hwpwm))
-+		rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TIORL, val);
-+	else
-+		rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TIORH, val);
-+
-+	if (rz_mtu3_pwm->user_count[ch_index] <= 1)
-+		rz_mtu3_enable(ch);
-+
-+	return 0;
-+}
-+
-+static void rz_mtu3_pwm_disable(struct rz_mtu3_pwm_chip *rz_mtu3_pwm,
-+				struct pwm_device *pwm)
-+{
-+	struct rz_mtu3_channel *ch;
-+	u32 ch_index;
-+
-+	ch = rz_mtu3_get_hw_channel(rz_mtu3_pwm, pwm->hwpwm);
-+	ch_index = rz_mtu3_get_hw_channel_index(rz_mtu3_pwm, ch);
-+
-+	/* Return to normal mode and disable output pins of MTU3 channel */
-+	if (rz_mtu3_pwm->user_count[ch_index] <= 1)
-+		rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TMDR1, RZ_MTU3_TMDR1_MD_NORMAL);
-+
-+	if (rz_mtu3_pwm_is_second_channel(ch_index, pwm->hwpwm))
-+		rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TIORL, RZ_MTU3_TIOR_OC_RETAIN);
-+	else
-+		rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TIORH, RZ_MTU3_TIOR_OC_RETAIN);
-+
-+	if (rz_mtu3_pwm->user_count[ch_index] <= 1)
-+		rz_mtu3_disable(ch);
-+}
-+
-+static int rz_mtu3_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
-+			      const struct pwm_state *state)
-+{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = to_rz_mtu3_pwm_chip(chip);
-+	struct rz_mtu3_channel *ch;
-+	unsigned long pv, dc;
-+	u64 period_cycles;
-+	u64 duty_cycles;
-+	u32 ch_index;
-+	u8 prescale;
-+	u8 val;
-+
-+	/*
-+	 * Refuse clk rates > 1 GHz to prevent overflowing the following
-+	 * calculation.
-+	 */
-+	if (rz_mtu3_pwm->rate > NSEC_PER_SEC)
-+		return -EINVAL;
-+
-+	ch = rz_mtu3_get_hw_channel(rz_mtu3_pwm, pwm->hwpwm);
-+	ch_index = rz_mtu3_get_hw_channel_index(rz_mtu3_pwm, ch);
-+	duty_cycles = state->duty_cycle;
-+	if (!state->enabled)
-+		duty_cycles = 0;
-+
-+	period_cycles = mul_u64_u32_div(state->period, rz_mtu3_pwm->rate,
-+					NSEC_PER_SEC);
-+	prescale = rz_mtu3_pwm_calculate_prescale(rz_mtu3_pwm, period_cycles);
-+
-+	if (period_cycles >> (2 * prescale) <= U16_MAX)
-+		pv = period_cycles >> (2 * prescale);
-+	else
-+		pv = U16_MAX;
-+
-+	duty_cycles = mul_u64_u32_div(duty_cycles, rz_mtu3_pwm->rate,
-+				      NSEC_PER_SEC);
-+	if (duty_cycles >> (2 * prescale) <= U16_MAX)
-+		dc = duty_cycles >> (2 * prescale);
-+	else
-+		dc = U16_MAX;
-+
-+	val = RZ_MTU3_TCR_CKEG_RISING | prescale;
-+	if (rz_mtu3_pwm_is_second_channel(ch_index, pwm->hwpwm)) {
-+		rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TCR,
-+				      RZ_MTU3_TCR_CCLR_TGRC | val);
-+		rz_mtu3_16bit_ch_write(ch, RZ_MTU3_TGRD, dc);
-+		rz_mtu3_16bit_ch_write(ch, RZ_MTU3_TGRC, pv);
-+	} else {
-+		rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TCR,
-+				      RZ_MTU3_TCR_CCLR_TGRA | val);
-+		rz_mtu3_16bit_ch_write(ch, RZ_MTU3_TGRB, dc);
-+		rz_mtu3_16bit_ch_write(ch, RZ_MTU3_TGRA, pv);
-+	}
-+
-+	return 0;
-+}
-+
-+static void rz_mtu3_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-+				  struct pwm_state *state)
-+{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = to_rz_mtu3_pwm_chip(chip);
-+	struct rz_mtu3_channel *ch;
-+	u8 prescale, val;
-+	u32 ch_index;
-+	u16 dc, pv;
-+	u64 tmp;
-+
-+	ch = rz_mtu3_get_hw_channel(rz_mtu3_pwm, pwm->hwpwm);
-+	ch_index = rz_mtu3_get_hw_channel_index(rz_mtu3_pwm, ch);
-+	pm_runtime_get_sync(chip->dev);
-+	state->enabled = rz_mtu3_pwm_is_ch_enabled(rz_mtu3_pwm, pwm->hwpwm);
-+	if (state->enabled) {
-+		val = rz_mtu3_8bit_ch_read(ch, RZ_MTU3_TCR);
-+		prescale = FIELD_GET(RZ_MTU3_TCR_TPCS, val);
-+
-+		if (rz_mtu3_pwm_is_second_channel(ch_index, pwm->hwpwm)) {
-+			dc = rz_mtu3_16bit_ch_read(ch, RZ_MTU3_TGRD);
-+			pv = rz_mtu3_16bit_ch_read(ch, RZ_MTU3_TGRC);
-+		} else {
-+			dc = rz_mtu3_16bit_ch_read(ch, RZ_MTU3_TGRB);
-+			pv = rz_mtu3_16bit_ch_read(ch, RZ_MTU3_TGRA);
-+		}
-+
-+		tmp = NSEC_PER_SEC * (u64)pv << (2 * prescale);
-+		state->period = DIV_ROUND_UP_ULL(tmp, rz_mtu3_pwm->rate);
-+
-+		tmp = NSEC_PER_SEC * (u64)dc << (2 * prescale);
-+		state->duty_cycle = DIV_ROUND_UP_ULL(tmp, rz_mtu3_pwm->rate);
-+	}
-+
-+	state->polarity = PWM_POLARITY_NORMAL;
-+	pm_runtime_put(chip->dev);
-+}
-+
-+static int rz_mtu3_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-+			     const struct pwm_state *state)
-+{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = to_rz_mtu3_pwm_chip(chip);
-+	struct pwm_state cur_state;
-+	bool enabled;
-+	int ret;
-+
-+	cur_state = pwm->state;
-+	enabled = cur_state.enabled;
-+	if (state->polarity != PWM_POLARITY_NORMAL)
-+		return -EINVAL;
-+
-+	if (!enabled && state->enabled)
-+		pm_runtime_get_sync(chip->dev);
-+
-+	ret = rz_mtu3_pwm_config(chip, pwm, state);
-+	if (ret && state->enabled)
-+		goto done;
-+
-+	if (!state->enabled) {
-+		if (enabled)
-+			rz_mtu3_pwm_disable(rz_mtu3_pwm, pwm);
-+		ret = 0;
-+		goto done;
-+	}
-+
-+	return rz_mtu3_pwm_enable(rz_mtu3_pwm, pwm);
-+done:
-+	if (enabled && !state->enabled)
-+		pm_runtime_put(chip->dev);
-+	return ret;
-+}
-+
-+static const struct pwm_ops rz_mtu3_pwm_ops = {
-+	.request = rz_mtu3_pwm_request,
-+	.free = rz_mtu3_pwm_free,
-+	.get_state = rz_mtu3_pwm_get_state,
-+	.apply = rz_mtu3_pwm_apply,
-+	.owner = THIS_MODULE,
-+};
-+
-+static int rz_mtu3_pwm_pm_runtime_suspend(struct device *dev)
-+{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = dev_get_drvdata(dev);
-+
-+	clk_disable_unprepare(rz_mtu3_pwm->clk);
-+
-+	return 0;
-+}
-+
-+static int rz_mtu3_pwm_pm_runtime_resume(struct device *dev)
-+{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = dev_get_drvdata(dev);
-+
-+	clk_prepare_enable(rz_mtu3_pwm->clk);
-+
-+	return 0;
-+}
-+
-+static DEFINE_RUNTIME_DEV_PM_OPS(rz_mtu3_pwm_pm_ops,
-+				 rz_mtu3_pwm_pm_runtime_suspend,
-+				 rz_mtu3_pwm_pm_runtime_resume, NULL);
-+
-+static void rz_mtu3_pwm_pm_disable(void *data)
-+{
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm = data;
-+
-+	pm_runtime_disable(rz_mtu3_pwm->chip.dev);
-+	pm_runtime_set_suspended(rz_mtu3_pwm->chip.dev);
-+}
-+
-+static int rz_mtu3_pwm_probe(struct platform_device *pdev)
-+{
-+	struct rz_mtu3 *ddata = dev_get_drvdata(pdev->dev.parent);
-+	struct rz_mtu3_pwm_chip *rz_mtu3_pwm;
-+	struct device *dev = &pdev->dev;
-+	int num_pwm_hw_ch = 0;
-+	unsigned int i;
-+	int ret;
-+
-+	rz_mtu3_pwm = devm_kzalloc(&pdev->dev, sizeof(*rz_mtu3_pwm), GFP_KERNEL);
-+	if (!rz_mtu3_pwm)
-+		return -ENOMEM;
-+
-+	rz_mtu3_pwm->clk = ddata->clk;
-+	rz_mtu3_pwm->rate = clk_get_rate(rz_mtu3_pwm->clk);
-+	for (i = 0; i < RZ_MTU_NUM_CHANNELS; i++) {
-+		if (i == RZ_MTU5 || i == RZ_MTU8)
-+			continue;
-+
-+		rz_mtu3_pwm->ch[num_pwm_hw_ch] = &ddata->channels[i];
-+		rz_mtu3_pwm->ch[num_pwm_hw_ch]->dev = dev;
-+		num_pwm_hw_ch++;
-+	}
-+
-+	mutex_init(&rz_mtu3_pwm->lock);
-+	platform_set_drvdata(pdev, rz_mtu3_pwm);
-+	clk_prepare_enable(rz_mtu3_pwm->clk);
-+	pm_runtime_set_active(&pdev->dev);
-+	pm_runtime_enable(&pdev->dev);
-+	ret = devm_add_action_or_reset(&pdev->dev,
-+				       rz_mtu3_pwm_pm_disable,
-+				       rz_mtu3_pwm);
-+	if (ret < 0)
-+		goto disable_clock;
-+
-+	rz_mtu3_pwm->chip.dev = &pdev->dev;
-+	rz_mtu3_pwm->chip.ops = &rz_mtu3_pwm_ops;
-+	rz_mtu3_pwm->chip.npwm = RZ_MTU3_MAX_PWM_MODE1_CHANNELS;
-+	ret = devm_pwmchip_add(&pdev->dev, &rz_mtu3_pwm->chip);
-+	if (ret) {
-+		dev_err_probe(&pdev->dev, ret, "failed to add PWM chip\n");
-+		goto disable_clock;
-+	}
-+
-+	return 0;
-+
-+disable_clock:
-+	clk_disable_unprepare(rz_mtu3_pwm->clk);
-+	return ret;
-+}
-+
-+static struct platform_driver rz_mtu3_pwm_driver = {
-+	.driver = {
-+		.name = "pwm-rz-mtu3",
-+		.pm = pm_ptr(&rz_mtu3_pwm_pm_ops),
-+	},
-+	.probe = rz_mtu3_pwm_probe,
-+};
-+module_platform_driver(rz_mtu3_pwm_driver);
-+
-+MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
-+MODULE_ALIAS("platform:pwm-rz-mtu3");
-+MODULE_DESCRIPTION("Renesas RZ/G2L MTU3a PWM Timer Driver");
-+MODULE_LICENSE("GPL");
--- 
-2.25.1
+> The latter case would be equivalent to setting the flag
+> CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
+> to __clk_mux_determine_rate(). Indeed, if no determine_rate
+> implementation is provided, clk_round_rate() (through
+> clk_core_round_rate_nolock()) will call itself on the parent if
+> CLK_SET_RATE_PARENT is set, and will not change the clock rate
+> otherwise. __clk_mux_determine_rate() has the exact same behavior when
+> CLK_SET_RATE_NO_REPARENT is set.
+> 
+> And if it was an oversight, then we are at least explicit about our
+> behavior now and it can be further refined down the line.
+> 
+> Since the CLK_SET_RATE_NO_REPARENT flag was already set though, it seems
+> unlikely.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
+Reviewed-by: Liam Beguin <liambeguin@gmail.com>
+
+Cheers,
+Liam
+
+> ---
+>  drivers/clk/clk-lmk04832.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/clk/clk-lmk04832.c b/drivers/clk/clk-lmk04832.c
+> index f416f8bc2898..f68bb0affdad 100644
+> --- a/drivers/clk/clk-lmk04832.c
+> +++ b/drivers/clk/clk-lmk04832.c
+> @@ -1281,6 +1281,7 @@ static const struct clk_ops lmk04832_clkout_ops = {
+>  	.is_enabled = lmk04832_clkout_is_enabled,
+>  	.prepare = lmk04832_clkout_prepare,
+>  	.unprepare = lmk04832_clkout_unprepare,
+> +	.determine_rate = __clk_mux_determine_rate,
+>  	.set_parent = lmk04832_clkout_set_parent,
+>  	.get_parent = lmk04832_clkout_get_parent,
+>  };
+> 
+> -- 
+> b4 0.11.0-dev-99e3a
+> 
