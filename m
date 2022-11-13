@@ -2,179 +2,192 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40A99626F7B
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Nov 2022 13:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D29E762712F
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Nov 2022 18:15:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234247AbiKMMgm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 13 Nov 2022 07:36:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35362 "EHLO
+        id S235291AbiKMRPz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 13 Nov 2022 12:15:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232884AbiKMMgl (ORCPT
+        with ESMTP id S233069AbiKMRPz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 13 Nov 2022 07:36:41 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0DCCFCE3;
-        Sun, 13 Nov 2022 04:36:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668343000; x=1699879000;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tXxNoJ4p40NbDu6Pg1fz6lrpeT1kuob3UG5D0fgt2iE=;
-  b=mUe+O9R/P5NPzbu60fYjQhCx5ATrF+vmakHBufEnZSkoANTQEKwoDGgw
-   5YEYlXk4BvVX9indhORoKE78alibfyFLvQOBa3js5JrJfvowB0lIq8h1H
-   EANWgBCv5d1TwE5qRgf+F2ZeWc2WToUdEy21EeC2rUV8julZECl9anYk6
-   BoOupdOSO4NoMGwmb75hXyacCB8h/tg5INXvF55kDtgUy1BK8ZKoPHS/h
-   cjJ57qsXUtKca6svZumXhoXxE4pHAczNOOWyQJfKXwcHvggfN+ehtYPSg
-   c1hNw3J3gsWDcuEwf/dXiUbEWGTqSFcK8bsnedLWw0cPUypdMv0uyMJ7B
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10529"; a="338588356"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="338588356"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2022 04:36:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10529"; a="615963179"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="615963179"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP; 13 Nov 2022 04:36:35 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1ouCDx-00Bfz5-0E;
-        Sun, 13 Nov 2022 14:36:33 +0200
-Date:   Sun, 13 Nov 2022 14:36:32 +0200
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Andrew Davis <afd@ti.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Li Yang <leoyang.li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/7] Rename DTB overlay source files
-Message-ID: <Y3Dk0HJAPuq64tKe@smile.fi.intel.com>
-References: <20221024173434.32518-1-afd@ti.com>
- <CAL_JsqJxgVwsjKnkCEkZeoSsDgaRD+DVPkHRBc2SrcSq69PBNw@mail.gmail.com>
- <Y26lDEtiG4KFzc91@smile.fi.intel.com>
- <e5ce57b2-4557-2dcb-fb3a-71e2acae4502@ti.com>
- <Y3DhIO7H9mfRpe3z@smile.fi.intel.com>
+        Sun, 13 Nov 2022 12:15:55 -0500
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CC082DFE4;
+        Sun, 13 Nov 2022 09:15:53 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.96,161,1665414000"; 
+   d="scan'208";a="139869877"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 14 Nov 2022 02:15:52 +0900
+Received: from localhost.localdomain (unknown [10.226.92.50])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9A86340321A1;
+        Mon, 14 Nov 2022 02:15:48 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     "Rob Herring" <robh+dt@kernel.org>,
+        "Philipp Zabel" <p.zabel@pengutronix.de>,
+        "Daniel Lezcano" <daniel.lezcano@linaro.org>,
+        "William Breathitt Gray" <william.gray@linaro.org>,
+        "Thierry Reding" <thierry.reding@gmail.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v6 0/5] Add RZ/G2L MTU3a Core, Counter and pwm driver
+Date:   Sun, 13 Nov 2022 17:15:40 +0000
+Message-Id: <20221113171545.282457-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y3DhIO7H9mfRpe3z@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.6 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Nov 13, 2022 at 02:20:48PM +0200, Andy Shevchenko wrote:
-> On Fri, Nov 11, 2022 at 03:05:20PM -0600, Andrew Davis wrote:
-> > On 11/11/22 1:39 PM, Andy Shevchenko wrote:
-> > > On Wed, Oct 26, 2022 at 09:11:21AM -0500, Rob Herring wrote:
-> > > > On Mon, Oct 24, 2022 at 12:34 PM Andrew Davis <afd@ti.com> wrote:
-> > > > > 
-> > > > > Hello all,
-> > > > > 
-> > > > > This is a series based on my patch here[0]. As suggested by Rob
-> > > > > I've resurrected Frank's patch and appended it to mine as a series.
-> > > > > 
-> > > > > First patch here is my original patch, 3rd is Frank's patch but with
-> > > > > the unittest changes pulled out into the 2nd patch. That was re-worked
-> > > > > moving the source building macro into scripts/Makefile.lib.
-> > > > > 
-> > > > > Patches 4, 5, and 6 are an attempt at renaming all the existing DTB
-> > > > > overlays. Split out by platform so they could be taken by platform
-> > > > > maintainers or if easier ACK'd here and taken all together.
-> > > > > 
-> > > > > This should cover all the DTB overlays so we can remove the old .dts
-> > > > > rule for overlays and make .dtso the only supported way, let me know
-> > > > > if we want that this cycle and I can post that too.
-> > > > > 
-> > > > > Thanks,
-> > > > > Andrew
-> > > > > 
-> > > > > Changes from v1[1]:
-> > > > >   - Added patch to rename pi433 overlay.
-> > > > >   - Cleaned wording on patch 4-6.
-> > > > >   - Collected some ACKs
-> > > > > 
-> > > > > [0] https://www.spinics.net/lists/kernel/msg4548509.html
-> > > > > [1] https://www.spinics.net/lists/arm-kernel/msg1020165.html
-> > > > > 
-> > > > > Andrew Davis (6):
-> > > > >    kbuild: Allow DTB overlays to built from .dtso named source files
-> > > > >    kbuild: Allow DTB overlays to built into .dtso.S files
-> > > > >    arm64: dts: freescale: Rename DTB overlay source files from .dts to
-> > > > >      .dtso
-> > > > >    arm64: dts: renesas: Rename DTB overlay source files from .dts to
-> > > > >      .dtso
-> > > > >    arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
-> > > > >    staging: pi433: overlay: Rename overlay source file from .dts to .dtso
-> > > > > 
-> > > > > Frank Rowand (1):
-> > > > >    of: overlay: rename overlay source files from .dts to .dtso
-> > > > 
-> > > > I've applied patches 1-3 and 7. I'll send a PR for the branch to the
-> > > > platform maintainers after a few days in linux-next.
-> > > 
-> > > The patch
-> > > 
-> > > commit 941214a512d8c80d47e720c17ec17e8539175e93
-> > > Author: Andrew Davis <afd@ti.com>
-> > > Date:   Mon Oct 24 12:34:29 2022 -0500
-> > > 
-> > >      kbuild: Allow DTB overlays to built into .dtbo.S files
-> > > 
-> > > broke the build reproducibility / no-op builds.
-> > > 
-> > > Before:
-> > >    2+ execution of `make` on non-changed tree did nothing
-> > > 
-> > > Now:
-> > >    Each run of `make` (even without a single bit changed) restarts vmlinux
-> > >    rebuild.
-> > > 
-> > > Please, revert or fix.
-> > > 
-> > 
-> > I do not see this behavior. What config are you using?
-> > 
-> > Not sure how this patch could be the root cause, it only adds
-> > a build target/rule, but doesn't actually use it anywhere yet..
-> 
-> For your reference I started with this one [1].
-> 
-> When I bisected, I just answered with defaults on whatever `make` told me at
-> the configuration stage.
-> 
-> The actual `make` command I used:
-> 
-> 	make O=/path/to/the/result W=1 C=1 CF=-D__CHECK_ENDIAN__ -j64
-> 
-> But there is nothing that can affect the described issue.
+The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
+the Renesas RZ/G2L family SoC's. It consists of eight 16-bit timer
+channels and one 32-bit timer channel. It supports the following
+functions
+ - Counter
+ - Timer
+ - PWM
 
-Actually, O= might affect which Makefile is used and how.
-The C=, CF= are sparse flags, W= is just warning level.
+This patch series aims to add core, counter and pwm driver for
+MTU3a. The core instantiates child devices using mfd api.
 
-> [1]: https://p.defau.lt/?ZSOdGnNxF9v9AQtrfDo_KQ
+The 8/16/32 bit registers are mixed in each channel. The HW
+specifications of the IP is described in patch#1.
+
+Current patch set is tested for PWM mode1 on MTU3 channel
+and 16 and 32 bit phase counting modes on MTU1 and MTU2 channels.
+
+Clock source and clock event driver will be added later.
+
+v5->v6:
+ * Added Rb tag from Rob and Krzysztof for the binding patch.
+ * Updated commit and KConfig description for the driver patches
+ * Selected MFD_CORE to avoid build error if CONFIG_MFD_CORE not set.
+ * Improved error handling in core driver's probe().
+ * Fixed RZ_MTU3_GET_HW_CH Macro for argument reuse 'id' - 
+   possible side-effects?
+ * Replaced SET_RUNTIME_PM_OPS->DEFINE_RUNTIME_DEV_PM_OPS and removed
+   __maybe_unused from suspend/resume()
+ * Replaced dev_get_drvdata from rz_mtu3_pwm_pm_disable()
+ * Sorted header files for all driver files.
+v4->v5:
+ * Modelled as timer bindings.
+ * Fixed the typo in bindings.
+ * Moved core driver from MFD to timer
+ * Child devices instatiated using mfd_add_devices()
+ * Documented sysfs entries external_input_phase_clock_select and
+   long_word_access_ctrl_mode.
+ * Updated the Kconfig with SoC vendor name
+ * Introduced rz_mtu3_is_counter_invalid()
+ * replaced pointer to an array of struct rz_mtu3_channel with
+   a simple pointer to struct rz_mtu3_channel.
+ * Added long_word_access_ctrl_mode sysfs entry for 16-bit and
+   32-bit access
+ * Added external_input_phase_clock_select sysfs entry for
+   selecting input clocks.
+ * used preprocessor defines represent SIGNAL_{A,B,C,D}_ID instead of
+   signal ids.
+v3->v4:
+ * Dropped counter and pwm compatibeles as they don't have any resources.
+ * Made rz-mtu3 as pwm provider.
+ * Updated the example and description.
+ * A single driver that registers both the counter and the pwm functionalities
+   that binds against "renesas,rz-mtu3".
+ * Moved PM handling from child devices to here.
+ * replaced include/linux/mfd/rz-mtu3.h->drivers/mfd/rz-mtu3.h
+ * Removed "remove" callback from mfd driver
+ * There is no resource associated with "rz-mtu3-counter" and "rz-mtu3-pwm"
+   compatible and moved the code to mfd subsystem as it binds against "rz-mtu".
+ * Removed struct platform_driver rz_mtu3_cnt_driver.
+ * Removed struct platform_driver rz_mtu3_pwm_driver.
+ * Updated commit description
+ * Updated Kconfig description
+ * Added macros RZ_MTU3_16_BIT_MTU{1,2}_CH for MTU1 and MTU2 channels
+ * Added RZ_MTU3_GET_HW_CH macro for getting channel ID.
+ * replaced priv->ch[id]->priv->ch[0] in rz_mtu3_count_read()
+ * Cached counter max values
+ * replaced cnt->tsr in rz_mtu3_count_direction_read()
+ * Added comments for RZ_MTU3_TCR_CCLR_NONE
+ * Replaced if with switch in rz_mtu3_initialize_counter() and
+   rz_mtu3_count_ceiling_write()
+ * Added locks in initialize, terminate and enable_read to prevent races.
+ * Updated rz_mtu3_action_read to take care of MTU2 signals.
+ * Added separate distinct array for each group of Synapse.
+ * Moved pm handling to parent.
+v2->v3:
+ * Dropped counter bindings and integrated with mfd as it has only one property.
+ * Removed "#address-cells" and "#size-cells" as it do not have children with
+   unit addresses.
+ * Removed quotes from counter and pwm.
+ * Provided full path for pwm bindings.
+ * Updated the binding example.
+ * removed unwanted header files
+ * Added LUT for 32 bit registers as it needed for 32-bit cascade counting.
+ * Exported 32 bit read/write functions.
+ * Modelled as a counter device supporting 3 counters(2 16-bit and 
+   32-bit)
+ * Add kernel-doc comments to document struct rz_mtu3_cnt
+ * Removed mmio variable from struct rz_mtu3_cnt
+ * Removed cnt local variable from rz_mtu3_count_read()
+ * Replaced -EINVAL->-ERANGE for out of range error conditions.
+ * Removed explicit cast from write functions.
+ * Removed local variable val from rz_mtu3_count_ceiling_read()
+ * Added lock for RMW for counter/ceiling updates.
+ * Added different synapses for counter0 and counter{1,2}
+ * Used ARRAY for assigning num_counts.
+ * Added PM runtime for managing clocks.
+ * Add MODULE_IMPORT_NS(COUNTER) to import the COUNTER namespace.
+
+RFC->v2:
+ * replaced devm_reset_control_get->devm_reset_control_get_exclusive
+ * Dropped 'bindings' from the binding title
+ * Updated the binding example
+ * Added additionalProperties: false for counter bindings
+ * Squashed all the binding patches
+ * Modelled as a single counter device providing both 16-bit
+   and 32-bit phase counting modes
+ * Modelled as a single pwm device for supporting different pwm modes.
+ * Moved counter and pwm bindings to respective subsystems.
+
+Biju Das (5):
+  dt-bindings: timer: Document RZ/G2L MTU3a bindings
+  clocksource/drivers: Add Renesas RZ/G2L MTU3a core driver
+  Documentation: ABI: sysfs-bus-counter: add
+    external_input_phase_clock_select & long_word_access_ctrl_mode items
+  counter: Add Renesas RZ/G2L MTU3a counter driver
+  pwm: Add Renesas RZ/G2L MTU3a PWM driver
+
+ Documentation/ABI/testing/sysfs-bus-counter   |  16 +
+ .../bindings/timer/renesas,rz-mtu3.yaml       | 302 ++++++++
+ drivers/clocksource/Kconfig                   |  11 +
+ drivers/clocksource/Makefile                  |   1 +
+ drivers/clocksource/rz-mtu3.c                 | 443 +++++++++++
+ drivers/counter/Kconfig                       |  11 +
+ drivers/counter/Makefile                      |   1 +
+ drivers/counter/rz-mtu3-cnt.c                 | 717 ++++++++++++++++++
+ drivers/pwm/Kconfig                           |  11 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-rz-mtu3.c                     | 455 +++++++++++
+ include/clocksource/rz-mtu3.h                 | 206 +++++
+ 12 files changed, 2175 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
+ create mode 100644 drivers/clocksource/rz-mtu3.c
+ create mode 100644 drivers/counter/rz-mtu3-cnt.c
+ create mode 100644 drivers/pwm/pwm-rz-mtu3.c
+ create mode 100644 include/clocksource/rz-mtu3.h
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
