@@ -2,177 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A4446281AE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Nov 2022 14:53:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66E236281C7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Nov 2022 15:00:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236015AbiKNNxW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Nov 2022 08:53:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40048 "EHLO
+        id S236151AbiKNOA1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Nov 2022 09:00:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235617AbiKNNxV (ORCPT
+        with ESMTP id S229740AbiKNOAZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Nov 2022 08:53:21 -0500
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C96E9275D5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Nov 2022 05:53:20 -0800 (PST)
-Received: by mail-qk1-x72d.google.com with SMTP id x18so7372824qki.4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Nov 2022 05:53:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xB/o4S4c1Eq69YwW8XCN+naLCo6m7nKQdgmAZ6JlpPw=;
-        b=WLwCl9FT2EPk6Dk6kzO6uHeZf0yxvQIYzbI2s531QWGFvH8AO70rIwTptaQnShrGbE
-         LuDT0+KrVqK3+YeMIpYPuHW7/u8uS/hml+nmBYcg3ICwkdNsvI4mJ7zr0L44dExCmAS/
-         ITAabEIDHhUzNyrad0y10mfsuQTZe9vw8IVchkap98UBiV2bRyj+jIZReEW9EKZ7eAxh
-         r32Q96NcYI0jBfdVNYFgAoYGZQgRcm2YZsjzeTOKiK9ZFP8dEaWGN9R3Q3aaMrdT43Lm
-         DwX4Uvze535ZKR5btygfbAnGlJL+l+gN6V1FcrS7Irc+QilZ5CSudnzVqub7hD0tSuPH
-         HLDA==
+        Mon, 14 Nov 2022 09:00:25 -0500
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 064519FD6;
+        Mon, 14 Nov 2022 06:00:25 -0800 (PST)
+Received: by mail-qv1-f46.google.com with SMTP id x13so7794645qvn.6;
+        Mon, 14 Nov 2022 06:00:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xB/o4S4c1Eq69YwW8XCN+naLCo6m7nKQdgmAZ6JlpPw=;
-        b=fMg28xpW/AP9pGQL+GF4QYmL3DDg1aMOn6xMwC/wfTj+iXm6AAu9BSUbzFb6xlzABV
-         14UKLfQVh1dyd6bIJ0Z541BxWHVhzZYGBn36sY8Uy+7idfK7vepL/PGvh7dCfc/tynCV
-         pPrMXRu2Jp0dCnglNsSgc/3RW26o/YLoScl6LLI6ZTRlCwCEnZEoFENslPdWVFveTQ1V
-         htW4rokHMsEr8TaQ927itBBCgTI83NwyGVaqaNUoX3SAjKdX5PCbi7hIUyPdgDWiDeCF
-         dCYk71lA4iOJdk0bXIPPU26iy40TfD23dtSxXFMds3yLLo1Xelo8Yy6IQMBviPIIZGUh
-         vUMQ==
-X-Gm-Message-State: ANoB5pkiubUWfsYZTqGmLwtR/GUfKCalT+u4bnB2SAXIs8oFrnJRBANf
-        IlAsqKx4oQhbdidpGRrP3vY7I5gqkEMNMQ==
-X-Google-Smtp-Source: AA0mqf7/tuufp/2ywDwnRwCDrrOhWF0TdfnN/OAQLpoUYtGJ5nPYvMQEbuvqwNQW5o5Lf+uq3gGlWQ==
-X-Received: by 2002:a37:8747:0:b0:6fa:faad:2008 with SMTP id j68-20020a378747000000b006fafaad2008mr11047107qkd.668.1668433999853;
-        Mon, 14 Nov 2022 05:53:19 -0800 (PST)
-Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
-        by smtp.gmail.com with ESMTPSA id y14-20020a05620a44ce00b006fb7c42e73asm1930292qkp.21.2022.11.14.05.53.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Nov 2022 05:53:19 -0800 (PST)
-Date:   Mon, 14 Nov 2022 08:53:16 -0500
-From:   William Breathitt Gray <william.gray@linaro.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     linux-iio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v6 4/5] counter: Add Renesas RZ/G2L MTU3a counter driver
-Message-ID: <Y3JITA6sMp12XJmE@fedora>
-References: <20221113171545.282457-1-biju.das.jz@bp.renesas.com>
- <20221113171545.282457-5-biju.das.jz@bp.renesas.com>
- <Y3G6Qe0KMdo2PgaG@fedora>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jgcb91s2dt67CNb/h/jC4e6cUIsKNgCDgXmKk0U/nWQ=;
+        b=hwEuzU5J8yikUD8aJRnMHJb0QP7apmleFcbSGAkONwiLwhoFarXI9lzXY90JHSDVdQ
+         1M2nQNaG6HydNU/kh/L1J//erwNMNHDysBhuuPcRcSV6MYQ41RHPm0cm+mH91Tvhlk2H
+         NN8tBSf2It8cGMwWchdsBHstuvMFam7eEjH2Er8XCg2V7ksahYHH7K/0rxErYfHOiuXS
+         tj6fu8nvJZh4l5tFrty6RIf5sqi1I13KaQ7/tdC/qdwgdPJqoSQKRfCip7471nMuTPwh
+         eYfZT8JI/WK6lMqZ3n0pp2YSYZJWWpDAKOseZQqugZXIjUgu/wpDCoOr+KPRA+zXD5Pa
+         23tg==
+X-Gm-Message-State: ANoB5pmAtByWgdzETmdxJc5WjZs7+9Io/NGHAtW49aOXjexG1jzUf1Ic
+        3MLQ4ZymBjG96xETRJxY33MmKkQjOHahYg==
+X-Google-Smtp-Source: AA0mqf7po8+D17d3cgqFPr/Jzw0wrIfeQpZXmYk1MeWxqSbJsQ2az3XIUyQPrfTrBLzNmK5LZANlSQ==
+X-Received: by 2002:a0c:fa0f:0:b0:4b4:7ac1:aa38 with SMTP id q15-20020a0cfa0f000000b004b47ac1aa38mr12632722qvn.84.1668434423609;
+        Mon, 14 Nov 2022 06:00:23 -0800 (PST)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id az17-20020a05620a171100b006f3e6933bacsm6387130qkb.113.2022.11.14.06.00.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Nov 2022 06:00:23 -0800 (PST)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-37063f855e5so106876007b3.3;
+        Mon, 14 Nov 2022 06:00:23 -0800 (PST)
+X-Received: by 2002:a81:a085:0:b0:37e:6806:a5f9 with SMTP id
+ x127-20020a81a085000000b0037e6806a5f9mr7816378ywg.47.1668434409494; Mon, 14
+ Nov 2022 06:00:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="j606Cw4Et2h+lrt2"
-Content-Disposition: inline
-In-Reply-To: <Y3G6Qe0KMdo2PgaG@fedora>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221103223956.50575-1-fabrizio.castro.jz@renesas.com> <20221103223956.50575-2-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20221103223956.50575-2-fabrizio.castro.jz@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 14 Nov 2022 14:59:58 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUWbT6VArm9B56VE0yUYWCTm=3vMGrrONSv9cdsQQnhpg@mail.gmail.com>
+Message-ID: <CAMuHMdUWbT6VArm9B56VE0yUYWCTm=3vMGrrONSv9cdsQQnhpg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] watchdog: rzg2l_wdt: Fix reboot for RZ/V2M
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Thu, Nov 3, 2022 at 11:40 PM Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> The setting for the RZ/V2M watchdog cannot be changed once
+> the watchdog has been enabled, unless the IP gets reset.
+> The current implementation of the restart callback assumes
+> that the watchdog is not enabled, but that's not always the
+> case, and it leads to longer than necessary reboot times if
+> the watchdog is already running.
+>
+> Always reset the RZ/V2M watchdog first, so that we can always
+> restart quickly.
+>
+> Fixes: ec122fd94eeb ("watchdog: rzg2l_wdt: Add rzv2m support")
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
---j606Cw4Et2h+lrt2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Hi Biju,
+Gr{oetje,eeting}s,
 
-I have a few follow-up comments that came to my mind.
+                        Geert
 
-On Sun, Nov 13, 2022 at 10:47:13PM -0500, William Breathitt Gray wrote:
-> On Sun, Nov 13, 2022 at 05:15:44PM +0000, Biju Das wrote:
-> > Add RZ/G2L MTU3a counter driver. This IP supports the following
-> > phase counting modes on MTU1 and MTU2 channels
-> >=20
-> > 1) 16-bit phase counting modes on MTU1 and MTU2 channels.
-> > 2) 32-bit phase counting mode by cascading MTU1 and MTU2.
-> >=20
-> > This patch adds 3 counters by creating 3 logical channels
-> > 	counter0: 16-bit phase counter on MTU1 channel
-> > 	counter1: 16-bit phase counter on MTU2 channel
-> > 	counter2: 32-bit phase counter by cascading MTU1 and MTU2
-> > 		  channels.
->=20
-> Within the context of the Counter subsystem, the term "counter"
-> specifically refers to the device (Counts + Synapses + Signals). Instead
-> you should use "count" here to refer to the counter value channels (i.e.
-> count0, count1, and count2).
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Include a brief description of the Signals and their relationship to the
-three Counts as well in this commit message. In particular, mention how
-"MTCLKA-MTCLKB" and "MTCLKC-MTCLKD" can be toggled for MTU2, etc.
-
-> > +static int rz_mtu3_long_word_access_ctrl_mode_set(struct counter_devic=
-e *counter,
-> > +						  u32 lwa_ctrl_mode)
-> > +{
-> > +	struct rz_mtu3_cnt *const priv =3D counter_priv(counter);
-> > +	u16 val;
-> > +
-> > +	pm_runtime_get_sync(priv->ch->dev);
-> > +	val =3D rz_mtu3_shared_reg_read(priv->ch, RZ_MTU3_TMDR3);
-> > +	if (lwa_ctrl_mode)
-> > +		val |=3D RZ_MTU3_TMDR3_LWA;
-> > +	else
-> > +		val &=3D ~RZ_MTU3_TMDR3_LWA;
-> > +
-> > +	rz_mtu3_shared_reg_write(priv->ch, RZ_MTU3_TMDR3, val);
-> > +	pm_runtime_put(priv->ch->dev);
->=20
-> When you want to assign a bit to a buffer, you can use __assign_bit() to
-> simplify your code:
->=20
->     unsigned long tmdr;
->     ...
->     tmdr =3D rz_mtu3_shared_reg_read(priv->ch, RZ_MTU3_TMDR3);
->     __assign_bit(RZ_MTU3_TMDR3_LWA, &tmdr, !!lwa_ctrl_node);
->     rz_mtu3_shared_reg_write(priv->ch, RZ_MTU3_TMDR3, tmdr);
-
-You should consider implementing a rz_mtu3_shared_reg_update_bits() that
-will perform this read =3D> assign bits =3D> write sequence so that you can
-reuse this pattern in the rz_mtu3_ext_input_phase_clock_select_set().
-
-> > +static int rz_mtu3_action_read(struct counter_device *counter,
-> > +			       struct counter_count *count,
-> > +			       struct counter_synapse *synapse,
-> > +			       enum counter_synapse_action *action)
-> > +{
-> > +	enum counter_function function;
-> > +	int err;
-> > +
-> > +	err =3D rz_mtu3_count_function_read(counter, count, &function);
-> > +	if (err)
-> > +		return err;
-> > +
-> > +	/* Default action mode */
-> > +	*action =3D COUNTER_SYNAPSE_ACTION_NONE;
->=20
-> You can exit early here depending on which ext_input_phase_clock mode is
-> currently selected: if "MTCLKA-MTCLKB" then return early if id is signal
-> C or D, while if "MTCLKC-MTCLKD" return early if id is signal A or B.
-
-IIUC count0 is always "MTCLKA-MTCLKB", so this exit early check won't
-apply in that particular case; check count->id to see which Count we're
-handling.
-
-William Breathitt Gray
-
---j606Cw4Et2h+lrt2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCY3JITAAKCRC1SFbKvhIj
-K/4uAPwK03T04Ol+4xn3gGkIe2NPkdCoDB/uouz6mzPsfd6VvAEA9npO2cIkO4ic
-bBFjP6Yt6UPu2HL/LqPZ4hC8q9VL3QU=
-=MBjZ
------END PGP SIGNATURE-----
-
---j606Cw4Et2h+lrt2--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
