@@ -2,187 +2,280 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B25A62849E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Nov 2022 17:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 863276284EE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Nov 2022 17:19:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237315AbiKNQHC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Nov 2022 11:07:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46690 "EHLO
+        id S237467AbiKNQTI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Nov 2022 11:19:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237310AbiKNQHB (ORCPT
+        with ESMTP id S237402AbiKNQSv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Nov 2022 11:07:01 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E57E21E27;
-        Mon, 14 Nov 2022 08:06:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668442019; x=1699978019;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kTFRt27GKYH3jdgFcHIV7XHhic+olXeSBwmXgyprWgo=;
-  b=Q4tS7jIJY+YGswb6lNn1NMSRKaD/zYiRJ6/LYTj5dThJQgEE7podpZiP
-   7NF9gjKZzIgjxo9kZH4i0LWdVT2H/WotRlO4YVOX9t23nLWjcO8rZo70h
-   ZisBG1YW6Snor7Vr89brFyPywk8dueB3m23x5Jp+bJ439KoNLSbud7px2
-   mKIHl+f43HCJGqjf853s05u99qK2E/UtxrHrZlfkJt5m+EDfs1tMTK4/F
-   lcC1bkbliP5OWL8qqlYN3/CDKBh2u7wMDwe3EotvVyG2oTrwmldix4zdC
-   Z/Bpgtf6wM2gpeSDQh+XVUB90yLT4r1ePEym9NpoWgUX/vvUIC0hxmjaZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="299526216"
-X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
-   d="scan'208";a="299526216"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 08:06:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="669709474"
-X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
-   d="scan'208";a="669709474"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008.jf.intel.com with ESMTP; 14 Nov 2022 08:06:24 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1oubyX-00CEzk-2t;
-        Mon, 14 Nov 2022 18:06:21 +0200
-Date:   Mon, 14 Nov 2022 18:06:21 +0200
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Andrew Davis <afd@ti.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Li Yang <leoyang.li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
+        Mon, 14 Nov 2022 11:18:51 -0500
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2098.outbound.protection.outlook.com [40.107.113.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C41A25F8B;
+        Mon, 14 Nov 2022 08:18:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oHaaKvWlLOr6ifZSUcJ7LPNQsfsDnDqyRh8fryC9JhqMe3RIggLJXW0rjWb4GJnDcejLlLWh8Tf9yNoUTTngfYGHgw3VrGlOZf5rVeaOOd2ZTdkqSNmo+JGQSpNvkcaKlBLnNMQ5Dsniqdg1eAzmqrPyprUd5eHPUSVaIDysIXnutYViwjmXxVIh4bCmAxwZGvphU2q5SW/A8kIRgcqJVTH85kbOMrxBY589rriPZJmVNIpWUqdoqzTbDWT0e1KWBiO96b76fBSvUX9uZwUtxfd8AnrTYLYaLxaHYHdwezb/31Zwa+x1o4M5aFNTMhEi4BkD39PBxJCQ47SPT6Ofgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bAvJ9oA+uz/4L3jLPQx4qNA+Ai19rmWcRJZkuts2tkE=;
+ b=N4YVRw9i+LPpdyBoVHDY4wze0vyb0Ty5WtpPkHK1tDHRKi3VUrP6vNFpkk8gK3nnIfCIcPkcOrBW22pBeBiALpNxvGOUy8Ewlq8jLacfib8EWtKx4IzoZnfgbeSWTBBYoZ2IRAXg1uwL9+J3A9jmtPTK1d4OK/m/7iYMsNCNfdJPvnYGlld74QRbqpEjGPRQ9SGHK8kcbV+t47iKJiROSFGYe0LgVTwQTPspSg09NQI+qwBE3IUJLeRtpIwx+PuMvmP9fPLSxz4NR0WsKRrWbD7Nr+0ygCM62PUhElwlzHRjpAK2WeQB/WBQfK20GFJOzVC0a7L6RkHJI9Mqeq/Bwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bAvJ9oA+uz/4L3jLPQx4qNA+Ai19rmWcRJZkuts2tkE=;
+ b=lVwosgyb1f1DfNlZq8WVC12ixjYNAFSm5tuRRxdmj6ub5wJCRvWda8ZMzCZAC8S06ShE4+BV71nPxFRtgI48+fV317JzyoGgrHXofQ7cuUasBsothOd0IKCs0VXC9GtA70pkKSXsF3Rkr9ABg0faBw+Ubo1IjlntGIDlFVB+gMg=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYVPR01MB10878.jpnprd01.prod.outlook.com (2603:1096:400:2aa::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.17; Mon, 14 Nov
+ 2022 16:18:46 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::5b24:f581:85bd:6ce2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::5b24:f581:85bd:6ce2%3]) with mapi id 15.20.5813.017; Mon, 14 Nov 2022
+ 16:18:46 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/7] Rename DTB overlay source files
-Message-ID: <Y3JnfSUpBfATkD69@smile.fi.intel.com>
-References: <20221024173434.32518-1-afd@ti.com>
- <CAL_JsqJxgVwsjKnkCEkZeoSsDgaRD+DVPkHRBc2SrcSq69PBNw@mail.gmail.com>
- <Y26lDEtiG4KFzc91@smile.fi.intel.com>
- <e5ce57b2-4557-2dcb-fb3a-71e2acae4502@ti.com>
- <Y3DhIO7H9mfRpe3z@smile.fi.intel.com>
- <Y3Dk0HJAPuq64tKe@smile.fi.intel.com>
+        Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: RE: [PATCH v2 1/3] dt-bindings: arm: renesas: Document Renesas RZ/V2M
+ System Configuration
+Thread-Topic: [PATCH v2 1/3] dt-bindings: arm: renesas: Document Renesas
+ RZ/V2M System Configuration
+Thread-Index: AQHY9SCBIuQl3m8nV0Kf1Ch8X1TBHq45ZpOAgAAH2aCAAB6FgIAABS+ggAUMRDA=
+Date:   Mon, 14 Nov 2022 16:18:46 +0000
+Message-ID: <OS0PR01MB5922C8A590502C8820B05A7186059@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20221110162126.103437-1-biju.das.jz@bp.renesas.com>
+ <20221110162126.103437-2-biju.das.jz@bp.renesas.com>
+ <ae35fd75-64d3-3ab9-8cc0-3cbcc9c34b78@linaro.org>
+ <OS0PR01MB59229179DE3D3D00C4963F3186009@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <a7bbfdd1-1abd-2ee5-1d32-47d0bcb7e1f2@linaro.org>
+ <OS0PR01MB5922863B8EC8DF54D8E881FE86009@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922863B8EC8DF54D8E881FE86009@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYVPR01MB10878:EE_
+x-ms-office365-filtering-correlation-id: 25f4358b-05ae-400f-bcaf-08dac65be846
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: eoClJhGjc9ebi+iDcrcD7hEgty/Fu9RuNc9bHjt6UtkKnCESwiCB0IGuJ0v+0EAdSYhazRYGhynEZ+OrqrwpKsFdOWMPrvd0sGui1R2pqQlnCtueCW9qd8MLELxajrr/EH8MrAMvN7fXSv8fIn15I3moY1ogA8ucqJbPhyA/NF85yV31CUBczCTzYwoaLQwiZtpGAXRX54KuDlruXR8475AHbRK2mZh8mjHnBFyFQi5qvFbN1EE55pBeugiyIJMYoItIiAQLEwnJTMBeHRFdNB2yV6fmTKBXhUtEho4pmm0j3WieXVW2oJXtk3oyk3uQYOzIwYvTe76i+0csnYDesb3a6IubJNUgajdD3yte8QCXkE7RDEzm628nxDh9rrCF09MxR15WRP/If/w6W/FW9r8B3A6R+dggIClG774oCzzNSXxpySQNtxJhxBBY0+4vuAlEMyCpnunj7feVkSdKUZoWTqUXGlmNyXAmw+iv3iamUtIQxsrYtNhB3qzX0n4mf1SmjsgeWQAhHnP7ayCDTogsUge3S4Cwy5wkZzA4SjCluIO1DHjqGehbcHjIQ0lssAEkgq57fotWcU4RHmtofCUdR5rmXQE3sx19XTDMKNLRj7pjPZy5RLQHYkH+HucsEUsYSqwmoPMopg6+/uMQkPuERQs1Qqz4DqUQmGuWZAqIwZb7tn078ZqZ2PFrLKf+VHIQRtPQPCnxO3FJ8Bjr2220OXQxVk69j3aNzkhWtTS4gLO/bMG+1WIoj3RO13Z1ulDlKGVqhCgvz4pfRVWDOQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(376002)(346002)(39860400002)(396003)(366004)(451199015)(26005)(9686003)(53546011)(186003)(107886003)(7696005)(33656002)(6506007)(38070700005)(38100700002)(122000001)(86362001)(2906002)(83380400001)(55016003)(8936002)(41300700001)(52536014)(71200400001)(5660300002)(316002)(110136005)(66946007)(76116006)(54906003)(478600001)(66476007)(66556008)(64756008)(66446008)(8676002)(4326008);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?pVbiyddEQLZr0xHjTbE6Upgaxij84jPo6hAC1D8oPeM0GgP+P8QseBKtRzwQ?=
+ =?us-ascii?Q?WOjLFhqNbh8yT24ubxxHX2Ju/YXgR2+7uQSvTi/kV13LA1LL8oZboNawZP+m?=
+ =?us-ascii?Q?2mRIr7qJgue4ijg9byYaq272EuhvE45ueuXnNxZA1lzE1ZEW4Q8KN/TlDOoY?=
+ =?us-ascii?Q?fLwyOtE98dOXkevYTAC544kIxeFObYmuyn9VIUbV1z35si+vzzXVdAhXbaHR?=
+ =?us-ascii?Q?rvFPWeLQ0BzV1S16LBh8KzChnRengciBnj20riVk9XRnFwBMSYCrHee+K7/q?=
+ =?us-ascii?Q?PQ8lQXCJAmnZnnP9dUPShF+dgopezqOVZtW/6DA3sgI0hD7vHriJRNfDRbS7?=
+ =?us-ascii?Q?rXyf5cLNBR0we1j/LWMkIMvyXBErVjHzqRyxdcEqIo/v+kaydds78ottCxaU?=
+ =?us-ascii?Q?JqHAWU8hV6jYiHkx1CZnKsqw388RKyATyEC7EABBNdY3JoT6ESH6eqXq1Dtz?=
+ =?us-ascii?Q?fNx53VpAhjKryyVLgfvYTheAsj4eeyEQSrAcLZU+U8LhGKUpgYP4IIfAxm34?=
+ =?us-ascii?Q?LrDsHOCjY7ruSMUr95lVQTdHCuGvgDQmDh36QM7BwISffMbtqXVRHKnS7Txs?=
+ =?us-ascii?Q?8AOe0NvbOooS6iYL7OGSxg/Ry85ylMnkaIxlZNGv3RXlXOqmKi2o6dYRDALi?=
+ =?us-ascii?Q?uzlOep3Vu/+GAMjJ15Flmm+5GGsn03V61zGAZYjqHpj4A6e1Ozg2orCsMm4L?=
+ =?us-ascii?Q?+tFZ+qAkExst0S0j2NDyOXQyqQynQU5Fe3OHN2uGEqWX10szQaO1P8Mm8f+K?=
+ =?us-ascii?Q?taxti//9AtkM93i5dwfhA//o+cmA29heyam6rQInH0wJOO/0LLcj1+efS+bN?=
+ =?us-ascii?Q?/Q6NXIyObZFaza8rGfBb4hRMl7+ImuFdnD8y8Zfx/jfPfGrwO5RUEYr1CQ//?=
+ =?us-ascii?Q?z0/rryY3F5jgk5BGUcKh0sk8+pUhDxyouOErE+vUI38eF4FtFhU8fjhoXPKK?=
+ =?us-ascii?Q?q+aIy3O8X2V3b5PMtvZqqYAQftbkBtLoFcxoHlQglXJl33Go/Zd6eg51VwTD?=
+ =?us-ascii?Q?80PabGCdaqbAWVpOh/wSu7l0JlaXVUAaHGoAibclBOeyutnCtUvPxOk2hl64?=
+ =?us-ascii?Q?96IRvYpfoEKOWH4xyu6SnWWMcbSqPhJrNJRNVGkOVY/s/HbwBumJRRadSZ8z?=
+ =?us-ascii?Q?7Aa6bUy6GXKWgQw891mmJccEVRnRR9YQrJE3O3i1hc+v1HM1CKE8deGC6Gqy?=
+ =?us-ascii?Q?BM+6WEpjz+7jU5k6OJvYBeTyaO/E0Dsa5M/1NUGF/tv7MpnnSqDgMSJETmx/?=
+ =?us-ascii?Q?zPrYsE0WkLTGL0gDL5FpKj6ScPSdCV0T08bSmtsMNw/IXr0tQb1EXYJeKRY+?=
+ =?us-ascii?Q?RzqYLUoQ0aRJ/LBuwGPXLOJz1Da6ODFd5pMWPZ17SIREWtlvppdQY5CGRpxj?=
+ =?us-ascii?Q?Fe2GM/vwJN2tbmVkh3NtrQpq8v+c+ngJsfQNc1sk5v+wdgS3FXkN1y+yjRnD?=
+ =?us-ascii?Q?9numbVnw3TTCNWXm2z1S9pw288w1bLlJsr72o+fndm8A2YyP69sCzf4e8sVW?=
+ =?us-ascii?Q?p8nlk6Dinfiw7MqyQZJFw/zqSiOlkb7PWFIHGT7l6OZtan9DrYWcy94Tcl1K?=
+ =?us-ascii?Q?HVTUhzI3FsEk/DqnlwKlwCvtTZYM7s0rPg5he4R/d9tSV8hKQrUcviHdO5zr?=
+ =?us-ascii?Q?Kg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y3Dk0HJAPuq64tKe@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25f4358b-05ae-400f-bcaf-08dac65be846
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Nov 2022 16:18:46.7151
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LqDVOgXhV4SGt8xD9fbzbVkx7P9cfUNwaxvYMTw0Z5nTyLLYEKn+af2Pfe6Gssr78QdGUK4vzVoz6fo38veYs7K9ScEXaoTZ94RlD/sz8yE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB10878
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Nov 13, 2022 at 02:36:33PM +0200, Andy Shevchenko wrote:
-> On Sun, Nov 13, 2022 at 02:20:48PM +0200, Andy Shevchenko wrote:
-> > On Fri, Nov 11, 2022 at 03:05:20PM -0600, Andrew Davis wrote:
-> > > On 11/11/22 1:39 PM, Andy Shevchenko wrote:
-> > > > On Wed, Oct 26, 2022 at 09:11:21AM -0500, Rob Herring wrote:
-> > > > > On Mon, Oct 24, 2022 at 12:34 PM Andrew Davis <afd@ti.com> wrote:
-> > > > > > 
-> > > > > > Hello all,
-> > > > > > 
-> > > > > > This is a series based on my patch here[0]. As suggested by Rob
-> > > > > > I've resurrected Frank's patch and appended it to mine as a series.
-> > > > > > 
-> > > > > > First patch here is my original patch, 3rd is Frank's patch but with
-> > > > > > the unittest changes pulled out into the 2nd patch. That was re-worked
-> > > > > > moving the source building macro into scripts/Makefile.lib.
-> > > > > > 
-> > > > > > Patches 4, 5, and 6 are an attempt at renaming all the existing DTB
-> > > > > > overlays. Split out by platform so they could be taken by platform
-> > > > > > maintainers or if easier ACK'd here and taken all together.
-> > > > > > 
-> > > > > > This should cover all the DTB overlays so we can remove the old .dts
-> > > > > > rule for overlays and make .dtso the only supported way, let me know
-> > > > > > if we want that this cycle and I can post that too.
-> > > > > > 
-> > > > > > Thanks,
-> > > > > > Andrew
-> > > > > > 
-> > > > > > Changes from v1[1]:
-> > > > > >   - Added patch to rename pi433 overlay.
-> > > > > >   - Cleaned wording on patch 4-6.
-> > > > > >   - Collected some ACKs
-> > > > > > 
-> > > > > > [0] https://www.spinics.net/lists/kernel/msg4548509.html
-> > > > > > [1] https://www.spinics.net/lists/arm-kernel/msg1020165.html
-> > > > > > 
-> > > > > > Andrew Davis (6):
-> > > > > >    kbuild: Allow DTB overlays to built from .dtso named source files
-> > > > > >    kbuild: Allow DTB overlays to built into .dtso.S files
-> > > > > >    arm64: dts: freescale: Rename DTB overlay source files from .dts to
-> > > > > >      .dtso
-> > > > > >    arm64: dts: renesas: Rename DTB overlay source files from .dts to
-> > > > > >      .dtso
-> > > > > >    arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
-> > > > > >    staging: pi433: overlay: Rename overlay source file from .dts to .dtso
-> > > > > > 
-> > > > > > Frank Rowand (1):
-> > > > > >    of: overlay: rename overlay source files from .dts to .dtso
-> > > > > 
-> > > > > I've applied patches 1-3 and 7. I'll send a PR for the branch to the
-> > > > > platform maintainers after a few days in linux-next.
-> > > > 
-> > > > The patch
-> > > > 
-> > > > commit 941214a512d8c80d47e720c17ec17e8539175e93
-> > > > Author: Andrew Davis <afd@ti.com>
-> > > > Date:   Mon Oct 24 12:34:29 2022 -0500
-> > > > 
-> > > >      kbuild: Allow DTB overlays to built into .dtbo.S files
-> > > > 
-> > > > broke the build reproducibility / no-op builds.
-> > > > 
-> > > > Before:
-> > > >    2+ execution of `make` on non-changed tree did nothing
-> > > > 
-> > > > Now:
-> > > >    Each run of `make` (even without a single bit changed) restarts vmlinux
-> > > >    rebuild.
-> > > > 
-> > > > Please, revert or fix.
-> > > > 
-> > > 
-> > > I do not see this behavior. What config are you using?
-> > > 
-> > > Not sure how this patch could be the root cause, it only adds
-> > > a build target/rule, but doesn't actually use it anywhere yet..
-> > 
-> > For your reference I started with this one [1].
-> > 
-> > When I bisected, I just answered with defaults on whatever `make` told me at
-> > the configuration stage.
-> > 
-> > The actual `make` command I used:
-> > 
-> > 	make O=/path/to/the/result W=1 C=1 CF=-D__CHECK_ENDIAN__ -j64
-> > 
-> > But there is nothing that can affect the described issue.
-> 
-> Actually, O= might affect which Makefile is used and how.
-> The C=, CF= are sparse flags, W= is just warning level.
+Hi All,
 
-As far as I can tell right now it's the OF_UNITTEST on x86_64 that makes the
-above mentioned patch to be a culprit. Not sure if on ARM / ARM64 you can
-reproduce that. And it's really strange nobody reported this for a week+.
+> -----Original Message-----
+> From: Biju Das
+> Sent: 11 November 2022 11:17
+ >
+> > On 11/11/2022 10:06, Biju Das wrote:
+> > > Hi Krzysztof Kozlowski,
+> > >
+> > >> -----Original Message-----
+> > >> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > >> Sent: 11 November 2022 08:34
+> > >> To: Biju Das <biju.das.jz@bp.renesas.com>; Rob Herring
+> > >> <robh+dt@kernel.org>; Krzysztof Kozlowski
+> > >> <krzysztof.kozlowski+dt@linaro.org>
+> > >> Cc: Phil Edworthy <phil.edworthy@renesas.com>; Geert Uytterhoeven
+> > >> <geert+renesas@glider.be>; Magnus Damm <magnus.damm@gmail.com>;
+> > >> linux- renesas-soc@vger.kernel.org; devicetree@vger.kernel.org;
+> > >> Chris Paterson <Chris.Paterson2@renesas.com>; Fabrizio Castro
+> > >> <fabrizio.castro.jz@renesas.com>
+> > >> Subject: Re: [PATCH v2 1/3] dt-bindings: arm: renesas: Document
+> > >> Renesas RZ/V2M System Configuration
+> > >>
+> > >> On 10/11/2022 17:21, Biju Das wrote:
+> > >>> From: Phil Edworthy <phil.edworthy@renesas.com>
+> > >>>
+> > >>> Add DT binding documentation for System Configuration (SYS) found
+> > >>> on RZ/V2M SoC's.
+> > >>>
+> > >>> SYS block contains the SYS_VERSION register which can be used to
+> > >>> retrieve SoC version information.
+> > >>>
+> > >>> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> > >>> [biju: Updated the example ]
+> > >>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > >>> ---
+> > >>> v1->v2:
+> > >>>  * Moved the file from arm->soc/renesas
+> > >>>  * Updated the path for binding file
+> > >>>  * Updated the example
+> > >>> ---
+> > >>>  .../soc/renesas/renesas,rzv2m-sys.yaml        | 39 +++++++++++++++=
+++++
+> > >>>  1 file changed, 39 insertions(+)
+> > >>>  create mode 100644
+> > >>> Documentation/devicetree/bindings/soc/renesas/renesas,rzv2m-sys.ya
+> > >>> ml
+> > >>>
+> > >>> diff --git
+> > >>> a/Documentation/devicetree/bindings/soc/renesas/renesas,rzv2m-sys.
+> > >>> ya
+> > >>> ml
+> > >>> b/Documentation/devicetree/bindings/soc/renesas/renesas,rzv2m-sys.
+> > >>> ya
+> > >>> ml
+> > >>> new file mode 100644
+> > >>> index 000000000000..cc41747798e2
+> > >>> --- /dev/null
+> > >>> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzv2m-s=
+ys.
+> > >>> +++ yaml
+> > >>
+> > >> Filename should be based on the compatible. Pretty often some
+> > >> common parts of both are fine (e.g. when file contains multiple
+> > >> compatibles), but this very different then what I see below.
+> > >
+> > > We plan to upstream another similar SoC, RZ/V2MA which has similar
+> > > IP, so we may need to add generic compatible rzv2m-sys. I am
+> > > checking with HW people to get more info about RZ/V2MA.
+> > >
+> > >>
+> > >>> @@ -0,0 +1,39 @@
+> > >>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML
+> > >>> +1.2
+> > >>> +---
+> > >>> +$id:
+> > >> "
+> > > "
+> > >>> +$schema:
+> > >> "
+> > > "
+> > >>
+> > >> Drop quotes from both.
+> > >
+> > > OK.
+> > >
+> > >>
+> > >>> +
+> > >>> +title: Renesas RZ/V2M System Configuration (SYS)
+> > >>> +
+> > >>> +maintainers:
+> > >>> +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> > >>> +
+> > >>> +description:
+> > >>> +  The RZ/V2M System Configuration (SYS) performs system control
+> > >>> +of the LSI
+> > >>> +  and supports the following functions,
+> > >>> +  - LSI version
+> > >>> +  - 34-bit address space access function
+> > >>> +  - PCIe related settings
+> > >>> +  - WDT stop control
+> > >>> +  - Temperature sensor (TSU) monitor
+> > >>> +
+> > >>> +properties:
+> > >>> +  compatible:
+> > >>> +    const: renesas,r9a09g011-sys
+> > >>> +
+> > >>> +  reg:
+> > >>> +    maxItems: 1
+> > >>> +
+> > >>> +required:
+> > >>> +  - compatible
+> > >>> +  - reg
+> > >>> +
+> > >>> +additionalProperties: false
+> > >>> +
+> > >>> +examples:
+> > >>> +  - |
+> > >>> +    sysc: system-configuration@a3f03000 {
+> > >>
+> > >> If I get properly the purpose of the device, usually this is called
+> > >> "system- controller". Use that as device node.
+> > >
+> > > The hardware manual mentions the below. So want to consistent with
+> > > HW
+> > manual.
+> >
+> > If the hardware manual said this is called "foo-whatever-name" or
+> > "rz85736dfnx2", you would use it as well?
+> >
+> > Node names should be generic.
 
-Whatever, I'm open for the suggestions and material to test.
+I got the following feedback from LSI team.
 
-> > [1]: https://p.defau.lt/?ZSOdGnNxF9v9AQtrfDo_KQ
+*The reason why we use "configuration" and not "controller" is the possibil=
+ity that users might take it to mean=20
+"control" of system operation (product operation). This unit determines how=
+ the whole LSI configure to operate LSI,=20
+so we use "configuration" for this IP name.
 
--- 
-With Best Regards,
-Andy Shevchenko
+As per this it is not a controller. It is a Configuration IP.
 
+What should be generic node name for system configuration IP?
 
+Please let us know.
+
+Cheers,
+Biju
