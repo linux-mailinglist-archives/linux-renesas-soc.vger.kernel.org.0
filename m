@@ -2,90 +2,187 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A186628481
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Nov 2022 17:01:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B25A62849E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Nov 2022 17:07:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236055AbiKNQBU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Nov 2022 11:01:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43506 "EHLO
+        id S237315AbiKNQHC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Nov 2022 11:07:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235591AbiKNQBT (ORCPT
+        with ESMTP id S237310AbiKNQHB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Nov 2022 11:01:19 -0500
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 748F564C5;
-        Mon, 14 Nov 2022 08:01:18 -0800 (PST)
-Received: by mail-qk1-f181.google.com with SMTP id g10so7659225qkl.6;
-        Mon, 14 Nov 2022 08:01:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZUnSJK/fsRsNB0D3yoZzXZNm+63Prf0gA3FnnEp1nQQ=;
-        b=yGoUAPG89WrC/KgRMi6lwtackvwCx5JUVFHhUfy2NfvdUFcV8vPxuXzxxDuAXemPVG
-         XTT1Zpr5tAacRaeT93gtZGhPYuDcsx3NwchNSJX40oxbgQ7vTqEJbWNdWiFSeLOl0wDf
-         lIXFeEdt/zzdOjadUKDgjHZRiuHS1lrKeynxTn9tz4IG6ooOnFAIavxZPqsfW21S193n
-         v4WMW85bd1I+FW3Ty9ysJkMFQvqZO0EQhO+r7a7S8On0AzR2dWchIeGHxFBRz5Y/nayW
-         pXwSrM1VlfkCB6Fjia72ume1OPFGR5zU/AVRbQPoyECqTZ9n96OqKK5rsOrRUozIi6mI
-         qpUQ==
-X-Gm-Message-State: ANoB5pk28SJNNQsVOOugsQGpaO+s86ZogaH50LMASQkNRmxrRnbK/dlL
-        z2e6UnHd7tZbVL2OUIxMOW3bPntaXHK6kg==
-X-Google-Smtp-Source: AA0mqf5ZggB1OBrqzx6UnKzHzfIEXNiFaH/XBo5JVLS3XGZSx4SPvRHLXDgqydJeD8y6BpanhaAOvQ==
-X-Received: by 2002:a05:620a:1442:b0:6fa:5257:9aa7 with SMTP id i2-20020a05620a144200b006fa52579aa7mr11622958qkl.150.1668441674804;
-        Mon, 14 Nov 2022 08:01:14 -0800 (PST)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id w15-20020a05620a424f00b006fa4cac54a4sm6645499qko.133.2022.11.14.08.01.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Nov 2022 08:01:14 -0800 (PST)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-3691e040abaso110349047b3.9;
-        Mon, 14 Nov 2022 08:01:14 -0800 (PST)
-X-Received: by 2002:a81:4ed2:0:b0:370:202b:f085 with SMTP id
- c201-20020a814ed2000000b00370202bf085mr13249493ywb.502.1668441673867; Mon, 14
- Nov 2022 08:01:13 -0800 (PST)
-MIME-Version: 1.0
-References: <20221110160931.101539-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20221110160931.101539-1-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Nov 2022 17:01:02 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVseqcTR48=FaqbKGKpTrYs5fOXdjcxEV_c4FPSSPS8Kg@mail.gmail.com>
-Message-ID: <CAMuHMdVseqcTR48=FaqbKGKpTrYs5fOXdjcxEV_c4FPSSPS8Kg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r9a09g011: Add L2 Cache node
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mon, 14 Nov 2022 11:07:01 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E57E21E27;
+        Mon, 14 Nov 2022 08:06:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668442019; x=1699978019;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kTFRt27GKYH3jdgFcHIV7XHhic+olXeSBwmXgyprWgo=;
+  b=Q4tS7jIJY+YGswb6lNn1NMSRKaD/zYiRJ6/LYTj5dThJQgEE7podpZiP
+   7NF9gjKZzIgjxo9kZH4i0LWdVT2H/WotRlO4YVOX9t23nLWjcO8rZo70h
+   ZisBG1YW6Snor7Vr89brFyPywk8dueB3m23x5Jp+bJ439KoNLSbud7px2
+   mKIHl+f43HCJGqjf853s05u99qK2E/UtxrHrZlfkJt5m+EDfs1tMTK4/F
+   lcC1bkbliP5OWL8qqlYN3/CDKBh2u7wMDwe3EotvVyG2oTrwmldix4zdC
+   Z/Bpgtf6wM2gpeSDQh+XVUB90yLT4r1ePEym9NpoWgUX/vvUIC0hxmjaZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="299526216"
+X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
+   d="scan'208";a="299526216"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 08:06:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="669709474"
+X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
+   d="scan'208";a="669709474"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga008.jf.intel.com with ESMTP; 14 Nov 2022 08:06:24 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1oubyX-00CEzk-2t;
+        Mon, 14 Nov 2022 18:06:21 +0200
+Date:   Mon, 14 Nov 2022 18:06:21 +0200
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Andrew Davis <afd@ti.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Li Yang <leoyang.li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] Rename DTB overlay source files
+Message-ID: <Y3JnfSUpBfATkD69@smile.fi.intel.com>
+References: <20221024173434.32518-1-afd@ti.com>
+ <CAL_JsqJxgVwsjKnkCEkZeoSsDgaRD+DVPkHRBc2SrcSq69PBNw@mail.gmail.com>
+ <Y26lDEtiG4KFzc91@smile.fi.intel.com>
+ <e5ce57b2-4557-2dcb-fb3a-71e2acae4502@ti.com>
+ <Y3DhIO7H9mfRpe3z@smile.fi.intel.com>
+ <Y3Dk0HJAPuq64tKe@smile.fi.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y3Dk0HJAPuq64tKe@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 10, 2022 at 5:09 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> The Cortex-A53 processor on RZ/V2M has 512 KB L2 Cache.
-> Add L2 Cache node to SoC dtsi.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+On Sun, Nov 13, 2022 at 02:36:33PM +0200, Andy Shevchenko wrote:
+> On Sun, Nov 13, 2022 at 02:20:48PM +0200, Andy Shevchenko wrote:
+> > On Fri, Nov 11, 2022 at 03:05:20PM -0600, Andrew Davis wrote:
+> > > On 11/11/22 1:39 PM, Andy Shevchenko wrote:
+> > > > On Wed, Oct 26, 2022 at 09:11:21AM -0500, Rob Herring wrote:
+> > > > > On Mon, Oct 24, 2022 at 12:34 PM Andrew Davis <afd@ti.com> wrote:
+> > > > > > 
+> > > > > > Hello all,
+> > > > > > 
+> > > > > > This is a series based on my patch here[0]. As suggested by Rob
+> > > > > > I've resurrected Frank's patch and appended it to mine as a series.
+> > > > > > 
+> > > > > > First patch here is my original patch, 3rd is Frank's patch but with
+> > > > > > the unittest changes pulled out into the 2nd patch. That was re-worked
+> > > > > > moving the source building macro into scripts/Makefile.lib.
+> > > > > > 
+> > > > > > Patches 4, 5, and 6 are an attempt at renaming all the existing DTB
+> > > > > > overlays. Split out by platform so they could be taken by platform
+> > > > > > maintainers or if easier ACK'd here and taken all together.
+> > > > > > 
+> > > > > > This should cover all the DTB overlays so we can remove the old .dts
+> > > > > > rule for overlays and make .dtso the only supported way, let me know
+> > > > > > if we want that this cycle and I can post that too.
+> > > > > > 
+> > > > > > Thanks,
+> > > > > > Andrew
+> > > > > > 
+> > > > > > Changes from v1[1]:
+> > > > > >   - Added patch to rename pi433 overlay.
+> > > > > >   - Cleaned wording on patch 4-6.
+> > > > > >   - Collected some ACKs
+> > > > > > 
+> > > > > > [0] https://www.spinics.net/lists/kernel/msg4548509.html
+> > > > > > [1] https://www.spinics.net/lists/arm-kernel/msg1020165.html
+> > > > > > 
+> > > > > > Andrew Davis (6):
+> > > > > >    kbuild: Allow DTB overlays to built from .dtso named source files
+> > > > > >    kbuild: Allow DTB overlays to built into .dtso.S files
+> > > > > >    arm64: dts: freescale: Rename DTB overlay source files from .dts to
+> > > > > >      .dtso
+> > > > > >    arm64: dts: renesas: Rename DTB overlay source files from .dts to
+> > > > > >      .dtso
+> > > > > >    arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
+> > > > > >    staging: pi433: overlay: Rename overlay source file from .dts to .dtso
+> > > > > > 
+> > > > > > Frank Rowand (1):
+> > > > > >    of: overlay: rename overlay source files from .dts to .dtso
+> > > > > 
+> > > > > I've applied patches 1-3 and 7. I'll send a PR for the branch to the
+> > > > > platform maintainers after a few days in linux-next.
+> > > > 
+> > > > The patch
+> > > > 
+> > > > commit 941214a512d8c80d47e720c17ec17e8539175e93
+> > > > Author: Andrew Davis <afd@ti.com>
+> > > > Date:   Mon Oct 24 12:34:29 2022 -0500
+> > > > 
+> > > >      kbuild: Allow DTB overlays to built into .dtbo.S files
+> > > > 
+> > > > broke the build reproducibility / no-op builds.
+> > > > 
+> > > > Before:
+> > > >    2+ execution of `make` on non-changed tree did nothing
+> > > > 
+> > > > Now:
+> > > >    Each run of `make` (even without a single bit changed) restarts vmlinux
+> > > >    rebuild.
+> > > > 
+> > > > Please, revert or fix.
+> > > > 
+> > > 
+> > > I do not see this behavior. What config are you using?
+> > > 
+> > > Not sure how this patch could be the root cause, it only adds
+> > > a build target/rule, but doesn't actually use it anywhere yet..
+> > 
+> > For your reference I started with this one [1].
+> > 
+> > When I bisected, I just answered with defaults on whatever `make` told me at
+> > the configuration stage.
+> > 
+> > The actual `make` command I used:
+> > 
+> > 	make O=/path/to/the/result W=1 C=1 CF=-D__CHECK_ENDIAN__ -j64
+> > 
+> > But there is nothing that can affect the described issue.
+> 
+> Actually, O= might affect which Makefile is used and how.
+> The C=, CF= are sparse flags, W= is just warning level.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.2.
+As far as I can tell right now it's the OF_UNITTEST on x86_64 that makes the
+above mentioned patch to be a culprit. Not sure if on ARM / ARM64 you can
+reproduce that. And it's really strange nobody reported this for a week+.
 
-Gr{oetje,eeting}s,
+Whatever, I'm open for the suggestions and material to test.
 
-                        Geert
+> > [1]: https://p.defau.lt/?ZSOdGnNxF9v9AQtrfDo_KQ
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+-- 
+With Best Regards,
+Andy Shevchenko
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
