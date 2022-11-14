@@ -2,173 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ED806278A9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Nov 2022 10:07:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 287156278B0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Nov 2022 10:07:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236836AbiKNJH1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Nov 2022 04:07:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47338 "EHLO
+        id S236791AbiKNJHy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Nov 2022 04:07:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237070AbiKNJHQ (ORCPT
+        with ESMTP id S236276AbiKNJHa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Nov 2022 04:07:16 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96EA7273C;
-        Mon, 14 Nov 2022 01:05:51 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0AC6260F51;
-        Mon, 14 Nov 2022 09:05:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AA65C433C1;
-        Mon, 14 Nov 2022 09:05:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668416750;
-        bh=D7WS1/Iq9HsSGiJfZeeNpWeUbfN2wCTKHRwR1waF5b8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gu23KWX+hkd2VrW8L8cgRL+RvzQoNmHr4ZHYqyx7b9ggw62j+4gl+srj7mMWbYEWO
-         eMq9AeoWeTXuHN/JCWdPJOC4s9/SfymP7ivydCT3Rc5lzvj0XxUfCGvOXg+FUovve3
-         mBjFDbEU8fbv5pZjeBcZG4yoTG+UTWC2w0hMhrdGaf5jiuivlIjmg6M0icdu4BayDd
-         QORZ6I5Y6XZL3p7KDrZaQgns3WiyBQD5S5uJ7AJ3isJBuf/JmKGDVf410NdJ4z5Krb
-         lm/rhmS+2/v3szQ2Sg6geE8bZDNcFgYVQt+IzZj3PeuYYzaH8viYNnTeheDKRc95zq
-         VsYSZrpR3L72Q==
-Date:   Mon, 14 Nov 2022 09:05:34 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Abel Vesa <abelvesa@kernel.org>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Takashi Iwai <tiwai@suse.com>,
-        David Airlie <airlied@gmail.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        David Lechner <david@lechnology.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Mark Brown <broonie@kernel.org>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
-        linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 35/65] clk: ux500: sysctrl: Add a determine_rate hook
-Message-ID: <Y3IE3ta8hLLUcu7H@google.com>
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech>
- <CAPDyKFoycVedCJMy0=UK+q5SiPQHqje_8bSN-gdkpBa6KhFfkg@mail.gmail.com>
- <CACRpkdYOj8uozJZO4MV-_OAKeOsQHhoEM=PyynVuNY-JkpgTOw@mail.gmail.com>
- <CAPDyKFr6VeF3s47JfzJ9urtMsEem+GiBtHeU=_S8jNaz-D+qnw@mail.gmail.com>
- <CACRpkdb8uYfs6w99FVjD_t6nZgDhPUx=yB1j=CmpHTHAM2QGQw@mail.gmail.com>
+        Mon, 14 Nov 2022 04:07:30 -0500
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C14E1EC65
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Nov 2022 01:06:12 -0800 (PST)
+Received: by mail-qt1-f171.google.com with SMTP id w4so6434357qts.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Nov 2022 01:06:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bPQL6nywFkNzHXJuq1zhzWcC9UCK+YshOf1sJJOpgHo=;
+        b=RdT0iGOgXiEennzdJxzPB6bGKCd8EZ2tyBlAv7eGeArVrczVnt/0ku+dZ6RyDV/Jpz
+         MY5rtIPW4iuPNngIxxrKJOjmfRMVtJFJ+SQCMfZMfd4NiCiXtuPQQlOvxxrBJnvCaBQ2
+         bI/9bNERiRgvMYHZFD9aI6iDs33+rbWT/Zk3gWlE77iaUz4jWdEHzVxnEag7P5iN3sC3
+         E4QUpQ/j1k8EhJCavha6O0TxZMXXEZlU+bda80CX2Psl4BWEaCsGU1X8gDILEfRgub2E
+         J/eBtMQqRyW8WBE9CZXIFpTNlO/MFqapeWB2TdRVSFcSgcSehyNkO6bnSluA0tUmFq4I
+         Mf3Q==
+X-Gm-Message-State: ANoB5pnPxGvgy/6hcBtpkh+DNUuSG4wwIHyEd5LmhUwVZ889z3Nqb61E
+        q/r7z58GLGL9QaCytfLg1TDSjvPuclpn5w==
+X-Google-Smtp-Source: AA0mqf4gXu5VXylUas+Pc3ADYrzR8EOoNx7zJ0pEPPzb8Fp3/CmiAbVigDP5IeLvyD1fCpM3OitXcg==
+X-Received: by 2002:a05:622a:1aa2:b0:3a5:2766:552a with SMTP id s34-20020a05622a1aa200b003a52766552amr11749504qtc.79.1668416771473;
+        Mon, 14 Nov 2022 01:06:11 -0800 (PST)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id t6-20020a05622a180600b00343057845f7sm5388196qtc.20.2022.11.14.01.06.10
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Nov 2022 01:06:11 -0800 (PST)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-382f0906929so8557187b3.10
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Nov 2022 01:06:10 -0800 (PST)
+X-Received: by 2002:a81:4dc3:0:b0:370:61f5:b19e with SMTP id
+ a186-20020a814dc3000000b0037061f5b19emr11774395ywb.316.1668416770655; Mon, 14
+ Nov 2022 01:06:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdb8uYfs6w99FVjD_t6nZgDhPUx=yB1j=CmpHTHAM2QGQw@mail.gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221001220342.5828-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20221001220342.5828-1-laurent.pinchart+renesas@ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 14 Nov 2022 10:05:58 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWeZBzFM2Q8sLEqe_DfD74a1K+5qcPHADZnPfrQYqVXrg@mail.gmail.com>
+Message-ID: <CAMuHMdWeZBzFM2Q8sLEqe_DfD74a1K+5qcPHADZnPfrQYqVXrg@mail.gmail.com>
+Subject: Re: [PATCH] drm: rcar-du: Fix Kconfig dependency between RCAR_DU and RCAR_MIPI_DSI
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 11 Nov 2022, Linus Walleij wrote:
+Hi Laurent,
 
-> On Thu, Nov 10, 2022 at 2:05 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> > On Thu, 10 Nov 2022 at 12:39, Linus Walleij <linus.walleij@linaro.org> wrote:
-> > >
-> > > On Thu, Nov 10, 2022 at 12:29 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> > > > On Fri, 4 Nov 2022 at 14:32, Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > >
-> > > > > The UX500 sysctrl "set_parent" clocks implement a mux with a set_parent
-> > > > > hook, but doesn't provide a determine_rate implementation.
-> > > > >
-> > > > > This is a bit odd, since set_parent() is there to, as its name implies,
-> > > > > change the parent of a clock. However, the most likely candidate to
-> > > > > trigger that parent change is a call to clk_set_rate(), with
-> > > > > determine_rate() figuring out which parent is the best suited for a
-> > > > > given rate.
-> > > > >
-> > > > > The other trigger would be a call to clk_set_parent(), but it's far less
-> > > > > used, and it doesn't look like there's any obvious user for that clock.
-> > > >
-> > > > If I recall correctly, that is the use case we did target for these
-> > > > types of clocks. See sound/soc/ux500/ux500_ab85xx.c, for example.
-> > >
-> > > Hm I am trying to get that driver to work ... from time to time.
-> > > It's just that ALSA SoC DT has changed to much that it turns out
-> > > into a complete rewrite :/
-> > >
-> > > So in sound/soc/ux500/mop500_ab8500.c
-> > > I see this:
-> > >
-> > >         status = clk_set_parent(drvdata->clk_ptr_intclk, clk_ptr);
-> > >         if (status)
-> > > (...)
-> > >
-> > > and there is elaborate code to switch between "SYSCLK" and
-> > > "ULPCLK" (ulta-low power clock). Just like you say... however
-> > > a clock named SYSCLK or ULPCLK does not appear in the
-> > > code in drivers/clk/ux500 or any DT bindings so... it seems to
-> > > be non-working for the time being.
-> >
-> > It's definitely not working, but the corresponding clocks ("ulpclk",
-> > "intclk", "audioclk", etc) are being registered in ab8500_reg_clks().
-> >
-> > What seems to be missing is a DT conversion for these clocks, so they
-> > can be consumed properly. Right?
-> 
-> Yeps that and a few more things, I have a scratch rewrite here:
-> https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-stericsson.git/log/?h=ux500-audio-rewrite
-> 
-> I remember Lee said he had audio working with the mainline kernel
-> on Snowball at one point, unfortunately I think that was before we
-> started with the DT conversions and then we probably broke it.
+On Sun, Oct 2, 2022 at 12:06 AM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> When the R-Car MIPI DSI driver was added, it was a standalone encoder
+> driver without any dependency to or from the R-Car DU driver. Commit
+> 957fe62d7d15 ("drm: rcar-du: Fix DSI enable & disable sequence") then
+> added a direct call from the DU driver to the MIPI DSI driver, without
+> updating Kconfig to take the new dependency into account. Fix it the
+> same way that the LVDS encoder is handled.
+>
+> Fixes: 957fe62d7d15 ("drm: rcar-du: Fix DSI enable & disable sequence")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-That was also 100 years ago. :)
+Thanks for your patch, which is now commit a830a15678593948
+("drm: rcar-du: Fix Kconfig dependency between RCAR_DU
+and RCAR_MIPI_DSI") in v6.1-rc5.
 
-But yes, it used to work at one point.
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -44,12 +44,17 @@ config DRM_RCAR_LVDS
+>         select OF_FLATTREE
+>         select OF_OVERLAY
+>
+> +config DRM_RCAR_USE_MIPI_DSI
+> +       bool "R-Car DU MIPI DSI Encoder Support"
+> +       depends on DRM_BRIDGE && OF
+> +       default DRM_RCAR_DU
 
--- 
-Lee Jones [李琼斯]
+This means this driver is now enabled by default on systems that do not
+have the MIPI DSI Encoder (e.g. R-Car Gen2), and that we should probably
+disable it explicitly in shmobile_defconfig.  Is that intentional?
+
+> +       help
+> +         Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
+> +
+>  config DRM_RCAR_MIPI_DSI
+> -       tristate "R-Car DU MIPI DSI Encoder Support"
+> -       depends on DRM && DRM_BRIDGE && OF
+> +       def_tristate DRM_RCAR_DU
+> +       depends on DRM_RCAR_USE_MIPI_DSI
+>         select DRM_MIPI_DSI
+> -       help
+> -         Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
+>
+>  config DRM_RCAR_VSP
+>         bool "R-Car DU VSP Compositor Support" if ARM
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
