@@ -2,127 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 287156278B0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Nov 2022 10:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BD81627936
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Nov 2022 10:41:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236791AbiKNJHy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Nov 2022 04:07:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47356 "EHLO
+        id S236891AbiKNJlI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Nov 2022 04:41:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236276AbiKNJHa (ORCPT
+        with ESMTP id S237016AbiKNJkx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Nov 2022 04:07:30 -0500
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C14E1EC65
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Nov 2022 01:06:12 -0800 (PST)
-Received: by mail-qt1-f171.google.com with SMTP id w4so6434357qts.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Nov 2022 01:06:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bPQL6nywFkNzHXJuq1zhzWcC9UCK+YshOf1sJJOpgHo=;
-        b=RdT0iGOgXiEennzdJxzPB6bGKCd8EZ2tyBlAv7eGeArVrczVnt/0ku+dZ6RyDV/Jpz
-         MY5rtIPW4iuPNngIxxrKJOjmfRMVtJFJ+SQCMfZMfd4NiCiXtuPQQlOvxxrBJnvCaBQ2
-         bI/9bNERiRgvMYHZFD9aI6iDs33+rbWT/Zk3gWlE77iaUz4jWdEHzVxnEag7P5iN3sC3
-         E4QUpQ/j1k8EhJCavha6O0TxZMXXEZlU+bda80CX2Psl4BWEaCsGU1X8gDILEfRgub2E
-         J/eBtMQqRyW8WBE9CZXIFpTNlO/MFqapeWB2TdRVSFcSgcSehyNkO6bnSluA0tUmFq4I
-         Mf3Q==
-X-Gm-Message-State: ANoB5pnPxGvgy/6hcBtpkh+DNUuSG4wwIHyEd5LmhUwVZ889z3Nqb61E
-        q/r7z58GLGL9QaCytfLg1TDSjvPuclpn5w==
-X-Google-Smtp-Source: AA0mqf4gXu5VXylUas+Pc3ADYrzR8EOoNx7zJ0pEPPzb8Fp3/CmiAbVigDP5IeLvyD1fCpM3OitXcg==
-X-Received: by 2002:a05:622a:1aa2:b0:3a5:2766:552a with SMTP id s34-20020a05622a1aa200b003a52766552amr11749504qtc.79.1668416771473;
-        Mon, 14 Nov 2022 01:06:11 -0800 (PST)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id t6-20020a05622a180600b00343057845f7sm5388196qtc.20.2022.11.14.01.06.10
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Nov 2022 01:06:11 -0800 (PST)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-382f0906929so8557187b3.10
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Nov 2022 01:06:10 -0800 (PST)
-X-Received: by 2002:a81:4dc3:0:b0:370:61f5:b19e with SMTP id
- a186-20020a814dc3000000b0037061f5b19emr11774395ywb.316.1668416770655; Mon, 14
- Nov 2022 01:06:10 -0800 (PST)
+        Mon, 14 Nov 2022 04:40:53 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E647A1DF1B
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Nov 2022 01:40:32 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8255860F82
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Nov 2022 09:40:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DB210C433D7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Nov 2022 09:40:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668418831;
+        bh=WZxP+lXPq5eQtb9wqzgccA0QcVt/meoJGvG9mbQP6FQ=;
+        h=Subject:From:Date:To:From;
+        b=mc7kWjSDbwE2wPZMn/smst0uUZGN1Q502WBbaKDqK0TwfoWVGaTGix1C4l1mM0eM5
+         HCjIvRG2ZN/QrrnU2lgN79i72T5df/JwGYJ6xp50GS7p1WqqFomT5E/vhk6ZNZqV0V
+         KGOcFy2HOhRfgw0iacUTSwzi9Vj3+nEpjKtP7GZAsgNsfGA73HKK6aXNGlbw7wqOKD
+         UsRQN0BssXtY2+alGzn4uBOvkuaCG8KxNwWlR9xOglmjAhusAcbODrNaM+4dI69Z57
+         B7wZxDp3SOBsQUUBO/jE4x58Gnl3Wgs089G/En8QehIBaoQ6NCyZjb+rLdFrudR0i8
+         P/vom505i5hZQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BD2D2C395FE
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Nov 2022 09:40:31 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20221001220342.5828-1-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20221001220342.5828-1-laurent.pinchart+renesas@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Nov 2022 10:05:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWeZBzFM2Q8sLEqe_DfD74a1K+5qcPHADZnPfrQYqVXrg@mail.gmail.com>
-Message-ID: <CAMuHMdWeZBzFM2Q8sLEqe_DfD74a1K+5qcPHADZnPfrQYqVXrg@mail.gmail.com>
-Subject: Re: [PATCH] drm: rcar-du: Fix Kconfig dependency between RCAR_DU and RCAR_MIPI_DSI
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <166841883170.29880.18072832310479897277.git-patchwork-summary@kernel.org>
+Date:   Mon, 14 Nov 2022 09:40:31 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hello:
 
-On Sun, Oct 2, 2022 at 12:06 AM Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
-> When the R-Car MIPI DSI driver was added, it was a standalone encoder
-> driver without any dependency to or from the R-Car DU driver. Commit
-> 957fe62d7d15 ("drm: rcar-du: Fix DSI enable & disable sequence") then
-> added a direct call from the DU driver to the MIPI DSI driver, without
-> updating Kconfig to take the new dependency into account. Fix it the
-> same way that the LVDS encoder is handled.
->
-> Fixes: 957fe62d7d15 ("drm: rcar-du: Fix DSI enable & disable sequence")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Thanks for your patch, which is now commit a830a15678593948
-("drm: rcar-du: Fix Kconfig dependency between RCAR_DU
-and RCAR_MIPI_DSI") in v6.1-rc5.
+Patch: can: rcar_canfd: Add missing ECC error checks for channels 2-7
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Marc Kleine-Budde <mkl@pengutronix.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=689765
+  Lore link: https://lore.kernel.org/r/4edb2ea46cc64d0532a08a924179827481e14b4f.1666951503.git.geert+renesas@glider.be
 
-> --- a/drivers/gpu/drm/rcar-du/Kconfig
-> +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> @@ -44,12 +44,17 @@ config DRM_RCAR_LVDS
->         select OF_FLATTREE
->         select OF_OVERLAY
->
-> +config DRM_RCAR_USE_MIPI_DSI
-> +       bool "R-Car DU MIPI DSI Encoder Support"
-> +       depends on DRM_BRIDGE && OF
-> +       default DRM_RCAR_DU
 
-This means this driver is now enabled by default on systems that do not
-have the MIPI DSI Encoder (e.g. R-Car Gen2), and that we should probably
-disable it explicitly in shmobile_defconfig.  Is that intentional?
+Total patches: 1
 
-> +       help
-> +         Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
-> +
->  config DRM_RCAR_MIPI_DSI
-> -       tristate "R-Car DU MIPI DSI Encoder Support"
-> -       depends on DRM && DRM_BRIDGE && OF
-> +       def_tristate DRM_RCAR_DU
-> +       depends on DRM_RCAR_USE_MIPI_DSI
->         select DRM_MIPI_DSI
-> -       help
-> -         Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
->
->  config DRM_RCAR_VSP
->         bool "R-Car DU VSP Compositor Support" if ARM
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Gr{oetje,eeting}s,
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
