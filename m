@@ -2,140 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1652862A3F0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 22:21:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C00B162ADAC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 23:06:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238754AbiKOVV0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Nov 2022 16:21:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45428 "EHLO
+        id S232010AbiKOWF7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Nov 2022 17:05:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238758AbiKOVVE (ORCPT
+        with ESMTP id S232403AbiKOWF6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Nov 2022 16:21:04 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DED3F31DE0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 13:20:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668547220; x=1700083220;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ox/F6vN5N/7wKcjYvJIzpi96t1yZIbhKJo41w6nh+LY=;
-  b=n9hJ1qFHC3XoAqa+nutlOx0M4p7aJzQOOqkm62RW5ywCwhYQmFzU+vRl
-   o+X6aHiz2sSIvf/bN2vAoWZXyxo/5oy7a7Ja0YR/iat00VSrDyyWTO5yA
-   EdVgOEoia5QwoUtFyWHisjGdUpF1jJPS57XRHcE00zv0eRWN2Ols/uCHK
-   ekxhBsa9imfxPyiDx9tz24+oYI53+KRo+/bg7e9SPUbWJfyg5CSrlLGY1
-   aMqCiYbyfPIkCw0r4FTN1pnLZDyC0UhHt8dspa6CpPwbyTTB8wgNOhEnB
-   +qnQjyO5mryBoXA6Oq+z7y4BWWw7pRAkFfcWMy07OunynZ+iGaLuW5O2z
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="295736810"
-X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; 
-   d="scan'208";a="295736810"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 13:20:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="672142035"
-X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; 
-   d="scan'208";a="672142035"
-Received: from lkp-server01.sh.intel.com (HELO ebd99836cbe0) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 15 Nov 2022 13:20:19 -0800
-Received: from kbuild by ebd99836cbe0 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1ov3Lu-0001fL-1V;
-        Tue, 15 Nov 2022 21:20:18 +0000
-Date:   Wed, 16 Nov 2022 05:19:57 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 7c5179718b0c2a627f8db3044b0414e3484564c6
-Message-ID: <6374027d.hbMnuWd5RmMk9Fqy%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 15 Nov 2022 17:05:58 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D3B7F21272;
+        Tue, 15 Nov 2022 14:05:57 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A0F1913D5;
+        Tue, 15 Nov 2022 14:06:03 -0800 (PST)
+Received: from pierre123.arm.com (unknown [10.57.6.31])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C04963F73B;
+        Tue, 15 Nov 2022 14:05:54 -0800 (PST)
+From:   Pierre Gondois <pierre.gondois@arm.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Rob.Herring@arm.com, sudeep.holla@arm.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Pierre Gondois <pierre.gondois@arm.com>
+Subject: [PATCH -next] cacheinfo: Remove of_node_put() for fw_token
+Date:   Tue, 15 Nov 2022 23:05:20 +0100
+Message-Id: <20221115220520.2076189-1-pierre.gondois@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 7c5179718b0c2a627f8db3044b0414e3484564c6  Merge branch 'renesas-next' into renesas-devel
+fw_token is used for DT/ACPI systems to identify CPUs sharing caches.
+For DT based systems, fw_token is set to a pointer to a DT node.
 
-elapsed time: 721m
+commit ("cacheinfo: Decrement refcount in cache_setup_of_node()")
+doesn't increment the refcount of fw_token anymore in
+cache_setup_of_node(). fw_token is indeed used as a token and not
+as a (struct device_node*), so no reference to fw_token should be
+kept.
 
-configs tested: 58
-configs skipped: 2
+However, [1] is triggered when hotplugging a CPU multiple times
+since cache_shared_cpu_map_remove() decrements the refcount to
+fw_token at each CPU unplugging, eventually reaching 0.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Remove of_node_put() for fw_token in cache_shared_cpu_map_remove().
 
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-arc                                 defconfig
-i386                                defconfig
-ia64                             allmodconfig
-alpha                               defconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a002-20221114
-s390                                defconfig
-x86_64               randconfig-a001-20221114
-m68k                             allmodconfig
-x86_64               randconfig-a004-20221114
-x86_64                          rhel-8.3-func
-alpha                            allyesconfig
-arc                              allyesconfig
-s390                             allmodconfig
-x86_64               randconfig-a003-20221114
-x86_64                              defconfig
-x86_64                    rhel-8.3-kselftests
-arc                  randconfig-r043-20221114
-x86_64                           rhel-8.3-kvm
-sh                               allmodconfig
-mips                             allyesconfig
-x86_64               randconfig-a006-20221114
-m68k                             allyesconfig
-x86_64                         rhel-8.3-kunit
-s390                             allyesconfig
-i386                 randconfig-a001-20221114
-x86_64               randconfig-a005-20221114
-i386                 randconfig-a004-20221114
-i386                 randconfig-a002-20221114
-x86_64                           rhel-8.3-syz
-i386                 randconfig-a005-20221114
-x86_64                               rhel-8.3
-i386                 randconfig-a006-20221114
-i386                 randconfig-a003-20221114
-x86_64                           allyesconfig
-arm                                 defconfig
-powerpc                          allmodconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-i386                             allyesconfig
+[1]
+[   53.651182] ------------[ cut here ]------------
+[   53.651186] refcount_t: saturated; leaking memory.
+[   53.651223] WARNING: CPU: 4 PID: 32 at lib/refcount.c:22 refcount_warn_saturate (lib/refcount.c:22 (discriminator 3))
+[   53.651241] Modules linked in:
+[   53.651249] CPU: 4 PID: 32 Comm: cpuhp/4 Tainted: G        W          6.1.0-rc1-14091-g9fdf2ca7b9c8 #76
+[   53.651261] Hardware name: ARM LTD ARM Juno Development Platform/ARM Juno Development Platform, BIOS EDK II Oct 31 2022
+[   53.651268] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   53.651279] pc : refcount_warn_saturate (lib/refcount.c:22 (discriminator 3))
+[   53.651293] lr : refcount_warn_saturate (lib/refcount.c:22 (discriminator 3))
+[...]
+[   53.651513] Call trace:
+[...]
+[   53.651735] of_node_release (drivers/of/dynamic.c:335)
+[   53.651750] kobject_put (lib/kobject.c:677 lib/kobject.c:704 ./include/linux/kref.h:65 lib/kobject.c:721)
+[   53.651762] of_node_put (drivers/of/dynamic.c:49)
+[   53.651776] free_cache_attributes.part.0 (drivers/base/cacheinfo.c:712)
+[   53.651792] cacheinfo_cpu_pre_down (drivers/base/cacheinfo.c:718)
+[   53.651807] cpuhp_invoke_callback (kernel/cpu.c:247 (discriminator 4))
+[   53.651819] cpuhp_thread_fun (kernel/cpu.c:785)
+[   53.651832] smpboot_thread_fn (kernel/smpboot.c:164 (discriminator 3))
+[   53.651847] kthread (kernel/kthread.c:376)
+[   53.651858] ret_from_fork (arch/arm64/kernel/entry.S:861)
+[   53.651869] ---[ end trace 0000000000000000 ]---
 
-clang tested configs:
-hexagon              randconfig-r045-20221114
-hexagon              randconfig-r041-20221114
-s390                 randconfig-r044-20221114
-x86_64               randconfig-a012-20221114
-x86_64               randconfig-a015-20221114
-riscv                randconfig-r042-20221114
-x86_64               randconfig-a011-20221114
-i386                 randconfig-a011-20221114
-i386                 randconfig-a014-20221114
-x86_64               randconfig-a013-20221114
-i386                 randconfig-a013-20221114
-x86_64               randconfig-a014-20221114
-i386                 randconfig-a012-20221114
-x86_64               randconfig-a016-20221114
-i386                 randconfig-a015-20221114
-i386                 randconfig-a016-20221114
+Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
+---
+ drivers/base/cacheinfo.c | 2 --
+ 1 file changed, 2 deletions(-)
 
+diff --git a/drivers/base/cacheinfo.c b/drivers/base/cacheinfo.c
+index 04317cde800c..950b22cdb5f7 100644
+--- a/drivers/base/cacheinfo.c
++++ b/drivers/base/cacheinfo.c
+@@ -317,8 +317,6 @@ static void cache_shared_cpu_map_remove(unsigned int cpu)
+ 			cpumask_clear_cpu(cpu, &sib_leaf->shared_cpu_map);
+ 			cpumask_clear_cpu(sibling, &this_leaf->shared_cpu_map);
+ 		}
+-		if (of_have_populated_dt())
+-			of_node_put(this_leaf->fw_token);
+ 	}
+ }
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
