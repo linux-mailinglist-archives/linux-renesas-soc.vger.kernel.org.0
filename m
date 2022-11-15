@@ -2,131 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89AD7629F8D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 17:49:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AADCA62A13F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 19:21:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230245AbiKOQtv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Nov 2022 11:49:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60492 "EHLO
+        id S230429AbiKOSVp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Nov 2022 13:21:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231867AbiKOQtu (ORCPT
+        with ESMTP id S230409AbiKOSVn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Nov 2022 11:49:50 -0500
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 279421A220
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 08:49:46 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:8c33:62a1:bd29:7c58])
-        by andre.telenet-ops.be with bizsmtp
-        id kgpj2800N0JF8f801gpjSd; Tue, 15 Nov 2022 17:49:44 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ouz83-000cND-LZ
-        for linux-renesas-soc@vger.kernel.org; Tue, 15 Nov 2022 17:49:43 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ouz83-00D24u-1Y
-        for linux-renesas-soc@vger.kernel.org; Tue, 15 Nov 2022 17:49:43 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2022-11-15-v6.1-rc5
-Date:   Tue, 15 Nov 2022 17:49:43 +0100
-Message-Id: <20221115164943.3106209-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Tue, 15 Nov 2022 13:21:43 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E1061740D;
+        Tue, 15 Nov 2022 10:21:42 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id y14so38181957ejd.9;
+        Tue, 15 Nov 2022 10:21:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=loW6rE2gGS02TW4sdv28/5PXvnJnn8jUaLXyFyxIBBw=;
+        b=LA828D6tRnlkCLYZPkPlTBKFXEVeuzcoHeggCmhBc0leuImIicTgjH/A+lsrxXyCRm
+         xggvxWALf8U2q+BIWkcePsNbOyPLCnsPSmxrl6gAkDEAueKu7pk/hNz65g8gavkoeqhi
+         4VmODbsp98AehsvEizh8jJYMJVBzEj5Hc/alM4l3u114Pow4tjXx3lpnV5ZDEpT1nala
+         6pvwxu7T/QPMRcmyomJJAbSt5Y7mclWTorwM0nzDHjaSKjR+9xgjICe3RULoEN/3bsLr
+         MRnSGTNQ3h1fBnI4l/gCoOxwkzCMsLWDMNdmI5rLTXycIdi4bW0U5rwcaei703u8i0ME
+         Jb1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=loW6rE2gGS02TW4sdv28/5PXvnJnn8jUaLXyFyxIBBw=;
+        b=whDaHHJ6Cqycaf2fnCdnyNhrm5jntp7zi/DR/NEi8PkL6ItDAJa4xqdbsANxxp+Q0U
+         8WP6WTuhmJbJQQMYEs9RC9BGC+qgi0Bvkhf3VUKyGnKpAxMhPPEejOlrqvljXIcqGy3W
+         Q69nQpgptsWVgODzxOHQXgVU5TAWvLQKGtTnKXXOXL05jKOKBayIBjuLw14C7RAjfv9X
+         UZYcHQDc0yhD24eGAeD8tSpY+fAj2N0e9sKYZm15V947rasZ1ntzmf0frOKnxwkSEWsm
+         0BNpT2rNb2Lw5KYS9cceIJjr1StpvqHvLJAegnSqwlM3Nk2QRe2cGo9YWuDG4l+RukAg
+         wKqg==
+X-Gm-Message-State: ANoB5pnXeInVY0YQkRp5kq0mJ5jerRh0VJ2hf2+nLG+FX5mzDXBZXVe8
+        5Ok3+9X5Z9M8iEOMWZVwxI2LhSxfvROUNYj7guU=
+X-Google-Smtp-Source: AA0mqf6JCfjVF2CWf2wVuu3vn+PsZPYxNJ572dgDVuVXioqlruUP16R3Ykd7ViMw5b+tNOY1knzEH1M29bCy/oc7+38=
+X-Received: by 2002:a17:906:4e42:b0:781:e568:294f with SMTP id
+ g2-20020a1709064e4200b00781e568294fmr15100953ejw.447.1668536500767; Tue, 15
+ Nov 2022 10:21:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20221115105135.1180490-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y3OgSAnst0qt5WSk@wendy>
+In-Reply-To: <Y3OgSAnst0qt5WSk@wendy>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 15 Nov 2022 18:21:14 +0000
+Message-ID: <CA+V-a8vL5r-xMeCiYRax-dM2Uo0ghgzRiyY99nNn089CjJwoBg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] RZ/Five: Enable ADC/CANFD/I2C/OPP/Thermal Zones/TSU
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2022-11-15-v6.1-rc5 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+Hi Conor,
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+Thank you for the review.
 
-Today's version is based on renesas-devel-2022-11-15-v6.1-rc5.
+On Tue, Nov 15, 2022 at 2:21 PM Conor Dooley <conor.dooley@microchip.com> wrote:
+>
+> On Tue, Nov 15, 2022 at 10:51:32AM +0000, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Hi All,
+> >
+> > This patch series aims to enable support for below blocks
+> > on RZ/Five SoC/SMARC EVK:
+> > - ADC
+> > - CANFD
+> > - I2C
+> > - OPP
+> > - Thermal Zones
+> > - TSU
+> >
+> > Note, patches apply on top of [0].
+> >
+> > [0] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log/?h=renesas-riscv-dt-for-v6.2
+> >
+> > Cheers,
+> > Prabhakar
+> >
+> > Lad Prabhakar (3):
+> >   riscv: Kconfig: Enable cpufreq kconfig menu
+> >   riscv: dts: renesas: r9a07g043f/rzfive-smarc-som: Enable
+> >     ADC/OPP/Thermal Zones/TSU
+> >   riscv: dts: renesas: rzfive-smarc: Enable CANFD/I2C
+>
+> I know ~nothing about your SoC so idk if the values are correct, but I
+> did give it a go earlier to see if it did anything warning wise. Seeing
+> that it didn't cause any I am curious - how come these didn't land in
+> the original dts? Just waiting for driver stuff to land to support it?
+>
+I wanted bare minimal stuff in the initial patchset.
 
-Included branches with driver code:
-  - renesas-clk-for-v6.2
-  - renesas-pinctrl-for-v6.2
-  - topic/r8a779g0-cpu-topology-v1
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/gpio-logic-analyzer-v8~1
+> Anyway, no new warnings which is what I care about - I suppose that
+> makes it an acked-by?
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Can include that tag if you like. Either way, nice to see some of the
+> /delete-node/s etc being removed.
+>
+Thanks, Geert should pick the tag while picking the DTS/I patches.
 
-Included fixes:
-  - tcp: Fix tcp_syn_flood_action() if CONFIG_IPV6=n
-  - gpiolib: of: Use correct fwnode for DT-probed chips
-  - Revert "cacheinfo: Decrement refcount in cache_setup_of_node()"
-  - [LOCAL] soc: renesas: rcar-rst: Allow WDT reset on R-Car Gen4
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+For the Kconfig patch it needs to go via the RISCV tree or can that be
+picked by Geert too with the rest of the other patches?
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git#irq/irqchip-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.libc.org/linux-sh#for-next
-  - https://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+Cheers,
+Prabhakar
