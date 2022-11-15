@@ -2,121 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0D486299CF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 14:15:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BDE536299D7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 14:16:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230348AbiKONO6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Nov 2022 08:14:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47310 "EHLO
+        id S231179AbiKONQd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Nov 2022 08:16:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230293AbiKONO6 (ORCPT
+        with ESMTP id S230456AbiKONQc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Nov 2022 08:14:58 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2C06BA
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 05:14:56 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id bs21so24200085wrb.4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 05:14:56 -0800 (PST)
+        Tue, 15 Nov 2022 08:16:32 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81A8628E36
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 05:16:30 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id s8so7211094lfc.8
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 05:16:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+uOhXJNPsCrNtfS+VTjqltkzY3mquo9TauaFpGO0FGI=;
-        b=JNEh6uNdhbc1tR6+IfmAREevcDwJ7LU8mflg0QQ5kh16Rpw2huSGkphDn7LySE03Kd
-         VsINbZ8dPod+mJCbvpbg/gWDAXD7KIwxH9ahz3uKzYgzr/Hb0sK4pz6f4UaMCoPEFhnk
-         DemzHCSn2EEoYyDYRdsvGcsc8rQ3+a1xXh5NY7Z48aJQdh3k984/8cVeoaLxcJxIk34Z
-         u/J7MfOmB8P2OY74f32JO5qT+do3/ih8NY9pJpqHlH+JKqFWRWLSQmxRWgyJXc2jGvDy
-         DroViXcZBQOeeOFI6En6g5OMDS+mLPWWE8HnjSqjhmkQ3SRpGNIk8FdHnsYkcsbqZPm3
-         oOaw==
+        bh=vl1BV7fBxn6Va3uDyQcOPanm5XadBqhJHUBBX9Sb6bI=;
+        b=M+nPLf+nbaNgQJZE3GZoHbIVDgFHNZyWDibcs3t07MLtUGfM+jXjJ4HMxEXGmruaKO
+         2rMbiJQKIt7T5dUt2xI7GQIs4T6EFphstUZVsobgWUz2wybUBqkKo7BhEiE8k0VGYmP9
+         F92t0Z8Up2MvN5Lx6F4B4tZ3/H/qeK11Khpe5vrxAFRc2z+jjVmdB/f0snl28Phd5G3Z
+         VhU2P0WgWkgC5B+NIS2hkr5ga7bb0r1QfvFF9P8c7bWl1W+KitlJNJSELPEElQtzJUHj
+         5VIPwVqpArabsYNNFerQQ62tF72X3gcMAVY68mmBQjvkbIyJ0LCzOioZk0BrnsaHOlcJ
+         rtnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+uOhXJNPsCrNtfS+VTjqltkzY3mquo9TauaFpGO0FGI=;
-        b=Jpiu3W7PJFijzRjBNxAlo73PPG670n8GhAYZhjfDxEmXJTnObldE0kJ9LSXeYfMxnB
-         HMmh1XP8AO6xgghxg377rxKIRRuWdLyXCf7IyYM8e4Zbk+/6HNjnYsiik973OgmQE09X
-         qvGKUe+LcHXhuT5YVcCMlcVxHve8ZExTHaqlG1YgrZFDEUV0emXGUONTxdOcAf+DcYTn
-         q/NJ59rmnFir2EvkgKaFWbTQGkgydA6G5AP+S6mxhIfTJRbejZglDXl+eQKibb+swz1Q
-         YcAt4r5qvykCul1dchSMdl3nS9x3YU6MVt9wMclQ1iotNDc3T+8EqeZJo+mYCu+t2xk7
-         J22g==
-X-Gm-Message-State: ANoB5plBv+cxUfbkfLiujVrwQ6fMzCe1AGJbepG+XuqBf9+ZIRKcbq1I
-        XdQVbdreo7m0tGXNcis76Ys=
-X-Google-Smtp-Source: AA0mqf7QvO2kKaFuaIRhDgHrjaHcUMwdh6bvbyhX7WDVmdshHLwxjDp5JBWgOsaCBXW9SwOsA43gIw==
-X-Received: by 2002:a5d:484c:0:b0:22e:3ebc:7074 with SMTP id n12-20020a5d484c000000b0022e3ebc7074mr10899393wrs.354.1668518095246;
-        Tue, 15 Nov 2022 05:14:55 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id y15-20020a5d614f000000b0022ae401e9e0sm12721118wrt.78.2022.11.15.05.14.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Nov 2022 05:14:54 -0800 (PST)
-Date:   Tue, 15 Nov 2022 16:14:50 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     yoshihiro.shimoda.uh@renesas.com
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [bug report] net: ethernet: renesas: Add support for "Ethernet
- Switch"
-Message-ID: <Y3OQysxE+f/AmI3y@kili>
+        bh=vl1BV7fBxn6Va3uDyQcOPanm5XadBqhJHUBBX9Sb6bI=;
+        b=QpOkM2wLFus20913y4ubQ/BcPgqmdOMIq/LPtyiLIcyrjrOzKYC9Fb/ujyFaSnjIKY
+         EQlGy9RFJZDclr0THd/BYZumTg4iSE730gh0grY2IMk6EqPlLtgqZhf01SckGZ22zH+5
+         bszMnJrtsZZHnpVvqDwbS8WDkAW9qv0qqYgvzpPYbL9OZ2aVqPreWEmgHTTjH1APF2Et
+         sFhb0Als+BbaXuW80WXwR5SxiFevXqEvzp1rLNilqTo6d4nNry4DxnJlLoKLFwfxfjVb
+         pSR8xvj/si5oVZIYickFrfBI1VJ0+dK6GbJSGpMDtZnPmscTyQ14vxGyPJJwxanZkiOV
+         84Rw==
+X-Gm-Message-State: ANoB5pkJlc4bZFUqaZVn7MP+2+A1oOhs+Qs73/WqOq4mkTE775aEUdiB
+        ZC6Wc/XoZO+/yYa9skj67L2VFg==
+X-Google-Smtp-Source: AA0mqf4khaa5y9EhlBl8gS9PmoJr4OoakMGwbZAbkLgVi7zDvGOcJrtmg5qiaP7TkzP5lsOga3hyuw==
+X-Received: by 2002:a05:6512:128e:b0:4b3:ccea:9b2e with SMTP id u14-20020a056512128e00b004b3ccea9b2emr6383119lfs.379.1668518188894;
+        Tue, 15 Nov 2022 05:16:28 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id bi20-20020a05651c231400b0026dcf0cbb97sm2507562ljb.137.2022.11.15.05.16.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Nov 2022 05:16:28 -0800 (PST)
+Message-ID: <51d42fc2-0492-9077-302d-5c3be4b45cd1@linaro.org>
+Date:   Tue, 15 Nov 2022 14:16:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 6/7] ARM: dts: r9a06g032: Add the USBF controller node
+Content-Language: en-US
+To:     Herve Codina <herve.codina@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+References: <20221114111513.1436165-1-herve.codina@bootlin.com>
+ <20221114111513.1436165-7-herve.codina@bootlin.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221114111513.1436165-7-herve.codina@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Yoshihiro Shimoda,
+On 14/11/2022 12:15, Herve Codina wrote:
+> Add the USBF controller available in the r9a06g032 SoC.
+> 
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> ---
+>  arch/arm/boot/dts/r9a06g032.dtsi | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
+> index 563024c9a4ae..a4bb069457a3 100644
+> --- a/arch/arm/boot/dts/r9a06g032.dtsi
+> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
+> @@ -117,6 +117,18 @@ dmamux: dma-router@a0 {
+>  			};
+>  		};
+>  
+> +		udc: usb@4001e000 {
+> +			compatible = "renesas,r9a06g032-usbf", "renesas,rzn1-usbf";
+> +			reg = <0x4001e000 0x2000>;
+> +			interrupts = <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&sysctrl R9A06G032_HCLK_USBF>,
+> +				 <&sysctrl R9A06G032_HCLK_USBPM>;
+> +			clock-names = "hclkf", "hclkpm";
+> +			power-domains = <&sysctrl>;
+> +			status = "disabled";
 
-The patch 3590918b5d07: "net: ethernet: renesas: Add support for
-"Ethernet Switch"" from Oct 31, 2022, leads to the following Smatch
-static checker warning:
+If you provided all resources (clocks, power domains etc), why disabling it?
 
-	drivers/net/ethernet/renesas/rswitch.c:1717 rswitch_init()
-	warn: '%pM' cannot be followed by 'n'
-
-drivers/net/ethernet/renesas/rswitch.c
-    1706 
-    1707         for (i = 0; i < RSWITCH_NUM_PORTS; i++) {
-    1708                 err = register_netdev(priv->rdev[i]->ndev);
-    1709                 if (err) {
-    1710                         for (i--; i >= 0; i--)
-    1711                                 unregister_netdev(priv->rdev[i]->ndev);
-    1712                         goto err_register_netdev;
-    1713                 }
-    1714         }
-    1715 
-    1716         for (i = 0; i < RSWITCH_NUM_PORTS; i++)
---> 1717                 netdev_info(priv->rdev[i]->ndev, "MAC address %pMn",
-                                                                          ^
-This 'n' doesn't make sense.  See mac_address_string() for more details.
-
-    1718                             priv->rdev[i]->ndev->dev_addr);
-    1719 
-    1720         return 0;
-    1721 
-    1722 err_register_netdev:
-    1723         rswitch_ether_port_deinit_all(priv);
-    1724 
-    1725 err_ether_port_init_all:
-    1726         rswitch_gwca_hw_deinit(priv);
-    1727 
-    1728 err_gwca_hw_init:
-    1729 err_gwca_request_irq:
-    1730         rcar_gen4_ptp_unregister(priv->ptp_priv);
-    1731 
-    1732 err_ptp_register:
-    1733         for (i = 0; i < RSWITCH_NUM_PORTS; i++)
-    1734                 rswitch_device_free(priv, i);
-    1735 
-    1736 err_device_alloc:
-    1737         rswitch_gwca_desc_free(priv);
-    1738 
-    1739         return err;
-    1740 }
-
-regards,
-dan carpenter
+Best regards,
+Krzysztof
 
