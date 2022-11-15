@@ -2,108 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C00B162ADAC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 23:06:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E13E762ADD3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 23:10:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232010AbiKOWF7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Nov 2022 17:05:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48408 "EHLO
+        id S231431AbiKOWK3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Nov 2022 17:10:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232403AbiKOWF6 (ORCPT
+        with ESMTP id S230287AbiKOWK2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Nov 2022 17:05:58 -0500
+        Tue, 15 Nov 2022 17:10:28 -0500
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D3B7F21272;
-        Tue, 15 Nov 2022 14:05:57 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DFE8E2FC37;
+        Tue, 15 Nov 2022 14:10:26 -0800 (PST)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A0F1913D5;
-        Tue, 15 Nov 2022 14:06:03 -0800 (PST)
-Received: from pierre123.arm.com (unknown [10.57.6.31])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C04963F73B;
-        Tue, 15 Nov 2022 14:05:54 -0800 (PST)
-From:   Pierre Gondois <pierre.gondois@arm.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Rob.Herring@arm.com, sudeep.holla@arm.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Pierre Gondois <pierre.gondois@arm.com>
-Subject: [PATCH -next] cacheinfo: Remove of_node_put() for fw_token
-Date:   Tue, 15 Nov 2022 23:05:20 +0100
-Message-Id: <20221115220520.2076189-1-pierre.gondois@arm.com>
-X-Mailer: git-send-email 2.25.1
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EE50F13D5;
+        Tue, 15 Nov 2022 14:10:32 -0800 (PST)
+Received: from [10.57.6.31] (unknown [10.57.6.31])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C90D53F73B;
+        Tue, 15 Nov 2022 14:10:24 -0800 (PST)
+Message-ID: <20ab3aba-0f19-a5a5-1fe6-16f579879c28@arm.com>
+Date:   Tue, 15 Nov 2022 23:10:19 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] cacheinfo: Decrement refcount in cache_setup_of_node()
+Content-Language: en-US
+To:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-kernel@vger.kernel.org, Rob.Herring@arm.com,
+        sudeep.holla@arm.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20221026185954.991547-1-pierre.gondois@arm.com>
+ <CAMuHMdV_rQcKVn73ywh_KcJS2uZ0xTdzGAYcTiQov4UzRouRvQ@mail.gmail.com>
+ <CGME20221115193015eucas1p18c4b8ba131b72bc9017a14568a6a54bc@eucas1p1.samsung.com>
+ <254cba04-0151-f7f1-1986-a8b763e940d1@samsung.com>
+From:   Pierre Gondois <pierre.gondois@arm.com>
+In-Reply-To: <254cba04-0151-f7f1-1986-a8b763e940d1@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-fw_token is used for DT/ACPI systems to identify CPUs sharing caches.
-For DT based systems, fw_token is set to a pointer to a DT node.
 
-commit ("cacheinfo: Decrement refcount in cache_setup_of_node()")
-doesn't increment the refcount of fw_token anymore in
-cache_setup_of_node(). fw_token is indeed used as a token and not
-as a (struct device_node*), so no reference to fw_token should be
-kept.
 
-However, [1] is triggered when hotplugging a CPU multiple times
-since cache_shared_cpu_map_remove() decrements the refcount to
-fw_token at each CPU unplugging, eventually reaching 0.
+On 11/15/22 20:30, Marek Szyprowski wrote:
+> Hi Geert,
+> 
+> On 15.11.2022 14:06, Geert Uytterhoeven wrote:
+>> On Wed, Oct 26, 2022 at 9:03 PM Pierre Gondois <pierre.gondois@arm.com> wrote:
+>>> Refcounts to DT nodes are only incremented in the function
+>>> and never decremented. Decrease the refcounts when necessary.
+>>>
+>>> Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
+>> Thanks for your patch, which is now commit 3da72e18371c41a6
+>> ("cacheinfo: Decrement refcount in cache_setup_of_node()") in
+>> driver-core-next.
+>>
+>> I have bisected a refcount underflow during s2ram to this commit:
+> 
+> Similar issue can be reproduced with qemu/arm64 'virt' machine during boot:
+> 
 
-Remove of_node_put() for fw_token in cache_shared_cpu_map_remove().
+Hello Geert, Marek,
 
-[1]
-[   53.651182] ------------[ cut here ]------------
-[   53.651186] refcount_t: saturated; leaking memory.
-[   53.651223] WARNING: CPU: 4 PID: 32 at lib/refcount.c:22 refcount_warn_saturate (lib/refcount.c:22 (discriminator 3))
-[   53.651241] Modules linked in:
-[   53.651249] CPU: 4 PID: 32 Comm: cpuhp/4 Tainted: G        W          6.1.0-rc1-14091-g9fdf2ca7b9c8 #76
-[   53.651261] Hardware name: ARM LTD ARM Juno Development Platform/ARM Juno Development Platform, BIOS EDK II Oct 31 2022
-[   53.651268] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   53.651279] pc : refcount_warn_saturate (lib/refcount.c:22 (discriminator 3))
-[   53.651293] lr : refcount_warn_saturate (lib/refcount.c:22 (discriminator 3))
-[...]
-[   53.651513] Call trace:
-[...]
-[   53.651735] of_node_release (drivers/of/dynamic.c:335)
-[   53.651750] kobject_put (lib/kobject.c:677 lib/kobject.c:704 ./include/linux/kref.h:65 lib/kobject.c:721)
-[   53.651762] of_node_put (drivers/of/dynamic.c:49)
-[   53.651776] free_cache_attributes.part.0 (drivers/base/cacheinfo.c:712)
-[   53.651792] cacheinfo_cpu_pre_down (drivers/base/cacheinfo.c:718)
-[   53.651807] cpuhp_invoke_callback (kernel/cpu.c:247 (discriminator 4))
-[   53.651819] cpuhp_thread_fun (kernel/cpu.c:785)
-[   53.651832] smpboot_thread_fn (kernel/smpboot.c:164 (discriminator 3))
-[   53.651847] kthread (kernel/kthread.c:376)
-[   53.651858] ret_from_fork (arch/arm64/kernel/entry.S:861)
-[   53.651869] ---[ end trace 0000000000000000 ]---
+Thanks for reporting the issue. The patch at:
+https://lore.kernel.org/all/20221115220520.2076189-1-pierre.gondois@arm.com/
+should fix it,
 
-Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
----
- drivers/base/cacheinfo.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/base/cacheinfo.c b/drivers/base/cacheinfo.c
-index 04317cde800c..950b22cdb5f7 100644
---- a/drivers/base/cacheinfo.c
-+++ b/drivers/base/cacheinfo.c
-@@ -317,8 +317,6 @@ static void cache_shared_cpu_map_remove(unsigned int cpu)
- 			cpumask_clear_cpu(cpu, &sib_leaf->shared_cpu_map);
- 			cpumask_clear_cpu(sibling, &this_leaf->shared_cpu_map);
- 		}
--		if (of_have_populated_dt())
--			of_node_put(this_leaf->fw_token);
- 	}
- }
- 
--- 
-2.25.1
-
+Regards,
+Pierre
