@@ -2,99 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00F2C629972
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 13:57:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B8FC629994
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 14:05:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238222AbiKOM53 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Nov 2022 07:57:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35702 "EHLO
+        id S238016AbiKONFo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Nov 2022 08:05:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230468AbiKOM52 (ORCPT
+        with ESMTP id S236993AbiKONFn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Nov 2022 07:57:28 -0500
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31D112C7;
-        Tue, 15 Nov 2022 04:57:28 -0800 (PST)
-Received: by mail-qt1-f177.google.com with SMTP id jr19so8601580qtb.7;
-        Tue, 15 Nov 2022 04:57:28 -0800 (PST)
+        Tue, 15 Nov 2022 08:05:43 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E03912ADA
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 05:05:41 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id c1so24304836lfi.7
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 05:05:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mdvIIl4cgeDqGAAZabaWbNUrV+o8u8RyyIYZ5puj5yk=;
+        b=qOtJaIwH5zDp2x+c7JZp5p6url0leqnsVkLXKiytCF+mj9qC/OPnLPj+LipgqD5BoI
+         hfd1LAOrqW8F0caLVPawRfohG+XUQdZMRPGQDRmQndRQpOke7jigxlvXImtU0edjAQsx
+         xFJGxCvvnvcm158dkvd4JFuB0TEz4P7c9P7L/CTPyZrQNGFHJlqpI8U48Ztgi5c+rysz
+         mDLJ+ZjLe6xNgIuWvquFNs1ureCvY4ydvXC/UtTMJ4pAXLkC7lQuZ7fzfuguWyYRh6+5
+         HhOUZ/+sGDPkLAa6p5dj7ekCJIxNILV+zs3IPIUQnORa0pK9Yb3LJq1ULLXemoB2apHk
+         Nd5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AHkJPzka4zfXCGTLs0aO8VP7mGUblhi6WGRHIHM6AP4=;
-        b=W/TD5vpJBlhgyRRBRlGaO7+ipmFEYCspKfYpckw8N5NDsj9OwXk2u1FyoGLZJmG0AJ
-         WfxliHskXp/NcKrz7nIsACXpvnQAlpFD+9PYlh27k3P2TjZRX0rF9F8dssuHZnqgbAS2
-         iUmo+CL0pVIClpP9hx6vc7pUi24ls8s/vEOm34qxUF3WSGTOQX+RiNEo+SRH7UwGcikr
-         Ah5UHbj1S4sywaBQeiIIZUfNeTXbt3aLixM7fCwDBjg+pX/pk3Xv0KxqGY6KFyazjQsV
-         oBSDJxx75KKwbPX4Pwo/z4UewSPJJ+HM7k3jxbJgRZVLjxZd658pK1/Gy6IRNI5i9x0G
-         iQAA==
-X-Gm-Message-State: ANoB5plFuagK/H2HR8QJrKcZ4qzSKaAxKseLdM4bmRVpPzo1rUJm60Mp
-        RCi74wNalOs0jw1NgMRjgr1usafZspSqrA==
-X-Google-Smtp-Source: AA0mqf4A5haEB1MLSv4thEtH6i37ACnXrWnkiijgSliXdhTxkskYHGxLehBjjV85ZuFx+JBO9Ep9rg==
-X-Received: by 2002:ac8:4753:0:b0:3a5:2967:f8b6 with SMTP id k19-20020ac84753000000b003a52967f8b6mr16763788qtp.86.1668517047205;
-        Tue, 15 Nov 2022 04:57:27 -0800 (PST)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id d27-20020ac84e3b000000b00398313f286dsm7209786qtw.40.2022.11.15.04.57.26
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mdvIIl4cgeDqGAAZabaWbNUrV+o8u8RyyIYZ5puj5yk=;
+        b=v2JsEHtARBAqpxP9CKlHwuxbWcq7bdi7TyyrsonXuvYiJqYO1BfbPc/WmaafNyoSPO
+         vcEvAfqUIdknjN5KwzdAewYV6DzjwQlOODAYB5IYQRkLMbWJSQPWQ1fR8ecPJ9Tz6ocd
+         scm0+gVhcooH7K1C/tC/s4Xx+WjIfPpeAS6WCnlB+QB8h/5+SW9mjcnshfopw2pNCiBi
+         6m3ng3sJnvuaYHq84ErOcQcvXO8KqENRV8dNtLOq0WptHmImKpGiiBSvyl/jjaCHhsPB
+         B5xAB+nfit9kuH/ZVyvbAly3t3kssXgLLv0cGy56YiP1m77QQLI9+PgTjf1XwhZD8kmI
+         oQQQ==
+X-Gm-Message-State: ANoB5pl6Z1LWUUTC0w02jWwQmtfsZkVVXMjy7uu/ovggozH42WLxeLit
+        DC5xP61QqkkHNfE7x/Uk1QznBg==
+X-Google-Smtp-Source: AA0mqf6kInCc+A0yhclN+A1KPhxr4No2Ve/TJmp4KVoenUiZl6E/W2ygFzWNtp+0/7LIUoFw4og0aw==
+X-Received: by 2002:a19:e30e:0:b0:4a2:5163:f61b with SMTP id a14-20020a19e30e000000b004a25163f61bmr5403368lfh.177.1668517539513;
+        Tue, 15 Nov 2022 05:05:39 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id e10-20020a19674a000000b0049311968ca4sm2194132lfj.261.2022.11.15.05.05.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Nov 2022 04:57:26 -0800 (PST)
-Received: by mail-yb1-f182.google.com with SMTP id e68so14223584ybh.2;
-        Tue, 15 Nov 2022 04:57:26 -0800 (PST)
-X-Received: by 2002:a25:18c5:0:b0:6de:6183:c5c3 with SMTP id
- 188-20020a2518c5000000b006de6183c5c3mr16677266yby.89.1668517046328; Tue, 15
- Nov 2022 04:57:26 -0800 (PST)
+        Tue, 15 Nov 2022 05:05:38 -0800 (PST)
+Message-ID: <a1a7fdf4-2608-d6c9-7c7a-f8e8fae3a742@linaro.org>
+Date:   Tue, 15 Nov 2022 14:05:37 +0100
 MIME-Version: 1.0
-References: <20221115121629.1181667-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20221115121629.1181667-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 15 Nov 2022 13:57:14 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUm77=79oEWCrjVcC9qJLkNPMKYDjdwfOy6Q1C9KFsOHg@mail.gmail.com>
-Message-ID: <CAMuHMdUm77=79oEWCrjVcC9qJLkNPMKYDjdwfOy6Q1C9KFsOHg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: thermal: rzg2l-thermal: Document RZ/Five SoC
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 2/7] dt-bindings: clock: renesas,r9a06g032-sysctrl: Add
+ h2mode property
+Content-Language: en-US
+To:     Herve Codina <herve.codina@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+References: <20221114111513.1436165-1-herve.codina@bootlin.com>
+ <20221114111513.1436165-3-herve.codina@bootlin.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221114111513.1436165-3-herve.codina@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Nov 15, 2022 at 1:20 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> The TSU block on the RZ/Five SoC is identical to one found on the RZ/G2UL
-> SoC. "renesas,r9a07g043-tsu" compatible string will be used on the
-> RZ/Five SoC so to make this clear, update the comment to include RZ/Five
-> SoC.
->
-> No driver changes are required as generic compatible string
-> "renesas,rzg2l-tsu" will be used as a fallback on RZ/Five SoC.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 14/11/2022 12:15, Herve Codina wrote:
+> Add the h2mode property to force the USBs mode ie:
+>  - 2 hosts
+> or
+>  - 1 host and 1 device
+> 
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> ---
+>  .../bindings/clock/renesas,r9a06g032-sysctrl.yaml      | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl.yaml b/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl.yaml
+> index 95bf485c6cec..f9e0a58aa4fb 100644
+> --- a/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl.yaml
+> +++ b/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl.yaml
+> @@ -39,6 +39,16 @@ properties:
+>    '#power-domain-cells':
+>      const: 0
+>  
+> +  renesas,h2mode:
+> +    description: |
+> +      Configure the USBs mode.
+> +        - <0> : the USBs are in 1 host and 1 device mode.
+> +        - <1> : the USBs are in 2 host mode.
+> +      If the property is not present, the value used is the one already present
+> +      in the CFG_USB register (from reset or set by the bootloader).
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1]
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+0/1 are quite cryptic. Why not making it a string which is easy to read
+and understand? Can be something like "two-hosts" and "one-host". Or
+anything you find more readable...
 
-Gr{oetje,eeting}s,
+Best regards,
+Krzysztof
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
