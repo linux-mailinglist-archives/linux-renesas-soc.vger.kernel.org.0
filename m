@@ -2,35 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A406A629A37
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 14:29:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3EA2629B71
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 15:04:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230158AbiKON3Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Nov 2022 08:29:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59098 "EHLO
+        id S230240AbiKOOEh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Nov 2022 09:04:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229828AbiKON3Y (ORCPT
+        with ESMTP id S231294AbiKOOEe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Nov 2022 08:29:24 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BE8A39F;
-        Tue, 15 Nov 2022 05:29:22 -0800 (PST)
+        Tue, 15 Nov 2022 09:04:34 -0500
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 246AD2B249;
+        Tue, 15 Nov 2022 06:04:27 -0800 (PST)
 Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7D9911BF20B;
-        Tue, 15 Nov 2022 13:29:18 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 80E43240007;
+        Tue, 15 Nov 2022 14:04:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1668518961;
+        t=1668521066;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=lJxvgQFewGeH+lNYexUEwtwmd3hrAmaAreqDAyyZF4A=;
-        b=jIHayz5ZZavVsRHqyoB8Yd3ScdS1hDY8zfiK0mvDzh/MPwk6zb0wy7p5AXdhUOl/vbYC0Q
-        a/218pWElmPCX3kr/Dt5ljqgcVwOtQMpcdL6bcMXgCTLw0yN00qU1J3V0hFKtF4Rj+L96g
-        0Lysz4FdAb9acC+wnHQjk2YCE4Lps8FtHDy0lpxLUoArONyU7gJkcifqOnKvilgFvs+tx1
-        08uSyOEFGiU8Dlu/tMT2zVdPQ5qDZrLFn7NOWbqIZF9NDxBWL3KhSTGfxaB6nebWraVcQ2
-        qbBWAFVv9bTClvWMSLNrFUnvg5geAdq05oQppNOISzQL8dfR8avXKpQmi7bNUw==
-Date:   Tue, 15 Nov 2022 14:29:17 +0100
+        bh=m52RNtELDDNqeiQtokfOg67uyM39sRsLuDiZvZRE3B0=;
+        b=NudmAyB06AsNNnCsJt4iwJTc6oYb518K4zCuIOTgbH8Jph8xyl9lERBCB2rnRwhIGlKBQp
+        0SCkDrVS9j7Y6KCJBn7R/kjc9dvG7aYqFHfIRuJSmjqhK2bOqQeAl44Si8MpfBCh22fcNk
+        NlRqtIHOgh45m2guJrdSSJ7SxCHrVVUvxxzkG6xjm6yA9uxRs9d4YUexh8zpT6WRdv0RTk
+        PGhDPkAejvpA8OGDZ98Mz+prO9BXnSRl7YWadgkJb8aicuF1+vFP11gcp+xcyUH9SQ0rym
+        SAsKehe8H7y8d99gTxn8KMhegCxtNBHK1+2Xsdo4DLgiWtxwdUHLQ2QRvebGqQ==
+Date:   Tue, 15 Nov 2022 15:04:17 +0100
 From:   Herve Codina <herve.codina@bootlin.com>
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -46,13 +46,14 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-usb@vger.kernel.org,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v2 4/7] dt-bindings: usb: add the Renesas RZ/N1 USBF
- controller binding
-Message-ID: <20221115142917.20c30f46@bootlin.com>
-In-Reply-To: <a5d53378-51dc-a024-bbda-5dd03bbf37b3@linaro.org>
+Subject: Re: [PATCH v2 2/7] dt-bindings: clock: renesas,r9a06g032-sysctrl:
+ Add h2mode property
+Message-ID: <20221115150417.513955a7@bootlin.com>
+In-Reply-To: <c9a77262-f137-21d9-58af-eb4efb8aadbf@linaro.org>
 References: <20221114111513.1436165-1-herve.codina@bootlin.com>
-        <20221114111513.1436165-5-herve.codina@bootlin.com>
-        <a5d53378-51dc-a024-bbda-5dd03bbf37b3@linaro.org>
+        <20221114111513.1436165-3-herve.codina@bootlin.com>
+        <a1a7fdf4-2608-d6c9-7c7a-f8e8fae3a742@linaro.org>
+        <c9a77262-f137-21d9-58af-eb4efb8aadbf@linaro.org>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -67,51 +68,79 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 15 Nov 2022 14:13:00 +0100
+Hi Krzysztof,
+
+On Tue, 15 Nov 2022 14:07:52 +0100
 Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-> On 14/11/2022 12:15, Herve Codina wrote:
-> > The Renesas RZ/N1 USBF controller is an USB2.0 device controller
-> > (UDC) available in the Renesas r9a06g032 SoC (RZ/N1 family). =20
->=20
-> Subject: drop redundant, second "binding".
->=20
+> On 15/11/2022 14:05, Krzysztof Kozlowski wrote:
+> > On 14/11/2022 12:15, Herve Codina wrote: =20
+> >> Add the h2mode property to force the USBs mode ie:
+> >>  - 2 hosts
+> >> or
+> >>  - 1 host and 1 device
+> >>
+> >> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> >> ---
+> >>  .../bindings/clock/renesas,r9a06g032-sysctrl.yaml      | 10 ++++++++++
+> >>  1 file changed, 10 insertions(+)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/clock/renesas,r9a06g032=
+-sysctrl.yaml b/Documentation/devicetree/bindings/clock/renesas,r9a06g032-s=
+ysctrl.yaml
+> >> index 95bf485c6cec..f9e0a58aa4fb 100644
+> >> --- a/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctr=
+l.yaml
+> >> +++ b/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctr=
+l.yaml
+> >> @@ -39,6 +39,16 @@ properties:
+> >>    '#power-domain-cells':
+> >>      const: 0
+> >> =20
+> >> +  renesas,h2mode:
+> >> +    description: |
+> >> +      Configure the USBs mode.
+> >> +        - <0> : the USBs are in 1 host and 1 device mode.
+> >> +        - <1> : the USBs are in 2 host mode.
+> >> +      If the property is not present, the value used is the one alrea=
+dy present
+> >> +      in the CFG_USB register (from reset or set by the bootloader).
+> >> +    $ref: /schemas/types.yaml#/definitions/uint32
+> >> +    enum: [0, 1] =20
 > >=20
-> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> > ---
-> >  .../bindings/usb/renesas,rzn1-usbf.yaml       | 68 +++++++++++++++++++
-> >  1 file changed, 68 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/usb/renesas,rzn1-=
-usbf.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/usb/renesas,rzn1-usbf.ya=
-ml b/Documentation/devicetree/bindings/usb/renesas,rzn1-usbf.yaml
-> > new file mode 100644
-> > index 000000000000..b67e9cea2522
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/usb/renesas,rzn1-usbf.yaml
-> > @@ -0,0 +1,68 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/usb/renesas,rzn1-usbf.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas RZ/N1 SoCs USBF (USB Function) controller binding =20
+> > 0/1 are quite cryptic. Why not making it a string which is easy to read
+> > and understand? Can be something like "two-hosts" and "one-host". Or
+> > anything you find more readable... =20
 >=20
-> Drop "binding"
->=20
-> With two above:
->=20
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ...but actually you should rather make it a property of your USB
+> controller, not clock controller. You have two controllers and we have a
+> generic property for them - dr_mode.
 >=20
 > Best regards,
 > Krzysztof
 >=20
 
-"binding" will be dropped as suggested in v3.
-Thanks for the review.
+IMHO, this property in the USB controllers does not make sense.
+Indeed each controller cannot have a different 'mode'.
+Some controllers are USB host only (EHCI and OHCI) and the USBF
+controller I worked on is device only.
+'h2mode' allows to choose between host or device on one of the USB
+but not at the USB controller level.
 
+This property should be handle outside the USB controller nodes.
+
+Currently, this node (declared as a clock node) is in fact a sysctrl
+node and can do some configuration not related to clocks.
+
+I agree with you something related to choosing USB Host/Device in
+a clock node seems strange.
+
+Some discussion were already opened related to this property and how
+to handle it:
+  https://lore.kernel.org/all/20221107182642.05a09f2f@bootlin.com/
+  https://lore.kernel.org/all/20221107173614.474707d7@bootlin.com/
+
+Regards,
 Herv=C3=A9
 
 --=20
