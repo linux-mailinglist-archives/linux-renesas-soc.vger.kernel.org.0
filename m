@@ -2,56 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 30DF9629A09
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 14:24:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E6BC629A27
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 14:28:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230158AbiKONYg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Nov 2022 08:24:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54514 "EHLO
+        id S230009AbiKON2I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Nov 2022 08:28:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229573AbiKONYf (ORCPT
+        with ESMTP id S232435AbiKON2D (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Nov 2022 08:24:35 -0500
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 145BFCE16;
-        Tue, 15 Nov 2022 05:24:32 -0800 (PST)
+        Tue, 15 Nov 2022 08:28:03 -0500
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D75EA13E3F;
+        Tue, 15 Nov 2022 05:27:59 -0800 (PST)
 Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 85164100011;
-        Tue, 15 Nov 2022 13:24:26 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 54F07240009;
+        Tue, 15 Nov 2022 13:27:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1668518671;
+        t=1668518878;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=f6fcy6AoSokp3bOroUbPnvTVQrydLqn0tIKHwQ1O4Z8=;
-        b=GFNU2XeCv9u6jVUVPf7qJMQXEpFNt3zpy/7wSoIevQYyR6yA5Cf5Z8mtKsAMRIgOX0eyjc
-        rzJiRFpcmliu5MxWSQ96TysGrCPR0IZCmyO3KDyNo0mC7bKHKSrd6BmZmqPhXHfCyOtotE
-        xvyysg+eHE/4uFpd+Q4p3mXDhqyCZ9YfCZwXur/QXU+GhfotFyDe7S+gWjqFfFoV78f+7j
-        QRWatgQiUSulMgISP8f2FE3RqeGdtODDJ5c4vPpsjOJq5nncHDbiWsp+b5cL0+RmopBb5K
-        kagpX6pj4+jit0VFY73QtD/wAzZ/kMrwp5Z2KNjGSO/PQTLgjjmsGj49llddDA==
-Date:   Tue, 15 Nov 2022 14:24:25 +0100
+        bh=gX3uUI4yRv7S26wyE0a/h6eL5PlN9No1T6Sm4lRgxT4=;
+        b=a2gGxnhURXutAjcZSaIEJ+6B6ocRP7jvvHklxB92MhUHBprpZnk99duO1TLAbOuZdegB2H
+        BObc6a74lgAvLr5f4BXakbhTuPvnqbLuxKYH7CmFEYwRN7sFIuzj50G7sFXvXfR3hS9cv8
+        vpI9e9/qcnQXrkQvvcshngMB2I2i/zcpWV2KAs2LZ07UTeIzvZv8riSxsX7YUegOjRlHst
+        7w6DDV2ZU7nND6qWsFmE0gjPRi97307M2xX4foarhxZ7Nl0csbT0kiR9wDyL4J3Tv+1nWh
+        uqlxWFNJz9GJtuaOwmKvD/sIiOpuTiQMerdrSzzIy4E2PHQ/zOYFk5IVY6/v1Q==
+Date:   Tue, 15 Nov 2022 14:27:54 +0100
 From:   Herve Codina <herve.codina@bootlin.com>
-To:     kernel test robot <lkp@intel.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Magnus Damm <magnus.damm@gmail.com>,
         Gareth Williams <gareth.williams.jx@renesas.com>,
-        oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v2 7/7] MAINTAINERS: add the Renesas RZ/N1 USBF
- controller entry
-Message-ID: <20221115142425.34e0a82d@bootlin.com>
-In-Reply-To: <202211152032.SMRBH7dx-lkp@intel.com>
-References: <20221114111513.1436165-8-herve.codina@bootlin.com>
-        <202211152032.SMRBH7dx-lkp@intel.com>
+Subject: Re: [PATCH v2 6/7] ARM: dts: r9a06g032: Add the USBF controller
+ node
+Message-ID: <20221115142754.6253881b@bootlin.com>
+In-Reply-To: <51d42fc2-0492-9077-302d-5c3be4b45cd1@linaro.org>
+References: <20221114111513.1436165-1-herve.codina@bootlin.com>
+        <20221114111513.1436165-7-herve.codina@bootlin.com>
+        <51d42fc2-0492-9077-302d-5c3be4b45cd1@linaro.org>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -59,63 +60,57 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi All,
+Hi Krzysztof,
 
-On Tue, 15 Nov 2022 20:20:33 +0800
-kernel test robot <lkp@intel.com> wrote:
+On Tue, 15 Nov 2022 14:16:27 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-> Hi Herve,
+> On 14/11/2022 12:15, Herve Codina wrote:
+> > Add the USBF controller available in the r9a06g032 SoC.
+> >=20
+> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> > ---
+> >  arch/arm/boot/dts/r9a06g032.dtsi | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >=20
+> > diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06=
+g032.dtsi
+> > index 563024c9a4ae..a4bb069457a3 100644
+> > --- a/arch/arm/boot/dts/r9a06g032.dtsi
+> > +++ b/arch/arm/boot/dts/r9a06g032.dtsi
+> > @@ -117,6 +117,18 @@ dmamux: dma-router@a0 {
+> >  			};
+> >  		};
+> > =20
+> > +		udc: usb@4001e000 {
+> > +			compatible =3D "renesas,r9a06g032-usbf", "renesas,rzn1-usbf";
+> > +			reg =3D <0x4001e000 0x2000>;
+> > +			interrupts =3D <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
+> > +				     <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>;
+> > +			clocks =3D <&sysctrl R9A06G032_HCLK_USBF>,
+> > +				 <&sysctrl R9A06G032_HCLK_USBPM>;
+> > +			clock-names =3D "hclkf", "hclkpm";
+> > +			power-domains =3D <&sysctrl>;
+> > +			status =3D "disabled"; =20
 >=20
-> I love your patch! Perhaps something to improve:
->=20
-> [auto build test WARNING on geert-renesas-drivers/renesas-clk]
-> [also build test WARNING on usb/usb-testing usb/usb-next usb/usb-linus ge=
-ert-renesas-devel/next linus/master v6.1-rc5 next-20221114]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina/Add-t=
-he-Renesas-USBF-controller-support/20221114-192136
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-dri=
-vers.git renesas-clk
-> patch link:    https://lore.kernel.org/r/20221114111513.1436165-8-herve.c=
-odina%40bootlin.com
-> patch subject: [PATCH v2 7/7] MAINTAINERS: add the Renesas RZ/N1 USBF con=
-troller entry
-> reproduce:
->         # https://github.com/intel-lab-lkp/linux/commit/2d4ab4c37cc32d822=
-86869f7ec4ee5247354db88
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Herve-Codina/Add-the-Renesas-USB=
-F-controller-support/20221114-192136
->         git checkout 2d4ab4c37cc32d82286869f7ec4ee5247354db88
->         make menuconfig
->         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONF=
-IG_WARN_ABI_ERRORS
->         make htmldocs
->=20
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
->=20
-> All warnings (new ones prefixed by >>):
->=20
-> >> Warning: MAINTAINERS references a file that doesn't exist: Documentati=
-on/devicetree/bindings/usb/renesas,usbf.yaml =20
->=20
+> If you provided all resources (clocks, power domains etc), why disabling =
+it?
 
-Oops, I renamed a file and missed the MAINTAINER file update.
-Will be fixed in v3.
+Because I forgot to remove the 'status' property ...
+'status' will be simply removed in v3.
+Sorry for this mistake.
 
+Thanks for the review,
 Herv=C3=A9
+
 
 --=20
 Herv=C3=A9 Codina, Bootlin
