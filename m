@@ -2,222 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F169C629E8A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 17:11:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CAD63629F13
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 17:30:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229814AbiKOQLr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Nov 2022 11:11:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33306 "EHLO
+        id S238668AbiKOQay (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Nov 2022 11:30:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229791AbiKOQLr (ORCPT
+        with ESMTP id S230164AbiKOQax (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Nov 2022 11:11:47 -0500
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D5DF1D65A
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 08:11:46 -0800 (PST)
-Received: by mail-pf1-x432.google.com with SMTP id k15so14553838pfg.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 08:11:46 -0800 (PST)
+        Tue, 15 Nov 2022 11:30:53 -0500
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D51FAE7C
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 08:30:52 -0800 (PST)
+Received: by mail-lj1-x22e.google.com with SMTP id z24so18235755ljn.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 08:30:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=19rCx/gb35rqbJdt5N9kpmW467Dq0JpUt1L5gY0orOE=;
-        b=bqhwv7qxO1S7CJ6cosU0WAlIoZXq98aDJdvZTr0sMZiOCVy2byWbId1vFQ3P0Lg0F2
-         baXxeDb0CZe1GW+dHJhv+yV2HT69Atnk42QRV5ezPmKy9gfX5Jop+5XwJlfXLwQ+4bs7
-         7FRRQpP5HZ0KzOPumZ7j7NchiFP9q7DOcWuHo9VqOrqzeQm3eItQq3UOCwCVH44CKDYK
-         CeKO7jCMx1LpZIVCwuMhihvGZOGaO7e/htFHfo/KtxQEyBpNN7pea0WRXUfFi8fP5VjB
-         Nlcn2MTuhGxnSZdnDFFJa9WpQNA0CnJ4vBwrULuPOhBYGuT7C8Uhzbl/+99Gp35yZjRe
-         Zl6w==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WgmhkilsxspOz5NWRqSMIhLipP/HJEPgQBayMZdWBrw=;
+        b=FGIToAWnLxWH/nNXH4Bc8NPARTKs+TGdOcxBxW+NwDA8ogN+41Yy9hAXq6hZYmg5rm
+         E5WwGRSzNfdPh4RKw/qzCgAmNx8PB8fXQiJY2BhtgUBmp2Wg7DPDkLXeTQW5jCRBpxUY
+         5ZI96mIUE34Ez+kcUW/KBPbPmebd5pme11C81WRfl+TtOWA8AetIBdJ4T/5GXw1AdiD8
+         A0t+yrlvyW45uGPQND8zUBzZ4ec5l4T6aWUCCFvntu2dB2D4qP1ff4rpqYZ0Q1cbiNC1
+         6tPcToXU5iuwpTLyY1xq8ZYZB7aO47yzHWDD+rngVtDKcK04TfoXgLJvMDDzuW1ExSho
+         dvBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=19rCx/gb35rqbJdt5N9kpmW467Dq0JpUt1L5gY0orOE=;
-        b=qF3B5EXV61GmXDBiiZ96KugpM2U67QyhXpjF/hi/oj4IMNAj+5U4lv1tvZE6phsMGI
-         JghmLlmgJvDHVKCCs2jPGsMEqde3scyFZA6UHT3ikghjakEQxY79ikGMGPcys8Slq14I
-         hpmWO0QHDKL8F69ddbIQmVQtA78a21EgzOwoXg8V/+CXKj1b+w+jw5xdjRPvq7rIR84/
-         VArLUJeSB0DprncZJTAdpGQCYcN9l7phdqoG3NqdYEajxoih0gUIOD66IqBRFvUmGD7e
-         YJHOf1DtkIKDsZVRl8NiLXWRz84ejMSF+BC6ZpwkIsZ1KBTRQH9cQ5XsLBeY41D/z7XH
-         3UGg==
-X-Gm-Message-State: ANoB5plZZnnZzHo2xaHNfLjB3ke0QSI0VXK3e4rhd2K0yBBZT6B8aQUJ
-        W/ZzFEUmC/FJkkhq1osE3x+lE+GKqYQt7CSbJPo=
-X-Google-Smtp-Source: AA0mqf5CLr1lfnwPWjztxnTzB9+akd4oznqi4TZ7HzZfj/ws+mRg9J+k1YdKF0eoSqj5gtJuokA0AQ==
-X-Received: by 2002:a63:54b:0:b0:476:dd4f:6894 with SMTP id 72-20020a63054b000000b00476dd4f6894mr304274pgf.587.1668528705695;
-        Tue, 15 Nov 2022 08:11:45 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id h13-20020a170902f54d00b0017f7c4e2604sm10085343plf.296.2022.11.15.08.11.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Nov 2022 08:11:45 -0800 (PST)
-Message-ID: <6373ba41.170a0220.f9d6.e843@mx.google.com>
-Date:   Tue, 15 Nov 2022 08:11:45 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WgmhkilsxspOz5NWRqSMIhLipP/HJEPgQBayMZdWBrw=;
+        b=ZysI1J4xNeayq0MMbZ+mg5xEvrp/d9IT+PJda3bQuuZKXUTAsD5hF6XLZSpEcn5wgn
+         XtCvumYDxxbj3YRSKu+3zv9MGCPFyFC6bcSkjf2pHfGM9WX13A3QjyddZ0j/fQqpWOUI
+         acDqGBxovKiDz43cHMGwoKYh54hztdSd8iadP6tz1ilx1gbAMEY2aKNFE/3NZkt//O1M
+         KJfGZ91EdgyV5t1FT6iTdlGNTZURbdDITwJeJJIVQZ8RqGWnyE/aL1i79AsjWcqcFtAF
+         65mclDvHzH7dg0/q3a3Sv472/j2Gl6xzO7sOjKRDV7KiebNTe1cXH5Do/1v+0mLwAnxS
+         f1aQ==
+X-Gm-Message-State: ANoB5pmyrN2rgtyE0QFUiLHR/K4mUWfNnCT+36fHDBEpm9G6D3ljk/7x
+        cbzhy32jpbdBMZATBDnbt7ivBw==
+X-Google-Smtp-Source: AA0mqf6Tx5INGoZ78d+9myc+vdTm5mzsmp5rLWprRQV1O1l0dTir56KzqEnejFqId0Li9Ws03Fr7Vw==
+X-Received: by 2002:a05:651c:2314:b0:277:2123:120e with SMTP id bi20-20020a05651c231400b002772123120emr6513113ljb.4.1668529850815;
+        Tue, 15 Nov 2022 08:30:50 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id v14-20020ac258ee000000b004998d9ccb62sm2262902lfo.99.2022.11.15.08.30.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Nov 2022 08:30:50 -0800 (PST)
+Message-ID: <8e80a8ae-41dd-3f17-b165-eaba5335ae68@linaro.org>
+Date:   Tue, 15 Nov 2022 17:30:49 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: renesas-next-2022-11-15-v6.1-rc1
-X-Kernelci-Branch: next
-X-Kernelci-Tree: renesas
-Subject: renesas/next cros-ec: 5 runs,
- 4 regressions (renesas-next-2022-11-15-v6.1-rc1)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 6/7] ARM: dts: r9a06g032: Add the USBF controller node
+Content-Language: en-US
+To:     Herve Codina <herve.codina@bootlin.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+References: <20221114111513.1436165-1-herve.codina@bootlin.com>
+ <20221114111513.1436165-7-herve.codina@bootlin.com>
+ <51d42fc2-0492-9077-302d-5c3be4b45cd1@linaro.org>
+ <20221115142754.6253881b@bootlin.com> <20221115160917.73e7b4ef@bootlin.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221115160917.73e7b4ef@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next cros-ec: 5 runs, 4 regressions (renesas-next-2022-11-15-v6.1-r=
-c1)
+On 15/11/2022 16:09, Herve Codina wrote:
+> Hi Krzysztof
+> 
+> On Tue, 15 Nov 2022 14:27:54 +0100
+> Herve Codina <herve.codina@bootlin.com> wrote:
+> 
+>> Hi Krzysztof,
+>>
+>> On Tue, 15 Nov 2022 14:16:27 +0100
+>> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+>>
+>>> On 14/11/2022 12:15, Herve Codina wrote:  
+>>>> Add the USBF controller available in the r9a06g032 SoC.
+>>>>
+>>>> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+>>>> ---
+>>>>  arch/arm/boot/dts/r9a06g032.dtsi | 12 ++++++++++++
+>>>>  1 file changed, 12 insertions(+)
+>>>>
+>>>> diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
+>>>> index 563024c9a4ae..a4bb069457a3 100644
+>>>> --- a/arch/arm/boot/dts/r9a06g032.dtsi
+>>>> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
+>>>> @@ -117,6 +117,18 @@ dmamux: dma-router@a0 {
+>>>>  			};
+>>>>  		};
+>>>>  
+>>>> +		udc: usb@4001e000 {
+>>>> +			compatible = "renesas,r9a06g032-usbf", "renesas,rzn1-usbf";
+>>>> +			reg = <0x4001e000 0x2000>;
+>>>> +			interrupts = <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
+>>>> +				     <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>;
+>>>> +			clocks = <&sysctrl R9A06G032_HCLK_USBF>,
+>>>> +				 <&sysctrl R9A06G032_HCLK_USBPM>;
+>>>> +			clock-names = "hclkf", "hclkpm";
+>>>> +			power-domains = <&sysctrl>;
+>>>> +			status = "disabled";    
+>>>
+>>> If you provided all resources (clocks, power domains etc), why disabling it?  
+>>
+>> Because I forgot to remove the 'status' property ...
+>> 'status' will be simply removed in v3.
+>> Sorry for this mistake.
+>>
+>> Thanks for the review,
+>> Hervé
+>>
+> 
+> I said something completely wrong for this point.
+> 
+> status is set disabled because it is a .dtsi and can be
+> included by several dts to represent a board.
+> This node (USB device) can be wired on some board and not on
+> some others.
+> So, the node will be enabled in each dts board that has the USBF
+> device wired and used.
 
-Regressions Summary
--------------------
+So it depends on having the connector? Yes, makes sense as well.
+Actually my recommendation was about internal parts of OS, which usually
+do not require anything from board. I missed the part that it is an USB...
 
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
+Best regards,
+Krzysztof
 
-hp-x360-14-G1-sona           | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2022-11-15-v6.1-rc1/plan/cros-ec/
-
-  Test:     cros-ec
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2022-11-15-v6.1-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      dff206d2346220aeff53f02783b9315d70d23be6
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
-/cros-ec-tests.git
-      SHA:  86181a7fbd379fc42314c450740d2cea8cdf04c1 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6373a7bb77cf372e70e7dbc5
-
-  Results:     5 PASS, 2 FAIL, 12 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--11-15-v6.1-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
-/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--11-15-v6.1-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
-/cros-ec-hp-x360-12b-ca0010nr-n4020-octopus.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20221024.1/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
-73a7bb77cf372e70e7dbd6
-        failing since 92 days (last pass: renesas-next-2022-07-07-v5.19-rc1=
-, first fail: renesas-next-2022-08-15-v6.0-rc1) =
-
-
-  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
-373a7bb77cf372e70e7dbd8
-        failing since 92 days (last pass: renesas-next-2022-07-07-v5.19-rc1=
-, first fail: renesas-next-2022-08-15-v6.0-rc1)
-
-    2022-11-15T14:52:24.540265  / # =
-
-    2022-11-15T14:52:24.546010  =
-
-    2022-11-15T14:52:24.652102  / # #
-    2022-11-15T14:52:24.658519  #
-    2022-11-15T14:52:24.761223  / # export SHELL=3D/bin/sh
-    2022-11-15T14:52:24.767487  export SHELL=3D/bin/sh
-    2022-11-15T14:52:24.869717  / # . /lava-7981501/environment
-    2022-11-15T14:52:24.875790  . /lava-7981501/environment
-    2022-11-15T14:52:24.977956  / # /lava-7981501/bin/lava-test-runner /lav=
-a-7981501/0
-    2022-11-15T14:52:24.984165  /lava-7981501/bin/lava-test-runner /lava-79=
-81501/0 =
-
-    ... (7 line(s) more)  =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-hp-x360-14-G1-sona           | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6373a58a42ae5054f6e7db74
-
-  Results:     5 PASS, 2 FAIL, 12 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--11-15-v6.1-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
-/cros-ec-hp-x360-14-G1-sona.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--11-15-v6.1-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
-/cros-ec-hp-x360-14-G1-sona.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20221024.1/amd64/rootfs.cpio.gz =
-
-
-
-  * cros-ec.test_cros_ec_gyro_iio_abi: https://kernelci.org/test/case/id/63=
-73a58a42ae5054f6e7db84
-        failing since 92 days (last pass: renesas-next-2022-07-07-v5.19-rc1=
-, first fail: renesas-next-2022-08-15-v6.0-rc1) =
-
-
-  * cros-ec.test_cros_ec_accel_iio_abi: https://kernelci.org/test/case/id/6=
-373a58a42ae5054f6e7db86
-        failing since 92 days (last pass: renesas-next-2022-07-07-v5.19-rc1=
-, first fail: renesas-next-2022-08-15-v6.0-rc1)
-
-    2022-11-15T14:43:06.953509  / # =
-
-    2022-11-15T14:43:06.958759  =
-
-    2022-11-15T14:43:07.060420  / # #
-    2022-11-15T14:43:07.065785  #
-    2022-11-15T14:43:07.166822  / # export SHELL=3D/bin/sh
-    2022-11-15T14:43:07.172129  export SHELL=3D/bin/sh
-    2022-11-15T14:43:07.273094  / # . /lava-7981504/environment
-    2022-11-15T14:43:07.278818  . /lava-7981504/environment
-    2022-11-15T14:43:07.379767  / # /lava-7981504/bin/lava-test-runner /lav=
-a-7981504/0
-    2022-11-15T14:43:07.385149  /lava-7981504/bin/lava-test-runner /lava-79=
-81504/0 =
-
-    ... (7 line(s) more)  =
-
- =20
