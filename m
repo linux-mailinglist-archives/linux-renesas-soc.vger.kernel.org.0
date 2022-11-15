@@ -2,38 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F3EA2629B71
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 15:04:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22EEB629BAA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 15:11:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230240AbiKOOEh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Nov 2022 09:04:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60620 "EHLO
+        id S231163AbiKOOLi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Nov 2022 09:11:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231294AbiKOOEe (ORCPT
+        with ESMTP id S230292AbiKOOLZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Nov 2022 09:04:34 -0500
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 246AD2B249;
-        Tue, 15 Nov 2022 06:04:27 -0800 (PST)
-Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 80E43240007;
-        Tue, 15 Nov 2022 14:04:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1668521066;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=m52RNtELDDNqeiQtokfOg67uyM39sRsLuDiZvZRE3B0=;
-        b=NudmAyB06AsNNnCsJt4iwJTc6oYb518K4zCuIOTgbH8Jph8xyl9lERBCB2rnRwhIGlKBQp
-        0SCkDrVS9j7Y6KCJBn7R/kjc9dvG7aYqFHfIRuJSmjqhK2bOqQeAl44Si8MpfBCh22fcNk
-        NlRqtIHOgh45m2guJrdSSJ7SxCHrVVUvxxzkG6xjm6yA9uxRs9d4YUexh8zpT6WRdv0RTk
-        PGhDPkAejvpA8OGDZ98Mz+prO9BXnSRl7YWadgkJb8aicuF1+vFP11gcp+xcyUH9SQ0rym
-        SAsKehe8H7y8d99gTxn8KMhegCxtNBHK1+2Xsdo4DLgiWtxwdUHLQ2QRvebGqQ==
-Date:   Tue, 15 Nov 2022 15:04:17 +0100
-From:   Herve Codina <herve.codina@bootlin.com>
+        Tue, 15 Nov 2022 09:11:25 -0500
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CEEC2B610;
+        Tue, 15 Nov 2022 06:11:24 -0800 (PST)
+Received: by mail-qk1-f169.google.com with SMTP id d7so7116816qkk.3;
+        Tue, 15 Nov 2022 06:11:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PEBoPkzZkEwXxKxn/LguL/Tj7JNM9p+vnmqYk3f/wqg=;
+        b=t+0BF7v8qNwl9dvZTGsWpEK+153oiJxHnUloU7OOA0OaFRDMXH0pSRjkcJZ6BsCKl1
+         S6eYj4vqa6qZhJ9aFpnn/gZLc8qvygceWJ7YyzssLq8EE8NFmBkM+P/I/ZqXVGzHUZHp
+         pUzQy4dxAWIe9cu/t3V2df8p8++ehhoZlg8grw1umexHn2nTGF/9iiuqTnDWtpcrHA5b
+         iJCH1P/VaDKDQsiFe4IcrQ42KENs0/eLQp/Mk3XfNEIqlL72ivtrOJR1EAmXCUupFK8F
+         4cGzgGlEN7E2KntsrycO5WRYTfjfocYLxqFBqOldwkFq6/lzzSaXw4UTu851kFujJNoK
+         J8MQ==
+X-Gm-Message-State: ANoB5pnQI6ahEvOZvvv775rU3iR2BaXi5uWFh1e+zxNTgzBDP2cG17IF
+        iigkjw8o4tTIWGQ2CkE62HMc76UuD8zbjw==
+X-Google-Smtp-Source: AA0mqf4QG3pJAV5zFRWByezi8YOB5YXep940kO74qeNszq9lLHnXXhlsaBbglsJ7hUOzoiEMHI69Dw==
+X-Received: by 2002:a37:c245:0:b0:6ee:909e:ed6c with SMTP id j5-20020a37c245000000b006ee909eed6cmr15276266qkm.264.1668521483304;
+        Tue, 15 Nov 2022 06:11:23 -0800 (PST)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id g26-20020ac8469a000000b003a5416da03csm7193453qto.96.2022.11.15.06.11.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Nov 2022 06:11:21 -0800 (PST)
+Received: by mail-yb1-f175.google.com with SMTP id 63so17300258ybq.4;
+        Tue, 15 Nov 2022 06:11:20 -0800 (PST)
+X-Received: by 2002:a25:844b:0:b0:6de:6c43:3991 with SMTP id
+ r11-20020a25844b000000b006de6c433991mr15875248ybm.604.1668521478365; Tue, 15
+ Nov 2022 06:11:18 -0800 (PST)
+MIME-Version: 1.0
+References: <20221114111513.1436165-1-herve.codina@bootlin.com>
+ <20221114111513.1436165-7-herve.codina@bootlin.com> <51d42fc2-0492-9077-302d-5c3be4b45cd1@linaro.org>
+In-Reply-To: <51d42fc2-0492-9077-302d-5c3be4b45cd1@linaro.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 15 Nov 2022 15:11:06 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUHEc6XYcdrcZ=H_wjBy4vFBTRjUDE2rRmGd+Jyg7BzDQ@mail.gmail.com>
+Message-ID: <CAMuHMdUHEc6XYcdrcZ=H_wjBy4vFBTRjUDE2rRmGd+Jyg7BzDQ@mail.gmail.com>
+Subject: Re: [PATCH v2 6/7] ARM: dts: r9a06g032: Add the USBF controller node
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Herve Codina <herve.codina@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -46,22 +67,11 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-usb@vger.kernel.org,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v2 2/7] dt-bindings: clock: renesas,r9a06g032-sysctrl:
- Add h2mode property
-Message-ID: <20221115150417.513955a7@bootlin.com>
-In-Reply-To: <c9a77262-f137-21d9-58af-eb4efb8aadbf@linaro.org>
-References: <20221114111513.1436165-1-herve.codina@bootlin.com>
-        <20221114111513.1436165-3-herve.codina@bootlin.com>
-        <a1a7fdf4-2608-d6c9-7c7a-f8e8fae3a742@linaro.org>
-        <c9a77262-f137-21d9-58af-eb4efb8aadbf@linaro.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -70,80 +80,47 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Krzysztof,
 
-On Tue, 15 Nov 2022 14:07:52 +0100
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+On Tue, Nov 15, 2022 at 2:16 PM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> On 14/11/2022 12:15, Herve Codina wrote:
+> > Add the USBF controller available in the r9a06g032 SoC.
+> >
+> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> > ---
+> >  arch/arm/boot/dts/r9a06g032.dtsi | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >
+> > diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
+> > index 563024c9a4ae..a4bb069457a3 100644
+> > --- a/arch/arm/boot/dts/r9a06g032.dtsi
+> > +++ b/arch/arm/boot/dts/r9a06g032.dtsi
+> > @@ -117,6 +117,18 @@ dmamux: dma-router@a0 {
+> >                       };
+> >               };
+> >
+> > +             udc: usb@4001e000 {
+> > +                     compatible = "renesas,r9a06g032-usbf", "renesas,rzn1-usbf";
+> > +                     reg = <0x4001e000 0x2000>;
+> > +                     interrupts = <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                  <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>;
+> > +                     clocks = <&sysctrl R9A06G032_HCLK_USBF>,
+> > +                              <&sysctrl R9A06G032_HCLK_USBPM>;
+> > +                     clock-names = "hclkf", "hclkpm";
+> > +                     power-domains = <&sysctrl>;
+> > +                     status = "disabled";
+>
+> If you provided all resources (clocks, power domains etc), why disabling it?
 
-> On 15/11/2022 14:05, Krzysztof Kozlowski wrote:
-> > On 14/11/2022 12:15, Herve Codina wrote: =20
-> >> Add the h2mode property to force the USBs mode ie:
-> >>  - 2 hosts
-> >> or
-> >>  - 1 host and 1 device
-> >>
-> >> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> >> ---
-> >>  .../bindings/clock/renesas,r9a06g032-sysctrl.yaml      | 10 ++++++++++
-> >>  1 file changed, 10 insertions(+)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/clock/renesas,r9a06g032=
--sysctrl.yaml b/Documentation/devicetree/bindings/clock/renesas,r9a06g032-s=
-ysctrl.yaml
-> >> index 95bf485c6cec..f9e0a58aa4fb 100644
-> >> --- a/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctr=
-l.yaml
-> >> +++ b/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctr=
-l.yaml
-> >> @@ -39,6 +39,16 @@ properties:
-> >>    '#power-domain-cells':
-> >>      const: 0
-> >> =20
-> >> +  renesas,h2mode:
-> >> +    description: |
-> >> +      Configure the USBs mode.
-> >> +        - <0> : the USBs are in 1 host and 1 device mode.
-> >> +        - <1> : the USBs are in 2 host mode.
-> >> +      If the property is not present, the value used is the one alrea=
-dy present
-> >> +      in the CFG_USB register (from reset or set by the bootloader).
-> >> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >> +    enum: [0, 1] =20
-> >=20
-> > 0/1 are quite cryptic. Why not making it a string which is easy to read
-> > and understand? Can be something like "two-hosts" and "one-host". Or
-> > anything you find more readable... =20
->=20
-> ...but actually you should rather make it a property of your USB
-> controller, not clock controller. You have two controllers and we have a
-> generic property for them - dr_mode.
->=20
-> Best regards,
-> Krzysztof
->=20
+Doesn't this depend on wiring on the board, and providing pin control
+in the board DTS?
 
-IMHO, this property in the USB controllers does not make sense.
-Indeed each controller cannot have a different 'mode'.
-Some controllers are USB host only (EHCI and OHCI) and the USBF
-controller I worked on is device only.
-'h2mode' allows to choose between host or device on one of the USB
-but not at the USB controller level.
+Gr{oetje,eeting}s,
 
-This property should be handle outside the USB controller nodes.
+                        Geert
 
-Currently, this node (declared as a clock node) is in fact a sysctrl
-node and can do some configuration not related to clocks.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I agree with you something related to choosing USB Host/Device in
-a clock node seems strange.
-
-Some discussion were already opened related to this property and how
-to handle it:
-  https://lore.kernel.org/all/20221107182642.05a09f2f@bootlin.com/
-  https://lore.kernel.org/all/20221107173614.474707d7@bootlin.com/
-
-Regards,
-Herv=C3=A9
-
---=20
-Herv=C3=A9 Codina, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
