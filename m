@@ -2,73 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AADCA62A13F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 19:21:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEA6F62A179
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Nov 2022 19:41:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230429AbiKOSVp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Nov 2022 13:21:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35574 "EHLO
+        id S231204AbiKOSlz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Nov 2022 13:41:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230409AbiKOSVn (ORCPT
+        with ESMTP id S230472AbiKOSlr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Nov 2022 13:21:43 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E1061740D;
-        Tue, 15 Nov 2022 10:21:42 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id y14so38181957ejd.9;
-        Tue, 15 Nov 2022 10:21:42 -0800 (PST)
+        Tue, 15 Nov 2022 13:41:47 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B3412CE2A
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 10:41:46 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id h14so14068444pjv.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 10:41:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=loW6rE2gGS02TW4sdv28/5PXvnJnn8jUaLXyFyxIBBw=;
-        b=LA828D6tRnlkCLYZPkPlTBKFXEVeuzcoHeggCmhBc0leuImIicTgjH/A+lsrxXyCRm
-         xggvxWALf8U2q+BIWkcePsNbOyPLCnsPSmxrl6gAkDEAueKu7pk/hNz65g8gavkoeqhi
-         4VmODbsp98AehsvEizh8jJYMJVBzEj5Hc/alM4l3u114Pow4tjXx3lpnV5ZDEpT1nala
-         6pvwxu7T/QPMRcmyomJJAbSt5Y7mclWTorwM0nzDHjaSKjR+9xgjICe3RULoEN/3bsLr
-         MRnSGTNQ3h1fBnI4l/gCoOxwkzCMsLWDMNdmI5rLTXycIdi4bW0U5rwcaei703u8i0ME
-         Jb1w==
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tg6bRDDTWrv+dNaX9Mev5ak1oHfwCKPqRLhOEnUhsUU=;
+        b=lka7NED1BZA1wQsS7DoHLOCLcFlTIETnrQD/1wyDWHhr0WjO71ogRfWENHO/FUdLmm
+         asRFG1kVWikB0GHIJc8q/mnPpAqAdV8SNc+GxhE3mjdjfkNzmytIW8sWcP4f2JMhqLJQ
+         JiYX78QWTZzQAPn1kXbJCATexd0o66N48YGDPLzxjLPHPUbAJiGsLtvWiYl67X++H3iv
+         XrVG0oI4hJXY/ttH3SrIrtXaVDwlKoYEQpJwUauJbGuCHP6xKyTVKZpp5fszjjxedI78
+         xD55bc24j8FJ3uF1N1kFeE7GD4ojp285YPfU0KKP0iXRfGl9ppluN2A/2bV0KnCer0B6
+         +8Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=loW6rE2gGS02TW4sdv28/5PXvnJnn8jUaLXyFyxIBBw=;
-        b=whDaHHJ6Cqycaf2fnCdnyNhrm5jntp7zi/DR/NEi8PkL6ItDAJa4xqdbsANxxp+Q0U
-         8WP6WTuhmJbJQQMYEs9RC9BGC+qgi0Bvkhf3VUKyGnKpAxMhPPEejOlrqvljXIcqGy3W
-         Q69nQpgptsWVgODzxOHQXgVU5TAWvLQKGtTnKXXOXL05jKOKBayIBjuLw14C7RAjfv9X
-         UZYcHQDc0yhD24eGAeD8tSpY+fAj2N0e9sKYZm15V947rasZ1ntzmf0frOKnxwkSEWsm
-         0BNpT2rNb2Lw5KYS9cceIJjr1StpvqHvLJAegnSqwlM3Nk2QRe2cGo9YWuDG4l+RukAg
-         wKqg==
-X-Gm-Message-State: ANoB5pnXeInVY0YQkRp5kq0mJ5jerRh0VJ2hf2+nLG+FX5mzDXBZXVe8
-        5Ok3+9X5Z9M8iEOMWZVwxI2LhSxfvROUNYj7guU=
-X-Google-Smtp-Source: AA0mqf6JCfjVF2CWf2wVuu3vn+PsZPYxNJ572dgDVuVXioqlruUP16R3Ykd7ViMw5b+tNOY1knzEH1M29bCy/oc7+38=
-X-Received: by 2002:a17:906:4e42:b0:781:e568:294f with SMTP id
- g2-20020a1709064e4200b00781e568294fmr15100953ejw.447.1668536500767; Tue, 15
- Nov 2022 10:21:40 -0800 (PST)
+        bh=Tg6bRDDTWrv+dNaX9Mev5ak1oHfwCKPqRLhOEnUhsUU=;
+        b=Ks3Iz3zK/N5mZATa+l4ZdUHdtiPSeY38yEkcho7yVFsppvW+M8bcwt48p/8b+3B2t2
+         JAPTSuUtDIcDzB9w6S28N7wqOfkDQuBqNnFLh67MeWIj1dGPOhvn/DbdoQVuJGmBsI/v
+         DkX70f/XLuhNVSxCZij6bXLkX5W8zP9Kex0y48fPT7j39CZghnA4kij/IC2HbVjl/lLP
+         IDaH5/GIi1F4frnFd5kwD2feyGqwiGGH2eciRgwRE8Slxd0QKYKdK0PpbN5R2yQlRMqa
+         q3M7Z+H0ijwv4AsP/3bnCubmBXvORjcfvng4ZZhpm0uWhc/QmuxVAaj63ZUpT0i4/wcD
+         kLZg==
+X-Gm-Message-State: ANoB5pmpXvMIEpNhQtLIKR5HY4S1YrniHiIc6f9x16KXy9rNLqoVptMF
+        jkTdf0W8fdE2fFCEeSq4dv/4iVVIi/JJFLP6luQ=
+X-Google-Smtp-Source: AA0mqf5pD8DGksV6GcypJGXq4OtFN8r7aukl2r26Gt+95JImMjdMistcL+4y15Dz6Yh04WK2AePI5A==
+X-Received: by 2002:a17:902:8b83:b0:186:a2ef:7a74 with SMTP id ay3-20020a1709028b8300b00186a2ef7a74mr5233691plb.148.1668537705951;
+        Tue, 15 Nov 2022 10:41:45 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id u14-20020a170903124e00b00186fd3951f7sm5525070plh.211.2022.11.15.10.41.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Nov 2022 10:41:45 -0800 (PST)
+Message-ID: <6373dd69.170a0220.505ba.8df9@mx.google.com>
+Date:   Tue, 15 Nov 2022 10:41:45 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20221115105135.1180490-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y3OgSAnst0qt5WSk@wendy>
-In-Reply-To: <Y3OgSAnst0qt5WSk@wendy>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 15 Nov 2022 18:21:14 +0000
-Message-ID: <CA+V-a8vL5r-xMeCiYRax-dM2Uo0ghgzRiyY99nNn089CjJwoBg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] RZ/Five: Enable ADC/CANFD/I2C/OPP/Thermal Zones/TSU
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: next
+X-Kernelci-Kernel: renesas-next-2022-11-15-v6.1-rc1
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+Subject: renesas/next baseline-nfs: 140 runs,
+ 2 regressions (renesas-next-2022-11-15-v6.1-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,56 +71,101 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Conor,
+renesas/next baseline-nfs: 140 runs, 2 regressions (renesas-next-2022-11-15=
+-v6.1-rc1)
 
-Thank you for the review.
+Regressions Summary
+-------------------
 
-On Tue, Nov 15, 2022 at 2:21 PM Conor Dooley <conor.dooley@microchip.com> wrote:
->
-> On Tue, Nov 15, 2022 at 10:51:32AM +0000, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Hi All,
-> >
-> > This patch series aims to enable support for below blocks
-> > on RZ/Five SoC/SMARC EVK:
-> > - ADC
-> > - CANFD
-> > - I2C
-> > - OPP
-> > - Thermal Zones
-> > - TSU
-> >
-> > Note, patches apply on top of [0].
-> >
-> > [0] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log/?h=renesas-riscv-dt-for-v6.2
-> >
-> > Cheers,
-> > Prabhakar
-> >
-> > Lad Prabhakar (3):
-> >   riscv: Kconfig: Enable cpufreq kconfig menu
-> >   riscv: dts: renesas: r9a07g043f/rzfive-smarc-som: Enable
-> >     ADC/OPP/Thermal Zones/TSU
-> >   riscv: dts: renesas: rzfive-smarc: Enable CANFD/I2C
->
-> I know ~nothing about your SoC so idk if the values are correct, but I
-> did give it a go earlier to see if it did anything warning wise. Seeing
-> that it didn't cause any I am curious - how come these didn't land in
-> the original dts? Just waiting for driver stuff to land to support it?
->
-I wanted bare minimal stuff in the initial patchset.
+platform         | arch | lab             | compiler | defconfig           =
+         | regressions
+-----------------+------+-----------------+----------+---------------------=
+---------+------------
+imx6dl-riotboard | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig+i=
+ma       | 1          =
 
-> Anyway, no new warnings which is what I care about - I suppose that
-> makes it an acked-by?
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Can include that tag if you like. Either way, nice to see some of the
-> /delete-node/s etc being removed.
->
-Thanks, Geert should pick the tag while picking the DTS/I patches.
+jetson-tk1       | arm  | lab-baylibre    | gcc-10   | multi_v7_defc...CONF=
+IG_SMP=3Dn | 1          =
 
-For the Kconfig patch it needs to go via the RISCV tree or can that be
-picked by Geert too with the rest of the other patches?
 
-Cheers,
-Prabhakar
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2022-11-15-v6.1-rc1/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2022-11-15-v6.1-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      dff206d2346220aeff53f02783b9315d70d23be6 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch | lab             | compiler | defconfig           =
+         | regressions
+-----------------+------+-----------------+----------+---------------------=
+---------+------------
+imx6dl-riotboard | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig+i=
+ma       | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6373aa52206c2b3abae7db79
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+ima
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-11-15-v6.1-rc1/arm/multi_v7_defconfig+ima/gcc-10/lab-pengutronix/baseline-=
+nfs-imx6dl-riotboard.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-11-15-v6.1-rc1/arm/multi_v7_defconfig+ima/gcc-10/lab-pengutronix/baseline-=
+nfs-imx6dl-riotboard.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+221024.1/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/6373aa52206c2b3ab=
+ae7db7a
+        new failure (last pass: renesas-next-2022-11-10-v6.1-rc1) =
+
+ =
+
+
+
+platform         | arch | lab             | compiler | defconfig           =
+         | regressions
+-----------------+------+-----------------+----------+---------------------=
+---------+------------
+jetson-tk1       | arm  | lab-baylibre    | gcc-10   | multi_v7_defc...CONF=
+IG_SMP=3Dn | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6373ac48d50af0e1b2e7db78
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-11-15-v6.1-rc1/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-baylibre/b=
+aseline-nfs-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-11-15-v6.1-rc1/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-baylibre/b=
+aseline-nfs-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+221024.1/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/6373ac48d50af0e1b=
+2e7db79
+        new failure (last pass: renesas-next-2022-11-10-v6.1-rc1) =
+
+ =20
