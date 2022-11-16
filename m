@@ -2,149 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6065762B12E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 03:17:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AFD962B1D0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 04:27:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231420AbiKPCRr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Nov 2022 21:17:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42702 "EHLO
+        id S230244AbiKPD1Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Nov 2022 22:27:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230175AbiKPCRq (ORCPT
+        with ESMTP id S232065AbiKPD1N (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Nov 2022 21:17:46 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0468D12ACB;
-        Tue, 15 Nov 2022 18:17:44 -0800 (PST)
-Received: from kwepemi500011.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NBmnD0gTXzqSSy;
-        Wed, 16 Nov 2022 10:13:52 +0800 (CST)
-Received: from [10.67.103.39] (10.67.103.39) by kwepemi500011.china.huawei.com
- (7.221.188.124) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Wed, 16 Nov
- 2022 10:17:36 +0800
-Message-ID: <6374483F.3060604@hisilicon.com>
-Date:   Wed, 16 Nov 2022 10:17:35 +0800
-From:   Wei Xu <xuwei5@hisilicon.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To:     Pierre Gondois <pierre.gondois@arm.com>,
-        <linux-kernel@vger.kernel.org>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Tsahee Zidenberg <tsahee@annapurnalabs.com>,
-        Antoine Tenart <atenart@kernel.org>,
-        Brijesh Singh <brijeshkumar.singh@amd.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Khuong Dinh <khuong@os.amperecomputing.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        William Zhang <william.zhang@broadcom.com>,
-        Anand Gore <anand.gore@broadcom.com>,
-        Kursad Oney <kursad.oney@broadcom.com>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Chester Lin <clin@suse.com>,
-        =?UTF-8?B?QW5kcmVhcyBGw6RyYmVy?= <afaerber@suse.de>,
-        Matthias Brugger <mbrugger@suse.com>,
-        NXP S32 Linux Team <s32@nxp.com>,
-        Chanho Min <chanho.min@lge.com>, Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Daniel Machon <daniel.machon@microchip.com>,
-        <UNGLinuxDriver@microchip.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Tue, 15 Nov 2022 22:27:13 -0500
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A862617419
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 19:27:11 -0800 (PST)
+Received: by mail-qv1-xf29.google.com with SMTP id e15so11133083qvo.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Nov 2022 19:27:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=a6eIwAY8HSvwYTsmXKy1wGQnYbn7a7e06575PqF/Xl4=;
+        b=ZLoHWypsmWEzh60HFrgaq1PIZfm8WqNFK0IT1AcnlkqsxWvKCCN8ItLoxhz29JeHI4
+         m3T3BU1vEVHYkwdI2Tv/D2v4WrpFqkJSFS3g2t0G7lTd8eS+AupOdGeYv0h5S7cmS/04
+         Hh7E3AEeFSWX2jObmerrztFd1eyM+fE9vovQycgDGeOtNc8N2abl0fxwAhT0Py8UhDq3
+         OjTg3qJMhuldE+n0YvXwC7OGzlyXmgWOCxZMlf58Y75PsxkCivRjRDI8RerKFxkBWGSG
+         VegMJTEOp3MC1Gv4GArXm+OtWbi0Y4JS61jm1wWK3BZF4kR7VoLXBYL+ZF4dY4vX9Us+
+         83oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a6eIwAY8HSvwYTsmXKy1wGQnYbn7a7e06575PqF/Xl4=;
+        b=vdeXwBabiRNtN8mVXfkvTgVQk3cnj4Cv9ppYpcrOooXJccuMWFOQyR7wErh2z71kq2
+         chsn/Ag/C2B58FmACkfp7w7fHP1EF1tzjp+i/SNR8QFgBozyb+Q2uZgVPTNNfGsFtMWx
+         je82V+wL5Iwd2Quz/SBLqXw6kilrMmdW61nWk9Vn797zx+j4lWh63Gcc0G6nMgdaZqop
+         1q7RvsjRWr8UY6LI9lxwSZarTCqTz4PeXnY66mu8JD/9UYWzfvHtAbeJX/CYfVGHMjL4
+         O3iaNkiXWAKCtrWQyvT7ZctFk1NFM15m4H4wU2t0VLTNTnSOcWRYstOowSMtcSSOR2Cx
+         hhyQ==
+X-Gm-Message-State: ANoB5pkEogoqIrMuExc56hIU/hAagfJnLLbu7oL78dEQ8NRd/3YYGMR8
+        +sCkMp0aUluzg4fu/Xp2/Vw/Xg==
+X-Google-Smtp-Source: AA0mqf4mLRZ+JyYa3+vL4prp/khANaOcSFSAM76LJOBW2ovcRn/tw6n1PldM/+e2lmrM2R5gInvwzw==
+X-Received: by 2002:a05:6214:18ce:b0:4af:b21e:168b with SMTP id cy14-20020a05621418ce00b004afb21e168bmr19877550qvb.46.1668569230594;
+        Tue, 15 Nov 2022 19:27:10 -0800 (PST)
+Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
+        by smtp.gmail.com with ESMTPSA id b13-20020ac86bcd000000b003a57a317c17sm8090080qtt.74.2022.11.15.19.27.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Nov 2022 19:27:09 -0800 (PST)
+Date:   Tue, 15 Nov 2022 22:27:07 -0500
+From:   William Breathitt Gray <william.gray@linaro.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>, thierry.reding@gmail.com
+Cc:     "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jisheng Zhang <jszhang@kernel.org>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tero Kristo <kristo@kernel.org>,
-        Viorel Suman <viorel.suman@nxp.com>,
-        Abel Vesa <abelvesa@kernel.org>, Ming Qian <ming.qian@nxp.com>,
-        Shijie Qin <shijie.qin@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-        Shenwei Wang <shenwei.wang@nxp.com>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Adam Ford <aford173@gmail.com>,
-        Richard Zhu <hongxing.zhu@nxp.com>, Li Jun <jun.li@nxp.com>,
-        Markus Niebel <Markus.Niebel@ew.tq-group.com>,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        Marek Vasut <marex@denx.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Martin Kepplinger <martink@posteo.de>,
-        David Heidelberg <david@ixit.cz>,
-        Oliver Graute <oliver.graute@kococonnector.com>,
-        Liu Ying <victor.liu@nxp.com>, Jacky Bai <ping.bai@nxp.com>,
-        Clark Wang <xiaoning.wang@nxp.com>,
-        Wei Fang <wei.fang@nxp.com>,
-        Chris Packham <chris.packham@alliedtelesis.co.nz>,
-        Vadym Kochan <vadym.kochan@plvision.eu>,
-        Sameer Pujar <spujar@nvidia.com>,
-        Akhil R <akhilrajeev@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Prathamesh Shete <pshete@nvidia.com>,
-        Sumit Gupta <sumitg@nvidia.com>,
-        Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
-        Vidya Sagar <vidyas@nvidia.com>,
-        Ashish Mhetre <amhetre@nvidia.com>,
-        Johan Jonker <jbx6244@gmail.com>,
-        Christopher Obbard <chris.obbard@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Aswani Reddy <aswani.reddy@samsung.com>,
-        Shashank Prashar <s.prashar@samsung.com>,
-        Andi Shyti <andi@etezian.org>, <devicetree@vger.kernel.org>,
-        <linux-rpi-kernel@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-amlogic@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <openbmc@lists.ozlabs.org>,
-        <linux-tegra@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-realtek-soc@lists.infradead.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>
-Subject: Re: [PATCH v2 09/23] arm64: dts: Update cache properties for hisilicon
-References: <20221107155825.1644604-1-pierre.gondois@arm.com> <20221107155825.1644604-10-pierre.gondois@arm.com>
-In-Reply-To: <20221107155825.1644604-10-pierre.gondois@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.103.39]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemi500011.china.huawei.com (7.221.188.124)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v6 4/5] counter: Add Renesas RZ/G2L MTU3a counter driver
+Message-ID: <Y3RYi7TwfprsI6G1@fedora>
+References: <20221113171545.282457-1-biju.das.jz@bp.renesas.com>
+ <20221113171545.282457-5-biju.das.jz@bp.renesas.com>
+ <Y3G6Qe0KMdo2PgaG@fedora>
+ <OS0PR01MB5922B01D5E579426608BBA9386059@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="HGXUypfC3fw9Hq0d"
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB5922B01D5E579426608BBA9386059@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -152,206 +78,235 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Pierre,
 
-On 2022/11/7 23:57, Pierre Gondois wrote:
-> The DeviceTree Specification v0.3 specifies that the cache node
-> 'compatible' and 'cache-level' properties are 'required'. Cf.
-> s3.8 Multi-level and Shared Cache Nodes
-> The 'cache-unified' property should be present if one of the
-> properties for unified cache is present ('cache-size', ...).
-> 
-> Update the Device Trees accordingly.
-> 
-> Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
+--HGXUypfC3fw9Hq0d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied to the HiSilicon arm64 dt tree.
-Thanks!
+On Mon, Nov 14, 2022 at 03:24:26PM +0000, Biju Das wrote:
+> > > +#define RZ_MTU3_GET_HW_CH(id) \
+> > > +({ \
+> > > +	size_t _id =3D (id); _id =3D (_id =3D=3D RZ_MTU3_32_BIT_CH) ? 0 : _=
+id; \
+> > > +})
+> >=20
+> > I probably missed a discussion about this change in a previous thread; =
+what
+> > is the purpose of using a local size_t variable here? Is this due to the
+> > "possible side-effects" mentioned in the patch changes note?
+>=20
+> Check patch is complaining=20
+> "CHECK: Macro argument reuse 'id' - possible side-effects?"
+>=20
+> By using local size_t variable, it fixed the check patch warning.
 
-Best Regards,
-Wei
+Ah, I see what you mean: 'id' could be an expression (e.g. x++) which
+would be evaluated twice if passed as the macro argument. I think
+there's a compiler hint that will supress this warning, but I can't
+quite remember it right now.
 
-> ---
->  arch/arm64/boot/dts/hisilicon/hi3660.dtsi |  2 ++
->  arch/arm64/boot/dts/hisilicon/hi6220.dtsi |  2 ++
->  arch/arm64/boot/dts/hisilicon/hip05.dtsi  |  4 ++++
->  arch/arm64/boot/dts/hisilicon/hip06.dtsi  |  4 ++++
->  arch/arm64/boot/dts/hisilicon/hip07.dtsi  | 16 ++++++++++++++++
->  5 files changed, 28 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/hisilicon/hi3660.dtsi b/arch/arm64/boot/dts/hisilicon/hi3660.dtsi
-> index 8343d0cedde3..a57f35eb5ef6 100644
-> --- a/arch/arm64/boot/dts/hisilicon/hi3660.dtsi
-> +++ b/arch/arm64/boot/dts/hisilicon/hi3660.dtsi
-> @@ -203,10 +203,12 @@ CLUSTER_SLEEP_1: cluster-sleep-1 {
->  
->  		A53_L2: l2-cache0 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		A73_L2: l2-cache1 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  	};
->  
-> diff --git a/arch/arm64/boot/dts/hisilicon/hi6220.dtsi b/arch/arm64/boot/dts/hisilicon/hi6220.dtsi
-> index ae0a7cfeeb47..f6d3202b0d1a 100644
-> --- a/arch/arm64/boot/dts/hisilicon/hi6220.dtsi
-> +++ b/arch/arm64/boot/dts/hisilicon/hi6220.dtsi
-> @@ -186,10 +186,12 @@ cpu7: cpu@103 {
->  
->  		CLUSTER0_L2: l2-cache0 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		CLUSTER1_L2: l2-cache1 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  	};
->  
-> diff --git a/arch/arm64/boot/dts/hisilicon/hip05.dtsi b/arch/arm64/boot/dts/hisilicon/hip05.dtsi
-> index 7b2abd10d3d6..5b2b1bfd0d2a 100644
-> --- a/arch/arm64/boot/dts/hisilicon/hip05.dtsi
-> +++ b/arch/arm64/boot/dts/hisilicon/hip05.dtsi
-> @@ -211,18 +211,22 @@ cpu15: cpu@20303 {
->  
->  		cluster0_l2: l2-cache0 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster1_l2: l2-cache1 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster2_l2: l2-cache2 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster3_l2: l2-cache3 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  	};
->  
-> diff --git a/arch/arm64/boot/dts/hisilicon/hip06.dtsi b/arch/arm64/boot/dts/hisilicon/hip06.dtsi
-> index 2f8b03b0d365..291c2ee38288 100644
-> --- a/arch/arm64/boot/dts/hisilicon/hip06.dtsi
-> +++ b/arch/arm64/boot/dts/hisilicon/hip06.dtsi
-> @@ -211,18 +211,22 @@ cpu15: cpu@10303 {
->  
->  		cluster0_l2: l2-cache0 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster1_l2: l2-cache1 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster2_l2: l2-cache2 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster3_l2: l2-cache3 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  	};
->  
-> diff --git a/arch/arm64/boot/dts/hisilicon/hip07.dtsi b/arch/arm64/boot/dts/hisilicon/hip07.dtsi
-> index 1a16662f8867..b8746fb959b5 100644
-> --- a/arch/arm64/boot/dts/hisilicon/hip07.dtsi
-> +++ b/arch/arm64/boot/dts/hisilicon/hip07.dtsi
-> @@ -842,66 +842,82 @@ cpu63: cpu@70303 {
->  
->  		cluster0_l2: l2-cache0 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster1_l2: l2-cache1 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster2_l2: l2-cache2 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster3_l2: l2-cache3 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster4_l2: l2-cache4 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster5_l2: l2-cache5 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster6_l2: l2-cache6 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster7_l2: l2-cache7 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster8_l2: l2-cache8 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster9_l2: l2-cache9 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster10_l2: l2-cache10 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster11_l2: l2-cache11 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster12_l2: l2-cache12 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster13_l2: l2-cache13 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster14_l2: l2-cache14 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  
->  		cluster15_l2: l2-cache15 {
->  			compatible = "cache";
-> +			cache-level = <2>;
->  		};
->  	};
->  
-> 
+For now, I'd prefer this to be implemented as an inline function so that
+the purpose of the code remains clear:
+
+    static inline size_t rz_mtu3_get_hw_ch(const size_t id)
+    {
+            return (id =3D=3D RZ_MTU3_32_BIT_CH) ? 0 : id;
+    }
+
+> > > +/**
+> > > + * struct rz_mtu3_cnt - MTU3 counter private data
+> > > + *
+> > > + * @clk: MTU3 module clock
+> > > + * @lock: Lock to prevent concurrent access for ceiling and count
+> > > + * @ch: HW channels for the counters
+> > > + * @mtu_16bit_max: Cache for 16-bit counters
+> > > + * @mtu_32bit_max: Cache for 32-bit counters  */ struct rz_mtu3_cnt {
+> > > +	struct clk *clk;
+> > > +	struct mutex lock;
+> > > +	struct rz_mtu3_channel *ch;
+> > > +	u16 mtu_16bit_max[RZ_MTU3_MAX_HW_CNTR_CHANNELS];
+> > > +	u32 mtu_32bit_max;
+> >=20
+> > Does the ceiling set on the device get clobbered when you change betwee=
+n 16-
+> > bit and 32-bit phase modes (i.e. writing to TGRALW vs TGRA)? You have a
+> > separate cache for the 32-bit ceiling value here, but if it is getting
+> > clobbered then as a small optimization you may reimplement this cache a=
+s a
+> > union such as:
+> >=20
+> >     union {
+> >             u16 mtu_16bit_max[RZ_MTU3_MAX_HW_CNTR_CHANNELS];
+> >             u32 mtu_32bit_max;
+> >     }
+>=20
+> Yes, it gets clobbered when we change between 16-bit and 32-bit mode.
+>=20
+> For eg: 0xbe1352 value=20
+> Split up into mtu1.TGRA=3D0xbe and mtu2.TGRA=3D0x1352.
+>=20
+> OK will use the union.
+
+Be sure also to check rz_mtu3_is_counter_invalid() in
+rz_mtu3_count_ceiling_read() to make sure the proper ceiling is only
+returned when its valid.
+
+> > > +	switch (val & RZ_MTU3_TMDR1_PH_CNT_MODE_MASK) {
+> > > +	case RZ_MTU3_TMDR1_PH_CNT_MODE_1:
+> > > +		*function =3D COUNTER_FUNCTION_QUADRATURE_X4;
+> > > +		break;
+> > > +	case RZ_MTU3_TMDR1_PH_CNT_MODE_2:
+> > > +		*function =3D COUNTER_FUNCTION_PULSE_DIRECTION;
+> > > +		break;
+> > > +	case RZ_MTU3_TMDR1_PH_CNT_MODE_4:
+> > > +		*function =3D COUNTER_FUNCTION_QUADRATURE_X2_B;
+> > > +		break;
+> > > +	default:
+> > > +		return -EINVAL;
+> > > +	}
+> >=20
+> > Sorry if I asked this before: what are counting modes 3 and 5, and are =
+they
+> > not supported by this device? If they are not supported, please include=
+ a
+> > comment stating so in the default case block so that it is clear for fu=
+ture
+> > reviewers as well.
+>=20
+> Our hardware supports 5 phase counting modes. From that list, I match up =
+some of the functions=20
+> supported by the counter driver.
+>=20
+> counting modes 3 and 5 are supported by the Devices, but currently counte=
+r driver is not supported this.
+>=20
+> Please see the attached counting modes 3 and 5.
+> https://ibb.co/3YJByG1
+>=20
+> OK, I will add a comment for the details for modes not supported by the c=
+urrent driver in the default block.
+
+Those are interesting counting modes; it looks like counting mode 5 is
+pulse-direction with an inverted direction, but I'm not sure what to
+call counting mode 3. I haven't come across these counting modes before
+so I wonder what sort of applications they're typically used for.
+
+Typically we would add a new COUNTER_FUNCTION_* to represent each new
+counting mode. However, for the sake of keeping this patch series simple
+it will be okay to leave a comment in the default block for now
+describing the missing counting modes and indicating that support for
+them are TODO items for the future.
+
+> > > +static void rz_mtu3_32bit_cnt_setting(struct counter_device *counter,
+> > > +int id) {
+> > > +	struct rz_mtu3_cnt *const priv =3D counter_priv(counter);
+> > > +	struct rz_mtu3_channel *ch1 =3D priv->ch;
+> > > +	struct rz_mtu3_channel *ch2 =3D ch1 + 1;
+> > > +
+> > > +	/*
+> > > +	 * 32-bit phase counting need MTU1 and MTU2 to create 32-bit cascade
+> > > +	 * counter.
+> > > +	 */
+> > > +	ch1->function =3D RZ_MTU3_32BIT_PHASE_COUNTING;
+> > > +	ch2->function =3D RZ_MTU3_32BIT_PHASE_COUNTING;
+> >=20
+> > Can these "function" members be modified from outside this driver? If s=
+o, you
+> > could have a race condition here.
+>=20
+> OK will add channel specific locks to avoid the races.
+>=20
+> Do you prefer mutex or spin lock here? As channel selection is based on r=
+untime decision
+> For both PWM and counter??
+
+Hmm, I'm not sure yet how best to handle this because if the PWM driver
+changes the function in the middle of the Counter driver's operation
+(or vice versa) we'll obviously have problems.
+
+Thierry, do you have any ideas here for how we can gracefully handle
+transfer of control between the PWM and Counter driver. I think a simple
+mutex in struct rz_mtu3 should be fine: one driver locks it and the
+other driver can return -EBUSY until its unlocked.
+
+> > > +static int rz_mtu3_count_enable_write(struct counter_device *counter,
+> > > +				      struct counter_count *count, u8 enable) {
+> > > +	struct rz_mtu3_cnt *const priv =3D counter_priv(counter);
+> > > +	const size_t ch_id =3D RZ_MTU3_GET_HW_CH(count->id);
+> > > +	struct rz_mtu3_channel *ch =3D priv->ch + ch_id;
+> > > +	int ret =3D 0;
+> > > +
+> > > +	if (enable) {
+> > > +		pm_runtime_get_sync(ch->dev);
+> > > +		ret =3D rz_mtu3_initialize_counter(counter, count->id);
+> >=20
+> > The "enable" Count component serves to pause/resume counting operation;=
+ that
+> > means the existing count should not be lost when a Count is disabled. T=
+he
+> > rz_mtu3_initialize_counter() function will clear the current Count, so =
+you'll
+> > need to restore it before returning.
+>=20
+> Yes, it is doing pause/resume operation only. It is using clock gating an=
+d PM operations.
+> During enable, Channel is enabled, clk is on.=20
+>=20
+> During disable, Channel is disabled, clk is off.
+>=20
+> Here we are not losing the count when it is disabled and then enable part=
+icular count.
+>=20
+> But we will loss the count, after disable, if it is used by other devices=
+ such as PWM
+> Or we are switching to 16-bit and 32-bit and vice versa.
+>=20
+> Maybe Will rename it to "rz_mtu3_{resume,pause}_counter" to make it clear.
+>=20
+> Compared to PWM framework we are missing export/unexport calls here in co=
+unter subsystem.
+>=20
+> For PWM, we have an export/unexport calls for creating runtime pwm device=
+s such as pwm0, pwm1 for pwmdevice.
+> Here, count0, count1 and count2 are created during probe.
+>=20
+> My current test sequence is,
+>=20
+> 1) Set phase clk
+> 2) Set cascade_enable
+> 3) Set enable(Since we don't have export/unexport, I am using disable cal=
+ls for freeing Channels for other subsystem)
+> 4) Set count
+> 5) Set ceiling
+>=20
+> >=20
+> > Alternatively, the "enable" Count component is optional so you can remo=
+ve it
+> > if you don't want to implement it; just initialize the counter at probe=
+ time
+> > instead.
+>=20
+> Let me know your opinion based on the above?
+
+Okay, I think I understand, the count is only lost if another driver
+takes control of that channel. In that case, you can leave the code as
+it is; there is no need to rename the functions. Once another driver
+such as PWM has control over the device channel, it's unreasonable to
+expect the Counter driver to maintain the previous device state, so
+don't worry about trying to resolve that.
+
+William Breathitt Gray
+
+--HGXUypfC3fw9Hq0d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCY3RYiwAKCRC1SFbKvhIj
+Kw5KAP0RnUdfG0l4GuZSgJVwjvmd84ciukQELZ/K8VQVAsC5igD/SFoSL9eAWlRK
+ZUopvEzKcJbE0HabWevjj35hgxROIAQ=
+=jKr6
+-----END PGP SIGNATURE-----
+
+--HGXUypfC3fw9Hq0d--
