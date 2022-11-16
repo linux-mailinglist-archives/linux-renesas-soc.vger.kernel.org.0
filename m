@@ -2,57 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 68D8862B604
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 10:08:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25CC962B611
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 10:09:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238756AbiKPJIN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Nov 2022 04:08:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60620 "EHLO
+        id S238749AbiKPJJl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Nov 2022 04:09:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238893AbiKPJHD (ORCPT
+        with ESMTP id S238740AbiKPJJX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Nov 2022 04:07:03 -0500
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A96BE2339A;
-        Wed, 16 Nov 2022 01:06:56 -0800 (PST)
-Received: by mail-qv1-f47.google.com with SMTP id o8so11507619qvw.5;
-        Wed, 16 Nov 2022 01:06:56 -0800 (PST)
+        Wed, 16 Nov 2022 04:09:23 -0500
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4BE4240AD;
+        Wed, 16 Nov 2022 01:08:48 -0800 (PST)
+Received: by mail-qt1-f175.google.com with SMTP id jr19so10295778qtb.7;
+        Wed, 16 Nov 2022 01:08:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SmZ/a6rCcRl77Zg9NUCks3KXP0Nym/qibrWauqUGkuQ=;
-        b=mT4ZCYoUaE88FnnMMlvKmxGa18nqQdEl3xa2HzxH5svVrvY6jxGuLk2FZRbFseW17M
-         qxJvRqPaabh1HVCHJezjbWs/dL0CBtawOKo6AC0OBEz7QyRagoruS8RhuldoX3y5jdyQ
-         k4dUDywz684GPnpjkExucGfT08jeqGBOv7DIuEtc3uHYDgY8PpiG52TAbRevN95IzbnL
-         BuzVHdqZqJxxLeyXLHiyKrHHRgkrq18IaN/f047cEKIslGIXkCN8j+JT80+LwIKSqo/T
-         +5EvVcCFvDLPhi31dnhYO/W3n4+9hfW3dUwq62jQVXgL985K1QhIfkHkgaegTBdoOyjR
-         mGbQ==
-X-Gm-Message-State: ANoB5plwOGoR7eGP4x8mj7SL3ovBLTnr8KupbeiVZ3l5ZKE6vXNoysjX
-        7YHo1ueDAAnubhecqxbtJaDcnMZGPYaPSg==
-X-Google-Smtp-Source: AA0mqf6QrlDwTMAPZEJ1RPu3g8TrEv35e8ZWqXbb8Grz7f4WSdrfnd62CKYJqOEsZuCnpLLxbjjwSg==
-X-Received: by 2002:ad4:43ea:0:b0:4bc:16a2:d4f5 with SMTP id f10-20020ad443ea000000b004bc16a2d4f5mr699504qvu.64.1668589615080;
-        Wed, 16 Nov 2022 01:06:55 -0800 (PST)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id ez15-20020a05622a4c8f00b00398a7c860c2sm8586359qtb.4.2022.11.16.01.06.54
+        bh=FIWXjhE2AkSBl2f/+niXCfGWT7FJ5HFVL2ihSjlnu8U=;
+        b=gmNAT8kiXUJDyFo+E6XUA1D+sWqpXOfJapJQOrf6CajLk589JNaqXpFwtlIDF5+AQ9
+         YdfGApXgE8J/3uuc9r3pcrLmZgKN1XJJ7FDTipn6+hluaCk47FT/xMxhZUtpX+L4Hczw
+         YA8Wd5h5TIDF0SZuCfIeS5VNQffL6MDtORDW5SN7iozz4pVTuK07Zma0HbouLCMI3ADy
+         DcaVkVY5d645lPYo6YF5IQwox2gusPg04A3AxGEhiugluaCHDAJwf/2F1LbAHnTKcefl
+         rxyRVFPzNVjoZOdHabV85feeqy8dt6TUS9ueVpUnP6u6aaVpuTuOr/v8+qUTqt5bPoff
+         1efg==
+X-Gm-Message-State: ANoB5pmWBrt+DwKU3OTn+TuFNFecraJENu2BbF6zYIPX9HjcneDUymFV
+        GAFEpV0GIi0hgmPmAJ7SIOKk3CtTmkb6Pw==
+X-Google-Smtp-Source: AA0mqf64Nt6DWu4X3OX2wq9Sx0TokKICsU4Jmj+10vB5fmMLv4PQuNTKhUIdjuj2jeo0vGG1632Dvw==
+X-Received: by 2002:a05:622a:4a16:b0:3a5:cb82:109b with SMTP id fv22-20020a05622a4a1600b003a5cb82109bmr20308440qtb.61.1668589727044;
+        Wed, 16 Nov 2022 01:08:47 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id i10-20020ac8488a000000b0039492d503cdsm8401165qtq.51.2022.11.16.01.08.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Nov 2022 01:06:54 -0800 (PST)
-Received: by mail-yb1-f179.google.com with SMTP id g127so20202449ybg.8;
-        Wed, 16 Nov 2022 01:06:54 -0800 (PST)
-X-Received: by 2002:a25:844b:0:b0:6de:6c43:3991 with SMTP id
- r11-20020a25844b000000b006de6c433991mr19216743ybm.604.1668589614165; Wed, 16
- Nov 2022 01:06:54 -0800 (PST)
+        Wed, 16 Nov 2022 01:08:46 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-367b8adf788so161795857b3.2;
+        Wed, 16 Nov 2022 01:08:46 -0800 (PST)
+X-Received: by 2002:a81:1c52:0:b0:357:66a5:bb25 with SMTP id
+ c79-20020a811c52000000b0035766a5bb25mr21236225ywc.383.1668589725887; Wed, 16
+ Nov 2022 01:08:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20221115105135.1180490-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221115105135.1180490-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWEnd1A3s6iPAqB_+78Q_Sx73XQBW5wU9Mtouw4EiOmJQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWEnd1A3s6iPAqB_+78Q_Sx73XQBW5wU9Mtouw4EiOmJQ@mail.gmail.com>
+References: <20221115105135.1180490-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20221115105135.1180490-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20221115105135.1180490-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 16 Nov 2022 10:06:43 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWQ1UAYsdOKpSbi8wUWBouT1z_W7Ko1ep2mkcq7iQm8jw@mail.gmail.com>
-Message-ID: <CAMuHMdWQ1UAYsdOKpSbi8wUWBouT1z_W7Ko1ep2mkcq7iQm8jw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] riscv: dts: renesas: r9a07g043f/rzfive-smarc-som:
- Enable ADC/OPP/Thermal Zones/TSU
+Date:   Wed, 16 Nov 2022 10:08:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXhn6UT+SnQsVOy52NJ9f+W_zuEBB-Yh9qVK4kxrVdbOw@mail.gmail.com>
+Message-ID: <CAMuHMdXhn6UT+SnQsVOy52NJ9f+W_zuEBB-Yh9qVK4kxrVdbOw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] riscv: dts: renesas: rzfive-smarc: Enable CANFD/I2C
 To:     Prabhakar <prabhakar.csengg@gmail.com>
 Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
@@ -76,52 +74,21 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-On Wed, Nov 16, 2022 at 10:03 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Tue, Nov 15, 2022 at 11:51 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Enable support for below blocks found on RZ/Five SMARC EVK SoC/SoM:
-> > - ADC
-> > - OPP
-> > - Thermal Zones
-> > - TSU
-> >
-> > Note, these blocks are enabled in RZ/G2UL SMARC SoM DTSI [0] hence
-> > deleting these disabled nodes from RZ/Five SMARC SoM DTSI enables them
-> > here too as we include [0] in RZ/Five SMARC SoM DTSI.
-> >
-> > [0] arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Tue, Nov 15, 2022 at 11:57 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Thanks for your patch!
+> Enable CANFD and I2C on RZ/Five SMARC EVK.
 >
-> > --- a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-> > +++ b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-> > @@ -16,13 +16,6 @@ aliases {
-> >         chosen {
-> >                 bootargs = "ignore_loglevel";
-> >         };
-> > -
-> > -       /delete-node/opp-table-0;
-> > -       /delete-node/thermal-zones;
-> > -};
-> > -
-> > -&adc {
-> > -       status = "disabled";
+> Note, these blocks are enabled in RZ/G2UL SMARC EVK DTSI [0] hence
+> deleting these disabled nodes from RZ/Five SMARC EVK DTSI enables them
+> here too as we include [0] in RZ/Five SMARC EVK DTSI.
 >
-> I believe this is not sufficient to enable the ADC, as it is disabled
-> by default?
-> So this needs to set the status to "okay" and configure pin
-> control, depending on SW_SW0_DEV_SEL, just like in
-> arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi?
-
-Sorry, scrap that. grabbing my morning coffee *now*.
+> [0] arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.2, with the other DTS patch.
 
 Gr{oetje,eeting}s,
 
