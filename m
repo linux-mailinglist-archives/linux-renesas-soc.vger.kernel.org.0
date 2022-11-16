@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B39C62B544
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 09:32:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D52962B547
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 09:32:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbiKPIcO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Nov 2022 03:32:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38314 "EHLO
+        id S238896AbiKPIcQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Nov 2022 03:32:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238979AbiKPIby (ORCPT
+        with ESMTP id S238992AbiKPIb6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Nov 2022 03:31:54 -0500
+        Wed, 16 Nov 2022 03:31:58 -0500
 Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACAD026495;
-        Wed, 16 Nov 2022 00:29:22 -0800 (PST)
-Received: by mail-qv1-f42.google.com with SMTP id w10so11468369qvr.3;
-        Wed, 16 Nov 2022 00:29:22 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C93F24F1A;
+        Wed, 16 Nov 2022 00:29:58 -0800 (PST)
+Received: by mail-qv1-f42.google.com with SMTP id w10so11469008qvr.3;
+        Wed, 16 Nov 2022 00:29:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=e+K4RKT1VeUzqWatYjjiz4vNUMOLyvspXx68HXp6C1M=;
-        b=UkF0RPo1kbn1caRSOx1xY7W+KKC3OAc/T6ydNLEK0xljlENdnQuZ5/lZ4hij62p0jU
-         M9b/IwONn1UfnSI4f0aeYyWZ6shbyrsugrHsSXv1m4FaPhbCjf/zoiAuyrZEgKu1IzJs
-         nuWcWlHWr2t8xik8Y77KhvCgXg6gBX5cQymDiZH8pGPW7yc2KNDMjRklh5nKYTgyCqJx
-         eOymJLibjkzlMU3Igw4180QjnEpX8sZyr5Nn6Y5WKJ3zK0+Rm/PnXyuuDons3k1ll+S3
-         fSv3S4i613vKx8+VDwKztq/YkKcokFVZ/9mku9053ZREgcq+LGd+hsfCGl2VtS01WSAP
-         pURw==
-X-Gm-Message-State: ANoB5pnAmTQkdhegKelrmuyFoq+W21CNaA7nEPnPjYFvIgOG7kygzNS5
-        UrO3LhS0enCubTvM9bDvr93UCywhznoQTA==
-X-Google-Smtp-Source: AA0mqf7FgL2tYDv7FSDWqSByxS1mLANHt72eMX5RqfXH56xyuzfs07P+JTOXxu27R2olB+fM8gVm5Q==
-X-Received: by 2002:a05:6214:380d:b0:4c6:4ac0:12c1 with SMTP id ns13-20020a056214380d00b004c64ac012c1mr8713489qvb.111.1668587361644;
-        Wed, 16 Nov 2022 00:29:21 -0800 (PST)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id s8-20020a05620a254800b006fa16fe93bbsm9679631qko.15.2022.11.16.00.29.21
+        bh=6WHNfTSw3Bbekpjo6krzPPf7sUnKMyKehjynM8ZBXD4=;
+        b=zwvzIZNltZ4wW4Oa2nV2XrWrQ8/DG06x8ArGd7BrwEMdMPvuQaXrzEK9K14yTU6quX
+         bRwzGiasVmIbvSmPTZU9jRjIJxoxQf+nCDfcM/H5bZptFUCzGnQqmyNtfL1eh60Q0nfi
+         Y6zVfbDs0f8esHq5dALqUGXSyG7OnflE18m92vAdlENLPUi1VwSBco+RPg7Ba3/UIQBC
+         wSf8Pny4phtEDEST7LdGRNG8kY2hhZ6W000914t7DJJhrsEC8w+yAZSt+pqMsLRhnub6
+         QKRBmMjcINrc7md3hRjr5L6ZMeN4l0Fv+hfKxKTY0ti8CmBxlkcTO32ARHlS+3o8jF8P
+         aOvw==
+X-Gm-Message-State: ANoB5pkjWzQUv5lTiUUw5x/vpEflDPZBRc9qgn72oEVQ6Tvz+1sfO/8w
+        AGQPcXkO5SGF9dKoUIoFR8dbzD97ztlFLQ==
+X-Google-Smtp-Source: AA0mqf4kxmCVhDPFBpzj0h6IdSIgMhWIHwk0g9jPWnrlzqTGhNgigUfPrjK56vvBELME1vSHEuLDSw==
+X-Received: by 2002:a05:6214:459c:b0:4bb:f952:c799 with SMTP id op28-20020a056214459c00b004bbf952c799mr19894317qvb.3.1668587397356;
+        Wed, 16 Nov 2022 00:29:57 -0800 (PST)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id o5-20020ac87c45000000b003a494b61e67sm8497763qtv.46.2022.11.16.00.29.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Nov 2022 00:29:21 -0800 (PST)
-Received: by mail-yb1-f181.google.com with SMTP id b131so19430199yba.11;
-        Wed, 16 Nov 2022 00:29:21 -0800 (PST)
-X-Received: by 2002:a25:844b:0:b0:6de:6c43:3991 with SMTP id
- r11-20020a25844b000000b006de6c433991mr19127160ybm.604.1668587360788; Wed, 16
- Nov 2022 00:29:20 -0800 (PST)
+        Wed, 16 Nov 2022 00:29:57 -0800 (PST)
+Received: by mail-yb1-f175.google.com with SMTP id z192so20173142yba.0;
+        Wed, 16 Nov 2022 00:29:56 -0800 (PST)
+X-Received: by 2002:a25:258d:0:b0:6ca:3b11:8d76 with SMTP id
+ l135-20020a25258d000000b006ca3b118d76mr20524334ybl.202.1668587396569; Wed, 16
+ Nov 2022 00:29:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20221115123827.736141-1-biju.das.jz@bp.renesas.com> <20221115123827.736141-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20221115123827.736141-2-biju.das.jz@bp.renesas.com>
+References: <20221115123827.736141-1-biju.das.jz@bp.renesas.com> <20221115123827.736141-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20221115123827.736141-4-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 16 Nov 2022 09:29:09 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU20a7XVZ+Hpa1G9YQ4_cgo+yeLKS3CMPyCZ-bmho86zw@mail.gmail.com>
-Message-ID: <CAMuHMdU20a7XVZ+Hpa1G9YQ4_cgo+yeLKS3CMPyCZ-bmho86zw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: arm: renesas: Document Renesas RZ/V2M
- System Configuration
+Date:   Wed, 16 Nov 2022 09:29:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW28kN4kNLjQqMnLUis5+sSRaRAFLBotGqG+Xtw7fai1g@mail.gmail.com>
+Message-ID: <CAMuHMdW28kN4kNLjQqMnLUis5+sSRaRAFLBotGqG+Xtw7fai1g@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] arm64: dts: renesas: r9a09g011: Add system
+ controller node
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -71,28 +71,15 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Tue, Nov 15, 2022 at 1:38 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> From: Phil Edworthy <phil.edworthy@renesas.com>
+> Add system controller node to RZ/V2M SoC dtsi.
 >
-> Add DT binding documentation for System Configuration (SYS) found on
-> RZ/V2M SoC's.
->
-> SYS block contains the SYS_VERSION register which can be used to retrieve
-> SoC version information.
->
-> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
 > v2->v3:
->  * Renamed the file based on the compatible
->  * Dropped quotes from id and schema
->  * Updated description
->  * Renamed device node from system-configuration->system-controller
->  * Renamed label name from sysc->sys
->  * Fixed the indentation in example
-> v1->v2:
->  * Moved the file from arm->soc/renesas
->  * Updated the path for binding file
->  * Updated the example
+>  * Updated commit header and description
+>  * Updated label and node-names
+>  * system-controller node is enabled by default as it do not need external
+>    resources from board.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
