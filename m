@@ -2,60 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06D9862B534
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 09:28:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B39C62B544
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 09:32:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238834AbiKPI2m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Nov 2022 03:28:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34084 "EHLO
+        id S230075AbiKPIcO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Nov 2022 03:32:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238841AbiKPI2B (ORCPT
+        with ESMTP id S238979AbiKPIby (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Nov 2022 03:28:01 -0500
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7831A6172
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Nov 2022 00:25:49 -0800 (PST)
-Received: by mail-qk1-f176.google.com with SMTP id k2so11158608qkk.7
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Nov 2022 00:25:49 -0800 (PST)
+        Wed, 16 Nov 2022 03:31:54 -0500
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACAD026495;
+        Wed, 16 Nov 2022 00:29:22 -0800 (PST)
+Received: by mail-qv1-f42.google.com with SMTP id w10so11468369qvr.3;
+        Wed, 16 Nov 2022 00:29:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FC/8BugfsOPmsz5dWnsOjVFCG99JOsl/6slNWb+96lE=;
-        b=X5bw/B2z3xthAjFrdQk3qJ0nxe4PWQMi0QdVkNWuZ/rjMylDoHZ9WP64yE+H/XVyEM
-         tLUr43v4KJMVIDxWRmMUT33/PMbBC4UtFa9YOAXP1+65ibAe5Qsr0ANx4FNPN0SDvaSn
-         w7ZfnbHzDD3D6i9b7pj4W6T3piahQ0/qaILcU7efA9NnPyK8IM72wRqGK39WicMR5rMe
-         6NC5zhEQaHPaeMbFpaujYFg0qyQfpSzVetKBrw0ekl3Pe33jD81TNkWoXbFKk4z0yCG6
-         L9Yj1u/DjsBrPQ3Lli3/HebkmiZAm2i097qQjqdSebmbvNAYdZNcJTWGMNs7L139Lnet
-         lhRA==
-X-Gm-Message-State: ANoB5pkazbbRXSBqSuk/B5aYLxrsINTbBNMEFx/8Pqk2/r+YnNa7gBj3
-        K130N6LGxVHh+PGefVdKe2urmt4MqW00ZQ==
-X-Google-Smtp-Source: AA0mqf4HzlB8gL+/Xe21jk7nhg1d+D9b5L0HH7lKVO7zgHGF1frtuExuw3VJKIxzDrQ8jlWv+LZtGA==
-X-Received: by 2002:a37:95c2:0:b0:6fa:2aec:52b0 with SMTP id x185-20020a3795c2000000b006fa2aec52b0mr18288638qkd.740.1668587148494;
-        Wed, 16 Nov 2022 00:25:48 -0800 (PST)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id fp1-20020a05622a508100b0039ee562799csm8377752qtb.59.2022.11.16.00.25.48
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=e+K4RKT1VeUzqWatYjjiz4vNUMOLyvspXx68HXp6C1M=;
+        b=UkF0RPo1kbn1caRSOx1xY7W+KKC3OAc/T6ydNLEK0xljlENdnQuZ5/lZ4hij62p0jU
+         M9b/IwONn1UfnSI4f0aeYyWZ6shbyrsugrHsSXv1m4FaPhbCjf/zoiAuyrZEgKu1IzJs
+         nuWcWlHWr2t8xik8Y77KhvCgXg6gBX5cQymDiZH8pGPW7yc2KNDMjRklh5nKYTgyCqJx
+         eOymJLibjkzlMU3Igw4180QjnEpX8sZyr5Nn6Y5WKJ3zK0+Rm/PnXyuuDons3k1ll+S3
+         fSv3S4i613vKx8+VDwKztq/YkKcokFVZ/9mku9053ZREgcq+LGd+hsfCGl2VtS01WSAP
+         pURw==
+X-Gm-Message-State: ANoB5pnAmTQkdhegKelrmuyFoq+W21CNaA7nEPnPjYFvIgOG7kygzNS5
+        UrO3LhS0enCubTvM9bDvr93UCywhznoQTA==
+X-Google-Smtp-Source: AA0mqf7FgL2tYDv7FSDWqSByxS1mLANHt72eMX5RqfXH56xyuzfs07P+JTOXxu27R2olB+fM8gVm5Q==
+X-Received: by 2002:a05:6214:380d:b0:4c6:4ac0:12c1 with SMTP id ns13-20020a056214380d00b004c64ac012c1mr8713489qvb.111.1668587361644;
+        Wed, 16 Nov 2022 00:29:21 -0800 (PST)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id s8-20020a05620a254800b006fa16fe93bbsm9679631qko.15.2022.11.16.00.29.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Nov 2022 00:25:48 -0800 (PST)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-381662c78a9so79955117b3.7
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Nov 2022 00:25:48 -0800 (PST)
-X-Received: by 2002:a81:4ed2:0:b0:370:202b:f085 with SMTP id
- c201-20020a814ed2000000b00370202bf085mr20900992ywb.502.1668587147868; Wed, 16
- Nov 2022 00:25:47 -0800 (PST)
+        Wed, 16 Nov 2022 00:29:21 -0800 (PST)
+Received: by mail-yb1-f181.google.com with SMTP id b131so19430199yba.11;
+        Wed, 16 Nov 2022 00:29:21 -0800 (PST)
+X-Received: by 2002:a25:844b:0:b0:6de:6c43:3991 with SMTP id
+ r11-20020a25844b000000b006de6c433991mr19127160ybm.604.1668587360788; Wed, 16
+ Nov 2022 00:29:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20221115123827.736141-1-biju.das.jz@bp.renesas.com> <20221115123827.736141-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20221115123827.736141-3-biju.das.jz@bp.renesas.com>
+References: <20221115123827.736141-1-biju.das.jz@bp.renesas.com> <20221115123827.736141-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20221115123827.736141-2-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 16 Nov 2022 09:25:36 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVihOZG+4gRXBVO1XAJgqY=kaT1=tnCGTDrE2P=v2UWUA@mail.gmail.com>
-Message-ID: <CAMuHMdVihOZG+4gRXBVO1XAJgqY=kaT1=tnCGTDrE2P=v2UWUA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] soc: renesas: Identify RZ/V2M SoC
+Date:   Wed, 16 Nov 2022 09:29:09 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU20a7XVZ+Hpa1G9YQ4_cgo+yeLKS3CMPyCZ-bmho86zw@mail.gmail.com>
+Message-ID: <CAMuHMdU20a7XVZ+Hpa1G9YQ4_cgo+yeLKS3CMPyCZ-bmho86zw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] dt-bindings: arm: renesas: Document Renesas RZ/V2M
+ System Configuration
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <chris.paterson2@renesas.com>,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -72,18 +73,26 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Tue, Nov 15, 2022 at 1:38 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
 > From: Phil Edworthy <phil.edworthy@renesas.com>
 >
-> Add support for identifying the RZ/V2M (R9A09G011) SoC.
-> Note that the SoC does not have a identification register.
+> Add DT binding documentation for System Configuration (SYS) found on
+> RZ/V2M SoC's.
+>
+> SYS block contains the SYS_VERSION register which can be used to retrieve
+> SoC version information.
 >
 > Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-> [biju: removed config changes ]
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
 > v2->v3:
->  * No change.
+>  * Renamed the file based on the compatible
+>  * Dropped quotes from id and schema
+>  * Updated description
+>  * Renamed device node from system-configuration->system-controller
+>  * Renamed label name from sysc->sys
+>  * Fixed the indentation in example
 > v1->v2:
->  * Removed KConfig changes as SoC config already present
->  * Fixed an extra space before 'else if' statement.
+>  * Moved the file from arm->soc/renesas
+>  * Updated the path for binding file
+>  * Updated the example
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
