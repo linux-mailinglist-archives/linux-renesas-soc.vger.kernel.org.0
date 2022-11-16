@@ -2,89 +2,240 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2265662C588
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 17:56:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1B1162CAAD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 21:21:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234358AbiKPQ4K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Nov 2022 11:56:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40384 "EHLO
+        id S233114AbiKPUVZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Nov 2022 15:21:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232190AbiKPQzj (ORCPT
+        with ESMTP id S229863AbiKPUVZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Nov 2022 11:55:39 -0500
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA3AB3E;
-        Wed, 16 Nov 2022 08:55:27 -0800 (PST)
-Received: by mail-oi1-f174.google.com with SMTP id q186so19131756oia.9;
-        Wed, 16 Nov 2022 08:55:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kiEBJO/YjcMAZi1EqUusiIE2D8QfFJq7eZwFhwMPZso=;
-        b=XUhd1YZINCqUB9+lROHYSr+aR4vQtsGz9YdpG0pjowKyb8r4RcNe13HUxe0q/9E34p
-         kWJY9YLy4JO5fbk7VYMBZohgKhb9oTXOcNKH4HSpfXWTb3Z7wmpWqUnuaPrWWIxwWga+
-         o/+3+VNM2rYqU1HoYen4IuNca3+H4gMW0SlJRVnLk8bajQm+iqjbRaChf7E0LTbxWdp4
-         CkjkivKlZ90PtxWS2olXw7TodOHAuzYjr7ZFk09wKCzH0NxlJDXsirGSxj0dihFPzx/0
-         Zxar/1QF8VyBVKnID3qDjwVV8H+3UZo67IyPrQmgzAyy31GJ9ki0VC4w30ZKVUSTmeXO
-         eAnQ==
-X-Gm-Message-State: ANoB5plir3BqjLx4WAp13yijubhaDGmqzBBYKC+MQ9ehNYzYWJfegn9w
-        N53zbSGjAWrzO1kwu4CZ/g==
-X-Google-Smtp-Source: AA0mqf64Fje3bdOgJ5mS0w+P3LsDO8E8DUlCW+fnA4tU3JbGCGhrmcJnW4mo3simdTwRehr0cYgx7Q==
-X-Received: by 2002:a05:6808:688:b0:354:e358:ad2c with SMTP id k8-20020a056808068800b00354e358ad2cmr2056255oig.130.1668617725518;
-        Wed, 16 Nov 2022 08:55:25 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id bg2-20020a056808178200b0034fd36e95bfsm6367551oib.31.2022.11.16.08.55.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 08:55:25 -0800 (PST)
-Received: (nullmailer pid 231353 invoked by uid 1000);
-        Wed, 16 Nov 2022 16:55:27 -0000
-Date:   Wed, 16 Nov 2022 10:55:27 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-wireless@vger.kernel.org, devicetree@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, linux-bluetooth@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: Document Bluetooth and WLAN triggers
-Message-ID: <166861772609.231295.14812410099261417331.robh@kernel.org>
+        Wed, 16 Nov 2022 15:21:25 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 608D964A38
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Nov 2022 12:21:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=bMGKwGG5cIDip4LVp/5zoRf8SZ6
+        RpUJymDQzzb57axw=; b=kHNiA/sWNK1uw5mNDLwOlUauvQmXjR4PE/tO87/AYoC
+        7h5vglR5WvzxRCau5if7BZNv5mn+WoS9woixR8pAxghaq0wVa3NwGJpKtpFn3nzB
+        2fREnuPyOzHSt7ASK4JRIJzpQrKbo9cGuPlKh1rgdoIQTXsj2YoyCC9534l5BQLE
+        =
+Received: (qmail 921742 invoked from network); 16 Nov 2022 21:21:19 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Nov 2022 21:21:19 +0100
+X-UD-Smtp-Session: l3s3148p1@fQnuNpztRKIgAQnoAFdaAHMtqXgc/sFu
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [RFC PATCH] clocksource/drivers/sh_cmt: access registers according to spec
+Date:   Wed, 16 Nov 2022 21:21:10 +0100
+Message-Id: <20221116202110.1770-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Documentation for most CMTs say that we need to wait two input clocks
+before changes propagate to the timer. This is especially relevant when
+we stop the timer to change further settings. Implement the delays
+according to the spec. To avoid unnecessary delays in atomic mode, we
+also check if the to-be-written value actually differs. CMCNT is a bit
+special because testing showed that we need to wait 3 cycles instead.
+AFAIU, this is also true for all CMTs. Also, the WRFLAG needs to be
+checked before writing. This fixes "cannot clear CMCNT" messages which
+occur often on R-Car Gen4 SoCs, but only very rarely on older SoCs for
+some reason.
 
-On Wed, 09 Nov 2022 15:46:06 +0100, Geert Uytterhoeven wrote:
-> Add the missing trigger patterns for Bluetooth and WLAN activity, which
-> are already in active use.
-> 
-> While at it, move the mmc pattern comment where it belongs, and restore
-> alphabetical sort order.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: bt_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-> 	'hci0-power' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-> 	'hci0-power' does not match '^mmc[0-9]+$'
-> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
-> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: wlan_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-> 	'phy0tx' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-> 	'phy0tx' does not match '^mmc[0-9]+$'
-> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
-> ---
->  Documentation/devicetree/bindings/leds/common.yaml | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
+Fixes: 81b3b2711072 ("clocksource: sh_cmt: Add support for multiple channels per device")
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+With this patch, I can run the 'clocksource-switch' test (from the Linux
+selftests) without any warnings printed on the Spider S4 and the Ebisu
+E3 board. Both printed the warnings before, the Spider immediately, the
+Ebisu rarely but still. The price for this correctness is that the tests
+run much longer due to the udelays in atomic mode. However, I consider
+the massive switching a corner case. Usually, one switches rarely so the
+extra delay is worth the correctness IMHO.
+
+The only question left for me: Do the old 16 and 32 bit versions of CMT
+really *not* need the delay? They are not explicitly mentioned in the
+docs but maybe it doesn't hurt?
+
+For the record: it took a while to find out what exactly was the problem
+for the error message. And then, it was also two different delays
+needed. This is why I chose to implement all the delays mentioned in the
+specs and not only a working subset. The latter sounded too fragile in
+case register accesses would change in the future.
+
+So much for now, looking forward to comments!
+
+   Wolfram
+
+ drivers/clocksource/sh_cmt.c | 77 ++++++++++++++++++++++--------------
+ 1 file changed, 47 insertions(+), 30 deletions(-)
+
+diff --git a/drivers/clocksource/sh_cmt.c b/drivers/clocksource/sh_cmt.c
+index 64dcb082d4cf..474552be26e7 100644
+--- a/drivers/clocksource/sh_cmt.c
++++ b/drivers/clocksource/sh_cmt.c
+@@ -13,6 +13,7 @@
+ #include <linux/init.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
++#include <linux/iopoll.h>
+ #include <linux/ioport.h>
+ #include <linux/irq.h>
+ #include <linux/module.h>
+@@ -116,6 +117,7 @@ struct sh_cmt_device {
+ 	void __iomem *mapbase;
+ 	struct clk *clk;
+ 	unsigned long rate;
++	unsigned long reg_delay;
+ 
+ 	raw_spinlock_t lock; /* Protect the shared start/stop register */
+ 
+@@ -247,10 +249,17 @@ static inline u32 sh_cmt_read_cmstr(struct sh_cmt_channel *ch)
+ 
+ static inline void sh_cmt_write_cmstr(struct sh_cmt_channel *ch, u32 value)
+ {
+-	if (ch->iostart)
+-		ch->cmt->info->write_control(ch->iostart, 0, value);
+-	else
+-		ch->cmt->info->write_control(ch->cmt->mapbase, 0, value);
++	u32 old_value = sh_cmt_read_cmstr(ch);
++
++	if (value != old_value) {
++		if (ch->iostart) {
++			ch->cmt->info->write_control(ch->iostart, 0, value);
++			udelay(ch->cmt->reg_delay);
++		} else {
++			ch->cmt->info->write_control(ch->cmt->mapbase, 0, value);
++			udelay(ch->cmt->reg_delay);
++		}
++	}
+ }
+ 
+ static inline u32 sh_cmt_read_cmcsr(struct sh_cmt_channel *ch)
+@@ -260,7 +269,12 @@ static inline u32 sh_cmt_read_cmcsr(struct sh_cmt_channel *ch)
+ 
+ static inline void sh_cmt_write_cmcsr(struct sh_cmt_channel *ch, u32 value)
+ {
+-	ch->cmt->info->write_control(ch->ioctrl, CMCSR, value);
++	u32 old_value = sh_cmt_read_cmcsr(ch);
++
++	if (value != old_value) {
++		ch->cmt->info->write_control(ch->ioctrl, CMCSR, value);
++		udelay(ch->cmt->reg_delay);
++	}
+ }
+ 
+ static inline u32 sh_cmt_read_cmcnt(struct sh_cmt_channel *ch)
+@@ -270,12 +284,26 @@ static inline u32 sh_cmt_read_cmcnt(struct sh_cmt_channel *ch)
+ 
+ static inline void sh_cmt_write_cmcnt(struct sh_cmt_channel *ch, u32 value)
+ {
++	/* Tests showed that we need to wait 3 clocks here */
++	unsigned long cmcnt_delay = ch->cmt->reg_delay * 3 / 2;
++	u32 reg;
++
++	if (ch->cmt->info->model > SH_CMT_16BIT)
++		read_poll_timeout_atomic(sh_cmt_read_cmcsr, reg, !(reg & SH_CMT32_CMCSR_WRFLG),
++					 1, cmcnt_delay, false, ch);
++
+ 	ch->cmt->info->write_count(ch->ioctrl, CMCNT, value);
++	udelay(cmcnt_delay);
+ }
+ 
+ static inline void sh_cmt_write_cmcor(struct sh_cmt_channel *ch, u32 value)
+ {
+-	ch->cmt->info->write_count(ch->ioctrl, CMCOR, value);
++	u32 old_value = ch->cmt->info->read_count(ch->ioctrl, CMCOR);
++
++	if (value != old_value) {
++		ch->cmt->info->write_count(ch->ioctrl, CMCOR, value);
++		udelay(ch->cmt->reg_delay);
++	}
+ }
+ 
+ static u32 sh_cmt_get_counter(struct sh_cmt_channel *ch, u32 *has_wrapped)
+@@ -319,7 +347,7 @@ static void sh_cmt_start_stop_ch(struct sh_cmt_channel *ch, int start)
+ 
+ static int sh_cmt_enable(struct sh_cmt_channel *ch)
+ {
+-	int k, ret;
++	int ret;
+ 
+ 	dev_pm_syscore_device(&ch->cmt->pdev->dev, true);
+ 
+@@ -349,23 +377,6 @@ static int sh_cmt_enable(struct sh_cmt_channel *ch)
+ 	sh_cmt_write_cmcor(ch, 0xffffffff);
+ 	sh_cmt_write_cmcnt(ch, 0);
+ 
+-	/*
+-	 * According to the sh73a0 user's manual, as CMCNT can be operated
+-	 * only by the RCLK (Pseudo 32 kHz), there's one restriction on
+-	 * modifying CMCNT register; two RCLK cycles are necessary before
+-	 * this register is either read or any modification of the value
+-	 * it holds is reflected in the LSI's actual operation.
+-	 *
+-	 * While at it, we're supposed to clear out the CMCNT as of this
+-	 * moment, so make sure it's processed properly here.  This will
+-	 * take RCLKx2 at maximum.
+-	 */
+-	for (k = 0; k < 100; k++) {
+-		if (!sh_cmt_read_cmcnt(ch))
+-			break;
+-		udelay(1);
+-	}
+-
+ 	if (sh_cmt_read_cmcnt(ch)) {
+ 		dev_err(&ch->cmt->pdev->dev, "ch%u: cannot clear CMCNT\n",
+ 			ch->index);
+@@ -995,8 +1006,8 @@ MODULE_DEVICE_TABLE(of, sh_cmt_of_table);
+ 
+ static int sh_cmt_setup(struct sh_cmt_device *cmt, struct platform_device *pdev)
+ {
+-	unsigned int mask;
+-	unsigned int i;
++	unsigned int mask, i;
++	unsigned long rate;
+ 	int ret;
+ 
+ 	cmt->pdev = pdev;
+@@ -1032,10 +1043,16 @@ static int sh_cmt_setup(struct sh_cmt_device *cmt, struct platform_device *pdev)
+ 	if (ret < 0)
+ 		goto err_clk_unprepare;
+ 
+-	if (cmt->info->width == 16)
+-		cmt->rate = clk_get_rate(cmt->clk) / 512;
+-	else
+-		cmt->rate = clk_get_rate(cmt->clk) / 8;
++	rate = clk_get_rate(cmt->clk);
++	if (!rate) {
++		ret = -EINVAL;
++		goto err_clk_disable;
++	}
++
++	/* We shall wait 2 input clks after register writes */
++	if (cmt->info->model >= SH_CMT_48BIT) // FIXME: Really not needed for older ones?
++		cmt->reg_delay = 2000000UL / rate + 1;
++	cmt->rate = cmt->info->width == 16 ? rate / 512 : rate / 8;
+ 
+ 	/* Map the memory resource(s). */
+ 	ret = sh_cmt_map_memory(cmt);
+-- 
+2.35.1
+
