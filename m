@@ -2,119 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10A6562B6D8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 10:46:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0A3662B6EB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 10:52:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233620AbiKPJqH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Nov 2022 04:46:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33044 "EHLO
+        id S233064AbiKPJwh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Nov 2022 04:52:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233113AbiKPJqE (ORCPT
+        with ESMTP id S231821AbiKPJwg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Nov 2022 04:46:04 -0500
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32D12C35
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Nov 2022 01:46:03 -0800 (PST)
-Received: by mail-lj1-x230.google.com with SMTP id z24so21114529ljn.4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Nov 2022 01:46:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VlPvJofxjAbwn4jWtFmNQoJ3cJnk9d0bOElPfxM86N4=;
-        b=E3PnT/l7Vbdcya0LkTfpalx3KDHcE8+grtNXIocnzLJb72/zjxl0OlFVqUOVrQD7em
-         bukGFwoPjXdd6AJCfbxICBfzG198Y/aACcd8lFl/B0GZWruO+RARLy57Oen8MqhFCIh+
-         gVktML98QEkkuRP9gnKXVjPwL/BsgYApVXD8l33lGlyUwEzz/wx8bWvY+yM6EfG8tHp3
-         PFC9CK0jqu0lL4pNBZMH5rKdWKktirQC3Z430b2EHTWHNNHsZuyqDmp643b/StIDrWRV
-         +qGRAn5DymULk6l5IfafFWCHXNyjU8blgsNsLsSLyzMrZotPgTuJ6Xpvpd/FmOH0owSi
-         YiTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VlPvJofxjAbwn4jWtFmNQoJ3cJnk9d0bOElPfxM86N4=;
-        b=u2dMoDmr1QeONGQlTl5Hy5gEHcSt7ABVOMzIx8ltHpHOfM8BmrOcY+cyEBm1bRyAZg
-         iFncpI1+6Opr6BrY5rkcvRuubKoma2cH7t9F710tUn8su1cHTsulp44d+UFkcJ1Ctk3z
-         cqAN02EAp6ejFpyJJkUHMR/mb3vSoRajR8c6Z5+blonmzk5cHqJcTcB4MDTXBYQQXk1C
-         oVC34Q/ZWvLtHgZlGuD2E2gsa7+o7aLXJxpxhVPYmj4M7a0Ei2jR+6bOlkJod04XF+5t
-         EpPduVqc6VsabkcktBf2wLG9ICiaakGZJFMGszb0v7MnSVu+dRd5jbSuaX2aXYepMMb3
-         Ecww==
-X-Gm-Message-State: ANoB5pkbdzEOjHNB4mGAR0M/ZVB2HPrJck+ZfJUgaVEGhbH1fbcuot15
-        e8Xdvq9D3t4PpvurRYbyWYwbzQ==
-X-Google-Smtp-Source: AA0mqf4aktk2UYPioPNM9N7IXXS8kx14IfoPMBd8ybNvIAoa1znMcPZnBHancmUOaXr52g14tbLgcQ==
-X-Received: by 2002:a05:651c:2c9:b0:26f:ebb8:7a0d with SMTP id f9-20020a05651c02c900b0026febb87a0dmr7636826ljo.474.1668591961602;
-        Wed, 16 Nov 2022 01:46:01 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id c14-20020a056512074e00b004afeacffb84sm2530195lfs.98.2022.11.16.01.46.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Nov 2022 01:46:01 -0800 (PST)
-Message-ID: <2a1af80b-cb1a-6d87-689d-bed8ac53bff7@linaro.org>
-Date:   Wed, 16 Nov 2022 10:46:00 +0100
+        Wed, 16 Nov 2022 04:52:36 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CE59D6441;
+        Wed, 16 Nov 2022 01:52:35 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A9BAB1477;
+        Wed, 16 Nov 2022 01:52:41 -0800 (PST)
+Received: from cam-smtp0.cambridge.arm.com (pierre123.nice.arm.com [10.34.100.128])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CD94D3F663;
+        Wed, 16 Nov 2022 01:52:33 -0800 (PST)
+From:   Pierre Gondois <pierre.gondois@arm.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Rob.Herring@arm.com, sudeep.holla@arm.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Pierre Gondois <pierre.gondois@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH -next v2] cacheinfo: Remove of_node_put() for fw_token
+Date:   Wed, 16 Nov 2022 10:49:58 +0100
+Message-Id: <20221116094958.2141072-1-pierre.gondois@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 1/3] dt-bindings: arm: renesas: Document Renesas RZ/V2M
- System Configuration
-Content-Language: en-US
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-References: <20221115123827.736141-1-biju.das.jz@bp.renesas.com>
- <20221115123827.736141-2-biju.das.jz@bp.renesas.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221115123827.736141-2-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 15/11/2022 13:38, Biju Das wrote:
-> From: Phil Edworthy <phil.edworthy@renesas.com>
-> 
-> Add DT binding documentation for System Configuration (SYS) found on
-> RZ/V2M SoC's.
+fw_token is used for DT/ACPI systems to identify CPUs sharing caches.
+For DT based systems, fw_token is set to a pointer to a DT node.
 
-Thank you for your patch. There is something to discuss/improve.
+commit 3da72e18371c ("cacheinfo: Decrement refcount in
+cache_setup_of_node()")
+doesn't increment the refcount of fw_token anymore in
+cache_setup_of_node(). fw_token is indeed used as a token and not
+as a (struct device_node*), so no reference to fw_token should be
+kept.
 
-> +properties:
-> +  compatible:
-> +    const: renesas,r9a09g011-sys
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    sys: system-controller@a3f03000 {
-> +       compatible = "renesas,r9a09g011-sys";
-> +       reg = <0xa3f03000 0x400>;
+However, [1] is triggered when hotplugging a CPU multiple times
+since cache_shared_cpu_map_remove() decrements the refcount to
+fw_token at each CPU unplugging, eventually reaching 0.
 
-Use 4 spaces for example indentation (two is also okay, but not three).
+Remove of_node_put() for fw_token in cache_shared_cpu_map_remove().
 
-With this fixed:
+[1]
+------------[ cut here ]------------
+refcount_t: saturated; leaking memory.
+WARNING: CPU: 4 PID: 32 at lib/refcount.c:22 refcount_warn_saturate (lib/refcount.c:22 (discriminator 3))
+Modules linked in:
+CPU: 4 PID: 32 Comm: cpuhp/4 Tainted: G        W          6.1.0-rc1-14091-g9fdf2ca7b9c8 #76
+Hardware name: ARM LTD ARM Juno Development Platform/ARM Juno Development Platform, BIOS EDK II Oct 31 2022
+pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : refcount_warn_saturate (lib/refcount.c:22 (discriminator 3))
+lr : refcount_warn_saturate (lib/refcount.c:22 (discriminator 3))
+[...]
+Call trace:
+[...]
+of_node_release (drivers/of/dynamic.c:335)
+kobject_put (lib/kobject.c:677 lib/kobject.c:704 ./include/linux/kref.h:65 lib/kobject.c:721)
+of_node_put (drivers/of/dynamic.c:49)
+free_cache_attributes.part.0 (drivers/base/cacheinfo.c:712)
+cacheinfo_cpu_pre_down (drivers/base/cacheinfo.c:718)
+cpuhp_invoke_callback (kernel/cpu.c:247 (discriminator 4))
+cpuhp_thread_fun (kernel/cpu.c:785)
+smpboot_thread_fn (kernel/smpboot.c:164 (discriminator 3))
+kthread (kernel/kthread.c:376)
+ret_from_fork (arch/arm64/kernel/entry.S:861)
+---[ end trace 0000000000000000 ]---
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Fixes: 3da72e18371c ("cacheinfo: Decrement refcount in cache_setup_of_node()")
+Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Sudeep Holla <sudeep.holla@arm.com>
+Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
+Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
+---
 
-Best regards,
-Krzysztof
+Notes:
+    v2:
+    - Update commit message. [Sudeep]
+
+ drivers/base/cacheinfo.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/base/cacheinfo.c b/drivers/base/cacheinfo.c
+index 04317cde800c..950b22cdb5f7 100644
+--- a/drivers/base/cacheinfo.c
++++ b/drivers/base/cacheinfo.c
+@@ -317,8 +317,6 @@ static void cache_shared_cpu_map_remove(unsigned int cpu)
+ 			cpumask_clear_cpu(cpu, &sib_leaf->shared_cpu_map);
+ 			cpumask_clear_cpu(sibling, &this_leaf->shared_cpu_map);
+ 		}
+-		if (of_have_populated_dt())
+-			of_node_put(this_leaf->fw_token);
+ 	}
+ }
+ 
+-- 
+2.25.1
 
