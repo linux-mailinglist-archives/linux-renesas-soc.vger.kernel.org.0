@@ -2,69 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F23D62B3DF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 08:26:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C65BC62B47A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 09:03:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231183AbiKPH0m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Nov 2022 02:26:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45624 "EHLO
+        id S233038AbiKPID4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Nov 2022 03:03:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbiKPH0l (ORCPT
+        with ESMTP id S233027AbiKPIDz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Nov 2022 02:26:41 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9C21BA446;
-        Tue, 15 Nov 2022 23:26:39 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3ADCB13D5;
-        Tue, 15 Nov 2022 23:26:45 -0800 (PST)
-Received: from bogus (unknown [10.57.6.137])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E8E913F73B;
-        Tue, 15 Nov 2022 23:26:36 -0800 (PST)
-Date:   Wed, 16 Nov 2022 07:26:33 +0000
-From:   Sudeep Holla <sudeep.holla@arm.com>
+        Wed, 16 Nov 2022 03:03:55 -0500
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC1786448;
+        Wed, 16 Nov 2022 00:03:54 -0800 (PST)
+Received: by mail-qv1-f44.google.com with SMTP id j6so11406980qvn.12;
+        Wed, 16 Nov 2022 00:03:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lPiNEEPz3fwn9yX9FoJryScC2rMVAcwvbsIVAG/NCvQ=;
+        b=gJVKjN0JzIr2MRIUJu8zToHL6B332ddDzALsYB5D0I01nD2I1LuV9Oh7JSQmucg3dc
+         eaZH6IEB7+UMGnShlmY0jjAhn5DBNc0RjQCiaTSD6X7GJwIML0eDNHCkU1rmuwCkXF2f
+         feB5IKQ8CLzN2iOxeQKg6gUzBDmhOnMqHiH9gPDfMRJFuk1wziYpQVS7CoLx956Err18
+         jtKh24o233HocgoEF9u0R+4tU+HDiIgdq8vlS39JW/ZysMZ9jsYoOcpmi8KHu/wq/11b
+         h/fDdnLoAFpLwsC+u1AXICbRWmvM9MgUiffQCglVB2VfVHvfc9xgbdCY1bys/Cy3dlpt
+         0B8w==
+X-Gm-Message-State: ANoB5pndJY00D2eEDBz/s4Qt8OUlYHWZpsFY9gdb/jHSL2VqXWi2EQLb
+        u8b3zoGMSg24pAa8XPcdVDiNdtXhDAky2g==
+X-Google-Smtp-Source: AA0mqf5uouyK/PLj6C7AaZa1ct6llF4GQ5ATD4Bto13Jum5dL4sot51q/Ct2noOzhYv7gmaf/6jZfg==
+X-Received: by 2002:ad4:4f11:0:b0:4bb:7436:49de with SMTP id fb17-20020ad44f11000000b004bb743649demr19542930qvb.27.1668585833808;
+        Wed, 16 Nov 2022 00:03:53 -0800 (PST)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id v14-20020a05620a440e00b006fba0a389a4sm2224852qkp.88.2022.11.16.00.03.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Nov 2022 00:03:53 -0800 (PST)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-3691e040abaso160075747b3.9;
+        Wed, 16 Nov 2022 00:03:52 -0800 (PST)
+X-Received: by 2002:a0d:dd81:0:b0:373:6180:dae5 with SMTP id
+ g123-20020a0ddd81000000b003736180dae5mr20337776ywe.283.1668585832484; Wed, 16
+ Nov 2022 00:03:52 -0800 (PST)
+MIME-Version: 1.0
+References: <20221115220520.2076189-1-pierre.gondois@arm.com>
+In-Reply-To: <20221115220520.2076189-1-pierre.gondois@arm.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 16 Nov 2022 09:03:41 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWB_PZAL7dgWfYVVBQL2tkb92bg_tuvxeGrWFbGQD9fNw@mail.gmail.com>
+Message-ID: <CAMuHMdWB_PZAL7dgWfYVVBQL2tkb92bg_tuvxeGrWFbGQD9fNw@mail.gmail.com>
+Subject: Re: [PATCH -next] cacheinfo: Remove of_node_put() for fw_token
 To:     Pierre Gondois <pierre.gondois@arm.com>
 Cc:     linux-kernel@vger.kernel.org, Rob.Herring@arm.com,
+        sudeep.holla@arm.com,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J . Wysocki" <rafael@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH -next] cacheinfo: Remove of_node_put() for fw_token
-Message-ID: <20221116072633.igvqiimtx2pzaa37@bogus>
-References: <20221115220520.2076189-1-pierre.gondois@arm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221115220520.2076189-1-pierre.gondois@arm.com>
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Nov 15, 2022 at 11:05:20PM +0100, Pierre Gondois wrote:
+On Tue, Nov 15, 2022 at 11:06 PM Pierre Gondois <pierre.gondois@arm.com> wrote:
 > fw_token is used for DT/ACPI systems to identify CPUs sharing caches.
 > For DT based systems, fw_token is set to a pointer to a DT node.
-> 
+>
 > commit ("cacheinfo: Decrement refcount in cache_setup_of_node()")
-
-Commit 3da72e18371c ("cacheinfo: Decrement refcount in cache_setup_of_node()")
-
 > doesn't increment the refcount of fw_token anymore in
 > cache_setup_of_node(). fw_token is indeed used as a token and not
 > as a (struct device_node*), so no reference to fw_token should be
 > kept.
-> 
+>
 > However, [1] is triggered when hotplugging a CPU multiple times
 > since cache_shared_cpu_map_remove() decrements the refcount to
 > fw_token at each CPU unplugging, eventually reaching 0.
-> 
+>
 > Remove of_node_put() for fw_token in cache_shared_cpu_map_remove().
-> 
+>
 > [1]
 > [   53.651182] ------------[ cut here ]------------
 > [   53.651186] refcount_t: saturated; leaking memory.
@@ -90,18 +110,21 @@ Commit 3da72e18371c ("cacheinfo: Decrement refcount in cache_setup_of_node()")
 > [   53.651858] ret_from_fork (arch/arm64/kernel/entry.S:861)
 > [   53.651869] ---[ end trace 0000000000000000 ]---
 >
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
 
-Please remove the timestamp as they add no value to the commit log.
-Also it is worth adding IMO:
-Fixes: 3da72e18371c ("cacheinfo: Decrement refcount in cache_setup_of_node()")
+Thanks, this fixes the issue for me!
 
-I did a quick test and so,
-Tested-by: Sudeep Holla <sudeep.holla@arm.com>
-Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Thanks for fixing the quickly and sorry for not noticing the extra of_node_put
-even though I thought if it was just incrementing the refcount earlier.
+Gr{oetje,eeting}s,
 
--- 
-Regards,
-Sudeep
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
