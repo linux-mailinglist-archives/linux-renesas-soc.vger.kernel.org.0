@@ -2,85 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8CA462B7C9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 11:22:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1467C62BFC3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 14:41:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236409AbiKPKWO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Nov 2022 05:22:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57062 "EHLO
+        id S233777AbiKPNlk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Nov 2022 08:41:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238117AbiKPKV5 (ORCPT
+        with ESMTP id S238662AbiKPNlT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Nov 2022 05:21:57 -0500
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E9E4C22BF7;
-        Wed, 16 Nov 2022 02:21:55 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.96,167,1665414000"; 
-   d="scan'208";a="140240162"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 16 Nov 2022 19:21:55 +0900
-Received: from localhost.localdomain (unknown [10.226.92.242])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id EE74E40029A5;
-        Wed, 16 Nov 2022 19:21:52 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH v4 3/3] arm64: dts: renesas: r9a09g011: Add system controller node
-Date:   Wed, 16 Nov 2022 10:21:40 +0000
-Message-Id: <20221116102140.852889-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221116102140.852889-1-biju.das.jz@bp.renesas.com>
-References: <20221116102140.852889-1-biju.das.jz@bp.renesas.com>
+        Wed, 16 Nov 2022 08:41:19 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E4EB1E3FC;
+        Wed, 16 Nov 2022 05:41:16 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF5B049C;
+        Wed, 16 Nov 2022 14:41:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1668606074;
+        bh=7kjV9XaHGlcIvSJMo1l48yxddcL5QyvUynUQIQE/utQ=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=PiSQRbxCpnhfvhLOvIlPUw+8d+v/T/vnY2kITjyVbbBRPRnaI26+x6KjSeEJAkFiE
+         R/4WIZXhHw0F1vbQABp1Wn2bdozEEwXuxGS45peSlO4RxQUTFRRahTtr9S6UAmjYat
+         S/H9lzSD7Uf3qXQDbCCMFxxR29ESVlnrcRDsinKk=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20221107175256.360839-7-paul@crapouillou.net>
+References: <20221107175106.360578-1-paul@crapouillou.net> <20221107175256.360839-1-paul@crapouillou.net> <20221107175256.360839-7-paul@crapouillou.net>
+Subject: Re: [PATCH 17/26] drm: rcar-du: Remove #ifdef guards for PM related functions
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Paul Cercueil <paul@crapouillou.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org
+To:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Date:   Wed, 16 Nov 2022 13:41:12 +0000
+Message-ID: <166860607235.50677.11372324946195607108@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add system controller node to RZ/V2M SoC dtsi.
+Quoting Paul Cercueil (2022-11-07 17:52:47)
+> Use the DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr() macros to handle
+> the .suspend/.resume callbacks.
+>=20
+> These macros allow the suspend and resume functions to be automatically
+> dropped by the compiler when CONFIG_SUSPEND is disabled, without having
+> to use #ifdef guards.
+>=20
+> This has the advantage of always compiling these functions in,
+> independently of any Kconfig option. Thanks to that, bugs and other
+> regressions are subsequently easier to catch.
+>=20
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v3->v4:
- * Added Rb tag from Geert.
-v2->v3:
- * Updated commit header and description 
- * Updated label and node-names
- * system-controller node is enabled by default as it do not need external
-   resources from board.
-v2:
- * New patch
----
- arch/arm64/boot/dts/renesas/r9a09g011.dtsi | 5 +++++
- 1 file changed, 5 insertions(+)
+Seems reasonable to me.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-index ca9f022d6632..0373ec409d54 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-@@ -130,6 +130,11 @@ cpg: clock-controller@a3500000 {
- 			#power-domain-cells = <0>;
- 		};
- 
-+		sys: system-controller@a3f03000 {
-+			compatible = "renesas,r9a09g011-sys";
-+			reg = <0 0xa3f03000 0 0x400>;
-+		};
-+
- 		i2c0: i2c@a4030000 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
--- 
-2.25.1
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
+> ---
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar=
+-du/rcar_du_drv.c
+> index a2776f1d6f2c..0a89094461cc 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -599,7 +599,6 @@ static const struct drm_driver rcar_du_driver =3D {
+>   * Power management
+>   */
+> =20
+> -#ifdef CONFIG_PM_SLEEP
+>  static int rcar_du_pm_suspend(struct device *dev)
+>  {
+>         struct rcar_du_device *rcdu =3D dev_get_drvdata(dev);
+> @@ -613,11 +612,9 @@ static int rcar_du_pm_resume(struct device *dev)
+> =20
+>         return drm_mode_config_helper_resume(&rcdu->ddev);
+>  }
+> -#endif
+> =20
+> -static const struct dev_pm_ops rcar_du_pm_ops =3D {
+> -       SET_SYSTEM_SLEEP_PM_OPS(rcar_du_pm_suspend, rcar_du_pm_resume)
+> -};
+> +static DEFINE_SIMPLE_DEV_PM_OPS(rcar_du_pm_ops,
+> +                               rcar_du_pm_suspend, rcar_du_pm_resume);
+> =20
+>  /* ---------------------------------------------------------------------=
+--------
+>   * Platform driver
+> @@ -712,7 +709,7 @@ static struct platform_driver rcar_du_platform_driver=
+ =3D {
+>         .shutdown       =3D rcar_du_shutdown,
+>         .driver         =3D {
+>                 .name   =3D "rcar-du",
+> -               .pm     =3D &rcar_du_pm_ops,
+> +               .pm     =3D pm_sleep_ptr(&rcar_du_pm_ops),
+>                 .of_match_table =3D rcar_du_of_table,
+>         },
+>  };
+> --=20
+> 2.35.1
+>
