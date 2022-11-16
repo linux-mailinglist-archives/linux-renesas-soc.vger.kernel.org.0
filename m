@@ -2,140 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3B5B62B67A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 10:26:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 10A6562B6D8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 10:46:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232633AbiKPJ0z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Nov 2022 04:26:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49320 "EHLO
+        id S233620AbiKPJqH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Nov 2022 04:46:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231622AbiKPJ0x (ORCPT
+        with ESMTP id S233113AbiKPJqE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Nov 2022 04:26:53 -0500
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D1126389;
-        Wed, 16 Nov 2022 01:26:51 -0800 (PST)
-Received: by mail-qv1-f41.google.com with SMTP id j6so11506015qvn.12;
-        Wed, 16 Nov 2022 01:26:51 -0800 (PST)
+        Wed, 16 Nov 2022 04:46:04 -0500
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32D12C35
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Nov 2022 01:46:03 -0800 (PST)
+Received: by mail-lj1-x230.google.com with SMTP id z24so21114529ljn.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Nov 2022 01:46:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VlPvJofxjAbwn4jWtFmNQoJ3cJnk9d0bOElPfxM86N4=;
+        b=E3PnT/l7Vbdcya0LkTfpalx3KDHcE8+grtNXIocnzLJb72/zjxl0OlFVqUOVrQD7em
+         bukGFwoPjXdd6AJCfbxICBfzG198Y/aACcd8lFl/B0GZWruO+RARLy57Oen8MqhFCIh+
+         gVktML98QEkkuRP9gnKXVjPwL/BsgYApVXD8l33lGlyUwEzz/wx8bWvY+yM6EfG8tHp3
+         PFC9CK0jqu0lL4pNBZMH5rKdWKktirQC3Z430b2EHTWHNNHsZuyqDmp643b/StIDrWRV
+         +qGRAn5DymULk6l5IfafFWCHXNyjU8blgsNsLsSLyzMrZotPgTuJ6Xpvpd/FmOH0owSi
+         YiTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EGSh9ezbCO5Cs+0MRBpsxP1k4L0kzxgW9LPRl1yAGr0=;
-        b=aM9QqSWGeOYDmyN8URcMvMR54HYgT1P0VvS7/MjVpF9mtIvl2J8j/YVV7pRwStmXzD
-         5x/vuh63SElEqPyxY1dP9w/wY4+OmVGxiW/JjNScbLluVLIZQL6mZYcFLhE1p8ks4Opw
-         vExf2bbMMEyQcSWllO2Dmhw75zvw2JdM22IiyUv3tlvkfeBnFs61kEj/TNhrwhFwRdeg
-         nS58D86MGBXpZjajwn6CaBT+fVeZPYqkfsgwctKHUPQDoRJd75XAgxLpuGoO4fXI7B39
-         q7ZXuGxUa1hLgcdhS0nYTysal14THY4mJtaJBKlOlS0Dg1+O8TnznIKyobvv4hk3M1OW
-         EevQ==
-X-Gm-Message-State: ANoB5pljt6Uvqx/DGS+SyXLVM3JU/fjadLxY/bPw3Zd7fA/ccV5n5yVe
-        o+56g0EhSlWcSBi7/0GT1U3MGXMb98JxyA==
-X-Google-Smtp-Source: AA0mqf6fBAwvGqt56oKbe3Lz4ohnPt2TdWkor/DN4WZjNpawqRlRfRgXloX01JLyjKy/pv73ajKMQw==
-X-Received: by 2002:a05:6214:10c1:b0:4bb:e74a:f640 with SMTP id r1-20020a05621410c100b004bbe74af640mr20131742qvs.36.1668590809921;
-        Wed, 16 Nov 2022 01:26:49 -0800 (PST)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id k1-20020ac81401000000b0035cf31005e2sm8431011qtj.73.2022.11.16.01.26.49
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VlPvJofxjAbwn4jWtFmNQoJ3cJnk9d0bOElPfxM86N4=;
+        b=u2dMoDmr1QeONGQlTl5Hy5gEHcSt7ABVOMzIx8ltHpHOfM8BmrOcY+cyEBm1bRyAZg
+         iFncpI1+6Opr6BrY5rkcvRuubKoma2cH7t9F710tUn8su1cHTsulp44d+UFkcJ1Ctk3z
+         cqAN02EAp6ejFpyJJkUHMR/mb3vSoRajR8c6Z5+blonmzk5cHqJcTcB4MDTXBYQQXk1C
+         oVC34Q/ZWvLtHgZlGuD2E2gsa7+o7aLXJxpxhVPYmj4M7a0Ei2jR+6bOlkJod04XF+5t
+         EpPduVqc6VsabkcktBf2wLG9ICiaakGZJFMGszb0v7MnSVu+dRd5jbSuaX2aXYepMMb3
+         Ecww==
+X-Gm-Message-State: ANoB5pkbdzEOjHNB4mGAR0M/ZVB2HPrJck+ZfJUgaVEGhbH1fbcuot15
+        e8Xdvq9D3t4PpvurRYbyWYwbzQ==
+X-Google-Smtp-Source: AA0mqf4aktk2UYPioPNM9N7IXXS8kx14IfoPMBd8ybNvIAoa1znMcPZnBHancmUOaXr52g14tbLgcQ==
+X-Received: by 2002:a05:651c:2c9:b0:26f:ebb8:7a0d with SMTP id f9-20020a05651c02c900b0026febb87a0dmr7636826ljo.474.1668591961602;
+        Wed, 16 Nov 2022 01:46:01 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id c14-20020a056512074e00b004afeacffb84sm2530195lfs.98.2022.11.16.01.46.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Nov 2022 01:26:49 -0800 (PST)
-Received: by mail-yb1-f170.google.com with SMTP id 63so20278654ybq.4;
-        Wed, 16 Nov 2022 01:26:48 -0800 (PST)
-X-Received: by 2002:a25:844b:0:b0:6de:6c43:3991 with SMTP id
- r11-20020a25844b000000b006de6c433991mr19268568ybm.604.1668590808744; Wed, 16
- Nov 2022 01:26:48 -0800 (PST)
+        Wed, 16 Nov 2022 01:46:01 -0800 (PST)
+Message-ID: <2a1af80b-cb1a-6d87-689d-bed8ac53bff7@linaro.org>
+Date:   Wed, 16 Nov 2022 10:46:00 +0100
 MIME-Version: 1.0
-References: <20221115105135.1180490-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y3OgSAnst0qt5WSk@wendy> <CA+V-a8vL5r-xMeCiYRax-dM2Uo0ghgzRiyY99nNn089CjJwoBg@mail.gmail.com>
-In-Reply-To: <CA+V-a8vL5r-xMeCiYRax-dM2Uo0ghgzRiyY99nNn089CjJwoBg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 16 Nov 2022 10:26:37 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXquU632vu37WkewmashjSxV8f8J6WGawAD4uL3B=6pHA@mail.gmail.com>
-Message-ID: <CAMuHMdXquU632vu37WkewmashjSxV8f8J6WGawAD4uL3B=6pHA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] RZ/Five: Enable ADC/CANFD/I2C/OPP/Thermal Zones/TSU
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Conor Dooley <conor.dooley@microchip.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 1/3] dt-bindings: arm: renesas: Document Renesas RZ/V2M
+ System Configuration
+Content-Language: en-US
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+References: <20221115123827.736141-1-biju.das.jz@bp.renesas.com>
+ <20221115123827.736141-2-biju.das.jz@bp.renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221115123827.736141-2-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Nov 15, 2022 at 7:23 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Tue, Nov 15, 2022 at 2:21 PM Conor Dooley <conor.dooley@microchip.com> wrote:
-> > On Tue, Nov 15, 2022 at 10:51:32AM +0000, Prabhakar wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Hi All,
-> > >
-> > > This patch series aims to enable support for below blocks
-> > > on RZ/Five SoC/SMARC EVK:
-> > > - ADC
-> > > - CANFD
-> > > - I2C
-> > > - OPP
-> > > - Thermal Zones
-> > > - TSU
-> > >
-> > > Note, patches apply on top of [0].
-> > >
-> > > [0] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log/?h=renesas-riscv-dt-for-v6.2
-> > >
-> > > Cheers,
-> > > Prabhakar
-> > >
-> > > Lad Prabhakar (3):
-> > >   riscv: Kconfig: Enable cpufreq kconfig menu
-> > >   riscv: dts: renesas: r9a07g043f/rzfive-smarc-som: Enable
-> > >     ADC/OPP/Thermal Zones/TSU
-> > >   riscv: dts: renesas: rzfive-smarc: Enable CANFD/I2C
-> >
-> > I know ~nothing about your SoC so idk if the values are correct, but I
-> > did give it a go earlier to see if it did anything warning wise. Seeing
-> > that it didn't cause any I am curious - how come these didn't land in
-> > the original dts? Just waiting for driver stuff to land to support it?
-> >
-> I wanted bare minimal stuff in the initial patchset.
->
-> > Anyway, no new warnings which is what I care about - I suppose that
-> > makes it an acked-by?
-> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> > Can include that tag if you like. Either way, nice to see some of the
-> > /delete-node/s etc being removed.
-> >
-> Thanks, Geert should pick the tag while picking the DTS/I patches.
->
-> For the Kconfig patch it needs to go via the RISCV tree or can that be
-> picked by Geert too with the rest of the other patches?
+On 15/11/2022 13:38, Biju Das wrote:
+> From: Phil Edworthy <phil.edworthy@renesas.com>
+> 
+> Add DT binding documentation for System Configuration (SYS) found on
+> RZ/V2M SoC's.
 
-IMHO the Kconfig patch (or Conor's earlier version) should go through
-the RISCV tree, as there is no hard dependency.
+Thank you for your patch. There is something to discuss/improve.
 
-Yes, I can take it with an Acked-by, if all else fails, but the soc deadline
-is near.
+> +properties:
+> +  compatible:
+> +    const: renesas,r9a09g011-sys
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    sys: system-controller@a3f03000 {
+> +       compatible = "renesas,r9a09g011-sys";
+> +       reg = <0xa3f03000 0x400>;
 
-Gr{oetje,eeting}s,
+Use 4 spaces for example indentation (two is also okay, but not three).
 
-                        Geert
+With this fixed:
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
+
