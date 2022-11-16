@@ -2,120 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A497962BFCB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 14:42:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2265662C588
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Nov 2022 17:56:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233733AbiKPNmO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Nov 2022 08:42:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54904 "EHLO
+        id S234358AbiKPQ4K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Nov 2022 11:56:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233294AbiKPNmE (ORCPT
+        with ESMTP id S232190AbiKPQzj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Nov 2022 08:42:04 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 196624385E;
-        Wed, 16 Nov 2022 05:42:02 -0800 (PST)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 24E5649C;
-        Wed, 16 Nov 2022 14:42:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1668606121;
-        bh=ly9CkcS/E6lEtVCZSc//19c85px1pIbhycLP/DAh1Cw=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=lEFmnNRZreTfZ1Wat9uytAN4TR+xMZC/JVaIbPKtEvSGqBRy/IhoWFRtzZ7mXkIa/
-         HB1SorTuNEvROnYNcS7LTtV5FZD4dsHgjctEbqWuzA4FrKl1fAg3+q0YK1FtfUxILc
-         SZND94ydG+7VJuIGW9NulFOzO2SBMknNiJHxA0I8=
-Content-Type: text/plain; charset="utf-8"
+        Wed, 16 Nov 2022 11:55:39 -0500
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA3AB3E;
+        Wed, 16 Nov 2022 08:55:27 -0800 (PST)
+Received: by mail-oi1-f174.google.com with SMTP id q186so19131756oia.9;
+        Wed, 16 Nov 2022 08:55:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kiEBJO/YjcMAZi1EqUusiIE2D8QfFJq7eZwFhwMPZso=;
+        b=XUhd1YZINCqUB9+lROHYSr+aR4vQtsGz9YdpG0pjowKyb8r4RcNe13HUxe0q/9E34p
+         kWJY9YLy4JO5fbk7VYMBZohgKhb9oTXOcNKH4HSpfXWTb3Z7wmpWqUnuaPrWWIxwWga+
+         o/+3+VNM2rYqU1HoYen4IuNca3+H4gMW0SlJRVnLk8bajQm+iqjbRaChf7E0LTbxWdp4
+         CkjkivKlZ90PtxWS2olXw7TodOHAuzYjr7ZFk09wKCzH0NxlJDXsirGSxj0dihFPzx/0
+         Zxar/1QF8VyBVKnID3qDjwVV8H+3UZo67IyPrQmgzAyy31GJ9ki0VC4w30ZKVUSTmeXO
+         eAnQ==
+X-Gm-Message-State: ANoB5plir3BqjLx4WAp13yijubhaDGmqzBBYKC+MQ9ehNYzYWJfegn9w
+        N53zbSGjAWrzO1kwu4CZ/g==
+X-Google-Smtp-Source: AA0mqf64Fje3bdOgJ5mS0w+P3LsDO8E8DUlCW+fnA4tU3JbGCGhrmcJnW4mo3simdTwRehr0cYgx7Q==
+X-Received: by 2002:a05:6808:688:b0:354:e358:ad2c with SMTP id k8-20020a056808068800b00354e358ad2cmr2056255oig.130.1668617725518;
+        Wed, 16 Nov 2022 08:55:25 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id bg2-20020a056808178200b0034fd36e95bfsm6367551oib.31.2022.11.16.08.55.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Nov 2022 08:55:25 -0800 (PST)
+Received: (nullmailer pid 231353 invoked by uid 1000);
+        Wed, 16 Nov 2022 16:55:27 -0000
+Date:   Wed, 16 Nov 2022 10:55:27 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-wireless@vger.kernel.org, devicetree@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, linux-bluetooth@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: leds: Document Bluetooth and WLAN triggers
+Message-ID: <166861772609.231295.14812410099261417331.robh@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20221107175256.360839-9-paul@crapouillou.net>
-References: <20221107175106.360578-1-paul@crapouillou.net> <20221107175256.360839-1-paul@crapouillou.net> <20221107175256.360839-9-paul@crapouillou.net>
-Subject: Re: [PATCH 19/26] drm: shmobile: Remove #ifdef guards for PM related functions
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Paul Cercueil <paul@crapouillou.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-To:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Date:   Wed, 16 Nov 2022 13:41:58 +0000
-Message-ID: <166860611898.50677.15769438490654163273@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Paul Cercueil (2022-11-07 17:52:49)
-> Use the DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr() macros to handle
-> the .suspend/.resume callbacks.
->=20
-> These macros allow the suspend and resume functions to be automatically
-> dropped by the compiler when CONFIG_SUSPEND is disabled, without having
-> to use #ifdef guards.
->=20
-> This has the advantage of always compiling these functions in,
-> independently of any Kconfig option. Thanks to that, bugs and other
-> regressions are subsequently easier to catch.
->=20
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+On Wed, 09 Nov 2022 15:46:06 +0100, Geert Uytterhoeven wrote:
+> Add the missing trigger patterns for Bluetooth and WLAN activity, which
+> are already in active use.
+> 
+> While at it, move the mmc pattern comment where it belongs, and restore
+> alphabetical sort order.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: bt_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+> 	'hci0-power' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+> 	'hci0-power' does not match '^mmc[0-9]+$'
+> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: wlan_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+> 	'phy0tx' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+> 	'phy0tx' does not match '^mmc[0-9]+$'
+> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+> ---
+>  Documentation/devicetree/bindings/leds/common.yaml | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
 
-> ---
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->  drivers/gpu/drm/shmobile/shmob_drm_drv.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/s=
-hmobile/shmob_drm_drv.c
-> index 3d511fa38913..337040fa6438 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> @@ -143,7 +143,6 @@ static const struct drm_driver shmob_drm_driver =3D {
->   * Power management
->   */
-> =20
-> -#ifdef CONFIG_PM_SLEEP
->  static int shmob_drm_pm_suspend(struct device *dev)
->  {
->         struct shmob_drm_device *sdev =3D dev_get_drvdata(dev);
-> @@ -165,11 +164,9 @@ static int shmob_drm_pm_resume(struct device *dev)
->         drm_kms_helper_poll_enable(sdev->ddev);
->         return 0;
->  }
-> -#endif
-> =20
-> -static const struct dev_pm_ops shmob_drm_pm_ops =3D {
-> -       SET_SYSTEM_SLEEP_PM_OPS(shmob_drm_pm_suspend, shmob_drm_pm_resume)
-> -};
-> +static DEFINE_SIMPLE_DEV_PM_OPS(shmob_drm_pm_ops,
-> +                               shmob_drm_pm_suspend, shmob_drm_pm_resume=
-);
-> =20
->  /* ---------------------------------------------------------------------=
---------
->   * Platform driver
-> @@ -292,7 +289,7 @@ static struct platform_driver shmob_drm_platform_driv=
-er =3D {
->         .remove         =3D shmob_drm_remove,
->         .driver         =3D {
->                 .name   =3D "shmob-drm",
-> -               .pm     =3D &shmob_drm_pm_ops,
-> +               .pm     =3D pm_sleep_ptr(&shmob_drm_pm_ops),
->         },
->  };
-> =20
-> --=20
-> 2.35.1
->
+Reviewed-by: Rob Herring <robh@kernel.org>
