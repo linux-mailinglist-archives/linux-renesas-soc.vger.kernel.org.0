@@ -2,102 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7D4862DAD2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Nov 2022 13:29:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DA4D62DAEE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Nov 2022 13:33:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234840AbiKQM3S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Nov 2022 07:29:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51566 "EHLO
+        id S240147AbiKQMdF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Nov 2022 07:33:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239689AbiKQM3A (ORCPT
+        with ESMTP id S239529AbiKQMcr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Nov 2022 07:29:00 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF68B13DCE;
-        Thu, 17 Nov 2022 04:28:44 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F9A96E0;
-        Thu, 17 Nov 2022 13:28:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1668688123;
-        bh=2crvZPaGj/RdEilZ8cE3IzIbJpee263IS8ReLqPncQo=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=gKVklGFzFgiYFrYrQJ5034/Vk85y5o9kYhK0FIglsX1JXrML1yG76soMvoiPAT49Z
-         +mvNxrvDehgB/QeDhqbRnxfCqlg1b7QB7i7oDdWBZllyFjrJy1R7NNTQPgEsVNJccf
-         fT5/eYEJpz4eT4Q8Qt+7GLxeO7bshA+cjT0MUt6U=
-Message-ID: <9b4bf8b8-7702-1a54-1133-17c6f81e8d30@ideasonboard.com>
-Date:   Thu, 17 Nov 2022 14:28:39 +0200
+        Thu, 17 Nov 2022 07:32:47 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE4C0748C6;
+        Thu, 17 Nov 2022 04:31:21 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id s12so2306843edd.5;
+        Thu, 17 Nov 2022 04:31:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jNlwoVZ6isbTxQ6Fyi04RsVlWpKWGpVpX4qwF59U3k0=;
+        b=jDqBvSXSDnn5qg+QnHzXcI7c08NsFOOHtVnQ161mlGnRQ5pp6Wj4ihkDz6QZW/II4j
+         qKt3pKxHh6LAlsPJfYa7tWUuRhu4sa8Znh+6AqiR97dQPqz1lxHvGVjLixhapGjyK9iG
+         KUNqf5gm0crsFNa/+zNU30R3ia6+UbeWsa2cAlyQGBKjyJC58NYVkeQOkDSuh/c4ADhZ
+         Kc1X+jEusaPrDtcQwRmnB9hOk629pl6bVCR4YAiJM3mEBZtWKIQLSWUT6Os6xmL1ZRMQ
+         ozVcs1W5F1ZIEn3mzjP4LxTYGnAQQOHjX/Gg7nB9zodbNlxMx+41QNos6ncYoE5g1WyE
+         rL1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jNlwoVZ6isbTxQ6Fyi04RsVlWpKWGpVpX4qwF59U3k0=;
+        b=2qLMblnHjOoSidNiw2Oxc++zmTzNOTsFPnQrQic7XrA2Vla53KcJZNYx/0dmBGECut
+         lzncudgn4+5CPpwhgWrgwAQKU1U0otSRivziEa9AMeI7ZJaHR87SiwtGSguHuDTr6tsl
+         R0gKrjmC0DPSr3+LhVcOwJK0oUObinFshxy8pakRZmUmRbi1VSP2+1fqODD6eYbGFx5V
+         /Wx6n9TBsatx1sv4W8xOoju50dCrc/j0Uz562tFL2wU+YBQhEt/udGK1pvvO7grufaga
+         0cxbPhqoOHZCMfZ9TIHFVO0eqvwWetDUkKlBI8caFgQDZTAUtj/n+K0RkxP/HXtIUIfd
+         Dn9A==
+X-Gm-Message-State: ANoB5pm/XZYp6cK2b/h9oRpAC+Cb/MQPQmD8khUVYjbey/XnlCUf8RUY
+        AlJJHsy0IET/raQMKLyu/Qm4LvsVshS+Z69fooYz7GeJNRw=
+X-Google-Smtp-Source: AA0mqf5ojvCHVZasiK8GgXehtbh0pi3YqZa9rEl1/7vRevJBctBpQcu74pPoX3eFtAXLSLJINq0fK7RuissmhP/zdL4=
+X-Received: by 2002:a05:6402:2987:b0:45c:a9d3:d535 with SMTP id
+ eq7-20020a056402298700b0045ca9d3d535mr2006776edb.0.1668688280422; Thu, 17 Nov
+ 2022 04:31:20 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v1 0/8] Renesas V4H DSI & DP output support
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+References: <20221107175305.63975-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221107175305.63975-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWgCdR8E+bgAprfSmL3S-1aY2R7frba9du-XfCeEV7T0g@mail.gmail.com>
+In-Reply-To: <CAMuHMdWgCdR8E+bgAprfSmL3S-1aY2R7frba9du-XfCeEV7T0g@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 17 Nov 2022 12:30:54 +0000
+Message-ID: <CA+V-a8soA=7bLXXqJCLtrceNhMCgwnHg9KUOr4m0DkHUuCYi4Q@mail.gmail.com>
+Subject: Re: [PATCH RFC 3/5] arm64: dts: renesas: r9a07g043[u]: Add IRQC node
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 17/11/2022 14:25, Tomi Valkeinen wrote:
-> Hi,
-> 
-> These add support for DSI on V4H SoC (r8a779g0) and DP for Whitehawk
-> board.
-> 
-> The last patch is a hack, but needed to get the DSI working. It is still
-> unclear what the register write does, and as that patch is needed to get
-> the DSI working, this series is not ready yet. But all the rest of the
-> patches are ready for review.
+Hi Geert,
 
-And I forgot to mention, these are based on:
+Thank you for the review.
 
-git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-(2c980642d64882b4e373b0317dd7bd45c1c34d80)
+On Thu, Nov 17, 2022 at 11:13 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Mon, Nov 7, 2022 at 6:53 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add IRQC node to R9A07G043 (RZ/G2UL) SoC DTSI.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > ---
+> > Note,
+> > - clocks and resets are differnt when compared to RZ/Five hence its added
+> >   in r9a07g043u.dtsi
+> > - We have additional interrupt on RZ/Five hence interrupts are added in
+> >   r9a07g043u.dtsi
+>
+> Which additional interrupts?
+> Do you already have the r9a06g043f-variant ready, so we can compare?
+>
+I missed this RZ/G2UL has this interrupt too. So ignore this point.
 
-  Tomi
+> > - clock-names is also added in r9a07g043u.dtsi to avoid dtbs_check warning
+>
+> Why does this warn?
+>
+If we add the clock-names property in the base dtsi we get a
+dtbs_check warning "clocks is a dependency of clock-names" for RZ/Five
+as we haven't added the clocks property to it.
 
-> 
->   Tomi
-> 
-> Tomi Valkeinen (8):
->    dt-bindings: display: renesas,du: Provide bindings for r8a779g0
->    dt-bindings: display: bridge: renesas,dsi-csi2-tx: Add r8a779g0
->    clk: renesas: r8a779g0: Add display related clocks
->    arm64: dts: renesas: r8a779g0: Add display related data
->    arm64: dts: renesas: white-hawk-cpu: Add DP output support
->    drm: rcar-du: Add r8a779g0 support
->    drm: rcar-du: dsi: Add r8A779g0 support
->    HACK: drm: rcar-du: dsi: use-extal-clk hack
-> 
->   .../display/bridge/renesas,dsi-csi2-tx.yaml   |   3 +-
->   .../bindings/display/renesas,du.yaml          |   2 +
->   .../dts/renesas/r8a779g0-white-hawk-cpu.dtsi  |  94 ++++
->   arch/arm64/boot/dts/renesas/r8a779g0.dtsi     | 129 +++++
->   drivers/clk/renesas/r8a779g0-cpg-mssr.c       |  14 +
->   drivers/gpu/drm/rcar-du/rcar_du_drv.c         |  22 +
->   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c       | 488 ++++++++++++++----
->   drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h  |   6 +-
->   8 files changed, 651 insertions(+), 107 deletions(-)
-> 
+> > --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> > @@ -538,6 +538,14 @@ pinctrl: pinctrl@11030000 {
+> >                                  <&cpg R9A07G043_GPIO_SPARE_RESETN>;
+> >                 };
+> >
+> > +               irqc: interrupt-controller@110a0000 {
+> > +                       #interrupt-cells = <2>;
+> > +                       #address-cells = <0>;
+> > +                       interrupt-controller;
+> > +                       reg = <0 0x110a0000 0 0x10000>;
+>
+> The size of the "reg" property will be 0x20000 on RZ/Five, to cover the
+> extra [NIT]MSK registers, so I think this belongs in r9a07g043u.dtsi, too.
+>
+Agreed.
 
+Cheers,
+Prabhakar
