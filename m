@@ -2,85 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 22A8562DCFD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Nov 2022 14:40:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E95EC62DD5B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Nov 2022 14:56:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240184AbiKQNkV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Nov 2022 08:40:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52400 "EHLO
+        id S240256AbiKQN4f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Nov 2022 08:56:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240179AbiKQNkT (ORCPT
+        with ESMTP id S240262AbiKQN4e (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Nov 2022 08:40:19 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 837741ADAD;
-        Thu, 17 Nov 2022 05:40:18 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1E97D61E1D;
-        Thu, 17 Nov 2022 13:40:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 81BC7C433D6;
-        Thu, 17 Nov 2022 13:40:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668692417;
-        bh=9Bhh+HTYDF5HSYFBu9NiNMJy1n6Upm620xHE3vXTJn0=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=INQRd+MHyqpP8PKB58imsrLqao6BhC8eR2qYkUVfxJFy/EiMBD1+Fb1d8xToHQbJ+
-         YWft2UkhIgWeBc4UompJlBKZvClm8aTO5ekqpa/mzRb6xn4T61WmYuqByt/G4VVv4l
-         LyT8Ip9orKQY9UBqxMW1g9fnf7L+5SgbrKfOmQuBbLyEGeVApRLln09GXVE00r4Kxs
-         QD9Lc9LUbW1o69WbWqvKJN/0FQlq4EKh9044tIccXvO9eNx/HCzXgKExA0MoCsBxq5
-         BZuxR65g8Vp5j1EAwuqeCNSJX43nfdakTzhjhfwoof5Ic7vCwNoq00/hH9QWeNqUtH
-         exMBNK5AePTmQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6724FE29F44;
-        Thu, 17 Nov 2022 13:40:17 +0000 (UTC)
+        Thu, 17 Nov 2022 08:56:34 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A798712AD7;
+        Thu, 17 Nov 2022 05:56:33 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 466E9929;
+        Thu, 17 Nov 2022 14:56:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1668693391;
+        bh=c2RW4LUtvNluOm+Cqh3RfQ6aRd78E7VYjwgRpRVslCg=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=bwymGI1/MQcNpO+auto7FRyxZV08oS7APBvCgl1ZTcA1xmBDO6D66ZHGwDwgdl7fZ
+         XAt2tMYGsujKYUKcRoqYV6Jg5F8r2YwqnWC0tQKFOkeH+T50gK31DxkKrtuZn1lqdw
+         n26tOtiXff6IDX6Yn5DtfKr+EBid/G9MQBiG+T4E=
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] net: ethernet: renesas: Fix return type in
- rswitch_etha_wait_link_verification()
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166869241740.18320.12642855887431162608.git-patchwork-notify@kernel.org>
-Date:   Thu, 17 Nov 2022 13:40:17 +0000
-References: <Y3OPo6AOL6PTvXFU@kili>
-In-Reply-To: <Y3OPo6AOL6PTvXFU@kili>
-To:     Dan Carpenter <error27@gmail.com>
-Cc:     s.shtylyov@omp.ru, yoshihiro.shimoda.uh@renesas.com,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, andrew@lunn.ch, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, kernel-janitors@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20221117122547.809644-2-tomi.valkeinen@ideasonboard.com>
+References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com> <20221117122547.809644-2-tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v1 1/8] dt-bindings: display: renesas,du: Provide bindings for r8a779g0
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Date:   Thu, 17 Nov 2022 13:56:28 +0000
+Message-ID: <166869338879.50677.4956722311608432842@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Quoting Tomi Valkeinen (2022-11-17 12:25:40)
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>=20
+> Extend the Renesas DU display bindings to support the r8a779g0 V4H.
+>=20
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-This patch was applied to netdev/net-next.git (master)
-by Paolo Abeni <pabeni@redhat.com>:
+Matches my expectations, and interpretations of the datasheets.
 
-On Tue, 15 Nov 2022 16:09:55 +0300 you wrote:
-> The rswitch_etha_wait_link_verification() is supposed to return zero
-> on success or negative error codes.  Unfortunately it is declared as a
-> bool so the caller treats everything as success.
-> 
-> Fixes: 3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> 
-> [...]
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Here is the summary with links:
-  - [net-next] net: ethernet: renesas: Fix return type in rswitch_etha_wait_link_verification()
-    https://git.kernel.org/netdev/net-next/c/b4b221bd79a1
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+> ---
+>  Documentation/devicetree/bindings/display/renesas,du.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/=
+Documentation/devicetree/bindings/display/renesas,du.yaml
+> index b3e588022082..d4830f52c512 100644
+> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> @@ -40,6 +40,7 @@ properties:
+>        - renesas,du-r8a77990 # for R-Car E3 compatible DU
+>        - renesas,du-r8a77995 # for R-Car D3 compatible DU
+>        - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+> +      - renesas,du-r8a779g0 # for R-Car V4H compatible DU
+> =20
+>    reg:
+>      maxItems: 1
+> @@ -762,6 +763,7 @@ allOf:
+>            contains:
+>              enum:
+>                - renesas,du-r8a779a0
+> +              - renesas,du-r8a779g0
+>      then:
+>        properties:
+>          clocks:
+> --=20
+> 2.34.1
+>
