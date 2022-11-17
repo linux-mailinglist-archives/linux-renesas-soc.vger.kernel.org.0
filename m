@@ -2,135 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DA4D62DAEE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Nov 2022 13:33:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22A8562DCFD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Nov 2022 14:40:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240147AbiKQMdF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Nov 2022 07:33:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57810 "EHLO
+        id S240184AbiKQNkV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Nov 2022 08:40:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239529AbiKQMcr (ORCPT
+        with ESMTP id S240179AbiKQNkT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Nov 2022 07:32:47 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE4C0748C6;
-        Thu, 17 Nov 2022 04:31:21 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id s12so2306843edd.5;
-        Thu, 17 Nov 2022 04:31:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jNlwoVZ6isbTxQ6Fyi04RsVlWpKWGpVpX4qwF59U3k0=;
-        b=jDqBvSXSDnn5qg+QnHzXcI7c08NsFOOHtVnQ161mlGnRQ5pp6Wj4ihkDz6QZW/II4j
-         qKt3pKxHh6LAlsPJfYa7tWUuRhu4sa8Znh+6AqiR97dQPqz1lxHvGVjLixhapGjyK9iG
-         KUNqf5gm0crsFNa/+zNU30R3ia6+UbeWsa2cAlyQGBKjyJC58NYVkeQOkDSuh/c4ADhZ
-         Kc1X+jEusaPrDtcQwRmnB9hOk629pl6bVCR4YAiJM3mEBZtWKIQLSWUT6Os6xmL1ZRMQ
-         ozVcs1W5F1ZIEn3mzjP4LxTYGnAQQOHjX/Gg7nB9zodbNlxMx+41QNos6ncYoE5g1WyE
-         rL1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jNlwoVZ6isbTxQ6Fyi04RsVlWpKWGpVpX4qwF59U3k0=;
-        b=2qLMblnHjOoSidNiw2Oxc++zmTzNOTsFPnQrQic7XrA2Vla53KcJZNYx/0dmBGECut
-         lzncudgn4+5CPpwhgWrgwAQKU1U0otSRivziEa9AMeI7ZJaHR87SiwtGSguHuDTr6tsl
-         R0gKrjmC0DPSr3+LhVcOwJK0oUObinFshxy8pakRZmUmRbi1VSP2+1fqODD6eYbGFx5V
-         /Wx6n9TBsatx1sv4W8xOoju50dCrc/j0Uz562tFL2wU+YBQhEt/udGK1pvvO7grufaga
-         0cxbPhqoOHZCMfZ9TIHFVO0eqvwWetDUkKlBI8caFgQDZTAUtj/n+K0RkxP/HXtIUIfd
-         Dn9A==
-X-Gm-Message-State: ANoB5pm/XZYp6cK2b/h9oRpAC+Cb/MQPQmD8khUVYjbey/XnlCUf8RUY
-        AlJJHsy0IET/raQMKLyu/Qm4LvsVshS+Z69fooYz7GeJNRw=
-X-Google-Smtp-Source: AA0mqf5ojvCHVZasiK8GgXehtbh0pi3YqZa9rEl1/7vRevJBctBpQcu74pPoX3eFtAXLSLJINq0fK7RuissmhP/zdL4=
-X-Received: by 2002:a05:6402:2987:b0:45c:a9d3:d535 with SMTP id
- eq7-20020a056402298700b0045ca9d3d535mr2006776edb.0.1668688280422; Thu, 17 Nov
- 2022 04:31:20 -0800 (PST)
+        Thu, 17 Nov 2022 08:40:19 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 837741ADAD;
+        Thu, 17 Nov 2022 05:40:18 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1E97D61E1D;
+        Thu, 17 Nov 2022 13:40:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 81BC7C433D6;
+        Thu, 17 Nov 2022 13:40:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668692417;
+        bh=9Bhh+HTYDF5HSYFBu9NiNMJy1n6Upm620xHE3vXTJn0=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=INQRd+MHyqpP8PKB58imsrLqao6BhC8eR2qYkUVfxJFy/EiMBD1+Fb1d8xToHQbJ+
+         YWft2UkhIgWeBc4UompJlBKZvClm8aTO5ekqpa/mzRb6xn4T61WmYuqByt/G4VVv4l
+         LyT8Ip9orKQY9UBqxMW1g9fnf7L+5SgbrKfOmQuBbLyEGeVApRLln09GXVE00r4Kxs
+         QD9Lc9LUbW1o69WbWqvKJN/0FQlq4EKh9044tIccXvO9eNx/HCzXgKExA0MoCsBxq5
+         BZuxR65g8Vp5j1EAwuqeCNSJX43nfdakTzhjhfwoof5Ic7vCwNoq00/hH9QWeNqUtH
+         exMBNK5AePTmQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6724FE29F44;
+        Thu, 17 Nov 2022 13:40:17 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20221107175305.63975-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221107175305.63975-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWgCdR8E+bgAprfSmL3S-1aY2R7frba9du-XfCeEV7T0g@mail.gmail.com>
-In-Reply-To: <CAMuHMdWgCdR8E+bgAprfSmL3S-1aY2R7frba9du-XfCeEV7T0g@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 17 Nov 2022 12:30:54 +0000
-Message-ID: <CA+V-a8soA=7bLXXqJCLtrceNhMCgwnHg9KUOr4m0DkHUuCYi4Q@mail.gmail.com>
-Subject: Re: [PATCH RFC 3/5] arm64: dts: renesas: r9a07g043[u]: Add IRQC node
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] net: ethernet: renesas: Fix return type in
+ rswitch_etha_wait_link_verification()
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166869241740.18320.12642855887431162608.git-patchwork-notify@kernel.org>
+Date:   Thu, 17 Nov 2022 13:40:17 +0000
+References: <Y3OPo6AOL6PTvXFU@kili>
+In-Reply-To: <Y3OPo6AOL6PTvXFU@kili>
+To:     Dan Carpenter <error27@gmail.com>
+Cc:     s.shtylyov@omp.ru, yoshihiro.shimoda.uh@renesas.com,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, andrew@lunn.ch, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, kernel-janitors@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hello:
 
-Thank you for the review.
+This patch was applied to netdev/net-next.git (master)
+by Paolo Abeni <pabeni@redhat.com>:
 
-On Thu, Nov 17, 2022 at 11:13 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, Nov 7, 2022 at 6:53 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Add IRQC node to R9A07G043 (RZ/G2UL) SoC DTSI.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > ---
-> > Note,
-> > - clocks and resets are differnt when compared to RZ/Five hence its added
-> >   in r9a07g043u.dtsi
-> > - We have additional interrupt on RZ/Five hence interrupts are added in
-> >   r9a07g043u.dtsi
->
-> Which additional interrupts?
-> Do you already have the r9a06g043f-variant ready, so we can compare?
->
-I missed this RZ/G2UL has this interrupt too. So ignore this point.
+On Tue, 15 Nov 2022 16:09:55 +0300 you wrote:
+> The rswitch_etha_wait_link_verification() is supposed to return zero
+> on success or negative error codes.  Unfortunately it is declared as a
+> bool so the caller treats everything as success.
+> 
+> Fixes: 3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> 
+> [...]
 
-> > - clock-names is also added in r9a07g043u.dtsi to avoid dtbs_check warning
->
-> Why does this warn?
->
-If we add the clock-names property in the base dtsi we get a
-dtbs_check warning "clocks is a dependency of clock-names" for RZ/Five
-as we haven't added the clocks property to it.
+Here is the summary with links:
+  - [net-next] net: ethernet: renesas: Fix return type in rswitch_etha_wait_link_verification()
+    https://git.kernel.org/netdev/net-next/c/b4b221bd79a1
 
-> > --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-> > @@ -538,6 +538,14 @@ pinctrl: pinctrl@11030000 {
-> >                                  <&cpg R9A07G043_GPIO_SPARE_RESETN>;
-> >                 };
-> >
-> > +               irqc: interrupt-controller@110a0000 {
-> > +                       #interrupt-cells = <2>;
-> > +                       #address-cells = <0>;
-> > +                       interrupt-controller;
-> > +                       reg = <0 0x110a0000 0 0x10000>;
->
-> The size of the "reg" property will be 0x20000 on RZ/Five, to cover the
-> extra [NIT]MSK registers, so I think this belongs in r9a07g043u.dtsi, too.
->
-Agreed.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Cheers,
-Prabhakar
+
