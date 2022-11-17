@@ -2,105 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A78462D227
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Nov 2022 05:11:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF78262D343
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Nov 2022 07:09:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234037AbiKQELB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Nov 2022 23:11:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41916 "EHLO
+        id S233151AbiKQGJR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Nov 2022 01:09:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233742AbiKQELA (ORCPT
+        with ESMTP id S229451AbiKQGJQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Nov 2022 23:11:00 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 906C331DD5;
-        Wed, 16 Nov 2022 20:10:59 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id 5so483728wmo.1;
-        Wed, 16 Nov 2022 20:10:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=telxDsGXzS3B1dQZ1ucH1absDeztSSjzIeBKsmfqs7E=;
-        b=ncEHdkPY7FD9vGJ0EJkbMmTqdxmU83sOhfmDNVypII6vH2WzZefE6stjKC4woufqAq
-         t444v7sk1FqlDRWtnWYs1Dp0qmgZBo8HzIqSV+VyhwFMF12cXDmy8HLTjH4FfELqV7mT
-         nkCCSuHNvlX3ZD5cS5xa9jaCwRrD7wgfWtyQzjgdxKcG51Fkem8oGXbPKDyRaVhUcQtb
-         UAgyEW3qzX5JiE8X8cr9GTwnda81dIrZjR7JFZxXvshE8rk3STrxCuFUhDukbzyy76lE
-         +ocmOcUixWhjFAS3V6FLa/q4GJRwLMLimpoiDvaxH7DHj3sZ3gXkLrhEgmnIEE++mnIy
-         qb7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=telxDsGXzS3B1dQZ1ucH1absDeztSSjzIeBKsmfqs7E=;
-        b=Lri7LIQEwINJHFuOkeBu4bFUJ+sGie2KW7cVK8f2Hk+CXv+rFm8nG6Q7ZcAb1NUNea
-         r/KLbK7i4618GcUBXtooOGsm6lkkRmXazeLo55kNVXF8MuSNTdzb/lOwGfuBUGP8KdxN
-         U3Km3+UF1XkX2HHzxaZI5nvb0NPmWHWug91hA9hMlRTr8EtLKRb7D1gllv5yLSlirfWc
-         Aa2GHlLCPL2FV56DQ7f0vlPEwSEaYoClGTGVIuDYS+JYkzmI0buUQFTges5QguWfjnTg
-         TZbWi/MqG8rNKjlEGNgFJBU8vSMGz/4UfaSKsOWD5V1C7BmyiVVDBMQyOur5jxIqgrle
-         1NkQ==
-X-Gm-Message-State: ANoB5pmrs/AlESxZrgsJxloJ6R37+iKXoW+6SZ6U3pvljc7Zp/LzrKFk
-        s6dwMcNHLOKiU76ao/ExXxE=
-X-Google-Smtp-Source: AA0mqf6d3CmOtmZJyOaeRJ/hV/09DPfyoJ1w2wtGQXB4xyGZ7G+UEDBjeLsbF5xip8RdntukJH4K/g==
-X-Received: by 2002:a05:600c:35c4:b0:3cf:9668:e8f8 with SMTP id r4-20020a05600c35c400b003cf9668e8f8mr3896835wmq.195.1668658258081;
-        Wed, 16 Nov 2022 20:10:58 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id u12-20020adfdb8c000000b002417ed67bfdsm13601234wri.5.2022.11.16.20.10.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 20:10:57 -0800 (PST)
-Date:   Thu, 17 Nov 2022 07:10:51 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     Saeed Mahameed <saeed@kernel.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        Thu, 17 Nov 2022 01:09:16 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B49A327CC9;
+        Wed, 16 Nov 2022 22:09:15 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 47C7662000;
+        Thu, 17 Nov 2022 06:09:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B7FC433D6;
+        Thu, 17 Nov 2022 06:09:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668665354;
+        bh=ykcmlVCcgQuy4ZnpZqtryB1wxlczAG8RFuOU1YA1dlc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kOjXQYoIRl39PI10SkrIGedSsGLdAN3C+MFjYfP8OIQzACnIsN2og2rfQvJFcyK1o
+         wUMYNX9uSSjXiGzlYOUz0xILRLKwdIFuPUzSAdTpWuVktK8+epvKkNNEHyRT6wi+5o
+         QYB9e4EvG1tdZRtX7N4QB0ojkeCFVWX4HXHPIxxLs/chFpI6Eq8NnOyCcjGYQXUxBf
+         tysnzF8h8BrHJywzKOfKcBFgmeDIrqGZJ9yOGHlnaqtE2Tzfr+rCGytNz/RqkC9d9m
+         de1XPFeqtXqtMN5uWLKKdvuFh+iOdW98BKSBvAEW+zQbBQK3GKqJk8QY/ByFf3pFjm
+         NRxOZ9KQ95sgA==
+Date:   Thu, 17 Nov 2022 08:09:09 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
         pabeni@redhat.com, netdev@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
+        Dan Carpenter <error27@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>
 Subject: Re: [PATCH] net: ethernet: renesas: rswitch: Fix MAC address info
-Message-ID: <Y3W0SwFS9uDtzHm3@kadam>
+Message-ID: <Y3XQBYdEG5EQFgQ+@unreal>
 References: <20221115235519.679115-1-yoshihiro.shimoda.uh@renesas.com>
- <Y3Vu7fOrqhHKT5hQ@x130.lan>
- <Y3WxW1Whoq3brPim@kadam>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y3WxW1Whoq3brPim@kadam>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20221115235519.679115-1-yoshihiro.shimoda.uh@renesas.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 06:58:19AM +0300, Dan Carpenter wrote:
-> On Wed, Nov 16, 2022 at 03:14:53PM -0800, Saeed Mahameed wrote:
-> > On 16 Nov 08:55, Yoshihiro Shimoda wrote:
-> > > Smatch detected the following warning.
-> > > 
-> > >    drivers/net/ethernet/renesas/rswitch.c:1717 rswitch_init() warn:
-> > >    '%pM' cannot be followed by 'n'
-> > > 
-> > > The 'n' should be '\n'.
-> > > 
-> > > Reported-by: Dan Carpenter <error27@gmail.com>
-> > > Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > Fixes: 3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")
-> > 
-> > I would drop the Fixes tag, this shoiuldn't go to net and -stable.
+On Wed, Nov 16, 2022 at 08:55:19AM +0900, Yoshihiro Shimoda wrote:
+> Smatch detected the following warning.
 > 
-> Some maintainers would want a Fixes tag for this and some wouldn't...
+>     drivers/net/ethernet/renesas/rswitch.c:1717 rswitch_init() warn:
+>     '%pM' cannot be followed by 'n'
+> 
+> The 'n' should be '\n'.
+> 
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Fixes: 3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  drivers/net/ethernet/renesas/rswitch.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
+> index f3d27aef1286..51ce5c26631b 100644
+> --- a/drivers/net/ethernet/renesas/rswitch.c
+> +++ b/drivers/net/ethernet/renesas/rswitch.c
+> @@ -1714,7 +1714,7 @@ static int rswitch_init(struct rswitch_private *priv)
+>  	}
+>  
+>  	for (i = 0; i < RSWITCH_NUM_PORTS; i++)
+> -		netdev_info(priv->rdev[i]->ndev, "MAC address %pMn",
+> +		netdev_info(priv->rdev[i]->ndev, "MAC address %pM\n",
 
-Immediately after I sent this email a different maintainer asked me to
-add a Fixes tag to a patch removing an unnecessary NULL check to silence
-checker warning about inconsistent NULL checking.
+You can safely drop '\n' from here. It is not needed while printing one
+line.
 
-Generally I would have put a Fixes tag here because the typo gets to the
-users but I wouldn't put a Fixes tag for typos in the comments.
+Thanks
 
-regards,
-dan carpenter
-
+>  			    priv->rdev[i]->ndev->dev_addr);
+>  
+>  	return 0;
+> -- 
+> 2.25.1
+> 
