@@ -2,94 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00BC262E577
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Nov 2022 20:50:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1D1662E57A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Nov 2022 20:51:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234380AbiKQTuX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Nov 2022 14:50:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47814 "EHLO
+        id S240464AbiKQTvP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Nov 2022 14:51:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240298AbiKQTuW (ORCPT
+        with ESMTP id S240298AbiKQTvO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Nov 2022 14:50:22 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 632E08516C
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Nov 2022 11:50:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DD8BCB821C9
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Nov 2022 19:50:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 89C3DC433D7
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Nov 2022 19:50:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668714618;
-        bh=nTbKJTR5ZGZJB9+6QGzDBw5ekPUn8kj/hHBjeZ9YeoA=;
-        h=Subject:From:Date:To:From;
-        b=G0lrcVXFwu0a6VGNGO1qEMVI8dVr041j83QI40v2q3Ga0VzvbmAgfXdKtPEixvQ3G
-         UAWTtpPkVJ0Vlhym63SWztw+r3XY9R+C3tP4R7m5z/c8DCNktcW4trf8AVd4DRFcX3
-         5+NmKL76g+VlyvKHKa98e1YG8Yn2/msdnFaqMjU4qU2G92vlxpSHy1FGP9YJ11H3T0
-         QIDRfJgc6GxIHk8Ye8OF0H/qYK7LG0Hx8n55qz3kD6qYnFUg+tDf/yH5+g2AckBtKO
-         ty2ajbVmgeiF+7yRHjfJzZFoV3j+8mSlpeD1NNG4bikpf1EXZaPfs3BKCyqz5yYkem
-         nstg+yJGQ+AXA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 64E39E270D5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Nov 2022 19:50:18 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 17 Nov 2022 14:51:14 -0500
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79DD385156;
+        Thu, 17 Nov 2022 11:51:13 -0800 (PST)
+Received: by mail-qk1-f172.google.com with SMTP id x21so2023117qkj.0;
+        Thu, 17 Nov 2022 11:51:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aJf7/ggNbO5ptXt326sMe/Qk+cWkkDWccwoW4jqERjQ=;
+        b=QZk8papSIgNWuTAspyxmiFRqOnOtPNyktBbJWcmUdMSz9XEyK5+5wCZmJY3Xwe/CTr
+         gpmhxqpAIi8UIJrrAPYl0hVgkNKUS4b0f3I5LMp/bnUVUkazffPEqD00Dwv4OOxF3OQR
+         qOcTjkPzN0TvptjSDv214Ai9yiM73Cq0jaDL1+IBij4QDe7hDVsX5imjenrLU/l4yOAq
+         BB4yUSSfuT72Qqaurd5OtPYPiOES35LUVU++MV154hVSEocC8avLRM/nPqXlh92DIXel
+         E4zaBC0Izl45BmnaMHtfZ/zvL0j+Ns43hwjcNswVtejib0mYGs7xY8+51+BLZ8KhYn/n
+         6eYg==
+X-Gm-Message-State: ANoB5plbSe8agMJnEoBLFSJoxuhUgMXmveaPNYI5qCI8rWFZ/HDKtKk+
+        T4RkdE9s4UViSTBTFCNru9Z+8+34aJYANg==
+X-Google-Smtp-Source: AA0mqf52Rx4lRV5pLVQ+wHwGHNOE8ctKOGUL1q3e9owobO5CxHg2jSo0PsY7tMfShbH1zw8T0sG7IA==
+X-Received: by 2002:a05:620a:31a0:b0:6fa:c94:5c06 with SMTP id bi32-20020a05620a31a000b006fa0c945c06mr3141054qkb.91.1668714672362;
+        Thu, 17 Nov 2022 11:51:12 -0800 (PST)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id p16-20020a05620a057000b006fb8239db65sm957432qkp.43.2022.11.17.11.51.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Nov 2022 11:51:11 -0800 (PST)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-37063f855e5so29511047b3.3;
+        Thu, 17 Nov 2022 11:51:11 -0800 (PST)
+X-Received: by 2002:a81:4f4c:0:b0:357:66a5:bb25 with SMTP id
+ d73-20020a814f4c000000b0035766a5bb25mr3489069ywb.383.1668714671276; Thu, 17
+ Nov 2022 11:51:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <166871461833.5926.1594366164767983914.git-patchwork-summary@kernel.org>
-Date:   Thu, 17 Nov 2022 19:50:18 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221116102140.852889-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20221116102140.852889-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 17 Nov 2022 20:51:00 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWC5_+pLbewtSU=DkQ0pepTyjfKa9fx1btLt8=U0Eg=Yw@mail.gmail.com>
+Message-ID: <CAMuHMdWC5_+pLbewtSU=DkQ0pepTyjfKa9fx1btLt8=U0Eg=Yw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] Add SoC identification support for RZ/V2M
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+On Wed, Nov 16, 2022 at 11:21 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> This patch series aims to add SoC identification support for RZ/V2M.
+>
+> v3->v4:
+>  * Added Rb tags from Krzysztof and Geert
+>  * Fixed the example indentation from 3 spaces-> 2 spaces.
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+Thanks, queued in renesas-devel for v6.2.
 
-Series: arm64: dts: renesas: r8a779g0: CPU topology improvements
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=695078
-  Lore link: https://lore.kernel.org/r/cover.1668429870.git.geert+renesas@glider.be
-    Patches: [1/5] arm64: dts: renesas: r8a779g0: Add L3 cache controller
-             [2/5] arm64: dts: renesas: r8a779g0: Add secondary CA76 CPU cores
-             [3/5] arm64: dts: renesas: r8a779g0: Add CPUIdle support
-             [4/5] arm64: dts: renesas: r8a779g0: Add CPU core clocks
-             [5/5] arm64: dts: renesas: r8a779g0: Add CA76 operating points
+Gr{oetje,eeting}s,
 
-Series: Add SoC identification support for RZ/V2M
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=695896
-  Lore link: https://lore.kernel.org/r/20221116102140.852889-1-biju.das.jz@bp.renesas.com
-    Patches: [v4,1/3] dt-bindings: arm: renesas: Document Renesas RZ/V2M System Configuration
-             [v4,2/3] soc: renesas: Identify RZ/V2M SoC
-             [v4,3/3] arm64: dts: renesas: r9a09g011: Add system controller node
+                        Geert
 
-Series: RZ/Five: Enable ADC/CANFD/I2C/OPP/Thermal Zones/TSU
-  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=695471
-  Lore link: https://lore.kernel.org/r/20221115105135.1180490-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-    Patches: [1/3] riscv: Kconfig: Enable cpufreq kconfig menu
-             [2/3] riscv: dts: renesas: r9a07g043f/rzfive-smarc-som: Enable ADC/OPP/Thermal Zones/TSU
-             [3/3] riscv: dts: renesas: rzfive-smarc: Enable CANFD/I2C
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
-Total patches: 11
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
