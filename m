@@ -2,77 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83BD462F6AB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Nov 2022 14:57:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8201062F8C5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Nov 2022 16:04:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235393AbiKRN5u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Nov 2022 08:57:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41400 "EHLO
+        id S242164AbiKRPEE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Nov 2022 10:04:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241756AbiKRN5s (ORCPT
+        with ESMTP id S242204AbiKRPDX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Nov 2022 08:57:48 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB5288CFD8;
-        Fri, 18 Nov 2022 05:57:47 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id cl5so9355136wrb.9;
-        Fri, 18 Nov 2022 05:57:47 -0800 (PST)
+        Fri, 18 Nov 2022 10:03:23 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63D9897A86
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Nov 2022 07:01:10 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id a14so9671548wru.5
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Nov 2022 07:01:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eWeG46+stoyqg0DxeWDTE3Ia6sRtYUvD/f2AC43whrI=;
-        b=UBy2pMwmY0F9TprKdzF9+oHmuDyYef1NLk4176juESl05IbLKp/9GV1uvwNyE05eZK
-         Z+p4UqW4trGX9r7dbmMuBuftaRQ4LvECgbAC/ityZUzukli41iB650dYXFJgH1YVEbw3
-         anilvPdoIUHL+/519Z4dn9g5IfQiiRtLNH4AmNo9+rZS/xdn2l6s5OlKa7Et9KiQ6ulO
-         wg/8YoszXR0Tuer9L5IYFieHON2rjcYFY533+oLLD4OJnogLo1dw8T+LrUog6HLoC0VC
-         LwD7qSPBu5dMc26l8lV2VfWN+AqetNatAGJVeor5LCkDBvhY2c3wSb8PyU0NMXaTUTdf
-         SmXQ==
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aW7crbEbz284h73QkI0OBQRIGwa5lP2BQG4aFKW2hnI=;
+        b=pcc6tk+f0fwfWJ7okzVw52gcRxUsw1/nvR5Rb4qgVqk2U78VdaNE1V9jlIodWMaUSt
+         48u5VG25RqkZW8A90vJfPsHKTgvfiBBnlMkSoidAOjBdKR7mqb0MlzoTRld6U05+kn78
+         33BiZ+xlNbW8M5pFpqFHeDgpeZBrYZeRnoUfw3GqFAsl8ewhLeUFI7kL4rl4HUsHsRPf
+         WYTrAxCr+/O+caFcogDQLM3qO00vCMsuTEUQHjdzJOHXqpJhd9Qgs5mkmZWan7zDRWNk
+         FM2G8riNWjePmwV1qpYRxWCvTZHYGTvgOwxu/la/NrX+ucNInGGUpR5DrYlctbczCuyX
+         Q8Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eWeG46+stoyqg0DxeWDTE3Ia6sRtYUvD/f2AC43whrI=;
-        b=SoZQO8rtK0JodtzgGNUrBBDhRDE33UnfjvnNJosXOOYCzkC5HKMFQSBeC2OwrPo6oK
-         AOU14YWjdVz064zsHP7E9Ts3vYNxU4ebUJvUgn9CF39HHmnGpIFnRDGL0YtN6Ftx5laF
-         0Qyt/GcVpOrR30qGtF/Npaw0RbR2wvRXzwyaP91DWQMOZCO2G3FzeGlTArbiJ97td8Xb
-         za9+1V5jz55phCBe87Lyn6Nqb7ooPeTDojlh6v/5YQp2aSYhG4E2FWa0ZAN3R6GRN3z1
-         s2qdPF14xJiraOtE4Q4iq2gdrLejoLKd03gen2TpFAtBwkG/NiQvIPkVfOCmcSP93qy0
-         EqdQ==
-X-Gm-Message-State: ANoB5pmrJe//2TVLLvx02xre+p7hDD78Dk7Cmi66uCQ57Bl/fRnHtlEM
-        dxFn0xLSYhpn8sm6H20+oe+pvLVPz4ogFKnq
-X-Google-Smtp-Source: AA0mqf5ExHBrb9jNKEdMu558qiVQsc11nUOiP0QaPE81UIhiHekyMevzM8kLNpjwRinrrCouduOJ/Q==
-X-Received: by 2002:a5d:6282:0:b0:22e:31a4:2323 with SMTP id k2-20020a5d6282000000b0022e31a42323mr4368273wru.691.1668779866301;
-        Fri, 18 Nov 2022 05:57:46 -0800 (PST)
-Received: from prasmi.home ([2a00:23c8:2501:c701:29e1:fee9:75e6:d6ea])
-        by smtp.gmail.com with ESMTPSA id j13-20020a5d604d000000b00236695ff94fsm3638491wrt.34.2022.11.18.05.57.44
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aW7crbEbz284h73QkI0OBQRIGwa5lP2BQG4aFKW2hnI=;
+        b=RjbxIBVfAKdRtFgEZi5ZqWPwiGx6ygfXnx7o5lmOuF7/u/c0IE22VP4mV8tNkqY8u6
+         JP6SwSFfeodCg6iOpTY0KHRknijVSahjFG0EqPKt+nXqdT4dHHRuaL3b0oU0oAomj0C+
+         qrzG8yHFop0z+KfSgtmD93vLCm7LjIwZTPMHXXTwCfGBPg2rZyYAKBnXOlwU1rFAuDWY
+         4bJcWnf+m9cw8OLh2aEIV01UEsRe1hIGIEzGwWO2so2PghT5LePsoi7kjf7VlF/aYO2L
+         vxVSCE2J6zthS9oTtAz2hTv0BMAgYvQwSse37fk9UZsL2dhmKyrFWs/6fYaU9gwGckwN
+         fViA==
+X-Gm-Message-State: ANoB5pnh1qpOV8TJpmWgBI3dQQjBYl43h+yaksNfmLKjfj7hmq2y74pd
+        BVYdgMzbR66QV42oAJVBiqQE2kECnT4Gpg==
+X-Google-Smtp-Source: AA0mqf4RCGVTJXtBV1U+MLwZRP8wDXP/fcyRno+YLZZulJvHKEGHUQKaYwEne9UdiqEf4yg5LmwgVA==
+X-Received: by 2002:adf:fb01:0:b0:22e:6556:da75 with SMTP id c1-20020adffb01000000b0022e6556da75mr4687787wrr.653.1668783668925;
+        Fri, 18 Nov 2022 07:01:08 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id x2-20020a1c7c02000000b003b4935f04a4sm5590190wmc.5.2022.11.18.07.01.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 05:57:45 -0800 (PST)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] riscv: dts: renesas: rzfive-smarc-som: Enable WDT
-Date:   Fri, 18 Nov 2022 13:57:15 +0000
-Message-Id: <20221118135715.14410-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 18 Nov 2022 07:01:08 -0800 (PST)
+Date:   Fri, 18 Nov 2022 18:01:04 +0300
+From:   Dan Carpenter <error27@gmail.com>
+To:     biju.das.jz@bp.renesas.com
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: [bug report] drm: rcar-du: Add RZ/G2L DSI driver
+Message-ID: <Y3eeMGDxaLcRxu69@kili>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,40 +67,49 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hello Biju Das,
 
-Enable WDT node on RZ/Five SMARC SoM.
+The patch 7a043f978ed1: "drm: rcar-du: Add RZ/G2L DSI driver" from
+Sep 20, 2022, leads to the following Smatch static checker warning:
 
-Note, WDT block is enabled in RZ/G2UL SMARC SoM DTSI [0] hence deleting
-the disabled node from RZ/Five SMARC SoM DTSI enables it here too as we
-include [0] in RZ/Five SMARC SoM DTSI.
+	drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c:372 rzg2l_mipi_dsi_set_display_timing()
+	warn: uninitialized special assign 'vich1ppsetr |= (1 << 15)'
 
-[0] arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
+drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+    347 static void rzg2l_mipi_dsi_set_display_timing(struct rzg2l_mipi_dsi *dsi,
+    348                                               const struct drm_display_mode *mode)
+    349 {
+    350         u32 vich1ppsetr;
+    351         u32 vich1vssetr;
+    352         u32 vich1vpsetr;
+    353         u32 vich1hssetr;
+    354         u32 vich1hpsetr;
+    355         int dsi_format;
+    356         u32 delay[2];
+    357         u8 index;
+    358 
+    359         /* Configuration for Pixel Packet */
+    360         dsi_format = mipi_dsi_pixel_format_to_bpp(dsi->format);
+    361         switch (dsi_format) {
+    362         case 24:
+    363                 vich1ppsetr = VICH1PPSETR_DT_RGB24;
+    364                 break;
+    365         case 18:
+    366                 vich1ppsetr = VICH1PPSETR_DT_RGB18;
+    367                 break;
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Note,
-- For the WDT to correctly on RZ/Five we need a fixup patch [0].
-- Patch applies on top of [1]
+What if mipi_dsi_pixel_format_to_bpp() returns 16?
 
-[0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221117114907.138583-2-fabrizio.castro.jz@renesas.com/
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log/?h=renesas-riscv-dt-for-v6.2
----
- arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi | 4 ----
- 1 file changed, 4 deletions(-)
+    368         }
+    369 
+    370         if ((dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) &&
+    371             !(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST))
+--> 372                 vich1ppsetr |= VICH1PPSETR_TXESYNC_PULSE;
+                        ^^^^^^^^^^^
+Uninitialized.
 
-diff --git a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-index 2b7672bc4b52..fdfd7cd2792b 100644
---- a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-+++ b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-@@ -41,7 +41,3 @@ &ostm2 {
- &sdhi0 {
- 	status = "disabled";
- };
--
--&wdt0 {
--	status = "disabled";
--};
--- 
-2.25.1
+    373 
+    374         rzg2l_mipi_dsi_link_write(dsi, VICH1PPSETR, vich1ppsetr);
 
+regards,
+dan carpenter
