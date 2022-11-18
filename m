@@ -2,96 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13CD162F5BB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Nov 2022 14:17:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 003CF62F5C0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Nov 2022 14:17:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242046AbiKRNQ6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Nov 2022 08:16:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41814 "EHLO
+        id S241817AbiKRNRC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Nov 2022 08:17:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242051AbiKRNQv (ORCPT
+        with ESMTP id S242072AbiKRNQy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Nov 2022 08:16:51 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DDB6A7CB8B;
-        Fri, 18 Nov 2022 05:16:49 -0800 (PST)
+        Fri, 18 Nov 2022 08:16:54 -0500
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 08EF67DECC;
+        Fri, 18 Nov 2022 05:16:52 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.96,174,1665414000"; 
-   d="scan'208";a="143137440"
+   d="scan'208";a="140509800"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 18 Nov 2022 22:16:49 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 18 Nov 2022 22:16:52 +0900
 Received: from localhost.localdomain (unknown [10.226.92.26])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id DBB5943651B3;
-        Fri, 18 Nov 2022 22:16:44 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E525E43651B2;
+        Fri, 18 Nov 2022 22:16:49 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-clk@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH 0/5] Add RZ/V2{M, MA} driver support
-Date:   Fri, 18 Nov 2022 13:16:36 +0000
-Message-Id: <20221118131641.469238-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 1/5] clk: renesas: r9a09g011: Add PWM clock entries
+Date:   Fri, 18 Nov 2022 13:16:37 +0000
+Message-Id: <20221118131641.469238-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221118131641.469238-1-biju.das.jz@bp.renesas.com>
+References: <20221118131641.469238-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The RZ/V2{M, MA} PWM Timer (PWM) is composed of 16 channels. Linux is only
-allowed access to channels 8 to 14 on RZ/V2M, while there is no restriction
-for RZ/V2MA.
+The PWM IP on the RZ/V2M comes with 16 channels, but the ISP has
+full control of channels 0 to 7, and channel 15, therefore Linux
+is only allowed to use channels 8 to 14.
 
-The RZ/V2{M, MA} PWM Timer (PWM) supports the following functions:
- * The PWM has 24-bit counters which operate at PWM_CLK (48 MHz).
- * The frequency division ratio for internal counter operation is selectable
-    as PWM_CLK divided by 1, 16, 256, or 2048.
- * The period as well as the duty cycle is adjustable.
- * The low-level and high-level order of the PWM signals can be inverted.
- * The duty cycle of the PWM signal is selectable in the range from 0 to 100%.
- * The minimum resolution is 20.83 ns.
- * Three interrupt sources: Rising and falling edges of the PWM signal and
-   clearing of the counter
- * Counter operation and the bus interface are asynchronous and both can
-   operate independently of the magnitude relationship of the respective
-   clock periods.
+The PWM channel 15 shares apb clock and reset with PWM{8..14}.
+The reset is deasserted by the bootloader/ISP.
 
-Note:
- Hardware manual for this IP can be found here
- https://www.renesas.com/in/en/document/mah/rzv2m-users-manual-hardware?language=en
+Add PWM{8..14} clocks to CPG driver and mark apb clock as
+critical clock, so that the apb clock will be always on.
 
-Biju Das (5):
-  clk: renesas: r9a09g011: Add PWM clock entries
-  dt-bindings: pwm: Add RZ/V2M PWM binding
-  pwm: Add support for RZ/V2M PWM driver
-  arm64: dts: renesas: r9a09g011: Add pwm nodes
-  arm64: dts: renesas: rzv2m evk: Enable pwm
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/clk/renesas/r9a09g011-cpg.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
- .../bindings/pwm/renesas,rzv2m-pwm.yaml       |  98 +++++
- .../boot/dts/renesas/r9a09g011-v2mevk2.dts    |  70 ++++
- arch/arm64/boot/dts/renesas/r9a09g011.dtsi    |  91 ++++
- drivers/clk/renesas/r9a09g011-cpg.c           |   9 +
- drivers/pwm/Kconfig                           |  11 +
- drivers/pwm/Makefile                          |   1 +
- drivers/pwm/pwm-rzv2m.c                       | 390 ++++++++++++++++++
- 7 files changed, 670 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rzv2m-pwm.yaml
- create mode 100644 drivers/pwm/pwm-rzv2m.c
-
+diff --git a/drivers/clk/renesas/r9a09g011-cpg.c b/drivers/clk/renesas/r9a09g011-cpg.c
+index fbef1b35d254..536725762c61 100644
+--- a/drivers/clk/renesas/r9a09g011-cpg.c
++++ b/drivers/clk/renesas/r9a09g011-cpg.c
+@@ -136,6 +136,14 @@ static const struct rzg2l_mod_clk r9a09g011_mod_clks[] __initconst = {
+ 	DEF_MOD("iic_pclk1",	R9A09G011_IIC_PCLK1,	 CLK_SEL_E,    0x424, 12),
+ 	DEF_MOD("wdt0_pclk",	R9A09G011_WDT0_PCLK,	 CLK_SEL_E,    0x428, 12),
+ 	DEF_MOD("wdt0_clk",	R9A09G011_WDT0_CLK,	 CLK_MAIN,     0x428, 13),
++	DEF_MOD("pwm8_15_pclk",	R9A09G011_CPERI_GRPF_PCLK, CLK_SEL_E,  0x434, 0),
++	DEF_MOD("pwm8_clk",	R9A09G011_PWM8_CLK,	 CLK_MAIN,     0x434, 4),
++	DEF_MOD("pwm9_clk",	R9A09G011_PWM9_CLK,	 CLK_MAIN,     0x434, 5),
++	DEF_MOD("pwm10_clk",	R9A09G011_PWM10_CLK,	 CLK_MAIN,     0x434, 6),
++	DEF_MOD("pwm11_clk",	R9A09G011_PWM11_CLK,	 CLK_MAIN,     0x434, 7),
++	DEF_MOD("pwm12_clk",	R9A09G011_PWM12_CLK,	 CLK_MAIN,     0x434, 8),
++	DEF_MOD("pwm13_clk",	R9A09G011_PWM13_CLK,	 CLK_MAIN,     0x434, 9),
++	DEF_MOD("pwm14_clk",	R9A09G011_PWM14_CLK,	 CLK_MAIN,     0x434, 10),
+ 	DEF_MOD("urt_pclk",	R9A09G011_URT_PCLK,	 CLK_SEL_E,    0x438, 4),
+ 	DEF_MOD("urt0_clk",	R9A09G011_URT0_CLK,	 CLK_SEL_W0,   0x438, 5),
+ 	DEF_MOD("ca53",		R9A09G011_CA53_CLK,	 CLK_DIV_A,    0x448, 0),
+@@ -152,6 +160,7 @@ static const struct rzg2l_reset r9a09g011_resets[] = {
+ 
+ static const unsigned int r9a09g011_crit_mod_clks[] __initconst = {
+ 	MOD_CLK_BASE + R9A09G011_CA53_CLK,
++	MOD_CLK_BASE + R9A09G011_CPERI_GRPF_PCLK,
+ 	MOD_CLK_BASE + R9A09G011_GIC_CLK,
+ 	MOD_CLK_BASE + R9A09G011_SYC_CNT_CLK,
+ 	MOD_CLK_BASE + R9A09G011_URT_PCLK,
 -- 
 2.25.1
 
