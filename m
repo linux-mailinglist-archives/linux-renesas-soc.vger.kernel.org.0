@@ -2,75 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CEC3B62FA49
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Nov 2022 17:30:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A89F062FAA4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Nov 2022 17:45:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235270AbiKRQaW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Nov 2022 11:30:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49836 "EHLO
+        id S242215AbiKRQpX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Nov 2022 11:45:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241733AbiKRQaV (ORCPT
+        with ESMTP id S242221AbiKRQpS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Nov 2022 11:30:21 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7FA49370C
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Nov 2022 08:30:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 511E2B8246F
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Nov 2022 16:30:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 059A5C433D6
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Nov 2022 16:30:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668789018;
-        bh=V+TcakjZwrJ9g/I1nhIT0WeUk8mVLq6qMBfQwbR64DI=;
-        h=Subject:From:Date:To:From;
-        b=MBZwbf0+r4GyKW70LqTW5gjqWOUMCL65a6ng4tPJjOV3Q8DxyMsy/RUYesXmt9UjP
-         pdVk0sL6cuQoEWHYJjUbTmwTX9m7qJi950Hq3FEBcadJNGU/NaS8iVeqHtstofZ2oj
-         yhsSpI9KXazuShaVzRM9aaJltugnka8h9f3tmGCNusLzqnyMEx5dR49pwXx1ZG1JEn
-         1iB/sLGJGTBG/M2whxsR6l9E0fWfKmG+WwGaYlDN39zXJzKckFcwmjjo95tymXLXny
-         SKbEU5ic+HYkboU++5rqRhJMExsewCfWQhk8Qe4aMqiabU8dUEbut0PZhU+8IEKybk
-         +nNa7A5jqiabg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D7F70E270F6
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Nov 2022 16:30:17 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Fri, 18 Nov 2022 11:45:18 -0500
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2AC36A768
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Nov 2022 08:45:16 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:d0b:c833:41f6:da0e])
+        by andre.telenet-ops.be with bizsmtp
+        id lslC2800Q29fmst01slCAh; Fri, 18 Nov 2022 17:45:14 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ow4UK-000pA8-Cx; Fri, 18 Nov 2022 17:45:12 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ow4UJ-00FrgE-SI; Fri, 18 Nov 2022 17:45:11 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     arm-soc <arm@kernel.org>, soc <soc@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL 0/7] Renesas SoC updates for v6.2 (take two)
+Date:   Fri, 18 Nov 2022 17:44:57 +0100
+Message-Id: <cover.1668788918.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <166878901778.7631.5464576435276855124.git-patchwork-summary@kernel.org>
-Date:   Fri, 18 Nov 2022 16:30:17 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+	Hi SoC folks,
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+This is my second pull request for the inclusion of Renesas SoC updates
+for v6.2, and the first one including support for an SoC with a RISC-V
+CPU core (and including no changes for SoCs with arm32 CPU cores).
 
-Series: arm64: dts: renesas: r8a779f0: Add/Enable Ethernet Switch and SERDES nodes
-  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=696905
-  Lore link: https://lore.kernel.org/r/20221118120953.1186392-1-yoshihiro.shimoda.uh@renesas.com
-    Patches: [v6,1/3] arm64: dts: renesas: r8a779f0: Add Ethernet Switch and SERDES nodes
-             [v6,2/3] arm64: dts: renesas: r8a779f0: spider: Enable Ethernet Switch and SERDES
-             [v6,3/3] arm64: configs: Enable Renesas R-Car S4-8 Spider Ethernet devices
+It consists of 7 parts:
 
+  [GIT PULL 1/7] Renesas ARM defconfig updates for v6.2
 
-Total patches: 3
+    - Enable support for Renesas R-Car S4-8 Spider Ethernet devices in the
+      arm64 defconfig.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+  [GIT PULL 2/7] Renesas ARM DT updates for v6.2 (take two)
 
+    - Timer (TMU and CMT) and quad Cortex-A76 CPU topology support for
+      the R-Car V4H SoC,
+    - Watchdog, L2 cache, and system controller support for the RZ/V2M
+      SoC on the RZ/V2M Evaluation Kit 2.0,
+    - Ethernet Switch and SERDES supports for the R-Car S4-8 SoC and the
+      Spider development board,
+    - Miscellaneous fixes and improvements.
 
+  [GIT PULL 3/7] Renesas driver updates for v6.2 (take two)
+
+    - Add support for identifying the SoC revision on RZ/V2M.
+
+  [GIT PULL 4/7] Renesas DT binding updates for v6.2 (take two)
+
+    - Document support for the Andes Technology AX45MP RISC-V CPU Core, as
+      used on the Renesas RZ/Five SoC,
+    - Document support for the Renesas RZ/V2M System Configuration.
+
+  [GIT PULL 5/7] Renesas RISC-V defconfig updates for v6.2
+
+    - Enable support for the Renesas RZ/Five SoC and the RZ/Five SMARC EVK
+      board in the risc-v defconfig.
+
+  [GIT PULL 6/7] Renesas RISC-V DT updates for v6.2
+
+    - Add initial support for the Renesas RZ/Five SoC and the Renesas
+      RZ/Five SMARC EVK development board.
+
+  [GIT PULL 7/7] Renesas RISC-V SoC updates for v6.2
+
+    - Add Kconfig option for Renesas RISC-V SoCs.
+
+Thanks for pulling!
+
+P.S. I'm wondering if I should reduce the number of branches?
+     Probably it would make sense to (at least) use a single branch for
+     the DTS changes, as the RZ/Five DTS files share base SoC and board
+     DTS with RZ/G2UL through #include <arm64/renesas/...>.
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
