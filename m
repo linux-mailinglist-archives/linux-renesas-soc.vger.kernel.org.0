@@ -2,98 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B603D62F680
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Nov 2022 14:44:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83BD462F6AB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Nov 2022 14:57:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241758AbiKRNon (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Nov 2022 08:44:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35980 "EHLO
+        id S235393AbiKRN5u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Nov 2022 08:57:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241625AbiKRNok (ORCPT
+        with ESMTP id S241756AbiKRN5s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Nov 2022 08:44:40 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38C70786C2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Nov 2022 05:44:39 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id be13so8284173lfb.4
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Nov 2022 05:44:39 -0800 (PST)
+        Fri, 18 Nov 2022 08:57:48 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB5288CFD8;
+        Fri, 18 Nov 2022 05:57:47 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id cl5so9355136wrb.9;
+        Fri, 18 Nov 2022 05:57:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=W/+ARMgwEUQ2ZjYV3x5LOp06hHU3gkx8nkJq53hd/AM=;
-        b=HlwyumjJY6+N19ORY47MsA/NLZCIyBuMelPwTJumpvD3CdeEeKejWMop+phGbN/lnH
-         u8ThZeUmpT4qySPgX5osxpPz+SjA0M/sdfJSg8BXMfjv1kXxqhJej+hebhZKpnKS1wze
-         2nxS4pNyZMjCQHnIfdDiBRdHt+a229wdH75J8klEou9kw1B0MPNedyje1utE/Jan8dcv
-         KQ0xUoRpqAhhJ2u4SopjWisKs9uJUFWSZKo9VXNcsAkY9ipoFfgiVTkBUVft8f9XuwJk
-         G2hPXoSe0eqGTZuNgXtPgnZ9bQDkbk6tWyD+CZj/AJi/3Fmq+bheBc1W6mtS/a2Ft2aS
-         /mQg==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eWeG46+stoyqg0DxeWDTE3Ia6sRtYUvD/f2AC43whrI=;
+        b=UBy2pMwmY0F9TprKdzF9+oHmuDyYef1NLk4176juESl05IbLKp/9GV1uvwNyE05eZK
+         Z+p4UqW4trGX9r7dbmMuBuftaRQ4LvECgbAC/ityZUzukli41iB650dYXFJgH1YVEbw3
+         anilvPdoIUHL+/519Z4dn9g5IfQiiRtLNH4AmNo9+rZS/xdn2l6s5OlKa7Et9KiQ6ulO
+         wg/8YoszXR0Tuer9L5IYFieHON2rjcYFY533+oLLD4OJnogLo1dw8T+LrUog6HLoC0VC
+         LwD7qSPBu5dMc26l8lV2VfWN+AqetNatAGJVeor5LCkDBvhY2c3wSb8PyU0NMXaTUTdf
+         SmXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=W/+ARMgwEUQ2ZjYV3x5LOp06hHU3gkx8nkJq53hd/AM=;
-        b=fbkllYzni4Ykfd1Rktbx6FTvSPB5p+oedQwHsie81M5G2F7ar5jeYtKqVx3Dk76ozT
-         X97z8/Ghb3UoKdKm7f0s8nxvrkhBmlQLufYmp3nC17qHm8aABH1gjFnHvc+tR4gD1zZA
-         z5TPL6WLJWuIdW2Y2UhCa6B1sMP8rdCOLQCU2w/zhvwalyU1UjEs53Lgp/4pCOR5xbHM
-         88/nW9EUWRy3TQknTE2o2o2r4T8yAUoZ+uaDlw8nf94L3gGRwqjeUlUUrsdD3LIksEpW
-         3WLITapVsKZnMA7OLHD0x0ks4gB18bNfylQVoxW7DW76dWYcAPwITgg+zuxnDbhwF8PI
-         WJIw==
-X-Gm-Message-State: ANoB5pn+/dQMy7QZvFmzK5HUzS7ukl4c4IAEB5dcrF4z35WD/ke7H6wQ
-        Te9vCpOHK5zt+ANo489Av4a47Q==
-X-Google-Smtp-Source: AA0mqf6UKHbjNVtOSotxDXFXi3D4LOpnccqG9/UpcyupKhuED0gX1s7yvo6ndRD72UxCkRYF3S16Sg==
-X-Received: by 2002:ac2:598f:0:b0:4a2:2515:dc59 with SMTP id w15-20020ac2598f000000b004a22515dc59mr2307605lfn.283.1668779077549;
-        Fri, 18 Nov 2022 05:44:37 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id g2-20020a2eb5c2000000b0025ebaef9570sm658800ljn.40.2022.11.18.05.44.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Nov 2022 05:44:37 -0800 (PST)
-Message-ID: <93fbbe8f-05d7-aa85-5f40-2d15a1b97c01@linaro.org>
-Date:   Fri, 18 Nov 2022 14:44:35 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] dt-bindings: watchdog: renesas,wdt: Document RZ/Five SoC
-Content-Language: en-US
-To:     Prabhakar <prabhakar.csengg@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eWeG46+stoyqg0DxeWDTE3Ia6sRtYUvD/f2AC43whrI=;
+        b=SoZQO8rtK0JodtzgGNUrBBDhRDE33UnfjvnNJosXOOYCzkC5HKMFQSBeC2OwrPo6oK
+         AOU14YWjdVz064zsHP7E9Ts3vYNxU4ebUJvUgn9CF39HHmnGpIFnRDGL0YtN6Ftx5laF
+         0Qyt/GcVpOrR30qGtF/Npaw0RbR2wvRXzwyaP91DWQMOZCO2G3FzeGlTArbiJ97td8Xb
+         za9+1V5jz55phCBe87Lyn6Nqb7ooPeTDojlh6v/5YQp2aSYhG4E2FWa0ZAN3R6GRN3z1
+         s2qdPF14xJiraOtE4Q4iq2gdrLejoLKd03gen2TpFAtBwkG/NiQvIPkVfOCmcSP93qy0
+         EqdQ==
+X-Gm-Message-State: ANoB5pmrJe//2TVLLvx02xre+p7hDD78Dk7Cmi66uCQ57Bl/fRnHtlEM
+        dxFn0xLSYhpn8sm6H20+oe+pvLVPz4ogFKnq
+X-Google-Smtp-Source: AA0mqf5ExHBrb9jNKEdMu558qiVQsc11nUOiP0QaPE81UIhiHekyMevzM8kLNpjwRinrrCouduOJ/Q==
+X-Received: by 2002:a5d:6282:0:b0:22e:31a4:2323 with SMTP id k2-20020a5d6282000000b0022e31a42323mr4368273wru.691.1668779866301;
+        Fri, 18 Nov 2022 05:57:46 -0800 (PST)
+Received: from prasmi.home ([2a00:23c8:2501:c701:29e1:fee9:75e6:d6ea])
+        by smtp.gmail.com with ESMTPSA id j13-20020a5d604d000000b00236695ff94fsm3638491wrt.34.2022.11.18.05.57.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Nov 2022 05:57:45 -0800 (PST)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-watchdog@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20221118133829.12855-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221118133829.12855-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH] riscv: dts: renesas: rzfive-smarc-som: Enable WDT
+Date:   Fri, 18 Nov 2022 13:57:15 +0000
+Message-Id: <20221118135715.14410-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 18/11/2022 14:38, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> The WDT block on the RZ/Five SoC is identical to one found on the RZ/G2UL
-> SoC. "renesas,r9a07g043-wdt" compatible string will be used on the
-> RZ/Five SoC so to make this clear, update the comment to include RZ/Five
-> SoC.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
+Enable WDT node on RZ/Five SMARC SoM.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Note, WDT block is enabled in RZ/G2UL SMARC SoM DTSI [0] hence deleting
+the disabled node from RZ/Five SMARC SoM DTSI enables it here too as we
+include [0] in RZ/Five SMARC SoM DTSI.
 
-Best regards,
-Krzysztof
+[0] arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
+
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+Note,
+- For the WDT to correctly on RZ/Five we need a fixup patch [0].
+- Patch applies on top of [1]
+
+[0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221117114907.138583-2-fabrizio.castro.jz@renesas.com/
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log/?h=renesas-riscv-dt-for-v6.2
+---
+ arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
+index 2b7672bc4b52..fdfd7cd2792b 100644
+--- a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
++++ b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
+@@ -41,7 +41,3 @@ &ostm2 {
+ &sdhi0 {
+ 	status = "disabled";
+ };
+-
+-&wdt0 {
+-	status = "disabled";
+-};
+-- 
+2.25.1
 
