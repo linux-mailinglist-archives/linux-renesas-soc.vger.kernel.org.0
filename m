@@ -2,92 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20A6F62FEF8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Nov 2022 21:46:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CB5A62FF06
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Nov 2022 21:56:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229867AbiKRUqp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Nov 2022 15:46:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43164 "EHLO
+        id S229555AbiKRU4A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Nov 2022 15:56:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229606AbiKRUqo (ORCPT
+        with ESMTP id S229476AbiKRUz7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Nov 2022 15:46:44 -0500
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 347AE6205A;
-        Fri, 18 Nov 2022 12:46:44 -0800 (PST)
-Received: by mail-oi1-f174.google.com with SMTP id l127so6613294oia.8;
-        Fri, 18 Nov 2022 12:46:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h3na0c+zCdiHpYsiS/hKe8VnK8EaiIE0atU3Cp6vqK8=;
-        b=EZJGh3pERaS0dPM2mNqSU1Otc4q3hmAOtAGESfEhg5dy5meAnCC68obisZ8R7xeDM0
-         M8y4N6EOGfLtGFtLhD7Wt9VT22mIlLouNp0S0RphmG/fTHWPvmFlLIN1qMUde75OrNcU
-         CnQ8OpmO019NDz3C3YKrV6zPntCiJ9YNqun+MCCAK/zW8LTiia/Dv4eDdpzRs1yXt7Sv
-         GLhImW9gZX0Zga83Y+9FB9SU0l4lhbdgTCAe54d6tMhLC4bdv3qA7DNmXQ6tfHGDMDm6
-         zDfDJPSHFCB+WW3EHzhUkt5pJqFWYgU1N0qA/ZWSNHHgpKMdkV9VJXdpEOvmU/Kkd20U
-         vXJg==
-X-Gm-Message-State: ANoB5pnAzVtwdbaY2sX4DBQoHSs86w56m4DUdINAZOv1r+4kD4dIFh7x
-        J+2ErlZfwlZ7PZPp9wazpw==
-X-Google-Smtp-Source: AA0mqf77Kvv76+2dRDE7XcyDrmAFDyRj4QvQ7OTBZ2bM59km+E8GbCkPFq9ssjIV4GX905G9Eziucw==
-X-Received: by 2002:a54:4596:0:b0:359:fea2:69d0 with SMTP id z22-20020a544596000000b00359fea269d0mr4245868oib.45.1668804403417;
-        Fri, 18 Nov 2022 12:46:43 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id k9-20020a544409000000b00359b83e3df1sm1814919oiw.9.2022.11.18.12.46.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 12:46:42 -0800 (PST)
-Received: (nullmailer pid 1327692 invoked by uid 1000);
-        Fri, 18 Nov 2022 20:46:44 -0000
-Date:   Fri, 18 Nov 2022 14:46:44 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Andrew Davis <afd@ti.com>
-Cc:     Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Cleanup DT Overlay intermediate files as
- appropriate
-Message-ID: <20221118204644.GA1327355-robh@kernel.org>
-References: <20221114205939.27994-1-afd@ti.com>
+        Fri, 18 Nov 2022 15:55:59 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9C6D8A167
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Nov 2022 12:55:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=3E/cYoyzu92Y6AWu73KvJ0mVEJaf
+        DE50kDc/XW0zaU0=; b=Rc0Ignazh7Ny5jE8Ovd/CO23cZfmHmJfbbg8bNJzX8gg
+        aF4BrzSb5wSjyc+PAzCJzBUgumxmA4QaxbtO5ScAzqKkajRXQoOLZ2ovjFhQDnD8
+        GdUxS86BcqJUXlaxMeySKN+UnresOsBQXRQIgXpBs/5aItaP950iHGKRawNao8A=
+Received: (qmail 1904128 invoked from network); 18 Nov 2022 21:55:54 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Nov 2022 21:55:54 +0100
+X-UD-Smtp-Session: l3s3148p1@BpR47sTtPplehh99
+Date:   Fri, 18 Nov 2022 21:55:53 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Duy Nguyen <duy.nguyen.rh@renesas.com>
+Subject: Re: [PATCH RFC 0/6] mmc: renesas_sdhi: add support for DMA end irqs
+Message-ID: <Y3fxWVI/6kvsVdgC@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+        Duy Nguyen <duy.nguyen.rh@renesas.com>
+References: <20221006190452.5316-1-wsa+renesas@sang-engineering.com>
+ <CAPDyKFqA1RtcaGMCQgDsKKju4izHWJRAD12SqqirNm+TWLt_hA@mail.gmail.com>
+ <Y2LBiOqomYJ2E/Gd@shikoro>
+ <CAPDyKFr1UR3QX4X45TmShADDpOEuxnadcvyTGaXLhcxKrAxbow@mail.gmail.com>
+ <Y2QHKcgNOTA8d6aV@shikoro>
+ <TYBPR01MB5341615451524AA587210447D8099@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="SxUxVhIB1EEZjPDT"
 Content-Disposition: inline
-In-Reply-To: <20221114205939.27994-1-afd@ti.com>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <TYBPR01MB5341615451524AA587210447D8099@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Nov 14, 2022 at 02:59:39PM -0600, Andrew Davis wrote:
-> %.dtbo.o and %.dtbo.S files are used to build-in DT Overlay. They should
-> should not be removed by Make or the kernel will be needlessly rebuilt.
-> 
-> These should be removed by "clean" and ignored by git like other
-> intermediate files.
-> 
-> Reported-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> Signed-off-by: Andrew Davis <afd@ti.com>
-> ---
->  .gitignore             | 1 +
->  Makefile               | 4 +++-
->  scripts/Makefile.build | 2 ++
->  3 files changed, 6 insertions(+), 1 deletion(-)
 
-Applied, thanks!
+--SxUxVhIB1EEZjPDT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+
+> Our test team tested this patch series on R-Car E3 board and they didn't =
+observe
+> any regression. So,
+>=20
+> Tested-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
+>=20
+> And, I tested this on R-Car H3 board. So,
+>=20
+> Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+Thank you very much, Shimoda-san! Have a nice weekend.
+
+
+--SxUxVhIB1EEZjPDT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmN38VQACgkQFA3kzBSg
+KbZbsw//QHsq7Tl9fIEUZqcftLL5Tdrd2XN038Lx4QogjWRBTlB7T+WtHmX1NhOl
+vyG+XfRqs0PYXKOezkbFbH8zQxrAMrmzrp0nTGa2nSKf7Kxmx5YeZ/+JL5b2nNbO
++RQjTlmqBPPa37tT3dpXFEHrZXJgQ3i4c+2CoSFyDWk4cEKjaZYfcq4qPE4eCBsm
+IY6fScwRj35NGA2FaHhHzuz3idrEGLcj+9M6YFDwfPa8As8AlDFIYy/ixKqLk9CM
+iSUMKjzLd0bzo69vbh+gsuxylE1jSmp9RvngZ1oxDkxE55O3KvzvjicDf5xCkRgM
+czcswfAddgH4g5d6CxfF/a6Y1ehDMTyrnGKfK3o6GnLxHoBG0xmGYWmxWqiwD0Ww
+7CBS0HND2wc0YjCsB7HvN4CfbPQLh0nqY7Q6T3rPEw1XRmdzJqHk7m4FIVjCXZSK
+tJb8Cr/+J+HKOf4fZnrGtO4i2NuWc8DHUHXjSb9IjTpPP9G2oHxswO6wP9ftBZiP
+ZTnqGjQrLXvtdpYgqP8kdFqDKh8p9JZDl1Ko5iOioWaThfGoUoVFKYNT3CkG14CW
+cDevklGR/xI5HOixO7M1r56YKym69bglP9LDFTeRKiAQsDgJTxCCFxowmK9aC7x0
+FpP694ofCksfYZiseaNTG0aNRQ0utZWYbuq/lWuEHnqCp6zRIIk=
+=dhBf
+-----END PGP SIGNATURE-----
+
+--SxUxVhIB1EEZjPDT--
