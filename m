@@ -2,36 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 003CF62F5C0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Nov 2022 14:17:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C87562F5C1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Nov 2022 14:17:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241817AbiKRNRC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S242018AbiKRNRC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Fri, 18 Nov 2022 08:17:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41692 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242072AbiKRNQy (ORCPT
+        with ESMTP id S242078AbiKRNQ5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Nov 2022 08:16:54 -0500
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 08EF67DECC;
-        Fri, 18 Nov 2022 05:16:52 -0800 (PST)
+        Fri, 18 Nov 2022 08:16:57 -0500
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0AB9F7CB8B;
+        Fri, 18 Nov 2022 05:16:55 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.96,174,1665414000"; 
-   d="scan'208";a="140509800"
+   d="scan'208";a="143137443"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 18 Nov 2022 22:16:52 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 18 Nov 2022 22:16:55 +0900
 Received: from localhost.localdomain (unknown [10.226.92.26])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E525E43651B2;
-        Fri, 18 Nov 2022 22:16:49 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B83DC43651B3;
+        Fri, 18 Nov 2022 22:16:52 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+        devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH 1/5] clk: renesas: r9a09g011: Add PWM clock entries
-Date:   Fri, 18 Nov 2022 13:16:37 +0000
-Message-Id: <20221118131641.469238-2-biju.das.jz@bp.renesas.com>
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 2/5] dt-bindings: pwm: Add RZ/V2M PWM binding
+Date:   Fri, 18 Nov 2022 13:16:38 +0000
+Message-Id: <20221118131641.469238-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221118131641.469238-1-biju.das.jz@bp.renesas.com>
 References: <20221118131641.469238-1-biju.das.jz@bp.renesas.com>
@@ -45,48 +49,118 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The PWM IP on the RZ/V2M comes with 16 channels, but the ISP has
-full control of channels 0 to 7, and channel 15, therefore Linux
-is only allowed to use channels 8 to 14.
-
-The PWM channel 15 shares apb clock and reset with PWM{8..14}.
-The reset is deasserted by the bootloader/ISP.
-
-Add PWM{8..14} clocks to CPG driver and mark apb clock as
-critical clock, so that the apb clock will be always on.
+Add device tree bindings for the RZ/V2{M, MA} PWM Timer (PWM).
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/clk/renesas/r9a09g011-cpg.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../bindings/pwm/renesas,rzv2m-pwm.yaml       | 98 +++++++++++++++++++
+ 1 file changed, 98 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rzv2m-pwm.yaml
 
-diff --git a/drivers/clk/renesas/r9a09g011-cpg.c b/drivers/clk/renesas/r9a09g011-cpg.c
-index fbef1b35d254..536725762c61 100644
---- a/drivers/clk/renesas/r9a09g011-cpg.c
-+++ b/drivers/clk/renesas/r9a09g011-cpg.c
-@@ -136,6 +136,14 @@ static const struct rzg2l_mod_clk r9a09g011_mod_clks[] __initconst = {
- 	DEF_MOD("iic_pclk1",	R9A09G011_IIC_PCLK1,	 CLK_SEL_E,    0x424, 12),
- 	DEF_MOD("wdt0_pclk",	R9A09G011_WDT0_PCLK,	 CLK_SEL_E,    0x428, 12),
- 	DEF_MOD("wdt0_clk",	R9A09G011_WDT0_CLK,	 CLK_MAIN,     0x428, 13),
-+	DEF_MOD("pwm8_15_pclk",	R9A09G011_CPERI_GRPF_PCLK, CLK_SEL_E,  0x434, 0),
-+	DEF_MOD("pwm8_clk",	R9A09G011_PWM8_CLK,	 CLK_MAIN,     0x434, 4),
-+	DEF_MOD("pwm9_clk",	R9A09G011_PWM9_CLK,	 CLK_MAIN,     0x434, 5),
-+	DEF_MOD("pwm10_clk",	R9A09G011_PWM10_CLK,	 CLK_MAIN,     0x434, 6),
-+	DEF_MOD("pwm11_clk",	R9A09G011_PWM11_CLK,	 CLK_MAIN,     0x434, 7),
-+	DEF_MOD("pwm12_clk",	R9A09G011_PWM12_CLK,	 CLK_MAIN,     0x434, 8),
-+	DEF_MOD("pwm13_clk",	R9A09G011_PWM13_CLK,	 CLK_MAIN,     0x434, 9),
-+	DEF_MOD("pwm14_clk",	R9A09G011_PWM14_CLK,	 CLK_MAIN,     0x434, 10),
- 	DEF_MOD("urt_pclk",	R9A09G011_URT_PCLK,	 CLK_SEL_E,    0x438, 4),
- 	DEF_MOD("urt0_clk",	R9A09G011_URT0_CLK,	 CLK_SEL_W0,   0x438, 5),
- 	DEF_MOD("ca53",		R9A09G011_CA53_CLK,	 CLK_DIV_A,    0x448, 0),
-@@ -152,6 +160,7 @@ static const struct rzg2l_reset r9a09g011_resets[] = {
- 
- static const unsigned int r9a09g011_crit_mod_clks[] __initconst = {
- 	MOD_CLK_BASE + R9A09G011_CA53_CLK,
-+	MOD_CLK_BASE + R9A09G011_CPERI_GRPF_PCLK,
- 	MOD_CLK_BASE + R9A09G011_GIC_CLK,
- 	MOD_CLK_BASE + R9A09G011_SYC_CNT_CLK,
- 	MOD_CLK_BASE + R9A09G011_URT_PCLK,
+diff --git a/Documentation/devicetree/bindings/pwm/renesas,rzv2m-pwm.yaml b/Documentation/devicetree/bindings/pwm/renesas,rzv2m-pwm.yaml
+new file mode 100644
+index 000000000000..d615213357ad
+--- /dev/null
++++ b/Documentation/devicetree/bindings/pwm/renesas,rzv2m-pwm.yaml
+@@ -0,0 +1,98 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/pwm/renesas,rzv2m-pwm.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas RZ/V2{M, MA} PWM Timer (PWM)
++
++maintainers:
++  - Biju Das <biju.das.jz@bp.renesas.com>
++
++description: |
++  The RZ/V2{M, MA} PWM Timer (PWM) composed of 16 channels. It supports the
++  following functions
++  * The PWM has 24-bit counters which operate at PWM_CLK (48 MHz).
++  * The frequency division ratio for internal counter operation is selectable
++    as PWM_CLK divided by 1, 16, 256, or 2048.
++  * The period as well as the duty cycle is adjustable.
++  * The low-level and high-level order of the PWM signals can be inverted.
++  * The duty cycle of the PWM signal is selectable in the range from 0 to 100%.
++  * The minimum resolution is 20.83 ns.
++  * Three interrupt sources: Rising and falling edges of the PWM signal and
++    clearing of the counter
++  * Counter operation and the bus interface are asynchronous and both can
++    operate independently of the magnitude relationship of the respective
++    clock periods.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - renesas,r9a09g011-pwm  # RZ/V2M
++          - renesas,r9a09g055-pwm  # RZ/V2MA
++      - const: renesas,rzv2m-pwm
++
++  reg:
++    maxItems: 1
++
++  '#pwm-cells':
++    const: 2
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: CPU Peripheral Group F APB clock
++      - description: PWM clock
++
++  clock-names:
++    items:
++      - const: apb
++      - const: pwm
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - power-domains
++
++if:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - renesas,r9a09g055-pwm
++then:
++  required:
++    - resets
++
++allOf:
++  - $ref: pwm.yaml#
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r9a09g011-cpg.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    pwm8: pwm@a4010400 {
++        compatible = "renesas,r9a09g011-pwm", "renesas,rzv2m-pwm";
++        reg = <0xa4010400 0x80>;
++        interrupts = <GIC_SPI 376 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPF_PCLK>,
++                 <&cpg CPG_MOD R9A09G011_PWM8_CLK>;
++        clock-names = "apb", "pwm";
++        power-domains = <&cpg>;
++        #pwm-cells = <2>;
++    };
 -- 
 2.25.1
 
