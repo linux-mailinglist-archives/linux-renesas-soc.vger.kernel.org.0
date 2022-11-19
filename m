@@ -2,152 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 219EA630E49
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 19 Nov 2022 12:10:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71FF3631128
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 19 Nov 2022 22:57:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232216AbiKSLKY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 19 Nov 2022 06:10:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44268 "EHLO
+        id S234641AbiKSV5D (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 19 Nov 2022 16:57:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbiKSLKS (ORCPT
+        with ESMTP id S229635AbiKSV5C (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 19 Nov 2022 06:10:18 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32F3F6B9E9;
-        Sat, 19 Nov 2022 03:10:18 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 99C4960A1F;
-        Sat, 19 Nov 2022 11:10:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 763BCC433C1;
-        Sat, 19 Nov 2022 11:10:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668856217;
-        bh=ene1SzTvsJEbW7r9yE4HzkF6rHfAR+aLIm+4UV/wgpo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AwWwg8hTEvU1lRotHevSh1bppQ+LWfLwM9aU/yyuaFSoeFCmSwjJ4hNXPYNKPqyxF
-         RwoQt69tGMzjEml+0YwDwVnLfETtKSINebD6ZDDIjJG2YZ26iP67zsjgz4cgG6uGnz
-         NeH6bx6FUo9hgiiy06aaBkM2k9pRw5peXY9fXGbpIdefsltNF4FVq05z66zkCjnicj
-         f/YnghTN3aq/ykMs6EmMfO5tnMvkQz4JaZBC1pmyIfU8l5HPFc7Qkk3nYySibldc2a
-         4zm4rXtEkUSkKLdGBy0DoGhHf7XI5Gph/tChnTnqwzMKjNhd3aisTxqnB1pP+2RhuX
-         Z5WZrjjMLqJaQ==
-Date:   Sat, 19 Nov 2022 12:10:11 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
-Cc:     Angel Iglesias <ang.iglesiasg@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Grant Likely <grant.likely@linaro.org>,
-        linux-i2c@vger.kernel.org, kernel@pengutronix.de,
-        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        linux-rpi-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-leds@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-media@vger.kernel.org, patches@opensource.cirrus.com,
-        linux-actions@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, alsa-devel@alsa-project.org,
-        linux-omap@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
-        linux-pm@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
-        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net
-Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Message-ID: <Y3i5kz6IL7tFbVwX@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-        Angel Iglesias <ang.iglesiasg@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Grant Likely <grant.likely@linaro.org>, linux-i2c@vger.kernel.org,
-        kernel@pengutronix.de, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
-        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-        linux-rpi-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-leds@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-media@vger.kernel.org, patches@opensource.cirrus.com,
-        linux-actions@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, alsa-devel@alsa-project.org,
-        linux-omap@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
-        linux-pm@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
-        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+        Sat, 19 Nov 2022 16:57:02 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 215D213DCF
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 19 Nov 2022 13:56:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=fCbTWY3pYrE0/ZwKGY/RnW+Rbnq
+        yZl46OMy/eNyT42s=; b=CcWZ9rLBGyOAsWxs1WS27QAmSH1oBSAj+4aYxP5/lIH
+        2yTEXRka7Jldhz49SufhHNFhqgk6y0MlubWFtjbKQvdcv6CinTaC1xDI18jfhEm3
+        NalM8EtHcSn25yoom05Gw/gKMUQ1qeKw26YrpFIsZEKnD7G2k+TfFNoMSixq9zKc
+        =
+Received: (qmail 2326907 invoked from network); 19 Nov 2022 22:56:56 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Nov 2022 22:56:56 +0100
+X-UD-Smtp-Session: l3s3148p1@Iu9m5tnt1rtehh99
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, Jean Delvare <jdelvare@suse.de>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH i2c-tools] i2cdetect: display more functionality bits with '-F'
+Date:   Sat, 19 Nov 2022 22:56:46 +0100
+Message-Id: <20221119215646.6818-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="xRatB1/o2GNYTDWD"
-Content-Disposition: inline
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Original motivation was to add I2C_FUNC_SLAVE, so users can easily
+find out if their hardware supports being a target. While here, add
+HostNotify and 10-bit addressing as well.
 
---xRatB1/o2GNYTDWD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Hi Uwe,
+Now, we could also add PROTOCOL_MANGLING and NO_START to have them all.
+But I am not sure if they are really helpful for users?
 
-> This series completes all drivers to this new callback (unless I missed
-> something). It's based on current next/master.
+ tools/i2cdetect.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Thanks for this work, really, but oh my poor inbox...
+diff --git a/tools/i2cdetect.c b/tools/i2cdetect.c
+index 066ec82..54b78e2 100644
+--- a/tools/i2cdetect.c
++++ b/tools/i2cdetect.c
+@@ -160,6 +160,12 @@ static const struct func all_func[] = {
+ 	  .name = "I2C Block Write" },
+ 	{ .value = I2C_FUNC_SMBUS_READ_I2C_BLOCK,
+ 	  .name = "I2C Block Read" },
++	{ .value = I2C_FUNC_SMBUS_HOST_NOTIFY,
++	  .name = "SMBus HostNotify" },
++	{ .value = I2C_FUNC_10BIT_ADDR,
++	  .name = "10-bit addressing" },
++	{ .value = I2C_FUNC_SLAVE,
++	  .name = "Target mode" },
+ 	{ .value = 0, .name = "" }
+ };
+ 
+-- 
+2.35.1
 
-> I don't think it's feasable to apply this series in one go, so I ask the
-> maintainers of the changed files to apply via their tree.
-
-This seems reasonable. It would have made sense to send "patch series
-per subsystem" then. So people only see the subset they are interested
-in. I know filename-to-subsys mapping is hardly ever perfect. But in my
-experience, even imperfect, it is more convenient than such a huge patch
-series.
-
-Happy hacking,
-
-   Wolfram
-
-
---xRatB1/o2GNYTDWD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmN4uY8ACgkQFA3kzBSg
-KbYEfw/+L6nVN4bUDqiN6AeU0yv+Wq/oAFkIUgM8TLT/4gzeEwPsCcTwHBaHQFEF
-sO9yZWukjVYlt2YlcEZglBVIAl7Ha17oQfv2HbWzZXl4cv8PEMfodh6PuOpcPuna
-P+RjiB40nPPxUt5hZ7EjiOpqML0Xy9G8X9Uzs5rA4Yt2OSXcGSYhCZb+U/Vygwlo
-VmLhSQhUnluCyhMZlbTn+bnmVCSHW8Bk5YBKOWygj8K7/LRYKfcNKXjMV35OsBix
-3rezawgwT9KZlZ6ABJZ6U/o5Lp91OP/XeUfhMp76fmAOBcrh25HhWcunmbfRNto7
-gsYho2Ov6yLtz3/Gq4gsDB2HULSajZW1behtfyfufpmkyGd8+C5+/uUjfltWtpqm
-qaAL4YC+kjzarFDRKtIINCqlixjh0VUUKCkf6c4IDCNoLD4HW5KGevjvMvG0kJ9S
-ftPKDwBpZ+cMZtpTcYgRQRiEb30VekQVyWM8SL+350sLO2dVhy7tjAX1jTnWZ843
-4L3c6tSTioFtNmuIREzKl4EX2xkZUq6ajI4QeAcleHXAsBKHB5kvDpfKYIfGZ49X
-mvIEEWRaUXGZAyqx2tMBXvuSA2aL+Gk9hrW3cvCHoBh6EkGfa6R4flw7yN0RkYHR
-Fzq+Jpg1jOHfQhNDoZ8yqFo2xQZQpp1oDdVAjW70IRrE5KPvV0k=
-=eSNj
------END PGP SIGNATURE-----
-
---xRatB1/o2GNYTDWD--
