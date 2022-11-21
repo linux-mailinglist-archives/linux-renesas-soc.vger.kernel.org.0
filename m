@@ -2,167 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7812631954
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Nov 2022 06:08:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EEAB63197D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Nov 2022 06:23:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229455AbiKUFI5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Nov 2022 00:08:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33566 "EHLO
+        id S229555AbiKUFXJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Nov 2022 00:23:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229598AbiKUFIx (ORCPT
+        with ESMTP id S229508AbiKUFXJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Nov 2022 00:08:53 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8F7122B06
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 20 Nov 2022 21:08:49 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id u6-20020a17090a5e4600b0021881a8d264so7931443pji.4
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 20 Nov 2022 21:08:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oM4t9dSTJRNYdl1z0tkjCktIi2YLG2NdBqaOTxJOnfw=;
-        b=LWtOZYu4jsTpQIJaiOHNEV7J1U5Hekz/2o745TGAHoP4cneloLCtSQcf2+7QCorM2v
-         /xUrXy8tc3AyizxEql9WLY1OdpX3pQbIVxJtcFYql5RA3M4NDSaLMbPVj5dbObnT+KSU
-         mczGTwZmAOwUux/wZ8ifvi0F01VtKfJ2/n71J43DQXUfTPipabpUdKiLGhjOMu1er+fR
-         qpGgEsviAEicpqjzPwJSF+kZar5OCuUon7HJXQSuacsEE6kvxwtPpgVtTm/A/sLEJVHN
-         qxeu2eQb8ByOQLwRwijUs3sPFsoh7Q/NUQWZepaz/G6oM8gj5IAM41nqgSYfzxRnFHnj
-         8Fkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oM4t9dSTJRNYdl1z0tkjCktIi2YLG2NdBqaOTxJOnfw=;
-        b=HmGd+6S/tJwqqFbK3YtWh+446zKaxZOnR1dJTB1k/yBWLdhotfSZhh2UCl7WC4vWcK
-         OsfTXjtFcS5y3Xow/JnZZ4bDJSDsbP87mDSVCg/gBWctFN8dq/2g+Zkgqpj5L5YyUri6
-         YQuHrzFeeGGPwQqGZP+P7tdVhTE7/JrvQW2LhD0aHDLvAAcPyn8uyK4NaiIhiGIh62Ow
-         FCR/QB6PxZ66VvV0Wt16qCgA8Bmc3R5IOVpe+ZCBScMnVxw5sN0sDcA0LiR+w1oJQCrV
-         fzxYEb4v55JOUHFIHj0cbOTBa/VTS7ehGNDOQCc/KuxRjK5reHYZrpO7pOtJ4OFuFme3
-         OCQg==
-X-Gm-Message-State: ANoB5pn5mqME6i2laqQTxN121w1D+jNm87UuVgNi90fLNcPBUob45VHa
-        Fnzs0VsnBeTr9OYrGVkOUvwoAw==
-X-Google-Smtp-Source: AA0mqf7JM7TMYC6I8OTgp5yVOi9dOvfTXAD2akuhU7ByBbq+4L3OQY/x8/g9Bql+etELz/ggxI+lHw==
-X-Received: by 2002:a17:90a:b706:b0:212:e75b:1602 with SMTP id l6-20020a17090ab70600b00212e75b1602mr18701960pjr.139.1669007329319;
-        Sun, 20 Nov 2022 21:08:49 -0800 (PST)
-Received: from localhost ([122.172.85.60])
-        by smtp.gmail.com with ESMTPSA id z7-20020aa79f87000000b005625d5ae760sm7895356pfr.11.2022.11.20.21.08.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Nov 2022 21:08:48 -0800 (PST)
-Date:   Mon, 21 Nov 2022 10:38:46 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Ilia Lin <ilia.lin@kernel.org>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Yangtao Li <tiny.windzz@gmail.com>, Nishanth Menon <nm@ti.com>,
-        Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Jianjun Wang <jianjun.wang@mediatek.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Javier Martinez Canillas <javier@dowhile0.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Daniel Mack <zonque@gmail.com>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-pci@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Add missing start and/or end of line regex
- anchors
-Message-ID: <20221121050846.m7w52iygltb5xivt@vireshk-i7>
-References: <20221118223728.1721589-1-robh@kernel.org>
+        Mon, 21 Nov 2022 00:23:09 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80BAE2652
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 20 Nov 2022 21:23:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1669008188; x=1700544188;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2tJZaxc6hcXQFG3Xl6ok0NzdbMEIOLmVFQvH2PepKkY=;
+  b=JnEMe6dT5EzQ/SKxEHhD9H6+0fvY/kgYZKGHhQNnEB3iQGpaViqoDS4V
+   RNqRqoDRRt7vchPZZNj9/PGqy+o61F2yro3UaCeCtV6J6mGEhweF76qBz
+   HSXtQxAHEI6uKz4hvV4k0SAC2KTVgmArvJMHVbUTJaWS5D9hw2di2hZxe
+   IofNLU3UM9hyBn+pzylegHdmP+MRNX2II1iEzQsx01jwcSYKoTxgBqWoU
+   CmqHQqoooGHzH4Nu8DS9pUATYGvYYFLr42No4ySe67sGjprlxErQu6oo/
+   aKqKIqn7dMqlNljUdUq9E1uIsXVqVS+ZzzF+uQD2m/N0Mc7eDKjbWmxXs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="293863227"
+X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; 
+   d="scan'208";a="293863227"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2022 21:22:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="643183867"
+X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; 
+   d="scan'208";a="643183867"
+Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 20 Nov 2022 21:22:57 -0800
+Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1owzGi-0000Ao-20;
+        Mon, 21 Nov 2022 05:22:56 +0000
+Date:   Mon, 21 Nov 2022 13:22:24 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-arm-defconfig-for-v6.2] BUILD
+ SUCCESS fa8eec59570923f4132253e61c45f9d70377f049
+Message-ID: <637b0b10.Naq20KHjOpch+A/P%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221118223728.1721589-1-robh@kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 18-11-22, 16:37, Rob Herring wrote:
-> json-schema patterns by default will match anywhere in a string, so
-> typically we want at least the start or end anchored. Fix the obvious
-> cases where the anchors were forgotten.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../devicetree/bindings/cpufreq/qcom-cpufreq-nvmem.yaml       | 2 +-
->  Documentation/devicetree/bindings/hwmon/adt7475.yaml          | 4 ++--
->  .../bindings/opp/allwinner,sun50i-h6-operating-points.yaml    | 4 ++--
->  .../devicetree/bindings/pci/mediatek,mt7621-pcie.yaml         | 2 +-
->  .../devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml        | 2 +-
->  Documentation/devicetree/bindings/regulator/max8660.yaml      | 2 +-
->  .../devicetree/bindings/regulator/maxim,max77802.yaml         | 2 +-
->  Documentation/devicetree/bindings/regulator/regulator.yaml    | 2 +-
->  .../devicetree/bindings/regulator/rohm,bd9576-regulator.yaml  | 2 +-
->  Documentation/devicetree/bindings/sound/renesas,rsnd.yaml     | 2 +-
->  .../devicetree/bindings/spi/nvidia,tegra210-quad.yaml         | 2 +-
->  11 files changed, 13 insertions(+), 13 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/cpufreq/qcom-cpufreq-nvmem.yaml b/Documentation/devicetree/bindings/cpufreq/qcom-cpufreq-nvmem.yaml
-> index a11e1b867379..3c00ad09eeaa 100644
-> --- a/Documentation/devicetree/bindings/cpufreq/qcom-cpufreq-nvmem.yaml
-> +++ b/Documentation/devicetree/bindings/cpufreq/qcom-cpufreq-nvmem.yaml
-> @@ -38,7 +38,7 @@ properties:
->      type: object
->  
->      patternProperties:
-> -      'cpu@[0-9a-f]+':
-> +      '^cpu@[0-9a-f]+$':
->          type: object
->  
->          properties:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-defconfig-for-v6.2
+branch HEAD: fa8eec59570923f4132253e61c45f9d70377f049  arm64: defconfig: Enable Renesas R-Car S4-8 Spider Ethernet devices
 
-> diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> index 385b0692261c..51f62c3ae194 100644
-> --- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> +++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> @@ -41,7 +41,7 @@ required:
->    - nvmem-cells
->  
->  patternProperties:
-> -  "opp-[0-9]+":
-> +  "^opp-[0-9]+$":
->      type: object
->  
->      properties:
-> @@ -49,7 +49,7 @@ patternProperties:
->        clock-latency-ns: true
->  
->      patternProperties:
-> -      "opp-microvolt-.*": true
-> +      "^opp-microvolt-speed[0-9]$": true
->  
->      required:
->        - opp-hz
+elapsed time: 3610m
 
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+configs tested: 1
+configs skipped: 84
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm64                            allyesconfig
 
 -- 
-viresh
+0-DAY CI Kernel Test Service
+https://01.org/lkp
