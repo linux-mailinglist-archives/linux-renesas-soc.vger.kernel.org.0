@@ -2,69 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 371E6631B6F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Nov 2022 09:30:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91BB1631B7F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Nov 2022 09:34:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230088AbiKUIa1 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Nov 2022 03:30:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56840 "EHLO
+        id S229817AbiKUIeZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Nov 2022 03:34:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230063AbiKUIaZ (ORCPT
+        with ESMTP id S229653AbiKUIeY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Nov 2022 03:30:25 -0500
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C57521C90F;
-        Mon, 21 Nov 2022 00:30:24 -0800 (PST)
-Received: by mail-qk1-f175.google.com with SMTP id g10so7532048qkl.6;
-        Mon, 21 Nov 2022 00:30:24 -0800 (PST)
+        Mon, 21 Nov 2022 03:34:24 -0500
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D1B9167CF;
+        Mon, 21 Nov 2022 00:34:21 -0800 (PST)
+Received: by mail-qk1-f169.google.com with SMTP id d8so7513751qki.13;
+        Mon, 21 Nov 2022 00:34:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8VV82pu5u8NbT9jq7z3fcKpvggpPLbpVY5rhb5eoeVg=;
-        b=Bb5NBp9wH8abyyLYWcWE1Xp9pOY0cZ9tUDBGOZD752xseD2M2kUmxGeCXsejlREc8P
-         L9WZL6QjRF2op0U3LdQJTXgIriFSEeS9gx58rS0HRI/oxdpOy5KftrF9NAcNbyrkWiUh
-         LQvMIEAp+k/2ale0uQkLHsNh+7WF+PRPNYWaTr0UKlOXUYrf96OBq2bZs8CaQ55nY709
-         7lz0flMo+g6BBsnYIBrKainZMw0p9YHG71Rf9x1kF1PDJrXVRhcLChpXkCQubNSenI3d
-         fvQF4CoqkO6OwcbXC1klm4/lQy18DfyE+ZoeAEevwW1vx025Ry71pJ0X+LXauTjfI87a
-         LpxQ==
-X-Gm-Message-State: ANoB5pl7h2o4HX/9+xvwmjnwGUb75sKiTo29h+9fiyBShD2P7X4xnT9k
-        iTNE9ubVaPRfNOvHwVMj+yyjnyqpPaIuPQ==
-X-Google-Smtp-Source: AA0mqf5t78rHQSlm3H2YKV+FU7uqt3YYw7xeOFB19IY7AWRPwvbZlKl7EYQf8K8JuUR+rr3CXZ1rfg==
-X-Received: by 2002:a37:b1c4:0:b0:6fa:89:6642 with SMTP id a187-20020a37b1c4000000b006fa00896642mr15441239qkf.284.1669019423736;
-        Mon, 21 Nov 2022 00:30:23 -0800 (PST)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id dm53-20020a05620a1d7500b006fbbdc6c68fsm7656744qkb.68.2022.11.21.00.30.21
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v8MgetOy5CnVNmfwc+KbsEuIV70+zhmbk49OeDSi6Pc=;
+        b=F5v+MXOUFlj2H7FZwBqQ9wuU/2NBcy7SG5quyeOooYi5aXsQKX94LP7Emz5gLExVXV
+         uy9f3h8J9iua/ZvEQEQPDHLHYtPv7jZPV1EnYdu2oFUDRrNPU5OxlPsgIX3T1pckiE/U
+         inOR6a0+ialu5UnXq2iMNN1QzAiScn7d+f8dWTviUKqA6g7FVQeDy1t9jsZv5C7eZ5LG
+         nQuRNu1qCs9hfiNTLUZzCFrsJFT1lnqw8s9UIJyKHsJFF3Ct11K6cZE1Qo1vJW4ACD+P
+         JeAiuWo5C8yS6eht52iPB3cXp7Ld7zoV6nCDBe6RGQUPqdanmTgsdxO5E7c2q9PqQIjN
+         eqBg==
+X-Gm-Message-State: ANoB5pmodKfIESvvjVOGKcJHfsrzM8VAWuq/uIWMh5Ck/QkD34hzSkeO
+        fd58XoqgFgGHsfswNrPwYRJDQvO4F+3i6w==
+X-Google-Smtp-Source: AA0mqf4glMGYaG/0ZN1T8zjt1/lDfnJGeND+0VyYva3ucqPH4dv03q0Wpl90BVvQcnGTjK3EA0w/DQ==
+X-Received: by 2002:a05:620a:191a:b0:6fa:774:16e3 with SMTP id bj26-20020a05620a191a00b006fa077416e3mr15410734qkb.46.1669019659994;
+        Mon, 21 Nov 2022 00:34:19 -0800 (PST)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id j6-20020a05620a410600b006fa2dde9db8sm7894288qko.95.2022.11.21.00.34.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Nov 2022 00:30:22 -0800 (PST)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-3704852322fso106536657b3.8;
-        Mon, 21 Nov 2022 00:30:21 -0800 (PST)
-X-Received: by 2002:a05:690c:b81:b0:37e:6806:a5f9 with SMTP id
- ck1-20020a05690c0b8100b0037e6806a5f9mr604336ywb.47.1669019421512; Mon, 21 Nov
- 2022 00:30:21 -0800 (PST)
+        Mon, 21 Nov 2022 00:34:19 -0800 (PST)
+Received: by mail-yb1-f177.google.com with SMTP id k84so12762973ybk.3;
+        Mon, 21 Nov 2022 00:34:19 -0800 (PST)
+X-Received: by 2002:a5b:24b:0:b0:6ca:3b11:8d76 with SMTP id
+ g11-20020a5b024b000000b006ca3b118d76mr16176436ybp.202.1669019659156; Mon, 21
+ Nov 2022 00:34:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20221118224540.619276-1-uwe@kleine-koenig.org> <20221118224540.619276-425-uwe@kleine-koenig.org>
-In-Reply-To: <20221118224540.619276-425-uwe@kleine-koenig.org>
+References: <20221120113457.42010-1-wsa+renesas@sang-engineering.com> <20221120113457.42010-4-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20221120113457.42010-4-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 21 Nov 2022 09:30:10 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXQ3cW2a-SLsKJ7Oot_5ww-D78ainJkb4UBV318vfwrVQ@mail.gmail.com>
-Message-ID: <CAMuHMdXQ3cW2a-SLsKJ7Oot_5ww-D78ainJkb4UBV318vfwrVQ@mail.gmail.com>
-Subject: Re: [PATCH 424/606] mfd: bd9571mwv: Convert to i2c's .probe_new()
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <uwe@kleine-koenig.org>
-Cc:     Angel Iglesias <ang.iglesiasg@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Grant Likely <grant.likely@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Lee Jones <lee@kernel.org>, linux-i2c@vger.kernel.org,
-        kernel@pengutronix.de,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
+Date:   Mon, 21 Nov 2022 09:34:08 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWGYfChJ-jyyKLJVb6q34ZjvDnvb+FdVEzdoTsSR0Oo6w@mail.gmail.com>
+Message-ID: <CAMuHMdWGYfChJ-jyyKLJVb6q34ZjvDnvb+FdVEzdoTsSR0Oo6w@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] mmc: renesas_sdhi: add helper to access quirks
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
@@ -75,13 +65,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Nov 19, 2022 at 1:05 AM Uwe Kleine-König <uwe@kleine-koenig.org> wrote:
-> From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+On Sun, Nov 20, 2022 at 12:52 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Add a macro to check for a quirk because it a) ensures that the check
+> for non-empty 'quirks' struct is not forgotten and b) is easier to read.
+> Convert existing quirk access as well.
 >
-> The probe function doesn't make use of the i2c_device_id * parameter so it
-> can be trivially converted.
->
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
