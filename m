@@ -2,879 +2,293 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86D30632889
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Nov 2022 16:46:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6D5C6328DF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Nov 2022 16:59:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231553AbiKUPq1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Nov 2022 10:46:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45002 "EHLO
+        id S230323AbiKUP7f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Nov 2022 10:59:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232144AbiKUPqG (ORCPT
+        with ESMTP id S231626AbiKUP7e (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Nov 2022 10:46:06 -0500
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F13E4B98F
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Nov 2022 07:45:53 -0800 (PST)
-Received: by mail-pf1-x432.google.com with SMTP id d192so11721861pfd.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Nov 2022 07:45:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=oosB+sWOtrTN6ZKff8yJ9038ylK3+jV2JDq2cJcj4ks=;
-        b=ADVXKtC6Z3vy7MKiczhqMvONQ8MiihRR30PqyX/pOUwrLggA9JTR4LheyktAuHHwjv
-         A26CMb2eivALkXrrBKoCfZdqjHPX+llbshTXIDM4S7kwkggzIasgX9PneSbgKAIOD/L1
-         C7hn8NjcvrZxkvIl+0WtR1T0UryHI+I7vk/kkWVfDUQMtPsqzOOm6QrXU+0knIedEg/U
-         MuCAv/6k57g5cFFhz7a+Qld1DymDzmBAb+gXwLQ+kgd8hZyDu/yIM/+uXVDGlNVEsg9U
-         9eZTcwhCBX/uzqZd40gRGSu2+ItmCLx4Qu2eAxorY9qZMALwJ5mtMSYFFMbixMTgtZqe
-         TziA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oosB+sWOtrTN6ZKff8yJ9038ylK3+jV2JDq2cJcj4ks=;
-        b=kTiXI/h+yXj9B6/CAuAlC9vKz8eWMeDJjaciN1zNAkVz6CFBSKQ9vhhv7PPRQvPJwf
-         qd9Q9AnLkfRKPMRrOPqPB2+3w+WAugp+iDy0EV1OKXrz4oQ2xFbznwXCDh/Mv/3Gi+lV
-         idYHK2UA9QHo1W5Tuu1YwuT1TA+w9qu0PpP6E+d+EhW8FgbTX//wWNJhbamj72AW/pgS
-         SJJpqhLcM9To8NZl+WPJRINFqunu0jb9Y1tGh6vSuZxyj+ZmtsfiqdbKOM607sexl0zQ
-         bmqZeCPl+IRPKVtl48U8NyDGCMIjTjq+UdaKD6SgNK1a/xUVUuSB9cbptg30X4ID+zPK
-         nJ6A==
-X-Gm-Message-State: ANoB5pnAKxdFKfTzOMOW3jmgtzwLYb27NNf//Kqedcv2T+XLh90MPjVv
-        8dHDRmM+mw/WYSVw3eBZVw/iWXhqeTkzkLKf798=
-X-Google-Smtp-Source: AA0mqf73CcoiC6OdFEDyFsV7JzBuIzcN+U5FQ+KpXQiG5vAu0bw1ddikvqS2Vj14YqYWPhu9XNYJwg==
-X-Received: by 2002:aa7:874e:0:b0:56b:e5de:8b4f with SMTP id g14-20020aa7874e000000b0056be5de8b4fmr1187810pfo.67.1669045552041;
-        Mon, 21 Nov 2022 07:45:52 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id c17-20020a170902d49100b00187033cac81sm10066589plg.145.2022.11.21.07.45.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Nov 2022 07:45:51 -0800 (PST)
-Message-ID: <637b9d2f.170a0220.65595.f1b0@mx.google.com>
-Date:   Mon, 21 Nov 2022 07:45:51 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 21 Nov 2022 10:59:34 -0500
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B2ECD14F8;
+        Mon, 21 Nov 2022 07:59:30 -0800 (PST)
+Received: (Authenticated sender: herve.codina@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 0F79420003;
+        Mon, 21 Nov 2022 15:59:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1669046366;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=vIt6AuJ7GIaRWp1llDbgKYyeVQtkl3f5S6lFmrSy6FI=;
+        b=ATmDkAilR0io8E4xeN8WOkQqnr6HsflrhC3AGz/D1hsPKZyqxs89B1pbmOHUe7a0Q1K5fL
+        LFeq/lwxbI6H8wJaPln24ZqQiF8Al2y5/TcRU7ZJv9opEtQ8mFZpUqHR75kfiz1YxFqh/4
+        pCy6hn2xxje11vaz3oKrlUtrBb+KDR1LejmD6MpHz1KaJJeVn7k2LVSnjsOoMOK2RNaopm
+        qKrFBBuMQb0eOBLSnklFqVGNmLX2l9APaNQyVPPKsHF92Kt2kUedAy6wmEknKLCcoTFwvM
+        +hEyDOzYbLIJMJLt2DlwfTuUgKN/cmqoTO49OWpp8i1uzYf3zoldbcMLXmAXXg==
+Date:   Mon, 21 Nov 2022 16:59:21 +0100
+From:   Herve Codina <herve.codina@bootlin.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v2 2/7] dt-bindings: clock: renesas,r9a06g032-sysctrl:
+ Add h2mode property
+Message-ID: <20221121165921.559d6538@bootlin.com>
+In-Reply-To: <d9bd5075-9d06-888d-36a9-911e2d7ec5af@linaro.org>
+References: <20221114111513.1436165-1-herve.codina@bootlin.com>
+        <20221114111513.1436165-3-herve.codina@bootlin.com>
+        <a1a7fdf4-2608-d6c9-7c7a-f8e8fae3a742@linaro.org>
+        <c9a77262-f137-21d9-58af-eb4efb8aadbf@linaro.org>
+        <20221115150417.513955a7@bootlin.com>
+        <20221118112349.7f09eefb@bootlin.com>
+        <d9bd5075-9d06-888d-36a9-911e2d7ec5af@linaro.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: master
-X-Kernelci-Kernel: renesas-devel-2022-11-21-v6.1-rc6
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-Subject: renesas/master baseline: 427 runs,
- 21 regressions (renesas-devel-2022-11-21-v6.1-rc6)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline: 427 runs, 21 regressions (renesas-devel-2022-11-21=
--v6.1-rc6)
-
-Regressions Summary
--------------------
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6dl-riotboard             | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-imx6qp-wandboard-revd1       | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defconfig+crypto    | 1          =
-
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defc...CONFIG_SMP=3Dn | 1          =
-
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defconfig           | 1          =
-
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defconfig+ima       | 1          =
-
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defc...MB2_KERNEL=3Dy | 1          =
-
-imx7ulp-evk                  | arm   | lab-nxp         | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-kontron-pitx-imx8m           | arm64 | lab-kontron     | gcc-10   | defconf=
-ig+videodec           | 1          =
-
-ox820-clouden...lug-series-3 | arm   | lab-baylibre    | gcc-10   | oxnas_v=
-6_defconfig           | 1          =
-
-qemu_arm-virt-gicv2          | arm   | lab-baylibre    | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-qemu_arm-virt-gicv2          | arm   | lab-broonie     | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-qemu_arm-virt-gicv2-uefi     | arm   | lab-baylibre    | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-qemu_arm-virt-gicv2-uefi     | arm   | lab-broonie     | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-qemu_arm-virt-gicv3          | arm   | lab-baylibre    | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-qemu_arm-virt-gicv3          | arm   | lab-broonie     | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-qemu_arm-virt-gicv3-uefi     | arm   | lab-baylibre    | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-qemu_arm-virt-gicv3-uefi     | arm   | lab-broonie     | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-r8a7743-iwg20d-q7            | arm   | lab-cip         | gcc-10   | shmobil=
-e_defconfig           | 1          =
-
-sc7180-trogdo...zor-limozeen | arm64 | lab-collabora   | gcc-10   | defconf=
-ig+arm...ook+videodec | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2022-11-21-v6.1-rc6/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2022-11-21-v6.1-rc6
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      2cfa2abd5264510d47f2d4a07621a48c01152209 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6dl-riotboard             | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b725656bc8afbe42abd16
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+debug
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-pengutronix/base=
-line-imx6dl-riotboard.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-pengutronix/base=
-line-imx6dl-riotboard.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b725656bc8afbe42ab=
-d17
-        failing since 10 days (last pass: renesas-devel-2022-09-19-v6.0-rc6=
-, first fail: renesas-devel-2022-11-10-v6.1-rc4) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6qp-wandboard-revd1       | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b6a0d1f2f38a7cb2abd25
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+debug
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-pengutronix/base=
-line-imx6qp-wandboard-revd1.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-pengutronix/base=
-line-imx6qp-wandboard-revd1.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b6a0d1f2f38a7cb2ab=
-d26
-        failing since 10 days (last pass: renesas-devel-2022-09-19-v6.0-rc6=
-, first fail: renesas-devel-2022-11-10-v6.1-rc4) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b87d25c79d847c72abd16
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: imx_v6_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/imx_v6_v7_defconfig/gcc-10/lab-pengutronix/baseline-=
-imx6ul-pico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/imx_v6_v7_defconfig/gcc-10/lab-pengutronix/baseline-=
-imx6ul-pico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b87d25c79d847c72ab=
-d17
-        failing since 195 days (last pass: renesas-devel-2021-12-06-v5.16-r=
-c4-15-g9f95ae4ce1f1, first fail: renesas-devel-2022-05-09-v5.18-rc6) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defconfig+crypto    | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b89da0b0f6027b22abcfb
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+crypto
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+crypto/gcc-10/lab-pengutronix/bas=
-eline-imx6ul-pico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+crypto/gcc-10/lab-pengutronix/bas=
-eline-imx6ul-pico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b89da0b0f6027b22ab=
-cfc
-        failing since 167 days (last pass: renesas-devel-2021-12-06-v5.16-r=
-c4-15-g9f95ae4ce1f1, first fail: renesas-devel-2022-06-06-v5.19-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defc...CONFIG_SMP=3Dn | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b8be262a167bb962abcff
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-pengutr=
-onix/baseline-imx6ul-pico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-pengutr=
-onix/baseline-imx6ul-pico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b8be262a167bb962ab=
-d00
-        failing since 195 days (last pass: renesas-devel-2021-12-06-v5.16-r=
-c4-15-g9f95ae4ce1f1, first fail: renesas-devel-2022-05-09-v5.18-rc6) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defconfig           | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b8c6ecfe333ccf22abd18
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-i=
-mx6ul-pico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-i=
-mx6ul-pico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b8c6ecfe333ccf22ab=
-d19
-        failing since 195 days (last pass: renesas-devel-2021-12-06-v5.16-r=
-c4-15-g9f95ae4ce1f1, first fail: renesas-devel-2022-05-09-v5.18-rc6) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defconfig+ima       | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b91e67d789ecdf12abd09
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+ima
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+ima/gcc-10/lab-pengutronix/baseli=
-ne-imx6ul-pico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+ima/gcc-10/lab-pengutronix/baseli=
-ne-imx6ul-pico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b91e67d789ecdf12ab=
-d0a
-        failing since 154 days (last pass: renesas-devel-2022-06-17-v5.19-r=
-c2, first fail: renesas-devel-2022-06-20-v5.19-rc3) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx6ul-pico-hobbit           | arm   | lab-pengutronix | gcc-10   | multi_v=
-7_defc...MB2_KERNEL=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b9466b103ff3ffe2abd42
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
-ab-pengutronix/baseline-imx6ul-pico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
-ab-pengutronix/baseline-imx6ul-pico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b9466b103ff3ffe2ab=
-d43
-        failing since 167 days (last pass: renesas-devel-2021-12-06-v5.16-r=
-c4-15-g9f95ae4ce1f1, first fail: renesas-devel-2022-06-06-v5.19-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-imx7ulp-evk                  | arm   | lab-nxp         | gcc-10   | imx_v6_=
-v7_defconfig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b7406f3f2e691342abd1e
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: imx_v6_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/imx_v6_v7_defconfig/gcc-10/lab-nxp/baseline-imx7ulp-=
-evk.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/imx_v6_v7_defconfig/gcc-10/lab-nxp/baseline-imx7ulp-=
-evk.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b7406f3f2e691342ab=
-d1f
-        failing since 83 days (last pass: renesas-devel-2022-07-22-v5.19-rc=
-7, first fail: renesas-devel-2022-08-30-v6.0-rc3) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-kontron-pitx-imx8m           | arm64 | lab-kontron     | gcc-10   | defconf=
-ig+videodec           | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b7a095442481a132abd18
-
-  Results:     51 PASS, 1 FAIL, 1 SKIP
-  Full config: defconfig+videodec
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm64/defconfig+videodec/gcc-10/lab-kontron/baseline-kon=
-tron-pitx-imx8m.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm64/defconfig+videodec/gcc-10/lab-kontron/baseline-kon=
-tron-pitx-imx8m.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.dwc3-usb1-probed: https://kernelci.org/test/case/id/637=
-b7a095442481a132abd2b
-        new failure (last pass: renesas-devel-2022-11-17-v6.1-rc5-5-gf68db0=
-d22967)
-
-    2022-11-21T13:15:42.766658  /lava-211135/1/../bin/lava-test-case
-    2022-11-21T13:15:42.767061  <8>[   17.860847] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Ddwc3-usb1-probed RESULT=3Dfail>   =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-ox820-clouden...lug-series-3 | arm   | lab-baylibre    | gcc-10   | oxnas_v=
-6_defconfig           | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b62eee1639a05b02abd41
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: oxnas_v6_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/oxnas_v6_defconfig/gcc-10/lab-baylibre/baseline-ox82=
-0-cloudengines-pogoplug-series-3.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/oxnas_v6_defconfig/gcc-10/lab-baylibre/baseline-ox82=
-0-cloudengines-pogoplug-series-3.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b62eee1639a05b02ab=
-d42
-        failing since 34 days (last pass: renesas-devel-2022-10-04-v6.0, fi=
-rst fail: renesas-devel-2022-10-17-v6.1-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-qemu_arm-virt-gicv2          | arm   | lab-baylibre    | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b69c10962b8e4212abd15
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+debug
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baselin=
-e-qemu_arm-virt-gicv2.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baselin=
-e-qemu_arm-virt-gicv2.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b69c10962b8e4212ab=
-d16
-        failing since 34 days (last pass: renesas-devel-2022-09-27-v6.0-rc7=
-, first fail: renesas-devel-2022-10-17-v6.1-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-qemu_arm-virt-gicv2          | arm   | lab-broonie     | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b793456fcb0fbdf2abd05
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+debug
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline=
--qemu_arm-virt-gicv2.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline=
--qemu_arm-virt-gicv2.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b793456fcb0fbdf2ab=
-d06
-        failing since 34 days (last pass: renesas-devel-2022-09-27-v6.0-rc7=
-, first fail: renesas-devel-2022-10-17-v6.1-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-qemu_arm-virt-gicv2-uefi     | arm   | lab-baylibre    | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b69c284d0246b832abd18
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+debug
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baselin=
-e-qemu_arm-virt-gicv2-uefi.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baselin=
-e-qemu_arm-virt-gicv2-uefi.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b69c284d0246b832ab=
-d19
-        failing since 34 days (last pass: renesas-devel-2022-10-04-v6.0, fi=
-rst fail: renesas-devel-2022-10-17-v6.1-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-qemu_arm-virt-gicv2-uefi     | arm   | lab-broonie     | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b793507ee29fd122abcfb
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+debug
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline=
--qemu_arm-virt-gicv2-uefi.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline=
--qemu_arm-virt-gicv2-uefi.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b793507ee29fd122ab=
-cfc
-        failing since 34 days (last pass: renesas-devel-2022-10-04-v6.0, fi=
-rst fail: renesas-devel-2022-10-17-v6.1-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-qemu_arm-virt-gicv3          | arm   | lab-baylibre    | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b69b06985ab57b82abd46
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+debug
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baselin=
-e-qemu_arm-virt-gicv3.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baselin=
-e-qemu_arm-virt-gicv3.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b69b06985ab57b82ab=
-d47
-        failing since 34 days (last pass: renesas-devel-2022-10-04-v6.0, fi=
-rst fail: renesas-devel-2022-10-17-v6.1-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-qemu_arm-virt-gicv3          | arm   | lab-broonie     | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b794907ee29fd122abd01
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+debug
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline=
--qemu_arm-virt-gicv3.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline=
--qemu_arm-virt-gicv3.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b794907ee29fd122ab=
-d02
-        failing since 34 days (last pass: renesas-devel-2022-10-04-v6.0, fi=
-rst fail: renesas-devel-2022-10-17-v6.1-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-qemu_arm-virt-gicv3-uefi     | arm   | lab-baylibre    | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b69af6985ab57b82abd43
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+debug
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baselin=
-e-qemu_arm-virt-gicv3-uefi.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baselin=
-e-qemu_arm-virt-gicv3-uefi.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b69af6985ab57b82ab=
-d44
-        failing since 34 days (last pass: renesas-devel-2022-10-04-v6.0, fi=
-rst fail: renesas-devel-2022-10-17-v6.1-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-qemu_arm-virt-gicv3-uefi     | arm   | lab-broonie     | gcc-10   | multi_v=
-7_defconfig+debug     | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b78f83124c5e8632abd0a
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+debug
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline=
--qemu_arm-virt-gicv3-uefi.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/multi_v7_defconfig+debug/gcc-10/lab-broonie/baseline=
--qemu_arm-virt-gicv3-uefi.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b78f83124c5e8632ab=
-d0b
-        failing since 34 days (last pass: renesas-devel-2022-10-04-v6.0, fi=
-rst fail: renesas-devel-2022-10-17-v6.1-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-r8a7743-iwg20d-q7            | arm   | lab-cip         | gcc-10   | shmobil=
-e_defconfig           | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b62ac7629c08a5a2abd2b
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: shmobile_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/shmobile_defconfig/gcc-10/lab-cip/baseline-r8a7743-i=
-wg20d-q7.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm/shmobile_defconfig/gcc-10/lab-cip/baseline-r8a7743-i=
-wg20d-q7.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b62ac7629c08a5a2ab=
-d2c
-        failing since 10 days (last pass: renesas-devel-2022-11-01-v6.1-rc3=
-, first fail: renesas-devel-2022-11-10-v6.1-rc4) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig                    | regressions
------------------------------+-------+-----------------+----------+--------=
-----------------------+------------
-sc7180-trogdo...zor-limozeen | arm64 | lab-collabora   | gcc-10   | defconf=
-ig+arm...ook+videodec | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/637b62d8c135204b582abd26
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook+videodec
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm64/defconfig+arm64-chromebook+videodec/gcc-10/lab-col=
-labora/baseline-sc7180-trogdor-lazor-limozeen.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-11-21-v6.1-rc6/arm64/defconfig+arm64-chromebook+videodec/gcc-10/lab-col=
-labora/baseline-sc7180-trogdor-lazor-limozeen.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20221107.1/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/637b62d8c135204b582ab=
-d27
-        new failure (last pass: renesas-devel-2022-11-17-v6.1-rc5-5-gf68db0=
-d22967) =
-
- =20
+Hi,
+
+On Mon, 21 Nov 2022 12:43:16 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+
+> On 18/11/2022 11:23, Herve Codina wrote:
+> > Hi Krzysztof, Geert,
+> >=20
+> > On Tue, 15 Nov 2022 15:04:17 +0100
+> > Herve Codina <herve.codina@bootlin.com> wrote:
+> >  =20
+> >> Hi Krzysztof,
+> >>
+> >> On Tue, 15 Nov 2022 14:07:52 +0100
+> >> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> >> =20
+> >>> On 15/11/2022 14:05, Krzysztof Kozlowski wrote:   =20
+> >>>> On 14/11/2022 12:15, Herve Codina wrote:     =20
+> >>>>> Add the h2mode property to force the USBs mode ie:
+> >>>>>  - 2 hosts
+> >>>>> or
+> >>>>>  - 1 host and 1 device
+> >>>>>
+> >>>>> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> >>>>> ---
+> >>>>>  .../bindings/clock/renesas,r9a06g032-sysctrl.yaml      | 10 ++++++=
+++++
+> >>>>>  1 file changed, 10 insertions(+)
+> >>>>>
+> >>>>> diff --git a/Documentation/devicetree/bindings/clock/renesas,r9a06g=
+032-sysctrl.yaml b/Documentation/devicetree/bindings/clock/renesas,r9a06g03=
+2-sysctrl.yaml
+> >>>>> index 95bf485c6cec..f9e0a58aa4fb 100644
+> >>>>> --- a/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sys=
+ctrl.yaml
+> >>>>> +++ b/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sys=
+ctrl.yaml
+> >>>>> @@ -39,6 +39,16 @@ properties:
+> >>>>>    '#power-domain-cells':
+> >>>>>      const: 0
+> >>>>> =20
+> >>>>> +  renesas,h2mode:
+> >>>>> +    description: |
+> >>>>> +      Configure the USBs mode.
+> >>>>> +        - <0> : the USBs are in 1 host and 1 device mode.
+> >>>>> +        - <1> : the USBs are in 2 host mode.
+> >>>>> +      If the property is not present, the value used is the one al=
+ready present
+> >>>>> +      in the CFG_USB register (from reset or set by the bootloader=
+).
+> >>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+> >>>>> +    enum: [0, 1]     =20
+> >>>>
+> >>>> 0/1 are quite cryptic. Why not making it a string which is easy to r=
+ead
+> >>>> and understand? Can be something like "two-hosts" and "one-host". Or
+> >>>> anything you find more readable...     =20
+> >>>
+> >>> ...but actually you should rather make it a property of your USB
+> >>> controller, not clock controller. You have two controllers and we hav=
+e a
+> >>> generic property for them - dr_mode.
+> >>>
+> >>> Best regards,
+> >>> Krzysztof
+> >>>    =20
+> >>
+> >> IMHO, this property in the USB controllers does not make sense.
+> >> Indeed each controller cannot have a different 'mode'.
+> >> Some controllers are USB host only (EHCI and OHCI) and the USBF
+> >> controller I worked on is device only.
+> >> 'h2mode' allows to choose between host or device on one of the USB
+> >> but not at the USB controller level.
+> >>
+> >> This property should be handle outside the USB controller nodes.
+> >>
+> >> Currently, this node (declared as a clock node) is in fact a sysctrl
+> >> node and can do some configuration not related to clocks.
+> >>
+> >> I agree with you something related to choosing USB Host/Device in
+> >> a clock node seems strange.
+> >>
+> >> Some discussion were already opened related to this property and how
+> >> to handle it:
+> >>   https://lore.kernel.org/all/20221107182642.05a09f2f@bootlin.com/
+> >>   https://lore.kernel.org/all/20221107173614.474707d7@bootlin.com/
+> >> =20
+> >=20
+> > We advanced on this topic.
+> >=20
+> > First, even if 'renesas,r9a06g032-sysctrl.yaml' is present in
+> > the devicetree/bindings/clock/ directory, this node is really
+> > a 'system controller' node:
+> > - title: Renesas RZ/N1D (R9A06G032) System Controller
+> > - compatible: renesas,r9a06g032-sysctrl
+> >=20
+> > It handles clocks, power domains, some DMA routing, ...
+> >=20
+> > Now, the property 'h2mode' allows to choose between:
+> >   - 2 USB hosts
+> > or
+> >   - 1 USB host and 1 USB device.
+> >=20
+> > This switching is system wide and has no reason to be done in
+> > one specific USB controller. It can impact multiple devices and
+> > PLL settings.
+> >=20
+> > The 'renesas,r9a06g032-sysctrl' node, as the system control
+> > node of our system, is the best candidate to handle the property. =20
+>=20
+> Not necessarily. IIUC, you have:
+>=20
+> 1. sysctrl with some register(s) for choosing device mode
+> 2. usb device or host at one address
+> 3. usb host at separate address
+>=20
+
+Just to clarify, usb device and host controller are not provided by
+the same IP.
+We have an USB host at some address range (PCI OHCI/EHCI USB host
+below a PCI bridge) and the USB device at some other address range
+(below a AHB to someting bridge).
+And I am not sure that only USB host or devices are affected by this
+property change.
+
+> If so then:
+> A. Pretty often we have wrapper nodes for this purpose (USB, phy
+> wrappers or glues) which are usually needed to configure something for a
+> generic block (like Synopsys etc).
+>=20
+> B. Pretty often the device (so your USB host or device) needs to poke
+> something in system controller registers, e.g. for power or some other
+> setup.
+
+And we did it for some items (clocks and power).
+
+>=20
+> Your case looks a lot like (B). We have many, many of such examples
+> already. Actually it is exactly like that, except that it affects
+> possibility of another device (e.g. choosing USB device blocks having
+> host there).
+>=20
+> C. It looks a bit like a multi-serial-protocol interfaces (so
+> UART+I2C+SPI). The difference is that such cases have all these nodes
+> defined as a children of the protocol-wrapping device. Not here.
+>=20
+> I would propose to go with (B) unless of course it's causes some crazy
+> architecture/code choices. Why? Because with exception of (C) we should
+> not define properties which represent DT node choices. IOW, Choosing a
+> node and compatible (e.g. usb controller as device) is enough to
+> describe the hardware. No need for other properties to control some
+> register in other block.
+
+The issue with h2mode is that it affects several devices and these
+devices should not be in a "running" state when the h2mode is changed.
+
+PCI devices (host controllers) itself are not described in the DT. They
+are automatically enumerated.
+Changing the property in USB device controller can leads to hang on
+other busses. Indeed, changing this property when a device affected
+by the property is running can lead to a bus hang.
+
+In order to do that from the USB device controller I need to synchronize
+the other devices to wait for this setting before running.
+1) probe sysctrl without setting h2mode
+2) probe some devices (USB host and probably others)
+   Stop at some point and wait for the h2mode property setting.
+3) probe usb device -> Set h2mode property
+4) allow devices waiting for the property setting to continue.
+
+This synchronization seems pretty tricky and what to do if nobody
+set the property (USB device controller not present or status=3D"disabled"
+for instance) ?
+
+Setting this property in sysctrl probe avoid the need for all of this
+synchronization:
+1) probe sysctrl and set h2mode.
+2) probe other devices (no need to wait for the setting as it is already do=
+ne)
+
+The probing of the other devices (or the starting of they running state)
+is guaranteed as they all need some clocks and so cannot start without
+having the sysctrl node already probed.
+This sysctrl node handles the clocks.
+
+So, I think that this property must be set during sysctrl probe call.
+
+
+=46rom the DT point of view, I can put the property in the USB device
+controller node but I have the feeling that, if I do that, I will do
+some ugly things at sysctrl probe such as parsing nodes other than the
+sysctrl one to find the property and set h2mode accordingly :(
+
+>=20
+>=20
+> >=20
+> > In order to be less cryptic in the property value, what do you
+> > think about:
+> >   renesas,h2mode:
+> >     - one-dev : the USBs are in 1 host and 1 device mode.
+> >     - only-hosts : the USBs are in 2 hosts mode. =20
+>=20
+> Name looks better, if we go this path.
+
+Ok, I will take care if we go this path.
+
+>=20
+> >=20
+> > With these details and change on the property value,
+> > Is it ok for you to have the 'renesas,h2mode' property
+> > in the 'renesas,r9a06g032-sysctrl' node ? =20
+>=20
+>=20
+
+Regards,
+Herv=C3=A9
+
+--=20
+Herv=C3=A9 Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
