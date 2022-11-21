@@ -2,81 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EEAB63197D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Nov 2022 06:23:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E34D631B60
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Nov 2022 09:28:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229555AbiKUFXJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Nov 2022 00:23:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41658 "EHLO
+        id S229972AbiKUI2T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Nov 2022 03:28:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbiKUFXJ (ORCPT
+        with ESMTP id S230006AbiKUI2S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Nov 2022 00:23:09 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80BAE2652
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 20 Nov 2022 21:23:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669008188; x=1700544188;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2tJZaxc6hcXQFG3Xl6ok0NzdbMEIOLmVFQvH2PepKkY=;
-  b=JnEMe6dT5EzQ/SKxEHhD9H6+0fvY/kgYZKGHhQNnEB3iQGpaViqoDS4V
-   RNqRqoDRRt7vchPZZNj9/PGqy+o61F2yro3UaCeCtV6J6mGEhweF76qBz
-   HSXtQxAHEI6uKz4hvV4k0SAC2KTVgmArvJMHVbUTJaWS5D9hw2di2hZxe
-   IofNLU3UM9hyBn+pzylegHdmP+MRNX2II1iEzQsx01jwcSYKoTxgBqWoU
-   CmqHQqoooGHzH4Nu8DS9pUATYGvYYFLr42No4ySe67sGjprlxErQu6oo/
-   aKqKIqn7dMqlNljUdUq9E1uIsXVqVS+ZzzF+uQD2m/N0Mc7eDKjbWmxXs
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="293863227"
-X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; 
-   d="scan'208";a="293863227"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2022 21:22:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="643183867"
-X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; 
-   d="scan'208";a="643183867"
-Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Nov 2022 21:22:57 -0800
-Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1owzGi-0000Ao-20;
-        Mon, 21 Nov 2022 05:22:56 +0000
-Date:   Mon, 21 Nov 2022 13:22:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-arm-defconfig-for-v6.2] BUILD
- SUCCESS fa8eec59570923f4132253e61c45f9d70377f049
-Message-ID: <637b0b10.Naq20KHjOpch+A/P%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 21 Nov 2022 03:28:18 -0500
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E4D218394;
+        Mon, 21 Nov 2022 00:28:17 -0800 (PST)
+Received: by mail-qk1-f178.google.com with SMTP id z17so7525611qki.11;
+        Mon, 21 Nov 2022 00:28:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qE1fqBat725e8iz0zzpI2SYT4ym88l39TqTjHkBdTBY=;
+        b=nGdEGdVwp3T7mdBULvMVY0kztwiSGcACLhlXtn9IuiNIQXUf+OsimNkTtb5tSh2Omy
+         pSXBUMyBpdX58IFqmwaTmbw9Cb0QlvFFhiACvWMVEHP4YIy6+NwlPOrIBDtUaT4YMadp
+         TI6XMiRlHTL+6apgogS0euOAa/e0miv6WiwqtD6IeXXFZEVCcydHj+VX6QhGchM9oIq+
+         n48Hv+MDYH8T1PAfzVuhe6rigOeWdnY23MOAla0pc4tDuzI3eAlMuv9kAOq1yOl8Z7yb
+         tDd49oAoHsiVAfclVKrgV76akWFl52Eev8q7PfeZsa3LD2OloY3UUoy0fFYofVbuMnVe
+         REew==
+X-Gm-Message-State: ANoB5pmWQAkJ+ulAisxbdg8em1PyKqAW0g0wiEmtJ6jDwCO1iXY0pwZr
+        kjFs5Dr44zmGA515gtQhjb7OmQ6ttw7cdg==
+X-Google-Smtp-Source: AA0mqf7yHaoZ2lk726iGEjy5SFHitgE/Une/cRIxIRgG81dQYR82uky9Lk7Lirh3fwvLySL0tyfuRQ==
+X-Received: by 2002:a05:620a:22ab:b0:6fa:9fb8:c50b with SMTP id p11-20020a05620a22ab00b006fa9fb8c50bmr15423488qkh.48.1669019295967;
+        Mon, 21 Nov 2022 00:28:15 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id x12-20020ae9e90c000000b006b5cc25535fsm7491653qkf.99.2022.11.21.00.28.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Nov 2022 00:28:15 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id p81so5046875yba.4;
+        Mon, 21 Nov 2022 00:28:15 -0800 (PST)
+X-Received: by 2002:a25:9e84:0:b0:6de:6183:c5c3 with SMTP id
+ p4-20020a259e84000000b006de6183c5c3mr1226421ybq.89.1669019295127; Mon, 21 Nov
+ 2022 00:28:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20221118214556.81763-1-wsa+renesas@sang-engineering.com> <20221118214556.81763-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20221118214556.81763-2-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 21 Nov 2022 09:28:04 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV=+EVsu-f3owgUn=PZUGHyDvxuuVxH1RPMcD0+Q8uvfQ@mail.gmail.com>
+Message-ID: <CAMuHMdV=+EVsu-f3owgUn=PZUGHyDvxuuVxH1RPMcD0+Q8uvfQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] mmc: renesas_sdhi: add helper to access quirks
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-defconfig-for-v6.2
-branch HEAD: fa8eec59570923f4132253e61c45f9d70377f049  arm64: defconfig: Enable Renesas R-Car S4-8 Spider Ethernet devices
+On Fri, Nov 18, 2022 at 10:50 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Add a macro to check for a quirk because it a) ensures that the check
+> for non-empty 'quirks' struct is not forgotten and b) is easier to read.
+> Convert existing quirk access as well.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-elapsed time: 3610m
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-configs tested: 1
-configs skipped: 84
+Gr{oetje,eeting}s,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+                        Geert
 
-gcc tested configs:
-arm64                            allyesconfig
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
