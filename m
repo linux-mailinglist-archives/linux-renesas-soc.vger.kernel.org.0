@@ -2,238 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2C956320FA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Nov 2022 12:44:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD9B863228A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Nov 2022 13:44:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231217AbiKULoZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Nov 2022 06:44:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42262 "EHLO
+        id S230252AbiKUMoM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Nov 2022 07:44:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231433AbiKULn4 (ORCPT
+        with ESMTP id S230317AbiKUMoL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Nov 2022 06:43:56 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C77133C
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Nov 2022 03:43:19 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id be13so18434768lfb.4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Nov 2022 03:43:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eJjIdqBUf7mCDkNqH+fJaGpki5XNddXN56C3IGVthfs=;
-        b=jvsDyTDvEEvKahs+I0jRYw1UOVoegcSDrbK5OOi8YXXwsq7VNyteHXOyXn21Pzxhw+
-         KzPhlop/Xi6XvvE7NiGQF2tTJBNxJmsTGPdk1SmEsQBqzYxMv2JN6+4mQiApfNguPDZO
-         x+QS1bxhl3JqlppiKfBywx/sSkjPDhYlMdiKAZ+FyqVQ85ozSoGDVDo0M26XxpeGnJdm
-         z87SAjvU26Ysw0pnSMJ4+50pu2CXUnDK5W6GG0uI0Bu4hxYZyBULp+dOQoxuDHkvpget
-         o0Ugqy/QRTYMfIKglRY4b82MR6O+SZBgKCTSQBvLTuUD9UCrkSPI0m462w77WLmtxTAu
-         XsXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eJjIdqBUf7mCDkNqH+fJaGpki5XNddXN56C3IGVthfs=;
-        b=Mp3orqde4UGBWGtVGBVIpvyrizQ8FLIPLf/+bckhvgEfriuX1ga+aulot1IR6VS5fJ
-         DPRjWJ+9t9rQQpsYlBbh/6NyUTdkSHT4u9QvLYEsvXW/BnS4xJIA8SUIoXe15ICkrUCz
-         lQTQW+n+XR6nbloZuReflrWawE4codHC2pb1NC2U7Kratb9xTpAspXNVRgKMMVG4F9jQ
-         C+lmErUnBkL/sU8FK9muEY6MF4FGdkz6wi3bQVnM726Po/Q7gDnmfmkCbvPpNM5JsW5L
-         AilYiXLyXwKTQXrf85ML/t0rPYoiy8ifNApEKFjC5btj/et2zKnuxUErRq8Mh0tJ5z/f
-         yk+A==
-X-Gm-Message-State: ANoB5plDHMjq5hp4DZW3oV0Skd+SMznfIVNbnUeXgfpOZ8CPXVbbgcj9
-        buBmpxf3aAdLcPNAwf1uF8DKSg==
-X-Google-Smtp-Source: AA0mqf4LUV1uVk6m74MISW9MOGRH7u8VqLFXDuWZECSkhQDyJLDgHXZotMMipUi7nB4QWKNPRWlPrQ==
-X-Received: by 2002:a05:6512:b17:b0:4b4:b90a:69a1 with SMTP id w23-20020a0565120b1700b004b4b90a69a1mr5108694lfu.76.1669030997603;
-        Mon, 21 Nov 2022 03:43:17 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id w23-20020ac24437000000b0049480c8e7bcsm2001366lfl.176.2022.11.21.03.43.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Nov 2022 03:43:17 -0800 (PST)
-Message-ID: <d9bd5075-9d06-888d-36a9-911e2d7ec5af@linaro.org>
-Date:   Mon, 21 Nov 2022 12:43:16 +0100
+        Mon, 21 Nov 2022 07:44:11 -0500
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D7156BF825;
+        Mon, 21 Nov 2022 04:44:09 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.96,181,1665414000"; 
+   d="scan'208";a="143416637"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 21 Nov 2022 21:44:09 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0800249236FB;
+        Mon, 21 Nov 2022 21:44:09 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
+        bhelgaas@google.com, krzk+dt@kernel.org
+Cc:     marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v7 0/9] PCI: rcar-gen4: Add R-Car Gen4 PCIe support
+Date:   Mon, 21 Nov 2022 21:43:51 +0900
+Message-Id: <20221121124400.1282768-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 2/7] dt-bindings: clock: renesas,r9a06g032-sysctrl: Add
- h2mode property
-Content-Language: en-US
-To:     Herve Codina <herve.codina@bootlin.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-References: <20221114111513.1436165-1-herve.codina@bootlin.com>
- <20221114111513.1436165-3-herve.codina@bootlin.com>
- <a1a7fdf4-2608-d6c9-7c7a-f8e8fae3a742@linaro.org>
- <c9a77262-f137-21d9-58af-eb4efb8aadbf@linaro.org>
- <20221115150417.513955a7@bootlin.com> <20221118112349.7f09eefb@bootlin.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221118112349.7f09eefb@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 18/11/2022 11:23, Herve Codina wrote:
-> Hi Krzysztof, Geert,
-> 
-> On Tue, 15 Nov 2022 15:04:17 +0100
-> Herve Codina <herve.codina@bootlin.com> wrote:
-> 
->> Hi Krzysztof,
->>
->> On Tue, 15 Nov 2022 14:07:52 +0100
->> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
->>
->>> On 15/11/2022 14:05, Krzysztof Kozlowski wrote:  
->>>> On 14/11/2022 12:15, Herve Codina wrote:    
->>>>> Add the h2mode property to force the USBs mode ie:
->>>>>  - 2 hosts
->>>>> or
->>>>>  - 1 host and 1 device
->>>>>
->>>>> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
->>>>> ---
->>>>>  .../bindings/clock/renesas,r9a06g032-sysctrl.yaml      | 10 ++++++++++
->>>>>  1 file changed, 10 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl.yaml b/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl.yaml
->>>>> index 95bf485c6cec..f9e0a58aa4fb 100644
->>>>> --- a/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl.yaml
->>>>> +++ b/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl.yaml
->>>>> @@ -39,6 +39,16 @@ properties:
->>>>>    '#power-domain-cells':
->>>>>      const: 0
->>>>>  
->>>>> +  renesas,h2mode:
->>>>> +    description: |
->>>>> +      Configure the USBs mode.
->>>>> +        - <0> : the USBs are in 1 host and 1 device mode.
->>>>> +        - <1> : the USBs are in 2 host mode.
->>>>> +      If the property is not present, the value used is the one already present
->>>>> +      in the CFG_USB register (from reset or set by the bootloader).
->>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>>>> +    enum: [0, 1]    
->>>>
->>>> 0/1 are quite cryptic. Why not making it a string which is easy to read
->>>> and understand? Can be something like "two-hosts" and "one-host". Or
->>>> anything you find more readable...    
->>>
->>> ...but actually you should rather make it a property of your USB
->>> controller, not clock controller. You have two controllers and we have a
->>> generic property for them - dr_mode.
->>>
->>> Best regards,
->>> Krzysztof
->>>   
->>
->> IMHO, this property in the USB controllers does not make sense.
->> Indeed each controller cannot have a different 'mode'.
->> Some controllers are USB host only (EHCI and OHCI) and the USBF
->> controller I worked on is device only.
->> 'h2mode' allows to choose between host or device on one of the USB
->> but not at the USB controller level.
->>
->> This property should be handle outside the USB controller nodes.
->>
->> Currently, this node (declared as a clock node) is in fact a sysctrl
->> node and can do some configuration not related to clocks.
->>
->> I agree with you something related to choosing USB Host/Device in
->> a clock node seems strange.
->>
->> Some discussion were already opened related to this property and how
->> to handle it:
->>   https://lore.kernel.org/all/20221107182642.05a09f2f@bootlin.com/
->>   https://lore.kernel.org/all/20221107173614.474707d7@bootlin.com/
->>
-> 
-> We advanced on this topic.
-> 
-> First, even if 'renesas,r9a06g032-sysctrl.yaml' is present in
-> the devicetree/bindings/clock/ directory, this node is really
-> a 'system controller' node:
-> - title: Renesas RZ/N1D (R9A06G032) System Controller
-> - compatible: renesas,r9a06g032-sysctrl
-> 
-> It handles clocks, power domains, some DMA routing, ...
-> 
-> Now, the property 'h2mode' allows to choose between:
->   - 2 USB hosts
-> or
->   - 1 USB host and 1 USB device.
-> 
-> This switching is system wide and has no reason to be done in
-> one specific USB controller. It can impact multiple devices and
-> PLL settings.
-> 
-> The 'renesas,r9a06g032-sysctrl' node, as the system control
-> node of our system, is the best candidate to handle the property.
+Add R-Car S4-8 (R-Car Gen4) PCIe Host and Endpoint support.
+To support them, modify PCIe DesignWare common codes.
 
-Not necessarily. IIUC, you have:
+Changes from v6:
+ https://lore.kernel.org/all/20220922080647.3489791-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on next-20221116.
+ -- And based on the following patches:
+    [PATCH v7 00/20] PCI: dwc: Add generic resources and Baikal-T1 support
+    https://lore.kernel.org/linux-pci/20221113191301.5526-1-Sergey.Semin@baikalelectronics.ru/
+    [PATCH v6 00/24] dmaengine: dw-edma: Add RP/EP local DMA controllers support
+    https://lore.kernel.org/linux-pci/20221107210438.1515-1-Sergey.Semin@baikalelectronics.ru/
+ - Update dt-bindings docs for the latest based code.
+ - Add support for triggering legacy IRQs in the patch [06/10] (new).
+ - Add .no_msix flag into the patch [07/10].
+ - Merge .ep_pre_init() support into the patch [08/10].
+ - Add .reserved_bar for BAR5 instead in the patch [08/10].
+ - Change SPDX-License-Identifier from "GPL-2.0" to "GPL-2.0-only".
 
-1. sysctrl with some register(s) for choosing device mode
-2. usb device or host at one address
-3. usb host at separate address
+Changes from v5:
+ https://lore.kernel.org/all/20220905071257.1059436-1-yoshihiro.shimoda.uh@renesas.com/
+ - No treewide patches.
+ - Drop PCI_EXP_LNKCAP_MLW_X32 in patch [03/10].
+ - Add Acked-by in patch [03/10].
+ - Fix subject prefix in patch [04/10], [05/10], [08/10] and [09/10].
+ - Fix typo in patch [05/10] and [07/10].
 
-If so then:
-A. Pretty often we have wrapper nodes for this purpose (USB, phy
-wrappers or glues) which are usually needed to configure something for a
-generic block (like Synopsys etc).
+Yoshihiro Shimoda (9):
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Host
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Endpoint
+  PCI: Add PCI_EXP_LNKCAP_MLW macros
+  PCI: designware-ep: Expose dw_pcie_ep_exit() to module
+  PCI: dwc: Avoid reading a register to detect whether eDMA exists
+  PCI: dwc: Add support for triggering legacy IRQs
+  PCI: rcar-gen4: Add R-Car Gen4 PCIe Host support
+  PCI: rcar-gen4-ep: Add R-Car Gen4 PCIe Endpoint support
+  MAINTAINERS: Update PCI DRIVER FOR RENESAS R-CAR for R-Car Gen4
 
-B. Pretty often the device (so your USB host or device) needs to poke
-something in system controller registers, e.g. for power or some other
-setup.
+ .../bindings/pci/rcar-gen4-pci-ep.yaml        |  90 +++++++++
+ .../bindings/pci/rcar-gen4-pci-host.yaml      |  90 +++++++++
+ MAINTAINERS                                   |   1 +
+ drivers/pci/controller/dwc/Kconfig            |  18 ++
+ drivers/pci/controller/dwc/Makefile           |   4 +
+ .../pci/controller/dwc/pcie-designware-ep.c   |  70 ++++++-
+ .../pci/controller/dwc/pcie-designware-host.c |   3 +
+ drivers/pci/controller/dwc/pcie-designware.c  |  29 ++-
+ drivers/pci/controller/dwc/pcie-designware.h  |  14 +-
+ .../pci/controller/dwc/pcie-rcar-gen4-ep.c    | 182 +++++++++++++++++
+ .../pci/controller/dwc/pcie-rcar-gen4-host.c  | 190 ++++++++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 181 +++++++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.h   |  63 ++++++
+ include/uapi/linux/pci_regs.h                 |   6 +
+ 14 files changed, 923 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-ep.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-host.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.h
 
-Your case looks a lot like (B). We have many, many of such examples
-already. Actually it is exactly like that, except that it affects
-possibility of another device (e.g. choosing USB device blocks having
-host there).
-
-C. It looks a bit like a multi-serial-protocol interfaces (so
-UART+I2C+SPI). The difference is that such cases have all these nodes
-defined as a children of the protocol-wrapping device. Not here.
-
-I would propose to go with (B) unless of course it's causes some crazy
-architecture/code choices. Why? Because with exception of (C) we should
-not define properties which represent DT node choices. IOW, Choosing a
-node and compatible (e.g. usb controller as device) is enough to
-describe the hardware. No need for other properties to control some
-register in other block.
-
-
-> 
-> In order to be less cryptic in the property value, what do you
-> think about:
->   renesas,h2mode:
->     - one-dev : the USBs are in 1 host and 1 device mode.
->     - only-hosts : the USBs are in 2 hosts mode.
-
-Name looks better, if we go this path.
-
-> 
-> With these details and change on the property value,
-> Is it ok for you to have the 'renesas,h2mode' property
-> in the 'renesas,r9a06g032-sysctrl' node ?
-
-
-Best regards,
-Krzysztof
+-- 
+2.25.1
 
