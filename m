@@ -2,156 +2,236 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CB2E633759
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Nov 2022 09:43:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F356633775
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Nov 2022 09:50:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232915AbiKVInB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Nov 2022 03:43:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47104 "EHLO
+        id S232523AbiKVIui (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Nov 2022 03:50:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233003AbiKVImx (ORCPT
+        with ESMTP id S229459AbiKVIui (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Nov 2022 03:42:53 -0500
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1032A197
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Nov 2022 00:42:51 -0800 (PST)
-Received: by mail-lj1-x22d.google.com with SMTP id k19so17179334lji.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Nov 2022 00:42:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U7NY7k+Aa5N9DlhIquG0NmiQoRxU6GJ+N37ltBBWUU4=;
-        b=Py0vsaEjCa1ebI9VbLXGCjZoKNk0awz8348fV82HhXMTl+0Up/DS1w2fXqTJo1Fu5h
-         7tlGWkQh/CldNpiEJXVVjJCywZCfY8CEhWuQ/rAlwxP3cxTvX8J7pCTaMCMWCkt284N6
-         pONkTaqGA1O2GdydkHB1NwZZpjO7wh8aCobZmOrCNSaNe09u+MiYuVk8mH7C+nXNol0T
-         pwhslqdw7WYV9l7rEtfcjJ7hXMrc7RG1dauk24VmPBmt+ei9za3s17jwmUWIVAcGiv6X
-         KEDDuQYof+4vrTWEX+NtDmwVyxRjLQfgG4y/cB/nNvjpu/nABfehARzgDuPI/qA/f1RO
-         6OCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U7NY7k+Aa5N9DlhIquG0NmiQoRxU6GJ+N37ltBBWUU4=;
-        b=r4CGAAilHoCZd25YynHx6hdAPorQYqU+bMK3PDjAEHTS/p9zkY6YXeS22TRLeumWv/
-         SOCjrW0CwjCRunFt2ex+48oi7kVfR4EFBFFy8vu7mjnqjez3+IlD6IOgNLzGR37ABFOm
-         MKUIqUu46TOaQZmNjP0e+VonNuR2u5Z4h+669xMKCWunwvTYqIpMIeDb/PvM4UGbjKwJ
-         vEsfNTJYGHwH3H7Jn8tNvgMm99kxyOLDVaGVJLgPbt0W3qCWlwOq8GnIE+i95ZsVdQgi
-         xaia6VCe88lCHSn7zUnsZ7Q1zNJMc4Tb35GKayu4C5GUaI50ZAlUuF/Gujk6JeWS7QJB
-         OYeg==
-X-Gm-Message-State: ANoB5plUL5HEtjEJj0YkseQ8CFBB94xPdDQmEdx8/v+zNwwYdOE6Cpk+
-        doy0MvFuHu7UQ5rKVTY6CDiSDA==
-X-Google-Smtp-Source: AA0mqf7/UsftI+kuXWw2ZObJffeMs3x/d131N5RP0pQBBjM51jfoAwn6fUl61SAYf6wBK0vyMPAUow==
-X-Received: by 2002:a2e:aa9f:0:b0:277:710f:f973 with SMTP id bj31-20020a2eaa9f000000b00277710ff973mr7123921ljb.74.1669106570016;
-        Tue, 22 Nov 2022 00:42:50 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id t3-20020a2e8e63000000b0026fbac7468bsm1703702ljk.103.2022.11.22.00.42.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Nov 2022 00:42:49 -0800 (PST)
-Message-ID: <191a7f3e-0733-8058-5829-fe170a06dd5a@linaro.org>
-Date:   Tue, 22 Nov 2022 09:42:48 +0100
+        Tue, 22 Nov 2022 03:50:38 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03D7A2EF1F;
+        Tue, 22 Nov 2022 00:50:36 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA91C2D9;
+        Tue, 22 Nov 2022 09:50:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669107033;
+        bh=0LIU7Yu0+sQQZIdQSJg+tK6QGBDqJz8v3pt9mJf7xD4=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Nhb5rPsisWyC2UfZcW3Tkgl2sb7KM1hDNHKh3PNa3Zay2G8JfyqyTm7jVcScgmQWt
+         g6ByN+PBgIZ6U3KHPKv+CSAdRoMGxKMDUUIpInM5jx5rhchZOlLvIXg2SxNtv+ngkf
+         SsS9n0T2ksM5WrqVxt3BuQ6ZWP2PvRfCjSm4ahpA=
+Message-ID: <4481a3fe-63a9-39d5-5394-a2f2639f1bcc@ideasonboard.com>
+Date:   Tue, 22 Nov 2022 10:50:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 2/7] dt-bindings: clock: renesas,r9a06g032-sysctrl: Add
- h2mode property
+Subject: Re: [PATCH v1 7/8] drm: rcar-du: dsi: Add r8A779g0 support
 Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Herve Codina <herve.codina@bootlin.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-References: <20221114111513.1436165-1-herve.codina@bootlin.com>
- <20221114111513.1436165-3-herve.codina@bootlin.com>
- <a1a7fdf4-2608-d6c9-7c7a-f8e8fae3a742@linaro.org>
- <c9a77262-f137-21d9-58af-eb4efb8aadbf@linaro.org>
- <20221115150417.513955a7@bootlin.com> <20221118112349.7f09eefb@bootlin.com>
- <d9bd5075-9d06-888d-36a9-911e2d7ec5af@linaro.org>
- <20221121165921.559d6538@bootlin.com>
- <4e54bfb4-bb67-73b8-f58f-56797c5925d3@linaro.org>
- <CAMuHMdU=-ZUzHSb0Z8P3wsLK9cgGVCPdMi6AcjTH23tUQEeEBA@mail.gmail.com>
- <a3e1332e-fc15-8a78-0ddd-6d5b26197f11@linaro.org>
- <CAMuHMdXzqZB4sKMmroriq5oPp7z=yXiHk=+eQKwSyPhNbYqgYA@mail.gmail.com>
- <1f12883b-1e37-7f2b-f9e9-c8bad290a133@linaro.org>
- <CAMuHMdVbzg8y2So+A=z8nUwHMoL+XKUrvoXp9QdbCnUve1_Atw@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAMuHMdVbzg8y2So+A=z8nUwHMoL+XKUrvoXp9QdbCnUve1_Atw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
+ <20221117122547.809644-8-tomi.valkeinen@ideasonboard.com>
+ <166869996543.50677.17182739414507530884@Monstersaurus>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <166869996543.50677.17182739414507530884@Monstersaurus>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 22/11/2022 09:25, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> On Tue, Nov 22, 2022 at 8:45 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->> On 21/11/2022 21:46, Geert Uytterhoeven wrote:
->>>> This does not change anything. Herve wrote:
->>>>
->>>>> probe some devices (USB host and probably others)
->>>>
->>>> Why some can be probed earlier and some not, if there are no
->>>> dependencies? If there are dependencies, it's the same case with sysctrl
->>>> touching the register bit and the USB controller touching it (as well
->>>> via syscon, but that's obvious, I assume).
->>>>
->>>> Where is the synchronization problem?
->>>
->>> The h2mode bit (and probably a few other controls we haven't figured out
->>> yet) in the sysctrl must be set before any of the USB devices is active.
->>> Hence it's safest for the sysctrl to do this before any of the USB drivers
->>> probes.
+On 17/11/2022 17:46, Kieran Bingham wrote:
+> Quoting Tomi Valkeinen (2022-11-17 12:25:46)
+>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 >>
->> Again, this does not differ from many, many of other devices. All of
->> them must set something in system controller block, before they start
->> operating (or at specific time). It's exactly the same everywhere.
+>> Add DSI support for r8a779g0. The main differences to r8a779a0 are in
+>> the PLL and PHTW setups.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c      | 484 +++++++++++++++----
+>>   drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h |   6 +-
+>>   2 files changed, 384 insertions(+), 106 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+>> index a7f2b7f66a17..723c35726c38 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+>> @@ -9,6 +9,7 @@
+>>   #include <linux/delay.h>
+>>   #include <linux/io.h>
+>>   #include <linux/iopoll.h>
+>> +#include <linux/math64.h>
+>>   #include <linux/module.h>
+>>   #include <linux/of.h>
+>>   #include <linux/of_device.h>
+>> @@ -28,6 +29,20 @@
+>>   #include "rcar_mipi_dsi.h"
+>>   #include "rcar_mipi_dsi_regs.h"
+>>   
+>> +#define MHZ(v) ((v) * 1000000u)
+>> +
+>> +enum rcar_mipi_dsi_hw_model {
+>> +       RCAR_DSI_R8A779A0,
+>> +       RCAR_DSI_R8A779G0,
+>> +};
+>> +
+>> +struct rcar_mipi_dsi_device_info {
+>> +       enum rcar_mipi_dsi_hw_model model;
+>> +       const struct dsi_clk_config *clk_cfg;
+>> +       u8 clockset2_m_offset;
+>> +       u8 clockset2_n_offset;
+>> +};
+>> +
+>>   struct rcar_mipi_dsi {
+>>          struct device *dev;
+>>          const struct rcar_mipi_dsi_device_info *info;
+>> @@ -50,6 +65,17 @@ struct rcar_mipi_dsi {
+>>          unsigned int lanes;
+>>   };
+>>   
+>> +struct dsi_setup_info {
+>> +       unsigned long hsfreq;
+>> +       u16 hsfreqrange;
+>> +
+>> +       unsigned long fout;
+>> +       u16 m;
+>> +       u16 n;
+>> +       u16 vclk_divider;
+>> +       const struct dsi_clk_config *clkset;
+>> +};
+>> +
+>>   static inline struct rcar_mipi_dsi *
+>>   bridge_to_rcar_mipi_dsi(struct drm_bridge *bridge)
+>>   {
+>> @@ -62,22 +88,6 @@ host_to_rcar_mipi_dsi(struct mipi_dsi_host *host)
+>>          return container_of(host, struct rcar_mipi_dsi, host);
+>>   }
+>>   
+>> -static const u32 phtw[] = {
+>> -       0x01020114, 0x01600115, /* General testing */
+>> -       0x01030116, 0x0102011d, /* General testing */
+>> -       0x011101a4, 0x018601a4, /* 1Gbps testing */
+>> -       0x014201a0, 0x010001a3, /* 1Gbps testing */
+>> -       0x0101011f,             /* 1Gbps testing */
+>> -};
+>> -
+>> -static const u32 phtw2[] = {
+>> -       0x010c0130, 0x010c0140, /* General testing */
+>> -       0x010c0150, 0x010c0180, /* General testing */
+>> -       0x010c0190,
+>> -       0x010a0160, 0x010a0170,
+>> -       0x01800164, 0x01800174, /* 1Gbps testing */
+>> -};
+>> -
+>>   static const u32 hsfreqrange_table[][2] = {
+>>          { 80000000U,   0x00 }, { 90000000U,   0x10 }, { 100000000U,  0x20 },
+>>          { 110000000U,  0x30 }, { 120000000U,  0x01 }, { 130000000U,  0x11 },
+>> @@ -103,24 +113,53 @@ static const u32 hsfreqrange_table[][2] = {
+>>          { /* sentinel */ },
+>>   };
+>>   
+>> -struct vco_cntrl_value {
+>> +struct dsi_clk_config {
+>>          u32 min_freq;
+>>          u32 max_freq;
+>> -       u16 value;
+>> +       u8 vco_cntrl;
+>> +       u8 cpbias_cntrl;
+>> +       u8 gmp_cntrl;
+>> +       u8 int_cntrl;
+>> +       u8 prop_cntrl;
+>>   };
+>>   
+>> -static const struct vco_cntrl_value vco_cntrl_table[] = {
+>> -       { .min_freq = 40000000U,   .max_freq = 55000000U,   .value = 0x3f },
+>> -       { .min_freq = 52500000U,   .max_freq = 80000000U,   .value = 0x39 },
+>> -       { .min_freq = 80000000U,   .max_freq = 110000000U,  .value = 0x2f },
+>> -       { .min_freq = 105000000U,  .max_freq = 160000000U,  .value = 0x29 },
+>> -       { .min_freq = 160000000U,  .max_freq = 220000000U,  .value = 0x1f },
+>> -       { .min_freq = 210000000U,  .max_freq = 320000000U,  .value = 0x19 },
+>> -       { .min_freq = 320000000U,  .max_freq = 440000000U,  .value = 0x0f },
+>> -       { .min_freq = 420000000U,  .max_freq = 660000000U,  .value = 0x09 },
+>> -       { .min_freq = 630000000U,  .max_freq = 1149000000U, .value = 0x03 },
+>> -       { .min_freq = 1100000000U, .max_freq = 1152000000U, .value = 0x01 },
+>> -       { .min_freq = 1150000000U, .max_freq = 1250000000U, .value = 0x01 },
+>> +static const struct dsi_clk_config dsi_clk_cfg_r8a779a0[] = {
+>> +       {   40000000u,   55000000u, 0x3f, 0x10, 0x01, 0x00, 0x0b },
+>> +       {   52500000u,   80000000u, 0x39, 0x10, 0x01, 0x00, 0x0b },
+>> +       {   80000000u,  110000000u, 0x2f, 0x10, 0x01, 0x00, 0x0b },
+>> +       {  105000000u,  160000000u, 0x29, 0x10, 0x01, 0x00, 0x0b },
+>> +       {  160000000u,  220000000u, 0x1f, 0x10, 0x01, 0x00, 0x0b },
+>> +       {  210000000u,  320000000u, 0x19, 0x10, 0x01, 0x00, 0x0b },
+>> +       {  320000000u,  440000000u, 0x0f, 0x10, 0x01, 0x00, 0x0b },
+>> +       {  420000000u,  660000000u, 0x09, 0x10, 0x01, 0x00, 0x0b },
+>> +       {  630000000u, 1149000000u, 0x03, 0x10, 0x01, 0x00, 0x0b },
+>> +       { 1100000000u, 1152000000u, 0x01, 0x10, 0x01, 0x00, 0x0b },
+>> +       { 1150000000u, 1250000000u, 0x01, 0x10, 0x01, 0x00, 0x0c },
 > 
-> The issue here is that there are two _different drivers_ (USB host
-> and device). When both are modular, and the driver that depends on the
-> sysctrl setting is loaded second, you have a problem: the sysctrl change
-> must not be done when the first driver is already using the hardware.
+> Sigh ... is it this one 0x0c value that means we need to keep all these
+> entries repeated ? :-S
 > 
-> Hence the sysctrl driver should take care of it itself during early
-> initialization (it's the main clock controller, so it's a dependency
-> for all other I/O device drivers).
+> If it weren't for that, it seems we could keep just two sets of
+>> +       u8 cpbias_cntrl;
+>> +       u8 gmp_cntrl;
+>> +       u8 int_cntrl;
+>> +       u8 prop_cntrl;
+> 
+> One for each of the 9a0, and the 9g0...
+> 
+> But this is fine, and I guess the implication is there may be other
+> future differences to come in other platforms.
+> 
+> It could be refactored then when we have more visibility.
 
-I assumed you have there bit for the first device (which can switch
-between USB host and USB device) to choose appropriate mode. The
-bindings also expressed this - "the USBs are". Never said anything about
-dependency between these USBs.
+Yes, it's not so nice. And afaiu some of these values should really be 
+solved dynamically in the code. But the docs list these tables and don't 
+explain how to come up with those values, so... I think having these 
+tables is the safest way.
 
-Are you saying that the mode for first device cannot be changed once the
-second device (which is only host) is started? IOW, the mode setup must
-happen before any of these devices are started?
+>> @@ -427,8 +671,21 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+>>                  dev_warn(dsi->dev, "unsupported format");
+>>                  return -EINVAL;
+>>          }
+>> -       vclkset |= VCLKSET_COLOR_RGB | VCLKSET_DIV(setup_info.div)
+>> -               |  VCLKSET_LANE(dsi->lanes - 1);
+>> +
+>> +       vclkset |= VCLKSET_COLOR_RGB | VCLKSET_LANE(dsi->lanes - 1);
+>> +
+>> +       switch (dsi->info->model) {
+>> +       case RCAR_DSI_R8A779A0:
+>> +               vclkset |= VCLKSET_DIV_R8A779A0(__ffs(setup_info.vclk_divider));
+>> +               break;
+>> +
+>> +       case RCAR_DSI_R8A779G0:
+>> +               vclkset |= VCLKSET_DIV_R8A779G0(__ffs(setup_info.vclk_divider) - 1);
+> 
+> Why is this a -1 here ? Seems an odd difference compared to the A0.
 
-Anyway with sysctrl approach you will have dependency and you cannot
-rely on clock provider-consumer relationship to order that dependency.
-What if you make all clocks on and do not take any clocks in USB device?
-Broken dependency. What if you want to use this in a different SoC,
-where the sysctrl does not provide clocks? Broken dependency.
+You need to ask the HW designers =). That's how the register is on G0. 
+Field value of 0 means divided by 2.
 
-You have here in such case parent-child dependency, not
-provider-consumer. Just like for all serial-protocol engines (I2C/UART/SPI).
-
-Best regards,
-Krzysztof
+  Tomi
 
