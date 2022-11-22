@@ -2,162 +2,172 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D3D963E08F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Nov 2022 20:18:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C71463E332
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Nov 2022 23:11:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbiK3TS2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Nov 2022 14:18:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35820 "EHLO
+        id S229497AbiK3WLm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Nov 2022 17:11:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbiK3TS1 (ORCPT
+        with ESMTP id S229563AbiK3WLk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Nov 2022 14:18:27 -0500
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8642E8326B;
-        Wed, 30 Nov 2022 11:18:26 -0800 (PST)
-Received: by mail-qt1-f174.google.com with SMTP id y15so3199394qtv.5;
-        Wed, 30 Nov 2022 11:18:26 -0800 (PST)
+        Wed, 30 Nov 2022 17:11:40 -0500
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE7D083265
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Nov 2022 14:11:38 -0800 (PST)
+Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-141ca09c2fbso106844fac.6
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Nov 2022 14:11:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/pCusU2BJ3AKcUs3H3Y2D3hgYCxdx4f+iS/Ul4LVuyU=;
+        b=olgD+zuE0H+I4nks8M+HL18aR6YwnxVl/XgX1xdITkFmdalzZCLz/w40bEle8BJYyE
+         smuiwpALu4k30KMf+QUSyGk8AXGCOBdhkAYXDWljd+ML+2FFgUp2UvI3xST3XM74lbJ4
+         xIVHpORo10eZ4f6GYMmFnFEqKPfLWAF4C0R7juSjQHASET9lcVPC8Ni+xQYezTkXly05
+         WFOdvphGwz+/95JJRfPWHyljZAQtkY2ncpoo7JYDnLVm1w496tJ0dorpAFmdOissrVrk
+         mzIbSe1WvtHtqvzjpFfDx66TQ4qGZgc2SLZOEHXHkq/nUfCf2PRFDK4PU5XJUpo/5ysj
+         /8FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=viurBIMrrjVhVQQ2xklycs4TlNU9Q00m6IkXE2RY5KA=;
-        b=VGNQH2vybvQQRmKlcl6OpXLUxY7ukQzlWh1FGZeBYY8uZAsEr2k/7c7T2U3jvbqR18
-         ALR6/IU5z6LwGmaAczzQU2wrLZTlWz9PnQpKgjQX1BVyPIkrKCNSwAu3cIkvkMJgG1m2
-         82f4xW394JGxQj9CY6wDks74D7KeKpIm8ElpZCoVWpVLIK4rLMbRvMqip5IJxXiRp1Rl
-         HdO/saSmcnH7HEv84mWbYT3PbQVjKf/cQfwxqv94+APn61eJBwquRGeP3V7lkvFHeiKE
-         aPHKy7cIMNTLMh1xPxwKSAi/wSgUvUMQJrNJLIubte9nFm/t86Z0rooEcQecGdA/S0ih
-         hLfw==
-X-Gm-Message-State: ANoB5pkLei6+bjloEarS9SQU4Nt4F02aTj5wA62+NTX/7lKAscd3p/v1
-        gDyL3SqIHztH/0kKzScDk2ENFTRRmR0Tsg==
-X-Google-Smtp-Source: AA0mqf6B7bNKsRDU0//K/zRDE4dKnG0sdM10D1DuUgN4izuhKD3B/I4aEHjxknrHYgBsfJTMbxFwig==
-X-Received: by 2002:ac8:5547:0:b0:3a5:36ab:b870 with SMTP id o7-20020ac85547000000b003a536abb870mr42713392qtr.650.1669835905468;
-        Wed, 30 Nov 2022 11:18:25 -0800 (PST)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id y14-20020a05620a44ce00b006fb7c42e73asm1867827qkp.21.2022.11.30.11.18.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Nov 2022 11:18:23 -0800 (PST)
-Received: by mail-yb1-f174.google.com with SMTP id 7so22840600ybp.13;
-        Wed, 30 Nov 2022 11:18:22 -0800 (PST)
-X-Received: by 2002:a25:bcc6:0:b0:6dd:1c5c:5602 with SMTP id
- l6-20020a25bcc6000000b006dd1c5c5602mr61739204ybm.36.1669835902496; Wed, 30
- Nov 2022 11:18:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20221123065946.40415-1-tomi.valkeinen+renesas@ideasonboard.com> <20221123065946.40415-4-tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20221123065946.40415-4-tomi.valkeinen+renesas@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 30 Nov 2022 20:18:11 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUjCS6q44XmTanu=R68GyuVECLa0B-1AFg1CUD_oV4DuA@mail.gmail.com>
-Message-ID: <CAMuHMdUjCS6q44XmTanu=R68GyuVECLa0B-1AFg1CUD_oV4DuA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/7] clk: renesas: r8a779g0: Add display related clocks
-To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/pCusU2BJ3AKcUs3H3Y2D3hgYCxdx4f+iS/Ul4LVuyU=;
+        b=J2kqfmIZn27OV3Bi32FjIn2FZUmFslX0FD2JIfT0ZKR2wklhq6gn3HUcMBgx99dnu6
+         uj218LWMgrLnMduNa+jPIhIXsb4hYWRM2IVdXd4SPhTPUYlXZsJ6MFoFT1vWt4JmR170
+         p/jggm6JzD9qEQ2ZXBoeRB7bHKjSaX6uEMlxPzGjkGC7bIA00h7LAiVK71YpwPaKFKSU
+         AIGyoMDnlY2SBfsmyk3t3DC86Jp3Nng8Qb3IRjQ3xVzrjDg9eNG6LrecbXJC8eBU0RpL
+         xu0HRm/caH7C7lqyppuqR0hgCm29NjWPMNiC8LRwIykQgfa354+Sif/kdgeBVbRErCk/
+         GgiA==
+X-Gm-Message-State: ANoB5pkspWEsTXHzsELawQuTjW7cv+s3g57mPAilcq/jniATMm+bOfLY
+        FK1Mdl2IUrMrby314dSOfEwjvw==
+X-Google-Smtp-Source: AA0mqf5zf/1QpNqzGWYrGkedQ2NDVBMvpc2HmLZ9CMm4xVmsOqD1pcdFEngAa7tDxhMcrNIT6tePLQ==
+X-Received: by 2002:a05:6870:805:b0:13b:f163:2732 with SMTP id fw5-20020a056870080500b0013bf1632732mr24537280oab.192.1669846298072;
+        Wed, 30 Nov 2022 14:11:38 -0800 (PST)
+Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
+        by smtp.gmail.com with ESMTPSA id y6-20020a544d86000000b00359af7ea8fdsm1094236oix.34.2022.11.30.14.11.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Nov 2022 14:11:37 -0800 (PST)
+Date:   Tue, 22 Nov 2022 09:12:22 -0500
+From:   William Breathitt Gray <william.gray@linaro.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     linux-iio@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v7 3/5] Documentation: ABI: sysfs-bus-counter: add
+ cascade_enable and external_input_phase_clock_select
+Message-ID: <Y3zYxtelBVrdbQ9g@fedora>
+References: <20221124170018.3150687-1-biju.das.jz@bp.renesas.com>
+ <20221124170018.3150687-4-biju.das.jz@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="0GvAFZQ6lniQ9bB2"
+Content-Disposition: inline
+In-Reply-To: <20221124170018.3150687-4-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=1.3 required=5.0 tests=BAYES_00,DATE_IN_PAST_96_XX,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Tomi,
 
-On Wed, Nov 23, 2022 at 8:00 AM Tomi Valkeinen
-<tomi.valkeinen+renesas@ideasonboard.com> wrote:
-> Add clocks related to display which are needed to get the DSI output
-> working.
->
-> Extracted from Renesas BSP tree.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+--0GvAFZQ6lniQ9bB2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your patch!
+On Thu, Nov 24, 2022 at 05:00:16PM +0000, Biju Das wrote:
+> This commit adds cascade_enable and external_input_phase_clock_
+> select items to counter ABI file.
+> (e.g. for Renesas MTU3 hardware used for phase counting).
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-> --- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-> @@ -145,6 +145,8 @@ static const struct cpg_core_clk r8a779g0_core_clks[] __initconst = {
->         DEF_FIXED("viobusd2",   R8A779G0_CLK_VIOBUSD2,  CLK_VIO,        2, 1),
->         DEF_FIXED("vcbus",      R8A779G0_CLK_VCBUS,     CLK_VC,         1, 1),
->         DEF_FIXED("vcbusd2",    R8A779G0_CLK_VCBUSD2,   CLK_VC,         2, 1),
-> +       DEF_FIXED("dsiref",     R8A779G0_CLK_DSIREF,    CLK_PLL5_DIV4,  48, 1),
-> +       DEF_DIV6P1("dsiext",    R8A779G0_CLK_DSIEXT,    CLK_PLL5_DIV4,  0x884),
->
->         DEF_GEN4_SDH("sd0h",    R8A779G0_CLK_SD0H,      CLK_SDSRC,         0x870),
->         DEF_GEN4_SD("sd0",      R8A779G0_CLK_SD0,       R8A779G0_CLK_SD0H, 0x870),
-> @@ -161,6 +163,14 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
->         DEF_MOD("avb0",         211,    R8A779G0_CLK_S0D4_HSC),
->         DEF_MOD("avb1",         212,    R8A779G0_CLK_S0D4_HSC),
->         DEF_MOD("avb2",         213,    R8A779G0_CLK_S0D4_HSC),
-> +
+I have a few comments below left for this patch. Assuming these are
+resolved, then I expect to ack this patch in the next submission.
 
-Weird horizontal and vertical spacing below...
+> ---
+> v6->v7:
+>  * Replaced long_word_access_ctrl_mode->cascade_enable
+>  * Updated Kernel version
+> v5->v6:
+>  * No change
+> v5:
+>  * New patch
+> ---
+>  Documentation/ABI/testing/sysfs-bus-counter | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>=20
+> diff --git a/Documentation/ABI/testing/sysfs-bus-counter b/Documentation/=
+ABI/testing/sysfs-bus-counter
+> index ff83320b4255..abc691b13b0f 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-counter
+> +++ b/Documentation/ABI/testing/sysfs-bus-counter
+> @@ -215,6 +215,22 @@ Contact:	linux-iio@vger.kernel.org
+>  Description:
+>  		This attribute indicates the number of overflows of count Y.
+> =20
+> +What:		/sys/bus/counter/devices/counterX/cascade_enable
 
-> +       DEF_MOD("dis0",                 411,    R8A779G0_CLK_S0D3),
+It's possible that in the future we might cascading other things as
+well, so let's make this name more specific: "cascade_counts_enable".
 
-I doubt this parent clock is correct.
-Based on Table 8.1.4e ("Lists of CPG clocks generated from PLL5"),
-this should be one of the VIOBUS clocks.
-VIOBUSD2 has the same rate as S0D3, so I'd use that one.
+> +KernelVersion:	6.3
+> +Contact:	linux-iio@vger.kernel.org
+> +Description:
+> +		This attribute indicates the cascading of counts on
+> +		counter X.
 
-> +       DEF_MOD("dsitxlink0",           415,    R8A779G0_CLK_DSIREF),
-> +       DEF_MOD("dsitxlink1",           416,    R8A779G0_CLK_DSIREF),
-> +
-> +       DEF_MOD("fcpvd0",               508,    R8A779G0_CLK_S0D3),
-> +       DEF_MOD("fcpvd1",               509,    R8A779G0_CLK_S0D3),
-
-Likewise.
-
-> +
->         DEF_MOD("hscif0",       514,    R8A779G0_CLK_SASYNCPERD1),
->         DEF_MOD("hscif1",       515,    R8A779G0_CLK_SASYNCPERD1),
->         DEF_MOD("hscif2",       516,    R8A779G0_CLK_SASYNCPERD1),
-> @@ -193,6 +203,10 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
->         DEF_MOD("tmu3",         716,    R8A779G0_CLK_SASYNCPERD2),
->         DEF_MOD("tmu4",         717,    R8A779G0_CLK_SASYNCPERD2),
->         DEF_MOD("tpu0",         718,    R8A779G0_CLK_SASYNCPERD4),
-> +
-> +       DEF_MOD("vspd0",                830,    R8A779G0_CLK_S0D1_VIO),
-> +       DEF_MOD("vspd1",                831,    R8A779G0_CLK_S0D1_VIO),
-
-While S0D1_VIO is a VIO clock, it is clocked from PLL1, which supports
-spread-spectrum, unlike PLL5.
-Again, based on Table 8.1.4e ("Lists of CPG clocks generated from
-PLL5"), this should be one of the VIOBUS clocks.
-
-Not that all of this matters a lot: all of these parents are always-on,
-and I think "dis0" is the only clock where we care about the actual
-clock rate?
+Add a line stating this is a boolean attribute: "Valid attribute values
+are boolean."
 
 > +
->         DEF_MOD("wdt1:wdt0",    907,    R8A779G0_CLK_R),
->         DEF_MOD("cmt0",         910,    R8A779G0_CLK_R),
->         DEF_MOD("cmt1",         911,    R8A779G0_CLK_R),
+> +What:		/sys/bus/counter/devices/counterX/external_input_phase_clock_sele=
+ct
+> +KernelVersion:	6.3
+> +Contact:	linux-iio@vger.kernel.org
+> +Description:
+> +		This attribute selects the external clock pin for phase
+> +		counting mode of counter X.
 
-Gr{oetje,eeting}s,
+This is a driver-specific enum attribute so it needs a corresponding
+*_available entry. Take a look at the count_mode_available entry in this
+file and use that as a template to create a new entry block for
+external_input_phase_clock_select_available.
 
-                        Geert
+> +
+> +What:		/sys/bus/counter/devices/counterX/cascade_enable
+> +What:		/sys/bus/counter/devices/counterX/external_input_phase_clock_sele=
+ct
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+These two lines are missing the '_id' suffix: "cascade_enable_id" and
+"external_input_phase_clock_select_id".
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+William Breathitt Gray
+
+>  What:		/sys/bus/counter/devices/counterX/countY/capture_component_id
+>  What:		/sys/bus/counter/devices/counterX/countY/ceiling_component_id
+>  What:		/sys/bus/counter/devices/counterX/countY/floor_component_id
+> --=20
+> 2.25.1
+>=20
+
+--0GvAFZQ6lniQ9bB2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCY3zYxgAKCRC1SFbKvhIj
+Kz9oAP9F+PSra8JOBHkj/x7nPzOH8BvL4duP8H2D0Mj2FWLipgEA36dRN5SqoW+G
+yI4n7OrXnodaMagkzEINkf0c26muSgM=
+=+Yh7
+-----END PGP SIGNATURE-----
+
+--0GvAFZQ6lniQ9bB2--
