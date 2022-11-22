@@ -2,82 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2453B6333BF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Nov 2022 04:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73F70633620
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Nov 2022 08:45:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231675AbiKVDMH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Nov 2022 22:12:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34230 "EHLO
+        id S229750AbiKVHpp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Nov 2022 02:45:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231747AbiKVDMG (ORCPT
+        with ESMTP id S232568AbiKVHpY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Nov 2022 22:12:06 -0500
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B681178B2;
-        Mon, 21 Nov 2022 19:12:05 -0800 (PST)
-Received: from canpemm500007.china.huawei.com (unknown [172.30.72.55])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NGTn06sVmz15Mn8;
-        Tue, 22 Nov 2022 11:11:32 +0800 (CST)
-Received: from [10.174.179.215] (10.174.179.215) by
- canpemm500007.china.huawei.com (7.192.104.62) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 22 Nov 2022 11:12:01 +0800
-Subject: Re: [PATCH -next] crypto: ccree - Fix section mismatch due to
- cc_debugfs_global_fini()
-To:     <s.shtylyov@omp.ru>, <davem@davemloft.net>, <edumazet@google.com>,
-        <kuba@kernel.org>, <pabeni@redhat.com>,
-        <yoshihiro.shimoda.uh@renesas.com>
-CC:     <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20221122030542.23920-1-yuehaibing@huawei.com>
-From:   YueHaibing <yuehaibing@huawei.com>
-Message-ID: <e3a466e7-5c5d-1288-9918-982edf597c24@huawei.com>
-Date:   Tue, 22 Nov 2022 11:12:00 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        Tue, 22 Nov 2022 02:45:24 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84A9631DF7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Nov 2022 23:45:23 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id j4so22404329lfk.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Nov 2022 23:45:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Q4rrJuYa2IECxYwiMtNKNlK59Iea73AY9K3iEfBn864=;
+        b=qI9mYP9YrNMrTKAOvaJOh4GRWwwM/3IgTKmSqgVcJmA7D6iSjNZhRAolaPzQoRu+Wp
+         lbnrAX7sa8i8vvP5uJ3eI76jX6DYCxXUgSf9nwNTjbokm2DNtvEFBdM6Nb2f/ZBmSqp/
+         s/tHvdYJjyyucQGCdSA+MNhfozef7sylRmt16DDk9bsap0MCo0oG1sWZuutDo5oU4jII
+         Ttrms9agzxXacQehSTNOaMzT7NdQgybNevGco8tRCfEl8eFfSP7csmS/sBC3ZrO4dmvE
+         vu1wuC+2dhgtXJtmgu0NoxtDTk44FG5O5OavksNE8A+D3GF3Xr+rV1wvjYwIXbI+S0K2
+         iRVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q4rrJuYa2IECxYwiMtNKNlK59Iea73AY9K3iEfBn864=;
+        b=8N+cAqvzoVYESk3eXAcR7Bm5OXMgbYs7c+H9Cj3kpkV/uHYSe6IHAhLoK5G+upyXJF
+         VXoYleVvvRi6dtFJ3n0GkgZJBucDg18uYmwvMUR8fsDtwPTRHZPtVkJn9vGtQHWtSCJz
+         8JXsErLl1cGMsxRItyWgfsOQyCv+opKQ3KOttObKDCnyK8j9A0lcTTgc+RUETGaPNHYK
+         Zig/FxUgSxUID3qISk4DcuSFQaVHQ+bG65tOZjc+BXLU/f8iEuMYdkv50Zk82+ENg2DX
+         e/c9QDOs+SIPsYItXgZ6aFVjFLTfky3tkXsfTRK0ijRuBO6J9uiUABNdvl48TrPjuSC2
+         3rRw==
+X-Gm-Message-State: ANoB5pm5k0Bcfhrsa7df2eT/rYHc3eeXwLQvBKabE93uHzLfLswzOv3l
+        1Zcd0ic3UhdXqBukk68PyY9fZA==
+X-Google-Smtp-Source: AA0mqf7QDPXGNntVFgiI4Zonhd/+zfJ/KN6RfygStEreI1d2N6+3gTxCPRXsuOKpXmIESg3lrt+hUQ==
+X-Received: by 2002:a19:4f46:0:b0:49f:5ddb:f8af with SMTP id a6-20020a194f46000000b0049f5ddbf8afmr7239230lfk.184.1669103121908;
+        Mon, 21 Nov 2022 23:45:21 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id s1-20020a056512214100b004a45ed1ae21sm2344717lfr.224.2022.11.21.23.45.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Nov 2022 23:45:21 -0800 (PST)
+Message-ID: <1f12883b-1e37-7f2b-f9e9-c8bad290a133@linaro.org>
+Date:   Tue, 22 Nov 2022 08:45:19 +0100
 MIME-Version: 1.0
-In-Reply-To: <20221122030542.23920-1-yuehaibing@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 2/7] dt-bindings: clock: renesas,r9a06g032-sysctrl: Add
+ h2mode property
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Herve Codina <herve.codina@bootlin.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+References: <20221114111513.1436165-1-herve.codina@bootlin.com>
+ <20221114111513.1436165-3-herve.codina@bootlin.com>
+ <a1a7fdf4-2608-d6c9-7c7a-f8e8fae3a742@linaro.org>
+ <c9a77262-f137-21d9-58af-eb4efb8aadbf@linaro.org>
+ <20221115150417.513955a7@bootlin.com> <20221118112349.7f09eefb@bootlin.com>
+ <d9bd5075-9d06-888d-36a9-911e2d7ec5af@linaro.org>
+ <20221121165921.559d6538@bootlin.com>
+ <4e54bfb4-bb67-73b8-f58f-56797c5925d3@linaro.org>
+ <CAMuHMdU=-ZUzHSb0Z8P3wsLK9cgGVCPdMi6AcjTH23tUQEeEBA@mail.gmail.com>
+ <a3e1332e-fc15-8a78-0ddd-6d5b26197f11@linaro.org>
+ <CAMuHMdXzqZB4sKMmroriq5oPp7z=yXiHk=+eQKwSyPhNbYqgYA@mail.gmail.com>
 Content-Language: en-US
-X-Originating-IP: [10.174.179.215]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- canpemm500007.china.huawei.com (7.192.104.62)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAMuHMdXzqZB4sKMmroriq5oPp7z=yXiHk=+eQKwSyPhNbYqgYA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Sorry， Pls ignore this.
+On 21/11/2022 21:46, Geert Uytterhoeven wrote:
+>> This does not change anything. Herve wrote:
+>>
+>>> probe some devices (USB host and probably others)
+>>
+>> Why some can be probed earlier and some not, if there are no
+>> dependencies? If there are dependencies, it's the same case with sysctrl
+>> touching the register bit and the USB controller touching it (as well
+>> via syscon, but that's obvious, I assume).
+>>
+>> Where is the synchronization problem?
+> 
+> The h2mode bit (and probably a few other controls we haven't figured out
+> yet) in the sysctrl must be set before any of the USB devices is active.
+> Hence it's safest for the sysctrl to do this before any of the USB drivers
+> probes.
 
-On 2022/11/22 11:05, YueHaibing wrote:
-> cc_debugfs_global_fini() is marked with __exit now, however it is used
-> in __init ccree_init() for cleanup. Remove the __exit annotation to fix
-> build warning:
->
-> WARNING: modpost: drivers/crypto/ccree/ccree.o: section mismatch in reference: init_module (section: .init.text) -> cc_debugfs_global_fini (section: .exit.text)
->
-> Fixes: 4f1c596df706 ("crypto: ccree - Remove debugfs when platform_driver_register failed")
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> ---
->  drivers/crypto/ccree/cc_debugfs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/crypto/ccree/cc_debugfs.c b/drivers/crypto/ccree/cc_debugfs.c
-> index 7083767602fc..8f008f024f8f 100644
-> --- a/drivers/crypto/ccree/cc_debugfs.c
-> +++ b/drivers/crypto/ccree/cc_debugfs.c
-> @@ -55,7 +55,7 @@ void __init cc_debugfs_global_init(void)
->  	cc_debugfs_dir = debugfs_create_dir("ccree", NULL);
->  }
->  
-> -void __exit cc_debugfs_global_fini(void)
-> +void cc_debugfs_global_fini(void)
->  {
->  	debugfs_remove(cc_debugfs_dir);
->  }
+Again, this does not differ from many, many of other devices. All of
+them must set something in system controller block, before they start
+operating (or at specific time). It's exactly the same everywhere.
+
+Best regards,
+Krzysztof
+
