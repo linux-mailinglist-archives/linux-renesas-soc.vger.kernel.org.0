@@ -2,185 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3F1F633A7C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Nov 2022 11:49:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0823633B61
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Nov 2022 12:31:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233020AbiKVKtH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Nov 2022 05:49:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41636 "EHLO
+        id S233016AbiKVLbT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Nov 2022 06:31:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232672AbiKVKsl (ORCPT
+        with ESMTP id S232526AbiKVLad (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Nov 2022 05:48:41 -0500
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C7221B9C8;
-        Tue, 22 Nov 2022 02:48:03 -0800 (PST)
-Received: by mail-qk1-f172.google.com with SMTP id v8so9908869qkg.12;
-        Tue, 22 Nov 2022 02:48:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FJ2JMQwyOik22IxySZbtvNMc0gxR6KMN5eX+1lUk9qE=;
-        b=RTrTcPzNGvFyESwdcG4h/tCEGDp6+RkzXNM7n0dCsG27c7XCim9KEc7Jz3ke5AVTuS
-         Pi8kXyKupwoPsg0cY347ObfXD4JNFdK1m8L8/bcowgixag6V0tC2YvnUVy+4I4bnLxAG
-         GIO3uNbrxADjUvO4yDC4UfgZaQjIsMqhib6E7S+/lyY26ddcHJlF4MpQ1H9eBkC2lYmO
-         ISj1Ii2IwEPAPMK6l2hJkLhuCwFNCFu4RJ8/gNrsHgO3jCGW6kbkUXYyQMhCN2JwhvsG
-         QeHX00bbjPwYpRv3IgP5VQ8mFqxyOC+0rWBuCg14FfnnAUri7ruGcsLrkXOHrKRSKxKX
-         Qm6A==
-X-Gm-Message-State: ANoB5pnkzj9tpt5+dQ6XOvAEapA422NBY3MpGKwY9oVkE7DAs06usPlK
-        eObYmzNm9+X0HahEWTH59cllYWitMJofoA==
-X-Google-Smtp-Source: AA0mqf48iCG8KTvFv07zsDDyox+Wz16lpl+9Fm0PLPtd1DLXgPugoHG22/HGpzJvdKPOUwvwEC5TnA==
-X-Received: by 2002:a37:e212:0:b0:6cd:f16e:320a with SMTP id g18-20020a37e212000000b006cdf16e320amr20308671qki.495.1669114082001;
-        Tue, 22 Nov 2022 02:48:02 -0800 (PST)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id y19-20020a05620a44d300b006bbf85cad0fsm10369578qkp.20.2022.11.22.02.48.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Nov 2022 02:48:01 -0800 (PST)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-39451671bdfso115107947b3.10;
-        Tue, 22 Nov 2022 02:48:01 -0800 (PST)
-X-Received: by 2002:a0d:fec2:0:b0:36b:56d3:71b8 with SMTP id
- o185-20020a0dfec2000000b0036b56d371b8mr20908152ywf.384.1669114080819; Tue, 22
- Nov 2022 02:48:00 -0800 (PST)
+        Tue, 22 Nov 2022 06:30:33 -0500
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2132.outbound.protection.outlook.com [40.107.114.132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD205DB84;
+        Tue, 22 Nov 2022 03:24:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nmtm7jDJAUt1kylKcX//Sw6YhA1YzH4OqNnXpI2heoYaOLmwxLq/V3xnesLlW8qr+L6GObbX2LmuBE3MzUCJW/jYK+Uuc2ceYnwsoLWLSQHh/SGHvMK+1PCLYUwM8//rizEJuKwbSBZI/HTJm4CX1QtcG+Gjy9dBeIFiRuP7VKmqVPGDBukzy0874+F+atp0SWWucvxXBJSE+AoI/bHg9a/AmwKPhA9vQVtJK/cgxe2QjWdKFGCHJPD60m2hG+SQbR4S0wln8M/KCOP0HNvUr8XniNrPt7dpPvdi4IgPHIKsPRt7Xrk+b6wE/Rgp3/NBmpIAciRJTHVKOwbONKOjTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cAPhASMsKtSRn4sZcQrSYVGunlxzyaJoEwp0Q/qDtBI=;
+ b=UERsmPP7TWHkUHp+4YkXJ446mYPSIMvmzDOkRNNFvWYeWNU0IHSgyriiEwFtJ1cEzcYv8bTtRDIMKucdzLSmstBZLGjsDiWwce2jZNdSgQz4xWEHFYiIYNrGu7gXRLPtNrEkcFofv3Dx67ujOJa8b/8cbQmSiijq2Qv/tQhqf7q/nYSy9uWZoK+WNJ7Y7ILOopweMW7kFgPlGm6kqXPzghDpF+HfLIfnE80DIJe/lohy61bOK9sCoyCv6biCG6Pj6RMLUS1EO01/TeZhq9Atm0Twv/AEjiwFg2MfTqw+TtPlgCVDxZ2l+TeQx2agfqtvHm4vTrmTYDTBrsWVToQfVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cAPhASMsKtSRn4sZcQrSYVGunlxzyaJoEwp0Q/qDtBI=;
+ b=CADWc1mpqldpuD8Dz7LPhrYV6oCV2UCrviS7nkcGDU0wGtWAwHxRIANYXtVgm0MKvas5XOxV+5le6D+7NMzf/aMDWPm2xIjtH77ux+RcX0l/tbGlO8N/a+u56pOKik8W6jjy48umMvLBo6owEyPaLjvL06hOfRJ117Prd8QK61w=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OS3PR01MB6242.jpnprd01.prod.outlook.com (2603:1096:604:f2::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Tue, 22 Nov
+ 2022 11:24:07 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::2cfb:38d2:d52e:c8a3]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::2cfb:38d2:d52e:c8a3%5]) with mapi id 15.20.5834.015; Tue, 22 Nov 2022
+ 11:24:07 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     YueHaibing <yuehaibing@huawei.com>,
+        "s.shtylyov@omp.ru" <s.shtylyov@omp.ru>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH -next] crypto: ccree - Fix section mismatch due to
+ cc_debugfs_global_fini()
+Thread-Topic: [PATCH -next] crypto: ccree - Fix section mismatch due to
+ cc_debugfs_global_fini()
+Thread-Index: AQHY/h9YRqPtEOJ6KEqblHhGr76hl65KRCAAgACI0XA=
+Date:   Tue, 22 Nov 2022 11:24:07 +0000
+Message-ID: <OS0PR01MB59224447AE5AB1A04567EBF2860D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20221122030542.23920-1-yuehaibing@huawei.com>
+ <e3a466e7-5c5d-1288-9918-982edf597c24@huawei.com>
+In-Reply-To: <e3a466e7-5c5d-1288-9918-982edf597c24@huawei.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS3PR01MB6242:EE_
+x-ms-office365-filtering-correlation-id: f3b5fbc4-5def-4fbe-5487-08dacc7c11ce
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 3jOO3iIuDG6ZyA6JT58C8EJMYKFBuKnFJiI95IHYwCzojEM3MwqXEKBzScN0AsplOr7W0o12N68ZVaVRB5kL0DdNCEBRQKmHKM9U2zc6uH6Dw0Bqj6pkF5P6IR/WNXQRoxpLSOSocwWvqwW8D8Db2zZvojhfAZRRIBfbB0trpQ6FydoJDG7BCA2kouQpwExIMycp9fTJZLIClPeg1EYQUXysf56k77mspZwF0kHtQ10EpZyGBdkarLvwObpAJBsw8BCZYTLZysPiA6ezNxBehB3jkmU9tmts7G/YpEuGaPhd3pd06u+DjujoR/Z3vcjylq11QEipfPmkhiqoJdjT6aqCBN8r16+eTp1Y5VgONxioPu/mkFvfz8VwSWwLp1Qr/2qRlUpO9wR9pRTI6fDufUjWQsBBqnbxAwQTUAV3Yyxlpt/AXM4WwTLwLrRV15XExZD9lGQ9ymNeifmZLHIrT6NTAJxG/nZyd03bKyW8ppcDox+BGvIaDKzv58U0z/uLRGuVByGFrGX6fcLoZj+JYiQPPzDqCNPzV2TYI9VN3w18OzrC0dunEVsvC4YomkvS4fwTbetwMprb9xSrRJ5Ng1zT56n5ZURwxUOoj9b676hJMw2Y18Oi/R/EJJFd+KLYpjSknPscz08K3sDCBQrz5/1coyvrFYXi/0O0PCjT/V6ohB+unwkTpGdUaAvsuGb/ua31brwirRvvNqaWqohjxQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(346002)(396003)(39860400002)(376002)(451199015)(122000001)(38100700002)(86362001)(6506007)(8676002)(33656002)(38070700005)(7696005)(53546011)(26005)(186003)(5660300002)(71200400001)(9686003)(316002)(66446008)(76116006)(64756008)(66946007)(110136005)(54906003)(66476007)(478600001)(4326008)(52536014)(83380400001)(66556008)(8936002)(2906002)(41300700001)(55016003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?V1BMMUpoRisrSXVyNE82QkJkMHVjVFgvVit3SUdRdE1BUm9DVEZES2MxVGhD?=
+ =?utf-8?B?UnV4akM0U1d0M0lwa2d4clovYjhEaTBoSDBYdXk4VWZKd1dxSnV1cTJuK3hV?=
+ =?utf-8?B?TzdEeE8vanRKY0I3Q01KZEZ0b3BraVZLOGNVbG5XalNzQ0FFTTRaZDhHZXpU?=
+ =?utf-8?B?SzhHV05NNkRJZHEzRW4zbG9UMzVEQ2xjVk9GckhadVVmNVdzYkNrdU9OalhY?=
+ =?utf-8?B?ZjZKcjdXdTc3Y3JGOUlvUE9yeldNMVZHWVo3QmQrYkNmVU9NbkNoUmdGMkRJ?=
+ =?utf-8?B?MDhoSnhtbHU3VnBrelFQU3ZRN1ZKYlRLa1YvZVNLTElHd1JGRUFvSXRBakVI?=
+ =?utf-8?B?OUNLallGQ2NQb0F6bkNTbjRJMkZqNXNwTzVYRm9MbkJKTDBrdlBGak1qY0ZD?=
+ =?utf-8?B?OE0xR2pIQVJBK0YwUkdpQ1IzVUx6VnZCWlROc0FmUkJ2KytDTldVNTVUakJj?=
+ =?utf-8?B?Z1FpNWRBSXVPWVZsaEdPT09xdlZHaHVUYTIyc0hiT3Bic01FU2k4bGRqNUZt?=
+ =?utf-8?B?NDZsa0NRZ0JSaGhMd1BVdWxpclduUG85VkhMeURpU04zUm1Zb0d2cXVLODZS?=
+ =?utf-8?B?Vm5kcGRWUFlxTUtIWXFJQnB6R1FFL29CKzhycTNVMlJwU1pQTGZYeHB3R2Ny?=
+ =?utf-8?B?ekhCQktIUG1uS3pQcitSS3BzQ0k0TUkyUWY3Rk1zU3VkNkVxNmJ3dGVEQXN5?=
+ =?utf-8?B?OXpFY0M5T004b3FZK3RydWg1RXB4cDM5Y0tLVFV3aGNLWDJybVU3UUhlVGh0?=
+ =?utf-8?B?VlRncnpUWGVIa2VlSFJSY1JtZlc3eUVpN3p1UzBIWTBEUmIzdGo2dzNXY2hr?=
+ =?utf-8?B?ZGk5VTdudDByOGVyNVZkVUtUVHQrcFhvM25uNWhSZDZ1bTdlSVByNFE2djJ3?=
+ =?utf-8?B?KzVmMjlrQ2FCbGhpNzZaRXRoVFZYcnY3bGgzWmMwR1ZtaFdXZE9NWmtJTXJG?=
+ =?utf-8?B?bnhUNFJ6S0p1OWJ1YkdvMStwK2h5TDRKcDJEYXlTcjFnMmJhUmZGK0Vjd2o4?=
+ =?utf-8?B?YVRPbXJxRU95MmxKNkZXUFpjc2phQ3hFd29ZVWFkZDcySHpBa3psRzExVDRk?=
+ =?utf-8?B?eHJEdEVhaTMxWktXZXZUenlMNWpZU08xREVBTE1GZEdiOEMvRE9DOG5LdHRq?=
+ =?utf-8?B?eXZVM0Q4RXllNUJkNUpVVGU1d1dmTklZMG02NnFjWTQ3SEwvT0JyaGRaa0VF?=
+ =?utf-8?B?aERQaUxyWGFZSlZ6cnh4RVhpRXNzeis2K0lMWC9aQWJQa2x4aGdXeFhyeURX?=
+ =?utf-8?B?RDUvWW1idE50eXJwTEEveU5RYzhYcGdTWGtCVjFxM3ZUanE5SHZTempYdkF0?=
+ =?utf-8?B?VkQzWGttSVpWQm5COVF2bVdTbTVxSTZyZlRjU1RHRXlkUVZlalMzZkVlY2Jn?=
+ =?utf-8?B?M1E1Qzh0c1poMkF1dVZQd1lOQ2ZncXE2TXhIc2Zrb1F5NFpPMmFFSkQ5eE9N?=
+ =?utf-8?B?WWVCTnRHNjBybVJKQlpGMHlLTE5FWkdzSG0yb2ZhVGRDZ0dMVkdmNzNYNHlK?=
+ =?utf-8?B?ckRUZkN1NG1ESEFPclhtQk9aMDk5bXQya0FoeE1lQmtTcklmQWFwZHcrYjJ0?=
+ =?utf-8?B?Z3EydmRJR214N2tzQlRGZ1AxZWhab2doSnk1aTJ3YVdtUEpUWGtIYzNWeTF1?=
+ =?utf-8?B?REZETXp4cTBIcVZvUDRYcXVSY014ZDloYm5PNnRVRzJyM205SkJnQWpEaWdj?=
+ =?utf-8?B?dFJZWjdFT2MwSDJQVVpkNU5SMnE0OUQ0WHNLbm5rWnRqZDNScHp1U09yUTVv?=
+ =?utf-8?B?Ykw0VXo1ZlIzREpyVTIvek5rOU02bjk4TkxpQ1VZejBhaEloU1NOS3dxWmlq?=
+ =?utf-8?B?cC95L1BTYWZaeWkvOWVYd0VnN0YzUkp6aGNPTEVkWmx2Mk9iNTJJM1JLZFpM?=
+ =?utf-8?B?VVZpcksydERuZVhUcmJBZDh4UnZaTW1XWitwZ24raUxJYWNudG5HRGwwNkVD?=
+ =?utf-8?B?S1UrZmxLZ2h4QXBzZHlHbXJEQ2ptb01HKzJQL29qQ0tNREpOWDI2ajVMM2NX?=
+ =?utf-8?B?bS9lNGppdFFWcTFpeFhQYlU2SU1iYkc0bUdldFFxREREY2RSSGxvQTVGKy9h?=
+ =?utf-8?B?RUE5c1pHcTNza0JTMHdwK2hYS010dzZ4RVBHUUo2OG8zam9pK1p6bndkS1Zx?=
+ =?utf-8?B?MG40cS9WbmdrYnBDaWQ3dEN2em0rcXk2QnE3MDU3aHA3UFpVS2dYZFR2Yjlm?=
+ =?utf-8?B?TVE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20221114111513.1436165-1-herve.codina@bootlin.com>
- <20221114111513.1436165-3-herve.codina@bootlin.com> <a1a7fdf4-2608-d6c9-7c7a-f8e8fae3a742@linaro.org>
- <c9a77262-f137-21d9-58af-eb4efb8aadbf@linaro.org> <20221115150417.513955a7@bootlin.com>
- <20221118112349.7f09eefb@bootlin.com> <d9bd5075-9d06-888d-36a9-911e2d7ec5af@linaro.org>
- <20221121165921.559d6538@bootlin.com> <4e54bfb4-bb67-73b8-f58f-56797c5925d3@linaro.org>
- <CAMuHMdU=-ZUzHSb0Z8P3wsLK9cgGVCPdMi6AcjTH23tUQEeEBA@mail.gmail.com>
- <a3e1332e-fc15-8a78-0ddd-6d5b26197f11@linaro.org> <CAMuHMdXzqZB4sKMmroriq5oPp7z=yXiHk=+eQKwSyPhNbYqgYA@mail.gmail.com>
- <1f12883b-1e37-7f2b-f9e9-c8bad290a133@linaro.org> <CAMuHMdVbzg8y2So+A=z8nUwHMoL+XKUrvoXp9QdbCnUve1_Atw@mail.gmail.com>
- <191a7f3e-0733-8058-5829-fe170a06dd5a@linaro.org> <20221122100706.739cec4d@bootlin.com>
- <3856e2d8-1c16-a69f-4ac5-34b8e7f18c2b@linaro.org>
-In-Reply-To: <3856e2d8-1c16-a69f-4ac5-34b8e7f18c2b@linaro.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 22 Nov 2022 11:47:49 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXPndkt=+k1CAcDbH7eK=TFfS6wMu+xdqWZSCz1+hyhEA@mail.gmail.com>
-Message-ID: <CAMuHMdXPndkt=+k1CAcDbH7eK=TFfS6wMu+xdqWZSCz1+hyhEA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/7] dt-bindings: clock: renesas,r9a06g032-sysctrl: Add
- h2mode property
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Herve Codina <herve.codina@bootlin.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3b5fbc4-5def-4fbe-5487-08dacc7c11ce
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Nov 2022 11:24:07.2936
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: z/VYlXAPEVKb/lLlQcTcuyWH0cQlMrEzh5P8BdJqFVpQthX6eKOv5cnJIfVs1GXy0Sk7xwhMqv4kTRsyjgCbLDlsYCfh/FaWinAU9uPFM0U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6242
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
-
-On Tue, Nov 22, 2022 at 11:30 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> On 22/11/2022 10:07, Herve Codina wrote:
-> > On Tue, 22 Nov 2022 09:42:48 +0100
-> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> >
-> >> On 22/11/2022 09:25, Geert Uytterhoeven wrote:
-> >>> Hi Krzysztof,
-> >>>
-> >>> On Tue, Nov 22, 2022 at 8:45 AM Krzysztof Kozlowski
-> >>> <krzysztof.kozlowski@linaro.org> wrote:
-> >>>> On 21/11/2022 21:46, Geert Uytterhoeven wrote:
-> >>>>>> This does not change anything. Herve wrote:
-> >>>>>>
-> >>>>>>> probe some devices (USB host and probably others)
-> >>>>>>
-> >>>>>> Why some can be probed earlier and some not, if there are no
-> >>>>>> dependencies? If there are dependencies, it's the same case with sysctrl
-> >>>>>> touching the register bit and the USB controller touching it (as well
-> >>>>>> via syscon, but that's obvious, I assume).
-> >>>>>>
-> >>>>>> Where is the synchronization problem?
-> >>>>>
-> >>>>> The h2mode bit (and probably a few other controls we haven't figured out
-> >>>>> yet) in the sysctrl must be set before any of the USB devices is active.
-> >>>>> Hence it's safest for the sysctrl to do this before any of the USB drivers
-> >>>>> probes.
-> >>>>
-> >>>> Again, this does not differ from many, many of other devices. All of
-> >>>> them must set something in system controller block, before they start
-> >>>> operating (or at specific time). It's exactly the same everywhere.
-> >>>
-> >>> The issue here is that there are two _different drivers_ (USB host
-> >>> and device). When both are modular, and the driver that depends on the
-> >>> sysctrl setting is loaded second, you have a problem: the sysctrl change
-> >>> must not be done when the first driver is already using the hardware.
-> >>>
-> >>> Hence the sysctrl driver should take care of it itself during early
-> >>> initialization (it's the main clock controller, so it's a dependency
-> >>> for all other I/O device drivers).
-> >>
-> >> I assumed you have there bit for the first device (which can switch
-> >> between USB host and USB device) to choose appropriate mode. The
-> >> bindings also expressed this - "the USBs are". Never said anything about
-> >> dependency between these USBs.
-> >>
-> >> Are you saying that the mode for first device cannot be changed once the
-> >> second device (which is only host) is started? IOW, the mode setup must
-> >> happen before any of these devices are started?
-> >>
-> >> Anyway with sysctrl approach you will have dependency and you cannot
-> >> rely on clock provider-consumer relationship to order that dependency.
-> >> What if you make all clocks on and do not take any clocks in USB device?
-> >> Broken dependency. What if you want to use this in a different SoC,
-> >> where the sysctrl does not provide clocks? Broken dependency.
-> >
-> > The issue is really related to the Renesas sysctrl itself and not related
-> > to the USB drivers themselves.
-> > From the drivers themselves, the issue is not seen (I mean the driver
-> > takes no specific action related to this issue).
-> > If we change the SOC, the issue will probably not exist anymore.
->
-> Yeah, and in the next SoC you will bring 10 of such properties to
-> sysctrl arguing that if one was approved, 10 is also fine. Somehow
-> people on the lists like to use that argument - I saw it somewhere, so I
-> am allowed to do here the same.
-
-Like pin control properties? ;-)
-This property represents a wiring on the board...
-I.e. a system integration issue.
-
-> I understand that the registers responsible for configuration are in
-> sysctrl block, but it does not mean that it should be described as part
-> of sysctrl Devicetree node. If there was no synchronization problem,
-> this would be regular example of register in syscon which is handled
-> (toggled) by the device (so USB device/host controller). Since there is
-> synchronization problem, you argue that it is correct representation of
-> hardware. No, it is not, because logically in DT you do not describe
-> mode or existence of other devices in some other node and it still does
-> not describe this ordering.
-
-So we have to drop the property, and let the sysctrl block look
-for <name>@<reg> nodes, and check which ones are enabled?
-
-Running out of ideas...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+PiBTdWJqZWN0OiBSZTogW1BBVENIIC1uZXh0XSBjcnlwdG86IGNjcmVlIC0gRml4IHNlY3Rpb24g
+bWlzbWF0Y2ggZHVlIHRvDQo+IGNjX2RlYnVnZnNfZ2xvYmFsX2ZpbmkoKQ0KPiANCj4gU29ycnnv
+vIwgUGxzIGlnbm9yZSB0aGlzLg0KDQpUaGlzIGlzIHJlYWwgaXNzdWUsIHJpZ2h0Pw0KDQoiV0FS
+TklORzogbW9kcG9zdDogZHJpdmVycy9jcnlwdG8vY2NyZWUvY2NyZWUubzogc2VjdGlvbiBtaXNt
+YXRjaCBpbg0KcmVmZXJlbmNlOiBpbml0X21vZHVsZSAoc2VjdGlvbjogLmluaXQudGV4dCkgLT4g
+Y2NfZGVidWdmc19nbG9iYWxfZmluaQ0KKHNlY3Rpb246IC5leGl0LnRleHQpIg0KDQoNCkxvb2tz
+IGxpa2UgdGhlIGNvbW1pdHRlciBvZiB0aGUgcGF0Y2ggd2l0aG91dCBidWlsZGluZyBzdWJtaXR0
+ZWQgdGhlIHBhdGNoLg0KNGYxYzU5NmRmNzA2ICgiY3J5cHRvOiBjY3JlZSAtIFJlbW92ZSBkZWJ1
+Z2ZzIHdoZW4gcGxhdGZvcm1fZHJpdmVyX3JlZ2lzdGVyIGZhaWxlZCIpDQoNCkNoZWVycywNCkJp
+anUNCg0KDQo+IA0KPiBPbiAyMDIyLzExLzIyIDExOjA1LCBZdWVIYWliaW5nIHdyb3RlOg0KPiA+
+IGNjX2RlYnVnZnNfZ2xvYmFsX2ZpbmkoKSBpcyBtYXJrZWQgd2l0aCBfX2V4aXQgbm93LCBob3dl
+dmVyIGl0IGlzIHVzZWQNCj4gPiBpbiBfX2luaXQgY2NyZWVfaW5pdCgpIGZvciBjbGVhbnVwLiBS
+ZW1vdmUgdGhlIF9fZXhpdCBhbm5vdGF0aW9uIHRvDQo+ID4gZml4IGJ1aWxkIHdhcm5pbmc6DQo+
+ID4NCj4gPiBXQVJOSU5HOiBtb2Rwb3N0OiBkcml2ZXJzL2NyeXB0by9jY3JlZS9jY3JlZS5vOiBz
+ZWN0aW9uIG1pc21hdGNoIGluDQo+ID4gcmVmZXJlbmNlOiBpbml0X21vZHVsZSAoc2VjdGlvbjog
+LmluaXQudGV4dCkgLT4gY2NfZGVidWdmc19nbG9iYWxfZmluaQ0KPiA+IChzZWN0aW9uOiAuZXhp
+dC50ZXh0KQ0KPiA+DQo+ID4gRml4ZXM6IDRmMWM1OTZkZjcwNiAoImNyeXB0bzogY2NyZWUgLSBS
+ZW1vdmUgZGVidWdmcyB3aGVuDQo+ID4gcGxhdGZvcm1fZHJpdmVyX3JlZ2lzdGVyIGZhaWxlZCIp
+DQo+ID4gU2lnbmVkLW9mZi1ieTogWXVlSGFpYmluZyA8eXVlaGFpYmluZ0BodWF3ZWkuY29tPg0K
+PiA+IC0tLQ0KPiA+ICBkcml2ZXJzL2NyeXB0by9jY3JlZS9jY19kZWJ1Z2ZzLmMgfCAyICstDQo+
+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiA+DQo+
+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvY3J5cHRvL2NjcmVlL2NjX2RlYnVnZnMuYw0KPiA+IGIv
+ZHJpdmVycy9jcnlwdG8vY2NyZWUvY2NfZGVidWdmcy5jDQo+ID4gaW5kZXggNzA4Mzc2NzYwMmZj
+Li44ZjAwOGYwMjRmOGYgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9jcnlwdG8vY2NyZWUvY2Nf
+ZGVidWdmcy5jDQo+ID4gKysrIGIvZHJpdmVycy9jcnlwdG8vY2NyZWUvY2NfZGVidWdmcy5jDQo+
+ID4gQEAgLTU1LDcgKzU1LDcgQEAgdm9pZCBfX2luaXQgY2NfZGVidWdmc19nbG9iYWxfaW5pdCh2
+b2lkKQ0KPiA+ICAJY2NfZGVidWdmc19kaXIgPSBkZWJ1Z2ZzX2NyZWF0ZV9kaXIoImNjcmVlIiwg
+TlVMTCk7ICB9DQo+ID4NCj4gPiAtdm9pZCBfX2V4aXQgY2NfZGVidWdmc19nbG9iYWxfZmluaSh2
+b2lkKQ0KPiA+ICt2b2lkIGNjX2RlYnVnZnNfZ2xvYmFsX2Zpbmkodm9pZCkNCj4gPiAgew0KPiA+
+ICAJZGVidWdmc19yZW1vdmUoY2NfZGVidWdmc19kaXIpOw0KPiA+ICB9DQo=
