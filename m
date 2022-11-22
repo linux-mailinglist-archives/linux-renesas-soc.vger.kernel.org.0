@@ -2,156 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 804CA634503
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Nov 2022 20:56:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AF9A6347EE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Nov 2022 21:18:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234670AbiKVT4d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Nov 2022 14:56:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41138 "EHLO
+        id S234799AbiKVUSC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Nov 2022 15:18:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234693AbiKVTz7 (ORCPT
+        with ESMTP id S234791AbiKVURv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Nov 2022 14:55:59 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A9DBB4804;
-        Tue, 22 Nov 2022 11:55:25 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D5FCD1180;
-        Tue, 22 Nov 2022 20:55:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669146924;
-        bh=WzSIMsYU/d0WawMrnTfWGlU2lh42HVvfA1ZXrsZQ8Vo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZjYdwgMsbM8ZAaPlzEDK2CdVIx6eK0fFuLDugYhF3gP6vzmzs8smoGxsGli7mWQOP
-         EMKEKdts/wzBrmMOMz4nLcbkh5v/S32IDK3icQhWFkx9VdSfafCod/sj/SVFPnH1jh
-         7ei384tPz5nsrKmd/S1YbPgr6eT6DJLMeVfNiEPw=
-Date:   Tue, 22 Nov 2022 21:55:08 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH] arm64: dts: renesas: rzg2l-smarc: Enable ADV7535 on
- carrier board
-Message-ID: <Y30pHOylptuMxFgX@pendragon.ideasonboard.com>
-References: <20221122185802.1853648-1-biju.das.jz@bp.renesas.com>
- <Y30j7Q6Jc/y8mGTu@pendragon.ideasonboard.com>
- <OS0PR01MB59224A76B83B9A2318A8D4E9860D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Tue, 22 Nov 2022 15:17:51 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3205CBC17
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Nov 2022 12:17:51 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oxZhX-0006Qx-Bo; Tue, 22 Nov 2022 21:17:03 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oxZhR-005v1B-UM; Tue, 22 Nov 2022 21:16:58 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oxZhS-000s7U-3N; Tue, 22 Nov 2022 21:16:58 +0100
+Date:   Tue, 22 Nov 2022 21:16:54 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+        alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
+        linux-pwm@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+        Lee Jones <lee.jones@linaro.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+        Grant Likely <grant.likely@linaro.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, chrome-platform@lists.linux.dev,
+        linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org,
+        Angel Iglesias <ang.iglesiasg@gmail.com>,
+        gregkh@linuxfoundation.org, linux-rpi-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Purism Kernel Team <kernel@puri.sm>,
+        patches@opensource.cirrus.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+        Wolfram Sang <wsa@kernel.org>, linux-crypto@vger.kernel.org,
+        kernel@pengutronix.de, netdev@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
+Message-ID: <20221122201654.5rdaisqho33buibj@pengutronix.de>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+ <20221122185818.3740200d@jic23-huawei>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="t3mjk627u66tfbb3"
 Content-Disposition: inline
-In-Reply-To: <OS0PR01MB59224A76B83B9A2318A8D4E9860D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221122185818.3740200d@jic23-huawei>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
 
-On Tue, Nov 22, 2022 at 07:41:13PM +0000, Biju Das wrote:
-> > Subject: Re: [PATCH] arm64: dts: renesas: rzg2l-smarc: Enable ADV7535 on
-> > carrier board
-> > 
-> > Hi Biju,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Tue, Nov 22, 2022 at 06:58:02PM +0000, Biju Das wrote:
-> > > Enable ADV7535 (MIPI DSI Receiver with HDMI Transmitter) on RZ/G2L
-> > > SMARC EVK.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > >  arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi | 44
-> > > ++++++++++++++++++++
-> > >  1 file changed, 44 insertions(+)
-> > >
-> > > diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-> > > b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-> > > index e180a955b6ac..01ea8759c192 100644
-> > > --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-> > > @@ -16,12 +16,56 @@ aliases {
-> > >  		serial1 = &scif2;
-> > >  		i2c3 = &i2c3;
-> > >  	};
-> > > +
-> > > +	hdmi-out {
-> > > +		compatible = "hdmi-connector";
-> > > +		type = "d";
-> > > +
-> > > +		port {
-> > > +			hdmi_con_out: endpoint {
-> > > +				remote-endpoint = <&adv7535_out>;
-> > > +			};
-> > > +		};
-> > > +	};
-> > >  };
-> > >
-> > >  &cpu_dai {
-> > >  	sound-dai = <&ssi0>;
-> > >  };
-> > >
-> > > +&i2c1 {
-> > > +	pinctrl-0 = <&i2c1_pins>;
-> > > +	pinctrl-names = "default";
-> > > +
-> > > +	status = "okay";
-> > > +
-> > > +	adv7535: hdmi@3d {
-> > > +		compatible = "adi,adv7535";
-> > > +		reg = <0x3d>;
-> > > +
-> > > +		avdd-supply = <&reg_1p8v>;
-> > > +		dvdd-supply = <&reg_1p8v>;
-> > > +		pvdd-supply = <&reg_1p8v>;
-> > > +		a2vdd-supply = <&reg_1p8v>;
-> > > +		v3p3-supply = <&reg_3p3v>;
-> > > +		v1p2-supply = <&reg_1p8v>;
-> > > +
-> > > +		adi,dsi-lanes = <4>;
-> > > +
-> > > +		ports {
-> > > +			#address-cells = <1>;
-> > > +			#size-cells = <0>;
-> > > +
-> > 
-> > How about port@0 ? That's the DSI input, I expect it should be connected
-> > to the DSI encoder output.
-> 
-> Yes, I will enable DSI node and link with port@0.  Since both RZ/G2L and RZ/V2L
-> uses same Carrier board, I need to send binding patch for RZ/V2L.
-> 
-> dts Patches for enabling DSI for RZ/G2L ready. But V2L there is dependency on bindings.
-> 
-> If you prefer both ports together, then I can defer this later.
+--t3mjk627u66tfbb3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It could be easier to review (not to mention testing). I'll let Geert
-decide.
+On Tue, Nov 22, 2022 at 06:58:18PM +0000, Jonathan Cameron wrote:
+>=20
+> Queued all of the below:
+> with one tweaked as per your suggestion and the highlighted one dropped o=
+n basis
+> I was already carrying the equivalent - as you pointed out.
+>=20
+> I was already carrying the required dependency.
+>=20
+> Includes the IIO ones in staging.
+>=20
+> Thanks,
+>=20
+> Jonathan
+>=20
+> p.s. I perhaps foolishly did this in a highly manual way so as to
+> also pick up Andy's RB.  So might have dropped one...
 
-> > > +			port@1 {
-> > > +				reg = <1>;
-> > > +				adv7535_out: endpoint {
-> > > +					remote-endpoint = <&hdmi_con_out>;
-> > > +				};
-> > > +			};
-> > > +		};
-> > > +	};
-> > > +};
-> > > +
-> > >  &i2c3 {
-> > >  	pinctrl-0 = <&i2c3_pins>;
-> > >  	pinctrl-names = "default";
+You could have done:
 
--- 
-Regards,
+	H=3D$(git rev-parse @)
+	b4 am -P 49-190 20221118224540.619276-1-uwe@kleine-koenig.org
+	git am ...
+	git filter-branch -f --msg-filter "grep -v 'Signed-off-by: Jonathan'; echo=
+ 'Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>'; echo '=
+Signed-off-by: Jonathan Cameron <jic23@kernel.org>'" $H..
 
-Laurent Pinchart
+(untested, but you get the idea).
+
+> Definitely would have been better as one patch per subsystem with
+> a cover letter suitable for replies like Andy's to be picked up
+> by b4.
+
+Next time I will go for one series per subsystem which I like better
+than one patch per subsystem.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--t3mjk627u66tfbb3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmN9LjMACgkQwfwUeK3K
+7An96wf/RMtsCSXVJy8BDrXiXMhey9OEm8p08ulRn0lKYlG54KR8nU/s77uuMjGS
+99aUfUU56Abxk02DuBv6N5Bax8nlFyIlUgkfaYPP9iN1TkF5XiucQ0Se4/haYL4A
+q11UqWIcKBS+5BL3K6Bl1Cqv4dPYpRvs99X3jlU6JmhFqJPPhPgAu0p74arSvLie
+kN6wgOGVdCjZTRD+Z7FxfIQPZqvVo7anPAynyk7XfgTXMSAK80JPR2UeMfvQ7yr2
+W28htsacTaJSnPOb1VIrhN8OytpxASYa120EJ8augNmBXC0IzvjosWI0LZnNljAU
+izPd/d6lzDCP0Mz/LU9QCBYUR1jxuQ==
+=KmMu
+-----END PGP SIGNATURE-----
+
+--t3mjk627u66tfbb3--
