@@ -2,111 +2,181 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93F8A633A24
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Nov 2022 11:32:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC253633A36
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Nov 2022 11:34:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231947AbiKVKcN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Nov 2022 05:32:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56148 "EHLO
+        id S233512AbiKVKe6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Nov 2022 05:34:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233577AbiKVKba (ORCPT
+        with ESMTP id S233526AbiKVKeD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Nov 2022 05:31:30 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90DA856D43;
-        Tue, 22 Nov 2022 02:26:56 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id f27so34819038eje.1;
-        Tue, 22 Nov 2022 02:26:56 -0800 (PST)
+        Tue, 22 Nov 2022 05:34:03 -0500
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DBED5F48
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Nov 2022 02:30:52 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id z4so540719ljq.6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Nov 2022 02:30:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yq5BeDsfOkj486y5H1ERahq8TpRQn9TfZ3ScikXfWmM=;
-        b=XPSVUQXoXr3PvCCxBKMQN7m6u6cu4taFeNyyljtGb7W+WI1Nh81lOHWO/k6MAhDs22
-         sMIGwku1WXvVymnbxBiLnnBKoFjmaOzNaxJjKIthlPEtVbRN7/bg3t48g4W13Rhs/cOP
-         oIyZfL9n4AI1/KBNDnbtStEAIwOTi+ydUCiE0SyJ9v72UPjxgshY+qlnhyMKOT13O1Ua
-         3lS9qdaMLnTDSna34HVodPM3vlgVegYeB1gd4mZAC89bmD9WrjrpQF4jsAFpcbV/jN9Y
-         iI1pr3sVa4SujG6A/1fe1wjfySY8Z7ms56XfbbjJcht+mGKcCuDd/IqtuFo2w2HdcgBs
-         4eUQ==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y0ITFibk1D5kN6pD+TuW/Zc9FBNNeG7KecXWMUXzLtY=;
+        b=Tv6UFU9BtdA2bzA1xaIgMpHGf+KWGuuoNEQiGhuaAoUtRWfOmM7z4L50kA2gT1LB/f
+         7LLu51ykx5KWyMi+gXzLv3fe+HdFHwYjALXRn+ajgknC1Xgfw6nw4knYSOymopZjnXL2
+         8yOTgrFLCC5IdSUtOQYe6yfvcJtL/mjO92VJUAKf+T11TqJb0Tg138Kk3a7iQbskwS6i
+         VghECyydrPro+UPt4Kzot59fv/G/SYe21XwZ7lGQVH7MI02hM0heLwU8fdIxSSQaztBG
+         2n6FjbjcLkcVzF1kMY5NFzUAz+vOZnZ6Nt1WatOZ7lU2mWQUAME9Bn64QOkBTNLMDi6r
+         ds/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yq5BeDsfOkj486y5H1ERahq8TpRQn9TfZ3ScikXfWmM=;
-        b=UWF72qlsmYASbW3soYhjlRuiA/xk4xObtKgFqkDjN1c3HsGcKZsjyk89gTRK8Yn6JO
-         p0RPuH0K2KodojAWRWYD5+L1HIESGOadtRQ+lSvbEcQUm6rZVNE6Et1vtUWVxPb0MJRO
-         MpyCTXapmLJo4wer20ceBZoe6dUr8KMa1bQfvmUfWS3e7Y7+M40LL5TBOB8Mp2Zn5xYB
-         HRXgg3Z02M0IxO+2NoGxXE41zoAWsUEJK6fcKkmC2o+5BVuh8LLXSYQ9tyf+jUNbI/dd
-         rMeRLDKFqGoMMbxuqveWRHGTH/yLad8pC0TjrCDVSmvFgQ6/SoTti+0XKELW981R3dh2
-         rPqQ==
-X-Gm-Message-State: ANoB5pn9muWuDF3P1ne1hzgasoEukVQDtloUPTw+2Cli1jiXPBBteWac
-        QA6J/gUBTXZuwDK5nnxX4r6KEGLaLQg28h4Q55g=
-X-Google-Smtp-Source: AA0mqf514JQr3DRpS4KD4jCrWqs6HRrx1z6hGT/uOBoAk0jHHJTdNY9ByeiniQQ/5/vW8d3+za1uOc6O0xKW+qEGM0w=
-X-Received: by 2002:a17:906:3792:b0:7aa:97c7:2bfe with SMTP id
- n18-20020a170906379200b007aa97c72bfemr19067753ejc.196.1669112814960; Tue, 22
- Nov 2022 02:26:54 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y0ITFibk1D5kN6pD+TuW/Zc9FBNNeG7KecXWMUXzLtY=;
+        b=P2ptU5XJ6jLFhz39+4ECfxbykUorDVvR9dH9Y6pcUZqhMclcxtAa0eYZDrLnony91d
+         upLV6FJW4FbN087057MyGFsF3gAC1ze6nr5T2ixNhpcwjXe9XmlkkCgRsGV7Mk1rq1D4
+         uJluJyPoRAe07LTAC7bYBrxXNjqk10p/tyt2b5G4zjwTj/wsZOeOYsioBiXB1X9y2R9w
+         N8iUney0o4AkSJftSmjvJaB8NMUWanZUqYVcymE0m21YP7QXiMCPehd73uIDDBcLJZZU
+         8U6n8qwB3sU73Z4Bgk6GT8tK4r3UzgXPhVZPyqZqBVI+o3Vdb5wSk+STfh2HJYMrMLKA
+         IYRg==
+X-Gm-Message-State: ANoB5pnMsnIFpESutW7f5EhRw0D17neBrB2b526y/GYGZRmWmIx/IX/l
+        W1ZKpY769WM/CIy7fztKGBnmKg==
+X-Google-Smtp-Source: AA0mqf4vCk0Y0fVSS2MiuBk42reQriklJL/35xBjCEdH8codYy58/kMo3JCA3+bchA5tm+Jxn28NdQ==
+X-Received: by 2002:a2e:a4b4:0:b0:26c:5cf3:cc89 with SMTP id g20-20020a2ea4b4000000b0026c5cf3cc89mr7390586ljm.483.1669113050432;
+        Tue, 22 Nov 2022 02:30:50 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id g23-20020a2ea4b7000000b0026dce0a5ca9sm1803692ljm.70.2022.11.22.02.30.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Nov 2022 02:30:49 -0800 (PST)
+Message-ID: <3856e2d8-1c16-a69f-4ac5-34b8e7f18c2b@linaro.org>
+Date:   Tue, 22 Nov 2022 11:30:48 +0100
 MIME-Version: 1.0
-References: <20221102004329.5410-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221102004329.5410-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y3yYkQhJJFLau08X@paasikivi.fi.intel.com>
-In-Reply-To: <Y3yYkQhJJFLau08X@paasikivi.fi.intel.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 22 Nov 2022 10:26:28 +0000
-Message-ID: <CA+V-a8u9QS6Wk8SSmmJheHmtRiUWyOpv9DDJO6qDR8viz1Wp7A@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] media: platform: Add Renesas RZ/G2L CRU driver
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 2/7] dt-bindings: clock: renesas,r9a06g032-sysctrl: Add
+ h2mode property
+Content-Language: en-US
+To:     Herve Codina <herve.codina@bootlin.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+References: <20221114111513.1436165-1-herve.codina@bootlin.com>
+ <20221114111513.1436165-3-herve.codina@bootlin.com>
+ <a1a7fdf4-2608-d6c9-7c7a-f8e8fae3a742@linaro.org>
+ <c9a77262-f137-21d9-58af-eb4efb8aadbf@linaro.org>
+ <20221115150417.513955a7@bootlin.com> <20221118112349.7f09eefb@bootlin.com>
+ <d9bd5075-9d06-888d-36a9-911e2d7ec5af@linaro.org>
+ <20221121165921.559d6538@bootlin.com>
+ <4e54bfb4-bb67-73b8-f58f-56797c5925d3@linaro.org>
+ <CAMuHMdU=-ZUzHSb0Z8P3wsLK9cgGVCPdMi6AcjTH23tUQEeEBA@mail.gmail.com>
+ <a3e1332e-fc15-8a78-0ddd-6d5b26197f11@linaro.org>
+ <CAMuHMdXzqZB4sKMmroriq5oPp7z=yXiHk=+eQKwSyPhNbYqgYA@mail.gmail.com>
+ <1f12883b-1e37-7f2b-f9e9-c8bad290a133@linaro.org>
+ <CAMuHMdVbzg8y2So+A=z8nUwHMoL+XKUrvoXp9QdbCnUve1_Atw@mail.gmail.com>
+ <191a7f3e-0733-8058-5829-fe170a06dd5a@linaro.org>
+ <20221122100706.739cec4d@bootlin.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221122100706.739cec4d@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sakari,
+On 22/11/2022 10:07, Herve Codina wrote:
+> On Tue, 22 Nov 2022 09:42:48 +0100
+> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> 
+>> On 22/11/2022 09:25, Geert Uytterhoeven wrote:
+>>> Hi Krzysztof,
+>>>
+>>> On Tue, Nov 22, 2022 at 8:45 AM Krzysztof Kozlowski
+>>> <krzysztof.kozlowski@linaro.org> wrote:  
+>>>> On 21/11/2022 21:46, Geert Uytterhoeven wrote:  
+>>>>>> This does not change anything. Herve wrote:
+>>>>>>  
+>>>>>>> probe some devices (USB host and probably others)  
+>>>>>>
+>>>>>> Why some can be probed earlier and some not, if there are no
+>>>>>> dependencies? If there are dependencies, it's the same case with sysctrl
+>>>>>> touching the register bit and the USB controller touching it (as well
+>>>>>> via syscon, but that's obvious, I assume).
+>>>>>>
+>>>>>> Where is the synchronization problem?  
+>>>>>
+>>>>> The h2mode bit (and probably a few other controls we haven't figured out
+>>>>> yet) in the sysctrl must be set before any of the USB devices is active.
+>>>>> Hence it's safest for the sysctrl to do this before any of the USB drivers
+>>>>> probes.  
+>>>>
+>>>> Again, this does not differ from many, many of other devices. All of
+>>>> them must set something in system controller block, before they start
+>>>> operating (or at specific time). It's exactly the same everywhere.  
+>>>
+>>> The issue here is that there are two _different drivers_ (USB host
+>>> and device). When both are modular, and the driver that depends on the
+>>> sysctrl setting is loaded second, you have a problem: the sysctrl change
+>>> must not be done when the first driver is already using the hardware.
+>>>
+>>> Hence the sysctrl driver should take care of it itself during early
+>>> initialization (it's the main clock controller, so it's a dependency
+>>> for all other I/O device drivers).  
+>>
+>> I assumed you have there bit for the first device (which can switch
+>> between USB host and USB device) to choose appropriate mode. The
+>> bindings also expressed this - "the USBs are". Never said anything about
+>> dependency between these USBs.
+>>
+>> Are you saying that the mode for first device cannot be changed once the
+>> second device (which is only host) is started? IOW, the mode setup must
+>> happen before any of these devices are started?
+>>
+>> Anyway with sysctrl approach you will have dependency and you cannot
+>> rely on clock provider-consumer relationship to order that dependency.
+>> What if you make all clocks on and do not take any clocks in USB device?
+>> Broken dependency. What if you want to use this in a different SoC,
+>> where the sysctrl does not provide clocks? Broken dependency.
+> 
+> The issue is really related to the Renesas sysctrl itself and not related
+> to the USB drivers themselves.
+> From the drivers themselves, the issue is not seen (I mean the driver
+> takes no specific action related to this issue).
+> If we change the SOC, the issue will probably not exist anymore.
+>
 
-On Tue, Nov 22, 2022 at 9:38 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Prabhakar,
->
-> On Wed, Nov 02, 2022 at 12:43:29AM +0000, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Add v4l driver for Renesas RZ/G2L Camera data Receiving Unit.
-> >
-> > Based on a patch in the BSP by Hien Huynh
-> > <hien.huynh.px@renesas.com>
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Laurent's comment arrive a little late but the patch does not compile
-> against the media tree anymore. The argument of the media_pipeline_start()
-> and media_pipeline_stop() is now a pad, not an entity. See what the changes
-> look like in other drivers (the commit id is
-> 12cecbf9150f67b0ce7d88bc2e243e67637726c2).
->
-I'll go through them soon, when do you plan to close the v6.2 window?
+Yeah, and in the next SoC you will bring 10 of such properties to
+sysctrl arguing that if one was approved, 10 is also fine. Somehow
+people on the lists like to use that argument - I saw it somewhere, so I
+am allowed to do here the same.
 
-> I'll still take the DT binding patches.
->
-Or maybe we could wait and get them alongside the drivers?
+I understand that the registers responsible for configuration are in
+sysctrl block, but it does not mean that it should be described as part
+of sysctrl Devicetree node. If there was no synchronization problem,
+this would be regular example of register in syscon which is handled
+(toggled) by the device (so USB device/host controller). Since there is
+synchronization problem, you argue that it is correct representation of
+hardware. No, it is not, because logically in DT you do not describe
+mode or existence of other devices in some other node and it still does
+not describe this ordering.
 
-Cheers,
-Prabhakar
+Best regards,
+Krzysztof
+
