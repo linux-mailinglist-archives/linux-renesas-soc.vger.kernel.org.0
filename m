@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFE22636711
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Nov 2022 18:29:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2D37636713
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Nov 2022 18:29:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238965AbiKWR35 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Nov 2022 12:29:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48064 "EHLO
+        id S238995AbiKWR36 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Nov 2022 12:29:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239069AbiKWR3h (ORCPT
+        with ESMTP id S238997AbiKWR3j (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Nov 2022 12:29:37 -0500
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B91D58CB9C
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Nov 2022 09:29:23 -0800 (PST)
+        Wed, 23 Nov 2022 12:29:39 -0500
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 14A808E295
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Nov 2022 09:29:26 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.96,187,1665414000"; 
-   d="scan'208";a="140988270"
+   d="scan'208";a="143666640"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Nov 2022 02:29:23 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 24 Nov 2022 02:29:26 +0900
 Received: from localhost.localdomain (unknown [10.226.92.61])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6A2BB40ADCCF;
-        Thu, 24 Nov 2022 02:29:20 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id BD54F40ADCCF;
+        Thu, 24 Nov 2022 02:29:23 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
@@ -30,9 +30,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v6 03/19] drm: rcar-du: Add vsp lib support
-Date:   Wed, 23 Nov 2022 17:28:50 +0000
-Message-Id: <20221123172906.2919734-4-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v6 04/19] drm: rcar-du: Move rcar_du_vsp_atomic_begin()
+Date:   Wed, 23 Nov 2022 17:28:51 +0000
+Message-Id: <20221123172906.2919734-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221123172906.2919734-1-biju.das.jz@bp.renesas.com>
 References: <20221123172906.2919734-1-biju.das.jz@bp.renesas.com>
@@ -46,9 +46,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add RCar DU vsp lib support by moving rcar_du_vsp_disable()
-to the lib file so that same function can be used by both
-RCar and RZ/G2L DU VSP drivers.
+Move rcar_du_vsp_atomic_begin() to RCar DU VSP lib.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
@@ -57,134 +55,76 @@ v6:
 v1->v2:
  * Rebased on drm-misc-next and DU-next.
 ---
- drivers/gpu/drm/rcar-du/Kconfig           |  5 +++++
- drivers/gpu/drm/rcar-du/Makefile          |  1 +
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c     |  5 -----
- drivers/gpu/drm/rcar-du/rcar_du_vsp.h     |  4 ++--
- drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c | 17 +++++++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h | 19 +++++++++++++++++++
- 6 files changed, 44 insertions(+), 7 deletions(-)
- create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
- create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c     | 5 -----
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.h     | 2 --
+ drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c | 5 +++++
+ drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h | 2 ++
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-index 94a7abd5d499..12fb2bb873dc 100644
---- a/drivers/gpu/drm/rcar-du/Kconfig
-+++ b/drivers/gpu/drm/rcar-du/Kconfig
-@@ -79,3 +79,8 @@ config DRM_RCAR_LIB
- 	bool
- 	default y
- 	depends on DRM_RCAR_DU
-+
-+config DRM_RCAR_VSP_LIB
-+	bool
-+	default y
-+	depends on DRM_RCAR_VSP
-diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
-index 3ce410300334..8fc924cf37a7 100644
---- a/drivers/gpu/drm/rcar-du/Makefile
-+++ b/drivers/gpu/drm/rcar-du/Makefile
-@@ -10,6 +10,7 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LIB) += rcar_du_encoder_lib.o \
- 				      rcar_du_kms_lib.o
- 
- rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
-+rcar-du-drm-$(CONFIG_DRM_RCAR_VSP_LIB)	+= rcar_du_vsp_lib.o
- rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
- 
- obj-$(CONFIG_DRM_RCAR_CMM)		+= rcar_cmm.o
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index e465aef41585..bed3f2a3c4a5 100644
+index bed3f2a3c4a5..685e3e8f6ddb 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
 @@ -88,11 +88,6 @@ void rcar_du_vsp_enable(struct rcar_du_crtc *crtc)
  	vsp1_du_setup_lif(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
  }
  
--void rcar_du_vsp_disable(struct rcar_du_crtc *crtc)
+-void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc)
 -{
--	vsp1_du_setup_lif(crtc->vsp->vsp, crtc->vsp_pipe, NULL);
+-	vsp1_du_atomic_begin(crtc->vsp->vsp, crtc->vsp_pipe);
 -}
 -
- void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc)
+ void rcar_du_vsp_atomic_flush(struct rcar_du_crtc *crtc)
  {
- 	vsp1_du_atomic_begin(crtc->vsp->vsp, crtc->vsp_pipe);
+ 	struct vsp1_du_atomic_pipe_config cfg = { { 0, } };
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
-index 67630f0b6599..8fbfa86c93e0 100644
+index 8fbfa86c93e0..83a2f3e85860 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
-@@ -12,6 +12,8 @@
- 
- #include <drm/drm_plane.h>
- 
-+#include "rcar_du_vsp_lib.h"
-+
- struct drm_framebuffer;
- struct rcar_du_format_info;
- struct rcar_du_vsp;
-@@ -59,7 +61,6 @@ to_rcar_vsp_plane_state(struct drm_plane_state *state)
+@@ -61,7 +61,6 @@ to_rcar_vsp_plane_state(struct drm_plane_state *state)
  int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
  		     unsigned int crtcs);
  void rcar_du_vsp_enable(struct rcar_du_crtc *crtc);
--void rcar_du_vsp_disable(struct rcar_du_crtc *crtc);
- void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc);
+-void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc);
  void rcar_du_vsp_atomic_flush(struct rcar_du_crtc *crtc);
  int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
-@@ -74,7 +75,6 @@ static inline int rcar_du_vsp_init(struct rcar_du_vsp *vsp,
+ 		       struct sg_table sg_tables[3]);
+@@ -75,7 +74,6 @@ static inline int rcar_du_vsp_init(struct rcar_du_vsp *vsp,
  	return -ENXIO;
  }
  static inline void rcar_du_vsp_enable(struct rcar_du_crtc *crtc) { };
--static inline void rcar_du_vsp_disable(struct rcar_du_crtc *crtc) { };
- static inline void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc) { };
+-static inline void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc) { };
  static inline void rcar_du_vsp_atomic_flush(struct rcar_du_crtc *crtc) { };
  static inline int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp,
+ 				     struct drm_framebuffer *fb,
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
-new file mode 100644
-index 000000000000..e22d4e535268
---- /dev/null
+index e22d4e535268..f6c0cae7c4af 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
-@@ -0,0 +1,17 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * R-Car Display Unit VSP-Based Compositor Lib
-+ *
-+ * Copyright (C) 2015-2022 Renesas Electronics Corporation
-+ *
-+ * Contact: Laurent Pinchart (laurent.pinchart@ideasonboard.com)
-+ */
+@@ -15,3 +15,8 @@ void rcar_du_vsp_disable(struct rcar_du_crtc *crtc)
+ {
+ 	vsp1_du_setup_lif(crtc->vsp->vsp, crtc->vsp_pipe, NULL);
+ }
 +
-+#include <media/vsp1.h>
-+
-+#include "rcar_du_drv.h"
-+
-+void rcar_du_vsp_disable(struct rcar_du_crtc *crtc)
++void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc)
 +{
-+	vsp1_du_setup_lif(crtc->vsp->vsp, crtc->vsp_pipe, NULL);
++	vsp1_du_atomic_begin(crtc->vsp->vsp, crtc->vsp_pipe);
 +}
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
-new file mode 100644
-index 000000000000..d91c043bbced
---- /dev/null
+index d91c043bbced..8c22042d4a80 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * R-Car Display Unit VSP-Based Compositor Lib
-+ *
-+ * Copyright (C) 2015-2022 Renesas Electronics Corporation
-+ *
-+ * Contact: Laurent Pinchart (laurent.pinchart@ideasonboard.com)
-+ */
-+
-+#ifndef __RCAR_DU_VSP_LIB_H__
-+#define __RCAR_DU_VSP_LIB_H__
-+
-+#ifdef CONFIG_DRM_RCAR_VSP
-+void rcar_du_vsp_disable(struct rcar_du_crtc *crtc);
-+#else
-+static inline void rcar_du_vsp_disable(struct rcar_du_crtc *crtc) { };
-+#endif
-+
-+#endif /* __RCAR_DU_VSP_LIB_H__ */
+@@ -12,8 +12,10 @@
+ 
+ #ifdef CONFIG_DRM_RCAR_VSP
+ void rcar_du_vsp_disable(struct rcar_du_crtc *crtc);
++void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc);
+ #else
+ static inline void rcar_du_vsp_disable(struct rcar_du_crtc *crtc) { };
++static inline void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc) { };
+ #endif
+ 
+ #endif /* __RCAR_DU_VSP_LIB_H__ */
 -- 
 2.25.1
 
