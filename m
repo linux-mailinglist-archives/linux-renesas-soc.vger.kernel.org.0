@@ -2,96 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6038F635B93
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Nov 2022 12:24:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71082636219
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Nov 2022 15:42:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237356AbiKWLYY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Nov 2022 06:24:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60422 "EHLO
+        id S238553AbiKWOlq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Nov 2022 09:41:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237379AbiKWLYC (ORCPT
+        with ESMTP id S238554AbiKWOli (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Nov 2022 06:24:02 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97A8910AD2E;
-        Wed, 23 Nov 2022 03:23:29 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id v8so13367741edi.3;
-        Wed, 23 Nov 2022 03:23:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FrAt4ByWk4XAwGofuv5blZvYxRxRqUOIcR/LfPMrukE=;
-        b=DKZKp6xlz9rWJ+UM6jAAsNLpfX2wosD+PrhfM0G8DFIFddDWKR4ky728VwpD+HPetK
-         6hHh+0kRT2mkXK/XnA7wVHUGnlkmSky/bUtoBMVApvH+6E4ZrnXiC5ydlBa7ApfK/doJ
-         pRpWt+1cDYxsvFn+blmW6PkV6IYdR1yn5oqmxhGYLfy1UUVretcj+XqcL4fZ/JZWAO5F
-         UQYZOD+Hx3QGCXWfwVqfiIuELEUMpEUx2GAZlNiA0/157zCgDkqJEWhsBukCVj+OvkrR
-         tZznso/GmMVhXRGN4YKB4Yg8NQR+tRMxOj7sCb6WjFWqhqkZtAMBqN/jfUhVd4QBlFBD
-         8a7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FrAt4ByWk4XAwGofuv5blZvYxRxRqUOIcR/LfPMrukE=;
-        b=eItCa9mlT3USkQmMW6MaDaf2Y0Y1OIldajVtF7GnyFWJkNT0mfsJrK9HtL8fn9VaGy
-         X5MH9orDiy8lvqEu8ieag6jkUhp9eeu/9xNd/i6/CoBDU2qSTKAkM9Ctx6NZMBG49Zox
-         Pr6A8aXhc0emCaLCfHmhfWwtxd4qcO2dVLkJGO7GXmCQkTzdc9Y//JGftcRrUjk/CSZY
-         Edn4kCuB6M+tzE2q4syhWjGHVbGLFivwvoVyKtNlWvFVupSdXZK2mPwShjad43bb7IiC
-         xQRgXrIttLns2idu55CKNNiv/TmHljFgUj00eqoCuuCd4Sj3J+ajlmfByKKAwdrc1zJ1
-         q9hQ==
-X-Gm-Message-State: ANoB5pl8M29kymNXd1r/wVqpDoyFZCNXO6cL99/K2EZeejTThiHqrVo7
-        OD8oo+mIoTQziyLrv1QWTKo=
-X-Google-Smtp-Source: AA0mqf6KznzDxEgmlgssmc2SbGZA3fYhuwpdfA/3s9yH2f9S55qeAEfEhefQdDBif0kSY2c6jAbIPw==
-X-Received: by 2002:a05:6402:1381:b0:468:5b78:6381 with SMTP id b1-20020a056402138100b004685b786381mr12501363edv.373.1669202607939;
-        Wed, 23 Nov 2022 03:23:27 -0800 (PST)
-Received: from localhost (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id la1-20020a170907780100b00787f91a6b16sm7057757ejc.26.2022.11.23.03.23.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Nov 2022 03:23:27 -0800 (PST)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Rob Herring <robh+dt@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org,
+        Wed, 23 Nov 2022 09:41:38 -0500
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53D5047307
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Nov 2022 06:41:33 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:881b:815b:474d:c3fd])
+        by albert.telenet-ops.be with bizsmtp
+        id nqhS2800949U0Rd06qhSTc; Wed, 23 Nov 2022 15:41:30 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1oxqwH-001Rqf-F7; Wed, 23 Nov 2022 15:41:25 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1oxqwH-0012HA-00; Wed, 23 Nov 2022 15:41:25 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Mark Brown <broonie@kernel.org>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: pwm: renesas,tpu: Add r8a779g0 support
-Date:   Wed, 23 Nov 2022 12:23:23 +0100
-Message-Id: <166920257256.1455112.10323739493176778611.b4-ty@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <ccdf2ccb5aeb9329d959599069d60177fe34e892.1669047191.git.geert+renesas@glider.be>
-References: <ccdf2ccb5aeb9329d959599069d60177fe34e892.1669047191.git.geert+renesas@glider.be>
+        linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 0/6] memory: renesas-rpc-if: Rebind fixes and misc cleanups
+Date:   Wed, 23 Nov 2022 15:41:16 +0100
+Message-Id: <cover.1669213027.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 21 Nov 2022 17:13:42 +0100, Geert Uytterhoeven wrote:
-> Document support for the 16-Bit Timer Pulse Unit (TPU) in the Renesas
-> R-Car V4H (R8A779G0) SoC.
-> 
-> Based on a patch in the BSP by CongDang.
-> 
-> 
+	Hi all,
 
-Applied, thanks!
+The Renesas RPC-IF provides either HyperFlash or SPI host access.
+To handle this, three drivers are used:
+  1. The RPC-IF core diver,
+  2. An HyperFlash child driver,
+  3. An SPI child driver.
 
-[1/1] dt-bindings: pwm: renesas,tpu: Add r8a779g0 support
-      commit: 50315945d178eebec4e8e2c50c265767ddb926eb
+Currently this driver collection suffers from a sub-optimal division of
+roles and reponsibilities, leading to (un)bind issues: after manually
+unbinding the child driver, rebinding the child driver fails with
+-EBUSY.
 
-Best regards,
+This patch series aims to fix this, by splitting off private data and
+making the RPC-IF core driver responsible for resource acquisition.
+After that, a few customary cleanups are provided.
+
+This has been tested on the Salvator-X(S) and Ebisu-4D (HyperFlash) and
+White-Hawk (QSPI FLASH) development boards.
+
+Changes compared to v1[1]:
+  - Move the two fixes forward and add Fixes-tags to ease backporting,
+    as requested by Krzysztof,
+  - Add Acked-by,
+  - Rebased cleanups,
+  - Remove Runtime PM wrappers,
+  - Drop patch to add system suspend/resume support to the RPC-IF core
+    driver, as this is apparently not needed on R-Car M3-N and R-Car E3,
+    nor fixes the issue on R-Car H3 ES2.0.  I will reply to the original
+    patch with my latest investigation results.
+
+Thanks for your comments!
+
+[1] [PATCH 0/7] memory: renesas-rpc-if: Rebind and s2ram fixes
+    https://lore.kernel.org/r/cover.1656341824.git.geert+renesas@glider.be
+
+Geert Uytterhoeven (6):
+  memory: renesas-rpc-if: Split-off private data from struct rpcif
+  memory: renesas-rpc-if: Move resource acquisition to .probe()
+  memory: renesas-rpc-if: Always use dev in rpcif_probe()
+  memory: renesas-rpc-if: Improve Runtime PM handling
+  memory: renesas-rpc-if: Pass device instead of rpcif to rpcif_*()
+  memory: renesas-rpc-if: Remove Runtime PM wrappers
+
+ drivers/memory/renesas-rpc-if.c | 152 ++++++++++++++++++++------------
+ drivers/mtd/hyperbus/rpc-if.c   |  18 ++--
+ drivers/spi/spi-rpc-if.c        |  14 +--
+ include/memory/renesas-rpc-if.h |  34 +------
+ 4 files changed, 118 insertions(+), 100 deletions(-)
+
 -- 
-Thierry Reding <thierry.reding@gmail.com>
+2.25.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
