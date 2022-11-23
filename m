@@ -2,232 +2,208 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C6146352F3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Nov 2022 09:42:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AD52635785
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Nov 2022 10:43:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236643AbiKWImC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Nov 2022 03:42:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46398 "EHLO
+        id S237981AbiKWJmL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Nov 2022 04:42:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236642AbiKWImB (ORCPT
+        with ESMTP id S238090AbiKWJlw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Nov 2022 03:42:01 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3337FF3901;
-        Wed, 23 Nov 2022 00:42:00 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id C0BF11F8AF;
-        Wed, 23 Nov 2022 08:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1669192918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=FIU8rB0jBxPdshXU3vQfGHebITOdy2BC9J0ZJyhHVhw=;
-        b=fpeL45wJ1w0tROUmRaiKWTXJ83RNc4peu0UVzlXLGYkilraPp3MhSZWXhoprf6g0HlZ81v
-        kF44fXYsS6lQHoC8vuMyUIUjccglpwZCgK1ga+MSHS3r0M9LNHPvQJ3pvIX9udXAPY8TGd
-        yHsvQtR/wvgY3hwjiOGQcEB9f3tlcRw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1669192918;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=FIU8rB0jBxPdshXU3vQfGHebITOdy2BC9J0ZJyhHVhw=;
-        b=5x48guDJrIWu45HcQgwoWfecq7PNMVpHehfV08TAzDo93UohPMPjAHUiboy57Aoz+ly4/q
-        b8FyZM3FTrxki3Cw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 92D1213A37;
-        Wed, 23 Nov 2022 08:41:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id aoW9ItbcfWPAeQAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Wed, 23 Nov 2022 08:41:58 +0000
-Message-ID: <d1a3302d-b0e3-f470-f2c0-c48f990701f2@suse.de>
-Date:   Wed, 23 Nov 2022 09:41:58 +0100
+        Wed, 23 Nov 2022 04:41:52 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D265CB9F1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Nov 2022 01:39:45 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id a29so27297549lfj.9
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Nov 2022 01:39:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HhqMtvHL6CzJDiLWuozbG2Jml88D7dY6P8TNnkcKrDk=;
+        b=uPcF2XKQ3yB8cxrDLUDzCH6YV36F1+y0M6Rxy2QxQEAVoZTzlfdojxgHr57lhPYv5Z
+         mvygHAfNvmroP5qhfZkQyzCDVc4n+ztMBYZO9poIohFylLJB8+4Q6P9BQRXemTgiWEOh
+         z1rctkkfQjvkzmKQMScUuLlwqfYgn9TygkLAjGGpwbvjaRuB2Sql6ikYhfcNfWFq21UY
+         TBogac2ZRtjdeDLfORHdgb5AseVSVAEvJ3qqWgWI9Syq5YwxjXWqgGu/zUjI+ieHO/ZW
+         YYbDMSKtbuXGHao1FM5Il9NCwdlomVwtK5h7m6WOj1qSCHqPMv9IJIRTb1q9AglycZM9
+         hIuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HhqMtvHL6CzJDiLWuozbG2Jml88D7dY6P8TNnkcKrDk=;
+        b=QMlQIE15+C0L4KjxPyag7+IIsrAyzIEJCJFygokFEv7ZVUYgzd3g+eCOnUuJBqspr9
+         uVvCDO+uwLkgWS2XiKuYXTmnnjgSZSK+8iM/R56kbaAowTFxggcY8ESdapoiFcs8jv2n
+         KP2PwLvesBtOL4/gpI2PDX95UbnsGSli6KiP3cPlDKMCk9ASQh8kWD2bp9DiJV2fOKt9
+         6+3vkR7empirwHzZQdoL6tvvuZ53x8ift7g1fDhJ0euA+8mT93tTgbYu0GIQXLgrUitW
+         xhAjCnj4e8MP5f73fPrvKRET9i5setDdksI94FElk9IsZFDquYjqt7cLnH1hAQgiGrsP
+         aNEg==
+X-Gm-Message-State: ANoB5pl/cYpgV7nTTwqCbHRPAu+0/4Ay8vwiGcDHYe9J7fVN9G3/c75g
+        aE5l8Vy21OEERhATY33wQkbq0A==
+X-Google-Smtp-Source: AA0mqf5DA9z8M5jnKKs9XTmwUcoENZ3ioMO2Niz5dey3n7Kt+mn3Y92KAjKcnZl7/Qj50MFNZ79P0A==
+X-Received: by 2002:a19:9155:0:b0:492:f5b6:2124 with SMTP id y21-20020a199155000000b00492f5b62124mr8739646lfj.369.1669196383804;
+        Wed, 23 Nov 2022 01:39:43 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id j8-20020ac253a8000000b004946a1e045fsm2788676lfh.197.2022.11.23.01.39.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Nov 2022 01:39:43 -0800 (PST)
+Message-ID: <02db6a5d-ae9d-68b5-f5c5-bebb471e0f70@linaro.org>
+Date:   Wed, 23 Nov 2022 10:39:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v2 5/6] drm/fb-helper: Schedule deferred-I/O worker after
- writing to framebuffer
+Subject: Re: [PATCH v2 2/7] dt-bindings: clock: renesas,r9a06g032-sysctrl: Add
+ h2mode property
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Herve Codina <herve.codina@bootlin.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+References: <20221114111513.1436165-1-herve.codina@bootlin.com>
+ <20221114111513.1436165-3-herve.codina@bootlin.com>
+ <a1a7fdf4-2608-d6c9-7c7a-f8e8fae3a742@linaro.org>
+ <c9a77262-f137-21d9-58af-eb4efb8aadbf@linaro.org>
+ <20221115150417.513955a7@bootlin.com> <20221118112349.7f09eefb@bootlin.com>
+ <d9bd5075-9d06-888d-36a9-911e2d7ec5af@linaro.org>
+ <20221121165921.559d6538@bootlin.com>
+ <4e54bfb4-bb67-73b8-f58f-56797c5925d3@linaro.org>
+ <CAMuHMdU=-ZUzHSb0Z8P3wsLK9cgGVCPdMi6AcjTH23tUQEeEBA@mail.gmail.com>
+ <a3e1332e-fc15-8a78-0ddd-6d5b26197f11@linaro.org>
+ <CAMuHMdXzqZB4sKMmroriq5oPp7z=yXiHk=+eQKwSyPhNbYqgYA@mail.gmail.com>
+ <1f12883b-1e37-7f2b-f9e9-c8bad290a133@linaro.org>
+ <CAMuHMdVbzg8y2So+A=z8nUwHMoL+XKUrvoXp9QdbCnUve1_Atw@mail.gmail.com>
+ <191a7f3e-0733-8058-5829-fe170a06dd5a@linaro.org>
+ <20221122100706.739cec4d@bootlin.com>
+ <3856e2d8-1c16-a69f-4ac5-34b8e7f18c2b@linaro.org>
+ <CAMuHMdXPndkt=+k1CAcDbH7eK=TFfS6wMu+xdqWZSCz1+hyhEA@mail.gmail.com>
 Content-Language: en-US
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
-        "javierm@redhat.com" <javierm@redhat.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <OS0PR01MB592225470AD263665B0E8647860C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <OS0PR01MB592225470AD263665B0E8647860C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------YtdBwOD1MwLhXVusXGrhYRId"
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAMuHMdXPndkt=+k1CAcDbH7eK=TFfS6wMu+xdqWZSCz1+hyhEA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------YtdBwOD1MwLhXVusXGrhYRId
-Content-Type: multipart/mixed; boundary="------------C0AxTP0fjJ0eEs6VraromRGQ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "javierm@redhat.com" <javierm@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Message-ID: <d1a3302d-b0e3-f470-f2c0-c48f990701f2@suse.de>
-Subject: Re: [PATCH v2 5/6] drm/fb-helper: Schedule deferred-I/O worker after
- writing to framebuffer
-References: <OS0PR01MB592225470AD263665B0E8647860C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB592225470AD263665B0E8647860C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+On 22/11/2022 11:47, Geert Uytterhoeven wrote:
+> Hi Krzysztof,
+> 
+> On Tue, Nov 22, 2022 at 11:30 AM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>> On 22/11/2022 10:07, Herve Codina wrote:
+>>> On Tue, 22 Nov 2022 09:42:48 +0100
+>>> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+>>>
+>>>> On 22/11/2022 09:25, Geert Uytterhoeven wrote:
+>>>>> Hi Krzysztof,
+>>>>>
+>>>>> On Tue, Nov 22, 2022 at 8:45 AM Krzysztof Kozlowski
+>>>>> <krzysztof.kozlowski@linaro.org> wrote:
+>>>>>> On 21/11/2022 21:46, Geert Uytterhoeven wrote:
+>>>>>>>> This does not change anything. Herve wrote:
+>>>>>>>>
+>>>>>>>>> probe some devices (USB host and probably others)
+>>>>>>>>
+>>>>>>>> Why some can be probed earlier and some not, if there are no
+>>>>>>>> dependencies? If there are dependencies, it's the same case with sysctrl
+>>>>>>>> touching the register bit and the USB controller touching it (as well
+>>>>>>>> via syscon, but that's obvious, I assume).
+>>>>>>>>
+>>>>>>>> Where is the synchronization problem?
+>>>>>>>
+>>>>>>> The h2mode bit (and probably a few other controls we haven't figured out
+>>>>>>> yet) in the sysctrl must be set before any of the USB devices is active.
+>>>>>>> Hence it's safest for the sysctrl to do this before any of the USB drivers
+>>>>>>> probes.
+>>>>>>
+>>>>>> Again, this does not differ from many, many of other devices. All of
+>>>>>> them must set something in system controller block, before they start
+>>>>>> operating (or at specific time). It's exactly the same everywhere.
+>>>>>
+>>>>> The issue here is that there are two _different drivers_ (USB host
+>>>>> and device). When both are modular, and the driver that depends on the
+>>>>> sysctrl setting is loaded second, you have a problem: the sysctrl change
+>>>>> must not be done when the first driver is already using the hardware.
+>>>>>
+>>>>> Hence the sysctrl driver should take care of it itself during early
+>>>>> initialization (it's the main clock controller, so it's a dependency
+>>>>> for all other I/O device drivers).
+>>>>
+>>>> I assumed you have there bit for the first device (which can switch
+>>>> between USB host and USB device) to choose appropriate mode. The
+>>>> bindings also expressed this - "the USBs are". Never said anything about
+>>>> dependency between these USBs.
+>>>>
+>>>> Are you saying that the mode for first device cannot be changed once the
+>>>> second device (which is only host) is started? IOW, the mode setup must
+>>>> happen before any of these devices are started?
+>>>>
+>>>> Anyway with sysctrl approach you will have dependency and you cannot
+>>>> rely on clock provider-consumer relationship to order that dependency.
+>>>> What if you make all clocks on and do not take any clocks in USB device?
+>>>> Broken dependency. What if you want to use this in a different SoC,
+>>>> where the sysctrl does not provide clocks? Broken dependency.
+>>>
+>>> The issue is really related to the Renesas sysctrl itself and not related
+>>> to the USB drivers themselves.
+>>> From the drivers themselves, the issue is not seen (I mean the driver
+>>> takes no specific action related to this issue).
+>>> If we change the SOC, the issue will probably not exist anymore.
+>>
+>> Yeah, and in the next SoC you will bring 10 of such properties to
+>> sysctrl arguing that if one was approved, 10 is also fine. Somehow
+>> people on the lists like to use that argument - I saw it somewhere, so I
+>> am allowed to do here the same.
+> 
+> Like pin control properties? ;-)
+> This property represents a wiring on the board...
+> I.e. a system integration issue.
+> 
+>> I understand that the registers responsible for configuration are in
+>> sysctrl block, but it does not mean that it should be described as part
+>> of sysctrl Devicetree node. If there was no synchronization problem,
+>> this would be regular example of register in syscon which is handled
+>> (toggled) by the device (so USB device/host controller). Since there is
+>> synchronization problem, you argue that it is correct representation of
+>> hardware. No, it is not, because logically in DT you do not describe
+>> mode or existence of other devices in some other node and it still does
+>> not describe this ordering.
+> 
+> So we have to drop the property, and let the sysctrl block look
+> for <name>@<reg> nodes, and check which ones are enabled?
+> 
+> Running out of ideas...
 
---------------C0AxTP0fjJ0eEs6VraromRGQ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+One solution could be making USB nodes children of the sysctrl block which:
+1. Gives proper ordering (children cannot start before parent)
+regardless of any other shared resources,
+2. Allows to drop this mode property and instead check what type of
+children you have and configure mode depending on them.
 
-SGkNCg0KQW0gMjMuMTEuMjIgdW0gMDk6Mjggc2NocmllYiBCaWp1IERhczoNCj4gSGkgQWxs
-LA0KPiANCj4gVGhlIGJlbG93IHBhdGNoIGluIExpbnV4LW5leHQgMjAyMjExMjMgaXMgY2F1
-c2luZyByZWdyZXNzaW9uIG9uIFJlbmVzYXMge1JaL0cyTSwgUi1DYXIgR2VuLTN9DQo+IFBs
-YXRmb3Jtcy4NCj4gDQo+IFN0ZXBzIHRvIHJlcHJvZHVjZToNCj4gDQo+IFVzZSB0aGUgYXJt
-NjQgZGVmY29uZmlnIHRvIGJ1aWxkIHRoZSBrZXJuZWwgYW5kIHRoZW4gYm9vdCB0aGUgYm9h
-cmQuDQo+IA0KPiBJcyB0aGVyZSBhbnkgcGF0Y2ggdG8gZml4IHRoZSBwcm9ibGVtPyBJIGFt
-IGhhcHB5IHRvIHRlc3QuDQoNCkEgcmV2ZXJ0IGlzIGFscmVhZHkgb24gdGhlIHdheS4gSXQg
-c2hvdWxkIHJlYWNoIGxpbnV4LW5leHQgYnkgbmV4dCB3ZWVrLg0KDQpCZXN0IHJlZ2FyZHMN
-ClRob21hcw0KDQo+IA0KPiBMb2dzOi0NCj4gDQo+IFsgICAyMy43NjI5OTldIENvbnNvbGU6
-IHN3aXRjaGluZyB0byBjb2xvdXIgZnJhbWUgYnVmZmVyIGRldmljZSAyNDB4NjcNCj4gWyAg
-IDIzLjc2MzEyOF0gLS0tLS0tLS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0tDQo+IFsg
-ICAyMy43NjMxMzNdIFdBUk5JTkc6IENQVTogMyBQSUQ6IDI3OCBhdCBkcml2ZXJzL3ZpZGVv
-L2ZiZGV2L2NvcmUvZmJfZGVmaW8uYzozNDAgZmJfZGVmZXJyZWRfaW9fc2NoZWR1bGVfZmx1
-c2grMHgzOC8weDQwDQo+IFsgICAyMy43NjMxNjRdIE1vZHVsZXMgbGlua2VkIGluOiBjZmc4
-MDIxMSgrKSByY2FyX2R1X2RybSgrKSByY2FyX21pcGlfZHNpIHJjYXJfY21tIHJjYXJfbHZk
-cyBzbmRfc29jX2hkbWlfY29kZWMgdnNwMSBkd19oZG1pX2NlYyBkd19oZG1pX2kyc19hdWRp
-byByY2FyX2ZkcDEgdjRsMl9tZW0ybWVtIHZpZGVvYnVmMl92bWFsbG9jIHJjYXJfZHdfaGRt
-aSB2aWRlb2J1ZjJfZG1hX2NvbnRpZyBkd19oZG1pIHZpZGVvYnVmMl9tZW1vcHMgaGNpX3Vh
-cnQgdmlkZW9idWYyX3Y0bDIgY2VjIHZpZGVvYnVmMl9jb21tb24gY3JjdDEwZGlmX2NlIGJ0
-cWNhIGRybV9kaXNwbGF5X2hlbHBlciBzbmRfc29jX2F1ZGlvX2dyYXBoX2NhcmQgZHJtX2Rt
-YV9oZWxwZXIgdmlkZW9kZXYgc25kX3NvY19zaW1wbGVfY2FyZF91dGlscyBidGJjbSB3bGNv
-cmVfc2RpbyBtYyByY2FyX2ZjcCBkaXNwbGF5X2Nvbm5lY3RvciBibHVldG9vdGggcmNhcl9j
-YW4gZHJtX2ttc19oZWxwZXIgZWNkaF9nZW5lcmljIHJlbmVzYXNfdXNiMyBlY2Mgc25kX3Nv
-Y19yY2FyIGRybSByZmtpbGwgY2FuX2RldiBwd21fcmNhciB1c2JfZG1hYyByZW5lc2FzX3Vz
-YmhzIHBoeV9yY2FyX2dlbjNfdXNiMyBpcHY2DQo+IFsgICAyMy43NjMzMTRdIENQVTogMyBQ
-SUQ6IDI3OCBDb21tOiBzeXN0ZW1kLXVkZXZkIE5vdCB0YWludGVkIDYuMS4wLXJjNi1uZXh0
-LTIwMjIxMTIzLTEwNDMyLWc3MzZiNmQ4MWQ5M2MgIzMxNA0KPiBbICAgMjMuNzYzMzIzXSBI
-YXJkd2FyZSBuYW1lOiBIb3BlUnVuIEhpSG9wZSBSWi9HMk0gd2l0aCBzdWIgYm9hcmQgKERU
-KQ0KPiBbICAgMjMuNzYzMzI5XSBwc3RhdGU6IDgwMDAwMDA1IChOemN2IGRhaWYgLVBBTiAt
-VUFPIC1UQ08gLURJVCAtU1NCUyBCVFlQRT0tLSkNCj4gWyAgIDIzLjc2MzMzN10gcGMgOiBm
-Yl9kZWZlcnJlZF9pb19zY2hlZHVsZV9mbHVzaCsweDM4LzB4NDANCj4gWyAgIDIzLjc2MzM0
-NF0gbHIgOiBkcm1fZmJfaGVscGVyX3N5c19pbWFnZWJsaXQrMHhhOC8weGM0IFtkcm1fa21z
-X2hlbHBlcl0NCj4gWyAgIDIzLjc2MzQ3NF0gc3AgOiBmZmZmODAwMDBhYzViM2MwDQo+IFsg
-ICAyMy43NjM0NzhdIHgyOTogZmZmZjgwMDAwYWM1YjNjMCB4Mjg6IDAwMDAwMDAwZmZmZmZm
-ZmYgeDI3OiAwMDAwMDAwMDAwMDAwMDEwDQo+IFsgICAyMy43NjM0ODldIHgyNjogZmZmZjAw
-MDVjMTM1NjAwMCB4MjU6IGZmZmYwMDA1YzNhODA4MDAgeDI0OiBmZmZmMDAwNWMwMjUyOGNj
-DQo+IFsgICAyMy43NjM0OTldIHgyMzogMDAwMDAwMDAwMDAwMDAwMCB4MjI6IDAwMDAwMDAw
-MDAwMDAxODAgeDIxOiAwMDAwMDAwMDAwMDAwMDA4DQo+IFsgICAyMy43NjM1MDldIHgyMDog
-MDAwMDAwMDAwMDAwMDAxMCB4MTk6IGZmZmYwMDA1YzAyNTI4MDAgeDE4OiAwMDAwMDAwMDAw
-MDAwMDAxDQo+IFsgICAyMy43NjM1MTldIHgxNzogMDAwMDAwMDAwMDAwMDAwNCB4MTY6IDAw
-MDAwMDAwMDAwMDAwMDAgeDE1OiAwMDAwMDAwMDAwMDAwMDAwDQo+IFsgICAyMy43NjM1Mjld
-IHgxNDogMDAwMDAwMDAwMDAwMDAyMCB4MTM6IDAwMDAwMDAwMDAwMDAwMDAgeDEyOiAwMDAw
-MDAwMDAwMDAwMDIwDQo+IFsgICAyMy43NjM1MzldIHgxMTogMDAwMDAwMDBmZmZmZmZmZiB4
-MTA6IDAwMDAwMDAwMDAwMDAwMDEgeDkgOiAwMDAwMDAwMDAwMDAwMDAxDQo+IFsgICAyMy43
-NjM1NDldIHg4IDogZmZmZjAwMDVjMTM1NjAxMCB4NyA6IDAwMDAwMDAwMDAwMDAwMDggeDYg
-OiAwMDAwMDAwMDAwMDAwMDAwDQo+IFsgICAyMy43NjM1NTldIHg1IDogMDAwMDAwMDAwMDAw
-MDE5MCB4NCA6IDAwMDAwMDAwMDAwMDAxODAgeDMgOiAwMDAwMDAwMDAwMDAwMDA4DQo+IFsg
-ICAyMy43NjM1NjldIHgyIDogMDAwMDAwMDAwMDAwMDAwMCB4MSA6IDAwMDAwMDAwMDAwMDAw
-MDAgeDAgOiBmZmZmMDAwNWMzYTgwODAwDQo+IFsgICAyMy43NjM1ODBdIENhbGwgdHJhY2U6
-DQo+IFsgICAyMy43NjM1ODVdICBmYl9kZWZlcnJlZF9pb19zY2hlZHVsZV9mbHVzaCsweDM4
-LzB4NDANCj4gWyAgIDIzLjc2MzU5NF0gIGRybV9mYmRldl9mYl9pbWFnZWJsaXQrMHgzOC8w
-eDcwIFtkcm1fa21zX2hlbHBlcl0NCj4gWyAgIDIzLjc2MzY3MV0gIHNvZnRfY3Vyc29yKzB4
-MTVjLzB4MjAwDQo+IFsgICAyMy43NjM2ODBdICBiaXRfY3Vyc29yKzB4M2FjLzB4NTAwDQo+
-IFsgICAyMy43NjM2ODddICBmYmNvbl9jdXJzb3IrMHhlYy8weDExYw0KPiBbICAgMjMuNzYz
-Njk0XSAgaGlkZV9jdXJzb3IrMHgzYy8weGMwDQo+IFsgICAyMy43NjM3MDhdICByZWRyYXdf
-c2NyZWVuKzB4MTI4LzB4MjQwDQo+IFsgICAyMy43NjM3MTddICBkb19iaW5kX2Nvbl9kcml2
-ZXIuaXNyYS4wKzB4MmM4LzB4MzljDQo+IFsgICAyMy43NjM3MjZdICBkb190YWtlX292ZXJf
-Y29uc29sZSsweDE0MC8weDIwMA0KPiBbICAgMjMuNzYzNzM2XSAgZG9fZmJjb25fdGFrZW92
-ZXIrMHg2Yy8weGU0DQo+IFsgICAyMy43NjM3NDJdICBmYmNvbl9mYl9yZWdpc3RlcmVkKzB4
-MWU0LzB4MWYwDQo+IFsgICAyMy43NjM3NDldICByZWdpc3Rlcl9mcmFtZWJ1ZmZlcisweDIx
-NC8weDMxMA0KPiBbICAgMjMuNzYzNzYxXSAgX19kcm1fZmJfaGVscGVyX2luaXRpYWxfY29u
-ZmlnX2FuZF91bmxvY2srMHgzM2MvMHg1MzQgW2RybV9rbXNfaGVscGVyXQ0KPiBbICAgMjMu
-NzYzODM3XSAgZHJtX2ZiX2hlbHBlcl9pbml0aWFsX2NvbmZpZysweDRjLzB4NjAgW2RybV9r
-bXNfaGVscGVyXQ0KPiBbICAgMjMuNzYzOTEyXSAgZHJtX2ZiZGV2X2NsaWVudF9ob3RwbHVn
-KzB4YzQvMHgxNTAgW2RybV9rbXNfaGVscGVyXQ0KPiBbICAgMjMuNzYzOTg3XSAgZHJtX2Zi
-ZGV2X2dlbmVyaWNfc2V0dXArMHg5MC8weDE1NCBbZHJtX2ttc19oZWxwZXJdDQo+IFsgICAy
-My43NjQwNjFdICByY2FyX2R1X3Byb2JlKzB4MTU0LzB4MTg0IFtyY2FyX2R1X2RybV0NCj4g
-WyAgIDIzLjc2NDEwM10gIHBsYXRmb3JtX3Byb2JlKzB4NjgvMHhlMA0KPiBbICAgMjMuNzY0
-MTE1XSAgcmVhbGx5X3Byb2JlKzB4YmMvMHgyZTANCj4gWyAgIDIzLjc2NDEyMl0gIF9fZHJp
-dmVyX3Byb2JlX2RldmljZSsweDc4LzB4ZTANCj4gWyAgIDIzLjc2NDEyOV0gIGRyaXZlcl9w
-cm9iZV9kZXZpY2UrMHhkOC8weDE1Yw0KPiBbICAgMjMuNzY0MTM2XSAgX19kcml2ZXJfYXR0
-YWNoKzB4OTQvMHgxOWMNCj4gWyAgIDIzLjc2NDE0M10gIGJ1c19mb3JfZWFjaF9kZXYrMHg3
-MC8weGQwDQo+IFsgICAyMy43NjQxNDldICBkcml2ZXJfYXR0YWNoKzB4MjQvMHgzMA0KPiBb
-ICAgMjMuNzY0MTU1XSAgYnVzX2FkZF9kcml2ZXIrMHgxNTQvMHgyMGMNCj4gWyAgIDIzLjc2
-NDE2MV0gIGRyaXZlcl9yZWdpc3RlcisweDc4LzB4MTMwDQo+IFsgICAyMy43NjQxNjhdICBf
-X3BsYXRmb3JtX2RyaXZlcl9yZWdpc3RlcisweDI4LzB4MzQNCj4gWyAgIDIzLjc2NDE3Nl0g
-IHJjYXJfZHVfcGxhdGZvcm1fZHJpdmVyX2luaXQrMHgyMC8weDEwMDAgW3JjYXJfZHVfZHJt
-XQ0KPiANCj4gQ2hlZXJzLA0KPiBCaWp1DQo+IA0KPj4gU3ViamVjdDogW1BBVENIIHYyIDUv
-Nl0gZHJtL2ZiLWhlbHBlcjogU2NoZWR1bGUgZGVmZXJyZWQtSS9PIHdvcmtlciBhZnRlcg0K
-Pj4gd3JpdGluZyB0byBmcmFtZWJ1ZmZlcg0KPiANCj4+IFNjaGVkdWxlIHRoZSBkZWZlcnJl
-ZC1JL08gd29ya2VyIGluc3RlYWQgb2YgdGhlIGRhbWFnZSB3b3JrZXIgYWZ0ZXINCj4+IHdy
-aXRpbmcgdG8gdGhlIGZiZGV2IGZyYW1lYnVmZmVyLiBUaGUgZGVmZXJyZWQtSS9PIHdvcmtl
-ciB0aGVuIHBlcmZvcm1zDQo+PiB0aGUgZGlydHktZmIgdXBkYXRlLiBUaGUgZmJkZXYgZW11
-bGF0aW9uIHdpbGwgaW5pdGlhbGl6ZSBkZWZlcnJlZCBJL08NCj4+IGZvciBhbGwgZHJpdmVy
-cyB0aGF0IHJlcXVpcmUgZGFtYWdlIHVwZGF0ZXMuIEl0IGlzIHRoZXJlZm9yZSBhIHZhbGlk
-DQo+PiBhc3N1bXB0aW9uIHRoYXQgdGhlIGRlZmVycmVkLUkvTyB3b3JrZXIgaXMgcHJlc2Vu
-dC4NCj4gDQo+PiBJdCB3b3VsZCBiZSBwb3NzaWJsZSB0byBwZXJmb3JtIHRoZSBkYW1hZ2Ug
-aGFuZGxpbmcgZGlyZWN0bHkgZnJvbSB3aXRoaW4NCj4+IHRoZSB3cml0ZSBvcGVyYXRpb24u
-IEJ1dCBkb2luZyB0aGlzIGNvdWxkIGluY3JlYXNlIHRoZSBvdmVyaGVhZCBvZiB0aGUNCj4+
-IHdyaXRlIG9yIGludGVyZmVyZSB3aXRoIGEgY29uY3VycmVudGx5IHNjaGVkdWxlZCBkZWZl
-cnJlZC1JL08gd29ya2VyLg0KPj4gSW5zdGVhZCwgc2NoZWR1bGluZyB0aGUgZGVmZXJyZWQt
-SS9PIHdvcmtlciB3aXRoIGl0cyByZWd1bGFyIGRlbGF5IG9mDQo+PiA1MCBtcyByZW1vdmVz
-IGxvYWQgb2ZmIHRoZSB3cml0ZSBvcGVyYXRpb24gYW5kIGFsbG93cyB0aGUgZGVmZXJyZWQt
-SS9PDQo+PiB3b3JrZXIgdG8gaGFuZGxlIG11bHRpcGxlIHdyaXRlIG9wZXJhdGlvbnMgdGhh
-dCBhcnJpdmVkIGR1cmluZyB0aGUgZGVsYXkNCj4+IHRpbWUgd2luZG93Lg0KPiANCj4+IHYy
-Og0KPj4gCSoga2VlcCBkcm1fZmJfaGVscGVyX2RhbWFnZSgpIChEYW5pZWwpDQo+PiAJKiB1
-c2UgZmJfZGVmZXJyZWRfaW9fc2NoZWR1bGVfZmx1c2goKSAoRGFuaWVsKQ0KPj4gCSogY2xh
-cmlmeSBjb21tZW50cyAoRGFuaWVsKQ0KPiANCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBa
-aW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gUmV2aWV3ZWQtYnk6IERhbmll
-bCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+DQoNCi0tIA0KVGhvbWFzIFppbW1l
-cm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRp
-b25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJt
-YW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZv
-IFRvdGV2DQo=
+However this also might not be correct representation of hardware
+(dunno...), so I am also running out of ideas.
 
---------------C0AxTP0fjJ0eEs6VraromRGQ--
+Anyway, I appreciate your explanations. I don't oppose this and I defer
+the decision to Rob (for this or for v3 patch with descriptive strings).
 
---------------YtdBwOD1MwLhXVusXGrhYRId
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Best regards,
+Krzysztof
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmN93NYFAwAAAAAACgkQlh/E3EQov+Dq
-YQ//eImqx+UP5CaEzt43qbgFD9rVga1oKV3Ed70pbfOZOZPBJdWcjlo1sDHYMMN4Px8+eRsfNrHZ
-VqcVYmZXgzfJHgt/y+lbhypvNLyVq2MGlOSqKy74P2LVPqSY4He150vLSlWENn/RedvpASKWcF48
-no9Su7qLpPsKb7vb5WfbWxD5+ypJk/4h0QiYqrJkiNQ1BygrmgSXwB3S773qztzSkgqHHUN/cn/o
-Bj76pC2G+JSC4XXFSK+FFex/HN/hynstNFIFj891AyqZgVjxwUt1PF/trGRP7D6Dvy4Cai8oDqCs
-qR81eG11hNV7e0KmM5PN8MKrAoVZ24jX4nMkuw6/GOW6rCoDILA3v+yu4nhOnw6TxjfqfXNGYg1n
-ltr1XIubp7qXaV4Lk/MLYUje83yJGKGVqbUr7lImWlkZ93YP4E7Pb/toPdZQqooTS87omr4iOW7u
-fRbOg94b9nAU2XylDX/3BbSAT0eL64+S3ia5cSpRg4JIyOJgHuiHYV3LJa6nOf5NeUWu4cQsdDE/
-KBhVa8D7A5EksKO4XBeCKNAK7L0ngPQxbCUgnG7E/IHPXS3898R62TLkTNuRbcykC6Hb8fU6hnQn
-xRmbF7JAoNFONrJdQFMfi0RMuo6RtU4zwoYguJeYPo5q2zd2T1BCqrLkvSqOOxA4BBOK9kEPCpms
-ah4=
-=AAix
------END PGP SIGNATURE-----
-
---------------YtdBwOD1MwLhXVusXGrhYRId--
