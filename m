@@ -2,240 +2,232 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 168706352A2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Nov 2022 09:30:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C6146352F3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Nov 2022 09:42:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236631AbiKWI31 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Nov 2022 03:29:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37158 "EHLO
+        id S236643AbiKWImC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Nov 2022 03:42:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236562AbiKWI25 (ORCPT
+        with ESMTP id S236642AbiKWImB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Nov 2022 03:28:57 -0500
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2127.outbound.protection.outlook.com [40.107.114.127])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3C75205F9;
-        Wed, 23 Nov 2022 00:28:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=odk1JPa0AgF+iCFjVXRd6qitQw8W9zntZlwc7F5u4DBysQJLF4zK4WPccUVeLgy1GVbhxx2Zw0jCjLV7klZ/zjOawb/dTcnDanPIplJLqFFzOIFS8pzJqbEzQxqT+w+7OGDxcNRQkUVpWWxGGzNJ8pM+Sdmp595rxY2JYf8a39KosW3bGsmvr/ILn1r4b3+3Nj96bGC1TlcAXptcRYbAlrpcG6Q6vtzuw62v3bQ7xDiVSCWGSL9CIicDz1pQN05WRtF50x2yhuPhyTJ+1b9OVwQrZMFbG/tUdldjpi+aATeGApgz1mCqFrhlV3YDa6/NEkEsxJ1m+6AMDa6dqFhhKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R2lTorZ0JlpTanTWsrAzX/JSZT84mBygRwcR+I6W0kk=;
- b=djOQPyP4QvzQI+quHgcTFmIvLD/LdCHbwTjGnaCXx5rgZ8vRVzyKEwvrZorECLT+F4cOqXhxteJwX9BD/N36HreAwiNV1W/d8zuMO0AEKEZOdAknJ0TtuzifbZcNkliDVBmnNokrW3e6dYr1XqtLiatpgOTWdIfU95WCuvhrb0BWdxhZTbnJUbmkmP5vudOTW30JYuGwrAePQ37qx4h1Vz34SUtlE7lg3wFcg76Fbu9X8Gs7CnM90kWrpRGMg5NioTE3gz8Vhc8oRh59ID8N0mScXjX7k3PP9MW8k5xxieV67gAicryex4wyT09l0aqEAy5fh/CVz1SIb3Nlv9etJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R2lTorZ0JlpTanTWsrAzX/JSZT84mBygRwcR+I6W0kk=;
- b=FZ45AGbFdxEh699r2xLEmYUdW8Jq2IRgoLtihHebPni4SI1UUyarVk/mjMrCb42hj8Ki3sKLSxrPSmD6u5wXhSTdpMyae2Q9NGlf1HCRurY1JWT6X6kRZX7uD71ZolZt+/Tw6MTCqHcCqm9vAijS3t97xN2ekYQ/CT9wvgQESt0=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TY3PR01MB9873.jpnprd01.prod.outlook.com (2603:1096:400:22b::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Wed, 23 Nov
- 2022 08:28:51 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2cfb:38d2:d52e:c8a3]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2cfb:38d2:d52e:c8a3%5]) with mapi id 15.20.5834.015; Wed, 23 Nov 2022
- 08:28:51 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     "tzimmermann@suse.de" <tzimmermann@suse.de>
-CC:     "airlied@gmail.com" <airlied@gmail.com>,
-        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "javierm@redhat.com" <javierm@redhat.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>
+        Wed, 23 Nov 2022 03:42:01 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3337FF3901;
+        Wed, 23 Nov 2022 00:42:00 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id C0BF11F8AF;
+        Wed, 23 Nov 2022 08:41:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1669192918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=FIU8rB0jBxPdshXU3vQfGHebITOdy2BC9J0ZJyhHVhw=;
+        b=fpeL45wJ1w0tROUmRaiKWTXJ83RNc4peu0UVzlXLGYkilraPp3MhSZWXhoprf6g0HlZ81v
+        kF44fXYsS6lQHoC8vuMyUIUjccglpwZCgK1ga+MSHS3r0M9LNHPvQJ3pvIX9udXAPY8TGd
+        yHsvQtR/wvgY3hwjiOGQcEB9f3tlcRw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1669192918;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=FIU8rB0jBxPdshXU3vQfGHebITOdy2BC9J0ZJyhHVhw=;
+        b=5x48guDJrIWu45HcQgwoWfecq7PNMVpHehfV08TAzDo93UohPMPjAHUiboy57Aoz+ly4/q
+        b8FyZM3FTrxki3Cw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 92D1213A37;
+        Wed, 23 Nov 2022 08:41:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id aoW9ItbcfWPAeQAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Wed, 23 Nov 2022 08:41:58 +0000
+Message-ID: <d1a3302d-b0e3-f470-f2c0-c48f990701f2@suse.de>
+Date:   Wed, 23 Nov 2022 09:41:58 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
 Subject: Re: [PATCH v2 5/6] drm/fb-helper: Schedule deferred-I/O worker after
  writing to framebuffer
-Thread-Topic: Re: [PATCH v2 5/6] drm/fb-helper: Schedule deferred-I/O worker
- after writing to framebuffer
-Thread-Index: Adj/Ego4F6mti9kBRqOBoe7Z1q73qw==
-Date:   Wed, 23 Nov 2022 08:28:51 +0000
-Message-ID: <OS0PR01MB592225470AD263665B0E8647860C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TY3PR01MB9873:EE_
-x-ms-office365-filtering-correlation-id: 7adf1d29-9f61-4c00-d98f-08dacd2cc053
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9yGMNp6Ar+sZ0MWm/maqryc/N0AgIdVhyKdkPgLu+EnL5Dp1+Ym/ZUC/wqPw86TPbM4MJlkVMRYINb3V+vyr9cExTqvShqxA1vTyzNzqJDFZxpgoc6+rsUNFA3wuDc8pa0MAXvLo/JbPDVU391YOijiBTXBn8BEHB95ZpoAWVDR3q0vJjhHhfok23Woz4MMVCocy/mu6CdfcJEVKmg57OdD7wHXHkHwV4G+9+fbP3s5zBTplX0Ylki331Lywv37uwf+W6LMmlboOk4ibJlydf5JXqf9htEAVpRp0LOkwUvS0I501gerSFVo8HB6c9FVZfLcHwniS+UcRbOqZAD6EJcLG+q97vQpGraHGFAef/Spw4JhLxmPxxPzKKSoKSBtLnQh2x5Ggnfi55TsUj/vyX8ln2THHAvRbW/+nKDTsjbI4j8kWMkSMcpE1zIcbGZGHJM2xGkyLJh0jw1YS0QaM7b/TyLtiQx7CM9NNqoz/wYVyObe+gyMSVE+kCrWuaWtWXSevqK04xipiOYoeRGfEfLqugDGYKXRZe5J/AqWsSp/5g5sTLh+xcU3thoANARAf1hdmttSZm4K3KsbmRc1VZt15JaV2zMZwy/XHfG5kkfbeheZFVDkH/936lqjskIMW+PIplWcdEzJ7mwZ3e2FCN1SfLGfswLGoW/+JaZiuQqFp3295mC2Ve6+ZnNCS7p/CQr1c2i8MV9SkaeYPE/Za6w==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(376002)(39860400002)(346002)(396003)(451199015)(33656002)(52536014)(38070700005)(41300700001)(38100700002)(2906002)(86362001)(66476007)(83380400001)(122000001)(9686003)(66556008)(8676002)(66946007)(316002)(66446008)(4326008)(76116006)(186003)(71200400001)(45080400002)(64756008)(54906003)(26005)(8936002)(55016003)(478600001)(7416002)(6916009)(5660300002)(7696005)(6506007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?cp4ucFWG8o256GLz81hrJVGrbI50qUK4phlbgNtbrCy9mFilB9wbzUzotnqF?=
- =?us-ascii?Q?JZ93cnM9RVIAFv/dE8FwEuwo3kIx/8YIBc5u9AL6qZOVtOK7cT/3k4neE2ht?=
- =?us-ascii?Q?cUjGbIa3T984vYwwRF6hLX9dL91CHhT3tuKp7WMdqf9YYpNnhC9QMuqpIFgZ?=
- =?us-ascii?Q?3r6qV8KeSBqcs5CWsEGmLRsi1TmDbMGpMBymulVuT5TNHouESr4IRIfZ5h2p?=
- =?us-ascii?Q?bMGNCk2V+QrUQYzSIuonvJ2wjlS+k+5KAdFJHATOSWGdZMIxpu+Wcl7Bi5uz?=
- =?us-ascii?Q?hQGPQ9QbeztfhQM8JyXiyZUG47gUiviuuX9hcr4fJGdXuoTAHVAuLFqFqI7C?=
- =?us-ascii?Q?nOh2bgkHn/tE//6nhkm01e+ss/vLQ6o2fr8QpTiu1fd6+Lkm/SN7VpMviGcF?=
- =?us-ascii?Q?K8t4Ciq1NZtVjOM5l/o/qBvnxlNxNTiz/CcNzZeZilVCYvwFItdkIZWcPZnF?=
- =?us-ascii?Q?UTqeAJR953ciYJZpiYtEnX/LBEPzAWU5qHdrMsyesbHtfz94VZy0QiRPuJwH?=
- =?us-ascii?Q?dGhalsiz71dmusUn+gJTdU037whQw62olh8BzfVkxJITJNH+5o8J3RdUL2TK?=
- =?us-ascii?Q?bYFZboEjKE4qDleQZ4A/gtEzmSOyhLnbiubgooXfjNrAOfR7J6F7l++ugJMA?=
- =?us-ascii?Q?QjvbJWKmkisaKGKzQjJ0qMwLKCgSSllcpCGEVUg+JoYj6ywpCcexnoQ9ccIN?=
- =?us-ascii?Q?FgUFLvyDloXMH4R1EVINphZLX3PE8NXIBTX1AQ0+3eB9gzL9i8KwN0nKeRDu?=
- =?us-ascii?Q?iN3G6HiOgOJl6VTKrq1HBVLbUPhZGhNgEZQcgFErg9WxrEtg18a9vmT5pAYA?=
- =?us-ascii?Q?52aeNOd6SapoKzeZpkPMyKaD1pJgZgXZ1JYJeuvq4o1lgNPudkR4p4oQU3Gb?=
- =?us-ascii?Q?gw+lkPxXdM+u41kzBMje8WUX/HOn9T2rXf17RXlcFRkcVmYlUFS3eESYxdBl?=
- =?us-ascii?Q?waZySLfsHczCrGyDLT+5MYHV9DLUjzcLsymbasJzxyEvkLkv4/j2EljpD2Kj?=
- =?us-ascii?Q?JOPFqTTZJ56O7GM0Stp/8EKm78Jm7kGNT4uiZMiFTM8BFSqkfe7m17qAqI7W?=
- =?us-ascii?Q?D6zrMOg1E3pMKI6zFoV3s7V+tr4t94SALTHpWbaEYRPt8VXv+W172EUjeV+o?=
- =?us-ascii?Q?cqh9wX74u086SHb+42vs4M35u2v5+j2zTMYMVdkgBUFoiZx9/sxyD+42W4YY?=
- =?us-ascii?Q?K5UHBvnjWi0jDh7x9BAm6HPJ+i5AdeLxbRnCmU29TLmjcbmHtphxcw0qPwEd?=
- =?us-ascii?Q?jl02Xkd6kLpbd+k01wBN8+JMq9FNwjzMQhuEtCu8bnPSIofc0ZPYEkc3Eo/l?=
- =?us-ascii?Q?6MZ5hduK5BlPtI6oRSom985rYZ91iyTZxfP2gqVQA6lsHjlJq7EOVxewGXQX?=
- =?us-ascii?Q?uUHaFYO9QfbTWUEiXqaJ4hjTsrnNE2n0wtl4K5fgvfr3qFK4dC/BnnRAqGpM?=
- =?us-ascii?Q?7Vo5TutaX2AH8mwR+L6iI9zGiPuzZJMOWrNpL0S5VQk2NQX4BPiXnILjQY2y?=
- =?us-ascii?Q?gmki0hnZbXtmZX3O0grCZKZ15J0tnPdlnuOvlRz4LDc2y0PxTZkTR2Rvo3BX?=
- =?us-ascii?Q?YiJVQuoT27UTJk5IebvPZur3kJpWUXNChzJ7dHrEP2HdZz/Ru84zpHqDLoWc?=
- =?us-ascii?Q?Rg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7adf1d29-9f61-4c00-d98f-08dacd2cc053
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2022 08:28:51.5166
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jpPqh4OGsIyJL7KoVv/4SNe5HFTiGcYw/10vxYfqPLR5uZnjunCHpbTjCRpbzCNMrZhzmwVImxsdbjFzqvTFgHoYp/905nWPqV0g4ZJK0eM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB9873
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+        "javierm@redhat.com" <javierm@redhat.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <OS0PR01MB592225470AD263665B0E8647860C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <OS0PR01MB592225470AD263665B0E8647860C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------YtdBwOD1MwLhXVusXGrhYRId"
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi All,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------YtdBwOD1MwLhXVusXGrhYRId
+Content-Type: multipart/mixed; boundary="------------C0AxTP0fjJ0eEs6VraromRGQ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+ "javierm@redhat.com" <javierm@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Message-ID: <d1a3302d-b0e3-f470-f2c0-c48f990701f2@suse.de>
+Subject: Re: [PATCH v2 5/6] drm/fb-helper: Schedule deferred-I/O worker after
+ writing to framebuffer
+References: <OS0PR01MB592225470AD263665B0E8647860C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB592225470AD263665B0E8647860C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 
-The below patch in Linux-next 20221123 is causing regression on Renesas {RZ=
-/G2M, R-Car Gen-3}
-Platforms.
+--------------C0AxTP0fjJ0eEs6VraromRGQ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Steps to reproduce:
+SGkNCg0KQW0gMjMuMTEuMjIgdW0gMDk6Mjggc2NocmllYiBCaWp1IERhczoNCj4gSGkgQWxs
+LA0KPiANCj4gVGhlIGJlbG93IHBhdGNoIGluIExpbnV4LW5leHQgMjAyMjExMjMgaXMgY2F1
+c2luZyByZWdyZXNzaW9uIG9uIFJlbmVzYXMge1JaL0cyTSwgUi1DYXIgR2VuLTN9DQo+IFBs
+YXRmb3Jtcy4NCj4gDQo+IFN0ZXBzIHRvIHJlcHJvZHVjZToNCj4gDQo+IFVzZSB0aGUgYXJt
+NjQgZGVmY29uZmlnIHRvIGJ1aWxkIHRoZSBrZXJuZWwgYW5kIHRoZW4gYm9vdCB0aGUgYm9h
+cmQuDQo+IA0KPiBJcyB0aGVyZSBhbnkgcGF0Y2ggdG8gZml4IHRoZSBwcm9ibGVtPyBJIGFt
+IGhhcHB5IHRvIHRlc3QuDQoNCkEgcmV2ZXJ0IGlzIGFscmVhZHkgb24gdGhlIHdheS4gSXQg
+c2hvdWxkIHJlYWNoIGxpbnV4LW5leHQgYnkgbmV4dCB3ZWVrLg0KDQpCZXN0IHJlZ2FyZHMN
+ClRob21hcw0KDQo+IA0KPiBMb2dzOi0NCj4gDQo+IFsgICAyMy43NjI5OTldIENvbnNvbGU6
+IHN3aXRjaGluZyB0byBjb2xvdXIgZnJhbWUgYnVmZmVyIGRldmljZSAyNDB4NjcNCj4gWyAg
+IDIzLjc2MzEyOF0gLS0tLS0tLS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0tDQo+IFsg
+ICAyMy43NjMxMzNdIFdBUk5JTkc6IENQVTogMyBQSUQ6IDI3OCBhdCBkcml2ZXJzL3ZpZGVv
+L2ZiZGV2L2NvcmUvZmJfZGVmaW8uYzozNDAgZmJfZGVmZXJyZWRfaW9fc2NoZWR1bGVfZmx1
+c2grMHgzOC8weDQwDQo+IFsgICAyMy43NjMxNjRdIE1vZHVsZXMgbGlua2VkIGluOiBjZmc4
+MDIxMSgrKSByY2FyX2R1X2RybSgrKSByY2FyX21pcGlfZHNpIHJjYXJfY21tIHJjYXJfbHZk
+cyBzbmRfc29jX2hkbWlfY29kZWMgdnNwMSBkd19oZG1pX2NlYyBkd19oZG1pX2kyc19hdWRp
+byByY2FyX2ZkcDEgdjRsMl9tZW0ybWVtIHZpZGVvYnVmMl92bWFsbG9jIHJjYXJfZHdfaGRt
+aSB2aWRlb2J1ZjJfZG1hX2NvbnRpZyBkd19oZG1pIHZpZGVvYnVmMl9tZW1vcHMgaGNpX3Vh
+cnQgdmlkZW9idWYyX3Y0bDIgY2VjIHZpZGVvYnVmMl9jb21tb24gY3JjdDEwZGlmX2NlIGJ0
+cWNhIGRybV9kaXNwbGF5X2hlbHBlciBzbmRfc29jX2F1ZGlvX2dyYXBoX2NhcmQgZHJtX2Rt
+YV9oZWxwZXIgdmlkZW9kZXYgc25kX3NvY19zaW1wbGVfY2FyZF91dGlscyBidGJjbSB3bGNv
+cmVfc2RpbyBtYyByY2FyX2ZjcCBkaXNwbGF5X2Nvbm5lY3RvciBibHVldG9vdGggcmNhcl9j
+YW4gZHJtX2ttc19oZWxwZXIgZWNkaF9nZW5lcmljIHJlbmVzYXNfdXNiMyBlY2Mgc25kX3Nv
+Y19yY2FyIGRybSByZmtpbGwgY2FuX2RldiBwd21fcmNhciB1c2JfZG1hYyByZW5lc2FzX3Vz
+YmhzIHBoeV9yY2FyX2dlbjNfdXNiMyBpcHY2DQo+IFsgICAyMy43NjMzMTRdIENQVTogMyBQ
+SUQ6IDI3OCBDb21tOiBzeXN0ZW1kLXVkZXZkIE5vdCB0YWludGVkIDYuMS4wLXJjNi1uZXh0
+LTIwMjIxMTIzLTEwNDMyLWc3MzZiNmQ4MWQ5M2MgIzMxNA0KPiBbICAgMjMuNzYzMzIzXSBI
+YXJkd2FyZSBuYW1lOiBIb3BlUnVuIEhpSG9wZSBSWi9HMk0gd2l0aCBzdWIgYm9hcmQgKERU
+KQ0KPiBbICAgMjMuNzYzMzI5XSBwc3RhdGU6IDgwMDAwMDA1IChOemN2IGRhaWYgLVBBTiAt
+VUFPIC1UQ08gLURJVCAtU1NCUyBCVFlQRT0tLSkNCj4gWyAgIDIzLjc2MzMzN10gcGMgOiBm
+Yl9kZWZlcnJlZF9pb19zY2hlZHVsZV9mbHVzaCsweDM4LzB4NDANCj4gWyAgIDIzLjc2MzM0
+NF0gbHIgOiBkcm1fZmJfaGVscGVyX3N5c19pbWFnZWJsaXQrMHhhOC8weGM0IFtkcm1fa21z
+X2hlbHBlcl0NCj4gWyAgIDIzLjc2MzQ3NF0gc3AgOiBmZmZmODAwMDBhYzViM2MwDQo+IFsg
+ICAyMy43NjM0NzhdIHgyOTogZmZmZjgwMDAwYWM1YjNjMCB4Mjg6IDAwMDAwMDAwZmZmZmZm
+ZmYgeDI3OiAwMDAwMDAwMDAwMDAwMDEwDQo+IFsgICAyMy43NjM0ODldIHgyNjogZmZmZjAw
+MDVjMTM1NjAwMCB4MjU6IGZmZmYwMDA1YzNhODA4MDAgeDI0OiBmZmZmMDAwNWMwMjUyOGNj
+DQo+IFsgICAyMy43NjM0OTldIHgyMzogMDAwMDAwMDAwMDAwMDAwMCB4MjI6IDAwMDAwMDAw
+MDAwMDAxODAgeDIxOiAwMDAwMDAwMDAwMDAwMDA4DQo+IFsgICAyMy43NjM1MDldIHgyMDog
+MDAwMDAwMDAwMDAwMDAxMCB4MTk6IGZmZmYwMDA1YzAyNTI4MDAgeDE4OiAwMDAwMDAwMDAw
+MDAwMDAxDQo+IFsgICAyMy43NjM1MTldIHgxNzogMDAwMDAwMDAwMDAwMDAwNCB4MTY6IDAw
+MDAwMDAwMDAwMDAwMDAgeDE1OiAwMDAwMDAwMDAwMDAwMDAwDQo+IFsgICAyMy43NjM1Mjld
+IHgxNDogMDAwMDAwMDAwMDAwMDAyMCB4MTM6IDAwMDAwMDAwMDAwMDAwMDAgeDEyOiAwMDAw
+MDAwMDAwMDAwMDIwDQo+IFsgICAyMy43NjM1MzldIHgxMTogMDAwMDAwMDBmZmZmZmZmZiB4
+MTA6IDAwMDAwMDAwMDAwMDAwMDEgeDkgOiAwMDAwMDAwMDAwMDAwMDAxDQo+IFsgICAyMy43
+NjM1NDldIHg4IDogZmZmZjAwMDVjMTM1NjAxMCB4NyA6IDAwMDAwMDAwMDAwMDAwMDggeDYg
+OiAwMDAwMDAwMDAwMDAwMDAwDQo+IFsgICAyMy43NjM1NTldIHg1IDogMDAwMDAwMDAwMDAw
+MDE5MCB4NCA6IDAwMDAwMDAwMDAwMDAxODAgeDMgOiAwMDAwMDAwMDAwMDAwMDA4DQo+IFsg
+ICAyMy43NjM1NjldIHgyIDogMDAwMDAwMDAwMDAwMDAwMCB4MSA6IDAwMDAwMDAwMDAwMDAw
+MDAgeDAgOiBmZmZmMDAwNWMzYTgwODAwDQo+IFsgICAyMy43NjM1ODBdIENhbGwgdHJhY2U6
+DQo+IFsgICAyMy43NjM1ODVdICBmYl9kZWZlcnJlZF9pb19zY2hlZHVsZV9mbHVzaCsweDM4
+LzB4NDANCj4gWyAgIDIzLjc2MzU5NF0gIGRybV9mYmRldl9mYl9pbWFnZWJsaXQrMHgzOC8w
+eDcwIFtkcm1fa21zX2hlbHBlcl0NCj4gWyAgIDIzLjc2MzY3MV0gIHNvZnRfY3Vyc29yKzB4
+MTVjLzB4MjAwDQo+IFsgICAyMy43NjM2ODBdICBiaXRfY3Vyc29yKzB4M2FjLzB4NTAwDQo+
+IFsgICAyMy43NjM2ODddICBmYmNvbl9jdXJzb3IrMHhlYy8weDExYw0KPiBbICAgMjMuNzYz
+Njk0XSAgaGlkZV9jdXJzb3IrMHgzYy8weGMwDQo+IFsgICAyMy43NjM3MDhdICByZWRyYXdf
+c2NyZWVuKzB4MTI4LzB4MjQwDQo+IFsgICAyMy43NjM3MTddICBkb19iaW5kX2Nvbl9kcml2
+ZXIuaXNyYS4wKzB4MmM4LzB4MzljDQo+IFsgICAyMy43NjM3MjZdICBkb190YWtlX292ZXJf
+Y29uc29sZSsweDE0MC8weDIwMA0KPiBbICAgMjMuNzYzNzM2XSAgZG9fZmJjb25fdGFrZW92
+ZXIrMHg2Yy8weGU0DQo+IFsgICAyMy43NjM3NDJdICBmYmNvbl9mYl9yZWdpc3RlcmVkKzB4
+MWU0LzB4MWYwDQo+IFsgICAyMy43NjM3NDldICByZWdpc3Rlcl9mcmFtZWJ1ZmZlcisweDIx
+NC8weDMxMA0KPiBbICAgMjMuNzYzNzYxXSAgX19kcm1fZmJfaGVscGVyX2luaXRpYWxfY29u
+ZmlnX2FuZF91bmxvY2srMHgzM2MvMHg1MzQgW2RybV9rbXNfaGVscGVyXQ0KPiBbICAgMjMu
+NzYzODM3XSAgZHJtX2ZiX2hlbHBlcl9pbml0aWFsX2NvbmZpZysweDRjLzB4NjAgW2RybV9r
+bXNfaGVscGVyXQ0KPiBbICAgMjMuNzYzOTEyXSAgZHJtX2ZiZGV2X2NsaWVudF9ob3RwbHVn
+KzB4YzQvMHgxNTAgW2RybV9rbXNfaGVscGVyXQ0KPiBbICAgMjMuNzYzOTg3XSAgZHJtX2Zi
+ZGV2X2dlbmVyaWNfc2V0dXArMHg5MC8weDE1NCBbZHJtX2ttc19oZWxwZXJdDQo+IFsgICAy
+My43NjQwNjFdICByY2FyX2R1X3Byb2JlKzB4MTU0LzB4MTg0IFtyY2FyX2R1X2RybV0NCj4g
+WyAgIDIzLjc2NDEwM10gIHBsYXRmb3JtX3Byb2JlKzB4NjgvMHhlMA0KPiBbICAgMjMuNzY0
+MTE1XSAgcmVhbGx5X3Byb2JlKzB4YmMvMHgyZTANCj4gWyAgIDIzLjc2NDEyMl0gIF9fZHJp
+dmVyX3Byb2JlX2RldmljZSsweDc4LzB4ZTANCj4gWyAgIDIzLjc2NDEyOV0gIGRyaXZlcl9w
+cm9iZV9kZXZpY2UrMHhkOC8weDE1Yw0KPiBbICAgMjMuNzY0MTM2XSAgX19kcml2ZXJfYXR0
+YWNoKzB4OTQvMHgxOWMNCj4gWyAgIDIzLjc2NDE0M10gIGJ1c19mb3JfZWFjaF9kZXYrMHg3
+MC8weGQwDQo+IFsgICAyMy43NjQxNDldICBkcml2ZXJfYXR0YWNoKzB4MjQvMHgzMA0KPiBb
+ICAgMjMuNzY0MTU1XSAgYnVzX2FkZF9kcml2ZXIrMHgxNTQvMHgyMGMNCj4gWyAgIDIzLjc2
+NDE2MV0gIGRyaXZlcl9yZWdpc3RlcisweDc4LzB4MTMwDQo+IFsgICAyMy43NjQxNjhdICBf
+X3BsYXRmb3JtX2RyaXZlcl9yZWdpc3RlcisweDI4LzB4MzQNCj4gWyAgIDIzLjc2NDE3Nl0g
+IHJjYXJfZHVfcGxhdGZvcm1fZHJpdmVyX2luaXQrMHgyMC8weDEwMDAgW3JjYXJfZHVfZHJt
+XQ0KPiANCj4gQ2hlZXJzLA0KPiBCaWp1DQo+IA0KPj4gU3ViamVjdDogW1BBVENIIHYyIDUv
+Nl0gZHJtL2ZiLWhlbHBlcjogU2NoZWR1bGUgZGVmZXJyZWQtSS9PIHdvcmtlciBhZnRlcg0K
+Pj4gd3JpdGluZyB0byBmcmFtZWJ1ZmZlcg0KPiANCj4+IFNjaGVkdWxlIHRoZSBkZWZlcnJl
+ZC1JL08gd29ya2VyIGluc3RlYWQgb2YgdGhlIGRhbWFnZSB3b3JrZXIgYWZ0ZXINCj4+IHdy
+aXRpbmcgdG8gdGhlIGZiZGV2IGZyYW1lYnVmZmVyLiBUaGUgZGVmZXJyZWQtSS9PIHdvcmtl
+ciB0aGVuIHBlcmZvcm1zDQo+PiB0aGUgZGlydHktZmIgdXBkYXRlLiBUaGUgZmJkZXYgZW11
+bGF0aW9uIHdpbGwgaW5pdGlhbGl6ZSBkZWZlcnJlZCBJL08NCj4+IGZvciBhbGwgZHJpdmVy
+cyB0aGF0IHJlcXVpcmUgZGFtYWdlIHVwZGF0ZXMuIEl0IGlzIHRoZXJlZm9yZSBhIHZhbGlk
+DQo+PiBhc3N1bXB0aW9uIHRoYXQgdGhlIGRlZmVycmVkLUkvTyB3b3JrZXIgaXMgcHJlc2Vu
+dC4NCj4gDQo+PiBJdCB3b3VsZCBiZSBwb3NzaWJsZSB0byBwZXJmb3JtIHRoZSBkYW1hZ2Ug
+aGFuZGxpbmcgZGlyZWN0bHkgZnJvbSB3aXRoaW4NCj4+IHRoZSB3cml0ZSBvcGVyYXRpb24u
+IEJ1dCBkb2luZyB0aGlzIGNvdWxkIGluY3JlYXNlIHRoZSBvdmVyaGVhZCBvZiB0aGUNCj4+
+IHdyaXRlIG9yIGludGVyZmVyZSB3aXRoIGEgY29uY3VycmVudGx5IHNjaGVkdWxlZCBkZWZl
+cnJlZC1JL08gd29ya2VyLg0KPj4gSW5zdGVhZCwgc2NoZWR1bGluZyB0aGUgZGVmZXJyZWQt
+SS9PIHdvcmtlciB3aXRoIGl0cyByZWd1bGFyIGRlbGF5IG9mDQo+PiA1MCBtcyByZW1vdmVz
+IGxvYWQgb2ZmIHRoZSB3cml0ZSBvcGVyYXRpb24gYW5kIGFsbG93cyB0aGUgZGVmZXJyZWQt
+SS9PDQo+PiB3b3JrZXIgdG8gaGFuZGxlIG11bHRpcGxlIHdyaXRlIG9wZXJhdGlvbnMgdGhh
+dCBhcnJpdmVkIGR1cmluZyB0aGUgZGVsYXkNCj4+IHRpbWUgd2luZG93Lg0KPiANCj4+IHYy
+Og0KPj4gCSoga2VlcCBkcm1fZmJfaGVscGVyX2RhbWFnZSgpIChEYW5pZWwpDQo+PiAJKiB1
+c2UgZmJfZGVmZXJyZWRfaW9fc2NoZWR1bGVfZmx1c2goKSAoRGFuaWVsKQ0KPj4gCSogY2xh
+cmlmeSBjb21tZW50cyAoRGFuaWVsKQ0KPiANCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBa
+aW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gUmV2aWV3ZWQtYnk6IERhbmll
+bCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+DQoNCi0tIA0KVGhvbWFzIFppbW1l
+cm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRp
+b25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJt
+YW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZv
+IFRvdGV2DQo=
 
-Use the arm64 defconfig to build the kernel and then boot the board.
+--------------C0AxTP0fjJ0eEs6VraromRGQ--
 
-Is there any patch to fix the problem? I am happy to test.
+--------------YtdBwOD1MwLhXVusXGrhYRId
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Logs:-
+-----BEGIN PGP SIGNATURE-----
 
-[   23.762999] Console: switching to colour frame buffer device 240x67
-[   23.763128] ------------[ cut here ]------------
-[   23.763133] WARNING: CPU: 3 PID: 278 at drivers/video/fbdev/core/fb_defi=
-o.c:340 fb_deferred_io_schedule_flush+0x38/0x40
-[   23.763164] Modules linked in: cfg80211(+) rcar_du_drm(+) rcar_mipi_dsi =
-rcar_cmm rcar_lvds snd_soc_hdmi_codec vsp1 dw_hdmi_cec dw_hdmi_i2s_audio rc=
-ar_fdp1 v4l2_mem2mem videobuf2_vmalloc rcar_dw_hdmi videobuf2_dma_contig dw=
-_hdmi videobuf2_memops hci_uart videobuf2_v4l2 cec videobuf2_common crct10d=
-if_ce btqca drm_display_helper snd_soc_audio_graph_card drm_dma_helper vide=
-odev snd_soc_simple_card_utils btbcm wlcore_sdio mc rcar_fcp display_connec=
-tor bluetooth rcar_can drm_kms_helper ecdh_generic renesas_usb3 ecc snd_soc=
-_rcar drm rfkill can_dev pwm_rcar usb_dmac renesas_usbhs phy_rcar_gen3_usb3=
- ipv6
-[   23.763314] CPU: 3 PID: 278 Comm: systemd-udevd Not tainted 6.1.0-rc6-ne=
-xt-20221123-10432-g736b6d81d93c #314
-[   23.763323] Hardware name: HopeRun HiHope RZ/G2M with sub board (DT)
-[   23.763329] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=
-=3D--)
-[   23.763337] pc : fb_deferred_io_schedule_flush+0x38/0x40
-[   23.763344] lr : drm_fb_helper_sys_imageblit+0xa8/0xc4 [drm_kms_helper]
-[   23.763474] sp : ffff80000ac5b3c0
-[   23.763478] x29: ffff80000ac5b3c0 x28: 00000000ffffffff x27: 00000000000=
-00010
-[   23.763489] x26: ffff0005c1356000 x25: ffff0005c3a80800 x24: ffff0005c02=
-528cc
-[   23.763499] x23: 0000000000000000 x22: 0000000000000180 x21: 00000000000=
-00008
-[   23.763509] x20: 0000000000000010 x19: ffff0005c0252800 x18: 00000000000=
-00001
-[   23.763519] x17: 0000000000000004 x16: 0000000000000000 x15: 00000000000=
-00000
-[   23.763529] x14: 0000000000000020 x13: 0000000000000000 x12: 00000000000=
-00020
-[   23.763539] x11: 00000000ffffffff x10: 0000000000000001 x9 : 00000000000=
-00001
-[   23.763549] x8 : ffff0005c1356010 x7 : 0000000000000008 x6 : 00000000000=
-00000
-[   23.763559] x5 : 0000000000000190 x4 : 0000000000000180 x3 : 00000000000=
-00008
-[   23.763569] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0005c3a=
-80800
-[   23.763580] Call trace:
-[   23.763585]  fb_deferred_io_schedule_flush+0x38/0x40
-[   23.763594]  drm_fbdev_fb_imageblit+0x38/0x70 [drm_kms_helper]
-[   23.763671]  soft_cursor+0x15c/0x200
-[   23.763680]  bit_cursor+0x3ac/0x500
-[   23.763687]  fbcon_cursor+0xec/0x11c
-[   23.763694]  hide_cursor+0x3c/0xc0
-[   23.763708]  redraw_screen+0x128/0x240
-[   23.763717]  do_bind_con_driver.isra.0+0x2c8/0x39c
-[   23.763726]  do_take_over_console+0x140/0x200
-[   23.763736]  do_fbcon_takeover+0x6c/0xe4
-[   23.763742]  fbcon_fb_registered+0x1e4/0x1f0
-[   23.763749]  register_framebuffer+0x214/0x310
-[   23.763761]  __drm_fb_helper_initial_config_and_unlock+0x33c/0x534 [drm_=
-kms_helper]
-[   23.763837]  drm_fb_helper_initial_config+0x4c/0x60 [drm_kms_helper]
-[   23.763912]  drm_fbdev_client_hotplug+0xc4/0x150 [drm_kms_helper]
-[   23.763987]  drm_fbdev_generic_setup+0x90/0x154 [drm_kms_helper]
-[   23.764061]  rcar_du_probe+0x154/0x184 [rcar_du_drm]
-[   23.764103]  platform_probe+0x68/0xe0
-[   23.764115]  really_probe+0xbc/0x2e0
-[   23.764122]  __driver_probe_device+0x78/0xe0
-[   23.764129]  driver_probe_device+0xd8/0x15c
-[   23.764136]  __driver_attach+0x94/0x19c
-[   23.764143]  bus_for_each_dev+0x70/0xd0
-[   23.764149]  driver_attach+0x24/0x30
-[   23.764155]  bus_add_driver+0x154/0x20c
-[   23.764161]  driver_register+0x78/0x130
-[   23.764168]  __platform_driver_register+0x28/0x34
-[   23.764176]  rcar_du_platform_driver_init+0x20/0x1000 [rcar_du_drm]
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmN93NYFAwAAAAAACgkQlh/E3EQov+Dq
+YQ//eImqx+UP5CaEzt43qbgFD9rVga1oKV3Ed70pbfOZOZPBJdWcjlo1sDHYMMN4Px8+eRsfNrHZ
+VqcVYmZXgzfJHgt/y+lbhypvNLyVq2MGlOSqKy74P2LVPqSY4He150vLSlWENn/RedvpASKWcF48
+no9Su7qLpPsKb7vb5WfbWxD5+ypJk/4h0QiYqrJkiNQ1BygrmgSXwB3S773qztzSkgqHHUN/cn/o
+Bj76pC2G+JSC4XXFSK+FFex/HN/hynstNFIFj891AyqZgVjxwUt1PF/trGRP7D6Dvy4Cai8oDqCs
+qR81eG11hNV7e0KmM5PN8MKrAoVZ24jX4nMkuw6/GOW6rCoDILA3v+yu4nhOnw6TxjfqfXNGYg1n
+ltr1XIubp7qXaV4Lk/MLYUje83yJGKGVqbUr7lImWlkZ93YP4E7Pb/toPdZQqooTS87omr4iOW7u
+fRbOg94b9nAU2XylDX/3BbSAT0eL64+S3ia5cSpRg4JIyOJgHuiHYV3LJa6nOf5NeUWu4cQsdDE/
+KBhVa8D7A5EksKO4XBeCKNAK7L0ngPQxbCUgnG7E/IHPXS3898R62TLkTNuRbcykC6Hb8fU6hnQn
+xRmbF7JAoNFONrJdQFMfi0RMuo6RtU4zwoYguJeYPo5q2zd2T1BCqrLkvSqOOxA4BBOK9kEPCpms
+ah4=
+=AAix
+-----END PGP SIGNATURE-----
 
-Cheers,
-Biju
-
-> Subject: [PATCH v2 5/6] drm/fb-helper: Schedule deferred-I/O worker after
-> writing to framebuffer
-
-> Schedule the deferred-I/O worker instead of the damage worker after
-> writing to the fbdev framebuffer. The deferred-I/O worker then performs
-> the dirty-fb update. The fbdev emulation will initialize deferred I/O
-> for all drivers that require damage updates. It is therefore a valid
-> assumption that the deferred-I/O worker is present.
-
-> It would be possible to perform the damage handling directly from within
-> the write operation. But doing this could increase the overhead of the
-> write or interfere with a concurrently scheduled deferred-I/O worker.
-> Instead, scheduling the deferred-I/O worker with its regular delay of
-> 50 ms removes load off the write operation and allows the deferred-I/O
-> worker to handle multiple write operations that arrived during the delay
-> time window.
-
-> v2:
-> 	* keep drm_fb_helper_damage() (Daniel)
->	* use fb_deferred_io_schedule_flush() (Daniel)
->	* clarify comments (Daniel)
-
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+--------------YtdBwOD1MwLhXVusXGrhYRId--
