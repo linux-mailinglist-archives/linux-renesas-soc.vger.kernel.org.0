@@ -2,203 +2,512 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBD5E636281
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Nov 2022 15:56:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EC9D63670E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Nov 2022 18:29:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237963AbiKWO4d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Nov 2022 09:56:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57170 "EHLO
+        id S238742AbiKWR3q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Nov 2022 12:29:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237852AbiKWO4b (ORCPT
+        with ESMTP id S238761AbiKWR3Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Nov 2022 09:56:31 -0500
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FD2570A37;
-        Wed, 23 Nov 2022 06:56:30 -0800 (PST)
-Received: by mail-qt1-f181.google.com with SMTP id w9so11328878qtv.13;
-        Wed, 23 Nov 2022 06:56:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NtDtDOhppRv+31z+yGSZ+dwXt5ca6W+mR7J4/BtnvWc=;
-        b=crf1TcdqaCLycF73ITi/Bku2OZkcETQq+4D4W7jFdyjWOyIfwHhbPRa65pvCUyfWed
-         /mq1IgoU+GUtYNRCfpx/LJf83XP+8MMk21P/2kspDU4ng5swyUv9DuaMrxgPCfD1272Z
-         Jy4VXwaDJ3cMCJDRyRUDjsoslLJJe/UyWOIM1kOzCYcqRx6aGfbeFtZAbhXda4wXoG9V
-         jwFfnUnCdI5CeBy4xNA4VxXIcI/iMx2J06A+ytWDygBhI61KdmomYMWmfCiKvKk4SoAj
-         qG2GRsg8VbwT41Xi9w/l9einR0YqChpFyiqoveGhKeo8GukEPegTXzez4xiVrP/13szs
-         hi0A==
-X-Gm-Message-State: ANoB5pmDruPJbxnJZZbuvCBwPQ95O/DbDVdEAm04fPtTNT1CU249ykJ6
-        +BKTXkD76mxUgmIAhoI4DQSIhWSM53b98g==
-X-Google-Smtp-Source: AA0mqf7LaeoyniaSGsEW1viwZ6mT/yaHtlaLaTubMgxDGL2RUrx72oIT+WEEhVjZ1qdEej5uNIFLoQ==
-X-Received: by 2002:ac8:5204:0:b0:3a5:6a35:bac8 with SMTP id r4-20020ac85204000000b003a56a35bac8mr26453927qtn.615.1669215389311;
-        Wed, 23 Nov 2022 06:56:29 -0800 (PST)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id i10-20020a05620a404a00b006bb8b5b79efsm12574251qko.129.2022.11.23.06.56.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Nov 2022 06:56:29 -0800 (PST)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-3b10392c064so13535117b3.0;
-        Wed, 23 Nov 2022 06:56:29 -0800 (PST)
-X-Received: by 2002:a25:7204:0:b0:6f0:9ff5:1151 with SMTP id
- n4-20020a257204000000b006f09ff51151mr1298002ybc.543.1669215004429; Wed, 23
- Nov 2022 06:50:04 -0800 (PST)
+        Wed, 23 Nov 2022 12:29:24 -0500
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4721C8CFE4;
+        Wed, 23 Nov 2022 09:29:13 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.96,187,1665414000"; 
+   d="scan'208";a="140988261"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 24 Nov 2022 02:29:13 +0900
+Received: from localhost.localdomain (unknown [10.226.92.61])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3AE7840ADCCF;
+        Thu, 24 Nov 2022 02:29:08 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v6 00/19] Add RZ/G2L Display support
+Date:   Wed, 23 Nov 2022 17:28:47 +0000
+Message-Id: <20221123172906.2919734-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <cover.1656341824.git.geert+renesas@glider.be> <923c057c77b146710a82d486f89ce3a8ebda7ccd.1656341824.git.geert+renesas@glider.be>
-In-Reply-To: <923c057c77b146710a82d486f89ce3a8ebda7ccd.1656341824.git.geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 23 Nov 2022 15:49:53 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU5rZVh_oJJjkkD1H33N=49sE3KGaHoRuW1DBc5x=3+PQ@mail.gmail.com>
-Message-ID: <CAMuHMdU5rZVh_oJJjkkD1H33N=49sE3KGaHoRuW1DBc5x=3+PQ@mail.gmail.com>
-Subject: Re: [PATCH 7/7] memory: renesas-rpc-if: Reinitialize registers during
- system resume
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Vignesh Raghavendra <vigneshr@ti.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
-        linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 27, 2022 at 5:31 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> During PSCI system suspend, R-Car Gen3 SoCs may be powered down, and
-> thus the RPC-IF register state may be lost.  Consequently, when using
-> the RPC-IF after system resume, data corruption may happen.
->
-> Fix this by reinitializing the hardware state during system resume.
-> As this requires resuming the RPC-IF core device, this can only be done
-> when the device is under active control of the HyperBus or SPI child
-> driver.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+RZ/G2L LCD controller composed of Frame compression Processor(FCPVD),
+Video signal processor (VSPD) and Display unit(DU). The output of LCDC is
+connected to Display parallel interface and MIPI link video interface.
 
-For v2, I dropped this patch from the series.
+The output from DSI is connected to ADV7535.
 
-Apparently this patch is not needed, nor does it have any impact on
-HyperFLASH read operation on Salvator-XS with R-Car M3-N ES1.0 and
-Ebisu-4D with R-Car E3 ES1.0.
+The DU controller on RZ/G2L LCDC is similar to R-Car as it is
+connected to VSPD. RCar DU lib is created for sharing kms, vsp and encoder
+driver code between both RCar and RZ/G2L and created new CRTC/DRM driver
+specific to RZ/G2L.
 
-On Salvator-X with R-Car M3-W ES1.0, there is a different issue causing
-random bit flips (which is not solved by the Strobe Timing Adjustment
-bit (STRTIM) fix for R-Car M3-W ES1.x in the BSP).
+v5->v6:
+ * Merged DU lib and RZ/G2L du driver in same patch series
+ * Rebased to latest drm-misc.
+ * Merged patch#1 to RZ/G2L Driver patch.
+ * Updated KConfig dependency from ARCH_RENESAS->ARCH_RZG2L.
+ * Optimized rzg2l_du_output_name() by removing unsupported outputs.
+ * Fixed checkpatch warnings
+ * Updated rcar_du_vsp_plane_setup()
+ * Updated rcar_du_fb_create() for the pixel fmt error.
+ * Updated commit description for RZ/G2UL driver patch
+ * Updated Kconfig
+ * Replaced drm_fb_cma_helper->drm_gem_dma_helper
+ * Updated header files.
+v4->v5:
+ * Added Rb tag from Rob for binding patch.
+ * Started using RCar DU libs(kms, vsp and encoder)
+ * Started using rcar_du_device, rcar_du_write, rcar_du_crtc,
+   rcar_du_format_info and rcar_du_encoder.
+v3->v4:
+ * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
+ * started using same compatible for RZ/G2{L,LC}
+ * Removed rzg2l_du_group.h and struct rzg2l_du_group
+ * Renamed __rzg2l_du_group_start_stop->rzg2l_du_start_stop
+ * Removed rzg2l_du_group_restart
+ * Updated rzg2l_du_crtc_set_display_timing
+ * Removed mode_valid callback.
+ * Updated rzg2l_du_crtc_create() parameters
+ * Updated compatible
+ * Removed RZG2L_DU_MAX_GROUPS
+V2->v3:
+ * Added new bindings for RZ/G2L DU
+ * Removed indirection and created new DRM driver based on R-Car DU
+v1->v2:
+ * Based on [1], all references to 'rzg2l_lcdc' replaced with 'rzg2l_du'
+ * Updated commit description for bindings
+ * Removed LCDC references from bindings
+ * Changed clock name from du.0->aclk from bindings
+ * Changed reset name from du.0->du from bindings
+ * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
+ * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
+ * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
+ * Added forward declaration for struct reset_control
 
-On Salvator-XS with R-Car H3-ES2.0, corruption is seen after s2ram.
-TL;DR: while this patch does have impact on that, RPC operation after
-s2ram is still not guaranteed, and the core issue is still not
-understood.
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220312084205.31462-2-biju.das.jz@bp.renesas.com/
 
----
-For testing, I use the following command to read /dev/mtdblock1 (which
-contains the BL2 bootloader) and check its checksum 100 times:
+RFC->v1:
+ * Changed  minItems->maxItems for renesas,vsps.
+ * Added RZ/G2L LCDC driver with special handling for CRTC reusing
+   most of RCar DU code
+ * Fixed the comments for num_rpf from rpf's->RPFs/ and vsp->VSP.
+RFC:
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-18-biju.das.jz@bp.renesas.com/
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-12-biju.das.jz@bp.renesas.com/
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-13-biju.das.jz@bp.renesas.com/
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-19-biju.das.jz@bp.renesas.com/
 
-    time sha256sum -c <(yes $(cat mtdblock1.sha256sum) | head -100)
+Modetest output:-
+root@smarc-rzg2l:~# modetest -M rzg2l-du
+Encoders:
+id      crtc    type    possible crtcs  possible clones
+43      42      none    0x00000001      0x00000001
+45      0       Virtual 0x00000001      0x00000002
 
-After boot and s2idle, the success rate is 100%.
+Connectors:
+id      encoder status          name            size (mm)       modes   encoders
+44      43      connected       HDMI-A-1        520x320         30      43
+  modes:
+        index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot)
+  #0 1920x1080 59.72 1920 1968 2000 2080 1080 1082 1087 1111 138000 flags: phsync, nvsync; type: preferred, driver
+  #1 1920x1080 60.00 1920 2008 2052 2200 1080 1084 1089 1125 148500 flags: phsync, pvsync; type: driver
+  #2 1920x1080 59.94 1920 2008 2052 2200 1080 1084 1089 1125 148352 flags: phsync, pvsync; type: driver
+  #3 1920x1080 59.94 1920 2008 2052 2200 1080 1084 1089 1125 148352 flags: phsync, pvsync; type: driver
+  #4 1280x1024 75.02 1280 1296 1440 1688 1024 1025 1028 1066 135000 flags: phsync, pvsync; type: driver
+  #5 1280x1024 60.02 1280 1328 1440 1688 1024 1025 1028 1066 108000 flags: phsync, pvsync; type: driver
+  #6 1152x864 75.00 1152 1216 1344 1600 864 865 868 900 108000 flags: phsync, pvsync; type: driver
+  #7 1280x720 60.00 1280 1390 1430 1650 720 725 730 750 74250 flags: phsync, pvsync; type: driver
+  #8 1280x720 59.94 1280 1390 1430 1650 720 725 730 750 74176 flags: phsync, pvsync; type: driver
+  #9 1280x720 50.00 1280 1720 1760 1980 720 725 730 750 74250 flags: phsync, pvsync; type: driver
+  #10 1280x720 50.00 1280 1720 1760 1980 720 725 730 750 74250 flags: phsync, pvsync; type: driver
+  #11 1024x768 75.03 1024 1040 1136 1312 768 769 772 800 78750 flags: phsync, pvsync; type: driver
+  #12 1024x768 70.07 1024 1048 1184 1328 768 771 777 806 75000 flags: nhsync, nvsync; type: driver
+  #13 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000 flags: nhsync, nvsync; type: driver
+  #14 1080x607 59.97 1080 1120 1232 1384 607 608 611 629 52210 flags: nhsync, pvsync; type:
+  #15 832x624 74.55 832 864 928 1152 624 625 628 667 57284 flags: nhsync, nvsync; type: driver
+  #16 800x600 75.00 800 816 896 1056 600 601 604 625 49500 flags: phsync, pvsync; type: driver
+  #17 800x600 72.19 800 856 976 1040 600 637 643 666 50000 flags: phsync, pvsync; type: driver
+  #18 800x600 60.32 800 840 968 1056 600 601 605 628 40000 flags: phsync, pvsync; type: driver
+  #19 800x600 56.25 800 824 896 1024 600 601 603 625 36000 flags: phsync, pvsync; type: driver
+  #20 720x576 50.00 720 732 796 864 576 581 586 625 27000 flags: nhsync, nvsync; type: driver
+  #21 720x576 50.00 720 732 796 864 576 581 586 625 27000 flags: nhsync, nvsync; type: driver
+  #22 720x480 60.00 720 736 798 858 480 489 495 525 27027 flags: nhsync, nvsync; type: driver
+  #23 720x480 59.94 720 736 798 858 480 489 495 525 27000 flags: nhsync, nvsync; type: driver
+  #24 640x480 75.00 640 656 720 840 480 481 484 500 31500 flags: nhsync, nvsync; type: driver
+  #25 640x480 72.81 640 664 704 832 480 489 492 520 31500 flags: nhsync, nvsync; type: driver
+  #26 640x480 66.67 640 704 768 864 480 483 486 525 30240 flags: nhsync, nvsync; type: driver
+  #27 640x480 60.00 640 656 752 800 480 490 492 525 25200 flags: nhsync, nvsync; type: driver
+  #28 640x480 59.94 640 656 752 800 480 490 492 525 25175 flags: nhsync, nvsync; type: driver
+  #29 720x400 70.08 720 738 846 900 400 412 414 449 28320 flags: nhsync, pvsync; type: driver
+  props:
+        1 EDID:
+                flags: immutable blob
+                blobs:
 
-1. Without this patch, the failure rate after s2ram is ca. 65%.
+                value:
+                        00ffffffffffff003683832410101010
+                        1416010380342078eeb725ac5130b426
+                        105054bfef8068c0714f818001010101
+                        010101010101e83580a070381f403020
+                        250044682100001a000000ff00303031
+                        30310a20202020202020000000fc0048
+                        444d490a2020202020202020000000fd
+                        00384c1e5317000a20202020202001cf
+                        02031a71471003140513841223090707
+                        8301000065030c0010008c0ad0902040
+                        31200c40550036d431000018011d8018
+                        711c1620582c250036d43100009e011d
+                        80d0721c1620102c258036d43100009e
+                        011d00bc52d01e20b828554036d43100
+                        001ef339801871382d40582c4500c48e
+                        2100001e000000000000000000000054
+        2 DPMS:
+                flags: enum
+                enums: On=0 Standby=1 Suspend=2 Off=3
+                value: 0
+        5 link-status:
+                flags: enum
+                enums: Good=0 Bad=1
+                value: 0
+        6 non-desktop:
+                flags: immutable range
+                values: 0 1
+                value: 0
+        4 TILE:
+                flags: immutable blob
+                blobs:
 
-When splitting and comparing the data read back, some blocks of 64 KiB
-(but not always the same on different runs) have been replaced by bad
-data, containing either data from elsewhere, or all ones.  The latter is
-probably the same symptom as the former, as the HyperFLASH does contain
-blocks with all-ones data.
+                value:
+        20 CRTC_ID:
+                flags: object
+                value: 42
 
-The data from elsewhere looks like e.g.:
+CRTCs:
+id      fb      pos     size
+42      52      (0,0)   (1920x1080)
+  #0 1920x1080 59.72 1920 1968 2000 2080 1080 1082 1087 1111 138000 flags: phsync, nvsync; type: preferred, driver
+  props:
+        22 ACTIVE:
+                flags: range
+                values: 0 1
+                value: 1
+        23 MODE_ID:
+                flags: blob
+                blobs:
 
-    00046f10  75 75 69 64 5f 64 69 73  75 75 69 64 5f 64 69 73
-|uuid_disuuid_dis|
-    00046f20  64 72 27 0a 20 20 20 20  64 72 27 0a 20 20 20 20  |dr'.
-  dr'.    |
-    00046f30  6c 69 67 6e 65 64 20 74  6c 69 67 6e 65 64 20 74
-|ligned tligned t|
-    00046f40  61 64 64 72 32 20 63 6f  61 64 64 72 32 20 63 6f  |addr2
-coaddr2 co|
-    00046f50  0a 6d 6d 63 20 72 70 6d  0a 6d 6d 63 20 72 70 6d  |.mmc
-rpm.mmc rpm|
-    00046f60  20 6c 61 72 67 65 72 0a  20 6c 61 72 67 65 72 0a  |
-larger. larger.|
-    00046f70  6d 32 00 63 6d 6d 31 00  6d 32 00 63 6d 6d 31 00
-|m2.cmm1.m2.cmm1.|
-    00046f80  32 5f 64 61 74 61 34 00  32 5f 64 61 74 61 34 00
-|2_data4.2_data4.|
-    00046f90  31 00 47 50 5f 35 5f 31  31 00 47 50 5f 35 5f 31
-|1.GP_5_11.GP_5_1|
-    00046fa0  65 78 63 65 65 64 65 64  65 78 63 65 65 64 65 64
-|exceededexceeded|
-    00046fb0  30 34 2d 72 63 34 2d 30  30 34 2d 72 63 34 2d 30
-|04-rc4-004-rc4-0|
+                value:
+                        101b02008007b007d007200800003804
+                        3a043f04570400003c00000009000000
+                        48000000313932307831303830000000
+                        00000000000000000000000000000000
+                        00000000
+        19 OUT_FENCE_PTR:
+                flags: range
+                values: 0 18446744073709551615
+                value: 0
+        24 VRR_ENABLED:
+                flags: range
+                values: 0 1
+                value: 0
 
-which seems to originate from two copies of the first 8 bytes of each of
-the following lines, found elsewhere in the HyperFLASH:
+Planes:
+id      crtc    fb      CRTC x,y        x,y     gamma size      possible crtcs
+32      42      52      0,0             0,0     0               0x00000001
+  formats: RGB8 AR12 XR12 AR15 XR15 RG16 BG24 RG24 BA24 BX24 AR24 XR24 UYVY YUYV YVYU NV12 NV21 NV16 NV61 YU12 YV12 YU16 YV16 YU24 YV24
+  props:
+        8 type:
+                flags: immutable enum
+                enums: Overlay=0 Primary=1 Cursor=2
+                value: 1
+        17 FB_ID:
+                flags: object
+                value: 52
+        18 IN_FENCE_FD:
+                flags: signed range
+                values: -1 2147483647
+                value: -1
+        20 CRTC_ID:
+                flags: object
+                value: 42
+        13 CRTC_X:
+                flags: signed range
+                values: -2147483648 2147483647
+                value: 0
+        14 CRTC_Y:
+                flags: signed range
+                values: -2147483648 2147483647
+                value: 0
+        15 CRTC_W:
+                flags: range
+                values: 0 2147483647
+                value: 1920
+        16 CRTC_H:
+                flags: range
+                values: 0 2147483647
+                value: 1080
+        9 SRC_X:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        10 SRC_Y:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        11 SRC_W:
+                flags: range
+                values: 0 4294967295
+                value: 125829120
+        12 SRC_H:
+                flags: range
+                values: 0 4294967295
+                value: 70778880
+        30 IN_FORMATS:
+                flags: immutable blob
+                blobs:
 
-    006f1000  75 75 69 64 5f 64 69 73  6b 3d 00 6e 61 6d 65 3d
-|uuid_disk=.name=|
-    ...
-    006f2000  64 72 27 0a 20 20 20 20  20 20 70 61 73 73 69 6e  |dr'.
-    passin|
-    ...
-    006f3000  6c 69 67 6e 65 64 20 74  6f 0a 20 20 20 20 20 20
-|ligned to.      |
-    ...
-    006f4000  61 64 64 72 32 20 63 6f  75 6e 74 00 6d 65 6d 6f  |addr2
-count.memo|
-    ...
-    006f5000  0a 6d 6d 63 20 72 70 6d  62 20 6b 65 79 20 3c 61  |.mmc
-rpmb key <a|
-    ...
-    006f6000  20 6c 61 72 67 65 72 0a  00 75 6e 7a 69 70 00 75  |
-larger..unzip.u|
-    ...
-    006f7000  6d 32 00 63 6d 6d 31 00  63 6d 6d 30 00 63 73 69
-|m2.cmm1.cmm0.csi|
-    ...
-    006f8000  32 5f 64 61 74 61 34 00  73 64 68 69 32 5f 64 61
-|2_data4.sdhi2_da|
-    ...
-    006f9000  31 00 47 50 5f 35 5f 31  32 00 47 50 5f 35 5f 31
-|1.GP_5_12.GP_5_1|
-    ...
-    006fa000  65 78 63 65 65 64 65 64  00 0a 25 73 3b 20 73 74
-|exceeded..%s; st|
-    ...
-    006fb000  30 34 2d 72 63 34 2d 30  30 30 38 32 2d 67 35 34
-|04-rc4-00082-g54|
+                value:
+                        01000000000000001900000018000000
+                        01000000800000005247423841523132
+                        58523132415231355852313552473136
+                        42473234524732344241323442583234
+                        41523234585232345559565959555956
+                        595659554e5631324e5632314e563136
+                        4e563631595531325956313259553136
+                        59563136595532345956323400000000
+                        ffffff01000000000000000000000000
+                        0000000000000000
+                in_formats blob decoded:
+                         RGB8:  LINEAR
+                         AR12:  LINEAR
+                         XR12:  LINEAR
+                         AR15:  LINEAR
+                         XR15:  LINEAR
+                         RG16:  LINEAR
+                         BG24:  LINEAR
+                         RG24:  LINEAR
+                         BA24:  LINEAR
+                         BX24:  LINEAR
+                         AR24:  LINEAR
+                         XR24:  LINEAR
+                         UYVY:  LINEAR
+                         YUYV:  LINEAR
+                         YVYU:  LINEAR
+                         NV12:  LINEAR
+                         NV21:  LINEAR
+                         NV16:  LINEAR
+                         NV61:  LINEAR
+                         YU12:  LINEAR
+                         YV12:  LINEAR
+                         YU16:  LINEAR
+                         YV16:  LINEAR
+                         YU24:  LINEAR
+                         YV24:  LINEAR
+        34 alpha:
+                flags: range
+                values: 0 65535
+                value: 65535
+        35 zpos:
+                flags: range
+                values: 0 1
+                value: 0
+        36 pixel blend mode:
+                flags: enum
+                enums: None=2 Pre-multiplied=0 Coverage=1
+                value: 0
+37      0       0       0,0             0,0     0               0x00000001
+  formats: RGB8 AR12 XR12 AR15 XR15 RG16 BG24 RG24 BA24 BX24 AR24 XR24 UYVY YUYV YVYU NV12 NV21 NV16 NV61 YU12 YV12 YU16 YV16 YU24 YV24
+  props:
+        8 type:
+                flags: immutable enum
+                enums: Overlay=0 Primary=1 Cursor=2
+                value: 0
+        17 FB_ID:
+                flags: object
+                value: 0
+        18 IN_FENCE_FD:
+                flags: signed range
+                values: -1 2147483647
+                value: -1
+        20 CRTC_ID:
+                flags: object
+                value: 0
+        13 CRTC_X:
+                flags: signed range
+                values: -2147483648 2147483647
+                value: 0
+        14 CRTC_Y:
+                flags: signed range
+                values: -2147483648 2147483647
+                value: 0
+        15 CRTC_W:
+                flags: range
+                values: 0 2147483647
+                value: 0
+        16 CRTC_H:
+                flags: range
+                values: 0 2147483647
+                value: 0
+        9 SRC_X:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        10 SRC_Y:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        11 SRC_W:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        12 SRC_H:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        30 IN_FORMATS:
+                flags: immutable blob
+                blobs:
 
-For both hexdumps above, offsets are absolute FLASH offsets, not relative
-partition offsets.  Still, there is some similarity (e.g. 0x46f10 vs.
-0x6f1000).
+                value:
+                        01000000000000001900000018000000
+                        01000000800000005247423841523132
+                        58523132415231355852313552473136
+                        42473234524732344241323442583234
+                        41523234585232345559565959555956
+                        595659554e5631324e5632314e563136
+                        4e563631595531325956313259553136
+                        59563136595532345956323400000000
+                        ffffff01000000000000000000000000
+                        0000000000000000
+                in_formats blob decoded:
+                         RGB8:  LINEAR
+                         AR12:  LINEAR
+                         XR12:  LINEAR
+                         AR15:  LINEAR
+                         XR15:  LINEAR
+                         RG16:  LINEAR
+                         BG24:  LINEAR
+                         RG24:  LINEAR
+                         BA24:  LINEAR
+                         BX24:  LINEAR
+                         AR24:  LINEAR
+                         XR24:  LINEAR
+                         UYVY:  LINEAR
+                         YUYV:  LINEAR
+                         YVYU:  LINEAR
+                         NV12:  LINEAR
+                         NV21:  LINEAR
+                         NV16:  LINEAR
+                         NV61:  LINEAR
+                         YU12:  LINEAR
+                         YV12:  LINEAR
+                         YU16:  LINEAR
+                         YV16:  LINEAR
+                         YU24:  LINEAR
+                         YV24:  LINEAR
+        39 alpha:
+                flags: range
+                values: 0 65535
+                value: 65535
+        40 zpos:
+                flags: range
+                values: 0 1
+                value: 1
+        41 pixel blend mode:
+                flags: enum
+                enums: None=2 Pre-multiplied=0 Coverage=1
+                value: 0
 
-2. With this patch, the failure rate of 100 reads after s2ram is either
-0%, or 100%.  The same is true after subsequent s2ram operations.
+Frame buffers:
+id      size    pitch
 
-Contrary to before this patch, in case of corruption, the data read back
-is always the same: i.e. either the good data is read back, or the exact
-same bad data is read back.  In case of bad data, some blocks of 64 KiB
-have been replaced by blocks containing either data from elsewhere,
-or all ones again....
+root@smarc-rzg2l:~#
 
-Gr{oetje,eeting}s,
+Biju Das (19):
+  drm: rcar-du: Add encoder lib support
+  drm: rcar-du: Add kms lib support
+  drm: rcar-du: Add vsp lib support
+  drm: rcar-du: Move rcar_du_vsp_atomic_begin()
+  drm: rcar-du: Move rcar_du_vsp_atomic_flush()
+  drm: rcar-du: Move vsp rcar_du_vsp_{map,unmap}_fb()
+  drm: rcar-du: Move rcar_du_dumb_create()
+  drm: rcar-du: Move rcar_du_gem_prime_import_sg_table()
+  drm: rcar-du: Add rcar_du_lib_vsp_init()
+  drm: rcar-du: Move rcar_du_vsp_plane_prepare_fb()
+  drm: rcar-du: Move rcar_du_vsp_plane_cleanup_fb()
+  drm: rcar-du: Move rcar_du_vsp_plane_atomic_update()
+  drm: rcar-du: Add rcar_du_lib_fb_create()
+  drm: rcar-du: Add rcar_du_lib_mode_cfg_helper_get()
+  drm: rcar-du: Move rcar_du_encoders_init()
+  drm: rcar-du: Move rcar_du_properties_init()
+  drm: rcar-du: Add rcar_du_lib_vsps_init()
+  dt-bindings: display: Document Renesas RZ/G2L DU bindings
+  drm: rcar-du: Add RZ/G2L DU Support
 
-                        Geert
+ .../bindings/display/renesas,rzg2l-du.yaml    | 124 +++
+ drivers/gpu/drm/rcar-du/Kconfig               |  25 +-
+ drivers/gpu/drm/rcar-du/Makefile              |  17 +
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |  10 +
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c     | 117 +--
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.h     |  14 +-
+ drivers/gpu/drm/rcar-du/rcar_du_encoder_lib.c | 138 ++++
+ drivers/gpu/drm/rcar-du/rcar_du_encoder_lib.h |  30 +
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c         | 664 +---------------
+ drivers/gpu/drm/rcar-du/rcar_du_kms.h         |  29 +-
+ drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c     | 715 +++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h     |  62 ++
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c         | 361 +--------
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.h         |  26 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c     | 390 ++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h     |  76 ++
+ drivers/gpu/drm/rcar-du/rzg2l_du_crtc.c       | 716 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rzg2l_du_crtc.h       |  26 +
+ drivers/gpu/drm/rcar-du/rzg2l_du_drv.c        | 196 +++++
+ drivers/gpu/drm/rcar-du/rzg2l_du_drv.h        |  20 +
+ drivers/gpu/drm/rcar-du/rzg2l_du_encoder.c    |  26 +
+ drivers/gpu/drm/rcar-du/rzg2l_du_encoder.h    |  19 +
+ drivers/gpu/drm/rcar-du/rzg2l_du_kms.c        | 157 ++++
+ drivers/gpu/drm/rcar-du/rzg2l_du_kms.h        |  17 +
+ drivers/gpu/drm/rcar-du/rzg2l_du_regs.h       |  67 ++
+ drivers/gpu/drm/rcar-du/rzg2l_du_vsp.c        |  82 ++
+ drivers/gpu/drm/rcar-du/rzg2l_du_vsp.h        |  30 +
+ 27 files changed, 2958 insertions(+), 1196 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_encoder_lib.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_encoder_lib.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_crtc.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_crtc.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_drv.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_drv.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_encoder.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_encoder.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_kms.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_kms.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_regs.h
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_vsp.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_vsp.h
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+-- 
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
