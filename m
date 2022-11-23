@@ -2,97 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56FFB635A9D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Nov 2022 11:54:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABD8A635B94
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Nov 2022 12:24:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236670AbiKWKxj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Nov 2022 05:53:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56956 "EHLO
+        id S237330AbiKWLYX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Nov 2022 06:24:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237013AbiKWKxS (ORCPT
+        with ESMTP id S237373AbiKWLYA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Nov 2022 05:53:18 -0500
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62354DFA6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Nov 2022 02:40:53 -0800 (PST)
-Received: by mail-lj1-x234.google.com with SMTP id a15so20892327ljb.7
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Nov 2022 02:40:53 -0800 (PST)
+        Wed, 23 Nov 2022 06:24:00 -0500
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E1F4102E61;
+        Wed, 23 Nov 2022 03:23:28 -0800 (PST)
+Received: by mail-ej1-x62a.google.com with SMTP id ud5so42051429ejc.4;
+        Wed, 23 Nov 2022 03:23:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Jb7YR0GFDqY1Kfa4xR3/nU9IXgoeQD15tKD48LTheeY=;
-        b=HhYWafmgyiO/NnJUON7VEZ6pKju3ElgQOocUWRS5Pa1Me3s4SLm7/R6iGUr0+7hP/+
-         26D8SVLeOYdIF1WKdiY4H1LDH1plneGzeMgNJDrnGgNuPXIkDhOZ8P/ibbwhlSfvb/LM
-         R3bMQCrKsllrmu/MeUxHgopDgI/o3xhqI1ocQts5mTuGXxiThgt8746vPApEDFCJlWy2
-         A85e52FbAaGOosOnf8RREUZR6XGErJRsopJiiu2mXrUvYhVZW420uwplUq0Uqqs9xbpQ
-         s4cTAs1UdEjS5yZ3AvkwzKAnWfvEFTGY1WMlXONF1kiTQP216BQ05CBwlTFM2eG1UvZi
-         lnVw==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8E3HfKqpI7OPKMpyZd0aAajsv0bkMn9cWxEfRq/Jexs=;
+        b=S75Rq8lR46tMXia66z0bag4+iCEPjiOF29vJ4f/d9XmTqxByrmRDlJEY4PEHfujyr7
+         3iSruSGx+Od/ROcQpcRX5L5P2cTbwM+v+F+vwC4SwkVBxQwXe5u3Y/rFpf3d06ryu/tu
+         niIZV05v7O7fTlS/fjkCLSWkktRHWiRGT2jPTd9oiQhqfieNgOZcMTkgf6MwrMJXLale
+         c1x4xo36zcBnAebY6q85YVJQxFtc6asFl1SnmkR6k4CaWCLV5HsO7YnouSORPhVk752+
+         lvWFDUUEn9oxMFlJrcd3kdfqxad4Z1MY4wfqrv8naYXI6gpO7nnBrIzTsaY+fhmqH4xb
+         wigA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jb7YR0GFDqY1Kfa4xR3/nU9IXgoeQD15tKD48LTheeY=;
-        b=erLRUqyyVg6u4G2DQcQbN3EaERb3pPYNJcUaXbUpYVeZzxnsjsB9y/nQl+Av5e7PtL
-         lqzTLDXZBL752fBg5jas0td3Ben9qgFY7gCaAXN5kft008620UsPNvTNPxfrCZO0iWpE
-         zDp7w8uzbHnhxXcrXT5Uyg6BMeYNtLRHkZ+WTdrYdYyVA4vEWE5ah/TvkjZfRHg8uHHV
-         nclFD9vLAsJ1bEdghWfybZYb7Uu1i/g7gMdG2ZS36ElQJHCFyPPKw/i5bGPHBW4eic34
-         yI7k85VoqEqBRcn0y1UFtY86Vr3ODdi3lkspmXMyc62w7UR6V0Typx43fuWK4PEmXn4X
-         Jo0Q==
-X-Gm-Message-State: ANoB5plx/rVNFIm+gueDn9qftUPqygLT6R9hUPMOjOvT4PyPEqgJNyEh
-        uSTk8uNmGB9yJKqsUx3y7DMhwg==
-X-Google-Smtp-Source: AA0mqf5GsJuni51SqYncQf/wVtBRKjQCX/guXNJ0g35bfmKx4gB2hyDvjQmSOfZMHste+3RQthANvQ==
-X-Received: by 2002:a2e:bd85:0:b0:279:7ee8:d06e with SMTP id o5-20020a2ebd85000000b002797ee8d06emr66068ljq.215.1669200051778;
-        Wed, 23 Nov 2022 02:40:51 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id t14-20020a056512208e00b004ae24559388sm2824097lfr.111.2022.11.23.02.40.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Nov 2022 02:40:51 -0800 (PST)
-Message-ID: <a803531d-41a9-f1b7-eec6-9ce142e5196a@linaro.org>
-Date:   Wed, 23 Nov 2022 11:40:50 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v4 1/2] media: dt-bindings: media: renesas,vsp1: Document
- RZ/V2L VSPD bindings
-Content-Language: en-US
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8E3HfKqpI7OPKMpyZd0aAajsv0bkMn9cWxEfRq/Jexs=;
+        b=d2BUEFfkLDN+IIadQ3YEbK+eoZYZUv1kXcI0wuJekKebcaT2JOchbTQtLMTZlJz5FH
+         74i3erNTM5Jocw4qtPDAvmksFDFYCLAdF8hYNrW2K7JiaiCRujCp+MKCL2dLu03jlSlT
+         tv2bH9E60W4gXvNpiWQNRQHZOdbaD2T0mxX+biBXxhhRwpoPWAFx5Gf3Ers9f+GXmwrt
+         L3W9s9iCWfAd+O+qDFGj/kDiGNeennlIZayMO1w+P9Klc7h8MtIptXEJy1VjUFYCeIQn
+         BQ9x8E8M2SibftWDjR7GdS5xEHd/eU/X1jP420Xy6KbjE2584/Nu0Ia8E/srlBJ9c1FL
+         E3yw==
+X-Gm-Message-State: ANoB5pkfRukJP5+UTTevgEJVFOxmKd3hep2f5SaJgQRHEYMjxtdiyaEp
+        NyN+pHt8Vc8tCJs/Z1bJvbk=
+X-Google-Smtp-Source: AA0mqf6JNLeF8BQxBTQEN4OYB4XAlsusO8D5L5Frr6SYljvV1WXopKgkTBJpsD0A7oGpJeeO7LpjHQ==
+X-Received: by 2002:a17:906:bcc1:b0:73d:715c:5730 with SMTP id lw1-20020a170906bcc100b0073d715c5730mr23101781ejb.293.1669202606864;
+        Wed, 23 Nov 2022 03:23:26 -0800 (PST)
+Received: from localhost (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id l9-20020a1709065a8900b00773c60c2129sm7187189ejq.141.2022.11.23.03.23.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Nov 2022 03:23:26 -0800 (PST)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-References: <20221122193415.1873179-1-biju.das.jz@bp.renesas.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221122193415.1873179-1-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Rob Herring <robh+dt@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: pwm: renesas,pwm-rcar: Add r8a779g0 support
+Date:   Wed, 23 Nov 2022 12:23:22 +0100
+Message-Id: <166920257255.1455112.3556103275813437388.b4-ty@gmail.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <2d1732595327307080c57e201a7f029f8adeabf3.1669047149.git.geert+renesas@glider.be>
+References: <2d1732595327307080c57e201a7f029f8adeabf3.1669047149.git.geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 22/11/2022 20:34, Biju Das wrote:
-> Document VSPD found in RZ/V2L SoC. The VSPD block is identical to RZ/G2L
-> SoC and therefore use RZ/G2L fallback to avoid any driver changes.
+On Mon, 21 Nov 2022 17:13:02 +0100, Geert Uytterhoeven wrote:
+> Document support for the PWM timers in the Renesas R-Car V4H (R8A779G0)
+> SoC.
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> * New patch
+> Based on a patch in the BSP by CongDang.
+> 
+> 
 
+Applied, thanks!
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+[1/1] dt-bindings: pwm: renesas,pwm-rcar: Add r8a779g0 support
+      commit: 5719efcc5abb34ceb47b03e58709d99713f80db1
 
 Best regards,
-Krzysztof
-
+-- 
+Thierry Reding <thierry.reding@gmail.com>
