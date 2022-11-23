@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 891CC63671F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Nov 2022 18:30:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9649463672D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Nov 2022 18:30:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238936AbiKWRaT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Nov 2022 12:30:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48422 "EHLO
+        id S239069AbiKWRa1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Nov 2022 12:30:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239007AbiKWR36 (ORCPT
+        with ESMTP id S238611AbiKWRaB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Nov 2022 12:29:58 -0500
+        Wed, 23 Nov 2022 12:30:01 -0500
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B818F8CB9C
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Nov 2022 09:29:57 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A65478D498
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Nov 2022 09:30:00 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.96,187,1665414000"; 
-   d="scan'208";a="140988293"
+   d="scan'208";a="140988297"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Nov 2022 02:29:57 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 24 Nov 2022 02:30:00 +0900
 Received: from localhost.localdomain (unknown [10.226.92.61])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 502CF40ADCCF;
-        Thu, 24 Nov 2022 02:29:54 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id A76F040ADCC6;
+        Thu, 24 Nov 2022 02:29:57 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
@@ -30,9 +30,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v6 13/19] drm: rcar-du: Add rcar_du_lib_fb_create()
-Date:   Wed, 23 Nov 2022 17:29:00 +0000
-Message-Id: <20221123172906.2919734-14-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v6 14/19] drm: rcar-du: Add rcar_du_lib_mode_cfg_helper_get()
+Date:   Wed, 23 Nov 2022 17:29:01 +0000
+Message-Id: <20221123172906.2919734-15-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221123172906.2919734-1-biju.das.jz@bp.renesas.com>
 References: <20221123172906.2919734-1-biju.das.jz@bp.renesas.com>
@@ -46,184 +46,184 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Move the common code from rcar_du_fb_create->rcar_du_lib_fb_create,
-so that rzg2l_du_fb_create() can reuse the common code.
+Add rcar_du_lib_mode_cfg_helper_get() in RCar DU kms lib to get the
+pointer to rcar_du_mode_config_helper, so that both rcar_du_atomic_
+commit_tail() and rcar_du_mode_config_helper can be reused by
+rcar_du_modeset_init() and rzg2l_du_modeset_init().
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v5->v6:
- * Updated rcar_du_fb_create() for the pixel fmt error.
+ * Updated header files
+ * Renamed rcar_du_lib_mode_cfg_helper_fns()->rcar_du_lib_mode_cfg_helper_get()
 v5:
  * New patch
 ---
- drivers/gpu/drm/rcar-du/rcar_du_kms.c     | 64 +--------------------
- drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c | 69 +++++++++++++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h |  4 ++
- 3 files changed, 74 insertions(+), 63 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c     | 46 +-----------------
+ drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c | 59 +++++++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h |  3 ++
+ 3 files changed, 63 insertions(+), 45 deletions(-)
 
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index ae969f640bb6..74845d8bad9d 100644
+index 74845d8bad9d..b0b40b1cc37d 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -38,69 +38,7 @@ static struct drm_framebuffer *
- rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
- 		  const struct drm_mode_fb_cmd2 *mode_cmd)
- {
+@@ -7,9 +7,7 @@
+  * Contact: Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+  */
+ 
+-#include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+-#include <drm/drm_crtc.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_managed.h>
+@@ -61,52 +59,10 @@ static int rcar_du_atomic_check(struct drm_device *dev,
+ 	return rcar_du_atomic_check_planes(dev, state);
+ }
+ 
+-static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
+-{
+-	struct drm_device *dev = old_state->dev;
 -	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
--	const struct rcar_du_format_info *format;
--	unsigned int chroma_pitch;
--	unsigned int max_pitch;
--	unsigned int align;
+-	struct drm_crtc_state *crtc_state;
+-	struct drm_crtc *crtc;
 -	unsigned int i;
 -
--	format = rcar_du_format_info(mode_cmd->pixel_format);
--	if (format == NULL) {
--		dev_dbg(dev->dev, "unsupported pixel format %p4cc\n",
--			&mode_cmd->pixel_format);
--		return ERR_PTR(-EINVAL);
--	}
--
--	if (rcdu->info->gen < 3) {
--		/*
--		 * On Gen2 the DU limits the pitch to 4095 pixels and requires
--		 * buffers to be aligned to a 16 pixels boundary (or 128 bytes
--		 * on some platforms).
--		 */
--		unsigned int bpp = format->planes == 1 ? format->bpp / 8 : 1;
--
--		max_pitch = 4095 * bpp;
--
--		if (rcar_du_needs(rcdu, RCAR_DU_QUIRK_ALIGN_128B))
--			align = 128;
--		else
--			align = 16 * bpp;
--	} else {
--		/*
--		 * On Gen3 the memory interface is handled by the VSP that
--		 * limits the pitch to 65535 bytes and has no alignment
--		 * constraint.
--		 */
--		max_pitch = 65535;
--		align = 1;
--	}
--
--	if (mode_cmd->pitches[0] & (align - 1) ||
--	    mode_cmd->pitches[0] > max_pitch) {
--		dev_dbg(dev->dev, "invalid pitch value %u\n",
--			mode_cmd->pitches[0]);
--		return ERR_PTR(-EINVAL);
--	}
--
 -	/*
--	 * Calculate the chroma plane(s) pitch using the horizontal subsampling
--	 * factor. For semi-planar formats, the U and V planes are combined, the
--	 * pitch must thus be doubled.
+-	 * Store RGB routing to DPAD0 and DPAD1, the hardware will be configured
+-	 * when starting the CRTCs.
 -	 */
--	chroma_pitch = mode_cmd->pitches[0] / format->hsub;
--	if (format->planes == 2)
--		chroma_pitch *= 2;
+-	rcdu->dpad1_source = -1;
 -
--	for (i = 1; i < format->planes; ++i) {
--		if (mode_cmd->pitches[i] != chroma_pitch) {
--			dev_dbg(dev->dev,
--				"luma and chroma pitches are not compatible\n");
--			return ERR_PTR(-EINVAL);
--		}
+-	for_each_new_crtc_in_state(old_state, crtc, crtc_state, i) {
+-		struct rcar_du_crtc_state *rcrtc_state =
+-			to_rcar_crtc_state(crtc_state);
+-		struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+-
+-		if (rcrtc_state->outputs & BIT(RCAR_DU_OUTPUT_DPAD0))
+-			rcdu->dpad0_source = rcrtc->index;
+-
+-		if (rcrtc_state->outputs & BIT(RCAR_DU_OUTPUT_DPAD1))
+-			rcdu->dpad1_source = rcrtc->index;
 -	}
 -
--	return drm_gem_fb_create(dev, file_priv, mode_cmd);
-+	return rcar_du_lib_fb_create(dev, file_priv, mode_cmd);
- }
- 
+-	/* Apply the atomic update. */
+-	drm_atomic_helper_commit_modeset_disables(dev, old_state);
+-	drm_atomic_helper_commit_planes(dev, old_state,
+-					DRM_PLANE_COMMIT_ACTIVE_ONLY);
+-	drm_atomic_helper_commit_modeset_enables(dev, old_state);
+-
+-	drm_atomic_helper_commit_hw_done(old_state);
+-	drm_atomic_helper_wait_for_flip_done(dev, old_state);
+-
+-	drm_atomic_helper_cleanup_planes(dev, old_state);
+-}
+-
  /* -----------------------------------------------------------------------------
+  * Initialization
+  */
+ 
+-static const struct drm_mode_config_helper_funcs rcar_du_mode_config_helper = {
+-	.atomic_commit_tail = rcar_du_atomic_commit_tail,
+-};
+-
+ static const struct drm_mode_config_funcs rcar_du_mode_config_funcs = {
+ 	.fb_create = rcar_du_fb_create,
+ 	.atomic_check = rcar_du_atomic_check,
+@@ -412,7 +368,7 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+ 	dev->mode_config.min_height = 0;
+ 	dev->mode_config.normalize_zpos = true;
+ 	dev->mode_config.funcs = &rcar_du_mode_config_funcs;
+-	dev->mode_config.helper_private = &rcar_du_mode_config_helper;
++	dev->mode_config.helper_private = rcar_du_lib_mode_cfg_helper_get();
+ 
+ 	if (rcdu->info->gen < 3) {
+ 		dev->mode_config.max_width = 4095;
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
-index ed5e2b78c351..25548e727db9 100644
+index 25548e727db9..a2d56ca56fc3 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
-@@ -378,3 +378,72 @@ int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
+@@ -7,6 +7,9 @@
+  * Contact: Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+  */
  
- 	return drm_gem_dma_dumb_create_internal(file, dev, args);
++#include <drm/drm_atomic.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_crtc.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_dma_helper.h>
+@@ -447,3 +450,59 @@ rcar_du_lib_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+ 
+ 	return drm_gem_fb_create(dev, file_priv, mode_cmd);
  }
 +
-+struct drm_framebuffer *
-+rcar_du_lib_fb_create(struct drm_device *dev, struct drm_file *file_priv,
-+		      const struct drm_mode_fb_cmd2 *mode_cmd)
++/* -----------------------------------------------------------------------------
++ * Atomic Check and Update
++ */
++
++static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
 +{
++	struct drm_device *dev = old_state->dev;
 +	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
-+	const struct rcar_du_format_info *format;
-+	unsigned int chroma_pitch;
-+	unsigned int max_pitch;
-+	unsigned int align;
++	struct drm_crtc_state *crtc_state;
++	struct drm_crtc *crtc;
 +	unsigned int i;
 +
-+	format = rcar_du_format_info(mode_cmd->pixel_format);
-+	if (format == NULL) {
-+		dev_dbg(dev->dev, "unsupported pixel format %p4cc\n",
-+			&mode_cmd->pixel_format);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	if (rcdu->info->gen < 3) {
-+		/*
-+		 * On Gen2 the DU limits the pitch to 4095 pixels and requires
-+		 * buffers to be aligned to a 16 pixels boundary (or 128 bytes
-+		 * on some platforms).
-+		 */
-+		unsigned int bpp = format->planes == 1 ? format->bpp / 8 : 1;
-+
-+		max_pitch = 4095 * bpp;
-+
-+		if (rcar_du_needs(rcdu, RCAR_DU_QUIRK_ALIGN_128B))
-+			align = 128;
-+		else
-+			align = 16 * bpp;
-+	} else {
-+		/*
-+		 * On Gen3 the memory interface is handled by the VSP that
-+		 * limits the pitch to 65535 bytes and has no alignment
-+		 * constraint.
-+		 */
-+		max_pitch = 65535;
-+		align = 1;
-+	}
-+
-+	if (mode_cmd->pitches[0] & (align - 1) ||
-+	    mode_cmd->pitches[0] > max_pitch) {
-+		dev_dbg(dev->dev, "invalid pitch value %u\n",
-+			mode_cmd->pitches[0]);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
 +	/*
-+	 * Calculate the chroma plane(s) pitch using the horizontal subsampling
-+	 * factor. For semi-planar formats, the U and V planes are combined, the
-+	 * pitch must thus be doubled.
++	 * Store RGB routing to DPAD0 and DPAD1, the hardware will be configured
++	 * when starting the CRTCs.
 +	 */
-+	chroma_pitch = mode_cmd->pitches[0] / format->hsub;
-+	if (format->planes == 2)
-+		chroma_pitch *= 2;
++	rcdu->dpad1_source = -1;
 +
-+	for (i = 1; i < format->planes; ++i) {
-+		if (mode_cmd->pitches[i] != chroma_pitch) {
-+			dev_dbg(dev->dev,
-+				"luma and chroma pitches are not compatible\n");
-+			return ERR_PTR(-EINVAL);
-+		}
++	for_each_new_crtc_in_state(old_state, crtc, crtc_state, i) {
++		struct rcar_du_crtc_state *rcrtc_state =
++			to_rcar_crtc_state(crtc_state);
++		struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
++
++		if (rcrtc_state->outputs & BIT(RCAR_DU_OUTPUT_DPAD0))
++			rcdu->dpad0_source = rcrtc->index;
++
++		if (rcrtc_state->outputs & BIT(RCAR_DU_OUTPUT_DPAD1))
++			rcdu->dpad1_source = rcrtc->index;
 +	}
 +
-+	return drm_gem_fb_create(dev, file_priv, mode_cmd);
++	/* Apply the atomic update. */
++	drm_atomic_helper_commit_modeset_disables(dev, old_state);
++	drm_atomic_helper_commit_planes(dev, old_state,
++					DRM_PLANE_COMMIT_ACTIVE_ONLY);
++	drm_atomic_helper_commit_modeset_enables(dev, old_state);
++
++	drm_atomic_helper_commit_hw_done(old_state);
++	drm_atomic_helper_wait_for_flip_done(dev, old_state);
++
++	drm_atomic_helper_cleanup_planes(dev, old_state);
++}
++
++/* -----------------------------------------------------------------------------
++ * Initialization
++ */
++
++static const struct drm_mode_config_helper_funcs rcar_du_mode_config_helper = {
++	.atomic_commit_tail = rcar_du_atomic_commit_tail,
++};
++
++const struct drm_mode_config_helper_funcs *
++rcar_du_lib_mode_cfg_helper_get(void)
++{
++	return &rcar_du_mode_config_helper;
 +}
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
-index 4941c32bc9ce..b621a7e2e439 100644
+index b621a7e2e439..bba68592e73d 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
-@@ -39,4 +39,8 @@ rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
- 				  struct dma_buf_attachment *attach,
- 				  struct sg_table *sgt);
+@@ -43,4 +43,7 @@ struct drm_framebuffer *
+ rcar_du_lib_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+ 		      const struct drm_mode_fb_cmd2 *mode_cmd);
  
-+struct drm_framebuffer *
-+rcar_du_lib_fb_create(struct drm_device *dev, struct drm_file *file_priv,
-+		      const struct drm_mode_fb_cmd2 *mode_cmd);
++const struct drm_mode_config_helper_funcs *
++rcar_du_lib_mode_cfg_helper_get(void);
 +
  #endif /* __RCAR_DU_KMS_LIB_H__ */
 -- 
