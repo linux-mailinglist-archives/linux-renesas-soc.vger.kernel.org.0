@@ -2,45 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39514637FF7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Nov 2022 20:59:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75D1863800A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Nov 2022 21:05:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229459AbiKXT7Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Nov 2022 14:59:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58978 "EHLO
+        id S229476AbiKXUFy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Nov 2022 15:05:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229740AbiKXT7R (ORCPT
+        with ESMTP id S229448AbiKXUFx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Nov 2022 14:59:17 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56E4160F1;
-        Thu, 24 Nov 2022 11:59:16 -0800 (PST)
+        Thu, 24 Nov 2022 15:05:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D98B16CE4F;
+        Thu, 24 Nov 2022 12:05:52 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D5EA26223C;
-        Thu, 24 Nov 2022 19:59:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFFBFC433D6;
-        Thu, 24 Nov 2022 19:59:07 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8752EB82756;
+        Thu, 24 Nov 2022 20:05:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A56BC433D7;
+        Thu, 24 Nov 2022 20:05:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669319955;
-        bh=bFLQXR8VH88R8kmhqGLzNuOD6udDTK9anm5yIMqU7K0=;
+        s=k20201202; t=1669320350;
+        bh=f8Kaz8pUEg/+dRz3JXsCoWQ/hDv43xbv8M6GJX2jTMQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ciuuASn+jApzGYUVqVuWHFW0ijSsRop/fx9htFcDBI1fHoxPYyvwhoFf3lOQEutwE
-         CIIjNVRswXuRM903adij7HNVDNrafVLc5btC8Tel1u5kdDCV4vsqE9hT7wx9tPimxb
-         zlUX6eh0fepFH/A/dC7Qhj+27sjcSwUbXFDVotDHr2iOKxpaXnu0W7gMjqLWisJzzg
-         fI8CWIVxerdn2oscsw+o8/dQL4+crnBK5TNlXJhHcPdjY0aKs4etonWZeKmZfjMKaf
-         f1gkaNrFD/LXK78XTdVk9SUK+NaRVQrSFZ+hY7Ln9cpVyPF2xN9MuQ3icEihVbkqsE
-         u5LV2rTzsKaDQ==
-Date:   Thu, 24 Nov 2022 19:59:04 +0000
+        b=f9PIyi1b28nJcBVnbuB52YKFjX9SgXxrw/smc+QNBcHKHwpDR0exAb/cuFUCBr9CQ
+         MwCHQnRO9ji2xHo6iJuFh0pSygN9gg7YkB0KGwiaX2XgVLPCO63PD3k/ygS4kAMvgg
+         EpWwmr4ABoTnMwLExgMauElADrxobvRX+7F+ziAjdRYOY1E/2xXiBX02CxJ63jdVta
+         QPWLG4PjEb9Td+S6E/payr/UPALGtERLV60ckexfjm9j2yRNPLuc9NE1AJOCJCOd1E
+         2zfZ884cqIbqZMVraME45p1jw/abfNa4Py1/mM1ObtSm5d/ULhLMkcLx20f6qWzulP
+         APCR+icwPFKqA==
+Date:   Thu, 24 Nov 2022 20:05:40 +0000
 From:   Conor Dooley <conor@kernel.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+To:     Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor.dooley@microchip.com>,
@@ -55,15 +55,18 @@ Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
         linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4 0/7] AX45MP: Add support to non-coherent DMA
-Message-ID: <Y3/NCKqNoN/yIsDw@spud>
+Subject: Re: [PATCH v4 1/7] riscv: asm: alternative-macros: Introduce
+ ALTERNATIVE_3() macro
+Message-ID: <Y3/OlKI1jyi0eoCJ@spud>
 References: <20221124172207.153718-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y3/I4KzHnzyPo1Fe@spud>
- <CA+V-a8viAfvLnScDKADpKMRqNEaMdhf5kA1GqAdgaGAEo+XpBQ@mail.gmail.com>
+ <20221124172207.153718-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y3/LgZkR1hkblJ8D@spud>
+ <4801607.MHq7AAxBmi@diego>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8viAfvLnScDKADpKMRqNEaMdhf5kA1GqAdgaGAEo+XpBQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4801607.MHq7AAxBmi@diego>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -73,22 +76,43 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 24, 2022 at 07:52:28PM +0000, Lad, Prabhakar wrote:
-
-> Hmm that looks interesting! I'll give that a shot with the latest tool-chain.
+On Thu, Nov 24, 2022 at 08:58:41PM +0100, Heiko Stübner wrote:
+> Am Donnerstag, 24. November 2022, 20:52:33 CET schrieb Conor Dooley:
+> > On Thu, Nov 24, 2022 at 05:22:01PM +0000, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > 
+> > > Introduce ALTERNATIVE_3() macro.
+> > 
+> > Bit perfunctory I think! There's a lovely comment down below that would
+> > make for a better commit message if you were to yoink it.
+> > Content looks about what I'd expect to see though.
 > 
-> BTW is there a link to get the latest toolchain?
-
-Uhh, I just build mine from https://github.com/riscv-collab/riscv-gnu-toolchain
-Arnd puts toolchains here: https://mirrors.edge.kernel.org/pub/tools/crosstool/
-I've never used one though!
-
-> Oops I missed to mention the dependency here we need patches from [0]
-> . Just patches 1-5 should be sufficient for this build (as including
-> patch 6/7 gave me a build issue).
+> Also both the comment on the original ALTERNATIVE_2 and the new ALTERNATIVE_3
+> should probably be merged into a single comment explaining this once for all
+> ALTERNATIVE_x variants.
 > 
-> [0] https://patchwork.kernel.org/project/linux-riscv/cover/20221110164924.529386-1-heiko@sntech.de/
+> Especially with the dma stuff, I'm pretty sure we'll get at least an ALTERNATIVE_4
+> if not even more ;-) . So we defnitly don't want to repeat this multiple times.
 
-Ah right. I kinda figured that with the "don't review this" patch that
-you'd pulled all of the deps into it.
+Oh I can promise you that there'll be a #4 ;) I do find the comment's
+wording to be quite odd though..
+
+> + * A vendor wants to replace an old_content, but another vendor has used
+> + * ALTERNATIVE_2() to patch its customized content at the same location. In
+
+In particular this bit about "at the same location" does not make all
+that much sense. What "at the same location" means in this context
+should be expanded on imo. Effectively it boils down to someone else is
+already replacing the same things you want to replace - it's just the
+word "location" that might make sense if you're an old hand but not
+otherwise?
+
+> + * this case, this vendor can create a new macro ALTERNATIVE_3() based
+
+Also, using the word "can". Is it not a "must" rather than a "can",
+since this stuff needs to be multiplatform?
+
+> + * on the following sample code and then replace ALTERNATIVE_2() with
+> + * ALTERNATIVE_3() to append its customized content.
+
 
