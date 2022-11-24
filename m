@@ -2,48 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7542A638022
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Nov 2022 21:22:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 662D0638047
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Nov 2022 21:44:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbiKXUWJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Nov 2022 15:22:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46994 "EHLO
+        id S229463AbiKXUom convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Nov 2022 15:44:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbiKXUWH (ORCPT
+        with ESMTP id S229450AbiKXUol (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Nov 2022 15:22:07 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34F0297379;
-        Thu, 24 Nov 2022 12:22:06 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E7C76B82900;
-        Thu, 24 Nov 2022 20:22:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FD3CC433D6;
-        Thu, 24 Nov 2022 20:21:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669321323;
-        bh=bbc1mWNbqU6lQapGVFaaUlUseWtvQkuYpamywwpjrHA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S3buWyLLznmNRcU6+mxcGpwSsueyRw+r7g74TgHlOxD7fcb/E6POc16vBx0QFmwRp
-         7VL6paj4Y3y6jZ5qgKTf0EvX+4XZyHzIyKim7Yj840/XwD5gdHnBED1WisROo7bWCE
-         HaNcDAybTbNnt/z3FgSs/KXpoLTkixBq2CYXZUmO34m/g/mxNe5F3RTU3KJYnuqPsa
-         tItNpZTXRsw1t4ekSpVGgGmziZ9uECkenU2P2kpyJzBw4Q+vk4zH2xqd8274LNQNJJ
-         AsvYawfMJDno1HFGrOXXlwi5Z/9obKG218PbITG/07nWuM6sQSsd2BIX8PU8cZ/MsH
-         Ly0eV1k20Q4Xg==
-Date:   Thu, 24 Nov 2022 20:21:56 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Thu, 24 Nov 2022 15:44:41 -0500
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1990281F9A;
+        Thu, 24 Nov 2022 12:44:39 -0800 (PST)
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <heiko@sntech.de>)
+        id 1oyJ59-0007px-11; Thu, 24 Nov 2022 21:44:27 +0100
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     Conor Dooley <conor@kernel.org>, Conor Dooley <conor@kernel.org>
+Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor.dooley@microchip.com>,
         Guo Ren <guoren@kernel.org>,
         Jisheng Zhang <jszhang@kernel.org>,
         Atish Patra <atishp@rivosinc.com>,
@@ -55,195 +42,80 @@ Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
         linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4 3/7] riscv: errata: Add Andes alternative ports
-Message-ID: <Y3/SZPjzXsd8dfkl@spud>
-References: <20221124172207.153718-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221124172207.153718-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v4 1/7] riscv: asm: alternative-macros: Introduce ALTERNATIVE_3() macro
+Date:   Thu, 24 Nov 2022 21:44:25 +0100
+Message-ID: <3307993.NgBsaNRSFp@diego>
+In-Reply-To: <59aea5e5-25f1-de8c-9982-5db226f8bda5@kernel.org>
+References: <20221124172207.153718-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y3/OlKI1jyi0eoCJ@spud> <59aea5e5-25f1-de8c-9982-5db226f8bda5@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221124172207.153718-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_PASS,
+        T_SPF_HELO_TEMPERROR autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 24, 2022 at 05:22:03PM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Am Donnerstag, 24. November 2022, 21:08:17 CET schrieb Conor Dooley:
+> On 24/11/2022 20:05, Conor Dooley wrote:
+> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> > 
+> > On Thu, Nov 24, 2022 at 08:58:41PM +0100, Heiko Stübner wrote:
+> >> Am Donnerstag, 24. November 2022, 20:52:33 CET schrieb Conor Dooley:
+> >>> On Thu, Nov 24, 2022 at 05:22:01PM +0000, Prabhakar wrote:
+> >>>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>>>
+> >>>> Introduce ALTERNATIVE_3() macro.
+> >>>
+> >>> Bit perfunctory I think! There's a lovely comment down below that would
+> >>> make for a better commit message if you were to yoink it.
+> >>> Content looks about what I'd expect to see though.
+> >>
+> >> Also both the comment on the original ALTERNATIVE_2 and the new ALTERNATIVE_3
+> >> should probably be merged into a single comment explaining this once for all
+> >> ALTERNATIVE_x variants.
+> >>
+> >> Especially with the dma stuff, I'm pretty sure we'll get at least an ALTERNATIVE_4
+> >> if not even more ;-) . So we defnitly don't want to repeat this multiple times.
+> > 
+> > Oh I can promise you that there'll be a #4 ;) I do find the comment's
+> > wording to be quite odd though..
+> > 
+> >> + * A vendor wants to replace an old_content, but another vendor has used
+> >> + * ALTERNATIVE_2() to patch its customized content at the same location. In
+> > 
+> > In particular this bit about "at the same location" does not make all
+> > that much sense. What "at the same location" means in this context
+> > should be expanded on imo. Effectively it boils down to someone else is
+> > already replacing the same things you want to replace - it's just the
+> > word "location" that might make sense if you're an old hand but not
+> > otherwise?
 > 
-> Add required ports of the Alternative scheme for Andes CPU cores.
+> Or maybe I am just biased because I tried to explain this to someone
+> recently and the language in the comments didn't make sense to them,
+> and anyone meddling with this code should be able to understand it?
 
-You've got a lot of nice info in your cover letter that would be nice in
-the git history. Could you add some of the commentary about why the
-Andes cache needs special handling from there to this commit message
-please?
+When I first looked at the whole alternatives / patching thing, the whole thing
+looked like dark magic to me ;-) .
 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> RFC v3 -> v4
-> * New patch
-> ---
->  arch/riscv/Kconfig.erratas           | 22 +++++++++
->  arch/riscv/errata/Makefile           |  1 +
->  arch/riscv/errata/andes/Makefile     |  1 +
->  arch/riscv/errata/andes/errata.c     | 68 ++++++++++++++++++++++++++++
->  arch/riscv/include/asm/alternative.h |  3 ++
->  arch/riscv/include/asm/errata_list.h |  5 ++
->  arch/riscv/kernel/alternative.c      |  5 ++
->  7 files changed, 105 insertions(+)
->  create mode 100644 arch/riscv/errata/andes/Makefile
->  create mode 100644 arch/riscv/errata/andes/errata.c
+But yeah, the comment here, but also the original one above ALTERNATIVE_2
+could use improvements to explain better what it tries to do.
 
-> diff --git a/arch/riscv/errata/andes/errata.c b/arch/riscv/errata/andes/errata.c
-> new file mode 100644
-> index 000000000000..ec3e052ca8c7
-> --- /dev/null
-> +++ b/arch/riscv/errata/andes/errata.c
-> @@ -0,0 +1,68 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Erratas to be applied for Andes CPU cores
-> + *
-> + *  Copyright (C) 2022 Renesas Electronics Corporation.
-> + *
-> + * Author: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> + */
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +
-> +#include <asm/alternative.h>
-> +#include <asm/cacheflush.h>
-> +#include <asm/errata_list.h>
-> +#include <asm/patch.h>
-> +#include <asm/vendorid_list.h>
-> +
-> +static bool errata_probe_iocp(unsigned int stage, unsigned long arch_id, unsigned long impid)
 
-To the lay reader, what's an "iocp" when it's at home? "I/O coherency
-port"? Again, commit message would be a good place for the introduction
-of that term :)
-
-> +{
-> +	if (!IS_ENABLED(CONFIG_ERRATA_ANDES_CMO))
-> +		return false;
-> +
-> +	if (arch_id != 0x8000000000008a45 || impid != 0x500)
-
-Can you #define these?
-
-> +		return false;
-> +
-> +	riscv_cbom_block_size = 1;
-> +	riscv_noncoherent_supported();
-> +
-> +	return true;
-> +}
-> +
-> +static u32 andes_errata_probe(unsigned int stage, unsigned long archid, unsigned long impid)
-> +{
-> +	u32 cpu_req_errata = 0;
-> +
-
-I read some code and when it does the opposite of what I'd expect, I
-feel inclined to add a comment. In this case, you're probing for the
-presence of the port `probe_iocp()`, but the interesting case is when
-you don't find it. You can leave it uncommented if you like, but even
-something like the below I think fits.
-
-	/*
-	 * In the absence of the I/O Coherency Port, access to certain peripherals
-	 * requires vendor specific DMA handling.
-	 */
-> +	if (errata_probe_iocp(stage, archid, impid))
-> +		cpu_req_errata |= BIT(ERRATA_ANDESTECH_NO_IOCP);
-> +
-> +	return cpu_req_errata;
-> +}
-> +
-> +void __init_or_module andes_errata_patch_func(struct alt_entry *begin, struct alt_entry *end,
-> +					      unsigned long archid, unsigned long impid,
-> +					      unsigned int stage)
-> +{
-> +	u32 cpu_req_errata = andes_errata_probe(stage, archid, impid);
-> +	struct alt_entry *alt;
-> +	u32 tmp;
-> +
-> +	if (stage == RISCV_ALTERNATIVES_EARLY_BOOT)
-> +		return;
-> +
-> +	for (alt = begin; alt < end; alt++) {
-> +		if (alt->vendor_id != ANDESTECH_VENDOR_ID)
-> +			continue;
-> +		if (alt->errata_id >= ERRATA_ANDESTECH_NUMBER)
-> +			continue;
-> +
-> +		tmp = (1U << alt->errata_id);
-
-Is this not BIT(alt->errata_id)?
-
-> +		if (cpu_req_errata & tmp) {
-> +			patch_text_nosync(alt->old_ptr, alt->alt_ptr, alt->alt_len);
-> +
-> +			riscv_alternative_fix_auipc_jalr(alt->old_ptr, alt->alt_len,
-> +							 alt->old_ptr - alt->alt_ptr);
-> +		}
-> +	}
-> +}
-> diff --git a/arch/riscv/include/asm/alternative.h b/arch/riscv/include/asm/alternative.h
-> index 6511dd73e812..d8012af30cbd 100644
-> --- a/arch/riscv/include/asm/alternative.h
-> +++ b/arch/riscv/include/asm/alternative.h
-> @@ -46,6 +46,9 @@ void sifive_errata_patch_func(struct alt_entry *begin, struct alt_entry *end,
->  void thead_errata_patch_func(struct alt_entry *begin, struct alt_entry *end,
->  			     unsigned long archid, unsigned long impid,
->  			     unsigned int stage);
-> +void andes_errata_patch_func(struct alt_entry *begin, struct alt_entry *end,
-> +			     unsigned long archid, unsigned long impid,
-> +			     unsigned int stage);
->  
->  void riscv_cpufeature_patch_func(struct alt_entry *begin, struct alt_entry *end,
->  				 unsigned int stage);
-> diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/asm/errata_list.h
-> index 4180312d2a70..2ba7e6e74540 100644
-> --- a/arch/riscv/include/asm/errata_list.h
-> +++ b/arch/riscv/include/asm/errata_list.h
-> @@ -9,6 +9,11 @@
->  #include <asm/csr.h>
->  #include <asm/vendorid_list.h>
->  
-> +#ifdef CONFIG_ERRATA_ANDES
-> +#define ERRATA_ANDESTECH_NO_IOCP	0
-> +#define ERRATA_ANDESTECH_NUMBER		1
-> +#endif
-
-Not a question for you, but I wonder why we even bother wrapping these
-defines.
-
-> +
->  #ifdef CONFIG_ERRATA_SIFIVE
->  #define	ERRATA_SIFIVE_CIP_453 0
->  #define	ERRATA_SIFIVE_CIP_1200 1
-> diff --git a/arch/riscv/kernel/alternative.c b/arch/riscv/kernel/alternative.c
-> index a7d26a00beea..4ded3e9aa3bc 100644
-> --- a/arch/riscv/kernel/alternative.c
-> +++ b/arch/riscv/kernel/alternative.c
-> @@ -47,6 +47,11 @@ static void __init_or_module riscv_fill_cpu_mfr_info(struct cpu_manufacturer_inf
->  	case THEAD_VENDOR_ID:
->  		cpu_mfr_info->patch_func = thead_errata_patch_func;
->  		break;
-> +#endif
-> +#ifdef CONFIG_ERRATA_ANDES
-> +	case ANDESTECH_VENDOR_ID:
-> +		cpu_mfr_info->patch_func = andes_errata_patch_func;
-> +		break;
->  #endif
->  	default:
->  		cpu_mfr_info->patch_func = NULL;
-> -- 
-> 2.25.1
+> >> + * this case, this vendor can create a new macro ALTERNATIVE_3() based
+> > 
+> > Also, using the word "can". Is it not a "must" rather than a "can",
+> > since this stuff needs to be multiplatform?
+> > 
+> >> + * on the following sample code and then replace ALTERNATIVE_2() with
+> >> + * ALTERNATIVE_3() to append its customized content.
+> > 
+> > 
 > 
+> 
+
+
+
+
