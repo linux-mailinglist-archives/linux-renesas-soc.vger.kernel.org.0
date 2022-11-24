@@ -2,32 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E0E163804D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Nov 2022 21:47:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61F356380A9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Nov 2022 22:31:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229452AbiKXUry convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Nov 2022 15:47:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36750 "EHLO
+        id S229502AbiKXVby (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Nov 2022 16:31:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiKXUry (ORCPT
+        with ESMTP id S229476AbiKXVbx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Nov 2022 15:47:54 -0500
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 507CD1DA4F;
-        Thu, 24 Nov 2022 12:47:50 -0800 (PST)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=diego.localnet)
-        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <heiko@sntech.de>)
-        id 1oyJ8D-0007r7-PG; Thu, 24 Nov 2022 21:47:37 +0100
-From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+        Thu, 24 Nov 2022 16:31:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7C0CC052E;
+        Thu, 24 Nov 2022 13:31:51 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5C667B82905;
+        Thu, 24 Nov 2022 21:31:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AA9FC433C1;
+        Thu, 24 Nov 2022 21:31:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669325509;
+        bh=EGJ/9q/hvg0YSx1v+4FG/3OZ0G7IUlVUm45FUQr5mGo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qXqImf9xmDxTYpEbhrJY5d1ZfJ8AT6+QxxQntmATAWF5BWGJ3UHewG3gjExIRNCnU
+         +SRKm5sbfi1UhghuQfeHz9b4sqT1cUb8QfIKDedgvHp0C+xDh5Eb9fE+gNAZCJ8jrz
+         DrzTOgv3wssTgY/a6Lc96f17lifGPZTf1cu12n24l094m7RRTOjK9KNKYqPnKz3IVL
+         +9JG/7Kz7c2ZIY83fWoKllOCyOmo035wS+x4oLbwXxkG/5lVnBq21WxeVq/dz6B845
+         o4HECIU7LN+7FW7mr+yaU/XDHDP6EGaNb80VaVoD2I+aexucGgSzqN2U4hXvqbq50/
+         VZdGLbctok3yA==
+Date:   Thu, 24 Nov 2022 21:31:42 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Prabhakar <prabhakar.csengg@gmail.com>
 Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor.dooley@microchip.com>,
@@ -42,271 +55,341 @@ Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
         linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4 7/7] soc: renesas: Add L2 cache management for RZ/Five SoC
-Date:   Thu, 24 Nov 2022 21:47:36 +0100
-Message-ID: <5258334.1IzOArtZ34@diego>
-In-Reply-To: <CA+V-a8suCqONgmXvoEnibfY1e9+1Uke3dj3HaLiCNd74zZFU4g@mail.gmail.com>
-References: <20221124172207.153718-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <5382916.ejJDZkT8p0@diego> <CA+V-a8suCqONgmXvoEnibfY1e9+1Uke3dj3HaLiCNd74zZFU4g@mail.gmail.com>
+Subject: Re: [PATCH v4 7/7] soc: renesas: Add L2 cache management for RZ/Five
+ SoC
+Message-ID: <Y3/ivrvx4A+OImtW@spud>
+References: <20221124172207.153718-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221124172207.153718-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_PASS,
-        T_SPF_HELO_TEMPERROR autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221124172207.153718-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Am Donnerstag, 24. November 2022, 20:56:39 CET schrieb Lad, Prabhakar:
-> Hi Heiko,
+On Thu, Nov 24, 2022 at 05:22:07PM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Thank you for the review.
+> On the AX45MP core, cache coherency is a specification option so it may
+
+How about:
+"Cache coherency is an option feature of the AX45MP core, so it may not
+be supported."
+
+I keep finding that sentence kinda hard..
+
+> In this case DMA will fail.
+"The AX45MP predates the standard extensions for cache management, so an
+alternate approach is required to support non-coherent DMA for SoCs
+where this feature is not available, such as the Renesas RZ/Five."
+
+(you've gotta explain somewhere why this is in drivers/soc/renesas lol)
+
+> As a workaround, firstly we
+
+How about:
+" Since the cache management instructions cannot be used, we instead
+allocate..."
+
+> allocate a global dma coherent pool from which DMA allocations are taken
+> and marked as non-cacheable + bufferable using the PMA region as specified
+> in the device tree. Synchronization callbacks are implemented to
+> synchronize when doing DMA transactions.
 > 
-> On Thu, Nov 24, 2022 at 6:30 PM Heiko Stübner <heiko@sntech.de> wrote:
-> >
-> > Am Donnerstag, 24. November 2022, 18:22:07 CET schrieb Prabhakar:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > On the AX45MP core, cache coherency is a specification option so it may
-> > > not be supported. In this case DMA will fail. As a workaround, firstly we
-> > > allocate a global dma coherent pool from which DMA allocations are taken
-> > > and marked as non-cacheable + bufferable using the PMA region as specified
-> > > in the device tree. Synchronization callbacks are implemented to
-> > > synchronize when doing DMA transactions.
-> > >
-> > > The Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
-> > > block that allows dynamic adjustment of memory attributes in the runtime.
-> > > It contains a configurable amount of PMA entries implemented as CSR
-> > > registers to control the attributes of memory locations in interest.
-> > >
-> > > Below are the memory attributes supported:
-> > > * Device, Non-bufferable
-> > > * Device, bufferable
-> > > * Memory, Non-cacheable, Non-bufferable
-> > > * Memory, Non-cacheable, Bufferable
-> > > * Memory, Write-back, No-allocate
-> > > * Memory, Write-back, Read-allocate
-> > > * Memory, Write-back, Write-allocate
-> > > * Memory, Write-back, Read and Write-allocate
-> > >
-> > > This patch adds support to configure the memory attributes of the memory
-> > > regions as passed from the l2 cache node and exposes the cache management
-> > > ops.
-> > >
-> > > More info about PMA (section 10.3):
-> > > Link: http://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > > RFC v3 -> v4
-> > > * Made use of runtime patching instead of compile time
-> > > * Now just exposing single function ax45mp_no_iocp_cmo() for CMO handling
-> > > * Added a check to make sure cache line size is always 64 bytes
-> > > * Renamed folder rzf -> rzfive
-> > > * Improved Kconfig description
-> > > * Dropped L2 cache configuration
-> > > * Dropped unnecessary casts
-> > > * Fixed comments pointed by Geert, apart from use of PTR_ALIGN_XYZ() macros.
-> > > ---
-> > >  arch/riscv/include/asm/cacheflush.h       |   8 +
-> > >  arch/riscv/include/asm/errata_list.h      |  32 +-
-> > >  drivers/soc/renesas/Kconfig               |   7 +
-> > >  drivers/soc/renesas/Makefile              |   2 +
-> > >  drivers/soc/renesas/rzfive/Kconfig        |   6 +
-> > >  drivers/soc/renesas/rzfive/Makefile       |   3 +
-> > >  drivers/soc/renesas/rzfive/ax45mp_cache.c | 415 ++++++++++++++++++++++
-> > >  drivers/soc/renesas/rzfive/ax45mp_sbi.h   |  29 ++
-> > >  8 files changed, 496 insertions(+), 6 deletions(-)
-> > >  create mode 100644 drivers/soc/renesas/rzfive/Kconfig
-> > >  create mode 100644 drivers/soc/renesas/rzfive/Makefile
-> > >  create mode 100644 drivers/soc/renesas/rzfive/ax45mp_cache.c
-> > >  create mode 100644 drivers/soc/renesas/rzfive/ax45mp_sbi.h
-> > >
-> > > diff --git a/arch/riscv/include/asm/cacheflush.h b/arch/riscv/include/asm/cacheflush.h
-> > > index 4a04d1be7c67..3226f3aceafe 100644
-> > > --- a/arch/riscv/include/asm/cacheflush.h
-> > > +++ b/arch/riscv/include/asm/cacheflush.h
-> > > @@ -61,6 +61,14 @@ static inline void riscv_noncoherent_supported(void) {}
-> > >  #define SYS_RISCV_FLUSH_ICACHE_LOCAL 1UL
-> > >  #define SYS_RISCV_FLUSH_ICACHE_ALL   (SYS_RISCV_FLUSH_ICACHE_LOCAL)
-> > >
-> > > +#ifdef CONFIG_AX45MP_L2_CACHE
-> > > +extern asmlinkage void ax45mp_no_iocp_cmo(unsigned int cache_size, void *vaddr,
-> > > +                                       size_t size, int dir, int ops);
-> > > +#else
-> > > +inline void ax45mp_no_iocp_cmo(unsigned int cache_size, void *vaddr,
-> > > +                            size_t size, int dir, int ops) {}
-> > > +#endif
-> > > +
-> > >  #include <asm-generic/cacheflush.h>
-> > >
-> > >  #endif /* _ASM_RISCV_CACHEFLUSH_H */
-> > > diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/asm/errata_list.h
-> > > index 48e899a8e7a9..300fed3bfd80 100644
-> > > --- a/arch/riscv/include/asm/errata_list.h
-> > > +++ b/arch/riscv/include/asm/errata_list.h
-> > > @@ -125,8 +125,8 @@ asm volatile(ALTERNATIVE(                                         \
-> > >  #define THEAD_SYNC_S ".long 0x0190000b"
-> > >
-> > >  #define ALT_CMO_OP(_op, _start, _size, _cachesize, _dir, _ops)               \
-> > > -asm volatile(ALTERNATIVE_2(                                          \
-> > > -     __nops(6),                                                      \
-> > > +asm volatile(ALTERNATIVE_3(                                          \
-> > > +     __nops(14),                                                     \
-> > >       "mv a0, %1\n\t"                                                 \
-> > >       "j 2f\n\t"                                                      \
-> > >       "3:\n\t"                                                        \
-> > > @@ -134,7 +134,7 @@ asm volatile(ALTERNATIVE_2(                                               \
-> > >       "add a0, a0, %0\n\t"                                            \
-> > >       "2:\n\t"                                                        \
-> > >       "bltu a0, %2, 3b\n\t"                                           \
-> > > -     "nop", 0, CPUFEATURE_ZICBOM, CONFIG_RISCV_ISA_ZICBOM,           \
-> > > +     __nops(8), 0, CPUFEATURE_ZICBOM, CONFIG_RISCV_ISA_ZICBOM,       \
-> > >       "mv a0, %1\n\t"                                                 \
-> > >       "j 2f\n\t"                                                      \
-> > >       "3:\n\t"                                                        \
-> > > @@ -142,8 +142,28 @@ asm volatile(ALTERNATIVE_2(                                              \
-> > >       "add a0, a0, %0\n\t"                                            \
-> > >       "2:\n\t"                                                        \
-> > >       "bltu a0, %2, 3b\n\t"                                           \
-> > > -     THEAD_SYNC_S, THEAD_VENDOR_ID,                                  \
-> > > -                     ERRATA_THEAD_CMO, CONFIG_ERRATA_THEAD_CMO)      \
-> > > +     THEAD_SYNC_S "\n\t"                                             \
-> > > +     __nops(8), THEAD_VENDOR_ID,                                     \
-> > > +                     ERRATA_THEAD_CMO, CONFIG_ERRATA_THEAD_CMO,      \
-> > > +     ".option push\n\t\n\t"                                          \
-> > > +     ".option norvc\n\t"                                             \
-> > > +     ".option norelax\n\t">                                          \
-> >
-> > alternatives already do the norvc + norelax options anyway for old and new instructions,
-> > so the .option stuff shouldn't be necessary I guess?
-> >
-> I did a quick run with .option stuff and all seems to be OK. I'll do
-> some rigorous testing and get rid of it in the next version.
-> >
-> > > +     "addi sp,sp,-16\n\t"                                            \
-> > > +     "sd s0,0(sp)\n\t"                                               \
-> > > +     "sd ra,8(sp)\n\t"                                               \
-> > > +     "addi s0,sp,16\n\t"                                             \
-> > > +     "mv a4,%6\n\t"                                                  \
-> > > +     "mv a3,%5\n\t"                                                  \
-> > > +     "mv a2,%4\n\t"                                                  \
-> > > +     "mv a1,%3\n\t"                                                  \
-> > > +     "mv a0,%0\n\t"                                                  \
-> > > +     "call ax45mp_no_iocp_cmo\n\t"                                   \
-> > > +     "ld ra,8(sp)\n\t"                                               \
-> > > +     "ld s0,0(sp)\n\t"                                               \
-> > > +     "addi sp,sp,16\n\t"                                             \
-> > > +     ".option pop\n\t",                                              \
-> > > +     ANDESTECH_VENDOR_ID, ERRATA_ANDESTECH_NO_IOCP,                  \
-> > > +     CONFIG_ERRATA_ANDES_CMO)                                        \
-> > >       : : "r"(_cachesize),                                            \
-> > >           "r"((unsigned long)(_start) & ~((_cachesize) - 1UL)),       \
-> > >           "r"((unsigned long)(_start) + (_size)),                     \
-> > > @@ -151,7 +171,7 @@ asm volatile(ALTERNATIVE_2(                                               \
-> > >           "r"((unsigned long)(_size)),                                \
-> > >           "r"((unsigned long)(_dir)),                                 \
-> > >           "r"((unsigned long)(_ops))                                  \
-> > > -     : "a0")
-> > > +     : "a0", "a1", "a2", "a3", "a4", "memory")
-> > >
-> > >  #define THEAD_C9XX_RV_IRQ_PMU                        17
-> > >  #define THEAD_C9XX_CSR_SCOUNTEROF            0x5c5
-> <snip>
-> > > +static int ax45mp_l2c_probe(struct platform_device *pdev)
-> > > +{
-> > > +     struct device_node *np = pdev->dev.of_node;
-> > > +     int ret;
-> > > +
-> > > +     ax45mp_priv = devm_kzalloc(&pdev->dev, sizeof(*ax45mp_priv), GFP_KERNEL);
-> > > +     if (!ax45mp_priv)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     ax45mp_priv->l2c_base = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 0, NULL);
-> > > +     if (!ax45mp_priv->l2c_base) {
-> > > +             ret = -ENOMEM;
-> > > +             goto l2c_err;
-> > > +     }
-> > > +
-> > > +     ret = ax45mp_configure_l2_cache(np);
-> > > +     if (ret)
-> > > +             goto l2c_err;
-> > > +
-> > > +     ret = ax45mp_configure_pma_regions(np);
-> > > +     if (ret)
-> > > +             goto l2c_err;
-> > > +
-> > > +     static_branch_disable(&ax45mp_l2c_configured);
-> > > +
-> > > +     return 0;
-> > > +
-> > > +l2c_err:
-> > > +     devm_kfree(&pdev->dev, ax45mp_priv);
-> > > +     ax45mp_priv = NULL;
-> > > +     return ret;
-> > > +}
-> > > +
-> > > +static const struct of_device_id ax45mp_cache_ids[] = {
-> > > +     { .compatible = "andestech,ax45mp-cache" },
-> > > +     { /* sentinel */ }
-> > > +};
-> > > +
-> > > +static struct platform_driver ax45mp_l2c_driver = {
-> > > +     .driver = {
-> > > +             .name = "ax45mp-l2c",
-> > > +             .of_match_table = ax45mp_cache_ids,
-> > > +     },
-> > > +     .probe = ax45mp_l2c_probe,
-> > > +};
-> > > +
-> > > +static int __init ax45mp_cache_init(void)
-> > > +{
-> > > +     static_branch_enable(&ax45mp_l2c_configured);
-> > > +     return platform_driver_register(&ax45mp_l2c_driver);
-> >
-> > the ordering is racy I think.
-> >
-> > I.e. in the function called from the cmo operations (ax45mp*_range)
-> > you need to access ax45mp_priv and its line-size element.
-> >
-> > But when you enable the static branch the driver is not yet registered
-> > but even more important, also not probed yet.
-> >
-> > So I guess the static-branch-enable should be living at the end of
-> > ax45mp_l2c_probe()
-> >
-> Hmm so my understanding is incorrect.
+> The Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
+> block that allows dynamic adjustment of memory attributes in the runtime.
+> It contains a configurable amount of PMA entries implemented as CSR
+> registers to control the attributes of memory locations in interest.
 > 
-> static_branch_unlikely() - evaluates to false when
-> static_branch_enable() is called
-> static_branch_unlikely() - evaluates to true when
-> static_branch_disable() is called
->
-> Is that what you meant?
+> Below are the memory attributes supported:
+> * Device, Non-bufferable
+> * Device, bufferable
+> * Memory, Non-cacheable, Non-bufferable
+> * Memory, Non-cacheable, Bufferable
+> * Memory, Write-back, No-allocate
+> * Memory, Write-back, Read-allocate
+> * Memory, Write-back, Write-allocate
+> * Memory, Write-back, Read and Write-allocate
+> 
+> This patch adds support to configure the memory attributes of the memory
+> regions as passed from the l2 cache node and exposes the cache management
+> ops.
+> 
+> More info about PMA (section 10.3):
+> Link: http://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
 
-That is an issue as well :-)
+But yeah, this is basically the sort of stuff that'd be nice to have in
+the previous patch!
 
-I.e. static_branch_* will always return true when enabled
-and false when disabled. The likely / unlikely suffix is a mechanism
-for runtime performance, i.e. unlikely means that you expect
-the static-key to be false in _most_ cases, where likely means
-you expect it to be true in most cases.
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> RFC v3 -> v4
+> * Made use of runtime patching instead of compile time
+> * Now just exposing single function ax45mp_no_iocp_cmo() for CMO handling
+> * Added a check to make sure cache line size is always 64 bytes
+> * Renamed folder rzf -> rzfive
+> * Improved Kconfig description
+> * Dropped L2 cache configuration
+> * Dropped unnecessary casts
+> * Fixed comments pointed by Geert, apart from use of PTR_ALIGN_XYZ() macros.
+> ---
+>  arch/riscv/include/asm/cacheflush.h       |   8 +
+>  arch/riscv/include/asm/errata_list.h      |  32 +-
+>  drivers/soc/renesas/Kconfig               |   7 +
+>  drivers/soc/renesas/Makefile              |   2 +
+>  drivers/soc/renesas/rzfive/Kconfig        |   6 +
+>  drivers/soc/renesas/rzfive/Makefile       |   3 +
+>  drivers/soc/renesas/rzfive/ax45mp_cache.c | 415 ++++++++++++++++++++++
+>  drivers/soc/renesas/rzfive/ax45mp_sbi.h   |  29 ++
+>  8 files changed, 496 insertions(+), 6 deletions(-)
+>  create mode 100644 drivers/soc/renesas/rzfive/Kconfig
+>  create mode 100644 drivers/soc/renesas/rzfive/Makefile
+>  create mode 100644 drivers/soc/renesas/rzfive/ax45mp_cache.c
+>  create mode 100644 drivers/soc/renesas/rzfive/ax45mp_sbi.h
 
-But also
+> diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
+> index 660498252ec5..e7810256c60d 100644
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -340,9 +340,16 @@ if RISCV
+>  config ARCH_R9A07G043
+>  	bool "RISC-V Platform support for RZ/Five"
+>  	select ARCH_RZG2L
+> +	select AX45MP_L2_CACHE
+> +	select DMA_GLOBAL_POOL
+> +	select ERRATA_ANDES
+> +	select ERRATA_ANDES_CMO
+> +	select RISCV_DMA_NONCOHERENT
 
-- arch_initcall(ax45mp_cache_init);
-- does static-branch enable
-- registers platform_driver
-- platform_driver probes
-- kzalloc(priv)
-... [1]
-- priv->line_size from dt
+Is this not redundant due to the select by ERRATA_ANDES_CMO?
 
-at [1] your condition could already be fullfilled
-but you don't have a cache-line-size yet.
+>  	help
+>  	  This enables support for the Renesas RZ/Five SoC.
+>  
+> +source "drivers/soc/renesas/rzfive/Kconfig"
+> +
+>  endif # RISCV
+>  
+>  config RST_RCAR
+
+> diff --git a/drivers/soc/renesas/rzfive/Makefile b/drivers/soc/renesas/rzfive/Makefile
+> new file mode 100644
+> index 000000000000..2012e7fb978d
+> --- /dev/null
+> +++ b/drivers/soc/renesas/rzfive/Makefile
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +obj-$(CONFIG_AX45MP_L2_CACHE) += ax45mp_cache.o
+> diff --git a/drivers/soc/renesas/rzfive/ax45mp_cache.c b/drivers/soc/renesas/rzfive/ax45mp_cache.c
+> new file mode 100644
+> index 000000000000..4e0d0545d3af
+
+Mainly just whizzing through the driver itself..
+
+> +static int ax45mp_configure_pma_regions(struct device_node *np)
+> +{
+> +	const char *propname = "andestech,pma-regions";
+> +	u32 start, size, flags;
+> +	unsigned int entry_id;
+> +	unsigned int i;
+> +	int count;
+> +	int ret;
+> +
+> +	count = of_property_count_elems_of_size(np, propname, sizeof(u32) * 3);
+> +	if (count < 0)
+> +		return count;
+> +
+> +	if (count > AX45MP_MAX_PMA_REGIONS)
+> +		return -EINVAL;
+> +
+> +	for (i = 0, entry_id = 0 ; entry_id < count ; i += 3, entry_id++) {
+> +		of_property_read_u32_index(np, propname, i, &start);
+> +		of_property_read_u32_index(np, propname, i + 1, &size);
+> +		of_property_read_u32_index(np, propname, i + 2, &flags);
+> +		ret = ax45mp_sbi_set_pma(start, size, flags, entry_id);
+> +		if (!ret)
+> +			pr_err("Failed to setup PMA region 0x%x - 0x%x flags: 0x%x",
+> +			       start, start + size, flags);
+
+I have to ask - is it okay to just continue here if a RMA region setup
+fails?
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+
+> +static bool ax45mp_cpu_cache_controlable(void)
+> +{
+> +	return (((ax45mp_cpu_get_micm_cfg_status() & AX45MP_MICM_CFG_ISZ_MASK) ||
+> +		 (ax45mp_cpu_get_mdcm_cfg_status() & AX45MP_MDCM_CFG_DSZ_MASK)) &&
+> +		(ax45mp_cpu_get_misa_cfg_status() & AX45MP_MISA_20_MASK) &&
+> +		(ax45mp_cpu_get_mmsc_cfg_status() & AX45MP_MMSC_CFG_CCTLCSR_MASK) &&
+> +		(ax45mp_cpu_get_mcache_ctl_status() & AX45MP_MCACHE_CTL_CCTL_SUEN_MASK));
+
+That's a bit of a mouthful lol!
 
 
-Heiko
+> +static void ax45mp_cpu_dma_inval_range(void *vaddr, size_t size)
 
+Not mine to look after so /shrug but this looks like the sort of thing
+that could do with a comment or two explaining the invalidation process.
 
+> +{
+> +	char cache_buf[2][AX45MP_MAX_CACHE_LINE_SIZE];
+> +	unsigned long start = (unsigned long)vaddr;
+> +	unsigned long end = start + size;
+> +	unsigned long old_start = start;
+> +	unsigned long old_end = end;
+> +	unsigned long line_size;
+> +	unsigned long flags;
+> +
+> +	if (static_branch_unlikely(&ax45mp_l2c_configured) && !ax45mp_priv)
+> +		return;
+> +
+> +	if (unlikely(start == end))
+> +		return;
+> +
+> +	line_size = ax45mp_priv->ax45mp_cache_line_size;
+> +
+> +	memset(&cache_buf, 0x0, sizeof(cache_buf));
+> +	start = start & (~(line_size - 1));
+> +	end = ((end + line_size - 1) & (~(line_size - 1)));
+> +
+> +	local_irq_save(flags);
+> +	if (unlikely(start != old_start))
+> +		memcpy(&cache_buf[0][0], (void *)start, line_size);
+> +
+> +	if (unlikely(end != old_end))
+> +		memcpy(&cache_buf[1][0], (void *)(old_end & (~(line_size - 1))), line_size);
+> +
+> +	ax45mp_cpu_dcache_inval_range(vaddr, (void *)end, line_size);
+> +
+> +	if (unlikely(start != old_start))
+> +		memcpy((void *)start, &cache_buf[0][0], (old_start & (line_size - 1)));
+> +
+> +	if (unlikely(end != old_end))
+> +		memcpy((void *)(old_end + 1),
+> +		       &cache_buf[1][(old_end & (line_size - 1)) + 1],
+> +		       end - old_end - 1);
+> +
+> +	local_irq_restore(flags);
+> +}
+
+> +static int ax45mp_configure_l2_cache(struct device_node *np)
+> +{
+> +	int ret;
+> +
+> +	ret = of_property_read_u32(np, "cache-line-size", &ax45mp_priv->ax45mp_cache_line_size);
+> +	if (ret) {
+> +		pr_err("Failed to get cache-line-size defaulting to 64 bytes\n");
+                                                     ^
+Looks like you need a comma here...
+
+> +		ax45mp_priv->ax45mp_cache_line_size = SZ_64;
+> +	}
+> +
+> +	if (ax45mp_priv->ax45mp_cache_line_size != SZ_64) {
+> +		pr_err("Expected cache-line-size to 64 bytes (found:%u). Defaulting to 64 bytes\n",
+                                                   ^
+...and a "be" here.
+
+Would you also benefit from a pr_fmt here since you have no device? Or
+else you could save the dev to your ax45mp_priv and avail of dev_err
+here?
+
+> +		       ax45mp_priv->ax45mp_cache_line_size);
+> +		ax45mp_priv->ax45mp_cache_line_size = SZ_64;
+> +	}
+> +
+> +	ax45mp_priv->ucctl_ok = ax45mp_cpu_cache_controlable();
+                                                 ^
+That function name is a typo, should be called ax45mp_cpu_cache_cache_controllable().
+
+> +	ax45mp_priv->l2cache_enabled = ax45mp_cpu_l2c_ctl_status() & AX45MP_L2_CACHE_CTL_CEN_MASK;
+> +
+> +	return 0;
+> +}
+> +
+> +static int ax45mp_l2c_probe(struct platform_device *pdev)
+> +{
+> +	struct device_node *np = pdev->dev.of_node;
+> +	int ret;
+> +
+> +	ax45mp_priv = devm_kzalloc(&pdev->dev, sizeof(*ax45mp_priv), GFP_KERNEL);
+> +	if (!ax45mp_priv)
+> +		return -ENOMEM;
+> +
+> +	ax45mp_priv->l2c_base = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 0, NULL);
+> +	if (!ax45mp_priv->l2c_base) {
+> +		ret = -ENOMEM;
+> +		goto l2c_err;
+> +	}
+> +
+> +	ret = ax45mp_configure_l2_cache(np);
+> +	if (ret)
+> +		goto l2c_err;
+> +
+> +	ret = ax45mp_configure_pma_regions(np);
+> +	if (ret)
+> +		goto l2c_err;
+> +
+> +	static_branch_disable(&ax45mp_l2c_configured);
+> +
+> +	return 0;
+> +
+> +l2c_err:
+> +	devm_kfree(&pdev->dev, ax45mp_priv);
+> +	ax45mp_priv = NULL;
+> +	return ret;
+> +}
+
+> diff --git a/drivers/soc/renesas/rzfive/ax45mp_sbi.h b/drivers/soc/renesas/rzfive/ax45mp_sbi.h
+> new file mode 100644
+> index 000000000000..1604874954d0
+> --- /dev/null
+> +++ b/drivers/soc/renesas/rzfive/ax45mp_sbi.h
+> @@ -0,0 +1,29 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +
+> +#ifndef __AX45MP_SBI_H
+> +#define __AX45MP_SBI_H
+> +
+> +#define SBI_EXT_ANDES		0x0900031E
+> +
+> +enum ax45mp_sbi_ext_fid {
+> +	AX45MP_SBI_EXT_GET_MCACHE_CTL_STATUS = 0,
+
+Is that zero not implied?
+
+> +	AX45MP_SBI_EXT_GET_MMISC_CTL_STATUS,
+> +	AX45MP_SBI_EXT_SET_MCACHE_CTL,
+> +	AX45MP_SBI_EXT_SET_MMISC_CTL,
+> +	AX45MP_SBI_EXT_ICACHE_OP,
+> +	AX45MP_SBI_EXT_DCACHE_OP,
+> +	AX45MP_SBI_EXT_L1CACHE_I_PREFETCH,
+> +	AX45MP_SBI_EXT_L1CACHE_D_PREFETCH,
+> +	AX45MP_SBI_EXT_NON_BLOCKING_LOAD_STORE,
+> +	AX45MP_SBI_EXT_WRITE_AROUND,
+> +	AX45MP_SBI_EXT_SET_PMA,
+> +	AX45MP_SBI_EXT_FREE_PMA,
+> +	AX45MP_SBI_EXT_PROBE_PMA,
+> +	AX45MP_SBI_EXT_DCACHE_WBINVAL_ALL,
+> +	AX45MP_SBI_EXT_GET_MICM_CTL_STATUS,
+> +	AX45MP_SBI_EXT_GET_MDCM_CTL_STATUS,
+> +	AX45MP_SBI_EXT_GET_MMSC_CTL_STATUS,
+> +	AX45MP_SBI_EXT_GET_MISA_CTL_STATUS,
+> +};
+> +
+> +#endif
+> -- 
+> 2.25.1
+> 
