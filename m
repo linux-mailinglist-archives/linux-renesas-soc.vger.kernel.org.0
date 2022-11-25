@@ -2,48 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87B47638B1E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Nov 2022 14:25:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C8C9638DE7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Nov 2022 16:55:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229462AbiKYNZS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Nov 2022 08:25:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53340 "EHLO
+        id S229790AbiKYPzq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Nov 2022 10:55:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229683AbiKYNZR (ORCPT
+        with ESMTP id S229863AbiKYPz3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Nov 2022 08:25:17 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B33CC41987;
-        Fri, 25 Nov 2022 05:25:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1669382716; x=1700918716;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PlRGf5S5JExBVvpK167qlrreMpp4yW3JD4H5Kt6/TWw=;
-  b=cmuqZwNh9XSTBvkb2fi9PBkgN29tdOxGiXOtd/D38avFAKx/sIvM3hU+
-   jNWDME7kmI49tD/xX290Egim/71rVRKnZ1FM2qBVxo3kws5X22NC2NMX/
-   t2f90OedayFZdJbIDHEIn+OY9/aSQhXkQqlIer2zXIhMClyNBTsNhXEzl
-   VdU+kbcAxdDJjK5wrWtTAmMRvmCVfJ0Zil6IRRKJZCe9APGB2a0XlOZuc
-   XnoBQSryEezYTgo6al7bckCyV3n65Z3lBnHLH8ePbHnmKSJQm3Uknz92S
-   MV9DDob0jZ8xVrFQs159SiHLYWvkOLYiKCoAO46nWi+5WsZePUW0hpwxn
-   w==;
-X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; 
-   d="scan'208";a="188665806"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 25 Nov 2022 06:25:15 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Fri, 25 Nov 2022 06:25:13 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex02.mchp-main.com
- (10.10.85.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
- Transport; Fri, 25 Nov 2022 06:25:10 -0700
-Date:   Fri, 25 Nov 2022 13:24:52 +0000
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-CC:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Fri, 25 Nov 2022 10:55:29 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60A3F46666
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Nov 2022 07:55:15 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id a15so5628218ljb.7
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Nov 2022 07:55:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=N75qs6mFE+82rJ2tMLVbCwIvCda7QU+ZxRGf1iXfJdE=;
+        b=vy7Yttm0R2M2h+VkrKBw2oXKSpzAnkKl1SJuZhacqQO+f4BEi4LeNpl+MGuBisVBAC
+         ai/3rRBKIzJBuEhWFHHM6hJiJcug3rN0vvbQTNam/ZOcP8cIZoh1D8CaXhm/dzbJUM1n
+         Z6Z+8hgJv2ZSKuqmk518M5Pv/G2kgjN0q8iRxPFM+LtmtlxvGtE6geKLI2HRWR6Um7O+
+         aobhGGDuZM7gE/6bZNR1V1MJqWM9hvvjTdvEFzZBnWvOlPnL/Z64aKh5KnWxSCqK8EZr
+         mWG+XWyZXXleWjRIJqR8RN2ZhSu1tfB7JsNVlbVq/Ajg/D2tWEm6NVSIXmPwsqVN/Dmx
+         5pcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=N75qs6mFE+82rJ2tMLVbCwIvCda7QU+ZxRGf1iXfJdE=;
+        b=PwCS8EKhcpDhSFOs7Drnwx4bT7k/RxwpiTRC/wpfZHUPahdPY+fUeWwZBK/Dr3mwMO
+         lax6DPaoTBocuI4FmmZ8xfgPonFb5ng11kxoDKHOF41CYkG/321wGz9Ky31XhZEXHkDJ
+         ki8MAHnkYUHFvvr7ZKv2xg1/WjSjWksVY9sBOLJaXw+WCsE5oAFtV33vqcf7Vj0sBqZB
+         adm5GFtdJB4r3iktpl8AqE1ythbYVNKGrZnJzSN9v4pM5N/7DI8nxt2NAUxKjScsKUgh
+         vOyfiWZRXY+xmwUrnqSwn0ivNh5vNfhhltjMVqaw9Q1wZ6Mn2x5vEZJ7Oavxsq6FygOp
+         B/AQ==
+X-Gm-Message-State: ANoB5pl/eiY9N1rry8Id98LGbeDrMVcqekt0R2+BbMZulmeJM6eCacDe
+        7gy/ABFG34J0qcImBxP6JzQ8zQ==
+X-Google-Smtp-Source: AA0mqf42151/tVAc9fD5z3KO3qH9yTDBjI5DNvMIYHqsvGQQgYJaTtByflQpt5PYo8sRqWP1eP7w9g==
+X-Received: by 2002:a2e:93d7:0:b0:279:7294:5e42 with SMTP id p23-20020a2e93d7000000b0027972945e42mr5917318ljh.81.1669391713514;
+        Fri, 25 Nov 2022 07:55:13 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id z25-20020a195e59000000b004aa14caf6e9sm577178lfi.58.2022.11.25.07.55.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Nov 2022 07:55:13 -0800 (PST)
+Message-ID: <ab0e55a2-d99a-328e-4f54-6a75936a1c81@linaro.org>
+Date:   Fri, 25 Nov 2022 16:55:11 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v4 6/7] dt-bindings: cache: r9a07g043f-l2-cache: Add DT
+ binding documentation for L2 cache controller
+Content-Language: en-US
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
@@ -59,108 +75,73 @@ CC:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Andrew Jones <ajones@ventanamicro.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>,
-        <linux-renesas-soc@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4 6/7] dt-bindings: cache: r9a07g043f-l2-cache: Add DT
- binding documentation for L2 cache controller
-Message-ID: <Y4DCJJnpSG07/vIb@wendy>
 References: <20221124172207.153718-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <20221124172207.153718-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <70d1bfde-f57f-1741-08d3-23e362793595@linaro.org>
  <CA+V-a8s2awLp=YvbhA1Ohe500Oh1easLUcG9V4_FWov7Pf2i6g@mail.gmail.com>
- <9b0f8312-2caa-b9f3-edf3-1b720532f559@linaro.org>
- <Y4C0Jn1hl81ZCxOt@wendy>
- <CA+V-a8u_R9X10AQ2dV9ieDGx7OJPhLRW3ENAoRP2fqVQTVodPw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8u_R9X10AQ2dV9ieDGx7OJPhLRW3ENAoRP2fqVQTVodPw@mail.gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+ <9b0f8312-2caa-b9f3-edf3-1b720532f559@linaro.org> <Y4C0Jn1hl81ZCxOt@wendy>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <Y4C0Jn1hl81ZCxOt@wendy>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Nov 25, 2022 at 12:51:34PM +0000, Lad, Prabhakar wrote:
-> Hi Conor,
+On 25/11/2022 13:25, Conor Dooley wrote:
+> On Fri, Nov 25, 2022 at 01:12:18PM +0100, Krzysztof Kozlowski wrote:
+>> On 25/11/2022 11:34, Lad, Prabhakar wrote:
+>>>>> +/* Device, Non-bufferable */
+>>>>> +#define AX45MP_PMACFG_MTYP_DEV_NON_BUF                       (0 << 2)
+>>>>> +/* Device, bufferable */
+>>>>> +#define AX45MP_PMACFG_MTYP_DEV_BUF                   (1 << 2)
+>>>>> +/* Memory, Non-cacheable, Non-bufferable */
+>>>>> +#define AX45MP_PMACFG_MTYP_MEM_NON_CACHE_NON_BUF     (2 << 2)
+>>>>> +/* Memory, Non-cacheable, Bufferable */
+>>>>> +#define AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF         (3 << 2)
+>>>>
+>>>> What are all these? They don't look like flags, because 3 = 1 | 2...
+>>>> they don't look like constants, because we do not use shifts in
+>>>> constants. Are these some register values? I also do not see the header
+>>>> being used in the code, so why having a bindings header if it is not
+>>>> used (DTS is not usage...)?
+>>>>
+>>> These are register bit values for the MTYP[5:2] field. The DTS example
+>>> in the binding doc (above) uses these macros. I haven't included the
+>>> DTS/I patches with this patchset yet do think I should?
+>>
+>> Then why storing it as bindings? Bindings headers describe the interface
+>> implemented by drivers and used by DTS, but this is not implemented by
+>> drivers.
 > 
-> On Fri, Nov 25, 2022 at 12:25 PM Conor Dooley
-> <conor.dooley@microchip.com> wrote:
-> >
-> > On Fri, Nov 25, 2022 at 01:12:18PM +0100, Krzysztof Kozlowski wrote:
-> > > On 25/11/2022 11:34, Lad, Prabhakar wrote:
-> > > >>> +/* Device, Non-bufferable */
-> > > >>> +#define AX45MP_PMACFG_MTYP_DEV_NON_BUF                       (0 << 2)
-> > > >>> +/* Device, bufferable */
-> > > >>> +#define AX45MP_PMACFG_MTYP_DEV_BUF                   (1 << 2)
-> > > >>> +/* Memory, Non-cacheable, Non-bufferable */
-> > > >>> +#define AX45MP_PMACFG_MTYP_MEM_NON_CACHE_NON_BUF     (2 << 2)
-> > > >>> +/* Memory, Non-cacheable, Bufferable */
-> > > >>> +#define AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF         (3 << 2)
-> > > >>
-> > > >> What are all these? They don't look like flags, because 3 = 1 | 2...
-> > > >> they don't look like constants, because we do not use shifts in
-> > > >> constants. Are these some register values? I also do not see the header
-> > > >> being used in the code, so why having a bindings header if it is not
-> > > >> used (DTS is not usage...)?
-> > > >>
-> > > > These are register bit values for the MTYP[5:2] field. The DTS example
-> > > > in the binding doc (above) uses these macros. I haven't included the
-> > > > DTS/I patches with this patchset yet do think I should?
-> > >
-> > > Then why storing it as bindings? Bindings headers describe the interface
-> > > implemented by drivers and used by DTS, but this is not implemented by
-> > > drivers.
-> >
-> > IIUC, some of these properties are non-discoverable attributes of the
-> > cache controller. I see two things that could be done here that are
-> > "better" than #defining bits:
-> > - add an RZ/Five specific compatible and use match data to set the
-> >   attributes which is only possible if the pma-regions are set on a
-> >   per SoC basis
-> > - make pma-regions into a child node, in which andestech,non-cacheable
-> >   andestech,non-bufferable etc are properties of the child node
-> >
-> For now the only way to get DMA working without IOCP is to have
-> AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF. But for future purposes I have
-> introduced the other available flags.
-> 
-> So maybe for now we could just have this flag
-> andestech,mem-non-cacheable-bufferable in the binding doc.
-> 
->     cache-controller@2010000 {
->         reg = <0x13400000 0x100000>;
->         compatible = "andestech,ax45mp-cache", "cache";
->         interrupts = <508 IRQ_TYPE_LEVEL_HIGH>;
->         cache-line-size = <64>;
->         cache-level = <2>;
->         cache-sets = <1024>;
->         cache-size = <262144>;
->         cache-unified;
->         andestech,pma-region@0x58000000 {
->             reg = <0x58000000 0x08000000>;
->             andestech,mem-non-cacheable-bufferable;
+> IIUC, some of these properties are non-discoverable attributes of the
+> cache controller. I see two things that could be done here that are
+> "better" than #defining bits:
 
-Yah, that's about what I would expect - except splitting the properties
-up. I think split up makes more sense from a property description point
-of view, rather than needing some sort of
-oneOf:
-  - non-cacheable-bufferable
-  - cacheable-non-bufferable
-  - non-cacheable-non-bufferable
+I did not comment about properties. I comment about constants. Why
+register values/offsets/addresses are in this particular case suitable
+for binding headers?
+
+> - add an RZ/Five specific compatible and use match data to set the
+>   attributes which is only possible if the pma-regions are set on a
+>   per SoC basis
+> - make pma-regions into a child node, in which andestech,non-cacheable
+>   andestech,non-bufferable etc are properties of the child node
+> 
+> Prabhakar, does that make sense or am I off with my understanding of the
+> attributes?
 
 
->         };
->         andestech,pma-region@0xdeadbeef {
->             reg = <0xdeadbeef 0x08000000>;
->             andestech,mem-non-cacheable-bufferable;
->         };
->         ....
->     };
+Best regards,
+Krzysztof
 
