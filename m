@@ -2,59 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 88D61638711
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Nov 2022 11:08:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99A91638717
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Nov 2022 11:10:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbiKYKIb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Nov 2022 05:08:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35638 "EHLO
+        id S229668AbiKYKKt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Nov 2022 05:10:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229681AbiKYKIa (ORCPT
+        with ESMTP id S229536AbiKYKKs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Nov 2022 05:08:30 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6053A1D0FF;
-        Fri, 25 Nov 2022 02:08:29 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id r26so3633212edc.10;
-        Fri, 25 Nov 2022 02:08:29 -0800 (PST)
+        Fri, 25 Nov 2022 05:10:48 -0500
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 684AE1FFAD;
+        Fri, 25 Nov 2022 02:10:47 -0800 (PST)
+Received: by mail-ed1-x534.google.com with SMTP id b8so5708232edf.11;
+        Fri, 25 Nov 2022 02:10:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LW+tamRHbjP1mfqbA3Ded0ngAklCtatsu4yoSddFO8c=;
-        b=TA54suU8YpDsgwK+gCYNC1hnRxH/GXp5jshHxJFpA2ZeQYIq345/e0qRfmJmeuJBM6
-         uZTk4HvkQowFDjP9Om3gj78PNhHXT1jpWAfUtpq4h6KnOjDqc+l+0QhrtBlPvaDvejJg
-         PTkxVTGXu9CuXPBHNVT8G0Qv1Wk6x2GD7v6oNMS0KkDxWWprmz91SOXjp1I8z8Jrv2SQ
-         Vnio8BQXhijH6HaPELKvoKcQPvwJBtVBGjZwH8Yipi4EJnKKzagnJwxyoJtFxk/vRgzx
-         ZZ9v28PfthRlOfH6A4j7mCTxFGpR01pQG2rHC8ILpPECe6tI8OpGJ5/xQg6uOxghEKrL
-         3png==
+        bh=IUCM0LE2Qdll2KQhXqeTAiIGjjD6iG7iWRvqL9i1T/s=;
+        b=Ns29kwRrHv7Ip/kcPlqzvmLf+DOhGJwpNWyUvTpOBGtbV5cZHzGhPvN0INYbebjz5O
+         oX3sgyukJbtrz+blPsF3Cw/Tl87sIlhFOhnzvoXY0RtmuNnSXASazX4+3BDwUX1R9c/l
+         Mc+73ig0zJjLkH5Ukr347y8q9SivewP+aGZDKM0A5JsYQtTOASMpS4EJq7yfPUC1SldM
+         QSM6/zAlId8XGwAghhcBcz82f8SvpvEUN1/luNYYeA4jHR25lwDy1Jfkcn6x9tPRvZxN
+         T/ppXxFKqwZTFvrqz1bhW1F88p5cW7jpwWyU4J/fc8FRFEY/xgI1NursXSuRyXMsh9/8
+         Aj9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LW+tamRHbjP1mfqbA3Ded0ngAklCtatsu4yoSddFO8c=;
-        b=fsXQ0UMt+KGdcvK5IZNwqPhjJqpleiA2AxJLjd7B/fYujclGgngE0mC9IeXvBg01Ez
-         3gfE846GpJ9zByz02TvE06lectuipzvdu/+L7CFnzDZFm3IA317n/gHYwqr0CIbecPPA
-         VNFXlH9s/H0Q4GZRGnqAg2W2fLWh/XHASwmZfJt6fpOhpkZnOQHXlOvy8haikg02ji6c
-         DMmJ0wxBijpYvGJYZaxLQLTYJO3M3i71+eb647XWXSyw+w8Ei85kiAg7VBwnzkijk02M
-         eUvu2BNn3zvl03vdSGjOebyoJUpQOpEaXG/TEMd8EgNaLdSihqUTOYk7qGpWIzPZFp11
-         HVmw==
-X-Gm-Message-State: ANoB5pnusPeuDqModK3+h0aOl+tTHWRF2MXqTNNCX47LIv8RC98univG
-        rHeTYCoGIbnogxpJYFOWE6EbEyWH/HYn/xzLUKs=
-X-Google-Smtp-Source: AA0mqf4b5LchYvnEyBXJafepREoQx51r3HyOSAelZFgx98WKe8rtMye2xP54PO+EREtz7Qs/WaF6DOR5mbCt+BneGR8=
-X-Received: by 2002:a05:6402:530b:b0:461:f919:caa4 with SMTP id
- eo11-20020a056402530b00b00461f919caa4mr34465411edb.255.1669370907771; Fri, 25
- Nov 2022 02:08:27 -0800 (PST)
+        bh=IUCM0LE2Qdll2KQhXqeTAiIGjjD6iG7iWRvqL9i1T/s=;
+        b=dd+PDPWD/vy3ChzYPNRNlpeg0gJ8+xhadlU6ti/UdDSoqXS7QO9xsFg3GXqwGeylau
+         AiSJ8+b/nTL+vp8/Ruv1+UCP2pcsbJmlOgJX6WnwOyMoV/NwheFQVzgRrcH6sE+1lbZd
+         IIqt15V054Ov+E6coslbnybll8R52tyvFjuLQqBCdod3dQNJDLsOskIDphT+M6xSI9sQ
+         t7TzV+DknVmzji+WcOu5y40w0+tW5gmUcZDkyDgScFtIUFYgip86mJRnvahcNGgK36pa
+         G0SXwdFW6+0JJCmk9J/FeySpAJcQ5XLwSzpaVi2Zc9eZv/+pn0NUc3dWp3nnDTAXE8a6
+         ytHw==
+X-Gm-Message-State: ANoB5pmMNO8PAS7Qq3SSN4Wi+Je0kSrSdfbivs9FpV+U94o2ZPxOXKgp
+        rYgdOUGYXIWRTmCzD424RodO/b60iFqhCfzCtH8=
+X-Google-Smtp-Source: AA0mqf74kk78BGZ9XqzWiJe0v91Q/kxGQ61MMser1Tuvs6dPAkMcXojiHnTRgz2VPD2O0Krfp5XnCHbHh8QBUvCIXNw=
+X-Received: by 2002:a05:6402:f:b0:468:56c3:7c8 with SMTP id
+ d15-20020a056402000f00b0046856c307c8mr34662608edu.109.1669371045850; Fri, 25
+ Nov 2022 02:10:45 -0800 (PST)
 MIME-Version: 1.0
 References: <20221124172207.153718-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221124172207.153718-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y3/SZPjzXsd8dfkl@spud>
-In-Reply-To: <Y3/SZPjzXsd8dfkl@spud>
+ <20221124172207.153718-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAJF2gTT7XEXmLWpP6nnSNRms9kj2NQR2dOA5N+V2UmnsurJogQ@mail.gmail.com>
+In-Reply-To: <CAJF2gTT7XEXmLWpP6nnSNRms9kj2NQR2dOA5N+V2UmnsurJogQ@mail.gmail.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 25 Nov 2022 10:08:01 +0000
-Message-ID: <CA+V-a8ucDPnbnuVz+yfLtB=mhsBL9Rr9Aa7zg+rQ3sfu_5kyJw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/7] riscv: errata: Add Andes alternative ports
-To:     Conor Dooley <conor@kernel.org>
+Date:   Fri, 25 Nov 2022 10:10:19 +0000
+Message-ID: <CA+V-a8uA=U72Mq7Rqu09BoWRG0jNHXUK=C5VFq=jb0iHLjom5w@mail.gmail.com>
+Subject: Re: [PATCH DO NOT REVIEW v4 4/7] riscv: errata: andes: Fix auipc-jalr
+ addresses in patched alternatives
+To:     Guo Ren <guoren@kernel.org>
 Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
@@ -64,7 +65,6 @@ Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor.dooley@microchip.com>,
-        Guo Ren <guoren@kernel.org>,
         Jisheng Zhang <jszhang@kernel.org>,
         Atish Patra <atishp@rivosinc.com>,
         Anup Patel <apatel@ventanamicro.com>,
@@ -86,133 +86,46 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Conor,
+Hi Guo,
 
-Thank you for the review.
-
-On Thu, Nov 24, 2022 at 8:22 PM Conor Dooley <conor@kernel.org> wrote:
+On Fri, Nov 25, 2022 at 1:09 AM Guo Ren <guoren@kernel.org> wrote:
 >
-> On Thu, Nov 24, 2022 at 05:22:03PM +0000, Prabhakar wrote:
+> On Fri, Nov 25, 2022 at 1:22 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> >
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > Add required ports of the Alternative scheme for Andes CPU cores.
->
-> You've got a lot of nice info in your cover letter that would be nice in
-> the git history. Could you add some of the commentary about why the
-> Andes cache needs special handling from there to this commit message
-> please?
->
-Sure, I'll update the commit message here.
-
+> > This patch is added just for building purpose, as patch [0] will export
+> > this in its next version.
+> >
+> > https://patchwork.kernel.org/project/linux-riscv/patch/20221110164924.529386-6-heiko@sntech.de/
+> >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > ---
-> > RFC v3 -> v4
-> > * New patch
+> > Note, as Heiko will be exporting riscv_alternative_fix_auipc_jalr() function
+> > so that it can be used other erratas Ive just included for compilation.
 > > ---
-> >  arch/riscv/Kconfig.erratas           | 22 +++++++++
-> >  arch/riscv/errata/Makefile           |  1 +
-> >  arch/riscv/errata/andes/Makefile     |  1 +
-> >  arch/riscv/errata/andes/errata.c     | 68 ++++++++++++++++++++++++++++
-> >  arch/riscv/include/asm/alternative.h |  3 ++
-> >  arch/riscv/include/asm/errata_list.h |  5 ++
-> >  arch/riscv/kernel/alternative.c      |  5 ++
-> >  7 files changed, 105 insertions(+)
-> >  create mode 100644 arch/riscv/errata/andes/Makefile
-> >  create mode 100644 arch/riscv/errata/andes/errata.c
->
+> >  arch/riscv/errata/andes/errata.c | 71 ++++++++++++++++++++++++++++++++
+> >  1 file changed, 71 insertions(+)
+> >
 > > diff --git a/arch/riscv/errata/andes/errata.c b/arch/riscv/errata/andes/errata.c
-> > new file mode 100644
-> > index 000000000000..ec3e052ca8c7
-> > --- /dev/null
+> > index ec3e052ca8c7..4061ad4983bc 100644
+> > --- a/arch/riscv/errata/andes/errata.c
 > > +++ b/arch/riscv/errata/andes/errata.c
-> > @@ -0,0 +1,68 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Erratas to be applied for Andes CPU cores
-> > + *
-> > + *  Copyright (C) 2022 Renesas Electronics Corporation.
-> > + *
-> > + * Author: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > + */
-> > +
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +
-> > +#include <asm/alternative.h>
-> > +#include <asm/cacheflush.h>
-> > +#include <asm/errata_list.h>
-> > +#include <asm/patch.h>
-> > +#include <asm/vendorid_list.h>
-> > +
-> > +static bool errata_probe_iocp(unsigned int stage, unsigned long arch_id, unsigned long impid)
+> > @@ -13,9 +13,80 @@
+> >  #include <asm/alternative.h>
+> >  #include <asm/cacheflush.h>
+> >  #include <asm/errata_list.h>
+> > +#include <asm/parse_asm.h>
+> >  #include <asm/patch.h>
+> > +#include <asm/sbi.h>
+> >  #include <asm/vendorid_list.h>
+> >
+> > +/* Copy of Heiko's code from patch [0]
+> > + * [0] https://patchwork.kernel.org/project/linux-riscv/patch/20221110164924.529386-6-heiko@sntech.de/
+> Move it to commit-msg. No link in the code.
 >
-> To the lay reader, what's an "iocp" when it's at home? "I/O coherency
-> port"? Again, commit message would be a good place for the introduction
-> of that term :)
->
-Agree, I'll update that.
-
-> > +{
-> > +     if (!IS_ENABLED(CONFIG_ERRATA_ANDES_CMO))
-> > +             return false;
-> > +
-> > +     if (arch_id != 0x8000000000008a45 || impid != 0x500)
->
-> Can you #define these?
->
-> > +             return false;
-> > +
-> > +     riscv_cbom_block_size = 1;
-> > +     riscv_noncoherent_supported();
-> > +
-> > +     return true;
-> > +}
-> > +
-> > +static u32 andes_errata_probe(unsigned int stage, unsigned long archid, unsigned long impid)
-> > +{
-> > +     u32 cpu_req_errata = 0;
-> > +
->
-> I read some code and when it does the opposite of what I'd expect, I
-> feel inclined to add a comment. In this case, you're probing for the
-> presence of the port `probe_iocp()`, but the interesting case is when
-> you don't find it. You can leave it uncommented if you like, but even
-> something like the below I think fits.
->
->         /*
->          * In the absence of the I/O Coherency Port, access to certain peripherals
->          * requires vendor specific DMA handling.
->          */
-Makes sense, I'll include the above.
-
-> > +     if (errata_probe_iocp(stage, archid, impid))
-> > +             cpu_req_errata |= BIT(ERRATA_ANDESTECH_NO_IOCP);
-> > +
-> > +     return cpu_req_errata;
-> > +}
-> > +
-> > +void __init_or_module andes_errata_patch_func(struct alt_entry *begin, struct alt_entry *end,
-> > +                                           unsigned long archid, unsigned long impid,
-> > +                                           unsigned int stage)
-> > +{
-> > +     u32 cpu_req_errata = andes_errata_probe(stage, archid, impid);
-> > +     struct alt_entry *alt;
-> > +     u32 tmp;
-> > +
-> > +     if (stage == RISCV_ALTERNATIVES_EARLY_BOOT)
-> > +             return;
-> > +
-> > +     for (alt = begin; alt < end; alt++) {
-> > +             if (alt->vendor_id != ANDESTECH_VENDOR_ID)
-> > +                     continue;
-> > +             if (alt->errata_id >= ERRATA_ANDESTECH_NUMBER)
-> > +                     continue;
-> > +
-> > +             tmp = (1U << alt->errata_id);
->
-> Is this not BIT(alt->errata_id)?
->
-Yep, I will switch to BIT().
+This patch is *not* to be merged and is just included for compilation
+purposes only.
 
 Cheers,
 Prabhakar
