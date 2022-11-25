@@ -2,64 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C066638907
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Nov 2022 12:45:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB4C0638975
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Nov 2022 13:12:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229823AbiKYLpr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Nov 2022 06:45:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44778 "EHLO
+        id S229769AbiKYMM0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Nov 2022 07:12:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229648AbiKYLpr (ORCPT
+        with ESMTP id S229794AbiKYMMY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Nov 2022 06:45:47 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1233319001;
-        Fri, 25 Nov 2022 03:45:46 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id fy37so9716690ejc.11;
-        Fri, 25 Nov 2022 03:45:45 -0800 (PST)
+        Fri, 25 Nov 2022 07:12:24 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 900E3442F5
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Nov 2022 04:12:22 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id g7so6601302lfv.5
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Nov 2022 04:12:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WnWzpuk7Fe04fSZwbn2NzRu+EG7+nGTvMdlTedNh0so=;
-        b=McOLIbuYjtbFO9iH9lHO/kmEoDMrqzPqVJEVvJFx4PuARS9AbXt6aq0iSRM0ATX+5r
-         Vt4stcYtUUyKLQtjs6M7lTzQzhS0tbGW6fi3m+/kEJlFmhjGTl5krD2tNdN/Ib5gO1Sc
-         RCFEs7XGlB7bUck/Yz6rfhTi4CCulEtRv0aS8J6X97r75Jm8QvVrAGLiLw2gRvFnR5ey
-         3p68n7bt7DqQ9bT+SIn9m0IG5gX7O2zTzc6NaJ0qm6VtJP9Xq0fVKh7kZQPvzQ2HFHXm
-         u83UQe7J91Bo0IcuoxSSRu91MLJR6MZ8wJx2tdy/sh6axSX0stwnZ5gnFp8wtptXbfsu
-         YL6g==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WIDCe1F2pbbd2Mgy1MXrte4UDEybWJsDPNOb5ZCnmZQ=;
+        b=UoBk6bEFZdln6Gqli1w+RnWCFscF0VbAqS8Ag3LpE2o4H48mryNm6HdqsmHags6EXS
+         xWOJNeT6QcZWbiloClD2sl8WKeKQxA/oVklAnjTYhvwL0MBIZZbi0m/y1XM39p/LtRe6
+         XpN1GYXTREaIVvk1MIvWnXe6oVJVfxwCY60WiH5GTVCDt+JtTHdJqv9kjD34DsxOgiC1
+         Ri5SWYvCQFnsJDigQUQa3BP50L8u1oWeVq90QxGOBOZSPsFaFjX7LT0bkVQILYZGu9Bo
+         HB0m3lHG9D9VJ2rtsyhYlFf8TOnWdfoUOZnhPu5vISCEQa0tbrgHTG6kp+nI0tM8MpRc
+         P/0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WnWzpuk7Fe04fSZwbn2NzRu+EG7+nGTvMdlTedNh0so=;
-        b=kyHOoB0gUKw1Q9For/JB1lE3/NfdGuvuUI8O648Nxrc8xC40jLoBi1ZguePae9myBt
-         VHP5Nkbv1ivW+7oDVO5VMDQBQbZtniShGKT5Ex42AcpzSca2fIKdxw/1wcpowJLj/5tE
-         aqCyQL52ZC7trZ0/7BsxVMglc/ShKdlSrNBUDL0IhzkUHGETCcp6mwXtl61bZNfqkwk0
-         YH7Kz19336nWZgyWyrx4kJBha5ae/N/XIA2C9o3xKsIhpeYk+68GKE4oznzjePRbyHU4
-         1ndMxk0huZ+78dwzs26OJXJRX96hRK6iTRb6tXDFdONj7SgXVk0DfOdNRPG1Z1yCyx1b
-         BAQg==
-X-Gm-Message-State: ANoB5pnyL57fhzeXadDEWuAyMTMEV7xKbWVcQgidkmuSD5X+pMTjwhzM
-        31mihOdM8Q8+oDdqCHZAyKczAZOaz7y4vvHLykA=
-X-Google-Smtp-Source: AA0mqf7IubZa1gVPfYiGD5E7i0Jzn7mDxMJIH5SkqjavpTlcvWOw33JXPhHjOAy06Ubt0XOI8dVwKtbv1bbqWy/TyF0=
-X-Received: by 2002:a17:907:7650:b0:781:e568:294f with SMTP id
- kj16-20020a170907765000b00781e568294fmr17649629ejc.447.1669376744514; Fri, 25
- Nov 2022 03:45:44 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WIDCe1F2pbbd2Mgy1MXrte4UDEybWJsDPNOb5ZCnmZQ=;
+        b=vw4VjFnhnHYqfiR1SOqGOfiq5WCHfOguFxIXYYwnw8aa0Cw5W4CxrqZvzIf+hTWFAE
+         MoMv66S/SMfxb4SkV+ogcGvHScARv0E2dnht9MmKiJaUAORasFsope3oMhQcYXmHzC4T
+         NkJqvFzpAoiuWAz7LYTw0QceIGASm9lCuf4AQB3Pc/Ogfa2TRxl6aKeO0pvVl/rnVUz9
+         Q8HZHEp8K4VQDSNszOpFcBt0M6F41O6ytf9Ysar4FJj3QBjnbzYoG1eGoF3elwKjj+8U
+         BWTCu9FStkaBxG9qUsfC9JwEogTWJdKsC4F7i0apfNUsvTRahSPO1FqU3aNFlakyFaNK
+         PXzQ==
+X-Gm-Message-State: ANoB5plufZWnCs4rAcBSqAEIcUSuk1B6Ogy4gDfqgoz9NqtIiHwm5aFb
+        KRAsGtgxPELzfW3QiLfEP2gEwg==
+X-Google-Smtp-Source: AA0mqf7AYDN1omQtlSSqKyibMA+E7LIJY49giATJQ8eBdw3MdfOTWsmmF57QotBfyUz6z3524orkhg==
+X-Received: by 2002:ac2:4f0c:0:b0:4ac:2f5f:5c9b with SMTP id k12-20020ac24f0c000000b004ac2f5f5c9bmr6226180lfr.206.1669378340651;
+        Fri, 25 Nov 2022 04:12:20 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id j17-20020a056512399100b004b257fef958sm508060lfu.94.2022.11.25.04.12.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Nov 2022 04:12:20 -0800 (PST)
+Message-ID: <9b0f8312-2caa-b9f3-edf3-1b720532f559@linaro.org>
+Date:   Fri, 25 Nov 2022 13:12:18 +0100
 MIME-Version: 1.0
-References: <20221124172207.153718-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221124172207.153718-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <70d1bfde-f57f-1741-08d3-23e362793595@linaro.org> <CA+V-a8s2awLp=YvbhA1Ohe500Oh1easLUcG9V4_FWov7Pf2i6g@mail.gmail.com>
- <CAMuHMdXktJWskc8m-hL75gfkkkZnqsiuraAG+wPjWcs2JZpGKA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXktJWskc8m-hL75gfkkkZnqsiuraAG+wPjWcs2JZpGKA@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 25 Nov 2022 11:45:17 +0000
-Message-ID: <CA+V-a8ui9vyLC7_PdwCdeSsOujFPuJ8LU3WeV4uOKpjcphhaWQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
 Subject: Re: [PATCH v4 6/7] dt-bindings: cache: r9a07g043f-l2-cache: Add DT
  binding documentation for L2 cache controller
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
+Content-Language: en-US
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -79,137 +79,48 @@ Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20221124172207.153718-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221124172207.153718-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <70d1bfde-f57f-1741-08d3-23e362793595@linaro.org>
+ <CA+V-a8s2awLp=YvbhA1Ohe500Oh1easLUcG9V4_FWov7Pf2i6g@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CA+V-a8s2awLp=YvbhA1Ohe500Oh1easLUcG9V4_FWov7Pf2i6g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On 25/11/2022 11:34, Lad, Prabhakar wrote:
+>>> +/* Device, Non-bufferable */
+>>> +#define AX45MP_PMACFG_MTYP_DEV_NON_BUF                       (0 << 2)
+>>> +/* Device, bufferable */
+>>> +#define AX45MP_PMACFG_MTYP_DEV_BUF                   (1 << 2)
+>>> +/* Memory, Non-cacheable, Non-bufferable */
+>>> +#define AX45MP_PMACFG_MTYP_MEM_NON_CACHE_NON_BUF     (2 << 2)
+>>> +/* Memory, Non-cacheable, Bufferable */
+>>> +#define AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF         (3 << 2)
+>>
+>> What are all these? They don't look like flags, because 3 = 1 | 2...
+>> they don't look like constants, because we do not use shifts in
+>> constants. Are these some register values? I also do not see the header
+>> being used in the code, so why having a bindings header if it is not
+>> used (DTS is not usage...)?
+>>
+> These are register bit values for the MTYP[5:2] field. The DTS example
+> in the binding doc (above) uses these macros. I haven't included the
+> DTS/I patches with this patchset yet do think I should?
 
-On Fri, Nov 25, 2022 at 11:18 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> , Hi Prabhakar,
->
-> On Fri, Nov 25, 2022 at 11:34 AM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Fri, Nov 25, 2022 at 8:16 AM Krzysztof Kozlowski
-> > <krzysztof.kozlowski@linaro.org> wrote:
-> > > On 24/11/2022 18:22, Prabhakar wrote:
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > Add DT binding documentation for L2 cache controller found on RZ/Five SoC.
-> > > >
-> > > > The Renesas RZ/Five microprocessor includes a RISC-V CPU Core (AX45MP
-> > > > Single) from Andes. The AX45MP core has an L2 cache controller, this patch
-> > > > describes the L2 cache block.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > ---
-> > > > RFC v3 -> v4
-> > > > * Dropped l2 cache configuration parameters
-> > > > * s/larger/large
-> > > > * Added minItems/maxItems for andestech,pma-regions
->
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
->
-> > > > +examples:
-> > > > +  - |
-> > > > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > > > +    #include <dt-bindings/cache/andestech,ax45mp-cache.h>
-> > > > +
-> > > > +    cache-controller@2010000 {
-> > > > +        reg = <0x13400000 0x100000>;
-> > > > +        compatible = "andestech,ax45mp-cache", "cache";
-> > > > +        interrupts = <508 IRQ_TYPE_LEVEL_HIGH>;
-> > > > +        cache-line-size = <64>;
-> > > > +        cache-level = <2>;
-> > > > +        cache-sets = <1024>;
-> > > > +        cache-size = <262144>;
-> > > > +        cache-unified;
-> > > > +        andestech,pma-regions = <0x58000000 0x08000000
-> > > > +                                 (AX45MP_PMACFG_ETYP_NAPOT | AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF)>;
-> > > > +    };
-> > > > diff --git a/include/dt-bindings/cache/andestech,ax45mp-cache.h b/include/dt-bindings/cache/andestech,ax45mp-cache.h
-> > > > new file mode 100644
-> > > > index 000000000000..aa1cad24075d
-> > > > --- /dev/null
-> > > > +++ b/include/dt-bindings/cache/andestech,ax45mp-cache.h
-> > > > @@ -0,0 +1,38 @@
-> > > > +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
-> > > > +/*
-> > > > + * This header provides constants for Andes AX45MP PMA configuration
-> > > > + *
-> > > > + * Copyright (C) 2022 Renesas Electronics Corp.
-> > > > + */
-> > > > +
-> > > > +#ifndef __DT_BINDINGS_ANDESTECH_AX45MP_CACHE_H
-> > > > +#define __DT_BINDINGS_ANDESTECH_AX45MP_CACHE_H
-> > > > +
-> > > > +/* OFF: PMA entry is disabled */
-> > > > +#define AX45MP_PMACFG_ETYP_DISABLED                  0
-> > > > +/* Naturally aligned power of 2 region */
-> > > > +#define AX45MP_PMACFG_ETYP_NAPOT                     3
-> > > > +
-> > > > +/* Device, Non-bufferable */
-> > > > +#define AX45MP_PMACFG_MTYP_DEV_NON_BUF                       (0 << 2)
-> > > > +/* Device, bufferable */
-> > > > +#define AX45MP_PMACFG_MTYP_DEV_BUF                   (1 << 2)
-> > > > +/* Memory, Non-cacheable, Non-bufferable */
-> > > > +#define AX45MP_PMACFG_MTYP_MEM_NON_CACHE_NON_BUF     (2 << 2)
-> > > > +/* Memory, Non-cacheable, Bufferable */
-> > > > +#define AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF         (3 << 2)
-> > >
-> > > What are all these? They don't look like flags, because 3 = 1 | 2...
-> > > they don't look like constants, because we do not use shifts in
-> > > constants. Are these some register values? I also do not see the header
-> > > being used in the code, so why having a bindings header if it is not
-> > > used (DTS is not usage...)?
-> > >
-> > These are register bit values for the MTYP[5:2] field. The DTS example
-> > in the binding doc (above) uses these macros. I haven't included the
-> > DTS/I patches with this patchset yet do think I should?
->
-> I think the main objection from Rob is that these look too much like
-> raw register values to be written unchanged to registers, which is
-> frowned upon in DT.
->
-> Now, can we make this more generic?
->
->   1. Do you need AX45MP_PMACFG_ETYP_DISABLED, i.e. will it ever be
->      specified in DTS, or is this a pure software thing?
->   2. Obviously you can let the driver decide if AX45MP_PMACFG_ETYP_NAPOT
->      can be set, based on address/size?
->   3. If the two above are removed, the shifts can be handled in the
->      driver instead,
-Yes we can get rid of AX45MP_PMACFG_ETYP_DISABLED and
-AX45MP_PMACFG_ETYP_NAPOT. If we are setting up the PMA region it
-always has to be a power of 2. So AX45MP_PMACFG_ETYP_NAPOT can be
-passed either from the driver or in the OpenSBI just OR it while
-setting up the PMA.
+Then why storing it as bindings? Bindings headers describe the interface
+implemented by drivers and used by DTS, but this is not implemented by
+drivers.
 
+Best regards,
+Krzysztof
 
->   4. Are there existing (more generic) definitions that can be used
->      instead?
->
-You mean for the MTYP flags? I haven't come across any in the kernel.
-
-> BTW, what's the difference between non-bufferable and non-cacheable?
->
-non-cacheable, from the Andes manual: Accessing to non-cacheable
-memory and device will bypass I-Cache, D-Cache and L2-Cache no matter
-the data is cached or not. The cache states are not changed by these
-accesses.
-
-TBH I dont have a clear answer for non-bufferable nor do we have in
-the Andes HW manual. I'll get the details from Andes.
-
-Cheers,
-Prabhakar
