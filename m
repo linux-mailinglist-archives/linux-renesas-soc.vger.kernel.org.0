@@ -2,129 +2,283 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C91C6383C2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Nov 2022 07:08:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 203B763850A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Nov 2022 09:16:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229669AbiKYGIJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Nov 2022 01:08:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45916 "EHLO
+        id S229642AbiKYIQP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Nov 2022 03:16:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229612AbiKYGII (ORCPT
+        with ESMTP id S229459AbiKYIQO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Nov 2022 01:08:08 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C411FF9F
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Nov 2022 22:08:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669356488; x=1700892488;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=dH2hNqZUCalpm7NERFU/OzFQ0ODbRTTrYE6puUyo5Ho=;
-  b=DUSYv1UH17k4aFHPvbF5s1h57mpemL3GnoGoWWMn377+o6ZvYB0U2gM1
-   SPd3/FZsE84okYyMzq7jDaRJazxrwFlO2nOiefjRWTYZ3wUCdgpwKqmt+
-   I5JI+IXbtjhkE0Hj4V4GEqWW/oboeHzcs5jKEewIa3bElsk5M/BzVhX//
-   Vyx0rjzGCfkZALGw8zKzKSLj2R6Q4FPRUyhqADojmZwmwK2KxHiBeWa+n
-   jYSkj08pE0xyhK4nWXd9As7Y2HJnSoIqJzfzkm9zphJsbGkJDjVmwcUng
-   84baO28cieLeB8fLuuEIKQWSe82GxXlp4K8YIuApNB+7LrmZbvJtfcePU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="316239473"
-X-IronPort-AV: E=Sophos;i="5.96,192,1665471600"; 
-   d="scan'208";a="316239473"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2022 22:08:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="642602799"
-X-IronPort-AV: E=Sophos;i="5.96,192,1665471600"; 
-   d="scan'208";a="642602799"
-Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 24 Nov 2022 22:07:58 -0800
-Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oyRsU-0004kB-0n;
-        Fri, 25 Nov 2022 06:07:58 +0000
-Date:   Fri, 25 Nov 2022 14:07:43 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/renesas-bsp-rebase-v6.1] BUILD
- SUCCESS 3bde89b69b8ec0598ad93f764d15090d0a2986ad
-Message-ID: <63805baf.NmX+jgdPGk7WP+Hz%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Fri, 25 Nov 2022 03:16:14 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E790303D5
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Nov 2022 00:16:13 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id a29so5740738lfj.9
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Nov 2022 00:16:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=N+VqwQA0ACSOHUN95caT7MOy4QsSBG574lC0jyV4pT8=;
+        b=m0mzFThbUlv8y9i5L6R9m6xTXf/K9T8scg4/1yMpDP0SG8fMA3utdjWye6zPasnDsG
+         PvA4m5+sfvYm59Tyk0G3lUOd2YtTyRG8hKeYbQj+M19+OFSjbvhm5yT4nRTEb6dYXcYD
+         sihPMgJn2RNfHzv4eUiZGZDDx77+IajNNLSL8LFVw8mkMWPsH2Izq+5lmSrFLS7+06AQ
+         jZksOItOh5A7nngow+DFdTLG2YbJZg61yhnNlGeEBylpy7GpJSxHsAs9mcwZl27O5R0m
+         dABAdbOk0WtBjXmiqYt+E5xCJDlMtmDJr1JpYXm5Dm5lzS+r7ghQgiyrXl1ap+3EJP3H
+         jFPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=N+VqwQA0ACSOHUN95caT7MOy4QsSBG574lC0jyV4pT8=;
+        b=O9YBIuoS24hqQhezNtmU5yMxByXgjJr4CNfyFlRjfCbRRGUU76ghFZw/sL3xPpa3H4
+         LmlRty4eTU17YbYyqBi5CAwIRdttcHbP7E4eunM3UJ5ORz4xTFrbnBfIrNZiFDhfRlRk
+         HX+ndBmV6RDMEpPDU8wkU/8qNrHtDFn3JrDfVxPIE8eoZJKXN+jZ5v0MN+xyjy3bTB0t
+         c94qp+PrhhkQq0HOnKwqRsMWWHo3WiW2ODPESqWN7ff731OtFcvktGaoRMSDknEUHhik
+         v86TvOxYXkhC1iRqZAUY+tSVYNOmyr9eZGfGKDIxjOBDsDUNSInfX9PwD1zY9klgvitS
+         NzmQ==
+X-Gm-Message-State: ANoB5pkM1WGLypWhZtz9Hayz50/Zt/fh+P35LsPAQGGtdo7NDkII275Y
+        P3a3PtYZPweMY2ahp4vIfHgIuw==
+X-Google-Smtp-Source: AA0mqf4iaewyz6Uvj5Y0H3Db+e4I6RPK2U+Ekg8QFcNrOfYlB2u1eoC7Fz9f7pu7oXoec1WtyRkI3w==
+X-Received: by 2002:ac2:5f6c:0:b0:4a2:bca5:76bc with SMTP id c12-20020ac25f6c000000b004a2bca576bcmr6118153lfc.123.1669364171902;
+        Fri, 25 Nov 2022 00:16:11 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id m4-20020a056512014400b004aa543f3748sm41444lfo.130.2022.11.25.00.16.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Nov 2022 00:16:11 -0800 (PST)
+Message-ID: <70d1bfde-f57f-1741-08d3-23e362793595@linaro.org>
+Date:   Fri, 25 Nov 2022 09:16:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v4 6/7] dt-bindings: cache: r9a07g043f-l2-cache: Add DT
+ binding documentation for L2 cache controller
+Content-Language: en-US
+To:     Prabhakar <prabhakar.csengg@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>
+Cc:     Jisheng Zhang <jszhang@kernel.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20221124172207.153718-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221124172207.153718-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221124172207.153718-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-bsp-rebase-v6.1
-branch HEAD: 3bde89b69b8ec0598ad93f764d15090d0a2986ad  BSP rebase: Drop upstreamed DT binding patches
+On 24/11/2022 18:22, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Add DT binding documentation for L2 cache controller found on RZ/Five SoC.
+> 
+> The Renesas RZ/Five microprocessor includes a RISC-V CPU Core (AX45MP
+> Single) from Andes. The AX45MP core has an L2 cache controller, this patch
+> describes the L2 cache block.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> RFC v3 -> v4
+> * Dropped l2 cache configuration parameters
+> * s/larger/large
+> * Added minItems/maxItems for andestech,pma-regions
+> ---
+>  .../cache/andestech,ax45mp-cache.yaml         | 93 +++++++++++++++++++
+>  .../cache/andestech,ax45mp-cache.h            | 38 ++++++++
+>  2 files changed, 131 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
+>  create mode 100644 include/dt-bindings/cache/andestech,ax45mp-cache.h
+> 
+> diff --git a/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
+> new file mode 100644
+> index 000000000000..bf255b177d0a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
+> @@ -0,0 +1,93 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright (C) 2022 Renesas Electronics Corp.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/cache/andestech,ax45mp-cache.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Andestech AX45MP L2 Cache Controller
+> +
+> +maintainers:
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> +
+> +description:
+> +  A level-2 cache (L2C) is used to improve the system performance by providing
+> +  a large amount of cache line entries and reasonable access delays. The L2C
+> +  is shared between cores, and a non-inclusive non-exclusive policy is used.
+> +
+> +select:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - andestech,ax45mp-cache
+> +
+> +  required:
+> +    - compatible
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: andestech,ax45mp-cache
+> +      - const: cache
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  cache-line-size:
+> +    const: 64
+> +
+> +  cache-level:
+> +    const: 2
+> +
+> +  cache-sets:
+> +    const: 1024
+> +
+> +  cache-size:
+> +    enum: [131072, 262144, 524288, 1048576, 2097152]
+> +
+> +  cache-unified: true
+> +
+> +  next-level-cache: true
+> +
+> +  andestech,pma-regions:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-matrix
+> +    minItems: 1
+> +    maxItems: 16
+> +    items:
+> +      minItems: 3
+> +      maxItems: 3
 
-elapsed time: 788m
+Instead:
+items:
+  items:
+    - description: Explain
+    - description: what is
+    - description: here
 
-configs tested: 47
-configs skipped: 2
+> +    description: Optional array of memory regions to be set in the PMA.
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - cache-line-size
+> +  - cache-level
+> +  - cache-sets
+> +  - cache-size
+> +  - cache-unified
+> +  - interrupts
+> +  - reg
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Keep the same order as properties appear in the "properties:"
 
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-arc                                 defconfig
-s390                             allmodconfig
-alpha                               defconfig
-s390                                defconfig
-s390                             allyesconfig
-powerpc                          allmodconfig
-mips                             allyesconfig
-powerpc                           allnoconfig
-sh                               allmodconfig
-arc                  randconfig-r043-20221124
-x86_64                           rhel-8.3-kvm
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64                            allnoconfig
-ia64                             allmodconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-i386                             allyesconfig
-i386                                defconfig
-m68k                             allmodconfig
-alpha                            allyesconfig
-arc                              allyesconfig
-m68k                             allyesconfig
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/cache/andestech,ax45mp-cache.h>
+> +
+> +    cache-controller@2010000 {
+> +        reg = <0x13400000 0x100000>;
+> +        compatible = "andestech,ax45mp-cache", "cache";
+> +        interrupts = <508 IRQ_TYPE_LEVEL_HIGH>;
+> +        cache-line-size = <64>;
+> +        cache-level = <2>;
+> +        cache-sets = <1024>;
+> +        cache-size = <262144>;
+> +        cache-unified;
+> +        andestech,pma-regions = <0x58000000 0x08000000
+> +                                 (AX45MP_PMACFG_ETYP_NAPOT | AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF)>;
+> +    };
+> diff --git a/include/dt-bindings/cache/andestech,ax45mp-cache.h b/include/dt-bindings/cache/andestech,ax45mp-cache.h
+> new file mode 100644
+> index 000000000000..aa1cad24075d
+> --- /dev/null
+> +++ b/include/dt-bindings/cache/andestech,ax45mp-cache.h
+> @@ -0,0 +1,38 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> +/*
+> + * This header provides constants for Andes AX45MP PMA configuration
+> + *
+> + * Copyright (C) 2022 Renesas Electronics Corp.
+> + */
+> +
+> +#ifndef __DT_BINDINGS_ANDESTECH_AX45MP_CACHE_H
+> +#define __DT_BINDINGS_ANDESTECH_AX45MP_CACHE_H
+> +
+> +/* OFF: PMA entry is disabled */
+> +#define AX45MP_PMACFG_ETYP_DISABLED			0
+> +/* Naturally aligned power of 2 region */
+> +#define AX45MP_PMACFG_ETYP_NAPOT			3
+> +
+> +/* Device, Non-bufferable */
+> +#define AX45MP_PMACFG_MTYP_DEV_NON_BUF			(0 << 2)
+> +/* Device, bufferable */
+> +#define AX45MP_PMACFG_MTYP_DEV_BUF			(1 << 2)
+> +/* Memory, Non-cacheable, Non-bufferable */
+> +#define AX45MP_PMACFG_MTYP_MEM_NON_CACHE_NON_BUF	(2 << 2)
+> +/* Memory, Non-cacheable, Bufferable */
+> +#define AX45MP_PMACFG_MTYP_MEM_NON_CACHE_BUF		(3 << 2)
 
-clang tested configs:
-riscv                randconfig-r042-20221124
-hexagon              randconfig-r041-20221124
-hexagon              randconfig-r045-20221124
-s390                 randconfig-r044-20221124
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
+What are all these? They don't look like flags, because 3 = 1 | 2...
+they don't look like constants, because we do not use shifts in
+constants. Are these some register values? I also do not see the header
+being used in the code, so why having a bindings header if it is not
+used (DTS is not usage...)?
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+
+> +/* Memory, Write-back, No-allocate */
+> +#define AX45MP_PMACFG_MTYP_MEM_WB_NA			(8 << 2)
+> +/* Memory, Write-back, Read-allocate */
+> +#define AX45MP_PMACFG_MTYP_MEM_WB_RA			(9 << 2)
+> +/* Memory, Write-back, Write-allocate */
+> +#define AX45MP_PMACFG_MTYP_MEM_WB_WA			(10 << 2)
+> +/* Memory, Write-back, Read and Write-allocate */
+> +#define AX45MP_PMACFG_MTYP_MEM_WB_R_WA			(11 << 2)
+> +
+> +/* AMO instructions are supported */
+> +#define AX45MP_PMACFG_NAMO_AMO_SUPPORT			(0 << 6)
+> +/* AMO instructions are not supported */
+> +#define AX45MP_PMACFG_NAMO_AMO_NO_SUPPORT		(1 << 6)
+> +
+> +#endif /* __DT_BINDINGS_ANDESTECH_AX45MP_CACHE_H */
+
+Best regards,
+Krzysztof
+
