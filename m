@@ -2,142 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BCEA6385E0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Nov 2022 10:07:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BB9C6386F3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Nov 2022 11:03:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229536AbiKYJHx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Nov 2022 04:07:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53216 "EHLO
+        id S229805AbiKYKC7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Nov 2022 05:02:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229771AbiKYJHr (ORCPT
+        with ESMTP id S229773AbiKYKCu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Nov 2022 04:07:47 -0500
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2104.outbound.protection.outlook.com [40.107.113.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48532D2F3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Nov 2022 01:07:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=As2KfOtkRKBrULPGBRdPBoz4y2AQIlyMvC8JWFBFIsn0dQdeYAnHnZHE9/3RZg/4YVcnYZ4IATHfSc7rSIyvvyjuaVzrWw7+UPf9wXQQDWbPpOp4TwgKk8XQMQ5Apid5AeSkPWakOlq7M4P6h9NdfBTHzVaHet/y+bUY0V0hJbsxoYprMOnY+7CQqqOaXl/mSUHOFxV0IK+6JyyLOBOoDbRK8Q+SXHynbniJCt9gFAV5P8eiXgQPSRYW0FRNZDKk7NJbRzr+KQ5Wn+URw4/c4J6Ve+CXXQhCRTinD0nKQ48EMYzrVsX+Mak93j5jlaAyhEUad/RT4cvTCd2db8Vtcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=25Gs8O26C0H2D4KsqnvUFLBWh0rlDpiDhPZiKPktIxI=;
- b=OnBdJzBGd1Kf9USJ6w+orEvvId+lBe5DV3B9ql/rh+83OTLP7L1vd0G2Jvi7V0GM1RpPfFG2WkAYFDnR0JFo2rkxU91ePE2qXfIGBDusImebB0KjePVAxvTUvjVqo5YegnW8/4yr0A1bKAz+lbB4HLjlTMR2RRe/VEHuPFD/o3H7oiafQo2cZX2gqKs2wlcRafiHfZMNMZeFuUXzF6BzbbVHUglu0I4Jfru4AcGt0Z6nKbHfAPviWvGLgreEo7G/UrWu7ol9v8Xca1us502rAQ3CeDmm3S3d5SORACIIq/6pY6cR9TfJV/OwSy91NfFLnpDHgI4hAXlElytU4bJsEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=25Gs8O26C0H2D4KsqnvUFLBWh0rlDpiDhPZiKPktIxI=;
- b=L7UQ6Y/w20JyRaXL8Vfh5a7CuuIIR48Dsewm89CuDuvghVjVGl6FL+OVbAPSmb7RGteiZbtPY+JdL+FW7fde5wMjfph+CW1U+xRhic4jU9WZcyhucfu/SzYtAiDIEtRgtdnrw6no3bdqP42JmuRpVgN2wQl20EvfLNjZzH4XwJc=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYWPR01MB9708.jpnprd01.prod.outlook.com (2603:1096:400:232::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.20; Fri, 25 Nov
- 2022 09:07:43 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2cfb:38d2:d52e:c8a3]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2cfb:38d2:d52e:c8a3%5]) with mapi id 15.20.5857.020; Fri, 25 Nov 2022
- 09:07:43 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Regarding clock event driver testing
-Thread-Topic: Regarding clock event driver testing
-Thread-Index: AdkArJrKvDyZvzK5SrWcU5XSVDoKPQ==
-Date:   Fri, 25 Nov 2022 09:07:43 +0000
-Message-ID: <OS0PR01MB5922C23B892D938AD1675C9C860E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYWPR01MB9708:EE_
-x-ms-office365-filtering-correlation-id: a98a7c08-21ef-4dd6-86d4-08dacec48341
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: VesExcsEXI87mgzMWiP9SFE80drR4RjMrpW/iwdnDGX2swoMDrt3kEjP0OFwWYOjDKPxSFOEtvBt7WcpwHLXvKO/ONlKhAUVb5BRWPsDYhDlC9q9IwQ6t5JT43hDkYR+/K3qaKjlCRQG8y/03n5GV1abMdYkmBEf6zmPZnOQAvOsAnhnCE87+FblwUT4TgNXOA7qFZlz7FJg9BL4SWmUZ2r7D3fiMVzSERr3hxk5ezu0ZEqCsoCCLEWP12JIMwYGNl9Fd8bGCUtn7GtxQQ73fxG/DrQSydBNm6TT9W5t7PZNaImobXymfvO7eCdJEHgPcFYKPsLdUwp0bx8O1sC0ST2XIEmiTdDQzyDNoAWI1B9c/x+k+Yl2qBvNEv36vKNtQUcvfz+290Bk3DjjUXvID9v18VmSluCDJaCtJZ9ay2jGqd2q2HZwLvC1oxV3terNZjgtAO+v/kTDKX5RpzsMeMwE05OuTGmKLWLv52Sp6sHKajukC5SMRYYMFJQc8zpuZrv8lKr+VdMCLkvb0QQGyuTSN7lc+CuEXspRZNB6mWsViJ8+usPzzgczqb4/9TDd3ABJ1+I47nYzh5gKfnMyedkHni5z8UP8D0FB5T5Ps0CUkV3ZVfFQXTq9yEE9KKEkbPAoFNMz/nS9EytpCTEL7Nv5jOAikYPJ0o/24bvTiPe66LneJmIqbr84X/s4sjuSABZctPzBYvg3Xz3FiHncStI1v9JieZanze3KsBADsEM=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(366004)(396003)(39860400002)(346002)(451199015)(52536014)(8936002)(4744005)(4326008)(8676002)(66946007)(66476007)(64756008)(76116006)(66556008)(66446008)(2906002)(41300700001)(5660300002)(71200400001)(966005)(7696005)(6506007)(54906003)(38100700002)(122000001)(316002)(9686003)(26005)(478600001)(33656002)(186003)(83380400001)(55016003)(38070700005)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?zlmxY5t1+3CvEmH4OZawzHLptellvZSI3O2qMPf9t/8m+DJlD6jSaps2Wc29?=
- =?us-ascii?Q?unYab+tQ4NGcOo9+4GzMcZQoHndKZZxckhFcB2jiYT1sreQr7kG/DBgDoGtd?=
- =?us-ascii?Q?lPiaXWjzcOPESRs3Jg9LKziDJq0JO+FUm3As0JZ09iQV78E7fRj9YreiTE1n?=
- =?us-ascii?Q?xI/qInJVICbskuoKjsNJDVWDRAilgld18dYK5WykB0GbN+tkouv6YdqB9t4k?=
- =?us-ascii?Q?0ppdfQ/7EeHDSOPcY8f0qzrDeyhbDZQ/QA1bZs9Ai1xaBL1at2lZxxTJw2Wt?=
- =?us-ascii?Q?u7uzV1l/Ugb0fFgxFu1VRSiXAd0FeKzxHONo9MFN3yhgZYfpgfhST5ZHATob?=
- =?us-ascii?Q?cSk5LK/VtDv6KvmahMCPLMUAlNly9bMGCIZdR1jgRBlzH3trIwNo1ie+0Fet?=
- =?us-ascii?Q?8p0DrupnL/AcwugaiPtMllfgVM9VD99H1iyLuoBEFa8UJUgYeAXB+bu/0NKY?=
- =?us-ascii?Q?oUcqfH/HAh/DnBxpqMp10eTrZEUT7BU3LIX74dEIBC1PMI//JgD6BdUvKzvx?=
- =?us-ascii?Q?dtVrpa5TV3WN7ZU/KjcxHeNk/x9y/r7HZW9Hhj+c9CSuShEyRw3R+j0i0d0s?=
- =?us-ascii?Q?6/2MFN/lAGe9ZvSPSw8m0exTAFN0xQfCA80+OD3X+rLmGIXk/Qf23mR0mdy1?=
- =?us-ascii?Q?ALkMwiGqEG2g061h5rH+k9NoKi2OeLrFtv63LnjJuSYfFw9qedniLHSUVguP?=
- =?us-ascii?Q?5L6EdttEVaHxekcN6pocN894rSocWkJlZRvE/hiLtJ9SiR2CqYfaAwaIogYf?=
- =?us-ascii?Q?pzXPzmECmoczGmG26O4FvGnA4qCcJFeTeoDOcB3tGyC/hr/PWKyfjQjMrvHz?=
- =?us-ascii?Q?aBrvA8VwP9DCr4R6ZgBOIkLCLZorHaTMSfeimJKb8FUHsdXWKrh9ZHf8a5xb?=
- =?us-ascii?Q?UihkBN6vSFKgBT6xLTXFOron+n1LvP4Fy+d6IvCMbAfHSl0txR1hm/V2SiFV?=
- =?us-ascii?Q?ZdYaCAoRG3vEXBfRuVqPF+27XtXAro7Apy2sj+gCzrLH/Cn+HnYpABKmAFCo?=
- =?us-ascii?Q?/7y24qfVPQZarWuo15YM+4xOO1Y+jIituF8iQd+OIl4IR6ctgqgZ90seqMEt?=
- =?us-ascii?Q?IC7u42Ywv0AA++coLbPbpJ1gLgWJS8ADOPs54zuUnBQYB7Z9HI90ZCMdX2y2?=
- =?us-ascii?Q?OUaPx9gi96UdradAGFzcIT0D7H4GdRnUpb105cIcMMk6kwxYQzDnKYqk9tK2?=
- =?us-ascii?Q?voFwkKKmGMmFO20D/KwBNyZrrw5vrPfHRBWLrO61aSX03FbJKS0D0jtopgdi?=
- =?us-ascii?Q?8WVHG7SIWUmEDeGGvQTa9ki0baoGekQGOOiLyMwBwuIPMiL7tO3OPWZrJQhS?=
- =?us-ascii?Q?kfNfyD3in/TacxeRCgUzHGBopusbITrDGHoY3ngspXLeRsOsgVKKSEPO2p4/?=
- =?us-ascii?Q?twTLFKdsKX1J0hXWZ2k5gw8+8NMthnE6m1iljkUuiNE5ZGJDdiSxXAbXVZyv?=
- =?us-ascii?Q?Y6pF0J2ext46kJzI/AoEfT/q5Dl0jpOzLRGJUvHYLJ0xcssVZJdvAPopECyC?=
- =?us-ascii?Q?p5mMzm2j4jkNdlZxllsBwpN4rbFIPX20zC3c6P5tnHQwqy7VY5WwwcBGnw+S?=
- =?us-ascii?Q?ip8vCYWamaAA9LeFlJla01Ddt/2QA4DJBD6y0gsbdD5biqCSaKBkmff+WaJh?=
- =?us-ascii?Q?sw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 25 Nov 2022 05:02:50 -0500
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAD3625C61;
+        Fri, 25 Nov 2022 02:02:49 -0800 (PST)
+Received: by mail-ed1-x534.google.com with SMTP id s5so5660372edc.12;
+        Fri, 25 Nov 2022 02:02:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WHVG/ftyLvsI2SLH3rhoCHZquoZnr7zU2xMaBrAelgg=;
+        b=nBSz6UY3qO3u7pzvCu/9sA4R5b3f0sCG0JEJ6y5sDJmo4jOuZljZSY5Kx85GcQBqUH
+         u7+e9RK1KwZnZHpTcDlT9gYxMmCQL2AfWK/E5W4fh98OKTdQEpPPCjGQg035INwJVfnZ
+         jukZLROa1+QwmCyRT8jtBdW8sfUBvhYjVwdA/ghxCPDp8stJxjhLb8n8/h9GyIARHNqv
+         syA/KbDn+Oxd57kaAbwCdPZaJhklrLgy4mtczKkR3d1R67fIjJVMsctbq5wcomOqnblG
+         FpSCcjWxeUtKlvLSNpJyt7YzfT9S42QEdDeKtBmAmZTVpxiBrcWvho5guuA1hauRwJwR
+         f75g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WHVG/ftyLvsI2SLH3rhoCHZquoZnr7zU2xMaBrAelgg=;
+        b=8ByzG+Z1QeXoMaxd2C+MrFj6ECffwwLry48VXFx8qvi1KeeH6UgP+p8X2SoNfpsEzg
+         fK5uaHW5ytlNWcNbTX4CnlaqxnriL5sI4L0ZreXJbCp+Z0HEu12pQNfwzgkHD10Ls2A/
+         o1ry6YdzLfxuQsDYDf79HdPV26VoU4c2At/A4dtT8bjCTufbN6O4VWpCY78tn+LRSkA4
+         a04KGY0JcaKxzngo2HWOyjGUSauUhTFTuSKy+H8vENgT7qCKaWKA/ucSvR+mfEOyL8BP
+         gKA1c1Nuzc0dMnlSWgTE+k8TskG2x90ELzt5oJbDRBbYecmkRdbC+xBiYw4DGwd8aqoQ
+         AnUg==
+X-Gm-Message-State: ANoB5pkSZ+kq3QJIV4xXc8Z2NkHHXockx7DQvMZ2ecB89WIKTOLs7oxZ
+        6h7roCL5UR/709f6Aorz/Vl6aH3CmDjaSYVhzno=
+X-Google-Smtp-Source: AA0mqf6qdSUyHdl8QC7NBwyDgjeso78W0GVOCIlAOjzRLR1Pa8cTfhmrPWjNmHdP97HIJya+K4baeTLeV83DY1C7pMo=
+X-Received: by 2002:a05:6402:2987:b0:45c:a9d3:d535 with SMTP id
+ eq7-20020a056402298700b0045ca9d3d535mr33749986edb.0.1669370568259; Fri, 25
+ Nov 2022 02:02:48 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a98a7c08-21ef-4dd6-86d4-08dacec48341
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2022 09:07:43.7055
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: B0nj3bmqmfF3wGehAqpOth8jRXSMWXsXIE8l4fLk9dCXwUqlxs2c45QSb99BKZdZb1PJ69HAWzYbx6oZJMo6BjCIDuSSjOa2ZqpQ0T4dZH8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB9708
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221124172207.153718-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221124172207.153718-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y3/LgZkR1hkblJ8D@spud> <4801607.MHq7AAxBmi@diego>
+In-Reply-To: <4801607.MHq7AAxBmi@diego>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 25 Nov 2022 10:02:21 +0000
+Message-ID: <CA+V-a8sT8VxpeM=eBgmDeojOka-LDmvP4JkhVfEDKi3D3VOsmw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/7] riscv: asm: alternative-macros: Introduce
+ ALTERNATIVE_3() macro
+To:     =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+Cc:     Conor Dooley <conor@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hi Heiko,
 
-On RZ/V2M, we have 16 timer channels. First channel we planned to use it as=
- clock source
-And remaining 15 channels as clock event devices. I used clocksource-switch=
- to verify
-Clocksource functionality. But currently I do not know how to test the cloc=
-k event?
+On Thu, Nov 24, 2022 at 7:58 PM Heiko St=C3=BCbner <heiko@sntech.de> wrote:
+>
+> Am Donnerstag, 24. November 2022, 20:52:33 CET schrieb Conor Dooley:
+> > On Thu, Nov 24, 2022 at 05:22:01PM +0000, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Introduce ALTERNATIVE_3() macro.
+> >
+> > Bit perfunctory I think! There's a lovely comment down below that would
+> > make for a better commit message if you were to yoink it.
+> > Content looks about what I'd expect to see though.
+>
+> Also both the comment on the original ALTERNATIVE_2 and the new ALTERNATI=
+VE_3
+> should probably be merged into a single comment explaining this once for =
+all
+> ALTERNATIVE_x variants.
+>
+> Especially with the dma stuff, I'm pretty sure we'll get at least an ALTE=
+RNATIVE_4
+> if not even more ;-) . So we defnitly don't want to repeat this multiple =
+times.
+>
+Do agree. How about the below?
 
-HW wise, using devmem2, I have programmed clock event channels and verified=
- it triggering IRQ's
-At regular interval.
+/*
+ * Similar to what ALTERNATIVE_2() macro does but with an additional
+ * vendor content.
+ */
 
-Looks like for CMT/TMU you have upstreamed clock event devices.
-
-Can you please share your test setup details so that I can do the similar t=
-esting for
-RZ/V2M TIM devices.
-
-HW manual for IP is located at
-https://www.renesas.com/in/en/document/mah/rzv2m-users-manual-hardware?lang=
-uage=3Den
+So the other ALTERNATIVE_2+() macros will keep on building on it.
 
 Cheers,
-Biju
+Prabhakar
