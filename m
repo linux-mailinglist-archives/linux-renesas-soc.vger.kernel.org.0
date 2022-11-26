@@ -2,122 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A6ED6392AF
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Nov 2022 01:23:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECA736396DE
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Nov 2022 16:44:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229806AbiKZAXv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Nov 2022 19:23:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38818 "EHLO
+        id S229735AbiKZPoL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 26 Nov 2022 10:44:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbiKZAXu (ORCPT
+        with ESMTP id S229521AbiKZPoI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Nov 2022 19:23:50 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBD1B50D68
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Nov 2022 16:23:49 -0800 (PST)
+        Sat, 26 Nov 2022 10:44:08 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1E0EF7A;
+        Sat, 26 Nov 2022 07:44:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669422229; x=1700958229;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Qxx7f6NaJzQ72kTSO8vwtv/BfukNDFU8aKLrt7AfnfM=;
-  b=ISz92G/v9l1ZnGOuHnqO7r/MSxnvh9I9/L6RfQwFR8skSaRUm7AAUino
-   xY0Vtj9fOlYXizcQqnNmFbcKxp2op8pib0Q3ckLLonI7CUrBAGc3UEZHo
-   uk9sIsa0QcnJFTGyD5zzsb3f/pwlITOVz4jOYvCinJl2wDLVqeG/jn+PP
-   h2nLAdkc7bxZ1sAGHPdjkbie7TKqpm68UU9p0anuVFDL0PB8wKVNcqbi9
-   p0jGwLQoXEWPUopIUWaMGHIfnY1QdWqqG2O6O8Dw2m586hkzFP07/veL5
-   aCI7UPIRcPOAJq3XwF5Y+LF8Rry3sNXaBuWBQNGZSsgh1/i9L7A2nBDRq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="297909024"
-X-IronPort-AV: E=Sophos;i="5.96,194,1665471600"; 
-   d="scan'208";a="297909024"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2022 16:23:49 -0800
+  t=1669477447; x=1701013447;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=TYZva1qhZaDDzx7ssD6565IlpCg24ayIFbcaC7tY8Tc=;
+  b=afaV5wieNPUjxu0caJC6JdakAXQOqaG+mJP11E9sBOfdvxW/FCdDmoSq
+   uszGkpjb5nf3De548PRwyr8tA0gjYkdzZijT5eCkTI9MaUL7wuDEK5FNd
+   DHxxEedinEuG50v1wryTy8tuS2GfxLpPE0gycyCpJAkwIvhrwC+gn8YZP
+   vqGEDAZKZz5uKM+4zWczaOB+RJUrHWVl1v9DiPG/G1MsaoSG/5NPhScuG
+   JcNKVf2MOUenZM/iTJdfierEPIRgcSWgA7CVeokYeMdRvPe3t3BpDN/xD
+   57LDEQ+dPBOukc9S9pF7aZDWoHCdzdL+VmK/32YN6VaBwDrOJGpoZ9vaZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10543"; a="376747252"
+X-IronPort-AV: E=Sophos;i="5.96,196,1665471600"; 
+   d="scan'208";a="376747252"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2022 07:44:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="887814970"
-X-IronPort-AV: E=Sophos;i="5.96,194,1665471600"; 
-   d="scan'208";a="887814970"
-Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 25 Nov 2022 16:23:48 -0800
-Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oyiyx-0005f7-2M;
-        Sat, 26 Nov 2022 00:23:47 +0000
-Date:   Sat, 26 Nov 2022 08:22:48 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/renesas-bsp-rebase-v6.1] BUILD
- SUCCESS 9133dfc7c23f176844258cc79db221d789c4d009
-Message-ID: <63815c58.KICkAxsIrIQgHHt5%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+X-IronPort-AV: E=McAfee;i="6500,9779,10543"; a="620587303"
+X-IronPort-AV: E=Sophos;i="5.96,196,1665471600"; 
+   d="scan'208";a="620587303"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga006.jf.intel.com with ESMTP; 26 Nov 2022 07:43:54 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1oyxLL-000Bco-1n;
+        Sat, 26 Nov 2022 17:43:51 +0200
+Date:   Sat, 26 Nov 2022 17:43:51 +0200
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
+        alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
+        linux-pwm@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+        Lee Jones <lee.jones@linaro.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+        Grant Likely <grant.likely@linaro.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, chrome-platform@lists.linux.dev,
+        linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org,
+        Angel Iglesias <ang.iglesiasg@gmail.com>,
+        gregkh@linuxfoundation.org, linux-rpi-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Purism Kernel Team <kernel@puri.sm>,
+        patches@opensource.cirrus.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+        Wolfram Sang <wsa@kernel.org>, linux-crypto@vger.kernel.org,
+        kernel@pengutronix.de, netdev@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
+Message-ID: <Y4I0N3KpU/LSJYpd@smile.fi.intel.com>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+ <20221122185818.3740200d@jic23-huawei>
+ <20221122201654.5rdaisqho33buibj@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221122201654.5rdaisqho33buibj@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-bsp-rebase-v6.1
-branch HEAD: 9133dfc7c23f176844258cc79db221d789c4d009  BSP rebase: Drop upstreamed r8a779g0 and White-Hawk DTS patches
+On Tue, Nov 22, 2022 at 09:16:54PM +0100, Uwe Kleine-König wrote:
+> On Tue, Nov 22, 2022 at 06:58:18PM +0000, Jonathan Cameron wrote:
 
-elapsed time: 733m
+> > Queued all of the below:
+> > with one tweaked as per your suggestion and the highlighted one dropped on basis
+> > I was already carrying the equivalent - as you pointed out.
+> > 
+> > I was already carrying the required dependency.
+> > 
+> > Includes the IIO ones in staging.
+> > 
 
-configs tested: 40
-configs skipped: 2
+> > p.s. I perhaps foolishly did this in a highly manual way so as to
+> > also pick up Andy's RB.  So might have dropped one...
+> 
+> You could have done:
+> 
+> 	H=$(git rev-parse @)
+> 	b4 am -P 49-190 20221118224540.619276-1-uwe@kleine-koenig.org
+> 	git am ...
+> 	git filter-branch -f --msg-filter "grep -v 'Signed-off-by: Jonathan'; echo 'Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>'; echo 'Signed-off-by: Jonathan Cameron <jic23@kernel.org>'" $H..
+> 
+> (untested, but you get the idea).
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+That's, for example (just last from the history as is), how I usually do it
+(tested):
 
-gcc tested configs:
-um                             i386_defconfig
-arc                  randconfig-r043-20221125
-um                           x86_64_defconfig
-riscv                randconfig-r042-20221125
-s390                 randconfig-r044-20221125
-arc                                 defconfig
-s390                             allmodconfig
-alpha                               defconfig
-s390                                defconfig
-x86_64                          rhel-8.3-func
-s390                             allyesconfig
-x86_64                    rhel-8.3-kselftests
-ia64                             allmodconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-mips                             allyesconfig
-sh                               allmodconfig
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-alpha                            allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-m68k                             allyesconfig
-x86_64                            allnoconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-i386                             allyesconfig
-i386                                defconfig
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
+ git filter-branch --msg-filter 'sed -e "/Signed-off-by: Andy Shevchenko/ a Tested-by: Daniel Scally <dan.scally@ideasonboard.com>"' -f HEAD~4..HEAD
 
-clang tested configs:
-hexagon              randconfig-r045-20221125
-hexagon              randconfig-r041-20221125
-s390                 randconfig-r044-20221124
-hexagon              randconfig-r041-20221124
-riscv                randconfig-r042-20221124
-hexagon              randconfig-r045-20221124
-x86_64                        randconfig-k001
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+With Best Regards,
+Andy Shevchenko
+
+
