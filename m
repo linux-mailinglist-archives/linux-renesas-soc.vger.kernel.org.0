@@ -2,224 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94160639DCE
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Nov 2022 23:50:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEA0B639E48
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Nov 2022 00:55:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbiK0WuA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 27 Nov 2022 17:50:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56052 "EHLO
+        id S229551AbiK0Xzi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 27 Nov 2022 18:55:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229811AbiK0Wtg (ORCPT
+        with ESMTP id S229509AbiK0Xzh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 27 Nov 2022 17:49:36 -0500
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2128.outbound.protection.outlook.com [40.107.94.128])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38E39DEB0;
-        Sun, 27 Nov 2022 14:48:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bk06QBHSlMAvSySyykFQp/gs6Jag+Ho9+flAxqeKWpbO/rxPy1eOyjktc0RIKL4b9VJ5rM/xKdNtF+zqXoB39K+hlioprsoLO+j5saSsScx7OQQ0MhRDM39HnxUJXncpKoQ1nvmRSX3t5DjVvHlP9N81TUKwWNo9y6od3fRYISKDS3htAELt70scVQJSuTTb/2zEPMWNo8iOmvbLMk6M4rIcIGLO+2eI/fvuRJ1kIEBKQJ067VwtnhRyUpLgmVeJCmWnhBt1bcfybog/qi4Je+3BYuIszOqXru35WyEXHDYFzlkld2PWvCjzUffR7l1ib6Y2cw8e9ZXv9dTtvbJw/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JKRBHoo1Zn5alHlfxxHQnLRUFosT6+Rl7Z/qnLMxuq4=;
- b=Vve9N/vDB9kaj7yuY/L27ex6Qz6Xu6/uZ469s3CDEIBKdgBoDtXuH2pue0O+w5H4oT76eKjvoNNeWbTnljf/lyfcw93AcQFQdckkkj+BnrLWP5TS5NeskoyWMhYosSkOmlowyw9zjEkYf3tduWKcSJ7xjLeHPbp3MD0GVbYUQmuZVgkSi9erA+GGw7SmHOcyxU5ZpDe8A8riqhgzkqz3i5Gt4JgDcxEqOuNTE/FsMUGmsGCPLS7E3IApMix4Fl+vmPd/FjLdH6pfOHyn8kTzmTeIVIv8zuYXmrSbdLn9tJmdgGbCPC/FiHS+bin7HZkfMUDXB4+uje78xyUNXShFAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=in-advantage.com; dmarc=pass action=none
- header.from=in-advantage.com; dkim=pass header.d=in-advantage.com; arc=none
+        Sun, 27 Nov 2022 18:55:37 -0500
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBD0BBC93;
+        Sun, 27 Nov 2022 15:55:36 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id f13so14958183lfa.6;
+        Sun, 27 Nov 2022 15:55:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=inadvantage.onmicrosoft.com; s=selector2-inadvantage-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JKRBHoo1Zn5alHlfxxHQnLRUFosT6+Rl7Z/qnLMxuq4=;
- b=ZJ4xpcqCbuLR/U2xZ06+zDZlYiKaPYJl6yms7OKt6mmh92fKRwHUX8iimENTQPBPYz7B/q+sS2zb+tnhZ2Mt8Es6zrb93K2j1JP0NvmATDySSFbQAKpkdW0G0ytdttNfeVT1URdQYVO0VX3qJdNGkKWOpZB1Xw1ZqezSicgechQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=in-advantage.com;
-Received: from MWHPR1001MB2351.namprd10.prod.outlook.com
- (2603:10b6:301:35::37) by BN0PR10MB4998.namprd10.prod.outlook.com
- (2603:10b6:408:120::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.22; Sun, 27 Nov
- 2022 22:48:07 +0000
-Received: from MWHPR1001MB2351.namprd10.prod.outlook.com
- ([fe80::45b5:a860:9cea:a74c]) by MWHPR1001MB2351.namprd10.prod.outlook.com
- ([fe80::45b5:a860:9cea:a74c%4]) with mapi id 15.20.5857.022; Sun, 27 Nov 2022
- 22:48:07 +0000
-From:   Colin Foster <colin.foster@in-advantage.com>
-To:     linux-renesas-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, netdev@vger.kernel.org
-Cc:     John Crispin <john@phrozen.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Marek Vasut <marex@denx.de>,
-        Sean Wang <sean.wang@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        =?UTF-8?q?n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
-        =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        UNGLinuxDriver@microchip.com,
-        Woojung Huh <woojung.huh@microchip.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        George McCollister <george.mccollister@gmail.com>
-Subject: [PATCH v3 net-next 10/10] dt-bindings: net: mscc,vsc7514-switch: utilize generic ethernet-switch.yaml
-Date:   Sun, 27 Nov 2022 14:47:34 -0800
-Message-Id: <20221127224734.885526-11-colin.foster@in-advantage.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221127224734.885526-1-colin.foster@in-advantage.com>
-References: <20221127224734.885526-1-colin.foster@in-advantage.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0027.namprd05.prod.outlook.com
- (2603:10b6:a03:33b::32) To MWHPR1001MB2351.namprd10.prod.outlook.com
- (2603:10b6:301:35::37)
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=rW/OaynwezcBfthmHN1eZjbIoAQJ+mwHqyK5yAvp5is=;
+        b=IqhJThko5CuzLdAN8rIyYd15uBg3KUIrcZPwmST2L2L0AacY3myyVXD1usMtQRtaVL
+         uSmwP470jIDbf/hHHt1YPizuOz8bTypsnhpuN/gRSLXC8rXPY8mIoQMhShc0L8YpVhrr
+         ov0XVkb5Ivvm+xAybcWi4crF1n19fSw6eG26QwftI32hVjQEqvlhXkDXFoWZwJ72W2Sg
+         xxi1B0b3+RJKIqk5x6GXqwTT/LEV8DoFJajuHsI2jY9W3MS8TZePapbLiQrbNgCDwaoN
+         OvhoeYWs14rmaFabfb7IocD82ROJdP/OQZuzt4W3JCN1FWg21YDMz7O+gTQ6ewLFy4rC
+         wB3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rW/OaynwezcBfthmHN1eZjbIoAQJ+mwHqyK5yAvp5is=;
+        b=BtpoFpYs3MYaTNapVQlTk8cNRuzautoMIIAhvybVRUQPylogKUZGkd3Pbw6hFlTpVl
+         w7AhQvWiPmY/dfERvdJeDtSYp1nn8Bqat3TPXBEOt2Z2YRH5GQwn/Y+N3CYwU0Fbcbaz
+         Fh6HjKY2NtRz7a/IHTkXfrUVIkUylUqq6Y+OwTSsL/jMx9ZdYCdvJ9xcI2aIKKGlLeaU
+         5rpZlzenDMoZSeI4pn+bkcjB907FLBw3ikDajM6VjPzVsAllywCjZES3ywa238HY+6C9
+         bRuVXG/OHs4jRIaiyBr8dxAmlhaYspjETBAHTIt1fT8Pf5ttXxHK2XF//+Rza8Vr1ri2
+         po0A==
+X-Gm-Message-State: ANoB5pkjXq6YwlqSWiH2TtnhG6qEnzTInWYqxKFM6I9fQZ29cZ6FG9Lt
+        LHPyhq/7edyolmY7YjDqTIOFxdbf+yLAgQ==
+X-Google-Smtp-Source: AA0mqf6wpRnM6tTvXjKD9WooPEYhWo6KG3+M3C+BtLQS3Pqi6jA/HitFqWQCvIAKqCf3gxLuyvPCwQ==
+X-Received: by 2002:ac2:4bc5:0:b0:4b4:c099:a994 with SMTP id o5-20020ac24bc5000000b004b4c099a994mr15436318lfq.193.1669593335085;
+        Sun, 27 Nov 2022 15:55:35 -0800 (PST)
+Received: from mobilestation ([95.79.133.202])
+        by smtp.gmail.com with ESMTPSA id u4-20020a05651220c400b004a4731f75a5sm1467071lfr.250.2022.11.27.15.55.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Nov 2022 15:55:34 -0800 (PST)
+Date:   Mon, 28 Nov 2022 02:55:32 +0300
+From:   Serge Semin <fancer.lancer@gmail.com>
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
+        bhelgaas@google.com, krzk+dt@kernel.org,
+        marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Sergey.Semin@baikalelectronics.ru
+Subject: Re: [PATCH v7 5/9] PCI: dwc: Avoid reading a register to detect
+ whether eDMA exists
+Message-ID: <20221127235532.u7q7oou36wymkpyf@mobilestation>
+References: <20221121124400.1282768-1-yoshihiro.shimoda.uh@renesas.com>
+ <20221121124400.1282768-6-yoshihiro.shimoda.uh@renesas.com>
+ <20221122135550.GD157542@thinkpad>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWHPR1001MB2351:EE_|BN0PR10MB4998:EE_
-X-MS-Office365-Filtering-Correlation-Id: e67f645e-530c-4688-461f-08dad0c97359
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RiwdVUZA5oBLG+/xglwLnXmvW0b5fMfkrUpU4jCryxEsa3sXrlIABN2rGxKPSQTqEbBMzAbsG+wLT365ZMAgSX2K5wQ+Y7R9ENTObQihYYbR9rTlHpyF/dtjuMtW8pfptYjN94GIrRoZBZMqfQXuEnPqgZ00Rqf0sfFPEm8EVEwApQP6XBRa2fCrrzMlXp/tjHa8B1KWdIk7fn8d8WYbGJjDm101O39ImMcsf5D2+//PuhOxzgmyfJlBKUBK4q4ez31xJLaKSUe+VeRjWJy3IfB2bpS5lg1yRt3+ldukkRKPVVGVVrPNztFOtNbd4J2biqGIMlPrBunkCWMkHXUcyrGkKTfWiVkTlEm1RTgQRju3eBQH6214Gv4Aq00K+OM9+MR8bZ0BvvX1lfp2fylRT4APnw4uXxX36CXRcdF4xJxJY2A5r90Ot/lhDn2XnnqXV6EmmiS/2SJNvvIze5TLttZK2h+eYhEu5AFNG0IsHoChugCbCcaC0SUNKXNxr5xeslN6lMlGiEWRq6fC+Iahh55+tYy89+gxvmvR7r6IyTo9LFYizfRDbRHb5qhDADuIZAIKQ0fqxnw5DzKDeXTN4WA0hEjTX40KSWVNxb59iw5UoYq2kT8xVABrBdjhThfmlaEjzWkvckBuBlsgSTuMLglMVDmMkapx/AGr7DhUXlCsQ1t0FjX6g4E2/wiGjKykGNBiOlL1ls1ANtV/pTF7YQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2351.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(396003)(376002)(346002)(39840400004)(366004)(451199015)(6506007)(2906002)(36756003)(86362001)(7416002)(7406005)(6486002)(478600001)(52116002)(316002)(66946007)(66556008)(66476007)(6666004)(41300700001)(4326008)(5660300002)(8936002)(54906003)(8676002)(44832011)(38100700002)(38350700002)(2616005)(26005)(186003)(1076003)(83380400001)(6512007)(41533002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ccBOsnLOby3ojQT/UKtb19nOfC+7CqDhR5dOuacVM+c8m8T2tT/sVSIYRcUJ?=
- =?us-ascii?Q?ZQWvRYW6nHzzFpQ4CD0J4V+rfJrqkaaExYChph1IYu0nDxD84jEmRb16L5tX?=
- =?us-ascii?Q?A6NFz1DMbqRtmf16U2C93y6eJC3nzLcDUr8pWXYB532lmks0jKtTTGOooaPN?=
- =?us-ascii?Q?YGi2McrgHYN2yScmsIJGHNiK+KPBlCmsVsCKAQzDNZ7/S04AIoCg4PLXkFxt?=
- =?us-ascii?Q?vuX8Hepsu2+keUQwg2bAocvWatv9e36aZAOCMJyiT330/TbOygno0sTLBd8V?=
- =?us-ascii?Q?716aGWrs1Zgg2OQ0sJIfm6oUAKzSSvR7UI5NGlpf5N1fkBckH9Eciui2lKEM?=
- =?us-ascii?Q?ePgxsRTwL54SSTKOhc9Z4isIvgrcM5J24s049D6DGC9w+qA8I8io0VTvbQB9?=
- =?us-ascii?Q?rT1FSpQF53gxVGXC0GhUz736H37VUKNDBtZQiNnY0w/ZlracU7UufmGGsgo/?=
- =?us-ascii?Q?dwO5t0p/O2tCC/pTVz+/MMGCJfiY4n/1s4DobDwVIfM0KdsxpUjfZ7TQtnSf?=
- =?us-ascii?Q?Di/gLBBMOTi0A9i+56BjnC5nU4nojJUTyAxxkfNNUBpjw39S45JN9yTXboaB?=
- =?us-ascii?Q?f8YTWRzv9Y+hf0Zm1lEB1AQh2+NG/7GPleyDj5oSa1VExZCEfkvBqFI7ROBJ?=
- =?us-ascii?Q?Mj+kOzOGSJjI2q26rtAlkv5nD6Warx0+ybGGKld0NeweP4f/2cUBXU0oRAg3?=
- =?us-ascii?Q?ry7zMaD6Lnmw6EGlkbfUZe1l1dexrgmrlRh+qXvyLda13/hRCWrDLM1n5u//?=
- =?us-ascii?Q?Wh4KueVhnKw+QY8syRX1FcNWqnRGfbn6Myb+OBj+XWQgVOggcbll2tf5hnoC?=
- =?us-ascii?Q?sT44FSy4W6IvtLGMR6e3TfK8Plho/i5LrKy6WaC1P08dDzZSuWX2sd1xbS+r?=
- =?us-ascii?Q?IjnKhXScAyLEWMJoXeJWngJUpEMu2+dzh7aD4L6r6lOnqglEmlSxtwRCtDq5?=
- =?us-ascii?Q?+mrRnWvpEx49kcY7tcZ7KyUi72YSGri3X8gioFnOEBZ/Hu6WJali4fgKhBSt?=
- =?us-ascii?Q?mvbinHpqCFTlxXrfnwMcVHE/y26fmCQOLzk/nPFJUG+ImVG5a6hhcCqbMkB0?=
- =?us-ascii?Q?gfdGN1Ouw/cFBkb+5WXGXchT5HolKojXruftZkCz2phLCJOEfNnuPoySR3ED?=
- =?us-ascii?Q?/WKoAyE6PFUoMqMQ0cdzstIQTa9sT+m04biMh/t9Mh4sRWdqG4q0wNooTpBs?=
- =?us-ascii?Q?inQKfw7cU78PZpsctgRmQVR6qkQ25iNEAVy6jtXGOJu2PDm3Cznt04wsGSN4?=
- =?us-ascii?Q?IMmexXwso5t2k5IYB9yFPXOVJYGhscXldmluJRV4+ql4toNpG3TlFnRsN6AN?=
- =?us-ascii?Q?4m5M6V8rhWNH0nBO+BEVNgBJK6yF5Jepu0dtDcsFlMRGESK0ltd7vb9aDLHP?=
- =?us-ascii?Q?PUxruL4qLtMH2hNBO2QXAdqELBo7avX+Pfx5AZH/7xmxocRvk2rYxU5HXgjP?=
- =?us-ascii?Q?e1qIlBnZLUDVknUHcjKInSDQ9JgSLDLWq2Ohe6S/Q2vHQB2Wo58sQFUWHzsb?=
- =?us-ascii?Q?Q7CA+nQT/001Np48U01DfKe1rwuLImuBF6BOyoC2HMLB+okN11q1HVd2GfIq?=
- =?us-ascii?Q?NcXj3IVEg9XdnBOA44O+LtUSCNM2sudkjg6yWboBcJGs5Y1DtMcAxjGIj+Kd?=
- =?us-ascii?Q?35ESJXYpDZD2LnoZ+jXj0ik=3D?=
-X-OriginatorOrg: in-advantage.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e67f645e-530c-4688-461f-08dad0c97359
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2351.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2022 22:48:07.0612
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 48e842ca-fbd8-4633-a79d-0c955a7d3aae
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: M+ZEczLNcB2cNSoccORefcknYEv8iLPMkME3EyMAGPSYv3v8u26lMtzjxFrBD0ZqJP+6A/QGw2ifNe0HrEH16oR4eH0Nwulmx/YJksrWnjY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB4998
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221122135550.GD157542@thinkpad>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Several bindings for ethernet switches are available for non-dsa switches
-by way of ethernet-switch.yaml. Remove these duplicate entries and utilize
-the common bindings for the VSC7514.
+On Tue, Nov 22, 2022 at 07:25:50PM +0530, Manivannan Sadhasivam wrote:
+> + Serge (who authored EDMA support)
 
-Signed-off-by: Colin Foster <colin.foster@in-advantage.com>
-Suggested-by: Vladimir Oltean <olteanv@gmail.com>
----
+Thanks @Mani. It's strange to see a fix for a patch which hasn't been even
+merged in yet and miss the patch author in the Cc list.)
 
-v2 -> v3:
-  * Reference ethernet-switch-port.yaml# instead of ethernet-controller
-  * Undo the addition of "unevaluatedProperties: true" from v2. Those
-    were only added because of my misunderstandings.
-  * Keep #address-cells and #size-cells in the ports node.
+@Yoshihiro, on the next patchset revisions please don't forget to add
+my email address to the copy list.
 
-v1 -> v2:
-  * Fix "$ref: ethernet-switch.yaml" placement. Oops.
-  * Add "unevaluatedProperties: true" to ethernet-ports layer so it
-    can correctly read into ethernet-switch.yaml
-  * Add "unevaluatedProperties: true" to ethernet-port layer so it can
-    correctly read into ethernet-controller.yaml
+> 
+> Thanks,
+> Mani
+> 
+> On Mon, Nov 21, 2022 at 09:43:56PM +0900, Yoshihiro Shimoda wrote:
+> > Since reading value of PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL was
+> > 0x00000000 on one of SoCs (R-Car S4-8), it cannot find the eDMA.
+> > So, directly read the eDMA register if edma.reg_base is not zero.
+> > 
+> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > ---
+> >  drivers/pci/controller/dwc/pcie-designware.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> > index 637d01807c67..2cc8584da6f4 100644
+> > --- a/drivers/pci/controller/dwc/pcie-designware.c
+> > +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> > @@ -836,8 +836,7 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> >  {
+> >  	u32 val;
+> >  
 
----
- .../bindings/net/mscc,vsc7514-switch.yaml     | 31 ++-----------------
- 1 file changed, 3 insertions(+), 28 deletions(-)
+> > -	val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> > -	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
+> > +	if (pci->edma.reg_base) {
+> >  		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
+> >  
+> >  		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> > @@ -845,6 +844,7 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> >  		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
+> >  
+> >  		pci->edma.reg_base = pci->dbi_base + PCIE_DMA_VIEWPORT_BASE;
+> > +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
 
-diff --git a/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml b/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml
-index ee0a504bdb24..5ffe831e59e4 100644
---- a/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml
-+++ b/Documentation/devicetree/bindings/net/mscc,vsc7514-switch.yaml
-@@ -18,10 +18,9 @@ description: |
-   packets using CPU. Additionally, PTP is supported as well as FDMA for faster
-   packet extraction/injection.
- 
--properties:
--  $nodename:
--    pattern: "^switch@[0-9a-f]+$"
-+$ref: ethernet-switch.yaml#
- 
-+properties:
-   compatible:
-     const: mscc,vsc7514-switch
- 
-@@ -100,35 +99,11 @@ properties:
- 
-     patternProperties:
-       "^port@[0-9a-f]+$":
--        type: object
--        description: Ethernet ports handled by the switch
- 
--        $ref: ethernet-controller.yaml#
-+        $ref: ethernet-switch-port.yaml#
- 
-         unevaluatedProperties: false
- 
--        properties:
--          reg:
--            description: Switch port number
--
--          phy-handle: true
--
--          phy-mode: true
--
--          fixed-link: true
--
--          mac-address: true
--
--        required:
--          - reg
--          - phy-mode
--
--        oneOf:
--          - required:
--              - phy-handle
--          - required:
--              - fixed-link
--
- required:
-   - compatible
-   - reg
--- 
-2.25.1
+Look what you suggest here:
+< u32 val;
+< ...
+< if (pci->edma.reg_base) {
+< 	...
+< } else if (val != 0xFFFFFFFF) {
+< 	...
+< } else {
+< ...
 
+It would be strange if your compiler didn't warn about 'val' being used
+uninitialized here, which in its turn would introduce a regression for
+the platforms with the indirectly accessible eDMA registers.
+
+Anyway you can't just drop something what didn't work for you
+hardware. The method you suggest to fix here works fine for multiple
+DW PCIe IP-cores. Judging by the HW manuals it should work at least up
+to v5.30a. Are you sure that your controller is of v5.20a? I see you
+overwrite the IP-core version for the PCIe host driver only. Why is
+that necessary? Does the version auto-detection procedure work
+incorrectly for you? What does the dbi+0x8f8 CSR contain in the host
+and EP registers space? Similarly could you also provide a content of
+the +0x978 register?
+
+-Sergey
+
+> >  	} else {
+> >  		return -ENODEV;
+> >  	}
+> > -- 
+> > 2.25.1
+> > 
+> 
+> -- 
+> மணிவண்ணன் சதாசிவம்
