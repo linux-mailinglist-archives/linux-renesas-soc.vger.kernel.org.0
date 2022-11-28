@@ -2,193 +2,235 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA31363A891
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Nov 2022 13:41:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17FDE63A8DC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Nov 2022 14:01:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230453AbiK1MlP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Nov 2022 07:41:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47992 "EHLO
+        id S230239AbiK1NBV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Nov 2022 08:01:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229764AbiK1MlO (ORCPT
+        with ESMTP id S229848AbiK1NBT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Nov 2022 07:41:14 -0500
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2111.outbound.protection.outlook.com [40.107.114.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 158D613F58;
-        Mon, 28 Nov 2022 04:41:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y0nAgBZSw29kf2i6vkdnHRfVCI06P6TzPqcR2/DUR8dUoWXlXhcG5GJONTxe9smiQvWuS+P/Z4NpTvcQE+E7mBqWDBAduyN7RiSe+eLx2nVxpniMvVqtZ0/MTna9qkTBn53Z/tr92zyFo9o2IxZJb48AT1+L7bnM83/QTUkBLpK4kMjVFc59m7sRaHopgIhBbfppnkXlp7EOi04LbhDn5/r8qTu8SfbcbH6gDp2zrCLW+5jwmuWe/Rz3PEEMI5R4kZSW8Ua/c7HUUR/kgvX0KL2QEQe1bmOrhhdon3D7kught83Jt3WaMY70uakTjzyO5I9GDjJpWW3U4wZWlvGZlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0WuH5W32dVX+SQTF4yRyN4fXI3NFprqEiSJZsUrlM2c=;
- b=U23HJXmpAO2ScerG8NpMtRE+H2TqjCcwn3A86lPZEOQT3a+KnmoFrojKdi0NeOJ9AUj537iY8RrrFiDSeBHwlo1zZTcllZRbds2SuxI7iXenrqXF4I7yxRGMyYznbCWD53HYzmCzX+CUcAhke05jwLId/3HgfJ067OldG8bNMs8ru6BX+D5mjQ6u+cKe9t06cRKlkQrPdOfdHSgQ42wD6FLRYlQ426jZf6pFnnEV5BUDAeXNQoR4bWXoX0/yajg38YjbR6kTAd/9ne8wBabkFJaB3/ffyijCVXgpuHVs4EagCVjPbQHHVBqje2y+MJx+fDtGeoqwQqVvJ4zkJTiHcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0WuH5W32dVX+SQTF4yRyN4fXI3NFprqEiSJZsUrlM2c=;
- b=mVPbCWhXhQgveTJOBBsQ2DNs+AJRuDszOyRFgarhQhn6JcBIZX9Bd6wbhHSrA+Nrlj59UA3hZnyjZseGzYSSwV651D+A7RYJ6I0XLJSNB8wBsun1nqHho8UFL2IXnCCnN2NuFdQ8TJI6pmJKjQ6q5DdMEbCDHF36fF4yLpQOVxA=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by TYBPR01MB5566.jpnprd01.prod.outlook.com
- (2603:1096:404:8021::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Mon, 28 Nov
- 2022 12:41:11 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::cd89:4a4b:161e:b78d]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::cd89:4a4b:161e:b78d%8]) with mapi id 15.20.5857.023; Mon, 28 Nov 2022
- 12:41:11 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Serge Semin <fancer.lancer@gmail.com>
-CC:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "kw@linux.com" <kw@linux.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "Sergey.Semin@baikalelectronics.ru" 
-        <Sergey.Semin@baikalelectronics.ru>
-Subject: RE: [PATCH v7 5/9] PCI: dwc: Avoid reading a register to detect
- whether eDMA exists
-Thread-Topic: [PATCH v7 5/9] PCI: dwc: Avoid reading a register to detect
- whether eDMA exists
-Thread-Index: AQHY/ab1Tv+LcLa0Z0uhVdCr0bfU4q5K+PQAgAiDNgCAACHrwIAAqEAAgAAJ9jA=
-Date:   Mon, 28 Nov 2022 12:41:11 +0000
-Message-ID: <TYBPR01MB534107A3C2B521BA0D67B4A7D8139@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <20221121124400.1282768-1-yoshihiro.shimoda.uh@renesas.com>
- <20221121124400.1282768-6-yoshihiro.shimoda.uh@renesas.com>
- <20221122135550.GD157542@thinkpad>
- <20221127235532.u7q7oou36wymkpyf@mobilestation>
- <TYBPR01MB5341932B42719E026AA16D40D8139@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <20221128115908.awhznkkrelk7h3nm@mobilestation>
-In-Reply-To: <20221128115908.awhznkkrelk7h3nm@mobilestation>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYBPR01MB5566:EE_
-x-ms-office365-filtering-correlation-id: e52e4dd0-b92d-4406-d99f-08dad13dd450
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: PAla1y+MvXc07Ic37T6uVgwSV3m0/XzhsMXZ1SL+O5mxIsZRZBMRYe4PSLkd75IDJINeRLXms0AeB1xB+/csNxWNN84YYdefGZcKfhbnavb3fV9SwUls+LAaO3F9rNByPBWgOCyQVu0oiWf30EdoGxMrBZg6Z6pHR7Tvghx58u6dY6i3yYTGD7Ws1Z1h2g51q4A9A3jvrnZyZ3t/Gduo711Y2eg9EF6lXY0IUUeVBh27YioaAMqmd4rQmspBuQlSfIdxBNwZrne13YivqDq/Dcwj1ysuaESFg83SN3Ecvp/Jz6WQGj8Qz7ERruZWk+hdm2lMjYiUEcvRfP2mUAqgzHtB+0uEoZWsKMh2Ql/PC7N3rkThweflq+K8y3n4f7+emoTUQWSD9MzOs0y/S8SpeAmEdzztc4x8qRh7YI0jKpkj7tSuuNGjLQSjv6RRxMbo0n8vsUWoGF9N9xcG/MHqU8TFG0ScXrUC4qfFXV3jHS8erVU9VGQXH6K2um1PYC47VYThMtAVnuV/6O0yGTr0i1X66b0IHjk7369hf/C9J7G2sgapFIcDAfYTHKMyjaxMmsXAz0aiDJhwolCAHRG0GJ+5aHNm1iXzmXGz9d6Tc4zZjVHaD8rG4BlzelA9gDm0GM2MJ15fFkhuczINGBV/Oxn63tSd53T4SWgmRGYSiyEwH9+/BekYGYTA5qMmlfE5QZk6E/qKooA+JDxDHT1QJQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(366004)(39860400002)(136003)(396003)(451199015)(478600001)(316002)(2906002)(76116006)(66946007)(54906003)(33656002)(6916009)(71200400001)(55016003)(122000001)(38100700002)(26005)(6506007)(7696005)(86362001)(9686003)(186003)(38070700005)(5660300002)(7416002)(52536014)(8936002)(41300700001)(66446008)(66476007)(66556008)(64756008)(4326008)(8676002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VTdjSlZVN2xyLzhlaTEwU1Uxd3pJUDdzZ3RxYzhwZjdrdXlSb05PTkRxbUsz?=
- =?utf-8?B?Rm00enRnSWs5ZHBwY09HbytDemJ4aHlkcm9lWWdGM05uRFlEMUFHTUNpSG5z?=
- =?utf-8?B?UHg4dVJhdFVHT1VySHp6MVFrK2M5OXg3MUtwWFRlTWhQYjMzbjlHNTNXUy9U?=
- =?utf-8?B?ZFUwWFZXRUQxUElFSUpENGFjdzV5V2JNMmxkak9XWDdtUjVMcmx0MTBCS0ZO?=
- =?utf-8?B?S3Y0RmVKVmo4eGd1a1I3b1NsK25USHVSZGs0bk5zUEpsMGt5UjJPdFNNY3BX?=
- =?utf-8?B?WWpTK1BFYVY0Ky9QTXZybnVmbkdqSStZMi9wYnBpUVZmT1ZPcHBYRUNGa3pL?=
- =?utf-8?B?QmEvWGxZVW9jZjRacmJNb1JPK0pVOCt5dnNoNTl0M0lRbzRydkdNY2JQNThH?=
- =?utf-8?B?c0k5bnNnbzVXSHp5YStuVXI5S2FSTVp3Qy92MHdUUk1BNHV1SFE0aXUvdG9k?=
- =?utf-8?B?b3N0RitJcTRPQXFPeTlpUDVJNVZGWThkZk1PZFpFczNoZUErdFpveElpZlNz?=
- =?utf-8?B?MWtjS3haeHFsTG9MOXlGeVdsVi8zdE1ZaGdDTk1sdWR4WDlQZ3hxcXhUNEZh?=
- =?utf-8?B?TGhxUXh4QWdTNGNSMFQrcTVVS2wzS1UxQVNVekpMZXJmaS96clRobDlJc2hC?=
- =?utf-8?B?WU96dFdLeGgrV29pcnJ5cU1BNlhDZzJBU0M1QUxVSzhQT3RDMWpPUWgxUU5a?=
- =?utf-8?B?VndDMGs2YWQ3K3JDUXRhbnhZQ3JkQ1B0TVJxay9UK1l2Qmo1NTBYV1gxL0JI?=
- =?utf-8?B?RUFkTUxSVmFocFZydXBBV05VZVBUeWRtd2MwMno3QndBTHlXRTkzczhKSWVn?=
- =?utf-8?B?c2FKY2wrcHhpRGJVcG9QRUxMN1NOaWhuY3JLQUdjVnpraUpvcWxQdTdudmlP?=
- =?utf-8?B?NVpyQkg1M0dPMWZ5WWtCUExpVHNyditPcUlwR0xVbWhsblphNkIzeVJnWGIr?=
- =?utf-8?B?UFBaWkxwTkx5bXJXdWVBSkxnSU1jNDBPdEsvaWRtM01NdlpFSFduMWRhZ2Nh?=
- =?utf-8?B?T05KVzB5SGJuWnRmNmhFVHNFVmJVcVBHZWhyMm9LQlo5eU5xenA4WUlkejFI?=
- =?utf-8?B?aXF0TmkzaEw3T1UxeExVbkh3eXRnOWw4OE9FeVUrUUpmZ2RDbmJoVFBIQnZs?=
- =?utf-8?B?UUlxWllrQm53ZXdiSnFuUkpZdXZkcStnNXBZYlVFOEJpQ2ExS1orWW1NY2Ji?=
- =?utf-8?B?OGhrL04xWlBoay9jbDlKUmlLYnlnN2hSaHFNOEUxeElPNDhiVHk4dytjbDgw?=
- =?utf-8?B?eEZXc3lvNWNxNEx0QXEvVGs0SllwQ2poMkVRQzdhVWZzZnlVZk1yczZFTWt4?=
- =?utf-8?B?NWZya3dpWG9wM3hlT0lVb3U5YS85MmN1SmkrZFpRdEJJYUJRSHV2QWFFK1RH?=
- =?utf-8?B?TTVVbnhTRVRyTStlcU1KU2t5V3dCV2pydlpIQ21NOHZNa24xTUdldkR4WTFh?=
- =?utf-8?B?YzZlZENmSENxa2NzQmgwQzNCZWFpL0pSRmFSV082NmFySFNyRHQ1empnMFdX?=
- =?utf-8?B?ZnQwUVoyd1o1VWZFUmlMQUhnWldOdytZVVJMVWVnZWRtZlJpVFVTSjZSSlN0?=
- =?utf-8?B?UVEvQmIzcG9vblIxdW1RdmhwRDNWbjdRWm50czl0UEJzc3pEcktMeTVEeTFz?=
- =?utf-8?B?MmRKc3IvV1k5NVNJTXFrUk0yUHVyZlhRQzlCV1ZiZmVGYzdJak4rSFFWeHpX?=
- =?utf-8?B?Wk5RbEZkc2J5d1IwYWxSRGM0T0dmMEdnbzkxbVRkU2Q0UDhTbVlZVEx2L3lI?=
- =?utf-8?B?c0MreGZObjJ5TEVFU21rQ0I4NnlRVkdkNTlWRmc5TEp3anZDZ1JkeVVYR1Vy?=
- =?utf-8?B?N1pYOUZBeFk5R2U1YTFycVMyV3ZReTlRalYvV29NV2hEbHdtbmJXWWFVdDF2?=
- =?utf-8?B?dHpKbVFqME9hM29rSDVyTEZoUjdCMWdHMDNGWEJ4eS9ZZTk2SGl1RlpnOU9v?=
- =?utf-8?B?YWFzWmQ0QnhDZGxFNDNJdWRWWWl5Umk0RkFOTk9zZ1k5WEhsZGphdzlmQzhp?=
- =?utf-8?B?QlY1eklpTFh3MkV3Q3UvMFByM0hjbHlXS2FxT3Fod1dRVTc3d21samNpRzV5?=
- =?utf-8?B?bjh5ZzBYNTVWQS9kRk0vbWtHRzU1S1dTaTZWUHoxUGpNamgvTEVXMVFyZm9Q?=
- =?utf-8?B?cUNVVDFhOWo3V0lVRHoxVXhuV0M5L29LL0NTT0U1enh5NzFRM1V4d1krbEpl?=
- =?utf-8?B?U2c9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Mon, 28 Nov 2022 08:01:19 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8F27FD32
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Nov 2022 05:01:18 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ozdkz-0007XG-0d; Mon, 28 Nov 2022 14:01:09 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ozdkw-000p7D-B2; Mon, 28 Nov 2022 14:01:07 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ozdkw-000wFj-7A; Mon, 28 Nov 2022 14:01:06 +0100
+Date:   Mon, 28 Nov 2022 14:01:04 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        linux-pwm@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] pwm: rzg2l-gpt: Add support for linking with poeg
+Message-ID: <20221128130104.tthhusejfv5qgnyy@pengutronix.de>
+References: <20221111192942.717137-1-biju.das.jz@bp.renesas.com>
+ <20221111192942.717137-4-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e52e4dd0-b92d-4406-d99f-08dad13dd450
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2022 12:41:11.1312
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uNFdfwKwg8ME2HnYQwmjBBfo2wC4KzYL0IYnQyVCFMu0bwFsJsWPac1fWwOFutP+jNgVLny5UhUsDAX3Zqn3s+8aDiNk5CHphT27ZCVVnyQ6yEM9bMReDS8Na+klyiwy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYBPR01MB5566
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="zwzz2lgd2oubx5vn"
+Content-Disposition: inline
+In-Reply-To: <20221111192942.717137-4-biju.das.jz@bp.renesas.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgU2VyZ2UsDQoNCj4gRnJvbTogU2VyZ2UgU2VtaW4sIFNlbnQ6IE1vbmRheSwgTm92ZW1iZXIg
-MjgsIDIwMjIgODo1OSBQTQ0KPiANCj4gT24gTW9uLCBOb3YgMjgsIDIwMjIgYXQgMDI6NTI6NTZB
-TSArMDAwMCwgWW9zaGloaXJvIFNoaW1vZGEgd3JvdGU6DQo+ID4gSGkgU2VyZ2UsDQo+ID4NCj4g
-PiA+IEZyb206IFNlcmdlIFNlbWluLCBTZW50OiBNb25kYXksIE5vdmVtYmVyIDI4LCAyMDIyIDg6
-NTYgQU0NCj4gPiA+DQo8c25pcD4NCj4gPiA+IFdoYXQgZG9lcyB0aGUgZGJpKzB4OGY4IENTUiBj
-b250YWluIGluIHRoZSBob3N0DQo+ID4gPiBhbmQgRVAgcmVnaXN0ZXJzIHNwYWNlPyBTaW1pbGFy
-bHkgY291bGQgeW91IGFsc28gcHJvdmlkZSBhIGNvbnRlbnQgb2YNCj4gPiA+IHRoZSArMHg5Nzgg
-cmVnaXN0ZXI/DQo+ID4NCj4gPiBUaGUgZGJpKzB4OGY4IGFuZCB0aGUgKzB4OTc4IHJlZ2lzdGVy
-cycgdmFsdWVzIGFyZSAweDAwMDAwMDAwLg0KPiA+IC0tLS0tLS0tLS0tLS0tLSAoc29ycnksIHJl
-cGxhY2UgdGFicyB3aXRoIHNwYWNlcy4uLiktLS0tLS0tLS0tLS0tLS0NCj4gPiAtLS0gYS9kcml2
-ZXJzL3BjaS9jb250cm9sbGVyL2R3Yy9wY2llLWRlc2lnbndhcmUuYw0KPiA+ICsrKyBiL2RyaXZl
-cnMvcGNpL2NvbnRyb2xsZXIvZHdjL3BjaWUtZGVzaWdud2FyZS5jDQo+ID4gQEAgLTg0Myw2ICs4
-NDMsMTAgQEAgc3RhdGljIGludCBkd19wY2llX2VkbWFfZmluZF9jaGlwKHN0cnVjdCBkd19wY2ll
-ICpwY2kpDQo+ID4gIHsNCj4gPiAgICAgICAgIHUzMiB2YWw7DQo+ID4NCj4gDQo+ID4gKyAgICAg
-ICBkZXZfaW5mbyhwY2ktPmRldiwgIiVzOiArMHg4ZjggPSAlMDh4LCArMHg5NzggPSAlMDh4XG4i
-LCBfX2Z1bmNfXywNCj4gPiArICAgICAgICAgICAgICAgZHdfcGNpZV9yZWFkbF9kbWEocGNpLCAw
-eDhmOCksDQo+ID4gKyAgICAgICAgICAgICAgIGR3X3BjaWVfcmVhZGxfZG1hKHBjaSwgMHg5Nzgp
-KTsNCj4gPiArDQo+IA0KPiBObywgdGhpcyBzaG91bGQgaGF2ZSBiZWVuIHRoZSBkd19wY2llX3Jl
-YWRsX2RiaSgpIGNhbGxzIGluc3RlYWQgb2YNCj4gZHdfcGNpZV9yZWFkbF8hZG1hISgpLiBXaGF0
-IEkgdHJ5IHRvIHVuZGVyc3RhbmQgZnJvbSB0aGVzZSB2YWx1ZXMgaXMNCj4gdGhlIHJlYWwgdmVy
-c2lvbiBvZiB5b3VyIGNvbnRyb2xsZXIgKGRiaSsweDhmOCkgYW5kIHdoZXRoZXIgdGhlIGxlZ2Fj
-eQ0KPiBlRE1BIHZpZXdwb3J0IHJlZ2lzdGVycyByYW5nZSBmb2xsb3dzIHRoZSBkb2N1bWVudGVk
-IGNvbnZlbnRpb24gb2YNCj4gaGF2aW5nIEZGcyBpbiB0aGUgZGJpKzB4OTc4IHJlZ2lzdGVyLiBN
-eSBjdXJyZW50IGFzc3VtcHRpb24gdGhhdA0KPiBlaXRoZXIgeW91ciBJUC1jb3JlIGlzIG5ld2Vy
-IHRoYW4gdjUuMzBhIG9yIGhhcyBzb21lIHZlbmRvci1zcGVjaWZpYw0KPiBtb2RpZmljYXRpb24u
-IEJ1dCBsZXQncyBzZWUgdGhlIHZhbHVlIGZpcnN0Lg0KDQpPb3BzISBJJ20gc29ycnkgZm9yIG15
-IGJhZCBjb2RlLiBBZnRlciBmaXhlZCB0aGUgY29kZSwgdGhlIHZhbHVlcyBhcmU6DQotLS0NClsg
-ICAgMS4xMDg5NDNdIHBjaWUtcmNhci1nZW40IGU2NWQwMDAwLnBjaWU6IGR3X3BjaWVfZWRtYV9m
-aW5kX2NoaXA6ICsweDhmOCA9IDM1MzIzMDJhLCArMHg5NzggPSAwMDAwMDAwMA0KLS0tDQoNCjxz
-bmlwPg0KPiA+IFNvLCBzaG91bGQgSSBjaGFuZ2UgdGhlIGNvbmRpdGlvbiBsaWtlIGJlbG93Pw0K
-PiA+DQo+ID4gLS0tDQo+ID4gLQlpZiAodmFsID09IDB4RkZGRkZGRkYgJiYgcGNpLT5lZG1hLnJl
-Z19iYXNlKSB7DQo+ID4gKwlpZiAoKHZhbCA9PSAweEZGRkZGRkZGIHx8IHZhbCA9PSAweDAwMDAw
-MDAwKSAmJiBwY2ktPmVkbWEucmVnX2Jhc2UpIHsNCj4gPiAuLi4NCj4gPiAtCX0gZWxzZSBpZiAo
-dmFsICE9IDB4RkZGRkZGRkYpIHsNCj4gPiAtCX0gZWxzZSBpZiAoISh2YWwgPT0gMHhGRkZGRkZG
-RiB8fCB2YWwgPT0gMHgwMDAwMDAwMCkpIHsNCj4gPiAtLS0NCj4gDQo+IERlZmluaXRlbHkgbm8u
-IEV2ZW4gdGhvdWdoIGl0J3MgaW1wb3NzaWJsZSB0byBoYXZlIHRoZSBlRE1BIGNvbnRyb2xsZXIN
-Cj4gY29uZmlndXJlZCB3aXRoIHplcm8gbnVtYmVyIG9mIHJlYWQgYW5kIHdyaXRlIGNoYW5uZWxz
-IHdlIHNob3VsZG4ndA0KPiBhc3N1bWUgdGhhdCBnZXR0aW5nIGEgemVybyB2YWx1ZSBmcm9tIHRo
-ZSBETUFfQ1RSTF9WSUVXUE9SVF9PRkYgb2Zmc2V0DQo+IG1lYW5zIGhhdmluZyB0aGUgdW5yb2xs
-ZWQgZURNQSBDU1JzIG1hcHBpbmcuIExldCdzIGhhdmUgYSBsb29rIGF0IHRoZQ0KPiBjb250ZW50
-IG9mIHRoZSBkYmkrMHg4ZjggYW5kIGRiaSsweDk3OCBvZmZzZXRzIGZpcnN0LiBCYXNlZCBvbiB0
-aGVzZQ0KPiB2YWx1ZXMgd2UnbGwgY29tZSB1cCB3aXRoIHdoYXQgdG8gZG8gbmV4dC4NCg0KSSBn
-b3QgaXQuDQoNCkJlc3QgcmVnYXJkcywNCllvc2hpaGlybyBTaGltb2RhDQoNCj4gLVNlcmdlKHkp
-DQo+IA0KPiA+DQo+ID4gQmVzdCByZWdhcmRzLA0KPiA+IFlvc2hpaGlybyBTaGltb2RhDQo+ID4N
-Cj4gPiA+IC1TZXJnZXkNCj4gPiA+DQo+ID4gPiA+ID4gIAl9IGVsc2Ugew0KPiA+ID4gPiA+ICAJ
-CXJldHVybiAtRU5PREVWOw0KPiA+ID4gPiA+ICAJfQ0KPiA+ID4gPiA+IC0tDQo+ID4gPiA+ID4g
-Mi4yNS4xDQo+ID4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4gLS0NCj4gPiA+ID4g4K6u4K6j4K6/
-4K614K6j4K+N4K6j4K6p4K+NIOCumuCupOCuvuCumuCuv+CuteCuruCvjQ0K
+
+--zwzz2lgd2oubx5vn
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Nov 11, 2022 at 07:29:42PM +0000, Biju Das wrote:
+> This patch add support for linking poeg group with gpt, so that
+> gpt can control the output disable function.
+
+Without knowing what a "gpt" and a "poeg" is, I don't understand the
+purpose of this patch. Why do I want the gpt to be able to control the
+output disable function and what is this?
+
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Replaced id->poeg-id as per poeg bindings.
+> This patch depend upon [1]
+> [1] https://lore.kernel.org/linux-renesas-soc/20221111162325.471963-3-bij=
+u.das.jz@bp.renesas.com/T/#u
+> ---
+>  drivers/pwm/pwm-rzg2l-gpt.c | 69 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 69 insertions(+)
+>=20
+> diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
+> index 3f9325e958b8..e16f976c3dcb 100644
+> --- a/drivers/pwm/pwm-rzg2l-gpt.c
+> +++ b/drivers/pwm/pwm-rzg2l-gpt.c
+> @@ -31,6 +31,7 @@
+>  #define RZG2L_GTCR		0x2c
+>  #define RZG2L_GTUDDTYC		0x30
+>  #define RZG2L_GTIOR		0x34
+> +#define RZG2L_GTINTAD		0x38
+>  #define RZG2L_GTBER		0x40
+>  #define RZG2L_GTCNT		0x48
+>  #define RZG2L_GTCCRA		0x4c
+> @@ -48,9 +49,15 @@
+>  #define RZG2L_UP_COUNTING	(RZG2L_GTUDDTYC_UP | RZG2L_GTUDDTYC_UDF)
+> =20
+>  #define RZG2L_GTIOR_GTIOA	GENMASK(4, 0)
+> +#define RZG2L_GTIOR_OADF	GENMASK(10, 9)
+>  #define RZG2L_GTIOR_GTIOB	GENMASK(20, 16)
+> +#define RZG2L_GTIOR_OBDF	GENMASK(26, 25)
+>  #define RZG2L_GTIOR_OAE		BIT(8)
+>  #define RZG2L_GTIOR_OBE		BIT(24)
+> +#define RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE	BIT(9)
+> +#define RZG2L_GTIOR_OBDF_HIGH_IMP_ON_OUT_DISABLE	BIT(25)
+> +#define RZG2L_GTIOR_PIN_DISABLE_SETTING \
+> +	(RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE | RZG2L_GTIOR_OBDF_HIGH_IMP_O=
+N_OUT_DISABLE)
+> =20
+>  #define RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE	0x07
+>  #define RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE	0x1b
+> @@ -64,12 +71,16 @@
+>  #define RZG2L_GTIOR_GTIOB_OUT_LO_END_TOGGLE_CMP_MATCH \
+>  	(FIELD_PREP(RZG2L_GTIOR_GTIOB, RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE) | R=
+ZG2L_GTIOR_OBE)
+> =20
+> +#define RZG2L_GTINTAD_GRP_MASK			GENMASK(25, 24)
+> +
+>  #define RZG2L_GTCCR(i) (0x4c + 4 * (i))
+> =20
+>  #define RZG2L_MAX_HW_CHANNELS	(8)
+>  #define RZG2L_CHANNELS_PER_IO	(2)
+>  #define RZG2L_MAX_PWM_CHANNELS	(RZG2L_MAX_HW_CHANNELS * RZG2L_CHANNELS_P=
+ER_IO)
+> =20
+> +#define RZG2L_MAX_POEG_GROUPS	(4)
+> +
+>  #define RZG2L_IS_IOB(a) ((a) & 0x1)
+>  #define RZG2L_GET_CH_INDEX(a) ((a) / 2)
+> =20
+> @@ -85,6 +96,7 @@ struct rzg2l_gpt_chip {
+>  	u32 state_period[RZG2L_MAX_HW_CHANNELS];
+>  	u32 user_count[RZG2L_MAX_HW_CHANNELS];
+>  	u8 prescale[RZG2L_MAX_HW_CHANNELS];
+> +	DECLARE_BITMAP(poeg_gpt_link, RZG2L_MAX_POEG_GROUPS * RZG2L_MAX_HW_CHAN=
+NELS);
+>  };
+> =20
+>  static inline struct rzg2l_gpt_chip *to_rzg2l_gpt_chip(struct pwm_chip *=
+chip)
+> @@ -438,6 +450,62 @@ static void rzg2l_gpt_reset_assert_pm_disable(void *=
+data)
+>  	reset_control_assert(rzg2l_gpt->rstc);
+>  }
+> =20
+> +static void rzg2l_gpt_parse_properties(struct platform_device *pdev,
+> +				       struct rzg2l_gpt_chip *rzg2l_gpt)
+> +{
+> +	struct of_phandle_args of_args;
+> +	unsigned int i;
+> +	u32 poeg_grp;
+> +	int cells;
+> +	u32 offs;
+> +	int ret;
+> +
+> +	cells =3D of_property_count_u32_elems(pdev->dev.of_node, "renesas,poegs=
+");
+> +	if (cells =3D=3D -EINVAL)
+> +		return;
+> +
+> +	cells >>=3D 1;
+> +	for (i =3D 0; i < cells; i++) {
+> +		ret =3D of_parse_phandle_with_fixed_args(pdev->dev.of_node,
+> +						       "renesas,poegs", 1, i,
+> +						       &of_args);
+> +		if (ret) {
+> +			dev_err(&pdev->dev,
+> +				"Failed to parse 'renesas,poegs' property\n");
+> +			return;
+> +		}
+> +
+> +		if (of_args.args[0] >=3D RZG2L_MAX_HW_CHANNELS) {
+> +			dev_err(&pdev->dev,
+> +				"Invalid channel %d > 7\n", of_args.args[0]);
+> +			return;
+> +		}
+> +
+> +		if (!of_device_is_available(of_args.np)) {
+> +			/* It's fine to have a phandle to a non-enabled poeg. */
+> +			of_node_put(of_args.np);
+> +			continue;
+> +		}
+> +
+> +		if (!of_property_read_u32(of_args.np, "renesas,poeg-id", &poeg_grp)) {
+> +			offs =3D RZG2L_GET_CH_OFFS(of_args.args[0]);
+> +
+> +			set_bit(poeg_grp * RZG2L_MAX_HW_CHANNELS + of_args.args[0],
+> +				rzg2l_gpt->poeg_gpt_link);
+
+You might want to check if poeg_grp * RZG2L_MAX_HW_CHANNELS +
+of_args.args[0] is less than 32 (i.e. the length of the poeg_gpt_link
+bitmap). Also ensure that poeg_grp is withing bounds.
+
+> +			rzg2l_gpt_modify(rzg2l_gpt, offs + RZG2L_GTINTAD,
+> +					 RZG2L_GTINTAD_GRP_MASK,
+> +					 poeg_grp << 24);
+> +
+> +			rzg2l_gpt_modify(rzg2l_gpt, offs + RZG2L_GTIOR,
+> +					 RZG2L_GTIOR_OBDF | RZG2L_GTIOR_OADF,
+> +					 RZG2L_GTIOR_PIN_DISABLE_SETTING);
+> +		}
+> +
+> +		of_node_put(of_args.np);
+> +	}
+> +}
+> +
+>  static int rzg2l_gpt_probe(struct platform_device *pdev)
+>  {
+>  	DECLARE_BITMAP(ch_en_bits, RZG2L_MAX_PWM_CHANNELS);
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--zwzz2lgd2oubx5vn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOEsQ0ACgkQwfwUeK3K
+7Alhlwf/URvm3JkpZsPQqLW1V8GG73EOk4mwcfcnbfRpBc/WtWyDXf+KVyBq46k0
+UPswAVrObkjloLDq99TeUcKgDJsy8c1yTXCLoOXEvvY8o277xDRRUsSezzcVjEE0
+yrvKOcaWiL856PDpKynsUhUn0h3+n7YTMITTbzk7fpilTd6e06FDqNkGmfNxJxaD
+o12YyHDsB42eiqvkKpq9MT6XFAmDRmtH7a0PiS9CXln7Cv6zhiuOFXQe0Ekw1h5K
+ktEOJA0naXh7q4+5KN/n6AD6LLiUD2MhggQhRgJrpgEWYGZljmNxspWYsa++zTAA
+KuD7G3x/9Tt17M9VkF54VUBXKwR2wQ==
+=q5vc
+-----END PGP SIGNATURE-----
+
+--zwzz2lgd2oubx5vn--
