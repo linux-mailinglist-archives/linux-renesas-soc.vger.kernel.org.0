@@ -2,141 +2,142 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B430063B5CF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Nov 2022 00:24:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D45CF63B5D5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Nov 2022 00:28:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234687AbiK1XYT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Nov 2022 18:24:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43192 "EHLO
+        id S234653AbiK1X2E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Nov 2022 18:28:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234689AbiK1XYH (ORCPT
+        with ESMTP id S233914AbiK1X2D (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Nov 2022 18:24:07 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3233A31368
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Nov 2022 15:24:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669677845; x=1701213845;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yZt8dyGEr6mMSR4ILp77ydDdgJgcMslmtmSHIEZ49/0=;
-  b=TSKezHWu/KOH1psmW0ahzXNyZd6kgB4i9EEgCFj6n7vTIx7ghWCxpCD5
-   mvseQWshA/vYRHKU47ktq5xEuDuANhDB5wy0Q5wCwen56PJ1QcP47JsqR
-   L5iY6em836IXchLPzovFIF+CpdpIm/rzqi6qA4wS+T9Hkc/TCzKj+7r9B
-   WUzo2tFHxirIUU7eDpoYHYbOsxImzucXoPlZh12Zlswtl5BChenwTCTHh
-   2ZNXg/9KAm/gV6Zb+DUz6XaKbjRR1+iB0KXpJ57O2S93gMCmPTHa/igHl
-   eiVUwBCCGYPU9bJGtxKD+J3vNPd+oWH8fExipQ5+p6KOL4jbH1Igu5vWJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="341890166"
-X-IronPort-AV: E=Sophos;i="5.96,201,1665471600"; 
-   d="scan'208";a="341890166"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2022 15:24:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="674407441"
-X-IronPort-AV: E=Sophos;i="5.96,201,1665471600"; 
-   d="scan'208";a="674407441"
-Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 28 Nov 2022 15:24:03 -0800
-Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oznTm-0008OC-1j;
-        Mon, 28 Nov 2022 23:24:02 +0000
-Date:   Tue, 29 Nov 2022 07:23:54 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- d3642cffc5e02c14ab4679f96ad21828235397e9
-Message-ID: <6385430a.X6pdD+IFueZ+e3Ny%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 28 Nov 2022 18:28:03 -0500
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13479303E7;
+        Mon, 28 Nov 2022 15:28:02 -0800 (PST)
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-14279410bf4so15031256fac.8;
+        Mon, 28 Nov 2022 15:28:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tkm1rZJjYKH+0e9XPZ9u8/k0fPDDDPFuGFSeOnuxztc=;
+        b=a48QLAhy9596GHqxirjRR600UZtVmJgk717cAI5ueGLBZiTlDzzGNfjqbySuRQmgBE
+         gopBJSWHPJKX5z9N3SAJqFkPvkDjM2r8eixh6jBsobnNotoI3e03dWYydPN7y2Bss6bC
+         +XJWuteHpwDDyZZq02xjsCHWSvBhal7d8ALjI0YWkbfg02z285NCcChzR1i2X8Af3749
+         JBeI1IGTWHRqVw2cXxZ3rIMEGa1Wb7L8ZTggZrcYBqk7/0F46P8+wa5LiQW8otoYxBWa
+         FXwYusDUkd9fcyNYOHXznlE/LmevhqJhT8liJUUWUZ8LvFPajN/Cfa9uMYzBH0n6T30I
+         i+uA==
+X-Gm-Message-State: ANoB5pluewewhbuCvqeGfDwycaeBUWyY7Vp3ZObDDiXCpStTERIUPBci
+        8ibSkD64qe+kL7er3A61vA==
+X-Google-Smtp-Source: AA0mqf6qF068jOcZq5Clqc6PLJt0qCSUkbx+Op8bIK1f/R2Musri8+9p2qalTkmaXTGmtt/SSb+sHw==
+X-Received: by 2002:a05:6871:438a:b0:13b:a9ac:ad64 with SMTP id lv10-20020a056871438a00b0013ba9acad64mr21826598oab.290.1669678081277;
+        Mon, 28 Nov 2022 15:28:01 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id b5-20020a056870d1c500b00143776f70d3sm5043217oac.29.2022.11.28.15.27.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Nov 2022 15:28:00 -0800 (PST)
+Received: (nullmailer pid 1691394 invoked by uid 1000);
+        Mon, 28 Nov 2022 23:27:59 -0000
+Date:   Mon, 28 Nov 2022 17:27:59 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Colin Foster <colin.foster@in-advantage.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        John Crispin <john@phrozen.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Marek Vasut <marex@denx.de>,
+        Sean Wang <sean.wang@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        =?UTF-8?B?bsOnIMOcTkFM?= <arinc.unal@arinc9.com>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        UNGLinuxDriver@microchip.com,
+        Woojung Huh <woojung.huh@microchip.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        George McCollister <george.mccollister@gmail.com>
+Subject: Re: [PATCH v3 net-next 04/10] dt-bindings: net: dsa: allow
+ additional ethernet-port properties
+Message-ID: <20221128232759.GB1513198-robh@kernel.org>
+References: <20221127224734.885526-1-colin.foster@in-advantage.com>
+ <20221127224734.885526-5-colin.foster@in-advantage.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Disposition: inline
+In-Reply-To: <20221127224734.885526-5-colin.foster@in-advantage.com>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: d3642cffc5e02c14ab4679f96ad21828235397e9  Merge tag 'v6.1-rc7' into renesas-devel
+On Sun, Nov 27, 2022 at 02:47:28PM -0800, Colin Foster wrote:
+> Explicitly allow additional properties for both the ethernet-port and
+> ethernet-ports properties. This specifically will allow the qca8k.yaml
+> binding to use shared properties.
+> 
+> Signed-off-by: Colin Foster <colin.foster@in-advantage.com>
+> ---
+> 
+> v2 -> v3
+>   * No change
+> 
+> v1 -> v2
+>   * New patch
+> 
+> ---
+>  Documentation/devicetree/bindings/net/dsa/dsa.yaml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/dsa/dsa.yaml b/Documentation/devicetree/bindings/net/dsa/dsa.yaml
+> index bd1f0f7c14a8..87475c2ab092 100644
+> --- a/Documentation/devicetree/bindings/net/dsa/dsa.yaml
+> +++ b/Documentation/devicetree/bindings/net/dsa/dsa.yaml
+> @@ -38,6 +38,8 @@ patternProperties:
+>        '#size-cells':
+>          const: 0
+>  
+> +    additionalProperties: true
+> +
 
-elapsed time: 727m
+Where then do we restrict adding properties to ethernet-ports nodes?
 
-configs tested: 58
-configs skipped: 2
+>      patternProperties:
+>        "^(ethernet-)?port@[0-9]+$":
+>          type: object
+> @@ -45,7 +47,7 @@ patternProperties:
+>  
+>          $ref: dsa-port.yaml#
+>  
+> -        unevaluatedProperties: false
+> +        unevaluatedProperties: true
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Same question for ethernet-port nodes.
 
-gcc tested configs:
-powerpc                           allnoconfig
-arc                                 defconfig
-s390                             allmodconfig
-alpha                               defconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-s390                                defconfig
-i386                                defconfig
-sh                               allmodconfig
-s390                             allyesconfig
-x86_64                              defconfig
-i386                 randconfig-a002-20221128
-i386                 randconfig-a003-20221128
-i386                 randconfig-a001-20221128
-x86_64                          rhel-8.3-func
-arc                  randconfig-r043-20221128
-i386                 randconfig-a004-20221128
-x86_64                    rhel-8.3-kselftests
-mips                             allyesconfig
-x86_64                           rhel-8.3-syz
-powerpc                          allmodconfig
-x86_64                         rhel-8.3-kunit
-i386                 randconfig-a005-20221128
-x86_64                           rhel-8.3-kvm
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-i386                 randconfig-a006-20221128
-ia64                             allmodconfig
-i386                             allyesconfig
-x86_64               randconfig-a001-20221128
-x86_64               randconfig-a003-20221128
-x86_64               randconfig-a004-20221128
-x86_64               randconfig-a002-20221128
-x86_64               randconfig-a005-20221128
-m68k                             allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-x86_64               randconfig-a006-20221128
-arm                                 defconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-
-clang tested configs:
-hexagon              randconfig-r045-20221128
-hexagon              randconfig-r041-20221128
-riscv                randconfig-r042-20221128
-s390                 randconfig-r044-20221128
-x86_64               randconfig-a015-20221128
-x86_64               randconfig-a013-20221128
-x86_64               randconfig-a012-20221128
-x86_64               randconfig-a014-20221128
-x86_64               randconfig-a011-20221128
-x86_64               randconfig-a016-20221128
-i386                 randconfig-a012-20221128
-i386                 randconfig-a011-20221128
-i386                 randconfig-a013-20221128
-i386                 randconfig-a015-20221128
-i386                 randconfig-a016-20221128
-i386                 randconfig-a014-20221128
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+>  
+>  oneOf:
+>    - required:
+> -- 
+> 2.25.1
+> 
+> 
