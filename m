@@ -2,111 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A5B4163A207
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Nov 2022 08:37:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31ED463A355
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Nov 2022 09:44:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229713AbiK1Hhn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Nov 2022 02:37:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41854 "EHLO
+        id S229811AbiK1Iow (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Nov 2022 03:44:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229612AbiK1Hhm (ORCPT
+        with ESMTP id S229610AbiK1Iov (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Nov 2022 02:37:42 -0500
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 139125584;
-        Sun, 27 Nov 2022 23:37:41 -0800 (PST)
-Received: by mail-qv1-f46.google.com with SMTP id u10so1237724qvp.4;
-        Sun, 27 Nov 2022 23:37:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mf6PpFgRdbUWXFIJ6gzSU4wMby+2q9WODUFq2erIU/Y=;
-        b=4YlAaINwMftkTS1LfYAoFRGLvCkf+QblDorkY/p3HwZewuoEQGbh6XlbB+cLlSIZOC
-         WoP0Oq4eJI+g3GDZJxYKlra1uQbd5oj1VWReroqbFnkQ+A2/mwu7OvexZfBWhTC19Kp+
-         L0ArrW54gbJ2zOH/3vGGJYzHDJLEn9+Mq4phZwJ+v1LHrKT5N0iB1ztjv+pZVayJjnkq
-         KLEWrltR1o32b6Y/l6kLpVL842/nxxinD9/cBQGWPLgZKlElnABh6ALGVJQxRs7GSSjK
-         DYMeFXyWervgfFnNexJuUZSVoxqFsxGfuQh4ncq2I+UqIkiacS+EzIvB/HmAE3+M+zv8
-         TUng==
-X-Gm-Message-State: ANoB5pl/qQQ1WbynZanvAhFygC6sGl8AIvtwldh2Pj8IqYfkHuc4ilYV
-        yOgFZtL8M0qx3/0po82N7/Wl5/xYbhaOXw==
-X-Google-Smtp-Source: AA0mqf5DO96y1c7ru3SNBuRiMKqbVVkVrnXzbHUZS6GXc0YbWY68NuwNK6ywaMbUtiEY3OZXjy/zAA==
-X-Received: by 2002:a0c:cb0c:0:b0:4c6:afdd:f1a2 with SMTP id o12-20020a0ccb0c000000b004c6afddf1a2mr27338201qvk.21.1669621059923;
-        Sun, 27 Nov 2022 23:37:39 -0800 (PST)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id bj15-20020a05620a190f00b006cbe3be300esm7924674qkb.12.2022.11.27.23.37.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Nov 2022 23:37:38 -0800 (PST)
-Received: by mail-yb1-f169.google.com with SMTP id 205so12236309ybf.6;
-        Sun, 27 Nov 2022 23:37:38 -0800 (PST)
-X-Received: by 2002:a5b:24b:0:b0:6ca:3b11:8d76 with SMTP id
- g11-20020a5b024b000000b006ca3b118d76mr28827047ybp.202.1669621058200; Sun, 27
- Nov 2022 23:37:38 -0800 (PST)
+        Mon, 28 Nov 2022 03:44:51 -0500
+X-Greylist: delayed 906 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 28 Nov 2022 00:44:50 PST
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79CC31144F
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Nov 2022 00:44:50 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1669624122; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=SlruZNjijJZzyYkvFL6OElHpvJ5NcnjnDm7tGquBFAJmCmXXZ7xyEIdvDkQNKukAaVmlVi9Bc3+T1BoMHqR4WMPHWfitmKcMQV9Qj1Z0RpcsXmHFVX1okyuAaL25m94+FDZ1/45k0UH9DWRCBCIZN2m+OW5eV4U6+fKAV6njUKw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1669624122; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=AS/14WaE2LN43smbHuSpmejZfg+JalHV2YhgqWmQEAE=; 
+        b=bIFBF87ok3heWqT6Z4w322m6ip6W7S6qKVz4ihZKSzxbjoH2NheiWIRQf32n7ELZm2Vq4IubEexB1TCaDl8wy/4B5zClr8J6End6YIxYT0Y2H67doigDBMLbzLKl2UlubFKSOiQ62YMWZZZ0RB3eSViz+aWppC9gr/3t0rlMZAI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=arinc9.com;
+        spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
+        dmarc=pass header.from=<arinc.unal@arinc9.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1669624122;
+        s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
+        h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+        bh=AS/14WaE2LN43smbHuSpmejZfg+JalHV2YhgqWmQEAE=;
+        b=JyGzTO7/cV3Df/8rep2Kwe+HTHBxB6ASQWVOwe3f4YCQRiaxNNvQEndBCMwcYe5k
+        1aua5HNDimYl5QcSpfwqtl1Hw4ilAqL50Uwa9FKyisQG2QyEKCeOG0XJ0pzEb3v/dgJ
+        +dE3f36wwKkyE/vzjVCX1quNzRai5Ua82TU22g74=
+Received: from [10.10.10.3] (37.120.152.236 [37.120.152.236]) by mx.zohomail.com
+        with SMTPS id 1669624120094627.872459276059; Mon, 28 Nov 2022 00:28:40 -0800 (PST)
+Message-ID: <08784493-7e85-9224-acfa-9a87cbd325e7@arinc9.com>
+Date:   Mon, 28 Nov 2022 11:28:31 +0300
 MIME-Version: 1.0
-References: <cover.1669213027.git.geert+renesas@glider.be> <b500e42c-f782-79c6-70ce-650e4ea32c54@linaro.org>
- <a75b604c-a671-d2c5-7160-74dcb8a4fa2e@linaro.org>
-In-Reply-To: <a75b604c-a671-d2c5-7160-74dcb8a4fa2e@linaro.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 28 Nov 2022 08:37:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVgmxVxKbTxXO90XaaL5-qf6WnEwbTwU+ZmSEcuzOFEgA@mail.gmail.com>
-Message-ID: <CAMuHMdVgmxVxKbTxXO90XaaL5-qf6WnEwbTwU+ZmSEcuzOFEgA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] memory: renesas-rpc-if: Rebind fixes and misc cleanups
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Vignesh Raghavendra <vigneshr@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 net-next 06/10] dt-bindings: net: dsa: mediatek,mt7530:
+ fix port description location
+To:     Colin Foster <colin.foster@in-advantage.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org
+Cc:     John Crispin <john@phrozen.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Marek Vasut <marex@denx.de>,
+        Sean Wang <sean.wang@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        =?UTF-8?Q?Alvin_=c5=a0ipraga?= <alsi@bang-olufsen.dk>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        UNGLinuxDriver@microchip.com,
+        Woojung Huh <woojung.huh@microchip.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        George McCollister <george.mccollister@gmail.com>,
+        Rob Herring <robh@kernel.org>
+References: <20221127224734.885526-1-colin.foster@in-advantage.com>
+ <20221127224734.885526-7-colin.foster@in-advantage.com>
+Content-Language: en-US
+From:   =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+In-Reply-To: <20221127224734.885526-7-colin.foster@in-advantage.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+On 28.11.2022 01:47, Colin Foster wrote:
+> The description property was located where it applies to every port, not
+> just ports 5 or 6 (CPU ports). Fix this description.
 
-On Sun, Nov 27, 2022 at 10:34 PM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> On 27/11/2022 22:31, Krzysztof Kozlowski wrote:
-> > On 23/11/2022 15:41, Geert Uytterhoeven wrote:
-> >> The Renesas RPC-IF provides either HyperFlash or SPI host access.
-> >> To handle this, three drivers are used:
-> >>   1. The RPC-IF core diver,
-> >>   2. An HyperFlash child driver,
-> >>   3. An SPI child driver.
-> >
-> > Thank you for the patch.
-> > It is too late in the cycle for me to pick it up. I will take it after
-> > the merge window.
->
-> Optionally, if you want to push it via Renesas SoC tree and there are no
-> conflicts with existing two patches, then these look good:
+I'm not sure I understand. The description for reg does apply to every 
+port. Both CPU ports and user ports are described. This patch moves the 
+description to under CPU ports only.
 
-It's too late for the Renesas tree, too.
+> 
+> Suggested-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Colin Foster <colin.foster@in-advantage.com>
+> ---
+> 
+> v2 -> v3
+>    * New patch.
+> 
+> ---
+>   .../bindings/net/dsa/mediatek,mt7530.yaml          | 14 +++-----------
+>   1 file changed, 3 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml b/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml
+> index 7df4ea1901ce..415e6c40787e 100644
+> --- a/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml
+> +++ b/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml
+> @@ -156,17 +156,6 @@ patternProperties:
+>   
+>       patternProperties:
+>         "^(ethernet-)?port@[0-9]+$":
+> -        type: object
+> -        description: Ethernet switch ports
+> -
+> -        unevaluatedProperties: false
+> -
 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> Otherwise, I'll pick them up after the merge window.
+Would be nice to mention these being removed on the patch log. Or remove 
+them while doing ("dt-bindings: net: dsa: utilize base definitions for 
+standard dsa switches").
 
-Thanks!
+> -        properties:
+> -          reg:
+> -            description:
+> -              Port address described must be 5 or 6 for CPU port and from 0 to 5
+> -              for user ports.
+> -
+>           allOf:
+>             - $ref: dsa-port.yaml#
+>             - if:
+> @@ -174,6 +163,9 @@ patternProperties:
+>               then:
+>                 properties:
+>                   reg:
+> +                  description:
+> +                    Port address described must be 5 or 6 for CPU port and from
+> +                    0 to 5 for user ports
+>                     enum:
+>                       - 5
+>                       - 6
 
-Gr{oetje,eeting}s,
+Thank you for your efforts.
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Arınç
