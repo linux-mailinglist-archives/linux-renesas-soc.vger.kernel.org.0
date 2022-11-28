@@ -2,183 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE74063A1F0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Nov 2022 08:24:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5B4163A207
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Nov 2022 08:37:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229593AbiK1HYv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Nov 2022 02:24:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37400 "EHLO
+        id S229713AbiK1Hhn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Nov 2022 02:37:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbiK1HYu (ORCPT
+        with ESMTP id S229612AbiK1Hhm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Nov 2022 02:24:50 -0500
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C27BA463
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 27 Nov 2022 23:24:49 -0800 (PST)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-3c090251d59so41272367b3.4
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 27 Nov 2022 23:24:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mXjHui8D3uCdea+SKEnrOevK9MBIZztPmxDGtbcGwXU=;
-        b=SeMLpJqYIndEJ0r8/5ofWUG6q8LfrYrBA2ZDKqLIoQMhvegyRoOld31Jw7jW8tJUYl
-         nfOpTBYeisUhi1D7HqCDDUQdZDJkHe82C4IMOQN53NXHzs37cdjYwhUhoyy1ptae/R5K
-         yZA1fRSkm0rU68Knb4IQh1z7BYrNfLq/6i/5w=
+        Mon, 28 Nov 2022 02:37:42 -0500
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 139125584;
+        Sun, 27 Nov 2022 23:37:41 -0800 (PST)
+Received: by mail-qv1-f46.google.com with SMTP id u10so1237724qvp.4;
+        Sun, 27 Nov 2022 23:37:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mXjHui8D3uCdea+SKEnrOevK9MBIZztPmxDGtbcGwXU=;
-        b=e6umrYM3WhDGX01YyHg5ZHibOWIafK4Wb5YyPEffOrwleWks4e4eviPTpALxBaS1vy
-         K3ormVb/S2kGE95+Jf2fO5uSPLOg2acRvR6K4yTlGcBp0dhmBD1Is4PondzKFNCXiix+
-         NrA6W5XIhNXmnB/kNaybSq1OnS4uPSFMOG6IbjhdOQuzlEXpyZRYixHhwZaQ5vmpqpDU
-         lKll03SUm7mBTBBMa2rJArHLxS4CnZuyryhhe6NrXSztAZgj7hIGG+L8ZSrdQIFAHsG3
-         VQSVGvBlIBGJuA6umQF+1VOlKqasmp5zXCBtqy3DTvVbKbAOFAumU8mW5HzyOmVbPzCI
-         ee/Q==
-X-Gm-Message-State: ANoB5pnUWyQyoj6ZL92yNQ0S39Owi4uSdIqAEGkM1ToHet0LA0oLv2f0
-        pZvs7Z0SiSChgamBqZcon26pJSzJFFB8wvB/lyWIBw==
-X-Google-Smtp-Source: AA0mqf6I5EnKJgRHIFgXngr69d8VMPdYHMFP5yqjTKo2cXQqR5DOqcBzwKAIrkT2eqF3gZdk31hmhOB5x6RmocEkmMQ=
-X-Received: by 2002:a81:1781:0:b0:3cc:919:6196 with SMTP id
- 123-20020a811781000000b003cc09196196mr402087ywx.154.1669620288694; Sun, 27
- Nov 2022 23:24:48 -0800 (PST)
+        bh=mf6PpFgRdbUWXFIJ6gzSU4wMby+2q9WODUFq2erIU/Y=;
+        b=4YlAaINwMftkTS1LfYAoFRGLvCkf+QblDorkY/p3HwZewuoEQGbh6XlbB+cLlSIZOC
+         WoP0Oq4eJI+g3GDZJxYKlra1uQbd5oj1VWReroqbFnkQ+A2/mwu7OvexZfBWhTC19Kp+
+         L0ArrW54gbJ2zOH/3vGGJYzHDJLEn9+Mq4phZwJ+v1LHrKT5N0iB1ztjv+pZVayJjnkq
+         KLEWrltR1o32b6Y/l6kLpVL842/nxxinD9/cBQGWPLgZKlElnABh6ALGVJQxRs7GSSjK
+         DYMeFXyWervgfFnNexJuUZSVoxqFsxGfuQh4ncq2I+UqIkiacS+EzIvB/HmAE3+M+zv8
+         TUng==
+X-Gm-Message-State: ANoB5pl/qQQ1WbynZanvAhFygC6sGl8AIvtwldh2Pj8IqYfkHuc4ilYV
+        yOgFZtL8M0qx3/0po82N7/Wl5/xYbhaOXw==
+X-Google-Smtp-Source: AA0mqf5DO96y1c7ru3SNBuRiMKqbVVkVrnXzbHUZS6GXc0YbWY68NuwNK6ywaMbUtiEY3OZXjy/zAA==
+X-Received: by 2002:a0c:cb0c:0:b0:4c6:afdd:f1a2 with SMTP id o12-20020a0ccb0c000000b004c6afddf1a2mr27338201qvk.21.1669621059923;
+        Sun, 27 Nov 2022 23:37:39 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id bj15-20020a05620a190f00b006cbe3be300esm7924674qkb.12.2022.11.27.23.37.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Nov 2022 23:37:38 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id 205so12236309ybf.6;
+        Sun, 27 Nov 2022 23:37:38 -0800 (PST)
+X-Received: by 2002:a5b:24b:0:b0:6ca:3b11:8d76 with SMTP id
+ g11-20020a5b024b000000b006ca3b118d76mr28827047ybp.202.1669621058200; Sun, 27
+ Nov 2022 23:37:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20221128065604.1864391-1-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20221128065604.1864391-1-yoshihiro.shimoda.uh@renesas.com>
-From:   Pavan Chebbi <pavan.chebbi@broadcom.com>
-Date:   Mon, 28 Nov 2022 12:54:37 +0530
-Message-ID: <CALs4sv0wE_YpoJz5psS-CoV_kCfE_1wB=6rFH_Nvkhj=7MkMOg@mail.gmail.com>
-Subject: Re: [PATCH net] net: ethernet: renesas: ravb: Fix promiscuous mode
- after system resumed
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, Tho Vu <tho.vu.wh@renesas.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="0000000000003ca51e05ee82c4a3"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <cover.1669213027.git.geert+renesas@glider.be> <b500e42c-f782-79c6-70ce-650e4ea32c54@linaro.org>
+ <a75b604c-a671-d2c5-7160-74dcb8a4fa2e@linaro.org>
+In-Reply-To: <a75b604c-a671-d2c5-7160-74dcb8a4fa2e@linaro.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 28 Nov 2022 08:37:26 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVgmxVxKbTxXO90XaaL5-qf6WnEwbTwU+ZmSEcuzOFEgA@mail.gmail.com>
+Message-ID: <CAMuHMdVgmxVxKbTxXO90XaaL5-qf6WnEwbTwU+ZmSEcuzOFEgA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] memory: renesas-rpc-if: Rebind fixes and misc cleanups
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Vignesh Raghavendra <vigneshr@ti.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Mark Brown <broonie@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
---0000000000003ca51e05ee82c4a3
-Content-Type: text/plain; charset="UTF-8"
+Hi Krzysztof,
 
-On Mon, Nov 28, 2022 at 12:27 PM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
+On Sun, Nov 27, 2022 at 10:34 PM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> On 27/11/2022 22:31, Krzysztof Kozlowski wrote:
+> > On 23/11/2022 15:41, Geert Uytterhoeven wrote:
+> >> The Renesas RPC-IF provides either HyperFlash or SPI host access.
+> >> To handle this, three drivers are used:
+> >>   1. The RPC-IF core diver,
+> >>   2. An HyperFlash child driver,
+> >>   3. An SPI child driver.
+> >
+> > Thank you for the patch.
+> > It is too late in the cycle for me to pick it up. I will take it after
+> > the merge window.
 >
-> After system resumed on some environment board, the promiscuous mode
-> is disabled because the SoC turned off. So, call ravb_set_rx_mode() in
-> the ravb_resume() to fix the issue.
->
-> Reported-by: Tho Vu <tho.vu.wh@renesas.com>
-> Fixes: 0184165b2f42 ("ravb: add sleep PM suspend/resume support")
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  drivers/net/ethernet/renesas/ravb_main.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 36324126db6d..6bc923326268 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -3020,6 +3020,7 @@ static int __maybe_unused ravb_resume(struct device *dev)
->                 ret = ravb_open(ndev);
->                 if (ret < 0)
->                         return ret;
-> +               ravb_set_rx_mode(ndev);
->                 netif_device_attach(ndev);
->         }
->
-> --
-> 2.25.1
->
+> Optionally, if you want to push it via Renesas SoC tree and there are no
+> conflicts with existing two patches, then these look good:
 
-Reviewed-by: Pavan Chebbi <pavan.chebbi@broadcom.com>
+It's too late for the Renesas tree, too.
 
---0000000000003ca51e05ee82c4a3
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>
+> Otherwise, I'll pick them up after the merge window.
 
-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
-OltyqaGBuzv+bJTUL+bmV7E4QBLIqGt4jVr1R9hJdH6KxXwJdyfHZ9C6qXmoe2NQhiFUyBOJ0wgk
-dB9Z1IU7nCwvNKYg2JMoJs93tIgbhPJg/D7pqW8gabkCAwEAAaOCAdowggHWMA4GA1UdDwEB/wQE
-AwIFoDCBowYIKwYBBQUHAQEEgZYwgZMwTgYIKwYBBQUHMAKGQmh0dHA6Ly9zZWN1cmUuZ2xvYmFs
-c2lnbi5jb20vY2FjZXJ0L2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNydDBBBggrBgEFBQcw
-AYY1aHR0cDovL29jc3AuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAw
-TQYDVR0gBEYwRDBCBgorBgEEAaAyASgKMDQwMgYIKwYBBQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2Jh
-bHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwSQYDVR0fBEIwQDA+oDygOoY4aHR0cDov
-L2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcmwwJAYDVR0R
-BB0wG4EZcGF2YW4uY2hlYmJpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNV
-HSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUEV6y/89alKPoFbKUaJXsvWu5
-fdowDQYJKoZIhvcNAQELBQADggEBAEHSIB6g652wVb+r2YCmfHW47Jo+5TuCBD99Hla8PYhaWGkd
-9HIyD3NPhb6Vb6vtMWJW4MFGQF42xYRrAS4LZj072DuMotr79rI09pbOiWg0FlRRFt6R9vgUgebu
-pWSH7kmwVXcPtY94XSMMak4b7RSKig2mKbHDpD4bC7eGlwl5RxzYkgrHtMNRmHmQor5Nvqe52cFJ
-25Azqtwvjt5nbrEd81iBmboNTEnLaKuxbbCtLaMEP8xKeDjAKnNOqHUMps0AsQT8c0EGq39YHpjp
-Wn1l67VU0rMShbEFsiUf9WYgE677oinpdm0t2mdCjxr35tryxptoTZXKHDxr/Yy6l6ExggJtMIIC
-aQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQD
-EyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwV/XkICjVscn4SNZMw
-DQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEID00iL3vfNBVmERSGrjTvS6lkTRUuJt6
-9mO4Uy9zZ9OGMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIyMTEy
-ODA3MjQ0OVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCG
-SAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQC
-ATANBgkqhkiG9w0BAQEFAASCAQBllBRlENJnrBJQkzlJx1tAzsTOkZbyYBhaEdcpc44BiRe0AaCH
-tBkMSJGTH+U6YIT7UvwkA94BjI2d/xiCX7h2R0UQ1rDKfVpedEq2gzcqFKQ2wJ2GVytxZyrNkd84
-FZkAc44vbwekMp22tm7gTumt07vk5eXgfno85/UjkVrBiJiKPJ97DebJiCSIw2cqroNtLF9ET9Wa
-HciIiwj7c9H97QKnfPnVXh/mTL4nJZ/rAUNNsHOaBliGYpUH6ifDASInphIHFC6t0ZhstgCzvbq0
-EZds4FcQfONBWfadzwJ1TwmCRGZ5MFXlzZsinZLpWYM86V2UOHRtjJRM30u34u/c
---0000000000003ca51e05ee82c4a3--
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
