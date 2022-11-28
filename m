@@ -2,35 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A26363AA00
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Nov 2022 14:49:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0DFE63AA20
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Nov 2022 14:53:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232083AbiK1Nta (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Nov 2022 08:49:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46116 "EHLO
+        id S232172AbiK1Nxi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Nov 2022 08:53:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232119AbiK1Nt0 (ORCPT
+        with ESMTP id S232163AbiK1Nxh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Nov 2022 08:49:26 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61F961EECF;
-        Mon, 28 Nov 2022 05:49:24 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E15EE6118A;
-        Mon, 28 Nov 2022 13:49:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF178C433D7;
-        Mon, 28 Nov 2022 13:49:18 +0000 (UTC)
-Message-ID: <738a2461-7a6a-286b-89e8-d46a26ec6506@xs4all.nl>
-Date:   Mon, 28 Nov 2022 14:49:17 +0100
+        Mon, 28 Nov 2022 08:53:37 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A657FB1B;
+        Mon, 28 Nov 2022 05:53:36 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id x2so15540282edd.2;
+        Mon, 28 Nov 2022 05:53:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0nL99pZ4RJUpEgtFxI8B3xt54A7EJNAJ95lZjHVoXWY=;
+        b=IlllHOn1t+t9xZag64u0/1YYZn03G5hHGRpVDnEm1W1mmFCuy6Wuze9IQLww1vBDaW
+         EKIqfhWuQLIRMbRDFsylpDVxC2YjuAliZin1UO1p7/YBn1+ewkq7OksjK5eRXhGA37Kz
+         4kkzONCWruYEICysU69EOTdEeQxpa/ExoAoqtnw+upL/LGcXH0nAV738oH01aaGRvqOy
+         q3nW20LVbRhLcLDZHShp8+fVwOevcTF3sHTEV2Wg768stiKWQAL0WTEQ3KQbzqJ5uJkv
+         lf3ZTg1xSWGPaGZQEQNGbrw45ImJWS187drEtSfcYFe43qSZ6YYSnEOJJLJkBsrtYG2g
+         Aw6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0nL99pZ4RJUpEgtFxI8B3xt54A7EJNAJ95lZjHVoXWY=;
+        b=fBFA6xJ7r0RoQIOSuBP0DA8kIQbE6zlVCzokdx+z5IE/cvLTId4D3DZ8aZH+cP75Ho
+         Kd7PIi9MB9ELbllN3cQIkfajDeMUo2LjaoLkfsYuufP4cjJMjGnJ/DmkNmmMGofd+v7/
+         f5oKWV7h/kzKZA03tCdD6PrlJzQw/PQ9R73+mHzZ5wiWFvrs5QzghKDtcjtqHq0C8Rzg
+         O+rdHNnUrJNq5peQQF48cOD0hScJ42chqfCETDzNDPzD2B59rx4GA4+LOtETSrCAMkYK
+         r87scm/XZSdJXKrGSLH7CoIZYs+vxNGCcuJk6JWRy+zahJ/PcCTarWbSpn4iSdFvux5F
+         66dw==
+X-Gm-Message-State: ANoB5pmttUcqxs6OHtZjWO5s+rsqwu3ysBX5je9gJE05OBBUoLBQcIob
+        6jayPMb+teYO7oncfBVrjD7AM3i/vA5G7YPq9nM=
+X-Google-Smtp-Source: AA0mqf6MsS6kpVG7psn8SeuxEJiQ96AvHYPpr1XaJsJLgR8FGLibjVbju+H0gGWJSdpRxacxXeEN9ES49KS+b44uNRM=
+X-Received: by 2002:a05:6402:1f87:b0:468:7df:c38c with SMTP id
+ c7-20020a0564021f8700b0046807dfc38cmr46515406edc.150.1669643615154; Mon, 28
+ Nov 2022 05:53:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
+References: <20221031232202.131945-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221031232202.131945-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <738a2461-7a6a-286b-89e8-d46a26ec6506@xs4all.nl>
+In-Reply-To: <738a2461-7a6a-286b-89e8-d46a26ec6506@xs4all.nl>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 28 Nov 2022 13:53:08 +0000
+Message-ID: <CA+V-a8smCQ0+Gz7Fo-P0H6j_4OmEqS5dLOVhWWQz8hPKHbazpA@mail.gmail.com>
 Subject: Re: [PATCH v4 6/9] media: i2c: ov5645: Use runtime PM
-Content-Language: en-US
-To:     Prabhakar <prabhakar.csengg@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -41,176 +66,41 @@ To:     Prabhakar <prabhakar.csengg@gmail.com>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     Shawn Tu <shawnx.tu@intel.com>, Jacopo Mondi <jacopo@jmondi.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20221031232202.131945-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221031232202.131945-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20221031232202.131945-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Hans,
 
-On 11/1/22 00:21, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Switch to using runtime PM for power management.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> v3->v4
-> * Fixed comments pointed by Sakari
-> 
-> v2->v3
-> * Jumped to err_pm_runtime label in case of sd register failure
-> * Now calling pm_runtime_mark_last_busy() before pm_runtime_put_autosuspend()
->   call
-> * Now calling pm_runtime_put_sync() in case s_stream(1) fails
-> * In s_stream(0) no calling pm_runtime_mark_last_busy() and
->   pm_runtime_put_autosuspend()
-> * Included RB tag from Laurent.
-> 
-> v1->v2
-> * Moved pm_runtime_*_autosuspend() calls after registering the subdev.
-> ---
->  drivers/media/i2c/ov5645.c | 133 +++++++++++++++++++------------------
->  1 file changed, 68 insertions(+), 65 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> index 47451238ca05..2e6135d0a31a 100644
-> --- a/drivers/media/i2c/ov5645.c
-> +++ b/drivers/media/i2c/ov5645.c
-> @@ -27,6 +27,7 @@
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_graph.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
-> @@ -108,7 +109,6 @@ struct ov5645 {
->  	u8 timing_tc_reg21;
->  
->  	struct mutex power_lock; /* lock to protect power state */
-> -	int power_count;
->  
->  	struct gpio_desc *enable_gpio;
->  	struct gpio_desc *rst_gpio;
-> @@ -635,8 +635,24 @@ static int ov5645_set_register_array(struct ov5645 *ov5645,
->  	return 0;
->  }
->  
-> -static int ov5645_set_power_on(struct ov5645 *ov5645)
-> +static int ov5645_set_power_off(struct device *dev)
->  {
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ov5645 *ov5645 = to_ov5645(sd);
-> +
-> +	ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
-> +	gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
-> +	gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
-> +	clk_disable_unprepare(ov5645->xclk);
-> +	regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov5645_set_power_on(struct device *dev)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ov5645 *ov5645 = to_ov5645(sd);
->  	int ret;
->  
->  	ret = regulator_bulk_enable(OV5645_NUM_SUPPLIES, ov5645->supplies);
-> @@ -658,57 +674,19 @@ static int ov5645_set_power_on(struct ov5645 *ov5645)
->  
->  	msleep(20);
->  
-> -	return 0;
-> -}
-> -
-> -static void ov5645_set_power_off(struct ov5645 *ov5645)
-> -{
-> -	gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
-> -	gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
-> -	clk_disable_unprepare(ov5645->xclk);
-> -	regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
-> -}
-> -
-> -static int ov5645_s_power(struct v4l2_subdev *sd, int on)
-> -{
-> -	struct ov5645 *ov5645 = to_ov5645(sd);
-> -	int ret = 0;
-> -
-> -	mutex_lock(&ov5645->power_lock);
-> -
-> -	/* If the power count is modified from 0 to != 0 or from != 0 to 0,
-> -	 * update the power state.
-> -	 */
-> -	if (ov5645->power_count == !on) {
-> -		if (on) {
-> -			ret = ov5645_set_power_on(ov5645);
-> -			if (ret < 0)
-> -				goto exit;
-> -
-> -			ret = ov5645_set_register_array(ov5645,
-> -					ov5645_global_init_setting,
-> +	ret = ov5645_set_register_array(ov5645, ov5645_global_init_setting,
->  					ARRAY_SIZE(ov5645_global_init_setting));
-> -			if (ret < 0) {
-> -				dev_err(ov5645->dev,
-> -					"could not set init registers\n");
-> -				ov5645_set_power_off(ov5645);
-> -				goto exit;
-> -			}
-> -
-> -			usleep_range(500, 1000);
-> -		} else {
-> -			ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
-> -			ov5645_set_power_off(ov5645);
-> -		}
-> +	if (ret < 0) {
-> +		dev_err(ov5645->dev, "could not set init registers\n");
-> +		goto exit;
->  	}
->  
-> -	/* Update the power count. */
-> -	ov5645->power_count += on ? 1 : -1;
-> -	WARN_ON(ov5645->power_count < 0);
-> +	usleep_range(500, 1000);
->  
-> -exit:
-> -	mutex_unlock(&ov5645->power_lock);
-> +	return 0;
->  
-> +exit:
-> +	ov5645_set_power_off(dev);
->  	return ret;
+On Mon, Nov 28, 2022 at 1:49 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+<snip>
+> > +exit:
+> > +     ov5645_set_power_off(dev);
+> >       return ret;
+>
+> smatch gives this warning:
+>
+> drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+>
+> Can you take a look?
+>
+Sure I'll have a look at it.
 
-smatch gives this warning:
-
-drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-
-Can you take a look?
-
-Thanks!
-
-	Hans
-
->  }
-
+Cheers,
+Prabhakar
