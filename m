@@ -2,142 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D45CF63B5D5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Nov 2022 00:28:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B5BC63B638
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Nov 2022 01:03:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234653AbiK1X2E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Nov 2022 18:28:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45312 "EHLO
+        id S234340AbiK2ADW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Nov 2022 19:03:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233914AbiK1X2D (ORCPT
+        with ESMTP id S234279AbiK2ADW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Nov 2022 18:28:03 -0500
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13479303E7;
-        Mon, 28 Nov 2022 15:28:02 -0800 (PST)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-14279410bf4so15031256fac.8;
-        Mon, 28 Nov 2022 15:28:02 -0800 (PST)
+        Mon, 28 Nov 2022 19:03:22 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B1FF186D1;
+        Mon, 28 Nov 2022 16:03:20 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id ml11so5030777ejb.6;
+        Mon, 28 Nov 2022 16:03:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TdT+BmdIneu3TI8BLD07hqcjbUZk43YKZ9BLkChxuPo=;
+        b=ITLzLdBFltzXasiY87QzobnsGAjZcX0eJgUsWviLRRgFDR1MRrM4wsOblh9/4+aPB4
+         0JfrE9SZtsCFujA8tq23N3E0AU5kGd/U9kNLDNPzO9Za1iRKHD9TomJ+/ntSxcAv0Y01
+         wSMzvLcdHUXNh8lqpaHHYYoxOcyrv3yD1kVbu3x+HlgbjGHJ+F1+yj3mtX3BsWqnO+63
+         KTIWo3kYnm8ybgI6QnNyMqUkOFHRs82X2UHVwwg/ihCrBmi5bsW6KRSxLc+CigJKDLRR
+         Jsp60TaeQ6fZLG+iPAmuAkRt30YUaa+EjLRWAOZ7g97549Ly0HjnWS7J7uSH5/yZMJ67
+         W8RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tkm1rZJjYKH+0e9XPZ9u8/k0fPDDDPFuGFSeOnuxztc=;
-        b=a48QLAhy9596GHqxirjRR600UZtVmJgk717cAI5ueGLBZiTlDzzGNfjqbySuRQmgBE
-         gopBJSWHPJKX5z9N3SAJqFkPvkDjM2r8eixh6jBsobnNotoI3e03dWYydPN7y2Bss6bC
-         +XJWuteHpwDDyZZq02xjsCHWSvBhal7d8ALjI0YWkbfg02z285NCcChzR1i2X8Af3749
-         JBeI1IGTWHRqVw2cXxZ3rIMEGa1Wb7L8ZTggZrcYBqk7/0F46P8+wa5LiQW8otoYxBWa
-         FXwYusDUkd9fcyNYOHXznlE/LmevhqJhT8liJUUWUZ8LvFPajN/Cfa9uMYzBH0n6T30I
-         i+uA==
-X-Gm-Message-State: ANoB5pluewewhbuCvqeGfDwycaeBUWyY7Vp3ZObDDiXCpStTERIUPBci
-        8ibSkD64qe+kL7er3A61vA==
-X-Google-Smtp-Source: AA0mqf6qF068jOcZq5Clqc6PLJt0qCSUkbx+Op8bIK1f/R2Musri8+9p2qalTkmaXTGmtt/SSb+sHw==
-X-Received: by 2002:a05:6871:438a:b0:13b:a9ac:ad64 with SMTP id lv10-20020a056871438a00b0013ba9acad64mr21826598oab.290.1669678081277;
-        Mon, 28 Nov 2022 15:28:01 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id b5-20020a056870d1c500b00143776f70d3sm5043217oac.29.2022.11.28.15.27.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Nov 2022 15:28:00 -0800 (PST)
-Received: (nullmailer pid 1691394 invoked by uid 1000);
-        Mon, 28 Nov 2022 23:27:59 -0000
-Date:   Mon, 28 Nov 2022 17:27:59 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Colin Foster <colin.foster@in-advantage.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, netdev@vger.kernel.org,
-        John Crispin <john@phrozen.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Marek Vasut <marex@denx.de>,
-        Sean Wang <sean.wang@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        =?UTF-8?B?bsOnIMOcTkFM?= <arinc.unal@arinc9.com>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        UNGLinuxDriver@microchip.com,
-        Woojung Huh <woojung.huh@microchip.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        George McCollister <george.mccollister@gmail.com>
-Subject: Re: [PATCH v3 net-next 04/10] dt-bindings: net: dsa: allow
- additional ethernet-port properties
-Message-ID: <20221128232759.GB1513198-robh@kernel.org>
-References: <20221127224734.885526-1-colin.foster@in-advantage.com>
- <20221127224734.885526-5-colin.foster@in-advantage.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TdT+BmdIneu3TI8BLD07hqcjbUZk43YKZ9BLkChxuPo=;
+        b=QWy7xPeVhog24jn7VED9vydNy5CdhIZG/J6Azq8vZ44ljo5QJEYd+DyoOgvDtLn75s
+         BVnumjbCorBs6FeJmZy0ekUhqLNWD+t04hyg2NC6JDSxkcs8hU0flRH0ECG8Gi5+gWBR
+         A0OrywqLaIpzZxm69+tiqHUO/PY08sF/Z7BBLEomjHzH6aWhvCGOZAPmZpRft9ecKfoz
+         qoEicKMlhoF4UyGUIOr5SPOIdlJ6gHuriFvuYdEzp7qox1DM2hiGko/WSgZWZWQbXze8
+         EacPPvPBH39fyLqWI707tkxoju8xLMmExlzZtpx7d8yOKX6cy2nAJJ1U5oAX/eyi7A7j
+         o3Rg==
+X-Gm-Message-State: ANoB5pngbqfWxhNEH4XMeiQbqQ9VixjI4Hrmn9TMiDD160q/AuxIk9+H
+        gDjDqJymO/cvZpryiIJbed4nCkGew/7bJps1VPg=
+X-Google-Smtp-Source: AA0mqf6fZM8tA810LE12Y15mX6MIkaG2UqDn3lS7Cb+AUhc5yb+m4XendEUXBVGYmQ36nUCanxQnZ2pOmiYUlk7SLu8=
+X-Received: by 2002:a17:906:79c4:b0:778:e3e2:8311 with SMTP id
+ m4-20020a17090679c400b00778e3e28311mr31820692ejo.342.1669680198945; Mon, 28
+ Nov 2022 16:03:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221127224734.885526-5-colin.foster@in-advantage.com>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+References: <20221031232202.131945-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221031232202.131945-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <738a2461-7a6a-286b-89e8-d46a26ec6506@xs4all.nl>
+In-Reply-To: <738a2461-7a6a-286b-89e8-d46a26ec6506@xs4all.nl>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 29 Nov 2022 00:02:52 +0000
+Message-ID: <CA+V-a8tr9486HV4zvVG3bh4fWNQ-edUDPMZAUM-kKDN-PvRU+w@mail.gmail.com>
+Subject: Re: [PATCH v4 6/9] media: i2c: ov5645: Use runtime PM
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Nov 27, 2022 at 02:47:28PM -0800, Colin Foster wrote:
-> Explicitly allow additional properties for both the ethernet-port and
-> ethernet-ports properties. This specifically will allow the qca8k.yaml
-> binding to use shared properties.
-> 
-> Signed-off-by: Colin Foster <colin.foster@in-advantage.com>
-> ---
-> 
-> v2 -> v3
->   * No change
-> 
-> v1 -> v2
->   * New patch
-> 
-> ---
->  Documentation/devicetree/bindings/net/dsa/dsa.yaml | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/net/dsa/dsa.yaml b/Documentation/devicetree/bindings/net/dsa/dsa.yaml
-> index bd1f0f7c14a8..87475c2ab092 100644
-> --- a/Documentation/devicetree/bindings/net/dsa/dsa.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/dsa.yaml
-> @@ -38,6 +38,8 @@ patternProperties:
->        '#size-cells':
->          const: 0
->  
-> +    additionalProperties: true
-> +
+Hi Hans,
 
-Where then do we restrict adding properties to ethernet-ports nodes?
+On Mon, Nov 28, 2022 at 1:49 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> Hi Prabhakar,
+>
+> On 11/1/22 00:21, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+<snip>
+> > -static void ov5645_set_power_off(struct ov5645 *ov5645)
+> > -{
+> > -     gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
+> > -     gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
+> > -     clk_disable_unprepare(ov5645->xclk);
+> > -     regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
+> > -}
+> > -
+> > -static int ov5645_s_power(struct v4l2_subdev *sd, int on)
+> > -{
+> > -     struct ov5645 *ov5645 = to_ov5645(sd);
+> > -     int ret = 0;
+> > -
+> > -     mutex_lock(&ov5645->power_lock);
+> > -
+> > -     /* If the power count is modified from 0 to != 0 or from != 0 to 0,
+> > -      * update the power state.
+> > -      */
+> > -     if (ov5645->power_count == !on) {
+> > -             if (on) {
+> > -                     ret = ov5645_set_power_on(ov5645);
+> > -                     if (ret < 0)
+> > -                             goto exit;
+> > -
+> > -                     ret = ov5645_set_register_array(ov5645,
+> > -                                     ov5645_global_init_setting,
+> > +     ret = ov5645_set_register_array(ov5645, ov5645_global_init_setting,
+> >                                       ARRAY_SIZE(ov5645_global_init_setting));
+> > -                     if (ret < 0) {
+> > -                             dev_err(ov5645->dev,
+> > -                                     "could not set init registers\n");
+> > -                             ov5645_set_power_off(ov5645);
+> > -                             goto exit;
+> > -                     }
+> > -
+> > -                     usleep_range(500, 1000);
+> > -             } else {
+> > -                     ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
+> > -                     ov5645_set_power_off(ov5645);
+> > -             }
+> > +     if (ret < 0) {
+> > +             dev_err(ov5645->dev, "could not set init registers\n");
+> > +             goto exit;
+> >       }
+> >
+> > -     /* Update the power count. */
+> > -     ov5645->power_count += on ? 1 : -1;
+> > -     WARN_ON(ov5645->power_count < 0);
+> > +     usleep_range(500, 1000);
+> >
+> > -exit:
+> > -     mutex_unlock(&ov5645->power_lock);
+> > +     return 0;
+> >
+> > +exit:
+> > +     ov5645_set_power_off(dev);
+> >       return ret;
+>
+> smatch gives this warning:
+>
+> drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+>
+it's a false positive, as in case of error we jump to the exit label
+which calls ov5645_set_power_off() which internally calls
+clk_disable_unprepare() for xclk and on success we need to have xclk
+ON during s_stream(ON) and eventually the
+xclk will be unprepared in s_stream(OFF).
 
->      patternProperties:
->        "^(ethernet-)?port@[0-9]+$":
->          type: object
-> @@ -45,7 +47,7 @@ patternProperties:
->  
->          $ref: dsa-port.yaml#
->  
-> -        unevaluatedProperties: false
-> +        unevaluatedProperties: true
-
-Same question for ethernet-port nodes.
-
->  
->  oneOf:
->    - required:
-> -- 
-> 2.25.1
-> 
-> 
+Cheers,
+Prabhakar
