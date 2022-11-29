@@ -2,37 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3568963C275
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Nov 2022 15:28:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6660063C5D9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Nov 2022 17:59:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232372AbiK2O2N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Nov 2022 09:28:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38754 "EHLO
+        id S236396AbiK2Q7O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Nov 2022 11:59:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234624AbiK2O2F (ORCPT
+        with ESMTP id S236268AbiK2Q6w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Nov 2022 09:28:05 -0500
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 418743880
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Nov 2022 06:28:01 -0800 (PST)
+        Tue, 29 Nov 2022 11:58:52 -0500
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1404E6B386
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Nov 2022 08:53:32 -0800 (PST)
 Received: from ramsan.of.borg ([84.195.186.194])
-        by michel.telenet-ops.be with bizsmtp
-        id qETz2800D4C55Sk06ETzp5; Tue, 29 Nov 2022 15:27:59 +0100
+        by albert.telenet-ops.be with bizsmtp
+        id qGtW2800Z4C55Sk06GtWfJ; Tue, 29 Nov 2022 17:53:30 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1p01aY-0022Vc-TX
-        for linux-renesas-soc@vger.kernel.org; Tue, 29 Nov 2022 15:27:58 +0100
+        id 1p03rO-0023T6-3O; Tue, 29 Nov 2022 17:53:30 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1p01aY-002cbP-9U
-        for linux-renesas-soc@vger.kernel.org; Tue, 29 Nov 2022 15:27:58 +0100
+        id 1p03rN-003MCp-KN; Tue, 29 Nov 2022 17:53:29 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2022-11-29-v6.1-rc7
-Date:   Tue, 29 Nov 2022 15:27:58 +0100
-Message-Id: <20221129142758.625000-1-geert+renesas@glider.be>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] clk: renesas: r8a779g0: Fix OSC predividers
+Date:   Tue, 29 Nov 2022 17:53:25 +0100
+Message-Id: <dcd572acc584c237f70d2309e038f25040236a87.1669740722.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -45,84 +47,52 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2022-11-29-v6.1-rc7 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+According to the table in Note 5 for the OSC clock in Table 8.1.4e
+("Lists of CPG clocks generated from PLL5") of the R-Car V4H Series
+Hardware User's Manual Rev. 0.54, the predividers for the OSC clock are
+16 resp. 32 when using a 16.66 resp. 33.33 MHz external crystal.
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+Fixes: 0ab55cf1834177a2 ("clk: renesas: cpg-mssr: Add support for R-Car V4H")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-clk-for-v6.3.
 
-Today's version is based on renesas-devel-2022-11-28-v6.1-rc7.
+Presumably this was copied from r8a779f0-cpg-mssr.c, as R-Car S4-8 does
+support dividers of 15 and 19 with a 16.00 resp. 40.00 MHz external
+crystal.
+---
+ drivers/clk/renesas/r8a779g0-cpg-mssr.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Included branches with driver code:
-  - renesas-clk-for-v6.2
-  - renesas-pinctrl-for-v6.2
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/gpio-logic-analyzer-v8~1
+diff --git a/drivers/clk/renesas/r8a779g0-cpg-mssr.c b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+index 9863f1a51f4b36e2..2feb97fc37759267 100644
+--- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+@@ -212,20 +212,20 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
+  *   MD	 EXTAL		PLL1	PLL2	PLL3	PLL4	PLL5	PLL6	OSC
+  * 14 13 (MHz)
+  * ------------------------------------------------------------------------
+- * 0  0	 16.66 / 1	x192	x204	x192	x144	x192	x168	/15
++ * 0  0	 16.66 / 1	x192	x204	x192	x144	x192	x168	/16
+  * 0  1	 20    / 1	x160	x170	x160	x120	x160	x140	/19
+  * 1  0	 Prohibited setting
+- * 1  1	 33.33 / 2	x192	x204	x192	x144	x192	x168	/38
++ * 1  1	 33.33 / 2	x192	x204	x192	x144	x192	x168	/32
+  */
+ #define CPG_PLL_CONFIG_INDEX(md)	((((md) & BIT(14)) >> 13) | \
+ 					 (((md) & BIT(13)) >> 13))
+ 
+ static const struct rcar_gen4_cpg_pll_config cpg_pll_configs[4] = {
+ 	/* EXTAL div	PLL1 mult/div	PLL2 mult/div	PLL3 mult/div	PLL4 mult/div	PLL5 mult/div	PLL6 mult/div	OSC prediv */
+-	{ 1,		192,	1,	204,	1,	192,	1,	144,	1,	192,	1,	168,	1,	15,	},
++	{ 1,		192,	1,	204,	1,	192,	1,	144,	1,	192,	1,	168,	1,	16,	},
+ 	{ 1,		160,	1,	170,	1,	160,	1,	120,	1,	160,	1,	140,	1,	19,	},
+ 	{ 0,		0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	},
+-	{ 2,		192,	1,	204,	1,	192,	1,	144,	1,	192,	1,	168,	1,	38,	},
++	{ 2,		192,	1,	204,	1,	192,	1,	144,	1,	192,	1,	168,	1,	32,	},
+ };
+ 
+ static int __init r8a779g0_cpg_mssr_init(struct device *dev)
+-- 
+2.25.1
 
-Included fixes:
-  - [LOCAL] soc: renesas: rcar-rst: Allow WDT reset on R-Car Gen4
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
-
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git#irq/irqchip-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.libc.org/linux-sh#for-next
-  - https://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
