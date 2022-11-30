@@ -2,172 +2,253 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C71463E332
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Nov 2022 23:11:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A270163E277
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Nov 2022 22:06:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229497AbiK3WLm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Nov 2022 17:11:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57884 "EHLO
+        id S229568AbiK3VGS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Nov 2022 16:06:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbiK3WLk (ORCPT
+        with ESMTP id S229513AbiK3VGR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Nov 2022 17:11:40 -0500
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE7D083265
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Nov 2022 14:11:38 -0800 (PST)
-Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-141ca09c2fbso106844fac.6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Nov 2022 14:11:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/pCusU2BJ3AKcUs3H3Y2D3hgYCxdx4f+iS/Ul4LVuyU=;
-        b=olgD+zuE0H+I4nks8M+HL18aR6YwnxVl/XgX1xdITkFmdalzZCLz/w40bEle8BJYyE
-         smuiwpALu4k30KMf+QUSyGk8AXGCOBdhkAYXDWljd+ML+2FFgUp2UvI3xST3XM74lbJ4
-         xIVHpORo10eZ4f6GYMmFnFEqKPfLWAF4C0R7juSjQHASET9lcVPC8Ni+xQYezTkXly05
-         WFOdvphGwz+/95JJRfPWHyljZAQtkY2ncpoo7JYDnLVm1w496tJ0dorpAFmdOissrVrk
-         mzIbSe1WvtHtqvzjpFfDx66TQ4qGZgc2SLZOEHXHkq/nUfCf2PRFDK4PU5XJUpo/5ysj
-         /8FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/pCusU2BJ3AKcUs3H3Y2D3hgYCxdx4f+iS/Ul4LVuyU=;
-        b=J2kqfmIZn27OV3Bi32FjIn2FZUmFslX0FD2JIfT0ZKR2wklhq6gn3HUcMBgx99dnu6
-         uj218LWMgrLnMduNa+jPIhIXsb4hYWRM2IVdXd4SPhTPUYlXZsJ6MFoFT1vWt4JmR170
-         p/jggm6JzD9qEQ2ZXBoeRB7bHKjSaX6uEMlxPzGjkGC7bIA00h7LAiVK71YpwPaKFKSU
-         AIGyoMDnlY2SBfsmyk3t3DC86Jp3Nng8Qb3IRjQ3xVzrjDg9eNG6LrecbXJC8eBU0RpL
-         xu0HRm/caH7C7lqyppuqR0hgCm29NjWPMNiC8LRwIykQgfa354+Sif/kdgeBVbRErCk/
-         GgiA==
-X-Gm-Message-State: ANoB5pkspWEsTXHzsELawQuTjW7cv+s3g57mPAilcq/jniATMm+bOfLY
-        FK1Mdl2IUrMrby314dSOfEwjvw==
-X-Google-Smtp-Source: AA0mqf5zf/1QpNqzGWYrGkedQ2NDVBMvpc2HmLZ9CMm4xVmsOqD1pcdFEngAa7tDxhMcrNIT6tePLQ==
-X-Received: by 2002:a05:6870:805:b0:13b:f163:2732 with SMTP id fw5-20020a056870080500b0013bf1632732mr24537280oab.192.1669846298072;
-        Wed, 30 Nov 2022 14:11:38 -0800 (PST)
-Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
-        by smtp.gmail.com with ESMTPSA id y6-20020a544d86000000b00359af7ea8fdsm1094236oix.34.2022.11.30.14.11.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Nov 2022 14:11:37 -0800 (PST)
-Date:   Tue, 22 Nov 2022 09:12:22 -0500
-From:   William Breathitt Gray <william.gray@linaro.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     linux-iio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v7 3/5] Documentation: ABI: sysfs-bus-counter: add
- cascade_enable and external_input_phase_clock_select
-Message-ID: <Y3zYxtelBVrdbQ9g@fedora>
-References: <20221124170018.3150687-1-biju.das.jz@bp.renesas.com>
- <20221124170018.3150687-4-biju.das.jz@bp.renesas.com>
+        Wed, 30 Nov 2022 16:06:17 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 596AE862D4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Nov 2022 13:06:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=fGeB69K7vNARYHE0In4LF63NiK5
+        kwstZrsX34GY+rdk=; b=kAdoHXP80t5vkovt2TGBxsygkqzEDU1YkLJaaum+lJc
+        oh99WCCdtWLlr8kWyNrFy8lMIKe0+tMKDI/xnmY+uYb1YdMygwdrYBFR0cCPwmwM
+        eaK+RlPgO7k6iXawtGHJ3ZVVJlTaA7d1yeNlplrpz9RkZoQUN9lLOdHsQ2PYsVXQ
+        =
+Received: (qmail 200442 invoked from network); 30 Nov 2022 22:06:11 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Nov 2022 22:06:11 +0100
+X-UD-Smtp-Session: l3s3148p1@Ejdlebbu/OYgAQnoAHGJAMsVZOhAgWYe
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] clocksource/drivers/sh_cmt: access registers according to spec
+Date:   Wed, 30 Nov 2022 22:06:09 +0100
+Message-Id: <20221130210609.7718-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="0GvAFZQ6lniQ9bB2"
-Content-Disposition: inline
-In-Reply-To: <20221124170018.3150687-4-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=1.3 required=5.0 tests=BAYES_00,DATE_IN_PAST_96_XX,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Documentation for most CMTs say that we need to wait two input clocks
+before changes propagate to the timer. This is especially relevant when
+we stop the timer to change further settings. Implement the delays
+according to the spec. To avoid unnecessary delays in atomic mode, we
+also check if the to-be-written value actually differs. CMCNT is a bit
+special because testing showed that we need to wait 3 cycles instead.
+AFAIU, this is also true for all CMTs. Also, the WRFLAG needs to be
+checked before writing. This fixes "cannot clear CMCNT" messages which
+occur often on R-Car Gen4 SoCs, but only very rarely on older SoCs for
+some reason.
 
---0GvAFZQ6lniQ9bB2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: 81b3b2711072 ("clocksource: sh_cmt: Add support for multiple channels per device")
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-On Thu, Nov 24, 2022 at 05:00:16PM +0000, Biju Das wrote:
-> This commit adds cascade_enable and external_input_phase_clock_
-> select items to counter ABI file.
-> (e.g. for Renesas MTU3 hardware used for phase counting).
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Changes since RFC v2:
+* use DIV_ROUND_UP also for caluclating cmcnt_delay
+* remove a FIXME comment
 
-I have a few comments below left for this patch. Assuming these are
-resolved, then I expect to ack this patch in the next submission.
+There were no further comments, so I dropped the RFC status and send
+this as a regular patch. Here again the introduction from RFC v1:
 
-> ---
-> v6->v7:
->  * Replaced long_word_access_ctrl_mode->cascade_enable
->  * Updated Kernel version
-> v5->v6:
->  * No change
-> v5:
->  * New patch
-> ---
->  Documentation/ABI/testing/sysfs-bus-counter | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->=20
-> diff --git a/Documentation/ABI/testing/sysfs-bus-counter b/Documentation/=
-ABI/testing/sysfs-bus-counter
-> index ff83320b4255..abc691b13b0f 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-counter
-> +++ b/Documentation/ABI/testing/sysfs-bus-counter
-> @@ -215,6 +215,22 @@ Contact:	linux-iio@vger.kernel.org
->  Description:
->  		This attribute indicates the number of overflows of count Y.
-> =20
-> +What:		/sys/bus/counter/devices/counterX/cascade_enable
+With this patch, I can run the 'clocksource-switch' test (from the Linux
+selftests) without any warnings printed on the Spider S4 and the Ebisu
+E3 board. Both printed the warnings before, the Spider immediately, the
+Ebisu rarely but still. The price for this correctness is that the tests
+run much longer due to the udelays in atomic mode. However, I consider
+the massive switching a corner case. Usually, one switches rarely so the
+extra delay is worth the correctness IMHO.
 
-It's possible that in the future we might cascading other things as
-well, so let's make this name more specific: "cascade_counts_enable".
+Happy hacking,
 
-> +KernelVersion:	6.3
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		This attribute indicates the cascading of counts on
-> +		counter X.
+   Wolfram
 
-Add a line stating this is a boolean attribute: "Valid attribute values
-are boolean."
 
-> +
-> +What:		/sys/bus/counter/devices/counterX/external_input_phase_clock_sele=
-ct
-> +KernelVersion:	6.3
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		This attribute selects the external clock pin for phase
-> +		counting mode of counter X.
+ drivers/clocksource/sh_cmt.c | 88 ++++++++++++++++++++++--------------
+ 1 file changed, 55 insertions(+), 33 deletions(-)
 
-This is a driver-specific enum attribute so it needs a corresponding
-*_available entry. Take a look at the count_mode_available entry in this
-file and use that as a template to create a new entry block for
-external_input_phase_clock_select_available.
+diff --git a/drivers/clocksource/sh_cmt.c b/drivers/clocksource/sh_cmt.c
+index 64dcb082d4cf..7b952aa52c0b 100644
+--- a/drivers/clocksource/sh_cmt.c
++++ b/drivers/clocksource/sh_cmt.c
+@@ -13,6 +13,7 @@
+ #include <linux/init.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
++#include <linux/iopoll.h>
+ #include <linux/ioport.h>
+ #include <linux/irq.h>
+ #include <linux/module.h>
+@@ -116,6 +117,7 @@ struct sh_cmt_device {
+ 	void __iomem *mapbase;
+ 	struct clk *clk;
+ 	unsigned long rate;
++	unsigned int reg_delay;
+ 
+ 	raw_spinlock_t lock; /* Protect the shared start/stop register */
+ 
+@@ -247,10 +249,17 @@ static inline u32 sh_cmt_read_cmstr(struct sh_cmt_channel *ch)
+ 
+ static inline void sh_cmt_write_cmstr(struct sh_cmt_channel *ch, u32 value)
+ {
+-	if (ch->iostart)
+-		ch->cmt->info->write_control(ch->iostart, 0, value);
+-	else
+-		ch->cmt->info->write_control(ch->cmt->mapbase, 0, value);
++	u32 old_value = sh_cmt_read_cmstr(ch);
++
++	if (value != old_value) {
++		if (ch->iostart) {
++			ch->cmt->info->write_control(ch->iostart, 0, value);
++			udelay(ch->cmt->reg_delay);
++		} else {
++			ch->cmt->info->write_control(ch->cmt->mapbase, 0, value);
++			udelay(ch->cmt->reg_delay);
++		}
++	}
+ }
+ 
+ static inline u32 sh_cmt_read_cmcsr(struct sh_cmt_channel *ch)
+@@ -260,7 +269,12 @@ static inline u32 sh_cmt_read_cmcsr(struct sh_cmt_channel *ch)
+ 
+ static inline void sh_cmt_write_cmcsr(struct sh_cmt_channel *ch, u32 value)
+ {
+-	ch->cmt->info->write_control(ch->ioctrl, CMCSR, value);
++	u32 old_value = sh_cmt_read_cmcsr(ch);
++
++	if (value != old_value) {
++		ch->cmt->info->write_control(ch->ioctrl, CMCSR, value);
++		udelay(ch->cmt->reg_delay);
++	}
+ }
+ 
+ static inline u32 sh_cmt_read_cmcnt(struct sh_cmt_channel *ch)
+@@ -268,14 +282,33 @@ static inline u32 sh_cmt_read_cmcnt(struct sh_cmt_channel *ch)
+ 	return ch->cmt->info->read_count(ch->ioctrl, CMCNT);
+ }
+ 
+-static inline void sh_cmt_write_cmcnt(struct sh_cmt_channel *ch, u32 value)
++static inline int sh_cmt_write_cmcnt(struct sh_cmt_channel *ch, u32 value)
+ {
++	/* Tests showed that we need to wait 3 clocks here */
++	unsigned int cmcnt_delay = DIV_ROUND_UP(3 * ch->cmt->reg_delay, 2);
++	u32 reg;
++
++	if (ch->cmt->info->model > SH_CMT_16BIT) {
++		int ret = read_poll_timeout_atomic(sh_cmt_read_cmcsr, reg,
++						   !(reg & SH_CMT32_CMCSR_WRFLG),
++						   1, cmcnt_delay, false, ch);
++		if (ret < 0)
++			return ret;
++	}
++
+ 	ch->cmt->info->write_count(ch->ioctrl, CMCNT, value);
++	udelay(cmcnt_delay);
++	return 0;
+ }
+ 
+ static inline void sh_cmt_write_cmcor(struct sh_cmt_channel *ch, u32 value)
+ {
+-	ch->cmt->info->write_count(ch->ioctrl, CMCOR, value);
++	u32 old_value = ch->cmt->info->read_count(ch->ioctrl, CMCOR);
++
++	if (value != old_value) {
++		ch->cmt->info->write_count(ch->ioctrl, CMCOR, value);
++		udelay(ch->cmt->reg_delay);
++	}
+ }
+ 
+ static u32 sh_cmt_get_counter(struct sh_cmt_channel *ch, u32 *has_wrapped)
+@@ -319,7 +352,7 @@ static void sh_cmt_start_stop_ch(struct sh_cmt_channel *ch, int start)
+ 
+ static int sh_cmt_enable(struct sh_cmt_channel *ch)
+ {
+-	int k, ret;
++	int ret;
+ 
+ 	dev_pm_syscore_device(&ch->cmt->pdev->dev, true);
+ 
+@@ -347,26 +380,9 @@ static int sh_cmt_enable(struct sh_cmt_channel *ch)
+ 	}
+ 
+ 	sh_cmt_write_cmcor(ch, 0xffffffff);
+-	sh_cmt_write_cmcnt(ch, 0);
+-
+-	/*
+-	 * According to the sh73a0 user's manual, as CMCNT can be operated
+-	 * only by the RCLK (Pseudo 32 kHz), there's one restriction on
+-	 * modifying CMCNT register; two RCLK cycles are necessary before
+-	 * this register is either read or any modification of the value
+-	 * it holds is reflected in the LSI's actual operation.
+-	 *
+-	 * While at it, we're supposed to clear out the CMCNT as of this
+-	 * moment, so make sure it's processed properly here.  This will
+-	 * take RCLKx2 at maximum.
+-	 */
+-	for (k = 0; k < 100; k++) {
+-		if (!sh_cmt_read_cmcnt(ch))
+-			break;
+-		udelay(1);
+-	}
++	ret = sh_cmt_write_cmcnt(ch, 0);
+ 
+-	if (sh_cmt_read_cmcnt(ch)) {
++	if (ret || sh_cmt_read_cmcnt(ch)) {
+ 		dev_err(&ch->cmt->pdev->dev, "ch%u: cannot clear CMCNT\n",
+ 			ch->index);
+ 		ret = -ETIMEDOUT;
+@@ -995,8 +1011,8 @@ MODULE_DEVICE_TABLE(of, sh_cmt_of_table);
+ 
+ static int sh_cmt_setup(struct sh_cmt_device *cmt, struct platform_device *pdev)
+ {
+-	unsigned int mask;
+-	unsigned int i;
++	unsigned int mask, i;
++	unsigned long rate;
+ 	int ret;
+ 
+ 	cmt->pdev = pdev;
+@@ -1032,10 +1048,16 @@ static int sh_cmt_setup(struct sh_cmt_device *cmt, struct platform_device *pdev)
+ 	if (ret < 0)
+ 		goto err_clk_unprepare;
+ 
+-	if (cmt->info->width == 16)
+-		cmt->rate = clk_get_rate(cmt->clk) / 512;
+-	else
+-		cmt->rate = clk_get_rate(cmt->clk) / 8;
++	rate = clk_get_rate(cmt->clk);
++	if (!rate) {
++		ret = -EINVAL;
++		goto err_clk_disable;
++	}
++
++	/* We shall wait 2 input clks after register writes */
++	if (cmt->info->model >= SH_CMT_48BIT)
++		cmt->reg_delay = DIV_ROUND_UP(2UL * USEC_PER_SEC, rate);
++	cmt->rate = rate / (cmt->info->width == 16 ? 512 : 8);
+ 
+ 	/* Map the memory resource(s). */
+ 	ret = sh_cmt_map_memory(cmt);
+-- 
+2.35.1
 
-> +
-> +What:		/sys/bus/counter/devices/counterX/cascade_enable
-> +What:		/sys/bus/counter/devices/counterX/external_input_phase_clock_sele=
-ct
-
-These two lines are missing the '_id' suffix: "cascade_enable_id" and
-"external_input_phase_clock_select_id".
-
-William Breathitt Gray
-
->  What:		/sys/bus/counter/devices/counterX/countY/capture_component_id
->  What:		/sys/bus/counter/devices/counterX/countY/ceiling_component_id
->  What:		/sys/bus/counter/devices/counterX/countY/floor_component_id
-> --=20
-> 2.25.1
->=20
-
---0GvAFZQ6lniQ9bB2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCY3zYxgAKCRC1SFbKvhIj
-Kz9oAP9F+PSra8JOBHkj/x7nPzOH8BvL4duP8H2D0Mj2FWLipgEA36dRN5SqoW+G
-yI4n7OrXnodaMagkzEINkf0c26muSgM=
-=+Yh7
------END PGP SIGNATURE-----
-
---0GvAFZQ6lniQ9bB2--
