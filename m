@@ -2,107 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 462CE63FB96
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Dec 2022 00:05:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 746F863FC22
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Dec 2022 00:36:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230493AbiLAXFz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Dec 2022 18:05:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35402 "EHLO
+        id S231628AbiLAXge (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Dec 2022 18:36:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230059AbiLAXFx (ORCPT
+        with ESMTP id S231915AbiLAXga (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Dec 2022 18:05:53 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B309CBD0EE
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Dec 2022 15:05:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=yipVKPNs2j8Iep1ygWdkOKkYn7Al
-        KHXAae4EHbage6o=; b=LBgPV3bKK+ZYH4UYq/ijNCltP6BOYGIB0zKn66v0Gre0
-        WM6XqyCEkDMj2JkvhMIKfB27r/RLah7RiKc0EcZ+cdYamxNIubiitrn2p2GEj6fv
-        KEEtDOJiKxxLN6/1jb5y1rkW7sIPIJAwbWcR2USHWN9oTaa6PlyC+kG81E9IMsA=
-Received: (qmail 821666 invoked from network); 2 Dec 2022 00:05:48 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Dec 2022 00:05:48 +0100
-X-UD-Smtp-Session: l3s3148p1@n337QszuQM1ehhrO
-Date:   Fri, 2 Dec 2022 00:05:47 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] dt-bindings: i2c: renesas,riic: Document RZ/Five SoC
-Message-ID: <Y4kzSzL9167D2pRE@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
+        Thu, 1 Dec 2022 18:36:30 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6E13BE100;
+        Thu,  1 Dec 2022 15:36:26 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 72E36621B1;
+        Thu,  1 Dec 2022 23:36:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 511E5C433D6;
+        Thu,  1 Dec 2022 23:36:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669937785;
+        bh=VqnsrWM0Vo9n3c7N8+McUIw2HirTpnKJAftxv+kRgs0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uLy9Z3Y4Km1xs94oZ2ESTUJXcVCpjQk8O3w1yvHQQsuFACf30OnlEH9hGh6HWlhkx
+         UVkv7qlRYsO77M1GGSe3YCmG2q6euMuUqYKGAq6UtOP4m5Hx1dSiv1uB8TQdZ18XqR
+         09SlcnDMTWH7DRJWZH70c5Zu5jtGOkOY6FNl27qskx1smSN4fM+8901gVceMiXXg+w
+         Gqrv72aSDc+M23KE7kZIuCbED6gNxafnowUJW+9atlo2frZ/9gXywYPeEKgXXZiT7/
+         +vfvvIWS2ThLlzK0iKVHceIUnMYdk8Mrvkona/TsJu23WXI9kMaZEmdNkMTSbidpVq
+         CokV6334wg6Hw==
+Date:   Thu, 1 Dec 2022 23:36:18 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Prabhakar <prabhakar.csengg@gmail.com>, palmer@dabbelt.com
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Brandt <chris.brandt@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20221115123018.1182324-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v4 0/7] AX45MP: Add support to non-coherent DMA
+Message-ID: <Y4k6ct+iA4j0NZgR@spud>
+References: <20221124172207.153718-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="gxXpcdmxfbIsO9nR"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221115123018.1182324-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20221124172207.153718-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Prabhakar,
 
---gxXpcdmxfbIsO9nR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm going to mark this series as "Changes Requested" in patchwork since
+there's been quite a lot of commentary and it looks like Samuel & Heiko
+have both suggested some changes.
+Scream if you think that's not appropriate :)
 
-On Tue, Nov 15, 2022 at 12:30:18PM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> The RIIC block on the RZ/Five SoC is identical to one found on the RZ/G2UL
-> SoC. "renesas,riic-r9a07g043" compatible string will be used on the
-> RZ/Five SoC so to make this clear, update the comment to include RZ/Five
-> SoC.
->=20
-> No driver changes are required as generic compatible string
-> "renesas,riic-rz" will be used as a fallback on RZ/Five SoC.
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Applied to for-next, thanks!
-
-
---gxXpcdmxfbIsO9nR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmOJM0sACgkQFA3kzBSg
-KbYKZA/+NbUXqAOGLbaxBJT2wXjnHrlBRnlQ09/BSS1PdlN1XbMPN3rFMFvM6D6D
-Xxaa5g2WpeqtdGagUs1CX0PK7o+VkXV7gZO6IA7YR1BK1RUkD0z5sX/LRbgAP5VW
-k1kfCtM9ggyKBpkhvyBk/UB0DyPnqIsdGQV4SksuHi3TNQvk4MXcVx2+pnEJeNPg
-bSWXvXsznOu35Za08PatA2Pik3gWayCdh6Qno5egl6r64IrVSEZ3OjFKxn9ZFMM7
-eNO7+pOOKUBnquqEtyNtNR+P2qgTAjvcv/H65F1uyih1uCpoXy7eGECWDceY0toA
-a/xlbIwSbSsVA9lC7kH/UrwmnioECb0pg9bHLsYT7IvC4RjWeHb8+akCFtSKCigr
-xFrMpaZegSE40ebGQvNkMiCH8+1SD7jLO0k3EYWw0gCRNz1YybnA2YfuNIsH/uQU
-xXXaAwpzAZ7naNsSUMOgRpunfPIa9uGjBJLJorOVlu97vEFg0V/qpnKtkUvL9nji
-bUigtr+gnvhZec4j0CuaZA/LycULOqSqb7aRPUf2zap97fJHm1eqJMmyXTYrtBRK
-L646cbZvKiakeByfcejiUHQCeOxxqpyZO08BgB3Ya0ZJMGQu5xUNrdRdlbrZ5DWb
-eqpDKfK96R+zOJMummLxyKdlwG7fpSpO8ibS2mTspLF/50ENvN4=
-=azFl
------END PGP SIGNATURE-----
-
---gxXpcdmxfbIsO9nR--
+Thanks,
+Conor.
