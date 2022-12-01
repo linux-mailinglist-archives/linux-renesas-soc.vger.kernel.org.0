@@ -2,212 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F134963ED23
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Dec 2022 11:03:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F51E63EE1B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Dec 2022 11:42:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229660AbiLAKDU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Dec 2022 05:03:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38474 "EHLO
+        id S230430AbiLAKmV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Dec 2022 05:42:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbiLAKDT (ORCPT
+        with ESMTP id S230175AbiLAKmR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Dec 2022 05:03:19 -0500
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 891BC1C931;
-        Thu,  1 Dec 2022 02:03:18 -0800 (PST)
-Received: by mail-qk1-f174.google.com with SMTP id j26so771634qki.10;
-        Thu, 01 Dec 2022 02:03:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h7orI/+fp6P+9YeMZGsDnPDJ3YP/9fqlxMdclgUX5LM=;
-        b=vcSZENOxUa4EY7f8um8RDR68OCZwLXYm2ogXy9mg/2JSCe9smUZZHpY55XUo4tCEhc
-         ZJLE61Z8hc3c09aW7rY2NoSN+tYH2HoWS20XR5SW6Y8/cE1yKcpGkeWeOMTQdr7WwOBE
-         l/67FXKgjgE64/FSaOVr7WJVsj6atQc+Q0EmNPglfIhQzwwYetdkPgzIx7iemjC2+Dei
-         VJC0t+4mROROx/dnJpDI4K9uffwMH2Rx9FUKI7Di4fr7QoT36J1xESos2sLiAyX+thsD
-         GQMEu56gRmxh4ZHKTkujW+z/XAgzGADkzUEFpVxrdV2UzJ9wt5/14d3Qj+/n4ZPbwSrR
-         ED/A==
-X-Gm-Message-State: ANoB5plWtuc9qgCincPO1u1ds+dE3kohtb7Ll5MQmtv72Q/z0Qwuicgb
-        QK0OXoqckCHcu0Qa0BLIFTvuqUJEgDJfFA==
-X-Google-Smtp-Source: AA0mqf5DEZNSUfrmASADZq4Wp8R0zRDo0i26JifgvihuB1DhAm6Mg5A6flCCf3qyBBcyOxeE8An7NQ==
-X-Received: by 2002:a05:620a:31aa:b0:6fa:1745:46ee with SMTP id bi42-20020a05620a31aa00b006fa174546eemr40868963qkb.163.1669888997083;
-        Thu, 01 Dec 2022 02:03:17 -0800 (PST)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id o21-20020a05620a2a1500b006eeb3165554sm3218118qkp.19.2022.12.01.02.03.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Dec 2022 02:03:16 -0800 (PST)
-Received: by mail-yb1-f170.google.com with SMTP id v206so1364142ybv.7;
-        Thu, 01 Dec 2022 02:03:16 -0800 (PST)
-X-Received: by 2002:a25:d655:0:b0:6fc:1c96:c9fe with SMTP id
- n82-20020a25d655000000b006fc1c96c9femr1249230ybg.36.1669888996192; Thu, 01
- Dec 2022 02:03:16 -0800 (PST)
-MIME-Version: 1.0
-References: <20221123065946.40415-1-tomi.valkeinen+renesas@ideasonboard.com> <20221123065946.40415-6-tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20221123065946.40415-6-tomi.valkeinen+renesas@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 1 Dec 2022 11:03:04 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVy+cfDLsCWA0z-xF+Rr0g4hLSROry-m+=eZSBEsuLa_w@mail.gmail.com>
-Message-ID: <CAMuHMdVy+cfDLsCWA0z-xF+Rr0g4hLSROry-m+=eZSBEsuLa_w@mail.gmail.com>
-Subject: Re: [PATCH v2 5/7] arm64: dts: renesas: white-hawk-cpu: Add DP output support
-To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Thu, 1 Dec 2022 05:42:17 -0500
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3222F9F4AC;
+        Thu,  1 Dec 2022 02:42:16 -0800 (PST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4NNCLc4QCXz4xFy;
+        Thu,  1 Dec 2022 21:42:00 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+        s=201909; t=1669891334;
+        bh=4hif7EODqPU9RIQoNSM7f4kViT96m8PqRMy1FOSRqmw=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=XMDViV6CFDY+O8nTTE8IlEWWvY7H8YPqwD0Tn3KS84kUAblouGGNC2+Nia8sW2MYv
+         qiQITUGJnoNf2rF8FqcIgIFTtKJlyIpcKBWiNrEakO5NLQ+ickTPEjtr01+GlyanLx
+         mzZ9YX/t1jp5UON6rpZmvdKzHLeuceJXW2c99G//FjEB6EQyCPN8TlRw5ClPGntYn1
+         1lstUDxUIwXt5rogz0qwgKe9XH3/+5CPLNT6DZ3ksaq4/yXNeIe6xOWsdnc3/9h44G
+         yfuCxdwdv4chZHzuDDmEcJxiTEJT36pr3DPrHlRrFjnXSjff4fqmP4a9zPs8OfNA43
+         pIMyXosyZ93DA==
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>,
+        Andrew Lunn <andrew@lunn.ch>
+Cc:     Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        soc@kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        =?utf-8?Q?Rafa?= =?utf-8?Q?=C5=82_Mi=C5=82ecki?= 
+        <zajec5@gmail.com>, Hans Ulli Kroll <ulli.kroll@googlemail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Peng Fan <peng.fan@nxp.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        Frank Wunderlich <frank-w@public-files.de>,
+        Michael Riesch <michael.riesch@wolfvision.net>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 0/5] remove label = "cpu" from DSA dt-binding
+In-Reply-To: <32638470-b074-3b14-bfb2-10b49307b9e3@arinc9.com>
+References: <20221130141040.32447-1-arinc.unal@arinc9.com>
+ <Y4d9B7VSHvqJn0iS@lunn.ch>
+ <32638470-b074-3b14-bfb2-10b49307b9e3@arinc9.com>
+Date:   Thu, 01 Dec 2022 21:42:00 +1100
+Message-ID: <877czbs8w7.fsf@mpe.ellerman.id.au>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Tomi,
-
-On Wed, Nov 23, 2022 at 8:00 AM Tomi Valkeinen
-<tomi.valkeinen+renesas@ideasonboard.com> wrote:
-> Add DT nodes needed for the mini DP connector. The DP is driven by
-> sn65dsi86, which in turn gets the pixel data from the SoC via DSI.
+Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com> writes:
+> On 30.11.2022 18:55, Andrew Lunn wrote:
+>> On Wed, Nov 30, 2022 at 05:10:35PM +0300, Ar=C4=B1n=C3=A7 =C3=9CNAL wrot=
+e:
+>>> Hello folks,
+>>>
+>>> With this patch series, we're completely getting rid of 'label =3D "cpu=
+";'
+>>> which is not used by the DSA dt-binding at all.
+>>>
+>>> Information for taking the patches for maintainers:
+>>> Patch 1: netdev maintainers (based off netdev/net-next.git main)
+>>> Patch 2-3: SoC maintainers (based off soc/soc.git soc/dt)
+>>> Patch 4: MIPS maintainers (based off mips/linux.git mips-next)
+>>> Patch 5: PowerPC maintainers (based off powerpc/linux.git next-test)
+>>=20
+>> Hi Ar=C4=B1n=C3=A7
+>>=20
+>> So your plan is that each architecture maintainer merges one patch?
 >
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Thanks for your patch!
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.3, with the mini-dp-con node
-moved up.
-
-> --- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
-> @@ -97,6 +97,15 @@ memory@600000000 {
->                 reg = <0x6 0x00000000 0x1 0x00000000>;
->         };
+> Initially, I sent this series to soc@kernel.org to take it all but Rob=20
+> said it must be this way instead.
 >
-> +       reg_1p2v: regulator-1p2v {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "fixed-1.2V";
-> +               regulator-min-microvolt = <1200000>;
-> +               regulator-max-microvolt = <1200000>;
-> +               regulator-boot-on;
-> +               regulator-always-on;
-> +       };
-> +
->         reg_1p8v: regulator-1p8v {
->                 compatible = "regulator-fixed";
->                 regulator-name = "fixed-1.8V";
-> @@ -114,6 +123,24 @@ reg_3p3v: regulator-3p3v {
->                 regulator-boot-on;
->                 regulator-always-on;
->         };
-> +
-> +       mini-dp-con {
-> +               compatible = "dp-connector";
-> +               label = "CN5";
-> +               type = "mini";
-> +
-> +               port {
-> +                       mini_dp_con_in: endpoint {
-> +                               remote-endpoint = <&sn65dsi86_out>;
-> +                       };
-> +               };
-> +       };
-
-Moving up while applying to preserve sort order...
-
-> +
-> +       sn65dsi86_refclk: clk-x6 {
-> +               compatible = "fixed-clock";
-> +               #clock-cells = <0>;
-> +               clock-frequency = <38400000>;
-> +       };
->  };
+>>=20
+>> That is fine, but it is good to be explicit, otherwise patches will
+>> fall through the cracks because nobody picks them up. I generally use
+>> To: to indicate who i expect to merge a patch, and everybody else in
+>> the Cc:
 >
->  &avb0 {
+> Thanks for this, I'll follow suit if I don't see any activity for a few=20
+> weeks.
 
-> @@ -172,6 +216,51 @@ eeprom@50 {
->         };
->  };
->
-> +&i2c1 {
-> +       pinctrl-0 = <&i2c1_pins>;
-> +       pinctrl-names = "default";
-> +
-> +       status = "okay";
-> +       clock-frequency = <400000>;
-> +
-> +       bridge@2c {
+IMHO the best solution if the patches are truly independent is to send
+them independantly to each maintainer. That way there's no confusion
+about whether someone else will take the series.
 
-Ideally, this needs pinctrl for the intc_ex irq0 pin.
-Unfortunately[1] is still in limbo as the naming of the alternate pins
-is inconsistent.
+It's also simpler for maintainers to apply a single standalone patch vs
+pick a single patch from a larger series.
 
-> +               compatible = "ti,sn65dsi86";
-> +               reg = <0x2c>;
-> +
-> +               clocks = <&sn65dsi86_refclk>;
-> +               clock-names = "refclk";
-> +
-> +               interrupt-parent = <&intc_ex>;
-> +               interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +               enable-gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
-> +
-> +               vccio-supply = <&reg_1p8v>;
-> +               vpll-supply = <&reg_1p8v>;
-> +               vcca-supply = <&reg_1p2v>;
-> +               vcc-supply = <&reg_1p2v>;
-> +
-> +               ports {
-> +                       #address-cells = <1>;
-> +                       #size-cells = <0>;
-> +
-> +                       port@0 {
-> +                               reg = <0>;
-> +                               sn65dsi86_in: endpoint {
-> +                                       remote-endpoint = <&dsi0_out>;
-> +                               };
-> +                       };
-> +
-> +                       port@1 {
-> +                               reg = <1>;
-> +                               sn65dsi86_out: endpoint {
-> +                                       remote-endpoint = <&mini_dp_con_in>;
-> +                               };
-> +                       };
-> +               };
-> +       };
-> +};
-> +
->  &mmc0 {
->         pinctrl-0 = <&mmc_pins>;
->         pinctrl-1 = <&mmc_pins>;
-
-[1] "[PATCH/RFC] pinctrl: renesas: r8a779g0: Add INTC-EX pins, groups,
-and function"
-    https://lore.kernel.org/all/28fe05d41bea5a03ea6c8434f5a4fb6c80b48867.1664368425.git.geert+renesas@glider.be
-
-Gr{oetje,eeting}s,
-
-                                                Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                                            -- Linus Torvalds
+cheers
