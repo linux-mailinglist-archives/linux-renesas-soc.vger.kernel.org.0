@@ -2,147 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 803E663EC8A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Dec 2022 10:31:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05EE063EC97
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Dec 2022 10:34:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230168AbiLAJbW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Dec 2022 04:31:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36256 "EHLO
+        id S230090AbiLAJel (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Dec 2022 04:34:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230223AbiLAJbA (ORCPT
+        with ESMTP id S229551AbiLAJej (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Dec 2022 04:31:00 -0500
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB3015AE34;
-        Thu,  1 Dec 2022 01:30:34 -0800 (PST)
-Received: by mail-qt1-f173.google.com with SMTP id fz10so611376qtb.3;
-        Thu, 01 Dec 2022 01:30:34 -0800 (PST)
+        Thu, 1 Dec 2022 04:34:39 -0500
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08FC363D44;
+        Thu,  1 Dec 2022 01:34:39 -0800 (PST)
+Received: by mail-qk1-f169.google.com with SMTP id x18so754138qki.4;
+        Thu, 01 Dec 2022 01:34:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FRkzbc31tdDK9zVTeT0OUXHL/8tO8QE6rgpKYPNbR3Y=;
-        b=6ECF71QlVP+f4MS0pCmH256jT46xtOL37ySpAV52037F8X8t3Qz1rrMRqSFNBp4I8e
-         L6sVoEBPx8qXE6LYZAGWvmQCXD+xPZOphicL6r17dKqiq+/RWRLy1Qf56DikA24XTvhw
-         VbmnQpMHtoGpPiW5BITDFuYboOHHloD91/YaJVgWJSWhy45IiDkl6EuhcX5EoUltMG3D
-         S1x0CBkAHCCtdIoDCxI0M6w9trJ3wxElnPtQQFJ2wBVWIikE5xzXupjGrdfcJbAjCAZq
-         yMkWj2znqRkWZcAWvm4MlzcH6BD44t3bemQbU3RlBqA/VellUaMWwbUB9fk9XnKmlwIP
-         HL7Q==
-X-Gm-Message-State: ANoB5pnGsKl0D1rg4uA2ht5bh7t/Pw8AENXYp4sjda8VP3rDBG5DvN6m
-        ODryRo5s0S03vu5T+VQb8iu1lZXu3RC+Hg==
-X-Google-Smtp-Source: AA0mqf6nq0zggLdmdEIfDLQ5cgPs4r7QU81u3qhmKCgYKr3HC+/fAF17JacONEgRPGUCd8BGfpXCOQ==
-X-Received: by 2002:a05:622a:4d0f:b0:3a5:25d4:2f2c with SMTP id fd15-20020a05622a4d0f00b003a525d42f2cmr44107059qtb.112.1669887033444;
-        Thu, 01 Dec 2022 01:30:33 -0800 (PST)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id y8-20020ac81288000000b0039c37a7914csm2236328qti.23.2022.12.01.01.30.32
+        bh=KBTb30FlOeNn7g2bMTV3z6C876wmi9foz5yxG1pCxwA=;
+        b=cIkffSYNj+lR5XPnGWNSE9BLoeq8tPsP+lBxdVEyxonvO5XKd/FVXiOFztc9CwawBk
+         MixtOQlA3RjWv9VSXVUqmJVFQRF/LEZ66LTZ4v+ogqGrmvpoBYWCUAQL2hlpFUbA3O5d
+         eFPOrLVC30XkPFbhKM24CA4GNL0/BrgIlHVUjTR87ug9ypwkdZ/4kQZNg0zvwgldP1P6
+         8+lIPxRkTnKk96DTldVCHPUjKzwEb6Zjo3ZOsQ9AVHkxCgaIc7OTzvlfVn5bmgfZ8DRy
+         Fh9Ct8E8XdEWKwr5E6vNG7T2VpoUjP1vKmW3EJOsBWgrujPR878sBjE06otvEgreZXXo
+         X8fQ==
+X-Gm-Message-State: ANoB5plNl6YYpzJNW/8wBpf/2NkUN5pV4d44RJUvq68BPhwXomFzzh5c
+        iNa74DHfq2L3oc8LobYv6DpEoz59T7ctrA==
+X-Google-Smtp-Source: AA0mqf6LLfjwiaggCZ/1FW7LsdSS+7kJgBjyq77M79yBM0vx4Obz/RWO3iruUETJNmNnL/f79njJiw==
+X-Received: by 2002:a05:620a:d48:b0:6fc:a8ae:492a with SMTP id o8-20020a05620a0d4800b006fca8ae492amr689635qkl.340.1669887277998;
+        Thu, 01 Dec 2022 01:34:37 -0800 (PST)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id l27-20020ac84cdb000000b00399fe4aac3esm2227797qtv.50.2022.12.01.01.34.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Dec 2022 01:30:32 -0800 (PST)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-3c090251d59so11261867b3.4;
-        Thu, 01 Dec 2022 01:30:32 -0800 (PST)
-X-Received: by 2002:a05:690c:b81:b0:37e:6806:a5f9 with SMTP id
- ck1-20020a05690c0b8100b0037e6806a5f9mr45762738ywb.47.1669887031924; Thu, 01
- Dec 2022 01:30:31 -0800 (PST)
+        Thu, 01 Dec 2022 01:34:37 -0800 (PST)
+Received: by mail-yb1-f172.google.com with SMTP id i131so1273660ybc.9;
+        Thu, 01 Dec 2022 01:34:36 -0800 (PST)
+X-Received: by 2002:a25:9:0:b0:6f9:29ef:a5ee with SMTP id 9-20020a250009000000b006f929efa5eemr10068854yba.380.1669887276592;
+ Thu, 01 Dec 2022 01:34:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20221122185802.1853648-1-biju.das.jz@bp.renesas.com>
- <Y30j7Q6Jc/y8mGTu@pendragon.ideasonboard.com> <OS0PR01MB59224A76B83B9A2318A8D4E9860D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <Y30pHOylptuMxFgX@pendragon.ideasonboard.com> <CAMuHMdUjibk0FO0+Su5NbV-pgBhiYqVsjX6XM5Sg2nXyybA3YQ@mail.gmail.com>
- <OS0PR01MB59227AF03E84568B443C053286149@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB59227AF03E84568B443C053286149@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20221123065946.40415-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221123065946.40415-4-tomi.valkeinen+renesas@ideasonboard.com>
+ <CAMuHMdUjCS6q44XmTanu=R68GyuVECLa0B-1AFg1CUD_oV4DuA@mail.gmail.com> <cb85e1f4-2292-19d4-2b7e-f16c1b43d29f@ideasonboard.com>
+In-Reply-To: <cb85e1f4-2292-19d4-2b7e-f16c1b43d29f@ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 1 Dec 2022 10:30:20 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXL1pN6mhpYctsS+Kc8HUe=HCTn3yTxgmujOMNyxGBm8w@mail.gmail.com>
-Message-ID: <CAMuHMdXL1pN6mhpYctsS+Kc8HUe=HCTn3yTxgmujOMNyxGBm8w@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: rzg2l-smarc: Enable ADV7535 on
- carrier board
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Date:   Thu, 1 Dec 2022 10:34:25 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXH+CfOMtnPUecfAW9U7+WugbytkG5_P-wu=bk6JygLGg@mail.gmail.com>
+Message-ID: <CAMuHMdXH+CfOMtnPUecfAW9U7+WugbytkG5_P-wu=bk6JygLGg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/7] clk: renesas: r8a779g0: Add display related clocks
+To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Tomi,
 
-On Thu, Dec 1, 2022 at 10:20 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH] arm64: dts: renesas: rzg2l-smarc: Enable ADV7535 on
-> > carrier board
-> > On Tue, Nov 22, 2022 at 8:55 PM Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > > On Tue, Nov 22, 2022 at 07:41:13PM +0000, Biju Das wrote:
-> > > > > Subject: Re: [PATCH] arm64: dts: renesas: rzg2l-smarc: Enable
-> > > > > ADV7535 on carrier board On Tue, Nov 22, 2022 at 06:58:02PM +0000,
-> > > > > Biju Das wrote:
-> > > > > > Enable ADV7535 (MIPI DSI Receiver with HDMI Transmitter) on
-> > > > > > RZ/G2L SMARC EVK.
-> > > > > >
-> > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > > > > > --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-> > > > > > +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+On Thu, Dec 1, 2022 at 10:06 AM Tomi Valkeinen
+<tomi.valkeinen+renesas@ideasonboard.com> wrote:
+> On 30/11/2022 21:18, Geert Uytterhoeven wrote:
+> > On Wed, Nov 23, 2022 at 8:00 AM Tomi Valkeinen
+> > <tomi.valkeinen+renesas@ideasonboard.com> wrote:
+> >> Add clocks related to display which are needed to get the DSI output
+> >> working.
+> >>
+> >> Extracted from Renesas BSP tree.
+> >>
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> >> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> >> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> > > > > > +
-> > > > > > +         ports {
-> > > > > > +                 #address-cells = <1>;
-> > > > > > +                 #size-cells = <0>;
-> > > > > > +
-> > > > >
-> > > > > How about port@0 ? That's the DSI input, I expect it should be
-> > > > > connected to the DSI encoder output.
-> > > >
-> > > > Yes, I will enable DSI node and link with port@0.  Since both RZ/G2L
-> > > > and RZ/V2L uses same Carrier board, I need to send binding patch for
-> > RZ/V2L.
-> > > >
-> > > > dts Patches for enabling DSI for RZ/G2L ready. But V2L there is
-> > dependency on bindings.
-> >
-> > That's just a matter of days, right?
+> > Not that all of this matters a lot: all of these parents are always-on,
+> > and I think "dis0" is the only clock where we care about the actual
+> > clock rate?
 >
-> Yes, I have already posted the patch [1]
-> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221122195413.1882486-1-biju.das.jz@bp.renesas.com/
->
-> >
-> > > > If you prefer both ports together, then I can defer this later.
-> > >
-> > > It could be easier to review (not to mention testing). I'll let Geert
-> > > decide.
-> >
-> > Is there any advantage in applying this patch now, i.e. does it enable
-> > any working functionality?
->
-> Currently all display/graphics functionality tested with [3]
->
-> The advantage is,
->
-> 1) I would like to backport graphics and display functionality to cip kernel [2]
->    as most of our customers are using this kernel.
->
-> 2) we can test ADV driver using i2c read/write command
->
-> 3) We can test ADV interrupts
->
-> 4) This will reduce integration effort as we can test full display and graphics
->   functionality with [3]
->
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git/log/?h=linux-5.10.y-cip
-> [3] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=698606
->
-> Please share your views.
+> No, of the clocks added above, in the drivers we only care about the
+> dsiref rate. That's used for the DSI PLL, and that PLL is used as the
+> DU's pclk.
 
-And all of that is working without port@0?
+IC. As the DU node has only a single clocks property, I thought that
+clock is used to derive the pixel clock from.
 
 Gr{oetje,eeting}s,
 
