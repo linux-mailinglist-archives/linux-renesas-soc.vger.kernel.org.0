@@ -2,145 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B614D63EC65
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Dec 2022 10:26:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 803E663EC8A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Dec 2022 10:31:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229640AbiLAJ0d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Dec 2022 04:26:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60060 "EHLO
+        id S230168AbiLAJbW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Dec 2022 04:31:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229558AbiLAJ0b (ORCPT
+        with ESMTP id S230223AbiLAJbA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Dec 2022 04:26:31 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 539E518D;
-        Thu,  1 Dec 2022 01:26:29 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 318D22D9;
-        Thu,  1 Dec 2022 10:26:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669886787;
-        bh=xt+nYBG9p2F7Ov7TXjZkZafslLalNsVFj5Rxf5PFRAA=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=hmgrznQNc+PJ5JstFF7M7yPl/IOGPw19T3IfwFXPzGYcdWYn3PwF07QFofkeYOOgA
-         CROgul+H8b2jnVWm2HsAMVn76gytOVSjYN+AxlDF0oZUQYZnVsepUzbBy5ChjzGJtK
-         /msJnOvdo2z/xw5LugwihELPWCFboauYcceHxXQ8=
-Message-ID: <5598c7f8-b47e-338d-e2e3-f62a44903634@ideasonboard.com>
-Date:   Thu, 1 Dec 2022 11:26:23 +0200
+        Thu, 1 Dec 2022 04:31:00 -0500
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB3015AE34;
+        Thu,  1 Dec 2022 01:30:34 -0800 (PST)
+Received: by mail-qt1-f173.google.com with SMTP id fz10so611376qtb.3;
+        Thu, 01 Dec 2022 01:30:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FRkzbc31tdDK9zVTeT0OUXHL/8tO8QE6rgpKYPNbR3Y=;
+        b=6ECF71QlVP+f4MS0pCmH256jT46xtOL37ySpAV52037F8X8t3Qz1rrMRqSFNBp4I8e
+         L6sVoEBPx8qXE6LYZAGWvmQCXD+xPZOphicL6r17dKqiq+/RWRLy1Qf56DikA24XTvhw
+         VbmnQpMHtoGpPiW5BITDFuYboOHHloD91/YaJVgWJSWhy45IiDkl6EuhcX5EoUltMG3D
+         S1x0CBkAHCCtdIoDCxI0M6w9trJ3wxElnPtQQFJ2wBVWIikE5xzXupjGrdfcJbAjCAZq
+         yMkWj2znqRkWZcAWvm4MlzcH6BD44t3bemQbU3RlBqA/VellUaMWwbUB9fk9XnKmlwIP
+         HL7Q==
+X-Gm-Message-State: ANoB5pnGsKl0D1rg4uA2ht5bh7t/Pw8AENXYp4sjda8VP3rDBG5DvN6m
+        ODryRo5s0S03vu5T+VQb8iu1lZXu3RC+Hg==
+X-Google-Smtp-Source: AA0mqf6nq0zggLdmdEIfDLQ5cgPs4r7QU81u3qhmKCgYKr3HC+/fAF17JacONEgRPGUCd8BGfpXCOQ==
+X-Received: by 2002:a05:622a:4d0f:b0:3a5:25d4:2f2c with SMTP id fd15-20020a05622a4d0f00b003a525d42f2cmr44107059qtb.112.1669887033444;
+        Thu, 01 Dec 2022 01:30:33 -0800 (PST)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id y8-20020ac81288000000b0039c37a7914csm2236328qti.23.2022.12.01.01.30.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Dec 2022 01:30:32 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-3c090251d59so11261867b3.4;
+        Thu, 01 Dec 2022 01:30:32 -0800 (PST)
+X-Received: by 2002:a05:690c:b81:b0:37e:6806:a5f9 with SMTP id
+ ck1-20020a05690c0b8100b0037e6806a5f9mr45762738ywb.47.1669887031924; Thu, 01
+ Dec 2022 01:30:31 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 3/7] clk: renesas: r8a779g0: Add display related clocks
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
+References: <20221122185802.1853648-1-biju.das.jz@bp.renesas.com>
+ <Y30j7Q6Jc/y8mGTu@pendragon.ideasonboard.com> <OS0PR01MB59224A76B83B9A2318A8D4E9860D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <Y30pHOylptuMxFgX@pendragon.ideasonboard.com> <CAMuHMdUjibk0FO0+Su5NbV-pgBhiYqVsjX6XM5Sg2nXyybA3YQ@mail.gmail.com>
+ <OS0PR01MB59227AF03E84568B443C053286149@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59227AF03E84568B443C053286149@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 1 Dec 2022 10:30:20 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXL1pN6mhpYctsS+Kc8HUe=HCTn3yTxgmujOMNyxGBm8w@mail.gmail.com>
+Message-ID: <CAMuHMdXL1pN6mhpYctsS+Kc8HUe=HCTn3yTxgmujOMNyxGBm8w@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: rzg2l-smarc: Enable ADV7535 on
+ carrier board
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20221123065946.40415-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221123065946.40415-4-tomi.valkeinen+renesas@ideasonboard.com>
- <CAMuHMdUjCS6q44XmTanu=R68GyuVECLa0B-1AFg1CUD_oV4DuA@mail.gmail.com>
-From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <CAMuHMdUjCS6q44XmTanu=R68GyuVECLa0B-1AFg1CUD_oV4DuA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert, Laurent,
+Hi Biju,
 
-On 30/11/2022 21:18, Geert Uytterhoeven wrote:
-> Hi Tomi,
-> 
-> On Wed, Nov 23, 2022 at 8:00 AM Tomi Valkeinen
-> <tomi.valkeinen+renesas@ideasonboard.com> wrote:
->> Add clocks related to display which are needed to get the DSI output
->> working.
->>
->> Extracted from Renesas BSP tree.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> Thanks for your patch!
-> 
->> --- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
->> +++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
->> @@ -145,6 +145,8 @@ static const struct cpg_core_clk r8a779g0_core_clks[] __initconst = {
->>          DEF_FIXED("viobusd2",   R8A779G0_CLK_VIOBUSD2,  CLK_VIO,        2, 1),
->>          DEF_FIXED("vcbus",      R8A779G0_CLK_VCBUS,     CLK_VC,         1, 1),
->>          DEF_FIXED("vcbusd2",    R8A779G0_CLK_VCBUSD2,   CLK_VC,         2, 1),
->> +       DEF_FIXED("dsiref",     R8A779G0_CLK_DSIREF,    CLK_PLL5_DIV4,  48, 1),
->> +       DEF_DIV6P1("dsiext",    R8A779G0_CLK_DSIEXT,    CLK_PLL5_DIV4,  0x884),
->>
->>          DEF_GEN4_SDH("sd0h",    R8A779G0_CLK_SD0H,      CLK_SDSRC,         0x870),
->>          DEF_GEN4_SD("sd0",      R8A779G0_CLK_SD0,       R8A779G0_CLK_SD0H, 0x870),
->> @@ -161,6 +163,14 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
->>          DEF_MOD("avb0",         211,    R8A779G0_CLK_S0D4_HSC),
->>          DEF_MOD("avb1",         212,    R8A779G0_CLK_S0D4_HSC),
->>          DEF_MOD("avb2",         213,    R8A779G0_CLK_S0D4_HSC),
->> +
-> 
-> Weird horizontal and vertical spacing below...
-> 
->> +       DEF_MOD("dis0",                 411,    R8A779G0_CLK_S0D3),
-> 
-> I doubt this parent clock is correct.
-> Based on Table 8.1.4e ("Lists of CPG clocks generated from PLL5"),
-> this should be one of the VIOBUS clocks.
-> VIOBUSD2 has the same rate as S0D3, so I'd use that one.
-> 
->> +       DEF_MOD("dsitxlink0",           415,    R8A779G0_CLK_DSIREF),
->> +       DEF_MOD("dsitxlink1",           416,    R8A779G0_CLK_DSIREF),
+On Thu, Dec 1, 2022 at 10:20 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH] arm64: dts: renesas: rzg2l-smarc: Enable ADV7535 on
+> > carrier board
+> > On Tue, Nov 22, 2022 at 8:55 PM Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com> wrote:
+> > > On Tue, Nov 22, 2022 at 07:41:13PM +0000, Biju Das wrote:
+> > > > > Subject: Re: [PATCH] arm64: dts: renesas: rzg2l-smarc: Enable
+> > > > > ADV7535 on carrier board On Tue, Nov 22, 2022 at 06:58:02PM +0000,
+> > > > > Biju Das wrote:
+> > > > > > Enable ADV7535 (MIPI DSI Receiver with HDMI Transmitter) on
+> > > > > > RZ/G2L SMARC EVK.
+> > > > > >
+> > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> >
+> > > > > > --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+> > > > > > +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
 
-Now that you started questioning about the clocks, I started to wonder 
-about the DSI clocks. They don't quite make sense to me, but here also I 
-just assumed it's "fine" as I copied it and it works.
+> > > > > > +
+> > > > > > +         ports {
+> > > > > > +                 #address-cells = <1>;
+> > > > > > +                 #size-cells = <0>;
+> > > > > > +
+> > > > >
+> > > > > How about port@0 ? That's the DSI input, I expect it should be
+> > > > > connected to the DSI encoder output.
+> > > >
+> > > > Yes, I will enable DSI node and link with port@0.  Since both RZ/G2L
+> > > > and RZ/V2L uses same Carrier board, I need to send binding patch for
+> > RZ/V2L.
+> > > >
+> > > > dts Patches for enabling DSI for RZ/G2L ready. But V2L there is
+> > dependency on bindings.
+> >
+> > That's just a matter of days, right?
+>
+> Yes, I have already posted the patch [1]
+> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221122195413.1882486-1-biju.das.jz@bp.renesas.com/
+>
+> >
+> > > > If you prefer both ports together, then I can defer this later.
+> > >
+> > > It could be easier to review (not to mention testing). I'll let Geert
+> > > decide.
+> >
+> > Is there any advantage in applying this patch now, i.e. does it enable
+> > any working functionality?
+>
+> Currently all display/graphics functionality tested with [3]
+>
+> The advantage is,
+>
+> 1) I would like to backport graphics and display functionality to cip kernel [2]
+>    as most of our customers are using this kernel.
+>
+> 2) we can test ADV driver using i2c read/write command
+>
+> 3) We can test ADV interrupts
+>
+> 4) This will reduce integration effort as we can test full display and graphics
+>   functionality with [3]
+>
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git/log/?h=linux-5.10.y-cip
+> [3] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=698606
+>
+> Please share your views.
 
-The VIOBUS & VIOBUSD2 are marked to as going to the DSI. But we don't 
-actually mark any of the DSI clocks as coming from those sources.
+And all of that is working without port@0?
 
-DSIREF is quite clear, it's the source for DSI PLL.
+Gr{oetje,eeting}s,
 
-DSIEXT goes to the DSI PHY and is also marked to be used for LP-TX.
+                        Geert
 
-In the DT we have now:
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-clocks = <&cpg CPG_MOD 415>,
-	 <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
-	 <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
-clock-names = "fck", "dsi", "pll";
-
-The "dsi" clock name is a bit vague, but maybe it's "not fclk, not pll, 
-but still needed for dsi"? =)
-
-Is it ok to refer to DSIEXT & DSIREF like that, or should they be in the 
-r8a779g0_mod_clks list? Or is that list for fclks only?
-
-So the fclk in the dts is mod clock 415 (416 for the second dsi), which 
-is dsitxlink0 or dsitxlink1. Well, those names don't quite make sense if 
-it's a fclk.
-
-I would rename those clocks to "dsi0" and "dsi1", and source them from 
-R8A779G0_CLK_VIOBUSD2, similarly to the other video clocks.
-
-Does the above make sense?
-
-  Tomi
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
