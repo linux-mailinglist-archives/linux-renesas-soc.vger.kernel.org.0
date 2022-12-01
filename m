@@ -2,119 +2,141 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B10963E76F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Dec 2022 03:03:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7446C63E994
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Dec 2022 07:05:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229535AbiLACDy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Nov 2022 21:03:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40078 "EHLO
+        id S229735AbiLAGFB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Dec 2022 01:05:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbiLACDx (ORCPT
+        with ESMTP id S229497AbiLAGE7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Nov 2022 21:03:53 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C223256568
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Nov 2022 18:03:52 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id jl24so238324plb.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Nov 2022 18:03:52 -0800 (PST)
+        Thu, 1 Dec 2022 01:04:59 -0500
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2050F9AE18;
+        Wed, 30 Nov 2022 22:04:59 -0800 (PST)
+Received: by mail-oi1-x22d.google.com with SMTP id s186so912045oia.5;
+        Wed, 30 Nov 2022 22:04:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0DEiQmeMgrdK6YJ0GgLB3Jv3Ci6xLHfEcOnl3XLLYY8=;
-        b=iP/HAJ/0GvHY5WECx7kbralJKyJMBFe69TYcPNdG+1+eKPAATALepikSeQHt+RiwZZ
-         Hj8q+gyF9lkYSCwap8AyqEz3y0DMo52ZW7VxILomoIAi7FeyUQJhMWzoAkKMvzNRgLc6
-         Ke7TbH+zYCbh5I9E8I3z5+/bS+r//iAGL4Ju3jT8LUGDiQPnBnADBCaSi8af6qKGm4gD
-         4B+xW/WhgwCfQbDqbs4e7HSNg/fUuRyZ2VldEQE7mvr9cZKWUvxnvC4PXXQHXGRZjDrJ
-         6sMneAtHjVQdJvsQFlqtXuXccwUMOn4RUkywQXrSndRIbdMYvCRBQ2hcJjoj4boSqYOa
-         ZHiw==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SQ6eCCvP2RIqVFnGOfA4yG/2BtjQTMpdxc/JWs/IikY=;
+        b=PvHY6dBEyebJE6QNI6Wjq2MneXIl4rTpGS7fBC7Qv6R/Yiga7OIh4/Pj4BgHnrpndG
+         GrmgooNZOVFverQjG/PwQwa+jNTTeu5eaofi0fQ6sUgKspL/GgqiAAoT7DsAPA/bcNeL
+         CuuBxemNVt9HiH103qegQcLdL8byYtx9q2Sy8nfwvxBZulJQ2g5EAZZ4I/KTXdccwea1
+         xayFiXCzBGxNpmCBPyhigLfeSVQaNBWPI/KTZtc4+CqnxGM8xxSJGEpvpTJVaXAoUIMI
+         LhDFRKO2nzxUjEipEZonE2WghJNoafzVk4PIFC+1xTm7vj4OLlTNuK0dUH2dye1MdJio
+         EOHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0DEiQmeMgrdK6YJ0GgLB3Jv3Ci6xLHfEcOnl3XLLYY8=;
-        b=45/b0ObcLeL5iC2c39bgqFuRqfZdhd/I2L48sd551AuoWr2AEPlsqAjW/8IhSSK6Ov
-         R5XoWY2SQk1/VXXlIIJShK+mDoaz514bNa2nKe5eWCnNDgFrW0qhERIPqNU4nGBHMnsB
-         39j9xsLByttF1nRk8LbyhkUdZJPn20oFum6hxZwzmcxclpyug9pKcsc5b4otbyOmYxkC
-         QHbKt93EMa6Qt3OMw8vBF1UUmka1LrbBGG+jMJLDpccJmRCgqnxKlZUpVY/+yIuNVvtN
-         U/nVxlcGQH0wzlyPfEhq4s2ptxCnyp00gsRSVGHkvKYKEadIoMPDeBpopqUlhjofs6tT
-         Kb/Q==
-X-Gm-Message-State: ANoB5pkt2uUTTc3gH2O4xYkL9SqgGgLCp4i9U1RlBrzJgZM11tbRaK+P
-        5Ff7ibwcH6nwa0t7qjv3397mSw==
-X-Google-Smtp-Source: AA0mqf7AaM8rZjDT0svKyWgdeqkBH7vI4+VbH4Ar7fn/HcMDFX69/stKQPzNv0xiH6xiAgEzdKsKtQ==
-X-Received: by 2002:a17:90a:5aa2:b0:218:e3ea:e6b3 with SMTP id n31-20020a17090a5aa200b00218e3eae6b3mr40319536pji.42.1669860232255;
-        Wed, 30 Nov 2022 18:03:52 -0800 (PST)
-Received: from localhost ([122.172.87.149])
-        by smtp.gmail.com with ESMTPSA id h5-20020aa79f45000000b00562a237179esm2018664pfr.131.2022.11.30.18.03.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Nov 2022 18:03:51 -0800 (PST)
-Date:   Thu, 1 Dec 2022 07:33:47 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Tho Vu <tho.vu.wh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64: dts: renesas: r8a779f0: Add CA55 operating points
-Message-ID: <20221201020347.dpoaccvkzuss3jpk@vireshk-i7>
-References: <ae78351d702a53702a1d5fa26675fe982b99cdf5.1669817508.git.geert+renesas@glider.be>
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SQ6eCCvP2RIqVFnGOfA4yG/2BtjQTMpdxc/JWs/IikY=;
+        b=dnzYRuVBOJfA56lOlWjR/3WF0Z0Fjm3n0v8f7/OJcHPT7/LmRqv7H5l2qNRkKNh9yx
+         WyX9eyOIbJKRP5VP9NxC7znaYfNYTl/+tAgfeFcNC7mQ97DUoQwO2O6abDSKnFENADJj
+         y+WydRCnnry+pLKeus0xUDQUcdLivdTuw5T3xZEyrxHYC5wMyiFyTrRpXjJyaxvYAp+g
+         yd/eZMg67b9xBysiIYlucgay23e3rYrdblir0pm/AbO2u6+/BdLe9ruqTwyAKVZUTe/H
+         iYkW49jaOv7lKR9K/oRTXzdSOk2tsWxi3z+t/4Al3E+VB4xScW7tLNdSzECFPxzAm9Iu
+         nOGg==
+X-Gm-Message-State: ANoB5pnrR1okCRFCmjTjKjFv/WDmgXr6nqdMtC5k0tUZzCbFBopzJgVU
+        Aneve+pJMd8CYcRAGEW2+pOXMpAFmKEUjJT1uWk=
+X-Google-Smtp-Source: AA0mqf5l2e4XTILLZHTH7QTRBPvz28RAyHNavvCrAHgTBlylFcIYKmUFvkgoGR7uLixlsP/mcB3a5GSDsiHvA3KSd08=
+X-Received: by 2002:aca:60c6:0:b0:35a:51fc:2134 with SMTP id
+ u189-20020aca60c6000000b0035a51fc2134mr22358640oib.144.1669874698405; Wed, 30
+ Nov 2022 22:04:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ae78351d702a53702a1d5fa26675fe982b99cdf5.1669817508.git.geert+renesas@glider.be>
+References: <20221130141040.32447-1-arinc.unal@arinc9.com> <20221130141040.32447-5-arinc.unal@arinc9.com>
+In-Reply-To: <20221130141040.32447-5-arinc.unal@arinc9.com>
+From:   Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date:   Thu, 1 Dec 2022 07:04:47 +0100
+Message-ID: <CAMhs-H_yk4_ieChz9ZaMgZiQNSO7RxhAXPN0nHWWxbox=qY_mw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] mips: dts: remove label = "cpu" from DSA dt-binding
+To:     =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+Cc:     Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        soc@kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+        Hans Ulli Kroll <ulli.kroll@googlemail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Peng Fan <peng.fan@nxp.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        Frank Wunderlich <frank-w@public-files.de>,
+        Michael Riesch <michael.riesch@wolfvision.net>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 30-11-22, 15:16, Geert Uytterhoeven wrote:
-> Add operating points for running the Cortex-A55 CPU cores on R-Car S4-8
-> at various speeds, up to the maximum supported frequency (1200 MHz).
-> 
-> R-Car S4-8 has 8 Cortex-A55 cores, grouped in 4 clusters.
-> CA55 Sub-System 0 (first 2 clusters / CPU cores 0-3) is clocked by Z0φ.
-> CA55 Sub-System 1 (last 2 clusters / CPU cores 4-7) is clocked by Z1φ.
-> 
-> As the two sets of clusters are driven by separate clocks, this requires
-> specifying two separate tables (using the same operating performance
-> point values), with "opp-shared" to indicate that the CPU cores in each
-> set share state.
-> 
-> Based on a patch in the BSP by Tho Vu.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Wed, Nov 30, 2022 at 3:14 PM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc=
+9.com> wrote:
+>
+> This is not used by the DSA dt-binding, so remove it from all devicetrees=
+.
+>
+> Signed-off-by: Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com>
 > ---
-> To be queued in renesas-devel for v6.3.
-> 
-> Changes compared to the BSP:
->   - Use two tables.
-> 
-> Tested on the Renesas Spider development board by using the CPUfreq
-> userspace governor, writing the desired CPU clock rate to the CPUfreq
-> policy's "scaling_setspeed" file in sysfs, verifying the clock rate of
-> the Z0φ and Z1φ clocks in debugfs, and running the dhrystones benchmark
-> on the various CPU cores.
-> 
-> The Linux cpufreq driver creates two policies under
-> /sys/devices/system/cpu/cpufreq/: "policy0" and "policy4".
-> 
-> With a single table and "opp-shared", only "policy0" would be created,
-> and clock Z1φ would never be changed.
-> With a single table and without "opp-shared", 8 policies would be
-> created, and the rate of clocks Z0φ and Z1φ would reflect the value for
-> the last touched CPU core from the corresponding set.
-> ---
->  arch/arm64/boot/dts/renesas/r8a779f0.dtsi | 62 +++++++++++++++++++++++
->  1 file changed, 62 insertions(+)
+>  arch/mips/boot/dts/ralink/mt7621.dtsi | 1 -
 
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+Acked-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 
--- 
-viresh
+Thanks,
+    Sergio Paracuellos
