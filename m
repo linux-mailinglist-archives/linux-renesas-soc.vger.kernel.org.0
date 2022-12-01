@@ -2,153 +2,159 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0B2B63EBC5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Dec 2022 10:01:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1D0063EBF8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Dec 2022 10:07:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229681AbiLAJBs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Dec 2022 04:01:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33944 "EHLO
+        id S229786AbiLAJG7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Dec 2022 04:06:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbiLAJBr (ORCPT
+        with ESMTP id S229954AbiLAJG5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Dec 2022 04:01:47 -0500
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E315A32B87;
-        Thu,  1 Dec 2022 01:01:46 -0800 (PST)
-Received: by mail-qk1-f180.google.com with SMTP id g10so703371qkl.6;
-        Thu, 01 Dec 2022 01:01:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5twYd/9hu6g7IqQ+PwKPuG+649XocBw2sPG8hDRpADA=;
-        b=R7jnC7pukaYVfg06hk0B1emb/1jLIydHf1BK0wod874ejWXWcnEtdAer38+NFbQJb1
-         WM6g1AaWM48UkghZRFKD4naOdAfLdlJvLqZxC5C2GN8qGkBeBgYUxByC1WvQeDwBKcuL
-         jN71x9uHHCUpchmqIDEGxhP8+2bmvXXsJfVgqcm26t8eaucc+EKQKBZenDrrXZTZYcwx
-         LaQUGoOELruJlXqIWD7fQJKHhhT3qOBH3NXDa52spXBk4TlY1aIuFHdOw8GWLcwT4ciw
-         Fear542qLAwnnupig0g9A7Z6rR/Fq1pKKpX3vwgyZ1VkEkkZkuTc2qxUIOX4ywodCx3t
-         UsDQ==
-X-Gm-Message-State: ANoB5plxO2iqiX3poOp5mMlxjzjo8B77fTZOlXLaNwgvCaAAWUgrdkDt
-        M8cWqRbhi+4Yfy+TkSTy4J1D0FNqy7y+kg==
-X-Google-Smtp-Source: AA0mqf48UL1d8MpzlD2sDjUdOfnNeEDu16AA2lPx84KVCtkHAwcQvl04C5ms13AOsDlI0PRGVq1Mhg==
-X-Received: by 2002:a05:620a:16c5:b0:6fa:9834:ce59 with SMTP id a5-20020a05620a16c500b006fa9834ce59mr58351623qkn.276.1669885305859;
-        Thu, 01 Dec 2022 01:01:45 -0800 (PST)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id q2-20020a05620a2a4200b006fa4cefccd6sm3116754qkp.13.2022.12.01.01.01.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Dec 2022 01:01:45 -0800 (PST)
-Received: by mail-yb1-f174.google.com with SMTP id e141so1211705ybh.3;
-        Thu, 01 Dec 2022 01:01:45 -0800 (PST)
-X-Received: by 2002:a25:7408:0:b0:6f2:49a7:38ef with SMTP id
- p8-20020a257408000000b006f249a738efmr29618144ybc.365.1669885304829; Thu, 01
- Dec 2022 01:01:44 -0800 (PST)
+        Thu, 1 Dec 2022 04:06:57 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C88462C1;
+        Thu,  1 Dec 2022 01:06:55 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED43B33F;
+        Thu,  1 Dec 2022 10:06:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669885612;
+        bh=ND7XGuKlUkPBHeU5Bp0ctgaJsNefKn67OU0NpJ8J3JA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=pwHcQVuCQf27Lg+oqOF9F3quGy4Gc2wMv385LqQ7RhEHRD3DbmsGHjHg/McZSh0vS
+         uv6mDgZUkwkVrlsmmdp0NpHybsU95O2w7YMCZIVzoXtoB7sxZF70v6arYNoY8oO++G
+         2gZr5UF8lbu+ikaZ4hTd+g3xc589sDlUgYSy1sJE=
+Message-ID: <cb85e1f4-2292-19d4-2b7e-f16c1b43d29f@ideasonboard.com>
+Date:   Thu, 1 Dec 2022 11:06:48 +0200
 MIME-Version: 1.0
-References: <20221122185802.1853648-1-biju.das.jz@bp.renesas.com>
- <Y30j7Q6Jc/y8mGTu@pendragon.ideasonboard.com> <OS0PR01MB59224A76B83B9A2318A8D4E9860D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <Y30pHOylptuMxFgX@pendragon.ideasonboard.com>
-In-Reply-To: <Y30pHOylptuMxFgX@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 1 Dec 2022 10:01:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUjibk0FO0+Su5NbV-pgBhiYqVsjX6XM5Sg2nXyybA3YQ@mail.gmail.com>
-Message-ID: <CAMuHMdUjibk0FO0+Su5NbV-pgBhiYqVsjX6XM5Sg2nXyybA3YQ@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: rzg2l-smarc: Enable ADV7535 on
- carrier board
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 3/7] clk: renesas: r8a779g0: Add display related clocks
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+References: <20221123065946.40415-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221123065946.40415-4-tomi.valkeinen+renesas@ideasonboard.com>
+ <CAMuHMdUjCS6q44XmTanu=R68GyuVECLa0B-1AFg1CUD_oV4DuA@mail.gmail.com>
+From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <CAMuHMdUjCS6q44XmTanu=R68GyuVECLa0B-1AFg1CUD_oV4DuA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi,
 
-Thanks for your patch!
+On 30/11/2022 21:18, Geert Uytterhoeven wrote:
+> Hi Tomi,
+> 
+> On Wed, Nov 23, 2022 at 8:00 AM Tomi Valkeinen
+> <tomi.valkeinen+renesas@ideasonboard.com> wrote:
+>> Add clocks related to display which are needed to get the DSI output
+>> working.
+>>
+>> Extracted from Renesas BSP tree.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Thanks for your patch!
+> 
+>> --- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+>> +++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+>> @@ -145,6 +145,8 @@ static const struct cpg_core_clk r8a779g0_core_clks[] __initconst = {
+>>          DEF_FIXED("viobusd2",   R8A779G0_CLK_VIOBUSD2,  CLK_VIO,        2, 1),
+>>          DEF_FIXED("vcbus",      R8A779G0_CLK_VCBUS,     CLK_VC,         1, 1),
+>>          DEF_FIXED("vcbusd2",    R8A779G0_CLK_VCBUSD2,   CLK_VC,         2, 1),
+>> +       DEF_FIXED("dsiref",     R8A779G0_CLK_DSIREF,    CLK_PLL5_DIV4,  48, 1),
+>> +       DEF_DIV6P1("dsiext",    R8A779G0_CLK_DSIEXT,    CLK_PLL5_DIV4,  0x884),
+>>
+>>          DEF_GEN4_SDH("sd0h",    R8A779G0_CLK_SD0H,      CLK_SDSRC,         0x870),
+>>          DEF_GEN4_SD("sd0",      R8A779G0_CLK_SD0,       R8A779G0_CLK_SD0H, 0x870),
+>> @@ -161,6 +163,14 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
+>>          DEF_MOD("avb0",         211,    R8A779G0_CLK_S0D4_HSC),
+>>          DEF_MOD("avb1",         212,    R8A779G0_CLK_S0D4_HSC),
+>>          DEF_MOD("avb2",         213,    R8A779G0_CLK_S0D4_HSC),
+>> +
+> 
+> Weird horizontal and vertical spacing below...
 
-On Tue, Nov 22, 2022 at 8:55 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Tue, Nov 22, 2022 at 07:41:13PM +0000, Biju Das wrote:
-> > > Subject: Re: [PATCH] arm64: dts: renesas: rzg2l-smarc: Enable ADV7535 on
-> > > carrier board
-> > > On Tue, Nov 22, 2022 at 06:58:02PM +0000, Biju Das wrote:
-> > > > Enable ADV7535 (MIPI DSI Receiver with HDMI Transmitter) on RZ/G2L
-> > > > SMARC EVK.
-> > > >
-> > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Yep. I added those to keep the lines more visible for me while working 
+on this, but forgot to remove.
 
-> > > > --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-> > > > +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+> 
+>> +       DEF_MOD("dis0",                 411,    R8A779G0_CLK_S0D3),
+> 
+> I doubt this parent clock is correct.
+> Based on Table 8.1.4e ("Lists of CPG clocks generated from PLL5"),
+> this should be one of the VIOBUS clocks.
+> VIOBUSD2 has the same rate as S0D3, so I'd use that one.
 
-> > > > +&i2c1 {
-> > > > + pinctrl-0 = <&i2c1_pins>;
-> > > > + pinctrl-names = "default";
-> > > > +
-> > > > + status = "okay";
+I'm pretty clueless about Renesas clocks, and I can't find a nice 
+clock-tree picture from the docs, but looking at the table, what you say 
+makes sense.
 
-pinctrl and status are already set by rz-smarc-common.dtsi?
+Both VIOBUS and VIOBUSD2 are marked to go to the video IPs, but with a 
+bit of browsing, I can't find any more info about the clocking. Afaik, 
+we don't care about the dis0 rate in the driver, so... Basically any 
+clock will work here =). I'll pick VIOBUSD2 as you suggest (why would 
+there be a /2 clock if it's not used...).
 
-> > > > +
-> > > > + adv7535: hdmi@3d {
-> > > > +         compatible = "adi,adv7535";
-> > > > +         reg = <0x3d>;
-> > > > +
-> > > > +         avdd-supply = <&reg_1p8v>;
-> > > > +         dvdd-supply = <&reg_1p8v>;
-> > > > +         pvdd-supply = <&reg_1p8v>;
-> > > > +         a2vdd-supply = <&reg_1p8v>;
-> > > > +         v3p3-supply = <&reg_3p3v>;
-> > > > +         v1p2-supply = <&reg_1p8v>;
-> > > > +
-> > > > +         adi,dsi-lanes = <4>;
+>> +       DEF_MOD("dsitxlink0",           415,    R8A779G0_CLK_DSIREF),
+>> +       DEF_MOD("dsitxlink1",           416,    R8A779G0_CLK_DSIREF),
+>> +
+>> +       DEF_MOD("fcpvd0",               508,    R8A779G0_CLK_S0D3),
+>> +       DEF_MOD("fcpvd1",               509,    R8A779G0_CLK_S0D3),
+> 
+> Likewise.
 
-Missing clocks/clock-names (OSC1, 12 MHz).
-Missing interrupts (P2_1).
+Ack.
 
-> > > > +
-> > > > +         ports {
-> > > > +                 #address-cells = <1>;
-> > > > +                 #size-cells = <0>;
-> > > > +
-> > >
-> > > How about port@0 ? That's the DSI input, I expect it should be connected
-> > > to the DSI encoder output.
-> >
-> > Yes, I will enable DSI node and link with port@0.  Since both RZ/G2L and RZ/V2L
-> > uses same Carrier board, I need to send binding patch for RZ/V2L.
-> >
-> > dts Patches for enabling DSI for RZ/G2L ready. But V2L there is dependency on bindings.
+>> +
+>>          DEF_MOD("hscif0",       514,    R8A779G0_CLK_SASYNCPERD1),
+>>          DEF_MOD("hscif1",       515,    R8A779G0_CLK_SASYNCPERD1),
+>>          DEF_MOD("hscif2",       516,    R8A779G0_CLK_SASYNCPERD1),
+>> @@ -193,6 +203,10 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
+>>          DEF_MOD("tmu3",         716,    R8A779G0_CLK_SASYNCPERD2),
+>>          DEF_MOD("tmu4",         717,    R8A779G0_CLK_SASYNCPERD2),
+>>          DEF_MOD("tpu0",         718,    R8A779G0_CLK_SASYNCPERD4),
+>> +
+>> +       DEF_MOD("vspd0",                830,    R8A779G0_CLK_S0D1_VIO),
+>> +       DEF_MOD("vspd1",                831,    R8A779G0_CLK_S0D1_VIO),
+> 
+> While S0D1_VIO is a VIO clock, it is clocked from PLL1, which supports
+> spread-spectrum, unlike PLL5.
+> Again, based on Table 8.1.4e ("Lists of CPG clocks generated from
+> PLL5"), this should be one of the VIOBUS clocks.
 
-That's just a matter of days, right?
+Yep.
 
-> > If you prefer both ports together, then I can defer this later.
->
-> It could be easier to review (not to mention testing). I'll let Geert
-> decide.
+> Not that all of this matters a lot: all of these parents are always-on,
+> and I think "dis0" is the only clock where we care about the actual
+> clock rate?
+No, of the clocks added above, in the drivers we only care about the 
+dsiref rate. That's used for the DSI PLL, and that PLL is used as the 
+DU's pclk.
 
-Is there any advantage in applying this patch now, i.e. does it enable
-any working functionality?
+  Tomi
 
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
