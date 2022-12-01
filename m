@@ -2,65 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5267363F556
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Dec 2022 17:35:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73D9863F723
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Dec 2022 19:09:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232248AbiLAQfO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Dec 2022 11:35:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53020 "EHLO
+        id S229705AbiLASJm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Dec 2022 13:09:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232116AbiLAQfN (ORCPT
+        with ESMTP id S229646AbiLASJl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Dec 2022 11:35:13 -0500
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88C66A9E85;
-        Thu,  1 Dec 2022 08:35:12 -0800 (PST)
-Received: by mail-qv1-f44.google.com with SMTP id p12so1681635qvu.5;
-        Thu, 01 Dec 2022 08:35:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uNyQThBRZMWponG93Z3/67KGP2UG/KQtMt9pyQaiuys=;
-        b=AiEchH2wSttHBSZPfoPVPO6UATUITSORlKQttS522B/Pb35+l5pfqi90O7XqMFwYDW
-         Zo3IDzMSBRqElj9eP3B7sbqY71QniY8KZ4lyvp1lsthaIbwGDOFQLq7OVCk10pwoOMCA
-         itTre2jQB9WnzNVHU4ijENd1NsKzlu43+HEshhmaiI06FtOWrkmtRkA1C1QOuROqHMTo
-         YTLpbgFIT+KBCNS/M0ExXwVlxmNy4gJp+mlOqsk53gafGHPPGlwnyIRhL5YgZXEwWdFA
-         xuWBUDhUSGjFuY7Unr8V5z00wjskqEiMZUp6Kc2I665u3B8pn3L6HKoQvFYSz705WMQz
-         elig==
-X-Gm-Message-State: ANoB5pm1VRSWIF7hB6RQqFXyleuUjxE7Y2TiNKBTH3iqb6QvVrej21BT
-        5mXdtTlAfmIz0D2CEumY0W3gnxP4jDzxNw==
-X-Google-Smtp-Source: AA0mqf5EntQNHSUw4zLKeqMa4LuNylxw5BHGNMXTrIzzKGue7OYa4rbU65RZYLv0xuDirae6bdWBqw==
-X-Received: by 2002:a05:6214:3487:b0:4c6:9f78:6fc0 with SMTP id mr7-20020a056214348700b004c69f786fc0mr43652970qvb.38.1669912511271;
-        Thu, 01 Dec 2022 08:35:11 -0800 (PST)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id f21-20020a05620a409500b006b953a7929csm3837019qko.73.2022.12.01.08.35.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Dec 2022 08:35:10 -0800 (PST)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-3b48b139b46so22499527b3.12;
-        Thu, 01 Dec 2022 08:35:10 -0800 (PST)
-X-Received: by 2002:a0d:e6d4:0:b0:3c0:5701:ceaf with SMTP id
- p203-20020a0de6d4000000b003c05701ceafmr25044676ywe.358.1669912510376; Thu, 01
- Dec 2022 08:35:10 -0800 (PST)
+        Thu, 1 Dec 2022 13:09:41 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99141A604E
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Dec 2022 10:09:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=IFDPDHyResCflYkSCq5q5dLxxdKd
+        kwEHUoejDRAdiGo=; b=D3n8XyEa0LLfouJhZHqwIxo/OISgmMQhEvkCENmFEOKh
+        qYazhwaqag6I5KdHXJw350EX4XJAS4rHDBFEssaGbc4gffEQMcrSeDxMV7VPI85J
+        u+wbYhu1sQQks7QBPrDpfHDalSJWdLMQ6uqvs14orx+dIjCuzXuQyGk7a194ESI=
+Received: (qmail 728924 invoked from network); 1 Dec 2022 19:09:35 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Dec 2022 19:09:35 +0100
+X-UD-Smtp-Session: l3s3148p1@Qx9iH8ju/s8gAQnoAHp8AKw37PRURidB
+Date:   Thu, 1 Dec 2022 19:09:30 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] clocksource/drivers/sh_cmt: access registers according
+ to spec
+Message-ID: <Y4jt2riYNH0Fq5tD@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-kernel@vger.kernel.org
+References: <20221130210609.7718-1-wsa+renesas@sang-engineering.com>
+ <87pmd3s89f.ffs@tglx>
 MIME-Version: 1.0
-References: <20221124191643.3193423-1-biju.das.jz@bp.renesas.com> <20221124191643.3193423-6-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20221124191643.3193423-6-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 1 Dec 2022 17:34:59 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWdZF0VQxETB87DmiRYQx1BVf5d1rEND8y7HVJGHeU_7A@mail.gmail.com>
-Message-ID: <CAMuHMdWdZF0VQxETB87DmiRYQx1BVf5d1rEND8y7HVJGHeU_7A@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] arm64: dts: renesas: rzv2m evk: Enable pwm
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="aBoNTTNNNXWDqBN/"
+Content-Disposition: inline
+In-Reply-To: <87pmd3s89f.ffs@tglx>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
         autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,20 +59,44 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 24, 2022 at 8:17 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Enable pwm{8..14} on RZ/V2M EVK.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+--aBoNTTNNNXWDqBN/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Gr{oetje,eeting}s,
 
-                        Geert
+> https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#change=
+log
+>=20
+> I fixed it up for you this time...
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+[...]
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Instead of quoting, it would have been helpful to have the lore links
+> for RFC v1/v2....
+
+Thanks for fixing it, Thomas. I will improve!
+
+
+--aBoNTTNNNXWDqBN/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmOI7dcACgkQFA3kzBSg
+Kba3Mg/8Dvuz7SuAAiySNTpA5eAUSXzLEFGXi2UR1hLnWP3Yg4xQrtbTzBJo27q/
+aVsamuuKiX+E6mxIF9dHmBZjDz8wmyQrpPbFAP255nggbjNR36uLgBCmMXokV0sn
+VlbS3PrwmqBw+K/tRvrv58RRDAc6Rtgynw2O+8UTIp+odxlCbT54RY7RAqJH0CHU
+T/7sJfz6owtlNy4bWdbBAeQJlk7tI1+NbRav6HLzpSy3UrxdM+uN4XnOpfRMdyS1
+HMmDlXVxCuVFQNDWmY8gvG1eKL8nj0Rfjp8UjeJ3jmYIezjxNSwxoHoRhccWOa0/
+cvS3GxkiZ3Ng3YJS7rUHadnD9xzPULMB3gOhIjPB6Xi1H4kaAvo552ozjJsvjOhU
+NTuQLlXrOdWusOKXguuuATlLxworVi8VLt+87yPqn8BVYyjHBC11KH3RMLWheS5r
+jXEc3qYAxo7QWOTexciORZeEyNnE1+einrsnLJW+jUgTn/MGPJvuEfsjFUw8Mbqz
+O8a9uKibnBDx24fMhCftHuIf0NOfxCSdkNaXmRO7kJj4hw7lFaYDYTco6T9yBLx9
+vjO96ed+71TdMOAPDG7GaMgxfWxPwIEYLk65TXUmJqNUZJtVWblhGGkgbN12/DcV
+U0qHNmnGhFvbkiTDdtXJGi0uoZkIwxBcu2652GAk/aPc1OSyPP4=
+=rPQH
+-----END PGP SIGNATURE-----
+
+--aBoNTTNNNXWDqBN/--
