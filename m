@@ -2,159 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1D0063EBF8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Dec 2022 10:07:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D43463EC1D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Dec 2022 10:15:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbiLAJG7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Dec 2022 04:06:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40652 "EHLO
+        id S229662AbiLAJPR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Dec 2022 04:15:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229954AbiLAJG5 (ORCPT
+        with ESMTP id S229576AbiLAJPQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Dec 2022 04:06:57 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C88462C1;
-        Thu,  1 Dec 2022 01:06:55 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED43B33F;
-        Thu,  1 Dec 2022 10:06:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669885612;
-        bh=ND7XGuKlUkPBHeU5Bp0ctgaJsNefKn67OU0NpJ8J3JA=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=pwHcQVuCQf27Lg+oqOF9F3quGy4Gc2wMv385LqQ7RhEHRD3DbmsGHjHg/McZSh0vS
-         uv6mDgZUkwkVrlsmmdp0NpHybsU95O2w7YMCZIVzoXtoB7sxZF70v6arYNoY8oO++G
-         2gZr5UF8lbu+ikaZ4hTd+g3xc589sDlUgYSy1sJE=
-Message-ID: <cb85e1f4-2292-19d4-2b7e-f16c1b43d29f@ideasonboard.com>
-Date:   Thu, 1 Dec 2022 11:06:48 +0200
+        Thu, 1 Dec 2022 04:15:16 -0500
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F491442C7;
+        Thu,  1 Dec 2022 01:15:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1669886069; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=PuFREHxuJ3FoD3zI0cgmwgxXBACrFbsNXtmB1ZUDMZF0Vw7u5go+yLfWIyRlKmsI4dy/C4JBEgDliSKn1GHoNmOpzBqaWl6iXr8io/eTVI3oCPsCmOMRaRxdzRXptLt4DP3hnV53GkO6NAhhWer+prEaTAbxrLXw/JqtvaQrzWo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1669886069; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=rmnGX0as+j0mWZhRBwCINR7c9wsJ33DTrPhAflpkh7k=; 
+        b=fw/MEtbCpCH9VgI82wo0vE16g6dZ8NV1Le4xk0BjWdTYK38rt7XBr8kXPBBPo3YRUN6Qe0dqE8w6e3UHXsxU9mNhstxy2c3zRoUP/VEPwky/wlzovr2sCQ7tztCh20i22nk9oPAoF3GnSvN5RPlNAcT6sNLjUOovaigMSm1VuKI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=arinc9.com;
+        spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
+        dmarc=pass header.from=<arinc.unal@arinc9.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1669886069;
+        s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
+        h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+        bh=rmnGX0as+j0mWZhRBwCINR7c9wsJ33DTrPhAflpkh7k=;
+        b=kC5OJuaedGtqPWAXavS8QBOXmOzGAN9KVKeFTZblN5hQvtgIY+bZgMHEmvSv5xeL
+        m50GcHUsZyBhq0mNsX+aCeIwwvLqFeeWwtPZKWwBHrfnYXDUeClaEjUb82O6yrKKDVx
+        OifNFxxqXQi0y0KKnh1zyARvxBzbuGAfmR/P71Bk=
+Received: from [10.10.10.3] (37.120.152.236 [37.120.152.236]) by mx.zohomail.com
+        with SMTPS id 1669886067241836.827775278157; Thu, 1 Dec 2022 01:14:27 -0800 (PST)
+Message-ID: <b5ed90cf-1b5d-9306-7b06-ded7c331ca2a@arinc9.com>
+Date:   Thu, 1 Dec 2022 12:14:21 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 3/7] clk: renesas: r8a779g0: Add display related clocks
+Subject: Re: [PATCH 0/5] remove label = "cpu" from DSA dt-binding
 Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20221123065946.40415-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221123065946.40415-4-tomi.valkeinen+renesas@ideasonboard.com>
- <CAMuHMdUjCS6q44XmTanu=R68GyuVECLa0B-1AFg1CUD_oV4DuA@mail.gmail.com>
-From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <CAMuHMdUjCS6q44XmTanu=R68GyuVECLa0B-1AFg1CUD_oV4DuA@mail.gmail.com>
+To:     Jakub Kicinski <kuba@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        soc@kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Cc:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>
+References: <20221130141040.32447-1-arinc.unal@arinc9.com>
+From:   =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+In-Reply-To: <20221130141040.32447-1-arinc.unal@arinc9.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+I'm sending a more specific mail to make sure this series doesn't fall 
+through the cracks like Andrew said. I'd like this merged this week 
+before the merge window closes.
 
-On 30/11/2022 21:18, Geert Uytterhoeven wrote:
-> Hi Tomi,
+Jakub, please take patch 1.
+Arnd, please take patch 2 and 3.
+Thomas, please take patch 4.
+Michael, please take patch 5.
+
+Arınç
+
+On 30.11.2022 17:10, Arınç ÜNAL wrote:
+> Hello folks,
 > 
-> On Wed, Nov 23, 2022 at 8:00 AM Tomi Valkeinen
-> <tomi.valkeinen+renesas@ideasonboard.com> wrote:
->> Add clocks related to display which are needed to get the DSI output
->> working.
->>
->> Extracted from Renesas BSP tree.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> With this patch series, we're completely getting rid of 'label = "cpu";'
+> which is not used by the DSA dt-binding at all.
 > 
-> Thanks for your patch!
+> Information for taking the patches for maintainers:
+> Patch 1: netdev maintainers (based off netdev/net-next.git main)
+> Patch 2-3: SoC maintainers (based off soc/soc.git soc/dt)
+> Patch 4: MIPS maintainers (based off mips/linux.git mips-next)
+> Patch 5: PowerPC maintainers (based off powerpc/linux.git next-test)
 > 
->> --- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
->> +++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
->> @@ -145,6 +145,8 @@ static const struct cpg_core_clk r8a779g0_core_clks[] __initconst = {
->>          DEF_FIXED("viobusd2",   R8A779G0_CLK_VIOBUSD2,  CLK_VIO,        2, 1),
->>          DEF_FIXED("vcbus",      R8A779G0_CLK_VCBUS,     CLK_VC,         1, 1),
->>          DEF_FIXED("vcbusd2",    R8A779G0_CLK_VCBUSD2,   CLK_VC,         2, 1),
->> +       DEF_FIXED("dsiref",     R8A779G0_CLK_DSIREF,    CLK_PLL5_DIV4,  48, 1),
->> +       DEF_DIV6P1("dsiext",    R8A779G0_CLK_DSIEXT,    CLK_PLL5_DIV4,  0x884),
->>
->>          DEF_GEN4_SDH("sd0h",    R8A779G0_CLK_SD0H,      CLK_SDSRC,         0x870),
->>          DEF_GEN4_SD("sd0",      R8A779G0_CLK_SD0,       R8A779G0_CLK_SD0H, 0x870),
->> @@ -161,6 +163,14 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
->>          DEF_MOD("avb0",         211,    R8A779G0_CLK_S0D4_HSC),
->>          DEF_MOD("avb1",         212,    R8A779G0_CLK_S0D4_HSC),
->>          DEF_MOD("avb2",         213,    R8A779G0_CLK_S0D4_HSC),
->> +
+> I've been meaning to submit this for a few months. Find the relevant
+> conversation here:
+> https://lore.kernel.org/netdev/20220913155408.GA3802998-robh@kernel.org/
 > 
-> Weird horizontal and vertical spacing below...
-
-Yep. I added those to keep the lines more visible for me while working 
-on this, but forgot to remove.
-
+> Here's how I did it, for the interested (or suggestions):
 > 
->> +       DEF_MOD("dis0",                 411,    R8A779G0_CLK_S0D3),
+> Find the platforms which have got 'label = "cpu";' defined.
+> grep -rnw . -e 'label = "cpu";'
 > 
-> I doubt this parent clock is correct.
-> Based on Table 8.1.4e ("Lists of CPG clocks generated from PLL5"),
-> this should be one of the VIOBUS clocks.
-> VIOBUSD2 has the same rate as S0D3, so I'd use that one.
-
-I'm pretty clueless about Renesas clocks, and I can't find a nice 
-clock-tree picture from the docs, but looking at the table, what you say 
-makes sense.
-
-Both VIOBUS and VIOBUSD2 are marked to go to the video IPs, but with a 
-bit of browsing, I can't find any more info about the clocking. Afaik, 
-we don't care about the dis0 rate in the driver, so... Basically any 
-clock will work here =). I'll pick VIOBUSD2 as you suggest (why would 
-there be a /2 clock if it's not used...).
-
->> +       DEF_MOD("dsitxlink0",           415,    R8A779G0_CLK_DSIREF),
->> +       DEF_MOD("dsitxlink1",           416,    R8A779G0_CLK_DSIREF),
->> +
->> +       DEF_MOD("fcpvd0",               508,    R8A779G0_CLK_S0D3),
->> +       DEF_MOD("fcpvd1",               509,    R8A779G0_CLK_S0D3),
+> Remove the line where 'label = "cpu";' is included.
+> sed -i /'label = "cpu";'/,+d arch/arm/boot/dts/*
+> sed -i /'label = "cpu";'/,+d arch/arm64/boot/dts/freescale/*
+> sed -i /'label = "cpu";'/,+d arch/arm64/boot/dts/marvell/*
+> sed -i /'label = "cpu";'/,+d arch/arm64/boot/dts/mediatek/*
+> sed -i /'label = "cpu";'/,+d arch/arm64/boot/dts/rockchip/*
+> sed -i /'label = "cpu";'/,+d arch/mips/boot/dts/qca/*
+> sed -i /'label = "cpu";'/,+d arch/mips/boot/dts/ralink/*
+> sed -i /'label = "cpu";'/,+d arch/powerpc/boot/dts/turris1x.dts
+> sed -i /'label = "cpu";'/,+d Documentation/devicetree/bindings/net/qca,ar71xx.yaml
 > 
-> Likewise.
-
-Ack.
-
->> +
->>          DEF_MOD("hscif0",       514,    R8A779G0_CLK_SASYNCPERD1),
->>          DEF_MOD("hscif1",       515,    R8A779G0_CLK_SASYNCPERD1),
->>          DEF_MOD("hscif2",       516,    R8A779G0_CLK_SASYNCPERD1),
->> @@ -193,6 +203,10 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
->>          DEF_MOD("tmu3",         716,    R8A779G0_CLK_SASYNCPERD2),
->>          DEF_MOD("tmu4",         717,    R8A779G0_CLK_SASYNCPERD2),
->>          DEF_MOD("tpu0",         718,    R8A779G0_CLK_SASYNCPERD4),
->> +
->> +       DEF_MOD("vspd0",                830,    R8A779G0_CLK_S0D1_VIO),
->> +       DEF_MOD("vspd1",                831,    R8A779G0_CLK_S0D1_VIO),
+> Restore the symlink files which typechange after running sed.
 > 
-> While S0D1_VIO is a VIO clock, it is clocked from PLL1, which supports
-> spread-spectrum, unlike PLL5.
-> Again, based on Table 8.1.4e ("Lists of CPG clocks generated from
-> PLL5"), this should be one of the VIOBUS clocks.
-
-Yep.
-
-> Not that all of this matters a lot: all of these parents are always-on,
-> and I think "dis0" is the only clock where we care about the actual
-> clock rate?
-No, of the clocks added above, in the drivers we only care about the 
-dsiref rate. That's used for the DSI PLL, and that PLL is used as the 
-DU's pclk.
-
-  Tomi
-
+> Arınç ÜNAL (5):
+>    dt-bindings: net: qca,ar71xx: remove label = "cpu" from examples
+>    arm: dts: remove label = "cpu" from DSA dt-binding
+>    arm64: dts: remove label = "cpu" from DSA dt-binding
+>    mips: dts: remove label = "cpu" from DSA dt-binding
+>    powerpc: dts: remove label = "cpu" from DSA dt-binding
+> 
+> 
