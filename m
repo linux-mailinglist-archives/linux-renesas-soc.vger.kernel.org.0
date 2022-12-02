@@ -2,105 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6CB164073B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Dec 2022 13:56:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D37B640793
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Dec 2022 14:17:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233584AbiLBMz7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Dec 2022 07:55:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55362 "EHLO
+        id S233041AbiLBNR1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Dec 2022 08:17:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233606AbiLBMzz (ORCPT
+        with ESMTP id S232011AbiLBNR0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Dec 2022 07:55:55 -0500
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04942DCBE4
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Dec 2022 04:55:50 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:2d07:19c5:4d8b:89d9])
-        by albert.telenet-ops.be with bizsmtp
-        id rQvn2800c0ys3B706QvnRD; Fri, 02 Dec 2022 13:55:48 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1p15Zz-002Isp-70; Fri, 02 Dec 2022 13:55:47 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1p15Zy-005gPI-JY; Fri, 02 Dec 2022 13:55:46 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Damien Horsley <Damien.Horsley@imgtec.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC 2/2] arm64: dts: renesas: ulcb-kf: Fix pcm3168a audio codec node
-Date:   Fri,  2 Dec 2022 13:55:44 +0100
-Message-Id: <3c0f5b935da4468fe04e2d85becafda0040e4d31.1669980383.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1669980383.git.geert+renesas@glider.be>
-References: <cover.1669980383.git.geert+renesas@glider.be>
+        Fri, 2 Dec 2022 08:17:26 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61BF3D0391
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Dec 2022 05:17:25 -0800 (PST)
+Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 333336E0;
+        Fri,  2 Dec 2022 14:17:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669987043;
+        bh=Vvp3GC1ku1oNURpxo5DAW0oDu9XgXlAGoZGz9tSDmRI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EAT+bA3gV4T8r1M3wVC8ZucYGAy9R9UtxwcuSgJhzjAbvVhNorzj0MVlt64VO1nDE
+         W7P809vDKUhiOcVvmGtU5D9mVXH1260QCP64tkvU6MlNMrKSxsJL6KNeu/McSRFftr
+         xRs5UL1MnX8Z92W45n/WZV6ahwlB5ek3D5DlgMwA=
+From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+To:     linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH kms++ 0/4] Support Y210
+Date:   Fri,  2 Dec 2022 15:16:54 +0200
+Message-Id: <20221202131658.434114-1-tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-"make dtbs_check":
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-    arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: audio-codec@44: ports: 'mclk-fs' does not match any of the regexes: '^port@[0-9a-f]+$', 'pinctrl-[0-9]+'
-	    From schema: Documentation/devicetree/bindings/sound/ti,pcm3168a.yaml
-    arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: audio-codec@44: ports:port@0:endpoint: Unevaluated properties are not allowed ('clocks' was unexpected)
-	    From schema: Documentation/devicetree/bindings/sound/ti,pcm3168a.yaml
-    arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: audio-codec@44: ports:port@1:endpoint: Unevaluated properties are not allowed ('clocks' was unexpected)
-	    From schema: Documentation/devicetree/bindings/sound/ti,pcm3168a.yaml
+Hi,
 
-Fix this by:
-  1. Moving the "mclk-fs" property to the endpoint nodes, where it
-     belongs according to .../sound/audio-graph-port.yaml,
-  2. Dropping the bogus "clocks" properties.
+These kms++ patches add support for Y210 format.
 
-Fixes: 80c07701d5918928 ("arm64: dts: renesas: ulcb-kf: add pcm3168 sound codec")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Compile-tested only.
----
- arch/arm64/boot/dts/renesas/ulcb-kf.dtsi | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+I didn't find a super clear description of the byte order for Y210
+anywhere.  If someone knows what it is supposed to be, I'd appreciate
+verifying the code =).
 
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-index 408871c2859d144d..8e46acbe3a203759 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-@@ -216,19 +216,18 @@ pcm3168a: audio-codec@44 {
- 				ports {
- 					#address-cells = <1>;
- 					#size-cells = <0>;
--					mclk-fs = <512>;
- 					port@0 {
- 						reg = <0>;
- 						pcm3168a_endpoint_p: endpoint {
-+							mclk-fs = <512>;
- 							remote-endpoint = <&rsnd_for_pcm3168a_play>;
--							clocks = <&clksndsel>;
- 						};
- 					};
- 					port@1 {
- 						reg = <1>;
- 						pcm3168a_endpoint_c: endpoint {
-+							mclk-fs = <512>;
- 							remote-endpoint = <&rsnd_for_pcm3168a_capture>;
--							clocks = <&clksndsel>;
- 						};
- 					};
- 				};
+ Tomi
+
+Tomi Valkeinen (4):
+  kms++: PixelFormats: Fix formatting
+  kms++: PixelFormats: Add Y210 format
+  kms++util: Add endian.h
+  kms++util: Add Y210 drawing support
+
+ kms++/inc/kms++/pixelformats.h   |  2 +
+ kms++/src/pixelformats.cpp       | 66 ++++++++------------------------
+ kms++util/inc/kms++util/endian.h | 46 ++++++++++++++++++++++
+ kms++util/src/drawing.cpp        | 31 +++++++++++++++
+ 4 files changed, 95 insertions(+), 50 deletions(-)
+ create mode 100644 kms++util/inc/kms++util/endian.h
+
 -- 
-2.25.1
+2.34.1
 
