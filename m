@@ -2,98 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3236640379
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Dec 2022 10:38:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C0C46403FE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Dec 2022 11:03:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232633AbiLBJit (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Dec 2022 04:38:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41680 "EHLO
+        id S233214AbiLBKDb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Dec 2022 05:03:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232577AbiLBJis (ORCPT
+        with ESMTP id S233197AbiLBKDI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Dec 2022 04:38:48 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15B68B0DC3;
-        Fri,  2 Dec 2022 01:38:48 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id n20so10346524ejh.0;
-        Fri, 02 Dec 2022 01:38:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tJDjgBXpMszFeIAvqAsFvMh1NYdd/aFzFWK8zEmUqAM=;
-        b=U9mb0G6OeUfsr7F5qkXSmk4SmSORG85/hynvQ3+ZvNSDVJJSF9UUp3dvjqnV8dN3AQ
-         b8R7Epvw/vVnuKFZZBf5CX50e2YB3bNRbr1mX5J0Ko8RsXQ3c+73nnbWgmYfpAmNl+OP
-         EfWByawDHJnTPX1QmdsVi2NPI+6qDT7QCHLa9n53KBCgCDH4mUUgHaz7DyJu+4xlzFeK
-         RTu5Y8Xc6hZ/yg/OwmvtBWTpIEkMZtMdUJtXa7HIrm0xa7FpGRfSa8ixUoBojckvRZNN
-         liIEKa3Cg7ntlatroMxJOSoU5rLmyMMZDXHw73yebWyq282HSXPnHCIXP8tYyA3PMOgB
-         rUUg==
+        Fri, 2 Dec 2022 05:03:08 -0500
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3050E12AA1
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Dec 2022 02:03:08 -0800 (PST)
+Received: by mail-qt1-f181.google.com with SMTP id y15so4412432qtv.5
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 02 Dec 2022 02:03:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tJDjgBXpMszFeIAvqAsFvMh1NYdd/aFzFWK8zEmUqAM=;
-        b=yozWmOwQTlDZmOyJDb4MnBkF9ikpJ3RUmq6ytI+jhLbIGLDCdIdBUlYryhoU2NMo2S
-         mflb0E86E62N/v93WA+LtTq3nFF13TOujoDCimKplO5ShrBRJQUg4Z64E3D+7vWNOIO2
-         lJ2G3hsdlxQ81irt2ynjh60exM7u7AlhmGKG0jGTxkqG6iQLP8VgOSmiH3L2CRMWHf5p
-         v0jQ2WiE06mtTtrayG2mIvtVteH4PfJDppdu5dWlkf62N+TIieD2v8hsYvDepjVaia4W
-         1pRDSTGX4CIr5GA3UFV+qv6ykYr7/m7x1VymyETRiXhpJEu2wgQQfvvbh0zepFfCNLaz
-         um4g==
-X-Gm-Message-State: ANoB5pnyq+3Yu9PYLBFxYPgbhCA4vJV3bI2or3+uqPNRhsE9dE7S6zu+
-        R9zQXw0OascoEbeYaXgps1Y1aYR0reOq4YttR4U=
-X-Google-Smtp-Source: AA0mqf7FIABNiGeTLlM0hVvJiKrNKmFgn+etb0uKjE4IT1Q/r1PLThWQVRPMXCJk1tD3bz6ZJt+mnaCfzIV6oA0v5mI=
-X-Received: by 2002:a17:906:9497:b0:7c0:cbc9:ab68 with SMTP id
- t23-20020a170906949700b007c0cbc9ab68mr635147ejx.155.1669973926567; Fri, 02
- Dec 2022 01:38:46 -0800 (PST)
+        bh=AmvG4ci+YmGJgWu9knNC0FP74yWJtjeGJbUzQcUGFO4=;
+        b=xIZMFQ0MleH1pk9c69s2d0eQB8OsZQA6r52+z48A/GBDDcjizuMbkWc++tsjR1hBIC
+         8q94nGERVIcthacF4Q/zTJKspkRLnT72ksPBIzsQMyhMUkOwaXm5yFv1FrCPgfUiqUxj
+         J9+kjf1dwf6ehQctX4fiaMiE5b4g3jsXrscJwPy6EOJHVLdF95RGUCzwxMlqdZV9yXhd
+         1e9wUyQh2cKC9dXWAvLinlCbYLpT9O8A/VTn5O7Ia/WCLYIrTl4MDaFK4NDu645bfJPY
+         4iL+0kM5/mRS6CTJrjlz1vznPZMU0G8/XF55A2CpA+JCH96wPivEOeXPEOdvd3jZwldE
+         VNng==
+X-Gm-Message-State: ANoB5plsJ5EZjpS0gpy4BDOz0fZRsVcX14me3oqQubhxQFReqFsnqr2Q
+        3vPQ7yDEmvPBRuZrcfW9/Vpz3w3eiYYIxA==
+X-Google-Smtp-Source: AA0mqf5J8d1SYBD+Pzz3oqHLeVRBSoGP6pYrP21n4Nc2bINFSPTOAehxQYDuz1WGQvCGfQK7KB63RQ==
+X-Received: by 2002:ae9:ebc8:0:b0:6fc:a8af:9241 with SMTP id b191-20020ae9ebc8000000b006fca8af9241mr5018805qkg.723.1669975387026;
+        Fri, 02 Dec 2022 02:03:07 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id y26-20020a37f61a000000b006fc62eabcc9sm4851676qkj.134.2022.12.02.02.03.05
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Dec 2022 02:03:06 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-3b10392c064so44058597b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 02 Dec 2022 02:03:05 -0800 (PST)
+X-Received: by 2002:a0d:dd4b:0:b0:370:61f5:b19e with SMTP id
+ g72-20020a0ddd4b000000b0037061f5b19emr1188032ywe.316.1669975385365; Fri, 02
+ Dec 2022 02:03:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20221124172207.153718-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y4k6ct+iA4j0NZgR@spud>
-In-Reply-To: <Y4k6ct+iA4j0NZgR@spud>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 2 Dec 2022 09:38:20 +0000
-Message-ID: <CA+V-a8v5-nz_f-_P=L0miBPHOVAND-V8ed-tVttXV52nOJth6w@mail.gmail.com>
-Subject: Re: [PATCH v4 0/7] AX45MP: Add support to non-coherent DMA
-To:     Conor Dooley <conor@kernel.org>
-Cc:     palmer@dabbelt.com, Paul Walmsley <paul.walmsley@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Guo Ren <guoren@kernel.org>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20221122184854.1820126-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20221122184854.1820126-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 2 Dec 2022 11:02:53 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVSM7kjXHvPyTFtjyo0oUm-Kr30_i891kaNMgG3KEcokA@mail.gmail.com>
+Message-ID: <CAMuHMdVSM7kjXHvPyTFtjyo0oUm-Kr30_i891kaNMgG3KEcokA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: defconfig: Enable Renesas RZ/G2L MIPI DSI driver
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@collabora.com>, Mark Brown <broonie@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Conor,
-
-On Thu, Dec 1, 2022 at 11:36 PM Conor Dooley <conor@kernel.org> wrote:
+On Tue, Nov 22, 2022 at 7:49 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Enable MIPI DSI driver support for Renesas RZ/G2L based platforms.
 >
-> Hi Prabhakar,
->
-> I'm going to mark this series as "Changes Requested" in patchwork since
-> there's been quite a lot of commentary and it looks like Samuel & Heiko
-> have both suggested some changes.
-Sounds good, I am working on the changes requested.
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  binding and driver patch is already in linux-next[1] and [2]
+>  [1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=next-20221122&id=b1a90f510230afa9483e38fccbf9e4274c92aa8c
+>  [2] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=next-20221122&id=7a043f978ed1433bddb088a732e9bb91501ebd76
 
-Cheers,
-Prabhakar
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.3.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
