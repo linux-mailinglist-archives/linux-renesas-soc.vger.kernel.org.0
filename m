@@ -2,44 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D57E641CF0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  4 Dec 2022 13:38:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C466B641CF2
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  4 Dec 2022 13:41:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbiLDMio (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 4 Dec 2022 07:38:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46146 "EHLO
+        id S229919AbiLDMle (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 4 Dec 2022 07:41:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229934AbiLDMin (ORCPT
+        with ESMTP id S229638AbiLDMld (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 4 Dec 2022 07:38:43 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8390715A08
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  4 Dec 2022 04:38:41 -0800 (PST)
+        Sun, 4 Dec 2022 07:41:33 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88AD612AE9
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  4 Dec 2022 04:41:32 -0800 (PST)
 Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E3CD832A;
-        Sun,  4 Dec 2022 13:38:38 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3826532A;
+        Sun,  4 Dec 2022 13:41:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1670157519;
-        bh=BWxghlkNeXSmGtzwuQ/1zjw43aA0qC7aK1MWcjy0UaM=;
+        s=mail; t=1670157690;
+        bh=iq4MKaLe3lthTQs1l0i6wrE2s5mtrNKhAA1GpmJwIpQ=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=GfuaS3vLosm+1wU59wCJbNOgvT+QgP0fPikoWGakI/NnVpw7paccnz4iDsA0IwUQB
-         PtSrGxDPnb3tf+8IwB6CVUKw1p9RTZ5nb4AWYXoLRbd/PZvCKIYJDxBeS8VsCqJgI+
-         8u0Rqd1S3cWJLSuvAPJdfrrLMx+DHXJ7I4Oi4gPw=
-Message-ID: <91809d16-4466-890d-4a47-7bdaf526ae38@ideasonboard.com>
-Date:   Sun, 4 Dec 2022 14:38:35 +0200
+        b=hrtnKcQko++cJcfe1mDIigMeE+v6dsjUhecUXupBU+stAr/mKM91MkoyQs8tXR6Ut
+         jHjFtb0Hj9jiSS+y2/1DwUEp7b8WeYwGNjy+BfeASf0h4voPpTywObV8MHc3UG3KRD
+         bNRxcWO8NETCR/vldquv9IwsA8Tf9l1wE8i7Y3zs=
+Message-ID: <a7db3cbb-af2a-1ad0-3c8a-51875c8ae652@ideasonboard.com>
+Date:   Sun, 4 Dec 2022 14:41:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH kms++ 3/4] kms++util: Add endian.h
+Subject: Re: [PATCH kms++ 4/4] kms++util: Add Y210 drawing support
+Content-Language: en-US
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
 References: <20221202131658.434114-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221202131658.434114-4-tomi.valkeinen+renesas@ideasonboard.com>
- <Y4qQo4zT4qw9/myt@pendragon.ideasonboard.com>
-Content-Language: en-US
+ <20221202131658.434114-5-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y4qR2lAKELIOVcFQ@pendragon.ideasonboard.com>
 From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <Y4qQo4zT4qw9/myt@pendragon.ideasonboard.com>
+In-Reply-To: <Y4qR2lAKELIOVcFQ@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -51,84 +51,66 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 03/12/2022 01:56, Laurent Pinchart wrote:
+On 03/12/2022 02:01, Laurent Pinchart wrote:
 > Hi Tomi,
 > 
 > Thank you for the patch.
 > 
-> On Fri, Dec 02, 2022 at 03:16:57PM +0200, Tomi Valkeinen wrote:
->> Add simple endianness supporting write function, and, for now, only one
->> shortcut helper, write16le().
+> On Fri, Dec 02, 2022 at 03:16:58PM +0200, Tomi Valkeinen wrote:
+>> Add support for drawing Y210 pixels.
 >>
 >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 >> ---
->>   kms++util/inc/kms++util/endian.h | 46 ++++++++++++++++++++++++++++++++
->>   1 file changed, 46 insertions(+)
->>   create mode 100644 kms++util/inc/kms++util/endian.h
+>>   kms++util/src/drawing.cpp | 31 +++++++++++++++++++++++++++++++
+>>   1 file changed, 31 insertions(+)
 >>
->> diff --git a/kms++util/inc/kms++util/endian.h b/kms++util/inc/kms++util/endian.h
->> new file mode 100644
->> index 0000000..ea09065
->> --- /dev/null
->> +++ b/kms++util/inc/kms++util/endian.h
->> @@ -0,0 +1,46 @@
->> +#pragma once
->> +
->> +#include <type_traits>
->> +#include <byteswap.h>
->> +#include <stdint.h>
->> +
->> +static_assert((__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__) ||
->> +	      (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__),
->> +	      "Unable to detect endianness");
->> +
->> +enum class endian {
->> +	little = __ORDER_LITTLE_ENDIAN__,
->> +	big = __ORDER_BIG_ENDIAN__,
->> +	native = __BYTE_ORDER__
->> +};
->> +
->> +template<typename T>
->> +constexpr T byteswap(T value) noexcept
+>> diff --git a/kms++util/src/drawing.cpp b/kms++util/src/drawing.cpp
+>> index 79e0d90..7e1b40b 100644
+>> --- a/kms++util/src/drawing.cpp
+>> +++ b/kms++util/src/drawing.cpp
+>> @@ -3,6 +3,7 @@
+>>   
+>>   #include <kms++/kms++.h>
+>>   #include <kms++util/kms++util.h>
+>> +#include <kms++util/endian.h>
+>>   
+>>   using namespace std;
+>>   
+>> @@ -179,6 +180,32 @@ static void draw_yuv422_packed_macropixel(IFramebuffer& buf, unsigned x, unsigne
+>>   	}
+>>   }
+>>   
+>> +static void draw_y2xx_packed_macropixel(IFramebuffer& buf, unsigned x, unsigned y,
+>> +					  YUV yuv1, YUV yuv2)
 >> +{
->> +	static_assert(std::is_integral<T>(), "Type is not integral");
->> +	static_assert(sizeof(T) == 2 ||
->> +		      sizeof(T) == 4 ||
->> +		      sizeof(T) == 8,
->> +		      "Illegal value size");
+>> +	const uint32_t macro_size = 4;
+>> +	uint16_t* p = (uint16_t*)(buf.map(0) + buf.stride(0) * y + x * macro_size);
 >> +
->> +	switch (sizeof(T)) {
->> +		case 2: return bswap_16(value);
->> +		case 4: return bswap_32(value);
->> +		case 8: return bswap_64(value);
->> +	}
->> +}
->> +
->> +template<endian E, typename T>
->> +static void write_endian(T val, T* dst)
+>> +	switch (buf.format()) {
+>> +	case PixelFormat::Y210: {
+>> +		// XXX naive shift left, similar to 10-bit funcs in class RGB
 > 
-> I would have swapped the parameters, common APIs have the destination
-> first and the source second. Same below, and up to you.
+> As mentioned in replies to the cover letter, values should be shifted by
+> 6 bits.
+> 
+>> +		uint16_t y0 = yuv1.y << 2;
+>> +		uint16_t y1 = yuv2.y << 2;
+>> +		uint16_t cb = ((yuv1.u  << 2) + (yuv2.u << 2)) / 2;
+>> +		uint16_t cr = ((yuv1.v  << 2) + (yuv2.v << 2)) / 2;
+>> +
+>> +		write16le(y0, &p[0]);
+>> +		write16le(cb, &p[1]);
+>> +		write16le(y1, &p[2]);
+>> +		write16le(cr, &p[3]);
+> 
+> If x is odd, won't this swap cb and cr ? draw_yuv422_packed_macropixel()
+> seems to have the same possible issue, so I assume callers always pass
+> an even x value. If so,
 
-True, I think that makes sense.
-
->> +{
->> +	if constexpr (E != endian::native)
->> +		val = byteswap(val);
->> +
->> +	*dst = val;
->> +}
->> +
->> +[[maybe_unused]]
->> +static void write16le(uint16_t val, uint16_t* dst)
-> 
-> I wonder if writing
-> 
-> using write16le = write_endian<endian::little, uint16_t>;
-> 
-> would compile.
-
-No, using needs a type.
+Yes, a macro pixel always needs to be correctly aligned. With YUYV style 
+macropixels it's even aligned. The test pattern drawing handles this 
+correctly, but I'm not sure if all the funcs available to the users 
+check it correctly.
 
   Tomi
 
