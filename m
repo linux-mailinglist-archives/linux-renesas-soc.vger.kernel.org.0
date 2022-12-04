@@ -2,135 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 973DF6416CC
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Dec 2022 14:09:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D57E641CF0
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  4 Dec 2022 13:38:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229462AbiLCNJJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 3 Dec 2022 08:09:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39048 "EHLO
+        id S229539AbiLDMio (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 4 Dec 2022 07:38:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229670AbiLCNJH (ORCPT
+        with ESMTP id S229934AbiLDMin (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 3 Dec 2022 08:09:07 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B0D72CC9D
-        for <linux-renesas-soc@vger.kernel.org>; Sat,  3 Dec 2022 05:09:05 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id o5so11944248wrm.1
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 03 Dec 2022 05:09:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=he4pvbcj9k7gldXO1AUh5F+PmpcqjQDOE40QJU9PQgY=;
-        b=IpTDWkg/+W6qtb6/BO+Rextf9MvVMSlQQo2APxxM4BQDnn7qkZcjkB9FFMGn9O0vXJ
-         xmbYFo0ZqKzC+reWi5Ui9m8ZE1DJ75WQ/bFAPBwaB3yh9eWT2bus6awgqTyx7PNgfhCI
-         BIvAAuR9hVxe/O2K+n3uaJUi0elOaR19s/Wse5pkabhXyOshgLmtSwZzqtvZqzXN08Qn
-         kDzAwrurvkG00GxtgVAhvrZdg82nMPvqvv+CKvcporDHyn64rgrQ7nLeu1tWshBlJ8TS
-         GDHMfMYnKweZp0ELa2PUHmSv5lLnkW7A+qy+Wew81JoaPQynn0ljjylNO17zoxC18jz1
-         TURQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=he4pvbcj9k7gldXO1AUh5F+PmpcqjQDOE40QJU9PQgY=;
-        b=f5pKyFOMD43Y3b7Xt49CNSyO8YEqqOpwhhCcvUnSf0gKtbRjqj80V9Ez32qp3ys7SX
-         Jf4W8/xQg7+WrGw/XbihNT1tiaaGV2OdULoTR1R6ckqAa5vY8PprJVQQ9Lpa+zxW9FiI
-         EfhSx8ESbORZU0EJ8XgxYVP2SAORwZ0LDOVsA0TYRtIDrHi1uD7e5dvny7rfNoJofBvT
-         27ZnFVj6f87Jk/yCUqK4FWs7BAo829QGtAcg74VEcT2W9BCbuoNds7OA2ShozyF9hjSW
-         PxW4+bNpE90HZ99QxP/y4vfLscFk1sgSbyZZC0paOW/OnK0yBsp9YQd6aalTwNJHyR3I
-         xqzQ==
-X-Gm-Message-State: ANoB5pkiCxB/VLqG+sddJxpUrdibvkd2oEPK1oVhJ565gi5i3oNidree
-        ge5B/tmjqrQl2VIy3xEoBLnlBQ==
-X-Google-Smtp-Source: AA0mqf7FEFUrgBHbSYwX9vCImy4IPfSr1vGLJ8MA6ZSfnzZGkyWh6DJhnsHrk4VGpak6bs/xb0bb7g==
-X-Received: by 2002:adf:eb92:0:b0:236:80a8:485e with SMTP id t18-20020adfeb92000000b0023680a8485emr38696645wrn.362.1670072944015;
-        Sat, 03 Dec 2022 05:09:04 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
-        by smtp.gmail.com with ESMTPSA id n3-20020a05600c3b8300b003cfbbd54178sm19062878wms.2.2022.12.03.05.09.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 03 Dec 2022 05:09:03 -0800 (PST)
-Message-ID: <9bd630af-6f88-baa7-7bd4-e99d818fb977@linaro.org>
-Date:   Sat, 3 Dec 2022 14:09:00 +0100
+        Sun, 4 Dec 2022 07:38:43 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8390715A08
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  4 Dec 2022 04:38:41 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E3CD832A;
+        Sun,  4 Dec 2022 13:38:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1670157519;
+        bh=BWxghlkNeXSmGtzwuQ/1zjw43aA0qC7aK1MWcjy0UaM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=GfuaS3vLosm+1wU59wCJbNOgvT+QgP0fPikoWGakI/NnVpw7paccnz4iDsA0IwUQB
+         PtSrGxDPnb3tf+8IwB6CVUKw1p9RTZ5nb4AWYXoLRbd/PZvCKIYJDxBeS8VsCqJgI+
+         8u0Rqd1S3cWJLSuvAPJdfrrLMx+DHXJ7I4Oi4gPw=
+Message-ID: <91809d16-4466-890d-4a47-7bdaf526ae38@ideasonboard.com>
+Date:   Sun, 4 Dec 2022 14:38:35 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH 00/11] Fix pca954x i2c-mux node names
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH kms++ 3/4] kms++util: Add endian.h
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20221202131658.434114-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221202131658.434114-4-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y4qQo4zT4qw9/myt@pendragon.ideasonboard.com>
 Content-Language: en-US
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Stefan Agner <stefan@agner.ch>, Li Yang <leoyang.li@nxp.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, devicetree@vger.kernel.org
-References: <cover.1669999298.git.geert+renesas@glider.be>
-From:   =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <cover.1669999298.git.geert+renesas@glider.be>
+From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <Y4qQo4zT4qw9/myt@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2/12/22 17:49, Geert Uytterhoeven wrote:
-> 	Hi all,
+On 03/12/2022 01:56, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> According to the I2C bus multiplexer/switch DT bindings, i2c-mux nodes
-> should be named "i2c-mux" (or something similar).
-> This patch series renames nodes for pca954x i2c-muxes that are flagged
-> by
+> Thank you for the patch.
 > 
->      make dtbs_checK DT_SCHEMA_FILES=Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.yaml
+> On Fri, Dec 02, 2022 at 03:16:57PM +0200, Tomi Valkeinen wrote:
+>> Add simple endianness supporting write function, and, for now, only one
+>> shortcut helper, write16le().
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   kms++util/inc/kms++util/endian.h | 46 ++++++++++++++++++++++++++++++++
+>>   1 file changed, 46 insertions(+)
+>>   create mode 100644 kms++util/inc/kms++util/endian.h
+>>
+>> diff --git a/kms++util/inc/kms++util/endian.h b/kms++util/inc/kms++util/endian.h
+>> new file mode 100644
+>> index 0000000..ea09065
+>> --- /dev/null
+>> +++ b/kms++util/inc/kms++util/endian.h
+>> @@ -0,0 +1,46 @@
+>> +#pragma once
+>> +
+>> +#include <type_traits>
+>> +#include <byteswap.h>
+>> +#include <stdint.h>
+>> +
+>> +static_assert((__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__) ||
+>> +	      (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__),
+>> +	      "Unable to detect endianness");
+>> +
+>> +enum class endian {
+>> +	little = __ORDER_LITTLE_ENDIAN__,
+>> +	big = __ORDER_BIG_ENDIAN__,
+>> +	native = __BYTE_ORDER__
+>> +};
+>> +
+>> +template<typename T>
+>> +constexpr T byteswap(T value) noexcept
+>> +{
+>> +	static_assert(std::is_integral<T>(), "Type is not integral");
+>> +	static_assert(sizeof(T) == 2 ||
+>> +		      sizeof(T) == 4 ||
+>> +		      sizeof(T) == 8,
+>> +		      "Illegal value size");
+>> +
+>> +	switch (sizeof(T)) {
+>> +		case 2: return bswap_16(value);
+>> +		case 4: return bswap_32(value);
+>> +		case 8: return bswap_64(value);
+>> +	}
+>> +}
+>> +
+>> +template<endian E, typename T>
+>> +static void write_endian(T val, T* dst)
 > 
-> Please apply where appropriate.
-> Thanks!
-> 
-> Geert Uytterhoeven (11):
->    ARM: dts: ti: Fix pca954x i2c-mux node names
->    ARM: dts: aspeed: Fix pca954x i2c-mux node names
->    ARM: dts: imx: Fix pca9547 i2c-mux node name
->    ARM: dts: nuvoton: Fix pca954x i2c-mux node names
->    ARM: dts: socfpga: Fix pca9548 i2c-mux node name
->    ARM: dts: vf610: Fix pca9548 i2c-mux node names
->    arm64: dts: freescale: Fix pca954x i2c-mux node names
->    arm64: dts: marvell: Fix pca954x i2c-mux node names
->    arm64: dts: renesas: ulcb-kf: Fix pca9548 i2c-mux node names
->    MIPS: mscc: jaguar2: Fix pca9545 i2c-mux node names
->    powerpc: dts: fsl: Fix pca954x i2c-mux node names
+> I would have swapped the parameters, common APIs have the destination
+> first and the source second. Same below, and up to you.
 
-Series:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+True, I think that makes sense.
+
+>> +{
+>> +	if constexpr (E != endian::native)
+>> +		val = byteswap(val);
+>> +
+>> +	*dst = val;
+>> +}
+>> +
+>> +[[maybe_unused]]
+>> +static void write16le(uint16_t val, uint16_t* dst)
+> 
+> I wonder if writing
+> 
+> using write16le = write_endian<endian::little, uint16_t>;
+> 
+> would compile.
+
+No, using needs a type.
+
+  Tomi
 
