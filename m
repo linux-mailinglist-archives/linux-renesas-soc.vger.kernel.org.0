@@ -2,37 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 22BD0642409
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Dec 2022 09:04:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD3FC64240C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Dec 2022 09:04:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231877AbiLEIE0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Dec 2022 03:04:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55678 "EHLO
+        id S231842AbiLEIE3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Dec 2022 03:04:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231934AbiLEIEE (ORCPT
+        with ESMTP id S231898AbiLEIEJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Dec 2022 03:04:04 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3D5712AD4
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Dec 2022 00:04:01 -0800 (PST)
+        Mon, 5 Dec 2022 03:04:09 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8608814D29
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Dec 2022 00:04:05 -0800 (PST)
 Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76975E51;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED611E61;
         Mon,  5 Dec 2022 09:03:56 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1670227436;
-        bh=UQRXNGAhA4L/hnszM6rDUJW4RAZJYClnRti4JR4Py3E=;
+        s=mail; t=1670227437;
+        bh=6wJnjausWa0Z2FuTFMYU+22uYsRViu0qKKBsV1hwgQg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Dzu0Uqotshvc3mm1TH/jXsI3OxGmR4TShv+mYyxgv3lZsoIqrHyfLtstfrgksekNj
-         zsUR63uI8rqK7J4n3vzkLeYBcraxH24bn1LfBJVwZIRht4lW4KVuV3QT8RwIyz9cos
-         1jaP0cQuB/gDgwLKUOmZuR0QKbaquoS5WoSqAipg=
+        b=mfjgt+y5PmRxMMQ/vFv19iLbbp/Tr7Q3qLQr4FlPwtPDENApjt4uj9sonP1dk6lkb
+         junQ8lFD9tfMqPn2Ye1K9CYZvt2ziuvLhoNQ6W709DEhpLUr2nGFwr48mL+lXHEE8V
+         zu2e0vQRT+SppLZmJ0czfOA15UiTRNYrvpf6FdOk=
 From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 To:     linux-renesas-soc@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: [PATCH kms++ v2 3/4] kms++util: Add endian.h
-Date:   Mon,  5 Dec 2022 10:03:38 +0200
-Message-Id: <20221205080339.12801-4-tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH kms++ v2 4/4] kms++util: Add Y21x drawing support
+Date:   Mon,  5 Dec 2022 10:03:39 +0200
+Message-Id: <20221205080339.12801-5-tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221205080339.12801-1-tomi.valkeinen+renesas@ideasonboard.com>
 References: <20221205080339.12801-1-tomi.valkeinen+renesas@ideasonboard.com>
@@ -47,67 +47,101 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add simple endianness supporting write function, and, for now, only one
-shortcut helper, write16le().
+Add support for drawing Y210, Y212, Y216 pixels.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
- kms++util/inc/kms++util/endian.h | 46 ++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
- create mode 100644 kms++util/inc/kms++util/endian.h
+ kms++util/src/drawing.cpp | 63 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
 
-diff --git a/kms++util/inc/kms++util/endian.h b/kms++util/inc/kms++util/endian.h
-new file mode 100644
-index 0000000..0f7aecd
---- /dev/null
-+++ b/kms++util/inc/kms++util/endian.h
-@@ -0,0 +1,46 @@
-+#pragma once
-+
-+#include <type_traits>
-+#include <byteswap.h>
-+#include <stdint.h>
-+
-+static_assert((__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__) ||
-+	      (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__),
-+	      "Unable to detect endianness");
-+
-+enum class endian {
-+	little = __ORDER_LITTLE_ENDIAN__,
-+	big = __ORDER_BIG_ENDIAN__,
-+	native = __BYTE_ORDER__
-+};
-+
-+template<typename T>
-+constexpr T byteswap(T value) noexcept
+diff --git a/kms++util/src/drawing.cpp b/kms++util/src/drawing.cpp
+index 79e0d90..5764b08 100644
+--- a/kms++util/src/drawing.cpp
++++ b/kms++util/src/drawing.cpp
+@@ -3,6 +3,7 @@
+ 
+ #include <kms++/kms++.h>
+ #include <kms++util/kms++util.h>
++#include <kms++util/endian.h>
+ 
+ using namespace std;
+ 
+@@ -179,6 +180,62 @@ static void draw_yuv422_packed_macropixel(IFramebuffer& buf, unsigned x, unsigne
+ 	}
+ }
+ 
++static void draw_y2xx_packed_macropixel(IFramebuffer& buf, unsigned x, unsigned y,
++					  YUV yuv1, YUV yuv2)
 +{
-+	static_assert(std::is_integral<T>(), "Type is not integral");
-+	static_assert(sizeof(T) == 2 ||
-+		      sizeof(T) == 4 ||
-+		      sizeof(T) == 8,
-+		      "Illegal value size");
++	const uint32_t macro_size = 4;
++	uint16_t* p = (uint16_t*)(buf.map(0) + buf.stride(0) * y + x * macro_size);
 +
-+	switch (sizeof(T)) {
-+		case 2: return bswap_16(value);
-+		case 4: return bswap_32(value);
-+		case 8: return bswap_64(value);
++	switch (buf.format()) {
++	case PixelFormat::Y210: {
++		// XXX naive expansion to 10 bits, similar to 10-bit funcs in class RGB
++		uint16_t y0 = yuv1.y << 2;
++		uint16_t y1 = yuv2.y << 2;
++		uint16_t cb = ((yuv1.u  << 2) + (yuv2.u << 2)) / 2;
++		uint16_t cr = ((yuv1.v  << 2) + (yuv2.v << 2)) / 2;
++
++		// The 10 bits occupy the msb, so we shift left by 16-10 = 6
++		write16le(&p[0], y0 << 6);
++		write16le(&p[1], cb << 6);
++		write16le(&p[2], y1 << 6);
++		write16le(&p[3], cr << 6);
++		break;
++	}
++
++	case PixelFormat::Y212: {
++		// XXX naive expansion to 12 bits
++		uint16_t y0 = yuv1.y << 4;
++		uint16_t y1 = yuv2.y << 4;
++		uint16_t cb = ((yuv1.u  << 4) + (yuv2.u << 4)) / 2;
++		uint16_t cr = ((yuv1.v  << 4) + (yuv2.v << 4)) / 2;
++
++		// The 10 bits occupy the msb, so we shift left by 16-12 = 4
++		write16le(&p[0], y0 << 4);
++		write16le(&p[1], cb << 4);
++		write16le(&p[2], y1 << 4);
++		write16le(&p[3], cr << 4);
++		break;
++	}
++
++	case PixelFormat::Y216: {
++		// XXX naive expansion to 16 bits
++		uint16_t y0 = yuv1.y << 8;
++		uint16_t y1 = yuv2.y << 8;
++		uint16_t cb = ((yuv1.u  << 8) + (yuv2.u << 8)) / 8;
++		uint16_t cr = ((yuv1.v  << 8) + (yuv2.v << 8)) / 8;
++
++		write16le(&p[0], y0);
++		write16le(&p[1], cb);
++		write16le(&p[2], y1);
++		write16le(&p[3], cr);
++		break;
++	}
++
++	default:
++		throw std::invalid_argument("invalid pixelformat");
 +	}
 +}
 +
-+template<endian E, typename T>
-+static void write_endian(T* dst, T val)
-+{
-+	if constexpr (E != endian::native)
-+		val = byteswap(val);
+ static void draw_yuv422_semiplanar_macropixel(IFramebuffer& buf, unsigned x, unsigned y,
+ 					      YUV yuv1, YUV yuv2)
+ {
+@@ -257,6 +314,12 @@ void draw_yuv422_macropixel(IFramebuffer& buf, unsigned x, unsigned y, YUV yuv1,
+ 		draw_yuv422_packed_macropixel(buf, x, y, yuv1, yuv2);
+ 		break;
+ 
++	case PixelFormat::Y210:
++	case PixelFormat::Y212:
++	case PixelFormat::Y216:
++		draw_y2xx_packed_macropixel(buf, x, y, yuv1, yuv2);
++		break;
 +
-+	*dst = val;
-+}
-+
-+[[maybe_unused]]
-+static void write16le(uint16_t* dst, uint16_t val)
-+{
-+	write_endian<endian::little, uint16_t>(dst, val);
-+}
+ 	case PixelFormat::NV16:
+ 	case PixelFormat::NV61:
+ 		draw_yuv422_semiplanar_macropixel(buf, x, y, yuv1, yuv2);
 -- 
 2.34.1
 
