@@ -2,119 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A29D8643867
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Dec 2022 23:50:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A461643953
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Dec 2022 00:15:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233163AbiLEWux (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Dec 2022 17:50:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45776 "EHLO
+        id S231978AbiLEXPZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Dec 2022 18:15:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232135AbiLEWup (ORCPT
+        with ESMTP id S232374AbiLEXPY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Dec 2022 17:50:45 -0500
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2DB960C8;
-        Mon,  5 Dec 2022 14:50:44 -0800 (PST)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-12c8312131fso15297218fac.4;
-        Mon, 05 Dec 2022 14:50:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TxzHvxWYmZNaSPLEYbPmMtXeESk2K7kyfAJQblqVQ4Y=;
-        b=J7EJVj65xEzNemPIjtCvtsbeKGBMvJkD6qDOySW1LhpNKCwB8S4RXKRDLrWrdgEv3l
-         XCmSqJUuRidalQ2rr1weme+ZYipxdpnfxX8qILWblZWx7U1EHnqgFgRHzwilYHsvkYti
-         JJrNk+o0BFW2szZ6wzO+tv5ooMT7uRwwRPk0ewYsh1Y5tgNYhkwKnhnLJNP2jsFmU6ND
-         qp+Z6pqFQ5hCv5nVTNl8Sv0CuLPpeol6ZiDGhkoq+ani0Hz5QcA85eqKR/aE5bBxmmdd
-         JYYktI+5pIU8M5djZ3y2V8XclxrqrhrfAbSUMo6gaSHaALa8aoWA6bnyr+0g5p3fqbA/
-         X0Qw==
-X-Gm-Message-State: ANoB5pku6zBlAoXZX9M5hWcIDKQYBB16yGZJ/mIH7Gc+SugRCnCPVggt
-        1or/Iz3tMgsGtH8Uh0X24A==
-X-Google-Smtp-Source: AA0mqf7KXJ756pvRNU+pFCeaYq8k5ygB2LcP2STdNxTP3B6jBGxIhCZjdG51aLUleUczY8Cm7yTj0A==
-X-Received: by 2002:a05:6870:ad09:b0:143:bdd8:ee2f with SMTP id nt9-20020a056870ad0900b00143bdd8ee2fmr21163024oab.7.1670280644076;
-        Mon, 05 Dec 2022 14:50:44 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id y39-20020a05687045a700b0014435b51ef7sm6783694oao.30.2022.12.05.14.50.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 14:50:43 -0800 (PST)
-Received: (nullmailer pid 2831916 invoked by uid 1000);
-        Mon, 05 Dec 2022 22:50:42 -0000
-Date:   Mon, 5 Dec 2022 16:50:42 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        William Breathitt Gray <william.gray@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-iio@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: Re: [PATCH 0/6] Add RZ/V2M Compare-Match Timer (TIM) support
-Message-ID: <20221205225042.GA2812115-robh@kernel.org>
-References: <20221205145955.391526-1-biju.das.jz@bp.renesas.com>
+        Mon, 5 Dec 2022 18:15:24 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3343A25C7
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Dec 2022 15:15:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670282124; x=1701818124;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2n8yf0YG57TC1gVooKgYKCBz3hCKPURyxO3y5ayVlGc=;
+  b=Rz9wilCK8tzt3cTmKbw4XvXud+PT9v5wLhhkLTqVW34Ct3Pkr/wTgVG3
+   wlUpL8KDY/6VPyimyqPDb64Rk7mDotEpSAGAZ+VUBAwkgQVnvs6+Zgvhr
+   uXCVizhQ4s+13XxbaDUgsZq0GwWdThT1/mKGTTdvHcnHKwStAoN5AKJkS
+   /hrctIeGNm8b4bTPw2T2z693s0qDQEzygB8VLiGObzkXMtqpelxa7EMV/
+   dIHLO0pv6aLmYkNegy8MH4CJKq+4RCqU69b6X9zORMHY8gHWwvsD5+pTV
+   9EvUBBepLr1c5wlPeQOPz3KxkH17HuZF1xHKS1I48uJN98+VYzVmyedVy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="314133248"
+X-IronPort-AV: E=Sophos;i="5.96,220,1665471600"; 
+   d="scan'208";a="314133248"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2022 15:15:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="709432798"
+X-IronPort-AV: E=Sophos;i="5.96,220,1665471600"; 
+   d="scan'208";a="709432798"
+Received: from lkp-server01.sh.intel.com (HELO b3c45e08cbc1) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 05 Dec 2022 15:15:22 -0800
+Received: from kbuild by b3c45e08cbc1 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1p2KgE-0000PH-08;
+        Mon, 05 Dec 2022 23:15:22 +0000
+Date:   Tue, 06 Dec 2022 07:14:27 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-arm-dt-for-v6.3] BUILD SUCCESS
+ 707b4210021c2da2fdbae5751e5e9671d2b60338
+Message-ID: <638e7b53.4a7/qxhswxAnc1xE%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221205145955.391526-1-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Dec 05, 2022 at 02:59:49PM +0000, Biju Das wrote:
-> This patch series aims to add support for Compare-Match Timer (TIM)
-> module found on RZ/V2M SoC.
-> 
-> it is composed of 32 channels and channels 0-7 and 24-32 are
-> reserved for ISP usage.
-> 
-> Channel 22 is modelled as clock source and Channel 23 is modelled as clock
-> event driver and the rest of the channels are modelled as counter driver
-> as it provides
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v6.3
+branch HEAD: 707b4210021c2da2fdbae5751e5e9671d2b60338  arm64: dts: renesas: white-hawk-cpu: Add DP output support
 
-Why did you pick those 2 counters for those functions?
+elapsed time: 732m
 
-Unless the h/w blocks are different, this is an abuse of compatible 
-strings. What's the h/w difference that makes you care which counter the 
-OS picks? That's what the DT should describe. If any timer will do, just 
-let the OS pick.
+configs tested: 66
+configs skipped: 3
 
-> 
-> 1) counter for counting
-> 2) configurable counter value for generating timer interrupt
-> 3) userspace event for each interrupt.
-> 
-> logs:-
-> Counter driver:
-> Counter driver is tested by reading counts and interrupts tested by
-> counter-example in tools/counter/counter_example.c
-> 
-> Count snapshot value:
-> 3114
-> Output from counter_example when it triggers interrupts:
-> Timestamp 0: 24142152969        Count 0: 5
-> Error Message 0: Success
-> 
-> Clock source:
-> Clock source driver is tested by clock-source-switch app.
-> [ 1275.703567] clocksource: Switched to clocksource arch_sys_counter
-> [ 1275.710189] clocksource: Switched to clocksource a4000b00.timer
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Do you have any use case to really switch. Doing so disables the vDSO 
-access to the clocksource.
+gcc tested configs:
+arc                                 defconfig
+alpha                               defconfig
+s390                             allmodconfig
+s390                                defconfig
+s390                             allyesconfig
+x86_64                           rhel-8.3-syz
+ia64                             allmodconfig
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-kvm
+i386                                defconfig
+i386                             allyesconfig
+powerpc                           allnoconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+sh                               allmodconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+i386                 randconfig-a014-20221205
+i386                 randconfig-a012-20221205
+i386                 randconfig-a011-20221205
+i386                 randconfig-a013-20221205
+i386                 randconfig-a016-20221205
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+i386                 randconfig-a015-20221205
+x86_64               randconfig-a014-20221205
+x86_64               randconfig-a011-20221205
+x86_64               randconfig-a012-20221205
+x86_64               randconfig-a013-20221205
+x86_64               randconfig-a015-20221205
+x86_64               randconfig-a016-20221205
+arm64                            allyesconfig
+arm                                 defconfig
+arm                              allyesconfig
+arc                  randconfig-r043-20221205
+arm                  randconfig-r046-20221204
+s390                 randconfig-r044-20221205
+arc                  randconfig-r043-20221204
+riscv                randconfig-r042-20221205
+x86_64                            allnoconfig
 
-Rob
+clang tested configs:
+x86_64               randconfig-a003-20221205
+x86_64               randconfig-a001-20221205
+x86_64               randconfig-a002-20221205
+x86_64               randconfig-a004-20221205
+x86_64               randconfig-a005-20221205
+x86_64               randconfig-a006-20221205
+i386                 randconfig-a001-20221205
+i386                 randconfig-a002-20221205
+i386                 randconfig-a005-20221205
+i386                 randconfig-a004-20221205
+i386                 randconfig-a003-20221205
+i386                 randconfig-a006-20221205
+hexagon              randconfig-r041-20221205
+arm                  randconfig-r046-20221205
+hexagon              randconfig-r045-20221205
+hexagon              randconfig-r041-20221204
+riscv                randconfig-r042-20221204
+hexagon              randconfig-r045-20221204
+s390                 randconfig-r044-20221204
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
