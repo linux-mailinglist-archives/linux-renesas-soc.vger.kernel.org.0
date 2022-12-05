@@ -2,63 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3314664253B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Dec 2022 09:59:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B109E642590
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Dec 2022 10:16:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232433AbiLEI7G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Dec 2022 03:59:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47170 "EHLO
+        id S230035AbiLEJQu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Dec 2022 04:16:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232003AbiLEI6Q (ORCPT
+        with ESMTP id S230220AbiLEJQX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Dec 2022 03:58:16 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D22B3FD03
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Dec 2022 00:56:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=K7LkyI3EyZtAporb19ChbmQpds4O
-        ChSNzIOkIRouAdM=; b=gmo3iwVfGineystUR+8I7+fJPbd1BFQVff/L03zkTjqv
-        rY8Qn3/XjmRIuQGwgw0KEbGni7ctVfKgwZ/mf6PaZ0KPygxI6ttt0xbqA2BxH5Nv
-        VmuDr3NYgMkq8rJPkPiU6j7T5rcDGoQJwm/WuuRqrV6TPFwcy0CFZJc7Zr74a2Y=
-Received: (qmail 2245272 invoked from network); 5 Dec 2022 09:56:37 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Dec 2022 09:56:37 +0100
-X-UD-Smtp-Session: l3s3148p1@0ulr3RDvRIRehhrO
-Date:   Mon, 5 Dec 2022 09:56:36 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] memory: renesas-rpc-if: Rebind fixes and misc
- cleanups
-Message-ID: <Y42yRFSai6XKnLiC@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-spi@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <cover.1669213027.git.geert+renesas@glider.be>
+        Mon, 5 Dec 2022 04:16:23 -0500
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 461CF273;
+        Mon,  5 Dec 2022 01:16:22 -0800 (PST)
+Received: by mail-qv1-f48.google.com with SMTP id d2so7791200qvp.12;
+        Mon, 05 Dec 2022 01:16:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NyWCZnYLtOpzCElMxniM5SYUnr8uSBt4bLG5wCjERpo=;
+        b=rZOODn0SFOY2LGd8dtqvolPAwBKI6Ek2Lb39XDpfhoBxES9pddUEpyBzh+1c+bHdB6
+         UcNz/hLWWtJmbwBaGqJsSf63yl03ETGwKA+1RO9LL3lsSn9xT9YmR2ZL4pn/rBR6G7Bt
+         MFOJqbKKoHLq/lxSnWAF9M/SuvCXlFt9Y2YnOEr1KfSBAkFY5sdFg0TaJtjrCrWOegST
+         Qgno0lxz7MngbmIi9c4iq+g4lBnzzqBWXPswikeAQyLFaROuo1eFbx5LA3r3HU3RQ69h
+         eRA0CKaMVXnTKW6Yb95fT/qZMaNvZBQELhAF9pBFZq+sH89GLyI1XaHq5GTS6z6wEQRF
+         3ecw==
+X-Gm-Message-State: ANoB5pkktG98FurrUOsUvZ2W/blsVGHVodbOQ7rNIanFi8yEWvcd17IM
+        Cp2M73fw+NkRhAz3WvvVw2xpRM/BD/kF8w==
+X-Google-Smtp-Source: AA0mqf5etMc+4zCKD2gCb1qv1zV+YC52T/Bl6SE6cIxNwi7yQ5prUjPJppvhOVXYJ0aMQR+MnzhBJg==
+X-Received: by 2002:a0c:ff28:0:b0:4bb:798d:879c with SMTP id x8-20020a0cff28000000b004bb798d879cmr56733945qvt.7.1670231781231;
+        Mon, 05 Dec 2022 01:16:21 -0800 (PST)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id w9-20020a05620a424900b006fc2f74ad12sm12133280qko.92.2022.12.05.01.16.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Dec 2022 01:16:20 -0800 (PST)
+Received: by mail-yb1-f174.google.com with SMTP id y135so9099272yby.12;
+        Mon, 05 Dec 2022 01:16:20 -0800 (PST)
+X-Received: by 2002:a25:d655:0:b0:6fc:1c96:c9fe with SMTP id
+ n82-20020a25d655000000b006fc1c96c9femr17074822ybg.36.1670231780461; Mon, 05
+ Dec 2022 01:16:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="3141AOsAMOMu/lh9"
-Content-Disposition: inline
-In-Reply-To: <cover.1669213027.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+References: <20221201095631.89448-1-tomi.valkeinen+renesas@ideasonboard.com> <20221201095631.89448-4-tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <20221201095631.89448-4-tomi.valkeinen+renesas@ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 5 Dec 2022 10:16:09 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVeaZtrm7ohX4O0CGcam+1eDrtSvcqvhwoPbg3zOOgZcA@mail.gmail.com>
+Message-ID: <CAMuHMdVeaZtrm7ohX4O0CGcam+1eDrtSvcqvhwoPbg3zOOgZcA@mail.gmail.com>
+Subject: Re: [PATCH v5 3/7] clk: renesas: r8a779g0: Add display related clocks
+To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
         autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,58 +75,27 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Thu, Dec 1, 2022 at 10:56 AM Tomi Valkeinen
+<tomi.valkeinen+renesas@ideasonboard.com> wrote:
+> Add clocks related to display which are needed to get the DSI output
+> working.
+>
+> Extracted from Renesas BSP tree.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
---3141AOsAMOMu/lh9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk-for-v6.3.
 
-On Wed, Nov 23, 2022 at 03:41:16PM +0100, Geert Uytterhoeven wrote:
-> 	Hi all,
->=20
-> The Renesas RPC-IF provides either HyperFlash or SPI host access.
-> To handle this, three drivers are used:
->   1. The RPC-IF core diver,
->   2. An HyperFlash child driver,
->   3. An SPI child driver.
->=20
-> Currently this driver collection suffers from a sub-optimal division of
-> roles and reponsibilities, leading to (un)bind issues: after manually
-> unbinding the child driver, rebinding the child driver fails with
-> -EBUSY.
->=20
-> This patch series aims to fix this, by splitting off private data and
-> making the RPC-IF core driver responsible for resource acquisition.
-> After that, a few customary cleanups are provided.
->=20
-> This has been tested on the Salvator-X(S) and Ebisu-4D (HyperFlash) and
-> White-Hawk (QSPI FLASH) development boards.
+Gr{oetje,eeting}s,
 
-Sadly, I don't have the bandwidth to do a full review. But from a
-glimpse, it all looks good. And from a high level PoV, this all makes a
-lot of sense. So:
+                        Geert
 
-Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
---3141AOsAMOMu/lh9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmONskQACgkQFA3kzBSg
-KbYZCQ/+J9lcmKr9+8n+KR8ECOOyla6PiySP7OhFib9ryO+tOUhFcBwRrNJaDj0J
-Q58ZuHzdo9mDoHct3MZaDuurFDKydb0VtUh/KBfrygvI4iSPK8KKELc3NXMyjBuY
-fdHISN3kPD8dZ4kER+g6NuQ/9xFI2QRfFSFYQm4BsztJgenHkqeVbgERs8j5zBZF
-I49AiK7zYq1bwRSOHV7T2ZVzUB1wpzDIHJNOBdZiXyeVejkB3stHfRvASlksFF6g
-VTTPsBLQ79mZV6o/+FiFYotY+wv34mqkBykBd6wxxcUqjusgW3ty33iyALUHySEK
-P2UrNBxUcNW9NHBh5FDhXaF8Wo9tHjYbdtZuRfKkvIqLVEJye7RkJ+wbDdG3QKyd
-z7BLyFGL4e0+2L18ClK3DzUV+sJYY1a8jw6aKZNKlrjbdirKwq9ZtIlvo9FtrzHM
-7a6jHGH88QpD0nsSBZt5llMqileVG75EiyrY/VsWRZZKYk1kP+qw6boK7y1HZcmu
-uKjPqtHVDPXnZAWJh8KkgV9ogYnwaqijxqt9SPlaB7bJoUOA1pXLNeyXZj+UTMHd
-hR+xmD/u5Q//rJ+wiO3HXfofl/ql4r2l/p67FRmVnKlFg0k75cYEddOYu2PXxGtU
-B64Za2UdTYGdXm0XUPJptoOeajBRo6FlSggm9q+kDCOfeSOw41Q=
-=QLgK
------END PGP SIGNATURE-----
-
---3141AOsAMOMu/lh9--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
