@@ -2,95 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5779864363B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Dec 2022 22:00:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A141643720
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Dec 2022 22:43:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233619AbiLEU7z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Dec 2022 15:59:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58786 "EHLO
+        id S234091AbiLEVnH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Dec 2022 16:43:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233439AbiLEU7s (ORCPT
+        with ESMTP id S233994AbiLEVma (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Dec 2022 15:59:48 -0500
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A5902A408;
-        Mon,  5 Dec 2022 12:59:48 -0800 (PST)
-Received: by mail-oi1-f176.google.com with SMTP id q186so14488111oia.9;
-        Mon, 05 Dec 2022 12:59:48 -0800 (PST)
+        Mon, 5 Dec 2022 16:42:30 -0500
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98E2D2D1CB;
+        Mon,  5 Dec 2022 13:42:12 -0800 (PST)
+Received: by mail-ot1-f52.google.com with SMTP id s30-20020a056830439e00b0067052c70922so1312924otv.11;
+        Mon, 05 Dec 2022 13:42:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=46QOPVoh0uxqDkXkiHjkWEM9savZteYK/kuiKA+so9g=;
-        b=eof5TwEx5IJEL/ZM+aSflFoW24SUjz9yVos1wKvBO5a8Pi/xdni4Y1fm/9lz82T2gM
-         wehnP+A0xlFTIycbIx2CFQTgyVu/ifo8Z9fJD90Qrgn93v7PkwX4X6cICSDfu8uAQZ+Q
-         mBIjrQjW96bSZsCNMMzqI/YSdiOQPzYS2Qx7MG7yxcaec3jlzQMH1FKpCdeBXyTeUlI4
-         8gilX/RUaqq2aSw6poGwZSPVaCMFXByN4jk1BMD8HzVGaC16KMFE7gg8v5C7yHBilxo8
-         oSXgdPXxGg6ZLSW3FYRVNLWC7QML/AAK3fUBvNl9GS1erufg4SJol/Ks4UQamCIbD3kM
-         QRtA==
-X-Gm-Message-State: ANoB5pnfjt5Ro53jMk/+mZ38qruDi2kpVGKJCDj0VG2+n1xyLcLplSJn
-        735rfbl0stlxq2K1q9ZUeg==
-X-Google-Smtp-Source: AA0mqf789/U8RDRQhSZPB8dU253wTPUUsERtdBRxAH7ZSW9M5bfE5zcqDjX1HUOvRX/ke77JhXSeiA==
-X-Received: by 2002:aca:f3c6:0:b0:35b:531:7134 with SMTP id r189-20020acaf3c6000000b0035b05317134mr43314325oih.217.1670273987350;
-        Mon, 05 Dec 2022 12:59:47 -0800 (PST)
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=At/Iy89jbSM+uM6oAL5A4QbrrbFSKepIZsFF2MdZt+I=;
+        b=AWAUbJDpnVUh56HB46rATCN01SoA5EjjByMGabv5rrqUpBXPZax1BeB5EvHespkX8I
+         gDu2vTQx52VjV8JxaRhu+YIsgVnWyKsg5hPUx1PfZdfJ55RAqU2IVXBWAjAYTzc2/fr2
+         knHF105pMhVjcJWQaP9GgR/TcZgN4B+SbMwWz8pQHhKtof1H5SpWtVUWr6lIBYb3cPvV
+         Oa5U61uCmNmiIIVLUSjQ61vcX6AVxsEEapZDyQuF6fGo4AcMEAxYBDp2ervUgQdch9ui
+         TKy4gbJHitK5boU5FZkn6/vE+vGxh2KyNdxn9ywZISRGBz05Ri8Ol3Q3F20Bz48PUTDq
+         B2pA==
+X-Gm-Message-State: ANoB5pkxJ0kApDpclWuLM+YxhPcDZXDW+SRTIhm75OLq1Wc5IG771fhE
+        LG7UM3M9sQt2WdnsFEP5bQ==
+X-Google-Smtp-Source: AA0mqf6kj1GoiLDfY3xtoeuyCtevhKeHsvjbFdh4JVs9EO/VSyl7R6SPPnX8FN/JLUwlfcWHCl3skQ==
+X-Received: by 2002:a9d:7751:0:b0:637:1464:cebf with SMTP id t17-20020a9d7751000000b006371464cebfmr41256218otl.100.1670276531645;
+        Mon, 05 Dec 2022 13:42:11 -0800 (PST)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id be6-20020a056870588600b00143c7a9bdb0sm9613026oab.27.2022.12.05.12.59.46
+        by smtp.gmail.com with ESMTPSA id b24-20020a9d5d18000000b0066da36d2c45sm8233897oti.22.2022.12.05.13.42.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 12:59:47 -0800 (PST)
-Received: (nullmailer pid 2612109 invoked by uid 1000);
-        Mon, 05 Dec 2022 20:59:46 -0000
-Date:   Mon, 5 Dec 2022 14:59:46 -0600
+        Mon, 05 Dec 2022 13:42:11 -0800 (PST)
+Received: (nullmailer pid 2674599 invoked by uid 1000);
+        Mon, 05 Dec 2022 21:42:10 -0000
+Date:   Mon, 5 Dec 2022 15:42:10 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-can@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: can: renesas,rcar-canfd: Fix number of
- channels for R-Car V3U
-Message-ID: <20221205205946.GB2513520-robh@kernel.org>
-References: <021037bf7e422fcc23700dd62d1174c8e46ac85d.1669969283.git.geert+renesas@glider.be>
+To:     Colin Foster <colin.foster@in-advantage.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Marek Vasut <marex@denx.de>, UNGLinuxDriver@microchip.com,
+        John Crispin <john@phrozen.org>, linux-kernel@vger.kernel.org,
+        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        linux-mediatek@lists.infradead.org,
+        Woojung Huh <woojung.huh@microchip.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        =?UTF-8?B?bsOnIMOcTkFM?= <arinc.unal@arinc9.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Sean Wang <sean.wang@mediatek.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Eric Dumazet <edumazet@google.com>, devicetree@vger.kernel.org,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        linux-arm-kernel@lists.infradead.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        ", DENG Qingfang" <dqfext@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        George McCollister <george.mccollister@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        netdev@vger.kernel.org, Vladimir Oltean <olteanv@gmail.com>,
+        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: Re: [PATCH v4 net-next 3/9] dt-bindings: net: dsa: utilize base
+ definitions for standard dsa switches
+Message-ID: <167027652411.2674430.15313904791062984653.robh@kernel.org>
+References: <20221202204559.162619-1-colin.foster@in-advantage.com>
+ <20221202204559.162619-4-colin.foster@in-advantage.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <021037bf7e422fcc23700dd62d1174c8e46ac85d.1669969283.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221202204559.162619-4-colin.foster@in-advantage.com>
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 09:22:11AM +0100, Geert Uytterhoeven wrote:
-> According to the bindings, only two channels are supported.
-> However, R-Car V3U supports eight, leading to "make dtbs" failures:
+
+On Fri, 02 Dec 2022 12:45:53 -0800, Colin Foster wrote:
+> DSA switches can fall into one of two categories: switches where all ports
+> follow standard '(ethernet-)?port' properties, and switches that have
+> additional properties for the ports.
 > 
->         arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: can@e6660000: Unevaluated properties are not allowed ('channel2', 'channel3', 'channel4', 'channel5', 'channel6', 'channel7' were unexpected)
+> The scenario where DSA ports are all standardized can be handled by
+> swtiches with a reference to the new 'dsa.yaml#/$defs/ethernet-ports'.
 > 
-> Update the number of channels to 8 on R-Car V3U.
-> While at it, prevent adding more properties to the channel nodes, as
-> they must contain no other properties than a status property.
+> The scenario where DSA ports require additional properties can reference
+> '$dsa.yaml#' directly. This will allow switches to reference these standard
+> defitions of the DSA switch, but add additional properties under the port
+> nodes.
 > 
-> Fixes: d6254d52d70de530 ("dt-bindings: can: renesas,rcar-canfd: Document r8a779a0 support")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Suggested-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Colin Foster <colin.foster@in-advantage.com>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+> Acked-by: Alvin Šipraga <alsi@bang-olufsen.dk> # realtek
 > ---
-> Is there a way to express this using positive logic (i.e. default to 2
-> channels, extend to more where needed)? R-Car V3H_2 (which is not yet
-> supported) has 3 channels.
+> 
+> v3 -> v4
+>   * Rename "$defs/base" to "$defs/ethernet-ports" to avoid implication of a
+>     "base class" and fix commit message accordingly
+>   * Add the following to the common etherent-ports node:
+>       "additionalProperties: false"
+>       "#address-cells" property
+>       "#size-cells" property
+>   * Fix "etherenet-ports@[0-9]+" to correctly be "ethernet-port@[0-9]+"
+>   * Remove unnecessary newline
+>   * Apply changes to mediatek,mt7530.yaml that were previously in a separate patch
+>   * Add Reviewed and Acked tags
+> 
+> v3
+>   * New patch
+> 
+> ---
+>  .../bindings/net/dsa/arrow,xrs700x.yaml       |  2 +-
+>  .../devicetree/bindings/net/dsa/brcm,b53.yaml |  2 +-
+>  .../devicetree/bindings/net/dsa/dsa.yaml      | 25 ++++++++++++++++---
+>  .../net/dsa/hirschmann,hellcreek.yaml         |  2 +-
+>  .../bindings/net/dsa/mediatek,mt7530.yaml     | 16 +++---------
+>  .../bindings/net/dsa/microchip,ksz.yaml       |  2 +-
+>  .../bindings/net/dsa/microchip,lan937x.yaml   |  2 +-
+>  .../bindings/net/dsa/mscc,ocelot.yaml         |  2 +-
+>  .../bindings/net/dsa/nxp,sja1105.yaml         |  2 +-
+>  .../devicetree/bindings/net/dsa/realtek.yaml  |  2 +-
+>  .../bindings/net/dsa/renesas,rzn1-a5psw.yaml  |  2 +-
+>  11 files changed, 35 insertions(+), 24 deletions(-)
+> 
 
-I think you'd need an if/elif/elif/else construct which is doable, but 
-not pretty.
-
-> Or perhaps the check should be dropped completely?
-
-I'm fine with that.
-
-Rob
+Reviewed-by: Rob Herring <robh@kernel.org>
