@@ -2,265 +2,357 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC601642AE1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Dec 2022 16:00:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FED9642C7B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Dec 2022 17:04:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231828AbiLEPAY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Dec 2022 10:00:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32894 "EHLO
+        id S232080AbiLEQEz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Dec 2022 11:04:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231599AbiLEPAX (ORCPT
+        with ESMTP id S231947AbiLEQEx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Dec 2022 10:00:23 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 628A51D0F4;
-        Mon,  5 Dec 2022 07:00:22 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.96,219,1665414000"; 
-   d="scan'208";a="145045992"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 06 Dec 2022 00:00:20 +0900
-Received: from localhost.localdomain (unknown [10.226.92.127])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id B119B4009F87;
-        Tue,  6 Dec 2022 00:00:17 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH 6/6] arm64: dts: renesas: r9a09g011: Add tim nodes
-Date:   Mon,  5 Dec 2022 14:59:55 +0000
-Message-Id: <20221205145955.391526-7-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221205145955.391526-1-biju.das.jz@bp.renesas.com>
-References: <20221205145955.391526-1-biju.das.jz@bp.renesas.com>
+        Mon, 5 Dec 2022 11:04:53 -0500
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E9011C426
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Dec 2022 08:04:52 -0800 (PST)
+Received: by mail-pl1-x634.google.com with SMTP id d3so11225416plr.10
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 05 Dec 2022 08:04:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=//RKYA03neePVkdh13bVwKzY2kPqldJVWtCUbPNlMbQ=;
+        b=0VNM2Bk3Ah5Jn/Au+ZFRABefpJfKFZL9u8EQffzUdjGoDB1sOaJ3JHc2nB1pnl/CPW
+         RUsxHnN8EqPoSsByFl3FrgdlfGdTVnqeh81Khd6Y3XKQgediHlCJnEV9HF0UOiTP2/Vz
+         XE2sASyVQoE/oc/Fev3LvrubLaw/V9mPiW56pc3lP7OKn60u9suEyTMLBaa/Qk2m0j/y
+         bsk3INMwq5KaPb3W1cyjovmlw330xEfzALEGyDxl+vbBp624bbgmobHUpwIYoAprN80U
+         civYybXSYS8VX/KcYIq1V6QdTCnN2M/JvOzdu4Q+qGhHfIG7M+3TQZwqawRlhGECpWrs
+         jKgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=//RKYA03neePVkdh13bVwKzY2kPqldJVWtCUbPNlMbQ=;
+        b=UoaTga6LNqyQdQTvDpVgRLHFsNPSrfZUl3BX5k3DszXiRPCfEsabsUP2DR1uzFmj6Q
+         c6JS8yS9Q27W+myAybx6COBWCJkeYvqIfgZY2DxasgpjEuwCjpWooMq36g7XRm68dp+W
+         gghlVwZSwGXBnKn8Jfe5H4xoKanUwjcfHZysPpow5PMSWnzsAyf+JQtqS62Wo01zNWJw
+         zOlg4e+5KTzrC3p3pZSBMZgdz4AhL+do1iJ9OT3pwltVCR3e6gn2zu8rYkVEdNJn253/
+         XOE1hbxuYJpy+cS2eWsMhtg+tRChdLehlA0U2z/55dwwX91cDDj4CBxgTqiaQXasA2KR
+         j1bA==
+X-Gm-Message-State: ANoB5pl8I4U4l+KPh8mkx27w62XJsAMF+QOY3ckyBZOVGXD7wGfvL3IA
+        qpNsxdL+Anb/Q0boa5OUr9XX6UeoimSd2DuV4IpjvA==
+X-Google-Smtp-Source: AA0mqf6Q96sdZZPW/QnerVy7EXuZ1qWCmbLFpZdiHXbm33M+YA+OO0NsFAW1+C5iwQbHXyIcp35gJQ==
+X-Received: by 2002:a17:902:f78c:b0:186:8c13:50b3 with SMTP id q12-20020a170902f78c00b001868c1350b3mr65166864pln.153.1670256291758;
+        Mon, 05 Dec 2022 08:04:51 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id u9-20020a170903124900b00172f6726d8esm10885195plh.277.2022.12.05.08.04.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Dec 2022 08:04:51 -0800 (PST)
+Message-ID: <638e16a3.170a0220.2cdc2.31f2@mx.google.com>
+Date:   Mon, 05 Dec 2022 08:04:51 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Kernel: v6.1-rc8-929-g112502470f50
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+Subject: renesas/master baseline-nfs: 153 runs,
+ 7 regressions (v6.1-rc8-929-g112502470f50)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add device nodes for the compare match timer(TIM) channels that are
-not assigned to the ISP.
+renesas/master baseline-nfs: 153 runs, 7 regressions (v6.1-rc8-929-g1125024=
+70f50)
 
-The channels 22 is assigned for clock source and channel 23 for
-clock event and rest of the channels are assigned for counter
-operation.
+Regressions Summary
+-------------------
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a09g011.dtsi | 192 +++++++++++++++++++++
- 1 file changed, 192 insertions(+)
+platform                     | arch  | lab          | compiler | defconfig =
+                   | regressions
+-----------------------------+-------+--------------+----------+-----------=
+-------------------+------------
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig+=
+videodec           | 1          =
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-index dcd3a05e54fe..69c1ebc5e0dd 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-@@ -135,6 +135,198 @@ sys: system-controller@a3f03000 {
- 			reg = <0 0xa3f03000 0 0x400>;
- 		};
- 
-+		tim8: timer@a4000400 {
-+			compatible = "renesas,r9a09g011-tim-cnt",
-+				     "renesas,rzv2m-tim-cnt";
-+			reg = <0 0xa4000400 0 0x80>;
-+			interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPB_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM8_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPB_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim9: timer@a4000480 {
-+			compatible = "renesas,r9a09g011-tim-cnt",
-+				     "renesas,rzv2m-tim-cnt";
-+			reg = <0 0xa4000480 0 0x80>;
-+			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPB_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM9_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPB_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim10: timer@a4000500 {
-+			compatible = "renesas,r9a09g011-tim-cnt",
-+				     "renesas,rzv2m-tim-cnt";
-+			reg = <0 0xa4000500 0 0x80>;
-+			interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPB_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM10_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPB_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim11: timer@a4000580 {
-+			compatible = "renesas,r9a09g011-tim-cnt",
-+				     "renesas,rzv2m-tim-cnt";
-+			reg = <0 0xa4000580 0 0x80>;
-+			interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPB_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM11_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPB_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim12: timer@a4000600 {
-+			compatible = "renesas,r9a09g011-tim-cnt",
-+				     "renesas,rzv2m-tim-cnt";
-+			reg = <0 0xa4000600 0 0x80>;
-+			interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPB_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM12_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPB_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim13: timer@a4000680 {
-+			compatible = "renesas,r9a09g011-tim-cnt",
-+				     "renesas,rzv2m-tim-cnt";
-+			reg = <0 0xa4000680 0 0x80>;
-+			interrupts = <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPB_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM13_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPB_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim14: timer@a4000700 {
-+			compatible = "renesas,r9a09g011-tim-cnt",
-+				     "renesas,rzv2m-tim-cnt";
-+			reg = <0 0xa4000700 0 0x80>;
-+			interrupts = <GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPB_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM14_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPB_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim15: timer@a4000780 {
-+			compatible = "renesas,r9a09g011-tim-cnt",
-+				     "renesas,rzv2m-tim-cnt";
-+			reg = <0 0xa4000780 0 0x80>;
-+			interrupts = <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPB_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM15_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPB_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim16: timer@a4000800 {
-+			compatible = "renesas,r9a09g011-tim-cnt",
-+				     "renesas,rzv2m-tim-cnt";
-+			reg = <0 0xa4000800 0 0x80>;
-+			interrupts = <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPC_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM16_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPC_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim17: timer@a4000880 {
-+			compatible = "renesas,r9a09g011-tim-cnt",
-+				     "renesas,rzv2m-tim-cnt";
-+			reg = <0 0xa4000880 0 0x80>;
-+			interrupts = <GIC_SPI 124 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPC_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM17_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPC_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim18: timer@a4000900 {
-+			compatible = "renesas,r9a09g011-tim-cnt",
-+				     "renesas,rzv2m-tim-cnt";
-+			reg = <0 0xa4000900 0 0x80>;
-+			interrupts = <GIC_SPI 125 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPC_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM18_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPC_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim19: timer@a4000980 {
-+			compatible = "renesas,r9a09g011-tim-cnt",
-+				     "renesas,rzv2m-tim-cnt";
-+			reg = <0 0xa4000980 0 0x80>;
-+			interrupts = <GIC_SPI 126 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPC_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM19_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPC_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim20: timer@a4000a00 {
-+			compatible = "renesas,r9a09g011-tim-cnt",
-+				     "renesas,rzv2m-tim-cnt";
-+			reg = <0 0xa4000a00 0 0x80>;
-+			interrupts = <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPC_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM20_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPC_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim21: timer@a4000a80 {
-+			compatible = "renesas,r9a09g011-tim-cnt",
-+				     "renesas,rzv2m-tim-cnt";
-+			reg = <0 0xa4000a80 0 0x80>;
-+			interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPC_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM21_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPC_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim22: timer@a4000b00 {
-+			compatible = "renesas,r9a09g011-tim",
-+				     "renesas,rzv2m-tim";
-+			reg = <0 0xa4000b00 0 0x80>;
-+			interrupts = <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPC_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM22_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPC_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
-+		tim23: timer@a4000b80 {
-+			compatible = "renesas,r9a09g011-tim",
-+				     "renesas,rzv2m-tim";
-+			reg = <0 0xa4000b80 0 0x80>;
-+			interrupts = <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPC_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_TIM23_CLK>;
-+			clock-names = "apb", "tim";
-+			resets = <&cpg R9A09G011_TIM_GPC_PRESETN>;
-+			power-domains = <&cpg>;
-+		};
-+
- 		pwm8: pwm@a4010400 {
- 			compatible = "renesas,r9a09g011-pwm",
- 				     "renesas,rzv2m-pwm";
--- 
-2.25.1
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig+=
+CON...OMIZE_BASE=3Dy | 1          =
 
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig =
+                   | 1          =
+
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig+=
+ima                | 1          =
+
+meson-gxm-khadas-vim2        | arm64 | lab-baylibre | gcc-10   | defconfig+=
+CON...OMIZE_BASE=3Dy | 1          =
+
+r8a774a1-hihope-rzg2m-ex     | arm64 | lab-cip      | gcc-10   | renesas_de=
+fconfig            | 1          =
+
+sun50i-a64-pine64-plus       | arm64 | lab-broonie  | gcc-10   | defconfig+=
+debug              | 1          =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/v6.1=
+-rc8-929-g112502470f50/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: v6.1-rc8-929-g112502470f50
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      112502470f50792e9df5df75de0090fbeb7b8500 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch  | lab          | compiler | defconfig =
+                   | regressions
+-----------------------------+-------+--------------+----------+-----------=
+-------------------+------------
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig+=
+videodec           | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/638de09cc5fc78a4bf2abd6e
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+videodec
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/v6.1-rc8-929-g1=
+12502470f50/arm64/defconfig+videodec/gcc-10/lab-baylibre/baseline-nfs-meson=
+-g12b-a311d-khadas-vim3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/v6.1-rc8-929-g1=
+12502470f50/arm64/defconfig+videodec/gcc-10/lab-baylibre/baseline-nfs-meson=
+-g12b-a311d-khadas-vim3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+221125.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/638de09cc5fc78a4b=
+f2abd6f
+        new failure (last pass: renesas-devel-2022-11-10-v6.1-rc4) =
+
+ =
+
+
+
+platform                     | arch  | lab          | compiler | defconfig =
+                   | regressions
+-----------------------------+-------+--------------+----------+-----------=
+-------------------+------------
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig+=
+CON...OMIZE_BASE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/638de2984a13548b3c2abcfa
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/v6.1-rc8-929-g1=
+12502470f50/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-baylibre/b=
+aseline-nfs-meson-g12b-a311d-khadas-vim3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/v6.1-rc8-929-g1=
+12502470f50/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-baylibre/b=
+aseline-nfs-meson-g12b-a311d-khadas-vim3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+221125.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/638de2984a13548b3=
+c2abcfb
+        failing since 69 days (last pass: renesas-devel-2022-09-19-v6.0-rc6=
+, first fail: renesas-devel-2022-09-27-v6.0-rc7) =
+
+ =
+
+
+
+platform                     | arch  | lab          | compiler | defconfig =
+                   | regressions
+-----------------------------+-------+--------------+----------+-----------=
+-------------------+------------
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig =
+                   | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/638de4261b70581dfb2abd24
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/v6.1-rc8-929-g1=
+12502470f50/arm64/defconfig/gcc-10/lab-baylibre/baseline-nfs-meson-g12b-a31=
+1d-khadas-vim3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/v6.1-rc8-929-g1=
+12502470f50/arm64/defconfig/gcc-10/lab-baylibre/baseline-nfs-meson-g12b-a31=
+1d-khadas-vim3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+221125.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/638de4261b70581df=
+b2abd25
+        failing since 77 days (last pass: renesas-devel-2022-09-05-v6.0-rc4=
+, first fail: renesas-devel-2022-09-19-v6.0-rc6) =
+
+ =
+
+
+
+platform                     | arch  | lab          | compiler | defconfig =
+                   | regressions
+-----------------------------+-------+--------------+----------+-----------=
+-------------------+------------
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig+=
+ima                | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/638de98b4056c480ca2abd07
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+ima
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/v6.1-rc8-929-g1=
+12502470f50/arm64/defconfig+ima/gcc-10/lab-baylibre/baseline-nfs-meson-g12b=
+-a311d-khadas-vim3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/v6.1-rc8-929-g1=
+12502470f50/arm64/defconfig+ima/gcc-10/lab-baylibre/baseline-nfs-meson-g12b=
+-a311d-khadas-vim3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+221125.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/638de98b4056c480c=
+a2abd08
+        new failure (last pass: renesas-devel-2022-11-10-v6.1-rc4) =
+
+ =
+
+
+
+platform                     | arch  | lab          | compiler | defconfig =
+                   | regressions
+-----------------------------+-------+--------------+----------+-----------=
+-------------------+------------
+meson-gxm-khadas-vim2        | arm64 | lab-baylibre | gcc-10   | defconfig+=
+CON...OMIZE_BASE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/638ddfbec39a365a582abcfa
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/v6.1-rc8-929-g1=
+12502470f50/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-baylibre/b=
+aseline-nfs-meson-gxm-khadas-vim2.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/v6.1-rc8-929-g1=
+12502470f50/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-baylibre/b=
+aseline-nfs-meson-gxm-khadas-vim2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+221125.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/638ddfbec39a365a5=
+82abcfb
+        new failure (last pass: renesas-devel-2022-11-01-v6.1-rc3) =
+
+ =
+
+
+
+platform                     | arch  | lab          | compiler | defconfig =
+                   | regressions
+-----------------------------+-------+--------------+----------+-----------=
+-------------------+------------
+r8a774a1-hihope-rzg2m-ex     | arm64 | lab-cip      | gcc-10   | renesas_de=
+fconfig            | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/638de19fc395ab4bd22abd07
+
+  Results:     4 PASS, 1 FAIL, 0 SKIP
+  Full config: renesas_defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/v6.1-rc8-929-g1=
+12502470f50/arm64/renesas_defconfig/gcc-10/lab-cip/baseline-nfs-r8a774a1-hi=
+hope-rzg2m-ex.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/v6.1-rc8-929-g1=
+12502470f50/arm64/renesas_defconfig/gcc-10/lab-cip/baseline-nfs-r8a774a1-hi=
+hope-rzg2m-ex.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+221125.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.dmesg.emerg: https://kernelci.org/test/case/id/638de19fc39=
+5ab4bd22abd0e
+        new failure (last pass: renesas-devel-2022-11-21-v6.1-rc6)
+        1 lines
+
+    2022-12-05T12:18:16.222066  kern  :emerg : Disabling IRQ #35
+    2022-12-05T12:18:16.621965  <8>[  108.441815] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Demerg RESULT=3Dfail UNITS=3Dlines MEASUREMENT=3D1>   =
+
+ =
+
+
+
+platform                     | arch  | lab          | compiler | defconfig =
+                   | regressions
+-----------------------------+-------+--------------+----------+-----------=
+-------------------+------------
+sun50i-a64-pine64-plus       | arm64 | lab-broonie  | gcc-10   | defconfig+=
+debug              | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/638de5bc4f9ce388da2abd1c
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+debug
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/v6.1-rc8-929-g1=
+12502470f50/arm64/defconfig+debug/gcc-10/lab-broonie/baseline-nfs-sun50i-a6=
+4-pine64-plus.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/v6.1-rc8-929-g1=
+12502470f50/arm64/defconfig+debug/gcc-10/lab-broonie/baseline-nfs-sun50i-a6=
+4-pine64-plus.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+221125.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/638de5bc4f9ce388d=
+a2abd1d
+        new failure (last pass: renesas-devel-2022-11-17-v6.1-rc5) =
+
+ =20
