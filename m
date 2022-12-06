@@ -2,123 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51793644A20
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Dec 2022 18:16:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F18D644A80
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Dec 2022 18:41:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235704AbiLFRQl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Dec 2022 12:16:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51794 "EHLO
+        id S235549AbiLFRlL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Dec 2022 12:41:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235688AbiLFRQk (ORCPT
+        with ESMTP id S232572AbiLFRk1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Dec 2022 12:16:40 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A85130F7E
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Dec 2022 09:16:39 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id h7so18446734wrs.6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Dec 2022 09:16:39 -0800 (PST)
+        Tue, 6 Dec 2022 12:40:27 -0500
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87844127
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Dec 2022 09:39:28 -0800 (PST)
+Received: by mail-qv1-xf35.google.com with SMTP id i12so10914814qvs.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Dec 2022 09:39:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YROQFQEPWdBQIhB1n8gHD/kr10ieWa0trY98wElq/pc=;
-        b=jhEJrHm2+Y6fhnfB8gQwOvXAWuM5bwEb2YzWwR5K7HQ3Lonzn2AOb31fX6mOuNd7Ar
-         tMF+G6+I9QcXmIF4tjKQ2UUj7FVLLUWuvdf2T8h1gBO8MrLRae0grqUDHKNNTwGCjV0P
-         ZzxM9JA9w1FQpR1/74tVbpiuciKwD4dRwS9v0MZciu3WhbG8PIctWytIbolS698ly4wV
-         0hVDklgAYWfwNkPy+jfFl5gIJMGoueC40vz67x0WruDhrTCNXkPhrEG9wjQKz9N7I++n
-         bEHOOt/pJRRwF7nsYfyQrdrYDfc9HDfTSiF87M4DI29qO2Qssdymxx3kDvmrVG7lmC1s
-         zNqA==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6vwJXO2yIwIyTaL+wwfhKV21EcpVahkX9Yfn9dWn2Vc=;
+        b=EhNAx5d9kMUIKcYYW+d8SXABmCt5R36tbZqyhF3O/Hazlk/DPLdbQr50v0gLuS5Vs0
+         Kzj+8ci3fMgF2xrUv0YIOeyUEzxtRtnkFWm3KtkxAAWTpTnhJaCkPlAlOZw5lDmMaTZd
+         k8rkow6SokiZAgPltcfwMW/XqMjIMLGhu9qMllZwMf0tPLtuHN70/qj62e1ZHNg/BOiO
+         LwmUhizn8qxhCXgBwi9HPXZAn3+NqiWuhZS5+o9pPHepERFFNXObPgovOF10+zjfbjzB
+         EwiQlTHhcxOjLEmuNRqAFEjfsI0+QyKGev8FPTOzkNqOOR/mDwd2J86j8hToEuaHd9ve
+         nsnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YROQFQEPWdBQIhB1n8gHD/kr10ieWa0trY98wElq/pc=;
-        b=LJ0Luj/ZmOsywaazSkeOQ2ScDJ2rvBDHMr0lTCw2VJydzq2kIjY9rSibp1ViSB7yoI
-         2ROMD3FHaSmVG0GGV2nZZxAslX6hHqqDMAgAaRJH5gi8Ns/zQNKwVE356ewYUTqic/BO
-         SuFYInKSvV/Hvg+t7xQn88tAPP+gk0bWV/qoQATLfjUf/p835N9qWlMvlh0FQICf0TAg
-         oUvu4XWnzI1qmMEw9GVmK5OXxuhhH4TP1/MuKhU9d2CzfmBX/1vpYEjs9m/WctDmP4EK
-         lpNzTZjkiGgJsRLNRs8qVxezjwNOciEaXbIHYdDQoY0JExECBrvgVqVfceGIgR3THrsq
-         +MJg==
-X-Gm-Message-State: ANoB5pm1QdikNZ/t6WU5n7kWRKzLNyiV58/gv4+GBoqWLwzkjzwj29dG
-        ucT4xjJ0MPntAbn15HD3DRCGxA==
-X-Google-Smtp-Source: AA0mqf52MxkhhF+T1ebYV9lbdRoLZU3Xf4s/0EAmgmZvDSEXw/xIz0RpkpGEGRpktu+cAAj8q+zr/w==
-X-Received: by 2002:adf:f1d2:0:b0:242:509a:ad49 with SMTP id z18-20020adff1d2000000b00242509aad49mr8804253wro.345.1670346998759;
-        Tue, 06 Dec 2022 09:16:38 -0800 (PST)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id r20-20020a05600c35d400b003c6d21a19a0sm14941710wmq.29.2022.12.06.09.16.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Dec 2022 09:16:38 -0800 (PST)
-Message-ID: <6760fd0c-bc83-4217-4e42-76850bb42b19@linaro.org>
-Date:   Tue, 6 Dec 2022 18:16:36 +0100
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6vwJXO2yIwIyTaL+wwfhKV21EcpVahkX9Yfn9dWn2Vc=;
+        b=T0lNArDCTnTkn4IELw/WcnP9sYxHXqlEdxZwnVvLMBJB/G0NX+JqxZ/zFspTVkyZkG
+         Mq3JSEeatl8MmoIE7u/1CCMCbOcgImvhCYhgO4Fq2PIkX/DZc3hO+stFjxCVLEraohrL
+         gRzE7zJRI6AQJBui3Z2koODGfMNCePqCRT+QCDVg8PkzGg95JBIVh1eUAqCEfHNeXtNj
+         FkLWs5g+JolgBWvUO4wP/d+vnCUb96RMZkZPHpZi4EBrm+z3elUphpYzNpMOfRw3Z0yr
+         0P+IXlG20/br4lFz5dVeLH/11Mf0Vd0wDYYwoITbLypUcDBQNHZAzVa/O84AQn6kMLP9
+         Be+A==
+X-Gm-Message-State: ANoB5pnKI8gd4DPDzYuCP/AJBxWrAT5QN30JO5tBdWCFtKvIV+B9tOOG
+        Po2WhPoRHtL8cFS5uezMqyr8og==
+X-Google-Smtp-Source: AA0mqf6kleqKRKauKukPH3nwqFrvrvx5HvV2ehp0YH2KTji20rCiwQJvXf/N0MX/9UJD/aYwc2m/8A==
+X-Received: by 2002:a05:6214:3588:b0:4bb:6c92:378c with SMTP id nn8-20020a056214358800b004bb6c92378cmr78735052qvb.117.1670348367676;
+        Tue, 06 Dec 2022 09:39:27 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id dm54-20020a05620a1d7600b006fcc437c2e8sm6749646qkb.44.2022.12.06.09.39.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Dec 2022 09:39:27 -0800 (PST)
+Message-ID: <228a5a9416a891895ce0e108719ba0badbbd0ad8.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/7] media: Add 2-10-10-10 RGB formats
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Date:   Tue, 06 Dec 2022 12:39:24 -0500
+In-Reply-To: <20221206133954.397098-2-tomi.valkeinen+renesas@ideasonboard.com>
+References: <20221206133954.397098-1-tomi.valkeinen+renesas@ideasonboard.com>
+         <20221206133954.397098-2-tomi.valkeinen+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] dt-bindings: thermal: rzg2l-thermal: Document RZ/Five SoC
-Content-Language: en-US
-To:     Prabhakar <prabhakar.csengg@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20221115121629.1181667-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20221115121629.1181667-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 15/11/2022 13:16, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> The TSU block on the RZ/Five SoC is identical to one found on the RZ/G2UL
-> SoC. "renesas,r9a07g043-tsu" compatible string will be used on the
-> RZ/Five SoC so to make this clear, update the comment to include RZ/Five
-> SoC.
-> 
-> No driver changes are required as generic compatible string
-> "renesas,rzg2l-tsu" will be used as a fallback on RZ/Five SoC.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi,
+
+Le mardi 06 d=C3=A9cembre 2022 =C3=A0 15:39 +0200, Tomi Valkeinen a =C3=A9c=
+rit=C2=A0:
+> Add XBGR2101010, ABGR2101010 and BGRA1010102 formats.
+>=20
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
+This patch is simply missing an update to
+
+Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+
+regards,
+Nicolas
+
 > ---
->   Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml b/Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml
-> index 1d8373397848..03f4b926e53c 100644
-> --- a/Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml
-> +++ b/Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml
-> @@ -17,7 +17,7 @@ properties:
->     compatible:
->       items:
->         - enum:
-> -          - renesas,r9a07g043-tsu # RZ/G2UL
-> +          - renesas,r9a07g043-tsu # RZ/G2UL and RZ/Five
->             - renesas,r9a07g044-tsu # RZ/G2{L,LC}
->             - renesas,r9a07g054-tsu # RZ/V2L
->         - const: renesas,rzg2l-tsu
-
-Applied, thanks
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 3 +++
+>  include/uapi/linux/videodev2.h       | 3 +++
+>  2 files changed, 6 insertions(+)
+>=20
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
+re/v4l2-ioctl.c
+> index fddba75d9074..964300deaf62 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1304,6 +1304,9 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
+mt)
+>  	case V4L2_PIX_FMT_BGRX32:	descr =3D "32-bit XBGR 8-8-8-8"; break;
+>  	case V4L2_PIX_FMT_RGBA32:	descr =3D "32-bit RGBA 8-8-8-8"; break;
+>  	case V4L2_PIX_FMT_RGBX32:	descr =3D "32-bit RGBX 8-8-8-8"; break;
+> +	case V4L2_PIX_FMT_XBGR2101010:	descr =3D "32-bit XBGR 2-10-10-10"; brea=
+k;
+> +	case V4L2_PIX_FMT_ABGR2101010:	descr =3D "32-bit ABGR 2-10-10-10"; brea=
+k;
+> +	case V4L2_PIX_FMT_BGRA1010102:	descr =3D "32-bit BGRA 10-10-10-2"; brea=
+k;
+>  	case V4L2_PIX_FMT_GREY:		descr =3D "8-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Y4:		descr =3D "4-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Y6:		descr =3D "6-bit Greyscale"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
+2.h
+> index 29da1f4b4578..877fd61693b8 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -576,6 +576,9 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_RGBX32  v4l2_fourcc('X', 'B', '2', '4') /* 32  RGBX=
+-8-8-8-8  */
+>  #define V4L2_PIX_FMT_ARGB32  v4l2_fourcc('B', 'A', '2', '4') /* 32  ARGB=
+-8-8-8-8  */
+>  #define V4L2_PIX_FMT_XRGB32  v4l2_fourcc('B', 'X', '2', '4') /* 32  XRGB=
+-8-8-8-8  */
+> +#define V4L2_PIX_FMT_XBGR2101010 v4l2_fourcc('R', 'X', '3', '0') /* 32  =
+XBGR-2-10-10-10  */
+> +#define V4L2_PIX_FMT_ABGR2101010 v4l2_fourcc('R', 'A', '3', '0') /* 32  =
+ABGR-2-10-10-10  */
+> +#define V4L2_PIX_FMT_BGRA1010102 v4l2_fourcc('A', 'R', '3', '0') /* 32  =
+BGRA-10-10-10-2  */
+> =20
+>  /* Grey formats */
+>  #define V4L2_PIX_FMT_GREY    v4l2_fourcc('G', 'R', 'E', 'Y') /*  8  Grey=
+scale     */
 
