@@ -2,72 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A5049644A83
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Dec 2022 18:41:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F38B9644DA2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Dec 2022 22:02:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234309AbiLFRlW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Dec 2022 12:41:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35906 "EHLO
+        id S229669AbiLFVCC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Dec 2022 16:02:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233776AbiLFRkn (ORCPT
+        with ESMTP id S229456AbiLFVCB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Dec 2022 12:40:43 -0500
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B10B2AC52
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Dec 2022 09:40:42 -0800 (PST)
-Received: by mail-qt1-x836.google.com with SMTP id fu10so5828626qtb.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Dec 2022 09:40:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oOkTYmnhiazLEuS2jorfY79zc25fQq5hfIh6dVD9kVI=;
-        b=uv3CBgWIqChXvjmuNm20KjYb1uCyxwzVoz2EFD7Myt4nTY64wwm3LB1RoS2DwYsoZe
-         e33HHZCax6mqBKjAFBeM1ZL6n6RdJWCW2MntKDUnqm8S1iJRy5qc1NCsOY82CWdzHX4/
-         L8hPvsoyu5rKc6kWE4FSUL3SYlilBeIp8MkRz2IcmFSfWs4EKNBjNhF+v3OzRnUlWzcd
-         Osf+QBZlpQVP/8uc2xv1PQUnVlk4wtvngvK4eXTxkbNHws+K5+sEX7x0xlVaYwDm6SzW
-         rD7FYqiC2tiqarekYvpmW5OCHSExpg+Bbv8jhHwDQXrEe+cPj2z4W/MXQ+WOGcMR2nxa
-         gtjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=oOkTYmnhiazLEuS2jorfY79zc25fQq5hfIh6dVD9kVI=;
-        b=1whtPUz7DhbaXz00iR1frVBofb/NO66GJO9ZZughR2uGMUDTHvfcfG93XwFFpB53KX
-         zK+mKJcb9YjvP7fccpybZtlC3FqwYDj5tN1Bw913bWXFxiyanCd1qI0lPzPQsMu3ibxL
-         qhCuD/N2HeOt5/ADkY2jW2wJsM+SAk9xLp89dt1foiz/xj2yPLz1AzhnqWI/A6EuwgZ2
-         AcT/gWQzopzuIlEnSs/iY94PVjxt3bD0pHzaeozvSboRirFTmmdE38DjXm387j+MS7BA
-         d4Nn+Sac5Sq6CdkIAK8YrwCJu8swEwjvYCdJ0kCWHur385VZKWJ4fFquWGCgUmiW6VRA
-         jzng==
-X-Gm-Message-State: ANoB5pk7fzxK+vl02bcRqXWDgNny/T03V5GgxveXxAh4Q5DwBZw/OuSj
-        gwQHGym1ien8WyKRCYrgFv/JDA==
-X-Google-Smtp-Source: AA0mqf5M3Zjz1sCMVEfBbrR9e9NX8ylgiun/fzx+qW+W3siusIuNIpQ+5aaMgmPsPU0D7UqUEycUSA==
-X-Received: by 2002:a05:622a:294:b0:3a7:e4d1:c76e with SMTP id z20-20020a05622a029400b003a7e4d1c76emr8031013qtw.505.1670348441326;
-        Tue, 06 Dec 2022 09:40:41 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id m10-20020ac8444a000000b0039cc944ebdasm11986491qtn.54.2022.12.06.09.40.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Dec 2022 09:40:40 -0800 (PST)
-Message-ID: <c1727c05f5f19b749cb5d0e441e363f4bed9d044.camel@ndufresne.ca>
-Subject: Re: [PATCH 2/7] media: Add Y210, Y212 and Y216 formats
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Date:   Tue, 06 Dec 2022 12:40:38 -0500
-In-Reply-To: <20221206133954.397098-3-tomi.valkeinen+renesas@ideasonboard.com>
-References: <20221206133954.397098-1-tomi.valkeinen+renesas@ideasonboard.com>
-         <20221206133954.397098-3-tomi.valkeinen+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+        Tue, 6 Dec 2022 16:02:01 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C526C2F028;
+        Tue,  6 Dec 2022 13:02:00 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5DAF6618F2;
+        Tue,  6 Dec 2022 21:02:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D33CC433D6;
+        Tue,  6 Dec 2022 21:01:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670360519;
+        bh=bvu32LFYIQ3mqvaTjtC2wlG+bQ9D2wDMKyzUQjMLf4M=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=mLTZZLRFOJuvTzmVeiD2+CyUjIalTOGm3M/E4TMnfX2uFbcuGdWa7eJLw1/8YlUI5
+         DbE+pdQmZNSGfU2yrVr37kqsQVuMvMq2z3g6OzCP6giGorFIO3+M+Jd0WHE2F6Sk8O
+         qIIRC7Yu4dDw202VtZGBeE1iMDdwvCfn3cTCt7ky0fRYQv5gZpxFGA0uE8VWJsoIMq
+         fqlWxLAhCX6knHHyU3u7iy4ECDBUKM9ynujSfKssDRRQanAv+c/MHu8BQbPfxXlUqQ
+         zurB1mt1f5M1xQlD1SXS9Z363LzSOTk4cIwZha01CKuz9YXkQ2oxSeoKQiSIcO+f0S
+         uIywgvgMBgt3w==
+Message-ID: <98a97883-3303-20eb-5a18-cfa00af9443e@kernel.org>
+Date:   Tue, 6 Dec 2022 15:01:54 -0600
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 05/11] ARM: dts: socfpga: Fix pca9548 i2c-mux node name
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Stefan Agner <stefan@agner.ch>, Li Yang <leoyang.li@nxp.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, devicetree@vger.kernel.org
+References: <cover.1669999298.git.geert+renesas@glider.be>
+ <a7bcc2de6c2c0946f56b2d9f9584c55cf28545dc.1669999298.git.geert+renesas@glider.be>
+From:   Dinh Nguyen <dinguyen@kernel.org>
+In-Reply-To: <a7bcc2de6c2c0946f56b2d9f9584c55cf28545dc.1669999298.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,71 +87,40 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
 
-Le mardi 06 d=C3=A9cembre 2022 =C3=A0 15:39 +0200, Tomi Valkeinen a =C3=A9c=
-rit=C2=A0:
-> Add Y210, Y212 and Y216 formats.
->=20
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-This patch is simply missing an update to:
-
-Documentation/userspace-api/media/v4l/yuv-formats.rst
-
-regards,
-Nicolas
-
+On 12/2/22 10:49, Geert Uytterhoeven wrote:
+> "make dtbs_check":
+> 
+>      arch/arm/boot/dts/socfpga_cyclone5_vining_fpga.dtb: i2cswitch@70: $nodename:0: 'i2cswitch@70' does not match '^(i2c-?)?mux'
+> 	    From schema: Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.yaml
+>      arch/arm/boot/dts/socfpga_cyclone5_vining_fpga.dtb: i2cswitch@70: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'i2c@0', 'i2c@1', 'i2c@2', 'i2c@3', 'i2c@4', 'i2c@5', 'i2c@6', 'i2c@7' were unexpected)
+>          From schema: Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.yaml
+> 
+> Fix this by renaming the PCA9548 node to "i2c-mux", to match the I2C bus
+> multiplexer/switch DT bindings and the Generic Names Recommendation in
+> the Devicetree Specification.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  drivers/media/v4l2-core/v4l2-ioctl.c | 3 +++
->  include/uapi/linux/videodev2.h       | 8 ++++++++
->  2 files changed, 11 insertions(+)
->=20
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
-re/v4l2-ioctl.c
-> index 964300deaf62..ba95389a59b5 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1449,6 +1449,9 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
-mt)
->  	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr =3D "Rockchip ISP1 3A Statist=
-ics"; break;
->  	case V4L2_PIX_FMT_NV12M_8L128:	descr =3D "NV12M (8x128 Linear)"; break;
->  	case V4L2_PIX_FMT_NV12M_10BE_8L128:	descr =3D "10-bit NV12M (8x128 Line=
-ar, BE)"; break;
-> +	case V4L2_PIX_FMT_Y210:		descr =3D "10-bit YUYV Packed"; break;
-> +	case V4L2_PIX_FMT_Y212:		descr =3D "12-bit YUYV Packed"; break;
-> +	case V4L2_PIX_FMT_Y216:		descr =3D "16-bit YUYV Packed"; break;
-> =20
->  	default:
->  		/* Compressed formats */
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
-> index 877fd61693b8..15b640d2da8a 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -621,6 +621,14 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_YUVX32  v4l2_fourcc('Y', 'U', 'V', 'X') /* 32  YUVX=
--8-8-8-8  */
->  #define V4L2_PIX_FMT_M420    v4l2_fourcc('M', '4', '2', '0') /* 12  YUV =
-4:2:0 2 lines y, 1 line uv interleaved */
-> =20
-> +/*
-> + * YCbCr packed format. For each Y2xx format, xx bits of valid data occu=
-py the MSBs
-> + * of the 16 bit components, and 16-xx bits of zero padding occupy the L=
-SBs.
-> + */
-> +#define V4L2_PIX_FMT_Y210    v4l2_fourcc('Y', '2', '1', '0') /* 32  YUYV=
- 4:2:2 */
-> +#define V4L2_PIX_FMT_Y212    v4l2_fourcc('Y', '2', '1', '2') /* 32  YUYV=
- 4:2:2 */
-> +#define V4L2_PIX_FMT_Y216    v4l2_fourcc('Y', '2', '1', '6') /* 32  YUYV=
- 4:2:2 */
-> +
->  /* two planes -- one Y, one Cr + Cb interleaved  */
->  #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/Cb=
-Cr 4:2:0  */
->  #define V4L2_PIX_FMT_NV21    v4l2_fourcc('N', 'V', '2', '1') /* 12  Y/Cr=
-Cb 4:2:0  */
+>   arch/arm/boot/dts/socfpga_cyclone5_vining_fpga.dts | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm/boot/dts/socfpga_cyclone5_vining_fpga.dts b/arch/arm/boot/dts/socfpga_cyclone5_vining_fpga.dts
+> index f24f17c2f5ee6bc4..e0630b0eed036d35 100644
+> --- a/arch/arm/boot/dts/socfpga_cyclone5_vining_fpga.dts
+> +++ b/arch/arm/boot/dts/socfpga_cyclone5_vining_fpga.dts
+> @@ -141,7 +141,7 @@ at24@50 {
+>   		reg = <0x50>;
+>   	};
+>   
+> -	i2cswitch@70 {
+> +	i2c-mux@70 {
+>   		compatible = "nxp,pca9548";
+>   		#address-cells = <1>;
+>   		#size-cells = <0>;
 
+Applied!
+
+Thanks,
+Dinh
