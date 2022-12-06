@@ -2,152 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 380246445D8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Dec 2022 15:38:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96C046447DB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Dec 2022 16:20:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232143AbiLFOi0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Dec 2022 09:38:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42168 "EHLO
+        id S235053AbiLFPUg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Dec 2022 10:20:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235008AbiLFOiV (ORCPT
+        with ESMTP id S235371AbiLFPUC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Dec 2022 09:38:21 -0500
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EB622A436;
-        Tue,  6 Dec 2022 06:38:16 -0800 (PST)
-Received: by mail-qk1-f181.google.com with SMTP id x18so7575084qki.4;
-        Tue, 06 Dec 2022 06:38:16 -0800 (PST)
+        Tue, 6 Dec 2022 10:20:02 -0500
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12E301005;
+        Tue,  6 Dec 2022 07:18:57 -0800 (PST)
+Received: by mail-ed1-x535.google.com with SMTP id l11so20758804edb.4;
+        Tue, 06 Dec 2022 07:18:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zCg69PxcTEnZD9ypvvoVMTCVaXFiqLTaSNGD0+eCQPE=;
+        b=cH5ll8ITXoCLPrvYcU1hy30FRvcJzbtDilmyuFA6iarvx9PvVME70Mb/e2dcCU0vFN
+         Qvbb3fpzDmXNlb+7bjUPqHm1L4S9+5vNm1BzHSSDxZ6HSZ4HpolWlpFVQmpAOpsNqHkv
+         JVLmoqPlYykuIrqq0oMO+mVtXn0yjv5+6p9NnRcgcVRjIbiuUhkLDt8TLejMjp59ZHzv
+         jj8gwBOKBmYMABtQO4eiUUe2JSVHNCn6xHgtppUtp2ZzVQtB5zB/S5XOCQqRZZARrrq9
+         7OGGHMkR1K3VU22icPM7ItTsUgnrueylfv6bK3/l12rldmt2qlWmU4dhyJQjIXg2DK+J
+         QkqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MoCQfxJ5i6j85vIMn+stwCyxBvgczcZworKXH87DwQw=;
-        b=EewW9RvZWj1rGOqQRaWWzrQctlNqVOyoNpNFZcKoLDFkLnewZ3Vy3lX/Z1LGmsNcY7
-         sbaNHovNA8+rWleU8LViKQfg9jSymZmJ/aph2QsUhf58Dm6SfwJhlVKc5j1vOk9cuL2a
-         2CdWl3LAAT2BmLdwRY4aOa5JOCkCK1g5HKwd07G5nbCN4IDLLCkNM/J6+K/Kvur7EwS2
-         IBVTp0CLcHDXzGWNt4QwwkkPTdleW93Rj7QOupAp0xreWPS8oG8g67yF0Sx63ujQGNdL
-         YIoQ2JjzeYVgEKUv7igRTEbyqGYYX6L79Iwr23GN1l9/5/GZdeyLtTWYvcw3Z2VpfYtE
-         0Nyg==
-X-Gm-Message-State: ANoB5pm3ZNH6J3XwLhDagusv0wXjf7aUHz1nUU+kguCnrn9MlIl4go3v
-        wtI32Wl/H9R8XmVbH3ceiJ+CZNSvlcyrDg==
-X-Google-Smtp-Source: AA0mqf5UG0RUMfufR7jV5zbLB+KRZO7dNO7AwbMhQ4Pm37JgA1KtO+K2SHLjdUobt6fXUjzvMNj36w==
-X-Received: by 2002:a37:bbc7:0:b0:6fb:4e2c:9dc5 with SMTP id l190-20020a37bbc7000000b006fb4e2c9dc5mr59915970qkf.217.1670337495201;
-        Tue, 06 Dec 2022 06:38:15 -0800 (PST)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id g17-20020ac870d1000000b003a7e66e5b67sm3240585qtp.78.2022.12.06.06.38.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Dec 2022 06:38:15 -0800 (PST)
-Received: by mail-yb1-f169.google.com with SMTP id 189so18794969ybe.8;
-        Tue, 06 Dec 2022 06:38:14 -0800 (PST)
-X-Received: by 2002:a25:9:0:b0:6f9:29ef:a5ee with SMTP id 9-20020a250009000000b006f929efa5eemr29679939yba.380.1670337494447;
- Tue, 06 Dec 2022 06:38:14 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zCg69PxcTEnZD9ypvvoVMTCVaXFiqLTaSNGD0+eCQPE=;
+        b=SsJKDJSiWEaUHqGq3kSJFXRcs6IKT2xRIJ4oR3xk2+TjUqqsRJ00n+5R0IaSd+gUHd
+         lem7gOksfSXi2HCd4C1ItnlBJ+1yNZRqAutof9MAa9lg0PddYxj11m5wdldOryGa6qpn
+         0zARDhabUomZ1geXjOHgTOcqTk24meQM3dlCzXYeWz4fen+5kwLosPoqFnnc84xhmKTz
+         cf7VCQ73JdOPDx2EjDA8Ml3jglluP0oH/4d5mD8wGXbQxKfuXDB6pf8iSScAhyfMCGsp
+         FT7Mef/0dDMnoWkHScAnXUIrdL3diia9HEJDhGzbazTxTsHLvOWiXhzzCrFJAEAgFGCV
+         7JoA==
+X-Gm-Message-State: ANoB5pk0yZ2vKt4Id4em/pr7uLv45okPX/zpmhS5YJN2GVTee7/sgwzu
+        rK2WRYbG9Z7WUyq5ut8wP5k=
+X-Google-Smtp-Source: AA0mqf6hLPrOoTjF/q/L3ZonW9Mz8loX3zBymzOB2FMOlPKwkXVRfSgfD4cTMN8HkW/ASavaZ6Uqog==
+X-Received: by 2002:a05:6402:5517:b0:461:c563:defa with SMTP id fi23-20020a056402551700b00461c563defamr76864192edb.72.1670339935459;
+        Tue, 06 Dec 2022 07:18:55 -0800 (PST)
+Received: from skbuf ([188.26.184.215])
+        by smtp.gmail.com with ESMTPSA id v6-20020a170906180600b007c0c679ca2fsm5080046eje.26.2022.12.06.07.18.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Dec 2022 07:18:54 -0800 (PST)
+Date:   Tue, 6 Dec 2022 17:18:51 +0200
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     Colin Foster <colin.foster@in-advantage.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        John Crispin <john@phrozen.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Marek Vasut <marex@denx.de>,
+        Sean Wang <sean.wang@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        =?utf-8?B?bsOnIMOcTkFM?= <arinc.unal@arinc9.com>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        UNGLinuxDriver@microchip.com,
+        Woojung Huh <woojung.huh@microchip.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        George McCollister <george.mccollister@gmail.com>,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v4 net-next 3/9] dt-bindings: net: dsa: utilize base
+ definitions for standard dsa switches
+Message-ID: <20221206151851.hnqqwf6zgaa2c7tb@skbuf>
+References: <20221202204559.162619-1-colin.foster@in-advantage.com>
+ <20221202204559.162619-4-colin.foster@in-advantage.com>
 MIME-Version: 1.0
-References: <20221206133954.397098-1-tomi.valkeinen+renesas@ideasonboard.com> <20221206133954.397098-6-tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20221206133954.397098-6-tomi.valkeinen+renesas@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 6 Dec 2022 15:38:02 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWVXCy_CEjv2c_ke6x+HNfndNci1c3m1Tn5ROy_mvNhmw@mail.gmail.com>
-Message-ID: <CAMuHMdWVXCy_CEjv2c_ke6x+HNfndNci1c3m1Tn5ROy_mvNhmw@mail.gmail.com>
-Subject: Re: [PATCH 5/7] media: renesas: vsp1: Add new formats (2-10-10-10
- ARGB, Y210)
-To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221202204559.162619-4-colin.foster@in-advantage.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Tomi,
+On Fri, Dec 02, 2022 at 12:45:53PM -0800, Colin Foster wrote:
+> DSA switches can fall into one of two categories: switches where all ports
+> follow standard '(ethernet-)?port' properties, and switches that have
+> additional properties for the ports.
+> 
+> The scenario where DSA ports are all standardized can be handled by
+> swtiches with a reference to the new 'dsa.yaml#/$defs/ethernet-ports'.
+> 
+> The scenario where DSA ports require additional properties can reference
+> '$dsa.yaml#' directly. This will allow switches to reference these standard
+> defitions of the DSA switch, but add additional properties under the port
+> nodes.
+> ---
+> diff --git a/Documentation/devicetree/bindings/net/dsa/dsa.yaml b/Documentation/devicetree/bindings/net/dsa/dsa.yaml
+> index b9d48e357e77..b9e366e46aed 100644
+> --- a/Documentation/devicetree/bindings/net/dsa/dsa.yaml
+> +++ b/Documentation/devicetree/bindings/net/dsa/dsa.yaml
+> @@ -19,9 +19,6 @@ description:
+>  select: false
+>  
+>  properties:
+> -  $nodename:
+> -    pattern: "^(ethernet-)?switch(@.*)?$"
+> -
 
-On Tue, Dec 6, 2022 at 2:44 PM Tomi Valkeinen
-<tomi.valkeinen+renesas@ideasonboard.com> wrote:
-> Add new pixel formats: XBGR2101010, ABGR2101010, BGRA1010102 and Y210.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Does this deletion belong to this patch or to "dt-bindings: net: add
+generic ethernet-switch"?
 
-Thanks for your patch!
-
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> @@ -109,6 +109,56 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
->         vsp1_rpf_write(rpf, dlb, VI6_RPF_INFMT, infmt);
->         vsp1_rpf_write(rpf, dlb, VI6_RPF_DSWAP, fmtinfo->swap);
->
-> +       if ((entity->vsp1->version & VI6_IP_VERSION_MODEL_MASK) == VI6_IP_VERSION_MODEL_VSPD_GEN4) {
-> +               u32 ext_infmt0;
-> +               u32 ext_infmt1;
-> +               u32 ext_infmt2;
-> +
-> +               switch (fmtinfo->fourcc) {
-> +               case V4L2_PIX_FMT_XBGR2101010:
-> +                       ext_infmt0 = VI6_RPF_EXT_INFMT0_BYPP_M1_RGB10;
-> +                       ext_infmt1 = (0 << 24)  | (10 << 16) |
-> +                                    (20 << 8)  | (30 << 0);
-
-Introducing PACK_CPOS(a, b, c, d)...
-
-> +                       ext_infmt2 = (10 << 24) | (10 << 16) |
-> +                                    (10 << 8)  | (0 << 0);
-
-... and PACK_CLEN(a, b, c, d) macros (or a single PACK4() macro)
-can make this less error-prone.
-
-> +                       break;
-> +
-> +               case V4L2_PIX_FMT_ABGR2101010:
-> +                       ext_infmt0 = VI6_RPF_EXT_INFMT0_BYPP_M1_RGB10;
-> +                       ext_infmt1 = (0 << 24)  | (10 << 16) |
-> +                                    (20 << 8)  | (30 << 0);
-> +                       ext_infmt2 = (10 << 24) | (10 << 16) |
-> +                                    (10 << 8)  | (2 << 0);
-> +                       break;
-> +
-> +               case V4L2_PIX_FMT_BGRA1010102:
-> +                       ext_infmt0 = VI6_RPF_EXT_INFMT0_BYPP_M1_RGB10;
-> +                       ext_infmt1 = (2 << 24)  | (12 << 16) |
-> +                                    (22 << 8)  | (22 << 0);
-> +                       ext_infmt2 = (10 << 24) | (10 << 16) |
-> +                                    (10 << 8)  | (2 << 0);
-> +                       break;
-> +
-> +               case V4L2_PIX_FMT_Y210:
-> +                       ext_infmt0 = VI6_RPF_EXT_INFMT0_F2B_MSB |
-> +                                    VI6_RPF_EXT_INFMT0_IPBD_Y_10 |
-> +                                    VI6_RPF_EXT_INFMT0_IPBD_C_10;
-> +                       ext_infmt1 = 0x0;
-> +                       ext_infmt2 = 0x0;
-> +                       break;
-> +
-> +               default:
-> +                       ext_infmt0 = 0;
-> +                       ext_infmt1 = 0;
-> +                       ext_infmt2 = 0;
-> +                       break;
-> +               }
-> +
-> +               vsp1_rpf_write(rpf, dlb, VI6_RPF_EXT_INFMT0, ext_infmt0);
-> +               vsp1_rpf_write(rpf, dlb, VI6_RPF_EXT_INFMT1, ext_infmt1);
-> +               vsp1_rpf_write(rpf, dlb, VI6_RPF_EXT_INFMT2, ext_infmt2);
-> +       }
-> +
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>    dsa,member:
+>      minItems: 2
+>      maxItems: 2
+> @@ -58,4 +55,26 @@ oneOf:
+>  
+>  additionalProperties: true
