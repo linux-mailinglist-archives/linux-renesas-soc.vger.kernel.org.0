@@ -2,133 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89DD76448D5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Dec 2022 17:10:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51793644A20
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Dec 2022 18:16:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235452AbiLFQKD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Dec 2022 11:10:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54662 "EHLO
+        id S235704AbiLFRQl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Dec 2022 12:16:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235271AbiLFQJl (ORCPT
+        with ESMTP id S235688AbiLFRQk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Dec 2022 11:09:41 -0500
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB9663AC2F;
-        Tue,  6 Dec 2022 08:04:35 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id s5so20867409edc.12;
-        Tue, 06 Dec 2022 08:04:35 -0800 (PST)
+        Tue, 6 Dec 2022 12:16:40 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A85130F7E
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Dec 2022 09:16:39 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id h7so18446734wrs.6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Dec 2022 09:16:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=t8cA4ACelgyjXGYdUQh+jD+jJuegWDTJ6AcOocRBXlg=;
-        b=UDbZ7YkU9hRMLDz1egSCEnbQlgdWZjEVy636iYNE+34e/fSxF62gaDd6CTMdppFtCK
-         gg/tmHGxjv6MmTRtOIK6cx2Jjb3mrtGU3frQXEfew2/+LTUEgbnyISdsKs3uGml2JOtZ
-         JvYal2m3xNBsJGKirr1ul8T5Nqd523nKJZ5j/6tsiWtmmwa5Lq9hS9GDQVfeeHi8DuNO
-         9AH2mDVYfYFz3XMKsNqvPsJgk2ntQaoPQjCS/0XXQ47EzhHk/ZzAcZeGVyZBpXi0/BKY
-         ja42TGmlgxjL8R53NfB3B/0xZOOKq7jWt3JyWFWCklmO4Nc0rmdZcq3WlTtSguff+bFS
-         +xvA==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YROQFQEPWdBQIhB1n8gHD/kr10ieWa0trY98wElq/pc=;
+        b=jhEJrHm2+Y6fhnfB8gQwOvXAWuM5bwEb2YzWwR5K7HQ3Lonzn2AOb31fX6mOuNd7Ar
+         tMF+G6+I9QcXmIF4tjKQ2UUj7FVLLUWuvdf2T8h1gBO8MrLRae0grqUDHKNNTwGCjV0P
+         ZzxM9JA9w1FQpR1/74tVbpiuciKwD4dRwS9v0MZciu3WhbG8PIctWytIbolS698ly4wV
+         0hVDklgAYWfwNkPy+jfFl5gIJMGoueC40vz67x0WruDhrTCNXkPhrEG9wjQKz9N7I++n
+         bEHOOt/pJRRwF7nsYfyQrdrYDfc9HDfTSiF87M4DI29qO2Qssdymxx3kDvmrVG7lmC1s
+         zNqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t8cA4ACelgyjXGYdUQh+jD+jJuegWDTJ6AcOocRBXlg=;
-        b=olay62LRaSe+dfFDCKnIqP9H0/J1TI00PjCUeh1sNY33HWirTT8uF8bilNfoJB6Kyf
-         91Z6DtEM5ykYFgCIRLWlUMPpx9WqsUfLkP2rFmva2yXh6oVH6+O8tOLCruPVyRV8CguT
-         HfikQ4Eb50GssVAztN7UFqC3H2iDyRHGlBGLUrtQcrW2TXB3Q1PZwDQWlz83LCeV15Wt
-         YZXzoIEuigsjF4nnagax/gr90Qup2Al0YlFLZh4DZ4sJeJlIhCC5JM0LQGK2wjhmYJab
-         WU0GJTtdQQzWThheH1gIkjREueXY5HRQ60Omy6gmd5cOcXuCOPwDsgzKBVTwAmVbzfz1
-         tdcA==
-X-Gm-Message-State: ANoB5pkht0eqnziw4oiM6deE8BgS4crbpgClWy/Tp45Q+uyxPhx6QTeY
-        NU9jbCphdqVxIxbGOenbkSc=
-X-Google-Smtp-Source: AA0mqf6eCz9WrlnsQ6nH/cJ10vu3pmDPK2/Tun57q7E62E++v7Ogms9pw0K/xifG+5+Clvkvi4W2KQ==
-X-Received: by 2002:aa7:d1c5:0:b0:46b:a536:e8d0 with SMTP id g5-20020aa7d1c5000000b0046ba536e8d0mr26487265edp.261.1670342673471;
-        Tue, 06 Dec 2022 08:04:33 -0800 (PST)
-Received: from skbuf ([188.26.184.215])
-        by smtp.gmail.com with ESMTPSA id gi20-20020a1709070c9400b0077d6f628e14sm7565992ejc.83.2022.12.06.08.04.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Dec 2022 08:04:33 -0800 (PST)
-Date:   Tue, 6 Dec 2022 18:04:30 +0200
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     Colin Foster <colin.foster@in-advantage.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, netdev@vger.kernel.org,
-        John Crispin <john@phrozen.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Marek Vasut <marex@denx.de>,
-        Sean Wang <sean.wang@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        =?utf-8?B?bsOnIMOcTkFM?= <arinc.unal@arinc9.com>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        UNGLinuxDriver@microchip.com,
-        Woojung Huh <woojung.huh@microchip.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        George McCollister <george.mccollister@gmail.com>
-Subject: Re: [PATCH v4 net-next 0/9] dt-binding preparation for ocelot
- switches
-Message-ID: <20221206160430.4kiyrzrumcc6dp2g@skbuf>
-References: <20221202204559.162619-1-colin.foster@in-advantage.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YROQFQEPWdBQIhB1n8gHD/kr10ieWa0trY98wElq/pc=;
+        b=LJ0Luj/ZmOsywaazSkeOQ2ScDJ2rvBDHMr0lTCw2VJydzq2kIjY9rSibp1ViSB7yoI
+         2ROMD3FHaSmVG0GGV2nZZxAslX6hHqqDMAgAaRJH5gi8Ns/zQNKwVE356ewYUTqic/BO
+         SuFYInKSvV/Hvg+t7xQn88tAPP+gk0bWV/qoQATLfjUf/p835N9qWlMvlh0FQICf0TAg
+         oUvu4XWnzI1qmMEw9GVmK5OXxuhhH4TP1/MuKhU9d2CzfmBX/1vpYEjs9m/WctDmP4EK
+         lpNzTZjkiGgJsRLNRs8qVxezjwNOciEaXbIHYdDQoY0JExECBrvgVqVfceGIgR3THrsq
+         +MJg==
+X-Gm-Message-State: ANoB5pm1QdikNZ/t6WU5n7kWRKzLNyiV58/gv4+GBoqWLwzkjzwj29dG
+        ucT4xjJ0MPntAbn15HD3DRCGxA==
+X-Google-Smtp-Source: AA0mqf52MxkhhF+T1ebYV9lbdRoLZU3Xf4s/0EAmgmZvDSEXw/xIz0RpkpGEGRpktu+cAAj8q+zr/w==
+X-Received: by 2002:adf:f1d2:0:b0:242:509a:ad49 with SMTP id z18-20020adff1d2000000b00242509aad49mr8804253wro.345.1670346998759;
+        Tue, 06 Dec 2022 09:16:38 -0800 (PST)
+Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.googlemail.com with ESMTPSA id r20-20020a05600c35d400b003c6d21a19a0sm14941710wmq.29.2022.12.06.09.16.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Dec 2022 09:16:38 -0800 (PST)
+Message-ID: <6760fd0c-bc83-4217-4e42-76850bb42b19@linaro.org>
+Date:   Tue, 6 Dec 2022 18:16:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221202204559.162619-1-colin.foster@in-advantage.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] dt-bindings: thermal: rzg2l-thermal: Document RZ/Five SoC
+Content-Language: en-US
+To:     Prabhakar <prabhakar.csengg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20221115121629.1181667-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20221115121629.1181667-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Colin,
-
-On Fri, Dec 02, 2022 at 12:45:50PM -0800, Colin Foster wrote:
-> Ocelot switches have the abilitiy to be used internally via
-> memory-mapped IO or externally via SPI or PCIe. This brings up issues
-> for documentation, where the same chip might be accessed internally in a
-> switchdev manner, or externally in a DSA configuration. This patch set
-> is perparation to bring DSA functionality to the VSC7512, utilizing as
-> much as possible with an almost identical VSC7514 chip.
+On 15/11/2022 13:16, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> This patch set changed quite a bit from v2, so I'll omit the background
-> of how those sets came to be. Rob offered a lot of very useful guidance.
-> My thanks.
+> The TSU block on the RZ/Five SoC is identical to one found on the RZ/G2UL
+> SoC. "renesas,r9a07g043-tsu" compatible string will be used on the
+> RZ/Five SoC so to make this clear, update the comment to include RZ/Five
+> SoC.
 > 
-> At the end of the day, with this patch set, there should be a framework
-> to document Ocelot switches (and any switch) in scenarios where they can
-> be controlled internally (ethernet-switch) or externally (dsa-switch).
+> No driver changes are required as generic compatible string
+> "renesas,rzg2l-tsu" will be used as a fallback on RZ/Five SoC.
 > 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
+>   Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml b/Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml
+> index 1d8373397848..03f4b926e53c 100644
+> --- a/Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml
+> +++ b/Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml
+> @@ -17,7 +17,7 @@ properties:
+>     compatible:
+>       items:
+>         - enum:
+> -          - renesas,r9a07g043-tsu # RZ/G2UL
+> +          - renesas,r9a07g043-tsu # RZ/G2UL and RZ/Five
+>             - renesas,r9a07g044-tsu # RZ/G2{L,LC}
+>             - renesas,r9a07g054-tsu # RZ/V2L
+>         - const: renesas,rzg2l-tsu
 
-This looks like a very clean implementation of what I had in mind
-(better than I could have done it). Sorry for not being able to help
-with the json-schema bits and thanks to Rob for doing so.
+Applied, thanks
 
-Would you mind adding one more patch at the beginning of the series
-which syncs the maintainers from the DSA (and now also ethernet-switch)
-dt-bindings with the MAINTAINERS file? That would mean removing Vivien
-(see commit 6ce3df596be2 ("MAINTAINERS: Move Vivien to CREDITS")) and
-adding myself. This is in principle such that you don't carry around a
-not-up-to-date list of maintainers when adding new schemas.
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-I don't know if we could do something about maintainer entries in
-schemas not becoming out of date w.r.t. the MAINTAINERS file.
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
+
