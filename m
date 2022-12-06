@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 69C7F644822
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Dec 2022 16:37:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E2DA64485E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Dec 2022 16:51:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234514AbiLFPho (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Dec 2022 10:37:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59562 "EHLO
+        id S232849AbiLFPvB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Dec 2022 10:51:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232604AbiLFPhn (ORCPT
+        with ESMTP id S234995AbiLFPu4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Dec 2022 10:37:43 -0500
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17C726596;
-        Tue,  6 Dec 2022 07:37:40 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id v8so20833356edi.3;
-        Tue, 06 Dec 2022 07:37:40 -0800 (PST)
+        Tue, 6 Dec 2022 10:50:56 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A42E325C7D;
+        Tue,  6 Dec 2022 07:50:54 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id n21so7191089ejb.9;
+        Tue, 06 Dec 2022 07:50:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=d2aBoo/MYw9aBXVIt2KwK6USjefW0Af7yl2CPwd0c+Y=;
-        b=m1EAVUMRFBrbV5dDsnZXZAN6o4Dfn+5ZtDOmrO8InSOtQNuaJvKLypbDPCae4W7nE0
-         dfGD1nkqiZScFBTSAXrMo0ZYe2c1/zVQEXWKzjEE/KgtRZQbpO8vm8KF8jscF0w39kOW
-         8sTLlLy4mNogAyostv9wzFo5TXgGdzil1/3PrPjSfDo7IP96v0UG+VhXwnB0BKfvXmO8
-         FFuGHXpT6zM7CxvyVazsGMwfTMxxfOeIgZ7gYjT1KBwuMeazUAC4V5uenFL9hHPQMLbx
-         Dw6eDRVh9wTONI2EA6Ckn+eJeXox5pcjHEve47WYEX74zlrscsKFc7Y4D9701dsFQWgG
-         AuXg==
+        bh=gkGehtIKQE8uxV5Z4uBASA+aiRLMN5paI1hFstSLrgQ=;
+        b=TBDwZnBz/4Mon2JP6L6swPkQ7sf+kwIkSX9SwD/IvkprcGQ3pY00vHLqpU4ArVNyVC
+         jONmDwZrzN4cHba3tNIgepcthUaSI1APAhhO1WRrV00Yqcn+DdR9sRD1XTCGumiAkhRK
+         9tfLjxyuYLHcvEAM8e83zZ4L0MwwR83xLAUR9zyYHx8amYYuBjasy2SAJ1a/Pw5CPaRn
+         RjurCkOZxdvKAKkziPcIyXaPjDj5mMuUR7WF1QG3DEtFz7BGsQ7/34cl5mg3mP5VYeq1
+         fRTCNEdLhW+JJ7Zzq9RzMTNUHbBT2OCt+VJNLi0Yu+TEkenTNM5A0gdPuzIA6DN0jzjT
+         uabA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=d2aBoo/MYw9aBXVIt2KwK6USjefW0Af7yl2CPwd0c+Y=;
-        b=IYrooWkrO2WXFdhdgwyB/iD0faluzJqQaNs6y+jml0N+gTIDByvp2IFzbXVGgOeyD4
-         LMl5sYiNa4iGaHQRoaX3D5HxaZfpg9cWHAEdqIgrkiLM/wlPDVontN04nufxIJrKe8iH
-         imFSCJKbb4cfB3zc9edVxusbxHwJyseQwR2uQGN1pNRQCVoORt96+Li70ZTO2vcybooG
-         sv7MAHngqqbUG7oQf4kXsjo3mKKNIKgtehh1PEP5cu7gmHDZHR24tsh9emqTJA/Pbr6i
-         0r9z2cCJMNS1uJH2KcYEU9zU9EdWoAAyN9ZOf6/UKmDjtleMeVwDD7+uCk0EnzPfpE9f
-         wEjw==
-X-Gm-Message-State: ANoB5pmhH78nXngF8WUUybvv3lbBtUa6TmFAQoV1DcfIL5lCFuycKIrq
-        /yPEMoZXirMiz4cEduxKudk=
-X-Google-Smtp-Source: AA0mqf7e8IIimBlKAfh2D9udgEdKCjOXXkqfj6vyYRzkBhGRJ8OJs9j1GbXUw6+eZQEmwekG0p8zRw==
-X-Received: by 2002:a05:6402:1045:b0:461:68e1:ced5 with SMTP id e5-20020a056402104500b0046168e1ced5mr13559071edu.142.1670341058481;
-        Tue, 06 Dec 2022 07:37:38 -0800 (PST)
+        bh=gkGehtIKQE8uxV5Z4uBASA+aiRLMN5paI1hFstSLrgQ=;
+        b=g15m81XXRnk0FTmYLOSU3p0fyn06GF7gvyCEJfLJfUR0lGtN+sfV5JNTf5s+1hJr8m
+         4aq6hWXY9JfiiiCECSYe3zqDG2/YjOMI832b7euVKdDDSCFuHFZZXar9Mc0FGFYpuhsO
+         +oCvXNarcba2S95NGQhf/7ay9i8uzOZSuaeNQM0kPxZ1qz/UgEu5ZuCx6F57r6jkKaIn
+         JmQhy6HlHS//VOPX/LWKZBz9UVja+1HxZ6AlV/hGPAXoQLwWnEf8fIv8FtXDGIwAJlo3
+         FCo64IePU6eXq0wKEUq8Nf5upT8wI0cmiS1AuG7GiEBqXUDoyNCL6DbkgWPuDVwH2kDY
+         TYAw==
+X-Gm-Message-State: ANoB5pnZ7+nQtCZoISGQkzLEFuJ4q/Nn+2eMuOojjfIb1Gm/4KEON9NL
+        KL4GbYTY0A2Q8GX0G4kvxMs=
+X-Google-Smtp-Source: AA0mqf5Wotg5UVEAMIiAbOYNAEvmOAnCLhajHTyN0396nlcqXTN6Vv3F2TQlD45B7NeIHFHOS1FltQ==
+X-Received: by 2002:a17:906:5649:b0:7ad:a2ef:c62 with SMTP id v9-20020a170906564900b007ada2ef0c62mr12075176ejr.126.1670341852933;
+        Tue, 06 Dec 2022 07:50:52 -0800 (PST)
 Received: from skbuf ([188.26.184.215])
-        by smtp.gmail.com with ESMTPSA id e14-20020a170906314e00b007aee7ca1199sm7614767eje.10.2022.12.06.07.37.36
+        by smtp.gmail.com with ESMTPSA id du1-20020a17090772c100b007c07909eb9asm7523498ejc.1.2022.12.06.07.50.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Dec 2022 07:37:38 -0800 (PST)
-Date:   Tue, 6 Dec 2022 17:37:34 +0200
+        Tue, 06 Dec 2022 07:50:52 -0800 (PST)
+Date:   Tue, 6 Dec 2022 17:50:49 +0200
 From:   Vladimir Oltean <olteanv@gmail.com>
 To:     Colin Foster <colin.foster@in-advantage.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
@@ -80,20 +80,19 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         "David S. Miller" <davem@davemloft.net>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Andrew Lunn <andrew@lunn.ch>,
-        George McCollister <george.mccollister@gmail.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v4 net-next 3/9] dt-bindings: net: dsa: utilize base
- definitions for standard dsa switches
-Message-ID: <20221206153734.4os4effdzlt2calg@skbuf>
+        George McCollister <george.mccollister@gmail.com>
+Subject: Re: [PATCH v4 net-next 8/9] dt-bindings: net: add generic
+ ethernet-switch-port binding
+Message-ID: <20221206155049.erpgwrvt5gzdf2e6@skbuf>
 References: <20221202204559.162619-1-colin.foster@in-advantage.com>
  <20221202204559.162619-1-colin.foster@in-advantage.com>
- <20221202204559.162619-4-colin.foster@in-advantage.com>
- <20221202204559.162619-4-colin.foster@in-advantage.com>
+ <20221202204559.162619-9-colin.foster@in-advantage.com>
+ <20221202204559.162619-9-colin.foster@in-advantage.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221202204559.162619-4-colin.foster@in-advantage.com>
- <20221202204559.162619-4-colin.foster@in-advantage.com>
+In-Reply-To: <20221202204559.162619-9-colin.foster@in-advantage.com>
+ <20221202204559.162619-9-colin.foster@in-advantage.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -104,30 +103,170 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 12:45:53PM -0800, Colin Foster wrote:
-> diff --git a/Documentation/devicetree/bindings/net/dsa/arrow,xrs700x.yaml b/Documentation/devicetree/bindings/net/dsa/arrow,xrs700x.yaml
-> index 259a0c6547f3..5888e3a0169a 100644
-> --- a/Documentation/devicetree/bindings/net/dsa/arrow,xrs700x.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/arrow,xrs700x.yaml
-> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->  title: Arrow SpeedChips XRS7000 Series Switch Device Tree Bindings
+On Fri, Dec 02, 2022 at 12:45:58PM -0800, Colin Foster wrote:
+> The dsa-port.yaml binding had several references that can be common to all
+> ethernet ports, not just dsa-specific ones. Break out the generic bindings
+> to ethernet-switch-port.yaml they can be used by non-dsa drivers.
+> 
+> Signed-off-by: Colin Foster <colin.foster@in-advantage.com>
+> Suggested-by: Vladimir Oltean <olteanv@gmail.com>
+> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+> ---
+> 
+> v3 -> v4
+>   * Add Florian Reviewed tag
+> 
+> v2 -> v3
+>   * Change dsa-port title from "DSA Switch port Device Tree Bindings"
+>     to "Generic DSA Switch port"
+>   * Add reference to ethernet-switch-port.yaml# in dsa-port.yaml
+>   * Change title of ethernet-switch-port.yaml from "Ethernet Switch
+>     port Device Tree Bindings" to "Generic Ethernet Switch port"
+>   * Remove most properties from ethernet-switch-port.yaml. They're
+>     all in ethernet-controller, and are all allowed.
+>   * ethernet-switch.yaml now only references ethernet-switch-port.yaml#
+>     under the port node.
+> 
+> v1 -> v2
+>   * Remove accidental addition of
+>     "$ref: /schemas/net/ethernet-switch-port.yaml" which should be kept
+>     out of dsa-port so that it doesn't get referenced multiple times
+>     through both ethernet-switch and dsa-port.
+> 
+> ---
+>  .../devicetree/bindings/net/dsa/dsa-port.yaml | 24 ++----------------
+>  .../bindings/net/ethernet-switch-port.yaml    | 25 +++++++++++++++++++
+>  .../bindings/net/ethernet-switch.yaml         |  6 +----
+>  MAINTAINERS                                   |  1 +
+>  4 files changed, 29 insertions(+), 27 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/net/ethernet-switch-port.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/net/dsa/dsa-port.yaml b/Documentation/devicetree/bindings/net/dsa/dsa-port.yaml
+> index 9abb8eba5fad..5b457f41273a 100644
+> --- a/Documentation/devicetree/bindings/net/dsa/dsa-port.yaml
+> +++ b/Documentation/devicetree/bindings/net/dsa/dsa-port.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/net/dsa/dsa-port.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
 >  
->  allOf:
-> -  - $ref: dsa.yaml#
-> +  - $ref: dsa.yaml#/$defs/ethernet-ports
+> -title: Ethernet Switch port Device Tree Bindings
+> +title: Generic DSA Switch port
+
+What are the capitalization rules in titles? Looks odd that "port" is
+lowercase but "switch" isn't.
+
 >  
 >  maintainers:
->    - George McCollister <george.mccollister@gmail.com>
-> diff --git a/Documentation/devicetree/bindings/net/dsa/brcm,b53.yaml b/Documentation/devicetree/bindings/net/dsa/brcm,b53.yaml
-> index 1219b830b1a4..5bef4128d175 100644
-> --- a/Documentation/devicetree/bindings/net/dsa/brcm,b53.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/brcm,b53.yaml
-> @@ -66,7 +66,7 @@ required:
->    - reg
+>    - Andrew Lunn <andrew@lunn.ch>
+> @@ -14,8 +14,7 @@ maintainers:
+>  description:
+>    Ethernet switch port Description
 >  
->  allOf:
-> -  - $ref: dsa.yaml#
-> +  - $ref: dsa.yaml#/$defs/ethernet-ports
+> -allOf:
+> -  - $ref: /schemas/net/ethernet-controller.yaml#
+> +$ref: /schemas/net/ethernet-switch-port.yaml#
+>  
+>  properties:
+>    reg:
+> @@ -58,25 +57,6 @@ properties:
+>        - rtl8_4t
+>        - seville
+>  
+> -  phy-handle: true
+> -
+> -  phy-mode: true
+> -
+> -  fixed-link: true
+> -
+> -  mac-address: true
+> -
+> -  sfp: true
+> -
+> -  managed: true
+> -
+> -  rx-internal-delay-ps: true
+> -
+> -  tx-internal-delay-ps: true
+> -
+> -required:
+> -  - reg
+> -
+>  # CPU and DSA ports must have phylink-compatible link descriptions
+>  if:
+>    oneOf:
+> diff --git a/Documentation/devicetree/bindings/net/ethernet-switch-port.yaml b/Documentation/devicetree/bindings/net/ethernet-switch-port.yaml
+> new file mode 100644
+> index 000000000000..3d7da6916fb8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/ethernet-switch-port.yaml
+> @@ -0,0 +1,25 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/ethernet-switch-port.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Generic Ethernet Switch port
+> +
+> +maintainers:
+> +  - Andrew Lunn <andrew@lunn.ch>
+> +  - Florian Fainelli <f.fainelli@gmail.com>
+> +  - Vivien Didelot <vivien.didelot@gmail.com>
+> +
+> +description:
+> +  Ethernet switch port Description
 
-I'm wondering if "ethernet-ports" is the best name for this schema.
-Not very scientific, but what about "just-standard-props"?
+Sounds a bit too "lorem ipsum dolor sit amet". You can say that a port
+is a component of a switch which manages one MAC, and can pass Ethernet
+frames.
+
+> +
+> +$ref: ethernet-controller.yaml#
+> +
+> +properties:
+> +  reg:
+> +    description: Port number
+> +
+> +additionalProperties: true
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/net/ethernet-switch.yaml b/Documentation/devicetree/bindings/net/ethernet-switch.yaml
+> index afeb9ffd84c8..1e8b7649a9b2 100644
+> --- a/Documentation/devicetree/bindings/net/ethernet-switch.yaml
+> +++ b/Documentation/devicetree/bindings/net/ethernet-switch.yaml
+> @@ -40,10 +40,6 @@ patternProperties:
+>          type: object
+>          description: Ethernet switch ports
+>  
+> -        $ref: ethernet-controller.yaml#
+> -
+> -        additionalProperties: true
+> -
+>  oneOf:
+>    - required:
+>        - ports
+> @@ -60,7 +56,7 @@ $defs:
+>      patternProperties:
+>        "^(ethernet-)?port@[0-9]+$":
+>          description: Ethernet switch ports
+> -        $ref: ethernet-controller.yaml#
+> +        $ref: ethernet-switch-port.yaml#
+>          unevaluatedProperties: false
+>  
+>  ...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d574cae901b3..fe5f52c9864a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14337,6 +14337,7 @@ M:	Florian Fainelli <f.fainelli@gmail.com>
+>  M:	Vladimir Oltean <olteanv@gmail.com>
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/net/dsa/
+> +F:	Documentation/devicetree/bindings/net/ethernet-switch-port.yaml
+>  F:	Documentation/devicetree/bindings/net/ethernet-switch.yaml
+>  F:	drivers/net/dsa/
+>  F:	include/linux/dsa/
+> -- 
+> 2.25.1
+> 
+
