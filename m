@@ -2,122 +2,162 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BBBE643EB4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Dec 2022 09:33:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C957F643EE2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Dec 2022 09:40:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234087AbiLFIdf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Dec 2022 03:33:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59990 "EHLO
+        id S232046AbiLFIkh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Dec 2022 03:40:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234259AbiLFIdN (ORCPT
+        with ESMTP id S229461AbiLFIkg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Dec 2022 03:33:13 -0500
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EBF81CB3B;
-        Tue,  6 Dec 2022 00:33:06 -0800 (PST)
-Received: by mail-qv1-f52.google.com with SMTP id h10so9950534qvq.7;
-        Tue, 06 Dec 2022 00:33:06 -0800 (PST)
+        Tue, 6 Dec 2022 03:40:36 -0500
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D9412655;
+        Tue,  6 Dec 2022 00:40:35 -0800 (PST)
+Received: by mail-qt1-f182.google.com with SMTP id a27so13235829qtw.10;
+        Tue, 06 Dec 2022 00:40:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ufiPGRxn+u+eF7V9lbnW/2wOS52DtOLgEOMLvePrXwg=;
-        b=Wt2hhv3LvJPd8qbf51nv8eYwjyVH/GFxsEQ9vdRXe9Le+U7XDHPwO4Qvsu20fuXnFE
-         22VHuatut7BFF4AgasRRIuoQiKshMTd0ZfLbcgXaM+xEVeNM3cysn7YGX1TUw4bmEhZP
-         XB8dBqbk2WMtMajPxufGNwgb1m18AXRLZeBAeKuKQMFsoqyTZzGF+Tyfp3EP4u1x3rxo
-         xOWJOtZRyomkw6JeENdZvYel3gHEVKbW+MfwNc8GI1eu+0WJuCv2MDDv8Jq2n+quY59p
-         idbx2K8xP2E+Svnuxaz7Y+BmdRf5kJgDCWy1U8uHQjhXqv6z6sNP0a3OBbLgvlxZDSuh
-         fAGw==
-X-Gm-Message-State: ANoB5plF664tGpL5yc/No2cQISkuqe/SYY4LqoHp6s0Lb+7Y9yX9n3To
-        4DfOfPcOQt3RUHaa8nqwc1vwdt5FWJT4YA==
-X-Google-Smtp-Source: AA0mqf5RTsfiCI5z9ZjjTnLPPxB4nhROhc+/OVHnIhRA9PJRL5Hi5WniKsPQm9WZ43CtH5o+nNNRjA==
-X-Received: by 2002:a0c:fe84:0:b0:4c7:2b85:9bd with SMTP id d4-20020a0cfe84000000b004c72b8509bdmr19837695qvs.107.1670315585276;
-        Tue, 06 Dec 2022 00:33:05 -0800 (PST)
+        bh=14rwrwErRJ+tInD2pg649j4kt6uhDdkQ30O3vQ8WKAg=;
+        b=GBLPlvwihuL+UGK+MI27KVuB/WWHde1+BzQKn1aboAPiY+xlKaf1kldwwdIWcy6/zP
+         LrV/kL/h1IqUxwelaS/+WKPM7V6Q8Oq7TJw7k83Ww1fn7ZS59bo7Unt1OTGU5aHI+YsP
+         i3rtEDyj/O7e8mTcoPcTat9ssW+ZIfiXfeIfKPCuvjmVE0JYQTpGoYIwP050tOhsoBtj
+         TTDm3NdaZdtfBd9dCg7KMbM7DwEm/+Dy/Va2b+hAzniW7HaRJ0xKxInjyMOD95ix3FPN
+         jmK2gDpmP+9IrNTmou0/nzZQnvMEhI6bhqBB+1URhgfVOFkSQwj+hbzJBaNUTCVASXBl
+         ROBA==
+X-Gm-Message-State: ANoB5pl5L6aT7mN1XxcGPfPCFCYD6M82x33SdIgD+uM3+ekIhHI2v07O
+        RoJod0tL20ccU3rkqcZPzSc6RgGc1Fh45Q==
+X-Google-Smtp-Source: AA0mqf5a48KAVVJL92fXditk3rGn0KqCE7wIj7zt5afPGZ0uMfDZtKMxjw4PIr3NaoyXxqn7eRgqfw==
+X-Received: by 2002:ac8:528a:0:b0:3a6:9b81:665a with SMTP id s10-20020ac8528a000000b003a69b81665amr14832468qtn.670.1670316033947;
+        Tue, 06 Dec 2022 00:40:33 -0800 (PST)
 Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id i22-20020a05620a249600b006f9f714cb6asm14610187qkn.50.2022.12.06.00.33.04
+        by smtp.gmail.com with ESMTPSA id u6-20020a05620a430600b006fc5a1d9cd4sm14338729qko.34.2022.12.06.00.40.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Dec 2022 00:33:04 -0800 (PST)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-3e45d25de97so88149577b3.6;
-        Tue, 06 Dec 2022 00:33:04 -0800 (PST)
-X-Received: by 2002:a81:1486:0:b0:36b:56d3:71b8 with SMTP id
- 128-20020a811486000000b0036b56d371b8mr16028867ywu.384.1670315584377; Tue, 06
- Dec 2022 00:33:04 -0800 (PST)
+        Tue, 06 Dec 2022 00:40:33 -0800 (PST)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-3e45d25de97so88319977b3.6;
+        Tue, 06 Dec 2022 00:40:33 -0800 (PST)
+X-Received: by 2002:a81:a8a:0:b0:37e:6806:a5f9 with SMTP id
+ 132-20020a810a8a000000b0037e6806a5f9mr659593ywk.47.1670316032857; Tue, 06 Dec
+ 2022 00:40:32 -0800 (PST)
 MIME-Version: 1.0
-References: <363186079b4269891073f620e3e2353cf7d2559a.1669988238.git.geert+renesas@glider.be>
- <1503a3857107e3a4f34e0c7fb5dada39@walle.cc> <CAMuHMdXN+HJb=zGeG=3t=Pie9cVpnBLYuEb_qX6=oSxG8eTkAw@mail.gmail.com>
- <20221205163306.GB2012644-robh@kernel.org>
-In-Reply-To: <20221205163306.GB2012644-robh@kernel.org>
+References: <20221205145955.391526-1-biju.das.jz@bp.renesas.com>
+ <20221205225042.GA2812115-robh@kernel.org> <OS0PR01MB592211AD4D0AE23DA7075DD5861B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB592211AD4D0AE23DA7075DD5861B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 6 Dec 2022 09:32:52 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUcrh26MNYuiqiC0_FMkeHtq1YnJrZKHEV_WQm5Dgzoaw@mail.gmail.com>
-Message-ID: <CAMuHMdUcrh26MNYuiqiC0_FMkeHtq1YnJrZKHEV_WQm5Dgzoaw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: mtd: jedec,spi-nor: Document support for
- more MT25QU parts
-To:     Rob Herring <robh@kernel.org>
-Cc:     Michael Walle <michael@walle.cc>,
-        Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Pratyush Yadav <pratyush@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
+Date:   Tue, 6 Dec 2022 09:40:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX2=AwerQZS2cqR4exq_QNtt=Fwp5KBcmPr1qmOBNOSAg@mail.gmail.com>
+Message-ID: <CAMuHMdX2=AwerQZS2cqR4exq_QNtt=Fwp5KBcmPr1qmOBNOSAg@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Add RZ/V2M Compare-Match Timer (TIM) support
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        William Breathitt Gray <william.gray@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+Hi Biju,
 
-On Mon, Dec 5, 2022 at 5:33 PM Rob Herring <robh@kernel.org> wrote:
-> On Fri, Dec 02, 2022 at 02:56:01PM +0100, Geert Uytterhoeven wrote:
-> > On Fri, Dec 2, 2022 at 2:50 PM Michael Walle <michael@walle.cc> wrote:
-> > > Am 2022-12-02 14:37, schrieb Geert Uytterhoeven:
-> > > > Document support for the Micron MT25QU256A and MT25QU512A Serial NOR
-> > > > FLASHes.
-> > > >
-> > > > Merge the new entries with the existing entry for MT25QU02G.
-> > > >
-> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > ---
-> > > > mt25qu512a is already in active use, causing "make dtbs_check" errors.
-> > > > mt25qu256a is supported by the Linux spi-nor driver, but there are no
-> > > > upstream users yet.
+On Tue, Dec 6, 2022 at 9:13 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH 0/6] Add RZ/V2M Compare-Match Timer (TIM) support
+> > On Mon, Dec 05, 2022 at 02:59:49PM +0000, Biju Das wrote:
+> > > This patch series aims to add support for Compare-Match Timer (TIM)
+> > > module found on RZ/V2M SoC.
 > > >
-> > > Is it encouraged to use the specific compatible with SPI-NOR flashes?
-> > > As far as I know it isn't. The spi-nor subsys tries hard to identify
-> > > any flashes at runtime and any additional information in the device tree
-> > > is used as a last resort (just for flashes which doesn't support the
-> > > read jedec id command yet). And usually boards have different sources
-> > > for flash chips, so hardcoding a particular part in the device tree
-> > > doesn't make sense.
+> > > it is composed of 32 channels and channels 0-7 and 24-32 are reserved
+> > > for ISP usage.
+> > >
+> > > Channel 22 is modelled as clock source and Channel 23 is modelled as
+> > > clock event driver and the rest of the channels are modelled as
+> > > counter driver as it provides
 > >
-> > Thanks, I am aware there have been pushbacks when trying to
-> > document more compatible values.
-> >
-> > IMHO either all or none of them should be documented.
-> > If device-specific compatible values are discouraged, the bindings
-> > should be updated to reflect that, and document a single compatible
-> > value ("jedec,spi-nor") only.
+> > Why did you pick those 2 counters for those functions?
 >
-> That's already allowed, so there's your answer.
+> Currently it uses architecture timer for broadcast timer, so I thought
+> Since TIM has 24 channels, use 1 channel for broadcast timer and 1
+> Channel for clock source. But having said that SoC has an aarch64 architecture
+> clock source strictly speaking we don't need this.
+>
+> > Unless the h/w blocks are different, this is an abuse of compatible
+> > strings. What's the h/w difference that makes you care which counter the
+> > OS picks? That's what the DT should describe. If any timer will do, just
+> > let the OS pick.
+>
+> There is no HW difference. Same HW block can be used for mutually exclusive
+> functionality.
+>
+> One is for Linux Clock source/event functionality((scheduler tick/broadcast tick etc) and
+>
+> the other purpose is to expose count and event ticks from this module to user space,
+> so that wide range of applications can make use of it.
+>
+> If it is an abuse of compatible strings for mutually exclusive functionality
+> , then I would like to drop clock source and use all the channels as
+> Either clock events(for broadcast ticks and real time usage??) or as counters.
+>
+> If this is not OK, then I need to pick one. I will go with counters.
+>
+> Please share your thoughts.
 
-It's indeed allowed, but the alternative is documented, too (for some
-values).
+Can't you handle this like sh_cmt.c does:
 
-> The caveat is don't be adding them later to your DT when you find an
-> issue and new quirk properties will probably be rejected.
+        /*
+         * Use the first channel as a clock event device and the second channel
+         * as a clock source. If only one channel is available use it for both.
+         */
 
-Adding them later to your DT when you find an issue makes no sense,
-as that breaks compatibility with older DTBs.
+> > > 1) counter for counting
+> > > 2) configurable counter value for generating timer interrupt
+> > > 3) userspace event for each interrupt.
+> > >
+> > > logs:-
+> > > Counter driver:
+> > > Counter driver is tested by reading counts and interrupts tested by
+> > > counter-example in tools/counter/counter_example.c
+> > >
+> > > Count snapshot value:
+> > > 3114
+> > > Output from counter_example when it triggers interrupts:
+> > > Timestamp 0: 24142152969        Count 0: 5
+> > > Error Message 0: Success
+> > >
+> > > Clock source:
+> > > Clock source driver is tested by clock-source-switch app.
+> > > [ 1275.703567] clocksource: Switched to clocksource arch_sys_counter
+> > > [ 1275.710189] clocksource: Switched to clocksource a4000b00.timer
+> >
+> > Do you have any use case to really switch. Doing so disables the vDSO
+> > access to the clocksource.
+>
+> Not really. Architecture timer should be sufficient for clocksource.
+
+When multiple clocksources are registered, the clocksource
+subsystems picks the best one anyway, right?
 
 Gr{oetje,eeting}s,
 
