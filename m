@@ -2,123 +2,234 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA49E645F39
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Dec 2022 17:49:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E4A9D646219
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Dec 2022 21:07:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229793AbiLGQtQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Dec 2022 11:49:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38218 "EHLO
+        id S229441AbiLGUHR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 7 Dec 2022 15:07:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229834AbiLGQtO (ORCPT
+        with ESMTP id S229623AbiLGUHR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Dec 2022 11:49:14 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B52AA5446D;
-        Wed,  7 Dec 2022 08:49:12 -0800 (PST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1670431750;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7uqFvxvkYpcyFM86fQv9yXZ51d2JEFzcw8TpGHczOpc=;
-        b=12yUhL53fLv0GE7ZAaNXcOe1ZHzbc1wGUzqI9k5c/bGgLjdmMIl9wtEcOvuaEiIA7hlK3C
-        9waipIMlHN/s4cJrqQfof6eZXV0ScUUbJbjMNJ6xu8CoxDLwW6oyxydNvkDnYHOPeJuDsB
-        HgkEa+2fm1sTdbkoYdx42LgEne5/dk5N0pG+jQatoerPFYZ/OIP1HqWX+r4KSKVRpt+hjW
-        VCN1MnCVTFJhpHeUj5UfH80C3D8j0FebBCZCrsSqIxFJ0fhW9Qy1YjdxvxvfVMtmuW20c4
-        u4iJSAD980pDlay0t41cD8/4flOINnLm7SzlnHqDtaVc4HS8cyUPefjsQalbvA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1670431750;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7uqFvxvkYpcyFM86fQv9yXZ51d2JEFzcw8TpGHczOpc=;
-        b=GoVe2d6hG2SwJWydJujJPKvmuwmH7o9CzDpT2eJCdMYZV39SbEMc6QKuljbDYcMxmGadQ9
-        ML7WYhn2Id81AMAg==
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        William Breathitt Gray <william.gray@linaro.org>,
-        Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        William Breathitt Gray <william.gray@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Wed, 7 Dec 2022 15:07:17 -0500
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2D5E77232
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Dec 2022 12:07:14 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:947e:1fc0:ebbb:447b])
+        by xavier.telenet-ops.be with bizsmtp
+        id tY792800J4BwbnS01Y79el; Wed, 07 Dec 2022 21:07:11 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1p30Qd-002rg7-HJ; Wed, 07 Dec 2022 20:50:03 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1p2xcj-002Xs4-Ri; Wed, 07 Dec 2022 17:50:21 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: RE: [PATCH 0/6] Add RZ/V2M Compare-Match Timer (TIM) support
-In-Reply-To: <OS0PR01MB5922B590AB9791B9741E2A1D861A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20221205145955.391526-1-biju.das.jz@bp.renesas.com>
- <20221205225042.GA2812115-robh@kernel.org>
- <OS0PR01MB592211AD4D0AE23DA7075DD5861B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdX2=AwerQZS2cqR4exq_QNtt=Fwp5KBcmPr1qmOBNOSAg@mail.gmail.com>
- <87sfhsgb9e.ffs@tglx>
- <OS0PR01MB59228CED6187C7B19776CE22861A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <878rjjfprw.ffs@tglx>
- <OS0PR01MB5922B590AB9791B9741E2A1D861A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Date:   Wed, 07 Dec 2022 17:49:09 +0100
-Message-ID: <87sfhrdure.ffs@tglx>
+Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-can@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] dt-bindings: can: renesas,rcar-canfd: Fix number of channels for R-Car V3U
+Date:   Wed,  7 Dec 2022 17:50:21 +0100
+Message-Id: <7d41d72cd7db2e90bae069ce57dbb672f17500ae.1670431681.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Biju!
+According to the bindings, only two channels are supported.
+However, R-Car V3U supports eight, leading to "make dtbs" failures:
 
-On Wed, Dec 07 2022 at 11:35, Biju Das wrote:
->> Subject: RE: [PATCH 0/6] Add RZ/V2M Compare-Match Timer (TIM) support
->> On Wed, Dec 07 2022 at 07:52, Biju Das wrote:
->> > Basically, this HW timer is used for measuring the processing time of
->> > DRP-AI accurately compared to the CPU timer normally we use.
->> 
->> How is a slow to access timer with a lower clock frequency more accurate?
->
-> But our tick frequency for arm64 defconfig is CONFIG_HZ_250=y. So we
-> get timer interrupt at every 4 msec.
+        arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: can@e6660000: Unevaluated properties are not allowed ('channel2', 'channel3', 'channel4', 'channel5', 'channel6', 'channel7' were unexpected)
 
-CONFIG_HIGH_RES_TIMERS=y
+Update the number of channels to 8 on R-Car V3U.
+While at it, prevent adding more properties to the channel nodes, as
+they must contain no other properties than a status property.
 
-> How do we get timer event interrupt, eg: for 1 microsec?
+Fixes: d6254d52d70de530 ("dt-bindings: can: renesas,rcar-canfd: Document r8a779a0 support")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v2:
+  - s/unevaluatedProperties/additionalProperties/.
+---
+ .../bindings/net/can/renesas,rcar-canfd.yaml  | 133 ++++++++++--------
+ 1 file changed, 72 insertions(+), 61 deletions(-)
 
-clock_nanosleep(...);
+diff --git a/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
+index 6f71fc96bc4e3156..5228fd513ca89a3c 100644
+--- a/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
++++ b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
+@@ -9,9 +9,6 @@ title: Renesas R-Car CAN FD Controller
+ maintainers:
+   - Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+ 
+-allOf:
+-  - $ref: can-controller.yaml#
+-
+ properties:
+   compatible:
+     oneOf:
+@@ -77,12 +74,13 @@ properties:
+     description: Maximum frequency of the CANFD clock.
+ 
+ patternProperties:
+-  "^channel[01]$":
++  "^channel[0-7]$":
+     type: object
+     description:
+-      The controller supports two channels and each is represented as a child
+-      node.  Each child node supports the "status" property only, which
+-      is used to enable/disable the respective channel.
++      The controller supports multiple channels and each is represented as a
++      child node.  Each channel can be enabled/disabled individually.
++
++    additionalProperties: false
+ 
+ required:
+   - compatible
+@@ -98,60 +96,73 @@ required:
+   - channel0
+   - channel1
+ 
+-if:
+-  properties:
+-    compatible:
+-      contains:
+-        enum:
+-          - renesas,rzg2l-canfd
+-then:
+-  properties:
+-    interrupts:
+-      items:
+-        - description: CAN global error interrupt
+-        - description: CAN receive FIFO interrupt
+-        - description: CAN0 error interrupt
+-        - description: CAN0 transmit interrupt
+-        - description: CAN0 transmit/receive FIFO receive completion interrupt
+-        - description: CAN1 error interrupt
+-        - description: CAN1 transmit interrupt
+-        - description: CAN1 transmit/receive FIFO receive completion interrupt
+-
+-    interrupt-names:
+-      items:
+-        - const: g_err
+-        - const: g_recc
+-        - const: ch0_err
+-        - const: ch0_rec
+-        - const: ch0_trx
+-        - const: ch1_err
+-        - const: ch1_rec
+-        - const: ch1_trx
+-
+-    resets:
+-      maxItems: 2
+-
+-    reset-names:
+-      items:
+-        - const: rstp_n
+-        - const: rstc_n
+-
+-  required:
+-    - reset-names
+-else:
+-  properties:
+-    interrupts:
+-      items:
+-        - description: Channel interrupt
+-        - description: Global interrupt
+-
+-    interrupt-names:
+-      items:
+-        - const: ch_int
+-        - const: g_int
+-
+-    resets:
+-      maxItems: 1
++allOf:
++  - $ref: can-controller.yaml#
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,rzg2l-canfd
++    then:
++      properties:
++        interrupts:
++          items:
++            - description: CAN global error interrupt
++            - description: CAN receive FIFO interrupt
++            - description: CAN0 error interrupt
++            - description: CAN0 transmit interrupt
++            - description: CAN0 transmit/receive FIFO receive completion interrupt
++            - description: CAN1 error interrupt
++            - description: CAN1 transmit interrupt
++            - description: CAN1 transmit/receive FIFO receive completion interrupt
++
++        interrupt-names:
++          items:
++            - const: g_err
++            - const: g_recc
++            - const: ch0_err
++            - const: ch0_rec
++            - const: ch0_trx
++            - const: ch1_err
++            - const: ch1_rec
++            - const: ch1_trx
++
++        resets:
++          maxItems: 2
++
++        reset-names:
++          items:
++            - const: rstp_n
++            - const: rstc_n
++
++      required:
++        - reset-names
++    else:
++      properties:
++        interrupts:
++          items:
++            - description: Channel interrupt
++            - description: Global interrupt
++
++        interrupt-names:
++          items:
++            - const: ch_int
++            - const: g_int
++
++        resets:
++          maxItems: 1
++
++  - if:
++      not:
++        properties:
++          compatible:
++            contains:
++              const: renesas,r8a779a0-canfd
++    then:
++      patternProperties:
++        "^channel[2-7]$": false
+ 
+ unevaluatedProperties: false
+ 
+-- 
+2.25.1
 
-Though 1usec is wishful thinking with either variant of timer hardware.
-
->> 
->> We are debating a clocksource/clockevent driver and not a counter driver,
->> right?
->
-> Yes, Rob pointed out we should not misuse the compatibles as I have both
-> Timer and counter bindings for a given HW timer.
->
-> Timer, It can be used as broadcast and highres timer for RT.
-
-I buy the broadcast part if you really have a ARM architected timer
-which stops in deep idle states. Highres for RT, no! The arm architected
-timer works perfectly fine for that.
-
-> Counter, It can be used as measuring the processing time of DRP-AI.
-
-Sigh. You can do that with the architected timer too, especially when
-you are going to do the measurement in user space.
-
-clock_gettime(), which uses the VDSO with the architected timer is fast
-to access and accurate.
-
-Thanks,
-
-        tglx
