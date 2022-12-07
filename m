@@ -2,234 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4A9D646219
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Dec 2022 21:07:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 924EF6463F8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Dec 2022 23:20:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229441AbiLGUHR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Dec 2022 15:07:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36030 "EHLO
+        id S229591AbiLGWT7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 7 Dec 2022 17:19:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229623AbiLGUHR (ORCPT
+        with ESMTP id S229589AbiLGWT5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Dec 2022 15:07:17 -0500
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2D5E77232
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Dec 2022 12:07:14 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:947e:1fc0:ebbb:447b])
-        by xavier.telenet-ops.be with bizsmtp
-        id tY792800J4BwbnS01Y79el; Wed, 07 Dec 2022 21:07:11 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1p30Qd-002rg7-HJ; Wed, 07 Dec 2022 20:50:03 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1p2xcj-002Xs4-Ri; Wed, 07 Dec 2022 17:50:21 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-can@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] dt-bindings: can: renesas,rcar-canfd: Fix number of channels for R-Car V3U
-Date:   Wed,  7 Dec 2022 17:50:21 +0100
-Message-Id: <7d41d72cd7db2e90bae069ce57dbb672f17500ae.1670431681.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Wed, 7 Dec 2022 17:19:57 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20C5069AAC;
+        Wed,  7 Dec 2022 14:19:57 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C3057B8218F;
+        Wed,  7 Dec 2022 22:19:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76E6AC43470;
+        Wed,  7 Dec 2022 22:19:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670451594;
+        bh=Z6y1S2c4O/wQVEci3pG8Cjc3WmkGbiLwEfx3oMfIjck=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=OCzOmaGjJvSkeIY2d/ch72xW78HASiWEjCv+COoZdnTgvkbcLvkwqw9nRliNM7Nr7
+         Vh5ZKgh6udrB+8stTTSMByhHAjlcp/qqbJ8HcYxS+wKcLi1v5EH17QABp3OodWWQja
+         nYT3Yw8ShUY/8OMh7z0R0HWl2YvOAvbMtSypH42zZvCp7RNFIfLybieNj/DV0uJCOC
+         BXDbq3pjWQpAMu2LpGYfaqHQN+39X8JkC3xgx7kA8D1GV5VPtn0dLPsNpkiNHGrtNo
+         Q/c3+qkPf0oeD9Bvjzrb5Q2jX7ab7UTYIxO+yMVw608bhxM/dSOw681DSkG5CKRMPl
+         GSbjoaiZaYfmA==
+Received: by mail-ua1-f50.google.com with SMTP id e24so6502644uam.10;
+        Wed, 07 Dec 2022 14:19:54 -0800 (PST)
+X-Gm-Message-State: ANoB5pnDavVVUGpwlR+N8IDCtBRXSn5dXe6aQxCmM0VROPydGBFiBW6F
+        v0G0mLmWjWehJeunLuxNtFwS4ijmWn9IKG3WAA==
+X-Google-Smtp-Source: AA0mqf7sjL89XYXP7++xV6ahJfBPE5ZnuFqEZVVoFHM87m+y1bCKE4MXIBGEtgCvE7SaKjFdqV+bCcJFTgMrIRcBLr0=
+X-Received: by 2002:ab0:1006:0:b0:419:70a:90cb with SMTP id
+ f6-20020ab01006000000b00419070a90cbmr32720021uab.36.1670451593309; Wed, 07
+ Dec 2022 14:19:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <20221207162435.1001782-1-herve.codina@bootlin.com>
+In-Reply-To: <20221207162435.1001782-1-herve.codina@bootlin.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 7 Dec 2022 16:19:42 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJiZU=sHVPc92nDNoqUjm7FUb=u0izGYa+irkUW1XmA_w@mail.gmail.com>
+Message-ID: <CAL_JsqJiZU=sHVPc92nDNoqUjm7FUb=u0izGYa+irkUW1XmA_w@mail.gmail.com>
+Subject: Re: [PATCH v3 0/9] Add the Renesas USBF controller support
+To:     Herve Codina <herve.codina@bootlin.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-According to the bindings, only two channels are supported.
-However, R-Car V3U supports eight, leading to "make dtbs" failures:
+On Wed, Dec 7, 2022 at 10:24 AM Herve Codina <herve.codina@bootlin.com> wrote:
+>
+> Hi,
+>
+> This series add support for the Renesas USBF controller (USB Device
+> Controller) available in the Renesas RZ/N1 SoC.
+>
+> Based on previous review:
+>   https://lore.kernel.org/all/20221114111513.1436165-3-herve.codina@bootlin.com/
+>
+> A new strategy is proposed to handle the H2MODE bit from CFG_USB
+> register compared to the previous versions on the series. As a
+> reminder, H2MODE bit allows to configure the internal USB Port
+> interface for two hosts or one host and one device.
 
-        arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: can@e6660000: Unevaluated properties are not allowed ('channel2', 'channel3', 'channel4', 'channel5', 'channel6', 'channel7' were unexpected)
+Is this case any different from all the phandle properties we have in
+bindings that point to some misc registers somewhere else you need to
+poke? If so, I'm not really a fan of duplicating the information.
 
-Update the number of channels to 8 on R-Car V3U.
-While at it, prevent adding more properties to the channel nodes, as
-they must contain no other properties than a status property.
+We also have cases of of_find_compatible_node(NULL, NULL,
+"foo-bar-syscon") which is a dependency expressed in the driver, but
+not DT. In either case, adding 'depends-on' would be an ABI break as
+you are requiring a DT change.
 
-Fixes: d6254d52d70de530 ("dt-bindings: can: renesas,rcar-canfd: Document r8a779a0 support")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - s/unevaluatedProperties/additionalProperties/.
----
- .../bindings/net/can/renesas,rcar-canfd.yaml  | 133 ++++++++++--------
- 1 file changed, 72 insertions(+), 61 deletions(-)
+> This new strategy is:
+>   - Add the new generic 'depends-on' property in the device tree.
+>
+>     This generic property expresses an simple functionnal dependency
+>     that does not rely on a specific topic. It is an 'order only'
+>     dependency that can be used for dependencies between consumers
+>     and producers that are not based on a specific infrastructure
+>     and not need other relationship than this simple 'order only'
+>     (ie no API is provided between the provider and the consumer)
 
-diff --git a/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
-index 6f71fc96bc4e3156..5228fd513ca89a3c 100644
---- a/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
-+++ b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
-@@ -9,9 +9,6 @@ title: Renesas R-Car CAN FD Controller
- maintainers:
-   - Fabrizio Castro <fabrizio.castro.jz@renesas.com>
- 
--allOf:
--  - $ref: can-controller.yaml#
--
- properties:
-   compatible:
-     oneOf:
-@@ -77,12 +74,13 @@ properties:
-     description: Maximum frequency of the CANFD clock.
- 
- patternProperties:
--  "^channel[01]$":
-+  "^channel[0-7]$":
-     type: object
-     description:
--      The controller supports two channels and each is represented as a child
--      node.  Each child node supports the "status" property only, which
--      is used to enable/disable the respective channel.
-+      The controller supports multiple channels and each is represented as a
-+      child node.  Each channel can be enabled/disabled individually.
-+
-+    additionalProperties: false
- 
- required:
-   - compatible
-@@ -98,60 +96,73 @@ required:
-   - channel0
-   - channel1
- 
--if:
--  properties:
--    compatible:
--      contains:
--        enum:
--          - renesas,rzg2l-canfd
--then:
--  properties:
--    interrupts:
--      items:
--        - description: CAN global error interrupt
--        - description: CAN receive FIFO interrupt
--        - description: CAN0 error interrupt
--        - description: CAN0 transmit interrupt
--        - description: CAN0 transmit/receive FIFO receive completion interrupt
--        - description: CAN1 error interrupt
--        - description: CAN1 transmit interrupt
--        - description: CAN1 transmit/receive FIFO receive completion interrupt
--
--    interrupt-names:
--      items:
--        - const: g_err
--        - const: g_recc
--        - const: ch0_err
--        - const: ch0_rec
--        - const: ch0_trx
--        - const: ch1_err
--        - const: ch1_rec
--        - const: ch1_trx
--
--    resets:
--      maxItems: 2
--
--    reset-names:
--      items:
--        - const: rstp_n
--        - const: rstc_n
--
--  required:
--    - reset-names
--else:
--  properties:
--    interrupts:
--      items:
--        - description: Channel interrupt
--        - description: Global interrupt
--
--    interrupt-names:
--      items:
--        - const: ch_int
--        - const: g_int
--
--    resets:
--      maxItems: 1
-+allOf:
-+  - $ref: can-controller.yaml#
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,rzg2l-canfd
-+    then:
-+      properties:
-+        interrupts:
-+          items:
-+            - description: CAN global error interrupt
-+            - description: CAN receive FIFO interrupt
-+            - description: CAN0 error interrupt
-+            - description: CAN0 transmit interrupt
-+            - description: CAN0 transmit/receive FIFO receive completion interrupt
-+            - description: CAN1 error interrupt
-+            - description: CAN1 transmit interrupt
-+            - description: CAN1 transmit/receive FIFO receive completion interrupt
-+
-+        interrupt-names:
-+          items:
-+            - const: g_err
-+            - const: g_recc
-+            - const: ch0_err
-+            - const: ch0_rec
-+            - const: ch0_trx
-+            - const: ch1_err
-+            - const: ch1_rec
-+            - const: ch1_trx
-+
-+        resets:
-+          maxItems: 2
-+
-+        reset-names:
-+          items:
-+            - const: rstp_n
-+            - const: rstc_n
-+
-+      required:
-+        - reset-names
-+    else:
-+      properties:
-+        interrupts:
-+          items:
-+            - description: Channel interrupt
-+            - description: Global interrupt
-+
-+        interrupt-names:
-+          items:
-+            - const: ch_int
-+            - const: g_int
-+
-+        resets:
-+          maxItems: 1
-+
-+  - if:
-+      not:
-+        properties:
-+          compatible:
-+            contains:
-+              const: renesas,r8a779a0-canfd
-+    then:
-+      patternProperties:
-+        "^channel[2-7]$": false
- 
- unevaluatedProperties: false
- 
--- 
-2.25.1
+Isn't getting a regmap an API?
 
+Rob
