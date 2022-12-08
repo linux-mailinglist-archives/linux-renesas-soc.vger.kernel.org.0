@@ -2,150 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BCA5646A68
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Dec 2022 09:24:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB8AA646A75
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Dec 2022 09:26:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229791AbiLHIYx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Dec 2022 03:24:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33288 "EHLO
+        id S229675AbiLHI0s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Dec 2022 03:26:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbiLHIYw (ORCPT
+        with ESMTP id S229634AbiLHI0q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Dec 2022 03:24:52 -0500
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87EB110B52;
-        Thu,  8 Dec 2022 00:24:46 -0800 (PST)
-Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id BE90120005;
-        Thu,  8 Dec 2022 08:24:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1670487883;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=LeAya0VSpti9hnkxK7KJZn2L3jCrFe71dZh0PwM8o4M=;
-        b=Ob1mKJGguYVoZg10T2JV0hnjOIefvmLjS80xg/9qkLZft+dH8O6lOo9VeFhN5X474piEsW
-        fBNIgVFELeFqGllqebNYkUsWnuLRh7Yb9fhS6PPkK/vtuJ9QvJ5gi1rAyFxZ/9LeO4ULlW
-        xV+MV1cjiZXom9/QqQOkR6R/lc+g6K/xW9YlCitY+ZX0yKd73GYOOz/xAi7fG2irOQ6v9t
-        vAcRrBU+a1SUVrpbWXP40rkOEQcdTFPE92BJA+rqW0ojmqBJGLH5NjbnSlwxM4vJeZ9Gps
-        h5/lrDoN6lyko52fUkTSUGCPPI2jjKD3/OVq6QcOzD4Fc3KOBPqS2tSLTfUOmw==
-Date:   Thu, 8 Dec 2022 09:24:39 +0100
-From:   Herve Codina <herve.codina@bootlin.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thu, 8 Dec 2022 03:26:46 -0500
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A86775D6BD
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Dec 2022 00:26:44 -0800 (PST)
+Received: by mail-lj1-x230.google.com with SMTP id s10so789031ljg.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Dec 2022 00:26:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=I6ClY8Qn5PhU88a7o7iHI8P//YfoghPFJcCo7zTwnx8=;
+        b=xI/MBzy1SAK+zJrVSmYY0x+h/gh0oAVfK1JHbYnRpeJh1Z7iY1kY1TW6Ixp3W2Kabj
+         p41PCFYiUJT6aaQGicyGHO/I0aqlLmHYk1XJ+/N4uWQfESbMN4uxPgj9X3BxlCtX69jg
+         jEUaXE1820E6AMvDr69hJG/x2hqILM5PWE3VdJUJb1T6wk6kh6RVkLkS8uGaTpC9k+Fj
+         5kcDAKeiaq6GqovSIz07BBory0mJSNMGGGDlkWuFeX4YkGUF2SlPgqrdvLDgBdm/ZZyJ
+         KIDmXdeY1/hDwNj2jfFc9n5fZA9puhsqbABk9w7KpihVi2si54vMF+4znQrOQI++QMKp
+         a2hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I6ClY8Qn5PhU88a7o7iHI8P//YfoghPFJcCo7zTwnx8=;
+        b=6+42Yn6ZrqFpsBXg1lAYgKjsrOHehUtVmSQUJjQTyOsMfOSvKQU1qxLOlCklw96TKx
+         cXapmS9lmnjEFacpG9SVmft0CCR6pQYzrYdp4ud62Q6TXvwllC0aerDy+VcWtmmlHJK/
+         kDMRPm/ZXnUmehpa0FKYMDSwf5iVoXeC07tnNw3qwGgLJ7/1Bm2jLXNfiCyTmZucK1qg
+         cvQAOnWW3YLLa6p+MI+zpchJfMkpdq0MQLRpHgoAYzXbD6tqXMKGx4+dgOPg6xXsECuU
+         L5Tc0PLd86ifyb9kLxHgAZgkjsBqEgGhdwEK0ROjhVzv4vIJnjEKFohEl0M8zEc+Tr+K
+         xV+A==
+X-Gm-Message-State: ANoB5pmkhWPzK+k1wCFiFDsVBR0ng65Jnfg+XTL/iJ6ehBClWYtdo9lL
+        Dwxd5Sm61FZRq1EpI535QlX5Yg==
+X-Google-Smtp-Source: AA0mqf6epq8Tk3LPsvkLyf6+nNpqKEYyRgrRwB6VG90m/K7IlmsjsseL+xDK/7lLb1TyxhdT7bvecA==
+X-Received: by 2002:a05:651c:1108:b0:277:e8c:a5a4 with SMTP id e8-20020a05651c110800b002770e8ca5a4mr25863815ljo.311.1670488003075;
+        Thu, 08 Dec 2022 00:26:43 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id t15-20020a05651c204f00b0026bf43a4d72sm2114512ljo.115.2022.12.08.00.26.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Dec 2022 00:26:42 -0800 (PST)
+Message-ID: <36895e49-aea5-3676-e7df-78b30277e6a0@linaro.org>
+Date:   Thu, 8 Dec 2022 09:26:41 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v3 3/9] dt-bindings: PCI: renesas,pci-rcar-gen2:
+ 'depends-on' is no more optional
+Content-Language: en-US
+To:     Herve Codina <herve.codina@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Gareth Williams <gareth.williams.jx@renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v3 0/9] Add the Renesas USBF controller support
-Message-ID: <20221208092439.6170cf5e@bootlin.com>
-In-Reply-To: <CAL_JsqJiZU=sHVPc92nDNoqUjm7FUb=u0izGYa+irkUW1XmA_w@mail.gmail.com>
 References: <20221207162435.1001782-1-herve.codina@bootlin.com>
-        <CAL_JsqJiZU=sHVPc92nDNoqUjm7FUb=u0izGYa+irkUW1XmA_w@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
+ <20221207162435.1001782-4-herve.codina@bootlin.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221207162435.1001782-4-herve.codina@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+On 07/12/2022 17:24, Herve Codina wrote:
+> The 'depends-on' property is set in involved DTS.
+> 
+> Move it to a required property.
+> 
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> ---
+>  Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml | 1 +
 
-On Wed, 7 Dec 2022 16:19:42 -0600
-Rob Herring <robh+dt@kernel.org> wrote:
+This should be squashed with previous patch. There is no point to add
+property and immediately in the next patch make it required. Remember
+that bindings are separate from DTS.
 
-> On Wed, Dec 7, 2022 at 10:24 AM Herve Codina <herve.codina@bootlin.com> w=
-rote:
-> >
-> > Hi,
-> >
-> > This series add support for the Renesas USBF controller (USB Device
-> > Controller) available in the Renesas RZ/N1 SoC.
-> >
-> > Based on previous review:
-> >   https://lore.kernel.org/all/20221114111513.1436165-3-herve.codina@boo=
-tlin.com/
-> >
-> > A new strategy is proposed to handle the H2MODE bit from CFG_USB
-> > register compared to the previous versions on the series. As a
-> > reminder, H2MODE bit allows to configure the internal USB Port
-> > interface for two hosts or one host and one device. =20
->=20
-> Is this case any different from all the phandle properties we have in
-> bindings that point to some misc registers somewhere else you need to
-> poke? If so, I'm not really a fan of duplicating the information.
+Best regards,
+Krzysztof
 
-Our case is that there is a bit in a register that affect several
-devices. This bit must be set before the devices are started.
-If this bit is changed while affected devices are running, system
-hangs can occurs (datasheet).
-
-So, in order to do that we need the device in charge to set
-this bit (sysctrl) to set this bit before other devices (USBF
-and PCI bridge) were started.
-
-At sysctrl level, the bit is set during the probe() call.
-The property 'depends-on' aim is to ensure the probe() calls
-order between provider (sysctrl) and consumers (USBF and PCI
-bridge).
-
-regmap and syscon are used to export registers from one device
-to an other and the probe() calls order is not ensured by the
-core or regmap infrastructure. Indeed, the regmap provider
-probe() will not be called if the regmap provider was not probed
-before the consumer ask for the regmap.
-  https://elixir.bootlin.com/linux/latest/source/drivers/mfd/syscon.c#L152
-  https://elixir.bootlin.com/linux/latest/source/drivers/mfd/syscon.c#L43
-No specific action synchronisation are done with regmap/syscon
-other than the regmap creation itself.
-
-I don't think the regmap/syscon will help in our case.
-
->=20
-> We also have cases of of_find_compatible_node(NULL, NULL,
-> "foo-bar-syscon") which is a dependency expressed in the driver, but
-> not DT. In either case, adding 'depends-on' would be an ABI break as
-> you are requiring a DT change.
-
-In order to avoid the DT change, I can keep the 'depends-on'
-optional in the PCI bridge binding.
-This will be functionnal as sysctrl is already used in this node
-(power-domain =3D <&sysctrl>). The relationship is already present
-with this power-domain link.
-
-If ok, I will do this change in v4 series.
-
->=20
-> > This new strategy is:
-> >   - Add the new generic 'depends-on' property in the device tree.
-> >
-> >     This generic property expresses an simple functionnal dependency
-> >     that does not rely on a specific topic. It is an 'order only'
-> >     dependency that can be used for dependencies between consumers
-> >     and producers that are not based on a specific infrastructure
-> >     and not need other relationship than this simple 'order only'
-> >     (ie no API is provided between the provider and the consumer) =20
->=20
-> Isn't getting a regmap an API?
->=20
-> Rob
-
---=20
-Herv=C3=A9 Codina, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
