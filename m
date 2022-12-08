@@ -2,53 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 924EF6463F8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Dec 2022 23:20:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BCA5646A68
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Dec 2022 09:24:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbiLGWT7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Dec 2022 17:19:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57530 "EHLO
+        id S229791AbiLHIYx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Dec 2022 03:24:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbiLGWT5 (ORCPT
+        with ESMTP id S229546AbiLHIYw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Dec 2022 17:19:57 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20C5069AAC;
-        Wed,  7 Dec 2022 14:19:57 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C3057B8218F;
-        Wed,  7 Dec 2022 22:19:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76E6AC43470;
-        Wed,  7 Dec 2022 22:19:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670451594;
-        bh=Z6y1S2c4O/wQVEci3pG8Cjc3WmkGbiLwEfx3oMfIjck=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=OCzOmaGjJvSkeIY2d/ch72xW78HASiWEjCv+COoZdnTgvkbcLvkwqw9nRliNM7Nr7
-         Vh5ZKgh6udrB+8stTTSMByhHAjlcp/qqbJ8HcYxS+wKcLi1v5EH17QABp3OodWWQja
-         nYT3Yw8ShUY/8OMh7z0R0HWl2YvOAvbMtSypH42zZvCp7RNFIfLybieNj/DV0uJCOC
-         BXDbq3pjWQpAMu2LpGYfaqHQN+39X8JkC3xgx7kA8D1GV5VPtn0dLPsNpkiNHGrtNo
-         Q/c3+qkPf0oeD9Bvjzrb5Q2jX7ab7UTYIxO+yMVw608bhxM/dSOw681DSkG5CKRMPl
-         GSbjoaiZaYfmA==
-Received: by mail-ua1-f50.google.com with SMTP id e24so6502644uam.10;
-        Wed, 07 Dec 2022 14:19:54 -0800 (PST)
-X-Gm-Message-State: ANoB5pnDavVVUGpwlR+N8IDCtBRXSn5dXe6aQxCmM0VROPydGBFiBW6F
-        v0G0mLmWjWehJeunLuxNtFwS4ijmWn9IKG3WAA==
-X-Google-Smtp-Source: AA0mqf7sjL89XYXP7++xV6ahJfBPE5ZnuFqEZVVoFHM87m+y1bCKE4MXIBGEtgCvE7SaKjFdqV+bCcJFTgMrIRcBLr0=
-X-Received: by 2002:ab0:1006:0:b0:419:70a:90cb with SMTP id
- f6-20020ab01006000000b00419070a90cbmr32720021uab.36.1670451593309; Wed, 07
- Dec 2022 14:19:53 -0800 (PST)
-MIME-Version: 1.0
-References: <20221207162435.1001782-1-herve.codina@bootlin.com>
-In-Reply-To: <20221207162435.1001782-1-herve.codina@bootlin.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Wed, 7 Dec 2022 16:19:42 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJiZU=sHVPc92nDNoqUjm7FUb=u0izGYa+irkUW1XmA_w@mail.gmail.com>
-Message-ID: <CAL_JsqJiZU=sHVPc92nDNoqUjm7FUb=u0izGYa+irkUW1XmA_w@mail.gmail.com>
-Subject: Re: [PATCH v3 0/9] Add the Renesas USBF controller support
-To:     Herve Codina <herve.codina@bootlin.com>
+        Thu, 8 Dec 2022 03:24:52 -0500
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87EB110B52;
+        Thu,  8 Dec 2022 00:24:46 -0800 (PST)
+Received: (Authenticated sender: herve.codina@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id BE90120005;
+        Thu,  8 Dec 2022 08:24:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1670487883;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=LeAya0VSpti9hnkxK7KJZn2L3jCrFe71dZh0PwM8o4M=;
+        b=Ob1mKJGguYVoZg10T2JV0hnjOIefvmLjS80xg/9qkLZft+dH8O6lOo9VeFhN5X474piEsW
+        fBNIgVFELeFqGllqebNYkUsWnuLRh7Yb9fhS6PPkK/vtuJ9QvJ5gi1rAyFxZ/9LeO4ULlW
+        xV+MV1cjiZXom9/QqQOkR6R/lc+g6K/xW9YlCitY+ZX0yKd73GYOOz/xAi7fG2irOQ6v9t
+        vAcRrBU+a1SUVrpbWXP40rkOEQcdTFPE92BJA+rqW0ojmqBJGLH5NjbnSlwxM4vJeZ9Gps
+        h5/lrDoN6lyko52fUkTSUGCPPI2jjKD3/OVq6QcOzD4Fc3KOBPqS2tSLTfUOmw==
+Date:   Thu, 8 Dec 2022 09:24:39 +0100
+From:   Herve Codina <herve.codina@bootlin.com>
+To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -61,50 +45,107 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-usb@vger.kernel.org,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [PATCH v3 0/9] Add the Renesas USBF controller support
+Message-ID: <20221208092439.6170cf5e@bootlin.com>
+In-Reply-To: <CAL_JsqJiZU=sHVPc92nDNoqUjm7FUb=u0izGYa+irkUW1XmA_w@mail.gmail.com>
+References: <20221207162435.1001782-1-herve.codina@bootlin.com>
+        <CAL_JsqJiZU=sHVPc92nDNoqUjm7FUb=u0izGYa+irkUW1XmA_w@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Dec 7, 2022 at 10:24 AM Herve Codina <herve.codina@bootlin.com> wrote:
->
-> Hi,
->
-> This series add support for the Renesas USBF controller (USB Device
-> Controller) available in the Renesas RZ/N1 SoC.
->
-> Based on previous review:
->   https://lore.kernel.org/all/20221114111513.1436165-3-herve.codina@bootlin.com/
->
-> A new strategy is proposed to handle the H2MODE bit from CFG_USB
-> register compared to the previous versions on the series. As a
-> reminder, H2MODE bit allows to configure the internal USB Port
-> interface for two hosts or one host and one device.
+Hi Rob,
 
-Is this case any different from all the phandle properties we have in
-bindings that point to some misc registers somewhere else you need to
-poke? If so, I'm not really a fan of duplicating the information.
+On Wed, 7 Dec 2022 16:19:42 -0600
+Rob Herring <robh+dt@kernel.org> wrote:
 
-We also have cases of of_find_compatible_node(NULL, NULL,
-"foo-bar-syscon") which is a dependency expressed in the driver, but
-not DT. In either case, adding 'depends-on' would be an ABI break as
-you are requiring a DT change.
+> On Wed, Dec 7, 2022 at 10:24 AM Herve Codina <herve.codina@bootlin.com> w=
+rote:
+> >
+> > Hi,
+> >
+> > This series add support for the Renesas USBF controller (USB Device
+> > Controller) available in the Renesas RZ/N1 SoC.
+> >
+> > Based on previous review:
+> >   https://lore.kernel.org/all/20221114111513.1436165-3-herve.codina@boo=
+tlin.com/
+> >
+> > A new strategy is proposed to handle the H2MODE bit from CFG_USB
+> > register compared to the previous versions on the series. As a
+> > reminder, H2MODE bit allows to configure the internal USB Port
+> > interface for two hosts or one host and one device. =20
+>=20
+> Is this case any different from all the phandle properties we have in
+> bindings that point to some misc registers somewhere else you need to
+> poke? If so, I'm not really a fan of duplicating the information.
 
-> This new strategy is:
->   - Add the new generic 'depends-on' property in the device tree.
->
->     This generic property expresses an simple functionnal dependency
->     that does not rely on a specific topic. It is an 'order only'
->     dependency that can be used for dependencies between consumers
->     and producers that are not based on a specific infrastructure
->     and not need other relationship than this simple 'order only'
->     (ie no API is provided between the provider and the consumer)
+Our case is that there is a bit in a register that affect several
+devices. This bit must be set before the devices are started.
+If this bit is changed while affected devices are running, system
+hangs can occurs (datasheet).
 
-Isn't getting a regmap an API?
+So, in order to do that we need the device in charge to set
+this bit (sysctrl) to set this bit before other devices (USBF
+and PCI bridge) were started.
 
-Rob
+At sysctrl level, the bit is set during the probe() call.
+The property 'depends-on' aim is to ensure the probe() calls
+order between provider (sysctrl) and consumers (USBF and PCI
+bridge).
+
+regmap and syscon are used to export registers from one device
+to an other and the probe() calls order is not ensured by the
+core or regmap infrastructure. Indeed, the regmap provider
+probe() will not be called if the regmap provider was not probed
+before the consumer ask for the regmap.
+  https://elixir.bootlin.com/linux/latest/source/drivers/mfd/syscon.c#L152
+  https://elixir.bootlin.com/linux/latest/source/drivers/mfd/syscon.c#L43
+No specific action synchronisation are done with regmap/syscon
+other than the regmap creation itself.
+
+I don't think the regmap/syscon will help in our case.
+
+>=20
+> We also have cases of of_find_compatible_node(NULL, NULL,
+> "foo-bar-syscon") which is a dependency expressed in the driver, but
+> not DT. In either case, adding 'depends-on' would be an ABI break as
+> you are requiring a DT change.
+
+In order to avoid the DT change, I can keep the 'depends-on'
+optional in the PCI bridge binding.
+This will be functionnal as sysctrl is already used in this node
+(power-domain =3D <&sysctrl>). The relationship is already present
+with this power-domain link.
+
+If ok, I will do this change in v4 series.
+
+>=20
+> > This new strategy is:
+> >   - Add the new generic 'depends-on' property in the device tree.
+> >
+> >     This generic property expresses an simple functionnal dependency
+> >     that does not rely on a specific topic. It is an 'order only'
+> >     dependency that can be used for dependencies between consumers
+> >     and producers that are not based on a specific infrastructure
+> >     and not need other relationship than this simple 'order only'
+> >     (ie no API is provided between the provider and the consumer) =20
+>=20
+> Isn't getting a regmap an API?
+>=20
+> Rob
+
+--=20
+Herv=C3=A9 Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
