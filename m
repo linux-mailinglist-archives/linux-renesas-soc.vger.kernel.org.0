@@ -2,91 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4787F64707E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Dec 2022 14:08:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB6A9647079
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Dec 2022 14:07:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229500AbiLHNH5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Dec 2022 08:07:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33574 "EHLO
+        id S229853AbiLHNH4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Dec 2022 08:07:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230212AbiLHNHx (ORCPT
+        with ESMTP id S229936AbiLHNHv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Dec 2022 08:07:53 -0500
+        Thu, 8 Dec 2022 08:07:51 -0500
 Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09DDE30F7F
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Dec 2022 05:07:47 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 202CB2EF11
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Dec 2022 05:07:45 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:5574:4fdf:a801:888e])
         by albert.telenet-ops.be with bizsmtp
-        id tp7m2800D2deJRf06p7mz3; Thu, 08 Dec 2022 14:07:46 +0100
+        id tp7d2800K2deJRf06p7dvV; Thu, 08 Dec 2022 14:07:43 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1p3GIF-002tBF-HV; Thu, 08 Dec 2022 13:46:27 +0100
+        id 1p3GIF-002tBF-6Q; Thu, 08 Dec 2022 13:46:27 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1p3DeN-002fnQ-6n; Thu, 08 Dec 2022 10:57:07 +0100
+        id 1p3EN6-003gqg-Pz; Thu, 08 Dec 2022 11:43:20 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Tho Vu <tho.vu.wh@renesas.com>, linux-renesas-soc@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+To:     Stephen Boyd <sboyd@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Dejin Zheng <zhengdejin5@gmail.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 3/3] arm64: dts: renesas: r8a779g0: Add Cortex-A76 1.8 GHz opp
-Date:   Thu,  8 Dec 2022 10:57:00 +0100
-Message-Id: <cc2bae27776523f499d01655ef18fe463a3ae1ae.1670492384.git.geert+renesas@glider.be>
+Subject: [PATCH] iopoll: Call cpu_relax() in busy loops
+Date:   Thu,  8 Dec 2022 11:43:19 +0100
+Message-Id: <d25a332bbb792f4c8d74f7e54bf9ca1d706979d9.1670495642.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1670492384.git.geert+renesas@glider.be>
-References: <cover.1670492384.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add an operating point for running the Cortex-A76 CPU cores on R-Car
-V4H at 1.8 GHz (High Performance mode).
+It is considered good practice to call cpu_relax() in busy loops, see
+Documentation/process/volatile-considered-harmful.rst.  This can not
+only lower CPU power consumption or yield to a hyperthreaded twin
+processor, but also allows an architecture to mitigate hardware issues
+(e.g. ARM Erratum 754327 for Cortex-A9 prior to r2p0) in the
+architecture-specific cpu_relax() implementation.
 
-Based on a patch in the BSP by Tho Vu.
+As the iopoll helpers lack calls to cpu_relax(), people are sometimes
+reluctant to use them, and may fall back to open-coded polling loops
+(including cpu_relax() calls) instead.
+
+Fix this by adding calls to cpu_relax() to the iopoll helpers:
+  - For the non-atomic case, it is sufficient to call cpu_relax() in
+    case of a zero sleep-between-reads value, as a call to
+    usleep_range() is a safe barrier otherwise.
+  - For the atomic case, cpu_relax() must be called regardless of the
+    sleep-between-reads value, as there is no guarantee all
+    architecture-specific implementations of udelay() handle this.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-Tested on the Renesas White-Hawk development board by using the CPUfreq
-userspace governor, enabling boost mode, writing the desired CPU clock
-rate to the CPUfreq policy's "scaling_setspeed" file in sysfs, verifying
-the clock rate of the Z0φ clock in debugfs, and running the dhrystones
-benchmark on the various CPU cores.
-
-$ echo 1 > /sys/devices/system/cpu/cpufreq/boost
-$ echo 1800000 > /sys/devices/system/cpu/cpufreq/policy0/scaling_setspeed
+This has been discussed before, but I am not aware of any patches moving
+forward:
+  - "Re: [PATCH 6/7] clk: renesas: rcar-gen3: Add custom clock for PLLs"
+    https://lore.kernel.org/all/CAMuHMdWUEhs=nwP+a0vO2jOzkq-7FEOqcJ+SsxAGNXX1PQ2KMA@mail.gmail.com/
+  - "Re: [PATCH v2] clk: samsung: Prevent potential endless loop in the PLL set_rate ops"
+    https://lore.kernel.org/all/20200811164628.GA7958@kozik-lap
 ---
- arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/linux/iopoll.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-index 83d1666a2ea16de2..7a87a5dc1b6ad219 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-@@ -39,6 +39,12 @@ opp-1700000000 {
- 			clock-latency-ns = <500000>;
- 			opp-suspend;
- 		};
-+		opp-1800000000 {
-+			opp-hz = /bits/ 64 <1800000000>;
-+			opp-microvolt = <880000>;
-+			clock-latency-ns = <500000>;
-+			turbo-mode;
-+		};
- 	};
- 
- 	cpus {
+diff --git a/include/linux/iopoll.h b/include/linux/iopoll.h
+index 2c8860e406bd8cae..73132721d1891a2e 100644
+--- a/include/linux/iopoll.h
++++ b/include/linux/iopoll.h
+@@ -53,6 +53,8 @@
+ 		} \
+ 		if (__sleep_us) \
+ 			usleep_range((__sleep_us >> 2) + 1, __sleep_us); \
++		else \
++			cpu_relax(); \
+ 	} \
+ 	(cond) ? 0 : -ETIMEDOUT; \
+ })
+@@ -95,6 +97,7 @@
+ 		} \
+ 		if (__delay_us) \
+ 			udelay(__delay_us); \
++		cpu_relax(); \
+ 	} \
+ 	(cond) ? 0 : -ETIMEDOUT; \
+ })
 -- 
 2.25.1
 
