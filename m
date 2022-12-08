@@ -2,39 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2EA9646B68
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Dec 2022 10:07:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A42EA646B8E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Dec 2022 10:10:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230197AbiLHJHT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Dec 2022 04:07:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35762 "EHLO
+        id S230308AbiLHJKD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Dec 2022 04:10:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230330AbiLHJHD (ORCPT
+        with ESMTP id S230043AbiLHJJl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Dec 2022 04:07:03 -0500
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC6CB2F66E;
-        Thu,  8 Dec 2022 01:05:35 -0800 (PST)
-Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 25D7F1C000B;
-        Thu,  8 Dec 2022 09:05:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1670490334;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=AJxDLt8hUXawCrNccreH5yy8sxv6TlhzobWAynLdewY=;
-        b=TOXe+X3BQntT96xi2Ug7VH3tEmj51ZQztuaqU5bz2r4tdYhil9On1DRHvt+7BE7x1TQwFA
-        MmR15kYRhimQE+pIvybnaA0uX9lDNXth17AFiLfNhUNdx9rDb3HcPORaNnse8kIQys5bVL
-        F9LqFrRDh3uNoEjOx/fZoiCQXF+hFEUNXifopRt2YnoSFAjQV19ueUyP9oWbJS7/xHMTYn
-        C4Y8rpDQdSg2oQPwkvz9hHeWcUJm7SVNkHYHFlQHxb9gB3VH01Ww+aXcTssY512rXYhH2K
-        SPTkUC15Nf15yoBeH64AbCgppjkyqRgwseYs2ukZtRGv+dFijeZsgs8g+iyCbQ==
-Date:   Thu, 8 Dec 2022 10:05:30 +0100
-From:   Herve Codina <herve.codina@bootlin.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
+        Thu, 8 Dec 2022 04:09:41 -0500
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C6F115E;
+        Thu,  8 Dec 2022 01:09:14 -0800 (PST)
+Received: by mail-qk1-f169.google.com with SMTP id k3so389688qki.13;
+        Thu, 08 Dec 2022 01:09:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GX7yoUJ5UVZ3SHZOJ/FiTU1z5/uRyGEiAnkth1oZIWc=;
+        b=R32eRC3eN2Q/wcD8aDFGZpNNl001yhOpDRho97ztCblTGuFZgvJcn21SPykwg7fFwI
+         Dyj2ClmsJFxY/0kn50rgGMhburszagOnwmIvHipbmD/vxoplFTKIkIz9zyIj4/iOYxaS
+         vMhMMhhsIqSyx0EXFuisgBJ7KS5YFs3j8ZvMqnhbtfjKoHt7nHYKgR+zMePlsWLKJQGA
+         EtGDW4lS3+7/vpg6eefFgk+uAtVGIBRsdZVE8yYw+zj6/ce4FOxRilxRT0dzytOGkS0S
+         8ouk/C/08jFVbIbVFA/SQCg6rhq/mUatqRCNe8MlQjZrPhTDryO5YE3suBXF8VgXoGoj
+         eZnA==
+X-Gm-Message-State: ANoB5pk7kCv3sLWF/B18/goWCTWXNwBpr4aH34RdiPRqhTHsQXgFByp2
+        eJYwDA1auAYHgCu/F0tdzQ0A1YpJJiRtSQ==
+X-Google-Smtp-Source: AA0mqf5l+PK1CNxVV9iNxJPKT6GbAODSzpi9YxDLSJm9goYqz+8iYayk/3veYB2dHvHMItjwVnrl3A==
+X-Received: by 2002:a05:620a:2190:b0:6fe:c24c:3b15 with SMTP id g16-20020a05620a219000b006fec24c3b15mr12149929qka.380.1670490553148;
+        Thu, 08 Dec 2022 01:09:13 -0800 (PST)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id s18-20020a05620a29d200b006f9ddaaf01esm19602731qkp.102.2022.12.08.01.09.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Dec 2022 01:09:12 -0800 (PST)
+Received: by mail-yb1-f175.google.com with SMTP id s11so906582ybe.2;
+        Thu, 08 Dec 2022 01:09:12 -0800 (PST)
+X-Received: by 2002:a5b:24b:0:b0:6ca:3b11:8d76 with SMTP id
+ g11-20020a5b024b000000b006ca3b118d76mr71131994ybp.202.1670490552413; Thu, 08
+ Dec 2022 01:09:12 -0800 (PST)
+MIME-Version: 1.0
+References: <20221207162435.1001782-1-herve.codina@bootlin.com> <20221207162435.1001782-9-herve.codina@bootlin.com>
+In-Reply-To: <20221207162435.1001782-9-herve.codina@bootlin.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 8 Dec 2022 10:09:01 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWHVStUFx61oKWh=YiJ9wfXZaeWEnt2CSRgn3HQe3pQ6w@mail.gmail.com>
+Message-ID: <CAMuHMdWHVStUFx61oKWh=YiJ9wfXZaeWEnt2CSRgn3HQe3pQ6w@mail.gmail.com>
+Subject: Re: [PATCH v3 8/9] ARM: dts: r9a06g032: Add the USBF controller node
+To:     Herve Codina <herve.codina@bootlin.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -46,55 +64,33 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-usb@vger.kernel.org,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v3 3/9] dt-bindings: PCI: renesas,pci-rcar-gen2:
- 'depends-on' is no more optional
-Message-ID: <20221208100530.137fa8b7@bootlin.com>
-In-Reply-To: <36895e49-aea5-3676-e7df-78b30277e6a0@linaro.org>
-References: <20221207162435.1001782-1-herve.codina@bootlin.com>
-        <20221207162435.1001782-4-herve.codina@bootlin.com>
-        <36895e49-aea5-3676-e7df-78b30277e6a0@linaro.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+On Wed, Dec 7, 2022 at 5:25 PM Herve Codina <herve.codina@bootlin.com> wrote:
+> Add the USBF controller available in the r9a06g032 SoC.
+>
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 
-On Thu, 8 Dec 2022 09:26:41 +0100
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+My
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+on v2 is still valid.
 
-> On 07/12/2022 17:24, Herve Codina wrote:
-> > The 'depends-on' property is set in involved DTS.
-> > 
-> > Move it to a required property.
-> > 
-> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> > ---
-> >  Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml | 1 +  
-> 
-> This should be squashed with previous patch. There is no point to add
-> property and immediately in the next patch make it required. Remember
-> that bindings are separate from DTS.
-> 
-> Best regards,
-> Krzysztof
-> 
+Gr{oetje,eeting}s,
 
-I though about make dtbs_check in case of git bisect.
+                        Geert
 
-But, ok I will squash or perhaps remove completely this commit.
-It introduces a DT compatibility break adding a new mandatory
-property (raised by Rob on cover letter review).
-Is this compatibility break can be acceptable ?
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Best regards,
-Herve
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
