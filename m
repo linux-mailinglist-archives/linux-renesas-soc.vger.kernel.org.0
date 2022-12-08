@@ -2,41 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A754647382
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Dec 2022 16:51:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6008647771
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Dec 2022 21:44:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229843AbiLHPvL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Dec 2022 10:51:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38770 "EHLO
+        id S229678AbiLHUot (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Dec 2022 15:44:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbiLHPvK (ORCPT
+        with ESMTP id S229479AbiLHUor (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Dec 2022 10:51:10 -0500
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE59E26553;
-        Thu,  8 Dec 2022 07:51:06 -0800 (PST)
-Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7DD6E240012;
-        Thu,  8 Dec 2022 15:51:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1670514665;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=g5n3JsbbZaE7ybECVhrvextoT7PBeRSsX4KeV8+PcM0=;
-        b=UyngXYx9Vcm9JGJ1b3z7b8NO21EvHn5BIi7f4ns15NUnU/N1IIK5CNH2c7ecEyW/V8uFgY
-        Ni34Ojo008tCgLgY/9IESNlGr6CUyt+e2amEEV/NVXQlZNEbjyEuE6WPO32o5bJy0+SIKu
-        hpswvin9x1zQfcqy+oNxdyMLN9LUKC6fQMp5TsXaK0mjpluyLENZmqfR3k/V32Vo9fLxhr
-        B1QimGkMWjtcPbHfhtckx3QwyHpnLSBq/R1W0lbTAbX1wxQeBoa/qzgQAIkeSCVo4+XNak
-        VB6f1fmQjxSE2kwN4nE9YC63UcpmCHxly4fMv8fEngeppnb8GVyZOfTNl6iSAg==
-Date:   Thu, 8 Dec 2022 16:51:01 +0100
-From:   Herve Codina <herve.codina@bootlin.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+        Thu, 8 Dec 2022 15:44:47 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B01701AF33;
+        Thu,  8 Dec 2022 12:44:46 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 61DB8B825E5;
+        Thu,  8 Dec 2022 20:44:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CBE2C43398;
+        Thu,  8 Dec 2022 20:44:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670532284;
+        bh=Op3UYf+6olBgWrruca2+4Cw44tWd/dJqwafFuHi8BuQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=TzZk98Sm7iHP5ggszXg7OSQVOGQWmechaPq8sdWf6iN8A8VkpGD4NQDM06bssaYaN
+         lgWc9vcIcmS6g+dsTZ/1ykRw3u6RG+Fg9/2sFyQhj2ilkoUszIPR7GUwMfYbHGofAm
+         j17lqnYNJok5WR1ys0ih3OZlds6Dy28ib/oZubk70FfQWd02vSqrFQlxmcl1MIdJZj
+         GmiUrnYKWGJjellgBWsKNJpZltUqi4nlu09jAQVueDNlfoaGhzcRIaeZ+lV6LMtmBW
+         hajdN19eK7yyFNHS/V16wBGnRt3VSGa+q5PONKJViCXbo20GWmxcEv2RwLEgNoNAZz
+         9qoWk3T7xXZ/g==
+Received: by mail-ua1-f50.google.com with SMTP id m5so772987uah.3;
+        Thu, 08 Dec 2022 12:44:44 -0800 (PST)
+X-Gm-Message-State: ANoB5pk3s4dy/5FRocmvte06X+ULIi0ycfzRFK6pffIsoS3/8pGfZNbS
+        ozDYP1ODQo/dWFNkHQrh1Agqy6zvL07c01jr2w==
+X-Google-Smtp-Source: AA0mqf4ma8F1BT0uBQEYiHxBjiJL0Ol47jNJrTLDn/AAI8VlbTaGwaiuMSNkRkY2hh2jshSQyk61IDhlm1kZOsxD1n0=
+X-Received: by 2002:a9f:22c7:0:b0:3d6:45ee:7efc with SMTP id
+ 65-20020a9f22c7000000b003d645ee7efcmr44640221uan.86.1670532282914; Thu, 08
+ Dec 2022 12:44:42 -0800 (PST)
+MIME-Version: 1.0
+References: <20221207162435.1001782-1-herve.codina@bootlin.com>
+ <CAL_JsqJiZU=sHVPc92nDNoqUjm7FUb=u0izGYa+irkUW1XmA_w@mail.gmail.com> <20221208092439.6170cf5e@bootlin.com>
+In-Reply-To: <20221208092439.6170cf5e@bootlin.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Thu, 8 Dec 2022 14:44:31 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLjD=DbKJRrmn2GmbAwmVyE=gVcz-fZfNJ_xAup6GReSA@mail.gmail.com>
+Message-ID: <CAL_JsqLjD=DbKJRrmn2GmbAwmVyE=gVcz-fZfNJ_xAup6GReSA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/9] Add the Renesas USBF controller support
+To:     Herve Codina <herve.codina@bootlin.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -46,104 +62,91 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-usb@vger.kernel.org,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v3 3/9] dt-bindings: PCI: renesas,pci-rcar-gen2:
- 'depends-on' is no more optional
-Message-ID: <20221208165101.584e4b92@bootlin.com>
-In-Reply-To: <8dfb5b8a-766a-14ec-16d4-74fdd9f7d622@linaro.org>
-References: <20221207162435.1001782-1-herve.codina@bootlin.com>
-        <20221207162435.1001782-4-herve.codina@bootlin.com>
-        <36895e49-aea5-3676-e7df-78b30277e6a0@linaro.org>
-        <20221208100530.137fa8b7@bootlin.com>
-        <8dfb5b8a-766a-14ec-16d4-74fdd9f7d622@linaro.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+On Thu, Dec 8, 2022 at 2:24 AM Herve Codina <herve.codina@bootlin.com> wrote:
+>
+> Hi Rob,
+>
+> On Wed, 7 Dec 2022 16:19:42 -0600
+> Rob Herring <robh+dt@kernel.org> wrote:
+>
+> > On Wed, Dec 7, 2022 at 10:24 AM Herve Codina <herve.codina@bootlin.com> wrote:
+> > >
+> > > Hi,
+> > >
+> > > This series add support for the Renesas USBF controller (USB Device
+> > > Controller) available in the Renesas RZ/N1 SoC.
+> > >
+> > > Based on previous review:
+> > >   https://lore.kernel.org/all/20221114111513.1436165-3-herve.codina@bootlin.com/
+> > >
+> > > A new strategy is proposed to handle the H2MODE bit from CFG_USB
+> > > register compared to the previous versions on the series. As a
+> > > reminder, H2MODE bit allows to configure the internal USB Port
+> > > interface for two hosts or one host and one device.
+> >
+> > Is this case any different from all the phandle properties we have in
+> > bindings that point to some misc registers somewhere else you need to
+> > poke? If so, I'm not really a fan of duplicating the information.
+>
+> Our case is that there is a bit in a register that affect several
+> devices. This bit must be set before the devices are started.
+> If this bit is changed while affected devices are running, system
+> hangs can occurs (datasheet).
+>
+> So, in order to do that we need the device in charge to set
+> this bit (sysctrl) to set this bit before other devices (USBF
+> and PCI bridge) were started.
 
-On Thu, 8 Dec 2022 10:46:32 +0100
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+That sounds like you just need some platform level initialization and
+you are working around the desire to not have platform level
+initialization.
 
-> On 08/12/2022 10:05, Herve Codina wrote:
-> > Hi Krzysztof,
-> >=20
-> > On Thu, 8 Dec 2022 09:26:41 +0100
-> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> >  =20
-> >> On 07/12/2022 17:24, Herve Codina wrote: =20
-> >>> The 'depends-on' property is set in involved DTS.
-> >>>
-> >>> Move it to a required property.
-> >>>
-> >>> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> >>> ---
-> >>>  Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml | 1=
- +   =20
-> >>
-> >> This should be squashed with previous patch. There is no point to add
-> >> property and immediately in the next patch make it required. Remember
-> >> that bindings are separate from DTS.
-> >>
-> >> Best regards,
-> >> Krzysztof
-> >> =20
-> >=20
-> > I though about make dtbs_check in case of git bisect. =20
->=20
-> And what would this commit change? In Git you will have
-> 1. dt-bindings: PCI: renesas,pci-rcar-gen2: Add depends-on for RZ/N1 SoC
-> family
-> 2. dt-bindings: PCI: renesas,pci-rcar-gen2: 'depends-on' is no more optio=
-nal
->=20
-> so what is the difference for git bisect?
+Why doesn't/can't the bootloader initialize this? Seems like it might
+want to use PCI or USB too.
 
-Well, today, I have:
-1. dt-bindings: Add depends-on
-2. dts: Add depends-on
-3. dt-bindings: Move depends-on to mandatory
+> At sysctrl level, the bit is set during the probe() call.
+> The property 'depends-on' aim is to ensure the probe() calls
+> order between provider (sysctrl) and consumers (USBF and PCI
+> bridge).
+>
+> regmap and syscon are used to export registers from one device
+> to an other and the probe() calls order is not ensured by the
+> core or regmap infrastructure. Indeed, the regmap provider
+> probe() will not be called if the regmap provider was not probed
+> before the consumer ask for the regmap.
+>   https://elixir.bootlin.com/linux/latest/source/drivers/mfd/syscon.c#L152
+>   https://elixir.bootlin.com/linux/latest/source/drivers/mfd/syscon.c#L43
+> No specific action synchronisation are done with regmap/syscon
+> other than the regmap creation itself.
 
-If I squash dt-bindings commits, I am going to have:
-  1. dt-bindings: Add mandatory depends-on
-  2. dts: Add depends-on
-or
-  1. dts: Add depends-on
-  2. dt-bindings: Add mandatory depends-on
+Oh right. That's in place of course to avoid probe ordering issues...
 
-I have not tested but if I used only the first commit in each
-case (git bisect):
-In the first case, dtbs_check is probably going to signal the
-missing 'depends-on' property on dts.
-In the second case, dtbs_check is probably going to signal the
-not described 'depends-on' property present in dts.
+> I don't think the regmap/syscon will help in our case.
+>
+> >
+> > We also have cases of of_find_compatible_node(NULL, NULL,
+> > "foo-bar-syscon") which is a dependency expressed in the driver, but
+> > not DT. In either case, adding 'depends-on' would be an ABI break as
+> > you are requiring a DT change.
+>
+> In order to avoid the DT change, I can keep the 'depends-on'
+> optional in the PCI bridge binding.
+> This will be functionnal as sysctrl is already used in this node
+> (power-domain = <&sysctrl>). The relationship is already present
+> with this power-domain link.
+>
+> If ok, I will do this change in v4 series.
 
->=20
-> >=20
-> > But, ok I will squash or perhaps remove completely this commit.
-> > It introduces a DT compatibility break adding a new mandatory
-> > property (raised by Rob on cover letter review).
-> > Is this compatibility break can be acceptable ? =20
->=20
-> Requiring property in bindings as a fix for something which was broken
-> is ok. But this is independent of Linux drivers, which should not stop
-> working.
+I agree with Geert that this shouldn't be needed.
 
-Ok, thanks.
-
->=20
-> Best regards,
-> Krzysztof
->=20
-
-Regards,
-Herv=C3=A9
+Rob
