@@ -2,38 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38B256485FF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Dec 2022 16:56:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1793648602
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Dec 2022 16:56:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230033AbiLIP4f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Dec 2022 10:56:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44520 "EHLO
+        id S229554AbiLIP4i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Dec 2022 10:56:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229554AbiLIP4e (ORCPT
+        with ESMTP id S230136AbiLIP4h (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Dec 2022 10:56:34 -0500
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A0FE56162;
-        Fri,  9 Dec 2022 07:56:33 -0800 (PST)
+        Fri, 9 Dec 2022 10:56:37 -0500
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 51EC160D1;
+        Fri,  9 Dec 2022 07:56:36 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.96,230,1665414000"; 
-   d="scan'208";a="142845614"
+   d="scan'208";a="145648819"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 10 Dec 2022 00:56:32 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 10 Dec 2022 00:56:36 +0900
 Received: from localhost.localdomain (unknown [10.226.92.54])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2F2F64010ADA;
-        Sat, 10 Dec 2022 00:56:29 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7DA984010ADA;
+        Sat, 10 Dec 2022 00:56:33 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        Biju Das <biju.das@bp.renesas.com>, linux-usb@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 1/4] dt-bindings: usb: ti,hd3ss3220: Update interrupt property as optional
-Date:   Fri,  9 Dec 2022 15:56:20 +0000
-Message-Id: <20221209155623.29147-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 2/4] usb: typec: hd3ss3220: Fix NULL pointer crash
+Date:   Fri,  9 Dec 2022 15:56:21 +0000
+Message-Id: <20221209155623.29147-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221209155623.29147-1-biju.das.jz@bp.renesas.com>
 References: <20221209155623.29147-1-biju.das.jz@bp.renesas.com>
@@ -47,26 +46,59 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On some platforms(rg: RZ/V2M EVK), interrupt is not populated. Update
-the binding to make interrupt property as optional.
+The value returned by usb_role_switch_get() can be NULL and it leads
+to NULL pointer crash. This patch fixes this issue by adding NULL
+check for the role switch handle.
 
+[   25.336613] Hardware name: Silicon Linux RZ/G2E evaluation kit EK874 (CAT874 + CAT875) (DT)
+[   25.344991] Workqueue: events_unbound deferred_probe_work_func
+[   25.350869] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   25.357854] pc : renesas_usb3_role_switch_get+0x40/0x80 [renesas_usb3]
+[   25.364428] lr : renesas_usb3_role_switch_get+0x24/0x80 [renesas_usb3]
+[   25.370986] sp : ffff80000a4b3a40
+[   25.374311] x29: ffff80000a4b3a40 x28: 0000000000000000 x27: 0000000000000000
+[   25.381476] x26: ffff80000a3ade78 x25: ffff00000a809005 x24: ffff80000117f178
+[   25.388641] x23: ffff00000a8d7810 x22: ffff00000a8d8410 x21: 0000000000000000
+[   25.395805] x20: ffff000011cd7080 x19: ffff000011cd7080 x18: 0000000000000020
+[   25.402969] x17: ffff800076196000 x16: ffff800008004000 x15: 0000000000004000
+[   25.410133] x14: 000000000000022b x13: 0000000000000001 x12: 0000000000000001
+[   25.417291] x11: 0000000000000000 x10: 0000000000000a40 x9 : ffff80000a4b3770
+[   25.424452] x8 : ffff00007fbc9000 x7 : 0040000000000008 x6 : ffff00000a8d8590
+[   25.431615] x5 : ffff80000a4b3960 x4 : 0000000000000000 x3 : ffff00000a8d84f4
+[   25.438776] x2 : 0000000000000218 x1 : ffff80000a715218 x0 : 0000000000000218
+[   25.445942] Call trace:
+[   25.448398]  renesas_usb3_role_switch_get+0x40/0x80 [renesas_usb3]
+[   25.454613]  renesas_usb3_role_switch_set+0x4c/0x440 [renesas_usb3]
+[   25.460908]  usb_role_switch_set_role+0x44/0xa4
+[   25.465468]  hd3ss3220_set_role+0xa0/0x100 [hd3ss3220]
+[   25.470635]  hd3ss3220_probe+0x118/0x2fc [hd3ss3220]
+[   25.475621]  i2c_device_probe+0x338/0x384
+
+Fixes: 5a9a8a4c5058 ("usb: typec: hd3ss3220: hd3ss3220_probe() warn: passing zero to 'PTR_ERR'")
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml | 1 -
- 1 file changed, 1 deletion(-)
+This issue triggered on RZ/G2E board, where there is no USB3 firmware and it
+returned a null role switch handle.
+---
+ drivers/usb/typec/hd3ss3220.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml b/Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml
-index b86bf6bc9cd6..a1cffb70c621 100644
---- a/Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml
-+++ b/Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml
-@@ -46,7 +46,6 @@ properties:
- required:
-   - compatible
-   - reg
--  - interrupts
+diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
+index 2a58185fb14c..c24bbccd14f9 100644
+--- a/drivers/usb/typec/hd3ss3220.c
++++ b/drivers/usb/typec/hd3ss3220.c
+@@ -186,7 +186,10 @@ static int hd3ss3220_probe(struct i2c_client *client,
+ 		hd3ss3220->role_sw = usb_role_switch_get(hd3ss3220->dev);
+ 	}
  
- additionalProperties: false
- 
+-	if (IS_ERR(hd3ss3220->role_sw)) {
++	if (!hd3ss3220->role_sw) {
++		ret = -ENODEV;
++		goto err_put_fwnode;
++	} else if (IS_ERR(hd3ss3220->role_sw)) {
+ 		ret = PTR_ERR(hd3ss3220->role_sw);
+ 		goto err_put_fwnode;
+ 	}
 -- 
 2.25.1
 
