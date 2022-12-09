@@ -2,68 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F245648A2D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Dec 2022 22:43:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C894E648AB9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Dec 2022 23:24:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229951AbiLIVnU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Dec 2022 16:43:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38680 "EHLO
+        id S229804AbiLIWYK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Dec 2022 17:24:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229943AbiLIVnT (ORCPT
+        with ESMTP id S229468AbiLIWYJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Dec 2022 16:43:19 -0500
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C789831213;
-        Fri,  9 Dec 2022 13:43:18 -0800 (PST)
-Received: by mail-oo1-f50.google.com with SMTP id f7-20020a4a8907000000b004a0cb08d0afso879443ooi.8;
-        Fri, 09 Dec 2022 13:43:18 -0800 (PST)
+        Fri, 9 Dec 2022 17:24:09 -0500
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com [IPv6:2607:f8b0:4864:20::c32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAB243AC0C
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Dec 2022 14:24:07 -0800 (PST)
+Received: by mail-oo1-xc32.google.com with SMTP id q2-20020a4a8e02000000b004a0236114ecso892650ook.11
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Dec 2022 14:24:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0niFOJtseZKpNqdp7Vx1SkJWAbHvAgltgpslEU1rios=;
+        b=ZthfjG8mjewWB9eae366IW4b62xtMBDXTGmfIMRwYZeVDo9XwCKj3gbixD0w95mX7d
+         mHgExb1PF8V8wqmwB5OwisI4eDrmRc5fu0ptzV/55nCqzQNi1SCtxvLWW3MmC7NSJrMe
+         cXnW4IwbeKdBWO6R0lqa6uD77PsBY+ifPZxykrPR5yDyq6KeMPKR2ojHSUaeINq1AzKT
+         KidqCJkTyn1ANnE7cgACv665rsc6ktCRCBxlO8mEUBjlOs3oxSbfhXd/CxEoazW1H6M3
+         v8y1U8nE4ZJcsGx3Dtf/mm1kk7Dea6nO1LF6bXf12OdhSrVV397bXq4IuwbDWkKwPm5n
+         aoAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rcwPwwT4uOET7S7UyGjYY8jwl7HxkSdLZ6MiIT3csy4=;
-        b=jEnkbPpGhK6qtEfFm/Gxa08G/NojJxCsbZSvE7CDlMlWL9qFxHnjXpRSkEhkPMyBxF
-         ImigC16WDJx/E7OeDVg5Gv56n7DyeEvVyXNbRpOi/WDDas6CtgerKPrOHissnqeFo5Eh
-         xCve7BdfgWfvzvqtKRU3HIugcHw5cv5kbe2qHQGxBjSI/UFWKBfJ1zpM56m1slDNFuiC
-         QRJFV4UMyyvh00Gh8ZrT/VLcXGzMcn8rZKRMH+nrXMAoT0YvPsnHjEJTeTZEAAqhUjDV
-         CFEy4oQC3KVMeyKuIQ9EcYdueMp14Rvi35GRQGOOAv2iRL/i9DvMwL7OdQXYBYSKhxz3
-         58GQ==
-X-Gm-Message-State: ANoB5pluWVi0iKm/ejCFLAk9NVOu58qB6Kqqy3+GZk/mLDqreXGN5EpQ
-        Oq9LykENVL/ecwIke+J8/ha2pMV7mw==
-X-Google-Smtp-Source: AA0mqf7FjIzB7VG1PlEjiZGjxQayCZIq6PYEal9ex3kYJMkNZa3DWssAfZogZl7tePz/3AY23YLCVw==
-X-Received: by 2002:a4a:aec6:0:b0:49f:96f:e6c0 with SMTP id v6-20020a4aaec6000000b0049f096fe6c0mr4371754oon.8.1670622198074;
-        Fri, 09 Dec 2022 13:43:18 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id g6-20020a4ab806000000b0049ef7f3b2c8sm805751oop.48.2022.12.09.13.43.17
+        bh=0niFOJtseZKpNqdp7Vx1SkJWAbHvAgltgpslEU1rios=;
+        b=RcyEx6nsJtUrFCMgz4fUrdrhRoHxLm88SyAsy8zUi30R8TCyy960evv1e1QjJeHFG/
+         PMcMvfK3oxmOZz0V/+FIKS8Pj7kQsdAKStgUhtJEBOvFyKxiyhA+f/+6Lxq9kQ/vwwu8
+         Mb/Tj10gJKAe2lJqcm96nHjlKVPYvXvQgcePq1ysorRzPjUmFEQcnlzeJaPTvrTMAC8Q
+         M38UzDHrndEglHOmcORx2E1hGlzbYK1JIiRFtGxxpvpDhDa6L3NEw6EClMk8ZWLsRERt
+         4OqiI2UgsHzzZkcYMaQdJd0A3ZjhPXNqywKqnI5w/XOHF+c1zkSpQPe9MlS2zkKkJ1VI
+         rjvA==
+X-Gm-Message-State: ANoB5pkU9CkNaEAmE29aEl0Br03m9brC9rC0gVrw+GmgOQtWwo03nGYW
+        VbTy6GI7wZX5rnpAwGva4qvung==
+X-Google-Smtp-Source: AA0mqf6YezcedWqO5/DfQ5Hh5KjmW+9LYC+dlAS/gPvAELaB4jrAICD5YQomLLQmCgeSgLlXx2Ehtg==
+X-Received: by 2002:a4a:dc8c:0:b0:4a0:c270:2f3f with SMTP id g12-20020a4adc8c000000b004a0c2702f3fmr4138546oou.3.1670624647102;
+        Fri, 09 Dec 2022 14:24:07 -0800 (PST)
+Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
+        by smtp.gmail.com with ESMTPSA id c127-20020a4a4f85000000b004a0ad937ccdsm882932oob.1.2022.12.09.14.24.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Dec 2022 13:43:17 -0800 (PST)
-Received: (nullmailer pid 3897505 invoked by uid 1000);
-        Fri, 09 Dec 2022 21:43:17 -0000
-Date:   Fri, 9 Dec 2022 15:43:17 -0600
-From:   Rob Herring <robh@kernel.org>
+        Fri, 09 Dec 2022 14:24:06 -0800 (PST)
+Date:   Fri, 9 Dec 2022 17:24:03 -0500
+From:   William Breathitt Gray <william.gray@linaro.org>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rob Herring <robh@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-usb@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: usb: ti,hd3ss3220: Update interrupt
- property as optional
-Message-ID: <167062219642.3897453.9937218430747422219.robh@kernel.org>
-References: <20221209171836.71610-1-biju.das.jz@bp.renesas.com>
- <20221209171836.71610-2-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH 0/6] Add RZ/V2M Compare-Match Timer (TIM) support
+Message-ID: <Y5O1g8/69tCfmdW6@fedora>
+References: <20221205145955.391526-1-biju.das.jz@bp.renesas.com>
+ <20221205225042.GA2812115-robh@kernel.org>
+ <OS0PR01MB592211AD4D0AE23DA7075DD5861B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdX2=AwerQZS2cqR4exq_QNtt=Fwp5KBcmPr1qmOBNOSAg@mail.gmail.com>
+ <87sfhsgb9e.ffs@tglx>
+ <OS0PR01MB59228CED6187C7B19776CE22861A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <878rjjfprw.ffs@tglx>
+ <OS0PR01MB5922B590AB9791B9741E2A1D861A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <87sfhrdure.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="YkhtusH7Lbb0s/D9"
 Content-Disposition: inline
-In-Reply-To: <20221209171836.71610-2-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <87sfhrdure.ffs@tglx>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -71,17 +95,59 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
-On Fri, 09 Dec 2022 17:18:35 +0000, Biju Das wrote:
-> On some platforms(for eg: RZ/V2M EVK), interrupt is not populated. Update
-> the binding to make interrupt property as optional.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * updated the typo in commit description.
-> ---
->  Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml | 1 -
->  1 file changed, 1 deletion(-)
-> 
+--YkhtusH7Lbb0s/D9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Rob Herring <robh@kernel.org>
+On Wed, Dec 07, 2022 at 05:49:09PM +0100, Thomas Gleixner wrote:
+> On Wed, Dec 07 2022 at 11:35, Biju Das wrote:
+> > Counter, It can be used as measuring the processing time of DRP-AI.
+>=20
+> Sigh. You can do that with the architected timer too, especially when
+> you are going to do the measurement in user space.
+>=20
+> clock_gettime(), which uses the VDSO with the architected timer is fast
+> to access and accurate.
+>=20
+> Thanks,
+>=20
+>         tglx
+
+Hi Biju,
+
+It's true that you could implement a Counter driver to achieve what you
+want here, but I don't think that's the most apt interface for this
+device. Your device is used to measure the processing time of DRP-AI, so
+modeling this as a clocksource seems like the right approach to take.
+
+Of course, if there is something missing from clocksource/clockevent
+that you need, then it should be added to the subsystem. So let's try to
+narrow down exactly what functionality you need.
+
+You gave a Counter use-case example earlier where you can configure the
+ceiling value of the timer (e.g. to 1usec or 10000000usec) and push
+Counter events on the interrupts that trigger off that that
+configuration; the Counter subsystem can logs the current system time
+everytime a Counter event is pushed.
+
+Could the same thing be achieved using clockevents framework instead?
+With this approach you would register an event to fire in the future
+(e.g. 1usec or 10000000usec) and then call clock_gettime() to get the
+current system when you're notified of the event. Would this approach
+work for your use-case, or is something else missing here?
+
+William Breathitt Gray
+
+--YkhtusH7Lbb0s/D9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCY5O1gwAKCRC1SFbKvhIj
+K8zuAP4uMkkxnrQ9VzRVJNsRxxSLOWknl898zSxxh2gIpvALaQD8DStd05P+6buF
+P9QDJciknANFclFf6QmJ5Pg8Sh6nCgs=
+=/qcp
+-----END PGP SIGNATURE-----
+
+--YkhtusH7Lbb0s/D9--
