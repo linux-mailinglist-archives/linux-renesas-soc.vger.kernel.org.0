@@ -2,64 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EB5A64791A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Dec 2022 23:58:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AAECB647D09
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Dec 2022 05:47:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229558AbiLHW6L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Dec 2022 17:58:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44872 "EHLO
+        id S229463AbiLIErV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Dec 2022 23:47:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbiLHW5u (ORCPT
+        with ESMTP id S229957AbiLIErF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Dec 2022 17:57:50 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D9EF1D0F7;
-        Thu,  8 Dec 2022 14:57:49 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EE87E61E67;
-        Thu,  8 Dec 2022 22:57:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15BD9C433D2;
-        Thu,  8 Dec 2022 22:57:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1670540268;
-        bh=J62E11sn8qsM+R0hA1OPkrH4gqvUGkhVQ60dIfCwpQQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=BtgRTKIxalDih7iHzpywEySr9EQib0imytn/gprBsYsNHwPMJxdg2XD+lpDuBWvti
-         BbKr2Tk7e9KZJmY9ib0Nm3Wt8o7LlKIwoDJJDx3UcJX7VQ4m6gyQVsx7SK97OYLYxK
-         l58gDt3aHfPDxDQZmmpxi5KpR+LOn9dOcQ2yRCTo=
-Date:   Thu, 8 Dec 2022 14:57:45 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
+        Thu, 8 Dec 2022 23:47:05 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B310B7A1AF
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Dec 2022 20:47:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670561224; x=1702097224;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=TJZCju/5G4CWcDa77YQPIGOTw7IY+SE1KvZKoRltyd4=;
+  b=nSkRanc4nf+UI40DwIP2eIthJY2ZsR1UmvtrwEs1hcC9/8OLL9fzQLg3
+   InkMWDno6qCAoWpLLi2tyztN0+iZARu0hKEfKLdjRV4MKivQ9r824Wmhq
+   sV2R11YJ2Z37HheDpVAE5okjJFSn/fUYmJudsW2xlCSc/YaWvPQtWg24T
+   Ezd8djV4hPaMmrlvmd9qAUxwGNFRvfgnP9rlz6/vpQSRDBOGXPuZ7VOqz
+   UJ/VdRDKEUoMYhdyLsIGKlMY+bH7Once6dxFqNwtAn0ytPCo+t+nFOF+B
+   cJvjanVCwfwXh5nz+tUhQAgtO3mH4cMyDXDHwtsXCTWFFqpKTuXqhHp/P
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10555"; a="305021203"
+X-IronPort-AV: E=Sophos;i="5.96,230,1665471600"; 
+   d="scan'208";a="305021203"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2022 20:47:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10555"; a="647284075"
+X-IronPort-AV: E=Sophos;i="5.96,230,1665471600"; 
+   d="scan'208";a="647284075"
+Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 08 Dec 2022 20:47:03 -0800
+Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1p3VHq-0001cp-1f;
+        Fri, 09 Dec 2022 04:47:02 +0000
+Date:   Fri, 09 Dec 2022 12:46:56 +0800
+From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        David Gow <davidgow@google.com>, Arnd Bergmann <arnd@arndb.de>,
-        linux-kselftest@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] lib: Add Dhrystone benchmark test
-Message-Id: <20221208145745.a0424a67725f431a28737b6a@linux-foundation.org>
-In-Reply-To: <4d07ad990740a5f1e426ce4566fb514f60ec9bdd.1670509558.git.geert+renesas@glider.be>
-References: <4d07ad990740a5f1e426ce4566fb514f60ec9bdd.1670509558.git.geert+renesas@glider.be>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:topic/dhry-unsquashed] BUILD SUCCESS
+ 7a04f472a575cc4e9b640175f87ee0fef9bd230e
+Message-ID: <6392bdc0.bMGu4+PCq46d938F%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu,  8 Dec 2022 15:31:28 +0100 Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/dhry-unsquashed
+branch HEAD: 7a04f472a575cc4e9b640175f87ee0fef9bd230e  [WIP] lib: Add Dhrystone benchmark test to config/build system
 
-> Hence make the classical Dhrystone 2.1 benchmark available as a Linux
-> kernel test module, based on[1].
+elapsed time: 729m
 
-I can take a look at this after the merge window.
+configs tested: 72
+configs skipped: 2
 
-I'm not able to figure out the licensing of this. 
-https://netlib.org/benchmark/dhry-c appears to be silent on the topic?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+gcc tested configs:
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+arc                                 defconfig
+alpha                               defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+s390                             allmodconfig
+s390                                defconfig
+sh                               allmodconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+mips                             allyesconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+arc                  randconfig-r043-20221207
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
+s390                             allyesconfig
+x86_64                               rhel-8.3
+x86_64                           rhel-8.3-kvm
+x86_64                              defconfig
+riscv                randconfig-r042-20221207
+s390                 randconfig-r044-20221207
+x86_64                           allyesconfig
+i386                                defconfig
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+x86_64                          rhel-8.3-rust
+x86_64                    rhel-8.3-kselftests
+x86_64                          rhel-8.3-func
+ia64                             allmodconfig
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                             allyesconfig
+i386                          randconfig-a005
+arm                                 defconfig
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+x86_64                            allnoconfig
+arm64                            allyesconfig
+arm                              allyesconfig
+i386                          debian-10.3-kvm
+i386                        debian-10.3-kunit
+i386                         debian-10.3-func
+i386                          randconfig-c001
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+
+clang tested configs:
+arm                  randconfig-r046-20221207
+hexagon              randconfig-r041-20221207
+hexagon              randconfig-r045-20221207
+x86_64                        randconfig-a014
+x86_64                        randconfig-a012
+x86_64                        randconfig-a016
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a013
+i386                          randconfig-a006
+i386                          randconfig-a011
+i386                          randconfig-a015
+x86_64                        randconfig-k001
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
