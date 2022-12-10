@@ -2,171 +2,266 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26439648E17
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Dec 2022 11:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55807648E1B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Dec 2022 11:21:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbiLJKSg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 10 Dec 2022 05:18:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42168 "EHLO
+        id S229548AbiLJKVU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 10 Dec 2022 05:21:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbiLJKSf (ORCPT
+        with ESMTP id S229560AbiLJKVT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 10 Dec 2022 05:18:35 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FE8A22508;
-        Sat, 10 Dec 2022 02:18:34 -0800 (PST)
-From:   Kurt Kanzenbach <kurt@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1670667511;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ty5wsGimI0tKO4tCsLTXg96lpBlywCG0/ZSuieeSBNw=;
-        b=z4YFhF/4tnkRVvjv/OClKIp/5pRw40DctYX83xCGrgIVgpabgHlXlTO5MirwipzH98lhqq
-        TRfavDq5zBiKwzwECYHlNm4VaCLNmUN1b1bW2ANkG5tjxuI1WDNw/3hUbmDLYchO+NWExq
-        /+3sUjxrNzDQfycwHZwbD91gSij7fOeJFvyn7ln/dCNjNhks8vJOYuuWCfFrSY3aOHuDLe
-        F8bgvPKrR6Z7NmjSO/5N6yGn/Lb3AWNxjltqgMp4kDTB9DkRhihJdiQquseUAod/KyHDkx
-        0GjMt/1BCftpv/mLax/KKu+NUOssKiFz61elqq05VLC9u0wmg6ywK2IuijQHAg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1670667511;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ty5wsGimI0tKO4tCsLTXg96lpBlywCG0/ZSuieeSBNw=;
-        b=jUtHSXMT5MAJkecXlOrwudnyd6w97zyYvKRhYfEB1n79hLqdxZKcSt/HHrjSvQ/K6el/g/
-        RKMDdW7Dcwyd1OCA==
-To:     Colin Foster <colin.foster@in-advantage.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, netdev@vger.kernel.org
-Cc:     John Crispin <john@phrozen.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Marek Vasut <marex@denx.de>,
-        Sean Wang <sean.wang@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        =?utf-8?B?bsOnIMOcTkFM?= <arinc.unal@arinc9.com>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        =?utf-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>,
-        Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        UNGLinuxDriver@microchip.com,
-        Woojung Huh <woojung.huh@microchip.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        George McCollister <george.mccollister@gmail.com>
-Subject: Re: [PATCH v5 net-next 01/10] dt-bindings: dsa: sync with maintainers
-In-Reply-To: <20221210033033.662553-2-colin.foster@in-advantage.com>
-References: <20221210033033.662553-1-colin.foster@in-advantage.com>
- <20221210033033.662553-2-colin.foster@in-advantage.com>
-Date:   Sat, 10 Dec 2022 11:18:29 +0100
-Message-ID: <87o7sbh896.fsf@kurt>
+        Sat, 10 Dec 2022 05:21:19 -0500
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6A15D22532;
+        Sat, 10 Dec 2022 02:21:18 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.96,232,1665414000"; 
+   d="scan'208";a="145700182"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 10 Dec 2022 19:21:17 +0900
+Received: from localhost.localdomain (unknown [10.226.92.39])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id B98844007207;
+        Sat, 10 Dec 2022 19:21:13 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     "Rob Herring" <robh+dt@kernel.org>,
+        "Philipp Zabel" <p.zabel@pengutronix.de>,
+        "Daniel Lezcano" <daniel.lezcano@linaro.org>,
+        "William Breathitt Gray" <william.gray@linaro.org>,
+        "Thierry Reding" <thierry.reding@gmail.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v8 0/5] Add RZ/G2L MTU3a Core, Counter and pwm driver
+Date:   Sat, 10 Dec 2022 10:21:05 +0000
+Message-Id: <20221210102110.443043-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha512; protocol="application/pgp-signature"
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
+the Renesas RZ/G2L family SoC's. It consists of eight 16-bit timer
+channels and one 32-bit timer channel. It supports the following
+functions
+ - Counter
+ - Timer
+ - PWM
 
-On Fri Dec 09 2022, Colin Foster wrote:
-> The MAINTAINERS file has Andrew Lunn, Florian Fainelli, and Vladimir Olte=
-an
-> listed as the maintainers for generic dsa bindings. Update dsa.yaml and
-> dsa-port.yaml accordingly.
->
-> Signed-off-by: Colin Foster <colin.foster@in-advantage.com>
-> Suggested-by: Vladimir Oltean <olteanv@gmail.com>
->
-> ---
->
-> v5
->   * New patch
->
-> ---
->  Documentation/devicetree/bindings/net/dsa/dsa-port.yaml | 2 +-
->  Documentation/devicetree/bindings/net/dsa/dsa.yaml      | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/net/dsa/dsa-port.yaml b/Do=
-cumentation/devicetree/bindings/net/dsa/dsa-port.yaml
-> index 9abb8eba5fad..2b8317911bef 100644
-> --- a/Documentation/devicetree/bindings/net/dsa/dsa-port.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/dsa-port.yaml
-> @@ -9,7 +9,7 @@ title: Ethernet Switch port Device Tree Bindings
->  maintainers:
->    - Andrew Lunn <andrew@lunn.ch>
->    - Florian Fainelli <f.fainelli@gmail.com>
-> -  - Vivien Didelot <vivien.didelot@gmail.com>
-> +  - Vladimir Oltean <olteanv@gmail.com>
->=20=20
->  description:
->    Ethernet switch port Description
-> diff --git a/Documentation/devicetree/bindings/net/dsa/dsa.yaml b/Documen=
-tation/devicetree/bindings/net/dsa/dsa.yaml
-> index b9d48e357e77..5efc0ee8edcb 100644
-> --- a/Documentation/devicetree/bindings/net/dsa/dsa.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/dsa.yaml
-> @@ -9,7 +9,7 @@ title: Ethernet Switch Device Tree Bindings
->  maintainers:
->    - Andrew Lunn <andrew@lunn.ch>
->    - Florian Fainelli <f.fainelli@gmail.com>
-> -  - Vivien Didelot <vivien.didelot@gmail.com>
-> +  - Vladimir Oltean <olteanv@gmail.com>
+This patch series aims to add core, counter and pwm driver for
+MTU3a. The core instantiates child devices using mfd api.
 
-You can update the hellcreek binding as well. Thanks.
+The 8/16/32 bit registers are mixed in each channel. The HW
+specifications of the IP is described in patch#1.
 
-diff --git a/Documentation/devicetree/bindings/net/dsa/hirschmann,hellcreek=
-.yaml b/Documentation/devicetree/bindings/net/dsa/hirschmann,hellcreek.yaml
-index 73b774eadd0b..1d7dab31457d 100644
-=2D-- a/Documentation/devicetree/bindings/net/dsa/hirschmann,hellcreek.yaml
-+++ b/Documentation/devicetree/bindings/net/dsa/hirschmann,hellcreek.yaml
-@@ -12,7 +12,7 @@ allOf:
- maintainers:
-   - Andrew Lunn <andrew@lunn.ch>
-   - Florian Fainelli <f.fainelli@gmail.com>
-=2D  - Vivien Didelot <vivien.didelot@gmail.com>
-+  - Vladimir Oltean <olteanv@gmail.com>
-   - Kurt Kanzenbach <kurt@linutronix.de>
-=20
- description:
+Current patch set is tested for PWM mode1 on MTU3 channel
+and 16 and 32 bit phase counting modes on MTU1 and MTU2 channels.
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+clock event driver will be added later for system wakeup during CPU
+idle.
 
------BEGIN PGP SIGNATURE-----
+Ref:
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221010145222.1047748-2-biju.das.jz@bp.renesas.com/
 
-iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmOUXPUTHGt1cnRAbGlu
-dXRyb25peC5kZQAKCRDBk9HyqkZzgrQFD/4qzANLVIDNmAXq6YHaa1ML5D21go2L
-PrwddcGJRfn4INzwchv05dIML2gtqasZ6ug1NTpJ8ypmod396M/i/J62taZ7TEM/
-9DK9rARUgAUdXCeM95tdlV6pmA6M46Sf7iYYH/enczZNkTZI/qCQrRN/4qDq+WAs
-MVRNX4++Qw3ytahvNXrzlDrKoDY4N0NqpJ7kPyWvwqo5dSpAAlLKWhASXvh3qrae
-6ObFLssKhEFIfKNErR6iQdcqOREGRH/LJyKX4u7m/CNGDBz5x6riMDMOh5Rih1LG
-qeEZ7gJoTsISVySHQgJ58EU2LNdPpbr8y+DEFgDpxjnXDCW90vPzCxu9kbi8jwIR
-XrHaRTDagP+IQB4aOpbbxLpNHwa3yuYjSF0A1N7keXWWG9koyXU5MOruMOnveyXh
-O7Eu/47wTx8lY5i5n2Tbd3I/6i6zmTmVogL5RBjml9RgZvDuKi2Gmu/IFCdXVNEw
-6/uBpkTepOHRyhOOZbIcWfZX3hqeC6THGwHAf1pJHSsCTGDwFBWJ/z13wSa9ZBDI
-2OZGCV37dYLLxgLXbz4KOTNzUsTwlIztDZklGfEyHoHtqX7UdFuzlzL1+3Di0yHB
-zjpvFphD8FMokYY8pOfsyz5k5CpqXJISAZ15INvc5FUX6upDS8xGNGi5AJfZ71XR
-OvYRLoO2PCLRuA==
-=ti3Q
------END PGP SIGNATURE-----
---=-=-=--
+v7->v8:
+ * Add locking for RMW on rz_mtu3_shared_reg_update_bit()
+ * Replaced enum rz_mtu3_functions with channel busy flag
+ * Added API for request and release a channel.
+ * Replaced cascade_enable->cascade_counts_enable
+ * Updated commit header and description
+ * Added external_input_phase_clock_select_available entry for driver-
+   specific enum attribute and created a new entry block for it.
+ * Add a line stating cascade_counts_enable is a boolean attribute.
+ * Added missing 'component_id' suffix.
+ * Simplified rz_mtu3_initialize_counter by calling rz_mtu3_request_
+   channel() and release the acquired sibling channel in case of error.
+ * Simplified rz_mtu3_terminate_counter by calling rz_mtu3_release_
+   channel().
+ * Removed unused ceiling and ch_id from rz_mtu3_count_write()
+ * Replaced the error -EINVAL->-EBUSY for rz_mtu3_is_counter_invalid()
+ * Avoided race between rz_mtu3_count_{read, write} with rz_mtu3_
+   cascade_counts_enable_set() by adding locks and moved the lock
+   before rz_mtu3_is_counter_invalid()
+ * Protected the rz_mtu3_count_ceiling_read() function with a lock
+   to make sure the cascade operation mode doesn't not change and
+   that the priv data structure accesses don't race when they are
+   changed in the ceiling_write() callback.
+ * Added lock in rz_mtu3_cascade_enable_set() to make sure the other
+   callbacks don't try to read the LWA state while updating LWA.
+ * Added lock in rz_mtu3_ext_input_phase_clock_select_set() to ensure
+   the other callbacks don't try to read the PHCKSEL state while updating
+   PHCKSEL.
+ * Added lock to avoid race between rz_mtu3_count_function_write() and
+   rz_mtu3_action_read()
+ * Updated rz_mtu3_action_read to return 0, if Synapse is in COUNTER_SYNAPSE
+   _ACTION_NONE state.
+ * Replaced sysfs variable cascade_enable->cascade_counts_enable
+ * Renamed rz_mtu3_cascade_enable_get->rz_mtu3_cascade_counts_enable_get
+ * Renamed rz_mtu3_cascade_enable_set->rz_mtu3_cascade_counts_enable_set
+ * Removed redundent ceiling assignment from rz_mtu3_count_ceiling_read()
+ * Removed unused ceiling and ch_id from rz_mtu3_count_write().
+ * Simplified rz_mtu3_pwm_request by calling rz_mtu3_request_channel()
+ * Simplified rz_mtu3_pwm_free by calling rz_mtu3_release_channel()
+v6->v7:
+ * Added channel specific mutex to avoid races between child devices
+   (for eg: pwm and counter).
+ * Added rz_mtu3_shared_reg_update_bit() to update bits.
+ * Replaced sysfs variable "long_word_access_ctrl_mode->cascade_enable"
+ * Updated Kernel version in sysfs Documentation
+ * Updated commit description for counter driver
+ * Added Register descriptions
+ * Opimized size of cache variable by using union
+ * Used test_bit() in rz_mtu3_is_counter_invalid()
+ * Replaced val->timer_mode in rz_mtu3_count_function_{read,write}
+ * Added TODO comment phase3 and phase5 modes.
+ * replaced if-else with ternary expression in rz_mtu3_count_direction_read()
+ * Used switch statement in rz_mtu3_count_ceiling_read to consistent with write
+ * Provided default case for all switch statements.
+ * Add mutex lock for avoiding races with other devices and counter
+ * Updated comments in rz_mtu3_action_read()
+ * Replaced COUNTER_COMP_DEVICE_BOOL->COUNTER_COMP_DEVICE_BOOL for 
+   cascade_enable
+ * Replaced RZ_MTU3_GET_HW_CH->rz_mtu3_get_hw_ch
+ * Added rz_mtu3_get_ch() to get channels
+ * used rz_mtu3_shared_reg_update_bit for cascade_enable and
+   selecting phase input clock.
+ * Added rz_mtu3_is_counter_invalid() check in rz_mtu3_count_ceiling_read()
+ * Added channel specific mutex lock to avoid race between counter
+   device and rz_mtu3_pwm_{request,free}
+ * Added pm_runtime_resume_and_get in rz_mtu3_pwm_enable()
+ * Added pm_runtime_put_sync in rz_mtu3_pwm_disable()
+ * Updated rz_mtu3_pwm_config()
+ * Updated rz_mtu3_pwm_apply()
+v5->v6:
+ * Added Rb tag from Rob and Krzysztof for the binding patch.
+ * Updated commit and KConfig description for the driver patches
+ * Selected MFD_CORE to avoid build error if CONFIG_MFD_CORE not set.
+ * Improved error handling in core driver's probe().
+ * Fixed RZ_MTU3_GET_HW_CH Macro for argument reuse 'id' - 
+   possible side-effects?
+ * Replaced SET_RUNTIME_PM_OPS->DEFINE_RUNTIME_DEV_PM_OPS and removed
+   __maybe_unused from suspend/resume()
+ * Replaced dev_get_drvdata from rz_mtu3_pwm_pm_disable()
+ * Sorted header files for all driver files.
+v4->v5:
+ * Modelled as timer bindings.
+ * Fixed the typo in bindings.
+ * Moved core driver from MFD to timer
+ * Child devices instatiated using mfd_add_devices()
+ * Documented sysfs entries external_input_phase_clock_select and
+   long_word_access_ctrl_mode.
+ * Updated the Kconfig with SoC vendor name
+ * Introduced rz_mtu3_is_counter_invalid()
+ * replaced pointer to an array of struct rz_mtu3_channel with
+   a simple pointer to struct rz_mtu3_channel.
+ * Added long_word_access_ctrl_mode sysfs entry for 16-bit and
+   32-bit access
+ * Added external_input_phase_clock_select sysfs entry for
+   selecting input clocks.
+ * used preprocessor defines represent SIGNAL_{A,B,C,D}_ID instead of
+   signal ids.
+v3->v4:
+ * Dropped counter and pwm compatibeles as they don't have any resources.
+ * Made rz-mtu3 as pwm provider.
+ * Updated the example and description.
+ * A single driver that registers both the counter and the pwm functionalities
+   that binds against "renesas,rz-mtu3".
+ * Moved PM handling from child devices to here.
+ * replaced include/linux/mfd/rz-mtu3.h->drivers/mfd/rz-mtu3.h
+ * Removed "remove" callback from mfd driver
+ * There is no resource associated with "rz-mtu3-counter" and "rz-mtu3-pwm"
+   compatible and moved the code to mfd subsystem as it binds against "rz-mtu".
+ * Removed struct platform_driver rz_mtu3_cnt_driver.
+ * Removed struct platform_driver rz_mtu3_pwm_driver.
+ * Updated commit description
+ * Updated Kconfig description
+ * Added macros RZ_MTU3_16_BIT_MTU{1,2}_CH for MTU1 and MTU2 channels
+ * Added RZ_MTU3_GET_HW_CH macro for getting channel ID.
+ * replaced priv->ch[id]->priv->ch[0] in rz_mtu3_count_read()
+ * Cached counter max values
+ * replaced cnt->tsr in rz_mtu3_count_direction_read()
+ * Added comments for RZ_MTU3_TCR_CCLR_NONE
+ * Replaced if with switch in rz_mtu3_initialize_counter() and
+   rz_mtu3_count_ceiling_write()
+ * Added locks in initialize, terminate and enable_read to prevent races.
+ * Updated rz_mtu3_action_read to take care of MTU2 signals.
+ * Added separate distinct array for each group of Synapse.
+ * Moved pm handling to parent.
+v2->v3:
+ * Dropped counter bindings and integrated with mfd as it has only one property.
+ * Removed "#address-cells" and "#size-cells" as it do not have children with
+   unit addresses.
+ * Removed quotes from counter and pwm.
+ * Provided full path for pwm bindings.
+ * Updated the binding example.
+ * removed unwanted header files
+ * Added LUT for 32 bit registers as it needed for 32-bit cascade counting.
+ * Exported 32 bit read/write functions.
+ * Modelled as a counter device supporting 3 counters(2 16-bit and 
+   32-bit)
+ * Add kernel-doc comments to document struct rz_mtu3_cnt
+ * Removed mmio variable from struct rz_mtu3_cnt
+ * Removed cnt local variable from rz_mtu3_count_read()
+ * Replaced -EINVAL->-ERANGE for out of range error conditions.
+ * Removed explicit cast from write functions.
+ * Removed local variable val from rz_mtu3_count_ceiling_read()
+ * Added lock for RMW for counter/ceiling updates.
+ * Added different synapses for counter0 and counter{1,2}
+ * Used ARRAY for assigning num_counts.
+ * Added PM runtime for managing clocks.
+ * Add MODULE_IMPORT_NS(COUNTER) to import the COUNTER namespace.
+
+RFC->v2:
+ * replaced devm_reset_control_get->devm_reset_control_get_exclusive
+ * Dropped 'bindings' from the binding title
+ * Updated the binding example
+ * Added additionalProperties: false for counter bindings
+ * Squashed all the binding patches
+ * Modelled as a single counter device providing both 16-bit
+   and 32-bit phase counting modes
+ * Modelled as a single pwm device for supporting different pwm modes.
+ * Moved counter and pwm bindings to respective subsystems.
+
+Biju Das (5):
+  dt-bindings: timer: Document RZ/G2L MTU3a bindings
+  clocksource/drivers: Add Renesas RZ/G2L MTU3a core driver
+  Documentation: ABI: sysfs-bus-counter: add cascade_counts_enable and
+    external_input_phase_clock_select
+  counter: Add Renesas RZ/G2L MTU3a counter driver
+  pwm: Add Renesas RZ/G2L MTU3a PWM driver
+
+ Documentation/ABI/testing/sysfs-bus-counter   |  25 +
+ .../bindings/timer/renesas,rz-mtu3.yaml       | 302 +++++++
+ drivers/clocksource/Kconfig                   |  11 +
+ drivers/clocksource/Makefile                  |   1 +
+ drivers/clocksource/rz-mtu3.c                 | 459 ++++++++++
+ drivers/counter/Kconfig                       |  11 +
+ drivers/counter/Makefile                      |   1 +
+ drivers/counter/rz-mtu3-cnt.c                 | 793 ++++++++++++++++++
+ drivers/pwm/Kconfig                           |  11 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-rz-mtu3.c                     | 468 +++++++++++
+ include/clocksource/rz-mtu3.h                 | 237 ++++++
+ 12 files changed, 2320 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
+ create mode 100644 drivers/clocksource/rz-mtu3.c
+ create mode 100644 drivers/counter/rz-mtu3-cnt.c
+ create mode 100644 drivers/pwm/pwm-rz-mtu3.c
+ create mode 100644 include/clocksource/rz-mtu3.h
+
+-- 
+2.25.1
+
