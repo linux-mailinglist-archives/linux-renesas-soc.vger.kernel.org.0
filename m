@@ -2,194 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83B37649646
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Dec 2022 21:36:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0071B649694
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Dec 2022 22:59:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230344AbiLKUgc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 11 Dec 2022 15:36:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36954 "EHLO
+        id S229475AbiLKV7I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 11 Dec 2022 16:59:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbiLKUgb (ORCPT
+        with ESMTP id S229471AbiLKV7I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 11 Dec 2022 15:36:31 -0500
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F19659FCE
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Dec 2022 12:36:29 -0800 (PST)
-Received: by mail-qv1-xf31.google.com with SMTP id pp21so6200541qvb.5
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Dec 2022 12:36:29 -0800 (PST)
+        Sun, 11 Dec 2022 16:59:08 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD805626B;
+        Sun, 11 Dec 2022 13:59:06 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id y16so10283202wrm.2;
+        Sun, 11 Dec 2022 13:59:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9vG+5rr9tS7KMp34Zo+sRtclbrynw/kq0IjiPJ9285U=;
-        b=Eet1IO2GXAb9+/ZLZ4/qqchJjru43+Luj++NAsNW6cjo+jBz8YwRp0AaOQEnND/Tbw
-         7t16Is2s+p/2aRcFwEI7C9iCXiW18YtQcVVyni+FysSqpih9C3aGhECwV/pS8MawbXbq
-         QHrYWdK9UsO0EyIXxLrUk/1t9FgDtCesXAsO43bnNA/gaKqFWs3l7mwpKBXES4xCM2L1
-         7GhuELgszR2zpHJejbaO7+Q1AjIIXo//wTmyszWeSVtZ0tgX28eF9yXEyr/XFiXqJA26
-         qHgoVimQahUdOm4NyFbkRuqt4VoFhImi3RlPG0lmKoTnXmdydFlm3mukCrX/4eZ1cauQ
-         9W7w==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JKRcNZrnRBXI6gdczXEvStlv0bgBFdRbawYdiqFnDic=;
+        b=qMCp2f/b7bmqXALk27j2TWuJHAWZDNTd+W7BajyQM5RMTc3Nod1YejLJftHGO70kSc
+         gyaAJrfaIuE8pO5m69fHWqN9Hi3yRLGpRS7HO4vdYBaFvxYMtJTKhkOb4X/hWc0cVEPS
+         SrDi1v+2Rt9bjSRQehEdHL9vCsTs9NLN3iNNTmLf4Ir/DpDKThQ4JaVXo1ixRmrDG6Jo
+         dgmrLfA2URXcuPaeDwPZy68GlowofdhFCipzFb+Xs6J9ltMCo5O8ocRuP9s176mvc5Ic
+         j/hvMfbHSW0ylZniUJqSgaVEX3a6aCFBv5Daw3KQzqqqk+YNQBBiSB/vcKazRz3LIX4L
+         X3tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9vG+5rr9tS7KMp34Zo+sRtclbrynw/kq0IjiPJ9285U=;
-        b=bOy4MPCJPdrrXQ2h0ZAh5p6bEgRmoR6rOx/L52UMaEfmJXvinAa5eatHO1BzOkezO6
-         mT2l7v7wb8Mj1i0Be5TZzYlPjG4NnAAklY92QryLwLwAxRmi+YLw7DJl2ZofykDp5G8g
-         JlyPFdI1xyguMMaLE4Ur7DIjaVP1F+hJvplNFuWNd8dGUnDRcviqn5zBLmyKWl+utcCF
-         UkgGT3yON6bC1jB4komAy/VptQPF+bEXwS0LTuDxj8FH3z0/AQJcsmtwzUyj5+kAH/AK
-         Llvvno9RjUkrCDXf2M4hYKQfxBkSJW3ct9CSaHSZqSfGWazc9NTW1Eo1Y9j5EW0Vu/ar
-         rlVQ==
-X-Gm-Message-State: ANoB5pkkRSYMewVZ0q92fxRgu07p8eq2g4gk18VuusHMG6Wgyu8L5qAc
-        DrQSGW2bNk6UICug5m2mxspdvA==
-X-Google-Smtp-Source: AA0mqf5aGG11Z3W6tnoD/LRxhe/5ligFDMRFx7UARA4dyT3VRPU6u/sJmOLcTg8Rs58MZDSsEB7AOg==
-X-Received: by 2002:a0c:aa09:0:b0:4c6:b65d:599a with SMTP id d9-20020a0caa09000000b004c6b65d599amr17016547qvb.35.1670790988996;
-        Sun, 11 Dec 2022 12:36:28 -0800 (PST)
-Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
-        by smtp.gmail.com with ESMTPSA id w4-20020a05620a424400b006a6ebde4799sm4515064qko.90.2022.12.11.12.36.27
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JKRcNZrnRBXI6gdczXEvStlv0bgBFdRbawYdiqFnDic=;
+        b=OrM+oFTPjJEqilaRZEKQZP5H0kQqRxWAK4JKoFY9oJgNEyNU2IM+bBHaHJLnkgwmXd
+         MXRulH8agbgBFMHVh+uoyv2eFLiSt0KbcfVzGe3ABsJxKz+/sZmD4B9EfJhgvB0YMwSu
+         yPxBK7KwIx3v1clrwlrCotv7hgivbQNYHt6eb7GOaAVBW1ibLqSFe4ibahax0g2gtxdn
+         K5besOIc1FJHe5rsJWFD88oDVRiCvT3En501e1H9XljSCO7e+uDoPjZNOwRRqS1xWVFg
+         OSZNfD2L4FBkDdos5F3ILTr93L4nZO+yTv8N9LOGu0OKDh1vX3ns0xciO1T/voZ5hroe
+         Ww9g==
+X-Gm-Message-State: ANoB5plwhe8l8jkYOniMkMXmci1sN+9iARDEA/0GAZWT4l8VzpGFKIJG
+        EKikonOKql6z+Pd6mGB3HGI=
+X-Google-Smtp-Source: AA0mqf5aS27OreQX1/iLkZTDb0d9OUSWQWpl6lUa72cwg1AhquW/4YxnLPlQPX74aChmY86k4otqtQ==
+X-Received: by 2002:adf:f645:0:b0:242:1e1f:2d89 with SMTP id x5-20020adff645000000b002421e1f2d89mr8382959wrp.60.1670795945335;
+        Sun, 11 Dec 2022 13:59:05 -0800 (PST)
+Received: from prasmi.home ([2a00:23c8:2501:c701:1484:ef11:b25c:4612])
+        by smtp.gmail.com with ESMTPSA id z9-20020a5d4c89000000b0022cc3e67fc5sm7042542wrs.65.2022.12.11.13.59.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Dec 2022 12:36:28 -0800 (PST)
-Date:   Sun, 11 Dec 2022 11:38:12 -0500
-From:   William Breathitt Gray <william.gray@linaro.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     linux-iio@vger.kernel.org,
+        Sun, 11 Dec 2022 13:59:04 -0800 (PST)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v8 4/5] counter: Add Renesas RZ/G2L MTU3a counter driver
-Message-ID: <Y5YHdKvn6AY0o9Gc@fedora>
-References: <20221210102110.443043-1-biju.das.jz@bp.renesas.com>
- <20221210102110.443043-5-biju.das.jz@bp.renesas.com>
+        Conor Dooley <conor.dooley@microchip.com>,
+        Heiko Stuebner <heiko@sntech.de>
+Cc:     linux-riscv@lists.infradead.org, Anup Patel <anup@brainfault.org>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [RFC PATCH] clocksource/drivers/riscv: Get rid of clocksource_arch_init() callback
+Date:   Sun, 11 Dec 2022 21:58:43 +0000
+Message-Id: <20221211215843.24024-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="tcAAV/t5wr+DAqmn"
-Content-Disposition: inline
-In-Reply-To: <20221210102110.443043-5-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DATE_IN_PAST_03_06,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
---tcAAV/t5wr+DAqmn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Having a clocksource_arch_init() callback always sets vdso_clock_mode to
+VDSO_CLOCKMODE_ARCHTIMER if GENERIC_GETTIMEOFDAY is enabled, this is
+required for the riscv-timer.
 
-On Sat, Dec 10, 2022 at 10:21:09AM +0000, Biju Das wrote:
-> Add RZ/G2L MTU3a counter driver. This IP supports the following
-> phase counting modes on MTU1 and MTU2 channels
->=20
-> 1) 16-bit phase counting modes on MTU1 and MTU2 channels.
-> 2) 32-bit phase counting mode by cascading MTU1 and MTU2 channels.
->=20
-> This patch adds 3 counter value channels.
-> 	count0: 16-bit phase counter value channel on MTU1
-> 	count1: 16-bit phase counter value channel on MTU2
-> 	count2: 32-bit phase counter value channel by cascading
->                 MTU1 and MTU2 channels.
->=20
-> The external input phase clock pin for the counter value channels
-> are as follows:
-> 	count0: "MTCLKA-MTCLKB"
-> 	count1: "MTCLKA-MTCLKB" or "MTCLKC-MTCLKD"
-> 	count2: "MTCLKA-MTCLKB" or "MTCLKC-MTCLKD"
->=20
-> Use the sysfs variable "external_input_phase_clock_select" to select the
-> external input phase clock pin and "cascade_counts_enable" to enable/
-> disable cascading of channels.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+This works for platforms where just riscv-timer clocksource is present.
+On platforms where other clock sources are available we want them to
+register with vdso_clock_mode set to VDSO_CLOCKMODE_NONE.
 
-Hi Biju,
+On the Renesas RZ/Five SoC OSTM block can be used as clocksource [0], to
+avoid multiple clock sources being registered as VDSO_CLOCKMODE_ARCHTIMER
+move setting of vdso_clock_mode in the riscv-timer driver instead of doing
+this in clocksource_arch_init() callback as done similarly for ARM/64
+architecture.
 
-I see you use rz_mtu3_request_channel()/rz_mtu3_release_channel() to
-share access to the channels between the drivers. The Counter sysfs
-attributes can still be accessed when a channel is released, so should
-ch->is_busy be checked before every Counter callback to ensure we do not
-try to access a busy channel?
+[0] drivers/clocksource/renesas-ostm.c
 
-> +static inline struct rz_mtu3_channel *
-> +rz_mtu3_get_ch(struct counter_device *counter, int id)
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ arch/riscv/Kconfig                | 1 -
+ arch/riscv/kernel/time.c          | 9 ---------
+ drivers/clocksource/timer-riscv.c | 7 +++++++
+ 3 files changed, 7 insertions(+), 10 deletions(-)
 
-I'm not sure why this is split between two lines but you can put it all
-on one.
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index 7ea12de636bd..b269e062c1b1 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -12,7 +12,6 @@ config 32BIT
+ 
+ config RISCV
+ 	def_bool y
+-	select ARCH_CLOCKSOURCE_INIT
+ 	select ARCH_ENABLE_HUGEPAGE_MIGRATION if HUGETLB_PAGE && MIGRATION
+ 	select ARCH_ENABLE_SPLIT_PMD_PTLOCK if PGTABLE_LEVELS > 2
+ 	select ARCH_HAS_BINFMT_FLAT
+diff --git a/arch/riscv/kernel/time.c b/arch/riscv/kernel/time.c
+index 8217b0f67c6c..42bee305e997 100644
+--- a/arch/riscv/kernel/time.c
++++ b/arch/riscv/kernel/time.c
+@@ -30,12 +30,3 @@ void __init time_init(void)
+ 	of_clk_init(NULL);
+ 	timer_probe();
+ }
+-
+-void clocksource_arch_init(struct clocksource *cs)
+-{
+-#ifdef CONFIG_GENERIC_GETTIMEOFDAY
+-	cs->vdso_clock_mode = VDSO_CLOCKMODE_ARCHTIMER;
+-#else
+-	cs->vdso_clock_mode = VDSO_CLOCKMODE_NONE;
+-#endif
+-}
+diff --git a/drivers/clocksource/timer-riscv.c b/drivers/clocksource/timer-riscv.c
+index 969a552da8d2..7ec9668cd36d 100644
+--- a/drivers/clocksource/timer-riscv.c
++++ b/drivers/clocksource/timer-riscv.c
+@@ -29,6 +29,12 @@
+ 
+ static DEFINE_STATIC_KEY_FALSE(riscv_sstc_available);
+ 
++#ifdef CONFIG_GENERIC_GETTIMEOFDAY
++static enum vdso_clock_mode vdso_default = VDSO_CLOCKMODE_ARCHTIMER;
++#else
++static enum vdso_clock_mode vdso_default = VDSO_CLOCKMODE_NONE;
++#endif /* CONFIG_GENERIC_GETTIMEOFDAY */
++
+ static int riscv_clock_next_event(unsigned long delta,
+ 		struct clock_event_device *ce)
+ {
+@@ -158,6 +164,7 @@ static int __init riscv_timer_init_dt(struct device_node *n)
+ 		return -ENODEV;
+ 	}
+ 
++	riscv_clocksource.vdso_clock_mode = vdso_default;
+ 	pr_info("%s: Registering clocksource cpuid [%d] hartid [%lu]\n",
+ 	       __func__, cpuid, hartid);
+ 	error = clocksource_register_hz(&riscv_clocksource, riscv_timebase);
+-- 
+2.25.1
 
-> +static void rz_mtu3_32bit_cnt_setting(struct counter_device *counter, in=
-t id)
-
-It doesn't look like you're using the 'id' parameter in this function so
-you might as well remove it.
-
-> +	switch (id) {
-> +	case RZ_MTU3_16_BIT_MTU1_CH:
-> +	case RZ_MTU3_16_BIT_MTU2_CH:
-> +		if (!rz_mtu3_request_channel(ch))
-> +			return -EBUSY;
-> +
-> +		rz_mtu3_16bit_cnt_setting(counter, id);
-> +
-> +		break;
-> +	case RZ_MTU3_32_BIT_CH:
-> +		/*
-> +		 * 32-bit phase counting need MTU1 and MTU2 to create 32-bit
-> +		 * cascade counter.
-> +		 */
-> +		if (!rz_mtu3_request_channel(ch1))
-> +			return -EBUSY;
-> +
-> +		if (!rz_mtu3_request_channel(ch2)) {
-> +			rz_mtu3_release_channel(ch1);
-> +			return -EBUSY;
-> +		}
-> +
-> +		rz_mtu3_32bit_cnt_setting(counter, id);
-> +		break;
-> +	default:
-> +		/* should never reach this path */
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-
-Instead of the two 'break' statements in the switch block above, replace
-them both with 'return 0' and then you can get rid of this 'return 0'
-at the end.
-
-> +		if ((mtclkc_mtclkd && (synapse->signal->id =3D=3D SIGNAL_A_ID ||
-> +				       synapse->signal->id =3D=3D SIGNAL_B_ID)) ||
-> +		    (!mtclkc_mtclkd && (synapse->signal->id =3D=3D SIGNAL_C_ID ||
-> +					synapse->signal->id =3D=3D SIGNAL_D_ID))) {
-
-That's a lot of expressions to evaluate, so it's easy for someone to get
-lost in what's happening here. It'll be good to refactor by spinning off
-the signal check to a bool variable. For example:
-
-    const bool is_signal_ab =3D (synapse->signal->id =3D=3D SIGNAL_A_ID) ||
-                              (synapse->signal->id =3D=3D SIGNAL_B_ID);
-    ...
-    if ((mtclkc_mtclkd && is_signal_ab) ||
-        (!mtclkc_mtclkd && !is_signal_ab)) {
-            mutex_unlock(&priv->lock
-	    return 0;
-    }
-
-William Breathitt Gray
-
---tcAAV/t5wr+DAqmn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCY5YHdAAKCRC1SFbKvhIj
-K978AP4rlJF+CMEqeNhH0JEnBp+Uwnu8f52O3yHyerzIyFQc4wEA2FMTJn5KkCUa
-owLllJviCULXVTtnDRUaAqI3u7fwaQk=
-=P9x0
------END PGP SIGNATURE-----
-
---tcAAV/t5wr+DAqmn--
