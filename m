@@ -2,99 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 580BB64A5E8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Dec 2022 18:30:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 397F864A723
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Dec 2022 19:33:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232441AbiLLRax (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Dec 2022 12:30:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40598 "EHLO
+        id S233945AbiLLScf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Dec 2022 13:32:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232492AbiLLRan (ORCPT
+        with ESMTP id S232915AbiLLScG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Dec 2022 12:30:43 -0500
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7A2FF13DC2;
-        Mon, 12 Dec 2022 09:30:38 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.96,239,1665414000"; 
-   d="scan'208";a="143082801"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 13 Dec 2022 02:30:37 +0900
-Received: from localhost.localdomain (unknown [10.226.93.82])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6F691406F1F2;
-        Tue, 13 Dec 2022 02:30:35 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH 12/16] arm64: dts: renesas: r9a09g011: Add USB3 DRD and host nodes
-Date:   Mon, 12 Dec 2022 17:30:33 +0000
-Message-Id: <20221212173033.1278337-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 12 Dec 2022 13:32:06 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A71E717595;
+        Mon, 12 Dec 2022 10:30:00 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 88144611C2;
+        Mon, 12 Dec 2022 18:30:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1996CC433F1;
+        Mon, 12 Dec 2022 18:29:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670869800;
+        bh=BJzMWseu2TKrkWXTG3+oF/opcZitJC3uFEXLhD8p4dM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=iNfZF1XqOlvgflDZ5Y1E12KIZVnLW6mwFhm00J5W73WTT2k25U5hcbPzP0pMKbPUD
+         kvGGAgUZBlQroU09zGoRQyVe+theVsCvywgrBQMgCFiJzMn1626N1WvPa4FLFJLGQS
+         D7kCHk1llEQpgOMpN21x+/PTgYYaXsvZvQ6gHnqJNz6lPeFXaqPhgqp1BclTc0Bmat
+         cQWyHOhAmDssl/H5rXq7Qm5TY8IfT63qGeuIZcTRS/zJj0IE/QyQIQ1ZQRW8YsfZJV
+         v89T3p2Ceep0WuOU/CvtRpUav8zq/sLXNoPKqAMfVx0v/MvlIq565CPIXsLyza6J+8
+         xVHVOjiiDatjg==
+Date:   Mon, 12 Dec 2022 10:29:58 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Colin Foster <colin.foster@in-advantage.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        John Crispin <john@phrozen.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Marek Vasut <marex@denx.de>,
+        Sean Wang <sean.wang@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Alvin =?UTF-8?B?xaBpcHJhZ2E=?= <alsi@bang-olufsen.dk>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        UNGLinuxDriver@microchip.com,
+        Woojung Huh <woojung.huh@microchip.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Eric Dumazet <edumazet@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        George McCollister <george.mccollister@gmail.com>
+Subject: Re: [PATCH v5 net-next 00/10] dt-binding preparation for ocelot
+ switches
+Message-ID: <20221212102958.0948b360@kernel.org>
+In-Reply-To: <20221210033033.662553-1-colin.foster@in-advantage.com>
+References: <20221210033033.662553-1-colin.foster@in-advantage.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch add usb3 host node as child of usb3 drd node to
-RZ/V2M SoC dtsi. The host needs to issue reset release on DRD
-module before accessing host registers.
+On Fri,  9 Dec 2022 19:30:23 -0800 Colin Foster wrote:
+> Ocelot switches have the abilitiy to be used internally via
+> memory-mapped IO or externally via SPI or PCIe. This brings up issues
+> for documentation, where the same chip might be accessed internally in a
+> switchdev manner, or externally in a DSA configuration. This patch set
+> is perparation to bring DSA functionality to the VSC7512, utilizing as
+> much as possible with an almost identical VSC7514 chip.
+> 
+> This patch set changed quite a bit from v2, so I'll omit the background
+> of how those sets came to be. Rob offered a lot of very useful guidance.
+> My thanks.
+> 
+> At the end of the day, with this patch set, there should be a framework
+> to document Ocelot switches (and any switch) in scenarios where they can
+> be controlled internally (ethernet-switch) or externally (dsa-switch).
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a09g011.dtsi | 30 ++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-index 69c1ebc5e0dd..bad0b6b4bc3b 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-@@ -69,6 +69,36 @@ gic: interrupt-controller@82010000 {
- 			clock-names = "clk";
- 		};
- 
-+		usb3drd: usb@85070000 {
-+			compatible = "renesas,r9a09g011-usb3drd",
-+				     "renesas,rzv2m-usb3drd";
-+			reg = <0x0 0x85070000 0x0 0x1000>;
-+			clocks = <&cpg CPG_MOD R9A09G011_USB_ACLK_P>,
-+				 <&cpg CPG_MOD R9A09G011_USB_PCLK>;
-+			clock-names = "peri_axi", "apb";
-+			resets = <&cpg R9A09G011_USB_DRD_RESET>,
-+				 <&cpg R9A09G011_USB_ARESETN_P>;
-+			reset-names = "drd_reset", "aresetn_p";
-+			power-domains = <&cpg>;
-+			ranges;
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			status = "disabled";
-+
-+			usb3host: usb@85060000 {
-+				compatible = "renesas,r9a09g011-xhci",
-+					     "renesas,rzv2m-xhci";
-+				reg = <0 0x85060000 0 0x2000>;
-+				interrupts = <GIC_SPI 245 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&cpg CPG_MOD R9A09G011_USB_ACLK_H>,
-+					 <&cpg CPG_MOD R9A09G011_USB_PCLK>;
-+				clock-names = "host_axi", "reg";
-+				resets = <&cpg R9A09G011_USB_ARESETN_H>;
-+				power-domains = <&cpg>;
-+				status = "disabled";
-+			};
-+		};
-+
- 		avb: ethernet@a3300000 {
- 			compatible = "renesas,etheravb-r9a09g011","renesas,etheravb-rzv2m";
- 			reg = <0 0xa3300000 0 0x800>;
--- 
-2.25.1
-
+A lot of carried over review tags here, so please let me know if
+there's anything that needs to be reviewed here, otherwise I'd like 
+to merge the series for 6.2 by the end of the day.
