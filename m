@@ -2,177 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18DF064A7DD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Dec 2022 20:05:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F00364A96A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Dec 2022 22:18:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232871AbiLLTEI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Dec 2022 14:04:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50616 "EHLO
+        id S233238AbiLLVSr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Dec 2022 16:18:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233271AbiLLTDk (ORCPT
+        with ESMTP id S233574AbiLLVSV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Dec 2022 14:03:40 -0500
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2131.outbound.protection.outlook.com [40.107.94.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E72D13F7D;
-        Mon, 12 Dec 2022 11:03:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VCIJJOzZgTI6se0rUenmKuEJyxpp4RMTfMkMaPAglsM22BOjlRgOl11TCTRIGzeTlJ9vPmbfsu4xDHoK/jpNBgD0iOJShB/j13aW0wm52FjRGA3lBpUX6m2+XCPPaqNXgZUgsuIv1+kHoQ33g0Hme+t0f3WtUIyt3VrEiW7w4OErmHhsixTsJ/QYwDqzfCJwbsu6qTZVDIvwLFue8oO8ex/wrnJ15khu3xnFbjT8iQe5p8xsVdwgEZmvrpn51R2L+Rk3mfKytAWE/SvOlVDWwWIOYYkEWV97EI/tt9hQ4sH8XMMOa1fhasXHMbZaBmJSOIdqb4n5PmQPoEQHQp4vjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xmjJDiYArf/X/0pc3R36M4T7Q8PKtSoHxEoDFCztk94=;
- b=PL+/AXNNa50YW0O1++I9NYyNrJZFANipGo7IeKKWfi6HxSuI436fKfRGrjIB8RRqemHndvqNfit53MN0sS1guEi4biVIsz+7PIbbX3gUChRASV+oOmjnqQGPxPrct9rcxeLvC9hN19HGJAqC2f8mwoAznNnItCCw8cjnji+awD9pzT9y5VB1I1XKbsog26ooRENMGLo4PWw54Wv7004dFQxYZd37RbSp+lHrl3XoqVPXqAS7e4RIiNgZl5mC2qqwNnUSh7wmUL9LUXKB/RetrP+2lrbzpZNqJUNP646YTDlZsjYGMfCxPBbTotstU5gLKTqWqc0JIEx0C1GshRT2mQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=in-advantage.com; dmarc=pass action=none
- header.from=in-advantage.com; dkim=pass header.d=in-advantage.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=inadvantage.onmicrosoft.com; s=selector2-inadvantage-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xmjJDiYArf/X/0pc3R36M4T7Q8PKtSoHxEoDFCztk94=;
- b=wGcELf4+JMnGRhGAsJl5v0/yCDFucldIW3xLzFKbvJz/VadPVzUeY/JfaFazMaxdfx873+YDozFDuVpjL7h6qrRPDD7P3fFQvV3phZ3F1MXyoF8KdUMAghr42zKJiOYPPINcrRA2VRPN3WILCIWScpfwVft3/0uK6ywaz/6QAks=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=in-advantage.com;
-Received: from MWHPR1001MB2351.namprd10.prod.outlook.com
- (2603:10b6:301:35::37) by IA0PR10MB6746.namprd10.prod.outlook.com
- (2603:10b6:208:43e::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.19; Mon, 12 Dec
- 2022 19:03:15 +0000
-Received: from MWHPR1001MB2351.namprd10.prod.outlook.com
- ([fe80::45b5:a860:9cea:a74c]) by MWHPR1001MB2351.namprd10.prod.outlook.com
- ([fe80::45b5:a860:9cea:a74c%4]) with mapi id 15.20.5880.019; Mon, 12 Dec 2022
- 19:03:15 +0000
-Date:   Mon, 12 Dec 2022 11:03:09 -0800
-From:   Colin Foster <colin.foster@in-advantage.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, netdev@vger.kernel.org,
-        John Crispin <john@phrozen.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Marek Vasut <marex@denx.de>,
-        Sean Wang <sean.wang@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        UNGLinuxDriver@microchip.com,
-        Woojung Huh <woojung.huh@microchip.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        George McCollister <george.mccollister@gmail.com>
-Subject: Re: [PATCH v5 net-next 00/10] dt-binding preparation for ocelot
- switches
-Message-ID: <Y5d67SPMc/YCr0Rq@COLIN-DESKTOP1.localdomain>
-References: <20221210033033.662553-1-colin.foster@in-advantage.com>
- <20221212102958.0948b360@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+        Mon, 12 Dec 2022 16:18:21 -0500
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4807E9596;
+        Mon, 12 Dec 2022 13:17:43 -0800 (PST)
+Received: by mail-oi1-f172.google.com with SMTP id v82so12471874oib.4;
+        Mon, 12 Dec 2022 13:17:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=5i3OUjIfqgpyWppxSNZ/0sQhPXWrsfvFFv33+eGTUl4=;
+        b=xkdIkh01XL3IPla8T1y5AODCOrMR0+Dpcl7jQceuBqsaMXjkfuckMiVz3dqY8V1zbf
+         yVXKWLJkmXVsitAz818K4m5p9XtuNt25dU97mjr0P7cSM2HJqdnbqP5YqvKJ04/3Lel3
+         oSbyoV/K44XF/63RLSh3H6HmMfOzuYCQnnv/Wn7cyFAQQ37gfxG8dB8H6IQYhTLCGaXq
+         o6x1nEb0BFkYscmY97kaFXLsYZlhzKzZNlPF2XUOfMbp+wQby4OVD/BFNkYdXDrp8fN2
+         2GZrZuFuGM2cYkhJt1+tyYh8ujOAmZqya3OuQ1LmWzykLmaTabpoO4Y/sbiJ22EDiACA
+         Hm1g==
+X-Gm-Message-State: ANoB5plMNEiqTi1YnUduD4pN+fMWPSOr11AsJ3iajMFoEM74FMP0zY6t
+        S52NyOn1fgv8xn1Y8aIeXg==
+X-Google-Smtp-Source: AA0mqf4+AKSiMJMkNJ6/wMjadMR4/AaXI94WHnBBeADPelFXDpvkXG1yHfFrwDbRA398jUaokJufjw==
+X-Received: by 2002:a05:6808:a9c:b0:35c:1301:3ec6 with SMTP id q28-20020a0568080a9c00b0035c13013ec6mr6822938oij.28.1670879862511;
+        Mon, 12 Dec 2022 13:17:42 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id j11-20020a056808034b00b00354d8589a15sm3875940oie.45.2022.12.12.13.17.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Dec 2022 13:17:42 -0800 (PST)
+Received: (nullmailer pid 1545272 invoked by uid 1000);
+        Mon, 12 Dec 2022 21:17:41 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221212102958.0948b360@kernel.org>
-X-ClientProxiedBy: SJ0PR05CA0001.namprd05.prod.outlook.com
- (2603:10b6:a03:33b::6) To MWHPR1001MB2351.namprd10.prod.outlook.com
- (2603:10b6:301:35::37)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWHPR1001MB2351:EE_|IA0PR10MB6746:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb8050f0-071f-4e73-e0c8-08dadc738613
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eFOlNLbudeJmFiy5QmIgPQAaXprjmfzfJEoeNGFVNDIAssaMgk8KvI0/v47CmiDnzaKG0yf72g+ZR/xkw8+xceDCd21FxUJHeTwzuHLDGZ75f3xEqwDUs2WfebZZo8yFlQ2vOZXV90vmRALnYFucxCaXR6xY0JARVjkHNyJsD7ZLsoP5F5POTojw2I9OwtjiM97zrDuhYrqaUS476d3QcyAMDlbKZimEqg2Sm3/I2vV0UEO/wqE+yD2g4HsqLUMPEpGo04tcYIzLuk47e1s/4z+gpsYqXjh0IF74wgLf33ZjhrFlj+hMhO1Cw4x8h/4q6Goi6hPEJ1pfgaWu0pfAxGplN2jY9sBwAXzlDoj6nslcSrHnHjQ+a+hRBnyKqqZQiE8sOLngA/I+qinvLgZ7EALm5yYLjqExZMuqAPG5k8LbnfluM5Sdp6fPitk1B1cXfbTnNYVAWPMwBcPR5Ib8/ljGkfClvn+mJLDktcPF1ltnoZLihMKaz3ZBt/gnFfxn7nMdYsvUbSvHi96uk2JnMFn/GWm4amlSpPe4ghrTLt2YOZ+KCZh8NUsE5y97E7uan9hKy6ACTX7bQxsva85j3K/vG+pe2ewBPu09HvbSxfQ5qRGVtksdOOg+IxeHUzo5FE7ijLsWL+1RdoTaZZZT7w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2351.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(39830400003)(396003)(366004)(376002)(136003)(346002)(451199015)(66946007)(41300700001)(8936002)(38100700002)(8676002)(4326008)(66476007)(5660300002)(66556008)(7406005)(44832011)(7416002)(83380400001)(478600001)(6506007)(6486002)(6666004)(316002)(6916009)(54906003)(2906002)(9686003)(26005)(6512007)(66899015)(86362001)(186003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b0JXdzBTQlBVY1JnT2xEN1ZnYkdoMHFoL21hOHJIcy9RMGx2T0pmTVBndmF3?=
- =?utf-8?B?MTFYRzhJTmxvTndhRzNhRlBZRVNKSE5Idm1TY09MRldWbVBSNnRqSy9YTng3?=
- =?utf-8?B?UkE3N0FRaTgzaTBucTBPUG9LSUhuWkphWXNPYjRkbVY5aEl3Nm9wVy9wb0Vv?=
- =?utf-8?B?RU9PR21OMzZHL3EyTHRwcTM0VFIzeU1MaXl1MjRqSFU4UzFhWlJPNU9zSVl6?=
- =?utf-8?B?UW1TQ2JQbU5ySFBwMTlFZ1czUWhlYkl6UnBES2pJL2NqcHhMTVdSb2xzcTZv?=
- =?utf-8?B?N09kcTNEcGVkV1F5dk9LaEh6N1BTTHl1YVRNYzJnbWllSFdJeHhjUjBQYldn?=
- =?utf-8?B?UTJ0SUhSa3REVWJWb2sxZUg0VkJ3ZnY5YnJTaHplQUdpZWRmbEVkZWo1d0pF?=
- =?utf-8?B?a2NtZ2tDalRhWGVFcUdkQTgxTHBxLy81MGIySDRRRHlMejZidDhkNlRKMEIv?=
- =?utf-8?B?bDVEMWdqa2dBREI3SXlzNlc0NG9tWEltQnQ1N2pYWHZNdTB4aHo1dVFGYnlD?=
- =?utf-8?B?cGw4aTdYQ1pkcGhBaHZpT1ZRZ1IxK1JHMEdrTFBQUmVEN01TelBBamVPMFNU?=
- =?utf-8?B?Yms4LzNYUkZtcW1Cb2dJSHVTWXFXa09nWVJPUDJrWG1ndmJRVlVKa0RBSm5Q?=
- =?utf-8?B?c21GQjVTZlc3c3UzV2lvRjg1VjBtakMwNUk2c3o5SWV5UzVjdUFhYkhSRGQ5?=
- =?utf-8?B?c3FyZmNoVGtHMDM5RE5KOTRKQWlVd1JSOXF2SExyT0t2TFpXOGlRbTFJcElC?=
- =?utf-8?B?SHUyZXBoNGs5OEhvc2NreHc1Y3dHZHUvMHMyU2UranFqTENqU1pnc3U5dEVx?=
- =?utf-8?B?eGpqSzduODFpbjlnMmJDbzhIcytJUkdsdlNiUlkwYk5jRFA5OW45N2tmY3hN?=
- =?utf-8?B?UFNvL2VCbE16a0JPVzhHSVQ3WThSS0xKZ0RIM1VaNzVVUzRhK1NiTHYwQnB0?=
- =?utf-8?B?RTlRaktJK2dLd29XMHVEOGhrNmVtcXg4RTVhMUsyQ3pIaHllVXVQbXJCMEZI?=
- =?utf-8?B?d3hWaGlDRnVhWHA5TFlPM0podUE4c01xYys0eEsxRVloRk5LWFN5U2FuSmUy?=
- =?utf-8?B?bTdQSUdpZUV0aWZNV0NFMGUyaGJJOHFjSisxQmxsL21VNFJQL0cyUmZmbXFr?=
- =?utf-8?B?dUJtV2gxam1vYVp5VVlJdlgrQWZROWNheEV6TTlWaU11RUpUNHA1bVM1UkZm?=
- =?utf-8?B?RDRKYTRYZzFNZ1ZEc3VvYUkxb01iUjd1N1FndjRaMXhRcldUQU41V0dVQ3F6?=
- =?utf-8?B?d0k0UWNETkh5SnZrbSs2VjZNeGpuY3NnbUE5RThGclNHNVNkc0hZUEhHWUw0?=
- =?utf-8?B?UDR3OXhGa1QyL3JuN25ialVIU3F6RkJmc2NMSktyVGlleXZCSFBvY2tKSFQr?=
- =?utf-8?B?NU5KR1IyeWxnZEtWVjVVNUdubjZKa2dyemV0aHdDcDcyYkZHNkZpbEVCY012?=
- =?utf-8?B?dTlQMkJDVjlMcXY5MVBmQytvUXQ5N3VJSDRmWW1lV21vRUQ0SmNjSjV5VlR1?=
- =?utf-8?B?dWtCSVp4Wi8wcXRiNlRCZCtnVGIxTkZzcmlLZWp1R21CVjBYYnNJTkJ6ZzRD?=
- =?utf-8?B?c3VhU01XVTRKRG1JbE5rSXp3Mk15U0xZdHdoYVpXTXFKcTdpSC9paE5ETXpw?=
- =?utf-8?B?N0toZXdVcVVnRE1Jc3h0SDV4NmYzUjYvNU1xQlFrU1pPMlU4WGszbmVBVlI0?=
- =?utf-8?B?OWFiU0xPWWZGMDZqUlYvNGo2LzJwVjhuZFl0MlZGQVFZWmZjV1IzOURhc0hl?=
- =?utf-8?B?eVU5UzlEdXBySU8zUzFZNlhONlk4dDE3M1NxSmYzU3VjUTZXanNMMmsyQ29Q?=
- =?utf-8?B?eVdBUnBMNHFyU29uUHJmUjVRWGs0T2kzOVcwMVN5RzliQUMreUh6SWRyOWRR?=
- =?utf-8?B?RkFnZXVlREEyNkU5eEgvYVpybFdKOWR1dkFJUDBZT29XOVFOYnZLbWJaZFFH?=
- =?utf-8?B?MmdmVkl1RmQvYkdHS2s2SzByZXM3b2VBY294b3dwdm5ML1diSk43T3NVV2dq?=
- =?utf-8?B?d0s4MHVaOUdEdXpwcFBtR2hYZDdsMzdEb3liMDBUVCtJWDFvdGNLeFhCcVBk?=
- =?utf-8?B?dlJ0ckd2L3Zvald1U2tjQnRsUVdZMGErTW9rWUViYUl2bDFrSWtKNTBXcmJR?=
- =?utf-8?B?SFltNVJHeFp0THdzbVNNS1JiZnEwbUFXcVB0eHNhTzl5RU0xZWlZRXZ6SXkr?=
- =?utf-8?Q?iPJLpArBOTzjxs5pEWgnA9k=3D?=
-X-OriginatorOrg: in-advantage.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb8050f0-071f-4e73-e0c8-08dadc738613
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2351.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2022 19:03:15.7801
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 48e842ca-fbd8-4633-a79d-0c955a7d3aae
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pEKAAegcuM+ksZkIJqqUbO5tL5CD126av13MU149HPHGFKw57VnoywiM2pnUgmqGSptFQ3/z5z4XcomqlJmv2wXPvMqEJAZEWamzfm3BkWA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB6746
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org
+In-Reply-To: <20221212172804.1277751-3-biju.das.jz@bp.renesas.com>
+References: <20221212172804.1277751-1-biju.das.jz@bp.renesas.com>
+ <20221212172804.1277751-3-biju.das.jz@bp.renesas.com>
+Message-Id: <167087981089.1543932.15032317950577945818.robh@kernel.org>
+Subject: Re: [PATCH 02/16] dt-bindings: usb: Add RZ/V2M USB3DRD binding
+Date:   Mon, 12 Dec 2022 15:17:41 -0600
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Dec 12, 2022 at 10:29:58AM -0800, Jakub Kicinski wrote:
-> On Fri,  9 Dec 2022 19:30:23 -0800 Colin Foster wrote:
-> > Ocelot switches have the abilitiy to be used internally via
-> > memory-mapped IO or externally via SPI or PCIe. This brings up issues
-> > for documentation, where the same chip might be accessed internally in a
-> > switchdev manner, or externally in a DSA configuration. This patch set
-> > is perparation to bring DSA functionality to the VSC7512, utilizing as
-> > much as possible with an almost identical VSC7514 chip.
-> > 
-> > This patch set changed quite a bit from v2, so I'll omit the background
-> > of how those sets came to be. Rob offered a lot of very useful guidance.
-> > My thanks.
-> > 
-> > At the end of the day, with this patch set, there should be a framework
-> > to document Ocelot switches (and any switch) in scenarios where they can
-> > be controlled internally (ethernet-switch) or externally (dsa-switch).
-> 
-> A lot of carried over review tags here, so please let me know if
-> there's anything that needs to be reviewed here, otherwise I'd like 
-> to merge the series for 6.2 by the end of the day.
 
-I just responded to patch 4, which has a small (?) outstanding issue /
-discussion. I asked Rob and Arınç's opinions as to whether it should
-hold up this series. Everything else is good to go, as far as I
-understand.
+On Mon, 12 Dec 2022 17:27:50 +0000, Biju Das wrote:
+> Add device tree bindings for the RZ/V2{M, MA} USB3DRD module.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  .../bindings/usb/renesas,rzv2m-usb3drd.yaml   | 123 ++++++++++++++++++
+>  1 file changed, 123 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+> 
+
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.example.dtb: usb@85070000: usb3peri:resets: [[4294967295, 29]] is too short
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.example.dtb: usb@85070000: usb3peri: 'reset-names' is a required property
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.example.dtb: usb@85070000: usb@85060000:compatible: 'oneOf' conditional failed, one must be fixed:
+	'renesas,r9a09g011-xhci' is not one of ['renesas,xhci-r8a7742', 'renesas,xhci-r8a7743', 'renesas,xhci-r8a7744', 'renesas,xhci-r8a7790', 'renesas,xhci-r8a7791', 'renesas,xhci-r8a7793']
+	'renesas,r9a09g011-xhci' is not one of ['renesas,xhci-r8a774a1', 'renesas,xhci-r8a774b1', 'renesas,xhci-r8a774c0', 'renesas,xhci-r8a774e1', 'renesas,xhci-r8a7795', 'renesas,xhci-r8a7796', 'renesas,xhci-r8a77961', 'renesas,xhci-r8a77965', 'renesas,xhci-r8a77990']
+	'renesas,rcar-gen2-xhci' was expected
+	'renesas,rcar-gen3-xhci' was expected
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.example.dtb: usb@85070000: usb@85060000:clocks: [[4294967295, 1, 34], [4294967295, 1, 36]] is too long
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.example.dtb: usb@85070000: usb@85060000: Unevaluated properties are not allowed ('clock-names', 'clocks', 'compatible' were unexpected)
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.example.dtb:0:0: /example-0/usb@85070000/usb@85060000: failed to match any schema with compatible: ['renesas,r9a09g011-xhci', 'renesas,rzv2m-xhci']
+Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.example.dtb:0:0: /example-0/usb@85070000/usb@85060000: failed to match any schema with compatible: ['renesas,r9a09g011-xhci', 'renesas,rzv2m-xhci']
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.example.dtb: usb3peri: resets: [[4294967295, 29]] is too short
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.example.dtb: usb3peri: 'reset-names' is a required property
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221212172804.1277751-3-biju.das.jz@bp.renesas.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
