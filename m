@@ -2,129 +2,233 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C34C64A527
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Dec 2022 17:42:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 754D564A543
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Dec 2022 17:51:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232786AbiLLQjb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Dec 2022 11:39:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40806 "EHLO
+        id S232244AbiLLQvw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Dec 2022 11:51:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232803AbiLLQi4 (ORCPT
+        with ESMTP id S229827AbiLLQvv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Dec 2022 11:38:56 -0500
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD3E114D22
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Dec 2022 08:37:13 -0800 (PST)
-Received: by mail-ed1-x531.google.com with SMTP id c66so13666965edf.5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Dec 2022 08:37:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lvYON1Uq6UT3Qph7OPPr0NH47G6rUYR8O1BO9MFwJow=;
-        b=lIFXcScE+1mmzH1SBNLfPzmU2yyZ22FDa7zo6/O0Bw9aIOxDeXxYkEVfus52JWuhda
-         4ouELocZnEhmnwFppolEYq4c3c7RHYAqD4pax4M3unQDLONiM/9+ejXSM9E2FE+Z0v02
-         plxbNMhSLCExfq6g58BwEJLatQLzpt/xLWOhKWfMwSgaHbhPuPfGnoShEU2Q/8V0GhBe
-         I8mO/6POKEHTvHhiQrSmT3i/DlcfyH1o4pAMtSuNXvNoHj+mOy3GKKCsRTSQGVPFd3Z7
-         AQYI0FN6wamo3RnZf0VXDCwVvMRjPWjYDkKYXDeP5o/vQIFIn9FanCQzU/XNFNQHrfWF
-         2geA==
+        Mon, 12 Dec 2022 11:51:51 -0500
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76E71FCFA;
+        Mon, 12 Dec 2022 08:51:50 -0800 (PST)
+Received: by mail-oo1-f46.google.com with SMTP id f7-20020a4a8907000000b004a0cb08d0afso1879988ooi.8;
+        Mon, 12 Dec 2022 08:51:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lvYON1Uq6UT3Qph7OPPr0NH47G6rUYR8O1BO9MFwJow=;
-        b=v9hLkPC67GZeo5z8SAq2Y8nithGW6rZEL7CTaZQZbIJI5kRzl9W3goAVfz0bcJRdNU
-         uKIigbXPvTKBG+aEF5SdUiSMlgmJlrJaIkkJWjKyk5jWjklNcchf3hH5xsR9qcjr9tnJ
-         jPXnegLs4kgLe/WwB+zIlYpFRl6JX1UjUYcbfKQE2fO4iJEtIwa2Q8ng98+H4oPbwemO
-         M9bJVjszso1u4SvE2U38QyuoYDBa8fn3Mq4CSQeE4KAULCVrEwApSLR2rnesgoEpXvRe
-         tN/gkC7i08blUPhw87OffG1xalLvAT7bKrRUbMOkEYZjwsC4xvsq7Y0Gwlx1YZEk7cmU
-         7XNw==
-X-Gm-Message-State: ANoB5plZe5DgdvKqQRGogjmHET2ECwlpTyQYZ9nk+/xgj7oVsQVvb1Rc
-        W8H/cvTlwkLRUgj4r3Uf7xnQ+A==
-X-Google-Smtp-Source: AA0mqf5ppTTyM6N0bPOAfBX//eKXVRPakyRimeYdkY/8NocUbAvjnOSiYLmQOcD2W7tmhBu2XO410g==
-X-Received: by 2002:a05:6402:702:b0:46f:68d0:76 with SMTP id w2-20020a056402070200b0046f68d00076mr10093614edx.34.1670863020790;
-        Mon, 12 Dec 2022 08:37:00 -0800 (PST)
-Received: from prec5560.. ([2001:bf7:830:a7a8:ff97:7d8d:1f2e:ffaa])
-        by smtp.gmail.com with ESMTPSA id m15-20020a50930f000000b00463597d2c25sm4051979eda.74.2022.12.12.08.36.58
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fw+FQfUWqgrmWhnQ5tTZXz7tACC4Nbw/x4d/Z5/ycXo=;
+        b=Vm1rEgU3ayyJODFbZftmIYCPLyed6KvRgHwtAjDiQcKkG7EG1CdSI0K0dRUPLXxdb1
+         hkkEuHXGpaovMynAspbzPhe/cC5xQtIkuNe99BxzOpZ7FJKryzhUMxc8O29T8XcfbAPJ
+         ZCQs5eJCLQ5QSGgby6yF8sLxz8Ns16TAVX4dnsLa01A9aY4NDPBCVfh8JbLpIKSNGRnH
+         FhwkFWmM4NMQD6E61gatBrABtZMRkbrtyOBzz5E1gwynrN9NwX6orYgmfzmj01aumNZm
+         gos0j4VOppvviHNiKtpZBZHlTO3jw9+NnKeGYe/PpuFcmwGxnI9PZ43xC0w7gedyiBlX
+         RfjA==
+X-Gm-Message-State: ANoB5pl0Vq8mUcgb2DRSYZB1XYvvb2oCf2vaEOHUZqgNaOiV+gMR79Pb
+        RGq4ZRwWPKuJBrkTgPS4tQ==
+X-Google-Smtp-Source: AA0mqf4JgmraL4eWltO8kdHW3aLBVUk88Cn46DWf2vGImxEn0iFSbPu2gptYZfF9EjxIEOzPe2O0Xg==
+X-Received: by 2002:a4a:e247:0:b0:49f:dba7:5e65 with SMTP id c7-20020a4ae247000000b0049fdba75e65mr6556517oot.3.1670863909584;
+        Mon, 12 Dec 2022 08:51:49 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id s21-20020a4ac815000000b004a0aac2d28fsm97397ooq.35.2022.12.12.08.51.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Dec 2022 08:37:00 -0800 (PST)
-From:   Robert Foss <robert.foss@linaro.org>
-To:     Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-        Angel Iglesias <ang.iglesiasg@gmail.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Grant Likely <grant.likely@linaro.org>
-Cc:     Robert Foss <robert.foss@linaro.org>,
-        linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org,
-        linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-crypto@vger.kernel.org, chrome-platform@lists.linux.dev,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        linux-input@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-integrity@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-serial@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
-        linux-staging@lists.linux.dev, alsa-devel@alsa-project.org,
-        linux-watchdog@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-pm@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@opensource.cirrus.com,
-        linux-mtd@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-pwm@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        kernel@pengutronix.de, netdev@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-fbdev@vger.kernel.org
-Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Date:   Mon, 12 Dec 2022 17:36:51 +0100
-Message-Id: <167086288411.3041259.17824406556561546642.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+        Mon, 12 Dec 2022 08:51:49 -0800 (PST)
+Received: (nullmailer pid 1116541 invoked by uid 1000);
+        Mon, 12 Dec 2022 16:51:47 -0000
+Date:   Mon, 12 Dec 2022 10:51:47 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+Cc:     Colin Foster <colin.foster@in-advantage.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        John Crispin <john@phrozen.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Marek Vasut <marex@denx.de>,
+        Sean Wang <sean.wang@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        UNGLinuxDriver@microchip.com,
+        Woojung Huh <woojung.huh@microchip.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        George McCollister <george.mccollister@gmail.com>
+Subject: Re: [PATCH v5 net-next 04/10] dt-bindings: net: dsa: utilize base
+ definitions for standard dsa switches
+Message-ID: <20221212165147.GA1092706-robh@kernel.org>
+References: <20221210033033.662553-1-colin.foster@in-advantage.com>
+ <20221210033033.662553-5-colin.foster@in-advantage.com>
+ <1df417b5-a924-33d4-a302-eb526f7124b4@arinc9.com>
+ <Y5TJw+zcEDf2ItZ5@euler>
+ <c1e40b58-4459-2929-64f3-3e20f36f6947@arinc9.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <c1e40b58-4459-2929-64f3-3e20f36f6947@arinc9.com>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
-> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type") from 2016 there is a "temporary" alternative probe
-> callback for i2c drivers.
+On Mon, Dec 12, 2022 at 12:28:06PM +0300, Arınç ÜNAL wrote:
+> On 10.12.2022 21:02, Colin Foster wrote:
+> > Hi Arınç,
+> > On Sat, Dec 10, 2022 at 07:24:42PM +0300, Arınç ÜNAL wrote:
+> > > On 10.12.2022 06:30, Colin Foster wrote:
+> > > > DSA a/Documentation/devicetree/bindings/net/dsa/dsa.yaml
+> > > > +++ b/Documentation/devicetree/bindings/net/dsa/dsa.yaml
+> > > > @@ -58,4 +58,26 @@ oneOf:
+> > > >    additionalProperties: true
+> > > > +$defs:
+> > > > +  ethernet-ports:
+> > > > +    description: A DSA switch without any extra port properties
+> > > > +    $ref: '#/'
+> > > > +
+> > > > +    patternProperties:
+> > > > +      "^(ethernet-)?ports$":
+> > > > +        type: object
+> > > > +        additionalProperties: false
+> > > > +
+> > > > +        properties:
+> > > > +          '#address-cells':
+> > > > +            const: 1
+> > > > +          '#size-cells':
+> > > > +            const: 0
+> > > > +
+> > > > +        patternProperties:
+> > > > +          "^(ethernet-)?port@[0-9]+$":
+> > > > +            description: Ethernet switch ports
+> > > > +            $ref: dsa-port.yaml#
+> > > > +            unevaluatedProperties: false
+> > > 
+> > > I've got moderate experience in json-schema but shouldn't you put 'type:
+> > > object' here like you did for "^(ethernet-)?ports$"?
+> > 
+> > I can't say for sure, but adding "type: object" here and removing it
+> > from mediatek,mt7530.yaml still causes the same issue I mention below.
+> > 
+> > Rob's initial suggestion for this patch set (which was basically the
+> > entire implementation... many thanks again Rob) can be found here:
+> > https://lore.kernel.org/netdev/20221104200212.GA2315642-robh@kernel.org/
+> > 
+> >  From what I can tell, the omission of "type: object" here was
+> > intentional. At the very least, it doesn't seem to have any effect on
+> > warnings.
+> > 
+> > > 
+> > > > +
+> > > >    ...
+> > > > diff --git a/Documentation/devicetree/bindings/net/dsa/hirschmann,hellcreek.yaml b/Documentation/devicetree/bindings/net/dsa/hirschmann,hellcreek.yaml
+> > > > index 73b774eadd0b..748ef9983ce2 100644
+> > > > --- a/Documentation/devicetree/bindings/net/dsa/hirschmann,hellcreek.yaml
+> > > > +++ b/Documentation/devicetree/bindings/net/dsa/hirschmann,hellcreek.yaml
+> > > > @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > >    title: Hirschmann Hellcreek TSN Switch Device Tree Bindings
+> > > >    allOf:
+> > > > -  - $ref: dsa.yaml#
+> > > > +  - $ref: dsa.yaml#/$defs/ethernet-ports
+> > > >    maintainers:
+> > > >      - Andrew Lunn <andrew@lunn.ch>
+> > > > diff --git a/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml b/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml
+> > > > index f2e9ff3f580b..20312f5d1944 100644
+> > > > --- a/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml
+> > > > +++ b/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml
+> > > > @@ -157,9 +157,6 @@ patternProperties:
+> > > >        patternProperties:
+> > > >          "^(ethernet-)?port@[0-9]+$":
+> > > >            type: object
+> > > 
+> > > This line was being removed on the previous version. Must be related to
+> > > above.
+> > 
+> > Without the 'object' type here, I get the following warning:
+> > 
+> > Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml: patternProperties:^(ethernet-)?ports$:patternProperties:^(ethernet-)?port@[0-9]+$: 'anyOf' conditional failed, one must be fixed:
+> >          'type' is a required property
+> >          '$ref' is a required property
+> >          hint: node schemas must have a type or $ref
+> >          from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+> > ./Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml: Error in referenced schema matching $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
+> >    SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+> > /home/colin/src/work/linux_vsc/linux-imx/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml: ignoring, error in schema: patternProperties: ^(ethernet-)?ports$: patternProperties: ^(ethernet-)?port@[0-9]+$
+
+Is the above warning not clear? We require either 'type' or a $ref to 
+define nodes as json-schema objects.
+
+
+> > I'm testing this now and I'm noticing something is going on with the
+> > "ref: dsa-port.yaml"
+> > 
+> > 
+> > Everything seems to work fine (in that I don't see any warnings) when I
+> > have this diff:
+> > 
+> > 
+> > diff --git a/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml b/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml
+> > index 20312f5d1944..db0122020f98 100644
+> > --- a/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml
+> > +++ b/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yam
+> > @@ -156,8 +156,7 @@ patternProperties:
+> > 
+> >       patternProperties:
+> >         "^(ethernet-)?port@[0-9]+$":
+> > -        type: object
+> > -
+> > +        $ref: dsa-port.yaml#
+> >           properties:
+> >             reg:
+> >               description:
+> > @@ -165,7 +164,6 @@ patternProperties:
+> >                 for user ports.
+> > 
+> >           allOf:
+> > -          - $ref: dsa-port.yaml#
+> >             - if:
+> >                 required: [ ethernet ]
+> >               then:
+> > 
+> > 
+> > 
+> > This one has me [still] scratching my head...
 > 
-> This series completes all drivers to this new callback (unless I missed
-> something). It's based on current next/master.
-> A part of the patches depend on commit 662233731d66 ("i2c: core:
-> Introduce i2c_client_get_device_id helper function"), there is a branch that
-> you can pull into your tree to get it:
-> 
-> [...]
-
-Applied, thanks!
-
-Repo: https://cgit.freedesktop.org/drm/drm-misc/
+> Right there with you. In addition to this, having or deleting type object
+> on/from "^(ethernet-)?ports$" and "^(ethernet-)?port@[0-9]+$" on dsa.yaml
+> doesn't cause any warnings (checked with make dt_binding_check
+> DT_SCHEMA_FILES=net/dsa) which makes me question why it's there in the first
+> place.
 
 
-[014/606] drm/bridge: adv7511: Convert to i2c's .probe_new()
-          commit: 1c546894ff82f8b7c070998c03f9b15a3499f326
-[028/606] drm/bridge: parade-ps8622: Convert to i2c's .probe_new()
-          commit: d6b522e9bbb0cca1aeae4ef6188800534794836f
-[035/606] drm/bridge: ti-sn65dsi83: Convert to i2c's .probe_new()
-          commit: 0f6548807fa77e87bbc37964c6b1ed9ba6e1155d
+That check probably doesn't consider an ref being under an 'allOf'. 
+Perhaps what is missing in understanding is every schema at the 
+top-level has an implicit 'type: object'. But nothing is ever implicit 
+in json-schema which will silently ignore keywords which don't make 
+sense for an instance type. Instead of a bunch of boilerplate, the 
+processed schema has 'type' added in lots of cases such as this one.
 
-
-
-rob
-
+Rob
