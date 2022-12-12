@@ -2,179 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96A9064A599
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Dec 2022 18:11:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 075DE64A5A4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Dec 2022 18:14:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232560AbiLLRLO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Dec 2022 12:11:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33658 "EHLO
+        id S232906AbiLLRNi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Dec 2022 12:13:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232085AbiLLRLN (ORCPT
+        with ESMTP id S232801AbiLLRNg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Dec 2022 12:11:13 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71969F00D
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Dec 2022 09:11:11 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id 4so6759607plj.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Dec 2022 09:11:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=t3u/nVZJHpGCzeYVaXbEmuoHr+YBxPeJ4XXfnsKaIXE=;
-        b=GivM+ebkHs8v48Owrby0PybWizU37lZTlfX2dG1AmFM8zSmi7I3oQK9OGWIc0QdUvt
-         V9T2BfFGBn6GksVa1fkpw0MC2Sicnv9h54ucdd4vtal9Qg6mQ08W6hVeqzhD5hfUArz8
-         abitU9Iiep8XqUHRvj5o6dsul1pOoOqURHS6HwzE2/Kt5u6SxdmYFIIaBgQZxiLOpeGf
-         BkzUW/0WbEm8Jv3SWg3GMUPn+AB7lVJRgl6OaaMfhIOAB7QGFinM3S64opmtYEosqWi6
-         5MbBgTzgO/0EKqCOd71miG+iPvjR1PraTy3kImYYnOc4kQpkL1Eovthm2TWsP9egLgxc
-         73bA==
+        Mon, 12 Dec 2022 12:13:36 -0500
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5ECA12759;
+        Mon, 12 Dec 2022 09:13:35 -0800 (PST)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-144b21f5e5fso9145210fac.12;
+        Mon, 12 Dec 2022 09:13:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t3u/nVZJHpGCzeYVaXbEmuoHr+YBxPeJ4XXfnsKaIXE=;
-        b=5BfOJzFPLrJHbYOYmDhRp01AomseR1GO14USjbQ6X6U6mSpF6DK0ZZ9Zw22oyeAs7G
-         cPt2KihrrB0+edjswjsdrcDIHewb6+zEsWmdJq+lKTX9fl+ucc3SF2+wVEKkF7McqguA
-         SlYUZfVZlL6U14SkEh4donikI/6zb951/53SlQh9euvenjSnKmXlu6/6LFflD/Gc/90G
-         EYF5b/8nCoeqO5LdSgX/WkLhpXdUZvoZzHrluZHxsds65X3QD5nbIXvaShmCm9JdQvDr
-         x2M1twdzq4JCQuhZ/GWbiTr9Z1bfC+p3R9m2kEFzNfHWDEibY1OKlsa3c2Q6eVpTu/jb
-         nrlg==
-X-Gm-Message-State: ANoB5pm8G4vcUpHn4wJi+DH6X+fxrokfIn9Q7/ShoQNhvswA0+GQy8dh
-        AxMYDJNX62mIstqAOZTDV1Ic
-X-Google-Smtp-Source: AA0mqf5AMEbjgbbuGJR6rTD/93rr7CbkqeCM8QvgOdkRz+OLRhJfuKpkC1FZMmkg/vgnUaMgPoL4hQ==
-X-Received: by 2002:a17:902:b942:b0:186:def0:66f2 with SMTP id h2-20020a170902b94200b00186def066f2mr16985830pls.11.1670865070371;
-        Mon, 12 Dec 2022 09:11:10 -0800 (PST)
-Received: from thinkpad ([220.158.158.154])
-        by smtp.gmail.com with ESMTPSA id o1-20020a170902d4c100b0017f7c4e260fsm6632416plg.150.2022.12.12.09.11.04
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AGUdmy+g/qTasB/RYlCtkR0cf44cupB5Kch7orL6C8k=;
+        b=KPMawPKOn7178HUm02T17nvqcMDHKcmyW2QsRoR5jA3EaXm3U9Wjw6HHRp/LvkBHxT
+         9WW8yfH3GQ1Zr/r712R6WhUhRv5Gbb1H+HO6V6SGCaAJNoHmqL1hYli1xXabKwi5DMO0
+         YFlzJXICm8Xucl7hV2e2yP5XyPKHPYBeub+k+NFuavzNnOnw6fzEzPK79ERviRUmb+K8
+         UnEm3e9fljo/GPkqnL5CayP/wnF4bRWnl9mKouXELHwab2zHQSukCSnNWLCdoVZFDp07
+         6LZ1KstNAdNOo6wIaMyxFjYHRV57+ZTr9iikkggvIjkQcPxyrUScZdau2KmP8R6mBjBi
+         +odA==
+X-Gm-Message-State: ANoB5plPNdKKYPCTUCpuZGnUXXM17eSzbGBEXFhvED+hS94UP6cGgD9H
+        24JwndaxclrYMxMek9QPWg==
+X-Google-Smtp-Source: AA0mqf4TgLSi1nA9lDe/di5Hok12V+737QACa0Nu2l7rV/UJ4b97Gx0ku7i4xI0Vm0f3uz83kDKy1A==
+X-Received: by 2002:a05:6870:9123:b0:144:d2bd:f6ac with SMTP id o35-20020a056870912300b00144d2bdf6acmr9120964oae.43.1670865215081;
+        Mon, 12 Dec 2022 09:13:35 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id ba35-20020a056870c5a300b0013b9ee734dcsm155255oab.35.2022.12.12.09.13.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Dec 2022 09:11:09 -0800 (PST)
-Date:   Mon, 12 Dec 2022 22:41:02 +0530
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     Serge Semin <fancer.lancer@gmail.com>
-Cc:     Frank Li <frank.li@nxp.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "kw@linux.com" <kw@linux.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "Sergey.Semin@baikalelectronics.ru" 
-        <Sergey.Semin@baikalelectronics.ru>
-Subject: Re: [EXT] RE: [PATCH v7 5/9] PCI: dwc: Avoid reading a register to
- detect whether eDMA exists
-Message-ID: <20221212171102.GF20655@thinkpad>
-References: <TYBPR01MB534107A3C2B521BA0D67B4A7D8139@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <20221128161114.deacldwbckfnn6ft@mobilestation>
- <TYBPR01MB5341FA664D5F1FCA07294F96D8129@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <TYBPR01MB53413E1BE13CCA65307770FDD81D9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <20221208140111.7phlnsxktxzsc55f@mobilestation>
- <TYBPR01MB5341B4EB94F1B829F0E0431CD81C9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <HE1PR0401MB23319A9F4AF7630A82249D65881C9@HE1PR0401MB2331.eurprd04.prod.outlook.com>
- <20221211152849.y2dcxpc2teervlcl@mobilestation>
- <20221212125658.GD20655@thinkpad>
- <20221212165600.tfx3ewjt6z23kfaz@mobilestation>
+        Mon, 12 Dec 2022 09:13:34 -0800 (PST)
+Received: (nullmailer pid 1147754 invoked by uid 1000);
+        Mon, 12 Dec 2022 17:13:33 -0000
+Date:   Mon, 12 Dec 2022 11:13:33 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Colin Foster <colin.foster@in-advantage.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        ", Eric Dumazet" <edumazet@google.com>,
+        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+        Sean Wang <sean.wang@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org, Marek Vasut <marex@denx.de>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-mediatek@lists.infradead.org,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        George McCollister <george.mccollister@gmail.com>,
+        Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        John Crispin <john@phrozen.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
+        UNGLinuxDriver@microchip.com,
+        =?UTF-8?B?bsOnIMOcTkFM?= <arinc.unal@arinc9.com>
+Subject: Re: [PATCH v5 net-next 01/10] dt-bindings: dsa: sync with maintainers
+Message-ID: <167086521259.1147694.13128574954492521303.robh@kernel.org>
+References: <20221210033033.662553-1-colin.foster@in-advantage.com>
+ <20221210033033.662553-2-colin.foster@in-advantage.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221212165600.tfx3ewjt6z23kfaz@mobilestation>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20221210033033.662553-2-colin.foster@in-advantage.com>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Dec 12, 2022 at 07:56:00PM +0300, Serge Semin wrote:
-> On Mon, Dec 12, 2022 at 06:26:58PM +0530, Manivannan Sadhasivam wrote:
-> > Hi Serge,
-> > 
-> > On Sun, Dec 11, 2022 at 06:28:49PM +0300, Serge Semin wrote:
-> > > Hi Frank
-> > > 
-> > > On Fri, Dec 09, 2022 at 03:52:42PM +0000, Frank Li wrote:
-> > > > Hi Serge,
-> > > > 
-> > > > > From: Serge Semin, Sent: Thursday, December 8, 2022 11:01 PM
-> > > > >
-> > > > > Cc += Frank Li
-> > > > >
-> > > > > @Frank could you have a look at the thread and check the content of
-> > > > > the CSRs dbi+0x8f8 and dbi+0x978 on available to you DW PCIe +EDMA
-> > > > > devices?
-> > > > 
-> > > 
-> > > > [    2.598038] imx6q-pcie 5f010000.pcie_ep: imx_add_pcie_ep: +0x8f8 = 3438302a, +0x978 = 00010001
-> > > 
-> > > Thanks for the reply. So it's 4.80a with the legacy viewport-based
-> > > access. Alas it isn't what we need in this thread. We'll need
-> > > @Mani's respond in order to decide how to fix the auto-detection
-> > > procedure.
-> > > 
-> > 
+
+On Fri, 09 Dec 2022 19:30:24 -0800, Colin Foster wrote:
+> The MAINTAINERS file has Andrew Lunn, Florian Fainelli, and Vladimir Oltean
+> listed as the maintainers for generic dsa bindings. Update dsa.yaml and
+> dsa-port.yaml accordingly.
 > 
-> > Sorry for the late reply!
-> > 
-> > With below diff on the EP:
-> > 
-> > diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> > index 6f3805228a18..0eb4d3218738 100644
-> > --- a/drivers/pci/controller/dwc/pcie-designware.c
-> > +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> > @@ -665,6 +665,10 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-> >         if (val == 0xFFFFFFFF && pci->edma.reg_base) {
-> >                 pci->edma.mf = EDMA_MF_EDMA_UNROLL;
-> >  
-> > +               dev_info(pci->dev, "%s: +0x8f8 = %08x, +0x978 = %08x\n", __func__,
-> > +                       dw_pcie_readl_dbi(pci, 0x8f8),
-> > +                       dw_pcie_readl_dbi(pci, 0x978));
-> > +
-> >                 val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
-> >         } else if (val != 0xFFFFFFFF) {
-> >                 pci->edma.mf = EDMA_MF_EDMA_LEGACY;
-> > 
-> > 
-> > The output was:
-> > 
-> > qcom-pcie-ep 1c08000.pcie-ep: dw_pcie_edma_find_chip: +0x8f8 = 3533302a, +0x978 = ffffffff
-> > 
-> > Hope this helps!
+> Signed-off-by: Colin Foster <colin.foster@in-advantage.com>
+> Suggested-by: Vladimir Oltean <olteanv@gmail.com>
 > 
-> Great! Thanks. This indeed helps. So it's 5.30a IP-core. Just one
-> quick question. Does that device have eDMA embedded into the DW PCIe
-> controller?
+> ---
+> 
+> v5
+>   * New patch
+> 
+> ---
+>  Documentation/devicetree/bindings/net/dsa/dsa-port.yaml | 2 +-
+>  Documentation/devicetree/bindings/net/dsa/dsa.yaml      | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
 
-Yes it is and it is the test platform I use for eDMA/PCI_EP work.
-
-Thanks,
-Mani
-
-> -Serge(y)
-> 
-> > 
-> > Thanks,
-> > Mani
-> > 
-> > > -Serge(y)
-> > > 
-> > > > 
-> > > > Frank Li
-> > > > 
-> > > > 
-> > 
-> > -- 
-> > மணிவண்ணன் சதாசிவம்
-
--- 
-மணிவண்ணன் சதாசிவம்
+Acked-by: Rob Herring <robh@kernel.org>
