@@ -2,72 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AED4164A3BC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Dec 2022 15:50:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C34C64A527
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Dec 2022 17:42:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232427AbiLLOuc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Dec 2022 09:50:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56574 "EHLO
+        id S232786AbiLLQjb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Dec 2022 11:39:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232464AbiLLOu0 (ORCPT
+        with ESMTP id S232803AbiLLQi4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Dec 2022 09:50:26 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B78C13D10
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Dec 2022 06:50:25 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id E4E4DCE0FD8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Dec 2022 14:50:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id ECD40C433F0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Dec 2022 14:50:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670856622;
-        bh=kousT5iYosvkYndU5Mo1YzUZxCzEQv5IxWdL7EHLZ6c=;
-        h=Subject:From:Date:To:From;
-        b=ivPtiivUbzcx/dBB10t2pkgUoRsuM6KDXondmhyh+VAE5qNF5kZ39Ix76ND09zZZ9
-         Q2dShB20wzy0wxFmvFdQ99wSmUYmBQzYKRbCiiZujuBC4i89u06YoWxzgiUmf3RUI8
-         dlBlcloqoJ8CwnLzkaFiJkIDSsMDnikwYQgFPMTlXeAsk5EZWUwqvYZocw1lzIw+ue
-         ewvCOnJ69BdH7zAEDlRmr5ap9dBpnm2PwHfCX8UFkusxcR1fHd1208qOMUpE01sGLJ
-         YoAhvvlbDmZZoLMJqVFSL+gcNaR7C1uaTGcP+x3jU7sec4GE+mEUP6zbEySN8wHPh+
-         uxWsqhnSLfCkw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D39C8C197B4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Dec 2022 14:50:21 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 12 Dec 2022 11:38:56 -0500
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD3E114D22
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Dec 2022 08:37:13 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id c66so13666965edf.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Dec 2022 08:37:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lvYON1Uq6UT3Qph7OPPr0NH47G6rUYR8O1BO9MFwJow=;
+        b=lIFXcScE+1mmzH1SBNLfPzmU2yyZ22FDa7zo6/O0Bw9aIOxDeXxYkEVfus52JWuhda
+         4ouELocZnEhmnwFppolEYq4c3c7RHYAqD4pax4M3unQDLONiM/9+ejXSM9E2FE+Z0v02
+         plxbNMhSLCExfq6g58BwEJLatQLzpt/xLWOhKWfMwSgaHbhPuPfGnoShEU2Q/8V0GhBe
+         I8mO/6POKEHTvHhiQrSmT3i/DlcfyH1o4pAMtSuNXvNoHj+mOy3GKKCsRTSQGVPFd3Z7
+         AQYI0FN6wamo3RnZf0VXDCwVvMRjPWjYDkKYXDeP5o/vQIFIn9FanCQzU/XNFNQHrfWF
+         2geA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lvYON1Uq6UT3Qph7OPPr0NH47G6rUYR8O1BO9MFwJow=;
+        b=v9hLkPC67GZeo5z8SAq2Y8nithGW6rZEL7CTaZQZbIJI5kRzl9W3goAVfz0bcJRdNU
+         uKIigbXPvTKBG+aEF5SdUiSMlgmJlrJaIkkJWjKyk5jWjklNcchf3hH5xsR9qcjr9tnJ
+         jPXnegLs4kgLe/WwB+zIlYpFRl6JX1UjUYcbfKQE2fO4iJEtIwa2Q8ng98+H4oPbwemO
+         M9bJVjszso1u4SvE2U38QyuoYDBa8fn3Mq4CSQeE4KAULCVrEwApSLR2rnesgoEpXvRe
+         tN/gkC7i08blUPhw87OffG1xalLvAT7bKrRUbMOkEYZjwsC4xvsq7Y0Gwlx1YZEk7cmU
+         7XNw==
+X-Gm-Message-State: ANoB5plZe5DgdvKqQRGogjmHET2ECwlpTyQYZ9nk+/xgj7oVsQVvb1Rc
+        W8H/cvTlwkLRUgj4r3Uf7xnQ+A==
+X-Google-Smtp-Source: AA0mqf5ppTTyM6N0bPOAfBX//eKXVRPakyRimeYdkY/8NocUbAvjnOSiYLmQOcD2W7tmhBu2XO410g==
+X-Received: by 2002:a05:6402:702:b0:46f:68d0:76 with SMTP id w2-20020a056402070200b0046f68d00076mr10093614edx.34.1670863020790;
+        Mon, 12 Dec 2022 08:37:00 -0800 (PST)
+Received: from prec5560.. ([2001:bf7:830:a7a8:ff97:7d8d:1f2e:ffaa])
+        by smtp.gmail.com with ESMTPSA id m15-20020a50930f000000b00463597d2c25sm4051979eda.74.2022.12.12.08.36.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Dec 2022 08:37:00 -0800 (PST)
+From:   Robert Foss <robert.foss@linaro.org>
+To:     Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+        Angel Iglesias <ang.iglesiasg@gmail.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Grant Likely <grant.likely@linaro.org>
+Cc:     Robert Foss <robert.foss@linaro.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org,
+        linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-crypto@vger.kernel.org, chrome-platform@lists.linux.dev,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        linux-input@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-integrity@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-serial@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
+        linux-staging@lists.linux.dev, alsa-devel@alsa-project.org,
+        linux-watchdog@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-pm@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-mtd@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, linux-pwm@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        kernel@pengutronix.de, netdev@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-fbdev@vger.kernel.org
+Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
+Date:   Mon, 12 Dec 2022 17:36:51 +0100
+Message-Id: <167086288411.3041259.17824406556561546642.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <167085662180.502.4874414627743741641.git-patchwork-summary@kernel.org>
-Date:   Mon, 12 Dec 2022 14:50:21 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
+> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type") from 2016 there is a "temporary" alternative probe
+> callback for i2c drivers.
+> 
+> This series completes all drivers to this new callback (unless I missed
+> something). It's based on current next/master.
+> A part of the patches depend on commit 662233731d66 ("i2c: core:
+> Introduce i2c_client_get_device_id helper function"), there is a branch that
+> you can pull into your tree to get it:
+> 
+> [...]
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+Applied, thanks!
 
-Patch: [net] ravb: Fix potential use-after-free in ravb_rx_gbeth()
-  Submitter: YueHaibing <yuehaibing@huawei.com>
-  Committer: Paolo Abeni <pabeni@redhat.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=701460
-  Lore link: https://lore.kernel.org/r/20221203092941.10880-1-yuehaibing@huawei.com
+Repo: https://cgit.freedesktop.org/drm/drm-misc/
 
 
-Total patches: 1
+[014/606] drm/bridge: adv7511: Convert to i2c's .probe_new()
+          commit: 1c546894ff82f8b7c070998c03f9b15a3499f326
+[028/606] drm/bridge: parade-ps8622: Convert to i2c's .probe_new()
+          commit: d6b522e9bbb0cca1aeae4ef6188800534794836f
+[035/606] drm/bridge: ti-sn65dsi83: Convert to i2c's .probe_new()
+          commit: 0f6548807fa77e87bbc37964c6b1ed9ba6e1155d
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
 
+
+rob
 
