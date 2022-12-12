@@ -2,266 +2,231 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 217BF649E14
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Dec 2022 12:42:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71ABB649E2E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Dec 2022 12:55:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231676AbiLLLmJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Dec 2022 06:42:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50076 "EHLO
+        id S231822AbiLLLzf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Dec 2022 06:55:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232314AbiLLLlh (ORCPT
+        with ESMTP id S229452AbiLLLze (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Dec 2022 06:41:37 -0500
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2107.outbound.protection.outlook.com [40.107.114.107])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C45256;
-        Mon, 12 Dec 2022 03:37:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Bn6DYOUsLJmT4XtfH7p1ScuTe1x75MeqRCC1ii1RI6q1ju0NCo2EC6SjSDHwSLoI+m+AGFqHMkWy3tfq6KWQA5nA8UXDDm9e0xbzfQAPJz0ZvOGjizpfquNbNXpK8lsrw9yf+1DVNxaHi1NJgueB8ELK+9NwU8dtbV61ECnf0ssdysrHDNwdmgY6ieNLerkmIZC7gWfNG5oE40L1J9j7B7CCku3rqGlYbyjww4yGjK3cKzW3qSBzzl6tItu6xogNF/p1eJivqwIDWP4eYVfKDz68JP8WO3GV5csgA1FwU2fO6Ix52NSCUN/oL+JrUkdEps9mrqw0jP/YVYnACuFqkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k3eV915tKYLR81LxtlNmS6k2YcaDHO7Jn66K/TxjQys=;
- b=hH3dJvTWG8DW7mhWKNOFSvnG0aCsOQNSb40PEEMg0xt8NVAdrVUh05aNiaDCkKNbXini0saDKS8Fbu3DA8LaMa+VjvUXfD4/ra/bgPx+C0dt7w4/ji5IV2THPlYyIPNav2r4vHua9r3vpjjB1SRYE8FmX93gHebJA7J7Paygaol6Q9kcwFji9XcGgTSwwCfIUgnjIwkuXfpqz9IVwGa31SMNM8aVPgYub6nD+mQ2LZCWvyJoMiLZlKorP7GXdingszpYDYwTL10lVKKx2/7jZw52yLqSuG5tcUWdrGtC0XO6aYvwHDNbvncZwLKFQ1CRhECK5dCuYq+SEIDQ946n/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k3eV915tKYLR81LxtlNmS6k2YcaDHO7Jn66K/TxjQys=;
- b=sJyqflAZWn1QspyIx/ohqo18R5YUSWZy7GoQtwsEPPq3lpurqSPMVGStVdG6ernUivD/5WtoOdIDTc0rSgyfr6nA4B4DJYT5jbKBTWUHeykXHSf9Sqt9O5FID0xuzqs+rLpmZvBZI9XDLwD25VAj4YRamX7Qz0zQewybcNDtKLo=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYCPR01MB6143.jpnprd01.prod.outlook.com (2603:1096:400:4b::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.19; Mon, 12 Dec
- 2022 11:37:37 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2cfb:38d2:d52e:c8a3]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2cfb:38d2:d52e:c8a3%5]) with mapi id 15.20.5880.019; Mon, 12 Dec 2022
- 11:37:37 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     William Breathitt Gray <william.gray@linaro.org>
-CC:     "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        Mon, 12 Dec 2022 06:55:34 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 292C4F596;
+        Mon, 12 Dec 2022 03:55:31 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id ay14-20020a05600c1e0e00b003cf6ab34b61so4916580wmb.2;
+        Mon, 12 Dec 2022 03:55:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Y2ETDY9kzpY5Fe4txiNeWBSSB7VK4LZqJFu+sI6h0Y=;
+        b=gH70gzNKB033u3DNcf3ld6m0ZiprKou8HSdTDvCU/JiGyxFca4JszxlB/f8f4lLRBW
+         RQIwl/76kQd/rmS31fLm8s1xOeuidDqBtVdvC0/UgqoI5fTaWHZg1LsCQHXCOHhtGMR1
+         RoXTMgEr8ynKXwjr7XZUTrbZTCqAaVw+jfcJ2jul2Awriu4oB+IAUYi9shqju8tKfTPF
+         spCmAsT4EbelV0aajBfWNRQQ+V1Qh0q1r+VYLK93JA/mRKgUgBOUI6Q9QQIb5/TGQ2oK
+         7+R4RC/Gav/Xhk37MJirl6pQf08yZEbnYf3XICat7eQxHdGOlmAs8H0FaNSkETbuDMZo
+         7CBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5Y2ETDY9kzpY5Fe4txiNeWBSSB7VK4LZqJFu+sI6h0Y=;
+        b=Lec3HJHC7E3nZvxvQRaz0jCqOh+DiYJOPQKJZu3VDuOVMavLfBCjYrs6W4Yp0c5DDb
+         Yzy9/wTCCk7MLhgneugptQVQ+3nz9yxf7W9uH1E/TIB/aiJjHBWgDKvSh0OR9OighuzZ
+         +RFGeR+LKuBMYgxZqG1DSAWFYzuZyckMrKao1vclnwBFSS1rwWCdVbDRXHkDD4Qrq3jH
+         2r7TxG+RUdM+bsViQnnL/X+FyeBwzaLEuyZ1uBBMel8Y3siIjNfpjuJ/7euYbLYC/yBu
+         /4iqWnSUal0DVywG0cx/bgJvgnGKeKg2SpTAve0y9bJbP5E5ofmVuyFvXWXGRL1Rr9oj
+         rWLA==
+X-Gm-Message-State: ANoB5plLxVFo/NxXypxqTgMfcH6l4zUG1yQMV2M/sX9MfpljTWZlkl+G
+        fsLHNhhh66uA6+YEthejyKM=
+X-Google-Smtp-Source: AA0mqf4z6LGIMgMOwSo+HXWPSSjbbH379O4giBDXbmd430wDE24OXOwqIQtSUbCkKitytybI+04Fcw==
+X-Received: by 2002:a05:600c:601c:b0:3cf:fc0b:3359 with SMTP id az28-20020a05600c601c00b003cffc0b3359mr12361319wmb.0.1670846129561;
+        Mon, 12 Dec 2022 03:55:29 -0800 (PST)
+Received: from prasmi.home ([2a00:23c8:2501:c701:1484:ef11:b25c:4612])
+        by smtp.gmail.com with ESMTPSA id j7-20020a05600c190700b003b4cba4ef71sm9793820wmq.41.2022.12.12.03.55.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Dec 2022 03:55:28 -0800 (PST)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v8 4/5] counter: Add Renesas RZ/G2L MTU3a counter driver
-Thread-Topic: [PATCH v8 4/5] counter: Add Renesas RZ/G2L MTU3a counter driver
-Thread-Index: AQHZDIEsrYKMEeT36E+G1XejOE/ny65o5OgAgAE0G6A=
-Date:   Mon, 12 Dec 2022 11:37:37 +0000
-Message-ID: <OS0PR01MB5922FD8F72EDE1E5D3EACE7686E29@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20221210102110.443043-1-biju.das.jz@bp.renesas.com>
- <20221210102110.443043-5-biju.das.jz@bp.renesas.com>
- <Y5YHdKvn6AY0o9Gc@fedora>
-In-Reply-To: <Y5YHdKvn6AY0o9Gc@fedora>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB6143:EE_
-x-ms-office365-filtering-correlation-id: 1bb30a73-5001-4e13-fe66-08dadc35453a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Zwgv6ISv4AZQX6TjolhVN4DVDIPfSp+0b+PFGq/RhY1nf6jEJhWtIZCxQmFThyF3gzzhknokbb2YeYkkBpjmmlkeRtiWCtPG1oX9hP3gkCN1p/VGw4EdBoAwdUu+YMsyAmipt4tYBDJydok9iEw36Hh/t35uLeuqT8AOmmpzLkfpF5/uw0jxGYFW6DtfJ9j6VXHhLkYhC2ZP42z9gyZpahswqW8j0ZFvgbbkw7tpgol0Ta/Qbrmgq7sCSXjqwwc59JPhtcMAFTn8+auykxGJHH6Dt0hTwevFGM2uqS3qmAgrvtWmXnpTA7BgNdEsFJobJrJzI9G1zNOT8sA1a5sAHdHaKJGfiKXv5GJkcmzH2vyy3kvbXWYAz6NUQnVAGtoSA4YjGHEJVfOFqUQTphmMCYIhcsmQZdyWB9G41oPe+H0T7kByL6pmEy+9ncfscx8m3TmqZOypVdNvapvnjqiIiK4317eMNsOcs+evs6GMyjytY3VkLIZxxpCQJnvjho2lvq0lc39zj5PgWH0x5SM3FjDSLA962XVuzmuUgrfwjjUUpEtGU4WEQR65eQZmfTlZ2cTlUzy8DX6HrHk4q311nVHonkQad5nUwfV4vBSOwhUCK1oR4rFTvR8SDujgUrEZfeJaEMQpVXkh/U0uqiSdA1P4Hy2cpfw9NPaCte9jjvLHeL/ayJYTMoThr2VnvPcliNahpaRNklWj0WJnzyhEXJR81QvaBvfMXdqYzN6USsc=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(396003)(366004)(136003)(39860400002)(376002)(451199015)(33656002)(64756008)(76116006)(66946007)(66556008)(2906002)(38070700005)(54906003)(66476007)(8676002)(316002)(6916009)(4326008)(41300700001)(66446008)(83380400001)(38100700002)(122000001)(55016003)(86362001)(6506007)(7696005)(26005)(9686003)(8936002)(52536014)(5660300002)(478600001)(71200400001)(186003)(32563001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?CZBftrYFI+lJGyfUBWKpBwlyibtpdKvx3tpkEdVAG6M7V5lyejtcfBdrpq81?=
- =?us-ascii?Q?QkyDD3sihD+LOfblariiRgYt+awBtxChkFKjHYzeRMBqwlXqvmDbQIstnb8R?=
- =?us-ascii?Q?JZ9xjK0Xa0ETx82LaenAxvBLk2h/I09qgHr/eUgGXJ3Qx9IKJAVW+L2SWQAG?=
- =?us-ascii?Q?XD8ednUDox/jOdBFshskwnSe95pm7ZNhHvq33EjEFxbhKKuoWJ/T16c94HtC?=
- =?us-ascii?Q?e15U6wrdEKteXl2uhvyvkY+BIbpwGqPLU7W8B4UaM+5VWj24fkugF2BeSOP/?=
- =?us-ascii?Q?r/IQdWKKqBfmFI7b12WUV4sCoiDidL0Yp7Trgk2rYpXqNGDK8Kpdx5DCnc25?=
- =?us-ascii?Q?eyxIQ4DtnfVklUnLqBpeB0B6dBKd9ypMFRjcph1c1uZbDKA/q/RzqcBcvm1m?=
- =?us-ascii?Q?7e2Z+g7SB9t8OIeTyB71roGXoy2Y+UaMtwd5S8ECxIp5trV4QL8fqb2bG73c?=
- =?us-ascii?Q?H7Y38JSY9wGyDONhp5XbICZUlLqe9ZYxM9kzduciIXN2Qh41eJoiKkFeMJbS?=
- =?us-ascii?Q?mrrwLLu3QRNRgY95ZojCYyeQsTW6QxDWgYYw9YrDDci/PNB2ghP2HXEQwJxt?=
- =?us-ascii?Q?Hoa5maymON26ADkIUby+QBdfAHqcn9JkrNPUvCWUUsPZV7jPmLHvcZ2Ouq0a?=
- =?us-ascii?Q?/AMg6AwkY3gjBVQWsT4NrIqgcPhyhg51ZUUOawql41/NdoungX4La2nBwFz9?=
- =?us-ascii?Q?u1LNDU8WqFQSewnb/+WuZSsQaaDFn3oVVTaPKujacrxk1nF3NcyACw0bK5qT?=
- =?us-ascii?Q?iQGvirWC9FucpIYF+n6HfYqk3AAIPMDmca7D2iEHz1YcyhUFSAhOGMxmD7Ne?=
- =?us-ascii?Q?/39S0meTTDWFZnbSlzC8zL1PIsSpSXdXTZHlT9+zBTen0OBgn+/kBvdcx/ou?=
- =?us-ascii?Q?VEs/7EyzO0NwlzL3mxxVorPeAWB04nOjoriaQCBVV4XuUgmkQs7n50HHHilN?=
- =?us-ascii?Q?TbOSv8W9as223BkppdMa/1yatiMcfycTYTy66d0lKp3RJX/c6myuISth62tG?=
- =?us-ascii?Q?SFakaWsSUI86gS+2oAcUnoZeGTrayVRqJ+doEF3o19X8sEoQ9fDEe+1IiOe/?=
- =?us-ascii?Q?a/csdw55NPbNqgSHqSeo1+GbNvuDd6BC9aAdv+g5IdNWSRSD6W89Pajdhw1T?=
- =?us-ascii?Q?vB2A4SuQ8sfNsoFtQWDNCMLHMRqdCMj1oay/PEjjHWscyzr37YLZ6u8NqemU?=
- =?us-ascii?Q?1MEKXdVj1xoFfRxjX8svbUiv3RGioUZYx5QLjbO6sAIcRBNAMa/l9jR5Wiaf?=
- =?us-ascii?Q?GA3vCWUyNNj2iJtJ+Uog+8E4Z68WX8MBuDPfPO3ujoGrTaOGA/KUyOsge45h?=
- =?us-ascii?Q?/4lHe44+mvXmlVbEwltpExUc5yUeXvdTZOpOTCqd59RUiPbqSkbBgZr/AEof?=
- =?us-ascii?Q?V/qvLxj317FVLygArSSRShPz92EdRILkujGOt62IggXCAsO5fM60eiPhb8+c?=
- =?us-ascii?Q?yl5yF7rv1NrDlfWZ1N/QgonVKwUa7K4dxJkSDYfUB0aUJi1cmg7w+y9Hx764?=
- =?us-ascii?Q?EwXjUaFVH7x8dwB+tV7hQM4fTI5Z0EZwv25j5VAx7DyxHY2mWU1ekxueEmxE?=
- =?us-ascii?Q?nZMzWEN7LQo7IBYalHShMLgPfUTZGqGjKG4zsSbI3D/f81Z75naM6BGXWUwC?=
- =?us-ascii?Q?6g=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Guo Ren <guoren@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Jisheng Zhang <jszhang@kernel.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>,
+        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v5 0/6] AX45MP: Add support to non-coherent DMA
+Date:   Mon, 12 Dec 2022 11:54:59 +0000
+Message-Id: <20221212115505.36770-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bb30a73-5001-4e13-fe66-08dadc35453a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Dec 2022 11:37:37.8905
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xOmoqdOEcwZCv/tRyHjMHargFjq1FxwkSJ2JWOvbdARdpKyhX//Xke15bZK/aASJEWCgsQ+xWYcvzooIa8lor+DkDJX2w0a+9PbxZTYQVic=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6143
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi William Breathitt Gray,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thanks for the feedback.
+Hi All,
 
-> Subject: Re: [PATCH v8 4/5] counter: Add Renesas RZ/G2L MTU3a counter
-> driver
->=20
-> On Sat, Dec 10, 2022 at 10:21:09AM +0000, Biju Das wrote:
-> > Add RZ/G2L MTU3a counter driver. This IP supports the following phase
-> > counting modes on MTU1 and MTU2 channels
-> >
-> > 1) 16-bit phase counting modes on MTU1 and MTU2 channels.
-> > 2) 32-bit phase counting mode by cascading MTU1 and MTU2 channels.
-> >
-> > This patch adds 3 counter value channels.
-> > 	count0: 16-bit phase counter value channel on MTU1
-> > 	count1: 16-bit phase counter value channel on MTU2
-> > 	count2: 32-bit phase counter value channel by cascading
-> >                 MTU1 and MTU2 channels.
-> >
-> > The external input phase clock pin for the counter value channels are
-> > as follows:
-> > 	count0: "MTCLKA-MTCLKB"
-> > 	count1: "MTCLKA-MTCLKB" or "MTCLKC-MTCLKD"
-> > 	count2: "MTCLKA-MTCLKB" or "MTCLKC-MTCLKD"
-> >
-> > Use the sysfs variable "external_input_phase_clock_select" to select
-> > the external input phase clock pin and "cascade_counts_enable" to
-> > enable/ disable cascading of channels.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->=20
-> Hi Biju,
->=20
-> I see you use rz_mtu3_request_channel()/rz_mtu3_release_channel() to shar=
-e
-> access to the channels between the drivers. The Counter sysfs attributes
-> can still be accessed when a channel is released, so should
-> ch->is_busy be checked before every Counter callback to ensure we do not
-> try to access a busy channel?
+On the Andes AX45MP core, cache coherency is a specification option so it
+may not be supported. In this case DMA will fail. To get around with this
+issue this patch series does the below:
 
-OK will introduce "count_is_enabled[3]" in priv and=20
+1] Andes alternative ports is implemented as errata which checks if the IOCP
+is missing and only then applies to CMO errata. One vendor specific SBI EXT
+(RZFIVE_SBI_EXT_IOCP_SW_WORKAROUND) is implemented as part of errata. If we could
+access the DTB in errata I can get rid of this EXT ID from OpenSBI. Is there any
+approach we can access the DTB in patch callback?
 
-use
-(ch->is_busy && !priv->count_is_enabled[count->id]) to make sure
-is_busy is because of pwm acquired channel.
+Below are the configs which Andes port provides (and are selected by RZ/Five):
+      - ERRATA_ANDES
+      - ERRATA_ANDES_CMO
 
-Also, will add pm_sync and pm_put for register_{read, write} in all callbac=
-ks
-So example usage is
+2] Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
+block that allows dynamic adjustment of memory attributes in the runtime.
+It contains a configurable amount of PMA entries implemented as CSR
+registers to control the attributes of memory locations in interest.
+OpenSBI configures the PMA regions as required and creates a reserve memory
+node and propagates it to the higher boot stack.
 
-echo "MTCLKA-MTCLKB" >  /sys/bus/counter/devices/counter0/external_input_ph=
-ase_clock_select
-echo 1 > /sys/bus/counter/devices/counter0/cascade_counts_enable
+An RFC patch for OpenSBI is posted here:
+https://patchwork.ozlabs.org/project/opensbi/patch/20221212094421.14556-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-echo 0 > /sys/bus/counter/devices/counter0/count1/count
-echo 20 > /sys/bus/counter/devices/counter0/count1/ceiling
-echo 1 > /sys/bus/counter/devices/counter0/count1/enable
+    reserved-memory {
+        #address-cells = <2>;
+        #size-cells = <2>;
+        ranges;
 
-cat /sys/bus/counter/devices/counter0/count1/direction
-cat /sys/bus/counter/devices/counter0/count1/count
+        pma_resv0@58000000 {
+            compatible = "shared-dma-pool";
+            reg = <0x0 0x58000000 0x0 0x08000000>;
+            no-map;
+            linux,dma-default;
+        };
+    };
 
-> > +static inline struct rz_mtu3_channel * rz_mtu3_get_ch(struct
-> > +counter_device *counter, int id)
->=20
-> I'm not sure why this is split between two lines but you can put it all o=
-n
-> one.
+The above shared DMA pool gets appended to Linux DTB so the DMA memory
+requests go through this region.
 
-It comes about 93 columns. As checkpatch is ok with this. I will make it to
-one line.
+3] We provide callbacks to synchronize specific content between memory and
+cache.
 
->=20
-> > +static void rz_mtu3_32bit_cnt_setting(struct counter_device *counter,
-> > +int id)
->=20
-> It doesn't look like you're using the 'id' parameter in this function so
-> you might as well remove it.
+        - arch_sync_dma_for_device()
+        - arch_sync_dma_for_cpu()
 
-Agreed.
+4] RZ/Five SoC selects the below configs
+        - AX45MP_L2_CACHE
+        - DMA_GLOBAL_POOL
+        - ERRATA_ANDES
+        - ERRATA_ANDES_CMO
 
->=20
-> > +	switch (id) {
-> > +	case RZ_MTU3_16_BIT_MTU1_CH:
-> > +	case RZ_MTU3_16_BIT_MTU2_CH:
-> > +		if (!rz_mtu3_request_channel(ch))
-> > +			return -EBUSY;
-> > +
-> > +		rz_mtu3_16bit_cnt_setting(counter, id);
-> > +
-> > +		break;
-> > +	case RZ_MTU3_32_BIT_CH:
-> > +		/*
-> > +		 * 32-bit phase counting need MTU1 and MTU2 to create 32-bit
-> > +		 * cascade counter.
-> > +		 */
-> > +		if (!rz_mtu3_request_channel(ch1))
-> > +			return -EBUSY;
-> > +
-> > +		if (!rz_mtu3_request_channel(ch2)) {
-> > +			rz_mtu3_release_channel(ch1);
-> > +			return -EBUSY;
-> > +		}
-> > +
-> > +		rz_mtu3_32bit_cnt_setting(counter, id);
-> > +		break;
-> > +	default:
-> > +		/* should never reach this path */
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	return 0;
->=20
-> Instead of the two 'break' statements in the switch block above, replace
-> them both with 'return 0' and then you can get rid of this 'return 0'
-> at the end.
+OpenSBI implementation patches can be found here:
+1] https://patchwork.ozlabs.org/project/opensbi/cover/20221210103011.7814-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+2]https://patchwork.ozlabs.org/project/opensbi/patch/20221212094421.14556-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-Agreed.
+Note,
+- This series requires testing on Cores with zibcom and T-Head SoCs
+- Ive used GCC 12.2.0 for compilation (tested with allmodconfig)
+- Tested all the IP blocks on RZ/Five which use DMA
+- Series is dependant on https://patchwork.kernel.org/project/linux-riscv/cover/20221207180821.2479987-1-heiko@sntech.de/
 
->=20
-> > +		if ((mtclkc_mtclkd && (synapse->signal->id =3D=3D SIGNAL_A_ID ||
-> > +				       synapse->signal->id =3D=3D SIGNAL_B_ID)) ||
-> > +		    (!mtclkc_mtclkd && (synapse->signal->id =3D=3D SIGNAL_C_ID ||
-> > +					synapse->signal->id =3D=3D SIGNAL_D_ID))) {
->=20
-> That's a lot of expressions to evaluate, so it's easy for someone to get
-> lost in what's happening here. It'll be good to refactor by spinning off
-> the signal check to a bool variable. For example:
->=20
->     const bool is_signal_ab =3D (synapse->signal->id =3D=3D SIGNAL_A_ID) =
-||
->                               (synapse->signal->id =3D=3D SIGNAL_B_ID);
->     ...
->     if ((mtclkc_mtclkd && is_signal_ab) ||
->         (!mtclkc_mtclkd && !is_signal_ab)) {
->             mutex_unlock(&priv->lock
-> 	    return 0;
->     }
+v4 -> v5
+* Rebased ALTERNATIVE_3() macro on top of Andrew's patches
+* Rebased the changes on top of Heiko's alternative call patches
+* Dropped configuring the PMA from Linux
+* Dropped configuring the L2 cache from Linux and dropped the binding for same
+* Now using runtime patching mechanism instead of compile time config
 
-Agreed
+RFC v3 -> v4
+* Implemented ALTERNATIVE_3() macro 
+* Now using runtime patching mechanism instead of compile time config
+* Added Andes CMO as and errata
+* Fixed comments pointed by Geert
+
+RFC v2-> RFC v3
+* Fixed review comments pointed by Conor
+* Move DT binding into cache folder
+* Fixed DT binding check issue
+* Added andestech,ax45mp-cache.h header file
+* Now passing the flags for the PMA setup as part of andestech,pma-regions
+  property.
+* Added andestech,inst/data-prefetch and andestech,tag/data-ram-ctl
+  properties to configure the L2 cache.
+* Registered the cache driver as platform driver
+
+RFC v1-> RFC v2
+* Moved out the code from arc/riscv to drivers/soc/renesas
+* Now handling the PMA setup as part of the L2 cache
+* Now making use of dma-noncoherent.c instead SoC specific implementation.
+* Dropped arch_dma_alloc() and arch_dma_free()
+* Switched to RISCV_DMA_NONCOHERENT
+* Included DT binding doc
+
+RFC v2: https://patchwork.kernel.org/project/linux-renesas-soc/cover/20221003223222.448551-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+RFC v1: https://patchwork.kernel.org/project/linux-renesas-soc/cover/20220906102154.32526-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
 Cheers,
-Biju
+Prabhakar
+
+Lad Prabhakar (6):
+  riscv: asm: alternative-macros: Introduce ALTERNATIVE_3() macro
+  riscv: asm: vendorid_list: Add Andes Technology to the vendors list
+  riscv: errata: Add Andes alternative ports
+  riscv: mm: dma-noncoherent: Pass direction and operation to
+    ALT_CMO_OP()
+  dt-bindings: cache: r9a07g043f-l2-cache: Add DT binding documentation
+    for L2 cache controller
+  soc: renesas: Add L2 cache management for RZ/Five SoC
+
+ .../cache/andestech,ax45mp-cache.yaml         |  81 ++++++
+ arch/riscv/Kconfig.erratas                    |  22 ++
+ arch/riscv/errata/Makefile                    |   1 +
+ arch/riscv/errata/andes/Makefile              |   1 +
+ arch/riscv/errata/andes/errata.c              |  93 +++++++
+ arch/riscv/include/asm/alternative-macros.h   |  46 +++-
+ arch/riscv/include/asm/alternative.h          |   3 +
+ arch/riscv/include/asm/cacheflush.h           |  12 +
+ arch/riscv/include/asm/errata_list.h          |  41 ++-
+ arch/riscv/include/asm/vendorid_list.h        |   1 +
+ arch/riscv/kernel/alternative.c               |   5 +
+ arch/riscv/mm/dma-noncoherent.c               |  15 +-
+ drivers/soc/renesas/Kconfig                   |   6 +
+ drivers/soc/renesas/Makefile                  |   2 +
+ drivers/soc/renesas/rzfive/Kconfig            |   6 +
+ drivers/soc/renesas/rzfive/Makefile           |   3 +
+ drivers/soc/renesas/rzfive/ax45mp_cache.c     | 256 ++++++++++++++++++
+ 17 files changed, 576 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
+ create mode 100644 arch/riscv/errata/andes/Makefile
+ create mode 100644 arch/riscv/errata/andes/errata.c
+ create mode 100644 drivers/soc/renesas/rzfive/Kconfig
+ create mode 100644 drivers/soc/renesas/rzfive/Makefile
+ create mode 100644 drivers/soc/renesas/rzfive/ax45mp_cache.c
+
+-- 
+2.25.1
+
