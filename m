@@ -2,38 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1AFD64A5C0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Dec 2022 18:28:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C44564A5C3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Dec 2022 18:28:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232741AbiLLR2U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Dec 2022 12:28:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38756 "EHLO
+        id S232946AbiLLR2c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Dec 2022 12:28:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232631AbiLLR2T (ORCPT
+        with ESMTP id S232920AbiLLR20 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Dec 2022 12:28:19 -0500
+        Mon, 12 Dec 2022 12:28:26 -0500
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 07302FCDE;
-        Mon, 12 Dec 2022 09:28:17 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C9A56FD16;
+        Mon, 12 Dec 2022 09:28:22 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.96,239,1665414000"; 
-   d="scan'208";a="145905861"
+   d="scan'208";a="145905873"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 13 Dec 2022 02:28:17 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 13 Dec 2022 02:28:22 +0900
 Received: from localhost.localdomain (unknown [10.226.93.82])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0893C406F1D1;
-        Tue, 13 Dec 2022 02:28:14 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5E037406F1D2;
+        Tue, 13 Dec 2022 02:28:18 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To:     Philipp Zabel <p.zabel@pengutronix.de>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 02/16] dt-bindings: usb: Add RZ/V2M USB3DRD binding
-Date:   Mon, 12 Dec 2022 17:27:50 +0000
-Message-Id: <20221212172804.1277751-3-biju.das.jz@bp.renesas.com>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Tony Lindgren <tony@atomide.com>,
+        Neal Liu <neal_liu@aspeedtech.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Hans-Christian Noren Egtvedt <egtvedt@samfundet.no>,
+        linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: [PATCH 03/16] usb: gadget: Add support for RZ/V2M USB3DRD driver
+Date:   Mon, 12 Dec 2022 17:27:51 +0000
+Message-Id: <20221212172804.1277751-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221212172804.1277751-1-biju.das.jz@bp.renesas.com>
 References: <20221212172804.1277751-1-biju.das.jz@bp.renesas.com>
@@ -47,143 +51,237 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add device tree bindings for the RZ/V2{M, MA} USB3DRD module.
+The RZ/V2M USB3.1 Gen1 Interface (USB) composed of a USB3.1 Gen1 Dual Role
+Device controller (USB3DRD), a USB3.1 Gen1 Host controller (USB3HOST), a
+USB3.1 Gen1 Peripheral controller (USB3PERI).
+
+The reset for both host and peri are located in USB3DRD block. The
+USB3DRD registers are mapped in the AXI address space of the Peripheral
+module.
+
+Add USB3DRD driver to handle reset for both host and peri modules.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- .../bindings/usb/renesas,rzv2m-usb3drd.yaml   | 123 ++++++++++++++++++
- 1 file changed, 123 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+ drivers/usb/gadget/udc/Kconfig            |   6 +
+ drivers/usb/gadget/udc/Makefile           |   1 +
+ drivers/usb/gadget/udc/rzv2m_usb3drd.c    | 151 ++++++++++++++++++++++
+ include/linux/soc/renesas/rzv2m_usb3drd.h |  19 +++
+ 4 files changed, 177 insertions(+)
+ create mode 100644 drivers/usb/gadget/udc/rzv2m_usb3drd.c
+ create mode 100644 include/linux/soc/renesas/rzv2m_usb3drd.h
 
-diff --git a/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml b/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+diff --git a/drivers/usb/gadget/udc/Kconfig b/drivers/usb/gadget/udc/Kconfig
+index 5756acb07b8d..578a3f209ef6 100644
+--- a/drivers/usb/gadget/udc/Kconfig
++++ b/drivers/usb/gadget/udc/Kconfig
+@@ -191,6 +191,12 @@ config USB_RENESAS_USBHS_UDC
+ 	   dynamically linked module called "renesas_usbhs" and force all
+ 	   gadget drivers to also be dynamically linked.
+ 
++config USB_RZV2M_USB3DRD
++	depends on ARCH_R9A09G011 || COMPILE_TEST
++	bool
++	default y if USB_XHCI_RZV2M
++	default y if USB_RENESAS_USB3
++
+ config USB_RENESAS_USB3
+ 	tristate 'Renesas USB3.0 Peripheral controller'
+ 	depends on ARCH_RENESAS || COMPILE_TEST
+diff --git a/drivers/usb/gadget/udc/Makefile b/drivers/usb/gadget/udc/Makefile
+index 12f9e4c9eb0c..13c2a5422c30 100644
+--- a/drivers/usb/gadget/udc/Makefile
++++ b/drivers/usb/gadget/udc/Makefile
+@@ -27,6 +27,7 @@ obj-$(CONFIG_USB_TEGRA_XUDC)	+= tegra-xudc.o
+ obj-$(CONFIG_USB_M66592)	+= m66592-udc.o
+ obj-$(CONFIG_USB_R8A66597)	+= r8a66597-udc.o
+ obj-$(CONFIG_USB_RENESAS_USB3)	+= renesas_usb3.o
++obj-$(CONFIG_USB_RZV2M_USB3DRD)	+= rzv2m_usb3drd.o
+ obj-$(CONFIG_USB_FSL_QE)	+= fsl_qe_udc.o
+ obj-$(CONFIG_USB_S3C_HSUDC)	+= s3c-hsudc.o
+ obj-$(CONFIG_USB_LPC32XX)	+= lpc32xx_udc.o
+diff --git a/drivers/usb/gadget/udc/rzv2m_usb3drd.c b/drivers/usb/gadget/udc/rzv2m_usb3drd.c
 new file mode 100644
-index 000000000000..0c473c3398b3
+index 000000000000..1c9176dff1cb
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
-@@ -0,0 +1,123 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/renesas,rzv2m-usb3drd.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/usb/gadget/udc/rzv2m_usb3drd.c
+@@ -0,0 +1,151 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Renesas RZ/V2M USB3DRD driver
++ *
++ * Copyright (C) 2022 Renesas Electronics Corporation
++ */
 +
-+title: Renesas RZ/V2M USB 3.1 DRD controller
++#include <linux/io.h>
++#include <linux/of_device.h>
++#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++#include <linux/reset.h>
 +
-+maintainers:
-+  - Biju Das <biju.das.jz@bp.renesas.com>
++#define USB_PERI_DRD_CON	0x400
 +
-+description: |
-+  The RZ/V2{M, MA} USB3.1 DRD module supports the following functions
-+  * Role swapping function by the ID pin of the Micro-AB receptacle
-+  * Battery Charging Specification Revision 1.2
++#define USB_PERI_DRD_CON_PERI_RST	BIT(31)
++#define USB_PERI_DRD_CON_HOST_RST	BIT(30)
++#define USB_PERI_DRD_CON_PERI_CON	BIT(24)
 +
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - renesas,r9a09g011-usb3drd  # RZ/V2M
-+          - renesas,r9a09g055-usb3drd  # RZ/V2MA
-+      - const: renesas,rzv2m-usb3drd
++struct rzv2m_usb3drd {
++	void __iomem *reg;
++	struct device *dev;
++	struct reset_control *drd_rstc;
++	struct reset_control *usbp_rstc;
++};
 +
-+  reg:
-+    maxItems: 1
++static void rzv2m_usb3drd_set_bit(struct rzv2m_usb3drd *usb3, u32 bits,
++				  u32 offs)
++{
++	u32 val = readl(usb3->reg + offs);
 +
-+  clocks:
-+    items:
-+      - description: Peripheral AXI clock
-+      - description: APB clock
++	val |= bits;
++	writel(val, usb3->reg + offs);
++}
 +
-+  clock-names:
-+    items:
-+      - const: peri_axi
-+      - const: apb
++static void rzv2m_usb3drd_clear_bit(struct rzv2m_usb3drd *usb3, u32 bits,
++				    u32 offs)
++{
++	u32 val = readl(usb3->reg + offs);
 +
-+  power-domains:
-+    maxItems: 1
++	val &= ~bits;
++	writel(val, usb3->reg + offs);
++}
 +
-+  resets:
-+    items:
-+      - description: DRD reset
-+      - description: Peripheral reset
++void rzv2m_usb3drd_reset(struct device *dev, bool host)
++{
++	struct rzv2m_usb3drd *usb3 = dev_get_drvdata(dev);
 +
-+  reset-names:
-+    items:
-+      - const: drd_reset
-+      - const: aresetn_p
++	if (host) {
++		rzv2m_usb3drd_clear_bit(usb3, USB_PERI_DRD_CON_PERI_CON,
++					USB_PERI_DRD_CON);
++		rzv2m_usb3drd_clear_bit(usb3, USB_PERI_DRD_CON_HOST_RST,
++					USB_PERI_DRD_CON);
++		rzv2m_usb3drd_set_bit(usb3, USB_PERI_DRD_CON_PERI_RST,
++				      USB_PERI_DRD_CON);
++	} else {
++		rzv2m_usb3drd_set_bit(usb3, USB_PERI_DRD_CON_PERI_CON,
++				      USB_PERI_DRD_CON);
++		rzv2m_usb3drd_set_bit(usb3, USB_PERI_DRD_CON_HOST_RST,
++				      USB_PERI_DRD_CON);
++		rzv2m_usb3drd_clear_bit(usb3, USB_PERI_DRD_CON_PERI_RST,
++					USB_PERI_DRD_CON);
++	}
++}
++EXPORT_SYMBOL_GPL(rzv2m_usb3drd_reset);
 +
-+  ranges: true
++static int rzv2m_usb3drd_remove(struct platform_device *pdev)
++{
++	struct rzv2m_usb3drd *usb3 = platform_get_drvdata(pdev);
 +
-+  '#address-cells':
-+    enum: [ 1, 2 ]
++	of_platform_depopulate(usb3->dev);
++	pm_runtime_put(usb3->dev);
++	pm_runtime_disable(&pdev->dev);
++	reset_control_assert(usb3->usbp_rstc);
++	reset_control_assert(usb3->drd_rstc);
 +
-+  '#size-cells':
-+    enum: [ 1, 2 ]
++	return 0;
++}
 +
-+  usb3peri:
-+    $ref: /schemas/usb/renesas,usb3-peri.yaml
++static int rzv2m_usb3drd_probe(struct platform_device *pdev)
++{
++	struct rzv2m_usb3drd *usb3;
++	int ret;
 +
-+patternProperties:
-+  "^usb@[0-9a-f]+$":
-+    type: object
-+    $ref: renesas,usb-xhci.yaml#
++	usb3 = devm_kzalloc(&pdev->dev, sizeof(*usb3), GFP_KERNEL);
++	if (!usb3)
++		return -ENOMEM;
 +
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - power-domains
-+  - resets
-+  - reset-names
++	usb3->dev = &pdev->dev;
 +
-+additionalProperties: false
++	usb3->reg = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(usb3->reg))
++		return PTR_ERR(usb3->reg);
 +
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r9a09g011-cpg.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
++	platform_set_drvdata(pdev, usb3);
 +
-+    usb3drd: usb@85070000 {
-+        compatible = "renesas,r9a09g011-usb3drd", "renesas,rzv2m-usb3drd";
-+        reg = <0x85070000 0x1000>;
-+        clocks = <&cpg CPG_MOD R9A09G011_USB_ACLK_P>,
-+                 <&cpg CPG_MOD R9A09G011_USB_PCLK>;
-+        clock-names = "peri_axi", "apb";
-+        power-domains = <&cpg>;
-+        resets = <&cpg R9A09G011_USB_DRD_RESET>,
-+                 <&cpg R9A09G011_USB_ARESETN_P>;
-+        reset-names = "drd_reset", "aresetn_p";
-+        ranges;
-+        #address-cells = <1>;
-+        #size-cells = <1>;
++	usb3->drd_rstc = devm_reset_control_get_exclusive(&pdev->dev,
++							  "drd_reset");
++	if (IS_ERR(usb3->drd_rstc))
++		return dev_err_probe(&pdev->dev, PTR_ERR(usb3->drd_rstc),
++				     "failed to get drd reset");
 +
-+        usb3host: usb@85060000 {
-+           compatible = "renesas,r9a09g011-xhci",
-+                        "renesas,rzv2m-xhci";
-+           reg = <0x85060000 0x2000>;
-+           interrupts = <GIC_SPI 245 IRQ_TYPE_LEVEL_HIGH>;
-+           clocks = <&cpg CPG_MOD R9A09G011_USB_ACLK_H>,
-+                    <&cpg CPG_MOD R9A09G011_USB_PCLK>;
-+           clock-names = "host_axi", "reg";
-+           power-domains = <&cpg>;
-+           resets = <&cpg R9A09G011_USB_ARESETN_H>;
-+        };
++	usb3->usbp_rstc = devm_reset_control_get_optional_shared(&pdev->dev,
++								 "aresetn_p");
++	if (IS_ERR(usb3->usbp_rstc))
++		return dev_err_probe(&pdev->dev, PTR_ERR(usb3->usbp_rstc),
++				     "failed to get peri reset");
 +
-+        usb3peri: usb3peri {
-+           compatible = "renesas,r9a09g011-usb3-peri",
-+                        "renesas,rzv2m-usb3-peri";
-+           interrupts = <GIC_SPI 246 IRQ_TYPE_LEVEL_HIGH>,
-+                        <GIC_SPI 242 IRQ_TYPE_LEVEL_HIGH>,
-+                        <GIC_SPI 243 IRQ_TYPE_LEVEL_HIGH>,
-+                        <GIC_SPI 244 IRQ_TYPE_LEVEL_HIGH>;
-+           interrupt-names = "all_p", "drd", "bc", "gpi";
-+           clocks = <&cpg CPG_MOD R9A09G011_USB_ACLK_P>,
-+                    <&cpg CPG_MOD R9A09G011_USB_PCLK>;
-+           clock-names = "aclk", "reg";
-+           power-domains = <&cpg>;
-+           resets = <&cpg R9A09G011_USB_ARESETN_P>;
-+        };
-+    };
++	reset_control_deassert(usb3->drd_rstc);
++	reset_control_deassert(usb3->usbp_rstc);
++	pm_runtime_enable(&pdev->dev);
++	ret = pm_runtime_resume_and_get(usb3->dev);
++	if (ret)
++		goto err_rst;
++
++	ret = of_platform_populate(usb3->dev->of_node, NULL, NULL, usb3->dev);
++	if (ret)
++		goto err_pm;
++
++	return 0;
++
++err_pm:
++	pm_runtime_put(usb3->dev);
++
++err_rst:
++	pm_runtime_disable(&pdev->dev);
++	reset_control_assert(usb3->usbp_rstc);
++	reset_control_assert(usb3->drd_rstc);
++	return ret;
++}
++
++static const struct of_device_id rzv2m_usb3drd_of_match[] = {
++	{ .compatible = "renesas,rzv2m-usb3drd", },
++	{ /* Sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, rzv2m_usb3drd_of_match);
++
++static struct platform_driver rzv2m_usb3drd_driver = {
++	.driver = {
++		.name = "rzv2m-usb3drd",
++		.of_match_table = of_match_ptr(rzv2m_usb3drd_of_match),
++	},
++	.probe = rzv2m_usb3drd_probe,
++	.remove = rzv2m_usb3drd_remove,
++};
++module_platform_driver(rzv2m_usb3drd_driver);
++
++MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
++MODULE_DESCRIPTION("Renesas RZ/V2M USB3DRD driver");
++MODULE_LICENSE("GPL");
++MODULE_ALIAS("platform:rzv2m_usb3drd");
+diff --git a/include/linux/soc/renesas/rzv2m_usb3drd.h b/include/linux/soc/renesas/rzv2m_usb3drd.h
+new file mode 100644
+index 000000000000..87114c81a98e
+--- /dev/null
++++ b/include/linux/soc/renesas/rzv2m_usb3drd.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef __RZV2M_USB3DRD_H
++#define __RZV2M_USB3DRD_H
++
++#include <linux/types.h>
++
++struct rzv2m_usb3drd {
++	void __iomem *reg;
++	struct device *dev;
++	struct reset_control *rstc;
++};
++
++#if IS_ENABLED(CONFIG_USB_RZV2M_USB3DRD)
++void rzv2m_usb3drd_reset(struct device *dev, bool host);
++#else
++static inline void rzv2m_usb3drd_reset(struct device *dev, bool host) { }
++#endif
++
++#endif /* __RZV2M_USB3DRD_H */
 -- 
 2.25.1
 
