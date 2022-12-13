@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8919164B618
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Dec 2022 14:26:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59E7D64B625
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Dec 2022 14:27:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235579AbiLMN0n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Dec 2022 08:26:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42312 "EHLO
+        id S235671AbiLMN1e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Dec 2022 08:27:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235561AbiLMN0L (ORCPT
+        with ESMTP id S235361AbiLMN1Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Dec 2022 08:26:11 -0500
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B381929B;
-        Tue, 13 Dec 2022 05:26:07 -0800 (PST)
+        Tue, 13 Dec 2022 08:27:24 -0500
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C374F19C2C;
+        Tue, 13 Dec 2022 05:27:21 -0800 (PST)
 Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 1CDCD4000D;
-        Tue, 13 Dec 2022 13:26:03 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7F00EC000A;
+        Tue, 13 Dec 2022 13:27:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1670937966;
+        t=1670938040;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Ptn99nrD4v3klaGJEwH70YOa9kqBhrT21rwC1IJ3I5M=;
-        b=fC86YTmraXzpAWpYnghfIlyd9ldk0MuUxj689+lidRbhCRGV03RItgGNMSr436DsTzrfXp
-        +ENWEAcaAUUozVey87aiBU89ODW1a3de/ZW+bwgHXEhsrnyUQ1zvGTDXYu0qcW2YZgbjrv
-        WWG4yppYnSkjGZGEtNe7FY2ns1t6Ft6YT6j9WOYrYBefD7u+nEdA6ZU/TfOJyBVjDqYmfr
-        xAPqW92Wvl0pL/h0hNPGU4YgNM7XtkZQiebpK+fuEf+wgRC96u0x4mf8WxNRLt9IcoPhSc
-        g0pfTg7nCSi4fTluR05qUrz0FhpoQP+YNZQTII8vZR8VI8oBFxSv85MNj+rpHg==
-Date:   Tue, 13 Dec 2022 14:26:03 +0100
+        bh=BqsUopVXi25NAnceaPj1LcaqQQP8ClUAqCeu3+4ddCA=;
+        b=VWHRcYwzPT0AsE2x/qWC4meiq8PCvs4HS2kzTINM0xgQkmFbcK+l1XpJXagzntK4c58muK
+        PJcC4xrgPlMgqcodhzeIWSvB1SDHo3mD2PbqEiHUjnmvlAkp7Q3uAfL9cqJcoQEhgnWpjd
+        LbV1CTtwXAr/0Lq3hI3ahnNkM1RVwqAJWalx9dnhE7KRm6PCyRg6k8aPQMdqD+Oz6cSDip
+        JOfhUItF0fjg2gMRqsHfsGMIHjezx7gaWiBCUIFPd2umQiqBnKq9ynJdJSm9NJVwzRlKqC
+        CZYgjtwcSJNuDtSf7Gj2cte2+2xxrtLzisTB30ea/APnOwsbEr61xJd8lc8RGg==
+Date:   Tue, 13 Dec 2022 14:27:15 +0100
 From:   Herve Codina <herve.codina@bootlin.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -45,46 +45,46 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-usb@vger.kernel.org,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v3 0/9] Add the Renesas USBF controller support
-Message-ID: <20221213142603.596bd90d@bootlin.com>
-In-Reply-To: <CAL_JsqLjD=DbKJRrmn2GmbAwmVyE=gVcz-fZfNJ_xAup6GReSA@mail.gmail.com>
+Subject: Re: [PATCH v3 8/9] ARM: dts: r9a06g032: Add the USBF controller
+ node
+Message-ID: <20221213142715.012bdf2d@bootlin.com>
+In-Reply-To: <CAMuHMdWHVStUFx61oKWh=YiJ9wfXZaeWEnt2CSRgn3HQe3pQ6w@mail.gmail.com>
 References: <20221207162435.1001782-1-herve.codina@bootlin.com>
-        <CAL_JsqJiZU=sHVPc92nDNoqUjm7FUb=u0izGYa+irkUW1XmA_w@mail.gmail.com>
-        <20221208092439.6170cf5e@bootlin.com>
-        <CAL_JsqLjD=DbKJRrmn2GmbAwmVyE=gVcz-fZfNJ_xAup6GReSA@mail.gmail.com>
+        <20221207162435.1001782-9-herve.codina@bootlin.com>
+        <CAMuHMdWHVStUFx61oKWh=YiJ9wfXZaeWEnt2CSRgn3HQe3pQ6w@mail.gmail.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob, Geert,
+Hi Geert,
 
-On Thu, 8 Dec 2022 14:44:31 -0600
-Rob Herring <robh+dt@kernel.org> wrote:
+On Thu, 8 Dec 2022 10:09:01 +0100
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-[...]
+> On Wed, Dec 7, 2022 at 5:25 PM Herve Codina <herve.codina@bootlin.com> wr=
+ote:
+> > Add the USBF controller available in the r9a06g032 SoC.
+> >
+> > Signed-off-by: Herve Codina <herve.codina@bootlin.com> =20
 >=20
-> Oh right. That's in place of course to avoid probe ordering issues...
->=20
-[...]
->=20
-> I agree with Geert that this shouldn't be needed.
+> My
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> on v2 is still valid.
 >=20
 
-In the v4 series, I am going to fully remove the 'depends-on'
-property.
+Will be added in v4.
 
-Thanks for the review.
+Thanks for the review,
 Herv=C3=A9
 
 --=20
