@@ -2,133 +2,214 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3566664B74A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Dec 2022 15:24:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6B3064B75B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Dec 2022 15:29:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234710AbiLMOYX convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Dec 2022 09:24:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49678 "EHLO
+        id S235621AbiLMO30 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Dec 2022 09:29:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235209AbiLMOYT (ORCPT
+        with ESMTP id S235278AbiLMO3Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Dec 2022 09:24:19 -0500
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEA801EADF;
-        Tue, 13 Dec 2022 06:24:18 -0800 (PST)
-Received: by mail-qt1-f175.google.com with SMTP id h16so11913438qtu.2;
-        Tue, 13 Dec 2022 06:24:18 -0800 (PST)
+        Tue, 13 Dec 2022 09:29:24 -0500
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1215D20BC3;
+        Tue, 13 Dec 2022 06:29:24 -0800 (PST)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1441d7d40c6so12715246fac.8;
+        Tue, 13 Dec 2022 06:29:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=B0jEotrptLhX70qm2KsIOI53cs0q1LQcHTE7sl9TrjM=;
-        b=AbD6XBGEO/8Dm8/4C1V1gy4u3W3IjOgITfkafYLHzb8S+s35vlZvXT+A1FmSgZb8Xd
-         Jj+u8dJS/ViWgoNiq4SiLLVtSIP2i3CvFumUtOhKPYXRfXL3gau2Ngyh4V/XZvjSLbEb
-         eDbB6nKGR3Ze1SN2DMdfkiMatjYq3ZgT6AtfXyAi1YGC4FQ1YZxIbT2uYpINncNrDcPJ
-         yRhZHsBYiO97xHLnjUIpgqWmYpML1Jk9SqHoLL3g0xrGur6KsnJlZT2HV87M+6wcVAu1
-         KrncXDD2O58TPc6MOdKa4330KVLju/gyZzTQlG9jVV7WlWBOxg+nKsGlHhN0qd313bf/
-         qurA==
-X-Gm-Message-State: ANoB5plCKfuq+/swYEnPcIkbXOuoqN9UnKuv0uq3x8NdKeMgOEAfSkkc
-        18giVZIkPo/84ScN+dKJRVT3ZmOAUsUnyQ==
-X-Google-Smtp-Source: AA0mqf4nuUgdATqwcuqybJR6VllYf8g5pGS6miS+iYMtJHsD8n3g0I83EqlKNt/Rvv9AvppIn9HoIA==
-X-Received: by 2002:ac8:1194:0:b0:39c:dbaa:fa08 with SMTP id d20-20020ac81194000000b0039cdbaafa08mr25724220qtj.42.1670941457426;
-        Tue, 13 Dec 2022 06:24:17 -0800 (PST)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id z11-20020ac87cab000000b003a7e4129f83sm7572194qtv.85.2022.12.13.06.24.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Dec 2022 06:24:17 -0800 (PST)
-Received: by mail-yb1-f173.google.com with SMTP id i186so17765002ybc.9;
-        Tue, 13 Dec 2022 06:24:16 -0800 (PST)
-X-Received: by 2002:a25:9:0:b0:6f9:29ef:a5ee with SMTP id 9-20020a250009000000b006f929efa5eemr38476139yba.380.1670941456572;
- Tue, 13 Dec 2022 06:24:16 -0800 (PST)
-MIME-Version: 1.0
-References: <20221111162325.471963-1-biju.das.jz@bp.renesas.com> <20221111162325.471963-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20221111162325.471963-3-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 13 Dec 2022 15:24:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUzT7=xT1nJ9o7eSgzUGu5vb1c=gWg=CgJ9Ay1tmJgpDQ@mail.gmail.com>
-Message-ID: <CAMuHMdUzT7=xT1nJ9o7eSgzUGu5vb1c=gWg=CgJ9Ay1tmJgpDQ@mail.gmail.com>
-Subject: Re: [PATCH v11 2/2] pwm: Add support for RZ/G2L GPT
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VQKy20lRkZdHqk3gT0sVQxdWUBVKKO65u2g9flbQKyU=;
+        b=XgC873sTMUct4De05UOWlKOZwltC5AZt627nV0bBAblGVQ/vl3wDhKs5Rbt1B1fskM
+         ldmkZ1+1mRa8YNl+P+VHExlSaukkGsLAXj5sZwjBjZvavvtbIbFbimjWE8Fx6HBwpf5A
+         +3AtpieepokXtZqN/4mnNoHWxSx0Y35WGYb4fz+4ns+Y7++wVnI2hnfwG/nBqBoUVhzS
+         yqmLPAaK9ZOifBv3xRcz3PS7kkA2XQNXhDqeb9IXB6OJWVKFePYUaWrs4UhlkQHQi0Ms
+         IBkbYkym41v+g0Qek7NQYEdA+oR8m+WtFDOSh7glxpuMtQSnzHbP+xhYtDG9kWF3OKIr
+         YMhg==
+X-Gm-Message-State: ANoB5plwRIf9LkH1sz5RruIUfqinWYqXqeDQCtsd2I4N5Yb1HI54tB2H
+        ogKbrfKGg/foy3iEDPdAeA==
+X-Google-Smtp-Source: AA0mqf7mesH76t/qTFVXBoPHFI+Q9oByg0u/+nUar5MhCtL9Fbvn0AAqhQrGcu2ftQYW+YFbJljXdA==
+X-Received: by 2002:a05:6870:8914:b0:13d:99fc:8d23 with SMTP id i20-20020a056870891400b0013d99fc8d23mr8742920oao.42.1670941763148;
+        Tue, 13 Dec 2022 06:29:23 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id u39-20020a056870702700b001435fe636f2sm1440832oae.53.2022.12.13.06.29.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Dec 2022 06:29:22 -0800 (PST)
+Received: (nullmailer pid 967453 invoked by uid 1000);
+        Tue, 13 Dec 2022 14:29:21 -0000
+Date:   Tue, 13 Dec 2022 08:29:21 -0600
+From:   Rob Herring <robh@kernel.org>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Subject: Re: [PATCH 02/16] dt-bindings: usb: Add RZ/V2M USB3DRD binding
+Message-ID: <20221213142921.GA958810-robh@kernel.org>
+References: <20221212172804.1277751-1-biju.das.jz@bp.renesas.com>
+ <20221212172804.1277751-3-biju.das.jz@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221212172804.1277751-3-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
-
-On Fri, Nov 11, 2022 at 5:23 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> RZ/G2L General PWM Timer (GPT) composed of 8 channels with 32-bit timer
-> (GPT32E). It supports the following functions
->  * 32 bits × 8 channels
->  * Up-counting or down-counting (saw waves) or up/down-counting
->    (triangle waves) for each counter.
->  * Clock sources independently selectable for each channel
->  * Two I/O pins per channel
->  * Two output compare/input capture registers per channel
->  * For the two output compare/input capture registers of each channel,
->    four registers are provided as buffer registers and are capable of
->    operating as comparison registers when buffering is not in use.
->  * In output compare operation, buffer switching can be at crests or
->    troughs, enabling the generation of laterally asymmetric PWM waveforms.
->  * Registers for setting up frame cycles in each channel (with capability
->    for generating interrupts at overflow or underflow)
->  * Generation of dead times in PWM operation
->  * Synchronous starting, stopping and clearing counters for arbitrary
->    channels
->  * Starting, stopping, clearing and up/down counters in response to input
->    level comparison
->  * Starting, clearing, stopping and up/down counters in response to a
->    maximum of four external triggers
->  * Output pin disable function by dead time error and detected
->    short-circuits between output pins
->  * A/D converter start triggers can be generated (GPT32E0 to GPT32E3)
->  * Enables the noise filter for input capture and external trigger
->    operation
->
-> This patch adds basic pwm support for RZ/G2L GPT driver by creating
-> separate logical channels for each IOs.
->
+On Mon, Dec 12, 2022 at 05:27:50PM +0000, Biju Das wrote:
+> Add device tree bindings for the RZ/V2{M, MA} USB3DRD module.
+> 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
-> v10->v11:
-
+>  .../bindings/usb/renesas,rzv2m-usb3drd.yaml   | 123 ++++++++++++++++++
+>  1 file changed, 123 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml b/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+> new file mode 100644
+> index 000000000000..0c473c3398b3
 > --- /dev/null
-> +++ b/drivers/pwm/pwm-rzg2l-gpt.c
+> +++ b/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+> @@ -0,0 +1,123 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/usb/renesas,rzv2m-usb3drd.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/V2M USB 3.1 DRD controller
+> +
+> +maintainers:
+> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +
+> +description: |
+> +  The RZ/V2{M, MA} USB3.1 DRD module supports the following functions
+> +  * Role swapping function by the ID pin of the Micro-AB receptacle
+> +  * Battery Charging Specification Revision 1.2
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - renesas,r9a09g011-usb3drd  # RZ/V2M
+> +          - renesas,r9a09g055-usb3drd  # RZ/V2MA
+> +      - const: renesas,rzv2m-usb3drd
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Peripheral AXI clock
+> +      - description: APB clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: peri_axi
+> +      - const: apb
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    items:
+> +      - description: DRD reset
+> +      - description: Peripheral reset
+> +
+> +  reset-names:
+> +    items:
+> +      - const: drd_reset
+> +      - const: aresetn_p
+> +
+> +  ranges: true
+> +
+> +  '#address-cells':
+> +    enum: [ 1, 2 ]
+> +
+> +  '#size-cells':
+> +    enum: [ 1, 2 ]
+> +
+> +  usb3peri:
+> +    $ref: /schemas/usb/renesas,usb3-peri.yaml
+> +
+> +patternProperties:
+> +  "^usb@[0-9a-f]+$":
+> +    type: object
+> +    $ref: renesas,usb-xhci.yaml#
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - resets
+> +  - reset-names
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r9a09g011-cpg.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    usb3drd: usb@85070000 {
+> +        compatible = "renesas,r9a09g011-usb3drd", "renesas,rzv2m-usb3drd";
+> +        reg = <0x85070000 0x1000>;
+> +        clocks = <&cpg CPG_MOD R9A09G011_USB_ACLK_P>,
+> +                 <&cpg CPG_MOD R9A09G011_USB_PCLK>;
+> +        clock-names = "peri_axi", "apb";
+> +        power-domains = <&cpg>;
+> +        resets = <&cpg R9A09G011_USB_DRD_RESET>,
+> +                 <&cpg R9A09G011_USB_ARESETN_P>;
+> +        reset-names = "drd_reset", "aresetn_p";
+> +        ranges;
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +
+> +        usb3host: usb@85060000 {
+> +           compatible = "renesas,r9a09g011-xhci",
+> +                        "renesas,rzv2m-xhci";
+> +           reg = <0x85060000 0x2000>;
+> +           interrupts = <GIC_SPI 245 IRQ_TYPE_LEVEL_HIGH>;
+> +           clocks = <&cpg CPG_MOD R9A09G011_USB_ACLK_H>,
+> +                    <&cpg CPG_MOD R9A09G011_USB_PCLK>;
+> +           clock-names = "host_axi", "reg";
+> +           power-domains = <&cpg>;
+> +           resets = <&cpg R9A09G011_USB_ARESETN_H>;
+> +        };
+> +
+> +        usb3peri: usb3peri {
+> +           compatible = "renesas,r9a09g011-usb3-peri",
+> +                        "renesas,rzv2m-usb3-peri";
+> +           interrupts = <GIC_SPI 246 IRQ_TYPE_LEVEL_HIGH>,
+> +                        <GIC_SPI 242 IRQ_TYPE_LEVEL_HIGH>,
+> +                        <GIC_SPI 243 IRQ_TYPE_LEVEL_HIGH>,
+> +                        <GIC_SPI 244 IRQ_TYPE_LEVEL_HIGH>;
+> +           interrupt-names = "all_p", "drd", "bc", "gpi";
+> +           clocks = <&cpg CPG_MOD R9A09G011_USB_ACLK_P>,
+> +                    <&cpg CPG_MOD R9A09G011_USB_PCLK>;
+> +           clock-names = "aclk", "reg";
+> +           power-domains = <&cpg>;
+> +           resets = <&cpg R9A09G011_USB_ARESETN_P>;
+> +        };
 
-> +static void rzg2l_gpt_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-> +                               struct pwm_state *state)
-> +{
+The USB device ctrlr doesn't have registers? It looks to me like you've 
+created 3 nodes for instantiating drivers rather that because you have 3 
+separate h/w blocks. Either you should split this to 2 independent nodes 
+or move usb3peri resources to the parent node. That would only be 
+interrupts because everything else is already there.
 
-As of commit 6c452cff79f8bf1c ("pwm: Make .get_state() callback return
-an error code") in pwm/for-next, this needs to return an error code
-(but you probably already know).
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Rob
