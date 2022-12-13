@@ -2,144 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F192D64BC84
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Dec 2022 19:58:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2DA964BF7D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Dec 2022 23:43:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236658AbiLMS6u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Dec 2022 13:58:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47928 "EHLO
+        id S236408AbiLMWnV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Dec 2022 17:43:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235923AbiLMS6t (ORCPT
+        with ESMTP id S235536AbiLMWnV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Dec 2022 13:58:49 -0500
+        Tue, 13 Dec 2022 17:43:21 -0500
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 97EF3218A5;
-        Tue, 13 Dec 2022 10:58:48 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7094621834;
+        Tue, 13 Dec 2022 14:43:19 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.96,242,1665414000"; 
-   d="scan'208";a="143218061"
+   d="scan'208";a="143229812"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 14 Dec 2022 03:58:48 +0900
-Received: from localhost.localdomain (unknown [10.226.93.72])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7D44E40B102C;
-        Wed, 14 Dec 2022 03:58:45 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH v3 4/4] arm64: dts: renesas: rzv2m evk: Enable pwm
-Date:   Tue, 13 Dec 2022 18:58:27 +0000
-Message-Id: <20221213185827.2012004-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221213185827.2012004-1-biju.das.jz@bp.renesas.com>
-References: <20221213185827.2012004-1-biju.das.jz@bp.renesas.com>
+  by relmlie5.idc.renesas.com with ESMTP; 14 Dec 2022 07:43:18 +0900
+Received: from mulinux.home (unknown [10.226.93.1])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7C83C40F34F4;
+        Wed, 14 Dec 2022 07:43:13 +0900 (JST)
+From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: [PATCH 0/5] Driver support for RZ/V2M PWC
+Date:   Tue, 13 Dec 2022 22:43:05 +0000
+Message-Id: <20221213224310.543243-1-fabrizio.castro.jz@renesas.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable pwm{8..14} on RZ/V2M EVK.
+The PWC IP found in the RZ/V2M family of chips fits the Multi-Function
+Device (MFD) model quite well, and comes with the below capabilities:
+* external power supply on/off sequence generation
+* on/off signal generation for the LPDDR4 core power supply (LPVDD)
+* key input signals processing
+* general-purpose output pins
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2->v3:
- * Added Rb tag from Geert.
-v1->v2:
- * No change
----
- .../boot/dts/renesas/r9a09g011-v2mevk2.dts    | 70 +++++++++++++++++++
- 1 file changed, 70 insertions(+)
+This series introduces a driver to address GPIO support, and a driver
+to address power off support, alongside the corresponding dt-bindings.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-index 11e1d51c7c0e..73d7481b468e 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-@@ -78,6 +78,76 @@ i2c2_pins: i2c2 {
- 		pinmux = <RZV2M_PORT_PINMUX(3, 8, 2)>, /* SDA */
- 			 <RZV2M_PORT_PINMUX(3, 9, 2)>; /* SCL */
- 	};
-+
-+	pwm8_pins: pwm8 {
-+		pinmux = <RZV2M_PORT_PINMUX(1, 8, 1)>;  /* PM8 */
-+	};
-+
-+	pwm9_pins: pwm9 {
-+		pinmux = <RZV2M_PORT_PINMUX(1, 9, 1)>;  /* PM9 */
-+	};
-+
-+	pwm10_pins: pwm10 {
-+		pinmux = <RZV2M_PORT_PINMUX(1, 10, 1)>; /* PM10 */
-+	};
-+
-+	pwm11_pins: pwm11 {
-+		pinmux = <RZV2M_PORT_PINMUX(1, 11, 1)>; /* PM11 */
-+	};
-+
-+	pwm12_pins: pwm12 {
-+		pinmux = <RZV2M_PORT_PINMUX(1, 12, 1)>; /* PM12 */
-+	};
-+
-+	pwm13_pins: pwm13 {
-+		pinmux = <RZV2M_PORT_PINMUX(1, 13, 1)>; /* PM13 */
-+	};
-+
-+	pwm14_pins: pwm14 {
-+		pinmux = <RZV2M_PORT_PINMUX(1, 14, 1)>; /* PM14 */
-+	};
-+};
-+
-+&pwm8 {
-+	pinctrl-0 = <&pwm8_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&pwm9 {
-+	pinctrl-0 = <&pwm9_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&pwm10 {
-+	pinctrl-0 = <&pwm10_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&pwm11 {
-+	pinctrl-0 = <&pwm11_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&pwm12 {
-+	pinctrl-0 = <&pwm12_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&pwm13 {
-+	pinctrl-0 = <&pwm13_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&pwm14 {
-+	pinctrl-0 = <&pwm14_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
- };
- 
- &uart0 {
+Thanks,
+Fab
+
+Fabrizio Castro (5):
+  dt-bindings: gpio: Add RZ/V2M PWC GPIO driver bindings
+  dt-bindings: power: reset: Add RZ/V2M PWC Power OFF bindings
+  dt-bindings: mfd: Add RZ/V2M PWC global registers bindings
+  gpio: Add support for Renesas RZ/V2M PWC
+  power: reset: Add new driver for RZ/V2M PWC poweroff
+
+ .../bindings/gpio/renesas,rzv2m-pwc-gpio.yaml |  62 +++++++++
+ .../bindings/mfd/renesas,rzv2m-pwc.yaml       |  70 ++++++++++
+ .../reset/renesas,rzv2m-pwc-poweroff.yaml     |  48 +++++++
+ drivers/gpio/Kconfig                          |   8 ++
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-rzv2m-pwc.c                 | 123 ++++++++++++++++++
+ drivers/power/reset/Kconfig                   |  10 ++
+ drivers/power/reset/Makefile                  |   1 +
+ drivers/power/reset/rzv2m-pwc-poweroff.c      |  81 ++++++++++++
+ 9 files changed, 404 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/gpio/renesas,rzv2m-pwc-gpio.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/renesas,rzv2m-pwc.yaml
+ create mode 100644 Documentation/devicetree/bindings/power/reset/renesas,rzv2m-pwc-poweroff.yaml
+ create mode 100644 drivers/gpio/gpio-rzv2m-pwc.c
+ create mode 100644 drivers/power/reset/rzv2m-pwc-poweroff.c
+
 -- 
-2.25.1
+2.34.1
 
