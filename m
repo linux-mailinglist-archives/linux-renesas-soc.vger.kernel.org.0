@@ -2,109 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E209D64B2E1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Dec 2022 10:59:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6F9164B602
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Dec 2022 14:23:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234785AbiLMJ7v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Dec 2022 04:59:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46076 "EHLO
+        id S234987AbiLMNXH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Dec 2022 08:23:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235071AbiLMJ7t (ORCPT
+        with ESMTP id S230061AbiLMNXG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Dec 2022 04:59:49 -0500
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5FDED1AF25;
-        Tue, 13 Dec 2022 01:59:46 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.96,241,1665414000"; 
-   d="scan'208";a="143182982"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 13 Dec 2022 18:59:45 +0900
-Received: from localhost.localdomain (unknown [10.226.93.72])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id B11214006DC5;
-        Tue, 13 Dec 2022 18:59:40 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Hangbin Liu <liuhangbin@gmail.com>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Masaru Nagai <masaru.nagai.vx@renesas.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        stable@vger.kernel.org
-Subject: [PATCH net-next] ravb: Fix "failed to switch device to config mode" message during unbind
-Date:   Tue, 13 Dec 2022 09:59:38 +0000
-Message-Id: <20221213095938.1280861-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 13 Dec 2022 08:23:06 -0500
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E53A17E20;
+        Tue, 13 Dec 2022 05:23:04 -0800 (PST)
+Received: (Authenticated sender: herve.codina@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 1C113240013;
+        Tue, 13 Dec 2022 13:22:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1670937782;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=jL+xcBOYdD78r23PS31gaU3YWiITl+rwOOygEItoozc=;
+        b=R9lbeAi05SXD39ZRp974M2gOcfxUCkydItXUcL25E8l+i3X9Q10gtIXNvsjFoeHZ0mGAof
+        hlmzRAxYl2EBM+jdc/2tMtHqWNJUf3tASXMOhILMNJWwKgpccTEQgz7+c9sKsSpa5utsIN
+        hQ2zETYa1IjOKLpkNHZkh9r/c3B08ex+NbIteQYr2joiySEOj7D0Y4dqNlOrJxR69D7tAm
+        2iW0SMlg8c6mNtQyOI7Kdpp/l+XH3AzZACxHCmq4APQD84EzakheDHpDwpX3giYhWycz5c
+        ny1MOiwborctRk5UbT7cTWtbzIuOok26jp2YPH0P6KsscYO8dAmEhb+or5X0Uw==
+Date:   Tue, 13 Dec 2022 14:22:58 +0100
+From:   Herve Codina <herve.codina@bootlin.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v3 3/9] dt-bindings: PCI: renesas,pci-rcar-gen2:
+ 'depends-on' is no more optional
+Message-ID: <20221213142258.77767caf@bootlin.com>
+In-Reply-To: <15cb7a77-4308-15f0-4669-7a2673b4abcb@linaro.org>
+References: <20221207162435.1001782-1-herve.codina@bootlin.com>
+        <20221207162435.1001782-4-herve.codina@bootlin.com>
+        <36895e49-aea5-3676-e7df-78b30277e6a0@linaro.org>
+        <20221208100530.137fa8b7@bootlin.com>
+        <8dfb5b8a-766a-14ec-16d4-74fdd9f7d622@linaro.org>
+        <20221208165101.584e4b92@bootlin.com>
+        <15cb7a77-4308-15f0-4669-7a2673b4abcb@linaro.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch fixes the error "ravb 11c20000.ethernet eth0: failed to switch
-device to config mode" during unbind.
+Hi Krzysztof,
 
-We are doing register access after pm_runtime_put_sync().
+On Fri, 9 Dec 2022 09:06:55 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-We usually do cleanup in reverse order of init. Currently in
-remove(), the "pm_runtime_put_sync" is not in reverse order.
+> On 08/12/2022 16:51, Herve Codina wrote:
+> > Hi Krzysztof,
+> >=20
+> > On Thu, 8 Dec 2022 10:46:32 +0100
+> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> >  =20
+> >> On 08/12/2022 10:05, Herve Codina wrote: =20
+> >>> Hi Krzysztof,
+> >>>
+> >>> On Thu, 8 Dec 2022 09:26:41 +0100
+> >>> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> >>>    =20
+> >>>> On 07/12/2022 17:24, Herve Codina wrote:   =20
+> >>>>> The 'depends-on' property is set in involved DTS.
+> >>>>>
+> >>>>> Move it to a required property.
+> >>>>>
+> >>>>> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> >>>>> ---
+> >>>>>  Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml |=
+ 1 +     =20
+> >>>>
+> >>>> This should be squashed with previous patch. There is no point to add
+> >>>> property and immediately in the next patch make it required. Remember
+> >>>> that bindings are separate from DTS.
+> >>>>
+> >>>> Best regards,
+> >>>> Krzysztof
+> >>>>   =20
+> >>>
+> >>> I though about make dtbs_check in case of git bisect.   =20
+> >>
+> >> And what would this commit change? In Git you will have
+> >> 1. dt-bindings: PCI: renesas,pci-rcar-gen2: Add depends-on for RZ/N1 S=
+oC
+> >> family
+> >> 2. dt-bindings: PCI: renesas,pci-rcar-gen2: 'depends-on' is no more op=
+tional
+> >>
+> >> so what is the difference for git bisect? =20
+> >=20
+> > Well, today, I have:
+> > 1. dt-bindings: Add depends-on
+> > 2. dts: Add depends-on
+> > 3. dt-bindings: Move depends-on to mandatory =20
+>=20
+> What does it mean "I have"? Patches on mailing list? But we talk about
+> Git and I wrote you bindings are DTS are not going the same tree.
+>=20
+> >=20
+> > If I squash dt-bindings commits, I am going to have:
+> >   1. dt-bindings: Add mandatory depends-on
+> >   2. dts: Add depends-on
+> > or
+> >   1. dts: Add depends-on
+> >   2. dt-bindings: Add mandatory depends-on =20
+>=20
+> And how does it matter? Anyway it goes separate trees.
 
-Probe
-	reset_control_deassert(rstc);
-	pm_runtime_enable(&pdev->dev);
-	pm_runtime_get_sync(&pdev->dev);
+I finally understand what you mean by separate trees.
+And indeed, you're right, my patches split does not make
+any sense.
 
-remove
-	pm_runtime_put_sync(&pdev->dev);
-	unregister_netdev(ndev);
-	..
-	ravb_mdio_release(priv);
-	pm_runtime_disable(&pdev->dev);
+According to feedbacks on this v3 series, these 3 patches
+will be removed in v4.
 
-Consider the call to unregister_netdev()
-unregister_netdev->unregister_netdevice_queue->rollback_registered_many
-that calls the below functions which access the registers after
-pm_runtime_put_sync()
- 1) ravb_get_stats
- 2) ravb_close
+Thanks for the review,
+Herv=C3=A9
 
-Fixes: a0d2f20650e8 ("Renesas Ethernet AVB PTP clock driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/net/ethernet/renesas/ravb_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 33f723a9f471..b4e0fc7f65bd 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -2903,12 +2903,12 @@ static int ravb_remove(struct platform_device *pdev)
- 			  priv->desc_bat_dma);
- 	/* Set reset mode */
- 	ravb_write(ndev, CCC_OPC_RESET, CCC);
--	pm_runtime_put_sync(&pdev->dev);
- 	unregister_netdev(ndev);
- 	if (info->nc_queues)
- 		netif_napi_del(&priv->napi[RAVB_NC]);
- 	netif_napi_del(&priv->napi[RAVB_BE]);
- 	ravb_mdio_release(priv);
-+	pm_runtime_put_sync(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
- 	reset_control_assert(priv->rstc);
- 	free_netdev(ndev);
--- 
-2.25.1
-
+--=20
+Herv=C3=A9 Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
