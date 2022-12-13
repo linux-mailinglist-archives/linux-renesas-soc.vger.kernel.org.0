@@ -2,111 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A99464B137
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Dec 2022 09:32:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E1E364B13F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Dec 2022 09:37:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234913AbiLMIcJ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Dec 2022 03:32:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50046 "EHLO
+        id S233881AbiLMIhq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Dec 2022 03:37:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234860AbiLMIb0 (ORCPT
+        with ESMTP id S234143AbiLMIho (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Dec 2022 03:31:26 -0500
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D8CD62FC;
-        Tue, 13 Dec 2022 00:31:25 -0800 (PST)
-Received: by mail-qt1-f176.google.com with SMTP id h16so11253961qtu.2;
-        Tue, 13 Dec 2022 00:31:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Cj2pogcz6ykS5YOcEmS32K1/by57SG2Oy1svNLCAASY=;
-        b=tlvgRbMV5BoKbpTXv6V254Ys3ypNn2z04TPbss8tQCjSSatfSLWbWBN4VzYTK/tDC6
-         L4Bm/h/DMvkdB9yE1R35HSambVZzzxxPpyRJ18YrzhOjb27yCROdUHGegv9LjaqRDVsK
-         At0NCoQhcESdCm80NyyULe4azWpUkQUi4V6IX9ZTQ707iw4LdWBjNCqJhiHExk2NIFoW
-         Th7xOJu/HJgKuab+4HnIPeLdS5Fujl/B/4739E8hqJ8aBFS16joGmK270mikwVRO8hiA
-         AUBgoEEa7PUj3NyIGgNOhaCBJQ/j5aGHGbYH4UCxxK4w5U/QyTDIzUvpvw+TUV49lo79
-         2kbQ==
-X-Gm-Message-State: ANoB5pleZRcb0Zcc4GKFm1Oh2kOpN3pTbrSg+gfOr/8n0lrjhR2h8R3A
-        F5CCuc6hnHkb6oOXHU2mOL6hgThkLW+DFg==
-X-Google-Smtp-Source: AA0mqf6WAVY3T6WLCi0zlWVCvJSHSAXImjAact9+E9kq9txmMBn3RIceWIN1djRJMTUNr+hIMCZ3Zg==
-X-Received: by 2002:a05:622a:4a0c:b0:3a6:2170:b089 with SMTP id fv12-20020a05622a4a0c00b003a62170b089mr4573191qtb.12.1670920283988;
-        Tue, 13 Dec 2022 00:31:23 -0800 (PST)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id u2-20020a37ab02000000b006b615cd8c13sm7228286qke.106.2022.12.13.00.31.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Dec 2022 00:31:23 -0800 (PST)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-3e45d25de97so182183777b3.6;
-        Tue, 13 Dec 2022 00:31:23 -0800 (PST)
-X-Received: by 2002:a05:690c:f8a:b0:3b4:8af5:48e with SMTP id
- df10-20020a05690c0f8a00b003b48af5048emr1614196ywb.383.1670920283214; Tue, 13
- Dec 2022 00:31:23 -0800 (PST)
+        Tue, 13 Dec 2022 03:37:44 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE37765BF;
+        Tue, 13 Dec 2022 00:37:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670920662; x=1702456662;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=muyLhzUL6TC6ixkunPAAIPRNRRxzfocbzQkAtYhFLbQ=;
+  b=jDYKUiFCcQzs8mAoLAVn6kuDkZtYcRtYq3HkRpIso4t8FTb1jVXzNZyI
+   8uZKA82+DM097OR/i5xoyL0Vmew37sbcfI2w86G30fY3uog2viPE+3TDO
+   f7w8Wvovx4uosqAwQMtC2vWPLfRAgl+9vRESYZFtYtRL06kFvqrcq0pyE
+   Q7RFZmkABu6ZLG5HvhsgKCeafYPGoDOWQPybsaCU6bR2xJm+RJCU8Owy6
+   iZK+an9IrTrjpookfLopj4NZZ8ecyZREXkqunozSCnHDUWt4t44BWwGLn
+   AYh0d7Eh2RT1uoTAuBaYpqlAAX3CO5Laatg0vn78Km2b0FT8Nf4rAXbWz
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="298420192"
+X-IronPort-AV: E=Sophos;i="5.96,240,1665471600"; 
+   d="scan'208";a="298420192"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 00:36:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="790810464"
+X-IronPort-AV: E=Sophos;i="5.96,240,1665471600"; 
+   d="scan'208";a="790810464"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 13 Dec 2022 00:36:33 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 13 Dec 2022 10:36:32 +0200
+Date:   Tue, 13 Dec 2022 10:36:32 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Biju Das <biju.das@bp.renesas.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH v2] usb: typec: hd3ss3220: Fix NULL pointer crash
+Message-ID: <Y5g5kPYu9+tGfriE@kuha.fi.intel.com>
+References: <20221209170740.70539-1-biju.das.jz@bp.renesas.com>
+ <Y5b24vdYTNW/aJ+0@kuha.fi.intel.com>
+ <OS0PR01MB59225780B75FDC02C077ACE986E29@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922FC3A7C5F0507292F99AF86E29@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-References: <cover.1669980383.git.geert+renesas@glider.be> <3c0f5b935da4468fe04e2d85becafda0040e4d31.1669980383.git.geert+renesas@glider.be>
- <871qpcm4mu.wl-kuninori.morimoto.gx@renesas.com> <87mt7skwsk.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87mt7skwsk.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 13 Dec 2022 09:31:12 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVgDF=wF3Q0_QMecpmmWe1NxyK4BGTNhEvcdS5698cNmg@mail.gmail.com>
-Message-ID: <CAMuHMdVgDF=wF3Q0_QMecpmmWe1NxyK4BGTNhEvcdS5698cNmg@mail.gmail.com>
-Subject: Re: [PATCH/RFC 2/2] arm64: dts: renesas: ulcb-kf: Fix pcm3168a audio
- codec node
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Damien Horsley <Damien.Horsley@imgtec.com>,
-        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB5922FC3A7C5F0507292F99AF86E29@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+Hi,
 
-On Tue, Dec 13, 2022 at 12:49 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> >    arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: audio-codec@44: ports: 'mclk-fs' does not match any of the regexes: '^port@[0-9a-f]+$', 'pinctrl-[0-9]+'
-> >           From schema: Documentation/devicetree/bindings/sound/ti,pcm3168a.yaml
-> >    arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: audio-codec@44: ports:port@0:endpoint: Unevaluated properties are not allowed ('clocks' was unexpected)
-> >           From schema: Documentation/devicetree/bindings/sound/ti,pcm3168a.yaml
-> >    arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dtb: audio-codec@44: ports:port@1:endpoint: Unevaluated properties are not allowed ('clocks' was unexpected)
-> >           From schema: Documentation/devicetree/bindings/sound/ti,pcm3168a.yaml
-> (snip)
-> > I'm not tested, but in my quick check,
-> > we can use "mclk-fs" under "ports", and we need "clocks" under "endpoint".
-> > So the issue is not dtsi side, but yaml side.
-> >
-> > I will check and fix it, but it will be next week or later.
->
-> I have investigated about this patch, and it needs extra patch
-> which I will post if -rc1 was released.
-> I can merge this patch (with small fixup) into my patch-set.
-> Of course I will keep your name. But is it OK for you ?
+On Mon, Dec 12, 2022 at 10:54:25AM +0000, Biju Das wrote:
+> > Looks It is a bug in renesas_usb3.c rather than this driver.
+> > 
+> > But how we will prevent hd3ss3220_set_role being called after
+> > usb_role_switch_unregister(usb3->role_sw) from renesas_usb3.c driver??
 
-Thanks, fine for me!
+Normally that should not be a problem. When you get a reference to the
+role switch, also the reference count of the switch driver module (on
+top of the device) is incremented.
 
-♫ All I want for Christmas is ♫... an error-free "make dtbs_check" ;-)
+From where is usb_role_switch_unregister() being called in this case -
+is it renesas_usb3_probe()?
 
-Gr{oetje,eeting}s,
+If it is, would something like this help:
 
-                        Geert
+diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
+index 615ba0a6fbee1..d2e01f7cfef11 100644
+--- a/drivers/usb/gadget/udc/renesas_usb3.c
++++ b/drivers/usb/gadget/udc/renesas_usb3.c
+@@ -2907,18 +2907,13 @@ static int renesas_usb3_probe(struct platform_device *pdev)
+        renesas_usb3_role_switch_desc.driver_data = usb3;
+ 
+        INIT_WORK(&usb3->role_work, renesas_usb3_role_work);
+-       usb3->role_sw = usb_role_switch_register(&pdev->dev,
+-                                       &renesas_usb3_role_switch_desc);
+-       if (!IS_ERR(usb3->role_sw)) {
+-               usb3->host_dev = usb_of_get_companion_dev(&pdev->dev);
+-               if (!usb3->host_dev) {
+-                       /* If not found, this driver will not use a role sw */
+-                       usb_role_switch_unregister(usb3->role_sw);
+-                       usb3->role_sw = NULL;
+-               }
+-       } else {
++
++       usb3->host_dev = usb_of_get_companion_dev(&pdev->dev);
++       if (usb3->host_dev)
++               usb3->role_sw = usb_role_switch_register(&pdev->dev,
++                                                        &renesas_usb3_role_switch_desc);
++       if (IS_ERR(usb3->role_sw))
+                usb3->role_sw = NULL;
+-       }
+ 
+        usb3->workaround_for_vbus = priv->workaround_for_vbus;
+ 
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Do we need to add additional check for "fwnode_usb_role_switch_get" and
+> "usb_role_switch_get" to return error if there is no registered role_switch device
+> Like the scenario above??
+
+No. The switch is always an optional resource.
+
+Error means that there is a switch that you can control, but you can't
+get a handle to it for some reason.
+
+NULL means you don't need to worry about it - there is no switch on
+your platform that you could control.
+
+thanks,
+
+-- 
+heikki
