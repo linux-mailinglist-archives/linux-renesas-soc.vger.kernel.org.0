@@ -2,126 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0357B64BB70
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Dec 2022 18:58:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E40764BC64
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Dec 2022 19:52:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236397AbiLMR6F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Dec 2022 12:58:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37518 "EHLO
+        id S236330AbiLMSwd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Dec 2022 13:52:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236335AbiLMR6B (ORCPT
+        with ESMTP id S236460AbiLMSwc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Dec 2022 12:58:01 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78FC41F62F;
-        Tue, 13 Dec 2022 09:57:58 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id c66so18873583edf.5;
-        Tue, 13 Dec 2022 09:57:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=f74flBhltkIF6Kyzm1psBFvXaiR1ZpsFYBiux/pnBP0=;
-        b=h5saAjMhrH0HxaWeXItI+PASmkeSYJ2PQdO9BLbEOFZMfii8fwzQnWRsbK/4SKxc7s
-         rD4KG/Q1ZPION2xh25FfyL8e0ZB2Qd2fzVMGloq3ccKc3fh7BhotnxOssEIU6NXTOmPw
-         Ed0iTBqXWx2VVGJY2IcdbQFnpw0qfxiYeO5x4JEkEvIV37SnFXK3JBVkwiC/r04njS8y
-         DeZAUot9otBwpYzTq8BRqdksVkGzl71NkXIVhCIZ99z1EG+3khhsYIauwGuirflTgh0V
-         TCYybUkkwvY/s4CVK+hSzWpo0fEViGSEK8W+W0wklZBuO2soqu75jQ+l5cX7FKRhBJgT
-         3ohw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f74flBhltkIF6Kyzm1psBFvXaiR1ZpsFYBiux/pnBP0=;
-        b=i2BDavDhjQNQdURhqVmzR6+aovWcnNeWUaclauTtIYXpwnB535isAA4CYxs48KQBVF
-         QFW1Gp8FXbxWxY5yxkKLMpoWvr/B0xP1CDNcz9oadwjHCfFeSKe73c7pAdTPx70w4lp6
-         zlQpC8/EmuJ16/Ey3BSNSkQfoYO0Eo9DUW3nAK9KIfBUePmEP2sWT3pY0sFsBWydVvUs
-         MBEbNmRkPE99SI2t4I6X5xcROs4TN55EkVaFLObkygGOurJ3xpj1ZSDTY7inkhHvwMz8
-         TMEtO8nzlah2ziFfXqMnGCC6Ce+SdK6Th2MshOOoMKoHa1XgBix9MEHIbIhn7oxX4upl
-         6qog==
-X-Gm-Message-State: ANoB5plTu5Umg5e+l22/EDfEliMkZng608xJ+8WGgbBTQzmWTnjtZ+YG
-        0mWMLmoHwBGcsOoR8qsd11c71bub01ii/zukuLc=
-X-Google-Smtp-Source: AA0mqf5BkB6tOs9ZGs9+GqphqnUcCfvk0twwLhRnghScakJzu5AIhu6mkb8wvOOc7fcyfPZ5034mmUZ5ehkKT3Pvgc4=
-X-Received: by 2002:a05:6402:1f87:b0:468:7df:c38c with SMTP id
- c7-20020a0564021f8700b0046807dfc38cmr20457565edc.150.1670954276964; Tue, 13
- Dec 2022 09:57:56 -0800 (PST)
-MIME-Version: 1.0
-References: <20221212115505.36770-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221212115505.36770-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXeeCoHNt0tSD51HmexQG7qVBnJO+-_pURix7fr678LNQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXeeCoHNt0tSD51HmexQG7qVBnJO+-_pURix7fr678LNQ@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 13 Dec 2022 17:57:30 +0000
-Message-ID: <CA+V-a8tuCV-p-BR3nAKZ+4Z1GnRus8eEKJZ_sBaTaa2mjqBb1w@mail.gmail.com>
-Subject: Re: [PATCH v5 4/6] riscv: mm: dma-noncoherent: Pass direction and
- operation to ALT_CMO_OP()
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Guo Ren <guoren@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Tue, 13 Dec 2022 13:52:32 -0500
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 085E123E91;
+        Tue, 13 Dec 2022 10:52:30 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.96,242,1665414000"; 
+   d="scan'208";a="143217876"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 14 Dec 2022 03:52:30 +0900
+Received: from localhost.localdomain (unknown [10.226.93.72])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A3CAC400B9CB;
+        Wed, 14 Dec 2022 03:52:25 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-clk@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: [PATCH v3 0/4] Add RZ/V2{M, MA} PWM driver support
+Date:   Tue, 13 Dec 2022 18:52:19 +0000
+Message-Id: <20221213185223.2011600-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+The RZ/V2{M, MA} PWM Timer (PWM) is composed of 16 channels. Linux is only
+allowed access to channels 8 to 14 on RZ/V2M, while there is no restriction
+for RZ/V2MA.
 
-On Tue, Dec 13, 2022 at 5:15 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, Dec 12, 2022 at 12:55 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Pass direction and operation to ALT_CMO_OP() macro.
-> >
-> > Vendors might want to perform different operations based on the direction
-> > and callbacks (arch_sync_dma_for_device/arch_sync_dma_for_cpu/
-> > arch_dma_prep_coherent) so to handle such cases pass the direction and
-> > operation to ALT_CMO_OP() macro. This is in preparation for adding errata
-> > for the Andes CPU core.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/arch/riscv/include/asm/errata_list.h
-> > +++ b/arch/riscv/include/asm/errata_list.h
-> > @@ -124,7 +124,7 @@ asm volatile(ALTERNATIVE(                                           \
-> >  #define THEAD_flush_A0 ".long 0x0275000b"
-> >  #define THEAD_SYNC_S   ".long 0x0190000b"
-> >
-> > -#define ALT_CMO_OP(_op, _start, _size, _cachesize)                     \
-> > +#define ALT_CMO_OP(_op, _start, _size, _cachesize, _dir, _ops)         \
->
-> Since commit a49ab905a1fc8630 ("RISC-V: Implement arch specific PMEM
-> APIs") in riscv/for-next, there are two new users of this macro,
-> which need to be updated to (add two zeroes?).
->
-Thanks for pointing that out, I'll rebase on for-next. I think -1
-would be a better option than zeros.
+The RZ/V2{M, MA} PWM Timer (PWM) supports the following functions:
+ * The PWM has 24-bit counters which operate at PWM_CLK (48 MHz).
+ * The frequency division ratio for internal counter operation is selectable
+    as PWM_CLK divided by 1, 16, 256, or 2048.
+ * The period as well as the duty cycle is adjustable.
+ * The low-level and high-level order of the PWM signals can be inverted.
+ * The duty cycle of the PWM signal is selectable in the range from 0 to 100%.
+ * The minimum resolution is 20.83 ns.
+ * Three interrupt sources: Rising and falling edges of the PWM signal and
+   clearing of the counter
+ * Counter operation and the bus interface are asynchronous and both can
+   operate independently of the magnitude relationship of the respective
+   clock periods.
 
-Cheers,
-Prabhakar
+v2->v3:
+ * Removed clock patch#1 as it is queued for 6.3 renesas-clk
+ * Added Rb tag from Geert for bindings and dt patches
+ * Added return code for rzv2m_pwm_get_state()
+ * Added comment in rzv2m_pwm_reset_assert_pm_disable()
+v1->v2:
+ * Updated commit description
+ * Replaced pwm8_15_pclk->cperi_grpf
+ * Added reset entry R9A09G011_PWM_GPF_PRESETN
+ * Added Rb tag from Krzysztof for bindings and the keep the Rb tag as 
+   the below changes are trivial
+ * Updated the description for APB clock
+ * Added resets required property
+ * Updated the example with resets property
+ * Replaced devm_reset_control_get_optional_shared->devm_reset_control_get_shared
+ * Added resets property in pwm nodes.
+
+Note:
+ Hardware manual for this IP can be found here
+ https://www.renesas.com/in/en/document/mah/rzv2m-users-manual-hardware?language=en
+
+Biju Das (4):
+  dt-bindings: pwm: Add RZ/V2M PWM binding
+  pwm: Add support for RZ/V2M PWM driver
+  arm64: dts: renesas: r9a09g011: Add pwm nodes
+  arm64: dts: renesas: rzv2m evk: Enable pwm
+
+ .../bindings/pwm/renesas,rzv2m-pwm.yaml       |  90 ++++
+ .../boot/dts/renesas/r9a09g011-v2mevk2.dts    |  70 +++
+ arch/arm64/boot/dts/renesas/r9a09g011.dtsi    |  98 +++++
+ drivers/pwm/Kconfig                           |  11 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-rzv2m.c                       | 398 ++++++++++++++++++
+ 6 files changed, 668 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rzv2m-pwm.yaml
+ create mode 100644 drivers/pwm/pwm-rzv2m.c
+
+-- 
+2.25.1
+
