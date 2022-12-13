@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C766764BC82
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Dec 2022 19:58:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F192D64BC84
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Dec 2022 19:58:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236655AbiLMS6r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Dec 2022 13:58:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47906 "EHLO
+        id S236658AbiLMS6u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Dec 2022 13:58:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236598AbiLMS6q (ORCPT
+        with ESMTP id S235923AbiLMS6t (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Dec 2022 13:58:46 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9326B218A5;
-        Tue, 13 Dec 2022 10:58:45 -0800 (PST)
+        Tue, 13 Dec 2022 13:58:49 -0500
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 97EF3218A5;
+        Tue, 13 Dec 2022 10:58:48 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.96,242,1665414000"; 
-   d="scan'208";a="146047119"
+   d="scan'208";a="143218061"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 14 Dec 2022 03:58:44 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 14 Dec 2022 03:58:48 +0900
 Received: from localhost.localdomain (unknown [10.226.93.72])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6B77440B1021;
-        Wed, 14 Dec 2022 03:58:42 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7D44E40B102C;
+        Wed, 14 Dec 2022 03:58:45 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
@@ -30,9 +30,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH v3 3/4] arm64: dts: renesas: r9a09g011: Add pwm nodes
-Date:   Tue, 13 Dec 2022 18:58:26 +0000
-Message-Id: <20221213185827.2012004-4-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v3 4/4] arm64: dts: renesas: rzv2m evk: Enable pwm
+Date:   Tue, 13 Dec 2022 18:58:27 +0000
+Message-Id: <20221213185827.2012004-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221213185827.2012004-1-biju.das.jz@bp.renesas.com>
 References: <20221213185827.2012004-1-biju.das.jz@bp.renesas.com>
@@ -46,129 +46,100 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add device nodes for the pwm timer channels that are not assigned
-to the ISP.
+Enable pwm{8..14} on RZ/V2M EVK.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2->v3:
- * Added Rb tag from Geert
+ * Added Rb tag from Geert.
 v1->v2:
- * Added resets property
+ * No change
 ---
- arch/arm64/boot/dts/renesas/r9a09g011.dtsi | 98 ++++++++++++++++++++++
- 1 file changed, 98 insertions(+)
+ .../boot/dts/renesas/r9a09g011-v2mevk2.dts    | 70 +++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-index 0373ec409d54..dcd3a05e54fe 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-@@ -135,6 +135,104 @@ sys: system-controller@a3f03000 {
- 			reg = <0 0xa3f03000 0 0x400>;
- 		};
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
+index 11e1d51c7c0e..73d7481b468e 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
++++ b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
+@@ -78,6 +78,76 @@ i2c2_pins: i2c2 {
+ 		pinmux = <RZV2M_PORT_PINMUX(3, 8, 2)>, /* SDA */
+ 			 <RZV2M_PORT_PINMUX(3, 9, 2)>; /* SCL */
+ 	};
++
++	pwm8_pins: pwm8 {
++		pinmux = <RZV2M_PORT_PINMUX(1, 8, 1)>;  /* PM8 */
++	};
++
++	pwm9_pins: pwm9 {
++		pinmux = <RZV2M_PORT_PINMUX(1, 9, 1)>;  /* PM9 */
++	};
++
++	pwm10_pins: pwm10 {
++		pinmux = <RZV2M_PORT_PINMUX(1, 10, 1)>; /* PM10 */
++	};
++
++	pwm11_pins: pwm11 {
++		pinmux = <RZV2M_PORT_PINMUX(1, 11, 1)>; /* PM11 */
++	};
++
++	pwm12_pins: pwm12 {
++		pinmux = <RZV2M_PORT_PINMUX(1, 12, 1)>; /* PM12 */
++	};
++
++	pwm13_pins: pwm13 {
++		pinmux = <RZV2M_PORT_PINMUX(1, 13, 1)>; /* PM13 */
++	};
++
++	pwm14_pins: pwm14 {
++		pinmux = <RZV2M_PORT_PINMUX(1, 14, 1)>; /* PM14 */
++	};
++};
++
++&pwm8 {
++	pinctrl-0 = <&pwm8_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
++&pwm9 {
++	pinctrl-0 = <&pwm9_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
++&pwm10 {
++	pinctrl-0 = <&pwm10_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
++&pwm11 {
++	pinctrl-0 = <&pwm11_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
++&pwm12 {
++	pinctrl-0 = <&pwm12_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
++&pwm13 {
++	pinctrl-0 = <&pwm13_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
++&pwm14 {
++	pinctrl-0 = <&pwm14_pins>;
++	pinctrl-names = "default";
++	status = "okay";
+ };
  
-+		pwm8: pwm@a4010400 {
-+			compatible = "renesas,r9a09g011-pwm",
-+				     "renesas,rzv2m-pwm";
-+			reg = <0 0xa4010400 0 0x80>;
-+			interrupts = <GIC_SPI 376 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPF_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_PWM8_CLK>;
-+			clock-names = "apb", "pwm";
-+			resets = <&cpg R9A09G011_PWM_GPF_PRESETN>;
-+			power-domains = <&cpg>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
-+		pwm9: pwm@a4010480 {
-+			compatible = "renesas,r9a09g011-pwm",
-+				     "renesas,rzv2m-pwm";
-+			reg = <0 0xa4010480 0 0x80>;
-+			interrupts = <GIC_SPI 377 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPF_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_PWM9_CLK>;
-+			clock-names = "apb", "pwm";
-+			resets = <&cpg R9A09G011_PWM_GPF_PRESETN>;
-+			power-domains = <&cpg>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
-+		pwm10: pwm@a4010500 {
-+			compatible = "renesas,r9a09g011-pwm",
-+				     "renesas,rzv2m-pwm";
-+			reg = <0 0xa4010500 0 0x80>;
-+			interrupts = <GIC_SPI 378 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPF_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_PWM10_CLK>;
-+			clock-names = "apb", "pwm";
-+			resets = <&cpg R9A09G011_PWM_GPF_PRESETN>;
-+			power-domains = <&cpg>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
-+		pwm11: pwm@a4010580 {
-+			compatible = "renesas,r9a09g011-pwm",
-+				     "renesas,rzv2m-pwm";
-+			reg = <0 0xa4010580 0 0x80>;
-+			interrupts = <GIC_SPI 379 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPF_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_PWM11_CLK>;
-+			clock-names = "apb", "pwm";
-+			resets = <&cpg R9A09G011_PWM_GPF_PRESETN>;
-+			power-domains = <&cpg>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
-+		pwm12: pwm@a4010600 {
-+			compatible = "renesas,r9a09g011-pwm",
-+				     "renesas,rzv2m-pwm";
-+			reg = <0 0xa4010600 0 0x80>;
-+			interrupts = <GIC_SPI 380 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPF_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_PWM12_CLK>;
-+			clock-names = "apb", "pwm";
-+			resets = <&cpg R9A09G011_PWM_GPF_PRESETN>;
-+			power-domains = <&cpg>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
-+		pwm13: pwm@a4010680 {
-+			compatible = "renesas,r9a09g011-pwm",
-+				     "renesas,rzv2m-pwm";
-+			reg = <0 0xa4010680 0 0x80>;
-+			interrupts = <GIC_SPI 381 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPF_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_PWM13_CLK>;
-+			clock-names = "apb", "pwm";
-+			resets = <&cpg R9A09G011_PWM_GPF_PRESETN>;
-+			power-domains = <&cpg>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
-+		pwm14: pwm@a4010700 {
-+			compatible = "renesas,r9a09g011-pwm",
-+				     "renesas,rzv2m-pwm";
-+			reg = <0 0xa4010700 0 0x80>;
-+			interrupts = <GIC_SPI 382 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A09G011_CPERI_GRPF_PCLK>,
-+				 <&cpg CPG_MOD R9A09G011_PWM14_CLK>;
-+			clock-names = "apb", "pwm";
-+			resets = <&cpg R9A09G011_PWM_GPF_PRESETN>;
-+			power-domains = <&cpg>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
- 		i2c0: i2c@a4030000 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
+ &uart0 {
 -- 
 2.25.1
 
