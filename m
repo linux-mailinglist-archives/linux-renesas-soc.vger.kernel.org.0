@@ -2,108 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD61264C1F0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Dec 2022 02:47:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4A1464C1F1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Dec 2022 02:48:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236915AbiLNBrt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Dec 2022 20:47:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54374 "EHLO
+        id S236551AbiLNBsH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Dec 2022 20:48:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229870AbiLNBrs (ORCPT
+        with ESMTP id S229870AbiLNBsG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Dec 2022 20:47:48 -0500
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2138.outbound.protection.outlook.com [40.107.113.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1EAF193D9
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Dec 2022 17:47:45 -0800 (PST)
+        Tue, 13 Dec 2022 20:48:06 -0500
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2139.outbound.protection.outlook.com [40.107.113.139])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E9471AF23
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Dec 2022 17:48:05 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cD0N9GYt6zS1lFqEBU7WeL57CSosIf/tDWdFHQjOnIX4Kcu2Tkl1VFLalWSSytwyLZi3xjRpbA8zBE+K5rHr/Tylp9WG7NIFCVrbEjvGGvAegmFlo0qN8c+fFmYgi8ZI6v29jzvPmLrdD6+9OCOYSXqFuH5uhm01Pu2dxQwRZMfkMnAEjxyC5AAuBNDs6Z0arriP7yIKglhb6cHpJ4dfhxBycg/K2ds45feVAViLU/lBz7Z9HChfzinuXsUu0gXFYYOsBR/RjALwzJlon/NwWLFJsyvnLEhhObkhS9w46fqN0KoYbeg2ojs6UiJccYE5bR2KWeMz72wcTrWRa6HW2A==
+ b=CLFPN3sKQjaY/4jfyY5IMcLelUNTry6ANZm1hqohaKz2jjOGI/FZuwDyP68Y4Vmqz5rBfbZLR80Q8zUHJU7zOAYKUPPXgl0xzWzATuRekRvOoH7wQ1euchRsKSbib1+ZvHvBBWtxWqJZ7faShaVvsAW+EyeWi4SPcyeujigoSMwzKwk6s+kacqPzgvLVJsjt67LZnqKfyGg+4pglQ2x0Z+DXD4OXUWfTZkICwfAbmZIoFCBqFnRrV6PrWHMDAORTt81DLqgpx6f9NOE8XWLK3ZfIwO4T+W4UX/AVRrhmsNrUj8cPjtjW7shYFqefALggIXCe2JWeIE4fWs2Sz9dl3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qpsmb+kZdbz4RSVskemfloD3r2VMQEr+2AF18xfkiIk=;
- b=S+NS5KgJgi4riGW3P0fuvyqJKI91JAjCc4+DTssoANi8Vn0FcEzxB7IyoDqtgvxYpd9g7q2Ox4OIhmlLq7wNy/B7y3/6pXGYbDt5s287mEbeEzgrk6lcWGEvOsu0GAc/18sY+BvODuUB+BB1O1LBmsTFgZnDPDUjTHHzkjL8r2mnIk4ydS61ZmSk+yTmoqTJeXRFwatkY81P0MVrPXnLVxMx+C5tQkqNgJqEAaszNuQEKC7SCHwZ14VhPBmONztDiIGl7sJrtRnsEFeDUN3BDIyru0kyAOHdg2PdiK82sCYWDlL8XR9jhZtYKi5WY0Cct6MmWp0DcsPKwtyWKaRiUw==
+ bh=tDxkabEa81042dTAZOVqBL5VH+HJrtFRhpsb2sdpJio=;
+ b=d4TLcEuAALUQZ87KCb6L8UcGGDl6JPlW2Umznetjd1YP57ONaQTO4qqxvzwAsO0ng+Ky/30iujQJJrMcKhLvIIM30qLDve+ITZGF92CSfpW8SokCTWKoBPlTqt0JAbTYdfpR/70BmEI/Td5V55ercFaDqHYHE04diRmulKO6VcqS+fe/ksPHeqL7d3nFFStA1JCnyZ8/WjnWOQx8XbeNVguP7R3/DZlKCaXayUib7g4CL0YkB9hzhEz9ub/d2/iptj7SqAKj89ZZA6YEUBJ9sPEmTbT5npZJwFDDt6EBkS9Zx4YLxQWAypRlqobiNGB0pr0KvMGQ+400zmO+n3VRdQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qpsmb+kZdbz4RSVskemfloD3r2VMQEr+2AF18xfkiIk=;
- b=BBoSkz9mlfFbxq83t0GaRon+qBgHd3lpldtva21oUagTw7fzjWEirOGtF91Ss9knehBO4mrcHTYuqKnfEuufQyIbpUrgUO1DkIj7aC9gQKCvBitVKNzGd8a15moRFgtG+wVaw0WTVtTf9iNNWTb/kkqEAEwQbFhinA7o6Wo4Jqo=
+ bh=tDxkabEa81042dTAZOVqBL5VH+HJrtFRhpsb2sdpJio=;
+ b=R8PZPwkwYPUFfZJdBUsPwInJjJ/28EpqLFh1EH4f+ZXuj/eROsCMdqfs606WWb6lGeEh0XfnPCAqMPsXjRiJPt08EkyZCADTw80iu0euOeA9yNlN+2RM1ygvfEokr0Nvccb/NkZIuV3U7hLLk/Xkb8j8L1gXNy1WON4mm+6Cl/M=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
  by OS0PR01MB5860.jpnprd01.prod.outlook.com (2603:1096:604:bc::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.19; Wed, 14 Dec
- 2022 01:47:43 +0000
+ 2022 01:48:03 +0000
 Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
  ([fe80::a5a6:2344:db9:431]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
  ([fe80::a5a6:2344:db9:431%8]) with mapi id 15.20.5924.011; Wed, 14 Dec 2022
- 01:47:43 +0000
-Message-ID: <87edt2pxhd.wl-kuninori.morimoto.gx@renesas.com>
+ 01:48:03 +0000
+Message-ID: <87cz8mpxgt.wl-kuninori.morimoto.gx@renesas.com>
 From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH 1/8] ARM: dts: renesas: #sound-dai-cells is used when simple-card
+User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: [PATCH 0/8] arm64: dts: renesas: Simple-Card / Audio-Graph-Card/Card2 dts for ULCB/KF
-User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
+In-Reply-To: <87edt2pxhd.wl-kuninori.morimoto.gx@renesas.com>
+References: <87edt2pxhd.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date:   Wed, 14 Dec 2022 01:47:43 +0000
-X-ClientProxiedBy: TYWPR01CA0046.jpnprd01.prod.outlook.com
- (2603:1096:400:17f::10) To OS3PR01MB8426.jpnprd01.prod.outlook.com
+Date:   Wed, 14 Dec 2022 01:48:03 +0000
+X-ClientProxiedBy: TYAPR01CA0074.jpnprd01.prod.outlook.com
+ (2603:1096:404:2c::14) To OS3PR01MB8426.jpnprd01.prod.outlook.com
  (2603:1096:604:194::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: OS3PR01MB8426:EE_|OS0PR01MB5860:EE_
-X-MS-Office365-Filtering-Correlation-Id: cbfa5cb5-e271-4598-a5db-08dadd75311f
+X-MS-Office365-Filtering-Correlation-Id: 6653def6-7f60-4688-ddab-08dadd753d15
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sn2Em9l5jnQf7S2JkhoAel0/2Th1M7WUrDnkXNrs4OGlDQLveO/L6AfInuRCapjAagoZ4OZM+K6i40ciWCjKBoLi+OuyXtH3EMwMfmz8010GHTC4sTVH4+FZJ5P+eVxaO+izl4Gn9qw6h3CkUPcDsWcnW8Kb+bf779n7AP4kqikx/aOvyd4+RbE0ldo0+qDiqMTTU5VQPWmzpkzZxsSO1JIxM0aFopKFp42OftQYaLfMlcdEpLQzGEKLj1gpUivWnVXT5TEZ92/WVUGEcpfM8chCTUFzXzdl/+xsOhX0v2N7MxAaRCVSbwEyj+yMfzq9QT5UJ2mmCuOrASXf7WsIq0sypDwyRVsb0K/4KK5yuo1LZ+iZ3rDkNobLy6+FHawsF5kxkOi7RfiggRYSwxgHj2hMjnf3pv83H24yNj6GELBT+skyrr4rsM4K4enYqhDJADAb6qUuq+yaXAxHMHatLcxkYsn9D4EB6jPnrC1W/8iFcF4QOplOdQSwMN1tvK7TlZtPWcR+fqym3O8rBC7iUMYHaDCxIQd0AAX1KAUOqjrecqtEm21gc/YChe4Y+P5kMCgZlfnHXCHsoiIi+OvK9D03qRA3PkuYm6BQhC2SMKpeP4oVadlklB2WpzcD38QczXsXi1TTQFElWAf+OQ/ytr7RAVOq8YhB/7P5Fy6ljsrTF0D04Rp1ytz9NqGaCnGMN2f9WXxHiZw1PSZary6vhA==
+X-Microsoft-Antispam-Message-Info: oLkDTE0W2C+u4vyufdQTLHCom6oxCWTihAps3UfckmNuDP5gRwSmsetFj5C4LXH0JdJygGfC0tSpTzIRqm8hOhsAswbLVy/8Oms1YgG1qluMcMs/PEE0Ok22PglGIb+23Kr+mpbQaDYQrpacwnnZYybLYJ34Au3RMVjjnFweQzDwAjO6xa6j5euAdd7rTiHLigbsHm4EBSPn9ELg9jz0QPCj3jeVdRXwU9Off+Wln9nDFJPEBLfaEhkhnJzJ6WmZ76zZEsPU91OwK4ZGPF7A9NXfxC3yf2zueVVk5wmAMd/YCnTkWgPZqloOItvyBmku+PnFIC06E+33T27YrYpZHfOG7/WTGW3opURAoKxGXMxNas7TE6mwcYnhbgjK00LZs/9OlXjSHxQUkxgooscdHF2Z+bPNrOffJyFVyxZ49aqwkaPKToA6huvJFVfIpRirtqsKc73dSDzA6EQSLT38KZE0KmXl2JzEqhaUTbrSXU5jGySEmZQVdZta6RjXzqZunsh/I5al2Ci4AGjc2me+dDEBnLq0blQUyNNhXykn6EkF4V5SRgCbomnMD10bTg32+buSZrg9MO2ctm3ld5ieUx4CIr5srtjapxi/7iTIj++z0/QfzHRQMG1+KtkVBTsm6t5//sINR1OwTN4mFihdW/9uY655kltI/o+fk93NdiEz0pPZ0BOKMyy5oSEoY3N2VhdFkdsRuq5u2jtympDViw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(39860400002)(366004)(136003)(396003)(451199015)(36756003)(66476007)(316002)(4326008)(6916009)(41300700001)(8676002)(83380400001)(38350700002)(38100700002)(86362001)(2906002)(66556008)(52116002)(6506007)(6486002)(26005)(66946007)(6512007)(2616005)(5660300002)(8936002)(186003)(478600001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PmfJVpDiWJJS5LFWiG+4DZZYO7Aqkk67QW87CYpGO2pPMrBbtDnMmmQS62mM?=
- =?us-ascii?Q?ZFPrchWtFMrtyOB60NWRF1dglklgb823jakQ/1wgV4Gj1IGG1fe7pE3UU4PE?=
- =?us-ascii?Q?DREaur0hV1S58Mn1KE37bwOcj+a7HgDXTtenF3mGLW4FVI9DP8yKXcUCjqyd?=
- =?us-ascii?Q?U0v1tECGCV+w9Rp0a2YYIZiTz8tSJoLBoRWO/rfL/U8GSIOR4blWKvM+ch/T?=
- =?us-ascii?Q?q8QJaIxub1J2/TivkDLEDVGhInUJtu8q8GBjRpZUtOWZh+QVyb1kc13iDjB9?=
- =?us-ascii?Q?kKt7MuYWcK9yD4c2e5quT4ydrdLCKlJ4oPq5dcn1i31FiQ19W+mhICcn9h6q?=
- =?us-ascii?Q?mU1LmuLkytQWeg+M0DF5zDBU6F9E4MVsXQ1GWEKTW2ZB1r7ku4VMqBUs+GEG?=
- =?us-ascii?Q?mtXevhGS0CoRdgpaHDyVr5X51WwIu2aIYsWu3dD8vcVMlSkLdpylh/YLzde/?=
- =?us-ascii?Q?DaOg3Tc7TvB9NBgvhrC3ImBxS1kiRD5CdDa/c+r1+YEDeWwqDAelzTLUTmO+?=
- =?us-ascii?Q?XK3yHjKhAErqSwd/6DXiX//6iV5ao5/Z5LQWZck2aByMa2SAziY4ME0uXIv4?=
- =?us-ascii?Q?ejOYBk5yAFPssmOExAdrxEqwR1mft3FUtn8FYxPWON+1UC19NHSvGtP00kWx?=
- =?us-ascii?Q?LqZGN6+n/5twbDNZxPEJWt4pb67LgoveqQfSRaW3JWSAGxbPklTE6/5z8bbS?=
- =?us-ascii?Q?NQEcHV5tgNTxHy6llhyWGx51iv4/TUq2n47FEtGvzfzMQLCEphTb03gx9DWK?=
- =?us-ascii?Q?t8EG7m664UKdy+3t4YytEDdqa9eUKWqvt/Mvt1x3PkQ9bwT3Ts4ilHqexoR6?=
- =?us-ascii?Q?PTblqwgY46yxlU7SIrLu5y7R93+B1BaSbw3N2uSiDlJtnmYGVTDso3ZIuABW?=
- =?us-ascii?Q?q6AAciHUmKmIyNghEdnPbCPTW8+3P/wSRY15AIMVNp5QrKc1BAXqknB5sb/l?=
- =?us-ascii?Q?uNsGFdDwmfhcAiwjZc9qDanwsYagQO9T1YMMk/6JuORP2w8f5FC5cM111JBK?=
- =?us-ascii?Q?PxiYguQiQMkdPGBhJyrjcF5omHjdhicSMsQDghlzPEPftM6DUs6HBaUJj0vC?=
- =?us-ascii?Q?SBNo/dqzc2yBHjB3idxFTnFND3cpJqAwO6wmDvVXEWq2FvS0mHMSJ8VQWmLb?=
- =?us-ascii?Q?rbdyoDzI1yryr+/3CZatMagq++8SjAPQGSD8WgUuhtaVkI32PzEGVSa68Fji?=
- =?us-ascii?Q?GPqTKsbRzNVK7TAfMcCuqJYVkOxOy2gLaMJ9kNH9Jqy72iiYLQLjVlUC987e?=
- =?us-ascii?Q?BLVmW9z3IOlmtNxtTTPAEpwxM/UTXil0jgOm4gvhErs/MwZQKN7fMLtmS2j+?=
- =?us-ascii?Q?0ogNUq1CPGoBfHrAHAPFiydPHh/kXHAFOWVCsDoo/yuluZGQPCY7au97ChUH?=
- =?us-ascii?Q?k0NbMig9W+8nGjLfFj+zlPF2wpqc2JoqTjIqCxwKGIPcPmv8Ux/m2iZMUm7m?=
- =?us-ascii?Q?JLUsihFNqkLDfkmhly55HsCsu/HNYHfsBAp8KMq5jvnEGgpR9EYSGTOMOycV?=
- =?us-ascii?Q?sZU/Vt7LcMaBqAU54tiaTUM3SfKcGtoCbwQSdwe6GTFhKLezuc6zgauSl1TU?=
- =?us-ascii?Q?TFyeUD2hBFFWtHCtevJ1lIj8MS43XNschnRNpKsH0/LNfCFVUejFSuC77N6I?=
- =?us-ascii?Q?cGRoEPlWtVHIg8B+uZ6Kd00=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5raw5IPdy2FRMv6H3xigW5IB4ZXcoUrEGvWt6bhz3eDpE9ogebu3XK3R57RO?=
+ =?us-ascii?Q?8L3eGjPl7dQzys2sTBKcmdTtg5Cg6BbxupZQQYMXM43RSg6vOl2eB2Zcj82l?=
+ =?us-ascii?Q?SUnd5CfSAPPlHeV2tMqRWAnjDmWm1L1fttckhcStwM3Z7pKw5fjnLlNBVLhD?=
+ =?us-ascii?Q?dyKFr776+zUFdRU+Bh/JVcutXRY34fd/5WNaOiXAt72xBFCop7OPAELkDjlL?=
+ =?us-ascii?Q?eZqgPmZwyk6yGQQkooyeW12eeJMs6guoyqPngfmIJ/f7T2Hp27A4DxhaGVDq?=
+ =?us-ascii?Q?0d+uUJEdNvSqr86DXk8ztPYKdpMN3Zf6Z4M9SYL2xh+x8IwQ4lepycqi9aS4?=
+ =?us-ascii?Q?GujS7FqdtTpWbS+GV0BilwnEx17bUIzO1i3FGBsvpERLkIfwm30+nz8Z0x77?=
+ =?us-ascii?Q?yIPHfzV1U2xTh1nJDj/bGfPSCdt4eVbVQAXseb43mUzO4ZxMSDYR9xmrncBJ?=
+ =?us-ascii?Q?thNjTvAqT9HEGECki7cJUFYJrjYYfevs3PGW3WMyJjRuOkJmUYbVFkMZI2QV?=
+ =?us-ascii?Q?tbPACQWnJdwPdO0Hf9cYuagdx0e26Kn5m2n61LHp4ssY7BJQC5OLW5sO6Bg/?=
+ =?us-ascii?Q?cMlSp0usn+wvnvDY/jt8UJiARsKU+bBZtzqfw/yoUFL3SOqj9xfTa3Uya4jj?=
+ =?us-ascii?Q?usJZL9YqDALJbbOp9wMcb9BoTkTnvO+K4Fgk/bUfIXk+OBRW37K4mpy/IRKQ?=
+ =?us-ascii?Q?WRqrqt8faUpPtxelgi/8bPmu3FW7/kIElMCHlZEGX9LURQpYMoY5EHOcuGiO?=
+ =?us-ascii?Q?jd3CG4wHUcmO8Cp+3xI34joo1z2xURXBjerowO8lrsRqEAGrN98ggXeilRPj?=
+ =?us-ascii?Q?fpL5MxaygJBfD/msEZUpLk3e6muLfD+azGPReX3Ns4ho6HGvCcGXa3iVX2fJ?=
+ =?us-ascii?Q?vUj6ltHX5sFUDL5Zuyo+2A156a/KQi9h54pq3GILdw2iB4G1aGy2DFQb7wmP?=
+ =?us-ascii?Q?o83VG85mK5Slu0x/ZAKTT0NJUIF3ARIFODsgks0nfatQgFvef1RU+EUTVAwf?=
+ =?us-ascii?Q?gnflIQbq4HBbkGvwWjBqvxhl/G5X/PFKZqScefTS2V70QT5618RKdeFGxWKY?=
+ =?us-ascii?Q?0UANMhitOefqOc2Qe29daEB3cJUzVu3x2h27mAlshlpC8ho/oPj6YO0jEU1R?=
+ =?us-ascii?Q?7uRLXXBn9xQoWL/eCfkFaVM8hCmxokwMa3lGIDTlJSWckzFuWdZwD6zU6E3W?=
+ =?us-ascii?Q?tmfJLHUU1SENpL2hAlYp1kTLbKrRnpiPh+Qb4ojLwrx8JQQ//H0+39hH7fA3?=
+ =?us-ascii?Q?2YykIzxG+oM1t2tByMbOiGD8VT4Xg1SbQ3pimHXCPVFIJRLWt5/Itn+D413Q?=
+ =?us-ascii?Q?qtIaaPZTjZpGYRYI6+6D71A4eW9Dk5EWbCpyAD3Cr/2Uyv/BDpmonxb0cjJk?=
+ =?us-ascii?Q?5VfMBir0/0qGJAqzYmhNrzgogUuC62yRs0Xkhq30aH7Is/TC8j6jK6fM7U7p?=
+ =?us-ascii?Q?C/OSwNcghkqbcGul3oFg3vcKfbb2F+4hjyGajGErl4nC34+tuVmTQ4+ekqjP?=
+ =?us-ascii?Q?7qK+S3/sO4dJF0ALFCKVsF2Jc45V2CGKsFrEPYoLGF7B2MYsoJopJWZrC14S?=
+ =?us-ascii?Q?G4iS0QAn5cTuqN8+FZdSchmPWihB7RtBy62zZpAVnJ3608exNFypd1zQ/MJj?=
+ =?us-ascii?Q?1wR0HBedtIeV1kdJUtkOuYM=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbfa5cb5-e271-4598-a5db-08dadd75311f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6653def6-7f60-4688-ddab-08dadd753d15
 X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2022 01:47:43.2197
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2022 01:48:03.3039
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T/5ONWAjqQJwa7m6Q5F82bG9MTsJhdQFYukQNpczCpsUi50aEqpViBRZHD9eRr0mWdBeCPNqCMpTtg6GUXumqGnLq6g/F4mqER9lo+9swkgi6ksh72UZF+YzU9gdKa6Y
+X-MS-Exchange-CrossTenant-UserPrincipalName: e0wDiCOxzDTswETE4hO49tHjYByrI4qUfyJmQB3bpX2Ra02TxGfXGpgDOpbbscPXpxSfmsc5xIAEek7NqBvDWHfhN72JIKlpHVyw2GM/fM9E8Rd7WQdCc2jAztkj+BxA
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5860
-X-Spam-Status: No, score=0.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -111,100 +113,142 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Hi Geert
+Current sound comment is indicating that #sound-dai-cells is
+required, but it is needed if board is using simple-card.
+This patch tidyup the comment.
 
-ALSA SoC is now supporting generic Sound Card driver such as
-Simple-Card / Audio-Graph-Card/Card2, and it supports
-"normal connection" and "special connections".
-I'm its maintainer, thus I need/want to test these.
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+---
+ arch/arm/boot/dts/r8a7742.dtsi | 2 +-
+ arch/arm/boot/dts/r8a7743.dtsi | 2 +-
+ arch/arm/boot/dts/r8a7744.dtsi | 2 +-
+ arch/arm/boot/dts/r8a7745.dtsi | 2 +-
+ arch/arm/boot/dts/r8a7778.dtsi | 2 +-
+ arch/arm/boot/dts/r8a7790.dtsi | 2 +-
+ arch/arm/boot/dts/r8a7791.dtsi | 2 +-
+ arch/arm/boot/dts/r8a7793.dtsi | 2 +-
+ arch/arm/boot/dts/r8a7794.dtsi | 2 +-
+ 9 files changed, 9 insertions(+), 9 deletions(-)
 
-I have been tested these by using my local patches to switching card,
-but maintenance it locally is not useful for me, and users who want to
-know the sample DT settings.
-
-And I have noticed that some local patch had bug, but no one noticed
-about it (of course :)
-
-ULCB/KF is very good board to test these.
-So, I want to upstream these.
-
-One note here is that this patch *should not* have effect to
-existing normal users, but useful for test user.
-So, this patch-set adds "3 card" x "2 use case" dtsi file,
-and ulcb/ulcb-kf "include" one of them which doesn't change anything.
-test user can switch to other card or other use case by changing
-"include" dtsi.
-
-[1/8][2/8] are small tidyup patches for all SoC sound.
-
-Kuninori Morimoto (8):
-  ARM: dts: renesas: #sound-dai-cells is used when simple-card
-  arm64: dts: renesas: #sound-dai-cells is used when simple-card
-  arm64: dts: renesas: add ulcb{-kf} Audio Graph Card dtsi
-  arm64: dts: renesas: add ulcb{-kf} Audio Graph Card2 dtsi
-  arm64: dts: renesas: add ulcb{-kf} Simple Audio Card dtsi
-  arm64: dts: renesas: add ulcb{-kf} Audio Graph Card2 dtsi MIX + TDM Split dtsi
-  arm64: dts: renesas: add ulcb{-kf} Audio Graph Card dtsi MIX + TDM Split dtsi
-  arm64: dts: renesas: add ulcb{-kf} Simple Audio Card MIX + TDM Split dtsi
-
- arch/arm/boot/dts/r8a7742.dtsi                |   2 +-
- arch/arm/boot/dts/r8a7743.dtsi                |   2 +-
- arch/arm/boot/dts/r8a7744.dtsi                |   2 +-
- arch/arm/boot/dts/r8a7745.dtsi                |   2 +-
- arch/arm/boot/dts/r8a7778.dtsi                |   2 +-
- arch/arm/boot/dts/r8a7790.dtsi                |   2 +-
- arch/arm/boot/dts/r8a7791.dtsi                |   2 +-
- arch/arm/boot/dts/r8a7793.dtsi                |   2 +-
- arch/arm/boot/dts/r8a7794.dtsi                |   2 +-
- arch/arm64/boot/dts/renesas/r8a774a1.dtsi     |   2 +-
- arch/arm64/boot/dts/renesas/r8a774b1.dtsi     |   2 +-
- arch/arm64/boot/dts/renesas/r8a774c0.dtsi     |   2 +-
- arch/arm64/boot/dts/renesas/r8a774e1.dtsi     |   2 +-
- arch/arm64/boot/dts/renesas/r8a77951.dtsi     |   2 +-
- arch/arm64/boot/dts/renesas/r8a77960.dtsi     |   2 +-
- arch/arm64/boot/dts/renesas/r8a77961.dtsi     |   2 +-
- arch/arm64/boot/dts/renesas/r8a77965.dtsi     |   2 +-
- arch/arm64/boot/dts/renesas/r8a77990.dtsi     |   2 +-
- arch/arm64/boot/dts/renesas/r8a77995.dtsi     |   2 +-
- .../boot/dts/renesas/salvator-common.dtsi     |   3 -
- .../ulcb-audio-graph-card-mix+split.dtsi      |  89 +++++++++
- .../dts/renesas/ulcb-audio-graph-card.dtsi    |  85 +++++++++
- .../ulcb-audio-graph-card2-mix+split.dtsi     | 111 +++++++++++
- .../dts/renesas/ulcb-audio-graph-card2.dtsi   |  26 +++
- .../ulcb-kf-audio-graph-card-mix+split.dtsi   | 162 ++++++++++++++++
- .../dts/renesas/ulcb-kf-audio-graph-card.dtsi |  88 +++++++++
- .../ulcb-kf-audio-graph-card2-mix+split.dtsi  | 177 ++++++++++++++++++
- .../renesas/ulcb-kf-audio-graph-card2.dtsi    |  30 +++
- .../ulcb-kf-simple-audio-card-mix+split.dtsi  | 137 ++++++++++++++
- .../renesas/ulcb-kf-simple-audio-card.dtsi    |  85 +++++++++
- arch/arm64/boot/dts/renesas/ulcb-kf.dtsi      |  66 ++-----
- .../ulcb-simple-audio-card-mix+split.dtsi     |  86 +++++++++
- .../dts/renesas/ulcb-simple-audio-card.dtsi   |  89 +++++++++
- arch/arm64/boot/dts/renesas/ulcb.dtsi         |  60 ++----
- 34 files changed, 1212 insertions(+), 120 deletions(-)
- create mode 100644 arch/arm64/boot/dts/renesas/ulcb-audio-graph-card-mix+split.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/ulcb-audio-graph-card.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/ulcb-audio-graph-card2-mix+split.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/ulcb-audio-graph-card2.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card-mix+split.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card2-mix+split.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card2.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/ulcb-kf-simple-audio-card-mix+split.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/ulcb-kf-simple-audio-card.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/ulcb-simple-audio-card-mix+split.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/ulcb-simple-audio-card.dtsi
-
+diff --git a/arch/arm/boot/dts/r8a7742.dtsi b/arch/arm/boot/dts/r8a7742.dtsi
+index 758a1bf02fae..d1c256d8bd56 100644
+--- a/arch/arm/boot/dts/r8a7742.dtsi
++++ b/arch/arm/boot/dts/r8a7742.dtsi
+@@ -1155,7 +1155,7 @@ vin3: video@e6ef3000 {
+ 
+ 		rcar_sound: sound@ec500000 {
+ 			/*
+-			 * #sound-dai-cells is required
++			 * #sound-dai-cells is required if simple-card
+ 			 *
+ 			 * Single DAI : #sound-dai-cells = <0>;         <&rcar_sound>;
+ 			 * Multi  DAI : #sound-dai-cells = <1>;         <&rcar_sound N>;
+diff --git a/arch/arm/boot/dts/r8a7743.dtsi b/arch/arm/boot/dts/r8a7743.dtsi
+index 20f1d98a048d..2245d19a23bb 100644
+--- a/arch/arm/boot/dts/r8a7743.dtsi
++++ b/arch/arm/boot/dts/r8a7743.dtsi
+@@ -1190,7 +1190,7 @@ vin2: video@e6ef2000 {
+ 
+ 		rcar_sound: sound@ec500000 {
+ 			/*
+-			 * #sound-dai-cells is required
++			 * #sound-dai-cells is required if simple-card
+ 			 *
+ 			 * Single DAI : #sound-dai-cells = <0>;         <&rcar_sound>;
+ 			 * Multi  DAI : #sound-dai-cells = <1>;         <&rcar_sound N>;
+diff --git a/arch/arm/boot/dts/r8a7744.dtsi b/arch/arm/boot/dts/r8a7744.dtsi
+index 96b2d5a4e8f6..aa13841f9781 100644
+--- a/arch/arm/boot/dts/r8a7744.dtsi
++++ b/arch/arm/boot/dts/r8a7744.dtsi
+@@ -1190,7 +1190,7 @@ vin2: video@e6ef2000 {
+ 
+ 		rcar_sound: sound@ec500000 {
+ 			/*
+-			 * #sound-dai-cells is required
++			 * #sound-dai-cells is required if simple-card
+ 			 *
+ 			 * Single DAI : #sound-dai-cells = <0>;         <&rcar_sound>;
+ 			 * Multi  DAI : #sound-dai-cells = <1>;         <&rcar_sound N>;
+diff --git a/arch/arm/boot/dts/r8a7745.dtsi b/arch/arm/boot/dts/r8a7745.dtsi
+index afc902e532d8..44688b8431c3 100644
+--- a/arch/arm/boot/dts/r8a7745.dtsi
++++ b/arch/arm/boot/dts/r8a7745.dtsi
+@@ -1120,7 +1120,7 @@ vin1: video@e6ef1000 {
+ 
+ 		rcar_sound: sound@ec500000 {
+ 			/*
+-			 * #sound-dai-cells is required
++			 * #sound-dai-cells is required if simple-card
+ 			 *
+ 			 * Single DAI : #sound-dai-cells = <0>; <&rcar_sound>;
+ 			 * Multi  DAI : #sound-dai-cells = <1>; <&rcar_sound N>;
+diff --git a/arch/arm/boot/dts/r8a7778.dtsi b/arch/arm/boot/dts/r8a7778.dtsi
+index 95efbafb0b70..8d4530ed2fc6 100644
+--- a/arch/arm/boot/dts/r8a7778.dtsi
++++ b/arch/arm/boot/dts/r8a7778.dtsi
+@@ -241,7 +241,7 @@ tmu2: timer@ffd82000 {
+ 
+ 	rcar_sound: sound@ffd90000 {
+ 		/*
+-		 * #sound-dai-cells is required
++		 * #sound-dai-cells is required if simple-card
+ 		 *
+ 		 * Single DAI : #sound-dai-cells = <0>;         <&rcar_sound>;
+ 		 * Multi  DAI : #sound-dai-cells = <1>;         <&rcar_sound N>;
+diff --git a/arch/arm/boot/dts/r8a7790.dtsi b/arch/arm/boot/dts/r8a7790.dtsi
+index db171e3c62f2..b5e362fab418 100644
+--- a/arch/arm/boot/dts/r8a7790.dtsi
++++ b/arch/arm/boot/dts/r8a7790.dtsi
+@@ -1109,7 +1109,7 @@ vin3: video@e6ef3000 {
+ 
+ 		rcar_sound: sound@ec500000 {
+ 			/*
+-			 * #sound-dai-cells is required
++			 * #sound-dai-cells is required if simple-card
+ 			 *
+ 			 * Single DAI : #sound-dai-cells = <0>;         <&rcar_sound>;
+ 			 * Multi  DAI : #sound-dai-cells = <1>;         <&rcar_sound N>;
+diff --git a/arch/arm/boot/dts/r8a7791.dtsi b/arch/arm/boot/dts/r8a7791.dtsi
+index d8f91d9f42ae..853eef9e031d 100644
+--- a/arch/arm/boot/dts/r8a7791.dtsi
++++ b/arch/arm/boot/dts/r8a7791.dtsi
+@@ -1223,7 +1223,7 @@ vin2: video@e6ef2000 {
+ 
+ 		rcar_sound: sound@ec500000 {
+ 			/*
+-			 * #sound-dai-cells is required
++			 * #sound-dai-cells is required if simple-card
+ 			 *
+ 			 * Single DAI : #sound-dai-cells = <0>;         <&rcar_sound>;
+ 			 * Multi  DAI : #sound-dai-cells = <1>;         <&rcar_sound N>;
+diff --git a/arch/arm/boot/dts/r8a7793.dtsi b/arch/arm/boot/dts/r8a7793.dtsi
+index 9ebe7bfaf0ed..8bc3e19f8adf 100644
+--- a/arch/arm/boot/dts/r8a7793.dtsi
++++ b/arch/arm/boot/dts/r8a7793.dtsi
+@@ -988,7 +988,7 @@ vin2: video@e6ef2000 {
+ 
+ 		rcar_sound: sound@ec500000 {
+ 			/*
+-			 * #sound-dai-cells is required
++			 * #sound-dai-cells is required if simple-card
+ 			 *
+ 			 * Single DAI : #sound-dai-cells = <0>;         <&rcar_sound>;
+ 			 * Multi  DAI : #sound-dai-cells = <1>;         <&rcar_sound N>;
+diff --git a/arch/arm/boot/dts/r8a7794.dtsi b/arch/arm/boot/dts/r8a7794.dtsi
+index 7aa781ff3bff..371dd4715dde 100644
+--- a/arch/arm/boot/dts/r8a7794.dtsi
++++ b/arch/arm/boot/dts/r8a7794.dtsi
+@@ -955,7 +955,7 @@ vin1: video@e6ef1000 {
+ 
+ 		rcar_sound: sound@ec500000 {
+ 			/*
+-			 * #sound-dai-cells is required
++			 * #sound-dai-cells is required if simple-card
+ 			 *
+ 			 * Single DAI : #sound-dai-cells = <0>;         <&rcar_sound>;
+ 			 * Multi  DAI : #sound-dai-cells = <1>;         <&rcar_sound N>;
 -- 
 2.25.1
 
-
-
-
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
