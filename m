@@ -2,169 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48D8F64CDC7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Dec 2022 17:16:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C222364CDE8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Dec 2022 17:22:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238864AbiLNQQN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Dec 2022 11:16:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40916 "EHLO
+        id S238935AbiLNQWu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Dec 2022 11:22:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238869AbiLNQQK (ORCPT
+        with ESMTP id S237958AbiLNQWs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Dec 2022 11:16:10 -0500
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95A4D12A88;
-        Wed, 14 Dec 2022 08:16:09 -0800 (PST)
-Received: by mail-oi1-f173.google.com with SMTP id v82so3008850oib.4;
-        Wed, 14 Dec 2022 08:16:09 -0800 (PST)
+        Wed, 14 Dec 2022 11:22:48 -0500
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 480A6116E;
+        Wed, 14 Dec 2022 08:22:48 -0800 (PST)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-144bd860fdbso17293540fac.0;
+        Wed, 14 Dec 2022 08:22:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UMrRVIK6BhKiJfQhbllVqLJSjsy9oEVMS+7B/vRR7qs=;
-        b=GECuionf4zIQHLuQu1di/1T7Q/Uh+fJt5vd8thB4OvGZU25v3rruJ8RZ9sAKZKdgqR
-         O7TcN2AsR2uHmVT1MZZJ8tBofaGox1hoAYyQMfp03Uy+GquXEOGRGw9OjhHx8qymquc0
-         Li0rPN3vf49tiS7Gjz5F2XU1BVEBNVodQD2bBPetbpZwARiiF8W/CxrwEHH/6JUJKVUi
-         l4XLUQxpoc2hNt7lwcmTktDhOBD+fg3k9n60ZiUDsrHb2OyG9Z0IS/8ie1Jjn/5Vpze/
-         DpGIO2VykdUjdbf0sUNoffwunkMdqHT5IMOoMo9JUncVM8rLtyoVplhs+GWYBPhlvAJn
-         u8AA==
-X-Gm-Message-State: ANoB5pk0m3o9W0LlKrdqtyyaBaJJ1SX0FsnsAsBlov5FalZAgB+otQ89
-        WYB/oluR3JTJAVh7i1aOyA==
-X-Google-Smtp-Source: AA0mqf4ezbJqeoeegAMBIeidjjLbwziRaehnGq2wvdCStUO874Zg92bIWLzfaJxvNheFzuwNPPPnSg==
-X-Received: by 2002:a05:6808:1b1e:b0:35e:4589:19cf with SMTP id bx30-20020a0568081b1e00b0035e458919cfmr15088983oib.42.1671034568812;
-        Wed, 14 Dec 2022 08:16:08 -0800 (PST)
+        bh=8HJcoPvMh51cpJw2lnN3HB94+Ii/jqthzmJxA42LWPE=;
+        b=cmwaamlBeMTGmIh2hv5ZkFPauIktSFcYP3Qib3WvcpxKFKwnFwLv3wyq175VRNZv5X
+         YzAxqvL1Z3tZZfX1Nt/EFDR8e+AWXfXvgoZIHpxUp5yVKaOCbkSra75U46EW+n4ET/Pa
+         YfeYv5tEMAw1dSrn9Z1mtaDujTEqCYoAC0rApIilRlQCgc8vjoOW/RhauhOtafvS9QyI
+         +cFk/AU9oVaico39MBxGw+/ONpMpTtN50VGu2EWDbxY0/Q/HfXcNqaQAt/Xpb4SwpDlb
+         Ts8/VbnP5QZLpAGGGjNzYHQIhJo62k3rJADnsz5bMSH9tI1K2tJLOPTuZiOQxRQp3i9T
+         RnkQ==
+X-Gm-Message-State: ANoB5pl9qU86C4SjgUJ2bK92BcblozgmwCPzKctYdSwow1FaKhj/7vJa
+        nHE3lzsHI1zqHEXCoKO0tDR/oQudLQ==
+X-Google-Smtp-Source: AA0mqf7Ugs8Vu1CTCsoLEJlhyuSDVzH8+fhWkzhPMeC+JpI5dlsoFN69hi8YxwA48BX5fapl1jYqLQ==
+X-Received: by 2002:a05:6870:fd92:b0:144:fc5a:cd67 with SMTP id ma18-20020a056870fd9200b00144fc5acd67mr12798338oab.49.1671034967522;
+        Wed, 14 Dec 2022 08:22:47 -0800 (PST)
 Received: from robh_at_kernel.org (rrcs-98-6-157-194.sw.biz.rr.com. [98.6.157.194])
-        by smtp.gmail.com with ESMTPSA id h4-20020a056830164400b0066871c3adb3sm2557447otr.28.2022.12.14.08.16.07
+        by smtp.gmail.com with ESMTPSA id l11-20020a056870204b00b00143ae7d4ccesm2843078oad.45.2022.12.14.08.22.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Dec 2022 08:16:08 -0800 (PST)
-Received: (nullmailer pid 1163651 invoked by uid 1000);
-        Wed, 14 Dec 2022 16:16:07 -0000
-Date:   Wed, 14 Dec 2022 10:16:07 -0600
+        Wed, 14 Dec 2022 08:22:46 -0800 (PST)
+Received: (nullmailer pid 1172470 invoked by uid 1000);
+        Wed, 14 Dec 2022 16:22:45 -0000
+Date:   Wed, 14 Dec 2022 10:22:45 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, Biju Das <biju.das@bp.renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-clk@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH 3/5] dt-bindings: mfd: Add RZ/V2M PWC global registers
- bindings
-Message-ID: <20221214161607.GA1154595-robh@kernel.org>
-References: <20221213224310.543243-1-fabrizio.castro.jz@renesas.com>
- <20221213224310.543243-4-fabrizio.castro.jz@renesas.com>
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>
+Subject: Re: [PATCH 2/4] dt-bindings: mmc: renesas,sdhi: Document RZ/V2M
+ support
+Message-ID: <167103496519.1172409.5839047840007773423.robh@kernel.org>
+References: <20221213230129.549968-1-fabrizio.castro.jz@renesas.com>
+ <20221213230129.549968-3-fabrizio.castro.jz@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221213224310.543243-4-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20221213230129.549968-3-fabrizio.castro.jz@renesas.com>
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Dec 13, 2022 at 10:43:08PM +0000, Fabrizio Castro wrote:
-> The RZ/V2M PWC is a multi-function device, and its software
-> support relies on "syscon" and "simple-mfd".
-> Add the dt-bindings for the top level device tree node.
+
+On Tue, 13 Dec 2022 23:01:27 +0000, Fabrizio Castro wrote:
+> Document support for the SD Card/MMC interface on the Renesas
+> RZ/V2M (a.k.a. r9a09g011) SoC.
 > 
 > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 > ---
->  .../bindings/mfd/renesas,rzv2m-pwc.yaml       | 70 +++++++++++++++++++
->  1 file changed, 70 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/renesas,rzv2m-pwc.yaml
+>  Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/renesas,rzv2m-pwc.yaml b/Documentation/devicetree/bindings/mfd/renesas,rzv2m-pwc.yaml
-> new file mode 100644
-> index 000000000000..a7e180bfbd83
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/renesas,rzv2m-pwc.yaml
-> @@ -0,0 +1,70 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/renesas,rzv2m-pwc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/V2M External Power Sequence Controller (PWC)
-> +
-> +description: |+
-> +  The PWC IP found in the RZ/V2M family of chips comes with the below
-> +  capabilities
-> +    - external power supply on/off sequence generation
-> +    - on/off signal generation for the LPDDR4 core power supply (LPVDD)
-> +    - key input signals processing
-> +    - general-purpose output pins
-> +
-> +maintainers:
-> +  - Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,r9a09g011-pwc # RZ/V2M
-> +          - renesas,r9a09g055-pwc # RZ/V2MA
-> +      - const: renesas,rzv2m-pwc
-> +      - const: syscon
-> +      - const: simple-mfd
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  gpio:
-> +    type: object
-> +    $ref: /schemas/gpio/renesas,rzv2m-pwc-gpio.yaml#
-> +    description: General-Purpose Output pins controller.
-> +
-> +  poweroff:
-> +    type: object
-> +    $ref: /schemas/power/reset/renesas,rzv2m-pwc-poweroff.yaml#
-> +    description: Power OFF controller.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    pwc: pwc@a3700000 {
-> +            compatible = "renesas,r9a09g011-pwc", "renesas,rzv2m-pwc", "syscon",
-> +                         "simple-mfd";
-> +            reg = <0xa3700000 0x800>;
-> +
-> +            gpio {
-> +                    compatible = "renesas,r9a09g011-pwc-gpio",
-> +                                 "renesas,rzv2m-pwc-gpio";
-> +                    regmap = <&pwc>;
-> +                    offset = <0x80>;
-> +                    gpio-controller;
-> +                    #gpio-cells = <2>;
-> +            };
-> +
-> +            poweroff {
-> +                    compatible = "renesas,r9a09g011-pwc-poweroff",
-> +                                 "renesas,rzv2m-pwc-poweroff";
-> +                    regmap = <&pwc>;
 
-Why does this need to be a child node? There aren't any resources for 
-it. 'regmap' is just the parent node.
-
-Assuming this binding is complete, I don't think you need any child 
-nodes. A single node can have multiple providers.
-
-Rob
+Acked-by: Rob Herring <robh@kernel.org>
