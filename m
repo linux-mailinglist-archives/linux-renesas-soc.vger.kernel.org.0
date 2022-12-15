@@ -2,29 +2,29 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75D8964D752
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Dec 2022 08:38:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7096A64D760
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Dec 2022 08:40:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229628AbiLOHiC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Dec 2022 02:38:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47566 "EHLO
+        id S229917AbiLOHkX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Dec 2022 02:40:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229775AbiLOHh6 (ORCPT
+        with ESMTP id S229825AbiLOHkP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Dec 2022 02:37:58 -0500
+        Thu, 15 Dec 2022 02:40:15 -0500
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B569F31DC8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Dec 2022 23:37:51 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E6B92FBFF
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Dec 2022 23:40:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=KuvcfPvwa+BjCI6vaKqIJfDzVDwX
-        Esjbl5vUFk9h+uc=; b=2Ex5NhqMqXKc1Yt6TKGJWD66qNNUV7VHNel0NTkxcsTp
-        JldW9hnQru2ZVqpGXhE1B/QB0efkSbib4taacAr/1cj4eMToF/eRWnx8CAqTRJ3c
-        5mjdMJlbeBYGauVtfqCOcd1lw6JiWRNbG9kszZ/a9X71kAIxtx8Jc/nsvU2+/EE=
-Received: (qmail 2278995 invoked from network); 15 Dec 2022 08:37:47 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Dec 2022 08:37:47 +0100
-X-UD-Smtp-Session: l3s3148p1@Q2Dy7djveK0ujnt8
-Date:   Thu, 15 Dec 2022 08:37:46 +0100
+        :content-type:in-reply-to; s=k1; bh=MXbGZi/uT236kTlDo/a7an6Zgc9j
+        j3vGUMDH7t/LADA=; b=NC7nWVv6RWI3U1eApcT+54ZynNQXYEgXlKVQ/3SNNsLt
+        hig76LkqBM78+BElQycqYB3XWnoZhqPCPs+wG29f5o3yef5ynQ/YEKg0xCgzh80u
+        MhhkJkO6hfcaron+Nhx4La68lWsVZovpG2+msxcQTO9YmzQX7D4PIMkzH5FczSA=
+Received: (qmail 2279799 invoked from network); 15 Dec 2022 08:40:08 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Dec 2022 08:40:08 +0100
+X-UD-Smtp-Session: l3s3148p1@vr1R9tjvOo4ujnt8
+Date:   Thu, 15 Dec 2022 08:40:07 +0100
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
@@ -40,9 +40,8 @@ Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
         Biju Das <biju.das@bp.renesas.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH 2/4] dt-bindings: mmc: renesas,sdhi: Document RZ/V2M
- support
-Message-ID: <Y5rOypDpz8obHoVN@shikoro>
+Subject: Re: [PATCH 3/4] mmc: renesas_sdhi: Add RZ/V2M compatible string
+Message-ID: <Y5rPV0m5+8Dh6Bfe@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
@@ -59,12 +58,12 @@ Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Jacopo Mondi <jacopo@jmondi.org>
 References: <20221213230129.549968-1-fabrizio.castro.jz@renesas.com>
- <20221213230129.549968-3-fabrizio.castro.jz@renesas.com>
+ <20221213230129.549968-4-fabrizio.castro.jz@renesas.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nB2VAnfRyMJ63TdW"
+        protocol="application/pgp-signature"; boundary="IfgYU8RXIPQ3Ptmi"
 Content-Disposition: inline
-In-Reply-To: <20221213230129.549968-3-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20221213230129.549968-4-fabrizio.castro.jz@renesas.com>
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
@@ -76,38 +75,47 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---nB2VAnfRyMJ63TdW
+--IfgYU8RXIPQ3Ptmi
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 13, 2022 at 11:01:27PM +0000, Fabrizio Castro wrote:
-> Document support for the SD Card/MMC interface on the Renesas
-> RZ/V2M (a.k.a. r9a09g011) SoC.
+On Tue, Dec 13, 2022 at 11:01:28PM +0000, Fabrizio Castro wrote:
+> The SDHI/eMMC IPs found with the RZ/V2M (a.k.a. r9a09g011), are
+> very similar to the ones found in R-Car Gen3, but they are not
+> exactly the same, and as a result need an SoC specific compatible
+> string for fine tuning driver support.
 >=20
 > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
 Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
+> +static const struct renesas_sdhi_quirks sdhi_quirks_r9a09g011 =3D {
+> +	.fixed_addr_mode =3D true,
+> +	.hs400_disabled =3D true,
+> +};
 
---nB2VAnfRyMJ63TdW
+Cool, seems like our quirk abstraction works reasonably well :)
+
+
+--IfgYU8RXIPQ3Ptmi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmOazsYACgkQFA3kzBSg
-Kba9bQ/+JGOXI+Dj4hMBDwMh7oY10zpnVssDROBvjW/J+jC9F5gwYx+SuQ2kSQhE
-A+oL7+653MbG6lY5gHdqasfehSDi/S648o7sP731tcyrOf54ZD6UYtGcwMNck6k1
-DGD2LAwQ9mlAu10bqGFkcLgR/ApCruxfOxmAaCdfZk+1OZ4drqNShlxTBVnTBPNV
-WJdyeKNxqhQbamlTSrP9raZb390NuFnqBRODcs0SfYfThVCoBuHsnfzGaR2JBlZy
-fyuY8N2VomEni4/r0Ciegnxz1Guy+NKJ+26eXL536Wsws7s3ydAOI0fYNUOA+RIw
-cx+IZm/tOy+Iy0H9yESWdkcPPsLQO4scTG4f7Mqxg24h+goapU7379tDWw6+jd2Q
-5p28hKpc21C0J8n7Fe3TfxkGnATS1VmpwMrBDQk1VSZxIOOh+qbWK+xanU4QxfSR
-PuVLPe4EGxamFxB0b2F1YOvWUxjyJSUzZlnGB2nZpg0IHvQF0/DcK+Qzjc9YqLuz
-Ef+RJ80JVZz3pmr5mm63Hjlj+YHdCC5MfXujSYSfKhskgfbJ12z7HE3JK3Oh/p1E
-AEQDzpipflLlNTWJ/TYLe16FhUX2nNUjTfzUUZJhxZft7aaUFw7lVpmXPPtypDle
-lzPGtDow1I+DrRIdkR5idqrBkAmjxfDbgQDrsY+LFitHB2ODeXg=
-=3wdx
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmOaz1cACgkQFA3kzBSg
+Kbaw2RAAgL3RbR6t3/4u7yW4JYFKMjdthimKC9C2pKEy5N0poM/F/cTzTfFn+FTO
+qTkPwmcPKEUSNa0QUwGQ3wFDpFEEm4MV/86p+uaYzQV7XLp5Xcbx3g7de15FC8mf
+kU9UrLeWZg9ut62WaV9TVxo5lsiml1iGuG1/LsFkNy49OHqHY1ZHr7+NwcQDwAst
+toexiP4n2F47ZpW/JGubvZvbmuac+6Df6VzNaggfRj+q68hqjOmC42uQ3timJe7w
+Ts7/TgETLtSFMSHN5CKBUeNVzdumKIHX3DwHn/vSC8c+0SvW5QAu0/JiUc5ievx/
+jRvEr3t3WoHh7E3S9EUmQFI5MMOwob4atl7aGM887Ic8Fkhd2w9rcyJsqFV9aDlE
+C6TvVi5dwTC5wh5iOM5HroqnrXaf4btXMirULevey6pkM6nh93v20RRdJg1zNAFh
+Mz7d2/gJolSpNlkyhsOj3Ot4JxydIRtHfV9VsujzBYbTgrnW8IGsnjxTneg4J+Xf
+bwHGWjz1yqAjlbAf4P0dOgvjOqbRybWI0/2JW2JLseqOHBVOn2iiS1Oi4RogYNaf
+RwiCa+Bre4li1HVU1/WzD9ZrQdzG6Mj3a2bnj0Dam4HpuW507b+SjevZmeQHN2lz
+3s/8jJbWUgLEZMMo7QReNMB+TbspE3I81CZgeNTUpOT/qBz1EOA=
+=J7AR
 -----END PGP SIGNATURE-----
 
---nB2VAnfRyMJ63TdW--
+--IfgYU8RXIPQ3Ptmi--
