@@ -2,116 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A123464DEDE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Dec 2022 17:43:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 576B264DEE8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Dec 2022 17:46:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230244AbiLOQn6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Dec 2022 11:43:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39386 "EHLO
+        id S229816AbiLOQqQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Dec 2022 11:46:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230240AbiLOQn5 (ORCPT
+        with ESMTP id S230289AbiLOQqP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Dec 2022 11:43:57 -0500
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1435331EF4;
-        Thu, 15 Dec 2022 08:43:54 -0800 (PST)
-Received: from [192.168.1.103] (178.176.74.151) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Thu, 15 Dec
- 2022 19:43:43 +0300
-Subject: Re: [PATCH net v2] ravb: Fix "failed to switch device to config mode"
- message during unbind
-To:     <patchwork-bot+netdevbpf@kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-CC:     <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <p.zabel@pengutronix.de>,
-        <geert+renesas@glider.be>, <liuhangbin@gmail.com>,
-        <mitsuhiro.kimura.kc@renesas.com>, <netdev@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <fabrizio.castro.jz@renesas.com>, <stable@vger.kernel.org>,
-        <leonro@nvidia.com>
-References: <20221214105118.2495313-1-biju.das.jz@bp.renesas.com>
- <167111521604.32410.3850134562584373463.git-patchwork-notify@kernel.org>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <b9afb491-73a9-5ffb-bef7-4f29dda6efe0@omp.ru>
-Date:   Thu, 15 Dec 2022 19:43:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Thu, 15 Dec 2022 11:46:15 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9E1517880;
+        Thu, 15 Dec 2022 08:46:12 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 659B9327;
+        Thu, 15 Dec 2022 17:46:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671122770;
+        bh=F428qaVY9pfEF7UHtueOFNcG2/B9dH3V7pfjh3Snqkc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Nbslu5e0Ok/NimmZyjDUMGYgWzmxLGljcvRYzX8CYiEQNm9aXvfPaneWpKaqbpIsq
+         lNZqN6nRCCdGW+oG/g3ogybQpLRemrE4wtOBqN9CFIb1+RW6qHkzEVNWVHVihMoJht
+         QgLr0kPhmioP49QYuwxLYAD+X7JLCXdMRrqHr8bU=
+Date:   Thu, 15 Dec 2022 18:46:06 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Thomas Nizan <tnizan@witekio.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 02/12] dt-bindings: media: i2c: max9286: Add property
+ to select I2C speed
+Message-ID: <Y5tPTkGxU46tSWG2@pendragon.ideasonboard.com>
+References: <20221214233825.13050-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20221214233825.13050-3-laurent.pinchart+renesas@ideasonboard.com>
+ <167111060968.3140791.14917058235505688958.robh@kernel.org>
+ <Y5skgJqitZRKHqyY@pendragon.ideasonboard.com>
+ <20221215162216.GA141183-robh@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <167111521604.32410.3850134562584373463.git-patchwork-notify@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [178.176.74.151]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 12/15/2022 16:24:15
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 174213 [Dec 15 2022]
-X-KSE-AntiSpam-Info: Version: 5.9.59.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 502 502 69dee8ef46717dd3cb3eeb129cb7cc8dab9e30f6
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_arrow_text}
-X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.151 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: git.kernel.org:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.151
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 12/15/2022 16:27:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 12/15/2022 10:28:00 AM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221215162216.GA141183-robh@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 12/15/22 5:40 PM, patchwork-bot+netdevbpf@kernel.org wrote:
+Hi Rob,
 
-> Hello:
+On Thu, Dec 15, 2022 at 10:22:16AM -0600, Rob Herring wrote:
+> On Thu, Dec 15, 2022 at 03:43:28PM +0200, Laurent Pinchart wrote:
+> > On Thu, Dec 15, 2022 at 07:24:38AM -0600, Rob Herring wrote:
+> > > On Thu, 15 Dec 2022 01:38:15 +0200, Laurent Pinchart wrote:
+> > > > The I2C speed on the remote side (the I2C master bus of the connected
+> > > > serializers) is configurable, and doesn't need to match the speed of the
+> > > > local bus (the slave bus of the MAX9286). All remote buses must use the
+> > > > same speed, and the MAX9286 needs to be programmed accordingly. Add a
+> > > > new DT property to select the speed to make it configurable.
+> > > > 
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > > ---
+> > > > Changes since v2:
+> > > > 
+> > > > - Rename property to maxim,i2c-remote-bus-hz
+> > > > - Specify the property type
+> > > > ---
+> > > >  .../devicetree/bindings/media/i2c/maxim,max9286.yaml      | 8 ++++++++
+> > > >  1 file changed, 8 insertions(+)
+> > > > 
+> > > 
+> > > My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> > > on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> > > 
+> > > yamllint warnings/errors:
+> > > 
+> > > dtschema/dtc warnings/errors:
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml: properties:maxim,i2c-remote-bus-hz: '$ref' should not be valid under {'const': '$ref'}
+> > > 	hint: Standard unit suffix properties don't need a type $ref
+> > > 	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+> > 
+> > I wonder how I missed that, as I've run dt_binding_check before
+> > submitting. I'll fix it.
+> > 
+> > I'm a bit surprised though, all unit-suffixed properties use 32-bit
+> > integers in the DT schema, while I can imagine that some may need a
+> > 64-bit integer. What's the recommendation in that case ?
 > 
-> This patch was applied to netdev/net.git (master)
-> by Paolo Abeni <pabeni@redhat.com>:
-> 
-> On Wed, 14 Dec 2022 10:51:18 +0000 you wrote:
->> This patch fixes the error "ravb 11c20000.ethernet eth0: failed to switch
->> device to config mode" during unbind.
->>
->> We are doing register access after pm_runtime_put_sync().
->>
->> We usually do cleanup in reverse order of init. Currently in
->> remove(), the "pm_runtime_put_sync" is not in reverse order.
->>
->> [...]
-> 
-> Here is the summary with links:
->   - [net,v2] ravb: Fix "failed to switch device to config mode" message during unbind
->     https://git.kernel.org/netdev/net/c/c72a7e42592b
-> 
-> You are awesome, thank you!
+> Use -mhz.
 
-   Oops, was going to review the patch tonight, now that I'm back from the hospitals.
+I expected that answer :-) It's not an issue with this specific
+property, so I'm fine. If I ever run into the need of a 64-bit Hz value
+to have both range and precision, we'll talk about it then :-) I don't
+expect that to be very common.
 
-MBR, Sergey
+> Anything outside the norm we have to special case in 
+> property-units.yaml.
+
+-- 
+Regards,
+
+Laurent Pinchart
