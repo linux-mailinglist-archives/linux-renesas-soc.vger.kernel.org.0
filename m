@@ -2,116 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C856264DC68
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Dec 2022 14:43:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DAAC64DCFB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Dec 2022 15:40:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229488AbiLONnf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Dec 2022 08:43:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58764 "EHLO
+        id S229939AbiLOOkU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Dec 2022 09:40:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbiLONne (ORCPT
+        with ESMTP id S229658AbiLOOkS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Dec 2022 08:43:34 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B8BF101EE;
-        Thu, 15 Dec 2022 05:43:33 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67D89327;
-        Thu, 15 Dec 2022 14:43:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671111811;
-        bh=IkdbOkNfizeZc+JQCY7rk80M3K1s0tFyYkGTX0I5Now=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Log1XbtFBzhd9Xx404T/x3NxSrbXGo4IPnmuhQeZYrw6vncNcTivRQ3LjYVn/wB7Z
-         dUWXYZLgGqlgHf4c6JLm3H6JmFNouq6P5iBBimRnykVQJgNr3k+W2YGztFu1Pk+VSH
-         IWI3mWXenO0jUyhonoTVOuPZqy6RSAk6zsHNnNPw=
-Date:   Thu, 15 Dec 2022 15:43:28 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thomas Nizan <tnizan@witekio.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 02/12] dt-bindings: media: i2c: max9286: Add property
- to select I2C speed
-Message-ID: <Y5skgJqitZRKHqyY@pendragon.ideasonboard.com>
-References: <20221214233825.13050-1-laurent.pinchart+renesas@ideasonboard.com>
- <20221214233825.13050-3-laurent.pinchart+renesas@ideasonboard.com>
- <167111060968.3140791.14917058235505688958.robh@kernel.org>
+        Thu, 15 Dec 2022 09:40:18 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D53D2E6BB;
+        Thu, 15 Dec 2022 06:40:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CCEE060A0B;
+        Thu, 15 Dec 2022 14:40:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 272EDC433F0;
+        Thu, 15 Dec 2022 14:40:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1671115216;
+        bh=1y4XJbZR7xGuVEK0oM2ozMxNE2Gyyox9Hv4icG+6KUI=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=eQXH6aDbGLq4N0KdFWRksfHgH967CfowbHwwSFcUId8JYgZYp2iiqnXOd54L1Bivr
+         PG50MDXbuVYC2SjwxAezMuxUlO1YcJuhP3KmQaaV0mghkUkiXt6OjClcziD6fL64z0
+         qgmxtHNoWPCvjZu2yz1xsxz4T62IgZ9chGcjXq0cb0HT79Y0CdeGT/OVIifB9iFUEp
+         3nGmEpkzzQdFpqO9918E9PQWWmsjTdLavH+ZVCS6H+ll0vgXQyV3Ud3Cpij29iFyMu
+         qcj09mqeqIn3/PeDAEljP8FkMUfrFUrsXdwcCxy2BU6Whff69F16tUkAbII5pm9yQj
+         htRISVMEeaHQQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0CBD5C197B4;
+        Thu, 15 Dec 2022 14:40:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <167111060968.3140791.14917058235505688958.robh@kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v2] ravb: Fix "failed to switch device to config mode"
+ message during unbind
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167111521604.32410.3850134562584373463.git-patchwork-notify@kernel.org>
+Date:   Thu, 15 Dec 2022 14:40:16 +0000
+References: <20221214105118.2495313-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20221214105118.2495313-1-biju.das.jz@bp.renesas.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, p.zabel@pengutronix.de, s.shtylyov@omp.ru,
+        geert+renesas@glider.be, liuhangbin@gmail.com,
+        mitsuhiro.kimura.kc@renesas.com, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, fabrizio.castro.jz@renesas.com,
+        stable@vger.kernel.org, leonro@nvidia.com
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+Hello:
 
-On Thu, Dec 15, 2022 at 07:24:38AM -0600, Rob Herring wrote:
-> On Thu, 15 Dec 2022 01:38:15 +0200, Laurent Pinchart wrote:
-> > The I2C speed on the remote side (the I2C master bus of the connected
-> > serializers) is configurable, and doesn't need to match the speed of the
-> > local bus (the slave bus of the MAX9286). All remote buses must use the
-> > same speed, and the MAX9286 needs to be programmed accordingly. Add a
-> > new DT property to select the speed to make it configurable.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > ---
-> > Changes since v2:
-> > 
-> > - Rename property to maxim,i2c-remote-bus-hz
-> > - Specify the property type
-> > ---
-> >  .../devicetree/bindings/media/i2c/maxim,max9286.yaml      | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> > 
-> 
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml: properties:maxim,i2c-remote-bus-hz: '$ref' should not be valid under {'const': '$ref'}
-> 	hint: Standard unit suffix properties don't need a type $ref
-> 	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+This patch was applied to netdev/net.git (master)
+by Paolo Abeni <pabeni@redhat.com>:
 
-I wonder how I missed that, as I've run dt_binding_check before
-submitting. I'll fix it.
+On Wed, 14 Dec 2022 10:51:18 +0000 you wrote:
+> This patch fixes the error "ravb 11c20000.ethernet eth0: failed to switch
+> device to config mode" during unbind.
+> 
+> We are doing register access after pm_runtime_put_sync().
+> 
+> We usually do cleanup in reverse order of init. Currently in
+> remove(), the "pm_runtime_put_sync" is not in reverse order.
+> 
+> [...]
 
-I'm a bit surprised though, all unit-suffixed properties use 32-bit
-integers in the DT schema, while I can imagine that some may need a
-64-bit integer. What's the recommendation in that case ?
+Here is the summary with links:
+  - [net,v2] ravb: Fix "failed to switch device to config mode" message during unbind
+    https://git.kernel.org/netdev/net/c/c72a7e42592b
 
-> doc reference errors (make refcheckdocs):
-> 
-> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221214233825.13050-3-laurent.pinchart+renesas@ideasonboard.com
-> 
-> The base for the series is generally the latest rc1. A different dependency
-> should be noted in *this* patch.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your schema.
-
+You are awesome, thank you!
 -- 
-Regards,
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Laurent Pinchart
+
