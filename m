@@ -2,120 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AEFB64DE88
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Dec 2022 17:24:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A123464DEDE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Dec 2022 17:43:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230033AbiLOQYH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Dec 2022 11:24:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48994 "EHLO
+        id S230244AbiLOQn6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Dec 2022 11:43:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230113AbiLOQXf (ORCPT
+        with ESMTP id S230240AbiLOQn5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Dec 2022 11:23:35 -0500
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E85FF396D3;
-        Thu, 15 Dec 2022 08:22:17 -0800 (PST)
-Received: by mail-ot1-f54.google.com with SMTP id m7-20020a9d6447000000b0066da0504b5eso3856000otl.13;
-        Thu, 15 Dec 2022 08:22:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5lvp+Rra/J+0wVWurvbgG0Bk7qShU+6ZOVAk+JE7aHs=;
-        b=xWml9QbxpMOa2ekPwryWxLXpaSuCWrhupKpu4VuYFpMkhSpBY+egWUFKy/s1BpAd9m
-         +xKyVJin2Y1QoOUQjiVZWFNG34t9twUEcnluDcVscs2neDJliUs20JhD4GOKTPPXX3Cv
-         YUZhonSPUMYk3jD6xvqxHiScsdBJ3n9CMrV7nFUZ1byHSeYEy4Z9DEO+ts056YYkXHB0
-         xFkSPkA7uiX7slhS0+oEjVKexllRBRjGVGXi5nTyz4HTJZQHvmF8UZd5Lou3+OhpfAjO
-         HGQ4dDu2F9Q7G8VC4gIFsUNYCMAB3Ksobm4F5Oq2KszVRjkJGpb0yCDNNVPFZUtFyk7u
-         xALQ==
-X-Gm-Message-State: ANoB5pncLq8ts+YT4trDNHS4JEQ2aqlym8TWY6gjfHSZOZsCMx4B5nbk
-        wwLSur+3sxN/JiMPWcyoGA==
-X-Google-Smtp-Source: AA0mqf7X/PFzmParAODHOyFtTJjq+Nk9hxsJMAGA3If31IqPxkC3c3wsbOlFneYtyPmQ2EVOqVfozw==
-X-Received: by 2002:a05:6830:2098:b0:670:6976:a864 with SMTP id y24-20020a056830209800b006706976a864mr14501417otq.29.1671121337113;
-        Thu, 15 Dec 2022 08:22:17 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id d21-20020a056830139500b0066ec7ace428sm3698309otq.10.2022.12.15.08.22.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Dec 2022 08:22:16 -0800 (PST)
-Received: (nullmailer pid 145631 invoked by uid 1000);
-        Thu, 15 Dec 2022 16:22:16 -0000
-Date:   Thu, 15 Dec 2022 10:22:16 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thomas Nizan <tnizan@witekio.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 02/12] dt-bindings: media: i2c: max9286: Add property
- to select I2C speed
-Message-ID: <20221215162216.GA141183-robh@kernel.org>
-References: <20221214233825.13050-1-laurent.pinchart+renesas@ideasonboard.com>
- <20221214233825.13050-3-laurent.pinchart+renesas@ideasonboard.com>
- <167111060968.3140791.14917058235505688958.robh@kernel.org>
- <Y5skgJqitZRKHqyY@pendragon.ideasonboard.com>
+        Thu, 15 Dec 2022 11:43:57 -0500
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1435331EF4;
+        Thu, 15 Dec 2022 08:43:54 -0800 (PST)
+Received: from [192.168.1.103] (178.176.74.151) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Thu, 15 Dec
+ 2022 19:43:43 +0300
+Subject: Re: [PATCH net v2] ravb: Fix "failed to switch device to config mode"
+ message during unbind
+To:     <patchwork-bot+netdevbpf@kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+CC:     <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <p.zabel@pengutronix.de>,
+        <geert+renesas@glider.be>, <liuhangbin@gmail.com>,
+        <mitsuhiro.kimura.kc@renesas.com>, <netdev@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <fabrizio.castro.jz@renesas.com>, <stable@vger.kernel.org>,
+        <leonro@nvidia.com>
+References: <20221214105118.2495313-1-biju.das.jz@bp.renesas.com>
+ <167111521604.32410.3850134562584373463.git-patchwork-notify@kernel.org>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <b9afb491-73a9-5ffb-bef7-4f29dda6efe0@omp.ru>
+Date:   Thu, 15 Dec 2022 19:43:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5skgJqitZRKHqyY@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <167111521604.32410.3850134562584373463.git-patchwork-notify@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [178.176.74.151]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 12/15/2022 16:24:15
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 174213 [Dec 15 2022]
+X-KSE-AntiSpam-Info: Version: 5.9.59.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 502 502 69dee8ef46717dd3cb3eeb129cb7cc8dab9e30f6
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_arrow_text}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.151 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: git.kernel.org:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.151
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 12/15/2022 16:27:00
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 12/15/2022 10:28:00 AM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Dec 15, 2022 at 03:43:28PM +0200, Laurent Pinchart wrote:
-> Hi Rob,
-> 
-> On Thu, Dec 15, 2022 at 07:24:38AM -0600, Rob Herring wrote:
-> > On Thu, 15 Dec 2022 01:38:15 +0200, Laurent Pinchart wrote:
-> > > The I2C speed on the remote side (the I2C master bus of the connected
-> > > serializers) is configurable, and doesn't need to match the speed of the
-> > > local bus (the slave bus of the MAX9286). All remote buses must use the
-> > > same speed, and the MAX9286 needs to be programmed accordingly. Add a
-> > > new DT property to select the speed to make it configurable.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > ---
-> > > Changes since v2:
-> > > 
-> > > - Rename property to maxim,i2c-remote-bus-hz
-> > > - Specify the property type
-> > > ---
-> > >  .../devicetree/bindings/media/i2c/maxim,max9286.yaml      | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > > 
-> > 
-> > My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> > on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> > 
-> > yamllint warnings/errors:
-> > 
-> > dtschema/dtc warnings/errors:
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml: properties:maxim,i2c-remote-bus-hz: '$ref' should not be valid under {'const': '$ref'}
-> > 	hint: Standard unit suffix properties don't need a type $ref
-> > 	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-> 
-> I wonder how I missed that, as I've run dt_binding_check before
-> submitting. I'll fix it.
-> 
-> I'm a bit surprised though, all unit-suffixed properties use 32-bit
-> integers in the DT schema, while I can imagine that some may need a
-> 64-bit integer. What's the recommendation in that case ?
+On 12/15/22 5:40 PM, patchwork-bot+netdevbpf@kernel.org wrote:
 
-Use -mhz.
+> Hello:
+> 
+> This patch was applied to netdev/net.git (master)
+> by Paolo Abeni <pabeni@redhat.com>:
+> 
+> On Wed, 14 Dec 2022 10:51:18 +0000 you wrote:
+>> This patch fixes the error "ravb 11c20000.ethernet eth0: failed to switch
+>> device to config mode" during unbind.
+>>
+>> We are doing register access after pm_runtime_put_sync().
+>>
+>> We usually do cleanup in reverse order of init. Currently in
+>> remove(), the "pm_runtime_put_sync" is not in reverse order.
+>>
+>> [...]
+> 
+> Here is the summary with links:
+>   - [net,v2] ravb: Fix "failed to switch device to config mode" message during unbind
+>     https://git.kernel.org/netdev/net/c/c72a7e42592b
+> 
+> You are awesome, thank you!
 
-Anything outside the norm we have to special case in 
-property-units.yaml.
+   Oops, was going to review the patch tonight, now that I'm back from the hospitals.
 
-Rob
+MBR, Sergey
