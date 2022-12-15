@@ -2,225 +2,308 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A4DB64D85A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Dec 2022 10:14:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AD6864D8FD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Dec 2022 10:50:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229718AbiLOJO4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Dec 2022 04:14:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54950 "EHLO
+        id S230233AbiLOJuH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Dec 2022 04:50:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229744AbiLOJOz (ORCPT
+        with ESMTP id S230234AbiLOJtY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Dec 2022 04:14:55 -0500
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2103.outbound.protection.outlook.com [40.107.114.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B76B52B603
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Dec 2022 01:14:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LcdZevMzOhJrYK7XwNEjK6BZcpu3i9KofbiXOOGYzpIhT1V2ki0fqUusUFoW+pUktiuCQ2rv58M/PB7q3WwEx7LlICv/bExEQJgM6P4QSM6Oxm5+oC6anVZ8mG7gLgNWqgvF89voYtSy6cdIZeKqjHVLL0bIRaTTXcijtcVruirfoP1Nml3Oq0V51lTs7eGYzC4rgZvKTB4y2dFSFnzVdWFDQwIFTvTqj5tHlgtDFn1rGKvd7e4nV9143Z9vNHi/rn8PZQwYaLAVVhWcelH3oyrF46Dxo2yKC9IuJ+elt2uEk/5hVMHW+KLsem1sbBPaxVpxAtnoibDABFK8XtYvGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iiB4UtRaGRIgIyoEu0DhdqweS8RUFsvlLqyMLTsB4dE=;
- b=N/+AlVPmaRyC4e29wTCfwQpzS+13BRTP4r5R2RnurjYxdHKrzHMUzRcxeORidlg0mdaOj0E5TlHvP7sxPnNWb7ts0IcDtZEeDhtqkWYQo1NxZaEYLM7RNsZm9oy4vEGb7UbqQdCug771qqz7Tw904R7/5RI37HJfuLMjsQYlgT2v/zx61COFbzwChczd7pZSAPurs55Okd9u5vYdtOGhMk1l21FsUa/gTBw0SMFSKGCG8lxlQyGBL4hB6mnXsmd/u+F3WvuUOCFlCQ2gTW0AbNY3l6DoTUoy6gUUdxCuHEGFQjmsgje9800bBmPvx35Ox/6DCSvM/NYy5rL8IT9EGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iiB4UtRaGRIgIyoEu0DhdqweS8RUFsvlLqyMLTsB4dE=;
- b=UCtWHE1Ve4tz2w2QkzzlHbefKbPRtcyOKjJQY9k2PRKpQkFl9GVu2+UhxCTCAjwtfr8zVLAz5X0chQZPQa0X+ka4K9XC2KlqUj20ER05kxkDxE3AYdMo7w0DSzBI1wamMuyyFIk37oN431LQNLamwqyrYWl6iAKvgp0oSpkZUDs=
-Received: from TYYPR01MB7024.jpnprd01.prod.outlook.com (2603:1096:400:dc::9)
- by TYCPR01MB6301.jpnprd01.prod.outlook.com (2603:1096:400:79::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.11; Thu, 15 Dec
- 2022 09:14:51 +0000
-Received: from TYYPR01MB7024.jpnprd01.prod.outlook.com
- ([fe80::c3c4:a23f:33ad:d6e2]) by TYYPR01MB7024.jpnprd01.prod.outlook.com
- ([fe80::c3c4:a23f:33ad:d6e2%7]) with mapi id 15.20.5924.011; Thu, 15 Dec 2022
- 09:14:51 +0000
-From:   Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Robin Murphy <robin.murphy@arm.com>,
-        Conor Dooley <conor@kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "guoren@linux.alibaba.com" <guoren@linux.alibaba.com>
-Subject: RE: [PATCH] RISC-V: Disable IPMMU_VMSA on rv32
-Thread-Topic: [PATCH] RISC-V: Disable IPMMU_VMSA on rv32
-Thread-Index: AQHZD/TEl8pPFAVi00Odphb7AlEWFa5t31KAgAAJSpCAAL/6AIAAAeQQ
-Date:   Thu, 15 Dec 2022 09:14:51 +0000
-Message-ID: <TYYPR01MB70244846B75DBCDD9CF86CECAAE19@TYYPR01MB7024.jpnprd01.prod.outlook.com>
-References: <20221214180409.7354-1-palmer@rivosinc.com>
- <8DACBAC8-F220-4DA7-BCC2-4E2ED9E3E03E@kernel.org>
- <b8665f9d-44cf-5719-c206-5eb622978b1a@arm.com>
- <OSZPR01MB7019D761845E3AC9E30F2D2DAAE09@OSZPR01MB7019.jpnprd01.prod.outlook.com>
- <CAMuHMdUt7coFBx-+mXJcf7E0f5S_Q_Rmb6VVq-4E7_m99GXyRw@mail.gmail.com>
-In-Reply-To: <CAMuHMdUt7coFBx-+mXJcf7E0f5S_Q_Rmb6VVq-4E7_m99GXyRw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYYPR01MB7024:EE_|TYCPR01MB6301:EE_
-x-ms-office365-filtering-correlation-id: cf30ab7a-0a19-4a0a-0d04-08dade7cd254
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: rA3YOp1CIF8s6oBldd/7E5TpS+KlpFrHcDo0LiDSo+ognVM2w4k5bi3NgDInhmUP9YvQaJhUAtUNvnzkUotSED/d13kjoJ/xWLiuFEHUlGFwo9Msx1nAyQ3cezdmuqN/Jtl9RdNjfbR0X/Yr+vo4rRE60zfJ+OYPtqUZ/TYWcuQRlcjUSYhgekBznyRNEH53Zfivj2J+tim+Kcm0JbzYityZEPEekrcknvbZkXHikrzMV5OJ7OW4r0uN6dWp50CjNb0nhEIF61NR8V4T7qoq5w3BFUODmccz6SpyLxGDBnCmOqJBe9YE0TkQNnGG+rxA1wIw6cuGHYxpo+5VhZaSSlzMAx9bQLZCAUAkdPAPBolVX718YZpKFEgcUjpMHe4dLpXR6lZLQ64kJ/GOCB6ac2Ua2PKkITPbiEu1BsmhRY93HFVkDjfQRjEgdv8wQNw6enFSPCzDCHAJQSADwUCznoZmEq889t0/ZxHxch4q0WCeIg9fWJIVhZWH1fs0Ywx/n5SxyicQBN9sCgIfWSt1cW9Nwhny3FnQbEfbPIvEZN9b2Lk61OQb781IrceFf/H6c8LJZlAOi+HwvKCSFEtlBxMwpuXX3IzT9NrFc/xK4JyvWeXAlOUiGOcq7yf6S86lfPNELf85YTefygeKmJaHzpLGTvFBrGI5h9daijGc6NFpTDb9znvWgRT17ewmFtN20iEqgyEoZIkzny56CErBFPzs/Ok0DeEl3PXViFlbDcTEXSArKkriuCOJWzukuWCoLibfIkZPgJmjtrEWAZ/1vw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB7024.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(136003)(376002)(366004)(39860400002)(451199015)(26005)(478600001)(54906003)(966005)(186003)(7696005)(53546011)(6916009)(6506007)(316002)(122000001)(86362001)(45080400002)(55016003)(38100700002)(38070700005)(9686003)(33656002)(83380400001)(8936002)(52536014)(41300700001)(71200400001)(2906002)(4001150100001)(5660300002)(66446008)(66476007)(66556008)(4326008)(76116006)(66946007)(64756008)(8676002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?L7jPHcWH6uTBVw6+bBgko6hOtdejEZPR19pYhRjHr+e3xZuNTIxbSm9CCIlD?=
- =?us-ascii?Q?ZGdDWwINoHdNqdRiDVkST0rzjALkHdF0nLGaL+Z6Ss78YjoH/vHD3PzQrs45?=
- =?us-ascii?Q?FIoOxvD0HUQvfx+LY1EPbklEE1iDn7D/p+FahPVpBe3eig3qUa02P494CxF0?=
- =?us-ascii?Q?8CyYSTq6cx0sgNfcXUuNLXVdZfSf9ctLkYNXDsw4ln3qd76sN78Qas+q8Ija?=
- =?us-ascii?Q?gazPDxXbUgAgPl8lDFL+1w7tY3HII8hHgdiVpPB+DfRnuhXQJIwu162mh4dQ?=
- =?us-ascii?Q?9lQyR82JSFIs5o5TZVUsXy3UD8l3+YNXqFsQ/R5D5QPfZvp3iJWzz5lI66ie?=
- =?us-ascii?Q?pNt5W5Xz3TniiIEqetHL9Cq0IRXeW5OMzoBLP29h0J33HI2P7ArDxzIxncEN?=
- =?us-ascii?Q?D0VeSu6NT3DRRksXJac6MksRUdsyL4PTIW2ISI/Ri19Zn6ZDYywQjOOJFRIK?=
- =?us-ascii?Q?RKKB9HGLxfy1vkURPXm7B7ti5EUJYblvoEAP3rWL/y/GJmHdQ7QW3Wc6uMyj?=
- =?us-ascii?Q?GER1kC/3qoTF1nbAK/pnKSNcC4eu00Q25nLj5tpjp7e8hCBuOvOqmgfOenuY?=
- =?us-ascii?Q?0B94jWjrqyspU0ol6zTqmFjoCrRLaV6bxoLnrnaX8pz4VxLu5dWo00VG3ex+?=
- =?us-ascii?Q?eWT8D79saL6rsXF8l/YBRt2BXVT6K/8m0mTjSywCyOaBKmK5mxFkBtdh1fYW?=
- =?us-ascii?Q?G+Pvy/exciJp69K1KmQZp2L+gd2uegRfFzU5Y7y3JZ5u0Znc/ctiwA6y56Xp?=
- =?us-ascii?Q?bLmao236H0Z8+D3k4TAh+kIGdFakOFGSRcF4fQbK2XJL1FISVYcxAhZs4G5q?=
- =?us-ascii?Q?hCP4Rf9rK8wmX4PDBt3D693Vx6MYQIjWFdH43ihSLZPjwbco/CxwSCmwWKa7?=
- =?us-ascii?Q?ORUbk2MiZe859zELFKjMq+rjDKsoqfodBjeak85WM+KqHambQS37H/vZBKSA?=
- =?us-ascii?Q?EL8G7jayXe1jQFyN2r3Es9f4SFVYeTKN0rX9JFGiATUzwMpUwlkEgqm475+q?=
- =?us-ascii?Q?i7jfYs5u+hIBhFgEQDpvfezjx5NhwY46820Ffu6Q2S31MKOg9fRL7LPXhsIb?=
- =?us-ascii?Q?nHk9RwCtG+gqLVsKH2CQfzhMKtt2xrhVsPHt1t1uBBrDaHifDJtQdAO0OzhH?=
- =?us-ascii?Q?b/pN/0INhezxWKSziYdG6F5NKq+BHk7E/j9m27ES31nCWgP72Xv7NXW0zTrQ?=
- =?us-ascii?Q?AhNS0dLqP5KQ2nc+GRE9uJ8lAzow9S43uycv3JA0yauulNNfhdw2L+wL4y6o?=
- =?us-ascii?Q?nqGsw9ADZHjgc0ZO5qmiAlV9eza6ckHorxVBk9KdpoM2OojUlUcQQVEn7f7f?=
- =?us-ascii?Q?fTmzriK60rpzA2ddoIzTKtf2mLoyhFrxWIc+U9ysTImtfmQ24IKyWluvWQCO?=
- =?us-ascii?Q?6Tg8iM2UOM58q7DEjTMvfaFaCb1hmcGfr8QT1rbz7KEejhDxk0vGsd4j5C6h?=
- =?us-ascii?Q?C8pHCn9LFYdZGUN1SOu6Sxn4txP23RXIgh+pn/eRGuB4VhJP/Ws82sYUO2US?=
- =?us-ascii?Q?EYJd83Ca13PKwW5WtfJ6KXBDwEcCPEGpALquTGWhVnxtSUQbfsT18qaedXd6?=
- =?us-ascii?Q?wR/pnG/XL/gs+tW9WP4k4iFKUQdHyvirJdwMGBVvRU3wYf6U3Mg3HQVwTgC+?=
- =?us-ascii?Q?3hLqcpBdItCkArp4RQDLCrA=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 15 Dec 2022 04:49:24 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A8A1233AB
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Dec 2022 01:49:21 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id bf43so1504986lfb.6
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Dec 2022 01:49:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yY96EIpEYo2WvzK5TLn9sy1o8NsGtoNUVSSOvpliiac=;
+        b=NWjRT0VljK2M8aptatHJ8aLxWUf4BSSb7gtfVo4p2OixaPp17M2vyQAVBEqOHOemj3
+         N+AQEz6MpApP9/2/ceTUgN4RLCN+vrmm4+TXtkQEROSrVdQeLaxneWEmj2uy+/1jfTTE
+         gjZ7DblQriWzYDQ3xeB/XCaArVES8ccpi+XpnAWUszGdvlk5IQOc2zLal/XTd4nNbcx+
+         FvScg3QKnn1vADCaOBHKqwIsMueohg++CwoN1eyFwqrOIGkFl16qj0ZrFk8BRpY33ZHX
+         h77sAQY21iUugI02FlpmSXECFYCLsv3mvPUAJhSCZlIMox7uW/2360vTxa31ytPcM06a
+         ANHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yY96EIpEYo2WvzK5TLn9sy1o8NsGtoNUVSSOvpliiac=;
+        b=ZVBgelUKpz8zFEWNamkfrz3v1aUPENnzrgJGV8E8/2fGGRJn6k3QZuImQlf/s5y2cf
+         S9LbbUJhhju1tGOaFBYLaKl6SnIzKRkGaWjFcBJICsifvYlw9Ejxeunxf+xe1J+Q0EL4
+         +tCKl0gI+RfWCgL8u8j0CD/uDddECVhrkt0zC/7b63XQFcwhbU92EShWz9SjqIJgakHX
+         PhNnidNfiKapABF0PdkQkjAIMW30Wj/nti5H2yZ2uTkA4ElOdhDgzE/focjqsJGlL+hC
+         xDJq24UZeYh0nmPZnrv96KbvmAY1eVJcz4cPdb0ZugB7XHhrnv7ZtQgfp3o1+WBFROVI
+         N5Vw==
+X-Gm-Message-State: ANoB5pkiULowTyN/91JQ1RKkVqsQ0lQwAxnhZrCxEGOiUPHz9sl5DZx3
+        jHxHsmj6xtKSmvBtYu8fspxxQg==
+X-Google-Smtp-Source: AA0mqf7zAnoMebFACZks9GUm6dwE1ZHAdzdmTbCibv2fl5cvIUrtTdpngz8fSmPdZ5KR7LlEFDr/jQ==
+X-Received: by 2002:ac2:44d8:0:b0:4a4:68b8:9c2e with SMTP id d24-20020ac244d8000000b004a468b89c2emr7468340lfm.22.1671097759677;
+        Thu, 15 Dec 2022 01:49:19 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id s12-20020a056512202c00b00494935ddb88sm1114271lfs.240.2022.12.15.01.49.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Dec 2022 01:49:19 -0800 (PST)
+Message-ID: <8199105f-4c67-1af3-65fe-a5c8ddababca@linaro.org>
+Date:   Thu, 15 Dec 2022 10:49:17 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB7024.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf30ab7a-0a19-4a0a-0d04-08dade7cd254
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2022 09:14:51.1912
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XKf0kAykd/9A4wQYCyVawn6Dqo1oVGHjDb79BobfNTwevAFMPWZtMD0rS6/35K73TQAfBtjILQkGsp9YOZnO7iL9LH+1PxT5DhqwSdCRvkTajI9veNESXt1bKbgg2awO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6301
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 1/5] dt-bindings: gpio: Add RZ/V2M PWC GPIO driver
+ bindings
+Content-Language: en-US
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Rob Herring <robh@kernel.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lee Jones <lee@kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+References: <20221213224310.543243-1-fabrizio.castro.jz@renesas.com>
+ <20221213224310.543243-2-fabrizio.castro.jz@renesas.com>
+ <20221214161057.GA1140718-robh@kernel.org>
+ <TYWPR01MB87759AE2651E96276F6CAE94C2E09@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <TYWPR01MB87759AE2651E96276F6CAE94C2E09@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On 14/12/2022 19:26, Fabrizio Castro wrote:
+> Hi Rob,
+> 
+> Thanks for your feedback!
+> 
+>> From: Rob Herring <robh@kernel.org>
+>> Sent: 14 December 2022 16:11
+>> To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+>> Subject: Re: [PATCH 1/5] dt-bindings: gpio: Add RZ/V2M PWC GPIO driver
+>> bindings
+>>
+>> On Tue, Dec 13, 2022 at 10:43:06PM +0000, Fabrizio Castro wrote:
+>>> Add dt-bindings document for the RZ/V2M PWC GPIO driver.
+>>
+>> Bindings are for h/w blocks/devices, not a specific driver.
+> 
+> Apologies, I will reword the changelog in v2.
+> 
+>>
+>>>
+>>> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+>>> ---
+>>>  .../bindings/gpio/renesas,rzv2m-pwc-gpio.yaml | 62 +++++++++++++++++++
+>>>  1 file changed, 62 insertions(+)
+>>>  create mode 100644
+>> Documentation/devicetree/bindings/gpio/renesas,rzv2m-pwc-gpio.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/gpio/renesas,rzv2m-pwc-
+>> gpio.yaml b/Documentation/devicetree/bindings/gpio/renesas,rzv2m-pwc-
+>> gpio.yaml
+>>> new file mode 100644
+>>> index 000000000000..ecc034d53259
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/gpio/renesas,rzv2m-pwc-gpio.yaml
+>>> @@ -0,0 +1,62 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id:
+>> https://jpn01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetre
+>> e.org%2Fschemas%2Fgpio%2Frenesas%2Crzv2m-pwc-
+>> gpio.yaml%23&amp;data=05%7C01%7Cfabrizio.castro.jz%40renesas.com%7C603623c
+>> 766f4421b85bd08daddedcb8c%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C638
+>> 066310628408926%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMz
+>> IiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=o46ncDZK8YK5HYJ
+>> ZYDXuq3yfEA34vnaxEsIDBlcroc0%3D&amp;reserved=0
+>>> +$schema:
+>> https://jpn01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetre
+>> e.org%2Fmeta-
+>> schemas%2Fcore.yaml%23&amp;data=05%7C01%7Cfabrizio.castro.jz%40renesas.com
+>> %7C603623c766f4421b85bd08daddedcb8c%7C53d82571da1947e49cb4625a166a4a2a%7C0
+>> %7C0%7C638066310628408926%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQ
+>> IjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=VoWvV
+>> pW782DVH2zdTKIesyzqm6sjiFyacbl833%2BjRis%3D&amp;reserved=0
+>>> +
+>>> +title: Renesas RZ/V2M External Power Sequence Controller (PWC) GPIO
+>>> +
+>>> +description: |+
+>>> +  The PWC IP found in the RZ/V2M family of chips comes with General-
+>> Purpose
+>>> +  Output pins, alongside the below functions
+>>> +    - external power supply on/off sequence generation
+>>> +    - on/off signal generation for the LPDDR4 core power supply (LPVDD)
+>>> +    - key input signals processing
+>>> +  This node uses syscon to map the register used to control the GPIOs
+>>> +  (the register map is retrieved from the parent dt-node), and the node
+>> should
+>>> +  be represented as a sub node of a "syscon", "simple-mfd" node.
+>>> +
+>>> +maintainers:
+>>> +  - Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    items:
+>>> +      - enum:
+>>> +          - renesas,r9a09g011-pwc-gpio # RZ/V2M
+>>> +          - renesas,r9a09g055-pwc-gpio # RZ/V2MA
+>>> +      - const: renesas,rzv2m-pwc-gpio
+>>> +
+>>> +  offset:
+>>
+>> Too generic of a name. We want any given property name (globally) to
+>> have 1 type. With the below comment, this should be replaced with 'reg'
+>> instead if you have child nodes.
+> 
+> My understanding is that syscon subnodes normally use this name for exactly
+> the same purpose, for example:
+> https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bindings/power/reset/syscon-poweroff.yaml#L27
+> https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bindings/power/reset/syscon-reboot.yaml#L30
+> 
+> What am I missing?
 
-> -----Original Message-----
-> From: Geert Uytterhoeven <geert@linux-m68k.org>
-> Sent: 15 December 2022 09:05
-> To: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Cc: Robin Murphy <robin.murphy@arm.com>; Conor Dooley <conor@kernel.org>;=
- linux-
-> riscv@lists.infradead.org; Palmer Dabbelt <palmer@rivosinc.com>; arnd@arn=
-db.de; iommu@lists.linux.dev;
-> Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-> Subject: Re: [PATCH] RISC-V: Disable IPMMU_VMSA on rv32
->=20
-> Hi Prabhakar,
->=20
-> On Wed, Dec 14, 2022 at 10:40 PM Prabhakar Mahadev Lad <prabhakar.mahadev=
--lad.rj@bp.renesas.com>
-> wrote:
-> > > From: Robin Murphy <robin.murphy@arm.com> On 2022-12-14 19:46, Conor
-> > > Dooley wrote:
-> > > > On 14 December 2022 10:04:09 GMT-08:00, Palmer Dabbelt <palmer@rivo=
-sinc.com> wrote:
-> > > >> Without this I get a Kconfig warning and then subsequent build
-> > > >> failure when building allmodconfig on rv32.
-> > > >>
-> > > >> WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_L=
-PAE
-> > > >>   Depends on [n]: IOMMU_SUPPORT [=3Dy] && (ARM || ARM64 ||
-> > > >> COMPILE_TEST [=3Dy] && !GENERIC_ATOMIC64
-> > > [=3Dy])
-> > > >>   Selected by [y]:
-> > > >>   - IPMMU_VMSA [=3Dy] && IOMMU_SUPPORT [=3Dy] && (ARCH_RENESAS [=
-=3Dy]
-> > > >> || COMPILE_TEST [=3Dy]
-> > > >
-> > > > This here is your problem afaict
-> > > > I got a report from lkp about it yesterday, "blaming" Prabhakar for=
- it:
-> > > > https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2=
-F
-> > > > lore
-> > > > .kernel.org%2Fall%2F202212142355.b7vf3Jh0-lkp%40intel.com%2F&amp;d
-> > > > ata=3D
-> > > > 05%7C01%7Cprabhakar.mahadev-lad.rj%40bp.renesas.com%7Ca51ccd27ccda
-> > > > 45e7
-> > > > 53c208dade16c553%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C6380
-> > > > 6648
-> > > > 6632283001%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2l
-> > > > uMzI
-> > > > iLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DFshRCpn=
-I
-> > > > oU0b
-> > > > c38MYnesotcgOV4JT%2FXVOidbDMpAWbc%3D&amp;reserved=3D0
-> > > >
-> > > > I hate selects, just ignores the dependency :(
-> > > >
-> > > >   && !GENERIC_ATOMIC64 [=3Dy])
-> > >
-> > > I think the existing assumption was that ARCH_RENESAS implied
-> > > !GENERIC_ATOMIC64. If that is no longer true then please feel free to=
- adjust drivers/iommu/Kconfig
-> to suit.
-> > >
-> > IPMMU is not available on Renesas RISCV SoCs, so maybe something like b=
-elow?
-> >
-> > --- a/drivers/iommu/Kconfig
-> > +++ b/drivers/iommu/Kconfig
-> > @@ -283,7 +283,7 @@ config EXYNOS_IOMMU_DEBUG
-> >
-> >  config IPMMU_VMSA
-> >         bool "Renesas VMSA-compatible IPMMU"
-> > -       depends on ARCH_RENESAS || (COMPILE_TEST && !GENERIC_ATOMIC64)
-> > +       depends on (ARCH_RENESAS && !RISCV) || (COMPILE_TEST &&
-> > + !GENERIC_ATOMIC64)
->=20
-> Negative dependencies on a symbol like that tend to need future extension=
-.
->=20
-> What about
->=20
->     depends on ARCH_RENESAS || COMPILE_TEST
->     depends on !GENERIC_ATOMIC64
->=20
-> instead?
->=20
-> That does mean the question will show up on RV64, too.
-> Adding
->=20
->     depends on ARM || ARM64 || COMPILE_TEST
->=20
-Guo has posted a similar patch [0].
+These are generic drivers, so they need offset as they do not match any
+specific programming model. You are not making a generic device. Address
+offsets are not suitable in most cases for DTS. There are of course
+exceptions so you can present reasons why this one is exception.
+> 
+>>
+>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>> +    description: |
+>>> +      Offset in the register map for controlling the GPIOs (in bytes).
+>>> +
+>>> +  regmap:
+>>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>>> +    description: Phandle to the register map node.
+>>
+>> Looks like GPIO is a sub-function of some other block. Define the
+>> binding for that entire block.
+> 
+> That's defined in patch 3 from this series.
+> I have sent it as patch 3 because that document references:
+> * /schemas/gpio/renesas,rzv2m-pwc-gpio.yaml
+> * /schemas/power/reset/renesas,rzv2m-pwc-poweroff.yaml
+> Which are defined in this patch and in patch 2 in the series.
+> 
+> Do you want me to move patch 3 to patch 1 in v2?
 
-[0] https://patchwork.kernel.org/project/linux-riscv/patch/20221215073212.1=
-966823-1-guoren@kernel.org/
+We do not want regmap, but proper definition of entire hardware.
 
-Cheers,
-Prabhakar
+> 
+>> GPIO can be either either a function of
+>> that node (just add GPIO provider properties) or you can have GPIO child
+>> nodes. Depends on what the entire block looks like to decide. Do you
+>> have multiple instances of the GPIO block would be one reason to have
+>> child nodes.
+> 
+> From a pure HW point of view, this GPIO block is contained inside the PWC block
+> (as PWC is basically a MFD device), and it only deals with 2 General-Purpose
+> Output pins, both controlled by 1 (and the same) register, therefore the GPIO
+> block is only 1 child.
+> 
+> If possible, I would like to keep the functionality offered by the sub-blocks of
+> PWC contained in separated drivers and DT nodes (either non-child nodes or child
+> nodes).
+
+Driver do not matter for bindings. We talk about regmap field which - as
+you explained above - is not needed.
+
+
+> 
+> My understanding is that simple-mfd will automatically probe the children of the
+> simple-mfd node, and also hierarchically it makes sense to me to have the DT nodes
+> of the PWC sub-blocks as children of the "syscon", "simple-mfd" node. I have found
+> other instances of this same architecture in the kernel already (plenty from NXP/Freescale),
+> for example:
+
+I don't understand. You do not have here simple-mfd and it still does
+not explain Rob's comment and regmap.
+
+> https://github.com/torvalds/linux/blob/master/arch/arm64/boot/dts/freescale/imx8mm.dtsi#L585
+> https://github.com/torvalds/linux/blob/master/arch/arm64/boot/dts/freescale/imx8mn.dtsi#L586
+> https://github.com/torvalds/linux/blob/master/arch/arm64/boot/dts/freescale/imx8mp.dtsi#L451
+> https://github.com/torvalds/linux/blob/master/arch/arm64/boot/dts/freescale/imx8mq.dtsi#L616
+> https://github.com/torvalds/linux/blob/master/arch/mips/boot/dts/mti/sead3.dts#L93
+> etc...
+> 
+> Something like the below could also work, but I don't think it would represent the
+> HW accurately:
+> pwc: pwc@a3700000 {
+> 	compatible = "renesas,r9a09g011-pwc", "renesas,rzv2m-pwc",
+> 		     "syscon", "simple-mfd";
+> 	reg = <0 0xa3700000 0 0x800>;
+> };
+> 
+> pwc-gpio {
+> 	compatible = "renesas,r9a09g011-pwc-gpio",
+> 		     "renesas,rzv2m-pwc-gpio";
+> 	regmap = <&pwc>;
+> 	gpio-controller;
+> 	#gpio-cells = <2>;
+> };
+> 
+> pwc-poweroff {
+> 	compatible = "renesas,r9a09g011-pwc-poweroff",
+> 		     "renesas,rzv2m-pwc-poweroff";
+> 	regmap = <&pwc>;
+> };
+> 
+> 
+> I think the below describes things better:
+> pwc: pwc@a3700000 {
+> 	compatible = "renesas,r9a09g011-pwc", "renesas,rzv2m-pwc",
+> 		     "syscon", "simple-mfd";
+> 	reg = <0 0xa3700000 0 0x800>;
+> 
+> 	gpio {
+> 		compatible = "renesas,r9a09g011-pwc-gpio",
+> 			     "renesas,rzv2m-pwc-gpio";
+> 		regmap = <&pwc>;
+
+You speak about two different things. So again - drop regmap. You do not
+need it.
+
+> 		offset = <0x80>;
+> 		gpio-controller;
+> 		#gpio-cells = <2>;
+> 	};
+> 
+> 	poweroff {
+> 		compatible = "renesas,r9a09g011-pwc-poweroff",
+> 			     "renesas,rzv2m-pwc-poweroff";
+> 		regmap = <&pwc>;
+
+Drop regmap.
+
+> 	};
+> };
+> 
+
+Best regards,
+Krzysztof
+
