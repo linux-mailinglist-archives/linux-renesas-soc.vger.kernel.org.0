@@ -2,194 +2,239 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F9FF64E338
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Dec 2022 22:32:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE5EB64E35C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Dec 2022 22:40:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229537AbiLOVcy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Dec 2022 16:32:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37234 "EHLO
+        id S229655AbiLOVkg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Dec 2022 16:40:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229782AbiLOVcu (ORCPT
+        with ESMTP id S229675AbiLOVkf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Dec 2022 16:32:50 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BF0FE27B22;
-        Thu, 15 Dec 2022 13:32:46 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.96,248,1665414000"; 
-   d="scan'208";a="146337568"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 16 Dec 2022 06:32:46 +0900
-Received: from localhost.localdomain (unknown [10.226.92.26])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 28EA640062B3;
-        Fri, 16 Dec 2022 06:32:42 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [DO NOT APPLY PATCH v5 9/9] tools/poeg: Add test app for poeg
-Date:   Thu, 15 Dec 2022 21:32:06 +0000
-Message-Id: <20221215213206.56666-10-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221215213206.56666-1-biju.das.jz@bp.renesas.com>
-References: <20221215213206.56666-1-biju.das.jz@bp.renesas.com>
-MIME-Version: 1.0
+        Thu, 15 Dec 2022 16:40:35 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25716389DF
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Dec 2022 13:40:31 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id x2so318935plb.13
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Dec 2022 13:40:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6UhQMoGzyPQoO6coVT0IwbZp+PXxQ7bh8ldQshrXNrk=;
+        b=nd6useCy5mDi1KHbA55vHEOJhr8iFu/8qita2tBOeSNjQjOpoh4/MhEQwviPyefNV9
+         AoM5k+Qd2OHhBKM8/hfxqyDcpN4coUzO1cAugUeg96yeY6T0aUfm1YB/41Ja6ohk9pm0
+         vQ1xJt7kLNMRZVaYZatkh14ui8sBry5Uhfamnhts+rG1b39opgFI6iaOXMzdO9WKlMH3
+         w/EwVoaaV5g4c4aZ8ZeE2+pzQy3D61l9pAuyN3dd368yYlq8WkD60l28/Lk8R4IQ0XpR
+         ILzFn6+dDOHXUOrbR/cWXQkJ6lJpXvl0IhkTeHZC1gNmexkLi0+WO+GvC4KChLTpr10G
+         0m9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6UhQMoGzyPQoO6coVT0IwbZp+PXxQ7bh8ldQshrXNrk=;
+        b=LijqrHTm96afc4fNX9gX38+J6o9krC0uinkuemQmlRFt+Q+gMF0z0Wty729jE1yJY0
+         ZOH4wfeBKBMakyc8eSzGbkj6AHVXDF0TlNLuIW2vbv6ybVo4Vt3kYZEhPVtuzdTYqL5J
+         xvExc6mKJR7jkL+7Bkf/d9UdbCK7r6fLjhfI+obkZSdCs73ecD8TdqjTEGjRO+p6CLID
+         yFzI1TK9b8cmE72vpWsclgTiOo8+ltq94AJhqAf8PQyEMbi2P2U6P2LatW5DMOLZdAg5
+         CNDrk49oItWe+14HW+mjyRXURBY1/SkgmnQteGHCbGy9J9vytwgDO7Yg9zI4o1lGc9oU
+         SEMg==
+X-Gm-Message-State: ANoB5pk/wYZZh9GOSGQhXYdEme4qBdXhlUG1h4hY1ev3jl2XQATVzcoJ
+        cYKSwaB8pT8FcWDzIoajT8vyJw==
+X-Google-Smtp-Source: AA0mqf5MBUVcNkahTznoohWrAxg1q+3XZ47h2BCnANLg0HowcpfjH7uuG719LdG576kqb0KUKSlDyQ==
+X-Received: by 2002:a17:90a:cf16:b0:219:861a:ac10 with SMTP id h22-20020a17090acf1600b00219861aac10mr30270560pju.6.1671140430425;
+        Thu, 15 Dec 2022 13:40:30 -0800 (PST)
+Received: from localhost ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id y1-20020a17090a474100b00218ae9916c4sm3542617pjg.35.2022.12.15.13.40.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Dec 2022 13:40:30 -0800 (PST)
+Date:   Thu, 15 Dec 2022 13:40:30 -0800 (PST)
+X-Google-Original-Date: Thu, 15 Dec 2022 13:40:09 PST (-0800)
+Subject:     Re: [PATCH v5 6/6] soc: renesas: Add L2 cache management for RZ/Five SoC
+In-Reply-To: <CAMuHMdUO7iFvh73u+m=EXYyxyePXHahJ=OVwQHdt0ap4vWDG4A@mail.gmail.com>
+CC:     Conor Dooley <conor@kernel.org>, prabhakar.csengg@gmail.com,
+        Arnd Bergmann <arnd@arndb.de>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, magnus.damm@gmail.com, heiko@sntech.de,
+        Conor Dooley <conor.dooley@microchip.com>, samuel@sholland.org,
+        guoren@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, jszhang@kernel.org,
+        Atish Patra <atishp@rivosinc.com>, apatel@ventanamicro.com,
+        ajones@ventanamicro.com, nathan@kernel.org,
+        philipp.tomsich@vrull.eu, devicetree@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, biju.das.jz@bp.renesas.com,
+        prabhakar.mahadev-lad.rj@bp.renesas.com
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     geert@linux-m68k.org, Christoph Hellwig <hch@infradead.org>,
+        soc@kernel.org
+Message-ID: <mhng-6160c058-408a-4ff5-8a7d-4fb2886d3d95@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- tools/poeg/Build      |  1 +
- tools/poeg/Makefile   | 53 ++++++++++++++++++++++++++++++++++++++
- tools/poeg/poeg_app.c | 60 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 114 insertions(+)
- create mode 100644 tools/poeg/Build
- create mode 100644 tools/poeg/Makefile
- create mode 100644 tools/poeg/poeg_app.c
+On Thu, 15 Dec 2022 12:17:38 PST (-0800), geert@linux-m68k.org wrote:
+> Hi Conor,
+>
+> On Thu, Dec 15, 2022 at 8:54 PM Conor Dooley <conor@kernel.org> wrote:
+>> On Thu, Dec 15, 2022 at 05:46:42PM +0000, Lad, Prabhakar wrote:
+>> > On Thu, Dec 15, 2022 at 11:10 AM Geert Uytterhoeven
+>> > <geert@linux-m68k.org> wrote:
+>> > > On Thu, Dec 15, 2022 at 12:06 PM Lad, Prabhakar
+>> > > <prabhakar.csengg@gmail.com> wrote:
+>> > > > On Thu, Dec 15, 2022 at 10:36 AM Geert Uytterhoeven
+>> > > > <geert@linux-m68k.org> wrote:
+>> > > > > On Mon, Dec 12, 2022 at 12:58 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+>> > > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>> > > > > >
+>> > > > > > I/O Coherence Port (IOCP) provides an AXI interface for connecting
+>> > > > > > external non-caching masters, such as DMA controllers. The accesses
+>> > > > > > from IOCP are coherent with D-Caches and L2 Cache.
+>> > > > > >
+>> > > > > > IOCP is a specification option and is disabled on the Renesas RZ/Five
+>> > > > > > SoC due to this reason IP blocks using DMA will fail.
+>> > > > > >
+>> > > > > > The Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
+>> > > > > > block that allows dynamic adjustment of memory attributes in the runtime.
+>> > > > > > It contains a configurable amount of PMA entries implemented as CSR
+>> > > > > > registers to control the attributes of memory locations in interest.
+>> > > > > > Below are the memory attributes supported:
+>> > > > > > * Device, Non-bufferable
+>> > > > > > * Device, bufferable
+>> > > > > > * Memory, Non-cacheable, Non-bufferable
+>> > > > > > * Memory, Non-cacheable, Bufferable
+>> > > > > > * Memory, Write-back, No-allocate
+>> > > > > > * Memory, Write-back, Read-allocate
+>> > > > > > * Memory, Write-back, Write-allocate
+>> > > > > > * Memory, Write-back, Read and Write-allocate
+>> > > > > >
+>> > > > > > More info about PMA (section 10.3):
+>> > > > > > Link: http://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
+>> > > > > >
+>> > > > > > As a workaround for SoCs with IOCP disabled CMO needs to be handled by
+>> > > > > > software. Firstly OpenSBI configures the memory region as
+>> > > > > > "Memory, Non-cacheable, Bufferable" and passes this region as a global
+>> > > > > > shared dma pool as a DT node. With DMA_GLOBAL_POOL enabled all DMA
+>> > > > > > allocations happen from this region and synchronization callbacks are
+>> > > > > > implemented to synchronize when doing DMA transactions.
+>> > > > > >
+>> > > > > > Example PMA region passes as a DT node from OpenSBI:
+>> > > > > >     reserved-memory {
+>> > > > > >         #address-cells = <2>;
+>> > > > > >         #size-cells = <2>;
+>> > > > > >         ranges;
+>> > > > > >
+>> > > > > >         pma_resv0@58000000 {
+>> > > > > >             compatible = "shared-dma-pool";
+>> > > > > >             reg = <0x0 0x58000000 0x0 0x08000000>;
+>> > > > > >             no-map;
+>> > > > > >             linux,dma-default;
+>> > > > > >         };
+>> > > > > >     };
+>> > > > > >
+>> > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>> > > > >
+>> > > > > Thanks for your patch!
+>> > > > >
+>> > > > > >  arch/riscv/include/asm/cacheflush.h       |   8 +
+>> > > > > >  arch/riscv/include/asm/errata_list.h      |  28 ++-
+>> > > > > >  drivers/soc/renesas/Kconfig               |   6 +
+>> > > > > >  drivers/soc/renesas/Makefile              |   2 +
+>> > > > > >  drivers/soc/renesas/rzfive/Kconfig        |   6 +
+>> > > > > >  drivers/soc/renesas/rzfive/Makefile       |   3 +
+>> > > > > >  drivers/soc/renesas/rzfive/ax45mp_cache.c | 256 ++++++++++++++++++++++
+>> > > > >
+>> > > > > Given this touches arch/riscv/include/asm/, I don't think the
+>> > > > > code belongs under drivers/soc/renesas/.
+>> > > > >
+>> > > > Ok. Do you have any suggestions on where you want me to put this code?
+>> > >
+>> > > As it plugs into core riscv functionality, I think it should be under
+>> > > arch/riscv/.
+>> > > if the RISC-V maintainers object to that, another option is
+>> > > drivers/soc/andestech/ or (new) drivers/cache/
+>> > >
+>> > RISC-V maintainers had already made it clear to not to include vendor
+>> > specific stuff in the arch/riscv folder, so I'll consider putting this
 
-diff --git a/tools/poeg/Build b/tools/poeg/Build
-new file mode 100644
-index 000000000000..f960920a4afb
---- /dev/null
-+++ b/tools/poeg/Build
-@@ -0,0 +1 @@
-+poeg_app-y += poeg_app.o
-diff --git a/tools/poeg/Makefile b/tools/poeg/Makefile
-new file mode 100644
-index 000000000000..6946e6956215
---- /dev/null
-+++ b/tools/poeg/Makefile
-@@ -0,0 +1,53 @@
-+# SPDX-License-Identifier: GPL-2.0
-+include ../scripts/Makefile.include
-+
-+bindir ?= /usr/bin
-+
-+ifeq ($(srctree),)
-+srctree := $(patsubst %/,%,$(dir $(CURDIR)))
-+srctree := $(patsubst %/,%,$(dir $(srctree)))
-+endif
-+
-+# Do not use make's built-in rules
-+# (this improves performance and avoids hard-to-debug behaviour);
-+MAKEFLAGS += -r
-+
-+override CFLAGS += -O2 -Wall -g -D_GNU_SOURCE -I$(OUTPUT)include
-+
-+ALL_TARGETS := poeg_app
-+ALL_PROGRAMS := $(patsubst %,$(OUTPUT)%,$(ALL_TARGETS))
-+
-+all: $(ALL_PROGRAMS)
-+
-+export srctree OUTPUT CC LD CFLAGS
-+include $(srctree)/tools/build/Makefile.include
-+
-+#
-+# We need the following to be outside of kernel tree
-+#
-+$(OUTPUT)include/linux/poeg.h: ../../include/linux/soc/renesas/rzg2l-poeg.h
-+	mkdir -p $(OUTPUT)include/linux 2>&1 || true
-+	ln -sf $(CURDIR)/../../include/linux/soc/renesas/rzg2l-poeg.h $@
-+
-+prepare: $(OUTPUT)include/linux/poeg.h
-+
-+COUNTER_EXAMPLE := $(OUTPUT)poeg_app.o
-+$(COUNTER_EXAMPLE): prepare FORCE
-+	$(Q)$(MAKE) $(build)=poeg_app
-+$(OUTPUT)poeg_app: $(COUNTER_EXAMPLE)
-+	$(QUIET_LINK)$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
-+
-+clean:
-+	rm -f $(ALL_PROGRAMS)
-+	rm -rf $(OUTPUT)include/linux/counter.h
-+	find $(or $(OUTPUT),.) -name '*.o' -delete -o -name '\.*.d' -delete
-+
-+install: $(ALL_PROGRAMS)
-+	install -d -m 755 $(DESTDIR)$(bindir);		\
-+	for program in $(ALL_PROGRAMS); do		\
-+		install $$program $(DESTDIR)$(bindir);	\
-+	done
-+
-+FORCE:
-+
-+.PHONY: all install clean FORCE prepare
-diff --git a/tools/poeg/poeg_app.c b/tools/poeg/poeg_app.c
-new file mode 100644
-index 000000000000..79cacb8c60c5
---- /dev/null
-+++ b/tools/poeg/poeg_app.c
-@@ -0,0 +1,60 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * POEG - example userspace application
-+ * Copyright (C) 2022 Biju Das
-+ */
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <errno.h>
-+#include <sys/ioctl.h>
-+#include <linux/ioctl.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/time.h>
-+#include <sys/types.h>
-+#include <poll.h>
-+
-+#include <linux/poeg.h>
-+
-+int main(int argc, char *arg[])
-+{
-+	struct poeg_event event_data;
-+	unsigned int val;
-+	int ret, fd, i;
-+
-+	fd = open("/dev/poeg3", O_RDWR);
-+	if (fd < 0)
-+		perror("open");
-+	else
-+		printf("[POEG]open\n");
-+
-+	for (;;) {
-+		ret = read(fd, &event_data, sizeof(event_data));
-+		if (ret == -1) {
-+			perror("Failed to read event data");
-+			return 1;
-+		}
-+
-+		val = event_data.gpt_disable_irq_status;
-+		if (val) {
-+			/* emulate fault clearing condition by adding delay */
-+			sleep(2);
-+			for (i = 0; i < 8; i++) {
-+				if (val & 7) {
-+					printf("gpt ch:%u, irq=%x\n", i, val & 7);
-+					ret = write(fd, &event_data, sizeof(event_data));
-+				}
-+				val >>= 3;
-+			}
-+		}
-+	}
-+
-+	if (close(fd) != 0)
-+		perror("close");
-+	else
-+		printf("[POEG]close\n");
-+
-+	return 0;
-+}
--- 
-2.25.1
+We have vendor-specific behavior in arch/riscv now, and it's even in the 
+policies (the behavior has been there for a while, the policy is new).  
+There's probably a bunch of posts saying otherwise because we used to 
+not take vendor-specific behavior, but that's not the case any more.
 
+>> > into drivers/cache/ folder to sync with the bindings.
+>> >
+>> > Conor/Palmer - do you have any objections/suggestions?
+>>
+>> I'm not its maintainer so sorta moot what I say, but having drivers in
+>> arch/riscv makes little sense to me..
+
+Some drivers are pretty tightly coupled to an ISA, I'm thinking of 
+things like interrupts/timers where we're writing CSRs.  I could see how 
+cache controllers would fall into that category, doubly so as they get 
+integrated to the memory model.  That leaves us in sort of a grey area 
+and there's certainly ports that have way more drivers in arch so it's 
+not an uncommon way to do things.
+
+I generally lean pretty heavily towards keeping things that could at all 
+be considered out of arch/riscv and instead have them in some sort of 
+driver folder.  That probably results in more total work to do, as we've 
+got to have arch/riscv interfaces with one use case and sync up between 
+multiple trees sometimes to get stuff merged.  I think it also results 
+in better code: being closer to the other drivers makes us more likely 
+to get reviewed by folks who understand the space, and it's generally 
+easier to share code in the subsystems.
+
+>> Putting stuff in drivers/cache does sound like a good idea since the
+>> binding is going there too.
+>>
+>> The SiFive ccache driver is in drivers/soc and it was suggested to me
+>> this week that there's likely going to be a second SiFive cache driver
+>> at some point in the near future. Plus Microchip are going to have to
+>> add cache management stuff to the existing SiFive ccache driver.
+>> Having them be their own thing makes sense in my mind - especially since
+>> they're not tied to SoCs sold by Andes or SiFive.
+>>
+>> I had a quick, and I mean *quick* look through other soc drivers to see
+>> if there were any other cache controller drivers but nothing stood out
+>> to me. Maybe someone else has more of a clue there. Ditto for misc, had
+>> a look but nothing seemed obvious.
+>
+> Usually they're under arch/:
+> $ git ls-files -- "arch/*cache*" | wc -l
+> 148
+> $ git ls-files -- "drivers/*cache*" | wc -l
+> 63
+>
+> E.g. arch/arm/mm/cache-l2x0.c.
+
+Above all I like to do things as normally as possible, so if most cache 
+drivers are in arch then I'm OK with.  Looks like we originally had it 
+arch/riscv, though, until 9209fb51896f ("riscv: move sifive_l2_cache.c 
+to drivers/soc") moved it out.
+
+I don't really remember this history/rationale here, at the time the 
+SiFive cache driver wasn't really doing anything all that exciting: it 
+was just way enable and some statistics, we hadn't really planned on 
+using it for the non-coherent stuff that folks are now trying to 
+retrofit it to handle.  That sort of thing makes it a lot more coupled 
+to the ISA.
+
+Given that we already moved the SiFive one out it seems sane to just 
+start with the rest in drivers/soc/$VENDOR.  Looks like it was 
+Christoph's idea to do the move, so I'm adding him in case he's got an 
+opinion (and also the SOC alias, as that seems generally relevant).
+
+> Gr{oetje,eeting}s,
+>
+>                         Geert
