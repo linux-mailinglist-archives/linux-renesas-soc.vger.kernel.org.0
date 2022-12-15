@@ -2,71 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7096A64D760
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Dec 2022 08:40:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 796DF64D838
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Dec 2022 10:04:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229917AbiLOHkX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Dec 2022 02:40:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48308 "EHLO
+        id S229763AbiLOJEv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Dec 2022 04:04:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229825AbiLOHkP (ORCPT
+        with ESMTP id S229788AbiLOJEt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Dec 2022 02:40:15 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E6B92FBFF
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Dec 2022 23:40:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=MXbGZi/uT236kTlDo/a7an6Zgc9j
-        j3vGUMDH7t/LADA=; b=NC7nWVv6RWI3U1eApcT+54ZynNQXYEgXlKVQ/3SNNsLt
-        hig76LkqBM78+BElQycqYB3XWnoZhqPCPs+wG29f5o3yef5ynQ/YEKg0xCgzh80u
-        MhhkJkO6hfcaron+Nhx4La68lWsVZovpG2+msxcQTO9YmzQX7D4PIMkzH5FczSA=
-Received: (qmail 2279799 invoked from network); 15 Dec 2022 08:40:08 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Dec 2022 08:40:08 +0100
-X-UD-Smtp-Session: l3s3148p1@vr1R9tjvOo4ujnt8
-Date:   Thu, 15 Dec 2022 08:40:07 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH 3/4] mmc: renesas_sdhi: Add RZ/V2M compatible string
-Message-ID: <Y5rPV0m5+8Dh6Bfe@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-References: <20221213230129.549968-1-fabrizio.castro.jz@renesas.com>
- <20221213230129.549968-4-fabrizio.castro.jz@renesas.com>
+        Thu, 15 Dec 2022 04:04:49 -0500
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71102442FB
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Dec 2022 01:04:47 -0800 (PST)
+Received: by mail-qt1-f172.google.com with SMTP id j16so4654278qtv.4
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Dec 2022 01:04:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lu90K/ctwOLQV8gWvT0jknM3Lq9BYGH2KzhYwJnHx5A=;
+        b=gL06assHfV1gsScd+K8Nre8ni19BPvB7om4Ka24v5/SmNkCTAmMs0OYakwnnRYA+Hv
+         mViY5JvtSMh7Dkq9VQtmmg9dNglMzbnWDeoRhE1/oN/od67m2JWhlFp5NP3MRIhW5rhz
+         cCQrvBfpe+MddZnSFPnMu5qimC70X2dxdCSOpRZN4eEGzGv2URCH3B8KxtHUaSH4wKFX
+         nJr8POzAUxTszzmIl2Li8NCZ0mM13KzUkd+mx7gl7ejd1bQZqjBnTbis7nZ6zfSG27DF
+         Ek2CRZALhwv/9FbcRKdzZIQ7bAq+GetskrAWgSED5ZiOrA4oSqIjOcH7V2dGSyPHOyJL
+         7fUA==
+X-Gm-Message-State: ANoB5pleQlArlwRaifbTzy3z99c/huMlbRYf5QCgw4zzjLWSsfnYJ64i
+        6QuVrmZ9zT8r+ijsE7J3InkZotItZvl0Yw==
+X-Google-Smtp-Source: AA0mqf6817u92SoGIdKbn1EqI0op2WgxQRudNgR4Coi+9PVivwe22DD8EQjeakyAzr/AgmZS29LSCw==
+X-Received: by 2002:a05:622a:1652:b0:3a8:1600:e60f with SMTP id y18-20020a05622a165200b003a81600e60fmr31228289qtj.14.1671095086257;
+        Thu, 15 Dec 2022 01:04:46 -0800 (PST)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id i4-20020ac860c4000000b003a7ee9613a6sm3112445qtm.25.2022.12.15.01.04.45
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Dec 2022 01:04:46 -0800 (PST)
+Received: by mail-yb1-f175.google.com with SMTP id b16so2812952yba.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Dec 2022 01:04:45 -0800 (PST)
+X-Received: by 2002:a25:d655:0:b0:6fc:1c96:c9fe with SMTP id
+ n82-20020a25d655000000b006fc1c96c9femr34391603ybg.36.1671095085279; Thu, 15
+ Dec 2022 01:04:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="IfgYU8RXIPQ3Ptmi"
-Content-Disposition: inline
-In-Reply-To: <20221213230129.549968-4-fabrizio.castro.jz@renesas.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+References: <20221214180409.7354-1-palmer@rivosinc.com> <8DACBAC8-F220-4DA7-BCC2-4E2ED9E3E03E@kernel.org>
+ <b8665f9d-44cf-5719-c206-5eb622978b1a@arm.com> <OSZPR01MB7019D761845E3AC9E30F2D2DAAE09@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSZPR01MB7019D761845E3AC9E30F2D2DAAE09@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 15 Dec 2022 10:04:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUt7coFBx-+mXJcf7E0f5S_Q_Rmb6VVq-4E7_m99GXyRw@mail.gmail.com>
+Message-ID: <CAMuHMdUt7coFBx-+mXJcf7E0f5S_Q_Rmb6VVq-4E7_m99GXyRw@mail.gmail.com>
+Subject: Re: [PATCH] RISC-V: Disable IPMMU_VMSA on rv32
+To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        Conor Dooley <conor@kernel.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        Palmer Dabbelt <palmer@rivosinc.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
         autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,48 +72,81 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Prabhakar,
 
---IfgYU8RXIPQ3Ptmi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Dec 14, 2022 at 10:40 PM Prabhakar Mahadev Lad
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > From: Robin Murphy <robin.murphy@arm.com>
+> > On 2022-12-14 19:46, Conor Dooley wrote:
+> > > On 14 December 2022 10:04:09 GMT-08:00, Palmer Dabbelt <palmer@rivosinc.com> wrote:
+> > >> Without this I get a Kconfig warning and then subsequent build
+> > >> failure when building allmodconfig on rv32.
+> > >>
+> > >> WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+> > >>   Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=y] && !GENERIC_ATOMIC64
+> > [=y])
+> > >>   Selected by [y]:
+> > >>   - IPMMU_VMSA [=y] && IOMMU_SUPPORT [=y] && (ARCH_RENESAS [=y] ||
+> > >> COMPILE_TEST [=y]
+> > >
+> > > This here is your problem afaict
+> > > I got a report from lkp about it yesterday, "blaming" Prabhakar for it:
+> > > https://jpn01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore
+> > > .kernel.org%2Fall%2F202212142355.b7vf3Jh0-lkp%40intel.com%2F&amp;data=
+> > > 05%7C01%7Cprabhakar.mahadev-lad.rj%40bp.renesas.com%7Ca51ccd27ccda45e7
+> > > 53c208dade16c553%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C63806648
+> > > 6632283001%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzI
+> > > iLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=FshRCpnIoU0b
+> > > c38MYnesotcgOV4JT%2FXVOidbDMpAWbc%3D&amp;reserved=0
+> > >
+> > > I hate selects, just ignores the dependency :(
+> > >
+> > >   && !GENERIC_ATOMIC64 [=y])
+> >
+> > I think the existing assumption was that ARCH_RENESAS implied !GENERIC_ATOMIC64. If that is no longer
+> > true then please feel free to adjust drivers/iommu/Kconfig to suit.
+> >
+> IPMMU is not available on Renesas RISCV SoCs, so maybe something like below?
+>
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -283,7 +283,7 @@ config EXYNOS_IOMMU_DEBUG
+>
+>  config IPMMU_VMSA
+>         bool "Renesas VMSA-compatible IPMMU"
+> -       depends on ARCH_RENESAS || (COMPILE_TEST && !GENERIC_ATOMIC64)
+> +       depends on (ARCH_RENESAS && !RISCV) || (COMPILE_TEST && !GENERIC_ATOMIC64)
 
-On Tue, Dec 13, 2022 at 11:01:28PM +0000, Fabrizio Castro wrote:
-> The SDHI/eMMC IPs found with the RZ/V2M (a.k.a. r9a09g011), are
-> very similar to the ones found in R-Car Gen3, but they are not
-> exactly the same, and as a result need an SoC specific compatible
-> string for fine tuning driver support.
->=20
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Negative dependencies on a symbol like that tend to need future
+extension.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+What about
 
-> +static const struct renesas_sdhi_quirks sdhi_quirks_r9a09g011 =3D {
-> +	.fixed_addr_mode =3D true,
-> +	.hs400_disabled =3D true,
-> +};
+    depends on ARCH_RENESAS || COMPILE_TEST
+    depends on !GENERIC_ATOMIC64
 
-Cool, seems like our quirk abstraction works reasonably well :)
+instead?
 
+That does mean the question will show up on RV64, too.
+Adding
 
---IfgYU8RXIPQ3Ptmi
-Content-Type: application/pgp-signature; name="signature.asc"
+    depends on ARM || ARM64 || COMPILE_TEST
 
------BEGIN PGP SIGNATURE-----
+(like we sort of had before commit 97215a7df4351fdd
+("iommu/renesas: Expand COMPILE_TEST coverage")
+would fix that.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmOaz1cACgkQFA3kzBSg
-Kbaw2RAAgL3RbR6t3/4u7yW4JYFKMjdthimKC9C2pKEy5N0poM/F/cTzTfFn+FTO
-qTkPwmcPKEUSNa0QUwGQ3wFDpFEEm4MV/86p+uaYzQV7XLp5Xcbx3g7de15FC8mf
-kU9UrLeWZg9ut62WaV9TVxo5lsiml1iGuG1/LsFkNy49OHqHY1ZHr7+NwcQDwAst
-toexiP4n2F47ZpW/JGubvZvbmuac+6Df6VzNaggfRj+q68hqjOmC42uQ3timJe7w
-Ts7/TgETLtSFMSHN5CKBUeNVzdumKIHX3DwHn/vSC8c+0SvW5QAu0/JiUc5ievx/
-jRvEr3t3WoHh7E3S9EUmQFI5MMOwob4atl7aGM887Ic8Fkhd2w9rcyJsqFV9aDlE
-C6TvVi5dwTC5wh5iOM5HroqnrXaf4btXMirULevey6pkM6nh93v20RRdJg1zNAFh
-Mz7d2/gJolSpNlkyhsOj3Ot4JxydIRtHfV9VsujzBYbTgrnW8IGsnjxTneg4J+Xf
-bwHGWjz1yqAjlbAf4P0dOgvjOqbRybWI0/2JW2JLseqOHBVOn2iiS1Oi4RogYNaf
-RwiCa+Bre4li1HVU1/WzD9ZrQdzG6Mj3a2bnj0Dam4HpuW507b+SjevZmeQHN2lz
-3s/8jJbWUgLEZMMo7QReNMB+TbspE3I81CZgeNTUpOT/qBz1EOA=
-=J7AR
------END PGP SIGNATURE-----
+>         select IOMMU_API
+>         select IOMMU_IO_PGTABLE_LPAE
+>         select ARM_DMA_USE_IOMMU
 
---IfgYU8RXIPQ3Ptmi--
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
