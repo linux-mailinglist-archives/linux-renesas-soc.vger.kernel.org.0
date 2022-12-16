@@ -2,162 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D8C264F070
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Dec 2022 18:36:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ED1264F216
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Dec 2022 21:04:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231742AbiLPRgf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Dec 2022 12:36:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46396 "EHLO
+        id S231405AbiLPUEt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Dec 2022 15:04:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231727AbiLPRge (ORCPT
+        with ESMTP id S230025AbiLPUEr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Dec 2022 12:36:34 -0500
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A69713F98
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Dec 2022 09:36:33 -0800 (PST)
-Received: by mail-qt1-x82d.google.com with SMTP id c7so3230081qtw.8
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Dec 2022 09:36:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4pssHlaurFy+yHylp1RetjEoSDxyKlWcye0Bd6YO+PM=;
-        b=sSDTcVL7SWkVVYAAG359XTSNuOodfZHOvXklEoxMmZ6qcv9rkVm3I2sxVHrv84InIP
-         Nj/hD11glEBI0iToWAUq94Y4KYGK7ScRckmOIqpihPpr2UG5fIIyn4WNMmyq5uviu063
-         gdICBNWPel1bFf2aaEWoG5EdaPi6uN+DhAh8nEd7XtElaqmAdhIZlVKRKbyol6Vb7HhR
-         QTh0gL/QeeGri/0mzayefrvpkxX4N13mssIW8OY+czlhvCL37+BoIDNbEYcJ3TVdYT2/
-         uOJdpC7r4u6hfrTPpz8wIQUK9ggfPUyKAUFzjCU/bpSJrrVrO25GKiTpjBk8AFNXVwtt
-         Np+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4pssHlaurFy+yHylp1RetjEoSDxyKlWcye0Bd6YO+PM=;
-        b=4Gm7HRE6cnxYMpaCCZ6a2JUGgYi/gNdwZuJfkRfM4SVpOFFLNf3Ir7jGo7W/FMzJe9
-         f6g0aZfMfLsjKgDffuSVzTxMNDAvEAahNGO8Fcm9dN7SW/PLlvuZVDBSdULY3Yza7M3J
-         gfHv6W9D+920lBebqUnEmmq4UuIFSs/4c4wahyVkMQsp6DOMATuyRB8L07f3paefMxyJ
-         JCL65XhcgLgVNZs0UyuQ+P49Q+/DVyAcf44qzITmHLgwcc1g/kX20/FVgZY2ipdNzWIM
-         1SbDMoDEamC8WbLp2iBBDllgI4BjyBcMXBfJE/ysheN7aWhVd5ktGLr8jjhoe8oRbkZq
-         p13g==
-X-Gm-Message-State: ANoB5plH9P+XoZYtvKIkgHQfJ6HrgpSbym9GXQM5m7U1EOl0KjYBsYvO
-        A5RCatrDgv5BtFjfOdqet5AuQOpX2/5+iWZe
-X-Google-Smtp-Source: AA0mqf7RD4ApYh6V7fu5AVdjcuL66DWwzIMynb+vUwR3m01LUu6yNWASW5Rsa4PwDXCOdEIQ5r03DQ==
-X-Received: by 2002:a05:622a:1652:b0:3a8:1600:e60f with SMTP id y18-20020a05622a165200b003a81600e60fmr42770503qtj.14.1671212192141;
-        Fri, 16 Dec 2022 09:36:32 -0800 (PST)
-Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
-        by smtp.gmail.com with ESMTPSA id b24-20020ac844d8000000b0035badb499c7sm1650729qto.21.2022.12.16.09.36.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Dec 2022 09:36:31 -0800 (PST)
-Date:   Fri, 16 Dec 2022 12:34:53 -0500
-From:   William Breathitt Gray <william.gray@linaro.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v9 4/5] counter: Add Renesas RZ/G2L MTU3a counter driver
-Message-ID: <Y5ysPT3wrc7h9x2T@fedora>
-References: <20221214103136.2493474-1-biju.das.jz@bp.renesas.com>
- <20221214103136.2493474-5-biju.das.jz@bp.renesas.com>
- <Y5yWdiAsMIUn9ehm@fedora>
- <OS0PR01MB5922FB904619669BE9DD85A086E69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <Y5ynT6h/cZwXcMxz@fedora>
- <OS0PR01MB5922D9A52A0A6D01B73503D686E69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="o6A1WOe2R6/9cfaY"
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB5922D9A52A0A6D01B73503D686E69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 16 Dec 2022 15:04:47 -0500
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EA6E2E9EC;
+        Fri, 16 Dec 2022 12:04:44 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 1EF755C006B;
+        Fri, 16 Dec 2022 15:04:42 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Fri, 16 Dec 2022 15:04:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm1; t=1671221082; x=1671307482; bh=O1rTibXsTD
+        pKm1zwzgUrVX4eUO+lIv2U3Oy/pW2+Uvc=; b=kIOyZ7VcxLykcDYk6fmZlffUP0
+        eq/C9CPSKulkOh7M4ACXPIGmhCGjBuffTTBPo0zaH7i4/VgE2Kp3x2QMwVQXCwgE
+        8xSRy4dVQ5TL94+OhCAiFhuZrZnDGot2bFVg2m+ZGOk4gON7zKa8NB9sthJZzTdf
+        4RZd0ZMZHFhREBQp9HudhBfSS8qSyjNL6C536YsVm41C0YzFRDzlzreybEX6+asD
+        s+dLCINbGwBwv6p61SbitoWiiYaUo1c07UEe0Ib0YWWMeOf+E4LFTqiaNLm1HKZV
+        FWKfHenFTjx9zI4YGD9e5CXupIIY35I+eUtbVzZHa2TfdqW8cCgHSC9HmxHQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1671221082; x=1671307482; bh=O1rTibXsTDpKm1zwzgUrVX4eUO+l
+        Iv2U3Oy/pW2+Uvc=; b=ECzPE/sRKsp+dG/HXK2fj9a5OjOT7apv6OkOg9HBdRKA
+        QneB5lTYdtF3FKJXeSFXUNpow71RXR16v/YbBqkDq+3TH6FsYjewTOMxouPRxXfj
+        nwnrXhZOEUlBiiPPbHSf4xmtsZNpy+hO5lu+872yPJVQxm/XTmMyB5NjwbsCg5Pr
+        MmVL+iuHqssCz6qcnE9+/Avwn9XLOLW4rHKhz8x8sRQ+tefLtkPWPFZi3JQ4mQ+G
+        f4l1BGL/FE6Bnkdg66KN6og7yeTM4weCsmzNr797uQgnyWRi2N/QBHHrQ8oVrh7F
+        fKV2dIJXJeyxtlTMu7GE8AhxMVKqbWsIxvPEb5oNyw==
+X-ME-Sender: <xms:WM-cYxzH1pECrTmU6XvKg7k8j2ay6GglsO1atwuXwxmYoxet6IDLVg>
+    <xme:WM-cYxQLHC1r8btyqYSA58WDofl98UfPJdFNh90ljfGJBMREPXTBnO_b_9yrWNvDZ
+    OM8hh7sfhB6gXgsGr0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeejgddufedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:WM-cY7UHteybQrjytPJtkZA_vwiE9pzAnKQWkn13IR6MC7puFPCWVg>
+    <xmx:WM-cYzhSwMPsxdNCNhcfkFAjy0JTsgxQzXw-Mly99qC-ntnOQrtd4A>
+    <xmx:WM-cYzAWpbr6NmAUwADExpdfVO_pgv-F_FHki4ELlCeoxrjjN_6Wqg>
+    <xmx:Ws-cY1zoSqh0WKzVatpi0rYh11AiO4ydNwr7O9CPoU9ZMHEmtQD25w>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 943F7B60086; Fri, 16 Dec 2022 15:04:40 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
+Mime-Version: 1.0
+Message-Id: <32cf0901-a4a0-48a7-bf42-f2cdb34d1ee7@app.fastmail.com>
+In-Reply-To: <mhng-8b05b6cd-d8a1-4302-af24-2f64a4bf7c32@palmer-ri-x1c9a>
+References: <mhng-8b05b6cd-d8a1-4302-af24-2f64a4bf7c32@palmer-ri-x1c9a>
+Date:   Fri, 16 Dec 2022 21:04:20 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     linux-riscv@lists.infradead.org
+Cc:     "Geert Uytterhoeven" <geert@linux-m68k.org>, soc@kernel.org,
+        "Conor Dooley" <conor@kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        "Albert Ou" <aou@eecs.berkeley.edu>,
+        "Magnus Damm" <magnus.damm@gmail.com>,
+        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        "Conor.Dooley" <conor.dooley@microchip.com>,
+        "Samuel Holland" <samuel@sholland.org>, guoren <guoren@kernel.org>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        krzysztof.kozlowski+dt@linaro.org,
+        "Jisheng Zhang" <jszhang@kernel.org>,
+        "Atish Patra" <atishp@rivosinc.com>,
+        "Anup Patel" <apatel@ventanamicro.com>,
+        "Andrew Jones" <ajones@ventanamicro.com>,
+        "Nathan Chancellor" <nathan@kernel.org>,
+        "Philipp Tomsich" <philipp.tomsich@vrull.eu>,
+        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
+        "Biju Das" <biju.das.jz@bp.renesas.com>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "Palmer Dabbelt" <palmer@dabbelt.com>,
+        "Christoph Hellwig" <hch@infradead.org>
+Subject: Re: [PATCH v5 6/6] soc: renesas: Add L2 cache management for RZ/Five SoC
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Fri, Dec 16, 2022, at 17:32, Palmer Dabbelt wrote:
+> On Thu, 15 Dec 2022 23:02:58 PST (-0800), Christoph Hellwig wrote:
+>> On Thu, Dec 15, 2022 at 01:40:30PM -0800, Palmer Dabbelt wrote:
+>>> Given that we already moved the SiFive one out it seems sane to just start
+>>> with the rest in drivers/soc/$VENDOR.  Looks like it was Christoph's idea to
+>>> do the move, so I'm adding him in case he's got an opinion (and also the SOC
+>>> alias, as that seems generally relevant).
+>>
+>> Well, it isn't an integral architecture feature, so it doesn't really
+>> beloing into arch.  Even the irqchip and timer drivers that are more
+>> less architectural are in drivers/ as they aren't really core
+>> architecture code.
+>
+> That makes sense to me, it just looks like the SiFive ccache is the only 
+> one that's in drivers/soc/$VENDOR, the rest are in arch.  It looks like 
+> mostly older ports that have vendor-specific cache files in arch (ie, 
+> arm has it but arm64 doesn't).  Maybe that's just because the newer 
+> architectures sorted out standard ISA interfaces for these and thus 
+> don't need the vendor-specific bits?  I think we're likely to end up 
+> with quite a few of these vendor-specific cache management schemes on 
+> RISC-V.
+>
+> I'm always happy to keep stuff out of arch/riscv, though.  So maybe we 
+> just buck the trend here and stick to drivers/soc/$VENDOR like we did 
+> for the first one?
 
---o6A1WOe2R6/9cfaY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I don't particularly like drivers/soc/ to become more of a dumping
+ground for random drivers. If there are several SoCs that have the
+same requirement to do a particular thing, the logical step would
+be to put them into a proper subsystem, with a well-defined interface
+to dma-mapping and virtualization frameworks.
 
-On Fri, Dec 16, 2022 at 05:24:02PM +0000, Biju Das wrote:
-> Hi William Breathitt Gray,
->=20
-> > Subject: Re: [PATCH v9 4/5] counter: Add Renesas RZ/G2L MTU3a counter d=
-river
-> >=20
-> > On Fri, Dec 16, 2022 at 05:00:30PM +0000, Biju Das wrote:
-> > > > Hello Biju,
-> > > >
-> > > > Do you need to take the ch->lock before checking ch->is_busy to
-> > > > ensure it does not change?
-> > >
-> > > priv->count_is_enabled[count->id]-> true means channel is held by cou=
-nter.
-> > > So pwm won't be able to change the state ch->is_busy.
-> > >
-> > > priv->count_is_enabled[count->id]-> false and if there is contention
-> > > priv->for ch->busy
-> > > whoever is first calling rz_mtu3_request_channel() will get the chann=
-el.
-> > > among pwm_request and counter_enable.
-> > >
-> > > So I think it is safe here. Please correct me if I am missing somethi=
-ng.
-> > >
-> > > static inline bool rz_mtu3_request_channel(struct rz_mtu3_channel *ch)
-> > > {
-> > > 	bool is_idle;
-> > >
-> > > 	mutex_lock(&ch->lock);
-> > > 	is_idle =3D !ch->is_busy;
-> > > 	if (is_idle)
-> > > 		ch->is_busy =3D true;
-> > > 	mutex_unlock(&ch->lock);
-> > >
-> > > 	return is_idle;
-> > > }
-> >=20
-> > Okay seems safe then. If the respective count_is_enabled will only be t=
-rue
-> > when the respective channel is held by the counter, is there a need to =
-check
-> > ch->is_busy, or would checking count_is_enabled alone suffice?
->=20
-> We still can configure below properties before enabling the count.
-> That can be done only when ch->is_busy =3D false or ch->is_busy=3D true a=
-nd count_is_enabled.
-> That is channel is used by the counter.
->=20
-> /sys/bus/counter/devices/counterX/external_input_phase_clock_select
-> /sys/bus/counter/devices/counterX/long_word_access_ctrl_mode
-> /sys/bus/counter/devices/counterX/count2/count
-> /sys/bus/counter/devices/counterX/count2/ceiling
->=20
-> Cheers,
-> Biju
+The other things we have in drivers/soc/ are usually either
+soc_device drivers for identifying the system, or they export
+interfaces used by soc specific drivers.
 
-I see what you mean now, we'll need to check ch->is_busy regardless and
-not just the count_is_enable state. That should be fine then, thanks for
-explaining.
-
-William Breathitt Gray
-
---o6A1WOe2R6/9cfaY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCY5ysPQAKCRC1SFbKvhIj
-K3BjAQCQVhy6SLf8LTRbw6I9NAXok8+Z0oTHxLOKkXM09bdy7QEAp2EDtXC/diiM
-lOYzfBTqC7C9NeBG3zqmdsksI6ADsQA=
-=k6Sp
------END PGP SIGNATURE-----
-
---o6A1WOe2R6/9cfaY--
+     Arnd
