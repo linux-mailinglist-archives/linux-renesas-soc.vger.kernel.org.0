@@ -2,60 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97AF764EFE9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Dec 2022 18:00:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E59064F016
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Dec 2022 18:10:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231496AbiLPRAf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Dec 2022 12:00:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56604 "EHLO
+        id S231687AbiLPRK0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Dec 2022 12:10:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbiLPRAe (ORCPT
+        with ESMTP id S230429AbiLPRKU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Dec 2022 12:00:34 -0500
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2123.outbound.protection.outlook.com [40.107.113.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E541DDC7;
-        Fri, 16 Dec 2022 09:00:32 -0800 (PST)
+        Fri, 16 Dec 2022 12:10:20 -0500
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2105.outbound.protection.outlook.com [40.107.114.105])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 921BA6DCF1;
+        Fri, 16 Dec 2022 09:10:19 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XlYRXrlta3MSLRPG+v/BmBoMDz06JKvYLvc2DldDCz49izb5SPv4Ro4h2mevMnFS9Wz9N9j9bz99tr8l95Wac2E5TwnsmXkCiV1xxJO6O21+fMl/52NlumHtJ5eDf2vesH3Gu4N8GWVR6zwYDD4bkVX0ADo1CmrwV/eeAmDRGqm3lF73J9gTGJ4mjCZnF8N86wMhQ8PbMBOzPAde/N4b/9bFqYeXC25baGYymUv4FtQZAMB6mk5q49ChMEjr5s0ebPh1Z8AxK0jyZpnZNAkvLnpFDaiSJn0snWWaNfs4ha+B+Ra1rkK3rWFFiAYw+R8GSYTwhoLZZc8lNrZniHw+0A==
+ b=VqX3Z8ajhdHuzVbaqV3tdIB4c4NZkg7N55jxBCBTorA+ciHIglCSPnucODY67F7jpydNsv23f0lZ6uaQHjKVMO+zBcJ5SiO5vnoPpzg7ZaRCnmOmEaydW2cy7yCNejPLo0bnb2RqGy7AlYGfL/8mexxGAKVJm3VuMiamlgKgCYkxxFBMeSQCF4BuQ9K5XWyKE3OM530QoupIbCeDP1+kuihYgXJouEIzuzhuNMqsJnWQeBxDcnE9oYZdIUI6EwqPuO982z9Wc+ke9iZH+a4+PFpEgWQ06GwfU7gq8LMpViI5ZtSbROZXvv6Jp0T6BMUGEYDpN/aUKYVkSI49VF96gg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oYLjb6qKVTkq6+WMBTB5EKOryQn1FAUdcKhjcJExHDA=;
- b=NeXnR2Rm3EhmBhl5/xdIAniFg6fzD8Zrl+MM0GyNjql5z+JIL9s2V1I944j2QP0VUtQUdPIk4O4Rb2J9bqndbymc2Tx3BHFf1Ocm9+isFuAmOrUzmER70J3r/Rd1JE4yGm/GiTecxXY4jHVByfNSCtenSVZAsntq8ykq/Qm4nv93qZdlV4UfOZMqmonoooMvVKIAndk2yNlX97IZT8Ly9vSjpbSOYbegJOfJAaENgYHJZz6QZgAQG5L1urNQTFYx2lD/zMBxWicqO7uC3VRcSIjvMVz2zCchJP/r0QWH+PVvVU+L6O93ZZlyQkZabk/x7lQlBnQAFo+0MwWTFKWxJw==
+ bh=fl5pGAZbljJk3PAhwiYMA06prciozynsl9if9LUyUw4=;
+ b=jHYWubLU1sNitMwvbsb61WQIm9qNLqcAzDSpML3K8YdBEbSOwBU8ZVOOPohNvq4Rl0JNBQHTut/ip++90b2z7vO0ZMfk2fyAeeMDV9zbqE3crBd1VABxAJl/ABlvh8kl7TW3UBsD9LczDqeCfQlyvJletzwad+Z8h1i/Z2m15kFd1+LVfmww3fJ0s9wt/v4yuAfyS3ASaqAT5O32tlaIgqqW2bQHH/6A73vzVpQqFNa3ENS07Ys2/9wDVBRHjONF0NArH1oa5mT1urVRXnweMXD2XVaICd9D6l4GPzY/ew0AfU9AdBKVz1Bi/IZ+AwiFVDAFRwBXUcLsii9gLIK/WA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oYLjb6qKVTkq6+WMBTB5EKOryQn1FAUdcKhjcJExHDA=;
- b=mVpmjzOH58VPZ8wB6B1JVMoLfpCZfszpwws+6UzMHpM5G3CTfJ+wyY/3zpK0YA5/7lxUE7vL/XoL6tz+ODlSx9puDyhdP1Yav4QNvMCMDK5K0hzlk0xs7YC8szd1xD5gFklJYAi2lJhyoNJvI+Yooajs4VC1Bxut1N6MpdUp6X4=
+ bh=fl5pGAZbljJk3PAhwiYMA06prciozynsl9if9LUyUw4=;
+ b=daYW0Aj87MDsRWEcacjQ7V230F84YwADu+TF2eH2CuPgJoi0JXiafhtCE2k8ARvnD0osEQxUP8X7b4W8NF3AX+j5Z31uE9LjQaOz50TfK//ZQN22qwCdUbhy9ZY76MX0XCqlkVB6v0OhnSZebC7Eyqcw3QxN/jnx5uzK/qlfo/U=
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS0PR01MB5553.jpnprd01.prod.outlook.com (2603:1096:604:94::12) with
+ by TYCPR01MB5631.jpnprd01.prod.outlook.com (2603:1096:400:43::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.11; Fri, 16 Dec
- 2022 17:00:30 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.12; Fri, 16 Dec
+ 2022 17:10:17 +0000
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::69ad:8673:1ba1:d7]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::69ad:8673:1ba1:d7%4]) with mapi id 15.20.5924.016; Fri, 16 Dec 2022
- 17:00:30 +0000
+ 17:10:17 +0000
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     William Breathitt Gray <william.gray@linaro.org>
-CC:     "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
+To:     Rob Herring <robh@kernel.org>
+CC:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v9 4/5] counter: Add Renesas RZ/G2L MTU3a counter driver
-Thread-Topic: [PATCH v9 4/5] counter: Add Renesas RZ/G2L MTU3a counter driver
-Thread-Index: AQHZD6dL1Ef+NDbgDEq2HK76E2fJf65wsCQAgAAHmtA=
-Date:   Fri, 16 Dec 2022 17:00:30 +0000
-Message-ID: <OS0PR01MB5922FB904619669BE9DD85A086E69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20221214103136.2493474-1-biju.das.jz@bp.renesas.com>
- <20221214103136.2493474-5-biju.das.jz@bp.renesas.com>
- <Y5yWdiAsMIUn9ehm@fedora>
-In-Reply-To: <Y5yWdiAsMIUn9ehm@fedora>
+Subject: RE: [PATCH 04/16] dt-bindings: usb: renesas,usb-xhci: Document RZ/V2M
+ support
+Thread-Topic: [PATCH 04/16] dt-bindings: usb: renesas,usb-xhci: Document
+ RZ/V2M support
+Thread-Index: AQHZDk8m3j+fXrSm40qaamZzF8Xy7q5wtVCAgAAQWpA=
+Date:   Fri, 16 Dec 2022 17:10:17 +0000
+Message-ID: <OS0PR01MB592205A7B38C9ED9DF1C264786E69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20221212172804.1277751-1-biju.das.jz@bp.renesas.com>
+ <20221212172804.1277751-5-biju.das.jz@bp.renesas.com>
+ <20221216161051.GA2837295-robh@kernel.org>
+In-Reply-To: <20221216161051.GA2837295-robh@kernel.org>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -63,56 +69,56 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS0PR01MB5553:EE_
-x-ms-office365-filtering-correlation-id: ecc76b32-9fda-47ca-9313-08dadf870a09
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB5631:EE_
+x-ms-office365-filtering-correlation-id: d33116f3-2c1b-4ce6-c483-08dadf8867ce
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Ps+AuRlcfE8LIAWOt09zNVuZRv80nPboJpgQ9P2u8T6Jr4BtRTd5F07wDNmiF9UJbfy2rBW710nT2BdwE/AsvB3xxUN4pmQ+ur+2qAloMyU2lpdaK1jpFAnbINU/0S+SQdjmTaO4U/FnR2Qe3lRcxuPMH7WH2/hj9OoqC1xIhxE0J+lDhdH6TpCtQqZ4/57WJQta5cXxV6mTkdAjxXoxUsY5qaOC4s7cP+JTRWsXDPcK/wNWre/eo6mBNT/VrhXkxw0Mp6aXxKj7RFSNC4QFgsMC24JfIwP2+6LFp8EINW2vKbdxTOpRKDA+VyDrmLKBoHKIiTySiyB34fj4H1+hn8AAjrRQ7bHCaqIj/bm4wPR6XkV0H7dhXRI/tF8pru396gDt+ShgS1/H3ErhBFmgASdUT36lfL/5X4bCD+a8N0SmUTa2fFBbGKjKr2p1TUYNCqKh2NYfEhDrgbnEy1CBxb6lV4pirwE691Gfts8PUze1VIYlN9feK1g1Ks5CzFof3ryrOQFBdwvQcdZ6U3ZtOSMU+04YIzhtOfgDZc21rZ22S1FRPyMqPWUOfGP7QuvMRaoHx3gbk+yIVhyKQBCVk5EHGTSH705FM9zx4YSsH838BP6WASeEtufQqCzRI3DpoVQVeTxCA53i3yWdKGDZQoiPl0YLrs9YL+NcfuBrcnAPF74m+MQALZQPgLPQ2q54p0G1Qu6MGeTLzf1ghiAWTcBH04LsYA9gqeVVseVPV7I=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(396003)(39860400002)(136003)(376002)(346002)(451199015)(478600001)(2906002)(7696005)(6506007)(38070700005)(55016003)(9686003)(186003)(71200400001)(86362001)(26005)(33656002)(6916009)(38100700002)(83380400001)(316002)(66446008)(66556008)(66476007)(4326008)(64756008)(66946007)(8676002)(54906003)(8936002)(122000001)(76116006)(5660300002)(52536014)(41300700001)(32563001);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: ek7sykBA1QQ7tNzTSD2/W7NF4C9479HbXpRO0QUN5PV42XGK3H8RnKk5eLgRrKURFbw6cZJ8/ilVGRQVARufJaJFrq+ezasd4N2ej7Hu6FMmH6qcDc/WO5oZaznNx1i+MXIT5YOICUyaZntXhPNb+/0aUVQEc6NML+hIaf565fQDOS1GKgfK60VddC8HP7/JL/bxHU544vr9hF1qpXoL8ZfI7uNKTAK1p9KTlkkLt+frIOnHaq0GE2tdCevGqcM3tcCJSke4ZniRquPNPDqHqh3onNkzaXovx6ofvkaotFIeoJahngDaM1jwlb1QxpCHcxUYTpdTsH7irnuIX+XY6+5AMNwxKaEkzmhFN73i1cszs1rZ16ySl9fHz1Fz1QZ+61C09NitLdt1bHWenKhr7ZhTggfswDLAL0ANo1KORqKR71eZ3Pw6j1dyzpZ65lxKDTJqnZtrpjhDZJ801wJtIdDurixYXJfRtcfzlP4AOSo7aTMjSCbVol6yvLo8dUPQa803aRsHP75wjdASy6dMWyrhT9ihKrxsgQwpbKbL3zb33Y+4ITFhicXd8rq167QJioYM9gB8kQ8MK+6VoeMArLoZhgCddx/ZDYb7wmDToJWDiTq44J0M5eG+j9PZLR3URzlVZLB3G6NzDfSEdmYAAIdMJhWvBRyZbjxlKQIrFYI4oRSk7Ozsm17YWHel/6syceZz7wu4jvypIEdwAtOupw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(39860400002)(136003)(396003)(346002)(376002)(451199015)(71200400001)(316002)(54906003)(6916009)(38070700005)(478600001)(7696005)(6506007)(26005)(55016003)(33656002)(86362001)(41300700001)(38100700002)(186003)(9686003)(122000001)(8676002)(4326008)(66446008)(76116006)(64756008)(8936002)(2906002)(66556008)(66476007)(66946007)(5660300002)(83380400001)(52536014);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?LgST0TORZVBQlucV+wXp+yrwr2nhEL+rnhDC2Nre1/9MwmV2jRb62ykEF30V?=
- =?us-ascii?Q?ATi+XqzX8dRLH8h2DXYHcwb8IPZhXur/T6GVx3VFQLqzBKc1a4MrPZHrI0Y+?=
- =?us-ascii?Q?tm9GR0iRwlX6bUqz8ChPcYxLNRD0Bvg0rhXxKmZei72u8D6dh2TyiA5NSzjF?=
- =?us-ascii?Q?yfoSG2O5yxozPnt6NQe7yl6Yn/GhOLbwOahRKqY4DnbEzNPFiQjVYN2eP/7f?=
- =?us-ascii?Q?TFaJCzOMFIOiLfYaAuBIjfZ/ad4RYZD83M7OA0vCVWYFsU8HSo9dl/TrscL8?=
- =?us-ascii?Q?zDbsVTpBEqKxWzGRXZ+QqvlCVYuTpA13l2/2woQ7TjikUBpZFtoePcIs9JOF?=
- =?us-ascii?Q?IZtWUnghuXh8Rq4RqraE9v7VuEgx7Wp4gcavO262BGuf+gp1z8Dm4ex2VIUg?=
- =?us-ascii?Q?kZkIaUcnos9Mz95w+XSRy5OQFKZAcx31ZzGuUvIxiMFTNIEj1qrHdfG7JIQ8?=
- =?us-ascii?Q?RdGKuI2Qsj0Ck5oo4qlRjrgYpJCkAMFOEONSKsdVZRta8XJYWKkt8t+T9Tt+?=
- =?us-ascii?Q?3o1tvjwnDjAtRORiS06LcrdMTsJJhtQMO27Ge6Rgn6rbh73uxkd0ePZFcy77?=
- =?us-ascii?Q?scLSgjOSkN6WSQ9XSfg+BCcyjfE4DAaV5XB76H88XERRaz46bgYRVshb69qR?=
- =?us-ascii?Q?FZ8fGhAFYXmAA1ePNrxx0XnCbS5xlIohZGUbZIfRk8JVyafX5DepsFrx8Kp7?=
- =?us-ascii?Q?eo8jbbYvnFg8X2UXxrM4OD448GHnzYHTNgwojoAN0pFgwTS1NAPVZsjNAcFO?=
- =?us-ascii?Q?bI5jxeSvhMGk9PJvmN3bYpsg+DKez06t0p9v9lQ26dS6fKkSV36YeoM+qsCE?=
- =?us-ascii?Q?pMXroG7CUrS93+V/wk258wsGcfKSdJSCn9yjXw8/mN/tt472DHwjM/fdTlB1?=
- =?us-ascii?Q?YpMpcH44HhnqikeWJdy7WVnqbEckzQlGxn3xPYwRwaodxU9E2mIdNO7uCRDP?=
- =?us-ascii?Q?ZwkT2DcRC1dEoJJWRucBuDhbKZiqH4Vw+TPYVj+S1wW0mBou2niheZd8c4BK?=
- =?us-ascii?Q?GM5CrTSXh8zu6o+2EZ//cK3zC0Bbk1IbYEnzI++I689z8PSSR56EJih5haPS?=
- =?us-ascii?Q?lYHw2YKg26YciLUSnSPIf8BhIMWACw5xQKy3KN2WELJum4M4QhkoKs2dtw7A?=
- =?us-ascii?Q?KeyYWiEmw5Y5416isn7ySDbnwlM6siJoFIlL+xBZSj6ivDxHnsIFjQAkGPpS?=
- =?us-ascii?Q?extCA52vYm5QNvLesAvY7Lhyx3H8dFBGzLdqgXh4PSvHc+MQk32sZ0IwcmN/?=
- =?us-ascii?Q?v6RejlYEmqbt08WK207V63VOeZSWXlcXfSoTA37XtoSoTcow76Bc83dKe6bG?=
- =?us-ascii?Q?kzgBQZrS4lePPjS0iZn/8BgSSRP6E3p0qzl+vhR2ctCOSuDYzIbJs5TpBU49?=
- =?us-ascii?Q?34cprMjzAljk9ei44V7sG3spUWhwcrYHnpse6z6hiw/oC8k2WfcSVZ+ZX2FJ?=
- =?us-ascii?Q?tIgIuxXU4dvk+V7s7FEcmfDClaj4cnHEuSj8kH+2h5QYzDkiACgqesBZr0ZX?=
- =?us-ascii?Q?xBAKHu67BV8/NPILzCPSqgbLTkck4G/9LJNDAE38CGZNozOQRKI5SlmUvJ4O?=
- =?us-ascii?Q?ThWtrhX5S3IkL5t9xu+nylWIDEEcu0FHRJkxMcEFEp4MiclpgDg5A+m25AK6?=
- =?us-ascii?Q?Ew=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?7XJCUAyNxMSM/VkszSTEvMrbrrXT2WHZ/pfoHzHbVt7iZ4O/zu9yvl1gizq9?=
+ =?us-ascii?Q?vqHnjs4NtUk6G2UHNTH0QBoAx83fjBUocJBRhag7mIldtoWuCqFxrw6UmQxH?=
+ =?us-ascii?Q?tY7ef1CqZ9Z4L6NPU1GaVwE5Kp1dyj/LaYp4GY5a7Ap9nvOsOdhtmmftcyNF?=
+ =?us-ascii?Q?QpFD8mkFDZ7/sK2Mgo1YA1u5abfWslmAz0VOwMn/IMYtySGC9TIYN88LYp7B?=
+ =?us-ascii?Q?xCgtU7LxPN+sJZiBd4H8n9bYWa9uUeJgkU8/8VU0R3zLdn0WNkPfEidzOSns?=
+ =?us-ascii?Q?K2irzzvvbC2N9rAhTnIQovUitJUDPJU8QrIgRIp0aLKBSvNGzGkyhg/NCc1s?=
+ =?us-ascii?Q?z1XWApQaS7eA7ye9ZeLheWMzmhOSLB2zGYtWeU3a6zBnmquhPrrnheRI+WFL?=
+ =?us-ascii?Q?fz+BrcNPZGiDe9HFzVeHsDi2V87GW5wM2x9Z33NVmZ1PxDgnly0ruxjnHA8H?=
+ =?us-ascii?Q?IWlqKnN3/6+zxOnuocPEF2ulmnHXaeGD9TDUacyolOGvCYnU9vhIEIlhuybR?=
+ =?us-ascii?Q?+9OjF14rULYQ6gm9jLMUu8x+sQCZkV/Dc0HxJvW2TRlpWCk0Za4AQka9sO2b?=
+ =?us-ascii?Q?NOgGwV5Lsko1iF4vo7/uT9x91gyTgJCfgtJNxJ4g1+/Q/uaHOExKw0ScTDNq?=
+ =?us-ascii?Q?KNHoewymLjlLsURvGwY1us2LqXk8ZwraqlOJziuVzT2R70fx40IW38SfYoU8?=
+ =?us-ascii?Q?oG/ftrEww5EB8iNzOmznvuAU0EjZCHraZC1W6nTQewBZDVfCoeIAVLVrVMz4?=
+ =?us-ascii?Q?qq1jeW98dJ3pS/7KRYzof4wyEh+FjmK7BNzScsm3BbPh4UD1DHbmkScdhtHL?=
+ =?us-ascii?Q?KhdeM9nsNC72UG+43GlIT4ZtwxveplbN7ejMewrGSVg60Vd0Hi2L0B9Q2dwG?=
+ =?us-ascii?Q?ypYGZ0WiE+sUp5CdLpciZjceeA/apmAHv0uWo9sVaf+R4kBg5SN0XfB5YXrC?=
+ =?us-ascii?Q?ONtkQlEwt4snsnyFPtfY7p+NUEZMAGpvXNfAANyit/+pYjBZnxovQGCt0/zh?=
+ =?us-ascii?Q?xoobHSl0evWJRZ4kRaAdbBK8cC5x5XiatceL8+f5rbCINHCWizPTlCThAxDl?=
+ =?us-ascii?Q?DtQOR1NH1rMkGf8gR3jwq1jRBiwAr1mTA+GeFkOeuHsOERNYAUY4N2g1ndg3?=
+ =?us-ascii?Q?2WFtUOnvxfXGgZMz4MWWIFAW30cHxdXYGBzYlLrqpZW6kFZqScrpLX7uMOJU?=
+ =?us-ascii?Q?ZmyrcY/FttO2rlPkZFLUMNVAXwXmbBeEQHquLrFMhn+UC3MpaDiVmZ+khvB2?=
+ =?us-ascii?Q?o7wmm/ooSg6Ssw6JxbWaYJZ4oyUMGQ43GYbMfQ8/plEP/VJ2YW4RZSM5oCED?=
+ =?us-ascii?Q?CjM5Mrd4tciZ5ftTPMSQOWRJf0X2bW+basA0hdQ1dtiqp0+w5LC9HYtQEn72?=
+ =?us-ascii?Q?Zg2BRnMwo+qSWtQmmW5pC/lf6SsdObKqY+kuxcre0LfI97x/S1n1YzsMG0jL?=
+ =?us-ascii?Q?dWjwwQaWiX5IWpBNAipKi4PTl5j9MgtmuNKnMMHck5hzIrudUmGM+p9RwZ+H?=
+ =?us-ascii?Q?J6+ms3LzGt2jYMN/gAIPyGPLzs2j/+yLVduTME8g3uhJXLuMBPlbhhF/hSMO?=
+ =?us-ascii?Q?HzDUjmcbDdZJpYNuAQ41sI4V6gbN/W+7w8qPnQKcxbCNo/3YJzP7JWbP55VU?=
+ =?us-ascii?Q?XA=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ecc76b32-9fda-47ca-9313-08dadf870a09
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2022 17:00:30.8012
+X-MS-Exchange-CrossTenant-Network-Message-Id: d33116f3-2c1b-4ce6-c483-08dadf8867ce
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2022 17:10:17.6027
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UIybi/2L+IyDQKibLelocUtRsNWE5uyxkafP3kbXBACSISonEpQYZ/NIN3DOMcNCC1XNe0EUFaBYzjS0fMS2iAngL/osfu1OQWAUMchBk/k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5553
+X-MS-Exchange-CrossTenant-userprincipalname: eRyHmVpyadhkb7bpXRcupW/H4uK4ZiNY78HwS07nCBaSGFJEAOXeBhj4HLKAJ0jnw2lHmbDqiIEpaEkxAQ2wmGNMruL3eZG6oL7uhNmlqs4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB5631
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
         SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -122,113 +128,117 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi William Breathitt Gray,
+Hi Rob,
 
-> Subject: Re: [PATCH v9 4/5] counter: Add Renesas RZ/G2L MTU3a counter dri=
-ver
+> Subject: Re: [PATCH 04/16] dt-bindings: usb: renesas,usb-xhci: Document
+> RZ/V2M support
 >=20
-> On Wed, Dec 14, 2022 at 10:31:35AM +0000, Biju Das wrote:
-> > Add RZ/G2L MTU3a counter driver. This IP supports the following phase
-> > counting modes on MTU1 and MTU2 channels
-> >
-> > 1) 16-bit phase counting modes on MTU1 and MTU2 channels.
-> > 2) 32-bit phase counting mode by cascading MTU1 and MTU2 channels.
-> >
-> > This patch adds 3 counter value channels.
-> > 	count0: 16-bit phase counter value channel on MTU1
-> > 	count1: 16-bit phase counter value channel on MTU2
-> > 	count2: 32-bit phase counter value channel by cascading
-> >                 MTU1 and MTU2 channels.
-> >
-> > The external input phase clock pin for the counter value channels are
-> > as follows:
-> > 	count0: "MTCLKA-MTCLKB"
-> > 	count1: "MTCLKA-MTCLKB" or "MTCLKC-MTCLKD"
-> > 	count2: "MTCLKA-MTCLKB" or "MTCLKC-MTCLKD"
-> >
-> > Use the sysfs variable "external_input_phase_clock_select" to select
-> > the external input phase clock pin and "cascade_counts_enable" to
-> > enable/ disable cascading of channels.
+> On Mon, Dec 12, 2022 at 05:27:52PM +0000, Biju Das wrote:
+> > Document the RZ/V2M SoC bindings.
+> > The RZ/V2M SoC is a little different to the R-Car implementations.
+> > You can access the registers associated with the currently set DRD
+> > mode, therefore as part of init, we have to set the DRD mode to host.
 > >
 > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->=20
-> Hello Biju,
->=20
-> Do you need to take the ch->lock before checking ch->is_busy to ensure it
-> does not change?
-
-priv->count_is_enabled[count->id]-> true means channel is held by counter.
-So pwm won't be able to change the state ch->is_busy.
-
-priv->count_is_enabled[count->id]-> false and if there is contention for ch=
-->busy
-whoever is first calling rz_mtu3_request_channel() will get the channel.
-among pwm_request and counter_enable.
-
-So I think it is safe here. Please correct me if I am missing something.
-
-static inline bool rz_mtu3_request_channel(struct rz_mtu3_channel *ch)
-{
-	bool is_idle;
-
-	mutex_lock(&ch->lock);
-	is_idle =3D !ch->is_busy;
-	if (is_idle)
-		ch->is_busy =3D true;
-	mutex_unlock(&ch->lock);
-
-	return is_idle;
-}
-
->=20
-> Regardless, I have some race comments below.
->=20
-> > +static int rz_mtu3_count_function_read(struct counter_device *counter,
-> > +				       struct counter_count *count,
-> > +				       enum counter_function *function) {
-> > +	struct rz_mtu3_channel *const ch =3D rz_mtu3_get_ch(counter, count->i=
-d);
-> > +	struct rz_mtu3_cnt *const priv =3D counter_priv(counter);
-> > +	u8 timer_mode;
+> > ---
+> >  .../bindings/usb/renesas,usb-xhci.yaml        | 41 +++++++++++++++++--
+> >  1 file changed, 37 insertions(+), 4 deletions(-)
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> > b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> > index 4c5efaf02308..ae678d249785 100644
+> > --- a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> > +++ b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> > @@ -10,9 +10,6 @@ maintainers:
+> >    - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >    - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> >
+> > -allOf:
+> > -  - $ref: "usb-xhci.yaml"
+> > -
+> >  properties:
+> >    compatible:
+> >      oneOf:
+> > @@ -37,6 +34,11 @@ properties:
+> >                - renesas,xhci-r8a77965 # R-Car M3-N
+> >                - renesas,xhci-r8a77990 # R-Car E3
+> >            - const: renesas,rcar-gen3-xhci # R-Car Gen3 and RZ/G2
+> > +      - items:
+> > +          - enum:
+> > +              - renesas,r9a09g011-xhci # RZ/V2M
+> > +              - renesas,r9a09g055-xhci # RZ/V2MA
+> > +          - const: renesas,rzv2m-xhci  # RZ/{V2M, V2MA}
+> >
+> >    reg:
+> >      maxItems: 1
+> > @@ -45,7 +47,16 @@ properties:
+> >      maxItems: 1
+> >
+> >    clocks:
+> > -    maxItems: 1
+> > +    minItems: 1
+> > +    items:
+> > +      - description: Main clock for host
+> > +      - description: Register access clock
 > > +
-> > +	if (ch->is_busy && !priv->count_is_enabled[count->id])
-> > +		return -EINVAL;
+> > +  clock-names:
+> > +    minItems: 1
+> > +    items:
+> > +      - const: host_axi
 >=20
+> Drop 'host_'
 
-The above check is for avoiding race between pwm and counter.
-
-> The priv->lock must be taken because count_is_enabled could change after
-> it's checked here.
-
-OK, Will add priv->lock.
+OK.
 
 >=20
-> However, you'll need to spin up a helper function because you're currentl=
-y
-> calling rz_mtu3_count_function_read() in rz_mtu3_action_read(). So move t=
-he
-> implementation of this function to a new helper function and call that he=
-re
-> with the appropriate locks.
-
-OK. Will add helper function.
-
+> > +      - const: reg
+> >
+> >    phys:
+> >      maxItems: 1
+> > @@ -68,6 +79,28 @@ required:
+> >    - power-domains
+> >    - resets
+> >
+> > +allOf:
+> > +  - $ref: "usb-xhci.yaml"
 >=20
-> > +static int rz_mtu3_count_direction_read(struct counter_device *counter=
-,
-> > +					struct counter_count *count,
-> > +					enum counter_count_direction *direction) {
-> > +	struct rz_mtu3_channel *const ch =3D rz_mtu3_get_ch(counter, count->i=
-d);
-> > +	struct rz_mtu3_cnt *const priv =3D counter_priv(counter);
-> > +	u8 tsr;
-> > +
-> > +	if (ch->is_busy && !priv->count_is_enabled[count->id])
-> > +		return -EINVAL;
->=20
-> This needs to be locked for the same reason as above.
+> Drop quotes since you are touching this.
 
-Agreed.
+OK, Will fix this.
 
 Cheers,
 Biju
+
+>=20
+> With that,
+>=20
+> Reviewed-by: Rob Herring <robh@kernel.org>
+>=20
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,rzv2m-xhci
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 2
+> > +        clock-names:
+> > +          minItems: 2
+> > +      required:
+> > +        - clock-names
+> > +    else:
+> > +      properties:
+> > +        clocks:
+> > +          maxItems: 1
+> > +
+> >  unevaluatedProperties: false
+> >
+> >  examples:
+> > --
+> > 2.25.1
+> >
+> >
