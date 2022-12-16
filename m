@@ -2,161 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6D6564EE9C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Dec 2022 17:09:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC0B164EEAE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Dec 2022 17:12:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231772AbiLPQJA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Dec 2022 11:09:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45624 "EHLO
+        id S232062AbiLPQM3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Dec 2022 11:12:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231841AbiLPQIb (ORCPT
+        with ESMTP id S232664AbiLPQMD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Dec 2022 11:08:31 -0500
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B00100C
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Dec 2022 08:07:45 -0800 (PST)
-Received: by mail-oi1-x22a.google.com with SMTP id k189so2311000oif.7
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Dec 2022 08:07:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7wZQdciJ80m6s5UTfdrnt4hMPxOVBONWu09gd90pOFc=;
-        b=Smdcg79/uLlu0i32WncU4F46k9VhJzdqawr22drvjTsLJZsLLTGQGq7UrAhaiMaV2S
-         ZSya255IGV6HmP/BtT2+pZtPI04G00TIQOqSjO3styncxCeHwdwKJXiwv4hUrFsrYL9N
-         MpcRVPan+XoxS8Mln9+mC47OJg8YtC9rSk1EOgcY2/sU8FnBvFAdF3TysHOmbMN4U98J
-         uDPJlEUdk+XFz6Mr1ljiB7UgrHnSf5Zb1GdmXwkGU8xb7mYzu2efKWGHprExxI1kbm0S
-         Wr7/SpzpI3Xjc/iQvqFKdYLJfg1VuRWKeNyI8hzLkQuXNgjWhmas1YFWhU8V0UnAUgcz
-         sR3Q==
+        Fri, 16 Dec 2022 11:12:03 -0500
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97D81419A9;
+        Fri, 16 Dec 2022 08:10:52 -0800 (PST)
+Received: by mail-ot1-f54.google.com with SMTP id p24-20020a0568301d5800b0066e6dc09be5so1618046oth.8;
+        Fri, 16 Dec 2022 08:10:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7wZQdciJ80m6s5UTfdrnt4hMPxOVBONWu09gd90pOFc=;
-        b=ASPPR+gp5THSebQKAGiyn7Mgm0DNK6M6rbrtGu/bH0T5IHxyhmedGEOB5K11cXFyTq
-         ZPIrBGfCtHdvm8+9PsYHa3lz+Xyuk8E6yeoliTbG9ojdDLSH9VNj1zYelHXS9+vzykjb
-         fcmdD0hlb9Hvg0SACJVkoqsiPyiYFJGqDINt0IVOPez6Axw+phRRPv8RcCE8vq4sOV64
-         V1ADiRY9/P62ps3yZVRkBiWsfxvysVtWvmezeQiHcPf0jSvHxWwqig9kNM1lVNciq9uR
-         I6QLd3Chy1JYVZGS8FFyHBwI3/mb606u2hFJTxkxwsQvEdy5EnFNal5rVnxs//jVZrbp
-         KjQg==
-X-Gm-Message-State: ANoB5pn6xnOg3zI2gSPCb18wZfVJ67iK4/JDX7WxW4MpjJAZC7xJ13QJ
-        BSmQjGEEADc/VyEUnkqWhaR6zg==
-X-Google-Smtp-Source: AA0mqf6ypQ/53tBmHOCEFTyT8QgcoQ6jEDvVItNaXWHtFcQ1UZvmGu8QoFJJW4FaPkJYZENF9tahwA==
-X-Received: by 2002:a05:6808:f02:b0:35b:e81d:285b with SMTP id m2-20020a0568080f0200b0035be81d285bmr20540195oiw.28.1671206864683;
-        Fri, 16 Dec 2022 08:07:44 -0800 (PST)
-Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
-        by smtp.gmail.com with ESMTPSA id i11-20020a056808030b00b0035468f2d410sm839940oie.55.2022.12.16.08.07.43
+        bh=LKmglVVorDgKarJabc50doLGeuJcZROKiOk2euhvNdk=;
+        b=edBlcXc0UD61n9NlK3v0q3r3NKrT1GiwYIaRlX5THs8UpPLMQ/zX8xeSvvhRbNHU7b
+         7FUMs25oYwm9EgP5EApIcN9g8tUGBE5QtFKDjjE3TUykozBQWwqI0VP/Yb4yTpVrwf5a
+         a3Jau9IohJUNwAfMdjiSWVG9QlrEoC1Hkkkyc54Fg+ElTeWLbG9na2yjADGBWh15+TUr
+         0Oix0YkAGQ1J06foRv3TsTMWdQ0l0vifFrc3bbhGt1LRyVjx7EiI+H+5KW9uz+sc/Vs8
+         K2L9tD56tS7ywrRekLfEwwzsSKDEDS6o07OAjjvNM5IYtqcW4GGodnrmScbQvv1IAXld
+         bC0A==
+X-Gm-Message-State: ANoB5pkNZyd6O4CCr3o77xvtpk+mZvlXxiI6NK+2FtB6HiYQudegIEMJ
+        ldf0gOw3quHe+WyKgJJ3tUzLenRhaA==
+X-Google-Smtp-Source: AA0mqf5MAX9lrOy4Jxdxs2B98BYEOfxrXT0g31t0VHrSQd5I4QSouS6f3e4t9NRxQBVUVnp1WWzn3Q==
+X-Received: by 2002:a05:6830:3809:b0:66e:7670:e684 with SMTP id bh9-20020a056830380900b0066e7670e684mr20093740otb.20.1671207052054;
+        Fri, 16 Dec 2022 08:10:52 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id j7-20020a9d7387000000b0066c3ca7b12csm969797otk.61.2022.12.16.08.10.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Dec 2022 08:07:43 -0800 (PST)
-Date:   Fri, 16 Dec 2022 11:01:58 -0500
-From:   William Breathitt Gray <william.gray@linaro.org>
+        Fri, 16 Dec 2022 08:10:51 -0800 (PST)
+Received: (nullmailer pid 2838833 invoked by uid 1000);
+        Fri, 16 Dec 2022 16:10:51 -0000
+Date:   Fri, 16 Dec 2022 10:10:51 -0600
+From:   Rob Herring <robh@kernel.org>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     linux-iio@vger.kernel.org,
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v9 4/5] counter: Add Renesas RZ/G2L MTU3a counter driver
-Message-ID: <Y5yWdiAsMIUn9ehm@fedora>
-References: <20221214103136.2493474-1-biju.das.jz@bp.renesas.com>
- <20221214103136.2493474-5-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH 04/16] dt-bindings: usb: renesas,usb-xhci: Document
+ RZ/V2M support
+Message-ID: <20221216161051.GA2837295-robh@kernel.org>
+References: <20221212172804.1277751-1-biju.das.jz@bp.renesas.com>
+ <20221212172804.1277751-5-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="m7L7RCD2atf4o9Ml"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221214103136.2493474-5-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20221212172804.1277751-5-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---m7L7RCD2atf4o9Ml
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Dec 14, 2022 at 10:31:35AM +0000, Biju Das wrote:
-> Add RZ/G2L MTU3a counter driver. This IP supports the following
-> phase counting modes on MTU1 and MTU2 channels
->=20
-> 1) 16-bit phase counting modes on MTU1 and MTU2 channels.
-> 2) 32-bit phase counting mode by cascading MTU1 and MTU2 channels.
->=20
-> This patch adds 3 counter value channels.
-> 	count0: 16-bit phase counter value channel on MTU1
-> 	count1: 16-bit phase counter value channel on MTU2
-> 	count2: 32-bit phase counter value channel by cascading
->                 MTU1 and MTU2 channels.
->=20
-> The external input phase clock pin for the counter value channels
-> are as follows:
-> 	count0: "MTCLKA-MTCLKB"
-> 	count1: "MTCLKA-MTCLKB" or "MTCLKC-MTCLKD"
-> 	count2: "MTCLKA-MTCLKB" or "MTCLKC-MTCLKD"
->=20
-> Use the sysfs variable "external_input_phase_clock_select" to select the
-> external input phase clock pin and "cascade_counts_enable" to enable/
-> disable cascading of channels.
->=20
+On Mon, Dec 12, 2022 at 05:27:52PM +0000, Biju Das wrote:
+> Document the RZ/V2M SoC bindings.
+> The RZ/V2M SoC is a little different to the R-Car implementations.
+> You can access the registers associated with the currently set DRD mode,
+> therefore as part of init, we have to set the DRD mode to host.
+> 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-Hello Biju,
-
-Do you need to take the ch->lock before checking ch->is_busy to ensure
-it does not change?
-
-Regardless, I have some race comments below.
-
-> +static int rz_mtu3_count_function_read(struct counter_device *counter,
-> +				       struct counter_count *count,
-> +				       enum counter_function *function)
-> +{
-> +	struct rz_mtu3_channel *const ch =3D rz_mtu3_get_ch(counter, count->id);
-> +	struct rz_mtu3_cnt *const priv =3D counter_priv(counter);
-> +	u8 timer_mode;
+> ---
+>  .../bindings/usb/renesas,usb-xhci.yaml        | 41 +++++++++++++++++--
+>  1 file changed, 37 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> index 4c5efaf02308..ae678d249785 100644
+> --- a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> +++ b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> @@ -10,9 +10,6 @@ maintainers:
+>    - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>    - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>  
+> -allOf:
+> -  - $ref: "usb-xhci.yaml"
+> -
+>  properties:
+>    compatible:
+>      oneOf:
+> @@ -37,6 +34,11 @@ properties:
+>                - renesas,xhci-r8a77965 # R-Car M3-N
+>                - renesas,xhci-r8a77990 # R-Car E3
+>            - const: renesas,rcar-gen3-xhci # R-Car Gen3 and RZ/G2
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a09g011-xhci # RZ/V2M
+> +              - renesas,r9a09g055-xhci # RZ/V2MA
+> +          - const: renesas,rzv2m-xhci  # RZ/{V2M, V2MA}
+>  
+>    reg:
+>      maxItems: 1
+> @@ -45,7 +47,16 @@ properties:
+>      maxItems: 1
+>  
+>    clocks:
+> -    maxItems: 1
+> +    minItems: 1
+> +    items:
+> +      - description: Main clock for host
+> +      - description: Register access clock
 > +
-> +	if (ch->is_busy && !priv->count_is_enabled[count->id])
-> +		return -EINVAL;
+> +  clock-names:
+> +    minItems: 1
+> +    items:
+> +      - const: host_axi
 
-The priv->lock must be taken because count_is_enabled could change
-after it's checked here.
+Drop 'host_'
 
-However, you'll need to spin up a helper function because you're
-currently calling rz_mtu3_count_function_read() in
-rz_mtu3_action_read(). So move the implementation of this function to a
-new helper function and call that here with the appropriate locks.
+> +      - const: reg
+>  
+>    phys:
+>      maxItems: 1
+> @@ -68,6 +79,28 @@ required:
+>    - power-domains
+>    - resets
+>  
+> +allOf:
+> +  - $ref: "usb-xhci.yaml"
 
-> +static int rz_mtu3_count_direction_read(struct counter_device *counter,
-> +					struct counter_count *count,
-> +					enum counter_count_direction *direction)
-> +{
-> +	struct rz_mtu3_channel *const ch =3D rz_mtu3_get_ch(counter, count->id);
-> +	struct rz_mtu3_cnt *const priv =3D counter_priv(counter);
-> +	u8 tsr;
+Drop quotes since you are touching this.
+
+With that,
+
+Reviewed-by: Rob Herring <robh@kernel.org>
+
 > +
-> +	if (ch->is_busy && !priv->count_is_enabled[count->id])
-> +		return -EINVAL;
-
-This needs to be locked for the same reason as above.
-
-William Breathitt Gray
-
---m7L7RCD2atf4o9Ml
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCY5yWdgAKCRC1SFbKvhIj
-K3qaAQDWDwcdhlK4JJVaRqFOAWS842v0/JYaKZthvt3sNcfBQgD/UT4oONxz4fCX
-E7zGBTjeipaBtM0U44jFiv9jPj2mDAI=
-=fYL/
------END PGP SIGNATURE-----
-
---m7L7RCD2atf4o9Ml--
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,rzv2m-xhci
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 2
+> +        clock-names:
+> +          minItems: 2
+> +      required:
+> +        - clock-names
+> +    else:
+> +      properties:
+> +        clocks:
+> +          maxItems: 1
+> +
+>  unevaluatedProperties: false
+>  
+>  examples:
+> -- 
+> 2.25.1
+> 
+> 
