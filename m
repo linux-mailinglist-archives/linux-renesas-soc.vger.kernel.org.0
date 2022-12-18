@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B5626501A9
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Dec 2022 17:34:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF650650250
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Dec 2022 17:45:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232321AbiLRQer (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 18 Dec 2022 11:34:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57670 "EHLO
+        id S232615AbiLRQpW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 18 Dec 2022 11:45:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232211AbiLRQdb (ORCPT
+        with ESMTP id S231674AbiLRQok (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 18 Dec 2022 11:33:31 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C172DF1A;
-        Sun, 18 Dec 2022 08:12:27 -0800 (PST)
+        Sun, 18 Dec 2022 11:44:40 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A07D633B;
+        Sun, 18 Dec 2022 08:15:51 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E5ED1B80B43;
-        Sun, 18 Dec 2022 16:12:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA9AAC433D2;
-        Sun, 18 Dec 2022 16:12:24 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B670060DD3;
+        Sun, 18 Dec 2022 16:15:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 603AAC433EF;
+        Sun, 18 Dec 2022 16:15:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671379945;
-        bh=uK2N8sWvtuJXEQYlSUHzg5AuM8NSppLJ4Q9v8QvjAWs=;
+        s=k20201202; t=1671380150;
+        bh=UlqfCetC9lVeUfrUiYyJXP/Y9giYq4G5Q9ClWpdr7bE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Qn5mBo9LqtRbIvCcLYjGDS/ENbHEOeJf+dQOjdBaatRTmM9TWTcePALqkfPtx/ob0
-         qyNzHw1/Z68Dfzvv2uC9mHpil+NgIin4Zm165uPDMG1iM7EgQN1pZdkpF6CNQ0y92b
-         iCvohxbgsLoP2t8mVcEcHr9els1ULH5plTNDkAnlU1GHp9jk9uDV2VjsGr/QMa/lJC
-         ff4OmQeKS82tAOeb0CCM8C5NGcFAt2dS1h3OtYtXykUHJ6usNlBzRB8UBQJMYaSKoa
-         mV8f20BVwb7GWr9e4QQu50FZRY6LalBgqv+1VN+o2tuGrvv+NmLCW4ZqkmOhA3nCPq
-         YEzyo2zVbZcIQ==
+        b=N4rJrZ2PlVOtGoRH0EtHO8DRNe1tXqHIqo+NDz8WvUtShBDCxKkVp4yrVEtW5bZNq
+         0ySCa0/SqGDHEukBlNgbrDjTA0a8Vv5pJ1964blXV+7mOL4IBRZs1INCZrZzpO1hU0
+         OZt9r9ALX0uzX8BaTCAqTnODw8wsEoqdiHO401wV2PZy5hjvowVliFBwfVWtVqPmY4
+         tFt3E2cRhEtFMHeLJh/Y58RS+P5SkPlRJg7ofn1McKFZPnvLYhXBdAJhVBEi1opBRM
+         fbP8cwuSdPv6VfCXRtMFbVi+m2CUSpkKS87eZuuG9J7hD/Lr4MtbRTIH7EqFVqj+1z
+         YK4I1ucfdpJ8Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
@@ -39,12 +39,12 @@ Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
         Sasha Levin <sashal@kernel.org>, linux-mmc@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 67/73] mmc: renesas_sdhi: better reset from HS400 mode
-Date:   Sun, 18 Dec 2022 11:07:35 -0500
-Message-Id: <20221218160741.927862-67-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 44/46] mmc: renesas_sdhi: better reset from HS400 mode
+Date:   Sun, 18 Dec 2022 11:12:42 -0500
+Message-Id: <20221218161244.930785-44-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221218160741.927862-1-sashal@kernel.org>
-References: <20221218160741.927862-1-sashal@kernel.org>
+In-Reply-To: <20221218161244.930785-1-sashal@kernel.org>
+References: <20221218161244.930785-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -78,10 +78,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index b970699743e0..02682c2fd957 100644
+index 387f2a4f693a..3fa00df34b1e 100644
 --- a/drivers/mmc/host/renesas_sdhi_core.c
 +++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -546,7 +546,7 @@ static void renesas_sdhi_reset_hs400_mode(struct tmio_mmc_host *host,
+@@ -520,7 +520,7 @@ static void renesas_sdhi_reset_hs400_mode(struct tmio_mmc_host *host,
  			 SH_MOBILE_SDHI_SCC_TMPPORT2_HS400OSEL) &
  			sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_TMPPORT2));
  
