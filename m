@@ -2,142 +2,309 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B89FD65104D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Dec 2022 17:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C52B565126E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Dec 2022 20:11:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231689AbiLSQZM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Dec 2022 11:25:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56390 "EHLO
+        id S231572AbiLSTLO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Dec 2022 14:11:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230403AbiLSQZI (ORCPT
+        with ESMTP id S232260AbiLSTLC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Dec 2022 11:25:08 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9447A295;
-        Mon, 19 Dec 2022 08:25:04 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id d20so13699033edn.0;
-        Mon, 19 Dec 2022 08:25:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OJ/xV5kYQm2Hd1j/xGG28n/3bJ/6B0VUoXU4GtRHvxQ=;
-        b=gRCkCjzAfQU2xDRo530vIc++qERe/p8Qa4h36hfPb032x+8B3EhQuF1VlIhvFm7yay
-         Gt3angQhAw2o9dwLkK5Cmpu8Wi3i6MUfEVWdUqR1cohlACLZOOiLXNX/pt4eqnkmIdcJ
-         VpPk7ifEtMfYYsU2/6IXuS2i7or0b4C4CvAQj5IB6WY6d+vcC7JKLFk0MuIuJ7GXmN2v
-         eSoLeB0KL1oYwUhOQ7W5JdpkVLzJE62iHHQgVm4ezclp2R5PkYfsodKgJC+3Ddh1uzwc
-         bopYe7yesuBFOVt8KYv1kcU7NRgOeaGykUbNrUrLiDlgb/vYH5m+vSXduN3Sj4gLyNr9
-         qMAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OJ/xV5kYQm2Hd1j/xGG28n/3bJ/6B0VUoXU4GtRHvxQ=;
-        b=n/qyM9OAnLB0iWzIpY6bGVRwbpLRfPIZLdcUHhc7OwzchsLwSfk5ADhfMSyNXFv0qs
-         5M8FIr3rB5rMjgPaMPTT3P0veBxzgXegThdioQvLBAzctjEmOYsX8zDC+pppu0446UJH
-         4AlXQG6HLRVL/Z86E6fcmCsf4xmEdLNNf7OhsQk1i8pvAx3JYI7TfeXxYRJrSnDi4qRK
-         n2oOHnXnexi/JR+OceluaU8czglVZM28zIW91TsuTTsN6lTN7avItTpT5cDfsLizjnZu
-         4BcnCxzuUvcCwWTewdGdMl3FX7qcurcI9h4vu5uYhecpPtz9c0OG//XlWmZ5YYsSNKCc
-         0afA==
-X-Gm-Message-State: ANoB5pn3QzvrZBKdQp81DakBR6fsdzE4wtTE3oS2PCXYLyladYGVZh3W
-        j5+AX3HLsWJs01fKCYpRq+x3b4JqFIvE+9KmSMY=
-X-Google-Smtp-Source: AA0mqf7aVrHznra9kq/5XUrQB90yNi4CxyEpOTVvZ+vPVEVdi8+cSqciLRch31jkEUfirRoL6cZSo8HHHkABRgtoiNY=
-X-Received: by 2002:a05:6402:2987:b0:45c:a9d3:d535 with SMTP id
- eq7-20020a056402298700b0045ca9d3d535mr41995467edb.0.1671467103114; Mon, 19
- Dec 2022 08:25:03 -0800 (PST)
+        Mon, 19 Dec 2022 14:11:02 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 845BEDF22;
+        Mon, 19 Dec 2022 11:11:01 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2990825;
+        Mon, 19 Dec 2022 20:10:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671477059;
+        bh=ybIKnk+neoMWNTrDoUnF5iVivtXWvMpzLlEAvt5FkDY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=h4OcWXF90enJJ1It0l2S2z3bWEK1wVO48JkmtXvRGRH8yTlaah0z1dqKidrjT7YSL
+         dRNcQP8ndcNnG2eLC7s8TVjSUPtQtkAFSYw9lvYugdyBS74QmAU+sWKS6rNJv5+git
+         EAAETztPm+KmattRm0sHvhggMMLJXOU4lTisAJQQ=
+Date:   Mon, 19 Dec 2022 21:10:54 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v2 1/7] media: Add 2-10-10-10 RGB formats
+Message-ID: <Y6C3PtnjAdv/seMy@pendragon.ideasonboard.com>
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-2-tomi.valkeinen+renesas@ideasonboard.com>
 MIME-Version: 1.0
-References: <20221212115505.36770-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221212115505.36770-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y543kM4070CSDtZi@spud> <CA+V-a8ss0idLDoc+J8-Undqd+DUGrpeytenzSxV8xMs2N3dh1g@mail.gmail.com>
- <Y6CP2VhKUPZixQ8r@spud>
-In-Reply-To: <Y6CP2VhKUPZixQ8r@spud>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 19 Dec 2022 16:24:36 +0000
-Message-ID: <CA+V-a8uHREVYp1xCK-ed4j6xFw9LpV33xJg3MFdiJ5cvhneGqQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/6] riscv: asm: alternative-macros: Introduce
- ALTERNATIVE_3() macro
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Guo Ren <guoren@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221219140139.294245-2-tomi.valkeinen+renesas@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Conor,
+Hi Tomi,
 
-On Mon, Dec 19, 2022 at 4:22 PM Conor Dooley <conor@kernel.org> wrote:
->
-> On Mon, Dec 19, 2022 at 11:15:17AM +0000, Lad, Prabhakar wrote:
-> > > On Mon, Dec 12, 2022 at 11:55:00AM +0000, Prabhakar wrote:
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > Introduce ALTERNATIVE_3() macro.
-> > > >
-> > > > A vendor wants to replace an old_content, but another vendor has used
-> > > > ALTERNATIVE_2() to patch its customized content at the same location.
-> > > > In this case, this vendor can use macro ALTERNATIVE_3() and then replace
-> > > > ALTERNATIVE_2() with ALTERNATIVE_3() to append its customized content.
-> > > >
-> > > > While at it update comment above ALTERNATIVE_2() macro and make it generic
-> > > > so that the comment holds good for any new addition of ALTERNATIVE_X()
-> > > > macros.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> > > > + *
-> > > > + * Usage:
-> > > > + *   ALTERNATIVE_x(old_content,
-> > > > + *      new_content1, vendor_id1, errata_id1, CONFIG_k1,
-> > > > + *      new_content2, vendor_id2, errata_id2, CONFIG_k2,
-> > > > + *      ...
-> > > > + *      new_contentx, vendor_idx, errata_idx, CONFIG_kx)
-> > > >   */
-> > > >  #define ALTERNATIVE_2(old_content, new_content_1, vendor_id_1, errata_id_1, CONFIG_k_1,              \
-> > > >                                  new_content_2, vendor_id_2, errata_id_2, CONFIG_k_2)         \
-> > > >       _ALTERNATIVE_CFG_2(old_content, new_content_1, vendor_id_1, errata_id_1, CONFIG_k_1,    \
-> > > >                                       new_content_2, vendor_id_2, errata_id_2, CONFIG_k_2)
-> > > >
-> > > > +#define ALTERNATIVE_3(old_content, new_content_1, vendor_id_1, errata_id_1, CONFIG_k_1,              \
-> > > > +                                new_content_2, vendor_id_2, errata_id_2, CONFIG_k_2,         \
-> > > > +                                new_content_3, vendor_id_3, errata_id_3, CONFIG_k_3)         \
-> > > > +       _ALTERNATIVE_CFG_3(old_content, new_content_1, vendor_id_1, errata_id_1, CONFIG_k_1,  \
-> > > > +                                       new_content_2, vendor_id_2, errata_id_2, CONFIG_k_2,  \
-> > > > +                                       new_content_3, vendor_id_3, errata_id_3, CONFIG_k_3)
-> > >
-> > > btw, why is this indented with spaces when the line above it is indented
-> > > with tabs? (At least, that is how it appears in mutt).
-> > >
-> > I'll update it with spaces.
->
-> The file uses tabs, so it'd be switching the spaces you added with tabs,
-> right?
-My bad that was a typo, I meant tabs :p
+Thank you for the patch.
 
-Cheers,
-Prabhakar
+On Mon, Dec 19, 2022 at 04:01:33PM +0200, Tomi Valkeinen wrote:
+> Add XBGR2101010, ABGR2101010 and BGRA1010102 formats.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  .../userspace-api/media/v4l/pixfmt-rgb.rst    | 194 ++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   3 +
+>  include/uapi/linux/videodev2.h                |   3 +
+>  3 files changed, 200 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> index 30f51cd33f99..de78cd2dcd73 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> @@ -763,6 +763,200 @@ nomenclature that instead use the order of components as seen in a 24- or
+>      \normalsize
+>  
+>  
+> +10 Bits Per Component
+> +=====================
+> +
+> +These formats store a 30-bit RGB triplet with an optional 2 bit alpha in four
+> +bytes. They are named based on the order of the RGB components as seen in a
+> +32-bit word, which is then stored in memory in little endian byte order
+> +(unless otherwise noted by the presence of bit 31 in the 4CC value), and on the
+> +number of bits for each component.
+> +
+> +.. raw:: latex
+> +
+> +    \begingroup
+> +    \tiny
+> +    \setlength{\tabcolsep}{2pt}
+> +
+> +.. tabularcolumns:: |p{2.8cm}|p{2.0cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
+> +
+> +
+> +.. flat-table:: RGB Formats 10 Bits Per Color Component
+> +    :header-rows:  2
+> +    :stub-columns: 0
+> +
+> +    * - Identifier
+> +      - Code
+> +      - :cspan:`7` Byte 0 in memory
+> +      - :cspan:`7` Byte 1
+> +      - :cspan:`7` Byte 2
+> +      - :cspan:`7` Byte 3
+> +    * -
+> +      -
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +    * .. _V4L2-PIX-FMT-XBGR2101010:
+> +
+> +      - ``V4L2_PIX_FMT_XBGR2101010``
+> +      - 'RX30'
+> +
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      - x
+> +      - x
+> +
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`9`
+> +      - b\ :sub:`8`
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`9`
+> +      - g\ :sub:`8`
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +
+> +      - r\ :sub:`9`
+> +      - r\ :sub:`8`
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      -
+
+This doesn't match the text above. This would be RGBX2101010. I'm not
+sure which format you want, so I don't know if it's the documentation or
+the format name that is incorrect. The next two formats also seem
+incorrect to me.
+
+> +    * .. _V4L2-PIX-FMT-ABGR2101010:
+> +
+> +      - ``V4L2_PIX_FMT_ABGR2101010``
+> +      - 'RA30'
+> +
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`9`
+> +      - b\ :sub:`8`
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`9`
+> +      - g\ :sub:`8`
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +
+> +      - r\ :sub:`9`
+> +      - r\ :sub:`8`
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      -
+> +    * .. _V4L2-PIX-FMT-BGRA1010102:
+> +
+> +      - ``V4L2_PIX_FMT_BGRA1010102``
+> +      - 'AR30'
+> +
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`9`
+> +      - b\ :sub:`8`
+> +
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`9`
+> +      - g\ :sub:`8`
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +      - r\ :sub:`9`
+> +      - r\ :sub:`8`
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      -
+> +
+> +.. raw:: latex
+> +
+> +    \endgroup
+> +
+> +
+>  Deprecated RGB Formats
+>  ======================
+>  
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index fddba75d9074..964300deaf62 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1304,6 +1304,9 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_BGRX32:	descr = "32-bit XBGR 8-8-8-8"; break;
+>  	case V4L2_PIX_FMT_RGBA32:	descr = "32-bit RGBA 8-8-8-8"; break;
+>  	case V4L2_PIX_FMT_RGBX32:	descr = "32-bit RGBX 8-8-8-8"; break;
+> +	case V4L2_PIX_FMT_XBGR2101010:	descr = "32-bit XBGR 2-10-10-10"; break;
+> +	case V4L2_PIX_FMT_ABGR2101010:	descr = "32-bit ABGR 2-10-10-10"; break;
+> +	case V4L2_PIX_FMT_BGRA1010102:	descr = "32-bit BGRA 10-10-10-2"; break;
+>  	case V4L2_PIX_FMT_GREY:		descr = "8-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Y4:		descr = "4-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Y6:		descr = "6-bit Greyscale"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 29da1f4b4578..877fd61693b8 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -576,6 +576,9 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_RGBX32  v4l2_fourcc('X', 'B', '2', '4') /* 32  RGBX-8-8-8-8  */
+>  #define V4L2_PIX_FMT_ARGB32  v4l2_fourcc('B', 'A', '2', '4') /* 32  ARGB-8-8-8-8  */
+>  #define V4L2_PIX_FMT_XRGB32  v4l2_fourcc('B', 'X', '2', '4') /* 32  XRGB-8-8-8-8  */
+> +#define V4L2_PIX_FMT_XBGR2101010 v4l2_fourcc('R', 'X', '3', '0') /* 32  XBGR-2-10-10-10  */
+> +#define V4L2_PIX_FMT_ABGR2101010 v4l2_fourcc('R', 'A', '3', '0') /* 32  ABGR-2-10-10-10  */
+> +#define V4L2_PIX_FMT_BGRA1010102 v4l2_fourcc('A', 'R', '3', '0') /* 32  BGRA-10-10-10-2  */
+>  
+>  /* Grey formats */
+>  #define V4L2_PIX_FMT_GREY    v4l2_fourcc('G', 'R', 'E', 'Y') /*  8  Greyscale     */
+
+-- 
+Regards,
+
+Laurent Pinchart
