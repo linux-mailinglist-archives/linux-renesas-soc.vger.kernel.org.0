@@ -2,298 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BAB8650820
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Dec 2022 08:40:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F1B06508A8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Dec 2022 09:40:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231646AbiLSHky (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Dec 2022 02:40:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39442 "EHLO
+        id S231576AbiLSIk1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Dec 2022 03:40:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231612AbiLSHks (ORCPT
+        with ESMTP id S231421AbiLSIkY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Dec 2022 02:40:48 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E24F4EBB;
-        Sun, 18 Dec 2022 23:40:46 -0800 (PST)
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AF512825;
-        Mon, 19 Dec 2022 08:40:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671435644;
-        bh=kvESATrmNPNFlqNyRzFr5rArFSPmIhueH5cO3lk/IUk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OhKNNwW8g5ZbRq1Hjhi21lkU4GGWM/uXYReCy2UVLv8N58XBpJ6vxA6wdpZOWmrqh
-         zQT1DCj4WKKVY/dMTvOAuRHKQPNg+sAYq3jMg9wfh+yKyaB1NJWCeR94sXiwwU8uFj
-         WxqingCdRJ008GaX6cv5lIh6J2x7oap5fxJJnW+o=
-Date:   Mon, 19 Dec 2022 08:40:42 +0100
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Thomas Nizan <tnizan@witekio.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v3.1 04/12] media: i2c: max9286: Add support for port
- regulators
-Message-ID: <20221219074042.3bwmfuscrckqdutg@uno.localdomain>
-References: <20221214233825.13050-5-laurent.pinchart+renesas@ideasonboard.com>
- <20221219021820.24596-1-laurent.pinchart@ideasonboard.com>
+        Mon, 19 Dec 2022 03:40:24 -0500
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DF8BA1AB;
+        Mon, 19 Dec 2022 00:40:23 -0800 (PST)
+Received: by mail-qt1-f170.google.com with SMTP id g7so7699009qts.1;
+        Mon, 19 Dec 2022 00:40:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Whf9ddK2ntCTSLjvmk1zPOl1fs77bjB0k2GN9PCv9e4=;
+        b=e75xWEyQOfOrx68GnAsjKfCG8bQqbVrciyv8TBzza47uHVgF3ZsaHUSHeZUn3LuPh0
+         wAuwBvMiyqX3lehxRNPoAuV4HaAbKNeUbal8KgxmBQqWNJbTD53HeUY3FKQnDWO6noZQ
+         IvLIf8MoOsdoSK+uAOhsXFTnoZGwri9gszefdZoVd7hF5QnRjU3wI5nKdBnwoJ4cw5pS
+         lqBayJS2SUc/l/6Mz/51K4ysP7FU1hXDPHTqY0qmh2FVyfWW+HNn8xlYJVyoCUqdPB3r
+         4OVONintn/EXZQY5ryJoYHsFKCrQ4SwksRxHgHZfTrX8AqpyELG78+ra5JYLj5G33I4H
+         jHkA==
+X-Gm-Message-State: ANoB5pkVCiDv+gd8qno4R9dHI87OB8yb7I9uegJFI0Fx6a0q6RVhZPL4
+        JECRfGsE0Zh4Yiyn4kdvyjP5Rs7aNLKajQ==
+X-Google-Smtp-Source: AA0mqf58hsR4iZ+P8qGvBv/BgwgEO2HX7li4H532GnhXZ8uwXWZcHrAa2v05knply6Vr+M6A2RvNJw==
+X-Received: by 2002:ac8:6887:0:b0:3a5:10c3:13ff with SMTP id m7-20020ac86887000000b003a510c313ffmr50856643qtq.48.1671439222060;
+        Mon, 19 Dec 2022 00:40:22 -0800 (PST)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id q21-20020ac84515000000b003a7f3c4dcdfsm5641135qtn.47.2022.12.19.00.40.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Dec 2022 00:40:21 -0800 (PST)
+Received: by mail-yb1-f176.google.com with SMTP id 192so8667262ybt.6;
+        Mon, 19 Dec 2022 00:40:21 -0800 (PST)
+X-Received: by 2002:a25:7104:0:b0:702:90b4:2e24 with SMTP id
+ m4-20020a257104000000b0070290b42e24mr14806510ybc.365.1671439221181; Mon, 19
+ Dec 2022 00:40:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221219021820.24596-1-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20221216205028.340795-1-biju.das.jz@bp.renesas.com> <20221216205028.340795-5-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20221216205028.340795-5-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 19 Dec 2022 09:40:09 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXLqgWLb5B7=Orf6aMtcaXgejftHbOZAmg_yDX6QkCjnA@mail.gmail.com>
+Message-ID: <CAMuHMdXLqgWLb5B7=Orf6aMtcaXgejftHbOZAmg_yDX6QkCjnA@mail.gmail.com>
+Subject: Re: [PATCH v10 4/5] counter: Add Renesas RZ/G2L MTU3a counter driver
+To:     biju.das.jz@bp.renesas.com
+Cc:     William Breathitt Gray <william.gray@linaro.org>,
+        linux-iio@vger.kernel.org,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent
+Hi Biju,
 
-On Mon, Dec 19, 2022 at 04:18:20AM +0200, Laurent Pinchart wrote:
-> From: Thomas Nizan <tnizan@witekio.com>
+On Fri, Dec 16, 2022 at 9:50 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add RZ/G2L MTU3a counter driver. This IP supports the following
+> phase counting modes on MTU1 and MTU2 channels
 >
-> Allow users to use one PoC regulator per port, instead of a global
-> regulator.
+> 1) 16-bit phase counting modes on MTU1 and MTU2 channels.
+> 2) 32-bit phase counting mode by cascading MTU1 and MTU2 channels.
 >
-> The properties '^port[0-3]-poc-supply$' in the DT node are used to
-> indicate the regulators for individual ports.
+> This patch adds 3 counter value channels.
+>         count0: 16-bit phase counter value channel on MTU1
+>         count1: 16-bit phase counter value channel on MTU2
+>         count2: 32-bit phase counter value channel by cascading
+>                 MTU1 and MTU2 channels.
 >
-> Signed-off-by: Thomas Nizan <tnizan@witekio.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
+> The external input phase clock pin for the counter value channels
+> are as follows:
+>         count0: "MTCLKA-MTCLKB"
+>         count1: "MTCLKA-MTCLKB" or "MTCLKC-MTCLKD"
+>         count2: "MTCLKA-MTCLKB" or "MTCLKC-MTCLKD"
+>
+> Use the sysfs variable "external_input_phase_clock_select" to select the
+> external input phase clock pin and "cascade_counts_enable" to enable/
+> disable cascading of channels.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
-> Changes since v3:
->
-> - Use dev_err_probe() everywhere
->
-> Changes since v2:
->
-> - Adapt to the poc-gpio support
->
-> Changes since v1:
->
-> - Use to_index()
-> - Use dev_err_probe()
-> - Fix error path in probe()
-> - Use devm_regulator_get_optional() instead of
->   devm_regulator_get_exclusive()
-> ---
->  drivers/media/i2c/max9286.c | 135 ++++++++++++++++++++++++++++++------
->  1 file changed, 112 insertions(+), 23 deletions(-)
->
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 9c083cf14231..a65457b1e7e0 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -139,6 +139,7 @@
->  struct max9286_source {
->  	struct v4l2_subdev *sd;
->  	struct fwnode_handle *fwnode;
-> +	struct regulator *regulator;
->  };
->
->  struct max9286_asd {
-> @@ -169,6 +170,7 @@ struct max9286_priv {
->  	u32 init_rev_chan_mv;
->  	u32 rev_chan_mv;
->
-> +	bool use_gpio_poc;
->  	u32 gpio_poc[2];
->
->  	struct v4l2_ctrl_handler ctrls;
-> @@ -1088,9 +1090,6 @@ static int max9286_parse_gpios(struct max9286_priv *priv)
->  	struct device *dev = &priv->client->dev;
->  	int ret;
->
-> -	/* GPIO values default to high */
-> -	priv->gpio_state = BIT(0) | BIT(1);
-> -
->  	/*
->  	 * Parse the "gpio-poc" vendor property. If the property is not
->  	 * specified the camera power is controlled by a regulator.
-> @@ -1102,18 +1101,7 @@ static int max9286_parse_gpios(struct max9286_priv *priv)
->  		 * If gpio lines are not used for the camera power, register
->  		 * a gpio controller for consumers.
->  		 */
-> -		ret = max9286_register_gpio(priv);
-> -		if (ret)
-> -			return ret;
-> -
-> -		priv->regulator = devm_regulator_get(dev, "poc");
-> -		if (IS_ERR(priv->regulator)) {
-> -			return dev_err_probe(dev, PTR_ERR(priv->regulator),
-> -					     "Unable to get PoC regulator (%ld)\n",
-> -					     PTR_ERR(priv->regulator));
-> -		}
-> -
-> -		return 0;
-> +		return max9286_register_gpio(priv);
->  	}
->
->  	/* If the property is specified make sure it is well formed. */
-> @@ -1124,21 +1112,75 @@ static int max9286_parse_gpios(struct max9286_priv *priv)
->  		return -EINVAL;
->  	}
->
-> +	priv->use_gpio_poc = true;
->  	return 0;
->  }
->
-> +static int max9286_poc_power_on(struct max9286_priv *priv)
+> v9->v10:
+
+Thanks for the update!
+
+> --- /dev/null
+> +++ b/drivers/counter/rz-mtu3-cnt.c
+
+> +static int rz_mtu3_count_read(struct counter_device *counter,
+> +                             struct counter_count *count, u64 *val)
 > +{
-> +	struct max9286_source *source;
-> +	unsigned int enabled = 0;
-> +	int ret;
+> +       struct rz_mtu3_channel *const ch = rz_mtu3_get_ch(counter, count->id);
+> +       struct rz_mtu3_cnt *const priv = counter_priv(counter);
 > +
-> +	/* Enable the global regulator if available. */
-> +	if (priv->regulator)
-> +		return regulator_enable(priv->regulator);
+> +       mutex_lock(&priv->lock);
+> +       if (ch->is_busy && !priv->count_is_enabled[count->id]) {
+> +               mutex_unlock(&priv->lock);
+> +               return -EINVAL;
+> +       }
 > +
-> +	if (priv->use_gpio_poc)
-> +		return max9286_gpio_set(priv, priv->gpio_poc[0],
-> +					!priv->gpio_poc[1]);
-> +
-> +	/* Otherwise use the per-port regulators. */
-> +	for_each_source(priv, source) {
-> +		ret = regulator_enable(source->regulator);
-> +		if (ret < 0)
-> +			goto error;
-> +
-> +		enabled |= BIT(to_index(priv, source));
-> +	}
-> +
-> +	return 0;
-> +
-> +error:
-> +	for_each_source(priv, source) {
-> +		if (enabled & BIT(to_index(priv, source)))
-> +			regulator_disable(source->regulator);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int max9286_poc_power_off(struct max9286_priv *priv)
+> +       if (rz_mtu3_is_counter_invalid(counter, count->id)) {
+> +               mutex_unlock(&priv->lock);
+> +               return -EBUSY;
+> +       }
+
+As the locking and the above two checks are duplicated multiple times,
+perhaps they can be replaced by an rz_mtu3_lock_if_counter_is_valid()
+helper function?
+
+> +static int rz_mtu3_count_function_read(struct counter_device *counter,
+> +                                      struct counter_count *count,
+> +                                      enum counter_function *function)
 > +{
-> +	struct max9286_source *source;
-> +	int ret = 0;
+> +       struct rz_mtu3_channel *const ch = rz_mtu3_get_ch(counter, count->id);
+> +       struct rz_mtu3_cnt *const priv = counter_priv(counter);
+> +       int ret;
 > +
-> +	if (priv->regulator)
-> +		return regulator_disable(priv->regulator);
-> +
-> +	if (priv->use_gpio_poc)
-> +		return max9286_gpio_set(priv, priv->gpio_poc[0],
-> +					priv->gpio_poc[1]);
-> +
-> +	for_each_source(priv, source) {
-> +		int err;
-> +
-> +		err = regulator_disable(source->regulator);
-> +		if (!ret)
-> +			ret = err;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  static int max9286_poc_enable(struct max9286_priv *priv, bool enable)
->  {
->  	int ret;
->
-> -	/* If the regulator is not available, use gpio to control power. */
-> -	if (!priv->regulator)
-> -		ret = max9286_gpio_set(priv, priv->gpio_poc[0],
-> -				       enable ^ priv->gpio_poc[1]);
-> -	else if (enable)
-> -		ret = regulator_enable(priv->regulator);
-> +	if (enable)
-> +		ret = max9286_poc_power_on(priv);
->  	else
-> -		ret = regulator_disable(priv->regulator);
-> +		ret = max9286_poc_power_off(priv);
->
->  	if (ret < 0)
->  		dev_err(&priv->client->dev, "Unable to turn power %s\n",
-> @@ -1317,6 +1359,44 @@ static int max9286_parse_dt(struct max9286_priv *priv)
->  	return 0;
->  }
->
-> +static int max9286_get_poc_supplies(struct max9286_priv *priv)
+> +       mutex_lock(&priv->lock);
+> +       if (ch->is_busy && !priv->count_is_enabled[count->id]) {
+> +               mutex_unlock(&priv->lock);
+> +               return -EINVAL;
+> +       }
+
+rz_mtu3_lock_if_count_is_disabled() helper?
+(can also be called by rz_mtu3_lock_if_counter_is_valid())
+
+> +static int rz_mtu3_cascade_counts_enable_set(struct counter_device *counter,
+> +                                            u8 cascade_enable)
 > +{
-> +	struct device *dev = &priv->client->dev;
-> +	struct max9286_source *source;
-> +	int ret;
+> +       struct rz_mtu3_cnt *const priv = counter_priv(counter);
 > +
-> +	/* Start by getting the global regulator. */
-> +	priv->regulator = devm_regulator_get_optional(dev, "poc");
-> +	if (!IS_ERR(priv->regulator))
-> +		return 0;
-> +
-> +	if (PTR_ERR(priv->regulator) != -ENODEV)
-> +		return dev_err_probe(dev, PTR_ERR(priv->regulator),
-> +				     "Unable to get PoC regulator\n");
-> +
-> +	/* If there's no global regulator, get per-port regulators. */
-> +	dev_dbg(dev,
-> +		"No global PoC regulator, looking for per-port regulators\n");
-> +	priv->regulator = NULL;
-> +
-> +	for_each_source(priv, source) {
-> +		unsigned int index = to_index(priv, source);
-> +		char name[10];
-> +
-> +		snprintf(name, sizeof(name), "port%u-poc", index);
-> +		source->regulator = devm_regulator_get(dev, name);
-> +		if (IS_ERR(source->regulator)) {
-> +			ret = PTR_ERR(source->regulator);
-> +			dev_err_probe(dev, ret,
-> +				      "Unable to get port %u PoC regulator\n",
-> +				      index);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int max9286_probe(struct i2c_client *client)
->  {
->  	struct max9286_priv *priv;
-> @@ -1330,6 +1410,9 @@ static int max9286_probe(struct i2c_client *client)
->
->  	priv->client = client;
->
-> +	/* GPIO values default to high */
-> +	priv->gpio_state = BIT(0) | BIT(1);
-> +
->  	priv->gpiod_pwdn = devm_gpiod_get_optional(&client->dev, "enable",
->  						   GPIOD_OUT_HIGH);
->  	if (IS_ERR(priv->gpiod_pwdn))
-> @@ -1362,7 +1445,13 @@ static int max9286_probe(struct i2c_client *client)
->
->  	ret = max9286_parse_dt(priv);
->  	if (ret)
-> -		goto err_powerdown;
-> +		goto err_cleanup_dt;
-> +
-> +	if (!priv->use_gpio_poc) {
-> +		ret = max9286_get_poc_supplies(priv);
-> +		if (ret)
-> +			goto err_cleanup_dt;
-> +	}
->
->  	ret = max9286_init(priv);
->  	if (ret < 0)
-> --
-> Regards,
->
-> Laurent Pinchart
->
+> +       mutex_lock(&priv->lock);
+> +       if (priv->ch->is_busy && !rz_mtu3_is_ch0_enabled(priv)) {
+> +               mutex_unlock(&priv->lock);
+> +               return -EINVAL;
+> +       }
+
+rz_mtu3_lock_if_count_is_disabled() helper?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
