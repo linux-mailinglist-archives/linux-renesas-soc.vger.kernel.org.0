@@ -2,203 +2,259 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF3D7650E4F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Dec 2022 16:09:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B81CF651031
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Dec 2022 17:20:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232678AbiLSPJe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Dec 2022 10:09:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40788 "EHLO
+        id S231944AbiLSQU3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Dec 2022 11:20:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231764AbiLSPJc (ORCPT
+        with ESMTP id S231878AbiLSQU1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Dec 2022 10:09:32 -0500
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB24CDD3;
-        Mon, 19 Dec 2022 07:09:31 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id jo4so13280997ejb.7;
-        Mon, 19 Dec 2022 07:09:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CPP1UN7Ar0sMqvps1krvizfT4fcZtHufSOYInrdLQ9s=;
-        b=Vch5vX+53bFRoh4LYWYFeVvWjl23HwdshNcYIrYt9KdEtjBi94O8rE2bduXvoWcFSh
-         PDo72u2twvqRUL83mU6WAvXvKVluiiTtFe3o8ZHLws8mV/U700JP5wx5c9OUw25QwMNO
-         eSecGCeiLm22PJAIg/yqIAPm55FfjzJiw/jKPC5lq/3/pEZCvd92JTu2sun7ZxEjgDds
-         k4Kq2VTqpAzhSL2vdOQ8DsNGQvUgBcqX+VyX2mAzLoPh8w7z5hax4arzh5iHmAe9tA9K
-         Eb33UGe/EWhUnR6qo1yFRChWGRsn/STziD8yGy+gxX7W7GGmSh3hSjoNPQfwS4ndVSE6
-         cJjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CPP1UN7Ar0sMqvps1krvizfT4fcZtHufSOYInrdLQ9s=;
-        b=0M1AYA4Mv0UhF/ytQoT75r7+xU6KAfwx48LOdlmP1DwOuXDs388MVxvHizX+VnRUaD
-         mXMxNTEsqAVTZk5RBPOjKemkOnbMEpUn54ibM2Rr1nnPtiR8FKXCUZDWlnp2EihknkFz
-         2MzUq2Is8zDs3+uHnO+JA11PfoRfiJUeTyNij7iXMhmvTCD0mHZkt4N6SZPk6Ggo0cw4
-         YLVajXIO4aTXpDFbvCmD6sa7m5ms0Ms+k8klybKkqmRZi9QZbcrXeO8I9hOJnc46MIKz
-         tLaqNdrua4t22Y6hDB4tWMtQl+xR2hZxVKtoGn0vug09n2/ZeIX5fpisEAKkSTE51EA5
-         PatQ==
-X-Gm-Message-State: ANoB5pnG5eXilvWZtSRIW9At37Bt962qi3bS8Cy8dfxByyKDCdnDHjWR
-        128MXeEFmEnV+DdJPadSo0XFSRxbe9oAkNekK/Q=
-X-Google-Smtp-Source: AA0mqf6m2mXu2pGxcOvvXRiO8sAwap1VisriEngJKVk0d5ABRsJFZ0uH+Dh9SlqcpfpgqQgDsuHPBji710regeC9qzs=
-X-Received: by 2002:a17:906:3e41:b0:78d:bc9f:33da with SMTP id
- t1-20020a1709063e4100b0078dbc9f33damr80730962eji.80.1671462570384; Mon, 19
- Dec 2022 07:09:30 -0800 (PST)
-MIME-Version: 1.0
-References: <20221107175305.63975-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221107175305.63975-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdV46aMfqu+kMW9E-RURugK-giOx0k-NPe5XX4nxKZJzkg@mail.gmail.com>
- <CA+V-a8uqQ2fK1UjRT864jyHdt6Z47V=iARSJC6B2M6Gikms=Eg@mail.gmail.com>
- <CA+V-a8sGLrsRWFi3-hNmB=Uj-aCQLD5VQesmUFb8N1NAqhyLuQ@mail.gmail.com>
- <CAMuHMdW_QuBUUypyrAbLqWPdZ81bWeYDyPbBf=2KmDht1X44bA@mail.gmail.com>
- <CA+V-a8uQFiU2KRcsoC5--tjfuWRj3VRJAUaZtv0+U0DziZQOwg@mail.gmail.com> <CAMuHMdWROUWd0eQXrjx2pUVs2AtvRvu7spbpGWf5EDumemetcw@mail.gmail.com>
-In-Reply-To: <CAMuHMdWROUWd0eQXrjx2pUVs2AtvRvu7spbpGWf5EDumemetcw@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 19 Dec 2022 15:09:04 +0000
-Message-ID: <CA+V-a8sGe83hWRb228YPLy7_9Ap7N4abP36hj_y+Ms7zuj+wfw@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/5] dt-bindings: interrupt-controller:
- renesas,rzg2l-irqc: Document RZ/G2UL SoC
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mon, 19 Dec 2022 11:20:27 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E22FBCC2;
+        Mon, 19 Dec 2022 08:20:25 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5ED9860ECA;
+        Mon, 19 Dec 2022 16:20:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D6E8C433F2;
+        Mon, 19 Dec 2022 16:20:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1671466824;
+        bh=TCDRHXSCue+6gNvdNI3YHH1hpd/QB4Bg6cEJ8MRAxS8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lCj9bDituBOnf8/UyeCcmKZTTL3vt3syeJvtt+7cUyKhRqhOKkRfiC0KvgxKwglYw
+         NJkdgeyDbZ/k6YOWa8oISFpyghnrPfbEFqYKjXo7bc0k1yT9WJZ9IVt462XfQvkBOW
+         pJbgMJMHdKOweN9bKa7kWy5uerXAAPmTbO8zcBQlUNTKgPVH7E9V65k6KiLbZC2FIb
+         YFKvX4s6oCKXU8xD57RlS0SWDffbQcLLlu34vSqfB715tTVY0siFFC27JNoitx3x9i
+         9QVXSs138Yh6HGy9OkZobqE9lJ18BMgDX/ObiO3NOrXwb3+G/wZeDLeAgtVRc7Kdv0
+         RKU6qyhLfEvGQ==
+Date:   Mon, 19 Dec 2022 16:20:17 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Guo Ren <guoren@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>,
+        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Subject: Re: [PATCH v5 3/6] riscv: errata: Add Andes alternative ports
+Message-ID: <Y6CPQWHrPLk1O6jB@spud>
+References: <20221212115505.36770-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221212115505.36770-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y54ycZdMLjU5QVn5@spud>
+ <CA+V-a8sa1H=Hh2SzbKDWhiAO=C+Y2YN7sk9APBeqktBeHf49jA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="a/Wc8u+smEWp2mxo"
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8sa1H=Hh2SzbKDWhiAO=C+Y2YN7sk9APBeqktBeHf49jA@mail.gmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
 
-On Mon, Dec 19, 2022 at 2:47 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, Dec 19, 2022 at 3:26 PM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Mon, Dec 19, 2022 at 1:50 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Mon, Dec 19, 2022 at 1:57 PM Lad, Prabhakar
-> > > <prabhakar.csengg@gmail.com> wrote:
-> > > > On Fri, Nov 18, 2022 at 12:29 PM Lad, Prabhakar
-> > > > <prabhakar.csengg@gmail.com> wrote:
-> > > > > On Thu, Nov 17, 2022 at 10:54 AM Geert Uytterhoeven
-> > > > > <geert@linux-m68k.org> wrote:
-> > > > > > On Mon, Nov 7, 2022 at 6:53 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > > > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > >
-> > > > > > > Document RZ/G2UL (R9A07G043) IRQC bindings. The RZ/G2UL IRQC block is
-> > > > > > > identical to one found on the RZ/G2L SoC. No driver changes are
-> > > > > > > required as generic compatible string "renesas,rzg2l-irqc" will be
-> > > > > > > used as a fallback.
-> > > > > > >
-> > > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > > > > > Note, renesas,r9a07g043u-irqc is added we have slight difference's compared to RZ/Five
-> > > > > > > - G2UL IRQCHIP (hierarchical IRQ domain) -> GIC where as on RZ/Five we have PLIC (chained interrupt
-> > > > > > > domain) -> RISCV INTC
-> > > > > >
-> > > > > > I think this difference is purely a software difference, and abstracted
-> > > > > > in DTS through the interrupt hierarchy.
-> > > > > > Does it have any impact on the bindings?
-> > > > > >
-> > > > > > > - On the RZ/Five we have additional registers for IRQC block
-> > > > > >
-> > > > > > Indeed, the NMI/IRQ/TINT "Interruput" Mask Control Registers, thus
-> > > > > > warranting separate compatible values.
-> > > > > >
-> > > > > > > - On the RZ/Five we have BUS_ERR_INT which needs to be handled by IRQC
-> > > > > >
-> > > > > > Can you please elaborate? I may have missed something, but to me it
-> > > > > > looks like that is exactly the same on RZ/G2UL and on RZ/Five.
-> > > > > >
-> > > > > Now that we have to update the binding doc with the BUS_ERR_INT too,
-> > > > > do you think it would make sense to add interrupt-names too?
-> > >
-> > > > Gentle ping.
-> > >
-> > > Thanks for the ping, I had missed you were waiting on input from me.
-> > > Sorry for that...
-> > >
-> > No worries.
+--a/Wc8u+smEWp2mxo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Dec 19, 2022 at 11:19:13AM +0000, Lad, Prabhakar wrote:
+> Hi Conor,
+>=20
+> Thank you for the review.
+>=20
+> On Sat, Dec 17, 2022 at 9:19 PM Conor Dooley <conor@kernel.org> wrote:
 > >
-> > > As there are three different groups of parent interrupts, adding
-> > > interrupt-names makes sense.
-> > Ok.
+> > On Mon, Dec 12, 2022 at 11:55:02AM +0000, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Add required ports of the Alternative scheme for Andes CPU cores.
+> > >
+> > > I/O Coherence Port (IOCP) provides an AXI interface for connecting ex=
+ternal
+> > > non-caching masters, such as DMA controllers. IOCP is a specification
+> > > option and is disabled on the Renesas RZ/Five SoC due to this reason =
+cache
+> > > management needs a software workaround.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > > v4 -> v5
+> > > * Sorted the Kconfig/Makefile/Switch based on Core name
+> > > * Added a comments
+> > > * Introduced RZFIVE_SBI_EXT_IOCP_SW_WORKAROUND SBI EXT ID to check if
+> > >   CMO needs to be applied. Is there a way we can access the DTB while=
+ patching
+> > >   as we can drop this SBI EXT ID and add a DT property instead for cm=
+o?
+> > >
+> > > RFC v3 -> v4
+> > > * New patch
+> > > ---
+> > >  arch/riscv/Kconfig.erratas           | 22 +++++++
+> > >  arch/riscv/errata/Makefile           |  1 +
+> > >  arch/riscv/errata/andes/Makefile     |  1 +
+> > >  arch/riscv/errata/andes/errata.c     | 93 ++++++++++++++++++++++++++=
+++
+> > >  arch/riscv/include/asm/alternative.h |  3 +
+> > >  arch/riscv/include/asm/errata_list.h |  5 ++
+> > >  arch/riscv/kernel/alternative.c      |  5 ++
+> > >  7 files changed, 130 insertions(+)
+> > >  create mode 100644 arch/riscv/errata/andes/Makefile
+> > >  create mode 100644 arch/riscv/errata/andes/errata.c
+> > >
+> > > diff --git a/arch/riscv/Kconfig.erratas b/arch/riscv/Kconfig.erratas
+> > > index 69621ae6d647..f0f0c1abd52b 100644
+> > > --- a/arch/riscv/Kconfig.erratas
+> > > +++ b/arch/riscv/Kconfig.erratas
+> > > @@ -1,5 +1,27 @@
+> > >  menu "CPU errata selection"
+> > >
+> > > +config ERRATA_ANDES
+> > > +     bool "Andes AX45MP errata"
+> > > +     depends on !XIP_KERNEL
+> > > +     select RISCV_ALTERNATIVE
+> > > +     help
+> > > +       All Andes errata Kconfig depend on this Kconfig. Disabling
+> > > +       this Kconfig will disable all Andes errata. Please say "Y"
+> > > +       here if your platform uses Andes CPU cores.
+> > > +
+> > > +       Otherwise, please say "N" here to avoid unnecessary overhead.
+> > > +
+> > > +config ERRATA_ANDES_CMO
+> > > +     bool "Apply Andes cache management errata"
+> > > +     depends on ERRATA_ANDES && MMU && ARCH_R9A07G043
+> > > +     select RISCV_DMA_NONCOHERENT
+> > > +     default y
+> > > +     help
+> > > +       This will apply the cache management errata to handle the
+> > > +       non-standard handling on non-coherent operations on Andes cor=
+es.
+> > > +
+> > > +       If you don't know what to do here, say "Y".
+> > > +
+> > >  config ERRATA_SIFIVE
+> > >       bool "SiFive errata"
+> > >       depends on !XIP_KERNEL
+> > > diff --git a/arch/riscv/errata/Makefile b/arch/riscv/errata/Makefile
+> > > index a1055965fbee..6f1c693af92d 100644
+> > > --- a/arch/riscv/errata/Makefile
+> > > +++ b/arch/riscv/errata/Makefile
+> > > @@ -1,2 +1,3 @@
+> > > +obj-$(CONFIG_ERRATA_ANDES) +=3D andes/
+> > >  obj-$(CONFIG_ERRATA_SIFIVE) +=3D sifive/
+> > >  obj-$(CONFIG_ERRATA_THEAD) +=3D thead/
+> > > diff --git a/arch/riscv/errata/andes/Makefile b/arch/riscv/errata/and=
+es/Makefile
+> > > new file mode 100644
+> > > index 000000000000..2d644e19caef
+> > > --- /dev/null
+> > > +++ b/arch/riscv/errata/andes/Makefile
+> > > @@ -0,0 +1 @@
+> > > +obj-y +=3D errata.o
+> > > diff --git a/arch/riscv/errata/andes/errata.c b/arch/riscv/errata/and=
+es/errata.c
+> > > new file mode 100644
+> > > index 000000000000..3d04f15df8d5
+> > > --- /dev/null
+> > > +++ b/arch/riscv/errata/andes/errata.c
+> > > @@ -0,0 +1,93 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > +/*
+> > > + * Erratas to be applied for Andes CPU cores
+> > > + *
+> > > + *  Copyright (C) 2022 Renesas Electronics Corporation.
+> > > + *
+> > > + * Author: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > + */
+> > > +
+> > > +#include <linux/kernel.h>
+> > > +#include <linux/module.h>
+> > > +
+> > > +#include <asm/alternative.h>
+> > > +#include <asm/cacheflush.h>
+> > > +#include <asm/errata_list.h>
+> > > +#include <asm/patch.h>
+> > > +#include <asm/sbi.h>
+> > > +#include <asm/vendorid_list.h>
+> > > +
+> > > +#define ANDESTECH_AX45MP_MARCHID     0x8000000000008a45UL
+> > > +#define ANDESTECH_AX45MP_MIMPID              0x500UL
+> > > +#define ANDESTECH_SBI_EXT_ANDES              0x0900031E
+> > > +
+> > > +#define RZFIVE_SBI_EXT_IOCP_SW_WORKAROUND    0
+> > > +
+> > > +static long ax45mp_iocp_sw_workaround(void)
+> > > +{
+> > > +     struct sbiret ret;
+> > > +
+> > > +     ret =3D sbi_ecall(ANDESTECH_SBI_EXT_ANDES, RZFIVE_SBI_EXT_IOCP_=
+SW_WORKAROUND,
+> > > +                     0, 0, 0, 0, 0, 0);
 > >
-> > > However, as this binding is already in active use since v6.1, you
-> > > probably need to keep on supporting the
-> > > ack of interrupt-names.  Or do you think there are no real users yet,
-> > > and we can drop support for that?
-> > >
-> > Sorry can you please elaborate on "ack of interrupt-names".
->
-> Oops, s/ack/lack/. I.e. what you described below.
->
-Got that.
+> > Seeing as you need a new version for some of the other bits, I think it
+> > would be good to add a minor comment here somewhere (be it here or the
+> > commit message) that links to the SBI specs for this.
+> > I think this looks pretty good though.
+> Sure I'll add a comment here.
+>=20
+> I was wondering if we can get rid of this vendor specific extension
+> here if we get access to the DT here (for example having a DT property
+> which would indicate if IOCP CMO should be applied or not). Do you
+> think that would be good approach?  ATM we dont have a pointer here
+> for FDT whie early patching.
 
-> > So moving forward the driver will first check for interrupt-names
-> > property and if that exists it will map the IRQ0-7 and GPIO-TINIT
-> > interrupts (based on the names it will create a hierarchy domain) and
-> > for the NMI and BUS_ERR_INT we request the IRQ numbers and register
-> > the IRQ handler in IRQC driver itself.
-> >
-> > And for backward compatibility we parse the IRQ numbers based on
-> > indexes i.e. 0 = NMI, 1-8  = IRQ 0-7  and 9-41 GPIO TINT interrupts.
->
-> Exactly.
->
-> > > > > BUS_ERR_INT will have to be handled IRQC itself (i.e. IRQC will
-> > > > > register a handler for it).
-> > >
-> > > Do you mean you will need a fourth parent type for that?
-> > >
-> > No something like what we have for NMI we can add something similar
-> > below for bus error interrupts:
-> > interrupts = ....
-> >               <GIC_SPI 57 IRQ_TYPE_EDGE_RISING>;
-> > interrupt-names = ....,
-> >              "bus-error-int";
->
-> Hence a fourth name?
->
-Agreed.
+I dunno. I think it is fine to use the ECALL to be honest - I'd rather
+that than a property that someone may omit.
 
-> 1. legacy index  0 -> "nmi"
-> 2. legacy indices 1-8 -> "irq%u" (0-7)
-> 3. legacy indices 9-41 -> "tint%u" (0-31)
-> 4. (not supported) -> "bus-error-int" (or "bus-err"?)
->
-"bus-err" I think based on previous experience ;)
+That said, for the cache management stuff we are gonna need for
+PolarFire SoC, we will need to have info from the DT AFAICT - marchid
+etc are all set to zero on our platform so cannot be used.
 
-While I am at it I'll expand the interrupts property with descriptions.
+I was thinking about using the compatible instead, but...
+we've not tried to "forward"-port our stuff from 5.15 yet as we have
+not yet completed testing testing on our vendor tree (and need some PCI
+changes accepted upstream first anyway), as a result I have not looked
+into what's needed there for use with alternatives. We've been using a
+pre-alternatives version of that patchset from around the 5.15
+development point in time instead.
 
-> > As the registers to handle the NMI and BUS_ERR_INT are present on the
-> > IRQC block, the interrupt handler will have to be registered by the
-> > IRQC block itself by requesting the IRQ. So we will have to skip
-> > mapping of BUS_ERR_INT as we do for the NMI case. Does that make
-> > sense?
->
-> OK.
->
-> BTW, that means RZG2L_NMI from <dt-bindings/interrupt-controller/irqc-rzg2l.h>
-> will never be used?
->
-Agreed, that needs to be dropped.
+Thanks,
+Conor.
 
-Cheers,
-Prabhakar
+
+--a/Wc8u+smEWp2mxo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY6CPQQAKCRB4tDGHoIJi
+0lZ9AQCOYZeG/oRfDujddYGIWFAf2ZJf64Ns/lFe7GdcCKveKwEArKQAQZukjH2r
+31D53uaNNDyHGMmKJVq7A7fFO+yeSg4=
+=s444
+-----END PGP SIGNATURE-----
+
+--a/Wc8u+smEWp2mxo--
