@@ -2,58 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F9DB650AA5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Dec 2022 12:19:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57CFD650AAB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Dec 2022 12:21:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231909AbiLSLTo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Dec 2022 06:19:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35156 "EHLO
+        id S231896AbiLSLVb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Dec 2022 06:21:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231301AbiLSLTm (ORCPT
+        with ESMTP id S231301AbiLSLVa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Dec 2022 06:19:42 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 843D92672;
-        Mon, 19 Dec 2022 03:19:41 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id m18so20666013eji.5;
-        Mon, 19 Dec 2022 03:19:41 -0800 (PST)
+        Mon, 19 Dec 2022 06:21:30 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CD9A2AFB;
+        Mon, 19 Dec 2022 03:21:29 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id b69so12367200edf.6;
+        Mon, 19 Dec 2022 03:21:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zI2RTlOmL5oiwdZqJNw/D+P+a1vxFWJZ9IKVgLH4ir4=;
-        b=bST3w1n2l4lGbm29FxqMPyB7CEznBrQmws+cKHNPXfRBzJ+B5JlTr/56pIFpsc+yIA
-         zeNLk1+vrvu60Nhfp9Fy2Ml2kxQg2+iWzFRo+uX8PssZJHOiZdLvCAh615JUYhRB8Bxh
-         6eo3UDkzllFuwTe0G5oyISg+stHLjrMRDlop3bn1PQyKZS9+ctlNDK7JX874Q5IBUI/W
-         rzuOr8ZWXrXomg9s/yLd33dwiu7k2FSlsFEqNyOQE4RUZFjvcQaILIDbOejJS10SEGiT
-         3RO/FaO9t2nn+C6l7VGFHO5VtmAMkHZJMN5/tICm1rcsQLU6Bc8DoDkeuIvKgfKRpdiA
-         zX4w==
+        bh=UQqA7ygsto6xaIwShunauCg+8P+zPr4dDwx6z8aEPXk=;
+        b=Qecx+b4KPAd9/b+nHyGpQdY6ioSxL7WtnO/O8BKN3xlRrLDu4JKdWez/YZqgCM1pkU
+         oHF+aaw7v+iHBPAflj8s1AqvmZPQf9WosqgePDkQqSAMQsZRl9uS6MDOBkJs4qLTdjLN
+         SQApEspVNLNaQtalgfWwNv3X2bW2/XQSKHnQdyEIWc6AMe/ah26IgFYyZZGzVZxVlSit
+         jxESMo2+x+rGcJsXCPmlVQUoUOJvFjEOzZ6pxPwjXk6pLb/8BuVYiftWXsCQRuk8IkRI
+         8229+/qKrVwOXwHsVskI6ZwbVklg1K/bbTEOgTzVO6ge0EC+UYkPwu05a4ta3BUOzrb8
+         Piwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zI2RTlOmL5oiwdZqJNw/D+P+a1vxFWJZ9IKVgLH4ir4=;
-        b=AjP/y7nSby3cCs7nD3oJHiWYGyJfN4QzX4sSavGUm0vZYkFuiqmG7+v/j4w0djzdBv
-         VIqoTdxKguoa8YFTLxAq0iwNsmyKinE9HiFAbTICxqxH25905ER7NDhhaHtpv7fAN7h+
-         aXB/t5HEm9TZLyAzYbTEA85f3nUk6kt7g4Pe55mZ01EtZSGClFH+XguHKAgol+xWrkBG
-         gw1K9HOGdIp9R3GdHjzKiTvYs32XYqiv6J3xjDZpOM6gj+47JcUtI4J/SjTbRWzgng4T
-         5D0036+FFGAi2JIjn91BX9oGwKW7WyTV7KzWtS/6sqYhU61P6CW+pNiqB8eepCTzZNXt
-         p95w==
-X-Gm-Message-State: ANoB5pms4qlepdd/5ddgPinh2a4n2Xd5yQY/b5CEQbEUQNyJHbzS2nWH
-        p3++HyVYn8sB8O0aT2jigKRmsc6DE2FwyECrENw=
-X-Google-Smtp-Source: AA0mqf6SIamhLU7Cdvr18/aFPWgzWlZlnua/b6tCC3PtCfJ09nFC457/raz0+iG0t2BqLWy5GLe94zi6oDpXrLjIxHg=
-X-Received: by 2002:a17:906:79c4:b0:778:e3e2:8311 with SMTP id
- m4-20020a17090679c400b00778e3e28311mr72229403ejo.342.1671448779945; Mon, 19
- Dec 2022 03:19:39 -0800 (PST)
+        bh=UQqA7ygsto6xaIwShunauCg+8P+zPr4dDwx6z8aEPXk=;
+        b=1UnEeDlM2CUgN3U1AjnZhyqKKAZv0ZDqWCq/BSLbecm/cIKWaEq2qN2Xpavmn0Y8ge
+         QdZYlHirFXagIpZCbur3+jtbDQC3Bs/oYqZ+0B5m8hLyvD+CfNJYjW0fA8VXJjBG09rl
+         B5709zhjZ24QmpjkNbjHPk0X7s3cUaS0DgTYFaov63sfIPXgsy7ZazEU7fUtNHtMybce
+         ligx4YfusKz7CQSJBwdYt9mB7qVnBXS2L7XxXiHUwzKc+75x/SYgMwDuHX+kESV9DZ9e
+         pN3dPzclp5yCWEIDKyW0Qc+8v6JlvhtHXcckJ5ubQA30IGJ20lv+aoL8Iv14NH9M/2/a
+         v1Ow==
+X-Gm-Message-State: ANoB5plqBtxolRC+6dGyXsJ6G8UL9tvzYmjV2UTwlsbsA/cYwdGsM7ma
+        hmnMr74kFtld1sAyNEtmawjmzZNez+aE8AW9xIBG2u2NSVr7tA==
+X-Google-Smtp-Source: AA0mqf4MJzdQeHVxrr4jU2yyYqIoZSH1BCgma3gnh1/Vinrzu8kFrTI3pr7SAtSy6Z9epAityEv24oeSY2sHT6rbsPM=
+X-Received: by 2002:aa7:cc08:0:b0:461:8a43:e93 with SMTP id
+ q8-20020aa7cc08000000b004618a430e93mr10171686edt.275.1671448887967; Mon, 19
+ Dec 2022 03:21:27 -0800 (PST)
 MIME-Version: 1.0
 References: <20221212115505.36770-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221212115505.36770-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y54ycZdMLjU5QVn5@spud>
-In-Reply-To: <Y54ycZdMLjU5QVn5@spud>
+ <20221212115505.36770-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y54r+5lkSvgA9IxR@spud>
+In-Reply-To: <Y54r+5lkSvgA9IxR@spud>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 19 Dec 2022 11:19:13 +0000
-Message-ID: <CA+V-a8sa1H=Hh2SzbKDWhiAO=C+Y2YN7sk9APBeqktBeHf49jA@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] riscv: errata: Add Andes alternative ports
+Date:   Mon, 19 Dec 2022 11:21:01 +0000
+Message-ID: <CA+V-a8vdijL7qcju2zH2phfj2+NXNkw35g8j8KX=RR74jSAK1Q@mail.gmail.com>
+Subject: Re: [PATCH v5 4/6] riscv: mm: dma-noncoherent: Pass direction and
+ operation to ALT_CMO_OP()
 To:     Conor Dooley <conor@kernel.org>
 Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
@@ -90,137 +91,50 @@ Hi Conor,
 
 Thank you for the review.
 
-On Sat, Dec 17, 2022 at 9:19 PM Conor Dooley <conor@kernel.org> wrote:
+On Sat, Dec 17, 2022 at 8:52 PM Conor Dooley <conor@kernel.org> wrote:
 >
-> On Mon, Dec 12, 2022 at 11:55:02AM +0000, Prabhakar wrote:
+> Hey Prabhakar,
+>
+> On Mon, Dec 12, 2022 at 11:55:03AM +0000, Prabhakar wrote:
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > Add required ports of the Alternative scheme for Andes CPU cores.
+> > Pass direction and operation to ALT_CMO_OP() macro.
 > >
-> > I/O Coherence Port (IOCP) provides an AXI interface for connecting external
-> > non-caching masters, such as DMA controllers. IOCP is a specification
-> > option and is disabled on the Renesas RZ/Five SoC due to this reason cache
-> > management needs a software workaround.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v4 -> v5
-> > * Sorted the Kconfig/Makefile/Switch based on Core name
-> > * Added a comments
-> > * Introduced RZFIVE_SBI_EXT_IOCP_SW_WORKAROUND SBI EXT ID to check if
-> >   CMO needs to be applied. Is there a way we can access the DTB while patching
-> >   as we can drop this SBI EXT ID and add a DT property instead for cmo?
-> >
-> > RFC v3 -> v4
-> > * New patch
-> > ---
-> >  arch/riscv/Kconfig.erratas           | 22 +++++++
-> >  arch/riscv/errata/Makefile           |  1 +
-> >  arch/riscv/errata/andes/Makefile     |  1 +
-> >  arch/riscv/errata/andes/errata.c     | 93 ++++++++++++++++++++++++++++
-> >  arch/riscv/include/asm/alternative.h |  3 +
-> >  arch/riscv/include/asm/errata_list.h |  5 ++
-> >  arch/riscv/kernel/alternative.c      |  5 ++
-> >  7 files changed, 130 insertions(+)
-> >  create mode 100644 arch/riscv/errata/andes/Makefile
-> >  create mode 100644 arch/riscv/errata/andes/errata.c
-> >
-> > diff --git a/arch/riscv/Kconfig.erratas b/arch/riscv/Kconfig.erratas
-> > index 69621ae6d647..f0f0c1abd52b 100644
-> > --- a/arch/riscv/Kconfig.erratas
-> > +++ b/arch/riscv/Kconfig.erratas
-> > @@ -1,5 +1,27 @@
-> >  menu "CPU errata selection"
-> >
-> > +config ERRATA_ANDES
-> > +     bool "Andes AX45MP errata"
-> > +     depends on !XIP_KERNEL
-> > +     select RISCV_ALTERNATIVE
-> > +     help
-> > +       All Andes errata Kconfig depend on this Kconfig. Disabling
-> > +       this Kconfig will disable all Andes errata. Please say "Y"
-> > +       here if your platform uses Andes CPU cores.
-> > +
-> > +       Otherwise, please say "N" here to avoid unnecessary overhead.
-> > +
-> > +config ERRATA_ANDES_CMO
-> > +     bool "Apply Andes cache management errata"
-> > +     depends on ERRATA_ANDES && MMU && ARCH_R9A07G043
-> > +     select RISCV_DMA_NONCOHERENT
-> > +     default y
-> > +     help
-> > +       This will apply the cache management errata to handle the
-> > +       non-standard handling on non-coherent operations on Andes cores.
-> > +
-> > +       If you don't know what to do here, say "Y".
-> > +
-> >  config ERRATA_SIFIVE
-> >       bool "SiFive errata"
-> >       depends on !XIP_KERNEL
-> > diff --git a/arch/riscv/errata/Makefile b/arch/riscv/errata/Makefile
-> > index a1055965fbee..6f1c693af92d 100644
-> > --- a/arch/riscv/errata/Makefile
-> > +++ b/arch/riscv/errata/Makefile
-> > @@ -1,2 +1,3 @@
-> > +obj-$(CONFIG_ERRATA_ANDES) += andes/
-> >  obj-$(CONFIG_ERRATA_SIFIVE) += sifive/
-> >  obj-$(CONFIG_ERRATA_THEAD) += thead/
-> > diff --git a/arch/riscv/errata/andes/Makefile b/arch/riscv/errata/andes/Makefile
-> > new file mode 100644
-> > index 000000000000..2d644e19caef
-> > --- /dev/null
-> > +++ b/arch/riscv/errata/andes/Makefile
-> > @@ -0,0 +1 @@
-> > +obj-y += errata.o
-> > diff --git a/arch/riscv/errata/andes/errata.c b/arch/riscv/errata/andes/errata.c
-> > new file mode 100644
-> > index 000000000000..3d04f15df8d5
-> > --- /dev/null
-> > +++ b/arch/riscv/errata/andes/errata.c
-> > @@ -0,0 +1,93 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Erratas to be applied for Andes CPU cores
-> > + *
-> > + *  Copyright (C) 2022 Renesas Electronics Corporation.
-> > + *
-> > + * Author: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > + */
-> > +
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +
-> > +#include <asm/alternative.h>
-> > +#include <asm/cacheflush.h>
-> > +#include <asm/errata_list.h>
-> > +#include <asm/patch.h>
-> > +#include <asm/sbi.h>
-> > +#include <asm/vendorid_list.h>
-> > +
-> > +#define ANDESTECH_AX45MP_MARCHID     0x8000000000008a45UL
-> > +#define ANDESTECH_AX45MP_MIMPID              0x500UL
-> > +#define ANDESTECH_SBI_EXT_ANDES              0x0900031E
-> > +
-> > +#define RZFIVE_SBI_EXT_IOCP_SW_WORKAROUND    0
-> > +
-> > +static long ax45mp_iocp_sw_workaround(void)
-> > +{
-> > +     struct sbiret ret;
-> > +
-> > +     ret = sbi_ecall(ANDESTECH_SBI_EXT_ANDES, RZFIVE_SBI_EXT_IOCP_SW_WORKAROUND,
-> > +                     0, 0, 0, 0, 0, 0);
+> > Vendors might want to perform different operations based on the direction
+> > and callbacks (arch_sync_dma_for_device/arch_sync_dma_for_cpu/
+> > arch_dma_prep_coherent) so to handle such cases pass the direction and
+> > operation to ALT_CMO_OP() macro. This is in preparation for adding errata
+> > for the Andes CPU core.
 >
-> Seeing as you need a new version for some of the other bits, I think it
-> would be good to add a minor comment here somewhere (be it here or the
-> commit message) that links to the SBI specs for this.
-> I think this looks pretty good though.
-Sure I'll add a comment here.
-
-I was wondering if we can get rid of this vendor specific extension
-here if we get access to the DT here (for example having a DT property
-which would indicate if IOCP CMO should be applied or not). Do you
-think that would be good approach?  ATM we dont have a pointer here
-for FDT whie early patching.
+> This patch seems to break the build on top of the most recent
+> linux-next:
+> ......./stuff/linux/arch/riscv/mm/pmem.c:13:53: error: too few arguments provided to function-like macro invocation
+>         ALT_CMO_OP(clean, addr, size, riscv_cbom_block_size);
+>                                                            ^
+> /stuff/linux/arch/riscv/include/asm/errata_list.h:127:9: note: macro 'ALT_CMO_OP' defined here
+> #define ALT_CMO_OP(_op, _start, _size, _cachesize, _dir, _ops)          \
+>         ^
+> ..  CC      block/partitions/sgi.o
+> .+...+/stuff/linux/arch/riscv/mm/pmem.c:13:2: error: use of undeclared identifier 'ALT_CMO_OP'
+>         ALT_CMO_OP(clean, addr, size, riscv_cbom_block_size);
+>         ^
+> /stuff/linux/arch/riscv/mm/pmem.c:19:53: error: too few arguments provided to function-like macro invocation
+>         ALT_CMO_OP(inval, addr, size, riscv_cbom_block_size);
+>                                                            ^
+> /stuff/linux/arch/riscv/include/asm/errata_list.h:127:9: note: macro 'ALT_CMO_OP' defined here
+> #define ALT_CMO_OP(_op, _start, _size, _cachesize, _dir, _ops)          \
+>         ^
+> ...........  AR      lib/math/built-in.a
+> ./stuff/linux/arch/riscv/mm/pmem.c:19:2: .error: use of undeclared identifier 'ALT_CMO_OP'
+>         ALT_CMO_OP(inval, addr, size, riscv_cbom_block_size);
+>         ^
+> ..4 errors generated.
+>
+> The pmem stuff is new so that'd be why it has not come up before.
+>
+> (FWIW, clang allmodconfig)
+>
+Yes I need to rebase my changes on Palmer's branch.
 
 Cheers,
 Prabhakar
