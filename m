@@ -2,118 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10771651F19
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Dec 2022 11:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16FDD65204D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Dec 2022 13:20:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232408AbiLTKnA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Dec 2022 05:43:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53564 "EHLO
+        id S232561AbiLTMUN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Dec 2022 07:20:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232513AbiLTKm7 (ORCPT
+        with ESMTP id S229592AbiLTMUM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Dec 2022 05:42:59 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D1DC1743E;
-        Tue, 20 Dec 2022 02:42:58 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85373706;
-        Tue, 20 Dec 2022 11:42:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671532976;
-        bh=bK4txdnHUggupo5Doz/7+NZW7J4vreP6k+bN7etEXCg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FNt0pxC36qdgX77AE0cCoE8XbeEi5UynpACkHxQl9dKEl8ChmxuutYLTprMzrmxBP
-         T2PpysNdQVR42GdEJ586Ya5TT5IEXAj0UCYzQF5gcybCRSqNGlvAwrNPa/VaFYErH7
-         U3WfzZG5xnnIk2P4dQMUML1KfnwAs5Exox44gKmc=
-Date:   Tue, 20 Dec 2022 12:42:52 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v2 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB,
- Y210)
-Message-ID: <Y6GRrN1Tesadku6S@pendragon.ideasonboard.com>
-References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221219140139.294245-8-tomi.valkeinen+renesas@ideasonboard.com>
- <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
- <Y6GCI3PV3/WhyZBR@valkosipuli.retiisi.eu>
+        Tue, 20 Dec 2022 07:20:12 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F49BD6B
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Dec 2022 04:20:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=7I/fbB6eEjsrfu4Vt9pvVF6hB7l
+        L+rBV6oSDWowtwMw=; b=UB6jhmIeUNwKeSVAP9O/BSB701eoDBb5HYVxbdX8ZAg
+        v7lherKp5hA1tffN2/XJ0QrNHCm4/AEBhGUETIm3ZV73S1RiM3gv/qh5GWb9Dao9
+        h5VjsR3x8VqW4jztoHYPnbkKp7unLZ4nCvjpLhJOEx7sgaz4O0baMKcmztkCEM+M
+        =
+Received: (qmail 376199 invoked from network); 20 Dec 2022 13:20:07 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Dec 2022 13:20:07 +0100
+X-UD-Smtp-Session: l3s3148p1@hNfPdEHwJNsujnuM
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] arm64: dts: renesas: spider-cpu: add i2c0 bus
+Date:   Tue, 20 Dec 2022 13:19:59 +0100
+Message-Id: <20221220121959.45779-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y6GCI3PV3/WhyZBR@valkosipuli.retiisi.eu>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sakari,
+Add the bus and the GPIO expander connected to it. Based on BSP patches
+by LUU HOAI and Phong Hoang.
 
-On Tue, Dec 20, 2022 at 11:36:35AM +0200, Sakari Ailus wrote:
-> On Mon, Dec 19, 2022 at 11:47:04PM +0200, Laurent Pinchart wrote:
-> > On Mon, Dec 19, 2022 at 04:01:39PM +0200, Tomi Valkeinen wrote:
-> > > Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010 and Y210.
-> > > 
-> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> > > ---
-> > >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 24 +++++++++++++
-> > >  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 49 +++++++++++++++++++++++++--
-> > >  2 files changed, 71 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > index 8c2719efda2a..8ccabf5a30c4 100644
-> > > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
-> > >  		.bpp = 32,
-> > >  		.planes = 1,
-> > >  		.hsub = 1,
-> > > +	}, {
-> > > +		.fourcc = DRM_FORMAT_RGBX1010102,
-> > 
-> > Ah, here the format makes sense.
-> > 
-> > > +		.v4l2 = V4L2_PIX_FMT_XBGR2101010,
-> > 
-> > But this is horrible :-( Could we use the same names as DRM for new
-> > formats, when there is no conflict with existing V4L2 formats ?
-> > 
-> > Sakari, Hans, what do you think ? Please see patch 1/7 in the series for
-> > the format definitions.
-> 
-> I think it'd be good to have only one set of definitions.
-> 
-> Can we can sort the endianness question in a reasonable way?
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ .../boot/dts/renesas/r8a779f0-spider-cpu.dtsi | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-It's really a matter of macro names only in this case, so it's "just" up
-to us to decide what we want to do. Hans' argument is that we would then
-depart from the general V4L2 rule, and thus create confusion, but I
-don't think there's such a clear cut rule in the first place and
-confusion is there already. Having common definitions for new formats
-would, I think, reduce confusion.
-
-> Also new Bayer formats will probably be still needed on V4L2 side but will
-> they be relevant for DRM? I suppose that would mean new DRM format for
-> each pixel order, too? Or can we think of something smarter that would
-> still work reasonably with existing formats?
-
-We use DRM 4CCs in the libcamera public API, and the DRM maintainers
-have agreed to add DRM 4CCs for formats that are used by cameras only,
-such as MJPEG for instance, that's hardly useful for displays. The same
-holds true for Bayer formats, and we use DRM modifiers to specify the
-packing instead of defining different 4CCs. I'd like to do something
-similar for the Bayer pattern, although specifying it out-of-band may be
-even better.
-
+diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+index 045d70535519..48a8f80d5962 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+@@ -67,6 +67,21 @@ &hscif0 {
+ 	status = "okay";
+ };
+ 
++&i2c0 {
++	pinctrl-0 = <&i2c0_pins>;
++	pinctrl-names = "default";
++
++	status = "okay";
++	clock-frequency = <400000>;
++
++	gpio@20 {
++		compatible = "ti,tca9554";
++		reg = <0x20>;
++		gpio-controller;
++		#gpio-cells = <2>;
++	};
++};
++
+ &i2c4 {
+ 	pinctrl-0 = <&i2c4_pins>;
+ 	pinctrl-names = "default";
+@@ -112,6 +127,11 @@ hscif0_pins: hscif0 {
+ 		function = "hscif0";
+ 	};
+ 
++	i2c0_pins: i2c0 {
++		groups = "i2c0";
++		function = "i2c0";
++	};
++
+ 	i2c4_pins: i2c4 {
+ 		groups = "i2c4";
+ 		function = "i2c4";
 -- 
-Regards,
+2.35.1
 
-Laurent Pinchart
