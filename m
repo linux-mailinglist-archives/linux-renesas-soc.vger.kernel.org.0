@@ -2,185 +2,183 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 803D0652E72
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Dec 2022 10:25:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B454A652F40
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Dec 2022 11:21:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234577AbiLUJZT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Dec 2022 04:25:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42518 "EHLO
+        id S234564AbiLUKVB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Dec 2022 05:21:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234063AbiLUJZS (ORCPT
+        with ESMTP id S229472AbiLUKU6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Dec 2022 04:25:18 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FCD61CFF4;
-        Wed, 21 Dec 2022 01:25:17 -0800 (PST)
-Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9723E1221;
-        Wed, 21 Dec 2022 10:25:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671614712;
-        bh=dS3ZhV2uW+kZaTZFRTY0e9hL+Iy+N0U4QRpLL7brsF4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FWOABLFOtl/eOSH9CpRBfnA+bMlDC5ZoPpxzRhcxK0RanA29FdQHT7eYQQiFJPgMN
-         cPnti0EAsDufuQs7Um4prSvN2LHG0Zy2z8Ywfd5v64vjZ8tkqIU++zI43eO76/q+IJ
-         1stvNqnlA6Fm/R1lOw6tTIdIbkXl8fe9eGNOb/4g=
-From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: [PATCH v3 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB, Y210)
-Date:   Wed, 21 Dec 2022 11:24:48 +0200
-Message-Id: <20221221092448.741294-8-tomi.valkeinen+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
-References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 21 Dec 2022 05:20:58 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9644D9FE9;
+        Wed, 21 Dec 2022 02:20:56 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3AA066174D;
+        Wed, 21 Dec 2022 10:20:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90C76C433D2;
+        Wed, 21 Dec 2022 10:20:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1671618055;
+        bh=DvJnhNV9WpC0ryEBXj5Ow4+4ZKHs28oUPewt6p/MjKI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=pkJGbZ5HH5ds2tTvxlmd8Lh5dMVoo9oOVtaJK+9Z7QnKJZRo0Z897P5v+FcOjyyMb
+         6uMkSGPNYwKfo3eBz0wxtSh8Pj9yFJZnv/5LMsDNi/Os2iM6XQkNhZp7lsAQH9xnkT
+         Jewhzzt/wAoHCgSNxsDAHNf2XXYuZnSV7f1dcu/s/oEbgZ16uIuWzFMRvexu9HwXN0
+         Zasa1NOKKmUEpFbVFPk+3VcIHKtKNNqHEe8F7PRbZDbmopIEPhvqbvqT/wDUA0eSxx
+         3LeGczYrVFB2yngu52Ux8Mp2RTOyd3+F5b292KODFYxPwidOJb85mocmjIpIbtmboB
+         D9dkq8HpvCVCQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1p7wDV-00E7hv-58;
+        Wed, 21 Dec 2022 10:20:53 +0000
+Date:   Wed, 21 Dec 2022 10:20:52 +0000
+Message-ID: <86o7rxawhn.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 4/9] irqchip: irq-renesas-rzg2l: Add support for RZ/G2UL SoC
+In-Reply-To: <20221221000242.340202-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20221221000242.340202-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <20221221000242.340202-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: prabhakar.csengg@gmail.com, tglx@linutronix.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, geert+renesas@glider.be, magnus.damm@gmail.com, linus.walleij@linaro.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010, Y210 and
-Y212.
+On Wed, 21 Dec 2022 00:02:37 +0000,
+Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> 
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> The IRQC block on RZ/G2UL SoC is almost identical to one found on the
+> RZ/G2L SoC the only difference being it can support BUS_ERR_INT for
+> which it has additional registers.
+> 
+> This patch adds a new entry for "renesas,rzg2ul-irqc" compatible string
+> and now that we have interrupt-names property the driver code parses the
+> interrupts based on names and for backward compatibility we fallback to
+> parse interrupts based on index.
+> 
+> For now we will be using rzg2l_irqc_init() as a callback for RZ/G2UL SoC
+> too and in future when the interrupt handler will be registered for
+> BUS_ERR_INT we will have to implement a new callback.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_kms.c | 30 ++++++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 50 +++++++++++++++++++++++++--
- 2 files changed, 78 insertions(+), 2 deletions(-)
+Since you're posting from a different address, please add a second SoB
+with your gmail address.
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 8c2719efda2a..adfb36b0e815 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
- 		.bpp = 32,
- 		.planes = 1,
- 		.hsub = 1,
-+	}, {
-+		.fourcc = DRM_FORMAT_RGBX1010102,
-+		.v4l2 = V4L2_PIX_FMT_RGBX1010102,
-+		.bpp = 32,
-+		.planes = 1,
-+		.hsub = 1,
-+	}, {
-+		.fourcc = DRM_FORMAT_RGBA1010102,
-+		.v4l2 = V4L2_PIX_FMT_RGBA1010102,
-+		.bpp = 32,
-+		.planes = 1,
-+		.hsub = 1,
-+	}, {
-+		.fourcc = DRM_FORMAT_ARGB2101010,
-+		.v4l2 = V4L2_PIX_FMT_ARGB2101010,
-+		.bpp = 32,
-+		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_YVYU,
- 		.v4l2 = V4L2_PIX_FMT_YVYU,
-@@ -307,6 +325,18 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
- 		.bpp = 24,
- 		.planes = 3,
- 		.hsub = 1,
-+	}, {
-+		.fourcc = DRM_FORMAT_Y210,
-+		.v4l2 = V4L2_PIX_FMT_Y210,
-+		.bpp = 32,
-+		.planes = 1,
-+		.hsub = 2,
-+	}, {
-+		.fourcc = DRM_FORMAT_Y212,
-+		.v4l2 = V4L2_PIX_FMT_Y212,
-+		.bpp = 32,
-+		.planes = 1,
-+		.hsub = 2,
- 	},
- };
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index e465aef41585..fe90be51d64e 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -139,6 +139,43 @@ static const u32 rcar_du_vsp_formats[] = {
- 	DRM_FORMAT_YVU444,
- };
- 
-+/*
-+ * Gen4 supports the same formats as above, and additionally 2-10-10-10 RGB
-+ * formats and Y210 & Y212 formats.
-+ */
-+static const u32 rcar_du_vsp_formats_gen4[] = {
-+	DRM_FORMAT_RGB332,
-+	DRM_FORMAT_ARGB4444,
-+	DRM_FORMAT_XRGB4444,
-+	DRM_FORMAT_ARGB1555,
-+	DRM_FORMAT_XRGB1555,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_BGR888,
-+	DRM_FORMAT_RGB888,
-+	DRM_FORMAT_BGRA8888,
-+	DRM_FORMAT_BGRX8888,
-+	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_RGBX1010102,
-+	DRM_FORMAT_RGBA1010102,
-+	DRM_FORMAT_ARGB2101010,
-+	DRM_FORMAT_UYVY,
-+	DRM_FORMAT_YUYV,
-+	DRM_FORMAT_YVYU,
-+	DRM_FORMAT_NV12,
-+	DRM_FORMAT_NV21,
-+	DRM_FORMAT_NV16,
-+	DRM_FORMAT_NV61,
-+	DRM_FORMAT_YUV420,
-+	DRM_FORMAT_YVU420,
-+	DRM_FORMAT_YUV422,
-+	DRM_FORMAT_YVU422,
-+	DRM_FORMAT_YUV444,
-+	DRM_FORMAT_YVU444,
-+	DRM_FORMAT_Y210,
-+	DRM_FORMAT_Y212,
-+};
-+
- static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
- {
- 	struct rcar_du_vsp_plane_state *state =
-@@ -436,14 +473,23 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
- 					 ? DRM_PLANE_TYPE_PRIMARY
- 					 : DRM_PLANE_TYPE_OVERLAY;
- 		struct rcar_du_vsp_plane *plane = &vsp->planes[i];
-+		unsigned int num_formats;
-+		const u32 *formats;
-+
-+		if (rcdu->info->gen < 4) {
-+			num_formats = ARRAY_SIZE(rcar_du_vsp_formats);
-+			formats = rcar_du_vsp_formats;
-+		} else {
-+			num_formats = ARRAY_SIZE(rcar_du_vsp_formats_gen4);
-+			formats = rcar_du_vsp_formats_gen4;
-+		}
- 
- 		plane->vsp = vsp;
- 		plane->index = i;
- 
- 		ret = drm_universal_plane_init(&rcdu->ddev, &plane->plane,
- 					       crtcs, &rcar_du_vsp_plane_funcs,
--					       rcar_du_vsp_formats,
--					       ARRAY_SIZE(rcar_du_vsp_formats),
-+					       formats, num_formats,
- 					       NULL, type, NULL);
- 		if (ret < 0)
- 			return ret;
+> ---
+> v1 -> v2
+> * New patch
+> ---
+>  drivers/irqchip/irq-renesas-rzg2l.c | 80 ++++++++++++++++++++++++++---
+>  1 file changed, 74 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
+> index 7918fe201218..5bdf0106ef51 100644
+> --- a/drivers/irqchip/irq-renesas-rzg2l.c
+> +++ b/drivers/irqchip/irq-renesas-rzg2l.c
+> @@ -299,19 +299,86 @@ static const struct irq_domain_ops rzg2l_irqc_domain_ops = {
+>  	.translate = irq_domain_translate_twocell,
+>  };
+>  
+> -static int rzg2l_irqc_parse_interrupts(struct rzg2l_irqc_priv *priv,
+> -				       struct device_node *np)
+> +static int rzg2l_irqc_parse_interrupt_to_fwspec(struct rzg2l_irqc_priv *priv,
+> +						struct device_node *np,
+> +						unsigned int index,
+> +						unsigned int fwspec_index)
+>  {
+>  	struct of_phandle_args map;
+> +	int ret;
+> +
+> +	ret = of_irq_parse_one(np, index, &map);
+> +	if (ret)
+> +		return ret;
+> +
+> +	of_phandle_args_to_fwspec(np, map.args, map.args_count,
+> +				  &priv->fwspec[fwspec_index]);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzg2l_irqc_parse_interrupt_by_name_to_fwspec(struct rzg2l_irqc_priv *priv,
+> +							struct device_node *np,
+> +							char *irq_name,
+> +							unsigned int fwspec_index)
+> +{
+> +	int index;
+> +
+> +	index = of_property_match_string(np, "interrupt-names", irq_name);
+> +	if (index < 0)
+> +		return index;
+> +
+> +	return rzg2l_irqc_parse_interrupt_to_fwspec(priv, np, index, fwspec_index);
+> +}
+> +
+> +/* Parse hierarchy domain interrupts ie only IRQ0-7 and TINT0-31 */
+> +static int rzg2l_irqc_parse_hierarchy_interrupts(struct rzg2l_irqc_priv *priv,
+> +						 struct device_node *np)
+> +{
+> +	struct property *pp;
+>  	unsigned int i;
+>  	int ret;
+>  
+> +	/*
+> +	 * first check if interrupt-names property exists if so parse them by name
+> +	 * or else parse them by index for backward compatibility.
+> +	 */
+> +	pp = of_find_property(np, "interrupt-names", NULL);
+> +	if (pp) {
+> +		char *irq_name;
+> +
+> +		/* parse IRQ0-7 */
+> +		for (i = 0; i < IRQC_IRQ_COUNT; i++) {
+> +			irq_name = kasprintf(GFP_KERNEL, "irq%d", i);
+> +			if (!irq_name)
+> +				return -ENOMEM;
+> +
+> +			ret = rzg2l_irqc_parse_interrupt_by_name_to_fwspec(priv, np, irq_name, i);
+
+Am I the only one that find it rather odd to construct a name from an
+index, only to get another index back?
+
+In any case, the string stuff could be moved into
+rzg2l_irqc_parse_interrupt_by_name_to_fwspec(). Which could really do
+with a name shortening)... rzg2l_irqc_name_to_fwspec? Same thing for
+the other function (rzg2l_irqc_index_to_fwspec).
+
+	M.
+
 -- 
-2.34.1
-
+Without deviation from the norm, progress is not possible.
