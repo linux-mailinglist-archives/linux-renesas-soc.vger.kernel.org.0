@@ -2,240 +2,213 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5693652F4F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Dec 2022 11:23:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D72E652F87
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Dec 2022 11:32:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234803AbiLUKW7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Dec 2022 05:22:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45396 "EHLO
+        id S234552AbiLUKcj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Dec 2022 05:32:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234822AbiLUKWE (ORCPT
+        with ESMTP id S234579AbiLUKbR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Dec 2022 05:22:04 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BD5E20F60;
-        Wed, 21 Dec 2022 02:21:26 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E58C4B2;
-        Wed, 21 Dec 2022 11:21:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671618084;
-        bh=HsrsYgIlwdLnFlDvCGddiGryxUeneBMvF0B3GY0/dbQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rgU4FmeoVGSPMO6znGZcjQrTGmjdDoJtgiDykj3STUv2CIOobifaXjjmG8cGjYWn3
-         gx60dpzTEBprdf8gczCIoArFODmyCP9Dq/MpHwaUs0ZXzNHlc0enCfDxQ8TG+en0Jk
-         E6nej4AiTZElFxHj3UIWm2AefXQNNbjfM3C7/xOg=
-Date:   Wed, 21 Dec 2022 12:21:19 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2 3/7] media: renesas: vsp1: Change V3U to be gen4
-Message-ID: <Y6LeH7gsv3ihL1kB@pendragon.ideasonboard.com>
-References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221219140139.294245-4-tomi.valkeinen+renesas@ideasonboard.com>
- <Y6DRNijZ243JWzUo@pendragon.ideasonboard.com>
- <ab2ee8d2-a775-0854-6012-dfe7cc13d24a@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ab2ee8d2-a775-0854-6012-dfe7cc13d24a@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 21 Dec 2022 05:31:17 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7DC4B4A5;
+        Wed, 21 Dec 2022 02:31:15 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 324D1B81A82;
+        Wed, 21 Dec 2022 10:31:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF24BC433D2;
+        Wed, 21 Dec 2022 10:31:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1671618672;
+        bh=v4r7AkfGPQGBVr4AABOMBZ594Y+07pmq57+jDAMnylc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=SlCp87AsAO1UzRlFdnAHzgRagW0dnNRzElhptPjFic9lQnduegEzyBljIlcDhF9qZ
+         3Gsi5GSrx72LYwuAccxL05yaMqNynG6p9O695L2cpn5A/9ntKSWch+/EXbS0i4voX4
+         EDsOim6wgisvUGB7pInWpTdOW0C4mIqVwIGtyxOTr9FwdHEtLX0gfw/0tAOqfCmpuo
+         RrFB8I6VXZ/6zKlp0vX1m2C4R/t7242UWoGBr5070FdQs0qmF4VNFyG9KizARgpkyj
+         xfGOYOO/n4BLEdUzgD7p59VIItJkq2jpfqWZtmT07voevvUwEY0sLtPqdbtk0kdmAw
+         FFshlNqej6Y8w==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1p7wNS-00E7ru-GK;
+        Wed, 21 Dec 2022 10:31:10 +0000
+Date:   Wed, 21 Dec 2022 10:31:10 +0000
+Message-ID: <86mt7haw0h.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 3/9] irqchip: irq-renesas-rzg2l: Skip mapping NMI interrupt as part of hierarchy domain
+In-Reply-To: <20221221000242.340202-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20221221000242.340202-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <20221221000242.340202-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: prabhakar.csengg@gmail.com, tglx@linutronix.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, geert+renesas@glider.be, magnus.damm@gmail.com, linus.walleij@linaro.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Tomi,
-
-On Wed, Dec 21, 2022 at 09:48:10AM +0200, Tomi Valkeinen wrote:
-> On 19/12/2022 23:01, Laurent Pinchart wrote:
-> > On Mon, Dec 19, 2022 at 04:01:35PM +0200, Tomi Valkeinen wrote:
-> >> V3U is actually gen4, not gen3. The same IP is also used in the
-> >> (not-yet-supported) V4H.
-> >>
-> >> Change VI6_IP_VERSION_MODEL_VSPD_V3U to VI6_IP_VERSION_MODEL_VSPD_GEN4,
-> >> to represent the model correctly. V3U and V4H can still be
-> >> differentiated, if needed, with the VI6_IP_VERSION_SOC_xxx.
-> >>
-> >> Also mark VI6_IP_VERSION_MODEL_VSPD_GEN4 as gen 4 in vsp1_device_info,
-> >> and update the code to correcly match for gen 4.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >> ---
-> >>   drivers/media/platform/renesas/vsp1/vsp1_drv.c   |  4 ++--
-> >>   drivers/media/platform/renesas/vsp1/vsp1_hgo.c   |  4 ++--
-> >>   drivers/media/platform/renesas/vsp1/vsp1_lif.c   |  1 +
-> >>   drivers/media/platform/renesas/vsp1/vsp1_regs.h  |  2 +-
-> >>   drivers/media/platform/renesas/vsp1/vsp1_rpf.c   | 12 ++++++------
-> >>   drivers/media/platform/renesas/vsp1/vsp1_video.c |  4 ++--
-> >>   drivers/media/platform/renesas/vsp1/vsp1_wpf.c   |  4 ++--
-> >>   7 files changed, 16 insertions(+), 15 deletions(-)
-> >>
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> >> index c260d318d298..5710152d6511 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> >> @@ -818,9 +818,9 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
-> >>   		.wpf_count = 2,
-> >>   		.num_bru_inputs = 5,
-> >>   	}, {
-> >> -		.version = VI6_IP_VERSION_MODEL_VSPD_V3U,
-> >> +		.version = VI6_IP_VERSION_MODEL_VSPD_GEN4,
-> >>   		.model = "VSP2-D",
-> >> -		.gen = 3,
-> >> +		.gen = 4,
-> >>   		.features = VSP1_HAS_BRU | VSP1_HAS_EXT_DL,
-> >>   		.lif_count = 1,
-> >>   		.rpf_count = 5,
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
-> >> index bf3f981f93a1..e6492deb0a64 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
-> >> @@ -196,10 +196,10 @@ struct vsp1_hgo *vsp1_hgo_create(struct vsp1_device *vsp1)
-> >>   
-> >>   	/* Initialize the control handler. */
-> >>   	v4l2_ctrl_handler_init(&hgo->ctrls.handler,
-> >> -			       vsp1->info->gen == 3 ? 2 : 1);
-> >> +			       vsp1->info->gen >= 3 ? 2 : 1);
-> >>   	hgo->ctrls.max_rgb = v4l2_ctrl_new_custom(&hgo->ctrls.handler,
-> >>   						  &hgo_max_rgb_control, NULL);
-> >> -	if (vsp1->info->gen == 3)
-> >> +	if (vsp1->info->gen >= 3)
-> >>   		hgo->ctrls.num_bins =
-> >>   			v4l2_ctrl_new_custom(&hgo->ctrls.handler,
-> >>   					     &hgo_num_bins_control, NULL);
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-> >> index 186a5730e1e3..0ab2e0c70474 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-> >> @@ -114,6 +114,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
-> >>   		break;
-> >>   
-> >>   	case VI6_IP_VERSION_MODEL_VSPD_GEN3:
-> >> +	case VI6_IP_VERSION_MODEL_VSPD_GEN4:
-> > 
-> > While this doesn't cause any functional change, it doesn't fall into the
-> > renaming explained in the commit message. I'd make a mention of it
-> > there.
+On Wed, 21 Dec 2022 00:02:36 +0000,
+Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > 
-> The message says "update the code to correcly match for gen 4". (I see a 
-> typo there =)). Doesn't that cover this change? It's similar to the if() 
-> changes, where we now check for >= 3.
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> NMI interrupt is not an external interrupt as compared to the IRQ0-7 and
+> TINT0-31, this means we need to install the irq handler for NMI in the
+> IRQC driver and not include it as part of IRQ domain.
+>
+> This patch skips mapping NMI interrupt as part of the IRQ domain
+> hierarchy.
 
-Possibly :-) This code change isn't needed as the default cases handles
-gen4. It's still desirable though.
+Does it mean nobody can connect anything to it? Where is the handler
+you're mentioning for this NMI?
 
-No need to send a new version for this.
+> 
+> Fixes: 3fed09559cd8 ("irqchip: Add RZ/G2L IA55 Interrupt Controller driver")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v1 -> v2
+> * New patch
+> ---
+>  drivers/irqchip/irq-renesas-rzg2l.c | 24 +++++++++++++-----------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
+> index 25fd8ee66565..7918fe201218 100644
+> --- a/drivers/irqchip/irq-renesas-rzg2l.c
+> +++ b/drivers/irqchip/irq-renesas-rzg2l.c
+> @@ -23,7 +23,8 @@
+>  #define IRQC_IRQ_COUNT			8
+>  #define IRQC_TINT_START			(IRQC_IRQ_START + IRQC_IRQ_COUNT)
+>  #define IRQC_TINT_COUNT			32
+> -#define IRQC_NUM_IRQ			(IRQC_TINT_START + IRQC_TINT_COUNT)
+> +					/* IRQ0-7 + TINT0-31 */
+> +#define IRQC_NUM_HIERARCHY_IRQ		(IRQC_TINT_START + IRQC_TINT_COUNT - 1)
+>  
+>  #define ISCR				0x10
+>  #define IITSR				0x14
+> @@ -58,7 +59,8 @@
+>  
+>  struct rzg2l_irqc_priv {
+>  	void __iomem *base;
+> -	struct irq_fwspec fwspec[IRQC_NUM_IRQ];
+> +	/* IRQ0-7 + TINT0-31 will be part of hierarchy domain */
+> +	struct irq_fwspec fwspec[IRQC_NUM_HIERARCHY_IRQ];
+>  	raw_spinlock_t lock;
+>  };
+>  
+> @@ -99,7 +101,7 @@ static void rzg2l_irqc_eoi(struct irq_data *d)
+>  	raw_spin_lock(&priv->lock);
+>  	if (hw_irq >= IRQC_IRQ_START && hw_irq <= IRQC_IRQ_COUNT)
+>  		rzg2l_irq_eoi(d);
+> -	else if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ)
+> +	else if (hw_irq >= IRQC_TINT_START && hw_irq <= IRQC_NUM_HIERARCHY_IRQ)
+>  		rzg2l_tint_eoi(d);
+>  	raw_spin_unlock(&priv->lock);
+>  	irq_chip_eoi_parent(d);
+> @@ -109,7 +111,7 @@ static void rzg2l_irqc_irq_disable(struct irq_data *d)
+>  {
+>  	unsigned int hw_irq = irqd_to_hwirq(d);
+>  
+> -	if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ) {
+> +	if (hw_irq >= IRQC_TINT_START && hw_irq <= IRQC_NUM_HIERARCHY_IRQ) {
+>  		struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+>  		u32 offset = hw_irq - IRQC_TINT_START;
+>  		u32 tssr_offset = TSSR_OFFSET(offset);
+> @@ -129,7 +131,7 @@ static void rzg2l_irqc_irq_enable(struct irq_data *d)
+>  {
+>  	unsigned int hw_irq = irqd_to_hwirq(d);
+>  
+> -	if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ) {
+> +	if (hw_irq >= IRQC_TINT_START && hw_irq <= IRQC_NUM_HIERARCHY_IRQ) {
+>  		struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+>  		unsigned long tint = (uintptr_t)d->chip_data;
+>  		u32 offset = hw_irq - IRQC_TINT_START;
+> @@ -228,7 +230,7 @@ static int rzg2l_irqc_set_type(struct irq_data *d, unsigned int type)
+>  
+>  	if (hw_irq >= IRQC_IRQ_START && hw_irq <= IRQC_IRQ_COUNT)
+>  		ret = rzg2l_irq_set_type(d, type);
+> -	else if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ)
+> +	else if (hw_irq >= IRQC_TINT_START && hw_irq <= IRQC_NUM_HIERARCHY_IRQ)
 
-> > Conditional-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > 
-> >>   	default:
-> >>   		hbth = 0;
-> >>   		obth = 3000;
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-> >> index 8928f4c6bb55..8c9333f76858 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-> >> @@ -766,7 +766,7 @@
-> >>   #define VI6_IP_VERSION_MODEL_VSPD_V3	(0x18 << 8)
-> >>   #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
-> >>   #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
-> >> -#define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-> >> +#define VI6_IP_VERSION_MODEL_VSPD_GEN4	(0x1c << 8)
-> >>   /* RZ/G2L SoCs have no version register, So use 0x80 as the model version */
-> >>   #define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
-> >>   
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> >> index 75083cb234fe..045aa54f7998 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> >> @@ -133,18 +133,18 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
-> >>   	 * a fixed alpha value set through the V4L2_CID_ALPHA_COMPONENT control
-> >>   	 * otherwise.
-> >>   	 *
-> >> -	 * The Gen3 RPF has extended alpha capability and can both multiply the
-> >> +	 * The Gen3+ RPF has extended alpha capability and can both multiply the
-> >>   	 * alpha channel by a fixed global alpha value, and multiply the pixel
-> >>   	 * components to convert the input to premultiplied alpha.
-> >>   	 *
-> >>   	 * As alpha premultiplication is available in the BRx for both Gen2 and
-> >> -	 * Gen3 we handle it there and use the Gen3 alpha multiplier for global
-> >> +	 * Gen3+ we handle it there and use the Gen3 alpha multiplier for global
-> >>   	 * alpha multiplication only. This however prevents conversion to
-> >>   	 * premultiplied alpha if no BRx is present in the pipeline. If that use
-> >>   	 * case turns out to be useful we will revisit the implementation (for
-> >>   	 * Gen3 only).
-> >>   	 *
-> >> -	 * We enable alpha multiplication on Gen3 using the fixed alpha value
-> >> +	 * We enable alpha multiplication on Gen3+ using the fixed alpha value
-> >>   	 * set through the V4L2_CID_ALPHA_COMPONENT control when the input
-> >>   	 * contains an alpha channel. On Gen2 the global alpha is ignored in
-> >>   	 * that case.
-> >> @@ -155,7 +155,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
-> >>   		       (fmtinfo->alpha ? VI6_RPF_ALPH_SEL_ASEL_PACKED
-> >>   				       : VI6_RPF_ALPH_SEL_ASEL_FIXED));
-> >>   
-> >> -	if (entity->vsp1->info->gen == 3) {
-> >> +	if (entity->vsp1->info->gen >= 3) {
-> >>   		u32 mult;
-> >>   
-> >>   		if (fmtinfo->alpha) {
-> >> @@ -301,10 +301,10 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
-> >>   	}
-> >>   
-> >>   	/*
-> >> -	 * On Gen3 hardware the SPUVS bit has no effect on 3-planar
-> >> +	 * On Gen3+ hardware the SPUVS bit has no effect on 3-planar
-> >>   	 * formats. Swap the U and V planes manually in that case.
-> >>   	 */
-> >> -	if (vsp1->info->gen == 3 && format->num_planes == 3 &&
-> >> +	if (vsp1->info->gen >= 3 && format->num_planes == 3 &&
-> >>   	    fmtinfo->swap_uv)
-> >>   		swap(mem.addr[1], mem.addr[2]);
-> >>   
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> >> index 9d24647c8f32..544012fd1fe9 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> >> @@ -267,10 +267,10 @@ static int vsp1_video_pipeline_setup_partitions(struct vsp1_pipeline *pipe)
-> >>   	div_size = format->width;
-> >>   
-> >>   	/*
-> >> -	 * Only Gen3 hardware requires image partitioning, Gen2 will operate
-> >> +	 * Only Gen3+ hardware requires image partitioning, Gen2 will operate
-> >>   	 * with a single partition that covers the whole output.
-> >>   	 */
-> >> -	if (vsp1->info->gen == 3) {
-> >> +	if (vsp1->info->gen >= 3) {
-> >>   		list_for_each_entry(entity, &pipe->entities, list_pipe) {
-> >>   			unsigned int entity_max;
-> >>   
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> >> index 94e91d7bb56c..d0074ca00920 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> >> @@ -512,10 +512,10 @@ static void wpf_configure_partition(struct vsp1_entity *entity,
-> >>   	}
-> >>   
-> >>   	/*
-> >> -	 * On Gen3 hardware the SPUVS bit has no effect on 3-planar
-> >> +	 * On Gen3+ hardware the SPUVS bit has no effect on 3-planar
-> >>   	 * formats. Swap the U and V planes manually in that case.
-> >>   	 */
-> >> -	if (vsp1->info->gen == 3 && format->num_planes == 3 &&
-> >> +	if (vsp1->info->gen >= 3 && format->num_planes == 3 &&
-> >>   	    fmtinfo->swap_uv)
-> >>   		swap(mem.addr[1], mem.addr[2]);
-> >>   
+
+How about you define a "tint_hwirq()" helper that checks got the
+boundaries? Same thing for the other IRQ type.
+
+>  		ret = rzg2l_tint_set_edge(d, type);
+>  	if (ret)
+>  		return ret;
+> @@ -280,7 +282,7 @@ static int rzg2l_irqc_alloc(struct irq_domain *domain, unsigned int virq,
+>  			return -EINVAL;
+>  	}
+>  
+> -	if (hwirq > (IRQC_NUM_IRQ - 1))
+> +	if (!hwirq || hwirq > IRQC_NUM_HIERARCHY_IRQ)
+>  		return -EINVAL;
+>  
+>  	ret = irq_domain_set_hwirq_and_chip(domain, virq, hwirq, &irqc_chip,
+> @@ -288,7 +290,7 @@ static int rzg2l_irqc_alloc(struct irq_domain *domain, unsigned int virq,
+>  	if (ret)
+>  		return ret;
+>  
+> -	return irq_domain_alloc_irqs_parent(domain, virq, nr_irqs, &priv->fwspec[hwirq]);
+> +	return irq_domain_alloc_irqs_parent(domain, virq, nr_irqs, &priv->fwspec[hwirq - 1]);
+>  }
+>  
+>  static const struct irq_domain_ops rzg2l_irqc_domain_ops = {
+> @@ -304,12 +306,12 @@ static int rzg2l_irqc_parse_interrupts(struct rzg2l_irqc_priv *priv,
+>  	unsigned int i;
+>  	int ret;
+>  
+> -	for (i = 0; i < IRQC_NUM_IRQ; i++) {
+> +	for (i = 1; i <= IRQC_NUM_HIERARCHY_IRQ; i++) {
+>  		ret = of_irq_parse_one(np, i, &map);
+>  		if (ret)
+>  			return ret;
+>  		of_phandle_args_to_fwspec(np, map.args, map.args_count,
+> -					  &priv->fwspec[i]);
+> +					  &priv->fwspec[i - 1]);
+
+Starting the loop at 1 really is non-idiomatic, and I'd rather see
+something like this:
+
+	for (i = 0; i < IRQC_NUM_HIERARCHY_IRQ; i++) {
+		ret = of_irq_parse_one(np, i + 1, &map);
+		if (ret)
+			return ret;
+		of_phandle_args_to_fwspec(np, map.args, map.args_count,
+					  &priv->fwspec[i]);
+	}
+
+Thanks,
+
+	M.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Without deviation from the norm, progress is not possible.
