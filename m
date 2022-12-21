@@ -2,60 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54E616532A3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Dec 2022 15:48:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DD7B6532C4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Dec 2022 15:55:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229968AbiLUOsA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Dec 2022 09:48:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38938 "EHLO
+        id S233016AbiLUOz4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Dec 2022 09:55:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229491AbiLUOr7 (ORCPT
+        with ESMTP id S233305AbiLUOzs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Dec 2022 09:47:59 -0500
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 472DBAE49;
-        Wed, 21 Dec 2022 06:47:55 -0800 (PST)
-Received: by mail-yb1-f172.google.com with SMTP id c124so12441891ybb.13;
-        Wed, 21 Dec 2022 06:47:55 -0800 (PST)
+        Wed, 21 Dec 2022 09:55:48 -0500
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E8C0193EC;
+        Wed, 21 Dec 2022 06:55:46 -0800 (PST)
+Received: by mail-qt1-f171.google.com with SMTP id a16so13778536qtw.10;
+        Wed, 21 Dec 2022 06:55:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kgkmWiorp8w63YWLUVLTMIB+rBFZNY+cC3lzhrzZJp4=;
-        b=jMx78nbbThkssRQsnhWoorIMo5+QwzlNZXKLzsTFnB5yWYM98C8uPFVS5K7H3YGxrv
-         zbHAxnp+7VEtLczwIuyz4An1bQvCz7SDH0NxDqR0D6cWmBV7GFmQXQ0qZlzrryyRg39O
-         mVqkYAPJps1irT6qYqfI0tEQfbb4IAUfn2fkz/gagv4bgAMibTGSmlcZRyL5lQCxu/UG
-         9l1uqmlUy4SGzXC7C5hgQJkajMHTMfsgk9fwyNeGiUAkFbPKNw/lcFOpc357R3lykB3o
-         E1nBTrMm3DvsL+5yZsjEdhf/dC+/xphbuPLl96xVrFqwbEvSOZM40HW6kC8daRt0Q0Xj
-         Fldw==
-X-Gm-Message-State: AFqh2krp3tk5k6Elh+a75MvTUxGgPGT8rkx8ggHPBhToruUsyj3nvk+n
-        fvLem9y+4xCYYwbw2ND8nY1QnvrxZGItvA==
-X-Google-Smtp-Source: AMrXdXu6FVZK3xifLU1xTYl+f50Y7PXzmbnF+TkGoqgPwztFSd8JvQUKi3wKwD47c6eMJrJdWVyKhw==
-X-Received: by 2002:a25:fc25:0:b0:716:10cb:dc42 with SMTP id v37-20020a25fc25000000b0071610cbdc42mr17290497ybd.37.1671634074157;
-        Wed, 21 Dec 2022 06:47:54 -0800 (PST)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id w8-20020a05620a444800b006fc92cf4703sm10948941qkp.132.2022.12.21.06.47.53
+        bh=sTPZ0K5JpYMjZzjTSAwMmU9Y72BvxSLKSQXO+/uT6k4=;
+        b=2ASXnmc0KTXhh1R4PiPe76YkgaKVW9CkGdPhkNf/k3zN1XfBAP+SxQh8Hut1wHG8TJ
+         f7KKU9zIYcu3ktWR6KjohVoM8xRPRGYy1qWWxcbHlmg/vfl+K/l16uyP1LY82yZYbXZK
+         dlA4ZMDKA4eBKWA6ITdAmEuwHvIq68xQ7BlfvThCwkUOaotol70pstyB68Mk/FaQPijX
+         v5X4bUQhm/QVJ+lX9LfxtJH1/TvPT/EG2Bs8Hg8b9Sq4PbqiW+GDjJymXS1V8pKB8qSK
+         94xM3jvlptL+6IoW5J7DymRc+gVRzHd4w5OKHQVfuatxLNhtRefG/QzCBDgZ8o1tYDOp
+         vVHw==
+X-Gm-Message-State: AFqh2kopcDeepWR+5i2vxs6mxDYMIYc57dzfOxsKn1RvLYzrKDhf0xNT
+        2HUju5ZCTbFwgWySejuiP0iggj/LOk+wRg==
+X-Google-Smtp-Source: AMrXdXurdZF4GGi+24eFQWehJIAsl30uuEcpjrfZVHLzt5dAVaYHVn6y2QYl0sQiKxNQFuRpf6EVfA==
+X-Received: by 2002:ac8:70ca:0:b0:3a7:e838:11da with SMTP id g10-20020ac870ca000000b003a7e83811damr7793080qtp.58.1671634545270;
+        Wed, 21 Dec 2022 06:55:45 -0800 (PST)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id a5-20020ac844a5000000b003a68af60591sm9212809qto.70.2022.12.21.06.55.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Dec 2022 06:47:53 -0800 (PST)
-Received: by mail-yb1-f182.google.com with SMTP id t15so4624592ybq.4;
-        Wed, 21 Dec 2022 06:47:53 -0800 (PST)
-X-Received: by 2002:a25:aae1:0:b0:6fc:1c96:c9fe with SMTP id
- t88-20020a25aae1000000b006fc1c96c9femr285471ybi.36.1671634073520; Wed, 21 Dec
- 2022 06:47:53 -0800 (PST)
+        Wed, 21 Dec 2022 06:55:44 -0800 (PST)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-381662c78a9so214324677b3.7;
+        Wed, 21 Dec 2022 06:55:44 -0800 (PST)
+X-Received: by 2002:a05:690c:c02:b0:370:202b:f085 with SMTP id
+ cl2-20020a05690c0c0200b00370202bf085mr131138ywb.502.1671634544246; Wed, 21
+ Dec 2022 06:55:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20221205145955.391526-1-biju.das.jz@bp.renesas.com> <20221205145955.391526-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20221205145955.391526-2-biju.das.jz@bp.renesas.com>
+References: <20221212172804.1277751-1-biju.das.jz@bp.renesas.com> <20221212172804.1277751-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20221212172804.1277751-2-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 21 Dec 2022 15:47:41 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXa=pdSQeet1gFO3YrerXmw41Xi=qE0_xW_h+uFAgBrnQ@mail.gmail.com>
-Message-ID: <CAMuHMdXa=pdSQeet1gFO3YrerXmw41Xi=qE0_xW_h+uFAgBrnQ@mail.gmail.com>
-Subject: Re: [PATCH 1/6] clk: renesas: r9a09g011: Add TIM clock and reset entries
-To:     biju.das.jz@bp.renesas.com
+Date:   Wed, 21 Dec 2022 15:55:31 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWSXLAVJ5nPSozH5rDO60SxFZza=48VyzYtvOU0ACu4fw@mail.gmail.com>
+Message-ID: <CAMuHMdWSXLAVJ5nPSozH5rDO60SxFZza=48VyzYtvOU0ACu4fw@mail.gmail.com>
+Subject: Re: [PATCH 01/16] clk: renesas: r9a09g011: Add USB clock and reset entries
+To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
         linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
@@ -68,18 +67,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Dec 5, 2022 at 4:00 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add Compare-Match Timer (TIM) clock and reset entries to CPG
-> driver.
->
-> The TIM IP on the RZ/V2M comes with 32 channels, but the ISP has
-> full control of channels 0 to 7, and channels 24 to 31. Therefore
-> Linux is only allowed to use channels 8 to 23.
->
-> The TIM has shared peripheral clock with other modules, so mark it
-> as critical clock.
+On Mon, Dec 12, 2022 at 6:28 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add USB clock and reset entries to CPG driver.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+I couldn't review the clock parents, as that information seems to
+be restricted, but the rest LGTM.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-clk-for-v6.3.
