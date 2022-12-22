@@ -2,88 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FF3A654214
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Dec 2022 14:44:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFAC1654446
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Dec 2022 16:26:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235056AbiLVNoa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Dec 2022 08:44:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34860 "EHLO
+        id S235818AbiLVP0T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Dec 2022 10:26:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbiLVNo3 (ORCPT
+        with ESMTP id S235759AbiLVPZ5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Dec 2022 08:44:29 -0500
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0642F1758F
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Dec 2022 05:44:29 -0800 (PST)
-Received: by mail-qv1-f47.google.com with SMTP id c14so1296679qvq.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Dec 2022 05:44:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GWkoEVqb8gDzFMhTgLoXeVsl7llT8DBZlvGpP7SaItY=;
-        b=w3nsrAm6lC2CZkqxKIDwV3o6IUTz9xTQ0Fmeo8mS/H6vQl+srh3pDpskf205a8GD6O
-         xt1Vj8l6uROM+ZsgZa+1I8FtLHiMp3JRyDtEa24cABWyvKRN9iM8Pt5WkjkYlBfgS7G2
-         IOEsIfOr2nu0MUDkPHj5IkMC5kjdKXvJ0fbsbQon5EgnZzGeOJBbYzfIgZZHBMgLrhcL
-         tYZ0zyNWmx5KQmycirBTt6c7LzSCiwsp/AsYUjkkvg6irTG5xk0KphNWdTGOU/MDYHO9
-         pcKmGlOeE6dfhSlK7PfhlugXaPO0iv0W1BaqnRpEzr/aanZ4wLRAFbAY+i8wK7Ssyvmh
-         AsmA==
-X-Gm-Message-State: AFqh2kq7dhBMFGI07ifpNqlH6Nq+sPKIRK71Pnc0Xv4/CXHBXK92Pwfl
-        B/nRalUiN4CQj8ThrvnRHqv8kZeTDGOmqw==
-X-Google-Smtp-Source: AMrXdXvxgWjvHbVRTdMH1Kdzl3e66Wd+WdAqCqRGDQonvCoCXnzYiO6eixgjsAIDeqP7JJjzmpkGeg==
-X-Received: by 2002:a0c:fb4b:0:b0:4c7:c32:48e8 with SMTP id b11-20020a0cfb4b000000b004c70c3248e8mr7046861qvq.36.1671716667769;
-        Thu, 22 Dec 2022 05:44:27 -0800 (PST)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id y19-20020a05620a44d300b006bbf85cad0fsm328074qkp.20.2022.12.22.05.44.27
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Dec 2022 05:44:27 -0800 (PST)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-3b56782b3f6so26862847b3.13
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Dec 2022 05:44:27 -0800 (PST)
-X-Received: by 2002:a05:690c:d84:b0:437:febc:6583 with SMTP id
- da4-20020a05690c0d8400b00437febc6583mr547019ywb.384.1671716667135; Thu, 22
- Dec 2022 05:44:27 -0800 (PST)
+        Thu, 22 Dec 2022 10:25:57 -0500
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 003E52B268;
+        Thu, 22 Dec 2022 07:24:42 -0800 (PST)
+Received: (Authenticated sender: herve.codina@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id A6BD140002;
+        Thu, 22 Dec 2022 15:24:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1671722681;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=paTDVkvAnOW0G/nrH5hLopHfXkzR9wnPXZ3DRptHKzE=;
+        b=An1s8lISNjsPvQ1ituTK/aN3u0eD6UmoFmKwIL0GQfGp0XvXqvtsK7VWOQKsisikEGAN7q
+        muHMLfnUj9yHCYDEFEMNgMuF7RfsFT/acVCNbJH7UNgauLLskDpn43sPiZ/dBSMYF7lrzA
+        zP4cUUaSokxDZ4VxRXLq01Zun+/zSNg4/3lrpVCYkyojIls7kUtcdLgMNik5FrwTPJsBxp
+        c4pm2wnqiWjeg+ZliKFWAAp/2G1W+ZeGAyrooqc7g9jfxp5qHhp8AGzu5JDv61DkzHMALr
+        MDCoPNRIpRzb53IT9AqPTu59V4MlDFJOc2aZ9wTUQnOYjjAI8RhTisk42WDATg==
+Date:   Thu, 22 Dec 2022 16:24:38 +0100
+From:   Herve Codina <herve.codina@bootlin.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v4 3/5] usb: gadget: udc: add Renesas RZ/N1 USBF
+ controller support
+Message-ID: <20221222162438.4d06bd77@bootlin.com>
+In-Reply-To: <Y6MFKdOU4IUQo70L@kroah.com>
+References: <20221213133302.218955-1-herve.codina@bootlin.com>
+ <20221213133302.218955-4-herve.codina@bootlin.com>
+ <CAMuHMdV7QNZ8Rv6iFLhj_MmBHL-vGWuWZdKB=REWba1UAWgkHw@mail.gmail.com>
+ <Y6MFKdOU4IUQo70L@kroah.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <CAMuHMdWXPesKV7XE_QwLrM6pZ1z6GFC-SjJ1ceFTs4o=hv71Zg@mail.gmail.com>
-In-Reply-To: <CAMuHMdWXPesKV7XE_QwLrM6pZ1z6GFC-SjJ1ceFTs4o=hv71Zg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 22 Dec 2022 14:44:14 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX8HtWOAK6MDdN8F8V0aer0hTHzeAcnCGMycpS70hesNQ@mail.gmail.com>
-Message-ID: <CAMuHMdX8HtWOAK6MDdN8F8V0aer0hTHzeAcnCGMycpS70hesNQ@mail.gmail.com>
-Subject: Re: Future renesas-drivers releases
-To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Oct 6, 2022 at 2:40 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->   - renesas-drivers-2022-12-06-v6.1 (TBD),
->   - renesas-drivers-2022-12-13-v6.1 (TBD).
+Hi Geert, Greg,
 
-So that became the latter.
+On Wed, 21 Dec 2022 14:07:53 +0100
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 
-Next planned releases, if all goes well:
-  - renesas-drivers-2022-12-27-v6.2-rc1,
-  - renesas-drivers-2023-01-10-v6.2-rc3,
-  - renesas-drivers-2023-01-24-v6.2-rc5,
-  - renesas-drivers-2023-02-07-v6.2-rc7,
-  - renesas-drivers-2023-02-14-v6.2 (TBD),
-  - renesas-drivers-2023-02-21-v6.2 (TBD).
+> On Wed, Dec 21, 2022 at 02:03:43PM +0100, Geert Uytterhoeven wrote:
+> > Hi Herv=C3=A9,
+> >=20
+> > On Tue, Dec 13, 2022 at 2:33 PM Herve Codina <herve.codina@bootlin.com>=
+ wrote: =20
+> > > Add support for the Renesas USBF controller.
+> > > This controller is an USB2.0 UDC controller available in the
+> > > Renesas r9a06g032 SoC (RZ/N1 family).
+> > >
+> > > Signed-off-by: Herve Codina <herve.codina@bootlin.com> =20
+> >=20
+> > Thanks for your patch!
+> >  =20
+> > > --- /dev/null
+> > > +++ b/drivers/usb/gadget/udc/renesas_usbf.c =20
+> >  =20
+> > > +#ifdef DEBUG
+> > > +#define TRACE(_fmt, ...) trace_printk("%s: " _fmt, __func__, ##__VA_=
+ARGS__)
+> > > +#define USBF_TRACE_EP_MASK 0x0ffff /* All the 16 endpoints */
+> > > +#define TRACEEP(_ep, _fmt, ...)                                     =
+        \
+> > > +       do {                                                         =
+       \
+> > > +               if ((1 << (_ep)->id) & USBF_TRACE_EP_MASK)           =
+       \
+> > > +                       trace_printk("%s: " _fmt, __func__, ##__VA_AR=
+GS__); \
+> > > +       } while (0)
+> > > +#else
+> > > +#define TRACE(_fmt, ...) do { } while (0)
+> > > +#define TRACEEP(_ep, _fmt, ...) do { } while (0) =20
+> >=20
+> > Please use "no_printk(fmt, ##__VA_ARGS__)" instead of dummy loops,
+> > to avoid bad callers going unnoticed if DEBUG is not defined. =20
+>=20
+> Even better, do NOT define custom debug/trace macros for a single
+> driver, just use the ones that the rest of the kernel uses instead
+> please.
+>=20
+> thanks,
+>=20
+> greg k-h
 
-Gr{oetje,eeting}s,
+I would like to keep some granularity in debug messages and
+also keep the function name automatically added.
+I propose 3 kinds of messages:
+- general ones,
+- specific Endpoint0 ones,
+- other Endpoints ones.
 
-                        Geert
+So before doing any modification in the source code, what do you
+think about:
+    /*
+     * Suggested tracers:
+     * - no_printk:    Disable tracing
+     * - trace_printk: Print to trace buffer
+     */
+    #define usbf_dbg(_fmt, ...) no_printk("%s: " _fmt, __func__, ##__VA_ARG=
+S__)
+    #define usbf_dbg_ep0(_fmt, ...) no_printk("%s: " _fmt, __func__, ##__VA=
+_ARGS__)
+    #define usbf_dbg_epn(_fmt, ...) no_printk("%s: " _fmt, __func__, ##__VA=
+_ARGS__)
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+The code will use only these macros instead of the previously
+defined TRACE and TRACEEP as follow:
+- usbf_dbg() will be called instead of TRACE()
+- usbf_dbg_ep0() will be called instead of TRACEEP() for Endpoint0
+- usbf_dbg_epn() will be called instead of TRACEEP() for other Endpoints
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Is that ok for you ?
+
+Best regards,
+Herv=C3=A9
+
+--=20
+Herv=C3=A9 Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
