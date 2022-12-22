@@ -2,141 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5ADF654527
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Dec 2022 17:28:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A83F6545D5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Dec 2022 19:09:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbiLVQ2z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Dec 2022 11:28:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47250 "EHLO
+        id S229745AbiLVSJt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Dec 2022 13:09:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbiLVQ2y (ORCPT
+        with ESMTP id S229793AbiLVSJr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Dec 2022 11:28:54 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B633A46D;
-        Thu, 22 Dec 2022 08:28:53 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 07FAE60C17;
-        Thu, 22 Dec 2022 16:28:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4530C433D2;
-        Thu, 22 Dec 2022 16:28:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1671726532;
-        bh=quQ2OOb8SYWeKmOuvUZAVXbbPsSJZ2ipg0z5ydmhLNk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=T+behxXYqfS5N7QM8iPekCkNaFdT/IsqRvsyEDTEEbtpgv1A+iBHwxjCH5Png/qfn
-         r+gDGvBk7+Xvpvv6tQsqrr4E0OQQN4FIEfsoNOixyOliGIDPhSgE7y0YsFG1poAcR2
-         XBhnHHDmkBP/BxVmWoaTXGWAIYDC5Pobcn85Iys8=
-Date:   Thu, 22 Dec 2022 17:28:49 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Herve Codina <herve.codina@bootlin.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        Thu, 22 Dec 2022 13:09:47 -0500
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0258E15804;
+        Thu, 22 Dec 2022 10:09:47 -0800 (PST)
+Received: by mail-oi1-f170.google.com with SMTP id r205so2573841oib.9;
+        Thu, 22 Dec 2022 10:09:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f80xyDOk9KHf4uJK6arjWJwVRc80XWsAqw622e+2d9I=;
+        b=WjjX6ssCoVnP0c+K+hxsLtrqtF/y05DUpLRooP+0T86UHmIZ/uZuXMbNz7T54ZXWZ9
+         fegWZqKuZFoJNkn8MqAVAriaw0XWGM6YQiaMgk+BKAiXXN71TEthY7e8rMO1lrnwJeuQ
+         BzRNw6Fxnr01r298QCnLF6OcVIDJ6FUyl3+ULWN1xl3t2WTB8okzaV4hzHFgnEzvubRc
+         oETUpu0awoE3eaN8NPaka/+ci/nnguob+Sjcdc8haRJ4IlaCOeLUpzUnlpEDozRZq0hc
+         F2akBF/ES0P8d+yiU4VSxuI5oWU9oUHVrChhoz/c1W+yQqJHfhTbdQguGxY9nvJdEXP8
+         oQTQ==
+X-Gm-Message-State: AFqh2kq5bJyIeIBQ5hHu2I/aestXd5wRXvXSBKZuKDPYgYlqcAAPalw1
+        rLToN9k9hbjn2Yw9ut8MBQ==
+X-Google-Smtp-Source: AMrXdXsf5t0zjQgu0bp4rIu0RQlpGNwMex6n3Tknbcjzee6r9WtvrQsaOzukDzzJMGUlkmjLBBgQfQ==
+X-Received: by 2002:a05:6808:13c1:b0:35e:66a4:1b19 with SMTP id d1-20020a05680813c100b0035e66a41b19mr4305245oiw.8.1671732586235;
+        Thu, 22 Dec 2022 10:09:46 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id r70-20020acaa849000000b00354932bae03sm598371oie.10.2022.12.22.10.09.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Dec 2022 10:09:45 -0800 (PST)
+Received: (nullmailer pid 1836501 invoked by uid 1000);
+        Thu, 22 Dec 2022 18:09:45 -0000
+Date:   Thu, 22 Dec 2022 12:09:45 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-pm@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Biju Das <biju.das@bp.renesas.com>, linux-gpio@vger.kernel.org,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v4 3/5] usb: gadget: udc: add Renesas RZ/N1 USBF
- controller support
-Message-ID: <Y6SFwVqXXmobljwW@kroah.com>
-References: <20221213133302.218955-1-herve.codina@bootlin.com>
- <20221213133302.218955-4-herve.codina@bootlin.com>
- <CAMuHMdV7QNZ8Rv6iFLhj_MmBHL-vGWuWZdKB=REWba1UAWgkHw@mail.gmail.com>
- <Y6MFKdOU4IUQo70L@kroah.com>
- <20221222162438.4d06bd77@bootlin.com>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>
+Subject: Re: [PATCH v2 1/4] dt-bindings: mfd: Add RZ/V2M PWC
+Message-ID: <167173258412.1836090.16333363777384274301.robh@kernel.org>
+References: <20221221210917.458537-1-fabrizio.castro.jz@renesas.com>
+ <20221221210917.458537-2-fabrizio.castro.jz@renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221222162438.4d06bd77@bootlin.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221221210917.458537-2-fabrizio.castro.jz@renesas.com>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Dec 22, 2022 at 04:24:38PM +0100, Herve Codina wrote:
-> Hi Geert, Greg,
+
+On Wed, 21 Dec 2022 21:09:14 +0000, Fabrizio Castro wrote:
+> The Renesas RZ/V2M External Power Sequence Controller (PWC)
+> IP is a multi-function device, and it's capable of:
+> * external power supply on/off sequence generation
+> * on/off signal generation for the LPDDR4 core power supply (LPVDD)
+> * key input signals processing
+> * general-purpose output pins
 > 
-> On Wed, 21 Dec 2022 14:07:53 +0100
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> Add the corresponding dt-bindings.
 > 
-> > On Wed, Dec 21, 2022 at 02:03:43PM +0100, Geert Uytterhoeven wrote:
-> > > Hi Hervé,
-> > > 
-> > > On Tue, Dec 13, 2022 at 2:33 PM Herve Codina <herve.codina@bootlin.com> wrote:  
-> > > > Add support for the Renesas USBF controller.
-> > > > This controller is an USB2.0 UDC controller available in the
-> > > > Renesas r9a06g032 SoC (RZ/N1 family).
-> > > >
-> > > > Signed-off-by: Herve Codina <herve.codina@bootlin.com>  
-> > > 
-> > > Thanks for your patch!
-> > >   
-> > > > --- /dev/null
-> > > > +++ b/drivers/usb/gadget/udc/renesas_usbf.c  
-> > >   
-> > > > +#ifdef DEBUG
-> > > > +#define TRACE(_fmt, ...) trace_printk("%s: " _fmt, __func__, ##__VA_ARGS__)
-> > > > +#define USBF_TRACE_EP_MASK 0x0ffff /* All the 16 endpoints */
-> > > > +#define TRACEEP(_ep, _fmt, ...)                                             \
-> > > > +       do {                                                                \
-> > > > +               if ((1 << (_ep)->id) & USBF_TRACE_EP_MASK)                  \
-> > > > +                       trace_printk("%s: " _fmt, __func__, ##__VA_ARGS__); \
-> > > > +       } while (0)
-> > > > +#else
-> > > > +#define TRACE(_fmt, ...) do { } while (0)
-> > > > +#define TRACEEP(_ep, _fmt, ...) do { } while (0)  
-> > > 
-> > > Please use "no_printk(fmt, ##__VA_ARGS__)" instead of dummy loops,
-> > > to avoid bad callers going unnoticed if DEBUG is not defined.  
-> > 
-> > Even better, do NOT define custom debug/trace macros for a single
-> > driver, just use the ones that the rest of the kernel uses instead
-> > please.
-> > 
-> > thanks,
-> > 
-> > greg k-h
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> ---
 > 
-> I would like to keep some granularity in debug messages and
-> also keep the function name automatically added.
-> I propose 3 kinds of messages:
-> - general ones,
-> - specific Endpoint0 ones,
-> - other Endpoints ones.
+> v1->v2: I have dropped syscon, simple-mfd, regmap, offset, and the child nodes.
+> 
+>  .../bindings/mfd/renesas,rzv2m-pwc.yaml       | 56 +++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/renesas,rzv2m-pwc.yaml
+> 
 
-All of those can work just fine using dev_dbg() today, no need to make
-anything special for the driver.  You can turn those messages on/off
-with no need to ever rebuild your driver, which is the key point.
-
-> So before doing any modification in the source code, what do you
-> think about:
->     /*
->      * Suggested tracers:
->      * - no_printk:    Disable tracing
->      * - trace_printk: Print to trace buffer
->      */
->     #define usbf_dbg(_fmt, ...) no_printk("%s: " _fmt, __func__, ##__VA_ARGS__)
->     #define usbf_dbg_ep0(_fmt, ...) no_printk("%s: " _fmt, __func__, ##__VA_ARGS__)
->     #define usbf_dbg_epn(_fmt, ...) no_printk("%s: " _fmt, __func__, ##__VA_ARGS__)
-
-Nope, just use dev_dbg() only please.  It provides MUCH more
-funcationality and a unified interface with the rest of the kernel.
-Please do not attempt to "roll your own" version of debugging macros for
-just a single driver.
-
-thanks,
-
-greg k-h
+Reviewed-by: Rob Herring <robh@kernel.org>
