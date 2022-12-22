@@ -2,71 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD7AE654157
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Dec 2022 13:52:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FF3A654214
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Dec 2022 14:44:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235243AbiLVMwF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Dec 2022 07:52:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39038 "EHLO
+        id S235056AbiLVNoa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Dec 2022 08:44:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235361AbiLVMwB (ORCPT
+        with ESMTP id S229548AbiLVNo3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Dec 2022 07:52:01 -0500
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A66552528D;
-        Thu, 22 Dec 2022 04:51:55 -0800 (PST)
-Received: by mail-qv1-f45.google.com with SMTP id d13so1177621qvj.8;
-        Thu, 22 Dec 2022 04:51:55 -0800 (PST)
+        Thu, 22 Dec 2022 08:44:29 -0500
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0642F1758F
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Dec 2022 05:44:29 -0800 (PST)
+Received: by mail-qv1-f47.google.com with SMTP id c14so1296679qvq.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Dec 2022 05:44:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GllrCyZoKpUhPvjdNIUyYRbhBs5yv+S16f965UWIIIk=;
-        b=mJP8AwvM71nB0RMmI86l7K/8iUfGLRV2iRIOA3ODoaTpCW+8S6480mMUuIgXsQZy6V
-         znnMctiYBtlaOpi2SyI8loTayrv6zvXuzDhtYFxbMDRk9nJQekhhjjFJrV4NbMB2ijv7
-         aYvcHqYpoHSlfWNPe08c48dPmielh1AqwXrjLxbxemSpK6SB7RtaJUePuQ+8Y0bqRR4j
-         hG+Ldbwhlapg9YP7b77PyhcgVE/h0Enmr9bvGFQYqRMyP5ul4MIrRDYMcvpHXFhbPC30
-         Y9hwxWXi+bDrStOaQrSsljsbno8LfQ9ypDa2pkq2RvI25yiDFdzDx6jyFEB4tILf/lA0
-         papQ==
-X-Gm-Message-State: AFqh2kqKwuOKO2fZwo9cx+TZ4y/MWcpA2sDl/3Dfle5FfEqr4us9NiqA
-        kIbAXs6yc37iWi7slJHktU7fFh8qIg9PpA==
-X-Google-Smtp-Source: AMrXdXvHXFs6oSpnb3ysFIMAPBvFS/GtzyuWqQVcOIfsUylQG5Dz3sAsna6RFJVO/WiGOdYu0NMpvw==
-X-Received: by 2002:a0c:ea22:0:b0:4bb:615d:4c4c with SMTP id t2-20020a0cea22000000b004bb615d4c4cmr7642560qvp.49.1671713514590;
-        Thu, 22 Dec 2022 04:51:54 -0800 (PST)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id r17-20020ae9d611000000b00704c62638f4sm8597qkk.89.2022.12.22.04.51.53
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GWkoEVqb8gDzFMhTgLoXeVsl7llT8DBZlvGpP7SaItY=;
+        b=w3nsrAm6lC2CZkqxKIDwV3o6IUTz9xTQ0Fmeo8mS/H6vQl+srh3pDpskf205a8GD6O
+         xt1Vj8l6uROM+ZsgZa+1I8FtLHiMp3JRyDtEa24cABWyvKRN9iM8Pt5WkjkYlBfgS7G2
+         IOEsIfOr2nu0MUDkPHj5IkMC5kjdKXvJ0fbsbQon5EgnZzGeOJBbYzfIgZZHBMgLrhcL
+         tYZ0zyNWmx5KQmycirBTt6c7LzSCiwsp/AsYUjkkvg6irTG5xk0KphNWdTGOU/MDYHO9
+         pcKmGlOeE6dfhSlK7PfhlugXaPO0iv0W1BaqnRpEzr/aanZ4wLRAFbAY+i8wK7Ssyvmh
+         AsmA==
+X-Gm-Message-State: AFqh2kq7dhBMFGI07ifpNqlH6Nq+sPKIRK71Pnc0Xv4/CXHBXK92Pwfl
+        B/nRalUiN4CQj8ThrvnRHqv8kZeTDGOmqw==
+X-Google-Smtp-Source: AMrXdXvxgWjvHbVRTdMH1Kdzl3e66Wd+WdAqCqRGDQonvCoCXnzYiO6eixgjsAIDeqP7JJjzmpkGeg==
+X-Received: by 2002:a0c:fb4b:0:b0:4c7:c32:48e8 with SMTP id b11-20020a0cfb4b000000b004c70c3248e8mr7046861qvq.36.1671716667769;
+        Thu, 22 Dec 2022 05:44:27 -0800 (PST)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id y19-20020a05620a44d300b006bbf85cad0fsm328074qkp.20.2022.12.22.05.44.27
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Dec 2022 04:51:54 -0800 (PST)
-Received: by mail-yb1-f181.google.com with SMTP id e141so1840398ybh.3;
-        Thu, 22 Dec 2022 04:51:53 -0800 (PST)
-X-Received: by 2002:a25:d243:0:b0:702:90b4:2e24 with SMTP id
- j64-20020a25d243000000b0070290b42e24mr398540ybg.365.1671713513672; Thu, 22
- Dec 2022 04:51:53 -0800 (PST)
+        Thu, 22 Dec 2022 05:44:27 -0800 (PST)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-3b56782b3f6so26862847b3.13
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Dec 2022 05:44:27 -0800 (PST)
+X-Received: by 2002:a05:690c:d84:b0:437:febc:6583 with SMTP id
+ da4-20020a05690c0d8400b00437febc6583mr547019ywb.384.1671716667135; Thu, 22
+ Dec 2022 05:44:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20221221000242.340202-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221221000242.340202-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <86o7rxawhn.wl-maz@kernel.org> <CAMuHMdX++dbcsxyGRqiRzgukeU4aoAi3hDV5zyfH1s11dFba-A@mail.gmail.com>
- <CA+V-a8uRTPhQqtkQqUVtW=HE02YaW0oi=Os__OgtUgQVwWq+Mw@mail.gmail.com>
-In-Reply-To: <CA+V-a8uRTPhQqtkQqUVtW=HE02YaW0oi=Os__OgtUgQVwWq+Mw@mail.gmail.com>
+References: <CAMuHMdWXPesKV7XE_QwLrM6pZ1z6GFC-SjJ1ceFTs4o=hv71Zg@mail.gmail.com>
+In-Reply-To: <CAMuHMdWXPesKV7XE_QwLrM6pZ1z6GFC-SjJ1ceFTs4o=hv71Zg@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 22 Dec 2022 13:51:41 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV0wKGk+EvTfCZJu0z_HYy7YaLLNya4z6=coASsbnkVBQ@mail.gmail.com>
-Message-ID: <CAMuHMdV0wKGk+EvTfCZJu0z_HYy7YaLLNya4z6=coASsbnkVBQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/9] irqchip: irq-renesas-rzg2l: Add support for
- RZ/G2UL SoC
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date:   Thu, 22 Dec 2022 14:44:14 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX8HtWOAK6MDdN8F8V0aer0hTHzeAcnCGMycpS70hesNQ@mail.gmail.com>
+Message-ID: <CAMuHMdX8HtWOAK6MDdN8F8V0aer0hTHzeAcnCGMycpS70hesNQ@mail.gmail.com>
+Subject: Re: Future renesas-drivers releases
+To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -78,82 +63,19 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+On Thu, Oct 6, 2022 at 2:40 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>   - renesas-drivers-2022-12-06-v6.1 (TBD),
+>   - renesas-drivers-2022-12-13-v6.1 (TBD).
 
-On Thu, Dec 22, 2022 at 12:50 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Wed, Dec 21, 2022 at 12:18 PM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
-> > On Wed, Dec 21, 2022 at 11:20 AM Marc Zyngier <maz@kernel.org> wrote:
-> > > On Wed, 21 Dec 2022 00:02:37 +0000,
-> > > Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > > >
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > The IRQC block on RZ/G2UL SoC is almost identical to one found on the
-> > > > RZ/G2L SoC the only difference being it can support BUS_ERR_INT for
-> > > > which it has additional registers.
-> > > >
-> > > > This patch adds a new entry for "renesas,rzg2ul-irqc" compatible string
-> > > > and now that we have interrupt-names property the driver code parses the
-> > > > interrupts based on names and for backward compatibility we fallback to
-> > > > parse interrupts based on index.
-> > > >
-> > > > For now we will be using rzg2l_irqc_init() as a callback for RZ/G2UL SoC
-> > > > too and in future when the interrupt handler will be registered for
-> > > > BUS_ERR_INT we will have to implement a new callback.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > > > +/* Parse hierarchy domain interrupts ie only IRQ0-7 and TINT0-31 */
-> > > > +static int rzg2l_irqc_parse_hierarchy_interrupts(struct rzg2l_irqc_priv *priv,
-> > > > +                                              struct device_node *np)
-> > > > +{
-> > > > +     struct property *pp;
-> > > >       unsigned int i;
-> > > >       int ret;
-> > > >
-> > > > +     /*
-> > > > +      * first check if interrupt-names property exists if so parse them by name
-> > > > +      * or else parse them by index for backward compatibility.
-> > > > +      */
-> > > > +     pp = of_find_property(np, "interrupt-names", NULL);
-> > > > +     if (pp) {
-> > > > +             char *irq_name;
-> > > > +
-> > > > +             /* parse IRQ0-7 */
-> > > > +             for (i = 0; i < IRQC_IRQ_COUNT; i++) {
-> > > > +                     irq_name = kasprintf(GFP_KERNEL, "irq%d", i);
-> >
-> > %u
-> >
-> Ok.
->
-> > > > +                     if (!irq_name)
-> > > > +                             return -ENOMEM;
-> > > > +
-> > > > +                     ret = rzg2l_irqc_parse_interrupt_by_name_to_fwspec(priv, np, irq_name, i);
-> > >
-> > > Am I the only one that find it rather odd to construct a name from an
-> > > index, only to get another index back?
-> >
-> > The issue is that there are two number ranges ("irq%u" and "tint%u"),
-> > stored in a single interrupts property.
-> >
-> > An alternative solution would be to get rid of the "interrupt-names",
-> > and use two separate prefixed interrupts properties instead, like is
-> > common for e.g. gpios: "irq-interrupts" and "tint-interrupts".
-> >
-> Maybe I will read all the interrupts based on index only for all the
-> SoCs and we still add interrupt-names in dt bindings with the
-> dt_binding check we can make sure all the interrupts for each SoC
-> exist in the DT and the driver still reads them based on index. Does
-> that sound good?
+So that became the latter.
 
-Sure, sounds fine.
-
-You can postpone parsing interrupt-names in the driver (until a new
-SoC arrives that uses a different number of IRQ or TINT interrupts).
+Next planned releases, if all goes well:
+  - renesas-drivers-2022-12-27-v6.2-rc1,
+  - renesas-drivers-2023-01-10-v6.2-rc3,
+  - renesas-drivers-2023-01-24-v6.2-rc5,
+  - renesas-drivers-2023-02-07-v6.2-rc7,
+  - renesas-drivers-2023-02-14-v6.2 (TBD),
+  - renesas-drivers-2023-02-21-v6.2 (TBD).
 
 Gr{oetje,eeting}s,
 
