@@ -2,98 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14F28654A91
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Dec 2022 02:55:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8DA2654BE4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Dec 2022 05:11:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235205AbiLWBzS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Dec 2022 20:55:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50768 "EHLO
+        id S230083AbiLWELB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Dec 2022 23:11:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230022AbiLWBzQ (ORCPT
+        with ESMTP id S229763AbiLWEK7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Dec 2022 20:55:16 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC6B3218BD;
-        Thu, 22 Dec 2022 17:55:15 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 3F0B9CE1C2B;
-        Fri, 23 Dec 2022 01:55:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20E47C433D2;
-        Fri, 23 Dec 2022 01:55:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671760512;
-        bh=7+FMQzhkdUuBY613R/cYs3AH1Nhez93yWDo3mNZV11k=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=UEUyNKx2i1LZAVFYds1BlBgyPm/Ik7cpS8U7LfeCdyg6rN34F2MxFbpWcB99oJhWY
-         z3PCM+xeXJc8le1cBwEWvQgHqE+zizdVCc4EUggVJTBdAm0up55elIPXsA9sD3udvn
-         egfjkJqY68Ty9hr//Cwd/0R2imFrjdY7DYeYlQVxFgF9Q0OUNI4ahLOXrdlwppZIB6
-         IGhXVuGjgxPiqZ+dXPaQBHuwYPZJmwzRe0TKQx92R0ZBjDHgjG9XG1UG2kB1/5SaK9
-         lLwTXBmiVtso4HCVs5oQGkXY15JlAV0Smt/mRzag40XxsQXH3LS8gDdBUvVpwnDEtY
-         scu31Ntzcd6dQ==
-Date:   Thu, 22 Dec 2022 17:55:10 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Colin Foster <colin.foster@in-advantage.com>
-Cc:     Rob Herring <robh@kernel.org>,
-        =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, netdev@vger.kernel.org,
-        John Crispin <john@phrozen.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Marek Vasut <marex@denx.de>,
-        Sean Wang <sean.wang@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Alvin =?UTF-8?B?xaBpcHJhZ2E=?= <alsi@bang-olufsen.dk>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        UNGLinuxDriver@microchip.com,
-        Woojung Huh <woojung.huh@microchip.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        George McCollister <george.mccollister@gmail.com>
-Subject: Re: [PATCH v5 net-next 04/10] dt-bindings: net: dsa: utilize base
- definitions for standard dsa switches
-Message-ID: <20221222175510.7ca0b563@kernel.org>
-In-Reply-To: <Y6S5Ple5SURq0QSU@colin-ia-desktop>
-References: <20221210033033.662553-1-colin.foster@in-advantage.com>
-        <20221210033033.662553-5-colin.foster@in-advantage.com>
-        <1df417b5-a924-33d4-a302-eb526f7124b4@arinc9.com>
-        <Y5TJw+zcEDf2ItZ5@euler>
-        <c1e40b58-4459-2929-64f3-3e20f36f6947@arinc9.com>
-        <20221212165147.GA1092706-robh@kernel.org>
-        <Y5d5F9IODF4xhcps@COLIN-DESKTOP1.localdomain>
-        <Y6S5Ple5SURq0QSU@colin-ia-desktop>
+        Thu, 22 Dec 2022 23:10:59 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE2C5F9C;
+        Thu, 22 Dec 2022 20:10:58 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id r26so387979edc.5;
+        Thu, 22 Dec 2022 20:10:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DDJIRU2drmES57oYUNlv6w2Z7XNzbYJ4ME3pRqcx8ks=;
+        b=M/aAcfuN+KqkaGqL5MOJrERhTOfdIgOkRefh7fbtU/vjIYnQUHMPxL/VQcUu923rzP
+         clZT3pPnGZnbCBrKnfoNVQxoCCrqMgE1CF+pmKF5WLIZ4ZbrUgamzR6+AElGLiGmKa1V
+         VVpOzdeNYEyn166M1lKrlfbE9NEM1nn1Lcq5ZlsOuJTgWMUDSNUncK5T4mPZCAUqFOEb
+         4hsawg1wzyeIh5+aszdZ2+zcykbYaO+4+XRmMTHmiFP43AfzePG5qat7ex36Q/akE8Gx
+         0bKLOsprGfnsOCe2f7AJjCtGFt9PTa/cAil+5VSBXc0JNkleBiXp117rY7ABHmoJnbTG
+         kMmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DDJIRU2drmES57oYUNlv6w2Z7XNzbYJ4ME3pRqcx8ks=;
+        b=bY1P2lwyBc3K/QUJ5pmRmC/aTQCsjOE1hzw2zKaDVM+6oIIzrTaEyejXp/DirV/OOD
+         wPA6XDI8w/mjG2dJ8gbPQOzhAXfYYZJpukqIvKL2qeYr5DK7KTrmYcSATrQ65DDlcbYK
+         juUMlTm4OHoRR/f/Zwre7bM9TJNCm7lyYY4iv/kf7L25FaRNfATpU8IVNq1DN5PIH12+
+         g3p5BUUKUA0tZt7j7Mef6Wc0zI+NS+BJdxYCAA4Ksvicfv1RKw7P2RnF5ecQezrdEgv6
+         lgG0Nb2KMemrTP658ZWBdFQz8jL60qOqz5XZy1IokVDV1TTltXzlmnvvkkfPc1uCzlNL
+         wvdA==
+X-Gm-Message-State: AFqh2kp57nIcDrI2Q96iWG/7kypedkCs22PH0wKQ0LV7Xmm3aonnzXYI
+        pw2av/cMIMf+QtmGxEqbAvqZNPrIqsVtW1N26KI=
+X-Google-Smtp-Source: AMrXdXvgXvdfvnweasilwTRfhGfNgSEbDOVlCERqKczxj805dUqByh38/Cs9Oc1qUdjeAW1NFwFwqpUdb0yCWvkDowg=
+X-Received: by 2002:aa7:da42:0:b0:46c:226e:6ec8 with SMTP id
+ w2-20020aa7da42000000b0046c226e6ec8mr762046eds.319.1671768656910; Thu, 22 Dec
+ 2022 20:10:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221211215843.24024-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20221211215843.24024-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 23 Dec 2022 04:10:17 +0000
+Message-ID: <CA+V-a8urku9J3dre00PCDGBSFmFKeNpcZ4ST3bcRuJGFj8f87w@mail.gmail.com>
+Subject: Re: [RFC PATCH] clocksource/drivers/riscv: Get rid of
+ clocksource_arch_init() callback
+To:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Heiko Stuebner <heiko@sntech.de>
+Cc:     linux-riscv@lists.infradead.org, Anup Patel <anup@brainfault.org>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 22 Dec 2022 12:08:30 -0800 Colin Foster wrote:
-> Heads up on my plan for this. I plan to re-submit this on Monday after
-> the merge window with the change where I move the $ref: dsa-port.yaml#
-> to outside the allOf: section, and remove the object type as the above
-> code suggests. Hopefully that's the right step to take.
+On Sun, Dec 11, 2022 at 9:59 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+>
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Having a clocksource_arch_init() callback always sets vdso_clock_mode to
+> VDSO_CLOCKMODE_ARCHTIMER if GENERIC_GETTIMEOFDAY is enabled, this is
+> required for the riscv-timer.
+>
+> This works for platforms where just riscv-timer clocksource is present.
+> On platforms where other clock sources are available we want them to
+> register with vdso_clock_mode set to VDSO_CLOCKMODE_NONE.
+>
+> On the Renesas RZ/Five SoC OSTM block can be used as clocksource [0], to
+> avoid multiple clock sources being registered as VDSO_CLOCKMODE_ARCHTIMER
+> move setting of vdso_clock_mode in the riscv-timer driver instead of doing
+> this in clocksource_arch_init() callback as done similarly for ARM/64
+> architecture.
+>
+> [0] drivers/clocksource/renesas-ostm.c
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  arch/riscv/Kconfig                | 1 -
+>  arch/riscv/kernel/time.c          | 9 ---------
+>  drivers/clocksource/timer-riscv.c | 7 +++++++
+>  3 files changed, 7 insertions(+), 10 deletions(-)
+>
+Gentle ping for review.
 
-FWIW in case you mean Mon, Dec 26th and net-next -- we extended 
-the period of net-next being closed until Jan:
-https://lore.kernel.org/all/20221215092531.133ce653@kernel.org/
+Cheers,
+Prabhakar
