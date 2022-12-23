@@ -2,109 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8DA2654BE4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Dec 2022 05:11:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EEBA4654ECF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Dec 2022 10:50:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230083AbiLWELB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Dec 2022 23:11:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45064 "EHLO
+        id S236295AbiLWJuD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Dec 2022 04:50:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229763AbiLWEK7 (ORCPT
+        with ESMTP id S235896AbiLWJtc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Dec 2022 23:10:59 -0500
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE2C5F9C;
-        Thu, 22 Dec 2022 20:10:58 -0800 (PST)
-Received: by mail-ed1-x52b.google.com with SMTP id r26so387979edc.5;
-        Thu, 22 Dec 2022 20:10:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DDJIRU2drmES57oYUNlv6w2Z7XNzbYJ4ME3pRqcx8ks=;
-        b=M/aAcfuN+KqkaGqL5MOJrERhTOfdIgOkRefh7fbtU/vjIYnQUHMPxL/VQcUu923rzP
-         clZT3pPnGZnbCBrKnfoNVQxoCCrqMgE1CF+pmKF5WLIZ4ZbrUgamzR6+AElGLiGmKa1V
-         VVpOzdeNYEyn166M1lKrlfbE9NEM1nn1Lcq5ZlsOuJTgWMUDSNUncK5T4mPZCAUqFOEb
-         4hsawg1wzyeIh5+aszdZ2+zcykbYaO+4+XRmMTHmiFP43AfzePG5qat7ex36Q/akE8Gx
-         0bKLOsprGfnsOCe2f7AJjCtGFt9PTa/cAil+5VSBXc0JNkleBiXp117rY7ABHmoJnbTG
-         kMmw==
+        Fri, 23 Dec 2022 04:49:32 -0500
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F06108FE4;
+        Fri, 23 Dec 2022 01:45:59 -0800 (PST)
+Received: by mail-qt1-f169.google.com with SMTP id i20so3309890qtw.9;
+        Fri, 23 Dec 2022 01:45:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DDJIRU2drmES57oYUNlv6w2Z7XNzbYJ4ME3pRqcx8ks=;
-        b=bY1P2lwyBc3K/QUJ5pmRmC/aTQCsjOE1hzw2zKaDVM+6oIIzrTaEyejXp/DirV/OOD
-         wPA6XDI8w/mjG2dJ8gbPQOzhAXfYYZJpukqIvKL2qeYr5DK7KTrmYcSATrQ65DDlcbYK
-         juUMlTm4OHoRR/f/Zwre7bM9TJNCm7lyYY4iv/kf7L25FaRNfATpU8IVNq1DN5PIH12+
-         g3p5BUUKUA0tZt7j7Mef6Wc0zI+NS+BJdxYCAA4Ksvicfv1RKw7P2RnF5ecQezrdEgv6
-         lgG0Nb2KMemrTP658ZWBdFQz8jL60qOqz5XZy1IokVDV1TTltXzlmnvvkkfPc1uCzlNL
-         wvdA==
-X-Gm-Message-State: AFqh2kp57nIcDrI2Q96iWG/7kypedkCs22PH0wKQ0LV7Xmm3aonnzXYI
-        pw2av/cMIMf+QtmGxEqbAvqZNPrIqsVtW1N26KI=
-X-Google-Smtp-Source: AMrXdXvgXvdfvnweasilwTRfhGfNgSEbDOVlCERqKczxj805dUqByh38/Cs9Oc1qUdjeAW1NFwFwqpUdb0yCWvkDowg=
-X-Received: by 2002:aa7:da42:0:b0:46c:226e:6ec8 with SMTP id
- w2-20020aa7da42000000b0046c226e6ec8mr762046eds.319.1671768656910; Thu, 22 Dec
- 2022 20:10:56 -0800 (PST)
+        bh=Yset/1Xy0Y/0VkAi2M9vT3aKztL1wDsleDOE/lWQlFc=;
+        b=WJPqtGElsjMfNvNfrDKJ64MogHEaUJpKlCwqYX08V1RM/GZgWhKG8MWTmjaHovwVNg
+         jDcFJJa/8Y6ZAUbHi3o+A4C4u+/NIQPll9B5U7tT4WyZ436nWGy32jiTlGiAGWdX2eRR
+         cKst1KjWWre9CPICul7Mbvux1Wr2v4utYQ14SKBW+QJbbRbza2MD4lUdf1gP+O2zGdBw
+         EQsnxN8QO9P7lp9IwW5uB2+hJIJppI2JP3sCA6aufaLybmAkwnoLHNRSJ2OMsSQfuq0k
+         nCfzqFiL1ZkCFOjZ3+s67ysXnnYyxl09+s3+yoQJa5bGHQm/IGLZ1oZkGfDQlgRx8icj
+         SVLA==
+X-Gm-Message-State: AFqh2kptB6Azzd9l25Q2PtoIfZ7VP1tNPiUy294E+6FuXOAol8h+qMqt
+        ppRVaDicqr37V9kP7Cxp9t+qofvZDA0y+Q==
+X-Google-Smtp-Source: AMrXdXvELRO6sLXza4/8/TtdXCbUI5a5NGL0PtHcRiiGQ4RsH1U7PR466D7/U6KfdZBbSSHv2iLwVA==
+X-Received: by 2002:a05:622a:1b12:b0:3a8:a6f:fb7 with SMTP id bb18-20020a05622a1b1200b003a80a6f0fb7mr10317504qtb.11.1671788716421;
+        Fri, 23 Dec 2022 01:45:16 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id i17-20020a05620a405100b006fcb77f3bd6sm2063608qko.98.2022.12.23.01.45.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Dec 2022 01:45:15 -0800 (PST)
+Received: by mail-yb1-f171.google.com with SMTP id 192so4753286ybt.6;
+        Fri, 23 Dec 2022 01:45:15 -0800 (PST)
+X-Received: by 2002:a25:ab49:0:b0:6de:6183:c5c3 with SMTP id
+ u67-20020a25ab49000000b006de6183c5c3mr967754ybi.89.1671788715557; Fri, 23 Dec
+ 2022 01:45:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20221211215843.24024-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20221211215843.24024-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 23 Dec 2022 04:10:17 +0000
-Message-ID: <CA+V-a8urku9J3dre00PCDGBSFmFKeNpcZ4ST3bcRuJGFj8f87w@mail.gmail.com>
-Subject: Re: [RFC PATCH] clocksource/drivers/riscv: Get rid of
- clocksource_arch_init() callback
-To:     Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Heiko Stuebner <heiko@sntech.de>
-Cc:     linux-riscv@lists.infradead.org, Anup Patel <anup@brainfault.org>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <1671747798-12935-1-git-send-email-khoroshilov@ispras.ru>
+In-Reply-To: <1671747798-12935-1-git-send-email-khoroshilov@ispras.ru>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 23 Dec 2022 10:45:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXehA_n78nLXCwBdKV=So=6Vzjt5eye7ZE4bS_BvHnzEA@mail.gmail.com>
+Message-ID: <CAMuHMdXehA_n78nLXCwBdKV=So=6Vzjt5eye7ZE4bS_BvHnzEA@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: cpg-mssr: Fix use after free if
+ cpg_mssr_common_init() failed
+To:     Alexey Khoroshilov <khoroshilov@ispras.ru>
+Cc:     Chris Brandt <chris.brandt@renesas.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Dec 11, 2022 at 9:59 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
->
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Having a clocksource_arch_init() callback always sets vdso_clock_mode to
-> VDSO_CLOCKMODE_ARCHTIMER if GENERIC_GETTIMEOFDAY is enabled, this is
-> required for the riscv-timer.
->
-> This works for platforms where just riscv-timer clocksource is present.
-> On platforms where other clock sources are available we want them to
-> register with vdso_clock_mode set to VDSO_CLOCKMODE_NONE.
->
-> On the Renesas RZ/Five SoC OSTM block can be used as clocksource [0], to
-> avoid multiple clock sources being registered as VDSO_CLOCKMODE_ARCHTIMER
-> move setting of vdso_clock_mode in the riscv-timer driver instead of doing
-> this in clocksource_arch_init() callback as done similarly for ARM/64
-> architecture.
->
-> [0] drivers/clocksource/renesas-ostm.c
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  arch/riscv/Kconfig                | 1 -
->  arch/riscv/kernel/time.c          | 9 ---------
->  drivers/clocksource/timer-riscv.c | 7 +++++++
->  3 files changed, 7 insertions(+), 10 deletions(-)
->
-Gentle ping for review.
+Hi Alexey,
 
-Cheers,
-Prabhakar
+On Thu, Dec 22, 2022 at 11:23 PM Alexey Khoroshilov
+<khoroshilov@ispras.ru> wrote:
+> If cpg_mssr_common_init() fails after assigning priv to global variable
+> cpg_mssr_priv, it deallocates priv, but cpg_mssr_priv keeps dangling
+> pointer that potentially can be used later.
+>
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+>
+> Fixes: 1f7db7bbf031 ("clk: renesas: cpg-mssr: Add early clock support")
+> Signed-off-by: Alexey Khoroshilov <khoroshilov@ispras.ru>
+
+Thanks for your patch!
+
+> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
+> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+> @@ -1025,6 +1025,7 @@ static int __init cpg_mssr_common_init(struct device *dev,
+>         if (priv->base)
+>                 iounmap(priv->base);
+>         kfree(priv);
+> +       cpg_mssr_priv = NULL;
+
+While this is correct, I think it would be better to just postpone
+the initial assignment to cpg_mssr_priv until everything in
+cpg_mssr_common_init() has succeeded, i.e. just below the
+"return 0;" above.
+
+>
+>         return error;
+>  }
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
