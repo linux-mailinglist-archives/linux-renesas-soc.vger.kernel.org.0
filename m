@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CA436568B8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Dec 2022 10:07:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 307436568B9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Dec 2022 10:08:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229445AbiL0JHr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Dec 2022 04:07:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45516 "EHLO
+        id S229561AbiL0JIy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Dec 2022 04:08:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229601AbiL0JHq (ORCPT
+        with ESMTP id S229496AbiL0JIx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Dec 2022 04:07:46 -0500
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E376545
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Dec 2022 01:07:45 -0800 (PST)
-Received: by mail-qt1-f173.google.com with SMTP id x11so9993602qtv.13
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Dec 2022 01:07:45 -0800 (PST)
+        Tue, 27 Dec 2022 04:08:53 -0500
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77B741E0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Dec 2022 01:08:52 -0800 (PST)
+Received: by mail-qt1-f170.google.com with SMTP id j16so10032756qtv.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Dec 2022 01:08:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GEBXmIW1ApQlTzdO5j+bw0V/9xOcwiIjHerpn+2yG2c=;
-        b=oYiqe6II5ZCLO+OiviXrfdB6azV5c0DexWsgI5VAKCtElNgVws329FOWuXOCcgkn9Q
-         D87eSXrPGpGeP/9n4JJ2V004wzlS7ybsFgXVDFse+fLYs3+FNWI59TdFzLW8IYJ6W3cF
-         Q62+TR+NGmdNZL9jX46fCUpqB3gQflWqFW2KzueTiZjl3+Cj0Wc2Ik9INtUmzjHtaLl3
-         m2n0pOXA24wJjkElpWk80rCggEtz4m1aTXC1/dIV9I7TnriewXO8a5GIvXvv2TLaET/s
-         AqddjrNxSmm+o7BwBJKPuikC++9vyHML7f3fO4EMIKcN8lHBhQSwjeIKZAuduRbQm/qi
-         Z5AA==
-X-Gm-Message-State: AFqh2koZv69gZmrtXdZxV6lGheqmmeAnWACoiA25MNSmb4A0FZEjXiep
-        tXIaNfkVl+bBTtuavOIK4HhiNBFkoyWRLA==
-X-Google-Smtp-Source: AMrXdXse8X7dNSLk7/wkw2j+EHp0srYzcCTvKyLPHx3t2tgZtfv5p1xvTxpstPPwkfXDbLgvsCMj+Q==
-X-Received: by 2002:a05:622a:5144:b0:3a5:ad81:8aff with SMTP id ew4-20020a05622a514400b003a5ad818affmr29737325qtb.55.1672132064459;
-        Tue, 27 Dec 2022 01:07:44 -0800 (PST)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id d18-20020ac847d2000000b0039cc82a319asm7965590qtr.76.2022.12.27.01.07.44
+        bh=+FxIkVK46AufmvAoX2hmoZS5sVC2q0YXhqyW0ueAed4=;
+        b=WJoUkEmoTKbo7jKKX+rTr8QlTD3t9BeRCgSfA10WnAA/Ky49s06Q/TgtCls8uPzKzF
+         HqQ6JcGBbUenDJaa2WtXv1j/1EL2x2alFu+MBR0n7A86JZdiQMasuxUI21Hr8QzB6VxI
+         h5xZn7H+sAs2r9wPjEZQjhY+TYnV7NAHwF7tjAVQ1rW4+ZbpfSbcMb821yoqRd9OabKP
+         33M4CBZiHzyh1r9LNxITp/BOhMb5I0NWIvYf2s+aqdVR5EI20N6wjww82usXkR52vzQ+
+         2JR1tMzhQej+3TftTeALebC2AlHyZWY0WwKshTZXQJhUzVQEqdfqFaGpKRXwbkhMe/UJ
+         etsw==
+X-Gm-Message-State: AFqh2koFKoJZR7zklTQVpIKGrdvUXqIk4e+wJ8lczdZdSx+0rIhqBAe/
+        LTKe+tF6iryX5IE+6mhofuiAL9XPevXkPw==
+X-Google-Smtp-Source: AMrXdXujsOyehohEO2L099cvw+QbrWsXgbohHRniIrhqEtRBbpBNJD79wsc8UPr/9T2LH43jUnq9pw==
+X-Received: by 2002:ac8:4a07:0:b0:3a5:8084:9f60 with SMTP id x7-20020ac84a07000000b003a580849f60mr27667060qtq.64.1672132131347;
+        Tue, 27 Dec 2022 01:08:51 -0800 (PST)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id y4-20020a05620a44c400b006fc7302cf89sm9187314qkp.28.2022.12.27.01.08.50
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Dec 2022 01:07:44 -0800 (PST)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-47fc4e98550so34287427b3.13
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Dec 2022 01:07:44 -0800 (PST)
-X-Received: by 2002:a81:1e4a:0:b0:460:13cf:fc95 with SMTP id
- e71-20020a811e4a000000b0046013cffc95mr2472139ywe.316.1672132063836; Tue, 27
- Dec 2022 01:07:43 -0800 (PST)
+        Tue, 27 Dec 2022 01:08:51 -0800 (PST)
+Received: by mail-yb1-f172.google.com with SMTP id i186so13756818ybc.9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Dec 2022 01:08:50 -0800 (PST)
+X-Received: by 2002:a25:d103:0:b0:75d:3ecb:1967 with SMTP id
+ i3-20020a25d103000000b0075d3ecb1967mr1782542ybg.604.1672132130656; Tue, 27
+ Dec 2022 01:08:50 -0800 (PST)
 MIME-Version: 1.0
-References: <63a9b8cc.170a0220.636c5.d0a6@mx.google.com>
-In-Reply-To: <63a9b8cc.170a0220.636c5.d0a6@mx.google.com>
+References: <63a9bc8c.a70a0220.7cd88.c530@mx.google.com>
+In-Reply-To: <63a9bc8c.a70a0220.7cd88.c530@mx.google.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 27 Dec 2022 10:07:30 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXDa8vEMsfYWXUEgq8CaT_P6=xUho=TRgwRc7POXgrG1w@mail.gmail.com>
-Message-ID: <CAMuHMdXDa8vEMsfYWXUEgq8CaT_P6=xUho=TRgwRc7POXgrG1w@mail.gmail.com>
-Subject: Re: renesas/next baseline-nfs: 137 runs, 7 regressions (renesas-next-2022-12-26-v6.2-rc1)
+Date:   Tue, 27 Dec 2022 10:08:37 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX9NorMheSh30gSBw2iaMneffWqOifs1wNmbv+vO2ca=w@mail.gmail.com>
+Message-ID: <CAMuHMdX9NorMheSh30gSBw2iaMneffWqOifs1wNmbv+vO2ca=w@mail.gmail.com>
+Subject: Re: renesas/master baseline-nfs: 136 runs, 6 regressions (renesas-devel-2022-12-26-v6.2-rc1)
 To:     "kernelci.org bot" <bot@kernelci.org>
 Cc:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 Content-Type: text/plain; charset="UTF-8"
@@ -65,35 +65,36 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Dec 26, 2022 at 4:11 PM kernelci.org bot <bot@kernelci.org> wrote:
-> renesas/next baseline-nfs: 137 runs, 7 regressions (renesas-next-2022-12-26-v6.2-rc1)
+On Mon, Dec 26, 2022 at 4:41 PM kernelci.org bot <bot@kernelci.org> wrote:
+> renesas/master baseline-nfs: 136 runs, 6 regressions (renesas-devel-2022-12-26-v6.2-rc1)
 >
 > Regressions Summary
 > -------------------
 >
 > platform                     | arch  | lab          | compiler | defconfig                    | regressions
 > -----------------------------+-------+--------------+----------+------------------------------+------------
-> at91sam9g20ek                | arm   | lab-broonie  | gcc-10   | at91_dt_defconfig            | 1
-> kontron-pitx-imx8m           | arm64 | lab-kontron  | gcc-10   | defconfig+crypto             | 1
-> meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig+crypto             | 1
 > meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig+CON...OMIZE_BASE=y | 1
-> meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig+ima                | 1
 > meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig                    | 1
+> meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig+ima                | 1
 > meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig+videodec           | 1
+> sun50i-a64-pine64-plus       | arm64 | lab-broonie  | gcc-10   | defconfig+debug              | 1
+> sun50i-h5-lib...ch-all-h3-cc | arm64 | lab-broonie  | gcc-10   | defconfig+debug              | 1
 >
->   Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesas-next-2022-12-26-v6.2-rc1/plan/baseline-nfs/
+>   Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/renesas-devel-2022-12-26-v6.2-rc1/plan/baseline-nfs/
 
 More regressions in v6.2-rc1 not introduced in renesas/next.
 
-$ git diff --stat v6.2-rc1..renesas-next-2022-12-26-v6.2-rc1
- arch/arm64/boot/dts/renesas/r8a779f0.dtsi          |  62 ++++++++++
- .../boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi  |  94 +++++++++++++++
- arch/arm64/boot/dts/renesas/r8a779g0.dtsi          | 130 +++++++++++++++++++++
+$ git diff --stat v6.2-rc1..renesas-devel-2022-12-26-v6.2-rc1
+ MAINTAINERS                                        |   3 +
+ arch/arm64/boot/dts/renesas/r8a779f0.dtsi          |  62 +++
+ .../boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi  |  94 +++++
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi          | 130 +++++++
  arch/arm64/configs/defconfig                       |   1 +
+ arch/arm64/configs/renesas_defconfig               | 419 +++++++++++++++++++++
  arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi  |   4 -
  drivers/soc/renesas/r8a779g0-sysc.c                |   1 +
  include/dt-bindings/power/r8a779g0-sysc.h          |   1 +
- 7 files changed, 289 insertions(+), 4 deletions(-)
+ 9 files changed, 711 insertions(+), 4 deletions(-)
 
 Gr{oetje,eeting}s,
 
