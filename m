@@ -2,78 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0465B658AA6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Dec 2022 09:46:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BEBF658CD4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Dec 2022 13:48:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230078AbiL2Iql (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Dec 2022 03:46:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51142 "EHLO
+        id S233350AbiL2Mri (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Dec 2022 07:47:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232081AbiL2Iqj (ORCPT
+        with ESMTP id S233378AbiL2MrN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Dec 2022 03:46:39 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52DC111167
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Dec 2022 00:46:35 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id y25so26675769lfa.9
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Dec 2022 00:46:35 -0800 (PST)
+        Thu, 29 Dec 2022 07:47:13 -0500
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A117E13EB7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Dec 2022 04:47:10 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id u12so15586294ljj.11
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Dec 2022 04:47:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=00JBJmBBiBVV/0bx3FG8bOjOr7Fe2FO016Rg6RwMTyA=;
-        b=OHDKnWDlr4rdofCxcy9mYZ1WJwSzWBQgYbEyFkdnLkXivVwKpIvsEJZayqCTMEq7sT
-         k2X5KQyuZ7yCPvcLd6KoI7XDFrKQZXcb4npzm6ryg4QOPKKXoECuj/72FPEOXc26T2UX
-         U3gqO3DdFxJjTNTHK9Ac+h7wYQQ5oni1NDeROmDHT4+E39GJP+M9OYna4aD82cT1R977
-         q3y/UsvsAzhvV0KH+zpoaco1S4d64fKe1MPtWQJhb6l/Sf9d55fXeWZH/Ue5IE1Us/K6
-         JNBIrc9ix/SpgDowBRGPp6Q20iTqmqfhrexOeIPF6cKfiS0DCB+wOg2VnU8+toylFMJT
-         oSdg==
+        bh=rwlHQh/HrIzNcutcWsMZeEMw0aP4F5M3XhGtMBD6WXM=;
+        b=pAqZmGU4P85yvDEF63iAQS+tfhpveUvau9apwt4AMUIum53eci+ip3O+KP1vYexcHy
+         mJcA1BiaLWRgbnmWoLQx6B4qF8rNcqOMoy/VMC+0SLVocbT7b/2Lwnsd5CxCOHEgtCcK
+         rCCT57Pfl5ec/7feP3UZx5AjV4/pCozbBQrb9AHeZowZC4bB2aUKxOl0N7rgq95mfVr6
+         bG8nEWFPfn7UHFKbLvTJG1PG4wsb2ulqAXiWfMqrFeNO8l3Vp+FdTlDBCQeLHDItinYq
+         esww68BbuNKzXodV6kUgYKlIcxc7VUxDlbMg/7vQ7syaL1b4aq0Ak49Jw7/9yXJodDKY
+         TnQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=00JBJmBBiBVV/0bx3FG8bOjOr7Fe2FO016Rg6RwMTyA=;
-        b=y5Log3fHbf6wOahJjddycTlfOOp2U8Ik7ouTpux/vGC5g4hAed7tZjzaj9vMGw0vhJ
-         32hlBpUmcPpYrEXNGwUJ6tu2vg/SaoEhCd05PV6jYG4GD9UdKLmK6B20PhUFu4K/dvak
-         sH7WA4uckDoKJFtBPQg5fpcEt8UUkMLhUrohhM2Llw9R2najmWPdqRStiFP0hXjS+Nhs
-         siRl4kRu684McIBLwMYtMbdvhOV3f++iP3i0Tubx89UALwgDUobOj9Wbrxsi1YRCsH3G
-         f3y1i2I9BWC153B34i+buu7pCsvGuPAaBjfGTXYY+Boho36lA9yAeRA6eALMEgZkavvS
-         Kn1A==
-X-Gm-Message-State: AFqh2kqPVkHGXbHHy5QEX2LxoMfIvLX5+rE/tXtnQszwssZYo1RF6hLK
-        dknuZsEoCVk0cCQPOwy5fp5JZg==
-X-Google-Smtp-Source: AMrXdXuDtZLYWJ1O1/6oOKr2ktf6+/ZBpd7g4CJ6Z4Rsk8pzJAsC89j6hBEXcq05OZLzKeZlxTTZrg==
-X-Received: by 2002:a05:6512:220a:b0:4b4:b667:4b1d with SMTP id h10-20020a056512220a00b004b4b6674b1dmr9041214lfu.27.1672303593720;
-        Thu, 29 Dec 2022 00:46:33 -0800 (PST)
+        bh=rwlHQh/HrIzNcutcWsMZeEMw0aP4F5M3XhGtMBD6WXM=;
+        b=mF4ft6J7EgAjJYSWaGNISo3VQMGL2W+8c5L/oRl5fjg5O5aE9znrQwfP2x7c0PUJP9
+         DOS74qhz249qkRWX9P2I3aV1O5zJ9Mj+PPEJp3gO+eYMVDdtlJpqUgL8p5w0jMuY9OJi
+         Ae5x8PEjUe2eMdg3sWDY0zViqDQq7D7iuXEmhqdrWW4dSUX8dsHRxW5KbyS9xBVJT+AY
+         UZIqpBUeQDCqvFLjxuBQ5L2UVINJBGz5ZPeQ1huzxBEbzZN5ZHNK0LOUIimRUoLL7M63
+         dba48yl61mJlhXQ0w3EKnh4fpKA1WC3WH4yrbG2df7vp9Jq8qp7vJ1QowHr+wmBJFXTI
+         59mA==
+X-Gm-Message-State: AFqh2kr8w7xn8uNlhS017Sg4JuDVLCqK4ZX95CqqIUPVyUUjGytRmuwL
+        fNj89yZDYpbQq/z+HyW/55jNTg==
+X-Google-Smtp-Source: AMrXdXudCbA5TUDJ9hNmgsbZrXxH4udzwLP/bRirbMXWHixMbxhSfP9j7YQEq7ObViYmABuCHTPgqA==
+X-Received: by 2002:a2e:3c09:0:b0:27a:189f:5716 with SMTP id j9-20020a2e3c09000000b0027a189f5716mr7402647lja.14.1672318028996;
+        Thu, 29 Dec 2022 04:47:08 -0800 (PST)
 Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id p16-20020ac24ed0000000b004b4f3c0d9f8sm2980668lfr.283.2022.12.29.00.46.32
+        by smtp.gmail.com with ESMTPSA id y26-20020a2e95da000000b0027fcbcc3bedsm792616ljh.51.2022.12.29.04.47.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Dec 2022 00:46:33 -0800 (PST)
-Message-ID: <170665b6-161a-6dd0-6ceb-199277c0ce2f@linaro.org>
-Date:   Thu, 29 Dec 2022 09:46:32 +0100
+        Thu, 29 Dec 2022 04:47:08 -0800 (PST)
+Message-ID: <7b04573f-8f54-8e38-83ab-f5865da81b88@linaro.org>
+Date:   Thu, 29 Dec 2022 13:47:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v2 2/9] dt-bindings: interrupt-controller: irqc-rzg2l:
- Drop RZG2L_NMI macro
+Subject: Re: [PATCH v2 16/23] arm64: dts: Update cache properties for qcom
 Content-Language: en-US
-To:     Prabhakar <prabhakar.csengg@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+To:     Pierre Gondois <pierre.gondois@arm.com>,
+        linux-kernel@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Tsahee Zidenberg <tsahee@annapurnalabs.com>,
+        Antoine Tenart <atenart@kernel.org>,
+        Brijesh Singh <brijeshkumar.singh@amd.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        William Zhang <william.zhang@broadcom.com>,
+        Anand Gore <anand.gore@broadcom.com>,
+        Kursad Oney <kursad.oney@broadcom.com>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Chester Lin <clin@suse.com>,
+        =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+        Matthias Brugger <mbrugger@suse.com>,
+        NXP S32 Linux Team <s32@nxp.com>,
+        Wei Xu <xuwei5@hisilicon.com>, Chanho Min <chanho.min@lge.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Lars Povlsen <lars.povlsen@microchip.com>,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Daniel Machon <daniel.machon@microchip.com>,
+        UNGLinuxDriver@microchip.com, Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20221221000242.340202-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221221000242.340202-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
+        linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-realtek-soc@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+References: <20221107155825.1644604-1-pierre.gondois@arm.com>
+ <20221107155825.1644604-17-pierre.gondois@arm.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221221000242.340202-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20221107155825.1644604-17-pierre.gondois@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -86,18 +139,17 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 21/12/2022 01:02, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 07/11/2022 16:57, Pierre Gondois wrote:
+> The DeviceTree Specification v0.3 specifies that the cache node
+> 'compatible' and 'cache-level' properties are 'required'. Cf.
+> s3.8 Multi-level and Shared Cache Nodes
+> The 'cache-unified' property should be present if one of the
+> properties for unified cache is present ('cache-size', ...).
 > 
-> NMI interrupt is not an external interrupt as compared to IRQ0-7 and
-> TINT0-31 on RZ/G2L SoC, so there is no need for RZG2L_NMI macro.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1 -> v2
+> Update the Device Trees accordingly.
 
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Any progress on this? Pierre, are you going to resend to target specific
+maintainers or SoC?
 
 Best regards,
 Krzysztof
