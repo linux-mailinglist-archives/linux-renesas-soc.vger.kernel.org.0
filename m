@@ -2,120 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C416659307
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Dec 2022 00:03:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA27B65A413
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Dec 2022 13:41:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230195AbiL2XDn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Dec 2022 18:03:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35690 "EHLO
+        id S231889AbiLaMku (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 31 Dec 2022 07:40:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbiL2XDm (ORCPT
+        with ESMTP id S231977AbiLaMkk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Dec 2022 18:03:42 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A25C13F83;
-        Thu, 29 Dec 2022 15:03:41 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id y8so18470066wrl.13;
-        Thu, 29 Dec 2022 15:03:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=e1AZ5G8QdvwsjRXOP4YGY0iwqvUTHtMnrEchm0crWkw=;
-        b=OrNOIe5F6kwD3gvBb13uLI1jiPKI7ZhRmfv2ONO+sPyfEHiG3dBVd8BchL0itwUYUk
-         6wnI+GOa5NeqF9eAT7M5IIW5J4fztW06SmyP+5oDard61Ns62R0MP2mSJoz2c57MrE/S
-         Tq7vrEduhs3Kk6rPtHtQ+4+lFk+7vnnljUHjsu5+AWrtYvj+L5hJSwqO8tcvpRsHK6GV
-         Ur08RUkqMM7TflssQZWU9ScAKOTUzmqUlJbsMwj2oHV3d1RFCCbtY8AZ8Wjx8zaQqbXt
-         1idm+2bIA4IwVz+hxEnvNdiBHvUWh96VxI8Jt/pC754z6YUEe3VbwaFhBBdjqwNVp0+W
-         F7KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e1AZ5G8QdvwsjRXOP4YGY0iwqvUTHtMnrEchm0crWkw=;
-        b=hAraNuekXT4pfSTkCUygiFIqNCHwJTCrlTtCT0NVkeqicJnwTZLWm2tVIq1kOmgDdh
-         gTeXEGHexNF0WPo88dTgt7K6e7WxsNjWwPzwBt25q7Ycel5ag1v6uOBbe5IiW8Am6F+k
-         9vwNGmT1NhJNqOphAKMnMITmXnPxNkGyAPPndAYW0x651V5qNYR/pkQmFp5UkkgC0XZY
-         F+PKHyrbU+gOyZpogcvqw0stDSaAC3Qcqf3MB8xc+d4Qt3aGoQ1/bGrV/l05ZgfLtZsh
-         lXXj8U+QrPKzPfYdWF7i2z9fo8CI9HSMnYzRoevDeoq725/E07m92oN7LAej2d5noRzm
-         wAKQ==
-X-Gm-Message-State: AFqh2ko7WDZfPLhDFx9PVq0iIq8wMSd7yp03/M8zimtmp2cmXoa1vpRQ
-        uoXKAMTnSvjgd8l+bah2n5Y=
-X-Google-Smtp-Source: AMrXdXtFEYvWXlgWHpUtQQSJ9uFe1qiaXPSmpUChY+HKun8x4LG88d8sQabX63FNkBzy4tffYEvyjQ==
-X-Received: by 2002:a5d:484d:0:b0:27b:45ba:3b53 with SMTP id n13-20020a5d484d000000b0027b45ba3b53mr9467197wrs.12.1672355019974;
-        Thu, 29 Dec 2022 15:03:39 -0800 (PST)
-Received: from prasmi.home ([2a00:23c8:2501:c701:88e9:3a08:4328:85c4])
-        by smtp.gmail.com with ESMTPSA id b9-20020adff909000000b00267bcb1bbe5sm18995683wrr.56.2022.12.29.15.03.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 15:03:39 -0800 (PST)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sat, 31 Dec 2022 07:40:40 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C10E0E8;
+        Sat, 31 Dec 2022 04:39:33 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C716BB80749;
+        Sat, 31 Dec 2022 12:39:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 508BAC433EF;
+        Sat, 31 Dec 2022 12:39:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672490370;
+        bh=mx2OEoQ00vSqiKzsxyaDjTk2k5bw+w3jkZu1Lmf8ACQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eZd/kwpiFOUBGTlIS1G+av5YM+JBWzkzYMw1zXnui/S1DYIWTClPGCtpPzvKN1AUX
+         TGD6ImyDKeWDB2WWV5FKv8Qqbx7n0kHffWXsoe1cd/7EbKkUEwVU3m4YjQjvM/FeWQ
+         b306W4LzUY+McesE10aA1roaaCW8GDbmyEnMjIdrwxhaRSK9YIMbCv/w4plzI3l2py
+         2XI0GvQWJ8jAXLIbF1qW7Qguo7gW7yiVjfs5xPVUYpPWrrCASjF+MlVDLLLcNYKjHe
+         QSN4t5FS8u0QVMjTUe7mVZfOH2JzJflhYmCg07R89Mb55rsSKoYnTaF0xo/MGg0Xur
+         H683DuATLPC4A==
+Date:   Sat, 31 Dec 2022 20:39:17 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Stefan Agner <stefan@agner.ch>, Li Yang <leoyang.li@nxp.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
         Magnus Damm <magnus.damm@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] riscv: dts: renesas: rzfive-smarc-som: Enable OSTM nodes
-Date:   Thu, 29 Dec 2022 23:03:00 +0000
-Message-Id: <20221229230300.104524-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 03/11] ARM: dts: imx: Fix pca9547 i2c-mux node name
+Message-ID: <20221231123916.GT6112@T480>
+References: <cover.1669999298.git.geert+renesas@glider.be>
+ <fb231affc38b4d122c8ce733ea23f6da5c14f812.1669999298.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fb231affc38b4d122c8ce733ea23f6da5c14f812.1669999298.git.geert+renesas@glider.be>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, Dec 02, 2022 at 05:49:18PM +0100, Geert Uytterhoeven wrote:
+> "make dtbs_check":
+> 
+>     arch/arm/boot/dts/imx53-ppd.dtb: i2c-switch@70: $nodename:0: 'i2c-switch@70' does not match '^(i2c-?)?mux'
+> 	    From schema: Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.yaml
+>     arch/arm/boot/dts/imx53-ppd.dtb: i2c-switch@70: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'i2c@0', 'i2c@1', 'i2c@2', 'i2c@3', 'i2c@4', 'i2c@5', 'i2c@6', 'i2c@7' were unexpected)
+> 	    From schema: Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.yaml
+> 
+> Fix this by renaming the PCA9547 node to "i2c-mux", to match the I2C bus
+> multiplexer/switch DT bindings and the Generic Names Recommendation in
+> the Devicetree Specification.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Enable OSTM{1,2} nodes on RZ/Five SMARC SoM.
-
-Note, OSTM{1,2} nodes are enabled in the RZ/G2UL SMARC SoM DTSI [0] hence
-deleting the disabled nodes from RZ/Five SMARC SoM DTSI enables it here
-too as we include [0] in RZ/Five SMARC SoM DTSI.
-
-[0] arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Note, without patch [0] clocksource-switch tests fail on RZ/Five SoC.
-
-[0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221229224601.103851-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
----
- arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi | 8 --------
- 1 file changed, 8 deletions(-)
-
-diff --git a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-index 318a584be341..43a74c8a4321 100644
---- a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-+++ b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-@@ -28,11 +28,3 @@ phy1: ethernet-phy@7 {
- 		/delete-property/ interrupts;
- 	};
- };
--
--&ostm1 {
--	status = "disabled";
--};
--
--&ostm2 {
--	status = "disabled";
--};
--- 
-2.25.1
-
+Applied, thanks!
