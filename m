@@ -2,74 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B707165B78E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jan 2023 23:18:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27FA265B7A1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jan 2023 23:22:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234436AbjABWSj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Jan 2023 17:18:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35810 "EHLO
+        id S231400AbjABWWv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Jan 2023 17:22:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233127AbjABWSf (ORCPT
+        with ESMTP id S230464AbjABWWu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Jan 2023 17:18:35 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5B2B9594;
-        Mon,  2 Jan 2023 14:18:33 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id t15so18716013wro.9;
-        Mon, 02 Jan 2023 14:18:33 -0800 (PST)
+        Mon, 2 Jan 2023 17:22:50 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A611913E;
+        Mon,  2 Jan 2023 14:22:49 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id g10so7647212wmo.1;
+        Mon, 02 Jan 2023 14:22:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=87pexaz/1Mg04XsXrAVU5SOSGgcQVwJXYmy5/v4n+sw=;
-        b=JjLAUZ55HaemIjQxq0JLX3n2KYtyao/3S1EgMQ7TFge8k2jh+Oof76gWZAuJUFjqQ+
-         BdIhZUkIYjzZMTXGYE/rdDkDWjuF81PsbuxVRQGvQ9f6sStEih8yLYa2thDwFcXYm/zh
-         tGC78yT8Wn+HC0mADubihr2yZjUTyT41YFcDGa/wfDBpkSX6G/IvP+3phDPE5ffNX30d
-         h6XTqLfbf0kFyLcXKwCe552LoHUy6rf8NCxuUpJjfHWisqkO9vsviYRLuDdoLDZXJR4C
-         +i78eHvZDqJbsGGoN30YY9nXa+2oPwtwzQaivAFTHxiAb+vB1dobI+D/YR247W85N1Gi
-         Beew==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hzAhGjXaHPnQR3DC+YI7zHhPYNDOaj+LjnPkK+FZLFE=;
+        b=j0ZQqW2uJDkWbhQ45/bqKldlVp4tBWD6gzWQPbPpR1V6AFZ5Ihrs4OZNBzpQgps/m4
+         rTXaS/c0hFcCPZ4WfkHw/8Fqj/GQW3bwjF0yKbbdbo2f4nsXaGbw4firdjzZa6aHeiCq
+         H0BUBRvG5b6LlzAwcmLoAOXuThD9YsZyLMnTEaIUqrKhc5bbDJy6jCSgD+z411j9YKZw
+         eaVjDBNtWH27us9LIe1++zF0/urLoVxZYOsx/BNrxcXNyW2E3DWYJ1WZRyi6kR91zuXe
+         yU1X4KVExp5RBj5pYF+QZPiIP5/Kz1guSKUYVWW6EFB+SWEAwa1qhY3K2NWgmlRhQvCw
+         DiKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=87pexaz/1Mg04XsXrAVU5SOSGgcQVwJXYmy5/v4n+sw=;
-        b=Oo6mjrWMmpY/Un5Lh+Vv2sCEUb0OFQL5fbGNPWXTa1DRQZszFs4Y04u+HsxiF/FmU1
-         DMRH73Yq16qJA5N/Be4dRKBvfwzQRm84Jv2CAP4Hay46D2/qKVeVvMplQzNCgBXpdPBD
-         Qf9i5dfH2vY1e4niUWFwnZbmuAh2qk9jdEeA7cNE57UBB+mZ7Kg3CQqi0Vhu6gUJDVwr
-         trj7VnSZqzBOcf6c2PO0MIQghGAIakdcoPOqzpkjTyOkME0x+GmTDkcDL+XKJUlLzuTz
-         MeVTdzhJOw6CDZyFi1wHL000aZ+g4cEcnqb8ga0LCpjkREUsqrx0hsCTWzlSsayy6d24
-         KquQ==
-X-Gm-Message-State: AFqh2koFQXA+NFzaZYNnUSLKdy1i9N/9BIGmJhnlPDQHbNAgOmZ35xIA
-        3pUcoksbIgX4O4RK5G8oiY+/2wzhBUcZbxEc
-X-Google-Smtp-Source: AMrXdXs5ofU5819EL2FO1N0TDHgeBtXVz3DaYl6IOJ65XbX7nrksuwPRW7uub7CAi0HAj0tuTlSCwA==
-X-Received: by 2002:a5d:58ee:0:b0:28c:d9bf:d71 with SMTP id f14-20020a5d58ee000000b0028cd9bf0d71mr9314818wrd.25.1672697912180;
-        Mon, 02 Jan 2023 14:18:32 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hzAhGjXaHPnQR3DC+YI7zHhPYNDOaj+LjnPkK+FZLFE=;
+        b=t0lWQegmx4Fhts6VFmvmtSjcTspnD2YESLLuQTgxsfGuoGA6dRvDvNygIqnFm4ztj+
+         KrEL6j0KlpROQ38owBKx5k7auj0W+b8vgxCxtdfKbXmsZSACwbCl9W29Vxr6g3Vtm7YC
+         6V5PKfcHZwtM1kkZXuSQmjvU4/Z7zS1ynvQq6bsXghNuaD4o7g8r4equULk10VCTMWDN
+         noYJ/vUd15J2KOVdj8ji56/R0NvJjlpNJj5Ps1U4SN4MYw5tSra/BPD1QKDydQfpndOj
+         TthKU+9qN0sVf6T1G3NF4+e4uC12Uf9/RVwxBD7cCLe6lOIv+4tauPShqpwAgZXvPZXf
+         Uz7A==
+X-Gm-Message-State: AFqh2kqiGee8/LJ2ZKIu8/LEr4XQpPyOvMWFGxZp16/xY+i1+dy5lgf8
+        RbUjCIWYxlyr+OOCBVxxTz4=
+X-Google-Smtp-Source: AMrXdXvs149q2RLwB0ZezqErfp0NhNZDzNbvUCbH1XcRYTqw/I6EeHFpBoeR9KbtNh2ItGEhDMU+3Q==
+X-Received: by 2002:a05:600c:510e:b0:3d3:5885:4d21 with SMTP id o14-20020a05600c510e00b003d358854d21mr29134502wms.17.1672698168250;
+        Mon, 02 Jan 2023 14:22:48 -0800 (PST)
 Received: from prasmi.home ([2a00:23c8:2501:c701:8a7:e535:b020:566a])
-        by smtp.gmail.com with ESMTPSA id n14-20020adfe34e000000b002366dd0e030sm29872463wrj.68.2023.01.02.14.18.31
+        by smtp.gmail.com with ESMTPSA id f18-20020a05600c4e9200b003d35c845cbbsm50341636wmq.21.2023.01.02.14.22.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Jan 2023 14:18:31 -0800 (PST)
+        Mon, 02 Jan 2023 14:22:47 -0800 (PST)
 From:   Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 6/6] arm64: dts: renesas: rzg2ul-smarc-som: Add PHY interrupt support for ETH{0/1}
-Date:   Mon,  2 Jan 2023 22:18:15 +0000
-Message-Id: <20230102221815.273719-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2] riscv: dts: renesas: rzfive-smarc-som: Enable OSTM nodes
+Date:   Mon,  2 Jan 2023 22:22:33 +0000
+Message-Id: <20230102222233.274021-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230102221815.273719-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20230102221815.273719-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -84,70 +83,43 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The PHY interrupt (INT_N) pin is connected to IRQ2 and IRQ7 for ETH0 and
-ETH1 respectively.
+Enable OSTM{1,2} nodes on RZ/Five SMARC SoM.
+
+Note, OSTM{1,2} nodes are enabled in the RZ/G2UL SMARC SoM DTSI [0] hence
+deleting the disabled nodes from RZ/Five SMARC SoM DTSI enables it here
+too as we include [0] in RZ/Five SMARC SoM DTSI.
+
+[0] arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
-v2 -> v3
-* No change
+v1->v2
+* Rebased patch on top of [0]
 
-v1 -> v2
-* No change
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log/?h=renesas-riscv-dt-for-v6.3
 ---
- arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-index 931efc07d6fb..49ecd33aeeb8 100644
---- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-@@ -6,6 +6,7 @@
-  */
+diff --git a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
+index fdfd7cd2792b..73941a5f844d 100644
+--- a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
++++ b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
+@@ -30,14 +30,6 @@ &eth1 {
+ 	status = "disabled";
+ };
  
- #include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/irqc-rzg2l.h>
- #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
- 
- / {
-@@ -77,6 +78,8 @@ phy0: ethernet-phy@7 {
- 		compatible = "ethernet-phy-id0022.1640",
- 			     "ethernet-phy-ieee802.3-c22";
- 		reg = <7>;
-+		interrupt-parent = <&irqc>;
-+		interrupts = <RZG2L_IRQ2 IRQ_TYPE_LEVEL_LOW>;
- 		rxc-skew-psec = <2400>;
- 		txc-skew-psec = <2400>;
- 		rxdv-skew-psec = <0>;
-@@ -104,6 +107,8 @@ phy1: ethernet-phy@7 {
- 		compatible = "ethernet-phy-id0022.1640",
- 			     "ethernet-phy-ieee802.3-c22";
- 		reg = <7>;
-+		interrupt-parent = <&irqc>;
-+		interrupts = <RZG2L_IRQ7 IRQ_TYPE_LEVEL_LOW>;
- 		rxc-skew-psec = <2400>;
- 		txc-skew-psec = <2400>;
- 		rxdv-skew-psec = <0>;
-@@ -151,7 +156,8 @@ eth0_pins: eth0 {
- 			 <RZG2L_PORT_PINMUX(3, 2, 1)>, /* ET0_RXD0 */
- 			 <RZG2L_PORT_PINMUX(3, 3, 1)>, /* ET0_RXD1 */
- 			 <RZG2L_PORT_PINMUX(4, 0, 1)>, /* ET0_RXD2 */
--			 <RZG2L_PORT_PINMUX(4, 1, 1)>; /* ET0_RXD3 */
-+			 <RZG2L_PORT_PINMUX(4, 1, 1)>, /* ET0_RXD3 */
-+			 <RZG2L_PORT_PINMUX(5, 1, 7)>; /* IRQ2 */
- 	};
- 
- 	eth1_pins: eth1 {
-@@ -169,7 +175,8 @@ eth1_pins: eth1 {
- 			 <RZG2L_PORT_PINMUX(9, 1, 1)>, /* ET1_RXD0 */
- 			 <RZG2L_PORT_PINMUX(9, 2, 1)>, /* ET1_RXD1 */
- 			 <RZG2L_PORT_PINMUX(9, 3, 1)>, /* ET1_RXD2 */
--			 <RZG2L_PORT_PINMUX(10, 0, 1)>; /* ET1_RXD3 */
-+			 <RZG2L_PORT_PINMUX(10, 0, 1)>, /* ET1_RXD3 */
-+			 <RZG2L_PORT_PINMUX(18, 5, 1)>; /* IRQ7 */
- 	};
- 
- 	sdhi0_emmc_pins: sd0emmc {
+-&ostm1 {
+-	status = "disabled";
+-};
+-
+-&ostm2 {
+-	status = "disabled";
+-};
+-
+ &sdhi0 {
+ 	status = "disabled";
+ };
 -- 
 2.25.1
 
