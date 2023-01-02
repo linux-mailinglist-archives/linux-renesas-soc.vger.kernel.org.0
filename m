@@ -2,66 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E323B65B160
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jan 2023 12:43:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B58FA65B260
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jan 2023 13:50:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232475AbjABLnc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Jan 2023 06:43:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57090 "EHLO
+        id S233004AbjABMul (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Jan 2023 07:50:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235937AbjABLnH (ORCPT
+        with ESMTP id S232976AbjABMuk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Jan 2023 06:43:07 -0500
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 718F26569
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Jan 2023 03:42:37 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id 124so18531836pfy.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Jan 2023 03:42:37 -0800 (PST)
+        Mon, 2 Jan 2023 07:50:40 -0500
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A19356339
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Jan 2023 04:50:39 -0800 (PST)
+Received: by mail-vs1-xe35.google.com with SMTP id h27so15147392vsq.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Jan 2023 04:50:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=9REJ/xqPjcYEsIXmHSAD2a7NvdsbkGhX/uUCj9S0R4Y=;
-        b=N91Nwgr1nQtHuRjx98W9w2Qqs9vaRNfdK2IpXx3OwXgsGyRG9DVcL+9LSgaAYvCUBs
-         3S/FgQ3ynf+yvwgE/O/96xF3jEcrF1LX0mrz3apgwl3Zpa/HDvOHYDf+tuXlFsQqa5Yq
-         SoQzPZDBZWwM9tCtxE/xIQICj2gNqHAJYNEXofzwhZZqHp5BEpw66FNGjVwkCtmSpysM
-         LeVt8ijN5+DZVJLQlZXQYvH2UcD4UwCIRqi4R3YdIGL4rxBmYgCEiUo/FXazEiuIA4In
-         3e8KhVV5g3ycSs/nXKr1XCu6yZnYLS3MCwCllUC6Mg0r3r43rTeU8Mbo51HJb0gsl7zl
-         fxdg==
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=xMZx54Xj2ddNmH7CYT53GxPmLR4IA/SYVliSYQdrkpw=;
+        b=PvM8eQTCd7btpRU4ZlTCF4FwTkgmzS/WWSkogViUT4SQitmOmeDGaqAImpqXDZ/bY8
+         dLHKKQiFQVLZNAG2Mmg9uEIIPxtGNiy97XDqBa/o3o2u0/HIfb0uqNsE6X/EXjDfj3u8
+         bk4BrFfCqpq173Y33Qph5m+UGqQy1aNVr3SywMseBY3Z1BdR8BMm3VowUdMBX6eK791A
+         nubZzDTPaYiBJeKbyCkFpnZRqgp+TBnOSKpA0H1xBgtJsYshe4+kLQ/a92E1B5TdlR0C
+         IXpoG1QNu5LzzygGiEdtNtkbw/qsPlJFlsVsk+ohSK5YTkiKAh2v2ZREkI3hAoZrmO+x
+         STnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9REJ/xqPjcYEsIXmHSAD2a7NvdsbkGhX/uUCj9S0R4Y=;
-        b=NaqhSZIz7JP6TiQoO2jaFwh2JBG6zaz5wQRGnFI2eO+/ytP3SfbkWQG8hdv9F5dxvU
-         l+Pt4uQ5RHNzf6G5U6ygW+Ozvn06FWpiZTRlj/MFtOe99ooVzguZ/9WiCnslqdyxYX+Y
-         hkmSiJGwi8KRTPwnLCQwgJYa88g8iO0QWymRyaJ+weSC95cFcVcr3qND1sik4V1ALcjQ
-         mdZSV/Lqs4M1+m4M8sbqv2WXhNBg3j8xjYj40DQQ4DXMe+GAZ9vvl6JNHzTL+Xe6soyw
-         Ag11kXgC8G4IbdvT7yhhd+SeAhxxBdixEvFM7rkzcZcsGgwNQkdRenPZ5cOW9LVy7kox
-         JN3Q==
-X-Gm-Message-State: AFqh2krwfR02ujciKq2ewq03r4XezE/Q1toVu5HMhs7HAohh69BuGqdu
-        6L5xBJOF0NVL3sHj0BBt7L6G5gtyyCUR43XsLCA=
-X-Google-Smtp-Source: AMrXdXvqzi1YhRCd1aJ1mHMkiausFHcoFW/bi07tlsLqcscAsB/kDMWWfQU9eF8kQXpVJ++Yl448EQ==
-X-Received: by 2002:a62:3841:0:b0:582:5460:a63c with SMTP id f62-20020a623841000000b005825460a63cmr5592419pfa.30.1672659757142;
-        Mon, 02 Jan 2023 03:42:37 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id r30-20020aa79ede000000b005815a371177sm11553399pfq.52.2023.01.02.03.42.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Jan 2023 03:42:36 -0800 (PST)
-Message-ID: <63b2c32c.a70a0220.40a5a.0fa2@mx.google.com>
-Date:   Mon, 02 Jan 2023 03:42:36 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        bh=xMZx54Xj2ddNmH7CYT53GxPmLR4IA/SYVliSYQdrkpw=;
+        b=AtROsieGDxgcnZgAU11VxoGLRFdRwm2AZ/h/Ulre/nMmnu4cPWsWxPVyMDg4V+ySks
+         v7pJmIG3Wzl2kcZM9NDA+ijwj5fqMDCnwzqcyWzFsPRQSUgXBsIyXMUk2bK2Vo1aLI5b
+         UvSw2XA5fOOkqnkd7iKdIO3dc65UE3BZfrMNVx7tneJfG9f4J084vUuPoyKhlhhD8S52
+         FR6jghOCP/ig2lQOGWuGwy1Nyz68gqJKacD5qMyteA01MgYJix2zxLnXXR6e7l3J/7E4
+         o8Nkk1UEM9MLqcS2LWgQjp1pNZtaAFKYqhS22NNx9iDUV8NMbHBmJ1JiARTM7p6iW8I1
+         2cLg==
+X-Gm-Message-State: AFqh2kqwH2M1okjQuTx+pf1pwrj+da9z8rgc/jWpf8H3SBp/rH8SsDWk
+        SL6rZtDU3PU1VP9SCO+2s/A2gJ17V4XnnwlgLTH32A==
+X-Google-Smtp-Source: AMrXdXuf4b3Bg22BCumrnpgf8Qq1Vd3sY7tHk7TVqhJ7KpYvOygxJe3TYd/BrwSL62GTL8cl0TxrybJiy7UffzX4Kus=
+X-Received: by 2002:a67:df8c:0:b0:3c5:1ac1:bf38 with SMTP id
+ x12-20020a67df8c000000b003c51ac1bf38mr4030319vsk.78.1672663838685; Mon, 02
+ Jan 2023 04:50:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2023-01-02-v6.2-rc2
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-X-Kernelci-Report-Type: test
-Subject: renesas/master ltp-ipc: 43 runs,
- 1 regressions (renesas-devel-2023-01-02-v6.2-rc2)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+References: <20221213224310.543243-1-fabrizio.castro.jz@renesas.com> <20221213224310.543243-5-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20221213224310.543243-5-fabrizio.castro.jz@renesas.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Mon, 2 Jan 2023 13:50:27 +0100
+Message-ID: <CAMRc=MdmtzynWR22Cyzm-vzt_g0g9aAmNX4fYbnB4invDq3+Fg@mail.gmail.com>
+Subject: Re: [PATCH 4/5] gpio: Add support for Renesas RZ/V2M PWC
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
@@ -71,70 +78,200 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master ltp-ipc: 43 runs, 1 regressions (renesas-devel-2023-01-02-v6=
-.2-rc2)
+On Tue, Dec 13, 2022 at 11:43 PM Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+>
+> The RZ/V2M SoC contains an External Power Sequence Controller (PWC)
+> module. This module provides an external power supply on/off sequence,
+> on/off signal for the LPDDR4 core power supply, control signals for
+> external I/O power supplies of the SD host interfaces, and key input
+> signals.
+> PWC is essentially a Multi-Function Device (MFD).
+>
+> The driver just implements the control signals for external I/O
+> power supplies of the SD host interfaces as gpios, and it relies on
+> syscon and simple-mfd.
+>
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> ---
+>  drivers/gpio/Kconfig          |   8 +++
+>  drivers/gpio/Makefile         |   1 +
+>  drivers/gpio/gpio-rzv2m-pwc.c | 123 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 132 insertions(+)
+>  create mode 100644 drivers/gpio/gpio-rzv2m-pwc.c
+>
+> diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+> index e6ebc4c90a5d..e016919b9643 100644
+> --- a/drivers/gpio/Kconfig
+> +++ b/drivers/gpio/Kconfig
+> @@ -553,6 +553,14 @@ config GPIO_ROCKCHIP
+>         help
+>           Say yes here to support GPIO on Rockchip SoCs.
+>
+> +config GPIO_RZV2M_PWC
+> +       tristate "Renesas RZ/V2M PWC GPIO support"
+> +       depends on MFD_SYSCON
+> +       depends on ARCH_R9A09G011 || COMPILE_TEST
+> +       help
+> +         Say yes here to support the External Power Sequence Controller (PWC)
+> +         GPIO controller driver for RZ/V2M devices.
+> +
+>  config GPIO_SAMA5D2_PIOBU
+>         tristate "SAMA5D2 PIOBU GPIO support"
+>         depends on MFD_SYSCON
+> diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
+> index 3462a138764a..5f655684603f 100644
+> --- a/drivers/gpio/Makefile
+> +++ b/drivers/gpio/Makefile
+> @@ -132,6 +132,7 @@ obj-$(CONFIG_GPIO_RDC321X)          += gpio-rdc321x.o
+>  obj-$(CONFIG_GPIO_REALTEK_OTTO)                += gpio-realtek-otto.o
+>  obj-$(CONFIG_GPIO_REG)                 += gpio-reg.o
+>  obj-$(CONFIG_GPIO_ROCKCHIP)    += gpio-rockchip.o
+> +obj-$(CONFIG_GPIO_RZV2M_PWC)           += gpio-rzv2m-pwc.o
+>  obj-$(CONFIG_ARCH_SA1100)              += gpio-sa1100.o
+>  obj-$(CONFIG_GPIO_SAMA5D2_PIOBU)       += gpio-sama5d2-piobu.o
+>  obj-$(CONFIG_GPIO_SCH311X)             += gpio-sch311x.o
+> diff --git a/drivers/gpio/gpio-rzv2m-pwc.c b/drivers/gpio/gpio-rzv2m-pwc.c
+> new file mode 100644
+> index 000000000000..672d868cb8c9
+> --- /dev/null
+> +++ b/drivers/gpio/gpio-rzv2m-pwc.c
+> @@ -0,0 +1,123 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2022 Renesas Electronics Corporation
+> + *
+> + * GPIO driver for Renesas RZ/V2M External Power Sequence Controller (PWC)
+> + */
+> +
+> +#include <linux/gpio/driver.h>
+> +#include <linux/mfd/syscon.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +#include <linux/spinlock.h>
+> +
+> +struct rzv2m_pwc_gpio_priv {
+> +       struct gpio_chip gp;
+> +       int offset;
+> +       struct regmap *regmap;
+> +       DECLARE_BITMAP(ch_en_bits, 2);
+> +};
+> +
+> +static void rzv2m_pwc_gpio_set(struct gpio_chip *chip, unsigned int offset,
+> +                              int value)
+> +{
+> +       struct rzv2m_pwc_gpio_priv *priv = gpiochip_get_data(chip);
+> +       u32 reg;
+> +
+> +       /* BIT 16 enables write to BIT 0, and BIT 17 enables write to BIT 1 */
+> +       reg = BIT(offset + 16);
+> +       if (value)
+> +               reg |= BIT(offset);
+> +
+> +       regmap_write(priv->regmap, priv->offset, reg);
+> +
+> +       if (value)
+> +               set_bit(offset, priv->ch_en_bits);
+> +       else
+> +               clear_bit(offset, priv->ch_en_bits);
 
-Regressions Summary
--------------------
+You can use assign_bit() here and pass value to it.
 
-platform                 | arch  | lab     | compiler | defconfig         |=
- regressions
--------------------------+-------+---------+----------+-------------------+=
-------------
-r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip | gcc-10   | renesas_defconfig |=
- 1          =
+> +}
+> +
+> +static int rzv2m_pwc_gpio_get(struct gpio_chip *chip, unsigned int offset)
+> +{
+> +       struct rzv2m_pwc_gpio_priv *priv = gpiochip_get_data(chip);
+> +
+> +       return test_bit(offset, priv->ch_en_bits);
+> +}
+> +
+> +static int rzv2m_pwc_gpio_direction_output(struct gpio_chip *gc,
+> +                                          unsigned int nr, int value)
+> +{
+> +       if (nr > 1)
+> +               return -EINVAL;
+> +
+> +       rzv2m_pwc_gpio_set(gc, nr, value);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct gpio_chip rzv2m_pwc_gc = {
+> +       .label = "rzv2m_pwc_gpio",
+> +       .owner = THIS_MODULE,
+> +       .get = rzv2m_pwc_gpio_get,
+> +       .set = rzv2m_pwc_gpio_set,
+> +       .direction_output = rzv2m_pwc_gpio_direction_output,
+> +       .can_sleep = false,
+> +       .ngpio = 2,
+> +       .base = -1,
+> +};
+> +
+> +static int rzv2m_pwc_gpio_probe(struct platform_device *pdev)
+> +{
+> +       struct rzv2m_pwc_gpio_priv *priv;
+> +       int err;
+> +
+> +       priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       priv->regmap = syscon_regmap_lookup_by_phandle(pdev->dev.of_node,
+> +                                                      "regmap");
+> +
+> +       if (IS_ERR(priv->regmap))
+> +               return dev_err_probe(&pdev->dev, PTR_ERR(priv->regmap),
+> +                                    "Can't find regmap property");
+> +
+> +       err = of_property_read_u32(pdev->dev.of_node, "offset", &priv->offset);
 
+Please don't use OF APIs in drivers anymore, use
+device_property_read_u32() instead.
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2023-01-02-v6.2-rc2/plan/ltp-ipc/
+Otherwise looks pretty good!
 
-  Test:     ltp-ipc
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2023-01-02-v6.2-rc2
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      b61285fe1d0f3d98f4780d0889af30b13655c32e
+Bart
 
-  Test suite revisions:
-    ltp-tests
-      URL:  https://github.com/linux-test-project/ltp.git
-      SHA:  9547e6a3a3dce0fce39215b54f4fe314de54a5a8 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                 | arch  | lab     | compiler | defconfig         |=
- regressions
--------------------------+-------+---------+----------+-------------------+=
-------------
-r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip | gcc-10   | renesas_defconfig |=
- 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/63b2b1c533f46e630c4eee3a
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: renesas_defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-01-02-v6.2-rc2/arm64/renesas_defconfig/gcc-10/lab-cip/ltp-ipc-r8a774a1-=
-hihope-rzg2m-ex.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-01-02-v6.2-rc2/arm64/renesas_defconfig/gcc-10/lab-cip/ltp-ipc-r8a774a1-=
-hihope-rzg2m-ex.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-lt=
-p/20221216.0/arm64/initrd.cpio.gz =
-
-
-
-  * ltp-ipc.login: https://kernelci.org/test/case/id/63b2b1c533f46e630c4eee=
-3b
-        new failure (last pass: renesas-devel-2022-12-26-v6.2-rc1) =
-
- =20
+> +       if (err)
+> +               return dev_err_probe(&pdev->dev, -EINVAL,
+> +                                    "Can't find offset property");
+> +
+> +       /*
+> +        * The register used by this driver cannot be read, therefore set the
+> +        * outputs to their default values and initialize priv->ch_en_bits accordingly.
+> +        * BIT 16 enables write to BIT 0, BIT 17 enables write to BIT 1, and the
+> +        * default value of both BIT 0 and BIT 1 is 0.
+> +        */
+> +       regmap_write(priv->regmap, priv->offset, BIT(17) | BIT(16));
+> +       bitmap_zero(priv->ch_en_bits, 2);
+> +
+> +       priv->gp = rzv2m_pwc_gc;
+> +       priv->gp.parent = pdev->dev.parent;
+> +       priv->gp.fwnode = dev_fwnode(&pdev->dev);
+> +
+> +       return devm_gpiochip_add_data(&pdev->dev, &priv->gp, priv);
+> +}
+> +
+> +static const struct of_device_id rzv2m_pwc_gpio_of_match[] = {
+> +       { .compatible = "renesas,rzv2m-pwc-gpio" },
+> +       { /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, rzv2m_pwc_gpio_of_match);
+> +
+> +static struct platform_driver rzv2m_pwc_gpio_driver = {
+> +       .probe = rzv2m_pwc_gpio_probe,
+> +       .driver = {
+> +               .name = "rzv2m_pwc_gpio",
+> +               .of_match_table = of_match_ptr(rzv2m_pwc_gpio_of_match),
+> +       },
+> +};
+> +module_platform_driver(rzv2m_pwc_gpio_driver);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Fabrizio Castro <castro.fabrizio.jz@renesas.com>");
+> +MODULE_DESCRIPTION("Renesas RZ/V2M PWC GPIO");
+> --
+> 2.34.1
+>
