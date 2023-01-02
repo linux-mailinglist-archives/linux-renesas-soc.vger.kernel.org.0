@@ -2,151 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7240E65B753
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jan 2023 22:10:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3141565B77B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Jan 2023 23:18:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231139AbjABVKG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Jan 2023 16:10:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58660 "EHLO
+        id S231186AbjABWSb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Jan 2023 17:18:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbjABVKF (ORCPT
+        with ESMTP id S230158AbjABWSa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Jan 2023 16:10:05 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAF309584
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Jan 2023 13:10:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672693803; x=1704229803;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=x5ioPJ/irt55FX7RMC+UIVqxdCZIBQwAHK53q73r0tQ=;
-  b=mTPyjUoPFAFxnHZO5K8ajd4Kd0xLIzEMxuclxZ3pTzB4u4SQSOp0xhso
-   Nqwho5GSgV6vQi6ey07Iz47HGNY1PSGRxquEVH8qc6tLFwgCg2nEn9vP0
-   ImPCCGOPst8TAM0S/+vBFysnOo2OiLR/PJTWpgbe9ggmKDUlUVD6dAo9s
-   lNB4SK1bhvvxKVhzrS6ZHQ4IYZSuj1pFHIl794plWNv08hW0ekSb9o3AU
-   cZgqGtxAu+w8wcolKTRaveXmYEH9YU/9TUXJek4k+1GeRauThE7iwGWXO
-   zP8B4tyOblUKa7ELHoxbNTQmLo3uZta1ijDra/jCzdfU/94GuEjXe3qmg
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="348760601"
-X-IronPort-AV: E=Sophos;i="5.96,295,1665471600"; 
-   d="scan'208";a="348760601"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 13:10:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="778653636"
-X-IronPort-AV: E=Sophos;i="5.96,295,1665471600"; 
-   d="scan'208";a="778653636"
-Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 02 Jan 2023 13:10:01 -0800
-Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pCS4F-000RY7-36;
-        Mon, 02 Jan 2023 21:09:59 +0000
-Date:   Tue, 03 Jan 2023 05:09:46 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- b61285fe1d0f3d98f4780d0889af30b13655c32e
-Message-ID: <63b3481a.QmqMM4lI0bO71C8l%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 2 Jan 2023 17:18:30 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C3139592;
+        Mon,  2 Jan 2023 14:18:27 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id z10so27544978wrh.10;
+        Mon, 02 Jan 2023 14:18:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wZIWvfT1uJMqx6ukLQ7vb16vHBpK1b+BBT/t6DKt+tM=;
+        b=S+EuOgqAiV0aPUV6cZovT5jdd6yrX8O7+/W4cOQ7WaXN1VCwQU2r0rZUCM6cUJ6axn
+         NAGFmjW9sVbLpemWKmY8JeuRckLpSPf3ULLf+TknWzFBf1GW2YSl//vpnuIR3aBxMZwY
+         Blc4w3WlWhbD1OeD2C3opwt9LHvMatcWzUYkyCtuftfX7a7vdFo7SQ5iOBmamZgWUP5u
+         5U9TaJ6oBOBCEBhEOqeT2UN19c3l1VLdiTp0PvAwS0Qm/q7XgkITv36M614vF60zJpLn
+         5xPcxFSzPvWM6/3Dp39vaajhf9Fx+Lzv6Zjr9MPmizFDHixfOV26smBnRy864+Q00B2R
+         eTzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wZIWvfT1uJMqx6ukLQ7vb16vHBpK1b+BBT/t6DKt+tM=;
+        b=0T0bA3Epn05a83llSiR7zcFVraaedzUE2Se4uRui6MQxjzscOGhb/cpMNJ9mRirLW1
+         Xhm8JbqJMr9rkHyYWShFQQV80Lcn2YR0YAlvEm/7+8NueysOlMCyAV0fI7LYs2ekJ5Lc
+         bcjacdK6C8CJ56RYZdcPdVdIq7TpHwjfkQ4qCrYVKoIJUJeG/dyqb1+ZYfs7B+d6TM7l
+         QjRhLUSKmJAFcR1Z5Hu7H4nhSNkFxFo7NcROjCQiTZsG/J73wCRdcflAJpDocff/h4Wg
+         4yS30cI4ht5PO+Ppmq1/70/yd6fznQfWTcmlbvahvjlAvEkaDs2eM8NXxKK85gxJ+RDs
+         OM7Q==
+X-Gm-Message-State: AFqh2kpXtYECuH6CIZX2g+X9Pj2nUJxj6QiQrhk757v0Vs2EWKKb82Zu
+        3Mm2zXvBViz5zeYVqNJ8yXA=
+X-Google-Smtp-Source: AMrXdXuu3AuRqbI27zvZiO3TfgE0OkoOmHsdQdNCMrvelUlojg5xWWoYaut9gvDgcWdwPiOtcx5jpA==
+X-Received: by 2002:adf:f285:0:b0:270:57d:d1c9 with SMTP id k5-20020adff285000000b00270057dd1c9mr24749786wro.39.1672697905676;
+        Mon, 02 Jan 2023 14:18:25 -0800 (PST)
+Received: from prasmi.home ([2a00:23c8:2501:c701:8a7:e535:b020:566a])
+        by smtp.gmail.com with ESMTPSA id n14-20020adfe34e000000b002366dd0e030sm29872463wrj.68.2023.01.02.14.18.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Jan 2023 14:18:24 -0800 (PST)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 0/6] Add IRQC support to RZ/G2UL SoC
+Date:   Mon,  2 Jan 2023 22:18:09 +0000
+Message-Id: <20230102221815.273719-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: b61285fe1d0f3d98f4780d0889af30b13655c32e  Merge tag 'v6.2-rc2' into renesas-devel
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-elapsed time: 726m
+Hi All,
 
-configs tested: 68
-configs skipped: 2
+This patch series does the following:
+* Adds IRQC support to the RZ/G2UL SoC.
+* Drops mapping NMI interrupt as part of IRQ domain
+* Parses interrupts based in interrupt-names
+* Includes a fix for pinctrl driver when using GPIO pins as interrupts
+* Adds PHY interrupt support for ETH{0/1}
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+v2->v3
+* Dropped skipping of NMI interrupt, as it can be used as an external
+  interrupt.
+* Dropped parsing interrupts based on names
+* Dropped "renesas,rzg2ul-irqc" compatible string
 
-gcc tested configs:
-arc                                 defconfig
-um                             i386_defconfig
-s390                             allmodconfig
-um                           x86_64_defconfig
-alpha                               defconfig
-s390                             allyesconfig
-s390                                defconfig
-powerpc                           allnoconfig
-alpha                            allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-m68k                             allyesconfig
-sh                               allmodconfig
-x86_64                              defconfig
-ia64                             allmodconfig
-mips                             allyesconfig
-x86_64                           rhel-8.3-bpf
-arm                                 defconfig
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-x86_64                               rhel-8.3
-x86_64                    rhel-8.3-kselftests
-arm64                            allyesconfig
-x86_64                          rhel-8.3-func
-x86_64               randconfig-a003-20230102
-x86_64               randconfig-a001-20230102
-i386                                defconfig
-x86_64               randconfig-a004-20230102
-x86_64                           allyesconfig
-powerpc                          allmodconfig
-x86_64               randconfig-a002-20230102
-i386                 randconfig-a004-20230102
-arm                              allyesconfig
-i386                 randconfig-a003-20230102
-x86_64               randconfig-a006-20230102
-i386                 randconfig-a001-20230102
-x86_64                            allnoconfig
-x86_64               randconfig-a005-20230102
-i386                 randconfig-a002-20230102
-i386                 randconfig-a005-20230102
-i386                 randconfig-a006-20230102
-riscv                randconfig-r042-20230101
-s390                 randconfig-r044-20230101
-arc                  randconfig-r043-20230102
-i386                             allyesconfig
-arm                  randconfig-r046-20230102
-arc                  randconfig-r043-20230101
+v1->v2
+* Updated binding doc
+* Dropped mapping NMI interrupt as part of IRQ domain
+* Fixed review comments pointed by Geert
+* Added support to parse interrupts by name
+* Added compile time checks for gpio config arrays
 
-clang tested configs:
-i386                 randconfig-a013-20230102
-i386                 randconfig-a012-20230102
-i386                 randconfig-a011-20230102
-i386                 randconfig-a014-20230102
-x86_64                          rhel-8.3-rust
-i386                 randconfig-a015-20230102
-i386                 randconfig-a016-20230102
-x86_64               randconfig-a011-20230102
-x86_64               randconfig-a014-20230102
-x86_64               randconfig-a012-20230102
-x86_64               randconfig-a013-20230102
-x86_64               randconfig-a015-20230102
-x86_64               randconfig-a016-20230102
-hexagon              randconfig-r041-20230102
-s390                 randconfig-r044-20230102
-hexagon              randconfig-r045-20230101
-hexagon              randconfig-r045-20230102
-arm                  randconfig-r046-20230101
-riscv                randconfig-r042-20230102
-hexagon              randconfig-r041-20230101
+RFC v1: https://patchwork.kernel.org/project/linux-renesas-soc/cover/20221107175305.63975-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (6):
+  dt-bindings: interrupt-controller: renesas,rzg2l-irqc: Document
+    RZ/G2UL SoC
+  pinctrl: renesas: rzg2l: Fix configuring the GPIO pins as interrupts
+  pinctrl: renesas: rzg2l: Add BUILD_BUG_ON() checks
+  arm64: dts: renesas: r9a07g043u: Add IRQC node
+  arm64: dts: renesas: r9a07g043[u]: Update pinctrl node to handle GPIO
+    interrupts
+  arm64: dts: renesas: rzg2ul-smarc-som: Add PHY interrupt support for
+    ETH{0/1}
+
+ .../renesas,rzg2l-irqc.yaml                   | 225 +++++++++++++-----
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi    |   2 +
+ arch/arm64/boot/dts/renesas/r9a07g043u.dtsi   |  72 ++++++
+ .../boot/dts/renesas/rzg2ul-smarc-som.dtsi    |  11 +-
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c       |  25 +-
+ 5 files changed, 270 insertions(+), 65 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
