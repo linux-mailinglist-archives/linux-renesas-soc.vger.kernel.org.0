@@ -2,190 +2,141 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE21865C52C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Jan 2023 18:40:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5124465C57F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Jan 2023 18:57:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231229AbjACRjG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Jan 2023 12:39:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40270 "EHLO
+        id S238436AbjACR5B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Jan 2023 12:57:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238570AbjACRjB (ORCPT
+        with ESMTP id S233441AbjACR4s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Jan 2023 12:39:01 -0500
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90B0FEE35;
-        Tue,  3 Jan 2023 09:39:00 -0800 (PST)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 0F2C05C00BA;
-        Tue,  3 Jan 2023 12:38:59 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Tue, 03 Jan 2023 12:38:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-        cc:cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm3; t=1672767539; x=
-        1672853939; bh=AL41jm0bguHLbqwrfAY4uxQqONM6OmyCgIZjUnM7MhM=; b=d
-        WUZ0AB08T6h79Dkaxh4cGAeJG2slCfBS89ihY8HncRtwJkRdYHoo/soj6xIGodFB
-        TmQUJLh33qJjWqbBt9Z9mRaEYUDU4J5zOXTD7HN2b3qpVz1HiECN39Yey+AIHWOG
-        aaghK+DJnB9Ar0M7Lp5Q8SZ549NnM4Co8r5dlbh+JUtBn9O6xW+LP6yLz/m/gkGL
-        qj/7ZFV492XVqNn3V8CzApVihQZjHxBT676v0pczf2Q4kQRVFA+pk5genOI6fB10
-        5NhvorWjCvX6jIlMjTeskOvPooD5A35vFnAj1Xo4jBYNrIlmz9umeEgmumxERDlM
-        ejhcXIEYRQFrw1cieHKPQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672767539; x=
-        1672853939; bh=AL41jm0bguHLbqwrfAY4uxQqONM6OmyCgIZjUnM7MhM=; b=L
-        vzS2C0SkocKeU/XbJN8x6KO5vIwGnw1b6jThBhExLaAKeRYPBMyNZMck1mQ9pw6Q
-        7t8I0fOTNt4cdswGBYik7H/Cq0bPtkeFMpc+7BWBB71ElBZD8m7FZAwsdRO3P7VP
-        vbW1ETXOVderwqBbjBf+pFwZDnh8+KYG9dHCNtGomAPEpkwyBXAdEeGov4jieHeo
-        DmUB+NnkPIc7Eazgg7Y3JPxZM0Hpb9IdAPoe6D96OeniJpDfiyC5GuHhANuVUNcY
-        SU7NLqVfnZb9RDXnIIwYou28WZJkJO41/lHzSTSthEbuTUY9+3bdst4B0ggM6aV9
-        gnXD8NObBkso6AkFNGUsA==
-X-ME-Sender: <xms:Mmi0Yy2DCzQ5foQDze7omumT1bouPZXNpDmiNQuKD0lRdRhVO9YYqw>
-    <xme:Mmi0Y1FkM7xCJwra159l-QxlutI2OXCL3WGNVj8XsmdJJEiB-GteP_jdb-a4GQpdq
-    niICcU11FGUnNKN0Q>
-X-ME-Received: <xmr:Mmi0Y67UDv4UnB8dvhJqCjMUxmDkxkYuSoMODz_CcWCGgTcDbl2FG0Dqa2DKZkksLMPD_PCLN-LkFWFJUjbE2sqJxwdiFfog8W0EUvqTjPFzsuttb6709rUWrA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeeggddutdefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeduhffffefhffduudetvdffkeetveeiueegfeelleffiedtuddt
-    ffduhefgtdefgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhl
-    rghnugdrohhrgh
-X-ME-Proxy: <xmx:Mmi0Yz1OsLjfm_IkpncCnLTdTU5zX_3ETiF2zrokr6Hae927X9TUDg>
-    <xmx:Mmi0Y1Hi20uqFRepiCYMU38DV3bRWqMsVxZCtYZxOccqKEaqceB0mw>
-    <xmx:Mmi0Y8--hju2a4AyxXA1z_3xjha49esfvTrRUJ6Oe62trjaPgsi6-w>
-    <xmx:M2i0Y0B4GbZOV4tICJ2STc5iL9V8bOOpiVrvUoj6iXG_YUdAIKx0BQ>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 3 Jan 2023 12:38:57 -0500 (EST)
-Message-ID: <6c8b40e5-7543-c86a-e3f1-f9df12e3745c@sholland.org>
-Date:   Tue, 3 Jan 2023 11:38:55 -0600
+        Tue, 3 Jan 2023 12:56:48 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B296D1147B;
+        Tue,  3 Jan 2023 09:56:46 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id j16so12413924edw.11;
+        Tue, 03 Jan 2023 09:56:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=p7a1U2/c7WJv3NEBfJYAOixnmGcKLo0CuycVU47++aQ=;
+        b=aKwytJh4KX20LXxOryZJE0HuJG5HcaCeIxX3tFX5yZz0gEhN3vG/Ugzp3jfNHHAfFZ
+         zpCCt+btieU/rdBGPWbe3sejqYvYS8FTg2R49yHZy6jaIbMe+hPE/DtWRavxYZwoIN0T
+         QVzbnO8+eVVo9l/ID7dtlfG3fmFswrJrboaiZ3nNEzQHN+QM9WO5pCpA1f5g1joQhIXW
+         l72WenGT/6K3hPFCxw3kIKLiLCVK3azdhhESTO51lnjK++sWuiMrmBZf4WNy7jNIp7fY
+         YzJXiRkbxN0lvgynjSnG5SWR5+Uu2VYbKX6KvdPUI1pO/IiTONJIZdImNLn22/Eq/9AP
+         aWWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p7a1U2/c7WJv3NEBfJYAOixnmGcKLo0CuycVU47++aQ=;
+        b=Zq76Uzozq1s77vV07YW7Y6sN1jgMdeNPclu8K9ZPyDaI6RN7Hu/W869l+xUXUZ5S1+
+         1e9wimXnwxgFkkhynGFpCQXTL9w2+AbYH1j0Yhon5+3mZXBxEJXWTpR9j2wLVGt2KWko
+         gfvRSJLidEROVAIT5tzbsso/vl7s9iFCoCEfkYmqqPsuScYu89MTE25rQEMTBu33jUpN
+         +uP3rfTPFDwzfPzVLAOW6Jn2PJikXfHXmqnt+Xjeu5NDohYaOt5LF0v/pdUGDdjrh656
+         58GUpM4lQvHfDh9BBI4ZoPf914I2UPUbg0vBJQBbqPWelgMWy2KBAbGSs0oCBTCwaCFs
+         m7FA==
+X-Gm-Message-State: AFqh2kqvB2H2atkTy4ZwZqpaji8apBvIngX31LcOdnAYdmYGuCnCi3Q9
+        24xneICgEnFaU8xOPHG+57Y=
+X-Google-Smtp-Source: AMrXdXtEtXWdICTqd1aomJDuH7ZCpdFY3T3zFdVGv7z0OI1uDhXO0zYB+HaMBkbXi0VNrPwD5wFXmA==
+X-Received: by 2002:a05:6402:390b:b0:465:f6a9:cb7b with SMTP id fe11-20020a056402390b00b00465f6a9cb7bmr39249116edb.12.1672768605161;
+        Tue, 03 Jan 2023 09:56:45 -0800 (PST)
+Received: from skbuf ([188.26.185.118])
+        by smtp.gmail.com with ESMTPSA id h14-20020aa7c94e000000b0046f77031d40sm13864230edt.10.2023.01.03.09.56.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jan 2023 09:56:44 -0800 (PST)
+Date:   Tue, 3 Jan 2023 19:56:41 +0200
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     Colin Foster <colin.foster@in-advantage.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        John Crispin <john@phrozen.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Marek Vasut <marex@denx.de>,
+        Sean Wang <sean.wang@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        =?utf-8?B?bsOnIMOcTkFM?= <arinc.unal@arinc9.com>,
+        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        UNGLinuxDriver@microchip.com,
+        Woojung Huh <woojung.huh@microchip.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        George McCollister <george.mccollister@gmail.com>,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v6 net-next 09/10] dt-bindings: net: add generic
+ ethernet-switch-port binding
+Message-ID: <20230103175641.nqvo2gk43s3nanwg@skbuf>
+References: <20230103051401.2265961-1-colin.foster@in-advantage.com>
+ <20230103051401.2265961-10-colin.foster@in-advantage.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v2] clocksource/drivers/riscv: Get rid of
- clocksource_arch_init() callback
-Content-Language: en-US
-To:     Prabhakar <prabhakar.csengg@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     linux-riscv@lists.infradead.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20221229224601.103851-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20221229224601.103851-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230103051401.2265961-10-colin.foster@in-advantage.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 12/29/22 16:46, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Having a clocksource_arch_init() callback always sets vdso_clock_mode to
-> VDSO_CLOCKMODE_ARCHTIMER if GENERIC_GETTIMEOFDAY is enabled, this is
-> required for the riscv-timer.
-> 
-> This works for platforms where just riscv-timer clocksource is present.
-> On platforms where other clock sources are available we want them to
-> register with vdso_clock_mode set to VDSO_CLOCKMODE_NONE.
-> 
-> On the Renesas RZ/Five SoC OSTM block can be used as clocksource [0], to
-> avoid multiple clock sources being registered as VDSO_CLOCKMODE_ARCHTIMER
-> move setting of vdso_clock_mode in the riscv-timer driver instead of doing
-> this in clocksource_arch_init() callback as done similarly for ARM/64
-> architecture.
-> 
-> [0] drivers/clocksource/renesas-ostm.c
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Tested-by: Samuel Holland <samuel@sholland.org>
-> ---
-> RFC -> v2
-> * Dropped vdso_default static global variable
-> * Used IS_ENABLED() macro
-> * Included Tested-by from Samuel
-> 
-> RFC:
-> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221211215843.24024-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> ---
->  arch/riscv/Kconfig                | 1 -
->  arch/riscv/kernel/time.c          | 9 ---------
->  drivers/clocksource/timer-riscv.c | 5 +++++
->  3 files changed, 5 insertions(+), 10 deletions(-)
-> 
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index e2b656043abf..9c687da7756d 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -12,7 +12,6 @@ config 32BIT
->  
->  config RISCV
->  	def_bool y
-> -	select ARCH_CLOCKSOURCE_INIT
->  	select ARCH_ENABLE_HUGEPAGE_MIGRATION if HUGETLB_PAGE && MIGRATION
->  	select ARCH_ENABLE_SPLIT_PMD_PTLOCK if PGTABLE_LEVELS > 2
->  	select ARCH_HAS_BINFMT_FLAT
-> diff --git a/arch/riscv/kernel/time.c b/arch/riscv/kernel/time.c
-> index 8217b0f67c6c..42bee305e997 100644
-> --- a/arch/riscv/kernel/time.c
-> +++ b/arch/riscv/kernel/time.c
-> @@ -30,12 +30,3 @@ void __init time_init(void)
->  	of_clk_init(NULL);
->  	timer_probe();
->  }
-> -
-> -void clocksource_arch_init(struct clocksource *cs)
-> -{
-> -#ifdef CONFIG_GENERIC_GETTIMEOFDAY
-> -	cs->vdso_clock_mode = VDSO_CLOCKMODE_ARCHTIMER;
-> -#else
-> -	cs->vdso_clock_mode = VDSO_CLOCKMODE_NONE;
-> -#endif
-> -}
-> diff --git a/drivers/clocksource/timer-riscv.c b/drivers/clocksource/timer-riscv.c
-> index 55dad7965f43..c416e5e934bf 100644
-> --- a/drivers/clocksource/timer-riscv.c
-> +++ b/drivers/clocksource/timer-riscv.c
-> @@ -77,6 +77,11 @@ static struct clocksource riscv_clocksource = {
->  	.mask		= CLOCKSOURCE_MASK(64),
->  	.flags		= CLOCK_SOURCE_IS_CONTINUOUS,
->  	.read		= riscv_clocksource_rdtime,
-> +#if IS_ENABLED(CONFIG_GENERIC_GETTIMEOFDAY)
-> +	.vdso_clock_mode = VDSO_CLOCKMODE_ARCHTIMER,
-> +#else
-> +	.vdso_clock_mode = VDSO_CLOCKMODE_NONE,
+On Mon, Jan 02, 2023 at 09:14:00PM -0800, Colin Foster wrote:
+> diff --git a/Documentation/devicetree/bindings/net/ethernet-switch-port.yaml b/Documentation/devicetree/bindings/net/ethernet-switch-port.yaml
+> new file mode 100644
+> index 000000000000..126bc0c12cb8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/ethernet-switch-port.yaml
+> @@ -0,0 +1,25 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/ethernet-switch-port.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Generic Ethernet Switch Port
+> +
+> +maintainers:
+> +  - Andrew Lunn <andrew@lunn.ch>
+> +  - Florian Fainelli <f.fainelli@gmail.com>
+> +  - Vladimir Oltean <olteanv@gmail.com>
+> +
+> +description:
+> +  Ethernet switch port Description
 
-The else case isn't strictly necessary because VDSO_CLOCKMODE_NONE is
-the default. Either way it looks fine to me.
+Still doesn't look too great that the ethernet-switch-port description
+is this thing devoid of meaning. What is said about the dsa-port is what
+the description should be here, and the description of the dsa-port is
+that it's a generic Ethernet switch port plus DSA specific properties.
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+> +
+> +$ref: ethernet-controller.yaml#
+> +
+> +properties:
+> +  reg:
+> +    description: Port number
+> +
+> +additionalProperties: true
 
-And I tested v2 as well.
-
-Regards,
-Samuel
-
-> +#endif
->  };
->  
->  static int riscv_timer_starting_cpu(unsigned int cpu)
-
+Also, I see your patches are deferred in patchwork, and while this isn't
+really for me to say, presumably it's because there was no announcement
+so far that net-next reopened.
