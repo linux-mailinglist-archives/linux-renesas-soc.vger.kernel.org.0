@@ -2,121 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2825A65BCB3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Jan 2023 10:04:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC62065BD7F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Jan 2023 10:54:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237082AbjACJD6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Jan 2023 04:03:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36820 "EHLO
+        id S237005AbjACJy1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Jan 2023 04:54:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230211AbjACJD4 (ORCPT
+        with ESMTP id S233082AbjACJy1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Jan 2023 04:03:56 -0500
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9679763F9;
-        Tue,  3 Jan 2023 01:03:55 -0800 (PST)
-Received: by mail-vs1-f42.google.com with SMTP id x65so17597241vsb.13;
-        Tue, 03 Jan 2023 01:03:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z/2eYMVYxzIFBJG3qq6AbikGMDNEgdPMpXyBMJ78i1s=;
-        b=pUdQSg9mo6+9bbFM+n4+xqhrgYc81R2Gt6dfnXbTdInDmHpVfVZwpJkliOeTEIrEP1
-         XJK6NDa+N87GGnCHY+HxE8jjaLOl/WdfU55rD3R7Zu4YRe1Fl+XRMdjebGkKffjQZo71
-         RKJWMgmsHfeDC1i5g3PnHOJ0UhyYwt93SZGgTN0m7d1wYfN86yTO9zuRr4m84Tp+Ze2V
-         60D5HT9z2lCWliT/g6kV067scbD2fUh9elS2GqX4tEs9sjJCEKH539Jcef7Vm7MDGldU
-         kldts0FnBXpx8edX9E0Vh2tzFZALA/ZqwHdnOZG56zfOkjzPRA9AI+d1fuLdC6W+w+L9
-         +uUQ==
-X-Gm-Message-State: AFqh2kqXZ5X6lVC65blrE3NGCiT6RmOoUupT38rPcdi2M9zkEue4FgDX
-        Vuh5ORt5EFgcGesLrqwV/HpWht7XeP7OGA==
-X-Google-Smtp-Source: AMrXdXsdAfyqflP3+cl22ZLezBJ6cV4tPhizdC4f+QCflCS6WsOuddvNXtCDMGn9ltGcZvpooLzSiQ==
-X-Received: by 2002:a05:6102:116a:b0:3c6:fca5:b8f7 with SMTP id k10-20020a056102116a00b003c6fca5b8f7mr12083979vsg.7.1672736634441;
-        Tue, 03 Jan 2023 01:03:54 -0800 (PST)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id bl33-20020a05620a1aa100b006f474e6a715sm21688310qkb.131.2023.01.03.01.03.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Jan 2023 01:03:54 -0800 (PST)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-4a2f8ad29d5so87004697b3.8;
-        Tue, 03 Jan 2023 01:03:53 -0800 (PST)
-X-Received: by 2002:a05:690c:d8c:b0:4a2:63c5:6c59 with SMTP id
- da12-20020a05690c0d8c00b004a263c56c59mr776343ywb.384.1672736633549; Tue, 03
- Jan 2023 01:03:53 -0800 (PST)
+        Tue, 3 Jan 2023 04:54:27 -0500
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E72615FEF;
+        Tue,  3 Jan 2023 01:54:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=5QBwvdsaQ/rMsxBVhPGmbcWGtUN1VPHgFMR/l0i34XI=; b=uDe3nczbxGdgEhh9ch2BmOX0Jc
+        WLJibEAUnu06vPA8iXrhDW/Ly7EXSZfh919sG09oIlLXG8qTQOZecQz8imnws6KEPkXfeOILJLB/w
+        gNjEgL5F6A7xAlIZyU+P0sDKOPv3HB2vdH+KwGucoba3k74fs1MtAZQDOxruBa7cn8yQ5Wv8rWy5y
+        QytHI/2ew3vaLw+tK+eQJsNe5yG8Iq6cUgSNcC/Pzc9gMpHpbry9wRRVpjszJ+0Kl/l0WOVEaQS/X
+        5xAIXYiQpg1UrHu8I/MeIdaarXbfRcLRcNyEvq+mMTQo4cpk6G3toSqijYUC1XF80EGiayRK8EeaU
+        XhA6wPlw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35902)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1pCdzw-0005B0-CT; Tue, 03 Jan 2023 09:54:20 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1pCdzu-0001xN-MD; Tue, 03 Jan 2023 09:54:18 +0000
+Date:   Tue, 3 Jan 2023 09:54:18 +0000
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     andrew@lunn.ch, hkallweit1@gmail.com, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH net-next 1/3] net: phylink: Set host_interfaces for a
+ non-sfp PHY
+Message-ID: <Y7P7Sj/ZJ8V/9Pkq@shell.armlinux.org.uk>
+References: <20221226071425.3895915-1-yoshihiro.shimoda.uh@renesas.com>
+ <20221226071425.3895915-2-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-References: <20221215213206.56666-1-biju.das.jz@bp.renesas.com>
- <CACRpkdZCEvpLAWvH7pCLH7KwbDMzz0EN+4HbxVGfFPi_C1b8+g@mail.gmail.com> <CAMuHMdU1J46KSzqqCQc-1ZrgvfWh8J2aa6NzRTK_A_ZJs+zRVQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdU1J46KSzqqCQc-1ZrgvfWh8J2aa6NzRTK_A_ZJs+zRVQ@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 3 Jan 2023 10:03:42 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVr3U5ABj0Ajz+=iRO6YbR5Ogip718KT9AWnWXeuFR9sA@mail.gmail.com>
-Message-ID: <CAMuHMdVr3U5ABj0Ajz+=iRO6YbR5Ogip718KT9AWnWXeuFR9sA@mail.gmail.com>
-Subject: Re: [PATCH v5 0/9] Add RZ/G2L POEG support
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Drew Fustini <dfustini@baylibre.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221226071425.3895915-2-yoshihiro.shimoda.uh@renesas.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus,
+On Mon, Dec 26, 2022 at 04:14:23PM +0900, Yoshihiro Shimoda wrote:
+> Set phy_dev->host_interfaces by pl->link_interface in
+> phylink_fwnode_phy_connect() for a non-sfp PHY.
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  drivers/net/phy/phylink.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
+> index 09cc65c0da93..1958d6cc9ef9 100644
+> --- a/drivers/net/phy/phylink.c
+> +++ b/drivers/net/phy/phylink.c
+> @@ -1809,6 +1809,7 @@ int phylink_fwnode_phy_connect(struct phylink *pl,
+>  		pl->link_interface = phy_dev->interface;
+>  		pl->link_config.interface = pl->link_interface;
+>  	}
+> +	__set_bit(pl->link_interface, phy_dev->host_interfaces);
 
-On Tue, Jan 3, 2023 at 10:01 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Thu, Dec 29, 2022 at 2:17 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> > On Thu, Dec 15, 2022 at 10:32 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > This patch series add support for controlling output disable function using sysfs.
-> >
-> > What's wrong with using the debugfs approach Drew implemented in
-> > commit 6199f6becc869d30ca9394ca0f7a484bf9d598eb
-> > "pinctrl: pinmux: Add pinmux-select debugfs file"
-> > ?
->
-> I think the main difference is that debugfs is meant for debugging
-> and development features, while this feature is to be configured on
-> production systems.  There's just no existing API for it.
->
-> > Something driver specific seems like a bit of a hack, does it not?
-> >
-> > If this should go into sysfs we should probably create something
-> > generic, such as a list of stuff to be exported as sysfs switches.
-> >
-> > It generally also looks really dangerous, which is another reason
-> > for keeping it in debugfs. It's the big hammer to hurt yourself with,
-> > more or less.
->
-> Yes, generic would be nice.  Anyone familiar with other hardware
-> that could make use of this?
+This is probably going to break Macchiatobin platforms, since we
+declare that the link mode there is 10GBASE-R, we'll end up with
+host_interfaces containing just this mode. This will cause the
+88x3310 driver to select a rate matching interface mode, which the
+mvpp2 MAC can't support.
 
-That's also the reason why I have been rather hesitant in accepting
-this driver and bindings (I just saw you applied the bindings): I wanted
-to hear your input first ;-)
+If we want to fill host_interfaces in, then it needs to be filled in
+properly - and by that I mean with all the host interface modes that
+can be electrically supported - otherwise platforms will break.
 
-Gr{oetje,eeting}s,
+So, sorry, but NAK on this change.
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
