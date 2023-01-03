@@ -2,34 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DED2A65BFEB
+	by mail.lfdr.de (Postfix) with ESMTP id 7D98665BFEA
 	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Jan 2023 13:32:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237548AbjACMcJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Jan 2023 07:32:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34534 "EHLO
+        id S237507AbjACMcK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Jan 2023 07:32:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237470AbjACMcH (ORCPT
+        with ESMTP id S230337AbjACMcH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Tue, 3 Jan 2023 07:32:07 -0500
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C20CFD38;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC94FFD39;
         Tue,  3 Jan 2023 04:32:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1672749125; x=1704285125;
+  t=1672749126; x=1704285126;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=iR2lg6ZkZ3TUre7N1/ae8xVuBqn+jZoTBIB9e2Z9qX8=;
-  b=HDijqpnW1p8HJoZ/M+xuzBD00ijGFp35Tc8Ou0w0mpNADu7J7MUDcKBs
-   DHYxmwYAeG8lDK0wK6dBN9nBd4iUWRmj3sopHhQYcMb8TnkpmRMJhBhZt
-   op82v52nKLw/T7ZUc+u++C+0rDEcZIaqjvn7M+9sQu6T1dwPEUYlKyR0z
-   fwkf5k8NhX6pg8KQGAdg3Cc+WSQSZhdIpBvjNz/9wCZUF5Ojpwt391mQS
-   kjAc5Ti1PeyrVbqBivIdig5+LCS0xSVtuFGM3UKQjHcy+vQ2ybbehaQhX
-   kJ9DHmm/NZO/txGQm0ZE0CIofSG471WLCsuXQ+6/rFD/VeL9Ej9clkCrq
+  bh=WfeauZQQ6shWtDpquveDvTrFGQ3JaGn25Hjtpe3ufdY=;
+  b=gglGkWYB85DE8/bKTCKN07UdEBAU0R6C2Grl2D2hzf6QD5ouNo5JPjHf
+   j3Toy1ybQeWOmRieUy1QKUSdCyZrmxEZ4ZGUQI0zZ2DQUCNsus7r4/43J
+   tFHy75GINOXMDjGHUajYRHPjRwTR4HJa4DoKoXeOojUsJm74N+0HtnEVf
+   rpveizImGdCfq9xST/RBy05xxjp56oOzg1KaFBwdQhy+6xHcrD+w0UQPg
+   zuPWKbbM8ehWyVWAqOmRVDVLACdiiZ9lqyiw81Wo+MDf8FONKrNkbeGFZ
+   Wbpj+ZrmDrdPONg21qP0nvXIUkmjSmS8BcCod/x4p7H5tfDL0cCfgoxQ1
    w==;
 X-IronPort-AV: E=Sophos;i="5.96,296,1665439200"; 
-   d="scan'208";a="28221133"
+   d="scan'208";a="28221135"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
   by mx1-pgp.tq-group.com with ESMTP; 03 Jan 2023 13:31:59 +0100
 Received: from mx1.tq-group.com ([192.168.6.7])
@@ -42,22 +42,22 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   t=1672749119; x=1704285119;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=iR2lg6ZkZ3TUre7N1/ae8xVuBqn+jZoTBIB9e2Z9qX8=;
-  b=bqSkGL7eVQI9D57wr/a5mBJUa9DhsD/Fus7XL0vParEH1W0sXXZ8Ei6+
-   ykdz16557VXu58FjUag20lhv73lWSwoXMq1oWXvzmgQDKrW5FFKnqJiht
-   WIDpC6Ui/ZjB1hHO6uIvmMVRU7LeL1dc95nXji4P8iQ/V2yBGdw+1FXC6
-   L/BEI4TMJL9td6eOScc4auRa5eBKrk7+tnXnUg6m4Bd3644KowiNIodEm
-   +h66fzLlQQ8nJisByGbOTzATi4niDLt3EmTyD8E2uO8wJalQKRCw25DGv
-   fO6omtBBt3CfyLJX1lPUiwgblMTAPMsIYR6mRj2iYGMBnGaJYCDpXw6xj
-   g==;
+  bh=WfeauZQQ6shWtDpquveDvTrFGQ3JaGn25Hjtpe3ufdY=;
+  b=JnAMuLOLFKODOnp9GYUJJcuZ7Ec5+GYAy4aF3g2xhhlGp3sJoduNQjCs
+   lE5TspTiRtcwLmmmb+FHPIUW0fliAT9cJV88F/+1MiDHoJayvedCJMQvi
+   duascdZteIDFY4OfHBm0ufuy1dZDocs5lAwtaF5wcWXozG8z0VctqSFH4
+   1dPfVPCsNw9cZeHG29+51KstIXvqVvNhuUQjeRaHGyXgAxyqn3RhPPerh
+   9iEIgET740uWcb6UkVIPsnTnhQsel5rAb1OYZmZ0ItXiaAcJo1IlpgHUX
+   FUMQjO59uiKgl/RKh7PO0pjpb0zUixI4Bb+7Xy3UeVaWDhEEbvtx4g3l7
+   Q==;
 X-IronPort-AV: E=Sophos;i="5.96,296,1665439200"; 
-   d="scan'208";a="28221132"
+   d="scan'208";a="28221134"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
   by mx1.tq-group.com with ESMTP; 03 Jan 2023 13:31:59 +0100
 Received: from steina-w.tq-net.de (unknown [10.123.53.21])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 3FE07280056;
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 6EC86280072;
         Tue,  3 Jan 2023 13:31:59 +0100 (CET)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -69,9 +69,9 @@ To:     Geert Uytterhoeven <geert+renesas@glider.be>,
 Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
         linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: [PATCH 3/4] clk: rs9: Support device specific dif bit calculation
-Date:   Tue,  3 Jan 2023 13:31:53 +0100
-Message-Id: <20230103123154.3424817-3-alexander.stein@ew.tq-group.com>
+Subject: [PATCH 4/4] clk: rs9: Add support for 9FGV0441
+Date:   Tue,  3 Jan 2023 13:31:54 +0100
+Message-Id: <20230103123154.3424817-4-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230103123154.3424817-1-alexander.stein@ew.tq-group.com>
 References: <20230103123154.3424817-1-alexander.stein@ew.tq-group.com>
@@ -86,111 +86,78 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The calculation DIFx is BIT(n) +1 is only true for 9FGV0241. With
-additional devices this is getting more complicated.
-Support a base bit for the DIF calculation, currently only devices
-with consecutive bits are supported, e.g. the 6-channel device needs
-additional logic.
+This model is similar to 9FGV0241, but the DIFx bits start at bit 0.
 
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- drivers/clk/clk-renesas-pcie.c | 29 ++++++++++++++++-------------
- 1 file changed, 16 insertions(+), 13 deletions(-)
+ drivers/clk/clk-renesas-pcie.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/clk/clk-renesas-pcie.c b/drivers/clk/clk-renesas-pcie.c
-index 0076ed8f11b0..d19b8e759eea 100644
+index d19b8e759eea..6095eacd4f8a 100644
 --- a/drivers/clk/clk-renesas-pcie.c
 +++ b/drivers/clk/clk-renesas-pcie.c
-@@ -18,7 +18,6 @@
- #include <linux/regmap.h>
- 
- #define RS9_REG_OE				0x0
--#define RS9_REG_OE_DIF_OE(n)			BIT((n) + 1)
- #define RS9_REG_SS				0x1
- #define RS9_REG_SS_AMP_0V6			0x0
- #define RS9_REG_SS_AMP_0V7			0x1
-@@ -31,9 +30,6 @@
- #define RS9_REG_SS_SSC_MASK			(3 << 3)
- #define RS9_REG_SS_SSC_LOCK			BIT(5)
- #define RS9_REG_SR				0x2
--#define RS9_REG_SR_2V0_DIF(n)			0
--#define RS9_REG_SR_3V0_DIF(n)			BIT((n) + 1)
--#define RS9_REG_SR_DIF_MASK(n)		BIT((n) + 1)
- #define RS9_REG_REF				0x3
- #define RS9_REG_REF_OE				BIT(4)
- #define RS9_REG_REF_OD				BIT(5)
-@@ -62,6 +58,7 @@ struct rs9_chip_info {
- 	const enum rs9_model	model;
- 	unsigned int		num_clks;
- 	u8			did;
-+	u8			(*calc_dif)(int idx);
+@@ -6,6 +6,7 @@
+  *   - 9FGV/9DBV/9DMV/9FGL/9DML/9QXL/9SQ
+  * Currently supported:
+  *   - 9FGV0241
++ *   - 9FGV0441
+  *
+  * Copyright (C) 2022 Marek Vasut <marex@denx.de>
+  */
+@@ -51,6 +52,7 @@
+ /* Supported Renesas 9-series models. */
+ enum rs9_model {
+ 	RENESAS_9FGV0241,
++	RENESAS_9FGV0441,
  };
  
- struct rs9_driver_data {
-@@ -160,8 +157,14 @@ static const struct regmap_config rs9_regmap_config = {
- 	.reg_read = rs9_regmap_i2c_read,
- };
+ /* Structure to describe features of a particular 9-series model */
+@@ -66,7 +68,7 @@ struct rs9_driver_data {
+ 	struct regmap		*regmap;
+ 	const struct rs9_chip_info *chip_info;
+ 	struct clk		*pin_xin;
+-	struct clk_hw		*clk_dif[2];
++	struct clk_hw		*clk_dif[4];
+ 	u8			pll_amplitude;
+ 	u8			pll_ssc;
+ 	u8			clk_dif_sr;
+@@ -162,6 +164,11 @@ static u8 rs9fgv0241_calc_dif(int idx)
+ 	return BIT(idx) + 1;
+ }
  
-+static u8 rs9fgv0241_calc_dif(int idx)
++static u8 rs9fgv0441_calc_dif(int idx)
 +{
-+	return BIT(idx) + 1;
++	return BIT(idx);
 +}
 +
  static int rs9_get_output_config(struct rs9_driver_data *rs9, int idx)
  {
-+	u8 dif = rs9->chip_info->calc_dif(idx);
- 	struct i2c_client *client = rs9->client;
- 	unsigned char name[5] = "DIF0";
- 	struct device_node *np;
-@@ -169,8 +172,7 @@ static int rs9_get_output_config(struct rs9_driver_data *rs9, int idx)
- 	u32 sr;
- 
- 	/* Set defaults */
--	rs9->clk_dif_sr &= ~RS9_REG_SR_DIF_MASK(idx);
--	rs9->clk_dif_sr |= RS9_REG_SR_3V0_DIF(idx);
-+	rs9->clk_dif_sr |= dif;
- 
- 	snprintf(name, 5, "DIF%d", idx);
- 	np = of_get_child_by_name(client->dev.of_node, name);
-@@ -182,11 +184,9 @@ static int rs9_get_output_config(struct rs9_driver_data *rs9, int idx)
- 	of_node_put(np);
- 	if (!ret) {
- 		if (sr == 2000000) {		/* 2V/ns */
--			rs9->clk_dif_sr &= ~RS9_REG_SR_DIF_MASK(idx);
--			rs9->clk_dif_sr |= RS9_REG_SR_2V0_DIF(idx);
-+			rs9->clk_dif_sr &= ~dif;
- 		} else if (sr == 3000000) {	/* 3V/ns (default) */
--			rs9->clk_dif_sr &= ~RS9_REG_SR_DIF_MASK(idx);
--			rs9->clk_dif_sr |= RS9_REG_SR_3V0_DIF(idx);
-+			rs9->clk_dif_sr |= dif;
- 		} else
- 			ret = dev_err_probe(&client->dev, -EINVAL,
- 					    "Invalid renesas,slew-rate value\n");
-@@ -257,11 +257,13 @@ static void rs9_update_config(struct rs9_driver_data *rs9)
- 	}
- 
- 	for (i = 0; i < rs9->chip_info->num_clks; i++) {
--		if (rs9->clk_dif_sr & RS9_REG_SR_3V0_DIF(i))
-+		u8 dif = rs9->chip_info->calc_dif(i);
-+
-+		if (rs9->clk_dif_sr & dif)
- 			continue;
- 
--		regmap_update_bits(rs9->regmap, RS9_REG_SR, RS9_REG_SR_3V0_DIF(i),
--				   rs9->clk_dif_sr & RS9_REG_SR_3V0_DIF(i));
-+		regmap_update_bits(rs9->regmap, RS9_REG_SR, dif,
-+				   rs9->clk_dif_sr & dif);
- 	}
- }
- 
-@@ -373,6 +375,7 @@ static const struct rs9_chip_info renesas_9fgv0241_info = {
- 	.model		= RENESAS_9FGV0241,
- 	.num_clks	= 2,
- 	.did		= RS9_REG_DID_TYPE_FGV | 0x02,
-+	.calc_dif	= rs9fgv0241_calc_dif,
+ 	u8 dif = rs9->chip_info->calc_dif(idx);
+@@ -378,14 +385,23 @@ static const struct rs9_chip_info renesas_9fgv0241_info = {
+ 	.calc_dif	= rs9fgv0241_calc_dif,
  };
  
++static const struct rs9_chip_info renesas_9fgv0441_info = {
++	.model		= RENESAS_9FGV0441,
++	.num_clks	= 4,
++	.did		= RS9_REG_DID_TYPE_FGV | 0x04,
++	.calc_dif	= rs9fgv0441_calc_dif,
++};
++
  static const struct i2c_device_id rs9_id[] = {
+ 	{ "9fgv0241", .driver_data = RENESAS_9FGV0241 },
++	{ "9fgv0441", .driver_data = RENESAS_9FGV0441 },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, rs9_id);
+ 
+ static const struct of_device_id clk_rs9_of_match[] = {
+ 	{ .compatible = "renesas,9fgv0241", .data = &renesas_9fgv0241_info },
++	{ .compatible = "renesas,9fgv0441", .data = &renesas_9fgv0441_info },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, clk_rs9_of_match);
 -- 
 2.34.1
 
