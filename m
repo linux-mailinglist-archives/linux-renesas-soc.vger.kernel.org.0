@@ -2,206 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57D6D65C0A9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Jan 2023 14:17:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2E1565C0BD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Jan 2023 14:25:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237796AbjACNRC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Jan 2023 08:17:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54180 "EHLO
+        id S237498AbjACNZg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Jan 2023 08:25:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237801AbjACNQq (ORCPT
+        with ESMTP id S237324AbjACNZb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Jan 2023 08:16:46 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA130EA0;
-        Tue,  3 Jan 2023 05:16:00 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id t17so73408993eju.1;
-        Tue, 03 Jan 2023 05:16:00 -0800 (PST)
+        Tue, 3 Jan 2023 08:25:31 -0500
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D472610B4E
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Jan 2023 05:25:29 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id f20so31794137lja.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Jan 2023 05:25:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NnoWPE1jQ3kYm5s0XhMv2bhJOZqz4qyCDxQboi65+Mo=;
-        b=UVPg7nDcLHGMAlKprdPNpgabezsSufjZR4E62AZgq39xyQprvB5VqdG9vBkhqtebgE
-         S8lOGYELvqj+RU6B5KVEs9bquQYKobh3in0rnI8lEI/rJ+czEiK4hbrtMmA4q5E/ir4o
-         sEgbZSppvAYuxEvJzQttVIhPCxA/0a+nxpqMiLByU6lOwvDjJ2VhirGWBoO5zJOTLQpY
-         knwwZh8kclvnuU7BpRIhnC1RupIEKmMhqXvUoyei7DTtCSSCa4dgukDfvevQM6PItaKu
-         +iw4V9WS7eIgMu1Ncr0En28bpSdFK19XV9EZiCoelZDSnfPQwDXp8G8kBAo9nsGHWKKg
-         U1Iw==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OQtAS7dRffwstL0NIoU7HOUw97BRuM+uBfBVehzzmcY=;
+        b=L8/yqW4KRK5t/QShxNfFug+/I9Ee8+aEk1YCcHUfjNK50qsHMaljqs7lDv7D3v8MM+
+         jvG7IIktaX/GuPJMXe8APHdU1SeTNRfkAUtrDmge9ZpSXbZykouKBJmoWAbGk8iiErZA
+         se91VMUi+fd//cAy8i/gubXZYnmzm/pG8pCmSVq3kHOOW3vxXuObu5P3HOSG2bZkRP4U
+         YW70cpb5lZdVeWDbA4vep5+5Yu8H2kFi0H2MVw1G6makH5VRjLw5w2dj/FkhORfBLNsS
+         n4Jo0iLAh7Kq4IRjmy41dxowg4xUDisdEAKIvN9fyAgf5HI2ZAP7zojyHosxXk4shXLx
+         Lbag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NnoWPE1jQ3kYm5s0XhMv2bhJOZqz4qyCDxQboi65+Mo=;
-        b=Ky4qKwb0VmuuuD7/eI8V4fDy60hRGH6vcIh+1BBUHiL18LSF86QLSUcN9a+FaXFvVI
-         jit4H9Of/uLx2yEWMHJBM27sGV8EGg459h/mi1N5qzYYt+3N+zqAs5tn0X7s6BCCIcad
-         pNLCrxT8Vn/SzM4vblsNHYGqifDVLIZyh8mKZyNNhsqNXgHyqSK4i8zdL/KUusxQD2Wp
-         aJsOv4t2ZWh4mw6ItZVusPtDyqjn+Z1zVfzA6fGLPCqteLmVuslTICBJJquiiY5OryEa
-         ig1HAE4laYXPBvm2tQqEoJ79tICznRR4mRlXXpT6Mhh1YqQYRQpUacR6Un1Ln3FnlK9M
-         +h+w==
-X-Gm-Message-State: AFqh2kqUSsIcV55O46HKfc4cCu8LXgvm1Md9ewTWwyMaGiGoeh7v3vDH
-        w6l1T7/5RtjlrAIqVQWAtNs=
-X-Google-Smtp-Source: AMrXdXvgiqj2LSEPUaEw6z2sRd7nVp5kdlIihi8FpByYeNs/V+YRRvBDcz75iq0OtJOTq78Ige/l/g==
-X-Received: by 2002:a17:906:19db:b0:7c0:8578:f4c0 with SMTP id h27-20020a17090619db00b007c08578f4c0mr34871936ejd.67.1672751759096;
-        Tue, 03 Jan 2023 05:15:59 -0800 (PST)
-Received: from skbuf ([188.26.185.118])
-        by smtp.gmail.com with ESMTPSA id hk25-20020a170906c9d900b007c094d31f35sm13973542ejb.76.2023.01.03.05.15.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jan 2023 05:15:58 -0800 (PST)
-Date:   Tue, 3 Jan 2023 15:15:55 +0200
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     Michael Walle <michael@walle.cc>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jose Abreu <Jose.Abreu@synopsys.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Wei Fang <wei.fang@nxp.com>,
-        Shenwei Wang <shenwei.wang@nxp.com>,
-        Clark Wang <xiaoning.wang@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, Andrew Lunn <andrew@lunn.ch>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH RFC net-next v2 06/12] net: mdio: mdio-bitbang: Separate
- C22 and C45 transactions
-Message-ID: <20230103131555.5i4tj7sk72gmed5d@skbuf>
-References: <20221227-v6-2-rc1-c45-seperation-v2-0-ddb37710e5a7@walle.cc>
- <20221227-v6-2-rc1-c45-seperation-v2-6-ddb37710e5a7@walle.cc>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OQtAS7dRffwstL0NIoU7HOUw97BRuM+uBfBVehzzmcY=;
+        b=7C2tIu17GkNwa3uG1UBGAf2ZSRlrgz/cIPzNLswag7DUta/jo5KfRdLL9N5lN9WEAy
+         ccKfd5SzSESdSLTSJcr4Yc+T+8S1aqhBC4L4ZZJ9lAPA/zjOUgo8ATDKBqqNSdQ5d8pk
+         79xibl59SsGml5Ov+prdxYxfUUOYp0zbriWzXVPZ+FVqY/C7Q8HDseY7f36rP3hatxRA
+         0TRtrGjfJvYPOk4j7x8yjCaObS+0ktOMIjRAMaW1iQOKKAN7HzbMSYsIsDKJSB4yMK0G
+         jbS45yYemGc/1xYRYWGq4LV5yljS0CZ8pdIfshunx5J4BfZw8ahwkFE4/+xVQT+SYfBj
+         5rtg==
+X-Gm-Message-State: AFqh2koadb61Qswf6UpJAkZAgdxYxqZQrV80EQZOYuV8Y37qH9H36cLX
+        /JZC/04fUCE9IKpo2DYEQ/sV0Q==
+X-Google-Smtp-Source: AMrXdXvXD+0fRDvbDETqqmRKV02pVToVMGeAb1YfTMy7x4T1bhDgESG879wR7yCj5oU6rbY1UKrQjw==
+X-Received: by 2002:a2e:80d9:0:b0:27f:e337:1ead with SMTP id r25-20020a2e80d9000000b0027fe3371eadmr3489840ljg.43.1672752323237;
+        Tue, 03 Jan 2023 05:25:23 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id s4-20020a05651c048400b0027fbc576464sm2628850ljc.137.2023.01.03.05.25.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Jan 2023 05:25:22 -0800 (PST)
+Message-ID: <0d106f4d-4683-4117-0812-e83f8e5974c2@linaro.org>
+Date:   Tue, 3 Jan 2023 14:25:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221227-v6-2-rc1-c45-seperation-v2-6-ddb37710e5a7@walle.cc>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 2/4] dt-bindings: clk: rs9: Add bindings for 9FGV0441
+Content-Language: en-US
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Marek Vasut <marex@denx.de>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20230103123154.3424817-1-alexander.stein@ew.tq-group.com>
+ <20230103123154.3424817-2-alexander.stein@ew.tq-group.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230103123154.3424817-2-alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Dec 28, 2022 at 12:07:22AM +0100, Michael Walle wrote:
-> From: Andrew Lunn <andrew@lunn.ch>
-> 
-> The bitbbanging bus driver can perform both C22 and C45 transfers.
-> Create separate functions for each and register the C45 versions using
-> the new driver API calls.
-> 
-> The SH Ethernet driver places wrappers around these functions. In
-> order to not break boards which might be using C45, add similar
-> wrappers for C45 operations.
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Andrew Lunn <andrew@lunn.ch>
-> Signed-off-by: Michael Walle <michael@walle.cc>
-> ---
+On 03/01/2023 13:31, Alexander Stein wrote:
+> This is a 4-channel variant of 9FGV series.
 
-Incomplete conversion, this breaks the build. Need to update all users
-of the bitbang driver (also davinci_mdio). Something like the diff below
-fixes that, but it leaves the davinci_mdio driver in a partially
-converted state (if data->manual_mode is true, new API is used,
-otherwise old API is used). So another patch to convert the other case
-will likely be needed.
+Subject: drop second, redundant "bindings for".
 
-diff --git a/drivers/net/ethernet/ti/davinci_mdio.c b/drivers/net/ethernet/ti/davinci_mdio.c
-index 946b9753ccfb..23169e36a3d4 100644
---- a/drivers/net/ethernet/ti/davinci_mdio.c
-+++ b/drivers/net/ethernet/ti/davinci_mdio.c
-@@ -225,7 +225,7 @@ static int davinci_get_mdio_data(struct mdiobb_ctrl *ctrl)
- 	return test_bit(MDIO_PIN, &reg);
- }
- 
--static int davinci_mdiobb_read(struct mii_bus *bus, int phy, int reg)
-+static int davinci_mdiobb_read_c22(struct mii_bus *bus, int phy, int reg)
- {
- 	int ret;
- 
-@@ -233,7 +233,7 @@ static int davinci_mdiobb_read(struct mii_bus *bus, int phy, int reg)
- 	if (ret < 0)
- 		return ret;
- 
--	ret = mdiobb_read(bus, phy, reg);
-+	ret = mdiobb_read_c22(bus, phy, reg);
- 
- 	pm_runtime_mark_last_busy(bus->parent);
- 	pm_runtime_put_autosuspend(bus->parent);
-@@ -241,8 +241,8 @@ static int davinci_mdiobb_read(struct mii_bus *bus, int phy, int reg)
- 	return ret;
- }
- 
--static int davinci_mdiobb_write(struct mii_bus *bus, int phy, int reg,
--				u16 val)
-+static int davinci_mdiobb_write_c22(struct mii_bus *bus, int phy, int reg,
-+				    u16 val)
- {
- 	int ret;
- 
-@@ -250,7 +250,41 @@ static int davinci_mdiobb_write(struct mii_bus *bus, int phy, int reg,
- 	if (ret < 0)
- 		return ret;
- 
--	ret = mdiobb_write(bus, phy, reg, val);
-+	ret = mdiobb_write_c22(bus, phy, reg, val);
-+
-+	pm_runtime_mark_last_busy(bus->parent);
-+	pm_runtime_put_autosuspend(bus->parent);
-+
-+	return ret;
-+}
-+
-+static int davinci_mdiobb_read_c45(struct mii_bus *bus, int phy, int devad,
-+				   int reg)
-+{
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(bus->parent);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = mdiobb_read_c45(bus, phy, devad, reg);
-+
-+	pm_runtime_mark_last_busy(bus->parent);
-+	pm_runtime_put_autosuspend(bus->parent);
-+
-+	return ret;
-+}
-+
-+static int davinci_mdiobb_write_c45(struct mii_bus *bus, int phy, int devad,
-+				    int reg, u16 val)
-+{
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(bus->parent);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = mdiobb_write_c45(bus, phy, devad, reg, val);
- 
- 	pm_runtime_mark_last_busy(bus->parent);
- 	pm_runtime_put_autosuspend(bus->parent);
-@@ -573,8 +607,10 @@ static int davinci_mdio_probe(struct platform_device *pdev)
- 	data->bus->name		= dev_name(dev);
- 
- 	if (data->manual_mode) {
--		data->bus->read		= davinci_mdiobb_read;
--		data->bus->write	= davinci_mdiobb_write;
-+		data->bus->read		= davinci_mdiobb_read_c22;
-+		data->bus->write	= davinci_mdiobb_write_c22;
-+		data->bus->read_c45	= davinci_mdiobb_read_c45;
-+		data->bus->write_c45	= davinci_mdiobb_write_c45;
- 		data->bus->reset	= davinci_mdiobb_reset;
- 
- 		dev_info(dev, "Configuring MDIO in manual mode\n");
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
