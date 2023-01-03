@@ -2,114 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72AD865BDED
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Jan 2023 11:22:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B93D65BE3A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Jan 2023 11:36:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233060AbjACKWD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Jan 2023 05:22:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50490 "EHLO
+        id S237320AbjACKek (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Jan 2023 05:34:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237370AbjACKVd (ORCPT
+        with ESMTP id S237238AbjACKeU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Jan 2023 05:21:33 -0500
-Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B868FFAD4
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Jan 2023 02:21:18 -0800 (PST)
-Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 7021D126D;
-        Tue,  3 Jan 2023 11:21:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1672741268;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=0NIrlOvbk7vZkei/UjaLevKnqZdjT8W2kPPgWX5gcEM=;
-        b=RIvoOPSAjkHkWRfLX6Q0K/aek6FQU3XreYN5YNfAte2T/48X3VC8QQcEpd8jPJCFiyZzWo
-        YiNwIusJEscDbzhm+hLbf6HNICx53SmA+YBP6AkQJq43zwVjNQZv+E9+UWk/k+GVe5vHsB
-        PpYh33/dKsFzSAcgjfwdUsLd5q72TbERdzSx/SCAm4zwGljRFXGGLdVqfy4IcIf2W5lAZO
-        XjMLUaTiUPYAyq3PtzHwPIZ0R9tR/KsXvd4mja00tvj0OPMSluRJXfI+WgaY/465OcIWYl
-        25I7JQyqJw8aSZmYLqPK7a2CXyNMEgcEPOPRNCX0T6YnECO/Wo1QlrI2Qv3cuQ==
+        Tue, 3 Jan 2023 05:34:20 -0500
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 691963A3;
+        Tue,  3 Jan 2023 02:34:19 -0800 (PST)
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-482363a1232so275902617b3.3;
+        Tue, 03 Jan 2023 02:34:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=t19P5UcE/4UM/S5+JXHqpyjxdneSdlsyt/VQt2DY6Ks=;
+        b=kQ/nO1vj6eMp0O4pkHcByioEj5/lTYxW2bAauM1KB6IJb986v/qFlVQW5ttLGJaECs
+         cK9sBcbmKqtegswKo8ULP9ImNTSbqMszxwrXUe2NOqDbFTBrjitbcuxzxYCeO6eYURg7
+         TtsHbHL087ADMze9QggOw/u6rrINuTpCUlyAjDgksmNVDi2XPx7wPk1JBZa8UUeXkmdF
+         rIJCXeIl6UadhI2ev98B2XuN6HtuVUlTPxUNhEZ2nIpKPg9B7SLxa2HVVwSwiQee4SNr
+         J37i97dwcOBOP14sRS6pzkuhdXIRKxS5DHqe2A0/aHRcvJDV3UvDGyNrPWjdvyjYRbJL
+         5q6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t19P5UcE/4UM/S5+JXHqpyjxdneSdlsyt/VQt2DY6Ks=;
+        b=XbYZIf2Zyr76v0IpVGBdxJmg73zor9CYJNDD1X6wBTAsj4EafpEIVAEO5AVBWSgRCk
+         4hI0OT8mCoVSKCGwrFdzR36NSIO9hToDgJcyrt5uePpfSwevGH5v2BZsb5ZPvoax2NOy
+         p012VweUFJ2pcKnwN3ci5gb37gR5TGhh/N+nm+CWlcTL+bx9tEgfsTdWixem4SkD/fed
+         mXNj59EtUQ8M3AFn6YwFpLNZOheAKUbjrS2blmNWLCT+FxxhpTWabNYkOt5dhiZ7jGEK
+         tPbida0mMzpY+Kmynyck1tMrfKHvkOG+imtx7xZiIFBlrsEeDwHgodUnpdcTiJTIQrnB
+         zsBQ==
+X-Gm-Message-State: AFqh2kp+NDj53DwbWXlYJwxU6RccYWQv+c9qZk+JT97dL7Vz51tlthkD
+        2LCYM69vPqOOx9veEyQYe3ymabrxng48r+yV500=
+X-Google-Smtp-Source: AMrXdXu2Bdi9N02+3VSRATUKReRZKvtq/GJY0qI5z0wZN/Sm4iqFZ8LhA6JAdHyuQ90ML7KraQFrsu4ezT4dC+J31SQ=
+X-Received: by 2002:a05:690c:f86:b0:4ab:352b:6461 with SMTP id
+ df6-20020a05690c0f8600b004ab352b6461mr405001ywb.309.1672742058278; Tue, 03
+ Jan 2023 02:34:18 -0800 (PST)
 MIME-Version: 1.0
-Date:   Tue, 03 Jan 2023 11:21:08 +0100
-From:   Michael Walle <michael@walle.cc>
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jose Abreu <Jose.Abreu@synopsys.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Wei Fang <wei.fang@nxp.com>,
-        Shenwei Wang <shenwei.wang@nxp.com>,
-        Clark Wang <xiaoning.wang@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, Andrew Lunn <andrew@lunn.ch>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH RFC net-next v2 03/12] net: mdio: mdiobus_register: update
- validation test
-In-Reply-To: <Y7P/45Owf2IezIpO@shell.armlinux.org.uk>
-References: <20221227-v6-2-rc1-c45-seperation-v2-0-ddb37710e5a7@walle.cc>
- <20221227-v6-2-rc1-c45-seperation-v2-3-ddb37710e5a7@walle.cc>
- <Y7P/45Owf2IezIpO@shell.armlinux.org.uk>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <37247c17e5e555dddbc37c3c63a2cadb@walle.cc>
-X-Sender: michael@walle.cc
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20221221000242.340202-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221221000242.340202-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <170665b6-161a-6dd0-6ceb-199277c0ce2f@linaro.org> <CAMuHMdV0D8kh3xhKpWOUjTa9MzC3jEDJ5evKAJD6hV1w+pMBZw@mail.gmail.com>
+In-Reply-To: <CAMuHMdV0D8kh3xhKpWOUjTa9MzC3jEDJ5evKAJD6hV1w+pMBZw@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 3 Jan 2023 10:33:51 +0000
+Message-ID: <CA+V-a8sewZTzj6GQt0pHifdNik0v3mmrUYU2W5z_gMztqb78aA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/9] dt-bindings: interrupt-controller: irqc-rzg2l:
+ Drop RZG2L_NMI macro
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Russell,
+Hi Geert,
 
-Am 2023-01-03 11:13, schrieb Russell King (Oracle):
-> On Wed, Dec 28, 2022 at 12:07:19AM +0100, Michael Walle wrote:
->> +	if (!bus || !bus->name)
->> +		return -EINVAL;
->> +
->> +	/* An access method always needs both read and write operations */
->> +	if ((bus->read && !bus->write) ||
->> +	    (!bus->read && bus->write) ||
->> +	    (bus->read_c45 && !bus->write_c45) ||
->> +	    (!bus->read_c45 && bus->write_c45))
-> 
-> I wonder whether the following would be even more readable:
-> 
-> 	if (!bus->read != !bus->write || !bus->read_c45 != !bus->write_c45)
+On Tue, Jan 3, 2023 at 8:43 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> On Thu, Dec 29, 2022 at 9:46 AM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+> > On 21/12/2022 01:02, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > NMI interrupt is not an external interrupt as compared to IRQ0-7 and
+> > > TINT0-31 on RZ/G2L SoC, so there is no need for RZG2L_NMI macro.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > > v1 -> v2
+> >
+> >
+> > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>
+> Given
+> https://lore.kernel.org/all/CA+V-a8vb-PfzMWX=ndF8nsyYVbkfYBkAQZ-UoS9zpQPndL871Q@mail.gmail.com
+> I think this patch is planned to be dropped, too?
+>
+Yes that's correct (and I have dropped in the v3).
 
-That's what Andrew had originally. But there was a comment from Sergey 
-[1]
-which I agree with. I had a hard time wrapping my head around that, so I
-just listed all the possible bad cases.
-
-I don't have a strong opinion, though.
-
-> which essentially asserts that the boolean of !method for the read and
-> write methods must match.
-
-Maybe with that as a comment?
-
--michael
-
-[1] 
-https://lore.kernel.org/netdev/ae79823f-3697-feee-32e6-645c6f4b4e93@omp.ru/
+Cheers,
+Prabhakar
