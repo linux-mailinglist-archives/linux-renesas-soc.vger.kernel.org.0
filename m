@@ -2,158 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 511BB65C360
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Jan 2023 16:57:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D06DD65C393
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Jan 2023 17:08:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233646AbjACP4n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Jan 2023 10:56:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33622 "EHLO
+        id S233320AbjACQIy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Jan 2023 11:08:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233454AbjACP4j (ORCPT
+        with ESMTP id S229721AbjACQIw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Jan 2023 10:56:39 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A233DA1AD;
-        Tue,  3 Jan 2023 07:56:38 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id b88so37104941edf.6;
-        Tue, 03 Jan 2023 07:56:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cUgk7t5CLogpADp6v+03F2a0C4ndvH9yI7BzPUoVTz8=;
-        b=Nlop0vV2rhk/Y14mg/LYKMI/LgbnDu0LklT8ZlGkVGT6ndSrTIzsmfL+UKV+rctl7C
-         LTgsO6ABsOsdupP0jMFKDPkeJOR/AjFdfRo1Kg92jTO3bYdUXQy0W2AOAvF67poVg1Ax
-         M1E36j+goZnA9IKiW00QGwlwffPb/29IZCIUJRj5YM3kGL/tOGPHmNWLJ32If2ZsqA6V
-         P1G2DWN8BnASIEwuGtlrA933d7Yn9FSU/Z3x+ITFmaWt+G4dhW7kYHic9RylMsTtx5f2
-         h0dZVKaxxZc4PhVmuSZ6Qtq4+903piGIKgA58TaiWTJ4GgrOy0O/gWNWrVTaOitxuPgL
-         bavA==
+        Tue, 3 Jan 2023 11:08:52 -0500
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FD38B497;
+        Tue,  3 Jan 2023 08:08:50 -0800 (PST)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-43ea87d0797so442469587b3.5;
+        Tue, 03 Jan 2023 08:08:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cUgk7t5CLogpADp6v+03F2a0C4ndvH9yI7BzPUoVTz8=;
-        b=7qF6lGZgptzaH3MVXs0Ccj3PeoiAZt3SQiSb1CnRmL2AJg8x3gw2vJ38HWJntW4Lb0
-         WwPEaiyQnpUkYJ2HQMaIQNSNOwhSaVhL9v57eIjpPrKxwe3a/en0oI1qGcQdkHfh9jr1
-         /Mdz/JvCPeeJZIUjbvMRtR76UxFT9O0B3FY7FcZuDpGBVfSUnu7iAATmE23UcLRqfDwf
-         s8cPnJq0pLFZYxJJCZg4G1myhlSk5cQBPq1Yy00RMkLPlVPDgwagalgJV+Ia6B02UyhB
-         O2W0YBEDnuGEwxHu5tRa2/1aO+7FPIaOnrlufOTb/ulroh6dnO6m69AuooEdQx0sI39N
-         RGzw==
-X-Gm-Message-State: AFqh2ko2hUbURT1JZqAoLc1ylPp5cKaF3dCF9PVZkfNb0vKLOAlmfRZl
-        MLcFlsEPv28/BMY/7QxlRD0=
-X-Google-Smtp-Source: AMrXdXtoAYN/JnDVDN1YkdRe3Sjl9+sUDPRbeIocCAM+QeCzmE90ykdzaDAgpT+gUrrkq+LbtncKDA==
-X-Received: by 2002:aa7:d04d:0:b0:46c:d905:b9e8 with SMTP id n13-20020aa7d04d000000b0046cd905b9e8mr37622928edo.23.1672761396798;
-        Tue, 03 Jan 2023 07:56:36 -0800 (PST)
-Received: from skbuf ([188.26.185.118])
-        by smtp.gmail.com with ESMTPSA id g3-20020a170906538300b0082535e2da13sm14252877ejo.6.2023.01.03.07.56.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jan 2023 07:56:36 -0800 (PST)
-Date:   Tue, 3 Jan 2023 17:56:33 +0200
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Michael Walle <michael@walle.cc>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jose Abreu <Jose.Abreu@synopsys.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Wei Fang <wei.fang@nxp.com>,
-        Shenwei Wang <shenwei.wang@nxp.com>,
-        Clark Wang <xiaoning.wang@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Luiz Angelo Daros de Luca <luizluca@gmail.com>
-Subject: Re: [PATCH RFC net-next v2 11/12] net: dsa: Separate C22 and C45
- MDIO bus transaction methods
-Message-ID: <20230103155633.tfdxncl75s4tb2ln@skbuf>
-References: <20221227-v6-2-rc1-c45-seperation-v2-0-ddb37710e5a7@walle.cc>
- <20221227-v6-2-rc1-c45-seperation-v2-0-ddb37710e5a7@walle.cc>
- <20221227-v6-2-rc1-c45-seperation-v2-11-ddb37710e5a7@walle.cc>
- <20221227-v6-2-rc1-c45-seperation-v2-11-ddb37710e5a7@walle.cc>
- <20230103153134.utalc6kw3l34dp4s@skbuf>
- <Y7ROa8ql9R5SHPsK@lunn.ch>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DIKG5C+ANaI4L3mVlD3FS2d+S7EwT1ECAi/QAg1B1QA=;
+        b=Lb0sNbmQcYzUH0/1wy0gh4iu9y++Ez2FU1haHJC252vF1VDTF1Wp0B2GF4Yd0YfZPB
+         EPGOizyF+m2HwGoeMdWKniIy+SkxG6WEWAIvTBAAM8Rx9RAvu4XpKQmur1Ou3Wvd70N8
+         buLUMsn/zivUrh5Mrp/7sC2++zVLGSjxK1wHOip2pkILKGKryBPQc3mQN2c4s7cH3jBf
+         nYz5AvJOp06bZvUXFYHPTYzyMvdfJ91Y3R8QOrzPkQCtRXjtLjK6pYk4oLc/UQR1G9jV
+         8U+geNPTeGP0f5zWqS5kxji4YX4+bZazItV4+ORXdlAmdwqU27AT6MlFFZwqCRs4thrH
+         eoJg==
+X-Gm-Message-State: AFqh2kpCq5puadh2b7LcZc+/hFDLxh+AuFFG1JWTYqGG7Tg6HnL1FgRL
+        WnwSgMLcaojO1qL4doHw7bARPgtDqxTozQ==
+X-Google-Smtp-Source: AMrXdXu8c3qU5Pl8menG+Ice4eodg6lzpjSQBEe3ia126WCBgNT8XIjc5Nh+fV3sCZ4tClot2PwOXQ==
+X-Received: by 2002:a05:7500:3e8a:b0:ef:f78f:12f5 with SMTP id li10-20020a0575003e8a00b000eff78f12f5mr268061gab.47.1672762129122;
+        Tue, 03 Jan 2023 08:08:49 -0800 (PST)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id f1-20020a05620a280100b006fa43e139b5sm22360974qkp.59.2023.01.03.08.08.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Jan 2023 08:08:48 -0800 (PST)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-47fc4e98550so300300727b3.13;
+        Tue, 03 Jan 2023 08:08:48 -0800 (PST)
+X-Received: by 2002:a81:7309:0:b0:475:f3f5:c6c with SMTP id
+ o9-20020a817309000000b00475f3f50c6cmr4638123ywc.358.1672762128402; Tue, 03
+ Jan 2023 08:08:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7ROa8ql9R5SHPsK@lunn.ch>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230103123154.3424817-1-alexander.stein@ew.tq-group.com> <2ba4e002-9f27-2e36-2bd2-8753c455b21f@denx.de>
+In-Reply-To: <2ba4e002-9f27-2e36-2bd2-8753c455b21f@denx.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 3 Jan 2023 17:08:36 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWmypkjeowpsQ0-7z7Kfa5NjPeGYr0vujrfdVia5qjevw@mail.gmail.com>
+Message-ID: <CAMuHMdWmypkjeowpsQ0-7z7Kfa5NjPeGYr0vujrfdVia5qjevw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] clk: rs9: Check for vendor/device ID
+To:     Marek Vasut <marex@denx.de>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jan 03, 2023 at 04:48:59PM +0100, Andrew Lunn wrote:
-> > Since clause 45 PHYs are identified by the "ethernet-phy-ieee802.3-c45"
-> > compatible string (otherwise they are C22), then a PHY which is not
-> > described in the device tree can only be C22. So this is why
-> > ds->slave_mii_bus only deals with clause 22 methods, and the true reason
-> > behind the comment above.
-> > 
-> > But actually this premise is no longer true since Luiz' commit
-> > fe7324b93222 ("net: dsa: OF-ware slave_mii_bus"), which introduced the
-> > strange concept of an "OF-aware helper for internal PHYs which are not
-> > described in the device tree". After his patch, it is possible to have
-> > something like this:
-> > 
-> > 	ethernet-switch {
-> > 		ethernet-ports {
-> > 			port@1 {
-> > 				reg = <1>;
-> > 			};
-> > 		};
-> > 
-> > 		mdio {
-> > 			ethernet-phy@1 {
-> > 				compatible = "ethernet-phy-ieee802.3-c45"
-> > 				reg = <1>;
-> > 			};
-> > 		};
-> > 	};
-> > 
-> > As you can see, this is a clause 45 internal PHY which lacks a
-> > phy-handle, so its bus must be put in ds->slave_mii_bus in order for
-> > dsa_slave_phy_connect() to see it without that phy-handle (based on the
-> > port number matching with the PHY number). After Luiz' patch, this kind
-> > of device tree is possible, and it invalidates the assumption about
-> > ds->slave_mii_bus only driving C22 PHYs.
-> 
-> My memory is hazy, but i think at the time i wrote these patches,
-> there was no DSA driver which made use of ds->slave_mii_bus with
-> C45. So i took the short cut of only supporting C22.
+Hi Marek,
 
-Actually I believe that in v1 you did extend ds->ops with C45 methods,
-but it's me who told you to remove them:
-https://patchwork.kernel.org/project/netdevbpf/patch/20220508153049.427227-10-andrew@lunn.ch/#24852813
+On Tue, Jan 3, 2023 at 4:45 PM Marek Vasut <marex@denx.de> wrote:
+> On 1/3/23 13:31, Alexander Stein wrote:
+> > This is in preparation to support additional devices which have different
+> > IDs as well as a slightly different register layout.
+> >
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> >   drivers/clk/clk-renesas-pcie.c | 24 ++++++++++++++++++++++++
+> >   1 file changed, 24 insertions(+)
+> >
+> > diff --git a/drivers/clk/clk-renesas-pcie.c b/drivers/clk/clk-renesas-pcie.c
+> > index e6247141d0c0..0076ed8f11b0 100644
+> > --- a/drivers/clk/clk-renesas-pcie.c
+> > +++ b/drivers/clk/clk-renesas-pcie.c
+> > @@ -45,6 +45,13 @@
+> >   #define RS9_REG_DID                         0x6
+> >   #define RS9_REG_BCP                         0x7
+> >
+> > +#define RS9_REG_VID_IDT                              0x01
+> > +
+> > +#define RS9_REG_DID_TYPE_FGV                 (0x0 << RS9_REG_DID_TYPE_SHIFT)
+> > +#define RS9_REG_DID_TYPE_DBV                 (0x1 << RS9_REG_DID_TYPE_SHIFT)
+> > +#define RS9_REG_DID_TYPE_DMV                 (0x2 << RS9_REG_DID_TYPE_SHIFT)
+>
+> I'm not entirely sure whether this shouldn't be using the BIT() macro,
+> what do you think ?
 
-> 
-> Those DSA drivers which do support C45 all register their bus directly
-> with the MDIO core.
+They're not one-bit values (which bit does RS9_REG_DID_TYPE_FGV set? ;-),
+but values in a bitfield.
 
-And rightfully so. IMHO, letting DSA allocate ds->slave_mii_bus out of
-driver writer sheer convenience (a secondary purpose) should be deprecated,
-unless the reason for using ds->slave_mii_bus is the lack of a phy-handle
-(the primary purpose). It becomes that more confusing to have to extend
-dsa_switch_ops with 2 more methods which serve the secondary purpose but
-not the primary one.
+So using FIELD_PREP() and friends would make more sense to me.
 
-> So Luiz patches may allow a C45 bus, but are there any drivers today
-> actually using it?
+Gr{oetje,eeting}s,
 
-I sent a private email to Luiz a few minutes ago asking him to confirm.
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
