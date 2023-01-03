@@ -2,39 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82A2C65BEC3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Jan 2023 12:14:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2847765BF93
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Jan 2023 13:05:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237402AbjACLOJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Jan 2023 06:14:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52076 "EHLO
+        id S232887AbjACMEw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Jan 2023 07:04:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236916AbjACLOG (ORCPT
+        with ESMTP id S237280AbjACMEU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Jan 2023 06:14:06 -0500
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1909FAEE
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Jan 2023 03:14:03 -0800 (PST)
+        Tue, 3 Jan 2023 07:04:20 -0500
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76E89E10
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Jan 2023 04:04:19 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:f1ca:ff0d:9dea:806e])
-        by baptiste.telenet-ops.be with bizsmtp
-        id 4BDx2900X2YHDVW01BDxzW; Tue, 03 Jan 2023 12:14:00 +0100
+        by andre.telenet-ops.be with bizsmtp
+        id 4C4H290012YHDVW01C4Hxo; Tue, 03 Jan 2023 13:04:17 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pCfEz-001yhO-Iy; Tue, 03 Jan 2023 12:13:57 +0100
+        id 1pCg1g-001yq8-NG; Tue, 03 Jan 2023 13:04:16 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pCfEz-001MWX-54; Tue, 03 Jan 2023 12:13:57 +0100
+        id 1pCg1g-001OFw-BO; Tue, 03 Jan 2023 13:04:16 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     Magnus Damm <magnus.damm@gmail.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] ARM: shmobile: defconfig: Refresh for v6.1-rc5
-Date:   Tue,  3 Jan 2023 12:13:54 +0100
-Message-Id: <4f7757bd700edff487df387ca40ffb1524d688a4.1672744302.git.geert+renesas@glider.be>
+Subject: [PATCH] arm64: defconfig: Enable RZ/G2L MIPI CSI-2 and CRU support
+Date:   Tue,  3 Jan 2023 13:04:14 +0100
+Message-Id: <32098bf6a5e78a4bcc6398ccb5db0b01f1afc9b9.1672747428.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -47,31 +46,30 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Refresh the defconfig for Renesas ARM systems:
-  - Disable CONFIG_DRM_RCAR_USE_MIPI_DSI (defaults to yes since commit
-    a830a15678593948 ("drm: rcar-du: Fix Kconfig dependency between
-    RCAR_DU and RCAR_MIPI_DSI"), but only used on R-Car V3U).
+Increase build and test coverage by enabling support for the Renesas
+RZ/G2L MIPI CSI-2 Receiver and the RZ/G2L Camera Receiving Unit, as used
+on the RZ/G2L SMARC EVK development board.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-To be queued in renesas-devel for v6.3, unless someone plans to fix the
-default?
+To be queued in renesas-devel for v6.3.
 ---
- arch/arm/configs/shmobile_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/configs/defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
-index 452aef74cc5c1256..751d939fcb761b31 100644
---- a/arch/arm/configs/shmobile_defconfig
-+++ b/arch/arm/configs/shmobile_defconfig
-@@ -136,6 +136,7 @@ CONFIG_VIDEO_ADV7604_CEC=y
- CONFIG_VIDEO_ML86V7667=y
- CONFIG_DRM=y
- CONFIG_DRM_RCAR_DU=y
-+# CONFIG_DRM_RCAR_USE_MIPI_DSI is not set
- CONFIG_DRM_PANEL_SIMPLE=y
- CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_DISPLAY_CONNECTOR=y
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 4e9488fbbc060f04..22543373e89af2eb 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -717,6 +717,8 @@ CONFIG_VIDEO_QCOM_VENUS=m
+ CONFIG_VIDEO_RCAR_ISP=m
+ CONFIG_VIDEO_RCAR_CSI2=m
+ CONFIG_VIDEO_RCAR_VIN=m
++CONFIG_VIDEO_RZG2L_CSI2=m
++CONFIG_VIDEO_RZG2L_CRU=m
+ CONFIG_VIDEO_RENESAS_FCP=m
+ CONFIG_VIDEO_RENESAS_FDP1=m
+ CONFIG_VIDEO_RENESAS_VSP1=m
 -- 
 2.25.1
 
