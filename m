@@ -2,71 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3730F65D5C5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 15:34:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C58D65D5C9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 15:35:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239515AbjADOef (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Jan 2023 09:34:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55682 "EHLO
+        id S239470AbjADOfH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Jan 2023 09:35:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239580AbjADOec (ORCPT
+        with ESMTP id S239579AbjADOfA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Jan 2023 09:34:32 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 142FF373A6;
-        Wed,  4 Jan 2023 06:34:31 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Wed, 4 Jan 2023 09:35:00 -0500
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36CDE6375;
+        Wed,  4 Jan 2023 06:34:59 -0800 (PST)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C83C4B81674;
-        Wed,  4 Jan 2023 14:34:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53E62C433D2;
-        Wed,  4 Jan 2023 14:34:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672842868;
-        bh=gRkCSnXk5MjxVH+vyivnl3Fj49JHVY24sOY1WJh8QEg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=k5MykoyoJXROrSbBrVfL6RN/UKCq7OIH2LH9suxKq1RhPopZd0KV9VzH9OZArvVAi
-         OjeULj7tH4EBtWom9/n4D8+Bq67oYBDRuS79zCMcnKeV3uohIyY7Yg9vF3LtdZ5ijX
-         OME+yvl/61fF7eMF7/j3La0XQbhVDW/PFfRXTx0EWs3N9hO6BZC25sGAKUkzS9+gGU
-         nCNXqaSlXkppnNS1gAnozooIQ0Ex1pEkn2m96QOmGFIJL8fF8o3QxsObi4Rpb0wi7O
-         4gL8y75HZVvL7qRenCVdHz77J3/DFblD9V+fjJ41jwtSpdkfZBGYUEV6pAlarxz3bP
-         hgZjXGlhHRxJA==
-Date:   Wed, 4 Jan 2023 14:34:21 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH v2 2/4] mfd: Add RZ/V2M PWC core driver
-Message-ID: <Y7WObZFfsCJuMdLW@google.com>
-References: <20221221210917.458537-1-fabrizio.castro.jz@renesas.com>
- <20221221210917.458537-3-fabrizio.castro.jz@renesas.com>
- <CAMuHMdXDwEUzBpG+w_G6=CzKo=n92cdVw6v8JwOwf9o86HnOZQ@mail.gmail.com>
- <TYWPR01MB87758FB15ED12D396AE738DDC2F49@TYWPR01MB8775.jpnprd01.prod.outlook.com>
- <Y7Qk/EgOI9mkJIjn@google.com>
- <TYWPR01MB87753C261831519F4D6788E5C2F49@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 6914F80A55;
+        Wed,  4 Jan 2023 15:34:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1672842897;
+        bh=4HuVOKLU1b+mRBb/Z6L2Ottg2dm66pZwd0aaoiWQq6I=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=vVWbQNI75qWY35yslf5mEpxsxCuWeaG4UPY3b9p3PFVRBE6jL06mbYLmMEb2j4bWz
+         ANmt0OvYtBZd+AgQmiNKtujOeqwaRxxaESgFYWALhSOLxbuFMg9YdSM09ilhw+JjcK
+         WI8tewqrudR5h56s+yMa4slCq+2KBzBMDI+/TiswmnoUMiCKuYDlAGn69kNdfFF88D
+         ZpU18Mi6/ovTDPD/GxQM7gGEi5CSvHE+pPaNAPTSxHozEnO8/giRaCvSZnoFHcp0ra
+         7eEkxIgUDNs69+h6n5qcThI7KDGNny4eWWy194nLjXoVEv/nqmCn81UK7Cd5tIpYSI
+         V6XAE6GxYhc9g==
+Message-ID: <2ba20434-8976-a971-1fee-c393c670d5f7@denx.de>
+Date:   Wed, 4 Jan 2023 15:34:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <TYWPR01MB87753C261831519F4D6788E5C2F49@TYWPR01MB8775.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 3/4] clk: rs9: Support device specific dif bit calculation
+Content-Language: en-US
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20230103123154.3424817-1-alexander.stein@ew.tq-group.com>
+ <20230103123154.3424817-3-alexander.stein@ew.tq-group.com>
+ <8e9cc8fa-cddc-3c99-9810-f2355a1e1913@denx.de> <5905764.31tnzDBltd@steina-w>
+From:   Marek Vasut <marex@denx.de>
+In-Reply-To: <5905764.31tnzDBltd@steina-w>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-6.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,106 +64,106 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 03 Jan 2023, Fabrizio Castro wrote:
+On 1/4/23 11:32, Alexander Stein wrote:
+> Hi Marek,
 
-> Hi Lees,
+Hi,
+
+> Am Dienstag, 3. Januar 2023, 15:31:21 CET schrieb Marek Vasut:
+>> On 1/3/23 13:31, Alexander Stein wrote:
+>>> The calculation DIFx is BIT(n) +1 is only true for 9FGV0241. With
+>>> additional devices this is getting more complicated.
+>>> Support a base bit for the DIF calculation, currently only devices
+>>> with consecutive bits are supported, e.g. the 6-channel device needs
+>>> additional logic.
+>>>
+>>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+>>> ---
+>>>
+>>>    drivers/clk/clk-renesas-pcie.c | 29 ++++++++++++++++-------------
+>>>    1 file changed, 16 insertions(+), 13 deletions(-)
+>>>
+>>> diff --git a/drivers/clk/clk-renesas-pcie.c
+>>> b/drivers/clk/clk-renesas-pcie.c index 0076ed8f11b0..d19b8e759eea 100644
+>>> --- a/drivers/clk/clk-renesas-pcie.c
+>>> +++ b/drivers/clk/clk-renesas-pcie.c
+>>> @@ -18,7 +18,6 @@
+>>>
+>>>    #include <linux/regmap.h>
+>>>    
+>>>    #define RS9_REG_OE				0x0
+>>>
+>>> -#define RS9_REG_OE_DIF_OE(n)			BIT((n) + 1)
+>>>
+>>>    #define RS9_REG_SS				0x1
+>>>    #define RS9_REG_SS_AMP_0V6			0x0
+>>>    #define RS9_REG_SS_AMP_0V7			0x1
+>>>
+>>> @@ -31,9 +30,6 @@
+>>>
+>>>    #define RS9_REG_SS_SSC_MASK			(3 << 3)
+>>>    #define RS9_REG_SS_SSC_LOCK			BIT(5)
+>>>    #define RS9_REG_SR				0x2
+>>>
+>>> -#define RS9_REG_SR_2V0_DIF(n)			0
+>>> -#define RS9_REG_SR_3V0_DIF(n)			BIT((n) + 1)
+>>> -#define RS9_REG_SR_DIF_MASK(n)		BIT((n) + 1)
+>>>
+>>>    #define RS9_REG_REF				0x3
+>>>    #define RS9_REG_REF_OE				BIT(4)
+>>>    #define RS9_REG_REF_OD				BIT(5)
+>>>
+>>> @@ -62,6 +58,7 @@ struct rs9_chip_info {
+>>>
+>>>    	const enum rs9_model	model;
+>>>    	unsigned int		num_clks;
+>>>    	u8			did;
+>>>
+>>> +	u8			(*calc_dif)(int idx);
+>>>
+>>>    };
+>>>    
+>>>    struct rs9_driver_data {
+>>>
+>>> @@ -160,8 +157,14 @@ static const struct regmap_config rs9_regmap_config =
+>>> {>
+>>>    	.reg_read = rs9_regmap_i2c_read,
+>>>    
+>>>    };
+>>>
+>>> +static u8 rs9fgv0241_calc_dif(int idx)
+>>> +{
+>>> +	return BIT(idx) + 1;
+>>
+>> Can't we just do
+>>
+>> if (model == ...)
+>>    return BIT(idx) + 1
+>> else if (model == ...)
+>>    return BIT(idx);
+>> ...
 > 
-> Thanks for your feedback!
+> I was tempted going this way. But I opted for a callback due to the fact that
+> this driver might support 9FGV/9DBV/9DMV/9FGL/9DML/9QXL/9SQ as well(your
+> comment in the header).
+> Even just considering 9FVG, 9FGV0641 has an even more complex DIF offset
+> calculation.
+> The mapping is
+> * DIF OE0 - Bit 0
+> * DIF OE1 - Bit 2
+> * DIF OE2 - Bit 3
+> * DIF OE3 - Bit 4
+> * DIF OE4 - Bit 6
+> * DIF OE5 - Bit 7
 > 
-> > From: Lee Jones <lee@kernel.org>
-> > Sent: 03 January 2023 12:52
-> > Subject: Re: [PATCH v2 2/4] mfd: Add RZ/V2M PWC core driver
-> > 
-> > On Tue, 03 Jan 2023, Fabrizio Castro wrote:
-> > 
-> > > Hi Geert,
-> > >
-> > > Thanks for your feedback!
-> > >
-> > > > -----Original Message-----
-> > > > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > > Sent: 03 January 2023 08:37
-> > > > To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > > > Cc: Linus Walleij <linus.walleij@linaro.org>; Bartosz Golaszewski
-> > > > <brgl@bgdev.pl>; Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
-> > > > <krzysztof.kozlowski+dt@linaro.org>; Sebastian Reichel
-> > <sre@kernel.org>;
-> > > > Geert Uytterhoeven <geert+renesas@glider.be>; Lee Jones
-> > <lee@kernel.org>;
-> > > > linux-gpio@vger.kernel.org; devicetree@vger.kernel.org; linux-
-> > > > kernel@vger.kernel.org; linux-pm@vger.kernel.org; Chris Paterson
-> > > > <Chris.Paterson2@renesas.com>; Biju Das <biju.das@bp.renesas.com>;
-> > linux-
-> > > > renesas-soc@vger.kernel.org; Laurent Pinchart
-> > > > <laurent.pinchart@ideasonboard.com>; Jacopo Mondi <jacopo@jmondi.org>
-> > > > Subject: Re: [PATCH v2 2/4] mfd: Add RZ/V2M PWC core driver
+> So the calucation might not fit into one line, so the readability benefit is
+> gone.
 
-Could you please tell your mailer to remove mail headers from the body
-please.
+You can still do
 
-> > > > > The External Power Sequence Controller (PWC) IP (found in the
-> > > > > RZ/V2M SoC) is a controller for external power supplies (regulators
-> > > > > and power switches), and it supports the following features: it
-> > > > > generates a power on/off sequence for external power supplies,
-> > > > > it generates an on/off sequence for the LPDDR4 core power supply
-> > > > > (LPVDD), it comes with General-Purpose Outputs, and it processes
-> > > > > key input signals.
-> > > >
-> > > > Thanks for your patch!
-> > > >
-> > > > > The PWC is basically a Multi-Function Device (MFD), its software
-> > > > > support comes with a core driver, and specialized drivers for
-> > > > > its specific features.
-> > > >
-> > > > I have to admit I'm not such a big fan of MFD.  In this driver,
-> > > > you are not even sharing resources in the MFD cells, just the mapped
-> > > > register base.  So I think you can easily save +100 LoC and reduce
-> > > > maintenance synchronization overhead across subsystems by just having
-> > > > a single non-MFD driver instead.
-> > > >
-> > > > Did you pick MFD because the PWC poweroff feature depends on board
-> > > > wiring, and thus is optional?
-> > >
-> > > I am not a big fan of MFD, either.
-> > 
-> > Interesting.
-> > 
-> > Could you both elaborate further please?
-> 
-> I have nothing against MFD
+if (model == ...)
+  return function1();
+else if (model == ...)
+  return function2();
 
-Okay, just checking.  I'll withdraw my next command then. :)
-
-$ rm -rf drivers/mfd
-
-> > If you do not have any resources to share, you can simply register each
-> > of the devices via Device Tree.  I do not see a valid reason to force a
-> > parent / child relationship for your use-case.
-> 
-> There would probably be overlapping on the same memory region, which would
-> lead to ioremapping the same region multiple times, which is something
-> I would prefer to avoid if possible.
-
-Okay, so you *do* have shared resources.
-
-In which case, why is simple-mfd not working for you?
-
-> > Many people attempt to use MFD as a dumping ground / workaround for a
-> > bunch of reasons.  Some valid, others not so much.
-> 
-> As it turns out, it looks like I don't have valid reasons to use MFD,
-> therefore I'll switch to a single, non MFD, driver.
-> 
-> Thank you for taking the time to look into this though! Really
-> appreciated.
-
-Although it is considered okay to have a multi-purpose driver in any one
-of the subsystems, it's sometimes nicer to split the various
-functionality to be looked after (maintained) by their respective
-subject matter experts.  You have to do what's right in any given
-situation.
-
-Ultimately it's a call you need to make with the maintainer(s).
-
--- 
-Lee Jones [李琼斯]
+which would work without any indirection via callback.
