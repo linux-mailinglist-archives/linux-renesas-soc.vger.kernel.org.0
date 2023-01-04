@@ -2,29 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02B9165D00D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 10:57:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4307E65CFF0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 10:52:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234371AbjADJ50 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Jan 2023 04:57:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35954 "EHLO
+        id S229658AbjADJv2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Jan 2023 04:51:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234691AbjADJ5W (ORCPT
+        with ESMTP id S234274AbjADJvO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Jan 2023 04:57:22 -0500
+        Wed, 4 Jan 2023 04:51:14 -0500
+X-Greylist: delayed 322 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 04 Jan 2023 01:51:12 PST
 Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECF531C932;
-        Wed,  4 Jan 2023 01:57:19 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30DF1140D6;
+        Wed,  4 Jan 2023 01:51:12 -0800 (PST)
 Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net ([86.15.83.122] helo=[192.168.0.17])
         by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
-        id 1pD0Kx-00G7tJ-Mm; Wed, 04 Jan 2023 09:45:31 +0000
-Message-ID: <6ef122f6-12fa-777f-b4e7-a02531380391@codethink.co.uk>
-Date:   Wed, 4 Jan 2023 09:45:30 +0000
+        id 1pD0QG-00G85N-8X; Wed, 04 Jan 2023 09:51:00 +0000
+Message-ID: <49bd7b4a-b0e1-3213-8aed-9f39604f3935@codethink.co.uk>
+Date:   Wed, 4 Jan 2023 09:50:58 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [RFC v5.1 9/9] [DON'T APPLY] cache: sifive-ccache: add cache
- flushing capability
+Subject: Re: [RFC v5.1 6/9] cache,soc: Move SiFive CCache driver & create
+ drivers/cache
 Content-Language: en-GB
 To:     Conor Dooley <conor@kernel.org>, arnd@arndb.de, palmer@dabbelt.com,
         prabhakar.csengg@gmail.com
@@ -38,13 +39,12 @@ Cc:     Conor Dooley <conor.dooley@microchip.com>, ajones@ventanamicro.com,
         linux-riscv@lists.infradead.org, magnus.damm@gmail.com,
         nathan@kernel.org, paul.walmsley@sifive.com,
         philipp.tomsich@vrull.eu, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        robh+dt@kernel.org, samuel@sholland.org, soc@kernel.org,
-        Daire McNamara <daire.mcnamara@microchip.com>
+        robh+dt@kernel.org, samuel@sholland.org, soc@kernel.org
 References: <Y62nOqzyuUKqYDpq@spud>
- <20230103210400.3500626-10-conor@kernel.org>
+ <20230103210400.3500626-7-conor@kernel.org>
 From:   Ben Dooks <ben.dooks@codethink.co.uk>
 Organization: Codethink Limited.
-In-Reply-To: <20230103210400.3500626-10-conor@kernel.org>
+In-Reply-To: <20230103210400.3500626-7-conor@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,NICE_REPLY_A,
@@ -55,138 +55,125 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 03/01/2023 21:04, Conor Dooley wrote:
-> From: Daire McNamara <daire.mcnamara@microchip.com>
+On 03/01/2023 21:03, Conor Dooley wrote:
+> From: Conor Dooley <conor.dooley@microchip.com>
 > 
-> SiFive L2 cache controller can flush L2 cache. Expose this capability via
-> driver.
+> The Zicbo* set of extensions for cache maintenance arrived too late &
+> several SoCs exist without them that require non-coherent DMA.
+> As things stand, the StarFive JH7100, Microchip PolarFire SoC & Renesas
+> RZ/Five all require cache maintenance and lack instructions for this
+> purpose.
+> Create a subsystem for cache drivers so that vendor specific behaviour
+> can be isolated from arch code, but keep the interfaces etc consistent.
+> Move the existing SiFive CCache driver to create drivers/cache.
 > 
-> Signed-off-by: Daire McNamara <daire.mcnamara@microchip.com>
-> [Conor: rebase on top of move to cache subsystem]
 > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
-> This commit needs more work, and a way to enable it from errata. I've
-> not gone and done this as PolarFire SoC has archid etc all set to zero.
-> So we need to go figure out a workaround for this, before adding in
-> errata enabling code for this. I've included it here as a second user of
-> the cache management stuff, since what's currently upstream for the
-> ccache driver does not do any cache management.
-
-I think errata isn't the right word here, it's more of a system 
-requirement for anything that isn't coherent. All the SiFive systems
-I have are coherent so won't need this.
-
-> ---
->   drivers/cache/sifive_ccache.c | 45 +++++++++++++++++++++++++++++++++++
->   1 file changed, 45 insertions(+)
+>   MAINTAINERS                                   | 15 ++++++++-------
+>   drivers/Kconfig                               |  2 ++
+>   drivers/Makefile                              |  2 ++
+>   drivers/{soc/sifive => cache}/Kconfig         |  8 +++++++-
+>   drivers/{soc/sifive => cache}/Makefile        |  0
+>   drivers/{soc/sifive => cache}/sifive_ccache.c |  2 +-
+>   drivers/edac/sifive_edac.c                    |  2 +-
+>   drivers/soc/Kconfig                           |  1 -
+>   drivers/soc/Makefile                          |  1 -
+>   include/{soc/sifive => cache}/sifive_ccache.h |  0
+>   10 files changed, 21 insertions(+), 12 deletions(-)
+>   rename drivers/{soc/sifive => cache}/Kconfig (56%)
+>   rename drivers/{soc/sifive => cache}/Makefile (100%)
+>   rename drivers/{soc/sifive => cache}/sifive_ccache.c (99%)
+>   rename include/{soc/sifive => cache}/sifive_ccache.h (100%)
 > 
-> diff --git a/drivers/cache/sifive_ccache.c b/drivers/cache/sifive_ccache.c
-> index 47e7d6557f85..3c00f205bace 100644
-> --- a/drivers/cache/sifive_ccache.c
-> +++ b/drivers/cache/sifive_ccache.c
-> @@ -9,12 +9,14 @@
->   #define pr_fmt(fmt) "CCACHE: " fmt
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f61eb221415b..4437e96a657b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -19054,13 +19054,6 @@ S:	Maintained
+>   F:	Documentation/devicetree/bindings/dma/sifive,fu540-c000-pdma.yaml
+>   F:	drivers/dma/sf-pdma/
 >   
->   #include <linux/debugfs.h>
-> +#include <linux/dma-direction.h>
->   #include <linux/interrupt.h>
->   #include <linux/of_irq.h>
->   #include <linux/of_address.h>
->   #include <linux/device.h>
->   #include <linux/bitfield.h>
->   #include <asm/cacheinfo.h>
-> +#include <asm/cacheflush.h>
->   #include <cache/sifive_ccache.h>
+> -SIFIVE SOC DRIVERS
+> -M:	Conor Dooley <conor@kernel.org>
+> -L:	linux-riscv@lists.infradead.org
+> -S:	Maintained
+> -T:	git https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git/
+> -F:	drivers/soc/sifive/
+> -
+>   SILEAD TOUCHSCREEN DRIVER
+>   M:	Hans de Goede <hdegoede@redhat.com>
+>   L:	linux-input@vger.kernel.org
+> @@ -19873,6 +19866,14 @@ S:	Supported
+>   T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
+>   F:	drivers/staging/
 >   
->   #define SIFIVE_CCACHE_DIRECCFIX_LOW 0x100
-> @@ -42,11 +44,15 @@
->   #define SIFIVE_CCACHE_WAYENABLE 0x08
->   #define SIFIVE_CCACHE_ECCINJECTERR 0x40
->   
-> +#define SIFIVE_CCACHE_FLUSH64 0x200
-> +#define SIFIVE_CCACHE_FLUSH32 0x240
-> +
->   #define SIFIVE_CCACHE_MAX_ECCINTR 4
->   
->   static void __iomem *ccache_base;
->   static int g_irq[SIFIVE_CCACHE_MAX_ECCINTR];
->   static struct riscv_cacheinfo_ops ccache_cache_ops;
-> +static struct riscv_cache_maint_ops ccache_cmos;
->   static int level;
->   
->   enum {
-> @@ -205,6 +211,42 @@ static irqreturn_t ccache_int_handler(int irq, void *device)
->   	return IRQ_HANDLED;
->   }
->   
-> +static void sifive_ccache_dma_wback_inv(void* vaddr, unsigned long size)
-> +{
-> +	void * __iomem flush = ccache_base + SIFIVE_CCACHE_FLUSH64;
-> +	phys_addr_t start = virt_to_phys(vaddr);
-> +	phys_addr_t aligned_start = start & ~0x3f;
-> +	u64 addr;
-> +	u64 end;
-> +	u64 aligned_end;
-> +
-> +	size += start - aligned_start;
-> +	end = start + size;
-> +	aligned_end = end += 0x3f;
+> +STANDALONE CACHE CONTROLLER DRIVERS
+> +M:	Conor Dooley <conor@kernel.org>
+> +L:	linux-riscv@lists.infradead.org
+> +S:	Maintained
+> +T:	git https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git/
+> +F:	drivers/cache
+> +F:	include/cache
+I thought the riscv list was subscribers only?
 
-I think you meant + 0x3f here. There is an align macro in the kernel
-headers, and I'm not sure by inspection if you'd miss the last line
-with this code.
-
-> +	aligned_end &= ~0x3f;
-> +
-> +	for (addr = aligned_start; addr < aligned_end; addr += 64)
-> +		writeq(addr, flush);
-> +}
-
-The p550 manual states that the zero device flush method is quicker for
-any large area flush. However not sure what that level is and whether it
-is worth dealing with here? If so we need to have the L3 zero are mapped.
+Maybe if we do the suggestion of other cache drivers here we should
+either use the main kernel one or find some arch non-specific list.
 
 > +
-> +static void sifive_ccache_cmo(unsigned int cache_size, void *vaddr, size_t size,
-> +			      int dir, int ops)
-> +{
-
-technically dir should have been of type "enum dma_data_direction"
-
-> +	switch (dir) {
-> +	case DMA_TO_DEVICE:
-> +		sifive_ccache_dma_wback_inv(vaddr, size);
-> +		break;
-> +	case DMA_FROM_DEVICE:
-> +		sifive_ccache_dma_wback_inv(vaddr, size);
-> +		break;
-> +	case DMA_BIDIRECTIONAL:
-> +		sifive_ccache_dma_wback_inv(vaddr, size);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +}
-
-I'm not sure why you'd bother checking the dir here, the cache can
-only be flushed (I hope DMA_FROM_DEVICE is done /before/ the DMA op).
-
-You could have saved yourself an include if just ignoring dir.
-
-> +
->   static int __init sifive_ccache_init(void)
->   {
->   	struct device_node *np;
-> @@ -254,6 +296,9 @@ static int __init sifive_ccache_init(void)
->   	ccache_cache_ops.get_priv_group = ccache_get_priv_group;
->   	riscv_set_cacheinfo_ops(&ccache_cache_ops);
+>   STARFIRE/DURALAN NETWORK DRIVER
+>   M:	Ion Badulescu <ionut@badula.org>
+>   S:	Odd Fixes
+> diff --git a/drivers/Kconfig b/drivers/Kconfig
+> index 968bd0a6fd78..e592ba5276ae 100644
+> --- a/drivers/Kconfig
+> +++ b/drivers/Kconfig
+> @@ -241,4 +241,6 @@ source "drivers/peci/Kconfig"
 >   
-> +	ccache_cmos.cmo_patchfunc = sifive_ccache_cmo;
-> +	riscv_set_cache_maint_ops(&ccache_cmos);
+>   source "drivers/hte/Kconfig"
+>   
+> +source "drivers/cache/Kconfig"
 > +
->   #ifdef CONFIG_DEBUG_FS
->   	setup_sifive_debug();
->   #endif
+>   endmenu
+> diff --git a/drivers/Makefile b/drivers/Makefile
+> index bdf1c66141c9..6ff60cf21823 100644
+> --- a/drivers/Makefile
+> +++ b/drivers/Makefile
+> @@ -38,6 +38,8 @@ obj-y				+= clk/
+>   # really early.
+>   obj-$(CONFIG_DMADEVICES)	+= dma/
+>   
+> +obj-y				+= cache/
+> +
+>   # SOC specific infrastructure drivers.
+>   obj-y				+= soc/
+>   
+> diff --git a/drivers/soc/sifive/Kconfig b/drivers/cache/Kconfig
+> similarity index 56%
+> rename from drivers/soc/sifive/Kconfig
+> rename to drivers/cache/Kconfig
+> index ed4c571f8771..bc852f005c10 100644
+> --- a/drivers/soc/sifive/Kconfig
+> +++ b/drivers/cache/Kconfig
+> @@ -1,9 +1,15 @@
+>   # SPDX-License-Identifier: GPL-2.0
+>   
+> -if SOC_SIFIVE
+> +menuconfig CACHE_CONTROLLER
+> +	bool "Cache controller driver support"
+> +	default y if RISCV
+> +
+> +if CACHE_CONTROLLER
+>   
+>   config SIFIVE_CCACHE
+>   	bool "Sifive Composable Cache controller"
+> +	depends on RISCV
+> +	default y
+>   	help
+>   	  Support for the composable cache controller on SiFive platforms.
+>   
+
+Maybe we should find and move the ARM PL cache controllers and
+have them here too?
 
 -- 
 Ben Dooks				http://www.codethink.co.uk/
