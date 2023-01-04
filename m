@@ -2,130 +2,178 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DD6165D54D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 15:15:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3730F65D5C5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 15:34:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233514AbjADOPp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Jan 2023 09:15:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41796 "EHLO
+        id S239515AbjADOef (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Jan 2023 09:34:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235012AbjADOPj (ORCPT
+        with ESMTP id S239580AbjADOec (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Jan 2023 09:15:39 -0500
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1198112ADB;
-        Wed,  4 Jan 2023 06:15:37 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id BA7705C01B4;
-        Wed,  4 Jan 2023 09:15:34 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Wed, 04 Jan 2023 09:15:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1672841734; x=1672928134; bh=Fn1aQEXTry
-        mHnWymQOrd0h3tQi3NafhSd3arLPnzkI0=; b=Ks0nnbzchE3a9MdHfWdff6SGhT
-        NNuBTQkbbQRk856PiUGuPtTPXOO4EWiG2eLnky1Fe83iKhf5isWyYaj6dL95goYM
-        +cMT8kgsxV2X9wzhwbMjbpXYYnADB0Ol7YrgEl3+n/OK9EdNeoEDZuej8IMQYMHe
-        jaQGPPpDyFLtK4t5NieoJ5z90fkE+rUvIZRvI+uLNHX5DIZGgDrdtdrBloqulWvN
-        zXAVIAu1UmHxqJKJDtF3oUYSo5q6IXcgpxWdmWaEr3FUJfyviBNZAVsmCUyiF0Zd
-        CK5frI7p3SK9N9d0R9Td3ss6wAzSYMbPCbmDU4cETX+HKVPGR95SmJKPSuCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1672841734; x=1672928134; bh=Fn1aQEXTrymHnWymQOrd0h3tQi3N
-        afhSd3arLPnzkI0=; b=PfJJY7BdjE9XKomOO3FAguSwAJbsoxpOtteKA2AH9GCe
-        di2SCn+pfmmZUfFL1RmJI0QtizGbuFnUVPmYzAc5KzNv/V+inA0isBcm420qg8eq
-        z/SkxKiiNUe4LvBFGswlgp+tnPUxgzGw3x8+jU31+R18HOAGXgR5Ko/W9XLGX+eI
-        /+VELJWfmf1fq/oQgk7yV2h6pY0f+xPJa14KNzKpVSGm/Dhrw3QhF9k3ghX+zJsf
-        dGMIsAP9x8tIdYkChPUSDdufb2TjTSNzoRYzsW/vzqneWxok8gjC/lV9Zdn/RDID
-        ngy7cN9Vmb0CTKHnGPe66J0dSyIESH+0NAmRnCEI8A==
-X-ME-Sender: <xms:BYq1Y2YD9LaCyi7RpUrZlAjmlLUDlXKWz-coGihwz7dT58cbTP29-g>
-    <xme:BYq1Y5Yy8f7exDo1k5sgaomeRmh2af6NHR3eOOmryQJcO1uZNS3WYMi8PNhkcUUx2
-    Xfyfa9cn2Q7g09dXzE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeeigdeivdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:BYq1Yw-mze03m1sJLe9G-8FhVbq1AUQK0F1vB5yNhoSvwQi0PQKrCA>
-    <xmx:BYq1Y4qaeGBFCh7Qv7qiiZX0cTDdkDURjAaqDkUl7n2X2tL964mu9A>
-    <xmx:BYq1YxqNrc3pbSXTNVpRj35tKeq1zjwvLxV_ED0Cg-KGuEHIPuUF1w>
-    <xmx:Boq1Y3gt-izzaAnIaOt1oEBmJI_9SdY7uLaxxa_i3aDqxBWbFmyLMw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 4ED8BB60086; Wed,  4 Jan 2023 09:15:33 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
-Mime-Version: 1.0
-Message-Id: <62fa1fff-b055-410d-bbf9-e4017dc23e88@app.fastmail.com>
-In-Reply-To: <Y7V9Debcc9lqWBmT@spud>
-References: <Y62nOqzyuUKqYDpq@spud>
- <20230103210400.3500626-10-conor@kernel.org>
- <b5712732-40a2-4e29-b29f-e0ab5516d518@app.fastmail.com>
- <Y7TBh+CJdZPJ6Xzl@spud>
- <ed198390-1bde-44ec-9f3f-b0e016b4b24c@app.fastmail.com>
- <CFB874A3-3E6F-4C5B-B47D-381EB1E07C02@kernel.org>
- <43aee000-5b89-4d94-98d2-b37b1a18a83e@app.fastmail.com>
- <Y7VpeK48nslxklkF@spud>
- <1b7d4caa-2c9c-4aef-81ac-47288d3a652c@app.fastmail.com>
- <Y7V9Debcc9lqWBmT@spud>
-Date:   Wed, 04 Jan 2023 15:15:12 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Conor Dooley" <conor@kernel.org>,
-        "Palmer Dabbelt" <palmer@dabbelt.com>
-Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
-        "Conor.Dooley" <conor.dooley@microchip.com>,
-        "Andrew Jones" <ajones@ventanamicro.com>,
-        "Albert Ou" <aou@eecs.berkeley.edu>,
-        "Anup Patel" <apatel@ventanamicro.com>,
-        "Atish Patra" <atishp@rivosinc.com>,
-        "Biju Das" <biju.das.jz@bp.renesas.com>,
-        devicetree@vger.kernel.org,
-        "Geert Uytterhoeven" <geert@linux-m68k.org>,
-        guoren <guoren@kernel.org>,
-        "Christoph Hellwig" <hch@infradead.org>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        "Jisheng Zhang" <jszhang@kernel.org>,
-        krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-riscv@lists.infradead.org,
-        "Magnus Damm" <magnus.damm@gmail.com>,
-        "Nathan Chancellor" <nathan@kernel.org>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        "Philipp Tomsich" <philipp.tomsich@vrull.eu>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Samuel Holland" <samuel@sholland.org>, soc@kernel.org,
-        "Daire McNamara" <daire.mcnamara@microchip.com>
-Subject: Re: [RFC v5.1 9/9] [DON'T APPLY] cache: sifive-ccache: add cache flushing
- capability
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 4 Jan 2023 09:34:32 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 142FF373A6;
+        Wed,  4 Jan 2023 06:34:31 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C83C4B81674;
+        Wed,  4 Jan 2023 14:34:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53E62C433D2;
+        Wed,  4 Jan 2023 14:34:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672842868;
+        bh=gRkCSnXk5MjxVH+vyivnl3Fj49JHVY24sOY1WJh8QEg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=k5MykoyoJXROrSbBrVfL6RN/UKCq7OIH2LH9suxKq1RhPopZd0KV9VzH9OZArvVAi
+         OjeULj7tH4EBtWom9/n4D8+Bq67oYBDRuS79zCMcnKeV3uohIyY7Yg9vF3LtdZ5ijX
+         OME+yvl/61fF7eMF7/j3La0XQbhVDW/PFfRXTx0EWs3N9hO6BZC25sGAKUkzS9+gGU
+         nCNXqaSlXkppnNS1gAnozooIQ0Ex1pEkn2m96QOmGFIJL8fF8o3QxsObi4Rpb0wi7O
+         4gL8y75HZVvL7qRenCVdHz77J3/DFblD9V+fjJ41jwtSpdkfZBGYUEV6pAlarxz3bP
+         hgZjXGlhHRxJA==
+Date:   Wed, 4 Jan 2023 14:34:21 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v2 2/4] mfd: Add RZ/V2M PWC core driver
+Message-ID: <Y7WObZFfsCJuMdLW@google.com>
+References: <20221221210917.458537-1-fabrizio.castro.jz@renesas.com>
+ <20221221210917.458537-3-fabrizio.castro.jz@renesas.com>
+ <CAMuHMdXDwEUzBpG+w_G6=CzKo=n92cdVw6v8JwOwf9o86HnOZQ@mail.gmail.com>
+ <TYWPR01MB87758FB15ED12D396AE738DDC2F49@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+ <Y7Qk/EgOI9mkJIjn@google.com>
+ <TYWPR01MB87753C261831519F4D6788E5C2F49@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <TYWPR01MB87753C261831519F4D6788E5C2F49@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jan 4, 2023, at 14:20, Conor Dooley wrote:
-> On Wed, Jan 04, 2023 at 01:18:45PM +0100, Arnd Bergmann wrote:
->> On Wed, Jan 4, 2023, at 12:56, Conor Dooley wrote:
->> > On Wed, Jan 04, 2023 at 11:19:44AM +0100, Arnd Bergmann wrote:
-> Perhaps more of a question for Palmer than you, but how about leaving
-> ALT_CMO_OP as-is in riscv/for-next at the moment, wrapping it in
-> zicbom_cache_foo() & leaving that extraction for a follow-on work?
-> There's another conversation going on about expanding the THEAD stuff,
-> so that could be done on top of Prabhakar's v6.
+On Tue, 03 Jan 2023, Fabrizio Castro wrote:
 
-Right, makes sense to me.
+> Hi Lees,
+> 
+> Thanks for your feedback!
+> 
+> > From: Lee Jones <lee@kernel.org>
+> > Sent: 03 January 2023 12:52
+> > Subject: Re: [PATCH v2 2/4] mfd: Add RZ/V2M PWC core driver
+> > 
+> > On Tue, 03 Jan 2023, Fabrizio Castro wrote:
+> > 
+> > > Hi Geert,
+> > >
+> > > Thanks for your feedback!
+> > >
+> > > > -----Original Message-----
+> > > > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > > > Sent: 03 January 2023 08:37
+> > > > To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > > Cc: Linus Walleij <linus.walleij@linaro.org>; Bartosz Golaszewski
+> > > > <brgl@bgdev.pl>; Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
+> > > > <krzysztof.kozlowski+dt@linaro.org>; Sebastian Reichel
+> > <sre@kernel.org>;
+> > > > Geert Uytterhoeven <geert+renesas@glider.be>; Lee Jones
+> > <lee@kernel.org>;
+> > > > linux-gpio@vger.kernel.org; devicetree@vger.kernel.org; linux-
+> > > > kernel@vger.kernel.org; linux-pm@vger.kernel.org; Chris Paterson
+> > > > <Chris.Paterson2@renesas.com>; Biju Das <biju.das@bp.renesas.com>;
+> > linux-
+> > > > renesas-soc@vger.kernel.org; Laurent Pinchart
+> > > > <laurent.pinchart@ideasonboard.com>; Jacopo Mondi <jacopo@jmondi.org>
+> > > > Subject: Re: [PATCH v2 2/4] mfd: Add RZ/V2M PWC core driver
 
-      Arnd
+Could you please tell your mailer to remove mail headers from the body
+please.
+
+> > > > > The External Power Sequence Controller (PWC) IP (found in the
+> > > > > RZ/V2M SoC) is a controller for external power supplies (regulators
+> > > > > and power switches), and it supports the following features: it
+> > > > > generates a power on/off sequence for external power supplies,
+> > > > > it generates an on/off sequence for the LPDDR4 core power supply
+> > > > > (LPVDD), it comes with General-Purpose Outputs, and it processes
+> > > > > key input signals.
+> > > >
+> > > > Thanks for your patch!
+> > > >
+> > > > > The PWC is basically a Multi-Function Device (MFD), its software
+> > > > > support comes with a core driver, and specialized drivers for
+> > > > > its specific features.
+> > > >
+> > > > I have to admit I'm not such a big fan of MFD.  In this driver,
+> > > > you are not even sharing resources in the MFD cells, just the mapped
+> > > > register base.  So I think you can easily save +100 LoC and reduce
+> > > > maintenance synchronization overhead across subsystems by just having
+> > > > a single non-MFD driver instead.
+> > > >
+> > > > Did you pick MFD because the PWC poweroff feature depends on board
+> > > > wiring, and thus is optional?
+> > >
+> > > I am not a big fan of MFD, either.
+> > 
+> > Interesting.
+> > 
+> > Could you both elaborate further please?
+> 
+> I have nothing against MFD
+
+Okay, just checking.  I'll withdraw my next command then. :)
+
+$ rm -rf drivers/mfd
+
+> > If you do not have any resources to share, you can simply register each
+> > of the devices via Device Tree.  I do not see a valid reason to force a
+> > parent / child relationship for your use-case.
+> 
+> There would probably be overlapping on the same memory region, which would
+> lead to ioremapping the same region multiple times, which is something
+> I would prefer to avoid if possible.
+
+Okay, so you *do* have shared resources.
+
+In which case, why is simple-mfd not working for you?
+
+> > Many people attempt to use MFD as a dumping ground / workaround for a
+> > bunch of reasons.  Some valid, others not so much.
+> 
+> As it turns out, it looks like I don't have valid reasons to use MFD,
+> therefore I'll switch to a single, non MFD, driver.
+> 
+> Thank you for taking the time to look into this though! Really
+> appreciated.
+
+Although it is considered okay to have a multi-purpose driver in any one
+of the subsystems, it's sometimes nicer to split the various
+functionality to be looked after (maintained) by their respective
+subject matter experts.  You have to do what's right in any given
+situation.
+
+Ultimately it's a call you need to make with the maintainer(s).
+
+-- 
+Lee Jones [李琼斯]
