@@ -2,63 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC74665D0A4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 11:27:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC56F65D0AF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 11:32:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233659AbjADK1b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Jan 2023 05:27:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48926 "EHLO
+        id S234483AbjADKch (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Jan 2023 05:32:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234365AbjADK1a (ORCPT
+        with ESMTP id S234333AbjADKcf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Jan 2023 05:27:30 -0500
+        Wed, 4 Jan 2023 05:32:35 -0500
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D587D1007B;
-        Wed,  4 Jan 2023 02:27:28 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3E0D95BE;
+        Wed,  4 Jan 2023 02:32:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1672828049; x=1704364049;
+  t=1672828354; x=1704364354;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=rvbK2fuFK98L2dD+XhK85CTrFSSQbvb7qREPeD+6OTc=;
-  b=VqkzhhVrgMqt2OL0DiqTQD8HO/vcZuUrpW91XBDyu4SxT2lqtkDjO6FJ
-   ETS/zirCiO/d5dDF8QaJJ9nQldBKqanR7hGumjP+Yeiphyog9PD3GnXKO
-   AfK/dPNgqsCYTqDClsUIATCqCgsGjZEakz/3sr3Mj9JfT0HfQ4Y90fXgZ
-   UVvplx6sEt2aQ46+MY1xrLKwAoJgV5PsjEQMDuBQF5O3WH4PwonttDigJ
-   gU/fjxgTFYKrd/Te9UjwAcTdGarZf88eccbwu/scutKikKTWmx1j3Yw6X
-   XA9JHU0Xda4entcMmOEK9mUtG0L0R8aOTQqrPRdpWJy0BocQ57cv3sVHJ
-   w==;
-X-IronPort-AV: E=Sophos;i="5.96,299,1665439200"; 
-   d="scan'208";a="28238217"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 04 Jan 2023 11:27:27 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Wed, 04 Jan 2023 11:27:27 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Wed, 04 Jan 2023 11:27:27 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1672828047; x=1704364047;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=rvbK2fuFK98L2dD+XhK85CTrFSSQbvb7qREPeD+6OTc=;
-  b=IvMVHzuT/x2LLA5nsvEh4nwccWaWHn86TmrneNHxLo0opBPvb8m2AbpK
-   7STpNcD+2TAtBj054lcwjyqEgqzX3pkcKHzmYSVik/RKPc8A1Xg8G1Uon
-   ti/Q2w+QBr9gj+5mXZ/pNr4+rgOALEvnjEyBvK3xF85ujmBJ3a+atBfLZ
-   LlxIiH5nk0eLOT3BSt+H8NNgRxcpnO5av3w4BOlnFNO2NdTZl6TfG85DI
-   DygQzVeAKAVaiwmFVkJU4Ku4ko6asyy1rJs+eKeNjhOKuiv8nwuxNRvJY
-   wjzbtm/prrY7T97kOgiaTLDqIIbwakx9OQWp+Rmne8H+4MDOg2lc73BF7
+  bh=ag5rlRoVANH4ZBzlzlE6lTj3OJTl7mId4PLIYfPay1Y=;
+  b=JHL8jl2d0L/js5BAvrK6AVv63adw9ogqozaK7fckAR8NySi3AGTYJ+r2
+   SiL1XDSoFuOlM2W3QS5BP5fPzTnfT5VQwEPkgNYiWD79t4YKCl+Y+G6YG
+   2m1HPnRT+4gMha6XuPWvh1AJJzpk5gpzhBB2oz2y53ejKDp2WyPLQtVYb
+   she/HzYN2BjqWmsO4mP2MsL+iCVNMMxf6hkjmnNRgh42wURuyr6ib8SOA
+   68OPS13FJF693cyWr5ddZ8wvMKfGMob9PoGKSy/GVDsdyn+ZnvlX4qoYv
+   dsOSEVBU+I8MHNP+vW2L1XGUUbN/N7j2prn/xw0jR6mug3Mfo9pwNSOJj
    g==;
 X-IronPort-AV: E=Sophos;i="5.96,299,1665439200"; 
-   d="scan'208";a="28238216"
+   d="scan'208";a="28238335"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 04 Jan 2023 11:32:32 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Wed, 04 Jan 2023 11:32:32 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Wed, 04 Jan 2023 11:32:32 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1672828352; x=1704364352;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ag5rlRoVANH4ZBzlzlE6lTj3OJTl7mId4PLIYfPay1Y=;
+  b=Ck/ykvIHWW8c94aweQ3nmzsuS24QL0M6C76YwhX1nAFN2ZgAMsCVFdeQ
+   Wj9jXrK6tYEtZyLypA+iW8sPOEFqFChTMakyok92xDmJltsgy2mf/HsC5
+   cyV2eOgvS6W675qH7JTWExE9MhMqLykhn3ua/OcOYwq03ViHdCkYdVVLq
+   XYNmonq3ZmbCXFJKlKJxSimhMQ5w8eQV6OkNSyQsonENvxeXXvxa0piUE
+   4UgMa0jB8u8FQgbPd8LwsW7c6gJDjzqU8bYQHNCqYunNvi3utICetbU8x
+   V8VFyf2g9Rmcvs6DZYZFDGfsnHyu3UmVJk/Jww3MGpgx2dAD/hWJ287aF
+   w==;
+X-IronPort-AV: E=Sophos;i="5.96,299,1665439200"; 
+   d="scan'208";a="28238334"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 04 Jan 2023 11:27:27 +0100
+  by mx1.tq-group.com with ESMTP; 04 Jan 2023 11:32:32 +0100
 Received: from steina-w.localnet (unknown [10.123.53.21])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 235CE280056;
-        Wed,  4 Jan 2023 11:27:27 +0100 (CET)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id F054E280056;
+        Wed,  4 Jan 2023 11:32:31 +0100 (CET)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Michael Turquette <mturquette@baylibre.com>,
@@ -68,12 +68,12 @@ To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Marek Vasut <marex@denx.de>
 Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/4] clk: rs9: Check for vendor/device ID
-Date:   Wed, 04 Jan 2023 11:27:26 +0100
-Message-ID: <3826066.fW5hKsROvD@steina-w>
+Subject: Re: [PATCH 3/4] clk: rs9: Support device specific dif bit calculation
+Date:   Wed, 04 Jan 2023 11:32:31 +0100
+Message-ID: <5905764.31tnzDBltd@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <2ba4e002-9f27-2e36-2bd2-8753c455b21f@denx.de>
-References: <20230103123154.3424817-1-alexander.stein@ew.tq-group.com> <2ba4e002-9f27-2e36-2bd2-8753c455b21f@denx.de>
+In-Reply-To: <8e9cc8fa-cddc-3c99-9810-f2355a1e1913@denx.de>
+References: <20230103123154.3424817-1-alexander.stein@ew.tq-group.com> <20230103123154.3424817-3-alexander.stein@ew.tq-group.com> <8e9cc8fa-cddc-3c99-9810-f2355a1e1913@denx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -86,120 +86,99 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Am Dienstag, 3. Januar 2023, 15:28:16 CET schrieb Marek Vasut:
+Hi Marek,
+
+Am Dienstag, 3. Januar 2023, 15:31:21 CET schrieb Marek Vasut:
 > On 1/3/23 13:31, Alexander Stein wrote:
-> > This is in preparation to support additional devices which have different
-> > IDs as well as a slightly different register layout.
+> > The calculation DIFx is BIT(n) +1 is only true for 9FGV0241. With
+> > additional devices this is getting more complicated.
+> > Support a base bit for the DIF calculation, currently only devices
+> > with consecutive bits are supported, e.g. the 6-channel device needs
+> > additional logic.
 > > 
 > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > > ---
 > > 
-> >   drivers/clk/clk-renesas-pcie.c | 24 ++++++++++++++++++++++++
-> >   1 file changed, 24 insertions(+)
+> >   drivers/clk/clk-renesas-pcie.c | 29 ++++++++++++++++-------------
+> >   1 file changed, 16 insertions(+), 13 deletions(-)
 > > 
 > > diff --git a/drivers/clk/clk-renesas-pcie.c
-> > b/drivers/clk/clk-renesas-pcie.c index e6247141d0c0..0076ed8f11b0 100644
+> > b/drivers/clk/clk-renesas-pcie.c index 0076ed8f11b0..d19b8e759eea 100644
 > > --- a/drivers/clk/clk-renesas-pcie.c
 > > +++ b/drivers/clk/clk-renesas-pcie.c
-> > @@ -45,6 +45,13 @@
+> > @@ -18,7 +18,6 @@
 > > 
-> >   #define RS9_REG_DID				0x6
-> >   #define RS9_REG_BCP				0x7
-> > 
-> > +#define RS9_REG_VID_IDT				0x01
-> > +
-> > +#define RS9_REG_DID_TYPE_FGV			(0x0 << 
-RS9_REG_DID_TYPE_SHIFT)
-> > +#define RS9_REG_DID_TYPE_DBV			(0x1 << 
-RS9_REG_DID_TYPE_SHIFT)
-> > +#define RS9_REG_DID_TYPE_DMV			(0x2 << 
-RS9_REG_DID_TYPE_SHIFT)
-> 
-> I'm not entirely sure whether this shouldn't be using the BIT() macro,
-> what do you think ?
-
-As Geert already pointed out these are not just one-bit values.
-
-> > +#define RS9_REG_DID_TYPE_SHIFT			0x6
-> > +
-> > 
-> >   /* Supported Renesas 9-series models. */
-> >   enum rs9_model {
+> >   #include <linux/regmap.h>
 > >   
-> >   	RENESAS_9FGV0241,
+> >   #define RS9_REG_OE				0x0
 > > 
-> > @@ -54,6 +61,7 @@ enum rs9_model {
+> > -#define RS9_REG_OE_DIF_OE(n)			BIT((n) + 1)
 > > 
-> >   struct rs9_chip_info {
-> >   
+> >   #define RS9_REG_SS				0x1
+> >   #define RS9_REG_SS_AMP_0V6			0x0
+> >   #define RS9_REG_SS_AMP_0V7			0x1
+> > 
+> > @@ -31,9 +30,6 @@
+> > 
+> >   #define RS9_REG_SS_SSC_MASK			(3 << 3)
+> >   #define RS9_REG_SS_SSC_LOCK			BIT(5)
+> >   #define RS9_REG_SR				0x2
+> > 
+> > -#define RS9_REG_SR_2V0_DIF(n)			0
+> > -#define RS9_REG_SR_3V0_DIF(n)			BIT((n) + 1)
+> > -#define RS9_REG_SR_DIF_MASK(n)		BIT((n) + 1)
+> > 
+> >   #define RS9_REG_REF				0x3
+> >   #define RS9_REG_REF_OE				BIT(4)
+> >   #define RS9_REG_REF_OD				BIT(5)
+> > 
+> > @@ -62,6 +58,7 @@ struct rs9_chip_info {
+> > 
 > >   	const enum rs9_model	model;
 > >   	unsigned int		num_clks;
+> >   	u8			did;
 > > 
-> > +	u8			did;
-> 
-> Should this be const (and also the num_clks) ?
-
-Does this make a difference? chip_info in rs9_driver_data is already const, so 
-you can't write into it anyway.
-
+> > +	u8			(*calc_dif)(int idx);
+> > 
 > >   };
 > >   
 > >   struct rs9_driver_data {
 > > 
-> > @@ -270,6 +278,7 @@ static int rs9_probe(struct i2c_client *client)
-> > 
-> >   {
+> > @@ -160,8 +157,14 @@ static const struct regmap_config rs9_regmap_config =
+> > {> 
+> >   	.reg_read = rs9_regmap_i2c_read,
 > >   
-> >   	unsigned char name[5] = "DIF0";
-> >   	struct rs9_driver_data *rs9;
+> >   };
 > > 
-> > +	unsigned int vid, did;
-> > 
-> >   	struct clk_hw *hw;
-> >   	int i, ret;
-> > 
-> > @@ -306,6 +315,20 @@ static int rs9_probe(struct i2c_client *client)
-> > 
-> >   	if (ret < 0)
-> >   	
-> >   		return ret;
-> > 
-> > +	ret = regmap_read(rs9->regmap, RS9_REG_VID, &vid);
-> > +	if (ret < 0)
-> > +		return ret;
+> > +static u8 rs9fgv0241_calc_dif(int idx)
+> > +{
+> > +	return BIT(idx) + 1;
 > 
-> Newline here.
-
-Okay, will do.
-
-> > +	ret = regmap_read(rs9->regmap, RS9_REG_DID, &did);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	if ((vid != RS9_REG_VID_IDT) || (did != rs9->chip_info->did)) {
+> Can't we just do
 > 
-> Drop the unnecessary inner () parenthesis .
+> if (model == ...)
+>   return BIT(idx) + 1
+> else if (model == ...)
+>   return BIT(idx);
+> ...
 
-Okay, will remove them.
+I was tempted going this way. But I opted for a callback due to the fact that 
+this driver might support 9FGV/9DBV/9DMV/9FGL/9DML/9QXL/9SQ as well(your 
+comment in the header).
+Even just considering 9FVG, 9FGV0641 has an even more complex DIF offset 
+calculation. 
+The mapping is
+* DIF OE0 - Bit 0
+* DIF OE1 - Bit 2
+* DIF OE2 - Bit 3
+* DIF OE3 - Bit 4
+* DIF OE4 - Bit 6
+* DIF OE5 - Bit 7
 
-> > +		dev_err(&client->dev,
-> 
-> return dev_err_probe() might work better here ?
-
-How? This error branch always returns -ENODEV, so no deferred probing will 
-occur at all.
+So the calucation might not fit into one line, so the readability benefit is 
+gone.
 
 Best regards,
 Alexander
-
-> > +			"Incorrect VID/DID: %#02x, %#02x. Expected 
-%#02x, %#02x\n",
-> > +			vid, did, RS9_REG_VID_IDT, rs9->chip_info->did);
-> > +		return -ENODEV;
-> > +	}
-> 
-> [...]
-
-
 
 
