@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD77A65D53D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 15:14:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9221565D53F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 15:14:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239580AbjADONa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S239557AbjADONa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Wed, 4 Jan 2023 09:13:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38706 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239558AbjADOMy (ORCPT
+        with ESMTP id S239589AbjADOM4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Jan 2023 09:12:54 -0500
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24C6912635;
-        Wed,  4 Jan 2023 06:12:53 -0800 (PST)
-Received: by mail-io1-xd32.google.com with SMTP id 3so18058766iou.12;
-        Wed, 04 Jan 2023 06:12:53 -0800 (PST)
+        Wed, 4 Jan 2023 09:12:56 -0500
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2B3317436;
+        Wed,  4 Jan 2023 06:12:54 -0800 (PST)
+Received: by mail-il1-x12c.google.com with SMTP id h26so5252848ila.11;
+        Wed, 04 Jan 2023 06:12:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FT85qHg6jD8BoFUh0eh/A7wsqPFKPrl5rJEH5SdJkPI=;
-        b=jbwDODxRaL8XWlbYZ7g3ZpGV3UtwDabsR+ej+Hi0SVGzL5eMofk+CFuCi2wECQhxAH
-         mC2LDx2430m7c3VAs69zffBssI2SoECBf9s2eCBYFb6/Wbj2pWIBypYKg2/yICvXim5Q
-         IfrusqIbQoHFJoA07cPJIOBjE3Zdtsz/Xzsjj9Riuw8oCD2HTmoY2to5wJZWfJFsLYPj
-         ql/ObITlGdD1t2jh1LZ1apgEp9wvSCipYt5SBfQLHRdJpAvgz4Q0+2tjOJAESQmyBuBr
-         yDejtDE6UIMtbrjwHkXCAjyIpEj+gehsGKavYJMFTM6kqpWsbx6a8dKvelWG5OTYsnmF
-         d4sw==
+        bh=3eN7znNKYTa9krobv4+Aewqusj4mCG05iDkS6u0BXH8=;
+        b=ik02FyR7tS+1Zy/4J4YB9vqWUgilcA3aI9U833ci06Uc55/E6HX51KW0SAjm11TmMO
+         VXo1dgAdQprfmkg2+I6tpPrhHH02EgroKgm3EQJb/QMDAO/X1xxToAFoOd/JSZoGMN49
+         UfxEK6AIGGm3Ac8wK0iYSQPFkTLkL8jq2fy16Rp6zTXDxen2wU1BNdzUvNNWbZ+Sg/Ir
+         Q2QHBDfbAW5CyrBAie6Ro6ZGVmkZf6rtfP6EBMq6wq/V58ksrsjvoHTLj3Uu0xRdM+NQ
+         lBfvXCLjW2maqZkBAp+wF/t1teSU3No9Wd2Cjz9vVQAKUdXh7xgSfaEONMf3dSoHJzd3
+         zPnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FT85qHg6jD8BoFUh0eh/A7wsqPFKPrl5rJEH5SdJkPI=;
-        b=RZL+e2LA8R9vL3BWnXil3WpQKKS88b7M7t9EGoa/NJ7EynItuQg9HJxSBrq37sF9vD
-         DDhXD1XOw+AfhTE+HkxbTBNgkA0r2dhEpmYgCqJIeiQQ7pwmnBMpAEL4OLbtCKcB7nYC
-         tBlgZg8dVB/KOyvT6r3QtwkmLGsNHoi7v5WwSYuE7CN0vd3nUu8v3jFKz++ZEYDOT178
-         FZ3dMzUy1upRBj4riMJgIiYQ6o4/h2qlr9ci3t6QFiQORuorNnztC4ax5aOixO5KV/DC
-         RiaIuW65xlf36pwJJvikcshYRKxmqQfW1W059wG76HVhKA9fxM6Wws7RhYHykc5rXN+l
-         STKw==
-X-Gm-Message-State: AFqh2kq63eUndkT6hSOjnNjUDEjGqUmvqFYC8mVx18rdTmLs0syhDqGc
-        0p1YJL51sROFF9TAD+uyYQC4dqY3EDI=
-X-Google-Smtp-Source: AMrXdXtQcBpaSveZnn8jVYa9SNXp5SkPZ9/6B7MkaKzxriaJ7R7p2+LIpzSAKtDDAk+RVSh0CSliQw==
-X-Received: by 2002:a05:6602:5cd:b0:6bc:d712:8bcd with SMTP id w13-20020a05660205cd00b006bcd7128bcdmr27919673iox.21.1672841572057;
-        Wed, 04 Jan 2023 06:12:52 -0800 (PST)
+        bh=3eN7znNKYTa9krobv4+Aewqusj4mCG05iDkS6u0BXH8=;
+        b=CRn/BgPTvkf1d+uEd9WDtxxl/i1r4Rm4xyDubAGR80IR6m+cwNlrZxq2rZw4yVivRF
+         d6uBojLWjDo9tAkvd/2OZX634fdtWQxyJdpYISGo8SwpuXWslgLNKTod8gOM1+a9DCoj
+         qz2u6QCYDj5lCg+fEkbe86xfwACY4ouyIWxsXcFmfiUU4XFgccaRfJkZ42KpJEeWgoq8
+         vE43yG7WzYAXTmsqO5HcpP+6vpeo2Fbhw+T8Yo3emXv1VDkgAlhXPjV1ye0rr4yh390c
+         Ml19fxFc+7Kb485Nrse0dddzRElx21esCVQmC6/aXC67jOHuoH8x5kZk2IDVHGhyVo/Z
+         zsDQ==
+X-Gm-Message-State: AFqh2kqykdXJ3LTfoE3wUNRlPpAst3Or0x4sg59+iU3/2mja4QzDp+0w
+        cqF4Vlu/oILCsa0uud6MIJnzPCFTjQM=
+X-Google-Smtp-Source: AMrXdXt/XiFtN0B6SiimEvJ4lTiEStP+6fCT3wWuFyKdHnj8cXvRc/Nnn0g20KK2at3ylkUvpntR8Q==
+X-Received: by 2002:a92:7f0f:0:b0:30c:6105:75d4 with SMTP id a15-20020a927f0f000000b0030c610575d4mr3863095ild.21.1672841573622;
+        Wed, 04 Jan 2023 06:12:53 -0800 (PST)
 Received: from aford-IdeaCentre-A730.lan ([2601:447:d001:9aea:58ca:a321:54c8:c288])
-        by smtp.gmail.com with ESMTPSA id ay28-20020a056638411c00b0038a5af5e831sm11353451jab.100.2023.01.04.06.12.51
+        by smtp.gmail.com with ESMTPSA id ay28-20020a056638411c00b0038a5af5e831sm11353451jab.100.2023.01.04.06.12.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 06:12:51 -0800 (PST)
+        Wed, 04 Jan 2023 06:12:53 -0800 (PST)
 From:   Adam Ford <aford173@gmail.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
@@ -58,9 +58,9 @@ Cc:     aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/4] arm64: dts: renesas: r8a774[a/b/e]1-beacon: Update corporate name
-Date:   Wed,  4 Jan 2023 08:12:44 -0600
-Message-Id: <20230104141245.8407-3-aford173@gmail.com>
+Subject: [PATCH 4/4] arm64: boot: dts: r8a774[a/b/e]1-beacon: Consolidate sound clocks
+Date:   Wed,  4 Jan 2023 08:12:45 -0600
+Message-Id: <20230104141245.8407-4-aford173@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230104141245.8407-1-aford173@gmail.com>
 References: <20230104141245.8407-1-aford173@gmail.com>
@@ -76,72 +76,135 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-At the end of 2021, Beacon EmbeddedWorks was sold off from Compass.
-Its legal name is now 'Logic PD, Inc. dba Beacon EmbeddedWorks" and
-as far as I know Compass Electronics doesn't exist anymore.
+Each kit-level file represents a SOM + baseboard for a specific
+SoC type and uses specific clocks unique to each SoC.  With the
+exception of one clock, the rest of the clock info was duplicated.
+
+There is a generic clock called CPG_AUDIO_CLK_I defined in each of
+the SoC DTSI files which points to this unique clock. By using that,
+the clock information for the rcar_sound can be consolidated into
+the baseboard file and have it reference this generic clock thus
+removing the duplication from the three variants.
 
 Signed-off-by: Adam Ford <aford173@gmail.com>
 
 diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-index 8b6fe235a8f0..b7741c10e778 100644
+index b7741c10e778..b31634c13d21 100644
 --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
 +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright 2020, Compass Electronics Group, LLC
-+ * Copyright 2020, Logic PD, Inc. dba Beacon EmbeddedWorks
-  */
+@@ -639,6 +639,25 @@ &rcar_sound {
+ 	#clock-cells = <1>;
+ 	clock-frequency = <11289600>;
  
- #include <dt-bindings/gpio/gpio.h>
-diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-index 1eb713530878..86a9d6381166 100644
---- a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright 2020, Compass Electronics Group, LLC
-+ * Copyright 2020, Logic PD, Inc. dba Beacon EmbeddedWorks
-  */
++	/* Reference versaclock instead of audio_clk_a */
++	clocks = <&cpg CPG_MOD 1005>,
++		 <&cpg CPG_MOD 1006>, <&cpg CPG_MOD 1007>,
++		 <&cpg CPG_MOD 1008>, <&cpg CPG_MOD 1009>,
++		 <&cpg CPG_MOD 1010>, <&cpg CPG_MOD 1011>,
++		 <&cpg CPG_MOD 1012>, <&cpg CPG_MOD 1013>,
++		 <&cpg CPG_MOD 1014>, <&cpg CPG_MOD 1015>,
++		 <&cpg CPG_MOD 1022>, <&cpg CPG_MOD 1023>,
++		 <&cpg CPG_MOD 1024>, <&cpg CPG_MOD 1025>,
++		 <&cpg CPG_MOD 1026>, <&cpg CPG_MOD 1027>,
++		 <&cpg CPG_MOD 1028>, <&cpg CPG_MOD 1029>,
++		 <&cpg CPG_MOD 1030>, <&cpg CPG_MOD 1031>,
++		 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
++		 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
++		 <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
++		 <&versaclock6_bb 4>, <&audio_clk_b>,
++		 <&audio_clk_c>,
++		 <&cpg CPG_CORE CPG_AUDIO_CLK_I>;
++
+ 	status = "okay";
  
- #include <dt-bindings/gpio/gpio.h>
+ 	ports {
 diff --git a/arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dts b/arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dts
-index 9ae67263c0df..7c0e3252ce65 100644
+index 7c0e3252ce65..e077079099c4 100644
 --- a/arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dts
 +++ b/arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dts
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright 2020, Compass Electronics Group, LLC
-+ * Copyright 2020, Logic PD, Inc. dba Beacon EmbeddedWorks
-  */
- 
- /dts-v1/;
+@@ -58,24 +58,3 @@ &du {
+ 	clock-names = "du.0", "du.1", "du.2",
+ 		      "dclkin.0", "dclkin.1", "dclkin.2";
+ };
+-
+-/* Reference versaclock instead of audio_clk_a */
+-&rcar_sound {
+-	clocks = <&cpg CPG_MOD 1005>,
+-		 <&cpg CPG_MOD 1006>, <&cpg CPG_MOD 1007>,
+-		 <&cpg CPG_MOD 1008>, <&cpg CPG_MOD 1009>,
+-		 <&cpg CPG_MOD 1010>, <&cpg CPG_MOD 1011>,
+-		 <&cpg CPG_MOD 1012>, <&cpg CPG_MOD 1013>,
+-		 <&cpg CPG_MOD 1014>, <&cpg CPG_MOD 1015>,
+-		 <&cpg CPG_MOD 1022>, <&cpg CPG_MOD 1023>,
+-		 <&cpg CPG_MOD 1024>, <&cpg CPG_MOD 1025>,
+-		 <&cpg CPG_MOD 1026>, <&cpg CPG_MOD 1027>,
+-		 <&cpg CPG_MOD 1028>, <&cpg CPG_MOD 1029>,
+-		 <&cpg CPG_MOD 1030>, <&cpg CPG_MOD 1031>,
+-		 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
+-		 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
+-		 <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
+-		 <&versaclock6_bb 4>, <&audio_clk_b>,
+-		 <&audio_clk_c>,
+-		 <&cpg CPG_CORE R8A774A1_CLK_S0D4>;
+-};
 diff --git a/arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dts b/arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dts
-index 89d708346ba8..f1fbd687d0f4 100644
+index f1fbd687d0f4..df51c4c46c9a 100644
 --- a/arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dts
 +++ b/arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dts
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright 2020, Compass Electronics Group, LLC
-+ * Copyright 2020, Logic PD, Inc. dba Beacon EmbeddedWorks
-  */
- 
- /dts-v1/;
+@@ -46,24 +46,3 @@ &du {
+ 	clock-names = "du.0", "du.1", "du.3",
+ 		"dclkin.0", "dclkin.1", "dclkin.3";
+ };
+-
+-/* Reference versaclock instead of audio_clk_a */
+-&rcar_sound {
+-	clocks = <&cpg CPG_MOD 1005>,
+-		 <&cpg CPG_MOD 1006>, <&cpg CPG_MOD 1007>,
+-		 <&cpg CPG_MOD 1008>, <&cpg CPG_MOD 1009>,
+-		 <&cpg CPG_MOD 1010>, <&cpg CPG_MOD 1011>,
+-		 <&cpg CPG_MOD 1012>, <&cpg CPG_MOD 1013>,
+-		 <&cpg CPG_MOD 1014>, <&cpg CPG_MOD 1015>,
+-		 <&cpg CPG_MOD 1022>, <&cpg CPG_MOD 1023>,
+-		 <&cpg CPG_MOD 1024>, <&cpg CPG_MOD 1025>,
+-		 <&cpg CPG_MOD 1026>, <&cpg CPG_MOD 1027>,
+-		 <&cpg CPG_MOD 1028>, <&cpg CPG_MOD 1029>,
+-		 <&cpg CPG_MOD 1030>, <&cpg CPG_MOD 1031>,
+-		 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
+-		 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
+-		 <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
+-		 <&versaclock6_bb 4>, <&audio_clk_b>,
+-		 <&audio_clk_c>,
+-		 <&cpg CPG_CORE R8A774B1_CLK_S0D4>;
+-};
 diff --git a/arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dts b/arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dts
-index 3e9ced3b2d33..7ee1a1bed212 100644
+index 7ee1a1bed212..943671177991 100644
 --- a/arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dts
 +++ b/arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dts
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright 2020, Compass Electronics Group, LLC
-+ * Copyright 2020, Logic PD, Inc. dba Beacon EmbeddedWorks
-  */
- 
- /dts-v1/;
+@@ -51,24 +51,3 @@ &du {
+ 	clock-names = "du.0", "du.1", "du.3",
+ 		"dclkin.0", "dclkin.1", "dclkin.3";
+ };
+-
+-/* Reference versaclock instead of audio_clk_a */
+-&rcar_sound {
+-	clocks = <&cpg CPG_MOD 1005>,
+-		 <&cpg CPG_MOD 1006>, <&cpg CPG_MOD 1007>,
+-		 <&cpg CPG_MOD 1008>, <&cpg CPG_MOD 1009>,
+-		 <&cpg CPG_MOD 1010>, <&cpg CPG_MOD 1011>,
+-		 <&cpg CPG_MOD 1012>, <&cpg CPG_MOD 1013>,
+-		 <&cpg CPG_MOD 1014>, <&cpg CPG_MOD 1015>,
+-		 <&cpg CPG_MOD 1022>, <&cpg CPG_MOD 1023>,
+-		 <&cpg CPG_MOD 1024>, <&cpg CPG_MOD 1025>,
+-		 <&cpg CPG_MOD 1026>, <&cpg CPG_MOD 1027>,
+-		 <&cpg CPG_MOD 1028>, <&cpg CPG_MOD 1029>,
+-		 <&cpg CPG_MOD 1030>, <&cpg CPG_MOD 1031>,
+-		 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
+-		 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
+-		 <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
+-		 <&versaclock6_bb 4>, <&audio_clk_b>,
+-		 <&audio_clk_c>,
+-		 <&cpg CPG_CORE R8A774E1_CLK_S0D4>;
+-};
 -- 
 2.34.1
 
