@@ -2,163 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA3FE65D268
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 13:21:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FD9865D36E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 13:56:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239330AbjADMVD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Jan 2023 07:21:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47198 "EHLO
+        id S239320AbjADMzh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Jan 2023 07:55:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239197AbjADMU0 (ORCPT
+        with ESMTP id S239116AbjADMyz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Jan 2023 07:20:26 -0500
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B74EA3B928;
-        Wed,  4 Jan 2023 04:19:11 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 1AFD75C016C;
-        Wed,  4 Jan 2023 07:19:08 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Wed, 04 Jan 2023 07:19:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1672834748; x=1672921148; bh=PKp//PUcPl
-        ATzvWVd6Xv2r7lr60JNRd0OJM9+iZsPUo=; b=TzdKUjktPVF29RGzt79d4JMhWU
-        RLeXQbUAmaZIfjooDAmWrX/xV3HlmYGb6w99qWzC1jsXWPlkbXJGbGjbmbispKAL
-        jkWOi+zyoK9Go03dJ7ZZXn6P9HaJxW/lL6ViMABml566QZe/I5WyVJgZHBDKLoDP
-        8BbWhji+6KtVJ+qX53VyK0kEB4I9GyovHPo+j8AXSa9/xw17g2QrVM5brKqJPNQH
-        0cISFbbFtyL6lw8BNnJMw74JAiHU6VHMl4WWyaJEdzFEpdmv12t25X+zucpvpY7m
-        b4gclV3TpHtk/niVI+jQHX9JHxwSuKqlh8/5Qx6LdKA/MqqHKM/BTfBxQD2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1672834748; x=1672921148; bh=PKp//PUcPlATzvWVd6Xv2r7lr60J
-        NRd0OJM9+iZsPUo=; b=RxKXxfp863lPw897yGPAfp3FxiKDhweFKNrdC1umzkio
-        wiSZvG2aggiTGe97fVKZORNaDSKYfyQ+MBaVk++UGQlJ4Q1oTdewas0y//oz0Djb
-        pQ1YOofViasq/pIbiXh4YZU9Wtwl8mPaQf+LmbAFFUmwFXELY0vl00yXWi63Y0GQ
-        lCt4T6Pzn8ZXSC0aJ62d8kPMqvfstftfXQlSaDiNo1YHZm8Jewc7joE4heocmfni
-        WYAI3PXCwGtWfqnuqkQTdBV1sToW73kiUB4f7OkJaziJ78hlEMk9ERbEJ6Ze0Mlr
-        +9IMM3ou2tPMuU88lldIEShNe8/HTFdWZS8Ve978Tw==
-X-ME-Sender: <xms:um61Y508ghAtjmy6Hhz68qG1SmugkRepMcCLDP3X_bX2-VnJtF5cNQ>
-    <xme:um61YwH5mlh-FwnxnLhiLK2JSOb50HcqBcHLLaRD8_gemvQrF46wMa3HHqN5NCuqP
-    WsDVUIISyJRqP5USpM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeeigdeflecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:um61Y55D_1dKvjVnaRGEa-pdQMDXFxz4zM0lSL6JvhVyEq_e0KGyYA>
-    <xmx:um61Y20q-2wOMSaool21cqweprgJJ-HfED1Q8Jrppb7O1m5zWTFjtQ>
-    <xmx:um61Y8HCzu1udqIAWkUeIdN82vnG8DNilXdC2rZoxy2pbULU6fRSGg>
-    <xmx:vG61Y9tqKQEJX0G3uqfBDZRWaRB69NNwS_vNl1AvROTT3EidLaCgvA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 20FCCB60086; Wed,  4 Jan 2023 07:19:06 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
-Mime-Version: 1.0
-Message-Id: <1b7d4caa-2c9c-4aef-81ac-47288d3a652c@app.fastmail.com>
-In-Reply-To: <Y7VpeK48nslxklkF@spud>
-References: <Y62nOqzyuUKqYDpq@spud>
- <20230103210400.3500626-10-conor@kernel.org>
- <b5712732-40a2-4e29-b29f-e0ab5516d518@app.fastmail.com>
- <Y7TBh+CJdZPJ6Xzl@spud>
- <ed198390-1bde-44ec-9f3f-b0e016b4b24c@app.fastmail.com>
- <CFB874A3-3E6F-4C5B-B47D-381EB1E07C02@kernel.org>
- <43aee000-5b89-4d94-98d2-b37b1a18a83e@app.fastmail.com>
- <Y7VpeK48nslxklkF@spud>
-Date:   Wed, 04 Jan 2023 13:18:45 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Conor Dooley" <conor@kernel.org>
-Cc:     "Palmer Dabbelt" <palmer@dabbelt.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        "Conor.Dooley" <conor.dooley@microchip.com>,
-        "Andrew Jones" <ajones@ventanamicro.com>,
-        "Albert Ou" <aou@eecs.berkeley.edu>,
-        "Anup Patel" <apatel@ventanamicro.com>,
-        "Atish Patra" <atishp@rivosinc.com>,
-        "Biju Das" <biju.das.jz@bp.renesas.com>,
-        devicetree@vger.kernel.org,
-        "Geert Uytterhoeven" <geert@linux-m68k.org>,
-        guoren <guoren@kernel.org>,
-        "Christoph Hellwig" <hch@infradead.org>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        "Jisheng Zhang" <jszhang@kernel.org>,
-        krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-riscv@lists.infradead.org,
-        "Magnus Damm" <magnus.damm@gmail.com>,
-        "Nathan Chancellor" <nathan@kernel.org>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        "Philipp Tomsich" <philipp.tomsich@vrull.eu>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Samuel Holland" <samuel@sholland.org>, soc@kernel.org,
-        "Daire McNamara" <daire.mcnamara@microchip.com>
-Subject: Re: [RFC v5.1 9/9] [DON'T APPLY] cache: sifive-ccache: add cache flushing
- capability
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 4 Jan 2023 07:54:55 -0500
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D6E91DDF4
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Jan 2023 04:54:53 -0800 (PST)
+Received: by mail-qt1-x832.google.com with SMTP id z12so27082397qtv.5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Jan 2023 04:54:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g2m/uNsCm/OsAUZxAnJOSdXXDa9Gh4wg88n4VPL2lMU=;
+        b=BQfo1+41q2NZR57Q7BFlMODaOza2AgrRvUpAp3daCd4t1w84OEhFtXAM1g7CkVTr/y
+         mvXWkJvXCDM96Iy3cSf9E37Th3uZX5TzmwlIsHFzK3DAyLuSjJ8d3uR9drr/ahkzPGkt
+         iW+sw+gZOJCd7bumtfoM4UR2xOfXz6tdmGq2f+IJJhoSBazdofAm5Gs9PxuweXnk264c
+         knSGf1CtrqZScdeov1GoaGbl2sApMUXYjJGPCObPVA0UTlHx2t6+wdp4VOKHmsqLWM8X
+         lQt15zqigA6uJCG+q37n0r4mLK1MKtsniT1i9jhRA9qlN9E2Mf0sYN4W9Jd0n+39BoCK
+         yzWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g2m/uNsCm/OsAUZxAnJOSdXXDa9Gh4wg88n4VPL2lMU=;
+        b=h7XHzPjLpOShjCzaf/kNRSdkfrpJD1oMkUPoiWux7+6fMV/VgKmfSFkjX2CE+N2CeC
+         n21Br0b1rfvG71anZZ0ySMUqnbNJmBup0SkEac01K7kv1XqrlrR42cJDyXr3cml1Orjq
+         nR/h4Ptuk3KXmLnuH+m7UL/kaedxZlBdoIiI8hDPbjDc/oscO2JhhyVDoR9yIbPMa0w5
+         tscwsoEKM7rz+FoaxlYJoxeUfv7XL+d4Kzi3dm1g+UZpdAq94NKZNyOWVS1rrsmcyKu7
+         SZ2XBiwhKMwRJhoLkoxpsIXcTBmIvHI1GhLXlbQprhAqQzXD2ClTkZEJfangQDuaz9Os
+         BzjQ==
+X-Gm-Message-State: AFqh2kqLaxEJc99xDG2UIPhmQj7Cn4kknQWuHKw84rHzwpb2d+Dr7wwZ
+        9WK3C29FQs+G9/997iEUh9Gx9ETMzZHIqxjwAPsz9nYlSwo=
+X-Google-Smtp-Source: AMrXdXuKXTvNK0aSB9vnyjtdhrZfKmRzvU9Jw1W0zhcD7x19AMFVNgTh5oL+8ilZBOfTDf/bL64QVz1mYULxa/ftADs=
+X-Received: by 2002:ac8:568a:0:b0:3a9:688d:fad2 with SMTP id
+ h10-20020ac8568a000000b003a9688dfad2mr1976067qta.646.1672836882017; Wed, 04
+ Jan 2023 04:54:42 -0800 (PST)
+MIME-Version: 1.0
+Received: by 2002:a05:6200:5d91:b0:4a5:78e9:2012 with HTTP; Wed, 4 Jan 2023
+ 04:54:41 -0800 (PST)
+Reply-To: Gregdenzell9@gmail.com
+From:   Greg Denzell <mzsophie@gmail.com>
+Date:   Wed, 4 Jan 2023 12:54:41 +0000
+Message-ID: <CAEoj5=ZpJ15GRz-U33Ocbu5-P3Va+3bNv3476+mmJJ52cwx7tA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jan 4, 2023, at 12:56, Conor Dooley wrote:
-> On Wed, Jan 04, 2023 at 11:19:44AM +0100, Arnd Bergmann wrote:
->> On Wed, Jan 4, 2023, at 10:23, Conor Dooley wrote:
->> I would try to replace both of these indirections and instead
->> handle it all from C code in arch_sync_dma_for_device() directly,
->> for the purpose of readability and maintainability.
->> static inline void dma_cache_clean(void *vaddr, size_t size)
->> {
->>         if (!cache_maint_ops.clean)
->>                zicbom_cache_clean(vaddr, size, riscv_cbom_block_size);
->
-> And I figure that this function is effectively a wrapper around ALT_CMO_OP()?
->
->>         else
->>                cache_maint_ops.clean(vaddr, size, riscv_cbom_block_size);
->
-> And this one gets registered by the driver using an interface like the
-> one I already proposed, just with the cache_maint_ops struct expanded?
+Seasons Greetings!
 
-Yes, exactly.
-
-> Extrapolating, with these changes having an errata would not even be
-> needed in order to do cache maintenance.
-> Since the ALT_CMO_OP() version would only be used inside
-> zicbom_cache_clean(), assuming I understood correctly, a driver could
-> just register cache_maint_ops for a given platform without having to
-> muck around with errata.
-
-That is the idea, and ALT_CMO_OP() itself can just go away
-as by just putting the inline asm without the alternative into
-the zicbom_cache_clean() version, making the THEAD branch yet
-another cache_maint_ops instance.
-
->> which then makes it very clear what the actual code path
->> is, while leaving the zicbom case free of indirect function
->> calls. You can still use a static_branch() to optimize the
->> conditional, but I would try to avoid any extra indirection
->> levels or errata checks.
->
-> The other thing that I like about this is we can then remove the various
-> calls to ALT_CMO_OP() that are scattered around arch/riscv now & replace
-> them with functions that have more understandable names.
-
-I only see them in arch/riscv/mm/dma-noncoherent.c and arch/riscv/mm/pmem.c,
-but yes, both of these should just call the new functions, whatever the
-calling conventions end up being.
-
-    Arnd
+This will remind you again that I have not yet received your reply to
+my last message to you.
