@@ -2,183 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC56F65D0AF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 11:32:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA3FE65D268
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 13:21:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234483AbjADKch (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Jan 2023 05:32:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50504 "EHLO
+        id S239330AbjADMVD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Jan 2023 07:21:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234333AbjADKcf (ORCPT
+        with ESMTP id S239197AbjADMU0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Jan 2023 05:32:35 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3E0D95BE;
-        Wed,  4 Jan 2023 02:32:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1672828354; x=1704364354;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ag5rlRoVANH4ZBzlzlE6lTj3OJTl7mId4PLIYfPay1Y=;
-  b=JHL8jl2d0L/js5BAvrK6AVv63adw9ogqozaK7fckAR8NySi3AGTYJ+r2
-   SiL1XDSoFuOlM2W3QS5BP5fPzTnfT5VQwEPkgNYiWD79t4YKCl+Y+G6YG
-   2m1HPnRT+4gMha6XuPWvh1AJJzpk5gpzhBB2oz2y53ejKDp2WyPLQtVYb
-   she/HzYN2BjqWmsO4mP2MsL+iCVNMMxf6hkjmnNRgh42wURuyr6ib8SOA
-   68OPS13FJF693cyWr5ddZ8wvMKfGMob9PoGKSy/GVDsdyn+ZnvlX4qoYv
-   dsOSEVBU+I8MHNP+vW2L1XGUUbN/N7j2prn/xw0jR6mug3Mfo9pwNSOJj
-   g==;
-X-IronPort-AV: E=Sophos;i="5.96,299,1665439200"; 
-   d="scan'208";a="28238335"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 04 Jan 2023 11:32:32 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Wed, 04 Jan 2023 11:32:32 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Wed, 04 Jan 2023 11:32:32 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1672828352; x=1704364352;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ag5rlRoVANH4ZBzlzlE6lTj3OJTl7mId4PLIYfPay1Y=;
-  b=Ck/ykvIHWW8c94aweQ3nmzsuS24QL0M6C76YwhX1nAFN2ZgAMsCVFdeQ
-   Wj9jXrK6tYEtZyLypA+iW8sPOEFqFChTMakyok92xDmJltsgy2mf/HsC5
-   cyV2eOgvS6W675qH7JTWExE9MhMqLykhn3ua/OcOYwq03ViHdCkYdVVLq
-   XYNmonq3ZmbCXFJKlKJxSimhMQ5w8eQV6OkNSyQsonENvxeXXvxa0piUE
-   4UgMa0jB8u8FQgbPd8LwsW7c6gJDjzqU8bYQHNCqYunNvi3utICetbU8x
-   V8VFyf2g9Rmcvs6DZYZFDGfsnHyu3UmVJk/Jww3MGpgx2dAD/hWJ287aF
-   w==;
-X-IronPort-AV: E=Sophos;i="5.96,299,1665439200"; 
-   d="scan'208";a="28238334"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 04 Jan 2023 11:32:32 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id F054E280056;
-        Wed,  4 Jan 2023 11:32:31 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Marek Vasut <marex@denx.de>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 3/4] clk: rs9: Support device specific dif bit calculation
-Date:   Wed, 04 Jan 2023 11:32:31 +0100
-Message-ID: <5905764.31tnzDBltd@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <8e9cc8fa-cddc-3c99-9810-f2355a1e1913@denx.de>
-References: <20230103123154.3424817-1-alexander.stein@ew.tq-group.com> <20230103123154.3424817-3-alexander.stein@ew.tq-group.com> <8e9cc8fa-cddc-3c99-9810-f2355a1e1913@denx.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Wed, 4 Jan 2023 07:20:26 -0500
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B74EA3B928;
+        Wed,  4 Jan 2023 04:19:11 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 1AFD75C016C;
+        Wed,  4 Jan 2023 07:19:08 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Wed, 04 Jan 2023 07:19:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1672834748; x=1672921148; bh=PKp//PUcPl
+        ATzvWVd6Xv2r7lr60JNRd0OJM9+iZsPUo=; b=TzdKUjktPVF29RGzt79d4JMhWU
+        RLeXQbUAmaZIfjooDAmWrX/xV3HlmYGb6w99qWzC1jsXWPlkbXJGbGjbmbispKAL
+        jkWOi+zyoK9Go03dJ7ZZXn6P9HaJxW/lL6ViMABml566QZe/I5WyVJgZHBDKLoDP
+        8BbWhji+6KtVJ+qX53VyK0kEB4I9GyovHPo+j8AXSa9/xw17g2QrVM5brKqJPNQH
+        0cISFbbFtyL6lw8BNnJMw74JAiHU6VHMl4WWyaJEdzFEpdmv12t25X+zucpvpY7m
+        b4gclV3TpHtk/niVI+jQHX9JHxwSuKqlh8/5Qx6LdKA/MqqHKM/BTfBxQD2A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1672834748; x=1672921148; bh=PKp//PUcPlATzvWVd6Xv2r7lr60J
+        NRd0OJM9+iZsPUo=; b=RxKXxfp863lPw897yGPAfp3FxiKDhweFKNrdC1umzkio
+        wiSZvG2aggiTGe97fVKZORNaDSKYfyQ+MBaVk++UGQlJ4Q1oTdewas0y//oz0Djb
+        pQ1YOofViasq/pIbiXh4YZU9Wtwl8mPaQf+LmbAFFUmwFXELY0vl00yXWi63Y0GQ
+        lCt4T6Pzn8ZXSC0aJ62d8kPMqvfstftfXQlSaDiNo1YHZm8Jewc7joE4heocmfni
+        WYAI3PXCwGtWfqnuqkQTdBV1sToW73kiUB4f7OkJaziJ78hlEMk9ERbEJ6Ze0Mlr
+        +9IMM3ou2tPMuU88lldIEShNe8/HTFdWZS8Ve978Tw==
+X-ME-Sender: <xms:um61Y508ghAtjmy6Hhz68qG1SmugkRepMcCLDP3X_bX2-VnJtF5cNQ>
+    <xme:um61YwH5mlh-FwnxnLhiLK2JSOb50HcqBcHLLaRD8_gemvQrF46wMa3HHqN5NCuqP
+    WsDVUIISyJRqP5USpM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeeigdeflecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:um61Y55D_1dKvjVnaRGEa-pdQMDXFxz4zM0lSL6JvhVyEq_e0KGyYA>
+    <xmx:um61Y20q-2wOMSaool21cqweprgJJ-HfED1Q8Jrppb7O1m5zWTFjtQ>
+    <xmx:um61Y8HCzu1udqIAWkUeIdN82vnG8DNilXdC2rZoxy2pbULU6fRSGg>
+    <xmx:vG61Y9tqKQEJX0G3uqfBDZRWaRB69NNwS_vNl1AvROTT3EidLaCgvA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 20FCCB60086; Wed,  4 Jan 2023 07:19:06 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
+Mime-Version: 1.0
+Message-Id: <1b7d4caa-2c9c-4aef-81ac-47288d3a652c@app.fastmail.com>
+In-Reply-To: <Y7VpeK48nslxklkF@spud>
+References: <Y62nOqzyuUKqYDpq@spud>
+ <20230103210400.3500626-10-conor@kernel.org>
+ <b5712732-40a2-4e29-b29f-e0ab5516d518@app.fastmail.com>
+ <Y7TBh+CJdZPJ6Xzl@spud>
+ <ed198390-1bde-44ec-9f3f-b0e016b4b24c@app.fastmail.com>
+ <CFB874A3-3E6F-4C5B-B47D-381EB1E07C02@kernel.org>
+ <43aee000-5b89-4d94-98d2-b37b1a18a83e@app.fastmail.com>
+ <Y7VpeK48nslxklkF@spud>
+Date:   Wed, 04 Jan 2023 13:18:45 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Conor Dooley" <conor@kernel.org>
+Cc:     "Palmer Dabbelt" <palmer@dabbelt.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        "Conor.Dooley" <conor.dooley@microchip.com>,
+        "Andrew Jones" <ajones@ventanamicro.com>,
+        "Albert Ou" <aou@eecs.berkeley.edu>,
+        "Anup Patel" <apatel@ventanamicro.com>,
+        "Atish Patra" <atishp@rivosinc.com>,
+        "Biju Das" <biju.das.jz@bp.renesas.com>,
+        devicetree@vger.kernel.org,
+        "Geert Uytterhoeven" <geert@linux-m68k.org>,
+        guoren <guoren@kernel.org>,
+        "Christoph Hellwig" <hch@infradead.org>,
+        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        "Jisheng Zhang" <jszhang@kernel.org>,
+        krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-riscv@lists.infradead.org,
+        "Magnus Damm" <magnus.damm@gmail.com>,
+        "Nathan Chancellor" <nathan@kernel.org>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        "Philipp Tomsich" <philipp.tomsich@vrull.eu>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Samuel Holland" <samuel@sholland.org>, soc@kernel.org,
+        "Daire McNamara" <daire.mcnamara@microchip.com>
+Subject: Re: [RFC v5.1 9/9] [DON'T APPLY] cache: sifive-ccache: add cache flushing
+ capability
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marek,
+On Wed, Jan 4, 2023, at 12:56, Conor Dooley wrote:
+> On Wed, Jan 04, 2023 at 11:19:44AM +0100, Arnd Bergmann wrote:
+>> On Wed, Jan 4, 2023, at 10:23, Conor Dooley wrote:
+>> I would try to replace both of these indirections and instead
+>> handle it all from C code in arch_sync_dma_for_device() directly,
+>> for the purpose of readability and maintainability.
+>> static inline void dma_cache_clean(void *vaddr, size_t size)
+>> {
+>>         if (!cache_maint_ops.clean)
+>>                zicbom_cache_clean(vaddr, size, riscv_cbom_block_size);
+>
+> And I figure that this function is effectively a wrapper around ALT_CMO_OP()?
+>
+>>         else
+>>                cache_maint_ops.clean(vaddr, size, riscv_cbom_block_size);
+>
+> And this one gets registered by the driver using an interface like the
+> one I already proposed, just with the cache_maint_ops struct expanded?
 
-Am Dienstag, 3. Januar 2023, 15:31:21 CET schrieb Marek Vasut:
-> On 1/3/23 13:31, Alexander Stein wrote:
-> > The calculation DIFx is BIT(n) +1 is only true for 9FGV0241. With
-> > additional devices this is getting more complicated.
-> > Support a base bit for the DIF calculation, currently only devices
-> > with consecutive bits are supported, e.g. the 6-channel device needs
-> > additional logic.
-> > 
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > ---
-> > 
-> >   drivers/clk/clk-renesas-pcie.c | 29 ++++++++++++++++-------------
-> >   1 file changed, 16 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/drivers/clk/clk-renesas-pcie.c
-> > b/drivers/clk/clk-renesas-pcie.c index 0076ed8f11b0..d19b8e759eea 100644
-> > --- a/drivers/clk/clk-renesas-pcie.c
-> > +++ b/drivers/clk/clk-renesas-pcie.c
-> > @@ -18,7 +18,6 @@
-> > 
-> >   #include <linux/regmap.h>
-> >   
-> >   #define RS9_REG_OE				0x0
-> > 
-> > -#define RS9_REG_OE_DIF_OE(n)			BIT((n) + 1)
-> > 
-> >   #define RS9_REG_SS				0x1
-> >   #define RS9_REG_SS_AMP_0V6			0x0
-> >   #define RS9_REG_SS_AMP_0V7			0x1
-> > 
-> > @@ -31,9 +30,6 @@
-> > 
-> >   #define RS9_REG_SS_SSC_MASK			(3 << 3)
-> >   #define RS9_REG_SS_SSC_LOCK			BIT(5)
-> >   #define RS9_REG_SR				0x2
-> > 
-> > -#define RS9_REG_SR_2V0_DIF(n)			0
-> > -#define RS9_REG_SR_3V0_DIF(n)			BIT((n) + 1)
-> > -#define RS9_REG_SR_DIF_MASK(n)		BIT((n) + 1)
-> > 
-> >   #define RS9_REG_REF				0x3
-> >   #define RS9_REG_REF_OE				BIT(4)
-> >   #define RS9_REG_REF_OD				BIT(5)
-> > 
-> > @@ -62,6 +58,7 @@ struct rs9_chip_info {
-> > 
-> >   	const enum rs9_model	model;
-> >   	unsigned int		num_clks;
-> >   	u8			did;
-> > 
-> > +	u8			(*calc_dif)(int idx);
-> > 
-> >   };
-> >   
-> >   struct rs9_driver_data {
-> > 
-> > @@ -160,8 +157,14 @@ static const struct regmap_config rs9_regmap_config =
-> > {> 
-> >   	.reg_read = rs9_regmap_i2c_read,
-> >   
-> >   };
-> > 
-> > +static u8 rs9fgv0241_calc_dif(int idx)
-> > +{
-> > +	return BIT(idx) + 1;
-> 
-> Can't we just do
-> 
-> if (model == ...)
->   return BIT(idx) + 1
-> else if (model == ...)
->   return BIT(idx);
-> ...
+Yes, exactly.
 
-I was tempted going this way. But I opted for a callback due to the fact that 
-this driver might support 9FGV/9DBV/9DMV/9FGL/9DML/9QXL/9SQ as well(your 
-comment in the header).
-Even just considering 9FVG, 9FGV0641 has an even more complex DIF offset 
-calculation. 
-The mapping is
-* DIF OE0 - Bit 0
-* DIF OE1 - Bit 2
-* DIF OE2 - Bit 3
-* DIF OE3 - Bit 4
-* DIF OE4 - Bit 6
-* DIF OE5 - Bit 7
+> Extrapolating, with these changes having an errata would not even be
+> needed in order to do cache maintenance.
+> Since the ALT_CMO_OP() version would only be used inside
+> zicbom_cache_clean(), assuming I understood correctly, a driver could
+> just register cache_maint_ops for a given platform without having to
+> muck around with errata.
 
-So the calucation might not fit into one line, so the readability benefit is 
-gone.
+That is the idea, and ALT_CMO_OP() itself can just go away
+as by just putting the inline asm without the alternative into
+the zicbom_cache_clean() version, making the THEAD branch yet
+another cache_maint_ops instance.
 
-Best regards,
-Alexander
+>> which then makes it very clear what the actual code path
+>> is, while leaving the zicbom case free of indirect function
+>> calls. You can still use a static_branch() to optimize the
+>> conditional, but I would try to avoid any extra indirection
+>> levels or errata checks.
+>
+> The other thing that I like about this is we can then remove the various
+> calls to ALT_CMO_OP() that are scattered around arch/riscv now & replace
+> them with functions that have more understandable names.
 
+I only see them in arch/riscv/mm/dma-noncoherent.c and arch/riscv/mm/pmem.c,
+but yes, both of these should just call the new functions, whatever the
+calling conventions end up being.
 
+    Arnd
