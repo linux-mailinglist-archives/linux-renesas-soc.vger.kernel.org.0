@@ -2,147 +2,195 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FB8265CE27
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 09:18:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02B9165D00D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Jan 2023 10:57:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233616AbjADISQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Jan 2023 03:18:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55270 "EHLO
+        id S234371AbjADJ50 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Jan 2023 04:57:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233481AbjADISP (ORCPT
+        with ESMTP id S234691AbjADJ5W (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Jan 2023 03:18:15 -0500
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C8BF18E32;
-        Wed,  4 Jan 2023 00:18:14 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id BD04D5C01B5;
-        Wed,  4 Jan 2023 03:18:10 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Wed, 04 Jan 2023 03:18:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1672820290; x=1672906690; bh=sMeTVClvIY
-        fuPYuMRUbp+49sG5zkB1a9qX5hlrXd14U=; b=m0KSjLZB/tFB/hVcAvmwjid+4L
-        O8mqu0I9xmhgNX0IIcj7txjwMjC/hKKIkV3Q/HU1fYJ8s6gdDw89oNhgxWy8CLcl
-        SpjLj4TQxJ2FZ0DlvLTGvJoqOlvJNSSg19+R6JvnrXBFMdInU/2CmVDADxYZ0cdf
-        u11bPDmdpqfjIzfhgKObw76PyUIhUKa/W4gpvLLV+NsQsXHezH+74CaPLSq8vyAW
-        aqn78wB9x9xkhUSm7Wp5B1ht2f4BDrE0Zd4ZSb7w79BXK6eSlCKnGOPMWzSsuwv6
-        6QdWgARa7NAFbweGzQtrBz44fyx5FUdSrF6TwLlIdc0IPOfrFEwVnawVwqew==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1672820290; x=1672906690; bh=sMeTVClvIYfuPYuMRUbp+49sG5zk
-        B1a9qX5hlrXd14U=; b=ZAtrIOGplKB6sTP3Mya9p4i9BUddEnVf8m9cm7KbG54t
-        Zsq1MVA8Zer87zOsphfiWKA09PMo+iNd+JI4XVSjlkwxnLBrutV1R+hsYiJ0BUoA
-        jpQXpN25Eix3sBKECqkiSFjc3G5v/qENmZmG/tWG7MlONUGD7zG8EgZD1NLyKMej
-        bFVo7pQvbkuqOo3mczDwKwhOba7E9sX8KBtaO/N6RD+rdVa/qfdOZ/pWKJx4jgPC
-        54vvTQ6DrJpLisBfJHvrvERyJSuxbEyt70/9HLdcr1cdBNvuN03EnrU9riQG03dj
-        u/rii4hUEw6ceQEI2YIj7afbdcLCMfdlxIA7s6IDRA==
-X-ME-Sender: <xms:QTa1YwYdte0aQZViO8nBtAzwnjqsg0bssKUJQoC1PhDbJkbvfBiHYw>
-    <xme:QTa1Y7bbriuc-Uf1IUfkKGbA_kq8Y8CAhat0_wp6RrTcBDUYugyT8PCl2kYUN6G3G
-    cUW8Q4_-0zOb77sfaQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeehgdduvddtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:QTa1Y69oAQqvgmo_0WadEAZCbjCOfiL41cXDP85H5ELKiiQA3wHKqg>
-    <xmx:QTa1Y6o43g4sC1oC9dcf43ToR4Lj2JNsFIYEmWlYoCyIivQSL3a7OQ>
-    <xmx:QTa1Y7qgguAE5D-MNdTzzpxyqHwi3iITTJVTWnnU7QV1Z7yJeCfB9w>
-    <xmx:Qja1Y5hbKaL9mFyosQHTTu3WmQFUj6oWRoPlpduSWZnxdkqzJrHB2w>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 32F83B60086; Wed,  4 Jan 2023 03:18:09 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
-Mime-Version: 1.0
-Message-Id: <ed198390-1bde-44ec-9f3f-b0e016b4b24c@app.fastmail.com>
-In-Reply-To: <Y7TBh+CJdZPJ6Xzl@spud>
+        Wed, 4 Jan 2023 04:57:22 -0500
+Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECF531C932;
+        Wed,  4 Jan 2023 01:57:19 -0800 (PST)
+Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net ([86.15.83.122] helo=[192.168.0.17])
+        by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+        id 1pD0Kx-00G7tJ-Mm; Wed, 04 Jan 2023 09:45:31 +0000
+Message-ID: <6ef122f6-12fa-777f-b4e7-a02531380391@codethink.co.uk>
+Date:   Wed, 4 Jan 2023 09:45:30 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [RFC v5.1 9/9] [DON'T APPLY] cache: sifive-ccache: add cache
+ flushing capability
+Content-Language: en-GB
+To:     Conor Dooley <conor@kernel.org>, arnd@arndb.de, palmer@dabbelt.com,
+        prabhakar.csengg@gmail.com
+Cc:     Conor Dooley <conor.dooley@microchip.com>, ajones@ventanamicro.com,
+        aou@eecs.berkeley.edu, apatel@ventanamicro.com,
+        atishp@rivosinc.com, biju.das.jz@bp.renesas.com,
+        devicetree@vger.kernel.org, geert@linux-m68k.org,
+        guoren@kernel.org, hch@infradead.org, heiko@sntech.de,
+        jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, magnus.damm@gmail.com,
+        nathan@kernel.org, paul.walmsley@sifive.com,
+        philipp.tomsich@vrull.eu, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        robh+dt@kernel.org, samuel@sholland.org, soc@kernel.org,
+        Daire McNamara <daire.mcnamara@microchip.com>
 References: <Y62nOqzyuUKqYDpq@spud>
  <20230103210400.3500626-10-conor@kernel.org>
- <b5712732-40a2-4e29-b29f-e0ab5516d518@app.fastmail.com>
- <Y7TBh+CJdZPJ6Xzl@spud>
-Date:   Wed, 04 Jan 2023 09:17:41 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Conor Dooley" <conor@kernel.org>
-Cc:     "Palmer Dabbelt" <palmer@dabbelt.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        "Conor.Dooley" <conor.dooley@microchip.com>,
-        "Andrew Jones" <ajones@ventanamicro.com>,
-        "Albert Ou" <aou@eecs.berkeley.edu>,
-        "Anup Patel" <apatel@ventanamicro.com>,
-        "Atish Patra" <atishp@rivosinc.com>,
-        "Biju Das" <biju.das.jz@bp.renesas.com>,
-        devicetree@vger.kernel.org,
-        "Geert Uytterhoeven" <geert@linux-m68k.org>,
-        guoren <guoren@kernel.org>,
-        "Christoph Hellwig" <hch@infradead.org>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        "Jisheng Zhang" <jszhang@kernel.org>,
-        krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-riscv@lists.infradead.org,
-        "Magnus Damm" <magnus.damm@gmail.com>,
-        "Nathan Chancellor" <nathan@kernel.org>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        "Philipp Tomsich" <philipp.tomsich@vrull.eu>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Samuel Holland" <samuel@sholland.org>, soc@kernel.org,
-        "Daire McNamara" <daire.mcnamara@microchip.com>
-Subject: Re: [RFC v5.1 9/9] [DON'T APPLY] cache: sifive-ccache: add cache flushing
- capability
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+From:   Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+In-Reply-To: <20230103210400.3500626-10-conor@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jan 4, 2023, at 01:00, Conor Dooley wrote:
-> On Tue, Jan 03, 2023 at 10:28:19PM +0100, Arnd Bergmann wrote:
->> On Tue, Jan 3, 2023, at 22:04, Conor Dooley wrote:
->> > From: Daire McNamara <daire.mcnamara@microchip.com>
->> >
->> > SiFive L2 cache controller can flush L2 cache. Expose this capability via
->> > driver.
->> >
->> > Signed-off-by: Daire McNamara <daire.mcnamara@microchip.com>
->> > [Conor: rebase on top of move to cache subsystem]
->> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
->> > ---
->> > This commit needs more work, and a way to enable it from errata. I've
->> > not gone and done this as PolarFire SoC has archid etc all set to zero.
->> > So we need to go figure out a workaround for this, before adding in
->> > errata enabling code for this. I've included it here as a second user of
->> > the cache management stuff, since what's currently upstream for the
->> > ccache driver does not do any cache management.
->> > ---
->> >  drivers/cache/sifive_ccache.c | 45 +++++++++++++++++++++++++++++++++++
->> >  1 file changed, 45 insertions(+)
->> 
->> My feeling here is that the cacheflush code is unrelated to the
->> EDAC code and it should just be a separate file. From what I can
->> tell, all of the existing contents of this file can simply
->> get merged into drivers/edac/sifive_edac.c, with the newly
->> added code becoming a standalone driver.
->
-> Sure? I'd like to do that independently of whatever is done for the
-> ax45mp CMOs though, don't think it's worth holding up that platform's
-> support on me splitting this out.
+On 03/01/2023 21:04, Conor Dooley wrote:
+> From: Daire McNamara <daire.mcnamara@microchip.com>
+> 
+> SiFive L2 cache controller can flush L2 cache. Expose this capability via
+> driver.
+> 
+> Signed-off-by: Daire McNamara <daire.mcnamara@microchip.com>
+> [Conor: rebase on top of move to cache subsystem]
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> This commit needs more work, and a way to enable it from errata. I've
+> not gone and done this as PolarFire SoC has archid etc all set to zero.
+> So we need to go figure out a workaround for this, before adding in
+> errata enabling code for this. I've included it here as a second user of
+> the cache management stuff, since what's currently upstream for the
+> ccache driver does not do any cache management.
 
-Right, no need to touch the existing file as part of this series,
-it probably just gets in the way of defining a good interface here.
+I think errata isn't the right word here, it's more of a system 
+requirement for anything that isn't coherent. All the SiFive systems
+I have are coherent so won't need this.
 
-    Arnd
+> ---
+>   drivers/cache/sifive_ccache.c | 45 +++++++++++++++++++++++++++++++++++
+>   1 file changed, 45 insertions(+)
+> 
+> diff --git a/drivers/cache/sifive_ccache.c b/drivers/cache/sifive_ccache.c
+> index 47e7d6557f85..3c00f205bace 100644
+> --- a/drivers/cache/sifive_ccache.c
+> +++ b/drivers/cache/sifive_ccache.c
+> @@ -9,12 +9,14 @@
+>   #define pr_fmt(fmt) "CCACHE: " fmt
+>   
+>   #include <linux/debugfs.h>
+> +#include <linux/dma-direction.h>
+>   #include <linux/interrupt.h>
+>   #include <linux/of_irq.h>
+>   #include <linux/of_address.h>
+>   #include <linux/device.h>
+>   #include <linux/bitfield.h>
+>   #include <asm/cacheinfo.h>
+> +#include <asm/cacheflush.h>
+>   #include <cache/sifive_ccache.h>
+>   
+>   #define SIFIVE_CCACHE_DIRECCFIX_LOW 0x100
+> @@ -42,11 +44,15 @@
+>   #define SIFIVE_CCACHE_WAYENABLE 0x08
+>   #define SIFIVE_CCACHE_ECCINJECTERR 0x40
+>   
+> +#define SIFIVE_CCACHE_FLUSH64 0x200
+> +#define SIFIVE_CCACHE_FLUSH32 0x240
+> +
+>   #define SIFIVE_CCACHE_MAX_ECCINTR 4
+>   
+>   static void __iomem *ccache_base;
+>   static int g_irq[SIFIVE_CCACHE_MAX_ECCINTR];
+>   static struct riscv_cacheinfo_ops ccache_cache_ops;
+> +static struct riscv_cache_maint_ops ccache_cmos;
+>   static int level;
+>   
+>   enum {
+> @@ -205,6 +211,42 @@ static irqreturn_t ccache_int_handler(int irq, void *device)
+>   	return IRQ_HANDLED;
+>   }
+>   
+> +static void sifive_ccache_dma_wback_inv(void* vaddr, unsigned long size)
+> +{
+> +	void * __iomem flush = ccache_base + SIFIVE_CCACHE_FLUSH64;
+> +	phys_addr_t start = virt_to_phys(vaddr);
+> +	phys_addr_t aligned_start = start & ~0x3f;
+> +	u64 addr;
+> +	u64 end;
+> +	u64 aligned_end;
+> +
+> +	size += start - aligned_start;
+> +	end = start + size;
+> +	aligned_end = end += 0x3f;
+
+I think you meant + 0x3f here. There is an align macro in the kernel
+headers, and I'm not sure by inspection if you'd miss the last line
+with this code.
+
+> +	aligned_end &= ~0x3f;
+> +
+> +	for (addr = aligned_start; addr < aligned_end; addr += 64)
+> +		writeq(addr, flush);
+> +}
+
+The p550 manual states that the zero device flush method is quicker for
+any large area flush. However not sure what that level is and whether it
+is worth dealing with here? If so we need to have the L3 zero are mapped.
+
+> +
+> +static void sifive_ccache_cmo(unsigned int cache_size, void *vaddr, size_t size,
+> +			      int dir, int ops)
+> +{
+
+technically dir should have been of type "enum dma_data_direction"
+
+> +	switch (dir) {
+> +	case DMA_TO_DEVICE:
+> +		sifive_ccache_dma_wback_inv(vaddr, size);
+> +		break;
+> +	case DMA_FROM_DEVICE:
+> +		sifive_ccache_dma_wback_inv(vaddr, size);
+> +		break;
+> +	case DMA_BIDIRECTIONAL:
+> +		sifive_ccache_dma_wback_inv(vaddr, size);
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +}
+
+I'm not sure why you'd bother checking the dir here, the cache can
+only be flushed (I hope DMA_FROM_DEVICE is done /before/ the DMA op).
+
+You could have saved yourself an include if just ignoring dir.
+
+> +
+>   static int __init sifive_ccache_init(void)
+>   {
+>   	struct device_node *np;
+> @@ -254,6 +296,9 @@ static int __init sifive_ccache_init(void)
+>   	ccache_cache_ops.get_priv_group = ccache_get_priv_group;
+>   	riscv_set_cacheinfo_ops(&ccache_cache_ops);
+>   
+> +	ccache_cmos.cmo_patchfunc = sifive_ccache_cmo;
+> +	riscv_set_cache_maint_ops(&ccache_cmos);
+> +
+>   #ifdef CONFIG_DEBUG_FS
+>   	setup_sifive_debug();
+>   #endif
+
+-- 
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
+
+https://www.codethink.co.uk/privacy.html
+
