@@ -2,269 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E02586600C6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jan 2023 13:59:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63190660164
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jan 2023 14:37:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234015AbjAFM6l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Jan 2023 07:58:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46730 "EHLO
+        id S232369AbjAFNhh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Jan 2023 08:37:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234616AbjAFM6j (ORCPT
+        with ESMTP id S233101AbjAFNhg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Jan 2023 07:58:39 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D67AB6B59C;
-        Fri,  6 Jan 2023 04:58:37 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.96,305,1665414000"; 
-   d="scan'208";a="148398389"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 06 Jan 2023 21:58:37 +0900
-Received: from mulinux.example.org (unknown [10.226.92.206])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0D0264254DA7;
-        Fri,  6 Jan 2023 21:58:31 +0900 (JST)
-From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH v5 2/2] soc: renesas: Add PWC support for RZ/V2M
-Date:   Fri,  6 Jan 2023 12:58:16 +0000
-Message-Id: <20230106125816.10600-3-fabrizio.castro.jz@renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230106125816.10600-1-fabrizio.castro.jz@renesas.com>
-References: <20230106125816.10600-1-fabrizio.castro.jz@renesas.com>
+        Fri, 6 Jan 2023 08:37:36 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 464955FC3;
+        Fri,  6 Jan 2023 05:37:35 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84C7D4AE;
+        Fri,  6 Jan 2023 14:37:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1673012253;
+        bh=uRZB5pjOykCODOYScnfRSBE21JUxXCnhmdfXZFIOhqQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CjyQ/M/B4AzsE6RyqVXIMTHih+UiJMkIGQdy1L3BR0JTh0EyPWCtgeLGQ5m0jkxJs
+         L9R2hqnkRe2wVHDYIwnvTPkUGtZPeRPPL35uaxolLCt3bPzwNhTXdk1GPB15AdBf2m
+         Fb+7ADPS5j5/ajG980PLQjT9efw1HXRI4VbHHlck=
+Date:   Fri, 6 Jan 2023 15:37:28 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Miaoqian Lin <linmq006@gmail.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: platform: Fix refcount leak in probe and remove
+ function
+Message-ID: <Y7gkGGEFDQShRr5o@pendragon.ideasonboard.com>
+References: <20230106075809.966856-1-linmq006@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230106075809.966856-1-linmq006@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The Renesas RZ/V2M External Power Sequence Controller (PWC)
-IP is capable of:
-* external power supply on/off sequence generation
-* on/off signal generation for the LPDDR4 core power supply (LPVDD)
-* key input signals processing
-* general-purpose output pins
+Hello Miaoqian,
 
-Add the corresponding device driver.
+Thank you for the patch.
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
----
+On Fri, Jan 06, 2023 at 11:58:09AM +0400, Miaoqian Lin wrote:
+> rcar_fcp_get() take reference, which should be balanced with
+> rcar_fcp_put(). Add missing rcar_fcp_put() in fdp1_remove and
+> the error paths of fdp1_probe() to fix this.
+> 
+> Fixes: 4710b752e029 ("[media] v4l: Add Renesas R-Car FDP1 Driver")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+> ---
+> I take commit Fixes: 7113469dafc2 ("media: vsp1: Fix an error handling
+> path in the probe function") for reference.
+> ---
+>  drivers/media/platform/renesas/rcar_fdp1.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
+> index 37ecf489d112..ed97bb161743 100644
+> --- a/drivers/media/platform/renesas/rcar_fdp1.c
+> +++ b/drivers/media/platform/renesas/rcar_fdp1.c
+> @@ -2313,8 +2313,10 @@ static int fdp1_probe(struct platform_device *pdev)
+>  
+>  	/* Determine our clock rate */
+>  	clk = clk_get(&pdev->dev, NULL);
+> -	if (IS_ERR(clk))
+> -		return PTR_ERR(clk);
+> +	if (IS_ERR(clk)) {
+> +		ret = PTR_ERR(clk);
+> +		goto put_dev;
+> +	}
+>  
+>  	fdp1->clk_rate = clk_get_rate(clk);
+>  	clk_put(clk);
+> @@ -2323,7 +2325,7 @@ static int fdp1_probe(struct platform_device *pdev)
+>  	ret = v4l2_device_register(&pdev->dev, &fdp1->v4l2_dev);
+>  	if (ret) {
+>  		v4l2_err(&fdp1->v4l2_dev, "Failed to register video device\n");
+> -		return ret;
+> +		goto put_dev;
+>  	}
+>  
+>  	/* M2M registration */
+> @@ -2393,6 +2395,8 @@ static int fdp1_probe(struct platform_device *pdev)
+>  unreg_dev:
+>  	v4l2_device_unregister(&fdp1->v4l2_dev);
+>  
+> +put_dev:
+> +	rcar_fcp_put(fdp1->fcp);
+>  	return ret;
+>  }
+>  
+> @@ -2400,6 +2404,7 @@ static int fdp1_remove(struct platform_device *pdev)
+>  {
+>  	struct fdp1_dev *fdp1 = platform_get_drvdata(pdev);
+>  
+> +	rcar_fcp_put(fdp1->fcp);
 
-v1: In the first version, I had 1 driver for GPIO handling, and 1 driver
-    for poweroff handling, both based on syscon to share the mapped
-    memory region.
-v2: One more driver added to act as MFD core driver. Dropped syscon, and
-    dropped the OF compatible string for the GPIO and poweroff drivers.
-v3: This new patch merges all the PWC code in 1 new driver.
-    It also takes into account the comments received from Bartosz and Geert.
-    Since this is a new driver, I have dropped all the Reviewed-by tags
-    received on the separated drivers.
-v4: No change.
-v5: No change.
+I would move it at the end, after unregistering the V4L2 device, as here
+we may still be using the fcp.
 
- drivers/soc/renesas/Kconfig     |   4 +
- drivers/soc/renesas/Makefile    |   1 +
- drivers/soc/renesas/pwc-rzv2m.c | 141 ++++++++++++++++++++++++++++++++
- 3 files changed, 146 insertions(+)
- create mode 100644 drivers/soc/renesas/pwc-rzv2m.c
+Apart from that, the patch looks good to me.
 
-diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index 660498252ec5..4e8b51ba2266 100644
---- a/drivers/soc/renesas/Kconfig
-+++ b/drivers/soc/renesas/Kconfig
-@@ -330,6 +330,7 @@ config ARCH_R9A09G011
- 	bool "ARM64 Platform support for RZ/V2M"
- 	select PM
- 	select PM_GENERIC_DOMAINS
-+	select PWC_RZV2M
- 	help
- 	  This enables support for the Renesas RZ/V2M SoC.
- 
-@@ -345,6 +346,9 @@ config ARCH_R9A07G043
- 
- endif # RISCV
- 
-+config PWC_RZV2M
-+	bool "Renesas RZ/V2M PWC support" if COMPILE_TEST
-+
- config RST_RCAR
- 	bool "Reset Controller support for R-Car" if COMPILE_TEST
- 
-diff --git a/drivers/soc/renesas/Makefile b/drivers/soc/renesas/Makefile
-index 535868c9c7e4..6e4e77b0afff 100644
---- a/drivers/soc/renesas/Makefile
-+++ b/drivers/soc/renesas/Makefile
-@@ -32,6 +32,7 @@ obj-$(CONFIG_ARCH_R9A06G032)	+= r9a06g032-smp.o
- endif
- 
- # Family
-+obj-$(CONFIG_PWC_RZV2M)		+= pwc-rzv2m.o
- obj-$(CONFIG_RST_RCAR)		+= rcar-rst.o
- obj-$(CONFIG_SYSC_RCAR)		+= rcar-sysc.o
- obj-$(CONFIG_SYSC_RCAR_GEN4)	+= rcar-gen4-sysc.o
-diff --git a/drivers/soc/renesas/pwc-rzv2m.c b/drivers/soc/renesas/pwc-rzv2m.c
-new file mode 100644
-index 000000000000..c83bdbdabb64
---- /dev/null
-+++ b/drivers/soc/renesas/pwc-rzv2m.c
-@@ -0,0 +1,141 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2023 Renesas Electronics Corporation
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/gpio/driver.h>
-+#include <linux/platform_device.h>
-+#include <linux/reboot.h>
-+
-+#define PWC_PWCRST			0x00
-+#define PWC_PWCCKEN			0x04
-+#define PWC_PWCCTL			0x50
-+#define PWC_GPIO			0x80
-+
-+#define PWC_PWCRST_RSTSOFTAX		0x1
-+#define PWC_PWCCKEN_ENGCKMAIN		0x1
-+#define PWC_PWCCTL_PWOFF		0x1
-+
-+struct rzv2m_pwc_priv {
-+	void __iomem *base;
-+	struct device *dev;
-+	struct gpio_chip gp;
-+	DECLARE_BITMAP(ch_en_bits, 2);
-+};
-+
-+static void rzv2m_pwc_gpio_set(struct gpio_chip *chip, unsigned int offset,
-+			       int value)
-+{
-+	struct rzv2m_pwc_priv *priv = gpiochip_get_data(chip);
-+	u32 reg;
-+
-+	/* BIT 16 enables write to BIT 0, and BIT 17 enables write to BIT 1 */
-+	reg = BIT(offset + 16);
-+	if (value)
-+		reg |= BIT(offset);
-+
-+	writel(reg, priv->base + PWC_GPIO);
-+
-+	assign_bit(offset, priv->ch_en_bits, value);
-+}
-+
-+static int rzv2m_pwc_gpio_get(struct gpio_chip *chip, unsigned int offset)
-+{
-+	struct rzv2m_pwc_priv *priv = gpiochip_get_data(chip);
-+
-+	return test_bit(offset, priv->ch_en_bits);
-+}
-+
-+static int rzv2m_pwc_gpio_direction_output(struct gpio_chip *gc,
-+					   unsigned int nr, int value)
-+{
-+	if (nr > 1)
-+		return -EINVAL;
-+
-+	rzv2m_pwc_gpio_set(gc, nr, value);
-+
-+	return 0;
-+}
-+
-+static const struct gpio_chip rzv2m_pwc_gc = {
-+	.label = "gpio_rzv2m_pwc",
-+	.owner = THIS_MODULE,
-+	.get = rzv2m_pwc_gpio_get,
-+	.set = rzv2m_pwc_gpio_set,
-+	.direction_output = rzv2m_pwc_gpio_direction_output,
-+	.can_sleep = false,
-+	.ngpio = 2,
-+	.base = -1,
-+};
-+
-+static int rzv2m_pwc_poweroff(struct sys_off_data *data)
-+{
-+	struct rzv2m_pwc_priv *priv = data->cb_data;
-+
-+	writel(PWC_PWCRST_RSTSOFTAX, priv->base + PWC_PWCRST);
-+	writel(PWC_PWCCKEN_ENGCKMAIN, priv->base + PWC_PWCCKEN);
-+	writel(PWC_PWCCTL_PWOFF, priv->base + PWC_PWCCTL);
-+
-+	mdelay(150);
-+
-+	dev_err(priv->dev, "Failed to power off the system");
-+
-+	return NOTIFY_DONE;
-+}
-+
-+static int rzv2m_pwc_probe(struct platform_device *pdev)
-+{
-+	struct rzv2m_pwc_priv *priv;
-+	int ret;
-+
-+	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(priv->base))
-+		return PTR_ERR(priv->base);
-+
-+	/*
-+	 * The register used by this driver cannot be read, therefore set the
-+	 * outputs to their default values and initialize priv->ch_en_bits
-+	 * accordingly. BIT 16 enables write to BIT 0, BIT 17 enables write to
-+	 * BIT 1, and the default value of both BIT 0 and BIT 1 is 0.
-+	 */
-+	writel(BIT(17) | BIT(16), priv->base + PWC_GPIO);
-+	bitmap_zero(priv->ch_en_bits, 2);
-+
-+	priv->gp = rzv2m_pwc_gc;
-+	priv->gp.parent = pdev->dev.parent;
-+	priv->gp.fwnode = dev_fwnode(&pdev->dev);
-+
-+	ret = devm_gpiochip_add_data(&pdev->dev, &priv->gp, priv);
-+	if (ret)
-+		return ret;
-+
-+	if (device_property_read_bool(&pdev->dev, "renesas,rzv2m-pwc-power"))
-+		ret = devm_register_power_off_handler(&pdev->dev,
-+						      rzv2m_pwc_poweroff, priv);
-+
-+	return ret;
-+}
-+
-+static const struct of_device_id rzv2m_pwc_of_match[] = {
-+	{ .compatible = "renesas,rzv2m-pwc" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, rzv2m_pwc_of_match);
-+
-+static struct platform_driver rzv2m_pwc_driver = {
-+	.probe = rzv2m_pwc_probe,
-+	.driver = {
-+		.name = "rzv2m_pwc",
-+		.of_match_table = of_match_ptr(rzv2m_pwc_of_match),
-+	},
-+};
-+module_platform_driver(rzv2m_pwc_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Fabrizio Castro <castro.fabrizio.jz@renesas.com>");
-+MODULE_DESCRIPTION("Renesas RZ/V2M PWC driver");
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+No need to send a v2, I'll make this small change in my tree.
+
+>  	v4l2_m2m_release(fdp1->m2m_dev);
+>  	video_unregister_device(&fdp1->vfd);
+>  	v4l2_device_unregister(&fdp1->v4l2_dev);
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
