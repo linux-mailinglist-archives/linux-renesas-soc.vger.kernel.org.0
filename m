@@ -2,171 +2,239 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6C596608F8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jan 2023 22:54:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61D35660984
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jan 2023 23:32:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236439AbjAFVxx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Jan 2023 16:53:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38862 "EHLO
+        id S229862AbjAFWb6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Jan 2023 17:31:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236382AbjAFVxu (ORCPT
+        with ESMTP id S230326AbjAFWb5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Jan 2023 16:53:50 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB8F8840B7;
-        Fri,  6 Jan 2023 13:53:48 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 80A7B61F94;
-        Fri,  6 Jan 2023 21:53:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC1CDC433D2;
-        Fri,  6 Jan 2023 21:53:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673042027;
-        bh=rI+SEvyTIsvgt30L44Eed0n2Px45rBkzB8yN8mvHwXM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tNCqaw/BCF+CSc8AjqiAkJsFi2TwnVft2XalA+XwUYQ9OT2XecNC9pxLgIG+Z0/qC
-         H+21MbYZ69zzk5bXUIqZ0xPmeqw8Pupf0IDUKw6src9anTmZaZEgkAHAJ4JNwJczSN
-         rqEvPJTAd/jAqT5tZusogGTLtCuMBs4KVD7RBxbtDguMeOa0jZ9dW7TMd37VIsneJ7
-         fstTUvMAvGgNqYhucqQQSmEQ6v2rKHi8vwdMXnWxvecS1NOE6hzq0Dojj5jO0mkhq2
-         FL/1o4hFKF8FoFtIm2Y1wADLdvtmDz9YVRtuBEALtaqeCiJ73ps3I4sZXuFhQtQ1O4
-         kA/d3AxLNOfZQ==
-Date:   Fri, 6 Jan 2023 21:53:42 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v6 4/6] dt-bindings: cache: r9a07g043f-l2-cache: Add DT
- binding documentation for L2 cache controller
-Message-ID: <Y7iYZqKcoRycsoTg@spud>
+        Fri, 6 Jan 2023 17:31:57 -0500
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96E308462F;
+        Fri,  6 Jan 2023 14:31:55 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 0C62E5C00C1;
+        Fri,  6 Jan 2023 17:31:55 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Fri, 06 Jan 2023 17:31:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1673044315; x=1673130715; bh=ZsG681Pan5
+        CKaukkBdKOCNuqBF9WuoTwPInsMRA5Jvw=; b=b/o6dQThSZfMkHb++Pw/ySr5UY
+        FihsdtJLv5QO3McakdeePVZ5f3Y2PFrSplcpbKL21hz75paeL24g/0EUQyVfMkK4
+        CNUEUfb0BbVSQIMNBCHJFYh3U8ypcaU+KNBa1ozUEufvqM0VYxYYjzL7lFZxONeu
+        3RxwQIbX4AXlQzjDeAJoA0U1/fuUhsz0CkG8nk6aJz6b7/HOhwbF4seYSRCt1dWN
+        CPTIrQtSWEQecX265bLmKb/RPYTOAt7nmKHujVJQ6A6sIWt55iBm3vO2izZesbB4
+        x95e8d5rgixkFsfc0F4oqQifPzAFuSqRbWKLcnYXDljKbcai/Fvrd/uQ6Oog==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1673044315; x=1673130715; bh=ZsG681Pan5CKaukkBdKOCNuqBF9W
+        uoTwPInsMRA5Jvw=; b=mUHHxCzISNevnvH8fxu8sc3D8JiLLOuy/eEBP0aCi6Z0
+        eRymmdb8U8JSgIwEsrRQBu5U2LI5KP4saU4p9owK3ht0fI4zsgVyjqrrmiq5Ub8W
+        rAx+1XhKjeGsI2RBltZOTUU+IS8+WdEpn8j/d2R1rcSwLjIQNUoE+OR9QY0KiYuT
+        4ayMJRu63wh1T4T8gTlpBa6S4Zw3uvlvCeUpPqdKStagu/L/YWYPzLb+hn9r9fAp
+        LdcuEoO0BvEMQsNZt1sBhXqD9aW8OBqRF/7EgYNGsq6cIrqFOAeuEzDOfOGj4bWu
+        mETFBe9r5vCMupzA4DCP8uxArjwTHErdCWbLVZ7Vww==
+X-ME-Sender: <xms:WaG4Y9V9PQXuMFurLC7c41ANehK0zZYj4cpF5gbjghZh8nkWiA673Q>
+    <xme:WaG4Y9kNjng-xexKO6heNRz_m50Do5eElpWHyT6dAEVwGhb0l3740UcLAVyspbRx1
+    yD3I8TNKHXM1cZTb_g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkedtgdduiedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:WaG4Y5YzWd6ytsHB_sc4enACKmwhc8s86nM8CIsAsWlZctD_M-HZAQ>
+    <xmx:WaG4YwUnf7dDBa06LpaPrwlmfBRscwuwk0qsbKJhsHEaeeU2f21obw>
+    <xmx:WaG4Y3nfEela3IuWRIhYmy1zHq2HxNvuM9NYcWZvpOU0SzKUG-nhfA>
+    <xmx:W6G4Y2fNtd-xoHAG7l9h7BngwooX8kNJWp4HHWzGR4Z_yh76HAicfg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 01B77B60086; Fri,  6 Jan 2023 17:31:52 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
+Mime-Version: 1.0
+Message-Id: <6f7d06ef-d74d-4dfc-9b77-6ae83e0d7816@app.fastmail.com>
+In-Reply-To: <20230106185526.260163-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20230106185526.260163-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230106185526.260163-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="tIA4JDPsWfQayrqA"
-Content-Disposition: inline
-In-Reply-To: <20230106185526.260163-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+ <20230106185526.260163-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date:   Fri, 06 Jan 2023 23:31:33 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     Prabhakar <prabhakar.csengg@gmail.com>,
+        "Conor.Dooley" <conor.dooley@microchip.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        guoren <guoren@kernel.org>,
+        "Andrew Jones" <ajones@ventanamicro.com>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        "Palmer Dabbelt" <palmer@dabbelt.com>,
+        "Albert Ou" <aou@eecs.berkeley.edu>,
+        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
+        "open list" <linux-kernel@vger.kernel.org>
+Cc:     devicetree@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "Philipp Tomsich" <philipp.tomsich@vrull.eu>,
+        "Nathan Chancellor" <nathan@kernel.org>,
+        "Atish Patra" <atishp@rivosinc.com>,
+        "Anup Patel" <apatel@ventanamicro.com>,
+        "Tsukasa OI" <research_trasio@irq.a4lg.com>,
+        "Jisheng Zhang" <jszhang@kernel.org>,
+        "Mayuresh Chitale" <mchitale@ventanamicro.com>
+Subject: Re: [RFC PATCH v6 1/6] riscv: mm: dma-noncoherent: Switch using function
+ pointers for cache management
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---tIA4JDPsWfQayrqA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jan 06, 2023 at 06:55:24PM +0000, Prabhakar wrote:
+On Fri, Jan 6, 2023, at 19:55, Prabhakar wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> Add DT binding documentation for L2 cache controller found on RZ/Five SoC.
->=20
-> The Renesas RZ/Five microprocessor includes a RISC-V CPU Core (AX45MP
-> Single) from Andes. The AX45MP core has an L2 cache controller, this patch
-> describes the L2 cache block.
->=20
+>
+> The current implementation of CMO was handled using the ALTERNATIVE_X()
+> macro; this was manageable when there were a limited number of platforms
+> using this. Now that we are having more and more platforms coming through
+> with the CMO the use of the ALTERNATIVE_X() macro becomes unmanageable.
+>
+> To avoid such issues this patch switches to use of function pointers
+> instead of ALTERNATIVE_X() macro for cache management (the only draw being
+> performance over the previous approach).
+>
+> void (*clean_range)(unsigned long addr, unsigned long size);
+> void (*inv_range)(unsigned long addr, unsigned long size);
+> void (*flush_range)(unsigned long addr, unsigned long size);
+>
+> The above function pointers are provided to be overridden where platforms
+> using standard approach and for platforms who want handle the operation
+> based on the operation the below function pointer is provided:
+>
+> void (*riscv_dma_noncoherent_cmo_ops)(void *vaddr, size_t size,
+>                                       enum dma_data_direction dir,
+>                                       enum dma_noncoherent_ops ops);
+>
+> In the current patch we have moved the ZICBOM and T-Head CMO to use
+> function pointers.
+>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
-> v5 -> v6
-> * Included RB tag from Geert
 
-I think not!
+This looks like a nice improvement! I have a few suggestions
+for improvements, but no objections here.
 
-> v4 -> v5
-> * Dropped L2 cache configuration properties
-> * Dropped PMA configuration properties
-> * Ordered the required list to match the properties list
->=20
-> RFC v3 -> v4
-> * Dropped l2 cache configuration parameters
-> * s/larger/large
-> * Added minItems/maxItems for andestech,pma-regions
-> ---
->  .../cache/andestech,ax45mp-cache.yaml         | 81 +++++++++++++++++++
->  1 file changed, 81 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/cache/andestech,ax4=
-5mp-cache.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/cache/andestech,ax45mp-cac=
-he.yaml b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.ya=
-ml
-> new file mode 100644
-> index 000000000000..9f0be4835ad7
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
-> @@ -0,0 +1,81 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright (C) 2022 Renesas Electronics Corp.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/cache/andestech,ax45mp-cache.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/arch/riscv/errata/thead/errata.c b/arch/riscv/errata/thead/errata.c
+> index fac5742d1c1e..826b2ba3e61e 100644
+> --- a/arch/riscv/errata/thead/errata.c
+> +++ b/arch/riscv/errata/thead/errata.c
+...
+> @@ -44,6 +106,15 @@ static bool errata_probe_cmo(unsigned int stage,
+> 
+>  	riscv_cbom_block_size = L1_CACHE_BYTES;
+>  	riscv_noncoherent_supported();
 > +
-> +title: Andestech AX45MP L2 Cache Controller
+> +	memset(&thead_cmo_ops, 0x0, sizeof(thead_cmo_ops));
+> +	if (IS_ENABLED(CONFIG_ERRATA_THEAD_CMO)) {
+> +		thead_cmo_ops.clean_range = &thead_cmo_clean_range;
+> +		thead_cmo_ops.inv_range = &thead_cmo_inval_range;
+> +		thead_cmo_ops.flush_range = &thead_cmo_flush_range;
+> +		riscv_noncoherent_register_cache_ops(&thead_cmo_ops);
+> +	}
+
+The implementation here looks reasonable, just wonder whether
+the classification as an 'errata' makes sense. I would probably
+consider this a 'driver' at this point, but that's just
+a question of personal preference.
+
+For the operations structure, I think a 'static const struct
+riscv_cache_ops' is more intuitive than assigning the
+members individually.
 > +
-> +maintainers:
-> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> +enum dma_noncoherent_ops {
+> +	NON_COHERENT_SYNC_DMA_FOR_DEVICE = 0,
+> +	NON_COHERENT_SYNC_DMA_FOR_CPU,
+> +	NON_COHERENT_DMA_PREP,
+> +	NON_COHERENT_DMA_PMEM,
+> +};
 > +
-> +description:
-> +  A level-2 cache (L2C) is used to improve the system performance by pro=
-viding
-> +  a large amount of cache line entries and reasonable access delays. The=
- L2C
-> +  is shared between cores, and a non-inclusive non-exclusive policy is u=
-sed.
+> +/*
+> + * struct riscv_cache_ops - Structure for CMO function pointers
+> + * @clean_range: Function pointer for clean cache
+> + * @inv_range: Function pointer for invalidate cache
+> + * @flush_range: Function pointer for flushing the cache
+> + * @riscv_dma_noncoherent_cmo_ops: Function pointer for platforms who 
+> want
+> + *  to handle CMO themselves. If this function pointer is set rest of 
+> the
+> + *  function pointers will be NULL.
+> + */
+> +struct riscv_cache_ops {
+> +	void (*clean_range)(unsigned long addr, unsigned long size);
+> +	void (*inv_range)(unsigned long addr, unsigned long size);
+> +	void (*flush_range)(unsigned long addr, unsigned long size);
+> +	void (*riscv_dma_noncoherent_cmo_ops)(void *vaddr, size_t size,
+> +					      enum dma_data_direction dir,
+> +					      enum dma_noncoherent_ops ops);
+> +};
+
+I don't quite see how the fourth operation is used here.
+Are there cache controllers that need something beyond
+clean/inv/flush?
+
 > +
-> +select:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        enum:
-> +          - andestech,ax45mp-cache
+> +#else
 > +
-> +  required:
-> +    - compatible
+> +static void riscv_noncoherent_register_cache_ops(struct 
+> riscv_cache_ops *ops) {}
 > +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: andestech,ax45mp-cache
-> +      - const: cache
+> +static inline void riscv_dma_noncoherent_clean(void *vaddr, size_t 
+> size) {}
+> +
+> +static inline void riscv_dma_noncoherent_flush(void *vaddr, size_t 
+> size) {}
+> +
+> +static inline void riscv_dma_noncoherent_inval(void *vaddr, size_t 
+> size) {}
 
-You might find value in a specific compatible for your SoC & enforce
-constraints for it. Or you might not & I don't care either way :)
+I think you can drop the #else path here: if there is no
+noncoherent DMA, then nothing should ever call these
+functions, right?
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> +
+> +#ifdef CONFIG_RISCV_ISA_ZICBOM
+...
+> +struct riscv_cache_ops zicbom_cmo_ops = {
+> +	.clean_range = &zicbom_cmo_clean_range,
+> +	.inv_range = &zicbom_cmo_inval_range,
+> +	.flush_range = &zicbom_cmo_flush_range,
+> +};
+> +#else
+> +struct riscv_cache_ops zicbom_cmo_ops = {
+> +	.clean_range = NULL,
+> +	.inv_range = NULL,
+> +	.flush_range = NULL,
+> +	.riscv_dma_noncoherent_cmo_ops = NULL,
+> +};
+> +#endif
+> +EXPORT_SYMBOL(zicbom_cmo_ops);
 
-Thanks,
-Conor.
+Same here: If the ZICBOM ISA is disabled, nothing should
+reference zicbom_cmo_ops. Also, since ZICBOM is a standard
+extension, I think it makes sense to always have it enabled,
+at least whenever noncoherent DMA is supported, that way
+it can be the default that gets used in the absence of any
+nonstandard cache controller.
 
-
---tIA4JDPsWfQayrqA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY7iYZgAKCRB4tDGHoIJi
-0p46APsFNXlYwWU3GS2ttLrn+Seaopu4i3MRZtRPmU+RWPVj7gEAuhpuF3CBfuYo
-qNWNGFI9q2g2IQ3D9k4AHavtlGWS0ww=
-=pobs
------END PGP SIGNATURE-----
-
---tIA4JDPsWfQayrqA--
+   Arnd
