@@ -2,37 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EC216608E7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jan 2023 22:45:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6C596608F8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jan 2023 22:54:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231459AbjAFVo6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Jan 2023 16:44:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36100 "EHLO
+        id S236439AbjAFVxx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Jan 2023 16:53:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229949AbjAFVo5 (ORCPT
+        with ESMTP id S236382AbjAFVxu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Jan 2023 16:44:57 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F4C182F43;
-        Fri,  6 Jan 2023 13:44:56 -0800 (PST)
+        Fri, 6 Jan 2023 16:53:50 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB8F8840B7;
+        Fri,  6 Jan 2023 13:53:48 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B55EDB81C4A;
-        Fri,  6 Jan 2023 21:44:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23669C433EF;
-        Fri,  6 Jan 2023 21:44:49 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 80A7B61F94;
+        Fri,  6 Jan 2023 21:53:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC1CDC433D2;
+        Fri,  6 Jan 2023 21:53:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673041493;
-        bh=S6o14xUMpNWT1FgKozp+8Mj2OtyQejRW1OZhSS08KNM=;
+        s=k20201202; t=1673042027;
+        bh=rI+SEvyTIsvgt30L44Eed0n2Px45rBkzB8yN8mvHwXM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PaXnKMegaaP8z9ayDQcvrAUoCm6q92bglcPk8+v4XdHgqBfWpX8/c7mIncuC7ZPho
-         8INfXpMJNIhSCG72NGM3///9N6KJ1Rbxhg8r9i9vguk2uFn9hTbwVZx4o32zo2t5Oj
-         kL41IACjKWCbf98FhpuXG0+S73YkTqnOLzWqb3tlRJlIHd3lakCeaCQ37G2pnUB5wQ
-         lKFXYZ955FGncx/r01DjVLO6b2p14tp+Ho+tQqoWHFzNFS4b7KBQMFbEvhvoMJeP3A
-         rk23L8zlMc5hO6W4stjqdZHOkpenZQtdvzPZa5BIOtVE0FkRaDu0B8/I/sJgDsQFQG
-         cPf+lSTSscrkQ==
-Date:   Fri, 6 Jan 2023 21:44:47 +0000
+        b=tNCqaw/BCF+CSc8AjqiAkJsFi2TwnVft2XalA+XwUYQ9OT2XecNC9pxLgIG+Z0/qC
+         H+21MbYZ69zzk5bXUIqZ0xPmeqw8Pupf0IDUKw6src9anTmZaZEgkAHAJ4JNwJczSN
+         rqEvPJTAd/jAqT5tZusogGTLtCuMBs4KVD7RBxbtDguMeOa0jZ9dW7TMd37VIsneJ7
+         fstTUvMAvGgNqYhucqQQSmEQ6v2rKHi8vwdMXnWxvecS1NOE6hzq0Dojj5jO0mkhq2
+         FL/1o4hFKF8FoFtIm2Y1wADLdvtmDz9YVRtuBEALtaqeCiJ73ps3I4sZXuFhQtQ1O4
+         kA/d3AxLNOfZQ==
+Date:   Fri, 6 Jan 2023 21:53:42 +0000
 From:   Conor Dooley <conor@kernel.org>
 To:     Prabhakar <prabhakar.csengg@gmail.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>,
@@ -40,24 +40,24 @@ Cc:     Arnd Bergmann <arnd@arndb.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
         Andrew Jones <ajones@ventanamicro.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        Jisheng Zhang <jszhang@kernel.org>
-Subject: Re: [PATCH v6 3/6] riscv: errata: Add Andes alternative ports
-Message-ID: <Y7iWTwZwNLiU8USP@spud>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v6 4/6] dt-bindings: cache: r9a07g043f-l2-cache: Add DT
+ binding documentation for L2 cache controller
+Message-ID: <Y7iYZqKcoRycsoTg@spud>
 References: <20230106185526.260163-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230106185526.260163-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230106185526.260163-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Zd9zzwISgem4Gol8"
+        protocol="application/pgp-signature"; boundary="tIA4JDPsWfQayrqA"
 Content-Disposition: inline
-In-Reply-To: <20230106185526.260163-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20230106185526.260163-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -68,84 +68,89 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---Zd9zzwISgem4Gol8
+--tIA4JDPsWfQayrqA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 06, 2023 at 06:55:23PM +0000, Prabhakar wrote:
+On Fri, Jan 06, 2023 at 06:55:24PM +0000, Prabhakar wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >=20
-> Add required ports of the Alternative scheme for Andes CPU cores.
+> Add DT binding documentation for L2 cache controller found on RZ/Five SoC.
 >=20
-> I/O Coherence Port (IOCP) provides an AXI interface for connecting extern=
-al
-> non-caching masters, such as DMA controllers. IOCP is a specification
-> option and is disabled on the Renesas RZ/Five SoC due to this reason cache
-> management needs a software workaround.
+> The Renesas RZ/Five microprocessor includes a RISC-V CPU Core (AX45MP
+> Single) from Andes. The AX45MP core has an L2 cache controller, this patch
+> describes the L2 cache block.
 >=20
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
 > v5 -> v6
-> * Dropped patching alternative and now just probing IOCP
->=20
+> * Included RB tag from Geert
+
+I think not!
+
 > v4 -> v5
-> * Sorted the Kconfig/Makefile/Switch based on Core name
-> * Added a comments
-> * Introduced RZFIVE_SBI_EXT_IOCP_SW_WORKAROUND SBI EXT ID to check if
->   CMO needs to be applied. Is there a way we can access the DTB while pat=
-ching
->   as we can drop this SBI EXT ID and add a DT property instead for cmo?
+> * Dropped L2 cache configuration properties
+> * Dropped PMA configuration properties
+> * Ordered the required list to match the properties list
 >=20
 > RFC v3 -> v4
-> * New patch
+> * Dropped l2 cache configuration parameters
+> * s/larger/large
+> * Added minItems/maxItems for andestech,pma-regions
 > ---
->  arch/riscv/Kconfig.erratas           | 22 +++++++++
->  arch/riscv/errata/Makefile           |  1 +
->  arch/riscv/errata/andes/Makefile     |  1 +
->  arch/riscv/errata/andes/errata.c     | 71 ++++++++++++++++++++++++++++
->  arch/riscv/include/asm/alternative.h |  3 ++
->  arch/riscv/kernel/alternative.c      |  5 ++
->  6 files changed, 103 insertions(+)
->  create mode 100644 arch/riscv/errata/andes/Makefile
->  create mode 100644 arch/riscv/errata/andes/errata.c
+>  .../cache/andestech,ax45mp-cache.yaml         | 81 +++++++++++++++++++
+>  1 file changed, 81 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/cache/andestech,ax4=
+5mp-cache.yaml
 >=20
-> diff --git a/arch/riscv/Kconfig.erratas b/arch/riscv/Kconfig.erratas
-> index 69621ae6d647..f0f0c1abd52b 100644
-> --- a/arch/riscv/Kconfig.erratas
-> +++ b/arch/riscv/Kconfig.erratas
-> @@ -1,5 +1,27 @@
->  menu "CPU errata selection"
-> =20
-> +config ERRATA_ANDES
-> +	bool "Andes AX45MP errata"
-> +	depends on !XIP_KERNEL
-> +	select RISCV_ALTERNATIVE
-> +	help
-> +	  All Andes errata Kconfig depend on this Kconfig. Disabling
-> +	  this Kconfig will disable all Andes errata. Please say "Y"
-> +	  here if your platform uses Andes CPU cores.
+> diff --git a/Documentation/devicetree/bindings/cache/andestech,ax45mp-cac=
+he.yaml b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.ya=
+ml
+> new file mode 100644
+> index 000000000000..9f0be4835ad7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
+> @@ -0,0 +1,81 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright (C) 2022 Renesas Electronics Corp.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/cache/andestech,ax45mp-cache.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	  Otherwise, please say "N" here to avoid unnecessary overhead.
+> +title: Andestech AX45MP L2 Cache Controller
 > +
-> +config ERRATA_ANDES_CMO
-> +	bool "Apply Andes cache management errata"
-> +	depends on ERRATA_ANDES && MMU && ARCH_R9A07G043
-> +	select RISCV_DMA_NONCOHERENT
-> +	default y
-> +	help
-> +	  This will apply the cache management errata to handle the
-> +	  non-standard handling on non-coherent operations on Andes cores.
+> +maintainers:
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > +
-> +	  If you don't know what to do here, say "Y".
+> +description:
+> +  A level-2 cache (L2C) is used to improve the system performance by pro=
+viding
+> +  a large amount of cache line entries and reasonable access delays. The=
+ L2C
+> +  is shared between cores, and a non-inclusive non-exclusive policy is u=
+sed.
+> +
+> +select:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - andestech,ax45mp-cache
+> +
+> +  required:
+> +    - compatible
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: andestech,ax45mp-cache
+> +      - const: cache
 
-Ideally we would not need errata to turn this stuff on at all, but, as
-you pointed out to me off-list, arch_setup_dma_ops() complains if we
-have not set up.
-
-I'm happy to commit to trying to sort that out in follow on work w/ MPFS,
-since in that case it really isn't errata, and not require it for this
-series as you do fit that particular bill IMO.
+You might find value in a specific compatible for your SoC & enforce
+constraints for it. Or you might not & I don't care either way :)
 
 Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
@@ -153,15 +158,15 @@ Thanks,
 Conor.
 
 
---Zd9zzwISgem4Gol8
+--tIA4JDPsWfQayrqA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY7iWTwAKCRB4tDGHoIJi
-0olEAPoCdBHN/hX+YSUm1Fjy2xwp6TNGBBXu8o1krE1zIfywRAD/Zgo9xhRo3YEq
-gijazhkKQDRtERVdc8B/eqvdErFkDgo=
-=DDRQ
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY7iYZgAKCRB4tDGHoIJi
+0p46APsFNXlYwWU3GS2ttLrn+Seaopu4i3MRZtRPmU+RWPVj7gEAuhpuF3CBfuYo
+qNWNGFI9q2g2IQ3D9k4AHavtlGWS0ww=
+=pobs
 -----END PGP SIGNATURE-----
 
---Zd9zzwISgem4Gol8--
+--tIA4JDPsWfQayrqA--
