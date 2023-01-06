@@ -2,125 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93C5265FC2D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jan 2023 08:35:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB26565FC5A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Jan 2023 08:59:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229547AbjAFHfG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Jan 2023 02:35:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55712 "EHLO
+        id S231977AbjAFH6d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Jan 2023 02:58:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232202AbjAFHeo (ORCPT
+        with ESMTP id S232011AbjAFH6X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Jan 2023 02:34:44 -0500
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2107.outbound.protection.outlook.com [40.107.113.107])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCDE472D3D;
-        Thu,  5 Jan 2023 23:34:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SZgnZKbNTyrYwmdKtSlFR/FknRa0peQtm+QGNHPdEcWGFm59MOlAdeXOC87T+e0qk6M0wwXg2npUb1VZUYNYGVx2ba+4h9V+WO0TKr9xUIQwEB8Jaj+4OXwBqRAGHm73IZLNb8+WbKwmDTMxL+icMdukj4UwNnsOMFuzRnZMB+AaFsBldcwa28wTmtsRQ2vLbV2p7tvBZ2n9VhkEXQf8jwjzQFyMNF7T509eD4N0kHJ1gsV0z0vydzhl1AMrmEw79BYxruZM041CfQIw4Cofa2VPCxcdtllu/GmVuyl+jqK09VDy8t3nx2uCutjfXRotR9aF0NM4CsTSxb52OxriyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vCwa+9ljuIWw/NbOqbkuKtRvdAxIFTyD6TLPFardCsk=;
- b=OyeY9u3b6KrWwkoggS7jpua5FvXaJo0XpKdigkDvlaPBRl+iiUudodP2AlqngTwo4tikuL0NSj2EsBRnAKJaPv5xWAhkcnYa2ReFmmzOgA8o0kmNaKJTFGQPyg3rEF/OaPRsStcr0K7yNR1ZZ07mK/bexZuYbPG1CylwEuLCf0g30N1RB0THruwPbPC8HX3l3yp2SSgSfBoYat5YGWQzovDqLXurKiDRQcm+ZyfhuJfPLttXyDUJkhRR6chk/wJZ3ci6PKiKoAm5i+7bPFInwmbyNQm5lu8Hzd9Db56um32SO2luRbnHc3y0To8mTwpmT5OtMK6+XrqFWxCBXly5mQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vCwa+9ljuIWw/NbOqbkuKtRvdAxIFTyD6TLPFardCsk=;
- b=YkVnU53cEBLLUyDdi8kvYOx9K+MwHHGdE5yUfTa5nbPbaBIJ3UePkUqMuKINjIfHdvRI1AChv3eHN03S/GImKuNNcYOEQXAyPmdDMxkCGWT+rtq5D0YIFjVSi8swMBmzTRwrhnezUllZxW8nB98fkohzQBW1EgNJl16f43zAvY4=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by TYWPR01MB10065.jpnprd01.prod.outlook.com
- (2603:1096:400:1e2::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Fri, 6 Jan
- 2023 07:34:38 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::3e61:3792:227e:5f18]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::3e61:3792:227e:5f18%9]) with mapi id 15.20.5944.019; Fri, 6 Jan 2023
- 07:34:38 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Russell King <linux@armlinux.org.uk>
-CC:     "andrew@lunn.ch" <andrew@lunn.ch>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH net-next 3/3] net: ethernet: renesas: rswitch: Add
- phy_power_{on,off}() calling
-Thread-Topic: [PATCH net-next 3/3] net: ethernet: renesas: rswitch: Add
- phy_power_{on,off}() calling
-Thread-Index: AQHZGPm1/+eneNmBlU6Hj6ptyK83kq6MgTcAgASLkVA=
-Date:   Fri, 6 Jan 2023 07:34:38 +0000
-Message-ID: <TYBPR01MB5341112B776054C9D1E0FE26D8FB9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <20221226071425.3895915-1-yoshihiro.shimoda.uh@renesas.com>
- <20221226071425.3895915-4-yoshihiro.shimoda.uh@renesas.com>
- <Y7P7sJk4PZ1eLWDZ@shell.armlinux.org.uk>
-In-Reply-To: <Y7P7sJk4PZ1eLWDZ@shell.armlinux.org.uk>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYWPR01MB10065:EE_
-x-ms-office365-filtering-correlation-id: 3c44aed2-c64b-440f-679f-08daefb877b4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3O2dOdyXbLqqUnqSl4/soQ6h3y4X9erAvytL5NwQRVjCiSjrzTCV1kFnPy+rj8twBtMZ2tgPFRUjlXdckpQfP3k8N37Rkwe8MkDABZUQOO8e2M9SaojbVeuXmV6FpBuRN9LZW5UafTkbhlfm0JgRWBr/+hWD1S+nxYITiqcUOfAoUz/6+GKwb2FEx55b62bPovZMKjx08tBKMY+9CE8sI3T0Y+ZSUQ1TPhgI6R3TFppGn3QReLmhbhhY0ERAJZpCm+o8oRyW5aeVniWflkMr12XjzvhunUV5ShU1fDbH+4IciLMbYxsfI0DZ5wMYgjbxRo7KnwQYSJS4BEHVFohOnUPBKpHOIrYo7zo3COsndUB0odSmiYLSgZ/phgwAyZdtUUD0Gq8n6hTOuR9zlPXxYScoSEvNf+mqnbYQEBft/0bA+at4wy1Dgng+3CP7Wv8oZ5kmVbeehcUQ1whNFNkcpaJYLCuPBU9X69yRiIWhe7VLi7cCrh2q7h0iTVrHK2vRNMaa0wHGe+Pz61Syoyzad13oQeVyK61ax5TwI6gK3YceDTfRiVlelpA2kmhSHjseo9I83AZtjfpQzsFcZQrPITwbcl3IRZgG0pMnIPZcNzjxfBUVErRodaCkHizGP/iVbQCJ7+8iVcj7IVUQcHtyvQhkNfCH6wRLFDezUxb/ZSKUd2tX8R2GXAnRFVXF5AghmDpSrswU2v3AKkDSLPeZtQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(136003)(396003)(366004)(39860400002)(451199015)(33656002)(2906002)(38100700002)(5660300002)(8936002)(122000001)(52536014)(41300700001)(38070700005)(86362001)(71200400001)(6916009)(66946007)(54906003)(66556008)(76116006)(478600001)(7696005)(55016003)(64756008)(66446008)(66476007)(26005)(4326008)(186003)(9686003)(8676002)(6506007)(316002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?0mujy4BP5TBNbkbzIZVUYltNxqek8jLZK76BaEqElaVscqdIAhgfbWWPPL4a?=
- =?us-ascii?Q?whbkndAnxdoI96eeBFbquMuYdgAMG8YMBrR259IhL0aPMtoqwtcWHoZy68pJ?=
- =?us-ascii?Q?+Rbs8AdpTFtZow/ZmLvE7Lz+3VUwTddKMD+3DoFr+eRm8wO+/g+tWtc5VUGK?=
- =?us-ascii?Q?6JZXxoO1k0H1sAj4bCL4uwO8JCaR2HvGL/tKglgCOnRjYtSgHXKnfj9Ta0z6?=
- =?us-ascii?Q?ZDlqvZwq5S2Zrn7W1g9eeXMBhUBxUESXOBDcFgSYcOeDKZ1NBFI8M0bGQRLZ?=
- =?us-ascii?Q?Ptsd4yPdvlJk1lo0CCGxddis2F5HQhwQXICn7TidGFGGRnmLpngA7/7BUOqm?=
- =?us-ascii?Q?2KzG0o2Bq75Elq7J3sME6lUQjF4nyCQx0aB/CaV8VN5G8Rb6fx+GnZQtw2wE?=
- =?us-ascii?Q?fBM8A/qMNvDFjCfDI7w2i4KiHQeq/4gGs20W7ay/be+77UgRIw3YRcjVJ/uL?=
- =?us-ascii?Q?N1j/uBJKIse0cw8194RCvtQtqyrIJYZTFeZrNa8A9XHBSyfWpuEqzb4zMTWm?=
- =?us-ascii?Q?OsAdtlvCKkLCpHrEHpEc+Y9E/OHMMv2Gy7V1REXbjxWB9DCsKPd4ovSxeGE0?=
- =?us-ascii?Q?IMMhD7k9kR7Ransa6W0n5ZBB0nJ8EpNYbM6CIFgLjqLIsD9LfN7skYPEXFv8?=
- =?us-ascii?Q?Y4mgPyHuL0LbNmi/B0rJz8j8NSY2RtYEQKFim/kuAu0VXkxUNEkVlaknGH8+?=
- =?us-ascii?Q?3uE+jZCbv90ujDHtMk8j7OdJyFqjzrX5N8hyOC/OqT3pAc9RJmbNI8rUnhhb?=
- =?us-ascii?Q?pSgcZs2f7RbyTqdQuq72t0yRoGkyuj/m5v8gXG+gK8HEcSX1qbDVQgMIdNm1?=
- =?us-ascii?Q?wfY3ukmc8+vRxmlo8yvjBcADgtWxOQ7dylRBdonEf8VOWGDh1Rg6tU/IC5Z6?=
- =?us-ascii?Q?6ax0f8F3Zp4ddZAjNJRdm65+10anZRNU65ybjAHUbt2GlDGQ9Podpwkwu+qh?=
- =?us-ascii?Q?4mMoowoByWqyLLalNB/kk5wPtOXajZmlzqWbMDzZqxlrzshlXGyaC4+FDDa1?=
- =?us-ascii?Q?CKwc/j8yiCxl5Hx009y56QcjYnMz036XuI8USqkDQdNPFsmB4SM4Gk489d2c?=
- =?us-ascii?Q?EmsSDMDBPjjdFDkQRvdjcGGSmDuUMr/8KWomktWld3MySBRCUOtvBm3zWtR5?=
- =?us-ascii?Q?a4Pbzo79NdUNjQ8jZVCmsmo+SnmuY+DEX2ZZYKcKffN0KV1SiZhztgheEGDW?=
- =?us-ascii?Q?Ln7xGxcN8S3FnUeM0+Ew6HqoztbSCPVoHTeaQIMH4EF0yi33ODXBtj0w/XS0?=
- =?us-ascii?Q?HOlmtjw80h2tPVJHpyXJlJYMTigYUHcBx+S66tSC2Jbo3yEro9o35hQ1krZK?=
- =?us-ascii?Q?0r7KECT6kqk+ySzGsuOptj1ws/AyF0+zbBlIyDB7YMEmlZDWmhTTCIqKpYeG?=
- =?us-ascii?Q?8De+gQyTUpXHvIsLmSRgSL1n4yHArYv/aegJ6V6hjiZx2mdiQ98p30J2wktg?=
- =?us-ascii?Q?lqlztXm3RkEghT4TgLxs7x7vxBrPDk7cbpckMC7cY+jRsluFuuRilVBGFBaH?=
- =?us-ascii?Q?a/qRewFAlUD7wR1KFOyUd+cwBqScmCH5ImxBi8lZ7etcwzyPUDIcsWSTK7YZ?=
- =?us-ascii?Q?eXoi6RK8UPTn48bbz8Q4Xu8wHaa6Mkn7NzTJcGkxEriURTooaL1AjA0bDqcn?=
- =?us-ascii?Q?qQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 6 Jan 2023 02:58:23 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 605CB78E87;
+        Thu,  5 Jan 2023 23:58:18 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id a184so545508pfa.9;
+        Thu, 05 Jan 2023 23:58:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XouvIEMckFD/n/i3TL+KNnzKZMtEfFo4i1p26wV2Wug=;
+        b=HxIzGIhS2baO56Zs94wmhwt5tFoq9wj29F1lVQi6rWumWHmsDysbHm4U5DD7UP1wg/
+         FiU46dlHPLI/xvdBO2FIHfg8QlIpKLK7heoXRRWJ6sD504Fwd2yE5n+zPN13X9swSK8g
+         o1RNDmDgJJktcpSWMlSAgFF4RhyF4MpgZmvDUTQRmmoW/UgUdDdcUMfkRVMvmLDrNGeG
+         f+PHW5RNt+ijnKvmVZeIe0hUJIVek4ARAqet6stWBiu1cIogdeXjogsJfBtQfY2RFcZ9
+         Aycsf24xU0nZK5NcEe60jtKDdS8J9zmWVS1bVDlgFiM3vlDJaQv6PXfSnHtmGKHHZ1aB
+         N7pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XouvIEMckFD/n/i3TL+KNnzKZMtEfFo4i1p26wV2Wug=;
+        b=2Hg8KPq/HiWlibvJKpQLr/ZnP2OeNIyD19l2zE9xLii2NuWO1HGN/bgn1VcA0EeBfp
+         y5MyKy6XZvAvSvuFJSGWC39qNy9WIl380cWQytu6ONc1b2tdAhO0jw8daM37nUjDb7u7
+         tOKf8N4Gucm7YqoSkwB2Bhlazd89OgEUyvFevSs3G0lXLS3jNhKW9N0bf4qUHrSq0yyY
+         3bQwWFkljicDOOckYWxpXkdERRV69VsXetTzMPn1RmA2a0l5JvnKdumlSTNiBxHpP+1E
+         cy9J89XOn29JGCal0ATbRkaphsPA3YRwSi4b+LYdNwrD+/fiDtJxc+SoE2c8bEG4hcWw
+         b/Tw==
+X-Gm-Message-State: AFqh2krxWSBmLHWXmoHaQUeOYjZsZhI5YKcu1jGHJwAN+oeOTnPAO+4Z
+        LgIRXmAwJeK9J3BVpXQt2pQ=
+X-Google-Smtp-Source: AMrXdXsUqeGN9iLG7PBrUzR0ek75zRLm2VCDCD6Jppc+fB/f6lg8Snvllo4Hh3lRJnMK1f3zpfgnpg==
+X-Received: by 2002:a62:184c:0:b0:581:1e00:beeb with SMTP id 73-20020a62184c000000b005811e00beebmr45473824pfy.15.1672991897814;
+        Thu, 05 Jan 2023 23:58:17 -0800 (PST)
+Received: from localhost.localdomain ([202.120.234.246])
+        by smtp.googlemail.com with ESMTPSA id p7-20020a625b07000000b005825460056asm515765pfb.70.2023.01.05.23.58.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jan 2023 23:58:17 -0800 (PST)
+From:   Miaoqian Lin <linmq006@gmail.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     linmq006@gmail.com
+Subject: [PATCH] media: platform: Fix refcount leak in probe and remove function
+Date:   Fri,  6 Jan 2023 11:58:09 +0400
+Message-Id: <20230106075809.966856-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c44aed2-c64b-440f-679f-08daefb877b4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2023 07:34:38.7054
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Qz/sEUFYjnwZCmn0fbXIuPT0Q5CQpThXD+3LeFCfAsmLvQJ61AHNs8jfLxvwN9k0TTeYcbQ1dNnuR2igbRN2kiOqGTNlYOfY94b3YV1C3udgTofupaaht5xch+FZ8kjj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10065
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -128,72 +72,62 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Russell,
+rcar_fcp_get() take reference, which should be balanced with
+rcar_fcp_put(). Add missing rcar_fcp_put() in fdp1_remove and
+the error paths of fdp1_probe() to fix this.
 
-> From: Russell King, Sent: Tuesday, January 3, 2023 6:56 PM
->=20
-> On Mon, Dec 26, 2022 at 04:14:25PM +0900, Yoshihiro Shimoda wrote:
-> > Some Ethernet PHYs (like marvell10g) will decide the host interface
-> > mode by the media-side speed. So, the rswitch driver needs to
-> > initialize one of the Ethernet SERDES (r8a779f0-eth-serdes) ports
-> > after linked the Ethernet PHY up. The r8a779f0-eth-serdes driver has
-> > .init() for initializing all ports and .power_on() for initializing
-> > each port. So, add phy_power_{on,off} calling for it.
-> >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > ---
-> >  drivers/net/ethernet/renesas/rswitch.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ether=
-net/renesas/rswitch.c
-> > index ca79ee168206..2f335c95f5a8 100644
-> > --- a/drivers/net/ethernet/renesas/rswitch.c
-> > +++ b/drivers/net/ethernet/renesas/rswitch.c
-> > @@ -1180,6 +1180,10 @@ static void rswitch_mac_link_down(struct phylink=
-_config *config,
-> >  				  unsigned int mode,
-> >  				  phy_interface_t interface)
-> >  {
-> > +	struct net_device *ndev =3D to_net_dev(config->dev);
-> > +	struct rswitch_device *rdev =3D netdev_priv(ndev);
-> > +
-> > +	phy_power_off(rdev->serdes);
-> >  }
-> >
-> >  static void rswitch_mac_link_up(struct phylink_config *config,
-> > @@ -1187,7 +1191,11 @@ static void rswitch_mac_link_up(struct phylink_c=
-onfig *config,
-> >  				phy_interface_t interface, int speed,
-> >  				int duplex, bool tx_pause, bool rx_pause)
-> >  {
-> > +	struct net_device *ndev =3D to_net_dev(config->dev);
-> > +	struct rswitch_device *rdev =3D netdev_priv(ndev);
-> > +
-> >  	/* Current hardware cannot change speed at runtime */
-> > +	phy_power_on(rdev->serdes);
-> >  }
-> >
-> >  static const struct phylink_mac_ops rswitch_phylink_ops =3D {
->=20
-> This looks to me like it will break anyone using an in-band link,
-> where the link status comes from the PCS behind the series that
-> you're now powering down and up.
+Fixes: 4710b752e029 ("[media] v4l: Add Renesas R-Car FDP1 Driver")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+I take commit Fixes: 7113469dafc2 ("media: vsp1: Fix an error handling
+path in the probe function") for reference.
+---
+ drivers/media/platform/renesas/rcar_fdp1.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-Thank you for your review!
-To be honest, I didn't know about "an in-band link". So, I studied a little=
-,
-and then I might understand about your comments. However, I still don't
-understand whether this hardware (rswitch) can support the "in-band link" o=
-r not.
-This seems to need a special hardware feature for "in-band link" and
-only software cannot support it, IIUC.
-# Unfortunately, this hardware's datasheet cannot be in public for now thou=
-gh...
-
-Anyway, I'll add a condition which this driver cannot support MLO_AN_INBAND
-to avoid a problem by someone for now.
-
-Best regards,
-Yoshihiro Shimoda
+diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
+index 37ecf489d112..ed97bb161743 100644
+--- a/drivers/media/platform/renesas/rcar_fdp1.c
++++ b/drivers/media/platform/renesas/rcar_fdp1.c
+@@ -2313,8 +2313,10 @@ static int fdp1_probe(struct platform_device *pdev)
+ 
+ 	/* Determine our clock rate */
+ 	clk = clk_get(&pdev->dev, NULL);
+-	if (IS_ERR(clk))
+-		return PTR_ERR(clk);
++	if (IS_ERR(clk)) {
++		ret = PTR_ERR(clk);
++		goto put_dev;
++	}
+ 
+ 	fdp1->clk_rate = clk_get_rate(clk);
+ 	clk_put(clk);
+@@ -2323,7 +2325,7 @@ static int fdp1_probe(struct platform_device *pdev)
+ 	ret = v4l2_device_register(&pdev->dev, &fdp1->v4l2_dev);
+ 	if (ret) {
+ 		v4l2_err(&fdp1->v4l2_dev, "Failed to register video device\n");
+-		return ret;
++		goto put_dev;
+ 	}
+ 
+ 	/* M2M registration */
+@@ -2393,6 +2395,8 @@ static int fdp1_probe(struct platform_device *pdev)
+ unreg_dev:
+ 	v4l2_device_unregister(&fdp1->v4l2_dev);
+ 
++put_dev:
++	rcar_fcp_put(fdp1->fcp);
+ 	return ret;
+ }
+ 
+@@ -2400,6 +2404,7 @@ static int fdp1_remove(struct platform_device *pdev)
+ {
+ 	struct fdp1_dev *fdp1 = platform_get_drvdata(pdev);
+ 
++	rcar_fcp_put(fdp1->fcp);
+ 	v4l2_m2m_release(fdp1->m2m_dev);
+ 	video_unregister_device(&fdp1->vfd);
+ 	v4l2_device_unregister(&fdp1->v4l2_dev);
+-- 
+2.25.1
 
