@@ -2,69 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 153016613BF
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Jan 2023 07:04:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B52D2661674
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Jan 2023 17:16:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230071AbjAHGEO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 8 Jan 2023 01:04:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55774 "EHLO
+        id S229721AbjAHQQr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 8 Jan 2023 11:16:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjAHGEN (ORCPT
+        with ESMTP id S229487AbjAHQQq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 8 Jan 2023 01:04:13 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B359818E0D
-        for <linux-renesas-soc@vger.kernel.org>; Sat,  7 Jan 2023 22:04:11 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id p24so6107978plw.11
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 07 Jan 2023 22:04:11 -0800 (PST)
+        Sun, 8 Jan 2023 11:16:46 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03579C746;
+        Sun,  8 Jan 2023 08:16:46 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id z9-20020a17090a468900b00226b6e7aeeaso6849558pjf.1;
+        Sun, 08 Jan 2023 08:16:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vgZ2O2c7uY02sp110jrpcb4sFVag4L5bnVZx1zPM2pI=;
-        b=IW2zWqIfbJ6qsS5cqgDH+ted49FOkNroNVcFrpkVcoPl8GKd+1RwKWqzEyepMhcXwx
-         u+gr6KXwzGkboxfT4riF2CX1urgg8C34a9iSgadD5M7L1hb4pGKdWuO1JTlkh2FnVXOt
-         15v+rOAVummx8A349NdKMYRkS5XdeWUHIQ4EefeM0DFTsGTrWq9eiy8UiI9vUNy0T8F9
-         iXCYLlmNw7VcOncr9R/ivAlFC43hjc4ZJfD25eEspNBvvHaKOgYSGHGk2wewL0zcJ+oq
-         2i/QGasknTh9UC9ZhK4iLMwdsxSrChabp+i7CkVvSVQAA7NqMWM0kfTOC7oFj0H37yM0
-         BSDg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=szYh6U0O4rdLlceJ5Mu6MCo8pZSXN9nW69RUcTj6eOg=;
+        b=eQ17HwrDwgeacRtKTqwxN1n2e/wUA7mAJCFKxVKjpEzf10u0tAzClpbcfAs9DPOXVW
+         8RfySBmBTKsqPit8vpMWlMlCLC1yFya1dNLgkcPZN20e22QXpczWQrQw4CNGyfvD6V0c
+         ERPpzOfkO/pUnOO+26Dy1IoJei2J3Fa6Aw16tMsACasSKJ/UE7llGMuFTNaTwWuS+1Pm
+         6GenGBab5wBH7OwrAi8wbY/BHeV9Ylqk8r9Oj8aBX1Vev0mHuvdi+HENA1ZUuiD2qJTk
+         KkiLhPnC099HK30wJBWZsuYdtoYfrDC7+Rbb8yRO2oWLb0yFkBvUk6mtH7Y8Kk7sjtrz
+         azFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vgZ2O2c7uY02sp110jrpcb4sFVag4L5bnVZx1zPM2pI=;
-        b=sw1QmdtvA7oO1wpyd+3uuuwTfwXYNhSrsbpCkyRiuu1OTKra2NUlg3Yaj18MroIa9M
-         KTAtwY2JQFbjsp0yLNZkoSGwnJ5uZnEQN8fDEWSyhMaZQ2Ao690VtHsUZIiQqs1nLfYy
-         RGpMeWJY9O5n5Y9P2YDP18Z/5VdeSIcK69dw9s7v5SKkhzmpDCco1VUBnMAL+oPISlF0
-         aXzCfvXjLuIzmMKmdvw5oFrRpfkiF7y0CWJajNIGbI8avCHpRFggqjEi80X9jziciFBf
-         MD2REfd0mpcHEcGGl95x9vR8I5G6W3GghIoYLk9LbTXfXM1/rj0PKbttEf9Ebq8w3u2G
-         NnxQ==
-X-Gm-Message-State: AFqh2koQEhxk2UxDhyhsAA6oCxF7rN+4E+c1gGgcZp7BfQErAqgn3mUC
-        547vjrz+7G6IvdXwdX2pkvg=
-X-Google-Smtp-Source: AMrXdXuIhWr4qCAcRzAZ1ind21LDvWzbvvMG909C5Jh3ogz5WeCZFjP7tXUmssARcmq8hOPwya/3XQ==
-X-Received: by 2002:a05:6a20:4f1c:b0:b2:8c0b:529c with SMTP id gi28-20020a056a204f1c00b000b28c0b529cmr58171027pzb.54.1673157851160;
-        Sat, 07 Jan 2023 22:04:11 -0800 (PST)
-Received: from morpheus.home.roving-it.com (91.196.27.211.sta.commander.net.au. [211.27.196.91])
-        by smtp.googlemail.com with ESMTPSA id u18-20020a170903125200b001869ba04c83sm3557012plh.245.2023.01.07.22.04.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Jan 2023 22:04:10 -0800 (PST)
-From:   Peter Robinson <pbrobinson@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Cc:     Peter Robinson <pbrobinson@gmail.com>
-Subject: [PATCH v2] drm: rcar-du: depend on DRM_RCAR_DU for components on that SoC
-Date:   Sun,  8 Jan 2023 06:04:01 +0000
-Message-Id: <20230108060401.391061-1-pbrobinson@gmail.com>
-X-Mailer: git-send-email 2.39.0
+        bh=szYh6U0O4rdLlceJ5Mu6MCo8pZSXN9nW69RUcTj6eOg=;
+        b=yaiLMTGdO4yJKujYuiJKnBIjl3qz+JHqYwPTx++lqkRKWduJkyduNBBfHQz4ksRJD0
+         x5etSaBKKjNn9IeSOkfN3T/Wf6+cN9EAzZbWPw4MXDuVPH8cDplq0lKTMAJRBP5dGIJK
+         C68QDUtZJNevd4YwR0/AqFxHNY1qphDeFCG+NzmfAvRkrY/4jgvxVpC8vpxEr1npQU2q
+         YyuN7EIM+I0ak6UZWobNLqKtm+URx8rvizYnuwmCFOiKhvpMcXoR4u5uPucqlvWw2/Fl
+         Kx3hZGAM3KuThd/dp+JpdUVzd1JeJSJnodyf/Wgc/U3flTQk9RI5xxjN6DkU03hiavIF
+         OtkQ==
+X-Gm-Message-State: AFqh2kppPyPdGm563wk26rPq3GrAe2qfMq3dhvkBcuiaO3K4fOoxnnlI
+        DVKLpwFQ6ITqMmrFil3KyNlfS3STrJ5RjlCN1pKEjE7V
+X-Google-Smtp-Source: AMrXdXulkLpHFTttJIn7bRE+8oIM0Vjee34mqKwknjgOSnTSYKVB3NwmesfeeSB8CT9N0TBf+bLSdrB79V1cQr8VEu0=
+X-Received: by 2002:a17:903:2694:b0:192:9f8a:2e38 with SMTP id
+ jf20-20020a170903269400b001929f8a2e38mr2697598plb.84.1673194604915; Sun, 08
+ Jan 2023 08:16:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20230104141245.8407-1-aford173@gmail.com>
+In-Reply-To: <20230104141245.8407-1-aford173@gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Sun, 8 Jan 2023 10:16:33 -0600
+Message-ID: <CAHCN7xJ3eyZZm6or0N9WsGV8vsnyOBDWEoVAFyb1iamNe_AF2A@mail.gmail.com>
+Subject: Re: [PATCH 1/4] arm64: dts: beacon-renesom: Fix gpio expander reference
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     aford@beaconembedded.com,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,49 +71,78 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-There's a few components in the rcar-du drm directory that
-don't make sense to be selectable if DRM_RCAR_DU isn't because
-they are part of the IP block so add a dependency and add
-compile check to ensure they're still tested.
+On Wed, Jan 4, 2023 at 8:12 AM Adam Ford <aford173@gmail.com> wrote:
+>
+> The board used to originally introduce the Beacon Embedded
+> RZ/G2[M/N/H] boards had a GPIO expander with address 20, but
+> this was change when the final board went to production.
+>
+> The production boards changed both the part itself and
+> the address.  With the incorrect address, the LCD cannot
+> come up.  If the LCD fails, the rcar-du driver fails to come up,
+> and that also breaks HDMI.
+>
+> Pre-release board were not shipped to the general public, so it
+> should be safe to push this as a fix.  Anyone with a production
+> board would have video fail due to this GPIO expander change.
+>
+Geert,
 
-Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
----
+Is this patch OK as-is? This is more critical to me than the other
+patches in the series.
 
-v2:
-- typo fix in commit message
-- s/ARCH_RENESAS/DRM_RCAR_DU
+adam
 
- drivers/gpu/drm/rcar-du/Kconfig | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-index b2bddbeca878..362fb6099e9f 100644
---- a/drivers/gpu/drm/rcar-du/Kconfig
-+++ b/drivers/gpu/drm/rcar-du/Kconfig
-@@ -25,6 +25,7 @@ config DRM_RCAR_CMM
- config DRM_RCAR_DW_HDMI
- 	tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
- 	depends on DRM && OF
-+	depends on DRM_RCAR_DU || COMPILE_TEST
- 	select DRM_DW_HDMI
- 	help
- 	  Enable support for R-Car Gen3 or RZ/G2 internal HDMI encoder.
-@@ -32,6 +33,7 @@ config DRM_RCAR_DW_HDMI
- config DRM_RCAR_USE_LVDS
- 	bool "R-Car DU LVDS Encoder Support"
- 	depends on DRM_BRIDGE && OF
-+	depends on DRM_RCAR_DU || COMPILE_TEST
- 	default DRM_RCAR_DU
- 	help
- 	  Enable support for the R-Car Display Unit embedded LVDS encoders.
-@@ -45,6 +47,7 @@ config DRM_RCAR_LVDS
- config DRM_RCAR_USE_MIPI_DSI
- 	bool "R-Car DU MIPI DSI Encoder Support"
- 	depends on DRM_BRIDGE && OF
-+	depends on DRM_RCAR_DU || COMPILE_TEST
- 	default DRM_RCAR_DU
- 	help
- 	  Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
--- 
-2.39.0
-
+> Fixes: a1d8a344f1ca ("arm64: dts: renesas: Introduce r8a774a1-beacon-rzg2m-kit")
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+>
+> diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> index 8166e3c1ff4e..8b6fe235a8f0 100644
+> --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> @@ -437,20 +437,6 @@ wm8962_endpoint: endpoint {
+>                 };
+>         };
+>
+> -       /* 0 - lcd_reset */
+> -       /* 1 - lcd_pwr */
+> -       /* 2 - lcd_select */
+> -       /* 3 - backlight-enable */
+> -       /* 4 - Touch_shdwn */
+> -       /* 5 - LCD_H_pol */
+> -       /* 6 - lcd_V_pol */
+> -       gpio_exp1: gpio@20 {
+> -               compatible = "onnn,pca9654";
+> -               reg = <0x20>;
+> -               gpio-controller;
+> -               #gpio-cells = <2>;
+> -       };
+> -
+>         touchscreen@26 {
+>                 compatible = "ilitek,ili2117";
+>                 reg = <0x26>;
+> @@ -482,6 +468,21 @@ hd3ss3220_out_ep: endpoint {
+>                         };
+>                 };
+>         };
+> +
+> +       gpio_exp1: gpio@70 {
+> +               compatible = "onnn,pca9654";
+> +               reg = <0x70>;
+> +               gpio-controller;
+> +               #gpio-cells = <2>;
+> +               gpio-line-names =
+> +                       "lcd_reset",
+> +                       "lcd_pwr",
+> +                       "lcd_select",
+> +                       "backlight-enable",
+> +                       "Touch_shdwn",
+> +                       "LCD_H_pol",
+> +                       "lcd_V_pol";
+> +       };
+>  };
+>
+>  &lvds0 {
+> --
+> 2.34.1
+>
