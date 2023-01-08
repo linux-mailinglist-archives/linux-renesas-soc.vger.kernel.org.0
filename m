@@ -2,147 +2,185 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B52D2661674
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Jan 2023 17:16:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 667796616BD
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Jan 2023 17:37:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbjAHQQr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 8 Jan 2023 11:16:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58746 "EHLO
+        id S231279AbjAHQh4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 8 Jan 2023 11:37:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbjAHQQq (ORCPT
+        with ESMTP id S231272AbjAHQhz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 8 Jan 2023 11:16:46 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03579C746;
-        Sun,  8 Jan 2023 08:16:46 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id z9-20020a17090a468900b00226b6e7aeeaso6849558pjf.1;
-        Sun, 08 Jan 2023 08:16:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=szYh6U0O4rdLlceJ5Mu6MCo8pZSXN9nW69RUcTj6eOg=;
-        b=eQ17HwrDwgeacRtKTqwxN1n2e/wUA7mAJCFKxVKjpEzf10u0tAzClpbcfAs9DPOXVW
-         8RfySBmBTKsqPit8vpMWlMlCLC1yFya1dNLgkcPZN20e22QXpczWQrQw4CNGyfvD6V0c
-         ERPpzOfkO/pUnOO+26Dy1IoJei2J3Fa6Aw16tMsACasSKJ/UE7llGMuFTNaTwWuS+1Pm
-         6GenGBab5wBH7OwrAi8wbY/BHeV9Ylqk8r9Oj8aBX1Vev0mHuvdi+HENA1ZUuiD2qJTk
-         KkiLhPnC099HK30wJBWZsuYdtoYfrDC7+Rbb8yRO2oWLb0yFkBvUk6mtH7Y8Kk7sjtrz
-         azFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=szYh6U0O4rdLlceJ5Mu6MCo8pZSXN9nW69RUcTj6eOg=;
-        b=yaiLMTGdO4yJKujYuiJKnBIjl3qz+JHqYwPTx++lqkRKWduJkyduNBBfHQz4ksRJD0
-         x5etSaBKKjNn9IeSOkfN3T/Wf6+cN9EAzZbWPw4MXDuVPH8cDplq0lKTMAJRBP5dGIJK
-         C68QDUtZJNevd4YwR0/AqFxHNY1qphDeFCG+NzmfAvRkrY/4jgvxVpC8vpxEr1npQU2q
-         YyuN7EIM+I0ak6UZWobNLqKtm+URx8rvizYnuwmCFOiKhvpMcXoR4u5uPucqlvWw2/Fl
-         Kx3hZGAM3KuThd/dp+JpdUVzd1JeJSJnodyf/Wgc/U3flTQk9RI5xxjN6DkU03hiavIF
-         OtkQ==
-X-Gm-Message-State: AFqh2kppPyPdGm563wk26rPq3GrAe2qfMq3dhvkBcuiaO3K4fOoxnnlI
-        DVKLpwFQ6ITqMmrFil3KyNlfS3STrJ5RjlCN1pKEjE7V
-X-Google-Smtp-Source: AMrXdXulkLpHFTttJIn7bRE+8oIM0Vjee34mqKwknjgOSnTSYKVB3NwmesfeeSB8CT9N0TBf+bLSdrB79V1cQr8VEu0=
-X-Received: by 2002:a17:903:2694:b0:192:9f8a:2e38 with SMTP id
- jf20-20020a170903269400b001929f8a2e38mr2697598plb.84.1673194604915; Sun, 08
- Jan 2023 08:16:44 -0800 (PST)
-MIME-Version: 1.0
-References: <20230104141245.8407-1-aford173@gmail.com>
-In-Reply-To: <20230104141245.8407-1-aford173@gmail.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Sun, 8 Jan 2023 10:16:33 -0600
-Message-ID: <CAHCN7xJ3eyZZm6or0N9WsGV8vsnyOBDWEoVAFyb1iamNe_AF2A@mail.gmail.com>
-Subject: Re: [PATCH 1/4] arm64: dts: beacon-renesom: Fix gpio expander reference
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     aford@beaconembedded.com,
+        Sun, 8 Jan 2023 11:37:55 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5613EE02B;
+        Sun,  8 Jan 2023 08:37:53 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B9A0660CF0;
+        Sun,  8 Jan 2023 16:37:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCE04C433D2;
+        Sun,  8 Jan 2023 16:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673195872;
+        bh=fO7WILHy96bpYmLsV6EJE8l8P4rzMoGtSglPfFWyyZk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BkpmXJUec77Ct4qyTRMxHlDFF912yQ8lHfjCoQghpfy7WP4XnsBdrZrB0LOdBzNNU
+         iKiQ9UuSLIyorj5ft5hlChk7sLsSPxjkA+h7lLTLMq3yeMgoeti5TTJNj4rdnahJub
+         lChKxbRMuP1jzVHieuv5QYRi8U10UL+ss760XU7g04Icrhgf68nZl/wm9w7SEkLVxc
+         Yh3l7CdSAceHD6MW3JafVfEnktt+8t2lR2kgAihYVrmFWscIVulDhGPRHETZLhItEE
+         4E7OXFAkXBu4heTWKLybIRU4sk7yFS7hKMWHAW3jThmCklimFULQThZ9MhjWXqY9Dm
+         R3pLWgiTGQF0g==
+Date:   Sun, 8 Jan 2023 16:37:45 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
+        "Conor.Dooley" <conor.dooley@microchip.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+        guoren <guoren@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Tsukasa OI <research_trasio@irq.a4lg.com>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Mayuresh Chitale <mchitale@ventanamicro.com>
+Subject: Re: [RFC PATCH v6 1/6] riscv: mm: dma-noncoherent: Switch using
+ function pointers for cache management
+Message-ID: <Y7rxWau/WrRmjaDX@spud>
+References: <20230106185526.260163-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230106185526.260163-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <6f7d06ef-d74d-4dfc-9b77-6ae83e0d7816@app.fastmail.com>
+ <Y7iu0RC9jgWh7hfJ@spud>
+ <fb3b34ae-e35e-4dc2-a8f4-19984a2f58a8@app.fastmail.com>
+ <Y7nwgEs3n8kzPq5X@spud>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Uo+3eNsq3cPFx1XC"
+Content-Disposition: inline
+In-Reply-To: <Y7nwgEs3n8kzPq5X@spud>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jan 4, 2023 at 8:12 AM Adam Ford <aford173@gmail.com> wrote:
->
-> The board used to originally introduce the Beacon Embedded
-> RZ/G2[M/N/H] boards had a GPIO expander with address 20, but
-> this was change when the final board went to production.
->
-> The production boards changed both the part itself and
-> the address.  With the incorrect address, the LCD cannot
-> come up.  If the LCD fails, the rcar-du driver fails to come up,
-> and that also breaks HDMI.
->
-> Pre-release board were not shipped to the general public, so it
-> should be safe to push this as a fix.  Anyone with a production
-> board would have video fail due to this GPIO expander change.
->
-Geert,
 
-Is this patch OK as-is? This is more critical to me than the other
-patches in the series.
+--Uo+3eNsq3cPFx1XC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-adam
+On Sat, Jan 07, 2023 at 10:21:52PM +0000, Conor Dooley wrote:
+> On Sat, Jan 07, 2023 at 10:52:55PM +0100, Arnd Bergmann wrote:
+> > On Sat, Jan 7, 2023, at 00:29, Conor Dooley wrote:
+> > > On Fri, Jan 06, 2023 at 11:31:33PM +0100, Arnd Bergmann wrote:
+> > >> On Fri, Jan 6, 2023, at 19:55, Prabhakar wrote:
+> > >> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >> > +struct riscv_cache_ops zicbom_cmo_ops =3D {
+> > >> > +	.clean_range =3D &zicbom_cmo_clean_range,
+> > >> > +	.inv_range =3D &zicbom_cmo_inval_range,
+> > >> > +	.flush_range =3D &zicbom_cmo_flush_range,
+> > >> > +};
+> > >> > +#else
+> > >> > +struct riscv_cache_ops zicbom_cmo_ops =3D {
+> > >> > +	.clean_range =3D NULL,
+> > >> > +	.inv_range =3D NULL,
+> > >> > +	.flush_range =3D NULL,
+> > >> > +	.riscv_dma_noncoherent_cmo_ops =3D NULL,
+> > >> > +};
+> > >> > +#endif
+> > >> > +EXPORT_SYMBOL(zicbom_cmo_ops);
+> > >>=20
+> > >> Same here: If the ZICBOM ISA is disabled, nothing should
+> > >> reference zicbom_cmo_ops.
+> > >
+> > >> Also, since ZICBOM is a standard
+> > >> extension, I think it makes sense to always have it enabled,
+> > >> at least whenever noncoherent DMA is supported, that way
+> > >> it can be the default that gets used in the absence of any
+> > >> nonstandard cache controller.
+> > >
+> > > While I think of it, this is not possible as Zicbom requires toolchain
+> > > support whereas the alternative methods for non-coherent DMA do not.
+> >=20
+> > Ah, I see. Would it be possible to use the same .long trick
+> > as in the other ones though? Something like
+> >=20
+> > #if CONFIG_AS_VERSION >=3D 23600 /* or whichever version */
+>=20
+>=20
+> >      /* proper inline asm */
+> > #else
+> >      /* .long hack */
+> > #endif
+> >=20
+> > That way everyone can use it, and the hack would automatically
+> > go away in a few years after linux requires a newer toolchain.
+>=20
+> > Alternatively, the entire noncoherent-dma support could be
+> > made to depend on whichever toolchain introduced Zicbom.
+>=20
+> Ehh, I don't think that's a great idea. It'd require far too recent a
+> toolchain IMO.
+>=20
+> Ideally, in my opinion, we'd just do something like what Drew has
+> proposed for Zicboz, negating the need for a check at all:
+> https://lore.kernel.org/linux-riscv/20221027130247.31634-4-ajones@ventana=
+micro.com/
+>=20
+> Been waiting for that to be re-spun and Palmer to accept it before doing
+> the same thing for Zicbom. At present we have this in the arch Kconfig:
+>=20
+> config TOOLCHAIN_HAS_ZICBOM
+> 	bool
+> 	default y
+> 	depends on !64BIT || $(cc-option,-mabi=3Dlp64 -march=3Drv64ima_zicbom)
+> 	depends on !32BIT || $(cc-option,-mabi=3Dilp32 -march=3Drv32ima_zicbom)
+> 	depends on LLD_VERSION >=3D 150000 || LD_VERSION >=3D 23800
+>=20
+> config RISCV_ISA_ZICBOM
+> 	bool "Zicbom extension support for non-coherent DMA operation"
+> 	depends on TOOLCHAIN_HAS_ZICBOM
+>=20
+> The linker version check is entirely due to the linker having issues if
+> it sees zicbom in the ISA string in object files.
+>=20
+> I'd been intending to do that for Zicbom anyway, so I guess I'll just go
+> do it & Prabhakar can attach it to his v7..
 
-> Fixes: a1d8a344f1ca ("arm64: dts: renesas: Introduce r8a774a1-beacon-rzg2m-kit")
-> Signed-off-by: Adam Ford <aford173@gmail.com>
->
-> diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> index 8166e3c1ff4e..8b6fe235a8f0 100644
-> --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> @@ -437,20 +437,6 @@ wm8962_endpoint: endpoint {
->                 };
->         };
->
-> -       /* 0 - lcd_reset */
-> -       /* 1 - lcd_pwr */
-> -       /* 2 - lcd_select */
-> -       /* 3 - backlight-enable */
-> -       /* 4 - Touch_shdwn */
-> -       /* 5 - LCD_H_pol */
-> -       /* 6 - lcd_V_pol */
-> -       gpio_exp1: gpio@20 {
-> -               compatible = "onnn,pca9654";
-> -               reg = <0x20>;
-> -               gpio-controller;
-> -               #gpio-cells = <2>;
-> -       };
-> -
->         touchscreen@26 {
->                 compatible = "ilitek,ili2117";
->                 reg = <0x26>;
-> @@ -482,6 +468,21 @@ hd3ss3220_out_ep: endpoint {
->                         };
->                 };
->         };
-> +
-> +       gpio_exp1: gpio@70 {
-> +               compatible = "onnn,pca9654";
-> +               reg = <0x70>;
-> +               gpio-controller;
-> +               #gpio-cells = <2>;
-> +               gpio-line-names =
-> +                       "lcd_reset",
-> +                       "lcd_pwr",
-> +                       "lcd_select",
-> +                       "backlight-enable",
-> +                       "Touch_shdwn",
-> +                       "LCD_H_pol",
-> +                       "lcd_V_pol";
-> +       };
->  };
->
->  &lvds0 {
-> --
-> 2.34.1
->
+Should pop up here in a few minutes..
+https://lore.kernel.org/linux-riscv/20230108163356.3063839-1-conor@kernel.o=
+rg/
+
+Hopefully that both works & makes life easier. Certainly from a CI
+coverage point of view, relaxing toolchain requirements makes *my* life
+easier!
+
+
+--Uo+3eNsq3cPFx1XC
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY7rxWQAKCRB4tDGHoIJi
+0ryGAQCWKOi3NHzJDMDfxuTDnh3ne6XEYr/c/TROBg8/5hibCAEA46nbu1SNDiOk
+LTkEJviTUBDND7tJdI8BwpGvy0eD0Q8=
+=KtoJ
+-----END PGP SIGNATURE-----
+
+--Uo+3eNsq3cPFx1XC--
