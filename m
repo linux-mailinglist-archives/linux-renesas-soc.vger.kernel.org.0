@@ -2,178 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DC486612B2
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Jan 2023 01:08:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42346661396
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Jan 2023 05:32:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230390AbjAHAIQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 7 Jan 2023 19:08:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39362 "EHLO
+        id S230396AbjAHEcD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 7 Jan 2023 23:32:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbjAHAIQ (ORCPT
+        with ESMTP id S230473AbjAHEb6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 7 Jan 2023 19:08:16 -0500
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F271EEE4;
-        Sat,  7 Jan 2023 16:08:14 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id D339E5C007D;
-        Sat,  7 Jan 2023 19:08:10 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Sat, 07 Jan 2023 19:08:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1673136490; x=1673222890; bh=w6+aDVc5tr
-        2uIs4oPoROJd4fXpjR6GDvnU6vXcUl8+E=; b=cp64SsHubAH99xcKXc31E50owr
-        wlsfwwUfDFasgRONy24xanJJNwofyBrCQqq9yrDSayVGnfvqKHD8N5J8mJ1zsjMk
-        m2HbIOo0QgUqKJDUoekJs0ZvySSR8ZynasP6zia1kY5qGTsWYi1JD1ipfD3GP9Q/
-        FAUQ1u9x7k/Ev1jVOG80iHbowRRMSeQkdpVvp22gh5e/69eW0NBGKFYS9V6+GHFJ
-        C4hHjhy/3p80AYxUb/JFgEVxtQnRx6aCTDHQoILBz/NWhFRD/ho24bBB7lHGuVx/
-        chuK/pREqTqrM15AI5vS8397gk/YVLPsKflFCTO7f8NC3xOOyyAbFK9TEEQw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1673136490; x=1673222890; bh=w6+aDVc5tr2uIs4oPoROJd4fXpjR
-        6GDvnU6vXcUl8+E=; b=SBqtoaNdbDoKgboEpLb+w8tienE1p0Z5u9EOif9FMYLL
-        gjkQ2YAh+3v8zpK2Fksde3wHXh5Hnj6Z/dv/QEVXbG01tyV3ImVYSTr4DNa5ATnR
-        4mFmhWKLEnYJ3Ce8XIItTkjRrbEgm05DJMfFqkpMWIcCxz6huTNffz9sl6zevzd0
-        YyjqLKJHjVSAAxySj5Ow1OnicIN3aTVy2zu26qhvSGkh5bl5ggCloCCo+SCljGQs
-        XvVbEv4ZuywZrF5TgOVlOWVQvtXX5aIvGkMhPmnWscQ/xV+0+lVyWd8pbUKt+B4R
-        fdHYcpY/CSFVzOTPxnrNnrdR0IUtARA+w4kHIRbeDQ==
-X-ME-Sender: <xms:aQm6Y4_ryqD8BpqAQQcuSQ21_xzOSl1ISNuu3-QA49AIm0uKE17rXw>
-    <xme:aQm6Ywvi0jeQJcua8t31x9QB-B-Ay11huBm5prp4LPDMi0budjHGIXW26uRhfR_z9
-    xMfU-MkOxStiwCYphQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkeefgddukecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:aQm6Y-B4ZB89sZ7EKIiSHGOVdE1LqS9AHBXIbnwKxJBL0XaRlU7g2g>
-    <xmx:aQm6Y4cjxJXsG45Fj_Mnht2OgohcwF5K28V9PvytOe8jqG87Ale0bQ>
-    <xmx:aQm6Y9MuJgu2AOYLAsn9T38V5S1zGjUSIFfNYIl7CBmBrrlLvfVO1A>
-    <xmx:agm6Y4FI8JHKzIIkHWeSYWwUhqj16ZmlP57-fZ_V5jzLUc3TuxOemg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 3FA10B60086; Sat,  7 Jan 2023 19:08:09 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
-Mime-Version: 1.0
-Message-Id: <9017adf0-acd4-4c43-8aea-3579b214b477@app.fastmail.com>
-In-Reply-To: <CA+V-a8uF1s+dwKC_+apL+CBiHN8w_J0n_G2dqsgiAUZVEibfqg@mail.gmail.com>
-References: <20230106185526.260163-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230106185526.260163-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <6f7d06ef-d74d-4dfc-9b77-6ae83e0d7816@app.fastmail.com>
- <CA+V-a8uF1s+dwKC_+apL+CBiHN8w_J0n_G2dqsgiAUZVEibfqg@mail.gmail.com>
-Date:   Sun, 08 Jan 2023 01:07:48 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     "Conor.Dooley" <conor.dooley@microchip.com>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        guoren <guoren@kernel.org>,
-        "Andrew Jones" <ajones@ventanamicro.com>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        "Palmer Dabbelt" <palmer@dabbelt.com>,
-        "Albert Ou" <aou@eecs.berkeley.edu>,
-        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
-        "open list" <linux-kernel@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "Philipp Tomsich" <philipp.tomsich@vrull.eu>,
-        "Nathan Chancellor" <nathan@kernel.org>,
-        "Atish Patra" <atishp@rivosinc.com>,
-        "Anup Patel" <apatel@ventanamicro.com>,
-        "Tsukasa OI" <research_trasio@irq.a4lg.com>,
-        "Jisheng Zhang" <jszhang@kernel.org>,
-        "Mayuresh Chitale" <mchitale@ventanamicro.com>
-Subject: Re: [RFC PATCH v6 1/6] riscv: mm: dma-noncoherent: Switch using function
- pointers for cache management
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Sat, 7 Jan 2023 23:31:58 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8483E13CC5
+        for <linux-renesas-soc@vger.kernel.org>; Sat,  7 Jan 2023 20:31:56 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id n12so5535117pjp.1
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 07 Jan 2023 20:31:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HQcbv0fVqINYjCu2Urro0sAqFZH0EtVLvVWe9v4/BO0=;
+        b=On/CuKsWVc21aXJuPlUiYlbdF/UabyUSce6mN4AP/KgtdiIJac6z3AvaPypTyhD914
+         Fz4wKtbeJykThfK2QFNPCOdpyqDEtnRY/WTOIzGy/lxinTouAQLPgiQPHnodYev2JKXt
+         rmx58KcknfXw7IW/7+mFWmihDIai8iGYGrdBkoKmHTGK31Ur2bHGFp1wGOYmd1BpOI4d
+         TtN2j4akKegga1x1jqs0vUaLWCql/fh24QUeQNffvvXUf7ljDFmI+unAG8DTtd7M4cm5
+         cIHHmJN1ns0N8+h11edzinYkqAvqlI2ifIBhFSxG4W5v/jaZmMSz6K3AD55n+GTWYyDB
+         RmyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HQcbv0fVqINYjCu2Urro0sAqFZH0EtVLvVWe9v4/BO0=;
+        b=VMQJJfSCUnL5rriMVYYV/E/0rfA8KTanY2PXwmtkLo8tLuCPntwFFKSOuhhC3ID9JS
+         G2r/ba8Y/p3vM6p0Y9OChx35LFN2pbEP0+YPKn58uSvNmxU5b6ibTADukX3Y43iIIsv6
+         DADppwpiewq2a3G2WVmcREzBMcA26j0MsN1he9oiYuo38icz1b1EMFgC+7lP5mea98nQ
+         K+/XePuv4LnLsNZi+5LkUEM8SMTskEq6O+JNmlTkVdt/wM1a9GJkhIX/RweqEA+aknm5
+         O+KTNk0gbG0PCr8eGj3A5yzR9aRfVPqI0Y/AScc0S3a87T4zKN7X2eDsIwlENkqjR1sQ
+         IkhA==
+X-Gm-Message-State: AFqh2krsaUjsphwfsXqjIQ/uC4pV8qK3iw8wJX7s07gKKUzuSSoVaQbJ
+        nxCkw6LBMbeu8DZ74v8QS4xXt8VUt9p6uQ==
+X-Google-Smtp-Source: AMrXdXsT16Rn4k6cTMhyLA23I+EmeMHXxmqs+DNboZgxbO6GKYdJ1LNgWEBTSHISPeO3HbBhENxuKA==
+X-Received: by 2002:a05:6a20:2a94:b0:9d:efc0:76 with SMTP id v20-20020a056a202a9400b0009defc00076mr92438306pzh.30.1673152316013;
+        Sat, 07 Jan 2023 20:31:56 -0800 (PST)
+Received: from morpheus.home.roving-it.com ([60.231.56.234])
+        by smtp.googlemail.com with ESMTPSA id l9-20020a170903120900b00188a908cbddsm3426046plh.302.2023.01.07.20.31.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Jan 2023 20:31:55 -0800 (PST)
+From:   Peter Robinson <pbrobinson@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Cc:     Peter Robinson <pbrobinson@gmail.com>
+Subject: [PATCH] drm: rcar-du: depend on ARCH_RENESAS for components on that SoC
+Date:   Sun,  8 Jan 2023 04:31:47 +0000
+Message-Id: <20230108043147.346349-1-pbrobinson@gmail.com>
+X-Mailer: git-send-email 2.39.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Jan 7, 2023, at 23:10, Lad, Prabhakar wrote:
+There's a few components in the rcar-du drm directory that
+don't make sense to be slectedable if ARCH_RENESAS isn't because
+they are part of those SoCs so add a dependency and add compile
+check to ensure they're still tested.
 
->> > +
->> > +     memset(&thead_cmo_ops, 0x0, sizeof(thead_cmo_ops));
->> > +     if (IS_ENABLED(CONFIG_ERRATA_THEAD_CMO)) {
->> > +             thead_cmo_ops.clean_range = &thead_cmo_clean_range;
->> > +             thead_cmo_ops.inv_range = &thead_cmo_inval_range;
->> > +             thead_cmo_ops.flush_range = &thead_cmo_flush_range;
->> > +             riscv_noncoherent_register_cache_ops(&thead_cmo_ops);
->> > +     }
->>
->> The implementation here looks reasonable, just wonder whether
->> the classification as an 'errata' makes sense. I would probably
->> consider this a 'driver' at this point, but that's just
->> a question of personal preference.
->>
-> zicbom is a CPU feature that doesn't have any DT node and hence no
-> driver and similarly for T-HEAD SoC.
+Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+---
+ drivers/gpu/drm/rcar-du/Kconfig | 3 +++
+ 1 file changed, 3 insertions(+)
 
-A driver does not have to be a 'struct platform_driver' that
-matches to a device node, my point was more about what to
-name it, regardless of how the code is entered.
+diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+index b2bddbeca878..4d2bff78a559 100644
+--- a/drivers/gpu/drm/rcar-du/Kconfig
++++ b/drivers/gpu/drm/rcar-du/Kconfig
+@@ -25,6 +25,7 @@ config DRM_RCAR_CMM
+ config DRM_RCAR_DW_HDMI
+ 	tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
+ 	depends on DRM && OF
++	depends on ARCH_RENESAS || COMPILE_TEST
+ 	select DRM_DW_HDMI
+ 	help
+ 	  Enable support for R-Car Gen3 or RZ/G2 internal HDMI encoder.
+@@ -32,6 +33,7 @@ config DRM_RCAR_DW_HDMI
+ config DRM_RCAR_USE_LVDS
+ 	bool "R-Car DU LVDS Encoder Support"
+ 	depends on DRM_BRIDGE && OF
++	depends on ARCH_RENESAS || COMPILE_TEST
+ 	default DRM_RCAR_DU
+ 	help
+ 	  Enable support for the R-Car Display Unit embedded LVDS encoders.
+@@ -45,6 +47,7 @@ config DRM_RCAR_LVDS
+ config DRM_RCAR_USE_MIPI_DSI
+ 	bool "R-Car DU MIPI DSI Encoder Support"
+ 	depends on DRM_BRIDGE && OF
++	depends on ARCH_RENESAS || COMPILE_TEST
+ 	default DRM_RCAR_DU
+ 	help
+ 	  Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
+-- 
+2.39.0
 
-> Also the arch_setup_dma_ops()
-> happens quite early before driver probing due to which we get WARN()
-> messages during bootup hence I have implemented it as errata; as
-> errata patching happens quite early.
-
-But there is no more patching here, just setting the
-function pointers, right?
-
->> > +struct riscv_cache_ops {
->> > +     void (*clean_range)(unsigned long addr, unsigned long size);
->> > +     void (*inv_range)(unsigned long addr, unsigned long size);
->> > +     void (*flush_range)(unsigned long addr, unsigned long size);
->> > +     void (*riscv_dma_noncoherent_cmo_ops)(void *vaddr, size_t size,
->> > +                                           enum dma_data_direction dir,
->> > +                                           enum dma_noncoherent_ops ops);
->> > +};
->>
->> I don't quite see how the fourth operation is used here.
->> Are there cache controllers that need something beyond
->> clean/inv/flush?
->>
-> This is for platforms that dont follow standard cache operations (like
-> done in patch 5/6) and there drivers decide on the operations
-> depending on the ops and dir.
-
-My feeling is that the set of operations that get called should
-not depend on the cache controller but at best the CPU. I tried to
-enumerate how zicbom and ax45 differ here, and how that compares
-to other architectures:
-
-                  zicbom      ax45,mips,arc      arm           arm64
-fromdevice      clean/flush   inval/inval   inval/inval   clean/inval
-todevice        clean/-       clean/-       clean/-       clean/-
-bidi            flush/flush   flush/inval   clean/inval   clean/inval
-
-So everyone does the same operation for DMA_TO_DEVICE, but
-they differ in the DMA_FROM_DEVICE handling, for reasons I
-don't quite see:
-
-Your ax45 code does the same as arc and mips. arm and
-arm64 skip invalidating the cache before bidi mappings,
-but arm has a FIXME comment about that. arm64 does a
-'clean' instead of 'inval' when mapping a fromdevice
-page, which seems valid but slower than necessary.
-
-Could the zicbom operations be changed to do the same
-things as the ax45/mips/arc ones, or are there specific
-details in the zicbom spec that require this?
-
-     Arnd
