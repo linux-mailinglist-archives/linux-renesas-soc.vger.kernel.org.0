@@ -2,153 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42B4666253D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jan 2023 13:16:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 203726625B3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jan 2023 13:35:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236892AbjAIMP6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Jan 2023 07:15:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50438 "EHLO
+        id S233629AbjAIMfd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Jan 2023 07:35:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237178AbjAIMP4 (ORCPT
+        with ESMTP id S233434AbjAIMfc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Jan 2023 07:15:56 -0500
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C16FA1AC;
-        Mon,  9 Jan 2023 04:15:54 -0800 (PST)
-Received: by mail-qv1-f50.google.com with SMTP id h10so6058482qvq.7;
-        Mon, 09 Jan 2023 04:15:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/v56FuzTOF65NQx86r40RWrRUL/Au3qdgwGh4dAhX/Q=;
-        b=XHOLDZ/kESuYN4g/G4oLqcQ4+FnNUlHSCJ+nRkAih3HN4kAVchC2GiHEW6gqAUROsA
-         Vs7lVNYF3pCmnnZ6GkiK6d/JLl1zxFFvNSeO4lBN6lDrDsw3cagrVqALOEB9jdCFAGbh
-         oJW5TXsbAA5sS55uJev3RJNOIwz/i7NYc+nuJPD2k1Fc7BkclF6+KaS1MR0osHxLQvAc
-         HGq/Zl5QocVH4u9uaUvtq4mSRNUJUqSmLvJLg/J68W2+ef+4VqijoRpUTO20fT/ShIY/
-         JIotNwmZ5VJsA8r08clPoIuTeUQ7NygpTiCUCVlmDWaOEIeXo8HFBawknnRmTE4Nbr65
-         AP4A==
-X-Gm-Message-State: AFqh2kr9YCEuS6XZ6QDSwc2sBEzrnMsoGtWl1LaiV6358V4KzU/fdnBU
-        T2ol0lqJoIrIK74gC02oJfkcDPFzjwezDw==
-X-Google-Smtp-Source: AMrXdXuNjFPmuJ7BKbGEb5LyMEi7Qd9ysHPTDlVQWyTtW97BoLanJqlTOcguH51wlYDbzOJpoJ+PCg==
-X-Received: by 2002:a0c:bf52:0:b0:531:dcf9:a17e with SMTP id b18-20020a0cbf52000000b00531dcf9a17emr28364132qvj.26.1673266553084;
-        Mon, 09 Jan 2023 04:15:53 -0800 (PST)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id bl19-20020a05620a1a9300b006fa9d101775sm4240295qkb.33.2023.01.09.04.15.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Jan 2023 04:15:52 -0800 (PST)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-482363a1232so110190757b3.3;
-        Mon, 09 Jan 2023 04:15:52 -0800 (PST)
-X-Received: by 2002:a05:690c:c02:b0:48d:1334:6e38 with SMTP id
- cl2-20020a05690c0c0200b0048d13346e38mr4982292ywb.316.1673266551917; Mon, 09
- Jan 2023 04:15:51 -0800 (PST)
+        Mon, 9 Jan 2023 07:35:32 -0500
+Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 456F064FA;
+        Mon,  9 Jan 2023 04:35:31 -0800 (PST)
+Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.3ffe.de (Postfix) with ESMTPSA id 8B6369FB;
+        Mon,  9 Jan 2023 13:35:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+        t=1673267729;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=JQKaBY79GF+RPE6e93Lg/pYFuxmQLdWNgR8P0RjYoXg=;
+        b=YNe7fL7/NvBT9L6Xe/XKhfiU4deYF+rMcnn0PVQjmP8JXnWJnnkS3k45Axw3ZrVlF835dG
+        mLQILtHhuY/HO+jJTzAgjUYhpeNtQpcwWN3MfskBvly/QmSEDqqw4/g7+wlSqEgBvOWchV
+        r5PnpMP2Ns6mUH0K7HHTxw2Iq3PkYc2/rWu0/FbdurUrmvBL+HOvPeVKDO6aEXB9Rr9GpL
+        AqwASKCUxfm5ylURZ2inKalD18ZZ3BBDbJ2Z/NXdJFJhxakGyaQc0F0cDijDQON8ESHwMG
+        bE99WMg1fhqML2j2+JM6JoPXwjLGUIbtjFqNGWVIEh3KD4iV/aJ4aYBSEOdx9A==
 MIME-Version: 1.0
-References: <20230106185526.260163-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230106185526.260163-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y7iYZqKcoRycsoTg@spud> <CA+V-a8uBDx42o12UUwP=bBjeGzJJSP=jPcQr0xgkvkkoA7_vFA@mail.gmail.com>
-In-Reply-To: <CA+V-a8uBDx42o12UUwP=bBjeGzJJSP=jPcQr0xgkvkkoA7_vFA@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 9 Jan 2023 13:15:39 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW7bfJXo4FujuwEOOzNsdEWB60VYurdFdbO8GwTMwb5yA@mail.gmail.com>
-Message-ID: <CAMuHMdW7bfJXo4FujuwEOOzNsdEWB60VYurdFdbO8GwTMwb5yA@mail.gmail.com>
-Subject: Re: [PATCH v6 4/6] dt-bindings: cache: r9a07g043f-l2-cache: Add DT
- binding documentation for L2 cache controller
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Conor Dooley <conor@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Date:   Mon, 09 Jan 2023 13:35:29 +0100
+From:   Michael Walle <michael@walle.cc>
+To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jose Abreu <Jose.Abreu@synopsys.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Wei Fang <wei.fang@nxp.com>,
+        Shenwei Wang <shenwei.wang@nxp.com>,
+        Clark Wang <xiaoning.wang@nxp.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, Andrew Lunn <andrew@lunn.ch>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH RFC net-next v2 03/12] net: mdio: mdiobus_register: update
+ validation test
+In-Reply-To: <Y7SqCRkYkhQCLs8z@shell.armlinux.org.uk>
+References: <20221227-v6-2-rc1-c45-seperation-v2-0-ddb37710e5a7@walle.cc>
+ <20221227-v6-2-rc1-c45-seperation-v2-3-ddb37710e5a7@walle.cc>
+ <Y7P/45Owf2IezIpO@shell.armlinux.org.uk>
+ <37247c17e5e555dddbc37c3c63a2cadb@walle.cc>
+ <Y7SqCRkYkhQCLs8z@shell.armlinux.org.uk>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <0584195b863b361a4f5c1e27e6c270b3@walle.cc>
+X-Sender: michael@walle.cc
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Russell,
 
-On Sat, Jan 7, 2023 at 9:47 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Fri, Jan 6, 2023 at 9:53 PM Conor Dooley <conor@kernel.org> wrote:
-> > On Fri, Jan 06, 2023 at 06:55:24PM +0000, Prabhakar wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Add DT binding documentation for L2 cache controller found on RZ/Five SoC.
-> > >
-> > > The Renesas RZ/Five microprocessor includes a RISC-V CPU Core (AX45MP
-> > > Single) from Andes. The AX45MP core has an L2 cache controller, this patch
-> > > describes the L2 cache block.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
+Am 2023-01-03 23:19, schrieb Russell King (Oracle):
+> On Tue, Jan 03, 2023 at 11:21:08AM +0100, Michael Walle wrote:
+>> Am 2023-01-03 11:13, schrieb Russell King (Oracle):
+>> > On Wed, Dec 28, 2022 at 12:07:19AM +0100, Michael Walle wrote:
+>> > > +	if (!bus || !bus->name)
+>> > > +		return -EINVAL;
+>> > > +
+>> > > +	/* An access method always needs both read and write operations */
+>> > > +	if ((bus->read && !bus->write) ||
+>> > > +	    (!bus->read && bus->write) ||
+>> > > +	    (bus->read_c45 && !bus->write_c45) ||
+>> > > +	    (!bus->read_c45 && bus->write_c45))
+>> >
+>> > I wonder whether the following would be even more readable:
+>> >
+>> > 	if (!bus->read != !bus->write || !bus->read_c45 != !bus->write_c45)
+>> 
+>> That's what Andrew had originally. But there was a comment from Sergey 
+>> [1]
+>> which I agree with. I had a hard time wrapping my head around that, so 
+>> I
+>> just listed all the possible bad cases.
+> 
+> The only reason I suggested it was because when looked at your code,
+> it also took several reads to work out what it was trying to do!
+> 
+> Would using !!bus->read != !!bus->write would help or make it worse,
+> !!ptr being the more normal way to convert something to a boolean?
 
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
-> > > @@ -0,0 +1,81 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > +# Copyright (C) 2022 Renesas Electronics Corp.
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/cache/andestech,ax45mp-cache.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Andestech AX45MP L2 Cache Controller
-> > > +
-> > > +maintainers:
-> > > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > +
-> > > +description:
-> > > +  A level-2 cache (L2C) is used to improve the system performance by providing
-> > > +  a large amount of cache line entries and reasonable access delays. The L2C
-> > > +  is shared between cores, and a non-inclusive non-exclusive policy is used.
-> > > +
-> > > +select:
-> > > +  properties:
-> > > +    compatible:
-> > > +      contains:
-> > > +        enum:
-> > > +          - andestech,ax45mp-cache
-> > > +
-> > > +  required:
-> > > +    - compatible
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    items:
-> > > +      - const: andestech,ax45mp-cache
-> > > +      - const: cache
-> >
-> > You might find value in a specific compatible for your SoC & enforce
-> > constraints for it. Or you might not & I don't care either way :)
-> >
-> Good point actually. Geert what do you think?
+IMHO that makes it even harder. But I doubt we will find an expression
+that will work for everyone. I'll go with your suggestion/Andrew's first
+version in the next iteration.
 
-That might be prudent, to cater for the way the standard AX45MP cache
-block is integrated into the RZ/Five (or any other) SoC.
-
-Still, in the absence of an SoC-specific compatible value, you can
-handle integration issues using soc_device_match().
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-michael
