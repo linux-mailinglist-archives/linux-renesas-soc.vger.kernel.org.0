@@ -2,170 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CB0E6624FA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jan 2023 13:04:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42B4666253D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jan 2023 13:16:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237139AbjAIMEl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Jan 2023 07:04:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44382 "EHLO
+        id S236892AbjAIMP6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Jan 2023 07:15:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237080AbjAIMET (ORCPT
+        with ESMTP id S237178AbjAIMP4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Jan 2023 07:04:19 -0500
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FCAE1AA0B;
-        Mon,  9 Jan 2023 04:04:12 -0800 (PST)
-Received: by mail-qk1-x72f.google.com with SMTP id g8so4014202qkl.2;
-        Mon, 09 Jan 2023 04:04:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lVNn+YWwJiRPXNtsBieyEVWKNIb/zkrUFPfCeEPxMWw=;
-        b=lVpGq0jRiH44fjieSWWDZP5itmNjimKwXoQjLA1EN74wGirOQjNnMTLfiYkb6HM4nU
-         nzOiEF75i37tGplMLvwTJs6FiJtQ5Z4nActSx6jbLudKWge3rJFSdxC6PJtEWRAo953m
-         GU9mVKdUaN03GRIkjLdeXSbrgtVzPHIhHFQBITbKJtH8EqrVohn1wN1Iqn5TRtw7vFCX
-         Nn5Tp2CDucUfAeu0h25UZuZPUWt7a5qCppBRRILLJoOmPocn1Utvhhcz8Vi4HT3M3aAy
-         6LY8RXVzInyCeWRvc2Rp+v3eFHGDequzembAnK+UmHGh/bpemH33EHzxJoBVaTaZYAsF
-         xzOA==
+        Mon, 9 Jan 2023 07:15:56 -0500
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C16FA1AC;
+        Mon,  9 Jan 2023 04:15:54 -0800 (PST)
+Received: by mail-qv1-f50.google.com with SMTP id h10so6058482qvq.7;
+        Mon, 09 Jan 2023 04:15:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lVNn+YWwJiRPXNtsBieyEVWKNIb/zkrUFPfCeEPxMWw=;
-        b=7d/+nL5gxgkYEpOvviqUfJWAa7UX/V0wUK9o9nx5o/TrpGli9nWZcOqvn4Sb0Yftou
-         X20ICh36EEM9PVvrNlJmq6bAx2Wzj0IR/52FDq10j67jCI2YlqlyutYx9zhcQsGlV8cV
-         XnkVAHJ2vZ6vnIwqKXPjyaeTwm8aQDwFFXkjjqeW6HJk2ZSw6eezy/OZiBhFalAPv+5X
-         ET3tu99xXOyUS92BnB/AjnFcWjGt1hbLk/5jQE7lj13diu/3EYzXSZKlJEbcUIeaqzhh
-         GcKkN7d6kmLus/TT7WmhIgxfxsJWM4u9j5HE7yGY3WD88PKngH7b2r2pvcKmQl32PwN1
-         W12g==
-X-Gm-Message-State: AFqh2kpRjmnEThDfGXQOVM5ucw3v35ACbfmX6wFtyA6zmp6ZXcOhxp82
-        nHsbg32/T02O0nwLGJEyHZg+B6ftmFKqdcUaIkY=
-X-Google-Smtp-Source: AMrXdXtab23RPB/2ZXMcLY+PmC+jyscFXBJ8G2+xrfC95CqdAo2Wg45jeC1lnEQ0GwjR0BdWjHn+PJpw//FCdU9RsGI=
-X-Received: by 2002:a05:620a:1001:b0:6ff:7b95:633e with SMTP id
- z1-20020a05620a100100b006ff7b95633emr2573684qkj.689.1673265851185; Mon, 09
- Jan 2023 04:04:11 -0800 (PST)
+        bh=/v56FuzTOF65NQx86r40RWrRUL/Au3qdgwGh4dAhX/Q=;
+        b=XHOLDZ/kESuYN4g/G4oLqcQ4+FnNUlHSCJ+nRkAih3HN4kAVchC2GiHEW6gqAUROsA
+         Vs7lVNYF3pCmnnZ6GkiK6d/JLl1zxFFvNSeO4lBN6lDrDsw3cagrVqALOEB9jdCFAGbh
+         oJW5TXsbAA5sS55uJev3RJNOIwz/i7NYc+nuJPD2k1Fc7BkclF6+KaS1MR0osHxLQvAc
+         HGq/Zl5QocVH4u9uaUvtq4mSRNUJUqSmLvJLg/J68W2+ef+4VqijoRpUTO20fT/ShIY/
+         JIotNwmZ5VJsA8r08clPoIuTeUQ7NygpTiCUCVlmDWaOEIeXo8HFBawknnRmTE4Nbr65
+         AP4A==
+X-Gm-Message-State: AFqh2kr9YCEuS6XZ6QDSwc2sBEzrnMsoGtWl1LaiV6358V4KzU/fdnBU
+        T2ol0lqJoIrIK74gC02oJfkcDPFzjwezDw==
+X-Google-Smtp-Source: AMrXdXuNjFPmuJ7BKbGEb5LyMEi7Qd9ysHPTDlVQWyTtW97BoLanJqlTOcguH51wlYDbzOJpoJ+PCg==
+X-Received: by 2002:a0c:bf52:0:b0:531:dcf9:a17e with SMTP id b18-20020a0cbf52000000b00531dcf9a17emr28364132qvj.26.1673266553084;
+        Mon, 09 Jan 2023 04:15:53 -0800 (PST)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id bl19-20020a05620a1a9300b006fa9d101775sm4240295qkb.33.2023.01.09.04.15.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Jan 2023 04:15:52 -0800 (PST)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-482363a1232so110190757b3.3;
+        Mon, 09 Jan 2023 04:15:52 -0800 (PST)
+X-Received: by 2002:a05:690c:c02:b0:48d:1334:6e38 with SMTP id
+ cl2-20020a05690c0c0200b0048d13346e38mr4982292ywb.316.1673266551917; Mon, 09
+ Jan 2023 04:15:51 -0800 (PST)
 MIME-Version: 1.0
 References: <20230106185526.260163-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230106185526.260163-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <6f7d06ef-d74d-4dfc-9b77-6ae83e0d7816@app.fastmail.com> <CA+V-a8uF1s+dwKC_+apL+CBiHN8w_J0n_G2dqsgiAUZVEibfqg@mail.gmail.com>
- <9017adf0-acd4-4c43-8aea-3579b214b477@app.fastmail.com>
-In-Reply-To: <9017adf0-acd4-4c43-8aea-3579b214b477@app.fastmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 9 Jan 2023 12:03:44 +0000
-Message-ID: <CA+V-a8u6jvR=EDeE3mAbDr6-06NoBJ7mwmi_Y9qVyHT+aC-9rg@mail.gmail.com>
-Subject: Re: [RFC PATCH v6 1/6] riscv: mm: dma-noncoherent: Switch using
- function pointers for cache management
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     "Conor.Dooley" <conor.dooley@microchip.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        guoren <guoren@kernel.org>,
+ <20230106185526.260163-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y7iYZqKcoRycsoTg@spud> <CA+V-a8uBDx42o12UUwP=bBjeGzJJSP=jPcQr0xgkvkkoA7_vFA@mail.gmail.com>
+In-Reply-To: <CA+V-a8uBDx42o12UUwP=bBjeGzJJSP=jPcQr0xgkvkkoA7_vFA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 9 Jan 2023 13:15:39 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW7bfJXo4FujuwEOOzNsdEWB60VYurdFdbO8GwTMwb5yA@mail.gmail.com>
+Message-ID: <CAMuHMdW7bfJXo4FujuwEOOzNsdEWB60VYurdFdbO8GwTMwb5yA@mail.gmail.com>
+Subject: Re: [PATCH v6 4/6] dt-bindings: cache: r9a07g043f-l2-cache: Add DT
+ binding documentation for L2 cache controller
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Conor Dooley <conor@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
         Andrew Jones <ajones@ventanamicro.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Tsukasa OI <research_trasio@irq.a4lg.com>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Mayuresh Chitale <mchitale@ventanamicro.com>
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Jan 8, 2023 at 12:08 AM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Sat, Jan 7, 2023, at 23:10, Lad, Prabhakar wrote:
->
-> >> > +
-> >> > +     memset(&thead_cmo_ops, 0x0, sizeof(thead_cmo_ops));
-> >> > +     if (IS_ENABLED(CONFIG_ERRATA_THEAD_CMO)) {
-> >> > +             thead_cmo_ops.clean_range = &thead_cmo_clean_range;
-> >> > +             thead_cmo_ops.inv_range = &thead_cmo_inval_range;
-> >> > +             thead_cmo_ops.flush_range = &thead_cmo_flush_range;
-> >> > +             riscv_noncoherent_register_cache_ops(&thead_cmo_ops);
-> >> > +     }
-> >>
-> >> The implementation here looks reasonable, just wonder whether
-> >> the classification as an 'errata' makes sense. I would probably
-> >> consider this a 'driver' at this point, but that's just
-> >> a question of personal preference.
-> >>
-> > zicbom is a CPU feature that doesn't have any DT node and hence no
-> > driver and similarly for T-HEAD SoC.
->
-> A driver does not have to be a 'struct platform_driver' that
-> matches to a device node, my point was more about what to
-> name it, regardless of how the code is entered.
->
-> > Also the arch_setup_dma_ops()
-> > happens quite early before driver probing due to which we get WARN()
-> > messages during bootup hence I have implemented it as errata; as
-> > errata patching happens quite early.
->
-> But there is no more patching here, just setting the
-> function pointers, right?
->
-Yes that's right.
+Hi Prabhakar,
 
-> >> > +struct riscv_cache_ops {
-> >> > +     void (*clean_range)(unsigned long addr, unsigned long size);
-> >> > +     void (*inv_range)(unsigned long addr, unsigned long size);
-> >> > +     void (*flush_range)(unsigned long addr, unsigned long size);
-> >> > +     void (*riscv_dma_noncoherent_cmo_ops)(void *vaddr, size_t size,
-> >> > +                                           enum dma_data_direction dir,
-> >> > +                                           enum dma_noncoherent_ops ops);
-> >> > +};
-> >>
-> >> I don't quite see how the fourth operation is used here.
-> >> Are there cache controllers that need something beyond
-> >> clean/inv/flush?
-> >>
-> > This is for platforms that dont follow standard cache operations (like
-> > done in patch 5/6) and there drivers decide on the operations
-> > depending on the ops and dir.
->
-> My feeling is that the set of operations that get called should
-> not depend on the cache controller but at best the CPU. I tried to
-> enumerate how zicbom and ax45 differ here, and how that compares
-> to other architectures:
->
->                   zicbom      ax45,mips,arc      arm           arm64
-> fromdevice      clean/flush   inval/inval   inval/inval   clean/inval
-> todevice        clean/-       clean/-       clean/-       clean/-
-> bidi            flush/flush   flush/inval   clean/inval   clean/inval
->
-> So everyone does the same operation for DMA_TO_DEVICE, but
-> they differ in the DMA_FROM_DEVICE handling, for reasons I
-> don't quite see:
->
-> Your ax45 code does the same as arc and mips. arm and
-> arm64 skip invalidating the cache before bidi mappings,
-> but arm has a FIXME comment about that. arm64 does a
-> 'clean' instead of 'inval' when mapping a fromdevice
-> page, which seems valid but slower than necessary.
->
-> Could the zicbom operations be changed to do the same
-> things as the ax45/mips/arc ones, or are there specific
-> details in the zicbom spec that require this?
->
-I'll let the RISC-V experts respond here.
+On Sat, Jan 7, 2023 at 9:47 PM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Fri, Jan 6, 2023 at 9:53 PM Conor Dooley <conor@kernel.org> wrote:
+> > On Fri, Jan 06, 2023 at 06:55:24PM +0000, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Add DT binding documentation for L2 cache controller found on RZ/Five SoC.
+> > >
+> > > The Renesas RZ/Five microprocessor includes a RISC-V CPU Core (AX45MP
+> > > Single) from Andes. The AX45MP core has an L2 cache controller, this patch
+> > > describes the L2 cache block.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Reviewed-by: Rob Herring <robh@kernel.org>
 
-Cheers,
-Prabhakar
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
+> > > @@ -0,0 +1,81 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > +# Copyright (C) 2022 Renesas Electronics Corp.
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/cache/andestech,ax45mp-cache.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Andestech AX45MP L2 Cache Controller
+> > > +
+> > > +maintainers:
+> > > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > +
+> > > +description:
+> > > +  A level-2 cache (L2C) is used to improve the system performance by providing
+> > > +  a large amount of cache line entries and reasonable access delays. The L2C
+> > > +  is shared between cores, and a non-inclusive non-exclusive policy is used.
+> > > +
+> > > +select:
+> > > +  properties:
+> > > +    compatible:
+> > > +      contains:
+> > > +        enum:
+> > > +          - andestech,ax45mp-cache
+> > > +
+> > > +  required:
+> > > +    - compatible
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - const: andestech,ax45mp-cache
+> > > +      - const: cache
+> >
+> > You might find value in a specific compatible for your SoC & enforce
+> > constraints for it. Or you might not & I don't care either way :)
+> >
+> Good point actually. Geert what do you think?
+
+That might be prudent, to cater for the way the standard AX45MP cache
+block is integrated into the RZ/Five (or any other) SoC.
+
+Still, in the absence of an SoC-specific compatible value, you can
+handle integration issues using soc_device_match().
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
