@@ -2,156 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 833436626A8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jan 2023 14:15:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7258D6626AB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jan 2023 14:16:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234174AbjAINPc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Jan 2023 08:15:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33168 "EHLO
+        id S236558AbjAINQg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Jan 2023 08:16:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234971AbjAINPV (ORCPT
+        with ESMTP id S234483AbjAINQW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Jan 2023 08:15:21 -0500
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11935CE9;
-        Mon,  9 Jan 2023 05:15:16 -0800 (PST)
-Received: by mail-qk1-x72e.google.com with SMTP id p12so4128510qkm.0;
-        Mon, 09 Jan 2023 05:15:16 -0800 (PST)
+        Mon, 9 Jan 2023 08:16:22 -0500
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7095BAE7C
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Jan 2023 05:16:21 -0800 (PST)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-4bf16baa865so111484657b3.13
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 09 Jan 2023 05:16:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LSUdLrxzBijeq6n48AhMiENVGSCtgGd+6QTQeX7bjt0=;
-        b=i15/5pAnOcrMuZG6TH8IDmEatOjPjSJxynun1QFaUHMUnv4KFgPkixClqPMY8ugIm2
-         F6PNxnHPH7LSS1huO3m4RaW2sbq34Ty6HiowH54ckk6NVwTVKB1e9nrwl5jnbzKeBO4A
-         osKtHruej3BJU2mHpuIpxmNcDl/ZrpOtaq8nrrjBEE+8YJ4hQFycFw/B/wgCiKC/pqou
-         4z9c5qT5EJtqEooAeU5oQsAD9u7g06mT0H52sFGG3PBRR2q6dvr4idqPM3bGdo3TTlkt
-         6m7S9dm5S22hPE37pmUbM8A3zx2/EvFQ8sGjG8j2h0hpKm7caFHqmm34ng9bVrqUY05H
-         WoLA==
+        bh=ROf9S1h3NFS/YmIXVlWE2KOOQY9QfKkN9+Awp4lc2d4=;
+        b=HKxZcSQnePQPZ0EC0HThqgeLqPpP/8dg93vSGpoH6udbgCIzHGt8Zpa0LUdBwVylnB
+         GhQEr0FGZqTewxgrRqV6jmtxY8vttc8sCg9MH2cucSoTTsZDaS0j+/B90uMPiW8QW9Nm
+         N0L0e/Ti+Y6BhJ7xjQ0kA1y5jwWgHFI/u2zJguS91/UAmLMyZPx4BvF330ya0Cc09vnH
+         4skAT0/IZH1JkGJYY3YcNYyllfOffu8PM+nSejrXZpB/+nV0hfjtvQWN4FBhHJbccHR0
+         B6uTVEh+USDg7NE/rTiQW1W/z/YeBqd6ilpCVJqZlHtgjSwFQGIirMTf46cTVWoWQZ+i
+         8wuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LSUdLrxzBijeq6n48AhMiENVGSCtgGd+6QTQeX7bjt0=;
-        b=mTSempkN5W0m5wkHHSXr6A2ZiGm2ydFMR8zMKPTkIQL7vChlesZve+WEAEjPU1sx1g
-         Xodq/OojyqD4I7MTbiJLiY6ovF6ORR1aMOfFlvQpd3FvUdqY4m/fH0FbVLK2kPm+y9NT
-         fppCbonucDO1/EyiMGdghHNO1Yjx4X6a5i3QU1NWiyL2GV4/G0H0MygwTW+mlqB5tTFW
-         YR0NwBkV9eHDfsD0XdfkDwws5LUWpo/Z6xGzKomqkFpvBgOyNwL2lBIxRfjC48ls7hcW
-         DnwELWLjWoup4wD0MU9vukFOpVvnoBJQdhfjr8eX0b19HkG2hiMODFFoiWmdkdlG+4N+
-         WhGQ==
-X-Gm-Message-State: AFqh2kpbe/kEZo1Qn89Fdwpw6ZhVowBjbnppfkBMLjgYey2yOi6yu400
-        poKVvc7SmptA1vAMemjt+wZBNltUTdkRtsGbbr4=
-X-Google-Smtp-Source: AMrXdXv7Wrf4SKRpoq5GquZxdfjtOOA2B5uMATxEShJibRpqIsfDIdqFzs/nC7U+IKbrIe+IdeULTg1ZL3KZJ5EU/HU=
-X-Received: by 2002:a05:620a:1651:b0:704:dd59:a1b2 with SMTP id
- c17-20020a05620a165100b00704dd59a1b2mr3145507qko.477.1673270115115; Mon, 09
- Jan 2023 05:15:15 -0800 (PST)
+        bh=ROf9S1h3NFS/YmIXVlWE2KOOQY9QfKkN9+Awp4lc2d4=;
+        b=iI84jTdmQjop5TQI1y0VUMrS6K+5nn32ztW4gOBZyJFfCCanzSrdysghl8mTqk5pJp
+         j5L8EeyVs1vPvADatVoSMgxqUmi6oqw3QzZImlFUAep+GDj4cU034gJzdfKIujd1oTKu
+         Fqrj/xPmLfBmuyjmFx9UG7/NCpnH9dX1ENFYniVAbwxoCwvk7TzNBEOEPGs5Wp6uwH07
+         41cgaJboRjt8gKBkF/XpH6Z5ZpfEfEEyoGJBKYNKpdEeQMY83xDsrhli5iHqCgHw+4XO
+         UISNYCIDjQrjTFOxhPAjLAzH7e6PXFK+E8fCJiPvpj/gtShkpSwDAhaK7qTNEYQHmOLP
+         zuUw==
+X-Gm-Message-State: AFqh2kojSytbxpi6syp/MaooWDUbGgrxYKXWoWNf7+p6YXE4hED8m63Q
+        77G/EtUw00ZErAD0MUHHXxI8u/052Uj70PNnVcqcxQ==
+X-Google-Smtp-Source: AMrXdXubK/8hSjiePBuHDFSlg9IynRQbcBhbk/sdKP9vQA3x/dPwOarYSKw7tLJfJSdMGf3h37XMZe3RwM5W9gV+2T8=
+X-Received: by 2002:a81:9c52:0:b0:368:e8a:3b1d with SMTP id
+ n18-20020a819c52000000b003680e8a3b1dmr864270ywa.469.1673270180682; Mon, 09
+ Jan 2023 05:16:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20230106185526.260163-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230106185526.260163-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y7iYZqKcoRycsoTg@spud> <CA+V-a8uBDx42o12UUwP=bBjeGzJJSP=jPcQr0xgkvkkoA7_vFA@mail.gmail.com>
- <CAMuHMdW7bfJXo4FujuwEOOzNsdEWB60VYurdFdbO8GwTMwb5yA@mail.gmail.com>
-In-Reply-To: <CAMuHMdW7bfJXo4FujuwEOOzNsdEWB60VYurdFdbO8GwTMwb5yA@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 9 Jan 2023 13:14:47 +0000
-Message-ID: <CA+V-a8vHe5cjxQusxmnXKouw76gxGFdHL1g+n6-5JWFkhVECaA@mail.gmail.com>
-Subject: Re: [PATCH v6 4/6] dt-bindings: cache: r9a07g043f-l2-cache: Add DT
- binding documentation for L2 cache controller
+References: <20221215213206.56666-1-biju.das.jz@bp.renesas.com>
+ <CACRpkdZCEvpLAWvH7pCLH7KwbDMzz0EN+4HbxVGfFPi_C1b8+g@mail.gmail.com> <CAMuHMdU1J46KSzqqCQc-1ZrgvfWh8J2aa6NzRTK_A_ZJs+zRVQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdU1J46KSzqqCQc-1ZrgvfWh8J2aa6NzRTK_A_ZJs+zRVQ@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 9 Jan 2023 14:16:09 +0100
+Message-ID: <CACRpkdaL2J7F2sVjVcTtFTfK1exZ3Rmjhc_dYxuo2DfhYq_8gw@mail.gmail.com>
+Subject: Re: [PATCH v5 0/9] Add RZ/G2L POEG support
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Conor Dooley <conor@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Drew Fustini <dfustini@baylibre.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Tue, Jan 3, 2023 at 10:01 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-Thanks for the feedback.
+> > If this should go into sysfs we should probably create something
+> > generic, such as a list of stuff to be exported as sysfs switches.
+> >
+> > It generally also looks really dangerous, which is another reason
+> > for keeping it in debugfs. It's the big hammer to hurt yourself with,
+> > more or less.
+>
+> Yes, generic would be nice.  Anyone familiar with other hardware
+> that could make use of this?
 
-On Mon, Jan 9, 2023 at 12:15 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Sat, Jan 7, 2023 at 9:47 PM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Fri, Jan 6, 2023 at 9:53 PM Conor Dooley <conor@kernel.org> wrote:
-> > > On Fri, Jan 06, 2023 at 06:55:24PM +0000, Prabhakar wrote:
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > Add DT binding documentation for L2 cache controller found on RZ/Five SoC.
-> > > >
-> > > > The Renesas RZ/Five microprocessor includes a RISC-V CPU Core (AX45MP
-> > > > Single) from Andes. The AX45MP core has an L2 cache controller, this patch
-> > > > describes the L2 cache block.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > Reviewed-by: Rob Herring <robh@kernel.org>
->
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
-> > > > @@ -0,0 +1,81 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > > +# Copyright (C) 2022 Renesas Electronics Corp.
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/cache/andestech,ax45mp-cache.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Andestech AX45MP L2 Cache Controller
-> > > > +
-> > > > +maintainers:
-> > > > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > +
-> > > > +description:
-> > > > +  A level-2 cache (L2C) is used to improve the system performance by providing
-> > > > +  a large amount of cache line entries and reasonable access delays. The L2C
-> > > > +  is shared between cores, and a non-inclusive non-exclusive policy is used.
-> > > > +
-> > > > +select:
-> > > > +  properties:
-> > > > +    compatible:
-> > > > +      contains:
-> > > > +        enum:
-> > > > +          - andestech,ax45mp-cache
-> > > > +
-> > > > +  required:
-> > > > +    - compatible
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    items:
-> > > > +      - const: andestech,ax45mp-cache
-> > > > +      - const: cache
-> > >
-> > > You might find value in a specific compatible for your SoC & enforce
-> > > constraints for it. Or you might not & I don't care either way :)
-> > >
-> > Good point actually. Geert what do you think?
->
-> That might be prudent, to cater for the way the standard AX45MP cache
-> block is integrated into the RZ/Five (or any other) SoC.
->
-> Still, in the absence of an SoC-specific compatible value, you can
-> handle integration issues using soc_device_match().
->
-Agreed,  I'll continue with the current DT bindings.
+Drew was using this for Beagle Bone IIRC, Drew?
 
-Cheers,
-Prabhakar
+Yours,
+Linus Walleij
