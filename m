@@ -2,708 +2,446 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 459D5662A16
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jan 2023 16:34:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1517A662AF0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Jan 2023 17:14:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235414AbjAIPcy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Jan 2023 10:32:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45286 "EHLO
+        id S231777AbjAIQOj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Jan 2023 11:14:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237219AbjAIPbv (ORCPT
+        with ESMTP id S231258AbjAIQOh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Jan 2023 10:31:51 -0500
-Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C4F51EC7B;
-        Mon,  9 Jan 2023 07:31:07 -0800 (PST)
-Received: from mwalle01.sab.local (unknown [213.135.10.150])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 92F811A11;
-        Mon,  9 Jan 2023 16:30:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1673278258;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HNr/3z9uIVXHH/dsxG51QQYxf6cRktTO5iC8JOqbAFY=;
-        b=kxst7edEMF+wOKsTqNfUehJsnE6pLdTtIL47AAXJVwXj9qedSFIe6zTWJetypt/jNnC55v
-        rCutxCa487leU3NVLm5aPkrACPBbVTVU6jbxFnd13u3mnnRj6J2o64INxBKZ8U3AjRAmn3
-        e+g7gMRq7fkGpuaAhfpAF47a/1l1ggmzjy24LGq9NawRole2WaD8rSsXScvmom8y4Y6GTF
-        Et8W8EvgUchdQlsUYda3eEzHM9ubtkxd9MVGGsdH6dWq1zlWi1cdT3+E8QHv5ozhRPSSC8
-        p7FRXd2Qycr7K40IsdclJDuwAHpZo/Pk+aaY3hyETm4k70FWjD3WTif7w9tBbQ==
-From:   Michael Walle <michael@walle.cc>
-Date:   Mon, 09 Jan 2023 16:30:51 +0100
-Subject: [PATCH net-next v3 11/11] net: dsa: mv88e6xxx: Separate C22 and C45
- transactions
-MIME-Version: 1.0
+        Mon, 9 Jan 2023 11:14:37 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 924261C920
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Jan 2023 08:14:36 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id d3so10004666plr.10
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 09 Jan 2023 08:14:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=w4PnZLA8FOXmkrVz5/edq8akq50OjRZuWCLXsoZIrFg=;
+        b=Aif0mzyHnn1XCiIV7WJd9ISNt4WOSvMvlvZXwqdF6xqCgJeaEyxSDPutlOe4HreNnK
+         XWXc08Y1dq9sYykutjHkZv/eeNUzncT1BSLFnjpFsuFIPZNVIVlMoUbUC9NjCggZLPAX
+         E7fHEi/buenhLAFV7AW9dBY/jlh7NlULILSCj/HxmK+MU+u+FZyVJW6fGoIr2BC75Li8
+         za+GCY1F0Jt7Rw4uiy6d3ZY6hFSX8w7bEKEi/d46DGZcwWSzbbYKP8L0FUm7i6rXy6UD
+         5ENhxb/EHMq6eXW90qScmVyfuvbpBExuGNPq05CmZHi8XFlEzrUuyPiJPckUlDDT2Nz3
+         3+0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w4PnZLA8FOXmkrVz5/edq8akq50OjRZuWCLXsoZIrFg=;
+        b=GyrqcxHj5O++rME3tFKrP0w+vB7s3iZe7iSvjJGonut6d6RhQM/vqjqfldGHK+GeoL
+         fYjGHWFcL43Gv5VSYGDaMj9YBqBA/AfrSx+0+cc48UZ0l0c1/8z2yGMRznH2wt93GSw2
+         GuafGIMaEqdcBw9iK2VOTvBjeOun2nGr5LqK0tqhxW/xJcEh6gno1jfN24Hqo47XtQZK
+         f519XGSXi8uiTqxhRhlUUy0NHGTwhY+JaIBub53+ai2GTbaNHdp8gWcSuB/9j+1Kq+Rr
+         IgzTLVitUr7yCQikhw8YjHlp2XtPwoICOypopu2JqPXGaI1l/HSuLdznXUJJtku1uyzq
+         RFQw==
+X-Gm-Message-State: AFqh2krEwM35NmsLJ51SrOeUTp68v8rz1KBqoDlUdSHt/gL6X9SNW7Oc
+        iIppziBBzrFtzArxzSNFwg2sfE8i7rGgrWwvGZ/8Vg==
+X-Google-Smtp-Source: AMrXdXvF0efxxlCRy3QFPK5xhQGIgHyh929eUUBLvlCuwxZ/qUxEUsvAMx7DB5l2HDArKWForXK08Q==
+X-Received: by 2002:a17:902:bf01:b0:192:b6af:415 with SMTP id bi1-20020a170902bf0100b00192b6af0415mr33152503plb.14.1673280875747;
+        Mon, 09 Jan 2023 08:14:35 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id q11-20020a170902eb8b00b00189c93ce5easm6296179plg.166.2023.01.09.08.14.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jan 2023 08:14:35 -0800 (PST)
+Message-ID: <63bc3d6b.170a0220.311a2.9912@mx.google.com>
+Date:   Mon, 09 Jan 2023 08:14:35 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20221227-v6-2-rc1-c45-seperation-v3-11-ade1deb438da@walle.cc>
-References: <20221227-v6-2-rc1-c45-seperation-v3-0-ade1deb438da@walle.cc>
-In-Reply-To: <20221227-v6-2-rc1-c45-seperation-v3-0-ade1deb438da@walle.cc>
-To:     Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jose Abreu <Jose.Abreu@synopsys.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Wei Fang <wei.fang@nxp.com>,
-        Shenwei Wang <shenwei.wang@nxp.com>,
-        Clark Wang <xiaoning.wang@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, Andrew Lunn <andrew@lunn.ch>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Walle <michael@walle.cc>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>
-X-Mailer: b4 0.11.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2023-01-09-v6.2-rc3
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+X-Kernelci-Report-Type: test
+Subject: renesas/master baseline: 348 runs,
+ 9 regressions (renesas-devel-2023-01-09-v6.2-rc3)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Andrew Lunn <andrew@lunn.ch>
+renesas/master baseline: 348 runs, 9 regressions (renesas-devel-2023-01-09-=
+v6.2-rc3)
 
-The global2 SMI MDIO bus driver can perform both C22 and C45
-transfers. Create separate functions for each and register the C45
-versions using the new API calls where appropriate. Update the SERDES
-code to make use of these new accessors.
+Regressions Summary
+-------------------
 
-Signed-off-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Michael Walle <michael@walle.cc>
-Reviewed-by: Vladimir Oltean <vladimir.oltean@nxp.com>
----
- drivers/net/dsa/mv88e6xxx/chip.c    | 175 ++++++++++++++++++++++++++----------
- drivers/net/dsa/mv88e6xxx/chip.h    |   7 ++
- drivers/net/dsa/mv88e6xxx/global2.c |  66 ++++++++------
- drivers/net/dsa/mv88e6xxx/global2.h |  18 ++--
- drivers/net/dsa/mv88e6xxx/phy.c     |  32 +++++++
- drivers/net/dsa/mv88e6xxx/phy.h     |   4 +
- drivers/net/dsa/mv88e6xxx/serdes.c  |   8 +-
- 7 files changed, 225 insertions(+), 85 deletions(-)
+platform                     | arch   | lab           | compiler | defconfi=
+g              | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------+------------
+imx6dl-udoo                  | arm    | lab-broonie   | gcc-10   | imx_v6_v=
+7_defconfig    | 1          =
 
-diff --git a/drivers/net/dsa/mv88e6xxx/chip.c b/drivers/net/dsa/mv88e6xxx/chip.c
-index 242b8b325504..0ff9cd0be217 100644
---- a/drivers/net/dsa/mv88e6xxx/chip.c
-+++ b/drivers/net/dsa/mv88e6xxx/chip.c
-@@ -3884,6 +3884,24 @@ static int mv88e6xxx_mdio_read(struct mii_bus *bus, int phy, int reg)
- 	return err ? err : val;
- }
- 
-+static int mv88e6xxx_mdio_read_c45(struct mii_bus *bus, int phy, int devad,
-+				   int reg)
-+{
-+	struct mv88e6xxx_mdio_bus *mdio_bus = bus->priv;
-+	struct mv88e6xxx_chip *chip = mdio_bus->chip;
-+	u16 val;
-+	int err;
-+
-+	if (!chip->info->ops->phy_read_c45)
-+		return -EOPNOTSUPP;
-+
-+	mv88e6xxx_reg_lock(chip);
-+	err = chip->info->ops->phy_read_c45(chip, bus, phy, devad, reg, &val);
-+	mv88e6xxx_reg_unlock(chip);
-+
-+	return err ? err : val;
-+}
-+
- static int mv88e6xxx_mdio_write(struct mii_bus *bus, int phy, int reg, u16 val)
- {
- 	struct mv88e6xxx_mdio_bus *mdio_bus = bus->priv;
-@@ -3900,6 +3918,23 @@ static int mv88e6xxx_mdio_write(struct mii_bus *bus, int phy, int reg, u16 val)
- 	return err;
- }
- 
-+static int mv88e6xxx_mdio_write_c45(struct mii_bus *bus, int phy, int devad,
-+				    int reg, u16 val)
-+{
-+	struct mv88e6xxx_mdio_bus *mdio_bus = bus->priv;
-+	struct mv88e6xxx_chip *chip = mdio_bus->chip;
-+	int err;
-+
-+	if (!chip->info->ops->phy_write_c45)
-+		return -EOPNOTSUPP;
-+
-+	mv88e6xxx_reg_lock(chip);
-+	err = chip->info->ops->phy_write_c45(chip, bus, phy, devad, reg, val);
-+	mv88e6xxx_reg_unlock(chip);
-+
-+	return err;
-+}
-+
- static int mv88e6xxx_mdio_register(struct mv88e6xxx_chip *chip,
- 				   struct device_node *np,
- 				   bool external)
-@@ -3938,6 +3973,8 @@ static int mv88e6xxx_mdio_register(struct mv88e6xxx_chip *chip,
- 
- 	bus->read = mv88e6xxx_mdio_read;
- 	bus->write = mv88e6xxx_mdio_write;
-+	bus->read_c45 = mv88e6xxx_mdio_read_c45;
-+	bus->write_c45 = mv88e6xxx_mdio_write_c45;
- 	bus->parent = chip->dev;
- 
- 	if (!external) {
-@@ -4149,8 +4186,10 @@ static const struct mv88e6xxx_ops mv88e6097_ops = {
- 	.ip_pri_map = mv88e6085_g1_ip_pri_map,
- 	.irl_init_all = mv88e6352_g2_irl_init_all,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6185_port_sync_link,
- 	.port_set_speed_duplex = mv88e6185_port_set_speed_duplex,
-@@ -4198,8 +4237,10 @@ static const struct mv88e6xxx_ops mv88e6123_ops = {
- 	.ip_pri_map = mv88e6085_g1_ip_pri_map,
- 	.irl_init_all = mv88e6352_g2_irl_init_all,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_speed_duplex = mv88e6185_port_set_speed_duplex,
-@@ -4279,8 +4320,10 @@ static const struct mv88e6xxx_ops mv88e6141_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom8,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom8,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6390_port_set_rgmii_delay,
-@@ -4343,8 +4386,10 @@ static const struct mv88e6xxx_ops mv88e6161_ops = {
- 	.ip_pri_map = mv88e6085_g1_ip_pri_map,
- 	.irl_init_all = mv88e6352_g2_irl_init_all,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_speed_duplex = mv88e6185_port_set_speed_duplex,
-@@ -4426,8 +4471,10 @@ static const struct mv88e6xxx_ops mv88e6171_ops = {
- 	.ip_pri_map = mv88e6085_g1_ip_pri_map,
- 	.irl_init_all = mv88e6352_g2_irl_init_all,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6352_port_set_rgmii_delay,
-@@ -4472,8 +4519,10 @@ static const struct mv88e6xxx_ops mv88e6172_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom16,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom16,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6352_port_set_rgmii_delay,
-@@ -4527,8 +4576,10 @@ static const struct mv88e6xxx_ops mv88e6175_ops = {
- 	.ip_pri_map = mv88e6085_g1_ip_pri_map,
- 	.irl_init_all = mv88e6352_g2_irl_init_all,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6352_port_set_rgmii_delay,
-@@ -4573,8 +4624,10 @@ static const struct mv88e6xxx_ops mv88e6176_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom16,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom16,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6352_port_set_rgmii_delay,
-@@ -4673,8 +4726,10 @@ static const struct mv88e6xxx_ops mv88e6190_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom8,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom8,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6390_port_set_rgmii_delay,
-@@ -4736,8 +4791,10 @@ static const struct mv88e6xxx_ops mv88e6190x_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom8,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom8,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6390_port_set_rgmii_delay,
-@@ -4799,8 +4856,10 @@ static const struct mv88e6xxx_ops mv88e6191_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom8,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom8,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6390_port_set_rgmii_delay,
-@@ -4862,8 +4921,10 @@ static const struct mv88e6xxx_ops mv88e6240_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom16,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom16,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6352_port_set_rgmii_delay,
-@@ -4925,8 +4986,10 @@ static const struct mv88e6xxx_ops mv88e6250_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom16,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom16,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6352_port_set_rgmii_delay,
-@@ -4964,8 +5027,10 @@ static const struct mv88e6xxx_ops mv88e6290_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom8,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom8,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6390_port_set_rgmii_delay,
-@@ -5029,8 +5094,10 @@ static const struct mv88e6xxx_ops mv88e6320_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom16,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom16,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6320_port_set_rgmii_delay,
-@@ -5074,8 +5141,10 @@ static const struct mv88e6xxx_ops mv88e6321_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom16,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom16,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6320_port_set_rgmii_delay,
-@@ -5117,8 +5186,10 @@ static const struct mv88e6xxx_ops mv88e6341_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom8,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom8,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6390_port_set_rgmii_delay,
-@@ -5183,8 +5254,10 @@ static const struct mv88e6xxx_ops mv88e6350_ops = {
- 	.ip_pri_map = mv88e6085_g1_ip_pri_map,
- 	.irl_init_all = mv88e6352_g2_irl_init_all,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6352_port_set_rgmii_delay,
-@@ -5227,8 +5300,10 @@ static const struct mv88e6xxx_ops mv88e6351_ops = {
- 	.ip_pri_map = mv88e6085_g1_ip_pri_map,
- 	.irl_init_all = mv88e6352_g2_irl_init_all,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6352_port_set_rgmii_delay,
-@@ -5275,8 +5350,10 @@ static const struct mv88e6xxx_ops mv88e6352_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom16,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom16,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6352_port_set_rgmii_delay,
-@@ -5340,8 +5417,10 @@ static const struct mv88e6xxx_ops mv88e6390_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom8,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom8,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6390_port_set_rgmii_delay,
-@@ -5407,8 +5486,10 @@ static const struct mv88e6xxx_ops mv88e6390x_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom8,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom8,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6390_port_set_rgmii_delay,
-@@ -5473,8 +5554,10 @@ static const struct mv88e6xxx_ops mv88e6393x_ops = {
- 	.get_eeprom = mv88e6xxx_g2_get_eeprom8,
- 	.set_eeprom = mv88e6xxx_g2_set_eeprom8,
- 	.set_switch_mac = mv88e6xxx_g2_set_switch_mac,
--	.phy_read = mv88e6xxx_g2_smi_phy_read,
--	.phy_write = mv88e6xxx_g2_smi_phy_write,
-+	.phy_read = mv88e6xxx_g2_smi_phy_read_c22,
-+	.phy_write = mv88e6xxx_g2_smi_phy_write_c22,
-+	.phy_read_c45 = mv88e6xxx_g2_smi_phy_read_c45,
-+	.phy_write_c45 = mv88e6xxx_g2_smi_phy_write_c45,
- 	.port_set_link = mv88e6xxx_port_set_link,
- 	.port_sync_link = mv88e6xxx_port_sync_link,
- 	.port_set_rgmii_delay = mv88e6390_port_set_rgmii_delay,
-diff --git a/drivers/net/dsa/mv88e6xxx/chip.h b/drivers/net/dsa/mv88e6xxx/chip.h
-index e693154cf803..751bede49942 100644
---- a/drivers/net/dsa/mv88e6xxx/chip.h
-+++ b/drivers/net/dsa/mv88e6xxx/chip.h
-@@ -451,6 +451,13 @@ struct mv88e6xxx_ops {
- 			 struct mii_bus *bus,
- 			 int addr, int reg, u16 val);
- 
-+	int (*phy_read_c45)(struct mv88e6xxx_chip *chip,
-+			    struct mii_bus *bus,
-+			    int addr, int devad, int reg, u16 *val);
-+	int (*phy_write_c45)(struct mv88e6xxx_chip *chip,
-+			     struct mii_bus *bus,
-+			     int addr, int devad, int reg, u16 val);
-+
- 	/* Priority Override Table operations */
- 	int (*pot_clear)(struct mv88e6xxx_chip *chip);
- 
-diff --git a/drivers/net/dsa/mv88e6xxx/global2.c b/drivers/net/dsa/mv88e6xxx/global2.c
-index fa65ecd9cb85..ed3b2f88e783 100644
---- a/drivers/net/dsa/mv88e6xxx/global2.c
-+++ b/drivers/net/dsa/mv88e6xxx/global2.c
-@@ -739,20 +739,18 @@ static int mv88e6xxx_g2_smi_phy_read_data_c45(struct mv88e6xxx_chip *chip,
- 	return mv88e6xxx_g2_read(chip, MV88E6XXX_G2_SMI_PHY_DATA, data);
- }
- 
--static int mv88e6xxx_g2_smi_phy_read_c45(struct mv88e6xxx_chip *chip,
--					 bool external, int port, int reg,
--					 u16 *data)
-+static int _mv88e6xxx_g2_smi_phy_read_c45(struct mv88e6xxx_chip *chip,
-+					  bool external, int port, int devad,
-+					  int reg, u16 *data)
- {
--	int dev = (reg >> 16) & 0x1f;
--	int addr = reg & 0xffff;
- 	int err;
- 
--	err = mv88e6xxx_g2_smi_phy_write_addr_c45(chip, external, port, dev,
--						  addr);
-+	err = mv88e6xxx_g2_smi_phy_write_addr_c45(chip, external, port, devad,
-+						  reg);
- 	if (err)
- 		return err;
- 
--	return mv88e6xxx_g2_smi_phy_read_data_c45(chip, external, port, dev,
-+	return mv88e6xxx_g2_smi_phy_read_data_c45(chip, external, port, devad,
- 						  data);
- }
- 
-@@ -771,51 +769,65 @@ static int mv88e6xxx_g2_smi_phy_write_data_c45(struct mv88e6xxx_chip *chip,
- 	return mv88e6xxx_g2_smi_phy_access_c45(chip, external, op, port, dev);
- }
- 
--static int mv88e6xxx_g2_smi_phy_write_c45(struct mv88e6xxx_chip *chip,
--					  bool external, int port, int reg,
--					  u16 data)
-+static int _mv88e6xxx_g2_smi_phy_write_c45(struct mv88e6xxx_chip *chip,
-+					   bool external, int port, int devad,
-+					   int reg, u16 data)
- {
--	int dev = (reg >> 16) & 0x1f;
--	int addr = reg & 0xffff;
- 	int err;
- 
--	err = mv88e6xxx_g2_smi_phy_write_addr_c45(chip, external, port, dev,
--						  addr);
-+	err = mv88e6xxx_g2_smi_phy_write_addr_c45(chip, external, port, devad,
-+						  reg);
- 	if (err)
- 		return err;
- 
--	return mv88e6xxx_g2_smi_phy_write_data_c45(chip, external, port, dev,
-+	return mv88e6xxx_g2_smi_phy_write_data_c45(chip, external, port, devad,
- 						   data);
- }
- 
--int mv88e6xxx_g2_smi_phy_read(struct mv88e6xxx_chip *chip, struct mii_bus *bus,
--			      int addr, int reg, u16 *val)
-+int mv88e6xxx_g2_smi_phy_read_c22(struct mv88e6xxx_chip *chip,
-+				  struct mii_bus *bus,
-+				  int addr, int reg, u16 *val)
- {
- 	struct mv88e6xxx_mdio_bus *mdio_bus = bus->priv;
- 	bool external = mdio_bus->external;
- 
--	if (reg & MII_ADDR_C45)
--		return mv88e6xxx_g2_smi_phy_read_c45(chip, external, addr, reg,
--						     val);
--
- 	return mv88e6xxx_g2_smi_phy_read_data_c22(chip, external, addr, reg,
- 						  val);
- }
- 
--int mv88e6xxx_g2_smi_phy_write(struct mv88e6xxx_chip *chip, struct mii_bus *bus,
--			       int addr, int reg, u16 val)
-+int mv88e6xxx_g2_smi_phy_read_c45(struct mv88e6xxx_chip *chip,
-+				  struct mii_bus *bus, int addr, int devad,
-+				  int reg, u16 *val)
- {
- 	struct mv88e6xxx_mdio_bus *mdio_bus = bus->priv;
- 	bool external = mdio_bus->external;
- 
--	if (reg & MII_ADDR_C45)
--		return mv88e6xxx_g2_smi_phy_write_c45(chip, external, addr, reg,
--						      val);
-+	return _mv88e6xxx_g2_smi_phy_read_c45(chip, external, addr, devad, reg,
-+					      val);
-+}
-+
-+int mv88e6xxx_g2_smi_phy_write_c22(struct mv88e6xxx_chip *chip,
-+				   struct mii_bus *bus, int addr, int reg,
-+				   u16 val)
-+{
-+	struct mv88e6xxx_mdio_bus *mdio_bus = bus->priv;
-+	bool external = mdio_bus->external;
- 
- 	return mv88e6xxx_g2_smi_phy_write_data_c22(chip, external, addr, reg,
- 						   val);
- }
- 
-+int mv88e6xxx_g2_smi_phy_write_c45(struct mv88e6xxx_chip *chip,
-+				   struct mii_bus *bus, int addr, int devad,
-+				   int reg, u16 val)
-+{
-+	struct mv88e6xxx_mdio_bus *mdio_bus = bus->priv;
-+	bool external = mdio_bus->external;
-+
-+	return _mv88e6xxx_g2_smi_phy_write_c45(chip, external, addr, devad, reg,
-+					       val);
-+}
-+
- /* Offset 0x1B: Watchdog Control */
- static int mv88e6097_watchdog_action(struct mv88e6xxx_chip *chip, int irq)
- {
-diff --git a/drivers/net/dsa/mv88e6xxx/global2.h b/drivers/net/dsa/mv88e6xxx/global2.h
-index 7536b8b0ad01..e973114d6890 100644
---- a/drivers/net/dsa/mv88e6xxx/global2.h
-+++ b/drivers/net/dsa/mv88e6xxx/global2.h
-@@ -314,12 +314,18 @@ int mv88e6xxx_g2_wait_bit(struct mv88e6xxx_chip *chip, int reg,
- int mv88e6352_g2_irl_init_all(struct mv88e6xxx_chip *chip, int port);
- int mv88e6390_g2_irl_init_all(struct mv88e6xxx_chip *chip, int port);
- 
--int mv88e6xxx_g2_smi_phy_read(struct mv88e6xxx_chip *chip,
--			      struct mii_bus *bus,
--			      int addr, int reg, u16 *val);
--int mv88e6xxx_g2_smi_phy_write(struct mv88e6xxx_chip *chip,
--			       struct mii_bus *bus,
--			       int addr, int reg, u16 val);
-+int mv88e6xxx_g2_smi_phy_read_c22(struct mv88e6xxx_chip *chip,
-+				  struct mii_bus *bus,
-+				  int addr, int reg, u16 *val);
-+int mv88e6xxx_g2_smi_phy_write_c22(struct mv88e6xxx_chip *chip,
-+				   struct mii_bus *bus,
-+				   int addr, int reg, u16 val);
-+int mv88e6xxx_g2_smi_phy_read_c45(struct mv88e6xxx_chip *chip,
-+				  struct mii_bus *bus,
-+				  int addr, int devad, int reg, u16 *val);
-+int mv88e6xxx_g2_smi_phy_write_c45(struct mv88e6xxx_chip *chip,
-+				   struct mii_bus *bus,
-+				   int addr, int devad, int reg, u16 val);
- int mv88e6xxx_g2_set_switch_mac(struct mv88e6xxx_chip *chip, u8 *addr);
- 
- int mv88e6xxx_g2_get_eeprom8(struct mv88e6xxx_chip *chip,
-diff --git a/drivers/net/dsa/mv88e6xxx/phy.c b/drivers/net/dsa/mv88e6xxx/phy.c
-index 252b5b3a3efe..8bb88b3d900d 100644
---- a/drivers/net/dsa/mv88e6xxx/phy.c
-+++ b/drivers/net/dsa/mv88e6xxx/phy.c
-@@ -55,6 +55,38 @@ int mv88e6xxx_phy_write(struct mv88e6xxx_chip *chip, int phy, int reg, u16 val)
- 	return chip->info->ops->phy_write(chip, bus, addr, reg, val);
- }
- 
-+int mv88e6xxx_phy_read_c45(struct mv88e6xxx_chip *chip, int phy, int devad,
-+			   int reg, u16 *val)
-+{
-+	int addr = phy; /* PHY devices addresses start at 0x0 */
-+	struct mii_bus *bus;
-+
-+	bus = mv88e6xxx_default_mdio_bus(chip);
-+	if (!bus)
-+		return -EOPNOTSUPP;
-+
-+	if (!chip->info->ops->phy_read_c45)
-+		return -EOPNOTSUPP;
-+
-+	return chip->info->ops->phy_read_c45(chip, bus, addr, devad, reg, val);
-+}
-+
-+int mv88e6xxx_phy_write_c45(struct mv88e6xxx_chip *chip, int phy, int devad,
-+			    int reg, u16 val)
-+{
-+	int addr = phy; /* PHY devices addresses start at 0x0 */
-+	struct mii_bus *bus;
-+
-+	bus = mv88e6xxx_default_mdio_bus(chip);
-+	if (!bus)
-+		return -EOPNOTSUPP;
-+
-+	if (!chip->info->ops->phy_write_c45)
-+		return -EOPNOTSUPP;
-+
-+	return chip->info->ops->phy_write_c45(chip, bus, addr, devad, reg, val);
-+}
-+
- static int mv88e6xxx_phy_page_get(struct mv88e6xxx_chip *chip, int phy, u8 page)
- {
- 	return mv88e6xxx_phy_write(chip, phy, MV88E6XXX_PHY_PAGE, page);
-diff --git a/drivers/net/dsa/mv88e6xxx/phy.h b/drivers/net/dsa/mv88e6xxx/phy.h
-index 05ea0d546969..5f47722364cc 100644
---- a/drivers/net/dsa/mv88e6xxx/phy.h
-+++ b/drivers/net/dsa/mv88e6xxx/phy.h
-@@ -28,6 +28,10 @@ int mv88e6xxx_phy_read(struct mv88e6xxx_chip *chip, int phy,
- 		       int reg, u16 *val);
- int mv88e6xxx_phy_write(struct mv88e6xxx_chip *chip, int phy,
- 			int reg, u16 val);
-+int mv88e6xxx_phy_read_c45(struct mv88e6xxx_chip *chip, int phy, int devad,
-+			   int reg, u16 *val);
-+int mv88e6xxx_phy_write_c45(struct mv88e6xxx_chip *chip, int phy, int devad,
-+			    int reg, u16 val);
- int mv88e6xxx_phy_page_read(struct mv88e6xxx_chip *chip, int phy,
- 			    u8 page, int reg, u16 *val);
- int mv88e6xxx_phy_page_write(struct mv88e6xxx_chip *chip, int phy,
-diff --git a/drivers/net/dsa/mv88e6xxx/serdes.c b/drivers/net/dsa/mv88e6xxx/serdes.c
-index d94150d8f3f4..72faec8f44dc 100644
---- a/drivers/net/dsa/mv88e6xxx/serdes.c
-+++ b/drivers/net/dsa/mv88e6xxx/serdes.c
-@@ -36,17 +36,13 @@ static int mv88e6352_serdes_write(struct mv88e6xxx_chip *chip, int reg,
- static int mv88e6390_serdes_read(struct mv88e6xxx_chip *chip,
- 				 int lane, int device, int reg, u16 *val)
- {
--	int reg_c45 = MII_ADDR_C45 | device << 16 | reg;
--
--	return mv88e6xxx_phy_read(chip, lane, reg_c45, val);
-+	return mv88e6xxx_phy_read_c45(chip, lane, device, reg, val);
- }
- 
- static int mv88e6390_serdes_write(struct mv88e6xxx_chip *chip,
- 				  int lane, int device, int reg, u16 val)
- {
--	int reg_c45 = MII_ADDR_C45 | device << 16 | reg;
--
--	return mv88e6xxx_phy_write(chip, lane, reg_c45, val);
-+	return mv88e6xxx_phy_write_c45(chip, lane, device, reg, val);
- }
- 
- static int mv88e6xxx_serdes_pcs_get_state(struct mv88e6xxx_chip *chip,
+imx6q-udoo                   | arm    | lab-broonie   | gcc-10   | imx_v6_v=
+7_defconfig    | 1          =
 
--- 
-2.30.2
+imx6sx-sdb                   | arm    | lab-nxp       | gcc-10   | imx_v6_v=
+7_defconfig    | 1          =
+
+imx7ulp-evk                  | arm    | lab-nxp       | gcc-10   | imx_v6_v=
+7_defconfig    | 1          =
+
+juno-uboot                   | arm64  | lab-broonie   | gcc-10   | defconfi=
+g+crypto       | 1          =
+
+ox820-clouden...lug-series-3 | arm    | lab-baylibre  | gcc-10   | oxnas_v6=
+_defconfig     | 1          =
+
+qemu_arm64-virt-gicv2        | arm64  | lab-collabora | gcc-10   | defconfi=
+g+debug        | 1          =
+
+qemu_x86_64                  | x86_64 | lab-broonie   | gcc-10   | x86_64_d=
+efconfig+debug | 1          =
+
+r8a774a1-hihope-rzg2m-ex     | arm64  | lab-cip       | gcc-10   | renesas_=
+defconfig      | 1          =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-01-09-v6.2-rc3/plan/baseline/
+
+  Test:     baseline
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-01-09-v6.2-rc3
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      84545c94403b4b5a90561c9c97c2c2c00091cff1 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g              | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------+------------
+imx6dl-udoo                  | arm    | lab-broonie   | gcc-10   | imx_v6_v=
+7_defconfig    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63bc060cddbaa178434eee32
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: imx_v6_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-imx6=
+dl-udoo.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-imx6=
+dl-udoo.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221230.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/63bc060cddbaa178434ee=
+e33
+        failing since 119 days (last pass: renesas-devel-2022-07-05-v5.19-r=
+c5, first fail: v6.0-rc5-843-g94f27a9ea269) =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g              | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------+------------
+imx6q-udoo                   | arm    | lab-broonie   | gcc-10   | imx_v6_v=
+7_defconfig    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63bc05aa5cb2dbb7d84eee2b
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: imx_v6_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-imx6=
+q-udoo.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-imx6=
+q-udoo.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221230.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/63bc05aa5cb2dbb7d84ee=
+e2c
+        failing since 119 days (last pass: renesas-devel-2022-09-02-v6.0-rc=
+3, first fail: v6.0-rc5-843-g94f27a9ea269) =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g              | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------+------------
+imx6sx-sdb                   | arm    | lab-nxp       | gcc-10   | imx_v6_v=
+7_defconfig    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63bc05a3511f0ed4844eee19
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: imx_v6_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm/imx_v6_v7_defconfig/gcc-10/lab-nxp/baseline-imx6sx-s=
+db.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm/imx_v6_v7_defconfig/gcc-10/lab-nxp/baseline-imx6sx-s=
+db.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221230.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/63bc05a3511f0ed4844ee=
+e1a
+        failing since 119 days (last pass: renesas-devel-2022-09-02-v6.0-rc=
+3, first fail: v6.0-rc5-843-g94f27a9ea269) =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g              | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------+------------
+imx7ulp-evk                  | arm    | lab-nxp       | gcc-10   | imx_v6_v=
+7_defconfig    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63bc05bee5e793df9f4eee85
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: imx_v6_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm/imx_v6_v7_defconfig/gcc-10/lab-nxp/baseline-imx7ulp-=
+evk.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm/imx_v6_v7_defconfig/gcc-10/lab-nxp/baseline-imx7ulp-=
+evk.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221230.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/63bc05bee5e793df9f4ee=
+e86
+        failing since 132 days (last pass: renesas-devel-2022-07-22-v5.19-r=
+c7, first fail: renesas-devel-2022-08-30-v6.0-rc3) =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g              | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------+------------
+juno-uboot                   | arm64  | lab-broonie   | gcc-10   | defconfi=
+g+crypto       | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63bc03721d2e85febc4eee3a
+
+  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Full config: defconfig+crypto
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm64/defconfig+crypto/gcc-10/lab-broonie/baseline-juno-=
+uboot.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm64/defconfig+crypto/gcc-10/lab-broonie/baseline-juno-=
+uboot.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221230.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/63bc03721d2e85febc4eee3f
+        new failure (last pass: renesas-devel-2022-12-12-v6.1)
+
+    2023-01-09T12:07:08.449895  <8>[   29.223981] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 75704_1.5.2.4.1>
+    2023-01-09T12:07:08.559075  / # #
+    2023-01-09T12:07:08.662132  export SHELL=3D/bin/sh
+    2023-01-09T12:07:08.662904  #
+    2023-01-09T12:07:08.764869  / # export SHELL=3D/bin/sh. /lava-75704/env=
+ironment
+    2023-01-09T12:07:08.765735  =
+
+    2023-01-09T12:07:08.867794  / # . /lava-75704/environment/lava-75704/bi=
+n/lava-test-runner /lava-75704/1
+    2023-01-09T12:07:08.869215  =
+
+    2023-01-09T12:07:08.881522  / # /lava-75704/bin/lava-test-runner /lava-=
+75704/1
+    2023-01-09T12:07:08.913602  + export 'TESTRUN_ID=3D1_bootrr' =
+
+    ... (41 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g              | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------+------------
+ox820-clouden...lug-series-3 | arm    | lab-baylibre  | gcc-10   | oxnas_v6=
+_defconfig     | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63bc04e15bc9523a104eee1c
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: oxnas_v6_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm/oxnas_v6_defconfig/gcc-10/lab-baylibre/baseline-ox82=
+0-cloudengines-pogoplug-series-3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm/oxnas_v6_defconfig/gcc-10/lab-baylibre/baseline-ox82=
+0-cloudengines-pogoplug-series-3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221230.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/63bc04e15bc9523a104ee=
+e1d
+        failing since 83 days (last pass: renesas-devel-2022-10-04-v6.0, fi=
+rst fail: renesas-devel-2022-10-17-v6.1-rc1) =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g              | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------+------------
+qemu_arm64-virt-gicv2        | arm64  | lab-collabora | gcc-10   | defconfi=
+g+debug        | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63bc08e150be8670ae4eee56
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+debug
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm64/defconfig+debug/gcc-10/lab-collabora/baseline-qemu=
+_arm64-virt-gicv2.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm64/defconfig+debug/gcc-10/lab-collabora/baseline-qemu=
+_arm64-virt-gicv2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221230.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/63bc08e150be8670ae4ee=
+e57
+        new failure (last pass: renesas-devel-2023-01-02-v6.2-rc2) =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g              | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------+------------
+qemu_x86_64                  | x86_64 | lab-broonie   | gcc-10   | x86_64_d=
+efconfig+debug | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63bc05292aa57f0b964eee19
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+debug
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/x86_64/x86_64_defconfig+debug/gcc-10/lab-broonie/baselin=
+e-qemu_x86_64.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/x86_64/x86_64_defconfig+debug/gcc-10/lab-broonie/baselin=
+e-qemu_x86_64.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221230.0/x86/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/63bc05292aa57f0b964ee=
+e1a
+        failing since 14 days (last pass: renesas-devel-2022-12-12-v6.1, fi=
+rst fail: renesas-devel-2022-12-26-v6.2-rc1) =
+
+ =
+
+
+
+platform                     | arch   | lab           | compiler | defconfi=
+g              | regressions
+-----------------------------+--------+---------------+----------+---------=
+---------------+------------
+r8a774a1-hihope-rzg2m-ex     | arm64  | lab-cip       | gcc-10   | renesas_=
+defconfig      | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63bc0f0f993751a21f4eef04
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: renesas_defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm64/renesas_defconfig/gcc-10/lab-cip/baseline-r8a774a1=
+-hihope-rzg2m-ex.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-01-09-v6.2-rc3/arm64/renesas_defconfig/gcc-10/lab-cip/baseline-r8a774a1=
+-hihope-rzg2m-ex.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20221230.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/63bc0f0f993751a21f4ee=
+f05
+        new failure (last pass: renesas-devel-2023-01-02-v6.2-rc2) =
+
+ =20
