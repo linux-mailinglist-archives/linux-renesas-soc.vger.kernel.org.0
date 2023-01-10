@@ -2,118 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40ED1663AAD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jan 2023 09:15:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEE94663B6D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jan 2023 09:41:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234800AbjAJIP2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Jan 2023 03:15:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47292 "EHLO
+        id S238052AbjAJIlX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Jan 2023 03:41:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237833AbjAJIPX (ORCPT
+        with ESMTP id S237984AbjAJIkp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Jan 2023 03:15:23 -0500
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05B5E9FCA
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Jan 2023 00:15:23 -0800 (PST)
-Received: by mail-yb1-xb35.google.com with SMTP id g4so11009762ybg.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Jan 2023 00:15:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9pgLTdpvWw2skhjb4T56kILYZt+xH34j9kjUZ75HWSc=;
-        b=VSOCSfl0vMa7Mgocmkd7GP5+VwBzlOHM8BHouJaEMVZy3NMpSZsrM66VuN2U5DNwfi
-         OB00YI1nkp3DXd7dQqDwYZEM7eRCYImt9K8fbrCGDrCykZDarqlo3flzn+WEhxrJcfxU
-         7Ia1K4ut7ELQX6fW34m0gCNp7+1LbCpab9YAflvGZVXBZ9f2JLL1VPwEhj8rkkYZBkZT
-         hGW9UDkYPWKX8ZAsI4HUbZZXkW/hQmUMyThJt+ixQ3xBv5BmkO0DRs3sZtY40jlqnLr4
-         eBhaKwtO3f1ZLDyr2stdrm6lcIlz3asTEVh6bI1LXn0+75sR38AHE/nOOW8+ExMBJOeS
-         Q0uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9pgLTdpvWw2skhjb4T56kILYZt+xH34j9kjUZ75HWSc=;
-        b=euIO2WqfBWWqTRuqOgU/9qW/0tvknQKy3N9CNr8yyoP60rAUKdvFBL4NiZksJn8uyz
-         HIxbaFMwu61Ndo+seOkMp5IXYhB5XuzVjlNLJqc36qCGI4JyBSoTB6d1DRAtfxlN1FVC
-         RVbEI934DffSjT/Fg1/ff8dULHPBBpMWGH549kFJ0u6+LD0gK9a4/Wt6u5BDFRBz1h7i
-         06EolZlElkZpDam9N4Jdlv6GEZ5AGvuK8pGh01XSNAVua+2pbcfckHozA76yah5gIeoU
-         gU/QxCA6MWsHnHQpD5wQXnVvMKPa59e34uWgmeG2NWntqyumMjiGhE+pXB18or+8X7QL
-         iKhA==
-X-Gm-Message-State: AFqh2kq2IizaoFB9RmaDdfygATRb0c4mhtP9gkchBtI/+47cEbEHntpE
-        3V+gVTHzDspbIRfnCUxJz9ELanY39QJkIYl/tMuzMA==
-X-Google-Smtp-Source: AMrXdXu72/6OnGsmGp9R8TxFpMf1pphZYj6NyaqD4j9V8BNchawfB676VHxYCeEsZkuxmSi+HAVFn+QGRomSFSGqO5A=
-X-Received: by 2002:a25:8e8e:0:b0:6fa:a54e:9276 with SMTP id
- q14-20020a258e8e000000b006faa54e9276mr5388853ybl.460.1673338522267; Tue, 10
- Jan 2023 00:15:22 -0800 (PST)
+        Tue, 10 Jan 2023 03:40:45 -0500
+Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96DD0E8
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Jan 2023 00:40:43 -0800 (PST)
+Received: by mail.lokoho.com (Postfix, from userid 1001)
+        id 615F78311C; Tue, 10 Jan 2023 08:40:39 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
+        t=1673340042; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
+        h=Date:From:To:Subject:From;
+        b=f3SjNq8pDfQhkvIN2GF492zEROQbkRYbm8qAHyLRSBLf165tRKg9/p8CnM4JCEehh
+         lkpr+jiyNxGgcZQw9lVz39juaqnBG8NTKDhax99XZGKgoZhUHgbHuOpEI+0SrKEWX2
+         UpE7kxdVQ17QflUIiYb0gtcEFpC2MpSIAYQkNGuDb137L9lgb27ZHxDttQbRujAtL+
+         vv+nQzzSlLVzvelxDXH25T6lC7HwxoR9GMXs/wT+SJ5zLq7mD5gVdLdoIa/K1OXZt4
+         sI+ZoU0FTPozqE6Pn+W6J3tDaF83SA1zNhcJ9ptzgtfo0nQO/rg/IQsQzTlqOwB9pP
+         yAm+4FzTxk7nA==
+Received: by mail.lokoho.com for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Jan 2023 08:40:32 GMT
+Message-ID: <20230110074501-0.1.3b.lhol.0.78rlau2pvc@lokoho.com>
+Date:   Tue, 10 Jan 2023 08:40:32 GMT
+From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.lokoho.com
 MIME-Version: 1.0
-References: <20221215213206.56666-1-biju.das.jz@bp.renesas.com>
- <CACRpkdZCEvpLAWvH7pCLH7KwbDMzz0EN+4HbxVGfFPi_C1b8+g@mail.gmail.com> <OS0PR01MB5922FBA488F80DFB08FE16E686FE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922FBA488F80DFB08FE16E686FE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 10 Jan 2023 09:15:11 +0100
-Message-ID: <CACRpkda1JDaaMnCx81oZ2Wmm1_rfYgsaRdBGT0jCyczNSHc4og@mail.gmail.com>
-Subject: Re: [PATCH v5 0/9] Add RZ/G2L POEG support
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Drew Fustini <dfustini@baylibre.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 9, 2023 at 4:10 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+Dzie=C5=84 dobry,
 
-> > What's wrong with using the debugfs approach Drew implemented in commit
-> > 6199f6becc869d30ca9394ca0f7a484bf9d598eb
-> > "pinctrl: pinmux: Add pinmux-select debugfs file"
-> > ?
->
-> I am not sure, we supposed to use debugfs for production environment??
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-It depends what is meant by "production environment".
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
-If you mean a controlled environment "one-off" such as a factory line,
-a specific installation for a specific purpose such as a water purifier,
-that is very custom and hacked together for that one usecase. It will
-have other hacks too, so then Beagle is using debugfs in "production"
-if that is what you mean by "production", i.e. used to produce something.
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
 
-This is the same "production" use cases as used by i.e. the GPIO
-character device.
 
-If you mean that you are producing 6 million laptops where userspace is
-going to hammer this constantly, then no. In that case a real sysfs
-knob and ABI contract is needed.
-
-Usually vendors know which usecase their hardware is intended for,
-there is in my experience no unknown target audience, so which one is it in
-your case?
-
-> > such as a list of stuff to be exported as sysfs switches.
->
-> Can you please elaborate? Or Point me to an example for this?
-
-Not sure what to say about that, you will have to invent something I'm
-afraid, good examples are in Documentation/ABI.
-
-Yours,
-Linus Walleij
+Pozdrawiam
+Adam Charachuta
