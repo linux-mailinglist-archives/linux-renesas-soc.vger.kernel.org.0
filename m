@@ -2,195 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F80C664323
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jan 2023 15:21:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C5FF664332
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jan 2023 15:25:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231675AbjAJOVe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Jan 2023 09:21:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42436 "EHLO
+        id S232250AbjAJOZq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Jan 2023 09:25:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238400AbjAJOVW (ORCPT
+        with ESMTP id S230389AbjAJOZp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Jan 2023 09:21:22 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C5F965AD2;
-        Tue, 10 Jan 2023 06:21:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1673360480; x=1704896480;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=a8iAzIGa+knRayYfk63Y1+FiebZ21Tk7l4iXW5Vqm9E=;
-  b=uiDf2Q9QgTOnbAPj/XGtdTJe0K/nNMVi8Oxm+3PaG4+zG7ZznSpBPVRx
-   A4EBYFsHfcw/3P7RkXDVqO3YLJv9Czf5gjIduC8vB2agL8gp/Cu+d5n25
-   QCkPrMSuTOkkK/teCvDGkRKTP/QJMs5GbMniVVnuhF27m4shPX1AyKW2/
-   B+gi0CihqUh639FL7Cf1cjHxIoeFXjMPh4mqM+q+RFQzmzlhcZ1hNNNt4
-   uF3jt4XuWgq24oc13TN+ELSWnHme72+Y+fzhrTvDUJSsZocQ3eM0pUQng
-   I0W9Rv3XWU0biVSuG82PAStqbfLsUvbEuzCmsw+9JD0yigY1+aUzB4q9u
-   A==;
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; 
-   d="scan'208";a="207149181"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 Jan 2023 07:21:20 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 10 Jan 2023 07:21:19 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Tue, 10 Jan 2023 07:21:19 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jJCJWz0OaoD5Ye0pzbe4QSVEelWDyUkoMD47wdMebsLR/3OD9r1seZl28W7+clisVTXo8Hvk8UnpBhGnkwCKQ9A8i5pqzhr89WcU3JLqWKLmMB5CGXXp47s5KcQuxMWQvCQU7OvgNN5nkHmCOjw61GccCEDVYerAmWXjNO5zeBGrWVIAiHf11P2b4TVgZJ8iy02i91YAaEaV3svssP7iHed8Erk0K2LNzBh1IVmNXbF2U9vRHiV3kcGRuU8tVxPPfjO0hcKqSQVkwpDc3S06lGU5ySIIbSzNpCL4HJ6czyUTwccdfxE2rpme6fMIu7I3/N+i699cAcBmBpokvE8zqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a8iAzIGa+knRayYfk63Y1+FiebZ21Tk7l4iXW5Vqm9E=;
- b=fTrUsxUPVopxZ+ktw5MoPiJcYyf3epOxGPKLypYohDlWQ7IJ4gxHW+76m0PaG2jOmM/4pYyeq9DCAI5AG/B0t8o+tc9RpiE9LQQ7egvLwaZPzI+ddViN1AqGFfIMCNsH1W4Aj/IMtQfxwCktfSDbpzDuvDzRDUk2V7OcmfqH9zbXSZaHhsLSIdEitDidO0ieK4U1TsEKNOtee64w9LRQQv2gMi3elGN2oMPMEeZARwL1Zo3Gb6ZvVbUFyirD2r65H4N1zvmgZ5oKk1uqBmxx9fdLg45035iNi9Nk4nFXAgwdkkSaAZJd4kuDZrcapSXJJznhSzBh5YIPFXryIkOeBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a8iAzIGa+knRayYfk63Y1+FiebZ21Tk7l4iXW5Vqm9E=;
- b=bl+X+3Mb+TL4x98PcPPiIyjglaiCToAK19r/3u/PzmgWusgiMWqSDXCi1HA2oBHS2shdZkOlbf35nlLojfgd7qUEhAEKP8LriGzHqdqo0Pi0meLEGg9lbb59sEzMHiVi/5PEAfktwMKHA+I6pv/7WxCEg3vxpuoQTLZmoYanisI=
-Received: from DM5PR11MB0076.namprd11.prod.outlook.com (2603:10b6:4:6b::28) by
- BL3PR11MB6338.namprd11.prod.outlook.com (2603:10b6:208:3b2::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Tue, 10 Jan
- 2023 14:21:18 +0000
-Received: from DM5PR11MB0076.namprd11.prod.outlook.com
- ([fe80::33d3:8fb0:5c42:fac1]) by DM5PR11MB0076.namprd11.prod.outlook.com
- ([fe80::33d3:8fb0:5c42:fac1%5]) with mapi id 15.20.5986.018; Tue, 10 Jan 2023
- 14:21:18 +0000
-From:   <Arun.Ramadoss@microchip.com>
-To:     <andrew@lunn.ch>, <yoshihiro.shimoda.uh@renesas.com>,
-        <linux@armlinux.org.uk>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <edumazet@google.com>, <davem@davemloft.net>,
-        <hkallweit1@gmail.com>
-CC:     <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH net-next v2 1/4] net: phylink: Set host_interfaces for a
- non-sfp PHY
-Thread-Topic: [PATCH net-next v2 1/4] net: phylink: Set host_interfaces for a
- non-sfp PHY
-Thread-Index: AQHZJP1huDxZDGneoEm0V6N1AuZu7a6Xs5+A
-Date:   Tue, 10 Jan 2023 14:21:18 +0000
-Message-ID: <c03cf325b9ab5d0bbf38508336ad0aba6dfbf81b.camel@microchip.com>
-References: <20230110050206.116110-1-yoshihiro.shimoda.uh@renesas.com>
-         <20230110050206.116110-2-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20230110050206.116110-2-yoshihiro.shimoda.uh@renesas.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM5PR11MB0076:EE_|BL3PR11MB6338:EE_
-x-ms-office365-filtering-correlation-id: c5a289d9-6965-42a5-0909-08daf315f07d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: eLsfH52GA1vkXhD1cZSXedIY57mznWi0YePGC2jBkjXmt26cD9Z4UosjpPlx8Zr9cghUGPOzlYuNI3UZawGrnURCNFwIsWY3VwCH8N9cKfKPCKX+6VZC2LJW64BDWORsUx6aTBv1q8c85mD1CvCGQBF3elmvnYtMBc2mhaqXdiAgridzuMIROMNMPFuiIozmSRHotiW/6BtjjaaPXveygo5dA0P2E0/wqy8Fno6drgrO+GE7p77gt5UZuuR3fnhSHvtoyHCOXK2pjbRNbuT/GR7JbFlngYDQct1pgG7pa+Q+h59GGAsXVJRZAmtsVVGHSL2OLfPNZfBT5nC/Bq6/ISwQCBza44607D42kwpUbfdMJOn2ODi/UBlxgYhgRN7u23rD22BOdGMA6u74iO5qYzvCgYdN+irAvxio6Krqn1s8buR21ZuK9scpSpEYwdAsswHw2GZ00nBCAfsyyQJDPDHKIWAw63/P2LPz4HjU/Jc4zdXXOdIQQysgSikXmZmi/+9UL+VNPJP50eWNVvO9JCZNJZY5X1qbnGO5FBeKk+EHwRsomZaphd6BIGNqkTV6tJbLiOGew9KDG1S2avb3Ggm8bMdrHsqQ/GTUAsEbyzsns/knzFYrIsZ4/HWdCBWf3gva/ksjoO2jhGuQyIenbhqKIlehEEcLhEwlyhm+7MO1689VV+vB0REMHXtpL490OGaYPGi0Wnv1uozSFt09OAnaDcPxf4AzMKqbiGLj5f4=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR11MB0076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(346002)(39860400002)(136003)(396003)(366004)(451199015)(6506007)(38100700002)(122000001)(2906002)(478600001)(6486002)(2616005)(7416002)(6512007)(186003)(71200400001)(5660300002)(316002)(83380400001)(38070700005)(8936002)(36756003)(86362001)(41300700001)(64756008)(8676002)(110136005)(54906003)(4326008)(66946007)(76116006)(91956017)(66446008)(66556008)(66476007)(99106002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bElONUtGb3RTYXg3MEo4MVJSVkFpM0twTG1IdjB0SHZ6N2xMdkRMNnlmbFBw?=
- =?utf-8?B?RDBTbmtWZXdxZmxmTEx1d0JSZUxScFozU2ZpeFhPMWZXcG5MelVOMm5OZTJF?=
- =?utf-8?B?UXkvdWphOURiY3BKTEpoZVlPQUV3VnRxeGg3d3lXY1ZsVXBmUTJlZ21wcGZM?=
- =?utf-8?B?ZU9JUGJzVDMxeWtvQlpTVlF2U2g0UHFmV2RKYkNBbVArcmJJd1ppczVPaTJI?=
- =?utf-8?B?S0tabDhlbk5hQnFCV0FmQ3dQQWFXcDNvQThGdDczNnRaNUozbVlsczlZS05Q?=
- =?utf-8?B?SDYwRHMwNHdmTW1OMGQyNlc2NVN5MmNwYmtKSURQQ1BxMElBR0QrcGhIcEp2?=
- =?utf-8?B?Zk9razZzZWZ6L2VaQzFkeWhXT2RIalJLdmthSEw0d1JvZW9jVEduLzE0ckpE?=
- =?utf-8?B?VUo0ODIycHIxWUVkajc5UHFIMFNzMWZKM1l1ZUxsU3lVTU1vTHU5Y2hEZXRl?=
- =?utf-8?B?d2VkWDdZSXAvT1BYTFRBaEhaYzlVUFRIQ05DdXE4emhYWHpubk1wQUpCWGIv?=
- =?utf-8?B?WTViemEzbm9mRWhnZFpPTzc1dlhKZEJrRFo2Unc5T1JwOE5hKzBoL25yRFZF?=
- =?utf-8?B?QjhPM0lrbTR2VFYrUS9Ta3J4WEdzQTM4SjBzL09TSmFOaTNOeWZxcTVmcXZl?=
- =?utf-8?B?QnVobmZ4Y3lCcEFPWFhaZitWNGhDV0Q4VXE3dVBFTXA0d2lzSDI1OGVQRXdv?=
- =?utf-8?B?VUp6cWJoNjh0TjFlK280MmdUQmRQOUczVGlQNThpWHhZeDIxc2ZQSlU2TU1G?=
- =?utf-8?B?WS9YdDdBSW9PamtqZUNBN3NkNm1TOVQ3amZUZlhlckpXQXVVcVo2ekp1QWg5?=
- =?utf-8?B?ckZzcUp5UUhsQ1BVTk0zM0UyV0R0OFdvRkFzbU1jQlFOR3R0cy9OS3ozcExB?=
- =?utf-8?B?OEhHNkl0TSs1V1ZBL1hHTEVTWEtMMUJvMUJxK2d6RENFUlo2YUR2bkNMUFZn?=
- =?utf-8?B?R2JZYUNMQmU2bFdldCtvYnZMYTZUa2ZNck5IaDZBRXptc0NPWDlKa2d1Nlo2?=
- =?utf-8?B?MVBsZGRLUnRVMFBQRnZ5YjJ5NFo0NmtWWmdUZVQ2N2QxTzFCL1ppT002Uyt5?=
- =?utf-8?B?SnArdGFacGpoRlVJQkgxVGhUQmkvb0dkU0tRTzRrc1dXUUNHT1puK2NHWG1U?=
- =?utf-8?B?Sk1BUSttQndma2puWVFXRTdrUUtSQ1BBN04vb2x2NmptVW1QUTQydUZla1BP?=
- =?utf-8?B?bWx5M0k4Y2sxWmFLcGxkZ1R2c21EVTB0a1hkbmxFYkZxT0doeWNQSE0xV1A5?=
- =?utf-8?B?T3haL3hEbS9LK0t2WnU5Ym82aGdrS2h3TXkycTA4a1BEMW00TjBtK3Q3Sldl?=
- =?utf-8?B?Wlhocmxzakh3R05JdW0yQVdvdzk0Q2FtdzVXbmNtWXFoNHZMWXFrVzdwVkJk?=
- =?utf-8?B?dVJYTTdVMW43SXB5Nlc2MmovMDRNeEppN2Zmb3R3enhFbHZKU1hjc0t3NnJI?=
- =?utf-8?B?bkZYQUNZQ2wrVml4V0FyME5Jby93bEt3M3Q4R2N2RHZWdEVlZyt4a3JIcWZu?=
- =?utf-8?B?c1ZjdW5FZVBVUGw2RlM5SlBlWkEzbVN4Q3hoMUE0Tmp0MlVKdXI5TDlhWldp?=
- =?utf-8?B?eTAyS2RSNDcrazhoYmVUU0hvSTlya29iT09UemdhdHFmbW5QWVVPTElzRUlL?=
- =?utf-8?B?T0dZTEhMdGk2S2d3cHFNVFhmUzRBcUJlVytHajVkUUEyWVNyZWNsak1jTG1s?=
- =?utf-8?B?Z3MyTnhsNzFCOGlZb0RYWlZhNndWVThPRXJZSUNvZEYxVisxUyt4TllSR2Rq?=
- =?utf-8?B?Vlh6MXgzSFlNTFZVVmpoeVpPWVBNc0VuS3JyUXNtWi9EMXh1b0JXT3V3K2x2?=
- =?utf-8?B?Uy9wd282VFFNckplUzRtdzN2Q3Z4U0ZCSHBiTlI1Zm9ranNma2YwaU41STZG?=
- =?utf-8?B?RlhoT3NBY1d4UVU0ZHRaREYxRHNxcHJFa2dyMTlVaWtpaUh3emo1RlZiaVVD?=
- =?utf-8?B?RUNLcWpHeS9BVjRqWTRSenVsc25HNnF6dHAxdHlPRVhGLzczMnBuVEliaWMz?=
- =?utf-8?B?TXk4YnRFRXd0RVp4SkRjdFVhTHhKSHVIUmlmNVN3QVpkam5rZU44YmJtZUFV?=
- =?utf-8?B?UUNFRW9sclVwWTE5Sk5PSDRnaFc5SmdjUGJlbHNreno3NEJOemk4aUhhZG9V?=
- =?utf-8?B?MnZ2Vzl4b3l3S2NZelY4SU1vN0xvR0dJcDBJZmhSNGJhVVRQTW51Z2hQd2tl?=
- =?utf-8?B?WXFWM2ZLWStoZXUzVmRVUmlIZlRVU1ArditZK0lYMTloZWQ5RHdvczVnQjlS?=
- =?utf-8?Q?rGPC4dQqoJIym89hx34B2XzceFLuzjs6UVKdzhz23U=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <35575824209D1D48A83B3CF9A746E995@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        Tue, 10 Jan 2023 09:25:45 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 154A751311;
+        Tue, 10 Jan 2023 06:25:43 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86CCA51E;
+        Tue, 10 Jan 2023 15:25:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1673360741;
+        bh=uHpoZuFH8hVrbocw6FPuOUidjWHwMDLuOh8dNnA2/Cs=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=bV8kHKVLX8M27eBkDviIKl9wyQQBIi1c3t/3mf+nMI9kxsIjzMzjrOBI40mjZaj+D
+         1eVMg/XNWSsVR37L4uLLAZG5EJtdi3Vvhm05i0XGSf6Qj78qv5yskHtPqeh8eiqM+Z
+         Dtqooc4zKNGznFKHDB0fk5QOms4R46xuGJspqVIw=
+Message-ID: <479e1dca-8d9c-cc75-75d9-3148ccc54f68@ideasonboard.com>
+Date:   Tue, 10 Jan 2023 16:25:37 +0200
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB0076.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5a289d9-6965-42a5-0909-08daf315f07d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jan 2023 14:21:18.0779
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UovtIeLE+RqkEKKg5Ee4cgOxgfl1ZZfpM32FO39H9a3AMquVaNGxX5JyE6VVTwNF4RutnGsJdoJBHOOLVeNNGvRqEkPG7X3BcAfvD9KGssE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6338
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 0/7] media/drm: renesas: Add new pixel formats
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Dave Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y6m2AqlDdmcgCk8F@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <Y6m2AqlDdmcgCk8F@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgWW9zaGloaXJvLA0KT24gVHVlLCAyMDIzLTAxLTEwIGF0IDE0OjAyICswOTAwLCBZb3NoaWhp
-cm8gU2hpbW9kYSB3cm90ZToNCj4gSWYgYSBuZXcgZmxhZyAob3ZyX2hvc3RfaW50ZXJmYWNlcykg
-aW4gdGhlIHBoeWxpbmtfY29uZmlnIGlzIHNldCwNCj4gb3ZlcndyaXRlIHRoZSBob3N0X2ludGVy
-ZmFjZXMgaW4gdGhlIHBoeV9kZXZpY2UgYnkgbGlua19pbnRlcmZhY2UuDQo+IA0KPiBOb3RlIHRo
-YXQgYW4gZXRoZXJuZXQgUEhZIGRyaXZlciBsaWtlIG1hcnZlbGwxMGcgd2lsbCBjaGVjaw0KPiBQ
-SFlfSU5URVJGQUNFX01PREVfU0dNSUkgaW4gdGhlIGhvc3RfaW50ZXJmYWNlcyB3aHRoZXIgdGhl
-IGhvc3QNCj4gY29udHJvbGxlciBzdXBwb3J0cyBhIHJhdGUgbWF0Y2hpbmcgaW50ZXJmYWNlIG1v
-ZGUgb3Igbm90LiBTbywgc2V0DQo+IFBIWV9JTlRFUkZBQ0VfTU9ERV9TR01JSSB0byB0aGUgaG9z
-dF9pbnRlcmZhY2VzIGlmIGl0IGlzIHNldCBpbg0KPiB0aGUgc3VwcG9ydGVkX2ludGVyZmFjZXMu
-DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBZb3NoaWhpcm8gU2hpbW9kYSA8eW9zaGloaXJvLnNoaW1v
-ZGEudWhAcmVuZXNhcy5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9uZXQvcGh5L3BoeWxpbmsuYyB8
-IDkgKysrKysrKysrDQo+ICBpbmNsdWRlL2xpbnV4L3BoeWxpbmsuaCAgIHwgMyArKysNCj4gIDIg
-ZmlsZXMgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvbmV0L3BoeS9waHlsaW5rLmMgYi9kcml2ZXJzL25ldC9waHkvcGh5bGluay5jDQo+IGluZGV4
-IDA5Y2M2NWMwZGE5My4uMGQ4NjNlNTU5OTRlIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL25ldC9w
-aHkvcGh5bGluay5jDQo+ICsrKyBiL2RyaXZlcnMvbmV0L3BoeS9waHlsaW5rLmMNCj4gQEAgLTE4
-MDksNiArMTgwOSwxNSBAQCBpbnQgcGh5bGlua19md25vZGVfcGh5X2Nvbm5lY3Qoc3RydWN0IHBo
-eWxpbmsNCj4gKnBsLA0KPiAgCQlwbC0+bGlua19pbnRlcmZhY2UgPSBwaHlfZGV2LT5pbnRlcmZh
-Y2U7DQo+ICAJCXBsLT5saW5rX2NvbmZpZy5pbnRlcmZhY2UgPSBwbC0+bGlua19pbnRlcmZhY2U7
-DQo+ICAJfQ0KPiArCWlmIChwbC0+Y29uZmlnLT5vdnJfaG9zdF9pbnRlcmZhY2VzKSB7DQo+ICsJ
-CV9fc2V0X2JpdChwbC0+bGlua19pbnRlcmZhY2UsIHBoeV9kZXYtDQo+ID5ob3N0X2ludGVyZmFj
-ZXMpOw0KDQpCbGFuayBsaW5lIGJlZm9yZSBjb21tZW50IHdpbGwgaW5jcmVhc2UgdGhlIHJlYWRh
-YmlsaXR5Lg0KDQo+ICsJCS8qIEFuIGV0aGVybmV0IFBIWSBkcml2ZXIgd2lsbCBjaGVjaw0KPiBQ
-SFlfSU5URVJGQUNFX01PREVfU0dNSUkNCj4gKwkJICogaW4gdGhlIGhvc3RfaW50ZXJmYWNlcyB3
-aGV0aGVyIHRoZSBob3N0IGNvbnRyb2xsZXINCj4gc3VwcG9ydHMNCj4gKwkJICogYSByYXRlIG1h
-dGNoaW5nIGludGVyZmFjZSBtb2RlIG9yIG5vdC4NCj4gKwkJICovDQoNCkNvbW1pdCBtZXNzYWdl
-IGRlc2NyaXB0aW9uIGFuZCB0aGlzIGNvbW1lbnQgYXJlIHNhbWUuIGZvbGxvd2luZyBjb2RlDQpz
-bmlwcGV0IGltcGxpZXMgaXQgdGVzdCB0aGUgU0dNSUkgaW4gc3VwcG9ydGVkIGludGVyZmFjZXMg
-YW5kIHNldCBpdCBpbg0KcGh5X2Rldi4NCg0KPiArCQlpZiAodGVzdF9iaXQoUEhZX0lOVEVSRkFD
-RV9NT0RFX1NHTUlJLCBwbC0+Y29uZmlnLQ0KPiA+c3VwcG9ydGVkX2ludGVyZmFjZXMpKQ0KPiAr
-CQkJX19zZXRfYml0KFBIWV9JTlRFUkZBQ0VfTU9ERV9TR01JSSwgcGh5X2Rldi0NCj4gPmhvc3Rf
-aW50ZXJmYWNlcyk7DQo+ICsJfQ0KPiAgDQo+ICAJcmV0ID0gcGh5X2F0dGFjaF9kaXJlY3QocGwt
-Pm5ldGRldiwgcGh5X2RldiwgZmxhZ3MsDQo+ICAJCQkJcGwtPmxpbmtfaW50ZXJmYWNlKTsNCj4g
-DQo=
+On 26/12/2022 16:56, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> (CC'ing Daniel and Dave)
+> 
+> On Wed, Dec 21, 2022 at 11:24:41AM +0200, Tomi Valkeinen wrote:
+>> From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>
+>> Hi,
+>>
+>> These add new pixel formats for Renesas V3U and V4H SoCs.
+>>
+>> As the display pipeline is split between DRM and V4L2 components, this
+>> series touches both subsystems. I'm sending all these together to
+>> simplify review. If needed, I can later split this to V4L2 and DRM
+>> parts, of which the V4L2 part needs to be merged first.
+> 
+> As the changes on the DRM side are small and shouldn't conflict with
+> anything else queued for v6.3, it would be easier to merge the whole
+> series through the media tree. Daniel, Dave, would you be OK with that ?
+> If so, could you please ack patches 6/7 and 7/7 ?
+
+Note that these patches depend on the two DRM driver patches in "[PATCH 
+v5 0/7] Renesas V4H DSI & DP output support", which are not very small 
+(but still not big).
+
+I don't think there's a compile-time dependency between the DRM and V4L2 
+parts, but there's a functional side dependency, so it would be nice to 
+merge these via a single tree. I can't say if DRM or V4L2 tree is 
+easier, but I don't expect conflicts either way.
+
+  Tomi
+
