@@ -2,100 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9479C66386A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jan 2023 06:02:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F3296639A9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jan 2023 08:01:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229763AbjAJFCZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Jan 2023 00:02:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42828 "EHLO
+        id S230152AbjAJHBx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Jan 2023 02:01:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229719AbjAJFCV (ORCPT
+        with ESMTP id S229927AbjAJHBw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Jan 2023 00:02:21 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B8A942719A;
-        Mon,  9 Jan 2023 21:02:20 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.96,314,1665414000"; 
-   d="scan'208";a="148802744"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 10 Jan 2023 14:02:17 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id B1A304007543;
-        Tue, 10 Jan 2023 14:02:17 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     linux@armlinux.org.uk, andrew@lunn.ch, hkallweit1@gmail.com,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH net-next v2 4/4] net: ethernet: renesas: rswitch: Add phy_power_{on,off}() calling
-Date:   Tue, 10 Jan 2023 14:02:06 +0900
-Message-Id: <20230110050206.116110-5-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230110050206.116110-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20230110050206.116110-1-yoshihiro.shimoda.uh@renesas.com>
+        Tue, 10 Jan 2023 02:01:52 -0500
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C82421B6;
+        Mon,  9 Jan 2023 23:01:51 -0800 (PST)
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 32C1768BFE; Tue, 10 Jan 2023 08:01:45 +0100 (CET)
+Date:   Tue, 10 Jan 2023 08:01:44 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
+        "Conor.Dooley" <conor.dooley@microchip.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+        guoren <guoren@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Tsukasa OI <research_trasio@irq.a4lg.com>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Mayuresh Chitale <mchitale@ventanamicro.com>,
+        Christoph Hellwig <hch@lst.de>, Will Deacon <will@kernel.org>
+Subject: Re: [RFC PATCH v6 1/6] riscv: mm: dma-noncoherent: Switch using
+ function pointers for cache management
+Message-ID: <20230110070144.GG10289@lst.de>
+References: <20230106185526.260163-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20230106185526.260163-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <6f7d06ef-d74d-4dfc-9b77-6ae83e0d7816@app.fastmail.com> <CA+V-a8uF1s+dwKC_+apL+CBiHN8w_J0n_G2dqsgiAUZVEibfqg@mail.gmail.com> <9017adf0-acd4-4c43-8aea-3579b214b477@app.fastmail.com> <CA+V-a8u6jvR=EDeE3mAbDr6-06NoBJ7mwmi_Y9qVyHT+aC-9rg@mail.gmail.com> <45d6eb0c-cbe3-4a83-aa12-3483638473ae@app.fastmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <45d6eb0c-cbe3-4a83-aa12-3483638473ae@app.fastmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Some Ethernet PHYs (like marvell10g) will decide the host interface
-mode by the media-side speed. So, the rswitch driver needs to
-initialize one of the Ethernet SERDES (r8a779f0-eth-serdes) ports
-after linked the Ethernet PHY up. The r8a779f0-eth-serdes driver has
-.init() for initializing all ports and .power_on() for initializing
-each port. So, add phy_power_{on,off} calling for it.
+On Mon, Jan 09, 2023 at 01:59:12PM +0100, Arnd Bergmann wrote:
+> I had another look at the arm64 side, which (like the zicbom
+> variant) uses 'clean' on dma_sync_single_for_device(DMA_FROM_DEVICE),
+> as that has changed not that long ago, see
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c50f11c6196f45c92ca48b16a5071615d4ae0572
 
-Notes that in-band mode will not work because the initialization
-is not completed. So, output error message if in-band mode.
+which IIRC has been reverted recently.
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/net/ethernet/renesas/rswitch.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+> I'm still not sure what the correct set of operations has
+> to be, but nothing in that patch description sounds ISA
+> or even microarchitecture specific.
 
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index 5a8a0c48dfd3..c027c2be9151 100644
---- a/drivers/net/ethernet/renesas/rswitch.c
-+++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -1174,12 +1174,20 @@ static void rswitch_mac_config(struct phylink_config *config,
- 			       unsigned int mode,
- 			       const struct phylink_link_state *state)
- {
-+	struct net_device *ndev = to_net_dev(config->dev);
-+
-+	if (mode == MLO_AN_INBAND)
-+		netdev_err(ndev, "Link up/down will not work because in-band mode\n");
- }
- 
- static void rswitch_mac_link_down(struct phylink_config *config,
- 				  unsigned int mode,
- 				  phy_interface_t interface)
- {
-+	struct net_device *ndev = to_net_dev(config->dev);
-+	struct rswitch_device *rdev = netdev_priv(ndev);
-+
-+	phy_power_off(rdev->serdes);
- }
- 
- static void rswitch_mac_link_up(struct phylink_config *config,
-@@ -1187,7 +1195,11 @@ static void rswitch_mac_link_up(struct phylink_config *config,
- 				phy_interface_t interface, int speed,
- 				int duplex, bool tx_pause, bool rx_pause)
- {
-+	struct net_device *ndev = to_net_dev(config->dev);
-+	struct rswitch_device *rdev = netdev_priv(ndev);
-+
- 	/* Current hardware cannot change speed at runtime */
-+	phy_power_on(rdev->serdes);
- }
- 
- static const struct phylink_mac_ops rswitch_phylink_ops = {
--- 
-2.25.1
+Nothing is ISA specific, and the only micro architecture related thing
+is if the specific core can speculate memory accesses.  See the table
+in arch/arc/mm/dma.c for details.
 
+And as commented on the arm64 patch I really hate architectures getting
+creative here, as I'd much prefer to move the choice of primitives to
+the core DMA code and just provide helpers to invalidate/writeback/
+writeback+invalidate from the architectures eventually.
