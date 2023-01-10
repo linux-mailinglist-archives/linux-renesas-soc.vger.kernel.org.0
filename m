@@ -2,90 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C5FF664332
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jan 2023 15:25:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A285664360
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jan 2023 15:35:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232250AbjAJOZq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Jan 2023 09:25:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46008 "EHLO
+        id S234273AbjAJOf5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Jan 2023 09:35:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230389AbjAJOZp (ORCPT
+        with ESMTP id S231974AbjAJOf4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Jan 2023 09:25:45 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 154A751311;
-        Tue, 10 Jan 2023 06:25:43 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86CCA51E;
-        Tue, 10 Jan 2023 15:25:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673360741;
-        bh=uHpoZuFH8hVrbocw6FPuOUidjWHwMDLuOh8dNnA2/Cs=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=bV8kHKVLX8M27eBkDviIKl9wyQQBIi1c3t/3mf+nMI9kxsIjzMzjrOBI40mjZaj+D
-         1eVMg/XNWSsVR37L4uLLAZG5EJtdi3Vvhm05i0XGSf6Qj78qv5yskHtPqeh8eiqM+Z
-         Dtqooc4zKNGznFKHDB0fk5QOms4R46xuGJspqVIw=
-Message-ID: <479e1dca-8d9c-cc75-75d9-3148ccc54f68@ideasonboard.com>
-Date:   Tue, 10 Jan 2023 16:25:37 +0200
+        Tue, 10 Jan 2023 09:35:56 -0500
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C556559E;
+        Tue, 10 Jan 2023 06:35:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=aqD2quvdZgIGSvM6kr0jwHm7KAbVSryagby37QcM+h0=; b=AO6EhsT1rp3Bp10qSHkkATixda
+        53bTiogOzDF8BISdBPnI0dyxKRniju29hLxQSi8JN2U6jBVghGa5uEbhNQETruZZJhHPttv78eWi8
+        1zX7FOE82ggYhik2EHcpWAjh+K2RWhDM0RAMBuNlLk8yfQAD0GlgwPSv/IvAS/R+OSxIUhRzk7TIN
+        jjCsxJQqxz5k+OCFsfpPRF657bQmCMyTwfsivLzC8q0dQ5tEp5VACHbmYKg+Uz/K11Fy7lpavRqDK
+        C3ax68HmPpWnArSjSTwfW0zbK2wUr7Zx7LOhFmC1I1GrsOOyBZiFnS8c3x7bN05cuInmycyfHjPs6
+        Bzignt+g==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:36038)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1pFFj7-00043g-Hs; Tue, 10 Jan 2023 14:35:45 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1pFFj4-0000NN-8X; Tue, 10 Jan 2023 14:35:42 +0000
+Date:   Tue, 10 Jan 2023 14:35:42 +0000
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     andrew@lunn.ch, hkallweit1@gmail.com, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH net-next v2 0/4] net: ethernet: renesas: rswitch: Modify
+ initialization for SERDES and PHY
+Message-ID: <Y713vpQLosOkfeey@shell.armlinux.org.uk>
+References: <20230110050206.116110-1-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 0/7] media/drm: renesas: Add new pixel formats
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Dave Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
- <Y6m2AqlDdmcgCk8F@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <Y6m2AqlDdmcgCk8F@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230110050206.116110-1-yoshihiro.shimoda.uh@renesas.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 26/12/2022 16:56, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> (CC'ing Daniel and Dave)
-> 
-> On Wed, Dec 21, 2022 at 11:24:41AM +0200, Tomi Valkeinen wrote:
->> From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>
->> Hi,
->>
->> These add new pixel formats for Renesas V3U and V4H SoCs.
->>
->> As the display pipeline is split between DRM and V4L2 components, this
->> series touches both subsystems. I'm sending all these together to
->> simplify review. If needed, I can later split this to V4L2 and DRM
->> parts, of which the V4L2 part needs to be merged first.
-> 
-> As the changes on the DRM side are small and shouldn't conflict with
-> anything else queued for v6.3, it would be easier to merge the whole
-> series through the media tree. Daniel, Dave, would you be OK with that ?
-> If so, could you please ack patches 6/7 and 7/7 ?
+On Tue, Jan 10, 2023 at 02:02:02PM +0900, Yoshihiro Shimoda wrote:
+> The patch [1/4] sets phydev->host_interfaces by phylink for Marvell PHY
+> driver (marvell10g) to initialize the MACTYPE.
 
-Note that these patches depend on the two DRM driver patches in "[PATCH 
-v5 0/7] Renesas V4H DSI & DP output support", which are not very small 
-(but still not big).
+I don't yet understand the "why" behind the need for this. Doesn't your
+platform strap the 88x3310 correctly, so MACTYPE is properly set?
 
-I don't think there's a compile-time dependency between the DRM and V4L2 
-parts, but there's a functional side dependency, so it would be nice to 
-merge these via a single tree. I can't say if DRM or V4L2 tree is 
-easier, but I don't expect conflicts either way.
-
-  Tomi
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
