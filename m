@@ -2,127 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7E3266423C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jan 2023 14:49:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BCEB664269
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Jan 2023 14:51:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233476AbjAJNtB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Jan 2023 08:49:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42418 "EHLO
+        id S238046AbjAJNvu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Jan 2023 08:51:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238125AbjAJNtA (ORCPT
+        with ESMTP id S238613AbjAJNvh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Jan 2023 08:49:00 -0500
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1254D2F78D
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Jan 2023 05:48:47 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:d992:2e67:38c1:3ab7])
-        by michel.telenet-ops.be with bizsmtp
-        id 71oj2900K22nSWd061oj5z; Tue, 10 Jan 2023 14:48:44 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pFEzZ-001TbR-Q2
-        for linux-renesas-soc@vger.kernel.org;
-        Tue, 10 Jan 2023 14:48:43 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pFEzb-001470-Ld
-        for linux-renesas-soc@vger.kernel.org;
-        Tue, 10 Jan 2023 14:48:43 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2023-01-10-v6.2-rc3
-Date:   Tue, 10 Jan 2023 14:48:43 +0100
-Message-Id: <20230110134843.254127-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Tue, 10 Jan 2023 08:51:37 -0500
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ABB67CBCC;
+        Tue, 10 Jan 2023 05:51:28 -0800 (PST)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 81E0282131;
+        Tue, 10 Jan 2023 14:51:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1673358686;
+        bh=MZyci7iDloBlmWMi0pKgA4nJCRC2UFKYpgBdOZ4XGkg=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=qIr392BdZJA/Z1P75f0u7dDCIq7ZzNkYYHD3MMlbMKQE8btFGcbSiuX+KbdXhNZKv
+         bhgkzsWEYeY2gJsT8CV++KkF8gR9w9kEfdqTLzuYTq49BlZ3cUUYMCys93NZuglxhz
+         i2c8JkkVlSrqX3qB0Pk0oSrGXvmaEXsA3pmjevb1TWcPeFLd25dw5UVebhpaUIFgot
+         NW/I0AScbgDxKnX8uDp4rEB1ltzAYvA6l+SiT7hs38ls6ImdIwozQTLi3nzNDtNQMT
+         Us8QSu3c2Ckxz9xk4oyJXcYMKeK+mX2pe3cbPErXo9qTR/mnBByzH0tVQOW/RYXHlg
+         Ek3h3YkThFWgg==
+Message-ID: <e8c7e0de-0e6e-e523-d15b-32c1ba3d9142@denx.de>
+Date:   Tue, 10 Jan 2023 14:51:24 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 3/4] clk: rs9: Support device specific dif bit
+ calculation
+Content-Language: en-US
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20230110100003.370917-1-alexander.stein@ew.tq-group.com>
+ <3216146.44csPzL39Z@steina-w> <a2fd6077-a5ae-a694-3637-e83ca044da69@denx.de>
+ <2211925.iZASKD2KPV@steina-w>
+From:   Marek Vasut <marex@denx.de>
+In-Reply-To: <2211925.iZASKD2KPV@steina-w>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2023-01-10-v6.2-rc3 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+On 1/10/23 14:47, Alexander Stein wrote:
+> Hello Marek,
+> 
+> Am Dienstag, 10. Januar 2023, 14:37:19 CET schrieb Marek Vasut:
+>> On 1/10/23 14:22, Alexander Stein wrote:
+>>> Hi Marek,
+>>
+>> Hi,
+>>
+>>> thanks for your feedback.
+>>>
+>>> Am Dienstag, 10. Januar 2023, 11:31:49 CET schrieb Marek Vasut:
+>>>> On 1/10/23 11:00, Alexander Stein wrote:
+>>>>
+>>>> [...]
+>>>>
+>>>>>     static int rs9_get_output_config(struct rs9_driver_data *rs9, int
+>>>>>     idx)
+>>>>>     {
+>>>>>     
+>>>>>     	struct i2c_client *client = rs9->client;
+>>>>>
+>>>>> +	u8 dif = rs9_calc_dif(rs9, idx);
+>>>>>
+>>>>>     	unsigned char name[5] = "DIF0";
+>>>>>     	struct device_node *np;
+>>>>>     	int ret;
+>>>>>     	u32 sr;
+>>>>>     	
+>>>>>     	/* Set defaults */
+>>>>>
+>>>>> -	rs9->clk_dif_sr &= ~RS9_REG_SR_DIF_MASK(idx);
+>>>>
+>>>> Are you sure this line ^ should be dropped ?
+>>>> Shouldn't the bitfield be cleared first and modified second?
+>>>
+>>> Well, I had in my mind that this function is called upon probe with
+>>> clk_dif_sr being cleared anyway, so this does essentially nothing. And
+>>> the DIF bit is set unconditionally, so what is the point of masking it
+>>> before?
+>>
+>> Good point, but then, what's the point of ORRing either ? Just do a
+>> plain assignment.
+> 
+> OR-ring is necessary as this function is called for each DIF output (see idx
+> parameter), so plain assignment will clear the previously set bits.
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
-for-next branches of various subsystem trees and (b) branches with
-driver code submitted or planned for submission to maintainers into the
-master branch of my renesas-devel.git tree.
+Ah, got it.
 
-Today's version is based on renesas-devel-2023-01-10-v6.2-rc3.
+Reviewed-by: Marek Vasut <marex@denx.de>
 
-Included branches with driver code:
-  - renesas-clk-for-v6.3
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/gpio-logic-analyzer-v8~1
-
-Included fixes:
-  - [LOCAL] soc: renesas: rcar-rst: Allow WDT reset on R-Car Gen4
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
-
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git#irq/irqchip-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.libc.org/linux-sh#for-next
-  - https://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+Thanks !
