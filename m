@@ -2,141 +2,141 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 735C5666050
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jan 2023 17:23:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F26E366607F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jan 2023 17:31:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231747AbjAKQXm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Jan 2023 11:23:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59898 "EHLO
+        id S238924AbjAKQav (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Jan 2023 11:30:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234896AbjAKQXS (ORCPT
+        with ESMTP id S239593AbjAKQaA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Jan 2023 11:23:18 -0500
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76DFC3D1E3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jan 2023 08:20:25 -0800 (PST)
-Received: by mail-yb1-f171.google.com with SMTP id 203so15509691yby.10
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jan 2023 08:20:25 -0800 (PST)
+        Wed, 11 Jan 2023 11:30:00 -0500
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 689FECE07;
+        Wed, 11 Jan 2023 08:29:34 -0800 (PST)
+Received: by mail-qt1-f178.google.com with SMTP id h16so2768162qtu.2;
+        Wed, 11 Jan 2023 08:29:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hi26SCoS0l6bqSsyeS8xP7zv+YeoBCJwesFBDqfoZt8=;
-        b=dVKY6C/Dx1e6oPpLiW42uLPtgLemPKMInknUXWN6uDelZqV9t+jlDPYZUQiFhV5RHU
-         Nrpm5vXKGFXWtnOI7gy9qQxTTajwZhltMZNUIrP2lHEmojsPwJKg7LjaM8jf+xFKn3Q9
-         JZqorhHyMqcDPhIBJFmvo8QFLTR4QcoyG5HQ2umXXsPP+6UC5YgA4jdgonzPLVxPoQiO
-         jBAOgAdigNEnDLJWXweZF68/JE0VZP4p0h4YQSei+eMVP4H2bfuA/4Su/apz8+0bvwqq
-         BrmMo5OEDXDUBpuI+wcifY8dNc5nGx1uojPfRhxkjElY2QqNYiHekZwXEmcVOzL/OpdE
-         hWbA==
-X-Gm-Message-State: AFqh2kpdyJl+zYxFJBjW5OwnfhPPXAO3A+00BJF8t9IGU5tIvjS2+Cwq
-        hzKqQeQrh7Q+uxvAkHpBo2+DQLoFQuBbfQ==
-X-Google-Smtp-Source: AMrXdXsZhl4Ch6IlS4bdyq61JDWeF0oo7uH6ttdquO0yumBwSDUqCkx0jrkKP5F8+Cbgl9lF9PmO7g==
-X-Received: by 2002:a5b:87:0:b0:7b4:74e:388 with SMTP id b7-20020a5b0087000000b007b4074e0388mr22295915ybp.10.1673453988971;
-        Wed, 11 Jan 2023 08:19:48 -0800 (PST)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id t11-20020a05620a034b00b006fa31bf2f3dsm9113370qkm.47.2023.01.11.08.19.48
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=JjrcWIBjmmPlwZTcOfDOO38h43AQNOgajs77lr03LAg=;
+        b=gvZbZGhnSt6eaRePRZ2MrpMG4AamK+sJRNN7LI/52IY7iGgg+dy65NfUKeCzyfAfa+
+         W3ciqyhotOLZP9seeS9s4+yo2ufjLC6Nmio2rC/qZ9d2ugkGQ8EmgQVZp+RNL9HLK9WB
+         KCSo16c3mh7HmToWJPy24DYavBziuqkONNlJ5VFt9UKBvDwJTPhuaqmG3t9LThMlY530
+         0rAPBObEuxxPcf1ruHqlJQmZiteKAY9IPybsBL7cNXhOS9Ks0/ovGhPcK/7/hZYLsfcz
+         X6FHSb4Y8dqLOshKNPPrmfAzZKdS01guv91HdwzYnaZIYMycdFcoXpzrkJtWjKr8KYE4
+         n9CA==
+X-Gm-Message-State: AFqh2kq1wv/94GiLEjLsgCCDIkMn+5SI88aJMEvdczXnt5gYzHJRNOgA
+        MMw7A0YbABKnwBgDXZhU4F9Gf2GQuqI03w==
+X-Google-Smtp-Source: AMrXdXsUDgB+NK0Fpm3QJtCw8pkwCUFw79A9mCE9laXxleJYgXMh3P/HRxy74N8CrLQDsBmSl1FmfQ==
+X-Received: by 2002:ac8:4c8c:0:b0:3a5:3134:48ac with SMTP id j12-20020ac84c8c000000b003a5313448acmr8939578qtv.3.1673454573263;
+        Wed, 11 Jan 2023 08:29:33 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id d16-20020ac85350000000b003a689a5b177sm7774491qto.8.2023.01.11.08.29.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jan 2023 08:19:48 -0800 (PST)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-4c24993965eso195339487b3.12
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jan 2023 08:19:48 -0800 (PST)
-X-Received: by 2002:a05:690c:c02:b0:48d:1334:6e38 with SMTP id
- cl2-20020a05690c0c0200b0048d13346e38mr5993271ywb.316.1673453988456; Wed, 11
- Jan 2023 08:19:48 -0800 (PST)
+        Wed, 11 Jan 2023 08:29:33 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id 16so15609333ybc.0;
+        Wed, 11 Jan 2023 08:29:32 -0800 (PST)
+X-Received: by 2002:a25:46c6:0:b0:7b8:a0b8:f7ec with SMTP id
+ t189-20020a2546c6000000b007b8a0b8f7ecmr2429658yba.36.1673454572643; Wed, 11
+ Jan 2023 08:29:32 -0800 (PST)
 MIME-Version: 1.0
-References: <20221222093252.3613915-1-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20221222093252.3613915-1-yoshihiro.shimoda.uh@renesas.com>
+References: <20230104141245.8407-1-aford173@gmail.com>
+In-Reply-To: <20230104141245.8407-1-aford173@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 11 Jan 2023 17:19:35 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW7LT-JNH-iPACLQfdS=oh_g-y2OXW-1R4xM5s+jWnUUQ@mail.gmail.com>
-Message-ID: <CAMuHMdW7LT-JNH-iPACLQfdS=oh_g-y2OXW-1R4xM5s+jWnUUQ@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a779f0: spider-cpu: Enable UFS device
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org
+Date:   Wed, 11 Jan 2023 17:29:20 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWuE4L6K4ULdVLZKeLwd3xYfzkyBNrf6s7Qc2kf9b-_Cg@mail.gmail.com>
+Message-ID: <CAMuHMdWuE4L6K4ULdVLZKeLwd3xYfzkyBNrf6s7Qc2kf9b-_Cg@mail.gmail.com>
+Subject: Re: [PATCH 1/4] arm64: dts: beacon-renesom: Fix gpio expander reference
+To:     Adam Ford <aford173@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org, aford@beaconembedded.com,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Hi Adam,
 
-On Thu, Dec 22, 2022 at 10:33 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Enable UFS device for R-Car S4-8 Spider CPU board.
+On Wed, Jan 4, 2023 at 3:12 PM Adam Ford <aford173@gmail.com> wrote:
+> The board used to originally introduce the Beacon Embedded
+> RZ/G2[M/N/H] boards had a GPIO expander with address 20, but
+> this was change when the final board went to production.
 >
-> Note that the conditions of RC21012 on the Spider are:
->  - OUT11 (for UFS30_REFCLK_V) is disabled as default.
->  - OUT11 is controlled by GPIO0 pin.
->  - The GPIO0 pin is inverted sense (low active) and pull-up enabled.
+> The production boards changed both the part itself and
+> the address.  With the incorrect address, the LCD cannot
+> come up.  If the LCD fails, the rcar-du driver fails to come up,
+> and that also breaks HDMI.
+>
+> Pre-release board were not shipped to the general public, so it
+> should be safe to push this as a fix.  Anyone with a production
+> board would have video fail due to this GPIO expander change.
+>
+> Fixes: a1d8a344f1ca ("arm64: dts: renesas: Introduce r8a774a1-beacon-rzg2m-kit")
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 
 Thanks for your patch!
 
-> To output the clock, pin 4 of TCA9554 on the Spider board needs to
-> output low level so that using "gpio-gate-clock" for it.
-
-Does this mean the GPIO setup was the only missing part,
-and the i2c commands from [1] were not needed?
-
-I wanted to give this a try, but the remote Spider is offline.
-
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  .../boot/dts/renesas/r8a779f0-spider-cpu.dtsi | 37 +++++++++++++++++++
->  1 file changed, 37 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-> index 25b34d66061a..32625afc74bf 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-> @@ -5,6 +5,7 @@
->   * Copyright (C) 2021 Renesas Electronics Corp.
->   */
->
-> +#include <dt-bindings/gpio/gpio.h>
->  #include "r8a779f0.dtsi"
->
->  / {
-> @@ -32,6 +33,12 @@ memory@480000000 {
->                 reg = <0x4 0x80000000 0x0 0x80000000>;
+> --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> @@ -437,20 +437,6 @@ wm8962_endpoint: endpoint {
+>                 };
 >         };
 >
-> +       rc21012_ufs: clk-rc21012-ufs {
-> +               compatible = "fixed-clock";
-> +               clock-frequency = <38400000>;
-> +               #clock-cells = <0>;
+> -       /* 0 - lcd_reset */
+> -       /* 1 - lcd_pwr */
+> -       /* 2 - lcd_select */
+> -       /* 3 - backlight-enable */
+> -       /* 4 - Touch_shdwn */
+> -       /* 5 - LCD_H_pol */
+> -       /* 6 - lcd_V_pol */
+> -       gpio_exp1: gpio@20 {
+> -               compatible = "onnn,pca9654";
+> -               reg = <0x20>;
+> -               gpio-controller;
+> -               #gpio-cells = <2>;
+> -       };
+> -
+>         touchscreen@26 {
+>                 compatible = "ilitek,ili2117";
+>                 reg = <0x26>;
+> @@ -482,6 +468,21 @@ hd3ss3220_out_ep: endpoint {
+>                         };
+>                 };
+>         };
+> +
+> +       gpio_exp1: gpio@70 {
+> +               compatible = "onnn,pca9654";
+
+According to the patch description, the actual part was changed, too?
+
+> +               reg = <0x70>;
+> +               gpio-controller;
+> +               #gpio-cells = <2>;
+> +               gpio-line-names =
+> +                       "lcd_reset",
+> +                       "lcd_pwr",
+> +                       "lcd_select",
+> +                       "backlight-enable",
+> +                       "Touch_shdwn",
+> +                       "LCD_H_pol",
+> +                       "lcd_V_pol";
 > +       };
+>  };
 
-So you're modelling the RC21012 output as a fixed clock.
-I guess that's acceptable until a proper driver is available.
-
-> +&ufs30_clk {
-> +       compatible = "gpio-gate-clock";
-> +       clocks = <&rc21012_ufs>;
-> +       enable-gpios = <&gpio_exp_20 4 GPIO_ACTIVE_LOW>;
-
-Perhaps the "clock-frequency" property should be removed using
-/delete-property/?
-
-> +};
-
-Alternatively, you could have kept ufs30_clk as a fixed-clock, dropped
-rc21012_ufs, and added a gpio hog.
-But I do like your description, as it clearly shows how the GPIO interacts
-with the RC21012.
-
-The i2c part LGTM, and is identical to [2].
-
-[1] "https://lore.kernel.org/all/20220603110524.1997825-1-yoshihiro.shimoda.uh@renesas.com"
-    https://lore.kernel.org/all/20220603110524.1997825-1-yoshihiro.shimoda.uh@renesas.com
-[2] "[PATCH] arm64: dts: renesas: spider-cpu: add i2c0 bus"
-    https://lore.kernel.org/all/20221220121959.45779-1-wsa+renesas@sang-engineering.com
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
