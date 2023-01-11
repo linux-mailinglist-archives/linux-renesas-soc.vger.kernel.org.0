@@ -2,58 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8171A6660CA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jan 2023 17:41:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 707EA6660DB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jan 2023 17:42:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235491AbjAKQlP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Jan 2023 11:41:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45518 "EHLO
+        id S238847AbjAKQmy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Jan 2023 11:42:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235333AbjAKQkX (ORCPT
+        with ESMTP id S232608AbjAKQmc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Jan 2023 11:40:23 -0500
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A332C392C1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jan 2023 08:38:28 -0800 (PST)
-Received: by mail-vs1-f50.google.com with SMTP id s127so16296741vsb.5
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jan 2023 08:38:28 -0800 (PST)
+        Wed, 11 Jan 2023 11:42:32 -0500
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01647CE0B;
+        Wed, 11 Jan 2023 08:41:46 -0800 (PST)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-4d19b2686a9so75069857b3.6;
+        Wed, 11 Jan 2023 08:41:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=v22Vzul0qdlPP/XNVArnqxl8t8ecKEmpXNndb6wH7R0=;
-        b=pAytwhLdyOlL+Xhdebd/UjZtBDDQfPg5RgxYriTCyG+i0djoqzbaygn86Wfj9gDQsD
-         pV53vS8OIIlst1K4pshfVq3gqlrlK6lDfoqt5Eb83FsNUlFUmtHYlDQ0M/nZdTvdLMyM
-         UGYRnBqOyN8n78ktKwCN7UISmGlWZKTTps1tBzNq2u+GTJHtUuf0Vq3tlKuto35Ad1go
-         FVcwS8yA3OaTEmsBqi6oqGsRji1dIAgs5R032XmEU1YjE5zEdvagwDvFzFj1hyqkOFGZ
-         7xXmBdaXYXYCWwTw3XmTpyz4KtuE4ZwknnPESvtNU9OqBQRlufw2bhu4IKWa7MI8Qr80
-         4QMw==
-X-Gm-Message-State: AFqh2kr0ZQHtt0FZBtQ3vSd6gbQxYfr3QBw/cMvl7rx/BzyT2UE0MYde
-        m1X6t9SCGUc7hXEsW18TW/IqLchp9Orlsw==
-X-Google-Smtp-Source: AMrXdXsBiKASi8t1yAT9TJywKp80U4WRWrirr18qwXeK3TsjEpN3e8aJRmmxIARteOad9Tds9HKY7Q==
-X-Received: by 2002:a67:dc87:0:b0:3b1:2e1e:7014 with SMTP id g7-20020a67dc87000000b003b12e1e7014mr1779147vsk.20.1673455100959;
-        Wed, 11 Jan 2023 08:38:20 -0800 (PST)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id h10-20020a05620a284a00b006feea093006sm9279449qkp.124.2023.01.11.08.38.20
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=Zptl82ttrhrV63pMTO0viIa9cKU9Map9hB06vVk8Wqo=;
+        b=2W24tW4ZOys7/S3b5X4RgxaWvzroJkwclGHRT19DrtaeEToFJPhT0kVFOwt2+QYKuh
+         EzvL+0Xc4cpNclWkXLv5Azn7fjw89hHazT5U9p0t0zGgw8FCEc/7FATOWcFUsI5gKOd/
+         lunoahT/CT7UD3BXVP6WOTKIRvtbIKPRnoeibD3bZtDQxlQkB6cMfL//7r17pbAOwnyB
+         ntQukFImLqC+qVBKa/6Sfn/exSvlYEsBlI200pFA8kR9rVYNe0PKHCR1OOFY++c0Ckhi
+         W3cEetqIPgzYAPwHlHoZS1PZKL0tfBn3GNs0rKxOk4H4F6qfFGiGUnbNpHGT5LYwsc8G
+         Uxgw==
+X-Gm-Message-State: AFqh2krcAhpQh+cNFYoLTK7r5nOnZGE6M7iEbvZUlSkGbDo5FbGeIPu5
+        lpSwaNDe4HmSTfiO4TWhSpr6XgQHddzvUA==
+X-Google-Smtp-Source: AMrXdXv51sHXafLWUndB9GkOMJxfIsj8bY4lK6Nov3GUZRCvhiyFFELSXAaJsCB+l5NLjwsMEfTD2g==
+X-Received: by 2002:a81:190a:0:b0:364:1ba6:7e6 with SMTP id 10-20020a81190a000000b003641ba607e6mr19485322ywz.37.1673455304695;
+        Wed, 11 Jan 2023 08:41:44 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id 64-20020a370c43000000b006cfc1d827cbsm9115697qkm.9.2023.01.11.08.41.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jan 2023 08:38:20 -0800 (PST)
-Received: by mail-yb1-f174.google.com with SMTP id e76so15566860ybh.11
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jan 2023 08:38:20 -0800 (PST)
-X-Received: by 2002:a25:5189:0:b0:7bf:d201:60cb with SMTP id
- f131-20020a255189000000b007bfd20160cbmr730101ybb.365.1673455100366; Wed, 11
- Jan 2023 08:38:20 -0800 (PST)
+        Wed, 11 Jan 2023 08:41:44 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-4d0f843c417so88646397b3.7;
+        Wed, 11 Jan 2023 08:41:43 -0800 (PST)
+X-Received: by 2002:a81:1751:0:b0:4bd:caff:589e with SMTP id
+ 78-20020a811751000000b004bdcaff589emr2155587ywx.502.1673455303487; Wed, 11
+ Jan 2023 08:41:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20230111094944.5996-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230111094944.5996-1-wsa+renesas@sang-engineering.com>
+References: <20230102222233.274021-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20230102222233.274021-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 11 Jan 2023 17:38:08 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUwo-R=dksTJH2Kaym3PsM9Xmywbr44SHVtWMwNg=r5iQ@mail.gmail.com>
-Message-ID: <CAMuHMdUwo-R=dksTJH2Kaym3PsM9Xmywbr44SHVtWMwNg=r5iQ@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: condor-i: add HS400 support for eMMC
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org
+Date:   Wed, 11 Jan 2023 17:41:31 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXVPdWb2GGSOoVSLNNE6k-JpKnqMGXwpJH=HaGz94GHQQ@mail.gmail.com>
+Message-ID: <CAMuHMdXVPdWb2GGSOoVSLNNE6k-JpKnqMGXwpJH=HaGz94GHQQ@mail.gmail.com>
+Subject: Re: [PATCH v2] riscv: dts: renesas: rzfive-smarc-som: Enable OSTM nodes
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -65,18 +74,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jan 11, 2023 at 10:54 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> HS400 support for R-Car V3H ES2.0 has been fixed, so enable it on this
-> board.
+On Mon, Jan 2, 2023 at 11:22 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Enable OSTM{1,2} nodes on RZ/Five SMARC SoM.
+>
+> Note, OSTM{1,2} nodes are enabled in the RZ/G2UL SMARC SoM DTSI [0] hence
+> deleting the disabled nodes from RZ/Five SMARC SoM DTSI enables it here
+> too as we include [0] in RZ/Five SMARC SoM DTSI.
+>
+> [0] arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v1->v2
+> * Rebased patch on top of [0]
+>
+> [0] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log/?h=renesas-riscv-dt-for-v6.3
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Dependency commit f504dee2c63b93fd ("mmc: renesas_sdhi: R-Car V3H
-ES2.0 gained HS400 support") is in v5.19, so I will queue in
-renesas-devel for v6.3.
+i.e. will queue in renesas-devel for v6.3.
 
 Gr{oetje,eeting}s,
 
