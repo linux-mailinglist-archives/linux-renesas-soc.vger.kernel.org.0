@@ -2,71 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 707EA6660DB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jan 2023 17:42:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9927666164
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jan 2023 18:07:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238847AbjAKQmy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Jan 2023 11:42:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50540 "EHLO
+        id S235625AbjAKRHm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Jan 2023 12:07:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232608AbjAKQmc (ORCPT
+        with ESMTP id S238633AbjAKRHK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Jan 2023 11:42:32 -0500
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01647CE0B;
-        Wed, 11 Jan 2023 08:41:46 -0800 (PST)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-4d19b2686a9so75069857b3.6;
-        Wed, 11 Jan 2023 08:41:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Zptl82ttrhrV63pMTO0viIa9cKU9Map9hB06vVk8Wqo=;
-        b=2W24tW4ZOys7/S3b5X4RgxaWvzroJkwclGHRT19DrtaeEToFJPhT0kVFOwt2+QYKuh
-         EzvL+0Xc4cpNclWkXLv5Azn7fjw89hHazT5U9p0t0zGgw8FCEc/7FATOWcFUsI5gKOd/
-         lunoahT/CT7UD3BXVP6WOTKIRvtbIKPRnoeibD3bZtDQxlQkB6cMfL//7r17pbAOwnyB
-         ntQukFImLqC+qVBKa/6Sfn/exSvlYEsBlI200pFA8kR9rVYNe0PKHCR1OOFY++c0Ckhi
-         W3cEetqIPgzYAPwHlHoZS1PZKL0tfBn3GNs0rKxOk4H4F6qfFGiGUnbNpHGT5LYwsc8G
-         Uxgw==
-X-Gm-Message-State: AFqh2krcAhpQh+cNFYoLTK7r5nOnZGE6M7iEbvZUlSkGbDo5FbGeIPu5
-        lpSwaNDe4HmSTfiO4TWhSpr6XgQHddzvUA==
-X-Google-Smtp-Source: AMrXdXv51sHXafLWUndB9GkOMJxfIsj8bY4lK6Nov3GUZRCvhiyFFELSXAaJsCB+l5NLjwsMEfTD2g==
-X-Received: by 2002:a81:190a:0:b0:364:1ba6:7e6 with SMTP id 10-20020a81190a000000b003641ba607e6mr19485322ywz.37.1673455304695;
-        Wed, 11 Jan 2023 08:41:44 -0800 (PST)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id 64-20020a370c43000000b006cfc1d827cbsm9115697qkm.9.2023.01.11.08.41.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jan 2023 08:41:44 -0800 (PST)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-4d0f843c417so88646397b3.7;
-        Wed, 11 Jan 2023 08:41:43 -0800 (PST)
-X-Received: by 2002:a81:1751:0:b0:4bd:caff:589e with SMTP id
- 78-20020a811751000000b004bdcaff589emr2155587ywx.502.1673455303487; Wed, 11
- Jan 2023 08:41:43 -0800 (PST)
+        Wed, 11 Jan 2023 12:07:10 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A9903753E
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jan 2023 09:05:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=gkM0VdFZdvNbJyLi3s3CnwOlS6EU
+        u0A5L1bKDADdpUw=; b=HVNNAVdP10U0MoJbxzFPs1d2m3sFyZqAp7heRzP/4Yas
+        pga853Ursqrcsaz/MVrNw4pz5wZoa1L1F2/PYkQ/4mlq108d2tI26/3V/cps1V1x
+        Vf2C3VhbpFs2QSF8tu/y2WKSBj7/Db4zPPbB9OK0xW/9Jdx4PoTn1bDqNZE4c/Q=
+Received: (qmail 348191 invoked from network); 11 Jan 2023 18:05:39 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Jan 2023 18:05:39 +0100
+X-UD-Smtp-Session: l3s3148p1@3ix+AgDyYJZehh9g
+Date:   Wed, 11 Jan 2023 18:05:39 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: renesas: spider-cpu: add i2c0 bus
+Message-ID: <Y77sYxv8qBTRGmIw@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-renesas-soc@vger.kernel.org
+References: <20221220121959.45779-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdU9YTgXLdgqPvUWwf6cZAGBPTxSspwnO5KTyVL3v_gwbg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230102222233.274021-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20230102222233.274021-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 11 Jan 2023 17:41:31 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXVPdWb2GGSOoVSLNNE6k-JpKnqMGXwpJH=HaGz94GHQQ@mail.gmail.com>
-Message-ID: <CAMuHMdXVPdWb2GGSOoVSLNNE6k-JpKnqMGXwpJH=HaGz94GHQQ@mail.gmail.com>
-Subject: Re: [PATCH v2] riscv: dts: renesas: rzfive-smarc-som: Enable OSTM nodes
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="o8TZGlddOlyRmhtS"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdU9YTgXLdgqPvUWwf6cZAGBPTxSspwnO5KTyVL3v_gwbg@mail.gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
         autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,34 +50,43 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 2, 2023 at 11:22 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Enable OSTM{1,2} nodes on RZ/Five SMARC SoM.
->
-> Note, OSTM{1,2} nodes are enabled in the RZ/G2UL SMARC SoM DTSI [0] hence
-> deleting the disabled nodes from RZ/Five SMARC SoM DTSI enables it here
-> too as we include [0] in RZ/Five SMARC SoM DTSI.
->
-> [0] arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2
-> * Rebased patch on top of [0]
->
-> [0] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log/?h=renesas-riscv-dt-for-v6.3
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.3.
+--o8TZGlddOlyRmhtS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Gr{oetje,eeting}s,
 
-                        Geert
+> > Add the bus and the GPIO expander connected to it. Based on BSP patches
+> > by LUU HOAI and Phong Hoang.
+> >
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>=20
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>=20
+> But perhaps Shimoda-san's patch is more useful?
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+If UFS is ready soon, then for sure.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+--o8TZGlddOlyRmhtS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmO+7F4ACgkQFA3kzBSg
+KbZ92A//bGgzJOGZojusXVQfjyLopzlIqrOHAC2FewJEcPzQ5MWq6e1M4JrtAjlj
+TLg0Sol0lDCrISPufobbJOaxMuSi4BLHid1naWRlk0i3BhvnPRU8jc2byIJPvoVN
+vXwxakOWGmKanUiS+mvxTEvGyfTg6FxxJjZv5p47cmv/YUEm0OsSvwIlOnZEYIGG
+Bv4zPpO8mMsztnF7LGfmz4psFFyb+xBpfD15L/yMiCp/cYCmwFCIS/Oobo50pBz4
+YujG4uFKLitRIgNjQdY5G7yXT4zhDfTmS2ASFm6Dflg6pmbYMWQI6CobJEIv816O
+cA7o90AjJxfuu2MBvBVDmSI7p/sbVhnmAWwblLNIyOkFqxHzsnHNCkHzwu1Da1lq
+xu1RTpt4ha34xTiv43qOOoDofhvpRrDPJFTgLtcqmoT9sMRxT7aT90mCs8vwvOHm
+hBMgYZbxEzKugBXjo9imsEU48NCT5PgIdIfIvbW7oJpGO/Jc+fiDSxzV3xFLgk4r
+wlqL0KjhXn4bJvd3BKovCkpI4ASBzj9aRZX90b97klWVxFWCa62Cj392f4Jduzc/
+BRwEFq6RlcII5U/lN9tVIalO7YfECJkTiV6slirPSF0/t9hAi+X0tjA0HB7Dln+G
+p7Avr8BlHrtqwYRSh9+eOZ2HbNmwRlSDyVk2pHmFL4Z/blte9G4=
+=yfiA
+-----END PGP SIGNATURE-----
+
+--o8TZGlddOlyRmhtS--
