@@ -2,91 +2,161 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9927666164
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jan 2023 18:07:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15F94666166
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jan 2023 18:09:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235625AbjAKRHm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Jan 2023 12:07:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40608 "EHLO
+        id S239561AbjAKRIH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Jan 2023 12:08:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238633AbjAKRHK (ORCPT
+        with ESMTP id S229928AbjAKRHg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Jan 2023 12:07:10 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A9903753E
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jan 2023 09:05:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=gkM0VdFZdvNbJyLi3s3CnwOlS6EU
-        u0A5L1bKDADdpUw=; b=HVNNAVdP10U0MoJbxzFPs1d2m3sFyZqAp7heRzP/4Yas
-        pga853Ursqrcsaz/MVrNw4pz5wZoa1L1F2/PYkQ/4mlq108d2tI26/3V/cps1V1x
-        Vf2C3VhbpFs2QSF8tu/y2WKSBj7/Db4zPPbB9OK0xW/9Jdx4PoTn1bDqNZE4c/Q=
-Received: (qmail 348191 invoked from network); 11 Jan 2023 18:05:39 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Jan 2023 18:05:39 +0100
-X-UD-Smtp-Session: l3s3148p1@3ix+AgDyYJZehh9g
-Date:   Wed, 11 Jan 2023 18:05:39 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: renesas: spider-cpu: add i2c0 bus
-Message-ID: <Y77sYxv8qBTRGmIw@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-renesas-soc@vger.kernel.org
-References: <20221220121959.45779-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdU9YTgXLdgqPvUWwf6cZAGBPTxSspwnO5KTyVL3v_gwbg@mail.gmail.com>
+        Wed, 11 Jan 2023 12:07:36 -0500
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66259B1EF;
+        Wed, 11 Jan 2023 09:06:04 -0800 (PST)
+Received: by mail-pg1-x532.google.com with SMTP id r18so10958048pgr.12;
+        Wed, 11 Jan 2023 09:06:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=89cPBXwaJNynsskh4m7BBUzu+Ax6lIerSdHhopU5dxk=;
+        b=K5e90OPR1LfeCr9JYTKvd1ajs9xoUHo10GXimFniYQfciBZNVkj66gf6Ys+7wglXPB
+         fxAvXzznPPz6eRgWbGPQgAVbFcodfNFuF5V45qXBCzlM1SJHTb4dyMF1wC0l6BlZ1zwf
+         qxNjhpCTDfeN95NVKIq8QQZIn+NWyI1+w8GsXmMHAm/uwg4y7CM2/ei2xqfgUmj1dgxL
+         4l20VsfYHST/NBdSMmMoK2oEMYbfu5Fs1LPQnj01h8p/ldcvOkfWL7cy5mKO0Qfasrmd
+         kicc/mIAzZZCKLrhFIh6w9b1ogMICO18TA8b1OVI1GdhS8vcQL7TyVAcG8rK3nfEo+u6
+         wIzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=89cPBXwaJNynsskh4m7BBUzu+Ax6lIerSdHhopU5dxk=;
+        b=UfaWMR3BLN/BHW1GemY8i+liaCgYUFbQGFNrl2qbIrMx5YIslNpppNwTnjtZu8kSDT
+         46fsWw8X/9R0VBVmyZWAxCVLugMkhI6puEEUmw5wWIGVLJARjMsAxWzY9d5PUhi/3kAA
+         CoEp2/r323YztHZ354IKOk3nbqdPW1bsRUQmWiQhbx0BoakDxc58Wr5JT+PqlVgq/ZTn
+         FMK854tt5Y8IBoCqs00Amp9NxhCoib4jVj0hLvlbrz1tmSiMZ3srv0yBV24R7ybJpMnr
+         3Z/JzAhHVPDMcuwrtEtmmU/Cq5yyGU4j4VfsrX05Am90VZvEiswNw4UlPHAymvpY5YiB
+         wuKg==
+X-Gm-Message-State: AFqh2kpvmnSmiyot2n1j1r3v5Mzq9EZvGDkH9HPRdHcqcshD8aUb5f4k
+        k1WnJvJQTlAi8YX4PU1DqsQ4Gms87k49SyeMMjdAoId1
+X-Google-Smtp-Source: AMrXdXv8z9But+pBFKWpmxeQSj4lB0fBgWddes8q1HNbe8wxWPXiNaSvrxPlQbIelQhpzi0gQ87Er4q4e4nQtINeNRA=
+X-Received: by 2002:a05:6a00:1796:b0:58b:9f0a:f87f with SMTP id
+ s22-20020a056a00179600b0058b9f0af87fmr11061pfg.81.1673456763592; Wed, 11 Jan
+ 2023 09:06:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="o8TZGlddOlyRmhtS"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdU9YTgXLdgqPvUWwf6cZAGBPTxSspwnO5KTyVL3v_gwbg@mail.gmail.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+References: <20230104141245.8407-1-aford173@gmail.com> <CAMuHMdWuE4L6K4ULdVLZKeLwd3xYfzkyBNrf6s7Qc2kf9b-_Cg@mail.gmail.com>
+In-Reply-To: <CAMuHMdWuE4L6K4ULdVLZKeLwd3xYfzkyBNrf6s7Qc2kf9b-_Cg@mail.gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Wed, 11 Jan 2023 11:05:52 -0600
+Message-ID: <CAHCN7xKJRE7mrRgpKiEEgpkH1NLR8uGcc3mr5Khp3sWjxEtbdQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] arm64: dts: beacon-renesom: Fix gpio expander reference
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-renesas-soc@vger.kernel.org, aford@beaconembedded.com,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---o8TZGlddOlyRmhtS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-
-> > Add the bus and the GPIO expander connected to it. Based on BSP patches
-> > by LUU HOAI and Phong Hoang.
+On Wed, Jan 11, 2023 at 10:29 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Adam,
+>
+> On Wed, Jan 4, 2023 at 3:12 PM Adam Ford <aford173@gmail.com> wrote:
+> > The board used to originally introduce the Beacon Embedded
+> > RZ/G2[M/N/H] boards had a GPIO expander with address 20, but
+> > this was change when the final board went to production.
 > >
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
->=20
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->=20
-> But perhaps Shimoda-san's patch is more useful?
+> > The production boards changed both the part itself and
+> > the address.  With the incorrect address, the LCD cannot
+> > come up.  If the LCD fails, the rcar-du driver fails to come up,
+> > and that also breaks HDMI.
+> >
+> > Pre-release board were not shipped to the general public, so it
+> > should be safe to push this as a fix.  Anyone with a production
+> > board would have video fail due to this GPIO expander change.
+> >
+> > Fixes: a1d8a344f1ca ("arm64: dts: renesas: Introduce r8a774a1-beacon-rzg2m-kit")
+> > Signed-off-by: Adam Ford <aford173@gmail.com>
+>
+> Thanks for your patch!
+>
+> > --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> > @@ -437,20 +437,6 @@ wm8962_endpoint: endpoint {
+> >                 };
+> >         };
+> >
+> > -       /* 0 - lcd_reset */
+> > -       /* 1 - lcd_pwr */
+> > -       /* 2 - lcd_select */
+> > -       /* 3 - backlight-enable */
+> > -       /* 4 - Touch_shdwn */
+> > -       /* 5 - LCD_H_pol */
+> > -       /* 6 - lcd_V_pol */
+> > -       gpio_exp1: gpio@20 {
+> > -               compatible = "onnn,pca9654";
+> > -               reg = <0x20>;
+> > -               gpio-controller;
+> > -               #gpio-cells = <2>;
+> > -       };
+> > -
+> >         touchscreen@26 {
+> >                 compatible = "ilitek,ili2117";
+> >                 reg = <0x26>;
+> > @@ -482,6 +468,21 @@ hd3ss3220_out_ep: endpoint {
+> >                         };
+> >                 };
+> >         };
+> > +
+> > +       gpio_exp1: gpio@70 {
+> > +               compatible = "onnn,pca9654";
+>
+> According to the patch description, the actual part was changed, too?
 
-If UFS is ready soon, then for sure.
+humm.. I was under the impression it was after talking with one of the
+hardware developers, but clearly it's using the same compatible name.
+I will investigate this further.  One way or the other, I'll redo the
+commit message.
 
-
---o8TZGlddOlyRmhtS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmO+7F4ACgkQFA3kzBSg
-KbZ92A//bGgzJOGZojusXVQfjyLopzlIqrOHAC2FewJEcPzQ5MWq6e1M4JrtAjlj
-TLg0Sol0lDCrISPufobbJOaxMuSi4BLHid1naWRlk0i3BhvnPRU8jc2byIJPvoVN
-vXwxakOWGmKanUiS+mvxTEvGyfTg6FxxJjZv5p47cmv/YUEm0OsSvwIlOnZEYIGG
-Bv4zPpO8mMsztnF7LGfmz4psFFyb+xBpfD15L/yMiCp/cYCmwFCIS/Oobo50pBz4
-YujG4uFKLitRIgNjQdY5G7yXT4zhDfTmS2ASFm6Dflg6pmbYMWQI6CobJEIv816O
-cA7o90AjJxfuu2MBvBVDmSI7p/sbVhnmAWwblLNIyOkFqxHzsnHNCkHzwu1Da1lq
-xu1RTpt4ha34xTiv43qOOoDofhvpRrDPJFTgLtcqmoT9sMRxT7aT90mCs8vwvOHm
-hBMgYZbxEzKugBXjo9imsEU48NCT5PgIdIfIvbW7oJpGO/Jc+fiDSxzV3xFLgk4r
-wlqL0KjhXn4bJvd3BKovCkpI4ASBzj9aRZX90b97klWVxFWCa62Cj392f4Jduzc/
-BRwEFq6RlcII5U/lN9tVIalO7YfECJkTiV6slirPSF0/t9hAi+X0tjA0HB7Dln+G
-p7Avr8BlHrtqwYRSh9+eOZ2HbNmwRlSDyVk2pHmFL4Z/blte9G4=
-=yfiA
------END PGP SIGNATURE-----
-
---o8TZGlddOlyRmhtS--
+adam
+>
+> > +               reg = <0x70>;
+> > +               gpio-controller;
+> > +               #gpio-cells = <2>;
+> > +               gpio-line-names =
+> > +                       "lcd_reset",
+> > +                       "lcd_pwr",
+> > +                       "lcd_select",
+> > +                       "backlight-enable",
+> > +                       "Touch_shdwn",
+> > +                       "LCD_H_pol",
+> > +                       "lcd_V_pol";
+> > +       };
+> >  };
+>
+> The rest LGTM.
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
