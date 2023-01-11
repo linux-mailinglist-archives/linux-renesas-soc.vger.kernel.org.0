@@ -2,63 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27666665F35
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jan 2023 16:35:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F28F665FED
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Jan 2023 17:03:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232691AbjAKPe5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Jan 2023 10:34:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58402 "EHLO
+        id S231334AbjAKQDD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Jan 2023 11:03:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233322AbjAKPep (ORCPT
+        with ESMTP id S233197AbjAKQDC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Jan 2023 10:34:45 -0500
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDD071A04B;
-        Wed, 11 Jan 2023 07:34:42 -0800 (PST)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-4c15c4fc8ccso199939697b3.4;
-        Wed, 11 Jan 2023 07:34:42 -0800 (PST)
+        Wed, 11 Jan 2023 11:03:02 -0500
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FC1115FC2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jan 2023 08:03:01 -0800 (PST)
+Received: by mail-oi1-f179.google.com with SMTP id r130so13086102oih.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jan 2023 08:03:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rOo/Lmiv+PrggJC7eKLu3qYU4SlvkGK8bJUxeIQkTLk=;
-        b=XHbRkojEqzE0i/pNGgbCpY24YQxXgkq2EJ67yCAhIVwkfeL053+FL++ksbmimLYm29
-         z9Hl/2j16Cx7AuQk95zScRSzbUFYqiRXtjmua3Ib98Pdknu08Xgtp2+KqS8mcVqhzL+V
-         2lzo0cTslVZfG7hccQJVEI8NW7BC8uMUYI1ydJ4EzaiqI7MEa4bwH8ciAlstC+7Gv4XJ
-         PVHaIPzC68m8aJ6ykjdi9UIRT/SVWwZmMSuHvlVCcOKYOs/NZJSzkzBNdN2yjIfJarmX
-         azfCENLBP9J3z9w92l6PkrE44Gmpv00i2awWkdrIcU7Y9bgGgq1FtNMaY9Bs3MSgB3LY
-         6n+g==
-X-Gm-Message-State: AFqh2koSa/jNcU45678h7kZLlgbwN2mh0bk730VjLpLecnYZlAErfiqN
-        LW1Iou4waseubGf1wYbGWmNodsRQnaSjMg==
-X-Google-Smtp-Source: AMrXdXvqv6Btl368LdzS+dSq6y/i+LAvR56JiHAs7hAP70x1cJMPSjE9LEu3IfZ3zYrGoW/Egp3s2A==
-X-Received: by 2002:a05:7500:3f91:b0:ef:ac4c:77db with SMTP id lo17-20020a0575003f9100b000efac4c77dbmr228970gab.20.1673451281906;
-        Wed, 11 Jan 2023 07:34:41 -0800 (PST)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id y27-20020a05620a0e1b00b006bb2cd2f6d1sm9061570qkm.127.2023.01.11.07.34.41
+        bh=mQSdMcBUQfWA4IRG5QkpB6/oCBZwQDaw14x0SbslY/8=;
+        b=vZ09yWRqJ51PemqEZ4vFkbJEbzDD7NpFhCJ8EqzTJ1BUTWxA1I89Gzm8iC0oPN8ZOw
+         Xfdhx4K9/lTnZcTlNZIoaDHY6Fz8vrC+xxP+TkxnZlQk9fuiUSgu7RvHC/moEAUmlqJS
+         LwPUFvGYV9x9wN+6/+NZHwGwXL2RViWIiAI4FGrtkm58cUnQEDKoeAIws+zxPCi7XJgd
+         s4jlNhjIqEqA8UQE0LBSAmaLTrYGLu1WLNGIPJQXS2T/1JlyY1ZFIgl7nrTT94lR6MRR
+         CWigh6m9MzQUwtPsXhMROPy7s+SrcqWz2CXfQRTMklhCK2qYVix/0PirUMxk/szhcxiq
+         Lrog==
+X-Gm-Message-State: AFqh2koNprJhOP+6niYn8rlto2g/X4fuWgPTt4M6fVRx7p/kqsWDLLiC
+        tOjnfdYVVdhcgWMcY3yLhza5GwZw+WVzMQ==
+X-Google-Smtp-Source: AMrXdXsdC+8/95AGOyluK9WGo3I1V/T/oq4iPVhEs4mmZ5qRzcMKWusSvbJu2mvTqJc4IDXhP1WabQ==
+X-Received: by 2002:a05:6808:1911:b0:360:e643:7e27 with SMTP id bf17-20020a056808191100b00360e6437e27mr50332274oib.36.1673452980250;
+        Wed, 11 Jan 2023 08:03:00 -0800 (PST)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id d15-20020a05620a140f00b006fc92cf4703sm9060619qkj.132.2023.01.11.08.02.59
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jan 2023 07:34:41 -0800 (PST)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-4d13cb4bbffso79393547b3.3;
-        Wed, 11 Jan 2023 07:34:41 -0800 (PST)
-X-Received: by 2002:a05:690c:313:b0:37e:6806:a5f9 with SMTP id
- bg19-20020a05690c031300b0037e6806a5f9mr2693101ywb.47.1673451281019; Wed, 11
- Jan 2023 07:34:41 -0800 (PST)
+        Wed, 11 Jan 2023 08:03:00 -0800 (PST)
+Received: by mail-yb1-f177.google.com with SMTP id 188so15453551ybi.9
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Jan 2023 08:02:59 -0800 (PST)
+X-Received: by 2002:a25:d84e:0:b0:7b4:6a33:d89f with SMTP id
+ p75-20020a25d84e000000b007b46a33d89fmr1638078ybg.543.1673452979615; Wed, 11
+ Jan 2023 08:02:59 -0800 (PST)
 MIME-Version: 1.0
-References: <CAMuHMdXehA_n78nLXCwBdKV=So=6Vzjt5eye7ZE4bS_BvHnzEA@mail.gmail.com>
- <1671806417-32623-1-git-send-email-khoroshilov@ispras.ru>
-In-Reply-To: <1671806417-32623-1-git-send-email-khoroshilov@ispras.ru>
+References: <20221220121959.45779-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20221220121959.45779-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 11 Jan 2023 16:34:28 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVnh6_7sTuvVNsu=4chCH4L3OfJ7qKKSCSv-9RyCjyG7Q@mail.gmail.com>
-Message-ID: <CAMuHMdVnh6_7sTuvVNsu=4chCH4L3OfJ7qKKSCSv-9RyCjyG7Q@mail.gmail.com>
-Subject: Re: [PATCH v2] clk: renesas: cpg-mssr: Fix use after free if
- cpg_mssr_common_init() failed
-To:     Alexey Khoroshilov <khoroshilov@ispras.ru>
-Cc:     Chris Brandt <chris.brandt@renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Date:   Wed, 11 Jan 2023 17:02:47 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU9YTgXLdgqPvUWwf6cZAGBPTxSspwnO5KTyVL3v_gwbg@mail.gmail.com>
+Message-ID: <CAMuHMdU9YTgXLdgqPvUWwf6cZAGBPTxSspwnO5KTyVL3v_gwbg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: spider-cpu: add i2c0 bus
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -70,22 +65,21 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Dec 23, 2022 at 3:40 PM Alexey Khoroshilov
-<khoroshilov@ispras.ru> wrote:
-> If cpg_mssr_common_init() fails after assigning priv to global variable
-> cpg_mssr_priv, it deallocates priv, but cpg_mssr_priv keeps dangling
-> pointer that potentially can be used later.
+Hi Wolfram,
+
+On Tue, Dec 20, 2022 at 1:37 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Add the bus and the GPIO expander connected to it. Based on BSP patches
+> by LUU HOAI and Phong Hoang.
 >
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->
-> Fixes: 1f7db7bbf031 ("clk: renesas: cpg-mssr: Add early clock support")
-> Signed-off-by: Alexey Khoroshilov <khoroshilov@ispras.ru>
-> ---
-> v2: Move cpg_mssr_priv assignment just before return 0; instead of
-> clearing it as Geert Uytterhoeven <geert@linux-m68k.org> suggested.
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v6.3.
+
+But perhaps Shimoda-san's patch is more useful?
+
+[PATCH] arm64: dts: renesas: r8a779f0: spider-cpu: Enable UFS device
+https://lore.kernel.org/all/20221222093252.3613915-1-yoshihiro.shimoda.uh@renesas.com
 
 Gr{oetje,eeting}s,
 
