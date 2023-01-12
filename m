@@ -2,119 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A93B466833B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jan 2023 21:08:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD77366868A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jan 2023 23:10:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240635AbjALUHb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Jan 2023 15:07:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47248 "EHLO
+        id S240210AbjALWJE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Jan 2023 17:09:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241389AbjALUDw (ORCPT
+        with ESMTP id S240344AbjALWIe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Jan 2023 15:03:52 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4252713E2A;
-        Thu, 12 Jan 2023 12:01:31 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E0FBDB81E62;
-        Thu, 12 Jan 2023 20:01:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28061C433D2;
-        Thu, 12 Jan 2023 20:01:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673553688;
-        bh=DjplknG/Og42vIVzT/q7FbntQdQMbrnKJqFFsTyhjNM=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=EUafdQGi6kPVntwFcsX8dQ++eMfDpAt4hRufXGYp4rn3498p9O5an8Dtzb32f8VZO
-         /0dwxqLx9EiZWyrofGYjXdGydKTREAjzdQvusJ0Ow7D4V0fv83WO6VIMOVK93JIW2S
-         WKNFKVIBv7VwC+kTD5h1WgF5etFBp2YPn8S3ZXmT1Seav9nsmaQ1vhNBslaNNmcYRn
-         zsCLB4TmasZgZxWFa1UpanGfaUnDdJStrP+pk1HardQUH3NiBxgoCCXTezH0ic2ZBw
-         6otuSPV9m9aONvZu3dzL7IfHqeZgMZCL4VALktP1HibdXNi78cOSWjN0jogQQsvptF
-         31XhLFJQie5QQ==
-From:   Mark Brown <broonie@kernel.org>
-To:     Robert Jarzmik <robert.jarzmik@free.fr>,
-        Arnd Bergmann <arnd@kernel.org>
-Cc:     Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>, stern@rowland.harvard.edu,
-        alexandre.belloni@bootlin.com, brgl@bgdev.pl,
-        damien.lemoal@opensource.wdc.com, dmitry.torokhov@gmail.com,
-        linux@dominikbrodowski.net, balbi@kernel.org,
-        gregkh@linuxfoundation.org, deller@gmx.de, perex@perex.cz,
-        jingoohan1@gmail.com, lee@kernel.org, kernel@wantstofly.org,
-        lgirdwood@gmail.com, linus.walleij@linaro.org,
-        marek.vasut@gmail.com, mkpetch@internode.on.net,
-        miquel.raynal@bootlin.com, lost.distance@yahoo.com,
-        philipp.zabel@gmail.com, linux@armlinux.org.uk, sre@kernel.org,
-        slapin@ossfans.org, s.shtylyov@omp.ru, sudipm.mukherjee@gmail.com,
-        tiwai@suse.com, ulf.hansson@linaro.org, vigneshr@ti.com,
-        viresh.kumar@linaro.org, wsa+renesas@sang-engineering.com,
-        linux-pm@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
-        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-rtc@vger.kernel.org,
-        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org
-In-Reply-To: <20230105134622.254560-1-arnd@kernel.org>
-References: <20230105134622.254560-1-arnd@kernel.org>
-Subject: Re: (subset) [PATCH v2 00/27] ARM: pxa: remove all unused boards&drivers
-Message-Id: <167355367885.2500964.3629822486060649314.b4-ty@kernel.org>
-Date:   Thu, 12 Jan 2023 20:01:18 +0000
+        Thu, 12 Jan 2023 17:08:34 -0500
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 513E8279;
+        Thu, 12 Jan 2023 13:59:13 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.97,212,1669042800"; 
+   d="scan'208";a="146137066"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 13 Jan 2023 06:59:12 +0900
+Received: from localhost.localdomain (unknown [10.226.92.132])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id AA753400A8BB;
+        Fri, 13 Jan 2023 06:59:08 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 00/12] ADD USB3.1 HOST, Peri and DRD support
+Date:   Thu, 12 Jan 2023 21:58:54 +0000
+Message-Id: <20230112215906.494394-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12-dev-8b3d1
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 05 Jan 2023 14:45:55 +0100, Arnd Bergmann wrote:
-> Most of the legacy PXA board files were marked as unused in linux-5.19 and
-> can get removed in linux-6.3. There is support for pxa250/pxa270/pxa300
-> using devicetree already, which supports a number of boards, but progress
-> on converting the remaining ones has stalled over the past few years.
-> 
-> The two boards that are left in the tree for now are the three 'sharpsl'
-> variants (spitz/akita/borzoi) and the 'gumstix' family of machines.
-> Both of these are supported by qemu, which can be helpful for completing
-> the DT conversion.
-> 
-> [...]
+This patch series aims to add USB3.1 HOST, Peri and DRD support
+on RZ/V2M EVK platform.
 
-Applied to
+The reset for both host and peri are located in USB3DRD block. The
+USB3DRD registers are mapped in the AXI address space of the Peripheral
+module.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+RZ/V2M XHCI is similar to R-Car XHCI but it doesn't require any
+firmware.
 
-Thanks!
+Host/device needs to do reset release and set the host/device function
+on DRD module, before accessing any registers.
 
-[14/27] ASoC: PXA: make SND_PXA2XX_SOC_AC97 user-selectable
-        commit: 5eab9265759e2fb042aa452931c3d06ab7ab8dae
-[15/27] ASoC: pxa: remove unused board support
-        (no commit info)
+v1->v2:
+ * Added Rb tag from Rob for host binding patch
+ * Renamed clock-name from "host_axi"->"axi"
+ * Drop quotes around usb-xhci.yaml.
+ * Moved DRD interrupts from device ctrlr to DRD bindings
+ * Updated interrupts and dropped interrupt-names in device ctrlr bindings
+ * Renamed aclk->axi in device ctrlr bindings
+ * Added DRD interrupts and interrupt-names in DRD bindings
+ * Dropped peripheral reset and reset-names from DRD bindings
+ * Added reg property for usb3 device ctrlr nodes
+ * Renamed peri_axi->axi and apb->reg
+ * Updated pattern properties and example.
+ * Moved header file from include/linux/soc/renesas->include/linux/usb
+ * Passing DRD irq resource from parent to usb3_peri for handling it.
+ * As drd reg is now separated from usb3 peri, updated DRD reg handling in
+   usb3 peri driver.
+ * Removed usb3 peri reset handling from DRD driver.
+ * Added Rb tag from Geert for reset and clock updates for xhci-plat.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Note:
+ * Patch12 dependup on [1]
+  [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221209171836.71610-3-biju.das.jz@bp.renesas.com/
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Biju Das (12):
+  dt-bindings: usb: renesas,usb-xhci: Document RZ/V2M support
+  dt-bindings: usb: renesas,usb3-peri: Update reset, clock-name and
+    interrupts properties
+  dt-bindings: usb: renesas,usb3-peri: Document RZ/V2MA bindings
+  dt-bindings: usb: Add RZ/V2M USB3DRD binding
+  usb: gadget: Add support for RZ/V2M USB3DRD driver
+  usb: gadget: udc: renesas_usb3: Add role switch support for RZ/V2M
+  usb: host: xhci-plat: Improve clock handling in probe()
+  usb: host: xhci-plat: Add reset support
+  xhci: host: Add Renesas RZ/V2M SoC support
+  arm64: dts: renesas: r9a09g011: Add USB3 DRD, device and host nodes
+  arm64: dts: renesas: rzv2mevk2: Enable USB3 DRD, Peripheral and Host
+  arm64: dts: renesas: rzv2mevk2: Enable USB3 role switch
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+ .../bindings/usb/renesas,rzv2m-usb3drd.yaml   | 129 ++++++++++++++++
+ .../bindings/usb/renesas,usb-xhci.yaml        |  41 +++++-
+ .../bindings/usb/renesas,usb3-peri.yaml       |  40 +----
+ .../boot/dts/renesas/r9a09g011-v2mevk2.dts    |  76 ++++++++++
+ arch/arm64/boot/dts/renesas/r9a09g011.dtsi    |  45 ++++++
+ drivers/usb/gadget/udc/Kconfig                |   7 +
+ drivers/usb/gadget/udc/Makefile               |   1 +
+ drivers/usb/gadget/udc/renesas_usb3.c         | 136 +++++++++++------
+ drivers/usb/gadget/udc/rzv2m_usb3drd.c        | 139 ++++++++++++++++++
+ drivers/usb/host/Kconfig                      |   9 ++
+ drivers/usb/host/Makefile                     |   3 +
+ drivers/usb/host/xhci-plat.c                  |  36 ++++-
+ drivers/usb/host/xhci-rzv2m.c                 |  38 +++++
+ drivers/usb/host/xhci-rzv2m.h                 |  16 ++
+ include/linux/usb/rzv2m_usb3drd.h             |  20 +++
+ 15 files changed, 649 insertions(+), 87 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+ create mode 100644 drivers/usb/gadget/udc/rzv2m_usb3drd.c
+ create mode 100644 drivers/usb/host/xhci-rzv2m.c
+ create mode 100644 drivers/usb/host/xhci-rzv2m.h
+ create mode 100644 include/linux/usb/rzv2m_usb3drd.h
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+-- 
+2.25.1
 
-Thanks,
-Mark
