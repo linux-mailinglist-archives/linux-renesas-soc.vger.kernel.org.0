@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CDA6F668670
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jan 2023 23:10:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2F3766866C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jan 2023 23:10:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240253AbjALWJG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Jan 2023 17:09:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56592 "EHLO
+        id S240355AbjALWJK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Jan 2023 17:09:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240392AbjALWIf (ORCPT
+        with ESMTP id S240413AbjALWIf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Thu, 12 Jan 2023 17:08:35 -0500
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 94857B3B;
-        Thu, 12 Jan 2023 13:59:20 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 43269F76;
+        Thu, 12 Jan 2023 13:59:24 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.97,212,1669042800"; 
-   d="scan'208";a="146137077"
+   d="scan'208";a="146137080"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 13 Jan 2023 06:59:20 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 13 Jan 2023 06:59:24 +0900
 Received: from localhost.localdomain (unknown [10.226.92.132])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 43963400A66D;
-        Fri, 13 Jan 2023 06:59:17 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id D9C26400B9F8;
+        Fri, 13 Jan 2023 06:59:20 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
@@ -32,9 +32,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 02/12] dt-bindings: usb: renesas,usb3-peri: Update reset, clock-name and interrupts properties
-Date:   Thu, 12 Jan 2023 21:58:56 +0000
-Message-Id: <20230112215906.494394-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 03/12] dt-bindings: usb: renesas,usb3-peri: Document RZ/V2MA bindings
+Date:   Thu, 12 Jan 2023 21:58:57 +0000
+Message-Id: <20230112215906.494394-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230112215906.494394-1-biju.das.jz@bp.renesas.com>
 References: <20230112215906.494394-1-biju.das.jz@bp.renesas.com>
@@ -48,106 +48,31 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On RZ/V2M, USB3DRD module manages the drd_reset. Moreover, the interrupts
-drd, gpi and bc are part of USB3DRD block. This patch removes
-drd_reset and the interrupts drd, bc and gpi from usb3_peri bindings.
-After this, there is only one reset and interrupts and therefore
-removing reset-names and interrupt-names as well.
-
-Whilst, Update the clock-name "aclk"->"axi" to make it consistent with
-DRD and host blocks.
-
-There is any harm in making such a change as, no users of
-renesas,r9a09g011-usb3-peri yet in kernel release.
+Document RZ/V2MA usb3-peri bindings. RZ/V2MA usb3-peri is identical
+to one found on the RZ/V2M SoC. No driver changes are required as
+generic compatible string "renesas,rzv2m-usb3-peri" will be used as
+a fallback.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v1->v2:
- * Moved DRD interrupts to DRD bindings
- * Updated interrupts and dropped interrupt-names
- * Renamed aclk->axi
+ * No change
 ---
- .../bindings/usb/renesas,usb3-peri.yaml       | 39 ++-----------------
- 1 file changed, 3 insertions(+), 36 deletions(-)
+ Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml b/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
-index 55dfd121b555..4ba36ebf0f1e 100644
+index 4ba36ebf0f1e..b2b811a0ade8 100644
 --- a/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
 +++ b/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
-@@ -34,20 +34,7 @@ properties:
-     maxItems: 1
+@@ -28,6 +28,7 @@ properties:
+       - items:
+           - enum:
+               - renesas,r9a09g011-usb3-peri # RZ/V2M
++              - renesas,r9a09g055-usb3-peri # RZ/V2MA
+           - const: renesas,rzv2m-usb3-peri
  
-   interrupts:
--    minItems: 1
--    items:
--      - description: Combined interrupt for DMA, SYS and ERR
--      - description: Dual Role Device (DRD)
--      - description: Battery Charging
--      - description: Global Purpose Input
--
--  interrupt-names:
--    minItems: 1
--    items:
--      - const: all_p
--      - const: drd
--      - const: bc
--      - const: gpi
-+    maxItems: 1
- 
-   clocks:
-     minItems: 1
-@@ -58,7 +45,7 @@ properties:
-   clock-names:
-     minItems: 1
-     items:
--      - const: aclk
-+      - const: axi
-       - const: reg
- 
-   phys:
-@@ -71,15 +58,7 @@ properties:
-     maxItems: 1
- 
-   resets:
--    minItems: 1
--    items:
--      - description: Peripheral reset
--      - description: DRD reset
--
--  reset-names:
--    items:
--      - const: aresetn_p
--      - const: drd_reset
-+    maxItems: 1
- 
-   usb-role-switch:
-     $ref: /schemas/types.yaml#/definitions/flag
-@@ -127,25 +106,13 @@ allOf:
-           minItems: 2
-         clock-names:
-           minItems: 2
--        interrupts:
--          minItems: 4
--        interrupt-names:
--          minItems: 4
--        resets:
--          minItems: 2
-       required:
-         - clock-names
--        - interrupt-names
-         - resets
--        - reset-names
-     else:
-       properties:
-         clocks:
-           maxItems: 1
--        interrupts:
--          maxItems: 1
--        resets:
--          maxItems: 1
- 
- additionalProperties: false
- 
+   reg:
 -- 
 2.25.1
 
