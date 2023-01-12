@@ -2,63 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A22E6670C4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jan 2023 12:22:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EC976670D2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jan 2023 12:25:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231396AbjALLWX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Jan 2023 06:22:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42408 "EHLO
+        id S231656AbjALLZV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Jan 2023 06:25:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231608AbjALLVq (ORCPT
+        with ESMTP id S232226AbjALLYK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Jan 2023 06:21:46 -0500
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D953555657
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Jan 2023 03:12:46 -0800 (PST)
-Received: by mail-qt1-f173.google.com with SMTP id e22so3693061qts.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Jan 2023 03:12:46 -0800 (PST)
+        Thu, 12 Jan 2023 06:24:10 -0500
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3D0E264
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Jan 2023 03:14:48 -0800 (PST)
+Received: by mail-qv1-f45.google.com with SMTP id t7so12525662qvv.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Jan 2023 03:14:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eMPOkKZstQblIw3mpVZAOfd3exSdyooa5y33KQ+5qFY=;
-        b=V+GPHsy5YLn49EeBDfzamfLOJ5aaR3kPFYGklB4eg15yw96/JC7O0FFCqLvfUd8E0u
-         Pp+JDtoujihn3usPxIykxCxVGc5LUMHaNpfvNV57m+HOXwDiHkoMebUdOLRnwJdRpbnx
-         fyn38HN2QZAokoHy+ltojRPWPOZrV9qZ9qaptTcH9PlfObBA1HelS9GR1IbUpK1Hdvq7
-         TiEvMCyCL2QomnN6Kl7bvEGBqzbVr0FNoPj3VA0sgjeKedd3DJqS3R5sCVuPYBuRTBSm
-         mG/MpG8bnTVsznFdEAS2Nz1p+YliUjCclpdyRZfMtJUtMcvLw9YZEpzb12a2MHYvzwiV
-         fYMA==
-X-Gm-Message-State: AFqh2kpnxlYKf3vVzZEzS4PKBKRLYpeDekDk2h3ujhvuDys83OCJS7Ax
-        yqtYvzJebDobAL7ZvUEjcJaqxRUT2/HGFA==
-X-Google-Smtp-Source: AMrXdXslYqoutadTyA7+ML7YlSZ1avSfevGANp+dIqfD5yObjJb4bf0TaY1MyyEkt8wgluGbenW7Xg==
-X-Received: by 2002:a05:622a:1884:b0:3ab:ec48:d54f with SMTP id v4-20020a05622a188400b003abec48d54fmr34412528qtc.25.1673521965120;
-        Thu, 12 Jan 2023 03:12:45 -0800 (PST)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id e7-20020ac80647000000b003a69225c2cdsm8933947qth.56.2023.01.12.03.12.44
+        bh=GkJBOJ6yJ8fHD5fEsGpARR9n0uXuIFMn7sPmEjEINsE=;
+        b=ljhEKCId2y3s8dz3YhYLIY/fWvhnCvJjh0NHBzjzwoJsFeFQNx5V8nJirNeP9eRA4E
+         xYJoKo6AeTjapLOY1m7NmH5e8jOSC2ahUO73U+QHhq9r7IF4vJMVNoTC4Qf8GNjw38Ln
+         hMIbdGICshcFO77zjEYVSNrd9Bd8bW7H+kCcsAr1MCjVTSuW9IKSb2K6DqWG2riWPrWs
+         0MrTsXKBfM+6mwfgSj4wcC14Nf9gXakuTWB+H9gS8y3hD317DG37niQGfmC4zxmZG5n5
+         FJUegpQDD6bY5mfVVuwymq+A7K0ZS2n8Fp5V5lX7AKmowx+2o4ycA4Opbx9L0wSq3jjL
+         JqRA==
+X-Gm-Message-State: AFqh2koXYwigVexAOAghR2EyauVJBj0q5/5FEz1yaxSDlWqqvHOBHMg4
+        wfPTQkqjXKpjectFyYKIVRX0z0D28e1Oxw==
+X-Google-Smtp-Source: AMrXdXtRVHGcgW6CeeEoE4z05XdQ/+6x4U6UVMZ9Trf+FT1bTqjXOKyTBTCDxVzsoP+vo0h+vSu2VQ==
+X-Received: by 2002:a05:6214:1fc9:b0:534:24d1:62e9 with SMTP id jh9-20020a0562141fc900b0053424d162e9mr7801292qvb.25.1673522087658;
+        Thu, 12 Jan 2023 03:14:47 -0800 (PST)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id l23-20020a37f917000000b006fc2b672950sm10599349qkj.37.2023.01.12.03.14.47
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jan 2023 03:12:44 -0800 (PST)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-4d0f843c417so120523797b3.7
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Jan 2023 03:12:44 -0800 (PST)
-X-Received: by 2002:a81:1a16:0:b0:46f:bd6:957d with SMTP id
- a22-20020a811a16000000b0046f0bd6957dmr1758634ywa.383.1673521964490; Thu, 12
- Jan 2023 03:12:44 -0800 (PST)
+        Thu, 12 Jan 2023 03:14:47 -0800 (PST)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-4c15c4fc8ccso234519687b3.4
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Jan 2023 03:14:47 -0800 (PST)
+X-Received: by 2002:a81:ac18:0:b0:475:f3f5:c6c with SMTP id
+ k24-20020a81ac18000000b00475f3f50c6cmr1936575ywh.358.1673522087076; Thu, 12
+ Jan 2023 03:14:47 -0800 (PST)
 MIME-Version: 1.0
-References: <87edt2pxhd.wl-kuninori.morimoto.gx@renesas.com> <87a63qpxge.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87a63qpxge.wl-kuninori.morimoto.gx@renesas.com>
+References: <87edt2pxhd.wl-kuninori.morimoto.gx@renesas.com> <878rjapxg8.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <878rjapxg8.wl-kuninori.morimoto.gx@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 12 Jan 2023 12:12:31 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXJ7B-7qK_ft3627pwSgUkFONnDaLw-59vVP_Tmuj0jNQ@mail.gmail.com>
-Message-ID: <CAMuHMdXJ7B-7qK_ft3627pwSgUkFONnDaLw-59vVP_Tmuj0jNQ@mail.gmail.com>
-Subject: Re: [PATCH 3/8] arm64: dts: renesas: add ulcb{-kf} Audio Graph Card dtsi
+Date:   Thu, 12 Jan 2023 12:14:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUO5NwiUd31ff8WHgW54RVJOma5qeSDkygGTT4fACQu1A@mail.gmail.com>
+Message-ID: <CAMuHMdUO5NwiUd31ff8WHgW54RVJOma5qeSDkygGTT4fACQu1A@mail.gmail.com>
+Subject: Re: [PATCH 4/8] arm64: dts: renesas: add ulcb{-kf} Audio Graph Card2 dtsi
 To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -94,8 +94,9 @@ On Wed, Dec 14, 2022 at 2:48 AM Kuninori Morimoto
 > From normal user point of view who don't need to test the driver,
 > it should keep as-is, nothing changed.
 >
-> This patch adds "Audio Graph Card" DT setting file for ULCB/KF.
-> We can switch to use it if ulcb.dtsi / ulcb-kf.dtsi were updated.
+> This patch adds "Audio Graph Card2" DT setting file for ULCB/KF,
+> and switch to use it. We can switch to other Generic Audio Graph driver
+> if ulcb.dtsi / ulcb-kf.dtsi were updated.
 >
 > Because it needs "switching driver", not "add extra feature",
 > it doesn't use Device-Tree overlay.
@@ -105,146 +106,26 @@ On Wed, Dec 14, 2022 at 2:48 AM Kuninori Morimoto
 Thanks for your patch!
 
 > --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card.dtsi
-
-> +&ak4613 {
-> +       #sound-dai-cells = <0>;
+> +++ b/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card2.dtsi
+> @@ -0,0 +1,26 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device Tree for ULCB + Audio Graph Card2
+> + *
+> + * Copyright (C) 2022 Renesas Electronics Corp.
+> + */
 > +
-> +       port {
-> +               /*
-> +                * (A) CPU0 <-> ak4613
-> +                */
-> +               ak4613_endpoint: endpoint {
-> +                       remote-endpoint = <&rsnd_for_ak4613>;
-> +               };
-> +       };
-> +};
-> +
-> +&hdmi0 {
-> +       ports {
-> +               port@2 {
-> +                       /*
-> +                        * (B) CPU1 <-> HDMI
+> +/*
+> + *     (A) CPU0 ------ ak4613
+> + *     (B) CPU1 ------ HDMI
+> + *
+> + *     (A) aplay   -D plughw:0,0 xxx.wav
+> + *     (B) aplay   -D plughw:0,1 xxx.wav
+> + *
+> + *     (A) arecord -D plughw:0,0 xxx.wav
 
-As this is used for playback only, "CPU1 -> HDMI"?
-
-> +                        */
-> +                       dw_hdmi0_snd_in: endpoint {
-> +                               remote-endpoint = <&rsnd_for_hdmi>;
-> +                       };
-> +               };
-> +       };
-> +};
-> +
-> +&rcar_sound {
-> +       ports {
-> +               #address-cells = <1>;
-> +               #size-cells = <0>;
-> +               rsnd_port0: port@0 {
-> +                       /*
-> +                        * (A) CPU0 <-> ak4613
-> +                        */
-> +                       reg = <0>;
-> +                       rsnd_for_ak4613: endpoint {
-> +                               remote-endpoint = <&ak4613_endpoint>;
-> +                               bitclock-master;
-> +                               frame-master;
-> +                               playback = <&ssi0>, <&src0>, <&dvc0>;
-> +                               capture  = <&ssi1>, <&src1>, <&dvc1>;
-> +                       };
-> +               };
-> +               rsnd_port1: port@1 {
-> +                       /*
-> +                        * (B) CPU1 <-> HDMI
-
-CPU1 -> HDMI
-
-> +                        */
-> +                       reg = <1>;
-> +                       rsnd_for_hdmi: endpoint {
-> +                               remote-endpoint = <&dw_hdmi0_snd_in>;
-> +                               bitclock-master;
-> +                               frame-master;
-> +                               playback = <&ssi2>;
-> +                       };
-> +               };
-> +       };
-> +};
-
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card.dtsi
-
-> +&pcm3168a {
-> +       ports {
-> +               #address-cells = <1>;
-> +               #size-cells = <0>;
-> +               mclk-fs = <512>;
-> +               /*
-> +                * (C) CPU2 <-> PCM3168A-p
-
-CPU2 -> PCM3168A-p
-
-> +                */
-> +               port@0 {
-> +                       reg = <0>;
-> +                       pcm3168a_endpoint_p: endpoint {
-> +                               remote-endpoint = <&rsnd_for_pcm3168a_play>;
-> +                               clocks = <&clksndsel>;
-> +                       };
-> +               };
-> +               /*
-> +                * (D) CPU3 <-> PCM3168A-c
-
-As this is used for capture only, "CPU3 <- PCM3168A-c"?
-
-> +                */
-> +               port@1 {
-> +                       reg = <1>;
-> +                       pcm3168a_endpoint_c: endpoint {
-> +                               remote-endpoint = <&rsnd_for_pcm3168a_capture>;
-> +                               clocks = <&clksndsel>;
-> +                       };
-> +               };
-> +       };
-> +};
-> +
-> +&rcar_sound {
-> +       ports {
-> +               /* rsnd_port0/1 are defined in ulcb.dtsi */
-> +               /*
-> +                * (C) CPU2 <-> PCM3168A-p
-
-CPU2 -> PCM3168A-p
-
-> +                */
-> +               rsnd_port2: port@2 {
-> +                       reg = <2>;
-> +                       rsnd_for_pcm3168a_play: endpoint {
-> +                               remote-endpoint = <&pcm3168a_endpoint_p>;
-> +                               bitclock-master;
-> +                               frame-master;
-> +                               dai-tdm-slot-num = <8>;
-> +                               playback = <&ssi3>;
-> +                       };
-> +               };
-> +               /*
-> +                * (D) CPU3 <-> PCM3168A-c
-
-CPU3 <- PCM3168A-c
-
-> +                */
-> +               rsnd_port3: port@3 {
-> +                       reg = <3>;
-> +                       rsnd_for_pcm3168a_capture: endpoint {
-> +                               remote-endpoint = <&pcm3168a_endpoint_c>;
-> +                               bitclock-master;
-> +                               frame-master;
-> +                               dai-tdm-slot-num = <6>;
-> +                               capture = <&ssi4>;
-> +                       };
-> +               };
-> +       };
-> +};
+I think you should remove the existing aplay/arecord commands from
+ulcb.dtsi (and ulcb-kf.dtsi).
 
 Gr{oetje,eeting}s,
 
