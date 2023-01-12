@@ -2,45 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9D02666DDC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jan 2023 10:13:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76624666FC8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Jan 2023 11:37:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240013AbjALJN1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Jan 2023 04:13:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58550 "EHLO
+        id S235083AbjALKhG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Jan 2023 05:37:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240028AbjALJLZ (ORCPT
+        with ESMTP id S234177AbjALKgY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Jan 2023 04:11:25 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACE7744C4C
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Jan 2023 01:07:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=lWWvuOMqhkCrkQtWw3xRYcDQAaz
-        uxzjPQUYCZsAk/uM=; b=lV7BS4+NowWgKAvYXrCIBRLeql7HgAzFYSXSVOTRDBI
-        3nIudy4+C3902axEHVNSLzJ8137JOP2FjECpTe0j1GP+KTcwAk0moxA5Stebcq09
-        CEdVKQT6Ex3PEGp3gYRN3bLwq8dr8rFKY0s21yzs0qQ51cxLvxdb1vb178/gKNQI
-        =
-Received: (qmail 673347 invoked from network); 12 Jan 2023 10:06:59 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Jan 2023 10:06:59 +0100
-X-UD-Smtp-Session: l3s3148p1@ebt8cA3yRLZehh9g
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] memory: renesas-rpc-if: Remove redundant division of dummy
-Date:   Thu, 12 Jan 2023 10:06:55 +0100
-Message-Id: <20230112090655.43367-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
+        Thu, 12 Jan 2023 05:36:24 -0500
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6DE59510
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Jan 2023 02:30:50 -0800 (PST)
+Received: by mail-qv1-f53.google.com with SMTP id p17so12470006qvn.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Jan 2023 02:30:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7HZrNV8Kml0APCeUPuK1NS9APK2o00eP4lqvWX7AE8M=;
+        b=BKZrD6+a7g9yWtDloGq4OZiK8YPPaY695J3GXIpELv5AdH6r3aD/CrKxWuMnzb3imt
+         RoHF7HGJeWD1ojcRxzwhsl/mN2zWskXsnh+7pdg9BEYUdmH+t46cGA+zUPpvrl7kuSQ/
+         /edZpnu7+zvM4sBmMsNfoj6XhvaTVfqx4/yXcnC8kXZfX7Or2vSBabDtrjdWYL3kO+3V
+         itWMcoMK+eHmZexQ/UHnM/MatSuq8FrACQfn5IZgBKqqPejrxaxz31OgYe2V1C86ubvf
+         5qpuGzFTlGbPKPsNg5DW6ZVPw4OOKNhf0OfIIgLYBN+fbOSnFlVsuQ3Dd8nA26akDMwR
+         RyVw==
+X-Gm-Message-State: AFqh2kpF/aQALwf78zv00voc1XzNQbMijLsXrWojTrLIgdutFiyYWQ11
+        f1gXdAfnLyXJpJGW2lYr8XUF9QNLDuTtFA==
+X-Google-Smtp-Source: AMrXdXsFIiuRg1zZ6N42GTHvYOeqRhB5W9Rmto5N1HRCLgtBRAZcZL/5uE65pkC4N4ZJo88klXNAKA==
+X-Received: by 2002:a05:6214:a91:b0:531:7ff5:9927 with SMTP id ev17-20020a0562140a9100b005317ff59927mr87141987qvb.10.1673519449362;
+        Thu, 12 Jan 2023 02:30:49 -0800 (PST)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id do45-20020a05620a2b2d00b006fba44843a5sm1243588qkb.52.2023.01.12.02.30.48
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Jan 2023 02:30:49 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id d62so1981892ybh.8
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Jan 2023 02:30:48 -0800 (PST)
+X-Received: by 2002:a25:7:0:b0:7c1:b2e9:7e71 with SMTP id 7-20020a250007000000b007c1b2e97e71mr502447yba.604.1673519448608;
+ Thu, 12 Jan 2023 02:30:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+References: <20221222093252.3613915-1-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdW7LT-JNH-iPACLQfdS=oh_g-y2OXW-1R4xM5s+jWnUUQ@mail.gmail.com> <TYBPR01MB5341E6C6A0FF0D2B69B879BCD8FD9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYBPR01MB5341E6C6A0FF0D2B69B879BCD8FD9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 12 Jan 2023 11:30:36 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX2xJ=Tovo-VZMsPFn6zZ26=ZLtr0Uh7AGTE8MHV3ewsA@mail.gmail.com>
+Message-ID: <CAMuHMdX2xJ=Tovo-VZMsPFn6zZ26=ZLtr0Uh7AGTE8MHV3ewsA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a779f0: spider-cpu: Enable UFS device
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
         autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,70 +67,43 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Cong Dang <cong.dang.xn@renesas.com>
+Hi Shimoda-san,
 
-The dummy cycles value was wrongly calculated if dummy.buswidth > 1,
-which affects QSPI, OSPI, HyperFlash on various SoCs. We're lucky in
-Single SPI case since its dummy.buswidth equals to 1, so the result of
-the division is unchanged
+On Thu, Jan 12, 2023 at 9:02 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> > From: Geert Uytterhoeven, Sent: Thursday, January 12, 2023 1:20 AM
+> > On Thu, Dec 22, 2022 at 10:33 AM Yoshihiro Shimoda
+> > <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > > Enable UFS device for R-Car S4-8 Spider CPU board.
+> > >
+> > > Note that the conditions of RC21012 on the Spider are:
+> > >  - OUT11 (for UFS30_REFCLK_V) is disabled as default.
+> > >  - OUT11 is controlled by GPIO0 pin.
+> > >  - The GPIO0 pin is inverted sense (low active) and pull-up enabled.
 
-This issue can be reproduced using something like the following commands
-A. QSPI mode: Mount device with jffs2 format
-    jffs2: CLEANMARKER node found at 0x00000004, not first node in block (0x00000000)
+> > > To output the clock, pin 4 of TCA9554 on the Spider board needs to
+> > > output low level so that using "gpio-gate-clock" for it.
+> >
+> > Does this mean the GPIO setup was the only missing part,
+> > and the i2c commands from [1] were not needed?
+>
+> You're correct.
+>
+> > I wanted to give this a try, but the remote Spider is offline.
 
-B. QSPI mode: Write data to mtd10, where mtd10 is a parition on SPI Flash
-storage, defined properly in a device tree
+The remote Spider access issue was fixed, and the three
+UFS subdevices are detected fine.
+Hdparm says 280 MB/s (compared to 170 for eMMC).
 
-[Correct fragment, read from SPI Flash]
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-  root@v3x:~# echo "hello" > /dev/mtd10
-  root@v3x:~# hexdump -C -n100 /dev/mtd10
-  00000000  68 65 6c 6c 6f 0a ff ff  ff ff ff ff ff ff ff ff  |hello...........|
-  00000010  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+Gr{oetje,eeting}s,
 
-[Incorrect read of the same fragment: see the difference at offsets 0-3]
+                        Geert
 
-  root@v3x:~# echo "hello" > /dev/mtd10
-  root@v3x:~# hexdump -C -n100 /dev/mtd10
-  00000000  00 00 00 00 68 65 6c 6c  6f 0a ff ff ff ff ff ff  |....hello.......|
-  00000010  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-As seen from the result, 4 NULL bytes were inserted before the test data.
-Wrong calculation in rpcif_prepare() led to miss of some dummy cycle. A
-division by bus width is redundant because it had been performed already
-in spi-rpc-if.c::rpcif_spi_mem_prepare()
-
-Fix this by removing the redundant division.
-
-Fixes: ca7d8b980b67 ("memory: add Renesas RPC-IF driver")
-Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
-Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-
-Sadly, I cannot test this patch myself because I don't have access to
-hardware which uses a buswidth > 1 for the dummy read. However, from
-code review, this patch makes sense. The division by buswidth is done
-twice, once in the SPI driver and once in the RPC core. It should stay
-only in the SPI driver.
-
- drivers/memory/renesas-rpc-if.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-index 09cd4318a83d..c36b407851ff 100644
---- a/drivers/memory/renesas-rpc-if.c
-+++ b/drivers/memory/renesas-rpc-if.c
-@@ -430,8 +430,7 @@ void rpcif_prepare(struct rpcif *rpc, const struct rpcif_op *op, u64 *offs,
- 
- 	if (op->dummy.buswidth) {
- 		rpc->enable |= RPCIF_SMENR_DME;
--		rpc->dummy = RPCIF_SMDMCR_DMCYC(op->dummy.ncycles /
--						op->dummy.buswidth);
-+		rpc->dummy = RPCIF_SMDMCR_DMCYC(op->dummy.ncycles);
- 	}
- 
- 	if (op->option.buswidth) {
--- 
-2.30.2
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
