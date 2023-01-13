@@ -2,227 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8378866901D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jan 2023 09:09:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A21E669062
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jan 2023 09:15:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231745AbjAMIJU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Jan 2023 03:09:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51316 "EHLO
+        id S241008AbjAMIPC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Jan 2023 03:15:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240584AbjAMIIe (ORCPT
+        with ESMTP id S240573AbjAMIOX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Jan 2023 03:08:34 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5116F4732D
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Jan 2023 00:06:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=b2mmceqvtzf6lElFARDVmEM9PLO
-        aKyEwhEvAg0JHMe4=; b=olUth3Axyxf4EdbyG5ZJ/qchr4/HEmEla//d7zUxoL8
-        WkITfnMHWvBJnLh7oy67/MqWffBaMx2AWGBA90Dp49dMH008zWHq4McN2MvGtDYb
-        /0kJ5XTPyGt+Ee6YRQAXnS7zhKVCq+bsECphIJwo4y1XY/PuJaC17iwN7E1iyVNk
-        =
-Received: (qmail 1181036 invoked from network); 13 Jan 2023 09:06:01 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Jan 2023 09:06:01 +0100
-X-UD-Smtp-Session: l3s3148p1@vPATtCDypIFehh92
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] memory: renesas-rpc-if: Fix PHYCNT.STRTIM setting
-Date:   Fri, 13 Jan 2023 09:05:50 +0100
-Message-Id: <20230113080550.1736-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
+        Fri, 13 Jan 2023 03:14:23 -0500
+X-Greylist: delayed 224 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 13 Jan 2023 00:13:52 PST
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB9BA2655;
+        Fri, 13 Jan 2023 00:13:51 -0800 (PST)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1pGF8L-000nxd-RT; Fri, 13 Jan 2023 09:09:53 +0100
+Received: from dynamic-078-054-173-160.78.54.pool.telefonica.de ([78.54.173.160] helo=[192.168.1.11])
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1pGF8L-002cz3-K9; Fri, 13 Jan 2023 09:09:53 +0100
+Message-ID: <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+Date:   Fri, 13 Jan 2023 09:09:52 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: remove arch/sh
+To:     Christoph Hellwig <hch@lst.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+References: <20230113062339.1909087-1-hch@lst.de>
+Content-Language: en-US
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+In-Reply-To: <20230113062339.1909087-1-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 78.54.173.160
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Cong Dang <cong.dang.xn@renesas.com>
+Hello!
 
-According to the datasheets, the Strobe Timing Adjustment bit (STRTIM)
-setting is different on R-Car SoCs, i.e.
+On 1/13/23 07:23, Christoph Hellwig wrote:
+> arch/sh has been a long drag because it supports a lot of SOCs, and most
+> of them haven't even been converted to device tree infrastructure.  These
+> SOCs are generally obsolete as well, and all of the support has been barely
+> maintained for almost 10 years, and not at all for more than 1 year.
+> 
+> Drop arch/sh and everything that depends on it.
 
-R-Car H3 ES1.*  : STRTIM[2:0] is set to 0x0
-R-Car M3 ES1.*  : STRTIM[2:0] is set to 0x6
-other R-Car Gen3: STRTIM[2:0] is set to 0x7
-other R-Car Gen4: STRTIM[3:0] is set to 0xf
+I'm still maintaining and using this port in Debian.
 
-To fix this issue, a DT match data was added to specify the setting
-for special use cases.
+It's a bit disappointing that people keep hammering on it. It works fine for me.
 
-Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
-Signed-off-by: Hai Pham  <hai.pham.ud@renesas.com>
-[wsa: rebased, restructured a little, added Gen4 support]
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Adrian
 
-This upports a patch from the BSP to handle the ES1.* variants. Turns
-out this is a nice idea to handle Gen3/4 differences as well. Tested on
-an Eagle board (R-Car V3M) and White-Hawk (R-Car V4H). ES1.* handling
-tested by faking the entries to apply for V4H as well.
-
-Prabhakar: could you kindly check if RZ/G2L supports looks okay to you?
-
- drivers/memory/renesas-rpc-if.c | 61 ++++++++++++++++++++++++++-------
- include/memory/renesas-rpc-if.h |  6 ++++
- 2 files changed, 54 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-index c36b407851ff..2cbd869ba443 100644
---- a/drivers/memory/renesas-rpc-if.c
-+++ b/drivers/memory/renesas-rpc-if.c
-@@ -15,6 +15,7 @@
- #include <linux/of_device.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
-+#include <linux/sys_soc.h>
- 
- #include <memory/renesas-rpc-if.h>
- 
-@@ -163,6 +164,36 @@ static const struct regmap_access_table rpcif_volatile_table = {
- 	.n_yes_ranges	= ARRAY_SIZE(rpcif_volatile_ranges),
- };
- 
-+static const struct rpcif_info rpcif_info_r8a7795_es1 = {
-+	.type = RPCIF_RCAR_GEN3,
-+	.strtim = 0,
-+};
-+
-+static const struct rpcif_info rpcif_info_r8a7796_es1 = {
-+	.type = RPCIF_RCAR_GEN3,
-+	.strtim = 6,
-+};
-+
-+static const struct rpcif_info rpcif_info_gen3 = {
-+	.type = RPCIF_RCAR_GEN3,
-+	.strtim = 7,
-+};
-+
-+static const struct rpcif_info rpcif_info_rz_g2l = {
-+	.type = RPCIF_RZ_G2L,
-+	.strtim = 7,
-+};
-+
-+static const struct rpcif_info rpcif_info_gen4 = {
-+	.type = RPCIF_RCAR_GEN4,
-+	.strtim = 15,
-+};
-+
-+static const struct soc_device_attribute rpcif_info_match[]  = {
-+	{ .soc_id = "r8a7795", .revision = "ES1.*", .data = &rpcif_info_r8a7795_es1 },
-+	{ .soc_id = "r8a7796", .revision = "ES1.*", .data = &rpcif_info_r8a7796_es1 },
-+	{ /* Sentinel. */ }
-+};
- 
- /*
-  * Custom accessor functions to ensure SM[RW]DR[01] are always accessed with
-@@ -256,6 +287,8 @@ static const struct regmap_config rpcif_regmap_config = {
- int rpcif_sw_init(struct rpcif *rpc, struct device *dev)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-+	const struct soc_device_attribute *attr;
-+	const struct rpcif_info *info;
- 	struct resource *res;
- 
- 	rpc->dev = dev;
-@@ -276,9 +309,14 @@ int rpcif_sw_init(struct rpcif *rpc, struct device *dev)
- 	rpc->dirmap = devm_ioremap_resource(&pdev->dev, res);
- 	if (IS_ERR(rpc->dirmap))
- 		return PTR_ERR(rpc->dirmap);
--	rpc->size = resource_size(res);
- 
--	rpc->type = (uintptr_t)of_device_get_match_data(dev);
-+	info = of_device_get_match_data(dev);
-+	attr = soc_device_match(rpcif_info_match);
-+	if (attr)
-+		info = attr->data;
-+
-+	rpc->info = info;
-+	rpc->size = resource_size(res);
- 	rpc->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
- 
- 	return PTR_ERR_OR_ZERO(rpc->rstc);
-@@ -305,7 +343,7 @@ int rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
- 
- 	pm_runtime_get_sync(rpc->dev);
- 
--	if (rpc->type == RPCIF_RZ_G2L) {
-+	if (rpc->info->type == RPCIF_RZ_G2L) {
- 		int ret;
- 
- 		ret = reset_control_reset(rpc->rstc);
-@@ -321,12 +359,9 @@ int rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
- 	/* DMA Transfer is not supported */
- 	regmap_update_bits(rpc->regmap, RPCIF_PHYCNT, RPCIF_PHYCNT_HS, 0);
- 
--	if (rpc->type == RPCIF_RCAR_GEN3)
--		regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
--				   RPCIF_PHYCNT_STRTIM(7), RPCIF_PHYCNT_STRTIM(7));
--	else if (rpc->type == RPCIF_RCAR_GEN4)
--		regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
--				   RPCIF_PHYCNT_STRTIM(15), RPCIF_PHYCNT_STRTIM(15));
-+	regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
-+			   RPCIF_PHYCNT_STRTIM(rpc->info->strtim),
-+			   RPCIF_PHYCNT_STRTIM(rpc->info->strtim));
- 
- 	regmap_update_bits(rpc->regmap, RPCIF_PHYOFFSET1, RPCIF_PHYOFFSET1_DDRTMG(3),
- 			   RPCIF_PHYOFFSET1_DDRTMG(3));
-@@ -337,7 +372,7 @@ int rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
- 		regmap_update_bits(rpc->regmap, RPCIF_PHYINT,
- 				   RPCIF_PHYINT_WPVAL, 0);
- 
--	if (rpc->type == RPCIF_RZ_G2L)
-+	if (rpc->info->type == RPCIF_RZ_G2L)
- 		regmap_update_bits(rpc->regmap, RPCIF_CMNCR,
- 				   RPCIF_CMNCR_MOIIO(3) | RPCIF_CMNCR_IOFV(3) |
- 				   RPCIF_CMNCR_BSZ(3),
-@@ -720,9 +755,9 @@ static int rpcif_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id rpcif_of_match[] = {
--	{ .compatible = "renesas,rcar-gen3-rpc-if", .data = (void *)RPCIF_RCAR_GEN3 },
--	{ .compatible = "renesas,rcar-gen4-rpc-if", .data = (void *)RPCIF_RCAR_GEN4 },
--	{ .compatible = "renesas,rzg2l-rpc-if", .data = (void *)RPCIF_RZ_G2L },
-+	{ .compatible = "renesas,rcar-gen3-rpc-if", .data = &rpcif_info_gen3 },
-+	{ .compatible = "renesas,rcar-gen4-rpc-if", .data = &rpcif_info_gen4 },
-+	{ .compatible = "renesas,rzg2l-rpc-if", .data = &rpcif_info_rz_g2l },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, rpcif_of_match);
-diff --git a/include/memory/renesas-rpc-if.h b/include/memory/renesas-rpc-if.h
-index 862eff613dc7..75da785a18ff 100644
---- a/include/memory/renesas-rpc-if.h
-+++ b/include/memory/renesas-rpc-if.h
-@@ -63,6 +63,11 @@ enum rpcif_type {
- 	RPCIF_RZ_G2L,
- };
- 
-+struct rpcif_info {
-+	enum rpcif_type type;
-+	u8 strtim;
-+};
-+
- struct rpcif {
- 	struct device *dev;
- 	void __iomem *base;
-@@ -71,6 +76,7 @@ struct rpcif {
- 	struct reset_control *rstc;
- 	size_t size;
- 	enum rpcif_type type;
-+	const struct rpcif_info *info;
- 	enum rpcif_data_dir dir;
- 	u8 bus_size;
- 	u8 xfer_size;
 -- 
-2.30.2
+  .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
