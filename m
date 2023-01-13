@@ -2,122 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 755BE6693B0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jan 2023 11:07:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5032669544
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jan 2023 12:15:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240782AbjAMKHD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Jan 2023 05:07:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51146 "EHLO
+        id S241468AbjAMLPC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Jan 2023 06:15:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239755AbjAMKG5 (ORCPT
+        with ESMTP id S232965AbjAMLM6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Jan 2023 05:06:57 -0500
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 186DC34D65;
-        Fri, 13 Jan 2023 02:06:56 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailnew.west.internal (Postfix) with ESMTP id 59F1E2B066ED;
-        Fri, 13 Jan 2023 05:06:53 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 13 Jan 2023 05:06:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1673604412; x=1673611612; bh=wiGd1poFqy
-        c19NDgfhWxoziS+5a2ezYepeVzBSacqw8=; b=jQa0HDmPBmL/FfJL+hgRmPsB40
-        Y3mC3xChdI36TABN4RG5b4ucaLsZc6+hC+19/zCIm4A4ie1QOoF7GdEwpLDXWLgg
-        YS7KkbMyef4z8Yilol0xjO/jcY2PDSzSOyaObnKUz9YejiKar9NRQ/48gMheN8SP
-        L9ydOdhClMFMN+laVtMxeJLlISQdpKBcfrhR3HNQLngArqhNZXfmj7B7QaV3Yjlc
-        q1pbz3p93X/orY60g/G7bg2Tiz9gOW8CeW5RhiSUeYXFN/oIPHXLd05ewSyQoczy
-        YcvZ76uBqZ6njLqUwdbbXb3on9pD3cxdKgfVZ0av7GSfMv1N46xG/nNSra4w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1673604412; x=1673611612; bh=wiGd1poFqyc19NDgfhWxoziS+5a2
-        ezYepeVzBSacqw8=; b=T9tKOcHloTqEvCQgyITgoeWHiCG023yZCoHB8GCNjjun
-        JWtWHvJqinTMKxNzOHfWFkde1UNzFYeNjWL4OYuUevGP5ZiDtpX0SAgeRoVmsRqT
-        4s4imE9aYV/f9Pvbl/xyCzDnDswOyuD8ceeVeSEppPmXeTdO2UYN2NW+SPkjkx6z
-        7AGNecW4IwYIR8h6khoClacES7xN1wBX6oY0XpQ9E/MHHJqDRpFMe5RHSjqUpFHQ
-        972R/sDnO/VHBlJ/MZtdHhD4RBw3rwTM6MhJr5iT0G2mUNkzC1EVZ0kt797d6W2S
-        fBdJ8aBi3uu6VLi/i8mbcHwOUByNIvAxQvGBru7fCg==
-X-ME-Sender: <xms:Oy3BY2x8u8jGs5oav_hETNuy2fGaBGNB7nGV00CwtVI39ajIhtTDrA>
-    <xme:Oy3BYyQeI43uOCS5CK49RFBPrQXLvgoH7jyxA1EWEhaXS1U_GFSXnUcOsyByJ4HxX
-    7ebslCPuxwL7F72QUk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleekgddtkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:Oy3BY4WFmJ1Wzov0EgMi6qcJljjNqlgJoW7YxZYtni3we9ZcuZJC0Q>
-    <xmx:Oy3BY8jDZdOmomBzdPQYugeTKvRs2JAmwJR9qFQ78gYn6oU0QQd3og>
-    <xmx:Oy3BY4DQ3Zg11gEbb70JkOCpYbMnoYHqWtdB8svYNbX-CHCrZb2sRA>
-    <xmx:PC3BYzV0__Pe1Lv9Yq1qvCTC7InwXhC6SGzQNcMq4ULKQsDh2lBDrgxrUdU>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id B041DB60086; Fri, 13 Jan 2023 05:06:51 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
-Mime-Version: 1.0
-Message-Id: <d9c2f760-283b-483c-8512-fdd2c372f26c@app.fastmail.com>
-In-Reply-To: <CAMuHMdXYt4dNHUDsTnPa-RP+sdK=35nNa9xQzMChwK54qO44mA@mail.gmail.com>
-References: <20230113062339.1909087-1-hch@lst.de>
- <20230113062339.1909087-12-hch@lst.de>
- <CAMuHMdXYt4dNHUDsTnPa-RP+sdK=35nNa9xQzMChwK54qO44mA@mail.gmail.com>
-Date:   Fri, 13 Jan 2023 11:06:22 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Geert Uytterhoeven" <geert@linux-m68k.org>,
-        "Christoph Hellwig" <hch@lst.de>
-Cc:     "Yoshinori Sato" <ysato@users.sourceforge.jp>,
-        "Rich Felker" <dalias@libc.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
-        "Kieran Bingham" <kieran.bingham+renesas@ideasonboard.com>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
-        linux-mtd@lists.infradead.org, Netdev <netdev@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-sh@vger.kernel.org
-Subject: Re: [PATCH 11/22] mtd/nand: remove sh_flctl
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 13 Jan 2023 06:12:58 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F316C5BA29
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Jan 2023 03:10:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=Vd9jhcP8uEUT5hmIk4rjX8e85onT
+        P5WZD7k4yzlL92w=; b=CcDCgPv8aBaVmQ+gCP0YyTx/YB1kQ2Z8xUnrKOTP2tJ6
+        rO8ptKXdCNFtIB13c5u7JhLeOcAVPYFD3D6j0osEPdr0BUdK1ln0dRA5G26IIJKX
+        SzBDX93dK2cas7HI0+SwAREtu/HJZw3fQCAaWGiz1WVpvHjVIXBdTcotVzTvd8o=
+Received: (qmail 1257272 invoked from network); 13 Jan 2023 12:10:28 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Jan 2023 12:10:28 +0100
+X-UD-Smtp-Session: l3s3148p1@oqPuRyPyHOlehh92
+Date:   Fri, 13 Jan 2023 12:10:27 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] memory: renesas-rpc-if: Fix PHYCNT.STRTIM setting
+Message-ID: <Y8E8IzJYqhTXLALE@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-kernel@vger.kernel.org
+References: <20230113080550.1736-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdVw+fCqEewmY7BA4q0a=WAaDguaTChGKwUXFtWMCV8SaQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="qsBv+IE2hD/J6Qj2"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVw+fCqEewmY7BA4q0a=WAaDguaTChGKwUXFtWMCV8SaQ@mail.gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jan 13, 2023, at 09:30, Geert Uytterhoeven wrote:
-> On Fri, Jan 13, 2023 at 7:24 AM Christoph Hellwig <hch@lst.de> wrote:
->> Now that arch/sh is removed this driver is dead code.
->
-> FTR, this hardware block is also present on the ARM-based
-> SH-Mobile AG5 and R-Mobile A1 SoCs.
-> Again, no DT support.
 
-I would generally consider drivers dead when they have no DT support
-and no platform in the upstream kernel registering the corresponding
-device.
+--qsBv+IE2hD/J6Qj2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If anyone still uses this driver on SH-Mobile or R-Mobile, they
-have clearly given up on upstreaming their patches by now, and
-they can carry the burden of maintaining the driver out of tree,
-or re-submit a working version.
 
-    Arnd
+> > +       regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
+> > +                          RPCIF_PHYCNT_STRTIM(rpc->info->strtim),
+> > +                          RPCIF_PHYCNT_STRTIM(rpc->info->strtim));
+>=20
+> I'm not sure this is guaranteed to work, as using rpc->info->strtim as
+> the mask may not clear all bits (e.g. on R-Car M3-W it is 6, not 7), and
+> the initial values of the bits are documented to be undefined.
+
+Okay, thanks! I will fix this.
+
+
+--qsBv+IE2hD/J6Qj2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmPBPB8ACgkQFA3kzBSg
+KbZZQhAArUlOgri2MGsoj+3B32+aZBdhkUkaVqkxAvI6oTCEMJfMW2/xj6/Ulhvz
+gnG7hT4b8wELAkjpUqRlyCDwVCfG1C/yQqBroaDOA5876cpIbeLIiYNdG69BPKxt
+xk7JsDSWjKhChd3i+Ot98Is4n5gLN9bNjVBl/eeQzyTm6Jtjcu/k54mA7VmiG6ft
+4TOWXKPqf91To7B0lGQkE/5C3FFx6hG/9Em8eJ+rbCtPWaZagEjlde6PSfLQ0DqK
+dLaHrGGSCOW5xE6Y30LfQwofQGpHRNE/4XwbssRVGash5wtFjdp8SPO9nW75u+jl
+2uenYR11QbZmN5ghow9VU5nKO6DgLgABpgMqPL0XQvgyh0dhJXVk8mDXccZSMGi+
+b5D9YqxlI7vEujtGnJd4aPojxXJMAVihpAc7rdsjTWRiJK6sdwISZ5I5nes7WOwQ
+JR2TNWuj5TYbNz3hLCWl5Z/lq9rKcWNM0j+wLJ8mE3X96G9VUneLXcFhbjjGH8pN
+56RAH59wmtoJBHYmsjrYhcvwZOoGhxaohmr7mBL5ZXw1x48FcPsLQlA690XRWPnK
+ruyjfYTxKnwDsyq3xtvOm/7CJt/HFrCi6hEnzxBW0bHEdcRm6BjBO/eAASmk5dq5
+uIsrUGzbZSRKFB7uZhXRtZFnX7LAqlzts6dis2YQB8LyvM3/mrQ=
+=/WdR
+-----END PGP SIGNATURE-----
+
+--qsBv+IE2hD/J6Qj2--
