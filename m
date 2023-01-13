@@ -2,64 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 209D3669257
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jan 2023 10:10:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB78F6692B9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jan 2023 10:15:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241179AbjAMJJ7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Jan 2023 04:09:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44496 "EHLO
+        id S240739AbjAMJPp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Jan 2023 04:15:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241174AbjAMJJ2 (ORCPT
+        with ESMTP id S241467AbjAMJOR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Jan 2023 04:09:28 -0500
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B74141CB2E;
-        Fri, 13 Jan 2023 01:07:03 -0800 (PST)
-Received: by mail-qt1-f178.google.com with SMTP id a25so11443883qto.10;
-        Fri, 13 Jan 2023 01:07:03 -0800 (PST)
+        Fri, 13 Jan 2023 04:14:17 -0500
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E53D9140C2;
+        Fri, 13 Jan 2023 01:12:15 -0800 (PST)
+Received: by mail-qt1-f173.google.com with SMTP id g9so3965290qtu.2;
+        Fri, 13 Jan 2023 01:12:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RyDICis6TMtpYbxnbEUxD/J66AveFuMFSuvndGIvxTA=;
-        b=eaM1Y2rEA5oMh8Yq7/LQ+pEhBboeNIJdCjzbjdUNKQCMRtJgIY46wnj0Huqz52gUfk
-         rMntPBbgMV44HviMcgF8kClLAuLEp0z2xpIkqnYMjx93quW44M7VnkmDN7ZqB/U1RRC1
-         3kiZFWmdYWmaQmhl5q9niCsqYE9NmockIs1mEP5kgrTigAiBIbCIbvR5SsB2oA64fs41
-         1bno/9gB15kYFbbzBRe19/kxFghOmNfpZYy0+1phSCDS6c9zN6bU7rlVbemXwbwbGsBH
-         uF2WI73iSr+yCqkLSmFREGm1upEY/JBn1ibvr8uoO1S0O9NcXu09WN0W59xMh7VtxaJu
-         o+fA==
-X-Gm-Message-State: AFqh2kr5vmPSWOM6sjkS233KpMzP2GjxNY3N1r/ITEyt6GRDs69H49uU
-        QY7o7E1JRF2Njw/XuXIj5ju65qWNYSeLwQ==
-X-Google-Smtp-Source: AMrXdXsOjaPqSvnVCeToCh6Nbex/Y412O0T6mH60se0C7EC+zNd83nU9Wz0VaxD5GNjW8+44U/eM1Q==
-X-Received: by 2002:ac8:7205:0:b0:3ad:841d:e65b with SMTP id a5-20020ac87205000000b003ad841de65bmr25096777qtp.7.1673600796323;
-        Fri, 13 Jan 2023 01:06:36 -0800 (PST)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id u8-20020a05620a454800b006fc7302cf89sm12473249qkp.28.2023.01.13.01.06.35
+        bh=iqMrCvqCQ4045lh8vjHp/Z6q3B3wdMLy3QiBa0za+Eg=;
+        b=wfok/kU1KiQLBK8061ohHfgoSKK1pMm/flqK2jjTzdw+u2XIo1+GVNx4LtcEUcYTzj
+         uimvAONiu8BCVj/4184NdIPNXzaj2MYzkrbZ8+/IyBbWf2y0Joup80kAlQ9paOuirBPG
+         Oz4h69INfFs0L8DL0ODjdLTnXnUyQZFkTGpL/HCKbufvN7vUpuIbPpyJ/5DyJpbHRUv4
+         8stsUNFb+DPVa1kPvJAbW1M1UYw5Ti6xh3wzhYWajPAzCDx6O7SahXC8rMOrn+ztzcVw
+         LW+RDYim7bKC0pp1wxwyhr/dqAczJDf6VOWGkjuXMbBTRENeCvtzRCv3CEtrAI0Tfra2
+         InkA==
+X-Gm-Message-State: AFqh2koc5y1OVznbxD1PDoBnnUqYWqmG+ijpmmAi3/nmHMR6saZ3sPGw
+        9WAXrJhCMDlTkOsbSYiAZKlLSVIL6UZqVQ==
+X-Google-Smtp-Source: AMrXdXuSt1yXH+2aX6Q+FuvAzlEqUm9hdczPYtKv/jQ6Da81MMMK83zA/9FW5EeDmK9V9t9K5MHYaQ==
+X-Received: by 2002:ac8:7766:0:b0:3a5:f9cb:886f with SMTP id h6-20020ac87766000000b003a5f9cb886fmr106122783qtu.29.1673601134708;
+        Fri, 13 Jan 2023 01:12:14 -0800 (PST)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id x14-20020a05620a258e00b006e07228ed53sm12270052qko.18.2023.01.13.01.12.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jan 2023 01:06:35 -0800 (PST)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-4c24993965eso269397537b3.12;
-        Fri, 13 Jan 2023 01:06:35 -0800 (PST)
-X-Received: by 2002:a05:690c:313:b0:37e:6806:a5f9 with SMTP id
- bg19-20020a05690c031300b0037e6806a5f9mr3504559ywb.47.1673600795403; Fri, 13
- Jan 2023 01:06:35 -0800 (PST)
+        Fri, 13 Jan 2023 01:12:14 -0800 (PST)
+Received: by mail-yb1-f180.google.com with SMTP id c124so21625147ybb.13;
+        Fri, 13 Jan 2023 01:12:14 -0800 (PST)
+X-Received: by 2002:a25:b944:0:b0:7b2:4421:82be with SMTP id
+ s4-20020a25b944000000b007b2442182bemr2669630ybm.380.1673601133864; Fri, 13
+ Jan 2023 01:12:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20230113084516.31888-1-lukas.bulwahn@gmail.com> <CAMuHMdX_TPgXO2KYNdD5rRzuE9m6_JxfW-otWzw7r7Wptq_rOQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdX_TPgXO2KYNdD5rRzuE9m6_JxfW-otWzw7r7Wptq_rOQ@mail.gmail.com>
+References: <20230113080550.1736-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230113080550.1736-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 13 Jan 2023 10:06:24 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV8r58Daj0sjFgumx+RwzPM04h71XXeA37ZQSM=D99eYg@mail.gmail.com>
-Message-ID: <CAMuHMdV8r58Daj0sjFgumx+RwzPM04h71XXeA37ZQSM=D99eYg@mail.gmail.com>
-Subject: Re: [PATCH] PCI: rcar: avoid defines prefixed with CONFIG
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Fri, 13 Jan 2023 10:12:02 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVw+fCqEewmY7BA4q0a=WAaDguaTChGKwUXFtWMCV8SaQ@mail.gmail.com>
+Message-ID: <CAMuHMdVw+fCqEewmY7BA4q0a=WAaDguaTChGKwUXFtWMCV8SaQ@mail.gmail.com>
+Subject: Re: [PATCH] memory: renesas-rpc-if: Fix PHYCNT.STRTIM setting
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -71,41 +67,95 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jan 13, 2023 at 10:05 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Fri, Jan 13, 2023 at 9:52 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-> > Defines prefixed with "CONFIG" should be limited to proper Kconfig options,
-> > that are introduced in a Kconfig file.
-> >
-> > Here, a definition for a bitmask to configure the SEND_ENABLE mode is named
-> > CONFIG_SEND_ENABLE.
-> >
-> > Rename this local definition to CONFIGURE_SEND_ENABLE to avoid defines
-> > prefixed with "CONFIG".
-> >
-> > No functional change.
-> >
-> > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/pci/controller/pcie-rcar.h
-> > +++ b/drivers/pci/controller/pcie-rcar.h
-> > @@ -11,7 +11,7 @@
-> >
-> >  #define PCIECAR                        0x000010
-> >  #define PCIECCTLR              0x000018
-> > -#define  CONFIG_SEND_ENABLE    BIT(31)
-> > +#define  CONFIGURE_SEND_ENABLE BIT(31)
->
-> The R-Car Gen3 rev. 2.30 Hardware User's Manual calls the bit "CCIE".
->
-> Hence if I would have written the driver, I would have used
->
->     #define PCIECCTLR_CCIE     BIT(31)   /* Configuration Send Enable */
+Hi Wolfram,
 
-Regardless:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Fri, Jan 13, 2023 at 9:10 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> From: Cong Dang <cong.dang.xn@renesas.com>
+>
+> According to the datasheets, the Strobe Timing Adjustment bit (STRTIM)
+> setting is different on R-Car SoCs, i.e.
+>
+> R-Car H3 ES1.*  : STRTIM[2:0] is set to 0x0
+> R-Car M3 ES1.*  : STRTIM[2:0] is set to 0x6
+> other R-Car Gen3: STRTIM[2:0] is set to 0x7
+> other R-Car Gen4: STRTIM[3:0] is set to 0xf
+>
+> To fix this issue, a DT match data was added to specify the setting
+> for special use cases.
+>
+> Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
+> Signed-off-by: Hai Pham  <hai.pham.ud@renesas.com>
+> [wsa: rebased, restructured a little, added Gen4 support]
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+Thanks for your patch!
+
+> --- a/drivers/memory/renesas-rpc-if.c
+> +++ b/drivers/memory/renesas-rpc-if.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/of_device.h>
+>  #include <linux/regmap.h>
+>  #include <linux/reset.h>
+> +#include <linux/sys_soc.h>
+>
+>  #include <memory/renesas-rpc-if.h>
+>
+> @@ -163,6 +164,36 @@ static const struct regmap_access_table rpcif_volatile_table = {
+>         .n_yes_ranges   = ARRAY_SIZE(rpcif_volatile_ranges),
+>  };
+>
+> +static const struct rpcif_info rpcif_info_r8a7795_es1 = {
+> +       .type = RPCIF_RCAR_GEN3,
+> +       .strtim = 0,
+> +};
+> +
+> +static const struct rpcif_info rpcif_info_r8a7796_es1 = {
+> +       .type = RPCIF_RCAR_GEN3,
+> +       .strtim = 6,
+> +};
+> +
+> +static const struct rpcif_info rpcif_info_gen3 = {
+> +       .type = RPCIF_RCAR_GEN3,
+> +       .strtim = 7,
+> +};
+> +
+> +static const struct rpcif_info rpcif_info_rz_g2l = {
+> +       .type = RPCIF_RZ_G2L,
+> +       .strtim = 7,
+> +};
+> +
+> +static const struct rpcif_info rpcif_info_gen4 = {
+> +       .type = RPCIF_RCAR_GEN4,
+> +       .strtim = 15,
+> +};
+> +
+> +static const struct soc_device_attribute rpcif_info_match[]  = {
+> +       { .soc_id = "r8a7795", .revision = "ES1.*", .data = &rpcif_info_r8a7795_es1 },
+> +       { .soc_id = "r8a7796", .revision = "ES1.*", .data = &rpcif_info_r8a7796_es1 },
+> +       { /* Sentinel. */ }
+> +};
+>
+>  /*
+>   * Custom accessor functions to ensure SM[RW]DR[01] are always accessed with
+
+> @@ -321,12 +359,9 @@ int rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
+>         /* DMA Transfer is not supported */
+>         regmap_update_bits(rpc->regmap, RPCIF_PHYCNT, RPCIF_PHYCNT_HS, 0);
+>
+> -       if (rpc->type == RPCIF_RCAR_GEN3)
+> -               regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
+> -                                  RPCIF_PHYCNT_STRTIM(7), RPCIF_PHYCNT_STRTIM(7));
+> -       else if (rpc->type == RPCIF_RCAR_GEN4)
+> -               regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
+> -                                  RPCIF_PHYCNT_STRTIM(15), RPCIF_PHYCNT_STRTIM(15));
+> +       regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
+> +                          RPCIF_PHYCNT_STRTIM(rpc->info->strtim),
+> +                          RPCIF_PHYCNT_STRTIM(rpc->info->strtim));
+
+I'm not sure this is guaranteed to work, as using rpc->info->strtim as
+the mask may not clear all bits (e.g. on R-Car M3-W it is 6, not 7), and
+the initial values of the bits are documented to be undefined.
 
 Gr{oetje,eeting}s,
 
