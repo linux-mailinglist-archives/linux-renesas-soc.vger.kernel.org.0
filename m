@@ -2,52 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3618A669030
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jan 2023 09:12:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33A326690A0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jan 2023 09:23:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240874AbjAMIMh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Jan 2023 03:12:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53218 "EHLO
+        id S240752AbjAMIXG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Jan 2023 03:23:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240752AbjAMIMJ (ORCPT
+        with ESMTP id S240858AbjAMIWg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Jan 2023 03:12:09 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6E273AAB7
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Jan 2023 00:10:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=5ZU0RPC2jyXj7QCen2sKG5577p/y
-        JBKzAJc1g5WaOho=; b=fmZOtK+/oOOCtymGN0hkj/68bYGET5euWgDeXmWqvzTT
-        YKV1G0/zoKN1XH1UyYMXCtzhCDyt2JWeI/rKH1sQhqxRJC5PETMKg+eKP/UqtyPW
-        ZR6XiKb9vY9S56fKy2xrYw8zqMwMcXKXBiCUm129sfC8n+J/p4BbIpmI0uSC3Js=
-Received: (qmail 1183191 invoked from network); 13 Jan 2023 09:10:12 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Jan 2023 09:10:12 +0100
-X-UD-Smtp-Session: l3s3148p1@NN1CwyDyzqhehh92
-Date:   Fri, 13 Jan 2023 09:10:12 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] memory: renesas-rpc-if: Remove redundant division of
- dummy
-Message-ID: <Y8ER5B5D1XCTOOBX@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>, linux-kernel@vger.kernel.org
-References: <20230112090655.43367-1-wsa+renesas@sang-engineering.com>
+        Fri, 13 Jan 2023 03:22:36 -0500
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D9D22022;
+        Fri, 13 Jan 2023 00:19:48 -0800 (PST)
+Received: by mail-qt1-f172.google.com with SMTP id j15so13047252qtv.4;
+        Fri, 13 Jan 2023 00:19:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MowQaQp0G9uX2jhG1rQLtIGSPC7S+MJhKLN+g9WmpVM=;
+        b=el2XoDs9Rx15fpn1LkUmpizUAlrQktSLBbXWFPUan3PrdWaITXGPK4gXy5odfK/be2
+         xYV5v/6RF3GbIz0QDmX8Hgl+dZExurKd0xQT+/IbvMyJ0qrxL3A+RpLtldiM9OLgR1cq
+         hvrdRRJBDQGAFrdmpCh+KDMSxmG0GhIBYXUPC4EiQPkAoDDOldcNKRgPNvaGewXZLWmk
+         9gFrnL6/WRbWFSHEIm/Ixj4xPZ4NsQnTgbwP/XdEElRtYEam4hlECmj/dIL99tgFaZme
+         DCGS+eJh10LKslT207MZuVAQGBCvh7fqEa/DrZOh4UQ109fS4DcYVI97RuRPa/buQoSV
+         IiMw==
+X-Gm-Message-State: AFqh2krWXEOYU1LKIBgksuqgpuGjN2QdZrxD9D4EfoSlrRUgYTGPUd3o
+        ssVr/XINvnR/maM1Enm0TJcmL2Po8Z6EbA==
+X-Google-Smtp-Source: AMrXdXt2A3y0C7fYLdtAO5xHmkf9XuWzBkFjZ07LasgooqTk66dX7n7EUkumqmFKc7fjlBxZxWui1g==
+X-Received: by 2002:ac8:4a97:0:b0:3a8:1ca1:b489 with SMTP id l23-20020ac84a97000000b003a81ca1b489mr94322090qtq.60.1673597987448;
+        Fri, 13 Jan 2023 00:19:47 -0800 (PST)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id bq25-20020a05622a1c1900b003a57a317c17sm10211765qtb.74.2023.01.13.00.19.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Jan 2023 00:19:46 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-4c24993965eso268088687b3.12;
+        Fri, 13 Jan 2023 00:19:46 -0800 (PST)
+X-Received: by 2002:a05:690c:313:b0:37e:6806:a5f9 with SMTP id
+ bg19-20020a05690c031300b0037e6806a5f9mr3489142ywb.47.1673597985912; Fri, 13
+ Jan 2023 00:19:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="FTMPRqYA1OHK8Id7"
-Content-Disposition: inline
-In-Reply-To: <20230112090655.43367-1-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+References: <20230113062339.1909087-1-hch@lst.de> <20230113062339.1909087-2-hch@lst.de>
+ <Y8EMZ0GI5rtor9xr@pendragon.ideasonboard.com> <Y8EOWGVmwEElKGE4@pendragon.ideasonboard.com>
+In-Reply-To: <Y8EOWGVmwEElKGE4@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 13 Jan 2023 09:19:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXRkUu3AuLs7X30ki1votAQfBU3HWvWB6qMQJBSUEr6WA@mail.gmail.com>
+Message-ID: <CAMuHMdXRkUu3AuLs7X30ki1votAQfBU3HWvWB6qMQJBSUEr6WA@mail.gmail.com>
+Subject: Re: [PATCH 01/22] gpu/drm: remove the shmobile drm driver
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
         autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,109 +80,59 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Fri, Jan 13, 2023 at 8:55 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Fri, Jan 13, 2023 at 09:46:49AM +0200, Laurent Pinchart wrote:
+> > On Fri, Jan 13, 2023 at 07:23:18AM +0100, Christoph Hellwig wrote:
+> > > This driver depends on ARM && ARCH_SHMOBILE, but ARCH_SHMOBILE can only be
+> > > set for each/sh, making the driver dead code except for the COMPILE_TEST
+> > > case.
+> > >
+> > > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> >
+> > No objection from me.
+> >
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> To expand a little bit on this, ARCH_SHMOBILE used to be set for the
+> ARM-based shmobile SoCs too, until
+>
+> commit 08e735233ea29b17bfec8e4cb302e799d9f920b8
+> Author: Geert Uytterhoeven <geert+renesas@glider.be>
+> Date:   Tue Aug 28 17:10:10 2018 +0200
+>
+>     ARM: shmobile: Remove the ARCH_SHMOBILE Kconfig symbol
+>
+>     All drivers for Renesas ARM SoCs have gained proper ARCH_RENESAS
+>     platform dependencies.  Hence finish the conversion from ARCH_SHMOBILE
+>     to ARCH_RENESAS for Renesas 32-bit ARM SoCs, as started by commit
+>     9b5ba0df4ea4f940 ("ARM: shmobile: Introduce ARCH_RENESAS").
+>
+>     Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>     Acked-by: Arnd Bergmann <arnd@arndb.de>
+>     Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+>
+> merged in v4.20. The DRM shmobile driver's Kconfig entry wasn't updated,
+> making it dead code indeed.
 
---FTMPRqYA1OHK8Id7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Note that it wasn't updated because this driver was not used on Renesas
+ARM platforms, due to the lack of DT bindings and DT support, so it
+didn't make sense to make it selectable.
 
+> I haven't tested this driver in ages, hence my lack of objection, but
+> someone may want to keep it for the pre-R-Car ARM SoCs.
 
-Using Sergei's recent email...
+Indeed, this driver should work with the R-Mobile A1 (which made it
+into orbit, so we could call it the first member of R-Space ;-) and
+SH-Mobile AG5 SoCs.  The major blocker is the lack of DT bindings.
 
-On Thu, Jan 12, 2023 at 10:06:55AM +0100, Wolfram Sang wrote:
-> From: Cong Dang <cong.dang.xn@renesas.com>
->=20
-> The dummy cycles value was wrongly calculated if dummy.buswidth > 1,
-> which affects QSPI, OSPI, HyperFlash on various SoCs. We're lucky in
-> Single SPI case since its dummy.buswidth equals to 1, so the result of
-> the division is unchanged
->=20
-> This issue can be reproduced using something like the following commands
-> A. QSPI mode: Mount device with jffs2 format
->     jffs2: CLEANMARKER node found at 0x00000004, not first node in block =
-(0x00000000)
->=20
-> B. QSPI mode: Write data to mtd10, where mtd10 is a parition on SPI Flash
-> storage, defined properly in a device tree
->=20
-> [Correct fragment, read from SPI Flash]
->=20
->   root@v3x:~# echo "hello" > /dev/mtd10
->   root@v3x:~# hexdump -C -n100 /dev/mtd10
->   00000000  68 65 6c 6c 6f 0a ff ff  ff ff ff ff ff ff ff ff  |hello.....=
-=2E.....|
->   00000010  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |..........=
-=2E.....|
->=20
-> [Incorrect read of the same fragment: see the difference at offsets 0-3]
->=20
->   root@v3x:~# echo "hello" > /dev/mtd10
->   root@v3x:~# hexdump -C -n100 /dev/mtd10
->   00000000  00 00 00 00 68 65 6c 6c  6f 0a ff ff ff ff ff ff  |....hello.=
-=2E.....|
->   00000010  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |..........=
-=2E.....|
->=20
-> As seen from the result, 4 NULL bytes were inserted before the test data.
-> Wrong calculation in rpcif_prepare() led to miss of some dummy cycle. A
-> division by bus width is redundant because it had been performed already
-> in spi-rpc-if.c::rpcif_spi_mem_prepare()
->=20
-> Fix this by removing the redundant division.
->=20
-> Fixes: ca7d8b980b67 ("memory: add Renesas RPC-IF driver")
-> Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
-> Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->=20
-> Sadly, I cannot test this patch myself because I don't have access to
-> hardware which uses a buswidth > 1 for the dummy read. However, from
-> code review, this patch makes sense. The division by buswidth is done
-> twice, once in the SPI driver and once in the RPC core. It should stay
-> only in the SPI driver.
->=20
->  drivers/memory/renesas-rpc-if.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc=
--if.c
-> index 09cd4318a83d..c36b407851ff 100644
-> --- a/drivers/memory/renesas-rpc-if.c
-> +++ b/drivers/memory/renesas-rpc-if.c
-> @@ -430,8 +430,7 @@ void rpcif_prepare(struct rpcif *rpc, const struct rp=
-cif_op *op, u64 *offs,
-> =20
->  	if (op->dummy.buswidth) {
->  		rpc->enable |=3D RPCIF_SMENR_DME;
-> -		rpc->dummy =3D RPCIF_SMDMCR_DMCYC(op->dummy.ncycles /
-> -						op->dummy.buswidth);
-> +		rpc->dummy =3D RPCIF_SMDMCR_DMCYC(op->dummy.ncycles);
->  	}
-> =20
->  	if (op->option.buswidth) {
-> --=20
-> 2.30.2
->=20
+Gr{oetje,eeting}s,
 
---FTMPRqYA1OHK8Id7
-Content-Type: application/pgp-signature; name="signature.asc"
+                        Geert
 
------BEGIN PGP SIGNATURE-----
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmPBEeAACgkQFA3kzBSg
-KbbgrQ/8DXighPwWSptl/TiNXROTtn2oqQJuYkwBPcuYLC+bkRvKkyyg6gQHvHpP
-tkUJoLsQpv8DmNhYB5aggRjAQnOZfI9jifhxKeMb2nBOvVk0x+69bnphJR9/dumb
-bcK58pKzz7LFXBKwpfaDRkuGhztz89Hu09PN3uwVdfnE9GYCFt9mWsgVcGpmlpAm
-OTxXrRYkvRWUJhchjZbvgG+3VtcepWuq9Q1TNF9mpBjbxtYBoO7JcByv+wgGDC98
-lI2Dnb3TheIsXOxeqL43CMLn9G9LPGN07Wp6Yc41xVKwj3lhn7hEwPbQ16zV0BdN
-Cl6H+4ZlA5YlHqAvpMbBL5XSR3xcHVuJIzQDBent5CCHHCFBwYGcq4g4CHCUsHlZ
-4PIOETHLbtXtAiWfK1tJ/H9gWU/EtIo+zIyWjWmC2tFpt40wkmUlIWIMmo8uRHpX
-tjfgHV7HgJFAW4lqNk2HKIYmMruQiMyQgqX/YaDs1ZEe7xDs9LEe/VNXS6TYGTcI
-Yok88CF6ZxosNLHJQ0OsZAUvsb5Exh8MQMYGSdA6giRGtJ4td4dmiBvXyHw28PQ7
-qU11oumAZFp1asn/H8wdwSNaqkLxw0pwEqWbnOpuX/oNiNG16Snk032IS5aTpuUj
-vA1Yv24XcaWCYcYRa2/4FiHJBHeegVNbPVd7prVYex8rWqFPIcE=
-=gi25
------END PGP SIGNATURE-----
-
---FTMPRqYA1OHK8Id7--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
