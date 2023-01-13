@@ -2,113 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5532466A29C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jan 2023 20:05:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE1DE66A461
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jan 2023 21:49:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230123AbjAMTFh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Jan 2023 14:05:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59626 "EHLO
+        id S229846AbjAMUtU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Jan 2023 15:49:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbjAMTFe (ORCPT
+        with ESMTP id S231292AbjAMUtJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Jan 2023 14:05:34 -0500
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5580F544F5;
-        Fri, 13 Jan 2023 11:05:33 -0800 (PST)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.95)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1pGPMg-003M27-Uf; Fri, 13 Jan 2023 20:05:22 +0100
-Received: from p57ae5361.dip0.t-ipconnect.de ([87.174.83.97] helo=[192.168.178.35])
-          by inpost2.zedat.fu-berlin.de (Exim 4.95)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_128_GCM_SHA256
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1pGPMg-000Hn8-Jc; Fri, 13 Jan 2023 20:05:22 +0100
-Message-ID: <fe09d811-e290-821d-ec8b-75936b6583c2@physik.fu-berlin.de>
-Date:   Fri, 13 Jan 2023 20:05:20 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: remove arch/sh
-Content-Language: en-US
-To:     Rob Landley <rob@landley.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Fri, 13 Jan 2023 15:49:09 -0500
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 740A187939;
+        Fri, 13 Jan 2023 12:49:08 -0800 (PST)
+Received: by mail-oi1-f180.google.com with SMTP id d188so7482380oia.3;
+        Fri, 13 Jan 2023 12:49:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RdmVZdATpxh4uXK61/9w3d2GwDowPphGkSC6oew7CuA=;
+        b=UuV0GB+MS0rg8+gS7MHQzeujqvAjPccpM1pz3xgOHd3QnmFSldxrWIcdcXOSXqLjjr
+         t4PMQhLCr1lelBfEl6VIwOE6MAeC+DvthD+WjMmwiaj0+/DUqhq/LoB1XQ67RiDII9B7
+         ZSUGL49/ytC0+j5sfYCCkBRG/8Rr7zMv9OLHzYKDiUTb6bKIhgWQtuvs8dlqO6kMugq8
+         GjZu82S5FaV9lKyuiIzZAZaE39hbGdkZHGoOaw9nrd0wTyJ22S0yhGuKXSGim7+P6lXY
+         TOlk8cDaJ38l++S6YugEeqLZYfX0J4DWZiIBNzBmIdYhpwAcpV97nDkmHYqatHTGX3oP
+         swzA==
+X-Gm-Message-State: AFqh2kodn+ktTwlLb+voIoNIwmHd7r7ijAFSCqYu2qtIWyJrYjdcoTfF
+        15b2KcuLne4iFo5QQgr4Av14CMpB6g==
+X-Google-Smtp-Source: AMrXdXuOtzlk4lCMnVxAfT79yeRvZPs6eEtrnmQY/LmDb+7Hhkm9ePOkq/mxtdI24GRnlS07l9mHYw==
+X-Received: by 2002:a05:6808:f0a:b0:363:f0ed:bb60 with SMTP id m10-20020a0568080f0a00b00363f0edbb60mr18268130oiw.40.1673642947733;
+        Fri, 13 Jan 2023 12:49:07 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id z19-20020a05683020d300b006843ce07edfsm10983806otq.61.2023.01.13.12.49.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Jan 2023 12:49:06 -0800 (PST)
+Received: (nullmailer pid 2895830 invoked by uid 1000);
+        Fri, 13 Jan 2023 20:49:06 -0000
+Date:   Fri, 13 Jan 2023 14:49:06 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-sh@vger.kernel.org
-References: <20230113062339.1909087-1-hch@lst.de>
- <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
- <CAMuHMdUcnP6a9Ch5=_CMPq-io-YWK5pshkOT2nZmP1hvNcwBAg@mail.gmail.com>
- <142532fb-5997-bdc1-0811-a80ae33f4ba4@physik.fu-berlin.de>
- <6891afb6-4190-6a52-0319-745b3f138d97@landley.net>
-From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-In-Reply-To: <6891afb6-4190-6a52-0319-745b3f138d97@landley.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.174.83.97
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        devicetree@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2 02/12] dt-bindings: usb: renesas,usb3-peri: Update
+ reset, clock-name and interrupts properties
+Message-ID: <167364294568.2895791.15384252515090224293.robh@kernel.org>
+References: <20230112215906.494394-1-biju.das.jz@bp.renesas.com>
+ <20230112215906.494394-3-biju.das.jz@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230112215906.494394-3-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob!
 
-On 1/13/23 20:11, Rob Landley wrote:
->> I actually would be willing to do it but I'm a bit hesitant as I'm not 100%
->> sure my skills are sufficient. Maybe if someone can assist me?
+On Thu, 12 Jan 2023 21:58:56 +0000, Biju Das wrote:
+> On RZ/V2M, USB3DRD module manages the drd_reset. Moreover, the interrupts
+> drd, gpi and bc are part of USB3DRD block. This patch removes
+> drd_reset and the interrupts drd, bc and gpi from usb3_peri bindings.
+> After this, there is only one reset and interrupts and therefore
+> removing reset-names and interrupt-names as well.
 > 
-> My skills aren't sufficient and I dunno how much time I have, but I can
-> certainly assist. I test sh4 regularlyish and it's in the list of architectures
-> I ship binaries and tiny VM images for, just refreshed tuesday:
+> Whilst, Update the clock-name "aclk"->"axi" to make it consistent with
+> DRD and host blocks.
 > 
-> https://landley.net/toybox/downloads/binaries/0.8.9/
-> https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/
+> There is any harm in making such a change as, no users of
+> renesas,r9a09g011-usb3-peri yet in kernel release.
 > 
-> (The sh2eb isn't a VM, it's a physical board I have here...)
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Moved DRD interrupts to DRD bindings
+>  * Updated interrupts and dropped interrupt-names
+>  * Renamed aclk->axi
+> ---
+>  .../bindings/usb/renesas,usb3-peri.yaml       | 39 ++-----------------
+>  1 file changed, 3 insertions(+), 36 deletions(-)
 > 
-> There is definitely interest in this architecture. I'm aware Rich hasn't been
-> the most responsive maintainer. (I'm told he's on vacation with his family at
-> the moment, according to the text I got about this issue from the J-core
-> hardware guys in Japan.)
 
-Well, maybe we can just give it a try together ...
-
-> The main reason we haven't converted everything to device tree is we only have
-> access to test hardware for a subset of the boards. Pruning the list of
-> supported boards and converting the rest to device tree might make sense. We can
-> always add/convert boards back later...
-
-There is a patch by Yoshinori Sato which adds device tree support to SH. Maybe we
-can revive it.
-
-Adrian
-
--- 
-  .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
-
+Reviewed-by: Rob Herring <robh@kernel.org>
