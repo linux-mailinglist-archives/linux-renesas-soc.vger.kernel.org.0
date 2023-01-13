@@ -2,119 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52A34669200
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jan 2023 09:59:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBF5B669251
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jan 2023 10:08:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240464AbjAMI7Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Jan 2023 03:59:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32896 "EHLO
+        id S229887AbjAMJIy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Jan 2023 04:08:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234718AbjAMI7T (ORCPT
+        with ESMTP id S240559AbjAMJIR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Jan 2023 03:59:19 -0500
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 089F260CD6;
-        Fri, 13 Jan 2023 00:59:16 -0800 (PST)
-Received: by mail-qt1-f182.google.com with SMTP id fd15so8643993qtb.9;
-        Fri, 13 Jan 2023 00:59:15 -0800 (PST)
+        Fri, 13 Jan 2023 04:08:17 -0500
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 132482BF8;
+        Fri, 13 Jan 2023 01:06:04 -0800 (PST)
+Received: by mail-qv1-f52.google.com with SMTP id t7so14460366qvv.3;
+        Fri, 13 Jan 2023 01:06:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HIx/98EgJxXRPw6eabRyCtMqFo85a6og6EquEgJiRDY=;
-        b=P3MQ5D9sSanfyiSWLMMYawG0IaByrnHR3LWR0J/ngVlbs77UpipzZ67myUuOcHxh+U
-         KJwaBfclCdsDirCDwyWusyU/8+JukO/BM6pDQ7Klx6YVIJk7hxmL5rq4ZnD8EHDT9pq3
-         QGZeRLHhhfZKD4c8/m9sulc5LZLp9J2XCjiu/b0PwS7Cpq+5fffqC/HDGdAQH0o0j9Pv
-         Iao55QppwGJpyOexQACW708C69ZJlIOs1O/fdQkSwa0ojXQwn8HOzKNMksVYxZV0XWWV
-         13DOY45db+Gtv8OKaZU43L3txl+XYIaCpgbkzZE0a1Ax6n+jVO+2+MaJ9C7XvWwp/e5F
-         CkPQ==
-X-Gm-Message-State: AFqh2kqa+yhDSSxULc+Se/eEuQAC5YEarC3UHfVI2OdkixJlGOBtfFsv
-        QU4N2qWTN5MYIM69bRr1NNZZisq8PS1Q7A==
-X-Google-Smtp-Source: AMrXdXtU5fUgC+Y6jAFJJiOi80N6qQA+TZ4M6b/xL31LQs+0LdhwGXlu8iT5dxX4Ly7rzMJyHKn41Q==
-X-Received: by 2002:a05:622a:6027:b0:3a5:264c:5f38 with SMTP id he39-20020a05622a602700b003a5264c5f38mr17422677qtb.63.1673600354935;
-        Fri, 13 Jan 2023 00:59:14 -0800 (PST)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id g16-20020a05620a40d000b007055fa93060sm12439705qko.79.2023.01.13.00.59.13
+        bh=rncbaboE5XuNcJEvccSGF4MtmLPzXXPeFYp7DWNYN24=;
+        b=Bmwaxm1IT3RQiV0lUIpcCOUMk73Ot1zpdfca+Fx5eTJfJCz7ffXnSw1IXK4O1Sd2G3
+         pSGDj+f8kRcn/BzoA3hlLLJFcotKeZSt8VJdGQJaXqbkX8xKMSIsE1GjNgnDf+lsOYLQ
+         RzW/vZV4axE73Deq+o3fKdEd+qdb9PenSZY/LXbwa20E4WA8NCi/kE/hIIo2pBO9qTv8
+         9amUVOxJcwzeGK0jwUTJuvxyRcCvHOq5GPlKMQIx/FI6yEvRD+2VQ8NFXqCDEUgHPJF3
+         s4IHzOdjd09TsDmxAUr7ixE7o1pasCZSB9tps5yQeHTBI/DCAiTjjnDy3P3+G8kWRngU
+         nCXQ==
+X-Gm-Message-State: AFqh2kpmR3Bg+22rKByUr17rcg+sPsFIdwqXA0OOWasS0tO86E14PsZg
+        Z6pd+QVA6XYyeD9q9QE94lxREKOhiOQ/Bw==
+X-Google-Smtp-Source: AMrXdXtg7/52GUOJylfV8MsFvnvn5ynIQwHrMPceW6UKz0p7aBtC6K2qnkyElhmDyyTXgNpdFmogBQ==
+X-Received: by 2002:a0c:fd87:0:b0:531:bfb3:7eeb with SMTP id p7-20020a0cfd87000000b00531bfb37eebmr12617880qvr.11.1673600722027;
+        Fri, 13 Jan 2023 01:05:22 -0800 (PST)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id de19-20020a05620a371300b006fa16fe93bbsm12411011qkb.15.2023.01.13.01.05.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jan 2023 00:59:13 -0800 (PST)
-Received: by mail-yb1-f175.google.com with SMTP id d62so5480065ybh.8;
-        Fri, 13 Jan 2023 00:59:13 -0800 (PST)
-X-Received: by 2002:a25:7:0:b0:7c1:b2e9:7e71 with SMTP id 7-20020a250007000000b007c1b2e97e71mr838217yba.604.1673600353257;
- Fri, 13 Jan 2023 00:59:13 -0800 (PST)
+        Fri, 13 Jan 2023 01:05:21 -0800 (PST)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-4a263c4ddbaso276305977b3.0;
+        Fri, 13 Jan 2023 01:05:21 -0800 (PST)
+X-Received: by 2002:a81:91cc:0:b0:48d:1334:6e38 with SMTP id
+ i195-20020a8191cc000000b0048d13346e38mr494160ywg.316.1673600721025; Fri, 13
+ Jan 2023 01:05:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20230113062339.1909087-1-hch@lst.de> <20230113062339.1909087-3-hch@lst.de>
-In-Reply-To: <20230113062339.1909087-3-hch@lst.de>
+References: <20230113084516.31888-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <20230113084516.31888-1-lukas.bulwahn@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 13 Jan 2023 09:59:02 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVM3BpvVD3c4gp1OidnwF5zFd4MJecij7zWBnahzNaSNw@mail.gmail.com>
-Message-ID: <CAMuHMdVM3BpvVD3c4gp1OidnwF5zFd4MJecij7zWBnahzNaSNw@mail.gmail.com>
-Subject: Re: [PATCH 02/22] usb: remove the dead USB_OHCI_SH option
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-sh@vger.kernel.org
+Date:   Fri, 13 Jan 2023 10:05:09 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX_TPgXO2KYNdD5rRzuE9m6_JxfW-otWzw7r7Wptq_rOQ@mail.gmail.com>
+Message-ID: <CAMuHMdX_TPgXO2KYNdD5rRzuE9m6_JxfW-otWzw7r7Wptq_rOQ@mail.gmail.com>
+Subject: Re: [PATCH] PCI: rcar: avoid defines prefixed with CONFIG
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Christoph,
+Hi Lukas,
 
-On Fri, Jan 13, 2023 at 7:23 AM Christoph Hellwig <hch@lst.de> wrote:
-> USB_OHCI_SH is a dummy option that never builds any code, remove it.
+On Fri, Jan 13, 2023 at 9:52 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> Defines prefixed with "CONFIG" should be limited to proper Kconfig options,
+> that are introduced in a Kconfig file.
 >
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Here, a definition for a bitmask to configure the SEND_ENABLE mode is named
+> CONFIG_SEND_ENABLE.
+>
+> Rename this local definition to CONFIGURE_SEND_ENABLE to avoid defines
+> prefixed with "CONFIG".
+>
+> No functional change.
+>
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
 Thanks for your patch!
-Nice catch!
 
-> --- a/drivers/usb/host/Kconfig
-> +++ b/drivers/usb/host/Kconfig
-> @@ -548,17 +548,6 @@ config USB_OHCI_HCD_SSB
+> --- a/drivers/pci/controller/pcie-rcar.h
+> +++ b/drivers/pci/controller/pcie-rcar.h
+> @@ -11,7 +11,7 @@
 >
->           If unsure, say N.
->
-> -config USB_OHCI_SH
-> -       bool "OHCI support for SuperH USB controller (DEPRECATED)"
-> -       depends on SUPERH || COMPILE_TEST
-> -       select USB_OHCI_HCD_PLATFORM
-> -       help
-> -         This option is deprecated now and the driver was removed, use
-> -         USB_OHCI_HCD_PLATFORM instead.
-> -
-> -         Enables support for the on-chip OHCI controller on the SuperH.
-> -         If you use the PCI OHCI controller, this option is not necessary.
-> -
+>  #define PCIECAR                        0x000010
+>  #define PCIECCTLR              0x000018
+> -#define  CONFIG_SEND_ENABLE    BIT(31)
+> +#define  CONFIGURE_SEND_ENABLE BIT(31)
 
-At this point in the series, there are still selects and enablements of
-USB_OHCI_SH in arch/sh/Kconfig and arch/sh/configs/sh7757lcr_defconfig.
-I think it would be good to replace them by USB_OHCI_HCD_PLATFORM first,
-to decouple the fate of this patch from the rest of the series.
+The R-Car Gen3 rev. 2.30 Hardware User's Manual calls the bit "CCIE".
 
->  config USB_OHCI_EXYNOS
->         tristate "OHCI support for Samsung S5P/Exynos SoC Series"
->         depends on ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
+Hence if I would have written the driver, I would have used
+
+    #define PCIECCTLR_CCIE     BIT(31)   /* Configuration Send Enable */
+
+>  #define  TYPE0                 (0 << 8)
+>  #define  TYPE1                 BIT(8)
+>  #define PCIECDR                        0x000020
 
 Gr{oetje,eeting}s,
 
