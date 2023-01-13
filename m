@@ -2,101 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB0526692C9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jan 2023 10:22:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 755BE6693B0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Jan 2023 11:07:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232394AbjAMJWL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Jan 2023 04:22:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52490 "EHLO
+        id S240782AbjAMKHD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Jan 2023 05:07:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238192AbjAMJVY (ORCPT
+        with ESMTP id S239755AbjAMKG5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Jan 2023 04:21:24 -0500
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F28878EAD
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Jan 2023 01:15:06 -0800 (PST)
-Received: by mail-qv1-f43.google.com with SMTP id y8so14434997qvn.11
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Jan 2023 01:15:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EjiyZC6QWk0emgn4YZqyq+Kl2nwhRRJrrcQmwc/UFAQ=;
-        b=uL65kzM5rgdVD0Xm/wvKmCGit58CECCnZD2bOHMw1OUIGWh4K/S7hP/bpKbBAJAK1q
-         taju3k6YlIoNIi+GFNbOrje5tkt0lUyA7j4JW+gHUVvNijYaRNLdMWLhQL5bkt7iMSxP
-         qFnYnrrb8sjBak5p0OsddPv/g/tKxloMGDKTVdTmtCtYsappnVPppVSJhnCpQZVduhq+
-         pUZnq/6NmYK4Y72x7JGhLxg8B52wEeQKkAbYchvPxrdFCMjZFmUUvDAY9lkX46jfU3f8
-         t8rs7k8bHmW8PcyENl9gdDzVIJP87yQlRBtShDVw5hco+7DxOBhH4D64do/AP/nls1FC
-         Ub8Q==
-X-Gm-Message-State: AFqh2kpwe4I2ePN/Zn1QvUqOO0XMXSBc8WmaH3Zv2UAAUPHIhgWsCxVI
-        yA4TciKvy5M3RlLKvb9bgYSwgVyl9Gcu1A==
-X-Google-Smtp-Source: AMrXdXs3p7qnIohohMTTKEIX1EA9cFbDUT2AONUfZXQ9xC2HHKOiRN1Nt18LpAcakLe6FzlDc9ZsGA==
-X-Received: by 2002:a05:6214:247:b0:4c6:a49e:c255 with SMTP id k7-20020a056214024700b004c6a49ec255mr103315556qvt.35.1673601302596;
-        Fri, 13 Jan 2023 01:15:02 -0800 (PST)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id o5-20020a05620a2a0500b006fcc437c2e8sm12532776qkp.44.2023.01.13.01.15.02
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jan 2023 01:15:02 -0800 (PST)
-Received: by mail-yb1-f178.google.com with SMTP id l139so21638208ybl.12
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Jan 2023 01:15:02 -0800 (PST)
-X-Received: by 2002:a25:5189:0:b0:7bf:d201:60cb with SMTP id
- f131-20020a255189000000b007bfd20160cbmr1223170ybb.365.1673601301871; Fri, 13
- Jan 2023 01:15:01 -0800 (PST)
-MIME-Version: 1.0
-References: <87edt2pxhd.wl-kuninori.morimoto.gx@renesas.com>
- <875yeepxfw.wl-kuninori.morimoto.gx@renesas.com> <CAMuHMdWzyj8hR9-GY5g3ZqVRD3FC4HxxtDEfLAxjiK=iFRpC9w@mail.gmail.com>
- <878ri7babi.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <878ri7babi.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 13 Jan 2023 10:14:50 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWu3okFtkp91z1BW8YUCTzfa=JPogCb+PgLE6gFmggQUw@mail.gmail.com>
-Message-ID: <CAMuHMdWu3okFtkp91z1BW8YUCTzfa=JPogCb+PgLE6gFmggQUw@mail.gmail.com>
-Subject: Re: [PATCH 6/8] arm64: dts: renesas: add ulcb{-kf} Audio Graph Card2
- dtsi MIX + TDM Split dtsi
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Fri, 13 Jan 2023 05:06:57 -0500
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 186DC34D65;
+        Fri, 13 Jan 2023 02:06:56 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailnew.west.internal (Postfix) with ESMTP id 59F1E2B066ED;
+        Fri, 13 Jan 2023 05:06:53 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Fri, 13 Jan 2023 05:06:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1673604412; x=1673611612; bh=wiGd1poFqy
+        c19NDgfhWxoziS+5a2ezYepeVzBSacqw8=; b=jQa0HDmPBmL/FfJL+hgRmPsB40
+        Y3mC3xChdI36TABN4RG5b4ucaLsZc6+hC+19/zCIm4A4ie1QOoF7GdEwpLDXWLgg
+        YS7KkbMyef4z8Yilol0xjO/jcY2PDSzSOyaObnKUz9YejiKar9NRQ/48gMheN8SP
+        L9ydOdhClMFMN+laVtMxeJLlISQdpKBcfrhR3HNQLngArqhNZXfmj7B7QaV3Yjlc
+        q1pbz3p93X/orY60g/G7bg2Tiz9gOW8CeW5RhiSUeYXFN/oIPHXLd05ewSyQoczy
+        YcvZ76uBqZ6njLqUwdbbXb3on9pD3cxdKgfVZ0av7GSfMv1N46xG/nNSra4w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1673604412; x=1673611612; bh=wiGd1poFqyc19NDgfhWxoziS+5a2
+        ezYepeVzBSacqw8=; b=T9tKOcHloTqEvCQgyITgoeWHiCG023yZCoHB8GCNjjun
+        JWtWHvJqinTMKxNzOHfWFkde1UNzFYeNjWL4OYuUevGP5ZiDtpX0SAgeRoVmsRqT
+        4s4imE9aYV/f9Pvbl/xyCzDnDswOyuD8ceeVeSEppPmXeTdO2UYN2NW+SPkjkx6z
+        7AGNecW4IwYIR8h6khoClacES7xN1wBX6oY0XpQ9E/MHHJqDRpFMe5RHSjqUpFHQ
+        972R/sDnO/VHBlJ/MZtdHhD4RBw3rwTM6MhJr5iT0G2mUNkzC1EVZ0kt797d6W2S
+        fBdJ8aBi3uu6VLi/i8mbcHwOUByNIvAxQvGBru7fCg==
+X-ME-Sender: <xms:Oy3BY2x8u8jGs5oav_hETNuy2fGaBGNB7nGV00CwtVI39ajIhtTDrA>
+    <xme:Oy3BYyQeI43uOCS5CK49RFBPrQXLvgoH7jyxA1EWEhaXS1U_GFSXnUcOsyByJ4HxX
+    7ebslCPuxwL7F72QUk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleekgddtkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:Oy3BY4WFmJ1Wzov0EgMi6qcJljjNqlgJoW7YxZYtni3we9ZcuZJC0Q>
+    <xmx:Oy3BY8jDZdOmomBzdPQYugeTKvRs2JAmwJR9qFQ78gYn6oU0QQd3og>
+    <xmx:Oy3BY4DQ3Zg11gEbb70JkOCpYbMnoYHqWtdB8svYNbX-CHCrZb2sRA>
+    <xmx:PC3BYzV0__Pe1Lv9Yq1qvCTC7InwXhC6SGzQNcMq4ULKQsDh2lBDrgxrUdU>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id B041DB60086; Fri, 13 Jan 2023 05:06:51 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
+Mime-Version: 1.0
+Message-Id: <d9c2f760-283b-483c-8512-fdd2c372f26c@app.fastmail.com>
+In-Reply-To: <CAMuHMdXYt4dNHUDsTnPa-RP+sdK=35nNa9xQzMChwK54qO44mA@mail.gmail.com>
+References: <20230113062339.1909087-1-hch@lst.de>
+ <20230113062339.1909087-12-hch@lst.de>
+ <CAMuHMdXYt4dNHUDsTnPa-RP+sdK=35nNa9xQzMChwK54qO44mA@mail.gmail.com>
+Date:   Fri, 13 Jan 2023 11:06:22 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Geert Uytterhoeven" <geert@linux-m68k.org>,
+        "Christoph Hellwig" <hch@lst.de>
+Cc:     "Yoshinori Sato" <ysato@users.sourceforge.jp>,
+        "Rich Felker" <dalias@libc.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
+        "Kieran Bingham" <kieran.bingham+renesas@ideasonboard.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
+        linux-mtd@lists.infradead.org, Netdev <netdev@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+Subject: Re: [PATCH 11/22] mtd/nand: remove sh_flctl
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
-
-On Fri, Jan 13, 2023 at 12:30 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> > > +               /*
-> > > +                * (X) ak4613
-> >
-> > Perhaps add an arrow, and a target, like in the other patches?
-> > (everywhere)
+On Fri, Jan 13, 2023, at 09:30, Geert Uytterhoeven wrote:
+> On Fri, Jan 13, 2023 at 7:24 AM Christoph Hellwig <hch@lst.de> wrote:
+>> Now that arch/sh is removed this driver is dead code.
 >
-> It is difficult to explain via text, but on normal connection case,
-> SoC <-> Codec are connected, thus the comment like
-> "CPU0 <-> ak4613" is correct.
->
-> But On MIX+Split case, it is using DPCM which connects
-> "FE" and "BE" at runtime.
-> So there are no connection between (FE)SoC <-> (BE)Codec
-> at this time. So the above comment (= no arrow) is correct.
+> FTR, this hardware block is also present on the ARM-based
+> SH-Mobile AG5 and R-Mobile A1 SoCs.
+> Again, no DT support.
 
-So this is software policy, not hardware description?
-Does it belong in DTS?
+I would generally consider drivers dead when they have no DT support
+and no platform in the upstream kernel registering the corresponding
+device.
 
-Gr{oetje,eeting}s,
+If anyone still uses this driver on SH-Mobile or R-Mobile, they
+have clearly given up on upstreaming their patches by now, and
+they can carry the burden of maintaining the driver out of tree,
+or re-submit a working version.
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+    Arnd
