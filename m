@@ -2,113 +2,165 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A93F866ABA3
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Jan 2023 14:31:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3887E66AD56
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Jan 2023 19:59:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbjANNbA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 14 Jan 2023 08:31:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47588 "EHLO
+        id S229971AbjANS7U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 14 Jan 2023 13:59:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229875AbjANNa7 (ORCPT
+        with ESMTP id S229900AbjANS7T (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 14 Jan 2023 08:30:59 -0500
-X-Greylist: delayed 301 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 14 Jan 2023 05:30:58 PST
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69A345243
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Jan 2023 05:30:58 -0800 (PST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by xavier.telenet-ops.be with bizsmtp
-        id 8dRv2900H4C55Sk01dRvNX; Sat, 14 Jan 2023 14:25:56 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pGgXg-003z7a-38;
-        Sat, 14 Jan 2023 14:25:55 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pGgXj-006HxD-Pv;
-        Sat, 14 Jan 2023 14:25:55 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] clk: renesas: Updates for v6.3
-Date:   Sat, 14 Jan 2023 14:25:54 +0100
-Message-Id: <cover.1673702689.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Sat, 14 Jan 2023 13:59:19 -0500
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC009B76D;
+        Sat, 14 Jan 2023 10:59:18 -0800 (PST)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-4a2f8ad29d5so328511467b3.8;
+        Sat, 14 Jan 2023 10:59:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=rvSA+Lx4428ZeCqIe+MLNPk8FnuAPH7irnwCNjVyepg=;
+        b=E/Z7vgZuk7gjVRqsylXqM2hjmpmB+3D6Z+7L/t7h1F575IWk064ySp7dFiRB765EpZ
+         GNK5NAC0kDvAVx1CKmD8SpgrBnhHoeWTVJW0ZD149chpcmHhQ5y4lIv8eD0QHSFQNoNX
+         oCA7jwWvBRh2EMqgsFS6SR70T2xvpunuS54kAw/ZuxdkoXHZ7P/JNMn2VuI96YAbS8HY
+         Ayx8Yem9zjfCn7txUB9DK9MECtvMiXYtdRY4uKJ9JIeJooLdUk+kEjVnIYGPF/oBfBML
+         YeR25uyJhpLoadDfVdykzooeh4HrkJU+A+/6MNUNd3/Z9W+lWdF5bIR7jMqtklIPmyJ6
+         +ihA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rvSA+Lx4428ZeCqIe+MLNPk8FnuAPH7irnwCNjVyepg=;
+        b=ExFjXecnwqzr7LUDBVl0ZLPdq+SkKL8aUVTWDRBeLO9rIjQQcCJkhOV2M1m7299TJC
+         exmt9nKsX40iciyJlGpimevBuaFBQD+80M9h4WaCtiiwUBLM6fGXr3sSEoR/XmQk3A4i
+         JicXbpcR/Nes8NSlv4qRpRiJG2TzW7P3uO1shf4t00Zki+Fsub9CSXHgzOCYe7s48yEg
+         FRVxv+9pui+dnAVCt6uM7CvdLbePoCQhw+lEN0O5UA8SsjzTbgR05E3ZDiBr6Cl07Rsa
+         jal6a24xh/MnmdM8frBXy3sZmowIxS1GVKvqeFqqtPvDC5qkLIE91xXChgtV/X39WYf2
+         UCOA==
+X-Gm-Message-State: AFqh2krBqJd1Qr0W+IJcMoLYzF99vGfZbuNj0LlviiGCX2txroEGK1Xu
+        nprjPBsT283/uKY9JbWMt1manPCQol1g7Zbta7I=
+X-Google-Smtp-Source: AMrXdXv+37ZTyFOBsHwWwFuVHUiogjw4yQ6vwuYJv3R41Nb8EHC+LjAe/xhxW2jrxj4BgjxRIgUKiXI8cvts3nEGPrw=
+X-Received: by 2002:a81:a112:0:b0:4cf:84af:7e95 with SMTP id
+ y18-20020a81a112000000b004cf84af7e95mr1817829ywg.309.1673722758140; Sat, 14
+ Jan 2023 10:59:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20221229224601.103851-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20221229224601.103851-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Sat, 14 Jan 2023 18:58:52 +0000
+Message-ID: <CA+V-a8t38vHuBd+GJs5_643Jp5L6u6ci7NWVjRn53iwA445ODA@mail.gmail.com>
+Subject: Re: [PATCH v2] clocksource/drivers/riscv: Get rid of
+ clocksource_arch_init() callback
+To:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     linux-riscv@lists.infradead.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Samuel Holland <samuel@sholland.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Mike, Stephen,
+On Thu, Dec 29, 2022 at 10:50 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+>
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Having a clocksource_arch_init() callback always sets vdso_clock_mode to
+> VDSO_CLOCKMODE_ARCHTIMER if GENERIC_GETTIMEOFDAY is enabled, this is
+> required for the riscv-timer.
+>
+> This works for platforms where just riscv-timer clocksource is present.
+> On platforms where other clock sources are available we want them to
+> register with vdso_clock_mode set to VDSO_CLOCKMODE_NONE.
+>
+> On the Renesas RZ/Five SoC OSTM block can be used as clocksource [0], to
+> avoid multiple clock sources being registered as VDSO_CLOCKMODE_ARCHTIMER
+> move setting of vdso_clock_mode in the riscv-timer driver instead of doing
+> this in clocksource_arch_init() callback as done similarly for ARM/64
+> architecture.
+>
+> [0] drivers/clocksource/renesas-ostm.c
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Tested-by: Samuel Holland <samuel@sholland.org>
+> ---
+> RFC -> v2
+> * Dropped vdso_default static global variable
+> * Used IS_ENABLED() macro
+> * Included Tested-by from Samuel
+>
+> RFC:
+> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221211215843.24024-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> ---
+>  arch/riscv/Kconfig                | 1 -
+>  arch/riscv/kernel/time.c          | 9 ---------
+>  drivers/clocksource/timer-riscv.c | 5 +++++
+>  3 files changed, 5 insertions(+), 10 deletions(-)
+>
+Gentle ping.
 
-The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
+Cheers,
+Prabhakar
 
-  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v6.3-tag1
-
-for you to fetch changes up to fbfd614aeaa2853c2c575299dfe2458db8eff67e:
-
-  clk: renesas: cpg-mssr: Fix use after free if cpg_mssr_common_init() failed (2023-01-12 17:18:48 +0100)
-
-----------------------------------------------------------------
-clk: renesas: Updates for v6.3
-
-  - Add PWM, Compare-Match Timer (TIM), USB, SDHI, and eMMC clocks and
-    resets on RZ/V2M,
-  - Add display clocks on R-Car V4H,
-  - Add Camera Receiving Unit (CRU) clocks and resets on RZ/G2L,
-  - Miscellaneous fixes and improvements.
-
-Thanks for pulling!
-
-----------------------------------------------------------------
-Alexey Khoroshilov (1):
-      clk: renesas: cpg-mssr: Fix use after free if cpg_mssr_common_init() failed
-
-Biju Das (3):
-      clk: renesas: r9a09g011: Add PWM clock and reset entries
-      clk: renesas: r9a09g011: Add TIM clock and reset entries
-      clk: renesas: r9a09g011: Add USB clock and reset entries
-
-Geert Uytterhoeven (2):
-      clk: renesas: r8a779g0: Fix OSC predividers
-      clk: renesas: rcar-gen4: Restore PLL enum sort order
-
-Lad Prabhakar (1):
-      clk: renesas: r9a07g044: Add clock and reset entries for CRU
-
-Phil Edworthy (1):
-      clk: renesas: r9a09g011: Add SDHI/eMMC clock and reset entries
-
-Tomi Valkeinen (1):
-      clk: renesas: r8a779g0: Add display related clocks
-
- drivers/clk/renesas/r8a779g0-cpg-mssr.c | 17 ++++++--
- drivers/clk/renesas/r9a07g044-cpg.c     | 26 +++++++++++-
- drivers/clk/renesas/r9a09g011-cpg.c     | 73 +++++++++++++++++++++++++++++++++
- drivers/clk/renesas/rcar-gen4-cpg.h     |  2 +-
- drivers/clk/renesas/renesas-cpg-mssr.c  |  3 +-
- 5 files changed, 114 insertions(+), 7 deletions(-)
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index e2b656043abf..9c687da7756d 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -12,7 +12,6 @@ config 32BIT
+>
+>  config RISCV
+>         def_bool y
+> -       select ARCH_CLOCKSOURCE_INIT
+>         select ARCH_ENABLE_HUGEPAGE_MIGRATION if HUGETLB_PAGE && MIGRATION
+>         select ARCH_ENABLE_SPLIT_PMD_PTLOCK if PGTABLE_LEVELS > 2
+>         select ARCH_HAS_BINFMT_FLAT
+> diff --git a/arch/riscv/kernel/time.c b/arch/riscv/kernel/time.c
+> index 8217b0f67c6c..42bee305e997 100644
+> --- a/arch/riscv/kernel/time.c
+> +++ b/arch/riscv/kernel/time.c
+> @@ -30,12 +30,3 @@ void __init time_init(void)
+>         of_clk_init(NULL);
+>         timer_probe();
+>  }
+> -
+> -void clocksource_arch_init(struct clocksource *cs)
+> -{
+> -#ifdef CONFIG_GENERIC_GETTIMEOFDAY
+> -       cs->vdso_clock_mode = VDSO_CLOCKMODE_ARCHTIMER;
+> -#else
+> -       cs->vdso_clock_mode = VDSO_CLOCKMODE_NONE;
+> -#endif
+> -}
+> diff --git a/drivers/clocksource/timer-riscv.c b/drivers/clocksource/timer-riscv.c
+> index 55dad7965f43..c416e5e934bf 100644
+> --- a/drivers/clocksource/timer-riscv.c
+> +++ b/drivers/clocksource/timer-riscv.c
+> @@ -77,6 +77,11 @@ static struct clocksource riscv_clocksource = {
+>         .mask           = CLOCKSOURCE_MASK(64),
+>         .flags          = CLOCK_SOURCE_IS_CONTINUOUS,
+>         .read           = riscv_clocksource_rdtime,
+> +#if IS_ENABLED(CONFIG_GENERIC_GETTIMEOFDAY)
+> +       .vdso_clock_mode = VDSO_CLOCKMODE_ARCHTIMER,
+> +#else
+> +       .vdso_clock_mode = VDSO_CLOCKMODE_NONE,
+> +#endif
+>  };
+>
+>  static int riscv_timer_starting_cpu(unsigned int cpu)
+> --
+> 2.25.1
+>
