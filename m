@@ -2,119 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BEBC566CF8E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 20:29:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ED3766D037
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 21:32:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233619AbjAPT3E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Jan 2023 14:29:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45008 "EHLO
+        id S231794AbjAPUcF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Jan 2023 15:32:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233830AbjAPT2y (ORCPT
+        with ESMTP id S230144AbjAPUcD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Jan 2023 14:28:54 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F72A2BF1F;
-        Mon, 16 Jan 2023 11:28:53 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id az20so51228637ejc.1;
-        Mon, 16 Jan 2023 11:28:53 -0800 (PST)
+        Mon, 16 Jan 2023 15:32:03 -0500
+X-Greylist: delayed 964 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 16 Jan 2023 12:32:02 PST
+Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84A882A16B
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 12:32:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CEXSnU92F25+pQZ7j/ugqhVpdFpJuO21X3P5/Cl5PKQ=;
-        b=Em5DoiYpYrIyZy2p3QJASxwL5PBvpr5AlBw7El6F3zr/+EEOD7iuRHUTJRYtzzVfRt
-         A05Lqb4r5SV/e4bPIqK3cCgn3uMEO4L8Io2gsZgnn1fXhM3nzc2mnt6kRJt5cEWN119R
-         NvUSwI4zMUtmaVKzaQWn5IRh2TnG8/IZ5RrwE/qQMihxQkNlMaK6yC2GjK16XJEjXa/q
-         X6dVvb4nZq2sQTFjAKM+bAmsdvYNhJpPZNuk0bLY74X5w0bugQ5kNivcnB+j5FSMlBQ5
-         OWvi6v7xzSbtwIpgPvMx8OGT/ihVDlsx1QLvu38cyk74ITIBRE9qRkneZNH0leKJiaD/
-         mZ5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CEXSnU92F25+pQZ7j/ugqhVpdFpJuO21X3P5/Cl5PKQ=;
-        b=DFKL+DHEyyoRw3s4YPGQk2tTHkCn7MJf2NXuv5XICgVMicFcpTVRc232j3QRWd4WKL
-         PIS4kyxDJXQ5FT1eu99f/9Oz55b0dtRjQYhKVilNNoPx+i+vzJiyhmvtgofktg1QCpCx
-         RD9UmP7/8MWO9c+jkuedsJW7845gS60jKxpHYK55II0TmWikgtnhMGcph1y8QUx/a4uS
-         ecrM3hyxL8VY8OPXn6uFgJ9jML4IQJK92fBEEDi3ZbkD898Is4ABLqeZQTs0O+HYsLDg
-         5KKNAoW78RjjT/LoaHLARpjoR4xTGz7Fy8Iix2bYxDgglD+42DhjAMQCyzcdChQiWFKf
-         UTEQ==
-X-Gm-Message-State: AFqh2kpLc8/d09dP1dlCjDhmGqUOz+c8cpFSKf1c+0IrjgQmuPKGlbnT
-        /cOJJTNFDrExBuOKSR/r3Ek=
-X-Google-Smtp-Source: AMrXdXsvdrtS57ZbbOQdVeoHVOfWaJG213U9hdwNzzZXDq7P7HeiNHiHnyKY7Z9C7+GuvgKw9jPSGQ==
-X-Received: by 2002:a17:906:2288:b0:872:23b8:d6ed with SMTP id p8-20020a170906228800b0087223b8d6edmr155759eja.20.1673897332179;
-        Mon, 16 Jan 2023 11:28:52 -0800 (PST)
-Received: from skbuf ([188.27.185.68])
-        by smtp.gmail.com with ESMTPSA id w15-20020a17090633cf00b008711cab8875sm1151237eja.216.2023.01.16.11.28.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jan 2023 11:28:51 -0800 (PST)
-Date:   Mon, 16 Jan 2023 21:28:48 +0200
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     Michael Walle <michael@walle.cc>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jose Abreu <Jose.Abreu@synopsys.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Wei Fang <wei.fang@nxp.com>,
-        Shenwei Wang <shenwei.wang@nxp.com>,
-        Clark Wang <xiaoning.wang@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Luiz Angelo Daros de Luca <luizluca@gmail.com>
-Subject: Re: [PATCH RFC net-next v2 11/12] net: dsa: Separate C22 and C45
- MDIO bus transaction methods
-Message-ID: <20230116192848.bi7bs5e55pdlxffm@skbuf>
-References: <20221227-v6-2-rc1-c45-seperation-v2-0-ddb37710e5a7@walle.cc>
- <20221227-v6-2-rc1-c45-seperation-v2-0-ddb37710e5a7@walle.cc>
- <20221227-v6-2-rc1-c45-seperation-v2-11-ddb37710e5a7@walle.cc>
- <20221227-v6-2-rc1-c45-seperation-v2-11-ddb37710e5a7@walle.cc>
- <20230103153134.utalc6kw3l34dp4s@skbuf>
- <Y7ROa8ql9R5SHPsK@lunn.ch>
- <20230103155633.tfdxncl75s4tb2ln@skbuf>
- <6208c429b0b5541a4f6d2a8556ae1fcb@walle.cc>
+        d=ravnborg.org; s=rsa2;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=qWZKxlX4KW/JmPpNe4hoOYISYsciP5gHQlpn+CvfXf8=;
+        b=kt2RebpVMaIBssccQkMEgek+nwW85G6J0siMHGZ1qETVQeJlMBKmjG0mlVm3r7ePnu8jfPm81ygq7
+         Mz8rQydCpwnm7+yWjbjNIN/fzDJe5WsKcBoAUsBadcQc0vOYb6T41tQjEeU/05VcOGjEkJnNNqYFDv
+         W6Hs6b61sUUwtJAeXWksNEBFK4Y9hM1amCX4haYovx3yLNNcTv+aB4AWsRcwfANqGXT1LV3gcWRrqV
+         ROUTznYXXwPl8HONFIMoZCbhWD4ezvanZv5cXNNxoJUbsVJ4K/EAnSMi/8BPSb4nuXYYFMXiL4SyAH
+         nCwGrMJpVzOvZphymhAQroedp3D9X1Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+        d=ravnborg.org; s=ed2;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=qWZKxlX4KW/JmPpNe4hoOYISYsciP5gHQlpn+CvfXf8=;
+        b=xE4aoD0tRO5MstpdlKpx4S2jKlZCleYS/37b6LqWjWapIOw44SoqoiaLAWrBeI0WODd2oUSv6O6cJ
+         cNcxfeJCQ==
+X-HalOne-ID: 90146bb7-95da-11ed-afa2-11abd97b9443
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+        by mailrelay1 (Halon) with ESMTPSA
+        id 90146bb7-95da-11ed-afa2-11abd97b9443;
+        Mon, 16 Jan 2023 20:15:49 +0000 (UTC)
+Date:   Mon, 16 Jan 2023 21:15:47 +0100
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     daniel@ffwll.ch, airlied@gmail.com,
+        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        linux-aspeed@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 02/22] drm: Remove unnecessary include statements for
+ drm_crtc_helper.h
+Message-ID: <Y8Wwcy3LuknhDQz1@ravnborg.org>
+References: <20230116131235.18917-1-tzimmermann@suse.de>
+ <20230116131235.18917-3-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6208c429b0b5541a4f6d2a8556ae1fcb@walle.cc>
+In-Reply-To: <20230116131235.18917-3-tzimmermann@suse.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 16, 2023 at 08:51:55AM +0100, Michael Walle wrote:
-> Hi,
-> 
-> Am 2023-01-03 16:56, schrieb Vladimir Oltean:
-> > > So Luiz patches may allow a C45 bus, but are there any drivers today
-> > > actually using it?
-> > 
-> > I sent a private email to Luiz a few minutes ago asking him to confirm.
-> 
-> Any news here? Do we need the c45 methods?
+Hi Thomas.
 
-No news it seems. I am going to default to assuming that no, a ds->slave_mii_bus
-created by dsa_switch_setup() does not need C45 accessors.
+On Mon, Jan 16, 2023 at 02:12:15PM +0100, Thomas Zimmermann wrote:
+> Several DRM core and helper source files include drm_crtc_helper.h
+> without needing it or only to get its transitive include statements;
+> leading to unnecessary compile-time dependencies.
+> 
+> Directly include required headers and drop drm_crtc_helper.h where
+> possible. The header file, drm_fixed.h, includes <linux/kernel.h>
+> for lower_32_bits().
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_crtc_helper.c  | 1 -
+>  drivers/gpu/drm/drm_lease.c        | 2 +-
+>  drivers/gpu/drm/drm_plane_helper.c | 1 -
+>  include/drm/drm_fixed.h            | 1 +
+>  4 files changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
+> index a209659a996c..e7a23e18140c 100644
+> --- a/drivers/gpu/drm/drm_crtc_helper.c
+> +++ b/drivers/gpu/drm/drm_crtc_helper.c
+> @@ -39,7 +39,6 @@
+>  #include <drm/drm_atomic_uapi.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_crtc.h>
+> -#include <drm/drm_crtc_helper.h>
 
-This patch should be modified to only touch the mt7530 driver, and
-adjust the commit message accordingly. I see no connection to what the
-DSA core does.
+drm_crtc_helper.c may not require drm/drm_crtc_helper.h, but it should
+include it so we get a warning in case there is a mismatch between the
+header file and the implementation.
+I think sparse would also complain that the function is not declared
+or something like that.
+
+With this fixed:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_edid.h>
+>  #include <drm/drm_encoder.h>
+> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+> index 08ab75303a00..150fe1555068 100644
+> --- a/drivers/gpu/drm/drm_lease.c
+> +++ b/drivers/gpu/drm/drm_lease.c
+> @@ -6,7 +6,7 @@
+>  #include <linux/uaccess.h>
+>  
+>  #include <drm/drm_auth.h>
+> -#include <drm/drm_crtc_helper.h>
+> +#include <drm/drm_crtc.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_lease.h>
+> diff --git a/drivers/gpu/drm/drm_plane_helper.c b/drivers/gpu/drm/drm_plane_helper.c
+> index ba6a9136a065..c91e454eba09 100644
+> --- a/drivers/gpu/drm/drm_plane_helper.c
+> +++ b/drivers/gpu/drm/drm_plane_helper.c
+> @@ -28,7 +28,6 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_atomic_uapi.h>
+> -#include <drm/drm_crtc_helper.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_encoder.h>
+> diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
+> index 553210c02ee0..255645c1f9a8 100644
+> --- a/include/drm/drm_fixed.h
+> +++ b/include/drm/drm_fixed.h
+> @@ -25,6 +25,7 @@
+>  #ifndef DRM_FIXED_H
+>  #define DRM_FIXED_H
+>  
+> +#include <linux/kernel.h>
+>  #include <linux/math64.h>
+>  
+>  typedef union dfixed {
+> -- 
+> 2.39.0
