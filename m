@@ -2,91 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9221566C795
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 17:32:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AD8266C7DF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 17:35:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233285AbjAPQch (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Jan 2023 11:32:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47482 "EHLO
+        id S233453AbjAPQfd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Jan 2023 11:35:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233189AbjAPQbw (ORCPT
+        with ESMTP id S233340AbjAPQei (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Jan 2023 11:31:52 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD2812F7BC;
-        Mon, 16 Jan 2023 08:20:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673886003; x=1705422003;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=3kP3+Z/fGb1HUUCGydhyc9dGWiwyXHQhkXAlft+qAzY=;
-  b=O+jGBDv1wkdgNz+iubPM+2zPPetH3eq+JCKtA89kuVZSJuBNoTN/VTAB
-   w0M9Irjn8Qj6fm+rfTSKrzhNxovvcwtRA/rfMDbV3Xqiz8IhoysYavdN1
-   rPG0FYwxRAMwYqFc6hg0QfRzbGHpRmoIlzJGp2ojb8klh4niZZbrAaNh9
-   HwfrbED7WTMnB2zoR8E+ccNx/Zx/fMCittugQ6CzagJWIasd0usmnUkIg
-   Kk8t0DeHjjItBhypIpqA/AWyFAPr9G7sRZT/YMIAEgQGKnl1wisp178t4
-   5WKIuUqQdZwxnQXuqBpMj/YFWPW34Z1dCNnnWCclia1wU9yiT44eUWnQp
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="324558183"
-X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
-   d="scan'208";a="324558183"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 08:20:03 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="766952438"
-X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
-   d="scan'208";a="766952438"
-Received: from amakarev-mobl2.ger.corp.intel.com (HELO localhost) ([10.252.13.137])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 08:19:59 -0800
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Thomas Zimmermann <tzimmermann@suse.de>, sam@ravnborg.org,
-        daniel@ffwll.ch, airlied@gmail.com
-Cc:     linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org,
-        linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        dri-devel@lists.freedesktop.org,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 00/22] drm: Remove includes for drm_crtc_helper.h
-In-Reply-To: <20230116131235.18917-1-tzimmermann@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230116131235.18917-1-tzimmermann@suse.de>
-Date:   Mon, 16 Jan 2023 18:19:56 +0200
-Message-ID: <87k01me9jn.fsf@intel.com>
+        Mon, 16 Jan 2023 11:34:38 -0500
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F2B423DBF;
+        Mon, 16 Jan 2023 08:22:32 -0800 (PST)
+Received: by mail-qt1-f170.google.com with SMTP id x5so1365026qti.3;
+        Mon, 16 Jan 2023 08:22:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lFslTO9Xsj1Mi5kjcW6WB1C1HG+qwEGGcinlnuagMLY=;
+        b=uGrBzbM56KZv3vd0fAENEKo1sWwp53BlKM/AK+PwKOMzNwI9WV/X5QY6I0O8P9Lmnt
+         N547wXDqlkqgEGGU6LYaZeOpF10IL60J8cfIJRTA2TGCM3xt3Y3WSchHdTuFTURba+c/
+         1TZsucM/lVpo4HJXlWhkFoi+HEvEV0du7n6w48E9pJsVLn+Li5N+DMi8qmRXkSbOQq4a
+         kh4wK14LUuO6awF4d7DPTjXWhgvX6u+TIw3Tr79ezVq9SYYPPSCsb5JWLZ3gOKrvL9IV
+         /1Sm6+w/lXhngUe9izJ54mrltZfoNSCScl9B84ipLWgO/MaMBCPBOI/1/2NVcpldft80
+         YZog==
+X-Gm-Message-State: AFqh2kpjINthGNHsX5/9W9nJun2HrmpWnUbTuVuqJlt2NQdIogUhgReA
+        uywtsg3AgZa2SSCSHClNXLYmtEJYvLw/wA==
+X-Google-Smtp-Source: AMrXdXuyBsLxJ9ioLKbYTUo6GI7QVZQZHB5atFY7TtQx44fMfptR3YC8Lo8O04G0yBKgjyEI0I40xw==
+X-Received: by 2002:a05:622a:4c88:b0:3a8:649:8d0a with SMTP id ez8-20020a05622a4c8800b003a806498d0amr140373277qtb.30.1673886151398;
+        Mon, 16 Jan 2023 08:22:31 -0800 (PST)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id b1-20020ac844c1000000b003b34650039bsm4775953qto.76.2023.01.16.08.22.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Jan 2023 08:22:31 -0800 (PST)
+Received: by mail-yb1-f181.google.com with SMTP id c124so30779713ybb.13;
+        Mon, 16 Jan 2023 08:22:30 -0800 (PST)
+X-Received: by 2002:a05:6902:543:b0:7c1:b2e9:7e71 with SMTP id
+ z3-20020a056902054300b007c1b2e97e71mr17477ybs.604.1673886150316; Mon, 16 Jan
+ 2023 08:22:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20221117114907.138583-1-fabrizio.castro.jz@renesas.com>
+ <20221117114907.138583-3-fabrizio.castro.jz@renesas.com> <CAMuHMdUzkAjF=v__r2vJrYugBuDt13LnToCW66n-5r-jcVV+8A@mail.gmail.com>
+ <TYWPR01MB877570EB023D2ECEB7896F84C2C19@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYWPR01MB877570EB023D2ECEB7896F84C2C19@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 16 Jan 2023 17:22:18 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXxri6GgGxJy9WC-ktM_zoXDkzRz-6yBqQcikVe3DPShg@mail.gmail.com>
+Message-ID: <CAMuHMdXxri6GgGxJy9WC-ktM_zoXDkzRz-6yBqQcikVe3DPShg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] watchdog: rzg2l_wdt: Handle TYPE-B reset for RZ/V2M
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 16 Jan 2023, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> A lot of source files include drm_crtc_helper.h for its contained
-> include statements. This leads to excessive compile-time dependencies.
+Hi Fabrizio,
+
+On Mon, Jan 16, 2023 at 5:18 PM Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> > On Thu, Nov 17, 2022 at 12:49 PM Fabrizio Castro
+> > <fabrizio.castro.jz@renesas.com> wrote:
+> > > As per section 48.4 of the HW User Manual, IPs in the RZ/V2M
+> > > SoC need either a TYPE-A reset sequence or a TYPE-B reset
+> > > sequence. More specifically, the watchdog IP needs a TYPE-B
+> > > reset sequence.
+> > >
+> > > If the proper reset sequence isn't implemented, then resetting
+> > > IPs may lead to undesired behaviour. In the restart callback of
+> > > the watchdog driver the reset has basically no effect on the
+> > > desired funcionality, as the register writes following the reset
+> > > happen before the IP manages to come out of reset.
+> > >
+> > > Implement the TYPE-B reset sequence in the watchdog driver to
+> > > address the issues with the restart callback on RZ/V2M.
+> > >
+> > > Fixes: ec122fd94eeb ("watchdog: rzg2l_wdt: Add rzv2m support")
+> > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> >
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >
+> > Perhaps this logic can be incorporated into the RZ/V2M reset controller
+> > driver later, so reset consumers don't have to care about TYPE-A and
+> > TYPE-B reset, but can just call reset_control_reset()?
+> > I understand that's not gonna be easy, as it needs to know about the
+> > relation between resets and clocks, and how to handle both cases (clock
+> > (not) switched off) for TYPE-B resets.
 >
-> Where possible, remove the include statements for drm_crtc_helper.h
-> and include the required source files directly. Also remove the
-> include statements from drm_crtc_helper.h itself, which doesn't need
-> most of them.
->
-> I built this patchset on x86-64, aarch64 and arm. Hopefully I found
-> all include dependencies.
+> Yeah, we have been thinking about dealing with this in the reset controller
+> driver, but as you pointed out it's not going to be simple, and therefore
+> it'll take some time. This change will guarantee the correct behaviour of
+> the watchdog for now, we'll tackle the larger issue later on, if that's okay
+> with you.
 
-I think this is the right direction and I support this. Personally I
-think it's enough to build test and fix any fallout afterwards.
+Fine for me.
 
-To that end, I did build test this myself with my config, and it was
-fine, though that probably doesn't add much coverage.
+Gr{oetje,eeting}s,
 
-FWIW,
+                        Geert
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
