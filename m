@@ -2,107 +2,168 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 67E9B66BC22
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 11:48:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF88166BC25
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 11:49:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229973AbjAPKsv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Jan 2023 05:48:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56824 "EHLO
+        id S229476AbjAPKt0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Jan 2023 05:49:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229882AbjAPKst (ORCPT
+        with ESMTP id S229722AbjAPKtY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Jan 2023 05:48:49 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C889417CF9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 02:48:48 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id c6so29960451pls.4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 02:48:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y7yhGlWdBF5caMAAxe282zvA5kjaG8/cFPrVZfzXB7c=;
-        b=IYI2UzZkjLnucurKH4EWx2fk9nKOlrdjK4CRgA5oIOFKOpgFgPmT/LkcHpquKaBFuH
-         vQi1vMcOTNQ0ZqZzjvVuxasoF++YXZYlLSqnp3mZELNCzCzTLH9ESODtVKU1Vp4H2aeg
-         5hMpsHUrwXkeZ/Rc7rzcDLlhvGgnuvoEFdnUbYs5Z4qnRpIDYFWxF0Q6sBl+cKzQk7Lt
-         9YGGFTdwxAVyFJM33ohwSZTrXyK3B59jrg5F8RnzOhSbfFbo1Rwa93wT1rN4PsQneNCh
-         +LEiN2k7Gg+lR/fhktMMJTu61CGMARbwXJ6ja5Kqpbu+v3FsjEEdh3Wp//OPBCNpkJw3
-         4wwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y7yhGlWdBF5caMAAxe282zvA5kjaG8/cFPrVZfzXB7c=;
-        b=avpLXPjV2+u7PBJwK4jsF9g9ZlNN6gXCj0HzE0bTwdvVj/irNYkXkntS2encbjC1Bj
-         izzQyNv29tE215iJ+j5/55GzF4tsDyjyti1i3I21bRiGOS+oS6WwFquLXrdwxwEse097
-         tVLL+zDxpx3I5jj2Cq7fUgztrFkD+fqa0gCc9nsAwPVE4dVNxNbZs4HBBgdz4F19Krx5
-         i0KEWSw2XzN9zz1MihZe/835oL5Nw6SxJcf9cIK/yyNsm3NR6P/BeaiTVUAhV5EE/b8Y
-         vyx7339nqyYOu+2L1JawrPDR0OBKJQ3GVq6lYZrhmfvcxRiqXVMeMnwh0W8CsEMk5vio
-         I9GA==
-X-Gm-Message-State: AFqh2kq0CmndjhC/WdTgUxJY79u3XeBihi+x9j4yiTj1+YmUmlV8nG1u
-        EOHVVI0zeJS95KMDGAqw37Xod3MvB4Xof1yK+XiSJA==
-X-Google-Smtp-Source: AMrXdXtzKlyD+333ZuB5DGkG+xbxyw1v4im/DLoHddsjaC5wj5TaZ9YZyn2QgdnZcjknO0Ko92jz/p88clKCJ0uNy0Q=
-X-Received: by 2002:a17:903:2cf:b0:192:9d79:d3db with SMTP id
- s15-20020a17090302cf00b001929d79d3dbmr858630plk.129.1673866128347; Mon, 16
- Jan 2023 02:48:48 -0800 (PST)
-MIME-Version: 1.0
-References: <20230105134622.254560-1-arnd@kernel.org> <20230105134622.254560-22-arnd@kernel.org>
- <CAPDyKFoNrtZSDm2Ry+7_74uGLqz8KpbtEC0Z6WNxv7G9JruKtA@mail.gmail.com> <694be013-6769-438f-b85d-e7cda1b0c4fd@app.fastmail.com>
-In-Reply-To: <694be013-6769-438f-b85d-e7cda1b0c4fd@app.fastmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Mon, 16 Jan 2023 11:48:12 +0100
-Message-ID: <CAPDyKFontmhU9GWLV+8HG0A4aQQ0j2OpJBg+Gy3hfkjn8J_V6A@mail.gmail.com>
-Subject: Re: [PATCH 21/27] mmc: remove tmio_mmc driver
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Ian Molton <spyro@f2s.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
+        Mon, 16 Jan 2023 05:49:24 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B187D1714B;
+        Mon, 16 Jan 2023 02:49:22 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBE04802;
+        Mon, 16 Jan 2023 11:49:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1673866161;
+        bh=QPKbaBg15FIAAfwmoECrnTKED2vhulpywKn1lrKXHwQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rsA5uz9qrZPSpxqp6TK4pQviMeiZZ0RpR5R1xNmbXmObdIByNf0plUQnAoTpzwGNj
+         PSQE1Fh0fK1GjZ0oR+CAEnITmGOsbwrgs//zvN3ENei9t61JeVVqe5LDRgR0Lhi2q6
+         4Gf4QXelvSnd430RTAICZbhE6AiPNRTrr/9NhjDY=
+Date:   Mon, 16 Jan 2023 12:49:21 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 5/6] ARM: dts: renesas: Use new media bus type macros
+Message-ID: <Y8UrsSnhGd7GQEIJ@pendragon.ideasonboard.com>
+References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
+ <20220615221410.27459-6-laurent.pinchart@ideasonboard.com>
+ <Y8LJkPLghb/8Y+iQ@pendragon.ideasonboard.com>
+ <CAMuHMdXnssq_tGbg+vL7BuLK5sa4Lg1xx0106uMFthRfUoq7=Q@mail.gmail.com>
+ <Y8UpDsTixfacduXl@pendragon.ideasonboard.com>
+ <CAMuHMdVHnJ2Q1CCDUiTUPcESp2cExu6BynoscTGOiD6UA1u7_w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVHnJ2Q1CCDUiTUPcESp2cExu6BynoscTGOiD6UA1u7_w@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 5 Jan 2023 at 16:44, Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Thu, Jan 5, 2023, at 16:01, Ulf Hansson wrote:
-> > On Thu, 5 Jan 2023 at 14:47, Arnd Bergmann <arnd@kernel.org> wrote:
-> >>
-> >> From: Arnd Bergmann <arnd@arndb.de>
-> >>
-> >> With the TMIO MFD support gone, the corresponding MMC host driver can
-> >> be removed as well. The remaining tmio_mmc_core module however is still
-> >> used by both the Renesas and Socionext host drivers.
-> >>
-> >> Cc: Ian Molton <spyro@f2s.com>
-> >> Cc: Ulf Hansson <ulf.hansson@linaro.org>
-> >> Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> >> Cc: linux-mmc@vger.kernel.org
-> >> Cc: linux-renesas-soc@vger.kernel.org
-> >> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On Mon, Jan 16, 2023 at 11:44:13AM +0100, Geert Uytterhoeven wrote:
+> On Mon, Jan 16, 2023 at 11:38 AM Laurent Pinchart wrote:
+> > On Mon, Jan 16, 2023 at 11:24:10AM +0100, Geert Uytterhoeven wrote:
+> > > On Sat, Jan 14, 2023 at 4:26 PM Laurent Pinchart wrote:
+> > > > Geert, could you please take this in your tree for v6.3 ? The two
+> > > > patches that the DT changes depend on have been merged in v6.2.
+> > >
+> > > Thank you, I had missed these.
+> > >
+> > > > On Thu, Jun 16, 2022 at 01:14:09AM +0300, Laurent Pinchart wrote:
+> > > > > Now that a header exists with macros for the media interface bus-type
+> > > > > values, replace hardcoding numerical constants with the corresponding
+> > > > > macros in the DT sources.
+> > > > >
+> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > >
+> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > >
+> > > > > ---
+> > > > >  arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts       | 11 +++++++----
+> > > > >  .../dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi     |  4 +++-
+> > > > >  .../dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi     |  4 +++-
+> > > > >  3 files changed, 13 insertions(+), 6 deletions(-)
+> > > > >
+> > > > > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> > > > > index 4e58c54cde17..33ac4bd1e63b 100644
+> > > > > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> > > > > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> > > > > @@ -7,6 +7,9 @@
+> > > > >   */
+> > > > >
+> > > > >  /dts-v1/;
+> > > > > +
+> > > > > +#include <dt-bindings/media/video-interfaces.h>
+> > > > > +
+> > > > >  #include "r8a7742-iwg21d-q7.dts"
+> > > > >
+> > > > >  / {
+> > > > > @@ -242,7 +245,7 @@ port {
+> > > > >               vin0ep: endpoint {
+> > > > >                       remote-endpoint = <&cam0ep>;
+> > > > >                       bus-width = <8>;
+> > > > > -                     bus-type = <6>;
+> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
+> > > > >               };
+> > > > >       };
+> > > > >  };
+> > > > > @@ -273,7 +276,7 @@ port {
+> > > > >               vin1ep: endpoint {
+> > > > >                       remote-endpoint = <&cam1ep>;
+> > > > >                       bus-width = <8>;
+> > > > > -                     bus-type = <6>;
+> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
+> > > > >               };
+> > > > >       };
+> > > > >  };
+> > > > > @@ -305,7 +308,7 @@ vin2ep: endpoint {
+> > > > >                       remote-endpoint = <&cam2ep>;
+> > > > >                       bus-width = <8>;
+> > > > >                       data-shift = <8>;
+> > > > > -                     bus-type = <6>;
+> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
+> > > > >               };
+> > > > >       };
+> > > > >  };
+> > > > > @@ -335,7 +338,7 @@ port {
+> > > > >               vin3ep: endpoint {
+> > > > >                       remote-endpoint = <&cam3ep>;
+> > > > >                       bus-width = <8>;
+> > > > > -                     bus-type = <6>;
+> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
+> > > > >               };
+> > > > >       };
+> > > > >  };
+> > > > > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> > > > > index 40cef0b1d1e6..c73160df619d 100644
+> > > > > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> > > > > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> > > > > @@ -7,6 +7,8 @@
+> > > > >   * Copyright (C) 2020 Renesas Electronics Corp.
+> > > > >   */
+> > > > >
+> > > > > +#include <dt-bindings/media/video-interfaces.h>
+> > >
+> > > This .dtsi file is only intended to be included by
+> > > arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts, which already has
+> > > the include.  Hence if you don't mind, I would like to drop this part
+> > > while applying  and queuing in renesas-devel for v6.3.
 > >
-> > I intend to pick this up via my mmc tree, just awaiting an ack from Wolfram.
->
-> Actually I think it would be easier to just take this through
-> my tree along with the rest of the series, unless you expect
-> conflicts with other patches.
+> > Isn't it better to include headers as needed to avoid depending on
+> > indirect includes ?
+> 
+> In general, I agree.
+> In this particular case, (the multiple inclusions of) the
+> r8a7742-iwg21d-q7-dbcm-ov*-single.dtsi files are tied very intimately
+> to r8a7742-iwg21d-q7-dbcm-ca.dts.
 
-If conflicts, those should probably be easy to resolve, so please go
-ahead and take your own route.
+I'd still prefer keeping the #include here, but you're the maintainer
+:-)
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+-- 
+Regards,
 
-Kind regards
-Uffe
+Laurent Pinchart
