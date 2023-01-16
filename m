@@ -2,60 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF88166BC25
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 11:49:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF8D566BC44
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 11:55:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229476AbjAPKt0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Jan 2023 05:49:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57160 "EHLO
+        id S230035AbjAPKzm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Jan 2023 05:55:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229722AbjAPKtY (ORCPT
+        with ESMTP id S230468AbjAPKyp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Jan 2023 05:49:24 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B187D1714B;
-        Mon, 16 Jan 2023 02:49:22 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBE04802;
-        Mon, 16 Jan 2023 11:49:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673866161;
-        bh=QPKbaBg15FIAAfwmoECrnTKED2vhulpywKn1lrKXHwQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rsA5uz9qrZPSpxqp6TK4pQviMeiZZ0RpR5R1xNmbXmObdIByNf0plUQnAoTpzwGNj
-         PSQE1Fh0fK1GjZ0oR+CAEnITmGOsbwrgs//zvN3ENei9t61JeVVqe5LDRgR0Lhi2q6
-         4Gf4QXelvSnd430RTAICZbhE6AiPNRTrr/9NhjDY=
-Date:   Mon, 16 Jan 2023 12:49:21 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
+        Mon, 16 Jan 2023 05:54:45 -0500
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBAF01F497;
+        Mon, 16 Jan 2023 02:54:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=k75wwwhG7lUtWo3nfpU73+/Nhl6iDUNa31lHcKIVs6I=; b=0b8wCmI1xBBrYgi464CipbnstD
+        EbeaLU5wB9IDjqo4BMx4XIgPgnal3biWluBhl6ZNC8GgHbFI/F37jmCnX7+Shfd5olsSjLKXupfOA
+        UAOv5qzzJd80SiC6acu4Zx+3cbrgGxfRqd36EKamZKikptdrAO5qDyMlwhepKObTsI70TTYQWJoIp
+        5gkREfy6L7OGeC6wGzNsUkXPpDLCd8Qw0TdIHG0/ZF6Nuclgxry59TZUmhcMm9ICSFLu22KxhzNBg
+        jqS3AR/pL1Vjcrm+MrrTePUQBF/OhjvzqWPl+0raKXVRqL018WTY6b23F/3aORLuiYw1EX6Rp8wwh
+        pLoksX5Q==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:36122)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1pHN7j-0004es-V8; Mon, 16 Jan 2023 10:53:55 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1pHN7e-0005ww-0n; Mon, 16 Jan 2023 10:53:50 +0000
+Date:   Mon, 16 Jan 2023 10:53:49 +0000
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>
+Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
         Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v3 5/6] ARM: dts: renesas: Use new media bus type macros
-Message-ID: <Y8UrsSnhGd7GQEIJ@pendragon.ideasonboard.com>
-References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
- <20220615221410.27459-6-laurent.pinchart@ideasonboard.com>
- <Y8LJkPLghb/8Y+iQ@pendragon.ideasonboard.com>
- <CAMuHMdXnssq_tGbg+vL7BuLK5sa4Lg1xx0106uMFthRfUoq7=Q@mail.gmail.com>
- <Y8UpDsTixfacduXl@pendragon.ideasonboard.com>
- <CAMuHMdVHnJ2Q1CCDUiTUPcESp2cExu6BynoscTGOiD6UA1u7_w@mail.gmail.com>
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Wong Vee Khee <veekhee@apple.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Revanth Kumar Uppala <ruppala@nvidia.com>,
+        Tan Tee Min <tee.min.tan@linux.intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Mohammad Athari Bin Ismail <mohammad.athari.ismail@intel.com>,
+        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH net-next 3/6] net: stmmac: start phylink before setting
+ up hardware
+Message-ID: <Y8UsvREsKOR2ejzT@shell.armlinux.org.uk>
+References: <20230116103926.276869-1-clement.leger@bootlin.com>
+ <20230116103926.276869-4-clement.leger@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVHnJ2Q1CCDUiTUPcESp2cExu6BynoscTGOiD6UA1u7_w@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230116103926.276869-4-clement.leger@bootlin.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,107 +87,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 16, 2023 at 11:44:13AM +0100, Geert Uytterhoeven wrote:
-> On Mon, Jan 16, 2023 at 11:38 AM Laurent Pinchart wrote:
-> > On Mon, Jan 16, 2023 at 11:24:10AM +0100, Geert Uytterhoeven wrote:
-> > > On Sat, Jan 14, 2023 at 4:26 PM Laurent Pinchart wrote:
-> > > > Geert, could you please take this in your tree for v6.3 ? The two
-> > > > patches that the DT changes depend on have been merged in v6.2.
-> > >
-> > > Thank you, I had missed these.
-> > >
-> > > > On Thu, Jun 16, 2022 at 01:14:09AM +0300, Laurent Pinchart wrote:
-> > > > > Now that a header exists with macros for the media interface bus-type
-> > > > > values, replace hardcoding numerical constants with the corresponding
-> > > > > macros in the DT sources.
-> > > > >
-> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > >
-> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > >
-> > > > > ---
-> > > > >  arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts       | 11 +++++++----
-> > > > >  .../dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi     |  4 +++-
-> > > > >  .../dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi     |  4 +++-
-> > > > >  3 files changed, 13 insertions(+), 6 deletions(-)
-> > > > >
-> > > > > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> > > > > index 4e58c54cde17..33ac4bd1e63b 100644
-> > > > > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> > > > > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> > > > > @@ -7,6 +7,9 @@
-> > > > >   */
-> > > > >
-> > > > >  /dts-v1/;
-> > > > > +
-> > > > > +#include <dt-bindings/media/video-interfaces.h>
-> > > > > +
-> > > > >  #include "r8a7742-iwg21d-q7.dts"
-> > > > >
-> > > > >  / {
-> > > > > @@ -242,7 +245,7 @@ port {
-> > > > >               vin0ep: endpoint {
-> > > > >                       remote-endpoint = <&cam0ep>;
-> > > > >                       bus-width = <8>;
-> > > > > -                     bus-type = <6>;
-> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
-> > > > >               };
-> > > > >       };
-> > > > >  };
-> > > > > @@ -273,7 +276,7 @@ port {
-> > > > >               vin1ep: endpoint {
-> > > > >                       remote-endpoint = <&cam1ep>;
-> > > > >                       bus-width = <8>;
-> > > > > -                     bus-type = <6>;
-> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
-> > > > >               };
-> > > > >       };
-> > > > >  };
-> > > > > @@ -305,7 +308,7 @@ vin2ep: endpoint {
-> > > > >                       remote-endpoint = <&cam2ep>;
-> > > > >                       bus-width = <8>;
-> > > > >                       data-shift = <8>;
-> > > > > -                     bus-type = <6>;
-> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
-> > > > >               };
-> > > > >       };
-> > > > >  };
-> > > > > @@ -335,7 +338,7 @@ port {
-> > > > >               vin3ep: endpoint {
-> > > > >                       remote-endpoint = <&cam3ep>;
-> > > > >                       bus-width = <8>;
-> > > > > -                     bus-type = <6>;
-> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
-> > > > >               };
-> > > > >       };
-> > > > >  };
-> > > > > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> > > > > index 40cef0b1d1e6..c73160df619d 100644
-> > > > > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> > > > > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> > > > > @@ -7,6 +7,8 @@
-> > > > >   * Copyright (C) 2020 Renesas Electronics Corp.
-> > > > >   */
-> > > > >
-> > > > > +#include <dt-bindings/media/video-interfaces.h>
-> > >
-> > > This .dtsi file is only intended to be included by
-> > > arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts, which already has
-> > > the include.  Hence if you don't mind, I would like to drop this part
-> > > while applying  and queuing in renesas-devel for v6.3.
-> >
-> > Isn't it better to include headers as needed to avoid depending on
-> > indirect includes ?
-> 
-> In general, I agree.
-> In this particular case, (the multiple inclusions of) the
-> r8a7742-iwg21d-q7-dbcm-ov*-single.dtsi files are tied very intimately
-> to r8a7742-iwg21d-q7-dbcm-ca.dts.
+On Mon, Jan 16, 2023 at 11:39:23AM +0100, Clément Léger wrote:
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> index f2247b8cf0a3..88c941003855 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> @@ -3818,6 +3818,12 @@ static int __stmmac_open(struct net_device *dev,
+>  		}
+>  	}
+>  
+> +	/* We need to setup the phy & PCS before accessing the stmmac registers
+> +	 * because in some cases (RZ/N1), if the stmmac IP is not clocked by the
+> +	 * PCS, hardware init will fail because it lacks a RGMII RX clock.
+> +	 */
+> +	phylink_start(priv->phylink);
 
-I'd still prefer keeping the #include here, but you're the maintainer
-:-)
+So what happens if you end up with the mac_link_up method being called
+at this point in the driver, before the hardware has been setup ?
+
+If you use a fixed-link, that's a real possibility.
 
 -- 
-Regards,
-
-Laurent Pinchart
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
