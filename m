@@ -2,56 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8F3F66BCAC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 12:18:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0E2B66BCB6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 12:19:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229593AbjAPLSZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Jan 2023 06:18:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46874 "EHLO
+        id S229869AbjAPLTq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Jan 2023 06:19:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229867AbjAPLSY (ORCPT
+        with ESMTP id S230265AbjAPLTN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Jan 2023 06:18:24 -0500
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 925741DBB4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 03:18:23 -0800 (PST)
-Received: by mail-qt1-f175.google.com with SMTP id r15so1105242qtx.6
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 03:18:23 -0800 (PST)
+        Mon, 16 Jan 2023 06:19:13 -0500
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB83A1A4AA
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 03:19:11 -0800 (PST)
+Received: by mail-qv1-f49.google.com with SMTP id h10so19338915qvq.7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 03:19:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZvB1pfi2vqcB8X1LARbJJAATRSe3g0kUgEkuuHyaSiE=;
-        b=qsP3bVR0S9C2mRON4A04qfOTpaVOSjowoZghzpZkzXOueIlo/C4BIRWaLdlXBeFWQj
-         eADqPaAMlidff5UpkBrQQcUrMlCCtQrg4Cl7DUF7KqSJSJg1yg4qf3MTrv1OCOa1LEOx
-         7EwnYCHsYWcM/+CueLbkjpV6xuuaNNO1rF2Wz4Yv8HdaqS6wE5LyBS1CsW+kwszx1WFA
-         J8ALJfe+KIkH03YrKY632nCDbHXiiTpzlfGNeg72hyMZaoM4fcszglHbbn3LvDmKnPry
-         296RRs1FboDOmBOMyzW2XYHt5GVz7LlXwBSfrIai3oNozW1Ouda/L7rHGS+G7J4Zddwz
-         s8Eg==
-X-Gm-Message-State: AFqh2kqwZj4C5lrj9KwyhpIJ/Rbv3vrGYvkonvfqjJYCqTSJOdTq0Piv
-        rR4nAD4v16cJPPlRA5YpAfXqMFlsqOXVRg==
-X-Google-Smtp-Source: AMrXdXv3VPl1rULsvboV3Lkp1ilGyxNFaenZLcgZDfVDcjsNXV+bJLWFPgoYomPVDg7JVnZAYZmL8g==
-X-Received: by 2002:ac8:60da:0:b0:3b6:2dbd:7610 with SMTP id i26-20020ac860da000000b003b62dbd7610mr7726912qtm.45.1673867902554;
-        Mon, 16 Jan 2023 03:18:22 -0800 (PST)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id m5-20020ac86885000000b0039cba52974fsm14481106qtq.94.2023.01.16.03.18.22
+        bh=RWMsbvx6DsyXIfpnaH6iG9gl7DPpCHwCtjmng/1n5Iw=;
+        b=AFJEKuiyFjFE4UCL44AfRFl7NbUBqLQs8L8SpUQeed+vHx52Ajl1OBpbOhGOD6gS9G
+         6E2pNmbpT5GmvqIQZv7IArzGULAbcbSiAKP9hh0kC9ImMnkm07S3Y6if3m0SwY9JwFDw
+         KrXLbCk9rOZHF2sWvnTTgYyDus2FBrSyOqmPz812Ev/4D2j9KX+MpZA6Rxv6XLFAVexm
+         PTzsNA6sK/R5sDFyIPbnS4Cxs6l8e7LuYRTHRD9ZuZvVc9qgzPJ+ozuL5LRZ2wDVyNpN
+         L/koDn3qoVKEck/Q29UF+56nuWgp2Skv7u08Y1DTni8HYN4kGB8we7/r6uiCTchpGuNh
+         uLjQ==
+X-Gm-Message-State: AFqh2koVb/fHQP/S6s1kDYxPdEE1UbohyyiJqMuwF4t1hR33ZWkpJwn3
+        ieRwm8df5JqS4AMLHzGuKF8uBykYj9yx6g==
+X-Google-Smtp-Source: AMrXdXvLgL+69gWjSE8Zvzw4Z8NhxjKz2nWIU1q8LSxn00cHb/nkJZN5DWpQ78rfz5bGIlWLUyU+sA==
+X-Received: by 2002:a0c:d692:0:b0:534:8ba9:4fd4 with SMTP id k18-20020a0cd692000000b005348ba94fd4mr14611851qvi.0.1673867950720;
+        Mon, 16 Jan 2023 03:19:10 -0800 (PST)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id d6-20020a37b406000000b007049f19c736sm17698204qkf.7.2023.01.16.03.19.10
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jan 2023 03:18:22 -0800 (PST)
-Received: by mail-yb1-f178.google.com with SMTP id e202so6492643ybh.11
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 03:18:22 -0800 (PST)
-X-Received: by 2002:a25:244f:0:b0:7d5:b884:3617 with SMTP id
- k76-20020a25244f000000b007d5b8843617mr588748ybk.380.1673867902014; Mon, 16
- Jan 2023 03:18:22 -0800 (PST)
+        Mon, 16 Jan 2023 03:19:10 -0800 (PST)
+Received: by mail-yb1-f170.google.com with SMTP id d62so13720488ybh.8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 03:19:10 -0800 (PST)
+X-Received: by 2002:a25:d84e:0:b0:7b4:6a33:d89f with SMTP id
+ p75-20020a25d84e000000b007b46a33d89fmr2933086ybg.543.1673867950365; Mon, 16
+ Jan 2023 03:19:10 -0800 (PST)
 MIME-Version: 1.0
-References: <87fscfi424.wl-kuninori.morimoto.gx@renesas.com> <87cz7ji418.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87cz7ji418.wl-kuninori.morimoto.gx@renesas.com>
+References: <87fscfi424.wl-kuninori.morimoto.gx@renesas.com> <87bkn3i414.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87bkn3i414.wl-kuninori.morimoto.gx@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 16 Jan 2023 12:18:10 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUNO7MgZGCd5VR43=RG-Z7oMVE3LrqyE5dktdL93HdSxA@mail.gmail.com>
-Message-ID: <CAMuHMdUNO7MgZGCd5VR43=RG-Z7oMVE3LrqyE5dktdL93HdSxA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/8] arm64: dts: renesas: #sound-dai-cells is used when simple-card
+Date:   Mon, 16 Jan 2023 12:18:59 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVff8vU9yUVM3z3Dgjc10rA82cG-kEe=6n0P9FZZ+idKg@mail.gmail.com>
+Message-ID: <CAMuHMdVff8vU9yUVM3z3Dgjc10rA82cG-kEe=6n0P9FZZ+idKg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/8] arm64: dts: renesas: add ulcb{-kf} Audio Graph
+ Card dtsi
 To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -69,13 +70,36 @@ On Fri, Jan 13, 2023 at 3:04 AM Kuninori Morimoto
 <kuninori.morimoto.gx@renesas.com> wrote:
 > From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 >
-> Current sound comment is indicating that #sound-dai-cells is
-> required, but it is needed if board is using "simple-card".
-> This patch tidyup the comment.
-> Because it is already using "audio-graph", this patch removes
-> unneeded #sound-dai-cells from ulcb.dtsi / salvator-common.dtsi.
+> ALSA SoC has many type of Generic Audio Card driver (Simple Audio Card,
+> Audio Graph Card, Audio Graph Card2), and Renesas/Kuninori Morimoto want
+> to test these.
 >
-> Link: https://lore.kernel.org/r/87bko6pxgl.wl-kuninori.morimoto.gx@renesas.com
+> Generic Audio Card driver had been requested on ALSA SoC.
+> It has many type of device connection method, and historically,
+> requested connection support range of generic driver have been
+> upgraded.
+>
+> Upgrading connection support range itself was possible on generic
+> driver, but could not implemented, because we need to keep compatibility
+> on Device-Tree. This is one of the reason why we have many type of
+> Generic Audio Card driver.
+>
+> ULCB/KF is good board to test these.
+> Kuninori has been testing these Generic Audio Card driver by using his
+> local patch to switching drivers. But it is good idea to upstream these
+> from information sharing point of view, because DT setting is complex.
+> It can be good sample for user. This patch is one of them.
+>
+> From normal user point of view who don't need to test the driver,
+> it should keep as-is, nothing changed.
+>
+> This patch adds "Audio Graph Card" DT setting file for ULCB/KF.
+> We can switch to use it if ulcb.dtsi / ulcb-kf.dtsi were updated.
+>
+> Because it needs "switching driver", not "add extra feature",
+> it doesn't use Device-Tree overlay.
+>
+> Link: https://lore.kernel.org/r/87a63qpxge.wl-kuninori.morimoto.gx@renesas.com
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
