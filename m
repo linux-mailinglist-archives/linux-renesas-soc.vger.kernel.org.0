@@ -2,90 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B708166BDE3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 13:33:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADD3F66BE72
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 13:57:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbjAPMdU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Jan 2023 07:33:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59042 "EHLO
+        id S231187AbjAPM5q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Jan 2023 07:57:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbjAPMdT (ORCPT
+        with ESMTP id S231284AbjAPM4x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Jan 2023 07:33:19 -0500
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C9401C338;
-        Mon, 16 Jan 2023 04:33:18 -0800 (PST)
-Received: by mail-ot1-f42.google.com with SMTP id cm26-20020a056830651a00b00684e5c0108dso2292330otb.9;
-        Mon, 16 Jan 2023 04:33:18 -0800 (PST)
+        Mon, 16 Jan 2023 07:56:53 -0500
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2FE120050;
+        Mon, 16 Jan 2023 04:55:42 -0800 (PST)
+Received: by mail-qt1-f169.google.com with SMTP id x5so861930qti.3;
+        Mon, 16 Jan 2023 04:55:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F61H973BIjXBatem9Exy4ACFKfXqK3XYvjoCLybvptw=;
-        b=urS35smwwuNshpl0oM6fGqd1FUOAUSSCG6iA9TwpE6BUtpsYi/YpbzTmZMgjHpcAfd
-         HGsvbGF7Dw15wCdOnlpyNU5lisCA/0nS+X/2EGhE344d65eB4eHn/IdE3tb8fzP8RyPy
-         PHBfqHASoxMerIsu4s+QfAOaqj1fDbox2n6NyyqbfLeZXhamLIIyIc6vt1ndqgHpp/6y
-         JzVV1hcdonSrOP+L8ngIu4VnyMqjAjzg94I2CjiVQ0wFJ5CxK3n1fv24j5ZBbSrVKCip
-         Fqt+NrnE2omBjKmea25KMRJR7T+8/3phO+8q5lDX7reWI9gwuHWN3iyaxYRkvbRHnzys
-         LcWw==
-X-Gm-Message-State: AFqh2kr5AsMBreOS8pc3dhjc4i2heHPTqTYsOOHydPBshOteu7kCN5KY
-        atc9jQ+8mAnXSNENqYgvRM4bV0Fk6l1Xig==
-X-Google-Smtp-Source: AMrXdXtzSsNph0ejn7p8tIAE0wWLdos/hFo+vZ3ENfRhvFwTvGYdif1ebIp2V3Kjt1CZrmTBvLG4aA==
-X-Received: by 2002:a05:6830:2084:b0:685:134:b73d with SMTP id y4-20020a056830208400b006850134b73dmr2168892otq.23.1673872397164;
-        Mon, 16 Jan 2023 04:33:17 -0800 (PST)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com. [209.85.210.51])
-        by smtp.gmail.com with ESMTPSA id cb2-20020a056830618200b0068460566f4bsm14613187otb.30.2023.01.16.04.33.16
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CM4Jkzp/QAXkO7bnxWsfgCHfESoHq0ivf9TvlonLhmA=;
+        b=Mn12KVK09MbH3Hu1oFUpb91/fQq2Ug1Z9ttFJE3HTfHJGykZ7mG6ap34OOqGCy2lIO
+         oVVAT0MRRi/epgeph8vkPzVfrN80ql2r64zYNTJbwqb/Dp7EXWMt5vofn82JZ11+Om0+
+         xml1FBPmPR13B0I4ZG7n0BZVKu0Bwessyu6ZcyHHBACcmy5BjRfvlE5v3PGCRefzNmXF
+         iO0OhvAyuXHt/gmqthfBz7on7BbqLmpb6Uhi/QS7n1e8F6QFo/Jm4QHJNGBc+15UOJ0b
+         ukEaqxGA11VkinQIKOPTSopziQfKUhQ1q3Pko80j8xcyg+psu0YbRCXjTD3gWZnCt0ST
+         RJgQ==
+X-Gm-Message-State: AFqh2kplFSIxWBsblK5BCLSdT/t0TQd6OmQfHXeuQWqvJZ6G8yp8LsrT
+        RosIB5m7UUWTFKl6M5GwnYXYDLyJP2VpoA==
+X-Google-Smtp-Source: AMrXdXvSek5CM7kko3egK3cIPxxImuMu6Faaui9MMc86ouX0ZA93gouZby3xtrm8yUqdhdm2/f2juw==
+X-Received: by 2002:a05:622a:1c0e:b0:3b6:2c74:1453 with SMTP id bq14-20020a05622a1c0e00b003b62c741453mr8833816qtb.61.1673873741673;
+        Mon, 16 Jan 2023 04:55:41 -0800 (PST)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id jr49-20020a05622a803100b003ad373d04b6sm11638024qtb.59.2023.01.16.04.55.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jan 2023 04:33:17 -0800 (PST)
-Received: by mail-ot1-f51.google.com with SMTP id d6-20020a056830138600b0068585c52f86so1403698otq.4;
-        Mon, 16 Jan 2023 04:33:16 -0800 (PST)
-X-Received: by 2002:a25:5189:0:b0:7bf:d201:60cb with SMTP id
- f131-20020a255189000000b007bfd20160cbmr1936519ybb.365.1673872073848; Mon, 16
- Jan 2023 04:27:53 -0800 (PST)
+        Mon, 16 Jan 2023 04:55:41 -0800 (PST)
+Received: by mail-yb1-f182.google.com with SMTP id a9so13476351ybb.3;
+        Mon, 16 Jan 2023 04:55:40 -0800 (PST)
+X-Received: by 2002:a25:46c6:0:b0:7b8:a0b8:f7ec with SMTP id
+ t189-20020a2546c6000000b007b8a0b8f7ecmr4777221yba.36.1673873740621; Mon, 16
+ Jan 2023 04:55:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20230116103926.276869-1-clement.leger@bootlin.com> <20230116103926.276869-5-clement.leger@bootlin.com>
-In-Reply-To: <20230116103926.276869-5-clement.leger@bootlin.com>
+References: <20230106125816.10600-1-fabrizio.castro.jz@renesas.com> <20230106125816.10600-2-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20230106125816.10600-2-fabrizio.castro.jz@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 16 Jan 2023 13:27:42 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVsa4t61AOnEHzuda7czE1fk-16-R8fXsp-MB3hZMJTEQ@mail.gmail.com>
-Message-ID: <CAMuHMdVsa4t61AOnEHzuda7czE1fk-16-R8fXsp-MB3hZMJTEQ@mail.gmail.com>
-Subject: Re: [PATCH net-next 4/6] dt-bindings: net: renesas,rzn1-gmac:
- Document RZ/N1 GMAC support
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+Date:   Mon, 16 Jan 2023 13:55:29 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVZ+wrCmRxjoV-k3zhs1tHHdLr1toBbT2ft+-pVrzMYEQ@mail.gmail.com>
+Message-ID: <CAMuHMdVZ+wrCmRxjoV-k3zhs1tHHdLr1toBbT2ft+-pVrzMYEQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] dt-bindings: soc: renesas: Add RZ/V2M PWC
+To:     fabrizio.castro.jz@renesas.com
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Wong Vee Khee <veekhee@apple.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Revanth Kumar Uppala <ruppala@nvidia.com>,
-        Tan Tee Min <tee.min.tan@linux.intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Mohammad Athari Bin Ismail <mohammad.athari.ismail@intel.com>,
-        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org
+        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, Rob Herring <robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
@@ -96,106 +77,31 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Clément,
-
-Thanks for your patch!
-
-On Mon, Jan 16, 2023 at 11:37 AM Clément Léger
-<clement.leger@bootlin.com> wrote:
-> Add "renesas,rzn1-gmac" binding documention which is compatible which
-
-documentation
-
-> "snps,dwmac" compatible driver but uses a custom PCS to communicate
-> with the phy.
+On Fri, Jan 6, 2023 at 1:58 PM Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> The Renesas RZ/V2M External Power Sequence Controller (PWC) IP
+> is capable of:
+> * external power supply on/off sequence generation
+> * on/off signal generation for the LPDDR4 core power supply (LPVDD)
+> * key input signals processing
+> * general-purpose output pins
 >
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+> Add the corresponding dt-bindings.
+>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
->  .../bindings/net/renesas,rzn1-gmac.yaml       | 71 +++++++++++++++++++
->  1 file changed, 71 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
 >
-> diff --git a/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
-> new file mode 100644
-> index 000000000000..effb9a312832
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
-> @@ -0,0 +1,71 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/renesas,rzn1-gmac.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas GMAC1 Device Tree Bindings
-> +
-> +maintainers:
-> +  - Clément Léger <clement.leger@bootlin.com>
-> +
-> +select:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        enum:
-> +          - renesas,r9a06g032-gmac
-> +          - renesas,rzn1-gmac
-> +  required:
-> +    - compatible
-> +
-> +allOf:
-> +  - $ref: "snps,dwmac.yaml#"
-> +
-> +properties:
-> +  compatible:
-> +    additionalItems: true
-> +    maxItems: 3
-> +    items:
-> +      - enum:
-> +          - renesas,r9a06g032-gmac
-> +          - renesas,rzn1-gmac
-> +    contains:
-> +      enum:
-> +        - snps,dwmac
+> v1->v2: I have dropped syscon, simple-mfd, regmap, offset, and the child nodes.
+> v2->v3: No change.
+> v3->v4: Moved file under Documentation/devicetree/bindings/soc/renesas,
+>         and changed $id accordingly.
+> v4->v5: Fixed subject line and changelog. Rob, I have kept your Reviewed-by tag
+>         assuming you are still happy, please do jump in if you think  that's not
+>         appropriate anymore.
 
-Why not just
-
-    items:
-      - enum:
-          - renesas,r9a06g032-gmac
-          - renesas,rzn1-gmac
-          - snps,dwmac
-
-?
-
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r9a06g032-sysctrl.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    ethernet@44000000 {
-> +      compatible = "renesas,rzn1-gmac";
-
-Documentation/devicetree/bindings/net/renesas,rzn1-gmac.example.dtb:
-ethernet@44000000: compatible: ['renesas,rzn1-gmac'] does not contain
-items matching the given schema
-
-> +      reg = <0x44000000 0x2000>;
-> +      interrupt-parent = <&gic>;
-> +      interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>,
-> +             <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>,
-> +             <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
-> +      interrupt-names = "macirq", "eth_wake_irq", "eth_lpi";
-> +      clock-names = "stmmaceth";
-> +      clocks = <&sysctrl R9A06G032_HCLK_GMAC0>;
-> +      snps,multicast-filter-bins = <256>;
-> +      snps,perfect-filter-entries = <128>;
-> +      tx-fifo-depth = <2048>;
-> +      rx-fifo-depth = <4096>;
-> +      pcs-handle = <&mii_conv1>;
-> +      phy-mode = "mii";
-> +    };
-> +
-> +...
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.3.
 
 Gr{oetje,eeting}s,
 
