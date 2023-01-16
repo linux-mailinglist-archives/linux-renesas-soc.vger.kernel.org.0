@@ -2,97 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EA2366B871
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 08:52:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9F6E66B8C7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 09:08:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231839AbjAPHwf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Jan 2023 02:52:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57914 "EHLO
+        id S232116AbjAPIIv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Jan 2023 03:08:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232045AbjAPHwU (ORCPT
+        with ESMTP id S232218AbjAPIIG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Jan 2023 02:52:20 -0500
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6FB210AA1;
-        Sun, 15 Jan 2023 23:51:58 -0800 (PST)
-Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 13D06B8B;
-        Mon, 16 Jan 2023 08:51:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1673855516;
+        Mon, 16 Jan 2023 03:08:06 -0500
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EBE312060;
+        Mon, 16 Jan 2023 00:06:29 -0800 (PST)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id B40B3FF803;
+        Mon, 16 Jan 2023 08:06:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1673856388;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=wex/E6ADFcsrQWYTNlA0xrKfTIWSKEBPY4LIi/xz/m4=;
-        b=gvFMHaDms+nw59CSILYnAkCxJenNCQWr8lE3DeHdKlcmYNCeRTEiSZg8NL/YT27hks8eVM
-        3M90hSRPSzkdi4xbr2cE/muF4A1OLTrsC3p9OyihQEspNjRTBuKeJui2F2W1Usz155OazF
-        d4QTJ6fYpzWMIDU735/fsaVnkmUPGTK017U8u+WKMuUxzCBUvFZ2qA9DLBlyrl3HMsORW5
-        xbW7BsYEVfujReNcbKKw3NFU3VsvSYT1zngjoNPuhAzUtV/TcmjAN/Ka/wsGIQWYAz7P0e
-        /uI69FttYFKwZ+CXZi8PnHLaEH4dGoxKW5gLOpRdlHF4/JnJQfAzHOhTOFoUZw==
-MIME-Version: 1.0
-Date:   Mon, 16 Jan 2023 08:51:55 +0100
-From:   Michael Walle <michael@walle.cc>
+        bh=jKlqXRziLzS7Xh6vcawTt0PG/It1v0slhKbICt31lUQ=;
+        b=GKM/ipfMwzxvNvBkS2EmIVMLbKO5PqeE8Bj45ZxnA8pUUYbgJ9G0fh9ekxdn8drbt8UgKj
+        qjRFMeup/uk4imU22mKV7vUhcNCv+un9Bo2VXenVlmRXHGlxbWBJmYaf5OBXosqIYCf2N7
+        vZZDgP4Wen0f2kltgpgIGUQigSqwphxM79QmBGoIDDrSSYyQmR3t9BLNh3RHJCKEDAqWiL
+        VMpIpFZlsdhbMJp2Pf8IfCiVxc/pptGJQCgCHsnRkFLhO9ou/7wK01MQLu6IYdFvCVKI1q
+        RlKhYwTEqD9mauyiq+PZzFzL9Kuuid/FEw4svtlVXWJ0gmoyGEC9sD68V/eaIA==
+Date:   Mon, 16 Jan 2023 09:08:37 +0100
+From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
 To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
+Cc:     Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
-        Jose Abreu <Jose.Abreu@synopsys.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Wei Fang <wei.fang@nxp.com>,
-        Shenwei Wang <shenwei.wang@nxp.com>,
-        Clark Wang <xiaoning.wang@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Luiz Angelo Daros de Luca <luizluca@gmail.com>
-Subject: Re: [PATCH RFC net-next v2 11/12] net: dsa: Separate C22 and C45 MDIO
- bus transaction methods
-In-Reply-To: <20230103155633.tfdxncl75s4tb2ln@skbuf>
-References: <20221227-v6-2-rc1-c45-seperation-v2-0-ddb37710e5a7@walle.cc>
- <20221227-v6-2-rc1-c45-seperation-v2-0-ddb37710e5a7@walle.cc>
- <20221227-v6-2-rc1-c45-seperation-v2-11-ddb37710e5a7@walle.cc>
- <20221227-v6-2-rc1-c45-seperation-v2-11-ddb37710e5a7@walle.cc>
- <20230103153134.utalc6kw3l34dp4s@skbuf> <Y7ROa8ql9R5SHPsK@lunn.ch>
- <20230103155633.tfdxncl75s4tb2ln@skbuf>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <6208c429b0b5541a4f6d2a8556ae1fcb@walle.cc>
-X-Sender: michael@walle.cc
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Russell King <linux@armlinux.org.uk>,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>
+Subject: Re: [PATCH net-next] net: dsa: rzn1-a5psw: Add vlan support
+Message-ID: <20230116090837.105b42a9@fixe.home>
+In-Reply-To: <20230113153730.bcj5iqkgilgmgds3@skbuf>
+References: <20230111115607.1146502-1-clement.leger@bootlin.com>
+        <20230112213755.42f6cf75@kernel.org>
+        <Y8Fm2GdUF9R1asZs@lunn.ch>
+        <20230113153730.bcj5iqkgilgmgds3@skbuf>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Le Fri, 13 Jan 2023 17:37:30 +0200,
+Vladimir Oltean <olteanv@gmail.com> a =C3=A9crit :
 
-Am 2023-01-03 16:56, schrieb Vladimir Oltean:
->> So Luiz patches may allow a C45 bus, but are there any drivers today
->> actually using it?
-> 
-> I sent a private email to Luiz a few minutes ago asking him to confirm.
+> On Fri, Jan 13, 2023 at 03:12:40PM +0100, Andrew Lunn wrote:
+> > On Thu, Jan 12, 2023 at 09:37:55PM -0800, Jakub Kicinski wrote: =20
+> > > On Wed, 11 Jan 2023 12:56:07 +0100 Cl=C3=A9ment L=C3=A9ger wrote: =20
+> > > > Add support for vlan operation (add, del, filtering) on the RZN1
+> > > > driver. The a5psw switch supports up to 32 VLAN IDs with filtering,
+> > > > tagged/untagged VLANs and PVID for each ports. =20
+> > >=20
+> > > noob question - do you need that mutex?=20
+> > > aren't those ops all under rtnl_lock? =20
+> >=20
+> > Hi Jakub
+> >=20
+> > Not commenting about this specific patch, but not everything in DSA is
+> > done under RTNL. So you need to deal with some parallel API calls. But
+> > they tend to be in different areas. I would not expect to see two VLAN
+> > changes as the same time, but maybe VLAN and polling in a workqueue to
+> > update the statistics for example could happen. Depending on the
+> > switch, some protect might be needed to stop these operations
+> > interfering with each other. And DSA drivers in general tend to KISS
+> > and over lock. Nothing here is particularly hot path, the switch
+> > itself is on the end of a slow bus, so the overhead of locks are
+> > minimum. =20
+>=20
+> That being said, port_vlan_add(), port_vlan_del() and port_vlan_filtering=
+()
+> are all serialized by the rtnl_lock().
 
-Any news here? Do we need the c45 methods?
+Ok then, I'll remove this lock and rely on the RTNL lock.
 
--michael
+Thanks,
+
+--=20
+Cl=C3=A9ment L=C3=A9ger,
+Embedded Linux and Kernel engineer at Bootlin
+https://bootlin.com
