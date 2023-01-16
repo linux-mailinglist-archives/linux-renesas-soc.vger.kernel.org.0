@@ -2,147 +2,312 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F18D66D315
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jan 2023 00:22:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ABD766D349
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jan 2023 00:52:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235509AbjAPXWH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Jan 2023 18:22:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34148 "EHLO
+        id S233741AbjAPXwt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Jan 2023 18:52:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235921AbjAPXUR (ORCPT
+        with ESMTP id S232650AbjAPXwr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Jan 2023 18:20:17 -0500
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2109.outbound.protection.outlook.com [40.107.114.109])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C02834C2E
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 15:13:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aDNrdPpNxsOqFSp6TfwFSuwzIzo16WcgnzzqHz6SX6bc3FLs5FpyiR08ZPVyaUhv8jlHOeqw7NohnnsqFIN7mdg6KBcJ99lOHPgophHZ1ts3mwZwYKzTGZ8EzvHtKVeMxabGTGCak+RIDOzXOQWqDe98Yy6MA96KUYUIC19lvWDQ3WxlPYYE1wYm3dOu3Y7neZ8laDrZIQYjWdU9UXACL6MxoouVa6O6iHF0FkHHFUXtzloeTdArncvOIXL+kKghLIIU62RicbhGdI20VyTJ5NwWYtKcNmYkyWS5Bl1BYtFt7MeRNja6l188u6EQumGKO8b1ndHfYXiaKicn6Wu1og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zI9lY79Zc1x+Gk4D3V2ETa36Yv0JUanIRQ7TbvtVAgQ=;
- b=ZXcNe+9OYhI8niA+GWCoBTtwagLT1VqjANlcujtwU6OVUFO5xI9H7ina2UL0Oe1gGs0N+fsprX3QwVn8nvL6AiJNZ93SGGxv8Xf7MwGrP/mMU+dVH799FIgpSTL4hdztpNc9gDWqubeHKkBKROQ5KCdQTyfDwK7ocm9kBVRyxNGfqh8/5VLhVrCemfiiKaWUt5cLO1V7JFz134nO9/3FAFK/XLbW0ee5kiL9kPVaYemCfxTejvgnU4HOFQOC6TsxfGl0Sk1eepE6ZBb9+Wuyc5pr8U2JqtCqcjbKkERLJpH8BA3PAj8SIZu5NjDAKzssc5iBpnOJn3yTuqWZbooGXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zI9lY79Zc1x+Gk4D3V2ETa36Yv0JUanIRQ7TbvtVAgQ=;
- b=DcY4J4cjQmkZfCJXOK/XFm3g4AVJs4TzFsJC0qIlbkVlZUF4N/duiBdJjkjg+QhVaLeUovzFV7qK04PcJRHrrM86nDVcwkoAlu8o1S9m33qRt4cFvBqMtH/rLr60BKQF7U5mux3JKB5yWwZb8+qnDG/8NEsZKOZADVAQTJ6Rhxw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
- by TYCPR01MB9973.jpnprd01.prod.outlook.com (2603:1096:400:1e9::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.12; Mon, 16 Jan
- 2023 23:12:26 +0000
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::3cd7:a7b5:ea86:9ae]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::3cd7:a7b5:ea86:9ae%4]) with mapi id 15.20.6002.012; Mon, 16 Jan 2023
- 23:12:26 +0000
-Message-ID: <878ri22hwm.wl-kuninori.morimoto.gx@renesas.com>
-From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 7/8] arm64: dts: renesas: add ulcb{-kf} Audio Graph Card dtsi MIX + TDM Split dtsi
-In-Reply-To: <CAMuHMdVr-c=ht9GKkvSxdokqEoZTuOk41hRzXL7tpREy4+Pb9Q@mail.gmail.com>
-References: <87fscfi424.wl-kuninori.morimoto.gx@renesas.com>
-        <875ydbi40l.wl-kuninori.morimoto.gx@renesas.com>
-        <CAMuHMdVr-c=ht9GKkvSxdokqEoZTuOk41hRzXL7tpREy4+Pb9Q@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date:   Mon, 16 Jan 2023 23:12:25 +0000
-X-ClientProxiedBy: TYAPR01CA0190.jpnprd01.prod.outlook.com
- (2603:1096:404:ba::34) To OS3PR01MB8426.jpnprd01.prod.outlook.com
- (2603:1096:604:194::10)
+        Mon, 16 Jan 2023 18:52:47 -0500
+Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C859022A07;
+        Mon, 16 Jan 2023 15:52:46 -0800 (PST)
+Received: from mwalle01.sab.local (unknown [213.135.10.150])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.3ffe.de (Postfix) with ESMTPSA id 6F428D5C;
+        Tue, 17 Jan 2023 00:52:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+        t=1673913164;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=fbfQoq+/nP40y3Od/7KPlEsF8XCF4vb8Tsl/JXpv37c=;
+        b=RIRLUnFhk4lbuRdXBZHwvVY5XR0+dcNDfp4iMVgeUJ/UMEQKXYirRkgdpUGsMF3lEheMEu
+        J7n7W4g5GkNe3Ys5h5VF9sorDHMDoon2yECEhIi6H+GgsOB58yXiBggLDlClmOgvMvYtuc
+        JalLhD+AYTo6z6j+OUTifMY64KrLoQeoSOzrQQwQbDgxmGlfhhf1lrqUZztKAOuRTAXK1f
+        kUqJqu9UC9YABe4lSZmAuB8eAa1kwA3Pl9ZUzsCuP9KGgYTaUswHOLtGA8/u+n4YrBxDx5
+        xUqH6i3Zxn684NGuVXqt0uHK1+Xu2e86DjuAgPpa2ZFyVlOBAMl6EmWDewyUEg==
+From:   Michael Walle <michael@walle.cc>
+Date:   Tue, 17 Jan 2023 00:52:16 +0100
+Subject: [PATCH net-next 01/12] net: dsa: mt7530: Separate C22 and C45 MDIO
+ bus transactions
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS3PR01MB8426:EE_|TYCPR01MB9973:EE_
-X-MS-Office365-Filtering-Correlation-Id: 80be5632-7032-4e81-5db7-08daf81721c0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: C+KqUR97nEFTfgKPzHwCUbA5aygCYaPPtV6efs6mAPanzDAN5BnroNwL07puz03vx+/U0X/fYBxptkQ6TvBZ4Cgd46+8M8djzLdeHqcQ28FXjQNDGYWj4ohjjnMIxb3r6YX8DWcHZLP/SOB90Rvk+S4Xap1F4VjyvGorkM5wkVJdie+E+Pz7FI4nGGWPZO45MI27GWQho1aGLwmt2Re0cUPZa/qGiCkeAj98mScEC3WFYZ0QMj2uzFRiV4p9byeM5XwPdxcHPfn5Fc52OTZnZ8ZdRzlfQtZ3OTmn3aETlAUqVcFd431jfyS7d3dyRrBhnndvQ/xfq9p06lUnjOx/FlkR4HJ9CPtXpuxYBS7bD5uuNCbTLtF5kc4vGJwAKcTO2j0QQnHPCrZloZQOLF1/WTvaIc05w8hnGcKRgJ084tOY2I/KHw+OMdbKkYnmBUKVixlQkq7ORBm2XmxXBMxS5ms0KpqG1TE1Spty/Agry1m6TUT1TXBjRH3L+ChE2EGedp8ya1HvoCXCZhPRjQxAfgcDfu+Z8MoD5e/lh2GZO1Jbks3AvU1GyRrmN7Ln89mf1wJwhDeEGE8HiBxqP+mO7YRo05rgfLV534GIKR1iMFblL/VYOvADGa5XbH1quPrfboNzddy7tSvwNrjY5sIOCwG0cqCziEYgz0lHhWiemSgZMU2xqDBg7AN0lBYR+Vlfaoa1qZ0oMVhK8EyX9RHGTQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(366004)(39860400002)(346002)(376002)(136003)(451199015)(2906002)(6506007)(86362001)(4744005)(66946007)(186003)(5660300002)(6486002)(26005)(8936002)(36756003)(66556008)(66476007)(41300700001)(52116002)(478600001)(6512007)(38350700002)(8676002)(6916009)(2616005)(316002)(38100700002)(4326008);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?R3xuOlgQBHNSjwBCxVZA/7QU77YNoSNKu8koa2r7RIbJppXL1jbvBEtwjC8R?=
- =?us-ascii?Q?DdTe3tkUkJp65okB5z/oK79gls9RcbOE/rc66f9L0fjgLDsuDviCuEepbYOe?=
- =?us-ascii?Q?+Nm11lv7L+2RDISfU0LBpTzB/CtzjNGTySyJhtPzxl68xw26c4LB/2EDuQLL?=
- =?us-ascii?Q?1HNyQZoUU5of1kfsQeclvUpSIF56SX4SgGy8wS1Gu/l8pXgx7aju65msZ/6G?=
- =?us-ascii?Q?TDVkcViQz/QfSUv63Mkv2UBArSEb0XLs+y1cqPaA8TI1uuOfrETR5/DK/g9k?=
- =?us-ascii?Q?LuAWDGiXgKtPvN8bwz9+v4FI9UZy6vHhy++360GRbTeRJvorT1av71HxON9R?=
- =?us-ascii?Q?jItJo4ZWsdc+gKTRyvnA1jTCRXW+VAUX0Wab2blnMS7yYSHRY7r6AmOcWUhz?=
- =?us-ascii?Q?W6P4xLCSl//ZRZREJqTe2ERE23wViTLmt4XxEUoXFAqiSytDE2s38BFGmYEx?=
- =?us-ascii?Q?7DyzkVIvTcfair3x3nI/Z+To0Rn9gN/ajnrKo1wMpUroolOI5VPIBC3HbmZY?=
- =?us-ascii?Q?bEXYSfxr2G4X2Lti8sFXPpLAmPhrWwOOocXlrKHkPobpXHlwnNFqDLPZvjVZ?=
- =?us-ascii?Q?AxkRyQYyA+CTkDiYdlHQMfYXRH/Snk8ngN0B4kq5eRdNPx5px+TmGWf6OGS9?=
- =?us-ascii?Q?q4AhL2jpVw9ZH2UwzFrULbUGWrOu4/5VwG8bnYlJWC9R877Cvmv2FuxXEHro?=
- =?us-ascii?Q?WxG5djWyGDOMC+1B1TPW8l80PR1IMurYy/56SF9PyU7zbS7AgNfpap3CuHFm?=
- =?us-ascii?Q?B3pizOTyQvnz5G97qBaQDIaI45fHS0dHUCMq8lwnybQYQTyE+FJyIDB77QuV?=
- =?us-ascii?Q?yVMKJmFq//31HPhCJImK+cl0AJeCq9VAYSBa7xb7cS1CUKBaVPYPUS/6Wblm?=
- =?us-ascii?Q?rG5sAW+FMHrfcg0nEe+985RJl5WA3JVyTFCR9w7y4MpcsVYrKv7KHdD7C5UK?=
- =?us-ascii?Q?RBchx0xGIaqvbInJQkhhQUcwSPkZW+WIE4dSHd24gzdyKcyuqoCo+LEgOWcJ?=
- =?us-ascii?Q?HGKiMzZG0GKZtep1bAlUfcMHSc1706YNHYbsXjSqgUMvKzosjtexb/PX2z7S?=
- =?us-ascii?Q?H4DrvtKZFnp4ut5cfzLKcAzhHJzaBf/OVOvIw2XGKq8KdDoXb94Ku+ewkzia?=
- =?us-ascii?Q?enXrsXP3BkjHXdumKYrFFgTy33T5F5rj6JC8SsBdGKWMP7fY1oK56/U9k98K?=
- =?us-ascii?Q?hHyjib1WUT0o/Ph3M54YLNGeOeYmuAbgpz2S4N6GJFh9V0yc7IM7ofE2FL2x?=
- =?us-ascii?Q?NDjnf81saes6X1pZeEfogYMo5OyFPNHsjATQDMguoBKZqzM3hs9ykl94saEK?=
- =?us-ascii?Q?LOC9aysGVXo7SJstRsdz4Gcc4Sq6piMl2mTi9AefIErVxVgpINQXYhCdFfp1?=
- =?us-ascii?Q?H41z90sDMi9pnvTW15kZGVBsOb4lxpHR4ci+/5WOUkhPXJHgut1aoUNL1afv?=
- =?us-ascii?Q?f76NLC1jc6b/cqs9/wZUL8U3zL/cjQxV0JXf0TAUTnmmFpj/ahTYKPCzmg0U?=
- =?us-ascii?Q?gZiqiL/uuYvJi8Yirvikme2npn3EPfMbc5twW3pVRngY7hZBv9q2Xfw9SxJI?=
- =?us-ascii?Q?523mXRJE2ofPAMyMY7bcHgDC3R4RWkw2/ebcfAmZJGYhjdDmMTpu7uTL8Xfr?=
- =?us-ascii?Q?xoJCjXr2v7HnK0Frua6L7jk=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80be5632-7032-4e81-5db7-08daf81721c0
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2023 23:12:26.1787
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x3Z3zr1hQDAI9tjoY113pcCVIjPcXt+b2QErpbPsphmzVN9Lah4XRkH4qKvct6zkxciUqebILUWmRin+GiogtW69BM2D6gHQkVn60Hw33vlMNB1CjBcQeH6CwChAdNJX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9973
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230116-net-next-c45-seperation-part-3-v1-1-0c53afa56aad@walle.cc>
+References: <20230116-net-next-c45-seperation-part-3-v1-0-0c53afa56aad@walle.cc>
+In-Reply-To: <20230116-net-next-c45-seperation-part-3-v1-0-0c53afa56aad@walle.cc>
+To:     Sean Wang <sean.wang@mediatek.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Byungho An <bh74.an@samsung.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Yisen Zhuang <yisen.zhuang@huawei.com>,
+        Salil Mehta <salil.mehta@huawei.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc:     netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org,
+        linux-renesas-soc@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+        Michael Walle <michael@walle.cc>
+X-Mailer: b4 0.11.1
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Andrew Lunn <andrew@lunn.ch>
 
-Hi Geert
+mt7530 does support C45, but its uses a mix of registering its MDIO
+bus and providing its private MDIO bus to the DSA core, too. This makes
+the change a bit more complex.
 
-> > +/*
-> > + * Note:
-> > + * Because there is subdevice maximum, it will ignore HDMI output
-> > + *
-> > + *     (A) CPU0 (2ch) <-----> (2ch) (X) ak4613 (MIX-0)
-> > + *     (B) CPU1 (2ch)  --/                     (MIX-1)
-> 
-> Shouldn't that be "<--/" (also in the other mix+split patches)?
-> No worries, I can fix all of these while applying.
-
-(A) can handle both playback/capture, but
-(B) can handle only playback.
-So, above allow is correct.
-
-> > +                       reg = <1>;
-> > +                       /* (G) CPU6 <-> PCM3168A-c */
-> 
-> "<-".
-
-Oops, indeed.
-Thank you for pointing it, and thank you for fixing
-
-
-Thank you for your help !!
-
-Best regards
+Signed-off-by: Andrew Lunn <andrew@lunn.ch>
+Signed-off-by: Michael Walle <michael@walle.cc>
 ---
-Kuninori Morimoto
+v3 (the 'new' v1):
+[mw] Remove dsa core comment
+[mw] Rephrase commit message
+
+v2:
+[al] Remove conditional c45, since all switches support c45
+[al] Remove dsa core changes, they are not needed
+[al] Add comment that DSA provided MDIO bus is C22 only.
+---
+ drivers/net/dsa/mt7530.c | 87 ++++++++++++++++++++++++------------------------
+ drivers/net/dsa/mt7530.h | 15 ++++++---
+ 2 files changed, 55 insertions(+), 47 deletions(-)
+
+diff --git a/drivers/net/dsa/mt7530.c b/drivers/net/dsa/mt7530.c
+index 908fa89444c9..616b21c90d05 100644
+--- a/drivers/net/dsa/mt7530.c
++++ b/drivers/net/dsa/mt7530.c
+@@ -608,17 +608,29 @@ mt7530_mib_reset(struct dsa_switch *ds)
+ 	mt7530_write(priv, MT7530_MIB_CCR, CCR_MIB_ACTIVATE);
+ }
+ 
+-static int mt7530_phy_read(struct mt7530_priv *priv, int port, int regnum)
++static int mt7530_phy_read_c22(struct mt7530_priv *priv, int port, int regnum)
+ {
+ 	return mdiobus_read_nested(priv->bus, port, regnum);
+ }
+ 
+-static int mt7530_phy_write(struct mt7530_priv *priv, int port, int regnum,
+-			    u16 val)
++static int mt7530_phy_write_c22(struct mt7530_priv *priv, int port, int regnum,
++				u16 val)
+ {
+ 	return mdiobus_write_nested(priv->bus, port, regnum, val);
+ }
+ 
++static int mt7530_phy_read_c45(struct mt7530_priv *priv, int port,
++			       int devad, int regnum)
++{
++	return mdiobus_c45_read_nested(priv->bus, port, devad, regnum);
++}
++
++static int mt7530_phy_write_c45(struct mt7530_priv *priv, int port, int devad,
++				int regnum, u16 val)
++{
++	return mdiobus_c45_write_nested(priv->bus, port, devad, regnum, val);
++}
++
+ static int
+ mt7531_ind_c45_phy_read(struct mt7530_priv *priv, int port, int devad,
+ 			int regnum)
+@@ -670,7 +682,7 @@ mt7531_ind_c45_phy_read(struct mt7530_priv *priv, int port, int devad,
+ 
+ static int
+ mt7531_ind_c45_phy_write(struct mt7530_priv *priv, int port, int devad,
+-			 int regnum, u32 data)
++			 int regnum, u16 data)
+ {
+ 	struct mii_bus *bus = priv->bus;
+ 	struct mt7530_dummy_poll p;
+@@ -793,55 +805,36 @@ mt7531_ind_c22_phy_write(struct mt7530_priv *priv, int port, int regnum,
+ }
+ 
+ static int
+-mt7531_ind_phy_read(struct mt7530_priv *priv, int port, int regnum)
++mt753x_phy_read_c22(struct mii_bus *bus, int port, int regnum)
+ {
+-	int devad;
+-	int ret;
+-
+-	if (regnum & MII_ADDR_C45) {
+-		devad = (regnum >> MII_DEVADDR_C45_SHIFT) & 0x1f;
+-		ret = mt7531_ind_c45_phy_read(priv, port, devad,
+-					      regnum & MII_REGADDR_C45_MASK);
+-	} else {
+-		ret = mt7531_ind_c22_phy_read(priv, port, regnum);
+-	}
++	struct mt7530_priv *priv = bus->priv;
+ 
+-	return ret;
++	return priv->info->phy_read_c22(priv, port, regnum);
+ }
+ 
+ static int
+-mt7531_ind_phy_write(struct mt7530_priv *priv, int port, int regnum,
+-		     u16 data)
++mt753x_phy_read_c45(struct mii_bus *bus, int port, int devad, int regnum)
+ {
+-	int devad;
+-	int ret;
+-
+-	if (regnum & MII_ADDR_C45) {
+-		devad = (regnum >> MII_DEVADDR_C45_SHIFT) & 0x1f;
+-		ret = mt7531_ind_c45_phy_write(priv, port, devad,
+-					       regnum & MII_REGADDR_C45_MASK,
+-					       data);
+-	} else {
+-		ret = mt7531_ind_c22_phy_write(priv, port, regnum, data);
+-	}
++	struct mt7530_priv *priv = bus->priv;
+ 
+-	return ret;
++	return priv->info->phy_read_c45(priv, port, devad, regnum);
+ }
+ 
+ static int
+-mt753x_phy_read(struct mii_bus *bus, int port, int regnum)
++mt753x_phy_write_c22(struct mii_bus *bus, int port, int regnum, u16 val)
+ {
+ 	struct mt7530_priv *priv = bus->priv;
+ 
+-	return priv->info->phy_read(priv, port, regnum);
++	return priv->info->phy_write_c22(priv, port, regnum, val);
+ }
+ 
+ static int
+-mt753x_phy_write(struct mii_bus *bus, int port, int regnum, u16 val)
++mt753x_phy_write_c45(struct mii_bus *bus, int port, int devad, int regnum,
++		     u16 val)
+ {
+ 	struct mt7530_priv *priv = bus->priv;
+ 
+-	return priv->info->phy_write(priv, port, regnum, val);
++	return priv->info->phy_write_c45(priv, port, devad, regnum, val);
+ }
+ 
+ static void
+@@ -2086,8 +2079,10 @@ mt7530_setup_mdio(struct mt7530_priv *priv)
+ 	bus->priv = priv;
+ 	bus->name = KBUILD_MODNAME "-mii";
+ 	snprintf(bus->id, MII_BUS_ID_SIZE, KBUILD_MODNAME "-%d", idx++);
+-	bus->read = mt753x_phy_read;
+-	bus->write = mt753x_phy_write;
++	bus->read = mt753x_phy_read_c22;
++	bus->write = mt753x_phy_write_c22;
++	bus->read_c45 = mt753x_phy_read_c45;
++	bus->write_c45 = mt753x_phy_write_c45;
+ 	bus->parent = dev;
+ 	bus->phy_mask = ~ds->phys_mii_mask;
+ 
+@@ -3182,8 +3177,10 @@ static const struct mt753x_info mt753x_table[] = {
+ 		.id = ID_MT7621,
+ 		.pcs_ops = &mt7530_pcs_ops,
+ 		.sw_setup = mt7530_setup,
+-		.phy_read = mt7530_phy_read,
+-		.phy_write = mt7530_phy_write,
++		.phy_read_c22 = mt7530_phy_read_c22,
++		.phy_write_c22 = mt7530_phy_write_c22,
++		.phy_read_c45 = mt7530_phy_read_c45,
++		.phy_write_c45 = mt7530_phy_write_c45,
+ 		.pad_setup = mt7530_pad_clk_setup,
+ 		.mac_port_get_caps = mt7530_mac_port_get_caps,
+ 		.mac_port_config = mt7530_mac_config,
+@@ -3192,8 +3189,10 @@ static const struct mt753x_info mt753x_table[] = {
+ 		.id = ID_MT7530,
+ 		.pcs_ops = &mt7530_pcs_ops,
+ 		.sw_setup = mt7530_setup,
+-		.phy_read = mt7530_phy_read,
+-		.phy_write = mt7530_phy_write,
++		.phy_read_c22 = mt7530_phy_read_c22,
++		.phy_write_c22 = mt7530_phy_write_c22,
++		.phy_read_c45 = mt7530_phy_read_c45,
++		.phy_write_c45 = mt7530_phy_write_c45,
+ 		.pad_setup = mt7530_pad_clk_setup,
+ 		.mac_port_get_caps = mt7530_mac_port_get_caps,
+ 		.mac_port_config = mt7530_mac_config,
+@@ -3202,8 +3201,10 @@ static const struct mt753x_info mt753x_table[] = {
+ 		.id = ID_MT7531,
+ 		.pcs_ops = &mt7531_pcs_ops,
+ 		.sw_setup = mt7531_setup,
+-		.phy_read = mt7531_ind_phy_read,
+-		.phy_write = mt7531_ind_phy_write,
++		.phy_read_c22 = mt7531_ind_c22_phy_read,
++		.phy_write_c22 = mt7531_ind_c22_phy_write,
++		.phy_read_c45 = mt7531_ind_c45_phy_read,
++		.phy_write_c45 = mt7531_ind_c45_phy_write,
+ 		.pad_setup = mt7531_pad_setup,
+ 		.cpu_port_config = mt7531_cpu_port_config,
+ 		.mac_port_get_caps = mt7531_mac_port_get_caps,
+@@ -3263,7 +3264,7 @@ mt7530_probe(struct mdio_device *mdiodev)
+ 	 * properly.
+ 	 */
+ 	if (!priv->info->sw_setup || !priv->info->pad_setup ||
+-	    !priv->info->phy_read || !priv->info->phy_write ||
++	    !priv->info->phy_read_c22 || !priv->info->phy_write_c22 ||
+ 	    !priv->info->mac_port_get_caps ||
+ 	    !priv->info->mac_port_config)
+ 		return -EINVAL;
+diff --git a/drivers/net/dsa/mt7530.h b/drivers/net/dsa/mt7530.h
+index e8d966435350..6b2fc6290ea8 100644
+--- a/drivers/net/dsa/mt7530.h
++++ b/drivers/net/dsa/mt7530.h
+@@ -750,8 +750,10 @@ struct mt753x_pcs {
+ /* struct mt753x_info -	This is the main data structure for holding the specific
+  *			part for each supported device
+  * @sw_setup:		Holding the handler to a device initialization
+- * @phy_read:		Holding the way reading PHY port
+- * @phy_write:		Holding the way writing PHY port
++ * @phy_read_c22:	Holding the way reading PHY port using C22
++ * @phy_write_c22:	Holding the way writing PHY port using C22
++ * @phy_read_c45:	Holding the way reading PHY port using C45
++ * @phy_write_c45:	Holding the way writing PHY port using C45
+  * @pad_setup:		Holding the way setting up the bus pad for a certain
+  *			MAC port
+  * @phy_mode_supported:	Check if the PHY type is being supported on a certain
+@@ -767,8 +769,13 @@ struct mt753x_info {
+ 	const struct phylink_pcs_ops *pcs_ops;
+ 
+ 	int (*sw_setup)(struct dsa_switch *ds);
+-	int (*phy_read)(struct mt7530_priv *priv, int port, int regnum);
+-	int (*phy_write)(struct mt7530_priv *priv, int port, int regnum, u16 val);
++	int (*phy_read_c22)(struct mt7530_priv *priv, int port, int regnum);
++	int (*phy_write_c22)(struct mt7530_priv *priv, int port, int regnum,
++			     u16 val);
++	int (*phy_read_c45)(struct mt7530_priv *priv, int port, int devad,
++			    int regnum);
++	int (*phy_write_c45)(struct mt7530_priv *priv, int port, int devad,
++			     int regnum, u16 val);
+ 	int (*pad_setup)(struct dsa_switch *ds, phy_interface_t interface);
+ 	int (*cpu_port_config)(struct dsa_switch *ds, int port);
+ 	void (*mac_port_get_caps)(struct dsa_switch *ds, int port,
+
+-- 
+2.30.2
