@@ -2,59 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4E6066BBD5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 11:37:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE20E66BBF0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 11:39:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230146AbjAPKh1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Jan 2023 05:37:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47600 "EHLO
+        id S230305AbjAPKi6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Jan 2023 05:38:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229768AbjAPKh1 (ORCPT
+        with ESMTP id S230443AbjAPKiK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Jan 2023 05:37:27 -0500
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FE3917CF9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 02:37:25 -0800 (PST)
-Received: by mail-qt1-f179.google.com with SMTP id r15so1046666qtx.6
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 02:37:25 -0800 (PST)
+        Mon, 16 Jan 2023 05:38:10 -0500
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 908681DBB4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 02:37:46 -0800 (PST)
+Received: by mail-qt1-f180.google.com with SMTP id z9so1613979qtv.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 02:37:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=g/shpG2ip1H3IgJyO/89q4XJU28bYEWOGcTj+I9rsi4=;
-        b=t83qB/JJOsAj5nZqssDF2zj2MVDblGHjyjApROB7DFj7F9AybTtQK7FHF5wQ7F9EuW
-         gjQowEN9GboGN2/OUIf5LCIZ88XOcjq2HCJdbB0QGlLRAiIRpFzCGu6mShLsYXmiv6hM
-         GVlKrz88g/6Yi4j2VloXLkTUk6zgJZBBKWO0ZGEacpek1LauSWjtmdnU+Xe6biEgcScC
-         EUIww0A/6oHPjYj3zgHUD5gzHrM/gtEjMyLVDOfDcJbEzvSFcKmlewnxRqBsveY7gR1F
-         TzWpXS+9xeoKwy/RQ7ZTZciiwjBnD3Jqifa9eKXw/+jQkRoH11eHDI5GYw2i7pdZxrxT
-         O+QQ==
-X-Gm-Message-State: AFqh2koiIlHZOjpCaBW7dLq932IgErPZPGarXH4/MWAWf/xNG/RIURup
-        KuJSyXBTWT7UNXSEu1iBnmxnoIrVGpcH4A==
-X-Google-Smtp-Source: AMrXdXup1Ddh1cZZ7XpgruZnUZdRHXmBMxvfM4N8WxYwp9FYzyn5KZ+ii1N6ObJmcsMxbI5dzWOD1A==
-X-Received: by 2002:ac8:4747:0:b0:3b3:560b:353 with SMTP id k7-20020ac84747000000b003b3560b0353mr13186635qtp.63.1673865444567;
-        Mon, 16 Jan 2023 02:37:24 -0800 (PST)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id d8-20020ac84e28000000b0039c7b9522ecsm14452068qtw.35.2023.01.16.02.37.24
+        bh=nLZ1YlG6yHJFQjh7N/pyxn/Ph81a5c1KqTdsapWF7Zo=;
+        b=c52YGORd0kHGQGY+3cCNTECh8SAqUoiF9BSoGgPbbPxsjOjfEa38GJJKqI5HssPYHJ
+         YXoXxJm1UqimCc/l46ixBJCIWDRKATctJ+OrKTFL3EfYrFB5RC3gfhpILGzHW2f6VR0M
+         vU+jccjr84o9MK4Er89U2CWIlLT/IL+0+smglWna2w9b1aFkQdAj/R8/hFobQzfx3v59
+         x+KCOAWTID+5g9rNX53qdHDdSHBavK0GY7A3tl5UJZyHjp/UU7KFCxr6FHl01bu9R0G1
+         vbtDH4g85Q3CF24c6l282/GJb3XUXMXLmj+FWu8IhYMMkvWY4Y0hmH371nULuKnH+Y+b
+         abUg==
+X-Gm-Message-State: AFqh2koZnc7ewHfRBKJBes/ylmOakpnZx57DrAQ3n5FwXynRRur5NxLW
+        lOVpD7b8ILU6fltT5x2NXOoR8nxhWTtvxA==
+X-Google-Smtp-Source: AMrXdXu9OyemP1e/X32ntVV5fc2Ra+vnD1qhuIwHHta6b8SG2yu1mdqIY4pKvI/15A5cAURGdmEE6A==
+X-Received: by 2002:ac8:6890:0:b0:3b3:ff67:b95c with SMTP id m16-20020ac86890000000b003b3ff67b95cmr11925199qtq.24.1673865465348;
+        Mon, 16 Jan 2023 02:37:45 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id l6-20020ac81486000000b003a981f7315bsm14504885qtj.44.2023.01.16.02.37.45
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jan 2023 02:37:24 -0800 (PST)
-Received: by mail-yb1-f175.google.com with SMTP id e202so6376226ybh.11
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 02:37:24 -0800 (PST)
-X-Received: by 2002:a25:244f:0:b0:7d5:b884:3617 with SMTP id
- k76-20020a25244f000000b007d5b8843617mr577561ybk.380.1673865443943; Mon, 16
- Jan 2023 02:37:23 -0800 (PST)
+        Mon, 16 Jan 2023 02:37:45 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-4d13cb4bbffso254465797b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 02:37:45 -0800 (PST)
+X-Received: by 2002:a81:1a16:0:b0:46f:bd6:957d with SMTP id
+ a22-20020a811a16000000b0046f0bd6957dmr3039050ywa.383.1673865464776; Mon, 16
+ Jan 2023 02:37:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20230114225647.227972-1-aford173@gmail.com>
-In-Reply-To: <20230114225647.227972-1-aford173@gmail.com>
+References: <20230114225647.227972-1-aford173@gmail.com> <20230114225647.227972-2-aford173@gmail.com>
+In-Reply-To: <20230114225647.227972-2-aford173@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 16 Jan 2023 11:37:12 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVkTz7_7_LkddK86d7r+EL3R3E+iOmq0zfsDxG1pCXGGg@mail.gmail.com>
-Message-ID: <CAMuHMdVkTz7_7_LkddK86d7r+EL3R3E+iOmq0zfsDxG1pCXGGg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] arm64: dts: beacon-renesom: Fix gpio expander reference
+Date:   Mon, 16 Jan 2023 11:37:33 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV_e_1raAzxL9AveyMoMasBVsRrVrfmhdqvsNHG3WVTDg@mail.gmail.com>
+Message-ID: <CAMuHMdV_e_1raAzxL9AveyMoMasBVsRrVrfmhdqvsNHG3WVTDg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: beacon-renesom: Update Ethernet PHY ID
 To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org, geert+renesas@glider.be,
-        aford@beaconembedded.com
+Cc:     linux-renesas-soc@vger.kernel.org, aford@beaconembedded.com
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -67,23 +66,13 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Sat, Jan 14, 2023 at 11:56 PM Adam Ford <aford173@gmail.com> wrote:
-> The board used to originally introduce the Beacon Embedded
-> RZ/G2[M/N/H] boards had a GPIO expander with address 20, but
-> this was change when the final board went to production.
+> Due to the part shortage, the AR8031 PHY was replaced with a
+> Micrel KSZ9131.  Hard-coding the ID of the PHY makes this new
+> PHY non-operational on newer hardware.  Since previous hardware
+> had only shipped to a limited number of people, and they have
+> not gone to production, it should be safe to update the PHY ID.
 >
-> The production boards changed both the part itself and
-> the address.  With the incorrect address, the LCD cannot
-> come up.  If the LCD fails, the rcar-du driver fails to come up,
-> and that also breaks HDMI.
->
-> Pre-release board were not shipped to the general public, so it
-> should be safe to push this as a fix.  Anyone with a production
-> board would have video fail due to this GPIO expander change.
->
-> Fixes: a1d8a344f1ca ("arm64: dts: renesas: Introduce r8a774a1-beacon-rzg2m-kit")
 > Signed-off-by: Adam Ford <aford173@gmail.com>
-> ---
-> V2:  Update compatible to reflect the part change.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v6.3.
