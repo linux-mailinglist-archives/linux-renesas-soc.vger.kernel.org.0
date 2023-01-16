@@ -2,57 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A3DF66B93C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 09:45:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D5BA66B95A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 09:52:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231898AbjAPIpz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Jan 2023 03:45:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55104 "EHLO
+        id S232386AbjAPIwc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Jan 2023 03:52:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231996AbjAPIpy (ORCPT
+        with ESMTP id S232371AbjAPIw0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Jan 2023 03:45:54 -0500
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87ADB1206D;
-        Mon, 16 Jan 2023 00:45:51 -0800 (PST)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id E682C100002;
-        Mon, 16 Jan 2023 08:45:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1673858749;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=n/b403PRq8EYGPXwjQ32wy0AeZyf2Q6Ii5wKNkPIYQs=;
-        b=PWlMcI1wVuALAcPFRY/9LfptlImGujZpLQaWGHOGuocEpoLSlZfDNIW9OEuA5O7ui7v7v5
-        gFQUTshslMyQdyHmnM1bNTju8GYm8R5hRI4RWaHgS8NPQsFhCl3TeoEN0m6xz5NwP1YFCP
-        b8hwqtUk6J29k/1JoQVyKwpvCDpY++k0wCsJ7XY42CmxbUG0kg0xCeGltMpfxS+9Je1fzB
-        gki9k3EofdqyGxnOIxaFXzL+0H0Ualk9fmTvdWPV2eVTpBopIY+HxxafTPO8DZ3BvY8nd3
-        UUKp8d1Rsh6j9o3/mZs3BVvxtXQxZ75a4ZFEam+k+ZPr5dJ6M+o6WcNQnKs7yg==
-Date:   Mon, 16 Jan 2023 09:48:01 +0100
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     <Arun.Ramadoss@microchip.com>
-Cc:     <olteanv@gmail.com>, <andrew@lunn.ch>, <linux@armlinux.org.uk>,
-        <f.fainelli@gmail.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <edumazet@google.com>, <davem@davemloft.net>,
-        <miquel.raynal@bootlin.com>, <linux-kernel@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <jimmy.lalande@se.com>,
-        <herve.codina@bootlin.com>, <milan.stevanovic@se.com>,
-        <thomas.petazzoni@bootlin.com>, <pascal.eberhard@se.com>,
-        <netdev@vger.kernel.org>
-Subject: Re: [PATCH net-next] net: dsa: rzn1-a5psw: Add vlan support
-Message-ID: <20230116094801.348018de@fixe.home>
-In-Reply-To: <be08c48a21623f1ad8165023ebe986138e44be74.camel@microchip.com>
-References: <20230111115607.1146502-1-clement.leger@bootlin.com>
-        <be08c48a21623f1ad8165023ebe986138e44be74.camel@microchip.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
+        Mon, 16 Jan 2023 03:52:26 -0500
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2646044A1;
+        Mon, 16 Jan 2023 00:52:24 -0800 (PST)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1pHLDw-0003Fv-T9; Mon, 16 Jan 2023 09:52:12 +0100
+Received: from p57bd9464.dip0.t-ipconnect.de ([87.189.148.100] helo=[192.168.178.81])
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1pHLDw-000TdQ-Lf; Mon, 16 Jan 2023 09:52:12 +0100
+Message-ID: <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
+Date:   Mon, 16 Jan 2023 09:52:10 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: remove arch/sh
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+References: <20230113062339.1909087-1-hch@lst.de>
+ <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+ <20230116071306.GA15848@lst.de>
+Content-Language: en-US
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+In-Reply-To: <20230116071306.GA15848@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.148.100
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,127 +70,25 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Fri, 13 Jan 2023 14:40:26 +0000,
-<Arun.Ramadoss@microchip.com> a =C3=A9crit :
+Hello Christoph!
 
-> Hi Clement,
-> On Wed, 2023-01-11 at 12:56 +0100, Cl=C3=A9ment L=C3=A9ger wrote:
-> > Add support for vlan operation (add, del, filtering) on the RZN1
-> > driver. The a5psw switch supports up to 32 VLAN IDs with filtering,
-> > tagged/untagged VLANs and PVID for each ports.
-> >=20
-> > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
-> > ---
-> >  drivers/net/dsa/rzn1_a5psw.c | 182
-> > +++++++++++++++++++++++++++++++++++
-> >  drivers/net/dsa/rzn1_a5psw.h |  10 +-
-> >  2 files changed, 189 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/net/dsa/rzn1_a5psw.c
-> > b/drivers/net/dsa/rzn1_a5psw.c
-> > index ed413d555bec..8ecb9214b5e6 100644
-> > --- a/drivers/net/dsa/rzn1_a5psw.c
-> > +++ b/drivers/net/dsa/rzn1_a5psw.c
-> > @@ -540,6 +540,161 @@ static int a5psw_port_fdb_dump(struct
-> > dsa_switch *ds, int port,
-> >  	return ret;
-> >  }
-> > =20
-> > +static int a5psw_port_vlan_filtering(struct dsa_switch *ds, int
-> > port,
-> > +				     bool vlan_filtering,
-> > +				     struct netlink_ext_ack *extack)
-> > +{
-> > +	u32 mask =3D BIT(port + A5PSW_VLAN_VERI_SHIFT)
-> > +		   | BIT(port + A5PSW_VLAN_DISC_SHIFT); =20
->=20
-> Operator | at the end of line
->=20
-> > +	struct a5psw *a5psw =3D ds->priv;
-> > +	u32 val =3D 0;
-> > +
-> > +	if (vlan_filtering)
-> > +		val =3D BIT(port + A5PSW_VLAN_VERI_SHIFT)
-> > +		      | BIT(port + A5PSW_VLAN_DISC_SHIFT); =20
->=20
-> Operator | at the end of line
+On 1/16/23 08:13, Christoph Hellwig wrote:
+> On Fri, Jan 13, 2023 at 09:09:52AM +0100, John Paul Adrian Glaubitz wrote:
+>> I'm still maintaining and using this port in Debian.
+>>
+>> It's a bit disappointing that people keep hammering on it. It works fine for me.
+> 
+> What platforms do you (or your users) use it on?
 
-Hi Arun,
+We have had a discussion between multiple people invested in the SuperH port and
+I have decided to volunteer as a co-maintainer of the port to support Rich Felker
+when he isn't available.
 
-I'll fix that.
+Adrian
 
->=20
-> > +
-> > +	a5psw_reg_rmw(a5psw, A5PSW_VLAN_VERIFY, mask, val);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int a5psw_port_vlan_add(struct dsa_switch *ds, int port,
-> > +			       const struct switchdev_obj_port_vlan
-> > *vlan,
-> > +			       struct netlink_ext_ack *extack)
-> > +{
-> > +	bool tagged =3D !(vlan->flags & BRIDGE_VLAN_INFO_UNTAGGED);
-> > +	bool pvid =3D vlan->flags & BRIDGE_VLAN_INFO_PVID;
-> > +	struct a5psw *a5psw =3D ds->priv;
-> > +	u16 vid =3D vlan->vid;
-> > +	int ret =3D -EINVAL;
-> > +	int vlan_res_id;
-> > +
-> > +	dev_dbg(a5psw->dev, "Add VLAN %d on port %d, %s, %s\n",
-> > +		vid, port, tagged ? "tagged" : "untagged",
-> > +		pvid ? "PVID" : "no PVID");
-> > +
-> > +	mutex_lock(&a5psw->vlan_lock);
-> > +
-> > +	vlan_res_id =3D a5psw_find_vlan_entry(a5psw, vid);
-> > +	if (vlan_res_id < 0) {
-> > +		vlan_res_id =3D a5psw_get_vlan_res_entry(a5psw, vid);
-> > +		if (vlan_res_id < 0) =20
->=20
-> nit: We can initialize ret =3D 0 initially, and assign ret =3D -EINVAL he=
-re
-> & remove ret =3D 0 at end of function.
->=20
-> > +			goto out;
-> > +	}
-> > +
-> > +	a5psw_port_vlan_cfg(a5psw, vlan_res_id, port, true);
-> > +	if (tagged)
-> > +		a5psw_port_vlan_tagged_cfg(a5psw, vlan_res_id, port,
-> > true);
-> > +
-> > +	if (pvid) {
-> > +		a5psw_reg_rmw(a5psw, A5PSW_VLAN_IN_MODE_ENA, BIT(port),
-> > +			      BIT(port));
-> > +		a5psw_reg_writel(a5psw, A5PSW_SYSTEM_TAGINFO(port),
-> > vid);
-> > +	}
-> > +
-> > +	ret =3D 0;
-> > +out:
-> > +	mutex_unlock(&a5psw->vlan_lock);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int a5psw_port_vlan_del(struct dsa_switch *ds, int port,
-> > +			       const struct switchdev_obj_port_vlan
-> > *vlan)
-> > +{
-> > +	struct a5psw *a5psw =3D ds->priv;
-> > +	u16 vid =3D vlan->vid;
-> > +	int ret =3D -EINVAL; =20
->=20
-> Simillarly here.
+-- 
+  .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
-Since I removed the mutex thanks to the previous comments, I have
-removed all the "ret" usage.
-
-Thanks,
-
---=20
-Cl=C3=A9ment L=C3=A9ger,
-Embedded Linux and Kernel engineer at Bootlin
-https://bootlin.com
