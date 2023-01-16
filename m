@@ -2,121 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4174966D106
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 22:41:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AFD4566D1A1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Jan 2023 23:16:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232314AbjAPVlU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Jan 2023 16:41:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40350 "EHLO
+        id S235195AbjAPWQQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Jan 2023 17:16:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232782AbjAPVlT (ORCPT
+        with ESMTP id S235114AbjAPWP6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Jan 2023 16:41:19 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23BA524497;
-        Mon, 16 Jan 2023 13:41:18 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AF6516112E;
-        Mon, 16 Jan 2023 21:41:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81ED8C433D2;
-        Mon, 16 Jan 2023 21:41:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673905277;
-        bh=V0SSjeXS5t8fvel1GS4ucmaQsKSqFY0cRpIqj5T6N/k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AoYala+rV44moJwyd9aQlvh7nWBvPXGAo85sr/XXMMXS6FwiPVR+to1hVe4hUHhby
-         G4RuyJAk0BUhvQUDA17MQiJP71keOAodzdQXFFKfoJWES3HtbbqoNb1Vud8USfFTby
-         uFHRec702aAzsdh0GVXWapB6Yg6gA09XmNCh9RN6COf5XDIittdoNEV4pl7lvYENtQ
-         V2CbCXgnRiFHUE3GiFV1pjUxa5XrHpuh5/3WmNy28A/wn6vMK2IHhpEZsygowJVKxi
-         LYqLUxrdSHTsB9uPhl1zHtYLrJNL7JB6em1Rd95vytTnLevM8RBrM0rRmTgBYj6zlK
-         jsyw8VjM6mpng==
-Date:   Mon, 16 Jan 2023 22:41:11 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: i2c: renesas,rzv2m: Fix SoC specific
- string
-Message-ID: <Y8XEd6v++lTSeCYn@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>
-References: <20221107165027.54150-1-fabrizio.castro.jz@renesas.com>
- <20221107165027.54150-2-fabrizio.castro.jz@renesas.com>
- <b5f881b7-1f59-623a-a126-d7827dec85fe@linaro.org>
- <TYWPR01MB8775AA3197A830F8769C01F4C2C19@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+        Mon, 16 Jan 2023 17:15:58 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DE132A146
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 14:15:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673907348; x=1705443348;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=1MPdPPMrg/J2N4LVONIHlJmHJmtuyVbQwB7McU9LFj4=;
+  b=BTov+ydkbQaTG6FqBru5Dd+7OMMTPPpzk1QmEtjmZNe1kEfkYvrqmrcx
+   VRlBBMZiZYutEzWSHQbG9O/Eqa6n46vgop9MztDGDd2ayk7tccthr/+hK
+   Osob8B6Yqy+rF6D/o7yKA2Zaq/3eV1AtJufyDejHIk9uzRtphGX2GS0S0
+   PUqLXAe9Hby4iR/y3ZD8Fx4VIX6+OCcvNiMFvGThg81Hg+FLMlVYo59TN
+   U5QcYEyc3tNE6hUxIfo5ax0GUO8NBz7acZlQq0Sgp32JhUjPbP+itUfEW
+   cFHK+NAr0xk4UDmMR6nfBAgxjTgsf/YM5ledaTCKjPcalwpGh0pHg2hkw
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="325837189"
+X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
+   d="scan'208";a="325837189"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 14:14:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="609049938"
+X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
+   d="scan'208";a="609049938"
+Received: from lkp-server02.sh.intel.com (HELO f57cd993bc73) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 16 Jan 2023 14:14:11 -0800
+Received: from kbuild by f57cd993bc73 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pHXk2-0000kT-1N;
+        Mon, 16 Jan 2023 22:14:10 +0000
+Date:   Tue, 17 Jan 2023 06:14:03 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ 53f1d973ba5f7b61d0a8b15648e089f267b79e10
+Message-ID: <63c5cc2b.vU5cNn/uNlA7dBTc%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5SuD6OMKmV3r4gcT"
-Content-Disposition: inline
-In-Reply-To: <TYWPR01MB8775AA3197A830F8769C01F4C2C19@TYWPR01MB8775.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 53f1d973ba5f7b61d0a8b15648e089f267b79e10  Merge tag 'v6.2-rc4' into renesas-devel
 
---5SuD6OMKmV3r4gcT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+elapsed time: 726m
 
+configs tested: 73
+configs skipped: 2
 
-> This patch has been reviewed by both Geert Uytterhoeven and Krzysztof
-> Kozlowski. The corresponding device tree patch has already been
-> taken, I was hoping this patch could be applied to v6.3?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-linux-i2c was not on CC, so the patch was not in I2C patchwork. Thus, it
-was not on my list.
+gcc tested configs:
+arc                  randconfig-r043-20230116
+s390                 randconfig-r044-20230116
+riscv                randconfig-r042-20230116
+ia64                             allmodconfig
+x86_64                            allnoconfig
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+i386                 randconfig-a013-20230116
+i386                 randconfig-a012-20230116
+i386                 randconfig-a016-20230116
+i386                 randconfig-a014-20230116
+i386                 randconfig-a015-20230116
+i386                 randconfig-a011-20230116
+x86_64                           rhel-8.3-kvm
+x86_64                           rhel-8.3-syz
+x86_64                           rhel-8.3-bpf
+x86_64                         rhel-8.3-kunit
+x86_64               randconfig-a011-20230116
+x86_64               randconfig-a016-20230116
+x86_64               randconfig-a014-20230116
+x86_64               randconfig-a013-20230116
+x86_64               randconfig-a015-20230116
+x86_64               randconfig-a012-20230116
+arm64                            allyesconfig
+arm                                 defconfig
+arm                              allyesconfig
+s390                                defconfig
+s390                             allmodconfig
+arc                                 defconfig
+alpha                               defconfig
+s390                             allyesconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+i386                             allyesconfig
+i386                                defconfig
+powerpc                           allnoconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+sh                               allmodconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+x86_64               randconfig-k001-20230116
+mips                         db1xxx_defconfig
+m68k                         apollo_defconfig
+sh                 kfr2r09-romimage_defconfig
+powerpc                 mpc837x_rdb_defconfig
+um                               alldefconfig
 
+clang tested configs:
+hexagon              randconfig-r041-20230116
+arm                  randconfig-r046-20230116
+hexagon              randconfig-r045-20230116
+x86_64                          rhel-8.3-rust
+x86_64               randconfig-a001-20230116
+x86_64               randconfig-a003-20230116
+x86_64               randconfig-a004-20230116
+x86_64               randconfig-a005-20230116
+x86_64               randconfig-a002-20230116
+x86_64               randconfig-a006-20230116
+i386                 randconfig-a002-20230116
+i386                 randconfig-a004-20230116
+i386                 randconfig-a001-20230116
+i386                 randconfig-a003-20230116
+i386                 randconfig-a005-20230116
+i386                 randconfig-a006-20230116
+riscv                randconfig-r042-20230115
+s390                 randconfig-r044-20230115
+hexagon              randconfig-r041-20230115
+hexagon              randconfig-r045-20230115
+arm                            dove_defconfig
 
---5SuD6OMKmV3r4gcT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmPFxHMACgkQFA3kzBSg
-KbbL6xAAj4aHP9rKpTmnkVLR1+aqUSllwbfS4l4m7AKARq1TcMo/BXdi05KfpZxL
-HgmiqRD412+zx+WBccouzKvhxkpi6UkgQWoy5EGD/ialjK834YkQQeQx1A9shxrA
-Gww1JMlyOndXrnYUdqEpUQgjn11TQNI+7XdmrQuaDMYj/FEZlNIDDEn2Jnk4G/O6
-CoysEyybeVwFKxanpnC4/LATxJ6YDHPF9YdKhLmHiBXcwutoX8zxXGXv8KqESamh
-LX9VegIq6ze+X52QyhFW/lszJcDAvnfzFFCISQCC17MYTpIZcvjtcd++ogmLwjCJ
-HaJoihQ+byx35EjV+nLtOBcwFKMct8+04bqB223nWuipJUPwpQAEaeCvNcaaHh56
-dXhJiJJtPGzGrGcAu99Mhfrk0wC9MZg8bA8c31YMqWjEirH6zG0wChYTQuoYsH6z
-fiadupbZNkAGnkK8mj2vlHbRlMSL8jWZ7KGeA0yPLlYBpnDKSh43/D+znyLdwovK
-vJ3jfQQHbRclfiiA3IMROzyQfP/xjkcXjJVlSIV3e3/cXVkRKv3buLPF54E7CPp+
-BVfdZ+mDW8s5xoIK+IWvh8Li/QxQGeIRSdqGaGKN+MB70137HcyGRfJXVj8q1ohj
-BB0dka6uhP3nsprAYRgJ3CJ9olrb9DevgIC28mtW2a6IRyB4saA=
-=baro
------END PGP SIGNATURE-----
-
---5SuD6OMKmV3r4gcT--
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
