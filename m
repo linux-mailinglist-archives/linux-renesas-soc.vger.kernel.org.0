@@ -2,105 +2,214 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4C3E66DF00
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jan 2023 14:38:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 971F766DF0E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jan 2023 14:42:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229753AbjAQNiv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Jan 2023 08:38:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37646 "EHLO
+        id S229793AbjAQNl7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Jan 2023 08:41:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbjAQNiq (ORCPT
+        with ESMTP id S229448AbjAQNl5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Jan 2023 08:38:46 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 723E71E1FB;
-        Tue, 17 Jan 2023 05:38:45 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA43410C;
-        Tue, 17 Jan 2023 14:38:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673962705;
-        bh=y4XQ2I+wNciwgwpuJ5Hqpsxoc0VJ3iJrbRCD6gQbPRA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=b7Nk4S+JUqTD1HhHRoKP3PS8RRK4HVMX9x6F9JZbDoKGTJpYvF1pk/hytyCRM9WJi
-         bmyexqNR/X5TPD95jTmssQ9DFoTQjMbHlj5MGvPqbB2crEeCyodN4UN1uiaY4waiEl
-         2Y/V1ijSImP4PmxEKJ1FUzqW7lwjePaarii3JJuA=
-Date:   Tue, 17 Jan 2023 15:38:25 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Dave Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v3 0/7] media/drm: renesas: Add new pixel formats
-Message-ID: <Y8ak0SD1YLUZt0Pz@pendragon.ideasonboard.com>
-References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
- <Y6m2AqlDdmcgCk8F@pendragon.ideasonboard.com>
- <479e1dca-8d9c-cc75-75d9-3148ccc54f68@ideasonboard.com>
+        Tue, 17 Jan 2023 08:41:57 -0500
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B68441722;
+        Tue, 17 Jan 2023 05:41:56 -0800 (PST)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 30HDfg9Q043905;
+        Tue, 17 Jan 2023 07:41:42 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1673962902;
+        bh=8tzcj7YcBvmsXG1Iqf3XfpgVaGKs2epzXYS+rFPxnuU=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To;
+        b=nl1+B6EplvVzZA15QZJmQnV0YdsSFFGL1wr8SRISR+q9H9TiP1ZqN85q/gNU2qBdv
+         zNMgyU0UiBgblxBGfzA/wut5xt/feiJ9bD01HeFvMnc3ieIWAVaWt6ztcrzvYEKyWa
+         GyKdUF/kYV5RCxvXO6tawJu2Duq9hvEqPPXSXWzk=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 30HDfg2n112619
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 17 Jan 2023 07:41:42 -0600
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Tue, 17
+ Jan 2023 07:41:41 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Tue, 17 Jan 2023 07:41:41 -0600
+Received: from [10.250.235.217] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 30HDfBu1083638;
+        Tue, 17 Jan 2023 07:41:12 -0600
+Message-ID: <5c888a22-aa56-6d94-2d56-ac5c224f8565@ti.com>
+Date:   Tue, 17 Jan 2023 19:11:10 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <479e1dca-8d9c-cc75-75d9-3148ccc54f68@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: (subset) [PATCH v2 23/23] arm64: dts: Update cache properties for
+ ti
+To:     Pierre Gondois <pierre.gondois@arm.com>,
+        <linux-kernel@vger.kernel.org>
+CC:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Tsahee Zidenberg <tsahee@annapurnalabs.com>,
+        Antoine Tenart <atenart@kernel.org>,
+        Brijesh Singh <brijeshkumar.singh@amd.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        William Zhang <william.zhang@broadcom.com>,
+        Anand Gore <anand.gore@broadcom.com>,
+        Kursad Oney <kursad.oney@broadcom.com>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Chester Lin <clin@suse.com>,
+        =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+        Matthias Brugger <mbrugger@suse.com>,
+        NXP S32 Linux Team <s32@nxp.com>,
+        Wei Xu <xuwei5@hisilicon.com>, Chanho Min <chanho.min@lge.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Lars Povlsen <lars.povlsen@microchip.com>,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Daniel Machon <daniel.machon@microchip.com>,
+        <UNGLinuxDriver@microchip.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jisheng Zhang <jszhang@kernel.org>, Nishanth Menon <nm@ti.com>,
+        Tero Kristo <kristo@kernel.org>,
+        Viorel Suman <viorel.suman@nxp.com>,
+        Abel Vesa <abelvesa@kernel.org>,
+        Zhou Peng <eagle.zhou@nxp.com>,
+        Shenwei Wang <shenwei.wang@nxp.com>,
+        Peng Fan <peng.fan@nxp.com>, Ming Qian <ming.qian@nxp.com>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Adam Ford <aford173@gmail.com>,
+        Lucas Stach <l.stach@pengutronix.de>, Li Jun <jun.li@nxp.com>,
+        Richard Zhu <hongxing.zhu@nxp.com>,
+        Markus Niebel <Markus.Niebel@ew.tq-group.com>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Marek Vasut <marex@denx.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Martin Kepplinger <martink@posteo.de>,
+        David Heidelberg <david@ixit.cz>,
+        Oliver Graute <oliver.graute@kococonnector.com>,
+        Liu Ying <victor.liu@nxp.com>, Wei Fang <wei.fang@nxp.com>,
+        Clark Wang <xiaoning.wang@nxp.com>,
+        Jacky Bai <ping.bai@nxp.com>,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>,
+        Vadym Kochan <vadym.kochan@plvision.eu>,
+        Sameer Pujar <spujar@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Prathamesh Shete <pshete@nvidia.com>,
+        Akhil R <akhilrajeev@nvidia.com>,
+        Sumit Gupta <sumitg@nvidia.com>,
+        Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+        Vidya Sagar <vidyas@nvidia.com>,
+        Ashish Mhetre <amhetre@nvidia.com>,
+        Johan Jonker <jbx6244@gmail.com>,
+        Christopher Obbard <chris.obbard@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Aswani Reddy <aswani.reddy@samsung.com>,
+        Shashank Prashar <s.prashar@samsung.com>,
+        Arjun K V <arjun.kv@samsung.com>,
+        <devicetree@vger.kernel.org>,
+        <linux-rpi-kernel@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <openbmc@lists.ozlabs.org>,
+        <linux-tegra@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-realtek-soc@lists.infradead.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>
+References: <20221107155825.1644604-1-pierre.gondois@arm.com>
+ <20221107155825.1644604-24-pierre.gondois@arm.com>
+Content-Language: en-US
+From:   "Raghavendra, Vignesh" <vigneshr@ti.com>
+In-Reply-To: <20221107155825.1644604-24-pierre.gondois@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Tomi,
+Hi Pierre Gondois,
 
-(CC'ing Mauro and Hans)
-
-On Tue, Jan 10, 2023 at 04:25:37PM +0200, Tomi Valkeinen wrote:
-> On 26/12/2022 16:56, Laurent Pinchart wrote:
-> > Hi Tomi,
-> > 
-> > (CC'ing Daniel and Dave)
-> > 
-> > On Wed, Dec 21, 2022 at 11:24:41AM +0200, Tomi Valkeinen wrote:
-> >> From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >>
-> >> Hi,
-> >>
-> >> These add new pixel formats for Renesas V3U and V4H SoCs.
-> >>
-> >> As the display pipeline is split between DRM and V4L2 components, this
-> >> series touches both subsystems. I'm sending all these together to
-> >> simplify review. If needed, I can later split this to V4L2 and DRM
-> >> parts, of which the V4L2 part needs to be merged first.
-> > 
-> > As the changes on the DRM side are small and shouldn't conflict with
-> > anything else queued for v6.3, it would be easier to merge the whole
-> > series through the media tree. Daniel, Dave, would you be OK with that ?
-> > If so, could you please ack patches 6/7 and 7/7 ?
+On 11/7/2022 9:27 PM, Pierre Gondois wrote:
+> The DeviceTree Specification v0.3 specifies that the cache node
+> 'compatible' and 'cache-level' properties are 'required'. Cf.
+> s3.8 Multi-level and Shared Cache Nodes
+> The 'cache-unified' property should be present if one of the
+> properties for unified cache is present ('cache-size', ...).
 > 
-> Note that these patches depend on the two DRM driver patches in "[PATCH 
-> v5 0/7] Renesas V4H DSI & DP output support", which are not very small 
-> (but still not big).
+> Update the Device Trees accordingly.
 
-Good point. I'm thus leaning more towards merging this through the DRM
-tree then. Mauro, can we get your ack on the V4L2 part of this series ?
-We'll create a stable branch based on v6.2-rc1 in case it also need to
-be merged in the media tree due to last minute conflicts (I'm mainly
-thinking about the new formats).
+[...]
 
-Hans, as there won't be a pull request through the media tree, if you
-want to review the new formats, now would be a good time.
+[23/23] arm64: dts: Update cache properties for ti
+        commit: 880932e657ffc677c1b053a947afa87ffed1b29d
 
-> I don't think there's a compile-time dependency between the DRM and V4L2 
-> parts, but there's a functional side dependency, so it would be nice to 
-> merge these via a single tree. I can't say if DRM or V4L2 tree is 
-> easier, but I don't expect conflicts either way.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent up the chain
+during the next merge window (or sooner if it is a relevant bug fix),
+however if problems are discovered then the patch may be dropped or
+reverted.
 
--- 
-Regards,
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Laurent Pinchart
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/ti/linux.git
+--
+Vignesh
+
+
+[...]
