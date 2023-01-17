@@ -2,159 +2,195 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8F1E66DA35
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jan 2023 10:44:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38B2A66DAE7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jan 2023 11:26:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235462AbjAQJoW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Jan 2023 04:44:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41640 "EHLO
+        id S236661AbjAQK0B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Jan 2023 05:26:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236247AbjAQJlw (ORCPT
+        with ESMTP id S236414AbjAQKZz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Jan 2023 04:41:52 -0500
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 925B286AB;
-        Tue, 17 Jan 2023 01:41:19 -0800 (PST)
-Received: by mail-qk1-x729.google.com with SMTP id i28so2138963qkl.6;
-        Tue, 17 Jan 2023 01:41:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hdQxBMQOMwqD8VUok85rROkSgj2htMeyYzI/9JQJnaY=;
-        b=HdpUBrzVC+fRm5us0I5pcSVClglYaFUfiEm/cGmO0HRwQ+aYU0HVym6Sa1QAveTfcy
-         HVrNoblnZL7c17Uzkx9cWtDUNfb/se9p1L8E0LImXSu+eOf5/sphsIlfsbxsZUBcSG3A
-         epLckHWQLqK9BHTP8K/H2nWLrxRMmIziEGtmrfzMCzTlKxaNHqt+yQ5uevBzAlX/9/dD
-         eraOfE2nSwKxtnVs7ghhKhl4PJs4QjHGI2ViGL60UKvVQ0h5+wkTdiujQa4bIuASu3/g
-         mGE/ZB8GT3isx1sHuKZF2MZCBZI+i9AXRO9tTxFkQbgjJOCiiAphcf9gB63ctNnSGHL5
-         ktCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hdQxBMQOMwqD8VUok85rROkSgj2htMeyYzI/9JQJnaY=;
-        b=Bm98z8W6Pwj+StervzCzzbAsf86KJ/AzQY3L9XKBybh85SV+IJdnfGCBH1MW0UZaKg
-         d38WcsuJ1bQmw3y6/dFRnQDMu4+zthBQaonm5xNCnaF5eebZbE9ZVL7rppalwPuMlaw+
-         aEO5YFz/AMba35L2fwSaoY+JUJZCxnLa6LMTIIceMjMUWECEJDESiHBVRhKXR7Go4YFj
-         bbX3FfU/2yAVCbUt4Tb/tO0+rxQogHkQKF2KvskA2MBrS3T8mPDICzn6vIwnDjY0vecB
-         sTtiROIrm7CJYJmqOlV/EyJU8xKumj3lPRMC6BrYCQZ3zoW3cX51pXgjBAJbPC+E2mG1
-         QyYA==
-X-Gm-Message-State: AFqh2kpidLFMhQX4WmNPI7/7JcgeEIi5Pp4Hob6qiXC8JFRW7dNSxsA5
-        1pt34W6RwGt6tQXm5JWYEouZ7Dejf8HHg14pN1Q=
-X-Google-Smtp-Source: AMrXdXvUweQfxPG9XW/trbF8uyUaDAKToxBAJ8l2RD/emKWwnVOskao8jQNpBm7SRN0AryYBpZ/goUm0u7jIv/pAfEY=
-X-Received: by 2002:a05:620a:36f4:b0:702:34dc:25a8 with SMTP id
- cz52-20020a05620a36f400b0070234dc25a8mr95984qkb.748.1673948478628; Tue, 17
- Jan 2023 01:41:18 -0800 (PST)
-MIME-Version: 1.0
-References: <20220715122903.332535-1-nuno.sa@analog.com> <20220715122903.332535-13-nuno.sa@analog.com>
- <20220806192048.0ca41cc5@jic23-huawei> <20230116204452.il4gase2szipeexz@SoMainline.org>
- <CAHp75VdX9sFgn9STyzwcDCK1KYbU00ejFNcEP3FVnLk5J=Pktg@mail.gmail.com> <CAHp75VdTftm1BE21rH1HVHiwUye-0Dvc66uCK2LE2qF4_zA6hg@mail.gmail.com>
-In-Reply-To: <CAHp75VdTftm1BE21rH1HVHiwUye-0Dvc66uCK2LE2qF4_zA6hg@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 17 Jan 2023 11:40:42 +0200
-Message-ID: <CAHp75VdyCA7mQdm--kg=hUbmQqX4-jfFMHgLxref5mNSM1vnMA@mail.gmail.com>
-Subject: Re: [PATCH v3 12/15] iio: adc: qcom-spmi-adc5: convert to device properties
-To:     Marijn Suijten <marijn.suijten@somainline.org>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
-        openbmc@lists.ozlabs.org, linux-imx@nxp.com,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-iio@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        chrome-platform@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-arm-msm@vger.kernel.org,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Haibo Chen <haibo.chen@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 17 Jan 2023 05:25:55 -0500
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2134.outbound.protection.outlook.com [40.107.113.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9555F2DE78;
+        Tue, 17 Jan 2023 02:25:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iuFTwCryMSIPxv2bj9VxbIjZmOyGikLIwb5+a9brqiVVc+ztaq1kxhdR15Jp/8olVFKKDxAlDYpQfIl5Xd2v+9nVLKDRV4mAJ9llMDfLluchPOnWk0ynWeTuHJmwQNTLLMtDzUDMErkdPOzMpXu3qCf2WIfovlaqZcX8eK1xEel2f6kqDyIannku3VHYNIWLSq2I8XBarf7vFzd5tj1/w8wQ8vbOmfMXn9DGSNnmeG1zna4gHZKWAJMeuZjUAs3qUVsXGRJKt2yF4xjH4ltrYX5BqCOeYMkjOFRztjX3Kiy1FIFaiCjSXwPJyghDzt+kXSgsAJ8G+T8UhlgsS3SOmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G01HVv1buvOkOXrEuyd9Gl5FWj7qZWuXH5V/dOJJZys=;
+ b=SCUkgvoXVF5kMKRsK9wgG33s4jbCwljILuO1vrOSG6qqXA7kIWXPOX4i2D3bObfV4pPPsr20dx0T7MRYYXR2EXRdgnUcn+7olygpz5uo8S2/O3KhU17UB5+w7NcupJ1id9NBO5z83L5o1vAs8ceV6D9zxlww26OcSo5I8jsXmje2cNQZaujkwWvMP39fNQP5bikJpQPxOLuORzqV3TG0aYCIjauz3xW9nFbZg3JL24g6S4lQyzfKtXRqL/JoYwG4XhMQdekmSaSjActj3V9cUVssOnkSmsuujDlv3vXWHR8tnLYU03zcqzEA5DhXpkedrkl8Hso/rmQYYEvEKiYlEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G01HVv1buvOkOXrEuyd9Gl5FWj7qZWuXH5V/dOJJZys=;
+ b=Qr9HnAxWnVmttP1RWcpVW6esm46jn39z0uPPGQ3K5/PVJ9d7utQG2xMBjKv7J+WbIRLFiGj3FprXwD0Vb7AwOmcLPRi48AvmC0DSz0rwcR8c/w8Il0mOvdwkpZbVkDnS33dCIzN1GzsHw8TaVXDL78Z1LBqXtX0PQec+KAZ7JVs=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYCPR01MB5887.jpnprd01.prod.outlook.com (2603:1096:400:a::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.12; Tue, 17 Jan
+ 2023 10:25:51 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::343d:7339:78e5:a46e]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::343d:7339:78e5:a46e%6]) with mapi id 15.20.5986.023; Tue, 17 Jan 2023
+ 10:25:50 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v4 1/2] media: dt-bindings: media: renesas,vsp1: Document
+ RZ/V2L VSPD bindings
+Thread-Topic: [PATCH v4 1/2] media: dt-bindings: media: renesas,vsp1: Document
+ RZ/V2L VSPD bindings
+Thread-Index: AQHY/qlsiqUPLyRiZEakeAuWQTj/0q6ivSew
+Date:   Tue, 17 Jan 2023 10:25:50 +0000
+Message-ID: <OS0PR01MB5922EED83E05EC0B6EEC245986C69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20221122193415.1873179-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20221122193415.1873179-1-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB5887:EE_
+x-ms-office365-filtering-correlation-id: fcade56f-dcab-43b2-dfd1-08daf8753478
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: wom+nnJteCUN2ERXaVW99DqAd2aZscxmW7wUrPMnSLZJdinpJ06v9sZKWvcPEDimI83sQcsr2of8UBl8Bt9f8y1YfDwRytJ4Y5B+wjn+8AvW0fUFd8Hbz1Axtj+4o7agwIeaLgxR/+DaHWTeuUIgIgDZtp+rQjpLrCtOCYcOPYkRWb5xSCS2D4Uj5pjnKBxsmjo0siXanTr3RDMtEalvypSknv3chiH6KViq+3SIa/2m0f3zQvchMWEaGFY/AEYBNOBG68UnF6vg+/Fc+1oAfspHh+o/MBtxMVDkIQIhxDafgDd6vZdoqly4CSqSQZlYH/boVyHfqKpSxn+ThROsrxokV33iv9uEP8eSXYFWfv0B5T7lovZXdyjD9DjSZQ53uD+RrNO66caQw44Dy0hv5VU+ZmZDNCgACSmES07Bti+utnPOrqlu96ZO34ILtDeX2MotUImIM+WfmegU6R+a9X721sPfZgVeNBq7cI7oTbUZqEoWKzTYFtXrpUvvqVOb6hfLfqr5BIq2PoekzqnPxrXtwnHv5KpqRkDEcM8a9gHXQVsvYEvMHlN3uz+lGEky/KP4VK02wubQiIFKpPXjtAdcyb4RNdCouibQe0t7EUV1aIaT6q8lWBVqrmkeGGVHKpLixZDe2G0eFf/qwSKwwsFkdXJx8QVlqNZTxM877FMdCJN3HCnKzm7MmiTp3estsgcdpJWNIzybiJf2cJMSNrjC0R4viM2PA52SwUr3Rn5thnyIcqSoCAgW+tlcPqOfqoQuKgMghiyhxwso6+I2IQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(136003)(376002)(366004)(396003)(451199015)(83380400001)(33656002)(122000001)(38100700002)(66446008)(52536014)(86362001)(38070700005)(5660300002)(55016003)(2906002)(4326008)(7416002)(8936002)(66946007)(66556008)(76116006)(8676002)(66476007)(64756008)(41300700001)(186003)(6506007)(26005)(9686003)(53546011)(110136005)(71200400001)(54906003)(316002)(7696005)(478600001)(966005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?6L8x1m4Gu75arMmvM0S9n+bYUbFGXfKlKmAY0GpOZ0veHov/muEwx1B9KxMY?=
+ =?us-ascii?Q?0TPrIaGTiNJ1Xb7SfvLl6i1K4Ke2/ECQ4Z4dYsftyfu/IUXpMZx605feiDU8?=
+ =?us-ascii?Q?SYCdWADh6Hsi9lHHzOszsm1BK4v3Dubx3aiSTZ1WK9fUqoHB+sVqP83McnAN?=
+ =?us-ascii?Q?XetYAhaIVNJ7JM0WMQ1EP0U1RM1Cmisd3TN6G+t43cBFp/RHW6svHKunOtK6?=
+ =?us-ascii?Q?W/RUUV9yHFJtZB7nTktVaf41PMb1eY4DV5SR3a/I929fsOYPSStNn0w/JmQE?=
+ =?us-ascii?Q?mxlKP6OU2CaZ4fsbqBquvWbgwHRCNIf3Z5KLmJCRW1SXKBc3QL+4nJ/EWTlW?=
+ =?us-ascii?Q?+lqLiJ/AeZHuUzFhmSMQBl2UdUPdnMG8+9PtrLDw3HALRU2xuv8u9lkiSxEy?=
+ =?us-ascii?Q?iCxHLv37lYnxmetg0weJ2k5k20wQFgLuV+RgmIZHuqNtoaippolcYoyAHgec?=
+ =?us-ascii?Q?n8vXiiT43q9JWv1xdBG2oQs8cn+aaFSsXrrUmBDIW+eEDdbnitcpuZTDgihL?=
+ =?us-ascii?Q?4t1dM/0oUXNXgLWVY/vgE4wASa5I17iEJmeBKRRyLW/qcqYVXq6cQ1MX82in?=
+ =?us-ascii?Q?QeG1BKVefXZHMpuPkPU1CEAcjxt+5VzTJRTijaj6+sf/QmZbWFqtTvT3/2ra?=
+ =?us-ascii?Q?u16wZ78bh8CeLeAVLvoPNWSDTT0CKiLaTt8gqP+A4ysRMcE23Kc03JtfolQ3?=
+ =?us-ascii?Q?TtEMRw4NGM70wEKRRVOvOOLMVwg9POtctbFWU5E/Nxn1YTUtCOKJPelentzD?=
+ =?us-ascii?Q?Z0MSXpF40fr7JuxHMYYzIM4wKVuHYCSeuJOnu9YkJZpEjWHZrf5ANlNHdaje?=
+ =?us-ascii?Q?1o2rpLCueT8p1BZQPAl/5dTWE3KJw0JXnqJwcefbYu9bdVEUrbVlVd/cOPaE?=
+ =?us-ascii?Q?j9R2tl2a8rEpIR16dmPJFhWzQG0Fd+8Edc7cUhLskNj5J9zZxnmv+T5QjCw2?=
+ =?us-ascii?Q?kew40ZsRTN+LHdaKxhRDmFWRpVW2yxzNr9j7h6ZqjI5aQRdDYoLeQrMc8bH3?=
+ =?us-ascii?Q?qUdVDmBLd2uVVE2gRWGzuI+zIAWumJ8CYS2UhQY20CMA1ht9LFrgqjwCgjeN?=
+ =?us-ascii?Q?NnHI9ZxgX8qVtRcIFJv5bWnFGwwDDju2HQ0xyR/56h4gVm2/QAv/YiHu56p6?=
+ =?us-ascii?Q?GZt+XviZcAWlwBsp3dKpQdatMWRI8uuPwSszhdThfXLN0vAQ6nOpJwf0buPI?=
+ =?us-ascii?Q?OhwYOU1eTE5y4jxNMoQmbD4dW1Rn/Xc9fZD84v+nYYjnm14MlGyr/moQhTbg?=
+ =?us-ascii?Q?kOsZtN3XGUm0Fei36wa4P8abOqRrG0Pm5bxZ2bHarHfcONkkoXmFl/nPUQPn?=
+ =?us-ascii?Q?x3HJWktLMTG4r8kKRgibD6MbZLjwBM7zsUs2KUXtJXuo3OLkwE8MdW7MNYih?=
+ =?us-ascii?Q?tHRMwhZVo6mYjFjYhQTWGEFbP+EbwjtfPKc4lECgRk9G0nebt1/v8EzoF8no?=
+ =?us-ascii?Q?Wp2XvxbNJTvKe8COXzb4TjrTCEe1NKjAoQPplCreSZyJC/dw7Raam3iT/DT2?=
+ =?us-ascii?Q?Yxn9WBYCKavDEjxXM7r1Tl5mV2Ph7Kdv9DnVIaDz835WHXeIshhjYIt+QiZH?=
+ =?us-ascii?Q?FHWX4lOecrDnEQmyvekjx7Y5L7ApeZ9RFRYFzE39E/2M+r2DINvS0+bXQBr0?=
+ =?us-ascii?Q?Pw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcade56f-dcab-43b2-dfd1-08daf8753478
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jan 2023 10:25:50.1389
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tIQlUASGUfqmMTtYHZj75irSFTlJDT5S5YEhoITawnMrkZE6u2IWGDHJzi9HOfhNQJ0m2smDz2sF0G9k4gf/Ba2muytOewAJmaGy28prwK4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB5887
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 11:06 AM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Tue, Jan 17, 2023 at 10:53 AM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> >
-> > On Mon, Jan 16, 2023 at 10:44 PM Marijn Suijten
-> > <marijn.suijten@somainline.org> wrote:
-> > >
-> > > On 2022-08-06 19:20:48, Jonathan Cameron wrote:
-> > > > On Fri, 15 Jul 2022 14:29:00 +0200
-> > > > Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
-> > > >
-> > > > > Make the conversion to firmware agnostic device properties. As pa=
-rt of
-> > > > > the conversion the IIO inkern interface 'of_xlate()' is also conv=
-erted to
-> > > > > 'fwnode_xlate()'. The goal is to completely drop 'of_xlate' and h=
-ence OF
-> > > > > dependencies from IIO.
-> > > > >
-> > > > > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-> > > > > Acked-by: Linus Walleij <linus.walleij@linaro.org>
-> > > > > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > > > +CC Marijin who happend to post a patch for this driver that I just=
- accepted
-> > > > and hence probably has hardware access.  Any chance of a test for t=
-his series?
-> > > >
-> > > > If not, no problem as this is fairly mechanical and we have testing=
- on some of
-> > > > the other drivers using the new code.
-> > > >
-> > > > I'll probably queue this up in the meantime but it won't end up ups=
-tream
-> > > > for a few weeks yet.
-> > >
-> > > Jonathan,
-> > >
-> > > This CC just surfaced in my inbox while searching for our current
-> > > discussion around missing labels in qcom-spmi-vadc - and on the side =
-a
-> > > userspace @xx label name ABI break (in qcom-spmi-adc5) caused by this
-> > > patch's fwnode_get_name change - we could've caught it if I had not
-> > > accidentally marked it as read and/or forgot about it.  My apologies.
-> >
-> > Does the following addition to the top of the
-> > adc5_get_fw_channel_data() fix the issue?
-> >
-> > +       name =3D devm_kasprintf(adc->dev, GFP_KERNEL, "%pfwP", fwnode);
-> > +       if (!name)
-> > +               return -ENOMEM;
->
-> Okay, it probably the same, so it might need additional code to
->
-> + name[strchrnul(name, '@') - name] =3D '\0';
+Hi all,
 
-I have just sent a formal patch, please test on top of non-working kernel.
+Gentle ping.
 
+This patch is reviewed by both Krzysztof Kozlowski and Geert=20
 
---
-With Best Regards,
-Andy Shevchenko
+It is blocking for accepting SoC dtsi patches[1] through renesas-soc tree
+1] https://lore.kernel.org/all/20221122213529.2103849-1-biju.das.jz@bp.rene=
+sas.com
+
+Cheers,
+Biju
+
+> -----Original Message-----
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> Sent: 22 November 2022 19:34
+> To: Mauro Carvalho Chehab <mchehab@kernel.org>; Rob Herring
+> <robh+dt@kernel.org>; Krzysztof Kozlowski
+> <krzysztof.kozlowski+dt@linaro.org>
+> Cc: Biju Das <biju.das.jz@bp.renesas.com>; Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com>; Kieran Bingham
+> <kieran.bingham+renesas@ideasonboard.com>; linux-media@vger.kernel.org;
+> linux-renesas-soc@vger.kernel.org; devicetree@vger.kernel.org; Geert
+> Uytterhoeven <geert+renesas@glider.be>; Fabrizio Castro
+> <fabrizio.castro.jz@renesas.com>
+> Subject: [PATCH v4 1/2] media: dt-bindings: media: renesas,vsp1: Document
+> RZ/V2L VSPD bindings
+>=20
+> Document VSPD found in RZ/V2L SoC. The VSPD block is identical to RZ/G2L =
+SoC
+> and therefore use RZ/G2L fallback to avoid any driver changes.
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> * New patch
+> ---
+>  .../devicetree/bindings/media/renesas,vsp1.yaml     | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+> b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+> index 7a8f32473852..3265e922647c 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+> @@ -16,10 +16,15 @@ description:
+>=20
+>  properties:
+>    compatible:
+> -    enum:
+> -      - renesas,r9a07g044-vsp2 # RZ/G2L
+> -      - renesas,vsp1 # R-Car Gen2 and RZ/G1
+> -      - renesas,vsp2 # R-Car Gen3 and RZ/G2
+> +    oneOf:
+> +      - enum:
+> +          - renesas,r9a07g044-vsp2 # RZ/G2L
+> +          - renesas,vsp1 # R-Car Gen2 and RZ/G1
+> +          - renesas,vsp2 # R-Car Gen3 and RZ/G2
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a07g054-vsp2    # RZ/V2L
+> +          - const: renesas,r9a07g044-vsp2 # RZ/G2L fallback
+>=20
+>    reg:
+>      maxItems: 1
+> --
+> 2.25.1
+
