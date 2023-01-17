@@ -2,148 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05347670A8B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jan 2023 23:01:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C48A9670CC4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jan 2023 00:08:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229699AbjAQWBa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Jan 2023 17:01:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42434 "EHLO
+        id S229712AbjAQXIq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Jan 2023 18:08:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229866AbjAQV7m (ORCPT
+        with ESMTP id S229872AbjAQXHq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Jan 2023 16:59:42 -0500
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A2343C2A3;
-        Tue, 17 Jan 2023 12:26:42 -0800 (PST)
-Received: by mail-vs1-f49.google.com with SMTP id v127so29141213vsb.12;
-        Tue, 17 Jan 2023 12:26:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7rC0mNjXax5vqLz2OAo+EH0y+cJfjyIAm7sm9u5PvgQ=;
-        b=Yr9F31/7vLwBOZRKZ1DOhx7lv+07U9yCPU3kfK3htjNZou2RGjuLkdqwCn8yKk9eF3
-         GnyyMHiW3JgbPuw6+FCnbxXOm2pXbKR74ChWnRn/hHl+9by/VHS5XtgOFtV5OVc06ddw
-         LnzBWPfOsBT9fqwpqly0JUq8dnwIcMSuesyYy1KvIo27t7NfN87fYlhZwyNhgxs4TcFk
-         9BF4fB6bXw5YhS8+79SPrAO36Q1UAWE6lQ/eDxVYm9AGrYBuapnXFFs/g4Y/d3/65nEM
-         cNY+emfDCxLCn/w9cVLEEICPn6d8+Q4pdwHu1n/gCrT2Kr8MUafwGrFjLQWyaGQ2cHdv
-         bY8g==
-X-Gm-Message-State: AFqh2kqzy6dBVKRzPngOGJhrF0YAVXXu3mDkVZ//3HfOKs6E0G/PoFSo
-        ZhqezYlyMbvP27SJixa4hW2wxfnjUsABHg==
-X-Google-Smtp-Source: AMrXdXv8xG+OngFJXkL1EyBOzdj+k3Oc3D+zm5NnPdBiJa4B+CPjVzuCM17G+lAG+3CcyHApPWniCQ==
-X-Received: by 2002:a67:c116:0:b0:3b1:23bb:3087 with SMTP id d22-20020a67c116000000b003b123bb3087mr2147820vsj.26.1673987201149;
-        Tue, 17 Jan 2023 12:26:41 -0800 (PST)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id q22-20020a05620a2a5600b0070638ad5986sm7355016qkp.85.2023.01.17.12.26.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jan 2023 12:26:40 -0800 (PST)
-Received: by mail-yb1-f176.google.com with SMTP id o75so35606650yba.2;
-        Tue, 17 Jan 2023 12:26:39 -0800 (PST)
-X-Received: by 2002:a25:9012:0:b0:7b8:a0b8:f7ec with SMTP id
- s18-20020a259012000000b007b8a0b8f7ecmr707665ybl.36.1673987199250; Tue, 17 Jan
- 2023 12:26:39 -0800 (PST)
+        Tue, 17 Jan 2023 18:07:46 -0500
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [IPv6:2001:4b7a:2000:18::171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 127AE44BC8;
+        Tue, 17 Jan 2023 14:42:56 -0800 (PST)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by m-r2.th.seeweb.it (Postfix) with ESMTPSA id DF99E3F428;
+        Tue, 17 Jan 2023 23:42:53 +0100 (CET)
+Date:   Tue, 17 Jan 2023 23:42:51 +0100
+From:   Marijn Suijten <marijn.suijten@somainline.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
+        openbmc@lists.ozlabs.org, linux-imx@nxp.com,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-iio@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        chrome-platform@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-arm-msm@vger.kernel.org,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Haibo Chen <haibo.chen@nxp.com>
+Subject: Re: [PATCH v3 12/15] iio: adc: qcom-spmi-adc5: convert to device
+ properties
+Message-ID: <20230117224251.wzxexdlfe5ydzjw5@SoMainline.org>
+References: <20220715122903.332535-1-nuno.sa@analog.com>
+ <20220715122903.332535-13-nuno.sa@analog.com>
+ <20220806192048.0ca41cc5@jic23-huawei>
+ <20230116204452.il4gase2szipeexz@SoMainline.org>
+ <CAHp75VdX9sFgn9STyzwcDCK1KYbU00ejFNcEP3FVnLk5J=Pktg@mail.gmail.com>
+ <CAHp75VdTftm1BE21rH1HVHiwUye-0Dvc66uCK2LE2qF4_zA6hg@mail.gmail.com>
+ <CAHp75VdyCA7mQdm--kg=hUbmQqX4-jfFMHgLxref5mNSM1vnMA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230113062339.1909087-1-hch@lst.de> <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
- <20230116071306.GA15848@lst.de> <9325a949-8d19-435a-50bd-9ebe0a432012@landley.net>
-In-Reply-To: <9325a949-8d19-435a-50bd-9ebe0a432012@landley.net>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 17 Jan 2023 21:26:27 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUJm5QvzH8hvqwvn9O6qSbzNOapabjw5nh9DJd0F55Zdg@mail.gmail.com>
-Message-ID: <CAMuHMdUJm5QvzH8hvqwvn9O6qSbzNOapabjw5nh9DJd0F55Zdg@mail.gmail.com>
-Subject: Re: remove arch/sh
-To:     Rob Landley <rob@landley.net>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-sh@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VdyCA7mQdm--kg=hUbmQqX4-jfFMHgLxref5mNSM1vnMA@mail.gmail.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
-
-On Tue, Jan 17, 2023 at 8:01 PM Rob Landley <rob@landley.net> wrote:
-> On 1/16/23 01:13, Christoph Hellwig wrote:
-> > On Fri, Jan 13, 2023 at 09:09:52AM +0100, John Paul Adrian Glaubitz wrote:
-> >> I'm still maintaining and using this port in Debian.
-> >>
-> >> It's a bit disappointing that people keep hammering on it. It works fine for me.
+On 2023-01-17 11:40:42, Andy Shevchenko wrote:
+<snip>
+> > > > This CC just surfaced in my inbox while searching for our current
+> > > > discussion around missing labels in qcom-spmi-vadc - and on the side a
+> > > > userspace @xx label name ABI break (in qcom-spmi-adc5) caused by this
+> > > > patch's fwnode_get_name change - we could've caught it if I had not
+> > > > accidentally marked it as read and/or forgot about it.  My apologies.
+> > >
+> > > Does the following addition to the top of the
+> > > adc5_get_fw_channel_data() fix the issue?
+> > >
+> > > +       name = devm_kasprintf(adc->dev, GFP_KERNEL, "%pfwP", fwnode);
+> > > +       if (!name)
+> > > +               return -ENOMEM;
 > >
-> > What platforms do you (or your users) use it on?
->
-> 3 j-core boards, two sh4 boards (the sh7760 one I patched the kernel of), and an
-> sh4 emulator.
->
-> I have multiple j-core systems (sh2 compatible with extensions, nommu, 3
-> different kinds of boards running it here). There's an existing mmu version of
-> j-core that's sh3 flavored but they want to redo it so it hasn't been publicly
-> released yet, I have yet to get that to run Linux because the mmu code would
-> need adapting, but the most recent customer projects were on the existing nommu
-> SOC, as was last year's ASIC work via sky130.
+> > Okay, it probably the same, so it might need additional code to
+> >
+> > + name[strchrnul(name, '@') - name] = '\0';
+> 
+> I have just sent a formal patch, please test on top of non-working kernel.
 
-J4 still vaporware?
+I would've preferred to fix this in the same way as qcom-spmi-vadc by
+implementing read_label instead and basing it on the DT label or driver
+string literals instead [1], but dropping extend_name (hence changing
+sysfs filenames once again) would be considered an ABI break.
 
-> My physical sh4 boards are a Johnson Controls N40 (sh7760 chipset) and the
-> little blue one is... sh4a I think? (It can run the same userspace, I haven't
-> replaced that board's kernel since I got it, I think it's the type Glaubitz is
-> using? It's mostly in case he had an issue I couldn't reproduce on different
-> hardware, or if I spill something on my N40.)
->
-> I also have a physical sh2 board on the shelf which I haven't touched in years
-> (used to comparison test during j2 development, and then the j2 boards replaced it).
->
-> I'm lazy and mostly test each new sh4 build under qemu -M r2d because it's
-> really convenient: neither of my physical boards boot from SD card so replacing
-> the kernel requires reflashing soldered in flash. (They'll net mount userspace
-> but I haven't gotten either bootloader to net-boot a kernel.)
+I've instead gone for a similar change that also ignores the node name
+in favour of falling back to the driver string literal (if no "label"
+property is available) while retaining extend_label [3] and the -
+however ugly they are - sysfs filenames, but that'll likely get rejected
+as strictly being an ABI break as well, not in the least because DT
+needs to be patched up [3] for it to work out.
 
-On my landisk (with boots from CompactFLASH), I boot the original 2.6.22
-kernel, and use kexec to boot-test each and every renesas-drivers
-release.  Note that this requires both the original 2.6.22 kernel
-and matching kexec-tools.  Apparently both upstreamed kernel and
-kexec-tools support for SH are different, and incompatible with each
-other, so you cannot kexec from a contemporary kernel.
-I tried working my way up from 2.6.22, but gave up around 2.6.29.
-Probably I should do this with r2d and qemu instead ;-)
+I'll at least test your patch when getting back to one of these devices.
 
-Both r2d and landisk are SH7751.
+- Marijn
 
-Probably SH7722/'23'24 (e.g. Migo-R and Ecovec boards) are also
-worth keeping.  Most on-SoC blocks have drivers with DT support,
-as they are shared with ARM.  So the hardest part is clock and
-interrupt-controller support.
-Unfortunately I no longer have access to the (remote) Migo-R.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+[1]: https://lore.kernel.org/linux-arm-msm/20230116220909.196926-6-marijn.suijten@somainline.org/
+[2]: https://lore.kernel.org/linux-arm-msm/20230116220909.196926-4-marijn.suijten@somainline.org/
+[3]: https://lore.kernel.org/linux-arm-msm/20221209215308.1781047-1-marijn.suijten@somainline.org/
