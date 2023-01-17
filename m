@@ -2,145 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04E6266D362
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jan 2023 00:53:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5958766D735
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jan 2023 08:49:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235243AbjAPXxZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Jan 2023 18:53:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46004 "EHLO
+        id S235727AbjAQHtD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Jan 2023 02:49:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235216AbjAPXxQ (ORCPT
+        with ESMTP id S235992AbjAQHsq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Jan 2023 18:53:16 -0500
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1829D22DE8;
-        Mon, 16 Jan 2023 15:52:52 -0800 (PST)
-Received: from mwalle01.sab.local (unknown [213.135.10.150])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 377561AA3;
-        Tue, 17 Jan 2023 00:52:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1673913171;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VAC3lvYePixzcXebo4E3nrWp2H/ZNlz8TyV8NSReGQs=;
-        b=GX7X6H8lc5xEN2+bG0vGPNrbHpUIAQOgt5cogS4U1N7qThjjN2kBzzYQp/8KzT84ti0igo
-        xSB7LtanZuOWOoFLF//R6xu0DEVnKAgh2gmiPE8/wZoeTLTCRdhRpTvFILbtntC9hLuBLj
-        CnLtT1FJ5lt9YoGY5oDs0zZjipTZSuzptW13uvMVmynj6dYqNfnd42XKFSNgMGotGTUKE8
-        BXzciw/3UQuIntlC/9InYkjZ7/KD6wG+fCP+B75yawvNq2My4riw29+tbN+fKgvqe1mdeQ
-        IY10rHas3nLp7tewG0aHGrt5ZwAbQkMfxwLieYn3rr2+MYMWJ09/jxb5QTziBA==
-From:   Michael Walle <michael@walle.cc>
-Date:   Tue, 17 Jan 2023 00:52:27 +0100
-Subject: [PATCH net-next 12/12] net: ethernet: renesas: rswitch: C45 only transactions
+        Tue, 17 Jan 2023 02:48:46 -0500
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3618B7EE1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 23:48:36 -0800 (PST)
+Received: by mail-qv1-f41.google.com with SMTP id h10so21111698qvq.7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 23:48:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hO4O47NNKsNto7eUC6o0e+JxfjS2hkwUbQ3dQyv9UGM=;
+        b=0V4hvOZ+aF77fu2iEy1MxRCUxWVu9JnKrKAeTNb8aS+qm2Q9mxZaBIT/Os4Ot3PzI7
+         0dBO18UWn6vfWJjg1jayM6xs/8US+phOuwol+t3fXtXOQPFcUGZWeKhDawy1DsEw3Byv
+         e/DOF8Prym4aHZbU0twBB69804zD0Pwe47v7k+ZJe0RAsQEy86uNxZDUmJVSKgWUTLRR
+         xw+48ZmjA+VlhpROTNuGU9KAMa/1Ar3drYvhQqdqBwn/ySjtDnzlVzEeNFKl2nTCXVwv
+         Igd2WJ8g9ZUUupaVz/QvbLXD3GTucYZmtJnRmrTGhEMK3DG/oCVTrtJbIknRmX5Ho+5r
+         cchg==
+X-Gm-Message-State: AFqh2kryUNoNNHifMoPcJnfW8BXUXwH91HbvTh0uRgE7EZnByBf49CZP
+        siP2Lmr7deIf7ThliW5bw6OYs9j70KoRmQ==
+X-Google-Smtp-Source: AMrXdXuACh6CZghTxAhk45G52LJnPOEuePqSBy6Usd7b7S6gAZQ8nrXVwTTZJgHQokFjGUSFR2uxyQ==
+X-Received: by 2002:ad4:4f24:0:b0:531:af57:3109 with SMTP id fc4-20020ad44f24000000b00531af573109mr31853876qvb.7.1673941715123;
+        Mon, 16 Jan 2023 23:48:35 -0800 (PST)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id br43-20020a05620a462b00b006ec771d8f89sm19959901qkb.112.2023.01.16.23.48.34
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Jan 2023 23:48:34 -0800 (PST)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-4e9adf3673aso75108917b3.10
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Jan 2023 23:48:34 -0800 (PST)
+X-Received: by 2002:a81:1012:0:b0:4e0:d096:7795 with SMTP id
+ 18-20020a811012000000b004e0d0967795mr367214ywq.358.1673941714421; Mon, 16 Jan
+ 2023 23:48:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230116-net-next-c45-seperation-part-3-v1-12-0c53afa56aad@walle.cc>
-References: <20230116-net-next-c45-seperation-part-3-v1-0-0c53afa56aad@walle.cc>
-In-Reply-To: <20230116-net-next-c45-seperation-part-3-v1-0-0c53afa56aad@walle.cc>
-To:     Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Byungho An <bh74.an@samsung.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Yisen Zhuang <yisen.zhuang@huawei.com>,
-        Salil Mehta <salil.mehta@huawei.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org,
-        linux-renesas-soc@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-        Michael Walle <michael@walle.cc>
-X-Mailer: b4 0.11.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <87fscfi424.wl-kuninori.morimoto.gx@renesas.com>
+ <875ydbi40l.wl-kuninori.morimoto.gx@renesas.com> <CAMuHMdVr-c=ht9GKkvSxdokqEoZTuOk41hRzXL7tpREy4+Pb9Q@mail.gmail.com>
+ <878ri22hwm.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <878ri22hwm.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 17 Jan 2023 08:48:22 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWuzu3EpmFQM9CnVYMz6At715qarXj5=EX+JU-OxmDLiQ@mail.gmail.com>
+Message-ID: <CAMuHMdWuzu3EpmFQM9CnVYMz6At715qarXj5=EX+JU-OxmDLiQ@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] arm64: dts: renesas: add ulcb{-kf} Audio Graph
+ Card dtsi MIX + TDM Split dtsi
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The rswitch MDIO bus driver only supports C45 transfers. Update the
-function names to make this clear, pass the mmd as a parameter, and
-register the accessors to the _c45 ops of the bus driver structure.
+Hi Morimoto-san,
 
-Signed-off-by: Michael Walle <michael@walle.cc>
----
- drivers/net/ethernet/renesas/rswitch.c | 28 ++++++----------------------
- 1 file changed, 6 insertions(+), 22 deletions(-)
+On Tue, Jan 17, 2023 at 12:12 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> > > +/*
+> > > + * Note:
+> > > + * Because there is subdevice maximum, it will ignore HDMI output
+> > > + *
+> > > + *     (A) CPU0 (2ch) <-----> (2ch) (X) ak4613 (MIX-0)
+> > > + *     (B) CPU1 (2ch)  --/                     (MIX-1)
+> >
+> > Shouldn't that be "<--/" (also in the other mix+split patches)?
+> > No worries, I can fix all of these while applying.
+>
+> (A) can handle both playback/capture, but
+> (B) can handle only playback.
+> So, above allow is correct.
 
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index 6441892636db..885fdb077b62 100644
---- a/drivers/net/ethernet/renesas/rswitch.c
-+++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -1024,34 +1024,18 @@ static int rswitch_etha_set_access(struct rswitch_etha *etha, bool read,
- 	return ret;
- }
- 
--static int rswitch_etha_mii_read(struct mii_bus *bus, int addr, int regnum)
-+static int rswitch_etha_mii_read_c45(struct mii_bus *bus, int addr, int devad,
-+				     int regad)
- {
- 	struct rswitch_etha *etha = bus->priv;
--	int mode, devad, regad;
--
--	mode = regnum & MII_ADDR_C45;
--	devad = (regnum >> MII_DEVADDR_C45_SHIFT) & 0x1f;
--	regad = regnum & MII_REGADDR_C45_MASK;
--
--	/* Not support Clause 22 access method */
--	if (!mode)
--		return -EOPNOTSUPP;
- 
- 	return rswitch_etha_set_access(etha, true, addr, devad, regad, 0);
- }
- 
--static int rswitch_etha_mii_write(struct mii_bus *bus, int addr, int regnum, u16 val)
-+static int rswitch_etha_mii_write_c45(struct mii_bus *bus, int addr, int devad,
-+				      int regad, u16 val)
- {
- 	struct rswitch_etha *etha = bus->priv;
--	int mode, devad, regad;
--
--	mode = regnum & MII_ADDR_C45;
--	devad = (regnum >> MII_DEVADDR_C45_SHIFT) & 0x1f;
--	regad = regnum & MII_REGADDR_C45_MASK;
--
--	/* Not support Clause 22 access method */
--	if (!mode)
--		return -EOPNOTSUPP;
- 
- 	return rswitch_etha_set_access(etha, false, addr, devad, regad, val);
- }
-@@ -1142,8 +1126,8 @@ static int rswitch_mii_register(struct rswitch_device *rdev)
- 	mii_bus->name = "rswitch_mii";
- 	sprintf(mii_bus->id, "etha%d", rdev->etha->index);
- 	mii_bus->priv = rdev->etha;
--	mii_bus->read = rswitch_etha_mii_read;
--	mii_bus->write = rswitch_etha_mii_write;
-+	mii_bus->read_c45 = rswitch_etha_mii_read_c45;
-+	mii_bus->write_c45 = rswitch_etha_mii_write_c45;
- 	mii_bus->parent = &rdev->priv->pdev->dev;
- 
- 	mdio_np = rswitch_get_mdio_node(rdev);
+OK
 
--- 
-2.30.2
+> > > +               /* (B) CPU1 <-> (X) ak4613 */
+
+So the above arrow should be "->", too?
+
+> > > +               ak4613_ep2: endpoint@1 {
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
