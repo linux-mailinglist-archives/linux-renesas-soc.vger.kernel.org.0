@@ -2,192 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6197F66DB4B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jan 2023 11:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4C3E66DF00
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jan 2023 14:38:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236744AbjAQKjl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Jan 2023 05:39:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44506 "EHLO
+        id S229753AbjAQNiv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Jan 2023 08:38:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236929AbjAQKjC (ORCPT
+        with ESMTP id S229502AbjAQNiq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Jan 2023 05:39:02 -0500
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2125.outbound.protection.outlook.com [40.107.113.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 067282ED4D;
-        Tue, 17 Jan 2023 02:35:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZwNLtAT1injsA6eWmdzidbHptsSSsJcIWlj9g/FbveajJzZRMMmq1gg+qFLYRJOcVgkKePn8b1D0ExuLHupCBbm1UoCNCAINDSOc2PSqBhTWb3mkTStMCaz0K3gPdn3LtvdYPlrqQ5mZP4oUfZSs/jbNt3bwe4X0Jq/m60OLeJyJZ/6+mOwmEVEMtz6zgsCVqB/he529QXDcTepKBrlfHQxzxI82m5+BSoCcdMGb2ZD79XGxdRRjOgZJGWPLBFUfSbqLR6CphluPyuRrI5eJ8DrGpbkQ9iz3PfFif4ZXkG3KARIadttW+5xlHRsG5xsiNiUBn1SoveLrcHslCQO6Lw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Es662uYClP/IqbjnyBJPcIz9wc9c4nf6xIaHn7hC8U0=;
- b=mhhk/H6wV+0/DfYxeWnAq56Fy7XZPNqBfW1em24AlJfHe9mQbVp/Zs87JTaF8lqCBMFmDGuTWlATdW8WM7CqbpLL7oTaAFbEAvTFhIKnaFmIGSoV2UUlLJukgIqTDaR4l+AqonesJirVx0b/RcCLc+MZu7K/igbeuNZuBAvT47jcEOvFeedN+k88tgxUBTBjcMpe9HgyE+9eNsLr8Io/bRh+a6RZKdpk1z5AeC649t07wmTQnZCAVbmVioHX1T0mdq7em1EYUe9YfmZV3pds3C+hQek2054+gRIB6FLzgkgSpTsQBh3AYuQ9F9Brkqq79u6hd10iGthUjKy5g7+gsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Es662uYClP/IqbjnyBJPcIz9wc9c4nf6xIaHn7hC8U0=;
- b=nkXOJfY37pgHtLp7/KQ2ks4NlluvaOm6AgLzjDV/crKrQANjUVT9LmMMDRhVeN0lbbqzTN+WIRL9OIQmQ2hgYSTA/69NHOgcF/FBgPcpzp6BNcPoB9OsscgExz1boOInHkVfX39G6C1GNk5soXPMclqNP0UgeqgeHO3r5JJjm6c=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYTPR01MB10936.jpnprd01.prod.outlook.com (2603:1096:400:39f::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Tue, 17 Jan
- 2023 10:35:34 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::343d:7339:78e5:a46e]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::343d:7339:78e5:a46e%6]) with mapi id 15.20.5986.023; Tue, 17 Jan 2023
- 10:35:34 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        David Airlie <airlied@gmail.com>,
+        Tue, 17 Jan 2023 08:38:46 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 723E71E1FB;
+        Tue, 17 Jan 2023 05:38:45 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA43410C;
+        Tue, 17 Jan 2023 14:38:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1673962705;
+        bh=y4XQ2I+wNciwgwpuJ5Hqpsxoc0VJ3iJrbRCD6gQbPRA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b7Nk4S+JUqTD1HhHRoKP3PS8RRK4HVMX9x6F9JZbDoKGTJpYvF1pk/hytyCRM9WJi
+         bmyexqNR/X5TPD95jTmssQ9DFoTQjMbHlj5MGvPqbB2crEeCyodN4UN1uiaY4waiEl
+         2Y/V1ijSImP4PmxEKJ1FUzqW7lwjePaarii3JJuA=
+Date:   Tue, 17 Jan 2023 15:38:25 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dave Airlie <airlied@gmail.com>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-CC:     Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] dt-bindings: display: bridge: renesas,rzg2l-mipi-dsi:
- Document RZ/V2L support
-Thread-Topic: [PATCH] dt-bindings: display: bridge: renesas,rzg2l-mipi-dsi:
- Document RZ/V2L support
-Thread-Index: AQHY/qw3aeqnK+DFtki/nIh8FGiGM66iwLSg
-Date:   Tue, 17 Jan 2023 10:35:34 +0000
-Message-ID: <OS0PR01MB5922B51289D10994930F846A86C69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20221122195413.1882486-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20221122195413.1882486-1-biju.das.jz@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYTPR01MB10936:EE_
-x-ms-office365-filtering-correlation-id: 4a67b251-2685-48db-4f4b-08daf87690e4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: uu9pbh5gr5SCMZPD8uJ9zqf325Oz0rQos8VNpqi9JrcMUyptOKEccYsXgBnWH0QJDA31OwTYxP4QaB+lpfrIghR+8uQh2Vxtyso3/gBsOziPqg+z7j7Z7rIRcGC/UThIbi+u5LJ7jNWgtk5DbhIrqCxiA0eAsPKlEhQRl70G/atY3gXg1OBb2lt2dNrb5aVyMKItUdN5pO6JO0rbGIUI6k/lG3sTk8JdXq1MLGJ1cb6c0YAqUmtQa9cez2q7jccNmHeghjrfcC8k5N6buCmVyDCRR7YKoVGBqZJTz0tbDF/TwaHnd3CRu4BST/S3bwQKX2wPcEjGCDxxd3y/r5glWISdrmoqHlR25KYlcVRtuJ9K1STK2YoBj2eURk1ZHVU589ZDS3ttWAZB7yue7eLleOadcxmpdNyGuXl899RmCnmdFonLjCGxm068Fi97u1HRP7iaA4zXD1OTsN2fTcYty9km+3ED0xbuFMRzthgAQeSzsnXzdl7zhC4IRjovtcXlAY2tdoDWw1LD7IIbXTcXWoK5cJPpfueAVg3MNtSaIEY0rhmj89g4zLYiEvPG+90KNxlWqp2IuFQylXIknPkGvusRBRSujjVuvLUCF9qPhzSqSXBx+d6Mqa4hADibFScPbID7j34eZoyliAXZry8SeVE2htDbG/2fPQ/vBPCbpCszF8P3FoB/fcZ3hBGtek5MV9oP2+Qoil4K8w8NmVhLwt6nFBcPOaCGKTs054M3flI=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(39860400002)(136003)(366004)(376002)(451199015)(83380400001)(54906003)(110136005)(966005)(9686003)(71200400001)(478600001)(7696005)(33656002)(55016003)(38100700002)(38070700005)(122000001)(52536014)(41300700001)(186003)(26005)(53546011)(6506007)(2906002)(8676002)(7416002)(64756008)(66556008)(66446008)(66476007)(86362001)(76116006)(4326008)(8936002)(5660300002)(66946007)(316002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Ji2eqAjlzT+CJDo5r3AA12x9GqfeqnX4y/xab5iMXCZPylLngrdiC0q0y5tG?=
- =?us-ascii?Q?ASJvsfLK4x38H+cCrJlvDnlNYa1NtoeQsSaPWfGPLmdDWfbb3GT4UCobUPh0?=
- =?us-ascii?Q?ZrFPFaZelg4BZi1A3WvQfr+uwOa2xMYKHAqJh2MWgaCytfFWrmVcWagpKSw0?=
- =?us-ascii?Q?/zFapLrcejByrfm+/eyrKvVIK3ewrtempp5W82dJpmvO5ilPyNcz9Kzn2NJp?=
- =?us-ascii?Q?h6t18YpXqphzckE9Ce4Bf19NNwnYS2Ei0/QSS5xy3yGOSg3BY3chSjgIdkjr?=
- =?us-ascii?Q?UzKYMAhtvSY5k0cLcQDOGdjlf4WlA7SfJotcErD4HI7LLdYfXzIHBeAL26+T?=
- =?us-ascii?Q?k8L16q8IqAyRK+ZhIMn+h+6vnjyfTPWTIJg7U8MivncVedLSSQXJZdQb0TbB?=
- =?us-ascii?Q?caYCj/VkG65/A9cD3HgbZlXx4d/Spi2+k/dBMamG/J67NwMPnQNVk52wlceN?=
- =?us-ascii?Q?AsS/RkMRVo7qS7XNxHIHs08kofMkWAFNOYS+LN+SaqJgqCcp1LKEI8kRqJal?=
- =?us-ascii?Q?vJQwi5yzB0P6OTt+zbtCtR4bw3djRJko5D5AofDd35EmItt7HxerAGYQhPbZ?=
- =?us-ascii?Q?oZ8HMCygzyzSfq6cDVT+JLt1ksNar1OZkoQDKT38HqBOiwLfY5St9KJYp4ZO?=
- =?us-ascii?Q?+D7oMhNFwqyYGOil+PEPHnn+ZG23UDzNs+gPUO3dT4SsvQbQPQJnD3Xoo/c7?=
- =?us-ascii?Q?QgX0kxonu0PSmlDariZdVrJAvY0sbngwTWsNxXwQGlEhqNoyo8Hgtih/HMyN?=
- =?us-ascii?Q?8DHh8uw4P/IbrXaNPfQrx0LDHCIwzyxonoxs8TjYop81F7de8wSnwdM/dFb5?=
- =?us-ascii?Q?HTakg0DHT9ClPY//SlMPuAhASDDT3IvmzbfYmxicPuGm5r38Om/JmcFiImY4?=
- =?us-ascii?Q?LwKEf0PyPmN5jnRjJ3ME6VagoFq4Y0VN8OQzkDRyV+OfmQ9i/urczU4fSWBh?=
- =?us-ascii?Q?LaD7iGivhXUtl/+M6wCOfI8znteL+Y0oOVh4PVTYmyGraJTNdXzQ+8+hEGfd?=
- =?us-ascii?Q?mkODBbez00ghUQ8yypbgfT1S/QQHdkfksIoyM26vH8IP0bFxy1r1KOcXH2J7?=
- =?us-ascii?Q?gkG0FcMBD4krczKNdj8jiTfcER20F8d6rYA3B5bxN/lXUAt6kraIWl0iWO0P?=
- =?us-ascii?Q?Hvxxq0ezEgmfQhj5UN3aD5EyTMud4EX0YX1bY3TmSbacMiAB0cdq52h6ZBbs?=
- =?us-ascii?Q?BhKQtnbC47tHUbtSNB6CAn/AOCVO2w8xxmVHIWXDYGbK0KXUcN56fq4Jejqr?=
- =?us-ascii?Q?HkA2Rmy9ugol1UJWHilAv2mxCFVKumH46TljQmnDiuKv3rwGNXMgVujPNjnk?=
- =?us-ascii?Q?FKAxwLaX63qRQ0R7Lw5Rc7JmdbGmAYBa190YW0ZZxlXW7yMKmG5XqEFkYYZU?=
- =?us-ascii?Q?C3FvhaL3Ur9JaRFbCXWeuLsqGH905Cc+qKZSsLJAnW7N9TxjWaQe2w32DLMH?=
- =?us-ascii?Q?dS0yBLiZQSuClAKm7r3SvtRRvYzbCTmmxMbfbdhO4Sz+xXb/HB+Y/wroFq29?=
- =?us-ascii?Q?BWZiocIzXRafaok2NSXoZqacSd1hMs1E981wRHzUb6v9e/AEj0GVUD1pUS7I?=
- =?us-ascii?Q?L8EuJ2NRoYBzzkdVnB44Uai3ttYswBujh1KnurAfcEHUhtERV3VN3kv1oYvl?=
- =?us-ascii?Q?jQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v3 0/7] media/drm: renesas: Add new pixel formats
+Message-ID: <Y8ak0SD1YLUZt0Pz@pendragon.ideasonboard.com>
+References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y6m2AqlDdmcgCk8F@pendragon.ideasonboard.com>
+ <479e1dca-8d9c-cc75-75d9-3148ccc54f68@ideasonboard.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a67b251-2685-48db-4f4b-08daf87690e4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jan 2023 10:35:34.6901
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PIYohxnvH4vAmHERplHWmYNh4HJY6kl3L2XJD7IUlIQPeLVh+zuOd+IFA3+1tnfYcW3R3DYjzCkpa0fhTQDa83mkghfFP7AAJdbt5x5bqKg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYTPR01MB10936
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <479e1dca-8d9c-cc75-75d9-3148ccc54f68@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi All,
+Hi Tomi,
 
-Gentle ping.=20
+(CC'ing Mauro and Hans)
 
-It is acked by Krzysztof Kozlowski and Reviewed by Geert.
+On Tue, Jan 10, 2023 at 04:25:37PM +0200, Tomi Valkeinen wrote:
+> On 26/12/2022 16:56, Laurent Pinchart wrote:
+> > Hi Tomi,
+> > 
+> > (CC'ing Daniel and Dave)
+> > 
+> > On Wed, Dec 21, 2022 at 11:24:41AM +0200, Tomi Valkeinen wrote:
+> >> From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >>
+> >> Hi,
+> >>
+> >> These add new pixel formats for Renesas V3U and V4H SoCs.
+> >>
+> >> As the display pipeline is split between DRM and V4L2 components, this
+> >> series touches both subsystems. I'm sending all these together to
+> >> simplify review. If needed, I can later split this to V4L2 and DRM
+> >> parts, of which the V4L2 part needs to be merged first.
+> > 
+> > As the changes on the DRM side are small and shouldn't conflict with
+> > anything else queued for v6.3, it would be easier to merge the whole
+> > series through the media tree. Daniel, Dave, would you be OK with that ?
+> > If so, could you please ack patches 6/7 and 7/7 ?
+> 
+> Note that these patches depend on the two DRM driver patches in "[PATCH 
+> v5 0/7] Renesas V4H DSI & DP output support", which are not very small 
+> (but still not big).
 
-It is blocking for accepting SoC dtsi patches[1] through renesas-soc tree
+Good point. I'm thus leaning more towards merging this through the DRM
+tree then. Mauro, can we get your ack on the V4L2 part of this series ?
+We'll create a stable branch based on v6.2-rc1 in case it also need to
+be merged in the media tree due to last minute conflicts (I'm mainly
+thinking about the new formats).
 
-[1] https://lore.kernel.org/all/20221122213529.2103849-1-biju.das.jz@bp.ren=
-esas.com
+Hans, as there won't be a pull request through the media tree, if you
+want to review the new formats, now would be a good time.
 
-Cheers,
-Biju
+> I don't think there's a compile-time dependency between the DRM and V4L2 
+> parts, but there's a functional side dependency, so it would be nice to 
+> merge these via a single tree. I can't say if DRM or V4L2 tree is 
+> easier, but I don't expect conflicts either way.
 
-> -----Original Message-----
-> From: Biju Das <biju.das.jz@bp.renesas.com>
-> Sent: 22 November 2022 19:54
-> To: Andrzej Hajda <andrzej.hajda@intel.com>; Neil Armstrong
-> <neil.armstrong@linaro.org>; Robert Foss <robert.foss@linaro.org>; David
-> Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; Rob Herring
-> <robh+dt@kernel.org>; Krzysztof Kozlowski
-> <krzysztof.kozlowski+dt@linaro.org>
-> Cc: Biju Das <biju.das.jz@bp.renesas.com>; Laurent Pinchart
-> <Laurent.pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>; Jer=
-nej
-> Skrabec <jernej.skrabec@gmail.com>; dri-devel@lists.freedesktop.org;
-> devicetree@vger.kernel.org; Geert Uytterhoeven <geert+renesas@glider.be>;
-> Fabrizio Castro <fabrizio.castro.jz@renesas.com>; linux-renesas-
-> soc@vger.kernel.org
-> Subject: [PATCH] dt-bindings: display: bridge: renesas,rzg2l-mipi-dsi:
-> Document RZ/V2L support
->=20
-> Document RZ/V2L DSI bindings. RZ/V2L MIPI DSI is identical to one found o=
-n
-> the RZ/G2L SoC. No driver changes are required as generic compatible stri=
-ng
-> "renesas,rzg2l-mipi-dsi" will be used as a fallback.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  .../devicetree/bindings/display/bridge/renesas,dsi.yaml          | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git
-> a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> index 131d5b63ec4f..e08c24633926 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> @@ -22,6 +22,7 @@ properties:
->      items:
->        - enum:
->            - renesas,r9a07g044-mipi-dsi # RZ/G2{L,LC}
-> +          - renesas,r9a07g054-mipi-dsi # RZ/V2L
->        - const: renesas,rzg2l-mipi-dsi
->=20
->    reg:
-> --
-> 2.25.1
+-- 
+Regards,
 
+Laurent Pinchart
