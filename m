@@ -2,29 +2,29 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 19B9D66DF7C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jan 2023 14:53:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8BEE66DF7B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Jan 2023 14:53:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229667AbjAQNxs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Jan 2023 08:53:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46806 "EHLO
+        id S230421AbjAQNxw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Jan 2023 08:53:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229753AbjAQNxG (ORCPT
+        with ESMTP id S230310AbjAQNxH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Jan 2023 08:53:06 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5408F3CE0D
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Jan 2023 05:52:16 -0800 (PST)
+        Tue, 17 Jan 2023 08:53:07 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 505F22B627
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Jan 2023 05:52:17 -0800 (PST)
 Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A48B14DA;
-        Tue, 17 Jan 2023 14:52:13 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 464FE7F8;
+        Tue, 17 Jan 2023 14:52:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1673963534;
-        bh=gqEoZlraEbJMlFqHIIVcwSD4C6uq/6FiErgijUHtE68=;
+        bh=L99YGDzzTbqbieWnC8cqQjbsz6I2by92epxdF6ewtvg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sGst5Ep6px+bRn3jaPjTxWE4iOOW7p8VEFILJT408Jw8JYCL9v1Jy5cbaQZD25P+2
-         p4ZMFosyGsHY7VgYLqysuOcJmn4/DA9GOq8E4GjAqLe1TlEVQRY99NscTtBK6xkEJv
-         HAlU+uQzSmRmeOP3mgIGncICTPc0x7zeHxZ6QIi4=
+        b=Ztc73Q/CiFlMxpPJLagAtwFUiilyMmBfMOaPY85ZDErmrTBNAK+L1pQ0stkP2qhna
+         890W2NrHxyFaYVj1sSMoP7rpdGIO+FPzKi1OzQEg9Zu+dgZnRSwgBD8IwrNqG2mjYu
+         gzivRXnU1b/PfYKBMwqVFO/ftxn6BHq+EBbmqUoQ=
 From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -32,9 +32,9 @@ To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 Cc:     Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
         LUU HOAI <hoai.luu.ub@renesas.com>,
         Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: [PATCH 2/6] drm: rcar-du: lvds: Add reset control
-Date:   Tue, 17 Jan 2023 15:51:50 +0200
-Message-Id: <20230117135154.387208-3-tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH 3/6] drm: rcar-du: Fix LVDS stop sequence
+Date:   Tue, 17 Jan 2023 15:51:51 +0200
+Message-Id: <20230117135154.387208-4-tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230117135154.387208-1-tomi.valkeinen+renesas@ideasonboard.com>
 References: <20230117135154.387208-1-tomi.valkeinen+renesas@ideasonboard.com>
@@ -51,98 +51,63 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
 
-Reset LVDS using the reset control as CPG reset/release is required in
-H/W manual sequence.
+According to H/W manual, LVDCR0 register must be cleared bit by bit when
+disabling LVDS.
 
 Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
 Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
-[tomi.valkeinen: Rewrite the patch description]
+[tomi.valkeinen: simplified the code a bit]
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/rcar-du/Kconfig     |  1 +
- drivers/gpu/drm/rcar-du/rcar_lvds.c | 15 +++++++++++++++
- 2 files changed, 16 insertions(+)
+ drivers/gpu/drm/rcar-du/rcar_lvds.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-index a8f862c68b4f..151e400b996d 100644
---- a/drivers/gpu/drm/rcar-du/Kconfig
-+++ b/drivers/gpu/drm/rcar-du/Kconfig
-@@ -43,6 +43,7 @@ config DRM_RCAR_LVDS
- 	select DRM_PANEL
- 	select OF_FLATTREE
- 	select OF_OVERLAY
-+	select RESET_CONTROLLER
- 
- config DRM_RCAR_USE_MIPI_DSI
- 	bool "R-Car DU MIPI DSI Encoder Support"
 diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index 81a060c2fe3f..674b727cdaa2 100644
+index 674b727cdaa2..01800cef1c33 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -16,6 +16,7 @@
- #include <linux/of_device.h>
- #include <linux/of_graph.h>
- #include <linux/platform_device.h>
-+#include <linux/reset.h>
- #include <linux/slab.h>
- #include <linux/sys_soc.h>
- 
-@@ -60,6 +61,7 @@ struct rcar_lvds_device_info {
- struct rcar_lvds {
- 	struct device *dev;
- 	const struct rcar_lvds_device_info *info;
-+	struct reset_control *rstc;
- 
- 	struct drm_bridge bridge;
- 
-@@ -316,6 +318,8 @@ int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq)
- 
- 	dev_dbg(lvds->dev, "enabling LVDS PLL, freq=%luHz\n", freq);
- 
-+	reset_control_deassert(lvds->rstc);
-+
- 	ret = clk_prepare_enable(lvds->clocks.mod);
- 	if (ret < 0)
- 		return ret;
-@@ -338,6 +342,8 @@ void rcar_lvds_pclk_disable(struct drm_bridge *bridge)
- 	rcar_lvds_write(lvds, LVDPLLCR, 0);
- 
- 	clk_disable_unprepare(lvds->clocks.mod);
-+
-+	reset_control_assert(lvds->rstc);
- }
- EXPORT_SYMBOL_GPL(rcar_lvds_pclk_disable);
- 
-@@ -396,6 +402,8 @@ static void __rcar_lvds_atomic_enable(struct drm_bridge *bridge,
- 	u32 lvdcr0;
- 	int ret;
- 
-+	reset_control_deassert(lvds->rstc);
-+
- 	ret = clk_prepare_enable(lvds->clocks.mod);
- 	if (ret < 0)
- 		return;
-@@ -552,6 +560,7 @@ static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
- 						       old_bridge_state);
- 
- 	clk_disable_unprepare(lvds->clocks.mod);
-+	reset_control_assert(lvds->rstc);
+@@ -87,6 +87,11 @@ static void rcar_lvds_write(struct rcar_lvds *lvds, u32 reg, u32 data)
+ 	iowrite32(data, lvds->mmio + reg);
  }
  
- static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
-@@ -844,6 +853,12 @@ static int rcar_lvds_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		return ret;
- 
-+	lvds->rstc = devm_reset_control_get(&pdev->dev, NULL);
-+	if (IS_ERR(lvds->rstc)) {
-+		dev_err(&pdev->dev, "failed to get cpg reset\n");
-+		return PTR_ERR(lvds->rstc);
++static u32 rcar_lvds_read(struct rcar_lvds *lvds, u32 reg)
++{
++	return ioread32(lvds->mmio + reg);
++}
++
+ /* -----------------------------------------------------------------------------
+  * PLL Setup
+  */
+@@ -549,8 +554,28 @@ static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
+ 				     struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
++	u32 lvdcr0;
++
++	lvdcr0 = rcar_lvds_read(lvds, LVDCR0);
++
++	lvdcr0 &= ~LVDCR0_LVRES;
++	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
++
++	if (lvds->info->quirks & RCAR_LVDS_QUIRK_GEN3_LVEN) {
++		lvdcr0 &= ~LVDCR0_LVEN;
++		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
 +	}
 +
- 	drm_bridge_add(&lvds->bridge);
++	if (lvds->info->quirks & RCAR_LVDS_QUIRK_PWD) {
++		lvdcr0 &= ~LVDCR0_PWD;
++		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
++	}
++
++	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
++		lvdcr0 &= ~LVDCR0_PLLON;
++		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
++	}
  
- 	return 0;
+-	rcar_lvds_write(lvds, LVDCR0, 0);
+ 	rcar_lvds_write(lvds, LVDCR1, 0);
+ 	rcar_lvds_write(lvds, LVDPLLCR, 0);
+ 
 -- 
 2.34.1
 
