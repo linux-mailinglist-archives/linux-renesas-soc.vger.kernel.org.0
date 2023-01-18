@@ -2,78 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E524867163A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jan 2023 09:27:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C4496716AB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jan 2023 09:55:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230094AbjARI1W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Jan 2023 03:27:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43526 "EHLO
+        id S229473AbjARIyp convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Jan 2023 03:54:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229650AbjARI0E (ORCPT
+        with ESMTP id S229971AbjARIwh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Jan 2023 03:26:04 -0500
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 990695B44F;
-        Tue, 17 Jan 2023 23:53:12 -0800 (PST)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-15085b8a2f7so34666426fac.2;
-        Tue, 17 Jan 2023 23:53:12 -0800 (PST)
+        Wed, 18 Jan 2023 03:52:37 -0500
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB0475DC12;
+        Wed, 18 Jan 2023 00:06:17 -0800 (PST)
+Received: by mail-qv1-f46.google.com with SMTP id d13so23302285qvj.8;
+        Wed, 18 Jan 2023 00:06:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ckf5E8d0Cnw+micSJ5vxd9QO1KFnhxODfDAqVKF2Q0k=;
-        b=61XkuxeqbcHeN75KAIqN0uUIqXmdph5hqhUkIGSxuNJx5qSVY7Qe7agxlT1qiDrlxw
-         3kFFuSGU7Ttng175jPprkNzEj8Q31rAb/iKxlhsOuJm2rU94rdTGk7G9QabfsXqG/OmN
-         vdv/BnPWlZFAFFvbbuAcTnw3q6uwVKBQMkA8/tIS6GTpMvJ6Zui8/BjnIgOlOD1eAIUf
-         AnKxZF6pWIGReX8L5rf8vNToN1w0VnYFfBM8Ly+7EjvN3VgOJ6SzYiHtM3GhnsOu/4bA
-         1PB/3YuJ7+xQjZF5hpdLVaFg3aDYh1mVnzwq0DU4HqO02Xxb/ZIxlDIwGySTi7Sk8xnI
-         G+BQ==
-X-Gm-Message-State: AFqh2kpHI3jkAmTMFlBlHF71M7xU47YrSDzBu0sdApxrIOTb9DZDWDPb
-        vpcHzqLiV9kOxxWmg4iwt5u6+O+qXdkoYg==
-X-Google-Smtp-Source: AMrXdXv3HFvK0+bsQSmlhDxPYltMz33ZUPx1/VWAZsq50xvNYmaqoTLM2jLuhz36OLbrGzbjDA2hIQ==
-X-Received: by 2002:a05:6870:b4a5:b0:158:910:8956 with SMTP id y37-20020a056870b4a500b0015809108956mr3548325oap.54.1674028391734;
-        Tue, 17 Jan 2023 23:53:11 -0800 (PST)
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com. [209.85.210.48])
-        by smtp.gmail.com with ESMTPSA id v12-20020a056870b50c00b0014fc049fc0asm18147690oap.57.2023.01.17.23.53.11
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9E5o9U7zZsXisx3q8SidZtLQ1FchE/lbQb7lV8SwSYQ=;
+        b=ZBE6EgDz2xx3kUUzYeyjwb1NjVPLGdkSsi5uBmtO71RveyeUMOJhqkASX568So1djX
+         Kjk0QPqq3mRF+GdCC7jzUypLalH+ogy155tWu/HqsnchZoEaKuhEybI/etN8caqEQdua
+         yEPUAYKCk+CcRZcoli3ajoUEkGOQuKqft07Azkg0XVx+Ust8yRaV6TTXUCOegEf8bFk6
+         tx3Gtm3wgzIXLJRhhPd9j9iPVOVqeVYkFiZvJvTcEqkEvW7sh5d28S429EwgBXo4qKZe
+         /yAHefMyrsL+BcKJqXV6Oho5S9fjAWEkviVfd8DT21SI5VZeMbEYcINhM7DMuTO0HZYR
+         qfaQ==
+X-Gm-Message-State: AFqh2kpU/GkWQzghGEpAnnW//Dy/ATw6StHbeNizicl6NQ1B1HF+WtT2
+        cHQ4rmFC7wWNXOZ5bRTuJ+bw1h6lmoWQsA==
+X-Google-Smtp-Source: AMrXdXuyW8gF8KjGH2qvrOAy4XRRXxiqKRnwCjpkVHLRWjxvbdHjxpXSFmvwp4D0px+PfHvDqJ0DNg==
+X-Received: by 2002:a0c:ed4c:0:b0:534:e0b9:9059 with SMTP id v12-20020a0ced4c000000b00534e0b99059mr8095948qvq.33.1674029176786;
+        Wed, 18 Jan 2023 00:06:16 -0800 (PST)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id q30-20020a37f71e000000b006ec62032d3dsm10280712qkj.30.2023.01.18.00.06.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jan 2023 23:53:11 -0800 (PST)
-Received: by mail-ot1-f48.google.com with SMTP id k44-20020a9d19af000000b00683e176ab01so19217997otk.13;
-        Tue, 17 Jan 2023 23:53:11 -0800 (PST)
-X-Received: by 2002:a81:bd6:0:b0:48d:1334:6e38 with SMTP id
- 205-20020a810bd6000000b0048d13346e38mr726842ywl.316.1674028030903; Tue, 17
- Jan 2023 23:47:10 -0800 (PST)
+        Wed, 18 Jan 2023 00:06:15 -0800 (PST)
+Received: by mail-yb1-f180.google.com with SMTP id 203so37162694yby.10;
+        Wed, 18 Jan 2023 00:06:15 -0800 (PST)
+X-Received: by 2002:a25:9801:0:b0:7d5:b884:3617 with SMTP id
+ a1-20020a259801000000b007d5b8843617mr602817ybo.380.1674029174829; Wed, 18 Jan
+ 2023 00:06:14 -0800 (PST)
 MIME-Version: 1.0
-References: <20230113062339.1909087-1-hch@lst.de> <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
- <20230116071306.GA15848@lst.de> <9325a949-8d19-435a-50bd-9ebe0a432012@landley.net>
- <CAMuHMdUJm5QvzH8hvqwvn9O6qSbzNOapabjw5nh9DJd0F55Zdg@mail.gmail.com> <7329212f-b1a0-41eb-99b3-a56eb1d23138@landley.net>
-In-Reply-To: <7329212f-b1a0-41eb-99b3-a56eb1d23138@landley.net>
+References: <20230105152257.310642-1-herve.codina@bootlin.com>
+In-Reply-To: <20230105152257.310642-1-herve.codina@bootlin.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 18 Jan 2023 08:46:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXo3iR2C=CAaXO5tBRCncnQAAMR6BMPLOm_nBpFAeVhrA@mail.gmail.com>
-Message-ID: <CAMuHMdXo3iR2C=CAaXO5tBRCncnQAAMR6BMPLOm_nBpFAeVhrA@mail.gmail.com>
-Subject: Re: remove arch/sh
-To:     Rob Landley <rob@landley.net>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+Date:   Wed, 18 Jan 2023 09:06:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWbzqvxoMxJ9MCRe4YqayB4YfP14jJ44-QJkSnQr230Ug@mail.gmail.com>
+Message-ID: <CAMuHMdWbzqvxoMxJ9MCRe4YqayB4YfP14jJ44-QJkSnQr230Ug@mail.gmail.com>
+Subject: Re: [PATCH v5 0/5] Add the Renesas USBF controller support
+To:     Herve Codina <herve.codina@bootlin.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-sh@vger.kernel.org
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
@@ -84,73 +77,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+Hi Hervé,
 
-On Wed, Jan 18, 2023 at 5:50 AM Rob Landley <rob@landley.net> wrote:
-> On 1/17/23 14:26, Geert Uytterhoeven wrote:
-> > On Tue, Jan 17, 2023 at 8:01 PM Rob Landley <rob@landley.net> wrote:
-> >> I'm lazy and mostly test each new sh4 build under qemu -M r2d because it's
-> >> really convenient: neither of my physical boards boot from SD card so replacing
-> >> the kernel requires reflashing soldered in flash. (They'll net mount userspace
-> >> but I haven't gotten either bootloader to net-boot a kernel.)
-> >
-> > On my landisk (with boots from CompactFLASH), I boot the original 2.6.22
-> > kernel, and use kexec to boot-test each and every renesas-drivers
-> > release.  Note that this requires both the original 2.6.22 kernel
-> > and matching kexec-tools.
->
-> I make it a point to run _current_ kernels in all my mkroot systems, including
-> sh4. What I shipped was 6.1 is:
->
-> # cat /proc/version
-> Linux version 6.1.0 (landley@driftwood) (sh4-linux-musl-cc (GCC) 9.4.0, GNU ld
-> (GNU Binutils) 2.33.1) #1 Tue Jan 10 16:32:07 CST 2023
+On Thu, Jan 5, 2023 at 4:23 PM Herve Codina <herve.codina@bootlin.com> wrote:
+> This series add support for the Renesas USBF controller (USB Device
+> Controller) available in the Renesas RZ/N1 SoC.
 
-I think you misunderstood: renesas-drivers releases[1] are current
-kernels.
+As Greg seems to be happy with the USB patches (he took the whole
+(sigh) series through usb-next), I will queue
 
-   Linux version 6.2.0-rc3-landisk-01864-g0c6453b3e5f6 (geert@rox)
-(sh4-linux-gnu-gcc (Ubuntu 11.3.0-1ubuntu1~22.04) 11.3.0, GNU ld (GNU
-Binutils for Ubuntu) 2.38) #125 Tue Jan 10 14:29:01 CET 2023
+> Herve Codina (5):
+>   dt-bindings: usb: add the Renesas RZ/N1 USBF controller
+>   soc: renesas: r9a06g032-sysctrl: Handle h2mode setting based on USBF
+>     presence
 
-I use 2.6.22 and kexec as a boot loader for newer kernels, to avoid
-juggling CF cards.  I cannot install a newer base kernel on the CF,
-as kexec is broken upstream.
+... this "clk" patch in renesas-clk-for-v6.3...
 
-> > Apparently both upstreamed kernel and
-> > kexec-tools support for SH are different, and incompatible with each
-> > other, so you cannot kexec from a contemporary kernel.
->
-> Sure you can. Using toybox's insmod and modprobe, anyway. (That's the target I
-> tested those on... :)
->
-> Haven't messed with signing or compression or anything yet, my insmod is just
-> doing syscall(SYS_finit_module) and then falling back to SYS_init_module if that
-> fails and either fd was 0 or errno was ENOSYS. (Don't ask me why
-> SYS_finit_module doesn't work on stdin...)
->
-> https://github.com/landley/toybox/blob/master/toys/other/insmod.c#L31
->
-> https://landley.net/toybox/downloads/binaries/0.8.9/toybox-sh4
+>   usb: gadget: udc: add Renesas RZ/N1 USBF controller support
+>   ARM: dts: r9a06g032: Add the USBF controller node
 
-Again, I think you're talking about something different.
-Does kexec work for you?
-
-> > I tried working my way up from 2.6.22, but gave up around 2.6.29.
-> > Probably I should do this with r2d and qemu instead ;-)
->
-> I have current running there. I've had current running there for years. Config
-> attached...
->
-> > Both r2d and landisk are SH7751.
->
-> Cool. Shouldn't be hard to get landisk running current then.
-
-Current kernels work fine on landisk with an old Debian userspace
-on CF.  The 8139cp driver is a bit flaky: last time I tried nfsroot,
-that didn't work well.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+... and this DT patch in renesas-devel for v6.3.
 
 Gr{oetje,eeting}s,
 
