@@ -2,32 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF462672B5E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jan 2023 23:35:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56899672C2D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jan 2023 00:01:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230007AbjARWfO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Jan 2023 17:35:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40970 "EHLO
+        id S229670AbjARXBn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Jan 2023 18:01:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229564AbjARWfN (ORCPT
+        with ESMTP id S229524AbjARXBm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Jan 2023 17:35:13 -0500
-Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D11D15CFC8;
-        Wed, 18 Jan 2023 14:35:10 -0800 (PST)
-Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
-        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id 3957518839F7;
-        Wed, 18 Jan 2023 22:35:09 +0000 (UTC)
-Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
-        by mailout.gigahost.dk (Postfix) with ESMTP id D5A7B25003AB;
-        Wed, 18 Jan 2023 22:35:08 +0000 (UTC)
-Received: by smtp.gigahost.dk (Postfix, from userid 1000)
-        id BD31391201E4; Wed, 18 Jan 2023 22:35:08 +0000 (UTC)
-X-Screener-Id: 413d8c6ce5bf6eab4824d0abaab02863e8e3f662
-MIME-Version: 1.0
-Date:   Wed, 18 Jan 2023 23:35:08 +0100
-From:   netdev@kapio-technology.com
-To:     Vladimir Oltean <olteanv@gmail.com>
+        Wed, 18 Jan 2023 18:01:42 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D73BD4FC35;
+        Wed, 18 Jan 2023 15:01:40 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id hw16so1153383ejc.10;
+        Wed, 18 Jan 2023 15:01:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JG0zmDr4Gx7JTYrA4JUjYF+9TusUlPQwAzE14ZbaLBE=;
+        b=oRqBiOJYIlMdDowmL/wHGABFcI0fDixl2PMB36ctD5uSKk3azFGtf6qd2Fvk85nbjC
+         RZGiY6WOS6aL3GADhFTaSpq9sDvNd66O4zvJIfSzbuoiU8TfqAStjiekALks5NkGSaKe
+         ovGZ8gH0HmxO9jFlluSL74dBYh1vn5KfO7NSBBuv+DCGaPm6jsuW1hq8QeP+fNTfmlqX
+         3IcskUgDBjlFzRib6paxCj+S90vgVnJVBiNY0ccVMPpVBJ9PeZVJOHdXXs+2uIBtQoT/
+         vlsHkNs0iO6OaL9F9gRjvD02YML4zxlAojbWSyksCeYa74+TLtrx2SxLVb3arsFe5b7r
+         ZhGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JG0zmDr4Gx7JTYrA4JUjYF+9TusUlPQwAzE14ZbaLBE=;
+        b=3KyCHuspMJPJVqNIBs8eJvSsb0B8lAFbzzjJRt9QmrH0LkaKJTyqos4GncvXh9n6VD
+         UgTEAJ2VKj57KpaKi8ZNu9Zs8J1SgRRt1ckX4X7wQZPJkjxEdXP2e3/j3RO2ziiM2ZmU
+         kYLZ/tTB2Sgk5LkuffCZ3+C2VzBkf+uAwkBuMbwtHklAt5Je9L8PetSahda6MnuVnbnA
+         xy7n2UwkkJ1EC89Ns+p8c1pgPRsGcjgJkADkmQrA/poT1ajBhW5Wms2kw6HTL5olkz22
+         +keeC+fRmhR65gqhMM1GDG09IvveFj9Pof/JncqSiEhaJ4Gsj5D+js4svCvX2t/LQX5p
+         FgDg==
+X-Gm-Message-State: AFqh2koC9x8S2KT1jN8X++boGvEe3EScoKlSB1WmU2t+1HDRl8S+rFSd
+        bJLQ7o+fJocj6z22aDnRAB0=
+X-Google-Smtp-Source: AMrXdXuoqpi45+sG2pftBtwBbFskPfB44UC+cRcWbZWXXc+n+Hirrb16NdbKE6aaVF+8KoKPwtvNJQ==
+X-Received: by 2002:a17:907:1019:b0:84c:69f8:2ec2 with SMTP id ox25-20020a170907101900b0084c69f82ec2mr8598505ejb.22.1674082899134;
+        Wed, 18 Jan 2023 15:01:39 -0800 (PST)
+Received: from skbuf ([188.27.185.42])
+        by smtp.gmail.com with ESMTPSA id k11-20020a1709062a4b00b0073022b796a7sm15579629eje.93.2023.01.18.15.01.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jan 2023 15:01:38 -0800 (PST)
+Date:   Thu, 19 Jan 2023 01:01:35 +0200
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     netdev@kapio-technology.com
 Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
         Florian Fainelli <f.fainelli@gmail.com>,
         Andrew Lunn <andrew@lunn.ch>,
@@ -43,7 +67,7 @@ Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Claudiu Manoil <claudiu.manoil@nxp.com>,
         Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?UTF-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>,
+        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
         Jiri Pirko <jiri@resnulli.us>,
         Ivan Vecera <ivecera@redhat.com>,
         Roopa Prabhu <roopa@nvidia.com>,
@@ -60,105 +84,51 @@ Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
         "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>
 Subject: Re: [RFC PATCH net-next 2/5] net: dsa: propagate flags down towards
  drivers
-In-Reply-To: <20230117231750.r5jr4hwvpadgopmf@skbuf>
+Message-ID: <20230118230135.szu6a7kvt2mjb3i5@skbuf>
 References: <20230117185714.3058453-1-netdev@kapio-technology.com>
  <20230117185714.3058453-3-netdev@kapio-technology.com>
  <20230117231750.r5jr4hwvpadgopmf@skbuf>
-User-Agent: Gigahost Webmail
-Message-ID: <e4acb7edb300d41a9459890133b928b4@kapio-technology.com>
-X-Sender: netdev@kapio-technology.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+ <e4acb7edb300d41a9459890133b928b4@kapio-technology.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e4acb7edb300d41a9459890133b928b4@kapio-technology.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2023-01-18 00:17, Vladimir Oltean wrote:
-> On Tue, Jan 17, 2023 at 07:57:11PM +0100, Hans J. Schultz wrote:
->> Dynamic FDB flag needs to be propagated through the DSA layer to be
->> added to drivers.
->> Use a u16 for fdb flags for future use, so that other flags can also 
->> be
->> sent the same way without having to change function interfaces.
->> 
->> Signed-off-by: Hans J. Schultz <netdev@kapio-technology.com>
->> ---
->> @@ -3364,6 +3368,7 @@ static int dsa_slave_fdb_event(struct net_device 
->> *dev,
->>  	struct dsa_port *dp = dsa_slave_to_port(dev);
->>  	bool host_addr = fdb_info->is_local;
->>  	struct dsa_switch *ds = dp->ds;
->> +	u16 fdb_flags = 0;
->> 
->>  	if (ctx && ctx != dp)
->>  		return 0;
->> @@ -3410,6 +3415,9 @@ static int dsa_slave_fdb_event(struct net_device 
->> *dev,
->>  		   orig_dev->name, fdb_info->addr, fdb_info->vid,
->>  		   host_addr ? " as host address" : "");
->> 
->> +	if (fdb_info->is_dyn)
->> +		fdb_flags |= DSA_FDB_FLAG_DYNAMIC;
->> +
-> 
-> Hmm, I don't think this is going to work with the 
-> assisted_learning_on_cpu_port
-> feature ("if (switchdev_fdb_is_dynamically_learned(fdb_info))"). The
-> reason being
-> that a "dynamically learned" FDB entry (defined as this):
-> 
-> static inline bool
-> switchdev_fdb_is_dynamically_learned(const struct
-> switchdev_notifier_fdb_info *fdb_info)
-> {
-> 	return !fdb_info->added_by_user && !fdb_info->is_local;
-> }
-> 
-> is also dynamic in the DSA_FDB_FLAG_DYNAMIC sense. But we install a
-> static FDB entry for it on the CPU port.
-> 
-> And in your follow-up patch 3/5, you make all drivers except mv88e6xxx
-> ignore all DSA_FDB_FLAG_DYNAMIC entries (including the ones snooped 
-> from
-> address learning on software interfaces). So this breaks those drivers
-> which don't implement DSA_FDB_FLAG_DYNAMIC but do set
-> ds->assisted_learning_on_cpu_port
-> to true.
+On Wed, Jan 18, 2023 at 11:35:08PM +0100, netdev@kapio-technology.com wrote:
+> I am not sure I understand you entirely.
+> From my standpoint I see it as so: that until now any fdb entry coming to
+> port_fdb_add() (or port_fdb_del()) are seen as static entries. And this
+> changes nothing with respect to those static entries as how drivers handle
+> them.
 
-I am not sure I understand you entirely.
- From my standpoint I see it as so: that until now any fdb entry coming 
-to port_fdb_add() (or port_fdb_del()) are seen as static entries. And 
-this changes nothing with respect to those static entries as how drivers 
-handle them.
-When the new dynamic flag is true, all drivers will ignore it in patch 
-#3, so basically nothing will change by that. Then in patch #5 the 
-dynamic flag is handled by the mv88e6xxx driver.
+This is true; it is implicit that the port_fdb_add() and port_fdb_del()
+DSA methods request switches to operate on static FDB entries (in hardware).
 
-I don't know the assisted_learning_on_cpu_port feature you mention, but 
-there has still not been anything but static entries going towards 
-port_fdb_add() yet...
+> When the new dynamic flag is true, all drivers will ignore it in patch #3,
+> so basically nothing will change by that.
 
+This is not true, because it assumes that DSA never called port_fdb_add()
+up until now for bridge FDB entries with the BR_FDB_STATIC flag unset,
+which is incorrect (it did).
+
+So what will change is that drivers which used to react to those bridge
+FDB entries will stop doing so.
+
+> Then in patch #5 the dynamic flag is handled by the mv88e6xxx driver.
 > 
-> I think you also want to look at the added_by_user flag to disambiguate
-> between a dynamic FDB entry added from learning (which it's ok to
-> offload as static, because software ageing will remove it) and one 
-> added
-> by the user.
-> 
->>  	INIT_WORK(&switchdev_work->work, dsa_slave_switchdev_event_work);
->>  	switchdev_work->event = event;
->>  	switchdev_work->dev = dev;
->> @@ -3418,6 +3426,7 @@ static int dsa_slave_fdb_event(struct net_device 
->> *dev,
->>  	ether_addr_copy(switchdev_work->addr, fdb_info->addr);
->>  	switchdev_work->vid = fdb_info->vid;
->>  	switchdev_work->host_addr = host_addr;
->> +	switchdev_work->fdb_flags = fdb_flags;
->> 
->>  	dsa_schedule_work(&switchdev_work->work);
->> 
+> I don't know the assisted_learning_on_cpu_port feature you mention, but
+> there has still not been anything but static entries going towards
+> port_fdb_add() yet...
+
+For starters, you can read the commit message of the patch that
+introduced it, which is d5f19486cee7 ("net: dsa: listen for
+SWITCHDEV_{FDB,DEL}_ADD_TO_DEVICE on foreign bridge neighbors").
