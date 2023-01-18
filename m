@@ -2,107 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1914D672783
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jan 2023 19:55:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE42D6727F6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jan 2023 20:16:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229459AbjARSzn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Jan 2023 13:55:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38030 "EHLO
+        id S229553AbjARTQc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Jan 2023 14:16:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229606AbjARSzm (ORCPT
+        with ESMTP id S229489AbjARTQb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Jan 2023 13:55:42 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61B4359B5F
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Jan 2023 10:55:41 -0800 (PST)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1pIDak-0000fm-BE; Wed, 18 Jan 2023 19:55:22 +0100
-Received: from pengutronix.de (unknown [IPv6:2a03:f580:87bc:d400:edde:b534:8a61:9dbc])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id B526B15B0E4;
-        Wed, 18 Jan 2023 18:55:19 +0000 (UTC)
-Date:   Wed, 18 Jan 2023 19:55:11 +0100
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Aswath Govindraju <a-govindraju@ti.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-can@vger.kernel.org, linux-phy@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 0/2] phy: Add support for NXP TJR1443 CAN Transceiver
-Message-ID: <20230118185511.jepo6sseafg452sk@pengutronix.de>
-References: <cover.1674037830.git.geert+renesas@glider.be>
+        Wed, 18 Jan 2023 14:16:31 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB41053571
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Jan 2023 11:16:29 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59DF21056;
+        Wed, 18 Jan 2023 20:16:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674069387;
+        bh=bKeQLKeTTFxJ85OHKNUDvpsQe5WNpGmEl0k/cSrjlMU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hPhtbm5YT6RiMFONRnNp+a0pPDkervaulIdbN2ddy3lcfq4xparm5S0LP+I/PmB6f
+         6HFgRFkYfud1rV85NEQOhkKk99YzvXxaNmHCQFq6pJb7HWvc3CtWENQW/lkL2hwWGX
+         DOX82DkGlueZzBI7JwMb7Eul9TsPMHs9sdaA5D98=
+Date:   Wed, 18 Jan 2023 21:16:25 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Peter Robinson <pbrobinson@gmail.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] drm: rcar-du: depend on DRM_RCAR_DU for components on
+ that SoC
+Message-ID: <Y8hFiZVPi8XCRPxa@pendragon.ideasonboard.com>
+References: <20230108060401.391061-1-pbrobinson@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="vankhrwftcwisvsj"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cover.1674037830.git.geert+renesas@glider.be>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20230108060401.391061-1-pbrobinson@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Peter,
 
---vankhrwftcwisvsj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch.
 
-On 18.01.2023 11:39:22, Geert Uytterhoeven wrote:
-> 	Hi all,
->=20
-> The NXP TJR1443 High-speed CAN transceiver with Sleep mode is a
-> pin-compatible alternative for the TI TCAN1043.  Hence this patch series
-> adds support for it to the existing TI TCAN1043 DT bindings and to the
-> generic CAN Transceiver PHY driver.
->=20
-> This has been tested on the Renesas White-Hawk development board.
->=20
-> Thanks for your comments!
+On Sun, Jan 08, 2023 at 06:04:01AM +0000, Peter Robinson wrote:
+> There's a few components in the rcar-du drm directory that
+> don't make sense to be selectable if DRM_RCAR_DU isn't because
+> they are part of the IP block so add a dependency and add
+> compile check to ensure they're still tested.
+> 
+> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+> ---
+> 
+> v2:
+> - typo fix in commit message
+> - s/ARCH_RENESAS/DRM_RCAR_DU
+> 
+>  drivers/gpu/drm/rcar-du/Kconfig | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> index b2bddbeca878..362fb6099e9f 100644
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -25,6 +25,7 @@ config DRM_RCAR_CMM
+>  config DRM_RCAR_DW_HDMI
+>  	tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
+>  	depends on DRM && OF
+> +	depends on DRM_RCAR_DU || COMPILE_TEST
 
-For both patches:
+How about dropping COMPILE_TEST ? DRM_RCAR_DU itself has
 
-Acked-by: Marc Kleine-Budde <mkl@pengutronix.de>
+	depends on ARCH_RENESAS || COMPILE_TEST
 
-Marc
+so if COMPILE_TEST is set we'll be able to test these drivers when
+DRM_RCAR_DU is enabled. Same below.
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+I can update this when taking the patch in my tree, there's no need to
+send a v3.
 
---vankhrwftcwisvsj
-Content-Type: application/pgp-signature; name="signature.asc"
+>  	select DRM_DW_HDMI
+>  	help
+>  	  Enable support for R-Car Gen3 or RZ/G2 internal HDMI encoder.
+> @@ -32,6 +33,7 @@ config DRM_RCAR_DW_HDMI
+>  config DRM_RCAR_USE_LVDS
+>  	bool "R-Car DU LVDS Encoder Support"
+>  	depends on DRM_BRIDGE && OF
+> +	depends on DRM_RCAR_DU || COMPILE_TEST
+>  	default DRM_RCAR_DU
+>  	help
+>  	  Enable support for the R-Car Display Unit embedded LVDS encoders.
+> @@ -45,6 +47,7 @@ config DRM_RCAR_LVDS
+>  config DRM_RCAR_USE_MIPI_DSI
+>  	bool "R-Car DU MIPI DSI Encoder Support"
+>  	depends on DRM_BRIDGE && OF
+> +	depends on DRM_RCAR_DU || COMPILE_TEST
+>  	default DRM_RCAR_DU
+>  	help
+>  	  Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
 
------BEGIN PGP SIGNATURE-----
+-- 
+Regards,
 
-iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmPIQIwACgkQrX5LkNig
-013+TAf9FCnLGd5e/KZG5ygyduglODeGFDaDHkAb8Iks0AB7NzKvx8eMDOqoYnwB
-JPPpZMN5KxvE1E+8LSZ1IHygxiCtG9LwySztiQebfIhBLO4JkiIJR8w4x++viN0h
-5gKC5/PuBIa1v0znqOH44kRMKCIspJ4c1ALfav3ZRG5CBmJRYAR33CMtyqwrSRUm
-YKf1dJPoCBno/ll1j4hz/LWbQO5kBWw6itRVsm+fR66q/tiQtTtWTyq+zxZnfVnk
-vxNfuUSOrze5dIhmEVGnDhF+Vj5TDnVV4GfImBAbfD5zkqAaqq3DOuwoFeHMS78m
-/H7j72RSD4zA7zdw+Y9kT00/g+nLWA==
-=YaNG
------END PGP SIGNATURE-----
-
---vankhrwftcwisvsj--
+Laurent Pinchart
