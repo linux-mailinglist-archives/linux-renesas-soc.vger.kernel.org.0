@@ -2,77 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38604672757
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jan 2023 19:45:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1914D672783
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Jan 2023 19:55:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230114AbjARSpN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Jan 2023 13:45:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60348 "EHLO
+        id S229459AbjARSzn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Jan 2023 13:55:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231222AbjARSpF (ORCPT
+        with ESMTP id S229606AbjARSzm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Jan 2023 13:45:05 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20883144A3;
-        Wed, 18 Jan 2023 10:45:05 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DCEC8B81E13;
-        Wed, 18 Jan 2023 18:45:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74DD9C433F1;
-        Wed, 18 Jan 2023 18:45:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674067502;
-        bh=PBRyD7MKNaCb7PWBgF9NC7DLnhcGgYkOKn+XmoVUTZ0=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=tXLwwG+4qh/YESvvqR60W06xni2SgSHl9t+bg6B9YgPv4lPRcGEiDE6xC1ReBNDuo
-         qnXHOx173OYLtRMTZm95KkFYOl7oA2fXib4M78j2PO7pJ/1r5ZqiG2CDI0n4tngoed
-         Qk2SfjbWBjKG9BZehcBj/9u5RyrluSThKO5W7pw0V15HrNwI3LwetXcFXbU0VF52Nq
-         sa0/3i0RPbecJ0XMCL3jn103Kr7iE/ZxAU89iPTRwfszXK48k1hbKAPZ3qkB5vCNNI
-         G01scXEL7EFSp3Nv7DFjpHMBPa/mrhPUNWqqhH6KweM+1DXsqxW1SAHyBMN4j5ovGW
-         QDxOeqXdAMmjg==
-Message-ID: <378e11b64af50cee80e3e739c4db5a62.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+        Wed, 18 Jan 2023 13:55:42 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61B4359B5F
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Jan 2023 10:55:41 -0800 (PST)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1pIDak-0000fm-BE; Wed, 18 Jan 2023 19:55:22 +0100
+Received: from pengutronix.de (unknown [IPv6:2a03:f580:87bc:d400:edde:b534:8a61:9dbc])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id B526B15B0E4;
+        Wed, 18 Jan 2023 18:55:19 +0000 (UTC)
+Date:   Wed, 18 Jan 2023 19:55:11 +0100
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Aswath Govindraju <a-govindraju@ti.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-can@vger.kernel.org, linux-phy@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 0/2] phy: Add support for NXP TJR1443 CAN Transceiver
+Message-ID: <20230118185511.jepo6sseafg452sk@pengutronix.de>
+References: <cover.1674037830.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <cover.1673702689.git.geert+renesas@glider.be>
-References: <cover.1673702689.git.geert+renesas@glider.be>
-Subject: Re: [GIT PULL] clk: renesas: Updates for v6.3
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>
-Date:   Wed, 18 Jan 2023 10:45:00 -0800
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vankhrwftcwisvsj"
+Content-Disposition: inline
+In-Reply-To: <cover.1674037830.git.geert+renesas@glider.be>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2023-01-14 05:25:54)
->         Hi Mike, Stephen,
->=20
-> The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71=
-c2:
->=20
->   Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
->=20
-> are available in the Git repository at:
->=20
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
- tags/renesas-clk-for-v6.3-tag1
->=20
-> for you to fetch changes up to fbfd614aeaa2853c2c575299dfe2458db8eff67e:
->=20
->   clk: renesas: cpg-mssr: Fix use after free if cpg_mssr_common_init() fa=
-iled (2023-01-12 17:18:48 +0100)
->=20
-> ----------------------------------------------------------------
 
-Thanks. Pulled into clk-next
+--vankhrwftcwisvsj
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 18.01.2023 11:39:22, Geert Uytterhoeven wrote:
+> 	Hi all,
+>=20
+> The NXP TJR1443 High-speed CAN transceiver with Sleep mode is a
+> pin-compatible alternative for the TI TCAN1043.  Hence this patch series
+> adds support for it to the existing TI TCAN1043 DT bindings and to the
+> generic CAN Transceiver PHY driver.
+>=20
+> This has been tested on the Renesas White-Hawk development board.
+>=20
+> Thanks for your comments!
+
+For both patches:
+
+Acked-by: Marc Kleine-Budde <mkl@pengutronix.de>
+
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--vankhrwftcwisvsj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmPIQIwACgkQrX5LkNig
+013+TAf9FCnLGd5e/KZG5ygyduglODeGFDaDHkAb8Iks0AB7NzKvx8eMDOqoYnwB
+JPPpZMN5KxvE1E+8LSZ1IHygxiCtG9LwySztiQebfIhBLO4JkiIJR8w4x++viN0h
+5gKC5/PuBIa1v0znqOH44kRMKCIspJ4c1ALfav3ZRG5CBmJRYAR33CMtyqwrSRUm
+YKf1dJPoCBno/ll1j4hz/LWbQO5kBWw6itRVsm+fR66q/tiQtTtWTyq+zxZnfVnk
+vxNfuUSOrze5dIhmEVGnDhF+Vj5TDnVV4GfImBAbfD5zkqAaqq3DOuwoFeHMS78m
+/H7j72RSD4zA7zdw+Y9kT00/g+nLWA==
+=YaNG
+-----END PGP SIGNATURE-----
+
+--vankhrwftcwisvsj--
