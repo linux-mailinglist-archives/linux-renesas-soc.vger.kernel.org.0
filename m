@@ -2,125 +2,213 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1931673A8E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jan 2023 14:41:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1577673DF0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jan 2023 16:50:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230265AbjASNlY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Jan 2023 08:41:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47090 "EHLO
+        id S231496AbjASPu1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Jan 2023 10:50:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231377AbjASNky (ORCPT
+        with ESMTP id S231543AbjASPuG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Jan 2023 08:40:54 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9451278AB4;
-        Thu, 19 Jan 2023 05:40:50 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id b4so2971285edf.0;
-        Thu, 19 Jan 2023 05:40:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2sA9EhPclZO6+f6VLQzu+GI/zukGWQQoz8R1Dt12GsI=;
-        b=Ssrumq6PQhx2e/g4Bd6SuNl23SQH9Qv/nzp1Uy9v//x8kEfruuqhhMNDkoX0H6ubCI
-         MaR+SU/RqMNRmjwnNWDMEcpz5GjfoleC+3BNcTsopxhWnVzJ1nwvkgl4GUS7gqR9n1Fq
-         izOLXvz1I0ML3IDmv7IE1eUXRtk1Yci1fVgckWGdmoTrtO/ZlMVH35H0a2v/yyavFMTI
-         dgIH49auVy3dEz1m78McldLsu3o9041upq0t+vH0lbSnrUxZ+kOG4XyhlXJ82KOUrTZk
-         0WYx/93yCnKvBMWzXt48IicEnnzHqiPpFmQESj7PjC1dRCf2NXHPeU7yGmFs8AcDl6o1
-         hazw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2sA9EhPclZO6+f6VLQzu+GI/zukGWQQoz8R1Dt12GsI=;
-        b=1j2NJZidS+By0h6XrS1PaKz9g1mTACRpTRZsGCy43VMDrwigaxcvy4OFKlATijmUCU
-         zZrPu3uiijCxj9lQdBcuD+Q+eBDcPsqujX65ux27AhANawMuodujkCREoZvmWMi8Nnqa
-         5KKbEqtPi7WUV4nM/hlicpP+7NVIrIHTf/tpONaYcqEvFgPNAmjiwEYPzLMAnUxpidO6
-         QEfsZdZa8hdtWDT/lQMjG2qGngZSU4hl5LhXb93I8kQo5g7kk/nSJM4kXpr+A6Z3jk0R
-         RKMZKrijD30Qdi/u0PEVRKTc2fF1nFpkUamFgysPJOO2LjNvHPzWsHmuOCIQ1ZnkB7Ic
-         naOw==
-X-Gm-Message-State: AFqh2kqd8mXHy7ImjY30cZyxBsZWtSz1QID0fSlCZOq9g7qTquh/9ttF
-        5Al/Ct/AKrG0Bb1zXcij87s=
-X-Google-Smtp-Source: AMrXdXvXkuKoZFQFQT4KXsKjMumQ66Scy56M1tiUgcqYCQA/AY3QpuuZlRLh4qPLSeGgenAVe3KP+g==
-X-Received: by 2002:a05:6402:cba:b0:49d:25f3:6b4e with SMTP id cn26-20020a0564020cba00b0049d25f36b4emr10522051edb.28.1674135648960;
-        Thu, 19 Jan 2023 05:40:48 -0800 (PST)
-Received: from skbuf ([188.27.185.85])
-        by smtp.gmail.com with ESMTPSA id sb25-20020a1709076d9900b0084c6581c16fsm16304907ejc.64.2023.01.19.05.40.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 05:40:48 -0800 (PST)
-Date:   Thu, 19 Jan 2023 15:40:45 +0200
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     netdev@kapio-technology.com
-Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
-        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Ivan Vecera <ivecera@redhat.com>,
-        Roopa Prabhu <roopa@nvidia.com>,
-        Nikolay Aleksandrov <razor@blackwall.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>
-Subject: Re: [RFC PATCH net-next 1/5] net: bridge: add dynamic flag to
- switchdev notifier
-Message-ID: <20230119134045.fqdt6zrna5x3iavt@skbuf>
-References: <20230117185714.3058453-1-netdev@kapio-technology.com>
- <20230117185714.3058453-2-netdev@kapio-technology.com>
- <20230117230806.ipwcbnq4jcc4qs7z@skbuf>
- <a3bba3eb856a00b5e5e0c1e2ffe8749a@kapio-technology.com>
- <20230119093358.gbyka2x4qbxxr43b@skbuf>
+        Thu, 19 Jan 2023 10:50:06 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A6FB81036
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Jan 2023 07:49:17 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3DC7B7EC;
+        Thu, 19 Jan 2023 16:49:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674143355;
+        bh=thAdWWBLV56GtcVYo9MeaTwC8tRtJtppaSv4bl2hA44=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tHdAYLoWZltLpBJ37ixsCzbM0Uhb6HG9OUN3Xr0hfOU983RBceJhF70H6B5d/cBk1
+         PVSXkNiTa0L1x2t38KNR2CEt/FVTWAIlhFgTnnjJOyc5cEQJQSwQs1iQlhtSKEvzgR
+         PjmzieWKf/BSfpp52XNKkOb16Myp2t0rUa3YPFi4=
+Date:   Thu, 19 Jan 2023 17:49:13 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 5/6] drm: rcar-du: Fix setting a reserved bit in DPLLCR
+Message-ID: <Y8lmebwv+WwZcrYr@pendragon.ideasonboard.com>
+References: <20230117135154.387208-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20230117135154.387208-6-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y8hm54mvZEcBaBo8@pendragon.ideasonboard.com>
+ <9b2a6b63-3712-3acb-aa17-6d223237c07d@ideasonboard.com>
+ <Y8kQCmdyEwOWna5A@pendragon.ideasonboard.com>
+ <fed77104-43d8-e608-a2b8-dbf3d0b32f00@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230119093358.gbyka2x4qbxxr43b@skbuf>
+In-Reply-To: <fed77104-43d8-e608-a2b8-dbf3d0b32f00@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 11:33:58AM +0200, Vladimir Oltean wrote:
-> On Wed, Jan 18, 2023 at 11:14:00PM +0100, netdev@kapio-technology.com wrote:
-> > > > +	item->is_dyn = !test_bit(BR_FDB_STATIC, &fdb->flags);
-> > > 
-> > > Why reverse logic? Why not just name this "is_static" and leave any
-> > > further interpretations up to the consumer?
-> > 
-> > My reasoning for this is that the common case is to have static entries,
-> > thus is_dyn=false, so whenever someone uses a switchdev_notifier_fdb_info
-> > struct the common case does not need to be entered.
-> > Otherwise it might also break something when someone uses this struct and if
-> > it was 'is_static' and they forget to code is_static=true they will get
-> > dynamic entries without wanting it and it can be hard to find such an error.
-> 
-> I'll leave it up to bridge maintainers if this is preferable to patching
-> all callers of SWITCHDEV_FDB_ADD_TO_BRIDGE such that they set is_static=true.
+Hi Tomi,
 
-Actually, why would you assume that all users of SWITCHDEV_FDB_ADD_TO_BRIDGE
-want to add static FDB entries? You can't avoid inspecting the code and
-making sure that the is_dyn/is_static flag is set correctly either way.
+On Thu, Jan 19, 2023 at 12:24:48PM +0200, Tomi Valkeinen wrote:
+> On 19/01/2023 11:40, Laurent Pinchart wrote:
+> > On Thu, Jan 19, 2023 at 11:17:58AM +0200, Tomi Valkeinen wrote:
+> >> On 18/01/2023 23:38, Laurent Pinchart wrote:
+> >>> On Tue, Jan 17, 2023 at 03:51:53PM +0200, Tomi Valkeinen wrote:
+> >>>> On H3 ES1 two bits in DPLLCR are used to select the DU input dot clock
+> >>>
+> >>> s/ES1/ES1.x/
+> >>>
+> >>> Same below.
+> >>
+> >> Ok. But I do wonder, is there a difference? What's the case when ES1
+> >> could be mistaken to mean something else?
+> > 
+> > It's just for consistency I suppose. No big deal.
+> > 
+> >>>> source. These are bits 20 and 21 for DU2, and bits 22 and 23 for DU1. On
+> >>>> non-ES1, only the higher bits are used (bits 21 and 23), and the lower
+> >>>> bits are reserved and should be set to 0 (or not set at all).
+> >>>
+> >>> How do you not set a bit ? :-)
+> >>
+> >> By leaving it to the value the register already has. But as we don't
+> >> read the register as a base value here, I guess that comment is a bit
+> >> misleading.
+> >>
+> >>>> The current code always sets the lower bits, even on non-ES1.
+> >>>
+> >>> I think that's harmless, and not worth making the driver more complex,
+> >>> but I'll stop fighting.
+> >>>
+> >>>> For both DU1 and DU2, on all SoC versions, when writing zeroes to those
+> >>>> bits the input clock is DCLKIN, and thus there's no difference between
+> >>>> ES1 and non-ES1.
+> >>>>
+> >>>> For DU1, writing 0b10 to the bits (or only writing the higher bit)
+> >>>> results in using PLL0 as the input clock, so in this case there's also
+> >>>> no difference between ES1 and non-ES1.
+> >>>>
+> >>>> However, for DU2, writing 0b10 to the bits results in using PLL0 as the
+> >>>> input clock on ES1, whereas on non-ES1 it results in using PLL1. On ES1
+> >>>> you need to write 0b11 to select PLL1.
+> >>>>
+> >>>> The current code always writes 0b11 to PLCS0 field to select PLL1 on all
+> >>>> SoC versions, which works but causes an illegal (in the sense of not
+> >>>> allowed by the documentation) write to a reserved bit field.
+> >>>>
+> >>>> To remove the illegal bit write on PLSC0 we need to handle the input dot
+> >>>> clock selection differently for ES1 and non-ES1.
+> >>>>
+> >>>> Add a new quirk, RCAR_DU_QUIRK_H3_ES1_PLL, for this, and a new
+> >>>> rcar_du_device_info entry for the ES1 SoC. Using these, we can always
+> >>>
+> >>> The new entry was added in the previous patch already.
+> >>
+> >> Indeed.
+> >>
+> >>>> set the bit 21 on PLSC0 when choosing the PLL as the source clock, and
+> >>>> additionally set the bit 20 when on ES1.
+> >>>>
+> >>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> >>>> ---
+> >>>>    drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 12 ++++++++++--
+> >>>>    drivers/gpu/drm/rcar-du/rcar_du_drv.c  |  3 ++-
+> >>>>    drivers/gpu/drm/rcar-du/rcar_du_drv.h  |  1 +
+> >>>>    drivers/gpu/drm/rcar-du/rcar_du_regs.h |  3 ++-
+> >>>>    4 files changed, 15 insertions(+), 4 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> >>>> index f2d3266509cc..8d660a6141bf 100644
+> >>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> >>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> >>>> @@ -245,12 +245,20 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
+> >>>>    		       | DPLLCR_N(dpll.n) | DPLLCR_M(dpll.m)
+> >>>>    		       | DPLLCR_STBY;
+> >>>>    
+> >>>> -		if (rcrtc->index == 1)
+> >>>> +		if (rcrtc->index == 1) {
+> >>>>    			dpllcr |= DPLLCR_PLCS1
+> >>>>    			       |  DPLLCR_INCS_DOTCLKIN1;
+> >>>> -		else
+> >>>> +		} else {
+> >>>>    			dpllcr |= DPLLCR_PLCS0
+> >>>>    			       |  DPLLCR_INCS_DOTCLKIN0;
+> >>>> +			/*
+> >>>> +			 * On H3 ES1.x, in addition to setting bit 21 (PLCS0),
+> >>>> +			 * also bit 20 has to be set to select PLL1 as the
+> >>>> +			 * clock source.
+> >>>
+> >>> I'd add "On ES2 and newer, PLL1 is selected unconditionally.".
+> >>
+> >> It's not selected unconditionally, we need to set bit 21. And possibly
+> >> we need to set bit 20 to 0, although it's not documented what bit 20
+> >> would do when set to 1.
+> > 
+> > We currently set bit 20 to 1 and it works, so I concluded that bit 20 is
+> 
+> Ah, right, we do set it to 1.
+> 
+> > ignored. That's what I meant by PLL1 being selected automatically,
+> > between PLL0 and PLL1. We still need to select PLL instead of DCLKIN
+> > with bit 21.
+> > 
+> >> And is that "ES2.x"? =)
+> > 
+> > Good point :-)
+> > 
+> >> How about:
+> >>
+> >>    * On ES2.x and newer, PLL1 is selected by setting bit
+> >>    * 21 (PLCS0) to 1 and keeping the (reserved) bit 20 as
+> >>    * 0. On H3 ES1.x, in addition to setting bit 21, also
+> >>    * bit 20 has to be set to select PLL1 as the clock source.
+> > 
+> > What I'd like to capture in the comment is that the clock topology is
+> > 
+> >          bit 20
+> >            |     bit 21
+> >            v       |
+> >           |\       v
+> > PLL0 --> |0|     |\
+> > PLL1 --> |1| --> |1| -->
+> >           |/  /-> |0|
+> >               |   |/
+> > DCLKIN ------/
+> > 
+> > on H3 ES1.x, while on newer revisions, bit 20 is ignored and the first
+> > mux is hardcoded to PLL1.
+> 
+> Isn't that the stuff that's supposed to be found by reading the manual? 
+> I could, of course, copy the above picture, and draw a similar one for 
+> ES2+, but that feels like just useless copying of the manual...
+
+It would, if it was in the documentation :-) The above diagram is what I
+deduced from the documentation, but it's certainly not explicit, and the
+two bits 20 and 21 are not named separately. We don't need to capture
+this in ascii art, but some kind of summary would be nice.
+
+> Doesn't the above comment already describe why we set the bits as we do? 
+> I could change the comment to talk about muxes, if you think that's a 
+> better approach. But, if I recall right, the manuals don't talk about 
+> muxes, just "set this to X to use PLL1", so my comment above approaches 
+> from that direction.
+> 
+> Maybe something in this direction, then:
+> 
+> On ES2.x we have a single mux controlled via bit 21, which selects 
+> between DCLKIN source (bit 21 = 0) and a PLL source (bit 21 = 1), where 
+> the PLL is always PLL1. On ES1.x we have an additional mux, controlled 
+> via bit 20, for choosing between PLL0 (bit 20 = 0) and PLL1 (bit 20 = 
+> 1). We always want to use PLL1, so on ES1.x, in addition to setting bit 
+> 21, we need to set the bit 20.
+
+Seems good to me.
+
+-- 
+Regards,
+
+Laurent Pinchart
