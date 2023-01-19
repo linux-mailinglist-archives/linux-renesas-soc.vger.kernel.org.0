@@ -2,85 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF97A67337B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jan 2023 09:18:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 930786733D2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Jan 2023 09:37:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229748AbjASISe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Jan 2023 03:18:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41650 "EHLO
+        id S230159AbjASIhE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Jan 2023 03:37:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjASISc (ORCPT
+        with ESMTP id S229704AbjASIhC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Jan 2023 03:18:32 -0500
-Received: from muru.com (muru.com [72.249.23.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 83E1B5A801;
-        Thu, 19 Jan 2023 00:18:31 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id CE64480F1;
-        Thu, 19 Jan 2023 08:18:30 +0000 (UTC)
-Date:   Thu, 19 Jan 2023 10:18:29 +0200
-From:   Tony Lindgren <tony@atomide.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Stefan Agner <stefan@agner.ch>, Li Yang <leoyang.li@nxp.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 01/11] ARM: dts: ti: Fix pca954x i2c-mux node names
-Message-ID: <Y8j81dFnDQjpAorw@atomide.com>
-References: <cover.1669999298.git.geert+renesas@glider.be>
- <bc964109db8a5f29124580165e925bd3bfe36661.1669999298.git.geert+renesas@glider.be>
+        Thu, 19 Jan 2023 03:37:02 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F1AC4B4BE
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Jan 2023 00:37:01 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C7D967EC;
+        Thu, 19 Jan 2023 09:36:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674117419;
+        bh=uiyVKhcyDI6wrIBa+FrRFZD2CVtEYdTskePUNjF2owI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=CcLEw/WqreGOPMvjXKoZ6nU3KkVasafHkMum0oOcEI6jUluDr8gA3grs7T+tGk160
+         WGZTjXstZs1G45ahAaN6QUDUj5EFtdvuAlFigR4Zm03BPTExj6jv1xc8M71yV7Mo/h
+         WlfSEI+F8aLQ2J57SkjAO9xTTZZ9f/vyhKKbsquk=
+Message-ID: <a34ace0f-cd75-006c-a264-2307b1909c92@ideasonboard.com>
+Date:   Thu, 19 Jan 2023 10:36:55 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bc964109db8a5f29124580165e925bd3bfe36661.1669999298.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 2/6] drm: rcar-du: lvds: Add reset control
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+        LUU HOAI <hoai.luu.ub@renesas.com>
+References: <20230117135154.387208-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20230117135154.387208-3-tomi.valkeinen+renesas@ideasonboard.com>
+ <CAMuHMdUuUV38tVsZ5qoJEq5OF-0RZ6gnCAFvyt=FHTXUy_PybQ@mail.gmail.com>
+Content-Language: en-US
+From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <CAMuHMdUuUV38tVsZ5qoJEq5OF-0RZ6gnCAFvyt=FHTXUy_PybQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-* Geert Uytterhoeven <geert+renesas@glider.be> [221202 18:50]:
-> "make dtbs_check":
+On 17/01/2023 18:04, Geert Uytterhoeven wrote:
+> Hi Tomi,
 > 
->     arch/arm/boot/dts/am3874-iceboard.dtb: pca9548@70: $nodename:0: 'pca9548@70' does not match '^(i2c-?)?mux'
-> 	    From schema: Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.yaml
->     arch/arm/boot/dts/am3874-iceboard.dtb: pca9548@70: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'i2c@0', 'i2c@1', 'i2c@2', 'i2c@3', 'i2c@4', 'i2c@5', 'i2c@6', 'i2c@7' were unexpected)
-> 	    From schema: Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.yaml
->     ...
+> On Tue, Jan 17, 2023 at 2:54 PM Tomi Valkeinen
+> <tomi.valkeinen+renesas@ideasonboard.com> wrote:
+>> From: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+>>
+>> Reset LVDS using the reset control as CPG reset/release is required in
+>> H/W manual sequence.
+>>
+>> Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+>> Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
+>> [tomi.valkeinen: Rewrite the patch description]
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > 
-> Fix this by renaming PCA954x nodes to "i2c-mux", to match the I2C bus
-> multiplexer/switch DT bindings and the Generic Names Recommendation in
-> the Devicetree Specification.
+> Thanks for your patch!
+> 
+>> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> 
+>> @@ -844,6 +853,12 @@ static int rcar_lvds_probe(struct platform_device *pdev)
+>>          if (ret < 0)
+>>                  return ret;
+>>
+>> +       lvds->rstc = devm_reset_control_get(&pdev->dev, NULL);
+> 
+> devm_reset_control_get_exclusive()
 
-Applying this patch into omap-for-v6.3/dt thanks.
+Ok.
 
-Tony
+>> +       if (IS_ERR(lvds->rstc)) {
+>> +               dev_err(&pdev->dev, "failed to get cpg reset\n");
+>> +               return PTR_ERR(lvds->rstc);
+> 
+> return dev_err_probe(...);
+
+Right.
+
+Thanks!
+
+  Tomi
+
