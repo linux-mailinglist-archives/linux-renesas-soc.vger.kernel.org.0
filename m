@@ -2,112 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09E05675F85
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jan 2023 22:16:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F160A675FA3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jan 2023 22:28:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229749AbjATVQL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Jan 2023 16:16:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37074 "EHLO
+        id S229562AbjATV2W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Jan 2023 16:28:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbjATVQK (ORCPT
+        with ESMTP id S229464AbjATV2W (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Jan 2023 16:16:10 -0500
-Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E86101DB94;
-        Fri, 20 Jan 2023 13:16:05 -0800 (PST)
-Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
-        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id 4A5AF1883A74;
-        Fri, 20 Jan 2023 21:16:03 +0000 (UTC)
-Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
-        by mailout.gigahost.dk (Postfix) with ESMTP id 412112500327;
-        Fri, 20 Jan 2023 21:16:03 +0000 (UTC)
-Received: by smtp.gigahost.dk (Postfix, from userid 1000)
-        id 2D75D91201E4; Fri, 20 Jan 2023 21:16:03 +0000 (UTC)
-X-Screener-Id: 413d8c6ce5bf6eab4824d0abaab02863e8e3f662
+        Fri, 20 Jan 2023 16:28:22 -0500
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F7C413525;
+        Fri, 20 Jan 2023 13:28:20 -0800 (PST)
+Received: by mail-lj1-x234.google.com with SMTP id o7so6862567ljj.8;
+        Fri, 20 Jan 2023 13:28:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=L6XTbctyjJuiaEzlBOG1ARAyGnfelnTEYPz3b788Q50=;
+        b=jkyTlGVIJzztnDFFrJNnHyxRnrtmCbyk3jOf5SUuvDV71gDGIHYAT9gKDThokvojYQ
+         NbniCrDCFhv0+oYTu2ExkvtsoHzY3FvjzsfvpVWkV0Admv4yiX/m8RYzbb5MHmpPXk9Z
+         fsBG6eTMZ/iAgD66ERU3UO1yx8igBJxhjmpMRlwz0epMLs5VUxBBoH9qu4Fywb90Zzeq
+         DoUse+wahv+6vaxle4kT9fXMgqrhp+M+qgqPR2rXIzROY+ZfvP5nJv96dlf3felIrN3d
+         /jbB19KXFQj4ErcSKw/MJ/aUG854BdpqBwV87GAXU6Rv/LxIxLTvjT/+Lopa2JOSA1c1
+         bM7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L6XTbctyjJuiaEzlBOG1ARAyGnfelnTEYPz3b788Q50=;
+        b=rLGrVfJXjeVrPd8z/OSrXqHxptMXMqvohP8V2VZWi7b4Y96Yk+WWleYAot/9d3ZrEC
+         OJUaUabA5KAben+KariJob934zbe94VX/o7Q/6UVnZZT5pC6yFuETppsFCXj+lWOpuwe
+         ODNgQYyxHa3O4nwlM3OPp5VkT9TyTuDK3nlGWDSgSHxdJsSzTm8vTurOVvZiHfXWVGvk
+         p780etH4+X/j7wh3Sev1tw9TU0X72xVFicibhqlbHNQ0pKeFMOpYoh/wMX0Lvdl4MBgZ
+         JwPqTdYJsRMBl47cgTVbKH3hjCAAZuP6YRSrU4KNqxbgQJ5VN0ZMsCCwfn2S8sryjbqB
+         /3rg==
+X-Gm-Message-State: AFqh2kp5JbcWQBG/DbaOekHw07t+eoayQJkq0gso8NChahidFhnNzYk3
+        pK5nT9kkAAWrfAYnG/ihd5g61hUTDNGyb1pCVa8=
+X-Google-Smtp-Source: AMrXdXvbYs0GsrXDeFVwrDWcr/ZKXKHi4GXDCr076tjbDWyLo6wIxf7LwFWlW3g3q3cFLgPGCLjJFF/gKeQxPEoEg8M=
+X-Received: by 2002:a2e:b94f:0:b0:28b:88b3:2ead with SMTP id
+ 15-20020a2eb94f000000b0028b88b32eadmr1389772ljs.293.1674250098612; Fri, 20
+ Jan 2023 13:28:18 -0800 (PST)
 MIME-Version: 1.0
-Date:   Fri, 20 Jan 2023 22:16:03 +0100
-From:   netdev@kapio-technology.com
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
-        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?UTF-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Ivan Vecera <ivecera@redhat.com>,
-        Roopa Prabhu <roopa@nvidia.com>,
-        Nikolay Aleksandrov <razor@blackwall.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>
-Subject: Re: [RFC PATCH net-next 1/5] net: bridge: add dynamic flag to
- switchdev notifier
-In-Reply-To: <20230119134045.fqdt6zrna5x3iavt@skbuf>
-References: <20230117185714.3058453-1-netdev@kapio-technology.com>
- <20230117185714.3058453-2-netdev@kapio-technology.com>
- <20230117230806.ipwcbnq4jcc4qs7z@skbuf>
- <a3bba3eb856a00b5e5e0c1e2ffe8749a@kapio-technology.com>
- <20230119093358.gbyka2x4qbxxr43b@skbuf>
- <20230119134045.fqdt6zrna5x3iavt@skbuf>
-User-Agent: Gigahost Webmail
-Message-ID: <29501147c96e7e2f06c999410d42e2bf@kapio-technology.com>
-X-Sender: netdev@kapio-technology.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <a85c256af01f64389a078c2b37c3b72a27d97536.1668005062.git.geert+renesas@glider.be>
+ <0bb76233-062c-a1c5-da88-4f04feccd5b2@linaro.org>
+In-Reply-To: <0bb76233-062c-a1c5-da88-4f04feccd5b2@linaro.org>
+From:   Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Date:   Fri, 20 Jan 2023 13:28:07 -0800
+Message-ID: <CABBYNZJX+9SxW48qSSmyyMa7_bvqzwHafa0BNOz4Kz_Jc+gu9Q@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: leds: Document Bluetooth and WLAN triggers
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2023-01-19 14:40, Vladimir Oltean wrote:
-> On Thu, Jan 19, 2023 at 11:33:58AM +0200, Vladimir Oltean wrote:
->> On Wed, Jan 18, 2023 at 11:14:00PM +0100, netdev@kapio-technology.com 
->> wrote:
->> > > > +	item->is_dyn = !test_bit(BR_FDB_STATIC, &fdb->flags);
->> > >
->> > > Why reverse logic? Why not just name this "is_static" and leave any
->> > > further interpretations up to the consumer?
->> >
->> > My reasoning for this is that the common case is to have static entries,
->> > thus is_dyn=false, so whenever someone uses a switchdev_notifier_fdb_info
->> > struct the common case does not need to be entered.
->> > Otherwise it might also break something when someone uses this struct and if
->> > it was 'is_static' and they forget to code is_static=true they will get
->> > dynamic entries without wanting it and it can be hard to find such an error.
->> 
->> I'll leave it up to bridge maintainers if this is preferable to 
->> patching
->> all callers of SWITCHDEV_FDB_ADD_TO_BRIDGE such that they set 
->> is_static=true.
-> 
-> Actually, why would you assume that all users of 
-> SWITCHDEV_FDB_ADD_TO_BRIDGE
-> want to add static FDB entries? You can't avoid inspecting the code and
-> making sure that the is_dyn/is_static flag is set correctly either way.
+Hi Krzysztof,
 
-Well, up until this patch set there is no option, besides entries from 
-SWITCHDEV_FDB_ADD_TO_BRIDGE events will get the external learned flag 
-set, so they will not be aged by the bridge, and so dynamic entries that 
-way don't make much sense I think. Is that not right?
+On Fri, Jan 20, 2023 at 8:42 AM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 09/11/2022 15:46, Geert Uytterhoeven wrote:
+> > Add the missing trigger patterns for Bluetooth and WLAN activity, which
+> > are already in active use.
+> >
+> > While at it, move the mmc pattern comment where it belongs, and restore
+> > alphabetical sort order.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: bt_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+> >       'hci0-power' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+> >       'hci0-power' does not match '^mmc[0-9]+$'
+> >       From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+> > arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: wlan_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+> >       'phy0tx' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+> >       'phy0tx' does not match '^mmc[0-9]+$'
+> >       From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+>
+> This patch got lost... Rob, Lee or Pavel, can you pick it up?
+>
+> It's with Rob's approval:
+> https://lore.kernel.org/all/166861772609.231295.14812410099261417331.robh@kernel.org/
+
+If it is going to be applied via bluetooth-next make sure to resend it
+since last time our CI was not able to apply it thus why we didn't
+apply it in the first place.
+
+>
+> > ---
+> >  Documentation/devicetree/bindings/leds/common.yaml | 8 ++++++--
+> >  1 file changed, 6 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+> > index f5c57a580078ea23..d34bb58c00371402 100644
+> > --- a/Documentation/devicetree/bindings/leds/common.yaml
+> > +++ b/Documentation/devicetree/bindings/leds/common.yaml
+> > @@ -98,9 +98,13 @@ properties:
+> >              # LED alters the brightness for the specified duration with one software
+> >              # timer (requires "led-pattern" property)
+> >            - pattern
+> > -        # LED is triggered by SD/MMC activity
+> > -      - pattern: "^mmc[0-9]+$"
+> >        - pattern: "^cpu[0-9]*$"
+> > +      - pattern: "^hci[0-9]+-power$"
+> > +        # LED is triggered by Bluetooth activity
+> > +      - pattern: "^mmc[0-9]+$"
+> > +        # LED is triggered by SD/MMC activity
+> > +      - pattern: "^phy[0-9]+tx$"
+> > +        # LED is triggered by WLAN activity
+> >
+> >    led-pattern:
+> >      description: |
+>
+> Best regards,
+> Krzysztof
+>
+
+
+-- 
+Luiz Augusto von Dentz
