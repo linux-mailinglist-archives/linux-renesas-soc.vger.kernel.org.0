@@ -2,104 +2,185 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64C8C6757D5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jan 2023 15:56:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F34846759A7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jan 2023 17:16:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230023AbjATO4C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Jan 2023 09:56:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33074 "EHLO
+        id S229481AbjATQQs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Jan 2023 11:16:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230021AbjATO4B (ORCPT
+        with ESMTP id S229477AbjATQQr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Jan 2023 09:56:01 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 996B8457EA;
-        Fri, 20 Jan 2023 06:56:00 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 33AB661F95;
-        Fri, 20 Jan 2023 14:56:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8F32C433EF;
-        Fri, 20 Jan 2023 14:55:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674226559;
-        bh=ti3K7wN2sWdsBBDNKXsbX0ixPhWFqQduYlYW1ZLSFUU=;
+        Fri, 20 Jan 2023 11:16:47 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21488B472
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Jan 2023 08:16:46 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4372C514;
+        Fri, 20 Jan 2023 17:16:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674231404;
+        bh=PSL4i5I3eHecJ8USsihZuQbooFl0s8O74o3p3hQwtmM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=m1exy9x+NaJZTExFQCuwNeBuo5OMzRcGiKEL90izrXLlXnVbn+pGSbhfMpy/QzXBb
-         5JOnxDO3LGmUVAWY7YMKfx3edTZqMxgIvA9aC9YoHxngE1cyztRGVng9Vqc+IbcMXW
-         QyKsw/1X9R4iU8y66It5n1bNX+cEOV8gi6/KLbUoEq6F7XeCCsSLI5o6/lAm1LWZiY
-         BV5ijhVcav1dc6J4ZeJZNd+6vAP4+R9QwxUzB4pAKVxrJeRQI+eO8ehG5A2Fe4nt1B
-         Zmf8EC/qWSlVkDgg392t33bGhbVwuxBOTrdg0H5Ur0vIlBz8FypA0tYCZwiZst6Jho
-         x7W++QRvYeung==
-Date:   Fri, 20 Jan 2023 14:55:53 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Robert Jarzmik <robert.jarzmik@free.fr>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 18/27] mfd: remove toshiba tmio drivers
-Message-ID: <Y8qreZLyTiDQLOB5@google.com>
-References: <20230105134622.254560-1-arnd@kernel.org>
- <20230105134622.254560-19-arnd@kernel.org>
+        b=U9mu/0OwT19wDVLAA097tU7zwaDyvTIQCSFo3jDEC3drmI0V6SPcCtz6dHxrE+Z8P
+         CW/Q/qPRllufSgMhtW4d6kmgsgPEpQWF08keYNTEeTXqlafmHEhDXT4fU6nQXnFTYq
+         zxeaV4VcFtQup+lY/oGNKR1Y09f+v3dbQ28vAhIs=
+Date:   Fri, 20 Jan 2023 18:16:41 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v2 2/7] drm: rcar-du: lvds: Add runtime PM
+Message-ID: <Y8q+ad8CxC7LBN4l@pendragon.ideasonboard.com>
+References: <20230120085009.604797-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20230120085009.604797-3-tomi.valkeinen+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230105134622.254560-19-arnd@kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230120085009.604797-3-tomi.valkeinen+renesas@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 05 Jan 2023, Arnd Bergmann wrote:
+Hi Tomi,
 
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Four separate mfd drivers are in the "tmio" family, and all of
-> them were used in now-removed PXA machines (eseries, tosa, and
-> hx4700), so the mfd drivers and all its children can be removed
-> as well.
-> 
-> Cc: Lee Jones <lee@kernel.org>
-> Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-mmc@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Thank you for the patch.
+
+On Fri, Jan 20, 2023 at 10:50:04AM +0200, Tomi Valkeinen wrote:
+> Add simple runtime PM suspend and resume functionality.
+
+I think you need to depend on PM in Kconfig. That's not a compile-time
+dependency but a runtime-dependency, with runtime PM support the
+suspend/resume handler will never be called.
+
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > ---
->  drivers/mfd/Kconfig          |   38 --
->  drivers/mfd/Makefile         |    4 -
->  drivers/mfd/asic3.c          | 1071 ----------------------------------
->  drivers/mfd/t7l66xb.c        |  427 --------------
->  drivers/mfd/tc6387xb.c       |  228 --------
->  drivers/mfd/tc6393xb.c       |  907 ----------------------------
->  drivers/mfd/tmio_core.c      |   70 ---
->  include/linux/mfd/asic3.h    |  313 ----------
->  include/linux/mfd/t7l66xb.h  |   29 -
->  include/linux/mfd/tc6387xb.h |   19 -
->  include/linux/mfd/tc6393xb.h |   53 --
->  include/linux/mfd/tmio.h     |    5 -
->  12 files changed, 3164 deletions(-)
->  delete mode 100644 drivers/mfd/asic3.c
->  delete mode 100644 drivers/mfd/t7l66xb.c
->  delete mode 100644 drivers/mfd/tc6387xb.c
->  delete mode 100644 drivers/mfd/tc6393xb.c
->  delete mode 100644 drivers/mfd/tmio_core.c
->  delete mode 100644 include/linux/mfd/asic3.h
->  delete mode 100644 include/linux/mfd/t7l66xb.h
->  delete mode 100644 include/linux/mfd/tc6387xb.h
->  delete mode 100644 include/linux/mfd/tc6393xb.h
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c | 43 +++++++++++++++++++++++++----
+>  1 file changed, 37 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> index 81a060c2fe3f..8e1be51fbee6 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/of_device.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/slab.h>
+>  #include <linux/sys_soc.h>
+>  
+> @@ -316,8 +317,8 @@ int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq)
+>  
+>  	dev_dbg(lvds->dev, "enabling LVDS PLL, freq=%luHz\n", freq);
+>  
+> -	ret = clk_prepare_enable(lvds->clocks.mod);
+> -	if (ret < 0)
+> +	ret = pm_runtime_resume_and_get(lvds->dev);
+> +	if (ret)
+>  		return ret;
+>  
+>  	__rcar_lvds_pll_setup_d3_e3(lvds, freq, true);
+> @@ -337,7 +338,7 @@ void rcar_lvds_pclk_disable(struct drm_bridge *bridge)
+>  
+>  	rcar_lvds_write(lvds, LVDPLLCR, 0);
+>  
+> -	clk_disable_unprepare(lvds->clocks.mod);
+> +	pm_runtime_put(lvds->dev);
 
-Applied, thanks
+Should we use pm_runtime_put_sync() here, to make sure the clock gets
+disabled right away ? The DU hardware may depend on the exact sequencing
+of events. I would then do the same in rcar_lvds_atomic_disable().
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  }
+>  EXPORT_SYMBOL_GPL(rcar_lvds_pclk_disable);
+>  
+> @@ -396,8 +397,8 @@ static void __rcar_lvds_atomic_enable(struct drm_bridge *bridge,
+>  	u32 lvdcr0;
+>  	int ret;
+>  
+> -	ret = clk_prepare_enable(lvds->clocks.mod);
+> -	if (ret < 0)
+> +	ret = pm_runtime_resume_and_get(lvds->dev);
+> +	if (ret)
+>  		return;
+>  
+>  	/* Enable the companion LVDS encoder in dual-link mode. */
+> @@ -551,7 +552,7 @@ static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
+>  		lvds->companion->funcs->atomic_disable(lvds->companion,
+>  						       old_bridge_state);
+>  
+> -	clk_disable_unprepare(lvds->clocks.mod);
+> +	pm_runtime_put(lvds->dev);
+>  }
+>  
+>  static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
+> @@ -844,6 +845,8 @@ static int rcar_lvds_probe(struct platform_device *pdev)
+>  	if (ret < 0)
+>  		return ret;
+>  
+> +	pm_runtime_enable(&pdev->dev);
+> +
+>  	drm_bridge_add(&lvds->bridge);
+>  
+>  	return 0;
+> @@ -855,6 +858,8 @@ static int rcar_lvds_remove(struct platform_device *pdev)
+>  
+>  	drm_bridge_remove(&lvds->bridge);
+>  
+> +	pm_runtime_disable(&pdev->dev);
+> +
+>  	return 0;
+>  }
+>  
+> @@ -913,11 +918,37 @@ static const struct of_device_id rcar_lvds_of_table[] = {
+>  
+>  MODULE_DEVICE_TABLE(of, rcar_lvds_of_table);
+>  
+> +static int rcar_lvds_runtime_suspend(struct device *dev)
+> +{
+> +	struct rcar_lvds *lvds = dev_get_drvdata(dev);
+> +
+> +	clk_disable_unprepare(lvds->clocks.mod);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rcar_lvds_runtime_resume(struct device *dev)
+> +{
+> +	struct rcar_lvds *lvds = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = clk_prepare_enable(lvds->clocks.mod);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dev_pm_ops rcar_lvds_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(rcar_lvds_runtime_suspend, rcar_lvds_runtime_resume, NULL)
+> +};
+> +
+>  static struct platform_driver rcar_lvds_platform_driver = {
+>  	.probe		= rcar_lvds_probe,
+>  	.remove		= rcar_lvds_remove,
+>  	.driver		= {
+>  		.name	= "rcar-lvds",
+> +		.pm	= &rcar_lvds_pm_ops,
+>  		.of_match_table = rcar_lvds_of_table,
+>  	},
+>  };
 
 -- 
-Lee Jones [李琼斯]
+Regards,
+
+Laurent Pinchart
