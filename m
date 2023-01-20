@@ -2,130 +2,183 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 515B3675A2C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jan 2023 17:40:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6B4F675AB8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jan 2023 18:03:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230255AbjATQj6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Jan 2023 11:39:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49982 "EHLO
+        id S230316AbjATRDr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Jan 2023 12:03:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbjATQj5 (ORCPT
+        with ESMTP id S229680AbjATRDj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Jan 2023 11:39:57 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B8C759C7
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Jan 2023 08:39:56 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id d14so1669245wrr.9
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Jan 2023 08:39:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pGYySup8p6S2QLbw0VKiZbUhVbWmQ+yt84mNVfAu/t0=;
-        b=UApWjzlXda6CKOsxYSAekXBHCiPYv6pVkiWHbI7PK6NXlDBf2dZaBDBu3pcMBX4Dvp
-         6pVJCoYaf28tSrmY+cQXTcE5NCML/7/aNdhPsd9f1zZGxwjZ8KtIc0zafg1CDt+MmL1t
-         ht+1uJ+qps8er08SQIPj8jCpqo9gs3doYVucXRacX8doWIlUzIZI6fYKJoTuT8NrG42t
-         MEw5W4JoUE4dXTKy6NU3b03SLyKAPuoCmZGqaBryF9fm76CMUuyzmAcMzhe2Gc9aBSvv
-         rVqHAHr0IWrNPbn8V79yED7CryU1Vk3Sen0HSlqKLB5YcHIC9rN/57uXiyLuvli0/Rbt
-         Yz+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pGYySup8p6S2QLbw0VKiZbUhVbWmQ+yt84mNVfAu/t0=;
-        b=FbZAz1jkn3DhujA7xbziRpR7f1uoYn51UL/8vEjIA0Sa/LH77csKSFAlnxFk1hI19o
-         lKmg+SXJnCDsaOrnG9mItUnEviuZG07cxFxssVebHLg9Yi6tii/guA0qoP6rnt3Ve/4O
-         urmfWDlmodo7HHpK/Ml4D6dX7Hbb/QC7jG0jQrXcH7ayNc7ol9qpC1ca+A/cF7GKP6ay
-         85K9mAgJ2Ixi+Oe92EtWDNwzVppdfNa2kKzjn1S5tRypxzzPefgjHMUveyr0FozO+6h5
-         liLwQWiKNI/porq+bkVDDbosZNBgcdLFVaEyKwOR45mcPp72eqket1X2I6M4Htqbmg4U
-         SRmQ==
-X-Gm-Message-State: AFqh2kryugfN9SuoTdRrFQ+QkM5vqSDQvurz93a2bBGKX+FTAU3ZC74b
-        j333lZjqP9BBVmUcYJU8dlxfwQ==
-X-Google-Smtp-Source: AMrXdXtZ9DWblZSaKSzMSMqI/0YMAXlKAx5MWIAT7Z2mmChtlRMs75VNjLqzEiOVvNoaJZ95nuiIUg==
-X-Received: by 2002:a05:6000:98d:b0:25f:8ead:96cc with SMTP id by13-20020a056000098d00b0025f8ead96ccmr14507795wrb.70.1674232794812;
-        Fri, 20 Jan 2023 08:39:54 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id z12-20020adfd0cc000000b002bdff778d87sm13385996wrh.34.2023.01.20.08.39.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Jan 2023 08:39:54 -0800 (PST)
-Message-ID: <0bb76233-062c-a1c5-da88-4f04feccd5b2@linaro.org>
-Date:   Fri, 20 Jan 2023 17:39:52 +0100
+        Fri, 20 Jan 2023 12:03:39 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 588557495C
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Jan 2023 09:03:38 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC09E514;
+        Fri, 20 Jan 2023 18:03:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674234216;
+        bh=PhKYN5s6MD3tHvv73LU0gZfRaSkpZr1PTiF4xiA0PrM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=g0Itv/AMZX4mypq97cDX1eiUEHEEEQ10qUo+GjhdCh4dPOCFqL82hziFwceo8bXZ1
+         Ck8rPK/g1pudxws2po0tfGAWUD1Grri47RAgenOicVOnLLS+DKAUWyYs7sbBrahtAE
+         SejA0g3hpqLngIm4Ac2e/QzDnsYqnGSlBnpUMfZA=
+Date:   Fri, 20 Jan 2023 19:03:33 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v2 6/7] drm: rcar-du: Fix setting a reserved bit in DPLLCR
+Message-ID: <Y8rJZXlqjp3f37Rk@pendragon.ideasonboard.com>
+References: <20230120085009.604797-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20230120085009.604797-7-tomi.valkeinen+renesas@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH] dt-bindings: leds: Document Bluetooth and WLAN triggers
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <a85c256af01f64389a078c2b37c3b72a27d97536.1668005062.git.geert+renesas@glider.be>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <a85c256af01f64389a078c2b37c3b72a27d97536.1668005062.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230120085009.604797-7-tomi.valkeinen+renesas@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 09/11/2022 15:46, Geert Uytterhoeven wrote:
-> Add the missing trigger patterns for Bluetooth and WLAN activity, which
-> are already in active use.
+Hi Tomi,
+
+Thank you for the patch.
+
+On Fri, Jan 20, 2023 at 10:50:08AM +0200, Tomi Valkeinen wrote:
+> On H3 ES1.x two bits in DPLLCR are used to select the DU input dot clock
+> source. These are bits 20 and 21 for DU2, and bits 22 and 23 for DU1. On
+> non-ES1.x, only the higher bits are used (bits 21 and 23), and the lower
+> bits are reserved and should be set to 0.
 > 
-> While at it, move the mmc pattern comment where it belongs, and restore
-> alphabetical sort order.
+> The current code always sets the lower bits, even on non-ES1.x.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> For both DU1 and DU2, on all SoC versions, when writing zeroes to those
+> bits the input clock is DCLKIN, and thus there's no difference between
+> ES1.x and non-ES1.x.
+> 
+> For DU1, writing 0b10 to the bits (or only writing the higher bit)
+> results in using PLL0 as the input clock, so in this case there's also
+> no difference between ES1.x and non-ES1.x.
+> 
+> However, for DU2, writing 0b10 to the bits results in using PLL0 as the
+> input clock on ES1.x, whereas on non-ES1.x it results in using PLL1. On
+> ES1.x you need to write 0b11 to select PLL1.
+> 
+> The current code always writes 0b11 to PLCS0 field to select PLL1 on all
+> SoC versions, which works but causes an illegal (in the sense of not
+> allowed by the documentation) write to a reserved bit field.
+> 
+> To remove the illegal bit write on PLSC0 we need to handle the input dot
+> clock selection differently for ES1.x and non-ES1.x.
+> 
+> Add a new quirk, RCAR_DU_QUIRK_H3_ES1_PLL, for this. This way we can
+> always set the bit 21 on PLSC0 when choosing the PLL as the source
+> clock, and additionally set the bit 20 when on ES1.x.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
 > ---
-> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: bt_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-> 	'hci0-power' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-> 	'hci0-power' does not match '^mmc[0-9]+$'
-> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
-> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: wlan_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-> 	'phy0tx' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-> 	'phy0tx' does not match '^mmc[0-9]+$'
-> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
-
-This patch got lost... Rob, Lee or Pavel, can you pick it up?
-
-It's with Rob's approval:
-https://lore.kernel.org/all/166861772609.231295.14812410099261417331.robh@kernel.org/
-
-> ---
->  Documentation/devicetree/bindings/leds/common.yaml | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 23 ++++++++++++++++++++---
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c  |  3 ++-
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.h  |  1 +
+>  drivers/gpu/drm/rcar-du/rcar_du_regs.h |  8 ++------
+>  4 files changed, 25 insertions(+), 10 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-> index f5c57a580078ea23..d34bb58c00371402 100644
-> --- a/Documentation/devicetree/bindings/leds/common.yaml
-> +++ b/Documentation/devicetree/bindings/leds/common.yaml
-> @@ -98,9 +98,13 @@ properties:
->              # LED alters the brightness for the specified duration with one software
->              # timer (requires "led-pattern" property)
->            - pattern
-> -        # LED is triggered by SD/MMC activity
-> -      - pattern: "^mmc[0-9]+$"
->        - pattern: "^cpu[0-9]*$"
-> +      - pattern: "^hci[0-9]+-power$"
-> +        # LED is triggered by Bluetooth activity
-> +      - pattern: "^mmc[0-9]+$"
-> +        # LED is triggered by SD/MMC activity
-> +      - pattern: "^phy[0-9]+tx$"
-> +        # LED is triggered by WLAN activity
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> index f2d3266509cc..b7dd59fe119e 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> @@ -245,13 +245,30 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
+>  		       | DPLLCR_N(dpll.n) | DPLLCR_M(dpll.m)
+>  		       | DPLLCR_STBY;
 >  
->    led-pattern:
->      description: |
+> -		if (rcrtc->index == 1)
+> +		if (rcrtc->index == 1) {
+>  			dpllcr |= DPLLCR_PLCS1
+>  			       |  DPLLCR_INCS_DOTCLKIN1;
+> -		else
+> -			dpllcr |= DPLLCR_PLCS0
+> +		} else {
+> +			dpllcr |= DPLLCR_PLCS0_PLL
+>  			       |  DPLLCR_INCS_DOTCLKIN0;
+>  
+> +			/*
+> +			 * On ES2.x we have a single mux controlled via bit 21,
+> +			 * which selects between DCLKIN source (bit 21 = 0) and
+> +			 * a PLL source (bit 21 = 1), where the PLL is always
+> +			 * PLL1.
+> +			 *
+> +			 * On ES1.x we have an additional mux, controlled
+> +			 * via bit 20, for choosing between PLL0 (bit 20 = 0)
+> +			 * and PLL1 (bit 20 = 1). We always want to use PLL1,
+> +			 * so on ES1.x, in addition to setting bit 21, we need
+> +			 * to set the bit 20.
+> +			 */
+> +
+> +			if (rcdu->info->quirks & RCAR_DU_QUIRK_H3_ES1_PLL)
+> +				dpllcr |= DPLLCR_PLCS0_H3ES1X_PLL1;
+> +		}
+> +
+>  		rcar_du_group_write(rcrtc->group, DPLLCR, dpllcr);
+>  
+>  		escr = ESCR_DCLKSEL_DCLKIN | div;
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> index ea3a8cff74b7..82f9718ff500 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -394,7 +394,8 @@ static const struct rcar_du_device_info rcar_du_r8a7795_es1_info = {
+>  		  | RCAR_DU_FEATURE_VSP1_SOURCE
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+> -	.quirks = RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY,
+> +	.quirks = RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY
+> +		| RCAR_DU_QUIRK_H3_ES1_PLL,
+>  	.channels_mask = BIT(3) | BIT(2) | BIT(1) | BIT(0),
+>  	.routes = {
+>  		/*
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> index df87ccab146f..acc3673fefe1 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> @@ -35,6 +35,7 @@ struct rcar_du_device;
+>  
+>  #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
+>  #define RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY BIT(1)	/* H3 ES1 has pclk stability issue */
+> +#define RCAR_DU_QUIRK_H3_ES1_PLL	BIT(2)	/* H3 ES1 PLL setup differs from non-ES1 */
+>  
+>  enum rcar_du_output {
+>  	RCAR_DU_OUTPUT_DPAD0,
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> index c1bcb0e8b5b4..789ae9285108 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> @@ -283,12 +283,8 @@
+>  #define DPLLCR			0x20044
+>  #define DPLLCR_CODE		(0x95 << 24)
+>  #define DPLLCR_PLCS1		(1 << 23)
+> -/*
+> - * PLCS0 is bit 21, but H3 ES1.x requires bit 20 to be set as well. As bit 20
+> - * isn't implemented by other SoC in the Gen3 family it can safely be set
+> - * unconditionally.
+> - */
+> -#define DPLLCR_PLCS0		(3 << 20)
+> +#define DPLLCR_PLCS0_PLL	(1 << 21)
+> +#define DPLLCR_PLCS0_H3ES1X_PLL1	(1 << 20)
+>  #define DPLLCR_CLKE		(1 << 18)
+>  #define DPLLCR_FDPLL(n)		((n) << 12)
+>  #define DPLLCR_N(n)		((n) << 5)
 
-Best regards,
-Krzysztof
+-- 
+Regards,
 
+Laurent Pinchart
