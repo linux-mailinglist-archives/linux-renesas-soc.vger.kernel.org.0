@@ -2,130 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94FC66759F1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jan 2023 17:29:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B719675A19
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jan 2023 17:36:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbjATQ3u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Jan 2023 11:29:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36340 "EHLO
+        id S229808AbjATQgb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Jan 2023 11:36:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230232AbjATQ3t (ORCPT
+        with ESMTP id S230351AbjATQga (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Jan 2023 11:29:49 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07BB030D6
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Jan 2023 08:29:08 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9EB7514;
-        Fri, 20 Jan 2023 17:28:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674232139;
-        bh=b5TSktyW/JZVaTJkSYhT5pSt/QVS8djp6D04H5pA/nI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=VD9vCbuDXLYTW+X4iE13ixw7Iu9LOEh30yUtq4ecG/mX9OJUHOs+vn4By4JG3CBTI
-         YWWhJbvYRvTKDI6mnZDKLXqjnXvQLn8TKLDdNxRmee9KlOxwswnikA8Ty9qY7RTyyl
-         WEeNrJP41IPxOwoqcdi9rRd4ZxuFHBCxd2o9Dktk=
-Message-ID: <8c2eb463-5987-156f-f4c2-fb5ae578ce52@ideasonboard.com>
-Date:   Fri, 20 Jan 2023 18:28:56 +0200
+        Fri, 20 Jan 2023 11:36:30 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FAB49B130
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Jan 2023 08:36:01 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pIuMT-0004Z9-BT; Fri, 20 Jan 2023 17:35:29 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pIuMQ-007PdM-S8; Fri, 20 Jan 2023 17:35:26 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pIuMQ-00ES5w-1c; Fri, 20 Jan 2023 17:35:26 +0100
+Date:   Fri, 20 Jan 2023 17:35:25 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-pwm@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] pwm: Add support for RZ/V2M PWM driver
+Message-ID: <20230120163525.rhtgexzmizotnvrg@pengutronix.de>
+References: <20221213185827.2012004-1-biju.das.jz@bp.renesas.com>
+ <20221213185827.2012004-3-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 7/7] drm: rcar-du: Stop accessing non-existant
- registers on gen4
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20230120085009.604797-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20230120085009.604797-8-tomi.valkeinen+renesas@ideasonboard.com>
- <Y8q/mNA4gZ/n0tlR@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <Y8q/mNA4gZ/n0tlR@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="56qs72c4mf6yg5ye"
+Content-Disposition: inline
+In-Reply-To: <20221213185827.2012004-3-biju.das.jz@bp.renesas.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 20/01/2023 18:21, Laurent Pinchart wrote:
-> On Fri, Jan 20, 2023 at 10:50:09AM +0200, Tomi Valkeinen wrote:
->> The following registers do not exist on gen4, so we should not write
->> them: DEF6Rm, DEF7Rm, DEF8Rm, ESCRn, OTARn.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->> ---
->>   drivers/gpu/drm/rcar-du/rcar_du_crtc.c  |  8 +++++---
->>   drivers/gpu/drm/rcar-du/rcar_du_group.c | 11 ++++++++---
->>   2 files changed, 13 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
->> index b7dd59fe119e..008e172ed43b 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
->> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
->> @@ -298,10 +298,12 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
->>   		escr = params.escr;
->>   	}
->>   
->> -	dev_dbg(rcrtc->dev->dev, "%s: ESCR 0x%08x\n", __func__, escr);
->> +	if (rcdu->info->gen < 4) {
->> +		dev_dbg(rcrtc->dev->dev, "%s: ESCR 0x%08x\n", __func__, escr);
->>   
->> -	rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? ESCR13 : ESCR02, escr);
->> -	rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? OTAR13 : OTAR02, 0);
->> +		rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? ESCR13 : ESCR02, escr);
->> +		rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? OTAR13 : OTAR02, 0);
->> +	}
->>   
->>   	/* Signal polarities */
->>   	dsmr = ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? DSMR_VSL : 0)
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
->> index 6da01760ede5..c2209d427bb7 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
->> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
->> @@ -148,7 +148,8 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
->>   	}
->>   	rcar_du_group_write(rgrp, DEFR5, DEFR5_CODE | DEFR5_DEFE5);
->>   
->> -	rcar_du_group_setup_pins(rgrp);
->> +	if (rcdu->info->gen < 4)
->> +		rcar_du_group_setup_pins(rgrp);
->>   
->>   	/*
->>   	 * TODO: Handle routing of the DU output to CMM dynamically, as we
->> @@ -160,7 +161,8 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
->>   	rcar_du_group_write(rgrp, DEFR7, defr7);
->>   
->>   	if (rcdu->info->gen >= 2) {
->> -		rcar_du_group_setup_defr8(rgrp);
->> +		if (rcdu->info->gen < 4)
->> +			rcar_du_group_setup_defr8(rgrp);
->>   		rcar_du_group_setup_didsr(rgrp);
->>   	}
->>   
->> @@ -192,10 +194,13 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
->>    */
->>   int rcar_du_group_get(struct rcar_du_group *rgrp)
->>   {
->> +	struct rcar_du_device *rcdu = rgrp->dev;
->> +
->>   	if (rgrp->use_count)
->>   		goto done;
->>   
->> -	rcar_du_group_setup(rgrp);
->> +	if (rcdu->info->gen < 4)
->> +		rcar_du_group_setup(rgrp);
-> 
-> This doesn't look right, you're disabling way more than necessary.
 
-You're right, doesn't look even remotely correct. A morning patch, 
-obviously.
+--56qs72c4mf6yg5ye
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  Tomi
+Hello,
 
+> + * https://www.renesas.com/in/en/document/mah/rzv2m-users-manual-hardwar=
+e?language=3Den
+
+I took a look into that now, and there are a few things I noticed.
+
+The PWMCYC register description has:
+
+	To change the setting value of the PWM cycle setting register
+	(PWMm_PWMCYC), set the PWME bit of the PWM control register
+	(PWMm_PWMCTR) to 0b and stop the counter operation. If it is
+	changed during counter operation, PWM output may not be
+	performed correctly.
+
+This isn't repected in the driver. Please either fix that or add a
+comment why you think this is not necessary. If you choose to adhere to
+that, also note it in the Limitations section that I asked you to add.
+
+In .apply() you subtract 1 from the calculated value of PWMCYC. When
+looking through section 17.4 Function Details I don't see this
+justified. However in 17.3.2.2 the formula is as you quoted in the
+driver (i.e. PWMm_PWMCYC =3D (PWM period (ns) / (PWM_CLK period (ns) =C3=97
+Division ratio)) =E2=88=92 1). Can you maybe test which of the two is corre=
+ct,
+maybe adapt the driver code and note in a comment about the difference?
+
+Also comment would be nice about the fact that the native polarity of
+the hardware is inverted (i.e. it starts with the low part). I didn't
+recheck, maybe the inversion bit handling must be switched?
+
+A 100% duty cycle is only possible (according to Figure 17.4-2) with
+PWMLOW > PWMCYC. Assuming this is correct, there is the problem that the
+two registers have the same width, so if PWMCYC is 0xffffff a 100% duty
+isn't possible. So please stick to only using values < 0xffffff for
+PWMCYC.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--56qs72c4mf6yg5ye
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmPKwsoACgkQwfwUeK3K
+7AlLCAf+OKlR9sJ1tjp34aw4HwLcNrATLOFtLz1YYfFimIxIK7yjXgvjYmCSUVH5
+7gzzYPa8kjLkthEbe6s8/GBbeLHrEyIDT3Z/+58Ij2dV7hKI/V5doXqFXjl5jPAJ
+qGftAqkpnXt4lLxwVIvJ/NdL60RGbYuGtVbPLYaykMurmfh7d2SBe+iByWbiNCsp
+2Mj16rWwP8YH54zOQ/XXmM1ONKpIAbm7wNLC3yDNYmPhl4hApt6Mzc5CyQzaDDmw
+BdATaMznRXrvFBICvtIN6alGJBtSF6nPBhSOtaL73AlTcZacSGdcUVP1s0NxDteK
+9dqK8kZrff7o7/yYJWFzztOXpIG6Lw==
+=edq4
+-----END PGP SIGNATURE-----
+
+--56qs72c4mf6yg5ye--
