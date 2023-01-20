@@ -2,70 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F160A675FA3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jan 2023 22:28:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC702675FE6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jan 2023 23:05:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbjATV2W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Jan 2023 16:28:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44926 "EHLO
+        id S229687AbjATWF0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Jan 2023 17:05:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbjATV2W (ORCPT
+        with ESMTP id S229445AbjATWFY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Jan 2023 16:28:22 -0500
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F7C413525;
-        Fri, 20 Jan 2023 13:28:20 -0800 (PST)
-Received: by mail-lj1-x234.google.com with SMTP id o7so6862567ljj.8;
-        Fri, 20 Jan 2023 13:28:20 -0800 (PST)
+        Fri, 20 Jan 2023 17:05:24 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2B017F9B5;
+        Fri, 20 Jan 2023 14:05:22 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id c3so6978549ljh.1;
+        Fri, 20 Jan 2023 14:05:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=L6XTbctyjJuiaEzlBOG1ARAyGnfelnTEYPz3b788Q50=;
-        b=jkyTlGVIJzztnDFFrJNnHyxRnrtmCbyk3jOf5SUuvDV71gDGIHYAT9gKDThokvojYQ
-         NbniCrDCFhv0+oYTu2ExkvtsoHzY3FvjzsfvpVWkV0Admv4yiX/m8RYzbb5MHmpPXk9Z
-         fsBG6eTMZ/iAgD66ERU3UO1yx8igBJxhjmpMRlwz0epMLs5VUxBBoH9qu4Fywb90Zzeq
-         DoUse+wahv+6vaxle4kT9fXMgqrhp+M+qgqPR2rXIzROY+ZfvP5nJv96dlf3felIrN3d
-         /jbB19KXFQj4ErcSKw/MJ/aUG854BdpqBwV87GAXU6Rv/LxIxLTvjT/+Lopa2JOSA1c1
-         bM7g==
+        bh=47bQYYvwoc4QnN6fF+m3+7Uy31DycYW7WL3pijAuHrc=;
+        b=KvPPeMjcYz60GhdROsv9YwE8uv6xdcPv1k4AoX89i567SWpqXcTQSLDK/flblBKQaK
+         cfAwGOzXB55ObBgNsuBR/aS/ZWS73BbHA/j30YrvThOJ8sklQ4vSCuYCTT8/aQzKd7x0
+         ED9B0EpAuuFXHRhyTAE2rYJAIefWE3cRMQT+JXdOSX+nqVPxt1tECmSugDkFBGKmqaIe
+         6MDATr+REE+laIkFeEGl7Baxej1BF+lzV1ySkQv7XTAq7tOHtm6EgBpTeWGjnRwbXi4k
+         o/CUW40k/L54EJCQepVRJ5CWNNQh0cJ5hbe2XRT19mSa+4VgezmJ8OO8kHFU25o+EiBV
+         +VwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=L6XTbctyjJuiaEzlBOG1ARAyGnfelnTEYPz3b788Q50=;
-        b=rLGrVfJXjeVrPd8z/OSrXqHxptMXMqvohP8V2VZWi7b4Y96Yk+WWleYAot/9d3ZrEC
-         OJUaUabA5KAben+KariJob934zbe94VX/o7Q/6UVnZZT5pC6yFuETppsFCXj+lWOpuwe
-         ODNgQYyxHa3O4nwlM3OPp5VkT9TyTuDK3nlGWDSgSHxdJsSzTm8vTurOVvZiHfXWVGvk
-         p780etH4+X/j7wh3Sev1tw9TU0X72xVFicibhqlbHNQ0pKeFMOpYoh/wMX0Lvdl4MBgZ
-         JwPqTdYJsRMBl47cgTVbKH3hjCAAZuP6YRSrU4KNqxbgQJ5VN0ZMsCCwfn2S8sryjbqB
-         /3rg==
-X-Gm-Message-State: AFqh2kp5JbcWQBG/DbaOekHw07t+eoayQJkq0gso8NChahidFhnNzYk3
-        pK5nT9kkAAWrfAYnG/ihd5g61hUTDNGyb1pCVa8=
-X-Google-Smtp-Source: AMrXdXvbYs0GsrXDeFVwrDWcr/ZKXKHi4GXDCr076tjbDWyLo6wIxf7LwFWlW3g3q3cFLgPGCLjJFF/gKeQxPEoEg8M=
-X-Received: by 2002:a2e:b94f:0:b0:28b:88b3:2ead with SMTP id
- 15-20020a2eb94f000000b0028b88b32eadmr1389772ljs.293.1674250098612; Fri, 20
- Jan 2023 13:28:18 -0800 (PST)
+        bh=47bQYYvwoc4QnN6fF+m3+7Uy31DycYW7WL3pijAuHrc=;
+        b=N0Ykw/edLx5XhO4z7ybUxbsYTceVnvDZfMmXO2WXkUOvEecGNbjZweXJj582jeLJES
+         O9HS6PQZga260YU/Z0hyPgpOJxqPkrLTWut98aa2qntTaY6VgM45V7CjQPjGquv0zXvX
+         lIIq6DzBDkh33KRDbiaS50zk5p4nF7/M+nBv+ZOVtB3uJoQs7f1V7KHS+6eihPu56RiZ
+         ZCqnkKFk7inLszYpHN1F+sywxvfKP/xgpiQQQONZP2GnAXTsUAfD1b6Cx8x/KEKMH6lp
+         Wq5Zvnp6bFu2Xim1O2AZcuwXMCdLcim2Rt5nwqsjPIwoZAmTzTyMjYJp1O0HiM8xmT2c
+         KPcg==
+X-Gm-Message-State: AFqh2kr/GenebU2r3XvS7xGAf9ZepkcSgs2fdPBLycz8Uq53UauYtWNv
+        ZSqMInNY68jO/FR1B2Zi4LPUKUkHxegic1fRNSU=
+X-Google-Smtp-Source: AMrXdXsEvy2zUx8pBtqvlaMNQXcMQiU5wj9qFfZWFmAJ8mJ3iDwd2PNDfGEnDLQioMNqbk8VGMyCnxB99EQkJx6YjZ8=
+X-Received: by 2002:a2e:b752:0:b0:28b:77fd:d92b with SMTP id
+ k18-20020a2eb752000000b0028b77fdd92bmr1424117ljo.86.1674252320747; Fri, 20
+ Jan 2023 14:05:20 -0800 (PST)
 MIME-Version: 1.0
-References: <a85c256af01f64389a078c2b37c3b72a27d97536.1668005062.git.geert+renesas@glider.be>
- <0bb76233-062c-a1c5-da88-4f04feccd5b2@linaro.org>
-In-Reply-To: <0bb76233-062c-a1c5-da88-4f04feccd5b2@linaro.org>
-From:   Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Date:   Fri, 20 Jan 2023 13:28:07 -0800
-Message-ID: <CABBYNZJX+9SxW48qSSmyyMa7_bvqzwHafa0BNOz4Kz_Jc+gu9Q@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: leds: Document Bluetooth and WLAN triggers
+References: <20230118184413.395820-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230118184413.395820-1-krzysztof.kozlowski@linaro.org>
+From:   Puranjay Mohan <puranjay12@gmail.com>
+Date:   Fri, 20 Jan 2023 23:05:09 +0100
+Message-ID: <CANk7y0jpC4Hz5cEzdO2WQkRbqNfBKKgKXTrL142D5Ldr_dhBjA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] dt-bindings: iio: drop unneeded quotes
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
+        Lucas Stankus <lucas.p.stankus@gmail.com>,
+        Dmitry Rokosov <ddrokosov@sberdevices.ru>,
+        Alexandru Tachici <alexandru.tachici@analog.com>,
+        Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
+        Renato Lui Geh <renatogeh@gmail.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Andreas Klinger <ak@it-klinger.de>,
+        Marcus Folkesson <marcus.folkesson@gmail.com>,
+        Kent Gustavsson <kent@minoris.se>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Oleksij Rempel <linux@rempel-privat.de>, kernel@pengutronix.de,
+        =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
+        Nishant Malpani <nish.malpani25@gmail.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Dragos Bogdan <dragos.bogdan@analog.com>,
+        Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Stefan Popa <stefan.popa@analog.com>,
+        Robert Yang <decatf@gmail.com>,
+        Sean Nyekjaer <sean@geanix.com>,
+        Artur Rojek <contact@artur-rojek.eu>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Philippe Reynes <tremyfr@yahoo.fr>,
+        Alexandru Lazar <alazar@startmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Caleb Connolly <caleb.connolly@linaro.org>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        Harald Geyer <harald@ccbib.org>,
+        Eugene Zaikonnikov <ez@norophonic.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Matt Ranostay <matt.ranostay@konsulko.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Sankar Velliangiri <navin@linumiz.com>,
+        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        chrome-platform@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,68 +120,31 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
-
-On Fri, Jan 20, 2023 at 8:42 AM Krzysztof Kozlowski
+On Wed, Jan 18, 2023 at 7:44 PM Krzysztof Kozlowski
 <krzysztof.kozlowski@linaro.org> wrote:
 >
-> On 09/11/2022 15:46, Geert Uytterhoeven wrote:
-> > Add the missing trigger patterns for Bluetooth and WLAN activity, which
-> > are already in active use.
-> >
-> > While at it, move the mmc pattern comment where it belongs, and restore
-> > alphabetical sort order.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: bt_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-> >       'hci0-power' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-> >       'hci0-power' does not match '^mmc[0-9]+$'
-> >       From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
-> > arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: wlan_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-> >       'phy0tx' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-> >       'phy0tx' does not match '^mmc[0-9]+$'
-> >       From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+> Cleanup by removing unneeded quotes from refs and redundant blank lines.
+> No functional impact except adjusting to preferred coding style.
 >
-> This patch got lost... Rob, Lee or Pavel, can you pick it up?
->
-> It's with Rob's approval:
-> https://lore.kernel.org/all/166861772609.231295.14812410099261417331.robh@kernel.org/
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../devicetree/bindings/iio/accel/memsensing,msa311.yaml  | 5 ++---
+>  Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml | 2 +-
+>  Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml | 2 +-
+>  .../devicetree/bindings/iio/adc/atmel,sama5d2-adc.yaml    | 2 +-
+>  Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml | 4 ++--
+>  .../devicetree/bindings/iio/adc/ingenic,adc.yaml          | 4 ++--
+>  .../devicetree/bindings/iio/adc/microchip,mcp3911.yaml    | 4 ++--
+>  .../devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml    | 2 +-
+>  .../devicetree/bindings/iio/adc/samsung,exynos-adc.yaml   | 2 +-
+>  .../devicetree/bindings/iio/adc/st,stm32-adc.yaml         | 8 ++++----
+>  .../devicetree/bindings/iio/adc/ti,ads131e08.yaml         | 2 +-
+>  Documentation/devicetree/bindings/iio/adc/ti,tsc2046.yaml | 2 +-
+>  .../devicetree/bindings/iio/dac/lltc,ltc1660.yaml         | 4 ++--
+>  .../devicetree/bindings/iio/dac/lltc,ltc2632.yaml         | 4 ++--
+>  .../devicetree/bindings/iio/dac/st,stm32-dac.yaml         | 4 ++--
+>  Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml | 2 +-
+>  .../devicetree/bindings/iio/temperature/ti,tmp117.yaml    | 6 +++---
 
-If it is going to be applied via bluetooth-next make sure to resend it
-since last time our CI was not able to apply it thus why we didn't
-apply it in the first place.
-
->
-> > ---
-> >  Documentation/devicetree/bindings/leds/common.yaml | 8 ++++++--
-> >  1 file changed, 6 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-> > index f5c57a580078ea23..d34bb58c00371402 100644
-> > --- a/Documentation/devicetree/bindings/leds/common.yaml
-> > +++ b/Documentation/devicetree/bindings/leds/common.yaml
-> > @@ -98,9 +98,13 @@ properties:
-> >              # LED alters the brightness for the specified duration with one software
-> >              # timer (requires "led-pattern" property)
-> >            - pattern
-> > -        # LED is triggered by SD/MMC activity
-> > -      - pattern: "^mmc[0-9]+$"
-> >        - pattern: "^cpu[0-9]*$"
-> > +      - pattern: "^hci[0-9]+-power$"
-> > +        # LED is triggered by Bluetooth activity
-> > +      - pattern: "^mmc[0-9]+$"
-> > +        # LED is triggered by SD/MMC activity
-> > +      - pattern: "^phy[0-9]+tx$"
-> > +        # LED is triggered by WLAN activity
-> >
-> >    led-pattern:
-> >      description: |
->
-> Best regards,
-> Krzysztof
->
-
-
--- 
-Luiz Augusto von Dentz
+For ti,tmp117.yaml
+Reviewed-by: Puranjay Mohan <puranjay12@gmail.com>
