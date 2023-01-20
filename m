@@ -2,126 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B719675A19
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jan 2023 17:36:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 515B3675A2C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jan 2023 17:40:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229808AbjATQgb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Jan 2023 11:36:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45112 "EHLO
+        id S230255AbjATQj6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Jan 2023 11:39:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230351AbjATQga (ORCPT
+        with ESMTP id S229910AbjATQj5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Jan 2023 11:36:30 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FAB49B130
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Jan 2023 08:36:01 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pIuMT-0004Z9-BT; Fri, 20 Jan 2023 17:35:29 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pIuMQ-007PdM-S8; Fri, 20 Jan 2023 17:35:26 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pIuMQ-00ES5w-1c; Fri, 20 Jan 2023 17:35:26 +0100
-Date:   Fri, 20 Jan 2023 17:35:25 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-pwm@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] pwm: Add support for RZ/V2M PWM driver
-Message-ID: <20230120163525.rhtgexzmizotnvrg@pengutronix.de>
-References: <20221213185827.2012004-1-biju.das.jz@bp.renesas.com>
- <20221213185827.2012004-3-biju.das.jz@bp.renesas.com>
+        Fri, 20 Jan 2023 11:39:57 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B8C759C7
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Jan 2023 08:39:56 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id d14so1669245wrr.9
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Jan 2023 08:39:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pGYySup8p6S2QLbw0VKiZbUhVbWmQ+yt84mNVfAu/t0=;
+        b=UApWjzlXda6CKOsxYSAekXBHCiPYv6pVkiWHbI7PK6NXlDBf2dZaBDBu3pcMBX4Dvp
+         6pVJCoYaf28tSrmY+cQXTcE5NCML/7/aNdhPsd9f1zZGxwjZ8KtIc0zafg1CDt+MmL1t
+         ht+1uJ+qps8er08SQIPj8jCpqo9gs3doYVucXRacX8doWIlUzIZI6fYKJoTuT8NrG42t
+         MEw5W4JoUE4dXTKy6NU3b03SLyKAPuoCmZGqaBryF9fm76CMUuyzmAcMzhe2Gc9aBSvv
+         rVqHAHr0IWrNPbn8V79yED7CryU1Vk3Sen0HSlqKLB5YcHIC9rN/57uXiyLuvli0/Rbt
+         Yz+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pGYySup8p6S2QLbw0VKiZbUhVbWmQ+yt84mNVfAu/t0=;
+        b=FbZAz1jkn3DhujA7xbziRpR7f1uoYn51UL/8vEjIA0Sa/LH77csKSFAlnxFk1hI19o
+         lKmg+SXJnCDsaOrnG9mItUnEviuZG07cxFxssVebHLg9Yi6tii/guA0qoP6rnt3Ve/4O
+         urmfWDlmodo7HHpK/Ml4D6dX7Hbb/QC7jG0jQrXcH7ayNc7ol9qpC1ca+A/cF7GKP6ay
+         85K9mAgJ2Ixi+Oe92EtWDNwzVppdfNa2kKzjn1S5tRypxzzPefgjHMUveyr0FozO+6h5
+         liLwQWiKNI/porq+bkVDDbosZNBgcdLFVaEyKwOR45mcPp72eqket1X2I6M4Htqbmg4U
+         SRmQ==
+X-Gm-Message-State: AFqh2kryugfN9SuoTdRrFQ+QkM5vqSDQvurz93a2bBGKX+FTAU3ZC74b
+        j333lZjqP9BBVmUcYJU8dlxfwQ==
+X-Google-Smtp-Source: AMrXdXtZ9DWblZSaKSzMSMqI/0YMAXlKAx5MWIAT7Z2mmChtlRMs75VNjLqzEiOVvNoaJZ95nuiIUg==
+X-Received: by 2002:a05:6000:98d:b0:25f:8ead:96cc with SMTP id by13-20020a056000098d00b0025f8ead96ccmr14507795wrb.70.1674232794812;
+        Fri, 20 Jan 2023 08:39:54 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id z12-20020adfd0cc000000b002bdff778d87sm13385996wrh.34.2023.01.20.08.39.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Jan 2023 08:39:54 -0800 (PST)
+Message-ID: <0bb76233-062c-a1c5-da88-4f04feccd5b2@linaro.org>
+Date:   Fri, 20 Jan 2023 17:39:52 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="56qs72c4mf6yg5ye"
-Content-Disposition: inline
-In-Reply-To: <20221213185827.2012004-3-biju.das.jz@bp.renesas.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH] dt-bindings: leds: Document Bluetooth and WLAN triggers
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <a85c256af01f64389a078c2b37c3b72a27d97536.1668005062.git.geert+renesas@glider.be>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <a85c256af01f64389a078c2b37c3b72a27d97536.1668005062.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 09/11/2022 15:46, Geert Uytterhoeven wrote:
+> Add the missing trigger patterns for Bluetooth and WLAN activity, which
+> are already in active use.
+> 
+> While at it, move the mmc pattern comment where it belongs, and restore
+> alphabetical sort order.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: bt_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+> 	'hci0-power' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+> 	'hci0-power' does not match '^mmc[0-9]+$'
+> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: wlan_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+> 	'phy0tx' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+> 	'phy0tx' does not match '^mmc[0-9]+$'
+> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
 
---56qs72c4mf6yg5ye
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch got lost... Rob, Lee or Pavel, can you pick it up?
 
-Hello,
+It's with Rob's approval:
+https://lore.kernel.org/all/166861772609.231295.14812410099261417331.robh@kernel.org/
 
-> + * https://www.renesas.com/in/en/document/mah/rzv2m-users-manual-hardwar=
-e?language=3Den
+> ---
+>  Documentation/devicetree/bindings/leds/common.yaml | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+> index f5c57a580078ea23..d34bb58c00371402 100644
+> --- a/Documentation/devicetree/bindings/leds/common.yaml
+> +++ b/Documentation/devicetree/bindings/leds/common.yaml
+> @@ -98,9 +98,13 @@ properties:
+>              # LED alters the brightness for the specified duration with one software
+>              # timer (requires "led-pattern" property)
+>            - pattern
+> -        # LED is triggered by SD/MMC activity
+> -      - pattern: "^mmc[0-9]+$"
+>        - pattern: "^cpu[0-9]*$"
+> +      - pattern: "^hci[0-9]+-power$"
+> +        # LED is triggered by Bluetooth activity
+> +      - pattern: "^mmc[0-9]+$"
+> +        # LED is triggered by SD/MMC activity
+> +      - pattern: "^phy[0-9]+tx$"
+> +        # LED is triggered by WLAN activity
+>  
+>    led-pattern:
+>      description: |
 
-I took a look into that now, and there are a few things I noticed.
+Best regards,
+Krzysztof
 
-The PWMCYC register description has:
-
-	To change the setting value of the PWM cycle setting register
-	(PWMm_PWMCYC), set the PWME bit of the PWM control register
-	(PWMm_PWMCTR) to 0b and stop the counter operation. If it is
-	changed during counter operation, PWM output may not be
-	performed correctly.
-
-This isn't repected in the driver. Please either fix that or add a
-comment why you think this is not necessary. If you choose to adhere to
-that, also note it in the Limitations section that I asked you to add.
-
-In .apply() you subtract 1 from the calculated value of PWMCYC. When
-looking through section 17.4 Function Details I don't see this
-justified. However in 17.3.2.2 the formula is as you quoted in the
-driver (i.e. PWMm_PWMCYC =3D (PWM period (ns) / (PWM_CLK period (ns) =C3=97
-Division ratio)) =E2=88=92 1). Can you maybe test which of the two is corre=
-ct,
-maybe adapt the driver code and note in a comment about the difference?
-
-Also comment would be nice about the fact that the native polarity of
-the hardware is inverted (i.e. it starts with the low part). I didn't
-recheck, maybe the inversion bit handling must be switched?
-
-A 100% duty cycle is only possible (according to Figure 17.4-2) with
-PWMLOW > PWMCYC. Assuming this is correct, there is the problem that the
-two registers have the same width, so if PWMCYC is 0xffffff a 100% duty
-isn't possible. So please stick to only using values < 0xffffff for
-PWMCYC.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---56qs72c4mf6yg5ye
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmPKwsoACgkQwfwUeK3K
-7AlLCAf+OKlR9sJ1tjp34aw4HwLcNrATLOFtLz1YYfFimIxIK7yjXgvjYmCSUVH5
-7gzzYPa8kjLkthEbe6s8/GBbeLHrEyIDT3Z/+58Ij2dV7hKI/V5doXqFXjl5jPAJ
-qGftAqkpnXt4lLxwVIvJ/NdL60RGbYuGtVbPLYaykMurmfh7d2SBe+iByWbiNCsp
-2Mj16rWwP8YH54zOQ/XXmM1ONKpIAbm7wNLC3yDNYmPhl4hApt6Mzc5CyQzaDDmw
-BdATaMznRXrvFBICvtIN6alGJBtSF6nPBhSOtaL73AlTcZacSGdcUVP1s0NxDteK
-9dqK8kZrff7o7/yYJWFzztOXpIG6Lw==
-=edq4
------END PGP SIGNATURE-----
-
---56qs72c4mf6yg5ye--
