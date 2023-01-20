@@ -2,162 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EF13675F0E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jan 2023 21:44:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09E05675F85
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Jan 2023 22:16:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229690AbjATUoG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Jan 2023 15:44:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46242 "EHLO
+        id S229749AbjATVQL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Jan 2023 16:16:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbjATUoE (ORCPT
+        with ESMTP id S229695AbjATVQK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Jan 2023 15:44:04 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F89F94C98;
-        Fri, 20 Jan 2023 12:44:03 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 968B9514;
-        Fri, 20 Jan 2023 21:44:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674247441;
-        bh=RGZWizV5aQWvvi9vM3wcSdZJlXGVRCw+kfzO4ZPIbP4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=tpYpRQErh9OcXl0wugmLZ9WstE0uP+tQ5iJsL3jmt/Ov5WJzsZDPRY1+ono7MmFw9
-         uKhIHznC8KDv+I0lhxplgietpni+tOPm9DvXNp3g4D1J1pFNHlrtu76S3lmdq23Uk8
-         49kUvYIt4nemU/B4eF6PYrth3qETojJdEC4DF8xk=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-renesas-soc@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH] media: vsp1: Replace vb2_is_streaming() with vb2_start_streaming_called()
-Date:   Fri, 20 Jan 2023 22:43:59 +0200
-Message-Id: <20230120204359.25114-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.39.1
+        Fri, 20 Jan 2023 16:16:10 -0500
+Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E86101DB94;
+        Fri, 20 Jan 2023 13:16:05 -0800 (PST)
+Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
+        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id 4A5AF1883A74;
+        Fri, 20 Jan 2023 21:16:03 +0000 (UTC)
+Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
+        by mailout.gigahost.dk (Postfix) with ESMTP id 412112500327;
+        Fri, 20 Jan 2023 21:16:03 +0000 (UTC)
+Received: by smtp.gigahost.dk (Postfix, from userid 1000)
+        id 2D75D91201E4; Fri, 20 Jan 2023 21:16:03 +0000 (UTC)
+X-Screener-Id: 413d8c6ce5bf6eab4824d0abaab02863e8e3f662
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Date:   Fri, 20 Jan 2023 22:16:03 +0100
+From:   netdev@kapio-technology.com
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
+        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?UTF-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Ivan Vecera <ivecera@redhat.com>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>
+Subject: Re: [RFC PATCH net-next 1/5] net: bridge: add dynamic flag to
+ switchdev notifier
+In-Reply-To: <20230119134045.fqdt6zrna5x3iavt@skbuf>
+References: <20230117185714.3058453-1-netdev@kapio-technology.com>
+ <20230117185714.3058453-2-netdev@kapio-technology.com>
+ <20230117230806.ipwcbnq4jcc4qs7z@skbuf>
+ <a3bba3eb856a00b5e5e0c1e2ffe8749a@kapio-technology.com>
+ <20230119093358.gbyka2x4qbxxr43b@skbuf>
+ <20230119134045.fqdt6zrna5x3iavt@skbuf>
+User-Agent: Gigahost Webmail
+Message-ID: <29501147c96e7e2f06c999410d42e2bf@kapio-technology.com>
+X-Sender: netdev@kapio-technology.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The vsp1 driver uses the vb2_is_streaming() function in its .buf_queue()
-handler to check if the .start_streaming() operation has been called,
-and decide whether to just add the buffer to an internal queue, or also
-trigger a hardware run. vb2_is_streaming() relies on the vb2_queue
-structure's streaming field, which used to be set only after calling the
-.start_streaming() operation.
+On 2023-01-19 14:40, Vladimir Oltean wrote:
+> On Thu, Jan 19, 2023 at 11:33:58AM +0200, Vladimir Oltean wrote:
+>> On Wed, Jan 18, 2023 at 11:14:00PM +0100, netdev@kapio-technology.com 
+>> wrote:
+>> > > > +	item->is_dyn = !test_bit(BR_FDB_STATIC, &fdb->flags);
+>> > >
+>> > > Why reverse logic? Why not just name this "is_static" and leave any
+>> > > further interpretations up to the consumer?
+>> >
+>> > My reasoning for this is that the common case is to have static entries,
+>> > thus is_dyn=false, so whenever someone uses a switchdev_notifier_fdb_info
+>> > struct the common case does not need to be entered.
+>> > Otherwise it might also break something when someone uses this struct and if
+>> > it was 'is_static' and they forget to code is_static=true they will get
+>> > dynamic entries without wanting it and it can be hard to find such an error.
+>> 
+>> I'll leave it up to bridge maintainers if this is preferable to 
+>> patching
+>> all callers of SWITCHDEV_FDB_ADD_TO_BRIDGE such that they set 
+>> is_static=true.
+> 
+> Actually, why would you assume that all users of 
+> SWITCHDEV_FDB_ADD_TO_BRIDGE
+> want to add static FDB entries? You can't avoid inspecting the code and
+> making sure that the is_dyn/is_static flag is set correctly either way.
 
-Commit a10b21532574 ("media: vb2: add (un)prepare_streaming queue ops")
-changed this, setting the .streaming field in vb2_core_streamon() before
-enqueuing buffers to the driver and calling .start_streaming(). This
-broke the vsp1 driver which now believes that .start_streaming() has
-been called when it hasn't, leading to a crash:
-
-[  881.058705] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000020
-[  881.067495] Mem abort info:
-[  881.070290]   ESR = 0x0000000096000006
-[  881.074042]   EC = 0x25: DABT (current EL), IL = 32 bits
-[  881.079358]   SET = 0, FnV = 0
-[  881.082414]   EA = 0, S1PTW = 0
-[  881.085558]   FSC = 0x06: level 2 translation fault
-[  881.090439] Data abort info:
-[  881.093320]   ISV = 0, ISS = 0x00000006
-[  881.097157]   CM = 0, WnR = 0
-[  881.100126] user pgtable: 4k pages, 48-bit VAs, pgdp=000000004fa51000
-[  881.106573] [0000000000000020] pgd=080000004f36e003, p4d=080000004f36e003, pud=080000004f7ec003, pmd=0000000000000000
-[  881.117217] Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
-[  881.123494] Modules linked in: rcar_fdp1 v4l2_mem2mem
-[  881.128572] CPU: 0 PID: 1271 Comm: yavta Tainted: G    B              6.2.0-rc1-00023-g6c94e2e99343 #556
-[  881.138061] Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
-[  881.145981] pstate: 400000c5 (nZcv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  881.152951] pc : vsp1_dl_list_add_body+0xa8/0xe0
-[  881.157580] lr : vsp1_dl_list_add_body+0x34/0xe0
-[  881.162206] sp : ffff80000c267710
-[  881.165522] x29: ffff80000c267710 x28: ffff000010938ae8 x27: ffff000013a8dd98
-[  881.172683] x26: ffff000010938098 x25: ffff000013a8dc00 x24: ffff000010ed6ba8
-[  881.179841] x23: ffff00000faa4000 x22: 0000000000000000 x21: 0000000000000020
-[  881.186998] x20: ffff00000faa4000 x19: 0000000000000000 x18: 0000000000000000
-[  881.194154] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
-[  881.201309] x14: 0000000000000000 x13: 746e696174206c65 x12: ffff70000157043d
-[  881.208465] x11: 1ffff0000157043c x10: ffff70000157043c x9 : dfff800000000000
-[  881.215622] x8 : ffff80000ab821e7 x7 : 00008ffffea8fbc4 x6 : 0000000000000001
-[  881.222779] x5 : ffff80000ab821e0 x4 : ffff70000157043d x3 : 0000000000000020
-[  881.229936] x2 : 0000000000000020 x1 : ffff00000e4f6400 x0 : 0000000000000000
-[  881.237092] Call trace:
-[  881.239542]  vsp1_dl_list_add_body+0xa8/0xe0
-[  881.243822]  vsp1_video_pipeline_run+0x270/0x2a0
-[  881.248449]  vsp1_video_buffer_queue+0x1c0/0x1d0
-[  881.253076]  __enqueue_in_driver+0xbc/0x260
-[  881.257269]  vb2_start_streaming+0x48/0x200
-[  881.261461]  vb2_core_streamon+0x13c/0x280
-[  881.265565]  vb2_streamon+0x3c/0x90
-[  881.269064]  vsp1_video_streamon+0x2fc/0x3e0
-[  881.273344]  v4l_streamon+0x50/0x70
-[  881.276844]  __video_do_ioctl+0x2bc/0x5d0
-[  881.280861]  video_usercopy+0x2a8/0xc80
-[  881.284704]  video_ioctl2+0x20/0x40
-[  881.288201]  v4l2_ioctl+0xa4/0xc0
-[  881.291525]  __arm64_sys_ioctl+0xe8/0x110
-[  881.295543]  invoke_syscall+0x68/0x190
-[  881.299303]  el0_svc_common.constprop.0+0x88/0x170
-[  881.304105]  do_el0_svc+0x4c/0xf0
-[  881.307430]  el0_svc+0x4c/0xa0
-[  881.310494]  el0t_64_sync_handler+0xbc/0x140
-[  881.314773]  el0t_64_sync+0x190/0x194
-[  881.318450] Code: d50323bf d65f03c0 91008263 f9800071 (885f7c60)
-[  881.324551] ---[ end trace 0000000000000000 ]---
-[  881.329173] note: yavta[1271] exited with preempt_count 1
-
-A different regression report sent to the linux-media mailing list ([1])
-was answered with a claim that the vb2_is_streaming() function has never
-been meant for this purpose. The document of the function, as well as of
-the struct vb2_queue streaming field, is sparse, so this claim may be
-hard to verify.
-
-The information needed by the vsp1 driver to decide how to process
-queued buffers is also available from the vb2_start_streaming_called()
-function. Use it instead of vb2_is_streaming() to fix the problem.
-
-[1] https://lore.kernel.org/linux-media/545610e7-3446-2b82-60dc-7385fea3774f@redhat.com/
-
-Fixes: a10b21532574 ("media: vb2: add (un)prepare_streaming queue ops")
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
-Hans, I think many drivers may be affected by a10b21532574, and it would
-be difficult to test them all in time for the v6.2 release. Maybe the
-original behaviour of vb2_is_streaming() could be restored (I haven't
-checked), or maybe the commit should be reverted to give more time to
-fix the issue correctly.
-
-In the meantime, this patch should be merged as a v6.2 fix, as I think
-it goes in the right direction in any case.
----
- drivers/media/platform/renesas/vsp1/vsp1_video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-index 544012fd1fe9..3664c87e4afb 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-@@ -776,7 +776,7 @@ static void vsp1_video_buffer_queue(struct vb2_buffer *vb)
- 	video->rwpf->mem = buf->mem;
- 	pipe->buffers_ready |= 1 << video->pipe_index;
- 
--	if (vb2_is_streaming(&video->queue) &&
-+	if (vb2_start_streaming_called(&video->queue) &&
- 	    vsp1_pipeline_ready(pipe))
- 		vsp1_video_pipeline_run(pipe);
- 
-
-base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
--- 
-Regards,
-
-Laurent Pinchart
-
+Well, up until this patch set there is no option, besides entries from 
+SWITCHDEV_FDB_ADD_TO_BRIDGE events will get the external learned flag 
+set, so they will not be aged by the bridge, and so dynamic entries that 
+way don't make much sense I think. Is that not right?
