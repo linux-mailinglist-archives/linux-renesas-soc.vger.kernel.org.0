@@ -2,114 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C77FB6766C4
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Jan 2023 15:37:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F05A6766DA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Jan 2023 15:59:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229782AbjAUOhk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 21 Jan 2023 09:37:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34648 "EHLO
+        id S229575AbjAUO7D (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 21 Jan 2023 09:59:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229735AbjAUOhk (ORCPT
+        with ESMTP id S229535AbjAUO7D (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 21 Jan 2023 09:37:40 -0500
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 236441B0;
-        Sat, 21 Jan 2023 06:37:38 -0800 (PST)
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 33DEE68CFE; Sat, 21 Jan 2023 15:37:33 +0100 (CET)
-Date:   Sat, 21 Jan 2023 15:37:33 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        "Conor.Dooley" <conor.dooley@microchip.com>,
+        Sat, 21 Jan 2023 09:59:03 -0500
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AC6C31F91A;
+        Sat, 21 Jan 2023 06:59:01 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.97,235,1669042800"; 
+   d="scan'208";a="150151029"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 21 Jan 2023 23:59:00 +0900
+Received: from localhost.localdomain (unknown [10.226.92.25])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1543E42BC259;
+        Sat, 21 Jan 2023 23:58:56 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-        guoren <guoren@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Atish Patra <atishp@rivosinc.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Tsukasa OI <research_trasio@irq.a4lg.com>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Mayuresh Chitale <mchitale@ventanamicro.com>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [RFC PATCH v6 1/6] riscv: mm: dma-noncoherent: Switch using
- function pointers for cache management
-Message-ID: <20230121143733.GA7415@lst.de>
-References: <20230106185526.260163-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <6f7d06ef-d74d-4dfc-9b77-6ae83e0d7816@app.fastmail.com> <CA+V-a8uF1s+dwKC_+apL+CBiHN8w_J0n_G2dqsgiAUZVEibfqg@mail.gmail.com> <9017adf0-acd4-4c43-8aea-3579b214b477@app.fastmail.com> <CA+V-a8u6jvR=EDeE3mAbDr6-06NoBJ7mwmi_Y9qVyHT+aC-9rg@mail.gmail.com> <45d6eb0c-cbe3-4a83-aa12-3483638473ae@app.fastmail.com> <20230110070144.GG10289@lst.de> <02988e70-b099-46fd-b260-2d537c50543a@app.fastmail.com> <20230113054807.GA23179@lst.de> <ea4cb121-97e9-4365-861a-b3635fd34721@app.fastmail.com>
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 00/12] ADD USB3.1 HOST, Peri and DRD support
+Date:   Sat, 21 Jan 2023 14:58:41 +0000
+Message-Id: <20230121145853.4792-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ea4cb121-97e9-4365-861a-b3635fd34721@app.fastmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 06:04:37PM +0100, Arnd Bergmann wrote:
-> Having looked at this some more, I see that the powerpc
-> version is a bit problematic here as well: this one
-> flushes the partial cache lines before and after the
-> DMA transfer, while only invalidating the full
-> cache lines.
+This patch series aims to add USB3.1 HOST, Peri and DRD support
+on RZ/V2M EVK platform.
 
-That feels really odd, and might be worth a bug report to the
-PPC maintainers.
+The reset for both host and peri are located in USB3DRD block. The
+USB3DRD registers are mapped in the AXI address space of the Peripheral
+module.
 
-> Obviously there is no winning either way if the same
-> cache line gets written by both CPU and device, I'm
-> just trying to figure out what behavior we actually
-> want here.
+RZ/V2M XHCI is similar to R-Car XHCI but it doesn't require any
+firmware.
 
-There isn't, and that's why we require DMAed regions to be cache line
-aligned.
+Host/device needs to do reset release and set the host/device function
+on DRD module, before accessing any registers.
 
-> Aside from the question for how to handle flush vs invalidate
-> on DMA_FROM_DEVICE, I'm still trying to figure out how to
-> best handle highmem with architecture specific cache management
-> operations. The easy approach would be to leave that up
-> to the architecture, passing only a physical address to
-> the flush function.
+v2->v3:
+ * Fixed the X86 compilation for allmodconfig.
+ * Added Rb and Acked-by tag from Rob for all the binding patches.
+ * Changed USB_RZV2M_USB3DRD config option type from bool->tristate
+ * Updated default values for the USB_RZV2M_USB3DRD config option
+ * Updated USB_XHCI_PLATFORM to select USB_XHCI_RZV2M if ARCH_R9A09G011
+   enabled.
+v1->v2:
+ * Added Rb tag from Rob for host binding patch
+ * Renamed clock-name from "host_axi"->"axi"
+ * Drop quotes around usb-xhci.yaml.
+ * Moved DRD interrupts from device ctrlr to DRD bindings
+ * Updated interrupts and dropped interrupt-names in device ctrlr bindings
+ * Renamed aclk->axi in device ctrlr bindings
+ * Added DRD interrupts and interrupt-names in DRD bindings
+ * Dropped peripheral reset and reset-names from DRD bindings
+ * Added reg property for usb3 device ctrlr nodes
+ * Renamed peri_axi->axi and apb->reg
+ * Updated pattern properties and example.
+ * Moved header file from include/linux/soc/renesas->include/linux/usb
+ * Passing DRD irq resource from parent to usb3_peri for handling it.
+ * As drd reg is now separated from usb3 peri, updated DRD reg handling in
+   usb3 peri driver.
+ * Removed usb3 peri reset handling from DRD driver.
+ * Added Rb tag from Geert for reset and clock updates for xhci-plat.
 
-I suspect that is a good enough first step.  Especially as I remember
-that some architectures have physical address based cache management
-anyway (unless we removed them in the meantime).
+Biju Das (12):
+  dt-bindings: usb: renesas,usb-xhci: Document RZ/V2M support
+  dt-bindings: usb: renesas,usb3-peri: Update reset, clock-name and
+    interrupts properties
+  dt-bindings: usb: renesas,usb3-peri: Document RZ/V2MA bindings
+  dt-bindings: usb: Add RZ/V2M USB3DRD binding
+  usb: gadget: Add support for RZ/V2M USB3DRD driver
+  usb: gadget: udc: renesas_usb3: Add role switch support for RZ/V2M
+  usb: host: xhci-plat: Improve clock handling in probe()
+  usb: host: xhci-plat: Add reset support
+  xhci: host: Add Renesas RZ/V2M SoC support
+  arm64: dts: renesas: r9a09g011: Add USB3 DRD, device and host nodes
+  arm64: dts: renesas: rzv2mevk2: Enable USB3 DRD, Peripheral and Host
+  arm64: dts: renesas: rzv2mevk2: Enable USB3 role switch
 
-> A nicer interface might be to move the
-> loop over highmem pages out into common code, flush
-> lowmem pages by virtual addresss, and have a separate
-> callback for highmem pages that takes a page pointer,
-> like
+ .../bindings/usb/renesas,rzv2m-usb3drd.yaml   | 129 ++++++++++++++++
+ .../bindings/usb/renesas,usb-xhci.yaml        |  41 +++++-
+ .../bindings/usb/renesas,usb3-peri.yaml       |  40 +----
+ .../boot/dts/renesas/r9a09g011-v2mevk2.dts    |  76 ++++++++++
+ arch/arm64/boot/dts/renesas/r9a09g011.dtsi    |  45 ++++++
+ drivers/usb/gadget/udc/Kconfig                |  13 ++
+ drivers/usb/gadget/udc/Makefile               |   1 +
+ drivers/usb/gadget/udc/renesas_usb3.c         | 136 +++++++++++------
+ drivers/usb/gadget/udc/rzv2m_usb3drd.c        | 139 ++++++++++++++++++
+ drivers/usb/host/Kconfig                      |  10 ++
+ drivers/usb/host/Makefile                     |   3 +
+ drivers/usb/host/xhci-plat.c                  |  36 ++++-
+ drivers/usb/host/xhci-rzv2m.c                 |  38 +++++
+ drivers/usb/host/xhci-rzv2m.h                 |  16 ++
+ include/linux/usb/rzv2m_usb3drd.h             |  20 +++
+ 15 files changed, 656 insertions(+), 87 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+ create mode 100644 drivers/usb/gadget/udc/rzv2m_usb3drd.c
+ create mode 100644 drivers/usb/host/xhci-rzv2m.c
+ create mode 100644 drivers/usb/host/xhci-rzv2m.h
+ create mode 100644 include/linux/usb/rzv2m_usb3drd.h
 
-I'd rather avoid multiple callbacks if we can.  But maybe solve
-the simple problem first and just pass the paddr and then
-iterate from there.
+-- 
+2.25.1
 
-> 
-> struct dma_cache_ops {
->         void (*dma_cache_wback_inv)(void *start, unsigned long sz);
->         void (*dma_cache_inv)(void *start, unsigned long sz);
->         void (*dma_cache_wback)(void *start, unsigned long sz);
-> #ifdef CONFIG_HIGHMEM
->         void (*dma_cache_wback_inv_high_page)(struct page *, size_t start, unsigned long sz);
->         void (*dma_cache_inv_high_page)(struct page *, size_t start, unsigned long sz);
->         void (*dma_cache_wback_high_page)(struct page *, size_t start, unsigned long sz);
-
-Btw, I really don't think these should be indirect calls.  
-For sane architectures there should be exactly one way to call them,
-and the onces that have different implementations really should be
-using alternatives instead of expensive indirect calls.
