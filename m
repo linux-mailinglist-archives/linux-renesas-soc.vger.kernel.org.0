@@ -2,38 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FA336766F3
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Jan 2023 15:59:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A1AC6766F5
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Jan 2023 15:59:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229706AbjAUO7s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 21 Jan 2023 09:59:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41826 "EHLO
+        id S229883AbjAUO7x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 21 Jan 2023 09:59:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229980AbjAUO7s (ORCPT
+        with ESMTP id S229875AbjAUO7x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 21 Jan 2023 09:59:48 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3E7A21F93A;
-        Sat, 21 Jan 2023 06:59:40 -0800 (PST)
+        Sat, 21 Jan 2023 09:59:53 -0500
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 584A91F93E;
+        Sat, 21 Jan 2023 06:59:44 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.97,235,1669042800"; 
-   d="scan'208";a="150151092"
+   d="scan'208";a="147051279"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 21 Jan 2023 23:59:39 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 21 Jan 2023 23:59:42 +0900
 Received: from localhost.localdomain (unknown [10.226.92.25])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9D6F142BC259;
-        Sat, 21 Jan 2023 23:59:36 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E66EC42BC259;
+        Sat, 21 Jan 2023 23:59:39 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH v3 10/12] arm64: dts: renesas: r9a09g011: Add USB3 DRD, device and host nodes
-Date:   Sat, 21 Jan 2023 14:58:51 +0000
-Message-Id: <20230121145853.4792-11-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v3 11/12] arm64: dts: renesas: rzv2mevk2: Enable USB3 DRD, Peripheral and Host
+Date:   Sat, 21 Jan 2023 14:58:52 +0000
+Message-Id: <20230121145853.4792-12-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230121145853.4792-1-biju.das.jz@bp.renesas.com>
 References: <20230121145853.4792-1-biju.das.jz@bp.renesas.com>
@@ -47,78 +46,41 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch add usb3 host and peripheral device node as child of usb3 drd
-node to RZ/V2M SoC dtsi. The host/device needs to issue reset release on
-DRD module before accessing host/device registers.
+Enable USB3 Host, Peripheral and DRD modules on RZ/V2M EVK.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v2->v3:
- * No change
+ * No change.
 v1->v2:
- * Added all the USB3 nodes
- * Added reg property for USB3 peri
- * Added interrupt propertiees for DRD
+ * Enabled all the USB3 nodes
 ---
- arch/arm64/boot/dts/renesas/r9a09g011.dtsi | 45 ++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-index dd35a8ff72ee..a4e19c53f898 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-@@ -117,6 +117,51 @@ emmc: mmc@85020000  {
- 			status = "disabled";
- 		};
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
+index 11e1d51c7c0e..2cd1c9f6dc6a 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
++++ b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
+@@ -84,6 +84,18 @@ &uart0 {
+ 	status = "okay";
+ };
  
-+		usb3drd: usb3drd@85070400 {
-+			compatible = "renesas,r9a09g011-usb3drd",
-+				     "renesas,rzv2m-usb3drd";
-+			reg = <0x0 0x85070400 0x0 0x100>;
-+			interrupts = <GIC_SPI 242 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 243 IRQ_TYPE_LEVEL_HIGH>,
-+				      <GIC_SPI 244 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "drd", "bc", "gpi";
-+			clocks = <&cpg CPG_MOD R9A09G011_USB_ACLK_P>,
-+				 <&cpg CPG_MOD R9A09G011_USB_PCLK>;
-+			clock-names = "axi", "reg";
-+			resets = <&cpg R9A09G011_USB_DRD_RESET>;
-+			power-domains = <&cpg>;
-+			ranges;
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			status = "disabled";
++&usb3drd {
++	status = "okay";
++};
 +
-+			usb3host: usb@85060000 {
-+				compatible = "renesas,r9a09g011-xhci",
-+					     "renesas,rzv2m-xhci";
-+				reg = <0 0x85060000 0 0x2000>;
-+				interrupts = <GIC_SPI 245 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&cpg CPG_MOD R9A09G011_USB_ACLK_H>,
-+					 <&cpg CPG_MOD R9A09G011_USB_PCLK>;
-+				clock-names = "axi", "reg";
-+				resets = <&cpg R9A09G011_USB_ARESETN_H>;
-+				power-domains = <&cpg>;
-+				status = "disabled";
-+			};
++&usb3host {
++	status = "okay";
++};
 +
-+			usb3peri: usb3peri@85070000 {
-+				compatible = "renesas,r9a09g011-usb3-peri",
-+					     "renesas,rzv2m-usb3-peri";
-+				reg = <0x0 0x85070000 0x0 0x400>;
-+				interrupts = <GIC_SPI 246 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&cpg CPG_MOD R9A09G011_USB_ACLK_P>,
-+					 <&cpg CPG_MOD R9A09G011_USB_PCLK>;
-+				clock-names = "axi", "reg";
-+				resets = <&cpg R9A09G011_USB_ARESETN_P>;
-+				power-domains = <&cpg>;
-+				status = "disabled";
-+			};
-+		};
++&usb3peri {
++	status = "okay";
++};
 +
- 		avb: ethernet@a3300000 {
- 			compatible = "renesas,etheravb-r9a09g011","renesas,etheravb-rzv2m";
- 			reg = <0 0xa3300000 0 0x800>;
+ &wdt0 {
+ 	status = "okay";
+ };
 -- 
 2.25.1
 
