@@ -2,189 +2,158 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48BA8676D99
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Jan 2023 15:19:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF8486770BA
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Jan 2023 17:47:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229814AbjAVOTd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 22 Jan 2023 09:19:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44410 "EHLO
+        id S230020AbjAVQrk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 22 Jan 2023 11:47:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229815AbjAVOTc (ORCPT
+        with ESMTP id S229895AbjAVQrj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 22 Jan 2023 09:19:32 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AA8A14EB3
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 22 Jan 2023 06:19:30 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id y1so4134026wru.2
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 22 Jan 2023 06:19:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6nP80yt4P2LkjTrQbSApnHJJEUxI5A3MtVuRUI18a3s=;
-        b=dBCPnllzquDDUk+9Jg18anFzUDeoLloz26xrT7TaqiuwpuAwleMkzOfivLBXckeIrO
-         k0bNfIggIMbd+JwuPaStVNt1bsNmGmvwxM3EAc4japN0UPT0gSC5gHyQRzqOJ91ODpAz
-         eyafeA/P2Zymmyht7nTqT+PTmjnpZiD27bR3d9I/1RxPirk1Ax+NWKEJG9f2uP56FUfH
-         svloR0GbSWGvZqO75pztznAjiKUj//p1a3q7O1LKJBGQmooStGU53RaRbGvSl6Pfb0WN
-         riXvYdvdnlyA6jmMXZfiZr8y5vqWNWgHuNWdBoYOdTiI95sBuM1dfT5H95FPSCIX4Hig
-         d3gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6nP80yt4P2LkjTrQbSApnHJJEUxI5A3MtVuRUI18a3s=;
-        b=S+HBPocFZxf5OCJJrgJeCjcuKndzon27ni1jVguZRRf2VGIawqt8cvzchwrBmWF6O5
-         hyu9PhJsAjrbxg54aXJToHiIHEi9CcMo/tXnOHFvDcatoG3X88LRlU0b4x1Y2TOBkwLM
-         /23iV2YrO5ZR63K6Pg4k744HgBxEPNcMaKLKl6txrhFSLEKd3AdtrRbsxSJ8LD1U1TIX
-         FEBuxRoNddQe5TjrwYdI56MAAoLucjHjSafiAVQO/w7oKso213tJX7GIcqMchkQk4Uai
-         S+XYwvES6VKtYl6WhHG5XfGSG/tM/zeWKZfnVXT1/t+X6e1PD2V00SLAbvipfZVvtBQ7
-         BmQQ==
-X-Gm-Message-State: AFqh2krehesZI0hWHI/WL7FtSvwnIN2Mi1EJ/BkOE4VBnLoPr+85PS9Y
-        YHuQwNRUlp1LvK4vMUbfRFubTQ==
-X-Google-Smtp-Source: AMrXdXt35b+CmPQpFZihlqLeEU0wTQBsOlVJzU5chJmIhwORGBT/y9cFtSOaeQfQF/WddOUFzrntrA==
-X-Received: by 2002:adf:f705:0:b0:2bd:d34e:534c with SMTP id r5-20020adff705000000b002bdd34e534cmr17454975wrp.36.1674397168563;
-        Sun, 22 Jan 2023 06:19:28 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id n9-20020adf8b09000000b00241d21d4652sm2286368wra.21.2023.01.22.06.19.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Jan 2023 06:19:28 -0800 (PST)
-Message-ID: <435018a3-80a1-2113-23bf-8645e8f6e4e4@linaro.org>
-Date:   Sun, 22 Jan 2023 15:19:24 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH net-next 4/6] dt-bindings: net: renesas,rzn1-gmac:
- Document RZ/N1 GMAC support
-Content-Language: en-US
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+        Sun, 22 Jan 2023 11:47:39 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2392E1C30E;
+        Sun, 22 Jan 2023 08:47:29 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B17BF60C71;
+        Sun, 22 Jan 2023 16:47:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D688C433EF;
+        Sun, 22 Jan 2023 16:47:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674406048;
+        bh=SvajHjiCSIBlcZUdVxMgRSWO0gJsGtBYT+mr1EHeu0o=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=HJZbJrnWcLLnDqOiDRQFyTuKeSBq7CbUfFHZzlhHwR68aZIpTBcnnH7lrVDHATIJ5
+         w/Mzn1otM7LO+JhZgcF1eRjNkHrIX6kH73HUxsbtJpGx+ipM17Qa0hyxxMfQoix/Tf
+         r1748utHDH2gwfl5+RJVcuDS4ArHPfoVaxwDRawNux1S9sdh2RCaapXMO7IYw2RywK
+         8xy5xC0S7ec1wTzznrVHpd5sWmDaTKeuBj9DX4zXAVFJbGtMB2BbVg9U+46uDVAwvb
+         mW3+T17DR98iKb/CTcKr2rU5fUJe4wEpXkmpsi/iTJG+Z0//Kr2KoAJJpvWkIqgRKh
+         kv6ZWW4lNc7Nw==
+Date:   Sun, 22 Jan 2023 17:01:05 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
+        Lucas Stankus <lucas.p.stankus@gmail.com>,
+        Puranjay Mohan <puranjay12@gmail.com>,
+        Dmitry Rokosov <ddrokosov@sberdevices.ru>,
+        Alexandru Tachici <alexandru.tachici@analog.com>,
+        Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
+        Renato Lui Geh <renatogeh@gmail.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Andreas Klinger <ak@it-klinger.de>,
+        Marcus Folkesson <marcus.folkesson@gmail.com>,
+        Kent Gustavsson <kent@minoris.se>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
         Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Wong Vee Khee <veekhee@apple.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Revanth Kumar Uppala <ruppala@nvidia.com>,
-        Tan Tee Min <tee.min.tan@linux.intel.com>
-Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?Q?Miqu=c3=a8l_Raynal?= <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Mohammad Athari Bin Ismail <mohammad.athari.ismail@intel.com>,
-        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Oleksij Rempel <linux@rempel-privat.de>, kernel@pengutronix.de,
+        Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+        Nishant Malpani <nish.malpani25@gmail.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Dragos Bogdan <dragos.bogdan@analog.com>,
+        Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Stefan Popa <stefan.popa@analog.com>,
+        Robert Yang <decatf@gmail.com>,
+        Sean Nyekjaer <sean@geanix.com>,
+        Artur Rojek <contact@artur-rojek.eu>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Philippe Reynes <tremyfr@yahoo.fr>,
+        Alexandru Lazar <alazar@startmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Caleb Connolly <caleb.connolly@linaro.org>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        Harald Geyer <harald@ccbib.org>,
+        Eugene Zaikonnikov <ez@norophonic.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Matt Ranostay <matt.ranostay@konsulko.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Sankar Velliangiri <navin@linumiz.com>,
+        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
         linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org
-References: <20230116103926.276869-1-clement.leger@bootlin.com>
- <20230116103926.276869-5-clement.leger@bootlin.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230116103926.276869-5-clement.leger@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 3/5] dt-bindings: iio: correct node names in examples
+Message-ID: <20230122170105.6a1a9766@jic23-huawei>
+In-Reply-To: <45b9b378-6619-c47a-b5ea-6b6b7edca785@linaro.org>
+References: <20230118184413.395820-1-krzysztof.kozlowski@linaro.org>
+        <20230118184413.395820-3-krzysztof.kozlowski@linaro.org>
+        <20230121171709.5eb75e94@jic23-huawei>
+        <45b9b378-6619-c47a-b5ea-6b6b7edca785@linaro.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 16/01/2023 11:39, Clément Léger wrote:
-> Add "renesas,rzn1-gmac" binding documention which is compatible which
-> "snps,dwmac" compatible driver but uses a custom PCS to communicate
-> with the phy.
+On Sat, 21 Jan 2023 19:31:23 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+
+> On 21/01/2023 18:17, Jonathan Cameron wrote:
+> > On Wed, 18 Jan 2023 19:44:11 +0100
+> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> >   
+> >> Do not use underscores and unneeded suffixes (e.g. i2c0) in node name in
+> >> examples.
+> >>
+> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >> ---  
+> >   
+> >> diff --git a/Documentation/devicetree/bindings/iio/health/ti,afe4403.yaml b/Documentation/devicetree/bindings/iio/health/ti,afe4403.yaml
+> >> index 6c5ad426a016..12f75ddc4a70 100644
+> >> --- a/Documentation/devicetree/bindings/iio/health/ti,afe4403.yaml
+> >> +++ b/Documentation/devicetree/bindings/iio/health/ti,afe4403.yaml
+> >> @@ -42,7 +42,7 @@ examples:
+> >>          #address-cells = <1>;
+> >>          #size-cells = <0>;
+> >>  
+> >> -        heart_mon@0 {
+> >> +        heart-rate@0 {  
+> > 
+> > These are both heart-rate and pulse oximeters so measure more than just
+> > the rate (oxygen saturation in the blood). Reality is they actually
+> > measure light absorption over time, but you can calculate an estimate
+> > of both rate and oxygen saturation from that.
+> > 
+> > I don't really mind simplifying that to heart-rate, but wanted to
+> > call this out for possible discussion.  
 > 
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-> ---
->  .../bindings/net/renesas,rzn1-gmac.yaml       | 71 +++++++++++++++++++
->  1 file changed, 71 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
+> They could be heart-mon. The fix is mostly around the underscore. I
+> don't have any arguments for changing it to heart-rate, thus we can go
+> with whatever you prefer.
+I'm fine with either and as we have a patch with heart-rate that wins
+currently. I'll just let this sit for a little longer than
+normal to see if we get any other responses!
+
+Thanks,
+
+Jonathan
 > 
-> diff --git a/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
-> new file mode 100644
-> index 000000000000..effb9a312832
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
-> @@ -0,0 +1,71 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/renesas,rzn1-gmac.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas GMAC1 Device Tree Bindings
-
-Drop Device Tree Bindings.
-
-> +
-> +maintainers:
-> +  - Clément Léger <clement.leger@bootlin.com>
-> +
-> +select:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        enum:
-> +          - renesas,r9a06g032-gmac
-> +          - renesas,rzn1-gmac
-> +  required:
-> +    - compatible
-> +
-> +allOf:
-> +  - $ref: "snps,dwmac.yaml#"
-
-Drop quotes.
-
-> +
-> +properties:
-> +  compatible:
-> +    additionalItems: true
-
-No. Drop.
-
-> +    maxItems: 3
-
-No.
-
-> +    items:
-> +      - enum:
-> +          - renesas,r9a06g032-gmac
-> +          - renesas,rzn1-gmac
-> +    contains:
-> +      enum:
-> +        - snps,dwmac
-
-No, please list possibilities
-
-> +
-> +  pcs-handle:
-> +    description:
-> +      phandle pointing to a PCS sub-node compatible with
-> +      renesas,rzn1-miic.yaml#
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +
-> +required:
-> +  - compatible
-> +
-> +unevaluatedProperties: false
-> +
-
-Best regards,
-Krzysztof
+> Best regards,
+> Krzysztof
+> 
 
