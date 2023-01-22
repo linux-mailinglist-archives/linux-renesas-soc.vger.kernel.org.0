@@ -2,101 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39B11676C38
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Jan 2023 12:08:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07F1D676C5D
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Jan 2023 12:32:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229622AbjAVLIs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 22 Jan 2023 06:08:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33592 "EHLO
+        id S229672AbjAVLci (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 22 Jan 2023 06:32:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbjAVLIs (ORCPT
+        with ESMTP id S229480AbjAVLch (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 22 Jan 2023 06:08:48 -0500
-Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2B0E166E2;
-        Sun, 22 Jan 2023 03:08:45 -0800 (PST)
-Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
-        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id 5FB2618839B5;
-        Sun, 22 Jan 2023 11:08:43 +0000 (UTC)
-Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
-        by mailout.gigahost.dk (Postfix) with ESMTP id 44DED2500261;
-        Sun, 22 Jan 2023 11:08:43 +0000 (UTC)
-Received: by smtp.gigahost.dk (Postfix, from userid 1000)
-        id 3727B9EC000B; Sun, 22 Jan 2023 11:08:43 +0000 (UTC)
-X-Screener-Id: 413d8c6ce5bf6eab4824d0abaab02863e8e3f662
+        Sun, 22 Jan 2023 06:32:37 -0500
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E45CD83F3;
+        Sun, 22 Jan 2023 03:32:36 -0800 (PST)
+Received: by mail-qt1-f182.google.com with SMTP id z9so7658753qtv.5;
+        Sun, 22 Jan 2023 03:32:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MoUQsuWkxLgz5UoczyxhIR2hsfTe+OgnR3rck5uq+v8=;
+        b=CdZVf5fqDcUBqQr1ez5IG+dmI1TYVx1fuO5BLcSgxqysWAnFIVuxlN7/ABjrIzAICj
+         8cEwCSdsmkAQhYKCy+w6lLPpNepXHYoKftwpxYmCz92/wjUPAsYSIA93/GRKhUQ8KjK6
+         E6Doks5u10OFzJphoTi60GEDQHeTvynsA8M0RqHM6br6X59f634vmlREkw2D0ws1vJSQ
+         QJz8etPaPDnWXzsvG+56TPLDYVgNIFZNq5bA1IUsF/TTKgT+90Xfc38x1BwpwnEhi5Qc
+         vk9A2oKYz3NrDjEJG0+dPWuRNl4BcLegzAF0lHifBkTzoJdsPzme6DOIe/11SidrIqA5
+         BJxQ==
+X-Gm-Message-State: AFqh2kpUAzQ0ZFeiQbzv3fdI88YCibYvUZwYUawyHpLkQiariplmwn3c
+        HI/cst16fg9nlx7peovREBqMcD6FLQooKg==
+X-Google-Smtp-Source: AMrXdXvbJKdCADp7ev5qF3k5yzvEOd9jCu7JWGkWAqTCOOFrTBijM9DkkfFi0/MgIMPGu39YEOq1Hw==
+X-Received: by 2002:ac8:6e84:0:b0:3b6:2f47:de80 with SMTP id c4-20020ac86e84000000b003b62f47de80mr32146859qtv.20.1674387155834;
+        Sun, 22 Jan 2023 03:32:35 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id t1-20020ac86a01000000b003a7e4129f83sm23110406qtr.85.2023.01.22.03.32.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Jan 2023 03:32:35 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-4ff07dae50dso89820817b3.2;
+        Sun, 22 Jan 2023 03:32:35 -0800 (PST)
+X-Received: by 2002:a05:690c:c89:b0:4dd:7a8e:1cf3 with SMTP id
+ cm9-20020a05690c0c8900b004dd7a8e1cf3mr2209934ywb.384.1674387155088; Sun, 22
+ Jan 2023 03:32:35 -0800 (PST)
 MIME-Version: 1.0
-Date:   Sun, 22 Jan 2023 12:08:42 +0100
-From:   netdev@kapio-technology.com
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
-        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?UTF-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Ivan Vecera <ivecera@redhat.com>,
-        Roopa Prabhu <roopa@nvidia.com>,
-        Nikolay Aleksandrov <razor@blackwall.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>
-Subject: Re: [RFC PATCH net-next 2/5] net: dsa: propagate flags down towards
- drivers
-In-Reply-To: <20230118230135.szu6a7kvt2mjb3i5@skbuf>
-References: <20230117185714.3058453-1-netdev@kapio-technology.com>
- <20230117185714.3058453-3-netdev@kapio-technology.com>
- <20230117231750.r5jr4hwvpadgopmf@skbuf>
- <e4acb7edb300d41a9459890133b928b4@kapio-technology.com>
- <20230118230135.szu6a7kvt2mjb3i5@skbuf>
-User-Agent: Gigahost Webmail
-Message-ID: <746b27d5f83b95f17eca18e22843951a@kapio-technology.com>
-X-Sender: netdev@kapio-technology.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <a85c256af01f64389a078c2b37c3b72a27d97536.1668005062.git.geert+renesas@glider.be>
+ <0bb76233-062c-a1c5-da88-4f04feccd5b2@linaro.org> <CABBYNZJX+9SxW48qSSmyyMa7_bvqzwHafa0BNOz4Kz_Jc+gu9Q@mail.gmail.com>
+ <CAMuHMdUHo6zEPMF_VR=0Xn2PNHrQRGwzrOP2GXvDN9S19jMaGQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdUHo6zEPMF_VR=0Xn2PNHrQRGwzrOP2GXvDN9S19jMaGQ@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sun, 22 Jan 2023 12:32:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXA_htZuV0VORpfnf9NTvTO=UPne-Y7UV7Fr=KvRxe==A@mail.gmail.com>
+Message-ID: <CAMuHMdXA_htZuV0VORpfnf9NTvTO=UPne-Y7UV7Fr=KvRxe==A@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: leds: Document Bluetooth and WLAN triggers
+To:     Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2023-01-19 00:01, Vladimir Oltean wrote:
-> On Wed, Jan 18, 2023 at 11:35:08PM +0100, netdev@kapio-technology.com 
-> wrote:
+Hi Luiz,
 
->> When the new dynamic flag is true, all drivers will ignore it in patch 
->> #3,
->> so basically nothing will change by that.
-> 
-> This is not true, because it assumes that DSA never called 
-> port_fdb_add()
-> up until now for bridge FDB entries with the BR_FDB_STATIC flag unset,
-> which is incorrect (it did).
-> 
-> So what will change is that drivers which used to react to those bridge
-> FDB entries will stop doing so.
-> 
+On Sun, Jan 22, 2023 at 11:48 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+> On Fri, Jan 20, 2023 at 10:42 PM Luiz Augusto von Dentz
+> <luiz.dentz@gmail.com> wrote:
+> > On Fri, Jan 20, 2023 at 8:42 AM Krzysztof Kozlowski
+> > <krzysztof.kozlowski@linaro.org> wrote:
+> > > On 09/11/2022 15:46, Geert Uytterhoeven wrote:
+> > > > Add the missing trigger patterns for Bluetooth and WLAN activity, which
+> > > > are already in active use.
+> > > >
+> > > > While at it, move the mmc pattern comment where it belongs, and restore
+> > > > alphabetical sort order.
+> > > >
+> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > ---
+> > > > arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: bt_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+> > > >       'hci0-power' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+> > > >       'hci0-power' does not match '^mmc[0-9]+$'
+> > > >       From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+> > > > arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: wlan_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+> > > >       'phy0tx' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+> > > >       'phy0tx' does not match '^mmc[0-9]+$'
+> > > >       From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+> > >
+> > > This patch got lost... Rob, Lee or Pavel, can you pick it up?
+> > >
+> > > It's with Rob's approval:
+> > > https://lore.kernel.org/all/166861772609.231295.14812410099261417331.robh@kernel.org/
+> >
+> > If it is going to be applied via bluetooth-next make sure to resend it
+> > since last time our CI was not able to apply it thus why we didn't
+> > apply it in the first place.
+>
+> Resent as v2, https://lore.kernel.org/r/0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be
 
-So the solution to this problem could be to only set the is_dyn flag in 
-combination with the added_by_user flag. So an 'and' operation with the 
-two in br_switchdev_fdb_populate()?
+According to your CI, it still does not apply.
+However, there are no changes to
+Documentation/devicetree/bindings/leds/leds-gpio.yaml
+between v6.2-rc1 and next-20230120.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
