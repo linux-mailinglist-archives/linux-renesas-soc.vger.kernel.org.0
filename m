@@ -2,116 +2,178 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 158C2676C22
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Jan 2023 11:48:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A4EF1676C34
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Jan 2023 12:05:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229917AbjAVKs5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 22 Jan 2023 05:48:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58244 "EHLO
+        id S229637AbjAVLFD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 22 Jan 2023 06:05:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbjAVKs4 (ORCPT
+        with ESMTP id S229622AbjAVLFC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 22 Jan 2023 05:48:56 -0500
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E2E816322;
-        Sun, 22 Jan 2023 02:48:55 -0800 (PST)
-Received: by mail-qv1-f43.google.com with SMTP id u20so7120209qvq.4;
-        Sun, 22 Jan 2023 02:48:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HqaHL17YkcYl2MpnxdcgTIjHQUTlapqDHuhLmiWa9Bc=;
-        b=gbQ2AH+JTuzhlLJAPjP2mekCYPgVIRNrWmxdzQPhP25Y4qTb3Lv898WmjsPkISnLBl
-         eofxsUiQRSc+JreF6NJQ2IRdd4kLvOUKWL+8uTpWk89gzoDonondGM/fdcth30pwYftW
-         BD4UssSWmgVUWvVhjSN1IOwA0jfV7grVyqFNfXC48uCj5iUI03+6gTxdUMNq00JSg659
-         gOQfLu+zrMajODdVJwxz6zbkdNh97RSZcAviH8ZZRy5uO7B+z32dayYG28o9krEXvQmI
-         FZxlu8CGaqwq0PHzA2gQHMritt5uRwVGHtYZDQ4xuJfQHGF0mv7fpp23eyx3cmA+LFHK
-         93EQ==
-X-Gm-Message-State: AFqh2kqSiKJf0PSogaNJQo/uq/zn0TfJ7PGSJLVmPyToBhwTX9P0Nca/
-        PACU/SU4OfU5XTPQfZpfQE87Hyr1Z5wEqg==
-X-Google-Smtp-Source: AMrXdXuuvaaqou2sGpOfGtEv0RFLZPCbmXNtdTakI6WViQeCUsxUptelsSAsM6RFvLsYqOoXcsf0+w==
-X-Received: by 2002:a05:6214:88e:b0:537:4d4a:6da9 with SMTP id cz14-20020a056214088e00b005374d4a6da9mr10267940qvb.12.1674384534444;
-        Sun, 22 Jan 2023 02:48:54 -0800 (PST)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id d8-20020ae9ef08000000b0070905e2674dsm5631770qkg.76.2023.01.22.02.48.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Jan 2023 02:48:54 -0800 (PST)
-Received: by mail-yb1-f175.google.com with SMTP id t16so7021184ybk.2;
-        Sun, 22 Jan 2023 02:48:53 -0800 (PST)
-X-Received: by 2002:a25:9012:0:b0:7b8:a0b8:f7ec with SMTP id
- s18-20020a259012000000b007b8a0b8f7ecmr2856562ybl.36.1674384533646; Sun, 22
- Jan 2023 02:48:53 -0800 (PST)
-MIME-Version: 1.0
-References: <a85c256af01f64389a078c2b37c3b72a27d97536.1668005062.git.geert+renesas@glider.be>
- <0bb76233-062c-a1c5-da88-4f04feccd5b2@linaro.org> <CABBYNZJX+9SxW48qSSmyyMa7_bvqzwHafa0BNOz4Kz_Jc+gu9Q@mail.gmail.com>
-In-Reply-To: <CABBYNZJX+9SxW48qSSmyyMa7_bvqzwHafa0BNOz4Kz_Jc+gu9Q@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sun, 22 Jan 2023 11:48:40 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUHo6zEPMF_VR=0Xn2PNHrQRGwzrOP2GXvDN9S19jMaGQ@mail.gmail.com>
-Message-ID: <CAMuHMdUHo6zEPMF_VR=0Xn2PNHrQRGwzrOP2GXvDN9S19jMaGQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: leds: Document Bluetooth and WLAN triggers
-To:     Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Sun, 22 Jan 2023 06:05:02 -0500
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E311ABEB;
+        Sun, 22 Jan 2023 03:05:00 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 208A45C003B;
+        Sun, 22 Jan 2023 06:04:58 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Sun, 22 Jan 2023 06:04:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1674385498; x=1674471898; bh=PIGBqayUKu
+        ArKaRHZD7sCBO6FDrvE59LUQTAu0TlFio=; b=Lxhnxo7ujOLMNwhq5OGDK6ZKiL
+        ghNTbYaudfk7815ZYCsm9Y8XKiRED3XjCvkKaGoOhc6hStAzvEga0xZmdKmIdkQk
+        eTdcUdlj6D/6Gip2mhSxlQgikIE4PVx5pW1Bxs6amsP6rVcfJNgtgZmCf1Ucczzk
+        HGa6TsBVuoBKjs6gMcSEEd5TvizRU4rIgSwqAh5Z4U8krTZM55xHrLNqAFC1jFxx
+        fIpuiCj7iPve1Jg5gonO+nkTZLrj9YhAYZVaTwqGMNwUDeiN6mY6XOBMWQB2xljw
+        iDxX8SgFksBLKM5kPYQctaINyRdpsDNJ9Z3iwWu71rTdRFGKQj2oB/pK1Oog==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1674385498; x=1674471898; bh=PIGBqayUKuArKaRHZD7sCBO6FDrv
+        E59LUQTAu0TlFio=; b=mqfFVKoA8Wv1ISopmIUdhhQQTWCzmhNjBh4V0QvcSI52
+        jVBJy4enEBRHiYs3E4RUFI4uSXG3Wvla1TWuNJyikr2oKpxkXKcZ8+O2y1VITn0t
+        sSWihFf596BuYflkgy5PrJYKO+GSEVafTrwoyrwFR7JNMp9H2zvHIyBkfi8NXmzR
+        jeTlPX4zf78x1nQy5dR1FzjdPSIEJCGqMmOW+n8rUDgTJHE5mW+gYd4yqVShrWTu
+        taS3BwPSDyBwETYLTvxAy7CKQhrlGZGn1rXO+Y6wnu4v+bnv79UupEFpLFLsxP8D
+        Hc+83GyL277N8Nv+HZyNn3wyU7TCjDUJx/anr66M5w==
+X-ME-Sender: <xms:VxjNY36T4R5HGVjLfJYYtxqEyP2x1xgQWFlhq9kv5ZVO1jab6HlfdA>
+    <xme:VxjNY84crVRmJ1FsB_mrWtWyEBdO0z94G1BzOvZGM8BWP_dz8OwZePtphyWUf_Xx8
+    -tJ7B49vKTHCE_v4CM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduiedgvdehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:VxjNY-ev3r7tllrk__vfVuUx_oxxs-Z3VcJ-TbGZFYn3l0cz-6D3Lg>
+    <xmx:VxjNY4LbsRaaf_rI5MeI3xO06SBON4XZBQ_MJDU8jvhPNfDA9OcGoA>
+    <xmx:VxjNY7IGDcm8IZxX9zZNq3WEI529JOboGOsxZTEqfwqtUmOYd_wjcA>
+    <xmx:WhjNYzKNh_OdNAcQ_a_7Qa_0GJ9CByCeLG_1cpEGg4ZdkbaDjoWoGw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id D166BB60089; Sun, 22 Jan 2023 06:04:55 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
+Mime-Version: 1.0
+Message-Id: <7ad668ba-d6f3-4ef9-9335-e42bfe8d4cce@app.fastmail.com>
+In-Reply-To: <20230122072759.GA3703@lst.de>
+References: <CA+V-a8uF1s+dwKC_+apL+CBiHN8w_J0n_G2dqsgiAUZVEibfqg@mail.gmail.com>
+ <9017adf0-acd4-4c43-8aea-3579b214b477@app.fastmail.com>
+ <CA+V-a8u6jvR=EDeE3mAbDr6-06NoBJ7mwmi_Y9qVyHT+aC-9rg@mail.gmail.com>
+ <45d6eb0c-cbe3-4a83-aa12-3483638473ae@app.fastmail.com>
+ <20230110070144.GG10289@lst.de>
+ <02988e70-b099-46fd-b260-2d537c50543a@app.fastmail.com>
+ <20230113054807.GA23179@lst.de>
+ <ea4cb121-97e9-4365-861a-b3635fd34721@app.fastmail.com>
+ <20230121143733.GA7415@lst.de>
+ <6a64b0b5-0ebc-43a5-a3d8-483a845a0b5e@app.fastmail.com>
+ <20230122072759.GA3703@lst.de>
+Date:   Sun, 22 Jan 2023 12:04:35 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Christoph Hellwig" <hch@lst.de>
+Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
+        "Conor.Dooley" <conor.dooley@microchip.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        guoren <guoren@kernel.org>,
+        "Andrew Jones" <ajones@ventanamicro.com>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        "Palmer Dabbelt" <palmer@dabbelt.com>,
+        "Albert Ou" <aou@eecs.berkeley.edu>,
+        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
+        "open list" <linux-kernel@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "Philipp Tomsich" <philipp.tomsich@vrull.eu>,
+        "Nathan Chancellor" <nathan@kernel.org>,
+        "Atish Patra" <atishp@rivosinc.com>,
+        "Anup Patel" <apatel@ventanamicro.com>,
+        "Tsukasa OI" <research_trasio@irq.a4lg.com>,
+        "Jisheng Zhang" <jszhang@kernel.org>,
+        "Mayuresh Chitale" <mchitale@ventanamicro.com>,
+        "Will Deacon" <will@kernel.org>
+Subject: Re: [RFC PATCH v6 1/6] riscv: mm: dma-noncoherent: Switch using function
+ pointers for cache management
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 10:42 PM Luiz Augusto von Dentz
-<luiz.dentz@gmail.com> wrote:
-> On Fri, Jan 20, 2023 at 8:42 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
-> >
-> > On 09/11/2022 15:46, Geert Uytterhoeven wrote:
-> > > Add the missing trigger patterns for Bluetooth and WLAN activity, which
-> > > are already in active use.
-> > >
-> > > While at it, move the mmc pattern comment where it belongs, and restore
-> > > alphabetical sort order.
-> > >
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > > arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: bt_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-> > >       'hci0-power' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-> > >       'hci0-power' does not match '^mmc[0-9]+$'
-> > >       From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
-> > > arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: wlan_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-> > >       'phy0tx' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-> > >       'phy0tx' does not match '^mmc[0-9]+$'
-> > >       From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
-> >
-> > This patch got lost... Rob, Lee or Pavel, can you pick it up?
-> >
-> > It's with Rob's approval:
-> > https://lore.kernel.org/all/166861772609.231295.14812410099261417331.robh@kernel.org/
+On Sun, Jan 22, 2023, at 08:27, Christoph Hellwig wrote:
+> On Sat, Jan 21, 2023 at 08:30:23PM +0100, Arnd Bergmann wrote:
+>> I was thinking of using STATIC_CALL() as an optimization here, which
+>> I find easier to read and understand than alternatives. One advantage
+>> here is that this allows the actual cache operations to be declared
+>> locally in the architecture without letting drivers call them,
+>> but still update the common code to work without indirect branches.
+>> 
+>> The main downside is that this is currently only optimized on
+>> powerpc and x86, both of which don't actually need CPU specific
+>> callbacks. ARC, ARM, and MIPS on the other hand already
+>> have indirect function pointers, RISC-V would likely benefit the
+>> most from either alternatives or static_call, as it already
+>> uses alternatives and has one implementation that is clearly
+>> preferred over the others.
 >
-> If it is going to be applied via bluetooth-next make sure to resend it
-> since last time our CI was not able to apply it thus why we didn't
-> apply it in the first place.
+> For now I'd just keep doing direct calls into the arch code, just
+> for the lower level invalidate, writeback, invalidate+writeback
+> calls as that helps cementinc the logic of which of those to use
+> in well documented core code.
 
-Resent as v2, https://lore.kernel.org/r/0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be
+Ok.
 
-Gr{oetje,eeting}s,
+> And I'm not really sure I'd like to go beyond that - making it too
+> easy pluggable will make people feel more comfortable doing stupid
+> things here. 
 
-                        Geert
+I fear the bigger risk is still making the functions callable
+from device driver code than it is to make the functions
+globally settable.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+You introduced the mips version in f8c55dc6e828 ("MIPS: use generic
+dma noncoherent ops for simple noncoherent platforms"), which
+was clearly meant as an implementation detail, yet we already
+have a driver that slipped in with 3bdffa8ffb45 ("Input: Add
+N64 controller driver") that just calls this directly rather
+than using the dma-mapping interface.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+On the other hand, the indirect function pointers for
+per-cpu cache operations are not easily translated anyway:
+with the three architectures that multiplex between
+cpu specific operations, arc uses physical addresses,
+mips uses virtual addresses (because of highmem), and
+arm even uses both because of incompatible requirements
+between l1 and l2 cache operations. arm32 also seems to
+have the superset of all possible corner cases that
+one might see elsewhere (prefetching vs in-order,
+writethrough vs writeback, broken broadcast invalidation,
+...).
+
+> And yes, maybe that's personal because I've warned
+> the RISC-V people years ago that they'll need architectural
+> cache management instructions yesterday and the answer was that
+> no one is going to use them on modern CPUs.  *sigh*
+
+To be fair, from the ISA point of view, it really shouldn't
+be necessary as long as you have a sane SoC design.
+In practice there are always chips that are cutting corners,
+or use the new CPU core as a drop-in for an existing
+design. Arm SBSA tried to enforce the same thing and also
+failed for pretty much the same reason.
+
+      Arnd
