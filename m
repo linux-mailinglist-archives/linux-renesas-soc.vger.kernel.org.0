@@ -2,169 +2,188 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4B11676CA3
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Jan 2023 13:05:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48BA8676D99
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Jan 2023 15:19:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229895AbjAVMFS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 22 Jan 2023 07:05:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52424 "EHLO
+        id S229814AbjAVOTd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 22 Jan 2023 09:19:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229656AbjAVMFR (ORCPT
+        with ESMTP id S229815AbjAVOTc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 22 Jan 2023 07:05:17 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 665EC12F1F
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 22 Jan 2023 04:05:16 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id fl11-20020a05600c0b8b00b003daf72fc844so8791160wmb.0
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 22 Jan 2023 04:05:16 -0800 (PST)
+        Sun, 22 Jan 2023 09:19:32 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AA8A14EB3
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 22 Jan 2023 06:19:30 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id y1so4134026wru.2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 22 Jan 2023 06:19:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=VNwLqElMoNVz4I6lJ0Ng631u7U2KDL6Cz3pngMAQMGo=;
-        b=rG7IuNKTjo2Q0FRAcnNF/kjKZSePGxYgMuxpmZtZ0Dnl3oKTpTSyHa8d82DPlWtxXF
-         KBAwdlgnQHMvMOdIxsQL9SAYv9drWre1S/mS/70ZxaMAk/1iRTdhKi/u7N07TFzIGL2R
-         IeO5FDI1FCIuBQv5eSH74ZKrt10oPrPJgyitkG/820ToHTgEZNgG1QPkK4Qe8B539geL
-         fquTPWUQffUR9wncgLTuUqRgSB3hr0UKWJ4jPMdFIW5Uftn1l2TPUw61pf6nJ+5sojcg
-         rT7EWnSOseI1I88GcK4FIYqC/6yEFsEICU2SANNRLxyLxC/pzLa/03gbJtQ+R8IMTOPc
-         4+AQ==
+        bh=6nP80yt4P2LkjTrQbSApnHJJEUxI5A3MtVuRUI18a3s=;
+        b=dBCPnllzquDDUk+9Jg18anFzUDeoLloz26xrT7TaqiuwpuAwleMkzOfivLBXckeIrO
+         k0bNfIggIMbd+JwuPaStVNt1bsNmGmvwxM3EAc4japN0UPT0gSC5gHyQRzqOJ91ODpAz
+         eyafeA/P2Zymmyht7nTqT+PTmjnpZiD27bR3d9I/1RxPirk1Ax+NWKEJG9f2uP56FUfH
+         svloR0GbSWGvZqO75pztznAjiKUj//p1a3q7O1LKJBGQmooStGU53RaRbGvSl6Pfb0WN
+         riXvYdvdnlyA6jmMXZfiZr8y5vqWNWgHuNWdBoYOdTiI95sBuM1dfT5H95FPSCIX4Hig
+         d3gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VNwLqElMoNVz4I6lJ0Ng631u7U2KDL6Cz3pngMAQMGo=;
-        b=JB3BD9EugTsZSlG4Yt3/Lp0S3OHRf3vJLAaF2jMc8COQy39So6HEISjr9D2Cj4NfN4
-         mxzruDgxfx0idKveAiVmREUxokRQVhO9Nz1I+5ltVisRJ3roH4qFJPgQ4e1guG8uIjhr
-         gOX2wjY+/5gqMvjc6W7EHBtk4o9LoIho+vIBmS99AHGEfIGh1kml8C37zcu0DVsg1AxR
-         C8IEGCr1mb1bnEuRlw7ZJjnND2yeko5WR+FaHRT8UHQ5gY/LXrcv8MbwNguUBczlSp01
-         EFFy3RHGIzEzItqhAAU/zHq9Fo0mYaiVn1Wn5j5BxPV4jFa3Mk7uHnuo0zlrMnjAPz4O
-         IMCQ==
-X-Gm-Message-State: AFqh2krtT/T0LSxfRZhm+qdv5rMJDlmWsWk4xB+HnzkjLVnU2OJB4MQ1
-        e90gEE/aqA1vjVx+YyAYoxcgNQ==
-X-Google-Smtp-Source: AMrXdXul0HllpaRq1bcPwQat99gWfYzMSrk0CEceFEvmNeffBpIwTAjzTU8Es2U58WrbBbNz8awprg==
-X-Received: by 2002:a05:600c:4b16:b0:3d2:2830:b8bb with SMTP id i22-20020a05600c4b1600b003d22830b8bbmr28399526wmp.34.1674389114953;
-        Sun, 22 Jan 2023 04:05:14 -0800 (PST)
+        bh=6nP80yt4P2LkjTrQbSApnHJJEUxI5A3MtVuRUI18a3s=;
+        b=S+HBPocFZxf5OCJJrgJeCjcuKndzon27ni1jVguZRRf2VGIawqt8cvzchwrBmWF6O5
+         hyu9PhJsAjrbxg54aXJToHiIHEi9CcMo/tXnOHFvDcatoG3X88LRlU0b4x1Y2TOBkwLM
+         /23iV2YrO5ZR63K6Pg4k744HgBxEPNcMaKLKl6txrhFSLEKd3AdtrRbsxSJ8LD1U1TIX
+         FEBuxRoNddQe5TjrwYdI56MAAoLucjHjSafiAVQO/w7oKso213tJX7GIcqMchkQk4Uai
+         S+XYwvES6VKtYl6WhHG5XfGSG/tM/zeWKZfnVXT1/t+X6e1PD2V00SLAbvipfZVvtBQ7
+         BmQQ==
+X-Gm-Message-State: AFqh2krehesZI0hWHI/WL7FtSvwnIN2Mi1EJ/BkOE4VBnLoPr+85PS9Y
+        YHuQwNRUlp1LvK4vMUbfRFubTQ==
+X-Google-Smtp-Source: AMrXdXt35b+CmPQpFZihlqLeEU0wTQBsOlVJzU5chJmIhwORGBT/y9cFtSOaeQfQF/WddOUFzrntrA==
+X-Received: by 2002:adf:f705:0:b0:2bd:d34e:534c with SMTP id r5-20020adff705000000b002bdd34e534cmr17454975wrp.36.1674397168563;
+        Sun, 22 Jan 2023 06:19:28 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id c14-20020adfa30e000000b002be50604c81sm6696996wrb.47.2023.01.22.04.05.13
+        by smtp.gmail.com with ESMTPSA id n9-20020adf8b09000000b00241d21d4652sm2286368wra.21.2023.01.22.06.19.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Jan 2023 04:05:14 -0800 (PST)
-Message-ID: <fb2a6e85-42ad-8b17-4433-8d5e96c87a80@linaro.org>
-Date:   Sun, 22 Jan 2023 13:05:13 +0100
+        Sun, 22 Jan 2023 06:19:28 -0800 (PST)
+Message-ID: <435018a3-80a1-2113-23bf-8645e8f6e4e4@linaro.org>
+Date:   Sun, 22 Jan 2023 15:19:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.0
-Subject: Re: [PATCH v2] memory: renesas-rpc-if: Fix PHYCNT.STRTIM setting
+Subject: Re: [PATCH net-next 4/6] dt-bindings: net: renesas,rzn1-gmac:
+ Document RZ/N1 GMAC support
 Content-Language: en-US
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
+To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
         Sergey Shtylyov <s.shtylyov@omp.ru>,
-        linux-kernel@vger.kernel.org
-References: <20230118104656.67706-1-wsa+renesas@sang-engineering.com>
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Wong Vee Khee <veekhee@apple.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Revanth Kumar Uppala <ruppala@nvidia.com>,
+        Tan Tee Min <tee.min.tan@linux.intel.com>
+Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?Q?Miqu=c3=a8l_Raynal?= <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Mohammad Athari Bin Ismail <mohammad.athari.ismail@intel.com>,
+        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org
+References: <20230116103926.276869-1-clement.leger@bootlin.com>
+ <20230116103926.276869-5-clement.leger@bootlin.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230118104656.67706-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230116103926.276869-5-clement.leger@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 18/01/2023 11:46, Wolfram Sang wrote:
-> From: Cong Dang <cong.dang.xn@renesas.com>
+On 16/01/2023 11:39, Clément Léger wrote:
+> Add "renesas,rzn1-gmac" binding documention which is compatible which
+> "snps,dwmac" compatible driver but uses a custom PCS to communicate
+> with the phy.
 > 
-> According to the datasheets, the Strobe Timing Adjustment bit (STRTIM)
-> setting is different on R-Car SoCs, i.e.
-> 
-> R-Car H3 ES1.*  : STRTIM[2:0] is set to 0x0
-> R-Car M3 ES1.*  : STRTIM[2:0] is set to 0x6
-> other R-Car Gen3: STRTIM[2:0] is set to 0x7
-> other R-Car Gen4: STRTIM[3:0] is set to 0xf
-> 
-> To fix this issue, a DT match data was added to specify the setting
-> for special use cases.
-> 
-> Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
-> Signed-off-by: Hai Pham  <hai.pham.ud@renesas.com>
-> [wsa: rebased, restructured a little, added Gen4 support]
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
 > ---
+>  .../bindings/net/renesas,rzn1-gmac.yaml       | 71 +++++++++++++++++++
+>  1 file changed, 71 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
 > 
-> Change since V1:
-> 
-> * use proper mask when updating STRTIM bits (thanks, Geert!)
-> 
-> look for 'RPCIF_PHYCNT_STRTIM', there is the change. Rest is the same.
-> 
->  drivers/memory/renesas-rpc-if.c | 63 ++++++++++++++++++++++++++-------
->  include/memory/renesas-rpc-if.h |  6 ++++
->  2 files changed, 56 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-> index c36b407851ff..845b535a5350 100644
-> --- a/drivers/memory/renesas-rpc-if.c
-> +++ b/drivers/memory/renesas-rpc-if.c
-> @@ -7,6 +7,7 @@
->   * Copyright (C) 2019-2020 Cogent Embedded, Inc.
->   */
->  
-> +#include <linux/bitops.h>
->  #include <linux/clk.h>
->  #include <linux/io.h>
->  #include <linux/module.h>
-> @@ -15,6 +16,7 @@
->  #include <linux/of_device.h>
->  #include <linux/regmap.h>
->  #include <linux/reset.h>
-> +#include <linux/sys_soc.h>
->  
->  #include <memory/renesas-rpc-if.h>
->  
-> @@ -163,6 +165,36 @@ static const struct regmap_access_table rpcif_volatile_table = {
->  	.n_yes_ranges	= ARRAY_SIZE(rpcif_volatile_ranges),
->  };
->  
-> +static const struct rpcif_info rpcif_info_r8a7795_es1 = {
-> +	.type = RPCIF_RCAR_GEN3,
-> +	.strtim = 0,
-> +};
+> diff --git a/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
+> new file mode 100644
+> index 000000000000..effb9a312832
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
+> @@ -0,0 +1,71 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/renesas,rzn1-gmac.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +static const struct rpcif_info rpcif_info_r8a7796_es1 = {
-> +	.type = RPCIF_RCAR_GEN3,
-> +	.strtim = 6,
-> +};
-> +
-> +static const struct rpcif_info rpcif_info_gen3 = {
-> +	.type = RPCIF_RCAR_GEN3,
-> +	.strtim = 7,
-> +};
-> +
-> +static const struct rpcif_info rpcif_info_rz_g2l = {
-> +	.type = RPCIF_RZ_G2L,
-> +	.strtim = 7,
-> +};
-> +
-> +static const struct rpcif_info rpcif_info_gen4 = {
-> +	.type = RPCIF_RCAR_GEN4,
-> +	.strtim = 15,
-> +};
-> +
-> +static const struct soc_device_attribute rpcif_info_match[]  = {
-> +	{ .soc_id = "r8a7795", .revision = "ES1.*", .data = &rpcif_info_r8a7795_es1 },
-> +	{ .soc_id = "r8a7796", .revision = "ES1.*", .data = &rpcif_info_r8a7796_es1 },
+> +title: Renesas GMAC1 Device Tree Bindings
 
-Why do you need soc match? Can't this be inferred from device
-compatible? Maybe the device compatible is not specific enough? Devices
-should not be interested in which SoC they are running - it does not
-matter for them, because the device difference is in the device itself,
-not in the SoC (different SoCs come with different devices).
+Drop Device Tree Bindings.
+
+> +
+> +maintainers:
+> +  - Clément Léger <clement.leger@bootlin.com>
+> +
+> +select:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - renesas,r9a06g032-gmac
+> +          - renesas,rzn1-gmac
+> +  required:
+> +    - compatible
+> +
+> +allOf:
+> +  - $ref: "snps,dwmac.yaml#"
+
+Drop quotes.
+
+> +
+> +properties:
+> +  compatible:
+> +    additionalItems: true
+
+No. Drop.
+
+> +    maxItems: 3
+
+No.
+
+> +    items:
+> +      - enum:
+> +          - renesas,r9a06g032-gmac
+> +          - renesas,rzn1-gmac
+> +    contains:
+> +      enum:
+> +        - snps,dwmac
+
+No, please list possibilities
+
+> +
+> +  pcs-handle:
+> +    description:
+> +      phandle pointing to a PCS sub-node compatible with
+> +      renesas,rzn1-miic.yaml#
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +required:
+> +  - compatible
+> +
+> +unevaluatedProperties: false
+> +
 
 Best regards,
 Krzysztof
