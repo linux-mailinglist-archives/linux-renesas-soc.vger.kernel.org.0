@@ -2,146 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06C1D678792
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jan 2023 21:21:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1026D6787A6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jan 2023 21:24:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231700AbjAWUVQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Jan 2023 15:21:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52328 "EHLO
+        id S229557AbjAWUYZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Jan 2023 15:24:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231635AbjAWUVQ (ORCPT
+        with ESMTP id S231485AbjAWUYZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Jan 2023 15:21:16 -0500
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C00A34C22;
-        Mon, 23 Jan 2023 12:21:15 -0800 (PST)
-Received: by mail-ot1-f45.google.com with SMTP id f5-20020a9d5f05000000b00684c0c2eb3fso8008070oti.10;
-        Mon, 23 Jan 2023 12:21:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mr/peXg3iK9f7Aw5h5gPRIJPOxe93cL+xJQ1s//fQlg=;
-        b=yWjuVk1d3005dY55pE0/SGY084nY/8a7+VPIIzx1cyvp3tUta8AnXxIK3gu8YSUW1S
-         7C9RXsy8GL2xG/DyqQlX8t+LsH2oKw8TodrTdBkarO+HZyuTz7esSvXPlGDmBxYIv7GR
-         SXyuhf4kVApq/REOhkB9E6qRjntTDUI+T3vvTcspCadoH+/me1w/MjfGb8HEH4Q+VNUo
-         otLotwy9PVQXtLQ9ubJHbjPGOvTcigb7oiNoTEmPlnv1iyzP4+egEKy4y75YqAMFu/pb
-         AyfsUYJ5xwW8ORcDQcv8LhNYU641z/2iw9YUCCDi+TllMtm+muod7EXp5rfq5ISTCp4w
-         N0SA==
-X-Gm-Message-State: AFqh2krZJUbM0iDn2dzVM5smeZye0Z3PDqyAA3yWki5C+qylXqlvbnmB
-        ePWhiJOYcSYJhNvq3stANw==
-X-Google-Smtp-Source: AMrXdXulR+j0z8S//w5zkUvbJ/5d+atzZyf8exjuefCvS2FYb1oZTNJnqHAYF39sn6MNSTozYMuPdg==
-X-Received: by 2002:a9d:798d:0:b0:684:eca3:fa4a with SMTP id h13-20020a9d798d000000b00684eca3fa4amr13677320otm.31.1674505274364;
-        Mon, 23 Jan 2023 12:21:14 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id g1-20020a9d5f81000000b0068687c98725sm71931oti.62.2023.01.23.12.21.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 12:21:13 -0800 (PST)
-Received: (nullmailer pid 2459145 invoked by uid 1000);
-        Mon, 23 Jan 2023 20:21:11 -0000
-Date:   Mon, 23 Jan 2023 14:21:11 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>,
-        Kent Gustavsson <kent@minoris.se>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        linux-iio@vger.kernel.org, Harald Geyer <harald@ccbib.org>,
-        Dragos Bogdan <dragos.bogdan@analog.com>,
-        Lucas Stankus <lucas.p.stankus@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        chrome-platform@lists.linux.dev,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Sankar Velliangiri <navin@linumiz.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Eugene Zaikonnikov <ez@norophonic.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Philippe Reynes <tremyfr@yahoo.fr>,
-        ", Linus Walleij" <linus.walleij@linaro.org>,
-        Alexandru Tachici <alexandru.tachici@analog.com>,
-        Robert Yang <decatf@gmail.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
-        Alexandru Lazar <alazar@startmail.com>,
-        Matt Ranostay <matt.ranostay@konsulko.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        Andreas Klinger <ak@it-klinger.de>,
-        Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Dmitry Rokosov <ddrokosov@sberdevices.ru>,
-        Artur Rojek <contact@artur-rojek.eu>,
-        Nishant Malpani <nish.malpani25@gmail.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Stefan Popa <stefan.popa@analog.com>,
-        Sean Nyekjaer <sean@geanix.com>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Stefan Agner <stefan@agner.ch>, linux-kernel@vger.kernel.org,
-        Daniel Baluta <daniel.baluta@nxp.com>,
-        Renato Lui Geh <renatogeh@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Marcus Folkesson <marcus.folkesson@gmail.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Benson Leung <bleung@chromium.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Phil Reid <preid@electromag.com.au>,
-        linux-fbdev@vger.kernel.org, kernel@pengutronix.de,
-        linux-renesas-soc@vger.kernel.org,
-        Puranjay Mohan <puranjay12@gmail.com>,
-        Caleb Connolly <caleb.connolly@linaro.org>,
-        Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH 1/5] dt-bindings: iio: drop unneeded quotes
-Message-ID: <167450527140.2459087.12632188984291690101.robh@kernel.org>
-References: <20230118184413.395820-1-krzysztof.kozlowski@linaro.org>
+        Mon, 23 Jan 2023 15:24:25 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E31C2684
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 12:24:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674505464; x=1706041464;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=c3KZKw6tzJDSQNTFKm2ABedO/TYlo/ud4fzT2ss55MA=;
+  b=VpEqOF2uCiuHPddP9jUIdYeKcE8HJELJCaXgKzfAV/AeLly8F9x1MCkX
+   dKX9TLiuFiWSu7FVTE8OxTT4fgh7kEKP7fO6+xC2A91DxSBfre6SUo4Aq
+   HT2/MxR+uf8ANlP0G4VhW7Gf3neuGIzRzXj7BXEkYe5hZSdAdhL5YoMmz
+   cbQnPr+6stgc5J8BJm2NikvGyhMmL10azsDriAJi9eGhxrKLx2uq+1v2C
+   ZLawxwh8ui0ikSM9KwiHKOVrUNqiNc2D/OxTsYicxK3R7wLY1po1jFqle
+   kW4CewtnkaaERjBD2Oxtw/iJhTjrYgvsgAbTKPxrNS/MmzfnP2UsmKlJ8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="353411510"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="353411510"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 12:24:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="990599845"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="990599845"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 23 Jan 2023 12:24:21 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pK3Ma-0005sG-2b;
+        Mon, 23 Jan 2023 20:24:20 +0000
+Date:   Tue, 24 Jan 2023 04:23:42 +0800
+From:   kernel test robot <lkp@intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [geert-renesas-devel:master 18/19] drivers/block/pktcdvd.c:49:10:
+ fatal error: linux/pktcdvd.h: No such file or directory
+Message-ID: <202301240450.yiHTqTmb-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230118184413.395820-1-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MISSING_HEADERS,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+head:   8e27b1d4225c6a239971725fb12a477f99fc4b64
+commit: 2f34838107c62f78f4cd17f34b744f24d3cc80d5 [18/19] Merge tag 'v6.2-rc5' into renesas-devel
+config: alpha-randconfig-r026-20230123 (https://download.01.org/0day-ci/archive/20230124/202301240450.yiHTqTmb-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/commit/?id=2f34838107c62f78f4cd17f34b744f24d3cc80d5
+        git remote add geert-renesas-devel https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git
+        git fetch --no-tags geert-renesas-devel master
+        git checkout 2f34838107c62f78f4cd17f34b744f24d3cc80d5
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/
 
-On Wed, 18 Jan 2023 19:44:09 +0100, Krzysztof Kozlowski wrote:
-> Cleanup by removing unneeded quotes from refs and redundant blank lines.
-> No functional impact except adjusting to preferred coding style.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../devicetree/bindings/iio/accel/memsensing,msa311.yaml  | 5 ++---
->  Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml | 2 +-
->  Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml | 2 +-
->  .../devicetree/bindings/iio/adc/atmel,sama5d2-adc.yaml    | 2 +-
->  Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml | 4 ++--
->  .../devicetree/bindings/iio/adc/ingenic,adc.yaml          | 4 ++--
->  .../devicetree/bindings/iio/adc/microchip,mcp3911.yaml    | 4 ++--
->  .../devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml    | 2 +-
->  .../devicetree/bindings/iio/adc/samsung,exynos-adc.yaml   | 2 +-
->  .../devicetree/bindings/iio/adc/st,stm32-adc.yaml         | 8 ++++----
->  .../devicetree/bindings/iio/adc/ti,ads131e08.yaml         | 2 +-
->  Documentation/devicetree/bindings/iio/adc/ti,tsc2046.yaml | 2 +-
->  .../devicetree/bindings/iio/dac/lltc,ltc1660.yaml         | 4 ++--
->  .../devicetree/bindings/iio/dac/lltc,ltc2632.yaml         | 4 ++--
->  .../devicetree/bindings/iio/dac/st,stm32-dac.yaml         | 4 ++--
->  Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml | 2 +-
->  .../devicetree/bindings/iio/temperature/ti,tmp117.yaml    | 6 +++---
->  17 files changed, 29 insertions(+), 30 deletions(-)
-> 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-Acked-by: Rob Herring <robh@kernel.org>
+All errors (new ones prefixed by >>):
+
+>> drivers/block/pktcdvd.c:49:10: fatal error: linux/pktcdvd.h: No such file or directory
+      49 | #include <linux/pktcdvd.h>
+         |          ^~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +49 drivers/block/pktcdvd.c
+
+4b83e99ee7092d Jens Axboe 2023-01-04  48  
+4b83e99ee7092d Jens Axboe 2023-01-04 @49  #include <linux/pktcdvd.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  50  #include <linux/module.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  51  #include <linux/types.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  52  #include <linux/kernel.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  53  #include <linux/compat.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  54  #include <linux/kthread.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  55  #include <linux/errno.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  56  #include <linux/spinlock.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  57  #include <linux/file.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  58  #include <linux/proc_fs.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  59  #include <linux/seq_file.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  60  #include <linux/miscdevice.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  61  #include <linux/freezer.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  62  #include <linux/mutex.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  63  #include <linux/slab.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  64  #include <linux/backing-dev.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  65  #include <scsi/scsi_cmnd.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  66  #include <scsi/scsi_ioctl.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  67  #include <scsi/scsi.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  68  #include <linux/debugfs.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  69  #include <linux/device.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  70  #include <linux/nospec.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  71  #include <linux/uaccess.h>
+4b83e99ee7092d Jens Axboe 2023-01-04  72  
+
+:::::: The code at line 49 was first introduced by commit
+:::::: 4b83e99ee7092df37a5cf292fde976ebc475ea63 Revert "pktcdvd: remove driver."
+
+:::::: TO: Jens Axboe <axboe@kernel.dk>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
