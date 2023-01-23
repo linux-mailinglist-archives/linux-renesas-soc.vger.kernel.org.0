@@ -2,98 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FA57678684
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jan 2023 20:38:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2919C678695
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jan 2023 20:41:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232299AbjAWTiD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Jan 2023 14:38:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44724 "EHLO
+        id S232582AbjAWTlT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Jan 2023 14:41:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231989AbjAWTh7 (ORCPT
+        with ESMTP id S231867AbjAWTlS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Jan 2023 14:37:59 -0500
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99CFEEFAD;
-        Mon, 23 Jan 2023 11:37:54 -0800 (PST)
-Received: by mail-qv1-f43.google.com with SMTP id y8so9860713qvn.11;
-        Mon, 23 Jan 2023 11:37:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EETY68yoLxveEOtuKaWLmvNjFo4bmFiVe2JWu/xgnSs=;
-        b=IUiA2f3r79C5cFX5PLhZMah9Ino8OCRhcVqPuYXtIiCMdq/7/yqpKSKonV+Topax+4
-         tcjjdg2hiv1a0MLM6u7syFP9jNymmXuZ/DSSXqzN/Ti0cVy76l/6S6Yb+8MxnYGcOEN4
-         Sskx8GgI7AR6v1Z8bnzufE1aP7eu1QRRD4NjgUDWVOnLExfpwZGYekd32+IkzImTLEhx
-         e9CuEaniZCt/bVpOng54eoS7Pnlwjtu975p8I+ZjwxHVgQc/psDAn7SWeRhfDmdKtoL1
-         OzT/VlORIrwYb4OO3WWxlFRP3wNiEm1rVMylpDGwiUOgoM0G6oNuKIlKzZGM5i5DVCF1
-         9xGw==
-X-Gm-Message-State: AFqh2koMrEOZbvcVgURfyYzWEvpDiKUmN9YE7WSShEVqZx/ivMk2LVpW
-        8qhIsRY/cv1kPl3pWmTax+3adWJoQ6ffIw==
-X-Google-Smtp-Source: AMrXdXvBRSmEoqf6VZPO06csQBhxNNiwgq5sdcIYDHn8DlIOzyRi3+ju0ZC9vLwzPfwUji/KYWqrNQ==
-X-Received: by 2002:ad4:44b1:0:b0:534:b991:26cf with SMTP id n17-20020ad444b1000000b00534b99126cfmr37419036qvt.39.1674502673341;
-        Mon, 23 Jan 2023 11:37:53 -0800 (PST)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id j129-20020a378787000000b00706a1551428sm77957qkd.6.2023.01.23.11.37.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jan 2023 11:37:52 -0800 (PST)
-Received: by mail-yb1-f173.google.com with SMTP id m199so503376ybm.4;
-        Mon, 23 Jan 2023 11:37:52 -0800 (PST)
-X-Received: by 2002:a25:d88c:0:b0:77a:b5f3:d0ac with SMTP id
- p134-20020a25d88c000000b0077ab5f3d0acmr2416932ybg.202.1674502672667; Mon, 23
- Jan 2023 11:37:52 -0800 (PST)
+        Mon, 23 Jan 2023 14:41:18 -0500
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CFB91040E;
+        Mon, 23 Jan 2023 11:41:15 -0800 (PST)
+Received: from [192.168.1.103] (178.176.74.166) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Mon, 23 Jan
+ 2023 22:41:05 +0300
+Subject: Re: [PATCH net v2 2/2] net: ravb: Fix possible hang if RIS2_QFF1
+ happen
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>
+CC:     <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+References: <20230123131331.1425648-1-yoshihiro.shimoda.uh@renesas.com>
+ <20230123131331.1425648-3-yoshihiro.shimoda.uh@renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <912f5eb3-2905-c394-3239-506f8bc9f764@omp.ru>
+Date:   Mon, 23 Jan 2023 22:41:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <cover.1674499048.git.geert+renesas@glider.be> <Y87f7BPchIcT2BQa@shikoro>
-In-Reply-To: <Y87f7BPchIcT2BQa@shikoro>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 23 Jan 2023 20:37:40 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUF3ZAyp44wagw5vPGy5Qd8+1hF9bt9JwrascmXtLC8Zg@mail.gmail.com>
-Message-ID: <CAMuHMdUF3ZAyp44wagw5vPGy5Qd8+1hF9bt9JwrascmXtLC8Zg@mail.gmail.com>
-Subject: Re: [PATCH 00/12] can: rcar_canfd: Add support for R-Car V4H systems
-To:     Wolfram Sang <wsa@kernel.org>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ulrich Hecht <uli+renesas@fpond.eu>, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20230123131331.1425648-3-yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [178.176.74.166]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 01/23/2023 19:28:14
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 174940 [Jan 23 2023]
+X-KSE-AntiSpam-Info: Version: 5.9.59.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 502 502 69dee8ef46717dd3cb3eeb129cb7cc8dab9e30f6
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.166 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.166
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 01/23/2023 19:30:00
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 1/23/2023 3:07:00 PM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hello!
 
-On Mon, Jan 23, 2023 at 8:29 PM Wolfram Sang <wsa@kernel.org> wrote:
-> > Hence despite the new fixes, the test results are similar to what Ulrich
-> > Hecht reported for R-Car V3U on the Falcon development board before,
-> > i.e. only channels 0 and 1 work (FTR, [2] does not help).
->
-> IIRC Ulrich reported that the other channels did not even work with the
-> BSP on V3U.
+On 1/23/23 4:13 PM, Yoshihiro Shimoda wrote:
 
-Same on V4H.  In fact I'm not surprised, due to lingering bugs like the one
-fixed by "can: rcar_canfd: Fix R-Car V3U GAFLCFG field accesses".
+> Since this driver enables the interrupt by RIC2_QFE1, this driver
+> should clear the interrupt flag if it happens. Otherwise, the interrupt
+> causes to hang the system.
+> 
+> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Gr{oetje,eeting}s,
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-                        Geert
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 3f61100c02f4..0f54849a3823 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -1101,14 +1101,14 @@ static void ravb_error_interrupt(struct net_device *ndev)
+>  	ravb_write(ndev, ~(EIS_QFS | EIS_RESERVED), EIS);
+>  	if (eis & EIS_QFS) {
+>  		ris2 = ravb_read(ndev, RIS2);
+> -		ravb_write(ndev, ~(RIS2_QFF0 | RIS2_RFFF | RIS2_RESERVED),
+> +		ravb_write(ndev, ~(RIS2_QFF0 | RIS2_QFF1 | RIS2_RFFF | RIS2_RESERVED),
+>  			   RIS2);
+>  
+>  		/* Receive Descriptor Empty int */
+>  		if (ris2 & RIS2_QFF0)
+>  			priv->stats[RAVB_BE].rx_over_errors++;
+>  
+> -		    /* Receive Descriptor Empty int */
+> +		/* Receive Descriptor Empty int */
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+   Well, that should've been noted in the commit log...
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+[...]
+
+MBR, Sergey
