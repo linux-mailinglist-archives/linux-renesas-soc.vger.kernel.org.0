@@ -2,100 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF92F6775E8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jan 2023 08:58:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 715AC677609
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jan 2023 09:05:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231584AbjAWH6v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Jan 2023 02:58:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41612 "EHLO
+        id S230130AbjAWIFw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Jan 2023 03:05:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231487AbjAWH6p (ORCPT
+        with ESMTP id S230074AbjAWIFv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Jan 2023 02:58:45 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9249011173
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 22 Jan 2023 23:58:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=+rP+iJ7Bo+AhHbGLGRgw74tWH8m
-        /Vv6r9swhNzKbF+0=; b=V8jwZ7Vpeb8REZ3UQesY9ewD0R82dMY5kZmfwK+3QKr
-        /B67eMMPymDeYSn41fzLDAbZ9qbzabacf/nWQMtk2R/8Klb8Ddz1z2vhU40HyWwk
-        GZ/zGfCWy2tod15pFa2889H4WfVLuulPP6OvoJHMtIi7ChV4EwqCkT59VeziuRXo
-        =
-Received: (qmail 2101998 invoked from network); 23 Jan 2023 08:58:39 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Jan 2023 08:58:39 +0100
-X-UD-Smtp-Session: l3s3148p1@AORXxOnyyNEujnvx
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-spi@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH] spi: sh-msiof: drop support for R-Car H3 ES1.[01]
-Date:   Mon, 23 Jan 2023 08:58:33 +0100
-Message-Id: <20230123075833.50925-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
+        Mon, 23 Jan 2023 03:05:51 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED6E5125A1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 00:05:50 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E2B52B3;
+        Mon, 23 Jan 2023 09:05:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674461149;
+        bh=eif4ALjXn4Xg3gNkN0qiznal4u/c3NCcB3pOWqLEf1w=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=AnW7FGX9mvBzUq71bCTU4tT6Fw6pmL5BtX6V5cQgG8W2WI3B3pcP4OxEkBQR0uckH
+         XBdfLxI6Moyrvks3wp7YF5O2Is54/S5b0NinX4Z9FzS8IeFtgVzn3aPqJHIqkOi+Lm
+         Bpgj5HkeC+jBBJajv6pvfz2XVbzkWZEKRSY5fhHE=
+Message-ID: <e89fefcb-1628-ea85-f3a6-10c4377db244@ideasonboard.com>
+Date:   Mon, 23 Jan 2023 10:05:46 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 2/7] drm: rcar-du: lvds: Add runtime PM
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20230120085009.604797-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20230120085009.604797-3-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y8q+ad8CxC7LBN4l@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <Y8q+ad8CxC7LBN4l@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-These revisions have HW issues and are only early engineering samples
-used internally. We simply drop the MSIOF support for them.
+On 20/01/2023 18:16, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Jan 20, 2023 at 10:50:04AM +0200, Tomi Valkeinen wrote:
+>> Add simple runtime PM suspend and resume functionality.
+> 
+> I think you need to depend on PM in Kconfig. That's not a compile-time
+> dependency but a runtime-dependency, with runtime PM support the
+> suspend/resume handler will never be called.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Yes, LVDS won't work without runtime PM after this patch.
 
-We got confirmation from Renesas for dropping ES1.* support.
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   drivers/gpu/drm/rcar-du/rcar_lvds.c | 43 +++++++++++++++++++++++++----
+>>   1 file changed, 37 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+>> index 81a060c2fe3f..8e1be51fbee6 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+>> @@ -16,6 +16,7 @@
+>>   #include <linux/of_device.h>
+>>   #include <linux/of_graph.h>
+>>   #include <linux/platform_device.h>
+>> +#include <linux/pm_runtime.h>
+>>   #include <linux/slab.h>
+>>   #include <linux/sys_soc.h>
+>>   
+>> @@ -316,8 +317,8 @@ int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq)
+>>   
+>>   	dev_dbg(lvds->dev, "enabling LVDS PLL, freq=%luHz\n", freq);
+>>   
+>> -	ret = clk_prepare_enable(lvds->clocks.mod);
+>> -	if (ret < 0)
+>> +	ret = pm_runtime_resume_and_get(lvds->dev);
+>> +	if (ret)
+>>   		return ret;
+>>   
+>>   	__rcar_lvds_pll_setup_d3_e3(lvds, freq, true);
+>> @@ -337,7 +338,7 @@ void rcar_lvds_pclk_disable(struct drm_bridge *bridge)
+>>   
+>>   	rcar_lvds_write(lvds, LVDPLLCR, 0);
+>>   
+>> -	clk_disable_unprepare(lvds->clocks.mod);
+>> +	pm_runtime_put(lvds->dev);
+> 
+> Should we use pm_runtime_put_sync() here, to make sure the clock gets
+> disabled right away ? The DU hardware may depend on the exact sequencing
+> of events. I would then do the same in rcar_lvds_atomic_disable().
 
- drivers/spi/spi-sh-msiof.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+That's perhaps a good idea. I think I saw some of the docs saying that 
+startup sequences must begin with the reset. If we don't use _sync, we 
+could end up not resetting at all.
 
-diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 9bca3d076f05..e3b249c71175 100644
---- a/drivers/spi/spi-sh-msiof.c
-+++ b/drivers/spi/spi-sh-msiof.c
-@@ -24,6 +24,7 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/sh_dma.h>
-+#include <linux/sys_soc.h>
- 
- #include <linux/spi/sh_msiof.h>
- #include <linux/spi/spi.h>
-@@ -1257,8 +1258,15 @@ static void sh_msiof_release_dma(struct sh_msiof_spi_priv *p)
- 	dma_release_channel(ctlr->dma_tx);
- }
- 
-+static const struct soc_device_attribute sh_msiof_blacklist[] = {
-+	/* Those have HW issues */
-+	{ .soc_id = "r8a7795", .revision = "ES1.[01]" },
-+	{ /* Sentinel */ }
-+};
-+
- static int sh_msiof_spi_probe(struct platform_device *pdev)
- {
-+	const struct soc_device_attribute *attr;
- 	struct spi_controller *ctlr;
- 	const struct sh_msiof_chipdata *chipdata;
- 	struct sh_msiof_spi_info *info;
-@@ -1267,6 +1275,10 @@ static int sh_msiof_spi_probe(struct platform_device *pdev)
- 	int i;
- 	int ret;
- 
-+	attr = soc_device_match(sh_msiof_blacklist);
-+	if (attr)
-+		return -ENOTSUPP;
-+
- 	chipdata = of_device_get_match_data(&pdev->dev);
- 	if (chipdata) {
- 		info = sh_msiof_spi_parse_dt(&pdev->dev);
--- 
-2.30.2
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks!
+
+  Tomi
 
