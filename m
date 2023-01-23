@@ -2,141 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35638678898
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jan 2023 21:47:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E40D2678AD4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jan 2023 23:36:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231601AbjAWUrI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Jan 2023 15:47:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47168 "EHLO
+        id S231681AbjAWWg4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Jan 2023 17:36:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbjAWUrH (ORCPT
+        with ESMTP id S229956AbjAWWgz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Jan 2023 15:47:07 -0500
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FAB330D8;
-        Mon, 23 Jan 2023 12:47:07 -0800 (PST)
-Received: by mail-oi1-f172.google.com with SMTP id o66so11495743oia.6;
-        Mon, 23 Jan 2023 12:47:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+xLghjk06txc21TL6jUAE/A4E0QaZ29dI9auCG3vhDo=;
-        b=oTEcqczFiN5jxg/P7GcqsCUG+E4uilhYhyih43N+zQeTUegrU/X/UIED8NW1+m6GSL
-         6ys7T4K+hTLrMAYOqVNv4UwVOFegnKpOJ00DD8Y988aWRIXwtvDg+cvT3kaYg4XVRDvu
-         nunmchn65qGxqs6V8FJ1/G8oNKco3Somf3WQkr6mNgb+RmAchPLjHyPe3LB7RqafX/J0
-         NiMuaWbw9Khso4CA4Vmo7a5q9XKoIsBkQ9kBbW42bujezOJeda0rkBt72JorALYXUrAb
-         WrewJPvO2s3KieujwJzGQ4Ni0RQyf4ZIEQ/mMLA1IDwRoqXIPYUO91Gj5v6g0auqmqZi
-         7eHg==
-X-Gm-Message-State: AFqh2kqK0SUp3+h6u4AZ8hp4KHEcRyItfGAXnVzOSVdpe24hcslZpSnI
-        WIB8DJBEprTZuKdYJHE9sA==
-X-Google-Smtp-Source: AMrXdXs0GdZyBepqCdjPw6vuhi4kiXTC6MdsciMg0KU1dm35ma/15bsTbV/dQtJ+tboBuLEeFGalFQ==
-X-Received: by 2002:aca:6205:0:b0:365:648:3a5d with SMTP id w5-20020aca6205000000b0036506483a5dmr12623568oib.42.1674506826206;
-        Mon, 23 Jan 2023 12:47:06 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id i11-20020aca2b0b000000b00369a721732asm155293oik.41.2023.01.23.12.47.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 12:47:05 -0800 (PST)
-Received: (nullmailer pid 2494593 invoked by uid 1000);
-        Mon, 23 Jan 2023 20:47:03 -0000
-Date:   Mon, 23 Jan 2023 14:47:03 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lucas Stankus <lucas.p.stankus@gmail.com>,
-        Puranjay Mohan <puranjay12@gmail.com>,
-        Dmitry Rokosov <ddrokosov@sberdevices.ru>,
-        Alexandru Tachici <alexandru.tachici@analog.com>,
-        Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
-        Renato Lui Geh <renatogeh@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Andreas Klinger <ak@it-klinger.de>,
-        Marcus Folkesson <marcus.folkesson@gmail.com>,
-        Kent Gustavsson <kent@minoris.se>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Oleksij Rempel <linux@rempel-privat.de>, kernel@pengutronix.de,
-        =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
-        Nishant Malpani <nish.malpani25@gmail.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Dragos Bogdan <dragos.bogdan@analog.com>,
-        Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Stefan Popa <stefan.popa@analog.com>,
-        Robert Yang <decatf@gmail.com>,
-        Sean Nyekjaer <sean@geanix.com>,
-        Artur Rojek <contact@artur-rojek.eu>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Philippe Reynes <tremyfr@yahoo.fr>,
-        Alexandru Lazar <alazar@startmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Caleb Connolly <caleb.connolly@linaro.org>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Stefan Agner <stefan@agner.ch>,
-        Daniel Baluta <daniel.baluta@nxp.com>,
-        Harald Geyer <harald@ccbib.org>,
-        Eugene Zaikonnikov <ez@norophonic.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Matt Ranostay <matt.ranostay@konsulko.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Sankar Velliangiri <navin@linumiz.com>,
-        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 5/5] dt-bindings: iio: cleanup examples - indentation
-Message-ID: <20230123204703.GA2479312-robh@kernel.org>
-References: <20230118184413.395820-1-krzysztof.kozlowski@linaro.org>
- <20230118184413.395820-5-krzysztof.kozlowski@linaro.org>
+        Mon, 23 Jan 2023 17:36:55 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA35137B48
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 14:36:54 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E96362D9;
+        Mon, 23 Jan 2023 23:36:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674513413;
+        bh=8BDJk+F8kQpd7sXh8OapTD8OljXi5zdntHPhm75z/6w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qvVKZ56JzhxYm5JqP9tlBEn+vA7IJQt8hfqRCrZUzy4MC34OPNSXgo7EjvAOieSPE
+         5RQUwb/hA9tMX6yo5IUq6m+zmSnSl/62her1/qEE6rYG1pfpM1cz6f0yaGtMbpLP+d
+         rrbXXW0PiHFI9ZjOIbiVFjLKx3WRKUYDpKZWn1iA=
+Date:   Tue, 24 Jan 2023 00:36:49 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        LUU HOAI <hoai.luu.ub@renesas.com>
+Subject: Re: [PATCH v3 4/7] drm: rcar-du: lvds: Fix stop sequence
+Message-ID: <Y88MAeONs5GNTNHX@pendragon.ideasonboard.com>
+References: <20230123104742.227460-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20230123104742.227460-5-tomi.valkeinen+renesas@ideasonboard.com>
+ <CAMuHMdVkenq=2PH-mjodFzAtEa5ss_Lx11B26x6tE2Da3DbmKg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230118184413.395820-5-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <CAMuHMdVkenq=2PH-mjodFzAtEa5ss_Lx11B26x6tE2Da3DbmKg@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jan 18, 2023 at 07:44:13PM +0100, Krzysztof Kozlowski wrote:
-> Use 4-space indentation (for cases when it is neither 4 not 2 space).
+Hi Geert,
+
+On Mon, Jan 23, 2023 at 03:28:08PM +0100, Geert Uytterhoeven wrote:
+> On Mon, Jan 23, 2023 at 11:48 AM Tomi Valkeinen wrote:
+> > From: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+> >
+> > According to hardware manual, LVDCR0 register must be cleared bit by bit
+> > when disabling LVDS.
+> >
+> > Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+> > Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
+> > [tomi.valkeinen: simplified the code a bit]
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
+> Thanks for your patch!
+> 
+> > @@ -544,6 +549,27 @@ static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
+> >                                      struct drm_bridge_state *old_bridge_state)
+> >  {
+> >         struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> > +       u32 lvdcr0;
+> > +
+> > +       lvdcr0 = rcar_lvds_read(lvds, LVDCR0);
+> > +
+> > +       lvdcr0 &= ~LVDCR0_LVRES;
+> > +       rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > +
+> > +       if (lvds->info->quirks & RCAR_LVDS_QUIRK_GEN3_LVEN) {
+> > +               lvdcr0 &= ~LVDCR0_LVEN;
+> > +               rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > +       }
+> > +
+> > +       if (lvds->info->quirks & RCAR_LVDS_QUIRK_PWD) {
+> > +               lvdcr0 &= ~LVDCR0_PWD;
+> > +               rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > +       }
+> > +
+> > +       if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
+> > +               lvdcr0 &= ~LVDCR0_PLLON;
+> > +               rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > +       }
+> 
+> Please add a comment explaining why there are multiple register writes,
+> to avoid an over-zealous janitor "optimizing" the code later.
 
-[...]
+I'll add this comment at the top of the function:
 
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
-> index 1d965124c488..04b12146959e 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
-> @@ -120,5 +120,5 @@ examples:
->          adi,rejection-60-Hz-enable;
->          adi,buffer-enable;
->          adi,burnout-currents-enable;
-> -        };
-> +      };
+        /*
+         * Clear the LVDCR0 bits in the order specified by the hardware
+         * documentation, ending with a write of 0 to the full register to
+         * clear all remaining bits.
+         */
 
-Indentation needs adjusting.
+> >
+> >         rcar_lvds_write(lvds, LVDCR0, 0);
+> >         rcar_lvds_write(lvds, LVDCR1, 0);
 
-Otherwise,
+-- 
+Regards,
 
-Acked-by: Rob Herring <robh@kernel.org>
+Laurent Pinchart
