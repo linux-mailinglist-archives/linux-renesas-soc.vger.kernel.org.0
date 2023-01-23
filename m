@@ -2,103 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D7FD677930
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jan 2023 11:30:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0543677962
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jan 2023 11:43:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229548AbjAWKam (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Jan 2023 05:30:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53702 "EHLO
+        id S230088AbjAWKnU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Jan 2023 05:43:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231302AbjAWKal (ORCPT
+        with ESMTP id S229777AbjAWKnT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Jan 2023 05:30:41 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F17F13D4A
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 02:30:40 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E9E23B80CC1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 10:30:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 99D9FC4339B
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 10:30:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674469837;
-        bh=rk7fdEwlt1Xk8zuPGYNEsz7/XFsio2F9+qYM2vjdb5w=;
-        h=Subject:From:Date:To:From;
-        b=QIvDU0cpdz1Mc3otwoLwSM1uizFf3bzKF6wCI2r15YXI3h+ub5UPo5++yybBqFwJy
-         +D/TiqzVXWpdX+cIjWYRTD8aFdBSXVlRj/iHCsz0Yi55rCn/2l2bo72rdwugUgmgTL
-         +TqxmzdNxgtfy0iB++u06SGNxmg3f1cnMKFuYnTy3e3aBaUIe8OGDZq0W1yjgxXSDp
-         Gpm8SlrQX1w/soWnmGAzM+Qsx0e3uIQR3tbyzcPHFNwUo+2Fw0Ku+2n5MiAxlOV/b6
-         4CkdJlXmr30d6+8/43vXyE+qwOSR8yj0dlXTG8/8txikseR0wJz6AGOMS/hK4tdzEc
-         T7R+PwBdizgQQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 81F21C5C7D4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 10:30:37 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 23 Jan 2023 05:43:19 -0500
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFF3412F04;
+        Mon, 23 Jan 2023 02:43:18 -0800 (PST)
+Received: by mail-qt1-f178.google.com with SMTP id jr19so8062145qtb.7;
+        Mon, 23 Jan 2023 02:43:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0Nz7epYXM0pVoAXm+SmhP1LKWnLLacoKbNMTlqFkP4Y=;
+        b=Evr0aUIvS6DdSLmFWJ/ovEjHKcUHZZ+zqV0L9DuwIEGO96KyL08SxjgM5cB68DwzgH
+         PtGEKdEHXwgHYbqJUGBHX4WrYJZKeCMvSWAae+4diaR2Xcod8qQxnlfTEtu3Op4rlBYc
+         uBsK8noHGikYmr3mlIj+a9vcL8Dc0G49fpUacOhWsARUUdEL6CU3eLHDb6vRKQhWzKno
+         lhFzanSVhpjEFD+PYJKyfzUPDkvP+drBkqe+oe6NUbVC4x1+8Zr2BofX9sjE86+hdG8v
+         xmeg6oiGWwsb4YvOZ1qVSfn4vsPdATVANDWSyJgG/rB9OZB9fmmsf6TzRBJFgzNLVRpR
+         THSQ==
+X-Gm-Message-State: AFqh2kqAu9a6Nf/R0SZadkYI7c94S6uTnfTZudWk8HHSwC5VMhyVCFgs
+        ekf+lLnEGPYlPB+Nw5m034mY/piyrJei1g==
+X-Google-Smtp-Source: AMrXdXvL7BmjmL7/zAf4Azen9Ha73nYzAF4ZMHJXhyYdyn+thn+9YDkSOX2Z0OMd7Xd3ud9s82GXqQ==
+X-Received: by 2002:ac8:45ce:0:b0:3b6:326f:b69c with SMTP id e14-20020ac845ce000000b003b6326fb69cmr31915492qto.1.1674470597668;
+        Mon, 23 Jan 2023 02:43:17 -0800 (PST)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id w13-20020a05620a444d00b00709041c3206sm7726868qkp.103.2023.01.23.02.43.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jan 2023 02:43:17 -0800 (PST)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-4a2f8ad29d5so165359097b3.8;
+        Mon, 23 Jan 2023 02:43:17 -0800 (PST)
+X-Received: by 2002:a05:690c:851:b0:480:fa10:459e with SMTP id
+ bz17-20020a05690c085100b00480fa10459emr1894031ywb.283.1674470596924; Mon, 23
+ Jan 2023 02:43:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <167446983745.19758.9717294949820384493.git-patchwork-summary@kernel.org>
-Date:   Mon, 23 Jan 2023 10:30:37 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230122121129.28699-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230122121129.28699-1-krzysztof.kozlowski@linaro.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 23 Jan 2023 11:43:04 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXdZbJDTOzQG4=pRpR1OCU0=RTDZDH0MnPW8Ea2LJKs6A@mail.gmail.com>
+Message-ID: <CAMuHMdXdZbJDTOzQG4=pRpR1OCU0=RTDZDH0MnPW8Ea2LJKs6A@mail.gmail.com>
+Subject: Re: [GIT PULL] memory: drivers for v6.3
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Olof Johansson <olof@lixom.net>, Arnd Bergmann <arnd@arndb.de>,
+        arm@kernel.org, soc@kernel.org, linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        JaimeLiao <jaimeliao.tw@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hi Krzysztof,
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+On Sun, Jan 22, 2023 at 1:14 PM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
+>
+>   Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
+>
+> are available in the Git repository at:
+>
+>   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git tags/memory-controller-drv-6.3
+>
+> for you to fetch changes up to 4fd1a0e496cb81e939c55143fc81c2be130099c4:
+>
+>   Merge branch 'for-v6.3/renesas-rpc-if' into mem-ctrl-next (2023-01-22 13:05:21 +0100)
+>
+> ----------------------------------------------------------------
+> Memory controller drivers for v6.3
+>
+> 1. TI Emif: simplify device_get_match_data().
+> 2. Renesas RPC IF: Few fixes (missing address set in manual mode;
+>    decouple driver's private data structure from other drivers; unbind
+>    and rebind due to triggering managed resources allocation from other
+>    drivers) and bigger rework around improved runtime Power Management.
+>
+> ----------------------------------------------------------------
+> Geert Uytterhoeven (6):
+>       memory: renesas-rpc-if: Split-off private data from struct rpcif
+>       memory: renesas-rpc-if: Move resource acquisition to .probe()
+>       memory: renesas-rpc-if: Always use dev in rpcif_probe()
+>       memory: renesas-rpc-if: Improve Runtime PM handling
+>       memory: renesas-rpc-if: Pass device instead of rpcif to rpcif_*()
+>       memory: renesas-rpc-if: Remove Runtime PM wrappers
+>
+> JaimeLiao (1):
+>       memory: renesas-rpc-if: Fix missing setting address
 
-Series: arm64: dts: renesas: Simple-Card / Audio-Graph-Card/Card2 dts for ULCB/KF
-  Submitter: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=711545
-  Lore link: https://lore.kernel.org/r/87fscfi424.wl-kuninori.morimoto.gx@renesas.com
-    Patches: [v2,1/8] ARM: dts: renesas: #sound-dai-cells is used when simple-card
-             [v2,2/8] arm64: dts: renesas: #sound-dai-cells is used when simple-card
-             [v2,3/8] arm64: dts: renesas: add ulcb{-kf} Audio Graph Card dtsi
-             [v2,4/8] arm64: dts: renesas: add ulcb{-kf} Audio Graph Card2 dtsi
-             [v2,5/8] arm64: dts: renesas: add ulcb{-kf} Simple Audio Card dtsi
-             [v2,6/8] arm64: dts: renesas: add ulcb{-kf} Audio Graph Card2 dtsi MIX + TDM Split dtsi
-             [v2,7/8] arm64: dts: renesas: add ulcb{-kf} Audio Graph Card dtsi MIX + TDM Split dtsi
-             [v2,8/8] arm64: dts: renesas: add ulcb{-kf} Simple Audio Card MIX + TDM Split dtsi
+This is commit 21a1234f82cbf425
+("memory: renesas-rpc-if: Fix missing setting address").
 
-Series: Driver support for RZ/V2M PWC
-  Submitter: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=709532
-  Lore link: https://lore.kernel.org/r/20230106125816.10600-1-fabrizio.castro.jz@renesas.com
-    Patches: [v5,1/2] dt-bindings: soc: renesas: Add RZ/V2M PWC
-             [v5,2/2] soc: renesas: Add PWC support for RZ/V2M
+The same patch, sent by someone else, was sort of nack'ed in
+https://lore.kernel.org/all/CAMuHMdWpvuC2Cm41jCQm+rT8MZB5GN+Z0bPz941QzsHX17Ux-g@mail.gmail.com
 
-Series: [1/3] arm64: dts: beacon-renesom: Fix gpio expander reference
-  Submitter: Adam Ford <aford173@gmail.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=712100
-  Lore link: https://lore.kernel.org/r/20230114225647.227972-1-aford173@gmail.com
-    Patches: [1/3] arm64: dts: beacon-renesom: Fix gpio expander reference
-             [2/3] arm64: dts: beacon-renesom: Update Ethernet PHY ID
-             [3/3] arm64: dts: beacon-renesom: Fix some audio messages
+Gr{oetje,eeting}s,
 
-Patch: arm64: dts: renesas: eagle: Add SCIF_CLK support
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=710098
-  Lore link: https://lore.kernel.org/r/7dddaa362945118deab534ccfddfc0870abe8526.1673271243.git.geert+renesas@glider.be
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Total patches: 14
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
