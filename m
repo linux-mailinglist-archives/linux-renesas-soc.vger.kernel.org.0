@@ -2,122 +2,171 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0543677962
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jan 2023 11:43:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3E9667797F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jan 2023 11:48:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230088AbjAWKnU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Jan 2023 05:43:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59102 "EHLO
+        id S230081AbjAWKsI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Jan 2023 05:48:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229777AbjAWKnT (ORCPT
+        with ESMTP id S231437AbjAWKsI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Jan 2023 05:43:19 -0500
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFF3412F04;
-        Mon, 23 Jan 2023 02:43:18 -0800 (PST)
-Received: by mail-qt1-f178.google.com with SMTP id jr19so8062145qtb.7;
-        Mon, 23 Jan 2023 02:43:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0Nz7epYXM0pVoAXm+SmhP1LKWnLLacoKbNMTlqFkP4Y=;
-        b=Evr0aUIvS6DdSLmFWJ/ovEjHKcUHZZ+zqV0L9DuwIEGO96KyL08SxjgM5cB68DwzgH
-         PtGEKdEHXwgHYbqJUGBHX4WrYJZKeCMvSWAae+4diaR2Xcod8qQxnlfTEtu3Op4rlBYc
-         uBsK8noHGikYmr3mlIj+a9vcL8Dc0G49fpUacOhWsARUUdEL6CU3eLHDb6vRKQhWzKno
-         lhFzanSVhpjEFD+PYJKyfzUPDkvP+drBkqe+oe6NUbVC4x1+8Zr2BofX9sjE86+hdG8v
-         xmeg6oiGWwsb4YvOZ1qVSfn4vsPdATVANDWSyJgG/rB9OZB9fmmsf6TzRBJFgzNLVRpR
-         THSQ==
-X-Gm-Message-State: AFqh2kqAu9a6Nf/R0SZadkYI7c94S6uTnfTZudWk8HHSwC5VMhyVCFgs
-        ekf+lLnEGPYlPB+Nw5m034mY/piyrJei1g==
-X-Google-Smtp-Source: AMrXdXvL7BmjmL7/zAf4Azen9Ha73nYzAF4ZMHJXhyYdyn+thn+9YDkSOX2Z0OMd7Xd3ud9s82GXqQ==
-X-Received: by 2002:ac8:45ce:0:b0:3b6:326f:b69c with SMTP id e14-20020ac845ce000000b003b6326fb69cmr31915492qto.1.1674470597668;
-        Mon, 23 Jan 2023 02:43:17 -0800 (PST)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id w13-20020a05620a444d00b00709041c3206sm7726868qkp.103.2023.01.23.02.43.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jan 2023 02:43:17 -0800 (PST)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-4a2f8ad29d5so165359097b3.8;
-        Mon, 23 Jan 2023 02:43:17 -0800 (PST)
-X-Received: by 2002:a05:690c:851:b0:480:fa10:459e with SMTP id
- bz17-20020a05690c085100b00480fa10459emr1894031ywb.283.1674470596924; Mon, 23
- Jan 2023 02:43:16 -0800 (PST)
+        Mon, 23 Jan 2023 05:48:08 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76AE1423E
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 02:48:01 -0800 (PST)
+Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6842710B;
+        Mon, 23 Jan 2023 11:47:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674470879;
+        bh=+JXekmAURtAs7Is3U4JBWPY+yYQzq5YGA/QwsCqwis8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=BmiEcKOP3YlC3WuNRlkGAQmh+ktrHZQqFB9ddqjArliWHeBzAK19jR2mKD+BawO6I
+         xRq2Uc5ejp9NPA242n8gBYVLuE3ApDOl+w7WFwKUS4bh/pOotBxUPWwtodWcIka12m
+         QAvxpmrllRzFWLlPRfjBgnBcrBk2HVM7ePQaw4m8=
+From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v3 0/7] drm: rcar-du: Misc patches
+Date:   Mon, 23 Jan 2023 12:47:35 +0200
+Message-Id: <20230123104742.227460-1-tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230122121129.28699-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230122121129.28699-1-krzysztof.kozlowski@linaro.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 23 Jan 2023 11:43:04 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXdZbJDTOzQG4=pRpR1OCU0=RTDZDH0MnPW8Ea2LJKs6A@mail.gmail.com>
-Message-ID: <CAMuHMdXdZbJDTOzQG4=pRpR1OCU0=RTDZDH0MnPW8Ea2LJKs6A@mail.gmail.com>
-Subject: Re: [GIT PULL] memory: drivers for v6.3
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Olof Johansson <olof@lixom.net>, Arnd Bergmann <arnd@arndb.de>,
-        arm@kernel.org, soc@kernel.org, linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        JaimeLiao <jaimeliao.tw@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-On Sun, Jan 22, 2023 at 1:14 PM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
->
->   Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
->
-> are available in the Git repository at:
->
->   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git tags/memory-controller-drv-6.3
->
-> for you to fetch changes up to 4fd1a0e496cb81e939c55143fc81c2be130099c4:
->
->   Merge branch 'for-v6.3/renesas-rpc-if' into mem-ctrl-next (2023-01-22 13:05:21 +0100)
->
-> ----------------------------------------------------------------
-> Memory controller drivers for v6.3
->
-> 1. TI Emif: simplify device_get_match_data().
-> 2. Renesas RPC IF: Few fixes (missing address set in manual mode;
->    decouple driver's private data structure from other drivers; unbind
->    and rebind due to triggering managed resources allocation from other
->    drivers) and bigger rework around improved runtime Power Management.
->
-> ----------------------------------------------------------------
-> Geert Uytterhoeven (6):
->       memory: renesas-rpc-if: Split-off private data from struct rpcif
->       memory: renesas-rpc-if: Move resource acquisition to .probe()
->       memory: renesas-rpc-if: Always use dev in rpcif_probe()
->       memory: renesas-rpc-if: Improve Runtime PM handling
->       memory: renesas-rpc-if: Pass device instead of rpcif to rpcif_*()
->       memory: renesas-rpc-if: Remove Runtime PM wrappers
->
-> JaimeLiao (1):
->       memory: renesas-rpc-if: Fix missing setting address
+Hi,
 
-This is commit 21a1234f82cbf425
-("memory: renesas-rpc-if: Fix missing setting address").
+Diff to v2:
+- Depend on PM in Kconfig to ensure runtime PM works
+- Fix access to DEFR7 in "drm: rcar-du: Stop accessing non-existant
+  registers on gen4"
+- Use pm_runtime_put_sync() instead of pm_runtime_put()
+- Add missing line feed
+- Fix lvsd typo in commit message
 
-The same patch, sent by someone else, was sort of nack'ed in
-https://lore.kernel.org/all/CAMuHMdWpvuC2Cm41jCQm+rT8MZB5GN+Z0bPz941QzsHX17Ux-g@mail.gmail.com
+ Tomi
 
-Gr{oetje,eeting}s,
+Koji Matsuoka (1):
+  drm: rcar-du: lvds: Fix stop sequence
 
-                        Geert
+Tomi Valkeinen (6):
+  drm: rcar-du: dsi: add 'select RESET_CONTROLLER'
+  drm: rcar-du: lvds: Add runtime PM
+  drm: rcar-du: lvds: Add reset control
+  drm: rcar-du: Add quirk for H3 ES1.x pclk workaround
+  drm: rcar-du: Fix setting a reserved bit in DPLLCR
+  drm: rcar-du: Stop accessing non-existant registers on gen4
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+ drivers/gpu/drm/rcar-du/Kconfig         |  3 +
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c  | 39 +++++++----
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c   | 49 ++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h   |  2 +
+ drivers/gpu/drm/rcar-du/rcar_du_group.c | 24 ++++---
+ drivers/gpu/drm/rcar-du/rcar_du_regs.h  |  8 +--
+ drivers/gpu/drm/rcar-du/rcar_lvds.c     | 87 +++++++++++++++++++++++--
+ 7 files changed, 177 insertions(+), 35 deletions(-)
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Interdiff against v2:
+diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+index 151e400b996d..742f6f2c8de8 100644
+--- a/drivers/gpu/drm/rcar-du/Kconfig
++++ b/drivers/gpu/drm/rcar-du/Kconfig
+@@ -39,6 +39,7 @@ config DRM_RCAR_USE_LVDS
+ config DRM_RCAR_LVDS
+ 	def_tristate DRM_RCAR_DU
+ 	depends on DRM_RCAR_USE_LVDS
++	depends on PM
+ 	select DRM_KMS_HELPER
+ 	select DRM_PANEL
+ 	select OF_FLATTREE
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+index c2209d427bb7..152602236377 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+@@ -151,14 +151,16 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
+ 	if (rcdu->info->gen < 4)
+ 		rcar_du_group_setup_pins(rgrp);
+ 
+-	/*
+-	 * TODO: Handle routing of the DU output to CMM dynamically, as we
+-	 * should bypass CMM completely when no color management feature is
+-	 * used.
+-	 */
+-	defr7 |= (rgrp->cmms_mask & BIT(1) ? DEFR7_CMME1 : 0) |
+-		 (rgrp->cmms_mask & BIT(0) ? DEFR7_CMME0 : 0);
+-	rcar_du_group_write(rgrp, DEFR7, defr7);
++	if (rcdu->info->gen < 4) {
++		/*
++		 * TODO: Handle routing of the DU output to CMM dynamically, as
++		 * we should bypass CMM completely when no color management
++		 * feature is used.
++		 */
++		defr7 |= (rgrp->cmms_mask & BIT(1) ? DEFR7_CMME1 : 0) |
++			 (rgrp->cmms_mask & BIT(0) ? DEFR7_CMME0 : 0);
++		rcar_du_group_write(rgrp, DEFR7, defr7);
++	}
+ 
+ 	if (rcdu->info->gen >= 2) {
+ 		if (rcdu->info->gen < 4)
+@@ -194,13 +196,10 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
+  */
+ int rcar_du_group_get(struct rcar_du_group *rgrp)
+ {
+-	struct rcar_du_device *rcdu = rgrp->dev;
+-
+ 	if (rgrp->use_count)
+ 		goto done;
+ 
+-	if (rcdu->info->gen < 4)
+-		rcar_du_group_setup(rgrp);
++	rcar_du_group_setup(rgrp);
+ 
+ done:
+ 	rgrp->use_count++;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+index 8fa5f7400179..8cd86a3d65a5 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
++++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+@@ -345,7 +345,7 @@ void rcar_lvds_pclk_disable(struct drm_bridge *bridge)
+ 
+ 	rcar_lvds_write(lvds, LVDPLLCR, 0);
+ 
+-	pm_runtime_put(lvds->dev);
++	pm_runtime_put_sync(lvds->dev);
+ }
+ EXPORT_SYMBOL_GPL(rcar_lvds_pclk_disable);
+ 
+@@ -580,7 +580,7 @@ static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
+ 		lvds->companion->funcs->atomic_disable(lvds->companion,
+ 						       old_bridge_state);
+ 
+-	pm_runtime_put(lvds->dev);
++	pm_runtime_put_sync(lvds->dev);
+ }
+ 
+ static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
+@@ -877,6 +877,7 @@ static int rcar_lvds_probe(struct platform_device *pdev)
+ 	if (IS_ERR(lvds->rstc))
+ 		return dev_err_probe(&pdev->dev, PTR_ERR(lvds->rstc),
+ 				     "failed to get cpg reset\n");
++
+ 	pm_runtime_enable(&pdev->dev);
+ 
+ 	drm_bridge_add(&lvds->bridge);
+-- 
+2.34.1
+
