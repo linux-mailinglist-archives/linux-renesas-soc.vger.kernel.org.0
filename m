@@ -2,158 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 750D36785C8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jan 2023 20:06:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 742DA67865C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Jan 2023 20:29:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232208AbjAWTGd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Jan 2023 14:06:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46248 "EHLO
+        id S232690AbjAWT3R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Jan 2023 14:29:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232270AbjAWTGa (ORCPT
+        with ESMTP id S232693AbjAWT3J (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Jan 2023 14:06:30 -0500
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 168BB30194
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 11:06:23 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:6083:1fd7:ba05:ea8d])
-        by michel.telenet-ops.be with bizsmtp
-        id CK6L2900F4604Ck06K6Lbw; Mon, 23 Jan 2023 20:06:22 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pK28y-0076NW-LM;
-        Mon, 23 Jan 2023 20:06:20 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pK296-00Ekpx-Iu;
-        Mon, 23 Jan 2023 20:06:20 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] arm64: dts: renesas: white-hawk: Add CAN-FD support
-Date:   Mon, 23 Jan 2023 20:06:19 +0100
-Message-Id: <a19d0a70aacaf4c3517a226bf32ea49db3542da4.1674500205.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1674500205.git.geert+renesas@glider.be>
-References: <cover.1674500205.git.geert+renesas@glider.be>
+        Mon, 23 Jan 2023 14:29:09 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA46635267;
+        Mon, 23 Jan 2023 11:28:57 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 374AE61028;
+        Mon, 23 Jan 2023 19:28:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D05EC4339B;
+        Mon, 23 Jan 2023 19:28:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674502136;
+        bh=9NZXkPdmw/iB9Zkyv6wXQtlGAjxqyjWERvaxcrJqUrs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rPXXFP4UpDa/wyVGKxnJhAw75MJAFwnhNF/TMHqQdXN/wKQ/dfUM9cRBvIOMFP+oe
+         lcdbBuVkbA5BK8dY3/yK0IflJTdU213skxB5wW8DJmSNsGBY3FBIUrEFXaS4I3/lz7
+         dMiXuLgrBeRDdLqpHepeh4+6C0RFXlnQuwz8xsVE2pndVxIsdhmkEOqRCJbdYlc4pm
+         /fdTEdVwHltWcZ0RDmn0ZDmHhOsrLXk5X1eWKCwvpHucQ1wjp/N4FZMjz46+oRGNrO
+         LUtsfjdeaH6m8asTOLqaamUkFK63c/jA4txZmEzZO+/jicbSH1eFQP57nZV4JFn8t9
+         911fNT9Dv7FCA==
+Date:   Mon, 23 Jan 2023 20:28:44 +0100
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ulrich Hecht <uli+renesas@fpond.eu>, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 00/12] can: rcar_canfd: Add support for R-Car V4H systems
+Message-ID: <Y87f7BPchIcT2BQa@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ulrich Hecht <uli+renesas@fpond.eu>, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <cover.1674499048.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="+GiX6MlQAA4givF7"
+Content-Disposition: inline
+In-Reply-To: <cover.1674499048.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable confirmed-working CAN-FD channels 0 and 1 on the White-Hawk
-development board:
-  - Channel 0 uses an NXP TJR1443AT CAN transceiver, which is be enabled
-    through a GPIO,
-  - Channels 1-7 use Microchip MCP2558FD-H/SN CAN transceivers (not
-    mounted for channels 4-7), which do not need explicit description,
-    but channels 2-3 do not seem to work.
 
-Inspired by a patch in the BSP by Kazuya Mizuguch.
+--+GiX6MlQAA4givF7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-This depends on "[PATCH 2/2] phy: phy-can-transceiver: Add support for
-NXP TJR1443"
-https://lore.kernel.org/all/0bfa1e4c43632e49c9512b4e7daa970545545dcf.1674037830.git.geert+renesas@glider.be
+Hi Geert,
 
-Changed compared to the BSP:
-  - Add can_clk,
-  - Add missing can_transceiver0,
-  - Disable channels 2-7.
+thanks for this work! You not only added V4H support bu fixed/improved
+quite some things on the way.
 
-Tested using cansend, candump, and canfdtest.
+> Hence despite the new fixes, the test results are similar to what Ulrich
+> Hecht reported for R-Car V3U on the Falcon development board before,
+> i.e. only channels 0 and 1 work (FTR, [2] does not help).
 
-  - Channel 2 does not work: "bus-off" error message.
+IIRC Ulrich reported that the other channels did not even work with the
+BSP on V3U.
 
-  - Channel 3 does not work:
-      - Using cansend on another interface, and candump on can3 shows
-	that nothing is received.
-	However, my scope does see the data on the bus, and it is not
-	sent repeatedly, hence it must have been acked by the receiver.
+Happy hacking,
 
-      - Using canfdtest on can3 gives:
+   Wolfram
 
-          can3: Message ID mismatch!
-            expected: 0078: [8] 01 02 03 04 05 06 07 08
-            received: 0077: [8] 00 01 02 03 04 05 06 07
 
-Note that describing a plain gpio-hog instead of can_transceiver0 is not
-sufficient, as the enable signal must not be asserted before
-initialization of the CAN-FD controller,
----
- .../boot/dts/renesas/r8a779g0-white-hawk.dts  | 44 +++++++++++++++++++
- 1 file changed, 44 insertions(+)
+--+GiX6MlQAA4givF7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts
-index 04a2b6b83e743f32..eff1ef6e2cc83aba 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts
-@@ -13,6 +13,33 @@
- / {
- 	model = "Renesas White Hawk CPU and Breakout boards based on r8a779g0";
- 	compatible = "renesas,white-hawk-breakout", "renesas,white-hawk-cpu", "renesas,r8a779g0";
-+
-+	can_transceiver0: can-phy0 {
-+		compatible = "nxp,tjr1443";
-+		#phy-cells = <0>;
-+		enable-gpios = <&gpio1 3 GPIO_ACTIVE_HIGH>;
-+		max-bitrate = <5000000>;
-+	};
-+};
-+
-+&can_clk {
-+	clock-frequency = <40000000>;
-+};
-+
-+&canfd {
-+	pinctrl-0 = <&canfd0_pins>, <&canfd1_pins>, <&can_clk_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+
-+	channel0 {
-+		status = "okay";
-+		phys = <&can_transceiver0>;
-+	};
-+
-+	channel1 {
-+		status = "okay";
-+	};
- };
- 
- &i2c0 {
-@@ -23,3 +50,20 @@ eeprom@51 {
- 		pagesize = <8>;
- 	};
- };
-+
-+&pfc {
-+	can_clk_pins: can-clk {
-+		groups = "can_clk";
-+		function = "can_clk";
-+	};
-+
-+	canfd0_pins: canfd0 {
-+		groups = "canfd0_data";
-+		function = "canfd0";
-+	};
-+
-+	canfd1_pins: canfd1 {
-+		groups = "canfd1_data";
-+		function = "canfd1";
-+	};
-+};
--- 
-2.34.1
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmPO3+gACgkQFA3kzBSg
+Kbb92w//ZDtw+CG21FXOjfI3qtgakd1FudDQYcDoSv+JiVYwSQxD1gMvGcoT+R4S
+1mep29/AXaz9WFNRA+L7lej8wwP+BXfGne2PcXhJSv3qXRyYhxaooN1Ws/Ut3nrX
+RZLaDZIjhctd2OgJ1qJlYCW8OTLq6oksbmaWD7BEMfRB9lkh6/HHo3dKG327QMaG
+hOjvx2Wp0w92SjTf9WBq4DZn17TuTdTslAdwzgXiQRWNqdEO99nGVc9mz3fnU3SM
+7ADxWmnUDmXI0dwLvRu28AvWIzuHdz5tto++AD//miNKJVf9rHuOI8wceDcb4JpR
+XAs/lgGLaBwCd7AkZnTijaTZuJfmWqxcNiLHfhDJVn4kYy+IWFQOPppzPAPef4oK
+soFiUBpgeCuujqOPwrOyNbwVuI15S1C8xfYxZguc1ZNrF52iKR3G3n13xXVmkoy/
+x1NiKza5ueFnJrisopWj8rOdChUwdaFt2k5zTRXmwYE1C5KW7J5AA1DQrAyYmgc0
+WpuvfN56cBrseAuSdi5156+xKJnN7gY9DTJcVUw3PzY8KmTeY8fcvNNXrGw914Bn
+dkVajyH5Ju7dYp49Sf3RCb7o61AWUMn0tbDbQBfmHPBVDcGHQeRECyKIbNo7RfHH
+FkN29pw9izxIT1ewuokGW4nUkKT7f4dvnuJCsPG4Bcl4H3Z+ZL8=
+=m5rR
+-----END PGP SIGNATURE-----
+
+--+GiX6MlQAA4givF7--
