@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5A1F678D77
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jan 2023 02:33:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B03D9678D7A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jan 2023 02:33:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231681AbjAXBdf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Jan 2023 20:33:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56138 "EHLO
+        id S232274AbjAXBdg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Jan 2023 20:33:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232083AbjAXBde (ORCPT
+        with ESMTP id S231544AbjAXBdf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Jan 2023 20:33:34 -0500
+        Mon, 23 Jan 2023 20:33:35 -0500
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6539F196A5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 17:33:33 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E802B11EBD
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 17:33:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674524013; x=1706060013;
+  t=1674524014; x=1706060014;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=A6vMvobcfMPCv/nj4hLMefZbERoMopsIia/Mdl1qxYs=;
-  b=hVrSHBA5P7fpnB1RDZJ/TmNVZ1W4SaKRzf44XNSGiFfTfgGSAzLf8fFC
-   BRVdSQP0lw5QpS+B8fR7dKKW0Fhzb8+VOUaqgWGrF7SzIhXYXJFB9TCx/
-   zVZkUOSp/BQQyvDrl+HR6RtF66uwBLbR4l1Y0+75LkvnbHslfWVThhJou
-   4ie9b/X+fnXf0ua0IVl6rm00KMlAavmVa8wmxH+HAr/qG26gXpRO6r3N/
-   HsCQAugd7i793ZnlPAZ2NpzSE8yib9Kx7UrY+KzlyFmCVhsckqupCify8
-   ulrExZq+SVe0BOonPKOkyr7tI8Xn0AQDtL0VAwWfpeRtP91HjoSkGCJi8
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="412439771"
+  bh=/yCtJA5TyS0nIb+AnB1b6BJd4tnmxb7b2b0Xwe4YBFQ=;
+  b=fetj26yI9hML6JCjJJov150DApbdC2SjnLWATH7vfZkKecG1C4z510P/
+   /yl2k00VZPCxyGGtjgVzw7PO0Ju26ablr+jgTyp54Pfet5SK720f6Rapf
+   Wgt5V///hnjociIiaqaSoFjEIu+YwbeL13M71TZ+Qv2UMe6nEwVRLI3Vb
+   egjDYOJGYOP4Gsipo+UH8deZOEMFOq5h9cmikVL/EcSORuCdYaA8KIt01
+   r0rXM/iXrTdLAykQK72ZxhNgPUNPjhT7a8wYTg3V7iPxoVAk2HWasDvQ1
+   ZrzwkRCwXdfA/h3+RRGwnRbHk6DL98eBLX7LZhMEW+/CyHzZOKY5JCi3S
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="412439779"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="412439771"
+   d="scan'208";a="412439779"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 17:33:32 -0800
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 17:33:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="655253096"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="655253098"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="655253096"
+   d="scan'208";a="655253098"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
   by orsmga007.jf.intel.com with ESMTP; 23 Jan 2023 17:33:31 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1pK8Bm-00061K-2D;
+        id 1pK8Bm-00061M-2G;
         Tue, 24 Jan 2023 01:33:30 +0000
-Date:   Tue, 24 Jan 2023 09:32:31 +0800
+Date:   Tue, 24 Jan 2023 09:32:37 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-clk-for-v6.3] BUILD SUCCESS
- 1c052043c79af5f70e80e2acd4dd70904ae08666
-Message-ID: <63cf352f.Gf8bV3LPbfjUoZXH%lkp@intel.com>
+Subject: [geert-renesas-devel:renesas-dts-for-v6.3] BUILD SUCCESS
+ 5b06e1cb0eba21179ba9f92027a91675049b75c4
+Message-ID: <63cf3535.JPXgOI5GRB4SXuS8%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -63,63 +63,32 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.3
-branch HEAD: 1c052043c79af5f70e80e2acd4dd70904ae08666  clk: renesas: cpg-mssr: Remove superfluous check in resume code
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.3
+branch HEAD: 5b06e1cb0eba21179ba9f92027a91675049b75c4  arm64: dts: beacon-renesom: Fix audio clock rate
 
-elapsed time: 726m
+elapsed time: 724m
 
-configs tested: 75
-configs skipped: 2
+configs tested: 40
+configs skipped: 77
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
 
 gcc tested configs:
-powerpc                           allnoconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
+arm                  randconfig-r046-20230123
+arm                                 defconfig
+arm64                            allyesconfig
+arm                              allyesconfig
 x86_64                            allnoconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+um                           x86_64_defconfig
+um                             i386_defconfig
 m68k                             allyesconfig
-sh                               allmodconfig
 m68k                             allmodconfig
 arc                              allyesconfig
 alpha                            allyesconfig
-powerpc                          allmodconfig
-mips                             allyesconfig
-i386                                defconfig
-i386                             allyesconfig
-ia64                             allmodconfig
-x86_64               randconfig-a002-20230123
-x86_64                              defconfig
-arc                  randconfig-r043-20230123
-arc                                 defconfig
-s390                             allmodconfig
-x86_64               randconfig-a005-20230123
-i386                 randconfig-a003-20230123
-alpha                               defconfig
-x86_64               randconfig-a001-20230123
-x86_64                          rhel-8.3-func
-i386                 randconfig-a002-20230123
-arm                  randconfig-r046-20230123
-x86_64                    rhel-8.3-kselftests
-arm                                 defconfig
-i386                 randconfig-a001-20230123
-x86_64               randconfig-a006-20230123
-x86_64                               rhel-8.3
-i386                 randconfig-a005-20230123
-x86_64               randconfig-a004-20230123
-arm                              allyesconfig
-i386                 randconfig-a006-20230123
-x86_64               randconfig-a003-20230123
-i386                 randconfig-a004-20230123
-arm64                            allyesconfig
-x86_64                           allyesconfig
-s390                                defconfig
-s390                             allyesconfig
-x86_64                           rhel-8.3-syz
-x86_64                           rhel-8.3-kvm
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-bpf
 riscv                    nommu_virt_defconfig
 riscv                          rv32_defconfig
 riscv                    nommu_k210_defconfig
@@ -129,25 +98,21 @@ i386                              debian-10.3
 i386                          debian-10.3-kvm
 i386                        debian-10.3-kunit
 i386                         debian-10.3-func
+i386                             allyesconfig
+i386                                defconfig
+x86_64                           rhel-8.3-kvm
+x86_64                           rhel-8.3-syz
+x86_64                           rhel-8.3-bpf
+x86_64                         rhel-8.3-kunit
+s390                                defconfig
+s390                             allmodconfig
+arc                                 defconfig
+alpha                               defconfig
+s390                             allyesconfig
 
 clang tested configs:
-s390                 randconfig-r044-20230123
-i386                 randconfig-a012-20230123
-x86_64               randconfig-a011-20230123
-i386                 randconfig-a013-20230123
-x86_64                          rhel-8.3-rust
-x86_64               randconfig-a012-20230123
-x86_64               randconfig-a015-20230123
 riscv                randconfig-r042-20230123
-x86_64               randconfig-a016-20230123
-hexagon              randconfig-r041-20230123
-i386                 randconfig-a015-20230123
-x86_64               randconfig-a013-20230123
-i386                 randconfig-a011-20230123
-i386                 randconfig-a014-20230123
-x86_64               randconfig-a014-20230123
-hexagon              randconfig-r045-20230123
-i386                 randconfig-a016-20230123
+x86_64                          rhel-8.3-rust
 x86_64               randconfig-k001-20230123
 i386                          randconfig-a002
 i386                          randconfig-a006
