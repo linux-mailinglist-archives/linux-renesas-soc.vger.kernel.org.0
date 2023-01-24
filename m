@@ -2,101 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F3E06792E6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jan 2023 09:20:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3BBE679401
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jan 2023 10:21:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231749AbjAXIUc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 Jan 2023 03:20:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46980 "EHLO
+        id S233514AbjAXJVH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 Jan 2023 04:21:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229930AbjAXIUc (ORCPT
+        with ESMTP id S233302AbjAXJUp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 Jan 2023 03:20:32 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CADF30EF;
-        Tue, 24 Jan 2023 00:20:26 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id y25so22133449lfa.9;
-        Tue, 24 Jan 2023 00:20:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CD3O6ZdZYXrRnyE2BcOXHsWifO2eKM+2LTfm0D+lNes=;
-        b=RX0REkNXMjJqvrX8e8Jxnyu0bfCFWuQ/DfcVbiUBxqr7Rvt+QFOhGvbHG9LBROKGz6
-         jKUGZJCF9RqifPgO1OszvbCn9/OHVeVguUaKpF9BhbcU4NOA1nQWCnvOdU69alYmqfRo
-         xkibnz0Qruj2GqyQ5N44+I6wcujxKpslmIGLC7VJDX/iiYXE0v5pYhbs1kWurSDhSJ/C
-         D0AhqEd0DZyTTv93Dsu7Rgvf61/Ib0pEgDIGDsuT1FJfAXHmGq1h2Wzq7Udk+3Yz1fx0
-         dlvdi9U/Ru+8VzYm50Bju2xfHpJUBLdHL5blrZGLoIiDq45HlbYN9bTi+P+N+vSy85sE
-         gB+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CD3O6ZdZYXrRnyE2BcOXHsWifO2eKM+2LTfm0D+lNes=;
-        b=GFPk+Mf5yafkNYeOhVikH4qzZESndOJkmPdDeOrKLsFLtUN5V5pO2SqaCrcDjhrxke
-         Xgy1DCcquI/jTvnIxPo0FH4t3KHQn278Q6jsO0g6x6gohFYMieyX2f9nbxI+Up3/3mBT
-         i70fD820ZLkAZe05q+LGs2R3zPuhtTR/hZApM7UAZ7I6n6DyB2t0k1FH3ds3VQlzlfyS
-         VAYsBdZ7kw0VyEB2Y8L/dJsGV7c484MLwsutK0OW3merrW4vzxRUeNzw21a0HDm5HnIZ
-         LXisVnZPXD5onAUCAc4/POyl8XgP9rmfvA34TtN0Mvngm93jftJlZHE9bV4HW3B3MJre
-         N2sg==
-X-Gm-Message-State: AFqh2kpIY8VteiI/8+hn6H0/BwJ7a8ReT7kVWEAhN6FvQ6kqJRRPyUvo
-        hNRM71MGc59qyzootKRj6X9bRzO4BcM=
-X-Google-Smtp-Source: AMrXdXtDe6vyw3xGLe6Il6gO3Z0UzOGstPIMHTdkln93Fa1RiPZhKLiUN+FsB5188fuo8Olw25Fu4w==
-X-Received: by 2002:a05:6512:1196:b0:4b6:a6e4:ab7a with SMTP id g22-20020a056512119600b004b6a6e4ab7amr8005217lfr.8.1674548424219;
-        Tue, 24 Jan 2023 00:20:24 -0800 (PST)
-Received: from [192.168.1.103] ([31.173.82.218])
-        by smtp.gmail.com with ESMTPSA id t2-20020a19ad02000000b0048a8c907fe9sm129837lfc.167.2023.01.24.00.20.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jan 2023 00:20:23 -0800 (PST)
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: white-hawk: Add CAN-FD support
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <cover.1674500205.git.geert+renesas@glider.be>
- <a19d0a70aacaf4c3517a226bf32ea49db3542da4.1674500205.git.geert+renesas@glider.be>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <c3816a2f-65c5-e201-35ea-0c6f5c3c3dd0@gmail.com>
-Date:   Tue, 24 Jan 2023 11:20:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Tue, 24 Jan 2023 04:20:45 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B187041B65
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Jan 2023 01:20:26 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BB225603F7
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Jan 2023 09:20:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 26A3DC433EF
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Jan 2023 09:20:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674552017;
+        bh=1QbJuMuhHpADczSqiN+9dFsNVvn71P49es+nvXpk0U4=;
+        h=Subject:From:Date:To:From;
+        b=k+I5lAuxkg415rkvcsZnVQIl02y1hcJYycg2NXIpKzYy5p1ulEqpIbQ7+42MgeM+0
+         b3B86qsBX8mEPYxP4con7Q2/NI+o7rGlz3QwnVWKLpF/KMeKwrjPWxpkapP/p3RfzJ
+         Qkw8VekMGzVAvN9qnazgzMZI7HFBXHmZEwJ2kA6wONPV4K9CrAQIS65Z6jC1Nl2FTt
+         oe3B+4lIHZk6PqXe5ID4T39ePFbB3utROnu6fJ6RRhJ7CiRBGcZzwRgPJyqvU0GVXg
+         Shw/YxnK22HaJdpnQkJiaZ4kRIMN6VQBoJSSwWxGAROf4+w3M2OUDLSmVJbwy2Vpb9
+         bVZyeHmJzv0iA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 129B6C04E33
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Jan 2023 09:20:17 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <a19d0a70aacaf4c3517a226bf32ea49db3542da4.1674500205.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <167455201696.18458.17640686081208213784.git-patchwork-summary@kernel.org>
+Date:   Tue, 24 Jan 2023 09:20:16 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hello:
 
-On 1/23/23 10:06 PM, Geert Uytterhoeven wrote:
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-> Enable confirmed-working CAN-FD channels 0 and 1 on the White-Hawk
-> development board:
->   - Channel 0 uses an NXP TJR1443AT CAN transceiver, which is be enabled
+Series: renesas: r8a779g0: Add support for boost mode
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=702955
+  Lore link: https://lore.kernel.org/r/cover.1670492384.git.geert+renesas@glider.be
+    Patches: [1/3] clk: renesas: r8a779g0: Add custom clock for PLL2
+             [3/3] arm64: dts: renesas: r8a779g0: Add Cortex-A76 1.8 GHz opp
 
-   Is be enabled? :-)
 
->     through a GPIO,
->   - Channels 1-7 use Microchip MCP2558FD-H/SN CAN transceivers (not
->     mounted for channels 4-7), which do not need explicit description,
->     but channels 2-3 do not seem to work.
-> 
-> Inspired by a patch in the BSP by Kazuya Mizuguch.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-[...]
+Total patches: 2
 
-MBR, Sergey
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
