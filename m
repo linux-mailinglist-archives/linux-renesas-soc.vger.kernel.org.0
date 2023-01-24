@@ -2,144 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 012EE679227
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jan 2023 08:40:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53F9667922C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jan 2023 08:40:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232226AbjAXHkF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 Jan 2023 02:40:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58870 "EHLO
+        id S232977AbjAXHkW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 Jan 2023 02:40:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232152AbjAXHkD (ORCPT
+        with ESMTP id S232152AbjAXHkV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 Jan 2023 02:40:03 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10611EC5C
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 23:40:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674546003; x=1706082003;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5zg99313FVvb4XwpViGJmZ1mLQIIE5Tj9i4QkkqdNJE=;
-  b=kRP1G9QHyHDYEAu759HXbwNeDvmEnMw7pWfLXH3jQXb4egWha2u7k7RG
-   U4cUTpv7NIBWdH5140HHfy3KK20OTu3es2l1HCeYKWJcnc5gzo1tkRJYa
-   b49IKV559IwtsBNjkN7r7IHF5cOZCpahTeDIcFiE0sHTbbPUOWCRIlvpy
-   xryPSRUXXJTqpHyKjaXQwfInGdiLIwniAxfc6gsBCUhnA456rmhb6N6/Z
-   IO89PjFiqWes2eIPEPStbcDSxqkj0YJ/3UhSumXQd161cVR6dw0NAJ+hl
-   iUwrqLHWd4Qr+iJwA+gJEjfhPO2KrWNly/DQvZeViZ2zEh8NWBv4SE75Y
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="328331672"
-X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
-   d="scan'208";a="328331672"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 23:39:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="639486867"
-X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
-   d="scan'208";a="639486867"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 23 Jan 2023 23:39:50 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pKDuC-0006F4-2T;
-        Tue, 24 Jan 2023 07:39:44 +0000
-Date:   Tue, 24 Jan 2023 15:39:16 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/r8a779g0-canfd-v1] BUILD SUCCESS
- 43e978993737b54b88132763180bd750be91b968
-Message-ID: <63cf8b24.lHUdl9VJxrear3wW%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 24 Jan 2023 02:40:21 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6DCF1116B
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 23:40:19 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id c4-20020a1c3504000000b003d9e2f72093so12176866wma.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 23:40:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mqgrYYoh+EWOFvzfNiDUZjtAea3Dxak9qwqCg1uYmZs=;
+        b=Iw6RmCnB7UYWK7kSGR74JYXm36gVuMD2oo69ktEWRjIlPFJ3uJKXdHINKBsnvNa20K
+         a6s62IgiALmtBdqhwlm38anPhhtKphIymExmhaarIuTy5WOIM18iqW5M2vQxqHzOL0Ob
+         VAB6f44+e/uitx/Jz2LE91zlKQvD1trBEC6H52BTjjkr5zt9DXFqLogf95s7DRDamiLv
+         gqhITmZDiJjRp2ecP1LeQh4bcxQTtGI8kgAgNoKpRi6J+fZglBjyXPY071TJYlGDxZ1S
+         RZt2VXIe0bs3W7Tit02TVq/emcJZk9j7wxUZP38Q6Kord2ejBzNtOJgfb7krcUMQvKSX
+         XXyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mqgrYYoh+EWOFvzfNiDUZjtAea3Dxak9qwqCg1uYmZs=;
+        b=E6c2GGNRlswMCPI0XkYi8z88y5g1qiWFs42r02rdF70Q+QC8EcGsrLaKJDyctNWkds
+         5rmGpMoFoASMTVEhMr7uk6L5eUZ8KC1n2strVKOc7LD5d6gt6b0n8WgkeQhVv9X+4pFT
+         lul2gGGlCW5XHsMFThP4ahOvw33tPzBWwfngJwvbnn+lkYcURcLyFtbVgpGRrFz9BEzn
+         On94X8LnMwqgw/5nB4bVp/UkIVJAaeHCh4D+ZGGIcQpAd9OuX4wd5CPi+suO5+LsDcgv
+         vzCyxPkOkbEjB41gU48m3oEEoXrnDW0XYpN+o/i9C1DEgHUb2gNaIAWUK9ub16m6jACc
+         zdkw==
+X-Gm-Message-State: AFqh2kp6y7qsZeOX9R9hrtIaqsrD8B8ntEoK71eYJo9TOKj41nWJXxOz
+        pS0ds95zuxdgcxsKVQaq9DWO8A==
+X-Google-Smtp-Source: AMrXdXvjUqFczdJEB1osktna21bsflhjC5XBWkXYjahNjJYeA03Is1n5wsbfsMieycER48v2a2JOKg==
+X-Received: by 2002:a1c:4b09:0:b0:3db:f0a:8726 with SMTP id y9-20020a1c4b09000000b003db0f0a8726mr23769294wma.28.1674546018235;
+        Mon, 23 Jan 2023 23:40:18 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id i10-20020a1c3b0a000000b003dc0c5e257esm1480972wma.39.2023.01.23.23.40.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jan 2023 23:40:17 -0800 (PST)
+Message-ID: <d6be59b8-b0e1-172d-0d04-f18dca1e1342@linaro.org>
+Date:   Tue, 24 Jan 2023 08:40:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH 3/5] dt-bindings: iio: correct node names in examples
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>, Jonathan Cameron <jic23@kernel.org>
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lucas Stankus <lucas.p.stankus@gmail.com>,
+        Puranjay Mohan <puranjay12@gmail.com>,
+        Dmitry Rokosov <ddrokosov@sberdevices.ru>,
+        Alexandru Tachici <alexandru.tachici@analog.com>,
+        Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
+        Renato Lui Geh <renatogeh@gmail.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Andreas Klinger <ak@it-klinger.de>,
+        Marcus Folkesson <marcus.folkesson@gmail.com>,
+        Kent Gustavsson <kent@minoris.se>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Oleksij Rempel <linux@rempel-privat.de>, kernel@pengutronix.de,
+        =?UTF-8?Q?Nuno_S=c3=a1?= <nuno.sa@analog.com>,
+        Nishant Malpani <nish.malpani25@gmail.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Dragos Bogdan <dragos.bogdan@analog.com>,
+        Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Stefan Popa <stefan.popa@analog.com>,
+        Robert Yang <decatf@gmail.com>,
+        Sean Nyekjaer <sean@geanix.com>,
+        Artur Rojek <contact@artur-rojek.eu>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Philippe Reynes <tremyfr@yahoo.fr>,
+        Alexandru Lazar <alazar@startmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Caleb Connolly <caleb.connolly@linaro.org>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        Harald Geyer <harald@ccbib.org>,
+        Eugene Zaikonnikov <ez@norophonic.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Matt Ranostay <matt.ranostay@konsulko.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Sankar Velliangiri <navin@linumiz.com>,
+        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        chrome-platform@lists.linux.dev
+References: <20230118184413.395820-1-krzysztof.kozlowski@linaro.org>
+ <20230118184413.395820-3-krzysztof.kozlowski@linaro.org>
+ <20230121171709.5eb75e94@jic23-huawei>
+ <45b9b378-6619-c47a-b5ea-6b6b7edca785@linaro.org>
+ <20230122170105.6a1a9766@jic23-huawei>
+ <20230123203341.GA2459877-robh@kernel.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230123203341.GA2459877-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/r8a779g0-canfd-v1
-branch HEAD: 43e978993737b54b88132763180bd750be91b968  [LOCAL] arm64: renesas: defconfig: Enable CAN transceiver PHY support
+On 23/01/2023 21:33, Rob Herring wrote:
+until we've documented something. Otherwise,
+> we may be just changing things twice. We have the list in the spec, but 
+> really I'd like that in schema form. We'd also need to figure out how to 
+> use that. There's always going to be odd things which we don't have any 
+> defined name.
+> 
+> For now, I'd just do 's/_/-/'.
 
-elapsed time: 722m
+I'll send a v2 with fixes.
 
-configs tested: 62
-configs skipped: 2
+Best regards,
+Krzysztof
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-x86_64                            allnoconfig
-powerpc                           allnoconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-m68k                             allmodconfig
-alpha                            allyesconfig
-m68k                             allyesconfig
-arc                              allyesconfig
-arc                                 defconfig
-s390                             allmodconfig
-alpha                               defconfig
-s390                                defconfig
-s390                             allyesconfig
-arc                  randconfig-r043-20230123
-arm                  randconfig-r046-20230123
-sh                               allmodconfig
-i386                                defconfig
-mips                             allyesconfig
-x86_64                              defconfig
-i386                 randconfig-a004-20230123
-i386                 randconfig-a003-20230123
-x86_64                               rhel-8.3
-i386                 randconfig-a002-20230123
-powerpc                          allmodconfig
-ia64                             allmodconfig
-x86_64                           rhel-8.3-kvm
-i386                 randconfig-a001-20230123
-arm                                 defconfig
-i386                 randconfig-a005-20230123
-x86_64                           rhel-8.3-bpf
-i386                 randconfig-a006-20230123
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64               randconfig-a002-20230123
-arm64                            allyesconfig
-x86_64               randconfig-a001-20230123
-x86_64                    rhel-8.3-kselftests
-x86_64                           allyesconfig
-x86_64               randconfig-a004-20230123
-x86_64                          rhel-8.3-func
-x86_64               randconfig-a003-20230123
-arm                              allyesconfig
-x86_64               randconfig-a005-20230123
-x86_64               randconfig-a006-20230123
-i386                             allyesconfig
-
-clang tested configs:
-hexagon              randconfig-r041-20230123
-hexagon              randconfig-r045-20230123
-s390                 randconfig-r044-20230123
-riscv                randconfig-r042-20230123
-i386                 randconfig-a012-20230123
-i386                 randconfig-a013-20230123
-i386                 randconfig-a011-20230123
-i386                 randconfig-a014-20230123
-i386                 randconfig-a016-20230123
-i386                 randconfig-a015-20230123
-x86_64                          rhel-8.3-rust
-x86_64               randconfig-a013-20230123
-x86_64               randconfig-a011-20230123
-x86_64               randconfig-a012-20230123
-x86_64               randconfig-a014-20230123
-x86_64               randconfig-a016-20230123
-x86_64               randconfig-a015-20230123
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
