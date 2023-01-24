@@ -2,144 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 730A567A6DD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jan 2023 00:30:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 208B267A6F5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jan 2023 00:40:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229670AbjAXXa3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 Jan 2023 18:30:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34684 "EHLO
+        id S231727AbjAXXkl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 Jan 2023 18:40:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjAXXa2 (ORCPT
+        with ESMTP id S229646AbjAXXkl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 Jan 2023 18:30:28 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C2603BD84
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Jan 2023 15:30:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674603027; x=1706139027;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=HWxORkhudwa3e2GV6Tdk4Qw7XKhEHlv75dEbj1q3uz0=;
-  b=mYIBppPzbs4vnNEmhPtjFuJpbPK5g4ZIuieXchSNABs85kjqP4VPZyxN
-   +d9dx2d1XR24TJXN49AfoA4H5XQtLOMnHcYhr8xFcj3dRhWvUXsw3szR6
-   y8/5acvXUnTAUCvJ4VWmD+8zLS1DW8OwjpZwCTo7LFylC6bVCvb3bylzl
-   vNUHSar17u4UA5YdUi0hIDqzh4rUo/d+Vf7Q9mS/e0pboiXjuCCSDu2Jt
-   T6XB8JS52r0D8K3X34dbqXMerCwvdYKFmeV3/u6stnEquvRHTShaocily
-   67aNANv+6SZMKd7Dx/rJ86Wjy/P7KGgl4dlcOFIaho5N7Wxkqmva4Nmt/
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="326471120"
-X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
-   d="scan'208";a="326471120"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 15:30:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="907691321"
-X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
-   d="scan'208";a="907691321"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 24 Jan 2023 15:30:25 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pKSkD-0006rw-0O;
-        Tue, 24 Jan 2023 23:30:25 +0000
-Date:   Wed, 25 Jan 2023 07:29:38 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- f23ed7e4efa3e68c99d217f9dc00fc689c7e661d
-Message-ID: <63d069e2.M+zXyWXQP3gRjNtd%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 24 Jan 2023 18:40:41 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABFDDEC47;
+        Tue, 24 Jan 2023 15:40:40 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B3A1613F7;
+        Tue, 24 Jan 2023 23:40:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8578DC433EF;
+        Tue, 24 Jan 2023 23:40:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674603639;
+        bh=j8nMb346Q2XEu+B8UmKpDg7d0MtdIuRWSU/yR8zKkks=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=l9GiQ+5lWUAsI1uD7ZKPyK9VpiTyd9R33p2+i49ZFSqHTKy0/1x0DvrRzTRVlEW0o
+         /KE5YoSRonbCFy4EL8caFH8+J8bolf7tDfYJw8ib6tzhqNoW/xn//IL3+a5OTnh7XN
+         XZQYLPtSloF7ID23EG8UGhanl/hRw+buxHE0UO8EX9ds/gn0Gj08hGEBPD56ck9WUG
+         JPYqXgi4Z2oWCeCyt28y9eL3SinfTiZ5G0+SDnEGzRJDBw4nPX7GOLMg4pKdDG6p5L
+         N96NqUx+EObMnzc89vy34zX79BxU9l6kOhkDZKcsu/6LlLoq0HaIlSdOBq5MGQXj0D
+         fZ86exPy+lgTw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6D348F83ED1;
+        Tue, 24 Jan 2023 23:40:39 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
+From:   patchwork-bot+bluetooth@kernel.org
+Message-Id: <167460363944.4058.4676712965831302643.git-patchwork-notify@kernel.org>
+Date:   Tue, 24 Jan 2023 23:40:39 +0000
+References: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
+In-Reply-To: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, jacek.anaszewski@gmail.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, robh@kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: f23ed7e4efa3e68c99d217f9dc00fc689c7e661d  Merge branch 'renesas-next' into renesas-devel
+Hello:
 
-elapsed time: 804m
+This patch was applied to bluetooth/bluetooth-next.git (master)
+by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
 
-configs tested: 62
-configs skipped: 2
+On Sun, 22 Jan 2023 11:47:27 +0100 you wrote:
+> Add the missing trigger patterns for Bluetooth and WLAN activity, which
+> are already in active use.
+> 
+> While at it, move the mmc pattern comment where it belongs, and restore
+> alphabetical sort order.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> 
+> [...]
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Here is the summary with links:
+  - [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
+    https://git.kernel.org/bluetooth/bluetooth-next/c/ef017002b93b
 
-gcc tested configs:
-x86_64                            allnoconfig
-arc                                 defconfig
-x86_64                              defconfig
-alpha                               defconfig
-x86_64                               rhel-8.3
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                           allyesconfig
-x86_64               randconfig-a002-20230123
-s390                             allmodconfig
-x86_64               randconfig-a001-20230123
-powerpc                           allnoconfig
-x86_64               randconfig-a004-20230123
-s390                                defconfig
-x86_64               randconfig-a003-20230123
-x86_64               randconfig-a005-20230123
-x86_64               randconfig-a006-20230123
-m68k                             allmodconfig
-m68k                             allyesconfig
-alpha                            allyesconfig
-s390                             allyesconfig
-i386                 randconfig-a004-20230123
-arc                              allyesconfig
-i386                 randconfig-a003-20230123
-sh                               allmodconfig
-x86_64                           rhel-8.3-syz
-i386                 randconfig-a002-20230123
-i386                 randconfig-a001-20230123
-x86_64                         rhel-8.3-kunit
-i386                 randconfig-a005-20230123
-x86_64                           rhel-8.3-kvm
-i386                 randconfig-a006-20230123
-x86_64                           rhel-8.3-bpf
-mips                             allyesconfig
-i386                                defconfig
-arc                  randconfig-r043-20230123
-arm                  randconfig-r046-20230123
-i386                             allyesconfig
-arm                                 defconfig
-ia64                             allmodconfig
-x86_64                          rhel-8.3-func
-arm64                            allyesconfig
-x86_64                    rhel-8.3-kselftests
-arm                              allyesconfig
-powerpc                          allmodconfig
-
-clang tested configs:
-x86_64               randconfig-a013-20230123
-x86_64               randconfig-a011-20230123
-x86_64               randconfig-a012-20230123
-x86_64               randconfig-a014-20230123
-x86_64               randconfig-a016-20230123
-i386                 randconfig-a012-20230123
-x86_64               randconfig-a015-20230123
-i386                 randconfig-a013-20230123
-i386                 randconfig-a011-20230123
-i386                 randconfig-a014-20230123
-i386                 randconfig-a016-20230123
-i386                 randconfig-a015-20230123
-hexagon              randconfig-r041-20230123
-s390                 randconfig-r044-20230123
-hexagon              randconfig-r045-20230123
-riscv                randconfig-r042-20230123
-x86_64                          rhel-8.3-rust
-
+You are awesome, thank you!
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
