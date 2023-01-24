@@ -2,125 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A05F679C03
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jan 2023 15:35:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5032E679C36
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jan 2023 15:42:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234182AbjAXOfE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 Jan 2023 09:35:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47184 "EHLO
+        id S233542AbjAXOm0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 Jan 2023 09:42:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234312AbjAXOfD (ORCPT
+        with ESMTP id S233936AbjAXOmZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 Jan 2023 09:35:03 -0500
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43FB3EF8B;
-        Tue, 24 Jan 2023 06:34:58 -0800 (PST)
-Received: by mail-qt1-f172.google.com with SMTP id g16so11112698qtu.2;
-        Tue, 24 Jan 2023 06:34:58 -0800 (PST)
+        Tue, 24 Jan 2023 09:42:25 -0500
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DD1F4AA46
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Jan 2023 06:41:59 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id 141so11452002pgc.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Jan 2023 06:41:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=EbpCMRV1p7cfeoN3IY/Q7kP7jNtph57pL8RIwAo1fcE=;
+        b=I2ddKcB6kk7eh6a7kYl9+hzo5E/Yyj+NVOgK7iPtvgDo/1c4m8dNYf8FLRtDmMXalX
+         fpbDzUWSgzx1sHsQxqWCGe70+9mo/KEonF2liGntnZoWbAjP1RmJ2HnHaJoM0A2QG7Hi
+         rVJU8JlpliUrDcIX3ru4NJKEZT73GOkioJwbiMm1m8OgYMBlco462tGHtmcryYg4rUx1
+         LwZeYPE0ngdHK4jANbgwhs4/HZo5jci0DoQt8sQTICRXIV2KxUhJnTZaqjRQRJPVQToA
+         hgKU402xAJvFeUToGsNa5sPRuKG0OeMUQjB5mHaAxvgPsjHu3TQJMyMHbIb+6hkhRBFG
+         pg+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=spuGXbnEWjgnG1USxADlTAPQRT06VybqZm5i7nwtOM0=;
-        b=SDdlplKCHNNb0rnUHU7YRPDFTPLHZtwt4qkVWqozgVEMcbfIudSQXdYVf6LDsvS9me
-         9kZXfBZmIIHmgpe0m6aNU6Lw0c8KSczFDgSiYQhOF15zsXWKb+XC4hLsXNFIOpMZF9X9
-         RUDWL0am3A4JDU0LoHTzaQhQBIe7dT8ZEguo+XHdWePCpM6dLYaBDWM1U2BeKNvh9LKC
-         eZnJvUDS1r0FBEWneRkCrPe8jz3bEmeTUaV6mAQYcBe/ic0fmwML3oF3msbLRRaTl3Rh
-         3vb1vmW2ItUS0st4mfc44FqMacAWkZ2PQC5ZbFPbr2VAo6eFgrJStd+F05UpvgDk1jeA
-         Rs7w==
-X-Gm-Message-State: AFqh2krrF/O8WYW5lqHBmtu5FCGqPUl3mlI+xblK4ryMPdxELP4t+KlS
-        AJibBsI5yGFRIaALcHjoKJjci/h+PPFY3g==
-X-Google-Smtp-Source: AMrXdXsDy9FSKo45eQK7Mvi196d+FJuViqiGBhqok09za/L24BYvqWUqmbOWvV6hXXmjYAn0GmLJUQ==
-X-Received: by 2002:ac8:7383:0:b0:3ac:c2b8:18 with SMTP id t3-20020ac87383000000b003acc2b80018mr41384229qtp.19.1674570897026;
-        Tue, 24 Jan 2023 06:34:57 -0800 (PST)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id q16-20020ae9e410000000b006ec62032d3dsm1549325qkc.30.2023.01.24.06.34.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jan 2023 06:34:56 -0800 (PST)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-50112511ba7so161260797b3.3;
-        Tue, 24 Jan 2023 06:34:56 -0800 (PST)
-X-Received: by 2002:a05:690c:c89:b0:4dd:7a8e:1cf3 with SMTP id
- cm9-20020a05690c0c8900b004dd7a8e1cf3mr3005151ywb.384.1674570896091; Tue, 24
- Jan 2023 06:34:56 -0800 (PST)
+        bh=EbpCMRV1p7cfeoN3IY/Q7kP7jNtph57pL8RIwAo1fcE=;
+        b=x1Ooh/QYcWpP/Uq4kbLgCdmYlb6dth7ESUvSVay2Xm5Xopc7OH4CeSfHWEM19Nloj1
+         FQvPCy/9HniWVvWE+G/Q7S8ORioXwrq+RiT4M5YB2xK1fonpBn26Dh/lmSvEUYYt5Sgg
+         38K41cTuMgbYDUWH/LTnPm1GVgDjuE/nMpTPaS/mDyH0k6I1hNjKgxFixkpTbKrkjRWO
+         LWQReSvTyNRzwmk8zkkGFG1MJBpSoQS0EBZf95UumZt7ZsitNZRgPgkEh12DwrKvjP2W
+         peU2qPYwDDrSao3vk6Vjxg3nTMlb98uGX2rMzZfplWgN5MiMA7DUKfHlaWt4oS3hH+Ir
+         Nb1A==
+X-Gm-Message-State: AFqh2koTo9oDkFAKhc55QrqkFRR58be1uuuShS9xRoQ9Uyd+uq1PVosu
+        tfXOBrhz/450CzF+VFgZ/PCGpAu82Yorxk+wdc4=
+X-Google-Smtp-Source: AMrXdXt1fLxyHvraD2lNtWImso8jNixXDmAXPu0fEjGLrIy8Z419xpSjqq9TCpJWkrY7Sv/yEO7LMA==
+X-Received: by 2002:a62:79d2:0:b0:582:b089:d9be with SMTP id u201-20020a6279d2000000b00582b089d9bemr29812776pfc.13.1674571318686;
+        Tue, 24 Jan 2023 06:41:58 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id w127-20020a627b85000000b005815837164fsm351367pfc.59.2023.01.24.06.41.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jan 2023 06:41:58 -0800 (PST)
+Message-ID: <63cfee36.620a0220.a83de.08ea@mx.google.com>
+Date:   Tue, 24 Jan 2023 06:41:58 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20230123012940.1250879-1-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20230123012940.1250879-1-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 24 Jan 2023 15:34:44 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX92KMeON0xC9p17kiqWT7ksEBX_NyPiiQk0fLaucDZBA@mail.gmail.com>
-Message-ID: <CAMuHMdX92KMeON0xC9p17kiqWT7ksEBX_NyPiiQk0fLaucDZBA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: iommu: renesas,ipmmu-vmsa: Update
- descriptions for R-Car Gen4
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        iommu@lists.linux.dev, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: next
+X-Kernelci-Kernel: renesas-next-2023-01-24-v6.2-rc1
+X-Kernelci-Report-Type: test
+Subject: renesas/next ltp-ipc: 17 runs,
+ 1 regressions (renesas-next-2023-01-24-v6.2-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,TVD_SPACE_RATIO
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+renesas/next ltp-ipc: 17 runs, 1 regressions (renesas-next-2023-01-24-v6.2-=
+rc1)
 
-On Mon, Jan 23, 2023 at 2:35 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Since R-Car Gen4 doens't have the main IPMMU IMSSTR register, but
-> each cache IPMMU has own module id. So, update descriptions of
-> renesas,ipmmu-main property for R-Car Gen4.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Regressions Summary
+-------------------
 
-Thanks for your patch!
+platform                 | arch   | lab           | compiler | defconfig   =
+                 | regressions
+-------------------------+--------+---------------+----------+-------------=
+-----------------+------------
+asus-C523NA-A20057-coral | x86_64 | lab-collabora | gcc-10   | x86_64_defco=
+n...6-chromebook | 1          =
 
-> ---
->  The old R-Car S4-8 datasheet had described IPMMU IMSSTR register, but
->  the latest datasheet undocumented the register. So, update the propeties
->  description. Note that the second argument is not used on the driver.
 
-DT describes hardware, not software policy.
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2023-01-24-v6.2-rc1/plan/ltp-ipc/
 
->  So no behavior change.
+  Test:     ltp-ipc
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2023-01-24-v6.2-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      29fea68a8aaad7d0cab07f538d02aa03ad75fb48
 
-So where do we get the module id numbers to use, if they are no longer
-documented in the Hardware Manual?
+  Test suite revisions:
+    ltp-tests
+      URL:  https://github.com/linux-test-project/ltp.git
+      SHA:  d042c168dd037bb0128b86ee4ac4f5c526eddc7b =
 
-> --- a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-> +++ b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-> @@ -76,14 +76,15 @@ properties:
->      items:
->        - items:
->            - description: phandle to main IPMMU
-> -          - description: the interrupt bit number associated with the particular
-> -              cache IPMMU device. The interrupt bit number needs to match the main
-> -              IPMMU IMSSTR register. Only used by cache IPMMU instances.
-> +          - description: The interrupt bit number or module id associated with
-> +              the particular cache IPMMU device. The interrupt bit number needs
-> +              to match the main IPMMU IMSSTR register. Only used by cache IPMMU
-> +              instances.
->      description:
->        Reference to the main IPMMU phandle plus 1 cell. The cell is
-> -      the interrupt bit number associated with the particular cache IPMMU
-> -      device. The interrupt bit number needs to match the main IPMMU IMSSTR
-> -      register. Only used by cache IPMMU instances.
-> +      the interrupt bit number or module id associated with the particular
-> +      cache IPMMU device. The interrupt bit number needs to match the main
-> +      IPMMU IMSSTR register. Only used by cache IPMMU instances.
 
-Gr{oetje,eeting}s,
 
-                        Geert
+Test Regressions
+---------------- =
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+platform                 | arch   | lab           | compiler | defconfig   =
+                 | regressions
+-------------------------+--------+---------------+----------+-------------=
+-----------------+------------
+asus-C523NA-A20057-coral | x86_64 | lab-collabora | gcc-10   | x86_64_defco=
+n...6-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63cfdf6360f1c352ae915ecb
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-01-24-v6.2-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
+/ltp-ipc-asus-C523NA-A20057-coral.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-01-24-v6.2-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
+/ltp-ipc-asus-C523NA-A20057-coral.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-lt=
+p/20230120.0/amd64/initrd.cpio.gz =
+
+
+
+  * ltp-ipc.login: https://kernelci.org/test/case/id/63cfdf6360f1c352ae915e=
+cc
+        new failure (last pass: renesas-next-2023-01-12-v6.2-rc1) =
+
+ =20
