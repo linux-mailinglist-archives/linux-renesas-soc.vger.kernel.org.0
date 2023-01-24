@@ -2,146 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53F9667922C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jan 2023 08:40:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E38D4679241
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Jan 2023 08:47:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232977AbjAXHkW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 Jan 2023 02:40:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58922 "EHLO
+        id S232690AbjAXHrT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 Jan 2023 02:47:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232152AbjAXHkV (ORCPT
+        with ESMTP id S232226AbjAXHrS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 Jan 2023 02:40:21 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6DCF1116B
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 23:40:19 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id c4-20020a1c3504000000b003d9e2f72093so12176866wma.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 23:40:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mqgrYYoh+EWOFvzfNiDUZjtAea3Dxak9qwqCg1uYmZs=;
-        b=Iw6RmCnB7UYWK7kSGR74JYXm36gVuMD2oo69ktEWRjIlPFJ3uJKXdHINKBsnvNa20K
-         a6s62IgiALmtBdqhwlm38anPhhtKphIymExmhaarIuTy5WOIM18iqW5M2vQxqHzOL0Ob
-         VAB6f44+e/uitx/Jz2LE91zlKQvD1trBEC6H52BTjjkr5zt9DXFqLogf95s7DRDamiLv
-         gqhITmZDiJjRp2ecP1LeQh4bcxQTtGI8kgAgNoKpRi6J+fZglBjyXPY071TJYlGDxZ1S
-         RZt2VXIe0bs3W7Tit02TVq/emcJZk9j7wxUZP38Q6Kord2ejBzNtOJgfb7krcUMQvKSX
-         XXyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mqgrYYoh+EWOFvzfNiDUZjtAea3Dxak9qwqCg1uYmZs=;
-        b=E6c2GGNRlswMCPI0XkYi8z88y5g1qiWFs42r02rdF70Q+QC8EcGsrLaKJDyctNWkds
-         5rmGpMoFoASMTVEhMr7uk6L5eUZ8KC1n2strVKOc7LD5d6gt6b0n8WgkeQhVv9X+4pFT
-         lul2gGGlCW5XHsMFThP4ahOvw33tPzBWwfngJwvbnn+lkYcURcLyFtbVgpGRrFz9BEzn
-         On94X8LnMwqgw/5nB4bVp/UkIVJAaeHCh4D+ZGGIcQpAd9OuX4wd5CPi+suO5+LsDcgv
-         vzCyxPkOkbEjB41gU48m3oEEoXrnDW0XYpN+o/i9C1DEgHUb2gNaIAWUK9ub16m6jACc
-         zdkw==
-X-Gm-Message-State: AFqh2kp6y7qsZeOX9R9hrtIaqsrD8B8ntEoK71eYJo9TOKj41nWJXxOz
-        pS0ds95zuxdgcxsKVQaq9DWO8A==
-X-Google-Smtp-Source: AMrXdXvjUqFczdJEB1osktna21bsflhjC5XBWkXYjahNjJYeA03Is1n5wsbfsMieycER48v2a2JOKg==
-X-Received: by 2002:a1c:4b09:0:b0:3db:f0a:8726 with SMTP id y9-20020a1c4b09000000b003db0f0a8726mr23769294wma.28.1674546018235;
-        Mon, 23 Jan 2023 23:40:18 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id i10-20020a1c3b0a000000b003dc0c5e257esm1480972wma.39.2023.01.23.23.40.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jan 2023 23:40:17 -0800 (PST)
-Message-ID: <d6be59b8-b0e1-172d-0d04-f18dca1e1342@linaro.org>
-Date:   Tue, 24 Jan 2023 08:40:13 +0100
+        Tue, 24 Jan 2023 02:47:18 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C8643EFD0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Jan 2023 23:47:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=EbWA+E6Gia5xCf1Kh7/yqqHAyYP
+        MfZ/BUMYaBrefxRM=; b=AOQCh8PW6cQHAHuLQ6GA2IFtt7Rp6gzFN5uVB97+1wA
+        2N7O+KWA88Va6dm1qfUMnmnir7IKDZOIfI4lDSeeITZk1x3kwCfI9La7YtTOTke0
+        jz1L4vZXcpAb+rD0cFxYrWaES2no+tqUFmPN8mnSuyYzbIFg0El7j6EERNi1K4w8
+        =
+Received: (qmail 2603269 invoked from network); 24 Jan 2023 08:47:11 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Jan 2023 08:47:11 +0100
+X-UD-Smtp-Session: l3s3148p1@eaw4uf3yWMYujnvx
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-spi@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] spi: sh-msiof: Enforce fixed DTDL for R-Car H3
+Date:   Tue, 24 Jan 2023 08:47:06 +0100
+Message-Id: <20230124074706.13383-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH 3/5] dt-bindings: iio: correct node names in examples
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>, Jonathan Cameron <jic23@kernel.org>
-Cc:     Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lucas Stankus <lucas.p.stankus@gmail.com>,
-        Puranjay Mohan <puranjay12@gmail.com>,
-        Dmitry Rokosov <ddrokosov@sberdevices.ru>,
-        Alexandru Tachici <alexandru.tachici@analog.com>,
-        Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
-        Renato Lui Geh <renatogeh@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Andreas Klinger <ak@it-klinger.de>,
-        Marcus Folkesson <marcus.folkesson@gmail.com>,
-        Kent Gustavsson <kent@minoris.se>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Oleksij Rempel <linux@rempel-privat.de>, kernel@pengutronix.de,
-        =?UTF-8?Q?Nuno_S=c3=a1?= <nuno.sa@analog.com>,
-        Nishant Malpani <nish.malpani25@gmail.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Dragos Bogdan <dragos.bogdan@analog.com>,
-        Jean-Baptiste Maneyrol <jmaneyrol@invensense.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Stefan Popa <stefan.popa@analog.com>,
-        Robert Yang <decatf@gmail.com>,
-        Sean Nyekjaer <sean@geanix.com>,
-        Artur Rojek <contact@artur-rojek.eu>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Philippe Reynes <tremyfr@yahoo.fr>,
-        Alexandru Lazar <alazar@startmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Caleb Connolly <caleb.connolly@linaro.org>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Stefan Agner <stefan@agner.ch>,
-        Daniel Baluta <daniel.baluta@nxp.com>,
-        Harald Geyer <harald@ccbib.org>,
-        Eugene Zaikonnikov <ez@norophonic.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Matt Ranostay <matt.ranostay@konsulko.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Sankar Velliangiri <navin@linumiz.com>,
-        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        chrome-platform@lists.linux.dev
-References: <20230118184413.395820-1-krzysztof.kozlowski@linaro.org>
- <20230118184413.395820-3-krzysztof.kozlowski@linaro.org>
- <20230121171709.5eb75e94@jic23-huawei>
- <45b9b378-6619-c47a-b5ea-6b6b7edca785@linaro.org>
- <20230122170105.6a1a9766@jic23-huawei>
- <20230123203341.GA2459877-robh@kernel.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230123203341.GA2459877-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 23/01/2023 21:33, Rob Herring wrote:
-until we've documented something. Otherwise,
-> we may be just changing things twice. We have the list in the spec, but 
-> really I'd like that in schema form. We'd also need to figure out how to 
-> use that. There's always going to be odd things which we don't have any 
-> defined name.
-> 
-> For now, I'd just do 's/_/-/'.
+Documentation says only DTDL of 200 is allowed for this SoC.
 
-I'll send a v2 with fixes.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Best regards,
-Krzysztof
+Tested with MSIOF0 on a Salvator-XS with R-Car H3 ES2.0 by creating a
+loopback with a wire.
+
+ drivers/spi/spi-sh-msiof.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
+index 9bca3d076f05..609f48ec84dd 100644
+--- a/drivers/spi/spi-sh-msiof.c
++++ b/drivers/spi/spi-sh-msiof.c
+@@ -30,12 +30,15 @@
+ 
+ #include <asm/unaligned.h>
+ 
++#define SH_MSIOF_FLAG_FIXED_DTDL_200 	BIT(0)
++
+ struct sh_msiof_chipdata {
+ 	u32 bits_per_word_mask;
+ 	u16 tx_fifo_size;
+ 	u16 rx_fifo_size;
+ 	u16 ctlr_flags;
+ 	u16 min_div_pow;
++	u32 flags;
+ };
+ 
+ struct sh_msiof_spi_priv {
+@@ -1073,6 +1076,16 @@ static const struct sh_msiof_chipdata rcar_gen3_data = {
+ 	.min_div_pow = 1,
+ };
+ 
++static const struct sh_msiof_chipdata rcar_r8a7795_data = {
++	.bits_per_word_mask = SPI_BPW_MASK(8) | SPI_BPW_MASK(16) |
++			      SPI_BPW_MASK(24) | SPI_BPW_MASK(32),
++	.tx_fifo_size = 64,
++	.rx_fifo_size = 64,
++	.ctlr_flags = SPI_CONTROLLER_MUST_TX,
++	.min_div_pow = 1,
++	.flags = SH_MSIOF_FLAG_FIXED_DTDL_200,
++};
++
+ static const struct of_device_id sh_msiof_match[] = {
+ 	{ .compatible = "renesas,sh-mobile-msiof", .data = &sh_data },
+ 	{ .compatible = "renesas,msiof-r8a7743",   .data = &rcar_gen2_data },
+@@ -1083,6 +1096,7 @@ static const struct of_device_id sh_msiof_match[] = {
+ 	{ .compatible = "renesas,msiof-r8a7793",   .data = &rcar_gen2_data },
+ 	{ .compatible = "renesas,msiof-r8a7794",   .data = &rcar_gen2_data },
+ 	{ .compatible = "renesas,rcar-gen2-msiof", .data = &rcar_gen2_data },
++	{ .compatible = "renesas,msiof-r8a7795",   .data = &rcar_r8a7795_data },
+ 	{ .compatible = "renesas,msiof-r8a7796",   .data = &rcar_gen3_data },
+ 	{ .compatible = "renesas,rcar-gen3-msiof", .data = &rcar_gen3_data },
+ 	{ .compatible = "renesas,rcar-gen4-msiof", .data = &rcar_gen3_data },
+@@ -1280,6 +1294,9 @@ static int sh_msiof_spi_probe(struct platform_device *pdev)
+ 		return -ENXIO;
+ 	}
+ 
++	if (chipdata->flags & SH_MSIOF_FLAG_FIXED_DTDL_200)
++		info->dtdl = 200;
++
+ 	if (info->mode == MSIOF_SPI_SLAVE)
+ 		ctlr = spi_alloc_slave(&pdev->dev,
+ 				       sizeof(struct sh_msiof_spi_priv));
+-- 
+2.30.2
 
