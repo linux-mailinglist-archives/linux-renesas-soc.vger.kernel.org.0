@@ -2,105 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB0EC67B1AC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jan 2023 12:41:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 641BC67B296
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jan 2023 13:30:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235570AbjAYLlX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Jan 2023 06:41:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34110 "EHLO
+        id S233330AbjAYMal (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Jan 2023 07:30:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230146AbjAYLlX (ORCPT
+        with ESMTP id S229573AbjAYMak (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Jan 2023 06:41:23 -0500
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DB948E;
-        Wed, 25 Jan 2023 03:41:22 -0800 (PST)
-Received: by mail-qt1-f182.google.com with SMTP id j9so15659431qtv.4;
-        Wed, 25 Jan 2023 03:41:22 -0800 (PST)
+        Wed, 25 Jan 2023 07:30:40 -0500
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36F4577F0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Jan 2023 04:30:39 -0800 (PST)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-4fd37a1551cso236199237b3.13
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Jan 2023 04:30:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gTVJ5IeBy0z9R5c5aNjfyFKovOA3r97gzXqNSx0yexE=;
+        b=AsBm6dEOEuSBgIj7OsJAOnftvKkT6rBN6P2wzlFIKn3kR8YGtxFPJooMQn/sYVLvky
+         /b6Mdw4nrVBYlg69L+8bWvqct9IlyOhzunrixHPlUe0D3rOnVXoYtZM467trNOF6yMsi
+         sLhMRcodynBeNI6DYVMAzDREo9c+1o2DEgiWlm6ozysyiUPMgJcQvkAlVaaEajtVRNJP
+         oj1odxsyYvR8YpHvqjVcRQf7Xwyx55GeAv+ar4IB0Ni0eZPxlmKq6yrPje/Ruwi3fxWM
+         59h7/YZdMZ/Ldy6HGbmcKXQTgfKJa4W4GrnBjr7DVX2ajeCoip5khf6Qg/+E4anSMz9Y
+         t+rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=N0Lw6g01TroemQ7j6adGGcs3s/PeT68xQ37YefaRRX8=;
-        b=JXnwLXomTaDDuCQdyQIXrrD8dfRfQ7x2t4LR2b0W/LF3xGrn1aPfixeiKvM0v8146T
-         V/tjqYJn+AATEwZCwg9P/L3hK+Lnh2a9QeKrYP0IOLBhAmsU907yMeaR14EXxHDfcNgr
-         GzWLnE+SD7XRM0Gdn0HFsdQG4V3/WEK5v4QdJa7cIT0j9JtG4WS42c90rPmJ4oXfPqTW
-         3mocrUN/tJK+OcEgPuv/ItyV+HkPnUsStPAOHmAZX5N5xv7DDkfZeuSwKCsUZ/yzEQET
-         65QPtQY6kgF/eQyfl2TewPPRSWHodBQ2Gt+4rgukmMXH/qTgP/81vOg4kPGS32d81Mcm
-         vBqw==
-X-Gm-Message-State: AFqh2kovHZ19s7aSzi3nZcyWnT9mLMJ3v2XhBQ2EPZaH4MOx5Mh0J0ZN
-        b8qvd+W/6OqzfAr5dgWLEj2dNuvKQRUbwQ==
-X-Google-Smtp-Source: AMrXdXtJhmmnrEt7JiqVZeSmCadPFrF3/R+BVI+zjTLULL+v2baBDPzd061hEYp7n+8cgeBWCqV1HA==
-X-Received: by 2002:ac8:58c3:0:b0:3b6:2c85:6fe8 with SMTP id u3-20020ac858c3000000b003b62c856fe8mr57146161qta.53.1674646881380;
-        Wed, 25 Jan 2023 03:41:21 -0800 (PST)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id l19-20020a05622a175300b0039cc944ebdasm3228914qtk.54.2023.01.25.03.41.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Jan 2023 03:41:20 -0800 (PST)
-Received: by mail-yb1-f169.google.com with SMTP id t16so17949516ybk.2;
-        Wed, 25 Jan 2023 03:41:20 -0800 (PST)
-X-Received: by 2002:a25:37d4:0:b0:80b:8602:f3fe with SMTP id
- e203-20020a2537d4000000b0080b8602f3femr556918yba.36.1674646880330; Wed, 25
- Jan 2023 03:41:20 -0800 (PST)
+        bh=gTVJ5IeBy0z9R5c5aNjfyFKovOA3r97gzXqNSx0yexE=;
+        b=PSfiRwtQq5Q3QrH4nv/SEXYE+LchlclYB4eRbr8RePLBIn2q0F/cdzltVKRvl2Ylet
+         /YKWpc01/GiiLgETE5D77lG5l/IcSd7WGJza8YmCuerHttxjWaecpipJ9s9PgU2OUCuS
+         jL8wPwH8wZRKtS927FlqbfX7C6dvDOL4kjyi7iZuSg2y3j4nQEvfzi65ZX3ILMUS5R8d
+         2TsOrEt0F8vIkmChQpRszPoa4/44CP7KUfjRyJDAiBb8Erhtz6spSM+s1/d8E8DtILF9
+         9gI2e98VtRBguCcS8zn+EFou/q+zLaE8sbILM5XnN803kg21TP4XnlZtaRHWfFkzLM5M
+         wVAg==
+X-Gm-Message-State: AFqh2kpsf2fsNPvvJH8HF1lR73zgHnOwsuR1lX9mzTDWBsA4dG8FGp3A
+        uv72hdBRZ4Glfg9zbMSPG8jPLmWV+CmRKhcEOYkqQr+fKLGftzLD
+X-Google-Smtp-Source: AMrXdXut2HOW6nQLQPB79z8MmIxPOz8DnDv0LgpXrdDm5LiUzPvokqudwvptpL2xy0l3DxSJcVaiA90Cebe+1eBbFzs=
+X-Received: by 2002:a0d:c9c4:0:b0:461:bf16:bb9f with SMTP id
+ l187-20020a0dc9c4000000b00461bf16bb9fmr3701514ywd.105.1674649839044; Wed, 25
+ Jan 2023 04:30:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20230102222708.274369-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20230102222708.274369-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 25 Jan 2023 12:41:09 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU5Aj_BNSOOOCTiqi3oLWV7qNv6-pbEo6ytf88DJB8taA@mail.gmail.com>
-Message-ID: <CAMuHMdU5Aj_BNSOOOCTiqi3oLWV7qNv6-pbEo6ytf88DJB8taA@mail.gmail.com>
-Subject: Re: [PATCH] riscv: dts: renesas: rzfive-smarc-som: Drop PHY interrupt
- support for ETH{0,1}
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 25 Jan 2023 12:30:13 +0000
+Message-ID: <CA+V-a8tR1KiLSs=Psa=w7kf0zT=yU5_Ekr6-3V1MR==Wtzmksg@mail.gmail.com>
+Subject: [QUERY]: Block region to mmap
+To:     Linux-MM <linux-mm@kvack.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        device-tree <devicetree-discuss@lists.ozlabs.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>, Arnd Bergmann <arnd@arndb.de>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Jessica Clarke <jrtc27@jrtc27.com>,
+        Geert Uytterhoeven <geert.uytterhoeven@gmail.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Chris Paterson <Chris.Paterson2@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 2, 2023 at 11:27 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> IRQC support for RZ/Five is still missing so drop the interrupts and
-> interrupt-parent properties from the PHY nodes of ETH{0,1}.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> Hi All,
->
-> This patch is to avoid build issues due to patch series [0]. This patch
-> applies on top of [1]
->
-> [0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20230102221815.273719-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221229230300.104524-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+Hi All,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.3.
+Renesas RZ/Five RISC-V SoC has Instruction local memory and Data local
+memory (ILM & DLM) mapped between region 0x30000 - 0x4FFFF. When a
+virtual address falls within this range, the MMU doesn't trigger a
+page fault; it assumes the virtual address is a physical address which
+can cause undesired behaviours.
 
-Gr{oetje,eeting}s,
+To avoid this the ILM/DLM memory regions are now added to the root
+domain region of the PMPU with permissions set to 0x0 for S/U modes so
+that any access to these regions gets blocked and for M-mode we grant
+full access (R/W/X). This prevents any users from accessing these
+regions by triggering an unhandled signal 11 in S/U modes.
 
-                        Geert
+This works as expected but for applications say for example when doing
+mmap to this region would still succeed and later down the path when
+doing a read/write to this location would cause unhandled signal 11.
+To handle this case gracefully we might want mmap() itself to fail if
+the addr/offset falls in this local memory region.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Tracing through the mmap call we have arch_mmap_check() if implemented
+by architectures this callback gets called and it can be used as a
+validator to make sure mmap() to the local memory region fails. (Note
+maybe this callback can be implemented using ALTERNATIVX() macro so
+that other RISC-V SoCs do nop() to this callback). This approach seems
+reasonable but isn't a generic approach. For other platforms with
+similar issues will have to go through similar implementation. Instead
+if we define the memory regions in the device tree that aren't to be
+allowed to be mmaped with this approach the implementation can be
+generic and can be used on other archs/platforms.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Looking at the kernel code SPARC architecture (UltraSPARC T1) also has
+a hole in the virtual memory address space (relevant commit-id to fix
+this issue 8bcd17411643beb9a601e032d0cf1016909a81d3).
+As this VA hole =E2=80=9Csupport=E2=80=9D has been added a long time ago no=
+w, and
+maybe simply replicating their approach is not acceptable anymore
+hence the proposed approach.
+
+Is there any better approach which I am missing, any pointers comments welc=
+ome.
+
+Cheers,
+Prabhakar
