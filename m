@@ -2,92 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4891367B19B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jan 2023 12:38:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB0EC67B1AC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jan 2023 12:41:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233135AbjAYLia (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Jan 2023 06:38:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59178 "EHLO
+        id S235570AbjAYLlX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Jan 2023 06:41:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235313AbjAYLiZ (ORCPT
+        with ESMTP id S230146AbjAYLlX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Jan 2023 06:38:25 -0500
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 112EE5618E;
-        Wed, 25 Jan 2023 03:37:55 -0800 (PST)
-Received: by mail-qv1-f54.google.com with SMTP id m12so13866102qvt.9;
-        Wed, 25 Jan 2023 03:37:55 -0800 (PST)
+        Wed, 25 Jan 2023 06:41:23 -0500
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DB948E;
+        Wed, 25 Jan 2023 03:41:22 -0800 (PST)
+Received: by mail-qt1-f182.google.com with SMTP id j9so15659431qtv.4;
+        Wed, 25 Jan 2023 03:41:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=E/t7ys6E2CbYDYuVcXfgtBpZgdyeb4IZ4cqbwkss4Uo=;
-        b=UZBvsy//01TZAyy8XetTeHupyQ0DKpMhFBtSMsATvkYgH2X/0Mo1rjz5UmMCCx1g+d
-         BRa83TsBJkJo7HBuNt5w8OaKLRJEgqnq9V0tb6bFqZXCa93/Gjj1xK9s9NuLesGjNywL
-         SNUVk9MGOCFurN/H3JUhNKq2uo8FQmM5MBpXwxlO829K5xkXt45MrMQe4MSJnmkaC0Km
-         lMfZP4h8kmeqv+Wc4L0k4gNm1ssNCfDGWe32HW/8AYIudLjoRNgtL0FKZBcgcaeoalFd
-         8/vGl+qkZCfxRB5d8NQOduFhEbu17noPcITdEs2GNCDruarJk4iUVpSsgF9qJJQEL49X
-         Dkyg==
-X-Gm-Message-State: AO0yUKUCxF53zUrkAkStATOr06XGhjEIVu3Wqfu9auCH0Qtsd6f0EaoK
-        oNOHcH8WH/WIOyg/mf95J47Qr25SNSyirg==
-X-Google-Smtp-Source: AK7set9OF5JhON/JLlyY5FFbCkQZmy+rqSEs2v5J2i1sSCZoOgt+xUwTy+lwrQrqGwC3KYROOsz3NQ==
-X-Received: by 2002:a0c:f441:0:b0:537:7057:49cf with SMTP id h1-20020a0cf441000000b00537705749cfmr5215902qvm.37.1674646630205;
-        Wed, 25 Jan 2023 03:37:10 -0800 (PST)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id i65-20020a37b844000000b006fec1c0754csm3329969qkf.87.2023.01.25.03.37.09
+        bh=N0Lw6g01TroemQ7j6adGGcs3s/PeT68xQ37YefaRRX8=;
+        b=JXnwLXomTaDDuCQdyQIXrrD8dfRfQ7x2t4LR2b0W/LF3xGrn1aPfixeiKvM0v8146T
+         V/tjqYJn+AATEwZCwg9P/L3hK+Lnh2a9QeKrYP0IOLBhAmsU907yMeaR14EXxHDfcNgr
+         GzWLnE+SD7XRM0Gdn0HFsdQG4V3/WEK5v4QdJa7cIT0j9JtG4WS42c90rPmJ4oXfPqTW
+         3mocrUN/tJK+OcEgPuv/ItyV+HkPnUsStPAOHmAZX5N5xv7DDkfZeuSwKCsUZ/yzEQET
+         65QPtQY6kgF/eQyfl2TewPPRSWHodBQ2Gt+4rgukmMXH/qTgP/81vOg4kPGS32d81Mcm
+         vBqw==
+X-Gm-Message-State: AFqh2kovHZ19s7aSzi3nZcyWnT9mLMJ3v2XhBQ2EPZaH4MOx5Mh0J0ZN
+        b8qvd+W/6OqzfAr5dgWLEj2dNuvKQRUbwQ==
+X-Google-Smtp-Source: AMrXdXtJhmmnrEt7JiqVZeSmCadPFrF3/R+BVI+zjTLULL+v2baBDPzd061hEYp7n+8cgeBWCqV1HA==
+X-Received: by 2002:ac8:58c3:0:b0:3b6:2c85:6fe8 with SMTP id u3-20020ac858c3000000b003b62c856fe8mr57146161qta.53.1674646881380;
+        Wed, 25 Jan 2023 03:41:21 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id l19-20020a05622a175300b0039cc944ebdasm3228914qtk.54.2023.01.25.03.41.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Jan 2023 03:37:09 -0800 (PST)
-Received: by mail-yb1-f173.google.com with SMTP id p141so19819238ybg.12;
-        Wed, 25 Jan 2023 03:37:09 -0800 (PST)
-X-Received: by 2002:a25:9ac1:0:b0:7b4:6a33:d89f with SMTP id
- t1-20020a259ac1000000b007b46a33d89fmr2485292ybo.543.1674646629124; Wed, 25
- Jan 2023 03:37:09 -0800 (PST)
+        Wed, 25 Jan 2023 03:41:20 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id t16so17949516ybk.2;
+        Wed, 25 Jan 2023 03:41:20 -0800 (PST)
+X-Received: by 2002:a25:37d4:0:b0:80b:8602:f3fe with SMTP id
+ e203-20020a2537d4000000b0080b8602f3femr556918yba.36.1674646880330; Wed, 25
+ Jan 2023 03:41:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20230102221815.273719-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20230102221815.273719-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20230102221815.273719-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20230102222708.274369-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20230102222708.274369-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 25 Jan 2023 12:36:57 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXeEXgMYgFq_nTRmco7P7TFSMKcRoQxcL-hKECn+_5FGw@mail.gmail.com>
-Message-ID: <CAMuHMdXeEXgMYgFq_nTRmco7P7TFSMKcRoQxcL-hKECn+_5FGw@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] arm64: dts: renesas: r9a07g043[u]: Update pinctrl
- node to handle GPIO interrupts
+Date:   Wed, 25 Jan 2023 12:41:09 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU5Aj_BNSOOOCTiqi3oLWV7qNv6-pbEo6ytf88DJB8taA@mail.gmail.com>
+Message-ID: <CAMuHMdU5Aj_BNSOOOCTiqi3oLWV7qNv6-pbEo6ytf88DJB8taA@mail.gmail.com>
+Subject: Re: [PATCH] riscv: dts: renesas: rzfive-smarc-som: Drop PHY interrupt
+ support for ETH{0,1}
 To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Conor Dooley <conor@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 2, 2023 at 11:19 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+On Mon, Jan 2, 2023 at 11:27 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Add required properties in pinctrl node to handle GPIO interrupts.
->
-> Note as IRQC is not enabled in RZ/Five the phandle for interrupt-parent
-> is added in RZ/G2UL specific dtsi so that RZ/Five pinctrl driver
-> continues without waiting for IRQC to probe.
+> IRQC support for RZ/Five is still missing so drop the interrupts and
+> interrupt-parent properties from the PHY nodes of ETH{0,1}.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
-> v2 -> v3
-> * No change
+> Hi All,
+>
+> This patch is to avoid build issues due to patch series [0]. This patch
+> applies on top of [1]
+>
+> [0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20230102221815.273719-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221229230300.104524-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v6.3.
