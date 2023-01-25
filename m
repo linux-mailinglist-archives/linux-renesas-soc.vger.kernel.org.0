@@ -2,148 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA6B367B465
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jan 2023 15:27:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20A1367B517
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jan 2023 15:50:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235185AbjAYO1s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Jan 2023 09:27:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33114 "EHLO
+        id S234279AbjAYOuE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Jan 2023 09:50:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234924AbjAYO1r (ORCPT
+        with ESMTP id S235046AbjAYOuD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Jan 2023 09:27:47 -0500
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E5973A8E;
-        Wed, 25 Jan 2023 06:27:45 -0800 (PST)
-Received: by mail-vk1-f182.google.com with SMTP id v81so9268938vkv.5;
-        Wed, 25 Jan 2023 06:27:45 -0800 (PST)
+        Wed, 25 Jan 2023 09:50:03 -0500
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C0AA53565
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Jan 2023 06:50:02 -0800 (PST)
+Received: by mail-qv1-f49.google.com with SMTP id i12so14231000qvs.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Jan 2023 06:50:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9V62n1SuuxaJ7pP7jmtkw9+HT1Wzz3MzU0APh/E8WXE=;
-        b=eNraYPJQnd0N24D2N5MkbkWrISsfVbSCZG9hVlrIgaoX5v7vsEUqVGUOou3zp+KTpm
-         wX6n4AD8oet+M8I4864IUJZ6aojBSDvnFb6lodO8fqSxYZALqIDTHI98oN3xUVcVOr+X
-         GuTiHYDKkspqyPSN17kNtg94d2nAN+EcgR8V7Ubl2j6Z8or7jGsZXX5ntX3HtWURfcAD
-         bbA17aNQkifkc6NnzpUdl1qnB3+WMFGnbVDJt/3jmK0YU+7oGinBs7VdBBIjFmdvb7F0
-         a9iYkoAKWTaimmNkvYXnpvzULK/CUD83WpgLNqXKrVUuPvw1nxx0/p6ZqZegxjDYWLOc
-         JSdQ==
-X-Gm-Message-State: AFqh2kotDkeDY+JM4HkCNJZ3ISpG1bMQjbQnjDDEYMmjleYBQLjLVleG
-        Dn37YudAWvLY7aTwrTfNf8QvL6kzuXvZSg==
-X-Google-Smtp-Source: AMrXdXt0MrA59pQWUIuLv9FgWb0v1Hdf6tbygx1FX7OU50nxkeJPw1plX31dAbA6f4o+z7xSXSI9VA==
-X-Received: by 2002:a05:6122:2211:b0:3e1:79a5:74d7 with SMTP id bb17-20020a056122221100b003e179a574d7mr20566532vkb.10.1674656864500;
-        Wed, 25 Jan 2023 06:27:44 -0800 (PST)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id y21-20020a376415000000b006e07228ed53sm3606019qkb.18.2023.01.25.06.27.43
+        bh=66tDWjX7J+s4zcpRTLlnYZCpN2npYPyCRmE/PW9EQRU=;
+        b=3PQWlaqq/lFlfmuYTAfyMsxzLPZB8BTTac6KPgJLTZ9Ftco3G9iI6T2OOVtqA7c2Qa
+         TRGuJAuulFHUZdr2tHJuK10tZaF+fdhT99ihHu+3QvpptYuSQb2cNObkoAU2a7p9WnH0
+         97uEVx7qlYsCvwnk+0cZ3/MfqdE0U9nymdLdZfox1Kgwmtjc+ju7G+T7gdD7hP/qOlyQ
+         qEvq2RZKl70gzrZt2QT++Gq2nkbEOK4N3ZsNgO/KTa5QwsUHpa5pXZtaHWuSd5JPDYp6
+         gRu6ZqsC0cBgEg/QSZN0rtIOBtCkPFWzetcSloO5DCuNFutbvDyGsqY5iEJo7hOeLj48
+         ahaw==
+X-Gm-Message-State: AFqh2kqiaZsM8r0boLgOe41zQn4XGv8DTaP9V/TTzg8k63abZFInJC4m
+        AYBscZXd20Lq5H08vHOMqG2KjDJepON2rA==
+X-Google-Smtp-Source: AMrXdXsOx6f3gid3nKY8vdUqrsbVXtvZ+ZFjLPSYdQJOpE3BA8gY5oUWf0/cVTnCh9GzHr7zwPVSTA==
+X-Received: by 2002:ad4:4983:0:b0:534:9c81:2c15 with SMTP id u3-20020ad44983000000b005349c812c15mr45875843qvx.3.1674658201161;
+        Wed, 25 Jan 2023 06:50:01 -0800 (PST)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id m4-20020ae9f204000000b006f9f714cb6asm3551560qkg.50.2023.01.25.06.50.00
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Jan 2023 06:27:44 -0800 (PST)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-4fd37a1551cso240801647b3.13;
-        Wed, 25 Jan 2023 06:27:43 -0800 (PST)
-X-Received: by 2002:a81:bd6:0:b0:48d:1334:6e38 with SMTP id
- 205-20020a810bd6000000b0048d13346e38mr3764419ywl.316.1674656863782; Wed, 25
- Jan 2023 06:27:43 -0800 (PST)
+        Wed, 25 Jan 2023 06:50:00 -0800 (PST)
+Received: by mail-yb1-f177.google.com with SMTP id 123so23259643ybv.6
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Jan 2023 06:50:00 -0800 (PST)
+X-Received: by 2002:a25:e650:0:b0:80b:8b72:39fc with SMTP id
+ d77-20020a25e650000000b0080b8b7239fcmr387984ybh.202.1674658200414; Wed, 25
+ Jan 2023 06:50:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20230118144747.24968-1-fabrizio.castro.jz@renesas.com> <20230118144747.24968-4-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20230118144747.24968-4-fabrizio.castro.jz@renesas.com>
+References: <20230123013448.1250991-1-yoshihiro.shimoda.uh@renesas.com> <20230123013448.1250991-3-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20230123013448.1250991-3-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 25 Jan 2023 15:27:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXGDETQfOZ4S6_0AZa6QCJ3Kv=hMVHHS7j7tcNJ76GaTg@mail.gmail.com>
-Message-ID: <CAMuHMdXGDETQfOZ4S6_0AZa6QCJ3Kv=hMVHHS7j7tcNJ76GaTg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: renesas: v2mevk2: Add uSD card and eMMC support
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
+Date:   Wed, 25 Jan 2023 15:49:49 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVGAaLWf6jxHAQr_adkYQMe971i1W8JkmdgOUk4F7bdoA@mail.gmail.com>
+Message-ID: <CAMuHMdVGAaLWf6jxHAQr_adkYQMe971i1W8JkmdgOUk4F7bdoA@mail.gmail.com>
+Subject: Re: [PATCH 2/5] arm64: dts: renesas: r8a779f0: Add iommus to MMC node
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        LOTS_OF_MONEY,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
-
-On Wed, Jan 18, 2023 at 3:48 PM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
-> The RZ/V2M EVK comes with a slot for a uSD card, and an eMMC.
-> Add support for the both of them.
+On Mon, Jan 23, 2023 at 2:35 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Add iommus property to the MMC node for r8a779f0.
 >
-> Please note that the pinctrl driver for RZ/V2M doesn't support
-> interrupts yet, therefore the card detect pin has been connected
-> to the SDHI IP directly in this patch.
-> We'll connect the card detect pin to its corresponding GPIO when
-> we'll have driver support for interrupts in the RZ/V2M pinctrl
-> driver.
->
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Thanks for your patch!
-
-> --- a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-
-> @@ -50,6 +81,22 @@ phy0: ethernet-phy@0 {
->         };
->  };
->
-> +&emmc {
-> +       pinctrl-0 = <&emmc_pins>;
-> +       pinctrl-1 = <&emmc_pins>;
-> +       pinctrl-names = "default", "state_uhs";
-> +
-> +       vmmc-supply = <&reg_3v3>;
-> +       vqmmc-supply = <&reg_1v8>;
-> +       bus-width = <8>;
-> +       mmc-hs200-1_8v;
-> +       non-removable;
-
-Does this need "no-sd" and "no-sdio"?
-
-> +       fixed-emmc-driver-type = <1>;
-> +       max-frequency = <200000000>;
-> +       status = "okay";
-> +};
-> +
-> +
->  &extal_clk {
->         clock-frequency = <48000000>;
->  };
-> @@ -78,6 +125,68 @@ i2c2_pins: i2c2 {
->                 pinmux = <RZV2M_PORT_PINMUX(3, 8, 2)>, /* SDA */
->                          <RZV2M_PORT_PINMUX(3, 9, 2)>; /* SCL */
->         };
-> +
-> +       sdhi0_pins: sd0 {
-
-[...]
-
-> +       };
-> +
-> +       sdhi0_pins_uhs: sd0_uhs {
-
-[...]
-
-> +       };
-> +
-> +       emmc_pins: emmc {
-
-Please move up to preserve sort order.
-
-The rest LGTM, so with the above clarified/fixed:
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
+i.e. will queue in renesas-devel for v6.3.
 
 Gr{oetje,eeting}s,
 
