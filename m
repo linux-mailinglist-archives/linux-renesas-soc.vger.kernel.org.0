@@ -2,58 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CE4A67B32F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jan 2023 14:24:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C49FB67B37E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jan 2023 14:36:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234969AbjAYNYk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Jan 2023 08:24:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54824 "EHLO
+        id S234565AbjAYNg0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Jan 2023 08:36:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230257AbjAYNYj (ORCPT
+        with ESMTP id S234961AbjAYNgX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Jan 2023 08:24:39 -0500
+        Wed, 25 Jan 2023 08:36:23 -0500
 Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6DF0CA3D
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Jan 2023 05:24:38 -0800 (PST)
-Received: by mail-qt1-f170.google.com with SMTP id a25so15838950qto.10
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Jan 2023 05:24:38 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2692E56EEE;
+        Wed, 25 Jan 2023 05:35:59 -0800 (PST)
+Received: by mail-qt1-f170.google.com with SMTP id x5so15896839qti.3;
+        Wed, 25 Jan 2023 05:35:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zlDIad8pL+vplm5c98gWptczmUFCtiodIovuziGdXVE=;
-        b=wXVrwSDifBv5OrBTr6nuC+qmMBvumk5XQSRWThJ/awHxj1208JCfmZNpCFlS+CSPEl
-         c6/mjg8r+3gQF230ir0EUse4V26/vVJbrmXV5KZmVqr5rhq9ueCfUZyG8427O3zvZIsz
-         1lgyD3mCiW9UNvB3+odWLt89T+dPaBoZoU2lyOJ70SVWxBOw03S1SBEc1NuZkvssUISo
-         ybeoKrLXgw3GkKMGm7aVRZndNjdCQ9tk0VEnuqoPMERFNXR14oJlSW3J6p7uIkbot8I+
-         4yHqrdiQVctcDCqwtHl0/FPgOzYF1ZDUOFZLwcfT6QGif+TOuXilW0tyfQxFbtTvIwJP
-         J7OA==
-X-Gm-Message-State: AFqh2krBEXfx9PJFuPqLcC+Qd57pVqUzI9OU7w7js5NmelAsGZQf6EKR
-        +eRqGucjgv0X2c2g1xqPCAW8IPlhV0HyYw==
-X-Google-Smtp-Source: AMrXdXt6k+7o3MGM2c9ZQIyUEhMM815FGJlWTrgjDBAYrLMblHwmEl1JgHeeyZQJkUW1FEcg+qi3IQ==
-X-Received: by 2002:ac8:6f09:0:b0:3b6:35b2:5803 with SMTP id bs9-20020ac86f09000000b003b635b25803mr51774572qtb.17.1674653077698;
-        Wed, 25 Jan 2023 05:24:37 -0800 (PST)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id b14-20020ac8754e000000b003ab43dabfb1sm3266904qtr.55.2023.01.25.05.24.37
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=RZdfK27Pl8Qf1bAkgWDJxIwjqiS39wBNSM1xYlk/CDM=;
+        b=FIbGohxrkjfjCRPOy34GNKQ3U9GsTYeTAiLhe2PLbLWdhlTrp7/pnGlRfkkj4tOHWe
+         Jx7Rdz2UJ5lY3gnMGaDw3tLfouX2lYbRV1pOEfwVUqLd84qA9PbbbnpsjbHh1A8ADsML
+         dia8g+c/iCS0F1wVnzFsL44efItJWxTcwzgB5akQ8LDAX2nBNQriPuMaZgg8Bk4B0QJH
+         W5mMKX96sSmg9H12Nrxzzw0ZhmdfujFLvU5dwHV4YHo+8sCoumTIjJZVV6Azca9FrK+S
+         8VcD6qQ3j8fpzcg+8Lc4MUkprCQDvTqdWun3CkwOyEKXe7RFGhE1F2MHitdxgevrCVYw
+         bXxA==
+X-Gm-Message-State: AO0yUKUYoBn5h5hl0MpM7dDaNxi5jW5wo7FNiJOgxrZNXMwiwXSf/N08
+        2Si6sIRLayUDIFEYicwvGR9s4SvvM+YDFQ==
+X-Google-Smtp-Source: AK7set8OWGyZs/3aI/xEYqC6lH6tLUIbbkZLf/26wjOd2swYlbLxk7ivjWN+Bd2ROO+zIznV7Co8Fw==
+X-Received: by 2002:ac8:5e54:0:b0:3b6:2e12:4d25 with SMTP id i20-20020ac85e54000000b003b62e124d25mr3691517qtx.31.1674653758122;
+        Wed, 25 Jan 2023 05:35:58 -0800 (PST)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id pa30-20020a05620a831e00b006fa43e139b5sm3482352qkn.59.2023.01.25.05.35.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Jan 2023 05:24:37 -0800 (PST)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-50660e2d2ffso46897387b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Jan 2023 05:24:37 -0800 (PST)
-X-Received: by 2002:a81:1216:0:b0:506:6b5d:523c with SMTP id
- 22-20020a811216000000b005066b5d523cmr155361yws.283.1674653077144; Wed, 25 Jan
- 2023 05:24:37 -0800 (PST)
+        Wed, 25 Jan 2023 05:35:57 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id t16so18319929ybk.2;
+        Wed, 25 Jan 2023 05:35:57 -0800 (PST)
+X-Received: by 2002:a25:9801:0:b0:7d5:b884:3617 with SMTP id
+ a1-20020a259801000000b007d5b8843617mr2856626ybo.380.1674653756828; Wed, 25
+ Jan 2023 05:35:56 -0800 (PST)
 MIME-Version: 1.0
-References: <87tu0nz3xr.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87tu0nz3xr.wl-kuninori.morimoto.gx@renesas.com>
+References: <20230118144747.24968-1-fabrizio.castro.jz@renesas.com> <20230118144747.24968-2-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20230118144747.24968-2-fabrizio.castro.jz@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 25 Jan 2023 14:24:25 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUTrtpHzPzPNMWc1GQL_7kYOX1x72OzDiNy80ujsvFRWw@mail.gmail.com>
-Message-ID: <CAMuHMdUTrtpHzPzPNMWc1GQL_7kYOX1x72OzDiNy80ujsvFRWw@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r8a779a0: tidyup DMAC name on SYS-DMAC
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org
+Date:   Wed, 25 Jan 2023 14:35:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXbTED0hkWsVhOj6mgCp0hrOUiSS7GQpyj1BKPMhnoh=A@mail.gmail.com>
+Message-ID: <CAMuHMdXbTED0hkWsVhOj6mgCp0hrOUiSS7GQpyj1BKPMhnoh=A@mail.gmail.com>
+Subject: Re: [PATCH 1/3] arm64: dts: renesas: r9a09g011: Add PWC support
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -65,38 +72,19 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
-
-On Thu, Jan 19, 2023 at 2:52 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On Wed, Jan 18, 2023 at 3:48 PM Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> The RZ/V2M SoC contains an External Power Sequence Controller (PWC)
+> module. This module provides an external power supply on/off
+> sequence, on/off signal for the LPDDR4 core power supply, General
+> Purpose Outputs, and key input signals.
 >
-> "sydm" is bit name. Let's rename it as common "sys-dmac".
-> This patch fixes the numbering, too.
+> This patch adds PWC support to the SoC specific device tree.
 >
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
-Thanks for your patch!
-
-> --- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-> @@ -176,8 +176,8 @@ static const struct mssr_mod_clk r8a779a0_mod_clks[] __initconst = {
->         DEF_MOD("scif3",        704,    R8A779A0_CLK_S1D8),
->         DEF_MOD("scif4",        705,    R8A779A0_CLK_S1D8),
->         DEF_MOD("sdhi0",        706,    R8A779A0_CLK_SD0),
-> -       DEF_MOD("sydm1",        709,    R8A779A0_CLK_S1D2),
-> -       DEF_MOD("sydm2",        710,    R8A779A0_CLK_S1D2),
-> +       DEF_MOD("sys-dmac0",    709,    R8A779A0_CLK_S1D2),
-> +       DEF_MOD("sys-dmac1",    710,    R8A779A0_CLK_S1D2),
-
-Actually Rev 0.5 of the documentation does call the channels "SYS-DMAC1"
-and "SYS-DMAC2".
-Shall we use that numbering?
-We also have labels "dmac1" and "dmac2" in DTS.
-
->         DEF_MOD("tmu0",         713,    R8A779A0_CLK_CL16MCK),
->         DEF_MOD("tmu1",         714,    R8A779A0_CLK_S1D4),
->         DEF_MOD("tmu2",         715,    R8A779A0_CLK_S1D4),
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.3.
 
 Gr{oetje,eeting}s,
 
