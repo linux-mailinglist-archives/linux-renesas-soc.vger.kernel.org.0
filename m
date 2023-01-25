@@ -2,66 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F3D667B083
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jan 2023 12:00:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6737467B0AE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Jan 2023 12:09:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235335AbjAYLAw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Jan 2023 06:00:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59420 "EHLO
+        id S235187AbjAYLJd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Jan 2023 06:09:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235377AbjAYLAv (ORCPT
+        with ESMTP id S235263AbjAYLJJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Jan 2023 06:00:51 -0500
-Received: from mail.8bytes.org (mail.8bytes.org [IPv6:2a01:238:42d9:3f00:e505:6202:4f0c:f051])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5AD673E09E;
-        Wed, 25 Jan 2023 03:00:49 -0800 (PST)
-Received: from 8bytes.org (p200300c27714bc0086ad4f9d2505dd0d.dip0.t-ipconnect.de [IPv6:2003:c2:7714:bc00:86ad:4f9d:2505:dd0d])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.8bytes.org (Postfix) with ESMTPSA id A1D0E262E57;
-        Wed, 25 Jan 2023 12:00:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-        s=default; t=1674644448;
-        bh=pZqTenvwmUFMkjyLYQ4V32+jjuRTr49g3o4fyrl32Ig=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qf/m7S5sx+VJA52EV8ZN/vuJN/DLUeW1hDphjfhrAo2FREupHZC+uERwNp7XBkt+4
-         jZJ27h6OK5h6VI/C3ea0uY1Le4vSb11VhVK7kIiETGRF2P0iKec1pSFjZEtEy0TDtB
-         9/9NYXQgFg0jGKpuzvIxjT4jn+pwYvNL2wtYR+cyKC0F6h68s/GW5nlVS4G88GDoCI
-         KCuezohGwq6s4TzOqbkUPgJClJFRT3SLS5eMnBB+AHhjuy0RvProTrI/59u6BsUr97
-         uZweyoxkzcklhy3kvt3/hSxTj0+51iu6jc6nhfL7UUYS1/nHnOQos2sGsmGoeuW/7W
-         le2nJq5kEwENg==
-Date:   Wed, 25 Jan 2023 12:00:47 +0100
-From:   Joerg Roedel <joro@8bytes.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     will@kernel.org, robin.murphy@arm.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org,
-        iommu@lists.linux-foundation.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: iommu: renesas,ipmmu-vmsa: add r8a779g0
- support
-Message-ID: <Y9EL3yVHkfyssK+q@8bytes.org>
-References: <20230119131833.1008752-1-yoshihiro.shimoda.uh@renesas.com>
+        Wed, 25 Jan 2023 06:09:09 -0500
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ADA54B740;
+        Wed, 25 Jan 2023 03:09:05 -0800 (PST)
+Received: by mail-qt1-f173.google.com with SMTP id d3so886528qte.8;
+        Wed, 25 Jan 2023 03:09:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hytH7Ayjy2lSXxgse9Hs7i/6L/ka4Pba77DRcwMleL0=;
+        b=BIQV3l+pE0ELpyGFQY1nrcl0CqJ4Rw1hZ4zkWdMXkKZr6YTJdo1rO6G/Ikbk9skHSK
+         Ur9HC6kzjjCPCvOVSPgTJVcRxiujphdNrItSrGT1bZcY9Ct5exTTzlEQTf6HRe7fcetg
+         0sbk1Wk7U+UNUoONUdFWoowwcNPpHLJsGkipc/DnU4WIlXsdAdj+bmEweJAeCKYEQ4nn
+         KEvYKHek6UwehtqIOB2NZUzI/399Jh42mT+ggMjAavj/Y79KcEgJ4NRgM9G52Gt0ZeH7
+         gFucus14lBWacJfZSjOqUDBnIUmQQxy129fqOqezBDPaozeg/1gt8LxtAFnDsYrnepJO
+         1RcQ==
+X-Gm-Message-State: AFqh2koq9NKP/jRqEMgP+bqUqp4cZWpnkNFCes7itGJ0WckwSoVW19aw
+        JjfG03G5x2t7MyYh1Ox9EyCx6IaUJQoGeA==
+X-Google-Smtp-Source: AMrXdXtDSnoslcx9l7iRN+ZGb6XVPWM/e8vWVLBHlAQ9dkHmE9IUkxrIrra2XGxn+Fb2PO+yhEgQSQ==
+X-Received: by 2002:a05:622a:a09:b0:3b6:309e:dfdb with SMTP id bv9-20020a05622a0a0900b003b6309edfdbmr50291880qtb.22.1674644943971;
+        Wed, 25 Jan 2023 03:09:03 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id e1-20020ac84141000000b003b63c08a888sm3221025qtm.4.2023.01.25.03.09.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Jan 2023 03:09:03 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-4ff1fa82bbbso211669727b3.10;
+        Wed, 25 Jan 2023 03:09:03 -0800 (PST)
+X-Received: by 2002:a05:690c:c89:b0:4dd:7a8e:1cf3 with SMTP id
+ cm9-20020a05690c0c8900b004dd7a8e1cf3mr3348364ywb.384.1674644942927; Wed, 25
+ Jan 2023 03:09:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119131833.1008752-1-yoshihiro.shimoda.uh@renesas.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230118135259.19249-1-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20230118135259.19249-1-fabrizio.castro.jz@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 25 Jan 2023 12:08:51 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX2x=AFUCCC86UuQych4mN2v6NgWdwXnEogpDmgMrdoMg@mail.gmail.com>
+Message-ID: <CAMuHMdX2x=AFUCCC86UuQych4mN2v6NgWdwXnEogpDmgMrdoMg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r9a09g011: Reword ethernet status
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 10:18:33PM +0900, Yoshihiro Shimoda wrote:
-> Document the compatible values for the IPMMU-VMSA blocks in
-> the Renesas R-Car V4H (R8A779G0) SoC.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml | 1 +
->  1 file changed, 1 insertion(+)
+On Wed, Jan 18, 2023 at 2:53 PM Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> Although of_fdt_device_is_available returns true when the DT
+> property "status" is assigned "ok" or "okay", and false for every
+> other value, it's become common practice to assign "disabled"
+> when we want of_fdt_device_is_available to return false.
+> For some reason, the status property of the ethernet node was
+> assigned "disable" when originally added to the kernel. Change
+> it to "disabled" for consistency.
+>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
-Applied, thanks.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.3.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
