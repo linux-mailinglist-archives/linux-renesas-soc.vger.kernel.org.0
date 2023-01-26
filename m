@@ -2,119 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CC2167C99B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jan 2023 12:18:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A06F667CA77
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jan 2023 13:04:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237059AbjAZLSN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Jan 2023 06:18:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36476 "EHLO
+        id S236705AbjAZMEa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Jan 2023 07:04:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237230AbjAZLSL (ORCPT
+        with ESMTP id S236821AbjAZME3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Jan 2023 06:18:11 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 804BB2B2BB
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 03:18:09 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id k16so897167wms.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 03:18:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=R+3TvO79F7TEEj/cEI0PvElkjPOY6Ohmc660NweZRSU=;
-        b=lkx9WMVEmqzIyivtlhzZ0ulR60zs1TzOH1UzIs5UvcAsoVJvATwYBchdRTOW8gGpba
-         37W9viahXGpoZgEsxcsjp27xoRClpBDJhVrjCIvjVSlYNJ11TQHQWt2cyM749Iu5357C
-         HVxLlWH6MFWlHAAY4dk4e/xNcyha5CuIDkUXEd73ZkFDXl9OpmXPRh6HSND10ZTaE6HF
-         gYLgEPMyUPVXEMx/Aspl7xaEY1hni9l+vGrB/ZjR/sRTtJd07NFxxdJwVfVVZWxyWNtg
-         j6beKYNQ8456Mw8Xqm58DedlTyFEPSvhKQvhtQgcW+rf+pJPWLKAoZqvuPdpog2K+y6Q
-         jvUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R+3TvO79F7TEEj/cEI0PvElkjPOY6Ohmc660NweZRSU=;
-        b=p97dnM8gGdPP3jFOtUBaazNpSwGDag0u6Ul5RjtiKSFIgl1UF5CQ2uI+yFI1ytxes6
-         RWBDRIA5TGTNwroRKUkVGvcl5SIL/1gDDOyYyg5epSqysT79itZPXV7kzknBj5C8Q/ln
-         azUGgnx5zaIx5rpzRIm5BQ+it5IXpoJuoq5rZ13q5RcsiEf0dwoS6FUwftmX9iVQ5SBm
-         hpfNAzTRpwU/EJtJ03B9kwEdMRtiK+ucuo196YVnSIfqKCH/dpXEMxTXA7eZ7mE6Q0GD
-         zr7KCipRc6qs1rufflilKxkd/RjADcNZDkvidUxPRkcx1KfjM89EC8uy/cLqfkBDoaj4
-         9tmw==
-X-Gm-Message-State: AFqh2krMuBee+yQtrk7sip69pSpfuv/iTYxX2w2cj14Y4bYJ2WdWKvi6
-        SlUjsSwU8LpsdRjLUPjPSrRkFQ==
-X-Google-Smtp-Source: AMrXdXsjZN+5SOjisx2Bn0IQCFbL29bvC6rFJ4l0C6wRDdFAmemSF4Qcvr4XjxpJ5Gm5bqy3xnmyqA==
-X-Received: by 2002:a05:600c:281:b0:3da:1132:4b63 with SMTP id 1-20020a05600c028100b003da11324b63mr35350886wmk.5.1674731887928;
-        Thu, 26 Jan 2023 03:18:07 -0800 (PST)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id z3-20020a05600c078300b003db12112fcfsm1160901wmo.4.2023.01.26.03.18.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jan 2023 03:18:07 -0800 (PST)
-Message-ID: <b766f862-b253-b2a7-7f43-87ebeb0a4263@linaro.org>
-Date:   Thu, 26 Jan 2023 12:18:05 +0100
+        Thu, 26 Jan 2023 07:04:29 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D23E8688;
+        Thu, 26 Jan 2023 04:04:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=VOYYOFluZ3iiE3C4UV5w2zwSbmkrX31OvmObcOHb8QY=; b=a4Dxr3QUr9TtmHfliGOtcckkzx
+        BrP5GWkLqc27yiUm4kwh19HaOVWBXahjBqw/wPDcEhVzPchelLHiGctMWCq8KVERaxBV+MzPRs7YD
+        s7xFIhhUHFTBcr0IBv19oaJvydg7OHzPC9cZD3k9h8yXi9iumBnFnHKj7fbxel0aGk6MTYEI8n7rz
+        VJWfPck6gySngS1vUKbLJbhJsn7dmxZonWOTlYAnzhCXODc79DpGm0cv4Ct/FtpQKWmz2xi7E/5Y5
+        mgtej+AQW8D2kRVq+Ru0p5qzcwJ9vdCP54+cxPk9OJYRNIX6YKokDu1hmNfkpTOHL5hQ4w8qDBU6c
+        ml/cqMcw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pL0yo-006hzg-Em; Thu, 26 Jan 2023 12:03:47 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id CDDFC3002BF;
+        Thu, 26 Jan 2023 13:03:44 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 96DF92082E0E1; Thu, 26 Jan 2023 13:03:44 +0100 (CET)
+Date:   Thu, 26 Jan 2023 13:03:44 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Dejin Zheng <zhengdejin5@gmail.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH resend] iopoll: Call cpu_relax() in busy loops
+Message-ID: <Y9JsIJat3sZU2rl1@hirez.programming.kicks-ass.net>
+References: <8d492ee4a391bd089a01c218b0b4e05cf8ea593c.1674729407.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2] clocksource/drivers/riscv: Get rid of
- clocksource_arch_init() callback
-Content-Language: en-US
-To:     Prabhakar <prabhakar.csengg@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     linux-riscv@lists.infradead.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Samuel Holland <samuel@sholland.org>
-References: <20221229224601.103851-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20221229224601.103851-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8d492ee4a391bd089a01c218b0b4e05cf8ea593c.1674729407.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 29/12/2022 23:46, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, Jan 26, 2023 at 11:45:37AM +0100, Geert Uytterhoeven wrote:
+> It is considered good practice to call cpu_relax() in busy loops, see
+> Documentation/process/volatile-considered-harmful.rst.  This can not
+> only lower CPU power consumption or yield to a hyperthreaded twin
+> processor, but also allows an architecture to mitigate hardware issues
+> (e.g. ARM Erratum 754327 for Cortex-A9 prior to r2p0) in the
+> architecture-specific cpu_relax() implementation.
 > 
-> Having a clocksource_arch_init() callback always sets vdso_clock_mode to
-> VDSO_CLOCKMODE_ARCHTIMER if GENERIC_GETTIMEOFDAY is enabled, this is
-> required for the riscv-timer.
+> As the iopoll helpers lack calls to cpu_relax(), people are sometimes
+> reluctant to use them, and may fall back to open-coded polling loops
+> (including cpu_relax() calls) instead.
 > 
-> This works for platforms where just riscv-timer clocksource is present.
-> On platforms where other clock sources are available we want them to
-> register with vdso_clock_mode set to VDSO_CLOCKMODE_NONE.
+> Fix this by adding calls to cpu_relax() to the iopoll helpers:
+>   - For the non-atomic case, it is sufficient to call cpu_relax() in
+>     case of a zero sleep-between-reads value, as a call to
+>     usleep_range() is a safe barrier otherwise.
+>   - For the atomic case, cpu_relax() must be called regardless of the
+>     sleep-between-reads value, as there is no guarantee all
+>     architecture-specific implementations of udelay() handle this.
 > 
-> On the Renesas RZ/Five SoC OSTM block can be used as clocksource [0], to
-> avoid multiple clock sources being registered as VDSO_CLOCKMODE_ARCHTIMER
-> move setting of vdso_clock_mode in the riscv-timer driver instead of doing
-> this in clocksource_arch_init() callback as done similarly for ARM/64
-> architecture.
-> 
-> [0] drivers/clocksource/renesas-ostm.c
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Tested-by: Samuel Holland <samuel@sholland.org>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+In addition to these dodgy architecture fails, cpu_relax() is also a
+compiler barrier, it is not immediately obvious that the @op argument
+'function' will result in an actual function call (inlining ftw).
+
+Where a function call is a C sequence point, this is lost on inlining.
+Therefore, with agressive enough optimization it might be possible for
+the compiler to hoist the:
+
+	(val) = op(args);
+
+'load' out of the loop because it doesn't see the value changing. The
+addition of cpu_relax() will inhibit this.
+
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+
 > ---
+> Resent with a larger audience due to lack of comments.
+> 
+> This has been discussed before, but I am not aware of any patches moving
+> forward:
+>   - "Re: [PATCH 6/7] clk: renesas: rcar-gen3: Add custom clock for PLLs"
+>     https://lore.kernel.org/all/CAMuHMdWUEhs=nwP+a0vO2jOzkq-7FEOqcJ+SsxAGNXX1PQ2KMA@mail.gmail.com/
+>   - "Re: [PATCH v2] clk: samsung: Prevent potential endless loop in the PLL set_rate ops"
+>     https://lore.kernel.org/all/20200811164628.GA7958@kozik-lap
+> ---
+>  include/linux/iopoll.h | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/include/linux/iopoll.h b/include/linux/iopoll.h
+> index 2c8860e406bd8cae..73132721d1891a2e 100644
+> --- a/include/linux/iopoll.h
+> +++ b/include/linux/iopoll.h
+> @@ -53,6 +53,8 @@
+>  		} \
+>  		if (__sleep_us) \
+>  			usleep_range((__sleep_us >> 2) + 1, __sleep_us); \
+> +		else \
+> +			cpu_relax(); \
 
-Applied, I had a trivial conflict which was fixed. Please have a look on 
-the patch once it is push in the timers/next branch
+There's a simplicitly argument to be had for making it unconditional
+here too I suppose. usleep() is 'slow' anyway.
 
-Thanks
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
-
+>  	} \
+>  	(cond) ? 0 : -ETIMEDOUT; \
+>  })
+> @@ -95,6 +97,7 @@
+>  		} \
+>  		if (__delay_us) \
+>  			udelay(__delay_us); \
+> +		cpu_relax(); \
+>  	} \
+>  	(cond) ? 0 : -ETIMEDOUT; \
+>  })
+> -- 
+> 2.34.1
+> 
