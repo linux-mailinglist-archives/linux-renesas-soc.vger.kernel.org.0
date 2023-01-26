@@ -2,92 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16AD767CE54
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jan 2023 15:38:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F066B67CE7B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jan 2023 15:42:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229533AbjAZOiI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Jan 2023 09:38:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47210 "EHLO
+        id S230484AbjAZOmG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Jan 2023 09:42:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231722AbjAZOiH (ORCPT
+        with ESMTP id S229473AbjAZOmF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Jan 2023 09:38:07 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F734B754
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 06:38:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=v5lRST3UhBT0bHTWLRn+IKxRT3Fm30qCFhm6PJyxMIA=; b=IhoqLpHc6jxkTvFzdHxeJ+ZYim
-        1I7vODMn698IB/zXrwXRkm7oe3KykWcJltyUDuClBppjzwKhcKo6mIH8LWoeiZSgTZkh0g8PuPAF7
-        SKBjuWJBTQXLU3Nk1yUPafBTBLWwXUXNBoY0VmzPviNIdHxXME070k779dIeTza7UKSsqvSJGUB+O
-        RJQ/rF0/HqknHKnfsMJMBwKPysHHE5vMeYZUxmu2n00HzT5xE8UnnHPpOYmdHtS4x2Mpql3O/Pg8q
-        I46BNMEwEK19kWHE9UfWLluLiY+PX+a7mCRvFnuwm1My70xy4B2urvXQoH0De/GEAGI5U0eqGvJlK
-        CywF3kGg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pL3Nv-006oVa-FN; Thu, 26 Jan 2023 14:37:51 +0000
-Date:   Thu, 26 Jan 2023 14:37:51 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Linux-MM <linux-mm@kvack.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        device-tree <devicetree-discuss@lists.ozlabs.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jessica Clarke <jrtc27@jrtc27.com>,
-        Geert Uytterhoeven <geert.uytterhoeven@gmail.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>
-Subject: Re: [QUERY]: Block region to mmap
-Message-ID: <Y9KQPxzHBuZGIN4U@casper.infradead.org>
-References: <CA+V-a8tR1KiLSs=Psa=w7kf0zT=yU5_Ekr6-3V1MR==Wtzmksg@mail.gmail.com>
+        Thu, 26 Jan 2023 09:42:05 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6FD066FBD
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 06:41:34 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E8F4AB81D11
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 14:41:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BD17C433D2;
+        Thu, 26 Jan 2023 14:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674744091;
+        bh=1OEGSc+byGvsF9anUbWJFCRnV8oyb2jGsXjnHBgX6BU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sJAuMNmrQgx7MVIEpTbv8DhUsyghJbe/aBjO0WJdLdckaRIzw3i3/7kHnK2JPHa54
+         1l2nIySYJcJJSPH2wC1RQ27M6oDMuEJO8V9i4lpko7aCTSymmBf9pyU3+niEgFbIzP
+         5bLIMMbPaFD+QYm4OjyZb8WxX/ARrXepoayvKlQJVteDlMQOhuztL+vrOIffxE3MRL
+         KNrdRef6dozWLEYFoPMRQ64cISbOBNUL6RCyKY4fhzZXohk3PyS8Ifki6aa+sNuLNx
+         f3kNLoGl+8yBHr4QzXeZTtk1IE500EaQMBxO9xkgGTmqMwc5Hj3neyaWR+Tf6OKpi8
+         ilFepT5yCH2Og==
+Date:   Thu, 26 Jan 2023 14:41:26 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v11 2/6] clocksource/drivers: Add Renesas RZ/G2L MTU3a
+ core driver
+Message-ID: <Y9KRFnc207xAeVvJ@google.com>
+References: <20230113161753.1073706-1-biju.das.jz@bp.renesas.com>
+ <20230113161753.1073706-3-biju.das.jz@bp.renesas.com>
+ <9f722f37-15da-0384-c059-a4af0f1dab10@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8tR1KiLSs=Psa=w7kf0zT=yU5_Ekr6-3V1MR==Wtzmksg@mail.gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9f722f37-15da-0384-c059-a4af0f1dab10@linaro.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jan 25, 2023 at 12:30:13PM +0000, Lad, Prabhakar wrote:
-> Renesas RZ/Five RISC-V SoC has Instruction local memory and Data local
-> memory (ILM & DLM) mapped between region 0x30000 - 0x4FFFF. When a
-> virtual address falls within this range, the MMU doesn't trigger a
-> page fault; it assumes the virtual address is a physical address which
-> can cause undesired behaviours.
+On Thu, 26 Jan 2023, Daniel Lezcano wrote:
 
-Wow.  I've never come across such broken behaviour before.
+> On 13/01/2023 17:17, Biju Das wrote:
+> 
+> [ ... ]
+> 
+> > +config RZ_MTU3
+> > +	bool "Renesas RZ/G2L MTU3a core driver"
+> > +	select MFD_CORE
+> > +	depends on (ARCH_RZG2L && OF) || COMPILE_TEST
+> > +	help
+> > +	  Select this option to enable Renesas RZ/G2L MTU3a core driver for
+> > +	  the Multi-Function Timer Pulse Unit 3 (MTU3a) hardware available
+> > +	  on SoCs from Renesas. The core driver shares the clk and channel
+> > +	  register access for the other child devices like Counter, PWM,
+> > +	  Clock Source, and Clock event.
+> 
+> Do you really want to have this option manually selectable? Usually we try
+> to avoid that and keep a silent option which is selected by the platform
+> config.
+> 
+> [ ... ]
+> 
+> > +
+> > +	ret = mfd_add_devices(&pdev->dev, 0, rz_mtu3_devs,
+> > +			      ARRAY_SIZE(rz_mtu3_devs), NULL, 0, NULL);
+> > +	if (ret < 0)
+> > +		goto err_assert;
+> > +
+> > +	return devm_add_action_or_reset(&pdev->dev, rz_mtu3_reset_assert,
+> > +					&pdev->dev);
+> > +
+> > +err_assert:
+> > +	reset_control_assert(ddata->rstc);
+> > +	return ret;
+> > +}
+> 
+> I'm not sure this driver falls under the clocksource umbrella but under mfd
+> [cc'ed Lee Jones]
 
-> To avoid this the ILM/DLM memory regions are now added to the root
-> domain region of the PMPU with permissions set to 0x0 for S/U modes so
-> that any access to these regions gets blocked and for M-mode we grant
-> full access (R/W/X). This prevents any users from accessing these
-> regions by triggering an unhandled signal 11 in S/U modes.
+Thanks Daniel.
 
-I have no idea what any of this means.
+Please do not use the mfd_* API outside of drivers/mfd.
 
-> This works as expected but for applications say for example when doing
-> mmap to this region would still succeed and later down the path when
-> doing a read/write to this location would cause unhandled signal 11.
-> To handle this case gracefully we might want mmap() itself to fail if
-> the addr/offset falls in this local memory region.
+If you require MFD functionality, write an MFD driver.
 
-No, that's not what you want.  You want mmap to avoid allocating address
-space in that virtual address range.  I don't know if we have a good
-way to do that at the moment; like I said I've never seen such broken
-hardware before.
-
-I'd say the right way to solve this is to add a new special kind of VMA
-to the address space that covers this range.  We'd want to make sure
-it doesn't appear in /proc/*/maps and also that it can't be overridden
-with MAP_FIXED.
+-- 
+Lee Jones [李琼斯]
