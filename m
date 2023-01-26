@@ -2,120 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36D0E67CA91
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jan 2023 13:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04C7C67CB3E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jan 2023 13:49:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235756AbjAZMHy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Jan 2023 07:07:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35696 "EHLO
+        id S231129AbjAZMtd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Jan 2023 07:49:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229844AbjAZMHx (ORCPT
+        with ESMTP id S229491AbjAZMtb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Jan 2023 07:07:53 -0500
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A84E1E280;
-        Thu, 26 Jan 2023 04:07:52 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id DF56F320092E;
-        Thu, 26 Jan 2023 07:07:50 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 26 Jan 2023 07:07:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1674734870; x=1674821270; bh=ntjxN9egP0
-        JnczzgtV83gw6W0AJFojT1Kx5iE4O7JKo=; b=oTkDRQey0luvL25Su8rdsPMSNZ
-        7Sb6mHjycBfIopMAdnvDVoTXnJsGZxR/ZryxaThDRlqz5bTRojlZq8IO2rUsRd0a
-        JHS6GUqH1pxMgT4LWgWXauhn9NdajKh0i5wc7DE98ioavFM8oESvyTLS32WRQ6S3
-        A8lnR9O0zb4DBV0DoU9F69Q2JLoviGCQ+Fcfl/aLdw/obug+ct/93kcPZQz514+1
-        UEoQ1tyMhcfNdZd6gtPUCChxvDXvbcrQT3v8H15KBbi662rxs0uULe7uQI4LDq+c
-        ojE63mv2bXcQ2zlIpWdVNzvYGRDx1Qh0JckzktUjB3KdG6Wor7/C3xN+ELdA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1674734870; x=1674821270; bh=ntjxN9egP0JnczzgtV83gw6W0AJF
-        ojT1Kx5iE4O7JKo=; b=MR2ikMF1QFS3wCfsO9T/dOOejCqhzgjTilfAmvyRNHCa
-        q0+J0kg4aFvJoTbv+djc+mlJ1iozMrj1LXMALeh2SbqXwaXNZJ+9iC+xkBQJTwaK
-        bSwW5XvnDTVyq+Sf/Ms/z3u+yiY+Bo80WjStYgAy5U6rVEt/lKmYmeNRYy0pLLV9
-        yUkx5eJQTuWCj68a3OxRBjREM6Yfmg4j96FlXAriQD+1c4ATm4egkZELo0QB5kPL
-        DkBozqQQ5dBf7c+hMwlRvKQDcKIr7ALiRWSL2QWHi0sSaExh4srflBG41vxtRvgs
-        28xuHVbQjnG6QiLGYTbn+s590+dYETBvWjUPvU9gZw==
-X-ME-Sender: <xms:FW3SY1bgKvBi-0Q0-SWc13FiIPAOENqHrejHh3zaXuF3OBqJWwiJ4A>
-    <xme:FW3SY8bkDHM4tcTeP8b_QoPi3CTIixWglMSRlpaIrZEQ7Q9AZ8jjuaTDxgZpJUlkt
-    u1ZBWeCCnSjaiSrj1U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvgedgfeeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:FW3SY3-k7yNdEKAEAo__v_JQwsqoXpR2y3cEX_eIuKR25REAEUfEzQ>
-    <xmx:FW3SYzqQyqYxwSH9achp75tBwSbjlLB-dh4mHImH2yryFjdgtjBDWQ>
-    <xmx:FW3SYwpJj3-Hc565q3eWKLLdfVy0w_uW8y_2Qr20iNAy_j6-LnW61Q>
-    <xmx:Fm3SY7Aa11x8PqSmYRpDLPvafthrY8bh03C-aKhHIhgwd7Y4JH40vA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 8D555B60086; Thu, 26 Jan 2023 07:07:49 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
-Mime-Version: 1.0
-Message-Id: <38a9a8f8-6bc7-42aa-b5e2-0148371e29c8@app.fastmail.com>
-In-Reply-To: <8d492ee4a391bd089a01c218b0b4e05cf8ea593c.1674729407.git.geert+renesas@glider.be>
-References: <8d492ee4a391bd089a01c218b0b4e05cf8ea593c.1674729407.git.geert+renesas@glider.be>
-Date:   Thu, 26 Jan 2023 13:07:29 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        "Stephen Boyd" <sboyd@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
-        "Tomasz Figa" <tomasz.figa@gmail.com>,
-        "Sylwester Nawrocki" <s.nawrocki@samsung.com>,
-        "Will Deacon" <will@kernel.org>,
-        "Wolfram Sang" <wsa+renesas@sang-engineering.com>,
-        "Dejin Zheng" <zhengdejin5@gmail.com>,
-        "Kai-Heng Feng" <kai.heng.feng@canonical.com>,
-        "Nicholas Piggin" <npiggin@gmail.com>,
-        "Heiko Carstens" <hca@linux.ibm.com>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        "Russell King" <linux@armlinux.org.uk>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
+        Thu, 26 Jan 2023 07:49:31 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2222228D17
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 04:49:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=C9BRS5jjDoOuJqnAKQEcu4c78RZU
+        KZiobWtbz0yEU68=; b=M8dLHia6RxXnt/vg3FcbOXIF3YgkyjwGYOM7poVbY4wM
+        MHf+X2nyOJSTvsz5bIJdGJi8p79tu2FKuD953qxB701u4ZrznVWHjvCDtOge1AgF
+        OY8sAu7H/+R0F1y6/Cq0Ype5IbsIY3QgBYeYNheOoyQ/0b1SFhH3vhP6gqGzKLk=
+Received: (qmail 3779498 invoked from network); 26 Jan 2023 13:48:32 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Jan 2023 13:48:32 +0100
+X-UD-Smtp-Session: l3s3148p1@sbWWKirzNrsujnvo
+Date:   Thu, 26 Jan 2023 13:48:32 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH resend] iopoll: Call cpu_relax() in busy loops
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [PATCH v2] memory: renesas-rpc-if: Fix PHYCNT.STRTIM setting
+Message-ID: <Y9J2oPHHNQoU+7m7@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-kernel@vger.kernel.org
+References: <20230118104656.67706-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdXY0c4qKCi057CtJdhUJ+443rtyCjwYyK3qGgwWTZ2a0A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="SBOQttDUaUptgdAG"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXY0c4qKCi057CtJdhUJ+443rtyCjwYyK3qGgwWTZ2a0A@mail.gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jan 26, 2023, at 11:45, Geert Uytterhoeven wrote:
-> It is considered good practice to call cpu_relax() in busy loops, see
-> Documentation/process/volatile-considered-harmful.rst.  This can not
-> only lower CPU power consumption or yield to a hyperthreaded twin
-> processor, but also allows an architecture to mitigate hardware issues
-> (e.g. ARM Erratum 754327 for Cortex-A9 prior to r2p0) in the
-> architecture-specific cpu_relax() implementation.
->
-> As the iopoll helpers lack calls to cpu_relax(), people are sometimes
-> reluctant to use them, and may fall back to open-coded polling loops
-> (including cpu_relax() calls) instead.
->
-> Fix this by adding calls to cpu_relax() to the iopoll helpers:
->   - For the non-atomic case, it is sufficient to call cpu_relax() in
->     case of a zero sleep-between-reads value, as a call to
->     usleep_range() is a safe barrier otherwise.
->   - For the atomic case, cpu_relax() must be called regardless of the
->     sleep-between-reads value, as there is no guarantee all
->     architecture-specific implementations of udelay() handle this.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+--SBOQttDUaUptgdAG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Geert,
+
+> > +static const struct soc_device_attribute rpcif_info_match[]  =3D {
+> > +       { .soc_id =3D "r8a7795", .revision =3D "ES1.*", .data =3D &rpci=
+f_info_r8a7795_es1 },
+> > +       { .soc_id =3D "r8a7796", .revision =3D "ES1.*", .data =3D &rpci=
+f_info_r8a7796_es1 },
+>=20
+> As we do have a separate compatible value for R-Car M3-W+ aka R-Car M3-W =
+ES3.0
+> ("renesas,r8a77961-rpc-if"), and there is no R-Car M3-W ES2.x (see the PRR
+> screwup handling in renesas_soc_init()), you can just match against
+> "renesas,r8a7796-rpc-if instead.
+
+Right, I missed that! This is awesome news because with us dropping H3
+ES1 support, this means we can drop all the soc_device_match() handling
+now and use compatibles only. There, everybody happy :D
+
+> > +       regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
+> > +                          /* create mask with all affected bits set */
+> > +                          RPCIF_PHYCNT_STRTIM(BIT(fls(rpc->info->strti=
+m)) - 1),
+>=20
+> fls(0) =3D 0, and BIT(-1) is undefined, so this won't work for R-Car
+> H3 ES1.x.  So I'm afraid you cannot handle this without storing the
+> actual mask ;-)
+
+You misread the parens, it is: BIT(0) - 1 =3D 0
+
+I actually wrote a program to print out the calculations to make sure I
+got it right. But yeah, ES1 is obsolete now.
+
+I'll send V3 later today.
+
+Thanks everyone,
+
+   Wolfram
+
+
+--SBOQttDUaUptgdAG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmPSdpwACgkQFA3kzBSg
+KbY7IRAAiwQXZG3DVHFKWmGKEXMGRWtzC5nzyYs7xb/taY5bhK/VGaYKgOVSI39w
+GvhkAyv38k1jbDgFcKgBh8OE/ygvHfm3XBk0/X7d3U1sCycQA/Qr715HNN0InEqb
+OaAUy2j5l5KQgEXZZA3QpAvM30eDasi2FTEimMzhsF91zjoGZkw3SagBsU03gd9d
+DIb8hFuinpgOqVrwbzaWDqtj+PbBGvfvz+nQuxtpNEtlF/0ETcuBq2yHoWVm2qZ9
+0aSDGXRl06k+l7SyreqBTfZXnsXUfsiA5P7rYyZ2l4DPo5KVKnsadSCvLzFvVfm3
+84cvz3cPRtGrAL1AbALy1LQ2A3HIYExRRhvDN4/jl8sBAUNqV6FlPs2vF/OzVk/4
+6H5WC/TOq+Zc6Cr0FM2uC541hhKyPeOuJWhsxdIFHy9Ov/kJieaBz9P26UwQKwxI
+4+0609PeBjY63OuvGjRVN8FjDUupmpYmga8HzKRgKdFsP+EVEhCtPGwA6tI4AEfx
+Lrq4OVnD4zCfZBYdJTFvLxMtkLGeME+T4jRGMeWUwltncKm1dC7hvZ6WkRK7FArX
+L+QAZKI5aDW+cPgzjRB9vhK5rb7kxRj+BJC3aGL0ZCtXt9wlzn7z/TNsVB6At3lH
+BjDQ/3O3hKu4v0CbyclklAS+2y65+3qG3uQpr9Nlq87Dd3OPkoo=
+=povj
+-----END PGP SIGNATURE-----
+
+--SBOQttDUaUptgdAG--
