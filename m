@@ -2,47 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D616D67CBA9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jan 2023 14:07:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34C9D67CBBA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jan 2023 14:13:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232090AbjAZNHK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Jan 2023 08:07:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46620 "EHLO
+        id S236182AbjAZNN6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Jan 2023 08:13:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236444AbjAZNHJ (ORCPT
+        with ESMTP id S236409AbjAZNN4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Jan 2023 08:07:09 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D83E65AE
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 05:07:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=tDawVOrKmaMo6AMdN7dGcAoRDRKS
-        oTEXM/iUIV/kMEE=; b=pRCYn32YtwCsd/4ALO1eua4MaagoTGTEsWd4xjrw8/cE
-        nwmb7er8AxUyE+teXrjQXP4wU9hL/nwKFSRDDzzYRWjDlJVVVXzN/XyZZQ4N49ef
-        CUOtESh0L/nGCySVN0YBec+TrkQVthk8mTyI9RwzT4cj2wAKJ4wR0LezrTRWfW0=
-Received: (qmail 3786278 invoked from network); 26 Jan 2023 14:07:06 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Jan 2023 14:07:06 +0100
-X-UD-Smtp-Session: l3s3148p1@f/j7bCrzRtoujnvo
-Date:   Thu, 26 Jan 2023 14:07:06 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] spi: sh-msiof: Enforce fixed DTDL for R-Car H3
-Message-ID: <Y9J6+uoXxUIs4Bkk@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20230124074706.13383-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdUnUf+ZTRTBSmjz1_61CpWvaO=fyDv7ExT+FnQi=ujFXw@mail.gmail.com>
+        Thu, 26 Jan 2023 08:13:56 -0500
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CDDB67784;
+        Thu, 26 Jan 2023 05:13:51 -0800 (PST)
+Received: by mail-qt1-f171.google.com with SMTP id d3so1150751qte.8;
+        Thu, 26 Jan 2023 05:13:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=majz38lMPqk/gVdV/lNxw6X6vrB1y+ZfmrOfKAYhAHM=;
+        b=2gE1Yrl4IP4hSu2eZGToinLH6ieMx+FwrkeqYF/PyHlK8Ku0EvvBuZ5uMAUnaoHehL
+         Z3prYWxC355348y7jT33bN64VW8DoQqhiJO26h4kVcMEfDf0vKkWGSyu03HRZYj6IFmS
+         bq/VlFkAYEFrNajVzDnnlU7OfYXTzojh/mja4rvcWKBhubTi29F5frV82C9NTfciS6v3
+         w3sl5PO+dz6hTNphhbiF5YuYd+51V1Wm1qUDwIjngRWttvguKHaT5yquFGHdmz+Ccdhy
+         rIQuIrqponvbUL0zCfOBjWAVkkQQew3KlntAiJEynKQfS3Pogoe21GUdfVXsjnFT2+tP
+         ukCQ==
+X-Gm-Message-State: AFqh2krmJdV7VZpA5YllOz2tcA218svzBasga2LWWLek+2bm0Oh+fuUm
+        xcfrf/idY+KGMLusx71mlOfcW/G3ykiPjA==
+X-Google-Smtp-Source: AMrXdXsmBLxwrSNBsDoSt59DwK+CsBhZjLH3DwrvKnFIP07VhYl/wpV5juYN41Oj2ADKlOqfXKXdUw==
+X-Received: by 2002:a05:622a:428c:b0:3a7:e9dc:699d with SMTP id cr12-20020a05622a428c00b003a7e9dc699dmr41946759qtb.20.1674738830085;
+        Thu, 26 Jan 2023 05:13:50 -0800 (PST)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id 84-20020a370a57000000b006b61b2cb1d2sm885197qkk.46.2023.01.26.05.13.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Jan 2023 05:13:49 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-4ff07dae50dso22328297b3.2;
+        Thu, 26 Jan 2023 05:13:49 -0800 (PST)
+X-Received: by 2002:a81:bd6:0:b0:48d:1334:6e38 with SMTP id
+ 205-20020a810bd6000000b0048d13346e38mr4212916ywl.316.1674738829474; Thu, 26
+ Jan 2023 05:13:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nyD5pp/MwlBtOrWz"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUnUf+ZTRTBSmjz1_61CpWvaO=fyDv7ExT+FnQi=ujFXw@mail.gmail.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+References: <20230118104656.67706-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdXY0c4qKCi057CtJdhUJ+443rtyCjwYyK3qGgwWTZ2a0A@mail.gmail.com> <Y9J2oPHHNQoU+7m7@ninjato>
+In-Reply-To: <Y9J2oPHHNQoU+7m7@ninjato>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 26 Jan 2023 14:13:37 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU2HU=-pbaA1vz8HRpyWQPYZ2CmvmsAD2oSXdO_9ZgTKA@mail.gmail.com>
+Message-ID: <CAMuHMdU2HU=-pbaA1vz8HRpyWQPYZ2CmvmsAD2oSXdO_9ZgTKA@mail.gmail.com>
+Subject: Re: [PATCH v2] memory: renesas-rpc-if: Fix PHYCNT.STRTIM setting
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
         autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -50,62 +68,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Wolfram,
 
---nyD5pp/MwlBtOrWz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Jan 26, 2023 at 1:48 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > > +       regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
+> > > +                          /* create mask with all affected bits set */
+> > > +                          RPCIF_PHYCNT_STRTIM(BIT(fls(rpc->info->strtim)) - 1),
+> >
+> > fls(0) = 0, and BIT(-1) is undefined, so this won't work for R-Car
+> > H3 ES1.x.  So I'm afraid you cannot handle this without storing the
+> > actual mask ;-)
+>
+> You misread the parens, it is: BIT(0) - 1 = 0
 
-Hi Geert,
+Doh... You're right.
 
-> > Documentation says only DTDL of 200 is allowed for this SoC.
->=20
-> Do you have a pointer to that?
+Still, it won't clear the bits on H3 ES1.x.
+And when changing strtim to a value smaller than 4, it may not work
+as expected, as it doesn't clear the upper bits.
 
-Yes: Gen3 docs Rev.2.30 from Aug 2021, Section 59.2.1, Bits 22-20:
+Gr{oetje,eeting}s,
 
-"[R-Car H3, R-Car H3-N]
-010: 2-clock-cycle delay
-Other than above: Setting prohibited"
+                        Geert
 
-> We already have "renesas,dtdl" to configure this from DT.
-> Iff this is really needed, perhaps it should be added to r8a77951.dtsi?
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I have to disagree here. The docs say that other values are prohibited.
-IMO the driver should take care of valid values then. We should not rely
-on user provided input.
-
-> I suspect this is a leftover in the BSP from attempts to get MSIOF
-> working on R-Car H3 ES1.0 (which it never did for me, as CLK starts
-> and stops too soon, compared to MOSI/MISO).
-> On R-Car H3 ES2.0, everything works fine, without touching DTDL.
-
-The BSP originally has this patch for ES3 only. I extended to ES2 as
-well because that is what the docs say.
-
-Happy hacking,
-
-   Wolfram
-
-
---nyD5pp/MwlBtOrWz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmPSevkACgkQFA3kzBSg
-Kbb7eA//fXnM2Yjek6yCfwy2pAEKUVydeycR7uwuk4WGDm1wlcXKSdeX9+H2nTw4
-HWgpOvgUdOgTG7hjV2ZheQgHVRwndT1FxKqH0YJ/vF6i6KFERvyxdFlPwPZt1jyX
-XUBJGRoZjdzvvzBT8DFkmk3u9/Eiqso12alztu+YB/CVMia4586EHMy1QzIe4gKV
-CHbzaqoYqQEjpHV75nrYBkRTXBvA6HtBAigE0wv1eFeOiBYCN8zREex562vq7GoQ
-UVM+M1WvvE4DlvClBydAt5xdBvyhMlzkGF7o0AaL+SZK+JlL5SlfFxzkqxZKjAB0
-/kUAL3bXofZAwi5VRLsFoNnjUTzx5JkFwJ2iYkpB8WWET22UrIg7qZr9fF3Uq9P/
-GXghmggzlYgU2aQ4Kb8pe4xcriETWq7reFC7XlMZ9w3rYeySr8VyH4aV9mTtVcRK
-67eG46UbPzgqyCd+/4Cj/mzWPQXq/6JtVdvA/8wQQfnGH6FSjHCoM5uwfB+GsIt0
-HWkLji2bMCD7VpclvJE7AG7oZ9Su4YAFL2THvqa2KAp9Wm5XALqhz2qUQnN76xZ2
-lwS1PkNKp4ZC5Yu2H9CFyTzFNjoGREKbAVgK1gh9W+RM0Ml/tZCdava8LATQk8IF
-qszSeOarufxAAGskbti26lR+ngPbeZPMkRhTLdLlj+KA2+lzFqY=
-=MN30
------END PGP SIGNATURE-----
-
---nyD5pp/MwlBtOrWz--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
