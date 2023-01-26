@@ -2,112 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BD8367C7DB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jan 2023 10:57:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98DC467C7E9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jan 2023 11:01:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236961AbjAZJ5j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Jan 2023 04:57:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55408 "EHLO
+        id S236990AbjAZKBr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Jan 2023 05:01:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236859AbjAZJ5i (ORCPT
+        with ESMTP id S236649AbjAZKBq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Jan 2023 04:57:38 -0500
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90E236C10A;
-        Thu, 26 Jan 2023 01:57:34 -0800 (PST)
-Received: by mail-qt1-f174.google.com with SMTP id s4so843572qtx.6;
-        Thu, 26 Jan 2023 01:57:34 -0800 (PST)
+        Thu, 26 Jan 2023 05:01:46 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DC88402C3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 02:01:45 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id bk16so1176323wrb.11
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 02:01:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NsWprYGbD2CwVtouO/ULFCeYkL3Y+haM/y2Caqpemeg=;
+        b=Os1KoXQjpreDSiLtuaFezS6DeTwNWR4AfM2jEUgbJZkNEVRksxLtyeQCNovtFebOEh
+         wOSKcgPr2DbKeI3tKATnADvslZ1FLjK7d/IFOuvFXJ4A4ves+HMDN03qGrQFA1q/Enk5
+         bolq0rD1HKwV+X7Kqo+O0A2cBP7grN+0VQVRwasbM0lweMmEYTe8A7tiEPlEfGr8u4ki
+         EvrcIBmP1CjInD4ZOzIelz2N48YF7KacnZgrtozKsl7GEeYLwRw+1qQcEjUNFEfRTmID
+         wEXosltCx70IOHfZO0dB6rm8qqQKgq8ULcZ91FmA06uV/aKjQe/Ql2F1Pf4CUvpn2fr5
+         dHdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s0/CGok+q2trTJfM1fINcU1Sm5royASKyfwZ+KPuXyQ=;
-        b=oJjopNInKvP6KCImSPtXE/yXP8dJkLnZsoiAOjQPC/wzBPUm34UrpYjCbaLkmRqWj8
-         3eq28cbfG3fEiq/9Nh8zOd1qgr5kNS2Dkxq/JOA8970G12GvXUX/+Tu+xLoc+GSnE8rJ
-         BKWHIbmBIzSoYvwS/h2TucT8/vhOb+iVRboOgAqf3kqE2Fy5pNRTpXWK0JkJj0Kstkd1
-         SVg5ZNjNwRV8tNPjewGh+71D+O300wSfX9TyHS20Es5LgbYizcJzdv+xgzvRJvMaa8ax
-         lLAEYC/+3l4t0ccOoRTkggqum53HQxxqG1Cu3uPlhuKRcbXYlqWMLuwYem+hqO/g4I2Y
-         09Vw==
-X-Gm-Message-State: AFqh2kqqYO2lvoqhL+GSZ2QmMCB/ANSDc43zPe9b27la+e1PnqaeRkpE
-        h96zGQw59uaSOxkgHCU87DYPcWY//3TsTA==
-X-Google-Smtp-Source: AMrXdXvwNMVNo+MR3kC6WITKoSg2NqVCAhDJEJDA1tLD+d67wseiUBrt3GoiQOZTEYIITcN4uoj1uw==
-X-Received: by 2002:ac8:709a:0:b0:3a4:f209:84cd with SMTP id y26-20020ac8709a000000b003a4f20984cdmr49988715qto.9.1674727053184;
-        Thu, 26 Jan 2023 01:57:33 -0800 (PST)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id g13-20020ac8468d000000b003a7e4129f83sm438780qto.85.2023.01.26.01.57.32
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NsWprYGbD2CwVtouO/ULFCeYkL3Y+haM/y2Caqpemeg=;
+        b=fG1uLnW2mPC2UMMfwibjPwmWmDgiVQa31bfDc8II4QLKj9yF4nDuafMMeczQM6C7rI
+         7o7+lHhJlqZe1s8ptR0GJI32pPPbluJSRnziUV8d9QJYnTPkIWj3yoGAk6oqGJ7XoLQv
+         FleqHO4jkYEeM1Cga1KZ29rhoqwzDKMZ1rcxHicnYrhKM2cS0Lcxn4h8we9YCTJsGjrI
+         WX9/XkgyCJeu6rkjPtWpkAwr+PEPSyN+0EJeuuzH54fXiciMgTilaJopuLRipd0BH4gO
+         Be+7K2Ca2L5PKNYddrwAY9bUCnhCQ0zLBAtEPrB0RS9D7JZ9qQbOczYiwKIDGq3GoBNz
+         +c5Q==
+X-Gm-Message-State: AFqh2koJtjBmobCWIGGtLNLlHf/B8xuwyDghaQLa4dULeQqcqfRINfZq
+        Tpx50UOt0ZiYrzsyizVSC5Q2CA==
+X-Google-Smtp-Source: AMrXdXvCvQt1/kQ6w8atcLGXtdqYVKC9LQPXMiFfg0gMdaHu78to3mc/9L7myuVJ8vBjW3N9ZXLifw==
+X-Received: by 2002:a5d:4fc8:0:b0:256:ff7d:2347 with SMTP id h8-20020a5d4fc8000000b00256ff7d2347mr38309901wrw.13.1674727304037;
+        Thu, 26 Jan 2023 02:01:44 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id n15-20020a5d598f000000b002bdff778d87sm960081wri.34.2023.01.26.02.01.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jan 2023 01:57:32 -0800 (PST)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-4fd37a1551cso15769517b3.13;
-        Thu, 26 Jan 2023 01:57:32 -0800 (PST)
-X-Received: by 2002:a81:1216:0:b0:506:6b5d:523c with SMTP id
- 22-20020a811216000000b005066b5d523cmr421460yws.283.1674727052535; Thu, 26 Jan
- 2023 01:57:32 -0800 (PST)
+        Thu, 26 Jan 2023 02:01:43 -0800 (PST)
+Message-ID: <60d87ac5-ddd6-706d-e13a-3431024bca88@linaro.org>
+Date:   Thu, 26 Jan 2023 11:01:41 +0100
 MIME-Version: 1.0
-References: <20230124074706.13383-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230124074706.13383-1-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 26 Jan 2023 10:57:20 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUnUf+ZTRTBSmjz1_61CpWvaO=fyDv7ExT+FnQi=ujFXw@mail.gmail.com>
-Message-ID: <CAMuHMdUnUf+ZTRTBSmjz1_61CpWvaO=fyDv7ExT+FnQi=ujFXw@mail.gmail.com>
-Subject: Re: [PATCH] spi: sh-msiof: Enforce fixed DTDL for R-Car H3
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v2] dt-bindings: leds: Document Bluetooth and WLAN
+ triggers
+Content-Language: en-US
+To:     Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+        Lee Jones <lee@kernel.org>
+Cc:     patchwork-bot+bluetooth@kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>, pavel@ucw.cz,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        robh@kernel.org
+References: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
+ <167460363944.4058.4676712965831302643.git-patchwork-notify@kernel.org>
+ <Y9FG5Wg0PmP4zfV6@google.com>
+ <CABBYNZJEU-GD5J6K8_Ur4PWLvP10VNJGP7e_43H0=W3DOS=PNw@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CABBYNZJEU-GD5J6K8_Ur4PWLvP10VNJGP7e_43H0=W3DOS=PNw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+On 25/01/2023 20:23, Luiz Augusto von Dentz wrote:
+>>>> While at it, move the mmc pattern comment where it belongs, and restore
+>>>> alphabetical sort order.
+>>>>
+>>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>>> Reviewed-by: Rob Herring <robh@kernel.org>
+>>>>
+>>>> [...]
+>>>
+>>> Here is the summary with links:
+>>>   - [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
+>>>     https://git.kernel.org/bluetooth/bluetooth-next/c/ef017002b93b
+>>
+>> Why are you taking LED patches through the Bluetooth tree?
+> 
+> I assume there isn't a tree dedicated to dt-bindings/leds, not to
 
-Thanks for your patch!
+dt-bindings patches are supposed to go via subsystem (with drivers) or
+as fallback via Rob's DT tree. The subsystem here is LED, so the patches
+should be picked by Pavel and Lee, as maintainers of LED subsystem.
 
-On Tue, Jan 24, 2023 at 8:47 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Documentation says only DTDL of 200 is allowed for this SoC.
+If the subsystem was Bluetooth, then the patch would be for you. I hope
+that clarifies.
 
-Do you have a pointer to that?
+Best regards,
+Krzysztof
 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->
-> Tested with MSIOF0 on a Salvator-XS with R-Car H3 ES2.0 by creating a
-> loopback with a wire.
->
->  drivers/spi/spi-sh-msiof.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->
-> diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-> index 9bca3d076f05..609f48ec84dd 100644
-> --- a/drivers/spi/spi-sh-msiof.c
-> +++ b/drivers/spi/spi-sh-msiof.c
-> @@ -30,12 +30,15 @@
->
->  #include <asm/unaligned.h>
->
-> +#define SH_MSIOF_FLAG_FIXED_DTDL_200   BIT(0)
-
-We already have "renesas,dtdl" to configure this from DT.
-Iff this is really needed, perhaps it should be added to r8a77951.dtsi?
-
-I suspect this is a leftover in the BSP from attempts to get MSIOF
-working on R-Car H3 ES1.0 (which it never did for me, as CLK starts
-and stops too soon, compared to MOSI/MISO).
-On R-Car H3 ES2.0, everything works fine, without touching DTDL.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
