@@ -2,58 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3BE067CCFA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jan 2023 14:57:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 834AB67CD46
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Jan 2023 15:10:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229469AbjAZN5p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Jan 2023 08:57:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50342 "EHLO
+        id S229475AbjAZOKD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Jan 2023 09:10:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229611AbjAZN5o (ORCPT
+        with ESMTP id S230515AbjAZOJq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Jan 2023 08:57:44 -0500
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC5C86A713
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 05:57:24 -0800 (PST)
-Received: by mail-qt1-f175.google.com with SMTP id o5so1237903qtr.11
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 05:57:24 -0800 (PST)
+        Thu, 26 Jan 2023 09:09:46 -0500
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BF8136690;
+        Thu, 26 Jan 2023 06:09:45 -0800 (PST)
+Received: by mail-qv1-f50.google.com with SMTP id m12so1501229qvt.9;
+        Thu, 26 Jan 2023 06:09:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zITmSWc/9+6XwmuTec6rC27+zeq7PjV6RWOfbUvE03U=;
-        b=wK1qPH6BeS+eUjdlQSyne2r/fAehwxTx7xfwl09u8J8vaj8/LFqxzElQ1rSgXTJKWb
-         FTQxDB5enClklqIqkjLTeD8jPcUzPpCm3usuXfEf+SShZi47xAAjI2qfTPuv77pU0+5C
-         obf2PD1j5JxJ7vv+lslBHliJ0CUnxTYTIf+moSrpC2mDtcza0za5zknaYu8nj/unPw8U
-         niR6DnWVZsB0JBQoddTuVuF6mM4bgOQ+G9UFGHH9LtejrlxiOe4q6qWR4cSwk6thkiG7
-         Fg2Au8QYndJgbR0P6bMpBioGjcD27gAv5PhLrQP2daJZ9H5LGwnqstuxa3XNfqzkr9KH
-         6PeQ==
-X-Gm-Message-State: AFqh2kqpYCoLLPtkzEpe2p2NDqr4bJnxZJ0LYfzx8VV1YHrBRo5w4K/J
-        beoEScq6I8Uuml518SxF8oy5LRRZYOQINA==
-X-Google-Smtp-Source: AMrXdXvgoJLZ9aTayXETDlNXvhFizrk2G+ND1fnG4O0DtmEUMFvxpMCkrg3u6ox9Tj8naMODNqLHdA==
-X-Received: by 2002:ac8:7511:0:b0:3ae:7b4b:fb32 with SMTP id u17-20020ac87511000000b003ae7b4bfb32mr49420981qtq.48.1674741407756;
-        Thu, 26 Jan 2023 05:56:47 -0800 (PST)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id z16-20020ae9c110000000b0070617deb4b7sm875265qki.134.2023.01.26.05.56.47
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=VNOgtEE7H1l/AO8s03pTaXslPPOOy5fTOkR4y1H9rA8=;
+        b=1QD4yfotXoM91Xy0WP9+6tTKa6t1SC6ectyQXdhDhroL38Wup+Y8yx6zHPWrwNdbEj
+         wXewuaP4MOyek+BJFVH4/4e+E/FwXVmaOy9+fq5ty7/36XPQJjg2Hd4NWGztRGiVMCed
+         iQmFaOyw/V+Dq8sl4//cG2bOT3QU5lQAjGQiuvDa4jJCxbw2oSTiDsBC3Lqye7kuEc94
+         NDwYxL1QX7EF3e3pOCT9xxbASqlYTjLWZyJIGm+jfdSg+WgnT8oUeD92NHpNBX80tEof
+         mMD2hp83e5nQPXD92jlR2a2QROENCUm42TVbvzsWtcddlPe+V22DbuBLghq2hC+OrFzB
+         0Qpw==
+X-Gm-Message-State: AO0yUKVAOhXM495FxW/Ki+KyvTBqa8sYF/ilnDPGXRxOh18SLNK+wLmr
+        hBh4Sfjq2xFwJyOcfk6tImZ/2frg04/6UQ==
+X-Google-Smtp-Source: AK7set8l2rCjeJ3aD4d5nQs5eKYjsBZvnDe/S9mu/+SSZEErZQO6YokJp/GiUBjWfSuYzupKMnJylQ==
+X-Received: by 2002:a05:6214:5189:b0:537:791d:51c6 with SMTP id kl9-20020a056214518900b00537791d51c6mr2993741qvb.14.1674742184241;
+        Thu, 26 Jan 2023 06:09:44 -0800 (PST)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id pi48-20020a05620a37b000b006e16dcf99c8sm947974qkn.71.2023.01.26.06.09.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jan 2023 05:56:47 -0800 (PST)
-Received: by mail-yb1-f171.google.com with SMTP id x4so2049295ybp.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 05:56:47 -0800 (PST)
+        Thu, 26 Jan 2023 06:09:43 -0800 (PST)
+Received: by mail-yb1-f179.google.com with SMTP id d132so2080093ybb.5;
+        Thu, 26 Jan 2023 06:09:43 -0800 (PST)
 X-Received: by 2002:a25:ab30:0:b0:80b:8247:e8b1 with SMTP id
- u45-20020a25ab30000000b0080b8247e8b1mr790584ybi.604.1674741407150; Thu, 26
- Jan 2023 05:56:47 -0800 (PST)
+ u45-20020a25ab30000000b0080b8247e8b1mr794862ybi.604.1674742183328; Thu, 26
+ Jan 2023 06:09:43 -0800 (PST)
 MIME-Version: 1.0
-References: <87y1pqt4vs.wl-kuninori.morimoto.gx@renesas.com> <87tu0et4up.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87tu0et4up.wl-kuninori.morimoto.gx@renesas.com>
+References: <cover.1670492384.git.geert+renesas@glider.be> <a174da512fb1cba0a001c9aed130a2adca14e60a.1670492384.git.geert+renesas@glider.be>
+In-Reply-To: <a174da512fb1cba0a001c9aed130a2adca14e60a.1670492384.git.geert+renesas@glider.be>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 26 Jan 2023 14:56:35 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUkDgOUSCO4Qaqq7ZJ9mG1f0-915PzoRynaNOVOD_Yz-w@mail.gmail.com>
-Message-ID: <CAMuHMdUkDgOUSCO4Qaqq7ZJ9mG1f0-915PzoRynaNOVOD_Yz-w@mail.gmail.com>
-Subject: Re: [PATCH 3/4] clk: renesas: r8a779g0: Add Audio clocks
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Thu, 26 Jan 2023 15:09:31 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVZ7DL=bo8+g=jWKC=z3aXaRzvZNu5KirRgzvuU7jv=NQ@mail.gmail.com>
+Message-ID: <CAMuHMdVZ7DL=bo8+g=jWKC=z3aXaRzvZNu5KirRgzvuU7jv=NQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] clk: renesas: rcar-gen4: Add support for fractional multiplication
+To:     geert+renesas@glider.be
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Tho Vu <tho.vu.wh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -65,35 +69,34 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
-
-On Thu, Jan 26, 2023 at 3:19 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On Thu, Dec 8, 2022 at 2:07 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> R-Car Gen4 PLLs support fractional multiplication, which can improve
+> accuracy when configuring a specific frequency.
 >
-> This patch adds module clocks for Audio (SSI/SSIU) blocks on
-> the Renesas R-Car V4H (R8A779G0) SoC.
+> Add support for fractional multiplication to the custom clock driver
+> for PLLs, which is currently used only for PLL2 on R-Car V4H.
 >
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> I am not so sure it is worth supporting this.
+> On R-Car V4H, the following clock rates are seen for PLL2 and the
+> Cortex-A76 CPU core clock, when using the Normal vs. the
+> High-Performance mode:
+>
+>                                         Multiplication Mode
+>                                         Integer         Frational
+>                                         ----------      ----------
+>     Normal (1.7 GHz):            PLL2   3399999864      3399999997
+>                                  Z0     1699999932      1699999999
+>     High-Performance (1.8 GHz):  PLL2   3599999856      3599999997
+>                                  Z0     1799999928      1799999999
+>
+> The improvement is of a similar order of magnitude as the accuracy of
+> the external crystal, hence insignificant...
 
-Thanks for your patch!
-
-> --- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-> @@ -202,6 +202,8 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
->         DEF_MOD("pfc1",         916,    R8A779G0_CLK_CL16M),
->         DEF_MOD("pfc2",         917,    R8A779G0_CLK_CL16M),
->         DEF_MOD("pfc3",         918,    R8A779G0_CLK_CL16M),
-> +       DEF_MOD("ssiu",         2926,   R8A779G0_CLK_S0D6_PER),
-> +       DEF_MOD("ssi",          2927,   R8A779G0_CLK_S0D6_PER),
-
-LGTM, although I couldn't verify the parent clock.
-
->  };
-
-Does this actually work as-is?
-The arrays in drivers/clk/renesas/renesas-cpg-mssr.c do not yet contain
-the register offsets for e.g. MSTPCR28 and beyond...
+Hence I'm ignoring this, unless someone has a good reason to push
+through...
 
 Gr{oetje,eeting}s,
 
