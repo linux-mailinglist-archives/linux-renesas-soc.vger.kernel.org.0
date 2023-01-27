@@ -2,77 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20E9867F01B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 22:07:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A144B67F076
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 22:35:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229618AbjA0VHi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Jan 2023 16:07:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33718 "EHLO
+        id S229725AbjA0Vfk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Jan 2023 16:35:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229619AbjA0VHh (ORCPT
+        with ESMTP id S229470AbjA0Vfj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Jan 2023 16:07:37 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C2518717D;
-        Fri, 27 Jan 2023 13:07:36 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9CCD961CB2;
-        Fri, 27 Jan 2023 21:07:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2366C433EF;
-        Fri, 27 Jan 2023 21:07:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674853655;
-        bh=a3kfzI/OJYfOAQlpl253CoHuuao3p0PRGthjUntv+wE=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=ECzrfn4OGE/GAibVpQTJLfiM/78oNIE5Ar4b9NmmLMVIu9VU4G1gK9wkvpMS/PwEZ
-         IZpVpjoaPkL96/FfXKAEs88XBFcMeg69anHWdUrz6F3XdyWoNqNzglYMsem72POINS
-         +7XC5a8DXjq2JICrzXGvZmOeEy5/jQk6NEBAogeG8xRtnNA+bJMhLgNGODNMn7Q21r
-         tF8GCfYVFDIW9lvnhlCSOkVMeq7KryGowz+Zi17TVR5HsRyiUmGWSeOyUY/0cl0t21
-         D12FDVdp9z16VANsDR2tPLWpsvu5v5rC1Ey6X5x6SYThVS5+J1sJwhRIbgUDZtHy2n
-         hdc7exy9bkNRA==
-Message-ID: <ac971e61582be2cb2c58850c06d8d8a4.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+        Fri, 27 Jan 2023 16:35:39 -0500
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BAAF5CFC1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Jan 2023 13:35:38 -0800 (PST)
+Received: by mail-pg1-x532.google.com with SMTP id 36so4040550pgp.10
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Jan 2023 13:35:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ct9ck9vkM14O2ZHT6Pqc9iBFx3XHxaDWOS1C2RoVEAU=;
+        b=YcZG93rCx580JM+/kJQjqJNGa6Jgb6/qZiN5/YfvP4kIVBbWkUzJ8hwxXNlx8Ewpwo
+         LqnLq1rlR7zfYs9S4f0XcmnwRYZDOvhEUroawwmqv2wyiiIIaIK8TvTrrGC/9Q5a4i7o
+         /H9LS2x4jHEq2tldPYhckGPvwPm/D6ztPdWkLVVNLbhVASfIVLJ7VdQvtLLDOtAbpZDl
+         mOQv0isg2ZCsQdiIbaXX0WC3KR9suV8MFrv41WyqGXwMi55LYe1tgFvcvKD6WR3wetWZ
+         itqs0kGWR9UYPR5om9kTa4s6pQeQceN/FpGWkJJLYK96iPp3ebtI0ncdPp7Y4tYKAGB9
+         WMvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ct9ck9vkM14O2ZHT6Pqc9iBFx3XHxaDWOS1C2RoVEAU=;
+        b=JF3FZpboACYweXhTm+QQX/fcO8qjKJZurvr+DwfLwKH3duHHUOItK2DKDoKdFQhUzz
+         846TEJvR5TVZ4DxTlLhcKtvGYZ0PWT9tSVazZIbjUBj815r2cihkXucIyV0aXeherP7D
+         GUqm7Zq7hOxR9L+3I9GyZuR4s+NjGtMUId5sL4rOzRw3HP2Z+c9rfC7s4PGhe9XXxNZl
+         oUqq3om1ZwWHAm3mOvQvYBYv1qfaKNNGQxtS7eCwXOm15GhmyrjvaZdcADGcglCa9upp
+         eTHwj1h1pYdXQixntmSd0DwjmmxMskhlhEKmFg8XcE2U9zRQn5Rt2kHGOh30p+ihtamH
+         5giA==
+X-Gm-Message-State: AO0yUKXn/YmCJoFBLHIGMxryZgbJ010gNEjP5UZZyZwB0wOEc2SNaRJK
+        mREh3Jik79Y/XSQOy7DpZlF783tioL6uv8CJvoRIbA==
+X-Google-Smtp-Source: AK7set8A87a1b6gwb4OnNq2XRUc7qhsa9qKHiaWo49QwN+9e+0qsFtowQYDUOK06dTepf46OknaZKx06adJ0S04TZoY=
+X-Received: by 2002:aa7:91d3:0:b0:592:61cc:5aeb with SMTP id
+ z19-20020aa791d3000000b0059261cc5aebmr608421pfa.59.1674855336983; Fri, 27 Jan
+ 2023 13:35:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <cover.1674815598.git.geert+renesas@glider.be>
-References: <cover.1674815598.git.geert+renesas@glider.be>
-Subject: Re: [GIT PULL] clk: renesas: Updates for v6.3 (take two)
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>
-Date:   Fri, 27 Jan 2023 13:07:32 -0800
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230127001141.407071-1-saravanak@google.com> <Y9Q0culPHGNZkQz9@euler>
+In-Reply-To: <Y9Q0culPHGNZkQz9@euler>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Fri, 27 Jan 2023 13:35:00 -0800
+Message-ID: <CAGETcx9oohQ0SeHGQNsbVpitG-freYhbTUm34TbzMQAeLGjSfw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/11] fw_devlink improvements
+To:     Colin Foster <colin.foster@in-advantage.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Len Brown <lenb@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Linux Kernel Functional Testing <lkft@linaro.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Abel Vesa <abel.vesa@linaro.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        John Stultz <jstultz@google.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Maxim Kiselev <bigunclemax@gmail.com>,
+        Maxim Kochetkov <fido_max@inbox.ru>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Luca Weiss <luca.weiss@fairphone.com>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Jean-Philippe Brucker <jpb@kernel.org>,
+        kernel-team@android.com, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-acpi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2023-01-27 08:28:38)
->         Hi Mike, Stephen,
->=20
-> The following changes since commit fbfd614aeaa2853c2c575299dfe2458db8eff6=
-7e:
->=20
->   clk: renesas: cpg-mssr: Fix use after free if cpg_mssr_common_init() fa=
-iled (2023-01-12 17:18:48 +0100)
->=20
-> are available in the Git repository at:
->=20
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
- tags/renesas-clk-for-v6.3-tag2
->=20
-> for you to fetch changes up to bd176e46e9c23f669b28630cc8f3fb1b89fd610e:
->=20
->   clk: renesas: r8a779g0: Add CAN-FD clocks (2023-01-26 15:13:53 +0100)
->=20
-> ----------------------------------------------------------------
+On Fri, Jan 27, 2023 at 12:30 PM Colin Foster
+<colin.foster@in-advantage.com> wrote:
+>
+> On Thu, Jan 26, 2023 at 04:11:27PM -0800, Saravana Kannan wrote:
+> > Dmitry, Maxim(s), Miquel, Luca, Doug, Colin, Martin, Jean-Philippe,
+> >
+> > I've Cc-ed you because I had pointed you to v1 of this series + the
+> > patches in that thread at one point or another as a fix to some issue
+> > you were facing. It'd appreciate it if you can test this series and
+> > report any issues, or things it fixed and give Tested-bys.
+>
+> I applied this on my working net-next/main development branch and can
+> confirm I am able to successfully boot the Beaglebone Black.
+>
+> Tested-by: Colin Foster <colin.foster@in-advantage.com>
 
-Thanks. Pulled into clk-next
+Thanks!
+
+-Saravana
