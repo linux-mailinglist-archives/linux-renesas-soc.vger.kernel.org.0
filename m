@@ -2,111 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90AE767D991
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 00:23:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDB8A67DA44
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 01:11:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229956AbjAZXXF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Jan 2023 18:23:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42028 "EHLO
+        id S232324AbjA0ALt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Jan 2023 19:11:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232173AbjAZXXE (ORCPT
+        with ESMTP id S232169AbjA0ALs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Jan 2023 18:23:04 -0500
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2114.outbound.protection.outlook.com [40.107.117.114])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36C14367DE
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 15:23:03 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QwdGGnlgwKLNL+Of1GW+7y0gQ7T6iwiT5RDlOSVwk2KfRLoaJgx8bjlx0NzLk8NV5fzCVljCLRhu6aS1xIHyJK9R9xmOeyna61+LsA4ltIrBBaZm28HmJOhnFQwUQ3qFHxWTf+LmO/1xIpImudubqnvhbdlWkJmIgZ+YtNKQKCy/7XWytMvnQs15FCyJoSi5pRdB7QU/rfL3VdMApokunoNjZManoBTqIs6FnmASeCzQ1326qiEJ4dbNf4Yt0fYZsyaoSwPpU4Eqknf15EzIYQHAcXsxjZWtq2d4n0PsgBvD1d+n7TjVp1HWc3bFkWSTdBXZcCUvRocRylevLRf+pQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rcFR50auu1zoBgBh2pA/n5OSTAV23Ntn6URHMag4JJY=;
- b=U3Q21HhWazRx4oroYK+KBfdcF0W58RI4GVTUlK4Er5g7kq4ZH9lm6hlLV+4z10bN/LnpZvBmyEGi8xyA1mfUnaxoVMKwuUYVrZyGQdXkownDC79pf+BNXBHzTvv0JIaT1r+brPO3XbdhtwfPMWruGr8ZpF5LnTuFjX5TQT0PLjdPulfTEQgjY3Km3WvmEIHE3LZORIBSIixE15Ry4M5jlfoJHPkmwlaOiJw65DbdcfPJla8KHDHmGzs33FOMkxICWI8NMybnVD4zkcNw6/djL/sAala8WpOB3sTOHprGj1m4z2Ia9a+gyAEf2Fplw6I0SnAKDUUn8PCsQYHJGEOKjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rcFR50auu1zoBgBh2pA/n5OSTAV23Ntn6URHMag4JJY=;
- b=pejMLRO5gYXQaEWOfIqYfIkW4065IzxLv25DyV9q6oxSYG6isx1MRyBhWzrjrS9dnAKy/Ik38DEbb3GNVQ9k7zxDj4mD8XN4Ot6oW+J6AuCkF3hh+d4CRFgsYfqfLDtLdZS6RNyTbqzKzGCpwqUamPuB8WxPFOx9r/qwQdgyprY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
- by TYWPR01MB8776.jpnprd01.prod.outlook.com (2603:1096:400:16f::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.21; Thu, 26 Jan
- 2023 23:23:01 +0000
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::4b75:8d8e:d89a:7860]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::4b75:8d8e:d89a:7860%4]) with mapi id 15.20.6043.023; Thu, 26 Jan 2023
- 23:23:01 +0000
-Message-ID: <878rho6fu3.wl-kuninori.morimoto.gx@renesas.com>
-From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 0/4] arm64: V4H Sound support
-In-Reply-To: <CAMuHMdVHuB3ETAHzo1JwfbHoXPHVEtYmuASC_x-TWVRD21d4fQ@mail.gmail.com>
-References: <87y1pqt4vs.wl-kuninori.morimoto.gx@renesas.com>
-        <CAMuHMdVHuB3ETAHzo1JwfbHoXPHVEtYmuASC_x-TWVRD21d4fQ@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date:   Thu, 26 Jan 2023 23:23:01 +0000
-X-ClientProxiedBy: TY2PR0101CA0026.apcprd01.prod.exchangelabs.com
- (2603:1096:404:8000::12) To OS3PR01MB8426.jpnprd01.prod.outlook.com
- (2603:1096:604:194::10)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS3PR01MB8426:EE_|TYWPR01MB8776:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed77ffd9-465d-43f7-041a-08dafff44483
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JjYDzsRTJsGbtdfeUWfvkiILRx9xSTx/tBS8hb+7VJ+xYnrom6emorK5OiNR/NUU0jOfg1lQ5hxciqyCcRWdKkqgB11ud6zOJMWCROiV8Rf1jOJbfv3ryduU0X3Q/aThd2eSAXPgnO5ZEt1USx3GFRfHAmy7sGI376apTk+yQmgimnpV8OdSI6Y6py4Jrcnk1Mm2De/nUiI7LQ4UGqNIbYUmcFP+T1jxtANsAZoYJkOl8LOx9wZP1MO97I3dtJ2AOsSuOZp905wR8m6ZGEhhJyU/KZMhcWZLbsPE6JsvaD6K70wmtvd+VOz6BxchyQTFHlLUvERFPVO0LXeI91ZhT9xqbFIHs11lA5CE1oi3yJ2MseXBsQJkP5LDMiRGCPMIzZZU1AsI3BzLpw5aBByoCi/zjswEl5EusPGphtpGkNK4yS1C0p0wBQTAYDJAKldj/at3jRKRsXtF4PDyjgRjX+cAKfC76vVi2hHD+cPfsnbMEMsS5i3GKUK0KH7pghRSqM0jpm0BC6BXzknQYxj0RvRGnqxXXDJVCLVki5fBJDxmvmZRBbpwug8IuAiHc+DC72TOA1sNXR2ayYyFkknZEC1v9Pip2K40i4VKxSKvyD0dLoRrrkJsYFjosC0N5pcK/0v9BwjSdf9APKjgovfOX306I+idpSDzE+XQEg2wQNLZHDiqaSaW+9zN9hRPtfURq0MkExF7A24YPIUU+7GciQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(136003)(39860400002)(376002)(366004)(346002)(451199018)(8676002)(36756003)(38100700002)(38350700002)(186003)(2616005)(6512007)(26005)(86362001)(83380400001)(4744005)(5660300002)(6486002)(6506007)(52116002)(478600001)(316002)(6916009)(4326008)(66476007)(8936002)(66946007)(66556008)(2906002)(41300700001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FnhP9HQJ61mck/PfofxlLa6JVeBniTzIClvY4GKANF7txJmSw3+vxVlEdXjt?=
- =?us-ascii?Q?Y3Mh7oPfOEzXoyoyV3NFzucUqVGp6mB/Q+TzWNVbYcEFgX2I39uUvJO/kRvZ?=
- =?us-ascii?Q?yN3ij5ai1HntwrYTvi+Ahx5vbLGeAbarC3hu1aXtsOewNmQ0bLud1207qpbQ?=
- =?us-ascii?Q?8x2WubY9zfadrFJXP7BcB+5wHItcLeZ4YbvkhRDmErnrkFnZe84puqljgghE?=
- =?us-ascii?Q?8kBm+c6Zr3AIFiVb/uDmKmhWzAPbGPhxRuJuFjabkJAHPjMcemjV2v4CRoga?=
- =?us-ascii?Q?3AalXp7xAa73A+qnWf/KotIqvFKZFovCfDGXZ6fXsQUdsEcVHq3nmiVChn6S?=
- =?us-ascii?Q?NBdHJKKQTjDBlnCpG9xQMe5iRIHsG+RWasocEZOUt4MJM0ZWRVRrFj/5pLdA?=
- =?us-ascii?Q?+4hMh1pdRnNhKSipjdlrthjX61h6zTTLggAei/EgvpNCDkGGVqM8RdhYQzTy?=
- =?us-ascii?Q?O5zkAI9o5EeHDmTpskWX5aoS1uTxjKN/GUoMrBNRrMDm3QHyp0BLLGoeErSW?=
- =?us-ascii?Q?uGidTaH1f9u2gCh/0YKIFpx+xH94hFf5/vCtq4ulZkf6bXJEs7ckZc4OWHgE?=
- =?us-ascii?Q?XK0lNo0/wQU80y+txFx/V6+KTLJ/PLErZwg7+E4xygxwhRnpj+o9dm9Hx+lQ?=
- =?us-ascii?Q?VjqTF/3kjMRBBtEBksv29GixDmuu9BhRvjobbMrkWG8JVXmegCaus0JSmCZ9?=
- =?us-ascii?Q?mc5IYKnO/twgruCXrwf3CX4lg3i7Unkdw5I7kTnyTzKH7LJL8qijgFjhwfGN?=
- =?us-ascii?Q?2bdRacSEylkvYqsbsn6QJTS3Ar+38mMdwMRyFbKb/n+QwFXzQGWgn6+PGrhK?=
- =?us-ascii?Q?QksqaHGbW8fMRgScKLoUeF2Eg6ZGeru/9u1+pJneO547gOau1IGnDdpcXMBb?=
- =?us-ascii?Q?GqzTIgpZYRLINj5oWrr1Ei7wAD5cWeYdAO0wZnLj/TpomisN/LBMvicrKMqG?=
- =?us-ascii?Q?66GTW4NWreX5DkvoiNCnDRLVX+F66AsIMwUZ12Ap+4Ryd+PklREuMfAwXsMO?=
- =?us-ascii?Q?Rxe7TC5yZ1KAOmZoMcKJyiquFd/XWrTTVv16oY2A+IElMX5uQ5BRyikqqlMT?=
- =?us-ascii?Q?3sF5fz662hxfB592DbWcgGmmOAvLqfIRtLpRj6GfxFOY2vZSCKtCqd6yz2Yl?=
- =?us-ascii?Q?to45NwZp3wmNjwhpQXo7DGKlelgMg2mrWhZ+85Lr02+YMyRZA7D9jaFuTVgJ?=
- =?us-ascii?Q?C/PjT4YQdYq6k9NtkWtEBRC3ZfBnlrQpcK/iKjP4fNKwRB1YsMfofTuD0W/A?=
- =?us-ascii?Q?xvf0WB9V5zGryYM6ukpN2SiOz9VHSeHge9CYzFZ1WtqUq0SOjN5TY9Tge+cA?=
- =?us-ascii?Q?QoFTCoLGD7y+ChoniCCphIcyRphIJ/Plo0FCvFbVb55NURONIrAKZMwIK3IG?=
- =?us-ascii?Q?Gp3JsRGlzq2IPd+hDcPHwRWpsJDTqcSK8LyqfBwhMnI58AuGxYziKH0Ma2KU?=
- =?us-ascii?Q?dvqG0cm0wOADvQXpzIaWHEp3Zz3m/q2E5pjrr1Mt0dtzuSwhuQYdKq67yjjP?=
- =?us-ascii?Q?6B72VgdRo8XJciPKNY4IDGXo3qG1fImNjrYIdxYTvfLNHcHJCbtbOlXpQo3b?=
- =?us-ascii?Q?JBpFR2KCQzlxs93SHqwc3BtnCSNWk5soRr1k55S25nYLZfdOya+SoDpkjBxb?=
- =?us-ascii?Q?Lr6cxTvcNegk3C7MKZkAMMY=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed77ffd9-465d-43f7-041a-08dafff44483
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2023 23:23:01.4292
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +JaQw6OR71uHueqgie/1O/wDKifSnHmoOAAZ7KuHfii5ceqMTZznD4KxT/9JsyEEDCFtSSsjHV3VXCw7fyJYJ0kag8N4wA6h4H8L2b+bSTDQRtd/rkuIrU6s/HVg6fYC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8776
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        Thu, 26 Jan 2023 19:11:48 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCCCB6F225
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 16:11:45 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id a62-20020a25ca41000000b0080b838a5199so3653485ybg.6
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 16:11:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:mime-version:message-id:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=h6fKpqor2jTotXSn3372bFcG4CpzS45+gNVV/kwVyH8=;
+        b=T8nzXdhvva6D8ItxjLauAJb7Lyid2FP9CiV7mBEHmzqXkhpihBiea+Ioio0cAu8xfk
+         38uctdNEzdnoayDngTT6u5jAB3K9SyCqO69ZHzu6SQIT4G1/4H8n5lUhteIFoEcLkrd/
+         NC7bGETX0A7PnfR5ScrGUjnQD80Sz0m7kXCTUVUqTJKM5nBtRvjssVXvElskyh9nOA5B
+         kSA2Howr4hDZAHM9Lbx9b8nMy3QluBCPXDiZJRb7hYpVpwWoEHcmduWXSpIpEiJh192d
+         rm10BYlry79ywPtc9qUZQs6Ng4FGlUz3MjWb+CD/PKIna5stlSnhXFhB/d+N00jJdvc2
+         wtTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=h6fKpqor2jTotXSn3372bFcG4CpzS45+gNVV/kwVyH8=;
+        b=toh8dKZR5tJC049ARWg+XoWDz/bC24aQMFc4jNZYZtwif3rZuCLp5AVdMSnWoq/Bhi
+         02HKj9rUPK/X3lJpEPOoE4Cq8oxfXgokw6OwJsJL6ZWicx4Z1ntxAOmu76QaFGuIVNME
+         YNq/dJaWBJSkK6leatWEBD1pZ4qW2vw9j/KijOnJg5dWilVkT4xFaCp1balqRvZRKr+f
+         9KX1vNleUQ1XEsjOXckf0yBeJzAWqW0XbuOMGInEDmprUe9n/teNyNZEax614+ZRNrdj
+         pSd//X3ETFv7FsnqpI5+wAm1g7VgSqkJUrFb8bqi8zgfRzjuy4Q3dp8XCLIIdjTM6W6v
+         DVjQ==
+X-Gm-Message-State: AO0yUKV4Wd12VomWxLiVuyV6h2Tc6yN+t4b58R/c/fWFyXlGYlKvy/Gf
+        xAoVH0mZTH5rlxa6Vl/FbJeQb4SYTi90q9w=
+X-Google-Smtp-Source: AK7set8HC3iQRXqsprtDAE3CdIOQ7dDgidlu4bwwuFWNlmxmQapx1Ya/7QpSiTTdct3N5H90xaY9cR/X6RtO3kA=
+X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:c3b4:8b1c:e3ee:3708])
+ (user=saravanak job=sendgmr) by 2002:a25:df86:0:b0:80b:7fa3:d33f with SMTP id
+ w128-20020a25df86000000b0080b7fa3d33fmr1197459ybg.599.1674778304965; Thu, 26
+ Jan 2023 16:11:44 -0800 (PST)
+Date:   Thu, 26 Jan 2023 16:11:27 -0800
+Message-Id: <20230127001141.407071-1-saravanak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.39.1.456.gfc5497dd1b-goog
+Subject: [PATCH v2 00/11] fw_devlink improvements
+From:   Saravana Kannan <saravanak@google.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Len Brown <lenb@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Saravana Kannan <saravanak@google.com>
+Cc:     Tony Lindgren <tony@atomide.com>,
+        Linux Kernel Functional Testing <lkft@linaro.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Abel Vesa <abel.vesa@linaro.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        John Stultz <jstultz@google.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Maxim Kiselev <bigunclemax@gmail.com>,
+        Maxim Kochetkov <fido_max@inbox.ru>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Luca Weiss <luca.weiss@fairphone.com>,
+        Colin Foster <colin.foster@in-advantage.com>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Jean-Philippe Brucker <jpb@kernel.org>,
+        kernel-team@android.com, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-acpi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -114,26 +106,126 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+This patch series improves fw_devlink in the following ways:
 
-Hi Geert
+1. It no longer cares about a fwnode having a "compatible" property. It
+   figures this our more dynamically. The only expectation is that
+   fwnode that are converted to devices actually get probed by a driver
+   for the dependencies to be enforced correctly.
 
-> > Sound test on V4H needs Custom White Hawk and extra Sound board.
-> 
-> Do you have more details?
-> I assume you can get digital sound from CN-40?
+2. Finer grained dependency tracking. fw_devlink will now create device
+   links from the consumer to the actual resource's device (if it has one,
+   Eg: gpio_device) instead of the parent supplier device. This improves
+   things like async suspend/resume ordering, potentially remove the need
+   for frameworks to create device links, more parallelized async probing,
+   and better sync_state() tracking.
 
-Yes, and need magical connection to extra Sound board.
+3. Handle hardware/software quirks where a child firmware node gets
+   populated as a device before its parent firmware node AND actually
+   supplies a non-optional resource to the parent firmware node's
+   device.
 
-> > Sound Driver Gen4 part is not yet tested, but SoC parts are OK,
-> > and these are for it.
-> 
-> What do you mean by "Sound Driver Gen4 part"?
+4. Way more robust at cycle handling (see patch for the insane cases).
 
-Current Sound driver doesn't support Gen4 yet.
-We need patch for it. It is not included in this patch-set.
+5. Stops depending on OF_POPULATED to figure out some corner cases.
 
-Thank you for your help !!
+6. Simplifies the work that needs to be done by the firmware specific
+   code.
 
-Best regards
----
-Kuninori Morimoto
+Sorry it took a while to roll in the fixes I gave in the v1 series
+thread[1] into a v2 series.
+
+Since I didn't make any additional changes on top of what I already gave
+in the v1 thread and Dmitry is very eager to get this series going, I'm
+sending it out without testing locally. I already tested these patches a
+few months ago as part of the v1 series. So I don't expect any major
+issues. I'll test them again on my end in the next few days and will
+report here if I actually find anything wrong.
+
+Tony, Naresh, Abel, Sudeep, Geert,
+
+I got the following reviewed by's and tested by's a few months back, but
+it's been 5 months since I sent out v1. So I wasn't sure if it was okay
+to include them in the v2 commits. Let me know if you are okay with this
+being included in the commits and/or if you want to test this series
+again.
+
+Reviewed-by: Tony Lindgren <tony@atomide.com>
+Tested-by: Tony Lindgren <tony@atomide.com>
+Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
+Tested-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+Tested-by: Abel Vesa <abel.vesa@linaro.org>
+Tested-by: Sudeep Holla <sudeep.holla@arm.com>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Dmitry, Maxim(s), Miquel, Luca, Doug, Colin, Martin, Jean-Philippe,
+
+I've Cc-ed you because I had pointed you to v1 of this series + the
+patches in that thread at one point or another as a fix to some issue
+you were facing. It'd appreciate it if you can test this series and
+report any issues, or things it fixed and give Tested-bys.
+
+In addition, if you can also apply a revert of this series[2] and delete
+driver_deferred_probe_check_state() from your tree and see if you hit
+any issues and report them, that'd be great too! I'm pretty sure some of
+you will hit issues with that. I want to fix those next and then
+revert[2].
+
+Thanks,
+Saravana
+
+[1] - https://lore.kernel.org/lkml/20220810060040.321697-1-saravanak@google.com/
+[2] - https://lore.kernel.org/lkml/20220819221616.2107893-1-saravanak@google.com/
+[3] - https://lore.kernel.org/lkml/CAGETcx-JUV1nj8wBJrTPfyvM7=Mre5j_vkVmZojeiumUGG6QZQ@mail.gmail.com/
+
+v1 -> v2:
+- Fixed Patch 1 to handle a corner case discussed in [3].
+- New patch 10 to handle "fsl,imx8mq-gpc" being initialized by 2 drivers.
+- New patch 11 to add fw_devlink support for SCMI devices.
+
+Cc: Abel Vesa <abel.vesa@linaro.org>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Tony Lindgren <tony@atomide.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: John Stultz <jstultz@google.com>
+Cc: Doug Anderson <dianders@chromium.org>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maxim Kiselev <bigunclemax@gmail.com>
+Cc: Maxim Kochetkov <fido_max@inbox.ru>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Luca Weiss <luca.weiss@fairphone.com>
+Cc: Colin Foster <colin.foster@in-advantage.com>
+Cc: Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc: Jean-Philippe Brucker <jpb@kernel.org>
+
+Saravana Kannan (11):
+  driver core: fw_devlink: Don't purge child fwnode's consumer links
+  driver core: fw_devlink: Improve check for fwnode with no
+    device/driver
+  soc: renesas: Move away from using OF_POPULATED for fw_devlink
+  gpiolib: Clear the gpio_device's fwnode initialized flag before adding
+  driver core: fw_devlink: Add DL_FLAG_CYCLE support to device links
+  driver core: fw_devlink: Allow marking a fwnode link as being part of
+    a cycle
+  driver core: fw_devlink: Consolidate device link flag computation
+  driver core: fw_devlink: Make cycle detection more robust
+  of: property: Simplify of_link_to_phandle()
+  irqchip/irq-imx-gpcv2: Mark fwnode device as not initialized
+  firmware: arm_scmi: Set fwnode for the scmi_device
+
+ drivers/base/core.c             | 443 +++++++++++++++++++++-----------
+ drivers/firmware/arm_scmi/bus.c |   2 +
+ drivers/gpio/gpiolib.c          |   6 +
+ drivers/irqchip/irq-imx-gpcv2.c |   1 +
+ drivers/of/property.c           |  84 +-----
+ drivers/soc/imx/gpcv2.c         |   1 +
+ drivers/soc/renesas/rcar-sysc.c |   2 +-
+ include/linux/device.h          |   1 +
+ include/linux/fwnode.h          |  12 +-
+ 9 files changed, 332 insertions(+), 220 deletions(-)
+
+-- 
+2.39.1.456.gfc5497dd1b-goog
+
