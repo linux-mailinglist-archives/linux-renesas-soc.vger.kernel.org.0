@@ -2,46 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62A4067EAE5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 17:28:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7463E67ECA1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 18:40:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234831AbjA0Q2y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Jan 2023 11:28:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56052 "EHLO
+        id S234814AbjA0Rk2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Jan 2023 12:40:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234803AbjA0Q2y (ORCPT
+        with ESMTP id S234652AbjA0Rk1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Jan 2023 11:28:54 -0500
-Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4308D21A20
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Jan 2023 08:28:53 -0800 (PST)
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by gauss.telenet-ops.be (Postfix) with ESMTPS id 4P3NLW4gN3z4x76l
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Jan 2023 17:28:51 +0100 (CET)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:a160:4e65:21d4:30bf])
-        by albert.telenet-ops.be with bizsmtp
-        id DsUr2900E2rBNjs06sUrZF; Fri, 27 Jan 2023 17:28:51 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pLRah-007ZlB-JQ;
-        Fri, 27 Jan 2023 17:28:51 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pLRat-005Tc6-C7;
-        Fri, 27 Jan 2023 17:28:51 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] pinctrl: renesas: Updates for v6.3
-Date:   Fri, 27 Jan 2023 17:28:50 +0100
-Message-Id: <cover.1674815692.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Fri, 27 Jan 2023 12:40:27 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D7ACF744;
+        Fri, 27 Jan 2023 09:40:26 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id z5so5640958wrt.6;
+        Fri, 27 Jan 2023 09:40:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IxxOyfVtW8TzSWM52t4kUJ1Vb5uyFnTZzRWxaUFRbEQ=;
+        b=PDs00BCSd9asE5smLGc9CaTLWrnXatsMhBXf8u7vHIFSIDe0eJlND6aAgwb3/W3QYX
+         M0CGIipPfw/jjK16nPvMzQyAYQ4iwLMe7lo+0GgG5USWJ6bWpxuYxD83H32q/jjL7fFb
+         aX1Vyxgt6jZyEqpbS2051JCHuqqMokTkFyUO3JucbS1LVGNycYAsxaggFr1EuSf6nj3h
+         N7uO0nmy9S9yHUGUZuhTs82jXPH7pB3O0AWOKmd356cTkRr6M9QhX5zZK74IMC08X+Vf
+         NVulv32+uHAWohreOMhxGGYj/5zgdmwEaJiALoPmmg9Ci853t4OnnZLbQbdAbZxsn1FZ
+         0dEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IxxOyfVtW8TzSWM52t4kUJ1Vb5uyFnTZzRWxaUFRbEQ=;
+        b=oRnDwNijA7TtK2R+jef/Qz4Oyc7J/oRwu1PIT/HgpA5pTrUvBrgxYEWEiMYldvWW74
+         H3Br1DaQgoPc/rhcfhGiF7xbyflbhgHl8xyPSPVTxDshN2BSWauud53s14JCEvz1cRku
+         51lhEGr5wlPwu9NZ7xobVKtT1D1YX4Ps5mnGpz/xUfZmrY5rFRch0FrRSplAqXVOprJr
+         oxqPopqW/WnmM5UT4zd2PX6Byhjewb+lXnTm/PVp6dIx4ozICzhWW1nsFGYvKFU/vsmX
+         UbxJJLFpobf0HNAcMHrzJqdXmLaq2kjTaA3CXdCrgBlz6fTZVJZ6s+eY9WQvyZbxyhXf
+         YKHw==
+X-Gm-Message-State: AO0yUKWOLz4L+vc/rnWWQ9nQK0xdyXy6bRghLR3GIedQsxSbwDPh2h9K
+        6ZGQfHgHoUzciooCl6r7fHk=
+X-Google-Smtp-Source: AK7set8xHUi7tsJwsQaxaW7CJH8oH3gtHikA+OTh4lYdkqoFOi0F41HSY0mTO9pKtOm19v7cjIeOuw==
+X-Received: by 2002:a05:6000:1f91:b0:2bf:d1a1:ff5d with SMTP id bw17-20020a0560001f9100b002bfd1a1ff5dmr2857509wrb.32.1674841225087;
+        Fri, 27 Jan 2023 09:40:25 -0800 (PST)
+Received: from prasmi.home ([2a00:23c8:2501:c701:ca6:cb06:c6e7:59f6])
+        by smtp.gmail.com with ESMTPSA id r28-20020adfa15c000000b002bfd137ecddsm2574930wrr.11.2023.01.27.09.40.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jan 2023 09:40:24 -0800 (PST)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] arm64: dts: renesas: r9a07g044: Add Cortex-A55 PMU node
+Date:   Fri, 27 Jan 2023 17:40:14 +0000
+Message-Id: <20230127174014.251539-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_NONE autolearn=no
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -49,49 +76,32 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Linus,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
+Enable the performance monitor unit for the Cortex-A55 cores on the
+RZ/G2L (r9a07g044) SoC.
 
-  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-are available in the Git repository at:
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+index 80b2332798d9..ff9bdc03a3ed 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+@@ -161,6 +161,11 @@ opp-50000000 {
+ 		};
+ 	};
+ 
++	pmu_a55 {
++		compatible = "arm,cortex-a55-pmu";
++		interrupts-extended = <&gic GIC_PPI 7 IRQ_TYPE_LEVEL_HIGH>;
++	};
++
+ 	psci {
+ 		compatible = "arm,psci-1.0", "arm,psci-0.2";
+ 		method = "smc";
+-- 
+2.25.1
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v6.3-tag1
-
-for you to fetch changes up to 698485cd875be1109b2130e0ff6c927010a6b56b:
-
-  pinctrl: renesas: r8a77950: Add VIN[45] pins, groups, and functions (2023-01-26 16:45:49 +0100)
-
-----------------------------------------------------------------
-pinctrl: renesas: Updates for v6.3
-
-  - Add pin groups for Video-In channels 4 and 5 on R-Car H3 ES1.x,
-  - Miscellaneous fixes and improvements.
-
-Thanks for pulling!
-
-----------------------------------------------------------------
-Geert Uytterhoeven (2):
-      pinctrl: renesas: r8a779g0: Fix alignment in GPSR[678]_* macros
-      pinctrl: renesas: r8a77950: Add VIN[45] pins, groups, and functions
-
-Lad Prabhakar (2):
-      pinctrl: renesas: rzg2l: Fix configuring the GPIO pins as interrupts
-      pinctrl: renesas: rzg2l: Add BUILD_BUG_ON() checks
-
- drivers/pinctrl/renesas/pfc-r8a77950.c  | 244 ++++++++++++++++++++++++++++++++
- drivers/pinctrl/renesas/pfc-r8a779g0.c  | 112 +++++++--------
- drivers/pinctrl/renesas/pinctrl-rzg2l.c |  25 ++--
- 3 files changed, 317 insertions(+), 64 deletions(-)
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
