@@ -2,129 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BEDD467E007
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 10:26:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA56667E011
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 10:27:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232038AbjA0J0L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Jan 2023 04:26:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40678 "EHLO
+        id S232884AbjA0J1Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Jan 2023 04:27:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231954AbjA0J0K (ORCPT
+        with ESMTP id S232048AbjA0J1P (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Jan 2023 04:26:10 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A49EA5BB0;
-        Fri, 27 Jan 2023 01:25:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674811541; x=1706347541;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ilQhCfGq1xZNQal4i+hMA+lgv7nyH3GuwzD1R+yoQjE=;
-  b=c8L60Pb4ur0+s+dSXKteXZvZyxcF/F9xvQ1uuNrq4SDnvwHXQH/XqkUR
-   1y86vTysIvXBsp2wCNy7ixAAVWRg1dMsPglIR5M5/WNl6fPKBAMeqxl+Z
-   86eKbDLc46SBpmoZSTamfVGu34zutEeg8k06TiF4EMI4WsDHrOAFF+OOU
-   4tA80HiNRn3BlQs1vzpp9hPOsgm8oeJyMT99SrGgYZhLE/kDYdL1iQUBb
-   CSR4E8tv+M1EBiFgqiMSa/sHPskXL5qf2q5hTulEouLW5n6HmxzIYy2aP
-   RAAh8oyIxftgxHUSCunnjiuU1lBTGnUtx+wYJnGQv+DqPxTacwAYfpnZw
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="307397784"
-X-IronPort-AV: E=Sophos;i="5.97,250,1669104000"; 
-   d="scan'208";a="307397784"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 01:25:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="693653004"
-X-IronPort-AV: E=Sophos;i="5.97,250,1669104000"; 
-   d="scan'208";a="693653004"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008.jf.intel.com with ESMTP; 27 Jan 2023 01:25:14 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pLKys-00FtRL-0p;
-        Fri, 27 Jan 2023 11:25:10 +0200
-Date:   Fri, 27 Jan 2023 11:25:09 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Len Brown <lenb@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Linux Kernel Functional Testing <lkft@linaro.org>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>,
-        Abel Vesa <abel.vesa@linaro.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        John Stultz <jstultz@google.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Maxim Kiselev <bigunclemax@gmail.com>,
-        Maxim Kochetkov <fido_max@inbox.ru>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Luca Weiss <luca.weiss@fairphone.com>,
-        Colin Foster <colin.foster@in-advantage.com>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Jean-Philippe Brucker <jpb@kernel.org>,
-        kernel-team@android.com, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v2 03/11] soc: renesas: Move away from using OF_POPULATED
- for fw_devlink
-Message-ID: <Y9OYdX38NfRE9Tvb@smile.fi.intel.com>
-References: <20230127001141.407071-1-saravanak@google.com>
- <20230127001141.407071-4-saravanak@google.com>
+        Fri, 27 Jan 2023 04:27:15 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E17E8E;
+        Fri, 27 Jan 2023 01:27:14 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CEFE2B82003;
+        Fri, 27 Jan 2023 09:27:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 725C0C433D2;
+        Fri, 27 Jan 2023 09:27:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674811631;
+        bh=IP8XQVekAM9mHuY06ZWqOuoTQwvtHPkkz3YM+kuwnDM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XmHpi6saycX0TD7QFyrQvbWBBTZvGSrIKTqLU+PphCv4rAmWQBpoUAuGRbjOwvC1B
+         Tz1Mk6gutw/NJgv7RoUle8L4bngrf7EaKLKeym3oE5RwUfEOHRSvhp+lW1qIwlgvwM
+         2GFNlpIZgrOjXmaqYyEypGiVBsAPKqYmD5p0PisIoTT6erSqDaB0J3NNnnfx9b7uS1
+         ejxywKxpejXwwNaZM2rVAnhmrDGUPZxxoPS05AZOPwik93Saml7WkC2c2vGq4w3tRg
+         IeWv21FbymR9FVDnD0V0Z1X7++3wPJAyRYM5ftiO2Z9XzNK25Iuo1QQnWJ3XJEwd1u
+         9OohtF2l+m45w==
+Date:   Fri, 27 Jan 2023 09:27:04 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc:     patchwork-bot+bluetooth@kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>, pavel@ucw.cz,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        robh@kernel.org
+Subject: Re: [PATCH v2] dt-bindings: leds: Document Bluetooth and WLAN
+ triggers
+Message-ID: <Y9OY6GBAePQ/Y6R2@google.com>
+References: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
+ <167460363944.4058.4676712965831302643.git-patchwork-notify@kernel.org>
+ <Y9FG5Wg0PmP4zfV6@google.com>
+ <CABBYNZJEU-GD5J6K8_Ur4PWLvP10VNJGP7e_43H0=W3DOS=PNw@mail.gmail.com>
+ <Y9IzMWnOq+r2/4V2@google.com>
+ <CABBYNZ+Na7os7D_C_iV22UhyhobxiETjKkngPWVr14QAph6DfQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230127001141.407071-4-saravanak@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABBYNZ+Na7os7D_C_iV22UhyhobxiETjKkngPWVr14QAph6DfQ@mail.gmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jan 26, 2023 at 04:11:30PM -0800, Saravana Kannan wrote:
-> The OF_POPULATED flag was set to let fw_devlink know that the device
-> tree node will not have a struct device created for it. This information
-> is used by fw_devlink to avoid deferring the probe of consumers of this
-> device tree node.
+On Thu, 26 Jan 2023, Luiz Augusto von Dentz wrote:
+
+> Hi Lee,
 > 
-> Let's use fwnode_dev_initialized() instead because it achieves the same
-> effect without using OF specific flags. This allows more generic code to
-> be written in driver core.
+> On Thu, Jan 26, 2023 at 12:00 AM Lee Jones <lee@kernel.org> wrote:
+> >
+> > On Wed, 25 Jan 2023, Luiz Augusto von Dentz wrote:
+> >
+> > > Hi Lee,
+> > >
+> > > On Wed, Jan 25, 2023 at 7:16 AM Lee Jones <lee@kernel.org> wrote:
+> > > >
+> > > > On Tue, 24 Jan 2023, patchwork-bot+bluetooth@kernel.org wrote:
+> > > >
+> > > > > Hello:
+> > > > >
+> > > > > This patch was applied to bluetooth/bluetooth-next.git (master)
+> > > > > by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
+> > > > >
+> > > > > On Sun, 22 Jan 2023 11:47:27 +0100 you wrote:
+> > > > > > Add the missing trigger patterns for Bluetooth and WLAN activity, which
+> > > > > > are already in active use.
+> > > > > >
+> > > > > > While at it, move the mmc pattern comment where it belongs, and restore
+> > > > > > alphabetical sort order.
+> > > > > >
+> > > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > > > >
+> > > > > > [...]
+> > > > >
+> > > > > Here is the summary with links:
+> > > > >   - [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
+> > > > >     https://git.kernel.org/bluetooth/bluetooth-next/c/ef017002b93b
+> > > >
+> > > > Why are you taking LED patches through the Bluetooth tree?
+> > >
+> > > I assume there isn't a tree dedicated to dt-bindings/leds
+> >
+> > % ./scripts/get_maintainer.pl -f Documentation/devicetree/bindings/leds/common.yaml
+> >  Pavel Machek <pavel@ucw.cz> (maintainer:LED SUBSYSTEM,in file)
+> >  Lee Jones <lee@kernel.org> (maintainer:LED SUBSYSTEM)
+> >  Rob Herring <robh+dt@kernel.org> (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+> >  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org> (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+> >  Jacek Anaszewski <jacek.anaszewski@gmail.com> (in file)
+> >  linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
+> >  devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+> >  linux-kernel@vger.kernel.org (open list)
+> 
+> Well this doesn't tell us what parts of the dt_bindings have a
+> dedicated tree and which doesn't, anyway this doesn't show
+> linux-bluetooth so I wonder why people are CCing it.
 
-...
+It is not possible to infer responsibilities from how contributors craft
+their submissions.  The only reliable way to do that is to check the
+MAINTAINERS file.
 
-> -		of_node_set_flag(np, OF_POPULATED);
-> +		fwnode_dev_initialized(&np->fwnode, true);
+According to the MAINTAINERS excerpt below [0] if a commit only touches
+files contained in; drivers/bluetooth/, include/net/bluetooth/ and/or
+net/bluetooth/ AND there are no build-time dependencies or dependents,
+they are yours to process how you see fit.  However, if commits ALSO touch
+files outside of those directories OR do have dependencies or
+dependents, you will need to consult with the other affected maintainers
+to agree on a strategy for merging them.  If the aforementioned
+directories are not touched (as in this case), you can safely ignore
+them - regardless of which mailing list(s) or individual's inboxes they
+end up in.
 
-of_fwnode_handle(np) ?
+Does that help at all?
+
+[0]
+
+BLUETOOTH DRIVERS
+M:      Marcel Holtmann <marcel@holtmann.org>
+M:      Johan Hedberg <johan.hedberg@gmail.com>
+M:      Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+L:      linux-bluetooth@vger.kernel.org
+S:      Supported
+W:      http://www.bluez.org/
+T:      git git://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git
+T:      git git://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.g
+F:      drivers/bluetooth/
+
+BLUETOOTH SUBSYSTEM
+M:      Marcel Holtmann <marcel@holtmann.org>
+M:      Johan Hedberg <johan.hedberg@gmail.com>
+M:      Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+L:      linux-bluetooth@vger.kernel.org
+S:      Supported
+W:      http://www.bluez.org/
+T:      git git://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git
+T:      git git://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.g
+F:      include/net/bluetooth/
+F:      net/bluetooth/
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Lee Jones [李琼斯]
