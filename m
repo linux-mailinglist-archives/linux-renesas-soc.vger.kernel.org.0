@@ -2,57 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B90AA67E948
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 16:18:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8FBB67EADE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 17:28:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234388AbjA0PSI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Jan 2023 10:18:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51510 "EHLO
+        id S234853AbjA0Q2c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Jan 2023 11:28:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234358AbjA0PSF (ORCPT
+        with ESMTP id S232597AbjA0Q2b (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Jan 2023 10:18:05 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC02155A5;
-        Fri, 27 Jan 2023 07:17:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=clgmemFyLB5CGSAnCHnwDzFVOe3aAZNcIzPJ3wS4IfM=; b=VCpW25fPkfIk7NriSA60c4/1co
-        N7Jd+JRCcSqhYS7bY4uooxV+s8HVGxCtb8H6EjjsABonStuTGgao0gX5AAs/zZkTlTCLg2SqMqjJJ
-        NZnbBxO72JAg/FyP80aNXdILi4McNf/R7koAssPKiC8WJT7wtmcnSRx67da9DF+14Ki+5GSpdoERk
-        TnUtQ77n/aqVIyFzaPHvpagfZa2lyoA1w6627SOHBFvw/C63geW1wbC2JCxzygUbnnPclu+DMjpzF
-        y+s/JL8geCgNlKppqxTCbeOffXqm8QQRrLwgKxe2oGmAi+SaqkspWB/IP5Xj9AuBhCcglN87wNzAm
-        7gsHTZEA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:36328)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1pLQTw-0005Tt-Hd; Fri, 27 Jan 2023 15:17:36 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1pLQTs-0008Qk-R4; Fri, 27 Jan 2023 15:17:32 +0000
-Date:   Fri, 27 Jan 2023 15:17:32 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     andrew@lunn.ch, hkallweit1@gmail.com, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH net-next v4 4/4] net: ethernet: renesas: rswitch: Add
- phy_power_{on,off}() calling
-Message-ID: <Y9PrDPPbtIClVtB4@shell.armlinux.org.uk>
-References: <20230127142621.1761278-1-yoshihiro.shimoda.uh@renesas.com>
- <20230127142621.1761278-5-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 27 Jan 2023 11:28:31 -0500
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3755B7D2B1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Jan 2023 08:28:28 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:a160:4e65:21d4:30bf])
+        by xavier.telenet-ops.be with bizsmtp
+        id DsUS2900C2rBNjs01sUSMj; Fri, 27 Jan 2023 17:28:26 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pLRaG-007Zkf-Mi;
+        Fri, 27 Jan 2023 17:28:24 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pLRaS-005TaU-Ei;
+        Fri, 27 Jan 2023 17:28:24 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     arm-soc <arm@kernel.org>, soc <soc@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL 0/3] Renesas SoC updates for v6.3 (take two)
+Date:   Fri, 27 Jan 2023 17:28:11 +0100
+Message-Id: <cover.1674815093.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230127142621.1761278-5-yoshihiro.shimoda.uh@renesas.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,46 +48,48 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jan 27, 2023 at 11:26:21PM +0900, Yoshihiro Shimoda wrote:
-> Some Ethernet PHYs (like marvell10g) will decide the host interface
-> mode by the media-side speed. So, the rswitch driver needs to
-> initialize one of the Ethernet SERDES (r8a779f0-eth-serdes) ports
-> after linked the Ethernet PHY up. The r8a779f0-eth-serdes driver has
-> .init() for initializing all ports and .power_on() for initializing
-> each port. So, add phy_power_{on,off} calling for it.
+	Hi SoC folks,
 
-So how does this work?
+This is my second pull request for the inclusion of Renesas SoC updates
+for v6.3.
 
-88x3310 can change it's MAC facing interface according to the speed
-negotiated on the media side, or it can use rate adaption mode, but
-if it's not a MACSEC device, the MAC must pace its transmission
-rate to that of the media side link.
+It consists of 3 parts:
 
-The former requires one to reconfigure the interface mode in
-mac_config(), which I don't see happening in this patch set.
+  [GIT PULL 1/3] Renesas driver updates for v6.3 (take two)
 
-The latter requires some kind of configuration in mac_link_up()
-which I also don't see happening in this patch set.
+    - Add support for the Renesas RZ/V2M External Power Sequence
+      Controller (PWC).
 
-So, I doubt this works properly.
+  [GIT PULL 2/3] Renesas DT binding updates for v6.3
 
-Also, I can't see any sign of any working DT configuration for this
-switch to even be able to review a use case - all there is in net-next
-is the basic description of the rswitch in a .dtsi and no users. It
-may be helpful if there was some visibility of its use, and why
-phylink is being used in this driver - because right now with phylink's
-MAC methods stubbed out in the way they are, and even after this patch
-set, I see little point to this driver using phylink.
+    - Document support for the Renesas RZ/V2M External Power Sequence
+      Controller (PWC).
 
-Moreover, looking at the binding document, you don't even support SFPs
-or fixed link, which are really the two reasons to use phylink over
-phylib.
+  [GIT PULL 3/3] Renesas DT updates for v6.3 (take two)
 
-Also, phylink only really makes sense if the methods in its _ops
-structures actually do something useful, because without that there
-can be no dynamic configuration of the system to suit what is
-connected.
+    - High Performance mode (1.8 GHz) support for the Cortex-A76 CPU cores
+      on R-Car V4H,
+    - GPIO interrupt support for the RZ/G2UL SoC and the RZ/G2UL SMARC EVK
+      development board,
+    - USB Function support for the RZ/N1D SoC,
+    - Generic Sound Card driver examples for the Renesas R-Car Starter Kit
+      Premier/Pro and Shimafugi Kingfisher development board stack,
+    - Universal Flash Storage support for the Renesas Spider development
+      board,
+    - External Power Sequence Controller (PWC) support for the RZ/V2M SoC
+      and the RZ/V2M Evaluation Kit 2.0,
+    - IOMMU support for MMC on the R-Car S4-8 SoC,
+    - Miscellaneous fixes and improvements.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Thanks for pulling!
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
