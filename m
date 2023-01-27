@@ -2,100 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2CD867E839
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 15:26:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B90AA67E948
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 16:18:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232597AbjA0O0i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Jan 2023 09:26:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39172 "EHLO
+        id S234388AbjA0PSI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Jan 2023 10:18:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232785AbjA0O0f (ORCPT
+        with ESMTP id S234358AbjA0PSF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Jan 2023 09:26:35 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F2BFA4709F;
-        Fri, 27 Jan 2023 06:26:32 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.97,251,1669042800"; 
-   d="scan'208";a="150776286"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 27 Jan 2023 23:26:26 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 19FBF433ACC5;
-        Fri, 27 Jan 2023 23:26:26 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     linux@armlinux.org.uk, andrew@lunn.ch, hkallweit1@gmail.com,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH net-next v4 4/4] net: ethernet: renesas: rswitch: Add phy_power_{on,off}() calling
-Date:   Fri, 27 Jan 2023 23:26:21 +0900
-Message-Id: <20230127142621.1761278-5-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230127142621.1761278-1-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 27 Jan 2023 10:18:05 -0500
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC02155A5;
+        Fri, 27 Jan 2023 07:17:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=clgmemFyLB5CGSAnCHnwDzFVOe3aAZNcIzPJ3wS4IfM=; b=VCpW25fPkfIk7NriSA60c4/1co
+        N7Jd+JRCcSqhYS7bY4uooxV+s8HVGxCtb8H6EjjsABonStuTGgao0gX5AAs/zZkTlTCLg2SqMqjJJ
+        NZnbBxO72JAg/FyP80aNXdILi4McNf/R7koAssPKiC8WJT7wtmcnSRx67da9DF+14Ki+5GSpdoERk
+        TnUtQ77n/aqVIyFzaPHvpagfZa2lyoA1w6627SOHBFvw/C63geW1wbC2JCxzygUbnnPclu+DMjpzF
+        y+s/JL8geCgNlKppqxTCbeOffXqm8QQRrLwgKxe2oGmAi+SaqkspWB/IP5Xj9AuBhCcglN87wNzAm
+        7gsHTZEA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:36328)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1pLQTw-0005Tt-Hd; Fri, 27 Jan 2023 15:17:36 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1pLQTs-0008Qk-R4; Fri, 27 Jan 2023 15:17:32 +0000
+Date:   Fri, 27 Jan 2023 15:17:32 +0000
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     andrew@lunn.ch, hkallweit1@gmail.com, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH net-next v4 4/4] net: ethernet: renesas: rswitch: Add
+ phy_power_{on,off}() calling
+Message-ID: <Y9PrDPPbtIClVtB4@shell.armlinux.org.uk>
 References: <20230127142621.1761278-1-yoshihiro.shimoda.uh@renesas.com>
+ <20230127142621.1761278-5-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230127142621.1761278-5-yoshihiro.shimoda.uh@renesas.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Some Ethernet PHYs (like marvell10g) will decide the host interface
-mode by the media-side speed. So, the rswitch driver needs to
-initialize one of the Ethernet SERDES (r8a779f0-eth-serdes) ports
-after linked the Ethernet PHY up. The r8a779f0-eth-serdes driver has
-.init() for initializing all ports and .power_on() for initializing
-each port. So, add phy_power_{on,off} calling for it.
+On Fri, Jan 27, 2023 at 11:26:21PM +0900, Yoshihiro Shimoda wrote:
+> Some Ethernet PHYs (like marvell10g) will decide the host interface
+> mode by the media-side speed. So, the rswitch driver needs to
+> initialize one of the Ethernet SERDES (r8a779f0-eth-serdes) ports
+> after linked the Ethernet PHY up. The r8a779f0-eth-serdes driver has
+> .init() for initializing all ports and .power_on() for initializing
+> each port. So, add phy_power_{on,off} calling for it.
 
-Notes that in-band mode will not work because the initialization
-is not completed. So, output error message if in-band mode.
+So how does this work?
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/net/ethernet/renesas/rswitch.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+88x3310 can change it's MAC facing interface according to the speed
+negotiated on the media side, or it can use rate adaption mode, but
+if it's not a MACSEC device, the MAC must pace its transmission
+rate to that of the media side link.
 
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index b9addbc29ef9..7bdfcb5270c0 100644
---- a/drivers/net/ethernet/renesas/rswitch.c
-+++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -1143,12 +1143,20 @@ static void rswitch_mac_config(struct phylink_config *config,
- 			       unsigned int mode,
- 			       const struct phylink_link_state *state)
- {
-+	struct net_device *ndev = to_net_dev(config->dev);
-+
-+	if (mode == MLO_AN_INBAND)
-+		netdev_err(ndev, "Link up/down will not work because in-band mode\n");
- }
- 
- static void rswitch_mac_link_down(struct phylink_config *config,
- 				  unsigned int mode,
- 				  phy_interface_t interface)
- {
-+	struct net_device *ndev = to_net_dev(config->dev);
-+	struct rswitch_device *rdev = netdev_priv(ndev);
-+
-+	phy_power_off(rdev->serdes);
- }
- 
- static void rswitch_mac_link_up(struct phylink_config *config,
-@@ -1156,7 +1164,11 @@ static void rswitch_mac_link_up(struct phylink_config *config,
- 				phy_interface_t interface, int speed,
- 				int duplex, bool tx_pause, bool rx_pause)
- {
-+	struct net_device *ndev = to_net_dev(config->dev);
-+	struct rswitch_device *rdev = netdev_priv(ndev);
-+
- 	/* Current hardware cannot change speed at runtime */
-+	phy_power_on(rdev->serdes);
- }
- 
- static const struct phylink_mac_ops rswitch_phylink_ops = {
+The former requires one to reconfigure the interface mode in
+mac_config(), which I don't see happening in this patch set.
+
+The latter requires some kind of configuration in mac_link_up()
+which I also don't see happening in this patch set.
+
+So, I doubt this works properly.
+
+Also, I can't see any sign of any working DT configuration for this
+switch to even be able to review a use case - all there is in net-next
+is the basic description of the rswitch in a .dtsi and no users. It
+may be helpful if there was some visibility of its use, and why
+phylink is being used in this driver - because right now with phylink's
+MAC methods stubbed out in the way they are, and even after this patch
+set, I see little point to this driver using phylink.
+
+Moreover, looking at the binding document, you don't even support SFPs
+or fixed link, which are really the two reasons to use phylink over
+phylib.
+
+Also, phylink only really makes sense if the methods in its _ops
+structures actually do something useful, because without that there
+can be no dynamic configuration of the system to suit what is
+connected.
+
 -- 
-2.25.1
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
