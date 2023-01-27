@@ -2,116 +2,175 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCC3E67DF27
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 09:31:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29E7067DF53
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 09:34:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232356AbjA0IbF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Jan 2023 03:31:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39814 "EHLO
+        id S232661AbjA0Iey (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Jan 2023 03:34:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232454AbjA0IbC (ORCPT
+        with ESMTP id S232641AbjA0Iex (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Jan 2023 03:31:02 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F3DE7643D
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Jan 2023 00:30:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=DnQWVqwKZ9VayygZqk6ntZ5i+4Mj
-        b+GDBVbPSdLENNk=; b=mQtWFZLTaj0W7kKvT7SVZY0NxDcAc4ezpbgPJRVnXdJS
-        987P0TO4BSKU8ZvBFdtwuYWIQRF3A+EeTGQyvFl6JtKY5h1OAbdGxuwEw2h2XsvN
-        nlKgNxVdVOXrZLg9TuMDkflvtMUzi+tVloafz+IZjYUXRrfEtPWCUr6ReFWKQ5c=
-Received: (qmail 4158469 invoked from network); 27 Jan 2023 09:30:52 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Jan 2023 09:30:52 +0100
-X-UD-Smtp-Session: l3s3148p1@DJeGrjrzur4ujnvo
-Date:   Fri, 27 Jan 2023 09:30:45 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Cong Dang <cong.dang.xn@renesas.com>,
-        Hai Pham <hai.pham.ud@renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] memory: renesas-rpc-if: Fix PHYCNT.STRTIM setting
-Message-ID: <Y9OLtbN5uhyPYxyj@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Cong Dang <cong.dang.xn@renesas.com>,
-        Hai Pham <hai.pham.ud@renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-kernel@vger.kernel.org
-References: <20230126173513.36659-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdX6epwBa9fT9MoU=oC9k6YV2L9NXOEd84QkLnSr2vkDBA@mail.gmail.com>
+        Fri, 27 Jan 2023 03:34:53 -0500
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49EE223117;
+        Fri, 27 Jan 2023 00:34:52 -0800 (PST)
+Received: by mail-qt1-f180.google.com with SMTP id m26so3443033qtp.9;
+        Fri, 27 Jan 2023 00:34:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hY3siCQpqUTqTnZ9pzJ4oPleQ2RuWtp/ZoxSSndTMRI=;
+        b=KH/rmaVbFcR5mln/pv39h+bOgwkSR/C/yCI5uIwzjp9xrt42B8yqtcarfG52WQHqfe
+         kcPJNgqnhjhOBvR7Cx8rbq1CYhccrjbq1/Frx+rXD+WzzVuIqdU88A9cm2LY4xYAp4Oi
+         HuTDHBDXsKCcEASwKc4Zj3yFgq7e32VHNKhmcSqcK5kQAWiAiDqF1ZP0sl9bbnsIzkn5
+         c2ZLJ02fIO+qGXJrWomoZb0T7hTj+dMT1LS9/NN3pC0gRynxRlAL+KyV4JDtY0lnRlQ8
+         BZv4rGWgEhROUI0ZDx7bBAshFCTQ9GmaQy2t6LiJy3tanw+gySFcFeFVb0CwYStBbNt6
+         gnSA==
+X-Gm-Message-State: AO0yUKV2sjOtAoOXQ8NQZAtPZGn8m10k3RupYH0qtkToeoWKyPbqb/J2
+        uKhMwhIQ2o5q+mWeg5iNqt7jlV5ibI7JXA==
+X-Google-Smtp-Source: AK7set9UJjbYpV4LjGI+YluxUYhWKpL9ZLSqP2HJ6Oe2mMBgMf3nc4VtghCYYvIXDepxXVhfcIjjpg==
+X-Received: by 2002:a05:622a:1016:b0:3b8:248b:a035 with SMTP id d22-20020a05622a101600b003b8248ba035mr1714613qte.19.1674808491184;
+        Fri, 27 Jan 2023 00:34:51 -0800 (PST)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id g13-20020ac8468d000000b003a7e4129f83sm2274786qto.85.2023.01.27.00.34.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Jan 2023 00:34:50 -0800 (PST)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-50660e2d2ffso58113397b3.1;
+        Fri, 27 Jan 2023 00:34:50 -0800 (PST)
+X-Received: by 2002:a81:5204:0:b0:507:86ae:c733 with SMTP id
+ g4-20020a815204000000b0050786aec733mr1184162ywb.358.1674808490126; Fri, 27
+ Jan 2023 00:34:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="NfKNJifiYwgwGQjp"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdX6epwBa9fT9MoU=oC9k6YV2L9NXOEd84QkLnSr2vkDBA@mail.gmail.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+References: <20230127014812.1656340-1-yoshihiro.shimoda.uh@renesas.com> <20230127014812.1656340-3-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20230127014812.1656340-3-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 27 Jan 2023 09:34:39 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXGNWZ6NQxFKKJ-aWKO6YG=dD+jeJynDyK9XZNRx=hgJA@mail.gmail.com>
+Message-ID: <CAMuHMdXGNWZ6NQxFKKJ-aWKO6YG=dD+jeJynDyK9XZNRx=hgJA@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 2/4] net: ethernet: renesas: rswitch: Simplify
+ struct phy * handling
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     linux@armlinux.org.uk, andrew@lunn.ch, hkallweit1@gmail.com,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Shimoda-san,
 
---NfKNJifiYwgwGQjp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Jan 27, 2023 at 2:49 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Simplify struct phy *serdes handling by keeping the valiable in
+> the struct rswitch_device.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
+Thanks for your patch!
 
-> > -       rpc->type =3D (uintptr_t)of_device_get_match_data(dev);
-> > +       rpc->size =3D resource_size(res);
->=20
-> Nit: No need to move the initialization of rpc->size.
+> --- a/drivers/net/ethernet/renesas/rswitch.c
+> +++ b/drivers/net/ethernet/renesas/rswitch.c
+> @@ -1222,49 +1222,40 @@ static void rswitch_phylink_deinit(struct rswitch_device *rdev)
+>         phylink_destroy(rdev->phylink);
+>  }
+>
+> -static int rswitch_serdes_set_params(struct rswitch_device *rdev)
+> +static int rswitch_serdes_phy_get(struct rswitch_device *rdev)
+>  {
+>         struct device_node *port = rswitch_get_port_node(rdev);
+>         struct phy *serdes;
+> -       int err;
+>
+>         serdes = devm_of_phy_get(&rdev->priv->pdev->dev, port, NULL);
+>         of_node_put(port);
+>         if (IS_ERR(serdes))
+>                 return PTR_ERR(serdes);
 
-True. It is more cosmetic to have all rpc->* inits in one block. But I
-think it is worth it.
+You may as well just return serdes...
 
-> > +       regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
-> > +                          /* create mask with all affected bits set */
-> > +                          RPCIF_PHYCNT_STRTIM(BIT(fls(rpc->info->strti=
-m)) - 1),
->=20
-> Note that this relies on the strtim value being 4 or higher.
-> As this value is not user-configurable, but fixed in the driver,
-> it's probably OK.
+> +       rdev->serdes = serdes;
 
-If there was a chance that newer SoCs use such a value, I'd go for the
-seperate mask. But I am confident this time has passed and the next
-value is likely >15.
+... and move the above assignment into the caller.
+That would save one if (...) check.
 
+After that, not much is left in this function, so I'm wondering if it
+can just be inlined at the single callsite?
 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+BTW, there seem to be several calls to rswitch_get_port_node(), which
+calls into DT tree traversal, so you may want to call it once, and store
+a pointer to the port device node, too.  Then rswitch_serdes_phy_get()
+becomes a candidate for manual inlining for sure.
 
-Thanks!
+> +
+> +       return 0;
+> +}
+> +
+> +static int rswitch_serdes_set_params(struct rswitch_device *rdev)
+> +{
+> +       int err;
+>
+> -       err = phy_set_mode_ext(serdes, PHY_MODE_ETHERNET,
+> +       err = phy_set_mode_ext(rdev->serdes, PHY_MODE_ETHERNET,
+>                                rdev->etha->phy_interface);
+>         if (err < 0)
+>                 return err;
+>
+> -       return phy_set_speed(serdes, rdev->etha->speed);
+> +       return phy_set_speed(rdev->serdes, rdev->etha->speed);
+>  }
+>
+>  static int rswitch_serdes_init(struct rswitch_device *rdev)
+>  {
+> -       struct device_node *port = rswitch_get_port_node(rdev);
+> -       struct phy *serdes;
+> -
+> -       serdes = devm_of_phy_get(&rdev->priv->pdev->dev, port, NULL);
+> -       of_node_put(port);
+> -       if (IS_ERR(serdes))
+> -               return PTR_ERR(serdes);
+> -
+> -       return phy_init(serdes);
+> +       return phy_init(rdev->serdes);
+>  }
 
+As this is now a one-line function, just call phy_init() in all
+callers instead?
 
---NfKNJifiYwgwGQjp
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+>  static int rswitch_serdes_deinit(struct rswitch_device *rdev)
+>  {
+> -       struct device_node *port = rswitch_get_port_node(rdev);
+> -       struct phy *serdes;
+> -
+> -       serdes = devm_of_phy_get(&rdev->priv->pdev->dev, port, NULL);
+> -       of_node_put(port);
+> -       if (IS_ERR(serdes))
+> -               return PTR_ERR(serdes);
+> -
+> -       return phy_exit(serdes);
+> +       return phy_exit(rdev->serdes);
+>  }
 
------BEGIN PGP SIGNATURE-----
+Just call phy_exit() in all callers instead?
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmPTi7EACgkQFA3kzBSg
-KbaRJw//YW0YKRPlT/6a0FFg8SORd6sO441UTATLVZ0ympE/xONAi3MFvXRA5dcm
-3wERZCptTfasVuep84BIzN6ZhLpaIAZACPKyUlxDil79WUBqaO77x6IrijyEf8EL
-wV0+NLbC9h8MIkymj1LmeADCN4YqNn+ERXlNyv5SAUgXtDs3wwvQnDH35+Km8qDY
-GMTgHG+vsTeL/XAuvMg33c3zVK7QfUH+oqGDtP3TyVD5FGITcwfSaeOe2HqAjf+1
-JL8I9Od4VJ4ORk+6HhyGKOxQ/d4sWkHl6SpfB6wQ1ByvrAqCYvgmvU91hAMWeigR
-EDtmVhu9EgpeBKGzty0CkLxlD2uIPDXh4atKqvB4JaaSEoOvnQF7WLHqNwKiq/aY
-WWKljcoNnVZwZLrxp9+fyPH39hrvmgLlxLjIrfRVoL0785GopiklZ35K6Y2GPOpP
-xsTtt+8K8cX0IJITl0/Iqoyf1pSsIHxjBfnWfkmjwHF6JSuWWl4ttXwaMks8ZEca
-pz79+1oT5cBHyl0Wgm0PAuTJzBkIkAzqwr9YRTMmhmfeqwFgxPY+oOEvfiNQNuKW
-4lMQnmbcmpQmI2gMmO7Ui7m38ZvIr4ZdV0IwEpyhdInbk0E5KmFPZ+XAlHq0n0z2
-anh8w7hkDgjuX1VRpLk+uwcFax8UPDh827iba6ueRbaJHLHX0zY=
-=Zhfj
------END PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
---NfKNJifiYwgwGQjp--
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
