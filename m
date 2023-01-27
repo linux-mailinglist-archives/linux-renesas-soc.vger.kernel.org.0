@@ -2,163 +2,188 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57A7867DF72
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 09:47:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E6EC67E000
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 10:24:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232251AbjA0Irx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Jan 2023 03:47:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46912 "EHLO
+        id S232064AbjA0JYd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Jan 2023 04:24:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbjA0Irw (ORCPT
+        with ESMTP id S232029AbjA0JYc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Jan 2023 03:47:52 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69DFFA24E
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Jan 2023 00:47:50 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id j36-20020a05600c1c2400b003dc39cb9c33so523369wms.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Jan 2023 00:47:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YAjXmwk1x99crswBLoztPVjTMQo0TWbhtFaOuaefFpg=;
-        b=sgVcP+HYC8/PumGjTBslJK+Fm6tY3mPAsR2M5YXg7CWnU1X3QUtzE0qtwGLjBdCg3e
-         eh+emEu/FTTs8p5NIf/9hvBo3I8rVuhZrmk2pLLxqN0jXeJ1oxjMETjsA08RvPvwp2R8
-         MqKDcMJOJEvI8snx9w35PnL3u3xJmvqaUjA6mKoQj3HdlvcFrGV3BqfL1q+L8zwvbqqW
-         PtkR/7HASCQUmv7kGOg5XA1rAof8poeb+HyczXTx62y9xDqa/q6OEDpEKVhC0DOCRGoB
-         N7IJOtuhzfn97nLV+8sJwUCjwB6iGsERruXDvQIT1p3Sp+lcSrsVdVyCqzuy7rDp6UvV
-         4LHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YAjXmwk1x99crswBLoztPVjTMQo0TWbhtFaOuaefFpg=;
-        b=kuqlJrozLP7f3YjbHhBAOQEQDZKtZtBhM9O//nGcRbR9Zb9sg9DzrWYIf5cZnaQOch
-         hDaw3LV1vZ9tDVxeGwVxboIUF5FvtFHsnwToeMN5kPgYyvcbYPGaGK+5Zfvfo4JPN5aJ
-         C731svaC8ZQ2KztfDbSqpMba4TIWPgsdlG4QwBh5Qgq1wlieOiZkfc6gL8fyo6wsNeo3
-         5apmQqqvs1PUy02otlQWCEGgVGf6YImsa0VsV2r7ZS6XhTOKw8S0FnbJsUH1zz6lDUBZ
-         Cv+mk1vT7nGo+2jztWh+2ElhpGm+9zgE/VEi7YH04TnxP7AG50C4HOH8Doe2GpFFAnsP
-         YjNg==
-X-Gm-Message-State: AO0yUKX2JyULRDT0pJ9VcmtsHsumcQJV8W6pa5EKlyUIjNw4PclUJFaX
-        rq7IiRQRRFkLUPrvMXEpGasxGA==
-X-Google-Smtp-Source: AK7set/wMnfLn7hvAh6pV+9S6aVWZoLm4JL4Cw1Jq8PedxXE7NxReQHkBv90Wyy9FzAIHvxMwhvqyw==
-X-Received: by 2002:a05:600c:3b82:b0:3dc:37bf:c634 with SMTP id n2-20020a05600c3b8200b003dc37bfc634mr1422499wms.15.1674809268950;
-        Fri, 27 Jan 2023 00:47:48 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id v23-20020a05600c4d9700b003cfa81e2eb4sm3674626wmp.38.2023.01.27.00.47.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Jan 2023 00:47:48 -0800 (PST)
-Message-ID: <ff2a546c-e650-75b8-de2e-d682b9c79624@linaro.org>
-Date:   Fri, 27 Jan 2023 09:47:46 +0100
+        Fri, 27 Jan 2023 04:24:32 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DFCE2E0EC;
+        Fri, 27 Jan 2023 01:23:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674811438; x=1706347438;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7L/axu+05lgRV1B7k83rTdiEnNvSos+SJ26ckkwltXU=;
+  b=GmfhhfLsn52t3fzd66Kx+fbR5qn4OcKoZmIKoGK1X9HCl5AVxYyKb96x
+   sb5ItVXdkYGeX5hcOBU3U3dD26AKwDkXcg3XrovuyNqbnkuj6FV2ZwZ0i
+   kzATY1QT75rxlqPSTnZYPrRxlhF/Dgm50sRP4dU53JrMIDMUh2gPy0KAP
+   HF7DJn0/w7Gt/qTsbO7hhSXbvbdH2VHzprugUEAoe+JScsgloc6F/is14
+   6NwVbA4Zh83D7CNQ87tFD4K+CWMpEzwO+Hc6LBWSOBW71EYhxDux7CRlp
+   ymVq7+3YePYLf3HZIxv26MxxQvgHyEc4zhRyA4fE9OGOwznQUB4eYdCgO
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="310672030"
+X-IronPort-AV: E=Sophos;i="5.97,250,1669104000"; 
+   d="scan'208";a="310672030"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 01:22:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="656541888"
+X-IronPort-AV: E=Sophos;i="5.97,250,1669104000"; 
+   d="scan'208";a="656541888"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga007.jf.intel.com with ESMTP; 27 Jan 2023 01:22:00 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pLKvk-00FtO1-00;
+        Fri, 27 Jan 2023 11:21:56 +0200
+Date:   Fri, 27 Jan 2023 11:21:55 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Len Brown <lenb@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Linux Kernel Functional Testing <lkft@linaro.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Abel Vesa <abel.vesa@linaro.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        John Stultz <jstultz@google.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Maxim Kiselev <bigunclemax@gmail.com>,
+        Maxim Kochetkov <fido_max@inbox.ru>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Luca Weiss <luca.weiss@fairphone.com>,
+        Colin Foster <colin.foster@in-advantage.com>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Jean-Philippe Brucker <jpb@kernel.org>,
+        kernel-team@android.com, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v2 01/11] driver core: fw_devlink: Don't purge child
+ fwnode's consumer links
+Message-ID: <Y9OXs9+uYi31dYJD@smile.fi.intel.com>
+References: <20230127001141.407071-1-saravanak@google.com>
+ <20230127001141.407071-2-saravanak@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2] dt-bindings: leds: Document Bluetooth and WLAN
- triggers
-Content-Language: en-US
-To:     Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-        Lee Jones <lee@kernel.org>
-Cc:     patchwork-bot+bluetooth@kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>, pavel@ucw.cz,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        robh@kernel.org
-References: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
- <167460363944.4058.4676712965831302643.git-patchwork-notify@kernel.org>
- <Y9FG5Wg0PmP4zfV6@google.com>
- <CABBYNZJEU-GD5J6K8_Ur4PWLvP10VNJGP7e_43H0=W3DOS=PNw@mail.gmail.com>
- <Y9IzMWnOq+r2/4V2@google.com>
- <CABBYNZ+Na7os7D_C_iV22UhyhobxiETjKkngPWVr14QAph6DfQ@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CABBYNZ+Na7os7D_C_iV22UhyhobxiETjKkngPWVr14QAph6DfQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230127001141.407071-2-saravanak@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 26/01/2023 21:46, Luiz Augusto von Dentz wrote:
-> Hi Lee,
+On Thu, Jan 26, 2023 at 04:11:28PM -0800, Saravana Kannan wrote:
+> When a device X is bound successfully to a driver, if it has a child
+> firmware node Y that doesn't have a struct device created by then, we
+> delete fwnode links where the child firmware node Y is the supplier. We
+> did this to avoid blocking the consumers of the child firmware node Y
+> from deferring probe indefinitely.
 > 
-> On Thu, Jan 26, 2023 at 12:00 AM Lee Jones <lee@kernel.org> wrote:
->>
->> On Wed, 25 Jan 2023, Luiz Augusto von Dentz wrote:
->>
->>> Hi Lee,
->>>
->>> On Wed, Jan 25, 2023 at 7:16 AM Lee Jones <lee@kernel.org> wrote:
->>>>
->>>> On Tue, 24 Jan 2023, patchwork-bot+bluetooth@kernel.org wrote:
->>>>
->>>>> Hello:
->>>>>
->>>>> This patch was applied to bluetooth/bluetooth-next.git (master)
->>>>> by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
->>>>>
->>>>> On Sun, 22 Jan 2023 11:47:27 +0100 you wrote:
->>>>>> Add the missing trigger patterns for Bluetooth and WLAN activity, which
->>>>>> are already in active use.
->>>>>>
->>>>>> While at it, move the mmc pattern comment where it belongs, and restore
->>>>>> alphabetical sort order.
->>>>>>
->>>>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->>>>>> Reviewed-by: Rob Herring <robh@kernel.org>
->>>>>>
->>>>>> [...]
->>>>>
->>>>> Here is the summary with links:
->>>>>   - [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
->>>>>     https://git.kernel.org/bluetooth/bluetooth-next/c/ef017002b93b
->>>>
->>>> Why are you taking LED patches through the Bluetooth tree?
->>>
->>> I assume there isn't a tree dedicated to dt-bindings/leds
->>
->> % ./scripts/get_maintainer.pl -f Documentation/devicetree/bindings/leds/common.yaml
->>  Pavel Machek <pavel@ucw.cz> (maintainer:LED SUBSYSTEM,in file)
->>  Lee Jones <lee@kernel.org> (maintainer:LED SUBSYSTEM)
->>  Rob Herring <robh+dt@kernel.org> (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
->>  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org> (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
->>  Jacek Anaszewski <jacek.anaszewski@gmail.com> (in file)
->>  linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
->>  devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
->>  linux-kernel@vger.kernel.org (open list)
-> 
-> Well this doesn't tell us what parts of the dt_bindings have a
-> dedicated tree and which doesn't, 
+> While that a step in the right direction, it's better to make the
+> consumers of the child firmware node Y to be consumers of the device X
+> because device X is probably implementing whatever functionality is
+> represented by child firmware node Y. By doing this, we capture the
+> device dependencies more accurately and ensure better
+> probe/suspend/resume ordering.
 
-There is no such "parts" anywhere. I don't understand that remark and
-how is related here. This is a list of maintainers for this file. Why
-information are you missing in MAINTAINERS? And why bindings would be
-special (e.g. you don't miss this information for other parts of kernel)?
+...
 
->>
->>> anyway I'd be happy if the dt-bindings patches
->>> would be handled elsewhere.
->>
->> Yep, we got this. :)
-> 
-> So if it starts with dt-binding: prefix shall we ignore? Or is just
-> for dt-bindings: leds? Or perhaps we can just ignore patches received
-> as CC: rather than directly To: field.
+>  static unsigned int defer_sync_state_count = 1;
+>  static DEFINE_MUTEX(fwnode_link_lock);
+>  static bool fw_devlink_is_permissive(void);
+> +static void __fw_devlink_link_to_consumers(struct device *dev);
+>  static bool fw_devlink_drv_reg_done;
+>  static bool fw_devlink_best_effort;
 
-What was exactly unclear in my response? The bindings for your subsystem
-are for you. Bindings for other subsystems are not for you. dt-bindings:
-leds: are for leds suubsystem. dt-bindings: mfd: are for mfd subsystem.
-If the prefix is incorrect because people make mistakes, the paths point
-to it - Documentation/devicetree/bindings/SUBSYSTEM_OR_HARDWARE_CLASS/....
+I'm wondering if may avoid adding more forward declarations...
+
+Perhaps it's a sign that devlink code should be split to its own
+module?
+
+...
+
+> -int fwnode_link_add(struct fwnode_handle *con, struct fwnode_handle *sup)
+> +static int __fwnode_link_add(struct fwnode_handle *con,
+> +			     struct fwnode_handle *sup)
+
+I believe we tolerate a bit longer lines, so you may still have it on a single
+line.
+
+...
+
+> +int fwnode_link_add(struct fwnode_handle *con, struct fwnode_handle *sup)
+> +{
+
+> +	int ret = 0;
+
+Redundant assignment.
+
+> +	mutex_lock(&fwnode_link_lock);
+> +	ret = __fwnode_link_add(con, sup);
+> +	mutex_unlock(&fwnode_link_lock);
+>  	return ret;
+>  }
+
+...
+
+>  	if (dev->fwnode && dev->fwnode->dev == dev) {
+
+You may have above something like
 
 
-Best regards,
-Krzysztof
+	fwnode = dev_fwnode(dev);
+	if (fwnode && fwnode->dev == dev) {
+
+>  		struct fwnode_handle *child;
+>  		fwnode_links_purge_suppliers(dev->fwnode);
+> +		mutex_lock(&fwnode_link_lock);
+>  		fwnode_for_each_available_child_node(dev->fwnode, child)
+> -			fw_devlink_purge_absent_suppliers(child);
+> +			__fw_devlink_pickup_dangling_consumers(child,
+> +							       dev->fwnode);
+
+			__fw_devlink_pickup_dangling_consumers(child, fwnode);
+
+> +		__fw_devlink_link_to_consumers(dev);
+> +		mutex_unlock(&fwnode_link_lock);
+>  	}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
