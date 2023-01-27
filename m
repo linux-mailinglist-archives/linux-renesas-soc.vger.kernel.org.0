@@ -2,175 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29E7067DF53
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 09:34:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57A7867DF72
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 09:47:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232661AbjA0Iey (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Jan 2023 03:34:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41762 "EHLO
+        id S232251AbjA0Irx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Jan 2023 03:47:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232641AbjA0Iex (ORCPT
+        with ESMTP id S229560AbjA0Irw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Jan 2023 03:34:53 -0500
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49EE223117;
-        Fri, 27 Jan 2023 00:34:52 -0800 (PST)
-Received: by mail-qt1-f180.google.com with SMTP id m26so3443033qtp.9;
-        Fri, 27 Jan 2023 00:34:52 -0800 (PST)
+        Fri, 27 Jan 2023 03:47:52 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69DFFA24E
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Jan 2023 00:47:50 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id j36-20020a05600c1c2400b003dc39cb9c33so523369wms.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Jan 2023 00:47:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YAjXmwk1x99crswBLoztPVjTMQo0TWbhtFaOuaefFpg=;
+        b=sgVcP+HYC8/PumGjTBslJK+Fm6tY3mPAsR2M5YXg7CWnU1X3QUtzE0qtwGLjBdCg3e
+         eh+emEu/FTTs8p5NIf/9hvBo3I8rVuhZrmk2pLLxqN0jXeJ1oxjMETjsA08RvPvwp2R8
+         MqKDcMJOJEvI8snx9w35PnL3u3xJmvqaUjA6mKoQj3HdlvcFrGV3BqfL1q+L8zwvbqqW
+         PtkR/7HASCQUmv7kGOg5XA1rAof8poeb+HyczXTx62y9xDqa/q6OEDpEKVhC0DOCRGoB
+         N7IJOtuhzfn97nLV+8sJwUCjwB6iGsERruXDvQIT1p3Sp+lcSrsVdVyCqzuy7rDp6UvV
+         4LHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hY3siCQpqUTqTnZ9pzJ4oPleQ2RuWtp/ZoxSSndTMRI=;
-        b=KH/rmaVbFcR5mln/pv39h+bOgwkSR/C/yCI5uIwzjp9xrt42B8yqtcarfG52WQHqfe
-         kcPJNgqnhjhOBvR7Cx8rbq1CYhccrjbq1/Frx+rXD+WzzVuIqdU88A9cm2LY4xYAp4Oi
-         HuTDHBDXsKCcEASwKc4Zj3yFgq7e32VHNKhmcSqcK5kQAWiAiDqF1ZP0sl9bbnsIzkn5
-         c2ZLJ02fIO+qGXJrWomoZb0T7hTj+dMT1LS9/NN3pC0gRynxRlAL+KyV4JDtY0lnRlQ8
-         BZv4rGWgEhROUI0ZDx7bBAshFCTQ9GmaQy2t6LiJy3tanw+gySFcFeFVb0CwYStBbNt6
-         gnSA==
-X-Gm-Message-State: AO0yUKV2sjOtAoOXQ8NQZAtPZGn8m10k3RupYH0qtkToeoWKyPbqb/J2
-        uKhMwhIQ2o5q+mWeg5iNqt7jlV5ibI7JXA==
-X-Google-Smtp-Source: AK7set9UJjbYpV4LjGI+YluxUYhWKpL9ZLSqP2HJ6Oe2mMBgMf3nc4VtghCYYvIXDepxXVhfcIjjpg==
-X-Received: by 2002:a05:622a:1016:b0:3b8:248b:a035 with SMTP id d22-20020a05622a101600b003b8248ba035mr1714613qte.19.1674808491184;
-        Fri, 27 Jan 2023 00:34:51 -0800 (PST)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id g13-20020ac8468d000000b003a7e4129f83sm2274786qto.85.2023.01.27.00.34.50
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YAjXmwk1x99crswBLoztPVjTMQo0TWbhtFaOuaefFpg=;
+        b=kuqlJrozLP7f3YjbHhBAOQEQDZKtZtBhM9O//nGcRbR9Zb9sg9DzrWYIf5cZnaQOch
+         hDaw3LV1vZ9tDVxeGwVxboIUF5FvtFHsnwToeMN5kPgYyvcbYPGaGK+5Zfvfo4JPN5aJ
+         C731svaC8ZQ2KztfDbSqpMba4TIWPgsdlG4QwBh5Qgq1wlieOiZkfc6gL8fyo6wsNeo3
+         5apmQqqvs1PUy02otlQWCEGgVGf6YImsa0VsV2r7ZS6XhTOKw8S0FnbJsUH1zz6lDUBZ
+         Cv+mk1vT7nGo+2jztWh+2ElhpGm+9zgE/VEi7YH04TnxP7AG50C4HOH8Doe2GpFFAnsP
+         YjNg==
+X-Gm-Message-State: AO0yUKX2JyULRDT0pJ9VcmtsHsumcQJV8W6pa5EKlyUIjNw4PclUJFaX
+        rq7IiRQRRFkLUPrvMXEpGasxGA==
+X-Google-Smtp-Source: AK7set/wMnfLn7hvAh6pV+9S6aVWZoLm4JL4Cw1Jq8PedxXE7NxReQHkBv90Wyy9FzAIHvxMwhvqyw==
+X-Received: by 2002:a05:600c:3b82:b0:3dc:37bf:c634 with SMTP id n2-20020a05600c3b8200b003dc37bfc634mr1422499wms.15.1674809268950;
+        Fri, 27 Jan 2023 00:47:48 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id v23-20020a05600c4d9700b003cfa81e2eb4sm3674626wmp.38.2023.01.27.00.47.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Jan 2023 00:34:50 -0800 (PST)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-50660e2d2ffso58113397b3.1;
-        Fri, 27 Jan 2023 00:34:50 -0800 (PST)
-X-Received: by 2002:a81:5204:0:b0:507:86ae:c733 with SMTP id
- g4-20020a815204000000b0050786aec733mr1184162ywb.358.1674808490126; Fri, 27
- Jan 2023 00:34:50 -0800 (PST)
+        Fri, 27 Jan 2023 00:47:48 -0800 (PST)
+Message-ID: <ff2a546c-e650-75b8-de2e-d682b9c79624@linaro.org>
+Date:   Fri, 27 Jan 2023 09:47:46 +0100
 MIME-Version: 1.0
-References: <20230127014812.1656340-1-yoshihiro.shimoda.uh@renesas.com> <20230127014812.1656340-3-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20230127014812.1656340-3-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 27 Jan 2023 09:34:39 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXGNWZ6NQxFKKJ-aWKO6YG=dD+jeJynDyK9XZNRx=hgJA@mail.gmail.com>
-Message-ID: <CAMuHMdXGNWZ6NQxFKKJ-aWKO6YG=dD+jeJynDyK9XZNRx=hgJA@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 2/4] net: ethernet: renesas: rswitch: Simplify
- struct phy * handling
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     linux@armlinux.org.uk, andrew@lunn.ch, hkallweit1@gmail.com,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2] dt-bindings: leds: Document Bluetooth and WLAN
+ triggers
+Content-Language: en-US
+To:     Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+        Lee Jones <lee@kernel.org>
+Cc:     patchwork-bot+bluetooth@kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>, pavel@ucw.cz,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        robh@kernel.org
+References: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
+ <167460363944.4058.4676712965831302643.git-patchwork-notify@kernel.org>
+ <Y9FG5Wg0PmP4zfV6@google.com>
+ <CABBYNZJEU-GD5J6K8_Ur4PWLvP10VNJGP7e_43H0=W3DOS=PNw@mail.gmail.com>
+ <Y9IzMWnOq+r2/4V2@google.com>
+ <CABBYNZ+Na7os7D_C_iV22UhyhobxiETjKkngPWVr14QAph6DfQ@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CABBYNZ+Na7os7D_C_iV22UhyhobxiETjKkngPWVr14QAph6DfQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+On 26/01/2023 21:46, Luiz Augusto von Dentz wrote:
+> Hi Lee,
+> 
+> On Thu, Jan 26, 2023 at 12:00 AM Lee Jones <lee@kernel.org> wrote:
+>>
+>> On Wed, 25 Jan 2023, Luiz Augusto von Dentz wrote:
+>>
+>>> Hi Lee,
+>>>
+>>> On Wed, Jan 25, 2023 at 7:16 AM Lee Jones <lee@kernel.org> wrote:
+>>>>
+>>>> On Tue, 24 Jan 2023, patchwork-bot+bluetooth@kernel.org wrote:
+>>>>
+>>>>> Hello:
+>>>>>
+>>>>> This patch was applied to bluetooth/bluetooth-next.git (master)
+>>>>> by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
+>>>>>
+>>>>> On Sun, 22 Jan 2023 11:47:27 +0100 you wrote:
+>>>>>> Add the missing trigger patterns for Bluetooth and WLAN activity, which
+>>>>>> are already in active use.
+>>>>>>
+>>>>>> While at it, move the mmc pattern comment where it belongs, and restore
+>>>>>> alphabetical sort order.
+>>>>>>
+>>>>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>>>>> Reviewed-by: Rob Herring <robh@kernel.org>
+>>>>>>
+>>>>>> [...]
+>>>>>
+>>>>> Here is the summary with links:
+>>>>>   - [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
+>>>>>     https://git.kernel.org/bluetooth/bluetooth-next/c/ef017002b93b
+>>>>
+>>>> Why are you taking LED patches through the Bluetooth tree?
+>>>
+>>> I assume there isn't a tree dedicated to dt-bindings/leds
+>>
+>> % ./scripts/get_maintainer.pl -f Documentation/devicetree/bindings/leds/common.yaml
+>>  Pavel Machek <pavel@ucw.cz> (maintainer:LED SUBSYSTEM,in file)
+>>  Lee Jones <lee@kernel.org> (maintainer:LED SUBSYSTEM)
+>>  Rob Herring <robh+dt@kernel.org> (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+>>  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org> (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+>>  Jacek Anaszewski <jacek.anaszewski@gmail.com> (in file)
+>>  linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
+>>  devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+>>  linux-kernel@vger.kernel.org (open list)
+> 
+> Well this doesn't tell us what parts of the dt_bindings have a
+> dedicated tree and which doesn't, 
 
-On Fri, Jan 27, 2023 at 2:49 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Simplify struct phy *serdes handling by keeping the valiable in
-> the struct rswitch_device.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+There is no such "parts" anywhere. I don't understand that remark and
+how is related here. This is a list of maintainers for this file. Why
+information are you missing in MAINTAINERS? And why bindings would be
+special (e.g. you don't miss this information for other parts of kernel)?
 
-Thanks for your patch!
+>>
+>>> anyway I'd be happy if the dt-bindings patches
+>>> would be handled elsewhere.
+>>
+>> Yep, we got this. :)
+> 
+> So if it starts with dt-binding: prefix shall we ignore? Or is just
+> for dt-bindings: leds? Or perhaps we can just ignore patches received
+> as CC: rather than directly To: field.
 
-> --- a/drivers/net/ethernet/renesas/rswitch.c
-> +++ b/drivers/net/ethernet/renesas/rswitch.c
-> @@ -1222,49 +1222,40 @@ static void rswitch_phylink_deinit(struct rswitch_device *rdev)
->         phylink_destroy(rdev->phylink);
->  }
->
-> -static int rswitch_serdes_set_params(struct rswitch_device *rdev)
-> +static int rswitch_serdes_phy_get(struct rswitch_device *rdev)
->  {
->         struct device_node *port = rswitch_get_port_node(rdev);
->         struct phy *serdes;
-> -       int err;
->
->         serdes = devm_of_phy_get(&rdev->priv->pdev->dev, port, NULL);
->         of_node_put(port);
->         if (IS_ERR(serdes))
->                 return PTR_ERR(serdes);
+What was exactly unclear in my response? The bindings for your subsystem
+are for you. Bindings for other subsystems are not for you. dt-bindings:
+leds: are for leds suubsystem. dt-bindings: mfd: are for mfd subsystem.
+If the prefix is incorrect because people make mistakes, the paths point
+to it - Documentation/devicetree/bindings/SUBSYSTEM_OR_HARDWARE_CLASS/....
 
-You may as well just return serdes...
 
-> +       rdev->serdes = serdes;
+Best regards,
+Krzysztof
 
-... and move the above assignment into the caller.
-That would save one if (...) check.
-
-After that, not much is left in this function, so I'm wondering if it
-can just be inlined at the single callsite?
-
-BTW, there seem to be several calls to rswitch_get_port_node(), which
-calls into DT tree traversal, so you may want to call it once, and store
-a pointer to the port device node, too.  Then rswitch_serdes_phy_get()
-becomes a candidate for manual inlining for sure.
-
-> +
-> +       return 0;
-> +}
-> +
-> +static int rswitch_serdes_set_params(struct rswitch_device *rdev)
-> +{
-> +       int err;
->
-> -       err = phy_set_mode_ext(serdes, PHY_MODE_ETHERNET,
-> +       err = phy_set_mode_ext(rdev->serdes, PHY_MODE_ETHERNET,
->                                rdev->etha->phy_interface);
->         if (err < 0)
->                 return err;
->
-> -       return phy_set_speed(serdes, rdev->etha->speed);
-> +       return phy_set_speed(rdev->serdes, rdev->etha->speed);
->  }
->
->  static int rswitch_serdes_init(struct rswitch_device *rdev)
->  {
-> -       struct device_node *port = rswitch_get_port_node(rdev);
-> -       struct phy *serdes;
-> -
-> -       serdes = devm_of_phy_get(&rdev->priv->pdev->dev, port, NULL);
-> -       of_node_put(port);
-> -       if (IS_ERR(serdes))
-> -               return PTR_ERR(serdes);
-> -
-> -       return phy_init(serdes);
-> +       return phy_init(rdev->serdes);
->  }
-
-As this is now a one-line function, just call phy_init() in all
-callers instead?
-
->
->  static int rswitch_serdes_deinit(struct rswitch_device *rdev)
->  {
-> -       struct device_node *port = rswitch_get_port_node(rdev);
-> -       struct phy *serdes;
-> -
-> -       serdes = devm_of_phy_get(&rdev->priv->pdev->dev, port, NULL);
-> -       of_node_put(port);
-> -       if (IS_ERR(serdes))
-> -               return PTR_ERR(serdes);
-> -
-> -       return phy_exit(serdes);
-> +       return phy_exit(rdev->serdes);
->  }
-
-Just call phy_exit() in all callers instead?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
