@@ -2,133 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4E8767DCD5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 05:25:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AFA6767DEE0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 09:12:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229452AbjA0EZR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Jan 2023 23:25:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32900 "EHLO
+        id S232144AbjA0IMD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Jan 2023 03:12:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjA0EZQ (ORCPT
+        with ESMTP id S232109AbjA0IMC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Jan 2023 23:25:16 -0500
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2125.outbound.protection.outlook.com [40.107.215.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62A2F564BF
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Jan 2023 20:25:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N+htQcNhwkYpKJyjaVRFnq7WLNfK2PS06Yg/LSjHSo8FXOhMBIS6qupnn/4lmskMtPfXfEV3BUyT2CYu4wZDu0ytarHEqhoZt9PHAxRuXfr86YVoRkC625E4oQ6gEj5KUgjY3KFvRkHldhHpfO3KoFetnekUJ+Y4wkHfpaxMIlsmYzZYAytkvAOPHLiN7xoNxgsVDAIhcuqcB4F0EAOCuWGAbqmwT7auAYD6MS5+678eCQ0YRhooxlFVe4OMnLp4phO9ylaP3oV4MV+S1b2l50DnjRwpp7loWoAIaMte+8L6oY/fYK3yT4C1mmbo8TdGXgjYH0T7Ekf/FyYgsYDX8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OdvviCFa8D/OjutPuy9zpitfjmDCFgw2PcloWOJ9Nkc=;
- b=PmFPkVLPwo+yq0YDJK3B7NU7irtdvyC4t1bQq8NNYmYSTTvWnAIsOiGVQqcpGxjeK/nLr/9gfxKRMlUurJsFiq3RC1quxatAE07EiaYkmVAkon1G2GSrzknmS5NRryHg1WKmMekEUzMq3GeTFPbd8MBY8hTBfpdS9iuJyrT4S67rkv1bnWEYfYAyNFzSTXjMDMKJAQW2He1qGCZ2qPAkOwOlXkzPO6iztbFnN15itaBrchVgDA5+LZLUF3vaesNlHFXGG/r3qRVfQIrVRu9DRMtQe55z1Wnmy3qDutkLGwm35m+jB2lM9nBoE2pZbe+UiuETa/uo60LDqT6nXaO14g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OdvviCFa8D/OjutPuy9zpitfjmDCFgw2PcloWOJ9Nkc=;
- b=kUN0wrorz/oGPWVkf2pSOrrjzKxbK+F0nyA/AqKQoTbLVLKkuPS6/D4SCihUI9YW4yZjEKVk6h6q9UOa7wh1pn4OdxFXJZmGE822SgcQgzhW59mBGe3ON9GU9LyBWKWbItGbtpTvtXjNKJJbjyoWcLxFhEJKzwLpBFlDOiC5nps=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
- by TYTPR01MB10901.jpnprd01.prod.outlook.com (2603:1096:400:39b::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.22; Fri, 27 Jan
- 2023 04:25:11 +0000
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::4b75:8d8e:d89a:7860]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::4b75:8d8e:d89a:7860%4]) with mapi id 15.20.6043.023; Fri, 27 Jan 2023
- 04:25:11 +0000
-Message-ID: <875ycs61ug.wl-kuninori.morimoto.gx@renesas.com>
-From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 3/4] clk: renesas: r8a779g0: Add Audio clocks
-In-Reply-To: <CAMuHMdUkDgOUSCO4Qaqq7ZJ9mG1f0-915PzoRynaNOVOD_Yz-w@mail.gmail.com>
-References: <87y1pqt4vs.wl-kuninori.morimoto.gx@renesas.com>
-        <87tu0et4up.wl-kuninori.morimoto.gx@renesas.com>
-        <CAMuHMdUkDgOUSCO4Qaqq7ZJ9mG1f0-915PzoRynaNOVOD_Yz-w@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date:   Fri, 27 Jan 2023 04:25:11 +0000
-X-ClientProxiedBy: TYAPR01CA0069.jpnprd01.prod.outlook.com
- (2603:1096:404:2b::33) To OS3PR01MB8426.jpnprd01.prod.outlook.com
- (2603:1096:604:194::10)
+        Fri, 27 Jan 2023 03:12:02 -0500
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D186761FB;
+        Fri, 27 Jan 2023 00:11:58 -0800 (PST)
+Received: by mail-qv1-f42.google.com with SMTP id ll10so2245757qvb.6;
+        Fri, 27 Jan 2023 00:11:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dBAPOHYTkWiPLnj81NzCswXH0Y6077YYaFE4ZOx/zRY=;
+        b=cSJYl8O2nDpMg/CA3iceMsy1oxQllQ9Gjg9Nmq6jJ+kPrr71GxU5PxeL5DfGt3zDfa
+         gPWuMZ3zzRic0MJOJj0flpXENXbJ/OobiqOD0JvpCHn8ift85z/WN5i/QgzRiPA5hLPM
+         T2HEq8Kwkk2eZ3iP3pFF8GllTOLzR0s0cvAPUBAsVGuEdCWMWMeIkplPIRK8pHdQYe6l
+         PiKsuN/lDJ203Wb1mNcQ4y/1RubjH2mQ8pAf0YL2H7BfEHz8otvTonhIBEEVjQBLIQlQ
+         hb/D8yWbwg5rx0mxa1jhaJaCT7iugdUs2vsOlbMTNeFjQkNFXE82Ncf7I2C8yF8XxQIh
+         bveA==
+X-Gm-Message-State: AO0yUKVFCiFEgINkl1Y5vLuqV6A25a2jfGBmvxfvgrjaROJJ7JKy1bO3
+        PKze7f9gQjFmi6bkda7L0W1+DoAsUoqj6AZW
+X-Google-Smtp-Source: AK7set9Bz62Q67ABrWdM7KPzU8QFgHRgxZTAr85sdaX8Gw1YpZ3MjQxtUT3lWXRtAgamQxPpSzFeGA==
+X-Received: by 2002:ad4:48d1:0:b0:537:727f:ac2b with SMTP id v17-20020ad448d1000000b00537727fac2bmr13020372qvx.41.1674807117361;
+        Fri, 27 Jan 2023 00:11:57 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id p25-20020a05620a22b900b00706c1f7a608sm190589qkh.89.2023.01.27.00.11.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Jan 2023 00:11:57 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-4fda31c3351so56901947b3.11;
+        Fri, 27 Jan 2023 00:11:57 -0800 (PST)
+X-Received: by 2002:a25:37d4:0:b0:80b:8602:f3fe with SMTP id
+ e203-20020a2537d4000000b0080b8602f3femr1568499yba.36.1674807106088; Fri, 27
+ Jan 2023 00:11:46 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS3PR01MB8426:EE_|TYTPR01MB10901:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8cdcdc75-71e9-4e0a-5abc-08db001e7b0a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qcXOsx/pftPQWd59yGb5TfUAXyCl/rI0O5CNG4mAvSfG0VJy9Hp92gtCOaUIgmZQmbEXNHTXBHGJNFPIg43QOGLpjsnaUhHnldtXXXHzKJakz4j+5AKI3y7/vTsgygepau3A94Y+DHuqrMMGFS84yqjxqsQ4ModiEYxZYttLwDWQRMP83MbmRycU4geBit6YOFX2aOBLutO+Cy+FApAHiRNP3/AuX9InML17gOdajmGMK1c2yM0+m6jEb1wuJNnAIvYGx+mOvQfYY47LP/+F0PneZQkJO9b1+kd8BXEEAAECreRBJu2PCQU20WXWYQwWXlbyvOoDI1FJPS241Uc5C4uFmojmadr6dhcGH+PzvON95J/HHp4HncXk/TZixq2IIlkflpgbirZyQnVmj3cgDYr7lfbiijyOjziNoicmCgkzmM16E+Gz0uEsszn5RHAJ/Ihx/7XxG/55HT3UxXDoOPoOtV/015081y7js12bGYVj/cETnF2fJ5XMHaab4iYo4FbNxeZ4AE1c5kefz5WuZo+X9rT/PEhSlTRdh/np6Z9c0r+dSjfEtMwt/xzK1clHyWJdLIcrLChvKP8dM3eDq3xuHNmlIPHDuOLuSg4BTgYO+Sc7lf/7pDGALeEMf/qkh6mIrp0AwCf//lleLUSUod844elIN1lpW8C2A/3VMjBjTQ50+IEPFyi8BmNMdfK2f3pK/FBK747r9xxV42s0oQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(396003)(136003)(366004)(376002)(39860400002)(451199018)(41300700001)(38350700002)(38100700002)(316002)(6506007)(36756003)(186003)(26005)(86362001)(6486002)(6512007)(52116002)(478600001)(2616005)(4326008)(8676002)(6916009)(66476007)(66556008)(66946007)(4744005)(5660300002)(2906002)(8936002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?N4USiA4Gktag9tIMdjRkkw7U8iihm7nKOgZ5i3WcBuBWRenrDW1ru1HVXsGG?=
- =?us-ascii?Q?Z0gLHXZ0C6VKfaha3fZBs3CQY3+POQSjNVrQ2j/MqeyE9CtTr+Vr1ULKjz2o?=
- =?us-ascii?Q?PLQnOTPYWqWPmFDgxijt6/BGr2qdZUPfDyMKs8v3pX3lNe1X3rxM85ukYbvB?=
- =?us-ascii?Q?XNXEpb7dHozRBH9S2ap9zbX7rx8xv69yk1R8DuqtiSM8gHA6CtHshrd6x1Hd?=
- =?us-ascii?Q?3GISGn5AAQCsyhl21hULr6PIM7s03djMnNUSdteoiv+MUg0iUbQEr9AeQZon?=
- =?us-ascii?Q?P0UoI0S8U4fJnSh4LEmYpZ75JIrMi5K4UAye+bvU6tHqaj0G/KpAhRHYHgQj?=
- =?us-ascii?Q?PRyvY70wr+bxZ2EkVk1SqPDRfNTa3EfBiFh1epv+TRhNc6tf9XsFOJXULj16?=
- =?us-ascii?Q?++b+ne9VvyxxRmjb6/LmNzBw0a2gfEabHWBjmNU6O5MzyLlu4Yhvsl0OyTK0?=
- =?us-ascii?Q?TqvkIMk3S5NNE+P72PcUR2WSp6lIWYfunnCwV3zsHVIxKYdRxXSbbgb3fKbA?=
- =?us-ascii?Q?Ua0JC3Xxwa2RokioXtFrPW0budzPr3PsKfxQEBBmzNR/fw1TvtTgn7j41xsX?=
- =?us-ascii?Q?r+gF7/xBvEltIM62yV0awOQdINHKaYnQRLojOwA5IrnSx2u/iE+HaHEe3PB3?=
- =?us-ascii?Q?qMLVog3MFA/OPt45ehm5+tyERb6TsxZdciwuHCNd1FjH6/6Cixfi7jWws1bb?=
- =?us-ascii?Q?3/UoVOtbE71nR89xZYK58jV0xf1MjbhMU5Opx/8R2+yrAaxpyoefvhfWqm3W?=
- =?us-ascii?Q?dhmBEsIOjZXKOeInHrhbV1+TxF0qLv6YSG0wdQt/tCcAnM6dI0EzGlpxKUDK?=
- =?us-ascii?Q?FA6sygxXka978BqzUV/8VeGpkIeSz3A6HzhUN9XSsMjWGlOmTb3HjZ88O0v4?=
- =?us-ascii?Q?Pv7E592D8NUXo3KyztPVp412zHc5PM7w2Z9ODLcZmMAcbs1P5/n1cwPdt/8N?=
- =?us-ascii?Q?f6c+yT/3sO9yQK8nzdqB7tukshA8A/65tWLKKADtVsJNT0xlef670/7DiGKL?=
- =?us-ascii?Q?sNRxVrneNNv61YB+U0iXs4egqjIbSpnSGmxGwEyMjI3iQUC/O1UkIcCaX65l?=
- =?us-ascii?Q?Ojb97V/fT5wtm7wY7O33a42EN4D0Evqub7f1bJbaVwORrJT/3SWZzKplGbSr?=
- =?us-ascii?Q?5jVYatt7le+U+3vSXUF+p9QcXXtmyZweGTb/xBJaK+ta+RuO9ACU1UsUZEQv?=
- =?us-ascii?Q?jXzo7tiBGvdRsJrh/qagHiPxms4maq0UQkeBkaDt++fefD7nJN7pF6xxogAs?=
- =?us-ascii?Q?KNp1/RmjSGcvZ6Fugwy8+DFDKKOdBYifPa3OsIjlriZlXJp1/SHxPOPUaJXQ?=
- =?us-ascii?Q?MZ/1U5dqEFWv87tt3FdmbGVWN0zHxxo/40vO01g0KRbyiggIdKJ2mZw5eHlG?=
- =?us-ascii?Q?1Zaa7Ydst5FKFHRIB6/s6mIe3xRDyEJCKPMZha4wsTbOI/CByTvB3kJlq3y5?=
- =?us-ascii?Q?tnc5t+mu2K2cSvYIJ2MKjyJHkRAoZoka3nUwN77k+w0nHMgHcJ1HTDChs0gm?=
- =?us-ascii?Q?2KwZxkw/lHn6k7HN0Zi9AXAWL5dui58KZOnO3cW8LhdOkSYnvDNO93GgUj+N?=
- =?us-ascii?Q?1txZNunoFI+mxSiAHMEflv3IgugXe44MXBM+smCUxImcuEJO2MjQbJfvrH9c?=
- =?us-ascii?Q?WTFYozz26B+O96ZN0ROlvhk=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8cdcdc75-71e9-4e0a-5abc-08db001e7b0a
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2023 04:25:11.8383
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NhHJqTWLDAsb6adZMDF97LdpKpTKLfbLr7rwZrajbSKzYmJrGcV4EvyPD2PPNNL6SuZ5by1Z0MqM0fnjDo7bTIR+gl08v92NPyJxuKYSUQvArZ8jKShhvZ+p2waZVBGY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYTPR01MB10901
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230127001141.407071-1-saravanak@google.com> <20230127001141.407071-4-saravanak@google.com>
+In-Reply-To: <20230127001141.407071-4-saravanak@google.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 27 Jan 2023 09:11:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV4B49OM7S-UAxJtfAR8OvG_-S526fGnTA+t+-orytrTw@mail.gmail.com>
+Message-ID: <CAMuHMdV4B49OM7S-UAxJtfAR8OvG_-S526fGnTA+t+-orytrTw@mail.gmail.com>
+Subject: Re: [PATCH v2 03/11] soc: renesas: Move away from using OF_POPULATED
+ for fw_devlink
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Len Brown <lenb@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Linux Kernel Functional Testing <lkft@linaro.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Abel Vesa <abel.vesa@linaro.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        John Stultz <jstultz@google.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Maxim Kiselev <bigunclemax@gmail.com>,
+        Maxim Kochetkov <fido_max@inbox.ru>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Luca Weiss <luca.weiss@fairphone.com>,
+        Colin Foster <colin.foster@in-advantage.com>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Jean-Philippe Brucker <jpb@kernel.org>,
+        kernel-team@android.com, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-acpi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Saravana,
 
-Hi Geert
+On Fri, Jan 27, 2023 at 1:11 AM Saravana Kannan <saravanak@google.com> wrote:
+> The OF_POPULATED flag was set to let fw_devlink know that the device
+> tree node will not have a struct device created for it. This information
+> is used by fw_devlink to avoid deferring the probe of consumers of this
+> device tree node.
+>
+> Let's use fwnode_dev_initialized() instead because it achieves the same
+> effect without using OF specific flags. This allows more generic code to
+> be written in driver core.
+>
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
 
-> Does this actually work as-is?
-> The arrays in drivers/clk/renesas/renesas-cpg-mssr.c do not yet contain
-> the register offsets for e.g. MSTPCR28 and beyond...
+Thanks for your patch!
 
-Thank you for pointing it.
-I needs extra patch.
+> --- a/drivers/soc/renesas/rcar-sysc.c
+> +++ b/drivers/soc/renesas/rcar-sysc.c
+> @@ -437,7 +437,7 @@ static int __init rcar_sysc_pd_init(void)
+>
+>         error = of_genpd_add_provider_onecell(np, &domains->onecell_data);
+>         if (!error)
+> -               of_node_set_flag(np, OF_POPULATED);
+> +               fwnode_dev_initialized(&np->fwnode, true);
 
-I will re-check and post the patches again.
+As drivers/soc/renesas/rmobile-sysc.c is already using this method,
+it should work fine.
 
-Thank you for your help !!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.4.
 
-Best regards
----
-Kuninori Morimoto
+>
+>  out_put:
+>         of_node_put(np);
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
