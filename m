@@ -2,143 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFA6767DEE0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 09:12:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12D6367DEED
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Jan 2023 09:17:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232144AbjA0IMD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Jan 2023 03:12:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58644 "EHLO
+        id S229792AbjA0IRm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Jan 2023 03:17:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232109AbjA0IMC (ORCPT
+        with ESMTP id S229550AbjA0IRl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Jan 2023 03:12:02 -0500
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D186761FB;
-        Fri, 27 Jan 2023 00:11:58 -0800 (PST)
-Received: by mail-qv1-f42.google.com with SMTP id ll10so2245757qvb.6;
-        Fri, 27 Jan 2023 00:11:58 -0800 (PST)
+        Fri, 27 Jan 2023 03:17:41 -0500
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4BDC38B6D;
+        Fri, 27 Jan 2023 00:17:40 -0800 (PST)
+Received: by mail-qt1-f180.google.com with SMTP id q15so3478687qtn.0;
+        Fri, 27 Jan 2023 00:17:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dBAPOHYTkWiPLnj81NzCswXH0Y6077YYaFE4ZOx/zRY=;
-        b=cSJYl8O2nDpMg/CA3iceMsy1oxQllQ9Gjg9Nmq6jJ+kPrr71GxU5PxeL5DfGt3zDfa
-         gPWuMZ3zzRic0MJOJj0flpXENXbJ/OobiqOD0JvpCHn8ift85z/WN5i/QgzRiPA5hLPM
-         T2HEq8Kwkk2eZ3iP3pFF8GllTOLzR0s0cvAPUBAsVGuEdCWMWMeIkplPIRK8pHdQYe6l
-         PiKsuN/lDJ203Wb1mNcQ4y/1RubjH2mQ8pAf0YL2H7BfEHz8otvTonhIBEEVjQBLIQlQ
-         hb/D8yWbwg5rx0mxa1jhaJaCT7iugdUs2vsOlbMTNeFjQkNFXE82Ncf7I2C8yF8XxQIh
-         bveA==
-X-Gm-Message-State: AO0yUKVFCiFEgINkl1Y5vLuqV6A25a2jfGBmvxfvgrjaROJJ7JKy1bO3
-        PKze7f9gQjFmi6bkda7L0W1+DoAsUoqj6AZW
-X-Google-Smtp-Source: AK7set9Bz62Q67ABrWdM7KPzU8QFgHRgxZTAr85sdaX8Gw1YpZ3MjQxtUT3lWXRtAgamQxPpSzFeGA==
-X-Received: by 2002:ad4:48d1:0:b0:537:727f:ac2b with SMTP id v17-20020ad448d1000000b00537727fac2bmr13020372qvx.41.1674807117361;
-        Fri, 27 Jan 2023 00:11:57 -0800 (PST)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id p25-20020a05620a22b900b00706c1f7a608sm190589qkh.89.2023.01.27.00.11.57
+        bh=9tZu0UE1EZs3pbGlFy1jD9C1pnUem8vGmVvI+vwGtGs=;
+        b=n3cQ/Ja05wkmEk/tAdwersiUjH5fzCXyT2iJCXUg977GH4IFQmvoNKX6DTmVttRVcg
+         qnanpKpf34J0Mxe1BjzQkeSQlpsFPNWb44YbriaKuD59kN/a6CPw4jnCduupn6QW+83n
+         aNOVzm+CWxM7jPk78ByGFziY5itnFfRx1DZPiYP85tVm5Mzi7fT46v+cCeuzFogarhQz
+         cJS+e2xidQxVQBQmFsCzi60PftKmdyqy2+GUaOBKnzp2cx08TClFrZUu/cbw1Rwi/vp3
+         piZXj4N/LftJeFM2uk4wMV+duJTCGk3a6cyBKHtP1WpZz2t7Cx1ZcW0iA5Bjx4acc56l
+         yBqw==
+X-Gm-Message-State: AFqh2krM9VCYeeHdw8AIhEIkZtZRc8Wo4Lvydi5GYEjEsOg1TSR83gYx
+        STF/GPubbyvF9rKk5M4flGZyQhnUdDu7Rg==
+X-Google-Smtp-Source: AMrXdXsreJJlm0sHjp0anKyqKV6lR9bU8C3C2yEhCcLM6h6NeeXPUmxChnKQ25RL6qlRvLobZE7QWA==
+X-Received: by 2002:ac8:718d:0:b0:3b2:4393:62ce with SMTP id w13-20020ac8718d000000b003b2439362cemr54134500qto.21.1674807459719;
+        Fri, 27 Jan 2023 00:17:39 -0800 (PST)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id el5-20020a05622a430500b00343057845f7sm2278488qtb.20.2023.01.27.00.17.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Jan 2023 00:11:57 -0800 (PST)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-4fda31c3351so56901947b3.11;
-        Fri, 27 Jan 2023 00:11:57 -0800 (PST)
-X-Received: by 2002:a25:37d4:0:b0:80b:8602:f3fe with SMTP id
- e203-20020a2537d4000000b0080b8602f3femr1568499yba.36.1674807106088; Fri, 27
- Jan 2023 00:11:46 -0800 (PST)
+        Fri, 27 Jan 2023 00:17:39 -0800 (PST)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-4c131bede4bso57349997b3.5;
+        Fri, 27 Jan 2023 00:17:38 -0800 (PST)
+X-Received: by 2002:a0d:f281:0:b0:508:2f2c:8e5f with SMTP id
+ b123-20020a0df281000000b005082f2c8e5fmr730726ywf.384.1674807458484; Fri, 27
+ Jan 2023 00:17:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20230127001141.407071-1-saravanak@google.com> <20230127001141.407071-4-saravanak@google.com>
-In-Reply-To: <20230127001141.407071-4-saravanak@google.com>
+References: <20230126173513.36659-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230126173513.36659-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 27 Jan 2023 09:11:34 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV4B49OM7S-UAxJtfAR8OvG_-S526fGnTA+t+-orytrTw@mail.gmail.com>
-Message-ID: <CAMuHMdV4B49OM7S-UAxJtfAR8OvG_-S526fGnTA+t+-orytrTw@mail.gmail.com>
-Subject: Re: [PATCH v2 03/11] soc: renesas: Move away from using OF_POPULATED
- for fw_devlink
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Len Brown <lenb@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Linux Kernel Functional Testing <lkft@linaro.org>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>,
-        Abel Vesa <abel.vesa@linaro.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        John Stultz <jstultz@google.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Maxim Kiselev <bigunclemax@gmail.com>,
-        Maxim Kochetkov <fido_max@inbox.ru>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Luca Weiss <luca.weiss@fairphone.com>,
-        Colin Foster <colin.foster@in-advantage.com>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Jean-Philippe Brucker <jpb@kernel.org>,
-        kernel-team@android.com, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-acpi@vger.kernel.org
+Date:   Fri, 27 Jan 2023 09:17:27 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX6epwBa9fT9MoU=oC9k6YV2L9NXOEd84QkLnSr2vkDBA@mail.gmail.com>
+Message-ID: <CAMuHMdX6epwBa9fT9MoU=oC9k6YV2L9NXOEd84QkLnSr2vkDBA@mail.gmail.com>
+Subject: Re: [PATCH v3] memory: renesas-rpc-if: Fix PHYCNT.STRTIM setting
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Cong Dang <cong.dang.xn@renesas.com>,
+        Hai Pham <hai.pham.ud@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
+Hi Wolfram,
 
-On Fri, Jan 27, 2023 at 1:11 AM Saravana Kannan <saravanak@google.com> wrote:
-> The OF_POPULATED flag was set to let fw_devlink know that the device
-> tree node will not have a struct device created for it. This information
-> is used by fw_devlink to avoid deferring the probe of consumers of this
-> device tree node.
+On Thu, Jan 26, 2023 at 6:41 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> According to the datasheets, the Strobe Timing Adjustment bit (STRTIM)
+> setting is different on R-Car SoCs, i.e.
 >
-> Let's use fwnode_dev_initialized() instead because it achieves the same
-> effect without using OF specific flags. This allows more generic code to
-> be written in driver core.
+> R-Car M3 ES1.*  : STRTIM[2:0] is set to 0x6
+> other R-Car Gen3: STRTIM[2:0] is set to 0x7
+> other R-Car Gen4: STRTIM[3:0] is set to 0xf
 >
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
-
-Thanks for your patch!
-
-> --- a/drivers/soc/renesas/rcar-sysc.c
-> +++ b/drivers/soc/renesas/rcar-sysc.c
-> @@ -437,7 +437,7 @@ static int __init rcar_sysc_pd_init(void)
+> To fix this issue, a DT match data was added to specify the setting
+> for special use cases.
 >
->         error = of_genpd_add_provider_onecell(np, &domains->onecell_data);
->         if (!error)
-> -               of_node_set_flag(np, OF_POPULATED);
-> +               fwnode_dev_initialized(&np->fwnode, true);
+> Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
+> Signed-off-by: Hai Pham  <hai.pham.ud@renesas.com>
+> [wsa: rebased, restructured, added Gen4 support]
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>
+> Changes since v2:
+> * dropped support for H3 ES1 (we don't support it upstream anymore)
+> * M3-W ES1 now handled via 'compatible' (Thanks, Geert!)
+> * -> dropped soc_device_match()
+> * removed old rpcif_type entry in struct rpcif (Thanks, Prabhakar)
 
-As drivers/soc/renesas/rmobile-sysc.c is already using this method,
-it should work fine.
+Thanks for the update!
+
+> --- a/drivers/memory/renesas-rpc-if.c
+> +++ b/drivers/memory/renesas-rpc-if.c
+
+> @@ -276,9 +296,9 @@ int rpcif_sw_init(struct rpcif *rpc, struct device *dev)
+>         rpc->dirmap = devm_ioremap_resource(&pdev->dev, res);
+>         if (IS_ERR(rpc->dirmap))
+>                 return PTR_ERR(rpc->dirmap);
+> -       rpc->size = resource_size(res);
+>
+> -       rpc->type = (uintptr_t)of_device_get_match_data(dev);
+> +       rpc->size = resource_size(res);
+
+Nit: No need to move the initialization of rpc->size.
+
+> +       rpc->info = of_device_get_match_data(dev);
+>         rpc->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+>
+>         return PTR_ERR_OR_ZERO(rpc->rstc);
+
+> @@ -321,12 +341,10 @@ int rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
+>         /* DMA Transfer is not supported */
+>         regmap_update_bits(rpc->regmap, RPCIF_PHYCNT, RPCIF_PHYCNT_HS, 0);
+>
+> -       if (rpc->type == RPCIF_RCAR_GEN3)
+> -               regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
+> -                                  RPCIF_PHYCNT_STRTIM(7), RPCIF_PHYCNT_STRTIM(7));
+> -       else if (rpc->type == RPCIF_RCAR_GEN4)
+> -               regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
+> -                                  RPCIF_PHYCNT_STRTIM(15), RPCIF_PHYCNT_STRTIM(15));
+> +       regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
+> +                          /* create mask with all affected bits set */
+> +                          RPCIF_PHYCNT_STRTIM(BIT(fls(rpc->info->strtim)) - 1),
+
+Note that this relies on the strtim value being 4 or higher.
+As this value is not user-configurable, but fixed in the driver,
+it's probably OK.
+
+> +                          RPCIF_PHYCNT_STRTIM(rpc->info->strtim));
+>
+>         regmap_update_bits(rpc->regmap, RPCIF_PHYOFFSET1, RPCIF_PHYOFFSET1_DDRTMG(3),
+>                            RPCIF_PHYOFFSET1_DDRTMG(3));
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.4.
-
->
->  out_put:
->         of_node_put(np);
 
 Gr{oetje,eeting}s,
 
