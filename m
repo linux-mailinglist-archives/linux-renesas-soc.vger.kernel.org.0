@@ -2,143 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 608DC6814A1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jan 2023 16:18:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 373806814F1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jan 2023 16:25:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237935AbjA3PSc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Jan 2023 10:18:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60374 "EHLO
+        id S238145AbjA3PYw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Jan 2023 10:24:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238050AbjA3PS2 (ORCPT
+        with ESMTP id S231337AbjA3PYv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Jan 2023 10:18:28 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15B80C15C;
-        Mon, 30 Jan 2023 07:17:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675091875; x=1706627875;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4jfbSarMFyi7cMttwvDR5yy006KKKlZ6jChWvaFjhEk=;
-  b=YzBqa9ltyfekpYfTOa4cifNKNPR+88bOa3O8Wv+rESqnn2J+LHMlI/rI
-   o6A8U4fHRSqF1WPTqJvkdqAf5d7MoodgCFRylMYlJYjVAZtkcfGTPKfHN
-   ubEyEKoLEe5DoBjEIB2wpnnwiojIqDqJkewioulYGMzySAFgVOuJOj7T7
-   nmyEslTOIqYdadL+m6edgJx9LbgJtS/bXO9uLFHDWfAWAZ2PCzAE2KwVN
-   EDbNeEfesgBBHObNEIqwdJ7YDnmsMjU7nJvP+ZugdKKa31A+7trTi7XGI
-   5yt1y9LevJD03nYULxtPQWKX18NcYe1zUWhJYc+BrWJ1poBsqhN/T/ylZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="354898535"
-X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
-   d="scan'208";a="354898535"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 07:16:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="992938805"
-X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
-   d="scan'208";a="992938805"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga005.fm.intel.com with ESMTP; 30 Jan 2023 07:16:41 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pMVtc-00HPM7-2k;
-        Mon, 30 Jan 2023 17:16:36 +0200
-Date:   Mon, 30 Jan 2023 17:16:36 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Saravana Kannan <saravanak@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
+        Mon, 30 Jan 2023 10:24:51 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D33D30E8;
+        Mon, 30 Jan 2023 07:24:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=l/UE1BohSbsYPSjuqli4vf8tirXZJGoVCmdHLEf4q2s=; b=f8aP+RFjS52Fxxq6I01TNC2w1E
+        5jN4u+I+N01Ci4f09xlt4KIJ9tHTmfAO94SuJcbvTn+zcMt2w1+YFr6fZ95HwKKK+UOcnIW3lR/Na
+        avmtpoKYS12t4vAMr2NH+kvHUs67h2uIgoj8frrP7vZpAyZvX1vYVex+XFUw+cOybgPPhpLGFmIoi
+        R66WcpMp9bytp0uBRp0STXT1B7yS5ICYN4CF/lpMzQVF+sphmviMwklrlVNOWmGNKZth8+B40kAHR
+        exuq2dSOhDPlMNBzcyDKhLQ4SOxDXHlREa2CnYup1aWTuoimj2nDXOXIs5hkOeRNUxBuJuqYIgBd3
+        Gp0Gi63Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pMW1Q-00ASYH-IK; Mon, 30 Jan 2023 15:24:40 +0000
+Date:   Mon, 30 Jan 2023 15:24:40 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Linux-MM <linux-mm@kvack.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Len Brown <lenb@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Linux Kernel Functional Testing <lkft@linaro.org>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>,
-        Abel Vesa <abel.vesa@linaro.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        John Stultz <jstultz@google.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Maxim Kiselev <bigunclemax@gmail.com>,
-        Maxim Kochetkov <fido_max@inbox.ru>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Luca Weiss <luca.weiss@fairphone.com>,
-        Colin Foster <colin.foster@in-advantage.com>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Jean-Philippe Brucker <jpb@kernel.org>,
-        kernel-team@android.com, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v2 08/11] driver core: fw_devlink: Make cycle detection
- more robust
-Message-ID: <Y9ffVEa1KECKqBGB@smile.fi.intel.com>
-References: <20230127001141.407071-1-saravanak@google.com>
- <20230127001141.407071-9-saravanak@google.com>
- <Y9OcqGTocu8ZlFqy@smile.fi.intel.com>
- <CAGETcx-PiV12pKnVuKyvNcjYbHA=YFJG1QUa-o-G1cL3iMHgcA@mail.gmail.com>
- <Y9e09qUa9CDxHFcb@smile.fi.intel.com>
- <CAMuHMdXSgS-hu1xV_vmJZi_kr6ypiS=a-e0p7Hb75HKDfz9k-g@mail.gmail.com>
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jessica Clarke <jrtc27@jrtc27.com>,
+        Geert Uytterhoeven <geert.uytterhoeven@gmail.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>
+Subject: Re: [QUERY]: Block region to mmap
+Message-ID: <Y9fhOFEV0kS9U06/@casper.infradead.org>
+References: <CA+V-a8tR1KiLSs=Psa=w7kf0zT=yU5_Ekr6-3V1MR==Wtzmksg@mail.gmail.com>
+ <Y9KQPxzHBuZGIN4U@casper.infradead.org>
+ <CA+V-a8uizF8sQgs8cfTwH3OnK+nvr2dXAoSOPTXCXLFnprHSeA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdXSgS-hu1xV_vmJZi_kr6ypiS=a-e0p7Hb75HKDfz9k-g@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CA+V-a8uizF8sQgs8cfTwH3OnK+nvr2dXAoSOPTXCXLFnprHSeA@mail.gmail.com>
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 30, 2023 at 03:36:04PM +0100, Geert Uytterhoeven wrote:
-> On Mon, Jan 30, 2023 at 1:16 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Fri, Jan 27, 2023 at 11:34:28PM -0800, Saravana Kannan wrote:
-> > > On Fri, Jan 27, 2023 at 1:43 AM Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > On Thu, Jan 26, 2023 at 04:11:35PM -0800, Saravana Kannan wrote:
-> > > > > +static bool __fw_devlink_relax_cycles(struct device *con,
-> > > > > +                              struct fwnode_handle *sup_handle)
-> > > > > +{
-> > > > > +     struct fwnode_link *link;
-> > > > > +     struct device_link *dev_link;
-> > > >
-> > > > > +     struct device *sup_dev = NULL, *par_dev = NULL;
-> > > >
-> > > > You can put it the first line since it's long enough.
-> > >
-> > > Wait, is that a style guideline to have the longer lines first?
+On Mon, Jan 30, 2023 at 10:53:28AM +0000, Lad, Prabhakar wrote:
+> > > To avoid this the ILM/DLM memory regions are now added to the root
+> > > domain region of the PMPU with permissions set to 0x0 for S/U modes so
+> > > that any access to these regions gets blocked and for M-mode we grant
+> > > full access (R/W/X). This prevents any users from accessing these
+> > > regions by triggering an unhandled signal 11 in S/U modes.
 > >
-> > No, but it's easier to read.
-> 
-> Yes it is, "reverse xmas tree" local variable ordering:
-> https://elixir.bootlin.com/linux/v6.2-rc6/source/Documentation/process/maintainer-netdev.rst#L272
+> > I have no idea what any of this means.
+> >
+> Basically we are making use of the memory protection unit (MPU) so
+> that only M-mode is allowed to access this region and S/U modes are
+> blocked.
 
-Good to  know, thanks!
+This sounds like RISC-V terminology.  I have no idea what M, S or U
+modes are (Supervisor and User, I'd guess for the last two?)
 
--- 
-With Best Regards,
-Andy Shevchenko
+> > > This works as expected but for applications say for example when doing
+> > > mmap to this region would still succeed and later down the path when
+> > > doing a read/write to this location would cause unhandled signal 11.
+> > > To handle this case gracefully we might want mmap() itself to fail if
+> > > the addr/offset falls in this local memory region.
+> >
+> > No, that's not what you want.  You want mmap to avoid allocating address
+> > space in that virtual address range.  I don't know if we have a good
+> > way to do that at the moment; like I said I've never seen such broken
+> > hardware before.
+> >
+> > I'd say the right way to solve this is to add a new special kind of VMA
+> > to the address space that covers this range.
+> Do you have any pointers where I can look further into this?
 
+Before we go too deeply into it, how much would it cost to buy all of
+these parts and feed them into a shredder?  I'm not entirely joking;
+if it's less than the software engineering time it'd take to develop
+and support this feature, we should do it.
 
