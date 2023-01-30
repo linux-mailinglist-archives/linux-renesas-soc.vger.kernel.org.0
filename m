@@ -2,66 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F3231680D5B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jan 2023 13:15:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1ECB680D5D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jan 2023 13:16:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236232AbjA3MP5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Jan 2023 07:15:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47556 "EHLO
+        id S236026AbjA3MQR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Jan 2023 07:16:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235983AbjA3MPw (ORCPT
+        with ESMTP id S229919AbjA3MQQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Jan 2023 07:15:52 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 786B16A40;
-        Mon, 30 Jan 2023 04:15:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=C7IOc72up1/qGVK6PFZ7MoYJGV/hPDPtb8x3M4R+iU8=; b=jsXIAuAkLAbiVgS5r7/l57QsBC
-        sFfYkRyJgEfhLnqA2ujwKWVqsiCHZ/zNdE2/2GwTMWc1px5tgsZl60WLCkUJ3XU4cFdUwp6zOaCku
-        4cQUxEnRZ6EbAE8qeFKaQEfJr/V/hQUig3RK0+qh8INvlzeBaiVEWyk5j8tC0VcJjkkFfOEu8oymt
-        qRiYrrTNg7WnJsytKy6P2kbU/g4dEJSb/OZTiW5SfhGk6Cn9s8hYZi39ClzUR56s/DUQSiFDC95w3
-        IF8Hfpo6UpX/H+6mliWvHXnvpynCS335zBbNH2rNYSUuiIUOlJziDBS10CrqQpPNFy64IeqiYgBO1
-        ga57mYcQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:36356)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1pMT4S-00036H-GZ; Mon, 30 Jan 2023 12:15:36 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1pMT4P-00037k-G4; Mon, 30 Jan 2023 12:15:33 +0000
-Date:   Mon, 30 Jan 2023 12:15:33 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-        "andrew@lunn.ch" <andrew@lunn.ch>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH net-next v4 4/4] net: ethernet: renesas: rswitch: Add
- phy_power_{on,off}() calling
-Message-ID: <Y9e05RJWrzFO7z4T@shell.armlinux.org.uk>
-References: <20230127142621.1761278-1-yoshihiro.shimoda.uh@renesas.com>
- <20230127142621.1761278-5-yoshihiro.shimoda.uh@renesas.com>
- <Y9PrDPPbtIClVtB4@shell.armlinux.org.uk>
- <TYBPR01MB534129FDE16A6DB654486671D8D39@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+        Mon, 30 Jan 2023 07:16:16 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8945E93D1;
+        Mon, 30 Jan 2023 04:16:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675080966; x=1706616966;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OoZvW5mYAmBAqzGauPrm+It1FwPUT3sQTZsO9ABVQOg=;
+  b=ebfWs4e6SKPb1ImT3zEl30068j5KQ5KLkN4Hge3p499dhVfZqfTBsbvD
+   rV7TuHGjFBwJiB63HFIL16H10cQ5blOePHIGHgpOp0H0NkuzfQX1Xk+ud
+   EPDZYQBi/7Ssue3f71wZ5HRW1nlYQfCiox9lCXhB1PZyTQ3HmW/UIujew
+   5u0dTttJ/S3dECz++qK5RjjTeAVjc+LgznIA87wo8gNGy3mjmRMGKYf/z
+   aQyDx56LOSFURj3xpA2dXv/8jXB6lCgXfa2yPycUJh/GEjh6kA+VM3TA9
+   Ap849Q69NpcbZvPMdLZcRCLnxkM+8F9jlAEfZ78k4n4+RW23DNs+DejpP
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="315501226"
+X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; 
+   d="scan'208";a="315501226"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 04:16:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="732677175"
+X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; 
+   d="scan'208";a="732677175"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga004.fm.intel.com with ESMTP; 30 Jan 2023 04:15:55 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pMT4h-00HL8S-0F;
+        Mon, 30 Jan 2023 14:15:51 +0200
+Date:   Mon, 30 Jan 2023 14:15:50 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Len Brown <lenb@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Linux Kernel Functional Testing <lkft@linaro.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Abel Vesa <abel.vesa@linaro.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        John Stultz <jstultz@google.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Maxim Kiselev <bigunclemax@gmail.com>,
+        Maxim Kochetkov <fido_max@inbox.ru>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Luca Weiss <luca.weiss@fairphone.com>,
+        Colin Foster <colin.foster@in-advantage.com>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Jean-Philippe Brucker <jpb@kernel.org>,
+        kernel-team@android.com, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v2 08/11] driver core: fw_devlink: Make cycle detection
+ more robust
+Message-ID: <Y9e09qUa9CDxHFcb@smile.fi.intel.com>
+References: <20230127001141.407071-1-saravanak@google.com>
+ <20230127001141.407071-9-saravanak@google.com>
+ <Y9OcqGTocu8ZlFqy@smile.fi.intel.com>
+ <CAGETcx-PiV12pKnVuKyvNcjYbHA=YFJG1QUa-o-G1cL3iMHgcA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <TYBPR01MB534129FDE16A6DB654486671D8D39@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+In-Reply-To: <CAGETcx-PiV12pKnVuKyvNcjYbHA=YFJG1QUa-o-G1cL3iMHgcA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,137 +109,101 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 30, 2023 at 05:52:15AM +0000, Yoshihiro Shimoda wrote:
-> Hi Russell,
+On Fri, Jan 27, 2023 at 11:34:28PM -0800, Saravana Kannan wrote:
+> On Fri, Jan 27, 2023 at 1:43 AM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Thu, Jan 26, 2023 at 04:11:35PM -0800, Saravana Kannan wrote:
+
+...
+
+> Lol, you are the king of nit picks :)
+
+Not always, only when it comes with something else.
+
+...
+
+> > > + * Return true if one or more cycles were found. Otherwise, return false.
+> >
+> > Return:
 > 
-> > From: Russell King, Sent: Saturday, January 28, 2023 12:18 AM
-> > 
-> > On Fri, Jan 27, 2023 at 11:26:21PM +0900, Yoshihiro Shimoda wrote:
-> > > Some Ethernet PHYs (like marvell10g) will decide the host interface
-> > > mode by the media-side speed. So, the rswitch driver needs to
-> > > initialize one of the Ethernet SERDES (r8a779f0-eth-serdes) ports
-> > > after linked the Ethernet PHY up. The r8a779f0-eth-serdes driver has
-> > > .init() for initializing all ports and .power_on() for initializing
-> > > each port. So, add phy_power_{on,off} calling for it.
-> > 
-> > So how does this work?
+> I'm following the rest of the function docs in this file.
+
+Okay, it makes sense. We will need to address them all.
+
+> > (you may run `kernel-doc -v ...` to see all warnings)
 > 
-> This hardware has MDIO interfaces, and the MDIO can communicate the Ethernet
-> PHY without the Ethernet SERDES initialization. And, the Ethernet PHY can be
-> initialized, and media-side of the PHY works. So, this works.
+> Hmmm I ran it on the patch file and it didn't give me anything useful.
+> Running it on the whole file is just a lot of lines to dig through.
 
-Ethernet PHYs can generally be communicated with irrespective of the
-serdes state, so that isn't the concern.
+The function description missing Return section. Something like this
+I can get from the kernel doc without it.
 
-What I'm trying to grasp is your decision making behind putting the
-serdes phy power control in the link_up/link_down functions, when
-doing so is fundamentally problematical if in-band mode is ever
-supported - and in-band mode has to be supported for things like
-fibre connections to work.
+...
 
-> > 88x3310 can change it's MAC facing interface according to the speed
-> > negotiated on the media side, or it can use rate adaption mode, but
-> > if it's not a MACSEC device, the MAC must pace its transmission
-> > rate to that of the media side link.
+> > > +static bool __fw_devlink_relax_cycles(struct device *con,
+> > > +                              struct fwnode_handle *sup_handle)
+> > > +{
+> > > +     struct fwnode_link *link;
+> > > +     struct device_link *dev_link;
+> >
+> > > +     struct device *sup_dev = NULL, *par_dev = NULL;
+> >
+> > You can put it the first line since it's long enough.
 > 
-> My platform has 88x2110 so that it's not a MACSEC device.
+> Wait, is that a style guideline to have the longer lines first?
 
-... which supports USXGMII, 10GBaseR, 5GBaseR, 2500BaseX and SGMII,
-possibly with rate adaption, and if it's not a MACSEC device, that
-rate adaption will likely require the MAC side to pace its
-transmission to the media speed.
+No, but it's easier to read.
 
-> > The former requires one to reconfigure the interface mode in
-> > mac_config(), which I don't see happening in this patch set.
+> > But why do you need sup_dev assignment?
 > 
-> You're correct. This patch set doesn't have such reconfiguration
-> because this driver doesn't support such a feature (for now).
+> Defensive programming I suppose. I can see this function being
+> refactored in the future where a goto out; is inserted before sup_dev
+> is assigned. And then the put_device(sup_dev) at "out" will end up
+> operating on some junk value and causing memory corruption.
 
-Is this planned? When are we likely to see this code?
+We don't need to be defensive here. Moreover, it's harder and easy to make
+a mistake with predefined values (it's actually better NOT to define anything
+qr at least define as closest to its user as possible, so you want miss the
+compiler warnings as I believe you run your compiler with `make W=1 ...`, and
+if not, I highly recommend to get this habit).
 
-> > The latter requires some kind of configuration in mac_link_up()
-> > which I also don't see happening in this patch set.
+...
+
+> > > +     sup_dev = get_dev_from_fwnode(sup_handle);
+> > > +
+> >
+> > I would put it closer to the condition:
+> >
+> > > +     /* Termination condition. */
+> > > +     if (sup_dev == con) {
+> >
+> >         /* Get supplier device and check for termination condition */
+> >         sup_dev = get_dev_from_fwnode(sup_handle);
+> >         if (sup_dev == con) {
 > 
-> You're correct. This patch set doesn't have such configuration
-> in mac_link_up() because this hardware cannot change speed at
-> runtime (for now).
+> I put it the way it is because sup_dev is used for more than just
+> checking for termination condition.
 
-the hardware can't even change between the various SGMII speeds? What
-kind of utterly crippled hardware implementation is this? You make it
-sound like the hardware designers don't have a clue what they're doing.
+Yes, but still it's better to see what you are actually checking.
 
-> > So, I doubt this works properly.
-> > 
-> > Also, I can't see any sign of any working DT configuration for this
-> > switch to even be able to review a use case - all there is in net-next
-> > is the basic description of the rswitch in a .dtsi and no users. It
-> > may be helpful if there was some visibility of its use, and why
-> > phylink is being used in this driver - because right now with phylink's
-> > MAC methods stubbed out in the way they are, and even after this patch
-> > set, I see little point to this driver using phylink.
+> > > +             ret = true;
+> > > +             goto out;
+> > > +     }
+
+...
+
+> > > +             if (__fw_devlink_relax_cycles(con,
+> > > +                                           dev_link->supplier->fwnode)) {
+> >
+> > Keep it on one line.
 > 
-> In the latest net-next, r8a779f0-spider.dts is a user.
-> 
-> In r8a779f0-spider-ether.dtsi:
-> https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/tree/arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi#n41
-> 
-> In r8a779f0-spider.dts:
-> https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/tree/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts#n10
+> It'll make it > 80. Is this some recent change about allowing > 80
+> cols? I'm leaving it as is for now.
 
-So these configure the ports with PHYs on to use SGMII mode. No mention
-of any speed, yet you say that's configured at probe time? Do you just
-set them to 1G, and hope that the media side link negotiates to 1G
-speeds?
-
-That doesn't sound like a good idea to me.
-
-> > Moreover, looking at the binding document, you don't even support SFPs
-> > or fixed link, which are really the two reasons to use phylink over
-> > phylib.
-> 
-> You're correct. This hardware doesn't support SFPs or fixed link.
-> 
-> I sent a patch at the first, I had used phylib and had added a new function
-> for setting the phy_dev->host_interfaces [1]. And then, Marek suggested
-> that I should use phylink instead of phylib. That's why this driver
-> is using phylink even if this doesn't support SFPs and fixed link.
-> 
-`> [1]
-> https://lore.kernel.org/netdev/20221019124100.41c9bbaf@dellmb/
-
-[Adding Marek to the Cc]
-
-I'm afraid I don't agree with Marek given the state of this driver.
-His assertion is "there's an API for doing this" which is demonstrably
-false. If his assertion were true, then you wouldn't need to add the
-code to phylink to set phydev->host_interfaces for on-board PHYs.
-
-I'm not particularly happy about adding that to phylink, and now that
-I read your current rather poor implementation of phylink, I'm even
-less happy about it.
-
-> > Also, phylink only really makes sense if the methods in its _ops
-> > structures actually do something useful, because without that there
-> > can be no dynamic configuration of the system to suit what is
-> > connected.
-> 
-> I think so. This rswitch doesn't need dynamic configuration,
-> but Marvell 88x2110 on my platform needs dynamic configuration.
-> That's why this driver uses phylink.
-
-Given that you use the 88x2110, and you've set the phy-mode to
-SGMII, it should support 10M, 100M and 1G speeds on the media
-side. Please test - and if not, I think the code which supports
-that should at the very least be part of this patch set - so we
-begin to see a proper implementation in the mac_* ops.
-
-The reason for this is I utterly detest shoddy users of phylink, and
-I will ask people not to use phylink if they aren't prepared to
-implement it properly - because shoddy phylink users add greatly to
-my maintenance workload.
-
-Thanks.
+Is it a problem? Do you have any tool that complains about it?
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+With Best Regards,
+Andy Shevchenko
+
+
