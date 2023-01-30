@@ -2,197 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6DD6681A6B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jan 2023 20:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 596DA681A9B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jan 2023 20:36:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237912AbjA3T0t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Jan 2023 14:26:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55158 "EHLO
+        id S238137AbjA3TgL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Jan 2023 14:36:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236114AbjA3T0m (ORCPT
+        with ESMTP id S238095AbjA3TgK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Jan 2023 14:26:42 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B0703E626
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Jan 2023 11:26:15 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 218FD60F83
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Jan 2023 19:26:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2632EC4339C;
-        Mon, 30 Jan 2023 19:26:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675106774;
-        bh=lRZ5OVWT+Zp7FtdYJktwP5tF3IeDF4JhM7kcYMebbJc=;
-        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-        b=JSBJNS6KJ1dnGaSEIQVukZniLyy2xgOtddeWqy4XvslXRFuK/zGiCItTLHhepXmIm
-         +v/dm1aV3cN/K1CG6unClogggaqAhtmLHuJA2B6InLp//EUEVkFolUwBJmpT3kgVVP
-         ZTFVojcIIuCbT4u9mjUCp9I9rhwP9t6XLntJpEVKAwlpN0zUqYQANFmujmwxIw5miP
-         wegIwhRl7y7xcXffGB0DyX65HOlRCrUbbcBmC35otvXX10mJNkC2yd3n/P3YESVZRs
-         FKqr2nmrvNu18fP6i0yJqTzm/E9U4N9e5nDJ+129aZynbZyQXBpm1R2Q5RxH1XGLlR
-         DV2X2+PXADDLA==
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 081DF27C0054;
-        Mon, 30 Jan 2023 14:26:13 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Mon, 30 Jan 2023 14:26:13 -0500
-X-ME-Sender: <xms:1BnYY1WW4cUzSOAuW2D4Dpz8BGwAdb-iLdCNYHXa57v07I1W7zRDnA>
-    <xme:1BnYY1l8b4LuWxSZTVMIn-62w8hrBeR2EM9ZJKTHgmaKACPijICq9YMni2hX-FUbA
-    pzbahqUVWDzT0-rysY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefvddguddvjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugeskhgvrhhnvghlrdhorhhgqeenucggtf
-    frrghtthgvrhhnpedvveeigfetudegveeiledvgfevuedvgfetgeefieeijeejffeggeeh
-    udegtdevheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpegrrhhnugdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidquddvkeehudej
-    tddvgedqvdekjedttddvieegqdgrrhhnugeppehkvghrnhgvlhdrohhrghesrghrnhgusg
-    druggv
-X-ME-Proxy: <xmx:1BnYYxZAnHr9NGG5dA9I7_LOTXlGX3-9kcAA5aMXHuSfBIGpl0L_vQ>
-    <xmx:1BnYY4V5RgOoAY-wE-cFdgX1KAmsw1JGblhUDsrNh0Dg3hjiIk4Y0w>
-    <xmx:1BnYY_n_Dk812Nxg4u5jWy6Y_4oRAIR8Z3nRcp93y7hDnYAyJiTFOg>
-    <xmx:1RnYY9Y6ZauAj5u2ekP8rYyadaVKTYF-F0dh_u005nD0vBlGir5APQ>
-Feedback-ID: i36794607:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 384ACB60086; Mon, 30 Jan 2023 14:26:12 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-106-gfe3ab13a96-fm-20230124.001-gfe3ab13a
-Mime-Version: 1.0
-Message-Id: <7973405f-3d17-4556-af45-792c8edbc391@app.fastmail.com>
-In-Reply-To: <OS0PR01MB59220EFDE43A39D61FC73E2786D39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <202301301054.KVvGA5XO-lkp@intel.com>
- <OS0PR01MB59220EFDE43A39D61FC73E2786D39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Date:   Mon, 30 Jan 2023 20:25:52 +0100
-From:   "Arnd Bergmann" <arnd@kernel.org>
-To:     "Biju Das" <biju.das.jz@bp.renesas.com>,
-        "kernel test robot" <lkp@intel.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>
-Cc:     "Paul Gazzillo" <paul@pgazz.com>,
-        "Necip Fazil Yildiran" <fazilyildiran@gmail.com>,
-        "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [usb:usb-next 35/35] kismet: WARNING: unmet direct dependencies detected
- for USB_RZV2M_USB3DRD when selected by USB_XHCI_RZV2M
-Content-Type: text/plain
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Mon, 30 Jan 2023 14:36:10 -0500
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA6DA3EFC8;
+        Mon, 30 Jan 2023 11:36:06 -0800 (PST)
+Received: by mail-oi1-f181.google.com with SMTP id s17so45217ois.10;
+        Mon, 30 Jan 2023 11:36:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MKVjqRKStPGtyEwxaCj0ohxNvc0dxIuOgOWql908gkw=;
+        b=kZGXdnjecd6EW4E+tdLi/L5fWpMwYXuNuF2I3bzTXPwsK9RZvI3H9l2VM9t724du6x
+         hsU7UgrqM9fLt5KG7smmbEjdXqJyCS3arTZjyqilNNN3hJO87fyP5VM5ad+hm9rQPmSL
+         is7YAhb6sqX2EeOu33YOgJtJjo1DuOT8/7vjQyx7KAW+gIW/xAMC5WciG972LnvZnsEY
+         meJMPI/zXo9FDviBZUY9HDVrpTKJrnjd9eg4BzoLxiXM3kCr17Cqw1NeYcZmNva/iHB0
+         PVfdzsRD9/NW2uS32L5ZtGQF2qCvaaLxFh3mAKnQdp9Wxmcnjyr46i9Lfxcu0GvN28y+
+         FQeA==
+X-Gm-Message-State: AO0yUKUpbnTlqPDZVdQtO8cUXqvAy+RknKZwdkcpM79NyclnAHD6RkUc
+        SQQ5BSjPjRkcr96Zpo1a3Q==
+X-Google-Smtp-Source: AK7set8Xx+4mi4emwLZhw3UeJydWN4cYJGg8ng23OdVmGBjhpJJ1GllfU+NXxN5Ixqzu/eb7vn+eJw==
+X-Received: by 2002:a05:6808:ab9:b0:378:69f4:7f6c with SMTP id r25-20020a0568080ab900b0037869f47f6cmr1129358oij.43.1675107366043;
+        Mon, 30 Jan 2023 11:36:06 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id h18-20020a9d61d2000000b0068bd9a6d644sm735279otk.23.2023.01.30.11.36.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jan 2023 11:36:05 -0800 (PST)
+Received: (nullmailer pid 3233511 invoked by uid 1000);
+        Mon, 30 Jan 2023 19:36:04 -0000
+Date:   Mon, 30 Jan 2023 13:36:04 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Robin Murphy <robin.murphy@arm.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "will@kernel.org" <will@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] dt-bindings: iommu: renesas,ipmmu-vmsa: Update
+ descriptions for R-Car Gen4
+Message-ID: <20230130193604.GA3218335-robh@kernel.org>
+References: <20230123012940.1250879-1-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdX92KMeON0xC9p17kiqWT7ksEBX_NyPiiQk0fLaucDZBA@mail.gmail.com>
+ <TYBPR01MB5341B023178B4A10DE52B844D8CE9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <CAMuHMdXXnu88Tn2ucuHZK=3G18v-nCfaTYpomchRXBu3bD7UuA@mail.gmail.com>
+ <3c3e1dc2-1f66-565c-c677-2eae368e10be@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3c3e1dc2-1f66-565c-c677-2eae368e10be@arm.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 30, 2023, at 19:54, Biju Das wrote:
-> Hi all,
->
->> Subject: [usb:usb-next 35/35] kismet: WARNING: unmet direct dependencies
->> detected for USB_RZV2M_USB3DRD when selected by USB_XHCI_RZV2M
->> 
->> tree:
->> head:   c52c9acc415eb6ff54f658492f8c53da0fc3528a
->> commit: c52c9acc415eb6ff54f658492f8c53da0fc3528a [35/35] xhci: host: Add
->> Renesas RZ/V2M SoC support
->>         git remote add usb
->>         git fetch --no-tags usb usb-next
->>         git checkout c52c9acc415eb6ff54f658492f8c53da0fc3528a
->>         # 1. reproduce by kismet
->>            # install kmax per
->>            kismet --linux-ksrc=linux --selectees CONFIG_USB_RZV2M_USB3DRD --
->> selectors CONFIG_USB_XHCI_RZV2M -a=csky
->>         # 2. reproduce by make
->>            # save the config file to linux source tree
->>            cd linux
->>            make ARCH=csky olddefconfig
->> 
->> If you fix the issue, kindly add following tag where applicable
->> | Reported-by: kernel test robot <lkp@intel.com>
->> 
->> kismet warnings: (new ones prefixed by >>)
->> >> kismet: WARNING: unmet direct dependencies detected for USB_RZV2M_USB3DRD
->> when selected by USB_XHCI_RZV2M
->>    .config:4492:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid
->> for ARCH_MMAP_RND_BITS
->> 
->>    WARNING: unmet direct dependencies detected for USB_RZV2M_USB3DRD
->>      Depends on [n]: USB_SUPPORT [=y] && USB_GADGET [=n] && (ARCH_R9A09G011
->> [=n] || COMPILE_TEST [=y])
->>      Selected by [y]:
->>      - USB_XHCI_RZV2M [=y] && USB_SUPPORT [=y] && USB [=y] && USB_XHCI_HCD
->> [=y] && USB_XHCI_PLATFORM [=y] && (ARCH_R9A09G011 [=n] || COMPILE_TEST [=y])
->
-> I have investigated this issue, 
->
-> Just for testing, I have reverted Arnd's patch[1] and then done the 
-> below changes 
-> which is fixing unmet dependencies reported by the bot.
->
-> Looks like USB_RZV2M_USB3DRD should depend upon both USB and 
-> USB_GADGET. Previously
-> It depends only on USB_GADGET.
->
-> Also the USB3DRD driver should be in "driver/usb/renesas_usb3drd" 
-> directory instead
-> of "driver/usb/gadget/udc" as both HOST and device ctrlr need this 
-> driver.
->
-> So not sure, 
->
-> 1) Use Arnd's patch for fixing this issue
->
-> 2) Use the changes from [2]
->
-> Or
->
-> 3) Arnd's changes + changes from [2].
->
-> Please let me know.
->
-> [2]
-> diff --git a/drivers/usb/renesas_usb3drd/Kconfig 
-> b/drivers/usb/renesas_usb3drd/Kconfig
-> new file mode 100644
-> index 000000000000..6205d815d283
-> --- /dev/null
-> +++ b/drivers/usb/renesas_usb3drd/Kconfig
-> @@ -0,0 +1,14 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +config USB_RZV2M_USB3DRD
-> +	tristate 'Renesas USB3.1 DRD controller'
-> +	depends on (USB || USB_GADGET) 
-> +	depends on ARCH_R9A09G011 || COMPILE_TEST
-> +	default USB_XHCI_RZV2M
-> +	default USB_RENESAS_USB3
-> +	help
-> +	   Renesas USB3.1 DRD controller is a USB DRD controller
-> +	   that supports both host and device switching.
-> +
-> +	   Say "y" to link the driver statically, or "m" to build a
-> +	   dynamically linked module called "rzv2m_usb3drd".
+On Wed, Jan 25, 2023 at 10:42:13AM +0000, Robin Murphy wrote:
+> On 2023-01-25 08:54, Geert Uytterhoeven wrote:
+> > Hi Shimoda-san,
+> > 
+> > On Wed, Jan 25, 2023 at 1:49 AM Yoshihiro Shimoda
+> > <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > > > From: Geert Uytterhoeven, Sent: Tuesday, January 24, 2023 11:35 PM
+> > > > On Mon, Jan 23, 2023 at 2:35 AM Yoshihiro Shimoda
+> > > > <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > > > > Since R-Car Gen4 doens't have the main IPMMU IMSSTR register, but
+> > > > > each cache IPMMU has own module id. So, update descriptions of
+> > > > > renesas,ipmmu-main property for R-Car Gen4.
+> > > > > 
+> > > > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > 
+> > > > > ---
+> > > > >   The old R-Car S4-8 datasheet had described IPMMU IMSSTR register, but
+> > > > >   the latest datasheet undocumented the register. So, update the propeties
+> > > > >   description. Note that the second argument is not used on the driver.
+> > > > 
+> > > > DT describes hardware, not software policy.
+> > > 
+> > > I think so.
+> > > 
+> > > > >   So no behavior change.
+> > > > 
+> > > > So where do we get the module id numbers to use, if they are no longer
+> > > > documented in the Hardware Manual?
+> > > 
+> > > If so, we cannot get the module id numbers. So, should we use other
+> > > information which is completely fixed instead? I have some ideas:
+> > > 1) Just 0 (or other fixed value) if the IMSSTR register doesn't exist.
+> > > 2) Sequential numbers from register base offset.
+> > >     In R-Car S4: ipmmu_rt0 is the first node from register base offset,
+> > >     and ipmmu_rt1 is the second one.
+> > >     So, ipmmu_rt0 is 0, ipmmu_rt1 is 1, ipmmu_ds0 is 2 and ipmmu_hc is 3.
+> > > 3) Using base address upper 16-bits.
+> > >     In R-Car S4: ipmmu_rt0 is 0xee480000. So, the value is 0xee48.
+> > > 
+> > > Perhaps, the option 1) is reasonable, I think. But, what do you think?
+> > 
+> > I would not make up numbers, as that would cause confusion with SoCs
+> > where the numbers do match the hardware.
+> > As the driver doesn't use the module id number (it already loops
+> > over all domains, instead of checking IMSSTR, probably because of
+> > historical (R-Car Gen2) reasons?), what about dropping it from the
+> > property? I.e. add "minItems: 1", possibly only when compatible with
+> > renesas,rcar-gen4-ipmmu-vmsa?
+> 
+> Right, if there really is no meaningful ID for this model then its binding
+> should not require one.
 
-I found yet another regression, and I don't think any of the above
-fully address this. Let me try to come up with a better fix that
-also addresses this one:
+I agree, however that makes parsing the property a pain (for both the 
+schema and driver). This property is a matrix. The number of entries is 
+already variable. If both dimensions are variable, we have to then look 
+at the compatible to know how to parse it. I would go with option 1.
 
-arm-linux-gnueabi-ld: drivers/usb/host/xhci-rzv2m.o: in function `xhci_rzv2m_init_quirk':
-xhci-rzv2m.c:(.text+0x20): undefined reference to `rzv2m_usb3drd_reset'
-arm-linux-gnueabi-ld: drivers/usb/gadget/udc/renesas_usb3.o: in function `handle_ext_role_switch_states':
-renesas_usb3.c:(.text+0x3148): undefined reference to `rzv2m_usb3drd_reset'
-arm-linux-gnueabi-ld: renesas_usb3.c:(.text+0x31b8): undefined reference to `rzv2m_usb3drd_reset'
-arm-linux-gnueabi-ld: renesas_usb3.c:(.text+0x3338): undefined reference to `rzv2m_usb3drd_reset'
-arm-linux-gnueabi-ld: drivers/usb/gadget/udc/renesas_usb3.o: in function `renesas_usb3_start':
-renesas_usb3.c:(.text+0x36b8): undefined reference to `rzv2m_usb3drd_reset'
-arm-linux-gnueabi-ld: drivers/usb/gadget/udc/renesas_usb3.o:renesas_usb3.c:(.text+0x3764): more undefined references to `rzv2m_usb3drd_reset' follow
+A 4th option is a new property.
 
-The main problem here is that the xhci-platform driver has reverse
-dependencies on the soc specific portions, unlike drivers elsewhere
-that handle this by having a soc specific driver that calls into
-the more generic code library.
-
-      Arnd
+Rob
