@@ -2,64 +2,48 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34CAC680E98
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jan 2023 14:14:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A15CC680EC4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jan 2023 14:26:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232302AbjA3NOH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Jan 2023 08:14:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36642 "EHLO
+        id S236302AbjA3N0S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Jan 2023 08:26:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235989AbjA3NOG (ORCPT
+        with ESMTP id S229694AbjA3N0R (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Jan 2023 08:14:06 -0500
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2AB012870;
-        Mon, 30 Jan 2023 05:13:53 -0800 (PST)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-4fda31c3351so158403597b3.11;
-        Mon, 30 Jan 2023 05:13:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yuIsIC5WkjlnYbFhp4do2Gvm2A9ljg1sUa4uVtjOdgU=;
-        b=IKBdjSrJ4VJn2rHtWs60QnO5mRjsEER3YCBTtAIeZiTrCvdG2vBjbcpf0pxp6uQ0xX
-         8gATo3iO6H84h0x2ry2SDtyvA8Mjk/i1AZPF/PaXsiPUTARNirqPoQuJ156nzKRbqqLh
-         iDxHhNsecBReJ8CzDc4F9lWk3QWPfMl49KzYVoYX6GRusgCIia2MRrYyWRMzJ+QTHhay
-         xWfptfUX5EFM1pbj7JT7RPR/fVzhZT9nCxK7rtUKW30xHlZ8NnrD6+Ap8SFrNTp2dWhp
-         Ed4DXSQjJixwgUCqhs9w7APNmHcJfT+jPbQBeBraCktRAlz2w8nUVz/us5O6IexCT/g/
-         sbwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yuIsIC5WkjlnYbFhp4do2Gvm2A9ljg1sUa4uVtjOdgU=;
-        b=5BNbNoghTqt7ofKg+g24opvaApZSSFXejQTSVVYgu7nI1n286w0hbtldB4FFXvTEDu
-         pkRp93YQJLkeQpRUITuvV/KTz93utgr+Q7JiZ633O2HfYNBMa8vVzOO+YIv3h87eH/DV
-         Ua+K/IhaTgVYsEMzDN84sv3D8p4v/U40X7OXjnUbps061KRD3kgVGaScBzLDnwQjcAVu
-         KMw/bPluOPT8O1UAUwHGuMyWb+YQV8Y2i775+F5e8JbH7x4k+KqAf5/rFcD6JK/zCyUk
-         D5YTb0A0F4M8vB/F8wIkYMOZOLjXiV1O/yFdM9Rb3EseHclJA3KUYu4AHBqVjxlxlwHN
-         L+tw==
-X-Gm-Message-State: AFqh2kpjw2SIDsgWe1HpTZeVMZhCBmDEAkzQ7V6xIcNj0UuWZMIfpu2K
-        9s1dzlkihsmgbk3a4B/Xk1gTJFHSwyTgsoI0oto=
-X-Google-Smtp-Source: AMrXdXvyV4vHU4lm4qhXJxoTcPF2urcHfYEtL9TUBmeWZ/fYbZf+ZAfC9QTyp+bogQscsTO7ydYqVZ8jHchtCG5QYzo=
-X-Received: by 2002:a81:e801:0:b0:500:5624:904c with SMTP id
- a1-20020a81e801000000b005005624904cmr4374481ywm.258.1675084432986; Mon, 30
- Jan 2023 05:13:52 -0800 (PST)
-MIME-Version: 1.0
-References: <20230127174014.251539-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <OS0PR01MB592258905AC3979803C473D786CC9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CA+V-a8s+cZpuUXWRa573a373n7YPsHrdLnUVXHjez6O101oneQ@mail.gmail.com>
- <OS0PR01MB5922943C1E1D9329691DB02F86CC9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdWHE3wAYd7TSamN77Xy7CSxnEd8QHW8xm9ng4opsBEapg@mail.gmail.com>
-In-Reply-To: <CAMuHMdWHE3wAYd7TSamN77Xy7CSxnEd8QHW8xm9ng4opsBEapg@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 30 Jan 2023 13:13:26 +0000
-Message-ID: <CA+V-a8vBFSKbFJo1nEX7eN+S8eJazDDfCrzO7oFHsiF5yvpZ+g@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r9a07g044: Add Cortex-A55 PMU node
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Marc Zyngier <maz@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Mon, 30 Jan 2023 08:26:17 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54B6034C34;
+        Mon, 30 Jan 2023 05:26:16 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E3AD160FE3;
+        Mon, 30 Jan 2023 13:26:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D848C433D2;
+        Mon, 30 Jan 2023 13:26:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675085175;
+        bh=gffRbQEVs3gaaDJBHxfh42gSvqRNHC73rnP3QyhAyWE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=aoO9ajTFTagD0kjKNo9/Gi/u1m1+vaaABIhpovlsU9JE/bbc34lOQ47/M63+zk94F
+         lmR/jbJsz/XN1Tiiw+nTZhGgmQtuFQ0r2MsYBfve6ulHhQnSbYtCdR+4ytPhJ+lSC2
+         K5YuXRl6GPaQRJnoWqdbMqr0VtO7OxvCUbyEcJrk36nU++0ujoi0QQfyGBkLvpD229
+         yjQeuY4RZe6kCSXVWiRFoF1gP5fav9hCztnbEikmiMsDvdPGm9slN4dLmEnK0wunld
+         2OlsjfvOIEjxuZONbAI0ibDRIZ87p+tNhumpQKeI/C3IN3LV4B0SWbtVG0TSiEOwhv
+         G6ufXOeVzd2fA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=wait-a-minute.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1pMUAm-005ptr-Vy;
+        Mon, 30 Jan 2023 13:26:13 +0000
+Date:   Mon, 30 Jan 2023 13:26:12 +0000
+Message-ID: <874js8duh7.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -68,83 +52,111 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Subject: Re: [PATCH] arm64: dts: renesas: r9a07g044: Add Cortex-A55 PMU node
+In-Reply-To: <CA+V-a8vBFSKbFJo1nEX7eN+S8eJazDDfCrzO7oFHsiF5yvpZ+g@mail.gmail.com>
+References: <20230127174014.251539-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <OS0PR01MB592258905AC3979803C473D786CC9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        <CA+V-a8s+cZpuUXWRa573a373n7YPsHrdLnUVXHjez6O101oneQ@mail.gmail.com>
+        <OS0PR01MB5922943C1E1D9329691DB02F86CC9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        <CAMuHMdWHE3wAYd7TSamN77Xy7CSxnEd8QHW8xm9ng4opsBEapg@mail.gmail.com>
+        <CA+V-a8vBFSKbFJo1nEX7eN+S8eJazDDfCrzO7oFHsiF5yvpZ+g@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: prabhakar.csengg@gmail.com, geert@linux-m68k.org, biju.das.jz@bp.renesas.com, magnus.damm@gmail.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-On Mon, Jan 30, 2023 at 10:05 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> On Fri, Jan 27, 2023 at 10:48 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > Subject: Re: [PATCH] arm64: dts: renesas: r9a07g044: Add Cortex-A55 PMU node
-> > > On Fri, Jan 27, 2023 at 6:38 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > > > Subject: [PATCH] arm64: dts: renesas: r9a07g044: Add Cortex-A55 PMU
-> > > > > node
-> > > > >
-> > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > >
-> > > > > Enable the performance monitor unit for the Cortex-A55 cores on the
-> > > > > RZ/G2L
-> > > > > (r9a07g044) SoC.
-> > > > >
-> > > > > Signed-off-by: Lad Prabhakar
-> > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > ---
-> > > > >  arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 5 +++++
-> > > > >  1 file changed, 5 insertions(+)
-> > > > >
-> > > > > diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> > > > > b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> > > > > index 80b2332798d9..ff9bdc03a3ed 100644
-> > > > > --- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> > > > > +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> > > > > @@ -161,6 +161,11 @@ opp-50000000 {
-> > > > >               };
-> > > > >       };
-> > > > >
-> > > > > +     pmu_a55 {
-> > > > > +             compatible = "arm,cortex-a55-pmu";
-> > > > > +             interrupts-extended = <&gic GIC_PPI 7
-> > > > > + IRQ_TYPE_LEVEL_HIGH>;
-> > > >
-> > > > Just a question, Is it tested?
-> > > Yes this was tested with perf test
-> > >
-> > > > timer node[1] defines irq type as LOW, here it is high.
-> > > You are right looking at the RZG2L_InterruptMapping_rev01.xlsx this should
-> > > be LOW. (I followed the SPI IRQS where all the LEVEL interrupts are HIGH)
-> > >
-> > > > Also do we need to define (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW) as
-> > > it has 2 cores??
-> > > >
-> > > No this is not required for example here [0] where it has 6 cores.
+On Mon, 30 Jan 2023 13:13:26 +0000,
+"Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
+> 
+> Hi Geert,
+> 
+> On Mon, Jan 30, 2023 at 10:05 AM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
 > >
-> > I may be wrong, That is the only example[1], where the A55 PMU per cpu interrupts and number of a55 cores in the DT
-> > are not matching.
+> > On Fri, Jan 27, 2023 at 10:48 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > > Subject: Re: [PATCH] arm64: dts: renesas: r9a07g044: Add Cortex-A55 PMU node
+> > > > On Fri, Jan 27, 2023 at 6:38 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > > > > Subject: [PATCH] arm64: dts: renesas: r9a07g044: Add Cortex-A55 PMU
+> > > > > > node
+> > > > > >
+> > > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > >
+> > > > > > Enable the performance monitor unit for the Cortex-A55 cores on the
+> > > > > > RZ/G2L
+> > > > > > (r9a07g044) SoC.
+> > > > > >
+> > > > > > Signed-off-by: Lad Prabhakar
+> > > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > ---
+> > > > > >  arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 5 +++++
+> > > > > >  1 file changed, 5 insertions(+)
+> > > > > >
+> > > > > > diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> > > > > > b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> > > > > > index 80b2332798d9..ff9bdc03a3ed 100644
+> > > > > > --- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> > > > > > +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> > > > > > @@ -161,6 +161,11 @@ opp-50000000 {
+> > > > > >               };
+> > > > > >       };
+> > > > > >
+> > > > > > +     pmu_a55 {
+> > > > > > +             compatible = "arm,cortex-a55-pmu";
+> > > > > > +             interrupts-extended = <&gic GIC_PPI 7
+> > > > > > + IRQ_TYPE_LEVEL_HIGH>;
+> > > > >
+> > > > > Just a question, Is it tested?
+> > > > Yes this was tested with perf test
+> > > >
+> > > > > timer node[1] defines irq type as LOW, here it is high.
+> > > > You are right looking at the RZG2L_InterruptMapping_rev01.xlsx this should
+> > > > be LOW. (I followed the SPI IRQS where all the LEVEL interrupts are HIGH)
+> > > >
+> > > > > Also do we need to define (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW) as
+> > > > it has 2 cores??
+> > > > >
+> > > > No this is not required for example here [0] where it has 6 cores.
+> > >
+> > > I may be wrong, That is the only example[1], where the A55 PMU per cpu interrupts and number of a55 cores in the DT
+> > > are not matching.
+> > >
+> > > [1]
+> > > https://elixir.bootlin.com/linux/latest/B/ident/arm%2Ccortex-a55-pmu
 > >
-> > [1]
-> > https://elixir.bootlin.com/linux/latest/B/ident/arm%2Ccortex-a55-pmu
->
-> Indeed, this looks like an omission, propagated through
-> arch/arm64/boot/dts/renesas/r8a779[afg]0.dtsi.
->
-> And doesn't this apply to all PPI interrupts, i.e. shouldn't the GIC
-> in arch/arm64/boot/dts/renesas/r9a07g0{43u,44u,54}.dtsi specify the
-> mask in their interrupts properties, too?
->
-I was under the impression that the GIC_CPU_MASK_SIMPLE(x) was only
-needed if the driver handled per-cpu stuff.
+> > Indeed, this looks like an omission, propagated through
+> > arch/arm64/boot/dts/renesas/r8a779[afg]0.dtsi.
+> >
+> > And doesn't this apply to all PPI interrupts, i.e. shouldn't the GIC
+> > in arch/arm64/boot/dts/renesas/r9a07g0{43u,44u,54}.dtsi specify the
+> > mask in their interrupts properties, too?
+> >
+> I was under the impression that the GIC_CPU_MASK_SIMPLE(x) was only
+> needed if the driver handled per-cpu stuff.
+> 
+> Marc, what should be the correct usage?
 
-Marc, what should be the correct usage?
+I'm reading the DT correctly, this system has a GICv3, which is quite
+natural for an A55-based system. For this configuration, no mask is
+required.
 
-Cheers,
-Prabhakar
+The CPU mask stuff only applies to pre-GICv3. With GICv3+, you simply
+cannot express such a mask, as there is no practical limit to the
+number of CPUs.
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
