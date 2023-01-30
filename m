@@ -2,43 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B2D46816CF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jan 2023 17:48:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A46B68170F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Jan 2023 17:59:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234038AbjA3QsQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Jan 2023 11:48:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48272 "EHLO
+        id S236488AbjA3Q7R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Jan 2023 11:59:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbjA3QsP (ORCPT
+        with ESMTP id S233899AbjA3Q7Q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Jan 2023 11:48:15 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 005C514E8E;
-        Mon, 30 Jan 2023 08:48:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=iSppJpmbh5yY9f1++jDLbK6EHrj4YtdTjVgqiD7xZtE=; b=t143gCujAMScBKZumahGmYIUKE
-        114PPBcgvsfprD7++/4HiAGm2f5MmIwhvQtm7RERN5nPjqZLRBTM90n3Zi2GY+iLiDMfHdYF7TyPe
-        79RQjd+C2bS2B3fYBvpM6fMEn/R0UzuDPgqa83Pfn5nWUHmJr7EJ74RR/08NkmtFY/0zovKiWfotM
-        5QYrH6huVb2H+AltAwCBc/akCxpdER69TrIdkVUfhewCLawK4Z+U80TeY7bdxon9YEqmLNGij+0o6
-        pYrNRhFvqvw1B8EncYI9jKlveG0FjAVNPtlEhaH5wBK8MeelowRmpYHCQr8nqJ4NCWSPLF61VtEnS
-        zJjznd3A==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:36362)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1pMXK9-0003Vy-Fz; Mon, 30 Jan 2023 16:48:05 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1pMXK6-0003HB-KP; Mon, 30 Jan 2023 16:48:02 +0000
-Date:   Mon, 30 Jan 2023 16:48:02 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Mon, 30 Jan 2023 11:59:16 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4DDE3F2B2;
+        Mon, 30 Jan 2023 08:59:15 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8F76FB81240;
+        Mon, 30 Jan 2023 16:59:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E40EC433EF;
+        Mon, 30 Jan 2023 16:59:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675097953;
+        bh=TEmP3Vf+1ys1XnL6zZZPlJEDD1EREssa1UfjKey0QKs=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Vrw8qQFUCh+fcTCikMKNUdd5mFjLT16oJV8HLvj5lJgArQEwc0P7/tnjmOZoqEztE
+         303uyv7poK0HTdWamkyN12Qn4l5/1JWrzUxl8vzjmo+vs+P2abutwREX6tjsnZLSop
+         VDB3ondM+bEzei7zzN4oeq3iwF0ciesk6O3MOhLjkCPTuZrXAEgCmv6UHo1pLNoxiU
+         A7U0u9+F0nJ2H9yW4uJfwmET3XgA8Pfuu0VBDY5ic00m0DlPry/vQ46+seOyCfjIUY
+         NsgOXwpmgvdspFwChpjqMjgvolvFczQiT9K4fmKn1tMLmd053B8vrlMqoraajRLh02
+         NdYqzNZq99hrQ==
+Date:   Mon, 30 Jan 2023 17:59:05 +0100
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
         "andrew@lunn.ch" <andrew@lunn.ch>,
         "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
         "davem@davemloft.net" <davem@davemloft.net>,
@@ -50,39 +47,52 @@ Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         <linux-renesas-soc@vger.kernel.org>
 Subject: Re: [PATCH net-next v4 4/4] net: ethernet: renesas: rswitch: Add
  phy_power_{on,off}() calling
-Message-ID: <Y9f0wm1sV6B1/ymC@shell.armlinux.org.uk>
+Message-ID: <20230130175905.7d77781d@thinkpad>
+In-Reply-To: <Y9f0wm1sV6B1/ymC@shell.armlinux.org.uk>
 References: <20230127142621.1761278-1-yoshihiro.shimoda.uh@renesas.com>
- <20230127142621.1761278-5-yoshihiro.shimoda.uh@renesas.com>
- <Y9PrDPPbtIClVtB4@shell.armlinux.org.uk>
- <TYBPR01MB534129FDE16A6DB654486671D8D39@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <Y9e05RJWrzFO7z4T@shell.armlinux.org.uk>
- <20230130173048.520f3f3e@thinkpad>
+        <20230127142621.1761278-5-yoshihiro.shimoda.uh@renesas.com>
+        <Y9PrDPPbtIClVtB4@shell.armlinux.org.uk>
+        <TYBPR01MB534129FDE16A6DB654486671D8D39@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+        <Y9e05RJWrzFO7z4T@shell.armlinux.org.uk>
+        <20230130173048.520f3f3e@thinkpad>
+        <Y9f0wm1sV6B1/ymC@shell.armlinux.org.uk>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230130173048.520f3f3e@thinkpad>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 30, 2023 at 05:30:48PM +0100, Marek Behún wrote:
-> But rswitch already uses phylink, so should Yoshihiro convert it whole
-> back to phylib? (I am not sure how much phylink API is used, maybe it
-> can stay that way and the new phylib function as proposed in Yoshihiro's
-> previous proposal can just be added.)
+On Mon, 30 Jan 2023 16:48:02 +0000
+"Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
 
-In terms of "how much phylink API is used"... well, all the phylink
-ops functions are currently entirely empty. So, phylink in this case
-is just being nothing more than a shim between the driver and the
-corresponding phylib functions.
+> On Mon, Jan 30, 2023 at 05:30:48PM +0100, Marek Beh=C3=BAn wrote:
+> > But rswitch already uses phylink, so should Yoshihiro convert it whole
+> > back to phylib? (I am not sure how much phylink API is used, maybe it
+> > can stay that way and the new phylib function as proposed in Yoshihiro's
+> > previous proposal can just be added.) =20
+>=20
+> In terms of "how much phylink API is used"... well, all the phylink
+> ops functions are currently entirely empty. So, phylink in this case
+> is just being nothing more than a shim between the driver and the
+> corresponding phylib functions.
+>=20
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Yoshihiro, sorry for this. If not for my complaints, your proposal could
+already be merged (maybe). Anyway, I think the best solution would be
+to implement phylink properly, even for cases that are not relevant for
+your board*, but this would take a non-trivial amount of time, so
+I will understand if you want to stick with phylib.
+
+* Altough you don't use fixed-link or SFP on your board, I think it
+  should be possible to test it somehow if you implemented it...
+  For example, I have tested fixed-link between SOC and switch SerDes
+  by configuring it in device-tree on both sides.
+
+Marek
