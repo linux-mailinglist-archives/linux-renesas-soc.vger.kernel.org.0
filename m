@@ -2,101 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 507B768262F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Jan 2023 09:14:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 956F3682640
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Jan 2023 09:20:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230245AbjAaIO3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 31 Jan 2023 03:14:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35882 "EHLO
+        id S229608AbjAaIUy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 31 Jan 2023 03:20:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229776AbjAaIO3 (ORCPT
+        with ESMTP id S229546AbjAaIUy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 31 Jan 2023 03:14:29 -0500
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73E4A2F7B8;
-        Tue, 31 Jan 2023 00:14:27 -0800 (PST)
-Received: by mail-qt1-f181.google.com with SMTP id cr22so454087qtb.10;
-        Tue, 31 Jan 2023 00:14:27 -0800 (PST)
+        Tue, 31 Jan 2023 03:20:54 -0500
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38577EB64;
+        Tue, 31 Jan 2023 00:20:53 -0800 (PST)
+Received: by mail-qt1-f173.google.com with SMTP id w3so3991876qts.7;
+        Tue, 31 Jan 2023 00:20:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=w0ccHC8reNWYQgpAYbVr9s42CKygVFy7/fkfStrl4kw=;
-        b=xVL0rmSqmFG8Fy/wiT3oZvwoIe1JjlG5hQIkwCmocnAhSNXKWtHa3N2wtLDwc/qMRR
-         JpEOl5nzatGLY5cAnJs7NzmFXgNbvn/ZH7/TNg2nYZq98JiFZF9yqc5VfBEFzyQfKc1Z
-         NUL/3j/Jgem7tIbgLm+35L2tLbb6tWFZfQEsZAmH7K1vUurfSk79rY8OaoJUtjSk6TLC
-         FOlDkGZDTm4W2yIHy5/BxPny8vNkrYyaS0eqwWB+5rXYFtwPBFT6yCdrLVnf7uXPQv8R
-         8nwevTn/qW1IZH1Wkitv8haab7IQ2G+3r10Q855z9pYiN8xqnFb4ofrhbdBfKK+dAP7G
-         hGOA==
-X-Gm-Message-State: AO0yUKX6VwooeJCof0ImhvQRmE5KWjXm7kNo4Zz39j0TighdQb8hn8N/
-        qpZUD1FAaAqR0n1KMhlJs3rnnSw3qUgCQA==
-X-Google-Smtp-Source: AK7set8cehzt6XtCtfsggb0kK7lrgGwoHmuqS4400CGzLNf17X1rKn1ag4jN14d+y444+9cn1Jtosw==
-X-Received: by 2002:ac8:5956:0:b0:3b8:4144:fe72 with SMTP id 22-20020ac85956000000b003b84144fe72mr18462380qtz.9.1675152866404;
-        Tue, 31 Jan 2023 00:14:26 -0800 (PST)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id f8-20020ac840c8000000b003b84b92052asm5396355qtm.57.2023.01.31.00.14.26
+        bh=bRHAGhQgk4pQ7LOPV0/iV6SDvyC1guNRZ8CaTTxtQfo=;
+        b=yKm4cwI6RagSX2G8FskFC85erRlOSgxJT/9KtSW0zlg1JeoLQdLc+x7FaXVwCSV+9l
+         U6lyLSJ7AXNVSNfNxjY7jGSLckD/81Vk9MdipPLRy8/HQnVjaFr8LQLTk3G1aPHCwgBd
+         FNs97J1w83kPaeNnwZOJbDuMXse4QX5S24hAt9yPZ6VDejyoU6DjFdqWp2mL9pXOwouK
+         yb08z3Sk5h5/oloOb+uC80XMt0e+H+SqCsIA+xcBqccpnZIFOCvtU3nacpjqMPz6lBJ9
+         YoyYcG4kNgMuTLngQmr6LCGLPn0fChn499NyMMLsfrmojiU+h2Ue133OrYv2aRuZp438
+         UyEQ==
+X-Gm-Message-State: AFqh2kofYSo2PRt7E0hGk89TiWuVylAs7I9pB0xlXxO098pjgRLOaIDk
+        UuISTGxUI3qlZSuhYDe4yr1/0XVUubdT0A==
+X-Google-Smtp-Source: AMrXdXvR67LWGQc46il0tU2XwQ8ik40Z/9Kp+fxn6iYbTQdkrCSolidYqMkE/+3tQEh7U6ndbS1qnQ==
+X-Received: by 2002:ac8:58c3:0:b0:3b6:2c85:6fe8 with SMTP id u3-20020ac858c3000000b003b62c856fe8mr89706236qta.53.1675153251937;
+        Tue, 31 Jan 2023 00:20:51 -0800 (PST)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id pj4-20020a05620a1d8400b0070648cf78bdsm9583854qkn.54.2023.01.31.00.20.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Jan 2023 00:14:26 -0800 (PST)
-Received: by mail-yb1-f182.google.com with SMTP id b1so17081658ybn.11;
-        Tue, 31 Jan 2023 00:14:26 -0800 (PST)
-X-Received: by 2002:a25:9801:0:b0:7d5:b884:3617 with SMTP id
- a1-20020a259801000000b007d5b8843617mr4679605ybo.380.1675152855693; Tue, 31
- Jan 2023 00:14:15 -0800 (PST)
+        Tue, 31 Jan 2023 00:20:51 -0800 (PST)
+Received: by mail-yb1-f180.google.com with SMTP id 129so17193325ybb.0;
+        Tue, 31 Jan 2023 00:20:51 -0800 (PST)
+X-Received: by 2002:a25:4483:0:b0:839:c329:be37 with SMTP id
+ r125-20020a254483000000b00839c329be37mr73386yba.89.1675153250731; Tue, 31 Jan
+ 2023 00:20:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20230127001141.407071-1-saravanak@google.com> <20230127001141.407071-4-saravanak@google.com>
- <CAMuHMdV4B49OM7S-UAxJtfAR8OvG_-S526fGnTA+t+-orytrTw@mail.gmail.com>
- <CAGETcx9EXkbAfEX6pBL84DBr3SEwiJe7N4xh91TspLn8CwZ+LQ@mail.gmail.com>
- <CAMuHMdUFeSim2gvmiBuPbAajbK6ybh67gBmbLLqRhG1T5+v0JA@mail.gmail.com> <CAGETcx-TSrjFnmxV02TMaGN6Au4f9SuLgzjMPOqAOTqx_bqLhA@mail.gmail.com>
-In-Reply-To: <CAGETcx-TSrjFnmxV02TMaGN6Au4f9SuLgzjMPOqAOTqx_bqLhA@mail.gmail.com>
+References: <20230123012940.1250879-1-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdX92KMeON0xC9p17kiqWT7ksEBX_NyPiiQk0fLaucDZBA@mail.gmail.com>
+ <TYBPR01MB5341B023178B4A10DE52B844D8CE9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <CAMuHMdXXnu88Tn2ucuHZK=3G18v-nCfaTYpomchRXBu3bD7UuA@mail.gmail.com>
+ <3c3e1dc2-1f66-565c-c677-2eae368e10be@arm.com> <20230130193604.GA3218335-robh@kernel.org>
+In-Reply-To: <20230130193604.GA3218335-robh@kernel.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 31 Jan 2023 09:14:03 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX=F5zPfVQLihWRBt0EN-nNW=x4v_XFpp4aY9WrhkwmJw@mail.gmail.com>
-Message-ID: <CAMuHMdX=F5zPfVQLihWRBt0EN-nNW=x4v_XFpp4aY9WrhkwmJw@mail.gmail.com>
-Subject: Re: [PATCH v2 03/11] soc: renesas: Move away from using OF_POPULATED
- for fw_devlink
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Len Brown <lenb@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Linux Kernel Functional Testing <lkft@linaro.org>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>,
-        Abel Vesa <abel.vesa@linaro.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        John Stultz <jstultz@google.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Maxim Kiselev <bigunclemax@gmail.com>,
-        Maxim Kochetkov <fido_max@inbox.ru>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Luca Weiss <luca.weiss@fairphone.com>,
-        Colin Foster <colin.foster@in-advantage.com>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Jean-Philippe Brucker <jpb@kernel.org>,
-        kernel-team@android.com, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-acpi@vger.kernel.org
+Date:   Tue, 31 Jan 2023 09:20:38 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU4j3drFt6jAZPHTJMrrL7GTWHxNqMGHR-1pScqg4H2xg@mail.gmail.com>
+Message-ID: <CAMuHMdU4j3drFt6jAZPHTJMrrL7GTWHxNqMGHR-1pScqg4H2xg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: iommu: renesas,ipmmu-vmsa: Update
+ descriptions for R-Car Gen4
+To:     Rob Herring <robh@kernel.org>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "will@kernel.org" <will@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -108,82 +78,75 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
+Hi Rob,
 
-On Mon, Jan 30, 2023 at 9:00 PM Saravana Kannan <saravanak@google.com> wrote:
-> On Mon, Jan 30, 2023 at 12:43 AM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
-> > On Sat, Jan 28, 2023 at 8:19 AM Saravana Kannan <saravanak@google.com> wrote:
-> > > On Fri, Jan 27, 2023 at 12:11 AM Geert Uytterhoeven
-> > > <geert@linux-m68k.org> wrote:
-> > > > On Fri, Jan 27, 2023 at 1:11 AM Saravana Kannan <saravanak@google.com> wrote:
-> > > > > The OF_POPULATED flag was set to let fw_devlink know that the device
-> > > > > tree node will not have a struct device created for it. This information
-> > > > > is used by fw_devlink to avoid deferring the probe of consumers of this
-> > > > > device tree node.
+On Mon, Jan 30, 2023 at 8:36 PM Rob Herring <robh@kernel.org> wrote:
+> On Wed, Jan 25, 2023 at 10:42:13AM +0000, Robin Murphy wrote:
+> > On 2023-01-25 08:54, Geert Uytterhoeven wrote:
+> > > On Wed, Jan 25, 2023 at 1:49 AM Yoshihiro Shimoda
+> > > <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > > > > From: Geert Uytterhoeven, Sent: Tuesday, January 24, 2023 11:35 PM
+> > > > > On Mon, Jan 23, 2023 at 2:35 AM Yoshihiro Shimoda
+> > > > > <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > > > > > Since R-Car Gen4 doens't have the main IPMMU IMSSTR register, but
+> > > > > > each cache IPMMU has own module id. So, update descriptions of
+> > > > > > renesas,ipmmu-main property for R-Car Gen4.
+> > > > > >
+> > > > > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > >
+> > > > > > ---
+> > > > > >   The old R-Car S4-8 datasheet had described IPMMU IMSSTR register, but
+> > > > > >   the latest datasheet undocumented the register. So, update the propeties
+> > > > > >   description. Note that the second argument is not used on the driver.
 > > > > >
-> > > > > Let's use fwnode_dev_initialized() instead because it achieves the same
-> > > > > effect without using OF specific flags. This allows more generic code to
-> > > > > be written in driver core.
+> > > > > DT describes hardware, not software policy.
+> > > >
+> > > > I think so.
+> > > >
+> > > > > >   So no behavior change.
 > > > > >
-> > > > > Signed-off-by: Saravana Kannan <saravanak@google.com>
+> > > > > So where do we get the module id numbers to use, if they are no longer
+> > > > > documented in the Hardware Manual?
 > > > >
-> > > > Thanks for your patch!
+> > > > If so, we cannot get the module id numbers. So, should we use other
+> > > > information which is completely fixed instead? I have some ideas:
+> > > > 1) Just 0 (or other fixed value) if the IMSSTR register doesn't exist.
+> > > > 2) Sequential numbers from register base offset.
+> > > >     In R-Car S4: ipmmu_rt0 is the first node from register base offset,
+> > > >     and ipmmu_rt1 is the second one.
+> > > >     So, ipmmu_rt0 is 0, ipmmu_rt1 is 1, ipmmu_ds0 is 2 and ipmmu_hc is 3.
+> > > > 3) Using base address upper 16-bits.
+> > > >     In R-Car S4: ipmmu_rt0 is 0xee480000. So, the value is 0xee48.
 > > > >
-> > > > > --- a/drivers/soc/renesas/rcar-sysc.c
-> > > > > +++ b/drivers/soc/renesas/rcar-sysc.c
-> > > > > @@ -437,7 +437,7 @@ static int __init rcar_sysc_pd_init(void)
-> > > > >
-> > > > >         error = of_genpd_add_provider_onecell(np, &domains->onecell_data);
-> > > > >         if (!error)
-> > > > > -               of_node_set_flag(np, OF_POPULATED);
-> > > > > +               fwnode_dev_initialized(&np->fwnode, true);
-> > > >
-> > > > As drivers/soc/renesas/rmobile-sysc.c is already using this method,
-> > > > it should work fine.
-> > > >
-> > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > i.e. will queue in renesas-devel for v6.4.
->
-> I hope you meant queue it up for 6.3 and not 6.4?
-
-V6.4.
-The deadline for submitting pull requests for the soc tree is rc6.
-Sorry, your series was posted too late to make that.
-
-> > > Thanks! Does that mean I should drop this from this series? If two
-> > > maintainers pick the same patch up, will it cause problems? I'm
-> > > eventually expecting this series to be picked up by Greg into
-> > > driver-core-next.
+> > > > Perhaps, the option 1) is reasonable, I think. But, what do you think?
+> > >
+> > > I would not make up numbers, as that would cause confusion with SoCs
+> > > where the numbers do match the hardware.
+> > > As the driver doesn't use the module id number (it already loops
+> > > over all domains, instead of checking IMSSTR, probably because of
+> > > historical (R-Car Gen2) reasons?), what about dropping it from the
+> > > property? I.e. add "minItems: 1", possibly only when compatible with
+> > > renesas,rcar-gen4-ipmmu-vmsa?
 > >
-> > Indeed. Patches for drivers/soc/renesas/ are supposed to go upstream
-> > through the renesas-devel and soc trees. This patch has no dependencies
-> > on anything else in the series (or vice versa), so there is no reason
-> > to deviate from that, and possibly cause conflicts later.
+> > Right, if there really is no meaningful ID for this model then its binding
+> > should not require one.
 >
-> This series is supposed to fix a bunch of issues and I vaguely think
-> the series depends on this patch to work correctly on some Renesas
-> systems. You are my main renesas person, so it's probably some issue
-> you hit. Is you pick it up outside of this series I need to keep
-> asking folks to pick up two different patch threads. I don't have a
-> strong opinion, just a FYI. If you can take this patch soon, I don't
-> have any concerns.
+> I agree, however that makes parsing the property a pain (for both the
+> schema and driver). This property is a matrix. The number of entries is
+> already variable. If both dimensions are variable, we have to then look
+> at the compatible to know how to parse it. I would go with option 1.
 
-Oh right, you do remove OF_POPULATED handling in
-"[PATCH v2 09/11] of: property: Simplify of_link_to_phandle()".
-It might be wise to postpone that removal, as after your series,
-there are stillseveral users left, some of them might be impacted.
+But it does not have to be two-dimensional.
+The second dimension was added in commit 39bd2b6a3783b899 ("dt-bindings
+ Improve phandle-array schemas"), but is not needed.
+Can this be simplified again?
 
-I do plan to test your full series on all my boards, but probably that
-won't happen this week.
+The driver doesn't care, it just checks for the presence of the
+property, i.e. treats it as a boolean flag.
 
-> > BTW, I will convert to of_node_to_fwnode() while applying.
->
-> Sounds good.
+> A 4th option is a new property.
 
-If you still want this to land in v6,3 (with the of_node_to_fwnode()
-conversion):
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+If all else fails, a new boolean flag would work...
 
 Gr{oetje,eeting}s,
 
