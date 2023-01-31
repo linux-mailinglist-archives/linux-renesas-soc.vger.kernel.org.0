@@ -2,99 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14604682A4B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Jan 2023 11:18:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF013682A95
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Jan 2023 11:31:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231214AbjAaKSc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 31 Jan 2023 05:18:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45758 "EHLO
+        id S231138AbjAaKbp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 31 Jan 2023 05:31:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231157AbjAaKS2 (ORCPT
+        with ESMTP id S230484AbjAaKbn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 31 Jan 2023 05:18:28 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BD3B44956D;
-        Tue, 31 Jan 2023 02:18:21 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A1BB1713;
-        Tue, 31 Jan 2023 02:19:03 -0800 (PST)
-Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CCFFD3F64C;
-        Tue, 31 Jan 2023 02:18:15 -0800 (PST)
-Date:   Tue, 31 Jan 2023 10:18:13 +0000
-From:   Sudeep Holla <sudeep.holla@arm.com>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Naresh Kamboju <naresh.kamboju@linaro.org>, abel.vesa@linaro.org,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        alexander.stein@ew.tq-group.com, andriy.shevchenko@linux.intel.com,
-        bigunclemax@gmail.com, brgl@bgdev.pl,
-        colin.foster@in-advantage.com, cristian.marussi@arm.com,
-        devicetree@vger.kernel.org, dianders@chromium.org,
-        djrscally@gmail.com, dmitry.baryshkov@linaro.org,
-        festevam@gmail.com, fido_max@inbox.ru, frowand.list@gmail.com,
-        geert+renesas@glider.be, geert@linux-m68k.org,
-        gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com,
-        jpb@kernel.org, jstultz@google.com, kernel-team@android.com,
-        kernel@pengutronix.de, lenb@kernel.org, linus.walleij@linaro.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-imx@nxp.com,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux@roeck-us.net, lkft@linaro.org, luca.weiss@fairphone.com,
-        magnus.damm@gmail.com, martin.kepplinger@puri.sm, maz@kernel.org,
-        miquel.raynal@bootlin.com, rafael@kernel.org, robh+dt@kernel.org,
-        s.hauer@pengutronix.de, sakari.ailus@linux.intel.com,
-        shawnguo@kernel.org, tglx@linutronix.de, tony@atomide.com
-Subject: Re: [PATCH v2 00/11] fw_devlink improvements
-Message-ID: <20230131101813.goaoy32qvrowvyyb@bogus>
-References: <20230127001141.407071-1-saravanak@google.com>
- <20230130085542.38546-1-naresh.kamboju@linaro.org>
- <CAGETcx_411fVxsM-ZMK7j2Bvkmi2TKPbzSuD+03M3cb7WKHfJw@mail.gmail.com>
+        Tue, 31 Jan 2023 05:31:43 -0500
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01045442CF
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Jan 2023 02:31:41 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:fd54:3eff:f16a:8c82])
+        by laurent.telenet-ops.be with bizsmtp
+        id FNXf2900b3oGUMV01NXf6P; Tue, 31 Jan 2023 11:31:40 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pMnvB-007vjk-Pw;
+        Tue, 31 Jan 2023 11:31:39 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pMnvP-000NWt-NJ;
+        Tue, 31 Jan 2023 11:31:39 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     Niklas Schnelle <schnelle@linux.ibm.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 resend] PCI: Fix dropping valid root bus resources with .end = zero
+Date:   Tue, 31 Jan 2023 11:31:36 +0100
+Message-Id: <ecea3ffade000556419683b2a89ab402823bf323.1675160811.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGETcx_411fVxsM-ZMK7j2Bvkmi2TKPbzSuD+03M3cb7WKHfJw@mail.gmail.com>
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
+On r8a7791/koelsch:
 
-On Mon, Jan 30, 2023 at 03:03:01PM -0800, Saravana Kannan wrote:
-> On Mon, Jan 30, 2023 at 12:56 AM Naresh Kamboju
-> <naresh.kamboju@linaro.org> wrote:
-> >
-> > Build test pass on arm, arm64, i386, mips, parisc, powerpc, riscv, s390, sh,
-> > sparc and x86_64.
-> >
-> > Boot and LTP smoke pass on qemu-arm64, qemu-armv7, qemu-i386 and qemu-x86_64.
-> > Boot failed on FVP.
-> >
-> > Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> >
-> > Please refer following link for details of testing.
-> > FVP boot log failed.
-> > https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/lore_kernel_org_linux-devicetree_20230127001141_407071-1-saravanak_google_com/testrun/14389034/suite/boot/test/gcc-12-lkftconfig-64k_page_size/details/
->
-> Sudeep pointed me to what the issue might be. But it's strange that
-> you are hitting an issue now. I'm pretty sure I haven't changed this
-> part since v1. I'd also expect the limited assumptions I made to have
-> not been affected between v1 and v2.
->
+    kmemleak: 1 new suspected memory leaks (see /sys/kernel/debug/kmemleak)
+    # cat /sys/kernel/debug/kmemleak
+    unreferenced object 0xc3a34e00 (size 64):
+      comm "swapper/0", pid 1, jiffies 4294937460 (age 199.080s)
+      hex dump (first 32 bytes):
+	b4 5d 81 f0 b4 5d 81 f0 c0 b0 a2 c3 00 00 00 00  .]...]..........
+	00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+      backtrace:
+	[<fe3aa979>] __kmalloc+0xf0/0x140
+	[<34bd6bc0>] resource_list_create_entry+0x18/0x38
+	[<767046bc>] pci_add_resource_offset+0x20/0x68
+	[<b3f3edf2>] devm_of_pci_get_host_bridge_resources.constprop.0+0xb0/0x390
 
-Sorry I hadn't seen or tested v1.
+When coalescing two resources for a contiguous aperture, the first
+resource is enlarged to cover the full contiguous range, while the
+second resource is marked invalid.  This invalidation is done by
+clearing the flags, start, and end members.
 
-FYI The fwnode non-NULL check as in your nvmem diff/suggestion and the diff I
-replied on the gpiolib patch thread fixes the issues.
+When adding the initial resources to the bus later, invalid resources
+are skipped.  Unfortunately, the check for an invalid resource considers
+only the end member, causing false positives.
 
-> Anyway, I'll look at this and fix it in v3.
->
+E.g. on r8a7791/koelsch, root bus resource 0 ("bus 00") is skipped, and
+no longer registered with pci_bus_insert_busn_res() (causing the memory
+leak), nor printed:
 
-If you add that fwnode check, feel free to add my tested by.
+     pci-rcar-gen2 ee090000.pci: host bridge /soc/pci@ee090000 ranges:
+     pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080000..0x00ee08ffff -> 0x00ee080000
+     pci-rcar-gen2 ee090000.pci: PCI: revision 11
+     pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
+    -pci_bus 0000:00: root bus resource [bus 00]
+     pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08ffff]
 
---
-Regards,
-Sudeep
+Fix this by only skipping resources where all of the flags, start, and
+end members are zero.
+
+Fixes: 7c3855c423b17f6c ("PCI: Coalesce host bridge contiguous apertures")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Niklas Schnelle <schnelle@linux.ibm.com>
+Acked-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+---
+Is there any side effect of not registering the root bus resource with
+pci_bus_insert_busn_res()?  This is the resource created by
+of_pci_parse_bus_range(), and thus affects any DT platforms using
+"bus-range = <0 0>".
+
+Perhaps checking for "!res->flags" would be sufficient?
+
+I assume this still causes memory leaks on systems where resources are
+coalesced, as the second resource of a contiguous aperture is no longer
+referenced? Perhaps instead of clearing the resource, it should be
+removed from the list (and freed? is it actually safe to do that?)?
+
+Apparently Johannes had identified the bug before, but didn't realize
+the full impact...
+https://lore.kernel.org/r/5331e942ff28bb191d62bb403b03ceb7d750856c.camel@sipsolutions.net/
+
+v2:
+  - Add Tested-by, Acked-by.
+---
+ drivers/pci/probe.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 1779582fb5007cd1..5988584825482e9f 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -996,7 +996,7 @@ static int pci_register_host_bridge(struct pci_host_bridge *bridge)
+ 	resource_list_for_each_entry_safe(window, n, &resources) {
+ 		offset = window->offset;
+ 		res = window->res;
+-		if (!res->end)
++		if (!res->flags && !res->start && !res->end)
+ 			continue;
+ 
+ 		list_move_tail(&window->node, &bridge->windows);
+-- 
+2.34.1
+
