@@ -2,41 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94A94687ADD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Feb 2023 11:52:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 741D1687AE2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Feb 2023 11:53:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232530AbjBBKwC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Feb 2023 05:52:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52096 "EHLO
+        id S232460AbjBBKxV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Feb 2023 05:53:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232695AbjBBKvz (ORCPT
+        with ESMTP id S231989AbjBBKxU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Feb 2023 05:51:55 -0500
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 627A1885DC
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Feb 2023 02:51:26 -0800 (PST)
+        Thu, 2 Feb 2023 05:53:20 -0500
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 627368AC24
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Feb 2023 02:52:49 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:f3de:d156:24ca:e691])
-        by baptiste.telenet-ops.be with bizsmtp
-        id GArG2900d1R5m7k01ArGXL; Thu, 02 Feb 2023 11:51:19 +0100
+        by laurent.telenet-ops.be with bizsmtp
+        id GAsk290031R5m7k01AskLa; Thu, 02 Feb 2023 11:52:46 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pNXBF-0082po-RT;
-        Thu, 02 Feb 2023 11:51:16 +0100
+        id 1pNXCf-0082pv-G9;
+        Thu, 02 Feb 2023 11:52:44 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pNXBU-001oaT-Lw;
-        Thu, 02 Feb 2023 11:51:16 +0100
+        id 1pNXCu-001odL-B6;
+        Thu, 02 Feb 2023 11:52:44 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Magnus Damm <magnus.damm@gmail.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        Nam Nguyen <nam.nguyen.yh@renesas.com>,
-        Phong Hoang <phong.hoang.wz@renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] arm64: dts: renesas: v3hsk: Add clock-skew for GEther's Micrel PHY
-Date:   Thu,  2 Feb 2023 11:51:12 +0100
-Message-Id: <39ab4e92d2242e1d7e83db92f91fc6e0e7e76c47.1675334998.git.geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: rcar-gen3: Remove bogus "turbo-mode" properties
+Date:   Thu,  2 Feb 2023 11:52:41 +0100
+Message-Id: <866d06aec09e5a86dba11970f93a728b3e34e9f5.1675335086.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -49,34 +47,134 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Nam Nguyen <nam.nguyen.yh@renesas.com>
+On several R-Car Gen3(e) SoCs, multiple (up to 4) operating points in
+the same cluster are marked with the "turbo-mode" property, which is
+meant only for operating points beyond "Normal Mode".
 
-Add the missing clock-skew property for the GEther's Micrel KSZ9031 PHY.
+Fix this by dropping the property from all operating points but the
+"High Performance" one.
 
-Signed-off-by: Nam Nguyen <nam.nguyen.yh@renesas.com>
-Signed-off-by: Phong Hoang <phong.hoang.wz@renesas.com>
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-Untested due to lack of hardware, but it matches similar boards like
-Condor and V3MSK.
-
 To be queued in renesas-devel for v6.4.
 ---
- arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/renesas/r8a77951.dtsi | 1 -
+ arch/arm64/boot/dts/renesas/r8a77960.dtsi | 2 --
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi | 2 --
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi | 2 --
+ arch/arm64/boot/dts/renesas/r8a779m1.dtsi | 3 +++
+ arch/arm64/boot/dts/renesas/r8a779m3.dtsi | 3 +++
+ arch/arm64/boot/dts/renesas/r8a779m5.dtsi | 3 +++
+ 7 files changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts b/arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts
-index d168b0e7747d3494..77d22df25fffac6d 100644
---- a/arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts
-@@ -122,6 +122,7 @@ &gether {
- 	phy0: ethernet-phy@0 {
- 		compatible = "ethernet-phy-id0022.1622",
- 			     "ethernet-phy-ieee802.3-c22";
-+		rxc-skew-ps = <1500>;
- 		reg = <0>;
- 		interrupt-parent = <&gpio4>;
- 		interrupts = <23 IRQ_TYPE_LEVEL_LOW>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77951.dtsi b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+index f770d160e9485aad..10b91e9733bf6fa1 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77951.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+@@ -75,7 +75,6 @@ opp-1600000000 {
+ 			opp-hz = /bits/ 64 <1600000000>;
+ 			opp-microvolt = <900000>;
+ 			clock-latency-ns = <300000>;
+-			turbo-mode;
+ 		};
+ 		opp-1700000000 {
+ 			opp-hz = /bits/ 64 <1700000000>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+index 09c61696f7fb45c4..3ea8572e917f82dd 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+@@ -70,13 +70,11 @@ opp-1600000000 {
+ 			opp-hz = /bits/ 64 <1600000000>;
+ 			opp-microvolt = <900000>;
+ 			clock-latency-ns = <300000>;
+-			turbo-mode;
+ 		};
+ 		opp-1700000000 {
+ 			opp-hz = /bits/ 64 <1700000000>;
+ 			opp-microvolt = <900000>;
+ 			clock-latency-ns = <300000>;
+-			turbo-mode;
+ 		};
+ 		opp-1800000000 {
+ 			opp-hz = /bits/ 64 <1800000000>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+index 59a18dfcb8cc342b..d52cb0b67d80c6fb 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+@@ -70,13 +70,11 @@ opp-1600000000 {
+ 			opp-hz = /bits/ 64 <1600000000>;
+ 			opp-microvolt = <900000>;
+ 			clock-latency-ns = <300000>;
+-			turbo-mode;
+ 		};
+ 		opp-1700000000 {
+ 			opp-hz = /bits/ 64 <1700000000>;
+ 			opp-microvolt = <900000>;
+ 			clock-latency-ns = <300000>;
+-			turbo-mode;
+ 		};
+ 		opp-1800000000 {
+ 			opp-hz = /bits/ 64 <1800000000>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+index 9b4f7ad95ca84ee2..9584115c6b17769b 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+@@ -75,13 +75,11 @@ opp-1600000000 {
+ 			opp-hz = /bits/ 64 <1600000000>;
+ 			opp-microvolt = <900000>;
+ 			clock-latency-ns = <300000>;
+-			turbo-mode;
+ 		};
+ 		opp-1700000000 {
+ 			opp-hz = /bits/ 64 <1700000000>;
+ 			opp-microvolt = <900000>;
+ 			clock-latency-ns = <300000>;
+-			turbo-mode;
+ 		};
+ 		opp-1800000000 {
+ 			opp-hz = /bits/ 64 <1800000000>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a779m1.dtsi b/arch/arm64/boot/dts/renesas/r8a779m1.dtsi
+index b6e855f52adf99b5..1064a87a0c77771e 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779m1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779m1.dtsi
+@@ -12,6 +12,9 @@ / {
+ };
+ 
+ &cluster0_opp {
++	opp-1700000000 {
++		/delete-property/ turbo-mode;
++	};
+ 	opp-2000000000 {
+ 		opp-hz = /bits/ 64 <2000000000>;
+ 		opp-microvolt = <960000>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a779m3.dtsi b/arch/arm64/boot/dts/renesas/r8a779m3.dtsi
+index 6cff38a6d20b47ea..7fdbdd97ed4bb926 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779m3.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779m3.dtsi
+@@ -12,6 +12,9 @@ / {
+ };
+ 
+ &cluster0_opp {
++	opp-1800000000 {
++		/delete-property/ turbo-mode;
++	};
+ 	opp-2000000000 {
+ 		opp-hz = /bits/ 64 <2000000000>;
+ 		opp-microvolt = <960000>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a779m5.dtsi b/arch/arm64/boot/dts/renesas/r8a779m5.dtsi
+index 8c9c0557fe77ed7d..df51e0ff5986a1ae 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779m5.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779m5.dtsi
+@@ -12,6 +12,9 @@ / {
+ };
+ 
+ &cluster0_opp {
++	opp-1800000000 {
++		/delete-property/ turbo-mode;
++	};
+ 	opp-2000000000 {
+ 		opp-hz = /bits/ 64 <2000000000>;
+ 		opp-microvolt = <960000>;
 -- 
 2.34.1
 
