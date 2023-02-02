@@ -2,112 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C2AF688119
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Feb 2023 16:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4511D6882DF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Feb 2023 16:42:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231860AbjBBPHC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Feb 2023 10:07:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48416 "EHLO
+        id S231644AbjBBPmW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Feb 2023 10:42:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231598AbjBBPHB (ORCPT
+        with ESMTP id S231707AbjBBPmW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Feb 2023 10:07:01 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5B28A25B
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Feb 2023 07:06:59 -0800 (PST)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1pNbAf-0008BG-UJ; Thu, 02 Feb 2023 16:06:41 +0100
-Received: from pengutronix.de (unknown [IPv6:2a03:f580:87bc:d400:fff9:bfd9:c514:9ad9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id 7C23B16D6AE;
-        Thu,  2 Feb 2023 15:06:40 +0000 (UTC)
-Date:   Thu, 2 Feb 2023 16:06:32 +0100
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
+        Thu, 2 Feb 2023 10:42:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3721027D46;
+        Thu,  2 Feb 2023 07:41:59 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 56B6E61B8C;
+        Thu,  2 Feb 2023 15:41:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FFF7C433D2;
+        Thu,  2 Feb 2023 15:40:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675352460;
+        bh=SnokYtP0nj6+SdMUZyE/P5z1gQHBzL3/1Otl7bzbNK0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qeFYPex0TzA+VS5gBR3VY20pInVwSOxzIE9DS2E/rVorWjdplJ7T6z4Jt7mTCUIEb
+         nD8qA26Zqm7KB9hK0gNg2i2WvyDVSnkPDzwrlp5DrsPf375ACqitNM/AtlZJK6zEuy
+         6k29M0fgNmDAK3DlYrpiYat5Qi3YbNb/yBo0ePq/+QciRgfIWjr9JMiYFYFpbDCIK3
+         XAIvyjPMErvq8IPmbZV5ikztXtZatwsjnGubkenVLMsgr+8Wpr2G2p8RbZpmbRJHZG
+         ziPS3ZEQebz72j0/bvhKDjkYiMat5pTuNd9PXdJhfOwZ1SbGcOQgN8aSjYW415iJZ8
+         uTazh+EWqSZSA==
+Date:   Thu, 2 Feb 2023 16:40:54 +0100
+From:   Lorenzo Pieralisi <lpieralisi@kernel.org>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ulrich Hecht <uli+renesas@fpond.eu>, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, Vinod <vkoul@kernel.org>
-Subject: Re: [PATCH 12/12] can: rcar_canfd: Add transceiver support
-Message-ID: <20230202150632.oo57ap7bdapsvrum@pengutronix.de>
-References: <cover.1674499048.git.geert+renesas@glider.be>
- <e825b50a843ffe40e33f34e4d858c07c1b2ff259.1674499048.git.geert+renesas@glider.be>
- <CAMuHMdXtiC-Oo01Y-vCbokjF=L+YXMN=TucgqCS4Vtcg5gt==g@mail.gmail.com>
- <20230202144000.2qvtnorgig52jfhw@pengutronix.de>
- <CAMuHMdUm+ExFCspjk6OO3pvZ-mW8dOiZe7bS2r-ys0S=CBAT-Q@mail.gmail.com>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PCI: rcar: avoid defines prefixed with CONFIG
+Message-ID: <Y9vZhv2+F4e/Asko@lpieralisi>
+References: <20230113084516.31888-1-lukas.bulwahn@gmail.com>
+ <CAMuHMdX_TPgXO2KYNdD5rRzuE9m6_JxfW-otWzw7r7Wptq_rOQ@mail.gmail.com>
+ <Y8GHICwCNRsYCva8@lpieralisi>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ysn2wruqisnvr6g6"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUm+ExFCspjk6OO3pvZ-mW8dOiZe7bS2r-ys0S=CBAT-Q@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <Y8GHICwCNRsYCva8@lpieralisi>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---ysn2wruqisnvr6g6
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 02.02.2023 15:53:08, Geert Uytterhoeven wrote:
-> > > > This depends on "[PATCH 1/7] phy: Add devm_of_phy_optional_get() he=
-lper".
-> > > > https://lore.kernel.org/all/f53a1bcca637ceeafb04ce3540a605532d3bc34=
-a.1674036164.git.geert+renesas@glider.be
+On Fri, Jan 13, 2023 at 05:30:24PM +0100, Lorenzo Pieralisi wrote:
+> On Fri, Jan 13, 2023 at 10:05:09AM +0100, Geert Uytterhoeven wrote:
+> > Hi Lukas,
+> > 
+> > On Fri, Jan 13, 2023 at 9:52 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> > > Defines prefixed with "CONFIG" should be limited to proper Kconfig options,
+> > > that are introduced in a Kconfig file.
 > > >
-> > > v2: "[PATCH v2 3/9] phy: Add devm_of_phy_optional_get() helper"
-> > >     https://lore.kernel.org/all/4cd0069bcff424ffc5c3a102397c02370b919=
-85b.1674584626.git.geert+renesas@glider.be
+> > > Here, a definition for a bitmask to configure the SEND_ENABLE mode is named
+> > > CONFIG_SEND_ENABLE.
 > > >
-> > > I'll keep you updated when/if this ends up on an immutable branch.
-> >
-> > Should I take the patches 1...11 for can-next/main?
->=20
-> That would be great, thanks!
+> > > Rename this local definition to CONFIGURE_SEND_ENABLE to avoid defines
+> > > prefixed with "CONFIG".
+> > >
+> > > No functional change.
+> > >
+> > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > 
+> > Thanks for your patch!
+> > 
+> > > --- a/drivers/pci/controller/pcie-rcar.h
+> > > +++ b/drivers/pci/controller/pcie-rcar.h
+> > > @@ -11,7 +11,7 @@
+> > >
+> > >  #define PCIECAR                        0x000010
+> > >  #define PCIECCTLR              0x000018
+> > > -#define  CONFIG_SEND_ENABLE    BIT(31)
+> > > +#define  CONFIGURE_SEND_ENABLE BIT(31)
+> > 
+> > The R-Car Gen3 rev. 2.30 Hardware User's Manual calls the bit "CCIE".
+> > 
+> > Hence if I would have written the driver, I would have used
+> > 
+> >     #define PCIECCTLR_CCIE     BIT(31)   /* Configuration Send Enable */
+> 
+> Should I change it when I merge it ? That makes sense actually.
 
-Done.
+If I don't hear from anybody I will make the change above and merge it.
 
-Marc
+Thanks,
+Lorenzo
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---ysn2wruqisnvr6g6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmPb0XUACgkQvlAcSiqK
-BOiYSQf/dww3uYISi+pDI+cb5AR/nPAOePMdK4fmnzb4rD6krh1kz+qtMw8m/9SL
-bIoNHUiKaMaa++egDvkujwG93Fj47mHpHo4vtgaLxQ6GbQDM4MJnsY7/b+ep0JJ3
-NfNR+sooJ/dBPtKKOgQsvKGL0gl8BOu7dAMDyc4mIZzLUpoHL8jakOxNJ1NVzPOj
-SpqcqQVSQyQiqzk+qXiFApfcy8M2Az+wqmAbdmzJlAVqkKZn7DQm6tF7VeifPjY2
-sNF+n2d798m1Yh30NI/qyApZArlNBPnwx81DXdh0FgsAoXtz7lWnVvHouzrl2Pwn
-RApokq2V0zAC1/ujdzSOuWi/4pJazg==
-=x3zi
------END PGP SIGNATURE-----
-
---ysn2wruqisnvr6g6--
+> 
+> Thanks,
+> Lorenzo
+> 
+> > >  #define  TYPE0                 (0 << 8)
+> > >  #define  TYPE1                 BIT(8)
+> > >  #define PCIECDR                        0x000020
+> > 
+> > Gr{oetje,eeting}s,
+> > 
+> >                         Geert
+> > 
+> > --
+> > Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> > 
+> > In personal conversations with technical people, I call myself a hacker. But
+> > when I'm talking to journalists I just say "programmer" or something like that.
+> >                                 -- Linus Torvalds
