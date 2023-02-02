@@ -2,146 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66A8B6872BB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Feb 2023 02:05:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CDA6768765D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Feb 2023 08:28:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230017AbjBBBFt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Feb 2023 20:05:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53502 "EHLO
+        id S230226AbjBBH2m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Feb 2023 02:28:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230131AbjBBBFs (ORCPT
+        with ESMTP id S230004AbjBBH2l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Feb 2023 20:05:48 -0500
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2116.outbound.protection.outlook.com [40.107.255.116])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EB4B30E8A
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Feb 2023 17:05:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e1Ta0qV9+3I85EkJRTvgGZ+n2iIjX/AwAWQ7YO/3fgGwHM3N9nT2j3J0asR2oxDk/4Wjt/zGPAJvvFSdHbc44+TQWplvjuq4UNAglWVOSADA12lVN54+aSzRqz5i1DhUTyutoxi6WPd9WqYYGzetb61OTl9/4bpY7HR7UZhcKc0ilZ7m3FSPbR3tdUuVzrGPtwiVC5gdtZuBOR/cz5akDyhWKPcl4pmDgdM8Xt3kFyWbWXT7/BFcuNAX19LFqO5cz3hig5fuUAirDn2wD61RQD3a4RDVEN4xByVgjoH6It4e5SCuds6R8zvmopsC2G32M4+vRziD5AVCg2Fu85FjKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wysVTh8nR/zy2hlAuRm/AbHkv1kXpNPPlW2flhZKDlg=;
- b=IwdtEZdSo2fGm7U6A73SlKiJdfmizF6Tksoa33zMzCWspBQIrihKvE01Vc82ytZN0YjNJGJWAxqUWrLy1OMP62UUC6BWz0Ywjuz32N44qTUVRC0k+0i5WZ3EpH2vRrxNI84WXeENvNi7Bp/NEAgNVsYh4OH6sC9LHMqbWcMn8wPrLYx1tBvq+WLanw8KYQ0c5yMHqCWkeHnIgNkPcQMcuwQxAE8r5vFwBBc414gDgc+x8A8FP/zv5cElZor601S1aQ4cFGCU2Ee6MAkcn3RJF0u/iX9QH1FY47nRsKwY1H+1I3ZpdIGDkmhnKMb662RY8WB4m6/y6wNYov4QsNyduw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wysVTh8nR/zy2hlAuRm/AbHkv1kXpNPPlW2flhZKDlg=;
- b=G8SujF8XVIDaaYoj3VhpgfXfu32pGmfjvWXfGQddtUSxAdNejrurqs3Xh9ckqGI7sbSOSipLAXIgOg0FsQn/fRH9ipYTfi48oUL2B/tPg0kvTJQINaTLDYAmKuPBTZ2nMCteVac3XREIWH0vRTHAm68Js4wbh1bfF5bLA4QPAkI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
- by TYCPR01MB8628.jpnprd01.prod.outlook.com (2603:1096:400:139::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.25; Thu, 2 Feb
- 2023 01:05:36 +0000
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::4b75:8d8e:d89a:7860]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::4b75:8d8e:d89a:7860%8]) with mapi id 15.20.6043.036; Thu, 2 Feb 2023
- 01:05:36 +0000
-Message-ID: <871qn8anc0.wl-kuninori.morimoto.gx@renesas.com>
-From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 6/9] arm64: dts: r8a779g0-white-hawk-cpu.dtsi: add 5.0v regulator
-User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-In-Reply-To: <87edr8angv.wl-kuninori.morimoto.gx@renesas.com>
-References: <87edr8angv.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=US-ASCII
-Date:   Thu, 2 Feb 2023 01:05:35 +0000
-X-ClientProxiedBy: TY2PR01CA0005.jpnprd01.prod.outlook.com
- (2603:1096:404:a::17) To OS3PR01MB8426.jpnprd01.prod.outlook.com
- (2603:1096:604:194::10)
+        Thu, 2 Feb 2023 02:28:41 -0500
+Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BB8067783;
+        Wed,  1 Feb 2023 23:28:39 -0800 (PST)
+Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
+        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id D7B7F1883955;
+        Thu,  2 Feb 2023 07:28:36 +0000 (UTC)
+Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
+        by mailout.gigahost.dk (Postfix) with ESMTP id C6C2C250007B;
+        Thu,  2 Feb 2023 07:28:36 +0000 (UTC)
+Received: by smtp.gigahost.dk (Postfix, from userid 1000)
+        id A3BBE9B403E3; Thu,  2 Feb 2023 07:28:36 +0000 (UTC)
+X-Screener-Id: 413d8c6ce5bf6eab4824d0abaab02863e8e3f662
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS3PR01MB8426:EE_|TYCPR01MB8628:EE_
-X-MS-Office365-Filtering-Correlation-Id: 24c3207d-94de-47d4-c356-08db04b99770
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NFkWSNogWjdxXAt6EM6L+mFtWRnPAiLBMTvF+SoJEW5tQrLIS0Z6xkRm2JXUzRkYniBC2VZelzqWXVsrtROBTlmNkV/r4GVJd+EI7YzPaa07dOuEmdMyzKz58FBbnu90HXGW6SFYp8cR8oFXf88csul8zBIabmauU3nW5WXTX7x2JDRSVkxiGzf364N//ZS7ovAV95FDMM0A8wsqh+TdDs0VrgkpcR7QjTl2w1ssV0Pvy0PcP+KtRokJACpz+DXg6Oa1c0QlmenfiaQXZV17ztUH6oWYNxFYHTco0EBF66eWSM7teQaajEjZTgmPzcGeBZi0WFIk251Zo0V1vtYMwC4GZRBuEAcM6ugnQAsDv1A9va2MwVTnJ6/Hq+ZdHqOuW91cUgwUETG1ylfXNdZJiCuEW/v2WOeUvpUTkrAy4WChJDLdcxpAwpibNRulYREDhMps78uKE3uBuMws/ZlbNllQIjBjes9I2RCxiXCtZjfdFUQDduFpw53PDSFA3S7orXGoJVFQVXWeyh431lmuQg+6xvqGScsUzrQ2W3tIo52urWK1hoadQguFPUMfmFzTIvZD6CwqD/aWOPMCupXzILu0nk/ZvLDHm6epz4Av0gNK7k1yUTsztnfd+ErgPOCtGYZcYmWEsw+GOHVNim2kdBuRLvRC0Iuruv82gEBIOSLBY8WdmP2J0JcjFD5TU7+cpM/6gjCYwjEhwaXXxJTacA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(376002)(136003)(366004)(346002)(39860400002)(451199018)(36756003)(4326008)(8676002)(316002)(86362001)(41300700001)(38350700002)(38100700002)(66476007)(66556008)(83380400001)(66946007)(6486002)(5660300002)(6506007)(478600001)(4744005)(2616005)(8936002)(26005)(6512007)(186003)(52116002)(2906002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/A+bisyU3Eb/Df86xZJjYbW5ncdq1ZETU1m18OvgyxoMVV1+x3bE4UH3b0w+?=
- =?us-ascii?Q?IDPp212oFokLP4BqkRsE/x/5F3druBX1m5hYqCndFICyJnlvZgrBod3RlZqJ?=
- =?us-ascii?Q?XGb5dcKjLpiUrRHnLGbTe7mfjCWziLrQXofmy7MXIdjTYo4OnNyeysrpA2TO?=
- =?us-ascii?Q?myh9mM3QKrQqKgo87lcZZl/gIOSuTXqFSHZbw9ZFUMmnGG1XsiqP3GTnuzjN?=
- =?us-ascii?Q?AEaPCJu8tZ2DLrTOEtfjkXpoiwBOHD2lfA+OFDEl1DJSewgoLpIFeli2nvp7?=
- =?us-ascii?Q?ks/R7/Wwmdkf+SBsS2k1/NCopxD4mdVdlOK8I5jNDJ5ykIu+ky9MNoSPIiHN?=
- =?us-ascii?Q?iZm6n4d6qPnWfgtNZwwNX/x0t6gvT2UHcyfb4sCqzgd/zUAu89B0eT6v+nJl?=
- =?us-ascii?Q?ZuNU7oyFVeo1fY+iehiyXz/AjbFoAjwXObWD/gX9NXiQFSp6oWjhKFv+7Ait?=
- =?us-ascii?Q?j0KJertK59xZzbBUwLMd6a9BjToE8pYXN5rAr/PIs/NfDttlv+MLFuGnTEyE?=
- =?us-ascii?Q?m84nZp0KIhRq6Tq9Nvvdb6x9R3njwbkw/8i2291QG/GTSmvRmHzRzq2Jghjm?=
- =?us-ascii?Q?21A0GY/PFwzkDemzpiae0z1VOSbF9ZAil0cTezEgvaFRa35SUWgKyQyDX+TP?=
- =?us-ascii?Q?Jef+1wuzVh5bE841wxcFFXLzNmGGdtzKpKK7E4TYe54eX2HyH5cyekvW+/Uv?=
- =?us-ascii?Q?ikfg7cIg1Xz1DB5vBO+6T/tGkM68oQA2UgZvUtP3Pmt43bZT34cuws/MPMT6?=
- =?us-ascii?Q?IYmIRWW5NzOg2Ol+kT8fiiJM4MEEVc3n9YugXrid//VbjakZyyIO7DnMceYE?=
- =?us-ascii?Q?mog72IfngunOjmTmAyn/w7FUbUER2XgO8wmzggaxwWIyzX3ebuO3FJfEEQoB?=
- =?us-ascii?Q?VjebwzAZJ+5io4xPSwhkMakv/w8M8c/vKXW00xZONtgB1Adz8MWXYK3/O9gQ?=
- =?us-ascii?Q?8OBa6LippTIP9q/GRzfx4lpbB2VvC4yKKH1rFtT7Ptao4PbxPDe7E80QdRBQ?=
- =?us-ascii?Q?6geQQZxMUgR0XJLdipPLqCpngGR6XTKcgA6QBX3KhBqU+6aphjVDwoSR4ceG?=
- =?us-ascii?Q?VNz5WRMYt2pb9I1Y0pSus4D08KxUmTYbEIKjD389lXV1VVE1YYVc7nMjIIF7?=
- =?us-ascii?Q?7dzGeegAGDF5ThtXFfF7RwtPVWmddyL8wqolYUN8tdPDlkL9Vk0lms8l+9JW?=
- =?us-ascii?Q?RUJFTd8UyztchrPBFGWXlDKmoUYxQPYY2CCBq+9N63f0Bjz5tqzItMnwsWoA?=
- =?us-ascii?Q?jBrJLBYOOEQdh9Qe6G1AyVrzFUBBXVqOBmfuXFVfoloJzPoITzUvZricxkrr?=
- =?us-ascii?Q?7H2Zp3CPVUU18uqbIFmS6IcLdhuDX7xkTiOhut/KdSvcGR76iuXEIXy2TVeN?=
- =?us-ascii?Q?+NGAologBueZNNAySJuwl4/BakEo3Wwy157Es4lbLKlinxQcWRiru97waW1o?=
- =?us-ascii?Q?bVz8bMddsPAlVMJDnTegRUuCoespk7VBKcLxylX3biMMCOUlVNsRvm+Y245Y?=
- =?us-ascii?Q?xTRmvoDm6bvWFKrLRz1/iJQNlBbAmwAWy7VRCUS7ZPwEBdEXRi+xk/Q3tdDj?=
- =?us-ascii?Q?0E65vfgLPJ2X+HXjXuVRxb00HQd9w7XhpPiCgm6lYRxn5JTdM93xjQw2l3yZ?=
- =?us-ascii?Q?RnmSgmaIY+wPjjIppMihitc=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24c3207d-94de-47d4-c356-08db04b99770
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2023 01:05:36.0829
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tVYAeGa4YidVLnk9Q15i5AxDzvfX+/pLpcJK+HDyp76Dj05ksrME4m/o+BTNaiSMRD1CYxLvJvyj6IqrLTTzuuSCAHYKbpq4PXk/QaZcJidVFAHsVhV7W+fW1RpC05go
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8628
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Date:   Thu, 02 Feb 2023 08:28:36 +0100
+From:   netdev@kapio-technology.com
+To:     Ido Schimmel <idosch@idosch.org>
+Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
+        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?UTF-8?Q?Cl=C3=A9m?= =?UTF-8?Q?ent_L=C3=A9ger?= 
+        <clement.leger@bootlin.com>, Jiri Pirko <jiri@resnulli.us>,
+        Ivan Vecera <ivecera@redhat.com>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>
+Subject: Re: [PATCH net-next 1/5] net: bridge: add dynamic flag to switchdev
+ notifier
+In-Reply-To: <Y9qrAup9Xt/ZDEG0@shredder>
+References: <20230130173429.3577450-1-netdev@kapio-technology.com>
+ <20230130173429.3577450-2-netdev@kapio-technology.com>
+ <Y9qrAup9Xt/ZDEG0@shredder>
+User-Agent: Gigahost Webmail
+Message-ID: <f27dd18d9d0b7ff8b693af8a58ea8616@kapio-technology.com>
+X-Sender: netdev@kapio-technology.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On 2023-02-01 19:10, Ido Schimmel wrote:
+> On Mon, Jan 30, 2023 at 06:34:25PM +0100, Hans J. Schultz wrote:
+>> To be able to add dynamic FDB entries to drivers from userspace, the
+>> dynamic flag must be added when sending RTM_NEWNEIGH events down.
+>> 
+>> Signed-off-by: Hans J. Schultz <netdev@kapio-technology.com>
+>> ---
+>>  include/net/switchdev.h   | 1 +
+>>  net/bridge/br_switchdev.c | 2 ++
+>>  2 files changed, 3 insertions(+)
+>> 
+>> diff --git a/include/net/switchdev.h b/include/net/switchdev.h
+>> index ca0312b78294..aaf918d4ba67 100644
+>> --- a/include/net/switchdev.h
+>> +++ b/include/net/switchdev.h
+>> @@ -249,6 +249,7 @@ struct switchdev_notifier_fdb_info {
+>>  	u8 added_by_user:1,
+>>  	   is_local:1,
+>>  	   locked:1,
+>> +	   is_dyn:1,
+>>  	   offloaded:1;
+>>  };
+>> 
+>> diff --git a/net/bridge/br_switchdev.c b/net/bridge/br_switchdev.c
+>> index 7eb6fd5bb917..4420fcbbfdb2 100644
+>> --- a/net/bridge/br_switchdev.c
+>> +++ b/net/bridge/br_switchdev.c
+>> @@ -136,6 +136,8 @@ static void br_switchdev_fdb_populate(struct 
+>> net_bridge *br,
+>>  	item->added_by_user = test_bit(BR_FDB_ADDED_BY_USER, &fdb->flags);
+>>  	item->offloaded = test_bit(BR_FDB_OFFLOADED, &fdb->flags);
+>>  	item->is_local = test_bit(BR_FDB_LOCAL, &fdb->flags);
+>> +	item->is_dyn = !test_bit(BR_FDB_STATIC, &fdb->flags) &&
+> 
+> Why not 'is_static' and be consistent with the bridge flag like all the
+> other fields?
+> 
+> Regardless of how you name this field, it is irrelevant for
+> 'SWITCHDEV_FDB_ADD_TO_BRIDGE' notifications that all add FDB entries
+> with the 'BR_FDB_ADDED_BY_EXT_LEARN' flag set, which makes
+> 'BR_FDB_STATIC' irrelevant.
+> 
+>> +		item->added_by_user;
+> 
+> Unclear why this is needed...
+> 
 
-This is prepare for White Hawk Audio Support.
-
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
- arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
-index bb4a5270f71b..e1fee0d38752 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
-@@ -136,6 +136,15 @@ reg_3p3v: regulator-3p3v {
- 		regulator-always-on;
- 	};
- 
-+	reg_5p0v: regulator-5p0v {
-+			compatible = "regulator-fixed";
-+			regulator-name = "fixed-5.0V";
-+			regulator-min-microvolt = <5000000>;
-+			regulator-max-microvolt = <5000000>;
-+			regulator-boot-on;
-+			regulator-always-on;
-+	};
-+
- 	sn65dsi86_refclk: clk-x6 {
- 		compatible = "fixed-clock";
- 		#clock-cells = <0>;
--- 
-2.25.1
-
+The answer to those two questions lies in my earlier correspondences 
+(with Oltean) on the RFC version.
