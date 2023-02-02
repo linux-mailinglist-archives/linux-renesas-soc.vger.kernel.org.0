@@ -2,120 +2,412 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB0FF6877D4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Feb 2023 09:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F0AB6878AE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Feb 2023 10:23:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232149AbjBBItK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Feb 2023 03:49:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60366 "EHLO
+        id S231894AbjBBJXl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Feb 2023 04:23:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232014AbjBBIsx (ORCPT
+        with ESMTP id S231876AbjBBJXk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Feb 2023 03:48:53 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0F9784183
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Feb 2023 00:48:49 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id o36so801473wms.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Feb 2023 00:48:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZFT65b50EEkiLEb2HaxzSzyGNIdf4jjjnZMZ02pNxbc=;
-        b=LP0ZUiSsyi4nHzQoQvqdAPlPOzLOSvBFSP0kmazyxzYLGIk75m9Xk3IPbRL8T3rcuR
-         GGFcVGodyYDh7va4H9PezI3kk2e2fsTIB/B04QqljXElgfNm8TBn/TczP+T17mhCrtO+
-         MXq0f9NBQYTwmUqUV3BcHSaqsUdRoUir3ZHt4mj+9To0UWWc78XauRnojqnLNvSjmkR/
-         p1knqfu+Zmb8qL9OvgJthh9o5ZsFKJ5iT/IffPcsMJEOYjj+/7WGG6IX73D1fFywhnmO
-         zOSYMdjFcHzuysUJOACYY1NbbtOf8ZgT7xyxleQ8+OHioyY/gmjaVVtIAbbVLXbGOJUJ
-         kPww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZFT65b50EEkiLEb2HaxzSzyGNIdf4jjjnZMZ02pNxbc=;
-        b=c3ld+rF9bR3TDmr+yqjXoCnE24p/EVOqhegBWPjY/nhsmDRncue7ryfEq+AETfSbEl
-         1KDhuQAnv29M+qCIt6k9AdIM++dc8cK2VrsT944zEtiAZCbfdcFV64yT/mf1e0x6/scc
-         yKPgAyy7BNpVYvLWrTgibYA4H4DBap/9hzP1biMyxJV7I3hYkJQ+G3O0y7NOe5z1J/a7
-         C0tLZ7lIkhMr0q3REo5iRGvRllFaDuRHItrtZLcTE71U6sAsSgftVJAlqeEFHS9xH1dE
-         agSjUvyLPq/wphx1okkAGZsHjvC7uTDxPN8esBdBIie9b9BDSWgs0MVoy6HxKOIyIMQH
-         KrEg==
-X-Gm-Message-State: AO0yUKW/MVk7QpZSEMaFrSStFj88JMtBbJDB/V/Yye7pg2Ie7wSMdPhR
-        WxF7qWnAcaATXDf0gtjwnGV5NQ==
-X-Google-Smtp-Source: AK7set9QgHEGWI3XpDTcnKQyVSSTiAZeUr5//8Ru1lLuQLb2MMrZYTyyPXZEUw0AMbZfhxmjbeikYw==
-X-Received: by 2002:a05:600c:c12:b0:3df:df24:8f94 with SMTP id fm18-20020a05600c0c1200b003dfdf248f94mr512838wmb.27.1675327728536;
-        Thu, 02 Feb 2023 00:48:48 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id k10-20020adff28a000000b002b9b9445149sm11474924wro.54.2023.02.02.00.48.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Feb 2023 00:48:48 -0800 (PST)
-Message-ID: <24bac8be-c301-8efd-4392-e10db00d17f7@linaro.org>
-Date:   Thu, 2 Feb 2023 09:48:46 +0100
+        Thu, 2 Feb 2023 04:23:40 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 783FB470B7
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Feb 2023 01:23:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=pcqLq8qMa3JNWsW3ad62UmmWMqJ
+        QCmrAr/IBe7SbFhs=; b=D96lQDKbrB2wdnu59hVeCR7xEinJLSmKAKcsHgrH4iI
+        WO1Lhs8prNxQk5lDjtMbcxmPnO/KGzlUyBeReXQNaaQqbzfcbdxC8b90Ecu7LMGC
+        rZchNFv8zCq2JDdZ2OzTKUTfKeyltwiuxOgZK4fsjMr1m9K405edjKn7ryhSQJg4
+        =
+Received: (qmail 2588005 invoked from network); 2 Feb 2023 10:23:34 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Feb 2023 10:23:34 +0100
+X-UD-Smtp-Session: l3s3148p1@ihpxHrTzBoMujnsO
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] clk: renesas: rcar-gen3: disable R-Car H3 ES1.*
+Date:   Thu,  2 Feb 2023 10:23:31 +0100
+Message-Id: <20230202092332.2504-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2] arm64: dts: renesas: v2mevk2: Add uSD card and eMMC
- support
-Content-Language: en-US
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-References: <20230130191152.182826-1-fabrizio.castro.jz@renesas.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230130191152.182826-1-fabrizio.castro.jz@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,LOTS_OF_MONEY,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 30/01/2023 20:11, Fabrizio Castro wrote:
-> The RZ/V2M EVK comes with a slot for a uSD card, and an eMMC.
-> Add support for the both of them.
-> 
-> Please note that the pinctrl driver for RZ/V2M doesn't support
-> interrupts yet, therefore the card detect pin has been connected
-> to the SDHI IP directly in this patch.
-> We'll connect the card detect pin to its corresponding GPIO when
-> we'll have driver support for interrupts in the RZ/V2M pinctrl
-> driver.
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
+R-Car H3 ES1.* was only available to an internal development group and
+needed a lot of quirks and workarounds. These become a maintenance
+burden now, so our development group decided to remove upstream support
+for this SoC. Public users only have ES2 onwards.
 
-> +
-> +
+In addition to the ES1 specific removals, a check for it was added
+preventing the machine to boot further. It may otherwise inherit wrong
+clock settings from ES2 which could damage the hardware.
 
-Just one blank line
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
->  &extal_clk {
->  	clock-frequency = <48000000>;
->  };
-> @@ -69,6 +118,26 @@ &i2c2 {
->  };
->  
->  &pinctrl {
-> +	emmc_pins: emmc {
-> +		emmc_pins_data {
+Review tag has been given by Geert during internal review because we
+tried two different approaches. Tested on Salvator-X(S) boards with H3
+ES1.0, ES2.0, and M3-N.
 
-No underscores in node names.
+ drivers/clk/renesas/Kconfig            |   2 +-
+ drivers/clk/renesas/r8a7795-cpg-mssr.c | 126 ++-----------------------
+ drivers/clk/renesas/rcar-gen3-cpg.c    |  17 +---
+ drivers/clk/renesas/renesas-cpg-mssr.c |  27 ------
+ drivers/clk/renesas/renesas-cpg-mssr.h |  14 ---
+ 5 files changed, 13 insertions(+), 173 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/clk/renesas/Kconfig b/drivers/clk/renesas/Kconfig
+index cacaf9b87d26..37632a0659d8 100644
+--- a/drivers/clk/renesas/Kconfig
++++ b/drivers/clk/renesas/Kconfig
+@@ -22,7 +22,7 @@ config CLK_RENESAS
+ 	select CLK_R8A7791 if ARCH_R8A7791 || ARCH_R8A7793
+ 	select CLK_R8A7792 if ARCH_R8A7792
+ 	select CLK_R8A7794 if ARCH_R8A7794
+-	select CLK_R8A7795 if ARCH_R8A77950 || ARCH_R8A77951
++	select CLK_R8A7795 if ARCH_R8A77951
+ 	select CLK_R8A77960 if ARCH_R8A77960
+ 	select CLK_R8A77961 if ARCH_R8A77961
+ 	select CLK_R8A77965 if ARCH_R8A77965
+diff --git a/drivers/clk/renesas/r8a7795-cpg-mssr.c b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+index 301475c74f50..7a585a777d38 100644
+--- a/drivers/clk/renesas/r8a7795-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+@@ -128,7 +128,6 @@ static struct cpg_core_clk r8a7795_core_clks[] __initdata = {
+ };
+ 
+ static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
+-	DEF_MOD("fdp1-2",		 117,	R8A7795_CLK_S2D1), /* ES1.x */
+ 	DEF_MOD("fdp1-1",		 118,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("fdp1-0",		 119,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("tmu4",			 121,	R8A7795_CLK_S0D6),
+@@ -162,7 +161,6 @@ static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
+ 	DEF_MOD("pcie1",		 318,	R8A7795_CLK_S3D1),
+ 	DEF_MOD("pcie0",		 319,	R8A7795_CLK_S3D1),
+ 	DEF_MOD("usb-dmac30",		 326,	R8A7795_CLK_S3D1),
+-	DEF_MOD("usb3-if1",		 327,	R8A7795_CLK_S3D1), /* ES1.x */
+ 	DEF_MOD("usb3-if0",		 328,	R8A7795_CLK_S3D1),
+ 	DEF_MOD("usb-dmac31",		 329,	R8A7795_CLK_S3D1),
+ 	DEF_MOD("usb-dmac0",		 330,	R8A7795_CLK_S3D1),
+@@ -187,28 +185,21 @@ static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
+ 	DEF_MOD("hscif0",		 520,	R8A7795_CLK_S3D1),
+ 	DEF_MOD("thermal",		 522,	R8A7795_CLK_CP),
+ 	DEF_MOD("pwm",			 523,	R8A7795_CLK_S0D12),
+-	DEF_MOD("fcpvd3",		 600,	R8A7795_CLK_S2D1), /* ES1.x */
+ 	DEF_MOD("fcpvd2",		 601,	R8A7795_CLK_S0D2),
+ 	DEF_MOD("fcpvd1",		 602,	R8A7795_CLK_S0D2),
+ 	DEF_MOD("fcpvd0",		 603,	R8A7795_CLK_S0D2),
+ 	DEF_MOD("fcpvb1",		 606,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("fcpvb0",		 607,	R8A7795_CLK_S0D1),
+-	DEF_MOD("fcpvi2",		 609,	R8A7795_CLK_S2D1), /* ES1.x */
+ 	DEF_MOD("fcpvi1",		 610,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("fcpvi0",		 611,	R8A7795_CLK_S0D1),
+-	DEF_MOD("fcpf2",		 613,	R8A7795_CLK_S2D1), /* ES1.x */
+ 	DEF_MOD("fcpf1",		 614,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("fcpf0",		 615,	R8A7795_CLK_S0D1),
+-	DEF_MOD("fcpci1",		 616,	R8A7795_CLK_S2D1), /* ES1.x */
+-	DEF_MOD("fcpci0",		 617,	R8A7795_CLK_S2D1), /* ES1.x */
+ 	DEF_MOD("fcpcs",		 619,	R8A7795_CLK_S0D1),
+-	DEF_MOD("vspd3",		 620,	R8A7795_CLK_S2D1), /* ES1.x */
+ 	DEF_MOD("vspd2",		 621,	R8A7795_CLK_S0D2),
+ 	DEF_MOD("vspd1",		 622,	R8A7795_CLK_S0D2),
+ 	DEF_MOD("vspd0",		 623,	R8A7795_CLK_S0D2),
+ 	DEF_MOD("vspbc",		 624,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("vspbd",		 626,	R8A7795_CLK_S0D1),
+-	DEF_MOD("vspi2",		 629,	R8A7795_CLK_S2D1), /* ES1.x */
+ 	DEF_MOD("vspi1",		 630,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("vspi0",		 631,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("ehci3",		 700,	R8A7795_CLK_S3D2),
+@@ -221,7 +212,6 @@ static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
+ 	DEF_MOD("cmm2",			 709,	R8A7795_CLK_S2D1),
+ 	DEF_MOD("cmm1",			 710,	R8A7795_CLK_S2D1),
+ 	DEF_MOD("cmm0",			 711,	R8A7795_CLK_S2D1),
+-	DEF_MOD("csi21",		 713,	R8A7795_CLK_CSI0), /* ES1.x */
+ 	DEF_MOD("csi20",		 714,	R8A7795_CLK_CSI0),
+ 	DEF_MOD("csi41",		 715,	R8A7795_CLK_CSI0),
+ 	DEF_MOD("csi40",		 716,	R8A7795_CLK_CSI0),
+@@ -350,103 +340,26 @@ static const struct rcar_gen3_cpg_pll_config cpg_pll_configs[16] __initconst = {
+ 	{ 2,		192,	1,	192,	1,	32,	},
+ };
+ 
+-static const struct soc_device_attribute r8a7795es1[] __initconst = {
++static const struct soc_device_attribute r8a7795_denylist[] __initconst = {
+ 	{ .soc_id = "r8a7795", .revision = "ES1.*" },
+ 	{ /* sentinel */ }
+ };
+ 
+-
+-	/*
+-	 * Fixups for R-Car H3 ES1.x
+-	 */
+-
+-static const unsigned int r8a7795es1_mod_nullify[] __initconst = {
+-	MOD_CLK_ID(326),			/* USB-DMAC3-0 */
+-	MOD_CLK_ID(329),			/* USB-DMAC3-1 */
+-	MOD_CLK_ID(700),			/* EHCI/OHCI3 */
+-	MOD_CLK_ID(705),			/* HS-USB-IF3 */
+-
+-};
+-
+-static const struct mssr_mod_reparent r8a7795es1_mod_reparent[] __initconst = {
+-	{ MOD_CLK_ID(118), R8A7795_CLK_S2D1 },	/* FDP1-1 */
+-	{ MOD_CLK_ID(119), R8A7795_CLK_S2D1 },	/* FDP1-0 */
+-	{ MOD_CLK_ID(121), R8A7795_CLK_S3D2 },	/* TMU4 */
+-	{ MOD_CLK_ID(217), R8A7795_CLK_S3D1 },	/* SYS-DMAC2 */
+-	{ MOD_CLK_ID(218), R8A7795_CLK_S3D1 },	/* SYS-DMAC1 */
+-	{ MOD_CLK_ID(219), R8A7795_CLK_S3D1 },	/* SYS-DMAC0 */
+-	{ MOD_CLK_ID(408), R8A7795_CLK_S3D1 },	/* INTC-AP */
+-	{ MOD_CLK_ID(501), R8A7795_CLK_S3D1 },	/* AUDMAC1 */
+-	{ MOD_CLK_ID(502), R8A7795_CLK_S3D1 },	/* AUDMAC0 */
+-	{ MOD_CLK_ID(523), R8A7795_CLK_S3D4 },	/* PWM */
+-	{ MOD_CLK_ID(601), R8A7795_CLK_S2D1 },	/* FCPVD2 */
+-	{ MOD_CLK_ID(602), R8A7795_CLK_S2D1 },	/* FCPVD1 */
+-	{ MOD_CLK_ID(603), R8A7795_CLK_S2D1 },	/* FCPVD0 */
+-	{ MOD_CLK_ID(606), R8A7795_CLK_S2D1 },	/* FCPVB1 */
+-	{ MOD_CLK_ID(607), R8A7795_CLK_S2D1 },	/* FCPVB0 */
+-	{ MOD_CLK_ID(610), R8A7795_CLK_S2D1 },	/* FCPVI1 */
+-	{ MOD_CLK_ID(611), R8A7795_CLK_S2D1 },	/* FCPVI0 */
+-	{ MOD_CLK_ID(614), R8A7795_CLK_S2D1 },	/* FCPF1 */
+-	{ MOD_CLK_ID(615), R8A7795_CLK_S2D1 },	/* FCPF0 */
+-	{ MOD_CLK_ID(619), R8A7795_CLK_S2D1 },	/* FCPCS */
+-	{ MOD_CLK_ID(621), R8A7795_CLK_S2D1 },	/* VSPD2 */
+-	{ MOD_CLK_ID(622), R8A7795_CLK_S2D1 },	/* VSPD1 */
+-	{ MOD_CLK_ID(623), R8A7795_CLK_S2D1 },	/* VSPD0 */
+-	{ MOD_CLK_ID(624), R8A7795_CLK_S2D1 },	/* VSPBC */
+-	{ MOD_CLK_ID(626), R8A7795_CLK_S2D1 },	/* VSPBD */
+-	{ MOD_CLK_ID(630), R8A7795_CLK_S2D1 },	/* VSPI1 */
+-	{ MOD_CLK_ID(631), R8A7795_CLK_S2D1 },	/* VSPI0 */
+-	{ MOD_CLK_ID(804), R8A7795_CLK_S2D1 },	/* VIN7 */
+-	{ MOD_CLK_ID(805), R8A7795_CLK_S2D1 },	/* VIN6 */
+-	{ MOD_CLK_ID(806), R8A7795_CLK_S2D1 },	/* VIN5 */
+-	{ MOD_CLK_ID(807), R8A7795_CLK_S2D1 },	/* VIN4 */
+-	{ MOD_CLK_ID(808), R8A7795_CLK_S2D1 },	/* VIN3 */
+-	{ MOD_CLK_ID(809), R8A7795_CLK_S2D1 },	/* VIN2 */
+-	{ MOD_CLK_ID(810), R8A7795_CLK_S2D1 },	/* VIN1 */
+-	{ MOD_CLK_ID(811), R8A7795_CLK_S2D1 },	/* VIN0 */
+-	{ MOD_CLK_ID(812), R8A7795_CLK_S3D2 },	/* EAVB-IF */
+-	{ MOD_CLK_ID(820), R8A7795_CLK_S2D1 },	/* IMR3 */
+-	{ MOD_CLK_ID(821), R8A7795_CLK_S2D1 },	/* IMR2 */
+-	{ MOD_CLK_ID(822), R8A7795_CLK_S2D1 },	/* IMR1 */
+-	{ MOD_CLK_ID(823), R8A7795_CLK_S2D1 },	/* IMR0 */
+-	{ MOD_CLK_ID(905), R8A7795_CLK_CP },	/* GPIO7 */
+-	{ MOD_CLK_ID(906), R8A7795_CLK_CP },	/* GPIO6 */
+-	{ MOD_CLK_ID(907), R8A7795_CLK_CP },	/* GPIO5 */
+-	{ MOD_CLK_ID(908), R8A7795_CLK_CP },	/* GPIO4 */
+-	{ MOD_CLK_ID(909), R8A7795_CLK_CP },	/* GPIO3 */
+-	{ MOD_CLK_ID(910), R8A7795_CLK_CP },	/* GPIO2 */
+-	{ MOD_CLK_ID(911), R8A7795_CLK_CP },	/* GPIO1 */
+-	{ MOD_CLK_ID(912), R8A7795_CLK_CP },	/* GPIO0 */
+-	{ MOD_CLK_ID(918), R8A7795_CLK_S3D2 },	/* I2C6 */
+-	{ MOD_CLK_ID(919), R8A7795_CLK_S3D2 },	/* I2C5 */
+-	{ MOD_CLK_ID(927), R8A7795_CLK_S3D2 },	/* I2C4 */
+-	{ MOD_CLK_ID(928), R8A7795_CLK_S3D2 },	/* I2C3 */
+-};
+-
+-
+-	/*
+-	 * Fixups for R-Car H3 ES2.x
+-	 */
+-
+-static const unsigned int r8a7795es2_mod_nullify[] __initconst = {
+-	MOD_CLK_ID(117),			/* FDP1-2 */
+-	MOD_CLK_ID(327),			/* USB3-IF1 */
+-	MOD_CLK_ID(600),			/* FCPVD3 */
+-	MOD_CLK_ID(609),			/* FCPVI2 */
+-	MOD_CLK_ID(613),			/* FCPF2 */
+-	MOD_CLK_ID(616),			/* FCPCI1 */
+-	MOD_CLK_ID(617),			/* FCPCI0 */
+-	MOD_CLK_ID(620),			/* VSPD3 */
+-	MOD_CLK_ID(629),			/* VSPI2 */
+-	MOD_CLK_ID(713),			/* CSI21 */
+-};
+-
+ static int __init r8a7795_cpg_mssr_init(struct device *dev)
+ {
+ 	const struct rcar_gen3_cpg_pll_config *cpg_pll_config;
+ 	u32 cpg_mode;
+ 	int error;
+ 
++	/*
++	 * We panic here to ensure removed SoCs and clk updates are always in
++	 * sync to avoid overclocking damages. The panic can only be seen with
++	 * commandline args 'earlycon keep_bootcon'. But these SoCs were for
++	 * developers only anyhow.
++	 */
++	if (soc_device_match(r8a7795_denylist))
++		panic("SoC not supported anymore!\n");
++
+ 	error = rcar_rst_read_mode_pins(&cpg_mode);
+ 	if (error)
+ 		return error;
+@@ -457,25 +370,6 @@ static int __init r8a7795_cpg_mssr_init(struct device *dev)
+ 		return -EINVAL;
+ 	}
+ 
+-	if (soc_device_match(r8a7795es1)) {
+-		cpg_core_nullify_range(r8a7795_core_clks,
+-				       ARRAY_SIZE(r8a7795_core_clks),
+-				       R8A7795_CLK_S0D2, R8A7795_CLK_S0D12);
+-		mssr_mod_nullify(r8a7795_mod_clks,
+-				 ARRAY_SIZE(r8a7795_mod_clks),
+-				 r8a7795es1_mod_nullify,
+-				 ARRAY_SIZE(r8a7795es1_mod_nullify));
+-		mssr_mod_reparent(r8a7795_mod_clks,
+-				  ARRAY_SIZE(r8a7795_mod_clks),
+-				  r8a7795es1_mod_reparent,
+-				  ARRAY_SIZE(r8a7795es1_mod_reparent));
+-	} else {
+-		mssr_mod_nullify(r8a7795_mod_clks,
+-				 ARRAY_SIZE(r8a7795_mod_clks),
+-				 r8a7795es2_mod_nullify,
+-				 ARRAY_SIZE(r8a7795es2_mod_nullify));
+-	}
+-
+ 	return rcar_gen3_cpg_init(cpg_pll_config, CLK_EXTALR, cpg_mode);
+ }
+ 
+diff --git a/drivers/clk/renesas/rcar-gen3-cpg.c b/drivers/clk/renesas/rcar-gen3-cpg.c
+index e668f23c75e7..b3ef62fa612e 100644
+--- a/drivers/clk/renesas/rcar-gen3-cpg.c
++++ b/drivers/clk/renesas/rcar-gen3-cpg.c
+@@ -310,19 +310,10 @@ static unsigned int cpg_clk_extalr __initdata;
+ static u32 cpg_mode __initdata;
+ static u32 cpg_quirks __initdata;
+ 
+-#define PLL_ERRATA	BIT(0)		/* Missing PLL0/2/4 post-divider */
+ #define RCKCR_CKSEL	BIT(1)		/* Manual RCLK parent selection */
+ 
+ 
+ static const struct soc_device_attribute cpg_quirks_match[] __initconst = {
+-	{
+-		.soc_id = "r8a7795", .revision = "ES1.0",
+-		.data = (void *)(PLL_ERRATA | RCKCR_CKSEL),
+-	},
+-	{
+-		.soc_id = "r8a7795", .revision = "ES1.*",
+-		.data = (void *)(RCKCR_CKSEL),
+-	},
+ 	{
+ 		.soc_id = "r8a7796", .revision = "ES1.0",
+ 		.data = (void *)(RCKCR_CKSEL),
+@@ -355,9 +346,8 @@ struct clk * __init rcar_gen3_cpg_clk_register(struct device *dev,
+ 		 * multiplier when cpufreq changes between normal and boost
+ 		 * modes.
+ 		 */
+-		mult = (cpg_quirks & PLL_ERRATA) ? 4 : 2;
+ 		return cpg_pll_clk_register(core->name, __clk_get_name(parent),
+-					    base, mult, CPG_PLL0CR, 0);
++					    base, 2, CPG_PLL0CR, 0);
+ 
+ 	case CLK_TYPE_GEN3_PLL1:
+ 		mult = cpg_pll_config->pll1_mult;
+@@ -370,9 +360,8 @@ struct clk * __init rcar_gen3_cpg_clk_register(struct device *dev,
+ 		 * multiplier when cpufreq changes between normal and boost
+ 		 * modes.
+ 		 */
+-		mult = (cpg_quirks & PLL_ERRATA) ? 4 : 2;
+ 		return cpg_pll_clk_register(core->name, __clk_get_name(parent),
+-					    base, mult, CPG_PLL2CR, 2);
++					    base, 2, CPG_PLL2CR, 2);
+ 
+ 	case CLK_TYPE_GEN3_PLL3:
+ 		mult = cpg_pll_config->pll3_mult;
+@@ -388,8 +377,6 @@ struct clk * __init rcar_gen3_cpg_clk_register(struct device *dev,
+ 		 */
+ 		value = readl(base + CPG_PLL4CR);
+ 		mult = (((value >> 24) & 0x7f) + 1) * 2;
+-		if (cpg_quirks & PLL_ERRATA)
+-			mult *= 2;
+ 		break;
+ 
+ 	case CLK_TYPE_GEN3_SDH:
+diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
+index 3b899ffa88b4..9927bc0dde97 100644
+--- a/drivers/clk/renesas/renesas-cpg-mssr.c
++++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+@@ -1113,19 +1113,6 @@ static int __init cpg_mssr_init(void)
+ 
+ subsys_initcall(cpg_mssr_init);
+ 
+-void __init cpg_core_nullify_range(struct cpg_core_clk *core_clks,
+-				   unsigned int num_core_clks,
+-				   unsigned int first_clk,
+-				   unsigned int last_clk)
+-{
+-	unsigned int i;
+-
+-	for (i = 0; i < num_core_clks; i++)
+-		if (core_clks[i].id >= first_clk &&
+-		    core_clks[i].id <= last_clk)
+-			core_clks[i].name = NULL;
+-}
+-
+ void __init mssr_mod_nullify(struct mssr_mod_clk *mod_clks,
+ 			     unsigned int num_mod_clks,
+ 			     const unsigned int *clks, unsigned int n)
+@@ -1139,19 +1126,5 @@ void __init mssr_mod_nullify(struct mssr_mod_clk *mod_clks,
+ 		}
+ }
+ 
+-void __init mssr_mod_reparent(struct mssr_mod_clk *mod_clks,
+-			      unsigned int num_mod_clks,
+-			      const struct mssr_mod_reparent *clks,
+-			      unsigned int n)
+-{
+-	unsigned int i, j;
+-
+-	for (i = 0, j = 0; i < num_mod_clks && j < n; i++)
+-		if (mod_clks[i].id == clks[j].clk) {
+-			mod_clks[i].parent = clks[j].parent;
+-			j++;
+-		}
+-}
+-
+ MODULE_DESCRIPTION("Renesas CPG/MSSR Driver");
+ MODULE_LICENSE("GPL v2");
+diff --git a/drivers/clk/renesas/renesas-cpg-mssr.h b/drivers/clk/renesas/renesas-cpg-mssr.h
+index 1c3c057d17f5..80c5b462924a 100644
+--- a/drivers/clk/renesas/renesas-cpg-mssr.h
++++ b/drivers/clk/renesas/renesas-cpg-mssr.h
+@@ -187,21 +187,7 @@ void __init cpg_mssr_early_init(struct device_node *np,
+     /*
+      * Helpers for fixing up clock tables depending on SoC revision
+      */
+-
+-struct mssr_mod_reparent {
+-	unsigned int clk, parent;
+-};
+-
+-
+-extern void cpg_core_nullify_range(struct cpg_core_clk *core_clks,
+-				   unsigned int num_core_clks,
+-				   unsigned int first_clk,
+-				   unsigned int last_clk);
+ extern void mssr_mod_nullify(struct mssr_mod_clk *mod_clks,
+ 			     unsigned int num_mod_clks,
+ 			     const unsigned int *clks, unsigned int n);
+-extern void mssr_mod_reparent(struct mssr_mod_clk *mod_clks,
+-			      unsigned int num_mod_clks,
+-			      const struct mssr_mod_reparent *clks,
+-			      unsigned int n);
+ #endif
+-- 
+2.30.2
 
