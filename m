@@ -2,32 +2,32 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 411B16884FE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Feb 2023 18:00:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04C83688539
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Feb 2023 18:18:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230011AbjBBRAP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Feb 2023 12:00:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35424 "EHLO
+        id S232218AbjBBRSR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Feb 2023 12:18:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231821AbjBBRAD (ORCPT
+        with ESMTP id S232502AbjBBRSN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Feb 2023 12:00:03 -0500
+        Thu, 2 Feb 2023 12:18:13 -0500
 Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30CA5E3B2;
-        Thu,  2 Feb 2023 09:00:02 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 096A21632D;
+        Thu,  2 Feb 2023 09:18:11 -0800 (PST)
 Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
-        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id B73B0188374A;
-        Thu,  2 Feb 2023 17:00:00 +0000 (UTC)
+        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id 5FBE31883A58;
+        Thu,  2 Feb 2023 17:18:10 +0000 (UTC)
 Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
-        by mailout.gigahost.dk (Postfix) with ESMTP id AA3FC250007B;
-        Thu,  2 Feb 2023 17:00:00 +0000 (UTC)
+        by mailout.gigahost.dk (Postfix) with ESMTP id 463FE250007B;
+        Thu,  2 Feb 2023 17:18:10 +0000 (UTC)
 Received: by smtp.gigahost.dk (Postfix, from userid 1000)
-        id A43119B403E1; Thu,  2 Feb 2023 17:00:00 +0000 (UTC)
+        id 3ECC991201E4; Thu,  2 Feb 2023 17:18:10 +0000 (UTC)
 X-Screener-Id: 413d8c6ce5bf6eab4824d0abaab02863e8e3f662
 MIME-Version: 1.0
-Date:   Thu, 02 Feb 2023 18:00:00 +0100
+Date:   Thu, 02 Feb 2023 18:18:10 +0100
 From:   netdev@kapio-technology.com
-To:     Simon Horman <simon.horman@corigine.com>
+To:     Ido Schimmel <idosch@idosch.org>
 Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
         Florian Fainelli <f.fainelli@gmail.com>,
         Andrew Lunn <andrew@lunn.ch>,
@@ -59,14 +59,12 @@ Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
         "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
         <linux-renesas-soc@vger.kernel.org>,
         "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>
-Subject: Re: [PATCH net-next 5/5] net: dsa: mv88e6xxx: implementation of
- dynamic ATU entries
-In-Reply-To: <Y9lkXlyXg1d1D0j3@corigine.com>
+Subject: Re: [PATCH net-next 0/5] ATU and FDB synchronization on locked ports
+In-Reply-To: <Y9lrIWMnWLqGreZL@shredder>
 References: <20230130173429.3577450-1-netdev@kapio-technology.com>
- <20230130173429.3577450-6-netdev@kapio-technology.com>
- <Y9lkXlyXg1d1D0j3@corigine.com>
+ <Y9lrIWMnWLqGreZL@shredder>
 User-Agent: Gigahost Webmail
-Message-ID: <9b12275969a204739ccfab972d90f20f@kapio-technology.com>
+Message-ID: <1fe06ed3010fe318728ebd73eee7f092@kapio-technology.com>
 X-Sender: netdev@kapio-technology.com
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
@@ -79,53 +77,50 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2023-01-31 19:56, Simon Horman wrote:
->> --- a/drivers/net/dsa/mv88e6xxx/chip.c
->> +++ b/drivers/net/dsa/mv88e6xxx/chip.c
->> @@ -42,6 +42,7 @@
->>  #include "ptp.h"
->>  #include "serdes.h"
->>  #include "smi.h"
->> +#include "switchdev.h"
+On 2023-01-31 20:25, Ido Schimmel wrote:
+>> command like:
 >> 
->>  static void assert_reg_lock(struct mv88e6xxx_chip *chip)
->>  {
->> @@ -2726,18 +2727,25 @@ static int mv88e6xxx_port_fdb_add(struct 
->> dsa_switch *ds, int port,
->>  				  const unsigned char *addr, u16 vid,
->>  				  u16 fdb_flags, struct dsa_db db)
->>  {
->> +	bool is_dynamic = !!(fdb_flags & DSA_FDB_FLAG_DYNAMIC);
->>  	struct mv88e6xxx_chip *chip = ds->priv;
->> +	u8 state;
->>  	int err;
+>> bridge fdb replace ADDR dev <DEV> master dynamic
 >> 
->> -	/* Ignore entries with flags set */
->> -	if (fdb_flags)
->> -		return 0;
->> +	state = MV88E6XXX_G1_ATU_DATA_STATE_UC_STATIC;
->> +	if (is_dynamic)
->> +		state = MV88E6XXX_G1_ATU_DATA_STATE_UC_AGE_7_NEWEST;
+>> We choose only to support this feature on locked ports, as it involves
+>> utilizing the CPU to handle ATU related switchcore events (typically
+>> interrupts) and thus can result in significant performance loss if
+>> exposed to heavy traffic.
 > 
-> What if flags other than DSA_FDB_FLAG_DYNAMIC are set (in future)?
-
-They will have to be caught and handled here if there is support for it, 
-e.g. something like...
-
-else if (someflag)
-         dosomething();
-
-For now only one flag will actually be set and they are mutually 
-exclusive, as they will not make sense together with the potential flags 
-I know, but that can change at some time of course.
-
+> Not sure I understand this reasoning. I was under the impression that
+> hostapd is installing dynamic entries instead of static ones since the
+> latter are not flushed when carrier is lost. Therefore, with static
+> entries it is possible to unplug a host (potentially plugging a
+> different one) and not lose authentication.
 > 
->> +	else
->> +		if (fdb_flags)
-> 
-> nit: else if (fdb_flags)
-> 
->> +			return 0;
+
+Both auth schemes 802.1X and MAB install dynamic entries as you point 
+out, and both use locked ports.
+In the case of non locked ports, they just learn normally and age and 
+refresh their entries, so the use case of a userspace added dynamic FDB 
+entry is hard for me to see. And having userspace being notified of an 
+ordinary event that a FDB entry has been aged out could maybe be used, 
+but for the reasons mentioned it is not supported here.
+
 >> 
+>> On locked ports it is important for userspace to know when an 
+>> authorized
+>> station has become silent, hence not breaking the communication of a
+>> station that has been authorized based on the MAC-Authentication 
+>> Bypass
+>> (MAB) scheme. Thus if the station keeps being active after 
+>> authorization,
+>> it will continue to have an open port as long as it is active. Only 
+>> after
+>> a silent period will it have to be reauthorized. As the ageing process 
+>> in
+>> the ATU is dependent on incoming traffic to the switchcore port, it is
+>> necessary for the ATU to signal that an entry has aged out, so that 
+>> the
+>> FDB can be updated at the correct time.
 > 
-> ...
+> Why mention MAB at all? Don't you want user space to always use dynamic
+> entries to authenticate hosts regardless of 802.1X/MAB?
+
+Yes, you are right about that. I guess it came about as this was 
+developed much in the same time and with the code of MAB.
