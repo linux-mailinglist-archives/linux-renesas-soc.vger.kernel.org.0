@@ -2,32 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7718D689F3A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Feb 2023 17:27:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48E08689FF2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Feb 2023 18:07:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232894AbjBCQ15 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Feb 2023 11:27:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51148 "EHLO
+        id S231614AbjBCRG7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Feb 2023 12:06:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233070AbjBCQ14 (ORCPT
+        with ESMTP id S232102AbjBCRG6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Feb 2023 11:27:56 -0500
-Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3066A6BA8;
-        Fri,  3 Feb 2023 08:27:46 -0800 (PST)
-Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
-        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id 21D0E188387C;
-        Fri,  3 Feb 2023 16:27:44 +0000 (UTC)
-Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
-        by mailout.gigahost.dk (Postfix) with ESMTP id 0594C250007B;
-        Fri,  3 Feb 2023 16:27:44 +0000 (UTC)
-Received: by smtp.gigahost.dk (Postfix, from userid 1000)
-        id EA3F591201E4; Fri,  3 Feb 2023 16:27:43 +0000 (UTC)
-X-Screener-Id: 413d8c6ce5bf6eab4824d0abaab02863e8e3f662
-MIME-Version: 1.0
-Date:   Fri, 03 Feb 2023 17:27:43 +0100
-From:   netdev@kapio-technology.com
-To:     Ido Schimmel <idosch@idosch.org>
+        Fri, 3 Feb 2023 12:06:58 -0500
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA2C39D06F;
+        Fri,  3 Feb 2023 09:06:57 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 292A65C039C;
+        Fri,  3 Feb 2023 12:06:57 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Fri, 03 Feb 2023 12:06:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1675444017; x=1675530417; bh=VxXJxYIPXv5W1b2DuSTnG3h266yM
+        n84BrwVZXf0OoBE=; b=FF9EwHkwa0Zr/2YgDkYkO260VoVYDFPfdSKIw0xooXry
+        POePgsM/c0pJ4275GEWJCj5+R2viqbMMxLWnlJu7PBFfP+p7nqWnlkpI/JyIjgvM
+        0BAsN2x3u8KEWhaQamirT/bZGqOUc9Nb+IqdFHay0v1VtPhb9WsAOFzZFHYpVPrm
+        ufNgPrK42fo31lVBnNYqODjPWWfxPTXWmqxspIX5OMPa881YYqPx5SwBssMYh/dr
+        XEWjfg+V220WXBlFZieLX5wZXmaOuVXePunwWkPm9XjwDVAEM7DaivKJcFH7ZjCG
+        y4VHyCoLJu/hMY3gfpYyjmH6ADsgspjUeC/1GampaQ==
+X-ME-Sender: <xms:Lz_dY9taAdul_ZgZWNaTYO-qEVnby_sHLAszHSg0iXBGR2nm7Akr7w>
+    <xme:Lz_dY2eNDmvUzyk0GXNsDIfmdWhY95FcXjARRvNykL6YYoedPRXAttapptS5ODLlC
+    VfQpnQEO-lSMNM>
+X-ME-Received: <xmr:Lz_dYwwXkUzytces8t_usahexlD6gvX9QQ4Exhh44r92pdNEMguh4a6bHdllPQED2ZBGR9DaRftVgJgqv8E1k-0vx70>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudegtddgledvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepkfguohcu
+    ufgthhhimhhmvghluceoihguohhstghhsehiughoshgthhdrohhrgheqnecuggftrfgrth
+    htvghrnhepvddufeevkeehueegfedtvdevfefgudeifeduieefgfelkeehgeelgeejjeeg
+    gefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+    guohhstghhsehiughoshgthhdrohhrgh
+X-ME-Proxy: <xmx:Lz_dY0MEb-DwR57d-j_Gl-qLoBo2Z2kGUXLpxK3y3eZrGTywkU1aLQ>
+    <xmx:Lz_dY9_GIJH5wlD0jcqqs9nty6r4MtnZ0z4h2c9ReT_7obPRqhxGrw>
+    <xmx:Lz_dY0WjG3Y2VkkVQbZf0UXtx70DtwKKjWlkjI6FlsMJSQrXRk3YGg>
+    <xmx:MT_dY5J8Liv0IRcIZMEe9Y35dJrpbgugWCoCx2bhz1ku66IpEUCVRg>
+Feedback-ID: i494840e7:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 3 Feb 2023 12:06:54 -0500 (EST)
+Date:   Fri, 3 Feb 2023 19:06:51 +0200
+From:   Ido Schimmel <idosch@idosch.org>
+To:     netdev@kapio-technology.com
 Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
         Florian Fainelli <f.fainelli@gmail.com>,
         Andrew Lunn <andrew@lunn.ch>,
@@ -44,8 +70,8 @@ Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Claudiu Manoil <claudiu.manoil@nxp.com>,
         Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?UTF-8?Q?Cl=C3=A9m?= =?UTF-8?Q?ent_L=C3=A9ger?= 
-        <clement.leger@bootlin.com>, Jiri Pirko <jiri@resnulli.us>,
+        =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
+        Jiri Pirko <jiri@resnulli.us>,
         Ivan Vecera <ivecera@redhat.com>,
         Roopa Prabhu <roopa@nvidia.com>,
         Nikolay Aleksandrov <razor@blackwall.org>,
@@ -61,7 +87,7 @@ Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
         "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>
 Subject: Re: [PATCH net-next 1/5] net: bridge: add dynamic flag to switchdev
  notifier
-In-Reply-To: <Y90y9u+4PxWk4b9E@shredder>
+Message-ID: <Y90/K8BPHijxFZci@shredder>
 References: <20230130173429.3577450-1-netdev@kapio-technology.com>
  <20230130173429.3577450-2-netdev@kapio-technology.com>
  <Y9qrAup9Xt/ZDEG0@shredder>
@@ -69,42 +95,44 @@ References: <20230130173429.3577450-1-netdev@kapio-technology.com>
  <Y9vgz4x/O+dIp+0/@shredder>
  <766efaf94fcb6362c5ceb176ad7955f1@kapio-technology.com>
  <Y90y9u+4PxWk4b9E@shredder>
-User-Agent: Gigahost Webmail
-Message-ID: <4188a35c3c260d8ea2b5f8b2ac0ae6b2@kapio-technology.com>
-X-Sender: netdev@kapio-technology.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+ <4188a35c3c260d8ea2b5f8b2ac0ae6b2@kapio-technology.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4188a35c3c260d8ea2b5f8b2ac0ae6b2@kapio-technology.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2023-02-03 17:14, Ido Schimmel wrote:
+On Fri, Feb 03, 2023 at 05:27:43PM +0100, netdev@kapio-technology.com wrote:
+> On 2023-02-03 17:14, Ido Schimmel wrote:
+> > 
+> > OK, so can't this hunk:
+> > 
+> > ```
+> > 	if (fdb_info->is_dyn)
+> > 		fdb_flags |= DSA_FDB_FLAG_DYNAMIC;
+> > ```
+> > 
+> > Become:
+> > 
+> > ```
+> > 	if (fdb_info->is_dyn && !fdb_info->added_by_user)
+> > 		fdb_flags |= DSA_FDB_FLAG_DYNAMIC;
+> > ```
+> > 
+> > ?
+> > 
+> > Then there is no need to fold 'added_by_user' into 'is_dyn' in the
+> > bridge driver. I *think* this is the change Vladimir asked you to do.
 > 
-> OK, so can't this hunk:
-> 
-> ```
-> 	if (fdb_info->is_dyn)
-> 		fdb_flags |= DSA_FDB_FLAG_DYNAMIC;
-> ```
-> 
-> Become:
-> 
-> ```
-> 	if (fdb_info->is_dyn && !fdb_info->added_by_user)
-> 		fdb_flags |= DSA_FDB_FLAG_DYNAMIC;
-> ```
-> 
-> ?
-> 
-> Then there is no need to fold 'added_by_user' into 'is_dyn' in the
-> bridge driver. I *think* this is the change Vladimir asked you to do.
+> I suppose you mean?:
+>  	if (fdb_info->is_dyn && fdb_info->added_by_user)
+>  		fdb_flags |= DSA_FDB_FLAG_DYNAMIC;
 
-I suppose you mean?:
-  	if (fdb_info->is_dyn && fdb_info->added_by_user)
-  		fdb_flags |= DSA_FDB_FLAG_DYNAMIC;
-
+Yes
