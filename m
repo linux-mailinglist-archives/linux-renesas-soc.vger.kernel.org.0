@@ -2,60 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 320F8688585
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Feb 2023 18:36:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A98A8688F5F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Feb 2023 07:07:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231451AbjBBRg3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Feb 2023 12:36:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56906 "EHLO
+        id S229469AbjBCGHr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Feb 2023 01:07:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230373AbjBBRg3 (ORCPT
+        with ESMTP id S230182AbjBCGHq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Feb 2023 12:36:29 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CDB329409;
-        Thu,  2 Feb 2023 09:36:27 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id z11so2807171ede.1;
-        Thu, 02 Feb 2023 09:36:27 -0800 (PST)
+        Fri, 3 Feb 2023 01:07:46 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 222F970D4A
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Feb 2023 22:07:45 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id 203so2846878pfx.6
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Feb 2023 22:07:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/HioFfeJdcxYRSIePrk0xPeneN7bTewVzuuGNUxyF+Q=;
-        b=DgYe/MckqiMlJv5lX6qtOy2RdSlf9HWoVcWPf1C5A9ll+SRh7voCyz+NA64bhzh+6/
-         s6mvdEEKfye26uhEJ23ipwJr8a1qpBHq2v8E1UNx3Kjua7yEJBM1lVMSWb7l5t4afwPX
-         NC8Ngx0j3yd+p+rWO5aBYsOU6K0KVHnSRrS4OC8T+e1TqldTsGc0awMKVV7I7kIlqXM1
-         UZDPQrrR0l2mmgiBijgpcJMKDpPzpRpNQ/Dx9ap2wWz77ECUrTvDzHZH/LuGcXempTwQ
-         VIYpEcFp/DDcRU0BBLCdKwGsD1XFx66gOy31SAxiBmBrOEU453nRjdZ0cq+Rjhp6xSQo
-         KKXA==
+        bh=eeDs8HDvvAhEGfhdUR1XjfNZXXjxNqlsBQOOR5XCK4M=;
+        b=tVZ6NeDxk/W+lNCZyWJ9IwYjDBeP11WFEJi09dOY6iE4X5Ff2R2dSZpmjhh5VhplrV
+         XOGyDkqmLqPQr8ngKfHUJt7LMYdhghQ7HFtwaOiOIqmKuhVv/J6tYf9w0tpUkbL/bZlm
+         nTQj1ZPAZ8hXV9IpjEibn9RdgRW0T5j6EHTacs6qYg03B2MagqMzV6hI1fq4x02G3/7b
+         T5sDsqwKYnBP+tDz4GkQsP4fJUYEMt1FBuR4sUiJ53/HLlVc9chWMaT0ejd8QRi7gvNS
+         b8Z6+8C3wp28xXNkJSAHruP5/0Je6Ox2nE1+IGILfkoGFQwaZMRaLdKXZREcJ4Jpso0I
+         3sUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/HioFfeJdcxYRSIePrk0xPeneN7bTewVzuuGNUxyF+Q=;
-        b=WhSXP/43cKwX0nUlJqBKfSMw+iqaujkxI91k92siMj8913saLcyqmyhV/4VrmyYTdv
-         30Z/H/pUQ0ocsZQ3Sg8iTTeEhUnzRuLhafAF+9PiM4y7G1C7RsLOm8AGJa6hUehdz3p2
-         shuYdtSyP8kp35tRqz5CT8vkgj4fv3j3fIqwxIzFIkNV5N+t0KosZkg9EVmG2/yjiZbP
-         HtzuERZ/WCqJYztUfItyeXU660Dg4YpHUBhq6ifv1mlDGPFf09ndp8KQJPdpIydMiHLt
-         YfeZhwREDBDE+GYRyFP1OZvrNWPQtOy0tT6J4/ke/leRTnetahbeM1rzLKLXYemw571f
-         ackQ==
-X-Gm-Message-State: AO0yUKW5vYz33GDrWCc4zCm7MXqAaVPcz1Q5ptiSUiCuFVCHdW7INO9D
-        lX3k/ER9JXhOBWmQH80SNCgFfQl3np3xSHP+1lk=
-X-Google-Smtp-Source: AK7set8kMxHBzefcTNVdGk+Fp2hvQCwE7N//UbyQQXSrTxuXqDeQbZXJhcbZfUDVjj6ajWFyZn1lL6NGFTaLwf83qvw=
-X-Received: by 2002:a05:6402:339:b0:49c:ea59:46b with SMTP id
- q25-20020a056402033900b0049cea59046bmr2368486edw.54.1675359386002; Thu, 02
- Feb 2023 09:36:26 -0800 (PST)
+        bh=eeDs8HDvvAhEGfhdUR1XjfNZXXjxNqlsBQOOR5XCK4M=;
+        b=h4XCzBRgGWYhXXVnolb7E1To04dg7jAd5B10Ind7EJzgQ2Eb5m5Rph8gL3Db9bIpTN
+         RJCsjRtdHOO6sVx12Eq5SaEvJyWXaDBX2t07vHrJY2CwGm9/AawXR4UFl3iSagU01Jo0
+         12Pq1wi1PeKyx/R3YBfjbrTjDFyIyoPQOIh+ucXOblGAbtVO/M2S9q3FpqYyKCdres83
+         wTwz8UlhL2eLmaUdtIGhey5EbJ9HXrakhFaKmpfLAVAyYkHPdK9rCfY+aajsSfuiMDEE
+         JiG5nZyk1fy2pI4aWOozECI6cBif+z/fwr4xIDv1uUrrIItNXehn6pBfYXBxR/Ek8CUk
+         mrBg==
+X-Gm-Message-State: AO0yUKXtbUwivQa4CkhRrmJpmEjx2AiB0TS83ur4GQOTbBHrLCqsR8X2
+        CmcIDs94aS55rZLc1v4Ug1N2k45LM7QUSH269wiELA==
+X-Google-Smtp-Source: AK7set/p/WShA1xHjrVygScWQh0RWoSwu/3Y2FJcA3yi0yR9YqseOEw+tIN5ANw1DiIcVpMTldQPwJ9ijNbmDGlsYNs=
+X-Received: by 2002:a62:1a57:0:b0:593:bac2:b49 with SMTP id
+ a84-20020a621a57000000b00593bac20b49mr2250496pfa.44.1675404463277; Thu, 02
+ Feb 2023 22:07:43 -0800 (PST)
 MIME-Version: 1.0
 References: <20230127001141.407071-1-saravanak@google.com> <20230130085542.38546-1-naresh.kamboju@linaro.org>
- <CAGETcx_411fVxsM-ZMK7j2Bvkmi2TKPbzSuD+03M3cb7WKHfJw@mail.gmail.com> <20230131101813.goaoy32qvrowvyyb@bogus>
-In-Reply-To: <20230131101813.goaoy32qvrowvyyb@bogus>
-From:   Maxim Kiselev <bigunclemax@gmail.com>
-Date:   Thu, 2 Feb 2023 20:36:14 +0300
-Message-ID: <CALHCpMijXAgQx2qq8g8zdq=6AHwP+g5WVBjjry=v+dKEq9KDLw@mail.gmail.com>
+ <CAGETcx_411fVxsM-ZMK7j2Bvkmi2TKPbzSuD+03M3cb7WKHfJw@mail.gmail.com>
+ <20230131101813.goaoy32qvrowvyyb@bogus> <CALHCpMijXAgQx2qq8g8zdq=6AHwP+g5WVBjjry=v+dKEq9KDLw@mail.gmail.com>
+In-Reply-To: <CALHCpMijXAgQx2qq8g8zdq=6AHwP+g5WVBjjry=v+dKEq9KDLw@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Thu, 2 Feb 2023 22:07:06 -0800
+Message-ID: <CAGETcx_UvW819m1Y-QU_ySB1nG_RegKKT06=YjkK=C_qjbAySw@mail.gmail.com>
 Subject: Re: [PATCH v2 00/11] fw_devlink improvements
-To:     Sudeep Holla <sudeep.holla@arm.com>
-Cc:     Saravana Kannan <saravanak@google.com>,
+To:     Maxim Kiselev <bigunclemax@gmail.com>
+Cc:     Sudeep Holla <sudeep.holla@arm.com>,
         Naresh Kamboju <naresh.kamboju@linaro.org>,
         abel.vesa@linaro.org, alexander.stein@ew.tq-group.com,
         andriy.shevchenko@linux.intel.com, brgl@bgdev.pl,
@@ -76,9 +77,10 @@ Cc:     Saravana Kannan <saravanak@google.com>,
         s.hauer@pengutronix.de, sakari.ailus@linux.intel.com,
         shawnguo@kernel.org, tglx@linutronix.de, tony@atomide.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,106 +88,59 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
+On Thu, Feb 2, 2023 at 9:36 AM Maxim Kiselev <bigunclemax@gmail.com> wrote:
+>
+> Hi Saravana,
+>
+> > Can you try the patch at the end of this email under these
+> > configurations and tell me which ones fail vs pass? I don't need logs
+>
+> I did these tests and here is the results:
 
-> Can you try the patch at the end of this email under these
-> configurations and tell me which ones fail vs pass? I don't need logs
+Did you hand edit the In-Reply-To: in the header? Because in the
+thread you are reply to the wrong email, but the context in your email
+seems to be from the right email.
 
-I did these tests and here is the results:
+For example, see how your reply isn't under the email you are replying
+to in this thread overview:
+https://lore.kernel.org/lkml/20230127001141.407071-1-saravanak@google.com/#r
 
-1. On top of this series - Not works
-2. Without this series    - Works
-3. On top of the series with the fwnode_dev_initialized() deleted - Not works
-4. Without this series, with the fwnode_dev_initialized() deleted  - Works
+> 1. On top of this series - Not works
+> 2. Without this series    - Works
+> 3. On top of the series with the fwnode_dev_initialized() deleted - Not works
+> 4. Without this series, with the fwnode_dev_initialized() deleted  - Works
+>
+> So your nvmem/core.c patch helps only when it is applied without the series.
+> But despite the fact that this helps to avoid getting stuck at probing
+> my ethernet device, there is still regression.
+>
+> When the ethernet module is loaded it takes a lot of time to drop dependency
+> from the nvmem-cell with mac address.
+>
+> Please look at the kernel logs below.
 
-So your nvmem/core.c patch helps only when it is applied without the series.
-But despite the fact that this helps to avoid getting stuck at probing
-my ethernet device, there is still regression.
+The kernel logs below really aren't that useful for me in their
+current state. See more below.
 
-When the ethernet module is loaded it takes a lot of time to drop dependency
-from the nvmem-cell with mac address.
+---8<---- <snip> --->8----
 
-Please look at the kernel logs below.
+> P.S. Your nvmem patch definitely helps to avoid a device probe stuck
+> but look like it is not best way to solve a problem which we discussed
+> in the MTD thread.
+>
+> P.P.S. Also I don't know why your nvmem-cell patch doesn't help when it was
+> applied on top of this series. Maybe I missed something.
 
-The first log corresponds to kernel with your nvmem/core.c patch:
+Yeah, I'm not too sure if the test was done correctly. You also didn't
+answer my question about the dts from my earlier email.
+https://lore.kernel.org/lkml/CAGETcx8FpmbaRm2CCwqt3BRBpgbogwP5gNB+iA5OEtuxWVTNLA@mail.gmail.com/#t
 
-    [    0.036462] ethernet@70000 Linked as a fwnode consumer to
-clock-gating-control@1821c
-    [    0.036572] ethernet@70000 Linked as a fwnode consumer to partition@1
-    [    0.045596] device: 'f1070000.ethernet': device_add
-    [    0.045854] ethernet@70000 Dropping the fwnode link to
-clock-gating-control@1821c
-    [    0.114990] device:
-'platform:f1010600.spi:m25p80@0:partitions:partition@1--platform:f1070000.ethernet':
-device_add
-    [    0.115266] devices_kset: Moving f1070000.ethernet to end of list
-    [    0.115308] platform f1070000.ethernet: Linked as a consumer to
-f1010600.spi:m25p80@0:partitions:partition@1
-    [    0.115345] ethernet@70000 Dropping the fwnode link to partition@1
-    [    1.968232] platform f1070000.ethernet: error -EPROBE_DEFER:
-supplier f1010600.spi:m25p80@0:partitions:partition@1 not ready
-    [    2.088696] devices_kset: Moving f1070000.ethernet to end of list
-    [    2.088988] platform f1070000.ethernet: error -EPROBE_DEFER:
-supplier f1010600.spi:m25p80@0:partitions:partition@1 not ready
-    [    2.152411] devices_kset: Moving f1070000.ethernet to end of list
-    [    2.152735] platform f1070000.ethernet: error -EPROBE_DEFER:
-supplier f1010600.spi:m25p80@0:partitions:partition@1 not ready
-    [    2.153870] devices_kset: Moving f1070000.ethernet to end of list
-    [    2.154152] platform f1070000.ethernet: error -EPROBE_DEFER:
-supplier f1010600.spi:m25p80@0:partitions:partition@1 not ready
-    [    2.644950] devices_kset: Moving f1070000.ethernet to end of list
-    [    2.645282] platform f1070000.ethernet: error -EPROBE_DEFER:
-supplier f1010600.spi:m25p80@0:partitions:partition@1 not ready
-    [    3.169218] devices_kset: Moving f1070000.ethernet to end of list
-    [    3.169506] platform f1070000.ethernet: error -EPROBE_DEFER:
-supplier f1010600.spi:m25p80@0:partitions:partition@1 not ready
-    [    3.170444] devices_kset: Moving f1070000.ethernet to end of list
-    [    3.170721] platform f1070000.ethernet: error -EPROBE_DEFER:
-supplier f1010600.spi:m25p80@0:partitions:partition@1 not ready
-    [    3.419068] devices_kset: Moving f1070000.ethernet to end of list
-    [    3.419359] platform f1070000.ethernet: error -EPROBE_DEFER:
-supplier f1010600.spi:m25p80@0:partitions:partition@1 not ready
-    [    3.521275] devices_kset: Moving f1070000.ethernet to end of list
-    [    3.521564] platform f1070000.ethernet: error -EPROBE_DEFER:
-supplier f1010600.spi:m25p80@0:partitions:partition@1 not ready
-    [    3.639196] devices_kset: Moving f1070000.ethernet to end of list
-    [    3.639532] platform f1070000.ethernet: error -EPROBE_DEFER:
-supplier f1010600.spi:m25p80@0:partitions:partition@1 not ready
-    [   13.960144] platform f1070000.ethernet: Relaxing link with
-f1010600.spi:m25p80@0:partitions:partition@1
-    [   13.960260] devices_kset: Moving f1070000.ethernet to end of list
-    [   13.971735] device: 'eth0': device_add
-    [   13.974140] mvneta f1070000.ethernet eth0: Using device tree
-mac address de:fa:ce:db:ab:e1
-    [   13.974275] mvneta f1070000.ethernet: Dropping the link to
-f1010600.spi:m25p80@0:partitions:partition@1
-    [   13.974318] device:
-'platform:f1010600.spi:m25p80@0:partitions:partition@1--platform:f1070000.ethernet':
-device_unregister
+So, can you please retest config 1 with all pr_debug and dev_dbg in
+drivers/core/base.c changed to the _info variants? And then share the
+kernel log from the beginning of boot? Maybe attach it to the email so
+it doesn't get word wrapped by your email client. And please point me
+to the .dts that corresponds to your board. Without that, I can't
+debug much.
 
-It took around 13 seconds to obtain a mac from nvmem-cell and bring up
-f1070000.ethernet
-
-
-And here is the second log which corresponds to kernel without your
-nvmem/core.c patch but also with reverted change 'bcdf0315':
-
-    [    0.036285] ethernet@70000 Linked as a fwnode consumer to
-clock-gating-control@1821c
-    [    0.036395] ethernet@70000 Linked as a fwnode consumer to partition@1
-    [    0.045416] device: 'f1070000.ethernet': device_add
-    [    0.045674] ethernet@70000 Dropping the fwnode link to
-clock-gating-control@1821c
-    [    0.116136] ethernet@70000 Dropping the fwnode link to partition@1
-    [    1.977060] device: 'eth0': device_add
-    [    1.979145] mvneta f1070000.ethernet eth0: Using device tree
-mac address de:fa:ce:db:ab:e1
-
-It took around 1.5 second to obtain a mac from nvmem-cell
-
-P.S. Your nvmem patch definitely helps to avoid a device probe stuck
-but look like it is not best way to solve a problem which we discussed
-in the MTD thread.
-
-P.P.S. Also I don't know why your nvmem-cell patch doesn't help when it was
-applied on top of this series. Maybe I missed something.
+Thanks,
+Saravana
