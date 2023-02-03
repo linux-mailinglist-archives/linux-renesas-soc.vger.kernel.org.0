@@ -2,36 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 576F368A21C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Feb 2023 19:41:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F04468A3B5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Feb 2023 21:44:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232987AbjBCSlY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Feb 2023 13:41:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34084 "EHLO
+        id S232755AbjBCUo3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Feb 2023 15:44:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231495AbjBCSlX (ORCPT
+        with ESMTP id S230042AbjBCUo2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Feb 2023 13:41:23 -0500
-Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 721071ADDD;
-        Fri,  3 Feb 2023 10:41:21 -0800 (PST)
-Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
-        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id 8C21D1883921;
-        Fri,  3 Feb 2023 18:41:18 +0000 (UTC)
-Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
-        by mailout.gigahost.dk (Postfix) with ESMTP id 78969250007B;
-        Fri,  3 Feb 2023 18:41:18 +0000 (UTC)
-Received: by smtp.gigahost.dk (Postfix, from userid 1000)
-        id 5F8CC91201E4; Fri,  3 Feb 2023 18:41:18 +0000 (UTC)
-X-Screener-Id: 413d8c6ce5bf6eab4824d0abaab02863e8e3f662
-MIME-Version: 1.0
-Date:   Fri, 03 Feb 2023 19:41:18 +0100
-From:   netdev@kapio-technology.com
+        Fri, 3 Feb 2023 15:44:28 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CBC21DB8D;
+        Fri,  3 Feb 2023 12:44:27 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id l37-20020a05600c1d2500b003dfe46a9801so3299593wms.0;
+        Fri, 03 Feb 2023 12:44:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2i9kAduLyvWzDNPasV+KzeGgY8drvOps/KxoO5LHdEw=;
+        b=Vh4yFSLP4dnir5alPOP/BdqGJ1iEQMpXhQ+vDTowlNH9vMovkkNBYPi8Uhk8C7itGw
+         pWJPGbneNPZx8bgItqJXAuo9hewbHrvUsmkjhmhjo7iVzDaPKFrVlDjUisuzBbOPzaBk
+         hoew3vOtR7JhNkpbPch0cih/aKZQY3wZX9AulnE0kyyhblR3bKcZnRU35XovU5/9VbYj
+         lHi0Szbc9Ujf075Lgy9ykV7iQTSzJNKLodhKzj3evBAx2txbaKjEgLHvLZEo7Spemc80
+         Fne13usGX0QFsuTnmHXtqiB94MQK2ebcXK5/Xito6NgmRWOGINev3LN1yORMLgTrA/pn
+         3OHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2i9kAduLyvWzDNPasV+KzeGgY8drvOps/KxoO5LHdEw=;
+        b=tQRDvalvBCu8Jr0AZDgMSa5WvOI9wSuQwQEWnyWUut5i0QdFndpJwXlscBnaTfLWKy
+         wtfBT3bsid09OJLr0JFLMTZOsEbofvG0FLa6/DFRcmZhzvIIpKPzqAT6LlUzg3t9lT9Y
+         U7k+l6UdCl/oa+KZjwvYiQaJCU6iOazXMbjhEcZgzt2178NBB/eSafKm2W99UUIXehOX
+         8j2X8N91vhwSe9op3vIL+ymyHCLJhAV0cTWag1AkP1oxTtJKcGL+Iappt/w++t+ynbUi
+         IuTX3RJVPSyZ9prJA25WeX7t3d9aFmv9cUGGBit+j07m9yz4/lyDu2YupULJ4J+NWaO/
+         3iow==
+X-Gm-Message-State: AO0yUKW/pCDgPFsqDHgXW+BeaDg4+0xEPxctLNO2zTuB+HrzI9Rv1lY6
+        y43RkoVoT0+qTnf94gRQLdM=
+X-Google-Smtp-Source: AK7set+E0bvJKJbO9QlN+pgygfVmSHBtgpwZ8dotHCW3HBDbg/640wbwRlbuPaDZ1oHGBTvA8Ms6OQ==
+X-Received: by 2002:a05:600c:1994:b0:3d3:5709:68e8 with SMTP id t20-20020a05600c199400b003d3570968e8mr10077158wmq.36.1675457065628;
+        Fri, 03 Feb 2023 12:44:25 -0800 (PST)
+Received: from skbuf ([188.26.57.116])
+        by smtp.gmail.com with ESMTPSA id r30-20020adfa15e000000b002bfafadb22asm2834308wrr.87.2023.02.03.12.44.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Feb 2023 12:44:25 -0800 (PST)
+Date:   Fri, 3 Feb 2023 22:44:22 +0200
+From:   Vladimir Oltean <olteanv@gmail.com>
 To:     Simon Horman <simon.horman@corigine.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
+Cc:     netdev@kapio-technology.com, davem@davemloft.net, kuba@kernel.org,
+        netdev@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
         Andrew Lunn <andrew@lunn.ch>,
-        Vladimir Oltean <olteanv@gmail.com>,
         Eric Dumazet <edumazet@google.com>,
         Paolo Abeni <pabeni@redhat.com>,
         Kurt Kanzenbach <kurt@linutronix.de>,
@@ -44,8 +67,8 @@ Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Claudiu Manoil <claudiu.manoil@nxp.com>,
         Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?UTF-8?Q?Cl=C3=A9m?= =?UTF-8?Q?ent_L=C3=A9ger?= 
-        <clement.leger@bootlin.com>, Jiri Pirko <jiri@resnulli.us>,
+        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Jiri Pirko <jiri@resnulli.us>,
         Ivan Vecera <ivecera@redhat.com>,
         Roopa Prabhu <roopa@nvidia.com>,
         Nikolay Aleksandrov <razor@blackwall.org>,
@@ -59,77 +82,50 @@ Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
         "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
         <linux-renesas-soc@vger.kernel.org>,
         "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>
-Subject: Re: [PATCH net-next 3/5] drivers: net: dsa: add fdb entry flags
- incoming to switchcore drivers
-In-Reply-To: <Y9zDApc6nDO2RzOb@corigine.com>
+Subject: Re: [PATCH net-next 5/5] net: dsa: mv88e6xxx: implementation of
+ dynamic ATU entries
+Message-ID: <20230203204422.4wrhyathxfhj6hdt@skbuf>
 References: <20230130173429.3577450-1-netdev@kapio-technology.com>
- <20230130173429.3577450-4-netdev@kapio-technology.com>
- <Y9lj7RJgyMJfjtGp@corigine.com>
- <0b021777dfc1825b6565c0d9dbd6dbef@kapio-technology.com>
- <Y9zDApc6nDO2RzOb@corigine.com>
-User-Agent: Gigahost Webmail
-Message-ID: <687a1918326d23ec901c1f53f5860592@kapio-technology.com>
-X-Sender: netdev@kapio-technology.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+ <20230130173429.3577450-6-netdev@kapio-technology.com>
+ <Y9lkXlyXg1d1D0j3@corigine.com>
+ <9b12275969a204739ccfab972d90f20f@kapio-technology.com>
+ <Y9zDxlwSn1EfCTba@corigine.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y9zDxlwSn1EfCTba@corigine.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2023-02-03 09:17, Simon Horman wrote:
-> On Thu, Feb 02, 2023 at 05:45:56PM +0100, netdev@kapio-technology.com 
-> wrote:
->> On 2023-01-31 19:54, Simon Horman wrote:
->> > > --- a/drivers/net/dsa/b53/b53_common.c
->> > > +++ b/drivers/net/dsa/b53/b53_common.c
->> > > @@ -1684,11 +1684,15 @@ static int b53_arl_op(struct b53_device
->> > > *dev, int op, int port,
->> > >
->> > >  int b53_fdb_add(struct dsa_switch *ds, int port,
->> > >  		const unsigned char *addr, u16 vid,
->> > > -		struct dsa_db db)
->> > > +		u16 fdb_flags, struct dsa_db db)
->> > >  {
->> > >  	struct b53_device *priv = ds->priv;
->> > >  	int ret;
->> > >
->> > > +	/* Ignore entries with set flags */
->> > > +	if (fdb_flags)
->> > > +		return 0;
->> >
->> >
->> > 	Would returning -EOPNOTSUPP be more appropriate?
->> >
->> > ...
->> 
->> I don't think that would be so good, as the command
->> 
->> bridge fdb replace ADDR dev <DEV> master dynamic
->> 
->> is a valid command and should not generate errors. When ignored by the
->> driver, it will just install a dynamic FDB entry in the bridge, and 
->> the
->> bridge will age it.
+On Fri, Feb 03, 2023 at 09:20:22AM +0100, Simon Horman wrote:
+> > else if (someflag)
+> >         dosomething();
+> > 
+> > For now only one flag will actually be set and they are mutually exclusive,
+> > as they will not make sense together with the potential flags I know, but
+> > that can change at some time of course.
 > 
-> Sure, I agree that it's not necessarily an error that needs
-> to propagate to the user.
-> 
-> My assumption, which I now see is likely false, is that drivers
-> could return -EOPNOTSUPP, to indicate to higher layers that the 
-> operation
-> is not supported. But the higher layers may not propagate that.
-> 
-> But it seems that is not the case here. So I think return 0 is fine
-> after all. Sorry for the noise.
+> Yes, I see that is workable. I do feel that checking for other flags would
+> be a bit more robust. But as you say, there are none. So whichever
+> approach you prefer is fine by me.
 
-No noise at all... I think your concern is quite ligitimate. With this 
-flag there is no iproute2 changes, so not to change behaviour of old 
-commands the best is to ignore silently. But I have another flag coming 
-up that will be accomodated with a new iproute2 command, and then your 
-suggestion is more appropriate. The question will then be if the returns 
-for that flag should be -EOPNOTSUPP.
+The model we have for unsupported bits in the SWITCHDEV_ATTR_ID_PORT_PRE_BRIDGE_FLAGS
+and SWITCHDEV_ATTR_ID_PORT_BRIDGE_FLAGS handlers is essentially this:
+
+	if (flags & ~(supported_flag_mask))
+		return -EOPNOTSUPP;
+
+	if (flags & supported_flag_1)
+		...
+
+	if (flags & supported_flag_2)
+		...
+
+I suppose applying this model here would address Simon's extensibility concern.
