@@ -2,215 +2,343 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8140A68C130
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Feb 2023 16:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FABB68C1BE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Feb 2023 16:37:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229796AbjBFPS7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Feb 2023 10:18:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55024 "EHLO
+        id S231324AbjBFPhU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Feb 2023 10:37:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjBFPS6 (ORCPT
+        with ESMTP id S231328AbjBFPhC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Feb 2023 10:18:58 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4300D2688;
-        Mon,  6 Feb 2023 07:18:57 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D469060F28;
-        Mon,  6 Feb 2023 15:18:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 426B6C433AF;
-        Mon,  6 Feb 2023 15:18:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675696736;
-        bh=t6snAmiA8jL5WTtfh345TOoJ0hKZpmGhPlbNqKUc674=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=mzipr2AWMFAR6T+NAjtERt43GC+nstYbVIaAykqc1I0Ytm2LbzGkL2SnEvBR4Lnw0
-         cJOoPDCu4MWQZSZwtZRU+GuQq8lN0t6iV+CS364ljYSdHyqmo244guz3qW5TAD2264
-         0ZmfjDD9ipjxWJ/Mu6dvEtKxmmM8z2FqYTEMKFLvJPRo76IpQdUwHZflJy2jLZwdya
-         Qu9lEFkuNTErMGfxACWETvt+vb00FbpXfHNwAyFTgFrCMgb+VyLoAlaDm1rfjO5M6A
-         g1nKZHpiRdLXd2QE8yG+PQx/3QXcbgJqEjFORhEPkNJJNqmAPnl2Bf9aOZ/3R/7Vug
-         8OBNwElfbd6lg==
-Received: by mail-vk1-f182.google.com with SMTP id t190so6260683vkb.13;
-        Mon, 06 Feb 2023 07:18:56 -0800 (PST)
-X-Gm-Message-State: AO0yUKXIGIn5Q+ywBd23Xhof4LEumH09vhK3UxJulpKXp7RUW16PfDZ+
-        4OjOqMPREw/FV9KjESmU/INnWboojK+SDr2BXA==
-X-Google-Smtp-Source: AK7set+IxAQSTK6n6CnvuB4SYDav6xPxSMs7u6KqyPm7oYpZV3d07lbHLtC/gF7MyTiAVGTuOLibZnVtlItzu85XemE=
-X-Received: by 2002:ac5:cbf8:0:b0:3d5:d30f:81c2 with SMTP id
- i24-20020ac5cbf8000000b003d5d30f81c2mr2836396vkn.14.1675696734849; Mon, 06
- Feb 2023 07:18:54 -0800 (PST)
+        Mon, 6 Feb 2023 10:37:02 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2D4D29E28
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Feb 2023 07:35:51 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id bk16so10741216wrb.11
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Feb 2023 07:35:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j7HjN4TzQBq2ZZA76IO3M8MJUDcxOHaJ2gZPxRuGZEM=;
+        b=lBPxmxlGU8fXgZEHTO0EE4dPwW1BhWuWnRA1kq0u1rwRukE654nexeKjDe8i554Nb5
+         /FqT7ZDXOA9tpzoFofMgM1evs8OaLAh9gOqtxXNDvjkflbB7L9t9ycnkEceeas6BY/4T
+         xPBarlNgk0miyUUsa7afXR8FsMDAAvsfZfkZ5/bX71oYYx7QYE6TxT92vb84nlHoTpiy
+         EhSsE5c7Mzk0THZ8+CaIQoH+w+RAK2i9kLYtygveAs4CNWPaHlq5codHe2FkuxZVTst2
+         4FFA0Odfv/klllyfbBxj6OYya8S5erlP9Td1/h4blF9Y2FCVAew913DqNGNgJQIN5SNb
+         Rjbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j7HjN4TzQBq2ZZA76IO3M8MJUDcxOHaJ2gZPxRuGZEM=;
+        b=IBE0hVsSnC/i/sFkiDJj4KNTFGLUfk+o3PI41yb4muDN9Ay7zFlic1K50odHbFa7ab
+         a38Y73tmpVkH2Ul6QYIOla+W3n5Y/IZ7+UDTYXC+YXbQplETsWrcUoxCf15RdKfWZ10G
+         TdZeErtPEXNOek+dVR1C0PktIoqIqyNXhnRQqPEzvzKijWXkSQ4RPdj7LFpX6LWLwEEh
+         Vmu70kVLkHRZrT98nbQ2T4/el/QMQMKM5BlDsyDWynkOUGiMad8BYvwW1rMLzTK0Olj0
+         pjF+UFeWYrdtT4IfFK1wvBMSA94ZzcKGMai61pj03HqNPMXKPXhePk+M8W7JfZ8flWcd
+         XTrw==
+X-Gm-Message-State: AO0yUKXiWSNPBkJm3NY+I0hy1naccVT1Q15Z2uB0N//dDngoL7DSxfG1
+        w16UECHkUoc2b8NY90m775YdoQ==
+X-Google-Smtp-Source: AK7set9mPQd0MhkTQkAz8wEqWB2fDfP1ODpQprC+1QK0YualSEn/XjJWrwROk16wMPdL1WpD4j4sHw==
+X-Received: by 2002:adf:cc84:0:b0:2c3:e5d5:5d77 with SMTP id p4-20020adfcc84000000b002c3e5d55d77mr5118903wrj.68.1675697688552;
+        Mon, 06 Feb 2023 07:34:48 -0800 (PST)
+Received: from mai.. (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.gmail.com with ESMTPSA id a4-20020a5d5084000000b002c3db0eec5fsm7386805wrt.62.2023.02.06.07.34.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Feb 2023 07:34:48 -0800 (PST)
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+To:     daniel.lezcano@linaro.org, rafael.j.wysocki@intel.com
+Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Guillaume La Roque <glaroque@baylibre.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Thara Gopinath <thara.gopinath@gmail.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        ye xingchen <ye.xingchen@zte.com.cn>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Haowen Bai <baihaowen@meizu.com>,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        linux-amlogic@lists.infradead.org (open list:THERMAL DRIVER FOR AMLOGIC
+        SOCS),
+        linux-rpi-kernel@lists.infradead.org (moderated list:BROADCOM
+        BCM2711/BCM2835 ARM ARCHITECTURE),
+        linux-arm-kernel@lists.infradead.org (moderated list:BROADCOM
+        BCM2711/BCM2835 ARM ARCHITECTURE),
+        linux-arm-msm@vger.kernel.org (open list:ARM/QUALCOMM SUPPORT),
+        linux-renesas-soc@vger.kernel.org (open list:RENESAS R-CAR THERMAL
+        DRIVERS),
+        linux-samsung-soc@vger.kernel.org (open list:SAMSUNG THERMAL DRIVER),
+        linux-stm32@st-md-mailman.stormreply.com (moderated list:ARM/STM32
+        ARCHITECTURE),
+        linux-tegra@vger.kernel.org (open list:TEGRA ARCHITECTURE SUPPORT)
+Subject: [PATCH] thermal: Remove core header inclusion from drivers
+Date:   Mon,  6 Feb 2023 16:34:29 +0100
+Message-Id: <20230206153432.1017282-1-daniel.lezcano@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230127001141.407071-1-saravanak@google.com> <20230130085542.38546-1-naresh.kamboju@linaro.org>
- <CAGETcx_411fVxsM-ZMK7j2Bvkmi2TKPbzSuD+03M3cb7WKHfJw@mail.gmail.com>
- <20230131101813.goaoy32qvrowvyyb@bogus> <CALHCpMijXAgQx2qq8g8zdq=6AHwP+g5WVBjjry=v+dKEq9KDLw@mail.gmail.com>
- <CAGETcx_UvW819m1Y-QU_ySB1nG_RegKKT06=YjkK=C_qjbAySw@mail.gmail.com>
- <CALHCpMha_1nXt4rUe+A184XSWpyNk0_PkYjWZ+tUN7BJWqENLA@mail.gmail.com> <CAGETcx_uri6exkv1Jkzmc4PyEam9yjuH2H1zrq4LYNtJ+XDMWw@mail.gmail.com>
-In-Reply-To: <CAGETcx_uri6exkv1Jkzmc4PyEam9yjuH2H1zrq4LYNtJ+XDMWw@mail.gmail.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Mon, 6 Feb 2023 09:18:43 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+rLZuQYn-90C1gy_uGEXiGeDNZ3OfumTFcx4pP97sXsg@mail.gmail.com>
-Message-ID: <CAL_Jsq+rLZuQYn-90C1gy_uGEXiGeDNZ3OfumTFcx4pP97sXsg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/11] fw_devlink improvements
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Maxim Kiselev <bigunclemax@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>,
-        abel.vesa@linaro.org, alexander.stein@ew.tq-group.com,
-        andriy.shevchenko@linux.intel.com, brgl@bgdev.pl,
-        colin.foster@in-advantage.com, cristian.marussi@arm.com,
-        devicetree@vger.kernel.org, dianders@chromium.org,
-        djrscally@gmail.com, dmitry.baryshkov@linaro.org,
-        festevam@gmail.com, fido_max@inbox.ru, frowand.list@gmail.com,
-        geert+renesas@glider.be, geert@linux-m68k.org,
-        gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com,
-        jpb@kernel.org, jstultz@google.com, kernel-team@android.com,
-        kernel@pengutronix.de, lenb@kernel.org, linus.walleij@linaro.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-imx@nxp.com,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux@roeck-us.net, lkft@linaro.org, luca.weiss@fairphone.com,
-        magnus.damm@gmail.com, martin.kepplinger@puri.sm, maz@kernel.org,
-        miquel.raynal@bootlin.com, rafael@kernel.org,
-        s.hauer@pengutronix.de, sakari.ailus@linux.intel.com,
-        shawnguo@kernel.org, tglx@linutronix.de, tony@atomide.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Feb 5, 2023 at 7:33 PM Saravana Kannan <saravanak@google.com> wrote=
-:
->
-> On Fri, Feb 3, 2023 at 1:39 AM Maxim Kiselev <bigunclemax@gmail.com> wrot=
-e:
-> >
-> > =D0=BF=D1=82, 3 =D1=84=D0=B5=D0=B2=D1=80. 2023 =D0=B3. =D0=B2 09:07, Sa=
-ravana Kannan <saravanak@google.com>:
-> > >
-> > > On Thu, Feb 2, 2023 at 9:36 AM Maxim Kiselev <bigunclemax@gmail.com> =
-wrote:
-> > > >
-> > > > Hi Saravana,
-> > > >
-> > > > > Can you try the patch at the end of this email under these
-> > > > > configurations and tell me which ones fail vs pass? I don't need =
-logs
-> > > >
-> > > > I did these tests and here is the results:
-> > >
-> > > Did you hand edit the In-Reply-To: in the header? Because in the
-> > > thread you are reply to the wrong email, but the context in your emai=
-l
-> > > seems to be from the right email.
-> > >
-> > > For example, see how your reply isn't under the email you are replyin=
-g
-> > > to in this thread overview:
-> > > https://lore.kernel.org/lkml/20230127001141.407071-1-saravanak@google=
-.com/#r
-> > >
-> > > > 1. On top of this series - Not works
-> > > > 2. Without this series    - Works
-> > > > 3. On top of the series with the fwnode_dev_initialized() deleted -=
- Not works
-> > > > 4. Without this series, with the fwnode_dev_initialized() deleted  =
-- Works
-> > > >
-> > > > So your nvmem/core.c patch helps only when it is applied without th=
-e series.
-> > > > But despite the fact that this helps to avoid getting stuck at prob=
-ing
-> > > > my ethernet device, there is still regression.
-> > > >
-> > > > When the ethernet module is loaded it takes a lot of time to drop d=
-ependency
-> > > > from the nvmem-cell with mac address.
-> > > >
-> > > > Please look at the kernel logs below.
-> > >
-> > > The kernel logs below really aren't that useful for me in their
-> > > current state. See more below.
-> > >
-> > > ---8<---- <snip> --->8----
-> > >
-> > > > P.S. Your nvmem patch definitely helps to avoid a device probe stuc=
-k
-> > > > but look like it is not best way to solve a problem which we discus=
-sed
-> > > > in the MTD thread.
-> > > >
-> > > > P.P.S. Also I don't know why your nvmem-cell patch doesn't help whe=
-n it was
-> > > > applied on top of this series. Maybe I missed something.
-> > >
-> > > Yeah, I'm not too sure if the test was done correctly. You also didn'=
-t
-> > > answer my question about the dts from my earlier email.
-> > > https://lore.kernel.org/lkml/CAGETcx8FpmbaRm2CCwqt3BRBpgbogwP5gNB+iA5=
-OEtuxWVTNLA@mail.gmail.com/#t
-> > >
-> > > So, can you please retest config 1 with all pr_debug and dev_dbg in
-> > > drivers/core/base.c changed to the _info variants? And then share the
-> > > kernel log from the beginning of boot? Maybe attach it to the email s=
-o
-> > > it doesn't get word wrapped by your email client. And please point me
-> > > to the .dts that corresponds to your board. Without that, I can't
-> > > debug much.
-> > >
-> > > Thanks,
-> > > Saravana
-> >
-> > > Did you hand edit the In-Reply-To: in the header? Because in the
-> > > thread you are reply to the wrong email, but the context in your emai=
-l
-> > > seems to be from the right email.
-> >
-> > Sorry for that, it seems like I accidently deleted it.
-> >
-> > > So, can you please retest config 1 with all pr_debug and dev_dbg in
-> > > drivers/core/base.c changed to the _info variants? And then share the
-> > > kernel log from the beginning of boot? Maybe attach it to the email s=
-o
-> > > it doesn't get word wrapped by your email client. And please point me
-> > > to the .dts that corresponds to your board. Without that, I can't
-> > > debug much.
-> >
-> > Ok, I retested config 1 with all _debug logs changed to the _info. I
-> > added the kernel log and the dts file to the attachment of this email.
->
-> Ah, so your device is not supported/present upstream? Even though it's
-> not upstream, I'll help fix this because it should fix what I believe
-> are unreported issues in upstream.
->
-> Ok I know why configs 1 - 4 behaved the way they did and why my test
-> patch didn't help.
->
-> After staring at mtd/nvmem code for a few hours I think mtd/nvmem
-> interaction is kind of a mess. mtd core creates "partition" platform
-> devices (including for nvmem-cells) that are probed by drivers in
-> drivers/nvmem. However, there's no driver for "nvmem-cells" partition
-> platform device. However, the nvmem core creates nvmem_device when
-> nvmem_register() is called by MTD or these partition platform devices
-> created by MTD. But these nvmem_devices are added to a nvmem_bus but
-> the bus has no means to even register a driver (it should really be a
-> nvmem_class and not nvmem_bus). And the nvmem_device sometimes points
-> to the DT node of the MTD device or sometimes the partition platform
-> devices or maybe no DT node at all.
->
-> So it's a mess of multiple devices pointing to the same DT node with
-> no clear way to identify which ones will point to a DT node and which
-> ones will probe and which ones won't. In the future, we shouldn't
-> allow adding new compatible strings for partitions for which we don't
-> plan on adding nvmem drivers.
+As the name states "thermal_core.h" is the header file for the core
+components of the thermal framework.
 
-That won't work. Having a compatible string cannot mean there must be a dri=
-ver.
+Too many drivers are including it. Hopefully the recent cleanups
+helped to self encapsulate the code a bit more and prevented the
+drivers to need this header.
 
-Rob
+Remove this inclusion in every place where it is possible.
+
+Some other drivers did a confusion with the core header and the one
+exported in linux/thermal.h. They include the former instead of the
+latter. The changes also fix this.
+
+The tegra/soctherm driver still remains as it uses an internal
+function which need to be replaced.
+
+The Intel HFI driver uses the netlink internal framework core and
+should be changed to prevent to deal with the internals.
+
+No functional changes
+
+[ Applies to thermal/linux-next or linux-pm/linux-next ]
+
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+---
+ drivers/thermal/amlogic_thermal.c           | 1 -
+ drivers/thermal/armada_thermal.c            | 2 --
+ drivers/thermal/broadcom/bcm2835_thermal.c  | 1 -
+ drivers/thermal/hisi_thermal.c              | 3 +--
+ drivers/thermal/imx8mm_thermal.c            | 1 -
+ drivers/thermal/imx_sc_thermal.c            | 1 -
+ drivers/thermal/intel/intel_hfi.c           | 3 ++-
+ drivers/thermal/qcom/qcom-spmi-temp-alarm.c | 1 -
+ drivers/thermal/qoriq_thermal.c             | 1 -
+ drivers/thermal/rcar_gen3_thermal.c         | 1 -
+ drivers/thermal/samsung/exynos_tmu.c        | 3 +--
+ drivers/thermal/st/stm_thermal.c            | 1 -
+ drivers/thermal/tegra/tegra30-tsensor.c     | 1 -
+ drivers/thermal/uniphier_thermal.c          | 2 --
+ 14 files changed, 4 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/thermal/amlogic_thermal.c b/drivers/thermal/amlogic_thermal.c
+index d30cb791e63c..9235fda4ec1e 100644
+--- a/drivers/thermal/amlogic_thermal.c
++++ b/drivers/thermal/amlogic_thermal.c
+@@ -28,7 +28,6 @@
+ #include <linux/regmap.h>
+ #include <linux/thermal.h>
+ 
+-#include "thermal_core.h"
+ #include "thermal_hwmon.h"
+ 
+ #define TSENSOR_CFG_REG1			0x4
+diff --git a/drivers/thermal/armada_thermal.c b/drivers/thermal/armada_thermal.c
+index 83a4080bffc7..36653f692c80 100644
+--- a/drivers/thermal/armada_thermal.c
++++ b/drivers/thermal/armada_thermal.c
+@@ -19,8 +19,6 @@
+ #include <linux/regmap.h>
+ #include <linux/interrupt.h>
+ 
+-#include "thermal_core.h"
+-
+ /* Thermal Manager Control and Status Register */
+ #define PMU_TDC0_SW_RST_MASK		(0x1 << 1)
+ #define PMU_TM_DISABLE_OFFS		0
+diff --git a/drivers/thermal/broadcom/bcm2835_thermal.c b/drivers/thermal/broadcom/bcm2835_thermal.c
+index 3d0710c6e004..23918bb76ae6 100644
+--- a/drivers/thermal/broadcom/bcm2835_thermal.c
++++ b/drivers/thermal/broadcom/bcm2835_thermal.c
+@@ -18,7 +18,6 @@
+ #include <linux/platform_device.h>
+ #include <linux/thermal.h>
+ 
+-#include "../thermal_core.h"
+ #include "../thermal_hwmon.h"
+ 
+ #define BCM2835_TS_TSENSCTL			0x00
+diff --git a/drivers/thermal/hisi_thermal.c b/drivers/thermal/hisi_thermal.c
+index 45226cab466e..62c67942293e 100644
+--- a/drivers/thermal/hisi_thermal.c
++++ b/drivers/thermal/hisi_thermal.c
+@@ -16,8 +16,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/io.h>
+ #include <linux/of_device.h>
+-
+-#include "thermal_core.h"
++#include <linux/thermal.h>
+ 
+ #define HI6220_TEMP0_LAG			(0x0)
+ #define HI6220_TEMP0_TH				(0x4)
+diff --git a/drivers/thermal/imx8mm_thermal.c b/drivers/thermal/imx8mm_thermal.c
+index d247b48696cb..72b5d6f319c1 100644
+--- a/drivers/thermal/imx8mm_thermal.c
++++ b/drivers/thermal/imx8mm_thermal.c
+@@ -17,7 +17,6 @@
+ #include <linux/slab.h>
+ #include <linux/thermal.h>
+ 
+-#include "thermal_core.h"
+ #include "thermal_hwmon.h"
+ 
+ #define TER			0x0	/* TMU enable */
+diff --git a/drivers/thermal/imx_sc_thermal.c b/drivers/thermal/imx_sc_thermal.c
+index 378f574607f7..f32e59e74623 100644
+--- a/drivers/thermal/imx_sc_thermal.c
++++ b/drivers/thermal/imx_sc_thermal.c
+@@ -13,7 +13,6 @@
+ #include <linux/slab.h>
+ #include <linux/thermal.h>
+ 
+-#include "thermal_core.h"
+ #include "thermal_hwmon.h"
+ 
+ #define IMX_SC_MISC_FUNC_GET_TEMP	13
+diff --git a/drivers/thermal/intel/intel_hfi.c b/drivers/thermal/intel/intel_hfi.c
+index 6e604bda2b93..c69db6c90869 100644
+--- a/drivers/thermal/intel/intel_hfi.c
++++ b/drivers/thermal/intel/intel_hfi.c
+@@ -40,10 +40,11 @@
+ 
+ #include <asm/msr.h>
+ 
+-#include "../thermal_core.h"
+ #include "intel_hfi.h"
+ #include "thermal_interrupt.h"
+ 
++#include "../thermal_netlink.h"
++
+ /* Hardware Feedback Interface MSR configuration bits */
+ #define HW_FEEDBACK_PTR_VALID_BIT		BIT(0)
+ #define HW_FEEDBACK_CONFIG_HFI_ENABLE_BIT	BIT(0)
+diff --git a/drivers/thermal/qcom/qcom-spmi-temp-alarm.c b/drivers/thermal/qcom/qcom-spmi-temp-alarm.c
+index e2429676d0d2..101c75d0e13f 100644
+--- a/drivers/thermal/qcom/qcom-spmi-temp-alarm.c
++++ b/drivers/thermal/qcom/qcom-spmi-temp-alarm.c
+@@ -15,7 +15,6 @@
+ #include <linux/regmap.h>
+ #include <linux/thermal.h>
+ 
+-#include "../thermal_core.h"
+ #include "../thermal_hwmon.h"
+ 
+ #define QPNP_TM_REG_DIG_MAJOR		0x01
+diff --git a/drivers/thermal/qoriq_thermal.c b/drivers/thermal/qoriq_thermal.c
+index d111e218f362..431c29c0898a 100644
+--- a/drivers/thermal/qoriq_thermal.c
++++ b/drivers/thermal/qoriq_thermal.c
+@@ -13,7 +13,6 @@
+ #include <linux/thermal.h>
+ #include <linux/units.h>
+ 
+-#include "thermal_core.h"
+ #include "thermal_hwmon.h"
+ 
+ #define SITES_MAX		16
+diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
+index 4ef927437842..0fd2fd077638 100644
+--- a/drivers/thermal/rcar_gen3_thermal.c
++++ b/drivers/thermal/rcar_gen3_thermal.c
+@@ -17,7 +17,6 @@
+ #include <linux/sys_soc.h>
+ #include <linux/thermal.h>
+ 
+-#include "thermal_core.h"
+ #include "thermal_hwmon.h"
+ 
+ /* Register offsets */
+diff --git a/drivers/thermal/samsung/exynos_tmu.c b/drivers/thermal/samsung/exynos_tmu.c
+index 37465af59262..527d1eb0663a 100644
+--- a/drivers/thermal/samsung/exynos_tmu.c
++++ b/drivers/thermal/samsung/exynos_tmu.c
+@@ -20,11 +20,10 @@
+ #include <linux/of_irq.h>
+ #include <linux/platform_device.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/thermal.h>
+ 
+ #include <dt-bindings/thermal/thermal_exynos.h>
+ 
+-#include "../thermal_core.h"
+-
+ /* Exynos generic registers */
+ #define EXYNOS_TMU_REG_TRIMINFO		0x0
+ #define EXYNOS_TMU_REG_CONTROL		0x20
+diff --git a/drivers/thermal/st/stm_thermal.c b/drivers/thermal/st/stm_thermal.c
+index e7834ccc7976..735401958f01 100644
+--- a/drivers/thermal/st/stm_thermal.c
++++ b/drivers/thermal/st/stm_thermal.c
+@@ -19,7 +19,6 @@
+ #include <linux/platform_device.h>
+ #include <linux/thermal.h>
+ 
+-#include "../thermal_core.h"
+ #include "../thermal_hwmon.h"
+ 
+ /* DTS register offsets */
+diff --git a/drivers/thermal/tegra/tegra30-tsensor.c b/drivers/thermal/tegra/tegra30-tsensor.c
+index 0ffe37ce7df7..b3218b71b6d9 100644
+--- a/drivers/thermal/tegra/tegra30-tsensor.c
++++ b/drivers/thermal/tegra/tegra30-tsensor.c
+@@ -28,7 +28,6 @@
+ 
+ #include <soc/tegra/fuse.h>
+ 
+-#include "../thermal_core.h"
+ #include "../thermal_hwmon.h"
+ 
+ #define TSENSOR_SENSOR0_CONFIG0				0x0
+diff --git a/drivers/thermal/uniphier_thermal.c b/drivers/thermal/uniphier_thermal.c
+index f8ab2ca76184..47801841b3f5 100644
+--- a/drivers/thermal/uniphier_thermal.c
++++ b/drivers/thermal/uniphier_thermal.c
+@@ -17,8 +17,6 @@
+ #include <linux/regmap.h>
+ #include <linux/thermal.h>
+ 
+-#include "thermal_core.h"
+-
+ /*
+  * block registers
+  * addresses are the offset from .block_base
+-- 
+2.34.1
+
