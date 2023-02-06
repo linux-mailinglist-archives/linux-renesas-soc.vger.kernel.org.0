@@ -2,74 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E00868B334
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Feb 2023 01:21:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F32E168B3DA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Feb 2023 02:33:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbjBFAV4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 5 Feb 2023 19:21:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46656 "EHLO
+        id S229622AbjBFBdm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 5 Feb 2023 20:33:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229651AbjBFAVy (ORCPT
+        with ESMTP id S229493AbjBFBdk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 5 Feb 2023 19:21:54 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A33F4D520;
-        Sun,  5 Feb 2023 16:21:51 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id j32-20020a05600c1c2000b003dc4fd6e61dso9662651wms.5;
-        Sun, 05 Feb 2023 16:21:51 -0800 (PST)
+        Sun, 5 Feb 2023 20:33:40 -0500
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E0681ABF5
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  5 Feb 2023 17:33:35 -0800 (PST)
+Received: by mail-pf1-x433.google.com with SMTP id t17so7347684pfj.0
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 05 Feb 2023 17:33:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qjr0azLLWyc/F0jSQSgAIjFGJ1vXgdojjuJl2+0tgn0=;
-        b=d8UAhliMdxOqlFoOosQojJDV0O1El13F2gL/9AjRWUTExZqYSWwovsD+7qG7poT98Q
-         XfLBr8ITA/kweSVh0RNn7tSg6uKavnXW3dh5qaJ9ta8ZUuaf4cgqN1vXRoZV+CfAdzHj
-         V2ZBUq/auS/P6/r3Zuo4qq7Fan2YQm4fwCZ/odxXrQA1ax2iv2HaP1dMBzWcgl2O1zOU
-         irWW/AaM9s8l1GNizHRE4OTMwRp3TZufLFtoGbbxTT9t+1jg2hbAbCNc7guuzwrFbJPC
-         kY+ZjZ3ZkIS7sgQ3OjOv8x0fJLUhLfniAniHpBV7PBVGoSvvrNPnmh7Ha8n15Usp1J6Z
-         0sww==
+        d=google.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kR2veBWbyNFgGYItTwFdh8lQbfIA4xIECeB4pO18LrU=;
+        b=PFwbPgvDzQZdf/HQcszjkJRBI+TWwVFkCgQ1pTZtuRTIo/wlIT3BHJKZePYl3rA+JP
+         95hFB5vyzqBz1Jc54SILNs4ShJ7POM1/z2u66WJgYrGohpZnBl1sBMdI0mKh7YShxBiz
+         2w1gVgSrKCBfhH4ANXDeYDIYzg7AsUBAinEloUsjVb7gYNAHQoWVKnGUFh6d4pnFpoQb
+         1Q95oO5u5QznQa0IK6GWq/1414ezGBU9VQsaDUenD0Pmd8P7aAztAaPsq9YWbsbIqMc2
+         poo5WlAJbhJjVL7wJeGcis+SKQ5KrWaWg/FwaNXAFve7SvEGnI7TLg35saERb0k96x+I
+         luxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qjr0azLLWyc/F0jSQSgAIjFGJ1vXgdojjuJl2+0tgn0=;
-        b=0zSmBCPwULioXmkGKesn0TEGmQaraBzDqS36jzmGNTv7o1wLb6fZAiMVtpPq5pFzEt
-         VewYZhV1UzdvqvKQLidfZ2HdGCKHkPBQhlB5zlQVvvWJzG8Og+cULwj/VRN2xwUTnm1b
-         vsGSEv1x/SaQndwC46h/mBjq7Y6ITHbagep1Gxgi/uO478YhIJEuR6V0nKcFOu5zLhQV
-         SmRSqmxkz0uPSI5xPEjvAhJcBzX9QVT0PXmEvdVvHkYS5X5Q3kooSImNLWNMkuQ/o8ch
-         /Y3eaBSCtyX6gpOargCLvvNRpjaCpEy5n7U4UEZz6tVBDWgnP1PX54K0IasSzKiZTenF
-         /zdQ==
-X-Gm-Message-State: AO0yUKUP1Ql1UJvd9bnSygqeewU75x/Xo7FQSbVOz8PJls0svsflDZAO
-        JY3oIcjrPrVXzaOnIJDFa9c=
-X-Google-Smtp-Source: AK7set+sVpzNPUz3DlSlHFkPUJSeord1K/h7NAmogPFOmbl6j5Bc863cYVN2f1UQgTgxbbTeKNXmlA==
-X-Received: by 2002:a05:600c:a51:b0:3df:f9e6:2c5c with SMTP id c17-20020a05600c0a5100b003dff9e62c5cmr3463935wmq.38.1675642909983;
-        Sun, 05 Feb 2023 16:21:49 -0800 (PST)
-Received: from prasmi.home ([2a00:23c8:2501:c701:ad64:1263:d26a:39ae])
-        by smtp.gmail.com with ESMTPSA id m40-20020a05600c3b2800b003dcc82ce53fsm9935504wms.38.2023.02.05.16.21.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Feb 2023 16:21:49 -0800 (PST)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] arm64: dts: renesas: Drop specifying the GIC_CPU_MASK_SIMPLE() for GICv3 systems
-Date:   Mon,  6 Feb 2023 00:21:36 +0000
-Message-Id: <20230206002136.29401-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kR2veBWbyNFgGYItTwFdh8lQbfIA4xIECeB4pO18LrU=;
+        b=1wLqjAHYwjp2pxVtONiqKON5O9IPsF5VJrG97N4rUmNVWFeGeEFpj1JvmphSuQWfk1
+         Zs/ADYGS9Y6/59Eq1CF03WyYSpU+7Lcn/Z47RZDKOTZBheFcChLnRx+V6ldOkFejbxw0
+         hfTGyA67IYsH2O1LlwWol7kJnuL2nl6kZ2iys4BXLuxAk7fgRo+JzhC7R16aKd05gvjj
+         YibdiDFyzVdwtTD7qsfiNplmQ3Q3pnMBVMrYO36aTsUbKKOKGCKXmk+oSUWU7voQIRUz
+         XsccjCCrltyY/9ERGz467OsLhDXxJ8Bqis+qRuHxqJOkHYw+F5Fl7JMxnn+PBZ5z+koN
+         VOcQ==
+X-Gm-Message-State: AO0yUKXEB/iS9I5vy3GIeLmhv66+ZGFFO345BvlqIek0Opoob0staJ8P
+        fLAKAcC+ETvIFoPCS/130LFYywjypIlOebFa4ONrVA==
+X-Google-Smtp-Source: AK7set8u1D8Yx0Ns1ik9250I6OIYVxsmLToiLi2hjLdTsjiKPoILrZB8aX+YQXBoINv9ErwXZE6Ko7BYs7yfuVc+TPE=
+X-Received: by 2002:a62:1a57:0:b0:593:bac2:b49 with SMTP id
+ a84-20020a621a57000000b00593bac20b49mr4285651pfa.44.1675647214386; Sun, 05
+ Feb 2023 17:33:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20230127001141.407071-1-saravanak@google.com> <20230130085542.38546-1-naresh.kamboju@linaro.org>
+ <CAGETcx_411fVxsM-ZMK7j2Bvkmi2TKPbzSuD+03M3cb7WKHfJw@mail.gmail.com>
+ <20230131101813.goaoy32qvrowvyyb@bogus> <CALHCpMijXAgQx2qq8g8zdq=6AHwP+g5WVBjjry=v+dKEq9KDLw@mail.gmail.com>
+ <CAGETcx_UvW819m1Y-QU_ySB1nG_RegKKT06=YjkK=C_qjbAySw@mail.gmail.com> <CALHCpMha_1nXt4rUe+A184XSWpyNk0_PkYjWZ+tUN7BJWqENLA@mail.gmail.com>
+In-Reply-To: <CALHCpMha_1nXt4rUe+A184XSWpyNk0_PkYjWZ+tUN7BJWqENLA@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Sun, 5 Feb 2023 17:32:57 -0800
+Message-ID: <CAGETcx_uri6exkv1Jkzmc4PyEam9yjuH2H1zrq4LYNtJ+XDMWw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/11] fw_devlink improvements
+To:     Maxim Kiselev <bigunclemax@gmail.com>
+Cc:     Sudeep Holla <sudeep.holla@arm.com>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        abel.vesa@linaro.org, alexander.stein@ew.tq-group.com,
+        andriy.shevchenko@linux.intel.com, brgl@bgdev.pl,
+        colin.foster@in-advantage.com, cristian.marussi@arm.com,
+        devicetree@vger.kernel.org, dianders@chromium.org,
+        djrscally@gmail.com, dmitry.baryshkov@linaro.org,
+        festevam@gmail.com, fido_max@inbox.ru, frowand.list@gmail.com,
+        geert+renesas@glider.be, geert@linux-m68k.org,
+        gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com,
+        jpb@kernel.org, jstultz@google.com, kernel-team@android.com,
+        kernel@pengutronix.de, lenb@kernel.org, linus.walleij@linaro.org,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux@roeck-us.net, lkft@linaro.org, luca.weiss@fairphone.com,
+        magnus.damm@gmail.com, martin.kepplinger@puri.sm, maz@kernel.org,
+        miquel.raynal@bootlin.com, rafael@kernel.org, robh+dt@kernel.org,
+        s.hauer@pengutronix.de, sakari.ailus@linux.intel.com,
+        shawnguo@kernel.org, tglx@linutronix.de, tony@atomide.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,199 +91,148 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, Feb 3, 2023 at 1:39 AM Maxim Kiselev <bigunclemax@gmail.com> wrote:
+>
+> =D0=BF=D1=82, 3 =D1=84=D0=B5=D0=B2=D1=80. 2023 =D0=B3. =D0=B2 09:07, Sara=
+vana Kannan <saravanak@google.com>:
+> >
+> > On Thu, Feb 2, 2023 at 9:36 AM Maxim Kiselev <bigunclemax@gmail.com> wr=
+ote:
+> > >
+> > > Hi Saravana,
+> > >
+> > > > Can you try the patch at the end of this email under these
+> > > > configurations and tell me which ones fail vs pass? I don't need lo=
+gs
+> > >
+> > > I did these tests and here is the results:
+> >
+> > Did you hand edit the In-Reply-To: in the header? Because in the
+> > thread you are reply to the wrong email, but the context in your email
+> > seems to be from the right email.
+> >
+> > For example, see how your reply isn't under the email you are replying
+> > to in this thread overview:
+> > https://lore.kernel.org/lkml/20230127001141.407071-1-saravanak@google.c=
+om/#r
+> >
+> > > 1. On top of this series - Not works
+> > > 2. Without this series    - Works
+> > > 3. On top of the series with the fwnode_dev_initialized() deleted - N=
+ot works
+> > > 4. Without this series, with the fwnode_dev_initialized() deleted  - =
+Works
+> > >
+> > > So your nvmem/core.c patch helps only when it is applied without the =
+series.
+> > > But despite the fact that this helps to avoid getting stuck at probin=
+g
+> > > my ethernet device, there is still regression.
+> > >
+> > > When the ethernet module is loaded it takes a lot of time to drop dep=
+endency
+> > > from the nvmem-cell with mac address.
+> > >
+> > > Please look at the kernel logs below.
+> >
+> > The kernel logs below really aren't that useful for me in their
+> > current state. See more below.
+> >
+> > ---8<---- <snip> --->8----
+> >
+> > > P.S. Your nvmem patch definitely helps to avoid a device probe stuck
+> > > but look like it is not best way to solve a problem which we discusse=
+d
+> > > in the MTD thread.
+> > >
+> > > P.P.S. Also I don't know why your nvmem-cell patch doesn't help when =
+it was
+> > > applied on top of this series. Maybe I missed something.
+> >
+> > Yeah, I'm not too sure if the test was done correctly. You also didn't
+> > answer my question about the dts from my earlier email.
+> > https://lore.kernel.org/lkml/CAGETcx8FpmbaRm2CCwqt3BRBpgbogwP5gNB+iA5OE=
+tuxWVTNLA@mail.gmail.com/#t
+> >
+> > So, can you please retest config 1 with all pr_debug and dev_dbg in
+> > drivers/core/base.c changed to the _info variants? And then share the
+> > kernel log from the beginning of boot? Maybe attach it to the email so
+> > it doesn't get word wrapped by your email client. And please point me
+> > to the .dts that corresponds to your board. Without that, I can't
+> > debug much.
+> >
+> > Thanks,
+> > Saravana
+>
+> > Did you hand edit the In-Reply-To: in the header? Because in the
+> > thread you are reply to the wrong email, but the context in your email
+> > seems to be from the right email.
+>
+> Sorry for that, it seems like I accidently deleted it.
+>
+> > So, can you please retest config 1 with all pr_debug and dev_dbg in
+> > drivers/core/base.c changed to the _info variants? And then share the
+> > kernel log from the beginning of boot? Maybe attach it to the email so
+> > it doesn't get word wrapped by your email client. And please point me
+> > to the .dts that corresponds to your board. Without that, I can't
+> > debug much.
+>
+> Ok, I retested config 1 with all _debug logs changed to the _info. I
+> added the kernel log and the dts file to the attachment of this email.
 
-The GICv3 interrupts binding does not have a cpumask. The CPU mask only
-applies to pre-GICv3. So just drop using them from GICv3 systems.
+Ah, so your device is not supported/present upstream? Even though it's
+not upstream, I'll help fix this because it should fix what I believe
+are unreported issues in upstream.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Note, this patch applies on top of [0]
+Ok I know why configs 1 - 4 behaved the way they did and why my test
+patch didn't help.
 
-[0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20230131223529.11905-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
----
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi    | 11 +++++------
- arch/arm64/boot/dts/renesas/r8a779f0.dtsi    | 11 +++++------
- arch/arm64/boot/dts/renesas/r8a779g0.dtsi    | 11 +++++------
- arch/arm64/boot/dts/renesas/r9a07g043u.dtsi  |  8 ++++----
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi   |  8 ++++----
- arch/arm64/boot/dts/renesas/r9a07g044c1.dtsi |  7 -------
- arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi |  7 -------
- arch/arm64/boot/dts/renesas/r9a07g054l1.dtsi |  7 -------
- 8 files changed, 23 insertions(+), 47 deletions(-)
+After staring at mtd/nvmem code for a few hours I think mtd/nvmem
+interaction is kind of a mess. mtd core creates "partition" platform
+devices (including for nvmem-cells) that are probed by drivers in
+drivers/nvmem. However, there's no driver for "nvmem-cells" partition
+platform device. However, the nvmem core creates nvmem_device when
+nvmem_register() is called by MTD or these partition platform devices
+created by MTD. But these nvmem_devices are added to a nvmem_bus but
+the bus has no means to even register a driver (it should really be a
+nvmem_class and not nvmem_bus). And the nvmem_device sometimes points
+to the DT node of the MTD device or sometimes the partition platform
+devices or maybe no DT node at all.
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-index 41fbb9998cf8..f04792baef80 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-@@ -2209,8 +2209,7 @@ gic: interrupt-controller@f1000000 {
- 			interrupt-controller;
- 			reg = <0x0 0xf1000000 0 0x20000>,
- 			      <0x0 0xf1060000 0 0x110000>;
--			interrupts = <GIC_PPI 9
--				      (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_HIGH)>;
-+			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
- 		};
- 
- 		fcpvd0: fcp@fea10000 {
-@@ -2857,9 +2856,9 @@ sensor5_crit: sensor5-crit {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts-extended = <&gic GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-index f20b612b2b9a..52b09e347e13 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-@@ -1108,8 +1108,7 @@ gic: interrupt-controller@f1000000 {
- 			interrupt-controller;
- 			reg = <0x0 0xf1000000 0 0x20000>,
- 			      <0x0 0xf1060000 0 0x110000>;
--			interrupts = <GIC_PPI 9
--				      (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_HIGH)>;
-+			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
- 		};
- 
- 		prr: chipid@fff00044 {
-@@ -1164,10 +1163,10 @@ sensor3_crit: sensor3-crit {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts-extended = <&gic GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
- 	};
- 
- 	ufs30_clk: ufs30-clk {
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-index 7a87a5dc1b6a..e84153b18f39 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-@@ -1205,8 +1205,7 @@ gic: interrupt-controller@f1000000 {
- 			interrupt-controller;
- 			reg = <0x0 0xf1000000 0 0x20000>,
- 			      <0x0 0xf1060000 0 0x110000>;
--			interrupts = <GIC_PPI 9
--				      (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
-+			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
- 		};
- 
- 		fcpvd0: fcp@fea10000 {
-@@ -1347,9 +1346,9 @@ prr: chipid@fff00044 {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts-extended = <&gic GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
-index 1c9d3193e4ff..2ab231572d95 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
-@@ -47,10 +47,10 @@ psci {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts-extended = <&gic GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
- 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index 2c848aad7aea..ed7f330e4a2a 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-@@ -1070,9 +1070,9 @@ target: trip-point {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts-extended = <&gic GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+				      <&gic GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044c1.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044c1.dtsi
-index 1d57df706939..56a979e82c4f 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044c1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044c1.dtsi
-@@ -15,13 +15,6 @@ cpus {
- 		/delete-node/ cpu-map;
- 		/delete-node/ cpu@100;
- 	};
--
--	timer {
--		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>;
--	};
- };
- 
- &soc {
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
-index 9d89d4590358..9cf27ca9f1d2 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
-@@ -15,11 +15,4 @@ cpus {
- 		/delete-node/ cpu-map;
- 		/delete-node/ cpu@100;
- 	};
--
--	timer {
--		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>;
--	};
- };
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g054l1.dtsi b/arch/arm64/boot/dts/renesas/r9a07g054l1.dtsi
-index c448cc6634c1..d85a6ac0f024 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g054l1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g054l1.dtsi
-@@ -15,11 +15,4 @@ cpus {
- 		/delete-node/ cpu-map;
- 		/delete-node/ cpu@100;
- 	};
--
--	timer {
--		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
--				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>;
--	};
- };
--- 
-2.25.1
+So it's a mess of multiple devices pointing to the same DT node with
+no clear way to identify which ones will point to a DT node and which
+ones will probe and which ones won't. In the future, we shouldn't
+allow adding new compatible strings for partitions for which we don't
+plan on adding nvmem drivers.
 
+Can you give the patch at the end of the email a shot? It should fix
+the issue with this series and without this series. It just avoids
+this whole mess by not creating useless platform device for
+nvmem-cells compatible DT nodes.
+
+Thanks,
+Saravana
+
+diff --git a/drivers/mtd/mtdpart.c b/drivers/mtd/mtdpart.c
+index d442fa94c872..88a213f4d651 100644
+--- a/drivers/mtd/mtdpart.c
++++ b/drivers/mtd/mtdpart.c
+@@ -577,6 +577,7 @@ static int mtd_part_of_parse(struct mtd_info *master,
+ {
+        struct mtd_part_parser *parser;
+        struct device_node *np;
++       struct device_node *child;
+        struct property *prop;
+        struct device *dev;
+        const char *compat;
+@@ -594,6 +595,10 @@ static int mtd_part_of_parse(struct mtd_info *master,
+        else
+                np =3D of_get_child_by_name(np, "partitions");
+
++       for_each_child_of_node(np, child)
++               if (of_device_is_compatible(child, "nvmem-cells"))
++                       of_node_set_flag(child, OF_POPULATED);
++
+        of_property_for_each_string(np, "compatible", prop, compat) {
+                parser =3D mtd_part_get_compatible_parser(compat);
+                if (!parser)
