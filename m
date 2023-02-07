@@ -2,240 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C827568DFB2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Feb 2023 19:16:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AB3B68E106
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Feb 2023 20:21:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231411AbjBGSQU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Feb 2023 13:16:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39960 "EHLO
+        id S230048AbjBGTVB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Feb 2023 14:21:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231670AbjBGSQT (ORCPT
+        with ESMTP id S229685AbjBGTVA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Feb 2023 13:16:19 -0500
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33F003B66C
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Feb 2023 10:16:11 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id r17so2072157pff.9
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Feb 2023 10:16:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sSunKu0hLdrmmtMcDNirilKAS0IN5i8wmev5sy3ww80=;
-        b=nvNPBcDWqczrDtDdaJnqEcy2bXszbCVB+iZ0wLX8oaRwsf3sXbqfSUOu97NQd2q7zW
-         MDNljr0XVnF2+uZvx3f4KsnMy2mBE22lT81PLIrrCrPw6pf9IxRWBGNIM+7ZPUDenS37
-         r3yNOS833xnbCFK+fNJdp+omgjAV/pkWLlnB36P67UzHo+YH2BC2V6V7kSyhhmoQwyHw
-         X4t6mt5O/DvFIxDy6rqqKU5+ejg45CNxD5Boi2nvCvkR0/hQC4FmoyOMKs1ktH7Linsg
-         dNdiMLGSRe9bvte8NReis1E6hbme5BErHRptgoOljcu38q/j0LNmIdZ+uwakmYRdohE2
-         sIzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sSunKu0hLdrmmtMcDNirilKAS0IN5i8wmev5sy3ww80=;
-        b=Heq1MmCgVFMSf3Sy5pWAvbH7BNk1jUi9BvgY5Jmcgp4Yy0Ld3EvloMf3wsErQbiyYb
-         suHY8273+YuFmZT9nQCEsIdVL+CrTiGPVuKVYqkzWnENoW7jw4Snx7RNqUXLS4Q84hRc
-         FT0j8/F6Y+VfmOEc9edyXeO+boa00jT0EGIOztjvia2q3NxT0FGovDz4a8+4GVaHiAHS
-         cakNQOtKmcnWQtKppHvRzVk5cr3Eq/XL+mlPlKnHkJ7xptAbA3iBTxOmmOc05WgUKxtS
-         qgRpbEzivUD/rdUewLTg2YvDsWmz6dqurM8rj38FyQuRQmju4blrY3gf+doGpluXIHr1
-         StJg==
-X-Gm-Message-State: AO0yUKWiFV3WCc81KzVid2D2xtvDiVDXgB0U1318FAzw4sIOJ0yQMHWX
-        pp7vRaCnvUmMpCJclSZ8yuGoBlYK8yuhYFh/jXYPBTpP30rIdoBg3J4=
-X-Google-Smtp-Source: AK7set/f6jDh9v+hpyOrJmlr/KCCnwgwcKVGWTVlFNv1/9ietkEewF439YsxUFJFF9c2MR40I0uXbhZpovcGBYrSnRQ=
-X-Received: by 2002:a63:7f12:0:b0:479:45df:425e with SMTP id
- a18-20020a637f12000000b0047945df425emr772888pgd.116.1675793769045; Tue, 07
- Feb 2023 10:16:09 -0800 (PST)
-MIME-Version: 1.0
-References: <20230207014207.1678715-1-saravanak@google.com> <CAD=FV=UZxz-nHNsPO1P_W0MHFD8UDTvKXpFm1dSB+53NJaP2=w@mail.gmail.com>
-In-Reply-To: <CAD=FV=UZxz-nHNsPO1P_W0MHFD8UDTvKXpFm1dSB+53NJaP2=w@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Tue, 7 Feb 2023 10:15:32 -0800
-Message-ID: <CAGETcx86PsZ96CGwvzx7-jvsv=jOFkuPz-K-zjkUXQ3M=yc4zA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/12] fw_devlink improvements
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tue, 7 Feb 2023 14:21:00 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D53C274BC
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Feb 2023 11:21:00 -0800 (PST)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1pPTWK-0000Gm-JD; Tue, 07 Feb 2023 20:20:48 +0100
+Received: from pengutronix.de (unknown [IPv6:2a03:f580:87bc:d400:1929:cbfc:e29:aaab])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id 3FA43172BA4;
+        Tue,  7 Feb 2023 19:20:46 +0000 (UTC)
+Date:   Tue, 7 Feb 2023 20:20:40 +0100
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Len Brown <lenb@kernel.org>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        Abel Vesa <abel.vesa@linaro.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        John Stultz <jstultz@google.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Maxim Kiselev <bigunclemax@gmail.com>,
-        Maxim Kochetkov <fido_max@inbox.ru>,
-        Luca Weiss <luca.weiss@fairphone.com>,
-        Colin Foster <colin.foster@in-advantage.com>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Jean-Philippe Brucker <jpb@kernel.org>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        kernel-team@android.com, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ulrich Hecht <uli+renesas@fpond.eu>, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, Vinod <vkoul@kernel.org>
+Subject: Re: [PATCH 12/12] can: rcar_canfd: Add transceiver support
+Message-ID: <20230207192040.2b5wplxp75agydyw@pengutronix.de>
+References: <cover.1674499048.git.geert+renesas@glider.be>
+ <e825b50a843ffe40e33f34e4d858c07c1b2ff259.1674499048.git.geert+renesas@glider.be>
+ <CAMuHMdXtiC-Oo01Y-vCbokjF=L+YXMN=TucgqCS4Vtcg5gt==g@mail.gmail.com>
+ <20230202144000.2qvtnorgig52jfhw@pengutronix.de>
+ <CAMuHMdUm+ExFCspjk6OO3pvZ-mW8dOiZe7bS2r-ys0S=CBAT-Q@mail.gmail.com>
+ <20230202150632.oo57ap7bdapsvrum@pengutronix.de>
+ <CAMuHMdX0iHUvyFYSdQJFLOzatjgHDnHYDzVvWFukYpXKbq7RxA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="uebnley74i5a7pp2"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdX0iHUvyFYSdQJFLOzatjgHDnHYDzVvWFukYpXKbq7RxA@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Feb 7, 2023 at 7:28 AM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Mon, Feb 6, 2023 at 5:42 PM Saravana Kannan <saravanak@google.com> wrote:
-> >
-> > Naresh, Tony, Abel, Geert, Dmitry, Maxim(s), Miquel, Luca, Doug, Martin,
-> > Jean-Philippe,
-> >
-> > Can I get your Tested-by's for this v3 series please?
-> >
-> > Vladimir,
-> >
-> > Ccing you because DSA's and fw_devlink have known/existing problems
-> > (still in my TODOs to fix). But I want to make sure this series doesn't
-> > cause additional problems for DSA.
-> >
-> > All,
-> >
-> > This patch series improves fw_devlink in the following ways:
-> >
-> > 1. It no longer cares about a fwnode having a "compatible" property. It
-> >    figures this out more dynamically. The only expectation is that
-> >    fwnodes that are converted to devices actually get probed by a driver
-> >    for the dependencies to be enforced correctly.
-> >
-> > 2. Finer grained dependency tracking. fw_devlink will now create device
-> >    links from the consumer to the actual resource's device (if it has one,
-> >    Eg: gpio_device) instead of the parent supplier device. This improves
-> >    things like async suspend/resume ordering, potentially remove the need
-> >    for frameworks to create device links, more parallelized async probing,
-> >    and better sync_state() tracking.
-> >
-> > 3. Handle hardware/software quirks where a child firmware node gets
-> >    populated as a device before its parent firmware node AND actually
-> >    supplies a non-optional resource to the parent firmware node's
-> >    device.
-> >
-> > 4. Way more robust at cycle handling (see patch for the insane cases).
-> >
-> > 5. Stops depending on OF_POPULATED to figure out some corner cases.
-> >
-> > 6. Simplifies the work that needs to be done by the firmware specific
-> >    code.
-> >
-> > The v3 series has gone through my usual testing on my end and looks good
-> > to me.
-> >
-> > Thanks,
-> > Saravana
-> >
-> > [1] - https://lore.kernel.org/lkml/20220810060040.321697-1-saravanak@google.com/
-> > [2] - https://lore.kernel.org/lkml/CAGETcx-JUV1nj8wBJrTPfyvM7=Mre5j_vkVmZojeiumUGG6QZQ@mail.gmail.com/
-> >
-> > v1 -> v2:
-> > - Fixed Patch 1 to handle a corner case discussed in [2].
-> > - New patch 10 to handle "fsl,imx8mq-gpc" being initialized by 2 drivers.
-> > - New patch 11 to add fw_devlink support for SCMI devices.
-> >
-> > v2 -> v3:
-> > - Addressed most of Andy's comments in v2
-> > - Added Colin and Sudeep's Tested-by for the series (except the imx and
-> >   renesas patches)
-> > - Added Sudeep's Acked-by for the scmi patch.
-> > - Added Geert's Reviewed-by for the renesas patch.
-> > - Fixed gpiolib crash reported by Naresh.
-> > - Patch 6: Fix __fwnode_links_move_consumers() to preserve fwnode link flags.
-> > - New Patch 12 to fix nvmem-cells issue reported by Maxim(s)/Miquel.
-> > - Deleted some stale function doc in Patch 8
-> >
-> > Cc: Abel Vesa <abel.vesa@linaro.org>
-> > Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > Cc: Tony Lindgren <tony@atomide.com>
-> > Cc: Sudeep Holla <sudeep.holla@arm.com>
-> > Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Cc: John Stultz <jstultz@google.com>
-> > Cc: Doug Anderson <dianders@chromium.org>
-> > Cc: Guenter Roeck <linux@roeck-us.net>
-> > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Cc: Maxim Kiselev <bigunclemax@gmail.com>
-> > Cc: Maxim Kochetkov <fido_max@inbox.ru>
-> > Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-> > Cc: Luca Weiss <luca.weiss@fairphone.com>
-> > Cc: Colin Foster <colin.foster@in-advantage.com>
-> > Cc: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > Cc: Jean-Philippe Brucker <jpb@kernel.org>
-> > Cc: Vladimir Oltean <vladimir.oltean@nxp.com>
-> >
-> > Saravana Kannan (12):
-> >   driver core: fw_devlink: Don't purge child fwnode's consumer links
-> >   driver core: fw_devlink: Improve check for fwnode with no
-> >     device/driver
-> >   soc: renesas: Move away from using OF_POPULATED for fw_devlink
-> >   gpiolib: Clear the gpio_device's fwnode initialized flag before adding
-> >   driver core: fw_devlink: Add DL_FLAG_CYCLE support to device links
-> >   driver core: fw_devlink: Allow marking a fwnode link as being part of
-> >     a cycle
-> >   driver core: fw_devlink: Consolidate device link flag computation
-> >   driver core: fw_devlink: Make cycle detection more robust
-> >   of: property: Simplify of_link_to_phandle()
-> >   irqchip/irq-imx-gpcv2: Mark fwnode device as not initialized
-> >   firmware: arm_scmi: Set fwnode for the scmi_device
-> >   mtd: mtdpart: Don't create platform device that'll never probe
->
-> I tested the whole series together on several devices. I tried to test
-> on a wide variety since previous versions had broken due to all the
-> dependency cycles in the display and some of these devices used
-> different components in their display pipeline. I didn't do massive
-> testing but did confirm that basic devices came up, including display.
->
-> Devices tested with your v3 applied atop v6.2-rc7-11-g05ecb680708a:
->
-> * sc7180-trogdor-lazor (with ps8640 bridge), which had failed to bring
-> up the display on v2.
->
-> * sc7180-trogdor-lazor (with sn65dsi86 bridge)
->
-> * sc7180-trogdor-pazquel (with sn65dsi86 bridge)
->
-> * sc7180-trogdor-homestar (with ps8640 bridge)
->
-> * sc7180-trogdor-wormdingler
->
-> * sc7280-herobrine-villager
->
-> Tested-by: Douglas Anderson <dianders@chromium.org>
 
-Thanks a lot for all this testing and helping me debug the ps8640 issue Doug!
+--uebnley74i5a7pp2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--Saravana
+On 03.02.2023 11:24:08, Geert Uytterhoeven wrote:
+> > > > > I'll keep you updated when/if this ends up on an immutable branch.
+> > > >
+> > > > Should I take the patches 1...11 for can-next/main?
+> > >
+> > > That would be great, thanks!
+> >
+> > Done.
+>=20
+> Thank you!
+> Meanwhile, the dependency for 12/12 is now available as an immutable
+> branch, cfr. https://lore.kernel.org/all/Y9za4a8qyapi4CWD@matsya
+
+net-next/main is at v6.2-rc6, but does not include this series. I assume
+it will be mainlined in the v6.3 merge window. I think you can resend
+this patch against can/main once v6.3-rc1 is released.
+
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--uebnley74i5a7pp2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmPipIYACgkQvlAcSiqK
+BOgpVAf/ahELMG0vSewSeK3gt53ohA63VHVUWV6WwRiWHxj6dCbDF1w77kFFMKhL
+/oCXDAZj/ZwOUyFl7hMlfLLtw7BqxDU/c8gs/F7EtwVWLZKqWJW9DOE9a6MF3z2O
+UbaCSre8WMqm71VhaufiHUAAgmAdDpEfrKXXdiaNlIYzK8ZrvLkXVTxQA5oMEFRC
+NcVq+mC+utHPU2FdZdLcob9p8nXNL815oNQNFQzVt3ajrF1JpNyzj9hEvU1nzPyM
+K0DTlOU9NdTQy9wf/yV3IJ0RuAN5ig/FIz+rFTZIVISEQ6INy15c5vVHmhFnvevI
+jwekga+zhkspicJD6LxUBuoUkjkpQg==
+=uykw
+-----END PGP SIGNATURE-----
+
+--uebnley74i5a7pp2--
