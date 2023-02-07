@@ -2,188 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92C0A68D96B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Feb 2023 14:33:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF43368DA05
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Feb 2023 15:01:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232254AbjBGNde (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Feb 2023 08:33:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51592 "EHLO
+        id S232042AbjBGOBu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Feb 2023 09:01:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232224AbjBGNdd (ORCPT
+        with ESMTP id S232070AbjBGOBp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Feb 2023 08:33:33 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5E8E31E26
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Feb 2023 05:33:22 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id bk16so13545772wrb.11
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Feb 2023 05:33:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:reply-to:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Gnj8mx6BQv+P/VZTc2ZRvZ4cPWBzn/d/g1R6N3t1SY=;
-        b=sywB6VKP5uMO4iMwIfYWNewUXqdyUmfAHNyhyo3OrdI4w9hMA/do0JdT6XDgbayfL+
-         hioKOeqNB9gmBTeOJ+GEqRzkacs91bBLXr18APnsVAUBpOFSSsRR/mPgDw2PAZiSngST
-         GHN3F7C6RRw0zyStZrcDu6HUwZTZEJW9//HKZNnFr8pbdBYO0ZeQTSQ1wJUc9qr39WDw
-         RAZprI560qB9/D7SJ2L2mhHzMzvqn4IkElOgb3RhfyiCRKxMOqVm8can1xTMfSUuQzTl
-         3d/Otz4g9TJG3uwzIfUqVNKE0lVe3mXM4bFnaRqiGH/VF2JhF06rxIQG2kcu+KI3CJbC
-         UTcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:reply-to:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4Gnj8mx6BQv+P/VZTc2ZRvZ4cPWBzn/d/g1R6N3t1SY=;
-        b=VOY4S39MD8IG7dQUvVohoPXCfqCXgWS+cJTgBaW2priIL2IK7XgnnY3p0iX9JeN2Ci
-         kzVNYtTRTSMZX1tWZjtpMqD2ep55nGfSTWaua8jZRd3eUcu9+weyoCKlEMvYbjo3ALac
-         O2358tBL5FKgKmpHRXs/TkelQyiWERgLFkblDN9iIPoSGe29cX+WQRAu7icpCDWs6PWJ
-         G3EAYoK9Y2e+paCVDK6DEslpk5PJhVcOB47/pB+OkyKLFrmCr8aukuAjbouC6HyUMHER
-         cjEZs7N+9mroCe5FwWl+bsbwFZGcK5yCQy35qm2NG7VhM5edu5ZKKvRkwjaGsfJQVq2O
-         5yIQ==
-X-Gm-Message-State: AO0yUKXx2fFFFEMpDa82JVZtiB1OzCrpwKAf4/qWqs9NLDgIjSYVaF9/
-        TLkbNGILKehE80cbpeqBJQTNpg==
-X-Google-Smtp-Source: AK7set9tflq7m2WGhWzU48ho/FGtJPjdoU4DUvNTQOyFDfwfzYJ/cgrUGOgVxSNmGa0o1E+FD6YRHA==
-X-Received: by 2002:a05:6000:1b0f:b0:2c3:ea4d:3f01 with SMTP id f15-20020a0560001b0f00b002c3ea4d3f01mr2338118wrz.27.1675776801421;
-        Tue, 07 Feb 2023 05:33:21 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:c58c:fc5c:67d6:e5f3? ([2a01:e0a:982:cbb0:c58c:fc5c:67d6:e5f3])
-        by smtp.gmail.com with ESMTPSA id t1-20020a5d4601000000b002bdfe3aca17sm11241983wrq.51.2023.02.07.05.33.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Feb 2023 05:33:21 -0800 (PST)
-Message-ID: <e8e983a7-5dac-507d-414e-0fdc1082644a@linaro.org>
-Date:   Tue, 7 Feb 2023 14:33:19 +0100
+        Tue, 7 Feb 2023 09:01:45 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 874BC38B49;
+        Tue,  7 Feb 2023 06:01:14 -0800 (PST)
+Received: from pendragon.ideasonboard.com (unknown [109.136.43.56])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 11CAE4AF;
+        Tue,  7 Feb 2023 15:00:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1675778425;
+        bh=1bEF62j61D42H7Or6cXC5K8Gd8dMOPMBMtNRJsPbNp4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LYFQBN5vHgu7wnIy+F5NKaFDcYe/u99a8ACQzR1gQzYIimf6bH/4QDAXz8Yp1Cqzu
+         NmVBmGq4KeCcpTR0Hv6yF+40ooComuT51425C1Sv3bZgm77dAkKoid+RfnM7bq/gRu
+         /hOx04yv6IVwew36QBVJRuTFO5eQ9qcdCQZ8w2Vg=
+Date:   Tue, 7 Feb 2023 16:00:23 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH] media: renesas: vsp1: Add underrun debug print
+Message-ID: <Y+JZd2whadJ/37k2@pendragon.ideasonboard.com>
+References: <20230207124440.123910-1-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH] thermal: Remove core header inclusion from drivers
-Content-Language: en-US
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        rafael.j.wysocki@intel.com
-Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Guillaume La Roque <glaroque@baylibre.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Haowen Bai <baihaowen@meizu.com>,
-        Minghao Chi <chi.minghao@zte.com.cn>,
-        "open list:THERMAL DRIVER FOR AMLOGIC SOCS" 
-        <linux-amlogic@lists.infradead.org>,
-        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
-        <linux-rpi-kernel@lists.infradead.org>,
-        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:ARM/QUALCOMM SUPPORT" <linux-arm-msm@vger.kernel.org>,
-        "open list:RENESAS R-CAR THERMAL DRIVERS" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "open list:SAMSUNG THERMAL DRIVER" 
-        <linux-samsung-soc@vger.kernel.org>,
-        "moderated list:ARM/STM32 ARCHITECTURE" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
-References: <20230206153432.1017282-1-daniel.lezcano@linaro.org>
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Organization: Linaro Developer Services
-In-Reply-To: <20230206153432.1017282-1-daniel.lezcano@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230207124440.123910-1-tomi.valkeinen@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 06/02/2023 16:34, Daniel Lezcano wrote:
-> As the name states "thermal_core.h" is the header file for the core
-> components of the thermal framework.
+Hi Tomi,
+
+Thank you for the patch.
+
+On Tue, Feb 07, 2023 at 02:44:40PM +0200, Tomi Valkeinen wrote:
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > 
-> Too many drivers are including it. Hopefully the recent cleanups
-> helped to self encapsulate the code a bit more and prevented the
-> drivers to need this header.
+> Print underrun interrupts with ratelimited print.
 > 
-> Remove this inclusion in every place where it is possible.
+> Note that we don't enable the underrun interrupt. If we have underruns,
+> we don't want to get flooded with interrupts about them. It's enough to
+> see that an underrun happened at the end of a frame.
 > 
-> Some other drivers did a confusion with the core header and the one
-> exported in linux/thermal.h. They include the former instead of the
-> latter. The changes also fix this.
-> 
-> The tegra/soctherm driver still remains as it uses an internal
-> function which need to be replaced.
-> 
-> The Intel HFI driver uses the netlink internal framework core and
-> should be changed to prevent to deal with the internals.
-> 
-> No functional changes
-> 
-> [ Applies to thermal/linux-next or linux-pm/linux-next ]
-> 
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > ---
->   drivers/thermal/amlogic_thermal.c           | 1 -
->   drivers/thermal/armada_thermal.c            | 2 --
->   drivers/thermal/broadcom/bcm2835_thermal.c  | 1 -
->   drivers/thermal/hisi_thermal.c              | 3 +--
->   drivers/thermal/imx8mm_thermal.c            | 1 -
->   drivers/thermal/imx_sc_thermal.c            | 1 -
->   drivers/thermal/intel/intel_hfi.c           | 3 ++-
->   drivers/thermal/qcom/qcom-spmi-temp-alarm.c | 1 -
->   drivers/thermal/qoriq_thermal.c             | 1 -
->   drivers/thermal/rcar_gen3_thermal.c         | 1 -
->   drivers/thermal/samsung/exynos_tmu.c        | 3 +--
->   drivers/thermal/st/stm_thermal.c            | 1 -
->   drivers/thermal/tegra/tegra30-tsensor.c     | 1 -
->   drivers/thermal/uniphier_thermal.c          | 2 --
->   14 files changed, 4 insertions(+), 18 deletions(-)
+>  drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 8 +++++++-
+>  drivers/media/platform/renesas/vsp1/vsp1_regs.h | 2 ++
+>  2 files changed, 9 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/thermal/amlogic_thermal.c b/drivers/thermal/amlogic_thermal.c
-> index d30cb791e63c..9235fda4ec1e 100644
-> --- a/drivers/thermal/amlogic_thermal.c
-> +++ b/drivers/thermal/amlogic_thermal.c
-> @@ -28,7 +28,6 @@
->   #include <linux/regmap.h>
->   #include <linux/thermal.h>
->   
-> -#include "thermal_core.h"
->   #include "thermal_hwmon.h"
->   
->   #define TSENSOR_CFG_REG1			0x4
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> index 5710152d6511..b24437b5b945 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> @@ -45,7 +45,8 @@
+>  
+>  static irqreturn_t vsp1_irq_handler(int irq, void *data)
+>  {
+> -	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE;
+> +	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE |
+> +		   VI6_WPF_IRQ_STA_UND;
+>  	struct vsp1_device *vsp1 = data;
+>  	irqreturn_t ret = IRQ_NONE;
+>  	unsigned int i;
+> @@ -60,6 +61,11 @@ static irqreturn_t vsp1_irq_handler(int irq, void *data)
+>  		status = vsp1_read(vsp1, VI6_WPF_IRQ_STA(i));
+>  		vsp1_write(vsp1, VI6_WPF_IRQ_STA(i), ~status & mask);
+>  
+> +		if (status & VI6_WPF_IRQ_STA_UND) {
+> +			dev_warn_ratelimited(vsp1->dev,
+> +					     "Underrun occurred at WPF%u\n", i);
+> +		}
 
-For Amlogic:
+You could drop the braces.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-<snip>
+> +
+>  		if (status & VI6_WPF_IRQ_STA_DFE) {
+>  			vsp1_pipeline_frame_end(wpf->entity.pipe);
+>  			ret = IRQ_HANDLED;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> index d94343ae57a1..7eca82e0ba7e 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> @@ -32,10 +32,12 @@
+>  #define VI6_STATUS_SYS_ACT(n)		BIT((n) + 8)
+>  
+>  #define VI6_WPF_IRQ_ENB(n)		(0x0048 + (n) * 12)
+> +#define VI6_WPF_IRQ_ENB_UNDE		BIT(16)
+>  #define VI6_WPF_IRQ_ENB_DFEE		BIT(1)
+>  #define VI6_WPF_IRQ_ENB_FREE		BIT(0)
+>  
+>  #define VI6_WPF_IRQ_STA(n)		(0x004c + (n) * 12)
+> +#define VI6_WPF_IRQ_STA_UND		BIT(16)
+>  #define VI6_WPF_IRQ_STA_DFE		BIT(1)
+>  #define VI6_WPF_IRQ_STA_FRE		BIT(0)
+>  
 
+-- 
+Regards,
+
+Laurent Pinchart
