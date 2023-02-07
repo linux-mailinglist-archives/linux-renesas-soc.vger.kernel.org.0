@@ -2,56 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 728DA68E308
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Feb 2023 22:36:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4432E68E440
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Feb 2023 00:13:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229535AbjBGVgR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Feb 2023 16:36:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41150 "EHLO
+        id S229645AbjBGXNh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Feb 2023 18:13:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbjBGVgQ (ORCPT
+        with ESMTP id S229582AbjBGXNg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Feb 2023 16:36:16 -0500
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 031B01F491;
-        Tue,  7 Feb 2023 13:36:16 -0800 (PST)
-Received: by mail-qt1-f173.google.com with SMTP id w3so18471112qts.7;
-        Tue, 07 Feb 2023 13:36:15 -0800 (PST)
+        Tue, 7 Feb 2023 18:13:36 -0500
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E35F10A80
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Feb 2023 15:13:34 -0800 (PST)
+Received: by mail-pg1-x52b.google.com with SMTP id v3so11518698pgh.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Feb 2023 15:13:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8AFMKctRHnvie2TeWTzee4bAAZ/B9stjtKlQ5Rg5dBE=;
+        b=j0Tge9KuUGleo3rmNMVG+QsSsd4faRAZpuEp3rGxHGDhY+lkA3+0DCnxR8aegHCge6
+         cO0TbwUtPTs8ITGXBDCSAQO6ScEpLgHfJe89u3fO0OELaPM6cQ25W1Z/2mhyPFAPxErT
+         +Vnksrfba3xmk4ITm4jRjvKIHCMA28JBC/RrLHhBq5DBHqKA0VH6Gpw731c3AqZwyECo
+         pwNMur97GJ6HKq7cdIQGVdW7MAUtD26fewkxsrZk9OaJ62gxASiMh8lVnw1t3Kh9BETZ
+         h8KDDmNeGAhEvA+25IuTB5zo2BvvpA65MrykazQgkAcxj9Jtc8eKN3ah2/+Ap7D87cyY
+         erKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lg0sHUTSECVWWUA2U2vv5V8YfzjLBhdgpAqAGOEck8k=;
-        b=7gP0S2lWjPsosW7Pm1F+GO7wjAEfSO9Iuw7l/1E2w2QgRHkxS8iE+5Q2waGuWZlIrb
-         TFGEQrX47A2fiiMfuxXxQYt+cvVKGvcQ9au5p0YzKQvopSy6ijXdeGTf9SZgxhfP7nSE
-         4NPoyIaHEll4gjuI/eSJwkFiof4/C5UzBWZEJUWxH8UCTi2MuQB1XWir/dkhYy7DB7Rc
-         /9igmQOTcccl+Ruji9aVnyGpl0Q6RNGZEmVxc+lSdsQOzRczAC9KcFTeC+T1QcYFRgaY
-         AuJO223HP3pMOrKiU1tvl74a9t1ObuQxcknK3l9tiJUz9pP1W2jIKlP3a1WhO1nfXWpf
-         r0aA==
-X-Gm-Message-State: AO0yUKUm53sifKTuQUw+w+RVLyn4wz1UkjArP95bxbq2t7ZOD2uAD9O6
-        uAyqANrg/TmEqfrFSVwt4a2uOQZ1Kbs8nw==
-X-Google-Smtp-Source: AK7set92yDaImQUOrCYHUkIhlxRKMlsiHaSpuxj4VfNct4eZ8MsEt7XG9o8bCEN/qiliHEvHFlxfmw==
-X-Received: by 2002:ac8:5781:0:b0:3b8:68ef:d538 with SMTP id v1-20020ac85781000000b003b868efd538mr7683827qta.52.1675805774999;
-        Tue, 07 Feb 2023 13:36:14 -0800 (PST)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id d8-20020a05622a100800b003b643951117sm10465121qte.38.2023.02.07.13.36.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Feb 2023 13:36:14 -0800 (PST)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-51ba4b1b9feso211767857b3.11;
-        Tue, 07 Feb 2023 13:36:14 -0800 (PST)
-X-Received: by 2002:a5b:508:0:b0:8a3:59a4:340e with SMTP id
- o8-20020a5b0508000000b008a359a4340emr532033ybp.604.1675805764091; Tue, 07 Feb
- 2023 13:36:04 -0800 (PST)
+        bh=8AFMKctRHnvie2TeWTzee4bAAZ/B9stjtKlQ5Rg5dBE=;
+        b=P2QZeSZw/5KYagJ2gUm3FJXumiYjeinWDRd2QyP0gNA4GDTlbsZ5sASF9GIaPzLvYZ
+         PG74ZznigAwq35bV6VEOY5wapLeDNQ+IWLhizlEi2dbVuYeuUw6RunrB96Axo1kYUM59
+         qKA+yaw7WoM9ymmPYBexFN6N1C4jd4yu+etCgLZ7peWwhcIFqBT0WvH8dd5cGQn3iR15
+         MpiK5rookIF4Ud48g/u+9LpHgjZEL/5QxfVvin13KwqWdPQK/fIcvGPg11zUqcqvYyLK
+         1apZ0H1djebBpyEDUqHpyMlrzUMMzfEANcNbtuCTjHjZTMPCERq9x5iZuu22JEEoCw1W
+         4tgg==
+X-Gm-Message-State: AO0yUKXwlX+9aC+xTR6MF18o73jrjA+YRNjL85jOHlDw1s6wWpaR7eTY
+        7WhP1RELslotOy7qpPD5ynRgqWi/Fdl7pPqr4MV5yg==
+X-Google-Smtp-Source: AK7set82dqdysAxpE84w5h03BnoQzNzUIi4BxGlTnJGDsUP2gPvZIr2q53Al8msJwacCdnSqWBN5d7cF28SdbrlA7dA=
+X-Received: by 2002:aa7:8ede:0:b0:590:7829:f566 with SMTP id
+ b30-20020aa78ede000000b005907829f566mr1202351pfr.50.1675811613191; Tue, 07
+ Feb 2023 15:13:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20230207014207.1678715-1-saravanak@google.com>
-In-Reply-To: <20230207014207.1678715-1-saravanak@google.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 7 Feb 2023 22:35:51 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWWc6pbrxCETL+VcXiwesfpUE7r2xc9U9ti5aTietqzDQ@mail.gmail.com>
-Message-ID: <CAMuHMdWWc6pbrxCETL+VcXiwesfpUE7r2xc9U9ti5aTietqzDQ@mail.gmail.com>
+References: <20230207014207.1678715-1-saravanak@google.com> <CAMuHMdWWc6pbrxCETL+VcXiwesfpUE7r2xc9U9ti5aTietqzDQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWWc6pbrxCETL+VcXiwesfpUE7r2xc9U9ti5aTietqzDQ@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Tue, 7 Feb 2023 15:12:56 -0800
+Message-ID: <CAGETcx-VmYRO6Qw4cJ_=QQXzOJbOUS8B+mesqm8n2NrT2d54Cg@mail.gmail.com>
 Subject: Re: [PATCH v3 00/12] fw_devlink improvements
-To:     Saravana Kannan <saravanak@google.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Sudeep Holla <sudeep.holla@arm.com>,
@@ -96,38 +98,39 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, linux-acpi@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
-
-On Tue, Feb 7, 2023 at 2:42 AM Saravana Kannan <saravanak@google.com> wrote:
-> Naresh, Tony, Abel, Geert, Dmitry, Maxim(s), Miquel, Luca, Doug, Martin,
-> Jean-Philippe,
+On Tue, Feb 7, 2023 at 1:36 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Can I get your Tested-by's for this v3 series please?
+> Hi Saravana,
+>
+> On Tue, Feb 7, 2023 at 2:42 AM Saravana Kannan <saravanak@google.com> wrote:
+> > Naresh, Tony, Abel, Geert, Dmitry, Maxim(s), Miquel, Luca, Doug, Martin,
+> > Jean-Philippe,
+> >
+> > Can I get your Tested-by's for this v3 series please?
+>
+> I have tested this on a variety of Renesas arm32/arm64 platforms,
+> and on several RISC-V platforms.
+> Apart from the regression related to dynamic overlays caused by
+> "[PATCH v3 09/12] of: property: Simplify of_link_to_phandle()"
+> (which you may decide to ignore for now ;-)
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I have tested this on a variety of Renesas arm32/arm64 platforms,
-and on several RISC-V platforms.
-Apart from the regression related to dynamic overlays caused by
-"[PATCH v3 09/12] of: property: Simplify of_link_to_phandle()"
-(which you may decide to ignore for now ;-)
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks a lot for the extensive testing Geert!
 
-Gr{oetje,eeting}s,
+I'll take a look at that issue with the out of tree code separately.
 
-                        Geert
+-Saravana
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-Saravana
