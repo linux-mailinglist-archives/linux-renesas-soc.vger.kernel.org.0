@@ -2,72 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32B8C68DE89
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Feb 2023 18:11:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C827568DFB2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Feb 2023 19:16:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230451AbjBGRLQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Feb 2023 12:11:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49030 "EHLO
+        id S231411AbjBGSQU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Feb 2023 13:16:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230510AbjBGRLP (ORCPT
+        with ESMTP id S231670AbjBGSQT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Feb 2023 12:11:15 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AABD83C2A8
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Feb 2023 09:11:13 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id dr8so44305784ejc.12
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Feb 2023 09:11:13 -0800 (PST)
+        Tue, 7 Feb 2023 13:16:19 -0500
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33F003B66C
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Feb 2023 10:16:11 -0800 (PST)
+Received: by mail-pf1-x435.google.com with SMTP id r17so2072157pff.9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Feb 2023 10:16:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I/fUNiCLNvLYxVN4V7dFrBCGBJ6ieG61uRg7cqDK9W0=;
-        b=YPrjSRRviTlxn5O6rsaS9MqRZRJwWRvA7lYzBbOAa2YwRFC78Bf1ZTKkgoCSN4m5og
-         6G4n0gtj4pXDTBOpjqtwxCVM6vN+uIlpcd5DlDT7OK9k6Hzj5HH2e9q3MH9h196gHAKr
-         cxncKgwVNR15+8Rf0ndXhwowMLP5Pzs5IMmgzNEtdx8I8+Zod7E404Me76XwVqBo7dEX
-         s9K9EecJ1goMfRKOg2jPwDqwoISl9CAbUGZA8QvIHikS3ss8f0P1dri4ZtcRxq7rw7fi
-         HZrvpv9LdfNjdq2RjrKbkmt4qwVav+GcGQbOf/DSHVffsFp8IS6GgE8L9u+/1k8rD/y6
-         p7ew==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sSunKu0hLdrmmtMcDNirilKAS0IN5i8wmev5sy3ww80=;
+        b=nvNPBcDWqczrDtDdaJnqEcy2bXszbCVB+iZ0wLX8oaRwsf3sXbqfSUOu97NQd2q7zW
+         MDNljr0XVnF2+uZvx3f4KsnMy2mBE22lT81PLIrrCrPw6pf9IxRWBGNIM+7ZPUDenS37
+         r3yNOS833xnbCFK+fNJdp+omgjAV/pkWLlnB36P67UzHo+YH2BC2V6V7kSyhhmoQwyHw
+         X4t6mt5O/DvFIxDy6rqqKU5+ejg45CNxD5Boi2nvCvkR0/hQC4FmoyOMKs1ktH7Linsg
+         dNdiMLGSRe9bvte8NReis1E6hbme5BErHRptgoOljcu38q/j0LNmIdZ+uwakmYRdohE2
+         sIzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I/fUNiCLNvLYxVN4V7dFrBCGBJ6ieG61uRg7cqDK9W0=;
-        b=LrcZfie7GPaI9M9qky3bs9MDJVPb0WoZ8IITy1NTGnzJjlEFp0qH+i1pUp59Sg0vNB
-         e63551VWrSPa9hnAlJSUiSEnaHkdjOO/I4JO6YTfu8si++RmO3mk6K426BpNntjpv9V2
-         v/tVxwnQRaJLJMGLTiP/2uhO9H0oMK1zFC4COz7VxCYmQWmlCGzX1sT/Vctb+4lX0Nco
-         41CxUqPpgwoPxQ/y2K1s5BXeTulozreY/XJtHkInFI3nQrIGNvsopGtpAvjVqgdFu0t6
-         cUoiZg8rbGh4dxLeG24fMpvYy2dAIHBnPgXRp3aV+Lm13ztwUb2cwje36QbOZymbOMWI
-         KiVw==
-X-Gm-Message-State: AO0yUKWYQV0L0YZX4ylil8oL7LmTsvGD2QdC8cI8p/CyEXA0mOYoc+kn
-        bG9rIbh/2Mgpiku/xkM+MndxKQ==
-X-Google-Smtp-Source: AK7set8WtHapdiat1tJByb6ZuWhTjC5JWXfvr+nr4498wduX+U4awp6nDbEJAaEffZcXOQuGf4dqvg==
-X-Received: by 2002:a17:907:1c0f:b0:88d:ba89:1836 with SMTP id nc15-20020a1709071c0f00b0088dba891836mr23511262ejc.7.1675789872281;
-        Tue, 07 Feb 2023 09:11:12 -0800 (PST)
-Received: from sleipner.berto.se (p4fca2792.dip0.t-ipconnect.de. [79.202.39.146])
-        by smtp.googlemail.com with ESMTPSA id n23-20020a1709062bd700b007a4e02e32ffsm7132298ejg.60.2023.02.07.09.11.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 09:11:11 -0800 (PST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>, linux-pm@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 2/2] drivers/thermal/rcar_gen3_thermal: Fix device initialization
-Date:   Tue,  7 Feb 2023 18:10:11 +0100
-Message-Id: <20230207171011.1596127-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230207171011.1596127-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20230207171011.1596127-1-niklas.soderlund+renesas@ragnatech.se>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sSunKu0hLdrmmtMcDNirilKAS0IN5i8wmev5sy3ww80=;
+        b=Heq1MmCgVFMSf3Sy5pWAvbH7BNk1jUi9BvgY5Jmcgp4Yy0Ld3EvloMf3wsErQbiyYb
+         suHY8273+YuFmZT9nQCEsIdVL+CrTiGPVuKVYqkzWnENoW7jw4Snx7RNqUXLS4Q84hRc
+         FT0j8/F6Y+VfmOEc9edyXeO+boa00jT0EGIOztjvia2q3NxT0FGovDz4a8+4GVaHiAHS
+         cakNQOtKmcnWQtKppHvRzVk5cr3Eq/XL+mlPlKnHkJ7xptAbA3iBTxOmmOc05WgUKxtS
+         qgRpbEzivUD/rdUewLTg2YvDsWmz6dqurM8rj38FyQuRQmju4blrY3gf+doGpluXIHr1
+         StJg==
+X-Gm-Message-State: AO0yUKWiFV3WCc81KzVid2D2xtvDiVDXgB0U1318FAzw4sIOJ0yQMHWX
+        pp7vRaCnvUmMpCJclSZ8yuGoBlYK8yuhYFh/jXYPBTpP30rIdoBg3J4=
+X-Google-Smtp-Source: AK7set/f6jDh9v+hpyOrJmlr/KCCnwgwcKVGWTVlFNv1/9ietkEewF439YsxUFJFF9c2MR40I0uXbhZpovcGBYrSnRQ=
+X-Received: by 2002:a63:7f12:0:b0:479:45df:425e with SMTP id
+ a18-20020a637f12000000b0047945df425emr772888pgd.116.1675793769045; Tue, 07
+ Feb 2023 10:16:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20230207014207.1678715-1-saravanak@google.com> <CAD=FV=UZxz-nHNsPO1P_W0MHFD8UDTvKXpFm1dSB+53NJaP2=w@mail.gmail.com>
+In-Reply-To: <CAD=FV=UZxz-nHNsPO1P_W0MHFD8UDTvKXpFm1dSB+53NJaP2=w@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Tue, 7 Feb 2023 10:15:32 -0800
+Message-ID: <CAGETcx86PsZ96CGwvzx7-jvsv=jOFkuPz-K-zjkUXQ3M=yc4zA@mail.gmail.com>
+Subject: Re: [PATCH v3 00/12] fw_devlink improvements
+To:     Doug Anderson <dianders@chromium.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Len Brown <lenb@kernel.org>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Abel Vesa <abel.vesa@linaro.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        John Stultz <jstultz@google.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Maxim Kiselev <bigunclemax@gmail.com>,
+        Maxim Kochetkov <fido_max@inbox.ru>,
+        Luca Weiss <luca.weiss@fairphone.com>,
+        Colin Foster <colin.foster@in-advantage.com>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Jean-Philippe Brucker <jpb@kernel.org>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        kernel-team@android.com, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-acpi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,116 +109,133 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The thermal zone is registered before the device is register and the
-thermal coefficients are calculated, providing a window for very
-incorrect readings.
+On Tue, Feb 7, 2023 at 7:28 AM Doug Anderson <dianders@chromium.org> wrote:
+>
+> Hi,
+>
+> On Mon, Feb 6, 2023 at 5:42 PM Saravana Kannan <saravanak@google.com> wrote:
+> >
+> > Naresh, Tony, Abel, Geert, Dmitry, Maxim(s), Miquel, Luca, Doug, Martin,
+> > Jean-Philippe,
+> >
+> > Can I get your Tested-by's for this v3 series please?
+> >
+> > Vladimir,
+> >
+> > Ccing you because DSA's and fw_devlink have known/existing problems
+> > (still in my TODOs to fix). But I want to make sure this series doesn't
+> > cause additional problems for DSA.
+> >
+> > All,
+> >
+> > This patch series improves fw_devlink in the following ways:
+> >
+> > 1. It no longer cares about a fwnode having a "compatible" property. It
+> >    figures this out more dynamically. The only expectation is that
+> >    fwnodes that are converted to devices actually get probed by a driver
+> >    for the dependencies to be enforced correctly.
+> >
+> > 2. Finer grained dependency tracking. fw_devlink will now create device
+> >    links from the consumer to the actual resource's device (if it has one,
+> >    Eg: gpio_device) instead of the parent supplier device. This improves
+> >    things like async suspend/resume ordering, potentially remove the need
+> >    for frameworks to create device links, more parallelized async probing,
+> >    and better sync_state() tracking.
+> >
+> > 3. Handle hardware/software quirks where a child firmware node gets
+> >    populated as a device before its parent firmware node AND actually
+> >    supplies a non-optional resource to the parent firmware node's
+> >    device.
+> >
+> > 4. Way more robust at cycle handling (see patch for the insane cases).
+> >
+> > 5. Stops depending on OF_POPULATED to figure out some corner cases.
+> >
+> > 6. Simplifies the work that needs to be done by the firmware specific
+> >    code.
+> >
+> > The v3 series has gone through my usual testing on my end and looks good
+> > to me.
+> >
+> > Thanks,
+> > Saravana
+> >
+> > [1] - https://lore.kernel.org/lkml/20220810060040.321697-1-saravanak@google.com/
+> > [2] - https://lore.kernel.org/lkml/CAGETcx-JUV1nj8wBJrTPfyvM7=Mre5j_vkVmZojeiumUGG6QZQ@mail.gmail.com/
+> >
+> > v1 -> v2:
+> > - Fixed Patch 1 to handle a corner case discussed in [2].
+> > - New patch 10 to handle "fsl,imx8mq-gpc" being initialized by 2 drivers.
+> > - New patch 11 to add fw_devlink support for SCMI devices.
+> >
+> > v2 -> v3:
+> > - Addressed most of Andy's comments in v2
+> > - Added Colin and Sudeep's Tested-by for the series (except the imx and
+> >   renesas patches)
+> > - Added Sudeep's Acked-by for the scmi patch.
+> > - Added Geert's Reviewed-by for the renesas patch.
+> > - Fixed gpiolib crash reported by Naresh.
+> > - Patch 6: Fix __fwnode_links_move_consumers() to preserve fwnode link flags.
+> > - New Patch 12 to fix nvmem-cells issue reported by Maxim(s)/Miquel.
+> > - Deleted some stale function doc in Patch 8
+> >
+> > Cc: Abel Vesa <abel.vesa@linaro.org>
+> > Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > Cc: Tony Lindgren <tony@atomide.com>
+> > Cc: Sudeep Holla <sudeep.holla@arm.com>
+> > Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Cc: John Stultz <jstultz@google.com>
+> > Cc: Doug Anderson <dianders@chromium.org>
+> > Cc: Guenter Roeck <linux@roeck-us.net>
+> > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Cc: Maxim Kiselev <bigunclemax@gmail.com>
+> > Cc: Maxim Kochetkov <fido_max@inbox.ru>
+> > Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+> > Cc: Luca Weiss <luca.weiss@fairphone.com>
+> > Cc: Colin Foster <colin.foster@in-advantage.com>
+> > Cc: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > Cc: Jean-Philippe Brucker <jpb@kernel.org>
+> > Cc: Vladimir Oltean <vladimir.oltean@nxp.com>
+> >
+> > Saravana Kannan (12):
+> >   driver core: fw_devlink: Don't purge child fwnode's consumer links
+> >   driver core: fw_devlink: Improve check for fwnode with no
+> >     device/driver
+> >   soc: renesas: Move away from using OF_POPULATED for fw_devlink
+> >   gpiolib: Clear the gpio_device's fwnode initialized flag before adding
+> >   driver core: fw_devlink: Add DL_FLAG_CYCLE support to device links
+> >   driver core: fw_devlink: Allow marking a fwnode link as being part of
+> >     a cycle
+> >   driver core: fw_devlink: Consolidate device link flag computation
+> >   driver core: fw_devlink: Make cycle detection more robust
+> >   of: property: Simplify of_link_to_phandle()
+> >   irqchip/irq-imx-gpcv2: Mark fwnode device as not initialized
+> >   firmware: arm_scmi: Set fwnode for the scmi_device
+> >   mtd: mtdpart: Don't create platform device that'll never probe
+>
+> I tested the whole series together on several devices. I tried to test
+> on a wide variety since previous versions had broken due to all the
+> dependency cycles in the display and some of these devices used
+> different components in their display pipeline. I didn't do massive
+> testing but did confirm that basic devices came up, including display.
+>
+> Devices tested with your v3 applied atop v6.2-rc7-11-g05ecb680708a:
+>
+> * sc7180-trogdor-lazor (with ps8640 bridge), which had failed to bring
+> up the display on v2.
+>
+> * sc7180-trogdor-lazor (with sn65dsi86 bridge)
+>
+> * sc7180-trogdor-pazquel (with sn65dsi86 bridge)
+>
+> * sc7180-trogdor-homestar (with ps8640 bridge)
+>
+> * sc7180-trogdor-wormdingler
+>
+> * sc7280-herobrine-villager
+>
+> Tested-by: Douglas Anderson <dianders@chromium.org>
 
-The reason why the zone was register before the device was fully
-initialized was that the presence of the set_trips() callback is used to
-determine if the driver supports interrupt or not, as it is not defined
-if the device is incapable of interrupts.
+Thanks a lot for all this testing and helping me debug the ps8640 issue Doug!
 
-Fix this by using the operations structure in the private data instead
-of the zone to determine if interrupts are available or not, and
-initialize the device before registering the zone.
-
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/thermal/rcar_gen3_thermal.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-index bfa2ff20b945..1dedeece1a00 100644
---- a/drivers/thermal/rcar_gen3_thermal.c
-+++ b/drivers/thermal/rcar_gen3_thermal.c
-@@ -89,7 +89,8 @@ struct rcar_gen3_thermal_priv {
- 	struct rcar_gen3_thermal_tsc *tscs[TSC_MAX_NUM];
- 	struct thermal_zone_device_ops ops;
- 	unsigned int num_tscs;
--	void (*thermal_init)(struct rcar_gen3_thermal_tsc *tsc);
-+	void (*thermal_init)(struct rcar_gen3_thermal_priv *priv,
-+			     struct rcar_gen3_thermal_tsc *tsc);
- 	int ptat[3];
- };
- 
-@@ -240,7 +241,7 @@ static irqreturn_t rcar_gen3_thermal_irq(int irq, void *data)
- 	for (i = 0; i < priv->num_tscs; i++) {
- 		status = rcar_gen3_thermal_read(priv->tscs[i], REG_GEN3_IRQSTR);
- 		rcar_gen3_thermal_write(priv->tscs[i], REG_GEN3_IRQSTR, 0);
--		if (status)
-+		if (status && priv->tscs[i]->zone)
- 			thermal_zone_device_update(priv->tscs[i]->zone,
- 						   THERMAL_EVENT_UNSPECIFIED);
- 	}
-@@ -311,7 +312,8 @@ static bool rcar_gen3_thermal_read_fuses(struct rcar_gen3_thermal_priv *priv)
- 	return true;
- }
- 
--static void rcar_gen3_thermal_init_r8a7795es1(struct rcar_gen3_thermal_tsc *tsc)
-+static void rcar_gen3_thermal_init_r8a7795es1(struct rcar_gen3_thermal_priv *priv,
-+					      struct rcar_gen3_thermal_tsc *tsc)
- {
- 	rcar_gen3_thermal_write(tsc, REG_GEN3_CTSR,  CTSR_THBGR);
- 	rcar_gen3_thermal_write(tsc, REG_GEN3_CTSR,  0x0);
-@@ -322,7 +324,7 @@ static void rcar_gen3_thermal_init_r8a7795es1(struct rcar_gen3_thermal_tsc *tsc)
- 
- 	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQCTL, 0x3F);
- 	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQMSK, 0);
--	if (tsc->zone->ops->set_trips)
-+	if (priv->ops.set_trips)
- 		rcar_gen3_thermal_write(tsc, REG_GEN3_IRQEN,
- 					IRQ_TEMPD1 | IRQ_TEMP2);
- 
-@@ -338,7 +340,8 @@ static void rcar_gen3_thermal_init_r8a7795es1(struct rcar_gen3_thermal_tsc *tsc)
- 	usleep_range(1000, 2000);
- }
- 
--static void rcar_gen3_thermal_init(struct rcar_gen3_thermal_tsc *tsc)
-+static void rcar_gen3_thermal_init(struct rcar_gen3_thermal_priv *priv,
-+				   struct rcar_gen3_thermal_tsc *tsc)
- {
- 	u32 reg_val;
- 
-@@ -350,7 +353,7 @@ static void rcar_gen3_thermal_init(struct rcar_gen3_thermal_tsc *tsc)
- 
- 	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQCTL, 0);
- 	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQMSK, 0);
--	if (tsc->zone->ops->set_trips)
-+	if (priv->ops.set_trips)
- 		rcar_gen3_thermal_write(tsc, REG_GEN3_IRQEN,
- 					IRQ_TEMPD1 | IRQ_TEMP2);
- 
-@@ -510,6 +513,9 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 	for (i = 0; i < priv->num_tscs; i++) {
- 		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
- 
-+		priv->thermal_init(priv, tsc);
-+		rcar_gen3_thermal_calc_coefs(priv, tsc, *ths_tj_1);
-+
- 		zone = devm_thermal_of_zone_register(dev, i, tsc, &priv->ops);
- 		if (IS_ERR(zone)) {
- 			dev_err(dev, "Sensor %u: Can't register thermal zone\n", i);
-@@ -518,9 +524,6 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 		}
- 		tsc->zone = zone;
- 
--		priv->thermal_init(tsc);
--		rcar_gen3_thermal_calc_coefs(priv, tsc, *ths_tj_1);
--
- 		tsc->zone->tzp->no_hwmon = false;
- 		ret = thermal_add_hwmon_sysfs(tsc->zone);
- 		if (ret)
-@@ -559,8 +562,8 @@ static int __maybe_unused rcar_gen3_thermal_resume(struct device *dev)
- 		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
- 		struct thermal_zone_device *zone = tsc->zone;
- 
--		priv->thermal_init(tsc);
--		if (zone->ops->set_trips)
-+		priv->thermal_init(priv, tsc);
-+		if (priv->ops.set_trips)
- 			rcar_gen3_thermal_set_trips(zone, zone->prev_low_trip,
- 						    zone->prev_high_trip);
- 	}
--- 
-2.39.1
-
+-Saravana
