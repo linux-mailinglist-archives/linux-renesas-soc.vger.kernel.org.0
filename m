@@ -2,123 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E003768F393
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Feb 2023 17:41:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A5A968F476
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Feb 2023 18:27:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231744AbjBHQll (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Feb 2023 11:41:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48138 "EHLO
+        id S231484AbjBHR1R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Feb 2023 12:27:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231742AbjBHQlF (ORCPT
+        with ESMTP id S231157AbjBHR1P (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Feb 2023 11:41:05 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D60B04E50E;
-        Wed,  8 Feb 2023 08:40:42 -0800 (PST)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 64CE61BF215;
-        Wed,  8 Feb 2023 16:40:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1675874441;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=F2K1Mbt7RBxJUSeZsp99AVJE/j6M83BKYvRqSEdsUyg=;
-        b=mdruBRmAwMVP73GpfC+dxP/4Qe46kudrpPy1CyBLTXjn3hqNqbpJ3zsdgze0T5nx4fsY7X
-        gCWlfUBGZcBi78ntUZo9iGqCH1OcRrT3HtjoE95vMyGsGVZtgydu/+EXa6GZmFVRS0HzeM
-        HknySmCsTLIreg+rbiX0i0LJkLOihXwyeELHsz36+VMaZX9zQrdXzdchvDVNmXWbUVdoOM
-        /cE1+LAF8lyWZC3ioi/CTIwWJFlDIAipwqi+w8JyVfTombVe2sXhig6BVwz0ZqZIR76v7C
-        3fauWb5NdrNgo2zzsjTfMcHZ9oOjbqmZJywG5pvDzNYx7f6omnarJv81oRrfyw==
-From:   =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Wed, 8 Feb 2023 12:27:15 -0500
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FA24420B;
+        Wed,  8 Feb 2023 09:26:48 -0800 (PST)
+Received: by mail-qt1-x82b.google.com with SMTP id g7so21565070qto.11;
+        Wed, 08 Feb 2023 09:26:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SMp4omnrbiYUOgLR33aH/+uqQ4cKHbEEuWNy/QEw9OA=;
+        b=oF+LoIq0H+YdYKYs9tXYtnC2oDaO16qyzNHbwobhGHut3qgDuocGV2ZxhWEvG4NRGY
+         4J6iebd7ukct27L+yzi9t/7v7QydKd/dg+D1Fm7+S/DFH2WM6cIV+MpxxNqk+h2LEsV0
+         HfjgqNZpV5ZQH8mXST1UBDUe280nqo46BqdXoKIpGdBpjsA8w28rvcqMAWuM1Fhu9ZZg
+         5C/O10agtJgOIquJgzkOHRs05EkENch8sfoIOQbagN+u1DipiiksY+iZf0oB7XP2xmHQ
+         77CJJvhvRuIFHgJjrkiuJkVQsPxtUY/lajW+zngSpryx8jdz4w/6GXRQi8mILEMUF62p
+         zVIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SMp4omnrbiYUOgLR33aH/+uqQ4cKHbEEuWNy/QEw9OA=;
+        b=vun1wROz7ltavTcMy6JdIGnDJOfrIDnO1vY86S7VQq5UyJYr7mQyUsHHCu1bbTWuHs
+         87fjx1SrHu+1ySCvjb5/kx4DBmZy5DMLpWjbSV8ia/NzClGLF8pGGfO9WMcc/y7XZoih
+         LCbXpcjGD9BqfTn/zbLyq9Uv/6G248F47AQNAp+xPbg92u4nzlp8dkVmx+mfJ/XWnwZ1
+         brmS6y9WJzuEQSNBxqSNaf/GCTZ9JbpMNriFQlRr9TiI79/7G6ZRkl7f4jW2d/Kegjtf
+         CzSk1T1hVAnzv+eaeCP67ZcfQU7V5YinVvc2LFoS8RxPvNORvcy7WzSVeZbHpjF0wLzl
+         FB1g==
+X-Gm-Message-State: AO0yUKW1W7b0hX1dTGzQ4NLTFBMAQtMTA0zpQdLfC4xpczr1F89ZOb8z
+        2hrih9ATNt0JJYW5XTIyqKs=
+X-Google-Smtp-Source: AK7set8pcKtMGkZv8C4JXzVebCkubJlZW3yFseOnP4JtiRkBzA+9gpFAbtT8b8Mo1W5Joc8kZ4XoaA==
+X-Received: by 2002:ac8:5c50:0:b0:3b8:2d45:4760 with SMTP id j16-20020ac85c50000000b003b82d454760mr13658103qtj.61.1675877205219;
+        Wed, 08 Feb 2023 09:26:45 -0800 (PST)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id r10-20020ac83b4a000000b003b9bcd88f7dsm11733082qtf.43.2023.02.08.09.26.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Feb 2023 09:26:44 -0800 (PST)
+Message-ID: <16976e1e-9c62-715f-b6cb-8a3d0098a23f@gmail.com>
+Date:   Wed, 8 Feb 2023 09:26:40 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH net-next v3 1/3] net: dsa: rzn1-a5psw: use a5psw_reg_rmw()
+ to modify flooding resolution
+Content-Language: en-US
+To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Wong Vee Khee <veekhee@apple.com>,
-        =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Revanth Kumar Uppala <ruppala@nvidia.com>,
-        Tan Tee Min <tee.min.tan@linux.intel.com>
+        Paolo Abeni <pabeni@redhat.com>
 Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?q?Miqu=C3=A8l=20Raynal?= <miquel.raynal@bootlin.com>,
+        =?UTF-8?Q?Miqu=c3=a8l_Raynal?= <miquel.raynal@bootlin.com>,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
-        Mohammad Athari Bin Ismail <mohammad.athari.ismail@intel.com>,
-        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH net-next v2 6/6] ARM: dts: r9a06g032: describe GMAC1
-Date:   Wed,  8 Feb 2023 17:42:03 +0100
-Message-Id: <20230208164203.378153-7-clement.leger@bootlin.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230208164203.378153-1-clement.leger@bootlin.com>
-References: <20230208164203.378153-1-clement.leger@bootlin.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+        Arun Ramadoss <Arun.Ramadoss@microchip.com>,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230208161749.331965-1-clement.leger@bootlin.com>
+ <20230208161749.331965-2-clement.leger@bootlin.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20230208161749.331965-2-clement.leger@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-RZ/N1 SoC includes two MAC named GMACx that are compatible with the
-"snps,dwmac" driver. GMAC1 is connected directly to the MII converter
-port 1. Since this MII converter is represented using a PCS driver, it
-uses the renesas specific compatible driver which uses this PCS.
+On 2/8/23 08:17, Clément Léger wrote:
+> .port_bridge_flags will be added and allows to modify the flood mask
+> independently for each port. Keeping the existing bridged_ports write
+> in a5psw_flooding_set_resolution() would potentially messed up this.
+> Use a read-modify-write to set that value and move bridged_ports
+> handling in bridge_port_join/leave.
+> 
+> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
 
-Signed-off-by: Clément Léger <clement.leger@bootlin.com>
----
- arch/arm/boot/dts/r9a06g032.dtsi | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
-index 41e19c0986ce..ba32e4429b01 100644
---- a/arch/arm/boot/dts/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/r9a06g032.dtsi
-@@ -304,6 +304,24 @@ dma1: dma-controller@40105000 {
- 			data-width = <8>;
- 		};
- 
-+		gmac1: ethernet@44000000 {
-+			compatible = "renesas,r9a06g032-gmac", "renesas,rzn1-gmac", "snps,dwmac";
-+			reg = <0x44000000 0x2000>;
-+			interrupt-parent = <&gic>;
-+			interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "macirq", "eth_wake_irq", "eth_lpi";
-+			clock-names = "stmmaceth";
-+			clocks = <&sysctrl R9A06G032_HCLK_GMAC0>;
-+			snps,multicast-filter-bins = <256>;
-+			snps,perfect-filter-entries = <128>;
-+			tx-fifo-depth = <2048>;
-+			rx-fifo-depth = <4096>;
-+			pcs-handle = <&mii_conv1>;
-+			status = "disabled";
-+		};
-+
- 		gmac2: ethernet@44002000 {
- 			compatible = "renesas,r9a06g032-gmac", "renesas,rzn1-gmac", "snps,dwmac";
- 			reg = <0x44002000 0x2000>;
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
 -- 
-2.39.0
+Florian
 
