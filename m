@@ -2,125 +2,208 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D06EC68F6D4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Feb 2023 19:21:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54A6068F74F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Feb 2023 19:45:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231902AbjBHSVd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Feb 2023 13:21:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57140 "EHLO
+        id S230150AbjBHSpE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Feb 2023 13:45:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231897AbjBHSVa (ORCPT
+        with ESMTP id S229515AbjBHSpD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Feb 2023 13:21:30 -0500
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E357D113C7;
-        Wed,  8 Feb 2023 10:21:22 -0800 (PST)
-Received: from [192.168.1.103] (178.176.77.28) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Wed, 8 Feb 2023
- 21:21:12 +0300
-Subject: Re: [PATCH net-next v2 3/6] net: stmmac: add support to provide pcs
- from platform data
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Wong Vee Khee <veekhee@apple.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Revanth Kumar Uppala <ruppala@nvidia.com>,
-        Tan Tee Min <tee.min.tan@linux.intel.com>
-CC:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?Q?Miqu=c3=a8l_Raynal?= <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Mohammad Athari Bin Ismail <mohammad.athari.ismail@intel.com>,
-        Jon Hunter <jonathanh@nvidia.com>, <netdev@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20230208164203.378153-1-clement.leger@bootlin.com>
- <20230208164203.378153-4-clement.leger@bootlin.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <c61c3e56-6b4d-8be3-6163-f05c1bf3dafe@omp.ru>
-Date:   Wed, 8 Feb 2023 21:21:11 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Wed, 8 Feb 2023 13:45:03 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D176A5DD
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Feb 2023 10:45:01 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id a10so14685358edu.9
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Feb 2023 10:45:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yB3BjrPvVLN7DZjGp5r+HU7XwZ73Ug5bYRKAsmr3OqI=;
+        b=0QkLnUI1M34+NBXYTOIjvAfoM9LJlLZRVHy17u5TkKk0PKdSFsRx0KQq0yk8DkBoXW
+         spdGfiXWoKdHxeTBgbvx0j19xbbe9dtKMHpb88GdZzS6xpExDIKxXx7gF5NZNPhM85fL
+         bDPHBKZ635ZTA5v7k+ToGT6CoWhHmeR4hbkTASHXkuYU2OL3o9YKqjXNkR49QRGEG7JZ
+         qm4uwlA7GFh5+AKMij61ZHsPypDImX5EfaKOS9ZeSBfdT+A+yui27gSfMLMhEtD7Xkig
+         uevukE5uzbzdg/tz/2QEHhcibxe1Vj5pF6tEr5r4THImqaNPUfrP2tpivVx3xQN0HS/z
+         wkeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yB3BjrPvVLN7DZjGp5r+HU7XwZ73Ug5bYRKAsmr3OqI=;
+        b=xd6EqIs6J0Vk1S3uijgZORNen8v1N8jmpCGYjXpfyrco2aADH4GGva7wJjPiWnllMr
+         wqYB3iQdEMQ2qHz1kb7KN/c7FnPU0MOJe+SYuRhWZjKCBNhmKwT46Z88vV63MGcmcOmp
+         kmyvktLbzKwrzmD04Pf5SfMjV86hSzfVbs2pBC9W8rieoWLC8l5JL/phxbPQK2tfLcjQ
+         4MCHC13wOEYtjSokllhx/D+kTeabuus1w0kGkmW0QS52o+8vmWYMY8ajpq7UN8aKW1N6
+         kpxeyeuLseWkFBkrTpR+JGQMlu51JDivCbGNi9LmQeW/WTr8wQnh7v4w6pSTyKB/X2Ps
+         rXWQ==
+X-Gm-Message-State: AO0yUKX6/PCikur3+nlGjcgA9zBBeLcXH8v3Pb9gY5io1Q0qJAT3icTS
+        HMpSlcbF4pdL4IDa3ehoB0f7gw==
+X-Google-Smtp-Source: AK7set+H9FA8/jPb/2iLEmgs5OgkTRiYJS6T9Xkzr1RtQ3FvkQ9rx3hbSIEq8E/lsfoKpyYqWXCwtA==
+X-Received: by 2002:a50:9eca:0:b0:4aa:a5b3:15e6 with SMTP id a68-20020a509eca000000b004aaa5b315e6mr7963674edf.0.1675881900009;
+        Wed, 08 Feb 2023 10:45:00 -0800 (PST)
+Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
+        by smtp.gmail.com with ESMTPSA id l21-20020a50d6d5000000b004aab36ad060sm4348952edj.92.2023.02.08.10.44.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Feb 2023 10:44:59 -0800 (PST)
+Date:   Wed, 8 Feb 2023 19:44:58 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     Wolfram Sang <wsa@kernel.org>, linux-pm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/2] drivers/thermal/rcar_gen3_thermal: Fix device
+ initialization
+Message-ID: <Y+PtqiTL1BmqCZiM@oden.dyn.berto.se>
+References: <20230207171011.1596127-1-niklas.soderlund+renesas@ragnatech.se>
+ <20230207171011.1596127-3-niklas.soderlund+renesas@ragnatech.se>
+ <8649a674-bbd4-435c-5574-c0c633988e66@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20230208164203.378153-4-clement.leger@bootlin.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [178.176.77.28]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 02/08/2023 17:56:27
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 175379 [Feb 08 2023]
-X-KSE-AntiSpam-Info: Version: 5.9.59.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 502 502 69dee8ef46717dd3cb3eeb129cb7cc8dab9e30f6
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.77.28 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.77.28 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;178.176.77.28:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.77.28
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 02/08/2023 17:58:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 2/8/2023 4:32:00 PM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <8649a674-bbd4-435c-5574-c0c633988e66@linaro.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Daniel,
 
-On 2/8/23 7:42 PM, Clément Léger wrote:
+Thanks for your feedback.
 
-> Add a pcs field in platform_data to allow providing platform data. This is
-> gonig to be used by the renesas,rzn1-gmac compatible driver which can make
-
-   s/gonig/going/ :-)
-
-> use of a PCS.
+On 2023-02-08 12:06:37 +0100, Daniel Lezcano wrote:
+> On 07/02/2023 18:10, Niklas Söderlund wrote:
+> > The thermal zone is registered before the device is register and the
+> > thermal coefficients are calculated, providing a window for very
+> > incorrect readings.
+> > 
+> > The reason why the zone was register before the device was fully
+> > initialized was that the presence of the set_trips() callback is used to
+> > determine if the driver supports interrupt or not, as it is not defined
+> > if the device is incapable of interrupts.
+> > 
+> > Fix this by using the operations structure in the private data instead
+> > of the zone to determine if interrupts are available or not, and
+> > initialize the device before registering the zone.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >   drivers/thermal/rcar_gen3_thermal.c | 25 ++++++++++++++-----------
+> >   1 file changed, 14 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
+> > index bfa2ff20b945..1dedeece1a00 100644
+> > --- a/drivers/thermal/rcar_gen3_thermal.c
+> > +++ b/drivers/thermal/rcar_gen3_thermal.c
+> > @@ -89,7 +89,8 @@ struct rcar_gen3_thermal_priv {
+> >   	struct rcar_gen3_thermal_tsc *tscs[TSC_MAX_NUM];
+> >   	struct thermal_zone_device_ops ops;
+> >   	unsigned int num_tscs;
+> > -	void (*thermal_init)(struct rcar_gen3_thermal_tsc *tsc);
+> > +	void (*thermal_init)(struct rcar_gen3_thermal_priv *priv,
+> > +			     struct rcar_gen3_thermal_tsc *tsc);
+> >   	int ptat[3];
+> >   };
+> > @@ -240,7 +241,7 @@ static irqreturn_t rcar_gen3_thermal_irq(int irq, void *data)
+> >   	for (i = 0; i < priv->num_tscs; i++) {
+> >   		status = rcar_gen3_thermal_read(priv->tscs[i], REG_GEN3_IRQSTR);
+> >   		rcar_gen3_thermal_write(priv->tscs[i], REG_GEN3_IRQSTR, 0);
+> > -		if (status)
+> > +		if (status && priv->tscs[i]->zone)
+> >   			thermal_zone_device_update(priv->tscs[i]->zone,
+> >   						   THERMAL_EVENT_UNSPECIFIED);
+> >   	}
+> > @@ -311,7 +312,8 @@ static bool rcar_gen3_thermal_read_fuses(struct rcar_gen3_thermal_priv *priv)
+> >   	return true;
+> >   }
+> > -static void rcar_gen3_thermal_init_r8a7795es1(struct rcar_gen3_thermal_tsc *tsc)
+> > +static void rcar_gen3_thermal_init_r8a7795es1(struct rcar_gen3_thermal_priv *priv,
+> > +					      struct rcar_gen3_thermal_tsc *tsc)
+> >   {
+> >   	rcar_gen3_thermal_write(tsc, REG_GEN3_CTSR,  CTSR_THBGR);
+> >   	rcar_gen3_thermal_write(tsc, REG_GEN3_CTSR,  0x0);
+> > @@ -322,7 +324,7 @@ static void rcar_gen3_thermal_init_r8a7795es1(struct rcar_gen3_thermal_tsc *tsc)
+> >   	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQCTL, 0x3F);
+> >   	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQMSK, 0);
+> > -	if (tsc->zone->ops->set_trips)
+> > +	if (priv->ops.set_trips)
+> >   		rcar_gen3_thermal_write(tsc, REG_GEN3_IRQEN,
+> >   					IRQ_TEMPD1 | IRQ_TEMP2);
+> > @@ -338,7 +340,8 @@ static void rcar_gen3_thermal_init_r8a7795es1(struct rcar_gen3_thermal_tsc *tsc)
+> >   	usleep_range(1000, 2000);
+> >   }
+> > -static void rcar_gen3_thermal_init(struct rcar_gen3_thermal_tsc *tsc)
+> > +static void rcar_gen3_thermal_init(struct rcar_gen3_thermal_priv *priv,
+> > +				   struct rcar_gen3_thermal_tsc *tsc)
+> >   {
+> >   	u32 reg_val;
+> > @@ -350,7 +353,7 @@ static void rcar_gen3_thermal_init(struct rcar_gen3_thermal_tsc *tsc)
+> >   	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQCTL, 0);
+> >   	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQMSK, 0);
+> > -	if (tsc->zone->ops->set_trips)
+> > +	if (priv->ops.set_trips)
+> >   		rcar_gen3_thermal_write(tsc, REG_GEN3_IRQEN,
+> >   					IRQ_TEMPD1 | IRQ_TEMP2);
+> > @@ -510,6 +513,9 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
+> >   	for (i = 0; i < priv->num_tscs; i++) {
+> >   		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
+> > +		priv->thermal_init(priv, tsc);
+> > +		rcar_gen3_thermal_calc_coefs(priv, tsc, *ths_tj_1);
+> > +
+> >   		zone = devm_thermal_of_zone_register(dev, i, tsc, &priv->ops);
+> >   		if (IS_ERR(zone)) {
+> >   			dev_err(dev, "Sensor %u: Can't register thermal zone\n", i);
+> > @@ -518,9 +524,6 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
+> >   		}
+> >   		tsc->zone = zone;
+> > -		priv->thermal_init(tsc);
+> > -		rcar_gen3_thermal_calc_coefs(priv, tsc, *ths_tj_1);
+> > -
+> >   		tsc->zone->tzp->no_hwmon = false;
+> >   		ret = thermal_add_hwmon_sysfs(tsc->zone);
+> >   		if (ret)
+> > @@ -559,8 +562,8 @@ static int __maybe_unused rcar_gen3_thermal_resume(struct device *dev)
+> >   		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
+> >   		struct thermal_zone_device *zone = tsc->zone;
+> > -		priv->thermal_init(tsc);
+> > -		if (zone->ops->set_trips)
+> > +		priv->thermal_init(priv, tsc);
+> > +		if (priv->ops.set_trips)
+> >   			rcar_gen3_thermal_set_trips(zone, zone->prev_low_trip,
+> >   						    zone->prev_high_trip);
 > 
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-[...]
+> This is not needed, at resume time, the thermal framework has a pm_notifier
+> and calls thermal_zone_device_update() which in turn calls
+> thermal_zone_set_trips(). If the ops is not set, it will continue.
+> 
+> Actually, no call to set_trips should happen in the driver, just pass the
+> ops the thermal framework and it will do the actions.
+> 
+> The same happens when you call thermal_zone_device_register(), it calls
+> thermal_zone_device_update(), then thermal_zone_set_trips().
 
-MBR, Sergey
+I will send a v2 of this series addressing this before fixing the issue 
+addressed in this patch.
+
+> 
+> 
+> -- 
+> <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+> 
+> Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+> <http://twitter.com/#!/linaroorg> Twitter |
+> <http://www.linaro.org/linaro-blog/> Blog
+> 
+
+-- 
+Kind Regards,
+Niklas Söderlund
