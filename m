@@ -2,76 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E93A68E59F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Feb 2023 02:54:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 410BF68E5D5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Feb 2023 03:08:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229550AbjBHByD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Feb 2023 20:54:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55748 "EHLO
+        id S230140AbjBHCIl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Feb 2023 21:08:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbjBHByC (ORCPT
+        with ESMTP id S230103AbjBHCIk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Feb 2023 20:54:02 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1549724CB1;
-        Tue,  7 Feb 2023 17:54:01 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id bx22so13999591pjb.3;
-        Tue, 07 Feb 2023 17:54:01 -0800 (PST)
+        Tue, 7 Feb 2023 21:08:40 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC43B36FD8
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Feb 2023 18:08:37 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id v3so11730535pgh.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Feb 2023 18:08:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZNa4A16DhgRDYxoWWKprL/mSTYNhCOiQkyFeU51R3oI=;
-        b=gWCM6Mz34SJGOPSup/XSJpcL1i71atWNx+x43gaSeiWgoMfOKyUaHv9TKr260EpLnn
-         xuNdH0aPU8Mwfoa1ggKAefMzWF3YoAUhiDz8nmIIVKqxragLzzL+bVUcMjazSoCXDfZb
-         4RmthYmNGpeOZ9yd1jsn5M5UCa0on2SUUVFf0DH3h2zTaS3vtRLQ4thv2OhABkUCHcXN
-         fhrrJ274Iai1sJCcstr4mFFoOBxji++0QecYD3HKL4qdKGVEDLAfhIw6cd64PUbfhF4t
-         5OyoatMIhQmFvW+7GT6efuGz2NmW93/FnfuE3NaRDbQS8U96V3ZiviZ9HH2V0XgmhWpq
-         CxeA==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=IvovDvydwtbWeac/PH7UfSyXwAMSyNiyFbqoOtJrtSo=;
+        b=WWQxHI+zVjB3sxN2VS2B69gLrKIkQgRtwbALikURfje+mgHB872p8xbeWLvH+p4IFZ
+         X8+gzwTrp4f8Iqv+GOVcMboqkGmpV6XCzVLsKb9tI8vHAtFYOS65xE0nK8FBo0FvHUS5
+         kLCUDHNKjZU2PG9fwT6xT2AwoqJ15mXjo0mYl13Pu+SA1WyKavCbdHx6PD5lqKGJ3wgC
+         7D6vVEqjeNTVTG6hQTP9QF8j56x8iWlfej2t9hwMElA86EjAiIpjOpRcB/lD6PasKIrh
+         kmZBeQKHwLAIUuLiEJoB0YPmfi5gj6Y7jc62lRAFUchW6NHbfHNbRvovubDoqex0T+1v
+         lH2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZNa4A16DhgRDYxoWWKprL/mSTYNhCOiQkyFeU51R3oI=;
-        b=ZUL1MkDVfb5+KyhD/a7sv+sLhat5XEhUFSnSfwPL5hp97R9FP6R/szvaAbg97BQx4N
-         N127yl29HCbpCGsnwnTJgwKqFX/nZ6V6w0MJV/O1hktrC2jvz9yzEC3qYWk0pvPsMtCs
-         axLRUSAfwCl6duZv76C9hNwyohWD1Rb3SUCK5lGkVSNWV4E7E02018N1z1H5KN7ybyIw
-         hTnyaX3lxkBt9bMkRsYCbGV12jzG7wDcoQ4VZ5043nQUzvcJNYcvn0cllBTrwziWu0Gg
-         t0xQLe+KH9mLwbxrc8dzKcTSQDZKWSSdzfxWFZ7EJzWwyGMqVa1Z2JLJORe7AJrx6Q9U
-         TCVw==
-X-Gm-Message-State: AO0yUKXXmes/sk1V/kZwxTukl8/kWsWvOIhbqV6tPZKpWshry8ueoA3v
-        es6n5TFV8z0FftmdH8R/q2s=
-X-Google-Smtp-Source: AK7set+Qtt2AjyV20J+XZuy6V8EtMbyEEeEBIV97rFjH6jNZgvDeMI4o0AYUY6z4ORaJcbPiIrOnhQ==
-X-Received: by 2002:a05:6a20:3d11:b0:b9:6932:7d71 with SMTP id y17-20020a056a203d1100b000b969327d71mr6740984pzi.26.1675821240488;
-        Tue, 07 Feb 2023 17:54:00 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id v5-20020a63b645000000b004b1fef0bf16sm8567563pgt.73.2023.02.07.17.53.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Feb 2023 17:54:00 -0800 (PST)
-Message-ID: <12250823-8445-5854-dfb8-b92c0ff0851e@gmail.com>
-Date:   Wed, 8 Feb 2023 10:53:55 +0900
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IvovDvydwtbWeac/PH7UfSyXwAMSyNiyFbqoOtJrtSo=;
+        b=SBD42DiAxdeDcN8i6596K6vuIbeyPJjQCqFILIXM3II4m8PtLsLFoRU9YAvxTeug6t
+         FcfcPcN4jH7TdBO4vv8Nv+zpJAiBrmLERofh1rDcOnwHNvu6hFhtj3F3WHsf47fTRymJ
+         mhXFAJNoTc2c1zIwcxaHet2A3z1HNOFJ3x1od87KpfbPPPZdJT4BrrEQyrumZsgcooOp
+         ys4YoFDAec8m/SfRH4or33Pm+qVZQtKthQ633y6XLZyau26oUQPdbKd+LyRajCtaUL/J
+         IoYqYDf+fnXzrnBWlXUwAzhKquaRrxnfdRRa/P76EhCrYXQ2HZj388HoJuS4fQkjPyab
+         uS3Q==
+X-Gm-Message-State: AO0yUKVfsiAR0P76wD707Ssbv85xuzp+pRHpmRuOMh5WGN6MyT9PgoVH
+        B2nIRB9JzMcQDndK+KBZu82syg52krFU8/0R1HHDsg==
+X-Google-Smtp-Source: AK7set/Bb7BMdpe4sUnoHifR4lQMHdn9y6L/o7MBzyuPCkiBgdepa4Ke551WLY6JkSSLbKcR1vDbHA3Fx/XWThsP5c0=
+X-Received: by 2002:a63:7f1d:0:b0:4de:7028:d2fc with SMTP id
+ a29-20020a637f1d000000b004de7028d2fcmr1133917pgd.122.1675822116756; Tue, 07
+ Feb 2023 18:08:36 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-To:     tomi.valkeinen+renesas@ideasonboard.com
-Cc:     dri-devel@lists.freedesktop.org, geert@linux-m68k.org,
-        kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        nicolas@ndufresne.ca, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <20221221092448.741294-2-tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v3 1/7] media: Add 2-10-10-10 RGB formats
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20221221092448.741294-2-tomi.valkeinen+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20230207014207.1678715-1-saravanak@google.com>
+ <20230207014207.1678715-10-saravanak@google.com> <CAMuHMdXEnSD4rRJ-o90x4OprUacN_rJgyo8x6=9F9rZ+-KzjOg@mail.gmail.com>
+In-Reply-To: <CAMuHMdXEnSD4rRJ-o90x4OprUacN_rJgyo8x6=9F9rZ+-KzjOg@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Tue, 7 Feb 2023 18:08:00 -0800
+Message-ID: <CAGETcx8DaZqS7+47PhX4hQOfSk7AzPcTu=2i+4gAgXr6wyDNgg@mail.gmail.com>
+Subject: Re: [PATCH v3 09/12] of: property: Simplify of_link_to_phandle()
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Len Brown <lenb@kernel.org>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Abel Vesa <abel.vesa@linaro.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Tony Lindgren <tony@atomide.com>,
+        John Stultz <jstultz@google.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Maxim Kiselev <bigunclemax@gmail.com>,
+        Maxim Kochetkov <fido_max@inbox.ru>,
+        Luca Weiss <luca.weiss@fairphone.com>,
+        Colin Foster <colin.foster@in-advantage.com>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Jean-Philippe Brucker <jpb@kernel.org>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        kernel-team@android.com, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-acpi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,289 +109,130 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-[+CC: Maruo and Hans, who are listed in the SOB area of offending commit]
+On Tue, Feb 7, 2023 at 12:57 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Saravana,
+>
+> On Tue, Feb 7, 2023 at 2:42 AM Saravana Kannan <saravanak@google.com> wrote:
+> > The driver core now:
+> > - Has the parent device of a supplier pick up the consumers if the
+> >   supplier never has a device created for it.
+> > - Ignores a supplier if the supplier has no parent device and will never
+> >   be probed by a driver
+> >
+> > And already prevents creating a device link with the consumer as a
+> > supplier of a parent.
+> >
+> > So, we no longer need to find the "compatible" node of the supplier or
+> > do any other checks in of_link_to_phandle(). We simply need to make sure
+> > that the supplier is available in DT.
+> >
+> > Signed-off-by: Saravana Kannan <saravanak@google.com>
+>
+> Thanks for your patch!
+>
+> This patch introduces a regression when dynamically loading DT overlays.
+> Unfortunately this happens when using the out-of-tree OF configfs,
+> which is not supported upstream.  Still, there may be (obscure)
+> in-tree users.
+>
+> When loading a DT overlay[1] to enable an SPI controller, and
+> instantiate a connected SPI EEPROM:
+>
+>     $ overlay add 25lc040
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /keys/status
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /soc/spi@e6e90000/pinctrl-0
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /soc/spi@e6e90000/pinctrl-names
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /soc/spi@e6e90000/cs-gpios
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /soc/spi@e6e90000/status
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /__symbols__/msiof0_pins
+>
+> The SPI controller and the SPI EEPROM are no longer instantiated.
+>
+>     # cat /sys/kernel/debug/devices_deferred
+>     e6e90000.spi    platform: wait for supplier msiof0
+>
+> Let's remove the overlay again:
+>
+>     $ overlay rm 25lc040
+>     input: keys as /devices/platform/keys/input/input1
+>
+> And retry:
+>
+>     $ overlay add 25lc040
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /keys/status
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /soc/spi@e6e90000/pinctrl-0
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /soc/spi@e6e90000/pinctrl-names
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /soc/spi@e6e90000/cs-gpios
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /soc/spi@e6e90000/status
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /__symbols__/msiof0_pins
+>     spi_sh_msiof e6e90000.spi: DMA available
+>     spi_sh_msiof e6e90000.spi: registered master spi0
+>     spi spi0.0: setup mode 0, 8 bits/w, 100000 Hz max --> 0
+>     at25 spi0.0: 512 Byte at25 eeprom, pagesize 16
+>     spi_sh_msiof e6e90000.spi: registered child spi0.0
+>
+> Now it succeeds, and the SPI EEPROM is available, and works.
+>
+> Without this patch, or with this patch reverted after applying the
+> full series:
+>
+>     $ overlay add 25lc040
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /keys/status
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /soc/spi@e6e90000/pinctrl-0
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /soc/spi@e6e90000/pinctrl-names
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /soc/spi@e6e90000/cs-gpios
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /soc/spi@e6e90000/status
+>     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> property: /__symbols__/msiof0_pins
+>     OF: Not linking spi@e6e90000 to interrupt-controller@f1010000 - No
+> struct device
+>     spi_sh_msiof e6e90000.spi: DMA available
+>     spi_sh_msiof e6e90000.spi: registered master spi0
+>     spi spi0.0: setup mode 0, 8 bits/w, 100000 Hz max --> 0
+>     at25 spi0.0: 444 bps (2 bytes in 9 ticks)
+>     at25 spi0.0: 512 Byte at25 eeprom, pagesize 16
+>     spi_sh_msiof e6e90000.spi: registered child spi0.0
+>
+> The SPI EEPROM is available on the first try after boot.
 
-Hi Tomi,
+Sigh... I spent way too long trying to figure out if I caused a memory
+leak. I should have scrolled down further! Doesn't look like that part
+is related to anything I did.
 
-I'm observing build failure of "make pdfdocs" against linux-next due to
-this change whose commitid is 8d0e3fc61abd.
+There are some flags set to avoid re-parsing fwnodes multiple times.
+My guess is that the issue you are seeing has to do with how many of
+the in memory structs are reused vs not when an overlay is
+applied/removed and some of these flags might not be getting cleared
+and this is having a bigger impact with this patch (because the fwnode
+links are no longer anchored on "compatible" nodes).
 
-> Add XBGR2101010, ABGR2101010 and BGRA1010102 formats.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> ---
->  .../userspace-api/media/v4l/pixfmt-rgb.rst    | 194 ++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   3 +
->  include/uapi/linux/videodev2.h                |   3 +
->  3 files changed, 200 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> index 30f51cd33f99..d330aeb4d3eb 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> @@ -763,6 +763,200 @@ nomenclature that instead use the order of components as seen in a 24- or
->      \normalsize
->  
->  
-> +10 Bits Per Component
-> +=====================
-> +
-> +These formats store a 30-bit RGB triplet with an optional 2 bit alpha in four
-> +bytes. They are named based on the order of the RGB components as seen in a
-> +32-bit word, which is then stored in memory in little endian byte order
-> +(unless otherwise noted by the presence of bit 31 in the 4CC value), and on the
-> +number of bits for each component.
-> +
-> +.. raw:: latex
-> +
-> +    \begingroup
-> +    \tiny
-> +    \setlength{\tabcolsep}{2pt}
-> +
-> +.. tabularcolumns:: |p{2.8cm}|p{2.0cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
-> +
-> +
-> +.. flat-table:: RGB Formats 10 Bits Per Color Component
-> +    :header-rows:  2
-> +    :stub-columns: 0
-> +
-> +    * - Identifier
-> +      - Code
-> +      - :cspan:`7` Byte 0 in memory
-> +      - :cspan:`7` Byte 1
-> +      - :cspan:`7` Byte 2
-> +      - :cspan:`7` Byte 3
-> +    * -
-> +      -
-> +      - 7
-> +      - 6
-> +      - 5
-> +      - 4
-> +      - 3
-> +      - 2
-> +      - 1
-> +      - 0
-> +
-> +      - 7
-> +      - 6
-> +      - 5
-> +      - 4
-> +      - 3
-> +      - 2
-> +      - 1
-> +      - 0
-> +
-> +      - 7
-> +      - 6
-> +      - 5
-> +      - 4
-> +      - 3
-> +      - 2
-> +      - 1
-> +      - 0
-> +
-> +      - 7
-> +      - 6
-> +      - 5
-> +      - 4
-> +      - 3
-> +      - 2
-> +      - 1
-> +      - 0
-> +    * .. _V4L2-PIX-FMT-RGBX1010102:
-> +
-> +      - ``V4L2_PIX_FMT_RGBX1010102``
-> +      - 'RX30'
-> +
-> +      - b\ :sub:`5`
-> +      - b\ :sub:`4`
-> +      - b\ :sub:`3`
-> +      - b\ :sub:`2`
-> +      - b\ :sub:`1`
-> +      - b\ :sub:`0`
-> +      - x
-> +      - x
-> +
-> +      - g\ :sub:`3`
-> +      - g\ :sub:`2`
-> +      - g\ :sub:`1`
-> +      - g\ :sub:`0`
-> +      - b\ :sub:`9`
-> +      - b\ :sub:`8`
-> +      - b\ :sub:`7`
-> +      - b\ :sub:`6`
-> +
-> +      - r\ :sub:`1`
-> +      - r\ :sub:`0`
-> +      - g\ :sub:`9`
-> +      - g\ :sub:`8`
-> +      - g\ :sub:`7`
-> +      - g\ :sub:`6`
-> +      - g\ :sub:`5`
-> +      - g\ :sub:`4`
-> +
-> +      - r\ :sub:`9`
-> +      - r\ :sub:`8`
-> +      - r\ :sub:`7`
-> +      - r\ :sub:`6`
-> +      - r\ :sub:`5`
-> +      - r\ :sub:`4`
-> +      - r\ :sub:`3`
-> +      - r\ :sub:`2`
-> +      -
+With/without this patch (let's keep the series) can you look at how
+the following things change between each step you do above (add,
+remove, retry):
+1) List of directories under /sys/class/devlink
+2) Enable the debug logs inside __fwnode_link_add(),
+__fwnode_link_del(), device_link_add()
 
-This extra "-"
+My guess is that the final solution would entail clearing
+FWNODE_FLAG_LINKS_ADDED for some fwnodes.
 
-> +    * .. _V4L2-PIX-FMT-RGBA1010102:
-> +
-> +      - ``V4L2_PIX_FMT_RGBA1010102``
-> +      - 'RA30'
-> +
-> +      - b\ :sub:`5`
-> +      - b\ :sub:`4`
-> +      - b\ :sub:`3`
-> +      - b\ :sub:`2`
-> +      - b\ :sub:`1`
-> +      - b\ :sub:`0`
-> +      - a\ :sub:`1`
-> +      - a\ :sub:`0`
-> +
-> +      - g\ :sub:`3`
-> +      - g\ :sub:`2`
-> +      - g\ :sub:`1`
-> +      - g\ :sub:`0`
-> +      - b\ :sub:`9`
-> +      - b\ :sub:`8`
-> +      - b\ :sub:`7`
-> +      - b\ :sub:`6`
-> +
-> +      - r\ :sub:`1`
-> +      - r\ :sub:`0`
-> +      - g\ :sub:`9`
-> +      - g\ :sub:`8`
-> +      - g\ :sub:`7`
-> +      - g\ :sub:`6`
-> +      - g\ :sub:`5`
-> +      - g\ :sub:`4`
-> +
-> +      - r\ :sub:`9`
-> +      - r\ :sub:`8`
-> +      - r\ :sub:`7`
-> +      - r\ :sub:`6`
-> +      - r\ :sub:`5`
-> +      - r\ :sub:`4`
-> +      - r\ :sub:`3`
-> +      - r\ :sub:`2`
-> +      -
-
-, this one
-
-> +    * .. _V4L2-PIX-FMT-ARGB2101010:
-> +
-> +      - ``V4L2_PIX_FMT_ARGB2101010``
-> +      - 'AR30'
-> +
-> +      - b\ :sub:`7`
-> +      - b\ :sub:`6`
-> +      - b\ :sub:`5`
-> +      - b\ :sub:`4`
-> +      - b\ :sub:`3`
-> +      - b\ :sub:`2`
-> +      - b\ :sub:`1`
-> +      - b\ :sub:`0`
-> +
-> +      - g\ :sub:`5`
-> +      - g\ :sub:`4`
-> +      - g\ :sub:`3`
-> +      - g\ :sub:`2`
-> +      - g\ :sub:`1`
-> +      - g\ :sub:`0`
-> +      - b\ :sub:`9`
-> +      - b\ :sub:`8`
-> +
-> +      - r\ :sub:`3`
-> +      - r\ :sub:`2`
-> +      - r\ :sub:`1`
-> +      - r\ :sub:`0`
-> +      - g\ :sub:`9`
-> +      - g\ :sub:`8`
-> +      - g\ :sub:`7`
-> +      - g\ :sub:`6`
-> +
-> +      - a\ :sub:`1`
-> +      - a\ :sub:`0`
-> +      - r\ :sub:`9`
-> +      - r\ :sub:`8`
-> +      - r\ :sub:`7`
-> +      - r\ :sub:`6`
-> +      - r\ :sub:`5`
-> +      - r\ :sub:`4`
-> +      -
-
-, and this one causes the Sphinx LaTeX builder emits userspace-api.tex
-which causes latexmk error saying:
-
----------------
-Latexmk: Getting log file 'userspace-api.log'
-Latexmk: Examining 'userspace-api.fls'
-Latexmk: Examining 'userspace-api.log'
-Latexmk: Index file 'userspace-api.idx' was written
-Latexmk: References changed.
-Latexmk: Missing input file 'userspace-api.ind' (or dependence on it) from following:
-  'No file userspace-api.ind.'
-Latexmk: References changed.
-Latexmk: References changed.
-Latexmk: Log file says output to 'userspace-api.xdv'
-Latexmk: Errors, so I did not complete making targets
-Collected error summary (may duplicate other messages):
-  xelatex: Command for 'xelatex' gave return code 1
-      Refer to 'userspace-api.log' for details
-------------
-
-There looks to be no useful info in userspace-api.log.
-
-Tomi, can you remove those extra "-"s I mentioned above?
-
-Hopefully, this can be fixed before the v6.3 merge window.
-
-        Thanks, Akira
-
-> +
-> +.. raw:: latex
-> +
-> +    \endgroup
-> +
-> +
->  Deprecated RGB Formats
->  ======================
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index fddba75d9074..875b9a95e3c8 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1304,6 +1304,9 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_PIX_FMT_BGRX32:	descr = "32-bit XBGR 8-8-8-8"; break;
->  	case V4L2_PIX_FMT_RGBA32:	descr = "32-bit RGBA 8-8-8-8"; break;
->  	case V4L2_PIX_FMT_RGBX32:	descr = "32-bit RGBX 8-8-8-8"; break;
-> +	case V4L2_PIX_FMT_RGBX1010102:	descr = "32-bit RGBX-10-10-10-2"; break;
-> +	case V4L2_PIX_FMT_RGBA1010102:	descr = "32-bit RGBA-10-10-10-2"; break;
-> +	case V4L2_PIX_FMT_ARGB2101010:	descr = "32-bit ARGB-2-10-10-10"; break;
->  	case V4L2_PIX_FMT_GREY:		descr = "8-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y4:		descr = "4-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y6:		descr = "6-bit Greyscale"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 29da1f4b4578..51d6a8aa4e17 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -576,6 +576,9 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_RGBX32  v4l2_fourcc('X', 'B', '2', '4') /* 32  RGBX-8-8-8-8  */
->  #define V4L2_PIX_FMT_ARGB32  v4l2_fourcc('B', 'A', '2', '4') /* 32  ARGB-8-8-8-8  */
->  #define V4L2_PIX_FMT_XRGB32  v4l2_fourcc('B', 'X', '2', '4') /* 32  XRGB-8-8-8-8  */
-> +#define V4L2_PIX_FMT_RGBX1010102 v4l2_fourcc('R', 'X', '3', '0') /* 32  RGBX-10-10-10-2 */
-> +#define V4L2_PIX_FMT_RGBA1010102 v4l2_fourcc('R', 'A', '3', '0') /* 32  RGBA-10-10-10-2 */
-> +#define V4L2_PIX_FMT_ARGB2101010 v4l2_fourcc('A', 'R', '3', '0') /* 32  ARGB-2-10-10-10 */
->  
->  /* Grey formats */
->  #define V4L2_PIX_FMT_GREY    v4l2_fourcc('G', 'R', 'E', 'Y') /*  8  Greyscale     */
-> -- 
-> 2.34.1
+Thanks,
+Saravana
