@@ -2,61 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE4C668F85C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Feb 2023 20:51:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6028568F86C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Feb 2023 20:54:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230499AbjBHTvH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Feb 2023 14:51:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52642 "EHLO
+        id S231979AbjBHTyh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Feb 2023 14:54:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbjBHTvG (ORCPT
+        with ESMTP id S231970AbjBHTyg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Feb 2023 14:51:06 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 100031C7D6
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Feb 2023 11:51:05 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id h16so17919209wrz.12
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Feb 2023 11:51:04 -0800 (PST)
+        Wed, 8 Feb 2023 14:54:36 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BA3C265B0
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Feb 2023 11:54:34 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id z13so6685316wmp.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Feb 2023 11:54:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=cY1HwE63r9UqyW6Gdx6yhcFxmTguDnqyz+SAe6KoqOQ=;
-        b=Hn2pHT7CPTC3o8c4Wpog/hsIQx7uvafsHgvOxeofLCyAJV9L7gPsNScf3TeLdqqPnr
-         LUzNnDUuUwSEk4aAlXxfEaM0zrMXnNq/Cz9jO8mHY2YrfNr8ZSfgFLz3JafNViK1B0bT
-         53rAEhyJo2OFPoJrvYYNaSFu+AOUT2z3hE6WS4W+99iNSs+K++NUxAAHsqs+vnQswru7
-         g2c2FQ5Zbky3mbyXl60E6JmICG07hRBCes7yafGv0Boq39tw4NTKpnaCMM8GPAJALkiJ
-         IzP9WQ7KcVyZ+MritmxJAz+n/lPp2+TSmLh2MLkT3IRzrHIZ1barAg2zteWvZOip25aT
-         bkXg==
+        bh=EBwPASl/5edIqKvU/JIFgLagE7/Ou6YlCS5upqg7x2Y=;
+        b=ElaRHWbT/7/TFkvjy6RGL2e17EyHx++x8piD9HhzxfjPN7C6IjJr8KHQqMeSg3iRzn
+         JGpO17rXoVb9C0s9qHFsCF+F1dXEfBZveWiAGHPo/FywF3QkBYc7IexMRDmAGf/yx8mm
+         62bShvlBrZk/CP6VFbg2i2694PW2cGgn5Dpj4Aqza7z/CQemko/LeJmh7Wl+ZzeyCkJc
+         txZM7BLVhLvjW4seK/N+hzNUnLLIcxm7PB3fNWjYU1aleGOUXkUP3VIjiUHcHMDjUf3r
+         OKwaTESXnDBfnbQlzDQdqhyJHt4oLjsCUe2T3hW9PRIrn/gnopCojYZCNqLs0mj7k5P7
+         7Tmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cY1HwE63r9UqyW6Gdx6yhcFxmTguDnqyz+SAe6KoqOQ=;
-        b=BwPuHmEIgGNEOtDpMbDZbwvYsLr+DPfcc0iV2wnqwgUKyKgQjImu0Js75N2v4pFov7
-         9FvgCOEsD2PwCQd61Yd+eCG0AJ4jLGo9x6WPs/6+4d2vAtMvqCoDR0TWPBAN8Dx/1kIk
-         M0Rq0H/uz8ataMULi48zV9PwGZshls5SkPB45RBKQDQfOYdqLY8AS9GlnMJT49yeX0cd
-         TmcNkNWdXGNWgTKx5EkMzto/pisk2cn4WG4p9wktmXdnpvuT1pC7pAXnVk67WlZIXrrg
-         awudnJt5KWLtv9VtBGrCmvCIXQH/UIC7m5r9yzElcvWVuKiPTviqNysCCjsiPzNcm663
-         SMKA==
-X-Gm-Message-State: AO0yUKX5CbJJCbhLanCFuGdDhLwk/FrhdAu2dbhe0E4MvE5wFkwhis6C
-        6UPtt0DgAkAB6RipsDMZvH3Krw==
-X-Google-Smtp-Source: AK7set9dhkugBafQNUYIvCX0R36B8oLdf4eHcflcqRkwcR7SGvh653bV+4HiKahZLc+dRe/stewv5A==
-X-Received: by 2002:adf:ef0d:0:b0:2c4:645:da36 with SMTP id e13-20020adfef0d000000b002c40645da36mr2643620wro.24.1675885863619;
-        Wed, 08 Feb 2023 11:51:03 -0800 (PST)
+        bh=EBwPASl/5edIqKvU/JIFgLagE7/Ou6YlCS5upqg7x2Y=;
+        b=SFu6RheWTzab1N5H82nRpZwiiASerJxy7QCQxV5LPXYSap4dha1l41k3qPwncA18rY
+         HOkkyZP4To3q+VZAJ6drVcnTyoMyPOfomobLw0Uw71o0po2jDyM8gFipGeh6YKW/Nfa7
+         en+aYMT0OrT9//+SA0GPzIvX/IRgEw4kx2q6NcsmOiQHYA5PPailB8IU3yR1Yuz8x9Wp
+         iX1lHbRQVn/bh0M1QE573zIM9MkBi1WfpjyrJLpylV+xkJhlXPFmMK/PjJhmu5dnQ9pj
+         YB0AiddQV9ofeD2N6gsRQNe/GOd0KqQA12DC60r6HFqcJaolvIveu5qgqHvZpY3srA3x
+         FLBg==
+X-Gm-Message-State: AO0yUKX9rNclJlA78+nkuKFMNVmNR7nSPJoHMSrZKj/IBxqrWGmpzMbz
+        o2l7i5WuZgGbemyRV76TWtT8/w==
+X-Google-Smtp-Source: AK7set+AS16QvAEzA43WSGcYuIpVX6rFu8GnlDVRV5HqJSp5kzSyNf3stjXk01gH7tABGuOR8dPMlA==
+X-Received: by 2002:a05:600c:358b:b0:3df:9858:c02e with SMTP id p11-20020a05600c358b00b003df9858c02emr3319270wmq.3.1675886072898;
+        Wed, 08 Feb 2023 11:54:32 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id f9-20020adff989000000b002c3e6b39512sm8933760wrr.53.2023.02.08.11.51.01
+        by smtp.gmail.com with ESMTPSA id c12-20020a05600c0a4c00b003dc34edacf8sm3260834wmq.31.2023.02.08.11.54.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Feb 2023 11:51:03 -0800 (PST)
-Message-ID: <55f02cd9-d191-8454-ef67-613bc8373f9f@linaro.org>
-Date:   Wed, 8 Feb 2023 20:51:00 +0100
+        Wed, 08 Feb 2023 11:54:32 -0800 (PST)
+Message-ID: <74240c25-cbbe-1e72-b56b-13124111b390@linaro.org>
+Date:   Wed, 8 Feb 2023 20:54:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH net-next v2 4/6] dt-bindings: net: renesas,rzn1-gmac:
- Document RZ/N1 GMAC support
+Subject: Re: [PATCH net-next v2 6/6] ARM: dts: r9a06g032: describe GMAC1
 Content-Language: en-US
 To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
         Sergey Shtylyov <s.shtylyov@omp.ru>,
@@ -90,14 +89,15 @@ Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         linux-stm32@st-md-mailman.stormreply.com,
         linux-arm-kernel@lists.infradead.org
 References: <20230208164203.378153-1-clement.leger@bootlin.com>
- <20230208164203.378153-5-clement.leger@bootlin.com>
+ <20230208164203.378153-7-clement.leger@bootlin.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230208164203.378153-5-clement.leger@bootlin.com>
+In-Reply-To: <20230208164203.378153-7-clement.leger@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -105,59 +105,31 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 08/02/2023 17:42, Clément Léger wrote:
-> Add "renesas,rzn1-gmac" binding documentation which is compatible with
-> "snps,dwmac" compatible driver but uses a custom PCS to communicate
-> with the phy.
+> RZ/N1 SoC includes two MAC named GMACx that are compatible with the
+> "snps,dwmac" driver. GMAC1 is connected directly to the MII converter
+> port 1. Since this MII converter is represented using a PCS driver, it
+> uses the renesas specific compatible driver which uses this PCS.
 > 
 > Signed-off-by: Clément Léger <clement.leger@bootlin.com>
 > ---
->  .../bindings/net/renesas,rzn1-gmac.yaml       | 67 +++++++++++++++++++
->  1 file changed, 67 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
+>  arch/arm/boot/dts/r9a06g032.dtsi | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
-> new file mode 100644
-> index 000000000000..944fd0d97d79
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
-> @@ -0,0 +1,67 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/renesas,rzn1-gmac.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas GMAC
-> +
-> +maintainers:
-> +  - Clément Léger <clement.leger@bootlin.com>
-> +
-> +select:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        enum:
-> +          - renesas,r9a06g032-gmac
-> +          - renesas,rzn1-gmac
-> +  required:
-> +    - compatible
-> +
-> +allOf:
-> +  - $ref: snps,dwmac.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,r9a06g032-gmac
-> +          - renesas,rzn1-gmac
-> +          - snps,dwmac
+> diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
+> index 41e19c0986ce..ba32e4429b01 100644
+> --- a/arch/arm/boot/dts/r9a06g032.dtsi
+> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
+> @@ -304,6 +304,24 @@ dma1: dma-controller@40105000 {
+>  			data-width = <8>;
+>  		};
+>  
+> +		gmac1: ethernet@44000000 {
+> +			compatible = "renesas,r9a06g032-gmac", "renesas,rzn1-gmac", "snps,dwmac";
 
-This is still not correct and does not make any sense.
-
-What do you want to say here with such binding? That you describe
-"snps,dwmac" here? Then it's duplicated with snps,dwmac.yaml... Drop
-that enum and make it a proper list.
+Please test your DTS against the binding you send. If you did it, you
+would see here that the binding does not work and needs fixes... The
+difference between your DTS and your example should also warn you that
+it's not correct.
 
 Best regards,
 Krzysztof
