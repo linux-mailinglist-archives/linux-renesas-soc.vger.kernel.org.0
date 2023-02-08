@@ -2,59 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 410BF68E5D5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Feb 2023 03:08:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AE1B68E8EA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Feb 2023 08:31:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230140AbjBHCIl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Feb 2023 21:08:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38272 "EHLO
+        id S230342AbjBHHbT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Feb 2023 02:31:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230103AbjBHCIk (ORCPT
+        with ESMTP id S229479AbjBHHbS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Feb 2023 21:08:40 -0500
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC43B36FD8
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Feb 2023 18:08:37 -0800 (PST)
-Received: by mail-pg1-x536.google.com with SMTP id v3so11730535pgh.4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Feb 2023 18:08:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IvovDvydwtbWeac/PH7UfSyXwAMSyNiyFbqoOtJrtSo=;
-        b=WWQxHI+zVjB3sxN2VS2B69gLrKIkQgRtwbALikURfje+mgHB872p8xbeWLvH+p4IFZ
-         X8+gzwTrp4f8Iqv+GOVcMboqkGmpV6XCzVLsKb9tI8vHAtFYOS65xE0nK8FBo0FvHUS5
-         kLCUDHNKjZU2PG9fwT6xT2AwoqJ15mXjo0mYl13Pu+SA1WyKavCbdHx6PD5lqKGJ3wgC
-         7D6vVEqjeNTVTG6hQTP9QF8j56x8iWlfej2t9hwMElA86EjAiIpjOpRcB/lD6PasKIrh
-         kmZBeQKHwLAIUuLiEJoB0YPmfi5gj6Y7jc62lRAFUchW6NHbfHNbRvovubDoqex0T+1v
-         lH2g==
+        Wed, 8 Feb 2023 02:31:18 -0500
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB8761A976;
+        Tue,  7 Feb 2023 23:31:16 -0800 (PST)
+Received: by mail-qt1-f172.google.com with SMTP id w3so19826726qts.7;
+        Tue, 07 Feb 2023 23:31:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IvovDvydwtbWeac/PH7UfSyXwAMSyNiyFbqoOtJrtSo=;
-        b=SBD42DiAxdeDcN8i6596K6vuIbeyPJjQCqFILIXM3II4m8PtLsLFoRU9YAvxTeug6t
-         FcfcPcN4jH7TdBO4vv8Nv+zpJAiBrmLERofh1rDcOnwHNvu6hFhtj3F3WHsf47fTRymJ
-         mhXFAJNoTc2c1zIwcxaHet2A3z1HNOFJ3x1od87KpfbPPPZdJT4BrrEQyrumZsgcooOp
-         ys4YoFDAec8m/SfRH4or33Pm+qVZQtKthQ633y6XLZyau26oUQPdbKd+LyRajCtaUL/J
-         IoYqYDf+fnXzrnBWlXUwAzhKquaRrxnfdRRa/P76EhCrYXQ2HZj388HoJuS4fQkjPyab
-         uS3Q==
-X-Gm-Message-State: AO0yUKVfsiAR0P76wD707Ssbv85xuzp+pRHpmRuOMh5WGN6MyT9PgoVH
-        B2nIRB9JzMcQDndK+KBZu82syg52krFU8/0R1HHDsg==
-X-Google-Smtp-Source: AK7set/Bb7BMdpe4sUnoHifR4lQMHdn9y6L/o7MBzyuPCkiBgdepa4Ke551WLY6JkSSLbKcR1vDbHA3Fx/XWThsP5c0=
-X-Received: by 2002:a63:7f1d:0:b0:4de:7028:d2fc with SMTP id
- a29-20020a637f1d000000b004de7028d2fcmr1133917pgd.122.1675822116756; Tue, 07
- Feb 2023 18:08:36 -0800 (PST)
+        bh=E2bppoHuX82os++/Py2NRHmX1jE3ZJ52UnRWRf0XIy0=;
+        b=ewVDqstYLbGPRddG4bzS/68gmKLt3MhMZZP1NLzoqle01VaP+TB4CkqY48xW+JzrJ7
+         T28sdFsvHKbDx2RD1LmCcJnWbw9JkvdXZtQjhZtC5H2ILbj6QRiaHckbkhPn8oUI67+8
+         /xSOOhg55fAYiJzuwLK18c+t1yrapJjpJIkQsw0HXOx9gcPW6juAD/7EBVAmbfJkiGVM
+         kNKUtV+nuw9cMyZzf/KUChAMa9iFLzCGHkuzykz3YYosfvChBQBCjOTYF8dQ6za16dWC
+         YwylZ2gG7wJHqM3PLgToAtHg4qlkzijw6J7Aij/M87PwpXlJOPeKp1KAtryZqndC4pjC
+         09Wg==
+X-Gm-Message-State: AO0yUKV6/tDkF3vT4R04BV8eV8U9DLpVLewOone2IqCmHpYz6OhPdI/g
+        RbE/Iy9fqIaryYATLeN0R/grjclM7FgcAg==
+X-Google-Smtp-Source: AK7set9hcIzUDkK1G3UaRBC+OshC93bQi4ys9oWbQAyGP8JxA5lLgF7hpUaTvhO+BZFlkrdD+DT5pQ==
+X-Received: by 2002:a05:622a:c4:b0:3b0:2fa:8a90 with SMTP id p4-20020a05622a00c400b003b002fa8a90mr12054489qtw.8.1675841475574;
+        Tue, 07 Feb 2023 23:31:15 -0800 (PST)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id x10-20020a05620a12aa00b0071d57a0eb17sm10898243qki.136.2023.02.07.23.31.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Feb 2023 23:31:15 -0800 (PST)
+Received: by mail-yb1-f178.google.com with SMTP id q9so226957ybk.2;
+        Tue, 07 Feb 2023 23:31:15 -0800 (PST)
+X-Received: by 2002:a0d:ca03:0:b0:506:6b5d:523c with SMTP id
+ m3-20020a0dca03000000b005066b5d523cmr523838ywd.283.1675841464452; Tue, 07 Feb
+ 2023 23:31:04 -0800 (PST)
 MIME-Version: 1.0
 References: <20230207014207.1678715-1-saravanak@google.com>
  <20230207014207.1678715-10-saravanak@google.com> <CAMuHMdXEnSD4rRJ-o90x4OprUacN_rJgyo8x6=9F9rZ+-KzjOg@mail.gmail.com>
-In-Reply-To: <CAMuHMdXEnSD4rRJ-o90x4OprUacN_rJgyo8x6=9F9rZ+-KzjOg@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Tue, 7 Feb 2023 18:08:00 -0800
-Message-ID: <CAGETcx8DaZqS7+47PhX4hQOfSk7AzPcTu=2i+4gAgXr6wyDNgg@mail.gmail.com>
+ <CAGETcx8DaZqS7+47PhX4hQOfSk7AzPcTu=2i+4gAgXr6wyDNgg@mail.gmail.com>
+In-Reply-To: <CAGETcx8DaZqS7+47PhX4hQOfSk7AzPcTu=2i+4gAgXr6wyDNgg@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 8 Feb 2023 08:30:51 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXPosaKarsRWZpuGGD7Xam6qngsej+3iJdfWGTBDiWhLA@mail.gmail.com>
+Message-ID: <CAMuHMdXPosaKarsRWZpuGGD7Xam6qngsej+3iJdfWGTBDiWhLA@mail.gmail.com>
 Subject: Re: [PATCH v3 09/12] of: property: Simplify of_link_to_phandle()
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+To:     Saravana Kannan <saravanak@google.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Sudeep Holla <sudeep.holla@arm.com>,
@@ -98,141 +97,150 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, linux-acpi@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Feb 7, 2023 at 12:57 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Saravana,
->
-> On Tue, Feb 7, 2023 at 2:42 AM Saravana Kannan <saravanak@google.com> wrote:
-> > The driver core now:
-> > - Has the parent device of a supplier pick up the consumers if the
-> >   supplier never has a device created for it.
-> > - Ignores a supplier if the supplier has no parent device and will never
-> >   be probed by a driver
+Hi Saravana,
+
+On Wed, Feb 8, 2023 at 3:08 AM Saravana Kannan <saravanak@google.com> wrote:
+> On Tue, Feb 7, 2023 at 12:57 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Tue, Feb 7, 2023 at 2:42 AM Saravana Kannan <saravanak@google.com> wrote:
+> > > The driver core now:
+> > > - Has the parent device of a supplier pick up the consumers if the
+> > >   supplier never has a device created for it.
+> > > - Ignores a supplier if the supplier has no parent device and will never
+> > >   be probed by a driver
+> > >
+> > > And already prevents creating a device link with the consumer as a
+> > > supplier of a parent.
+> > >
+> > > So, we no longer need to find the "compatible" node of the supplier or
+> > > do any other checks in of_link_to_phandle(). We simply need to make sure
+> > > that the supplier is available in DT.
+> > >
+> > > Signed-off-by: Saravana Kannan <saravanak@google.com>
 > >
-> > And already prevents creating a device link with the consumer as a
-> > supplier of a parent.
+> > Thanks for your patch!
 > >
-> > So, we no longer need to find the "compatible" node of the supplier or
-> > do any other checks in of_link_to_phandle(). We simply need to make sure
-> > that the supplier is available in DT.
+> > This patch introduces a regression when dynamically loading DT overlays.
+> > Unfortunately this happens when using the out-of-tree OF configfs,
+> > which is not supported upstream.  Still, there may be (obscure)
+> > in-tree users.
 > >
-> > Signed-off-by: Saravana Kannan <saravanak@google.com>
+> > When loading a DT overlay[1] to enable an SPI controller, and
+> > instantiate a connected SPI EEPROM:
+> >
+> >     $ overlay add 25lc040
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /keys/status
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /soc/spi@e6e90000/pinctrl-0
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /soc/spi@e6e90000/pinctrl-names
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /soc/spi@e6e90000/cs-gpios
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /soc/spi@e6e90000/status
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /__symbols__/msiof0_pins
+> >
+> > The SPI controller and the SPI EEPROM are no longer instantiated.
+> >
+> >     # cat /sys/kernel/debug/devices_deferred
+> >     e6e90000.spi    platform: wait for supplier msiof0
+> >
+> > Let's remove the overlay again:
+> >
+> >     $ overlay rm 25lc040
+> >     input: keys as /devices/platform/keys/input/input1
+> >
+> > And retry:
+> >
+> >     $ overlay add 25lc040
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /keys/status
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /soc/spi@e6e90000/pinctrl-0
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /soc/spi@e6e90000/pinctrl-names
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /soc/spi@e6e90000/cs-gpios
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /soc/spi@e6e90000/status
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /__symbols__/msiof0_pins
+> >     spi_sh_msiof e6e90000.spi: DMA available
+> >     spi_sh_msiof e6e90000.spi: registered master spi0
+> >     spi spi0.0: setup mode 0, 8 bits/w, 100000 Hz max --> 0
+> >     at25 spi0.0: 512 Byte at25 eeprom, pagesize 16
+> >     spi_sh_msiof e6e90000.spi: registered child spi0.0
+> >
+> > Now it succeeds, and the SPI EEPROM is available, and works.
+> >
+> > Without this patch, or with this patch reverted after applying the
+> > full series:
+> >
+> >     $ overlay add 25lc040
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /keys/status
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /soc/spi@e6e90000/pinctrl-0
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /soc/spi@e6e90000/pinctrl-names
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /soc/spi@e6e90000/cs-gpios
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /soc/spi@e6e90000/status
+> >     OF: overlay: WARNING: memory leak will occur if overlay removed,
+> > property: /__symbols__/msiof0_pins
+> >     OF: Not linking spi@e6e90000 to interrupt-controller@f1010000 - No
+> > struct device
+> >     spi_sh_msiof e6e90000.spi: DMA available
+> >     spi_sh_msiof e6e90000.spi: registered master spi0
+> >     spi spi0.0: setup mode 0, 8 bits/w, 100000 Hz max --> 0
+> >     at25 spi0.0: 444 bps (2 bytes in 9 ticks)
+> >     at25 spi0.0: 512 Byte at25 eeprom, pagesize 16
+> >     spi_sh_msiof e6e90000.spi: registered child spi0.0
+> >
+> > The SPI EEPROM is available on the first try after boot.
 >
-> Thanks for your patch!
->
-> This patch introduces a regression when dynamically loading DT overlays.
-> Unfortunately this happens when using the out-of-tree OF configfs,
-> which is not supported upstream.  Still, there may be (obscure)
-> in-tree users.
->
-> When loading a DT overlay[1] to enable an SPI controller, and
-> instantiate a connected SPI EEPROM:
->
->     $ overlay add 25lc040
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /keys/status
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /soc/spi@e6e90000/pinctrl-0
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /soc/spi@e6e90000/pinctrl-names
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /soc/spi@e6e90000/cs-gpios
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /soc/spi@e6e90000/status
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /__symbols__/msiof0_pins
->
-> The SPI controller and the SPI EEPROM are no longer instantiated.
->
->     # cat /sys/kernel/debug/devices_deferred
->     e6e90000.spi    platform: wait for supplier msiof0
->
-> Let's remove the overlay again:
->
->     $ overlay rm 25lc040
->     input: keys as /devices/platform/keys/input/input1
->
-> And retry:
->
->     $ overlay add 25lc040
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /keys/status
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /soc/spi@e6e90000/pinctrl-0
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /soc/spi@e6e90000/pinctrl-names
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /soc/spi@e6e90000/cs-gpios
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /soc/spi@e6e90000/status
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /__symbols__/msiof0_pins
->     spi_sh_msiof e6e90000.spi: DMA available
->     spi_sh_msiof e6e90000.spi: registered master spi0
->     spi spi0.0: setup mode 0, 8 bits/w, 100000 Hz max --> 0
->     at25 spi0.0: 512 Byte at25 eeprom, pagesize 16
->     spi_sh_msiof e6e90000.spi: registered child spi0.0
->
-> Now it succeeds, and the SPI EEPROM is available, and works.
->
-> Without this patch, or with this patch reverted after applying the
-> full series:
->
->     $ overlay add 25lc040
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /keys/status
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /soc/spi@e6e90000/pinctrl-0
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /soc/spi@e6e90000/pinctrl-names
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /soc/spi@e6e90000/cs-gpios
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /soc/spi@e6e90000/status
->     OF: overlay: WARNING: memory leak will occur if overlay removed,
-> property: /__symbols__/msiof0_pins
->     OF: Not linking spi@e6e90000 to interrupt-controller@f1010000 - No
-> struct device
->     spi_sh_msiof e6e90000.spi: DMA available
->     spi_sh_msiof e6e90000.spi: registered master spi0
->     spi spi0.0: setup mode 0, 8 bits/w, 100000 Hz max --> 0
->     at25 spi0.0: 444 bps (2 bytes in 9 ticks)
->     at25 spi0.0: 512 Byte at25 eeprom, pagesize 16
->     spi_sh_msiof e6e90000.spi: registered child spi0.0
->
-> The SPI EEPROM is available on the first try after boot.
+> Sigh... I spent way too long trying to figure out if I caused a memory
+> leak. I should have scrolled down further! Doesn't look like that part
+> is related to anything I did.
 
-Sigh... I spent way too long trying to figure out if I caused a memory
-leak. I should have scrolled down further! Doesn't look like that part
-is related to anything I did.
+Please ignore the memory leak messages.  They are known issues
+in the upstream DT overlay code, and not related to your series.
 
-There are some flags set to avoid re-parsing fwnodes multiple times.
-My guess is that the issue you are seeing has to do with how many of
-the in memory structs are reused vs not when an overlay is
-applied/removed and some of these flags might not be getting cleared
-and this is having a bigger impact with this patch (because the fwnode
-links are no longer anchored on "compatible" nodes).
+> There are some flags set to avoid re-parsing fwnodes multiple times.
+> My guess is that the issue you are seeing has to do with how many of
+> the in memory structs are reused vs not when an overlay is
+> applied/removed and some of these flags might not be getting cleared
+> and this is having a bigger impact with this patch (because the fwnode
+> links are no longer anchored on "compatible" nodes).
+>
+> With/without this patch (let's keep the series) can you look at how
+> the following things change between each step you do above (add,
+> remove, retry):
+> 1) List of directories under /sys/class/devlink
+> 2) Enable the debug logs inside __fwnode_link_add(),
+> __fwnode_link_del(), device_link_add()
 
-With/without this patch (let's keep the series) can you look at how
-the following things change between each step you do above (add,
-remove, retry):
-1) List of directories under /sys/class/devlink
-2) Enable the debug logs inside __fwnode_link_add(),
-__fwnode_link_del(), device_link_add()
+Thanks, I'll give that a try, later...
 
-My guess is that the final solution would entail clearing
-FWNODE_FLAG_LINKS_ADDED for some fwnodes.
+Gr{oetje,eeting}s,
 
-Thanks,
-Saravana
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
