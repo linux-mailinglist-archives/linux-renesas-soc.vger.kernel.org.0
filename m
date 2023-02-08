@@ -2,189 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54A3F68F7C6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Feb 2023 20:04:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE4C668F85C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Feb 2023 20:51:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231610AbjBHTEY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Feb 2023 14:04:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57192 "EHLO
+        id S230499AbjBHTvH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Feb 2023 14:51:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231608AbjBHTEW (ORCPT
+        with ESMTP id S229515AbjBHTvG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Feb 2023 14:04:22 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D252F5649A
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Feb 2023 11:03:49 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id bg26so14066460wmb.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Feb 2023 11:03:49 -0800 (PST)
+        Wed, 8 Feb 2023 14:51:06 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 100031C7D6
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Feb 2023 11:51:05 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id h16so17919209wrz.12
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Feb 2023 11:51:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W/hFyX9rV0l+08XHcIQph4Ja17yEnvPyO1rQ3FXTg9g=;
-        b=iZ3UKTWLbcC42VpoBxl+wmKmUgBfhYJC8+DxqWoO6A5DfeMCuuY5UkCvo4fIG/d8Er
-         KKhlMAsGanIGUYMeIuNpmwycqeD0tzAGOr006ZKNs9FqGwAwMsqFdBGbAM0r6lYHOtkM
-         kIeTMVglMt870tJbNw/dLiZB/ljvO7kuzP9owO6LSx8pUI3beo+pkOQmsKAB7wKAia8X
-         yTYKLdzsyfHR06DL7TUl1sos8jIxak4OxHoniXB/8oXhW6dRcw6cdhT2wqBLcaT8EQEo
-         JSc1PNjETHZY95HrGSHAFuyLYVcCl67xN980A3lqGJw9F8alWpKSlPInfYKyPwIkSb+Y
-         avSQ==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cY1HwE63r9UqyW6Gdx6yhcFxmTguDnqyz+SAe6KoqOQ=;
+        b=Hn2pHT7CPTC3o8c4Wpog/hsIQx7uvafsHgvOxeofLCyAJV9L7gPsNScf3TeLdqqPnr
+         LUzNnDUuUwSEk4aAlXxfEaM0zrMXnNq/Cz9jO8mHY2YrfNr8ZSfgFLz3JafNViK1B0bT
+         53rAEhyJo2OFPoJrvYYNaSFu+AOUT2z3hE6WS4W+99iNSs+K++NUxAAHsqs+vnQswru7
+         g2c2FQ5Zbky3mbyXl60E6JmICG07hRBCes7yafGv0Boq39tw4NTKpnaCMM8GPAJALkiJ
+         IzP9WQ7KcVyZ+MritmxJAz+n/lPp2+TSmLh2MLkT3IRzrHIZ1barAg2zteWvZOip25aT
+         bkXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=W/hFyX9rV0l+08XHcIQph4Ja17yEnvPyO1rQ3FXTg9g=;
-        b=QRNhQIukxSbwnq285X5XUXaoAodoXELdT3olGuV/K4xuKQPiGcp7MTBW6mNPUFt6w3
-         slu5SJHe0HZnyywqmZNB9YBi2q8eAeUmcDpCYmNTls4uw0AMPRVHLTuS/c/EkCVWOLml
-         Eo4QP+GTKkEhIj2rMqXnEKrZ5onMAgpT7oRRAHd9tVlD63ZCpsvKxhbCWLQNppuZ8hln
-         CuN+wVb7hxzv4OYWt3nkqGzRhZuoXUKc+Ss2e5Ptz2/3UYiTx/3gX8V06qmEUCa/AWt7
-         gpV1TfFChEc5xio7fVjJvBW8ptEcSbfuNPWXfXQRFpTmh7TglltFXYpsxvfEycZIkfNM
-         QnXg==
-X-Gm-Message-State: AO0yUKXCq6u37aipRgwzeKiITWG8wN20wRrfEXTQclOI0Hx+1v6Macdo
-        7EB8Du/ty+co5QgduSQ1mEAvqw==
-X-Google-Smtp-Source: AK7set/M0kHxIB5VlBD4+m8E9LdWeGxGGit3wERna/aHAFCL9ieNlU3k9h0TW639wGarLUEYGc319A==
-X-Received: by 2002:a05:600c:2e83:b0:3e1:787:d70f with SMTP id p3-20020a05600c2e8300b003e10787d70fmr2124785wmn.32.1675883027176;
-        Wed, 08 Feb 2023 11:03:47 -0800 (PST)
-Received: from sleipner.berto.se (p4fca2792.dip0.t-ipconnect.de. [79.202.39.146])
-        by smtp.googlemail.com with ESMTPSA id c12-20020adffb4c000000b002b6bcc0b64dsm14201382wrs.4.2023.02.08.11.03.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Feb 2023 11:03:46 -0800 (PST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>, linux-pm@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH v2 3/3] drivers/thermal/rcar_gen3_thermal: Fix device initialization
-Date:   Wed,  8 Feb 2023 20:03:33 +0100
-Message-Id: <20230208190333.3159879-4-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230208190333.3159879-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20230208190333.3159879-1-niklas.soderlund+renesas@ragnatech.se>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cY1HwE63r9UqyW6Gdx6yhcFxmTguDnqyz+SAe6KoqOQ=;
+        b=BwPuHmEIgGNEOtDpMbDZbwvYsLr+DPfcc0iV2wnqwgUKyKgQjImu0Js75N2v4pFov7
+         9FvgCOEsD2PwCQd61Yd+eCG0AJ4jLGo9x6WPs/6+4d2vAtMvqCoDR0TWPBAN8Dx/1kIk
+         M0Rq0H/uz8ataMULi48zV9PwGZshls5SkPB45RBKQDQfOYdqLY8AS9GlnMJT49yeX0cd
+         TmcNkNWdXGNWgTKx5EkMzto/pisk2cn4WG4p9wktmXdnpvuT1pC7pAXnVk67WlZIXrrg
+         awudnJt5KWLtv9VtBGrCmvCIXQH/UIC7m5r9yzElcvWVuKiPTviqNysCCjsiPzNcm663
+         SMKA==
+X-Gm-Message-State: AO0yUKX5CbJJCbhLanCFuGdDhLwk/FrhdAu2dbhe0E4MvE5wFkwhis6C
+        6UPtt0DgAkAB6RipsDMZvH3Krw==
+X-Google-Smtp-Source: AK7set9dhkugBafQNUYIvCX0R36B8oLdf4eHcflcqRkwcR7SGvh653bV+4HiKahZLc+dRe/stewv5A==
+X-Received: by 2002:adf:ef0d:0:b0:2c4:645:da36 with SMTP id e13-20020adfef0d000000b002c40645da36mr2643620wro.24.1675885863619;
+        Wed, 08 Feb 2023 11:51:03 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id f9-20020adff989000000b002c3e6b39512sm8933760wrr.53.2023.02.08.11.51.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Feb 2023 11:51:03 -0800 (PST)
+Message-ID: <55f02cd9-d191-8454-ef67-613bc8373f9f@linaro.org>
+Date:   Wed, 8 Feb 2023 20:51:00 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH net-next v2 4/6] dt-bindings: net: renesas,rzn1-gmac:
+ Document RZ/N1 GMAC support
+Content-Language: en-US
+To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Wong Vee Khee <veekhee@apple.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Revanth Kumar Uppala <ruppala@nvidia.com>,
+        Tan Tee Min <tee.min.tan@linux.intel.com>
+Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?Q?Miqu=c3=a8l_Raynal?= <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Mohammad Athari Bin Ismail <mohammad.athari.ismail@intel.com>,
+        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org
+References: <20230208164203.378153-1-clement.leger@bootlin.com>
+ <20230208164203.378153-5-clement.leger@bootlin.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230208164203.378153-5-clement.leger@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The thermal zone is registered before the device is register and the
-thermal coefficients are calculated, providing a window for very
-incorrect readings.
+On 08/02/2023 17:42, Clément Léger wrote:
+> Add "renesas,rzn1-gmac" binding documentation which is compatible with
+> "snps,dwmac" compatible driver but uses a custom PCS to communicate
+> with the phy.
+> 
+> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+> ---
+>  .../bindings/net/renesas,rzn1-gmac.yaml       | 67 +++++++++++++++++++
+>  1 file changed, 67 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
+> new file mode 100644
+> index 000000000000..944fd0d97d79
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
+> @@ -0,0 +1,67 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/renesas,rzn1-gmac.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas GMAC
+> +
+> +maintainers:
+> +  - Clément Léger <clement.leger@bootlin.com>
+> +
+> +select:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - renesas,r9a06g032-gmac
+> +          - renesas,rzn1-gmac
+> +  required:
+> +    - compatible
+> +
+> +allOf:
+> +  - $ref: snps,dwmac.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - renesas,r9a06g032-gmac
+> +          - renesas,rzn1-gmac
+> +          - snps,dwmac
 
-The reason why the zone was register before the device was fully
-initialized was that the presence of the set_trips() callback is used to
-determine if the driver supports interrupt or not, as it is not defined
-if the device is incapable of interrupts.
+This is still not correct and does not make any sense.
 
-Fix this by using the operations structure in the private data instead
-of the zone to determine if interrupts are available or not, and
-initialize the device before registering the zone.
+What do you want to say here with such binding? That you describe
+"snps,dwmac" here? Then it's duplicated with snps,dwmac.yaml... Drop
+that enum and make it a proper list.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/thermal/rcar_gen3_thermal.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-index 2dfce4f09631..8835846884d1 100644
---- a/drivers/thermal/rcar_gen3_thermal.c
-+++ b/drivers/thermal/rcar_gen3_thermal.c
-@@ -89,7 +89,8 @@ struct rcar_gen3_thermal_priv {
- 	struct rcar_gen3_thermal_tsc *tscs[TSC_MAX_NUM];
- 	struct thermal_zone_device_ops ops;
- 	unsigned int num_tscs;
--	void (*thermal_init)(struct rcar_gen3_thermal_tsc *tsc);
-+	void (*thermal_init)(struct rcar_gen3_thermal_priv *priv,
-+			     struct rcar_gen3_thermal_tsc *tsc);
- 	int ptat[3];
- };
- 
-@@ -240,7 +241,7 @@ static irqreturn_t rcar_gen3_thermal_irq(int irq, void *data)
- 	for (i = 0; i < priv->num_tscs; i++) {
- 		status = rcar_gen3_thermal_read(priv->tscs[i], REG_GEN3_IRQSTR);
- 		rcar_gen3_thermal_write(priv->tscs[i], REG_GEN3_IRQSTR, 0);
--		if (status)
-+		if (status && priv->tscs[i]->zone)
- 			thermal_zone_device_update(priv->tscs[i]->zone,
- 						   THERMAL_EVENT_UNSPECIFIED);
- 	}
-@@ -311,7 +312,8 @@ static bool rcar_gen3_thermal_read_fuses(struct rcar_gen3_thermal_priv *priv)
- 	return true;
- }
- 
--static void rcar_gen3_thermal_init_r8a7795es1(struct rcar_gen3_thermal_tsc *tsc)
-+static void rcar_gen3_thermal_init_r8a7795es1(struct rcar_gen3_thermal_priv *priv,
-+					      struct rcar_gen3_thermal_tsc *tsc)
- {
- 	rcar_gen3_thermal_write(tsc, REG_GEN3_CTSR,  CTSR_THBGR);
- 	rcar_gen3_thermal_write(tsc, REG_GEN3_CTSR,  0x0);
-@@ -322,7 +324,7 @@ static void rcar_gen3_thermal_init_r8a7795es1(struct rcar_gen3_thermal_tsc *tsc)
- 
- 	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQCTL, 0x3F);
- 	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQMSK, 0);
--	if (tsc->zone->ops->set_trips)
-+	if (priv->ops.set_trips)
- 		rcar_gen3_thermal_write(tsc, REG_GEN3_IRQEN,
- 					IRQ_TEMPD1 | IRQ_TEMP2);
- 
-@@ -338,7 +340,8 @@ static void rcar_gen3_thermal_init_r8a7795es1(struct rcar_gen3_thermal_tsc *tsc)
- 	usleep_range(1000, 2000);
- }
- 
--static void rcar_gen3_thermal_init(struct rcar_gen3_thermal_tsc *tsc)
-+static void rcar_gen3_thermal_init(struct rcar_gen3_thermal_priv *priv,
-+				   struct rcar_gen3_thermal_tsc *tsc)
- {
- 	u32 reg_val;
- 
-@@ -350,7 +353,7 @@ static void rcar_gen3_thermal_init(struct rcar_gen3_thermal_tsc *tsc)
- 
- 	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQCTL, 0);
- 	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQMSK, 0);
--	if (tsc->zone->ops->set_trips)
-+	if (priv->ops.set_trips)
- 		rcar_gen3_thermal_write(tsc, REG_GEN3_IRQEN,
- 					IRQ_TEMPD1 | IRQ_TEMP2);
- 
-@@ -510,6 +513,9 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 	for (i = 0; i < priv->num_tscs; i++) {
- 		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
- 
-+		priv->thermal_init(priv, tsc);
-+		rcar_gen3_thermal_calc_coefs(priv, tsc, *ths_tj_1);
-+
- 		zone = devm_thermal_of_zone_register(dev, i, tsc, &priv->ops);
- 		if (IS_ERR(zone)) {
- 			dev_err(dev, "Sensor %u: Can't register thermal zone\n", i);
-@@ -518,9 +524,6 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 		}
- 		tsc->zone = zone;
- 
--		priv->thermal_init(tsc);
--		rcar_gen3_thermal_calc_coefs(priv, tsc, *ths_tj_1);
--
- 		tsc->zone->tzp->no_hwmon = false;
- 		ret = thermal_add_hwmon_sysfs(tsc->zone);
- 		if (ret)
-@@ -558,7 +561,7 @@ static int __maybe_unused rcar_gen3_thermal_resume(struct device *dev)
- 	for (i = 0; i < priv->num_tscs; i++) {
- 		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
- 
--		priv->thermal_init(tsc);
-+		priv->thermal_init(priv, tsc);
- 	}
- 
- 	return 0;
--- 
-2.39.1
+Best regards,
+Krzysztof
 
