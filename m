@@ -2,102 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16C1F690A5D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 14:35:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72AFB690A53
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 14:34:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230405AbjBINff (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Feb 2023 08:35:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36056 "EHLO
+        id S229861AbjBINey (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Feb 2023 08:34:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230355AbjBINfS (ORCPT
+        with ESMTP id S230137AbjBINeo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Feb 2023 08:35:18 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CD28E60D63;
-        Thu,  9 Feb 2023 05:34:59 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.97,283,1669042800"; 
-   d="scan'208";a="152256220"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 09 Feb 2023 22:34:46 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8D19743638B8;
-        Thu,  9 Feb 2023 22:34:46 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-Cc:     iommu@lists.linux.dev, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v3] dt-bindings: iommu: renesas,ipmmu-vmsa: Update for R-Car Gen4
-Date:   Thu,  9 Feb 2023 22:34:40 +0900
-Message-Id: <20230209133440.2643228-1-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 9 Feb 2023 08:34:44 -0500
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAE1C6032E;
+        Thu,  9 Feb 2023 05:34:25 -0800 (PST)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 4F61CFF802;
+        Thu,  9 Feb 2023 13:32:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1675949574;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=aFexrg/8FqX5RvHAviJAig0Iuv2rMm3THqKOoU3xUnY=;
+        b=bikNynPnndBhFH8gebmkiQAIut3UWiFLf4HqUT8C0P0ulWftmJuCpjP6vu/Tg0a8rTlMIx
+        WUX1bwxlX43gh8lewud709UqTzIwVvAbkx87D42n6vcZA7FodYzYx8De6WW91E8IeuLkdu
+        xetb+XnYd6sHLazjLEYOAmSnvu2eHk5EfRnXj5nvcC0YiWg5ShE755nJxTMoFPA66wVsfO
+        3vYxdJb/ZxKt2mp3yyMp/jtajqPoade12KQOP6zA0CVDykbwCgt2jvoehkrZaDzU2EuUkI
+        pncn9FG6EHYlXFZtEIFsfryQD0lVL7WlJLqZShreFuQfENeJCO8aVC62Ua48ig==
+From:   =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?q?Miqu=C3=A8l=20Raynal?= <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] ARM: dts: add device-tree and bindings for renesas,rzn1d400-eb
+Date:   Thu,  9 Feb 2023 14:35:05 +0100
+Message-Id: <20230209133507.150571-1-clement.leger@bootlin.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since R-Car Gen4 doens't have the main IPMMU IMSSTR register, update
-the renesas,ipmmu-main property which sets maxItems as 1.
+This short series adds support for the RZ/N1 Expansion Board. This board
+is a carrier board on which a daughter board (either RZ/N1D or RZ/N1S)
+can be plugged. The device-tree that is added by this series enables the
+use to the 2 external switch ports that are present on this board.
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
-Changes from v2:
-https://lore.kernel.org/all/20230127140446.1728102-1-yoshihiro.shimoda.uh@renesas.com/
- - Set maxItems to renesas,ipmmu-main if R-Car Gen4.
+----------------
+V2:
+ - Add "renesas,rzn1d400-db" in list of compatibles for EB board
+ - Replace '_' with '-' in eth pins node name
+ - Split some long lines in dts
 
-Changes from v1:
-https://lore.kernel.org/all/20230123012940.1250879-1-yoshihiro.shimoda.uh@renesas.com/
- - Change number of argument for R-Car Gen4 instead of "module id".
-   On the discussion, using 'minItems' is a solution. But, it causes
-   "too short" errors on dtbs_check. So, using "oneOf" instead.
+Clément Léger (2):
+  dt-bindings: soc: renesas: renesas.yaml: add renesas,rzn1d400-eb
+    compatible
+  ARM: dts: r9a06g032: add r9a06g032-rzn1d400-eb board device-tree
 
- .../bindings/iommu/renesas,ipmmu-vmsa.yaml    | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ .../bindings/soc/renesas/renesas.yaml         |  7 ++
+ arch/arm/boot/dts/Makefile                    |  1 +
+ arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts   | 94 +++++++++++++++++++
+ 3 files changed, 102 insertions(+)
+ create mode 100644 arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts
 
-diff --git a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-index 72308a4c14e7..cc81bce44f3f 100644
---- a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-+++ b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-@@ -74,11 +74,10 @@ properties:
-   renesas,ipmmu-main:
-     $ref: /schemas/types.yaml#/definitions/phandle-array
-     items:
--      - items:
--          - description: phandle to main IPMMU
--          - description: the interrupt bit number associated with the particular
--              cache IPMMU device. The interrupt bit number needs to match the main
--              IPMMU IMSSTR register. Only used by cache IPMMU instances.
-+      - description: phandle to main IPMMU
-+      - description: the interrupt bit number associated with the particular
-+          cache IPMMU device. The interrupt bit number needs to match the main
-+          IPMMU IMSSTR register. Only used by cache IPMMU instances.
-     description:
-       Reference to the main IPMMU phandle plus 1 cell. The cell is
-       the interrupt bit number associated with the particular cache IPMMU
-@@ -109,6 +108,16 @@ allOf:
-       required:
-         - power-domains
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,rcar-gen4-ipmmu-vmsa
-+    then:
-+      properties:
-+        renesas,ipmmu-main:
-+          maxItems: 1
-+
- examples:
-   - |
-     #include <dt-bindings/clock/r8a7791-cpg-mssr.h>
 -- 
-2.25.1
+2.39.0
 
