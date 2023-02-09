@@ -2,185 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBBC2690BB6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 15:29:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1286E690C1E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 15:46:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230445AbjBIO3k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Feb 2023 09:29:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52728 "EHLO
+        id S230022AbjBIOqU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Feb 2023 09:46:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230437AbjBIO3j (ORCPT
+        with ESMTP id S229918AbjBIOqT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Feb 2023 09:29:39 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5F685C888;
-        Thu,  9 Feb 2023 06:29:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675952977; x=1707488977;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=1jK+NkthxLRcjk6uhZiNcI/lPSkl8dRR58tmBjTDojU=;
-  b=STcNvOu8SCGxt5YCAba+wO01dG+TaujzQ6uWUHrD3yknLTWpnl2rdJNd
-   VP/844BxnxbMXEAiLCPdwCdWXFdpJL913oGMHA8lZh8WyQeLOVCfXb00E
-   WWRu3zXcEdCcOFQ/HUSO913Aox75fu5JYWTqohcHYGbE0W2fQqdlEnSLm
-   picVCv0DdOA9lZGUWIM9G2JYJ4DE97gq46pylp72cwp9NziLwGI8ZYZCZ
-   wHGO7geH6SSB/3ZsBG4Jd2eYJqgqJi6nuHQX2lj2DeDhC68/fuXwd3rwA
-   FhynDj7YJiL6YV8ORhJc7sA0O+Fq1pg2xl7Xp1Zq/LaUsqlEzAaUPCQ2b
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="309765506"
-X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
-   d="scan'208";a="309765506"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 06:29:37 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="756413571"
-X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
-   d="scan'208";a="756413571"
-Received: from enguerra-mobl.ger.corp.intel.com ([10.249.36.120])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 06:29:35 -0800
-Date:   Thu, 9 Feb 2023 16:29:32 +0200 (EET)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 3/3] serial: 8250_em: Add serial8250_rzv2m_reg_update()
-In-Reply-To: <20230209132630.194947-4-biju.das.jz@bp.renesas.com>
-Message-ID: <6feee947-a66-81eb-59b-e882e665af25@linux.intel.com>
-References: <20230209132630.194947-1-biju.das.jz@bp.renesas.com> <20230209132630.194947-4-biju.das.jz@bp.renesas.com>
+        Thu, 9 Feb 2023 09:46:19 -0500
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 680AB36FE7;
+        Thu,  9 Feb 2023 06:46:18 -0800 (PST)
+Received: by mail-ot1-f41.google.com with SMTP id j6-20020a9d7686000000b0068d4ba9d141so594372otl.6;
+        Thu, 09 Feb 2023 06:46:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=L0IsK2xSsS5OLgO8WkubMEfQeWPK1YLozz7woppgDfo=;
+        b=jN/SOsGcjEhNG03rxix+ngIT3pVOx3Wj1hCah7QK3IIxG7+WZgJYsJoyeu6eyFdglk
+         x56m28rDz/zXWfmrvbzjklgvdlCRMrIuM+czvGYM4Z5Zk7pQ8mb9j8Be5ACyBWqUZ4SJ
+         eiGlCQnXxkQJtK8cA6si4XHds9OwiOUhZdznICW7yNv+dx3x6J04HjekiRVZYxtXHqKd
+         6XBRbEBziTQqqJRtIRxpVH9nlQfl8YUP3vmanfu3922MEm2iWej4ci2o6jiEen821VmA
+         5JDx892njyyy1IZMxhHryFmPTfMUYCGCBHtEY5M194meAJvdW3I7d9/Solh1kfiY8iyl
+         Xtow==
+X-Gm-Message-State: AO0yUKXiOqD5cFirmqmUPLpG7gJAORkWcA1haFszLa/RawHqiOo6K3g/
+        OOpYe24fslxnn3eoaDC6Kg==
+X-Google-Smtp-Source: AK7set+q5OalpUjikAsspoQdb8nUMQnZ0KiQ2l5msb6Jvx61NEus/27RAUZRuZ5dYtRx9n0wbx6Q5w==
+X-Received: by 2002:a05:6830:410c:b0:68b:e109:c40f with SMTP id w12-20020a056830410c00b0068be109c40fmr7637238ott.26.1675953977627;
+        Thu, 09 Feb 2023 06:46:17 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id h23-20020a9d6f97000000b006884c42a38asm757231otq.41.2023.02.09.06.46.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Feb 2023 06:46:17 -0800 (PST)
+Received: (nullmailer pid 222556 invoked by uid 1000);
+        Thu, 09 Feb 2023 14:46:16 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+From:   Rob Herring <robh@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     will@kernel.org, iommu@lists.linux.dev, joro@8bytes.org,
+        krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, robh+dt@kernel.org,
+        robin.murphy@arm.com
+In-Reply-To: <20230209133440.2643228-1-yoshihiro.shimoda.uh@renesas.com>
+References: <20230209133440.2643228-1-yoshihiro.shimoda.uh@renesas.com>
+Message-Id: <167595345406.213374.1795032702431324096.robh@kernel.org>
+Subject: Re: [PATCH v3] dt-bindings: iommu: renesas,ipmmu-vmsa: Update for
+ R-Car Gen4
+Date:   Thu, 09 Feb 2023 08:46:16 -0600
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 9 Feb 2023, Biju Das wrote:
 
-> As per HW manual section 40.6.1, we need to perform FIFO reset + SW
-> reset before updating the below registers
+On Thu, 09 Feb 2023 22:34:40 +0900, Yoshihiro Shimoda wrote:
+> Since R-Car Gen4 doens't have the main IPMMU IMSSTR register, update
+> the renesas,ipmmu-main property which sets maxItems as 1.
 > 
-> FCR[7:5], FCR[3:0], LCR[7][5:0], MCR[6:4], DLL[7:0], DLM[7:0] and
-> HCR0[6:5][3:2].
-> 
-> This patch adds serial8250_rzv2m_reg_update() to handle it.
-> 
-> DLL/DLM register can be updated only by setting LCR[7]. So the
-> updation of LCR[7] will perform reset for DLL/DLM register changes.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > ---
->  drivers/tty/serial/8250/8250_em.c | 49 +++++++++++++++++++++++++++++++
->  1 file changed, 49 insertions(+)
+> Changes from v2:
+> https://lore.kernel.org/all/20230127140446.1728102-1-yoshihiro.shimoda.uh@renesas.com/
+>  - Set maxItems to renesas,ipmmu-main if R-Car Gen4.
 > 
-> diff --git a/drivers/tty/serial/8250/8250_em.c b/drivers/tty/serial/8250/8250_em.c
-> index 3a45aa066d3d..a1e42b8ef99d 100644
-> --- a/drivers/tty/serial/8250/8250_em.c
-> +++ b/drivers/tty/serial/8250/8250_em.c
-> @@ -9,6 +9,7 @@
->  #include <linux/io.h>
->  #include <linux/module.h>
->  #include <linux/mod_devicetable.h>
-> +#include <linux/of.h>
->  #include <linux/serial_8250.h>
->  #include <linux/serial_reg.h>
->  #include <linux/platform_device.h>
-> @@ -18,14 +19,53 @@
->  
->  #define UART_DLL_EM 9
->  #define UART_DLM_EM 10
-> +#define UART_HCR0 11
-> +
-> +#define UART_HCR0_SW_RESET	BIT(7) /* SW Reset */
->  
->  struct serial8250_em_priv {
->  	struct clk *sclk;
->  	int line;
-> +	bool is_rzv2m;
->  };
->  
-> +static void serial8250_rzv2m_reg_update(struct uart_port *p, int off, int value)
-> +{
-> +	unsigned int ier, fcr, lcr, mcr, hcr0;
-> +
-> +	ier = readl(p->membase + (UART_IER << 2));
-> +	hcr0 = readl(p->membase + (UART_HCR0 << 2));
-> +	fcr = readl(p->membase + ((UART_FCR + 1) << 2));
-> +	lcr = readl(p->membase + ((UART_LCR + 1) << 2));
-> +	mcr = readl(p->membase + ((UART_MCR + 1) << 2));
-> +
-> +	writel(fcr | UART_FCR_CLEAR_RCVR | UART_FCR_CLEAR_XMIT, p->membase + ((UART_FCR + 1) << 2));
-> +	writel(hcr0 | UART_HCR0_SW_RESET, p->membase + (UART_HCR0 << 2));
-> +	writel(hcr0 & ~UART_HCR0_SW_RESET, p->membase + (UART_HCR0 << 2));
-> +
-> +	switch (off) {
-> +	case UART_FCR:
-> +		fcr = value;
-> +		break;
-> +	case UART_LCR:
-> +		lcr = value;
-> +		break;
-> +	case UART_MCR:
-> +		mcr = value;
-> +		break;
-> +	}
-> +
-> +	writel(ier, p->membase + (UART_IER << 2));
-> +	writel(fcr, p->membase + ((UART_FCR + 1) << 2));
-> +	writel(mcr, p->membase + ((UART_MCR + 1) << 2));
-> +	writel(lcr, p->membase + ((UART_LCR + 1) << 2));
-> +	writel(hcr0, p->membase + (UART_HCR0 << 2));
-> +}
-> +
->  static void serial8250_em_serial_out(struct uart_port *p, int offset, int value)
->  {
-> +	struct serial8250_em_priv *priv = p->private_data;
-> +
->  	switch (offset) {
->  	case UART_TX: /* TX @ 0x00 */
->  		writeb(value, p->membase);
-> @@ -33,6 +73,11 @@ static void serial8250_em_serial_out(struct uart_port *p, int offset, int value)
->  	case UART_FCR: /* FCR @ 0x0c (+1) */
->  	case UART_LCR: /* LCR @ 0x10 (+1) */
->  	case UART_MCR: /* MCR @ 0x14 (+1) */
-> +		if (priv->is_rzv2m)
-> +			serial8250_rzv2m_reg_update(p, offset, value);
-> +		else
-> +			writel(value, p->membase + ((offset + 1) << 2));
-> +		break;
-
-Create serial8250_em_rzv2m_serial_out() that does the necessary magic and 
-calls serial8250_em_serial_out() in other cases.
-
-I think you can use .data in of_device_id table to pick the correct 
-.serial_out function so you don't need to add that bool at all.
-
->  	case UART_SCR: /* SCR @ 0x20 (+1) */
->  		writel(value, p->membase + ((offset + 1) << 2));
->  		break;
-> @@ -111,6 +156,10 @@ static int serial8250_em_probe(struct platform_device *pdev)
->  	up.port.uartclk = clk_get_rate(priv->sclk);
->  
->  	up.port.iotype = UPIO_MEM32;
-> +
-> +	if (of_device_is_compatible(dev->of_node, "renesas,r9a09g011-uart"))
-> +		priv->is_rzv2m = true;
-> +
->  	up.port.serial_in = serial8250_em_serial_in;
->  	up.port.serial_out = serial8250_em_serial_out;
->  	up.dl_read = serial8250_em_serial_dl_read;
+> Changes from v1:
+> https://lore.kernel.org/all/20230123012940.1250879-1-yoshihiro.shimoda.uh@renesas.com/
+>  - Change number of argument for R-Car Gen4 instead of "module id".
+>    On the discussion, using 'minItems' is a solution. But, it causes
+>    "too short" errors on dtbs_check. So, using "oneOf" instead.
+> 
+>  .../bindings/iommu/renesas,ipmmu-vmsa.yaml    | 19 ++++++++++++++-----
+>  1 file changed, 14 insertions(+), 5 deletions(-)
 > 
 
-I'm bit lost why you need patch 1/3 and cannot set the port type and 
-capabilities here?
+Running 'make dtbs_check' with the schema in this patch gives the
+following warnings. Consider if they are expected or the schema is
+incorrect. These may not be new warnings.
 
--- 
- i.
+Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+This will change in the future.
+
+Full log is available here: https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230209133440.2643228-1-yoshihiro.shimoda.uh@renesas.com
+
+
+iommu@ee480000: renesas,ipmmu-main: [[40], [10]] is too long
+	arch/arm64/boot/dts/renesas/r8a779f0-spider.dtb
+
+iommu@ee480000: renesas,ipmmu-main: [[70], [10]] is too long
+	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
+
+iommu@ee4c0000: renesas,ipmmu-main: [[40], [19]] is too long
+	arch/arm64/boot/dts/renesas/r8a779f0-spider.dtb
+
+iommu@ee4c0000: renesas,ipmmu-main: [[70], [19]] is too long
+	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
+
+iommu@eed00000: renesas,ipmmu-main: [[40], [0]] is too long
+	arch/arm64/boot/dts/renesas/r8a779f0-spider.dtb
+
+iommu@eed00000: renesas,ipmmu-main: [[70], [0]] is too long
+	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
+
+iommu@eed40000: renesas,ipmmu-main: [[40], [2]] is too long
+	arch/arm64/boot/dts/renesas/r8a779f0-spider.dtb
+
+iommu@eed40000: renesas,ipmmu-main: [[70], [1]] is too long
+	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
+
+iommu@eed80000: renesas,ipmmu-main: [[70], [3]] is too long
+	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
+
+iommu@eedc0000: renesas,ipmmu-main: [[70], [12]] is too long
+	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
+
+iommu@eee00000: renesas,ipmmu-main: [[70], [6]] is too long
+	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
+
+iommu@eee80000: renesas,ipmmu-main: [[70], [14]] is too long
+	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
+
+iommu@eeec0000: renesas,ipmmu-main: [[70], [15]] is too long
+	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
+
+iommu@eef00000: renesas,ipmmu-main: [[70], [5]] is too long
+	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
+
+iommu@eef40000: renesas,ipmmu-main: [[70], [11]] is too long
+	arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb
 
