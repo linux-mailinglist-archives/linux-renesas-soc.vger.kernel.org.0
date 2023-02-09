@@ -2,217 +2,228 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6E1668FC79
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 02:13:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A065B68FD78
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 03:57:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230288AbjBIBNf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Feb 2023 20:13:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49532 "EHLO
+        id S231277AbjBIC5N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Feb 2023 21:57:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230259AbjBIBNe (ORCPT
+        with ESMTP id S232502AbjBICzx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Feb 2023 20:13:34 -0500
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2126.outbound.protection.outlook.com [40.107.255.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB367F2;
-        Wed,  8 Feb 2023 17:13:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JaGIiRCUxC2ONqEMHbckPRxM90wYbkyyMjnUsMCY5t/ofKTZ8a9OY1rTzMqFryiyGohhKeBlyVwLeuFVaoVYot2x7QEx7kUN+THlC1DSotKfjA7UGmFxwoPKI0OHLVqx60rSjB+8hHbtgaQm0Vtu6Oq29+1FZN4rpKdrExNG1Tb6P1V/LsZI63DOEPWo7AJk+4E8qkZ8PTedwIDUNzbiWldMq/2c5vLs4mVHtjUyvBuWgg9GJECFPMsOdXttRW0bhZA1FyoqrLrZjtQKPAWye1ogMauSoeDkldd23ki2YOxH8x2nkmkz+lpml8hhzpjjh0lKNneLNSDGyFibjud8RA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kt883XnP873DNjI3tcpUKsVrlKkPl1OXzztj9tHvIA8=;
- b=O+ZshqtNFAGIUvhpBZvKhxUpGDyFxru1rEwyH42sURbzIzspM+MHGU80QuzgAdDOkjIF/BfbrceGcj8Mm90fDrMgZ3Vz2Jotqj15vBd5icO5tnZqwvC3SnlK9AUEfGkK39FcqisQVeTZH74g670Kv7HP09YoBrqKIGwrtKafCSR5EhinTmg0xoW/th0Hecr85CGR17k3A3j0IY+igdO4b2crywsR/x+x/VAiKNtAv3V6aglM5YqZuBfsGUwLempdj4UEMRpva3M8G2OJsQULBzYsRiR4H5csuWVGeZtqgSLNWnIqst5QNQCanuOLuHj8p6JBF98ZoFIcY57xQes27Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kt883XnP873DNjI3tcpUKsVrlKkPl1OXzztj9tHvIA8=;
- b=NFZ75sSR4UVhQ/FW3tByifuN5zP48q/1b3MpIY/vQDHrktmIIuvAZ5lHc4GyCf/f+HTvXFDDeVdiTBdZSp7gw+3PmZGcfy1piOyIVjE6T7EPuFPhYlqgg/wSf7l5/PC/7dZP9fh5aLIw/erVkRHKWUrZAmc5NyWgJErZiZtD58w=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by TYCPR01MB10826.jpnprd01.prod.outlook.com
- (2603:1096:400:297::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.17; Thu, 9 Feb
- 2023 01:13:30 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::5f2:5ff1:7301:3ff1]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::5f2:5ff1:7301:3ff1%4]) with mapi id 15.20.6086.018; Thu, 9 Feb 2023
- 01:13:30 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Alexander Duyck <alexander.duyck@gmail.com>
-CC:     "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH net-next 3/4] net: renesas: rswitch: Remove gptp flag from
- rswitch_gwca_queue
-Thread-Topic: [PATCH net-next 3/4] net: renesas: rswitch: Remove gptp flag
- from rswitch_gwca_queue
-Thread-Index: AQHZO4/XWkjOagyXYUyGke476gwxR67FN4YAgAB3t1CAAB3CgIAAARaA
-Date:   Thu, 9 Feb 2023 01:13:30 +0000
-Message-ID: <TYBPR01MB5341F74F5E55F4AD7F45A7E1D8D99@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <20230208073445.2317192-1-yoshihiro.shimoda.uh@renesas.com>
- <20230208073445.2317192-4-yoshihiro.shimoda.uh@renesas.com>
- <4c2955c227087a2d50d3c7179e5edc2f392db1fc.camel@gmail.com>
- <TYBPR01MB5341C01EC932D1F53AEF188AD8D89@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <CAKgT0Uc6DYv+08jXJS_yrs_XMkEbMXvMCvP03AdY8Q391kqt_w@mail.gmail.com>
-In-Reply-To: <CAKgT0Uc6DYv+08jXJS_yrs_XMkEbMXvMCvP03AdY8Q391kqt_w@mail.gmail.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYCPR01MB10826:EE_
-x-ms-office365-filtering-correlation-id: 971d6a2a-9b41-4efb-9740-08db0a3adaf1
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +r2HU0lojKzi4QQ3y9LpXYo5LqZ71hqT8nBrql5DmRDbKcpL+18jHWv0Kr7QaN/Ly14ibl1+PWldyVFiGT/YWJax6Z4hIwyngC14BtO/JJfPk1DRX6rJiWOl7KbfDKiC+jBUfU635FSgkRZtQe0EDNGyJ+2pjlSk4lj8oab7NnW5XWbzRRLonilbE2EOmT3GwHsTi+tVqlMsKE/LOJBiocmv1+u+wWb3qC3kqm4iiseNnjzTb7bKSwmNRhTRlvnx4mjQYY8HWjDjj9eldMSb7w8wLElYG3Fzh83Jh3N3CJdvIfSLFQDspOCjOcWjF2QPBwQN7eqVCZsJn0iabSuEUPcFqCFg4jMcIazh+UX3K2RXZURWyT4znoaZLSl+xazdQUYNRKu10TTI+BFelGUA1iwluI9mLndkRz3zeoruQB7Vbjx9fT1VhxIr41udYSCQTsVKktmZTzaq1IrIyB7/NdWwmB0JrNa2vwQXgiooZ+HK89RZckp7c6h8miCgRqXzRagFJYFrtVV19KyRZRYR9koseNVhsyD8kDTqkYkBmyHIRFjg7d8Tp5EICJKmUCNJw582pqEDMUDTT56qPp5eftwfIlFeNhJ6bf3wNuznjIPQcCWHN/PTLN/ErvQ3tmZsGjmGr+NFnSJglBVBBekFSIGoSZL0Ag9de8k1SuupQ3E8B43Rzith7tZhuWmpCn7dTCg5RzpnhCMJ6+6Hg7Wmxg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(136003)(366004)(346002)(39860400002)(376002)(451199018)(71200400001)(6916009)(66476007)(66946007)(316002)(64756008)(76116006)(66556008)(66446008)(8676002)(86362001)(122000001)(55016003)(83380400001)(4326008)(8936002)(5660300002)(41300700001)(2906002)(33656002)(52536014)(38100700002)(54906003)(53546011)(6506007)(38070700005)(9686003)(186003)(478600001)(7696005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?a1BlSDNTV21hRFJvVUlyNGI2bWExdkNMbWcxSlViRnAzWVlhQjBXWU5KOURj?=
- =?utf-8?B?aXNIMVB4djBHRUU1RkZhQnZNS1BIc1UrWEgzclNQMkM3aUFjWmZ1UVZhUnk1?=
- =?utf-8?B?OUVXWS9Wcnh4c3VJbXRmaEQzR2tseFZpeG5hYVJOeDcxai9XRHBTL2Q3Q2Q1?=
- =?utf-8?B?Y3E0dlc1ZzlMSDA2WTF1OEcrTVVXVmU2UVd6NUR4Vm5qT21KaEU3ckluMmlq?=
- =?utf-8?B?dWdJR2FSUnIycVJST1FDRTc5emZUQ3dEaExzcmdYUFRnZzNJZm1sdkhsZUJU?=
- =?utf-8?B?Qmw5b3JEOXlRV05yY1RyK3ViSlZsSG5oWlNtT2pES0FSa1pUTWF5UUp4Z2xt?=
- =?utf-8?B?c1hwOGdPT2NTcWRqQ0hoTXNQdG9jb0VESDd1VWJlZjRudjZXVDBzUzNKczhH?=
- =?utf-8?B?OFJlcE40M2ZGYmRoV1JnTTJCVngzNVRxamlUZHJ4OUxTL3hTaDdCN2VRbFRI?=
- =?utf-8?B?MlB5cGJSZXRmeDdPSWtTN3ZnUXc0Y0JwKzR0K3hXRWp2TG9ZYlZEU1ZyVmha?=
- =?utf-8?B?T2oyUFJpc0p3SjR4UUJYRHZYSnppQnc3K09sM0lEY0lzRXFMVUFYdEtuNFZC?=
- =?utf-8?B?Wjdjb0Z4TmI3eUhMK1lIcjU2U1p6WXlOcW9nZ3hKczFBVHloRVJ1QWpxY3Jv?=
- =?utf-8?B?ZHBTZVBBNEduVysrS3BuUWJrSEExd1M1V054OE81VTB3QWFlZFQwSkFSampK?=
- =?utf-8?B?clhJU2NYbVpvMnVsUUV2NFRFV1JDRVRuYnNLcUtUaG1SM0lzZncrd256TFR3?=
- =?utf-8?B?UzVyb2JCanlwcmRyd29ITnJpcVVBbFBCYmR6bnAwa2EwUUFXT3JXSGM1clJQ?=
- =?utf-8?B?TnE1a0Y1VUkyL2NoT0dDdEJabWlJbHBMTmRLTU85SnhnU2hCK0hMMFVVN3Yx?=
- =?utf-8?B?MUwxMkdQTWNFSi9JdGhjTVQyZ1hMaUJpK0FybklaYms3UnhJem11bW95L0RK?=
- =?utf-8?B?N3plUWdUYWFrbFh0My9YS0pZYzJ0ak0zWGdZTlVKdEtRYlF0bVZQYnB2dU40?=
- =?utf-8?B?dU9CNmd3Z20yRHk0c2tONEZEbzRzd3RpbmhFWUYxVm9KanY3OW5BUjZSc2xL?=
- =?utf-8?B?dzNFeHFxMEoxSlAyUk1CYi8yQTkzd1BFdERRYi9FVHlPdEFGZU14enVFN0l6?=
- =?utf-8?B?QkNsTld6WHVhcnFsdUQvbzlTZkVxeUE4dFR0RDZUWGptdDdMUnlTcTQ5UlZC?=
- =?utf-8?B?K0ZFUmtGMS9iYm9qNkxXaUtONEtzRnUxSHJhVkNzWkUvbHlJT1hJdVFwWFZu?=
- =?utf-8?B?di9tSUx1ZjZQeEp1WXdNQTgzRXdxN0FzbjRxbHpWT3FFNHVONzVNS3JrN1l1?=
- =?utf-8?B?N1VObmF0WnhuRURycWd6akc1WXQ5ZUNrbEZRb1dkbG9LZUFmRGt3dHFBbTJ5?=
- =?utf-8?B?aTBrN1R4SmNyNmRkUjJ4eGZGZDdXSUd1VEs4TUJ5Tk5GTk5pdzFUTUl4YXlF?=
- =?utf-8?B?OElFVm5jUkZWUDYyaVhvUVJpRDYyMUJQVVZmZkZsVEZhNk43NWV3cllWL2di?=
- =?utf-8?B?R0s0a2lwQ0o1cWxjQnhDR1lmcjl5UmdCQWJrZ1RIaWxENEp1NmdDTi9YTk41?=
- =?utf-8?B?amwwWEJVOGxIQUFqdFVqdnJsZFBISkhjUDFLRUFGM1VEVmtRVHFoaXJabXVp?=
- =?utf-8?B?emZPTC9lREhoYjV4Wi9EdjJ6WUxZKzRkTzYyM2hWNWNDRVRiTXJoT25pblBC?=
- =?utf-8?B?d0RhcnhFOTdWMUl5Tkx0T2d0VDhNT0EvTTg4UnFtTzk0NnRXcHExMW5vYUxT?=
- =?utf-8?B?K2RsYU0vRldBcithQlYvSUVjOGw2NlBWSmVlWit6WmNUaG8xYUk1YW1LK3lX?=
- =?utf-8?B?MndkUTIyaFZhb1AxNFA0RnV4amU0dStqc0RkSWgvNEJXSTRhQk5jbm5FMDZx?=
- =?utf-8?B?N1pHNDNFNnFFLzF5Q1o5ZStwbDZnaEtBOUlOT2NYc2k3NkRtNVNYY3RGVXQr?=
- =?utf-8?B?TENzV09SVnRVdnovSWFWTE1VVFRaVFhpTm1mcklHM0VKd2RmMmtKeXBwT0I1?=
- =?utf-8?B?ZW9pbnd6L3Rya2FuZVB0UGVucWIxRW50WkpqMFVqQnZNazZSc3RQd2Y1S2x2?=
- =?utf-8?B?YXFuL1BrN21WVllHYmY4L1hxY3R0ZHdVanZ0dDFkYVpXUlI3Y0oyTlZVcWdi?=
- =?utf-8?B?UDNOUHErS1RKNTlWaDZUOVZMVks4ODdZT2UrSzlSUXl4eTBYMnBEVUIrVU9S?=
- =?utf-8?B?djNaTXdWMEY2YmdwU1V4YXZVanlpVmEwaUtMVUp6QUcxa2EyS3o5d0xIdGZs?=
- =?utf-8?B?TjlXNFZlQm9OM3VXQ25NTWV6QzVBPT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Wed, 8 Feb 2023 21:55:53 -0500
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5917332E58
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Feb 2023 18:53:23 -0800 (PST)
+Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-16aa71c1600so936371fac.11
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Feb 2023 18:53:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=landley-net.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uim76Lm5dMHI6OEZRl5dYh1Pi4k74h79vxsD8ejV228=;
+        b=cGJLZWh92YeqRetjDZ7mm7cWN9+7V9DkC4NxT3TFyzxOr/dT+y9RySdTXQJoGNFodj
+         Lhk5mURgRjvFpcDTTz997u4uYb5mXXSYufkvOHW16uecAigBafpKfrfPhjupqfB69TqU
+         CpdJtnnu16tBfQsfiDPbx5CJt8woI9p/61QJECQkg6ib53DsbPoG/6qEIFtT82h7XZEd
+         bH7zIZ7zeIu+guqsHWHH7HwzmCW5uJfaHSVq8vhoIZZxTs9cCuui2tEeecApAXxH34Kl
+         VCUo/SLo54vsVKd1HLhUdcTfFi+wK+KZOUpQFgXm1zVH8Gmha3IwtqAbksT7XdA8QMjg
+         0+9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uim76Lm5dMHI6OEZRl5dYh1Pi4k74h79vxsD8ejV228=;
+        b=UlgHAzgC/0c/6U12b5ZoMobiCYfoV7vNASgDh6Gcoly8/wilzhxmHXZJZQa7O1lfDR
+         KBrcbjutNTEBzWiTF0HfkdKLzcLFWu7SYB4NXXIXJ0UxOfvh+2OLYZvej6uxh7/zV+xc
+         eub0E/4b3JQofw1DXpDpsNcGaCkkFEFRPxkQEWMcKB14bxD4uBgatXHIBY2IncvA5muD
+         Jbjd+/BVSIEkzvnuNOP6gGXOSykOFw/zyWCizo5ZPaHj1hg8yOP5EA8Y9PeJxyNcpH1D
+         NRtEIfqEbJZpxW6AAsl7xeTBXwNizeqU8LPLrhFZkCAars7EwqnG3GhELazyY+BgPHML
+         8udw==
+X-Gm-Message-State: AO0yUKUjp30VkES95YXS6i2bnFYubGxh9iB2Grio+BvqPNWmTMXWrCmB
+        mvkW2jqk5YKxoW41vSiK6O6GCg==
+X-Google-Smtp-Source: AK7set/IY8hpNoA4Lil9GPnYxD0kM8QMzh26dc48QApuMMt+T/W+mzLQoVZI9oh721NfnL8VF3E7Fg==
+X-Received: by 2002:a05:6870:7386:b0:163:ad96:f89c with SMTP id z6-20020a056870738600b00163ad96f89cmr5551951oam.15.1675911202632;
+        Wed, 08 Feb 2023 18:53:22 -0800 (PST)
+Received: from [192.168.86.224] ([136.62.38.22])
+        by smtp.gmail.com with ESMTPSA id v6-20020a4a5a06000000b00517b076e071sm100253ooa.47.2023.02.08.18.53.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Feb 2023 18:53:21 -0800 (PST)
+Message-ID: <b394bf10-2fc5-6498-955f-a904a756e0c9@landley.net>
+Date:   Wed, 8 Feb 2023 21:06:19 -0600
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 971d6a2a-9b41-4efb-9740-08db0a3adaf1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Feb 2023 01:13:30.0391
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9UqVJhswPUyaspZG0vl6xTGtYMV4zkjkSx7rMAyyeg3XTsoX3tETQW0kdxD935/oNqlfoi3horxJaMjTu89frJPEBAkXCCK7KTA1+seLh6T4NaaahFvHzxegkfTm8KuH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10826
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: remove arch/sh
+Content-Language: en-US
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+References: <20230113062339.1909087-1-hch@lst.de>
+ <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+ <20230116071306.GA15848@lst.de>
+ <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
+ <20230203071423.GA24833@lst.de>
+ <afd056a95d21944db1dc0c9708f692dd1f7bb757.camel@physik.fu-berlin.de>
+ <20230203083037.GA30738@lst.de>
+ <d10fe31b2af6cf4e03618f38ca9d3ca5c72601ed.camel@physik.fu-berlin.de>
+ <CAMuHMdUitVfW088YOmqYm4kwbKwkwb22fAakHcu6boxv7dXDfQ@mail.gmail.com>
+ <f6a60193-a5d1-c42c-158a-4b0bfe9c7538@infradead.org>
+From:   Rob Landley <rob@landley.net>
+In-Reply-To: <f6a60193-a5d1-c42c-158a-4b0bfe9c7538@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgQWxleGFuZGVyLA0KDQo+IEZyb206IEFsZXhhbmRlciBEdXljaywgU2VudDogVGh1cnNkYXks
-IEZlYnJ1YXJ5IDksIDIwMjMgMTA6MDIgQU0NCj4gDQo+IE9uIFdlZCwgRmViIDgsIDIwMjMgYXQg
-MzozMyBQTSBZb3NoaWhpcm8gU2hpbW9kYQ0KPiA8eW9zaGloaXJvLnNoaW1vZGEudWhAcmVuZXNh
-cy5jb20+IHdyb3RlOg0KPiA+DQo+ID4gSGkgQWxleGFuZGVyLA0KPiA+DQo+ID4gPiBGcm9tOiBB
-bGV4YW5kZXIgSCBEdXljaywgU2VudDogVGh1cnNkYXksIEZlYnJ1YXJ5IDksIDIwMjMgMTowNyBB
-TQ0KPiA+ID4NCj4gPiA+IE9uIFdlZCwgMjAyMy0wMi0wOCBhdCAxNjozNCArMDkwMCwgWW9zaGlo
-aXJvIFNoaW1vZGEgd3JvdGU6DQo+ID4gPiA+IFRoZSBncHRwIGZsYWcgaXMgY29tcGxldGVseSBy
-ZWxhdGVkIHRvIHRoZSAhZGlyX3R4IGluIHN0cnVjdA0KPiA+ID4gPiByc3dpdGNoX2d3Y2FfcXVl
-dWUuIEluIHRoZSBmdXR1cmUsIGEgbmV3IHF1ZXVlIGhhbmRsaW5nIGZvcg0KPiA+ID4gPiB0aW1l
-c3RhbXAgd2lsbCBiZSBpbXBsZW1lbnRlZCBhbmQgdGhpcyBncHRwIGZsYWcgaXMgY29uZnVzYWJs
-ZS4NCj4gPiA+ID4gU28sIHJlbW92ZSB0aGUgZ3B0cCBmbGFnLg0KPiA+ID4gPg0KPiA+ID4gPiBT
-aWduZWQtb2ZmLWJ5OiBZb3NoaWhpcm8gU2hpbW9kYSA8eW9zaGloaXJvLnNoaW1vZGEudWhAcmVu
-ZXNhcy5jb20+DQo+ID4gPg0KPiA+ID4gQmFzZWQgb24gdGhlc2UgY2hhbmdlcyBJIGFtIGFzc3Vt
-aW5nIHRoYXQgZ3B0cCA9PSAhZGlyX3R4PyBBbSBJDQo+ID4gPiB1bmRlcnN0YW5kaW5nIGl0IGNv
-cnJlY3RseT8gSXQgd291bGQgYmUgdXNlZnVsIGlmIHlvdSBjYWxsZWQgdGhhdCBvdXQNCj4gPiA+
-IGluIHRoZSBwYXRjaCBkZXNjcmlwdGlvbi4NCj4gPg0KPiA+IFlvdSdyZSBjb3JyZWN0Lg0KPiA+
-IEknbGwgbW9kaWZ5IHRoZSBkZXNjcmlwdGlvbiB0byBjbGVhciB3aHkgZ3B0cCA9PSAhZGlyX3R4
-IGxpa2UgYmVsb3cgb24gdjIgcGF0Y2guDQo+ID4gLS0tDQo+ID4gSW4gdGhlIHByZXZpb3VzIGNv
-ZGUsIHRoZSBncHRwIGZsYWcgd2FzIGNvbXBsZXRlbHkgcmVsYXRlZCB0byB0aGUgIWRpcl90eA0K
-PiA+IGluIHN0cnVjdCByc3dpdGNoX2d3Y2FfcXVldWUgYmVjYXVzZSByc3dpdGNoX2d3Y2FfcXVl
-dWVfYWxsb2MoKSB3YXMgY2FsbGVkDQo+ID4gYmVsb3c6DQo+ID4NCj4gPiA8IEluIHJzd2l0Y2hf
-dHhkbWFjX2FsbG9jKCkgPg0KPiA+IGVyciA9IHJzd2l0Y2hfZ3djYV9xdWV1ZV9hbGxvYyhuZGV2
-LCBwcml2LCByZGV2LT50eF9xdWV1ZSwgdHJ1ZSwgZmFsc2UsDQo+ID4gICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgVFhfUklOR19TSVpFKTsNCj4gPiBTbywgZGlyX3R4ID0gdHJ1ZSwgZ3B0
-cCA9IGZhbHNlDQo+ID4NCj4gPiA8IEluIHJzd2l0Y2hfcnhkbWFjX2FsbG9jKCkgPg0KPiA+IGVy
-ciA9IHJzd2l0Y2hfZ3djYV9xdWV1ZV9hbGxvYyhuZGV2LCBwcml2LCByZGV2LT5yeF9xdWV1ZSwg
-ZmFsc2UsIHRydWUsDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgUlhfUklOR19T
-SVpFKTsNCj4gPiBTbywgZGlyX3R4ID0gZmFsc2UsIGdwdHAgPSB0cnVlDQo+ID4NCj4gPiBJbiB0
-aGUgZnV0dXJlLCBhIG5ldyBxdWV1ZSBoYW5kbGluZyBmb3IgdGltZXN0YW1wIHdpbGwgYmUgaW1w
-bGVtZW50ZWQNCj4gPiBhbmQgdGhpcyBncHRwIGZsYWcgaXMgY29uZnVzYWJsZS4gU28sIHJlbW92
-ZSB0aGUgZ3B0cCBmbGFnLg0KPiA+IC0tLQ0KPiANCj4gSXQgaXMgYSBiaXQgbW9yZSByZWFkYWJs
-ZSBpZiB0aGUgcmVsYXRpb24gaXMgZXhwbGFpbmVkIHNvIGlmIHlvdSBjb3VsZA0KPiBjYWxsIHRo
-YXQgb3V0IGluIHRoZSBkZXNjcmlwdGlvbiBJIHdvdWxkIGFwcHJlY2lhdGUgaXQuDQoNCkkgYWRk
-ZWQgdGhlIGRlc2NyaXB0aW9uIG9uIHYyIHBhdGNoLg0KDQo+ID4gPiA+IC0tLQ0KPiA+ID4gPiAg
-ZHJpdmVycy9uZXQvZXRoZXJuZXQvcmVuZXNhcy9yc3dpdGNoLmMgfCAyNiArKysrKysrKysrKy0t
-LS0tLS0tLS0tLS0tLQ0KPiA+ID4gPiAgZHJpdmVycy9uZXQvZXRoZXJuZXQvcmVuZXNhcy9yc3dp
-dGNoLmggfCAgMSAtDQo+ID4gPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyks
-IDE2IGRlbGV0aW9ucygtKQ0KPiA+ID4gPg0KPiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9u
-ZXQvZXRoZXJuZXQvcmVuZXNhcy9yc3dpdGNoLmMgYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9yZW5l
-c2FzL3Jzd2l0Y2guYw0KPiA+ID4gPiBpbmRleCBiMjU2ZGFkYWRhMWQuLmU0MDhkMTAxODRlOCAx
-MDA2NDQNCj4gPiA+ID4gLS0tIGEvZHJpdmVycy9uZXQvZXRoZXJuZXQvcmVuZXNhcy9yc3dpdGNo
-LmMNCj4gPiA+ID4gKysrIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvcmVuZXNhcy9yc3dpdGNoLmMN
-Cj4gPiA+ID4gQEAgLTI4MCwxMSArMjgwLDE0IEBAIHN0YXRpYyB2b2lkIHJzd2l0Y2hfZ3djYV9x
-dWV1ZV9mcmVlKHN0cnVjdCBuZXRfZGV2aWNlICpuZGV2LA0KPiA+ID4gPiAgew0KPiA+ID4gPiAg
-ICAgaW50IGk7DQo+ID4gPiA+DQo+ID4gPiA+IC0gICBpZiAoZ3EtPmdwdHApIHsNCj4gPiA+ID4g
-KyAgIGlmICghZ3EtPmRpcl90eCkgew0KPiA+ID4gPiAgICAgICAgICAgICBkbWFfZnJlZV9jb2hl
-cmVudChuZGV2LT5kZXYucGFyZW50LA0KPiA+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBzaXplb2Yoc3RydWN0IHJzd2l0Y2hfZXh0X3RzX2Rlc2MpICoNCj4gPiA+ID4gICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgKGdxLT5yaW5nX3NpemUgKyAxKSwgZ3EtPnJ4X3Jpbmcs
-IGdxLT5yaW5nX2RtYSk7DQo+ID4gPiA+ICAgICAgICAgICAgIGdxLT5yeF9yaW5nID0gTlVMTDsN
-Cj4gPiA+ID4gKw0KPiA+ID4gPiArICAgICAgICAgICBmb3IgKGkgPSAwOyBpIDwgZ3EtPnJpbmdf
-c2l6ZTsgaSsrKQ0KPiA+ID4gPiArICAgICAgICAgICAgICAgICAgIGRldl9rZnJlZV9za2IoZ3Et
-PnNrYnNbaV0pOw0KPiA+ID4gPiAgICAgfSBlbHNlIHsNCj4gPiA+ID4gICAgICAgICAgICAgZG1h
-X2ZyZWVfY29oZXJlbnQobmRldi0+ZGV2LnBhcmVudCwNCj4gPiA+ID4gICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgc2l6ZW9mKHN0cnVjdCByc3dpdGNoX2V4dF9kZXNjKSAqDQo+ID4gPiA+
-IEBAIC0yOTIsMTEgKzI5NSw2IEBAIHN0YXRpYyB2b2lkIHJzd2l0Y2hfZ3djYV9xdWV1ZV9mcmVl
-KHN0cnVjdCBuZXRfZGV2aWNlICpuZGV2LA0KPiA+ID4gPiAgICAgICAgICAgICBncS0+dHhfcmlu
-ZyA9IE5VTEw7DQo+ID4gPiA+ICAgICB9DQo+ID4gPiA+DQo+ID4gPiA+IC0gICBpZiAoIWdxLT5k
-aXJfdHgpIHsNCj4gPiA+ID4gLSAgICAgICAgICAgZm9yIChpID0gMDsgaSA8IGdxLT5yaW5nX3Np
-emU7IGkrKykNCj4gPiA+ID4gLSAgICAgICAgICAgICAgICAgICBkZXZfa2ZyZWVfc2tiKGdxLT5z
-a2JzW2ldKTsNCj4gPiA+ID4gLSAgIH0NCj4gPiA+ID4gLQ0KPiA+ID4gPiAgICAga2ZyZWUoZ3Et
-PnNrYnMpOw0KPiA+ID4gPiAgICAgZ3EtPnNrYnMgPSBOVUxMOw0KPiA+ID4gPiAgfQ0KPiA+ID4N
-Cj4gPiA+IE9uZSBwaWVjZSBJIGRvbid0IHVuZGVyc3RhbmQgaXMgd2h5IGZyZWVpbmcgb2YgdGhl
-IHNrYnMgc3RvcmVkIGluIHRoZQ0KPiA+ID4gYXJyYXkgaGVyZSB3YXMgcmVtb3ZlZC4gSXMgdGhp
-cyBjbGVhbmVkIHVwIHNvbWV3aGVyZSBlbHNlIGJlZm9yZSB3ZQ0KPiA+ID4gY2FsbCB0aGlzIGZ1
-bmN0aW9uPw0KPiA+DQo+ID4gImdxLT5za2JzID0gTlVMTDsiIHNlZW1zIHVubmVjZXNzYXJ5IGJl
-Y2F1c2UgdGhpcyBkcml2ZXIgZG9lc24ndCBjaGVjaw0KPiA+IHdoZXRoZXIgZ3EtPnNrYnMgaXMg
-TlVMTCBvciBub3QuIEFsc28sIGdxLT5bcnRdeF9yaW5nIHNlZW0gdG8gYmUgdGhlIHNhbWUuDQo+
-ID4gU28sIEknbGwgbWFrZSBzdWNoIGEgcGF0Y2ggd2hpY2ggaXMgcmVtb3ZpbmcgdW5uZWNlc3Nh
-cnkgY29kZSBhZnRlcg0KPiA+IHRoaXMgcGF0Y2ggc2VyaWVzIHdhcyBhY2NlcHRlZC4NCj4gDQo+
-IEkgd2FzIGFjdHVhbGx5IHJlZmVycmluZyB0byB0aGUgbGluZXMgeW91IHJlbW92ZWQgYWJvdmUg
-dGhhdC4NCj4gU3BlY2lmaWNhbGx5IEkgYW0gd29uZGVyaW5nIHdoeSB0aGUgY2FsbHMgdG8NCj4g
-ZGV2X2tmcmVlX3NrYihncS0+c2tic1tpXSk7IHdlcmUgcmVtb3ZlZD8gSSBhbSB3b25kZXJpbmcg
-aWYgdGhpcyBtaWdodA0KPiBiZSBpbnRyb2R1Y2luZyBhIG1lbW9yeSBsZWFrLg0KDQpkZXZfa2Zy
-ZWVfc2tiKGdxLT5za2JzW2ldKTsgd2VyZSBub3QgcmVtb3ZlZC4gVGhpcyBwYXRjaCBKdXN0IG1v
-dmVzIGl0IGludG8NCnRoZSBmaXJzdCAiaWYgKCFncS0+ZGlyX3R4KSB7IiBiZWNhdXNlIGhhdmlu
-ZyBkb3VibGUgImlmICghZ3EtPmRpcl90eCkgeyINCmlzIG5vdCBnb29kLg0KDQpCZXN0IHJlZ2Fy
-ZHMsDQpZb3NoaWhpcm8gU2hpbW9kYQ0KDQo=
+On 2/3/23 09:57, Randy Dunlap wrote:
+> Hi--
+> 
+> On 2/3/23 02:33, Geert Uytterhoeven wrote:
+>> Hi Adrian,
+>> 
+>> On Fri, Feb 3, 2023 at 11:29 AM John Paul Adrian Glaubitz
+>> <glaubitz@physik.fu-berlin.de> wrote:
+>>> On Fri, 2023-02-03 at 09:30 +0100, Christoph Hellwig wrote:
+>>>> On Fri, Feb 03, 2023 at 09:24:46AM +0100, John Paul Adrian Glaubitz wrote:
+>>>>> Since this is my very first time stepping up as a kernel maintainer, I was hoping
+>>>>> to get some pointers on what to do to make this happen.
+>>>>>
+>>>>> So far, we have set up a new kernel tree and I have set up a local development and
+>>>>> test environment for SH kernels using my SH7785LCR board as the target platform.
+>>>>>
+>>>>> Do I just need to send a patch asking to change the corresponding entry in the
+>>>>> MAINTAINERS file?
+>>>>
+>>>> I'm not sure a there is a document, but:
+>>>>
+>>>>  - add the MAINTAINERS change to your tree
+>>>>  - ask Stephen to get your tree included in linux-next
+>>>>
+>>>> then eventually send a pull request to Linus with all of that.  Make
+>>>> sure it's been in linux-next for a while.
+>>>
+>>> OK, thanks for the pointers! Will try to get this done by next week.
+>>>
+>>> We're still discussing among SuperH developer community whether there will be a second
+>>> maintainer, so please bear with us a few more days. I will collect patches in the
+>>> meantime.
+>> 
+>> Thanks a lot!
+>> 
+>> If you need any help with process, setup, ... don't hesitate to ask
+>> (on e.g. #renesas-soc on Libera).
+> 
+> While Adrian and Geert are reading this, I have a question:
+> 
+> Is this "sh64" still accurate and applicable?
+
+I hadn't noticed it was there... Randy Dunlap added that in 2018 (commit
+09b1565324cba). I wonder why?
+
+> from Documentation/kbuild/kbuild.rst:
+
+There isn't an active 64 bit superh architecture for the moment: sh5 was a
+prototype that never shipped in volume, and support was removed in commit
+37744feebc08. From the j-core side j64 hasn't shipped yet either (still planned
+last I heard, but j-core went downmarket first instead due to customer demand,
+and multi-issue is on the roadmap before 64 bit address space).
+
+The general trend in linux kernel architectures has been to merge 32 and 64 bit
+anyway, and just have the .config set CONFIG_64BIT to distinguish: arch/x86 was
+created by merging arch/i386 and arch/x86_64 in 2007, arch/powerpc merged the 32
+and 64 bit directories in 2005, arch/s390 and s390x are in the same dir,
+arch/mips... (For some reason arm and arm64 are still split, but that might be
+fallout from Arm Ltd trying to distinguish aarrcchh6644 from "arm" for some
+reason? Dunno.)
+
+I wonder why is this going the other way? I thought $ARCH mostly just specified
+the subdirectory under arch/ with a few historical aliases in the top level
+Makefile:
+
+# Additional ARCH settings for x86
+ifeq ($(ARCH),i386)
+        SRCARCH := x86
+endif
+ifeq ($(ARCH),x86_64)
+        SRCARCH := x86
+endif
+
+# Additional ARCH settings for sparc
+ifeq ($(ARCH),sparc32)
+       SRCARCH := sparc
+endif
+ifeq ($(ARCH),sparc64)
+       SRCARCH := sparc
+endif
+
+# Additional ARCH settings for parisc
+ifeq ($(ARCH),parisc64)
+       SRCARCH := parisc
+endif
+
+But you could always just specify the correct ARCH directory directly and it
+would work. (Always did when I tried it, although I haven't built sparc in years
+because there's no musl-libc support, and never built parisc64 because I
+couldn't get it to work with uClibc even before musl. I _am_ still building both
+32 bit and 64 bit x86 with ARCH=x86 both times...)
+
+> But some architectures such as x86 and sparc have aliases.
+> 
+> - x86: i386 for 32 bit, x86_64 for 64 bit
+> - sh: sh for 32 bit, sh64 for 64 bit <<<<<<<<<<<<<<<
+> - sparc: sparc32 for 32 bit, sparc64 for 64 bit
+
+Randy also added the sparc alias in commit 5ba800962a80. That at least exists in
+the top level Makefile.
+
+Did he mean parisc64 and typoed sh64? Because that's the only other alias in the
+top level Makefile...
+
+In any case, these are historical aliases for old builds, which can probably get
+yanked because it should be a trivial fix to use the right ARCH= value for
+modern builds? (I'd think?)
+
+You'd even be able to build a 64 bit version of ARCH=i386 just fine if it wasn't
+for the ONE place in arch/x86/Kconfig that actually checks:
+
+config 64BIT
+        bool "64-bit kernel" if "$(ARCH)" = "x86"
+        default "$(ARCH)" != "i386"
+
+Same for arch/sparc/Kconfig:
+
+config 64BIT
+        bool "64-bit kernel" if "$(ARCH)" = "sparc"
+        default "$(ARCH)" = "sparc64"
+
+Nothing else anywhere seems to care...
+
+> Thanks.
+
+Rob
