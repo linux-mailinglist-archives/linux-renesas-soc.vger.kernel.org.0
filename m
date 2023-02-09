@@ -2,155 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 838C16909D9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 14:26:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16C1F690A5D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 14:35:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230140AbjBIN0z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Feb 2023 08:26:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53486 "EHLO
+        id S230405AbjBINff (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Feb 2023 08:35:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230175AbjBIN0y (ORCPT
+        with ESMTP id S230355AbjBINfS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Feb 2023 08:26:54 -0500
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8A06093E8;
-        Thu,  9 Feb 2023 05:26:50 -0800 (PST)
+        Thu, 9 Feb 2023 08:35:18 -0500
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CD28E60D63;
+        Thu,  9 Feb 2023 05:34:59 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.97,283,1669042800"; 
-   d="scan'208";a="149040873"
+   d="scan'208";a="152256220"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 09 Feb 2023 22:26:50 +0900
-Received: from localhost.localdomain (unknown [10.226.92.132])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1B70A4334957;
-        Thu,  9 Feb 2023 22:26:47 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-serial@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 3/3] serial: 8250_em: Add serial8250_rzv2m_reg_update()
-Date:   Thu,  9 Feb 2023 13:26:30 +0000
-Message-Id: <20230209132630.194947-4-biju.das.jz@bp.renesas.com>
+  by relmlie6.idc.renesas.com with ESMTP; 09 Feb 2023 22:34:46 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8D19743638B8;
+        Thu,  9 Feb 2023 22:34:46 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+Cc:     iommu@lists.linux.dev, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v3] dt-bindings: iommu: renesas,ipmmu-vmsa: Update for R-Car Gen4
+Date:   Thu,  9 Feb 2023 22:34:40 +0900
+Message-Id: <20230209133440.2643228-1-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230209132630.194947-1-biju.das.jz@bp.renesas.com>
-References: <20230209132630.194947-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-As per HW manual section 40.6.1, we need to perform FIFO reset + SW
-reset before updating the below registers
+Since R-Car Gen4 doens't have the main IPMMU IMSSTR register, update
+the renesas,ipmmu-main property which sets maxItems as 1.
 
-FCR[7:5], FCR[3:0], LCR[7][5:0], MCR[6:4], DLL[7:0], DLM[7:0] and
-HCR0[6:5][3:2].
-
-This patch adds serial8250_rzv2m_reg_update() to handle it.
-
-DLL/DLM register can be updated only by setting LCR[7]. So the
-updation of LCR[7] will perform reset for DLL/DLM register changes.
-
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
- drivers/tty/serial/8250/8250_em.c | 49 +++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+Changes from v2:
+https://lore.kernel.org/all/20230127140446.1728102-1-yoshihiro.shimoda.uh@renesas.com/
+ - Set maxItems to renesas,ipmmu-main if R-Car Gen4.
 
-diff --git a/drivers/tty/serial/8250/8250_em.c b/drivers/tty/serial/8250/8250_em.c
-index 3a45aa066d3d..a1e42b8ef99d 100644
---- a/drivers/tty/serial/8250/8250_em.c
-+++ b/drivers/tty/serial/8250/8250_em.c
-@@ -9,6 +9,7 @@
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/mod_devicetable.h>
-+#include <linux/of.h>
- #include <linux/serial_8250.h>
- #include <linux/serial_reg.h>
- #include <linux/platform_device.h>
-@@ -18,14 +19,53 @@
+Changes from v1:
+https://lore.kernel.org/all/20230123012940.1250879-1-yoshihiro.shimoda.uh@renesas.com/
+ - Change number of argument for R-Car Gen4 instead of "module id".
+   On the discussion, using 'minItems' is a solution. But, it causes
+   "too short" errors on dtbs_check. So, using "oneOf" instead.
+
+ .../bindings/iommu/renesas,ipmmu-vmsa.yaml    | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
+index 72308a4c14e7..cc81bce44f3f 100644
+--- a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
++++ b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
+@@ -74,11 +74,10 @@ properties:
+   renesas,ipmmu-main:
+     $ref: /schemas/types.yaml#/definitions/phandle-array
+     items:
+-      - items:
+-          - description: phandle to main IPMMU
+-          - description: the interrupt bit number associated with the particular
+-              cache IPMMU device. The interrupt bit number needs to match the main
+-              IPMMU IMSSTR register. Only used by cache IPMMU instances.
++      - description: phandle to main IPMMU
++      - description: the interrupt bit number associated with the particular
++          cache IPMMU device. The interrupt bit number needs to match the main
++          IPMMU IMSSTR register. Only used by cache IPMMU instances.
+     description:
+       Reference to the main IPMMU phandle plus 1 cell. The cell is
+       the interrupt bit number associated with the particular cache IPMMU
+@@ -109,6 +108,16 @@ allOf:
+       required:
+         - power-domains
  
- #define UART_DLL_EM 9
- #define UART_DLM_EM 10
-+#define UART_HCR0 11
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: renesas,rcar-gen4-ipmmu-vmsa
++    then:
++      properties:
++        renesas,ipmmu-main:
++          maxItems: 1
 +
-+#define UART_HCR0_SW_RESET	BIT(7) /* SW Reset */
- 
- struct serial8250_em_priv {
- 	struct clk *sclk;
- 	int line;
-+	bool is_rzv2m;
- };
- 
-+static void serial8250_rzv2m_reg_update(struct uart_port *p, int off, int value)
-+{
-+	unsigned int ier, fcr, lcr, mcr, hcr0;
-+
-+	ier = readl(p->membase + (UART_IER << 2));
-+	hcr0 = readl(p->membase + (UART_HCR0 << 2));
-+	fcr = readl(p->membase + ((UART_FCR + 1) << 2));
-+	lcr = readl(p->membase + ((UART_LCR + 1) << 2));
-+	mcr = readl(p->membase + ((UART_MCR + 1) << 2));
-+
-+	writel(fcr | UART_FCR_CLEAR_RCVR | UART_FCR_CLEAR_XMIT, p->membase + ((UART_FCR + 1) << 2));
-+	writel(hcr0 | UART_HCR0_SW_RESET, p->membase + (UART_HCR0 << 2));
-+	writel(hcr0 & ~UART_HCR0_SW_RESET, p->membase + (UART_HCR0 << 2));
-+
-+	switch (off) {
-+	case UART_FCR:
-+		fcr = value;
-+		break;
-+	case UART_LCR:
-+		lcr = value;
-+		break;
-+	case UART_MCR:
-+		mcr = value;
-+		break;
-+	}
-+
-+	writel(ier, p->membase + (UART_IER << 2));
-+	writel(fcr, p->membase + ((UART_FCR + 1) << 2));
-+	writel(mcr, p->membase + ((UART_MCR + 1) << 2));
-+	writel(lcr, p->membase + ((UART_LCR + 1) << 2));
-+	writel(hcr0, p->membase + (UART_HCR0 << 2));
-+}
-+
- static void serial8250_em_serial_out(struct uart_port *p, int offset, int value)
- {
-+	struct serial8250_em_priv *priv = p->private_data;
-+
- 	switch (offset) {
- 	case UART_TX: /* TX @ 0x00 */
- 		writeb(value, p->membase);
-@@ -33,6 +73,11 @@ static void serial8250_em_serial_out(struct uart_port *p, int offset, int value)
- 	case UART_FCR: /* FCR @ 0x0c (+1) */
- 	case UART_LCR: /* LCR @ 0x10 (+1) */
- 	case UART_MCR: /* MCR @ 0x14 (+1) */
-+		if (priv->is_rzv2m)
-+			serial8250_rzv2m_reg_update(p, offset, value);
-+		else
-+			writel(value, p->membase + ((offset + 1) << 2));
-+		break;
- 	case UART_SCR: /* SCR @ 0x20 (+1) */
- 		writel(value, p->membase + ((offset + 1) << 2));
- 		break;
-@@ -111,6 +156,10 @@ static int serial8250_em_probe(struct platform_device *pdev)
- 	up.port.uartclk = clk_get_rate(priv->sclk);
- 
- 	up.port.iotype = UPIO_MEM32;
-+
-+	if (of_device_is_compatible(dev->of_node, "renesas,r9a09g011-uart"))
-+		priv->is_rzv2m = true;
-+
- 	up.port.serial_in = serial8250_em_serial_in;
- 	up.port.serial_out = serial8250_em_serial_out;
- 	up.dl_read = serial8250_em_serial_dl_read;
+ examples:
+   - |
+     #include <dt-bindings/clock/r8a7791-cpg-mssr.h>
 -- 
 2.25.1
 
