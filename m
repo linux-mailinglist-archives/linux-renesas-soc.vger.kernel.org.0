@@ -2,259 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95017690EA6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 17:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74764690EC8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 18:01:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229634AbjBIQwX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Feb 2023 11:52:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58376 "EHLO
+        id S229511AbjBIRBx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Feb 2023 12:01:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbjBIQwW (ORCPT
+        with ESMTP id S229517AbjBIRBv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Feb 2023 11:52:22 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B54D21817B;
-        Thu,  9 Feb 2023 08:52:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=wvGkVNR7Kt7J6/yu+Te1okCnObmv66IkihKqSceI0Dc=; b=Wj2hJZKPNL80bvox5/FV1a6sg5
-        Oc+cEMQCo6GY/A4nxogX20wUKQYDJiERuH2xRHxBzBbkLuXoCsddt90ihfyDHkxWhd7PxT/5gJADB
-        JH58J4KjZvv2zZVag82gdwKKWXA7HnJdgs11/UycXLdLd8IcPZIKTxX368aWP6/c1K2DeCLo2nKZv
-        +6qeddXumJqwYVxsHqgcYGGlOtfutYBfLNKaxURyNPjKV4tHO21YEehqQ2pyojfoQJbRLduEvcTiF
-        7rzX3GdM7Xy36SLQm7X3WSqHfGj6P1AKqclJTr9RyDRmt+MT/X+I8Sz/QNBhji4TIRYck4btkCtvQ
-        36n4Xnhw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:36484)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1pQA9H-00089d-5m; Thu, 09 Feb 2023 16:51:50 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1pQA9A-0004kb-Bs; Thu, 09 Feb 2023 16:51:44 +0000
-Date:   Thu, 9 Feb 2023 16:51:44 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>
-Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Wong Vee Khee <veekhee@apple.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Revanth Kumar Uppala <ruppala@nvidia.com>,
-        Tan Tee Min <tee.min.tan@linux.intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Mohammad Athari Bin Ismail <mohammad.athari.ismail@intel.com>,
-        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH net-next v2 5/6] net: stmmac: add support for RZ/N1 GMAC
-Message-ID: <Y+UkoNpA9NiXlGmT@shell.armlinux.org.uk>
-References: <20230208164203.378153-1-clement.leger@bootlin.com>
- <20230208164203.378153-6-clement.leger@bootlin.com>
+        Thu, 9 Feb 2023 12:01:51 -0500
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 642AB5FED;
+        Thu,  9 Feb 2023 09:01:48 -0800 (PST)
+Received: by mail-qv1-f41.google.com with SMTP id d13so1744726qvj.8;
+        Thu, 09 Feb 2023 09:01:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u6eP2iG0J519XNQxcdOCAFcleHBjRH+XT7X5573aPPQ=;
+        b=3/bll7YAYefmYbtkIjbiag7OZYb8PgzOWxYEQsz59dwlcpoRMsScCDiB8KXgz90Qb/
+         rJJZA7Y4F8fk03ad4w48wPFLyqMLPyG9VZtRZXdit4yO/wLnuUp8Ixf6ORbr55EyCHJ7
+         YZdhhmSn+AMZD0uEC8a+Zitqp1JZhVvHdyIVpdnTqWtQYO5oNQd+Po0p6/RFgwhNiAJY
+         s9CErrbLjck9qm1uSqSvt9vVWuQRob4koZIn0poEP9yT+++q+FlEQWjTCJUjy8uN9oEw
+         GU9A6p65qAg+zmVtXSPU1I2jOouM2OffYFKfOdzdaK5B/1+OVrAIr0FCpxUuRU5gzPi+
+         hVYw==
+X-Gm-Message-State: AO0yUKV0eOjmFmmqINaAVAgLWi2NWRwtL5D7jUk0lFOr0Ew9tm7PAWAX
+        pm4SrSiDWO+KeMLmjHZIsRXKiB03mSeJfxxy
+X-Google-Smtp-Source: AK7set+dIKlq8J8SEhNdTxbykQQiYUKqmGPws3WRfnOYoBoQPAEb/ddbHzAW7UA7yigYrpGT9y5FUA==
+X-Received: by 2002:a05:6214:c48:b0:56b:ef2c:5938 with SMTP id r8-20020a0562140c4800b0056bef2c5938mr20582345qvj.50.1675962106515;
+        Thu, 09 Feb 2023 09:01:46 -0800 (PST)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id d206-20020a3768d7000000b00725d8d6983asm1718091qkc.61.2023.02.09.09.01.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Feb 2023 09:01:46 -0800 (PST)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-52bfa3dfd95so33450237b3.9;
+        Thu, 09 Feb 2023 09:01:46 -0800 (PST)
+X-Received: by 2002:a0d:e9c1:0:b0:514:a90f:10ea with SMTP id
+ s184-20020a0de9c1000000b00514a90f10eamr1125133ywe.316.1675962105673; Thu, 09
+ Feb 2023 09:01:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230208164203.378153-6-clement.leger@bootlin.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230209133440.2643228-1-yoshihiro.shimoda.uh@renesas.com> <167595345406.213374.1795032702431324096.robh@kernel.org>
+In-Reply-To: <167595345406.213374.1795032702431324096.robh@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 9 Feb 2023 18:01:32 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV_i8crAKW3yxpHWw7MXYsrdpUh4JH6PQZ_kr+qVViH4A@mail.gmail.com>
+Message-ID: <CAMuHMdV_i8crAKW3yxpHWw7MXYsrdpUh4JH6PQZ_kr+qVViH4A@mail.gmail.com>
+Subject: Re: [PATCH v3] dt-bindings: iommu: renesas,ipmmu-vmsa: Update for
+ R-Car Gen4
+To:     Rob Herring <robh@kernel.org>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        will@kernel.org, iommu@lists.linux.dev, joro@8bytes.org,
+        krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, robh+dt@kernel.org,
+        robin.murphy@arm.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Feb 08, 2023 at 05:42:02PM +0100, Clément Léger wrote:
-> Add support for Renesas RZ/N1 GMAC. This support uses a custom PCS (MIIC)
-> which is handle by parsing the pcs-handle device tree property.
-> 
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-> ---
->  drivers/net/ethernet/stmicro/stmmac/Kconfig   |  11 ++
->  drivers/net/ethernet/stmicro/stmmac/Makefile  |   1 +
->  .../net/ethernet/stmicro/stmmac/dwmac-rzn1.c  | 120 ++++++++++++++++++
->  3 files changed, 132 insertions(+)
->  create mode 100644 drivers/net/ethernet/stmicro/stmmac/dwmac-rzn1.c
-> 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/Kconfig b/drivers/net/ethernet/stmicro/stmmac/Kconfig
-> index f77511fe4e87..be5429b7e192 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/Kconfig
-> +++ b/drivers/net/ethernet/stmicro/stmmac/Kconfig
-> @@ -153,6 +153,17 @@ config DWMAC_ROCKCHIP
->  	  This selects the Rockchip RK3288 SoC glue layer support for
->  	  the stmmac device driver.
->  
-> +config DWMAC_RZN1
-> +	tristate "Renesas RZ/N1 dwmac support"
-> +	default ARCH_RZN1
-> +	depends on OF && (ARCH_RZN1 || COMPILE_TEST)
-> +	select PCS_RZN1_MIIC
-> +	help
-> +	  Support for Ethernet controller on Renesas RZ/N1 SoC family.
-> +
-> +	  This selects the Renesas RZ/N1 SoC glue layer support for
-> +	  the stmmac device driver.
-> +
->  config DWMAC_SOCFPGA
->  	tristate "SOCFPGA dwmac support"
->  	default ARCH_INTEL_SOCFPGA
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/Makefile b/drivers/net/ethernet/stmicro/stmmac/Makefile
-> index 057e4bab5c08..53a0f74c1cb5 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/Makefile
-> +++ b/drivers/net/ethernet/stmicro/stmmac/Makefile
-> @@ -22,6 +22,7 @@ obj-$(CONFIG_DWMAC_MESON)	+= dwmac-meson.o dwmac-meson8b.o
->  obj-$(CONFIG_DWMAC_OXNAS)	+= dwmac-oxnas.o
->  obj-$(CONFIG_DWMAC_QCOM_ETHQOS)	+= dwmac-qcom-ethqos.o
->  obj-$(CONFIG_DWMAC_ROCKCHIP)	+= dwmac-rk.o
-> +obj-$(CONFIG_DWMAC_RZN1)	+= dwmac-rzn1.o
->  obj-$(CONFIG_DWMAC_SOCFPGA)	+= dwmac-altr-socfpga.o
->  obj-$(CONFIG_DWMAC_STI)		+= dwmac-sti.o
->  obj-$(CONFIG_DWMAC_STM32)	+= dwmac-stm32.o
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-rzn1.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-rzn1.c
-> new file mode 100644
-> index 000000000000..82118d8cb50e
-> --- /dev/null
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-rzn1.c
-> @@ -0,0 +1,120 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright (C) 2022 Schneider-Electric
-> + *
-> + * Clément Léger <clement.leger@bootlin.com>
-> + */
-> +
-> +#include <linux/of.h>
-> +#include <linux/pcs-rzn1-miic.h>
-> +#include <linux/phylink.h>
-> +#include <linux/platform_device.h>
-> +
-> +#include "stmmac_platform.h"
-> +#include "stmmac.h"
-> +
-> +struct rzn1_dwmac {
-> +	struct phylink_pcs *pcs;
-> +};
+Hi Rob,
 
-I don't understand why you need this...
+On Thu, Feb 9, 2023 at 3:54 PM Rob Herring <robh@kernel.org> wrote:
+> On Thu, 09 Feb 2023 22:34:40 +0900, Yoshihiro Shimoda wrote:
+> > Since R-Car Gen4 doens't have the main IPMMU IMSSTR register, update
+> > the renesas,ipmmu-main property which sets maxItems as 1.
+> >
+> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > ---
+> > Changes from v2:
+> > https://lore.kernel.org/all/20230127140446.1728102-1-yoshihiro.shimoda.uh@renesas.com/
+> >  - Set maxItems to renesas,ipmmu-main if R-Car Gen4.
+> >
+> > Changes from v1:
+> > https://lore.kernel.org/all/20230123012940.1250879-1-yoshihiro.shimoda.uh@renesas.com/
+> >  - Change number of argument for R-Car Gen4 instead of "module id".
+> >    On the discussion, using 'minItems' is a solution. But, it causes
+> >    "too short" errors on dtbs_check. So, using "oneOf" instead.
+> >
+> >  .../bindings/iommu/renesas,ipmmu-vmsa.yaml    | 19 ++++++++++++++-----
+> >  1 file changed, 14 insertions(+), 5 deletions(-)
+> >
+>
+> Running 'make dtbs_check' with the schema in this patch gives the
+> following warnings. Consider if they are expected or the schema is
+> incorrect. These may not be new warnings.
+>
+> Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+> This will change in the future.
+>
+> Full log is available here: https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230209133440.2643228-1-yoshihiro.shimoda.uh@renesas.com
+>
+>
+> iommu@ee480000: renesas,ipmmu-main: [[40], [10]] is too long
+>         arch/arm64/boot/dts/renesas/r8a779f0-spider.dtb
 
-> +
-> +static int rzn1_dt_parse(struct device *dev, struct rzn1_dwmac *dwmac)
+This is expected, as we're changing the bindings to match the (updated)
+documentation, but haven't updated the DTS yet.
 
-You could pass a pointer to struct plat_stmmacenet_data into here, and
-have it fill in your new ->pcs directly, and save the extra devm
-allocations.
+Gr{oetje,eeting}s,
 
-> +{
-> +	struct device_node *np = dev->of_node;
-> +	struct device_node *pcs_node;
-> +	struct phylink_pcs *pcs;
-> +	int ret;
-> +
-> +	pcs_node = of_parse_phandle(np, "pcs-handle", 0);
-> +	if (!pcs_node)
-> +		return 0;
-> +
-> +	pcs = miic_create(dev, pcs_node);
+                        Geert
 
-Don't you need to put pcs_node?
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> +	if (IS_ERR(pcs))
-> +		return PTR_ERR(pcs);
-> +
-> +	ret = miic_early_setup(pcs, dev);
-> +	if (ret) {
-> +		miic_destroy(pcs);
-> +		return ret;
-> +	}
-> +
-> +	dwmac->pcs = pcs;
-> +
-> +	return 0;
-> +}
-> +
-> +static int rzn1_dwmac_probe(struct platform_device *pdev)
-> +{
-> +	struct plat_stmmacenet_data *plat_dat;
-> +	struct stmmac_resources stmmac_res;
-> +	struct device *dev = &pdev->dev;
-> +	struct rzn1_dwmac *dwmac;
-> +	int ret;
-> +
-> +	ret = stmmac_get_platform_resources(pdev, &stmmac_res);
-> +	if (ret)
-> +		return ret;
-> +
-> +	plat_dat = stmmac_probe_config_dt(pdev, stmmac_res.mac);
-> +	if (IS_ERR(plat_dat))
-> +		return PTR_ERR(plat_dat);
-> +
-> +	dwmac = devm_kzalloc(dev, sizeof(*dwmac), GFP_KERNEL);
-> +	if (!dwmac) {
-> +		ret = -ENOMEM;
-> +		goto err_remove_config_dt;
-> +	}
-> +
-> +	ret = rzn1_dt_parse(dev, dwmac);
-> +	if (ret)
-> +		goto err_remove_config_dt;
-> +
-> +	plat_dat->bsp_priv = dwmac;
-
-You could set this to point back to plat_dat.
-
-> +	plat_dat->pcs = dwmac->pcs;
-> +
-> +	ret = stmmac_dvr_probe(dev, plat_dat, &stmmac_res);
-> +	if (ret)
-> +		goto err_free_pcs;
-> +
-> +	return 0;
-> +
-> +err_free_pcs:
-> +	if (dwmac->pcs)
-> +		miic_destroy(dwmac->pcs);
-> +
-> +err_remove_config_dt:
-> +	stmmac_remove_config_dt(pdev, plat_dat);
-> +
-> +	return ret;
-> +}
-> +
-> +static int rzn1_dwmac_remove(struct platform_device *pdev)
-> +{
-> +	struct rzn1_dwmac *dwmac = get_stmmac_bsp_priv(&pdev->dev);
-
-... which means you get plat_dat back here...
-
-> +	int ret = stmmac_dvr_remove(&pdev->dev);
-> +
-> +	if (dwmac->pcs)
-> +		miic_destroy(dwmac->pcs);
-
-and can still destroy the pcs.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
