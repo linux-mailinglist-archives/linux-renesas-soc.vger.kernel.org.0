@@ -2,108 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F8706912CE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 22:53:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 101386913A6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 23:45:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230032AbjBIVxG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Feb 2023 16:53:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45346 "EHLO
+        id S230470AbjBIWpG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Feb 2023 17:45:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbjBIVxG (ORCPT
+        with ESMTP id S230418AbjBIWpD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Feb 2023 16:53:06 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F1BB63116;
-        Thu,  9 Feb 2023 13:53:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675979585; x=1707515585;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=/FbvXg6uwopqHqmN55eSAsWS8YDh01Z5Chb6f9kp8jo=;
-  b=mYSARyRQqMnVtSy6d+YH2n10wnmkjv8soqsjE41Zh/ZqofEMlSWy2ULk
-   DTDYf7QMIIq1U217OKrhx6FX2WxbF/v+Ajca8MvYb6b4pYryiA8BFW4JI
-   VOaJX4ejhkxWVP3emuTRZlnUcIeDdvlFcZLf2b9RY+ZITZMGpW0621yzQ
-   k3v9KuXXN+RRrahpFFgOfF0mLf3zM9S9RgVcNaV/ItsFOybHAVn7sR9oP
-   cYW5xr63FadLYoMVqPmjPbUlzDz8A5G5DpDixxipPMLgXL+jbD3njEtwE
-   xHaINMkonHEIHeeM3Zq2w3CPSKindXospOF5uTxj3esSYJutmy2Kns0TN
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="313901631"
-X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; 
-   d="scan'208";a="313901631"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 13:53:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="617684713"
-X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; 
-   d="scan'208";a="617684713"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga003.jf.intel.com with ESMTP; 09 Feb 2023 13:52:59 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pQEqe-004n6z-1Z;
-        Thu, 09 Feb 2023 23:52:56 +0200
-Date:   Thu, 9 Feb 2023 23:52:56 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Eric Tremblay <etremblay@distech-controls.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 1/3] serial: 8250: Identify Renesas RZ/V2M 16750 UART
-Message-ID: <Y+VrOGR+7LbBMahz@smile.fi.intel.com>
-References: <20230209132630.194947-1-biju.das.jz@bp.renesas.com>
- <20230209132630.194947-2-biju.das.jz@bp.renesas.com>
- <4470e054-ebe6-b3ca-ffd7-1c7c3ae09f1a@linux.intel.com>
- <OS0PR01MB5922AC5FF10FFF5F8590B8AA86D99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Thu, 9 Feb 2023 17:45:03 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3157B5ACDC
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Feb 2023 14:45:01 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id gr7so11057480ejb.5
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Feb 2023 14:45:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=VyDWUrztbgFwlIvsJFzPjp39A/vmSkMB6yGFg9/7R7g=;
+        b=a7VbZDZ9LlplVn6DkvWI53f+eYSvwVYLIfYa4y8Fh+DZ1yqnlI23OJtJAc+I1I3g7s
+         PwnAgMpi713Gf6tsnb3HFPoWKrziGfAqe3ogF/1+OedCTBC5fU7jmSLe6YYsnBZI46ri
+         2FRNuY0PNC++3/bBZZpU3w1JEWkhO1dj1fJ8kIqHrogQmwiDN9+b+AUWuEXOptovE+IE
+         c9WvotEGOs/NQdvQmuyA00SAOuPUcngCcomR5wwxZ82E3fNHE8DTO87tYVgbykz2rf1W
+         PYQaHa3nMc4rPm0to6zrmv7u35lJOpynnKNkC+1QZTITmsPxpxpx/eiFUF64Zj6vpLAN
+         aQFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VyDWUrztbgFwlIvsJFzPjp39A/vmSkMB6yGFg9/7R7g=;
+        b=lhivruqOocL+AK9VQGSbbHJL9X5Ilpi3C6v16UuJ1RycT5egEgzk/BrdYMl02Bki/l
+         g3t3wf7DPzxeHK7swzVziIwNRvrNihk22WBqTDo6d7lYKkYJWsMSoyam6AISaWdImegy
+         UvqF+enZU8lZNt95B+nwhV7nynPrw9KHVwuCmp8mvpyUzcLfl0i0HbT++ubA98jFaGy3
+         y1PqZhpf0s1HyrSiaedlKXUWcYdNoVOwCb1yDxQhPdd32UxRmNHQCfEfBHXE1JwSTFZP
+         GOO38B2KYjdkTkrSeqQg2zkoTffjkLS4Nu6kRUGjFALuFK+GYrK+iIQNgLDJgWHVnwcE
+         WwcA==
+X-Gm-Message-State: AO0yUKVJQklW+HEvUSrK9vNHpxeY2Fqjh/N/7YGCzwswZHvn68tC9Jxe
+        U7i8H/QU82BqBhe0dZhQU4DljQ==
+X-Google-Smtp-Source: AK7set8lrfQop3nJu4PGRzMJfEQOX1MuZ0erjBkaR+He1Cj8SwMKepaGOem3o7BlOHOhSpE7Bb3uDA==
+X-Received: by 2002:a17:906:1286:b0:88f:9c29:d232 with SMTP id k6-20020a170906128600b0088f9c29d232mr13576848ejb.57.1675982699769;
+        Thu, 09 Feb 2023 14:44:59 -0800 (PST)
+Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
+        by smtp.gmail.com with ESMTPSA id n1-20020a17090625c100b0088c224bf5adsm1466525ejb.147.2023.02.09.14.44.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Feb 2023 14:44:59 -0800 (PST)
+Date:   Thu, 9 Feb 2023 23:44:58 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: thermal: rcar-gen3-thermal: Add
+ r8a779g0 support
+Message-ID: <Y+V3arOqT4eW/g5k@oden.dyn.berto.se>
+References: <cover.1675958665.git.geert+renesas@glider.be>
+ <11f740522ec479011cc8eef6bb450603be394def.1675958665.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <OS0PR01MB5922AC5FF10FFF5F8590B8AA86D99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <11f740522ec479011cc8eef6bb450603be394def.1675958665.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Feb 09, 2023 at 02:28:55PM +0000, Biju Das wrote:
-> > From: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-> > Sent: Thursday, February 9, 2023 2:09 PM
-> > On Thu, 9 Feb 2023, Biju Das wrote:
+Hi Geert,
 
-> > > +	[PORT_16750] = {
-> > > +		.name		= "Renesas RZ/V2M 16750",
-> > > +		.fifo_size	= 64,
-> > > +		.tx_loadsz	= 64,
-> > > +		.fcr		= UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_10 |
-> > > +				  UART_FCR7_64BYTE,
-> > > +		.rxtrig_bytes	= {1, 16, 32, 56},
-> > > +		.flags		= UART_CAP_FIFO | UART_CAP_AFE,
-> > > +	},
-> > 
-> > Eh, how can you reuse [PORT_16750] again in the initializer like that?
+Thanks for your work.
+
+On 2023-02-09 17:11:53 +0100, Geert Uytterhoeven wrote:
+> Document support for the Thermal Sensor/Chip Internal Voltage
+> Monitor/Core Voltage Monitor (THS/CIVM/CVM) on the Renesas R-Car V4H
+> (R8A779G0) SoC.
 > 
-> Oops. Missed it. Is it ok to introduce PORT_RENESAS_16750_F64 instead
-> as PORT_16750 is used by TI16750?
+> Unlike most other R-Car Gen3 and Gen4 SoCs, it has 4 instead of 3
+> sensors, so increase the maximum number of reg tuples.
+> Just like other R-Car Gen4 SoCs, interrupts are not routed to the
+> INTC-AP but to the ECM.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-What the difference to the 16750 from TI that prevents you from using it?
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+>  .../devicetree/bindings/thermal/rcar-gen3-thermal.yaml         | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+> index 0f05f5c886c5fe1d..ecf276fd155cfb27 100644
+> --- a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+> +++ b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+> @@ -28,6 +28,7 @@ properties:
+>        - renesas,r8a77980-thermal # R-Car V3H
+>        - renesas,r8a779a0-thermal # R-Car V3U
+>        - renesas,r8a779f0-thermal # R-Car S4-8
+> +      - renesas,r8a779g0-thermal # R-Car V4H
+>  
+>    reg: true
+>  
+> @@ -80,6 +81,7 @@ else:
+>          - description: TSC1 registers
+>          - description: TSC2 registers
+>          - description: TSC3 registers
+> +        - description: TSC4 registers
+>    if:
+>      not:
+>        properties:
+> @@ -87,6 +89,7 @@ else:
+>            contains:
+>              enum:
+>                - renesas,r8a779f0-thermal
+> +              - renesas,r8a779g0-thermal
+>    then:
+>      required:
+>        - interrupts
+> -- 
+> 2.34.1
+> 
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Kind Regards,
+Niklas Söderlund
